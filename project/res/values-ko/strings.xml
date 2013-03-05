@@ -9,9 +9,9 @@
     <!-- connect with facebook (button text) -->
     <string name="connect_with_facebook">Facebook을 이용하여 연결</string>
     <!-- fetching information from Facebook -->
-    <string name="fetching_facebook_info">Facebook에서 정보 가져오는 중...</string>
+    <string name="fetching_facebook_info">Facebook에서 정보 가져오는 중…</string>
     <!-- Attempting to log you in with facebook credentials -->
-    <string name="attempting_to_log_in_with_facebook">Facebook 인증으로 로그인 시도 중...</string>
+    <string name="attempting_to_log_in_with_facebook">Facebook 인증으로 로그인 시도 중…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">알 수 없는 오류가 발생했습니다. 나중에 다시 시도해 주세요.</string>
     <!-- Unable to sign in to Facebook -->
@@ -25,7 +25,7 @@
     <!-- Failure to update the user -->
     <string name="failure_to_update_user">업데이트된 사용자 정보를 가져오지 못했습니다.</string>
     <!-- Linking your accounts -->
-    <string name="linking_your_accounts">계정 연결 중...</string>
+    <string name="linking_your_accounts">계정 연결 중…</string>
     <!-- Sign in -->
     <string name="sign_in">로그인</string>
     <!-- Sign in with Expedia -->
@@ -58,6 +58,8 @@
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">일정</string>
+    <!--  Shop -->
+    <string name="shop">쇼핑</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">일정 찾기</string>
     <!-- Find Itinerary # -->
@@ -69,7 +71,9 @@
     <!-- Or enter an itinerary number -->
     <string name="or_enter_an_itinerary_number">또는 일정 번호를 입력하세요.</string>
     <!-- Fetching your itinerary -->
-    <string name="fetching_your_itinerary">고객님의 일정을 가져오는 중...</string>
+    <string name="fetching_your_itinerary">고객님의 일정을 가져오는 중…</string>
+    <!-- Error fetching itinerary -->
+    <string name="itinerary_fetch_error">일정을 가져오는 도중 오류 발생</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">고객님 여행을 보려면 &lt;b&gt;로그인&lt;/b&gt;해 주세요.</string>
     <!-- Depart (TZ) template -->
@@ -96,6 +100,8 @@
     <string name="no_arrival_terminal_gate_information">도착 터미널 및 게이트 정보 없음</string>
     <!-- Itin flight layover departure terminal and gate information not avaialble message -->
     <string name="no_departure_terminal_gate_information">출발 터미널 및 게이트 정보 없음</string>
+    <!-- To be determined abbrev.-->
+    <string name="to_be_determined_abbrev">미정</string>
     <!-- Itin flight gate only template -->
     <string name="gate_number_only_TEMPLATE">게이트 %1$s</string>
     <!-- Itin flight arrive gate only template -->
@@ -108,6 +114,10 @@
     <string name="arrive_terminal_but_no_gate_TEMPLATE">터미널 %1$s 도착, 게이트 정보 없음</string>
     <!-- Itin flight terminal only template -->
     <string name="depart_terminal_but_no_gate_TEMPLATE">터미널 %1$s 출발, 게이트 정보 없음</string>
+    <!-- Itin flight summary second line for arrival waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight arrives/d -->
+    <string name="at_airport_TEMPLATE">&lt;b&gt;%1$s 도착&lt;/b&gt; - %2$s</string>
+    <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
+    <string name="from_airport_TEMPLATE">&lt;b&gt;%1$s 출발&lt;/b&gt; - %2$s</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">%1$s에서 로그아웃하면 이 계정과 연결된 모든 일정 항목이 제거됩니다. 그래도 로그아웃하시겠어요?</string>
     <!-- Booking code unavailable message -->
@@ -122,38 +132,64 @@
     <string name="terminal_maps">터미널 지도</string>
     <!-- Legend -->
     <string name="legend">기호 설명</string>
+    <!-- Flight has been canceled -->
+    <string name="flight_canceled">항공편 취소됨</string>
+    <!-- Flight has been canceled; parameter is the destination city for the canceled flight -->
+    <string name="flight_to_city_canceled_TEMPLATE">%1$s행 항공편 취소됨</string>
+    <!-- Flight has been redirected (location unknown) -->
+    <string name="flight_redirected">항공편 경로 변경됨</string>
+    <!-- Flight has been diverted (location unknown) -->
+    <string name="flight_diverted">항공편 도착지 변경됨</string>
+    <!-- Flight has been diverted to {airport} template -->
+    <string name="flight_diverted_TEMPLATE">항공편 도착지 %1$s(으)로 변경됨</string>
     <!-- Flight departs on {date} template -->
-    <string name="flight_departs_on_TEMPLATE">%1$s에 항공편 출발</string>
-    <!-- Flight currently in progress -->
-    <string name="flight_in_progress">항공편 현재 진행 중</string>
-    <!-- Flight landed on {date} template -->
-    <string name="flight_landed_on_TEMPLATE">%1$s에 항공편 착륙 완료</string>
-    <!-- Flight in progress -->
-    <string name="flight_in_progress">항공편 진행 중</string>
-    <!-- Depart in {# of hours}, {# of minutes} template -->
-    <string name="flight_departs_in_hours_minutes_TEMPLATE">%1$s, %2$s에 항공편 출발</string>
-    <!-- hours plural -->
-    <plurals name="hour_span">
-        <item quantity="zero">%1$s시간</item>
-        <item quantity="one">%1$s시간</item>
-        <item quantity="two">%1$s시간</item>
-        <item quantity="few">%1$s시간</item>
-        <item quantity="many">%1$s시간</item>
-        <item quantity="other">%1$s시간</item>
-    </plurals>
-    <!-- minutes plural -->
-    <plurals name="minute_span">
-        <item quantity="zero">%1$s분</item>
-        <item quantity="one">%1$s분</item>
-        <item quantity="two">%1$s분</item>
-        <item quantity="few">%1$s분</item>
-        <item quantity="many">%1$s분</item>
-        <item quantity="other">%1$s분</item>
-    </plurals>
+    <string name="flight_departs_on_TEMPLATE">출발: %1$s</string>
+    <!-- Departs early {duration from now} -->
+    <string name="flight_departs_early_TEMPLATE">일찍 출발(%1$s 후)</string>
+    <!-- Departs late {duration from now} -->
+    <string name="flight_departs_late_TEMPLATE">늦게 출발(%1$s 후)</string>
+    <!-- Departs on time {duration from now} -->
+    <string name="flight_departs_on_time_TEMPLATE">정시 출발(%1$s 후)</string>
+    <!-- Departs {duration} early -->
+    <string name="flight_departs_x_early_TEMPLATE">%1$s 일찍 출발</string>
+    <!-- Departs {duration} late -->
+    <string name="flight_departs_x_late_TEMPLATE">%1$s 늦게 출발</string>
+    <!-- Flight departs on time -->
+    <string name="flight_departs_on_time">정시 출발</string>
+    <!-- Arrives early {duration from now} -->
+    <string name="flight_arrives_early_TEMPLATE">일찍 도착(%1$s 후)</string>
+    <!-- Arrives late {duration from now} -->
+    <string name="flight_arrives_late_TEMPLATE">늦게 도착(%1$s 후)</string>
+    <!-- Arrives on time {duration from now} -->
+    <string name="flight_arrives_on_time_TEMPLATE">정시 도착(%1$s 후)</string>
+    <!-- Arrives {duration} early -->
+    <string name="flight_arrives_x_early_TEMPLATE">%1$s 일찍 도착</string>
+    <!-- Arrives {duration} late -->
+    <string name="flight_arrives_x_late_TEMPLATE">%1$s 늦게 도착</string>
+    <!-- Flight arrives on time -->
+    <string name="flight_arrives_on_time">정시 도착</string>
+    <!-- Arrived early {duration from now} -->
+    <string name="flight_arrived_early_at_TEMPLATE">일찍 도착함(%1$s)</string>
+    <!-- Arrived late {duration from now} -->
+    <string name="flight_arrived_late_at_TEMPLATE">늦게 도착함(%1$s)</string>
+    <!-- Arrived on time {duration from now} -->
+    <string name="flight_arrived_on_time_at_TEMPLATE">정시 도착함(%1$s)</string>
+    <!-- Arrived {duration} early -->
+    <string name="flight_arrived_x_early_TEMPLATE">%1$s 일찍 도착함</string>
+    <!-- Arrived {duration} late -->
+    <string name="flight_arrived_x_late_TEMPLATE">%1$s 늦게 도착함</string>
+    <!-- Flight arrived on time -->
+    <string name="flight_arrived_on_time">정시 도착함</string>
+    <!-- Flight arrived (fallback when we have very little information about arrival available) -->
+    <string name="flight_arrived">도착 완료</string>
+    <!-- Refresh -->
+    <string name="refresh">새로 고침</string>
+    <!-- Try Again -->
+    <string name="try_again">다시 시도</string>
     <!-- Car types -->
-    <string name="car_type_two_door">2도어</string>
-    <string name="car_type_three_door">3도어</string>
-    <string name="car_type_four_door">4도어</string>
+    <string name="car_type_two_door">2도어 차량</string>
+    <string name="car_type_three_door">3도어 차량</string>
+    <string name="car_type_four_door">4도어 차량</string>
     <string name="car_type_van">밴</string>
     <string name="car_type_wagon">왜건</string>
     <string name="car_type_limousine">리무진</string>
@@ -173,13 +209,14 @@
     <string name="car_type_two_wheel_vehicle">이륜차</string>
     <string name="car_type_roadster">로드스터</string>
     <string name="car_type_crossover">크로스오버</string>
-   
+
     <!-- Itin card details -->
     <string name="itin_card_details_active">활성</string>
     <string name="itin_card_details_expires">만료</string>
     <string name="itin_card_details_guests">숙박객 수</string>
     <string name="itin_card_details_booking_info">예약 정보</string>
-    <string name="itin_card_details_details">영수증 및 정책 보기</string>
+    <string name="itin_card_details_confirmation_code">확인 코드</string>
+    <string name="itin_card_details_details">추가 정보</string>
     <string name="itin_card_details_pick_up">차량 인수</string>
     <string name="itin_card_details_drop_off">차량 반납</string>
     <string name="itin_card_details_days">기간(일)</string>
@@ -191,12 +228,54 @@
     <string name="itin_card_details_address">주소</string>
     <string name="itin_card_details_phone">전화</string>
     <string name="itin_card_details_room_type">객실 유형</string>
-    
+    <string name="toast_copied_to_clipboard">클립보드에 복사되었습니다.</string>
+
     <!-- Action Buttons -->
     <string name="itin_action_directions">길 안내</string>
     <string name="itin_action_call_hotel">호텔에 전화하기</string>
     <string name="itin_action_redeem">사용하기</string>
     <string name="itin_action_support">고객 지원</string>
+
+    <!-- Itin Share templates -->
+    <!-- 1: hotel name 2: check in date 3: check out date -->
+    <string name="share_template_subject_hotel">내가 숙박할 호텔 %1$s(%2$s ~ %3$s)</string>
+    <!-- 1: hotel name 2: check in date 3: check out date 4: hotel web url -->
+    <string name="share_template_short_hotel">저 %1$s에서 머물 예정이에요.\n%2$s ~ %3$s\n\n%4$s</string>
+    <!-- 1: hotel Name 2: formatted length of stay 4: check in date 5: check out date 6: street address 7: city 8: state 9: postal code 10: phone 11: hotel web url 12: app download link -->
+    <string name="share_template_long_hotel">안녕하세요, \n\n저 %1$s에서 %2$s 동안 머물 예정이에요.\n\n<b>체크인:</b> %3$s\n<b>체크아웃:</b> %4$s\n\n%1$s\n%5$s\n%6$s, %7$s %8$s\n\n<b>전화:</b>\n%9$s\n\n<b>자세한 정보:</b>\n%10$s\n\n호텔과 항공편을 예약하고 일정을 확인/공유하고 싶으세요? 오늘 바로 Expedia 모바일 앱을 <a href="%11$s">다운로드</a>하세요.</string>
+    <!-- 1: city 2: date string -->
+    <string name="share_template_subject_flight">내가 예약한 %1$s행 항공편(%2$s)</string>
+    <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
+    <string name="share_template_short_flight_sameday">저 %1$s 비행기로 %2$s에 가요. 날짜는 %3$s이고요.\n%4$s에서 출발하는 시간은 %5$s, \n%6$s에 도착하는 시간은 %7$s에요(%8$s).</string>
+     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
+    <string name="share_template_short_flight_multiday">저 %1$s 비행기로 %2$s에 가요.\n%3$s에서 출발하는 시간은 %4$s, \n%5$s에 도착하는 시간은 %6$s에요(%7$s).</string>
+    <!-- 1: Origin city 2: Destination city 3: Flight Carrier and number 4: Departure date 5: Departure airport code 6: Departure Time 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival terminal gate 11: Traveler list -->
+    <string name="share_template_long_flight_sameday">안녕하세요, \n\n%1$s에서 출발하여 %2$s에 도착하는 제 항공편 정보를 아래와 같이 알려드릴게요.\n\n%3$s - %4$s\n\n%5$s에서 출발하는 시간: %6$s(%7$s)\n%8$s에 도착하는 시간: %9$s(%10$s)\n\n여행객:\n%11$s</string>
+    <!-- 1: Origin city 2: Desitination city 3: Flight carrier and number 4: Departure airport code 5: Departure time 6: Departure date 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival date 11: Arrival terminal gate 12: Traveler list -->
+    <string name="share_template_long_flight_multiday">안녕하세요, \n\n%1$s에서 출발하여 %2$s에 도착하는 제 항공편 정보를 아래와 같이 알려드릴게요.\n\n%3$s\n\n%4$s에서 출발하는 시간: %6$s, %5$s(%7$s)\n%8$s에 도착하는 시간: %10$s, %9$s(%11$s)\n\n여행객:\n%12$s</string>
+    <!-- 1: pick up date 2: drop off date -->
+    <string name="share_template_subject_car">내가 예약한 렌터카(%1$s ~ %2$s)</string>
+    <!-- 1: vehicle type 2: pick up date 3: drop off date 4: vendor name 5: full address -->
+    <string name="share_template_short_car">제가 %1$s 차량을 %2$s ~ %3$s 동안 사용할 수 있도록 예약했어요. \n%4$s\n%5$s</string>
+    <!-- 1: vendor name 2: vehicle type 3: pick up date 4: pick up time 5: drop off date 6: drop off time 7: full address 8: phone number 9: app download link -->
+    <string name="share_template_long_car">안녕하세요,\n\n제가 %1$s에서 예약한 렌터카에 대한 정보를 아래와 같이 알려드릴게요. \n\n<b>차량 종류:</b> %2$s\n<b>차량 인수:</b> %3$s, <b>%4$s</b>\n<b>차량 반납:</b> %5$s, <b>%6$s</b>\n\n<b>위치:</b>\n%1$s\n%7$s\n%8$s\n\n호텔과 항공편을 예약하고 일정을 확인/공유하고 싶으세요? 오늘 바로 Expedia 모바일 앱을 <a href="%9$s">다운로드</a>하세요.</string>
+    <!-- 1: activity title -->
+    <string name="share_template_subject_activity">내가 예약한 %1$s에 대한 세부 정보</string>
+    <!-- 1: activity title 2: valid date 3: expiration date -->
+    <string name="share_template_short_activity">제가 %1$s 상품을 구매했어요.\n발효일: %2$s\n만료일: %3$s</string>
+    <!-- 1: activity title 2: valid date 3: expiration date 4: list of guests 5: app download link -->
+    <string name="share_template_long_activity">안녕하세요,\n\n제가 예약한 %1$s에 대한 세부 정보를 아래와 같이 알려드릴게요.\n\n<b>발효일:</b> %2$s\n<b>만료일:</b> %3$s\n\n<b>고객 명단:</b>\n%4$s\n\n호텔과 항공편을 예약하고 일정을 확인/공유하고 싶으세요? 오늘 바로 Expedia 모바일 앱을 <a href="%5$s">다운로드</a>하세요.</string>
+    <string name="share_template_subject_cruise"></string>
+    <string name="share_template_short_cruise"></string>
+    <string name="share_template_long_cruise"></string>
+    
+    <!-- Social Chooser dialog -->
+    <!-- Title for dialog asking the user to choose the type of message to share -->
+    <string name="Choose_message_style">메시지 스타일 선택</string>
+    <!-- Button label for a button that shares a long message suitable for an email -->
+    <string name="Long_message">장문(이메일)</string>
+    <!-- Button label for a buton that shares a short message suitable for social media or SMS -->
+    <string name="Short_message">단문(SMS, SNS)</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -206,9 +285,9 @@
     <!-- Hint in edit text that indicates one should enter an arrival airport -->
     <string name="hint_arrival_airport">도착 공항</string>
     <!-- Label for when flights are loading -->
-    <string name="loading_flights">항공편 로드 중...</string>
+    <string name="loading_flights">항공편 로드 중…</string>
     <!-- Label for screen that is doing searches -->
-    <string name="searching">검색 중...</string>
+    <string name="searching">검색 중…</string>
     <!-- Error message when we find no flights -->
     <string name="error_no_flights_found">검색된 항공편이 없습니다.</string>
     <!-- Error message when we find no flights because of an invalid departure airport -->
@@ -257,7 +336,7 @@
     <!-- Error message template when loading a webpage fails -->
     <string name="web_view_loading_error_TEMPLATE">페이지 로드 오류! 오류 메시지: %1$s</string>
     <!-- Title for screen when in an invalid POS we can't search for yet -->
-    <string name="taking_off_soon">곧 이용 가능...</string>
+    <string name="taking_off_soon">곧 이용 가능…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">죄송합니다. 고객님의 현재 지역에서는 모바일 항공편 예약이 &lt;b&gt;아직 지원되지 않습니다&lt;/b&gt;.</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
@@ -387,7 +466,7 @@
     <!-- Checkout button text -->
     <string name="checkout_btn">체크아웃</string>
     <!-- Message when loading realtime flight information -->
-    <string name="loading_flight_details">가격 변동 확인 중...</string>
+    <string name="loading_flight_details">가격 변동 확인 중…</string>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">기존 요금 %1$s에서 요금 변경됨</string>
 
@@ -499,8 +578,6 @@
     <string name="address_state_hint">도</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">우편번호</string>
-    <!-- Billing Postal Code hint -->
-    <string name="address_postal_code_hint_hotels">청구지 우편번호</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -554,7 +631,7 @@
     <!-- Redress number hint -->
     <string name="only_if_applicable">리드레스 번호(해당하는 경우)</string>
     <!-- Saving traveler info spinner dialog -->
-    <string name="saving_traveler">고객님 계정에 여행객 정보 저장 중...</string>
+    <string name="saving_traveler">고객님 계정에 여행객 정보 저장 중…</string>
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
@@ -576,7 +653,7 @@
     <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;&lt;/font&gt;%1$s 좌석 선호</string>
     <!-- loading traveler info -->
-    <string name="loading_traveler_info">여행객 정보 로드 중...</string>
+    <string name="loading_traveler_info">여행객 정보 로드 중…</string>
     <!-- Traveler Information -->
     <string name="traveler_information">여행객 정보</string>
     <!-- Passport -->
@@ -691,6 +768,10 @@
     <string name="error_invalid_phone_number">입력하신 전화번호가 올바르지 않습니다. 다시 입력해 주세요.</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">입력하신 신용카드 번호가 올바르지 않습니다. 다시 입력해 주세요.</string>
+    <!-- Error shown to user if their zip code or postal code is invalid (depends on language) -->
+    <string name="error_invalid_zipcode_or_postalcode">입력하신 우편번호가 올바르지 않습니다. 다시 입력해 주세요.</string>
+    <!-- Error shown to user if their state or province is invalid (depends on language) -->
+    <string name="error_invalid_state_or_province">입력하신 도가 올바르지 않습니다. 다시 입력해 주세요.</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">사용하시려는 신용카드가 만료되었습니다. 다른 신용카드를 사용해 주세요.</string>
     <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
@@ -745,7 +826,7 @@
     <string name="share_flight_round_trip_TEMPLATE">%1$s 출발 %2$s 도착의 왕복 항공편</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">일정 번호: %s</string>
-    <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc... %2$s is their name -->
+    <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc… %2$s is their name -->
     <!-- examples: "Traveler 1: Tom Smith" "Traveler 2: David Thomas" or if only one traveler, "Traveler: Matt Long" -->
     <plurals name="share_flight_name_TEMPLATE">
         <item quantity="one">여행객: %s</item>
@@ -777,20 +858,20 @@
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
-    <string name="enter_search_location">위치 검색 입력...</string>
+    <string name="enter_search_location">위치 검색 입력…</string>
     <!-- Hint for "search location" field -->
     <string name="hint_search_location">위치 검색</string>
     <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-    <string name="loading_suggestions">제안 항목 로드 중...</string>
+    <string name="loading_suggestions">제안 항목 로드 중…</string>
     <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
-    <string name="enter_search_location">검색 위치 입력...</string>
+    <string name="enter_search_location">검색 위치 입력…</string>
     <!-- Hint for "search location" field -->
     <string name="hint_search_location">위치 검색</string>
     <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-    <string name="loading_suggestions">제안 항목 로드 중...</string>
+    <string name="loading_suggestions">제안 항목 로드 중…</string>
     <!-- Label for button that starts search -->
     <string name="search_for_hotels">호텔 검색</string>
     <!-- Label for picking search location -->
@@ -863,7 +944,7 @@
     <!-- Button label for searching the visible map area -->
     <string name="map_search_button">지도 검색</string>
     <!-- Message when app is loading saved search results -->
-    <string name="loading_previous">이전 검색 결과 로드 중...</string>
+    <string name="loading_previous">이전 검색 결과 로드 중…</string>
     <!-- Label for sort hotels in hotel list on tablet -->
     <string name="sort_hotels_tablet">정렬</string>
     <!-- Label for sort hotels in hotel list -->
@@ -925,9 +1006,9 @@
 
     <!-- Progress messages -->
     <!-- Message displayed when app is trying to find where it is (via network/GPS) -->
-    <string name="progress_finding_location">현재 위치 찾는 중...</string>
+    <string name="progress_finding_location">현재 위치 찾는 중…</string>
     <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels">호텔 검색 중...</string>
+    <string name="progress_searching_hotels">호텔 검색 중…</string>
     <!-- Message displayed when search comes up with zero results -->
     <string name="progress_search_failed">검색된 호텔이 없습니다.</string>
     <!-- Message displayed when search comes up with zero results -->
@@ -972,7 +1053,7 @@
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
-    <string name="loading_hotels">호텔 로드 중...</string>
+    <string name="loading_hotels">호텔 로드 중…</string>
     <!-- Template for sale element in widget. The parameter is for the sale % -->
     <string name="widget_savings_template">%2.0f%% 할인</string>
     <!-- Indicator to user to tap the widget to cause it to refresh -->
@@ -1066,7 +1147,7 @@
 
     <!-- User Reviews list strings -->
     <!-- Loading text prompt -->
-    <string name="user_review_loading_text">이용 후기 로드 중...</string>
+    <string name="user_review_loading_text">이용 후기 로드 중…</string>
     <!-- Header for reviews of the non-native language -->
     <string name="user_review_other_languages_title">다른 언어로 작성된 이용 후기</string>
     <!-- The text for the sort button, recent -->
@@ -1076,7 +1157,7 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_critical">비판적</string>
     <!-- Loading more reviews -->
-    <string name="user_review_loading_more_reviews">더 많은 이용 후기 로드 중...</string>
+    <string name="user_review_loading_more_reviews">더 많은 이용 후기 로드 중…</string>
     <!-- Read more of the review -->
     <string name="user_review_read_more">더 보기</string>
     <!--
@@ -1120,7 +1201,7 @@
         <item quantity="other">%d박 숙박 중</item>
     </plurals>
     <!-- Loading message for rooms & rates -->
-    <string name="room_rates_loading">예약 가능한 객실 검색 중...</string>
+    <string name="room_rates_loading">예약 가능한 객실 검색 중…</string>
     <!-- Error message (no response) for not being able to download room and rates information -->
     <string name="error_no_response_room_rates">객실 및 요금 정보를 다운로드할 수 없습니다.  연결 상태를 확인하고 다시 시도해 주세요.</string>
     <!-- Rate price displayed "per night" -->
@@ -1259,7 +1340,7 @@
     <!-- Error if user agreement needs to be checked but is not -->
     <string name="error_no_user_agreement">예약하려면 약관에 동의하셔야 합니다.</string>
     <!-- Message to display to user while booking is in progress -->
-    <string name="booking_loading">예약 중...</string>
+    <string name="booking_loading">예약 중…</string>
     <!-- Title for error dialog when booking fails -->
     <string name="error_booking_title">오류</string>
     <!-- Error message when we couldn't get a response -->
@@ -1345,7 +1426,7 @@
     <!-- Hint for user to enter password into a field -->
     <string name="hint_password">비밀번호</string>
     <!-- Progress dialog text when we are logging the user into Expedia -->
-    <string name="logging_in">로그인 중...</string>
+    <string name="logging_in">로그인 중…</string>
     <!-- Message that tells user they failed to log in -->
     <string name="login_failed">다시 로그인해 주세요.</string>
     <!-- Label for logout confirmation -->
@@ -1426,6 +1507,8 @@
     <string name="travel_smart">똑똑한 여행을 위한 선택</string>
     <!-- Section Header for other apps by Mobiata -->
     <string name="ALSO_BY_MOBIATA">Mobiata의 다른 앱 보기</string>
+    <!-- Section Header for other apps by Mobiata -->
+    <string name="also_by_mobiata">Mobiata의 다른 앱 보기</string>
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hotels</string>
     <!-- Message body for "tell a friend" feature -->
@@ -1456,6 +1539,10 @@
     <string name="stack_blur_credit">이 앱은 마리오 클링거만(Mario Klingemann)의 Stack Blur 알고리즘을 사용합니다.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="view_open_source_software_licenses">오픈 소스 소프트웨어 라이센스 보기</string>
+    <!-- String for acrediting the open source libraries we use -->
+    <string name="this_app_makes_use_of_the_following">이 앱에서 사용하는 오픈 소스 라이브러리:</string>
+    <!-- Header text for open source section -->
+    <string name="open_source">오픈 소스</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

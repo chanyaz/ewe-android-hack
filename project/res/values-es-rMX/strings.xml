@@ -9,9 +9,9 @@
     <!-- connect with facebook (button text) -->
     <string name="connect_with_facebook">Conéctate con Facebook </string>
     <!-- fetching information from Facebook -->
-    <string name="fetching_facebook_info">Extrayendo información de Facebook...</string>
+    <string name="fetching_facebook_info">Extrayendo información de Facebook…</string>
     <!-- Attempting to log you in with facebook credentials -->
-    <string name="attempting_to_log_in_with_facebook">Tratando de iniciar tu sesión con tu información de Facebook...</string>
+    <string name="attempting_to_log_in_with_facebook">Tratando de iniciar tu sesión con tu información de Facebook…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Encontramos un error no especificado. Favor de intentarlo más tarde.</string>
     <!-- Unable to sign in to Facebook -->
@@ -25,7 +25,7 @@
     <!-- Failure to update the user -->
     <string name="failure_to_update_user">No se pudo extraer la información actualizada del usuario.</string>
     <!-- Linking your accounts -->
-    <string name="linking_your_accounts">Vinculando tus cuentas...</string>
+    <string name="linking_your_accounts">Vinculando tus cuentas…</string>
     <!-- Sign in -->
     <string name="sign_in">Inicia sesión</string>
     <!-- Sign in with Expedia -->
@@ -58,6 +58,8 @@
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerario</string>
+    <!--  Shop -->
+    <string name="shop">Comprar</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Buscar un itinerario</string>
     <!-- Find Itinerary # -->
@@ -69,7 +71,9 @@
     <!-- Or enter an itinerary number -->
     <string name="or_enter_an_itinerary_number">o ingresa un número de itinerario</string>
     <!-- Fetching your itinerary -->
-    <string name="fetching_your_itinerary">Estamos buscando tu itinerario...</string>
+    <string name="fetching_your_itinerary">Estamos buscando tu itinerario…</string>
+    <!-- Error fetching itinerary -->
+    <string name="itinerary_fetch_error">Error al intentar obtener el itinerario</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;Inicia sesión&lt;/b&gt; para tus viajes</string>
     <!-- Depart (TZ) template -->
@@ -96,6 +100,8 @@
     <string name="no_arrival_terminal_gate_information">Terminal de llegada y puerta no disponibles</string>
     <!-- Itin flight layover departure terminal and gate information not avaialble message -->
     <string name="no_departure_terminal_gate_information">Terminal de salida y puerta no disponibles</string>
+    <!-- To be determined abbrev.-->
+    <string name="to_be_determined_abbrev">A definir</string>
     <!-- Itin flight gate only template -->
     <string name="gate_number_only_TEMPLATE">Puerta%1$s</string>
     <!-- Itin flight arrive gate only template -->
@@ -108,6 +114,10 @@
     <string name="arrive_terminal_but_no_gate_TEMPLATE">Terminal de llegada %1$s, puerta no disponible</string>
     <!-- Itin flight terminal only template -->
     <string name="depart_terminal_but_no_gate_TEMPLATE">Terminal de salida %1$s, puerta no disponible</string>
+    <!-- Itin flight summary second line for arrival waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight arrives/d -->
+    <string name="at_airport_TEMPLATE">&lt;b&gt;A %1$s&lt;/b&gt; - %2$s</string>
+    <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
+    <string name="from_airport_TEMPLATE">&lt;b&gt;Desde %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Cerrar la sesión en %1$seliminará cualquier elemento del itinerario asociado con esta cuenta. ¿Estás seguro de que deseas cerrar la sesión?</string>
     <!-- Booking code unavailable message -->
@@ -122,38 +132,64 @@
     <string name="terminal_maps">Mapas de las terminales</string>
     <!-- Legend -->
     <string name="legend">Leyenda</string>
+    <!-- Flight has been canceled -->
+    <string name="flight_canceled">Vuelo cancelado</string>
+    <!-- Flight has been canceled; parameter is the destination city for the canceled flight -->
+    <string name="flight_to_city_canceled_TEMPLATE">El vuelo a %1$s se canceló</string>
+    <!-- Flight has been redirected (location unknown) -->
+    <string name="flight_redirected">El vuelo fue redireccionado</string>
+    <!-- Flight has been diverted (location unknown) -->
+    <string name="flight_diverted">El vuelo fue desviado</string>
+    <!-- Flight has been diverted to {airport} template -->
+    <string name="flight_diverted_TEMPLATE">El vuelo fue desviado a %1$s</string>
     <!-- Flight departs on {date} template -->
-    <string name="flight_departs_on_TEMPLATE">El vuelo sale el %1$s</string>
-    <!-- Flight currently in progress -->
-    <string name="flight_in_progress">El vuelo está actualmente en curso.</string>
-    <!-- Flight landed on {date} template -->
-    <string name="flight_landed_on_TEMPLATE">El vuelo aterrizó el %1$s</string>
-    <!-- Flight in progress -->
-    <string name="flight_in_progress">El vuelo está actualmente en curso.</string>
-    <!-- Depart in {# of hours}, {# of minutes} template -->
-    <string name="flight_departs_in_hours_minutes_TEMPLATE">El vuelo sale en %1$s, %2$s</string>
-    <!-- hours plural -->
-    <plurals name="hour_span">
-        <item quantity="zero">%1$s horas</item>
-        <item quantity="one">%1$s hora</item>
-        <item quantity="two">%1$s horas</item>
-        <item quantity="few">%1$s horas</item>
-        <item quantity="many">%1$s horas</item>
-        <item quantity="other">%1$s horas</item>
-    </plurals>
-    <!-- minutes plural -->
-    <plurals name="minute_span">
-        <item quantity="zero">%1$s minutos</item>
-        <item quantity="one">%1$s minuto</item>
-        <item quantity="two">%1$s minutos</item>
-        <item quantity="few">%1$s minutos</item>
-        <item quantity="many">%1$s minutos</item>
-        <item quantity="other">%1$s minutos</item>
-    </plurals>
+    <string name="flight_departs_on_TEMPLATE">Salidas%1$s</string>
+    <!-- Departs early {duration from now} -->
+    <string name="flight_departs_early_TEMPLATE">Sale antes de tiempo %1$s</string>
+    <!-- Departs late {duration from now} -->
+    <string name="flight_departs_late_TEMPLATE">Sale con retraso %1$s</string>
+    <!-- Departs on time {duration from now} -->
+    <string name="flight_departs_on_time_TEMPLATE">Sale a tiempo %1$s</string>
+    <!-- Departs {duration} early -->
+    <string name="flight_departs_x_early_TEMPLATE">Sale con %1$s de anticipación</string>
+    <!-- Departs {duration} late -->
+    <string name="flight_departs_x_late_TEMPLATE">Sale con %1$s de retraso</string>
+    <!-- Flight departs on time -->
+    <string name="flight_departs_on_time">Sale a tiempo</string>
+    <!-- Arrives early {duration from now} -->
+    <string name="flight_arrives_early_TEMPLATE">Llega antes de tiempo %1$s</string>
+    <!-- Arrives late {duration from now} -->
+    <string name="flight_arrives_late_TEMPLATE">Llega tarde %1$s</string>
+    <!-- Arrives on time {duration from now} -->
+    <string name="flight_arrives_on_time_TEMPLATE">Llega a tiempo %1$s</string>
+    <!-- Arrives {duration} early -->
+    <string name="flight_arrives_x_early_TEMPLATE">Llega con %1$s de anticipación</string>
+    <!-- Arrives {duration} late -->
+    <string name="flight_arrives_x_late_TEMPLATE">Llega %1$s tarde</string>
+    <!-- Flight arrives on time -->
+    <string name="flight_arrives_on_time">Llega a tiempo</string>
+    <!-- Arrived early {duration from now} -->
+    <string name="flight_arrived_early_at_TEMPLATE">Llegó antes de tiempo a las %1$s</string>
+    <!-- Arrived late {duration from now} -->
+    <string name="flight_arrived_late_at_TEMPLATE">Llegó tarde a las %1$s</string>
+    <!-- Arrived on time {duration from now} -->
+    <string name="flight_arrived_on_time_at_TEMPLATE">Llegó a tiempo a las %1$s</string>
+    <!-- Arrived {duration} early -->
+    <string name="flight_arrived_x_early_TEMPLATE">Llegó con %1$s de anticipación</string>
+    <!-- Arrived {duration} late -->
+    <string name="flight_arrived_x_late_TEMPLATE">Llegó %1$s tarde</string>
+    <!-- Flight arrived on time -->
+    <string name="flight_arrived_on_time">Llegó a tiempo</string>
+    <!-- Flight arrived (fallback when we have very little information about arrival available) -->
+    <string name="flight_arrived">Llegó</string>
+    <!-- Refresh -->
+    <string name="refresh">Actualizar</string>
+    <!-- Try Again -->
+    <string name="try_again">Inténtalo de nuevo </string>
     <!-- Car types -->
-    <string name="car_type_two_door">Dos puertas</string>
-    <string name="car_type_three_door">Tres puertas</string>
-    <string name="car_type_four_door">Cuatro puertas</string>
+    <string name="car_type_two_door">Dos puertas Auto</string>
+    <string name="car_type_three_door">Tres puertas Auto</string>
+    <string name="car_type_four_door">Cuatro puertas Auto</string>
     <string name="car_type_van">Van</string>
     <string name="car_type_wagon">Wagon familiar</string>
     <string name="car_type_limousine">Limusina</string>
@@ -173,30 +209,73 @@
     <string name="car_type_two_wheel_vehicle">Vehículos de dos ruedas</string>
     <string name="car_type_roadster">Convertible para 2 pasajeros</string>
     <string name="car_type_crossover">Crossover</string>
-   
+
     <!-- Itin card details -->
     <string name="itin_card_details_active">Activo</string>
     <string name="itin_card_details_expires">Vencimiento</string>
     <string name="itin_card_details_guests">Huéspedes</string>
     <string name="itin_card_details_booking_info">Información de reservación</string>
-    <string name="itin_card_details_details">Ver recibos y políticas</string>
-    <string name="itin_card_details_pick_up">Te pasamos a buscar</string>
-    <string name="itin_card_details_drop_off">Te regresamos</string>
+    <string name="itin_card_details_confirmation_code">Código de confirmación</string>
+    <string name="itin_card_details_details">Información adicional</string>
+    <string name="itin_card_details_pick_up">Entrega</string>
+    <string name="itin_card_details_drop_off">Devolución</string>
     <string name="itin_card_details_days">Días</string>
-    <string name="itin_card_details_pick_up">Te pasamos a buscar</string>
-    <string name="itin_card_details_drop_off">Te regresamos</string>
+    <string name="itin_card_details_pick_up">Entrega</string>
+    <string name="itin_card_details_drop_off">Devolución</string>
     <string name="itin_card_details_agency_phone">Teléfono de la agencia</string>
     <string name="itin_card_details_check_in">Llegada</string>
     <string name="itin_card_details_check_out">Salida</string>
     <string name="itin_card_details_address">Dirección </string>
     <string name="itin_card_details_phone">Teléfono</string>
     <string name="itin_card_details_room_type">Tipo de habitación</string>
-    
+    <string name="toast_copied_to_clipboard">Se copió al portapapeles</string>
+
     <!-- Action Buttons -->
     <string name="itin_action_directions">Indicaciones</string>
     <string name="itin_action_call_hotel">Llamar al hotel</string>
     <string name="itin_action_redeem">Canjear</string>
     <string name="itin_action_support">Ayuda</string>
+
+    <!-- Itin Share templates -->
+    <!-- 1: hotel name 2: check in date 3: check out date -->
+    <string name="share_template_subject_hotel">Mi estancia de hotel en el %1$s (%2$s – %3$s)</string>
+    <!-- 1: hotel name 2: check in date 3: check out date 4: hotel web url -->
+    <string name="share_template_short_hotel">Me estoy hospedando en el %1$s\n%2$s – %3$s\n\n%4$s</string>
+    <!-- 1: hotel Name 2: formatted length of stay 4: check in date 5: check out date 6: street address 7: city 8: state 9: postal code 10: phone 11: hotel web url 12: app download link -->
+    <string name="share_template_long_hotel">Hola:\n\nMe estoy hospedando en el %1$s por %2$s.\n\n<b>Check-in</b> %3$s\n<b>Check-out</b> %4$s\n\n%1$s\n%5$s\n%6$s, %7$s %8$s\n\n<b>Teléfono</b>\n%9$s\n\n<b>Más información</b>\n%10$s\n\n¿Quieres reservar hoteles, vuelos, y ver y compartir tus itinerarios? <a href="%11$s">Descarga</a> la aplicación gratuita para móviles, de Expedia, hoy mismo.</string>
+    <!-- 1: city 2: date string -->
+    <string name="share_template_subject_flight">Mi vuelo a %1$s el %2$s</string>
+    <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
+    <string name="share_template_short_flight_sameday">Estoy en un vuelo de %1$s a %2$s el %3$s.\nSale de %4$s a las %5$s\nLlega a %6$sa las %7$s, %8$s</string>
+     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
+    <string name="share_template_short_flight_multiday">Estoy en un vuelo de %1$s a %2$s.\nSale de %3$s a las %4$s\nLlega a %5$s a las %6$s, %7$s</string>
+    <!-- 1: Origin city 2: Destination city 3: Flight Carrier and number 4: Departure date 5: Departure airport code 6: Departure Time 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival terminal gate 11: Traveler list -->
+    <string name="share_template_long_flight_sameday">Hola:\n\naquí están los detalles de mi vuelo de %1$s a %2$s.\n\n%3$s - %4$s\n\nSale de %5$s a las %6$s de %7$s.\nLlega de %8$s a %9$s a las %10$s.\n\nPasajeros\n%11$s</string>
+    <!-- 1: Origin city 2: Desitination city 3: Flight carrier and number 4: Departure airport code 5: Departure time 6: Departure date 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival date 11: Arrival terminal gate 12: Traveler list -->
+    <string name="share_template_long_flight_multiday">Hola:\n\naquí están los detalles de mi vuelo de %1$s a %2$s.\n\n%3$s\n\nSale de %4$s a las %5$s el %6$s de %7$s.\nLlega de %8$s a las %9$s el  %10$s at %11$s\n\nPasajeros\n%12$s</string>
+    <!-- 1: pick up date 2: drop off date -->
+    <string name="share_template_subject_car">Mi renta de auto (%1$s – %2$s)</string>
+    <!-- 1: vehicle type 2: pick up date 3: drop off date 4: vendor name 5: full address -->
+    <string name="share_template_short_car">Renté un(a) %1$s del %2$s al %3$s\n%4$s\n%5$s</string>
+    <!-- 1: vendor name 2: vehicle type 3: pick up date 4: pick up time 5: drop off date 6: drop off time 7: full address 8: phone number 9: app download link -->
+    <string name="share_template_long_car">Hola:\n\naquí están los detalles de mi renta de auto %1$s. \n\n<b>Vehículo</b> %2$s\n<b>Entrega</b> %3$s a las <b>%4$s</b>\n<b>Devolución</b> %5$s a las <b>%6$s</b>\n\n<b>Ubicación</b>\n%1$s\n%7$s\n%8$s\n\n¿Quieres reservar hoteles, vuelos, y ver y compartir tus itinerarios? <a href="%9$s">Descarga</a> la aplicación móvil gratuita, de Expedia, hoy mismo.</string>
+    <!-- 1: activity title -->
+    <string name="share_template_subject_activity">Los detalles de mi %1$s</string>
+    <!-- 1: activity title 2: valid date 3: expiration date -->
+    <string name="share_template_short_activity">Adquirí un(a) %1$s\nVálido: %2$s\nVence:%3$s</string>
+    <!-- 1: activity title 2: valid date 3: expiration date 4: list of guests 5: app download link -->
+    <string name="share_template_long_activity">Hola:\n\naquí están los detalles de mi %1$s\n\n<b>Válido</b> %2$s\n<b>Vence</b> %3$s\n\n<b>Huéspedes</b>\n%4$s\n\n¿Quieres reservar hoteles, vuelos, y ver y compartir tus itinerarios? <a href="%5$s">Descarga</a> la aplicación móvil gratuita, de Expedia, hoy mismo.</string>
+    <string name="share_template_subject_cruise"></string>
+    <string name="share_template_short_cruise"></string>
+    <string name="share_template_long_cruise"></string>
+    
+    <!-- Social Chooser dialog -->
+    <!-- Title for dialog asking the user to choose the type of message to share -->
+    <string name="Choose_message_style">Elige el estilo del mensaje</string>
+    <!-- Button label for a button that shares a long message suitable for an email -->
+    <string name="Long_message">Largo (email)</string>
+    <!-- Button label for a buton that shares a short message suitable for social media or SMS -->
+    <string name="Short_message">Corto (SMS, red social) </string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -206,9 +285,9 @@
     <!-- Hint in edit text that indicates one should enter an arrival airport -->
     <string name="hint_arrival_airport">Aeropuerto de llegada</string>
     <!-- Label for when flights are loading -->
-    <string name="loading_flights">Cargando vuelos...</string>
+    <string name="loading_flights">Cargando vuelos…</string>
     <!-- Label for screen that is doing searches -->
-    <string name="searching">Buscando...</string>
+    <string name="searching">Buscando…</string>
     <!-- Error message when we find no flights -->
     <string name="error_no_flights_found">No se encontraron vuelos</string>
     <!-- Error message when we find no flights because of an invalid departure airport -->
@@ -257,7 +336,7 @@
     <!-- Error message template when loading a webpage fails -->
     <string name="web_view_loading_error_TEMPLATE">¡Error al cargar la página! Mensaje de error: %1$s</string>
     <!-- Title for screen when in an invalid POS we can't search for yet -->
-    <string name="taking_off_soon">El despegue será pronto...</string>
+    <string name="taking_off_soon">El despegue será pronto…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">Lo sentimos pero reservar un vuelo por dispositivo móvil &lt;b&gt;todavía no está disponible&lt;/b&gt; en tu ubicación.</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
@@ -387,7 +466,7 @@
     <!-- Checkout button text -->
     <string name="checkout_btn">Completar</string>
     <!-- Message when loading realtime flight information -->
-    <string name="loading_flight_details">Verificando cambio de precios...</string>
+    <string name="loading_flight_details">Verificando cambio de precios…</string>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">El precio cambió de %1$s</string>
 
@@ -499,8 +578,6 @@
     <string name="address_state_hint">Estado</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Código postal</string>
-    <!-- Billing Postal Code hint -->
-    <string name="address_postal_code_hint_hotels">Código postal para la facturación</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -554,7 +631,7 @@
     <!-- Redress number hint -->
     <string name="only_if_applicable">No. de rectificación (si aplica)</string>
     <!-- Saving traveler info spinner dialog -->
-    <string name="saving_traveler">Se está guardando la información del pasajero en tu cuenta...</string>
+    <string name="saving_traveler">Se está guardando la información del pasajero en tu cuenta…</string>
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
@@ -576,7 +653,7 @@
     <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;Prefiere asientos &lt;/font&gt;%1$s</string>
     <!-- loading traveler info -->
-    <string name="loading_traveler_info">Cargando la información del pasajero...</string>
+    <string name="loading_traveler_info">Cargando la información del pasajero…</string>
     <!-- Traveler Information -->
     <string name="traveler_information">Información del pasajero</string>
     <!-- Passport -->
@@ -691,6 +768,10 @@
     <string name="error_invalid_phone_number">El número de teléfono que has ingresado no es válido, favor de intentarlo de nuevo.</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">El número de tarjeta de crédito que has ingresado no es válido, favor de intentarlo de nuevo.</string>
+    <!-- Error shown to user if their zip code or postal code is invalid (depends on language) -->
+    <string name="error_invalid_zipcode_or_postalcode">El código postal que ingresaste no es válido, inténtalo de nuevo.</string>
+    <!-- Error shown to user if their state or province is invalid (depends on language) -->
+    <string name="error_invalid_state_or_province">El estado que ingresaste no es válido, inténtalo de nuevo.</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">La tarjeta de crédito que trataste de utilizar ya venció, utiliza otra por favor.</string>
     <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
@@ -745,7 +826,7 @@
     <string name="share_flight_round_trip_TEMPLATE">Viaje redondo de %1$s a %2$s</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">No. de itinerario: %s</string>
-    <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc... %2$s is their name -->
+    <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc… %2$s is their name -->
     <!-- examples: "Traveler 1: Tom Smith" "Traveler 2: David Thomas" or if only one traveler, "Traveler: Matt Long" -->
     <plurals name="share_flight_name_TEMPLATE">
         <item quantity="one">Pasajero: %s</item>
@@ -781,7 +862,7 @@
     <!-- Hint for "search location" field -->
     <string name="hint_search_location">Buscar un sitio</string>
     <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-    <string name="loading_suggestions">Cargando las sugerencias...</string>
+    <string name="loading_suggestions">Cargando las sugerencias…</string>
     <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
@@ -1426,6 +1507,8 @@
     <string name="travel_smart">Viaja inteligentemente</string>
     <!-- Section Header for other apps by Mobiata -->
     <string name="ALSO_BY_MOBIATA">TAMBIÉN POR MOBIATA</string>
+    <!-- Section Header for other apps by Mobiata -->
+    <string name="also_by_mobiata">También por Mobiata</string>
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Hoteles de Expedia</string>
     <!-- Message body for "tell a friend" feature -->
@@ -1456,6 +1539,10 @@
     <string name="stack_blur_credit">Esta aplicación utiliza el algoritmo Stack Blur de Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="view_open_source_software_licenses">Ver las licencias de software de fuentes abiertas</string>
+    <!-- String for acrediting the open source libraries we use -->
+    <string name="this_app_makes_use_of_the_following">Esta aplicación utiliza las siguientes bibliotecas de código abierto:</string>
+    <!-- Header text for open source section -->
+    <string name="open_source">Código abierto</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
