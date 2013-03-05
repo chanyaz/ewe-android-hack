@@ -136,6 +136,8 @@ public class ItineraryManager implements JSONable {
 	}
 
 	private void doClearData() {
+		Log.i("Clearing all data from ItineraryManager...");
+
 		// Delete the file, so it can't be reloaded later
 		File file = mContext.getFileStreamPath(MANAGER_PATH);
 		if (file.exists()) {
@@ -148,6 +150,8 @@ public class ItineraryManager implements JSONable {
 		if (mTrips == null) {
 			return;
 		}
+
+		Log.d("Informing the removal of " + mTrips.size() + " trips due to clearing of ItineraryManager...");
 
 		for (Trip trip : mTrips.values()) {
 			onTripRemoved(trip);
