@@ -33,4 +33,24 @@
         android:text="@string/itin_card_details_details"
         android:visibility="visible" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="#4D555D" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/reload_text_view"
+            style="@style/TextView.Itin.SectionText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/list_selector_holo_dark"
+            android:drawableLeft="@drawable/ic_reload_details"
+            android:drawablePadding="8dp"
+            android:padding="8dp"
+            android:text="@string/itin_card_details_reload" />
+
 </LinearLayout>

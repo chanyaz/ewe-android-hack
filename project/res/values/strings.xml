@@ -233,6 +233,7 @@
     <string name="itin_card_details_phone">Phone</string>
     <string name="itin_card_details_room_type">Room Type</string>
     <string name="toast_copied_to_clipboard">Copied to the clipboard.</string>
+    <string name="itin_card_details_reload">Reload Information</string>
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">Directions</string>
