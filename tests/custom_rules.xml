@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="custome_rules" default="debug">
+<project name="ExpediaBookings_test_custom_rules" default="debug">
 
     <!-- Fixes duplicate class files for ant builds of test projects -->
     <target name="-post-compile">
