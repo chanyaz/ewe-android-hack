@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.Activity;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.view.View;
 
@@ -25,15 +24,12 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -69,9 +65,6 @@ public class HotelMapFragment extends SupportMapFragment {
 	// Data being displayed.  It is assumed that the overlay doesn't need
 	// to keep track of state because the app will maintain this data
 	private List<Property> mProperties;
-
-	private double mCenterOffsetX = 0;
-	private double mCenterOffsetY = 0;
 
 	public static HotelMapFragment newInstance() {
 		HotelMapFragment frag = new HotelMapFragment();
@@ -231,32 +224,6 @@ public class HotelMapFragment extends SupportMapFragment {
 		mExactLocationMarker = null;
 	}
 
-	public void setCenterOffsetY(double offsetY) {
-		mCenterOffsetY = offsetY;
-	}
-
-	public void setCenterOffsetX(double offsetX) {
-		mCenterOffsetX = offsetX;
-	}
-
-	private LatLng newOffsetLatLng(LatLng oldlatlng) {
-		if (mCenterOffsetX == 0.0 && mCenterOffsetY == 0.0) {
-			// no shift
-			return oldlatlng;
-		}
-
-		Point screenpos = mMap.getProjection().toScreenLocation(oldlatlng);
-		screenpos.x += mCenterOffsetX;
-		screenpos.y += mCenterOffsetY;
-		LatLng newlatlng = mMap.getProjection().fromScreenLocation(screenpos);
-		return newlatlng;
-	}
-
-	private LatLng newOffsetLatLng(double lat, double lng) {
-		LatLng oldlatlng = new LatLng(lat, lng);
-		return newOffsetLatLng(oldlatlng);
-	}
-
 	private void showExactLocation() {
 		if (isReady()) {
 			addExactLocation();
@@ -395,7 +362,7 @@ public class HotelMapFragment extends SupportMapFragment {
 		marker.showInfoWindow();
 		CameraUpdate camUpdate;
 
-		LatLng position = newOffsetLatLng(marker.getPosition());
+		LatLng position = offsetLatLng(marker.getPosition());
 		if (zoom != -1.0f) {
 			camUpdate = CameraUpdateFactory.newLatLngZoom(position, zoom);
 		}
@@ -432,7 +399,7 @@ public class HotelMapFragment extends SupportMapFragment {
 			for (Property property : mProperties) {
 				Marker marker = mPropertiesToMarkers.get(property);
 				Location location = property.getLocation();
-				LatLng latLng = newOffsetLatLng(location.getLatitude(), location.getLongitude());
+				LatLng latLng = offsetLatLng(location.getLatitude(), location.getLongitude());
 				if (marker != null && marker.isVisible()) {
 					builder.include(latLng);
 					numIncluded++;

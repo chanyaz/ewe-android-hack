@@ -679,9 +679,6 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		ft.commit();
 
 		updateMapOffsets(true);
-
-		mHotelMapFragment
-				.setCenterOffsetY((float) (getResources().getDimensionPixelSize(R.dimen.mini_details_height) / 2.0f));
 	}
 
 	public void showHotelDetailsFragment() {
@@ -713,11 +710,11 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 
 	private void updateMapOffsets(boolean needsOffset) {
 		if (needsOffset) {
-			mHotelMapFragment.setCenterOffsetY((float) (getResources().getDimensionPixelSize(
+			mHotelMapFragment.setCenterOffset(0, (float) (getResources().getDimensionPixelSize(
 					R.dimen.mini_details_height) / 2.0f));
 		}
 		else {
-			mHotelMapFragment.setCenterOffsetY(0);
+			mHotelMapFragment.setCenterOffset(0, 0);
 		}
 	}
 
