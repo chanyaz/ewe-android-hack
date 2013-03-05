@@ -143,9 +143,16 @@ public class ParserUtils {
 
 			ServerError error = new ServerError(apiMethod);
 			int code = response.getInt("errorCode");
-			if (code == 400) {
+			switch (code) {
+			case 400:
 				error.setCode("INVALID_INPUT");
+				break;
+			case 500:
+				// Server error
+				error.setCode("UNKNOWN_ERROR");
+				break;
 			}
+
 			error.setMessage(response.optString("message", null));
 
 			errors.add(error);
