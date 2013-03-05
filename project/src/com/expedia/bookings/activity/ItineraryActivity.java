@@ -61,6 +61,8 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 		getSupportMenuInflater().inflate(R.menu.menu_itinerary, menu);
 
 		DebugMenu.onCreateOptionsMenu(this, menu);
@@ -78,6 +80,10 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+		case android.R.id.home: {
+			finish();
+			return true;
+		}
 		case R.id.menu_settings: {
 			// Possible TODO: Reset the activity when settings are changed?
 			Intent intent = new Intent(this, TabletPreferenceActivity.class);

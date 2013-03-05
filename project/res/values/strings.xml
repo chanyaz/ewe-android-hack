@@ -58,6 +58,8 @@
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerary</string>
+    <!-- Itineraries (plural title) -->
+    <string name="itineraries">Itineraries</string>
     <!--  Shop -->
     <string name="shop">Shop</string>
     <!-- Find Itinerary -->

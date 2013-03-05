@@ -217,7 +217,8 @@
         <!-- Itineraries -->
         <activity
             android:name="com.expedia.bookings.activity.ItineraryActivity"
-            android:theme="@style/Theme.Tablet" />
+            android:label="@string/itineraries"
+            android:theme="@style/ItineraryTheme" />
         <activity
             android:name="com.expedia.bookings.activity.ItineraryGuestAddActivity"
             android:theme="@style/LoginTheme"
