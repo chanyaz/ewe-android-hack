@@ -25,8 +25,10 @@
     <dimen name="itin_card_mini_image_height">100dp</dimen>
     <dimen name="itin_action_button_height">48dp</dimen>
     <dimen name="itin_flight_segment_divider_padding">10dp</dimen>
+    <dimen name="itin_simple_list_width">440dp</dimen>
     <dimen name="itin_map_marker_bottom_padding">12dp</dimen>
-	<!-- Dialog title height -->
+
+    <!-- Dialog title height -->
     <dimen name="alert_dialog_title_height">64dip</dimen>
 
     <!-- Terminal map legend widths -->

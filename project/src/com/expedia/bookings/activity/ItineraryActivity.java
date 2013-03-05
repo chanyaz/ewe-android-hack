@@ -8,20 +8,23 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItinCardData;
+import com.expedia.bookings.fragment.ItinCardFragment;
 import com.expedia.bookings.fragment.ItinItemListFragment;
 import com.expedia.bookings.fragment.ItinItemListFragment.ItinItemListFragmentListener;
 import com.expedia.bookings.fragment.ItineraryMapFragment;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.Log;
 
 /**
  * Full-screen Itinerary activity.  Used in tablets.
  */
 public class ItineraryActivity extends SherlockFragmentActivity implements ItinItemListFragmentListener {
 
+	private boolean mTwoPaneMode;
+
 	private ItinItemListFragment mItinListFragment;
 	private ItineraryMapFragment mMapFragment;
+	private ItinCardFragment mItinCardFragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +34,23 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 
 		mItinListFragment = Ui.findSupportFragment(this, getString(R.string.tag_itinerary_list));
 		mMapFragment = Ui.findSupportFragment(this, getString(R.string.tag_itinerary_map));
+		mItinCardFragment = Ui.findSupportFragment(this, getString(R.string.tag_itinerary_card));
 
-		if (mMapFragment != null && mMapFragment.isAdded()) {
+		mTwoPaneMode = mMapFragment != null && mMapFragment.isAdded();
+
+		if (mTwoPaneMode) {
+			mItinListFragment.setBackgroundColor(getResources().getColor(R.color.itin_list_bg_transparent));
 			mItinListFragment.setSimpleMode(true);
+
+			// Setup the correct offset for the map
+			float offsetCenterX = getResources().getDimensionPixelSize(R.dimen.itin_simple_list_width) / 2.0f;
+
+			int height = getWindowManager().getDefaultDisplay().getHeight();
+			int bottomPadding = getResources().getDimensionPixelSize(R.dimen.itin_map_marker_bottom_padding);
+			int markerHeight = getResources().getDrawable(R.drawable.map_pin_normal).getIntrinsicHeight();
+			float offsetCenterY = (height / 2.0f) - markerHeight - bottomPadding;
+
+			mMapFragment.setCenterOffset(-offsetCenterX, -offsetCenterY);
 		}
 
 		mItinListFragment.enableLoadItins();
@@ -86,6 +103,8 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 
 	@Override
 	public void onItinCardClicked(ItinCardData data) {
-		mMapFragment.showItinItem(data);
+		if (mTwoPaneMode) {
+			mMapFragment.showItinItem(data);
+		}
 	}
 }

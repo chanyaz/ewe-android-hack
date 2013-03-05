@@ -54,6 +54,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 	private ItinItemListFragmentListener mListener;
 
+	private View mRoot;
 	private View mItinPathView;
 	private ItinListView mItinListView;
 	private View mEmptyView;
@@ -95,6 +96,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View view = inflater.inflate(R.layout.fragment_itinerary_list, null);
 
+		mRoot = Ui.findView(view, R.id.outer_container);
 		mItinPathView = Ui.findView(view, R.id.itin_path_view);
 		mItinListView = Ui.findView(view, android.R.id.list);
 		mEmptyView = Ui.findView(view, android.R.id.empty);
@@ -177,6 +179,12 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 		mItinManager.removeSyncListener(this);
 		mItinManager = null;
+	}
+
+	// Can only be called after onCreateView(); not an issue right now, if it becomes
+	// one we can update the code.
+	public void setBackgroundColor(int color) {
+		mRoot.setBackgroundColor(color);
 	}
 
 	public void setSimpleMode(boolean enabled) {

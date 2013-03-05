@@ -2,11 +2,8 @@ package com.expedia.bookings.fragment;
 
 import java.util.Calendar;
 
-import android.content.res.Resources;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
@@ -17,7 +14,7 @@ import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.maps.SupportMapFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
-import com.google.android.gms.maps.Projection;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -26,15 +23,11 @@ import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Waypoint;
 
-public class ItineraryMapFragment extends SupportMapFragment implements OnGlobalLayoutListener {
+public class ItineraryMapFragment extends SupportMapFragment {
 
 	private static final float ZOOM_LEVEL = 13;
 
 	private Marker mMarker;
-
-	private float mMarkerHeight;
-	private float mBottomPadding;
-	private float mOffsetCenterY;
 
 	@Override
 	public void onViewCreated(final View view, Bundle savedInstanceState) {
@@ -53,25 +46,11 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnGlobal
 		MarkerOptions opts = new MarkerOptions();
 		opts.position(new LatLng(0, 0));
 		opts.visible(false);
+		opts.icon(BitmapDescriptorFactory.fromResource(R.drawable.map_pin_normal));
 		mMarker = getMap().addMarker(opts);
-
-		// TODO: Empirically speaking this is the correct marker height for default markers;
-		// however once we implement our own markers we will want to specify the height ourselves.
-		Resources res = getResources();
-		mMarkerHeight = 40 * res.getDisplayMetrics().density;
-		mBottomPadding = res.getDimension(R.dimen.itin_map_marker_bottom_padding);
-
-		view.getViewTreeObserver().addOnGlobalLayoutListener(this);
 
 		// Set the initial zoom level; otherwise all of our camera updates will be off target
 		moveCamera(CameraUpdateFactory.zoomTo(ZOOM_LEVEL));
-	}
-
-	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-
-		getView().getViewTreeObserver().removeGlobalOnLayoutListener(this);
 	}
 
 	public void showItinItem(ItinCardData data) {
@@ -114,25 +93,16 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnGlobal
 			mMarker.setPosition(position);
 		}
 
-		// Move the camera to match the new position; but make it so that the marker is at the bottom of the screen
-		Projection projection = getMap().getProjection();
-		Point screenLoc = projection.toScreenLocation(position);
-		screenLoc.y -= mOffsetCenterY;
-		LatLng camLatLng = projection.fromScreenLocation(screenLoc);
+		LatLng camLatLng = position;
+		if (position.latitude != 0 || position.longitude != 0) {
+			// Quickly set correct zoom level so we calculate offset correctly.  It's noticeable, but
+			// only does anything if we're mid-animation anyways so it doesn't really matter.
+			moveCamera(CameraUpdateFactory.zoomTo(ZOOM_LEVEL));
+
+			camLatLng = offsetLatLng(camLatLng);
+		}
 
 		CameraPosition camPos = new CameraPosition(camLatLng, ZOOM_LEVEL, 0, 0);
 		animateCamera(CameraUpdateFactory.newCameraPosition(camPos));
 	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// OnGlobalLayoutListener
-	//
-	// We want to know the height of the fragment so we can determine the 
-	// offset for the camera movements.
-
-	@Override
-	public void onGlobalLayout() {
-		mOffsetCenterY = (getView().getHeight() / 2.0f) - mMarkerHeight - mBottomPadding;
-	}
-
 }
