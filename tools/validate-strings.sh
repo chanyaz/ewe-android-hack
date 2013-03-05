@@ -19,6 +19,9 @@ for i in $path/values*/strings.xml ; do
     grep $options "&amp;apos;" $i
     grep $options "\\\\apos;" $i
 
+    # wrong elipsis
+    grep $options "[^\.]\.\.\.[^\.]" $i
+
     # preceding and trailing space
     #grep $options "\"> " $i
     #grep $options " </string>" $i

@@ -154,8 +154,12 @@ def move_files(in_dir, out_dir):
                     if new_dir is not None:
                         os.mkdir(new_dir)
                         shutil.copy(filepath, os.path.join(new_dir, "strings.xml"))
-                elif filename == "expedia.xml" or "EBad" in filename:
+                elif "expedia" in filename or "EBad" in filename:
                     new_dir = os.path.join(expedia_dir, "values-%s" % postfix)
+                    os.mkdir(new_dir)
+                    shutil.copy(filepath, os.path.join(new_dir, "strings.xml"))
+                elif "android-utils" in filename:
+                    new_dir = os.path.join(utils_dir, "values-%s" % postfix)
                     os.mkdir(new_dir)
                     shutil.copy(filepath, os.path.join(new_dir, "strings.xml"))
                 elif filename == ".DS_Store":
@@ -169,7 +173,7 @@ if __name__ == "__main__":
     parser = OptionParser(usage=usage)
     parser.add_option('-d', '--dir', action="store", help="Target input directory", default=".")
     parser.add_option('-o', '--out', action="store", help="Target out directory", default="out")
-    
+
     (options, args) = parser.parse_args()
 
     move_files(options.dir, options.out)

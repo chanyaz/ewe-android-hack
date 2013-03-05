@@ -22,8 +22,15 @@ for i in $path/values*/strings.xml ; do
     gsed -i "$fix_comment" $i
     gsed -i "$fix_string" $i
     gsed -i "$fix_item" $i
+
+    # Fix tab indentation
     gsed -i "s/^\t/    /" $i
+
+    # Fix too many backslash escapes
     gsed -i 's/\\\\/\\/g' $i
+
+    # Fix bad elipsis
+    gsed -i 's/\([^\.]\)\.\.\.\([^\.]\)/\1…\2/g' $i
 done
 
 # TESTING
