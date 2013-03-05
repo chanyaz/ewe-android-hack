@@ -178,14 +178,26 @@ public class ParserUtils {
 			throws JSONException {
 
 		ServerError serverError = new ServerError(apiMethod);
-		serverError.setCode(error.getString("errorCode"));
+		final String code = error.getString("errorCode");
+		if ("400".equals(code)) {
+			serverError.setCode("INVALID_INPUT");
+		}
+		else {
+			serverError.setCode(code);
+		}
 		serverError.setDiagnosticFullText(error.optString("diagnosticFullText"));
 
-		JSONObject info = error.getJSONObject("errorInfo");
-		serverError.setMessage(info.optString("summary", null));
-		serverError.addExtra("field", info.optString("field", null));
-		serverError.addExtra("itineraryBooked", info.optString("itineraryBooked", null));
-		serverError.addExtra("emailSent", info.optString("emailSent", null));
+		if (error.has("errorInfo")) {
+			JSONObject info = error.getJSONObject("errorInfo");
+			serverError.setMessage(info.optString("summary", null));
+			serverError.addExtra("field", info.optString("field", null));
+			serverError.addExtra("itineraryBooked", info.optString("itineraryBooked", null));
+			serverError.addExtra("emailSent", info.optString("emailSent", null));
+		}
+
+		if (error.has("message")) {
+			serverError.setMessage(error.getString("message"));
+		}
 
 		return serverError;
 	}
