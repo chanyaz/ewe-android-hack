@@ -93,7 +93,6 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripDetailsResponse;
 import com.expedia.bookings.data.trips.TripResponse;
-import com.expedia.bookings.utils.StrUtils;
 import com.facebook.Session;
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
@@ -806,7 +805,7 @@ public class ExpediaServices implements DownloadListener {
 			profileTypes.add("FLIGHT");
 		}
 
-		query.add(new BasicNameValuePair("profileTypes", StrUtils.join(profileTypes, ",")));
+		query.add(new BasicNameValuePair("profileTypes", TextUtils.join(",", profileTypes)));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
