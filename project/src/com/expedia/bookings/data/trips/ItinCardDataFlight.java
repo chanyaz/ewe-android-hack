@@ -20,6 +20,8 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 		super(parent);
 
 		mLegNumber = leg;
+
+		setId(parent.getUniqueId() + ":" + mLegNumber);
 	}
 
 	public int getLegNumber() {

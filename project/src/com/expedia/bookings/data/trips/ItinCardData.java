@@ -10,8 +10,21 @@ public class ItinCardData {
 
 	private TripComponent mTripComponent;
 
+	// Non-persistant but unique ID across rotations etc.
+	private String mId;
+
 	public ItinCardData(TripComponent tripComponent) {
 		mTripComponent = tripComponent;
+
+		mId = tripComponent.getUniqueId();
+	}
+
+	public void setId(String id) {
+		mId = id;
+	}
+
+	public String getId() {
+		return mId;
 	}
 
 	public TripComponent getTripComponent() {
