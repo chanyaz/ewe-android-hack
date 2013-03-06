@@ -20,6 +20,7 @@ import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;
@@ -186,7 +187,13 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			childEvent.recycle();
 		}
 
-		return super.onTouchEvent(event);
+		try {
+			return super.onTouchEvent(event);
+		}
+		catch (ArrayIndexOutOfBoundsException ex) {
+			Log.e("ArrayIndexOutOfBoundsException in ItinListView.onTouchEvent()", ex);
+		}
+		return false;
 	}
 
 	@Override
