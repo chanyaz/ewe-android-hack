@@ -81,23 +81,23 @@ public class FallbackItinContentGenerator extends ItinContentGenerator<ItinCardD
 		int resId = 0;
 		switch (this.getItinCardData().getType()) {
 		case FLIGHT:
-			resId = R.string.Flight_TEMPLATE;
+			resId = R.string.Flight;
 			break;
 		case HOTEL:
-			resId = R.string.Hotel_TEMPLATE;
+			resId = R.string.Hotel;
 			break;
 		case CAR:
-			resId = R.string.Car_TEMPLATE;
+			resId = R.string.Car;
 			break;
 		case CRUISE:
-			resId = R.string.Cruise_TEMPLATE;
+			resId = R.string.Cruise;
 			break;
 		default:
-			resId = R.string.Activity_TEMPLATE;
+			resId = R.string.Activity;
 			break;
 		}
 
-		return getContext().getString(resId, getItinCardData().getRelativeDetailsStartDate(getContext()));
+		return getContext().getString(resId);
 	}
 
 	@Override

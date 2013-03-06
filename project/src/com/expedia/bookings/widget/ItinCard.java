@@ -183,7 +183,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		}
 
 		// Header text
-		mHeaderTextView.setText(mItinContentGenerator.getHeaderText());
+		mHeaderTextView.setText(mItinContentGenerator.getHeaderTextWithDate());
 
 		// Summary text
 		View summaryView = mItinContentGenerator.getSummaryView(mSummaryLayout);

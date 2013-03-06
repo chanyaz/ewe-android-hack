@@ -1,11 +1,13 @@
 package com.expedia.bookings.widget.itin;
 
 import java.util.List;
+import java.util.Locale;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.text.Html;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -124,6 +126,10 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Override-able methods with default implementations
+
+	public String getHeaderTextWithDate() {
+		return getContext().getString(R.string.Title_Date_TEMPLATE, getHeaderText(), getRelativeStartDate());
+	}
 
 	public boolean hasDetails() {
 		return true;
@@ -337,4 +343,31 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		v.setLayoutParams(lp);
 		return v;
 	}
+
+	/**
+	 * Returns a descriptive CharSequence of the start date relative to today.
+	 * (Examples: "Today" or "Tomorrow" or "May 15" or "10/25/2022")
+	 * @param context
+	 * @return
+	 */
+	public CharSequence getRelativeStartDate() {
+		long time = this.getItinCardData().getStartDate().getMillisFromEpoch();
+		long now = System.currentTimeMillis();
+		long duration = Math.abs(now - time);
+
+		CharSequence ret;
+		if (DateUtils.isToday(time)) {
+			ret = this.getContext().getText(R.string.today);
+		}
+		else if (duration < DateUtils.WEEK_IN_MILLIS) {
+			ret = DateUtils.getRelativeTimeSpanString(time, now, DateUtils.DAY_IN_MILLIS, 0);
+		}
+		else {
+			ret = DateUtils.getRelativeTimeSpanString(this.getContext(), time, false);
+		}
+
+		ret = ret.subSequence(0, 1).toString().toUpperCase(Locale.getDefault()) + ret.subSequence(1, ret.length());
+		return ret;
+	}
+
 }
