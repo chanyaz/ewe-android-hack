@@ -182,11 +182,16 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	}
 
 	public boolean inListMode() {
-		return mItinListView.getMode() == ItinListView.MODE_LIST;
+		if (mItinListView != null) {
+			return mItinListView.getMode() == ItinListView.MODE_LIST;
+		}
+		return true;//We start out in list mode
 	}
 
 	public void setListMode() {
-		mItinListView.setMode(ItinListView.MODE_LIST);
+		if (mItinListView != null) {
+			mItinListView.setMode(ItinListView.MODE_LIST);
+		}
 	}
 
 	public void enableLoadItins() {
