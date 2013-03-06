@@ -12,6 +12,7 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
@@ -372,7 +373,7 @@ public class Trip implements JSONable, Comparable<Trip> {
 				return -1;
 			}
 
-			return mTripId.compareTo(another.mTripId);
+			return StrUtils.compareTo(mTripId, another.mTripId);
 		}
 
 		if (!TextUtils.equals(mTripNumber, another.mTripNumber)) {
@@ -380,7 +381,7 @@ public class Trip implements JSONable, Comparable<Trip> {
 				return -1;
 			}
 
-			return mTripNumber.compareTo(another.mTripNumber);
+			return StrUtils.compareTo(mTripNumber, another.mTripNumber);
 		}
 
 		return 0;
