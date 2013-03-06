@@ -36,10 +36,10 @@
 
         <ImageView
             android:id="@+id/departure_arrival_arrow"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/slide_hint" />
+            android:src="@drawable/ic_depart_arrive_arrow" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/arrival_time"
