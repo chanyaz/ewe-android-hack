@@ -43,6 +43,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	private static final String STATE_DO_AUTOSCROLL = "STATE_DO_AUTOSCROLL";
 	private static final String STATE_DEFAULT_SAVESTATE = "STATE_DEFAULT_SAVESTATE";
+	private static final String STATE_LAST_ITEM_COUNT = "STATE_LAST_ITEM_COUNT";
 
 	public static final int SCROLL_HEADER_HIDDEN = -9999;
 
@@ -71,6 +72,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	private int mExpandedCardHeight;
 	private int mExpandedCardOriginalHeight;
+	private int mLastItemCount = 0;
 
 	private Semaphore mModeSwitchSemaphore = new Semaphore(1);
 
@@ -106,6 +108,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		Bundle bundle = new Bundle();
 		bundle.putParcelable(STATE_DEFAULT_SAVESTATE, super.onSaveInstanceState());
 		bundle.putBoolean(STATE_DO_AUTOSCROLL, mScrollToReleventOnDataSetChange);
+		bundle.putInt(STATE_LAST_ITEM_COUNT, mLastItemCount);
 		return bundle;
 	}
 
@@ -114,6 +117,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		if (state instanceof Bundle && ((Bundle) state).containsKey(STATE_DEFAULT_SAVESTATE)) {
 			super.onRestoreInstanceState(((Bundle) state).getParcelable(STATE_DEFAULT_SAVESTATE));
 			mScrollToReleventOnDataSetChange = ((Bundle) state).getBoolean(STATE_DO_AUTOSCROLL, true);
+			mLastItemCount = ((Bundle) state).getInt(STATE_LAST_ITEM_COUNT, 0);
 		}
 		else {
 			super.onRestoreInstanceState(state);
@@ -229,7 +233,8 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	}
 
 	/**
-	 * Calling this function will cause the list to be scrolled to the most relevant position the next time the data set changes (and has > 0 items)
+	 * Calling this function will cause the list to be scrolled to the most relevant position the next time the data set changes
+	 * if the previous data set contained 0 items. So when we first load up itins, scroll to our good position, otherwise dont
 	 */
 	public void enableScrollToRevelentWhenDataSetChanged() {
 		mScrollToReleventOnDataSetChange = true;
@@ -543,10 +548,13 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	private DataSetObserver mDataSetObserver = new DataSetObserver() {
 		@Override
 		public void onChanged() {
-			if (mScrollToReleventOnDataSetChange) {
+			if (mScrollToReleventOnDataSetChange && mLastItemCount <= 0) {
 				if (scrollToMostRelevantCard() >= 0) {
 					mScrollToReleventOnDataSetChange = false;
 				}
+			}
+			if (mAdapter != null) {
+				mLastItemCount = mAdapter.getCount();
 			}
 		}
 	};
