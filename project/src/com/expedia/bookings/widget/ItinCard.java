@@ -17,19 +17,8 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.trips.ItinCardData;
-import com.expedia.bookings.data.trips.ItinCardDataActivity;
-import com.expedia.bookings.data.trips.ItinCardDataCar;
-import com.expedia.bookings.data.trips.ItinCardDataFallback;
-import com.expedia.bookings.data.trips.ItinCardDataFlight;
-import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.widget.itin.ActivityItinContentGenerator;
-import com.expedia.bookings.widget.itin.CarItinContentGenerator;
-import com.expedia.bookings.widget.itin.CruiseItinContentGenerator;
-import com.expedia.bookings.widget.itin.FallbackItinContentGenerator;
-import com.expedia.bookings.widget.itin.FlightItinContentGenerator;
-import com.expedia.bookings.widget.itin.HotelItinContentGenerator;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.expedia.bookings.widget.itin.SummaryButton;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
@@ -172,27 +161,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	}
 
 	public void bind(final T itinCardData) {
-		// Create the correct generator based on the data
-		switch (itinCardData.getTripComponentType()) {
-		case ACTIVITY:
-			mItinContentGenerator = new ActivityItinContentGenerator(getContext(), (ItinCardDataActivity) itinCardData);
-			break;
-		case CAR:
-			mItinContentGenerator = new CarItinContentGenerator(getContext(), (ItinCardDataCar) itinCardData);
-			break;
-		case CRUISE:
-			mItinContentGenerator = new CruiseItinContentGenerator(getContext(), itinCardData);
-			break;
-		case FALLBACK:
-			mItinContentGenerator = new FallbackItinContentGenerator(getContext(), (ItinCardDataFallback) itinCardData);
-			break;
-		case FLIGHT:
-			mItinContentGenerator = new FlightItinContentGenerator(getContext(), (ItinCardDataFlight) itinCardData);
-			break;
-		case HOTEL:
-			mItinContentGenerator = new HotelItinContentGenerator(getContext(), (ItinCardDataHotel) itinCardData);
-			break;
-		}
+		mItinContentGenerator = ItinContentGenerator.createGenerator(getContext(), itinCardData);
 
 		// Title
 		View titleView = mItinContentGenerator.getTitleView(mTitleContentLayout);
@@ -474,7 +443,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		int expandedTypeImageY = headerImageHeight / 2;
 		int miniTypeImageY = (int) (headerImageHeight * 0.4f);
 		int typeImageY = mShowSummary ? expandedTypeImageY : miniTypeImageY;
-		int translateOffset = -(int)(8 * getResources().getDisplayMetrics().density);
+		int translateOffset = -(int) (8 * getResources().getDisplayMetrics().density);
 
 		float percent = 0;
 		float percentIcon = 0;

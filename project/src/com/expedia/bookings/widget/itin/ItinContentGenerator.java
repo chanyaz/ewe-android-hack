@@ -10,13 +10,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.RelativeLayout.LayoutParams;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.trips.Insurance;
+import com.expedia.bookings.data.trips.ItinCardDataActivity;
+import com.expedia.bookings.data.trips.ItinCardDataCar;
+import com.expedia.bookings.data.trips.ItinCardDataFallback;
+import com.expedia.bookings.data.trips.ItinCardDataFlight;
+import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.Insurance.InsuranceLineOfBusiness;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
@@ -51,6 +56,31 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	protected LayoutInflater getLayoutInflater() {
 		return (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	}
+
+	// Convenience method
+	public static ItinContentGenerator<? extends ItinCardData> createGenerator(Context context,
+			ItinCardData itinCardData) {
+		if (itinCardData instanceof ItinCardDataHotel) {
+			return new HotelItinContentGenerator(context, (ItinCardDataHotel) itinCardData);
+		}
+		else if (itinCardData instanceof ItinCardDataFlight) {
+			return new FlightItinContentGenerator(context, (ItinCardDataFlight) itinCardData);
+		}
+		else if (itinCardData instanceof ItinCardDataActivity) {
+			return new ActivityItinContentGenerator(context, (ItinCardDataActivity) itinCardData);
+		}
+		else if (itinCardData instanceof ItinCardDataCar) {
+			return new CarItinContentGenerator(context, (ItinCardDataCar) itinCardData);
+		}
+		else if (itinCardData instanceof ItinCardDataFallback) {
+			return new FallbackItinContentGenerator(context, (ItinCardDataFallback) itinCardData);
+		}
+		else if (itinCardData != null && itinCardData.getTripComponentType() == Type.CRUISE) {
+			return new CruiseItinContentGenerator(context, itinCardData);
+		}
+
+		return null;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
