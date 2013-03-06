@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -34,6 +35,7 @@ import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.data.trips.TripCruise;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.data.trips.TripHotel;
+import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.data.Waypoint;
@@ -475,6 +477,16 @@ public class TripParser {
 
 	private void parseTripCommon(JSONObject obj, TripComponent component) {
 		component.setBookingStatus(parseBookingStatus(obj.optString("bookingStatus")));
+
+		// If it doesn't have a unique id (for whatever dumb reason), generate our own (so we at least
+		// can key off of it)
+		String uniqueId = obj.optString("uniqueID", null);
+		if (TextUtils.isEmpty(uniqueId)) {
+			Log.w("No unique ID on trip component: " + obj.toString());
+			uniqueId = UUID.randomUUID().toString();
+		}
+
+		component.setUniqueId(uniqueId);
 	}
 
 	private Car.Category parseCarCategory(String category) {

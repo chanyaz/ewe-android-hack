@@ -23,6 +23,8 @@ public class TripComponent implements JSONable {
 
 	private Type mType;
 
+	private String mUniqueId;
+
 	private DateTime mStartDate;
 	private DateTime mEndDate;
 
@@ -42,6 +44,14 @@ public class TripComponent implements JSONable {
 
 	public Type getType() {
 		return mType;
+	}
+
+	public void setUniqueId(String uniqueId) {
+		mUniqueId = uniqueId;
+	}
+
+	public String getUniqueId() {
+		return mUniqueId;
 	}
 
 	public DateTime getStartDate() {
@@ -86,6 +96,8 @@ public class TripComponent implements JSONable {
 
 			JSONUtils.putEnum(obj, "type", mType);
 
+			obj.putOpt("uniqueId", mUniqueId);
+
 			JSONUtils.putJSONable(obj, "startDate", mStartDate);
 			JSONUtils.putJSONable(obj, "endDate", mEndDate);
 
@@ -101,6 +113,8 @@ public class TripComponent implements JSONable {
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		mType = JSONUtils.getEnum(obj, "type", Type.class);
+
+		mUniqueId = obj.optString("uniqueId", null);
 
 		mStartDate = JSONUtils.getJSONable(obj, "startDate", DateTime.class);
 		mEndDate = JSONUtils.getJSONable(obj, "endDate", DateTime.class);
