@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -133,7 +134,11 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	// Override-able methods with default implementations
 
 	public String getHeaderTextWithDate() {
-		return getContext().getString(R.string.Title_Date_TEMPLATE, getHeaderText(), getRelativeStartDate());
+		CharSequence relativeStartDate = getRelativeStartDate();
+		if (relativeStartDate == null) {
+			return getHeaderText();
+		}
+		return getContext().getString(R.string.Title_Date_TEMPLATE, getHeaderText(), relativeStartDate);
 	}
 
 	public boolean hasDetails() {
@@ -371,27 +376,60 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	/**
 	 * Returns a descriptive CharSequence of the start date relative to today.
 	 * (Examples: "Today" or "Tomorrow" or "May 15" or "10/25/2022")
+	 * Rules defined here: https://mingle.karmalab.net/projects/eb_ad_app/cards/234
 	 * @param context
 	 * @return
 	 */
-	public CharSequence getRelativeStartDate() {
+	private CharSequence getRelativeStartDate() {
 		long time = this.getItinCardData().getStartDate().getMillisFromEpoch();
 		long now = System.currentTimeMillis();
 		long duration = Math.abs(now - time);
 
-		CharSequence ret;
-		if (DateUtils.isToday(time)) {
-			ret = this.getContext().getText(R.string.today);
+		CharSequence ret = null;
+		if (time < now) {
 		}
-		else if (duration < DateUtils.WEEK_IN_MILLIS) {
+		else if (duration <= DateUtils.HOUR_IN_MILLIS) {
+			// We want "XX Minutes"
+			ret = DateUtils.getRelativeTimeSpanString(time, now, DateUtils.MINUTE_IN_MILLIS, 0);
+		}
+		else if (duration <= DateUtils.DAY_IN_MILLIS) {
+			// We want "XX Hours"
+			ret = DateUtils.getRelativeTimeSpanString(time, now, DateUtils.HOUR_IN_MILLIS, 0);
+		}
+		else if (getNumberOfDaysPassed(time, now) <= 3) {
+			// We want "XX Days"
 			ret = DateUtils.getRelativeTimeSpanString(time, now, DateUtils.DAY_IN_MILLIS, 0);
 		}
 		else {
+			// We want "MMMM DD"
 			ret = DateUtils.getRelativeTimeSpanString(this.getContext(), time, false);
 		}
 
-		ret = ret.subSequence(0, 1).toString().toUpperCase(Locale.getDefault()) + ret.subSequence(1, ret.length());
+		// Capitalize the first letter
+		if (ret != null) {
+			ret = ret.subSequence(0, 1).toString().toUpperCase(Locale.getDefault()) + ret.subSequence(1, ret.length());
+		}
+
 		return ret;
 	}
 
+	/**
+	  * Returns the number of days passed between two dates. From DateUtils.java
+	  *
+	  * @param date1 first date
+	  * @param date2 second date
+	  * @return number of days passed between to (SIC) dates
+	  */
+	private synchronized static long getNumberOfDaysPassed(long date1, long date2) {
+		if (sThenTime == null) {
+			sThenTime = new Time();
+		}
+		sThenTime.set(date1);
+		int day1 = Time.getJulianDay(date1, sThenTime.gmtoff);
+		sThenTime.set(date2);
+		int day2 = Time.getJulianDay(date2, sThenTime.gmtoff);
+		return Math.abs(day2 - day1);
+	}
+
+	private static Time sThenTime;
 }

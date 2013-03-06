@@ -76,8 +76,6 @@
     <string name="itinerary_fetch_error">Error fetching itinerary</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;Log in&lt;/b&gt; for your trips</string>
-    <!-- String for today as in "Hotel - Today" -->
-    <string name="today">today</string>
     <!-- Template for card header text (will be filled in with "Title - Date")-->
     <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
