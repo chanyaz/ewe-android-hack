@@ -213,7 +213,6 @@ public class Trip implements JSONable, Comparable<Trip> {
 		// once the API is fully fleshed otu.
 
 		mTripId = other.mTripId;
-		mTripNumber = other.mTripNumber;
 
 		mTitle = other.mTitle;
 		mDescription = other.mDescription;
