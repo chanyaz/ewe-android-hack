@@ -1,10 +1,12 @@
 package com.expedia.bookings.data.trips;
 
+import java.util.Calendar;
 import java.util.Locale;
 
 import android.content.Context;
 import android.text.format.DateUtils;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 
 public class ItinCardDataFallback extends ItinCardData {
@@ -32,7 +34,10 @@ public class ItinCardDataFallback extends ItinCardData {
 		long duration = Math.abs(now - time);
 
 		CharSequence ret;
-		if (duration < DateUtils.WEEK_IN_MILLIS) {
+		if (DateUtils.isToday(time)) {
+			ret = context.getText(R.string.today);
+		}
+		else if (duration < DateUtils.WEEK_IN_MILLIS) {
 			ret = DateUtils.getRelativeTimeSpanString(time, now, DateUtils.DAY_IN_MILLIS, 0);
 		}
 		else {
