@@ -50,6 +50,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	public static final String DIALOG_SHARE = "DIALOG_SHARE";
 
 	private static final String STATE_ERROR_MESSAGE = "STATE_ERROR_MESSAGE";
+	private static final String STATE_ALLOW_LOAD_ITINS = "STATE_ALLOW_LOAD_ITINS";
 
 	private View mItinPathView;
 	private ItinListView mItinListView;
@@ -79,6 +80,10 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 		mItinManager = ItineraryManager.getInstance();
 		mItinManager.addSyncListener(this);
+
+		if (activity instanceof ItinItemListFragmentListener) {
+			((ItinItemListFragmentListener) activity).onItinItemListFragmentAttached(this);
+		}
 	}
 
 	@Override
@@ -139,6 +144,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 			if (savedInstanceState.containsKey(STATE_ERROR_MESSAGE)) {
 				setErrorMessage(savedInstanceState.getString(STATE_ERROR_MESSAGE), true);
 			}
+			mAllowLoadItins = savedInstanceState.getBoolean(STATE_ALLOW_LOAD_ITINS);
 		}
 
 		return view;
@@ -157,7 +163,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		if (mShowError && mErrorMessage != null) {
 			outState.putString(STATE_ERROR_MESSAGE, mErrorMessage);
 		}
-
+		outState.putBoolean(STATE_ALLOW_LOAD_ITINS, mAllowLoadItins);
 	}
 
 	@Override
@@ -169,7 +175,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	}
 
 	public void syncItinManager() {
-		if (mAllowLoadItins && mItinManager != null) {
+		if (mAllowLoadItins && mItinListView != null && mItinManager != null) {
 			mItinManager.startSync();
 			setIsLoading(true);
 			mItinListView.enableScrollToRevelentWhenDataSetChanged();
@@ -410,5 +416,16 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 				OmnitureTracking.trackItinEmpty(context);
 			}
 		}
+	}
+
+	//////////////////////////////////////////
+	// INTERFACES
+
+	/**
+	 * If we attach to an activity that implements this we will notify that activity we are attached.
+	 * This is useful for getting references to fragments that are in viewpagers
+	 */
+	public interface ItinItemListFragmentListener {
+		public void onItinItemListFragmentAttached(ItinItemListFragment frag);
 	}
 }

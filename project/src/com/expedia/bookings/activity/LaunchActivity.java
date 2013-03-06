@@ -2,7 +2,6 @@ package com.expedia.bookings.activity;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -30,7 +29,9 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.dialog.GooglePlayServicesDialog;
 import com.expedia.bookings.fragment.ItinItemListFragment;
+import com.expedia.bookings.fragment.ItinItemListFragment.ItinItemListFragmentListener;
 import com.expedia.bookings.fragment.LaunchFragment;
+import com.expedia.bookings.fragment.LaunchFragment.LaunchFragmentListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
@@ -42,7 +43,8 @@ import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 
-public class LaunchActivity extends SherlockFragmentActivity implements OnListModeChangedListener {
+public class LaunchActivity extends SherlockFragmentActivity implements OnListModeChangedListener,
+		ItinItemListFragmentListener, LaunchFragmentListener {
 
 	private static final int REQUEST_SETTINGS = 1;
 
@@ -68,22 +70,8 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 		setContentView(R.layout.activity_launch);
 		getWindow().setBackgroundDrawable(null);
 
-		// Get/create fragments
-		mLaunchFragment = Ui.findSupportFragment(this, LaunchFragment.TAG);
-		if (mLaunchFragment == null) {
-			mLaunchFragment = LaunchFragment.newInstance();
-		}
-		mItinListFragment = Ui.findSupportFragment(this, ItinItemListFragment.TAG);
-		if (mItinListFragment == null) {
-			mItinListFragment = ItinItemListFragment.newInstance();
-		}
-
 		// View Pager
-		List<Fragment> frags = new ArrayList<Fragment>();
-		frags.add(mLaunchFragment);
-		frags.add(mItinListFragment);
-		mPagerAdapter = new PagerAdapter(getSupportFragmentManager(), frags);
-
+		mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
 		mViewPager = Ui.findView(this, R.id.viewpager);
 		mViewPager.setAdapter(mPagerAdapter);
 		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
@@ -184,7 +172,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	@Override
 	public void onBackPressed() {
 		if (mViewPager.getCurrentItem() == PAGER_POS_ITIN) {
-			if (!mItinListFragment.inListMode()) {
+			if (mItinListFragment != null && !mItinListFragment.inListMode()) {
 				mItinListFragment.setListMode();
 				return;
 			}
@@ -207,7 +195,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		if (requestCode == REQUEST_SETTINGS && resultCode != RESULT_CANCELED) {
+		if (mLaunchFragment != null && requestCode == REQUEST_SETTINGS && resultCode != RESULT_CANCELED) {
 			mLaunchFragment.reset();
 
 			Db.clearHotelSearch();
@@ -314,7 +302,9 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 		case R.id.settings: {
 			Intent intent = new Intent(this, ExpediaBookingPreferenceActivity.class);
 			startActivityForResult(intent, REQUEST_SETTINGS);
-			mLaunchFragment.cleanUp();
+			if (mLaunchFragment != null) {
+				mLaunchFragment.cleanUp();
+			}
 			return true;
 		}
 		case R.id.about: {
@@ -390,21 +380,32 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	}
 
 	public class PagerAdapter extends FragmentPagerAdapter {
-		private List<Fragment> mFragments;
 
-		public PagerAdapter(FragmentManager fm, List<Fragment> fragments) {
+		public PagerAdapter(FragmentManager fm) {
 			super(fm);
-			mFragments = fragments;
 		}
 
 		@Override
 		public Fragment getItem(int position) {
-			return mFragments.get(position);
+			Fragment frag;
+
+			switch (position) {
+			case PAGER_POS_ITIN:
+				frag = ItinItemListFragment.newInstance();
+				break;
+			case PAGER_POS_WATERFALL:
+				frag = LaunchFragment.newInstance();
+				break;
+			default:
+				throw new RuntimeException("Position out of bounds position=" + position);
+			}
+
+			return frag;
 		}
 
 		@Override
 		public int getCount() {
-			return mFragments.size();
+			return 2;
 		}
 	}
 
@@ -449,5 +450,19 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 		else {
 			mViewPager.setPageSwipingEnabled(true);
 		}
+	}
+
+	@Override
+	public void onLaunchFragmentAttached(LaunchFragment frag) {
+		mLaunchFragment = frag;
+	}
+
+	@Override
+	public void onItinItemListFragmentAttached(ItinItemListFragment frag) {
+		mItinListFragment = frag;
+		if (mPagerPosition == PAGER_POS_ITIN) {
+			mItinListFragment.enableLoadItins();
+		}
+
 	}
 }

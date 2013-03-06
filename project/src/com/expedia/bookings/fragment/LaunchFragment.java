@@ -8,6 +8,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Random;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -116,6 +117,15 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 	public static LaunchFragment newInstance() {
 		return new LaunchFragment();
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		if (activity instanceof LaunchFragmentListener) {
+			((LaunchFragmentListener) activity).onLaunchFragmentAttached(this);
+		}
 	}
 
 	@Override
@@ -425,7 +435,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		"SEA",
 		"SFO",
 		"LON",
-		"PAR", 
+		"PAR",
 		"LAS",
 		"NYC",
 		"YYZ",
@@ -939,4 +949,16 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			cleanUp();
 		}
 	};
+
+	//////////////////////////////////////////
+	// INTERFACES
+
+	/**
+	 * If we attach to an activity that implements this we will notify that activity we are attached.
+	 * This is useful for getting references to fragments that are in viewpagers
+	 */
+	public interface LaunchFragmentListener {
+		public void onLaunchFragmentAttached(LaunchFragment frag);
+	}
+
 }
