@@ -47,6 +47,9 @@ import com.mobiata.flightlib.data.Waypoint;
  *
  */
 public class TripParser {
+
+	private LevelOfDetail mLevelOfDetail;
+
 	public Trip parseTrip(JSONObject tripJson) {
 		Trip trip = new Trip();
 		String levelOfDetail = tripJson.optString("levelOfDetail", null);
@@ -59,6 +62,8 @@ public class TripParser {
 		else {
 			trip.setLevelOfDetail(LevelOfDetail.SUMMARY);
 		}
+
+		mLevelOfDetail = trip.getLevelOfDetail();
 
 		trip.setTripId(tripJson.optString("tripId"));
 		trip.setTripNumber(tripJson.optString("tripNumber"));
@@ -482,7 +487,10 @@ public class TripParser {
 		// can key off of it)
 		String uniqueId = obj.optString("uniqueID", null);
 		if (TextUtils.isEmpty(uniqueId)) {
-			Log.w("No unique ID on trip component: " + obj.toString());
+			if (mLevelOfDetail == LevelOfDetail.FULL) {
+				// Only log if we were expecting an id
+				Log.w("No unique ID on trip component: " + obj.toString());
+			}
 			uniqueId = UUID.randomUUID().toString();
 		}
 
