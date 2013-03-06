@@ -12,7 +12,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -35,12 +34,15 @@ import com.expedia.bookings.fragment.LaunchFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.DisableableViewPager;
+import com.expedia.bookings.widget.ItinListView;
+import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 
-public class LaunchActivity extends SherlockFragmentActivity {
+public class LaunchActivity extends SherlockFragmentActivity implements OnListModeChangedListener {
 
 	private static final int REQUEST_SETTINGS = 1;
 
@@ -51,7 +53,7 @@ public class LaunchActivity extends SherlockFragmentActivity {
 	private ItinItemListFragment mItinListFragment;
 
 	private PagerAdapter mPagerAdapter;
-	private ViewPager mViewPager;
+	private DisableableViewPager mViewPager;
 	private int mPagerPosition = PAGER_POS_WATERFALL;
 	private boolean mHasMenu = false;
 
@@ -435,4 +437,17 @@ public class LaunchActivity extends SherlockFragmentActivity {
 		public void onTabReselected(Tab tab, FragmentTransaction ft) {
 		}
 	};
+
+	@Override
+	public void onListModeChanged(int mode) {
+		if (mode == ItinListView.MODE_LIST) {
+			mViewPager.setPageSwipingEnabled(true);
+		}
+		else if (mode == ItinListView.MODE_DETAIL) {
+			mViewPager.setPageSwipingEnabled(false);
+		}
+		else {
+			mViewPager.setPageSwipingEnabled(true);
+		}
+	}
 }

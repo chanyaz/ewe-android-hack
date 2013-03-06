@@ -308,8 +308,16 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 			if (mode == ItinListView.MODE_LIST) {
 				getSupportActionBar().show();
 				ObjectAnimator.ofFloat(mItinPathView, "alpha", 1f).setDuration(200).start();
+				Activity activity = getActivity();
+				if (activity != null && activity instanceof OnListModeChangedListener) {
+					((OnListModeChangedListener) activity).onListModeChanged(mode);
+				}
 			}
 			else if (mode == ItinListView.MODE_DETAIL) {
+				Activity activity = getActivity();
+				if (activity != null && activity instanceof OnListModeChangedListener) {
+					((OnListModeChangedListener) activity).onListModeChanged(mode);
+				}
 				getSupportActionBar().hide();
 				ObjectAnimator.ofFloat(mItinPathView, "alpha", 0f).setDuration(200).start();
 			}
