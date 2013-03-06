@@ -542,7 +542,7 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 		percentIcon = mShowSummary ? percent : Math.min(0.75f, percent);
 
-		final int typeImageTranslationY = mHeaderImageView.getTop() + typeImageY - typeImageHalfHeight;
+		final int typeImageTranslationY = mCardLayout.getTop() - mHeaderImageView.getPaddingTop() + typeImageY - typeImageHalfHeight;
 		final int viewTranslationY = Math.max(0, (headerImageHeight - (int) (percent * (float) headerImageHeight)) / 2);
 
 		ViewHelper.setTranslationY(mItinTypeImageView, typeImageTranslationY);
