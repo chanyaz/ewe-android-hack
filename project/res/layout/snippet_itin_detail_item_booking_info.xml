@@ -33,24 +33,50 @@
         android:text="@string/itin_card_details_details"
         android:visibility="visible" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="#4D555D" />
+
+    <RelativeLayout
+        android:id="@+id/itin_details_deep_refresh_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/list_selector_holo_dark" >
+
+        <ImageView
+            android:id="@+id/itin_details_reload_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
             android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:background="#4D555D" />
+            android:layout_marginTop="8dp"
+            android:background="@drawable/ic_reload_details" />
+
+        <ProgressBar
+            android:id="@+id/itin_details_progress_bar"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="4dp"
+            android:indeterminate="true"
+            android:visibility="invisible" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/reload_text_view"
             style="@style/TextView.Itin.SectionText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:background="@drawable/list_selector_holo_dark"
-            android:drawableLeft="@drawable/ic_reload_details"
-            android:drawablePadding="8dp"
+            android:layout_toRightOf="@id/itin_details_reload_image_view"
             android:padding="8dp"
             android:text="@string/itin_card_details_reload" />
+    </RelativeLayout>
 
 </LinearLayout>

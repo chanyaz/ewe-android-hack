@@ -18,7 +18,9 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
@@ -42,6 +44,9 @@ import com.mobiata.flightlib.data.Flight;
 //
 // In addition, make sure to call startSync() before manipulating data.
 public class ItineraryManager implements JSONable {
+
+	public static final String TRIP_REFRESH_BROADCAST = "com.expedia.bookings.data.trips.DEEP_REFRESH";
+	public static final String TRIP_REFRESH_ARG_TRIP_ID = "tripId";
 
 	private static final ItineraryManager sManager = new ItineraryManager();
 
@@ -511,11 +516,14 @@ public class ItineraryManager implements JSONable {
 		}
 	}
 
-	public void deepRefreshTrip(Trip trip) {
+	private static final long DEEP_REFRESH_RATE_LIMIT = 1000 * 60 * 1;
+
+	public boolean deepRefreshTrip(Trip trip) {
 		trip = mTrips.get(trip.getTripNumber());
 
 		if (trip == null) {
 			Log.w("Tried to deep refresh a trip which doesn't exist.");
+			return false;
 		}
 		else {
 			mSyncOpQueue.add(new Task(Operation.DEEP_REFRESH_TRIP, trip));
@@ -525,7 +533,15 @@ public class ItineraryManager implements JSONable {
 				mSyncTask = new SyncTask();
 				mSyncTask.execute();
 			}
+			return true;
 		}
+	}
+
+	public static void broadcastTripRefresh(Context context, Trip trip) {
+		Log.d("ItineraryManager - Broacasting TRIP_REFRESH");
+		Intent intent = new Intent(TRIP_REFRESH_BROADCAST);
+		intent.putExtra(TRIP_REFRESH_ARG_TRIP_ID, trip.getTripId());
+		LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 	}
 
 	public boolean isSyncing() {
@@ -807,6 +823,12 @@ public class ItineraryManager implements JSONable {
 			// Only update if we are outside the cutoff
 			long now = Calendar.getInstance().getTimeInMillis();
 			if (now - UPDATE_TRIP_CACHED_CUTOFF > trip.getLastCachedUpdateMillis() || deepRefresh) {
+				// Limit the user to one deep refresh per DEEP_REFRESH_RATE_LIMIT. Use cache refresh if user attempts to
+				// deep refresh within the limit.
+				if (now - trip.getLastFullUpdateMillis() < DEEP_REFRESH_RATE_LIMIT) {
+					deepRefresh = false;
+				}
+
 				TripDetailsResponse response = mServices.getTripDetails(trip, !deepRefresh);
 
 				if (response == null || response.hasErrors()) {

@@ -12,6 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,14 +22,16 @@ import android.widget.Toast;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.trips.Insurance;
+import com.expedia.bookings.data.trips.Insurance.InsuranceLineOfBusiness;
+import com.expedia.bookings.data.trips.ItinCardData;
+import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
 import com.expedia.bookings.data.trips.ItinCardDataActivity;
 import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.ItinCardDataFallback;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
-import com.expedia.bookings.data.trips.Insurance.InsuranceLineOfBusiness;
-import com.expedia.bookings.data.trips.ItinCardData;
-import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
+import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClipboardUtils;
@@ -231,6 +236,25 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 				}
 
 			});
+
+			// Reload stuff
+			final ProgressBar progressBar = Ui.findView(item, R.id.itin_details_progress_bar);
+			final ImageView reloadImageView = Ui.findView(item, R.id.itin_details_reload_image_view);
+
+			RelativeLayout rl = Ui.findView(item, R.id.itin_details_deep_refresh_container);
+			rl.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Trip trip = getItinCardData().getTripComponent().getParentTrip();
+
+					if (ItineraryManager.getInstance().deepRefreshTrip(trip)) {
+						// Toggle ProgressBar, mimics GMail refresh behavior
+						progressBar.setVisibility(View.VISIBLE);
+						reloadImageView.setVisibility(View.INVISIBLE);
+					}
+				}
+			});
+
 			Log.d("ITIN: addBookingInfo to container");
 			container.addView(item);
 			return true;

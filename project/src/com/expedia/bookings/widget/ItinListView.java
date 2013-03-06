@@ -3,10 +3,15 @@ package com.expedia.bookings.widget;
 import java.util.concurrent.Semaphore;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,7 +22,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.expedia.bookings.animation.ResizeAnimator;
+import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
+import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 import com.mobiata.android.Log;
@@ -98,6 +105,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		setAdapter(mAdapter);
 		setOnItemClickListener(null);
 		setOnScrollListener(null);
+
+		IntentFilter filter = new IntentFilter(ItineraryManager.TRIP_REFRESH_BROADCAST);
+		LocalBroadcastManager.getInstance(context).registerReceiver(mTripRefreshReceiver, filter);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -128,6 +138,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	@Override
 	public void onDetachedFromWindow() {
 		super.onDetachedFromWindow();
+		LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(mTripRefreshReceiver);
 		unregisterDataSetObserver();
 		mAdapter.disableSelfManagement();
 	}
@@ -587,4 +598,25 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		}
 
 	};
+
+	private BroadcastReceiver mTripRefreshReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			String tripId = intent.getStringExtra(ItineraryManager.TRIP_REFRESH_ARG_TRIP_ID);
+
+			if (!TextUtils.isEmpty(tripId)) {
+				if (mDetailPosition != -1) {
+					ItinCardData data = mAdapter.getItem(mDetailPosition);
+					String expandedCardTripId = data.getTripComponent().getParentTrip().getTripId();
+					if (tripId.equals(expandedCardTripId)) {
+						Log.d("ItinListView - TRIP_REFRESH broadcast received, re-inflate expanded card details");
+						if (mDetailsCard != null) {
+							mDetailsCard.inflateDetailsView();
+						}
+					}
+				}
+			}
+		}
+	};
+
 }
