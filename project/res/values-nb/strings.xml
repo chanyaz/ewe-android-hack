@@ -58,6 +58,8 @@
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Reiserute</string>
+    <!--  Shop -->
+    <string name="shop">Søk</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Finn reiserute</string>
     <!-- Find Itinerary # -->
@@ -70,6 +72,8 @@
     <string name="or_enter_an_itinerary_number">Eller skriv inn et reiserutenummer</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Henter reiseruten din…</string>
+    <!-- Error fetching itinerary -->
+    <string name="itinerary_fetch_error">Feil ved henting av reiseruten</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;Logg inn&lt;/b&gt; for å se dine reiser</string>
     <!-- Depart (TZ) template -->
@@ -96,6 +100,8 @@
     <string name="no_arrival_terminal_gate_information">Ankomstterminal &amp; gate utilgjengelig</string>
     <!-- Itin flight layover departure terminal and gate information not avaialble message -->
     <string name="no_departure_terminal_gate_information">Avreiseterminal &amp; gate utilgjengelig</string>
+    <!-- To be determined abbrev.-->
+    <string name="to_be_determined_abbrev">Ikke fastsatt enda</string>
     <!-- Itin flight gate only template -->
     <string name="gate_number_only_TEMPLATE">Gate %1$s</string>
     <!-- Itin flight arrive gate only template -->
@@ -108,6 +114,10 @@
     <string name="arrive_terminal_but_no_gate_TEMPLATE">Ankomstterminal %1$s, gate utilgjengelig</string>
     <!-- Itin flight terminal only template -->
     <string name="depart_terminal_but_no_gate_TEMPLATE">Avgangsterminal %1$s, gate</string>
+    <!-- Itin flight summary second line for arrival waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight arrives/d -->
+    <string name="at_airport_TEMPLATE">&lt;b&gt;På %1$s&lt;/b&gt; - %2$s</string>
+    <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
+    <string name="from_airport_TEMPLATE">&lt;b&gt;Fra %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Hvis du logger ut av %1$s, vil du fjerne alle reiseruter forbundet med denne kontoen. Er du sikker på at du vil logge ut?</string>
     <!-- Booking code unavailable message -->
@@ -122,38 +132,64 @@
     <string name="terminal_maps">Kart over terminal</string>
     <!-- Legend -->
     <string name="legend">bildetekst</string>
+    <!-- Flight has been canceled -->
+    <string name="flight_canceled">Flyvning kansellert</string>
+    <!-- Flight has been canceled; parameter is the destination city for the canceled flight -->
+    <string name="flight_to_city_canceled_TEMPLATE">Fly til %1$s kansellert</string>
+    <!-- Flight has been redirected (location unknown) -->
+    <string name="flight_redirected">Flyvningen ble omdirigert</string>
+    <!-- Flight has been diverted (location unknown) -->
+    <string name="flight_diverted">Flyvningen ble omdirigert</string>
+    <!-- Flight has been diverted to {airport} template -->
+    <string name="flight_diverted_TEMPLATE">Flyvningen ble omdirigert til %1$s</string>
     <!-- Flight departs on {date} template -->
-    <string name="flight_departs_on_TEMPLATE">Flyet har avgang den %1$s</string>
-    <!-- Flight currently in progress -->
-    <string name="flight_in_progress">Flyet er i luften for øyeblikket.</string>
-    <!-- Flight landed on {date} template -->
-    <string name="flight_landed_on_TEMPLATE">Flyet har landet på %1$s</string>
-    <!-- Flight in progress -->
-    <string name="flight_in_progress">Flyet er i luften</string>
-    <!-- Depart in {# of hours}, {# of minutes} template -->
-    <string name="flight_departs_in_hours_minutes_TEMPLATE">Flyet tar av om %1$s,%2$s</string>
-    <!-- hours plural -->
-    <plurals name="hour_span">
-        <item quantity="zero">%1$s timer</item>
-        <item quantity="one">%1$s time</item>
-        <item quantity="two">%1$s timer</item>
-        <item quantity="few">%1$s timer</item>
-        <item quantity="many">%1$s timer</item>
-        <item quantity="other">%1$s timer</item>
-    </plurals>
-    <!-- minutes plural -->
-    <plurals name="minute_span">
-        <item quantity="zero">%1$s minutter</item>
-        <item quantity="one">%1$s minutt</item>
-        <item quantity="two">%1$s minutter</item>
-        <item quantity="few">%1$s minutter</item>
-        <item quantity="many">%1$s minutter</item>
-        <item quantity="other">%1$s minutter</item>
-    </plurals>
+    <string name="flight_departs_on_TEMPLATE">Avreise %1$s</string>
+    <!-- Departs early {duration from now} -->
+    <string name="flight_departs_early_TEMPLATE">Tidlig avreise %1$s</string>
+    <!-- Departs late {duration from now} -->
+    <string name="flight_departs_late_TEMPLATE">Sen avreise %1$s</string>
+    <!-- Departs on time {duration from now} -->
+    <string name="flight_departs_on_time_TEMPLATE">Avreise på tiden %1$s</string>
+    <!-- Departs {duration} early -->
+    <string name="flight_departs_x_early_TEMPLATE">Avreise %1$s for tidlig</string>
+    <!-- Departs {duration} late -->
+    <string name="flight_departs_x_late_TEMPLATE">Avreise %1$s for sent</string>
+    <!-- Flight departs on time -->
+    <string name="flight_departs_on_time">Avreise på tiden</string>
+    <!-- Arrives early {duration from now} -->
+    <string name="flight_arrives_early_TEMPLATE">Ankommer tidlig %1$s</string>
+    <!-- Arrives late {duration from now} -->
+    <string name="flight_arrives_late_TEMPLATE">Ankommer sent %1$s</string>
+    <!-- Arrives on time {duration from now} -->
+    <string name="flight_arrives_on_time_TEMPLATE">Ankommer på tiden %1$s</string>
+    <!-- Arrives {duration} early -->
+    <string name="flight_arrives_x_early_TEMPLATE">Ankommer %1$s for tidlig</string>
+    <!-- Arrives {duration} late -->
+    <string name="flight_arrives_x_late_TEMPLATE">Ankommer %1$s for sent</string>
+    <!-- Flight arrives on time -->
+    <string name="flight_arrives_on_time">Ankommer på tiden</string>
+    <!-- Arrived early {duration from now} -->
+    <string name="flight_arrived_early_at_TEMPLATE">Ankom tidlig %1$s</string>
+    <!-- Arrived late {duration from now} -->
+    <string name="flight_arrived_late_at_TEMPLATE">Ankom sent %1$s</string>
+    <!-- Arrived on time {duration from now} -->
+    <string name="flight_arrived_on_time_at_TEMPLATE">Ankom på tiden %1$s</string>
+    <!-- Arrived {duration} early -->
+    <string name="flight_arrived_x_early_TEMPLATE">Ankom %1$s for tidlig</string>
+    <!-- Arrived {duration} late -->
+    <string name="flight_arrived_x_late_TEMPLATE">Ankom %1$s for sent</string>
+    <!-- Flight arrived on time -->
+    <string name="flight_arrived_on_time">Ankom på tiden</string>
+    <!-- Flight arrived (fallback when we have very little information about arrival available) -->
+    <string name="flight_arrived">Ankom</string>
+    <!-- Refresh -->
+    <string name="refresh">Oppdater</string>
+    <!-- Try Again -->
+    <string name="try_again">Prøv igjen</string>
     <!-- Car types -->
-    <string name="car_type_two_door">Todørs</string>
-    <string name="car_type_three_door">Tredørs</string>
-    <string name="car_type_four_door">Firedørs</string>
+    <string name="car_type_two_door">Todørs Bil</string>
+    <string name="car_type_three_door">Tredørs Bil</string>
+    <string name="car_type_four_door">Firedørs Bil</string>
     <string name="car_type_van">Van</string>
     <string name="car_type_wagon">Stasjonsvogn</string>
     <string name="car_type_limousine">Limousine</string>
@@ -173,13 +209,14 @@
     <string name="car_type_two_wheel_vehicle">Tohjuls kjøretøy</string>
     <string name="car_type_roadster">Roadster</string>
     <string name="car_type_crossover">Crossover</string>
-   
+
     <!-- Itin card details -->
     <string name="itin_card_details_active">Aktiv</string>
     <string name="itin_card_details_expires">Utløper</string>
     <string name="itin_card_details_guests">Gjester</string>
     <string name="itin_card_details_booking_info">Bestillingsinfo</string>
-    <string name="itin_card_details_details">Kvittering og regler for fly</string>
+    <string name="itin_card_details_confirmation_code">Bekreftelseskode</string>
+    <string name="itin_card_details_details">Tilleggsinformasjon</string>
     <string name="itin_card_details_pick_up">Henting</string>
     <string name="itin_card_details_drop_off">Avlevering</string>
     <string name="itin_card_details_days">dager</string>
@@ -191,16 +228,58 @@
     <string name="itin_card_details_address">Adresse</string>
     <string name="itin_card_details_phone">Telefon</string>
     <string name="itin_card_details_room_type">Romtype</string>
-    
+    <string name="toast_copied_to_clipboard">Kopiert til utklippstavlen.</string>
+
     <!-- Action Buttons -->
     <string name="itin_action_directions">Veibeskrivelser</string>
     <string name="itin_action_call_hotel">Ring hotell</string>
     <string name="itin_action_redeem">Løs inn</string>
     <string name="itin_action_support">Støtte</string>
 
+    <!-- Itin Share templates -->
+    <!-- 1: hotel name 2: check in date 3: check out date -->
+    <string name="share_template_subject_hotel">Mitt hotellopphold i %1$s (%2$s – %3$s)</string>
+    <!-- 1: hotel name 2: check in date 3: check out date 4: hotel web url -->
+    <string name="share_template_short_hotel">Jeg bor på %1$s\n%2$s – %3$s\n\n%4$s</string>
+    <!-- 1: hotel Name 2: formatted length of stay 4: check in date 5: check out date 6: street address 7: city 8: state 9: postal code 10: phone 11: hotel web url 12: app download link -->
+    <string name="share_template_long_hotel">Hei,\n\n Jeg bor på %1$s i %2$s.\n\n<b>Innsjekking</b> %3$s\n<b>Utsjekking</b> %4$s\n\n%1$s\n%5$s\n%6$s, %7$s %8$s\n\n<b>Telefonnummer</b>\n%9$s\n\n<b>Mer informasjon</b>\n%10$s\n\nØnsker du å bestille hoteller og flyvninger samt å se og dele reiserutene dine? <a href="%11$s">Last ned</a> Expedias mobil-app i dag, helt gratis.</string>
+    <!-- 1: city 2: date string -->
+    <string name="share_template_subject_flight">Mitt fly til %1$s den %2$s</string>
+    <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
+    <string name="share_template_short_flight_sameday">Jeg er på flyvning %1$s til %2$s den %3$s.\nAvreise fra %4$s kl %5$s\nAnkomst ved %6$s kl %7$s, %8$s</string>
+     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
+    <string name="share_template_short_flight_multiday">Jeg er på flyvning %1$s til %2$s.\nAvreise fra %3$s kl %4$s\nAnkomst ved %5$s kl %6$s, %7$s</string>
+    <!-- 1: Origin city 2: Destination city 3: Flight Carrier and number 4: Departure date 5: Departure airport code 6: Departure Time 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival terminal gate 11: Traveler list -->
+    <string name="share_template_long_flight_sameday">Hei \n\nHer er informasjonen for flyvningen min fra %1$s til %2$s.\n\n%3$s - %4$s\n\nAvreise fra %5$s kl %6$s fra %7$s.\nAnkomst%8$s ved %9$s kl %10$s.\n\nReisende\n%11$s</string>
+    <!-- 1: Origin city 2: Desitination city 3: Flight carrier and number 4: Departure airport code 5: Departure time 6: Departure date 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival date 11: Arrival terminal gate 12: Traveler list -->
+    <string name="share_template_long_flight_multiday">Hei \n\nHer er informasjonen for flyvningen min fra %1$s til %2$s.\n\n%3$s\n\nAvreise fra %4$s kl %5$s den %6$s fra %7$s.\nAnkomst %8$s kl %9$s den %10$s ved %11$s\n\nReisende\n%12$s</string>
+    <!-- 1: pick up date 2: drop off date -->
+    <string name="share_template_subject_car">Min leiebil (%1$s – %2$s)</string>
+    <!-- 1: vehicle type 2: pick up date 3: drop off date 4: vendor name 5: full address -->
+    <string name="share_template_short_car">Jeg har leid en %1$s fra %2$s – %3$s\n%4$s\n%5$s</string>
+    <!-- 1: vendor name 2: vehicle type 3: pick up date 4: pick up time 5: drop off date 6: drop off time 7: full address 8: phone number 9: app download link -->
+    <string name="share_template_long_car">Hei \n\nHer informasjonen om %1$s leiebilen min. \n\n<b>Kjøretøy</b> %2$s\n<b>Henting</b> %3$s kl <b>%4$s</b>\n<b>Avlevering</b> %5$s kl <b>%6$s</b>\n\n<b>Sted</b>\n%1$s\n%7$s\n%8$s\n\nØnsker du å bestille hoteller og flyvninger samt å se og dele reiserutene dine? <a href="%9$s">Last ned</a> Expedias mobil-app i dag, helt gratis.</string>
+    <!-- 1: activity title -->
+    <string name="share_template_subject_activity">Mine %1$s detaljer</string>
+    <!-- 1: activity title 2: valid date 3: expiration date -->
+    <string name="share_template_short_activity">Jeg har kjøpt en aktivitet: %1$s\n. Den er gyldig fra den %2$s\n og utløper den %3$s</string>
+    <!-- 1: activity title 2: valid date 3: expiration date 4: list of guests 5: app download link -->
+    <string name="share_template_long_activity">Hei \n\nHer er informasjonen om aktiviteten: %1$s\n\n<b>. Den er gyldig fra den</b> %2$s\n<b>og utøper den</b> %3$s\n\n<b>Gjester</b>\n%4$s\n\nØnsker du å bestille hoteller og flyvninger samt å se og dele reiserutene dine? <a href="%5$s">Last ned</a> Expedias mobil-app i dag, helt gratis.</string>
+    <string name="share_template_subject_cruise"></string>
+    <string name="share_template_short_cruise"></string>
+    <string name="share_template_long_cruise"></string>
+    
+    <!-- Social Chooser dialog -->
+    <!-- Title for dialog asking the user to choose the type of message to share -->
+    <string name="Choose_message_style">Velg meldingstype</string>
+    <!-- Button label for a button that shares a long message suitable for an email -->
+    <string name="Long_message">Lang (e-post)</string>
+    <!-- Button label for a buton that shares a short message suitable for social media or SMS -->
+    <string name="Short_message">Kort (SMS, sosiale medier)</string>
+
     <!-- Flights -->
     <!-- Label for flight search part of app -->
-    <string name="search_flights">Søk flyvninger</string>
+    <string name="search_flights">Søk etter flyvninger</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
     <string name="hint_departure_airport">Avreiseflyplass</string>
     <!-- Hint in edit text that indicates one should enter an arrival airport -->
@@ -499,8 +578,6 @@
     <string name="address_state_hint">Fylke</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Postnummer</string>
-    <!-- Billing Postal Code hint -->
-    <string name="address_postal_code_hint_hotels">Postnummer for fakturering</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -691,6 +768,10 @@
     <string name="error_invalid_phone_number">Telefonnummeret er ugyldig, vennligts prøv igjen.</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">Kredittkortnummeret du oppga er ugyldig. Prøv på nytt.</string>
+    <!-- Error shown to user if their zip code or postal code is invalid (depends on language) -->
+    <string name="error_invalid_zipcode_or_postalcode">Postnummeret er ugyldig, prøv å skrive det inn på nytt.</string>
+    <!-- Error shown to user if their state or province is invalid (depends on language) -->
+    <string name="error_invalid_state_or_province">Staten du skrev inn er ugyldig, prøv på nytt.</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">Kredittkortet du prøver å bruke er utgått. Vennligst prøv et annet kredittkort.</string>
     <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
@@ -1425,7 +1506,9 @@
     <!-- Section header for other apps by Mobiata -->
     <string name="travel_smart">Reis smart</string>
     <!-- Section Header for other apps by Mobiata -->
-    <string name="ALSO_BY_MOBIATA">OGSÅ AV MOBIATA</string>
+    <string name="ALSO_BY_MOBIATA">ANNET FRA MOBIATA</string>
+    <!-- Section Header for other apps by Mobiata -->
+    <string name="also_by_mobiata">Annet fra Mobiata</string>
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hotels</string>
     <!-- Message body for "tell a friend" feature -->
@@ -1456,6 +1539,10 @@
     <string name="stack_blur_credit">Denne appen tar i bruk Stack Blur-algoritmen av Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="view_open_source_software_licenses">Se lisenser for programvare med åpen kildekode</string>
+    <!-- String for acrediting the open source libraries we use -->
+    <string name="this_app_makes_use_of_the_following">Denne appen tar i bruk følgende open-source biblioteker:</string>
+    <!-- Header text for open source section -->
+    <string name="open_source">Open-Source</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
