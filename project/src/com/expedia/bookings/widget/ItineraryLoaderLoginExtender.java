@@ -122,7 +122,7 @@ public class ItineraryLoaderLoginExtender implements LoginExtender, ItinerarySyn
 	}
 
 	@Override
-	public void onTripUpateFailed(Trip trip) {
+	public void onTripUpdateFailed(Trip trip) {
 		// TODO Auto-generated method stub
 
 	}

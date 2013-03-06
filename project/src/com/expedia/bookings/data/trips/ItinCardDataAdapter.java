@@ -155,7 +155,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 	}
 
 	@Override
-	public void onTripUpateFailed(Trip trip) {
+	public void onTripUpdateFailed(Trip trip) {
 		Log.d("ItinCardDataAdapter - onTripUpdateFailed " + trip.getTripId());
 		// Note: Must broadcast that an update failed so that the ItinCard gets notified to redraw (and thus remove the
 		// ProgressBar from being present on the screen).

@@ -319,7 +319,7 @@ public class ItineraryManager implements JSONable {
 		 * 
 		 * POSSIBLE TODO: info on why the update failed?
 		 */
-		public void onTripUpateFailed(Trip trip);
+		public void onTripUpdateFailed(Trip trip);
 
 		/**
 		 * Notification for when a Trip has been removed, either automatically
@@ -368,7 +368,7 @@ public class ItineraryManager implements JSONable {
 	private void onTripUpdateFailed(Trip trip) {
 		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
 		for (ItinerarySyncListener listener : listeners) {
-			listener.onTripUpateFailed(trip);
+			listener.onTripUpdateFailed(trip);
 		}
 	}
 

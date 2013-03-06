@@ -386,7 +386,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	}
 
 	@Override
-	public void onTripUpateFailed(Trip trip) {
+	public void onTripUpdateFailed(Trip trip) {
 		// Do nothing
 	}
 
