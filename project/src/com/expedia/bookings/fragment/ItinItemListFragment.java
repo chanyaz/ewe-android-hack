@@ -191,6 +191,10 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		mItinListView.setSimpleMode(true);
 	}
 
+	public ItinCardData getSelectedItinCardData() {
+		return mItinListView.getSelectedItinCard();
+	}
+
 	public void syncItinManager() {
 		if (mAllowLoadItins && mItinListView != null && mItinManager != null) {
 			mItinManager.startSync();

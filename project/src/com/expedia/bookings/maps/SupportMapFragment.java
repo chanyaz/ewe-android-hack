@@ -1,5 +1,6 @@
 package com.expedia.bookings.maps;
 
+import android.app.Activity;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.View;
@@ -19,6 +20,8 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFragment {
 
+	private SupportMapFragmentListener mListener;
+
 	private boolean mLoaded = false;
 
 	private float mCenterOffsetX = 0;
@@ -31,6 +34,15 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		if (activity instanceof SupportMapFragmentListener) {
+			mListener = (SupportMapFragmentListener) activity;
+		}
+	}
 
 	@Override
 	public void onViewCreated(final View view, Bundle savedInstanceState) {
@@ -58,6 +70,10 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 		if (mSavedCameraUpdate != null) {
 			changeCamera(mSavedCameraUpdate.cameraUpdate, mSavedCameraUpdate.isAnimated);
 			mSavedCameraUpdate = null;
+		}
+
+		if (mListener != null) {
+			mListener.onMapLayout();
 		}
 	}
 
@@ -143,5 +159,12 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 
 	public LatLng offsetLatLng(double latitude, double longitude) {
 		return offsetLatLng(new LatLng(latitude, longitude));
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Interface
+
+	public interface SupportMapFragmentListener {
+		public void onMapLayout();
 	}
 }

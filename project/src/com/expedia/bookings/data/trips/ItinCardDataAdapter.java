@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -277,6 +278,20 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 		}
 		//Return the last card otherwise, because if we got here, all our itins are in the past...
 		return retVal;
+	}
+
+	public int getPosition(String itinCardId) {
+		if (!TextUtils.isEmpty(itinCardId)) {
+			// Possible TODO: Speed up via hash
+			int len = mItinCardDatas.size();
+			for (int a = 0; a < len; a++) {
+				if (itinCardId.equals(mItinCardDatas.get(a).getId())) {
+					return a;
+				}
+			}
+		}
+
+		return -1;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////

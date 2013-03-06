@@ -12,18 +12,22 @@ import com.expedia.bookings.fragment.ItinCardFragment;
 import com.expedia.bookings.fragment.ItinItemListFragment;
 import com.expedia.bookings.fragment.ItinItemListFragment.ItinItemListFragmentListener;
 import com.expedia.bookings.fragment.ItineraryMapFragment;
+import com.expedia.bookings.maps.SupportMapFragment.SupportMapFragmentListener;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.mobiata.android.Log;
 
 /**
  * Full-screen Itinerary activity.  Used in tablets.
  */
 public class ItineraryActivity extends SherlockFragmentActivity implements ItinItemListFragmentListener,
-		OnCameraChangeListener {
+		OnCameraChangeListener, SupportMapFragmentListener {
 
 	private boolean mTwoPaneMode;
+
+	private String mSelectedItinCardId;
 
 	private boolean mAnimatingToItem;
 
@@ -63,6 +67,27 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 		}
 
 		mItinListFragment.enableLoadItins();
+	}
+
+	private void showPopupWindow(ItinCardData data) {
+		// Don't react if it's the same card as before being clicked
+		String id = data.getId();
+		if (id.equals(mSelectedItinCardId)) {
+			return;
+		}
+
+		mSelectedItinCardId = id;
+
+		if (mTwoPaneMode) {
+			if (!mItinCardFragment.isHidden()) {
+				getSupportFragmentManager().beginTransaction().hide(mItinCardFragment).commit();
+			}
+
+			mAnimatingToItem = true;
+
+			mMapFragment.showItinItem(data);
+			mItinCardFragment.showItinDetails(data);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -118,16 +143,7 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 
 	@Override
 	public void onItinCardClicked(ItinCardData data) {
-		if (mTwoPaneMode) {
-			if (!mItinCardFragment.isHidden()) {
-				getSupportFragmentManager().beginTransaction().hide(mItinCardFragment).commit();
-			}
-
-			mAnimatingToItem = true;
-
-			mMapFragment.showItinItem(data);
-			mItinCardFragment.showItinDetails(data);
-		}
+		showPopupWindow(data);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -138,6 +154,19 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 		if (mAnimatingToItem) {
 			getSupportFragmentManager().beginTransaction().show(mItinCardFragment).commit();
 			mAnimatingToItem = false;
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// SupportMapFragmentListener
+
+	@Override
+	public void onMapLayout() {
+		if (mTwoPaneMode) {
+			ItinCardData data = mItinListFragment.getSelectedItinCardData();
+			if (data != null) {
+				showPopupWindow(data);
+			}
 		}
 	}
 }

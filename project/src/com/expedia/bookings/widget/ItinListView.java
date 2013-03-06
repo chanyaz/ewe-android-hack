@@ -52,6 +52,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	private static final String STATE_DO_AUTOSCROLL = "STATE_DO_AUTOSCROLL";
 	private static final String STATE_DEFAULT_SAVESTATE = "STATE_DEFAULT_SAVESTATE";
 	private static final String STATE_LAST_ITEM_COUNT = "STATE_LAST_ITEM_COUNT";
+	private static final String STATE_SELECTED_CARD_ID = "STATE_SELECTED_CARD_ID";
 
 	public static final int SCROLL_HEADER_HIDDEN = -9999;
 
@@ -63,6 +64,8 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	private ItinCardDataAdapter mAdapter;
+
+	private String mSelectedCardId;
 
 	private ItinCard mDetailsCard;
 
@@ -123,15 +126,18 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		bundle.putParcelable(STATE_DEFAULT_SAVESTATE, super.onSaveInstanceState());
 		bundle.putBoolean(STATE_DO_AUTOSCROLL, mScrollToReleventOnDataSetChange);
 		bundle.putInt(STATE_LAST_ITEM_COUNT, mLastItemCount);
+		bundle.putString(STATE_SELECTED_CARD_ID, mSelectedCardId);
 		return bundle;
 	}
 
 	@Override
 	public void onRestoreInstanceState(Parcelable state) {
 		if (state instanceof Bundle && ((Bundle) state).containsKey(STATE_DEFAULT_SAVESTATE)) {
-			super.onRestoreInstanceState(((Bundle) state).getParcelable(STATE_DEFAULT_SAVESTATE));
-			mScrollToReleventOnDataSetChange = ((Bundle) state).getBoolean(STATE_DO_AUTOSCROLL, true);
-			mLastItemCount = ((Bundle) state).getInt(STATE_LAST_ITEM_COUNT, 0);
+			Bundle bundle = (Bundle) state;
+			super.onRestoreInstanceState(bundle.getParcelable(STATE_DEFAULT_SAVESTATE));
+			mScrollToReleventOnDataSetChange = bundle.getBoolean(STATE_DO_AUTOSCROLL, true);
+			mLastItemCount = bundle.getInt(STATE_LAST_ITEM_COUNT, 0);
+			mSelectedCardId = bundle.getString(STATE_SELECTED_CARD_ID, null);
 		}
 		else {
 			super.onRestoreInstanceState(state);
@@ -270,6 +276,14 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		return mAdapter.getItem(position);
 	}
 
+	public ItinCardData getSelectedItinCard() {
+		int pos = mAdapter.getPosition(mSelectedCardId);
+		if (pos != -1) {
+			return mAdapter.getItem(pos);
+		}
+		return null;
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -305,10 +319,13 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	private void clearDetailView() {
 		mDetailPosition = -1;
 		mDetailsCard = null;
+		mSelectedCardId = null;
 		mAdapter.setDetailPosition(-1);
 	}
 
 	private boolean hideDetails() {
+		mSelectedCardId = null;
+
 		boolean releaseSemHere = true;
 		boolean semGot = false;
 		try {
@@ -388,6 +405,8 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	@SuppressLint("NewApi")
 	private boolean showDetails(int position) {
 		if (mSimpleMode) {
+			mSelectedCardId = mAdapter.getItem(position).getId();
+
 			return false;
 		}
 
@@ -403,6 +422,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 				mDetailPosition = position;
 				mMode = MODE_DETAIL;
+				mSelectedCardId = mAdapter.getItem(position).getId();
 				if (mOnListModeChangedListener != null) {
 					mOnListModeChangedListener.onListModeChanged(mMode);
 				}
@@ -587,8 +607,16 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 					mScrollToReleventOnDataSetChange = false;
 				}
 			}
-			if (mAdapter != null) {
-				mLastItemCount = mAdapter.getCount();
+
+			mLastItemCount = mAdapter.getCount();
+
+			// TODO: For some reason this won't run properly on the first data set change.
+			if (!TextUtils.isEmpty(mSelectedCardId)) {
+				int position = mAdapter.getPosition(mSelectedCardId);
+				if (position != -1 && position != mDetailPosition) {
+					Log.i("Attempting to show selected card id: " + mSelectedCardId);
+					showDetails(position);
+				}
 			}
 		}
 	};
