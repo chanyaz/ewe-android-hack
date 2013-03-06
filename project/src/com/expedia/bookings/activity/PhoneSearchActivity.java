@@ -104,6 +104,7 @@ import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.SearchUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.widget.DisableableViewPager;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
 import com.expedia.bookings.widget.SimpleNumberPicker;
 import com.expedia.bookings.widget.gl.GLTagProgressBar;
@@ -192,7 +193,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 	private ViewTreeObserver mViewTreeObserver;
 
-	private ViewPager mContentViewPager;
+	private DisableableViewPager mContentViewPager;
 	private CalendarDatePicker mDatesCalendarDatePicker;
 	private AutoCompleteTextView mSearchEditText;
 	private ImageView mClearSearchButton;
@@ -1181,7 +1182,8 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		mFocusLayout = findViewById(R.id.focus_layout);
 
 		// We have created the fragments in onCreate so we can attach the adapter safely
-		mContentViewPager = (ViewPager) findViewById(R.id.content_viewpager);
+		mContentViewPager = (DisableableViewPager) findViewById(R.id.content_viewpager);
+		mContentViewPager.setPageSwipingEnabled(false);
 		mContentViewPager.setAdapter(mListAndMapViewPagerAdapter);
 		mContentViewPager.setOnPageChangeListener(mListAndMapViewPagerAdapter);
 

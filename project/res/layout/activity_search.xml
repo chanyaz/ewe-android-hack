@@ -11,7 +11,7 @@
         android:focusable="true"
         android:focusableInTouchMode="true" />
 
-    <com.expedia.bookings.widget.SwipelessViewPager
+    <com.expedia.bookings.widget.DisableableViewPager
         android:id="@+id/content_viewpager"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
