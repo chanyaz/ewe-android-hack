@@ -72,8 +72,11 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp.OnSearchParamsChangedInWidgetListener;
 import com.expedia.bookings.content.AutocompleteProvider;
+import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.ConfirmationState;
+import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ConfirmationState.Type;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Filter;
@@ -161,6 +164,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 	private static final String KEY_GEOCODE = "KEY_GEOCODE";
 	public static final String KEY_SEARCH = "KEY_SEARCH";
+	public static final String KEY_HOTEL_SEARCH = "KEY_HOTEL_SEARCH";
 	private static final String KEY_LOADING_PREVIOUS = "KEY_LOADING_PREVIOUS";
 
 	private static final int DIALOG_LOCATION_SUGGESTIONS = 0;
@@ -283,6 +287,22 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	// THREADS/CALLBACKS
 	//----------------------------------
 
+	private final Download<AvailabilityResponse> mSearchHotelDownload = new Download<AvailabilityResponse>() {
+		@Override
+		public AvailabilityResponse doDownload() {
+			ExpediaServices services = new ExpediaServices(PhoneSearchActivity.this);
+			BackgroundDownloader.getInstance().addDownloadListener(KEY_HOTEL_SEARCH, services);
+			if (mEditedSearchParams != null) {
+				throw new RuntimeException("edited search params not commited or cleared before search");
+			}
+			
+			Property selectedProperty = new Property();
+			selectedProperty.setPropertyId(Db.getSearchParams().getRegionId());
+			
+			return services.availability(Db.getSearchParams(), selectedProperty, 0);
+		}
+	};
+	
 	private final Download<SearchResponse> mSearchDownload = new Download<SearchResponse>() {
 		@Override
 		public SearchResponse doDownload() {
@@ -293,6 +313,33 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			}
 			return services.search(Db.getSearchParams(), 0);
 		}
+	};
+	
+	private final OnDownloadComplete<AvailabilityResponse> mSearchHotelCallback = new OnDownloadComplete<AvailabilityResponse>() {
+
+		@Override
+		public void onDownload(AvailabilityResponse results) {
+			Property property = results.getProperty();
+			SearchResponse searchResponse = new SearchResponse();
+			List<Rate> rates = results.getRates();
+			if (property != null && rates != null) {
+				Rate lowestRate = null;
+				for (Rate rate : rates) {
+					Money temp = rate.getDisplayRate();
+					if (lowestRate == null) {
+						lowestRate = rate;
+					}
+					if (lowestRate.getDisplayRate().getAmount().compareTo(temp.getAmount()) > 0) {
+						lowestRate = rate;
+					}
+				}
+				property.setLowestRate(lowestRate);
+				searchResponse.addProperty(property);
+				Db.setSelectedProperty(property);
+			}
+			mSearchCallback.onDownload(searchResponse);
+		}
+
 	};
 
 	private final OnDownloadComplete<SearchResponse> mSearchCallback = new OnDownloadComplete<SearchResponse>() {
@@ -330,6 +377,11 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				broadcastSearchCompleted(searchResponse);
 
 				hideLoading();
+				
+				// Forward to the hotel detail screen if the user searched by hotel name and selected one.
+				if(Db.getSearchParams().getSearchType() == SearchParams.SearchType.HOTEL) {
+					startActivity(HotelDetailsFragmentActivity.createIntent(PhoneSearchActivity.this));
+				}
 
 				mLastSearchTime = Calendar.getInstance().getTimeInMillis();
 			}
@@ -574,6 +626,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			downloader.unregisterDownloadCallback(KEY_GEOCODE);
 			downloader.unregisterDownloadCallback(KEY_LOADING_PREVIOUS);
 			downloader.unregisterDownloadCallback(KEY_SEARCH);
+			downloader.unregisterDownloadCallback(KEY_HOTEL_SEARCH);
 		}
 		else {
 			saveParams();
@@ -655,6 +708,13 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				downloader.registerDownloadCallback(KEY_SEARCH, mSearchCallback);
 				showLoading(true, R.string.progress_searching_hotels);
 			}
+			else if (downloader.isDownloading(KEY_HOTEL_SEARCH)) {
+				Log.d("Already searching, resuming the hotel name search...");
+				mActivityState = ActivityState.SEARCHING;
+				downloader.registerDownloadCallback(KEY_HOTEL_SEARCH, mSearchHotelCallback);
+				//TODO: Check if this is the correct string to display while searching for hotel by name.
+				showLoading(true, R.string.progress_searching_selected_hotel);
+			}
 			else {
 				hideLoading();
 			}
@@ -706,6 +766,10 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			if (downloader.isDownloading(KEY_LOADING_PREVIOUS)) {
 				Log.d("Cancelling loading previous results because activity is ending.");
 				downloader.cancelDownload(KEY_LOADING_PREVIOUS);
+			}
+			if (downloader.isDownloading(KEY_HOTEL_SEARCH)) {
+				Log.d("Cancelling search by hotel name because activity is ending.");
+				downloader.cancelDownload(KEY_HOTEL_SEARCH);
 			}
 
 			// Save a search response as long as:
@@ -1376,6 +1440,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		case ADDRESS:
 		case POI:
 		case FREEFORM:
+		case HOTEL:
 			setShowDistance(searchType.shouldShowDistance());
 			stopLocation();
 			startGeocode();
@@ -1482,7 +1547,14 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	}
 
 	private void startSearchDownloader() {
-		showLoading(true, R.string.progress_searching_hotels);
+		SearchType searchType = Db.getSearchParams().getSearchType();
+
+		if(searchType == SearchType.HOTEL) {
+			showLoading(true, R.string.progress_searching_selected_hotel);
+		}
+		else {
+			showLoading(true, R.string.progress_searching_hotels);
+		}
 
 		commitEditedSearchParams();
 
@@ -1500,8 +1572,15 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		Db.resetFilter();
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		bd.cancelDownload(KEY_SEARCH);
-		bd.startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
+		
+		if(searchType == SearchType.HOTEL) {
+			bd.cancelDownload(KEY_HOTEL_SEARCH);
+			bd.startDownload(KEY_HOTEL_SEARCH, mSearchHotelDownload, mSearchHotelCallback);
+		}
+		else {
+			bd.cancelDownload(KEY_SEARCH);
+			bd.startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
+		}
 	}
 
 	//----------------------------------
@@ -1585,7 +1664,10 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 	private void broadcastSearchCompleted(SearchResponse searchResponse) {
 		Db.setSearchResponse(searchResponse);
-		Db.clearSelectedProperty();
+		
+		if(Db.getSearchParams().getSearchType() != SearchParams.SearchType.HOTEL) {
+			Db.clearSelectedProperty();
+		}
 
 		supportInvalidateOptionsMenu();
 
@@ -2369,7 +2451,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 					mEditedSearchParams.setQuery(o.toString());
 				}
 			}
-
+			
 			startSearch();
 		}
 	};

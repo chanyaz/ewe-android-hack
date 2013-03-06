@@ -35,6 +35,7 @@ public class SearchParams implements JSONable {
 		CITY(false, false),
 		VISIBLE_MAP_AREA(false, false),
 		FREEFORM(false, false),
+		HOTEL(true, true),
 		;
 
 		private boolean mShouldShowDistance;

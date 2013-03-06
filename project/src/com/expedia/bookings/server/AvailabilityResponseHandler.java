@@ -17,6 +17,7 @@ import android.text.TextUtils;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Date;
+import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Policy;
@@ -61,7 +62,23 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 			Property property = new Property();
 			availResponse.setProperty(property);
 			property.setDescriptionText(JSONUtils.optNormalizedString(response, "longDescription", null));
+			property.setName(response.optString("hotelName", null));
+			property.setHotelRating(response.optDouble("hotelStarRating", 0));
+			property.setTotalReviews(response.optInt("totalReviews", 0));
+			property.setTotalRecommendations(response.optInt("totalRecommendations", 0));
+			property.setAverageExpediaRating(response.optDouble("hotelGuestRating", 0));
 			property.setPropertyId(response.optString("hotelId", null));
+			
+			Location location = new Location();
+			location.setLatitude(response.optDouble("latitude", 0));
+			location.setLongitude(response.optDouble("longitude", 0));
+			location.setCity(response.optString("hotelCity", null));
+			location.setStateCode(response.optString("hotelStateProvince", null));
+			location.setCountryCode(response.optString("hotelCountry", null));
+			List<String> streetAddress = new ArrayList<String>();
+			streetAddress.add(response.optString("hotelAddress", null));
+			location.setStreetAddress(streetAddress);
+			property.setLocation(location);
 
 			int len;
 			JSONArray photos = response.optJSONArray("photos");
@@ -72,6 +89,12 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 					Media media = ParserUtils.parseUrl(photo.optString("url"));
 					property.addMedia(media);
 				}
+				
+				// Adding the first media as the thumbnail media.
+				JSONObject photo = photos.optJSONObject(0);
+				Media media = ParserUtils.parseUrl(photo.optString("url"));
+				Media thumbnailMedia = new Media(media.getUrl(Media.IMAGE_BIG_SUFFIX));
+				property.setThumbnail(thumbnailMedia);
 			}
 
 			int numberOfNights = response.optInt("numberOfNights");
@@ -89,6 +112,8 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 				len = roomRates.length();
 				for (int a = 0; a < len; a++) {
 					JSONObject jsonRate = roomRates.getJSONObject(a);
+					property.setIsLowestRateMobileExclusive(jsonRate.optBoolean("isDiscountRestrictedToCurrentSourceType"));
+					property.setIsLowestRateTonightOnly(jsonRate.optBoolean("isSameDayDRR"));
 					Rate rate = parseJsonHotelOffer(jsonRate, numberOfNights, checkInPolicy);
 					availResponse.addRate(rate);
 				}

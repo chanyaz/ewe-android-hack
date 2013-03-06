@@ -102,7 +102,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		Intent intent = new Intent(context, HotelDetailsFragmentActivity.class);
 		return intent;
 	}
-
+	
 	/**
 	 * Create intent to open this Activity from a widget.
 	 * @param context

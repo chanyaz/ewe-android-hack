@@ -650,6 +650,10 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 				mLocation.setTypeface(Typeface.DEFAULT);
 				mIcon.setImageResource(R.drawable.ic_suggestion_place);
 			}
+
+			if(search != null && search.getSearchType().equals(SearchType.HOTEL.toString())) {
+				mIcon.setImageResource(R.drawable.ic_suggestion_hotel);
+			}
 		}
 
 		/**

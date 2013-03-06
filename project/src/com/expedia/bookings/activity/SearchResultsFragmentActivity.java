@@ -47,6 +47,7 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Filter;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Filter.OnFilterChangedListener;
 import com.expedia.bookings.data.Filter.SearchRadius;
 import com.expedia.bookings.data.Filter.Sort;
@@ -114,6 +115,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	// Constants
 
 	private static final String KEY_SEARCH = "KEY_SEARCH";
+	private static final String KEY_HOTEL_SEARCH = "KEY_HOTEL_SEARCH";
 	private static final String KEY_AVAILABILITY_SEARCH = "KEY_AVAILABILITY_SEARCH";
 	private static final String KEY_GEOCODE = "KEY_GEOCODE";
 	private static final String KEY_REVIEWS = "KEY_REVIEWS";
@@ -342,7 +344,10 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		// #13546 - Need to put any methods that may affect Fragment state in onPostResume() instead of
 		// onResume() for the compatibility library (otherwise we get state loss errors).
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(KEY_GEOCODE)) {
+		if (bd.isDownloading(KEY_HOTEL_SEARCH)) {
+			bd.registerDownloadCallback(KEY_HOTEL_SEARCH, mSearchHotelCallback);
+		}
+		else if (bd.isDownloading(KEY_GEOCODE)) {
 			bd.registerDownloadCallback(KEY_GEOCODE, mGeocodeCallback);
 		}
 		else if (bd.isDownloading(KEY_SEARCH)) {
@@ -388,6 +393,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.unregisterDownloadCallback(KEY_GEOCODE);
 		bd.unregisterDownloadCallback(KEY_SEARCH);
+		bd.unregisterDownloadCallback(KEY_HOTEL_SEARCH);
 		for (String key : mDownloadKeys) {
 			// unregister KEY_AVAILABILITY_SEARCH related downloads
 			bd.unregisterDownloadCallback(key);
@@ -837,6 +843,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		// Cancel existing downloads
 		bd.cancelDownload(KEY_SEARCH);
 		bd.cancelDownload(KEY_GEOCODE);
+		bd.cancelDownload(KEY_HOTEL_SEARCH);
 
 		// Reset the views
 		hideDetails();
@@ -866,6 +873,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		case ADDRESS:
 		case POI:
 		case FREEFORM:
+		case HOTEL:
 			if (params.hasEnoughToSearch()) {
 				Search.add(this, params);
 				setShowDistances(params.hasSearchLatLon());
@@ -970,9 +978,28 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		// take this opportunity to notify handlers that we know where we're looking.
 		notifySearchLocationFound();
 
-		BackgroundDownloader.getInstance().startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
+		SearchType searchType = Db.getSearchParams().getSearchType();
+	    if(searchType == SearchType.HOTEL) {
+	    	BackgroundDownloader.getInstance().startDownload(KEY_HOTEL_SEARCH, mSearchHotelDownload, mSearchHotelCallback);
+	    }
+	    else {
+	    	BackgroundDownloader.getInstance().startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
+	    }
 	}
-
+	
+	private final Download<AvailabilityResponse> mSearchHotelDownload = new Download<AvailabilityResponse>() {
+		@Override
+		public AvailabilityResponse doDownload() {
+			ExpediaServices services = new ExpediaServices(SearchResultsFragmentActivity.this);
+			BackgroundDownloader.getInstance().addDownloadListener(KEY_HOTEL_SEARCH, services);
+			
+			Property selectedProperty = new Property();
+			selectedProperty.setPropertyId(Db.getSearchParams().getRegionId());
+			
+			return services.availability(Db.getSearchParams(), selectedProperty, 0);
+		}
+	};
+	
 	private final Download<SearchResponse> mSearchDownload = new Download<SearchResponse>() {
 		public SearchResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
@@ -981,6 +1008,33 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		}
 	};
 
+	private final OnDownloadComplete<AvailabilityResponse> mSearchHotelCallback = new OnDownloadComplete<AvailabilityResponse>() {
+
+		@Override
+		public void onDownload(AvailabilityResponse results) {
+			Property property = results.getProperty();
+			SearchResponse searchResponse = new SearchResponse();
+			List<Rate> rates = results.getRates();
+			if (property != null && rates != null) {
+				Rate lowestRate = null;
+				for (Rate rate : rates) {
+					Money temp = rate.getDisplayRate();
+					if (lowestRate == null) {
+						lowestRate = rate;
+					}
+					if (lowestRate.getDisplayRate().getAmount().compareTo(temp.getAmount()) > 0) {
+						lowestRate = rate;
+					}
+				}
+				property.setLowestRate(lowestRate);
+				searchResponse.addProperty(property);
+				Db.setSelectedProperty(property);
+			}
+			mSearchCallback.onDownload(searchResponse);
+		}
+
+	};
+	
 	private final OnDownloadComplete<SearchResponse> mSearchCallback = new OnDownloadComplete<SearchResponse>() {
 		public void onDownload(SearchResponse response) {
 			loadSearchResponse(response, true);
@@ -990,7 +1044,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	private void loadSearchResponse(SearchResponse response, boolean initialLoad) {
 		Db.setSearchResponse(response);
 
-		if (response == null) {
+		if (response == null || response.getPropertiesCount() == 0) {
 			mHotelListFragment.updateStatus(LayoutUtils.noHotelsFoundMessage(mContext), false);
 			TrackingUtils.trackErrorPage(this, "HotelListRequestFailed");
 		}
@@ -1042,6 +1096,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.cancelDownload(KEY_GEOCODE);
 		bd.cancelDownload(KEY_SEARCH);
+		bd.cancelDownload(KEY_HOTEL_SEARCH);
 		for (String key : mDownloadKeys) {
 			// Cancel KEY_AVAILABILITY_SEARCH related downloads
 			bd.cancelDownload(key);

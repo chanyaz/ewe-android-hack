@@ -29,14 +29,14 @@ public class SuggestResponseHandler extends JsonResponseHandler<SuggestResponse>
 	public SuggestResponse handleJson(JSONObject response) {
 		SuggestResponse suggestResponse = new SuggestResponse();
 
-		if (!response.has("r")) {
+		if (!response.has("sr")) {
 			Log.d("No suggestions.");
 			return null;
 		}
 
 		JSONArray responseSuggestions;
 		try {
-			responseSuggestions = response.getJSONArray("r");
+				responseSuggestions = response.getJSONArray("sr");
 		}
 		catch (JSONException e) {
 			Log.d("Could not parse JSON autosuggest response.", e);

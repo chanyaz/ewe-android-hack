@@ -102,7 +102,16 @@ public class AutocompleteProvider extends ContentProvider {
 					String freeformLocation = search.getQuery();
 					suggestedLocations.add(freeformLocation);
 					JSONObject json = search.toJson();
-					Object[] row = { id, freeformLocation, freeformLocation, json, R.drawable.ic_suggestion_place };
+
+					Object[] row;
+					if (suggestion.getType() == Suggestion.Type.HOTEL) {
+						row = new Object[] { id, freeformLocation, freeformLocation, json, R.drawable.ic_suggestion_hotel };
+					}
+					else {
+						row = new Object[] { id, freeformLocation, freeformLocation, json,
+								R.drawable.ic_suggestion_place };
+					}
+
 					cursor.addRow(row);
 					id++;
 				}
@@ -125,12 +134,20 @@ public class AutocompleteProvider extends ContentProvider {
 				final String freeformLocation = search.getQuery();
 				if (!suggestedLocations.contains(freeformLocation)) {
 					suggestedLocations.add(freeformLocation);
+					int autoSuggestIcon;
+					if(p.getSearchType() == SearchParams.SearchType.HOTEL){
+						autoSuggestIcon = R.drawable.ic_suggestion_hotel;
+					}
+					else {
+						autoSuggestIcon = R.drawable.ic_suggestion_place;
+					}
+					
 					final Object[] historyRow = {
 						id,
 						freeformLocation,
 						freeformLocation,
 						p.toJson(),
-						R.drawable.ic_suggestion_place,
+						autoSuggestIcon,
 					};
 					cursor.addRow(historyRow);
 					id++;

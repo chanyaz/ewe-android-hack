@@ -282,7 +282,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder.notRatedText.setVisibility(View.GONE);
 		}
 
-		if (mShowDistance) {
+		if (mShowDistance && property.getDistanceFromUser() != null) {
 			// Send true so as to use the "abbreviated" version, which has now become standard in 1.5
 			holder.proximity.setText(property.getDistanceFromUser().formatDistance(mContext, mDistanceUnit, true));
 		}

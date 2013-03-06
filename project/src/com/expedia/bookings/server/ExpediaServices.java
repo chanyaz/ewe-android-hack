@@ -119,7 +119,7 @@ public class ExpediaServices implements DownloadListener {
 	private static final String BAZAAR_VOICE_API_TOKEN = "tq2es494c5r0o2443tc4byu2q";
 	private static final String BAZAAR_VOICE_API_VERSION = "5.1";
 
-	private static final String EXPEDIA_SUGGEST_BASE_URL = "http://suggest.expedia.com/hint/es/v1/ac/";
+	private static final String EXPEDIA_SUGGEST_BASE_URL = "http://suggest.expedia.com/hint/es/v2/ac/";
 
 	public static final int REVIEWS_PER_PAGE = 25;
 
@@ -248,8 +248,8 @@ public class ExpediaServices implements DownloadListener {
 			responseHandler.setType(SuggestResponseHandler.Type.FLIGHTS);
 		}
 		else {
-			// 30 is all regions (CITY, MULTICITY, NEIGHBORHOOD, POI)
-			params.add(new BasicNameValuePair("type", "30"));
+			// 223 is regions(95 Default) + hotels(128)
+			params.add(new BasicNameValuePair("type", "223"));
 
 			responseHandler.setType(SuggestResponseHandler.Type.HOTELS);
 		}

@@ -136,8 +136,10 @@ public class Suggestion implements JSONable {
 			break;
 		case ATTRACTION:
 		case AIRPORT:
-		case HOTEL:
 			searchParams.setSearchType(SearchType.POI);
+			break;
+		case HOTEL:
+			searchParams.setSearchType(SearchType.HOTEL);
 			break;
 		default:
 			searchParams.setSearchType(SearchType.FREEFORM);
