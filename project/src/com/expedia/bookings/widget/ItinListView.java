@@ -5,6 +5,7 @@ import java.util.concurrent.Semaphore;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -39,6 +40,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////
+
+	private static final String STATE_DO_AUTOSCROLL = "STATE_DO_AUTOSCROLL";
+	private static final String STATE_DEFAULT_SAVESTATE = "STATE_DEFAULT_SAVESTATE";
 
 	public static final int SCROLL_HEADER_HIDDEN = -9999;
 
@@ -98,8 +102,22 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
+	public Parcelable onSaveInstanceState() {
+		Bundle bundle = new Bundle();
+		bundle.putParcelable(STATE_DEFAULT_SAVESTATE, super.onSaveInstanceState());
+		bundle.putBoolean(STATE_DO_AUTOSCROLL, mScrollToReleventOnDataSetChange);
+		return bundle;
+	}
+
+	@Override
 	public void onRestoreInstanceState(Parcelable state) {
-		super.onRestoreInstanceState(state);
+		if (state instanceof Bundle && ((Bundle) state).containsKey(STATE_DEFAULT_SAVESTATE)) {
+			super.onRestoreInstanceState(((Bundle) state).getParcelable(STATE_DEFAULT_SAVESTATE));
+			mScrollToReleventOnDataSetChange = ((Bundle) state).getBoolean(STATE_DO_AUTOSCROLL, true);
+		}
+		else {
+			super.onRestoreInstanceState(state);
+		}
 	}
 
 	@Override
@@ -112,6 +130,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	@Override
 	public void onAttachedToWindow() {
 		super.onAttachedToWindow();
+
 		registerDataSetObserver();
 		mAdapter.enableSelfManagement();
 	}
@@ -450,12 +469,11 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 					public void run() {
 						if (ItinListView.this != null && ItinListView.this.mMode == MODE_LIST) {
 							if (AndroidUtils.getSdkVersion() >= 11) {
-								ItinListView.this.smoothScrollToPositionFromTop(pos, 2);
+								ItinListView.this.smoothScrollToPositionFromTop(pos, 0);
 							}
 							else {
-								ItinListView.this.smoothScrollToPosition(pos);
+								ItinListView.this.setSelectionFromTop(pos, 0);
 							}
-
 						}
 					}
 				};
