@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import java.util.Calendar;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
@@ -13,6 +14,7 @@ import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.maps.SupportMapFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -40,6 +42,11 @@ public class ItineraryMapFragment extends SupportMapFragment {
 				return true;
 			}
 		});
+
+		Activity activity = getActivity();
+		if (activity instanceof OnCameraChangeListener) {
+			getMap().setOnCameraChangeListener((OnCameraChangeListener) activity);
+		}
 
 		// Create an invisible marker that we will move around the screen
 		// as itineraries are shown.

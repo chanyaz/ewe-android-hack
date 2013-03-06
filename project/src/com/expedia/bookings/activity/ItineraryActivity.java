@@ -14,13 +14,18 @@ import com.expedia.bookings.fragment.ItinItemListFragment.ItinItemListFragmentLi
 import com.expedia.bookings.fragment.ItineraryMapFragment;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
+import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
+import com.google.android.gms.maps.model.CameraPosition;
 
 /**
  * Full-screen Itinerary activity.  Used in tablets.
  */
-public class ItineraryActivity extends SherlockFragmentActivity implements ItinItemListFragmentListener {
+public class ItineraryActivity extends SherlockFragmentActivity implements ItinItemListFragmentListener,
+		OnCameraChangeListener {
 
 	private boolean mTwoPaneMode;
+
+	private boolean mAnimatingToItem;
 
 	private ItinItemListFragment mItinListFragment;
 	private ItineraryMapFragment mMapFragment;
@@ -51,6 +56,10 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 			float offsetCenterY = (height / 2.0f) - markerHeight - bottomPadding;
 
 			mMapFragment.setCenterOffset(-offsetCenterX, -offsetCenterY);
+
+			// Start with itin card hidden
+			// TODO: If a card is already expanded from before, do not start hidden
+			getSupportFragmentManager().beginTransaction().hide(mItinCardFragment).commit();
 		}
 
 		mItinListFragment.enableLoadItins();
@@ -110,8 +119,25 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 	@Override
 	public void onItinCardClicked(ItinCardData data) {
 		if (mTwoPaneMode) {
+			if (!mItinCardFragment.isHidden()) {
+				getSupportFragmentManager().beginTransaction().hide(mItinCardFragment).commit();
+			}
+
+			mAnimatingToItem = true;
+
 			mMapFragment.showItinItem(data);
 			mItinCardFragment.showItinDetails(data);
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// OnCameraChangeListener
+
+	@Override
+	public void onCameraChange(CameraPosition position) {
+		if (mAnimatingToItem) {
+			getSupportFragmentManager().beginTransaction().show(mItinCardFragment).commit();
+			mAnimatingToItem = false;
 		}
 	}
 }
