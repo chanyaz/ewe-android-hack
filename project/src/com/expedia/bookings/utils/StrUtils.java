@@ -249,16 +249,17 @@ public class StrUtils {
 	}
 
 	/**
-	 * Joins together a bunch of Strings, much like in Python
+	 * Joins together a bunch of Strings, much like in Python,
+	 * except that it ignores nulls and empty strings
 	 *
-	 * For example, joining [ "a", "b", "c" ] with ". " would
-	 * result in "a. b. c."
+	 * For example, joining [ "a", "", "b", "c" ] with ", " would
+	 * result in "a, b, c"
 	 *
 	 * @param items a list of strings
 	 * @param sep the seperator between each item
 	 * @return joined string
 	 */
-	public static String join(List<String> items, String sep) {
+	public static String joinWithoutEmpties(final CharSequence sep, final List<? extends CharSequence> items) {
 		if (items == null) {
 			return null;
 		}
@@ -266,12 +267,29 @@ public class StrUtils {
 		StringBuilder sb = new StringBuilder();
 		int len = items.size();
 		for (int a = 0; a < len; a++) {
-			if (a > 0) {
-				sb.append(sep);
+			CharSequence str = items.get(a);
+			if (!TextUtils.isEmpty(str)) {
+				if (a > 0) {
+					sb.append(sep);
+				}
+				sb.append(str);
 			}
-			sb.append(items.get(a));
 		}
 
 		return sb.toString();
+	}
+
+	public static int compareTo(String a, String b) {
+		if (TextUtils.equals(a, b)) {
+			return 0;
+		}
+
+		if (a == null) {
+			a = "";
+		}
+		if (b == null) {
+			b = "";
+		}
+		return a.compareTo(b);
 	}
 }
