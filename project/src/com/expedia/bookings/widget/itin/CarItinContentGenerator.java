@@ -1,10 +1,9 @@
-package com.expedia.bookings.widget;
+package com.expedia.bookings.widget.itin;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -14,19 +13,18 @@ import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.EventSummaryView;
+import com.expedia.bookings.widget.MapImageView;
 import com.mobiata.android.SocialUtils;
 
-public class CarItinCard extends ItinCard<ItinCardDataCar> {
+public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCar> {
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	public CarItinCard(Context context) {
-		this(context, null);
-	}
-
-	public CarItinCard(Context context, AttributeSet attrs) {
-		super(context, attrs);
+	public CarItinContentGenerator(Context context, ItinCardDataCar data) {
+		super(context, data);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -44,7 +42,9 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 	}
 
 	@Override
-	protected String getShareSubject(ItinCardDataCar itinCardData) {
+	public String getShareSubject() {
+		ItinCardDataCar itinCardData = getItinCardData();
+
 		String template = getContext().getString(R.string.share_template_subject_car);
 		String pickUpDate = itinCardData.getFormattedShortPickUpDate();
 		String dropOffDate = itinCardData.getFormattedShortDropOffDate();
@@ -53,7 +53,9 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 	}
 
 	@Override
-	protected String getShareTextShort(ItinCardDataCar itinCardData) {
+	public String getShareTextShort() {
+		ItinCardDataCar itinCardData = getItinCardData();
+
 		String template = getContext().getString(R.string.share_template_short_car);
 		String carType = itinCardData.getCarTypeDescription(getContext());
 		String pickUpDate = itinCardData.getFormattedShortPickUpDate();
@@ -65,7 +67,9 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 	}
 
 	@Override
-	protected String getShareTextLong(ItinCardDataCar itinCardData) {
+	public String getShareTextLong() {
+		ItinCardDataCar itinCardData = getItinCardData();
+
 		String template = getContext().getString(R.string.share_template_long_car);
 		String vendorName = itinCardData.getVendorName();
 		String carType = itinCardData.getCarTypeDescription(getContext());
@@ -81,38 +85,42 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 	}
 
 	@Override
-	protected int getHeaderImagePlaceholderResId() {
+	public int getHeaderImagePlaceholderResId() {
 		return R.drawable.default_flights_background;
 	}
 
 	@Override
-	protected String getHeaderImageUrl(ItinCardDataCar itinCardData) {
-		return itinCardData.getCarCategoryImageUrl();
+	public String getHeaderImageUrl() {
+		return getItinCardData().getCarCategoryImageUrl();
 	}
 
 	@Override
-	protected String getHeaderText(ItinCardDataCar itinCardData) {
-		return itinCardData.getCarTypeDescription(getContext());
+	public String getHeaderText() {
+		return getItinCardData().getCarTypeDescription(getContext());
 	}
 
 	@Override
-	protected View getTitleView(LayoutInflater inflater, ViewGroup container, ItinCardDataCar itinCardData) {
-		TextView view = (TextView) inflater.inflate(R.layout.include_itin_card_title_generic, container, false);
-		view.setText(getHeaderText(itinCardData));
+	public View getTitleView(ViewGroup container) {
+		TextView view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_title_generic, container,
+				false);
+		view.setText(getHeaderText());
 		return view;
 	}
 
 	@Override
-	protected View getSummaryView(LayoutInflater inflater, ViewGroup container, ItinCardDataCar itinCardData) {
-		TextView view = (TextView) inflater.inflate(R.layout.include_itin_card_summary_car, container, false);
-		view.setText("Pick up after " + itinCardData.getFormattedPickUpTime());
+	public View getSummaryView(ViewGroup container) {
+		TextView view = (TextView) getLayoutInflater()
+				.inflate(R.layout.include_itin_card_summary_car, container, false);
+		view.setText("Pick up after " + getItinCardData().getFormattedPickUpTime());
 
 		return view;
 	}
 
 	@Override
-	protected View getDetailsView(LayoutInflater inflater, ViewGroup container, final ItinCardDataCar itinCardData) {
-		View view = inflater.inflate(R.layout.include_itin_card_details_car, container, false);
+	public View getDetailsView(ViewGroup container) {
+		final ItinCardDataCar itinCardData = getItinCardData();
+
+		View view = getLayoutInflater().inflate(R.layout.include_itin_card_details_car, container, false);
 
 		// Find
 		TextView pickUpDateTextView = Ui.findView(view, R.id.pick_up_date_text_view);
@@ -150,35 +158,37 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 		});
 
 		//Add shared data
-		addSharedGuiElements(inflater, commonItinDataContainer);
+		addSharedGuiElements(commonItinDataContainer);
 
 		return view;
 	}
 
 	@Override
-	protected SummaryButton getSummaryLeftButton(final ItinCardDataCar itinCardData) {
-		return new SummaryButton(R.drawable.ic_direction, R.string.itin_action_directions, new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				final Intent intent = itinCardData.getRelevantDirectionsIntent();
-				if (intent != null) {
-					getContext().startActivity(intent);
+	public SummaryButton getSummaryLeftButton() {
+		return new SummaryButton(R.drawable.ic_direction, getContext().getString(R.string.itin_action_directions),
+				new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						final Intent intent = getItinCardData().getRelevantDirectionsIntent();
+						if (intent != null) {
+							getContext().startActivity(intent);
 
-					OmnitureTracking.trackItinCarDirections(getContext());
-				}
-			}
-		});
+							OmnitureTracking.trackItinCarDirections(getContext());
+						}
+					}
+				});
 	}
 
 	@Override
-	protected SummaryButton getSummaryRightButton(final ItinCardDataCar itinCardData) {
-		return new SummaryButton(R.drawable.ic_phone, itinCardData.getVendorName(), new OnClickListener() {
+	public SummaryButton getSummaryRightButton() {
+		return new SummaryButton(R.drawable.ic_phone, getItinCardData().getVendorName(), new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				SocialUtils.call(getContext(), itinCardData.getRelevantVendorPhone());
+				SocialUtils.call(getContext(), getItinCardData().getRelevantVendorPhone());
 
 				OmnitureTracking.trackItinCarCall(getContext());
 			}
 		});
 	}
+
 }

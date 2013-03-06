@@ -1,23 +1,22 @@
-package com.expedia.bookings.widget;
+package com.expedia.bookings.widget.itin;
 
 import android.content.Context;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItinCardDataFallback;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 
-public class FallbackItinCard extends ItinCard<ItinCardDataFallback> {
-	public FallbackItinCard(Context context) {
-		this(context, null);
+public class FallbackItinContentGenerator extends ItinContentGenerator<ItinCardDataFallback> {
+
+	public FallbackItinContentGenerator(Context context, ItinCardDataFallback data) {
+		super(context, data);
 	}
 
-	public FallbackItinCard(Context context, AttributeSet attrs) {
-		super(context, attrs);
+	@Override
+	public boolean hasDetails() {
+		return false;
 	}
 
 	@Override
@@ -42,22 +41,22 @@ public class FallbackItinCard extends ItinCard<ItinCardDataFallback> {
 	}
 
 	@Override
-	protected String getShareSubject(ItinCardDataFallback itinCardData) {
+	public String getShareSubject() {
 		return null;
 	}
 
 	@Override
-	protected String getShareTextShort(ItinCardDataFallback itinCardData) {
+	public String getShareTextShort() {
 		return null;
 	}
 
 	@Override
-	protected String getShareTextLong(ItinCardDataFallback itinCardData) {
+	public String getShareTextLong() {
 		return null;
 	}
 
 	@Override
-	protected int getHeaderImagePlaceholderResId() {
+	public int getHeaderImagePlaceholderResId() {
 		switch (this.getItinCardData().getType()) {
 		case FLIGHT:
 			return R.drawable.bg_itin_fallback_flight;
@@ -73,12 +72,12 @@ public class FallbackItinCard extends ItinCard<ItinCardDataFallback> {
 	}
 
 	@Override
-	protected String getHeaderImageUrl(ItinCardDataFallback itinCardData) {
+	public String getHeaderImageUrl() {
 		return null;
 	}
 
 	@Override
-	protected String getHeaderText(ItinCardDataFallback itinCardData) {
+	public String getHeaderText() {
 		int resId = 0;
 		switch (this.getItinCardData().getType()) {
 		case FLIGHT:
@@ -98,31 +97,31 @@ public class FallbackItinCard extends ItinCard<ItinCardDataFallback> {
 			break;
 		}
 
-		return getContext().getString(resId, itinCardData.getRelativeDetailsStartDate(getContext()));
+		return getContext().getString(resId, getItinCardData().getRelativeDetailsStartDate(getContext()));
 	}
 
 	@Override
-	protected View getTitleView(LayoutInflater inflater, ViewGroup container, ItinCardDataFallback itinCardData) {
+	public View getTitleView(ViewGroup container) {
 		return null;
 	}
 
 	@Override
-	protected View getSummaryView(LayoutInflater inflater, ViewGroup container, ItinCardDataFallback itinCardData) {
+	public View getSummaryView(ViewGroup container) {
 		return null;
 	}
 
 	@Override
-	protected View getDetailsView(LayoutInflater inflater, ViewGroup container, final ItinCardDataFallback itinCardData) {
+	public View getDetailsView(ViewGroup container) {
 		return null;
 	}
 
 	@Override
-	protected SummaryButton getSummaryLeftButton(final ItinCardDataFallback itinCardData) {
+	public SummaryButton getSummaryLeftButton() {
 		return null;
 	}
 
 	@Override
-	protected SummaryButton getSummaryRightButton(final ItinCardDataFallback itinCardData) {
+	public SummaryButton getSummaryRightButton() {
 		return null;
 	}
 

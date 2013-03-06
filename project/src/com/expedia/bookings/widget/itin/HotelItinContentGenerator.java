@@ -1,10 +1,9 @@
-package com.expedia.bookings.widget;
+package com.expedia.bookings.widget.itin;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -14,19 +13,17 @@ import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.MapImageView;
 import com.mobiata.android.SocialUtils;
 
-public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
-	//////////////////////////////////////////////////////////////////////////////////////
+public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardDataHotel> {
+
+	////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	public HotelItinCard(Context context) {
-		this(context, null);
-	}
-
-	public HotelItinCard(Context context, AttributeSet attr) {
-		super(context, attr);
+	public HotelItinContentGenerator(Context context, ItinCardDataHotel data) {
+		super(context, data);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -44,7 +41,9 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 	}
 
 	@Override
-	protected String getShareSubject(ItinCardDataHotel itinCardData) {
+	public String getShareSubject() {
+		final ItinCardDataHotel itinCardData = getItinCardData();
+
 		String template = getContext().getString(R.string.share_template_subject_hotel);
 		String checkIn = itinCardData.getFormattedShortShareCheckInDate();
 		String checkOut = itinCardData.getFormattedShortShareCheckOutDate();
@@ -53,7 +52,9 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 	}
 
 	@Override
-	protected String getShareTextShort(ItinCardDataHotel itinCardData) {
+	public String getShareTextShort() {
+		final ItinCardDataHotel itinCardData = getItinCardData();
+
 		String template = getContext().getString(R.string.share_template_short_hotel);
 		String hotelName = itinCardData.getPropertyName();
 		String checkIn = itinCardData.getFormattedShortShareCheckInDate();
@@ -64,13 +65,14 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 	}
 
 	@Override
-	protected String getShareTextLong(ItinCardDataHotel itinCardData) {
+	public String getShareTextLong() {
+		final ItinCardDataHotel itinCardData = getItinCardData();
+
 		String template = getContext().getString(R.string.share_template_long_hotel);
 		String hotelName = itinCardData.getPropertyName();
 		String lengthOfStay = itinCardData.getFormattedLengthOfStay(getContext());
 		String checkIn = itinCardData.getFormattedLongShareCheckInDate();
 		String checkOut = itinCardData.getFormattedLongShareCheckOutDate();
-		String streetAddress = itinCardData.getAddressString();
 		String phone = itinCardData.getRelevantPhone();
 		String detailsUrl = itinCardData.getPropertyInfoSiteUrl();
 
@@ -79,23 +81,26 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 	}
 
 	@Override
-	protected int getHeaderImagePlaceholderResId() {
+	public int getHeaderImagePlaceholderResId() {
 		return R.drawable.default_flights_background;
 	}
 
 	@Override
-	protected String getHeaderImageUrl(ItinCardDataHotel itinCardData) {
-		return itinCardData.getHeaderImageUrl();
+	public String getHeaderImageUrl() {
+		return getItinCardData().getHeaderImageUrl();
 	}
 
 	@Override
-	protected String getHeaderText(ItinCardDataHotel itinCardData) {
-		return itinCardData.getPropertyName();
+	public String getHeaderText() {
+		return getItinCardData().getPropertyName();
 	}
 
 	@Override
-	protected View getTitleView(LayoutInflater inflater, ViewGroup container, ItinCardDataHotel itinCardData) {
-		ViewGroup view = (ViewGroup) inflater.inflate(R.layout.include_itin_card_title_hotel, container, false);
+	public View getTitleView(ViewGroup container) {
+		final ItinCardDataHotel itinCardData = getItinCardData();
+
+		ViewGroup view = (ViewGroup) getLayoutInflater().inflate(R.layout.include_itin_card_title_hotel, container,
+				false);
 
 		TextView hotelNameTextView = Ui.findView(view, R.id.hotel_name_text_view);
 		RatingBar hotelRatingBar = Ui.findView(view, R.id.hotel_rating_bar);
@@ -107,15 +112,18 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 	}
 
 	@Override
-	protected View getSummaryView(LayoutInflater inflater, ViewGroup container, ItinCardDataHotel itinCardData) {
-		TextView view = (TextView) inflater.inflate(R.layout.include_itin_card_summary_hotel, container, false);
-		view.setText("Check-in after " + itinCardData.getCheckInTime());
+	public View getSummaryView(ViewGroup container) {
+		TextView view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_summary_hotel, container,
+				false);
+		view.setText("Check-in after " + getItinCardData().getCheckInTime());
 
 		return view;
 	}
 
-	public View getDetailsView(LayoutInflater inflater, ViewGroup container, final ItinCardDataHotel itinCardData) {
-		View view = inflater.inflate(R.layout.include_itin_card_details_hotel, container, false);
+	public View getDetailsView(ViewGroup container) {
+		final ItinCardDataHotel itinCardData = getItinCardData();
+
+		View view = getLayoutInflater().inflate(R.layout.include_itin_card_details_hotel, container, false);
 
 		// Find
 		TextView checkInDateTextView = Ui.findView(view, R.id.check_in_date_text_view);
@@ -149,36 +157,39 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 		});
 
 		//Add shared data
-		addSharedGuiElements(inflater, commonItinDataContainer);
+		addSharedGuiElements(commonItinDataContainer);
 
 		return view;
 	}
 
 	@Override
-	protected SummaryButton getSummaryLeftButton(final ItinCardDataHotel itinCardData) {
-		return new SummaryButton(R.drawable.ic_direction, R.string.itin_action_directions, new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				final Intent intent = itinCardData.getDirectionsIntent();
-				if (intent != null) {
-					getContext().startActivity(intent);
-					OmnitureTracking.trackItinHotelDirections(getContext());
-				}
-			}
-		});
+	public SummaryButton getSummaryLeftButton() {
+		return new SummaryButton(R.drawable.ic_direction, getContext().getString(R.string.itin_action_directions),
+				new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						final Intent intent = getItinCardData().getDirectionsIntent();
+						if (intent != null) {
+							getContext().startActivity(intent);
+							OmnitureTracking.trackItinHotelDirections(getContext());
+						}
+					}
+				});
 	}
 
 	@Override
-	protected SummaryButton getSummaryRightButton(final ItinCardDataHotel itinCardData) {
-		return new SummaryButton(R.drawable.ic_phone, R.string.itin_action_call_hotel, new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				String phone = itinCardData.getRelevantPhone();
-				if (phone != null) {
-					SocialUtils.call(getContext(), phone);
-					OmnitureTracking.trackItinHotelCall(getContext());
-				}
-			}
-		});
+	public SummaryButton getSummaryRightButton() {
+		return new SummaryButton(R.drawable.ic_phone, getContext().getString(R.string.itin_action_call_hotel),
+				new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						String phone = getItinCardData().getRelevantPhone();
+						if (phone != null) {
+							SocialUtils.call(getContext(), phone);
+							OmnitureTracking.trackItinHotelCall(getContext());
+						}
+					}
+				});
 	}
+
 }

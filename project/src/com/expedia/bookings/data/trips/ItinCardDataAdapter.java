@@ -15,12 +15,6 @@ import android.widget.BaseAdapter;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.TripComponent.Type;
-import com.expedia.bookings.widget.ActivityItinCard;
-import com.expedia.bookings.widget.CarItinCard;
-import com.expedia.bookings.widget.CruiseItinCard;
-import com.expedia.bookings.widget.FallbackItinCard;
-import com.expedia.bookings.widget.FlightItinCard;
-import com.expedia.bookings.widget.HotelItinCard;
 import com.expedia.bookings.widget.ItinCard;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 import com.mobiata.android.Log;
@@ -96,41 +90,8 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 	public synchronized View getView(final int position, View convertView, ViewGroup Parent) {
 		ItinCard card = (ItinCard) convertView;
 		if (card == null) {
-			Type cardType = getItemViewCardType(position);
-			switch (cardType) {
-			case HOTEL: {
-				card = new HotelItinCard(mContext);
-				card.setOnItinCardClickListener(this);
-				break;
-			}
-			case FLIGHT: {
-				card = new FlightItinCard(mContext);
-				card.setOnItinCardClickListener(this);
-				break;
-			}
-			case CAR: {
-				card = new CarItinCard(mContext);
-				card.setOnItinCardClickListener(this);
-				break;
-			}
-			case CRUISE: {
-				card = new CruiseItinCard(mContext);
-				card.setOnItinCardClickListener(this);
-				break;
-			}
-			case ACTIVITY: {
-				card = new ActivityItinCard(mContext);
-				card.setOnItinCardClickListener(this);
-				break;
-			}
-			case FALLBACK: {
-				card = new FallbackItinCard(mContext);
-				card.setOnItinCardClickListener(this);
-				break;
-			}
-			default:
-				throw new RuntimeException("The card type doesn't match any of our predefined types.");
-			}
+			card = new ItinCard(mContext);
+			card.setOnItinCardClickListener(this);
 		}
 
 		State state = getItemViewCardState(position);

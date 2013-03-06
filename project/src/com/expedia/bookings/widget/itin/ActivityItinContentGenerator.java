@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget;
+package com.expedia.bookings.widget.itin;
 
 import java.util.List;
 
@@ -13,9 +13,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -29,7 +28,8 @@ import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.Ui;
 
-public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
+public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardDataActivity> {
+
 	private static final int[] GUEST_ICONS = new int[] {
 			R.drawable.bg_activities_guest_cirlce_blue,
 			R.drawable.bg_activities_guest_cirlce_orange,
@@ -40,12 +40,8 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 			R.drawable.bg_activities_guest_cirlce_yellow
 	};
 
-	public ActivityItinCard(Context context) {
-		this(context, null);
-	}
-
-	public ActivityItinCard(Context context, AttributeSet attrs) {
-		super(context, attrs);
+	public ActivityItinContentGenerator(Context context, ItinCardDataActivity data) {
+		super(context, data);
 	}
 
 	@Override
@@ -59,15 +55,17 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 	}
 
 	@Override
-	protected String getShareSubject(ItinCardDataActivity itinCardData) {
+	public String getShareSubject() {
 		String template = getContext().getString(R.string.share_template_subject_activity);
-		String title = itinCardData.getTitle();
+		String title = getItinCardData().getTitle();
 
 		return String.format(template, title);
 	}
 
 	@Override
-	protected String getShareTextShort(ItinCardDataActivity itinCardData) {
+	public String getShareTextShort() {
+		ItinCardDataActivity itinCardData = getItinCardData();
+
 		String template = getContext().getString(R.string.share_template_short_activity);
 		String title = itinCardData.getTitle();
 		String validDate = itinCardData.getFormattedShareValidDate();
@@ -77,7 +75,9 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 	}
 
 	@Override
-	protected String getShareTextLong(ItinCardDataActivity itinCardData) {
+	public String getShareTextLong() {
+		ItinCardDataActivity itinCardData = getItinCardData();
+
 		String template = getContext().getString(R.string.share_template_long_activity);
 		String title = itinCardData.getTitle();
 		String validDate = itinCardData.getFormattedShareValidDate();
@@ -94,38 +94,43 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 	}
 
 	@Override
-	protected int getHeaderImagePlaceholderResId() {
+	public int getHeaderImagePlaceholderResId() {
 		return R.drawable.itin_header_placeholder_activities;
 	}
 
 	@Override
-	protected String getHeaderImageUrl(ItinCardDataActivity itinCardData) {
+	public String getHeaderImageUrl() {
 		return null;
 	}
 
 	@Override
-	protected String getHeaderText(ItinCardDataActivity itinCardData) {
-		return itinCardData.getTitle();
+	public String getHeaderText() {
+		return getItinCardData().getTitle();
 	}
 
 	@Override
-	protected View getTitleView(LayoutInflater inflater, ViewGroup container, ItinCardDataActivity itinCardData) {
-		TextView view = (TextView) inflater.inflate(R.layout.include_itin_card_title_generic, container, false);
-		view.setText(getHeaderText(itinCardData));
+	public View getTitleView(ViewGroup container) {
+		TextView view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_title_generic, container,
+				false);
+		view.setText(getHeaderText());
 		return view;
 	}
 
 	@Override
-	protected View getSummaryView(LayoutInflater inflater, ViewGroup container, ItinCardDataActivity itinCardData) {
-		TextView view = (TextView) inflater.inflate(R.layout.include_itin_card_summary_activity, container, false);
-		view.setText(Html.fromHtml("Valid starting <strong>" + itinCardData.getLongFormattedValidDate() + "</strong>"));
+	public View getSummaryView(ViewGroup container) {
+		TextView view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_summary_activity, container,
+				false);
+		view.setText(Html.fromHtml("Valid starting <strong>" + getItinCardData().getLongFormattedValidDate()
+				+ "</strong>"));
 
 		return view;
 	}
 
 	@Override
-	protected View getDetailsView(LayoutInflater inflater, ViewGroup container, final ItinCardDataActivity itinCardData) {
-		View view = inflater.inflate(R.layout.include_itin_card_details_activity, container, false);
+	public View getDetailsView(ViewGroup container) {
+		ItinCardDataActivity itinCardData = getItinCardData();
+
+		View view = getLayoutInflater().inflate(R.layout.include_itin_card_details_activity, container, false);
 
 		// Find
 		TextView activeDateTextView = Ui.findView(view, R.id.active_date_text_view);
@@ -145,7 +150,8 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 		final int size = travelers == null ? 0 : travelers.size();
 		if (size > 0) {
 			for (int i = 0; i < size; i++) {
-				final TextView guestView = (TextView) inflate(getContext(), R.layout.include_itin_card_guest, null);
+				final TextView guestView = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_guest,
+						null);
 				final Traveler traveler = travelers.get(i);
 				final int resId = GUEST_ICONS[i % GUEST_ICONS.length];
 
@@ -160,35 +166,37 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 		}
 
 		//Add shared data
-		addSharedGuiElements(inflater, commonItinDataContainer);
+		addSharedGuiElements(commonItinDataContainer);
 
 		return view;
 	}
 
 	@Override
-	protected SummaryButton getSummaryLeftButton(final ItinCardDataActivity itinCardData) {
-		return new SummaryButton(R.drawable.ic_printer_redeem, R.string.itin_action_redeem, new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getContext());
-				builder.setUrl(itinCardData.getVoucherPrintUrl());
-				builder.setTitle(R.string.webview_title_print_vouchers);
-				builder.setTheme(R.style.FlightTheme);
-				getContext().startActivity(builder.getIntent());
+	public SummaryButton getSummaryLeftButton() {
+		return new SummaryButton(R.drawable.ic_printer_redeem, getContext().getString(R.string.itin_action_redeem),
+				new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getContext());
+						builder.setUrl(getItinCardData().getVoucherPrintUrl());
+						builder.setTitle(R.string.webview_title_print_vouchers);
+						builder.setTheme(R.style.FlightTheme);
+						getContext().startActivity(builder.getIntent());
 
-				OmnitureTracking.trackItinActivityRedeem(getContext());
-			}
-		});
+						OmnitureTracking.trackItinActivityRedeem(getContext());
+					}
+				});
 	}
 
 	@Override
-	protected SummaryButton getSummaryRightButton(final ItinCardDataActivity itinCardData) {
-		return new SummaryButton(R.drawable.ic_phone, R.string.itin_action_support, new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				OmnitureTracking.trackItinActivitySupport(getContext());
-			}
-		});
+	public SummaryButton getSummaryRightButton() {
+		return new SummaryButton(R.drawable.ic_phone, getContext().getString(R.string.itin_action_support),
+				new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						OmnitureTracking.trackItinActivitySupport(getContext());
+					}
+				});
 	}
 
 	private Drawable createGuestIcon(Traveler travler, int iconResId) {

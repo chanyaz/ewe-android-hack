@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget;
+package com.expedia.bookings.widget.itin;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -24,9 +24,8 @@ import android.support.v4.app.FragmentManager;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -41,7 +40,6 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.FlightConfirmation;
-import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
@@ -52,6 +50,7 @@ import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.FlightMapImageView;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Delay;
 import com.mobiata.flightlib.data.Flight;
@@ -59,7 +58,7 @@ import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
 
-public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
+public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDataFlight> {
 
 	private static final String FRAG_TAG_AIRPORT_ACTION_CHOOSER = "FRAG_TAG_AIRPORT_ACTION_CHOOSER";
 
@@ -71,12 +70,8 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 	// CONSTRUCTORS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	public FlightItinCard(Context context) {
-		this(context, null);
-	}
-
-	public FlightItinCard(Context context, AttributeSet attrs) {
-		super(context, attrs);
+	public FlightItinContentGenerator(Context context, ItinCardDataFlight data) {
+		super(context, data);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -94,7 +89,9 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 	}
 
 	@Override
-	protected String getShareSubject(ItinCardDataFlight itinCardData) {
+	public String getShareSubject() {
+		final ItinCardDataFlight itinCardData = getItinCardData();
+
 		if (itinCardData != null && itinCardData.getFlightLeg() != null
 				&& itinCardData.getFlightLeg().getLastWaypoint() != null
 				&& itinCardData.getFlightLeg().getLastWaypoint().getAirport() != null) {
@@ -109,7 +106,9 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 	}
 
 	@Override
-	protected String getShareTextShort(ItinCardDataFlight itinCardData) {
+	public String getShareTextShort() {
+		final ItinCardDataFlight itinCardData = getItinCardData();
+
 		if (itinCardData != null && itinCardData.getFlightLeg() != null
 				&& itinCardData.getFlightLeg().getLastWaypoint() != null
 				&& itinCardData.getFlightLeg().getLastWaypoint().getAirport() != null) {
@@ -173,7 +172,9 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 	}
 
 	@Override
-	protected String getShareTextLong(ItinCardDataFlight itinCardData) {
+	public String getShareTextLong() {
+		final ItinCardDataFlight itinCardData = getItinCardData();
+
 		if (itinCardData != null && itinCardData.getFlightLeg() != null
 				&& itinCardData.getFlightLeg().getLastWaypoint() != null
 				&& itinCardData.getFlightLeg().getLastWaypoint().getAirport() != null) {
@@ -248,17 +249,14 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 	}
 
 	@Override
-	public void bind(ItinCardData itinCardData) {
-		super.bind(itinCardData);
-	}
-
-	@Override
-	protected int getHeaderImagePlaceholderResId() {
+	public int getHeaderImagePlaceholderResId() {
 		return R.drawable.default_flights_background;
 	}
 
 	@Override
-	protected String getHeaderImageUrl(ItinCardDataFlight itinCardData) {
+	public String getHeaderImageUrl() {
+		final ItinCardDataFlight itinCardData = getItinCardData();
+
 		TripFlight tripFlight = (TripFlight) itinCardData.getTripComponent();
 		if (tripFlight != null && itinCardData != null
 				&& tripFlight.getLegDestinationImageUrl(itinCardData.getLegNumber()) != null) {
@@ -270,7 +268,9 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 	}
 
 	@Override
-	protected String getHeaderText(ItinCardDataFlight itinCardData) {
+	public String getHeaderText() {
+		final ItinCardDataFlight itinCardData = getItinCardData();
+
 		if (itinCardData != null && itinCardData.getFlightLeg() != null
 				&& itinCardData.getFlightLeg().getLastWaypoint() != null
 				&& itinCardData.getFlightLeg().getLastWaypoint().getAirport() != null
@@ -282,17 +282,18 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 	}
 
 	@Override
-	protected View getTitleView(LayoutInflater inflater, ViewGroup container, ItinCardDataFlight itinCardData) {
-		TextView view = (TextView) inflater.inflate(R.layout.include_itin_card_title_generic, container, false);
-		view.setText(getHeaderText(itinCardData));
+	public View getTitleView(ViewGroup container) {
+		TextView view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_title_generic, container,
+				false);
+		view.setText(getHeaderText());
 		return view;
 	}
 
 	@Override
-	protected View getDetailsView(LayoutInflater inflater, ViewGroup container, ItinCardDataFlight itinCardData) {
-		View view = inflater.inflate(R.layout.include_itin_card_details_flight, container, false);
+	public View getDetailsView(ViewGroup container) {
+		View view = getLayoutInflater().inflate(R.layout.include_itin_card_details_flight, container, false);
 
-		ItinCardDataFlight data = (ItinCardDataFlight) itinCardData;
+		ItinCardDataFlight data = getItinCardData();
 		TripFlight tripFlight = (TripFlight) data.getTripComponent();
 
 		if (tripFlight != null && tripFlight.getFlightTrip() != null && tripFlight.getFlightTrip().getLegCount() > 0) {
@@ -351,42 +352,42 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 
 				if (isFirstSegment) {
 					flightLegContainer
-							.addView(getWayPointView(segment.mOrigin, null, WaypointType.DEPARTURE, inflater));
+							.addView(getWayPointView(segment.mOrigin, null, WaypointType.DEPARTURE));
 					flightLegContainer.addView(getHorizontalDividerView(divPadding));
 				}
 				else {
 					flightLegContainer.addView(getWayPointView(prevSegment.mDestination, segment.mOrigin,
-							WaypointType.LAYOVER, inflater));
+							WaypointType.LAYOVER));
 					flightLegContainer.addView(getHorizontalDividerView(divPadding));
 				}
 
-				flightLegContainer.addView(getFlightView(segment, departureTimeCal, arrivalTimeCal, inflater));
+				flightLegContainer.addView(getFlightView(segment, departureTimeCal, arrivalTimeCal));
 				flightLegContainer.addView(getHorizontalDividerView(divPadding));
 
 				if (isLastSegment) {
-					flightLegContainer.addView(getWayPointView(segment.mDestination, null, WaypointType.ARRIVAL,
-							inflater));
+					flightLegContainer.addView(getWayPointView(segment.mDestination, null, WaypointType.ARRIVAL));
 				}
 
 				prevSegment = segment;
 			}
 
 			//Add shared data
-			addSharedGuiElements(inflater, commonItinDataContainer);
+			addSharedGuiElements(commonItinDataContainer);
 		}
 
 		return view;
 	}
 
 	@Override
-	protected View getSummaryView(LayoutInflater inflater, ViewGroup container, ItinCardDataFlight itinCardData) {
+	public View getSummaryView(ViewGroup container) {
+		final ItinCardDataFlight itinCardData = getItinCardData();
 
 		if (itinCardData == null || itinCardData.getStartDate() == null || itinCardData.getEndDate() == null) {
 			//Bad data (we don't show any summary view in this case)
 			return null;
 		}
 
-		View view = inflater.inflate(R.layout.include_itin_card_summary_flight, container, false);
+		View view = getLayoutInflater().inflate(R.layout.include_itin_card_summary_flight, container, false);
 		TextView topLine = Ui.findView(view, R.id.flight_status_top_line);
 		FontCache.setTypeface(topLine, FontCache.Font.ROBOTO_REGULAR);
 		TextView bottomLine = Ui.findView(view, R.id.flight_status_bottom_line);
@@ -557,12 +558,12 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 
 	@SuppressLint("DefaultLocale")
 	@Override
-	protected SummaryButton getSummaryLeftButton(final ItinCardDataFlight itinCardData) {
-		return new SummaryButton(R.drawable.ic_direction, R.string.directions,
+	public SummaryButton getSummaryLeftButton() {
+		return new SummaryButton(R.drawable.ic_direction, getContext().getString(R.string.directions),
 				new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						Airport airport = itinCardData.getFlightLeg().getFirstWaypoint().getAirport();
+						Airport airport = getItinCardData().getFlightLeg().getFirstWaypoint().getAirport();
 						Intent intent = getAirportDirectionsIntent(airport);
 						getContext().startActivity(intent);
 					}
@@ -571,7 +572,9 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 
 	@SuppressLint("DefaultLocale")
 	@Override
-	protected SummaryButton getSummaryRightButton(final ItinCardDataFlight itinCardData) {
+	public SummaryButton getSummaryRightButton() {
+		final ItinCardDataFlight itinCardData = getItinCardData();
+
 		final String confCodes = getConfirmationCodeListString((TripFlight) itinCardData.getTripComponent());
 		if (!TextUtils.isEmpty(confCodes)) {
 			return new SummaryButton(R.drawable.ic_confirmation_checkmark_light, confCodes, new OnClickListener() {
@@ -588,52 +591,53 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 				return null;
 			}
 			else {
-				return new SummaryButton(R.drawable.ic_clock_small, R.string.set_alert, new OnClickListener() {
-					//NOTE: CalendarAPIUtils.deviceSupportsCalendarAPI(getContext()) will block old phones, so NewApi is ok here
-					@SuppressLint("NewApi")
-					@Override
-					public void onClick(View v) {
-						Resources res = getResources();
-						FlightLeg leg = itinCardData.getFlightLeg();
-						Calendar startCal = itinCardData.getStartDate().getCalendar();
-						Calendar endCal = itinCardData.getEndDate().getCalendar();
-						Waypoint origin = itinCardData.getFlightLeg().getFirstWaypoint();
-						Waypoint destination = itinCardData.getFlightLeg().getLastWaypoint();
-						Intent intent = new Intent(Intent.ACTION_INSERT);
-						intent.setData(Events.CONTENT_URI);
-						intent.putExtra(
-								Events.TITLE,
-								res.getString(R.string.flight_calendar_event_title_TEMPLATE,
-										StrUtils.getWaypointCityOrCode(origin),
-										StrUtils.getWaypointCityOrCode(destination)));
-						intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startCal.getTimeInMillis());
-						intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endCal.getTimeInMillis());
+				return new SummaryButton(R.drawable.ic_clock_small, getContext().getString(R.string.set_alert),
+						new OnClickListener() {
+							//NOTE: CalendarAPIUtils.deviceSupportsCalendarAPI(getContext()) will block old phones, so NewApi is ok here
+							@SuppressLint("NewApi")
+							@Override
+							public void onClick(View v) {
+								Resources res = getResources();
+								FlightLeg leg = itinCardData.getFlightLeg();
+								Calendar startCal = itinCardData.getStartDate().getCalendar();
+								Calendar endCal = itinCardData.getEndDate().getCalendar();
+								Waypoint origin = itinCardData.getFlightLeg().getFirstWaypoint();
+								Waypoint destination = itinCardData.getFlightLeg().getLastWaypoint();
+								Intent intent = new Intent(Intent.ACTION_INSERT);
+								intent.setData(Events.CONTENT_URI);
+								intent.putExtra(
+										Events.TITLE,
+										res.getString(R.string.flight_calendar_event_title_TEMPLATE,
+												StrUtils.getWaypointCityOrCode(origin),
+												StrUtils.getWaypointCityOrCode(destination)));
+								intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startCal.getTimeInMillis());
+								intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endCal.getTimeInMillis());
 
-						if (leg != null && leg.getSegmentCount() > 0) {
-							// Don't lie to me!
-							Flight firstFlight = leg.getSegment(0);
-							boolean isIndividualFlight = true;
-							if (isIndividualFlight && leg.getSegmentCount() != 1) {
-								isIndividualFlight = false;
-							}
+								if (leg != null && leg.getSegmentCount() > 0) {
+									// Don't lie to me!
+									Flight firstFlight = leg.getSegment(0);
+									boolean isIndividualFlight = true;
+									if (isIndividualFlight && leg.getSegmentCount() != 1) {
+										isIndividualFlight = false;
+									}
 
-							if (isIndividualFlight) {
-								intent.putExtra(Events.EVENT_LOCATION,
-										FormatUtils.formatFlightNumber(firstFlight, FlightItinCard.this.getContext()));
-							}
-							else {
-								intent.putExtra(Events.EVENT_LOCATION, leg.getAirlinesFormatted());
-							}
+									if (isIndividualFlight) {
+										intent.putExtra(Events.EVENT_LOCATION,
+												FormatUtils.formatFlightNumber(firstFlight, getContext()));
+									}
+									else {
+										intent.putExtra(Events.EVENT_LOCATION, leg.getAirlinesFormatted());
+									}
 
-						}
-						else {
-							intent.putExtra(Events.EVENT_LOCATION,
-									res.getString(R.string.calendar_flight_location_TEMPLATE,
-											origin.getAirport().mName, StrUtils.getWaypointCityOrCode(origin)));
-						}
-						getContext().startActivity(intent);
-					}
-				});
+								}
+								else {
+									intent.putExtra(Events.EVENT_LOCATION,
+											res.getString(R.string.calendar_flight_location_TEMPLATE,
+													origin.getAirport().mName, StrUtils.getWaypointCityOrCode(origin)));
+								}
+								getContext().startActivity(intent);
+							}
+						});
 			}
 		}
 	}
@@ -662,9 +666,8 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 		DEPARTURE, ARRIVAL, LAYOVER
 	}
 
-	private View getWayPointView(final Waypoint primaryWaypoint, Waypoint secondaryWaypoint, WaypointType type,
-			LayoutInflater inflater) {
-		View v = inflater.inflate(R.layout.snippet_itin_waypoint_row, null);
+	private View getWayPointView(final Waypoint primaryWaypoint, Waypoint secondaryWaypoint, WaypointType type) {
+		View v = getLayoutInflater().inflate(R.layout.snippet_itin_waypoint_row, null);
 		TextView firstRowText = Ui.findView(v, R.id.layover_terminal_gate_one);
 		TextView secondRowText = Ui.findView(v, R.id.layover_terminal_gate_two);
 		View terminalMapDirectionsBtn = Ui.findView(v, R.id.terminal_map_or_directions_btn);
@@ -783,8 +786,8 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 		return v;
 	}
 
-	private View getFlightView(Flight flight, Calendar minTime, Calendar maxTime, LayoutInflater inflater) {
-		FlightLegSummarySection v = (FlightLegSummarySection) inflater.inflate(
+	private View getFlightView(Flight flight, Calendar minTime, Calendar maxTime) {
+		FlightLegSummarySection v = (FlightLegSummarySection) getLayoutInflater().inflate(
 				R.layout.section_flight_leg_summary_itin, null);
 		v.bindFlight(flight, minTime, maxTime);
 
@@ -977,7 +980,7 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			builder.setItems(finalOptions, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					if (finalOptions[which].equals(directions)) {
-						Intent intent = FlightItinCard.getAirportDirectionsIntent(mAirport);
+						Intent intent = getAirportDirectionsIntent(mAirport);
 						getActivity().startActivity(intent);
 						TerminalMapsOrDirectionsDialogFragment.this.dismissAllowingStateLoss();
 
@@ -998,4 +1001,5 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			return builder.create();
 		}
 	}
+
 }
