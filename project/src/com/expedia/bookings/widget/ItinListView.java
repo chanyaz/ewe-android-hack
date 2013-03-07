@@ -27,6 +27,7 @@ import com.expedia.bookings.data.trips.ItinCardDataAdapter;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
+import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.nineoldandroids.animation.Animator;
@@ -589,9 +590,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	}
 
 	@Override
-	public void onShareButtonClicked(String subject, String shortMessage, String longMessage) {
+	public void onShareButtonClicked(ItinContentGenerator<?> generator) {
 		if (mOnItinCardClickListener != null) {
-			mOnItinCardClickListener.onShareButtonClicked(subject, shortMessage, longMessage);
+			mOnItinCardClickListener.onShareButtonClicked(generator);
 		}
 	}
 

@@ -39,7 +39,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	public interface OnItinCardClickListener {
 		public void onCloseButtonClicked();
 
-		public void onShareButtonClicked(String subject, String shortMessage, String longMessage);
+		public void onShareButtonClicked(ItinContentGenerator<?> generator);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -516,26 +516,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 			}
 			case R.id.share_image_button: {
 				if (mOnItinCardClickListener != null) {
-					String subject = mItinContentGenerator.getShareSubject();
-					String shortMessage = mItinContentGenerator.getShareTextShort();
-					String longMessage = mItinContentGenerator.getShareTextLong();
-
-					mOnItinCardClickListener.onShareButtonClicked(subject, shortMessage, longMessage);
-
-					switch (mItinContentGenerator.getType()) {
-					case FLIGHT:
-						OmnitureTracking.trackItinFlightShare(getContext());
-						break;
-					case HOTEL:
-						OmnitureTracking.trackItinHotelShare(getContext());
-						break;
-					case CAR:
-						OmnitureTracking.trackItinCarShare(getContext());
-						break;
-					case ACTIVITY:
-						OmnitureTracking.trackItinActivityShare(getContext());
-						break;
-					}
+					mOnItinCardClickListener.onShareButtonClicked(mItinContentGenerator);
 				}
 				break;
 			}

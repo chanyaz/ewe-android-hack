@@ -11,6 +11,8 @@ import android.widget.ScrollView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItinCardData;
+import com.expedia.bookings.dialog.SocialMessageChooserDialogFragment;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 
@@ -33,7 +35,11 @@ public class ItinCardFragment extends Fragment {
 		Ui.setOnClickListener(view, R.id.share_image_button, new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Ui.showToast(getActivity(), "TODO: Share");
+				ItinContentGenerator<?> generator = ItinContentGenerator.createGenerator(getActivity(), mCurrentData);
+
+				OmnitureTracking.trackItinShare(getActivity(), generator.getType());
+
+				SocialMessageChooserDialogFragment.newInstance(generator).show(getFragmentManager(), "shareDialog");
 			}
 		});
 

@@ -8,6 +8,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.Ui;
 
@@ -15,6 +16,14 @@ public class SocialMessageChooserDialogFragment extends DialogFragment {
 	private String mSubject;
 	private String mShortMessage;
 	private String mLongMessage;
+
+	public static SocialMessageChooserDialogFragment newInstance(ItinContentGenerator<?> generator) {
+		String subject = generator.getShareSubject();
+		String shortMessage = generator.getShareTextShort();
+		String longMessage = generator.getShareTextLong();
+
+		return newInstance(subject, shortMessage, longMessage);
+	}
 
 	public static SocialMessageChooserDialogFragment newInstance(String subject, String shortMessage, String longMessage) {
 		SocialMessageChooserDialogFragment fragment = new SocialMessageChooserDialogFragment();

@@ -374,6 +374,23 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", s.getEvar(28), null, null);
 	}
 
+	public static void trackItinShare(Context context, Type type) {
+		switch (type) {
+		case FLIGHT:
+			OmnitureTracking.trackItinFlightShare(context);
+			break;
+		case HOTEL:
+			OmnitureTracking.trackItinHotelShare(context);
+			break;
+		case CAR:
+			OmnitureTracking.trackItinCarShare(context);
+			break;
+		case ACTIVITY:
+			OmnitureTracking.trackItinActivityShare(context);
+			break;
+		}
+	}
+
 	public static void trackItinAdd(Context context) {
 		internalTrackLink(context, ITIN_ADD_SUCCESS);
 	}

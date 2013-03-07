@@ -18,6 +18,7 @@ import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.widget.ItinCard;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
+import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
 
 public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncListener, OnItinCardClickListener {
@@ -458,9 +459,9 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 	}
 
 	@Override
-	public void onShareButtonClicked(String subject, String shortMessage, String longMessage) {
+	public void onShareButtonClicked(ItinContentGenerator<?> generator) {
 		if (mOnItinCardClickListener != null) {
-			mOnItinCardClickListener.onShareButtonClicked(subject, shortMessage, longMessage);
+			mOnItinCardClickListener.onShareButtonClicked(generator);
 		}
 	}
 }

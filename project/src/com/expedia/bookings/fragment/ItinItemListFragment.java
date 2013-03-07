@@ -38,6 +38,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
+import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.ObjectAnimator;
@@ -357,9 +358,10 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		}
 
 		@Override
-		public void onShareButtonClicked(String subject, String shortMessage, String longMessage) {
-			SocialMessageChooserDialogFragment.newInstance(subject, shortMessage, longMessage).show(
-					getFragmentManager(), DIALOG_SHARE);
+		public void onShareButtonClicked(ItinContentGenerator<?> generator) {
+			OmnitureTracking.trackItinShare(getActivity(), generator.getType());
+
+			SocialMessageChooserDialogFragment.newInstance(generator).show(getFragmentManager(), DIALOG_SHARE);
 		}
 	};
 
