@@ -406,10 +406,13 @@ public class ExpediaServices implements DownloadListener {
 	 * @param destinationCode
 	 * @return
 	 */
-	public BackgroundImageResponse getCarsBackgroundImage(Car.Category category, Integer width, Integer height) {
+	public BackgroundImageResponse getCarsBackgroundImage(Car.Category category, Car.Type type, Integer width, Integer height) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 		query.add(new BasicNameValuePair("imageType", "CAR"));
-		query.add(new BasicNameValuePair("imageCode", category.toString().toLowerCase()));
+
+		String imageCode = category.toString().replace("_", "") + "_" + type.toString().replace("_", "");
+		query.add(new BasicNameValuePair("imageCode", imageCode));
+
 		query.add(new BasicNameValuePair("imageWidth", width.toString()));
 		query.add(new BasicNameValuePair("imageHeight", height.toString()));
 

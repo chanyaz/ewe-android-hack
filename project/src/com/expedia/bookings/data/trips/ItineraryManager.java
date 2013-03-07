@@ -728,7 +728,7 @@ public class ItineraryManager implements JSONable {
 
 					if (category != null && TextUtils.isEmpty(tripCar.getCarCategoryImageUrl())) {
 						BackgroundImageResponse imageResponse = mServices.getCarsBackgroundImage(tripCar
-								.getCar().getCategory(), 0, 0);
+								.getCar().getCategory(), tripCar.getCar().getType(), 0, 0);
 
 						if (isCancelled()) {
 							return;
