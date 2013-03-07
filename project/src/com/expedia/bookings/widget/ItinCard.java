@@ -60,6 +60,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 	private DisplayState mDisplayState = DisplayState.COLLAPSED;
 	private boolean mShowSummary;
+	private boolean mSelectCard;
 	private boolean mShadeCard;
 
 	private int mTitleLayoutHeight;
@@ -85,6 +86,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	private OptimizedImageView mHeaderImageView;
 	private ImageView mHeaderOverlayImageView;
 	private TextView mHeaderTextView;
+	private View mSelectedView;
 	private View mHeaderShadeView;
 	private View mSummaryDividerView;
 
@@ -127,6 +129,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		mHeaderImageView = Ui.findView(this, R.id.header_image_view);
 		mHeaderOverlayImageView = Ui.findView(this, R.id.header_overlay_image_view);
 		mHeaderTextView = Ui.findView(this, R.id.header_text_view);
+		mSelectedView = Ui.findView(this, R.id.selected_view);
 		mHeaderShadeView = Ui.findView(this, R.id.header_mask);
 		mSummaryDividerView = Ui.findView(this, R.id.summary_divider_view);
 
@@ -212,6 +215,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		Ui.findView(this, R.id.action_button_divider).setVisibility(
 				(leftButton != null && rightButton != null) ? VISIBLE : GONE);
 
+		// Selected
+		mSelectedView.setVisibility(mSelectCard ? View.VISIBLE : View.GONE);
+
 		//Shade
 		if (mShadeCard) {
 			float shadeAlpha = 0.5f;
@@ -266,6 +272,10 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 	public void setShowExtraBottomPadding(boolean show) {
 		mBottomExtraPaddingView.setVisibility(show ? VISIBLE : GONE);
+	}
+
+	public void setCardSelected(boolean selected) {
+		mSelectCard = selected;
 	}
 
 	public void setCardShaded(boolean shade) {

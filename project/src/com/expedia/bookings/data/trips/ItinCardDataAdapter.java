@@ -45,6 +45,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 	private ArrayList<ItinCardData> mItinCardDatas;
 	private TripComponentSortOrder mSortOrder = TripComponentSortOrder.START_DATE;
 	private int mDetailPosition = -1;
+	private String mSelectedCardId;
 
 	private boolean mSimpleMode = false;
 
@@ -101,8 +102,11 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 
 		State state = getItemViewCardState(position);
 
+		ItinCardData data = getItem(position);
+
+		card.setCardSelected(mSimpleMode && data.getId().equals(mSelectedCardId));
 		card.setCardShaded(state == State.PAST);
-		card.bind(getItem(position));
+		card.bind(data);
 		card.setShowSummary(state == State.SUMMARY);
 
 		if (state == State.SUMMARY) {
@@ -187,6 +191,10 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 
 	public void setDetailPosition(int position) {
 		mDetailPosition = position;
+	}
+
+	public void setSelectedCardId(String cardId) {
+		mSelectedCardId = cardId;
 	}
 
 	/**

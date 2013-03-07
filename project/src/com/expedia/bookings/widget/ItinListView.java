@@ -138,7 +138,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			super.onRestoreInstanceState(bundle.getParcelable(STATE_DEFAULT_SAVESTATE));
 			mScrollToReleventOnDataSetChange = bundle.getBoolean(STATE_DO_AUTOSCROLL, true);
 			mLastItemCount = bundle.getInt(STATE_LAST_ITEM_COUNT, 0);
-			mSelectedCardId = bundle.getString(STATE_SELECTED_CARD_ID, null);
+			setSelectedCardId(bundle.getString(STATE_SELECTED_CARD_ID, null));
 		}
 		else {
 			super.onRestoreInstanceState(state);
@@ -317,15 +317,25 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		return null;
 	}
 
+	private void setSelectedCardId(String cardId) {
+		mSelectedCardId = cardId;
+		mAdapter.setSelectedCardId(cardId);
+	}
+
 	private void clearDetailView() {
 		mDetailPosition = -1;
 		mDetailsCard = null;
-		mSelectedCardId = null;
 		mAdapter.setDetailPosition(-1);
+		setSelectedCardId(null);
 	}
 
 	private boolean hideDetails() {
-		mSelectedCardId = null;
+		if (mSimpleMode) {
+			setSelectedCardId(null);
+			mAdapter.notifyDataSetChanged();
+
+			return false;
+		}
 
 		boolean releaseSemHere = true;
 		boolean semGot = false;
@@ -406,7 +416,8 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	@SuppressLint("NewApi")
 	private boolean showDetails(int position) {
 		if (mSimpleMode) {
-			mSelectedCardId = mAdapter.getItem(position).getId();
+			setSelectedCardId(mAdapter.getItem(position).getId());
+			mAdapter.notifyDataSetChanged();
 
 			return false;
 		}
@@ -423,7 +434,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 				mDetailPosition = position;
 				mMode = MODE_DETAIL;
-				mSelectedCardId = mAdapter.getItem(position).getId();
+				setSelectedCardId(mAdapter.getItem(position).getId());
 				if (mOnListModeChangedListener != null) {
 					mOnListModeChangedListener.onListModeChanged(mMode);
 				}
@@ -612,7 +623,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			mLastItemCount = mAdapter.getCount();
 
 			// TODO: For some reason this won't run properly on the first data set change.
-			if (!TextUtils.isEmpty(mSelectedCardId)) {
+			if (!mSimpleMode && !TextUtils.isEmpty(mSelectedCardId)) {
 				int position = mAdapter.getPosition(mSelectedCardId);
 				if (position != -1 && position != mDetailPosition) {
 					Log.i("Attempting to show selected card id: " + mSelectedCardId);
