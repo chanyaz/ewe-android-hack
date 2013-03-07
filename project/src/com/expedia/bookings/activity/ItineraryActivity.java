@@ -69,6 +69,20 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 		mItinListFragment.enableLoadItins();
 	}
 
+	@Override
+	public void onBackPressed() {
+		if (!mItinListFragment.inListMode()) {
+			mItinListFragment.setListMode();
+		}
+		else if (mTwoPaneMode && mItinCardFragment.isVisible()) {
+			mItinListFragment.setListMode();
+			getSupportFragmentManager().beginTransaction().hide(mItinCardFragment).commit();
+		}
+		else {
+			super.onBackPressed();
+		}
+	}
+
 	private void showPopupWindow(ItinCardData data) {
 		// Don't react if it's the same card as before being clicked
 		String id = data.getId();
