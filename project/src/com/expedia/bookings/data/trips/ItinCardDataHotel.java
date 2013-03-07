@@ -47,23 +47,41 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	public String getHeaderImageUrl() {
-		if (mProperty.getMediaCount() > 0) {
-			return mProperty.getMedia(0).getUrl(Media.IMAGE_BIG_SUFFIX);
-		}
+		if (hasProperty()) {
+			if (mProperty.getMediaCount() > 0) {
+				return mProperty.getMedia(0).getUrl(Media.IMAGE_BIG_SUFFIX);
+			}
 
-		return mProperty.getThumbnail().getUrl();
+			return mProperty.getThumbnail().getUrl();
+		}
+		return null;
 	}
 
 	public String getPropertyName() {
-		return mProperty.getName();
+		if (hasProperty()) {
+			return mProperty.getName();
+		}
+		else if (this.getTripComponent() != null && this.getTripComponent().getParentTrip() != null
+				&& !TextUtils.isEmpty(this.getTripComponent().getParentTrip().getTitle())) {
+			return this.getTripComponent().getParentTrip().getTitle();
+		}
+		else {
+			return null;
+		}
 	}
 
 	public float getPropertyRating() {
-		return (float) mProperty.getHotelRating();
+		if (hasProperty()) {
+			return (float) mProperty.getHotelRating();
+		}
+		return 0f;
 	}
 
 	public String getPropertyInfoSiteUrl() {
-		return mProperty.getInfoSiteUrl();
+		if (hasProperty()) {
+			return mProperty.getInfoSiteUrl();
+		}
+		return null;
 	}
 
 	public String getFormattedLengthOfStay(Context context) {
@@ -104,23 +122,35 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 	}
 
 	public Location getPropertyLocation() {
-		return mProperty.getLocation();
+		if (hasProperty()) {
+			return mProperty.getLocation();
+		}
+		return null;
 	}
 
 	public String getAddressString() {
-		return mProperty.getLocation().getStreetAddressString();
+		if (hasProperty()) {
+			return mProperty.getLocation().getStreetAddressString();
+		}
+		return null;
 	}
 
 	public String getRelevantPhone() {
-		if (!TextUtils.isEmpty(mProperty.getTollFreePhone())) {
-			return mProperty.getTollFreePhone();
-		}
+		if (hasProperty()) {
+			if (!TextUtils.isEmpty(mProperty.getTollFreePhone())) {
+				return mProperty.getTollFreePhone();
+			}
 
-		return mProperty.getLocalPhone();
+			return mProperty.getLocalPhone();
+		}
+		return null;
 	}
 
 	public String getRoomDescription() {
-		return mProperty.getDescriptionText();
+		if (hasProperty()) {
+			return mProperty.getDescriptionText();
+		}
+		return null;
 	}
 
 	public Intent getDirectionsIntent() {
@@ -150,5 +180,9 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 			return true;
 		}
 		return false;
+	}
+
+	private boolean hasProperty() {
+		return mProperty != null;
 	}
 }
