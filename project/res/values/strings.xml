@@ -67,9 +67,9 @@
     <!-- Itinerary Number -->
     <string name="itinerary_number">Itinerary Number</string>
     <!-- No upcoming trips -->
-    <string name="no_upcoming_trips">Nothing upcoming.</string>
-    <!-- Or enter an itinerary number -->
-    <string name="or_enter_an_itinerary_number">Or, Enter an Itinerary Number</string>
+    <string name="no_upcoming_trips">No upcoming trips.</string>
+    <!-- Enter itinerary number -->
+    <string name="enter_itinerary_number">Enter Itinerary Number</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Fetching your itinerary…</string>
     <!-- Error fetching itinerary -->
