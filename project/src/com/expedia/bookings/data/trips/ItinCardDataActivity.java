@@ -38,46 +38,83 @@ public class ItinCardDataActivity extends ItinCardData {
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	public String getTitle() {
-		return mActivity.getTitle();
+		if (hasContent()) {
+			return mActivity.getTitle();
+		}
+		return null;
 	}
 
 	public DateTime getValidDate() {
-		return getTripComponent().getParentTrip().getStartDate();
+		if (hasContent()) {
+			return getTripComponent().getParentTrip().getStartDate();
+		}
+		return null;
 	}
 
 	public DateTime getExpirationDate() {
-		return getTripComponent().getParentTrip().getEndDate();
+		if (hasContent()) {
+			return getTripComponent().getParentTrip().getEndDate();
+		}
+		return null;
 	}
 
 	public String getFormattedShareValidDate() {
-		return SHARE_DATE_FORMAT.format(getValidDate().getCalendar().getTime());
+		if (hasContent()) {
+			return SHARE_DATE_FORMAT.format(getValidDate().getCalendar().getTime());
+		}
+		return null;
 	}
 
 	public String getFormattedShareExpiresDate() {
-		return SHARE_DATE_FORMAT.format(getValidDate().getCalendar().getTime());
+		if (hasContent()) {
+			return SHARE_DATE_FORMAT.format(getValidDate().getCalendar().getTime());
+		}
+		return null;
 	}
 
 	public String getLongFormattedValidDate() {
-		return DETAIL_LONG_DATE_FORMAT.format(getValidDate().getCalendar().getTime());
+		if (hasContent()) {
+			return DETAIL_LONG_DATE_FORMAT.format(getValidDate().getCalendar().getTime());
+		}
+		return null;
 	}
 
 	public String getFormattedValidDate() {
-		return DETAIL_SHORT_DATE_FORMAT.format(getValidDate().getCalendar().getTime());
+		if (hasContent()) {
+			return DETAIL_SHORT_DATE_FORMAT.format(getValidDate().getCalendar().getTime());
+		}
+		return null;
 	}
 
 	public String getFormattedExpirationDate() {
-		return DETAIL_SHORT_DATE_FORMAT.format(getExpirationDate().getCalendar().getTime());
+		if (hasContent()) {
+			return DETAIL_SHORT_DATE_FORMAT.format(getExpirationDate().getCalendar().getTime());
+		}
+		return null;
 	}
 
 	public String getFormattedGuestCount() {
-		return String.valueOf(mActivity.getGuestCount());
+		if (hasContent()) {
+			return String.valueOf(mActivity.getGuestCount());
+		}
+		return null;
 	}
 
 	public List<Traveler> getTravelers() {
-		return mActivity.getTravelers();
+		if (hasContent()) {
+			return mActivity.getTravelers();
+		}
+		return null;
 	}
 
 	public String getVoucherPrintUrl() {
-		return mActivity.getVoucherPrintUrl();
+		if (hasContent()) {
+			return mActivity.getVoucherPrintUrl();
+		}
+		return null;
+	}
+
+	private boolean hasContent() {
+		return mActivity != null;
 	}
 }
