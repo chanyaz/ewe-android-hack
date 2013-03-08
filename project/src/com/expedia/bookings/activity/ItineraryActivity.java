@@ -97,10 +97,12 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 				getSupportFragmentManager().beginTransaction().hide(mItinCardFragment).commit();
 			}
 
-			mAnimatingToItem = true;
-
-			mMapFragment.showItinItem(data);
+			mAnimatingToItem = mMapFragment.showItinItem(data);
 			mItinCardFragment.showItinDetails(data);
+
+			if (!mAnimatingToItem) {
+				getSupportFragmentManager().beginTransaction().show(mItinCardFragment).commit();
+			}
 		}
 	}
 

@@ -60,7 +60,7 @@ public class ItineraryMapFragment extends SupportMapFragment {
 		moveCamera(CameraUpdateFactory.zoomTo(ZOOM_LEVEL));
 	}
 
-	public void showItinItem(ItinCardData data) {
+	public boolean showItinItem(ItinCardData data) {
 		LatLng position = null;
 
 		mMarker.setVisible(true);
@@ -100,6 +100,8 @@ public class ItineraryMapFragment extends SupportMapFragment {
 			mMarker.setPosition(position);
 		}
 
+		CameraPosition origPosition = getMap().getCameraPosition();
+
 		LatLng camLatLng = position;
 		if (position.latitude != 0 || position.longitude != 0) {
 			// Quickly set correct zoom level so we calculate offset correctly.  It's noticeable, but
@@ -111,5 +113,7 @@ public class ItineraryMapFragment extends SupportMapFragment {
 
 		CameraPosition camPos = new CameraPosition(camLatLng, ZOOM_LEVEL, 0, 0);
 		animateCamera(CameraUpdateFactory.newCameraPosition(camPos));
+
+		return !origPosition.equals(camPos);
 	}
 }
