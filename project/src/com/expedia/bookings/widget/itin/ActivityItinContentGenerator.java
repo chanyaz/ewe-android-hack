@@ -120,8 +120,8 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 	public View getSummaryView(ViewGroup container) {
 		TextView view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_summary_activity, container,
 				false);
-		view.setText(Html.fromHtml("Valid starting <strong>" + getItinCardData().getLongFormattedValidDate()
-				+ "</strong>"));
+		view.setText(Html.fromHtml(getContext().getString(R.string.itin_card_activity_summary_TEMPLATE,
+				getItinCardData().getLongFormattedValidDate())));
 
 		return view;
 	}

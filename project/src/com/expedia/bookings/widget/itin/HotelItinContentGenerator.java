@@ -115,7 +115,8 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	public View getSummaryView(ViewGroup container) {
 		TextView view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_summary_hotel, container,
 				false);
-		view.setText("Check-in after " + getItinCardData().getCheckInTime());
+		view.setText(getContext().getString(R.string.itin_card_hotel_summary_TEMPLATE,
+				getItinCardData().getCheckInTime()));
 
 		return view;
 	}

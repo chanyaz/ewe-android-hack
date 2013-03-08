@@ -249,6 +249,9 @@
     <string name="toast_copied_to_clipboard">Copied to the clipboard.</string>
     <string name="itin_card_details_reload">Reload Information</string>
 
+    <string name="itin_card_hotel_summary_TEMPLATE">Check-in after %1$s</string>
+    <string name="itin_card_activity_summary_TEMPLATE">Valid starting &lt;b&gt;%1$s&lt;/b&gt;</string>
+
     <!-- Action Buttons -->
     <string name="itin_action_directions">Directions</string>
     <string name="itin_action_call_hotel">Call Hotel</string>
