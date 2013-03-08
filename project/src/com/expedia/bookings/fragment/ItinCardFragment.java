@@ -37,8 +37,6 @@ public class ItinCardFragment extends Fragment {
 			public void onClick(View v) {
 				ItinContentGenerator<?> generator = ItinContentGenerator.createGenerator(getActivity(), mCurrentData);
 
-				OmnitureTracking.trackItinShare(getActivity(), generator.getType());
-
 				SocialMessageChooserDialogFragment.newInstance(generator).show(getFragmentManager(), "shareDialog");
 			}
 		});

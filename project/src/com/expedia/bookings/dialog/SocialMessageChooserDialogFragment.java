@@ -8,6 +8,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.trips.TripComponent;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.Ui;
@@ -16,6 +18,8 @@ public class SocialMessageChooserDialogFragment extends DialogFragment {
 	private String mSubject;
 	private String mShortMessage;
 	private String mLongMessage;
+
+	private TripComponent.Type mType;
 
 	public static SocialMessageChooserDialogFragment newInstance(ItinContentGenerator<?> generator) {
 		String subject = generator.getShareSubject();
@@ -34,6 +38,14 @@ public class SocialMessageChooserDialogFragment extends DialogFragment {
 		return fragment;
 	}
 
+	/**
+	 * Denotes that you would like to track the itin share through Omniture. Not a strict requirement
+	 * @param type itin card type that is being shared
+	 */
+	public void setTrackingEnabled(TripComponent.Type type) {
+		mType = type;
+	}
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,6 +61,11 @@ public class SocialMessageChooserDialogFragment extends DialogFragment {
 			public void onClick(View v) {
 				SocialUtils.email(getActivity(), mSubject, mLongMessage);
 				dismiss();
+
+				// Only track sharing if client has specified an itin card type
+				if (mType != null) {
+					OmnitureTracking.trackItinShare(getActivity(), mType, true);
+				}
 			}
 		});
 
@@ -57,6 +74,8 @@ public class SocialMessageChooserDialogFragment extends DialogFragment {
 			public void onClick(View v) {
 				SocialUtils.share(getActivity(), mSubject, mShortMessage);
 				dismiss();
+
+				OmnitureTracking.trackItinShare(getActivity(), mType, false);
 			}
 		});
 

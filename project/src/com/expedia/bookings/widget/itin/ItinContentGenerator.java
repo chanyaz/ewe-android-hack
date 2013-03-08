@@ -251,7 +251,6 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 			final ProgressBar progressBar = Ui.findView(item, R.id.itin_details_progress_bar);
 			final ImageView reloadImageView = Ui.findView(item, R.id.itin_details_reload_image_view);
 
-
 			RelativeLayout rl = Ui.findView(item, R.id.itin_details_deep_refresh_container);
 			rl.setOnClickListener(new OnClickListener() {
 				@Override
@@ -263,6 +262,8 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 						progressBar.setVisibility(View.VISIBLE);
 						reloadImageView.setVisibility(View.INVISIBLE);
 					}
+
+					OmnitureTracking.trackItinReload(getContext(), getType());
 				}
 			});
 

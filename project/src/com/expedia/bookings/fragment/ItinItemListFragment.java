@@ -360,9 +360,9 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 		@Override
 		public void onShareButtonClicked(ItinContentGenerator<?> generator) {
-			OmnitureTracking.trackItinShare(getActivity(), generator.getType());
-
-			SocialMessageChooserDialogFragment.newInstance(generator).show(getFragmentManager(), DIALOG_SHARE);
+			SocialMessageChooserDialogFragment df = SocialMessageChooserDialogFragment.newInstance(generator);
+			df.setTrackingEnabled(generator.getType());
+			df.show(getFragmentManager(), DIALOG_SHARE);
 		}
 	};
 

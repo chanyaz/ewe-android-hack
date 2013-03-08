@@ -92,6 +92,7 @@ public class OmnitureTracking {
 	private static final String ITIN_ACTIVITY_INFO = "App.Itinerary.Activity.Info.Additional";
 	private static final String ITIN_ACTIVITY_RELOAD = "App.Itinerary.Activity.Info.Reload";
 	private static final String ITIN_ACTIVITY_SHARE_PREFIX = "App.Itinerary.Activity.Share.";
+	private static final String ITIN_RELOAD_TEMPLATE = "App.Itinerary.%s.Info.Reload";
 
 	// Flights
 	private static final String FLIGHT_SEARCH = "App.Flight.Search";
@@ -370,21 +371,46 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", s.getEvar(28), null, null);
 	}
 
-	public static void trackItinShare(Context context, Type type) {
+	/**
+	 * Track the itin card sharing click
+	 * @param context
+	 * @param type which itin card type was being shared
+	 * @param isLongMessage true denotes it was a share message long, false denotes share message short
+	 */
+	public static void trackItinShare(Context context, Type type, boolean isLongMessage) {
+		String pageName;
+
 		switch (type) {
 		case FLIGHT:
-			OmnitureTracking.trackItinFlightShare(context);
+			pageName = ITIN_FLIGHT_SHARE_PREFIX;
 			break;
 		case HOTEL:
-			OmnitureTracking.trackItinHotelShare(context);
+			pageName = ITIN_HOTEL_SHARE_PREFIX;
 			break;
 		case CAR:
-			OmnitureTracking.trackItinCarShare(context);
+			pageName = ITIN_CAR_SHARE_PREFIX;
 			break;
 		case ACTIVITY:
-			OmnitureTracking.trackItinActivityShare(context);
+			pageName = ITIN_ACTIVITY_SHARE_PREFIX;
 			break;
+		default:
+			throw new RuntimeException("You are trying to track the sharing of an itin card type not yet supported");
 		}
+
+		if (isLongMessage) {
+			pageName += "Mail";
+		}
+		else {
+			pageName += "Message";
+		}
+
+		internalTrackLink(context, pageName);
+	}
+
+	public static void trackItinReload(Context context, Type type) {
+		String value = type.toString();
+		String formatted = value.substring(0, 1).toUpperCase() + value.substring(1).toLowerCase();
+		internalTrackLink(context, String.format(ITIN_RELOAD_TEMPLATE, formatted));
 	}
 
 	public static void trackItinAdd(Context context) {
@@ -419,11 +445,6 @@ public class OmnitureTracking {
 
 	public static void trackItinHotelReload(Context context) {
 		internalTrackLink(context, ITIN_HOTEL_RELOAD);
-	}
-
-	public static void trackItinHotelShare(Context context) {
-		// TODO: specify long vs. short share
-		internalTrackLink(context, ITIN_HOTEL_SHARE_PREFIX);
 	}
 
 	public static void trackItinInfoClicked(Context context, Type type) {
@@ -471,11 +492,6 @@ public class OmnitureTracking {
 		internalTrackLink(context, ITIN_FLIGHT_RELOAD);
 	}
 
-	public static void trackItinFlightShare(Context context) {
-		// TODO: specify long vs. short share
-		internalTrackLink(context, ITIN_FLIGHT_SHARE_PREFIX);
-	}
-
 	public static void trackItinFlightCopyPNR(Context context) {
 		internalTrackLink(context, ITIN_FLIGHT_COPY_PNR);
 	}
@@ -503,11 +519,6 @@ public class OmnitureTracking {
 		internalTrackLink(context, ITIN_CAR_RELOAD);
 	}
 
-	public static void trackItinCarShare(Context context) {
-		// TODO: specify long vs. short share
-		internalTrackLink(context, ITIN_CAR_SHARE_PREFIX);
-	}
-
 	public static void trackItinActivity(Context context) {
 		Log.d(TAG, "Tracking \"" + ITIN_ACTIVITY + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(context, ITIN_ACTIVITY);
@@ -529,11 +540,6 @@ public class OmnitureTracking {
 
 	public static void trackItinActivityReload(Context context) {
 		internalTrackLink(context, ITIN_ACTIVITY_RELOAD);
-	}
-
-	public static void trackItinActivityShare(Context context) {
-		// TODO: specify long vs. short share
-		internalTrackLink(context, ITIN_ACTIVITY_SHARE_PREFIX);
 	}
 
 	private static void addEvent15And16Maybe(Context context, ADMS_Measurement s) {
