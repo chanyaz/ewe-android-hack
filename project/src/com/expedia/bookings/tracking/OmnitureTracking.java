@@ -70,26 +70,22 @@ public class OmnitureTracking {
 	private static final String ITIN_HOTEL_DIRECTIONS = "App.Itinerary.Hotel.Directions";
 	private static final String ITIN_HOTEL_CALL = "App.Itinerary.Hotel.Call";
 	private static final String ITIN_HOTEL_INFO = "App.Itinerary.Hotel.Info.Additional";
-	private static final String ITIN_HOTEL_RELOAD = "App.Itinerary.Hotel.Info.Reload";
 	private static final String ITIN_HOTEL_SHARE_PREFIX = "App.Itinerary.Hotel.Info.Share.";
 	private static final String ITIN_FLIGHT = "App.Itinerary.Flight";
 	private static final String ITIN_FLIGHT_DIRECTIONS = "App.Itinerary.Flight.Airport.Directions";
 	private static final String ITIN_FLIGHT_TERMINAL_MAPS = "App.Itinerary.Flight.Airport.TerminalMaps";
 	private static final String ITIN_FLIGHT_INFO = "App.Itinerary.Flight.Info.Additional";
-	private static final String ITIN_FLIGHT_RELOAD = "App.Itinerary.Flight.Info.Reload";
 	private static final String ITIN_FLIGHT_SHARE_PREFIX = "App.Itinerary.Flight.Share.";
 	private static final String ITIN_FLIGHT_COPY_PNR = "App.Itinerary.Flight.CopyPNR";
 	private static final String ITIN_CAR = "App.Itinerary.Car";
 	private static final String ITIN_CAR_DIRECTIONS = "App.Itinerary.Car.Directions";
 	private static final String ITIN_CAR_CALL = "App.Itinerary.Car.Call";
 	private static final String ITIN_CAR_INFO = "App.Itinerary.Car.Info.Additional";
-	private static final String ITIN_CAR_RELOAD = "App.Itinerary.Car.Info.Reload";
 	private static final String ITIN_CAR_SHARE_PREFIX = "App.Itinerary.Car.Share.";
 	private static final String ITIN_ACTIVITY = "App.Itinerary.Activity";
 	private static final String ITIN_ACTIVITY_REDEEM = "App.Itinerary.Activity.Redeem";
 	private static final String ITIN_ACTIVITY_SUPPORT = "App.Itinerary.Activity.Support";
 	private static final String ITIN_ACTIVITY_INFO = "App.Itinerary.Activity.Info.Additional";
-	private static final String ITIN_ACTIVITY_RELOAD = "App.Itinerary.Activity.Info.Reload";
 	private static final String ITIN_ACTIVITY_SHARE_PREFIX = "App.Itinerary.Activity.Share.";
 	private static final String ITIN_RELOAD_TEMPLATE = "App.Itinerary.%s.Info.Reload";
 
@@ -447,10 +443,6 @@ public class OmnitureTracking {
 		internalTrackLink(context, ITIN_HOTEL_INFO);
 	}
 
-	public static void trackItinHotelReload(Context context) {
-		internalTrackLink(context, ITIN_HOTEL_RELOAD);
-	}
-
 	public static void trackItinInfoClicked(Context context, Type type) {
 		switch (type) {
 		case ACTIVITY:
@@ -492,10 +484,6 @@ public class OmnitureTracking {
 		internalTrackLink(context, ITIN_FLIGHT_INFO);
 	}
 
-	public static void trackItinFlightReload(Context context) {
-		internalTrackLink(context, ITIN_FLIGHT_RELOAD);
-	}
-
 	public static void trackItinFlightCopyPNR(Context context) {
 		internalTrackLink(context, ITIN_FLIGHT_COPY_PNR);
 	}
@@ -519,10 +507,6 @@ public class OmnitureTracking {
 		internalTrackLink(context, ITIN_CAR_INFO);
 	}
 
-	public static void trackItinCarReload(Context context) {
-		internalTrackLink(context, ITIN_CAR_RELOAD);
-	}
-
 	public static void trackItinActivity(Context context) {
 		Log.d(TAG, "Tracking \"" + ITIN_ACTIVITY + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(context, ITIN_ACTIVITY);
@@ -540,10 +524,6 @@ public class OmnitureTracking {
 
 	public static void trackItinActivityInfo(Context context) {
 		internalTrackLink(context, ITIN_ACTIVITY_INFO);
-	}
-
-	public static void trackItinActivityReload(Context context) {
-		internalTrackLink(context, ITIN_ACTIVITY_RELOAD);
 	}
 
 	private static void addEvent15And16Maybe(Context context, ADMS_Measurement s) {
