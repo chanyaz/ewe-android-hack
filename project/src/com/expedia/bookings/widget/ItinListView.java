@@ -413,8 +413,12 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		showDetails(mDetailPosition);
 	}
 
-	@SuppressLint("NewApi")
 	private boolean showDetails(int position) {
+		return showDetails(position, true);
+	}
+
+	@SuppressLint("NewApi")
+	private boolean showDetails(int position, boolean animate) {
 		if (mSimpleMode) {
 			setSelectedCardId(mAdapter.getItem(position).getId());
 			mAdapter.notifyDataSetChanged();
@@ -505,6 +509,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 				});
 
 				set.addListener(mModeSwitchSemListener);
+				if (!animate) {
+					set.setDuration(0);
+				}
 				set.start();
 				releaseSemHere = false;
 				return true;
@@ -611,6 +618,8 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	// INNER CLASS INSTANCES
 	//////////////////////////////////////////////////////////////////////////////////////
 
+	private Runnable mSelectCardRunnable;
+
 	private DataSetObserver mDataSetObserver = new DataSetObserver() {
 		@Override
 		public void onChanged() {
@@ -622,12 +631,37 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 			mLastItemCount = mAdapter.getCount();
 
-			// TODO: For some reason this won't run properly on the first data set change.
-			if (!mSimpleMode && !TextUtils.isEmpty(mSelectedCardId)) {
-				int position = mAdapter.getPosition(mSelectedCardId);
+			// We want to immediately display the selected card if there is one (on the first time
+			// we get data)
+			//
+			// This code is kind of a nightmarish hack due to waiting on different events to occur.
+			// First it loops until the Adapter has populated the ListView.  Once that happens, we
+			// scroll the row into position (it won't work if it's not partially visible).  After that,
+			// we show the details (without animating).
+			if (!mSimpleMode && mSelectCardRunnable == null && !TextUtils.isEmpty(mSelectedCardId)) {
+				final int position = mAdapter.getPosition(mSelectedCardId);
 				if (position != -1 && position != mDetailPosition) {
 					Log.i("Attempting to show selected card id: " + mSelectedCardId);
-					showDetails(position);
+
+					// We need to wait until the view is actually populated; so we run a postqueue until it shows up
+					mSelectCardRunnable = new Runnable() {
+						@Override
+						public void run() {
+							if (getChildCount() > 0) {
+								ItinListView.this.setSelectionFromTop(position, 0);
+								post(new Runnable() {
+									@Override
+									public void run() {
+										showDetails(position, false);
+									}
+								});
+							}
+							else {
+								postDelayed(this, 25);
+							}
+						}
+					};
+					mSelectCardRunnable.run();
 				}
 			}
 		}
