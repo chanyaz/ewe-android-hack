@@ -41,6 +41,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FacebookLinkResponse;
 import com.expedia.bookings.data.FacebookLinkResponse.FacebookLinkResponseCode;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -153,19 +154,13 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 	private boolean mEmptyPassword = true;
 	private boolean mDoLoginExtenderWork = false;
 	private VisibilityState mVisibilityState = VisibilityState.EXPEDIA_WTIH_FB_BUTTON;
-	private PathMode mPathMode = PathMode.HOTELS;
+	private LineOfBusiness mLob = LineOfBusiness.HOTELS;
 
 	private enum VisibilityState {
 		FACEBOOK_LINK, EXPEDIA_WTIH_FB_BUTTON, EXPEDIA_WITH_EXPEDIA_BUTTON
 	}
 
-	public enum PathMode {
-		HOTELS,
-		FLIGHTS,
-		ITIN
-	}
-
-	public static LoginFragment newInstance(PathMode mode) {
+	public static LoginFragment newInstance(LineOfBusiness mode) {
 		LoginFragment frag = new LoginFragment();
 		Bundle args = new Bundle();
 		args.putString(ARG_PATH_MODE, mode.name());
@@ -173,7 +168,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		return frag;
 	}
 
-	public static LoginFragment newInstance(PathMode mode, LoginExtender extender) {
+	public static LoginFragment newInstance(LineOfBusiness mode, LoginExtender extender) {
 		LoginFragment frag = new LoginFragment();
 		Bundle args = new Bundle();
 		args.putString(ARG_PATH_MODE, mode.name());
@@ -187,7 +182,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		View v = inflater.inflate(R.layout.fragment_log_in, container, false);
 
 		if (this.getArguments() != null && this.getArguments().containsKey(ARG_PATH_MODE)) {
-			mPathMode = PathMode.valueOf(this.getArguments().getString(ARG_PATH_MODE));
+			mLob = LineOfBusiness.valueOf(this.getArguments().getString(ARG_PATH_MODE));
 		}
 		if (this.getArguments() != null && this.getArguments().containsKey(ARG_EXTENDER_OBJECT)) {
 			mLoginExtender = this.getArguments().getParcelable(ARG_EXTENDER_OBJECT);
@@ -261,8 +256,8 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		if (this.mVisibilityState != null) {
 			outState.putString(STATE_VISIBILITY_STATE, mVisibilityState.name());
 		}
-		if (this.mPathMode != null) {
-			outState.putString(STATE_PATH_MODE, mPathMode.name());
+		if (this.mLob != null) {
+			outState.putString(STATE_PATH_MODE, mLob.name());
 		}
 		if (mLoginExtender != null) {
 			outState.putParcelable(STATE_LOGIN_EXTENDER, mLoginExtender);
@@ -402,7 +397,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 				mVisibilityState = VisibilityState.valueOf(savedInstanceState.getString(STATE_VISIBILITY_STATE));
 			}
 			if (savedInstanceState.containsKey(STATE_PATH_MODE)) {
-				mPathMode = PathMode.valueOf(savedInstanceState.getString(STATE_PATH_MODE));
+				mLob = LineOfBusiness.valueOf(savedInstanceState.getString(STATE_PATH_MODE));
 			}
 			if (savedInstanceState.containsKey(STATE_STATUS_TEXT)) {
 				mStatusText = savedInstanceState.getString(STATE_STATUS_TEXT);
@@ -458,7 +453,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		mForgotYourPasswordTv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (mPathMode.equals(PathMode.FLIGHTS)) {
+				if (mLob.equals(LineOfBusiness.FLIGHTS)) {
 					OmnitureTracking.trackLinkFlightCheckoutLoginForgot(mContext);
 				}
 				else {
@@ -1032,7 +1027,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 				user.save(mContext);
 				loginWorkComplete();
 
-				switch (mPathMode) {
+				switch (mLob) {
 				case HOTELS:
 					OmnitureTracking.trackLinkHotelsCheckoutLoginSuccess(mContext);
 					break;

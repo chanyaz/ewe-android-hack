@@ -12,6 +12,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity.Validatable;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -45,7 +46,7 @@ public class FlightPaymentAddressFragment extends Fragment implements Validatabl
 		View v = inflater.inflate(R.layout.fragment_flight_payment_address, container, false);
 		mAttemptToLeaveMade = false;
 		mSectionLocation = Ui.findView(v, R.id.address_section);
-		mSectionLocation.setLineOfBusiness(SectionLocation.LineOfBusiness.FLIGHTS);
+		mSectionLocation.setLineOfBusiness(LineOfBusiness.FLIGHTS);
 
 		mBillingInfo = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
 

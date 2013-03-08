@@ -24,12 +24,12 @@ import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.fragment.LoginFragment.PathMode;
 import com.expedia.bookings.model.PaymentFlowState;
 import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -598,7 +598,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	@Override
 	public void accountLoginClicked() {
 		Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
-		loginIntent.putExtra(LoginActivity.ARG_PATH_MODE, PathMode.FLIGHTS.name());
+		loginIntent.putExtra(LoginActivity.ARG_PATH_MODE, LineOfBusiness.FLIGHTS.name());
 		startActivity(loginIntent);
 
 		OmnitureTracking.trackPageLoadFlightLogin(mContext);

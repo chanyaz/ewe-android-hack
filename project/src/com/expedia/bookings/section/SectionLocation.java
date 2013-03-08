@@ -18,8 +18,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.CountrySpinnerAdapter.CountryDisplayType;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.mobiata.android.Log;
@@ -27,11 +27,6 @@ import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
 
 public class SectionLocation extends LinearLayout implements ISection<Location>, ISectionEditable {
-
-	public enum LineOfBusiness {
-		FLIGHTS,
-		HOTELS
-	}
 
 	ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<SectionChangeListener>();
 	ArrayList<SectionField<?, Location>> mFields = new ArrayList<SectionField<?, Location>>();

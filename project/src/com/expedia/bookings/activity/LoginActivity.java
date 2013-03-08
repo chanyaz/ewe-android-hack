@@ -12,13 +12,12 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.fragment.LoginFragment;
 import com.expedia.bookings.fragment.LoginFragment.LoginExtender;
-import com.expedia.bookings.fragment.LoginFragment.PathMode;
 import com.expedia.bookings.fragment.LoginFragment.TitleSettable;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 
 public class LoginActivity extends SherlockFragmentActivity implements TitleSettable {
 
@@ -33,19 +32,18 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 
 	private LoginFragment mLoginFragment;
 	private String mTitle;
-	private PathMode mPathMode = PathMode.HOTELS;
+	private LineOfBusiness mLob = LineOfBusiness.HOTELS;
 	private LoginExtender mLoginExtender;
 
-	public static Intent createIntent(Context context, PathMode pathMode, LoginExtender extender){
+	public static Intent createIntent(Context context, LineOfBusiness pathMode, LoginExtender extender) {
 		Intent loginIntent = new Intent(context, LoginActivity.class);
 		loginIntent.putExtra(LoginActivity.ARG_PATH_MODE, pathMode.name());
-		if(extender != null){
+		if (extender != null) {
 			loginIntent.putExtra(ARG_LOGIN_FRAGMENT_EXTENDER, extender);
 		}
 		return loginIntent;
 	}
-	
-	
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -59,7 +57,7 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 		// Set up theming stuff
 		Intent intent = getIntent();
 		if (intent.hasExtra(ARG_PATH_MODE)) {
-			mPathMode = PathMode.valueOf(intent.getStringExtra(ARG_PATH_MODE));
+			mLob = LineOfBusiness.valueOf(intent.getStringExtra(ARG_PATH_MODE));
 		}
 		if (intent.hasExtra(ARG_LOGIN_FRAGMENT_EXTENDER)) {
 			mLoginExtender = intent.getParcelableExtra(ARG_LOGIN_FRAGMENT_EXTENDER);
@@ -73,10 +71,10 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 
 		// Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
-		if (mPathMode.equals(PathMode.HOTELS)) {
+		if (mLob.equals(LineOfBusiness.HOTELS)) {
 			actionBar.setIcon(R.drawable.ic_logo_hotels);
 		}
-		else if (mPathMode.equals(PathMode.FLIGHTS)) {
+		else if (mLob.equals(LineOfBusiness.FLIGHTS)) {
 			actionBar.setIcon(R.drawable.ic_logo_flights);
 		}
 		actionBar.setDisplayUseLogoEnabled(false);
@@ -90,7 +88,7 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 		}
 
 		// Set the background (based on mode)
-		if (mPathMode.equals(PathMode.FLIGHTS)) {
+		if (mLob.equals(LineOfBusiness.FLIGHTS)) {
 			mBgImageView.setImageBitmap(Db.getBackgroundImage(this, true));
 			mBgShadeView.setBackgroundColor(getResources().getColor(R.color.login_shade_flights));
 		}
@@ -100,10 +98,10 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 		if (mLoginFragment == null) {
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 			if (mLoginExtender != null) {
-				mLoginFragment = LoginFragment.newInstance(mPathMode, mLoginExtender);
+				mLoginFragment = LoginFragment.newInstance(mLob, mLoginExtender);
 			}
 			else {
-				mLoginFragment = LoginFragment.newInstance(mPathMode);
+				mLoginFragment = LoginFragment.newInstance(mLob);
 			}
 
 			ft.add(R.id.login_fragment_container, mLoginFragment, TAG_LOGIN_FRAGMENT);

@@ -17,11 +17,11 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.fragment.BookingFormFragment;
 import com.expedia.bookings.fragment.BookingFormFragment.BookingFormFragmentListener;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.LoginFragment.LogInListener;
-import com.expedia.bookings.fragment.LoginFragment.PathMode;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -286,7 +286,7 @@ public class BookingFragmentActivity extends SherlockFragmentActivity implements
 	@Override
 	public void onLoginStarted() {
 		Intent loginIntent = new Intent(this, LoginActivity.class);
-		loginIntent.putExtra(LoginActivity.ARG_PATH_MODE, PathMode.HOTELS.name());
+		loginIntent.putExtra(LoginActivity.ARG_PATH_MODE, LineOfBusiness.HOTELS.name());
 		startActivityForResult(loginIntent, LOGIN_REQUEST_CODE);
 	}
 

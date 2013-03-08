@@ -32,14 +32,13 @@ import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.fragment.LoginFragment.PathMode;
 import com.expedia.bookings.model.HotelPaymentFlowState;
 import com.expedia.bookings.model.HotelTravelerFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -736,7 +735,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	@Override
 	public void accountLoginClicked() {
 		Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
-		loginIntent.putExtra(LoginActivity.ARG_PATH_MODE, PathMode.HOTELS.name());
+		loginIntent.putExtra(LoginActivity.ARG_PATH_MODE, LineOfBusiness.HOTELS.name());
 		startActivity(loginIntent);
 		OmnitureTracking.trackPageLoadHotelsLogin(getActivity());
 	}

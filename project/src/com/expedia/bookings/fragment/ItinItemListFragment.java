@@ -26,6 +26,7 @@ import com.expedia.bookings.activity.ItineraryGuestAddActivity;
 import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItineraryManager;
@@ -33,13 +34,12 @@ import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.dialog.SocialMessageChooserDialogFragment;
-import com.expedia.bookings.fragment.LoginFragment.PathMode;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
-import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
+import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
@@ -233,7 +233,8 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	}
 
 	public synchronized void startLoginActivity() {
-		Intent intent = LoginActivity.createIntent(getActivity(), PathMode.ITIN, new ItineraryLoaderLoginExtender());
+		Intent intent = LoginActivity.createIntent(getActivity(), LineOfBusiness.ITIN,
+				new ItineraryLoaderLoginExtender());
 		startActivity(intent);
 	}
 
