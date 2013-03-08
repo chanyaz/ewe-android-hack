@@ -242,8 +242,8 @@ public class FlightTripView extends View {
 		float minLineWidth = Math.max(sidePadding * 2 + mMinPaddingBetweenLabels, circleDiameter);
 
 		// Make sure we've got a min/max time that represents the entire width of the View
-		Calendar minTime = (mMinTime != null) ? mMinTime : mFlightLeg.getFirstWaypoint().getMostRelevantDateTime();
-		Calendar maxTime = (mMaxTime != null) ? mMaxTime : mFlightLeg.getLastWaypoint().getMostRelevantDateTime();
+		Calendar minTime = (mMinTime != null) ? mMinTime : mFlightLeg.getFirstWaypoint().getBestSearchDateTime();
+		Calendar maxTime = (mMaxTime != null) ? mMaxTime : mFlightLeg.getLastWaypoint().getBestSearchDateTime();
 
 		// Calculate the ranges.  If there is a min/max time available,
 		// calibrate to that (otherwise assume we have the full width for the trip view)
@@ -264,15 +264,15 @@ public class FlightTripView extends View {
 			if (isFlight) {
 				// Flight
 				Flight segment = mFlightLeg.getSegment(a / 2);
-				startMillis = segment.mOrigin.getMostRelevantDateTime().getTimeInMillis();
-				endMillis = segment.mDestination.getMostRelevantDateTime().getTimeInMillis();
+				startMillis = segment.mOrigin.getBestSearchDateTime().getTimeInMillis();
+				endMillis = segment.mDestination.getBestSearchDateTime().getTimeInMillis();
 			}
 			else {
 				// Layover
 				Flight flight1 = mFlightLeg.getSegment((a - 1) / 2);
 				Flight flight2 = mFlightLeg.getSegment((a + 1) / 2);
-				startMillis = flight1.mDestination.getMostRelevantDateTime().getTimeInMillis();
-				endMillis = flight2.mOrigin.getMostRelevantDateTime().getTimeInMillis();
+				startMillis = flight1.mDestination.getBestSearchDateTime().getTimeInMillis();
+				endMillis = flight2.mOrigin.getBestSearchDateTime().getTimeInMillis();
 			}
 			long durationMillis = endMillis - startMillis;
 			widths[a] = (durationMillis / (float) totalRangeMillis) * totalAvailableWidth;
@@ -325,7 +325,7 @@ public class FlightTripView extends View {
 		}
 
 		// Determine where to start the graph
-		long startMillis = mFlightLeg.getFirstWaypoint().getMostRelevantDateTime().getTimeInMillis()
+		long startMillis = mFlightLeg.getFirstWaypoint().getBestSearchDateTime().getTimeInMillis()
 				- minTime.getTimeInMillis();
 		float left = (startMillis / (float) totalRangeMillis) * totalAvailableWidth + sidePadding;
 		if (tripActualWidth > tripPreferredWidth + .1) {

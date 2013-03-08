@@ -320,8 +320,8 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			staticMapImageView.setFlights(data.getFlightLeg().getSegments());
 
 			//Arrival / Departure times
-			Calendar departureTimeCal = leg.getFirstWaypoint().getMostRelevantDateTime();
-			Calendar arrivalTimeCal = leg.getLastWaypoint().getMostRelevantDateTime();
+			Calendar departureTimeCal = leg.getFirstWaypoint().getBestSearchDateTime();
+			Calendar arrivalTimeCal = leg.getLastWaypoint().getBestSearchDateTime();
 
 			String departureTime = formatTime(departureTimeCal);
 			String departureTz = res.getString(R.string.depart_tz_TEMPLATE, departureTimeCal.getTimeZone()

@@ -135,11 +135,11 @@ public class FlightLegSummarySection extends RelativeLayout {
 		params.addRule(RelativeLayout.BELOW, belowTarget);
 
 		if (mDepartureTimeTextView != null) {
-			mDepartureTimeTextView.setText(formatTime(leg.getFirstWaypoint().getMostRelevantDateTime()));
+			mDepartureTimeTextView.setText(formatTime(leg.getFirstWaypoint().getBestSearchDateTime()));
 		}
 
 		if (mArrivalTimeTextView != null) {
-			mArrivalTimeTextView.setText(formatTime(leg.getLastWaypoint().getMostRelevantDateTime()));
+			mArrivalTimeTextView.setText(formatTime(leg.getLastWaypoint().getBestSearchDateTime()));
 		}
 
 		if (mPriceTextView != null) {
