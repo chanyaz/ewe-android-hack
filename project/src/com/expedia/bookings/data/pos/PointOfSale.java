@@ -116,6 +116,9 @@ public class PointOfSale {
 		// The url leading to the support part of the website
 		private String mSupportUrl;
 
+		// The url for please to be downloading this app
+		private String mAppInfoUrl;
+
 		// The url for just the website
 		private String mWebsiteUrl;
 
@@ -228,6 +231,10 @@ public class PointOfSale {
 
 	public String getSupportUrl() {
 		return getPosLocale().mSupportUrl;
+	}
+
+	public String getAppInfoUrl() {
+		return getPosLocale().mAppInfoUrl;
 	}
 
 	public String getWebsiteUrl() {
@@ -614,6 +621,7 @@ public class PointOfSale {
 
 		// Various URLs
 		locale.mSupportUrl = data.optString("supportURL", null);
+		locale.mAppInfoUrl = data.optString("appInfoURL", null);
 		locale.mWebsiteUrl = data.optString("contactURL", null);
 		locale.mBestPriceGuaranteePolicyUrl = data.optString("bestPriceGuaranteePolicyURL", null);
 
