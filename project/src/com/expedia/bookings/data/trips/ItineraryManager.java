@@ -157,6 +157,8 @@ public class ItineraryManager implements JSONable {
 		mStartTimes.clear();
 		mEndTimes.clear();
 
+		mLastUpdateTime = 0;
+
 		if (mTrips == null) {
 			return;
 		}
@@ -788,7 +790,8 @@ public class ItineraryManager implements JSONable {
 								update = true;
 							}
 							else if (now > landing) {
-								if (now < (landing + (7 * DateUtils.DAY_IN_MILLIS)) && timeSinceLastUpdate > (now - landing)) {
+								if (now < (landing + (7 * DateUtils.DAY_IN_MILLIS))
+										&& timeSinceLastUpdate > (now - landing)) {
 									update = true;
 								}
 								else {
