@@ -83,7 +83,7 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 		}
 	}
 
-	private void showPopupWindow(ItinCardData data) {
+	private void showPopupWindow(ItinCardData data, boolean animate) {
 		// Don't react if it's the same card as before being clicked
 		String id = data.getId();
 		if (id.equals(mSelectedItinCardId)) {
@@ -97,7 +97,7 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 				getSupportFragmentManager().beginTransaction().hide(mItinCardFragment).commit();
 			}
 
-			mAnimatingToItem = mMapFragment.showItinItem(data);
+			mAnimatingToItem = mMapFragment.showItinItem(data, animate);
 			mItinCardFragment.showItinDetails(data);
 
 			if (!mAnimatingToItem) {
@@ -181,7 +181,7 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 
 	@Override
 	public void onItinCardClicked(ItinCardData data) {
-		showPopupWindow(data);
+		showPopupWindow(data, true);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -203,7 +203,7 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 		if (mTwoPaneMode) {
 			ItinCardData data = mItinListFragment.getSelectedItinCardData();
 			if (data != null) {
-				showPopupWindow(data);
+				showPopupWindow(data, false);
 			}
 		}
 	}

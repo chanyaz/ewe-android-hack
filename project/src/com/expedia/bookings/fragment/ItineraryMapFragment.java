@@ -13,6 +13,7 @@ import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.maps.SupportMapFragment;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
@@ -60,7 +61,8 @@ public class ItineraryMapFragment extends SupportMapFragment {
 		moveCamera(CameraUpdateFactory.zoomTo(ZOOM_LEVEL));
 	}
 
-	public boolean showItinItem(ItinCardData data) {
+	// Returns true if the camera position was changed
+	public boolean showItinItem(ItinCardData data, boolean animate) {
 		LatLng position = null;
 
 		mMarker.setVisible(true);
@@ -112,7 +114,13 @@ public class ItineraryMapFragment extends SupportMapFragment {
 		}
 
 		CameraPosition camPos = new CameraPosition(camLatLng, ZOOM_LEVEL, 0, 0);
-		animateCamera(CameraUpdateFactory.newCameraPosition(camPos));
+		CameraUpdate camUpdate = CameraUpdateFactory.newCameraPosition(camPos);
+		if (animate) {
+			animateCamera(camUpdate);
+		}
+		else {
+			moveCamera(camUpdate);
+		}
 
 		return !origPosition.equals(camPos);
 	}
