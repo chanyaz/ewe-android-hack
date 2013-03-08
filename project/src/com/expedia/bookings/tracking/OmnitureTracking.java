@@ -44,7 +44,6 @@ import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 
 /**
- * The spec behind this class can be found here: http://confluence/display/Omniture/Mobile+App+Flight+Tracking
  *
  * The basic premise behind this class is to encapsulate the tracking logic as much possible such that tracking events
  * can be inserted into the business logic as cleanly as possible. The events rely on Db.java to populate values when
@@ -355,7 +354,12 @@ public class OmnitureTracking {
 		internalTrackPageLoadEventStandard(context, FLIGHT_ERROR_SEARCH_EXPIRED, LineOfBusiness.FLIGHTS);
 	}
 
-	// Itin
+	/////////////////////////////////
+	// Itin Tracking
+	//
+	// Spec: https://confluence/display/Omniture/App+Itinerary
+	//
+	/////////////////////////////////
 
 	public static void trackItinEmpty(Context context) {
 		internalTrackPageLoadEventStandardNoVars25And25LobShopper(context, ITIN_EMPTY);
@@ -550,8 +554,12 @@ public class OmnitureTracking {
 		s.setEvents(event);
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Flights tracking events
+	/////////////////////////////////
+	// Flights Tracking
+	//
+	// Spec: http://confluence/display/Omniture/Mobile+App+Flight+Tracking
+	//
+	/////////////////////////////////
 
 	public static void trackPageLoadFlightCheckoutConfirmation(Context context) {
 		Log.d(TAG, "Tracking \"" + FLIGHT_CHECKOUT_CONFIRMATION + "\" pageLoad");
