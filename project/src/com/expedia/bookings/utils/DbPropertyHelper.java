@@ -35,9 +35,9 @@ public class DbPropertyHelper {
 	 * @return
 	 */
 	public static Property getBestDescriptionProperty() {
-		AvailabilityResponse infoResponse = Db.getSelectedInfoResponse();
-		if (infoResponse != null && infoResponse.getProperty() != null) {
-			return infoResponse.getProperty();
+		AvailabilityResponse availabilityResponse = Db.getSelectedAvailabilityResponse();
+		if (availabilityResponse != null && availabilityResponse.getProperty() != null) {
+			return availabilityResponse.getProperty();
 		}
 		return Db.getSelectedProperty();
 	}
@@ -47,9 +47,9 @@ public class DbPropertyHelper {
 	 * @return
 	 */
 	public static Property getBestAmenityProperty() {
-		AvailabilityResponse infoResponse = Db.getSelectedInfoResponse();
-		if (infoResponse != null && infoResponse.getProperty() != null) {
-			return infoResponse.getProperty();
+		AvailabilityResponse availabilityResponse = Db.getSelectedAvailabilityResponse();
+		if (availabilityResponse != null && availabilityResponse.getProperty() != null) {
+			return availabilityResponse.getProperty();
 		}
 		return Db.getSelectedProperty();
 	}
@@ -59,9 +59,9 @@ public class DbPropertyHelper {
 	 * @return
 	 */
 	public static Property getBestMediaProperty() {
-		AvailabilityResponse infoResponse = Db.getSelectedInfoResponse();
-		if (infoResponse != null && infoResponse.getProperty() != null) {
-			return infoResponse.getProperty();
+		AvailabilityResponse availabilityResponse = Db.getSelectedAvailabilityResponse();
+		if (availabilityResponse != null && availabilityResponse.getProperty() != null) {
+			return availabilityResponse.getProperty();
 		}
 		return Db.getSelectedProperty();
 	}

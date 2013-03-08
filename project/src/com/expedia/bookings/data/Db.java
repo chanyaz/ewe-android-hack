@@ -73,10 +73,7 @@ public class Db {
 	// One has to be sure to change the listeners on the Filter whenever appropriate.
 	private Filter mFilter = new Filter();
 
-	// Mapping of Property ID --> AvailabilityResponse (for HotelInformation calls)
-	private Map<String, AvailabilityResponse> mInfoResponses = new HashMap<String, AvailabilityResponse>();
-
-	// Mapping of Property ID --> AvailabilityResponse (for expensive realtime calls)
+	// Mapping of Property ID --> AvailabilityResponse
 	private Map<String, AvailabilityResponse> mAvailabilityResponses = new HashMap<String, AvailabilityResponse>();
 
 	// Mapping of Property ID --> ReviewsStatisticsResponse
@@ -239,37 +236,12 @@ public class Db {
 
 	public static void clearAvailabilityResponses() {
 		sDb.mAvailabilityResponses.clear();
-		sDb.mInfoResponses.clear();
-	}
-
-	public static AvailabilityResponse getSelectedInfoResponse() {
-		return getInfoResponse(sDb.mSelectedPropertyId);
-	}
-
-	public static AvailabilityResponse getInfoResponse(String propertyId) {
-		AvailabilityResponse response = sDb.mInfoResponses.get(propertyId);
-
-		// Try to retrieve it out of the availability responses, as long as
-		// it doesn't have any errors
-		if (response == null) {
-			response = getAvailabilityResponse(propertyId);
-			if (response == null || response.hasErrors()) {
-				return null;
-			}
-		}
-
-		return response;
 	}
 
 	public static void addAvailabilityResponse(AvailabilityResponse availabilityResponse) {
 		if (availabilityResponse != null && availabilityResponse.getProperty() != null) {
-			if (availabilityResponse.canRequestMoreData()) {
-				sDb.mInfoResponses.put(availabilityResponse.getProperty().getPropertyId(), availabilityResponse);
-			}
-			else {
-				sDb.mAvailabilityResponses
-						.put(availabilityResponse.getProperty().getPropertyId(), availabilityResponse);
-			}
+			String propertyId = availabilityResponse.getProperty().getPropertyId();
+			sDb.mAvailabilityResponses.put(propertyId, availabilityResponse);
 		}
 	}
 
@@ -913,7 +885,6 @@ public class Db {
 			putJsonable(obj, "searchParams", sDb.mSearchParams);
 			putJsonable(obj, "searchResponse", sDb.mSearchResponse);
 			putJsonable(obj, "filter", sDb.mFilter);
-			putMap(obj, "info", sDb.mInfoResponses);
 			putMap(obj, "offers", sDb.mAvailabilityResponses);
 			putMap(obj, "reviewsStatistics", sDb.mReviewsStatisticsResponses);
 			putMap(obj, "reviews", sDb.mReviewsResponses);
@@ -957,7 +928,6 @@ public class Db {
 			sDb.mSearchParams = getJsonable(obj, "searchParams", SearchParams.class, sDb.mSearchParams);
 			sDb.mSearchResponse = getJsonable(obj, "searchResponse", SearchResponse.class, sDb.mSearchResponse);
 			sDb.mFilter = getJsonable(obj, "filter", Filter.class, sDb.mFilter);
-			sDb.mInfoResponses = getMap(obj, "info", AvailabilityResponse.class, sDb.mInfoResponses);
 			sDb.mAvailabilityResponses = getMap(obj, "offers", AvailabilityResponse.class, sDb.mAvailabilityResponses);
 			sDb.mReviewsStatisticsResponses = getMap(obj, "reviewsStatistics", ReviewsStatisticsResponse.class,
 					sDb.mReviewsStatisticsResponses);

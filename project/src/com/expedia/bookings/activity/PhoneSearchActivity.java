@@ -300,7 +300,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			Property selectedProperty = new Property();
 			selectedProperty.setPropertyId(Db.getSearchParams().getRegionId());
 			
-			return services.availability(Db.getSearchParams(), selectedProperty, 0);
+			return services.availability(Db.getSearchParams(), selectedProperty);
 		}
 	};
 	

@@ -236,7 +236,7 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 		public AvailabilityResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(RoomsAndRatesListActivity.this);
 			BackgroundDownloader.getInstance().addDownloadListener(DOWNLOAD_KEY, services);
-			return services.availability(Db.getSearchParams(), Db.getSelectedProperty(), ExpediaServices.F_EXPENSIVE);
+			return services.availability(Db.getSearchParams(), Db.getSelectedProperty());
 		}
 	};
 

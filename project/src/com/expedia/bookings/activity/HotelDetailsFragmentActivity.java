@@ -192,7 +192,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 
-		AvailabilityResponse infoResponse = Db.getSelectedInfoResponse();
+		AvailabilityResponse infoResponse = Db.getSelectedAvailabilityResponse();
 		if (infoResponse != null) {
 			// We may have been downloading the data here before getting it elsewhere, so cancel
 			// our own download once we have data
@@ -450,13 +450,13 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
-	// Async loading of ExpediaServices.information
+	// Async loading of ExpediaServices.availability
 
 	private final Download<AvailabilityResponse> mInfoDownload = new Download<AvailabilityResponse>() {
 		@Override
 		public AvailabilityResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
-			return services.information(Db.getSelectedProperty());
+			return services.availability(Db.getSearchParams(), Db.getSelectedProperty());
 		}
 	};
 
@@ -464,7 +464,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		@Override
 		public void onDownload(AvailabilityResponse response) {
 			// Check if we got a better response elsewhere before loading up this data
-			AvailabilityResponse possibleBetterResponse = Db.getSelectedInfoResponse();
+			AvailabilityResponse possibleBetterResponse = Db.getSelectedAvailabilityResponse();
 			if (possibleBetterResponse != null && !possibleBetterResponse.canRequestMoreData()) {
 				response = possibleBetterResponse;
 			}

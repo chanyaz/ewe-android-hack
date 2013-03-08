@@ -990,7 +990,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 			Property selectedProperty = new Property();
 			selectedProperty.setPropertyId(Db.getSearchParams().getRegionId());
 			
-			return services.availability(Db.getSearchParams(), selectedProperty, 0);
+			return services.availability(Db.getSearchParams(), selectedProperty);
 		}
 	};
 	
@@ -1201,13 +1201,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 			String key = getDownloadKey(Db.getSelectedProperty());
 			BackgroundDownloader.getInstance().addDownloadListener(key, services);
 
-			if (Db.getSelectedInfoResponse() == null) {
-				return services.information(Db.getSelectedProperty());
-			}
-			else {
-				return services.availability(Db.getSearchParams(), Db.getSelectedProperty(),
-						ExpediaServices.F_EXPENSIVE);
-			}
+			return services.availability(Db.getSearchParams(), Db.getSelectedProperty());
 		}
 	};
 

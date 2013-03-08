@@ -152,22 +152,19 @@ public class ExpediaServices implements DownloadListener {
 	// Flags for doRequest()
 	private static final int F_SECURE_REQUEST = 1;
 
-	// Flags for availability()
-	public static final int F_EXPENSIVE = 4;
-
 	// Flags for getE3EndpointUrl()
-	public static final int F_HOTELS = 8;
-	public static final int F_FLIGHTS = 16;
+	public static final int F_HOTELS = 4;
+	public static final int F_FLIGHTS = 8;
 
 	// Flags for addBillingInfo()
-	public static final int F_HAS_TRAVELER = 32;
+	public static final int F_HAS_TRAVELER = 16;
 
 	// Flags for GET vs. POST
-	private static final int F_GET = 64;
-	private static final int F_POST = 128;
+	private static final int F_GET = 32;
+	private static final int F_POST = 64;
 
 	// Skips all cookie sending/receiving
-	private static final int F_IGNORE_COOKIES = 256;
+	private static final int F_IGNORE_COOKIES = 128;
 
 	private Context mContext;
 
@@ -544,38 +541,15 @@ public class ExpediaServices implements DownloadListener {
 		return doE3Request("MobileHotel/Webapp/SearchResults", query, rh, 0);
 	}
 
-	/**
-	 * HotelInformation request.
-	 *
-	 * Uses AvailabilityResponse as the return, as the "information" request is essentially the
-	 * same as a non-expensive AvailabilityResponse request.
-	 */
-	public AvailabilityResponse information(Property property) {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-
-		addCommonParams(query);
-
-		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
-
-		AvailabilityResponseHandler responseHandler = new AvailabilityResponseHandler(mContext, null, property);
-		return doE3Request("MobileHotel/Webapp/HotelInformation", query, responseHandler, 0);
-	}
-
 	public AvailabilityResponse availability(SearchParams params, Property property) {
-		return availability(params, property, F_EXPENSIVE);
-	}
-
-	public AvailabilityResponse availability(SearchParams params, Property property, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		addCommonParams(query);
 
 		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
 
-		addHotelSearchParams(query, params);
-
-		if ((flags & F_EXPENSIVE) != 0) {
-			query.add(new BasicNameValuePair("makeExpensiveRealtimeCall", "true"));
+		if (params != null) {
+			addHotelSearchParams(query, params);
 		}
 
 		AvailabilityResponseHandler responseHandler = new AvailabilityResponseHandler(mContext, params, property);
