@@ -45,6 +45,7 @@ public class FlightPaymentAddressFragment extends Fragment implements Validatabl
 		View v = inflater.inflate(R.layout.fragment_flight_payment_address, container, false);
 		mAttemptToLeaveMade = false;
 		mSectionLocation = Ui.findView(v, R.id.address_section);
+		mSectionLocation.setLineOfBusiness(SectionLocation.LineOfBusiness.FLIGHTS);
 
 		mBillingInfo = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
 

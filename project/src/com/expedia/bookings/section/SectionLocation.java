@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.CountrySpinnerAdapter.CountryDisplayType;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.mobiata.android.Log;
@@ -27,11 +28,17 @@ import com.mobiata.android.validation.Validator;
 
 public class SectionLocation extends LinearLayout implements ISection<Location>, ISectionEditable {
 
+	public enum LineOfBusiness {
+		FLIGHTS,
+		HOTELS
+	}
+
 	ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<SectionChangeListener>();
 	ArrayList<SectionField<?, Location>> mFields = new ArrayList<SectionField<?, Location>>();
 
 	Location mLocation;
 	Context mContext;
+	LineOfBusiness mLineOfBusiness;
 
 	public SectionLocation(Context context) {
 		super(context);
@@ -91,6 +98,10 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 				field.bindData(mLocation);
 			}
 		}
+	}
+
+	public void setLineOfBusiness(LineOfBusiness lob) {
+		mLineOfBusiness = lob;
 	}
 
 	public boolean hasValidInput() {
@@ -356,7 +367,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			R.id.edit_address_state) {
 		@Override
 		protected Validator<EditText> getValidator() {
-			if (getData() == null || getData().getCountryCode() == null || getData().getCountryCode().equals("USA")) {
+			if (mLineOfBusiness == LineOfBusiness.FLIGHTS && PointOfSale.getPointOfSale().isStateCodeRequiredFlights()) {
 				return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
 			}
 			else {
@@ -394,7 +405,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			R.id.edit_address_postal_code) {
 		@Override
 		protected Validator<EditText> getValidator() {
-			if (getData() == null || getData().getCountryCode() == null || getData().getCountryCode().equals("USA")) {
+			if (mLineOfBusiness == LineOfBusiness.FLIGHTS && PointOfSale.getPointOfSale().isPostalCodeRequiredFlights()) {
 				return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
 			}
 			else {
