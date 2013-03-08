@@ -100,6 +100,11 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 	}
 
 	@Override
+	public String getReloadText() {
+		return getContext().getString(R.string.itin_card_details_reload_car);
+	}
+
+	@Override
 	public View getTitleView(ViewGroup container) {
 		TextView view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_title_generic, container,
 				false);

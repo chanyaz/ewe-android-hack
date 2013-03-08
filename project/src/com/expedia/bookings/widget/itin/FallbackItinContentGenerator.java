@@ -56,6 +56,11 @@ public class FallbackItinContentGenerator extends ItinContentGenerator<ItinCardD
 	}
 
 	@Override
+	public String getReloadText() {
+		return getContext().getString(R.string.itin_card_details_reload);
+	}
+
+	@Override
 	public int getHeaderImagePlaceholderResId() {
 		switch (this.getItinCardData().getType()) {
 		case FLIGHT:

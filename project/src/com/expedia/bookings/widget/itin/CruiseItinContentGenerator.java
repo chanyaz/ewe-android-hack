@@ -55,6 +55,11 @@ public class CruiseItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	}
 
 	@Override
+	public String getReloadText() {
+		return getContext().getString(R.string.itin_card_details_reload_cruise);
+	}
+
+	@Override
 	public String getHeaderText() {
 		return "Cruise Card";
 	}

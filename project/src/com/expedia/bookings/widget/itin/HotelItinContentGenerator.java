@@ -96,6 +96,11 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	}
 
 	@Override
+	public String getReloadText() {
+		return getContext().getString(R.string.itin_card_details_reload_hotel);
+	}
+
+	@Override
 	public View getTitleView(ViewGroup container) {
 		final ItinCardDataHotel itinCardData = getItinCardData();
 

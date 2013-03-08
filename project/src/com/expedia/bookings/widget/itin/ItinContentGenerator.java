@@ -116,6 +116,8 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	public abstract String getHeaderText();
 
+	public abstract String getReloadText();
+
 	// Views
 
 	public abstract View getTitleView(ViewGroup container);
@@ -243,8 +245,12 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 			});
 
 			// Reload stuff
+			TextView reloadTextView = Ui.findView(item, R.id.reload_text_view);
+			reloadTextView.setText(getReloadText());
+
 			final ProgressBar progressBar = Ui.findView(item, R.id.itin_details_progress_bar);
 			final ImageView reloadImageView = Ui.findView(item, R.id.itin_details_reload_image_view);
+
 
 			RelativeLayout rl = Ui.findView(item, R.id.itin_details_deep_refresh_container);
 			rl.setOnClickListener(new OnClickListener() {
