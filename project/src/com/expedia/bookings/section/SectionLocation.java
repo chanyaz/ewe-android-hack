@@ -455,7 +455,9 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		protected void onFieldBind() {
 			super.onFieldBind();
 			if (hasBoundField()) {
-				getField().setAdapter(new CountrySpinnerAdapter(mContext, CountryDisplayType.FULL_NAME, R.layout.simple_spinner_item_18, R.layout.simple_spinner_dropdown_item));
+				getField().setAdapter(
+						new CountrySpinnerAdapter(mContext, CountryDisplayType.FULL_NAME,
+								R.layout.simple_spinner_item_18, R.layout.simple_spinner_dropdown_item));
 			}
 		}
 
@@ -467,7 +469,8 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 					if (getData() != null) {
 						CountrySpinnerAdapter countryAdapter = (CountrySpinnerAdapter) parent.getAdapter();
-						getData().setCountryCode(countryAdapter.getItemValue(position, CountryDisplayType.THREE_LETTER));
+						getData()
+								.setCountryCode(countryAdapter.getItemValue(position, CountryDisplayType.THREE_LETTER));
 						updateCountryDependantValidation();
 						updatePostalCodeFormat();
 					}
@@ -499,7 +502,8 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			if (getData() != null && mEditAddressPostalCode != null) {
 				if (mEditAddressPostalCode.hasBoundField()) {
 					Log.i("CountryCode:" + getData().getCountryCode());
-					if (!TextUtils.isEmpty(getData().getCountryCode()) && getData().getCountryCode().equalsIgnoreCase("USA")) {
+					if (!TextUtils.isEmpty(getData().getCountryCode())
+							&& getData().getCountryCode().equalsIgnoreCase("USA")) {
 						mEditAddressPostalCode.getField().setInputType(InputType.TYPE_CLASS_PHONE);
 					}
 					else {
