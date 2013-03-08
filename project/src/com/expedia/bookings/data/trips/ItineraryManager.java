@@ -48,6 +48,8 @@ public class ItineraryManager implements JSONable {
 	public static final String TRIP_REFRESH_BROADCAST = "com.expedia.bookings.data.trips.DEEP_REFRESH";
 	public static final String TRIP_REFRESH_ARG_TRIP_ID = "tripId";
 
+	private static final long UPDATE_CUTOFF = 1000 * 60; // At most once a minute
+
 	private static final ItineraryManager sManager = new ItineraryManager();
 
 	private ItineraryManager() {
@@ -60,6 +62,9 @@ public class ItineraryManager implements JSONable {
 
 	// Should be initialized from the Application so that this does not leak a component
 	private Context mContext;
+
+	// Don't try refreshing too often
+	private long mLastUpdateTime;
 
 	private Map<String, Trip> mTrips;
 
@@ -391,6 +396,8 @@ public class ItineraryManager implements JSONable {
 		for (ItinerarySyncListener listener : listeners) {
 			listener.onSyncFinished(trips);
 		}
+
+		mLastUpdateTime = Calendar.getInstance().getTimeInMillis();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -501,7 +508,13 @@ public class ItineraryManager implements JSONable {
 	 * If a sync is already in progress then calls to this are ignored.
 	 */
 	public void startSync() {
-		if (!isSyncing()) {
+		if (Calendar.getInstance().getTimeInMillis() < UPDATE_CUTOFF + mLastUpdateTime) {
+			Log.d("ItineraryManager sync started too soon since last one; ignoring.");
+		}
+		else if (isSyncing()) {
+			Log.i("Tried to start a sync while one is already in progress.");
+		}
+		else {
 			// Add default sync operations
 			mSyncOpQueue.add(new Task(Operation.LOAD_FROM_DISK));
 			mSyncOpQueue.add(new Task(Operation.REFRESH_USER));
@@ -510,9 +523,6 @@ public class ItineraryManager implements JSONable {
 
 			mSyncTask = new SyncTask();
 			mSyncTask.execute();
-		}
-		else {
-			Log.i("Tried to start a sync while one is already in progress.");
 		}
 	}
 
