@@ -109,6 +109,7 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 	//////////////////////////////////////////////////////////////////////////
 	// Action bar
 
+	private MenuItem mLogInMenuItem;
 	private MenuItem mLogOutMenuItem;
 
 	@Override
@@ -117,6 +118,7 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 
 		getSupportMenuInflater().inflate(R.menu.menu_itinerary, menu);
 
+		mLogInMenuItem = menu.findItem(R.id.menu_log_in);
 		mLogOutMenuItem = menu.findItem(R.id.menu_log_out);
 
 		DebugMenu.onCreateOptionsMenu(this, menu);
@@ -128,7 +130,9 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		DebugMenu.onPrepareOptionsMenu(this, menu);
 
-		mLogOutMenuItem.setVisible(User.isLoggedIn(this));
+		boolean loggedIn = User.isLoggedIn(this);
+		mLogInMenuItem.setVisible(!loggedIn);
+		mLogOutMenuItem.setVisible(loggedIn);
 
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -142,6 +146,10 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 		}
 		case R.id.menu_add_guest_itinerary: {
 			mItinListFragment.startAddGuestItinActivity();
+			return true;
+		}
+		case R.id.menu_log_in: {
+			mItinListFragment.startLoginActivity();
 			return true;
 		}
 		case R.id.menu_log_out: {
