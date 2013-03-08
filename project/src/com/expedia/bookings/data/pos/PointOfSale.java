@@ -5,12 +5,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,11 +46,6 @@ public class PointOfSale {
 	public enum RequiredPaymentFieldsHotels {
 		NONE,
 		POSTAL_CODE,
-	}
-
-	private enum PaymentField {
-		POSTALCODE,
-		STATECODE,
 	}
 
 	public static final String ACTION_POS_CHANGED = "com.expedia.bookings.action.pos_changed";
@@ -112,9 +105,6 @@ public class PointOfSale {
 
 	// Used to determine which fields are required for Hotels checkout
 	private RequiredPaymentFieldsHotels mRequiredPaymentFieldsHotels;
-
-	// Used to determine which fields are required for Flights checkout;
-	private Set<PaymentField> mRequiredPaymentFieldsFlights;
 
 	/**
 	 * There can be multiple different locales for a given POS.
@@ -271,14 +261,6 @@ public class PointOfSale {
 
 	public RequiredPaymentFieldsHotels getRequiredPaymentFieldsHotels() {
 		return mRequiredPaymentFieldsHotels;
-	}
-
-	public boolean isStateCodeRequiredFlights() {
-		return mRequiredPaymentFieldsFlights.contains(PaymentField.STATECODE);
-	}
-
-	public boolean isPostalCodeRequiredFlights() {
-		return mRequiredPaymentFieldsFlights.contains(PaymentField.POSTALCODE);
 	}
 
 	/**
@@ -583,7 +565,6 @@ public class PointOfSale {
 		pos.mDefaultLocales = stringJsonArrayToArray(mappedLocales);
 
 		pos.mRequiredPaymentFieldsHotels = parseRequiredPaymentFieldsHotels(data);
-		pos.mRequiredPaymentFieldsFlights = parseRequiredPaymentFieldsFlights(data);
 
 		return pos;
 	}
@@ -627,17 +608,6 @@ public class PointOfSale {
 			type = RequiredPaymentFieldsHotels.NONE;
 		}
 		return type;
-	}
-
-	private static Set<PaymentField> parseRequiredPaymentFieldsFlights(JSONObject data) {
-		Set<PaymentField> set = new HashSet<PaymentField>();
-		JSONArray arr = data.optJSONArray("requiredPaymentFields:flights");
-		if (arr != null) {
-			for (int i = 0; i < arr.length(); i++) {
-				set.add(PaymentField.valueOf(arr.optString(i).toUpperCase()));
-			}
-		}
-		return set;
 	}
 
 	private static String[] stringJsonArrayToArray(JSONArray stringJsonArr) {

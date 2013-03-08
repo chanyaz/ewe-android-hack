@@ -367,7 +367,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			R.id.edit_address_state) {
 		@Override
 		protected Validator<EditText> getValidator() {
-			if (mLineOfBusiness == LineOfBusiness.FLIGHTS && PointOfSale.getPointOfSale().isStateCodeRequiredFlights()) {
+			if (mLineOfBusiness == LineOfBusiness.FLIGHTS) {
 				return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
 			}
 			else {
@@ -405,7 +405,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			R.id.edit_address_postal_code) {
 		@Override
 		protected Validator<EditText> getValidator() {
-			if (mLineOfBusiness == LineOfBusiness.FLIGHTS && PointOfSale.getPointOfSale().isPostalCodeRequiredFlights()) {
+			if (mLineOfBusiness == LineOfBusiness.FLIGHTS) {
 				return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
 			}
 			else {
