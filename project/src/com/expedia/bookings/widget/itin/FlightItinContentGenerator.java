@@ -437,27 +437,34 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 			if (arrival.before(now)) {
 				//flight complete
-				String timeString = formatTime(arrival);
-				int delay = getDelayForWaypoint(flight.getArrivalWaypoint());
-				if (delay > 0) {
-					topLine.setText(res.getString(R.string.flight_arrived_late_at_TEMPLATE, timeString));
-					bulb.setImageResource(R.drawable.ic_flight_status_delayed);
-				}
-				else if (delay < 0) {
-					topLine.setText(res.getString(R.string.flight_arrived_early_at_TEMPLATE, timeString));
+				if (flight.mFlightHistoryId == -1) {
+					// no FS data
+					topLine.setText(R.string.flight_arrived);
 					bulb.setImageResource(R.drawable.ic_flight_status_on_time);
 				}
 				else {
-					topLine.setText(res.getString(R.string.flight_arrived_on_time_at_TEMPLATE, timeString));
-					bulb.setImageResource(R.drawable.ic_flight_status_on_time);
+					String timeString = formatTime(arrival);
+					int delay = getDelayForWaypoint(flight.getArrivalWaypoint());
+					if (delay > 0) {
+						topLine.setText(res.getString(R.string.flight_arrived_late_at_TEMPLATE, timeString));
+						bulb.setImageResource(R.drawable.ic_flight_status_delayed);
+					}
+					else if (delay < 0) {
+						topLine.setText(res.getString(R.string.flight_arrived_early_at_TEMPLATE, timeString));
+						bulb.setImageResource(R.drawable.ic_flight_status_on_time);
+					}
+					else {
+						topLine.setText(res.getString(R.string.flight_arrived_on_time_at_TEMPLATE, timeString));
+						bulb.setImageResource(R.drawable.ic_flight_status_on_time);
+					}
 				}
 
 				summaryWaypoint = flight.getArrivalWaypoint();
 				bottomLineTextId = R.string.at_airport_terminal_gate_TEMPLATE;
 				bottomLineFallbackId = R.string.at_airport_TEMPLATE;
 			}
-			else if (departure.before(now)) {
-				//flight in progress, show arrival info
+			else if (departure.before(now) && (flight.mFlightHistoryId != -1)) {
+				//flight in progress AND we have FS data, show arrival info
 				int delay = getDelayForWaypoint(flight.getArrivalWaypoint());
 				CharSequence timeSpanString = DateUtils.getRelativeTimeSpanString(arrival.getTimeInMillis(),
 						now.getTimeInMillis(), DateUtils.MINUTE_IN_MILLIS, 0);
@@ -478,11 +485,8 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 					glowBulb.setImageResource(R.drawable.ic_flight_status_on_time_glow);
 				}
 
-				if (flight.mFlightHistoryId != -1) {
-					// only make the bulb glow if we actually have FlightStats data
-					glowBulb.setVisibility(View.VISIBLE);
-					glowBulb.startAnimation(getGlowAnimation());
-				}
+				glowBulb.setVisibility(View.VISIBLE);
+				glowBulb.startAnimation(getGlowAnimation());
 
 				summaryWaypoint = flight.getArrivalWaypoint();
 				bottomLineTextId = R.string.at_airport_terminal_gate_TEMPLATE;
@@ -521,11 +525,8 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 					glowBulb.setImageResource(R.drawable.ic_flight_status_on_time_glow);
 				}
 
-				if (flight.mFlightHistoryId != -1) {
-					// only make the bulb glow if we actually have FlightStats data
-					glowBulb.setVisibility(View.VISIBLE);
-					glowBulb.startAnimation(getGlowAnimation());
-				}
+				glowBulb.setVisibility(View.VISIBLE);
+				glowBulb.startAnimation(getGlowAnimation());
 
 				summaryWaypoint = flight.mOrigin;
 				bottomLineTextId = R.string.from_airport_terminal_gate_TEMPLATE;
