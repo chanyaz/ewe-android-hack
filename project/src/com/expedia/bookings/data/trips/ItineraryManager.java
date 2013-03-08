@@ -787,15 +787,13 @@ public class ItineraryManager implements JSONable {
 							}
 
 							if (update) {
-								FlightStatsFlightResponse updatedFlightResponse = mServices.getUpdatedFlight(segment);
+								Flight updatedFlight = mServices.getUpdatedFlight(segment);
 
 								if (isCancelled()) {
 									return;
 								}
 
-								if (updatedFlightResponse != null) {
-									segment.updateFrom(updatedFlightResponse.getFlight());
-								}
+								segment.updateFrom(updatedFlight);
 
 								mFlightsUpdated++;
 							}

@@ -1,5 +1,8 @@
 package com.expedia.bookings.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -10,18 +13,18 @@ import com.mobiata.flightlib.data.Flight;
 
 public class FlightStatsFlightResponse extends Response implements JSONable {
 
-	private Flight mFlight;
+	private List<Flight> mFlights;
 	
 	public FlightStatsFlightResponse() {
-		// Default constructor, nothing to do
+		mFlights = new ArrayList<Flight>();
 	}
 	
-	public void setFlight(Flight flight) {
-		mFlight = flight;
+	public void addFlight(Flight flight) {
+		mFlights.add(flight);
 	}
 	
-	public Flight getFlight() {
-		return mFlight;
+	public List<Flight> getFlights() {
+		return mFlights;
 	}
 	
 	//////////////////////////////////////////////////////////////////////////
@@ -35,7 +38,7 @@ public class FlightStatsFlightResponse extends Response implements JSONable {
 		}
 
 		try {
-			JSONUtils.putJSONable(obj, "flight", mFlight);
+			JSONUtils.putJSONableList(obj, "flights", mFlights);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -48,7 +51,7 @@ public class FlightStatsFlightResponse extends Response implements JSONable {
 	public boolean fromJson(JSONObject obj) {
 		super.fromJson(obj);
 
-		mFlight = JSONUtils.getJSONable(obj, "flight", Flight.class);
+		mFlights = JSONUtils.getJSONableList(obj, "flights", Flight.class);
 
 		return true;
 	}

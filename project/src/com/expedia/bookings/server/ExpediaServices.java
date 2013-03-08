@@ -448,7 +448,7 @@ public class ExpediaServices implements DownloadListener {
 		return null;
 	}
 
-	public FlightStatsFlightResponse getUpdatedFlight(Flight flight) {
+	public Flight getUpdatedFlight(Flight flight) {
 		ArrayList<BasicNameValuePair> parameters = new ArrayList<BasicNameValuePair>();
 		parameters.add(new BasicNameValuePair("appId", FS_FLEX_APP_ID));
 		parameters.add(new BasicNameValuePair("appKey", FS_FLEX_APP_KEY));
@@ -472,8 +472,34 @@ public class ExpediaServices implements DownloadListener {
 			parameters.add(new BasicNameValuePair("airport", flight.mOrigin.mAirportCode));
 		}
 
-		return doFlightStatsRequest(baseUrl, parameters,
+		FlightStatsFlightResponse response = doFlightStatsRequest(baseUrl, parameters,
 				new FlightStatsFlightStatusResponseHandler(flight.getPrimaryFlightCode().mAirlineCode));
+		
+		List<Flight> flights = response.getFlights();
+		if (flights.size() == 0) {
+			return null;
+		}
+		else if (flights.size() == 1) {
+			return flights.get(0);
+		}
+		else {
+			String destAirportCode = flight.mDestination.mAirportCode;
+			if (destAirportCode != null) {
+				for (Flight updatedFlight : flights) {
+					// Assumptions:
+					//  1) all results have identical airline, flight number, departure airport, departure date
+					//  2) results do NOT include two flights on the same exact route
+					// Which means, the only piece of information that we need to check is the arrival airport
+					if (destAirportCode.equals(updatedFlight.mDestination.mAirportCode)) {
+						return updatedFlight;
+					}
+				}
+			}
+			
+			// last chance catch-all (somehow we got results that didn't match)
+			return null;
+		}
+		
 	}
 
 	//////////////////////////////////////////////////////////////////////////
