@@ -138,6 +138,10 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 			finish();
 			return true;
 		}
+		case R.id.menu_add_guest_itinerary: {
+			mItinListFragment.startAddGuestItinActivity();
+			return true;
+		}
 		case R.id.menu_log_out: {
 			mItinListFragment.accountLogoutClicked();
 			return true;
