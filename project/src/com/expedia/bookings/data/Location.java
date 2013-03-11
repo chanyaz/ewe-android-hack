@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import android.text.TextUtils;
 
 import com.expedia.bookings.utils.LocaleUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -230,21 +231,14 @@ public class Location implements JSONable {
 	}
 
 	public String toFormattedString() {
-		String formattedString = "";
-
-		if (mCity != null && !mCity.equals("")) {
-			formattedString += mCity;
+		ArrayList<String> locationParts = new ArrayList<String>();
+		locationParts.add(mCity);
+		locationParts.add(mStateCode);
+		if (!TextUtils.equals(mCountryCode, "US")) {
+			locationParts.add(mCountryCode);
 		}
 
-		if (mStateCode != null && !mStateCode.equals("")) {
-			formattedString += ", " + mStateCode;
-		}
-
-		if (mCountryCode != null && !mCountryCode.equals("") && !mCountryCode.equals("US")) {
-			formattedString += ", " + mCountryCode;
-		}
-
-		return formattedString;
+		return StrUtils.joinWithoutEmpties(", ", locationParts);
 	}
 
 	public String toLongFormattedString() {

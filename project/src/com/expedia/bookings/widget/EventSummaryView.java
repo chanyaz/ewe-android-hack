@@ -64,7 +64,7 @@ public class EventSummaryView extends LinearLayout {
 			@Override
 			public void onClick(View v) {
 				final String param = directions ? "daddr" : "q";
-				final Uri uri = Uri.parse("http://maps.google.com/maps?" + param + "=" + location.toFormattedString());
+				final Uri uri = Uri.parse("http://maps.google.com/maps?" + param + "=" + location.toLongFormattedString());
 				final Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
 
 				if (directions) {
