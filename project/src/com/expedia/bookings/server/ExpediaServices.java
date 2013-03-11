@@ -406,7 +406,8 @@ public class ExpediaServices implements DownloadListener {
 	 * @param destinationCode
 	 * @return
 	 */
-	public BackgroundImageResponse getCarsBackgroundImage(Car.Category category, Car.Type type, Integer width, Integer height) {
+	public BackgroundImageResponse getCarsBackgroundImage(Car.Category category, Car.Type type, Integer width,
+			Integer height) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 		query.add(new BasicNameValuePair("imageType", "CAR"));
 
@@ -474,32 +475,35 @@ public class ExpediaServices implements DownloadListener {
 
 		FlightStatsFlightResponse response = doFlightStatsRequest(baseUrl, parameters,
 				new FlightStatsFlightStatusResponseHandler(flight.getPrimaryFlightCode().mAirlineCode));
-		
-		List<Flight> flights = response.getFlights();
-		if (flights.size() == 0) {
+		if (response == null) {
 			return null;
-		}
-		else if (flights.size() == 1) {
-			return flights.get(0);
 		}
 		else {
-			String destAirportCode = flight.mDestination.mAirportCode;
-			if (destAirportCode != null) {
-				for (Flight updatedFlight : flights) {
-					// Assumptions:
-					//  1) all results have identical airline, flight number, departure airport, departure date
-					//  2) results do NOT include two flights on the same exact route
-					// Which means, the only piece of information that we need to check is the arrival airport
-					if (destAirportCode.equals(updatedFlight.mDestination.mAirportCode)) {
-						return updatedFlight;
+			List<Flight> flights = response.getFlights();
+			if (flights == null || flights.size() == 0) {
+				return null;
+			}
+			else if (flights.size() == 1) {
+				return flights.get(0);
+			}
+			else {
+				String destAirportCode = flight.mDestination.mAirportCode;
+				if (destAirportCode != null) {
+					for (Flight updatedFlight : flights) {
+						// Assumptions:
+						//  1) all results have identical airline, flight number, departure airport, departure date
+						//  2) results do NOT include two flights on the same exact route
+						// Which means, the only piece of information that we need to check is the arrival airport
+						if (destAirportCode.equals(updatedFlight.mDestination.mAirportCode)) {
+							return updatedFlight;
+						}
 					}
 				}
+
+				// last chance catch-all (somehow we got results that didn't match)
+				return null;
 			}
-			
-			// last chance catch-all (somehow we got results that didn't match)
-			return null;
 		}
-		
 	}
 
 	//////////////////////////////////////////////////////////////////////////
