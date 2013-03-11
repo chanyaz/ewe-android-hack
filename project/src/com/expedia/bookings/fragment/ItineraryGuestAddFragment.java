@@ -5,6 +5,8 @@ import java.util.Collection;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,6 +84,10 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 		FontCache.setTypeface(mEmailEdit, Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(mItinNumEdit, Font.ROBOTO_LIGHT);
 
+		mFindItinBtn.setEnabled(false);
+		mEmailEdit.addTextChangedListener(mTextWatcher);
+		mItinNumEdit.addTextChangedListener(mTextWatcher);
+
 		initOnClicks();
 
 		return view;
@@ -114,21 +120,29 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 
 			@Override
 			public void onClick(View v) {
-				mStatusMessageTv.setText(getString(R.string.find_itinerary));
+				if (hasFormData()) {
+					mStatusMessageTv.setText(getString(R.string.find_itinerary));
 
-				String emailAddr = mEmailEdit.getText().toString();
-				String itinNumber = mItinNumEdit.getText().toString();
-				if (mListener != null) {
-					mListener.onFindItinClicked(emailAddr, itinNumber);
+					String emailAddr = mEmailEdit.getText().toString();
+					String itinNumber = mItinNumEdit.getText().toString();
+					if (mListener != null) {
+						mListener.onFindItinClicked(emailAddr, itinNumber);
+					}
+
+					ItineraryManager.getInstance().addGuestTrip(emailAddr, itinNumber);
+					runExtenderOrFinish();
+
+					OmnitureTracking.setPendingManualAddGuestItin(emailAddr, itinNumber);
 				}
-
-				ItineraryManager.getInstance().addGuestTrip(emailAddr, itinNumber);
-				runExtenderOrFinish();
-
-				OmnitureTracking.setPendingManualAddGuestItin(emailAddr, itinNumber);
 			}
 
 		});
+	}
+
+	private boolean hasFormData() {
+		boolean hasEmail = mEmailEdit.getText() != null && mEmailEdit.getText().length() > 0;
+		boolean hasItin = mItinNumEdit.getText() != null && mItinNumEdit.getText().length() > 0;
+		return hasEmail && hasItin;
 	}
 
 	public void hideKeyboard() {
@@ -193,6 +207,29 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 			enableExtenderState(false);
 		}
 	}
+
+	private TextWatcher mTextWatcher = new TextWatcher() {
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			// Don't care
+		}
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before, int count) {
+			// Don't care
+		}
+
+		@Override
+		public void afterTextChanged(Editable s) {
+			if (hasFormData()) {
+				mFindItinBtn.setEnabled(true);
+			}
+			else {
+				mFindItinBtn.setEnabled(false);
+			}
+		}
+	};
 
 	public interface AddGuestItineraryDialogListener {
 		public void onFindItinClicked(String email, String itinNumber);
