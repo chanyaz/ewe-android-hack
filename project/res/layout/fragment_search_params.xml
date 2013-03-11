@@ -12,16 +12,20 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical" >
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingBottom="24dp"
+        android:paddingTop="24dp"
+        android:weightSum="@integer/search_params_weight_sum" >
 
         <!-- Instructions at top of page -->
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="57dp"
+            android:layout_height="wrap_content"
             android:gravity="bottom"
             android:orientation="horizontal"
-            android:paddingBottom="5dp" >
+            android:paddingBottom="16dp" >
 
             <TextView
                 android:id="@+id/where_text_view"
@@ -51,9 +55,7 @@
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight="@integer/search_params_input_weight"
-            android:orientation="horizontal"
-            android:paddingBottom="15dp"
-            android:paddingTop="3dp" >
+            android:orientation="horizontal" >
 
             <!-- Search location fields -->
 
@@ -119,15 +121,6 @@
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
-
-        <ImageView
-            android:id="@+id/expedia_logo_image_view"
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="@integer/search_params_image_weight"
-            android:paddingTop="20dp"
-            android:scaleType="center"
-            android:src="@drawable/expedia_logo_large" />
     </LinearLayout>
 
     <LinearLayout
