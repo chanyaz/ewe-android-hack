@@ -35,6 +35,14 @@ public class DisableableViewPager extends ViewPager {
 	}
 
 	@Override
+	public boolean onTouchEvent(MotionEvent ev) {
+		if (mPageSwipingEnabled) {
+			return super.onTouchEvent(ev);
+		}
+		return false;
+	}
+
+	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
 		if (mPageSwipingEnabled) {
 			return super.onInterceptTouchEvent(ev);
