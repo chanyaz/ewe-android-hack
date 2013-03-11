@@ -789,23 +789,29 @@ public class ItineraryManager implements JSONable {
 							// Logic for whether to update; this could be compacted, but I've left it
 							// somewhat unwound so that it can actually be understood.
 							boolean update = false;
-							if (timeToTakeOff > 0) {
-								if ((timeToTakeOff < HOUR * 12 && timeSinceLastUpdate > 5 * MINUTE)
-										|| (timeToTakeOff < HOUR * 24 && timeSinceLastUpdate > HOUR)
-										|| (timeToTakeOff < HOUR * 72 && timeSinceLastUpdate > 12 * HOUR)) {
+							String status = segment.mStatusCode;
+							if (!status.equals(Flight.STATUS_CANCELLED) && !status.equals(Flight.STATUS_DIVERTED)) {
+								// only worth updating if we haven't already hit a final state (Cancelled, Diverted)
+								// we will potentially check after LANDED as we get updated arrival info for a little while after landing
+								if (timeToTakeOff > 0) {
+									if ((timeToTakeOff < HOUR * 12 && timeSinceLastUpdate > 5 * MINUTE)
+											|| (timeToTakeOff < HOUR * 24 && timeSinceLastUpdate > HOUR)
+											|| (timeToTakeOff < HOUR * 72 && timeSinceLastUpdate > 12 * HOUR)) {
+										update = true;
+									}
+								}
+								else if (now < landing && timeSinceLastUpdate > 5 * MINUTE) {
 									update = true;
 								}
-							}
-							else if (now < landing && timeSinceLastUpdate > 5 * MINUTE) {
-								update = true;
-							}
-							else if (now > landing) {
-								if (now < (landing + (7 * DateUtils.DAY_IN_MILLIS))
-										&& timeSinceLastUpdate > (now - landing)) {
-									update = true;
-								}
-								else {
-									segment.mStatusCode = Flight.STATUS_LANDED;
+								else if (now > landing) {
+									if (now < (landing + (7 * DateUtils.DAY_IN_MILLIS))
+											&& timeSinceLastUpdate > (now - (landing + DateUtils.HOUR_IN_MILLIS))
+											&& timeSinceLastUpdate > 5 * MINUTE) {
+										// flight should have landed some time in the last seven days
+										// AND the last update was less than 1 hour after the flight should have landed (or did land)
+										// AND the last update was more than 5 minutes ago
+										update = true;
+									}
 								}
 							}
 
