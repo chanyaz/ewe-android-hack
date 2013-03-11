@@ -238,7 +238,10 @@ public class TripParser {
 		if (roomsJson != null) {
 			for (int i = 0; i < roomsJson.length(); i++) {
 				JSONObject room = roomsJson.optJSONObject(i);
-				hotel.addConfirmationNumber(room.optString("hotelConfirmationNumber"));
+				String conf = room.optString("hotelConfirmationNumber");
+				if (!TextUtils.isEmpty(conf)) {
+					hotel.addConfirmationNumber(conf);
+				}
 				property.setDescriptionText(room.optString("roomRatePlanDescription"));
 
 				JSONObject roomPreferences = room.optJSONObject("roomPreferences");
