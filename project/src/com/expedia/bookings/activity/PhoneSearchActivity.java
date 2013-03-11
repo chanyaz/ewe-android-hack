@@ -360,6 +360,22 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				incrementNumSearches();
 
 				Filter filter = Db.getFilter();
+
+				// Filter reset is already called, hence reset appropriate searchRadius
+				SearchType searchType = Db.getSearchParams().getSearchType();
+				switch (searchType) {
+				case CITY:
+				case ADDRESS:
+				case FREEFORM:
+				case HOTEL:
+				case VISIBLE_MAP_AREA:
+					filter.setSearchRadius(SearchRadius.ALL);
+					break;
+				case MY_LOCATION:
+				case POI:
+					filter.setSearchRadius(SearchRadius.LARGE);
+					break;
+				}
 				searchResponse.setFilter(filter);
 				filter.addOnFilterChangedListener(PhoneSearchActivity.this);
 

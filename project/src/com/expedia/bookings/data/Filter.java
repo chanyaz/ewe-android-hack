@@ -94,7 +94,7 @@ public class Filter implements JSONable {
 	 * Resets the filter to its default settings.  (Does not clear listeners.)
 	 */
 	public void reset() {
-		mSearchRadius = SearchRadius.LARGE;
+		mSearchRadius = SearchRadius.ALL;
 		mDistanceUnit = DistanceUnit.getDefaultDistanceUnit();
 		mPriceRange = PriceRange.ALL;
 		mMinStarRating = 0;
