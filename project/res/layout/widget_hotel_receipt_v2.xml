@@ -90,6 +90,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
+                    android:drawableLeft="@drawable/ic_calendar_small"
+                    android:drawablePadding="6dp"
                     android:textColor="@color/hotel_mini_receipt_text"
                     android:textSize="15sp"
                     app:textStyle="bold" />
@@ -112,6 +114,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@+id/nights_text"
+                    android:drawableLeft="@drawable/ic_guest_small"
+                    android:drawablePadding="6dp"
                     android:textColor="@color/hotel_mini_receipt_text"
                     android:textSize="15sp"
                     app:textStyle="bold" />
@@ -132,6 +136,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@+id/price_text"
+                    android:drawableRight="@drawable/ic_info_receipt"
+                    android:drawablePadding="6dp"
                     android:text="@string/grand_total"
                     android:textColor="@color/hotel_mini_receipt_price_text"
                     android:textSize="12sp" />
