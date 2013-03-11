@@ -55,6 +55,11 @@ public class TripComponent implements JSONable {
 	}
 
 	public DateTime getStartDate() {
+		// If we have no start date, fallback to parent start date
+		if (mStartDate == null && mParent != null) {
+			return mParent.getStartDate();
+		}
+
 		return mStartDate;
 	}
 
@@ -63,6 +68,11 @@ public class TripComponent implements JSONable {
 	}
 
 	public DateTime getEndDate() {
+		// If we have no end date, fallback to overall parent end date
+		if (mEndDate == null && mParent != null) {
+			return mParent.getEndDate();
+		}
+
 		return mEndDate;
 	}
 
