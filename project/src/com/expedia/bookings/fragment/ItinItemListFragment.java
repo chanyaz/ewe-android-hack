@@ -3,7 +3,6 @@ package com.expedia.bookings.fragment;
 import java.util.Collection;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -40,6 +39,7 @@ import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
@@ -412,7 +412,8 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 	@Override
 	public void onTripUpdated(Trip trip) {
-		// Do nothing
+		Log.d("ItinItemListFragment - onTripUpdated");
+		OmnitureTracking.trackItinAdd(getActivity(), trip);
 	}
 
 	@Override
@@ -435,17 +436,6 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	public void onSyncFinished(Collection<Trip> trips) {
 		setIsLoading(false);
 		setErrorMessage(null, false);
-
-		// TODO: make sure these calls are fired the correct number of times, will probably need extra bookkeeping
-		Context context = getActivity();
-		if (context != null) {
-			if (trips != null && trips.size() > 1) {
-				OmnitureTracking.trackItin(context);
-			}
-			else {
-				OmnitureTracking.trackItinEmpty(context);
-			}
-		}
 	}
 
 	//////////////////////////////////////////

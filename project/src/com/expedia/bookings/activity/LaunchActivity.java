@@ -138,13 +138,6 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	}
 
 	@Override
-	public void onStart() {
-		super.onStart();
-		OmnitureTracking.trackPageLoadLaunchScreen(this);
-
-	}
-
-	@Override
 	protected void onResume() {
 		super.onResume();
 
@@ -339,6 +332,8 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 			if (mHasMenu) {
 				supportInvalidateOptionsMenu();
 			}
+
+			OmnitureTracking.trackPageLoadLaunchScreen(this);
 		}
 	}
 
@@ -359,6 +354,8 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 			if (mHasMenu) {
 				supportInvalidateOptionsMenu();
 			}
+
+			OmnitureTracking.trackItin(this);
 		}
 	}
 

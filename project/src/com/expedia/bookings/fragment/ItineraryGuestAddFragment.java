@@ -123,8 +123,7 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 				ItineraryManager.getInstance().addGuestTrip(emailAddr, itinNumber);
 				runExtenderOrFinish();
 
-				// TODO: move this to the listener
-				OmnitureTracking.trackItinAdd(getActivity());
+				OmnitureTracking.setPendingManualAddGuestItin(emailAddr, itinNumber);
 			}
 
 		});

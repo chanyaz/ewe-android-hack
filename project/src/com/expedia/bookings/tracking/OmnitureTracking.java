@@ -35,6 +35,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.fragment.BookingInfoValidation;
 import com.expedia.bookings.utils.CalendarUtils;
@@ -413,8 +414,25 @@ public class OmnitureTracking {
 		internalTrackLink(context, String.format(ITIN_RELOAD_TEMPLATE, formatted));
 	}
 
-	public static void trackItinAdd(Context context) {
-		internalTrackLink(context, ITIN_ADD_SUCCESS);
+	/**
+	 * Note: Due to the way that ItineraryManager interacts with our Fragments + Views, this extra bookkeeping is
+	 * required currently to correctly fire the single success event of adding a guest itinerary manually.
+	 *
+	 * I thought about adding this bookkeeping into ItineraryManager, but I decided not to bloat ItinManager with stuff
+	 * that is only needed for tracking purposes.
+	 */
+	private static Trip mPendingManualAddGuestItin;
+
+	public static void setPendingManualAddGuestItin(String email, String tripNumber) {
+		mPendingManualAddGuestItin = new Trip(email, tripNumber);
+	}
+
+	public static void trackItinAdd(Context context, Trip trip) {
+		boolean track = mPendingManualAddGuestItin != null && mPendingManualAddGuestItin.isSameGuest(trip);
+		if (track) {
+			mPendingManualAddGuestItin = null;
+			internalTrackLink(context, ITIN_ADD_SUCCESS);
+		}
 	}
 
 	public static void trackItin(Context context) {
