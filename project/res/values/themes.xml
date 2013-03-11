@@ -39,11 +39,6 @@
         <item name="numberPickerStyle">@style/Widget.NumberPicker</item>
     </style>
 
-    <style name="Theme.Tablet.NoActionBar">
-        <item name="android:windowActionBar">false</item>
-        <item name="android:windowNoTitle">true</item>
-    </style>
-
     <style name="Theme.Light.Fullscreen.Panel" parent="@style/Theme.Sherlock.Light.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>

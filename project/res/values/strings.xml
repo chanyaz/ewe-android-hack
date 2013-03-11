@@ -54,6 +54,8 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Stay in&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Unfortunately, we can\'t connect.</string>
+    <!-- Menu option for going to see your trips/itineraries -->
+    <string name="your_trips">Your Trips</string>
 
     <!-- Itineraries -->
     <!-- Itinerary -->

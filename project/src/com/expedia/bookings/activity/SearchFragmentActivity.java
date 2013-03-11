@@ -4,15 +4,19 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.dialog.GooglePlayServicesDialog;
 import com.expedia.bookings.fragment.SearchParamsFragment;
 import com.expedia.bookings.fragment.SearchParamsFragment.SearchParamsFragmentListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
@@ -21,7 +25,7 @@ import com.mobiata.android.util.NetUtils;
 
 // This is the TABLET search fragment activity
 
-public class SearchFragmentActivity extends FragmentActivity implements SearchParamsFragmentListener {
+public class SearchFragmentActivity extends SherlockFragmentActivity implements SearchParamsFragmentListener {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Constants
@@ -126,6 +130,47 @@ public class SearchFragmentActivity extends FragmentActivity implements SearchPa
 
 		return super.onCreateDialog(id, args);
 
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Action bar
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.menu_launch_tablet, menu);
+
+		DebugMenu.onCreateOptionsMenu(this, menu);
+
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		DebugMenu.onPrepareOptionsMenu(this, menu);
+
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menu_your_trips: {
+			startActivity(new Intent(this, ItineraryActivity.class));
+			return true;
+		}
+		case R.id.menu_settings: {
+			// Possible TODO: Reset the activity when settings are changed?
+			Intent intent = new Intent(this, TabletPreferenceActivity.class);
+			startActivity(intent);
+			return true;
+		}
+		}
+
+		if (DebugMenu.onOptionsItemSelected(this, item)) {
+			return true;
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 
 	public void startSearch() {
