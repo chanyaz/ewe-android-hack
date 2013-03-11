@@ -399,7 +399,12 @@ public class ItineraryManager implements JSONable {
 			listener.onSyncFinished(trips);
 		}
 
-		mLastUpdateTime = Calendar.getInstance().getTimeInMillis();
+		// Only remember the last update time if there was something actually updated;
+		// either the user was logged in (but had no trips) or there are guest trips
+		// present.
+		if (User.isLoggedIn(mContext) || (trips != null && trips.size() > 0)) {
+			mLastUpdateTime = Calendar.getInstance().getTimeInMillis();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
