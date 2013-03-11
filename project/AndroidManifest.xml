@@ -61,7 +61,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="com.expedia.bookings.activity.SearchFragmentActivity"
-            android:theme="@style/Theme.Tablet"
+            android:theme="@style/Theme.Tablet.Launcher"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.expedia.bookings.activity.SearchResultsFragmentActivity"
