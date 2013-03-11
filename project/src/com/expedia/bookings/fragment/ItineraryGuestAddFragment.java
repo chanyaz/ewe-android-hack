@@ -9,8 +9,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -114,6 +114,8 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 
 			@Override
 			public void onClick(View v) {
+				mStatusMessageTv.setText(getString(R.string.find_itinerary));
+
 				String emailAddr = mEmailEdit.getText().toString();
 				String itinNumber = mItinNumEdit.getText().toString();
 				if (mListener != null) {
@@ -174,14 +176,22 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 		//We look in the itin manager and check if our new one is present.
 		String itinNumber = mItinNumEdit.getText().toString();
 		Collection<Trip> trips = ItineraryManager.getInstance().getTrips();
+		boolean tripAdded = false;
 		for (Trip trip : trips) {
 			if (trip.isGuest() && trip.getTripNumber() != null
 					&& trip.getTripNumber().trim().equalsIgnoreCase(itinNumber.trim())) {
-				getActivity().finish();
+				tripAdded = true;
+				break;
 			}
 		}
-		mStatusMessageTv.setText(R.string.itinerary_fetch_error);
-		enableExtenderState(false);
+
+		if (tripAdded) {
+			getActivity().finish();
+		}
+		else {
+			mStatusMessageTv.setText(R.string.itinerary_fetch_error);
+			enableExtenderState(false);
+		}
 	}
 
 	public interface AddGuestItineraryDialogListener {
