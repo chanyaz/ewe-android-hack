@@ -286,7 +286,7 @@
     <!-- Link to more information about the hotel -->
     <string name="share_template_long_hotel_5_more_info"><b>More Information</b>\n%s</string>
     <!-- App download link -->
-    <string name="share_template_long_hotel_6_ad">Want to book hotels, flights and view &amp; share your itineraries? Download the free Expedia mobile app today.\n%s</string>
+    <string name="share_template_long_ad">Want to book hotels, flights and view &amp; share your itineraries? Download the free Expedia mobile app today.\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">My flight to %1$s on %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->

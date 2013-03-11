@@ -106,7 +106,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			builder.append("\n\n");
 		}
 
-		builder.append(ctx.getString(R.string.share_template_long_hotel_6_ad, downloadUrl));
+		builder.append(ctx.getString(R.string.share_template_long_ad, downloadUrl));
 
 		return builder.toString();
 	}

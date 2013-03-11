@@ -227,23 +227,31 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			}
 			String travString = travelerSb.toString();
 
+			StringBuilder builder = new StringBuilder();
+
 			//single day
 			if (leg.getDaySpan() == 0) {
 				String template = getContext().getString(R.string.share_template_long_flight_sameday);
 
-				return String.format(template, originCity, destinationCity, airlineAndFlightNumber, departureDate,
-						originAirportCode, departureTime, originTerminalGate, destinationAirportCode, arrivalTime,
-						destinationTerminalGate, travString);
+				builder.append(String.format(template, originCity, destinationCity, airlineAndFlightNumber,
+						departureDate, originAirportCode, departureTime, originTerminalGate, destinationAirportCode,
+						arrivalTime, destinationTerminalGate, travString));
 
 			}
 			//multi day
 			else {
 				String template = getContext().getString(R.string.share_template_long_flight_multiday);
 
-				return String.format(template, originCity, destinationCity, airlineAndFlightNumber,
+				builder.append(String.format(template, originCity, destinationCity, airlineAndFlightNumber,
 						originAirportCode, departureTime, departureDate, originTerminalGate, destinationAirportCode,
-						arrivalTime, arrivalDate, destinationTerminalGate, travString);
+						arrivalTime, arrivalDate, destinationTerminalGate, travString));
 			}
+
+			String downloadUrl = PointOfSale.getPointOfSale().getAppInfoUrl();
+			builder.append("\n\n");
+			builder.append(getContext().getString(R.string.share_template_long_ad, downloadUrl));
+
+			return builder.toString();
 		}
 		return null;
 	}
