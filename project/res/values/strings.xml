@@ -528,13 +528,22 @@
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">You\'ll earn %1$s points for this trip!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
-    <string name="calculating_taxes_and_fees">Calculating Taxes and Fees</string>
+    <string name="calculating_taxes_and_fees">Calculating Taxes and Fees…</string>
     <!-- Label to show next to the total price on the checkout receipt -->
     <string name="grand_total">Grand Total</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_raised_the_price_TEMPLATE">The hotel has just raised the price for this room to %1$s per night.</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_lowered_the_price_TEMPLATE">The hotel has just lowered the price for this room to %1$s per night.</string>
+    <!-- Showing total number of guests for a booking -->
+    <plurals name="number_of_guests_TEMPLATE">
+        <item quantity="zero">%1$d guests</item>
+        <item quantity="one">%1$d guest</item>
+        <item quantity="two">%1$d guests</item>
+        <item quantity="few">%1$d guests</item>
+        <item quantity="many">%1$d guests</item>
+        <item quantity="other">%1$d guests</item>
+    </plurals>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
