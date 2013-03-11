@@ -2533,6 +2533,13 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private final TextView.OnEditorActionListener mSearchEditorActionListener = new TextView.OnEditorActionListener() {
 		@Override
 		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+			// Select the first item in the autosuggest list when the user hits the search softkey and then start the search.
+			Cursor c = mSearchSuggestionAdapter.getCursor();
+			c.moveToPosition(0);
+			Object o = AutocompleteProvider.extractSearchOrString(c);
+			if (o instanceof Search) {
+				mEditedSearchParams.fillFromSearch((Search) o);
+			}
 			startSearch();
 			return true;
 		}
