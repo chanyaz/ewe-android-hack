@@ -920,7 +920,8 @@ public class ItineraryManager implements JSONable {
 					for (Trip trip : response.getTrips()) {
 						String tripNumber = trip.getTripNumber();
 
-						boolean hasFullDetails = trip.getLevelOfDetail() == LevelOfDetail.FULL;
+						LevelOfDetail lod = trip.getLevelOfDetail();
+						boolean hasFullDetails = lod == LevelOfDetail.FULL || lod == LevelOfDetail.SUMMARY_FALLBACK;
 						if (!mTrips.containsKey(tripNumber)) {
 							mTrips.put(tripNumber, trip);
 
@@ -955,6 +956,8 @@ public class ItineraryManager implements JSONable {
 		// Add all trips to be updated, even ones that may not need to be refreshed
 		// (so we can see if any of the ancillary data needs to be refreshed).
 		private void gatherTrips() {
+			Log.i("Gathering " + mTrips.values().size() + " trips...");
+
 			for (Trip trip : mTrips.values()) {
 				mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP, trip));
 
