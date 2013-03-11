@@ -198,9 +198,11 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 	public void syncItinManager() {
 		if (mAllowLoadItins && mItinListView != null && mItinManager != null) {
-			mItinManager.startSync();
-			setIsLoading(true);
-			mItinListView.enableScrollToRevelentWhenDataSetChanged();
+			boolean syncing = mItinManager.startSync();
+			if (syncing) {
+				setIsLoading(true);
+				mItinListView.enableScrollToRevelentWhenDataSetChanged();
+			}
 		}
 	}
 

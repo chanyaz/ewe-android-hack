@@ -28,7 +28,6 @@ import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.FlightStatsFlightResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.User;
@@ -513,13 +512,17 @@ public class ItineraryManager implements JSONable {
 	 * Start a sync operation.
 	 * 
 	 * If a sync is already in progress then calls to this are ignored.
+	 * 
+	 * @return true if the sync started or is in progress, false if it never started
 	 */
-	public void startSync() {
+	public boolean startSync() {
 		if (Calendar.getInstance().getTimeInMillis() < UPDATE_CUTOFF + mLastUpdateTime) {
 			Log.d("ItineraryManager sync started too soon since last one; ignoring.");
+			return false;
 		}
 		else if (isSyncing()) {
 			Log.i("Tried to start a sync while one is already in progress.");
+			return true;
 		}
 		else {
 			// Add default sync operations
@@ -530,6 +533,8 @@ public class ItineraryManager implements JSONable {
 
 			mSyncTask = new SyncTask();
 			mSyncTask.execute();
+
+			return true;
 		}
 	}
 
