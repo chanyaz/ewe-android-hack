@@ -122,7 +122,7 @@
                             android:id="@+id/selected_view"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="@drawable/crappy_selected_itinerary_overlay"
+                            android:background="@drawable/bg_mini_card_selected"
                             android:visibility="gone" />
 
                         <View
