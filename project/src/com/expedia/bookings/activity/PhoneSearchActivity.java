@@ -337,6 +337,11 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				property.setLowestRate(lowestRate);
 				searchResponse.addProperty(property);
 				Db.setSelectedProperty(property);
+
+				// Forward to the hotel detail screen if the user searched by hotel name and selected one.
+				if (Db.getSearchParams().getSearchType() == SearchParams.SearchType.HOTEL) {
+					startActivity(HotelDetailsFragmentActivity.createIntent(PhoneSearchActivity.this));
+				}
 			}
 			mSearchCallback.onDownload(searchResponse);
 		}
@@ -378,11 +383,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				broadcastSearchCompleted(searchResponse);
 
 				hideLoading();
-				
-				// Forward to the hotel detail screen if the user searched by hotel name and selected one.
-				if(Db.getSearchParams().getSearchType() == SearchParams.SearchType.HOTEL) {
-					startActivity(HotelDetailsFragmentActivity.createIntent(PhoneSearchActivity.this));
-				}
 
 				mLastSearchTime = Calendar.getInstance().getTimeInMillis();
 			}
