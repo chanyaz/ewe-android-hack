@@ -61,6 +61,10 @@
 
     <!-- BookingOverviewFragment -->
     <color name="overview_receipt_divider">#666D6D6D</color>
+    <color name="hotel_receipt_header_text">#3d4552</color>
+    <color name="hotel_receipt_text">#5d656e</color>
+    <color name="hotel_mini_receipt_text">#414040</color>
+    <color name="hotel_mini_receipt_price_text">#103a71</color>
 
     <!--
     Divider on tablet dialog box (not public accessible)

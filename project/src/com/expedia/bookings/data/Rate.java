@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -199,6 +200,16 @@ public class Rate implements JSONable {
 
 	public Set<BedType> getBedTypes() {
 		return mBedTypes;
+	}
+
+	public String getFormattedBedNames() {
+		ArrayList<String> bedNames = new ArrayList();
+
+		for (BedType bed : mBedTypes) {
+			bedNames.add(bed.bedTypeDescription);
+		}
+
+		return StrUtils.joinWithoutEmpties(", ", bedNames);
 	}
 
 	public void addBedType(String bedTypeId, String bedTypeDescription) {

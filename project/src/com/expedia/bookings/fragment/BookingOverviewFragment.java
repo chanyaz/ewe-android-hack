@@ -46,12 +46,12 @@ import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.DbPropertyHelper;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.CouponCodeWidget;
 import com.expedia.bookings.widget.FrameLayout;
-import com.expedia.bookings.widget.HotelReceipt;
-import com.expedia.bookings.widget.HotelReceiptMini;
+import com.expedia.bookings.widget.HotelReceiptV2;
 import com.expedia.bookings.widget.LinearLayout;
 import com.expedia.bookings.widget.ScrollView;
 import com.expedia.bookings.widget.ScrollView.OnScrollListener;
@@ -86,7 +86,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	private ScrollView mScrollView;
 	private ScrollViewListener mScrollViewListener;
 
-	private HotelReceipt mHotelReceipt;
+	private HotelReceiptV2 mHotelReceipt;
 	private LinearLayout mCheckoutLayout;
 
 	private AccountButton mAccountButton;
@@ -476,15 +476,10 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		mLegalInformationTextView.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement());
 
 		Rate rate = Db.getSelectedRate();
-		Rate discountRate = null;
-
-		if (Db.getCreateTripResponse() != null) {
-			discountRate = Db.getCreateTripResponse().getNewRate();
-		}
 
 		// Configure the total cost and (if necessary) total cost paid to Expedia
-		if (discountRate != null) {
-			rate = discountRate;
+		if (Db.getCreateTripResponse() != null) {
+			rate = Db.getCreateTripResponse().getNewRate();
 		}
 
 		// Configure slide to purchase string
@@ -503,7 +498,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		}
 		mSlideToPurchaseFragment.setTotalPriceString(mSlideToPurchasePriceString);
 
-		mHotelReceipt.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate(), discountRate);
+		//mHotelReceipt.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate());
+		mHotelReceipt.bind(DbPropertyHelper.getBestMediaProperty(), Db.getSearchParams(), Db.getSelectedRate());
 	}
 
 	public void updateViewVisibilities() {
@@ -846,8 +842,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	// Scroll Listener
 
 	private class ScrollViewListener extends GestureDetector.SimpleOnGestureListener implements OnScrollListener,
-			OnTouchListener, HotelReceipt.OnSizeChangedListener, HotelReceiptMini.OnSizeChangedListener,
-			LinearLayout.OnSizeChangedListener, FrameLayout.OnSizeChangedListener {
+			OnTouchListener, HotelReceiptV2.OnSizeChangedListener, LinearLayout.OnSizeChangedListener,
+			FrameLayout.OnSizeChangedListener {
 
 		private static final float FADE_RANGE = 100.0f;
 
@@ -929,7 +925,6 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 			float alpha = ((float) y - ((mHotelReceipt.getHeight() + mMarginTop - mScaledFadeRange) / 2))
 					/ mScaledFadeRange;
-
 			if (alpha < 0) {
 				alpha = 0;
 			}
@@ -944,18 +939,10 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			// past the checkout state, stop it at the checkout position.
 			if (!mTouchDown && y <= oldy && oldy >= mCheckoutY && isInCheckout()) {
 				mScrollView.scrollTo(0, (int) mCheckoutY);
-				mHotelReceipt.showMiniDetailsLayout();
 				return;
 			}
 			else if (mTouchDown && y >= mCheckoutY && !isInCheckout()) {
 				startCheckout(false, false);
-			}
-
-			if (y > mCheckoutY - mScaledFadeRange) {
-				mHotelReceipt.showMiniDetailsLayout();
-			}
-			else {
-				mHotelReceipt.showTotalCostLayout();
 			}
 		}
 
