@@ -145,9 +145,11 @@ public class WebViewFragment extends Fragment {
 
 				@Override
 				public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-					String errorFormatStr = getResources().getString(R.string.web_view_loading_error_TEMPLATE);
-					String errorMessage = String.format(errorFormatStr, description);
-					Ui.showToast(getActivity(), errorMessage);
+					if (isAdded()) {
+						String errorFormatStr = getResources().getString(R.string.web_view_loading_error_TEMPLATE);
+						String errorMessage = String.format(errorFormatStr, description);
+						Ui.showToast(getActivity(), errorMessage);
+					}
 				}
 
 				@Override
