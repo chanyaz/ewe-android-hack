@@ -12,7 +12,6 @@ import android.widget.ScrollView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.dialog.SocialMessageChooserDialogFragment;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 
@@ -44,9 +43,9 @@ public class ItinCardFragment extends Fragment {
 		return view;
 	}
 
-	public void showItinDetails(ItinCardData data) {
+	public boolean showItinDetails(ItinCardData data) {
 		if (data == mCurrentData) {
-			return;
+			return false;
 		}
 
 		mCurrentData = data;
@@ -64,8 +63,11 @@ public class ItinCardFragment extends Fragment {
 
 			// Make sure we start fully scrolled up when we load new data
 			mItinCardContainer.fullScroll(View.FOCUS_UP);
-		}
 
-		mCurrentData = data;
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }

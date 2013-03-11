@@ -30,6 +30,7 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 	private String mSelectedItinCardId;
 
 	private boolean mAnimatingToItem;
+	private boolean mItemHasDetails;
 
 	private ItinItemListFragment mItinListFragment;
 	private ItineraryMapFragment mMapFragment;
@@ -98,9 +99,9 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 			}
 
 			mAnimatingToItem = mMapFragment.showItinItem(data, animate);
-			mItinCardFragment.showItinDetails(data);
+			mItemHasDetails = mItinCardFragment.showItinDetails(data);
 
-			if (!mAnimatingToItem) {
+			if (!mAnimatingToItem && mItemHasDetails) {
 				getSupportFragmentManager().beginTransaction().show(mItinCardFragment).commit();
 			}
 		}
@@ -189,7 +190,7 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 
 	@Override
 	public void onCameraChange(CameraPosition position) {
-		if (mAnimatingToItem) {
+		if (mAnimatingToItem && mItemHasDetails) {
 			getSupportFragmentManager().beginTransaction().show(mItinCardFragment).commit();
 			mAnimatingToItem = false;
 		}
