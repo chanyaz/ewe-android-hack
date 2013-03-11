@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget.itin;
 
+import java.util.Locale;
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -68,16 +71,44 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	public String getShareTextLong() {
 		final ItinCardDataHotel itinCardData = getItinCardData();
 
-		String template = getContext().getString(R.string.share_template_long_hotel);
+		Context ctx = getContext();
+
 		String hotelName = itinCardData.getPropertyName();
 		String lengthOfStay = itinCardData.getFormattedLengthOfStay(getContext());
 		String checkIn = itinCardData.getFormattedLongShareCheckInDate();
 		String checkOut = itinCardData.getFormattedLongShareCheckOutDate();
+		String address = itinCardData.getAddressString();
 		String phone = itinCardData.getRelevantPhone();
 		String detailsUrl = itinCardData.getPropertyInfoSiteUrl();
+		String downloadUrl = PointOfSale.getPointOfSale().getAppInfoUrl();
 
-		return String.format(template, hotelName, lengthOfStay, checkIn, checkOut, "", "", "", "", phone, detailsUrl,
-				"");
+		StringBuilder builder = new StringBuilder();
+		builder.append(ctx.getString(R.string.share_template_long_hotel_1_greeting, hotelName, lengthOfStay));
+		builder.append("\n\n");
+
+		if (checkIn != null || checkOut != null) {
+			builder.append(ctx.getString(R.string.share_template_long_hotel_2_checkin_checkout, checkIn, checkOut));
+			builder.append("\n\n");
+		}
+
+		if (address != null) {
+			builder.append(ctx.getString(R.string.share_template_long_hotel_3_address, hotelName, address));
+			builder.append("\n\n");
+		}
+
+		if (phone != null) {
+			builder.append(ctx.getString(R.string.share_template_long_hotel_4_phone, phone));
+			builder.append("\n\n");
+		}
+
+		if (detailsUrl != null) {
+			builder.append(ctx.getString(R.string.share_template_long_hotel_5_more_info, detailsUrl));
+			builder.append("\n\n");
+		}
+
+		builder.append(ctx.getString(R.string.share_template_long_hotel_6_ad, downloadUrl));
+
+		return builder.toString();
 	}
 
 	@Override
