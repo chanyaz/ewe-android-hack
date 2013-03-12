@@ -27,17 +27,21 @@
         <item name="simpleNumberPickerUpButtonStyle">@style/NumberPickerButton.Up</item>
     </style>
 
-    <style name="Theme.Tablet.Launcher">
+    <style name="Theme.Tablet.Launcher" parent="@style/Theme.Sherlock.Light.DarkActionBar">
         <item name="android:actionBarStyle">@style/TabletLauncherActionBar</item>
-        <item name="android:actionMenuTextColor">@android:color/white</item>
-        <item name="actionMenuTextColor">@android:color/white</item>
-        <item name="android:actionOverflowButtonStyle">@android:style/Widget.Holo.ActionButton.Overflow</item>
-        <item name="actionOverflowButtonStyle">@android:style/Widget.Holo.ActionButton.Overflow</item>
-        <item name="android:actionBarDivider">@drawable/abs__list_divider_holo_dark</item>
-        <item name="actionBarDivider">@drawable/abs__list_divider_holo_dark</item>
+        <item name="actionBarStyle">@style/TabletLauncherActionBar</item>
+
+        <!-- NumberPicker styles -->
+        <item name="numberPickerUpButtonStyle">@style/Widget.ImageButton.NumberPickerUpButton</item>
+        <item name="numberPickerDownButtonStyle">@style/Widget.ImageButton.NumberPickerDownButton</item>
+        <item name="numberPickerInputTextStyle">@style/Widget.EditText.NumberPickerInputText</item>
+        <item name="numberPickerStyle">@style/Widget.NumberPicker</item>
+        <item name="simpleNumberPickerDownButtonStyle">@style/NumberPickerButton.Down</item>
+        <item name="simpleNumberPickerInputTextStyle">@style/NumberPickerText</item>
+        <item name="simpleNumberPickerUpButtonStyle">@style/NumberPickerButton.Up</item>
     </style>
 
-    <style name="TabletLauncherActionBar" parent="@android:style/Widget.ActionBar">
+    <style name="TabletLauncherActionBar" parent="Widget.Sherlock.ActionBar">
         <item name="android:background">@drawable/bg_action_bar</item>
         <item name="background">@drawable/bg_action_bar</item>
         <item name="android:logo">@drawable/ic_action_bar_expedia_logo</item>
