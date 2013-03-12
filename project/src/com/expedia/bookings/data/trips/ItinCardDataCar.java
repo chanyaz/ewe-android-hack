@@ -80,7 +80,11 @@ public class ItinCardDataCar extends ItinCardData implements ConfirmationNumbera
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	public String getCarTypeDescription(Context context) {
-		final Integer resId = CAR_TYPE_DESCRIPTION_MAP.get(mCar.getType());
+		Integer resId = null;
+		if (mCar != null && mCar.getType() != null) {
+			resId = CAR_TYPE_DESCRIPTION_MAP.get(mCar.getType());
+		}
+
 		if (resId != null) {
 			return context.getString(resId);
 		}
