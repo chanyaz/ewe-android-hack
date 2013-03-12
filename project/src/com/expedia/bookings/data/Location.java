@@ -232,8 +232,10 @@ public class Location implements JSONable {
 
 	public String toFormattedString() {
 		ArrayList<String> locationParts = new ArrayList<String>();
+		locationParts.add(getStreetAddressString());
 		locationParts.add(mCity);
 		locationParts.add(mStateCode);
+		locationParts.add(mPostalCode);
 		if (!TextUtils.equals(mCountryCode, "US")) {
 			locationParts.add(mCountryCode);
 		}
