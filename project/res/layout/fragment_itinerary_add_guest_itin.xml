@@ -66,10 +66,9 @@
 
         <Button
             android:id="@+id/find_itinerary_button"
-            style="@style/LoginFormButton"
+            style="@style/ItinFindButton"
             android:layout_marginLeft="@dimen/login_side_margin_small"
             android:layout_marginRight="@dimen/login_side_margin_small"
-            android:background="@drawable/btn_cancel"
             android:gravity="center"
             android:text="@string/find_itinerary" />
 
