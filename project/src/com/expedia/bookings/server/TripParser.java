@@ -420,8 +420,9 @@ public class TripParser {
 			vendor.setShortName(vendorJson.optString("shortName", null));
 			vendor.setLongName(vendorJson.optString("longName", null));
 			vendor.setLogo(ParserUtils.parseUrl(vendorJson.optString("logoURL")));
-			vendor.setTollFreePhone(vendorJson.optString("phoneNumber"));
-			vendor.setLocalPhone(vendorJson.optString("localPhoneNumber"));
+			vendor.setPhoneNumberPrimary(vendorJson.optString("phoneNumberPrimary", vendorJson.optString("phoneNumber")));
+			vendor.setPhoneNumberAlternate(vendorJson.optString("phoneNumberAlternate",
+					vendorJson.optString("localPhoneNumber")));
 			car.setVendor(vendor);
 
 			car.setCategoryImage(ParserUtils.parseUrl(obj.optString("carCategoryImageURL")));
