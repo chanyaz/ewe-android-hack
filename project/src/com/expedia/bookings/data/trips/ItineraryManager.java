@@ -524,7 +524,7 @@ public class ItineraryManager implements JSONable {
 			Log.d("ItineraryManager sync started too soon since last one; ignoring.");
 			return false;
 		}
-		else if (mTrips != null && mTrips.size() == 0 && !User.isLoggedIn(mContext)) {
+		else if (!forceRefresh && mTrips != null && mTrips.size() == 0 && !User.isLoggedIn(mContext)) {
 			Log.d("ItineraryManager sync called, but there are no guest trips and the user is not logged in, so" +
 					" we're not starting a formal sync.");
 			return false;
