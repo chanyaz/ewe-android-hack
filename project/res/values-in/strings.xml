@@ -76,6 +76,18 @@
     <string name="itinerary_fetch_error">Bermasalah saat mengambil rencana perjalanan</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;Masuk&lt;/b&gt; untuk melihat perjalanan Anda</string>
+    <!-- Template for card header text (will be filled in with "Title - Date")-->
+    <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
+    <!-- Default (fallback) itin card title for FLIGHT -->
+    <string name="Flight">Penerbangan</string>
+    <!-- Default (fallback) itin card title for HOTEL -->
+    <string name="Hotel">Hotel</string>
+    <!-- Default (fallback) itin card title for CAR -->
+    <string name="Car"> Mobil</string>
+    <!-- Default (fallback) itin card title for CRUISE -->
+    <string name="Cruise">Pesiar</string>
+    <!-- Default (fallback) itin card title for ACTIVITY -->
+    <string name="Activity">Aktivitas</string>
     <!-- Depart (TZ) template -->
     <string name="depart_tz_TEMPLATE">Berangkat (%1$s)</string>
     <!-- Arrive (TZ) template -->
@@ -94,12 +106,6 @@
     <string name="arrival_terminal_TEMPLATE">Tiba di Terminal %1$s, Gate %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Terminal Keberangkatan %1$s, Gate %2$s</string>
-    <!-- Itin flight terminal and gate information not available message -->
-    <string name="no_terminal_gate_information">Info Terminal &amp; Gate Tidak Tersedia</string>
-    <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
-    <string name="no_arrival_terminal_gate_information">Info Terminal &amp; Gate Kedatangan Tidak Tersedia</string>
-    <!-- Itin flight layover departure terminal and gate information not avaialble message -->
-    <string name="no_departure_terminal_gate_information">Info Terminal &amp; Gate Keberangkatan Tidak Tersedia</string>
     <!-- To be determined abbrev.-->
     <string name="to_be_determined_abbrev">Belum Ditentukan</string>
     <!-- Itin flight gate only template -->
@@ -109,33 +115,43 @@
     <!-- Itin flight depart gate only template -->
     <string name="depart_gate_number_only_TEMPLATE">Berangkat di Gate %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s, Gate Tidak Tersedia</string>
+    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">Tiba di Terminal %1$s, Gate Tidak Tersedia</string>
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Terminal Kedatangan %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">Berangkat di Terminal %1$s, Gate Tidak Tersedia</string>
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Terminal Keberangkatan %1$s</string>
+    <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
+    <string name="at_airport_TEMPLATE">&lt;b&gt;Di %1$s&lt;/b&gt;</string>
+    <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
+    <string name="from_airport_TEMPLATE">&lt;b&gt;Dari %1$s&lt;/b&gt;</string>
+    <!-- Itin flight summary second line for departure waypoint that also includes time of departure; first parameter is the airport code, second parameter is the localized time (e.g. 13:45) -->
+    <string name="from_airport_time_TEMPLATE">&lt;b&gt;Dari %1$s&lt;/b&gt; pukul %2$s</string>
     <!-- Itin flight summary second line for arrival waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight arrives/d -->
-    <string name="at_airport_TEMPLATE">&lt;b&gt;Di %1$s&lt;/b&gt; - %2$s</string>
+    <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;Di %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
-    <string name="from_airport_TEMPLATE">&lt;b&gt;Dari %1$s&lt;/b&gt; - %2$s</string>
+    <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;Dari %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Jika Anda keluar dari %1$s, semua rencana perjalanan yang terkait dengan akun ini akan dihapus. Yakin ingin keluar?</string>
     <!-- Booking code unavailable message -->
     <string name="missing_booking_code">Kode pemesanan tidak tersedia.</string>
     <!-- Flight to TEMPLATE -->
     <string name="flight_to_TEMPLATE">Penerbangan ke %1$s</string>
+    <!-- Flight Calendar event TEMPLATE -->
+    <string name="flight_calendar_event_title_TEMPLATE">Penerbangan: %1$s ke %2$s</string>
     <!-- Add event button text -->
     <string name="add_event">Tambah Acara</string>
+    <!-- Set Alert button text -->
+    <string name="set_alert">Setel Pengingat</string>
     <!-- Directions -->
     <string name="directions">Arah</string>
     <!-- Terminal Maps -->
     <string name="terminal_maps">Peta Terminal</string>
     <!-- Legend -->
     <string name="legend">Legenda</string>
-    <!-- Flight has been canceled -->
-    <string name="flight_canceled">Penerbangan dibatalkan</string>
-    <!-- Flight has been canceled; parameter is the destination city for the canceled flight -->
-    <string name="flight_to_city_canceled_TEMPLATE">Penerbangan ke %1$s dibatalkan</string>
+    <!-- Flight has been cancelled -->
+    <string name="flight_cancelled">Penerbangan dibatalkan</string>
+    <!-- Flight has been cancelled; parameter is the destination city for the canceled flight -->
+    <string name="flight_to_city_cancelled_TEMPLATE">Penerbangan ke %1$s dibatalkan</string>
     <!-- Flight has been redirected (location unknown) -->
     <string name="flight_redirected">Penerbangan dialihkan</string>
     <!-- Flight has been diverted (location unknown) -->
@@ -229,12 +245,16 @@
     <string name="itin_card_details_phone">Telepon</string>
     <string name="itin_card_details_room_type">Jenis Kamar</string>
     <string name="toast_copied_to_clipboard">Disalin ke clipboard.</string>
+    <string name="itin_card_details_reload">Muat Ulang Informasi</string>
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">Arah</string>
     <string name="itin_action_call_hotel">Telepon Hotel</string>
     <string name="itin_action_redeem">Tukarkan</string>
     <string name="itin_action_support">Dukungan</string>
+
+    <!-- Itin webview titles -->
+    <string name="webview_title_print_vouchers">Cetak Voucher</string>
 
     <!-- Itin Share templates -->
     <!-- 1: hotel name 2: check in date 3: check out date -->
@@ -246,9 +266,9 @@
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Penerbangan saya ke %1$s tanggal %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">Saya sedang dalam penerbangan %1$s ke %2$s pada %3$s.\nBerangkat dari %4$s pukul %5$s\nTiba di %6$s%7$s pukul, %8$s</string>
+    <string name="share_template_short_flight_sameday">Saya dalam penerbangan %1$s ke %2$s tanggal %3$s.\nBerangkat dari %4$s pukul %5$s\nTiba di %6$s%7$s pukul, %8$s</string>
      <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">Saya sedang dalam penerbangan %1$s ke %2$s.\nBerangkat dari %3$s pukul %4$s\nTiba di %5$s%6$s pukul, %7$s</string>
+    <string name="share_template_short_flight_multiday">Saya dalam penerbangan %1$s ke %2$s.\nBerangkat dari %3$s pukul %4$s\nTiba di %5$s%6$s pukul, %7$s</string>
     <!-- 1: Origin city 2: Destination city 3: Flight Carrier and number 4: Departure date 5: Departure airport code 6: Departure Time 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival terminal gate 11: Traveler list -->
     <string name="share_template_long_flight_sameday">Halo,\n\nBerikut perincian penerbangan saya dari %1$s menuju %2$s.\n\n%3$s - %4$s\n\nBerangkat dari %5$s pukul %6$s di %7$s.\nTiba di %8$s pukul %9$s di %10$s.\n\nPelancong\n%11$s</string>
     <!-- 1: Origin city 2: Desitination city 3: Flight carrier and number 4: Departure airport code 5: Departure time 6: Departure date 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival date 11: Arrival terminal gate 12: Traveler list -->
@@ -268,7 +288,7 @@
     <string name="share_template_subject_cruise"></string>
     <string name="share_template_short_cruise"></string>
     <string name="share_template_long_cruise"></string>
-    
+
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
     <string name="Choose_message_style">Pilih model pesan</string>
@@ -483,6 +503,8 @@
     <string name="slide_to_purchase">Geser untuk membeli.</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Kartu kredit Anda akan dikenai %1$s</string>
+    <!-- Amount to be paid now -->
+    <string name="Amount_to_be_paid_now_TEMPLATE">Jumlah harus dibayar sekarang %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">%1$s Ditagihkan oleh hotel</string>
     <!-- Checkout menu item -->
@@ -1009,6 +1031,8 @@
     <string name="progress_finding_location">Mencari Lokasi Saat Ini…</string>
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels">Mencari Hotel…</string>
+    <!-- Message displayed when app is searching for a particular hotel -->
+    <string name="progress_searching_selected_hotel">Mencari Hotel…</string>
     <!-- Message displayed when search comes up with zero results -->
     <string name="progress_search_failed">Hotel Tidak Ditemukan</string>
     <!-- Message displayed when search comes up with zero results -->
@@ -1539,10 +1563,10 @@
     <string name="stack_blur_credit">Aplikasi ini menggunakan algoritma Stack Blur oleh Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="view_open_source_software_licenses">Lihat Lisensi Perangkat Lunak Sumber Terbuka</string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="open_source_software_licenses">Lisensi Perangkat Lunak Open Source</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">Aplikasi ini menggunakan pustaka open-source berikut ini:</string>
-    <!-- Header text for open source section -->
-    <string name="open_source">Open-Source</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

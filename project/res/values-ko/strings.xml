@@ -76,6 +76,18 @@
     <string name="itinerary_fetch_error">일정을 가져오는 도중 오류 발생</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">고객님 여행을 보려면 &lt;b&gt;로그인&lt;/b&gt;해 주세요.</string>
+    <!-- Template for card header text (will be filled in with "Title - Date")-->
+    <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
+    <!-- Default (fallback) itin card title for FLIGHT -->
+    <string name="Flight">항공편</string>
+    <!-- Default (fallback) itin card title for HOTEL -->
+    <string name="Hotel">호텔</string>
+    <!-- Default (fallback) itin card title for CAR -->
+    <string name="Car">렌터카</string>
+    <!-- Default (fallback) itin card title for CRUISE -->
+    <string name="Cruise">크루즈</string>
+    <!-- Default (fallback) itin card title for ACTIVITY -->
+    <string name="Activity">즐길거리</string>
     <!-- Depart (TZ) template -->
     <string name="depart_tz_TEMPLATE">출발 (%1$s)</string>
     <!-- Arrive (TZ) template -->
@@ -94,12 +106,6 @@
     <string name="arrival_terminal_TEMPLATE">터미널 %1$s, 게이트 %2$s 도착</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">터미널 %1$s, 게이트 %2$s 출발</string>
-    <!-- Itin flight terminal and gate information not available message -->
-    <string name="no_terminal_gate_information">터미널 및 게이트 정보 없음</string>
-    <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
-    <string name="no_arrival_terminal_gate_information">도착 터미널 및 게이트 정보 없음</string>
-    <!-- Itin flight layover departure terminal and gate information not avaialble message -->
-    <string name="no_departure_terminal_gate_information">출발 터미널 및 게이트 정보 없음</string>
     <!-- To be determined abbrev.-->
     <string name="to_be_determined_abbrev">미정</string>
     <!-- Itin flight gate only template -->
@@ -109,33 +115,43 @@
     <!-- Itin flight depart gate only template -->
     <string name="depart_gate_number_only_TEMPLATE">게이트 %1$s 출발</string>
     <!-- Itin flight terminal only template -->
-    <string name="terminal_but_no_gate_TEMPLATE">터미널 %1$s, 게이트 정보 없음</string>
+    <string name="terminal_but_no_gate_TEMPLATE">터미널 %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">터미널 %1$s 도착, 게이트 정보 없음</string>
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">터미널 %1$s 도착</string>
     <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">터미널 %1$s 출발, 게이트 정보 없음</string>
+    <string name="depart_terminal_but_no_gate_TEMPLATE">터미널 %1$s 출발</string>
+    <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
+    <string name="at_airport_TEMPLATE">&lt;b&gt;%1$s 도착&lt;/b&gt;</string>
+    <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
+    <string name="from_airport_TEMPLATE">&lt;b&gt;%1$s 출발&lt;/b&gt;</string>
+    <!-- Itin flight summary second line for departure waypoint that also includes time of departure; first parameter is the airport code, second parameter is the localized time (e.g. 13:45) -->
+    <string name="from_airport_time_TEMPLATE">&lt;b&gt;%1$s 출발&lt;/b&gt;, 시간: %2$s</string>
     <!-- Itin flight summary second line for arrival waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight arrives/d -->
-    <string name="at_airport_TEMPLATE">&lt;b&gt;%1$s 도착&lt;/b&gt; - %2$s</string>
+    <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;%1$s 도착&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
-    <string name="from_airport_TEMPLATE">&lt;b&gt;%1$s 출발&lt;/b&gt; - %2$s</string>
+    <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;%1$s 출발&lt;/b&gt; - %2$s</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">%1$s에서 로그아웃하면 이 계정과 연결된 모든 일정 항목이 제거됩니다. 그래도 로그아웃하시겠어요?</string>
     <!-- Booking code unavailable message -->
     <string name="missing_booking_code">예약 코드를 이용하실 수 없습니다.</string>
     <!-- Flight to TEMPLATE -->
     <string name="flight_to_TEMPLATE">%1$s행 항공편</string>
+    <!-- Flight Calendar event TEMPLATE -->
+    <string name="flight_calendar_event_title_TEMPLATE">항공편: %1$s - %2$s</string>
     <!-- Add event button text -->
     <string name="add_event">이벤트 추가</string>
+    <!-- Set Alert button text -->
+    <string name="set_alert">알림 설정</string>
     <!-- Directions -->
     <string name="directions">길 안내</string>
     <!-- Terminal Maps -->
     <string name="terminal_maps">터미널 지도</string>
     <!-- Legend -->
     <string name="legend">기호 설명</string>
-    <!-- Flight has been canceled -->
-    <string name="flight_canceled">항공편 취소됨</string>
-    <!-- Flight has been canceled; parameter is the destination city for the canceled flight -->
-    <string name="flight_to_city_canceled_TEMPLATE">%1$s행 항공편 취소됨</string>
+    <!-- Flight has been cancelled -->
+    <string name="flight_cancelled">항공편 취소됨</string>
+    <!-- Flight has been cancelled; parameter is the destination city for the canceled flight -->
+    <string name="flight_to_city_cancelled_TEMPLATE">%1$s행 항공편 취소됨</string>
     <!-- Flight has been redirected (location unknown) -->
     <string name="flight_redirected">항공편 경로 변경됨</string>
     <!-- Flight has been diverted (location unknown) -->
@@ -229,6 +245,7 @@
     <string name="itin_card_details_phone">전화</string>
     <string name="itin_card_details_room_type">객실 유형</string>
     <string name="toast_copied_to_clipboard">클립보드에 복사되었습니다.</string>
+    <string name="itin_card_details_reload">정보 다시 로드하기</string>
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">길 안내</string>
@@ -236,13 +253,16 @@
     <string name="itin_action_redeem">사용하기</string>
     <string name="itin_action_support">고객 지원</string>
 
+    <!-- Itin webview titles -->
+    <string name="webview_title_print_vouchers">바우처 인쇄</string>
+
     <!-- Itin Share templates -->
     <!-- 1: hotel name 2: check in date 3: check out date -->
     <string name="share_template_subject_hotel">내가 숙박할 호텔 %1$s(%2$s ~ %3$s)</string>
     <!-- 1: hotel name 2: check in date 3: check out date 4: hotel web url -->
     <string name="share_template_short_hotel">저 %1$s에서 머물 예정이에요.\n%2$s ~ %3$s\n\n%4$s</string>
     <!-- 1: hotel Name 2: formatted length of stay 4: check in date 5: check out date 6: street address 7: city 8: state 9: postal code 10: phone 11: hotel web url 12: app download link -->
-    <string name="share_template_long_hotel">안녕하세요, \n\n저 %1$s에서 %2$s 동안 머물 예정이에요.\n\n<b>체크인:</b> %3$s\n<b>체크아웃:</b> %4$s\n\n%1$s\n%5$s\n%6$s, %7$s %8$s\n\n<b>전화:</b>\n%9$s\n\n<b>자세한 정보:</b>\n%10$s\n\n호텔과 항공편을 예약하고 일정을 확인/공유하고 싶으세요? 오늘 바로 Expedia 모바일 앱을 <a href="%11$s">다운로드</a>하세요.</string>
+    <string name="share_template_long_hotel">안녕하세요,\n\n저 %1$s에서 %2$s 동안 머물 예정이에요.\n\n<b>체크인:</b> %3$s\n<b>체크아웃:</b> %4$s\n\n%1$s\n%5$s\n%6$s, %7$s %8$s\n\n<b>전화:</b>\n%9$s\n\n<b>자세한 정보:</b>\n%10$s\n\n호텔과 항공편을 예약하고 일정을 확인/공유하고 싶으세요? 오늘 바로 Expedia 모바일 앱을 <a href="%11$s">다운로드</a>하세요.</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">내가 예약한 %1$s행 항공편(%2$s)</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
@@ -268,7 +288,7 @@
     <string name="share_template_subject_cruise"></string>
     <string name="share_template_short_cruise"></string>
     <string name="share_template_long_cruise"></string>
-    
+
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
     <string name="Choose_message_style">메시지 스타일 선택</string>
@@ -483,6 +503,8 @@
     <string name="slide_to_purchase">구매하려면 밀어주세요.</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">고객님의 신용카드로 %1$s의 금액이 청구됩니다.</string>
+    <!-- Amount to be paid now -->
+    <string name="Amount_to_be_paid_now_TEMPLATE">지금 지불할 금액은 %1$s입니다.</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">%1$s의 금액을 호텔에 지불합니다.</string>
     <!-- Checkout menu item -->
@@ -858,7 +880,7 @@
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
-    <string name="enter_search_location">위치 검색 입력…</string>
+    <string name="enter_search_location">검색 위치 입력…</string>
     <!-- Hint for "search location" field -->
     <string name="hint_search_location">위치 검색</string>
     <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
@@ -1009,6 +1031,8 @@
     <string name="progress_finding_location">현재 위치 찾는 중…</string>
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels">호텔 검색 중…</string>
+    <!-- Message displayed when app is searching for a particular hotel -->
+    <string name="progress_searching_selected_hotel">호텔 검색 중…</string>
     <!-- Message displayed when search comes up with zero results -->
     <string name="progress_search_failed">검색된 호텔이 없습니다.</string>
     <!-- Message displayed when search comes up with zero results -->
@@ -1362,7 +1386,7 @@
     <!-- Friendly message at the top of the receipt -->
     <string name="Enjoy_your_stay">즐거운 여행되세요!</string>
     <!-- Format for a first/last name -->
-    <string name="name_template">%1$s %2$s</string>
+    <string name="name_template">%1$s %2$s 님</string>
     <!-- Reservation summary label -->
     <string name="reservation_summary">예약 내용</string>
     <!-- Confirmation number label -->
@@ -1539,10 +1563,10 @@
     <string name="stack_blur_credit">이 앱은 마리오 클링거만(Mario Klingemann)의 Stack Blur 알고리즘을 사용합니다.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="view_open_source_software_licenses">오픈 소스 소프트웨어 라이센스 보기</string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="open_source_software_licenses">오픈 소스 소프트웨어 라이센스</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">이 앱에서 사용하는 오픈 소스 라이브러리:</string>
-    <!-- Header text for open source section -->
-    <string name="open_source">오픈 소스</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
@@ -1610,7 +1634,7 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s 거리</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s %2$s</string>
+    <string name="distance_template_short">%1$s%2$s</string>
 
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->

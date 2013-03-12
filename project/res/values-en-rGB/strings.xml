@@ -76,6 +76,18 @@
     <string name="itinerary_fetch_error">Error fetching itinerary</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;Log in&lt;/b&gt; for your trips</string>
+    <!-- Template for card header text (will be filled in with "Title - Date")-->
+    <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
+    <!-- Default (fallback) itin card title for FLIGHT -->
+    <string name="Flight">Flight</string>
+    <!-- Default (fallback) itin card title for HOTEL -->
+    <string name="Hotel">Hotel</string>
+    <!-- Default (fallback) itin card title for CAR -->
+    <string name="Car"> Car</string>
+    <!-- Default (fallback) itin card title for CRUISE -->
+    <string name="Cruise">Cruise</string>
+    <!-- Default (fallback) itin card title for ACTIVITY -->
+    <string name="Activity">Activity</string>
     <!-- Depart (TZ) template -->
     <string name="depart_tz_TEMPLATE">Depart (%1$s)</string>
     <!-- Arrive (TZ) template -->
@@ -94,12 +106,6 @@
     <string name="arrival_terminal_TEMPLATE">Arrive Terminal %1$s, Gate %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Depart Terminal %1$s, Gate %2$s</string>
-    <!-- Itin flight terminal and gate information not available message -->
-    <string name="no_terminal_gate_information">Terminal &amp; Gate Unavailable</string>
-    <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
-    <string name="no_arrival_terminal_gate_information">Arrival Terminal &amp; Gate Unavailable</string>
-    <!-- Itin flight layover departure terminal and gate information not avaialble message -->
-    <string name="no_departure_terminal_gate_information">Departure Terminal &amp; Gate Unavailable</string>
     <!-- To be determined abbrev.-->
     <string name="to_be_determined_abbrev">TBD</string>
     <!-- Itin flight gate only template -->
@@ -109,33 +115,43 @@
     <!-- Itin flight depart gate only template -->
     <string name="depart_gate_number_only_TEMPLATE">Depart Gate %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s, Gate Unavailable</string>
+    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">Arrive Terminal %1$s, Gate Unavailable</string>
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Arrive Terminal %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">Depart Terminal %1$s, Gate Unavailable</string>
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Depart Terminal %1$s</string>
+    <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
+    <string name="at_airport_TEMPLATE">&lt;b&gt;At %1$s&lt;/b&gt;</string>
+    <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
+    <string name="from_airport_TEMPLATE">&lt;b&gt;From %1$s&lt;/b&gt;</string>
+    <!-- Itin flight summary second line for departure waypoint that also includes time of departure; first parameter is the airport code, second parameter is the localized time (e.g. 13:45) -->
+    <string name="from_airport_time_TEMPLATE">&lt;b&gt;From %1$s&lt;/b&gt; at %2$s</string>
     <!-- Itin flight summary second line for arrival waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight arrives/d -->
-    <string name="at_airport_TEMPLATE">&lt;b&gt;At %1$s&lt;/b&gt; - %2$s</string>
+    <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;At %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
-    <string name="from_airport_TEMPLATE">&lt;b&gt;From %1$s&lt;/b&gt; - %2$s</string>
+    <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;From %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Logging out of %1$s will remove any itinerary items associated with this account. Are you sure you want to logout?</string>
     <!-- Booking code unavailable message -->
     <string name="missing_booking_code">Booking code unavailable.</string>
     <!-- Flight to TEMPLATE -->
     <string name="flight_to_TEMPLATE">Flight to %1$s</string>
+    <!-- Flight Calendar event TEMPLATE -->
+    <string name="flight_calendar_event_title_TEMPLATE">Flight: %1$s to %2$s</string>
     <!-- Add event button text -->
     <string name="add_event">Add Event</string>
+    <!-- Set Alert button text -->
+    <string name="set_alert">Set Alert</string>
     <!-- Directions -->
     <string name="directions">Directions</string>
     <!-- Terminal Maps -->
     <string name="terminal_maps">Terminal Maps</string>
     <!-- Legend -->
     <string name="legend">Legend</string>
-    <!-- Flight has been canceled -->
-    <string name="flight_canceled">Flight cancelled</string>
-    <!-- Flight has been canceled; parameter is the destination city for the canceled flight -->
-    <string name="flight_to_city_canceled_TEMPLATE">Flight to %1$s cancelled</string>
+    <!-- Flight has been cancelled -->
+    <string name="flight_cancelled">Flight cancelled</string>
+    <!-- Flight has been cancelled; parameter is the destination city for the canceled flight -->
+    <string name="flight_to_city_cancelled_TEMPLATE">Flight to %1$s cancelled</string>
     <!-- Flight has been redirected (location unknown) -->
     <string name="flight_redirected">Flight redirected</string>
     <!-- Flight has been diverted (location unknown) -->
@@ -229,12 +245,16 @@
     <string name="itin_card_details_phone">Phone</string>
     <string name="itin_card_details_room_type">Room Type</string>
     <string name="toast_copied_to_clipboard">Copied to the clipboard.</string>
+    <string name="itin_card_details_reload">Reload Information</string>
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">Directions</string>
     <string name="itin_action_call_hotel">Call Hotel</string>
     <string name="itin_action_redeem">Redeem</string>
     <string name="itin_action_support">Support</string>
+
+    <!-- Itin webview titles -->
+    <string name="webview_title_print_vouchers">Print Vouchers</string>
 
     <!-- Itin Share templates -->
     <!-- 1: hotel name 2: check in date 3: check out date -->
@@ -268,7 +288,7 @@
     <string name="share_template_subject_cruise"></string>
     <string name="share_template_short_cruise"></string>
     <string name="share_template_long_cruise"></string>
-    
+
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
     <string name="Choose_message_style">Choose message style</string>
@@ -483,6 +503,8 @@
     <string name="slide_to_purchase">Slide to purchase.</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Your card will be charged %1$s</string>
+    <!-- Amount to be paid now -->
+    <string name="Amount_to_be_paid_now_TEMPLATE">Amount to be paid now %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">%1$s Collected by the hotel</string>
     <!-- Checkout menu item -->
@@ -631,7 +653,7 @@
     <!-- Redress number hint -->
     <string name="only_if_applicable">Redress # (if applicable)</string>
     <!-- Saving traveler info spinner dialog -->
-    <string name="saving_traveler">Saving traveler information to your account…</string>
+    <string name="saving_traveler">Saving traveller information to your account…</string>
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
@@ -1009,6 +1031,8 @@
     <string name="progress_finding_location">Finding Current Location…</string>
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels">Searching for Hotels…</string>
+    <!-- Message displayed when app is searching for a particular hotel -->
+    <string name="progress_searching_selected_hotel">Searching for the Hotel…</string>
     <!-- Message displayed when search comes up with zero results -->
     <string name="progress_search_failed">No Hotels Found</string>
     <!-- Message displayed when search comes up with zero results -->
@@ -1539,10 +1563,10 @@
     <string name="stack_blur_credit">This app makes use of the Stack Blur algorithm by Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="view_open_source_software_licenses">View Open Source Software Licenses</string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="open_source_software_licenses"> Open Source Software Licenses</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">This app make use of the following open-source libraries:</string>
-    <!-- Header text for open source section -->
-    <string name="open_source">Open-Source</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

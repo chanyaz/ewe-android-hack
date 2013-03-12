@@ -9,9 +9,9 @@
     <!-- connect with facebook (button text) -->
     <string name="connect_with_facebook">Koble til Facebook</string>
     <!-- fetching information from Facebook -->
-    <string name="fetching_facebook_info">Henter informasjon fra Facebook…</string>
+    <string name="fetching_facebook_info">Henter informasjon fra facebook…</string>
     <!-- Attempting to log you in with facebook credentials -->
-    <string name="attempting_to_log_in_with_facebook">Prøver å logge deg inn med Facebook-detaljene dine…</string>
+    <string name="attempting_to_log_in_with_facebook">Prøver å logge deg inn med dine facebook-detaljer</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">En uspesifert feil har oppstått. Prøv igjen senere.</string>
     <!-- Unable to sign in to Facebook -->
@@ -25,7 +25,7 @@
     <!-- Failure to update the user -->
     <string name="failure_to_update_user">Det er ikke mulig å hente oppdatert brukerinformasjon.</string>
     <!-- Linking your accounts -->
-    <string name="linking_your_accounts">Kobler sammen kontoene dine…</string>
+    <string name="linking_your_accounts">Kobler kontoene dine opp mot hverandre…</string>
     <!-- Sign in -->
     <string name="sign_in">Logg inn</string>
     <!-- Sign in with Expedia -->
@@ -76,6 +76,18 @@
     <string name="itinerary_fetch_error">Feil ved henting av reiseruten</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;Logg inn&lt;/b&gt; for å se dine reiser</string>
+    <!-- Template for card header text (will be filled in with "Title - Date")-->
+    <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
+    <!-- Default (fallback) itin card title for FLIGHT -->
+    <string name="Flight">Flyvning</string>
+    <!-- Default (fallback) itin card title for HOTEL -->
+    <string name="Hotel">Hotell</string>
+    <!-- Default (fallback) itin card title for CAR -->
+    <string name="Car">Bil</string>
+    <!-- Default (fallback) itin card title for CRUISE -->
+    <string name="Cruise">Cruise</string>
+    <!-- Default (fallback) itin card title for ACTIVITY -->
+    <string name="Activity">Aktivitet</string>
     <!-- Depart (TZ) template -->
     <string name="depart_tz_TEMPLATE">Avreise (%1$s)</string>
     <!-- Arrive (TZ) template -->
@@ -94,12 +106,6 @@
     <string name="arrival_terminal_TEMPLATE">Ankomstterminal %1$s, gate %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Avgangsterminal %1$s, gate %2$s</string>
-    <!-- Itin flight terminal and gate information not available message -->
-    <string name="no_terminal_gate_information">Terminal &amp; gate utilgjengelig</string>
-    <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
-    <string name="no_arrival_terminal_gate_information">Ankomstterminal &amp; gate utilgjengelig</string>
-    <!-- Itin flight layover departure terminal and gate information not avaialble message -->
-    <string name="no_departure_terminal_gate_information">Avreiseterminal &amp; gate utilgjengelig</string>
     <!-- To be determined abbrev.-->
     <string name="to_be_determined_abbrev">Ikke fastsatt enda</string>
     <!-- Itin flight gate only template -->
@@ -109,33 +115,43 @@
     <!-- Itin flight depart gate only template -->
     <string name="depart_gate_number_only_TEMPLATE">Avreisegate %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s, gate utilgjengelig</string>
+    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">Ankomstterminal %1$s, gate utilgjengelig</string>
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Ankomstterminal %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">Avgangsterminal %1$s, gate</string>
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Avgangsterminal %1$s</string>
+    <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
+    <string name="at_airport_TEMPLATE">&lt;b&gt;På %1$s&lt;/b&gt;</string>
+    <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
+    <string name="from_airport_TEMPLATE">&lt;b&gt;Fra %1$s&lt;/b&gt;</string>
+    <!-- Itin flight summary second line for departure waypoint that also includes time of departure; first parameter is the airport code, second parameter is the localized time (e.g. 13:45) -->
+    <string name="from_airport_time_TEMPLATE">&lt;b&gt;Fra%1$s&lt;/b&gt; på %2$s</string>
     <!-- Itin flight summary second line for arrival waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight arrives/d -->
-    <string name="at_airport_TEMPLATE">&lt;b&gt;På %1$s&lt;/b&gt; - %2$s</string>
+    <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;På %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
-    <string name="from_airport_TEMPLATE">&lt;b&gt;Fra %1$s&lt;/b&gt; - %2$s</string>
+    <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;Fra %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Hvis du logger ut av %1$s, vil du fjerne alle reiseruter forbundet med denne kontoen. Er du sikker på at du vil logge ut?</string>
     <!-- Booking code unavailable message -->
     <string name="missing_booking_code">Bestillingskode er ikke tilgjengelig.</string>
     <!-- Flight to TEMPLATE -->
     <string name="flight_to_TEMPLATE">Fly til %1$s</string>
+    <!-- Flight Calendar event TEMPLATE -->
+    <string name="flight_calendar_event_title_TEMPLATE">Flyvning: %1$s til %2$s</string>
     <!-- Add event button text -->
     <string name="add_event">Legg til hendelse</string>
+    <!-- Set Alert button text -->
+    <string name="set_alert">Angi varsling</string>
     <!-- Directions -->
     <string name="directions">Veibeskrivelser</string>
     <!-- Terminal Maps -->
     <string name="terminal_maps">Kart over terminal</string>
     <!-- Legend -->
     <string name="legend">bildetekst</string>
-    <!-- Flight has been canceled -->
-    <string name="flight_canceled">Flyvning kansellert</string>
-    <!-- Flight has been canceled; parameter is the destination city for the canceled flight -->
-    <string name="flight_to_city_canceled_TEMPLATE">Fly til %1$s kansellert</string>
+    <!-- Flight has been cancelled -->
+    <string name="flight_cancelled">Fly kansellert</string>
+    <!-- Flight has been cancelled; parameter is the destination city for the canceled flight -->
+    <string name="flight_to_city_cancelled_TEMPLATE">Fly til %1$s kansellert</string>
     <!-- Flight has been redirected (location unknown) -->
     <string name="flight_redirected">Flyvningen ble omdirigert</string>
     <!-- Flight has been diverted (location unknown) -->
@@ -229,6 +245,7 @@
     <string name="itin_card_details_phone">Telefon</string>
     <string name="itin_card_details_room_type">Romtype</string>
     <string name="toast_copied_to_clipboard">Kopiert til utklippstavlen.</string>
+    <string name="itin_card_details_reload">Last inn informasjonen på nytt</string>
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">Veibeskrivelser</string>
@@ -236,19 +253,22 @@
     <string name="itin_action_redeem">Løs inn</string>
     <string name="itin_action_support">Støtte</string>
 
+    <!-- Itin webview titles -->
+    <string name="webview_title_print_vouchers">Skriv ut kuponger</string>
+
     <!-- Itin Share templates -->
     <!-- 1: hotel name 2: check in date 3: check out date -->
     <string name="share_template_subject_hotel">Mitt hotellopphold i %1$s (%2$s – %3$s)</string>
     <!-- 1: hotel name 2: check in date 3: check out date 4: hotel web url -->
     <string name="share_template_short_hotel">Jeg bor på %1$s\n%2$s – %3$s\n\n%4$s</string>
     <!-- 1: hotel Name 2: formatted length of stay 4: check in date 5: check out date 6: street address 7: city 8: state 9: postal code 10: phone 11: hotel web url 12: app download link -->
-    <string name="share_template_long_hotel">Hei,\n\n Jeg bor på %1$s i %2$s.\n\n<b>Innsjekking</b> %3$s\n<b>Utsjekking</b> %4$s\n\n%1$s\n%5$s\n%6$s, %7$s %8$s\n\n<b>Telefonnummer</b>\n%9$s\n\n<b>Mer informasjon</b>\n%10$s\n\nØnsker du å bestille hoteller og flyvninger samt å se og dele reiserutene dine? <a href="%11$s">Last ned</a> Expedias mobil-app i dag, helt gratis.</string>
+    <string name="share_template_long_hotel">Hei, \n\nJeg skal bo på %1$s i %2$s.\n\n<b>Innsjekking</b> %3$s\n<b>Utsjekking</b> %4$s\n\n%1$s\n%5$s\n%6$s, %7$s %8$s\n\n<b>Telefonnummer</b>\n%9$s\n\n<b>Mer informasjon</b>\n%10$s\n\nØnsker du å bestille hoteller og flyvninger samt å se og dele reiserutene dine? <a href="%11$s">Last ned</a> Expedias mobil-app i dag, helt gratis.</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Mitt fly til %1$s den %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">Jeg er på flyvning %1$s til %2$s den %3$s.\nAvreise fra %4$s kl %5$s\nAnkomst ved %6$s kl %7$s, %8$s</string>
+    <string name="share_template_short_flight_sameday">Jeg er på fly %1$s til %2$s den %3$s.\nAvreise fra %4$s kl %5$s\nAnkomst ved %6$s kl %7$s, %8$s</string>
      <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">Jeg er på flyvning %1$s til %2$s.\nAvreise fra %3$s kl %4$s\nAnkomst ved %5$s kl %6$s, %7$s</string>
+    <string name="share_template_short_flight_multiday">Jeg er på fly %1$s til %2$s.\nAvreise fra %3$s kl %4$s\nAnkomst ved %5$s kl %6$s, %7$s</string>
     <!-- 1: Origin city 2: Destination city 3: Flight Carrier and number 4: Departure date 5: Departure airport code 6: Departure Time 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival terminal gate 11: Traveler list -->
     <string name="share_template_long_flight_sameday">Hei \n\nHer er informasjonen for flyvningen min fra %1$s til %2$s.\n\n%3$s - %4$s\n\nAvreise fra %5$s kl %6$s fra %7$s.\nAnkomst%8$s ved %9$s kl %10$s.\n\nReisende\n%11$s</string>
     <!-- 1: Origin city 2: Desitination city 3: Flight carrier and number 4: Departure airport code 5: Departure time 6: Departure date 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival date 11: Arrival terminal gate 12: Traveler list -->
@@ -268,7 +288,7 @@
     <string name="share_template_subject_cruise"></string>
     <string name="share_template_short_cruise"></string>
     <string name="share_template_long_cruise"></string>
-    
+
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
     <string name="Choose_message_style">Velg meldingstype</string>
@@ -285,7 +305,7 @@
     <!-- Hint in edit text that indicates one should enter an arrival airport -->
     <string name="hint_arrival_airport">Ankomstflyplass</string>
     <!-- Label for when flights are loading -->
-    <string name="loading_flights">Laster inn flyvninger…</string>
+    <string name="loading_flights">Henter flyvninger…</string>
     <!-- Label for screen that is doing searches -->
     <string name="searching">Søker…</string>
     <!-- Error message when we find no flights -->
@@ -483,6 +503,8 @@
     <string name="slide_to_purchase">Slide for å betale.</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Kortet ditt vil bli belastet med %1$s</string>
+    <!-- Amount to be paid now -->
+    <string name="Amount_to_be_paid_now_TEMPLATE">Beløp som må betales nå %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">%1$s betalt til hotellet</string>
     <!-- Checkout menu item -->
@@ -631,7 +653,7 @@
     <!-- Redress number hint -->
     <string name="only_if_applicable">Klagenummer (hvis gjeldende)</string>
     <!-- Saving traveler info spinner dialog -->
-    <string name="saving_traveler">Lagrer reiseinformasjon til din konto …</string>
+    <string name="saving_traveler">Lagrer informasjon om reisende på kontoen din…</string>
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
@@ -653,7 +675,7 @@
     <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;Foretrekker&lt;/font&gt; %1$s-sete</string>
     <!-- loading traveler info -->
-    <string name="loading_traveler_info">Laster inn informasjon om reisende…</string>
+    <string name="loading_traveler_info">Henter informasjon om reisende…</string>
     <!-- Traveler Information -->
     <string name="traveler_information">Reisendes informasjon</string>
     <!-- Passport -->
@@ -858,11 +880,11 @@
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
-    <string name="enter_search_location">Oppgi sted…</string>
+    <string name="enter_search_location">Skriv inn søkeområde…</string>
     <!-- Hint for "search location" field -->
     <string name="hint_search_location">Søk etter sted</string>
     <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-    <string name="loading_suggestions">Laster opp forslag…</string>
+    <string name="loading_suggestions">Laster inn forslag…</string>
     <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
@@ -1009,6 +1031,8 @@
     <string name="progress_finding_location">Leter etter nåværende posisjon…</string>
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels">Søker etter hoteller…</string>
+    <!-- Message displayed when app is searching for a particular hotel -->
+    <string name="progress_searching_selected_hotel">Søker etter hotellet…</string>
     <!-- Message displayed when search comes up with zero results -->
     <string name="progress_search_failed">Ingen hoteller ble funnet</string>
     <!-- Message displayed when search comes up with zero results -->
@@ -1539,10 +1563,10 @@
     <string name="stack_blur_credit">Denne appen tar i bruk Stack Blur-algoritmen av Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="view_open_source_software_licenses">Se lisenser for programvare med åpen kildekode</string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="open_source_software_licenses">Lisenser for programvare med åpen kildekode</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">Denne appen tar i bruk følgende open-source biblioteker:</string>
-    <!-- Header text for open source section -->
-    <string name="open_source">Open-Source</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

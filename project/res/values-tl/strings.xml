@@ -9,9 +9,9 @@
     <!-- connect with facebook (button text) -->
     <string name="connect_with_facebook">Kumunekta sa facebook</string>
     <!-- fetching information from Facebook -->
-    <string name="fetching_facebook_info">Kinukuha ang mga impormasyon mula sa facebook…</string>
+    <string name="fetching_facebook_info">Kumukuha ng impormasyon sa facebook…</string>
     <!-- Attempting to log you in with facebook credentials -->
-    <string name="attempting_to_log_in_with_facebook">Sinusubukan kayong i-login gamit ang mga detalye sa facebook…</string>
+    <string name="attempting_to_log_in_with_facebook">Sinusubukang i-log in gamit ang kredensyal sa facebook…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Nagkaroon kami ng hindi matukoy na error. Pakisubukang muli mamaya.</string>
     <!-- Unable to sign in to Facebook -->
@@ -25,7 +25,7 @@
     <!-- Failure to update the user -->
     <string name="failure_to_update_user">Nabigong kunin ang mga na-update na impormasyon ng user.</string>
     <!-- Linking your accounts -->
-    <string name="linking_your_accounts">Ini-uugnay ang inyong mga account…</string>
+    <string name="linking_your_accounts">Nili-link ang mga account…</string>
     <!-- Sign in -->
     <string name="sign_in">Mag-sign In</string>
     <!-- Sign in with Expedia -->
@@ -71,11 +71,23 @@
     <!-- Or enter an itinerary number -->
     <string name="or_enter_an_itinerary_number">O, ipasok ang Numero ng Itinerary</string>
     <!-- Fetching your itinerary -->
-    <string name="fetching_your_itinerary">Hinuhugot ang iyong itinerary…</string>
+    <string name="fetching_your_itinerary">Kinukuha ang itinerary mo…</string>
     <!-- Error fetching itinerary -->
     <string name="itinerary_fetch_error">Error sa pagkuha ng itinerary</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;Mag-log in&lt;/b&gt; para sa inyong mga biyahe</string>
+    <!-- Template for card header text (will be filled in with "Title - Date")-->
+    <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
+    <!-- Default (fallback) itin card title for FLIGHT -->
+    <string name="Flight">Flight</string>
+    <!-- Default (fallback) itin card title for HOTEL -->
+    <string name="Hotel">Hotel</string>
+    <!-- Default (fallback) itin card title for CAR -->
+    <string name="Car">Kotse</string>
+    <!-- Default (fallback) itin card title for CRUISE -->
+    <string name="Cruise">Cruise</string>
+    <!-- Default (fallback) itin card title for ACTIVITY -->
+    <string name="Activity">Aktibidad</string>
     <!-- Depart (TZ) template -->
     <string name="depart_tz_TEMPLATE">Alis (%1$s)</string>
     <!-- Arrive (TZ) template -->
@@ -94,12 +106,6 @@
     <string name="arrival_terminal_TEMPLATE">Terminal %1$s, Gate %2$s sa Pagdating</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Terminal sa Pag-alis%1$s, Gate %2$s</string>
-    <!-- Itin flight terminal and gate information not available message -->
-    <string name="no_terminal_gate_information">Hindi Available ang Terminal at Gate</string>
-    <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
-    <string name="no_arrival_terminal_gate_information">Hindi Available ang Terminal at Gate sa Pagdating</string>
-    <!-- Itin flight layover departure terminal and gate information not avaialble message -->
-    <string name="no_departure_terminal_gate_information">Hindi Available ang Terminal at Gate sa Pag-alis</string>
     <!-- To be determined abbrev.-->
     <string name="to_be_determined_abbrev">TBD</string>
     <!-- Itin flight gate only template -->
@@ -109,33 +115,43 @@
     <!-- Itin flight depart gate only template -->
     <string name="depart_gate_number_only_TEMPLATE">Gate %1$s sa Pag-alis</string>
     <!-- Itin flight terminal only template -->
-    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s, Hindi Available ang Gate</string>
+    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">Terminal sa Pagdating %1$s, Hindi Available ang Gate</string>
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Terminal Pagdating %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">Terminal sa Pag-alis %1$s, Hindi Available ang Gate</string>
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Terminal Pag-alis %1$s</string>
+    <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
+    <string name="at_airport_TEMPLATE">&lt;b&gt;Sa %1$s&lt;/b&gt;</string>
+    <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
+    <string name="from_airport_TEMPLATE">&lt;b&gt;Mula %1$s&lt;/b&gt;</string>
+    <!-- Itin flight summary second line for departure waypoint that also includes time of departure; first parameter is the airport code, second parameter is the localized time (e.g. 13:45) -->
+    <string name="from_airport_time_TEMPLATE">&lt;b&gt;Mula %1$s&lt;/b&gt; sa %2$s</string>
     <!-- Itin flight summary second line for arrival waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight arrives/d -->
-    <string name="at_airport_TEMPLATE">&lt;b&gt;Sa %1$s&lt;/b&gt; - %2$s</string>
+    <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;Sa %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
-    <string name="from_airport_TEMPLATE">&lt;b&gt;Mula %1$s&lt;/b&gt; - %2$s</string>
+    <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;Mula %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Tatanggalin ng pag-logout sa %1$s ang anumang mga bagay sa itinerary na nauugnay sa account na ito. Sigurado ka bang gusto mong mag-log out?</string>
     <!-- Booking code unavailable message -->
     <string name="missing_booking_code">Hindi available ang code ng pag-book.</string>
     <!-- Flight to TEMPLATE -->
     <string name="flight_to_TEMPLATE">Flight patungo sa %1$s</string>
+    <!-- Flight Calendar event TEMPLATE -->
+    <string name="flight_calendar_event_title_TEMPLATE">Flight: %1$s sa %2$s</string>
     <!-- Add event button text -->
     <string name="add_event">Magdagdag ng Kaganapan</string>
+    <!-- Set Alert button text -->
+    <string name="set_alert">I-set Alerto</string>
     <!-- Directions -->
     <string name="directions">Mga Direksyon</string>
     <!-- Terminal Maps -->
     <string name="terminal_maps">Mga Mapa ng Terminal</string>
     <!-- Legend -->
     <string name="legend">Legend</string>
-    <!-- Flight has been canceled -->
-    <string name="flight_canceled">Nakansela ang flight</string>
-    <!-- Flight has been canceled; parameter is the destination city for the canceled flight -->
-    <string name="flight_to_city_canceled_TEMPLATE">Nakansela ang flight patungong %1$s</string>
+    <!-- Flight has been cancelled -->
+    <string name="flight_cancelled">Flight, nakansela</string>
+    <!-- Flight has been cancelled; parameter is the destination city for the canceled flight -->
+    <string name="flight_to_city_cancelled_TEMPLATE">Nakansela ang flight sa %1$s</string>
     <!-- Flight has been redirected (location unknown) -->
     <string name="flight_redirected">Na-redirect ang flight</string>
     <!-- Flight has been diverted (location unknown) -->
@@ -229,6 +245,7 @@
     <string name="itin_card_details_phone">Telepono</string>
     <string name="itin_card_details_room_type">Uri ng Kuwarto</string>
     <string name="toast_copied_to_clipboard">Nakopya sa clipboard.</string>
+    <string name="itin_card_details_reload">I-reload Impormasyon</string>
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">Mga Direksyon</string>
@@ -236,19 +253,22 @@
     <string name="itin_action_redeem">Kunin</string>
     <string name="itin_action_support">Tulong</string>
 
+    <!-- Itin webview titles -->
+    <string name="webview_title_print_vouchers">I-print ang Voucher</string>
+
     <!-- Itin Share templates -->
     <!-- 1: hotel name 2: check in date 3: check out date -->
     <string name="share_template_subject_hotel">Aking pananatili sa hotel sa %1$s (%2$s – %3$s)</string>
     <!-- 1: hotel name 2: check in date 3: check out date 4: hotel web url -->
     <string name="share_template_short_hotel">Mananatili ako sa %1$s\n%2$s – %3$s\n\n%4$s</string>
     <!-- 1: hotel Name 2: formatted length of stay 4: check in date 5: check out date 6: street address 7: city 8: state 9: postal code 10: phone 11: hotel web url 12: app download link -->
-    <string name="share_template_long_hotel">Kamusta,\n\nmananatili ako sa %1$s nang %2$s.\n\n<b>Mag-check In</b> %3$s\n<b>Mag-check Out</b> %4$s\n\n%1$s\n%5$s\n%6$s, %7$s %8$s\n\n<b>Telepono</b>\n%9$s\n\n<b>Higit Pang Impormasyon</b>\n%10$s\n\nGustong mag-book ng mga hotel, flight at tingnan at ibahagi ang inyong mga itinerary? <a href="%11$s">I-download</a> ang libreng app ng Expedia sa mobile ngayon.</string>
+    <string name="share_template_long_hotel">Hi,\n\nMananatili ako sa %1$s nang %2$s.\n\n<b>Mag-check In</b> %3$s\n<b>Mag-check Out</b> %4$s\n\n%1$s\n%5$s\n%6$s, %7$s %8$s\n\n<b>Telepono</b>\n%9$s\n\n<b>Higit Pang Impormasyon</b>\n%10$s\n\nGustong mag-book ng mga hotel, flight at tingnan at ibahagi ang inyong mga itinerary? <a href="%11$s">I-download</a> ang libreng app ng Expedia sa mobile ngayon.</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Aking flight papuntang %1$s sa %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">Ako ay nasa flight %1$s papuntang %2$s sa %3$s.\nAalis ng %4$s sa %5$s\nDarating ng %6$s sa %7$s, %8$s</string>
+    <string name="share_template_short_flight_sameday">Nasa flight %1$s ako sa %2$s sa %3$s.\nAalis ng %4$s sa %5$s\nDarating ng %6$s sa %7$s, %8$s</string>
      <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">Ako ay nasa flight %1$s papuntang %2$s.\nAalis ng %3$s sa %4$s\nDarating ng %5$s sa %6$s, %7$s</string>
+    <string name="share_template_short_flight_multiday">Nasa flight %1$s ako sa %2$s.\nAalis ng %3$s sa %4$s\nDarating ng %5$s sa %6$s, %7$s</string>
     <!-- 1: Origin city 2: Destination city 3: Flight Carrier and number 4: Departure date 5: Departure airport code 6: Departure Time 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival terminal gate 11: Traveler list -->
     <string name="share_template_long_flight_sameday">Kamusta,\n\nNarito ang mga detalye ng aking flight mula sa %1$s papuntang %2$s.\n\n%3$s - %4$s\n\nAalis ng %5$s sa %6$s mula %7$s.\nDarating ng %8$s sa %9$s sa %10$s.\n\nMga Magbibiyahe\n%11$s</string>
     <!-- 1: Origin city 2: Desitination city 3: Flight carrier and number 4: Departure airport code 5: Departure time 6: Departure date 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival date 11: Arrival terminal gate 12: Traveler list -->
@@ -268,7 +288,7 @@
     <string name="share_template_subject_cruise"></string>
     <string name="share_template_short_cruise"></string>
     <string name="share_template_long_cruise"></string>
-    
+
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
     <string name="Choose_message_style">Pumili ng estilo ng mensahe</string>
@@ -285,7 +305,7 @@
     <!-- Hint in edit text that indicates one should enter an arrival airport -->
     <string name="hint_arrival_airport">Patutunguhang Airport</string>
     <!-- Label for when flights are loading -->
-    <string name="loading_flights">Naglo-load ng mga flight…</string>
+    <string name="loading_flights">Nilo-load ang flight…</string>
     <!-- Label for screen that is doing searches -->
     <string name="searching">Naghahanap…</string>
     <!-- Error message when we find no flights -->
@@ -336,7 +356,7 @@
     <!-- Error message template when loading a webpage fails -->
     <string name="web_view_loading_error_TEMPLATE">May error sa pag-load ng pahina! Mensahe sa Error: %1$s</string>
     <!-- Title for screen when in an invalid POS we can't search for yet -->
-    <string name="taking_off_soon">Magte-take Off Na…</string>
+    <string name="taking_off_soon">Malapit Nang Umalis…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">Pasensiya na, pero ang pag-book ng flight sa mobile ay &lt;b&gt;wala pa&lt;/b&gt; sa inyong lugar.</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
@@ -483,6 +503,8 @@
     <string name="slide_to_purchase">I-slide para bumili.</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Masisingil ang inyong card %1$s</string>
+    <!-- Amount to be paid now -->
+    <string name="Amount_to_be_paid_now_TEMPLATE">Halagang babayaran ngayon %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">%1$s Kinokolekta ng hotel</string>
     <!-- Checkout menu item -->
@@ -631,7 +653,7 @@
     <!-- Redress number hint -->
     <string name="only_if_applicable">Redress # (kung naaangkop)</string>
     <!-- Saving traveler info spinner dialog -->
-    <string name="saving_traveler">Isini-save ang impormasyon ng magbibiyahe sa inyong account…</string>
+    <string name="saving_traveler">Sine-save ang impo ng manlalakbay sa account…</string>
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
@@ -653,7 +675,7 @@
     <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;Mas Gugustuhin ang Upuang &lt;/font&gt; %1$s</string>
     <!-- loading traveler info -->
-    <string name="loading_traveler_info">Naglo-load ng impormasyon tungkol sa magbibiyahe</string>
+    <string name="loading_traveler_info">Nilo-load ang impo ng manlalakbay…</string>
     <!-- Traveler Information -->
     <string name="traveler_information">Impormasyon ng Magbibiyahe</string>
     <!-- Passport -->
@@ -858,11 +880,11 @@
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
-    <string name="enter_search_location">Ipasok kung saan maghahanap …</string>
+    <string name="enter_search_location">Ilagay ang paghahanapang lokasyon…</string>
     <!-- Hint for "search location" field -->
-    <string name="hint_search_location">Maghanap sa Lokasyon</string>
+    <string name="hint_search_location">Maghanap ng Lokasyon</string>
     <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-    <string name="loading_suggestions">Inilo-load ang mga mungkahi…</string>
+    <string name="loading_suggestions">Naglo-load ng mga mungkahi…</string>
     <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
@@ -1008,7 +1030,9 @@
     <!-- Message displayed when app is trying to find where it is (via network/GPS) -->
     <string name="progress_finding_location">Hinahanap ang Kasalukuyang Lokasyon…</string>
     <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels">Naghahanap ng mga Hotel…</string>
+    <string name="progress_searching_hotels">Naghahanap ng Hotel…</string>
+    <!-- Message displayed when app is searching for a particular hotel -->
+    <string name="progress_searching_selected_hotel">Hinahanap ang Hotel…</string>
     <!-- Message displayed when search comes up with zero results -->
     <string name="progress_search_failed">Walang Nahanap na Hotel</string>
     <!-- Message displayed when search comes up with zero results -->
@@ -1539,10 +1563,10 @@
     <string name="stack_blur_credit">Ginagamit ng app na ito ang algorithm ng Stack Blur ni Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="view_open_source_software_licenses">Basahin ang mga Lisensiya ng Open Source Software</string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="open_source_software_licenses">Mga Open Source Software License</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">Ginagamit ng app na ito ang mga sumusunod na open-source library:</string>
-    <!-- Header text for open source section -->
-    <string name="open_source">Open-Source</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

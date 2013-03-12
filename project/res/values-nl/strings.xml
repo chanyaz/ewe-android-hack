@@ -17,7 +17,7 @@
     <!-- Unable to sign in to Facebook -->
     <string name="unable_to_sign_into_facebook">Aanmelden via Facebook mislukt.</string>
     <!-- Login failed try again -->
-    <string name="login_failed_try_again">Aanmelding mislukt, voer je wachtwoord opnieuw in probeer nog een keer.</string>
+    <string name="login_failed_try_again">Aanmelding mislukt, voer je wachtwoord opnieuw in en probeer opnieuw.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Expedia-wachtwoord</string>
     <!-- Link accounts -->
@@ -76,6 +76,18 @@
     <string name="itinerary_fetch_error">Fout bij ophalen van reisplan</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;Meld je aan&lt;/b&gt; voor je reizen</string>
+    <!-- Template for card header text (will be filled in with "Title - Date")-->
+    <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
+    <!-- Default (fallback) itin card title for FLIGHT -->
+    <string name="Flight">Vlucht</string>
+    <!-- Default (fallback) itin card title for HOTEL -->
+    <string name="Hotel">Hotel</string>
+    <!-- Default (fallback) itin card title for CAR -->
+    <string name="Car">Auto</string>
+    <!-- Default (fallback) itin card title for CRUISE -->
+    <string name="Cruise">Cruise</string>
+    <!-- Default (fallback) itin card title for ACTIVITY -->
+    <string name="Activity">Activiteit</string>
     <!-- Depart (TZ) template -->
     <string name="depart_tz_TEMPLATE">Vertrek (%1$s)</string>
     <!-- Arrive (TZ) template -->
@@ -94,12 +106,6 @@
     <string name="arrival_terminal_TEMPLATE">Aankomstterminal %1$s, Gate %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Vertrekterminal %1$s, Gate %2$s</string>
-    <!-- Itin flight terminal and gate information not available message -->
-    <string name="no_terminal_gate_information">Terminal &amp; Gate niet beschikbaar</string>
-    <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
-    <string name="no_arrival_terminal_gate_information">Aankomstterminal &amp; Gate niet beschikbaar</string>
-    <!-- Itin flight layover departure terminal and gate information not avaialble message -->
-    <string name="no_departure_terminal_gate_information">Vertrekterminal &amp; Gate niet beschikbaar</string>
     <!-- To be determined abbrev.-->
     <string name="to_be_determined_abbrev">TBD</string>
     <!-- Itin flight gate only template -->
@@ -109,33 +115,43 @@
     <!-- Itin flight depart gate only template -->
     <string name="depart_gate_number_only_TEMPLATE">Vertrek Gate %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s, Gate niet beschikbaar</string>
+    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">Aankomstterminal %1$s, Gate niet beschikbaar</string>
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Aankomst Terminal %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">Vertrekterminal %1$s, Gate niet beschikbaar</string>
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Vertrek Terminal %1$s</string>
+    <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
+    <string name="at_airport_TEMPLATE">&lt;b&gt;Op %1$s&lt;/b&gt;</string>
+    <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
+    <string name="from_airport_TEMPLATE">&lt;b&gt;Vanaf %1$s&lt;/b&gt;</string>
+    <!-- Itin flight summary second line for departure waypoint that also includes time of departure; first parameter is the airport code, second parameter is the localized time (e.g. 13:45) -->
+    <string name="from_airport_time_TEMPLATE">&lt;b&gt;Vanaf %1$s&lt;/b&gt; om %2$s</string>
     <!-- Itin flight summary second line for arrival waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight arrives/d -->
-    <string name="at_airport_TEMPLATE">&lt;b&gt;Op %1$s&lt;/b&gt;%2$s</string>
+    <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;Op %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
-    <string name="from_airport_TEMPLATE">&lt;b&gt;Vanaf %1$s&lt;/b&gt;%2$s</string>
+    <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;Vanaf %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Wanneer je je afmeldt bij %1$s verwijder je alle reisplanitems die aan dit account gekoppeld zijn. Weet je zeker dat je je wil afmelden?</string>
     <!-- Booking code unavailable message -->
     <string name="missing_booking_code">Boekingscode niet beschikbaar</string>
     <!-- Flight to TEMPLATE -->
     <string name="flight_to_TEMPLATE">Vlucht naar %1$s</string>
+    <!-- Flight Calendar event TEMPLATE -->
+    <string name="flight_calendar_event_title_TEMPLATE">Vlucht: %1$s naar %2$s</string>
     <!-- Add event button text -->
     <string name="add_event">Activiteit toevoegen</string>
+    <!-- Set Alert button text -->
+    <string name="set_alert">Notificatie instellen</string>
     <!-- Directions -->
     <string name="directions">Richtingaanwijzingen</string>
     <!-- Terminal Maps -->
     <string name="terminal_maps">Terminal Maps</string>
     <!-- Legend -->
     <string name="legend">Legende</string>
-    <!-- Flight has been canceled -->
-    <string name="flight_canceled">Vlucht geannuleerd</string>
-    <!-- Flight has been canceled; parameter is the destination city for the canceled flight -->
-    <string name="flight_to_city_canceled_TEMPLATE">Vlucht naar %1$s geannuleerd</string>
+    <!-- Flight has been cancelled -->
+    <string name="flight_cancelled">Vlucht geannuleerd</string>
+    <!-- Flight has been cancelled; parameter is the destination city for the canceled flight -->
+    <string name="flight_to_city_cancelled_TEMPLATE">Vlucht naar %1$s geannuleerd</string>
     <!-- Flight has been redirected (location unknown) -->
     <string name="flight_redirected">Vlucht uitgeweken</string>
     <!-- Flight has been diverted (location unknown) -->
@@ -229,6 +245,7 @@
     <string name="itin_card_details_phone">Telefoon</string>
     <string name="itin_card_details_room_type">Kamertype</string>
     <string name="toast_copied_to_clipboard">Gekopieerd naar het klembord.</string>
+    <string name="itin_card_details_reload">Informatie opnieuw laden</string>
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">Richtingaanwijzingen</string>
@@ -236,19 +253,22 @@
     <string name="itin_action_redeem">Inwisselen</string>
     <string name="itin_action_support">Ondersteuning</string>
 
+    <!-- Itin webview titles -->
+    <string name="webview_title_print_vouchers">Coupons afdrukken</string>
+
     <!-- Itin Share templates -->
     <!-- 1: hotel name 2: check in date 3: check out date -->
     <string name="share_template_subject_hotel">Mijn verblijf in %1$s (%2$s – %3$s)</string>
     <!-- 1: hotel name 2: check in date 3: check out date 4: hotel web url -->
     <string name="share_template_short_hotel">Ik verblijf in %1$s\n%2$s – %3$s\n\n%4$s</string>
     <!-- 1: hotel Name 2: formatted length of stay 4: check in date 5: check out date 6: street address 7: city 8: state 9: postal code 10: phone 11: hotel web url 12: app download link -->
-    <string name="share_template_long_hotel">Hallo,\n\nIk verblijf in %1$s voor %2$s.\n\n<b>Check-in</b> %3$s\n<b>Check-out</b> %4$s\n\n%1$s\n%5$s\n%6$s, %7$s %8$s\n\n<b>Tel</b>\n%9$s\n\n<b>Meer info</b>\n%10$s\n\nWil je hotels en vluchten boeken en je reisplannen bekijken en delen? <a href="%11$s">Download</a> vandaag nog de gratis Expedia mobiele app.</string>
+    <string name="share_template_long_hotel">Hi,\n\nIk overnacht in %1$s voor %2$s.\n\n<b>Check-in</b> %3$s\n<b>Check-out</b> %4$s\n\n%1$s\n%5$s\n%6$s, %7$s %8$s\n\n<b>Tel</b>\n%9$s\n\n<b>Meer info</b>\n%10$s\n\nWil je hotels en vluchten boeken en je reisplannen bekijken en delen? <a href="%11$s">Download</a> vandaag nog de gratis Expedia mobiele app.</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Mijn vlucht naar %1$s op %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">Ik vlieg met vlucht %1$s naar %2$s op %3$s.\nVertrekt vanaf %4$s om %5$s\nKomt aan op %6$s om %7$s, %8$s</string>
+    <string name="share_template_short_flight_sameday">Mijn vlucht is %1$s naar %2$s op %3$s.\nVertrekt vanaf %4$s om %5$s\nKomt aan op %6$s om %7$s, %8$s</string>
      <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">Ik vlieg met vlucht %1$s naar %2$s.\nVertrekt vanaf %3$s om %4$s\nKomt aan op %5$s om %6$s, %7$s</string>
+    <string name="share_template_short_flight_multiday">Mijn vlucht is %1$s naar %2$s.\nVertrekt vanaf %3$s om %4$s\nKomt aan op %5$s om %6$s, %7$s</string>
     <!-- 1: Origin city 2: Destination city 3: Flight Carrier and number 4: Departure date 5: Departure airport code 6: Departure Time 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival terminal gate 11: Traveler list -->
     <string name="share_template_long_flight_sameday">Hallo,\n\nDit zijn mijn vluchtgegevens van %1$s naar %2$s.\n\n%3$s - %4$s\n\nVertrekt vanaf %5$s om %6$s aan %7$s.\nKomt aan op %8$s om %9$s aan %10$s.\n\nReizigers\n%11$s</string>
     <!-- 1: Origin city 2: Desitination city 3: Flight carrier and number 4: Departure airport code 5: Departure time 6: Departure date 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival date 11: Arrival terminal gate 12: Traveler list -->
@@ -268,7 +288,7 @@
     <string name="share_template_subject_cruise"></string>
     <string name="share_template_short_cruise"></string>
     <string name="share_template_long_cruise"></string>
-    
+
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
     <string name="Choose_message_style">Kies berichtstijl</string>
@@ -483,6 +503,8 @@
     <string name="slide_to_purchase">Sleep om te boeken.</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Op je kaart wordt %1$s in rekening gebracht</string>
+    <!-- Amount to be paid now -->
+    <string name="Amount_to_be_paid_now_TEMPLATE">Nu te betalen %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">%1$s in rekening gebracht in het hotel</string>
     <!-- Checkout menu item -->
@@ -1010,6 +1032,8 @@
     <string name="progress_finding_location">Huidige locatie zoeken…</string>
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels">Zoeken naar hotels…</string>
+    <!-- Message displayed when app is searching for a particular hotel -->
+    <string name="progress_searching_selected_hotel">Op zoek naar hotel…</string>
     <!-- Message displayed when search comes up with zero results -->
     <string name="progress_search_failed">Geen hotels gevonden</string>
     <!-- Message displayed when search comes up with zero results -->
@@ -1540,10 +1564,10 @@
     <string name="stack_blur_credit">Deze app gebruikt het Stack Blur algoritme van Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="view_open_source_software_licenses">Open Source Software-licenties bekijken</string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="open_source_software_licenses">Open Source Software-licenties</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">Deze app gebruikt de volgende open-source bibliotheken:</string>
-    <!-- Header text for open source section -->
-    <string name="open_source">Open-Source</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

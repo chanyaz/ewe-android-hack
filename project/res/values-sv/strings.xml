@@ -3,19 +3,19 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">Hej &lt;b&gt;%1$s&lt;/b&gt;! Vi verkar ha hittat ditt Expediakonto. Ange ditt lösenord för Expedia nedan för att länka ditt Facebookkonto till ditt Expediakonto.</string>
+    <string name="facebook_weve_found_your_account">Hej &lt;b&gt;%1$s&lt;/b&gt;! Vi verkar ha hittat ditt Expediakonto. Ange ditt lösenord för Expedia nedan för att länka ditt facebookkonto till ditt Expediakonto.</string>
     <!-- Weve fetched your facebook info -->
-    <string name="facebook_weve_fetched_your_info">Hej &lt;b&gt;%1$s&lt;/b&gt;! Vi har laddat dina Facebookuppgifter.</string>
+    <string name="facebook_weve_fetched_your_info">Hej &lt;b&gt;%1$s&lt;/b&gt;! Vi har hämtat dina facebookuppgifter.</string>
     <!-- connect with facebook (button text) -->
-    <string name="connect_with_facebook">Länka till Facebook</string>
+    <string name="connect_with_facebook">Länka till facebook</string>
     <!-- fetching information from Facebook -->
-    <string name="fetching_facebook_info">Hämtar uppgifter från Facebook…</string>
+    <string name="fetching_facebook_info">Hämtar information från facebook…</string>
     <!-- Attempting to log you in with facebook credentials -->
-    <string name="attempting_to_log_in_with_facebook">Vi försöker logga in dig med dina inloggningsuppgifter för Facebook…</string>
+    <string name="attempting_to_log_in_with_facebook">Försöker logga in dig med dina facebook-uppgifter…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Vi har stött på ett ospecificerat fel. Försök igen senare.</string>
     <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">Inloggningen på Facebook misslyckades.</string>
+    <string name="unable_to_sign_into_facebook">Inloggningen på facebook misslyckades.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Inloggningen misslyckades. Ange ditt lösenord och försök igen.</string>
     <!-- Facebook connect expedia password hint -->
@@ -71,11 +71,23 @@
     <!-- Or enter an itinerary number -->
     <string name="or_enter_an_itinerary_number">Eller ange ett resplansnummer</string>
     <!-- Fetching your itinerary -->
-    <string name="fetching_your_itinerary">Vi hämtar din resplan…</string>
+    <string name="fetching_your_itinerary">Hämtar din resplan…</string>
     <!-- Error fetching itinerary -->
     <string name="itinerary_fetch_error">Resplanen kunde inte hämtas</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;Logga in&lt;/b&gt; för att se dina resor</string>
+    <!-- Template for card header text (will be filled in with "Title - Date")-->
+    <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
+    <!-- Default (fallback) itin card title for FLIGHT -->
+    <string name="Flight">Flyg</string>
+    <!-- Default (fallback) itin card title for HOTEL -->
+    <string name="Hotel">Hotell</string>
+    <!-- Default (fallback) itin card title for CAR -->
+    <string name="Car">Bil</string>
+    <!-- Default (fallback) itin card title for CRUISE -->
+    <string name="Cruise">Kryssning</string>
+    <!-- Default (fallback) itin card title for ACTIVITY -->
+    <string name="Activity">Aktivitet</string>
     <!-- Depart (TZ) template -->
     <string name="depart_tz_TEMPLATE">Avgår (%1$s)</string>
     <!-- Arrive (TZ) template -->
@@ -94,12 +106,6 @@
     <string name="arrival_terminal_TEMPLATE">Avgångsterminal %1$s, Gate %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Avgångsterminal %1$s, Gate %2$s</string>
-    <!-- Itin flight terminal and gate information not available message -->
-    <string name="no_terminal_gate_information">Terminal och gate otillgängliga</string>
-    <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
-    <string name="no_arrival_terminal_gate_information">Ankomstterminal och gate otillgängliga</string>
-    <!-- Itin flight layover departure terminal and gate information not avaialble message -->
-    <string name="no_departure_terminal_gate_information">Avgångsterminal och gate otillgängliga</string>
     <!-- To be determined abbrev.-->
     <string name="to_be_determined_abbrev">TBD</string>
     <!-- Itin flight gate only template -->
@@ -109,33 +115,43 @@
     <!-- Itin flight depart gate only template -->
     <string name="depart_gate_number_only_TEMPLATE">Avgångsgate %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s, Gate otillgänglig</string>
+    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">Ankomstterminal %1$s. Gate otillgänglig</string>
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Ankomstterminal %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">Avgångsterminal %1$s, Gate otillgänglig</string>
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Avgångsterminal %1$s</string>
+    <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
+    <string name="at_airport_TEMPLATE">&lt;b&gt; %1$s&lt;/b&gt;</string>
+    <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
+    <string name="from_airport_TEMPLATE">&lt;b&gt;Från %1$s&lt;/b&gt;</string>
+    <!-- Itin flight summary second line for departure waypoint that also includes time of departure; first parameter is the airport code, second parameter is the localized time (e.g. 13:45) -->
+    <string name="from_airport_time_TEMPLATE">&lt;b&gt;Från %1$s&lt;/b&gt;, %2$s</string>
     <!-- Itin flight summary second line for arrival waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight arrives/d -->
-    <string name="at_airport_TEMPLATE">&lt;b&gt; %1$s&lt;/b&gt; - %2$s</string>
+    <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt; %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
-    <string name="from_airport_TEMPLATE">&lt;b&gt;Från %1$s&lt;/b&gt; - %2$s</string>
+    <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;Från %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Vid utloggning från %1$s kommer samtliga resplaner som hör till det här kontot att tas bort. Är du säker på att du vill logga ut?</string>
     <!-- Booking code unavailable message -->
     <string name="missing_booking_code">Bokningskod otillgänglig.</string>
     <!-- Flight to TEMPLATE -->
     <string name="flight_to_TEMPLATE">Flyg till %1$s</string>
+    <!-- Flight Calendar event TEMPLATE -->
+    <string name="flight_calendar_event_title_TEMPLATE">Flyg: %1$s till %2$s</string>
     <!-- Add event button text -->
     <string name="add_event">Lägg till i kalender</string>
+    <!-- Set Alert button text -->
+    <string name="set_alert">Påminnelse</string>
     <!-- Directions -->
     <string name="directions">Vägbeskrivning</string>
     <!-- Terminal Maps -->
     <string name="terminal_maps">Terminalkartor</string>
     <!-- Legend -->
     <string name="legend">Bildtext</string>
-    <!-- Flight has been canceled -->
-    <string name="flight_canceled">Flyg inställt</string>
-    <!-- Flight has been canceled; parameter is the destination city for the canceled flight -->
-    <string name="flight_to_city_canceled_TEMPLATE">Flyg till %1$s inställt</string>
+    <!-- Flight has been cancelled -->
+    <string name="flight_cancelled">Flyg inställt</string>
+    <!-- Flight has been cancelled; parameter is the destination city for the canceled flight -->
+    <string name="flight_to_city_cancelled_TEMPLATE">Flyg till %1$s inställt</string>
     <!-- Flight has been redirected (location unknown) -->
     <string name="flight_redirected">Flyg omdirigerat</string>
     <!-- Flight has been diverted (location unknown) -->
@@ -229,12 +245,16 @@
     <string name="itin_card_details_phone">Telefon</string>
     <string name="itin_card_details_room_type">Rumstyp</string>
     <string name="toast_copied_to_clipboard">Kopierat till clipboard. </string>
+    <string name="itin_card_details_reload">Ladda om information</string>
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">Vägbeskrivning</string>
     <string name="itin_action_call_hotel">Ring hotell</string>
     <string name="itin_action_redeem">Lös in</string>
     <string name="itin_action_support">Support</string>
+
+    <!-- Itin webview titles -->
+    <string name="webview_title_print_vouchers">Skriv ut kuponger</string>
 
     <!-- Itin Share templates -->
     <!-- 1: hotel name 2: check in date 3: check out date -->
@@ -268,7 +288,7 @@
     <string name="share_template_subject_cruise"></string>
     <string name="share_template_short_cruise"></string>
     <string name="share_template_long_cruise"></string>
-    
+
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
     <string name="Choose_message_style">Välj typ av meddelande</string>
@@ -483,6 +503,8 @@
     <string name="slide_to_purchase">Dra för att köpa. </string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Ditt kort kommer att debiteras %1$s</string>
+    <!-- Amount to be paid now -->
+    <string name="Amount_to_be_paid_now_TEMPLATE">Belopp att betala nu %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">Hotellet tar betalt %1$s</string>
     <!-- Checkout menu item -->
@@ -631,7 +653,7 @@
     <!-- Redress number hint -->
     <string name="only_if_applicable">Referensnummer (om du har ett)</string>
     <!-- Saving traveler info spinner dialog -->
-    <string name="saving_traveler">Spara resenärsuppgifter på ditt konto…</string>
+    <string name="saving_traveler">Sparar resenärsuppgifter på ditt konto…</string>
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
@@ -653,7 +675,7 @@
     <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;Föredrar &lt;/font&gt;%1$s</string>
     <!-- loading traveler info -->
-    <string name="loading_traveler_info">Hämtar reseinformation…</string>
+    <string name="loading_traveler_info">Hämtar resenärs uppgifter…</string>
     <!-- Traveler Information -->
     <string name="traveler_information">Resenärens uppgifter</string>
     <!-- Passport -->
@@ -1009,6 +1031,8 @@
     <string name="progress_finding_location">Söker nuvarande plats…</string>
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels">Söker hotell…</string>
+    <!-- Message displayed when app is searching for a particular hotel -->
+    <string name="progress_searching_selected_hotel">Söker efter hotellet…</string>
     <!-- Message displayed when search comes up with zero results -->
     <string name="progress_search_failed">Inga hotell hittades</string>
     <!-- Message displayed when search comes up with zero results -->
@@ -1539,10 +1563,10 @@
     <string name="stack_blur_credit">Appen använder Stack Blur-algoritmen av Mario Klingemann. </string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="view_open_source_software_licenses">Se softwarelicenser för öppna källor</string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="open_source_software_licenses">Softwarelicenser för öppna källor</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">Appen använder följande öppna källbibliotek: </string>
-    <!-- Header text for open source section -->
-    <string name="open_source">Öppna källor</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

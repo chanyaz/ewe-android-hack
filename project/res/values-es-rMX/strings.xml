@@ -9,9 +9,9 @@
     <!-- connect with facebook (button text) -->
     <string name="connect_with_facebook">Conéctate con Facebook </string>
     <!-- fetching information from Facebook -->
-    <string name="fetching_facebook_info">Extrayendo información de Facebook…</string>
+    <string name="fetching_facebook_info">Estamos extrayendo información de Facebook…</string>
     <!-- Attempting to log you in with facebook credentials -->
-    <string name="attempting_to_log_in_with_facebook">Tratando de iniciar tu sesión con tu información de Facebook…</string>
+    <string name="attempting_to_log_in_with_facebook">Estamos tratando de iniciar tu sesión con tu información de Facebook…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Encontramos un error no especificado. Favor de intentarlo más tarde.</string>
     <!-- Unable to sign in to Facebook -->
@@ -25,7 +25,7 @@
     <!-- Failure to update the user -->
     <string name="failure_to_update_user">No se pudo extraer la información actualizada del usuario.</string>
     <!-- Linking your accounts -->
-    <string name="linking_your_accounts">Vinculando tus cuentas…</string>
+    <string name="linking_your_accounts">Estamos vinculando tus cuentas…</string>
     <!-- Sign in -->
     <string name="sign_in">Inicia sesión</string>
     <!-- Sign in with Expedia -->
@@ -76,6 +76,18 @@
     <string name="itinerary_fetch_error">Error al intentar obtener el itinerario</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;Inicia sesión&lt;/b&gt; para tus viajes</string>
+    <!-- Template for card header text (will be filled in with "Title - Date")-->
+    <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
+    <!-- Default (fallback) itin card title for FLIGHT -->
+    <string name="Flight">Vuelo</string>
+    <!-- Default (fallback) itin card title for HOTEL -->
+    <string name="Hotel">de hoteles</string>
+    <!-- Default (fallback) itin card title for CAR -->
+    <string name="Car">Auto</string>
+    <!-- Default (fallback) itin card title for CRUISE -->
+    <string name="Cruise">Crucero</string>
+    <!-- Default (fallback) itin card title for ACTIVITY -->
+    <string name="Activity">Actividad</string>
     <!-- Depart (TZ) template -->
     <string name="depart_tz_TEMPLATE">Salida (%1$s)</string>
     <!-- Arrive (TZ) template -->
@@ -94,12 +106,6 @@
     <string name="arrival_terminal_TEMPLATE">Terminal de llegada %1$s, puerta%2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Terminal de salida %1$s, puerta%2$s</string>
-    <!-- Itin flight terminal and gate information not available message -->
-    <string name="no_terminal_gate_information">Terminal y puerta no disponibles</string>
-    <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
-    <string name="no_arrival_terminal_gate_information">Terminal de llegada y puerta no disponibles</string>
-    <!-- Itin flight layover departure terminal and gate information not avaialble message -->
-    <string name="no_departure_terminal_gate_information">Terminal de salida y puerta no disponibles</string>
     <!-- To be determined abbrev.-->
     <string name="to_be_determined_abbrev">A definir</string>
     <!-- Itin flight gate only template -->
@@ -109,33 +115,43 @@
     <!-- Itin flight depart gate only template -->
     <string name="depart_gate_number_only_TEMPLATE">Puerta de salida%1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s, puerta no disponible</string>
+    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">Terminal de llegada %1$s, puerta no disponible</string>
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Llega a la terminal %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">Terminal de salida %1$s, puerta no disponible</string>
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Sale de la terminal %1$s</string>
+    <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
+    <string name="at_airport_TEMPLATE">&lt;b&gt; en %1$s&lt;/b&gt;</string>
+    <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
+    <string name="from_airport_TEMPLATE">&lt;b&gt;de %1$s&lt;/b&gt;</string>
+    <!-- Itin flight summary second line for departure waypoint that also includes time of departure; first parameter is the airport code, second parameter is the localized time (e.g. 13:45) -->
+    <string name="from_airport_time_TEMPLATE">&lt;b&gt;De %1$s&lt;/b&gt; en %2$s</string>
     <!-- Itin flight summary second line for arrival waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight arrives/d -->
-    <string name="at_airport_TEMPLATE">&lt;b&gt;A %1$s&lt;/b&gt; - %2$s</string>
+    <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;A %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
-    <string name="from_airport_TEMPLATE">&lt;b&gt;Desde %1$s&lt;/b&gt; - %2$s</string>
+    <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;Desde %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Cerrar la sesión en %1$seliminará cualquier elemento del itinerario asociado con esta cuenta. ¿Estás seguro de que deseas cerrar la sesión?</string>
     <!-- Booking code unavailable message -->
     <string name="missing_booking_code">El código de reservación no está disponible.</string>
     <!-- Flight to TEMPLATE -->
     <string name="flight_to_TEMPLATE">Vuelo a %1$s</string>
+    <!-- Flight Calendar event TEMPLATE -->
+    <string name="flight_calendar_event_title_TEMPLATE">Vuelo: de %1$s a %2$s</string>
     <!-- Add event button text -->
     <string name="add_event">Agregar un acontecimiento</string>
+    <!-- Set Alert button text -->
+    <string name="set_alert">Establecer una alerta</string>
     <!-- Directions -->
     <string name="directions">Indicaciones</string>
     <!-- Terminal Maps -->
     <string name="terminal_maps">Mapas de las terminales</string>
     <!-- Legend -->
     <string name="legend">Leyenda</string>
-    <!-- Flight has been canceled -->
-    <string name="flight_canceled">Vuelo cancelado</string>
-    <!-- Flight has been canceled; parameter is the destination city for the canceled flight -->
-    <string name="flight_to_city_canceled_TEMPLATE">El vuelo a %1$s se canceló</string>
+    <!-- Flight has been cancelled -->
+    <string name="flight_cancelled">Se canceló el vuelo</string>
+    <!-- Flight has been cancelled; parameter is the destination city for the canceled flight -->
+    <string name="flight_to_city_cancelled_TEMPLATE">Se canceló el vuelo a %1$s</string>
     <!-- Flight has been redirected (location unknown) -->
     <string name="flight_redirected">El vuelo fue redireccionado</string>
     <!-- Flight has been diverted (location unknown) -->
@@ -187,9 +203,9 @@
     <!-- Try Again -->
     <string name="try_again">Inténtalo de nuevo </string>
     <!-- Car types -->
-    <string name="car_type_two_door">Dos puertas Auto</string>
-    <string name="car_type_three_door">Tres puertas Auto</string>
-    <string name="car_type_four_door">Cuatro puertas Auto</string>
+    <string name="car_type_two_door">Dos puertas  Auto</string>
+    <string name="car_type_three_door">Tres puertas  Auto</string>
+    <string name="car_type_four_door">Cuatro puertas  Auto</string>
     <string name="car_type_van">Van</string>
     <string name="car_type_wagon">Wagon familiar</string>
     <string name="car_type_limousine">Limusina</string>
@@ -229,12 +245,16 @@
     <string name="itin_card_details_phone">Teléfono</string>
     <string name="itin_card_details_room_type">Tipo de habitación</string>
     <string name="toast_copied_to_clipboard">Se copió al portapapeles</string>
+    <string name="itin_card_details_reload">Cargar la información de nuevo</string>
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">Indicaciones</string>
     <string name="itin_action_call_hotel">Llamar al hotel</string>
     <string name="itin_action_redeem">Canjear</string>
     <string name="itin_action_support">Ayuda</string>
+
+    <!-- Itin webview titles -->
+    <string name="webview_title_print_vouchers">Imprimir los cupones</string>
 
     <!-- Itin Share templates -->
     <!-- 1: hotel name 2: check in date 3: check out date -->
@@ -246,9 +266,9 @@
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Mi vuelo a %1$s el %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">Estoy en un vuelo de %1$s a %2$s el %3$s.\nSale de %4$s a las %5$s\nLlega a %6$sa las %7$s, %8$s</string>
+    <string name="share_template_short_flight_sameday">Estoy en el vuelo %1$s a %2$s en %3$s.\nSale de %4$s a las %5$s\nLlega a %6$sa las %7$s, %8$s</string>
      <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">Estoy en un vuelo de %1$s a %2$s.\nSale de %3$s a las %4$s\nLlega a %5$s a las %6$s, %7$s</string>
+    <string name="share_template_short_flight_multiday">Estoy en el vuelo %1$s a %2$s.\nSale de %3$s a las %4$s\nLlega a %5$s a las %6$s, %7$s</string>
     <!-- 1: Origin city 2: Destination city 3: Flight Carrier and number 4: Departure date 5: Departure airport code 6: Departure Time 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival terminal gate 11: Traveler list -->
     <string name="share_template_long_flight_sameday">Hola:\n\naquí están los detalles de mi vuelo de %1$s a %2$s.\n\n%3$s - %4$s\n\nSale de %5$s a las %6$s de %7$s.\nLlega de %8$s a %9$s a las %10$s.\n\nPasajeros\n%11$s</string>
     <!-- 1: Origin city 2: Desitination city 3: Flight carrier and number 4: Departure airport code 5: Departure time 6: Departure date 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival date 11: Arrival terminal gate 12: Traveler list -->
@@ -268,7 +288,7 @@
     <string name="share_template_subject_cruise"></string>
     <string name="share_template_short_cruise"></string>
     <string name="share_template_long_cruise"></string>
-    
+
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
     <string name="Choose_message_style">Elige el estilo del mensaje</string>
@@ -483,6 +503,8 @@
     <string name="slide_to_purchase">Desliza para hacer la compra.</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Se cobrarán %1$s a tu tarjeta de crédito</string>
+    <!-- Amount to be paid now -->
+    <string name="Amount_to_be_paid_now_TEMPLATE">El importe a pagar ahora es %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">El hotel te cobrará %1$s</string>
     <!-- Checkout menu item -->
@@ -858,9 +880,9 @@
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
-    <string name="enter_search_location">Ingresa un sitio para realizar la búsqueda</string>
+    <string name="enter_search_location">Ingresa una ubicación para realizar una búsqueda…</string>
     <!-- Hint for "search location" field -->
-    <string name="hint_search_location">Buscar un sitio</string>
+    <string name="hint_search_location">Buscar una ubicación</string>
     <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
     <string name="loading_suggestions">Cargando las sugerencias…</string>
     <string name="app_name">Expedia</string>
@@ -1006,9 +1028,11 @@
 
     <!-- Progress messages -->
     <!-- Message displayed when app is trying to find where it is (via network/GPS) -->
-    <string name="progress_finding_location">Buscando ubicación actual…</string>
+    <string name="progress_finding_location">Se está buscando la ubicación actual…</string>
     <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels">Buscando hoteles…</string>
+    <string name="progress_searching_hotels">Se están buscando hoteles…</string>
+    <!-- Message displayed when app is searching for a particular hotel -->
+    <string name="progress_searching_selected_hotel">Se está buscando el hotel…</string>
     <!-- Message displayed when search comes up with zero results -->
     <string name="progress_search_failed">No se encontraron hoteles</string>
     <!-- Message displayed when search comes up with zero results -->
@@ -1539,10 +1563,10 @@
     <string name="stack_blur_credit">Esta aplicación utiliza el algoritmo Stack Blur de Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="view_open_source_software_licenses">Ver las licencias de software de fuentes abiertas</string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="open_source_software_licenses">Licencias de software de fuentes abiertas</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">Esta aplicación utiliza las siguientes bibliotecas de código abierto:</string>
-    <!-- Header text for open source section -->
-    <string name="open_source">Código abierto</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

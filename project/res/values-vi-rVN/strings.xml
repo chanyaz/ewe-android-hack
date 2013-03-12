@@ -11,7 +11,7 @@
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">Đang tải thông tin từ Facebook…</string>
     <!-- Attempting to log you in with facebook credentials -->
-    <string name="attempting_to_log_in_with_facebook">Đang đăng nhập với thông tin Facebook của quý vị…</string>
+    <string name="attempting_to_log_in_with_facebook">Đang đăng nhập với thông tin Facebook quý vị cung cấp…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Chúng tôi đã gặp lỗi không xác định. Vui lòng thử lại sau.</string>
     <!-- Unable to sign in to Facebook -->
@@ -25,7 +25,7 @@
     <!-- Failure to update the user -->
     <string name="failure_to_update_user">Không truy xuất được thông tin người dùng đã cập nhật.</string>
     <!-- Linking your accounts -->
-    <string name="linking_your_accounts">Đang kết nối các tài khoản của quý vị…</string>
+    <string name="linking_your_accounts">Đang kết nối tài khoản của quý vị…</string>
     <!-- Sign in -->
     <string name="sign_in">Đăng nhập</string>
     <!-- Sign in with Expedia -->
@@ -71,11 +71,23 @@
     <!-- Or enter an itinerary number -->
     <string name="or_enter_an_itinerary_number">Hoặc nhập số hành trình</string>
     <!-- Fetching your itinerary -->
-    <string name="fetching_your_itinerary">Đang truy xuất lịch trình…</string>
+    <string name="fetching_your_itinerary">Đang tải lịch trình của quý vị…</string>
     <!-- Error fetching itinerary -->
     <string name="itinerary_fetch_error">Lỗi khi tải lịch trình</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;Đăng nhập&lt;/b&gt; để xem thông tin chuyến đi</string>
+    <!-- Template for card header text (will be filled in with "Title - Date")-->
+    <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
+    <!-- Default (fallback) itin card title for FLIGHT -->
+    <string name="Flight">Chuyến bay</string>
+    <!-- Default (fallback) itin card title for HOTEL -->
+    <string name="Hotel">Khách sạn</string>
+    <!-- Default (fallback) itin card title for CAR -->
+    <string name="Car">Xe hơi</string>
+    <!-- Default (fallback) itin card title for CRUISE -->
+    <string name="Cruise">Du thuyền</string>
+    <!-- Default (fallback) itin card title for ACTIVITY -->
+    <string name="Activity">Hoạt động</string>
     <!-- Depart (TZ) template -->
     <string name="depart_tz_TEMPLATE">Khởi hành (%1$s)</string>
     <!-- Arrive (TZ) template -->
@@ -94,12 +106,6 @@
     <string name="arrival_terminal_TEMPLATE">Ga đến %1$s, Cổng %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Ga khởi hành %1$s, Cổng %2$s</string>
-    <!-- Itin flight terminal and gate information not available message -->
-    <string name="no_terminal_gate_information">Không có thông tin Ga &amp; Cổng</string>
-    <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
-    <string name="no_arrival_terminal_gate_information">Không có thông tin Ga &amp; Cổng đến</string>
-    <!-- Itin flight layover departure terminal and gate information not avaialble message -->
-    <string name="no_departure_terminal_gate_information">Không có thông tin Ga &amp; Cổng khởi hành</string>
     <!-- To be determined abbrev.-->
     <string name="to_be_determined_abbrev">Chờ xác định</string>
     <!-- Itin flight gate only template -->
@@ -109,33 +115,43 @@
     <!-- Itin flight depart gate only template -->
     <string name="depart_gate_number_only_TEMPLATE">Cổng khởi hành %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="terminal_but_no_gate_TEMPLATE">Ga %1$s, Không có thông tin Cổng</string>
+    <string name="terminal_but_no_gate_TEMPLATE">Nhà ga %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">Ga đến %1$s, Không có thông tin Cổng</string>
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Ga đến %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">Ga khởi hành %1$s, Không có thông tin Cổng</string>
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Ga khởi hành %1$s</string>
+    <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
+    <string name="at_airport_TEMPLATE">&lt;b&gt;Tại %1$s&lt;/b&gt;</string>
+    <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
+    <string name="from_airport_TEMPLATE">&lt;b&gt;Từ %1$s&lt;/b&gt;</string>
+    <!-- Itin flight summary second line for departure waypoint that also includes time of departure; first parameter is the airport code, second parameter is the localized time (e.g. 13:45) -->
+    <string name="from_airport_time_TEMPLATE">&lt;b&gt;Từ %1$s&lt;/b&gt;%2$s</string>
     <!-- Itin flight summary second line for arrival waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight arrives/d -->
-    <string name="at_airport_TEMPLATE">&lt;b&gt;Tại %1$s&lt;/b&gt; - %2$s</string>
+    <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;Tại %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
-    <string name="from_airport_TEMPLATE">&lt;b&gt;Từ %1$s&lt;/b&gt; - %2$s</string>
+    <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;Từ %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Thoát %1$s sẽ đồng thời gỡ mọi lịch trình liên kết với tài khoản này. Quý vị có chắc chắn muốn thoát không?</string>
     <!-- Booking code unavailable message -->
     <string name="missing_booking_code">Không có mã đặt chỗ.</string>
     <!-- Flight to TEMPLATE -->
     <string name="flight_to_TEMPLATE">Bay đến %1$s</string>
+    <!-- Flight Calendar event TEMPLATE -->
+    <string name="flight_calendar_event_title_TEMPLATE">Chuyến bay: %1$s đến %2$s</string>
     <!-- Add event button text -->
     <string name="add_event">Thêm sự kiện</string>
+    <!-- Set Alert button text -->
+    <string name="set_alert">Cài đặt báo hiệu</string>
     <!-- Directions -->
     <string name="directions">Hướng dẫn đường đi</string>
     <!-- Terminal Maps -->
     <string name="terminal_maps">Bản đồ ga</string>
     <!-- Legend -->
     <string name="legend">Chú thích</string>
-    <!-- Flight has been canceled -->
-    <string name="flight_canceled">Chuyến bay đã bị hủy</string>
-    <!-- Flight has been canceled; parameter is the destination city for the canceled flight -->
-    <string name="flight_to_city_canceled_TEMPLATE">Chuyến bay đến %1$s đã bị hủy</string>
+    <!-- Flight has been cancelled -->
+    <string name="flight_cancelled">Chuyến bay đã bị hủy</string>
+    <!-- Flight has been cancelled; parameter is the destination city for the canceled flight -->
+    <string name="flight_to_city_cancelled_TEMPLATE">Chuyến bay đến %1$s đã bị hủy</string>
     <!-- Flight has been redirected (location unknown) -->
     <string name="flight_redirected">Chuyến bay đã chuyển hướng</string>
     <!-- Flight has been diverted (location unknown) -->
@@ -187,9 +203,9 @@
     <!-- Try Again -->
     <string name="try_again">Hãy thử lại</string>
     <!-- Car types -->
-    <string name="car_type_two_door">2 cửa  Xe hơi</string>
-    <string name="car_type_three_door">3 cửa  Xe hơi</string>
-    <string name="car_type_four_door">4 cửa  Xe hơi</string>
+    <string name="car_type_two_door">2 cửa Xe hơi</string>
+    <string name="car_type_three_door">3 cửa Xe hơi</string>
+    <string name="car_type_four_door">4 cửa Xe hơi</string>
     <string name="car_type_van">Tải</string>
     <string name="car_type_wagon">Wagon</string>
     <string name="car_type_limousine">Limousine</string>
@@ -229,12 +245,16 @@
     <string name="itin_card_details_phone">Điện thoại</string>
     <string name="itin_card_details_room_type">Loại phòng</string>
     <string name="toast_copied_to_clipboard">Chép vào clipboard.</string>
+    <string name="itin_card_details_reload">Đang tải lại thông tin</string>
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">Hướng dẫn đường đi</string>
     <string name="itin_action_call_hotel">Gọi khách sạn</string>
     <string name="itin_action_redeem">Đổi thưởng</string>
     <string name="itin_action_support">Hỗ trợ</string>
+
+    <!-- Itin webview titles -->
+    <string name="webview_title_print_vouchers">In voucher</string>
 
     <!-- Itin Share templates -->
     <!-- 1: hotel name 2: check in date 3: check out date -->
@@ -268,7 +288,7 @@
     <string name="share_template_subject_cruise"></string>
     <string name="share_template_short_cruise"></string>
     <string name="share_template_long_cruise"></string>
-    
+
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
     <string name="Choose_message_style">Chọn kiểu thông điệp</string>
@@ -285,7 +305,7 @@
     <!-- Hint in edit text that indicates one should enter an arrival airport -->
     <string name="hint_arrival_airport">Sân bay đến</string>
     <!-- Label for when flights are loading -->
-    <string name="loading_flights">Đang tải thông tin các chuyến bay…</string>
+    <string name="loading_flights">Đang tải chuyến bay…</string>
     <!-- Label for screen that is doing searches -->
     <string name="searching">Đang tìm kiếm…</string>
     <!-- Error message when we find no flights -->
@@ -336,7 +356,7 @@
     <!-- Error message template when loading a webpage fails -->
     <string name="web_view_loading_error_TEMPLATE">Lỗi khi tải trang! Thông báo lỗi: %1$s</string>
     <!-- Title for screen when in an invalid POS we can't search for yet -->
-    <string name="taking_off_soon">Chuẩn bị cất cánh…</string>
+    <string name="taking_off_soon">Sắp cất cánh…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">Rất tiếc, tính năng đặt chuyến bay qua di động hiện &lt;b&gt;chưa được áp dụng&lt;/b&gt; tại khu vực của quý vị.</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
@@ -483,6 +503,8 @@
     <string name="slide_to_purchase">Trượt để thanh toán</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Thẻ của quý vị sẽ được tính phí %1$s</string>
+    <!-- Amount to be paid now -->
+    <string name="Amount_to_be_paid_now_TEMPLATE">Số tiền phải thanh toán ngay %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">%1$s Thanh toán tại khách sạn</string>
     <!-- Checkout menu item -->
@@ -631,7 +653,7 @@
     <!-- Redress number hint -->
     <string name="only_if_applicable">Số redress (nếu có)</string>
     <!-- Saving traveler info spinner dialog -->
-    <string name="saving_traveler">Đang lưu thông tin khách vào tài khoản của quý vị…</string>
+    <string name="saving_traveler">Đang lưu thông tin khách vào tài khoản quý vị…</string>
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
@@ -1009,6 +1031,8 @@
     <string name="progress_finding_location">Đang tìm địa điểm hiện tại…</string>
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels">Đang tìm kiếm khách sạn…</string>
+    <!-- Message displayed when app is searching for a particular hotel -->
+    <string name="progress_searching_selected_hotel">Đang tìm khách sạn…</string>
     <!-- Message displayed when search comes up with zero results -->
     <string name="progress_search_failed">Không tìm thấy khách sạn nào</string>
     <!-- Message displayed when search comes up with zero results -->
@@ -1539,10 +1563,10 @@
     <string name="stack_blur_credit">Ứng dụng này sử dụng thuật toán Stack Blur của Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="view_open_source_software_licenses">Xem bản quyền phần mềm mã nguồn mở</string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="open_source_software_licenses">Bản quyền các phần mềm mã nguồn mở</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">Ứng dụng này sử dụng các thư viện nguồn mở sau:</string>
-    <!-- Header text for open source section -->
-    <string name="open_source">Thư viện nguồn mở</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

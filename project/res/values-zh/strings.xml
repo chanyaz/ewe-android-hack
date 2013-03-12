@@ -76,6 +76,18 @@
     <string name="itinerary_fetch_error">获取行程单时出错</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;登录&lt;/b&gt;查看您的旅行</string>
+    <!-- Template for card header text (will be filled in with "Title - Date")-->
+    <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
+    <!-- Default (fallback) itin card title for FLIGHT -->
+    <string name="Flight">航班</string>
+    <!-- Default (fallback) itin card title for HOTEL -->
+    <string name="Hotel">酒店</string>
+    <!-- Default (fallback) itin card title for CAR -->
+    <string name="Car">轿车</string>
+    <!-- Default (fallback) itin card title for CRUISE -->
+    <string name="Cruise">游轮</string>
+    <!-- Default (fallback) itin card title for ACTIVITY -->
+    <string name="Activity">活动</string>
     <!-- Depart (TZ) template -->
     <string name="depart_tz_TEMPLATE">出发 (%1$s)</string>
     <!-- Arrive (TZ) template -->
@@ -94,12 +106,6 @@
     <string name="arrival_terminal_TEMPLATE">到达航站楼 %1$s，登机口 %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">出港航站楼 %1$s，登机口 %2$s</string>
-    <!-- Itin flight terminal and gate information not available message -->
-    <string name="no_terminal_gate_information">没有航站楼及登机口信息</string>
-    <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
-    <string name="no_arrival_terminal_gate_information">没有到达航站楼及登机口信息</string>
-    <!-- Itin flight layover departure terminal and gate information not avaialble message -->
-    <string name="no_departure_terminal_gate_information">没有出发航站楼及登机口信息</string>
     <!-- To be determined abbrev.-->
     <string name="to_be_determined_abbrev">待定</string>
     <!-- Itin flight gate only template -->
@@ -109,33 +115,43 @@
     <!-- Itin flight depart gate only template -->
     <string name="depart_gate_number_only_TEMPLATE">出发登机口 %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="terminal_but_no_gate_TEMPLATE">航站楼 %1$s，没有登机口信息</string>
+    <string name="terminal_but_no_gate_TEMPLATE">航站楼%1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">到达航站楼 %1$s，没有登机口信息</string>
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">到达航站楼 %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">出发航站楼 %1$s，没有登机口信息</string>
+    <string name="depart_terminal_but_no_gate_TEMPLATE">出港航站楼 %1$s</string>
+    <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
+    <string name="at_airport_TEMPLATE">&lt;b&gt;抵达 %1$s&lt;/b&gt;</string>
+    <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
+    <string name="from_airport_TEMPLATE">&lt;b&gt;飞离 %1$s&lt;/b&gt;</string>
+    <!-- Itin flight summary second line for departure waypoint that also includes time of departure; first parameter is the airport code, second parameter is the localized time (e.g. 13:45) -->
+    <string name="from_airport_time_TEMPLATE">&lt;b&gt;飞离 %1$s&lt;/b&gt;，起飞时间 %2$s</string>
     <!-- Itin flight summary second line for arrival waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight arrives/d -->
-    <string name="at_airport_TEMPLATE">&lt;b&gt;抵达 %1$s&lt;/b&gt; - %2$s</string>
+    <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;抵达 %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
-    <string name="from_airport_TEMPLATE">&lt;b&gt;飞离 %1$s&lt;/b&gt; - %2$s</string>
+    <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;飞离 %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">退出 %1$s 将删除与该帐户关联的所有行程项目。是否确定要退出？</string>
     <!-- Booking code unavailable message -->
     <string name="missing_booking_code">无预订编号信息。</string>
     <!-- Flight to TEMPLATE -->
     <string name="flight_to_TEMPLATE">飞往 %1$s 的航班</string>
+    <!-- Flight Calendar event TEMPLATE -->
+    <string name="flight_calendar_event_title_TEMPLATE">航班：%1$s 至 %2$s</string>
     <!-- Add event button text -->
     <string name="add_event">添加记事</string>
+    <!-- Set Alert button text -->
+    <string name="set_alert">设置提醒</string>
     <!-- Directions -->
     <string name="directions">路线</string>
     <!-- Terminal Maps -->
     <string name="terminal_maps">航站楼示意图</string>
     <!-- Legend -->
     <string name="legend">图例</string>
-    <!-- Flight has been canceled -->
-    <string name="flight_canceled">航班已取消</string>
-    <!-- Flight has been canceled; parameter is the destination city for the canceled flight -->
-    <string name="flight_to_city_canceled_TEMPLATE">飞往 %1$s 的航班已取消</string>
+    <!-- Flight has been cancelled -->
+    <string name="flight_cancelled">航班已取消</string>
+    <!-- Flight has been cancelled; parameter is the destination city for the canceled flight -->
+    <string name="flight_to_city_cancelled_TEMPLATE">飞往 %1$s 的航班已取消</string>
     <!-- Flight has been redirected (location unknown) -->
     <string name="flight_redirected">航班已改变航向</string>
     <!-- Flight has been diverted (location unknown) -->
@@ -187,9 +203,9 @@
     <!-- Try Again -->
     <string name="try_again">再试一次</string>
     <!-- Car types -->
-    <string name="car_type_two_door">两个门轿车</string>
-    <string name="car_type_three_door">三个门轿车</string>
-    <string name="car_type_four_door">四个门轿车</string>
+    <string name="car_type_two_door">两个门 轿车</string>
+    <string name="car_type_three_door">三个门 轿车</string>
+    <string name="car_type_four_door">四个门 轿车</string>
     <string name="car_type_van">箱型车</string>
     <string name="car_type_wagon">旅行车</string>
     <string name="car_type_limousine">豪华轿车</string>
@@ -229,6 +245,7 @@
     <string name="itin_card_details_phone">电话</string>
     <string name="itin_card_details_room_type">客房类型</string>
     <string name="toast_copied_to_clipboard">已复制到剪切板。</string>
+    <string name="itin_card_details_reload">重新加载信息</string>
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">路线</string>
@@ -236,19 +253,22 @@
     <string name="itin_action_redeem">兑换</string>
     <string name="itin_action_support">客户支持服务</string>
 
+    <!-- Itin webview titles -->
+    <string name="webview_title_print_vouchers">打印代金券</string>
+
     <!-- Itin Share templates -->
     <!-- 1: hotel name 2: check in date 3: check out date -->
     <string name="share_template_subject_hotel">入住 %1$s (%2$s – %3$s)</string>
     <!-- 1: hotel name 2: check in date 3: check out date 4: hotel web url -->
     <string name="share_template_short_hotel">我住在 %1$s\n%2$s – %3$s\n\n%4$s</string>
     <!-- 1: hotel Name 2: formatted length of stay 4: check in date 5: check out date 6: street address 7: city 8: state 9: postal code 10: phone 11: hotel web url 12: app download link -->
-    <string name="share_template_long_hotel">嗨，\n\n我在%1$s住 %2$s。\n\n<b>入住</b> %3$s\n<b>退房</b> %4$s\n\n%1$s\n%5$s\n%6$s，%7$s %8$s\n\n<b>电话</b>\n%9$s\n\n<b>详细信息</b>\n%10$s\n\n想要预订酒店、航班，或者查看、分享你的行程？马上<a href="%11$s">下载</a>免费的 Expedia 移动应用。</string>
+    <string name="share_template_long_hotel">嗨，\n\n我会在 %1$s 住 %2$s。\n\n<b>入住</b> %3$s\n<b>退房</b> %4$s\n\n%1$s\n%5$s\n%6$s，%7$s %8$s\n\n<b>电话</b>\n%9$s\n\n<b>详细信息</b>\n%10$s\n\n想要预订酒店、航班，或者查看、分享你的行程？马上<a href="%11$s">下载</a>免费的 Expedia 移动应用。</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">%2$s飞往%1$s的航班</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">我正在 %3$s飞往%2$s的 %1$s 号航班上。\n%5$s\n飞离 %4$s；%7$s, %8$s 到达 %6$s</string>
+    <string name="share_template_short_flight_sameday">我正在 %3$s 飞往 %2$s 的 %1$s 次航班上。\n%5$s\n飞离 %4$s；%7$s, %8$s 到达 %6$s</string>
      <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">我正在 %2$s飞往的 %1$s 号航班上。\n%4$s\n飞离 %3$s；%6$s, %7$s 到达 %5$s</string>
+    <string name="share_template_short_flight_multiday">我正在飞往 %2$s 的 %1$s 次航班上。\n%4$s\n飞离 %3$s；%6$s, %7$s 到达 %5$s</string>
     <!-- 1: Origin city 2: Destination city 3: Flight Carrier and number 4: Departure date 5: Departure airport code 6: Departure Time 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival terminal gate 11: Traveler list -->
     <string name="share_template_long_flight_sameday">嗨，\n\n这是我%1$s至%2$s的航班的详细信息。\n\n%3$s - %4$s\n\n %6$s飞离 %5$s（%7$s）\n%10$s到达%8$s（%9$s）\n\n旅客名单\n%11$s</string>
     <!-- 1: Origin city 2: Desitination city 3: Flight carrier and number 4: Departure airport code 5: Departure time 6: Departure date 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival date 11: Arrival terminal gate 12: Traveler list -->
@@ -268,7 +288,7 @@
     <string name="share_template_subject_cruise"></string>
     <string name="share_template_short_cruise"></string>
     <string name="share_template_long_cruise"></string>
-    
+
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
     <string name="Choose_message_style">选择信息类型</string>
@@ -483,6 +503,8 @@
     <string name="slide_to_purchase">滑动屏幕即可购买。</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">您的卡将被收取 %1$s</string>
+    <!-- Amount to be paid now -->
+    <string name="Amount_to_be_paid_now_TEMPLATE">现在要支付的金额 %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">酒店收取 %1$s</string>
     <!-- Checkout menu item -->
@@ -1009,6 +1031,8 @@
     <string name="progress_finding_location">正在查找当前位置…</string>
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels">正在搜索酒店…</string>
+    <!-- Message displayed when app is searching for a particular hotel -->
+    <string name="progress_searching_selected_hotel">正在搜索指定的酒店…</string>
     <!-- Message displayed when search comes up with zero results -->
     <string name="progress_search_failed">找不到任何酒店</string>
     <!-- Message displayed when search comes up with zero results -->
@@ -1539,10 +1563,10 @@
     <string name="stack_blur_credit">此应用程序使用 Mario Klingemann 开发的 Stack Blur 算法。</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="view_open_source_software_licenses">查看开源软件许可</string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="open_source_software_licenses">开源软件许可</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">此应用程序使用以下开源库：</string>
-    <!-- Header text for open source section -->
-    <string name="open_source">开源</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

@@ -71,11 +71,23 @@
     <!-- Or enter an itinerary number -->
     <string name="or_enter_an_itinerary_number">O introduce el número del itinerario</string>
     <!-- Fetching your itinerary -->
-    <string name="fetching_your_itinerary">Recuperando tu itinerario…</string>
+    <string name="fetching_your_itinerary">Recuperando información de Facebook…</string>
     <!-- Error fetching itinerary -->
     <string name="itinerary_fetch_error">No se ha podido recuperar el itinerario</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;Inicia sesión&lt;/b&gt; para ver tus viajes</string>
+    <!-- Template for card header text (will be filled in with "Title - Date")-->
+    <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
+    <!-- Default (fallback) itin card title for FLIGHT -->
+    <string name="Flight">Vuelo</string>
+    <!-- Default (fallback) itin card title for HOTEL -->
+    <string name="Hotel">Hotel</string>
+    <!-- Default (fallback) itin card title for CAR -->
+    <string name="Car">Coche</string>
+    <!-- Default (fallback) itin card title for CRUISE -->
+    <string name="Cruise">Crucero</string>
+    <!-- Default (fallback) itin card title for ACTIVITY -->
+    <string name="Activity">Actividad</string>
     <!-- Depart (TZ) template -->
     <string name="depart_tz_TEMPLATE">Ida: (%1$s)</string>
     <!-- Arrive (TZ) template -->
@@ -94,12 +106,6 @@
     <string name="arrival_terminal_TEMPLATE">Llega a la terminal %1$s, puerta %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Salida de la terminal %1$s, puerta %2$s</string>
-    <!-- Itin flight terminal and gate information not available message -->
-    <string name="no_terminal_gate_information">Terminal o puerta no disponibles</string>
-    <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
-    <string name="no_arrival_terminal_gate_information">Terminal o puerta de llegada no disponibles</string>
-    <!-- Itin flight layover departure terminal and gate information not avaialble message -->
-    <string name="no_departure_terminal_gate_information">Terminal o puerta de salida no disponibles</string>
     <!-- To be determined abbrev.-->
     <string name="to_be_determined_abbrev">TBD</string>
     <!-- Itin flight gate only template -->
@@ -109,33 +115,43 @@
     <!-- Itin flight depart gate only template -->
     <string name="depart_gate_number_only_TEMPLATE">Puerta de salida %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s, puerta no disponible</string>
+    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">Terminal de llegada %1$s, puerta no disponible</string>
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Terminal de llegada %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">Salida de la terminal %1$s, puerta </string>
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Terminal de salida%1$s</string>
+    <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
+    <string name="at_airport_TEMPLATE">&lt;b&gt;A%1$s&lt;/b&gt;</string>
+    <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
+    <string name="from_airport_TEMPLATE">&lt;b&gt;Desde %1$s&lt;/b&gt;</string>
+    <!-- Itin flight summary second line for departure waypoint that also includes time of departure; first parameter is the airport code, second parameter is the localized time (e.g. 13:45) -->
+    <string name="from_airport_time_TEMPLATE">&lt;b&gt;Desde %1$s&lt;/b&gt; a %2$s</string>
     <!-- Itin flight summary second line for arrival waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight arrives/d -->
-    <string name="at_airport_TEMPLATE">&lt;b&gt; a las %1$s &lt;/b&gt; - %2$s</string>
+    <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt; a las %1$s &lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
-    <string name="from_airport_TEMPLATE">&lt;b&gt;Desde %1$s&lt;/b&gt; - %2$s</string>
+    <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;Desde %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Si cierras tu sesión de %1$s, se borrarán todos los itinerarios asociados a esta cuenta. ¿Seguro que quieres cerrar la sesión?</string>
     <!-- Booking code unavailable message -->
     <string name="missing_booking_code">No es posible acceder al código de reserva.</string>
     <!-- Flight to TEMPLATE -->
     <string name="flight_to_TEMPLATE">Vuelo a %1$s</string>
+    <!-- Flight Calendar event TEMPLATE -->
+    <string name="flight_calendar_event_title_TEMPLATE">Vuelo: %1$s a %2$s</string>
     <!-- Add event button text -->
     <string name="add_event">Añadir evento</string>
+    <!-- Set Alert button text -->
+    <string name="set_alert">Configurar alerta</string>
     <!-- Directions -->
     <string name="directions">Cómo llegar</string>
     <!-- Terminal Maps -->
     <string name="terminal_maps">Mapas de la terminal</string>
     <!-- Legend -->
     <string name="legend">Leyenda</string>
-    <!-- Flight has been canceled -->
-    <string name="flight_canceled">Vuelo cancelado</string>
-    <!-- Flight has been canceled; parameter is the destination city for the canceled flight -->
-    <string name="flight_to_city_canceled_TEMPLATE">Vuelo a %1$s cancelado</string>
+    <!-- Flight has been cancelled -->
+    <string name="flight_cancelled">Vuelo cancelado</string>
+    <!-- Flight has been cancelled; parameter is the destination city for the canceled flight -->
+    <string name="flight_to_city_cancelled_TEMPLATE">Vuelo a %1$s cancelado</string>
     <!-- Flight has been redirected (location unknown) -->
     <string name="flight_redirected">Vuelo desviado</string>
     <!-- Flight has been diverted (location unknown) -->
@@ -229,6 +245,7 @@
     <string name="itin_card_details_phone">Teléfono</string>
     <string name="itin_card_details_room_type">Tipo de habitación</string>
     <string name="toast_copied_to_clipboard">Copiado en el portapapeles</string>
+    <string name="itin_card_details_reload">Recargar información</string>
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">Cómo llegar</string>
@@ -236,13 +253,16 @@
     <string name="itin_action_redeem">Canjear</string>
     <string name="itin_action_support">Ayuda</string>
 
+    <!-- Itin webview titles -->
+    <string name="webview_title_print_vouchers">Imprimir cupones</string>
+
     <!-- Itin Share templates -->
     <!-- 1: hotel name 2: check in date 3: check out date -->
     <string name="share_template_subject_hotel">Mi reserva de hotel en %1$s (%2$s – %3$s)</string>
     <!-- 1: hotel name 2: check in date 3: check out date 4: hotel web url -->
     <string name="share_template_short_hotel">Me alojo en %1$s\n%2$s – %3$s\n\n%4$s</string>
     <!-- 1: hotel Name 2: formatted length of stay 4: check in date 5: check out date 6: street address 7: city 8: state 9: postal code 10: phone 11: hotel web url 12: app download link -->
-    <string name="share_template_long_hotel">¡Hola! \n\nMe alojo en %1$s durante %2$s.\n\n<b>Entrada</b> %3$s\n<b>Salida</b> %4$s\n\n%1$s\n%5$s\n%6$s, %7$s %8$s\n\n<b>Teléfono</b>\n%9$s\n\n<b>Más información</b>\n%10$s\n\n¿Quieres reservar hoteles y vuelos, así como ver y compartir tus itinerarios? <a href="%11$s">Descarga</a> la aplicación gratuita de Expedia hoy.</string>
+    <string name="share_template_long_hotel">Hola:\n\nMe alojo en %1$s durante %2$s\n\n<b>Entrada</b> %3$s\n<b>Salida</b> %4$s\n\n%1$s\n%5$s\n%6$s, %7$s %8$s\n\n<b>Teléfono</b>\n%9$s\n\n<b>Más información</b>\n%10$s\n\n¿Quieres reservar hoteles y vuelos, así como ver y compartir tus itinerarios? <a href="%11$s">Descarga</a> la aplicación gratuita de Expedia hoy.</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Mi vuelo a %1$s el %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
@@ -268,7 +288,7 @@
     <string name="share_template_subject_cruise"></string>
     <string name="share_template_short_cruise"></string>
     <string name="share_template_long_cruise"></string>
-    
+
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
     <string name="Choose_message_style">Elegir tipo mensaje</string>
@@ -483,6 +503,8 @@
     <string name="slide_to_purchase">Desliza para realizar la compra</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Se cargarán %1$s en tu tarjeta</string>
+    <!-- Amount to be paid now -->
+    <string name="Amount_to_be_paid_now_TEMPLATE">Cantidad que debe pagarse ahora %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">%1$s a pagar en el hotel</string>
     <!-- Checkout menu item -->
@@ -965,7 +987,7 @@
     </plurals>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
-    <string name="EnableLocationSettings">Para poder usar &amp;quot;Mi ubicación&amp;quot; debes introducir al menos una ubicación dentro de la pestaña de Ajustes.\n}¿Quieres ir a Ajustes ahora para activarla?</string>
+    <string name="EnableLocationSettings">Para poder usar ‘Mi ubicación\&apos; debes introducir al menos una ubicación dentro de la pestaña de Ajustes.\n}¿Quieres ir a Ajustes ahora para activarla?</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
     <string name="ProviderDisabled">La recepción de datos de ubicación está desactivada. Vuelve a activarla para realizar una búsqueda por ubicación.</string>
     <!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
@@ -1009,6 +1031,8 @@
     <string name="progress_finding_location">Buscando ubicación actual…</string>
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels">Buscando hoteles…</string>
+    <!-- Message displayed when app is searching for a particular hotel -->
+    <string name="progress_searching_selected_hotel">Buscando el hotel…</string>
     <!-- Message displayed when search comes up with zero results -->
     <string name="progress_search_failed">No se ha encontrado ningún hotel</string>
     <!-- Message displayed when search comes up with zero results -->
@@ -1539,10 +1563,10 @@
     <string name="stack_blur_credit">Esta aplicación utiliza el algoritmo Stack Blur de Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="view_open_source_software_licenses">Ver licencias de software de código abierto</string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="open_source_software_licenses">Licencias de software de código abierto</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">Esta aplicación utiliza las siguientes bibliotecas de código abierto:</string>
-    <!-- Header text for open source section -->
-    <string name="open_source">Código abierto</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

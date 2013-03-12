@@ -76,6 +76,18 @@
     <string name="itinerary_fetch_error">旅程を取得できませんでした</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;ログイン&lt;/b&gt;してご予約を確認してください。</string>
+    <!-- Template for card header text (will be filled in with "Title - Date")-->
+    <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
+    <!-- Default (fallback) itin card title for FLIGHT -->
+    <string name="Flight">フライト</string>
+    <!-- Default (fallback) itin card title for HOTEL -->
+    <string name="Hotel">ホテル</string>
+    <!-- Default (fallback) itin card title for CAR -->
+    <string name="Car">自動車</string>
+    <!-- Default (fallback) itin card title for CRUISE -->
+    <string name="Cruise">クルーズ</string>
+    <!-- Default (fallback) itin card title for ACTIVITY -->
+    <string name="Activity">アクティビティ</string>
     <!-- Depart (TZ) template -->
     <string name="depart_tz_TEMPLATE">出発日 (%1$s)</string>
     <!-- Arrive (TZ) template -->
@@ -94,12 +106,6 @@
     <string name="arrival_terminal_TEMPLATE">ターミナル %1$s、ゲート %2$s に到着</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">ターミナル %1$s、ゲート %2$s から出発</string>
-    <!-- Itin flight terminal and gate information not available message -->
-    <string name="no_terminal_gate_information">ターミナル &amp; ゲート情報がありません</string>
-    <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
-    <string name="no_arrival_terminal_gate_information">到着ターミナル &amp; ゲート情報がありません</string>
-    <!-- Itin flight layover departure terminal and gate information not avaialble message -->
-    <string name="no_departure_terminal_gate_information">出発ターミナル &amp; ゲート情報がありません</string>
     <!-- To be determined abbrev.-->
     <string name="to_be_determined_abbrev">TBD</string>
     <!-- Itin flight gate only template -->
@@ -109,33 +115,43 @@
     <!-- Itin flight depart gate only template -->
     <string name="depart_gate_number_only_TEMPLATE">ゲート %1$s から出発</string>
     <!-- Itin flight terminal only template -->
-    <string name="terminal_but_no_gate_TEMPLATE">ターミナル %1$s、ゲート情報はありません</string>
+    <string name="terminal_but_no_gate_TEMPLATE">ターミナル%1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">ターミナル %1$s に到着、ゲート情報はありません</string>
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">ターミナルに到着%1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">ターミナル %1$s から出発、ゲート情報はありません</string>
+    <string name="depart_terminal_but_no_gate_TEMPLATE">ターミナルから出発%1$s</string>
+    <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
+    <string name="at_airport_TEMPLATE">&lt;b&gt;%1$sに到着&lt;/b&gt;</string>
+    <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
+    <string name="from_airport_TEMPLATE">&lt;b&gt;%1$s ～&lt;/b&gt;</string>
+    <!-- Itin flight summary second line for departure waypoint that also includes time of departure; first parameter is the airport code, second parameter is the localized time (e.g. 13:45) -->
+    <string name="from_airport_time_TEMPLATE">&lt;b&gt;%1$sから&lt;/b&gt;%2$sに到着</string>
     <!-- Itin flight summary second line for arrival waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight arrives/d -->
-    <string name="at_airport_TEMPLATE">&lt;b&gt;%1$s に到着&lt;/b&gt; - %2$s</string>
+    <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;%1$s に到着&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
-    <string name="from_airport_TEMPLATE">&lt;b&gt;%1$s から出発&lt;/b&gt; - %2$s</string>
+    <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;%1$s から出発&lt;/b&gt; - %2$s</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">%1$s からログアウトすると、このアカウントに関連付けられている旅程項目が全て削除されます。ログアウトしてもよろしいですか ?</string>
     <!-- Booking code unavailable message -->
     <string name="missing_booking_code">予約コードがありません。</string>
     <!-- Flight to TEMPLATE -->
     <string name="flight_to_TEMPLATE">%1$sへのフライト</string>
+    <!-- Flight Calendar event TEMPLATE -->
+    <string name="flight_calendar_event_title_TEMPLATE">フライト : %1$s ～ %2$s</string>
     <!-- Add event button text -->
     <string name="add_event">イベントを追加</string>
+    <!-- Set Alert button text -->
+    <string name="set_alert">アラートの設定</string>
     <!-- Directions -->
     <string name="directions">行き方</string>
     <!-- Terminal Maps -->
     <string name="terminal_maps">ターミナルマップ</string>
     <!-- Legend -->
     <string name="legend">凡例</string>
-    <!-- Flight has been canceled -->
-    <string name="flight_canceled">フライトがキャンセルされました</string>
-    <!-- Flight has been canceled; parameter is the destination city for the canceled flight -->
-    <string name="flight_to_city_canceled_TEMPLATE">%1$sへのフライトがキャンセルされました</string>
+    <!-- Flight has been cancelled -->
+    <string name="flight_cancelled">フライトはキャンセルされました</string>
+    <!-- Flight has been cancelled; parameter is the destination city for the canceled flight -->
+    <string name="flight_to_city_cancelled_TEMPLATE">%1$sへのフライトはキャンセルされました</string>
     <!-- Flight has been redirected (location unknown) -->
     <string name="flight_redirected">飛行経路が変更されました</string>
     <!-- Flight has been diverted (location unknown) -->
@@ -187,9 +203,9 @@
     <!-- Try Again -->
     <string name="try_again">もう一度試す</string>
     <!-- Car types -->
-    <string name="car_type_two_door">2 ドア 自動車</string>
-    <string name="car_type_three_door">3 ドア 自動車</string>
-    <string name="car_type_four_door">4 ドア 自動車</string>
+    <string name="car_type_two_door">2 ドア  自動車</string>
+    <string name="car_type_three_door">3 ドア  自動車</string>
+    <string name="car_type_four_door">4 ドア  自動車</string>
     <string name="car_type_van">バン</string>
     <string name="car_type_wagon">ワゴン</string>
     <string name="car_type_limousine">リムジン</string>
@@ -229,6 +245,7 @@
     <string name="itin_card_details_phone">電話</string>
     <string name="itin_card_details_room_type">部屋タイプ</string>
     <string name="toast_copied_to_clipboard">クリップボードにコピーしました。</string>
+    <string name="itin_card_details_reload">情報をリロード</string>
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">行き方</string>
@@ -236,19 +253,22 @@
     <string name="itin_action_redeem">特典利用</string>
     <string name="itin_action_support">サポート</string>
 
+    <!-- Itin webview titles -->
+    <string name="webview_title_print_vouchers">バウチャーを印刷</string>
+
     <!-- Itin Share templates -->
     <!-- 1: hotel name 2: check in date 3: check out date -->
     <string name="share_template_subject_hotel">%1$s での宿泊 (%2$s – %3$s)</string>
     <!-- 1: hotel name 2: check in date 3: check out date 4: hotel web url -->
     <string name="share_template_short_hotel">%1$s に宿泊中です\n%2$s – %3$s\n\n%4$s</string>
     <!-- 1: hotel Name 2: formatted length of stay 4: check in date 5: check out date 6: street address 7: city 8: state 9: postal code 10: phone 11: hotel web url 12: app download link -->
-    <string name="share_template_long_hotel">こんにちは。\n\n%1$s に %2$s宿泊中です。\n\n<b>チェックイン</b> %3$s\n<b>チェックアウト</b> %4$s\n\n%1$s\n%5$s\n%6$s, %7$s %8$s\n\n<b>電話</b>\n%9$s\n\n<b>詳細</b>\n%10$s\n\nホテルや航空券の予約および旅程を確認するには、無料のエクスペディア モバイル アプリを今すぐ<a href="%11$s">ダウンロード </a> してください。</string>
+    <string name="share_template_long_hotel">こんにちは。\n\n今私は%1$sに%2$s滞在しています。\n\n<b>チェックイン</b> %3$s\n<b>チェックアウト</b> %4$s\n\n%1$s\n%5$s\n%6$s, %7$s %8$s\n\n<b>電話</b>\n%9$s\n\n<b>詳細</b>\n%10$s\n\nホテルや航空券の予約および旅程を確認するには、無料のエクスペディア モバイル アプリを今すぐ<a href="%11$s">ダウンロード </a> してください。</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">%2$sの%1$sへのフライト</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">%3$sに%1$s 便で%2$sに向けて飛行中です。\n%4$sを%5$sに出発\n%6$sに%7$s、%8$sに到着</string>
+    <string name="share_template_short_flight_sameday">私は現在、%1$s便%2$s 行き%3$s 発のフライトに乗っています。\n%4$sを%5$sに出発\n%6$sに%7$s、%8$sに到着</string>
      <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">%1$s 便で%2$sに向けて飛行中です。\n%3$sを%4$sに出発\n%5$sに%6$s、%7$sに到着</string>
+    <string name="share_template_short_flight_multiday">私は現在、%1$s便%2$s行きのフライトに乗っています。\n%3$sを%4$sに出発\n%5$sに%6$s、%7$sに到着</string>
     <!-- 1: Origin city 2: Destination city 3: Flight Carrier and number 4: Departure date 5: Departure airport code 6: Departure Time 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival terminal gate 11: Traveler list -->
     <string name="share_template_long_flight_sameday">こんにちは。\n\n%1$sから%2$sへのフライトの詳細です。\n\n%3$s - %4$s\n\n%5$sを %6$sに%7$sから出発。\n%8$sに%9$sに %10$s に到着。\n\n旅行者\n%11$s</string>
     <!-- 1: Origin city 2: Desitination city 3: Flight carrier and number 4: Departure airport code 5: Departure time 6: Departure date 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival date 11: Arrival terminal gate 12: Traveler list -->
@@ -268,7 +288,7 @@
     <string name="share_template_subject_cruise"></string>
     <string name="share_template_short_cruise"></string>
     <string name="share_template_long_cruise"></string>
-    
+
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
     <string name="Choose_message_style">メッセージ形式を選択する</string>
@@ -336,7 +356,7 @@
     <!-- Error message template when loading a webpage fails -->
     <string name="web_view_loading_error_TEMPLATE">ページをロードできません ! エラー メッセージ : %1$s</string>
     <!-- Title for screen when in an invalid POS we can't search for yet -->
-    <string name="taking_off_soon">近日リリース予定</string>
+    <string name="taking_off_soon">近日リリース予定…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">モバイルフライト予約は、お客様のロケーションでは&lt;b&gt;まだご利用いただけません&lt;/b&gt;。</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
@@ -483,6 +503,8 @@
     <string name="slide_to_purchase">スライドして購入。</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">カードに %1$s が課金されます</string>
+    <!-- Amount to be paid now -->
+    <string name="Amount_to_be_paid_now_TEMPLATE">現在支払う金額%1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">%1$s をホテルにお支払いください</string>
     <!-- Checkout menu item -->
@@ -1009,6 +1031,8 @@
     <string name="progress_finding_location">現在地を検索中…</string>
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels">ホテルを検索中…</string>
+    <!-- Message displayed when app is searching for a particular hotel -->
+    <string name="progress_searching_selected_hotel">ホテルを検索中…</string>
     <!-- Message displayed when search comes up with zero results -->
     <string name="progress_search_failed">ホテルが見つかりませんでした</string>
     <!-- Message displayed when search comes up with zero results -->
@@ -1539,10 +1563,10 @@
     <string name="stack_blur_credit">このアプリは Mario Klingemann 氏の Stack Blur アルゴリズムを使用しています。</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="view_open_source_software_licenses">オープン ソース ソフトウェアのライセンスを表示</string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="open_source_software_licenses">オープン ソース ソフトウェアのライセンス</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">このアプリは、以下のオープンソース ライブラリを使用しています :</string>
-    <!-- Header text for open source section -->
-    <string name="open_source">Open-Source</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
