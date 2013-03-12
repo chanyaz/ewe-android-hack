@@ -266,7 +266,7 @@
     <string name="itin_action_call_hotel">Call Hotel</string>
     <string name="itin_action_redeem">Redeem</string>
     <string name="itin_action_support">Support</string>
-    
+
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">Print Vouchers</string>
 
@@ -312,7 +312,7 @@
     <string name="share_template_subject_cruise"></string>
     <string name="share_template_short_cruise"></string>
     <string name="share_template_long_cruise"></string>
-    
+
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
     <string name="Choose_message_style">Choose message style</string>
@@ -549,15 +549,10 @@
     <string name="the_hotel_raised_the_price_TEMPLATE">The hotel has just raised the price for this room to %1$s per night.</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_lowered_the_price_TEMPLATE">The hotel has just lowered the price for this room to %1$s per night.</string>
-    <!-- Showing total number of guests for a booking -->
-    <plurals name="number_of_guests_TEMPLATE">
-        <item quantity="zero">%1$d guests</item>
-        <item quantity="one">%1$d guest</item>
-        <item quantity="two">%1$d guests</item>
-        <item quantity="few">%1$d guests</item>
-        <item quantity="many">%1$d guests</item>
-        <item quantity="other">%1$d guests</item>
-    </plurals>
+    <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
+    <string name="done">Done</string>
+    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
+    <string name="total_due_today">Total Due Today</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
