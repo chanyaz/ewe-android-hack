@@ -18,6 +18,7 @@ public class TripComponent implements JSONable {
 		CAR,
 		CRUISE,
 		ACTIVITY,
+		PACKAGE,
 		FALLBACK;
 	}
 
@@ -30,9 +31,10 @@ public class TripComponent implements JSONable {
 
 	private BookingStatus mBookingStatus;
 
-	// The parent trip; do NOT serialize this, as it is just a reference
+	// The parent trip/package; do NOT serialize this, as it is just a reference
 	// that should be set by the parent.
 	private Trip mParent;
+	private TripPackage mParentPackage;
 
 	public TripComponent() {
 		// Empty constructor for JSONable
@@ -93,7 +95,23 @@ public class TripComponent implements JSONable {
 	}
 
 	public Trip getParentTrip() {
+		if (mParentPackage != null) {
+			return mParentPackage.getParentTrip();
+		}
+
 		return mParent;
+	}
+
+	public void setParentPackage(TripPackage tripPackage) {
+		mParentPackage = tripPackage;
+	}
+
+	public TripPackage getParentPackage() {
+		return mParentPackage;
+	}
+
+	public boolean isInPackage() {
+		return mParentPackage != null;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

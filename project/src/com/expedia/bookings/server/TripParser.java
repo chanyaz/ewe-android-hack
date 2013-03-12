@@ -38,6 +38,7 @@ import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.data.trips.TripCruise;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.data.trips.TripHotel;
+import com.expedia.bookings.data.trips.TripPackage;
 import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
@@ -134,6 +135,14 @@ public class TripParser {
 		if (cruises != null) {
 			for (int b = 0; b < cruises.length(); b++) {
 				tripComponents.add(parseTripCruise(cruises.optJSONObject(b)));
+			}
+		}
+
+		// Parse packages
+		JSONArray packages = obj.optJSONArray("packages");
+		if (packages != null) {
+			for (int b = 0; b < packages.length(); b++) {
+				tripComponents.add(parseTripPackage(packages.optJSONObject(b)));
 			}
 		}
 
@@ -320,10 +329,12 @@ public class TripParser {
 
 		// Parse fares
 		JSONObject fareTotalJson = obj.optJSONObject("fareTotal");
-		String currency = fareTotalJson.optString("currency");
-		flightTrip.setBaseFare(ParserUtils.createMoney(fareTotalJson.optString("base"), currency));
-		flightTrip.setTaxes(ParserUtils.createMoney(fareTotalJson.optString("taxes"), currency));
-		flightTrip.setTotalFare(ParserUtils.createMoney(fareTotalJson.optString("total"), currency));
+		if (fareTotalJson != null) {
+			String currency = fareTotalJson.optString("currency");
+			flightTrip.setBaseFare(ParserUtils.createMoney(fareTotalJson.optString("base"), currency));
+			flightTrip.setTaxes(ParserUtils.createMoney(fareTotalJson.optString("taxes"), currency));
+			flightTrip.setTotalFare(ParserUtils.createMoney(fareTotalJson.optString("total"), currency));
+		}
 
 		// Parse passengers
 		JSONArray passengersArr = obj.optJSONArray("passengers");
@@ -466,6 +477,22 @@ public class TripParser {
 		}
 
 		return tripActivity;
+	}
+
+	private TripPackage parseTripPackage(JSONObject obj) {
+		TripPackage tripPackage = new TripPackage();
+
+		parseTripCommon(obj, tripPackage);
+
+		JSONObject priceJson = obj.optJSONObject("price");
+		if (priceJson != null) {
+			tripPackage
+					.setTotal(ParserUtils.createMoney(priceJson.optString("total"), priceJson.optString("currency")));
+		}
+
+		tripPackage.addTripComponents(parseTripComponents(obj));
+
+		return tripPackage;
 	}
 
 	private Insurance parseTripInsurance(JSONObject obj) {

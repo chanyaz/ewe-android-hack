@@ -32,6 +32,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
+import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -725,8 +726,8 @@ public class ItineraryManager implements JSONable {
 
 		private void updateTripImages(Trip trip) {
 			// Look for images.  For now, do not update if we already have images (they will remain static)
-			for (TripComponent tripComponent : trip.getTripComponents()) {
-				if (tripComponent.getType().equals(TripComponent.Type.FLIGHT)) {
+			for (TripComponent tripComponent : trip.getTripComponents(true)) {
+				if (tripComponent.getType() == Type.FLIGHT) {
 					TripFlight tripFlight = (TripFlight) tripComponent;
 					FlightTrip flightTrip = tripFlight.getFlightTrip();
 					for (int i = 0; i < flightTrip.getLegCount(); i++) {
@@ -749,7 +750,7 @@ public class ItineraryManager implements JSONable {
 						}
 					}
 				}
-				else if (tripComponent.getType().equals(TripComponent.Type.CAR)) {
+				else if (tripComponent.getType() == Type.CAR) {
 					TripCar tripCar = (TripCar) tripComponent;
 					Car.Category category = tripCar.getCar().getCategory();
 
@@ -774,8 +775,8 @@ public class ItineraryManager implements JSONable {
 		private void updateFlightStatuses(Trip trip) {
 			long now = Calendar.getInstance().getTimeInMillis();
 
-			for (TripComponent tripComponent : trip.getTripComponents()) {
-				if (tripComponent.getType().equals(TripComponent.Type.FLIGHT)) {
+			for (TripComponent tripComponent : trip.getTripComponents(true)) {
+				if (tripComponent.getType() == Type.FLIGHT) {
 					TripFlight tripFlight = (TripFlight) tripComponent;
 					FlightTrip flightTrip = tripFlight.getFlightTrip();
 					for (int i = 0; i < flightTrip.getLegCount(); i++) {

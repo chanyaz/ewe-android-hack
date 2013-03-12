@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.data.trips.TripComponent.Type;
-import com.mobiata.android.Log;
 
 /**
  * Factory for converting TripComponent objects to (Multiple) ItinCardData Objects
@@ -42,6 +41,9 @@ public class ItinCardDataFactory {
 			case ACTIVITY: {
 				return generateActivityCardData((TripActivity) tc);
 			}
+			case PACKAGE: {
+				return generatePackageCardData((TripPackage) tc);
+			}
 			default: {
 				return generateGenericCardData(tc);
 			}
@@ -71,6 +73,20 @@ public class ItinCardDataFactory {
 
 	private static List<ItinCardData> generateCarCardData(TripCar tc) {
 		return Arrays.asList((ItinCardData) new ItinCardDataCar(tc));
+	}
+
+	// Dev note: this code probably isn't called right now because the loop that
+	// calls generateCardData() unrolls the packages ahead of time.  This is kept
+	// just in case we ever do need to unroll packages more manually.
+	private static List<ItinCardData> generatePackageCardData(TripPackage tc) {
+		List<ItinCardData> data = new ArrayList<ItinCardData>();
+		for (TripComponent subComponent : ((TripPackage) tc).getTripComponents()) {
+			List<ItinCardData> subData = generateCardData(subComponent);
+			if (subData != null) {
+				data.addAll(subData);
+			}
+		}
+		return data;
 	}
 
 	private static List<ItinCardData> generateGenericCardData(TripComponent tc) {

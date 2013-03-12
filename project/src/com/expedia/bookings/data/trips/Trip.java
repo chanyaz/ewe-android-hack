@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import android.text.TextUtils;
 
 import com.expedia.bookings.data.DateTime;
+import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -199,6 +200,28 @@ public class Trip implements JSONable, Comparable<Trip> {
 
 	public List<TripComponent> getTripComponents() {
 		return mTripComponents;
+	}
+
+	/**
+	 * Returns all trip components.  If you want sub components, it will automatically
+	 * unroll TripPackages into their constituent parts.
+	 */
+	public List<TripComponent> getTripComponents(boolean includeSubComponents) {
+		if (includeSubComponents) {
+			List<TripComponent> components = new ArrayList<TripComponent>();
+			for (TripComponent component : mTripComponents) {
+				if (component.getType() == Type.PACKAGE) {
+					components.addAll(((TripPackage) component).getTripComponents());
+				}
+				else {
+					components.add(component);
+				}
+			}
+			return components;
+		}
+		else {
+			return mTripComponents;
+		}
 	}
 
 	public List<Insurance> getTripInsurance() {

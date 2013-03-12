@@ -211,7 +211,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 		if (trips != null) {
 			for (Trip trip : trips) {
 				if (trip.getTripComponents() != null) {
-					List<TripComponent> components = trip.getTripComponents();
+					List<TripComponent> components = trip.getTripComponents(true);
 					for (TripComponent comp : components) {
 						List<ItinCardData> items = ItinCardDataFactory.generateCardData(comp);
 						if (items != null) {
