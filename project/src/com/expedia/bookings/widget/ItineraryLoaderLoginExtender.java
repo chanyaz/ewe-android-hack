@@ -77,7 +77,7 @@ public class ItineraryLoaderLoginExtender implements LoginExtender, ItinerarySyn
 		mRetryButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				ItineraryManager.getInstance().startSync();
+				ItineraryManager.getInstance().startSync(true);
 				if (mProgress != null) {
 					mProgress.setVisibility(View.VISIBLE);
 				}
@@ -89,7 +89,7 @@ public class ItineraryLoaderLoginExtender implements LoginExtender, ItinerarySyn
 		});
 
 		ItineraryManager.getInstance().addSyncListener(this);
-		ItineraryManager.getInstance().startSync();
+		ItineraryManager.getInstance().startSync(false);
 
 		extenderContainer.addView(mView);
 	}

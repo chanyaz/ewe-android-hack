@@ -141,7 +141,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		OnClickListener syncManagerClickListener = new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				syncItinManager();
+				syncItinManager(true);
 			}
 		};
 
@@ -162,7 +162,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	public void onResume() {
 		super.onResume();
 		updateLoginState();
-		syncItinManager();
+		syncItinManager(false);
 	}
 
 	@Override
@@ -196,9 +196,9 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		return mItinListView.getSelectedItinCard();
 	}
 
-	public void syncItinManager() {
+	public void syncItinManager(boolean forceRefresh) {
 		if (mAllowLoadItins && mItinListView != null && mItinManager != null) {
-			boolean syncing = mItinManager.startSync();
+			boolean syncing = mItinManager.startSync(forceRefresh);
 			if (syncing) {
 				setIsLoading(true);
 				mItinListView.enableScrollToRevelentWhenDataSetChanged();
@@ -226,7 +226,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 	public void enableLoadItins() {
 		mAllowLoadItins = true;
-		syncItinManager();
+		syncItinManager(false);
 	}
 
 	public synchronized void startAddGuestItinActivity() {
@@ -292,13 +292,13 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 		invalidateOptionsMenu();
 
-		syncItinManager();
+		syncItinManager(true);
 	}
 
 	public void onLoginCompleted() {
 		updateLoginState();
 
-		syncItinManager();
+		syncItinManager(true);
 
 		invalidateOptionsMenu();
 	}

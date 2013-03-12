@@ -196,6 +196,8 @@ public class ItineraryManager implements JSONable {
 	}
 
 	private void save() {
+		Log.i("Saving ItineraryManager data...");
+
 		saveStartAndEndTimes();
 
 		try {
@@ -213,6 +215,7 @@ public class ItineraryManager implements JSONable {
 				try {
 					JSONObject obj = new JSONObject(IoUtils.readStringFromFile(MANAGER_PATH, mContext));
 					fromJson(obj);
+					Log.i("Loaded " + mTrips.size() + " trips from disk.");
 				}
 				catch (Exception e) {
 					Log.w("Could not load ItineraryManager data, starting from scratch again...", e);
@@ -223,6 +226,8 @@ public class ItineraryManager implements JSONable {
 
 		if (mTrips == null) {
 			mTrips = new HashMap<String, Trip>();
+
+			Log.i("Starting a fresh set of itineraries.");
 		}
 	}
 
@@ -238,8 +243,6 @@ public class ItineraryManager implements JSONable {
 	}
 
 	private void saveStartAndEndTimes() {
-		Log.d("Syncing/saving start times...");
-
 		// Sync start times whenever we save to disk
 		mStartTimes.clear();
 		mEndTimes.clear();
@@ -516,14 +519,14 @@ public class ItineraryManager implements JSONable {
 	 * 
 	 * @return true if the sync started or is in progress, false if it never started
 	 */
-	public boolean startSync() {
-		if (Calendar.getInstance().getTimeInMillis() < UPDATE_CUTOFF + mLastUpdateTime) {
+	public boolean startSync(boolean forceRefresh) {
+		if (!forceRefresh && Calendar.getInstance().getTimeInMillis() < UPDATE_CUTOFF + mLastUpdateTime) {
 			Log.d("ItineraryManager sync started too soon since last one; ignoring.");
 			return false;
 		}
 		else if (mTrips != null && mTrips.size() == 0 && !User.isLoggedIn(mContext)) {
 			Log.d("ItineraryManager sync called, but there are no guest trips and the user is not logged in, so" +
-					"we're not starting a formal sync.");
+					" we're not starting a formal sync.");
 			return false;
 		}
 		else if (isSyncing()) {
@@ -531,6 +534,8 @@ public class ItineraryManager implements JSONable {
 			return true;
 		}
 		else {
+			Log.i("Starting an ItineraryManager sync...");
+
 			// Add default sync operations
 			mSyncOpQueue.add(new Task(Operation.LOAD_FROM_DISK));
 			mSyncOpQueue.add(new Task(Operation.REFRESH_USER));
@@ -712,13 +717,13 @@ public class ItineraryManager implements JSONable {
 		}
 
 		private void logStats() {
-			Log.i("Sync Finished; stats below.");
+			Log.d("Sync Finished; stats below.");
 			for (Operation op : Operation.values()) {
-				Log.i(op.name() + ": " + mOpCount.get(op));
+				Log.d(op.name() + ": " + mOpCount.get(op));
 			}
 
-			Log.i("Refreshed trips=" + mRefreshedTrips + " failed trip refreshes=" + mFailedTripRefreshes
-					+ " image urls grabbed=" + mImagesGrabbed + " flightstats updates=" + mFlightsUpdated);
+			Log.i("Total trips=" + mTrips.size() + "; Refreshed trips=" + mRefreshedTrips + "; failed trip refreshes="
+					+ mFailedTripRefreshes + "; image urls grabbed=" + mImagesGrabbed + "; flightstats updates=" + mFlightsUpdated);
 		}
 
 		//////////////////////////////////////////////////////////////////////
@@ -902,7 +907,12 @@ public class ItineraryManager implements JSONable {
 
 		// If the user is logged in, retrieve a listing of current trips for logged in user
 		private void refreshUserList() {
-			if (User.isLoggedIn(mContext)) {
+			if (!User.isLoggedIn(mContext)) {
+				Log.d("User is not logged in, not refreshing user list.");
+			}
+			else {
+				Log.d("User is logged in, refreshing the user list.");
+
 				// First, determine if we've ever loaded trips for this user; if not, then we
 				// should do a cached call for the first 5 detailed trips (for speedz).
 				boolean getCachedDetails = true;
