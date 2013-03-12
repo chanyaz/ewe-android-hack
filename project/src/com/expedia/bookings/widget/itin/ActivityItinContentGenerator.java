@@ -20,24 +20,30 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
+import com.expedia.bookings.data.Activity;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.data.trips.CustomerSupport;
 import com.expedia.bookings.data.trips.ItinCardDataActivity;
+import com.expedia.bookings.data.trips.TripActivity;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.SocialUtils;
 
 public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardDataActivity> {
 
 	private static final int[] GUEST_ICONS = new int[] {
-			R.drawable.bg_activities_guest_cirlce_blue,
-			R.drawable.bg_activities_guest_cirlce_orange,
-			R.drawable.bg_activities_guest_cirlce_green,
-			R.drawable.bg_activities_guest_cirlce_turquoise,
-			R.drawable.bg_activities_guest_cirlce_red,
-			R.drawable.bg_activities_guest_cirlce_purple,
-			R.drawable.bg_activities_guest_cirlce_yellow
+		R.drawable.bg_activities_guest_cirlce_blue,
+		R.drawable.bg_activities_guest_cirlce_orange,
+		R.drawable.bg_activities_guest_cirlce_green,
+		R.drawable.bg_activities_guest_cirlce_turquoise,
+		R.drawable.bg_activities_guest_cirlce_red,
+		R.drawable.bg_activities_guest_cirlce_purple,
+		R.drawable.bg_activities_guest_cirlce_yellow
 	};
 
 	public ActivityItinContentGenerator(Context context, ItinCardDataActivity data) {
@@ -195,13 +201,36 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 
 	@Override
 	public SummaryButton getSummaryRightButton() {
-		return new SummaryButton(R.drawable.ic_phone, getContext().getString(R.string.itin_action_support),
-				new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						OmnitureTracking.trackItinActivitySupport(getContext());
-					}
-				});
+		String phoneNumber = "";
+
+		ItinCardDataActivity itinCardData = getItinCardData();
+		TripActivity tripActivity = itinCardData != null ? (TripActivity) itinCardData.getTripComponent() : null;
+		Activity activity = tripActivity != null ? tripActivity.getActivity() : null;
+		CustomerSupport support = activity != null ? activity.getCustomerSupport() : null;
+		if (support != null) {
+			if (PointOfSale.getPointOfSale(getContext()).getPointOfSaleId() == PointOfSaleId.UNITED_STATES
+					&& !TextUtils.isEmpty(support.getSupportPhoneNumberDomestic())) {
+				phoneNumber = support.getSupportPhoneNumberDomestic();
+			}
+			else if (!TextUtils.isEmpty(support.getSupportPhoneNumberInternational())) {
+				phoneNumber = support.getSupportPhoneNumberInternational();
+			}
+		}
+
+		if (TextUtils.isEmpty(phoneNumber)) {
+			return null;
+		}
+		else {
+			final String finalPhoneNumber = phoneNumber;
+			return new SummaryButton(R.drawable.ic_phone, getContext().getString(R.string.itin_action_support),
+					new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							SocialUtils.call(getContext(), finalPhoneNumber);
+							OmnitureTracking.trackItinActivitySupport(getContext());
+						}
+					});
+		}
 	}
 
 	private Drawable createGuestIcon(Traveler travler, int iconResId) {
