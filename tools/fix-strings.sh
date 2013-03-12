@@ -25,6 +25,8 @@ for i in $path/values*/strings.xml ; do
 
     # Fix tab indentation
     gsed -i "s/^\t/    /" $i
+    # Fix unneccesary indentation
+    gsed -i "s/^ \+$//" $i
 
     # Fix too many backslash escapes
     gsed -i 's/\\\\/\\/g' $i
