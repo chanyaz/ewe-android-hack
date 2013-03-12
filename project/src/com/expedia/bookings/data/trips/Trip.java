@@ -59,6 +59,8 @@ public class Trip implements JSONable, Comparable<Trip> {
 	private BookingStatus mBookingStatus;
 	private TimePeriod mTimePeriod;
 
+	private CustomerSupport mCustomerSupport;
+
 	private List<TripComponent> mTripComponents = new ArrayList<TripComponent>();
 	private List<Insurance> mTripInsurance = new ArrayList<Insurance>();
 
@@ -175,6 +177,14 @@ public class Trip implements JSONable, Comparable<Trip> {
 		mTimePeriod = timePeriod;
 	}
 
+	public CustomerSupport getCustomerSupport() {
+		return mCustomerSupport;
+	}
+
+	public void setCustomerSupport(CustomerSupport support) {
+		mCustomerSupport = support;
+	}
+
 	public void addTripComponent(TripComponent tripComponent) {
 		mTripComponents.add(tripComponent);
 		tripComponent.setParentTrip(this);
@@ -219,6 +229,8 @@ public class Trip implements JSONable, Comparable<Trip> {
 
 		mStartDate = other.mStartDate;
 		mEndDate = other.mEndDate;
+
+		mCustomerSupport = other.mCustomerSupport;
 
 		mBookingStatus = other.mBookingStatus;
 		mTimePeriod = other.mTimePeriod;
@@ -274,6 +286,8 @@ public class Trip implements JSONable, Comparable<Trip> {
 			obj.putOpt("description", mDescription);
 			obj.putOpt("webDetailsURL", mDetailsUrl);
 
+			JSONUtils.putJSONable(obj, "customerSupport", mCustomerSupport);
+
 			JSONUtils.putJSONable(obj, "startDate", mStartDate);
 			JSONUtils.putJSONable(obj, "endDate", mEndDate);
 
@@ -305,6 +319,8 @@ public class Trip implements JSONable, Comparable<Trip> {
 		mTitle = obj.optString("title");
 		mDescription = obj.optString("description");
 		mDetailsUrl = obj.optString("webDetailsURL");
+
+		mCustomerSupport = JSONUtils.getJSONable(obj, "customerSupport", CustomerSupport.class);
 
 		mStartDate = JSONUtils.getJSONable(obj, "startDate", DateTime.class);
 		mEndDate = JSONUtils.getJSONable(obj, "endDate", DateTime.class);

@@ -20,12 +20,12 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
-import com.expedia.bookings.data.Activity;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.data.trips.CustomerSupport;
 import com.expedia.bookings.data.trips.ItinCardDataActivity;
+import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripActivity;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -205,8 +205,8 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 
 		ItinCardDataActivity itinCardData = getItinCardData();
 		TripActivity tripActivity = itinCardData != null ? (TripActivity) itinCardData.getTripComponent() : null;
-		Activity activity = tripActivity != null ? tripActivity.getActivity() : null;
-		CustomerSupport support = activity != null ? activity.getCustomerSupport() : null;
+		Trip trip = tripActivity != null ? tripActivity.getParentTrip() : null;
+		CustomerSupport support = trip != null ? trip.getCustomerSupport() : null;
 		if (support != null) {
 			if (PointOfSale.getPointOfSale(getContext()).getPointOfSaleId() == PointOfSaleId.UNITED_STATES
 					&& !TextUtils.isEmpty(support.getSupportPhoneNumberDomestic())) {

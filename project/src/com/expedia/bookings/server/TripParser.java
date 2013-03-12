@@ -77,6 +77,8 @@ public class TripParser {
 		trip.setBookingStatus(parseBookingStatus(tripJson.optString("bookingStatus")));
 		trip.setTimePeriod(parseTimePeriod(tripJson.optString("timePeriod")));
 
+		trip.setCustomerSupport(parseCustomerSupport(tripJson.optJSONObject("customerSupport")));
+
 		// Parse hotels
 		JSONArray hotels = tripJson.optJSONArray("hotels");
 		if (hotels != null) {
@@ -162,6 +164,18 @@ public class TripParser {
 		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ"),
 		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
 	};
+
+	private CustomerSupport parseCustomerSupport(JSONObject customerSupportJson) {
+		CustomerSupport support = new CustomerSupport();
+		if (customerSupportJson != null) {
+			support.setSupportUrl(customerSupportJson.optString("customerSupportURL"));
+			support.setSupportPhoneInfo(customerSupportJson.optString("customerSupportPhoneInfo"));
+			support.setSupportPhoneNumberDomestic(customerSupportJson.optString("customerSupportPhoneNumberDomestic"));
+			support.setSupportPhoneNumberInternational(customerSupportJson
+					.optString("customerSupportPhoneNumberInternational"));
+		}
+		return support;
+	}
 
 	private BookingStatus parseBookingStatus(String status) {
 		if ("SAVED".equals(status)) {
@@ -431,17 +445,6 @@ public class TripParser {
 			JSONObject priceJson = obj.optJSONObject("price");
 			activity.setPrice(ParserUtils.createMoney(priceJson.optString("total", null),
 					priceJson.optString("currency", null)));
-
-			CustomerSupport support = new CustomerSupport();
-			JSONObject customSupportJson = obj.optJSONObject("customerSupport");
-			if (customSupportJson != null) {
-				support.setSupportUrl(customSupportJson.optString("customerSupportURL"));
-				support.setSupportPhoneInfo(customSupportJson.optString("customerSupportPhoneInfo"));
-				support.setSupportPhoneNumberDomestic(customSupportJson.optString("customerSupportPhoneNumberDomestic"));
-				support.setSupportPhoneNumberInternational(customSupportJson
-						.optString("customerSupportPhoneNumberInternational"));
-			}
-			activity.setCustomerSupport(support);
 
 			// Parse travelers
 			JSONArray travelersArr = obj.optJSONArray("travelers");

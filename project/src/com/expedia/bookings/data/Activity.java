@@ -7,7 +7,6 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.expedia.bookings.data.trips.CustomerSupport;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
@@ -21,7 +20,6 @@ public class Activity implements JSONable {
 	private Integer mGuestsCount;
 	private List<Traveler> mTravelers;
 	private String mVoucherPrintUrl;
-	private CustomerSupport mCustomerSupport;
 
 	public String getId() {
 		return mId;
@@ -101,14 +99,6 @@ public class Activity implements JSONable {
 
 	public void setVoucherPrintUrl(String argName) {
 		mVoucherPrintUrl = argName;
-	}
-
-	public CustomerSupport getCustomerSupport() {
-		return mCustomerSupport;
-	}
-
-	public void setCustomerSupport(CustomerSupport support) {
-		mCustomerSupport = support;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
