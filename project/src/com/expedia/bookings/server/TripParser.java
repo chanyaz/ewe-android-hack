@@ -24,6 +24,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.Gender;
 import com.expedia.bookings.data.trips.BookingStatus;
+import com.expedia.bookings.data.trips.CustomerSupport;
 import com.expedia.bookings.data.trips.FlightConfirmation;
 import com.expedia.bookings.data.trips.Insurance;
 import com.expedia.bookings.data.trips.Trip;
@@ -158,8 +159,8 @@ public class TripParser {
 
 	// Until all date formats are normalized, we must support all of them.
 	private static final DateFormat[] DATE_FORMATS = {
-			new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ"),
-			new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
+		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ"),
+		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
 	};
 
 	private BookingStatus parseBookingStatus(String status) {
@@ -430,6 +431,17 @@ public class TripParser {
 			JSONObject priceJson = obj.optJSONObject("price");
 			activity.setPrice(ParserUtils.createMoney(priceJson.optString("total", null),
 					priceJson.optString("currency", null)));
+
+			CustomerSupport support = new CustomerSupport();
+			JSONObject customSupportJson = obj.optJSONObject("customerSupport");
+			if (customSupportJson != null) {
+				support.setSupportUrl(customSupportJson.optString("customerSupportURL"));
+				support.setSupportPhoneInfo(customSupportJson.optString("customerSupportPhoneInfo"));
+				support.setSupportPhoneNumberDomestic(customSupportJson.optString("customerSupportPhoneNumberDomestic"));
+				support.setSupportPhoneNumberInternational(customSupportJson
+						.optString("customerSupportPhoneNumberInternational"));
+			}
+			activity.setCustomerSupport(support);
 
 			// Parse travelers
 			JSONArray travelersArr = obj.optJSONArray("travelers");
