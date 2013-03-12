@@ -224,6 +224,7 @@ public class SearchParams implements JSONable {
 		case CITY:
 		case ADDRESS:
 		case POI:
+		case HOTEL:
 		case FREEFORM:
 			return mQuery;
 		case MY_LOCATION:
