@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -79,9 +80,17 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		String dropOffTime = itinCardData.getFormattedDropOffTime();
 		String vendorAddress = itinCardData.getRelevantVendorLocation().toLongFormattedString();
 		String vendorPhone = itinCardData.getRelevantVendorPhone();
+		String downloadUrl = PointOfSale.getPointOfSale().getAppInfoUrl();
 
-		return String.format(template, vendorName, carType, pickUpDate, pickUpTime, dropOffDate, dropOffTime,
-				vendorAddress, vendorPhone, "");
+		StringBuilder builder = new StringBuilder();
+
+		builder.append(String.format(template, vendorName, carType, pickUpDate, pickUpTime, dropOffDate, dropOffTime,
+				vendorAddress, vendorPhone));
+
+		builder.append("\n\n");
+		builder.append(getContext().getString(R.string.share_template_long_ad, downloadUrl));
+
+		return builder.toString();
 	}
 
 	@Override

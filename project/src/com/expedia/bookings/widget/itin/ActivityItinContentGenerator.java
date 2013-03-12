@@ -88,6 +88,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 		String title = itinCardData.getTitle();
 		String validDate = itinCardData.getFormattedShareValidDate();
 		String expirationDate = itinCardData.getFormattedShareExpiresDate();
+		String downloadUrl = PointOfSale.getPointOfSale().getAppInfoUrl();
 
 		final List<Traveler> travelers = itinCardData.getTravelers();
 		final int guestCount = travelers.size();
@@ -96,7 +97,14 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 			guests[i] = travelers.get(i).getFullName();
 		}
 
-		return String.format(template, title, validDate, expirationDate, TextUtils.join("\n", guests), "");
+		StringBuilder builder = new StringBuilder();
+
+		builder.append(String.format(template, title, validDate, expirationDate, TextUtils.join("\n", guests)));
+
+		builder.append("\n\n");
+		builder.append(getContext().getString(R.string.share_template_long_ad, downloadUrl));
+
+		return builder.toString();
 	}
 
 	@Override
