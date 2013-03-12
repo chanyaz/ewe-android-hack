@@ -109,17 +109,6 @@ public class Trip implements JSONable, Comparable<Trip> {
 		mTripNumber = tripNumber;
 	}
 
-	/**
-	 * The API can use either tripNumber or tripId.  It is preferable to use tripId,
-	 * as it is easier on the server.
-	 */
-	public String getTripIdentifierForApi() {
-		if (!TextUtils.isEmpty(mTripId)) {
-			return mTripId;
-		}
-		return mTripNumber;
-	}
-
 	public String getTitle() {
 		return mTitle;
 	}

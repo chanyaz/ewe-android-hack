@@ -745,17 +745,26 @@ public class ExpediaServices implements DownloadListener {
 
 		int flags = F_SECURE_REQUEST | F_GET;
 
+		// Always use tripNumber for guests, tripId for logged in
+		String tripIdentifier;
 		if (trip.isGuest()) {
-			query.add(new BasicNameValuePair("idtype", "itineraryNumber"));
+			// You must always use trip number for guest itineraries
+			tripIdentifier = trip.getTripNumber();
+
 			query.add(new BasicNameValuePair("email", trip.getGuestEmailAddress()));
 
+			// This param is deprecated; remove it once it's safely removed from prod
+			query.add(new BasicNameValuePair("idtype", "itineraryNumber"));
+
 			flags |= F_IGNORE_COOKIES;
+		}
+		else {
+			tripIdentifier = trip.getTripId();
 		}
 
 		query.add(new BasicNameValuePair("useCache", useCache ? "1" : "0"));
 
-		return doE3Request("api/trips/" + trip.getTripIdentifierForApi(), query, new TripDetailsResponseHandler(
-				mContext), flags);
+		return doE3Request("api/trips/" + tripIdentifier, query, new TripDetailsResponseHandler(mContext), flags);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
