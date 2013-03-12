@@ -3,7 +3,9 @@ package com.expedia.bookings.server;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.json.JSONArray;
@@ -79,47 +81,9 @@ public class TripParser {
 
 		trip.setCustomerSupport(parseCustomerSupport(tripJson.optJSONObject("customerSupport")));
 
-		// Parse hotels
-		JSONArray hotels = tripJson.optJSONArray("hotels");
-		if (hotels != null) {
-			for (int b = 0; b < hotels.length(); b++) {
-				trip.addTripComponent(parseTripHotel(hotels.optJSONObject(b)));
-			}
-		}
+		trip.addTripComponents(parseTripComponents(tripJson));
 
-		// Parse flights
-		JSONArray flights = tripJson.optJSONArray("flights");
-		if (flights != null) {
-			for (int b = 0; b < flights.length(); b++) {
-				trip.addTripComponent(parseTripFlight(flights.optJSONObject(b)));
-			}
-		}
-
-		// Parse cars
-		JSONArray cars = tripJson.optJSONArray("cars");
-		if (cars != null) {
-			for (int b = 0; b < cars.length(); b++) {
-				trip.addTripComponent(parseTripCar(cars.optJSONObject(b)));
-			}
-		}
-
-		// Parse activities
-		JSONArray activities = tripJson.optJSONArray("activities");
-		if (activities != null) {
-			for (int b = 0; b < activities.length(); b++) {
-				trip.addTripComponent(parseTripActivity(activities.optJSONObject(b)));
-			}
-		}
-
-		// Parse cruises
-		JSONArray cruises = tripJson.optJSONArray("cruises");
-		if (cruises != null) {
-			for (int b = 0; b < cruises.length(); b++) {
-				trip.addTripComponent(parseTripCruise(cruises.optJSONObject(b)));
-			}
-		}
-
-		//Parse insurance
+		// Parse insurance
 		JSONArray insurance = tripJson.optJSONArray("insurance");
 		if (insurance != null) {
 			for (int b = 0; b < insurance.length(); b++) {
@@ -128,6 +92,52 @@ public class TripParser {
 		}
 
 		return trip;
+	}
+
+	private List<TripComponent> parseTripComponents(JSONObject obj) {
+		List<TripComponent> tripComponents = new ArrayList<TripComponent>();
+
+		// Parse hotels
+		JSONArray hotels = obj.optJSONArray("hotels");
+		if (hotels != null) {
+			for (int b = 0; b < hotels.length(); b++) {
+				tripComponents.add(parseTripHotel(hotels.optJSONObject(b)));
+			}
+		}
+
+		// Parse flights
+		JSONArray flights = obj.optJSONArray("flights");
+		if (flights != null) {
+			for (int b = 0; b < flights.length(); b++) {
+				tripComponents.add(parseTripFlight(flights.optJSONObject(b)));
+			}
+		}
+
+		// Parse cars
+		JSONArray cars = obj.optJSONArray("cars");
+		if (cars != null) {
+			for (int b = 0; b < cars.length(); b++) {
+				tripComponents.add(parseTripCar(cars.optJSONObject(b)));
+			}
+		}
+
+		// Parse activities
+		JSONArray activities = obj.optJSONArray("activities");
+		if (activities != null) {
+			for (int b = 0; b < activities.length(); b++) {
+				tripComponents.add(parseTripActivity(activities.optJSONObject(b)));
+			}
+		}
+
+		// Parse cruises
+		JSONArray cruises = obj.optJSONArray("cruises");
+		if (cruises != null) {
+			for (int b = 0; b < cruises.length(); b++) {
+				tripComponents.add(parseTripCruise(cruises.optJSONObject(b)));
+			}
+		}
+
+		return tripComponents;
 	}
 
 	private DateTime parseDateTime(Object obj) {

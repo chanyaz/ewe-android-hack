@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.text.TextUtils;
 
 import com.expedia.bookings.data.DateTime;
-import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -190,6 +188,11 @@ public class Trip implements JSONable, Comparable<Trip> {
 		tripComponent.setParentTrip(this);
 	}
 
+	public void addTripComponents(List<TripComponent> tripComponents) {
+		mTripComponents.addAll(tripComponents);
+		associateTripWithComponents();
+	}
+
 	public void addInsurance(Insurance insurance) {
 		mTripInsurance.add(insurance);
 	}
@@ -294,7 +297,7 @@ public class Trip implements JSONable, Comparable<Trip> {
 			JSONUtils.putEnum(obj, "bookingStatus", mBookingStatus);
 			JSONUtils.putEnum(obj, "timePeriod", mTimePeriod);
 
-			JSONUtils.putJSONableList(obj, "tripComponents", mTripComponents);
+			TripUtils.putTripComponents(obj, mTripComponents);
 			JSONUtils.putJSONableList(obj, "insurance", mTripInsurance);
 
 			obj.putOpt("lastCachedUpdate", mLastCachedUpdate);
@@ -328,40 +331,8 @@ public class Trip implements JSONable, Comparable<Trip> {
 		mBookingStatus = JSONUtils.getEnum(obj, "bookingStatus", BookingStatus.class);
 		mTimePeriod = JSONUtils.getEnum(obj, "timePeriod", TimePeriod.class);
 
-		// We have to load trip components manually here; otherwise they are all loaded as
-		// TripComponent instead of as the individual classes they are (TripFlight, TripHotel, etc)
 		mTripComponents.clear();
-		JSONArray tripComponents = obj.optJSONArray("tripComponents");
-		if (tripComponents != null) {
-			for (int a = 0; a < tripComponents.length(); a++) {
-				JSONObject tripComponent = tripComponents.optJSONObject(a);
-				Type type = JSONUtils.getEnum(tripComponent, "type", Type.class);
-				Class<? extends TripComponent> clz;
-				switch (type) {
-				case ACTIVITY:
-					clz = TripActivity.class;
-					break;
-				case CAR:
-					clz = TripCar.class;
-					break;
-				case CRUISE:
-					clz = TripCruise.class;
-					break;
-				case FLIGHT:
-					clz = TripFlight.class;
-					break;
-				case HOTEL:
-					clz = TripHotel.class;
-					break;
-				default:
-					clz = TripComponent.class;
-					break;
-				}
-
-				mTripComponents.add(JSONUtils.getJSONable(tripComponents, a, clz));
-			}
-		}
-
+		mTripComponents.addAll(TripUtils.getTripComponents(obj));
 		associateTripWithComponents();
 
 		if (obj.has("insurance")) {
