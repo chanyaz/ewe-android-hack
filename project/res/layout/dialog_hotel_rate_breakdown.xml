@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog"
+    android:orientation="vertical" >
+
+    <!-- Title -->
+    <com.expedia.bookings.widget.TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginLeft="19dp"
+        android:layout_marginRight="19dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/cost_summary"
+        android:textColor="#004582"
+        android:textSize="22sp" />
+
+    <!-- Barberpoll divider -->
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="4px"
+        android:background="@drawable/dialog_breakdown_stripe" />
+
+    <!-- Breakdown -->
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <com.gridlayout.GridLayout
+                android:id="@+id/grid"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="19dp"
+                android:layout_marginRight="19dp"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal" />
+
+            <TextView
+                android:id="@+id/done_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="19dp"
+                android:layout_marginRight="19dp"
+                android:background="@drawable/bg_clickable_row"
+                android:gravity="center"
+                android:paddingTop="19dp"
+                android:paddingBottom="19dp"
+                android:text="@string/done"
+                android:textColor="@color/hotel_receipt_text" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

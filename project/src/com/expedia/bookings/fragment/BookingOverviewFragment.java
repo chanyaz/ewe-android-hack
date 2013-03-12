@@ -39,6 +39,7 @@ import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.dialog.HotelRateBreakdownDialog;
 import com.expedia.bookings.model.HotelPaymentFlowState;
 import com.expedia.bookings.model.HotelTravelerFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -230,6 +231,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		mCreditCardSectionButton.setOnClickListener(mOnClickListener);
 		mCouponCodeEditText.setOnClickListener(mOnClickListener);
 		mLegalInformationTextView.setOnClickListener(mOnClickListener);
+		mHotelReceipt.setRateBreakdownClickListener(mRateBreakdownClickListener);
 
 		mCouponCodeEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
@@ -836,6 +838,14 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 				break;
 			}
 			}
+		}
+	};
+
+	private View.OnClickListener mRateBreakdownClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			HotelRateBreakdownDialog dialogFrag = new HotelRateBreakdownDialog();
+			dialogFrag.show(getFragmentManager(), HotelRateBreakdownDialog.class.toString());
 		}
 	};
 

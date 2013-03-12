@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="@dimen/one_px_hdpi_two_px_xhdpi"
+    android:layout_columnSpan="2"
+    android:layout_gravity="center"
+    android:layout_marginTop="@dimen/hotel_rate_breakdown_cell_margin"
+    android:background="@color/overview_receipt_divider"
+    app:layout_columnSpan="2" />

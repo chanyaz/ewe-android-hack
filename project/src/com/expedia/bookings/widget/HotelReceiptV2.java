@@ -10,6 +10,7 @@ import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -48,6 +49,7 @@ public class HotelReceiptV2 extends LinearLayout {
 	}
 
 	private OnSizeChangedListener mOnSizeChangedListener;
+	private OnClickListener mRateBreakdownClickListener;
 
 	private ImageView mHeaderImageView;
 	private TextView mRoomTypeDesciptionTextView;
@@ -147,6 +149,15 @@ public class HotelReceiptV2 extends LinearLayout {
 		else {
 			mPriceTextView.setText(rate.getTotalAmountAfterTax().getFormattedMoney());
 		}
+
+		mMiniReceipt.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (mRateBreakdownClickListener != null) {
+					mRateBreakdownClickListener.onClick(v);
+				}
+			}
+		});
 	}
 
 	private String getFormattedDateRange(SearchParams params) {
@@ -184,5 +195,9 @@ public class HotelReceiptV2 extends LinearLayout {
 
 	public void setOnSizeChangedListener(OnSizeChangedListener onSizeChangedListener) {
 		mOnSizeChangedListener = onSizeChangedListener;
+	}
+
+	public void setRateBreakdownClickListener(OnClickListener listener) {
+		mRateBreakdownClickListener = listener;
 	}
 }
