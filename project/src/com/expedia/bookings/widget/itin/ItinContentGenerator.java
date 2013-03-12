@@ -409,17 +409,20 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 		// For cards coming up in less than one hour, we want "XX Minutes"
 		else if (duration <= DateUtils.HOUR_IN_MILLIS) {
-			ret = DateUtils.getRelativeTimeSpanString(time, now, DateUtils.MINUTE_IN_MILLIS, 0);
+			int minutes = (int) (duration / DateUtils.MINUTE_IN_MILLIS);
+			ret = getContext().getResources().getQuantityString(R.plurals.minutes_from_now, minutes, minutes);
 		}
 
 		// For cards coming up in greater than one hour but less than one day, we want "XX Hours"
 		else if (duration <= DateUtils.DAY_IN_MILLIS) {
-			ret = DateUtils.getRelativeTimeSpanString(time, now, DateUtils.HOUR_IN_MILLIS, 0);
+			int hours = (int) (duration / DateUtils.HOUR_IN_MILLIS);
+			ret = getContext().getResources().getQuantityString(R.plurals.hours_from_now, hours, hours);
 		}
 
 		// For cards coming up greater than 24 hours but in 3 days or less want "XX Days"
 		else if (getNumberOfDaysPassed(time, now) <= 3) {
-			ret = DateUtils.getRelativeTimeSpanString(time, now, DateUtils.DAY_IN_MILLIS, 0);
+			int days = (int) (getNumberOfDaysPassed(time, now));
+			ret = getContext().getResources().getQuantityString(R.plurals.days_from_now, days, days);
 		}
 
 		// For cards coming up more than 3 days in the future, we want "MMM d" ("Mar 15")
