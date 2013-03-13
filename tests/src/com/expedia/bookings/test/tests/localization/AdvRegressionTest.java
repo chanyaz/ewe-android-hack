@@ -63,7 +63,6 @@ public class AdvRegressionTest extends ActivityInstrumentationTestCase2<SearchAc
 			mDriver.launchHotels();
 			mDriver.delay();
 			mDriver.browseRooms(1, "NYC", true);
-			mSolo.goBack();
 			mDriver.flushFileWriter();
 		}
 
