@@ -936,17 +936,8 @@ public class ItineraryManager implements JSONable {
 			else {
 				Log.d("User is logged in, refreshing the user list.");
 
-				// First, determine if we've ever loaded trips for this user; if not, then we
-				// should do a cached call for the first 5 detailed trips (for speedz).
-				boolean getCachedDetails = true;
-				for (Trip trip : mTrips.values()) {
-					if (!trip.isGuest()) {
-						getCachedDetails = false;
-						break;
-					}
-				}
-
-				TripResponse response = mServices.getTrips(getCachedDetails, 0);
+				// Always get cached details of first N trips, to save network requests later
+				TripResponse response = mServices.getTrips(true, 0);
 
 				if (isCancelled()) {
 					return;

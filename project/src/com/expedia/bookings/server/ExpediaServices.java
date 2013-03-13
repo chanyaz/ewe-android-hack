@@ -732,7 +732,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("sort", "SORT_STARTDATE_ASCENDING"));
 
 		if (getCachedDetails) {
-			query.add(new BasicNameValuePair("getCachedDetails", "5"));
+			query.add(new BasicNameValuePair("getCachedDetails", "10"));
 		}
 
 		return doE3Request("api/trips", query, new TripResponseHandler(mContext), F_SECURE_REQUEST | F_GET);
