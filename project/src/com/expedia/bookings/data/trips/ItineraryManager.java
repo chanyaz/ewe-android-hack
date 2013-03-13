@@ -602,8 +602,10 @@ public class ItineraryManager implements JSONable {
 
 		// These variables are used for stat tracking
 		private Map<Operation, Integer> mOpCount = new HashMap<ItineraryManager.Operation, Integer>();
-		private int mRefreshedTrips = 0;
-		private int mFailedTripRefreshes = 0;
+		private int mTripsRefreshed = 0;
+		private int mTripRefreshFailures = 0;
+		private int mTripsAdded = 0;
+		private int mTripsRemoved = 0;
 		private int mImagesGrabbed = 0;
 		private int mFlightsUpdated = 0;
 
@@ -724,9 +726,9 @@ public class ItineraryManager implements JSONable {
 				Log.d(op.name() + ": " + mOpCount.get(op));
 			}
 
-			Log.i("Total trips=" + mTrips.size() + "; Refreshed trips=" + mRefreshedTrips + "; failed trip refreshes="
-					+ mFailedTripRefreshes + "; image urls grabbed=" + mImagesGrabbed + "; flightstats updates="
-					+ mFlightsUpdated);
+			Log.i("# Trips=" + mTrips.size() + "; # Added=" + mTripsAdded + "; # Removed=" + mTripsRemoved);
+			Log.i("# Refreshed=" + mTripsRefreshed + "; # Failed Refresh=" + mTripRefreshFailures);
+			Log.i("# Images Grabbed=" + mImagesGrabbed + "; # Flights Updated=" + mFlightsUpdated);
 		}
 
 		//////////////////////////////////////////////////////////////////////
@@ -850,6 +852,7 @@ public class ItineraryManager implements JSONable {
 			// We only consider a guest trip added once it has some meaningful info
 			if (trip.isGuest() && mGuestTripsNotYetLoaded.contains(trip.getTripNumber())) {
 				publishProgress(new ProgressUpdate(ProgressUpdate.Type.ADDED, trip));
+				mTripsAdded++;
 			}
 			else {
 				publishProgress(new ProgressUpdate(ProgressUpdate.Type.UPDATED, trip));
@@ -895,7 +898,7 @@ public class ItineraryManager implements JSONable {
 
 					gatherAncillaryData = false;
 
-					mFailedTripRefreshes++;
+					mTripRefreshFailures++;
 				}
 				else {
 					Trip updatedTrip = response.getTrip();
@@ -905,13 +908,15 @@ public class ItineraryManager implements JSONable {
 
 						Trip removeTrip = mTrips.remove(updatedTrip.getTripNumber());
 						publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, removeTrip));
+
+						mTripsRemoved++;
 					}
 					else {
 						// Update trip
 						trip.updateFrom(updatedTrip);
 						trip.markUpdated(deepRefresh);
 
-						mRefreshedTrips++;
+						mTripsRefreshed++;
 					}
 				}
 			}
@@ -970,6 +975,8 @@ public class ItineraryManager implements JSONable {
 							mTrips.put(tripNumber, trip);
 
 							publishProgress(new ProgressUpdate(ProgressUpdate.Type.ADDED, trip));
+
+							mTripsAdded++;
 						}
 						else if (hasFullDetails) {
 							mTrips.get(tripNumber).updateFrom(trip);
@@ -980,7 +987,7 @@ public class ItineraryManager implements JSONable {
 							// refresh it below
 							trip.markUpdated(false);
 
-							mRefreshedTrips++;
+							mTripsRefreshed++;
 						}
 
 						currentTrips.remove(tripNumber);
@@ -991,6 +998,7 @@ public class ItineraryManager implements JSONable {
 						if (!mTrips.get(tripNumber).isGuest()) {
 							Trip trip = mTrips.remove(tripNumber);
 							publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, trip));
+							mTripsRemoved++;
 						}
 					}
 				}
