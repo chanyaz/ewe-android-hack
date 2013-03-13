@@ -76,6 +76,8 @@ public class CarVendor implements JSONable {
 			obj.putOpt("code", mCode);
 			obj.putOpt("shortName", mShortName);
 			obj.putOpt("longName", mLongName);
+			obj.putOpt("tollFreePhone", mTollFreePhone);
+			obj.putOpt("localPhone", mLocalPhone);
 
 			JSONUtils.putJSONable(obj, "logo", mLogo);
 
@@ -91,6 +93,8 @@ public class CarVendor implements JSONable {
 		mCode = obj.optString("code", null);
 		mShortName = obj.optString("shortName", null);
 		mLongName = obj.optString("longName", null);
+		mTollFreePhone = obj.optString("tollFreePhone", null);
+		mLocalPhone = obj.optString("localPhone", null);
 
 		mLogo = JSONUtils.getJSONable(obj, "logo", Media.class);
 
