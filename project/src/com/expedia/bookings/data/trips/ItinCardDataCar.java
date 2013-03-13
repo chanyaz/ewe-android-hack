@@ -147,11 +147,11 @@ public class ItinCardDataCar extends ItinCardData implements ConfirmationNumbera
 	}
 
 	public String getRelevantVendorPhone() {
-		if (!TextUtils.isEmpty(mCar.getVendor().getPhoneNumberPrimary())) {
-			return mCar.getVendor().getPhoneNumberPrimary();
+		if (!TextUtils.isEmpty(mCar.getVendor().getTollFreePhone())) {
+			return mCar.getVendor().getTollFreePhone();
 		}
 
-		return mCar.getVendor().getPhoneNumberAlternate();
+		return mCar.getVendor().getLocalPhone();
 	}
 
 	public String getVendorName() {

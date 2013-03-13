@@ -12,8 +12,8 @@ public class CarVendor implements JSONable {
 
 	private String mShortName;
 	private String mLongName;
-	private String mPhoneNumberPrimary;
-	private String mPhoneNumberAlternate;
+	private String mTollFreePhone;
+	private String mLocalPhone;
 
 	private Media mLogo;
 
@@ -49,20 +49,20 @@ public class CarVendor implements JSONable {
 		mLogo = logo;
 	}
 
-	public String getPhoneNumberPrimary() {
-		return mPhoneNumberPrimary;
+	public String getTollFreePhone() {
+		return mTollFreePhone;
 	}
 
-	public void setPhoneNumberPrimary(String argName) {
-		mPhoneNumberPrimary = argName;
+	public void setTollFreePhone(String argName) {
+		mTollFreePhone = argName;
 	}
 
-	public String getPhoneNumberAlternate() {
-		return mPhoneNumberAlternate;
+	public String getLocalPhone() {
+		return mLocalPhone;
 	}
 
-	public void setPhoneNumberAlternate(String argName) {
-		mPhoneNumberAlternate = argName;
+	public void setLocalPhone(String argName) {
+		mLocalPhone = argName;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -76,8 +76,6 @@ public class CarVendor implements JSONable {
 			obj.putOpt("code", mCode);
 			obj.putOpt("shortName", mShortName);
 			obj.putOpt("longName", mLongName);
-			obj.putOpt("phoneNumberPrimary", mPhoneNumberPrimary);
-			obj.putOpt("phoneNumberAlternate", mPhoneNumberAlternate);
 
 			JSONUtils.putJSONable(obj, "logo", mLogo);
 
@@ -93,8 +91,6 @@ public class CarVendor implements JSONable {
 		mCode = obj.optString("code", null);
 		mShortName = obj.optString("shortName", null);
 		mLongName = obj.optString("longName", null);
-		mPhoneNumberPrimary = obj.optString("phoneNumberPrimary", null);
-		mPhoneNumberAlternate = obj.optString("phoneNumberAlternate", null);
 
 		mLogo = JSONUtils.getJSONable(obj, "logo", Media.class);
 
