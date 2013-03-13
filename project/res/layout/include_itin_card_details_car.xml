@@ -143,6 +143,7 @@
     <!-- PHONE -->
 
     <com.expedia.bookings.widget.TextView
+        android:id="@+id/local_phone_label_text_view"
         style="@style/TextView.Itin.SectionHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -152,7 +153,27 @@
         android:text="@string/itin_card_details_agency_phone" />
 
     <com.expedia.bookings.widget.TextView
-        android:id="@+id/vendor_phone_text_view"
+        android:id="@+id/local_phone_text_view"
+        style="@style/TextView.Itin.SectionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/list_selector_holo_dark"
+        android:padding="8dp" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/toll_free_phone_label_text_view"
+        style="@style/TextView.Itin.SectionHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/itin_card_details_toll_free_phone" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/toll_free_phone_text_view"
         style="@style/TextView.Itin.SectionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

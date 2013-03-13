@@ -16,6 +16,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.Car.Type;
 import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
+import com.expedia.bookings.data.CarVendor;
 import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.Location;
 
@@ -147,11 +148,20 @@ public class ItinCardDataCar extends ItinCardData implements ConfirmationNumbera
 	}
 
 	public String getRelevantVendorPhone() {
-		if (!TextUtils.isEmpty(mCar.getVendor().getTollFreePhone())) {
-			return mCar.getVendor().getTollFreePhone();
+		CarVendor vendor = mCar.getVendor();
+		String phone = vendor.getLocalPhone();
+		if (TextUtils.isEmpty(phone)) {
+			phone = vendor.getTollFreePhone();
 		}
+		return phone;
+	}
 
+	public String getLocalPhoneNumber() {
 		return mCar.getVendor().getLocalPhone();
+	}
+
+	public String getTollFreePhoneNumber() {
+		return mCar.getVendor().getTollFreePhone();
 	}
 
 	public String getVendorName() {

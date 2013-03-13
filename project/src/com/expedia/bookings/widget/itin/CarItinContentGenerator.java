@@ -143,7 +143,10 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		MapImageView staticMapImageView = Ui.findView(view, R.id.mini_map);
 		EventSummaryView pickUpEventSummaryView = Ui.findView(view, R.id.pick_up_event_summary_view);
 		EventSummaryView dropOffEventSummaryView = Ui.findView(view, R.id.drop_off_event_summary_view);
-		TextView vendorPhoneTextView = Ui.findView(view, R.id.vendor_phone_text_view);
+		TextView localPhoneLabelTextView = Ui.findView(view, R.id.local_phone_label_text_view);
+		TextView localPhoneTextView = Ui.findView(view, R.id.local_phone_text_view);
+		TextView tollFreePhoneLabelTextView = Ui.findView(view, R.id.toll_free_phone_label_text_view);
+		TextView tollFreePhoneTextView = Ui.findView(view, R.id.toll_free_phone_text_view);
 		ViewGroup commonItinDataContainer = Ui.findView(view, R.id.itin_shared_info_container);
 
 		// Bind
@@ -163,18 +166,29 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		dropOffEventSummaryView.bind(itinCardData.getDropOffDate().getCalendar().getTime(),
 				itinCardData.getDropOffLocation(), true);
 
-		vendorPhoneTextView.setText(itinCardData.getRelevantVendorPhone());
-		vendorPhoneTextView.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				SocialUtils.call(getContext(), itinCardData.getRelevantVendorPhone());
-			}
-		});
+		showPhoneNumber(localPhoneLabelTextView, localPhoneTextView, itinCardData.getLocalPhoneNumber());
+		showPhoneNumber(tollFreePhoneLabelTextView, tollFreePhoneTextView, itinCardData.getTollFreePhoneNumber());
 
 		//Add shared data
 		addSharedGuiElements(commonItinDataContainer);
 
 		return view;
+	}
+
+	private void showPhoneNumber(TextView label, TextView display, final String phoneNumber) {
+		boolean isEmpty = phoneNumber.isEmpty();
+		label.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
+		display.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
+
+		if (!isEmpty) {
+			display.setText(phoneNumber);
+			display.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					SocialUtils.call(getContext(), phoneNumber);
+				}
+			});
+		}
 	}
 
 	@Override

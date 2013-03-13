@@ -272,6 +272,7 @@
     <string name="itin_card_details_pick_up">Pick Up</string>
     <string name="itin_card_details_drop_off">Drop Off</string>
     <string name="itin_card_details_agency_phone">Agency Phone</string>
+    <string name="itin_card_details_toll_free_phone">Toll Free Phone</string>
     <string name="itin_card_details_check_in">Check In</string>
     <string name="itin_card_details_check_out">Check Out</string>
     <string name="itin_card_details_address">Address</string>
