@@ -100,51 +100,52 @@ public class TripParser {
 	private List<TripComponent> parseTripComponents(JSONObject obj) {
 		List<TripComponent> tripComponents = new ArrayList<TripComponent>();
 
-		// Parse hotels
-		JSONArray hotels = obj.optJSONArray("hotels");
-		if (hotels != null) {
-			for (int b = 0; b < hotels.length(); b++) {
-				tripComponents.add(parseTripHotel(hotels.optJSONObject(b)));
-			}
-		}
+		tripComponents.addAll(parseType(obj, "activities", TripComponent.Type.ACTIVITY));
+		tripComponents.addAll(parseType(obj, "cars", TripComponent.Type.CAR));
+		tripComponents.addAll(parseType(obj, "cruises", TripComponent.Type.CRUISE));
+		tripComponents.addAll(parseType(obj, "flights", TripComponent.Type.FLIGHT));
+		tripComponents.addAll(parseType(obj, "hotels", TripComponent.Type.HOTEL));
+		tripComponents.addAll(parseType(obj, "packages", TripComponent.Type.PACKAGE));
 
-		// Parse flights
-		JSONArray flights = obj.optJSONArray("flights");
-		if (flights != null) {
-			for (int b = 0; b < flights.length(); b++) {
-				tripComponents.add(parseTripFlight(flights.optJSONObject(b)));
-			}
-		}
+		return tripComponents;
+	}
 
-		// Parse cars
-		JSONArray cars = obj.optJSONArray("cars");
-		if (cars != null) {
-			for (int b = 0; b < cars.length(); b++) {
-				tripComponents.add(parseTripCar(cars.optJSONObject(b)));
-			}
-		}
+	private List<TripComponent> parseType(JSONObject obj, String key, TripComponent.Type type) {
+		List<TripComponent> tripComponents = new ArrayList<TripComponent>();
 
-		// Parse activities
-		JSONArray activities = obj.optJSONArray("activities");
-		if (activities != null) {
-			for (int b = 0; b < activities.length(); b++) {
-				tripComponents.add(parseTripActivity(activities.optJSONObject(b)));
-			}
-		}
+		JSONArray arr = obj.optJSONArray(key);
+		if (arr != null) {
+			for (int a = 0; a < arr.length(); a++) {
+				JSONObject componentJson = arr.optJSONObject(a);
+				TripComponent component = null;
 
-		// Parse cruises
-		JSONArray cruises = obj.optJSONArray("cruises");
-		if (cruises != null) {
-			for (int b = 0; b < cruises.length(); b++) {
-				tripComponents.add(parseTripCruise(cruises.optJSONObject(b)));
-			}
-		}
+				switch (type) {
+				case ACTIVITY:
+					component = parseTripActivity(componentJson);
+					break;
+				case CAR:
+					component = parseTripCar(componentJson);
+					break;
+				case CRUISE:
+					component = parseTripCruise(componentJson);
+					break;
+				case FLIGHT:
+					component = parseTripFlight(componentJson);
+					break;
+				case HOTEL:
+					component = parseTripHotel(componentJson);
+					break;
+				case PACKAGE:
+					component = parseTripPackage(componentJson);
+					break;
+				default:
+					component = null;
+					break;
+				}
 
-		// Parse packages
-		JSONArray packages = obj.optJSONArray("packages");
-		if (packages != null) {
-			for (int b = 0; b < packages.length(); b++) {
-				tripComponents.add(parseTripPackage(packages.optJSONObject(b)));
+				if (component != null && !BookingStatus.filterOut(component.getBookingStatus())) {
+					tripComponents.add(component);
+				}
 			}
 		}
 
@@ -182,8 +183,8 @@ public class TripParser {
 
 	// Until all date formats are normalized, we must support all of them.
 	private static final DateFormat[] DATE_FORMATS = {
-		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ"),
-		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
+			new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ"),
+			new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
 	};
 
 	private CustomerSupport parseCustomerSupport(JSONObject customerSupportJson) {

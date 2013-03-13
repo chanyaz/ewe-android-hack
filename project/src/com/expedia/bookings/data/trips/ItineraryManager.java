@@ -16,7 +16,6 @@ import java.util.Set;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -860,6 +859,13 @@ public class ItineraryManager implements JSONable {
 		}
 
 		private void refreshTrip(Trip trip, boolean deepRefresh) {
+			// It's possible for a trip to be removed during refresh (if it ends up being canceled
+			// during the refresh).  If it's been somehow queued for multiple refreshes (e.g.,
+			// deep refresh called during a sync) then we want to skip trying to refresh it twice.
+			if (!mTrips.containsKey(trip.getTripNumber())) {
+				return;
+			}
+
 			boolean gatherAncillaryData = true;
 
 			// Only update if we are outside the cutoff
@@ -894,11 +900,19 @@ public class ItineraryManager implements JSONable {
 				else {
 					Trip updatedTrip = response.getTrip();
 
-					// Update trip
-					trip.updateFrom(updatedTrip);
-					trip.markUpdated(deepRefresh);
+					if (BookingStatus.filterOut(updatedTrip.getBookingStatus())) {
+						gatherAncillaryData = false;
 
-					mRefreshedTrips++;
+						Trip removeTrip = mTrips.remove(updatedTrip.getTripNumber());
+						publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, removeTrip));
+					}
+					else {
+						// Update trip
+						trip.updateFrom(updatedTrip);
+						trip.markUpdated(deepRefresh);
+
+						mRefreshedTrips++;
+					}
 				}
 			}
 
@@ -944,6 +958,10 @@ public class ItineraryManager implements JSONable {
 					Set<String> currentTrips = new HashSet<String>(mTrips.keySet());
 
 					for (Trip trip : response.getTrips()) {
+						if (BookingStatus.filterOut(trip.getBookingStatus())) {
+							continue;
+						}
+
 						String tripNumber = trip.getTripNumber();
 
 						LevelOfDetail lod = trip.getLevelOfDetail();
