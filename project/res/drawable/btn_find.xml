@@ -11,5 +11,5 @@
     <item android:state_focused="true"
         android:drawable="@drawable/btn_find_focused" />
     <item
-        android:drawable="@drawable/btn_default_normal_disable" />
+        android:drawable="@drawable/btn_find_disabled" />
 </selector>
