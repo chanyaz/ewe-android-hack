@@ -81,6 +81,11 @@ public class ItineraryManager implements JSONable {
 	 * single guest trip.
 	 */
 	public void addGuestTrip(String email, String tripNumber) {
+		if (mTrips == null) {
+			Log.w("ItineraryManager - Attempt to add guest trip, mTrips == null. Init");
+			mTrips = new HashMap<String, Trip>();
+		}
+
 		Trip trip = new Trip(email, tripNumber);
 		mTrips.put(tripNumber, trip);
 

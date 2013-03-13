@@ -80,9 +80,9 @@ public class ConfirmationFragmentActivity extends SherlockFragmentActivity imple
 			}
 			else {
 				//Add guest itin to itin manager
-				if (Db.getCreateTripResponse() != null && Db.getBillingInfo() != null && !User.isLoggedIn(this)) {
+				if (Db.getBookingResponse() != null && Db.getBillingInfo() != null && !User.isLoggedIn(this)) {
 					String email = Db.getBillingInfo().getEmail();
-					String tripId = Db.getCreateTripResponse().getTripId();
+					String tripId = Db.getBookingResponse().getItineraryId();
 					ItineraryManager.getInstance().addGuestTrip(email, tripId);
 				}
 

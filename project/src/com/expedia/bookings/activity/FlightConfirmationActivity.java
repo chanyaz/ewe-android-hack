@@ -65,7 +65,7 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 				//Add guest itin to ItinManager
 				if (!User.isLoggedIn(this)) {
 					String email = Db.getBillingInfo().getEmail();
-					String tripId = Db.getItinerary(itinNum).getTripId();
+					String tripId = Db.getItinerary(itinNum).getItineraryNumber();
 					ItineraryManager.getInstance().addGuestTrip(email, tripId);
 				}
 
