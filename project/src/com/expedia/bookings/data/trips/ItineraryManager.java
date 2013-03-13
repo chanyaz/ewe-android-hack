@@ -583,7 +583,7 @@ public class ItineraryManager implements JSONable {
 	}
 
 	public boolean isSyncing() {
-		return mSyncTask != null && mSyncTask.getStatus() != AsyncTask.Status.FINISHED;
+		return mSyncTask != null && mSyncTask.getStatus() != AsyncTask.Status.FINISHED && !mSyncTask.isCancelled();
 	}
 
 	private class SyncTask extends AsyncTask<Void, ProgressUpdate, Collection<Trip>> {
@@ -698,11 +698,8 @@ public class ItineraryManager implements JSONable {
 			logStats();
 		}
 
-		@SuppressLint("NewApi")
 		@Override
-		protected void onCancelled(Collection<Trip> result) {
-			super.onCancelled(result);
-
+		protected void onCancelled() {
 			// Currently, the only reason we are canceled is if
 			// the user signs out mid-update.  So continue
 			// the signout in that case.
@@ -728,7 +725,8 @@ public class ItineraryManager implements JSONable {
 			}
 
 			Log.i("Total trips=" + mTrips.size() + "; Refreshed trips=" + mRefreshedTrips + "; failed trip refreshes="
-					+ mFailedTripRefreshes + "; image urls grabbed=" + mImagesGrabbed + "; flightstats updates=" + mFlightsUpdated);
+					+ mFailedTripRefreshes + "; image urls grabbed=" + mImagesGrabbed + "; flightstats updates="
+					+ mFlightsUpdated);
 		}
 
 		//////////////////////////////////////////////////////////////////////
