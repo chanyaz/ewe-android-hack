@@ -46,37 +46,38 @@ public class CreditCardInfoEditTest extends ActivityInstrumentationTestCase2<Hot
 		super.tearDown();
 	}
 
-	protected void testMethod(String[] prefixes, int length, int imageID) throws Exception {
+	protected void testMethod(String[] prefixes, int length, int imageID, int repetitions, int additionalFunctionCase)
+			throws Exception {
 		Random rand = new Random();
 		int randomNumber;
 
 		//Click text to get to card number edit text
 		mSolo.clickOnText(mRes.getString(R.string.add_new_card));
 		mDriver.delay();
-		if(mSolo.searchText(mRes.getString(R.string.add_new_card))) {
+		if (mSolo.searchText(mRes.getString(R.string.add_new_card))) {
 			mSolo.clickOnText(mRes.getString(R.string.add_new_card));
 		}
-		
+
 		EditText creditCardEditText = (EditText) mSolo.getView(R.id.edit_creditcard_number);
 		String creditcardNumber;
 		ImageView imageHolder;
 
 		for (int i = 0; i < prefixes.length; i++) {
-			//check 5 pseudo-random credit card numbers per card type
-			for (int repetitions = 0; repetitions < 5; repetitions++) {
+			//check (repetition) # pseudo-random credit card numbers per card type
+			for (int j = 0; j < repetitions; j++) {
 				creditcardNumber = prefixes[i];
-				for (int j = creditcardNumber.length(); j < length; j++) {
+				for (int k = creditcardNumber.length(); k < length; k++) {
 					randomNumber = rand.nextInt(10);
 					creditcardNumber += randomNumber;
 				}
 				mSolo.typeText(creditCardEditText, creditcardNumber);
 				mDriver.delay();
-				
+
 				//grab the imageView - it contains the changed credit card image
 				imageHolder = (ImageView) mSolo.getView(R.id.display_credit_card_brand_icon_white);
 				BitmapDrawable currentImage = (BitmapDrawable) imageHolder.getDrawable();
 				BitmapDrawable desiredImage = (BitmapDrawable) mRes.getDrawable(imageID);
-				
+
 				//compare image displayed and desired image pixel-by-pixel
 				//fail if different
 				if (!currentImage.getBitmap().sameAs(desiredImage.getBitmap())) {
@@ -88,73 +89,76 @@ public class CreditCardInfoEditTest extends ActivityInstrumentationTestCase2<Hot
 		}
 	}
 
+	///////////// Credit Card Logo Tests /////////////
 	public void testVisa16() throws Exception {
 		String[] prefixes = { "4" };
-		testMethod(prefixes, 16, R.drawable.ic_visa_white);
+		testMethod(prefixes, 16, R.drawable.ic_visa_white, 10, 0);
 	}
 
 	public void testVisa13() throws Exception {
 		String[] prefixes = { "4" };
-		testMethod(prefixes, 13, R.drawable.ic_visa_white);
+		testMethod(prefixes, 13, R.drawable.ic_visa_white, 10, 0);
 	}
 
 	public void testMasterCard() throws Exception {
 		String[] prefixes = { "51", "52", "53", "54", "55" };
-		testMethod(prefixes, 16, R.drawable.ic_master_card_white);
+		testMethod(prefixes, 16, R.drawable.ic_master_card_white, 10, 0);
 	}
 
 	public void testMaestro16() throws Exception {
 		String[] prefixes = { "50", "63", "67" };
-		testMethod(prefixes, 16, R.drawable.ic_maestro_white);
+		testMethod(prefixes, 16, R.drawable.ic_maestro_white, 10, 0);
 	}
 
 	public void testMaestro18() throws Exception {
 		String[] prefixes = { "50", "63", "67" };
-		testMethod(prefixes, 18, R.drawable.ic_maestro_white);
+		testMethod(prefixes, 18, R.drawable.ic_maestro_white, 10, 0);
 	}
 
 	public void testMaestro19() throws Exception {
 		String[] prefixes = { "50", "63", "67" };
-		testMethod(prefixes, 19, R.drawable.ic_maestro_white);
+		testMethod(prefixes, 19, R.drawable.ic_maestro_white, 10, 0);
 	}
 
 	public void testDiscover() throws Exception {
 		String[] prefixes = { "60" };
-		testMethod(prefixes, 16, R.drawable.ic_discover_white);
+		testMethod(prefixes, 16, R.drawable.ic_discover_white, 10, 0);
 	}
 
 	public void testDinersClub() throws Exception {
 		String[] prefixes = { "30", "36", "38", "60" };
-		testMethod(prefixes, 14, R.drawable.ic_diners_club_white);
+		testMethod(prefixes, 14, R.drawable.ic_diners_club_white, 10, 0);
 	}
 
 	public void testChinaUnion16() throws Exception {
 		String[] prefixes = { "62" };
-		testMethod(prefixes, 16, R.drawable.ic_union_pay_white);
+		testMethod(prefixes, 16, R.drawable.ic_union_pay_white, 10, 0);
 	}
 
 	public void testChinaUnion17() throws Exception {
 		String[] prefixes = { "62" };
-		testMethod(prefixes, 17, R.drawable.ic_union_pay_white);
+		testMethod(prefixes, 17, R.drawable.ic_union_pay_white, 10, 0);
 	}
 
 	public void testChinaUnion18() throws Exception {
 		String[] prefixes = { "62" };
-		testMethod(prefixes, 18, R.drawable.ic_union_pay_white);
+		testMethod(prefixes, 18, R.drawable.ic_union_pay_white, 10, 0);
 	}
 
 	public void testChinaUnion19() throws Exception {
 		String[] prefixes = { "62" };
-		testMethod(prefixes, 19, R.drawable.ic_union_pay_white);
+		testMethod(prefixes, 19, R.drawable.ic_union_pay_white, 10, 0);
 	}
 
 	public void testCarteBlanche() throws Exception {
 		String[] prefixes = { "94", "95" };
-		testMethod(prefixes, 14, R.drawable.ic_carte_blanche_white);
+		testMethod(prefixes, 14, R.drawable.ic_carte_blanche_white, 10, 0);
 	}
 
 	public void testAmex() throws Exception {
 		String[] prefixes = { "34", "37" };
-		testMethod(prefixes, 15, R.drawable.ic_amex_white);
+		testMethod(prefixes, 15, R.drawable.ic_amex_white, 10, 0);
 	}
+	///////////////////////////////////////
+
 }
