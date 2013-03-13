@@ -2,6 +2,7 @@ package com.expedia.bookings.widget.itin;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -209,14 +210,20 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 
 	@Override
 	public SummaryButton getSummaryRightButton() {
-		return new SummaryButton(R.drawable.ic_phone, getItinCardData().getVendorName(), new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				SocialUtils.call(getContext(), getItinCardData().getRelevantVendorPhone());
+		final String vendorPhone = getItinCardData().getRelevantVendorPhone();
+		if (!TextUtils.isEmpty(vendorPhone)) {
+			return new SummaryButton(R.drawable.ic_phone, getItinCardData().getVendorName(), new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					SocialUtils.call(getContext(), vendorPhone);
 
-				OmnitureTracking.trackItinCarCall(getContext());
-			}
-		});
+					OmnitureTracking.trackItinCarCall(getContext());
+				}
+			});
+		}
+		else {
+			return getSupportSummaryButton();
+		}
 	}
 
 }

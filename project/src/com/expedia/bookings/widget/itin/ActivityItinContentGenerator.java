@@ -226,7 +226,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 		}
 
 		if (TextUtils.isEmpty(phoneNumber)) {
-			return null;
+			return getSupportSummaryButton();
 		}
 		else {
 			final String finalPhoneNumber = phoneNumber;
