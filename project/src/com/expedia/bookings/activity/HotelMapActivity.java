@@ -83,7 +83,7 @@ public class HotelMapActivity extends SherlockFragmentActivity implements HotelM
 
 		// Display the address
 		TextView addressTextView = Ui.findView(this, R.id.address_text_view);
-		addressTextView.setText(location.getStreetAddressString() + "\n" + location.toFormattedString());
+		addressTextView.setText(location.getStreetAddressString() + "\n" + location.toShortFormattedString());
 
 		if (savedInstanceState == null) {
 			OmnitureTracking.trackPageLoadHotelsInfositeMap(getApplicationContext());

@@ -63,7 +63,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		String pickUpDate = itinCardData.getFormattedShortPickUpDate();
 		String dropOffDate = itinCardData.getFormattedShortDropOffDate();
 		String vendorName = itinCardData.getVendorName();
-		String vendorAddress = itinCardData.getRelevantVendorLocation().toFormattedString();
+		String vendorAddress = itinCardData.getRelevantVendorLocation().toLongFormattedString();
 
 		return String.format(template, carType, pickUpDate, dropOffDate, vendorName, vendorAddress);
 	}

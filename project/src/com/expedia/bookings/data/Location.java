@@ -230,12 +230,10 @@ public class Location implements JSONable {
 		}
 	}
 
-	public String toFormattedString() {
+	public String toShortFormattedString() {
 		ArrayList<String> locationParts = new ArrayList<String>();
-		locationParts.add(getStreetAddressString());
 		locationParts.add(mCity);
 		locationParts.add(mStateCode);
-		locationParts.add(mPostalCode);
 		if (!TextUtils.equals(mCountryCode, "US")) {
 			locationParts.add(mCountryCode);
 		}
@@ -244,10 +242,10 @@ public class Location implements JSONable {
 	}
 
 	public String toLongFormattedString() {
-		if (TextUtils.isDigitsOnly(getStreetAddressString()) && TextUtils.isEmpty(toFormattedString())) {
+		if (TextUtils.isDigitsOnly(getStreetAddressString()) && TextUtils.isEmpty(toShortFormattedString())) {
 			return null;
 		}
 
-		return TextUtils.join(", ", new String[] { getStreetAddressString(), toFormattedString() });
+		return TextUtils.join(", ", new String[] { getStreetAddressString(), toShortFormattedString(), mPostalCode });
 	}
 }
