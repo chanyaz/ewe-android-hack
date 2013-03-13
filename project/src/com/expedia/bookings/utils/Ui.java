@@ -52,4 +52,11 @@ public class Ui extends com.mobiata.android.util.Ui {
 		}
 		return fragment;
 	}
+
+	/**
+	 * Utility method to determine whether or not you can safely touch this Fragment.
+	 */
+	public static boolean isAdded(Fragment fragment) {
+		return fragment != null && fragment.isAdded();
+	}
 }

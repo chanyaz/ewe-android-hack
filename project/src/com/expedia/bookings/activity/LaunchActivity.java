@@ -268,7 +268,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 		}
 		case R.id.add_itinerary: {
 			if (User.isLoggedIn(this)) {
-				if (mItinListFragment != null) {
+				if (Ui.isAdded(mItinListFragment)) {
 					mItinListFragment.startAddGuestItinActivity();
 				}
 				return true;
@@ -276,19 +276,19 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 			return false;
 		}
 		case R.id.add_itinerary_login: {
-			if (mItinListFragment != null) {
+			if (Ui.isAdded(mItinListFragment)) {
 				mItinListFragment.startLoginActivity();
 			}
 			return true;
 		}
 		case R.id.add_itinerary_guest: {
-			if (mItinListFragment != null) {
+			if (Ui.isAdded(mItinListFragment)) {
 				mItinListFragment.startAddGuestItinActivity();
 			}
 			return true;
 		}
 		case R.id.ab_log_out: {
-			if (mItinListFragment != null) {
+			if (Ui.isAdded(mItinListFragment)) {
 				mItinListFragment.accountLogoutClicked();
 			}
 			return true;
@@ -296,7 +296,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 		case R.id.settings: {
 			Intent intent = new Intent(this, ExpediaBookingPreferenceActivity.class);
 			startActivityForResult(intent, REQUEST_SETTINGS);
-			if (mLaunchFragment != null) {
+			if (Ui.isAdded(mLaunchFragment)) {
 				mLaunchFragment.cleanUp();
 			}
 			return true;
