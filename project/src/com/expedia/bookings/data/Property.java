@@ -343,14 +343,20 @@ public class Property implements JSONable {
 			obj.putOpt("description", mDescriptionText);
 			JSONUtils.putJSONable(obj, "thumbnail", mThumbnail);
 			JSONUtils.putJSONableList(obj, "media", mMedia);
+			obj.putOpt("localPhone", mLocalPhone);
+			obj.putOpt("tollFreePhone", mTollFreePhone);
 			obj.putOpt("available", mAvailable);
 			JSONUtils.putJSONable(obj, "distanceFromUser", mDistanceFromUser);
+			obj.putOpt("roomsLeft", mRoomsLeftAtThisRate);
 			obj.putOpt("supplierType", mSupplierType);
 			obj.putOpt("amenityMask", mAmenityMask);
 			obj.putOpt("hotelRating", mHotelRating);
 			obj.putOpt("totalReviews", mTotalReviews);
 			obj.putOpt("totalRecommendations", mTotalRecommendations);
 			obj.putOpt("averageExpediaRating", mAverageExpediaRating);
+			obj.putOpt("isLowestRateMobileExclusive", mIsLowestRateMobileExclusive);
+			obj.putOpt("isLowestRateTonightOnly", mIsLowestRateTonightOnly);
+			obj.putOpt("infoSiteUrl", mInfoSiteUrl);
 
 			JSONUtils.putJSONable(obj, "lowestRate", mLowestRate);
 
@@ -369,8 +375,11 @@ public class Property implements JSONable {
 		mDescriptionText = obj.optString("description", null);
 		mThumbnail = JSONUtils.getJSONable(obj, "thumbnail", Media.class);
 		mMedia = JSONUtils.getJSONableList(obj, "media", Media.class);
+		mLocalPhone = obj.optString("localPhone", null);
+		mTollFreePhone = obj.optString("tollFreePhone", null);
 		mAvailable = obj.optBoolean("available", false);
 		mDistanceFromUser = JSONUtils.getJSONable(obj, "distanceFromUser", Distance.class);
+		mRoomsLeftAtThisRate = obj.optInt("roomsLeft", 0);
 		mSupplierType = obj.optString("supplierType", null);
 		mHotelRating = obj.optDouble("hotelRating");
 		mTotalReviews = obj.optInt("totalReviews", 0);
@@ -378,6 +387,9 @@ public class Property implements JSONable {
 		mAverageExpediaRating = obj.optDouble("averageExpediaRating", 0);
 		mAmenityMask = obj.optInt("amenityMask");
 		mLowestRate = JSONUtils.getJSONable(obj, "lowestRate", Rate.class);
+		mIsLowestRateMobileExclusive = obj.optBoolean("isLowestRateMobileExclusive");
+		mIsLowestRateTonightOnly = obj.optBoolean("isLowestRateTonightOnly");
+		mInfoSiteUrl = obj.optString("infoSiteUrl", null);
 
 		return true;
 	}

@@ -1,6 +1,7 @@
 package com.expedia.bookings.data.trips;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.json.JSONException;
@@ -73,6 +74,8 @@ public class TripHotel extends TripComponent {
 		try {
 			JSONUtils.putJSONable(obj, "property", mProperty);
 			obj.put("guests", mGuests);
+			obj.putOpt("checkInTime", mCheckInTime);
+			JSONUtils.putStringList(obj, "confNumbers", mConfirmationNumbers);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -85,6 +88,14 @@ public class TripHotel extends TripComponent {
 		super.fromJson(obj);
 		mProperty = JSONUtils.getJSONable(obj, "property", Property.class);
 		mGuests = obj.optInt("guests");
+		mCheckInTime = obj.optString("checkInTime", null);
+
+		List<String> confNumbers = JSONUtils.getStringList(obj, "confNumbers");
+		if (confNumbers != null && confNumbers.size() > 0) {
+			mConfirmationNumbers = new HashSet<String>();
+			mConfirmationNumbers.addAll(confNumbers);
+		}
+
 		return true;
 	}
 }

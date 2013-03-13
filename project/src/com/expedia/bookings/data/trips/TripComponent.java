@@ -146,6 +146,9 @@ public class TripComponent implements JSONable {
 
 		mStartDate = JSONUtils.getJSONable(obj, "startDate", DateTime.class);
 		mEndDate = JSONUtils.getJSONable(obj, "endDate", DateTime.class);
+
+		mBookingStatus = JSONUtils.getEnum(obj, "bookingStatus", BookingStatus.class);
+
 		return true;
 	}
 
