@@ -19,6 +19,8 @@ import com.expedia.bookings.data.Car.Category;
 import com.expedia.bookings.data.Car.Type;
 import com.expedia.bookings.data.CarVendor;
 import com.expedia.bookings.data.DateTime;
+import com.expedia.bookings.data.Distance;
+import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
@@ -375,11 +377,17 @@ public class TripParser {
 				segment.mAircraftType = segmentJson.optString("equipmentDescription", null);
 
 				// We assume all distances are in miles, throw a fit if that's not the case
-				if (!"mi".equals(segmentJson.optString("distanceUnits"))) {
-					throw new RuntimeException("Wasn't expecting non-miles unit");
+				String distanceUnits = segmentJson.optString("distanceUnits");
+				DistanceUnit unit = DistanceUnit.MILES; // Assume miles by default
+				if ("km".equals(distanceUnits)) {
+					unit = DistanceUnit.KILOMETERS;
 				}
+				else if (!"mi".equals(distanceUnits)) {
+					Log.w("Did not get a distance unit we recognize - what is a \"" + distanceUnits + "\"");
+				}
+				Distance distance = new Distance(segmentJson.optInt("distance"), unit);
 
-				segment.mDistanceToTravel = segmentJson.optInt("distance"); // Assumes "miles" here
+				segment.mDistanceToTravel = (int) Math.round(distance.getDistance(DistanceUnit.MILES));
 
 				leg.addSegment(segment);
 			}
