@@ -560,7 +560,17 @@ public class HotelsRobotHelper {
 		portrait();
 		mSolo.waitForDialogToClose(10000);
 		screenshot("Rooms and Rates Screen");
-		mSolo.clickInList(roomIndex);
+		try {
+			mSolo.clickInList(roomIndex);
+		}
+		catch (Error noRoomsListed) {
+			mSolo.goBack();
+			mSolo.goBack();
+			mSolo.scrollDown();
+			selectHotel(2);
+			pressBookRoom();
+			selectRoom(0);
+		}
 		delay();
 
 		mSolo.waitForActivity("ExpediaBookingActivity");
