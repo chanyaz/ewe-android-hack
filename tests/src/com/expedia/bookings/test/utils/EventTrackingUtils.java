@@ -10,7 +10,7 @@ import android.util.Log;
 
 public class EventTrackingUtils {
 
-	private final static String TAG = "Adding event to log.";
+	private final static String TAG = "Event Tracking";
 	PrintWriter mFileWriter;
 	private String mFileName;
 
@@ -42,7 +42,7 @@ public class EventTrackingUtils {
 			timestamp = ": " + time.toString();
 		}
 		mFileWriter.println(line + timestamp);
-
+		mFileWriter.flush();
 	}
 
 	public void flushFileWriter() {
@@ -50,6 +50,9 @@ public class EventTrackingUtils {
 	}
 
 	public void closeFileWriter() {
+		if(mFileWriter.checkError()) {
+			Log.v(TAG, "There was an error in the file stream");
+		}
 		mFileWriter.close();
 	}
 }
