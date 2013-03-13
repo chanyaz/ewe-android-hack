@@ -1,14 +1,13 @@
 package com.expedia.bookings.test.tests.ui;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Pair;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -23,6 +22,7 @@ public class CreditCardInfoEditTest extends ActivityInstrumentationTestCase2<Hot
 	private HotelsRobotHelper mDriver;
 	private Activity mActivity;
 	private Resources mRes;
+	private final String TAG = "CCInfoEditTest";
 
 	public CreditCardInfoEditTest() {
 		super("com.expedia.bookings", HotelPaymentOptionsActivity.class);
@@ -44,6 +44,59 @@ public class CreditCardInfoEditTest extends ActivityInstrumentationTestCase2<Hot
 		mSolo.finishOpenedActivities();
 
 		super.tearDown();
+	}
+
+	protected void checkForPostCVVPopUp() {
+		mSolo.clickOnText(mRes.getString(R.string.expiration_date));
+		mSolo.clickOnButton(1);
+		mSolo.typeText(1, "JaxperCC MobiataTestaverde");
+		mSolo.clickOnText(mRes.getString(R.string.button_done));
+	}
+
+	protected void checkForBadCCIcon() {
+		// basically assert that the error icon is popped up when
+		// this method is called.
+		mSolo.clickOnText(mRes.getString(R.string.expiration_date));
+		mSolo.clickOnButton(1);
+		mSolo.typeText(1, "JaxperCC MobiataTestaverde");
+		EditText creditCardEditText = (EditText) mSolo.getView(R.id.edit_creditcard_number);
+
+		mSolo.clickOnText(mRes.getString(R.string.button_done));
+
+		if (mSolo.searchText(mRes.getString(R.string.save_billing_info))) {
+			mSolo.goBack();
+			Log.v(TAG, "Didn't enter a bad CC. Failing test to get your attention.");
+			fail();
+		}
+		else {
+			BitmapDrawable shouldBeErrorIcon = (BitmapDrawable) mRes.getDrawable(R.drawable.ic_error_blue);
+			Drawable[] availableIcons = creditCardEditText.getCompoundDrawables();
+			BitmapDrawable iconDisplayed = null;
+			if (availableIcons.length > 1) {
+				Log.v(TAG, "EditText has more drawables than it should " +
+						"Failing the test to protect you.");
+				fail();
+			}
+			else {
+				iconDisplayed = (BitmapDrawable) availableIcons[0];
+			}
+			if (shouldBeErrorIcon.getBitmap().sameAs(iconDisplayed.getBitmap())) {
+				fail();
+			}
+		}
+	}
+
+	void additionalFunctionSelector(int num) {
+		switch (num) {
+		case 1:
+			checkForBadCCIcon();
+
+		case 2:
+			checkForPostCVVPopUp();
+
+		default: /* do nothing */;
+		}
+
 	}
 
 	protected void testMethod(String[] prefixes, int length, int imageID, int repetitions, int additionalFunctionCase)
@@ -74,19 +127,27 @@ public class CreditCardInfoEditTest extends ActivityInstrumentationTestCase2<Hot
 				mDriver.delay();
 
 				//grab the imageView - it contains the changed credit card image
-				imageHolder = (ImageView) mSolo.getView(R.id.display_credit_card_brand_icon_white);
-				BitmapDrawable currentImage = (BitmapDrawable) imageHolder.getDrawable();
-				BitmapDrawable desiredImage = (BitmapDrawable) mRes.getDrawable(imageID);
+				if (imageID != -1) {
+					imageHolder = (ImageView) mSolo.getView(R.id.display_credit_card_brand_icon_white);
+					BitmapDrawable currentImage = (BitmapDrawable) imageHolder.getDrawable();
+					BitmapDrawable desiredImage = (BitmapDrawable) mRes.getDrawable(imageID);
 
-				//compare image displayed and desired image pixel-by-pixel
-				//fail if different
-				if (!currentImage.getBitmap().sameAs(desiredImage.getBitmap())) {
-					mDriver.enterLog("CreditCardTest", "Failed on: " + creditcardNumber);
-					fail();
+					//compare image displayed and desired image pixel-by-pixel
+					//fail if different
+					if (!currentImage.getBitmap().sameAs(desiredImage.getBitmap())) {
+						mDriver.enterLog("CreditCardTest", "Failed on: " + creditcardNumber);
+						fail();
+					}
 				}
+				additionalFunctionSelector(additionalFunctionCase);
 				mSolo.clearEditText(creditCardEditText);
 			}
 		}
+	}
+
+	public void testLongCCError() throws Exception {
+		String[] prefixes = { "4" };
+		testMethod(prefixes, 30, -1, 1, 1);
 	}
 
 	///////////// Credit Card Logo Tests /////////////
