@@ -15,9 +15,7 @@ import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Events;
 import android.support.v4.app.Fragment;
-import android.text.Html;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.MeasureSpec;
@@ -39,10 +37,8 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Itinerary;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
-import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.section.FlightLegSummarySection;
@@ -54,17 +50,16 @@ import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.NavUtils;
+import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Flight;
-import com.mobiata.flightlib.data.Layover;
 import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.utils.AddFlightsIntentUtils;
 import com.mobiata.flightlib.utils.DateTimeUtils;
-import com.mobiata.flightlib.utils.FormatUtils;
 
 // We can assume that if this fragment loaded we successfully booked, so most
 // data we need to grab is available.
@@ -394,155 +389,16 @@ public class FlightConfirmationFragment extends Fragment {
 	// Share booking
 
 	private void share() {
-		Context context = getActivity();
 		FlightSearch search = Db.getFlightSearch();
 		FlightTrip trip = search.getSelectedFlightTrip();
-		FlightLeg firstLeg = trip.getLeg(0);
-		//		Traveler traveler = Db.getTravelers().get(0); // Assume first traveler is only traveler
-		int numAdults = Db.getFlightSearch().getSearchParams().getNumAdults();
-		int numLegs = trip.getLegCount();
 
-		String originCity = StrUtils.getWaypointCityOrCode(firstLeg.getFirstWaypoint());
-		String destinationCity = StrUtils.getWaypointCityOrCode(firstLeg.getLastWaypoint());
+		ShareUtils shareUtils = new ShareUtils(mContext);
+		String subject = shareUtils.getFlightShareSubject(trip);
+		String body = shareUtils.getFlightShareEmail(trip, Db.getTravelers());
 
-		// Construct subject
-		long start = DateTimeUtils.getTimeInLocalTimeZone(firstLeg.getFirstWaypoint().getMostRelevantDateTime())
-				.getTime();
-		long end = DateTimeUtils.getTimeInLocalTimeZone(
-				trip.getLeg(numLegs - 1).getLastWaypoint().getMostRelevantDateTime()).getTime();
-		String dateRange = DateUtils.formatDateRange(context, start, end, DateUtils.FORMAT_NUMERIC_DATE
-				| DateUtils.FORMAT_SHOW_DATE);
-		String subject = getString(R.string.share_flight_title_TEMPLATE, destinationCity, dateRange);
+		SocialUtils.email(getActivity(), subject, body);
 
-		// Construct the body
-		StringBuilder body = new StringBuilder();
-		body.append(getResources().getQuantityString(R.plurals.share_flight_start, numAdults));
-
-		body.append("\n\n");
-
-		if (numLegs == 1) {
-			body.append(getString(R.string.share_flight_one_way_TEMPLATE, originCity, destinationCity));
-		}
-		else {
-			// Assume round trip for now
-			body.append(getString(R.string.share_flight_round_trip_TEMPLATE, originCity, destinationCity));
-		}
-
-		body.append("\n\n");
-
-		body.append(getString(R.string.share_flight_itinerary_TEMPLATE, trip.getItineraryNumber()));
-
-		body.append("\n\n");
-
-		Traveler traveler;
-		// Note: Arguments for string are slightly different depending on single vs. multiple travelers
-		if (numAdults == 1) {
-			traveler = Db.getTravelers().get(0);
-			body.append(getResources().getQuantityString(R.plurals.share_flight_name_TEMPLATE, numAdults,
-					traveler.getFirstName() + " " + traveler.getLastName()));
-			body.append("\n\n");
-		}
-		else {
-			for (int i = 0; i < numAdults; i++) {
-				traveler = Db.getTravelers().get(i);
-				body.append(getResources().getQuantityString(R.plurals.share_flight_name_TEMPLATE, numAdults, i + 1,
-						traveler.getFirstName() + " " + traveler.getLastName()));
-				body.append("\n");
-			}
-			body.append("\n");
-		}
-
-		body.append(getString(R.string.share_flight_section_outbound));
-
-		body.append("\n\n");
-
-		addShareLeg(body, firstLeg);
-
-		// Assume only round trips
-		if (numLegs == 2) {
-			body.append("\n\n");
-
-			body.append(getString(R.string.share_flight_section_return));
-
-			body.append("\n\n");
-
-			addShareLeg(body, trip.getLeg(1));
-		}
-
-		body.append("\n\n");
-
-		body.append(getResources().getQuantityString(R.plurals.share_flight_ticket_cost_TEMPLATE, numAdults,
-				trip.getBaseFare().getFormattedMoney()));
-
-		body.append("\n");
-
-		Money taxesAndFees = new Money(trip.getTaxes());
-		taxesAndFees.add(trip.getFees());
-
-		body.append(getString(R.string.share_flight_taxes_fees_TEMPLATE, taxesAndFees.getFormattedMoney()));
-
-		body.append("\n\n");
-
-		body.append(getString(R.string.share_flight_airfare_total_TEMPLATE, trip.getTotalFare().getFormattedMoney()));
-
-		body.append("\n\n");
-
-		body.append(getString(R.string.share_flight_additional_fees_TEMPLATE, trip.getBaggageFeesUrl()));
-
-		body.append("\n\n");
-
-		body.append(getString(R.string.share_flight_support_TEMPLATE, PointOfSale.getPointOfSale()
-				.getSupportPhoneNumber()));
-
-		body.append("\n\n");
-
-		body.append(getString(R.string.share_flight_shill_app));
-
-		SocialUtils.email(getActivity(), subject, body.toString());
 		SettingUtils.save(mContext, ConfirmationState.PREF_HAS_SHARED_VIA_EMAIL, true);
-	}
-
-	private void addShareLeg(StringBuilder sb, FlightLeg flightLeg) {
-		Context context = getActivity();
-		Resources res = context.getResources();
-		int segCount = flightLeg.getSegmentCount();
-
-		for (int a = 0; a < segCount; a++) {
-			Flight flight = flightLeg.getSegment(a);
-
-			if (a > 0) {
-				Layover layover = new Layover(flightLeg.getSegment(a - 1), flight);
-				String duration = DateTimeUtils.formatDuration(res, layover.mDuration);
-				String waypoint = StrUtils.formatWaypoint(flight.mOrigin);
-				sb.append(Html.fromHtml(getString(R.string.layover_duration_location_TEMPLATE, duration, waypoint)));
-				sb.append("\n\n");
-			}
-
-			sb.append(getString(R.string.path_template, formatAirport(flight.mOrigin.getAirport()),
-					formatAirport(flight.mDestination.getAirport())));
-			sb.append("\n");
-			long start = DateTimeUtils.getTimeInLocalTimeZone(flight.mOrigin.getMostRelevantDateTime()).getTime();
-			sb.append(DateUtils.formatDateTime(context, start, DateUtils.FORMAT_SHOW_DATE
-					| DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_WEEKDAY));
-			sb.append("\n");
-			long end = DateTimeUtils.getTimeInLocalTimeZone(flight.mDestination.getMostRelevantDateTime()).getTime();
-			sb.append(DateUtils.formatDateRange(context, start, end, DateUtils.FORMAT_SHOW_TIME));
-			sb.append("\n");
-			sb.append(FormatUtils.formatFlightNumber(flight, context));
-
-			if (a + 1 != segCount) {
-				sb.append("\n\n");
-			}
-		}
-	}
-
-	private String formatAirport(Airport airport) {
-		if (!TextUtils.isEmpty(airport.mCity)) {
-			return airport.mCity + " (" + airport.mAirportCode + ")";
-		}
-		else {
-			return airport.mAirportCode;
-		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
