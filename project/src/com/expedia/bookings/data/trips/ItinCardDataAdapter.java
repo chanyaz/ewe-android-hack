@@ -76,7 +76,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 
 	@Override
 	public synchronized ItinCardData getItem(int position) {
-		if (mItinCardDatas != null) {
+		if (mItinCardDatas != null && position < mItinCardDatas.size()) {
 			return mItinCardDatas.get(position);
 		}
 
