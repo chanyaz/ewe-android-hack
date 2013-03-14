@@ -510,8 +510,7 @@ public class ItineraryManager implements JSONable {
 
 	private SyncTask mSyncTask;
 
-	// TODO: Figure out better values for this
-	private static final long UPDATE_TRIP_CACHED_CUTOFF = 1000 * 60 * 60 * 24; // 1 day
+	private static final long REFRESH_TRIP_CUTOFF = 1000 * 60 * 15; // 15 minutes
 
 	private static final long MINUTE = DateUtils.MINUTE_IN_MILLIS;
 	private static final long HOUR = DateUtils.HOUR_IN_MILLIS;
@@ -884,7 +883,7 @@ public class ItineraryManager implements JSONable {
 
 			// Only update if we are outside the cutoff
 			long now = Calendar.getInstance().getTimeInMillis();
-			if (now - UPDATE_TRIP_CACHED_CUTOFF > trip.getLastCachedUpdateMillis() || deepRefresh) {
+			if (now - REFRESH_TRIP_CUTOFF > trip.getLastCachedUpdateMillis() || deepRefresh) {
 				// Limit the user to one deep refresh per DEEP_REFRESH_RATE_LIMIT. Use cache refresh if user attempts to
 				// deep refresh within the limit.
 				if (now - trip.getLastFullUpdateMillis() < DEEP_REFRESH_RATE_LIMIT) {
@@ -950,10 +949,15 @@ public class ItineraryManager implements JSONable {
 				Log.d("User is not logged in, not refreshing user list.");
 			}
 			else {
-				Log.d("User is logged in, refreshing the user list.");
+				// We only want to get the first N cached details if it's been more than
+				// REFRESH_TRIP_CUTOFF since the last refresh.  If we've refreshed more
+				// recently, then we only want to update individual trips as is necessary
+				// (so that the summary call goes out quickly).
+				boolean getCachedDetails = Calendar.getInstance().getTimeInMillis() - REFRESH_TRIP_CUTOFF > mLastUpdateTime;
 
-				// Always get cached details of first N trips, to save network requests later
-				TripResponse response = mServices.getTrips(true, 0);
+				Log.d("User is logged in, refreshing the user list.  Using cached details call: " + getCachedDetails);
+
+				TripResponse response = mServices.getTrips(getCachedDetails, 0);
 
 				if (isCancelled()) {
 					return;
