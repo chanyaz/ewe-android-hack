@@ -48,6 +48,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarAPIUtils;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightMapImageView;
@@ -90,19 +91,8 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 	@Override
 	public String getShareSubject() {
-		final ItinCardDataFlight itinCardData = getItinCardData();
-
-		if (itinCardData != null && itinCardData.getFlightLeg() != null
-				&& itinCardData.getFlightLeg().getLastWaypoint() != null
-				&& itinCardData.getFlightLeg().getLastWaypoint().getAirport() != null) {
-			String template = getContext().getString(R.string.share_template_subject_flight);
-			String destination = itinCardData.getFlightLeg().getLastWaypoint().getAirport().mCity;
-			Calendar startDate = itinCardData.getFlightLeg().getFirstWaypoint().getMostRelevantDateTime();
-			String deparuteDate = SimpleDateFormat.getDateInstance(DateFormat.MEDIUM).format(startDate.getTime());
-
-			return String.format(template, destination, deparuteDate);
-		}
-		return null;
+		ShareUtils shareUtils = new ShareUtils(getContext());
+		return shareUtils.getFlightShareSubject(getItinCardData().getFlightLeg());
 	}
 
 	@Override
@@ -174,86 +164,9 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	@Override
 	public String getShareTextLong() {
 		final ItinCardDataFlight itinCardData = getItinCardData();
-
-		if (itinCardData != null && itinCardData.getFlightLeg() != null
-				&& itinCardData.getFlightLeg().getLastWaypoint() != null
-				&& itinCardData.getFlightLeg().getLastWaypoint().getAirport() != null) {
-
-			FlightLeg leg = itinCardData.getFlightLeg();
-			TripFlight tripFlight = (TripFlight) itinCardData.getTripComponent();
-
-			String airlineAndFlightNumber = FormatUtils.formatFlightNumberFull(
-					leg.getSegment(leg.getSegmentCount() - 1), getContext());
-
-			String originCity = leg.getFirstWaypoint().getAirport().mCity;
-			String destinationCity = leg.getLastWaypoint().getAirport().mCity;
-			String originAirportCode = leg.getFirstWaypoint().getAirport().mCity;
-			String destinationAirportCode = leg.getLastWaypoint().getAirport().mAirportCode;
-			String originTerminalGate = getTerminalGateString(leg.getFirstWaypoint());
-			String destinationTerminalGate = getTerminalGateString(leg.getLastWaypoint());
-
-			Calendar departureCal = leg.getFirstWaypoint().getMostRelevantDateTime();
-			Calendar arrivalCal = leg.getLastWaypoint().getMostRelevantDateTime();
-
-			//The story contains format strings, but we don't want to bone our international customers
-			DateFormat dateFormat = SimpleDateFormat.getDateInstance(DateFormat.LONG);
-			DateFormat timeFormat = SimpleDateFormat.getTimeInstance(DateFormat.MEDIUM);
-
-			if (PointOfSale.getPointOfSale().getThreeLetterCountryCode().equalsIgnoreCase("USA")) {
-				String dateFormatStr = "EEEE MMMM dd, yyyy";
-				String timeFormatStr = "h:mm a zz";
-
-				((SimpleDateFormat) dateFormat).applyPattern(dateFormatStr);
-				((SimpleDateFormat) timeFormat).applyPattern(timeFormatStr);
-			}
-
-			dateFormat.setTimeZone(departureCal.getTimeZone());
-			timeFormat.setTimeZone(departureCal.getTimeZone());
-			String departureDate = dateFormat.format(departureCal.getTime());
-			String departureTime = timeFormat.format(departureCal.getTime());
-
-			dateFormat.setTimeZone(arrivalCal.getTimeZone());
-			timeFormat.setTimeZone(arrivalCal.getTimeZone());
-			String arrivalDate = dateFormat.format(arrivalCal.getTime());
-			String arrivalTime = timeFormat.format(arrivalCal.getTime());
-
-			//Traveler names
-			StringBuilder travelerSb = new StringBuilder();
-			for (Traveler trav : tripFlight.getTravelers()) {
-				if (travelerSb.length() > 0) {
-					travelerSb.append("\n");
-				}
-				travelerSb.append(trav.getFullName());
-			}
-			String travString = travelerSb.toString();
-
-			StringBuilder builder = new StringBuilder();
-
-			//single day
-			if (leg.getDaySpan() == 0) {
-				String template = getContext().getString(R.string.share_template_long_flight_sameday);
-
-				builder.append(String.format(template, originCity, destinationCity, airlineAndFlightNumber,
-						departureDate, originAirportCode, departureTime, originTerminalGate, destinationAirportCode,
-						arrivalTime, destinationTerminalGate, travString));
-
-			}
-			//multi day
-			else {
-				String template = getContext().getString(R.string.share_template_long_flight_multiday);
-
-				builder.append(String.format(template, originCity, destinationCity, airlineAndFlightNumber,
-						originAirportCode, departureTime, departureDate, originTerminalGate, destinationAirportCode,
-						arrivalTime, arrivalDate, destinationTerminalGate, travString));
-			}
-
-			String downloadUrl = PointOfSale.getPointOfSale().getAppInfoUrl();
-			builder.append("\n\n");
-			builder.append(getContext().getString(R.string.share_template_long_ad, downloadUrl));
-
-			return builder.toString();
-		}
-		return null;
+		TripFlight tripFlight = (TripFlight) itinCardData.getTripComponent();
+		ShareUtils shareUtils = new ShareUtils(getContext());
+		return shareUtils.getFlightShareEmail(itinCardData.getFlightLeg(), tripFlight.getTravelers());
 	}
 
 	@Override

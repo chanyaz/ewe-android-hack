@@ -11,7 +11,6 @@ import android.text.format.DateUtils;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.flightlib.data.Airport;
@@ -29,34 +28,48 @@ public class ShareUtils {
 	}
 
 	public String getFlightShareSubject(FlightTrip trip) {
-		int numLegs = trip.getLegCount();
-		FlightLeg firstLeg = trip.getLeg(0);
+		return getFlightShareSubject(trip.getLeg(0), trip.getLeg(trip.getLegCount() - 1));
+	}
+
+	public String getFlightShareSubject(FlightLeg leg) {
+		return getFlightShareSubject(leg, leg);
+	}
+
+	private String getFlightShareSubject(FlightLeg firstLeg, FlightLeg lastLeg) {
 		String destinationCity = StrUtils.getWaypointCityOrCode(firstLeg.getLastWaypoint());
 
 		long start = DateTimeUtils.getTimeInLocalTimeZone(firstLeg.getFirstWaypoint().getMostRelevantDateTime())
 				.getTime();
 		long end = DateTimeUtils.getTimeInLocalTimeZone(
-				trip.getLeg(numLegs - 1).getLastWaypoint().getMostRelevantDateTime()).getTime();
+				lastLeg.getLastWaypoint().getMostRelevantDateTime()).getTime();
 		String dateRange = DateUtils.formatDateRange(mContext, start, end, DateUtils.FORMAT_NUMERIC_DATE
 				| DateUtils.FORMAT_SHOW_DATE);
-		return mContext.getString(R.string.share_flight_title_TEMPLATE, destinationCity, dateRange);
+
+		return mContext.getString(R.string.share_template_subject_flight, destinationCity, dateRange);
 	}
 
 	public String getFlightShareEmail(FlightTrip trip, List<Traveler> travelers) {
-		FlightLeg firstLeg = trip.getLeg(0);
+		return getFlightShareEmail(trip, trip.getLeg(0), trip.getLeg(trip.getLegCount() - 1), travelers);
+	}
+
+	public String getFlightShareEmail(FlightLeg leg, List<Traveler> travelers) {
+		return getFlightShareEmail(null, leg, leg, travelers);
+	}
+
+	private String getFlightShareEmail(FlightTrip trip, FlightLeg firstLeg, FlightLeg lastLeg, List<Traveler> travelers) {
 		int numTravelers = travelers.size();
-		int numLegs = trip.getLegCount();
+		boolean moreThanOneLeg = firstLeg != lastLeg;
 
 		String originCity = StrUtils.getWaypointCityOrCode(firstLeg.getFirstWaypoint());
 		String destinationCity = StrUtils.getWaypointCityOrCode(firstLeg.getLastWaypoint());
 
 		// Construct the body
 		StringBuilder body = new StringBuilder();
-		body.append(mContext.getResources().getQuantityString(R.plurals.share_flight_start, numTravelers));
+		body.append(mContext.getString(R.string.share_hi));
 
 		body.append("\n\n");
 
-		if (numLegs == 1) {
+		if (!moreThanOneLeg) {
 			body.append(mContext.getString(R.string.share_flight_one_way_TEMPLATE, originCity, destinationCity));
 		}
 		else {
@@ -66,75 +79,46 @@ public class ShareUtils {
 
 		body.append("\n\n");
 
-		body.append(mContext.getString(R.string.share_flight_itinerary_TEMPLATE, trip.getItineraryNumber()));
+		if (trip != null && !TextUtils.isEmpty(trip.getItineraryNumber())) {
+			body.append(mContext.getString(R.string.share_flight_itinerary_TEMPLATE, trip.getItineraryNumber()));
 
-		body.append("\n\n");
-
-		Traveler traveler;
-		// Note: Arguments for string are slightly different depending on single vs. multiple travelers
-		if (numTravelers == 1) {
-			traveler = travelers.get(0);
-			body.append(mContext.getResources().getQuantityString(R.plurals.share_flight_name_TEMPLATE, numTravelers,
-					traveler.getFirstName() + " " + traveler.getLastName()));
 			body.append("\n\n");
 		}
-		else {
-			for (int i = 0; i < numTravelers; i++) {
-				traveler = travelers.get(i);
-				body.append(mContext.getResources().getQuantityString(R.plurals.share_flight_name_TEMPLATE,
-						numTravelers,
-						i + 1, traveler.getFirstName() + " " + traveler.getLastName()));
-				body.append("\n");
-			}
-			body.append("\n");
+
+		if (moreThanOneLeg) {
+			body.append(mContext.getString(R.string.share_flight_section_outbound));
+
+			body.append("\n\n");
 		}
-
-		body.append(mContext.getString(R.string.share_flight_section_outbound));
-
-		body.append("\n\n");
 
 		addShareLeg(body, firstLeg);
 
 		// Assume only round trips
-		if (numLegs == 2) {
+		if (moreThanOneLeg) {
 			body.append("\n\n");
 
 			body.append(mContext.getString(R.string.share_flight_section_return));
 
 			body.append("\n\n");
 
-			addShareLeg(body, trip.getLeg(1));
+			addShareLeg(body, lastLeg);
 		}
 
 		body.append("\n\n");
 
-		body.append(mContext.getResources().getQuantityString(R.plurals.share_flight_ticket_cost_TEMPLATE,
-				numTravelers, trip.getBaseFare().getFormattedMoney()));
+		body.append(mContext.getString(R.string.share_travelers_section));
 
 		body.append("\n");
 
-		Money taxesAndFees = new Money(trip.getTaxes());
-		taxesAndFees.add(trip.getFees());
+		for (int i = 0; i < numTravelers; i++) {
+			Traveler traveler = travelers.get(i);
+			body.append(traveler.getFirstName() + " " + traveler.getLastName());
+			body.append("\n");
+		}
 
-		body.append(mContext.getString(R.string.share_flight_taxes_fees_TEMPLATE, taxesAndFees.getFormattedMoney()));
+		body.append("\n");
 
-		body.append("\n\n");
-
-		body.append(mContext.getString(R.string.share_flight_airfare_total_TEMPLATE, trip.getTotalFare()
-				.getFormattedMoney()));
-
-		body.append("\n\n");
-
-		body.append(mContext.getString(R.string.share_flight_additional_fees_TEMPLATE, trip.getBaggageFeesUrl()));
-
-		body.append("\n\n");
-
-		body.append(mContext.getString(R.string.share_flight_support_TEMPLATE, PointOfSale.getPointOfSale()
-				.getSupportPhoneNumber()));
-
-		body.append("\n\n");
-
-		body.append(mContext.getString(R.string.share_flight_shill_app));
+		body.append(mContext.getString(R.string.share_template_long_ad, PointOfSale.getPointOfSale().getAppInfoUrl()));
 
 		return body.toString();
 	}
