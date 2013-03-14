@@ -26,9 +26,7 @@ public class ItineraryGuestAddActivity extends SherlockFragmentActivity {
 
 		// Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
-		actionBar.setIcon(R.drawable.ic_logo_flights);
-
-		actionBar.setDisplayUseLogoEnabled(false);
+		actionBar.setDisplayUseLogoEnabled(true);
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
