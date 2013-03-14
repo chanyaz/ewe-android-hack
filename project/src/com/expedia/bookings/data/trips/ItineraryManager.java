@@ -932,6 +932,11 @@ public class ItineraryManager implements JSONable {
 				}
 			}
 
+			// We don't want to try to gather ancillary data if we don't have any data on the trips themselves
+			if (trip.getLevelOfDetail() == LevelOfDetail.SUMMARY_FALLBACK) {
+				gatherAncillaryData = false;
+			}
+
 			if (gatherAncillaryData) {
 				mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP_IMAGES, trip));
 				mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP_FLIGHT_STATUS, trip));
