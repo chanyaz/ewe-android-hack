@@ -24,6 +24,12 @@ public class TabletPrivacyPolicyDialogFragment extends DialogFragment {
 	}
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setStyle(DialogFragment.STYLE_NORMAL, R.style.Theme_Tablet);
+	}
+
+	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		Bundle args = getArguments();
 
