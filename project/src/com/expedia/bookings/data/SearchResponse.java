@@ -333,7 +333,7 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 
 			Pattern namePattern = null;
 			if (hotelName != null) {
-				namePattern = Pattern.compile("(\\A| )" + hotelName, Pattern.CASE_INSENSITIVE);
+				namePattern = Pattern.compile(".*" + hotelName + ".*", Pattern.CASE_INSENSITIVE);
 			}
 
 			for (Property property : mExpediaSortedProperties) {
