@@ -9,6 +9,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.text.format.Time;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -26,7 +27,8 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 	private static final int CUTOFF_HOURS = 48;
 
 	public enum TripComponentSortOrder {
-		START_DATE
+		START_DATE,
+		MULTI
 	}
 
 	private enum State {
@@ -43,7 +45,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 	private Context mContext;
 	private ItineraryManager mItinManager;
 	private ArrayList<ItinCardData> mItinCardDatas;
-	private TripComponentSortOrder mSortOrder = TripComponentSortOrder.START_DATE;
+	private TripComponentSortOrder mSortOrder = TripComponentSortOrder.MULTI;
 	private int mDetailPosition = -1;
 	private String mSelectedCardId;
 
@@ -441,8 +443,13 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 	}
 
 	private void sortItems() {
-		if (mSortOrder.equals(TripComponentSortOrder.START_DATE)) {
+		switch (mSortOrder) {
+		case START_DATE:
 			Collections.sort(mItinCardDatas, mItinCardDataStartDateComparator);
+			return;
+		case MULTI:
+			Collections.sort(mItinCardDatas, mItinCardDataMultiComparator);
+			return;
 		}
 	}
 
@@ -456,6 +463,41 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 				return 1;
 			}
 			return dataOne.getStartDate().compareTo(dataTwo.getStartDate());
+		}
+	};
+
+	Comparator<ItinCardData> mItinCardDataMultiComparator = new Comparator<ItinCardData>() {
+		@Override
+		public int compare(ItinCardData dataOne, ItinCardData dataTwo) {
+			// Sort by:
+			// 1. "checkInDate" (but ignoring the time)
+			// 2. Type (flight < car < activity < hotel < cruise)
+			// 3. "checkInDate" (including time)
+			// 4. Unique ID
+
+			// 1
+			int comparison = dataOne.getStartDateSerialized() - dataTwo.getStartDateSerialized();
+			if (comparison != 0) {
+				return comparison;
+			}
+
+			// 2
+			comparison = dataOne.getTripComponentType().ordinal() - dataTwo.getTripComponentType().ordinal();
+			if (comparison != 0) {
+				return comparison;
+			}
+
+			// 3
+			comparison = (int) (dataOne.getStartDate().getMillisFromEpoch() - dataTwo.getStartDate()
+					.getMillisFromEpoch());
+			if (comparison != 0) {
+				return comparison;
+			}
+
+			// 4
+			comparison = dataOne.getId().compareTo(dataTwo.getId());
+
+			return comparison;
 		}
 	};
 

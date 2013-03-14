@@ -12,12 +12,13 @@ import com.mobiata.android.json.JSONable;
  */
 public class TripComponent implements JSONable {
 
+	// Order matters here, we sort the cards based on Type.ordinal()
 	public static enum Type {
 		FLIGHT,
-		HOTEL,
 		CAR,
-		CRUISE,
 		ACTIVITY,
+		HOTEL,
+		CRUISE,
 		PACKAGE,
 		FALLBACK;
 	}
