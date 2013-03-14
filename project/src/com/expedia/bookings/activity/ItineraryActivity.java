@@ -9,6 +9,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItinCardData;
+import com.expedia.bookings.fragment.ConfirmLogoutDialogFragment.DoLogoutListener;
 import com.expedia.bookings.fragment.ItinCardFragment;
 import com.expedia.bookings.fragment.ItinItemListFragment;
 import com.expedia.bookings.fragment.ItinItemListFragment.ItinItemListFragmentListener;
@@ -23,7 +24,7 @@ import com.google.android.gms.maps.model.CameraPosition;
  * Full-screen Itinerary activity.  Used in tablets.
  */
 public class ItineraryActivity extends SherlockFragmentActivity implements ItinItemListFragmentListener,
-		OnCameraChangeListener, SupportMapFragmentListener {
+		OnCameraChangeListener, SupportMapFragmentListener, DoLogoutListener {
 
 	private boolean mTwoPaneMode;
 
@@ -206,6 +207,24 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 			if (data != null) {
 				showPopupWindow(data, false);
 			}
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// DoLogoutListener
+
+	@Override
+	public void doLogout() {
+		mItinListFragment.doLogout();
+
+		if (mTwoPaneMode) {
+			if (!mItinCardFragment.isHidden()) {
+				getSupportFragmentManager().beginTransaction().hide(mItinCardFragment).commit();
+			}
+
+			mMapFragment.showItinItem(null, false);
+
+			mSelectedItinCardId = null;
 		}
 	}
 }

@@ -29,6 +29,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.dialog.GooglePlayServicesDialog;
+import com.expedia.bookings.fragment.ConfirmLogoutDialogFragment.DoLogoutListener;
 import com.expedia.bookings.fragment.ItinItemListFragment;
 import com.expedia.bookings.fragment.ItinItemListFragment.ItinItemListFragmentListener;
 import com.expedia.bookings.fragment.LaunchFragment;
@@ -45,7 +46,7 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 
 public class LaunchActivity extends SherlockFragmentActivity implements OnListModeChangedListener,
-		ItinItemListFragmentListener, LaunchFragmentListener {
+		ItinItemListFragmentListener, LaunchFragmentListener, DoLogoutListener {
 
 	private static final int REQUEST_SETTINGS = 1;
 
@@ -467,5 +468,15 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	@Override
 	public void onItinCardClicked(ItinCardData data) {
 		// Do nothing (let fragment handle it)
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// DoLogoutListener
+
+	@Override
+	public void doLogout() {
+		if (Ui.isAdded(mItinListFragment)) {
+			mItinListFragment.doLogout();
+		}
 	}
 }

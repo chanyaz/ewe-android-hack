@@ -166,12 +166,6 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		if (bd.isDownloading(KEY_REFRESH_USER)) {
 			bd.registerDownloadCallback(KEY_REFRESH_USER, mRefreshUserCallback);
 		}
-
-		ConfirmLogoutDialogFragment confirmLogoutFrag = (ConfirmLogoutDialogFragment) getFragmentManager()
-				.findFragmentByTag(ConfirmLogoutDialogFragment.TAG);
-		if (confirmLogoutFrag != null) {
-			confirmLogoutFrag.setDoLogoutListener(this);
-		}
 	}
 
 	@Override
@@ -607,7 +601,6 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	@Override
 	public void accountLogoutClicked() {
 		ConfirmLogoutDialogFragment df = new ConfirmLogoutDialogFragment();
-		df.setDoLogoutListener(this);
 		df.show(this.getFragmentManager(), ConfirmLogoutDialogFragment.TAG);
 	}
 
