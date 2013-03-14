@@ -431,9 +431,9 @@ public class BookingFormFragment extends Fragment {
 		mRulesRestrictionsTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				String privUrl = PointOfSale.getPointOfSale().getPrivacyPolicyUrl();
 				String termsUrl = PointOfSale.getPointOfSale().getTermsAndConditionsUrl();
-				TabletPrivacyPolicyDialogFragment df = TabletPrivacyPolicyDialogFragment.newInstance(privUrl, termsUrl);
+				String privUrl = PointOfSale.getPointOfSale().getPrivacyPolicyUrl();
+				TabletPrivacyPolicyDialogFragment df = TabletPrivacyPolicyDialogFragment.newInstance(termsUrl, privUrl);
 				df.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), "privacyPolicyDialogFragment");
 			}
 		});
