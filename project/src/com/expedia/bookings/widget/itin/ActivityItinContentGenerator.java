@@ -2,6 +2,7 @@ package com.expedia.bookings.widget.itin;
 
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -48,6 +49,9 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 
 	public ActivityItinContentGenerator(Context context, ItinCardDataActivity data) {
 		super(context, data);
+
+		setHideDetailsTypeIcon(false);
+		setHideDetailsTitle(false);
 	}
 
 	@Override
@@ -131,7 +135,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 	public View getTitleView(ViewGroup container) {
 		TextView view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_title_generic, container,
 				false);
-		view.setText(getHeaderText());
+		view.setText(R.string.activity_information);
 		return view;
 	}
 
@@ -241,6 +245,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 		}
 	}
 
+	@SuppressLint("DefaultLocale")
 	private Drawable createGuestIcon(Traveler travler, int iconResId) {
 		final String text = travler.getFirstName().substring(0, 1).toUpperCase();
 		final Resources res = getResources();

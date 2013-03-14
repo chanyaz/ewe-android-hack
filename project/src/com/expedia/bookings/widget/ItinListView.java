@@ -22,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import com.expedia.bookings.animation.AnimatorListenerShort;
 import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
@@ -386,11 +387,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 				AnimatorSet set = new AnimatorSet();
 				set.playTogether(resizeAnimator, detailExpandAnim);
 
-				set.addListener(new AnimatorListener() {
-
-					@Override
-					public void onAnimationCancel(Animator arg0) {
-					}
+				set.addListener(new AnimatorListenerShort() {
 
 					@Override
 					public void onAnimationEnd(Animator arg0) {
@@ -401,14 +398,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 						clearDetailView();
 						invalidateViews();
-					}
-
-					@Override
-					public void onAnimationRepeat(Animator arg0) {
-					}
-
-					@Override
-					public void onAnimationStart(Animator arg0) {
 					}
 
 				});

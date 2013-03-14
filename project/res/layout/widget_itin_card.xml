@@ -118,6 +118,15 @@
                             android:textSize="18dp"
                             android:textStyle="bold" />
 
+                        <ImageView
+                            android:id="@+id/fixed_itin_type_image_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:paddingBottom="18dp"
+                            android:src="@drawable/btn_radio_off_pressed_holo_dark"
+                            android:visibility="gone" />
+
                         <View
                             android:id="@+id/selected_view"
                             android:layout_width="match_parent"
@@ -244,6 +253,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/btn_radio_off_pressed_holo_dark" />
+        android:src="@drawable/btn_radio_off_pressed_holo_dark"
+        android:visibility="gone" />
 
 </merge>

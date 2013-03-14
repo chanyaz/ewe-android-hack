@@ -49,6 +49,9 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	private Context mContext;
 	private T mItinCardData;
 
+	private boolean mDetialsSummaryHideTypeIcon = true;
+	private boolean mDetailsSummaryHideTitle = true;
+
 	public ItinContentGenerator(Context context, T itinCardData) {
 		mContext = context;
 		mItinCardData = itinCardData;
@@ -149,6 +152,25 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	public boolean hasDetails() {
 		return true;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Detail Settings
+
+	public boolean getHideDetailsTypeIcon() {
+		return mDetialsSummaryHideTypeIcon;
+	}
+
+	public void setHideDetailsTypeIcon(boolean hide) {
+		mDetialsSummaryHideTypeIcon = hide;
+	}
+
+	public boolean getHideDetailsTitle() {
+		return mDetailsSummaryHideTitle;
+	}
+
+	public void setHideDetailsTitle(boolean hide) {
+		mDetailsSummaryHideTitle = hide;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

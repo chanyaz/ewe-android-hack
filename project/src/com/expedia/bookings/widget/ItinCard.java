@@ -15,16 +15,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.animation.AnimatorListenerShort;
 import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent.Type;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.expedia.bookings.widget.itin.SummaryButton;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.Animator.AnimatorListener;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.animation.ValueAnimator;
@@ -81,6 +80,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	private ViewGroup mActionButtonLayout;
 
 	private ImageView mItinTypeImageView;
+	private ImageView mFixedItinTypeImageView;
 
 	private ScrollView mScrollView;
 	private OptimizedImageView mHeaderImageView;
@@ -124,6 +124,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		mActionButtonLayout = Ui.findView(this, R.id.action_button_layout);
 
 		mItinTypeImageView = Ui.findView(this, R.id.itin_type_image_view);
+		mFixedItinTypeImageView = Ui.findView(this, R.id.fixed_itin_type_image_view);
 
 		mScrollView = Ui.findView(this, R.id.scroll_view);
 		mHeaderImageView = Ui.findView(this, R.id.header_image_view);
@@ -175,6 +176,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 		// Type icon
 		mItinTypeImageView.setImageResource(mItinContentGenerator.getTypeIconResId());
+		mFixedItinTypeImageView.setImageResource(mItinContentGenerator.getTypeIconResId());
 
 		// Image
 		String headerImageUrl = mItinContentGenerator.getHeaderImageUrl();
@@ -222,15 +224,12 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		if (mShadeCard) {
 			float shadeAlpha = 0.5f;
 			mHeaderShadeView.setVisibility(View.VISIBLE);
-			if (mDisplayState.equals(DisplayState.COLLAPSED)) {
+			if (mDisplayState.equals(DisplayState.COLLAPSED) && mItinTypeImageView.getVisibility() == View.VISIBLE) {
 				ViewHelper.setAlpha(mItinTypeImageView, shadeAlpha);
 			}
 		}
 		else {
 			mHeaderShadeView.setVisibility(View.GONE);
-			if (mDisplayState.equals(DisplayState.COLLAPSED)) {
-				ViewHelper.setAlpha(mItinTypeImageView, 1f);
-			}
 		}
 	}
 
@@ -300,15 +299,10 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		final int startY = mScrollView.getScrollY();
 		final int stopY = 0;
 
+		//Title
 		ValueAnimator titleResizeAnimator = ResizeAnimator.buildResizeAnimator(mTitleLayout, mTitleLayoutHeight, 0);
 		titleResizeAnimator.setDuration(300);
-		titleResizeAnimator.addListener(new AnimatorListener() {
-
-			@Override
-			public void onAnimationCancel(Animator arg0) {
-				// TODO Auto-generated method stub
-
-			}
+		titleResizeAnimator.addListener(new AnimatorListenerShort() {
 
 			@Override
 			public void onAnimationEnd(Animator arg0) {
@@ -322,19 +316,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 				destroyDetailsView();
 
 			}
-
-			@Override
-			public void onAnimationRepeat(Animator arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void onAnimationStart(Animator arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
 		});
 		titleResizeAnimator.addUpdateListener(new AnimatorUpdateListener() {
 
@@ -346,16 +327,44 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		});
 		animators.add(titleResizeAnimator);
 
-		// Alpha
+		// Past overlay
 		animators.add(ObjectAnimator.ofFloat(mHeaderOverlayImageView, "alpha", 1).setDuration(400));
+
+		//Header Text
 		animators.add(ObjectAnimator.ofFloat(mHeaderTextView, "alpha", 1).setDuration(400));
-
-		mItinTypeImageView.setVisibility(View.VISIBLE);
-		animators.add(ObjectAnimator.ofFloat(mItinTypeImageView, "alpha", 0, 1).setDuration(400));
-
-		// TranslationY
 		animators.add(ObjectAnimator.ofFloat(mHeaderTextView, "translationY", 0).setDuration(400));
 
+		// Type Icon
+		if (mItinContentGenerator.getHideDetailsTypeIcon()) {
+			Animator typeImageAnimator = ObjectAnimator.ofFloat(mItinTypeImageView, "alpha", 1).setDuration(400);
+			typeImageAnimator.addListener(new AnimatorListenerShort() {
+				@Override
+				public void onAnimationStart(Animator arg0) {
+					mItinTypeImageView.setVisibility(View.VISIBLE);
+				}
+
+				@Override
+				public void onAnimationEnd(Animator arg0) {
+					mItinTypeImageView.setVisibility(View.VISIBLE);
+					mFixedItinTypeImageView.setVisibility(View.GONE);
+				}
+			});
+			animators.add(typeImageAnimator);
+		}
+		else {
+			ValueAnimator dummy = ValueAnimator.ofInt(0, 1).setDuration(300);
+			dummy.addListener(new AnimatorListenerShort() {
+				@Override
+				public void onAnimationEnd(Animator arg0) {
+					ViewHelper.setAlpha(mItinTypeImageView, 1f);
+					mItinTypeImageView.setVisibility(View.VISIBLE);
+					mFixedItinTypeImageView.setVisibility(View.GONE);
+				}
+			});
+			animators.add(dummy);
+		}
+
+		//Summary View views
 		if (!mShowSummary) {
 			animators.add(ResizeAnimator.buildResizeAnimator(mHeaderLayout, mMiniCardHeaderImageHeight));
 			animators.add(ResizeAnimator.buildResizeAnimator(mHeaderImageView, mMiniCardHeaderImageHeight));
@@ -401,40 +410,47 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 		List<Animator> animators = new ArrayList<Animator>();
 
-		// Alpha
+		//Past overlay
 		ObjectAnimator headerOverlayAlphaAnimator = ObjectAnimator.ofFloat(mHeaderOverlayImageView, "alpha", 0)
 				.setDuration(200);
-		ObjectAnimator headerTextAlphaAnimator = ObjectAnimator.ofFloat(mHeaderTextView, "alpha", 0).setDuration(200);
-		ObjectAnimator itinTypeImageAlphaAnimator = ObjectAnimator.ofFloat(mItinTypeImageView, "alpha", 0);
-		itinTypeImageAlphaAnimator.addListener(new AnimatorListener() {
-			@Override
-			public void onAnimationStart(Animator animator) {
-			}
-
-			@Override
-			public void onAnimationRepeat(Animator animator) {
-			}
-
-			@Override
-			public void onAnimationEnd(Animator animator) {
-				mItinTypeImageView.setVisibility(View.INVISIBLE);
-			}
-
-			@Override
-			public void onAnimationCancel(Animator animator) {
-			}
-		});
-		itinTypeImageAlphaAnimator.setDuration(200);
-
-		// TranslationY
-		ObjectAnimator headerTextTranslationAnimator = ObjectAnimator.ofFloat(mHeaderTextView, "translationY", -50)
-				.setDuration(400);
-
 		animators.add(headerOverlayAlphaAnimator);
-		animators.add(headerTextAlphaAnimator);
-		animators.add(itinTypeImageAlphaAnimator);
-		animators.add(headerTextTranslationAnimator);
 
+		// Header text
+		if (mItinContentGenerator.getHideDetailsTitle()) {
+			ObjectAnimator headerTextAlphaAnimator = ObjectAnimator.ofFloat(mHeaderTextView, "alpha", 0).setDuration(
+					200);
+			ObjectAnimator headerTextTranslationAnimator = ObjectAnimator.ofFloat(mHeaderTextView, "translationY", -50)
+					.setDuration(400);
+			animators.add(headerTextTranslationAnimator);
+			animators.add(headerTextAlphaAnimator);
+		}
+
+		//Type icon
+		if (mItinContentGenerator.getHideDetailsTypeIcon()) {
+			ObjectAnimator itinTypeImageAlphaAnimator = ObjectAnimator.ofFloat(mItinTypeImageView, "alpha", 0);
+			itinTypeImageAlphaAnimator.addListener(new AnimatorListenerShort() {
+				@Override
+				public void onAnimationEnd(Animator animator) {
+					mItinTypeImageView.setVisibility(View.INVISIBLE);
+				}
+			});
+			itinTypeImageAlphaAnimator.setDuration(200);
+			animators.add(itinTypeImageAlphaAnimator);
+		}
+		else {
+			ValueAnimator dummy = ValueAnimator.ofInt(0, 1).setDuration(300);
+			dummy.addListener(new AnimatorListenerShort() {
+				@Override
+				public void onAnimationStart(Animator arg0) {
+					ViewHelper.setAlpha(mItinTypeImageView, 0f);
+					mItinTypeImageView.setVisibility(View.INVISIBLE);
+					mFixedItinTypeImageView.setVisibility(View.VISIBLE);
+				}
+			});
+			animators.add(dummy);
+		}
+
+		//Summary View views
 		if (!mShowSummary) {
 			animators.add(ResizeAnimator.buildResizeAnimator(mHeaderLayout, mExpandedCardHeaderImageHeight));
 			animators.add(ResizeAnimator.buildResizeAnimator(mHeaderImageView, mExpandedCardHeaderImageHeight));
@@ -447,37 +463,41 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 	// Type icon position and size
 	public void updateLayout() {
-		int typeImageHeight = mItinTypeImageView.getHeight();
-		int typeImageHalfHeight = typeImageHeight / 2;
-		int headerImageHeight = mHeaderImageView.getHeight();
-		int expandedTypeImageY = headerImageHeight / 2;
-		int miniTypeImageY = (int) (headerImageHeight * 0.4f);
-		int typeImageY = mShowSummary ? expandedTypeImageY : miniTypeImageY;
-		int translateOffset = -(int) (8 * getResources().getDisplayMetrics().density);
 
-		float percent = 0;
-		float percentIcon = 0;
+		if (mDisplayState == DisplayState.COLLAPSED) {
+			mItinTypeImageView.setVisibility(View.VISIBLE);
+			int typeImageHeight = mItinTypeImageView.getHeight();
+			int typeImageHalfHeight = typeImageHeight / 2;
+			int headerImageHeight = mHeaderImageView.getHeight();
+			int expandedTypeImageY = headerImageHeight / 2;
+			int miniTypeImageY = (int) (headerImageHeight * 0.4f);
+			int typeImageY = mShowSummary ? expandedTypeImageY : miniTypeImageY;
+			int translateOffset = -(int) (8 * getResources().getDisplayMetrics().density);
 
-		Rect headerImageVisibleRect = new Rect();
-		if (getLocalVisibleRect(headerImageVisibleRect)) {
-			percent = (float) headerImageVisibleRect.height() / (float) headerImageHeight;
+			float percent = 0;
+			float percentIcon = 0;
+
+			Rect headerImageVisibleRect = new Rect();
+			if (getLocalVisibleRect(headerImageVisibleRect)) {
+				percent = (float) headerImageVisibleRect.height() / (float) headerImageHeight;
+			}
+
+			percent = Math.min(1.0f, Math.max(0.5f, percent));
+			if (getTop() <= 0) {
+				percent = 1f;
+			}
+
+			percentIcon = mShowSummary ? percent : Math.min(0.75f, percent);
+
+			final int typeImageTranslationY = mCardLayout.getTop() + translateOffset + typeImageY - typeImageHalfHeight;
+			final int viewTranslationY = Math.max(0,
+					(headerImageHeight - (int) (percent * (float) headerImageHeight)) / 2);
+
+			ViewHelper.setTranslationY(mItinTypeImageView, typeImageTranslationY);
+			ViewHelper.setScaleX(mItinTypeImageView, percentIcon);
+			ViewHelper.setScaleY(mItinTypeImageView, percentIcon);
+			ViewHelper.setTranslationY(mCardLayout, viewTranslationY);
 		}
-
-		percent = Math.min(1.0f, Math.max(0.5f, percent));
-		if (getTop() <= 0) {
-			percent = 1f;
-		}
-
-		percentIcon = mShowSummary ? percent : Math.min(0.75f, percent);
-
-		final int typeImageTranslationY = mCardLayout.getTop() + translateOffset + typeImageY - typeImageHalfHeight;
-		final int viewTranslationY = Math.max(0, (headerImageHeight - (int) (percent * (float) headerImageHeight)) / 2);
-
-		ViewHelper.setTranslationY(mItinTypeImageView, typeImageTranslationY);
-		ViewHelper.setScaleX(mItinTypeImageView, percentIcon);
-		ViewHelper.setScaleY(mItinTypeImageView, percentIcon);
-
-		ViewHelper.setTranslationY(mCardLayout, viewTranslationY);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////

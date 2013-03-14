@@ -121,6 +121,8 @@
     <string name="Cruise">Cruise</string>
     <!-- Default (fallback) itin card title for ACTIVITY -->
     <string name="Activity">Activity</string>
+    <!-- Activity information -->
+    <string name="activity_information">Activity Information</string>
     <!-- Depart (TZ) template -->
     <string name="depart_tz_TEMPLATE">Depart (%1$s)</string>
     <!-- Arrive (TZ) template -->
