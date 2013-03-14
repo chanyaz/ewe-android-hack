@@ -237,10 +237,14 @@ public class Trip implements JSONable, Comparable<Trip> {
 		// we have now, so we blow away most current data.  This may not be true
 		// once the API is fully fleshed otu.
 
+		mLevelOfDetail = other.mLevelOfDetail;
+
 		mTripId = other.mTripId;
 
 		mTitle = other.mTitle;
 		mDescription = other.mDescription;
+
+		mDetailsUrl = other.mDetailsUrl;
 
 		mStartDate = other.mStartDate;
 		mEndDate = other.mEndDate;
