@@ -104,12 +104,13 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 				.setTabListener(mItineraryTabListener);
 
 		ActionBar actionBar = getSupportActionBar();
+		enableEmbeddedTabs(actionBar);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.addTab(shopTab, PAGER_POS_WATERFALL);
 		actionBar.addTab(itineraryTab, PAGER_POS_ITIN);
 
-		enableEmbeddedTabs(actionBar);
+		
 
 		//Switch to itin mode if we have an inprogress or upcoming trip
 		List<DateTime> startTimes = ItineraryManager.getInstance().getStartTimes();
