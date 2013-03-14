@@ -333,6 +333,21 @@
     <string name="share_template_short_car">I\&apos;ve rented a %1$s from %2$s – %3$s\n%4$s\n%5$s</string>
     <!-- 1: vendor name, 2: vehicle type, 3: pick up date, 4: pick up time, 5: drop off date, 6: drop off time, 7: full address, 8: phone number -->
     <string name="share_template_long_car">Hi,\n\nHere are the details of my %1$s car rental. \n\n<b>Vehicle</b> %2$s\n<b>Pick Up</b> %3$s at <b>%4$s</b>\n<b>Drop Off</b> %5$s at <b>%6$s</b>\n\n<b>Location</b>\n%1$s\n%7$s\n%8$s</string>
+    <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
+    <string name="share_car_start_TEMPLATE">Here are the details of my %1$s car rental.</string>
+    <!-- Label for type of vehicle.  %1$s is the car type (e.g., "Three Door Car") -->
+    <string name="share_car_vehicle_TEMPLATE">Vehicle: %1$s</string>
+    <!-- The car rental pick up time.  %1$s is a date, %2$s is a time (e.g., "Pick Up After: 3/21/13 at 5 PM") -->
+    <string name="share_car_pickup_TEMPLATE">Pick Up After: %1$s at %2$s</string>
+    <!-- The car rental drop off time.  %1$s is a date, %2$s is a time (e.g., "Drop Off Before: 3/21/13 at 5 PM") -->
+    <string name="share_car_dropoff_TEMPLATE">Drop Off Before: %1$s at %2$s</string>
+    <!-- Section header for the location of the car rental pickup/dropoff. -->
+    <string name="share_car_location_section">Location:</string>
+    <!-- Section header for the location of the car rental pick up. -->
+    <string name="share_car_pickup_location_section">Pick Up Location:</string>
+    <!-- Section header for the location of the car rental drop off. -->
+    <string name="share_car_dropoff_location_section">Drop Off Location:</string>
+    
     <!-- 1: activity title -->
     <string name="share_template_subject_activity">My %1$s Details</string>
     <!-- 1: activity title 2: valid date 3: expiration date -->

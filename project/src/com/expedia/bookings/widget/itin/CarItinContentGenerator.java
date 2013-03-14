@@ -72,26 +72,77 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 	public String getShareTextLong() {
 		ItinCardDataCar itinCardData = getItinCardData();
 
-		String template = getContext().getString(R.string.share_template_long_car);
-		String vendorName = itinCardData.getVendorName();
-		String carType = itinCardData.getCarTypeDescription(getContext());
+		Context context = getContext();
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(context.getString(R.string.share_hi));
+		sb.append("\n\n");
+
+		sb.append(context.getString(R.string.share_car_start_TEMPLATE, itinCardData.getVendorName()));
+		sb.append("\n\n");
+
+		sb.append(context.getString(R.string.share_car_vehicle_TEMPLATE, itinCardData.getCarTypeDescription(context)));
+		sb.append("\n");
+
 		String pickUpDate = itinCardData.getFormattedLongPickUpDate();
 		String pickUpTime = itinCardData.getFormattedPickUpTime();
+		sb.append(context.getString(R.string.share_car_pickup_TEMPLATE, pickUpDate, pickUpTime));
+		sb.append("\n");
+
 		String dropOffDate = itinCardData.getFormattedLongDropOffDate();
 		String dropOffTime = itinCardData.getFormattedDropOffTime();
-		String vendorAddress = itinCardData.getRelevantVendorLocation().toLongFormattedString();
-		String vendorPhone = itinCardData.getRelevantVendorPhone();
-		String downloadUrl = PointOfSale.getPointOfSale().getAppInfoUrl();
+		sb.append(context.getString(R.string.share_car_dropoff_TEMPLATE, dropOffDate, dropOffTime));
+		sb.append("\n\n");
 
-		StringBuilder builder = new StringBuilder();
+		String localPhone = itinCardData.getLocalPhoneNumber();
+		String vendorPhone = itinCardData.getTollFreePhoneNumber();
 
-		builder.append(String.format(template, vendorName, carType, pickUpDate, pickUpTime, dropOffDate, dropOffTime,
-				vendorAddress, vendorPhone));
+		Location pickupLoc = itinCardData.getPickUpLocation();
+		Location dropoffLoc = itinCardData.getDropOffLocation();
+		boolean hasDiffLocations = pickupLoc != null && !pickupLoc.equals(dropoffLoc);
 
-		builder.append("\n\n");
-		builder.append(getContext().getString(R.string.share_template_long_ad, downloadUrl));
+		if (pickupLoc != null) {
+			if (!hasDiffLocations) {
+				sb.append(context.getString(R.string.share_car_location_section));
+			}
+			else {
+				sb.append(context.getString(R.string.share_car_pickup_location_section));
+			}
 
-		return builder.toString();
+			sb.append("\n");
+			sb.append(pickupLoc.toLongFormattedString());
+			sb.append("\n");
+
+			if (!TextUtils.isEmpty(localPhone)) {
+				sb.append(localPhone);
+				sb.append("\n");
+			}
+
+			if (!TextUtils.isEmpty(vendorPhone)) {
+				sb.append(vendorPhone);
+				sb.append("\n");
+			}
+
+			sb.append("\n");
+		}
+
+		if (hasDiffLocations && dropoffLoc != null) {
+			sb.append(context.getString(R.string.share_car_dropoff_location_section));
+			sb.append("\n");
+			sb.append(dropoffLoc.toLongFormattedString());
+			sb.append("\n");
+
+			if (!TextUtils.isEmpty(vendorPhone)) {
+				sb.append(vendorPhone);
+				sb.append("\n");
+			}
+
+			sb.append("\n");
+		}
+
+		sb.append(getContext().getString(R.string.share_template_long_ad, PointOfSale.getPointOfSale().getAppInfoUrl()));
+
+		return sb.toString();
 	}
 
 	@Override
