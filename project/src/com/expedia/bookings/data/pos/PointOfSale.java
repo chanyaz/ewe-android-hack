@@ -113,6 +113,9 @@ public class PointOfSale {
 	 * (we select the locale automatically based on the current Locale of the system).
 	 */
 	private static class PointOfSaleLocale {
+		// The locale identifier (e.g., "es_AR") for this locale
+		private String mLocaleIdentifier;
+
 		// The url leading to the support part of the website
 		private String mSupportUrl;
 
@@ -227,6 +230,10 @@ public class PointOfSale {
 			return mReviewLocales.get(langCode);
 		}
 		return mReviewLocales.get("*");
+	}
+
+	public String getLocaleIdentifier() {
+		return getPosLocale().mLocaleIdentifier;
 	}
 
 	public String getSupportUrl() {
@@ -620,6 +627,8 @@ public class PointOfSale {
 
 	private static PointOfSaleLocale parseLocale(JSONObject data) {
 		PointOfSaleLocale locale = new PointOfSaleLocale();
+
+		locale.mLocaleIdentifier = data.optString("localeIdentifier", null);
 
 		// Various URLs
 		locale.mSupportUrl = data.optString("supportURL", null);
