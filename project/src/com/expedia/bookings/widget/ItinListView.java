@@ -664,7 +664,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	private DataSetObserver mDataSetObserver = new DataSetObserver() {
 		@Override
 		public void onChanged() {
-			if (mScrollToReleventOnDataSetChange && mLastItemCount <= 0) {
+			if (mScrollToReleventOnDataSetChange || mLastItemCount <= 0) {
 				if (scrollToMostRelevantCard() >= 0) {
 					mScrollToReleventOnDataSetChange = false;
 				}
