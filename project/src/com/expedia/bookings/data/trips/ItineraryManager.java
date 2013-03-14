@@ -583,7 +583,7 @@ public class ItineraryManager implements JSONable {
 	}
 
 	public boolean isSyncing() {
-		return mSyncTask != null && mSyncTask.getStatus() != AsyncTask.Status.FINISHED && !mSyncTask.isCancelled();
+		return mSyncTask != null && mSyncTask.getStatus() != AsyncTask.Status.FINISHED && !mSyncTask.finishedCancel();
 	}
 
 	private class SyncTask extends AsyncTask<Void, ProgressUpdate, Collection<Trip>> {
@@ -599,6 +599,11 @@ public class ItineraryManager implements JSONable {
 
 		// Used for determining whether to publish an "added" or "update" when we refresh a guest trip
 		private Set<String> mGuestTripsNotYetLoaded = new HashSet<String>();
+
+		// Earlier versions of AsyncTask do not tell you when they are cancelled correctly.
+		// This will let us know when the AsyncTask has fully completed its mission (even
+		// if it was cancelled).
+		private boolean mFinishedCancel = false;
 
 		// These variables are used for stat tracking
 		private Map<Operation, Integer> mOpCount = new HashMap<ItineraryManager.Operation, Integer>();
@@ -712,12 +717,18 @@ public class ItineraryManager implements JSONable {
 			onSyncFinished(null);
 
 			logStats();
+
+			mFinishedCancel = true;
 		}
 
 		// Should be called in addition to cancel(boolean), in order
 		// to cancel the update mid-download
 		public void cancelDownloads() {
 			mServices.onCancel();
+		}
+
+		public boolean finishedCancel() {
+			return mFinishedCancel;
 		}
 
 		private void logStats() {
