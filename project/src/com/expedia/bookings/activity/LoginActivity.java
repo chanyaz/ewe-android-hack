@@ -71,20 +71,26 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 
 		// Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
-		if (mLob.equals(LineOfBusiness.HOTELS)) {
+		switch (mLob) {
+		case HOTELS:
 			actionBar.setIcon(R.drawable.ic_logo_hotels);
-		}
-		else if (mLob.equals(LineOfBusiness.FLIGHTS)) {
+			actionBar.setDisplayUseLogoEnabled(false);
+			break;
+		case FLIGHTS:
 			actionBar.setIcon(R.drawable.ic_logo_flights);
+			actionBar.setDisplayUseLogoEnabled(false);
+			break;
+		default:
+			actionBar.setDisplayUseLogoEnabled(true);
+			break;
 		}
-		actionBar.setDisplayUseLogoEnabled(false);
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		if (mTitle != null) {
 			setTitle(mTitle);
 		}
 		else {
-			setTitle(getString(R.string.sign_in));
+			setTitle(R.string.sign_in);
 		}
 
 		// Set the background (based on mode)

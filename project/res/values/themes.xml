@@ -151,8 +151,8 @@
     </style>
 
     <style name="LoginTheme" parent="Theme.Phone.Dark">
-        <item name="logo">@drawable/ic_launcher</item>
-        <item name="android:logo">@drawable/ic_launcher</item>
+        <item name="logo">@drawable/ic_action_bar_expedia_logo_small</item>
+        <item name="android:logo">@drawable/ic_action_bar_expedia_logo_small</item>
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
