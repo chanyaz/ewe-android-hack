@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -351,6 +353,9 @@ public class PointOfSale {
 		// Load review map
 		loadReviewLanguageLocaleMap(context);
 
+		// Load supported Expedia suggest locales
+		loadExpediaSuggestSupportedLanguages(context);
+
 		// Init the cache
 		getPointOfSale(context);
 	}
@@ -492,6 +497,25 @@ public class PointOfSale {
 		}
 
 		return sb.toString();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Expedia suggest supported locales
+
+	private static Set<String> sExpediaSuggestSupportedLocales = new HashSet<String>();
+
+	public static boolean localeSupportedByExpediaSuggest(String localeIdentifier) {
+		return sExpediaSuggestSupportedLocales.contains(localeIdentifier);
+	}
+
+	public static String getSuggestLocaleIdentifier() {
+		String localeIdentifier = Locale.getDefault().toString();
+
+		if (!localeSupportedByExpediaSuggest(localeIdentifier)) {
+			localeIdentifier = getPointOfSale().getLocaleIdentifier();
+		}
+
+		return localeIdentifier;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -667,6 +691,24 @@ public class PointOfSale {
 			while (keys.hasNext()) {
 				String language = keys.next();
 				mReviewLanguageMap.put(language, stringJsonArrayToArray(langData.optJSONArray(language)));
+			}
+		}
+		catch (Exception e) {
+			// If this data fails to load, then we should fail horribly
+			throw new RuntimeException(e);
+		}
+	}
+
+	private static void loadExpediaSuggestSupportedLanguages(Context context) {
+		sExpediaSuggestSupportedLocales.clear();
+
+		try {
+			InputStream is = context.getAssets().open("ExpediaSharedData/ExpediaSuggestSupportedLocales.json");
+			String data = IoUtils.convertStreamToString(is);
+			JSONArray localeArr = new JSONArray(data);
+			int len = localeArr.length();
+			for (int a = 0; a < len; a++) {
+				sExpediaSuggestSupportedLocales.add(localeArr.optString(a));
 			}
 		}
 		catch (Exception e) {

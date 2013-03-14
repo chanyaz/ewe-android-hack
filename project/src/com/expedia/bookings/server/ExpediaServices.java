@@ -20,7 +20,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.zip.GZIPInputStream;
 
 import javax.net.ssl.SSLContext;
@@ -231,8 +230,7 @@ public class ExpediaServices implements DownloadListener {
 			return null;
 		}
 
-		// We're displaying data to the user, so use his default locale.
-		String localeString = Locale.getDefault().toString();
+		String localeString = PointOfSale.getSuggestLocaleIdentifier();
 
 		String url = NetUtils.formatUrl(EXPEDIA_SUGGEST_BASE_URL + localeString + "/" + query);
 
