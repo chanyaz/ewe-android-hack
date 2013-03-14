@@ -23,7 +23,8 @@ public class ItinCardDataFactory {
 	}
 
 	public static List<ItinCardData> generateCardData(TripComponent tc) {
-		if (tc.getParentTrip().getLevelOfDetail() == LevelOfDetail.SUMMARY_FALLBACK) {
+		LevelOfDetail lod = tc.getParentTrip().getLevelOfDetail();
+		if (lod == LevelOfDetail.SUMMARY || lod == LevelOfDetail.SUMMARY_FALLBACK) {
 			return generateFallbackCardData(tc);
 		}
 		else {
