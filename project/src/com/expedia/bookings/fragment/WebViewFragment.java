@@ -37,7 +37,7 @@ public class WebViewFragment extends Fragment {
 
 	private static final String ARG_URL = "ARG_URL";
 	private static final String ARG_HTML_DATA = "ARG_HTML_DATA";
-	private static final String ARG_ENABLE_SIGN_IN = "ARG_ENABLE_SIGN_IN";
+	private static final String ARG_ENABLE_LOGIN = "ARG_ENABLE_LOGIN";
 	private static final String ARG_LOAD_EXPEDIA_COOKIES = "ARG_LOAD_EXPEDIA_COOKIES";
 
 	private static final String ARG_TRACKING_NAME = "ARG_TRACKING_NAME";
@@ -64,7 +64,7 @@ public class WebViewFragment extends Fragment {
 
 		Bundle args = new Bundle();
 		args.putString(ARG_URL, url);
-		args.putBoolean(ARG_ENABLE_SIGN_IN, enableSignIn);
+		args.putBoolean(ARG_ENABLE_LOGIN, enableSignIn);
 		args.putBoolean(ARG_LOAD_EXPEDIA_COOKIES, loadCookies);
 		args.putString(ARG_TRACKING_NAME, name);
 		frag.setArguments(args);
@@ -96,7 +96,7 @@ public class WebViewFragment extends Fragment {
 		else {
 			mUrl = args.getString(ARG_URL);
 		}
-		enableSignIn = args.getBoolean(ARG_ENABLE_SIGN_IN, false);
+		enableSignIn = args.getBoolean(ARG_ENABLE_LOGIN, false);
 
 		String name = args.getString(ARG_TRACKING_NAME);
 		if (!TextUtils.isEmpty(name)) {

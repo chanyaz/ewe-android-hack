@@ -14,8 +14,6 @@
     <string name="attempting_to_log_in_with_facebook">Sinusubukang i-log in gamit ang kredensyal sa facebook…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Nagkaroon kami ng hindi matukoy na error. Pakisubukang muli mamaya.</string>
-    <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">Hindi maka-sign in sa Facebook.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Nabigo ang pag-login, pakilagay muli ang inyong password at subukang muli.</string>
     <!-- Facebook connect expedia password hint -->
@@ -26,10 +24,6 @@
     <string name="failure_to_update_user">Nabigong kunin ang mga na-update na impormasyon ng user.</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Nili-link ang mga account…</string>
-    <!-- Sign in -->
-    <string name="sign_in">Mag-sign In</string>
-    <!-- Sign in with Expedia -->
-    <string name="sign_in_with_expedia">Mag-sign in gamit ang Expedia</string>
     <!-- or -->
     <string name="or">o</string>
 

@@ -14,8 +14,6 @@
     <string name="attempting_to_log_in_with_facebook">Mencoba memasukkan Anda dengan kredensial Facebook…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Kami mengalami masalah yang tidak diketahui. Harap coba lagi nanti.</string>
-    <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">Tidak bisa masuk ke Facebook.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Gagal masuk. Silakan masukkan kembali kata sandi Anda dan coba lagi.</string>
     <!-- Facebook connect expedia password hint -->
@@ -26,10 +24,6 @@
     <string name="failure_to_update_user">Gagal mengambil informasi penguna terbaru.</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Menghubungkan akun Anda…</string>
-    <!-- Sign in -->
-    <string name="sign_in">Masuk</string>
-    <!-- Sign in with Expedia -->
-    <string name="sign_in_with_expedia">Masuk dengan Expedia</string>
     <!-- or -->
     <string name="or">atau</string>
 

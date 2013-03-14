@@ -134,7 +134,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/sign_in_with_expedia_button_container"
+                android:id="@+id/log_in_with_expedia_button_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -144,11 +144,11 @@
                 android:visibility="gone" >
 
                 <Button
-                    android:id="@+id/sign_in_with_expedia_btn"
+                    android:id="@+id/log_in_with_expedia_btn"
                     style="@style/LoginFormButton"
                     android:background="@drawable/btn_signin"
                     android:gravity="center"
-                    android:text="@string/sign_in_with_expedia"
+                    android:text="@string/Log_in_with_Expedia"
                     android:textColor="@android:color/black" />
 
                 <TextView

@@ -14,8 +14,6 @@
     <string name="attempting_to_log_in_with_facebook">Đang đăng nhập với thông tin Facebook quý vị cung cấp…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Chúng tôi đã gặp lỗi không xác định. Vui lòng thử lại sau.</string>
-    <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">Không thể đăng nhập Facebook.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Không đăng nhập được, vui lòng nhập lại mật khẩu và thử lại.</string>
     <!-- Facebook connect expedia password hint -->
@@ -26,10 +24,6 @@
     <string name="failure_to_update_user">Không truy xuất được thông tin người dùng đã cập nhật.</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Đang kết nối tài khoản của quý vị…</string>
-    <!-- Sign in -->
-    <string name="sign_in">Đăng nhập</string>
-    <!-- Sign in with Expedia -->
-    <string name="sign_in_with_expedia">Đăng nhập Expedia</string>
     <!-- or -->
     <string name="or">hoặc</string>
 

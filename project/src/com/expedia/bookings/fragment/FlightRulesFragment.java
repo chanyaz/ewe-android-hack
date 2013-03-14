@@ -103,7 +103,7 @@ public class FlightRulesFragment extends SherlockFragment {
 				builder.setTheme(R.style.FlightTheme);
 				builder.setTitle(R.string.rules_and_restrictions);
 				builder.setInjectExpediaCookies(true);
-				builder.setSignInEnabled(true);
+				builder.setLoginEnabled(true);
 				mContext.startActivity(builder.getIntent());
 			}
 

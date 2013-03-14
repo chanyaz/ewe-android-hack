@@ -14,8 +14,6 @@
     <string name="attempting_to_log_in_with_facebook">Försöker logga in dig med dina facebook-uppgifter…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Vi har stött på ett ospecificerat fel. Försök igen senare.</string>
-    <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">Inloggningen på facebook misslyckades.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Inloggningen misslyckades. Ange ditt lösenord och försök igen.</string>
     <!-- Facebook connect expedia password hint -->
@@ -26,10 +24,6 @@
     <string name="failure_to_update_user">Vi lyckades inte hämta uppdaterade användaruppgifter.</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Länkar dina konton…</string>
-    <!-- Sign in -->
-    <string name="sign_in">Logga in</string>
-    <!-- Sign in with Expedia -->
-    <string name="sign_in_with_expedia">Logga in med Expedia</string>
     <!-- or -->
     <string name="or">eller</string>
 

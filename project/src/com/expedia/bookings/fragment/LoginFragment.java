@@ -95,7 +95,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 	private static final String NET_AUTO_LOGIN = "NET_AUTO_LOGIN";
 	private static final String NET_LINK_NEW_USER = "NET_LINK_NEW_USER";
 	private static final String NET_LINK_EXISTING_USER = "NET_LINK_EXISTING_USER";
-	private static final String NET_SIGN_IN = "NET_SIGN_IN";
+	private static final String NET_LOG_IN = "NET_LOG_IN";
 
 	private static final String STATE_FB_USER_ID = "STATE_FB_USER_ID";
 	private static final String STATE_FB_EMAIL = "STATE_FB_EMAIL";
@@ -193,14 +193,14 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		mOuterContainer = Ui.findView(v, R.id.outer_container);
 		mExpediaSigninContainer = Ui.findView(v, R.id.expedia_signin_container);
 		mOrFacebookContainer = Ui.findView(v, R.id.or_facebook_container);
-		mSigninWithExpediaButtonContainer = Ui.findView(v, R.id.sign_in_with_expedia_button_container);
+		mSigninWithExpediaButtonContainer = Ui.findView(v, R.id.log_in_with_expedia_button_container);
 		mFacebookSigninContainer = Ui.findView(v, R.id.facebook_signin_container);
 		mFacebookButtonContainer = Ui.findView(v, R.id.facebook_button_container);
 		mLoginExtenderContainer = Ui.findView(v, R.id.login_extension_container);
 
 		mStatusMessageTv = Ui.findView(v, R.id.login_status_textview);
 		mConnectWithFacebookBtn = Ui.findView(v, R.id.connect_with_facebook_btn);
-		mSignInWithExpediaBtn = Ui.findView(v, R.id.sign_in_with_expedia_btn);
+		mSignInWithExpediaBtn = Ui.findView(v, R.id.log_in_with_expedia_btn);
 		mForgotYourPasswordTv = Ui.findView(v, R.id.forgot_your_password_link);
 		mLinkAccountsBtn = Ui.findView(v, R.id.link_accounts_button);
 		mCancelLinkAccountsBtn = Ui.findView(v, R.id.cancel_link_accounts_button);
@@ -282,14 +282,14 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 			BackgroundDownloader.getInstance().cancelDownload(NET_AUTO_LOGIN);
 			BackgroundDownloader.getInstance().cancelDownload(NET_LINK_EXISTING_USER);
 			BackgroundDownloader.getInstance().cancelDownload(NET_LINK_NEW_USER);
-			BackgroundDownloader.getInstance().cancelDownload(NET_SIGN_IN);
+			BackgroundDownloader.getInstance().cancelDownload(NET_LOG_IN);
 		}
 		else {
 			BackgroundDownloader.getInstance().unregisterDownloadCallback(NET_MANUAL_LOGIN);
 			BackgroundDownloader.getInstance().unregisterDownloadCallback(NET_AUTO_LOGIN);
 			BackgroundDownloader.getInstance().unregisterDownloadCallback(NET_LINK_EXISTING_USER);
 			BackgroundDownloader.getInstance().unregisterDownloadCallback(NET_LINK_NEW_USER);
-			BackgroundDownloader.getInstance().unregisterDownloadCallback(NET_SIGN_IN);
+			BackgroundDownloader.getInstance().unregisterDownloadCallback(NET_LOG_IN);
 		}
 
 		if (mLoginExtender != null) {
@@ -318,8 +318,8 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		if (bd.isDownloading(NET_LINK_NEW_USER)) {
 			bd.registerDownloadCallback(NET_LINK_NEW_USER, mFbLinkNewUserHandler);
 		}
-		if (bd.isDownloading(NET_SIGN_IN)) {
-			bd.registerDownloadCallback(NET_SIGN_IN, mLoginHandler);
+		if (bd.isDownloading(NET_LOG_IN)) {
+			bd.registerDownloadCallback(NET_LOG_IN, mLoginHandler);
 		}
 
 		if (mDoLoginExtenderWork) {
@@ -564,7 +564,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 				BackgroundDownloader.getInstance().cancelDownload(NET_AUTO_LOGIN);
 				BackgroundDownloader.getInstance().cancelDownload(NET_LINK_EXISTING_USER);
 				BackgroundDownloader.getInstance().cancelDownload(NET_LINK_NEW_USER);
-				BackgroundDownloader.getInstance().cancelDownload(NET_SIGN_IN);
+				BackgroundDownloader.getInstance().cancelDownload(NET_LOG_IN);
 
 				//goto previous state...
 				if (TextUtils.isEmpty(mExpediaUserName.getText())) {
@@ -605,7 +605,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 			mSigninWithExpediaButtonContainer.setVisibility(View.VISIBLE);
 			mFacebookSigninContainer.setVisibility(View.GONE);
 			mFacebookButtonContainer.setVisibility(View.GONE);
-			mTitleSetter.setActionBarTitle(getResources().getString(R.string.sign_in));
+			mTitleSetter.setActionBarTitle(getResources().getString(R.string.Log_In));
 			toggleLoginButtons(false, animate);
 			break;
 		case EXPEDIA_WTIH_FB_BUTTON:
@@ -615,7 +615,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 			mSigninWithExpediaButtonContainer.setVisibility(View.VISIBLE);
 			mFacebookSigninContainer.setVisibility(View.GONE);
 			mFacebookButtonContainer.setVisibility(View.GONE);
-			mTitleSetter.setActionBarTitle(getResources().getString(R.string.sign_in));
+			mTitleSetter.setActionBarTitle(getResources().getString(R.string.Log_In));
 			toggleLoginButtons(true, animate);
 			break;
 		}
@@ -657,7 +657,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		BackgroundDownloader.getInstance().cancelDownload(NET_AUTO_LOGIN);
 		BackgroundDownloader.getInstance().cancelDownload(NET_LINK_EXISTING_USER);
 		BackgroundDownloader.getInstance().cancelDownload(NET_LINK_NEW_USER);
-		BackgroundDownloader.getInstance().cancelDownload(NET_SIGN_IN);
+		BackgroundDownloader.getInstance().cancelDownload(NET_LOG_IN);
 		if (Session.getActiveSession() != null) {
 			Session.getActiveSession().removeCallback(mFacebookStatusCallback);
 		}
@@ -1107,8 +1107,8 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 				Log.d("onDownload: mFbLinkAutoLoginHandler:" + results.getFacebookLinkResponseCode().name());
 				if (results.isSuccess()) {
 					BackgroundDownloader bd = BackgroundDownloader.getInstance();
-					if (!bd.isDownloading(NET_SIGN_IN)) {
-						bd.startDownload(NET_SIGN_IN, mLoginDownload, mLoginHandler);
+					if (!bd.isDownloading(NET_LOG_IN)) {
+						bd.startDownload(NET_LOG_IN, mLoginDownload, mLoginHandler);
 					}
 				}
 				else {
@@ -1195,7 +1195,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		public SignInResponse doDownload() {
 			Log.d("doDownload: mLoginDownload");
 			ExpediaServices services = new ExpediaServices(mContext);
-			BackgroundDownloader.getInstance().addDownloadListener(NET_SIGN_IN, services);
+			BackgroundDownloader.getInstance().addDownloadListener(NET_LOG_IN, services);
 
 			return services.signIn(ExpediaServices.F_FLIGHTS | ExpediaServices.F_HOTELS);
 		}
@@ -1248,7 +1248,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		Log.d("FB: handleFacebookResponse", exception);
 		if (session == null || state == null || exception != null || state.equals(SessionState.CLOSED)
 				|| state.equals(SessionState.CLOSED_LOGIN_FAILED)) {
-			setStatusText(R.string.unable_to_sign_into_facebook, false);
+			setStatusText(R.string.unable_to_log_into_facebook, false);
 			goBack();
 		}
 		else if (session.isOpened()) {
@@ -1285,7 +1285,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 				}
 				else {
 					Log.d("FB: executeMeRequestAsync response - user == null || response.getError() != null");
-					setStatusText(R.string.unable_to_sign_into_facebook, false);
+					setStatusText(R.string.unable_to_log_into_facebook, false);
 					setIsLoading(false);
 				}
 			}

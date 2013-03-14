@@ -14,8 +14,6 @@
     <string name="attempting_to_log_in_with_facebook">Facebook の認証情報でログイン中…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">詳細不明なエラーが発生しました。後ほどお試しください。</string>
-    <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">Facebook にサインインできません。</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">ログインに失敗しました。パスワードを再入力して、もう一度お試しください。</string>
     <!-- Facebook connect expedia password hint -->
@@ -26,10 +24,6 @@
     <string name="failure_to_update_user">更新されたユーザー情報を取得できませんでした。</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">アカウントをリンク中…</string>
-    <!-- Sign in -->
-    <string name="sign_in">サインイン</string>
-    <!-- Sign in with Expedia -->
-    <string name="sign_in_with_expedia">エクスペディアでサインイン</string>
     <!-- or -->
     <string name="or">または</string>
 

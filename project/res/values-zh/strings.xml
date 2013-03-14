@@ -14,8 +14,6 @@
     <string name="attempting_to_log_in_with_facebook">正在尝试使用 Facebook 帐户和密码登录网站…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">出现错误，具体信息不明。请稍后重试。</string>
-    <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">无法登录到 Facebook。</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">登录失败，请重新输入密码，再试一次。</string>
     <!-- Facebook connect expedia password hint -->
@@ -26,10 +24,6 @@
     <string name="failure_to_update_user">未能提取更新的用户信息。</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">正在关联您的帐户…</string>
-    <!-- Sign in -->
-    <string name="sign_in">登录</string>
-    <!-- Sign in with Expedia -->
-    <string name="sign_in_with_expedia">登录 Expedia</string>
     <!-- or -->
     <string name="or">或</string>
 

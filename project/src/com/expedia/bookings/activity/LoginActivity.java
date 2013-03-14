@@ -90,7 +90,7 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 			setTitle(mTitle);
 		}
 		else {
-			setTitle(R.string.sign_in);
+			setTitle(R.string.Log_In);
 		}
 
 		// Set the background (based on mode)

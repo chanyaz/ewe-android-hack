@@ -14,8 +14,6 @@
     <string name="attempting_to_log_in_with_facebook">Bezig met aanmelden via Facebook…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Er deed zich een onbekende fout voor. Probeer het later opnieuw.</string>
-    <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">Aanmelden via Facebook mislukt.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Aanmelding mislukt, voer je wachtwoord opnieuw in en probeer opnieuw.</string>
     <!-- Facebook connect expedia password hint -->
@@ -26,10 +24,6 @@
     <string name="failure_to_update_user">Bijgwerkte gebruikersgegevens ophalen mislukt.</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Accounts aan het koppelen…</string>
-    <!-- Sign in -->
-    <string name="sign_in">Aanmelden</string>
-    <!-- Sign in with Expedia -->
-    <string name="sign_in_with_expedia">Aanmelden via Expedia</string>
     <!-- or -->
     <string name="or">of</string>
 

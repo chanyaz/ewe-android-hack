@@ -14,8 +14,6 @@
     <string name="attempting_to_log_in_with_facebook">Tentando conectar com suas credenciais do Facebook…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Encontramos um erro não especificado. Tente novamente mais tarde.</string>
-    <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">Não é possível se conectar ao Facebook.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Falha no login. Digite sua senha e tente novamente.</string>
     <!-- Facebook connect expedia password hint -->
@@ -26,10 +24,6 @@
     <string name="failure_to_update_user">Falha ao obter informações atualizadas do usuário.</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Vinculando contas…</string>
-    <!-- Sign in -->
-    <string name="sign_in">Conectar</string>
-    <!-- Sign in with Expedia -->
-    <string name="sign_in_with_expedia">Conectar com a Expedia</string>
     <!-- or -->
     <string name="or">ou</string>
 

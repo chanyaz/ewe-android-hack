@@ -14,8 +14,6 @@
     <string name="attempting_to_log_in_with_facebook">กำลังล็อกอินคุณด้วยข้อมูล Facebook…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">เราพบข้อผิดพลาดที่ไม่สามารถระบุได้ โปรดลองอีกครั้ง</string>
-    <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">ไม่สามารถลงชื่อเข้าใช้ Facebook</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">ล็อกอินไม่สำเร็จ โปรดป้อนรหัสผ่านของคุณใหม่แล้วลองอีกครั้ง</string>
     <!-- Facebook connect expedia password hint -->
@@ -26,10 +24,6 @@
     <string name="failure_to_update_user">รับข้อมูลผู้ใช้ที่อัพเดทไม่สำเร็จ</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">กำลังลิงก์บัญชีของคุณ…</string>
-    <!-- Sign in -->
-    <string name="sign_in">ลงชื่อเข้าใช้</string>
-    <!-- Sign in with Expedia -->
-    <string name="sign_in_with_expedia">ลงชื่อเข้าใช้ด้วย Expedia</string>
     <!-- or -->
     <string name="or">หรือ</string>
 

@@ -14,8 +14,6 @@
     <string name="attempting_to_log_in_with_facebook">Stiamo cercando di accedere alle tue credenziali Facebook…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Abbiamo riscontrato un errore generico. Riprova più tardi.</string>
-    <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">Impossibile collegarsi a Facebook. </string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Accesso non riuscito: reinserisci la tua password e riprova.</string>
     <!-- Facebook connect expedia password hint -->
@@ -26,10 +24,6 @@
     <string name="failure_to_update_user">Impossibile recuperare dati utente aggiornati.</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Stiamo collegando il tuo account…</string>
-    <!-- Sign in -->
-    <string name="sign_in">Accedi</string>
-    <!-- Sign in with Expedia -->
-    <string name="sign_in_with_expedia">Accedi con Expedia</string>
     <!-- or -->
     <string name="or">o</string>
 
