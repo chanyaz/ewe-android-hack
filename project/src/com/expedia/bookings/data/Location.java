@@ -246,6 +246,10 @@ public class Location implements JSONable {
 			return null;
 		}
 
-		return TextUtils.join(", ", new String[] { getStreetAddressString(), toShortFormattedString(), mPostalCode });
+		ArrayList<String> locationParts = new ArrayList<String>();
+		locationParts.add(getStreetAddressString());
+		locationParts.add(toShortFormattedString());
+		locationParts.add(mPostalCode);
+		return StrUtils.joinWithoutEmpties(", ", locationParts);
 	}
 }
