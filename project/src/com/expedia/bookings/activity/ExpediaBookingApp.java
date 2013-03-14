@@ -91,6 +91,9 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		AdTracker.initialize(this);
 		ItineraryManager.getInstance().init(this);
 
+		// We want to try to start loading data (but it may not be finished syncing before someone tries to use it).
+		ItineraryManager.getInstance().startSync(false);
+
 		if (!SettingUtils.get(this, PREF_FIRST_LAUNCH, false)) {
 			SettingUtils.save(this, PREF_FIRST_LAUNCH, true);
 			AdTracker.trackFirstLaunch();
