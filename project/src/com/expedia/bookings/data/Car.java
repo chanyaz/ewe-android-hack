@@ -3,36 +3,47 @@ package com.expedia.bookings.data;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.expedia.bookings.R;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
 public class Car implements JSONable {
 
 	public static enum Category {
-		MINI,
-		ECONOMY,
-		COMPACT,
-		MIDSIZE,
-		STANDARD,
-		FULLSIZE,
-		PREMIUM,
-		LUXURY,
-		SPECIAL, 
-		MINI_ELITE,
-		ECONOMY_ELITE,
-		COMPACT_ELITE,
-		MIDSIZE_ELITE, 
-		STANDARD_ELITE,
-		FULLSIZE_ELITE,
-		PREMIUM_ELITE, 
-		LUXURY_ELITE,
-		OVERSIZE;
+		MINI(R.string.car_category_mini),
+		ECONOMY(R.string.car_category_economy),
+		COMPACT(R.string.car_category_compact),
+		MIDSIZE(R.string.car_category_midsize),
+		STANDARD(R.string.car_category_standard),
+		FULLSIZE(R.string.car_category_fullsize),
+		PREMIUM(R.string.car_category_premium),
+		LUXURY(R.string.car_category_luxury),
+		SPECIAL(R.string.car_category_special),
+		MINI_ELITE(R.string.car_category_mini_elite),
+		ECONOMY_ELITE(R.string.car_category_economy_elite),
+		COMPACT_ELITE(R.string.car_category_compact_elite),
+		MIDSIZE_ELITE(R.string.car_category_midsize_elite),
+		STANDARD_ELITE(R.string.car_category_standard_elite),
+		FULLSIZE_ELITE(R.string.car_category_fullsize_elite),
+		PREMIUM_ELITE(R.string.car_category_premium_elite),
+		LUXURY_ELITE(R.string.car_category_luxury_elite),
+		OVERSIZE(R.string.car_category_oversize);
+
+		private int mResId;
+
+		private Category(int resId) {
+			mResId = resId;
+		}
+
+		public int getCategoryResId() {
+			return mResId;
+		}
 	}
 
 	public static enum Type {
 		TWO_DOOR_CAR,
 		THREE_DOOR_CAR,
-		FOUR_DOOR_CAR, 
+		FOUR_DOOR_CAR,
 		VAN,
 		WAGON,
 		LIMOUSINE,

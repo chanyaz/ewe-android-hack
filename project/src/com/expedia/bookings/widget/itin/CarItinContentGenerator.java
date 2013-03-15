@@ -60,13 +60,13 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		ItinCardDataCar itinCardData = getItinCardData();
 
 		String template = getContext().getString(R.string.share_template_short_car);
-		String carType = itinCardData.getCarTypeDescription(getContext());
+		String carCategory = itinCardData.getCarCategoryDescription(getContext());
 		String pickUpDate = itinCardData.getFormattedShortPickUpDate();
 		String dropOffDate = itinCardData.getFormattedShortDropOffDate();
 		String vendorName = itinCardData.getVendorName();
 		String vendorAddress = itinCardData.getRelevantVendorLocation().toLongFormattedString();
 
-		return String.format(template, carType, pickUpDate, dropOffDate, vendorName, vendorAddress);
+		return String.format(template, carCategory, pickUpDate, dropOffDate, vendorName, vendorAddress);
 	}
 
 	@Override
@@ -82,7 +82,8 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		sb.append(context.getString(R.string.share_car_start_TEMPLATE, itinCardData.getVendorName()));
 		sb.append("\n\n");
 
-		sb.append(context.getString(R.string.share_car_vehicle_TEMPLATE, itinCardData.getCarTypeDescription(context)));
+		sb.append(context.getString(R.string.share_car_vehicle_TEMPLATE,
+				itinCardData.getCarCategoryDescription(context)));
 		sb.append("\n");
 
 		String pickUpDate = itinCardData.getFormattedLongPickUpDate();
@@ -158,7 +159,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 
 	@Override
 	public String getHeaderText() {
-		return getItinCardData().getCarTypeDescription(getContext());
+		return getItinCardData().getVendorName();
 	}
 
 	@Override
@@ -170,7 +171,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 	public View getTitleView(ViewGroup container) {
 		TextView view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_title_generic, container,
 				false);
-		view.setText(getHeaderText());
+		view.setText(getItinCardData().getCarCategoryDescription(getContext()));
 		return view;
 	}
 

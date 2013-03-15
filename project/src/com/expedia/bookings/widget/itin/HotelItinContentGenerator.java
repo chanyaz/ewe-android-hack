@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget.itin;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import android.content.Context;
 import android.content.Intent;

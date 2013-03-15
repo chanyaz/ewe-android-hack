@@ -15,6 +15,7 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Car;
+import com.expedia.bookings.data.Car.Category;
 import com.expedia.bookings.data.Car.Type;
 import com.expedia.bookings.data.CarVendor;
 import com.expedia.bookings.data.DateTime;
@@ -81,14 +82,10 @@ public class ItinCardDataCar extends ItinCardData implements ConfirmationNumbera
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	public String getCarTypeDescription(Context context) {
-		Integer resId = null;
-		if (mCar != null && mCar.getType() != null) {
-			resId = CAR_TYPE_DESCRIPTION_MAP.get(mCar.getType());
-		}
-
-		if (resId != null) {
-			return context.getString(resId);
+	public String getCarCategoryDescription(Context context) {
+		Category category = mCar.getCategory();
+		if (category != null) {
+			return context.getString(category.getCategoryResId());
 		}
 
 		return null;

@@ -247,6 +247,45 @@
     <string name="refresh">Refresh</string>
     <!-- Try Again -->
     <string name="try_again">Try Again</string>
+    
+    <!-- Car category -->
+    <!-- Car category: mini -->
+    <string name="car_category_mini">Mini Car</string>
+    <!-- Car category: economy -->
+    <string name="car_category_economy">Economy Car</string>
+    <!-- Car category: compact -->
+    <string name="car_category_compact">Compact Car</string>
+    <!-- Car category: midize -->
+    <string name="car_category_midsize">Mid-size Car</string>
+    <!-- Car category: standard -->
+    <string name="car_category_standard">Standard Car</string>
+    <!-- Car category: fullsize -->
+    <string name="car_category_fullsize">Full-size Car</string>
+    <!-- Car category: premium -->
+    <string name="car_category_premium">Premium Car</string>
+    <!-- Car category: luxury -->
+    <string name="car_category_luxury">Luxury Car</string>
+    <!-- Car category: mini elite -->
+    <string name="car_category_mini_elite">Mini Elite Car</string>
+    <!-- Car category: economy elite -->
+    <string name="car_category_economy_elite">Economy Elite Car</string>
+    <!-- Car category: compact elite -->
+    <string name="car_category_compact_elite">Compact Elite Car</string>
+    <!-- Car category: midize elite -->
+    <string name="car_category_midsize_elite">Mid-size Elite Car</string>
+    <!-- Car category: standard elite -->
+    <string name="car_category_standard_elite">Standard Elite Car</string>
+    <!-- Car category: fullsize elite -->
+    <string name="car_category_fullsize_elite">Full-size Elite Car</string>
+    <!-- Car category: premium elite -->
+    <string name="car_category_premium_elite">Premium Elite Car</string>
+    <!-- Car category: luxury elite -->
+    <string name="car_category_luxury_elite">Luxury Elite Car</string>
+    <!-- Car category: special -->
+    <string name="car_category_special">Special Car</string>
+    <!-- Car category: oversize -->
+    <string name="car_category_oversize">Oversize Car</string>
+
     <!-- Car types -->
     <string name="car_type_two_door">Two Door Car</string>
     <string name="car_type_three_door">Three Door Car</string>
