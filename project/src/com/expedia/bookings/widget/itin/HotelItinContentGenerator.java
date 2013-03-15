@@ -193,7 +193,6 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		if (itinCardData.getPropertyLocation() != null) {
 			staticMapImageView.setCenterPoint(itinCardData.getPropertyLocation());
-			staticMapImageView.setPoiPoint(itinCardData.getPropertyLocation());
 		}
 
 		addressTextView.setText(itinCardData.getAddressString());

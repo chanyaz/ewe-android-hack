@@ -225,7 +225,6 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		Location relevantLocation = itinCardData.getRelevantVendorLocation();
 		if (relevantLocation != null) {
 			staticMapImageView.setCenterPoint(relevantLocation);
-			staticMapImageView.setPoiPoint(relevantLocation);
 		}
 
 		pickUpEventSummaryView.bind(itinCardData.getPickUpDate().getCalendar().getTime(),
