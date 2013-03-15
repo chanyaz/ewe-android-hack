@@ -1258,7 +1258,16 @@ public class ExpediaServices implements DownloadListener {
 		long start = System.currentTimeMillis();
 		mCancellingDownload = false;
 		try {
-			return client.execute(mRequest, responseHandler, httpContext);
+			T response = client.execute(mRequest, responseHandler, httpContext);
+			if (!ignoreCookies && !mCancellingDownload) {
+				if (logCookies) {
+					Log.v("Received cookies: ");
+					cookieStore.log();
+				}
+
+				cookieStore.save(mContext, COOKIES_FILE);
+			}
+			return response;
 		}
 		catch (IOException e) {
 			if (mCancellingDownload) {
@@ -1271,16 +1280,6 @@ public class ExpediaServices implements DownloadListener {
 		finally {
 			client.close();
 			Log.d("Total request time: " + (System.currentTimeMillis() - start) + " ms");
-
-			if (!ignoreCookies) {
-				if (logCookies) {
-					Log.v("Received cookies: ");
-					cookieStore.log();
-				}
-
-				cookieStore.save(mContext, COOKIES_FILE);
-			}
-
 			mRequest = null;
 		}
 
