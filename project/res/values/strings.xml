@@ -247,6 +247,8 @@
     <string name="refresh">Refresh</string>
     <!-- Try Again -->
     <string name="try_again">Try Again</string>
+    <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
+    <string name="copy_TEMPLATE">COPY %1$s</string>
     
     <!-- Car category -->
     <!-- Car category: mini -->
