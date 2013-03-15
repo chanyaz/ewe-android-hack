@@ -232,4 +232,9 @@ public class ItinCardDataCar extends ItinCardData implements ConfirmationNumbera
 		return now.before(pickUpCal) || (!sameDayRental && dayOfYear == pickUpDayOfYear)
 				|| (sameDayRental && !isFourHoursBeforeDropOff);
 	}
+
+	@Override
+	public int getConfirmationNumberLabelResId() {
+		return R.string.car_rental_confirmation_code_label;
+	}
 }

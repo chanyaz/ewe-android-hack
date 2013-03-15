@@ -243,7 +243,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 	}
 
 	private void showPhoneNumber(TextView label, TextView display, final String phoneNumber) {
-		boolean isEmpty = phoneNumber.isEmpty();
+		boolean isEmpty = TextUtils.isEmpty(phoneNumber);
 		label.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
 		display.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
 

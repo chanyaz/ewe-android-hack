@@ -216,7 +216,8 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		if (hasConfirmationNumber()) {
 			String confirmationText = ((ConfirmationNumberable) this.getItinCardData())
 					.getFormattedConfirmationNumbers();
-			View view = getClickToCopyItinDetailItem(R.string.confirmation_code_label, confirmationText, true);
+			int labelResId = ((ConfirmationNumberable) this.getItinCardData()).getConfirmationNumberLabelResId();
+			View view = getClickToCopyItinDetailItem(labelResId, confirmationText, true);
 			if (view != null) {
 				Log.d("ITIN: addConfirmationNumber to container");
 				container.addView(view);

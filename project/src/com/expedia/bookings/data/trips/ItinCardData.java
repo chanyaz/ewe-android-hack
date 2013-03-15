@@ -77,6 +77,8 @@ public class ItinCardData {
 	public interface ConfirmationNumberable {
 		public boolean hasConfirmationNumber();
 
+		public int getConfirmationNumberLabelResId();
+		
 		public String getFormattedConfirmationNumbers();
 	}
 }

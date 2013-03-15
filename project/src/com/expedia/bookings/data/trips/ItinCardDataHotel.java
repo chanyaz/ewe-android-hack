@@ -182,7 +182,13 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 		return false;
 	}
 
+	@Override
+	public int getConfirmationNumberLabelResId() {
+		return R.string.hotel_confirmation_code_label;
+	}
+
 	private boolean hasProperty() {
 		return mProperty != null;
 	}
+
 }

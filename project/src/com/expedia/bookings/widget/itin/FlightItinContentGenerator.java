@@ -577,16 +577,11 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		if (hasConfirmationNumber()) {
 			TripFlight tripFlight = (TripFlight) getItinCardData().getTripComponent();
 			List<FlightConfirmation> confs = tripFlight.getConfirmations();
-			Resources res = getResources();
-			if (confs.size() == 1) {
-				View view = getClickToCopyItinDetailItem(R.string.flight_confirmation_code_label, confs.get(0)
-						.getConfirmationCode(), true);
-				if (view != null) {
-					container.addView(view);
-					return true;
-				}
+			if (confs.size() <= 1) {
+				return super.addConfirmationNumber(container);
 			}
 			else if (confs.size() > 1) {
+				Resources res = getResources();
 				for (FlightConfirmation conf : confs) {
 					View view = getClickToCopyItinDetailItem(
 							res.getString(R.string.flight_carrier_confirmation_code_label_TEMPLATE, conf.getCarrier()),

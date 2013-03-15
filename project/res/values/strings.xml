@@ -71,7 +71,7 @@
     <!-- Itinerary Number -->
     <string name="itinerary_number">Itinerary Number</string>
     <!-- Expedia Itinerary -->
-    <string name="expedia_itinerary">Expedia Itinerary</string>
+    <string name="expedia_itinerary">Expedia Itinerary #</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">No upcoming trips.</string>
     <!-- Enter itinerary number -->
@@ -135,6 +135,10 @@
     <string name="flight_confirmation_code_label">Airline Confirmation</string>
     <!-- Flight Carrier confirmation code label template -->
     <string name="flight_carrier_confirmation_code_label_TEMPLATE">%1$s Confirmation</string>
+    <!-- Car rental confirmation code "Agency Confirmation Code" -->
+    <string name="car_rental_confirmation_code_label">Agency Confirmation Code</string>
+    <!-- Hotel confirmation code "Hotel Confirmation Code" -->
+    <string name="hotel_confirmation_code_label">Hotel Confirmation Code</string>
     <!-- Passengers Label -->
     <string name="passengers_label">Passengers</string>
     <!-- Flight receipt and policies -->
