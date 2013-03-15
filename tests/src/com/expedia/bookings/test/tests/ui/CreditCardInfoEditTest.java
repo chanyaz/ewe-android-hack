@@ -58,43 +58,58 @@ public class CreditCardInfoEditTest extends ActivityInstrumentationTestCase2<Hot
 		// this method is called.
 		mSolo.clickOnText(mRes.getString(R.string.expiration_date));
 		mSolo.clickOnButton(1);
-		mSolo.typeText(1, "JaxperCC MobiataTestaverde");
-		EditText creditCardEditText = (EditText) mSolo.getView(R.id.edit_creditcard_number);
+
+		EditText editNameOnCard = (EditText) mSolo.getView(R.id.edit_name_on_card);
+		mSolo.typeText(editNameOnCard, "JaxperCC MobiataTestaverde");
+
+		EditText editZipCode = (EditText) mSolo.getView(R.id.edit_address_postal_code);
+		mSolo.typeText(editZipCode, "48104");
+
+		EditText editEmailAddress = (EditText) mSolo.getView(R.id.edit_email_address);
+		mSolo.typeText(editEmailAddress, "qa-ehcc@mobiata.com");
 
 		mSolo.clickOnText(mRes.getString(R.string.button_done));
 
+		//If a pop up appears asking to save billing info, then the
+		//app didn't see the bad CC
 		if (mSolo.searchText(mRes.getString(R.string.save_billing_info))) {
 			mSolo.goBack();
 			Log.v(TAG, "Didn't enter a bad CC. Failing test to get your attention.");
 			fail();
 		}
 		else {
+			//Otherwise, grab the drawable displayed for the error, and make
+			//sure it's the correct drawable
+			EditText creditCardEditText = (EditText) mSolo.getView(R.id.edit_creditcard_number);
 			BitmapDrawable shouldBeErrorIcon = (BitmapDrawable) mRes.getDrawable(R.drawable.ic_error_blue);
 			Drawable[] availableIcons = creditCardEditText.getCompoundDrawables();
 			BitmapDrawable iconDisplayed = null;
-			if (availableIcons.length > 1) {
-				Log.v(TAG, "EditText has more drawables than it should " +
-						"Failing the test to protect you.");
-				fail();
-			}
-			else {
-				iconDisplayed = (BitmapDrawable) availableIcons[0];
-			}
-			if (shouldBeErrorIcon.getBitmap().sameAs(iconDisplayed.getBitmap())) {
+
+			iconDisplayed = (BitmapDrawable) availableIcons[2];
+
+			//Test fails if the icon presented isn't the proper icon
+			if (!shouldBeErrorIcon.getBitmap().sameAs(iconDisplayed.getBitmap())) {
+				Log.v(TAG, "Desired icon: " + iconDisplayed.toString());
+				Log.v(TAG, "Actual icon: " + shouldBeErrorIcon.toString());
 				fail();
 			}
 		}
 	}
 
-	void additionalFunctionSelector(int num) {
-		switch (num) {
+	//Switch for picking the proper followup 
+	//test method
+	//The "testToRun" determined in testMethod
+	// "additionalFunctionCase"
+	void additionalFunctionSelector(int testToRun) {
+		switch (testToRun) {
 		case 1:
 			checkForBadCCIcon();
-
+			break;
 		case 2:
 			checkForPostCVVPopUp();
-
-		default: /* do nothing */;
+			break;
+		default: /* do nothing */
+			break;
 		}
 
 	}
