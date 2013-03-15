@@ -41,6 +41,7 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.FlightConfirmation;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
+import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.section.FlightLegSummarySection;
@@ -52,6 +53,7 @@ import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightMapImageView;
+import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Delay;
 import com.mobiata.flightlib.data.Flight;
@@ -567,6 +569,36 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 						});
 			}
 		}
+	}
+
+	@Override
+	protected boolean addConfirmationNumber(ViewGroup container) {
+		Log.d("ITIN: addConfirmationNumber");
+		if (hasConfirmationNumber()) {
+			TripFlight tripFlight = (TripFlight) getItinCardData().getTripComponent();
+			List<FlightConfirmation> confs = tripFlight.getConfirmations();
+			Resources res = getResources();
+			if (confs.size() == 1) {
+				View view = getClickToCopyItinDetailItem(R.string.flight_confirmation_code_label, confs.get(0)
+						.getConfirmationCode(), true);
+				if (view != null) {
+					container.addView(view);
+					return true;
+				}
+			}
+			else if (confs.size() > 1) {
+				for (FlightConfirmation conf : confs) {
+					View view = getClickToCopyItinDetailItem(
+							res.getString(R.string.flight_carrier_confirmation_code_label_TEMPLATE, conf.getCarrier()),
+							conf.getConfirmationCode(), true);
+					if (view != null) {
+						container.addView(view);
+					}
+				}
+				return true;
+			}
+		}
+		return false;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////

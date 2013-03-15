@@ -230,7 +230,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		Log.d("ITIN: addItineraryNumber");
 		if (hasItinNumber()) {
 			String itineraryNumber = this.getItinCardData().getTripComponent().getParentTrip().getTripNumber();
-			View view = getClickToCopyItinDetailItem(R.string.itinerary_number, itineraryNumber, false);
+			View view = getClickToCopyItinDetailItem(R.string.expedia_itinerary, itineraryNumber, false);
 			if (view != null) {
 				Log.d("ITIN: addItineraryNumber to container");
 				container.addView(view);
@@ -240,14 +240,17 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		return false;
 	}
 
-	//helper
-	private View getClickToCopyItinDetailItem(int headerResId, final String text,
+	protected View getClickToCopyItinDetailItem(int headerResId, final String text, final boolean isConfNumber) {
+		return getClickToCopyItinDetailItem(getResources().getString(headerResId), text, isConfNumber);
+	}
+
+	protected View getClickToCopyItinDetailItem(String label, final String text,
 			final boolean isConfNumber) {
 		View item = getLayoutInflater().inflate(R.layout.snippet_itin_detail_item_generic, null);
 		TextView headingTv = Ui.findView(item, R.id.item_label);
 		TextView textTv = Ui.findView(item, R.id.item_text);
 
-		headingTv.setText(headerResId);
+		headingTv.setText(label);
 		textTv.setText(text);
 
 		item.setOnClickListener(new OnClickListener() {
