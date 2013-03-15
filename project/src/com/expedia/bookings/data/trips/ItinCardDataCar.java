@@ -2,6 +2,7 @@ package com.expedia.bookings.data.trips;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -15,10 +16,10 @@ import android.text.TextUtils;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.Car.Type;
-import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
 import com.expedia.bookings.data.CarVendor;
 import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
 
 public class ItinCardDataCar extends ItinCardData implements ConfirmationNumberable {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -169,8 +170,7 @@ public class ItinCardDataCar extends ItinCardData implements ConfirmationNumbera
 	}
 
 	public Location getRelevantVendorLocation() {
-		boolean pickup = System.currentTimeMillis() > mCar.getPickUpDateTime().getMillisFromEpoch();
-		return pickup ? mCar.getPickUpLocation() : mCar.getDropOffLocation();
+		return showPickUp() ? mCar.getPickUpLocation() : mCar.getDropOffLocation();
 	}
 
 	public String getConfirmationNumber() {
@@ -212,5 +212,24 @@ public class ItinCardDataCar extends ItinCardData implements ConfirmationNumbera
 			return ((TripCar) getTripComponent()).getCar().getConfNumber();
 		}
 		return null;
+	}
+
+	/**
+	 * @return true if we want to focus on the pickup time, false for drop off
+	 */
+	public boolean showPickUp() {
+		Calendar pickUpCal = getPickUpDate().getCalendar();
+		Calendar dropOffCal = getDropOffDate().getCalendar();
+		Calendar now = Calendar.getInstance(pickUpCal.getTimeZone());
+
+		// This should work as long as they're not renting a car for a year (not possible I believe)
+		int pickUpDayOfYear = pickUpCal.get(Calendar.DAY_OF_YEAR);
+		int dropOffDayOfyear = dropOffCal.get(Calendar.DAY_OF_YEAR);
+		int dayOfYear = now.get(Calendar.DAY_OF_YEAR);
+		boolean sameDayRental = pickUpDayOfYear == dropOffDayOfyear;
+		boolean isFourHoursBeforeDropOff = now.getTimeInMillis() > dropOffCal.getTimeInMillis() - (1000 * 60 * 60 * 4);
+
+		return now.before(pickUpCal) || (!sameDayRental && dayOfYear == pickUpDayOfYear)
+				|| (sameDayRental && !isFourHoursBeforeDropOff);
 	}
 }

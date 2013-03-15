@@ -271,8 +271,10 @@
     <string name="itin_card_details_pick_up">Pick Up</string>
     <string name="itin_card_details_drop_off">Drop Off</string>
     <string name="itin_card_details_days">Days</string>
-    <string name="itin_card_details_pick_up">Pick Up</string>
-    <string name="itin_card_details_drop_off">Drop Off</string>
+    <!-- Tell users when they can pick up a rental car. %1$s is a time, e.g. ("pick up after 5 PM") -->
+    <string name="itin_card_details_pick_up_TEMPLATE">Pick up after %1$s</string>
+    <!-- Tell users when they need to drop off a rental car. %1$s is a time, e.g. ("drop off before 5 PM") -->
+    <string name="itin_card_details_drop_off_TEMPLATE">Drop off before %1$s</string>
     <string name="itin_card_details_agency_phone">Agency Phone</string>
     <string name="itin_card_details_toll_free_phone">Toll Free Phone</string>
     <string name="itin_card_details_check_in">Check In</string>

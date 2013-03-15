@@ -3,6 +3,7 @@ package com.expedia.bookings.widget.itin;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -177,7 +178,21 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 	public View getSummaryView(ViewGroup container) {
 		TextView view = (TextView) getLayoutInflater()
 				.inflate(R.layout.include_itin_card_summary_car, container, false);
-		view.setText("Pick up after " + getItinCardData().getFormattedPickUpTime());
+
+		ItinCardDataCar data = getItinCardData();
+
+		if (data.showPickUp()) {
+			view.setText(getContext().getString(
+					R.string.itin_card_details_pick_up_TEMPLATE,
+					DateUtils.formatDateTime(getContext(), getItinCardData().getPickUpDate().getCalendar()
+							.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME)));
+		}
+		else {
+			view.setText(getContext().getString(
+					R.string.itin_card_details_drop_off_TEMPLATE,
+					DateUtils.formatDateTime(getContext(), getItinCardData().getDropOffDate().getCalendar()
+							.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME)));
+		}
 
 		return view;
 	}
