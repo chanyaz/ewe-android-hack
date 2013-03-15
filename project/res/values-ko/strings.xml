@@ -6,8 +6,6 @@
     <string name="facebook_weve_found_your_account">&lt;b&gt;%1$s&lt;/b&gt; 님! Expedia 계정을 갖고 계신 것 같네요. Facebook과 Expedia 계정을 연결하려면 아래에 Expedia 비밀번호를 입력해 주세요.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">&lt;b&gt;%1$s&lt;/b&gt; 님! 고객님의 Facebook 정보를 가져왔습니다.</string>
-    <!-- connect with facebook (button text) -->
-    <string name="connect_with_facebook">Facebook을 이용하여 연결</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">Facebook에서 정보 가져오는 중…</string>
     <!-- Attempting to log you in with facebook credentials -->

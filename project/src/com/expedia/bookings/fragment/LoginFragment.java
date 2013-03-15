@@ -126,7 +126,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 	private LinearLayout mOuterContainer;
 
 	private TextView mStatusMessageTv;
-	private Button mConnectWithFacebookBtn;
+	private Button mLogInWithFacebookBtn;
 	private Button mSignInWithExpediaBtn;
 	private TextView mForgotYourPasswordTv;
 	private Button mLinkAccountsBtn;
@@ -199,7 +199,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		mLoginExtenderContainer = Ui.findView(v, R.id.login_extension_container);
 
 		mStatusMessageTv = Ui.findView(v, R.id.login_status_textview);
-		mConnectWithFacebookBtn = Ui.findView(v, R.id.connect_with_facebook_btn);
+		mLogInWithFacebookBtn = Ui.findView(v, R.id.log_in_with_facebook_btn);
 		mSignInWithExpediaBtn = Ui.findView(v, R.id.log_in_with_expedia_btn);
 		mForgotYourPasswordTv = Ui.findView(v, R.id.forgot_your_password_link);
 		mLinkAccountsBtn = Ui.findView(v, R.id.link_accounts_button);
@@ -209,7 +209,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		mLinkPassword = Ui.findView(v, R.id.link_password_edit_text);
 
 		FontCache.setTypeface(mStatusMessageTv, Font.ROBOTO_LIGHT);
-		FontCache.setTypeface(mConnectWithFacebookBtn, Font.ROBOTO_REGULAR);
+		FontCache.setTypeface(mLogInWithFacebookBtn, Font.ROBOTO_REGULAR);
 		FontCache.setTypeface(mSignInWithExpediaBtn, Font.ROBOTO_REGULAR);
 		FontCache.setTypeface(mForgotYourPasswordTv, Font.ROBOTO_REGULAR);
 		FontCache.setTypeface(mLinkAccountsBtn, Font.ROBOTO_REGULAR);
@@ -429,7 +429,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 			}
 		});
 
-		mConnectWithFacebookBtn.setOnClickListener(new OnClickListener() {
+		mLogInWithFacebookBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -1303,7 +1303,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 
 		setIsLoading(true);
 		setLoadingText(R.string.fetching_facebook_info);
-		setStatusText(R.string.connect_with_facebook, true);
+		setStatusText(R.string.Log_in_with_Facebook, true);
 
 		// start Facebook Login
 		Session currentSession = Session.getActiveSession();

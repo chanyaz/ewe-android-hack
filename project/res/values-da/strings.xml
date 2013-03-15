@@ -6,8 +6,6 @@
     <string name="facebook_weve_found_your_account">Hej &lt;b&gt;%1$s&lt;/b&gt;, det ser ud til, at vi har fundet din Expedia-konto! Indtast venligst din adgangskode til Expedia nedenfor for at forbinde din facebook-konto og din Expedia-konto.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">Hej &lt;b&gt;%1$s&lt;/b&gt;, vi har hentet dine Facebook-oplysninger!</string>
-    <!-- connect with facebook (button text) -->
-    <string name="connect_with_facebook">Forbind med Facebook</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">Henter oplysninger fra Facebook…</string>
     <!-- Attempting to log you in with facebook credentials -->

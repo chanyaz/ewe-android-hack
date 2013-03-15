@@ -6,8 +6,6 @@
     <string name="facebook_weve_found_your_account">嗨！&lt;b&gt;%1$s&lt;/b&gt;我们好像找到了您的 Expedia 帐户！请在下面输入 Expedia 密码，关联您的 Facebook 帐户和 Expedia 帐户。</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">嗨！&lt;b&gt;%1$s&lt;/b&gt;我们已经加载了您的 Facebook 信息！</string>
-    <!-- connect with facebook (button text) -->
-    <string name="connect_with_facebook">关联 Facebook</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">正在从 Facebook 提取信息…</string>
     <!-- Attempting to log you in with facebook credentials -->

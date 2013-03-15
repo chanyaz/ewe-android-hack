@@ -6,8 +6,6 @@
     <string name="facebook_weve_found_your_account">Hallo &lt;b&gt;%1$s&lt;/b&gt;, wir haben Ihr Expedia-Konto gefunden! Bitte geben Sie unten Ihr Expedia-Passwort ein, um Ihre Facebook- und Expedia-Konten zu verknüpfen.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">Hallo &lt;b&gt;%1$s&lt;/b&gt;, wir haben Ihre Facebook-Informationen geladen!</string>
-    <!-- connect with facebook (button text) -->
-    <string name="connect_with_facebook">Mit Facebook verknüpfen</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">Facebook-Informationen werden abgerufen…</string>
     <!-- Attempting to log you in with facebook credentials -->
