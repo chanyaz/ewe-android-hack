@@ -290,7 +290,10 @@
     <string name="itin_card_details_reload_hotel">Reload Hotel Info</string>
     <string name="itin_card_details_reload_cruise">Reload Cruise Info</string>
 
-    <string name="itin_card_hotel_summary_TEMPLATE">Check-in after %1$s</string>
+    <!-- Message to users about when they can check into their hotel.  %1$s is a time (e.g., "Check in after 5 PM") -->
+    <string name="itin_card_hotel_summary_check_in_TEMPLATE">Check in after %1$s</string>
+    <!-- Message to users about when they need to check out of their hotel.  %1$s is a time (e.g., "Check out before 5 PM") -->
+    <string name="itin_card_hotel_summary_check_out_TEMPLATE">Check out before %1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">Valid starting &lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Action Buttons -->

@@ -1,9 +1,11 @@
 package com.expedia.bookings.widget.itin;
 
-import java.util.Locale;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -151,8 +153,21 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	public View getSummaryView(ViewGroup container) {
 		TextView view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_summary_hotel, container,
 				false);
-		view.setText(getContext().getString(R.string.itin_card_hotel_summary_TEMPLATE,
-				getItinCardData().getCheckInTime()));
+
+		ItinCardDataHotel data = getItinCardData();
+		Calendar startCal = data.getStartDate().getCalendar();
+		Calendar now = Calendar.getInstance(startCal.getTimeZone());
+
+		if (now.before(startCal) || startCal.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)) {
+			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_TEMPLATE,
+					DateUtils.formatDateTime(getContext(), getItinCardData().getStartDate().getCalendar()
+							.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME)));
+		}
+		else {
+			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_TEMPLATE,
+					DateUtils.formatDateTime(getContext(), getItinCardData().getEndDate().getCalendar()
+							.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME)));
+		}
 
 		return view;
 	}
