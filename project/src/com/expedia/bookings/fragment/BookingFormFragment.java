@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,7 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.Policy;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.StoredCreditCard;
@@ -112,6 +114,7 @@ public class BookingFormFragment extends Fragment {
 	private TextView mRulesRestrictionsTextView;
 	private CheckBox mRulesRestrictionsCheckbox;
 	private ViewGroup mRulesRestrictionsLayout;
+	private TextView mCancellationPolicyTextView;
 
 	// Validation
 	private ValidationProcessor mValidationProcessor;
@@ -189,6 +192,7 @@ public class BookingFormFragment extends Fragment {
 		mRulesRestrictionsCheckbox = (CheckBox) view.findViewById(R.id.rules_restrictions_checkbox);
 		mRulesRestrictionsTextView = (TextView) view.findViewById(R.id.rules_restrictions_text_view);
 		mRulesRestrictionsLayout = (ViewGroup) view.findViewById(R.id.rules_restrictions_layout);
+		mCancellationPolicyTextView = Ui.findView(view, R.id.cancellation_policy_text_view);
 
 		mStoredCardContainer = view.findViewById(R.id.stored_card_container);
 		if (mStoredCardContainer == null) {
@@ -427,16 +431,23 @@ public class BookingFormFragment extends Fragment {
 
 		// Setup the correct text (and link enabling) on the terms & conditions textview
 		mRulesRestrictionsTextView.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement());
-		//		mRulesRestrictionsTextView.setMovementMethod(LinkMovementMethod.getInstance());
 		mRulesRestrictionsTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				String termsUrl = PointOfSale.getPointOfSale().getTermsAndConditionsUrl();
 				String privUrl = PointOfSale.getPointOfSale().getPrivacyPolicyUrl();
-				TabletPrivacyPolicyDialogFragment df = TabletPrivacyPolicyDialogFragment.newInstance(termsUrl, privUrl);
+				String bestPriceUrl = PointOfSale.getPointOfSale().getBestPriceGuaranteeUrl();
+				TabletPrivacyPolicyDialogFragment df = TabletPrivacyPolicyDialogFragment.newInstance(termsUrl, privUrl,
+						bestPriceUrl);
 				df.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), "privacyPolicyDialogFragment");
 			}
 		});
+
+		Rate rate = Db.getSelectedRate();
+		if (rate != null) {
+			Policy cancellationPolicy = rate.getRateRules().getPolicy(Policy.TYPE_CANCEL);
+			mCancellationPolicyTextView.setText(Html.fromHtml(cancellationPolicy.getDescription()));
+		}
 
 		// Configure form validation
 		// Setup validators and error handlers

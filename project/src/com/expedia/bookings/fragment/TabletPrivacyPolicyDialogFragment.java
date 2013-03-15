@@ -13,12 +13,17 @@ public class TabletPrivacyPolicyDialogFragment extends DialogFragment {
 
 	private static final String ARG_TERMS_URL = "ARG_TERMS_URL";
 	private static final String ARG_PRIVACY_URL = "ARG_PRIVACY_URL";
+	private static final String ARG_BEST_PRICE_GUARANTEE_URL = "ARG_BEST_PRICE_GUARANTEE_URL";
 
-	public static TabletPrivacyPolicyDialogFragment newInstance(String termsUrl, String privacyUrl) {
+	// TODO feels weird sending urls from Db as args to a fragment, but maybe the DialogFragment can be
+	// refactored to be more generalized, so I keep it like this for now.
+
+	public static TabletPrivacyPolicyDialogFragment newInstance(String termsUrl, String privacyUrl, String bestPriceUrl) {
 		TabletPrivacyPolicyDialogFragment fragment = new TabletPrivacyPolicyDialogFragment();
 		Bundle args = new Bundle();
 		args.putString(ARG_TERMS_URL, termsUrl);
 		args.putString(ARG_PRIVACY_URL, privacyUrl);
+		args.putString(ARG_BEST_PRICE_GUARANTEE_URL, bestPriceUrl);
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -33,7 +38,7 @@ public class TabletPrivacyPolicyDialogFragment extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		Bundle args = getArguments();
 
-		final int numUrls = 2;
+		final int numUrls = 3;
 		final String[] itemNames = new String[numUrls];
 		final String[] itemUrls = new String[numUrls];
 
@@ -42,6 +47,9 @@ public class TabletPrivacyPolicyDialogFragment extends DialogFragment {
 
 		itemNames[1] = getString(R.string.privacy_policy);
 		itemUrls[1] = args.getString(ARG_PRIVACY_URL);
+
+		itemNames[2] = getString(R.string.best_price_guarantee);
+		itemUrls[2] = args.getString(ARG_BEST_PRICE_GUARANTEE_URL);
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setTitle(getString(R.string.legal_information));
@@ -59,5 +67,4 @@ public class TabletPrivacyPolicyDialogFragment extends DialogFragment {
 		});
 		return builder.create();
 	}
-
 }
