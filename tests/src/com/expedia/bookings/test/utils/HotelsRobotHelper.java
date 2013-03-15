@@ -631,10 +631,10 @@ public class HotelsRobotHelper {
 			enterLog(TAG, "Button must be clicked on by its text.");
 			delay(5);
 			try {
-				mSolo.clickOnText(mRes.getString(R.string.sign_in_with_expedia));
+				mSolo.clickOnText(mRes.getString(R.string.log_in_for_faster_booking));
 			}
 			catch (Error f) {
-				mSolo.clickOnText(mRes.getString(R.string.sign_in));
+				mSolo.clickOnText(mRes.getString(R.string.Log_in_with_Expedia));
 			}
 		}
 		// Log log in event for ad tracking
