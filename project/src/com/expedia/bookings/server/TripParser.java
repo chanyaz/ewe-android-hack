@@ -267,6 +267,9 @@ public class TripParser {
 			property.setLocalPhone(propertyJson.optString("localPhone"));
 			property.setTollFreePhone(propertyJson.optString("tollFreePhone"));
 
+			double starRating = propertyJson.optDouble("starRating", 0);
+			property.setHotelRating(starRating / 10);
+
 			hotel.setProperty(property);
 		}
 
