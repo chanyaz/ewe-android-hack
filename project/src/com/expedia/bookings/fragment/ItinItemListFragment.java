@@ -282,6 +282,12 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 	@Override
 	public void doLogout() {
+		// Note: On 2.x, the user can logout from the expanded details view, be sure to collapse the view so when we
+		// re-populate the ListView with data, it does not think there is something expanded.
+		if (mItinListView != null) {
+			mItinListView.hideDetails();
+		}
+
 		// Sign out user
 		User.signOut(getActivity());
 

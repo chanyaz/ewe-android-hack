@@ -343,7 +343,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		setSelectedCardId(null);
 	}
 
-	private boolean hideDetails() {
+	public boolean hideDetails() {
 		if (mSimpleMode) {
 			setSelectedCardId(null);
 			mAdapter.notifyDataSetChanged();
@@ -738,11 +738,13 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			if (!TextUtils.isEmpty(tripId)) {
 				if (mDetailPosition != -1) {
 					ItinCardData data = mAdapter.getItem(mDetailPosition);
-					String expandedCardTripId = data.getTripComponent().getParentTrip().getTripId();
-					if (tripId.equals(expandedCardTripId)) {
-						Log.d("ItinListView - TRIP_REFRESH broadcast received, re-inflate expanded card details");
-						if (mDetailsCard != null) {
-							mDetailsCard.inflateDetailsView();
+					if (data != null) {
+						String expandedCardTripId = data.getTripComponent().getParentTrip().getTripId();
+						if (tripId.equals(expandedCardTripId)) {
+							Log.d("ItinListView - TRIP_REFRESH broadcast received, re-inflate expanded card details");
+							if (mDetailsCard != null) {
+								mDetailsCard.inflateDetailsView();
+							}
 						}
 					}
 				}
