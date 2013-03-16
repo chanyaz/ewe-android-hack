@@ -599,6 +599,10 @@ public class Rate implements JSONable {
 		}
 	}
 
+	public int compareTo(Rate other) {
+		return getDisplayRate().compareTo(other.getDisplayRate());
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSON Stuff
 

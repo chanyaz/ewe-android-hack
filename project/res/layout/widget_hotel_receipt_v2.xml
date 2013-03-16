@@ -79,12 +79,37 @@
         <com.expedia.bookings.widget.FrameLayout
             android:id="@+id/mini_receipt_layout"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp" >
 
-            <RelativeLayout
+            <LinearLayout
+                android:id="@+id/mini_receipt_loading"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp" >
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    style="@style/Widget.Sherlock.Light.ProgressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="@string/calculating_taxes_and_fees"
+                    android:textSize="14sp"
+                    android:textColor="@color/hotel_mini_receipt_text" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/mini_receipt_details"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/nights_text"

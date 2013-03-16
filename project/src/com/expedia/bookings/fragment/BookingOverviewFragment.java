@@ -29,17 +29,22 @@ import com.expedia.bookings.activity.HotelPaymentOptionsActivity;
 import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
 import com.expedia.bookings.activity.LoginActivity;
+import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.dialog.HotelPriceChangeDialog;
 import com.expedia.bookings.dialog.HotelRateBreakdownDialog;
+import com.expedia.bookings.dialog.TextViewDialog;
 import com.expedia.bookings.model.HotelPaymentFlowState;
 import com.expedia.bookings.model.HotelTravelerFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -76,8 +81,10 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	private static final String INSTANCE_REFRESHED_USER = "INSTANCE_REFRESHED_USER";
 	private static final String INSTANCE_IN_CHECKOUT = "INSTANCE_IN_CHECKOUT";
 	private static final String INSTANCE_SHOW_SLIDE_TO_WIDGET = "INSTANCE_SHOW_SLIDE_TO_WIDGET";
+	private static final String INSTANCE_DONE_LOADING_PRICE_CHANGE = "INSTANCE_DONE_LOADING_PRICE_CHANGE";
 
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
+	private static final String KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE = "KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE";
 
 	private boolean mInCheckout = false;
 	private BookingOverviewFragmentListener mBookingOverviewFragmentListener;
@@ -111,6 +118,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	private SlideToPurchaseFragment mSlideToPurchaseFragment;
 
 	private boolean mRefreshedUser;
+	private boolean mIsDoneLoadingPriceChange = false;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -132,6 +140,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			mRefreshedUser = savedInstanceState.getBoolean(INSTANCE_REFRESHED_USER);
 			mInCheckout = savedInstanceState.getBoolean(INSTANCE_IN_CHECKOUT);
 			mShowSlideToWidget = savedInstanceState.getBoolean(INSTANCE_SHOW_SLIDE_TO_WIDGET);
+			mIsDoneLoadingPriceChange = savedInstanceState.getBoolean(INSTANCE_DONE_LOADING_PRICE_CHANGE);
 		}
 	}
 
@@ -265,6 +274,14 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		refreshData();
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+
+		if (bd.isDownloading(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE)) {
+			bd.registerDownloadCallback(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, mHotelProductCallback);
+		}
+		else if (!mIsDoneLoadingPriceChange) {
+			bd.startDownload(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, mHotelProductDownload, mHotelProductCallback);
+		}
+
 		if (bd.isDownloading(KEY_REFRESH_USER)) {
 			bd.registerDownloadCallback(KEY_REFRESH_USER, mRefreshUserCallback);
 		}
@@ -277,9 +294,11 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (getActivity().isFinishing()) {
 			bd.cancelDownload(KEY_REFRESH_USER);
+			bd.cancelDownload(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE);
 		}
 		else {
 			bd.unregisterDownloadCallback(KEY_REFRESH_USER);
+			bd.unregisterDownloadCallback(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE);
 		}
 
 		if (Db.getTravelersAreDirty()) {
@@ -298,6 +317,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		outState.putBoolean(INSTANCE_REFRESHED_USER, mRefreshedUser);
 		outState.putBoolean(INSTANCE_IN_CHECKOUT, mInCheckout);
 		outState.putBoolean(INSTANCE_SHOW_SLIDE_TO_WIDGET, mShowSlideToWidget);
+		outState.putBoolean(INSTANCE_DONE_LOADING_PRICE_CHANGE, mIsDoneLoadingPriceChange);
 
 		mHotelReceipt.saveInstanceState(outState);
 		mCouponCodeWidget.saveInstanceState(outState);
@@ -500,8 +520,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		}
 		mSlideToPurchaseFragment.setTotalPriceString(mSlideToPurchasePriceString);
 
-		//mHotelReceipt.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate());
-		mHotelReceipt.bind(DbPropertyHelper.getBestMediaProperty(), Db.getSearchParams(), Db.getSelectedRate());
+		mHotelReceipt.bind(mIsDoneLoadingPriceChange, DbPropertyHelper.getBestMediaProperty(), Db.getSearchParams(), Db.getSelectedRate());
 	}
 
 	public void updateViewVisibilities() {
@@ -516,7 +535,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		boolean paymentCCValid = hasStoredCard ? hasStoredCard : state.hasValidCardInfo(mBillingInfo);
 		boolean travelerValid = hasValidTravler();
 
-		mShowSlideToWidget = travelerValid && paymentAddressValid && paymentCCValid;
+		mShowSlideToWidget = travelerValid && paymentAddressValid && paymentCCValid && mIsDoneLoadingPriceChange;
 		if (isInCheckout() && mShowSlideToWidget) {
 			showPurchaseViews();
 		}
@@ -802,6 +821,78 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			}
 		}
 	};
+
+	// Download updated rate information
+
+	private final Download<HotelProductResponse> mHotelProductDownload = new Download<HotelProductResponse>() {
+		@Override
+		public HotelProductResponse doDownload() {
+			ExpediaServices services = new ExpediaServices(getActivity());
+			BackgroundDownloader.getInstance().addDownloadListener(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, services);
+			return services.hotelProduct(Db.getSearchParams(), Db.getSelectedProperty(), Db.getSelectedRate());
+		}
+	};
+
+	private final OnDownloadComplete<HotelProductResponse> mHotelProductCallback = new OnDownloadComplete<HotelProductResponse>() {
+		@Override
+		public void onDownload(HotelProductResponse response) {
+			if (response == null || response.hasErrors()) {
+				handleHotelProductError(response);
+			}
+			else {
+				Rate selectedRate = Db.getSelectedRate();
+				Rate newRate = response.getRate();
+
+				if (TextUtils.equals(selectedRate.getRateKey(), response.getOriginalProductKey())) {
+					int priceComparison = selectedRate.compareTo(newRate);
+					if (priceComparison != 0) {
+						boolean isPriceHigher = priceComparison < 0 ? true : false;
+						HotelPriceChangeDialog dialog = new HotelPriceChangeDialog(isPriceHigher, newRate.getDailyAmountBeforeTax());
+						dialog.show(getFragmentManager(), "priceChangeDialog");
+					}
+					Db.setSelectedRate(newRate);
+					AvailabilityResponse availResponse = Db.getSelectedAvailabilityResponse();
+					availResponse.updateRate(response.getOriginalProductKey(), newRate);
+
+					mIsDoneLoadingPriceChange = true;
+					mHotelReceipt.bind(mIsDoneLoadingPriceChange, DbPropertyHelper.getBestMediaProperty(), Db.getSearchParams(), Db.getSelectedRate());
+					updateViewVisibilities();
+				}
+				else {
+					handleHotelProductError(response);
+				}
+			}
+		}
+	};
+
+	private void handleHotelProductError(HotelProductResponse response) {
+		TextViewDialog dialog = new TextViewDialog();
+		boolean isUnavailable = false;
+		if (response != null) {
+			for (ServerError error : response.getErrors()) {
+				if (error.getErrorCode() == ServerError.ErrorCode.HOTEL_ROOM_UNAVAILABLE) {
+					isUnavailable = true;
+					AvailabilityResponse availResponse = Db.getSelectedAvailabilityResponse();
+					availResponse.removeRate(response.getOriginalProductKey());
+				}
+			}
+		}
+
+		if (isUnavailable) {
+			dialog.setMessage(R.string.e3_error_hotel_offers_hotel_room_unavailable);
+		}
+		else {
+			dialog.setMessage(R.string.e3_error_hotel_offers_hotel_service_failure);
+		}
+
+		dialog.setOnDismissListener(new TextViewDialog.OnDismissListener() {
+			@Override
+			public void onDismissed() {
+				getActivity().finish();
+			}
+		});
+		dialog.show(getFragmentManager(), "hotelOfferErrorDialog");
+	}
 
 	// Listeners
 

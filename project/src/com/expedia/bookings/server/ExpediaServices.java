@@ -67,6 +67,7 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightStatsFlightResponse;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
@@ -588,6 +589,21 @@ public class ExpediaServices implements DownloadListener {
 		return response;
 	}
 
+	public HotelProductResponse hotelProduct(SearchParams params, Property property, Rate rate) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		// Adds sourceType
+		addCommonParams(query);
+
+		query.add(new BasicNameValuePair("productKey", rate.getRateKey()));
+
+		// For room1 parameter
+		addHotelGuestParamater(query, params);
+
+		HotelProductResponseHandler responseHandler = new HotelProductResponseHandler(mContext, params, property, rate);
+		return doE3Request("MobileHotel/Webapp/HotelProduct", query, responseHandler, 0);
+	}
+
 	public CreateTripResponse createTripWithCoupon(String couponCode, SearchParams params, Property property, Rate rate) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
@@ -676,6 +692,10 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("checkInDate", df.format(params.getCheckInDate().getTime())));
 		query.add(new BasicNameValuePair("checkOutDate", df2.format(params.getCheckOutDate().getTime())));
 
+		addHotelGuestParamater(query, params);
+	}
+
+	private void addHotelGuestParamater(List<BasicNameValuePair> query, SearchParams params) {
 		StringBuilder guests = new StringBuilder();
 		guests.append(params.getNumAdults());
 		List<Integer> children = params.getChildren();

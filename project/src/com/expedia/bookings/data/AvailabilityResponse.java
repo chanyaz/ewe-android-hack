@@ -51,6 +51,29 @@ public class AvailabilityResponse extends Response {
 		}
 	}
 
+	public void updateRate(String rateKey, Rate newRate) {
+		Rate oldRate = getRate(rateKey);
+		if (oldRate == null) {
+			addRate(newRate);
+		}
+		else {
+			mRates.set(mRates.indexOf(oldRate), newRate);
+
+			mRateMap.remove(oldRate.getRateKey());
+			mRateMap.put(newRate.getRateKey(), newRate);
+		}
+	}
+
+	public void removeRate(String rateKey) {
+		Rate rate = getRate(rateKey);
+		if (mRateMap != null) {
+			mRateMap.remove(rateKey);
+		}
+		if (rate != null) {
+			mRates.remove(rate);
+		}
+	}
+
 	public int getRateCount() {
 		if (mRates == null) {
 			return 0;

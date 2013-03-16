@@ -59,6 +59,8 @@ public class HotelReceiptV2 extends LinearLayout {
 	private View mExtrasDivider;
 
 	private FrameLayout mMiniReceipt;
+	private ViewGroup mMiniReceiptLoading;
+	private ViewGroup mMiniReceiptDetails;
 	private TextView mNightsTextView;
 	private TextView mDateRangeTextView;
 	private TextView mGuestsTextView;
@@ -79,6 +81,9 @@ public class HotelReceiptV2 extends LinearLayout {
 
 		mMiniReceipt = Ui.findView(this, R.id.mini_receipt_layout);
 		mMiniReceipt.setOnSizeChangedListener(mMiniReceiptOnSizeChangedListener);
+
+		mMiniReceiptLoading = Ui.findView(this, R.id.mini_receipt_loading);
+		mMiniReceiptDetails = Ui.findView(this, R.id.mini_receipt_details);
 
 		mNightsTextView = Ui.findView(this, R.id.nights_text);
 		mDateRangeTextView = Ui.findView(this, R.id.date_range_text);
@@ -105,7 +110,7 @@ public class HotelReceiptV2 extends LinearLayout {
 		}
 	};
 
-	public void bind(Property property, SearchParams params, Rate rate) {
+	public void bind(boolean showMiniReceipt, Property property, SearchParams params, Rate rate) {
 		if (property != null && property.getMedia(0) != null) {
 			property.getMedia(0).loadHighResImage(mHeaderImageView, null);
 		}
@@ -150,14 +155,25 @@ public class HotelReceiptV2 extends LinearLayout {
 			mPriceTextView.setText(rate.getTotalAmountAfterTax().getFormattedMoney());
 		}
 
-		mMiniReceipt.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (mRateBreakdownClickListener != null) {
-					mRateBreakdownClickListener.onClick(v);
+		if (showMiniReceipt) {
+			mMiniReceiptLoading.setVisibility(View.INVISIBLE);
+			mMiniReceiptDetails.setVisibility(View.VISIBLE);
+
+			mMiniReceipt.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (mRateBreakdownClickListener != null) {
+						mRateBreakdownClickListener.onClick(v);
+					}
 				}
-			}
-		});
+			});
+		}
+		else {
+			mMiniReceiptLoading.setVisibility(View.VISIBLE);
+			mMiniReceiptDetails.setVisibility(View.INVISIBLE);
+
+			mMiniReceipt.setOnClickListener(null);
+		}
 	}
 
 	private String getFormattedDateRange(SearchParams params) {

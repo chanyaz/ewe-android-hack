@@ -63,12 +63,17 @@ public class RoomsAndRatesFragment extends ListFragment {
 			Ui.findView(view, R.id.header_layout).setVisibility(View.GONE);
 		}
 
+		return view;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
 		AvailabilityResponse response = Db.getSelectedAvailabilityResponse();
 		if (response != null && !response.canRequestMoreData()) {
 			loadResponse(response);
 		}
-
-		return view;
 	}
 
 	@Override

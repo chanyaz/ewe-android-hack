@@ -275,6 +275,18 @@ public class Money implements JSONable {
 				&& (mFormattedMoney == null || mFormattedMoney.equals(other.mFormattedMoney));
 	}
 
+	public int compareTo(Money other) {
+		if (equals(other)) {
+			return 0;
+		}
+
+		if (other == null || other.getAmount() == null) {
+			return 1;
+		}
+
+		return mAmount.compareTo(other.getAmount());
+	}
+
 	public Money copy() {
 		return new Money(toJson());
 	}
