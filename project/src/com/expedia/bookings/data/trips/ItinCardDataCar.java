@@ -1,7 +1,5 @@
 package com.expedia.bookings.data.trips;
 
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
@@ -12,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Car;
@@ -59,9 +58,9 @@ public class ItinCardDataCar extends ItinCardData implements ConfirmationNumbera
 	// PRIVATE CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	private static final Format TIME_FORMAT = new SimpleDateFormat("h:mm a", Locale.getDefault());
-	private static final Format SHORT_DATE_FORMAT = new SimpleDateFormat("MMM d", Locale.getDefault());
-	private static final Format LONG_DATE_FORMAT = new SimpleDateFormat("EEEE MMMM d, yyyy", Locale.getDefault());
+	private static final int TIME_FLAGS = DateUtils.FORMAT_SHOW_TIME;
+	private static final int SHORT_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_MONTH;
+	private static final int LONG_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_WEEKDAY;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
@@ -111,28 +110,34 @@ public class ItinCardDataCar extends ItinCardData implements ConfirmationNumbera
 		return mCar.getDropOffLocation();
 	}
 
-	public String getFormattedPickUpTime() {
-		return TIME_FORMAT.format(getPickUpDate().getCalendar().getTime());
+	public String getFormattedPickUpTime(Context context) {
+		long pickUpMillis = getPickUpDate().getCalendar().getTimeInMillis();
+		return DateUtils.formatDateTime(context, pickUpMillis, TIME_FLAGS);
 	}
 
-	public String getFormattedDropOffTime() {
-		return TIME_FORMAT.format(getDropOffDate().getCalendar().getTime());
+	public String getFormattedDropOffTime(Context context) {
+		long dropOffMillis = getDropOffDate().getCalendar().getTimeInMillis();
+		return DateUtils.formatDateTime(context, dropOffMillis, TIME_FLAGS);
 	}
 
-	public String getFormattedShortPickUpDate() {
-		return SHORT_DATE_FORMAT.format(getPickUpDate().getCalendar().getTime());
+	public String getFormattedShortPickUpDate(Context context) {
+		long pickUpMillis = getPickUpDate().getCalendar().getTimeInMillis();
+		return DateUtils.formatDateTime(context, pickUpMillis, SHORT_DATE_FLAGS);
 	}
 
-	public String getFormattedShortDropOffDate() {
-		return SHORT_DATE_FORMAT.format(getDropOffDate().getCalendar().getTime());
+	public String getFormattedShortDropOffDate(Context context) {
+		long dropOffMillis = getDropOffDate().getCalendar().getTimeInMillis();
+		return DateUtils.formatDateTime(context, dropOffMillis, SHORT_DATE_FLAGS);
 	}
 
-	public String getFormattedLongPickUpDate() {
-		return LONG_DATE_FORMAT.format(getPickUpDate().getCalendar().getTime());
+	public String getFormattedLongPickUpDate(Context context) {
+		long pickUpMillis = getPickUpDate().getCalendar().getTimeInMillis();
+		return DateUtils.formatDateTime(context, pickUpMillis, LONG_DATE_FLAGS);
 	}
 
-	public String getFormattedLongDropOffDate() {
-		return LONG_DATE_FORMAT.format(getDropOffDate().getCalendar().getTime());
+	public String getFormattedLongDropOffDate(Context context) {
+		long dropOffMillis = getDropOffDate().getCalendar().getTimeInMillis();
+		return DateUtils.formatDateTime(context, dropOffMillis, LONG_DATE_FLAGS);
 	}
 
 	public String getFormattedDays() {

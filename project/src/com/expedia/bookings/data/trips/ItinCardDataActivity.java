@@ -1,9 +1,10 @@
 package com.expedia.bookings.data.trips;
 
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
+
+import android.content.Context;
+import android.text.format.DateUtils;
 
 import com.expedia.bookings.data.Activity;
 import com.expedia.bookings.data.DateTime;
@@ -14,9 +15,13 @@ public class ItinCardDataActivity extends ItinCardData {
 	// PRIVATE CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	private static final Format DETAIL_SHORT_DATE_FORMAT = new SimpleDateFormat("MMM d", Locale.getDefault());
-	private static final Format DETAIL_LONG_DATE_FORMAT = new SimpleDateFormat("MMMM d", Locale.getDefault());
-	private static final Format SHARE_DATE_FORMAT = new SimpleDateFormat("EEEE MMMM d, yyyy", Locale.getDefault());
+	// SimpleDateFormat equiv: MMM d; eg Mar 15
+	private static final int DETAIL_SHORT_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_MONTH;
+	// SimpleDateFormat equiv: MMMM d; eg March 15
+	private static final int DETAIL_LONG_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR;
+	// SimpleDateFormat equiv: EEEE, MMMM d, yyyy; eg Friday, March 15, 2012
+	private static final int SHARE_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_WEEKDAY;
+
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
@@ -58,37 +63,42 @@ public class ItinCardDataActivity extends ItinCardData {
 		return null;
 	}
 
-	public String getFormattedShareValidDate() {
+	public String getFormattedShareValidDate(Context context) {
 		if (hasContent()) {
-			return SHARE_DATE_FORMAT.format(getValidDate().getCalendar().getTime());
+			long validMillis = getValidDate().getCalendar().getTimeInMillis();
+			return DateUtils.formatDateTime(context, validMillis, SHARE_DATE_FLAGS);
 		}
 		return null;
 	}
 
-	public String getFormattedShareExpiresDate() {
+	public String getFormattedShareExpiresDate(Context context) {
 		if (hasContent()) {
-			return SHARE_DATE_FORMAT.format(getValidDate().getCalendar().getTime());
+			long expiresMillis = getExpirationDate().getCalendar().getTimeInMillis();
+			return DateUtils.formatDateTime(context, expiresMillis, SHARE_DATE_FLAGS);
 		}
 		return null;
 	}
 
-	public String getLongFormattedValidDate() {
+	public String getLongFormattedValidDate(Context context) {
 		if (hasContent()) {
-			return DETAIL_LONG_DATE_FORMAT.format(getValidDate().getCalendar().getTime());
+			long validMillis = getValidDate().getCalendar().getTimeInMillis();
+			return DateUtils.formatDateTime(context, validMillis, DETAIL_LONG_DATE_FLAGS);
 		}
 		return null;
 	}
 
-	public String getFormattedValidDate() {
+	public String getFormattedValidDate(Context context) {
 		if (hasContent()) {
-			return DETAIL_SHORT_DATE_FORMAT.format(getValidDate().getCalendar().getTime());
+			long validMillis = getValidDate().getCalendar().getTimeInMillis();
+			return DateUtils.formatDateTime(context, validMillis, DETAIL_SHORT_DATE_FLAGS);
 		}
 		return null;
 	}
 
-	public String getFormattedExpirationDate() {
+	public String getFormattedExpirationDate(Context context) {
 		if (hasContent()) {
-			return DETAIL_SHORT_DATE_FORMAT.format(getExpirationDate().getCalendar().getTime());
+			long expiresMillis = getExpirationDate().getCalendar().getTimeInMillis();
+			return DateUtils.formatDateTime(context, expiresMillis, DETAIL_SHORT_DATE_FLAGS);
 		}
 		return null;
 	}

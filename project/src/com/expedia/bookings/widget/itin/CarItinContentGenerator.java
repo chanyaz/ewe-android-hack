@@ -49,8 +49,8 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		ItinCardDataCar itinCardData = getItinCardData();
 
 		String template = getContext().getString(R.string.share_template_subject_car);
-		String pickUpDate = itinCardData.getFormattedShortPickUpDate();
-		String dropOffDate = itinCardData.getFormattedShortDropOffDate();
+		String pickUpDate = itinCardData.getFormattedShortPickUpDate(getContext());
+		String dropOffDate = itinCardData.getFormattedShortDropOffDate(getContext());
 
 		return String.format(template, pickUpDate, dropOffDate);
 	}
@@ -61,8 +61,8 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 
 		String template = getContext().getString(R.string.share_template_short_car);
 		String carCategory = itinCardData.getCarCategoryDescription(getContext());
-		String pickUpDate = itinCardData.getFormattedShortPickUpDate();
-		String dropOffDate = itinCardData.getFormattedShortDropOffDate();
+		String pickUpDate = itinCardData.getFormattedShortPickUpDate(getContext());
+		String dropOffDate = itinCardData.getFormattedShortDropOffDate(getContext());
 		String vendorName = itinCardData.getVendorName();
 		String vendorAddress = itinCardData.getRelevantVendorLocation().toLongFormattedString();
 
@@ -86,13 +86,13 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 				itinCardData.getCarCategoryDescription(context)));
 		sb.append("\n");
 
-		String pickUpDate = itinCardData.getFormattedLongPickUpDate();
-		String pickUpTime = itinCardData.getFormattedPickUpTime();
+		String pickUpDate = itinCardData.getFormattedLongPickUpDate(getContext());
+		String pickUpTime = itinCardData.getFormattedPickUpTime(getContext());
 		sb.append(context.getString(R.string.share_car_pickup_TEMPLATE, pickUpDate, pickUpTime));
 		sb.append("\n");
 
-		String dropOffDate = itinCardData.getFormattedLongDropOffDate();
-		String dropOffTime = itinCardData.getFormattedDropOffTime();
+		String dropOffDate = itinCardData.getFormattedLongDropOffDate(getContext());
+		String dropOffTime = itinCardData.getFormattedDropOffTime(getContext());
 		sb.append(context.getString(R.string.share_car_dropoff_TEMPLATE, dropOffDate, dropOffTime));
 		sb.append("\n\n");
 
@@ -218,8 +218,8 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		ViewGroup commonItinDataContainer = Ui.findView(view, R.id.itin_shared_info_container);
 
 		// Bind
-		pickUpDateTextView.setText(itinCardData.getFormattedShortPickUpDate());
-		dropOffDateTextView.setText(itinCardData.getFormattedShortDropOffDate());
+		pickUpDateTextView.setText(itinCardData.getFormattedShortPickUpDate(getContext()));
+		dropOffDateTextView.setText(itinCardData.getFormattedShortDropOffDate(getContext()));
 		daysTextView.setText(itinCardData.getFormattedDays());
 
 		Location relevantLocation = itinCardData.getRelevantVendorLocation();

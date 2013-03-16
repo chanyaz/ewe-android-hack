@@ -78,8 +78,8 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 
 		String template = getContext().getString(R.string.share_template_short_activity);
 		String title = itinCardData.getTitle();
-		String validDate = itinCardData.getFormattedShareValidDate();
-		String expirationDate = itinCardData.getFormattedShareExpiresDate();
+		String validDate = itinCardData.getFormattedShareValidDate(getContext());
+		String expirationDate = itinCardData.getFormattedShareExpiresDate(getContext());
 
 		return String.format(template, title, validDate, expirationDate);
 	}
@@ -90,8 +90,8 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 
 		String template = getContext().getString(R.string.share_template_long_activity);
 		String title = itinCardData.getTitle();
-		String validDate = itinCardData.getFormattedShareValidDate();
-		String expirationDate = itinCardData.getFormattedShareExpiresDate();
+		String validDate = itinCardData.getFormattedShareValidDate(getContext());
+		String expirationDate = itinCardData.getFormattedShareExpiresDate(getContext());
 		String downloadUrl = PointOfSale.getPointOfSale().getAppInfoUrl();
 
 		final List<Traveler> travelers = itinCardData.getTravelers();
@@ -144,7 +144,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 		TextView view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_summary_activity, container,
 				false);
 		view.setText(Html.fromHtml(getContext().getString(R.string.itin_card_activity_summary_TEMPLATE,
-				getItinCardData().getLongFormattedValidDate())));
+				getItinCardData().getLongFormattedValidDate(getContext()))));
 
 		return view;
 	}
@@ -163,8 +163,8 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 		ViewGroup commonItinDataContainer = Ui.findView(view, R.id.itin_shared_info_container);
 
 		// Bind
-		activeDateTextView.setText(itinCardData.getFormattedValidDate());
-		expirationDateTextView.setText(itinCardData.getFormattedExpirationDate());
+		activeDateTextView.setText(itinCardData.getFormattedValidDate(getContext()));
+		expirationDateTextView.setText(itinCardData.getFormattedExpirationDate(getContext()));
 		guestCountTextView.setText(itinCardData.getFormattedGuestCount());
 
 		guestsLayout.removeAllViews();

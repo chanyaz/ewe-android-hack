@@ -49,8 +49,8 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		final ItinCardDataHotel itinCardData = getItinCardData();
 
 		String template = getContext().getString(R.string.share_template_subject_hotel);
-		String checkIn = itinCardData.getFormattedShortShareCheckInDate();
-		String checkOut = itinCardData.getFormattedShortShareCheckOutDate();
+		String checkIn = itinCardData.getFormattedShortShareCheckInDate(getContext());
+		String checkOut = itinCardData.getFormattedShortShareCheckOutDate(getContext());
 
 		return String.format(template, "", checkIn, checkOut);
 	}
@@ -61,8 +61,8 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		String template = getContext().getString(R.string.share_template_short_hotel);
 		String hotelName = itinCardData.getPropertyName();
-		String checkIn = itinCardData.getFormattedShortShareCheckInDate();
-		String checkOut = itinCardData.getFormattedShortShareCheckOutDate();
+		String checkIn = itinCardData.getFormattedShortShareCheckInDate(getContext());
+		String checkOut = itinCardData.getFormattedShortShareCheckOutDate(getContext());
 		String detailsUrl = itinCardData.getPropertyInfoSiteUrl();
 
 		return String.format(template, hotelName, checkIn, checkOut, detailsUrl);
@@ -76,8 +76,8 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		String hotelName = itinCardData.getPropertyName();
 		String lengthOfStay = itinCardData.getFormattedLengthOfStay(getContext());
-		String checkIn = itinCardData.getFormattedLongShareCheckInDate();
-		String checkOut = itinCardData.getFormattedLongShareCheckOutDate();
+		String checkIn = itinCardData.getFormattedLongShareCheckInDate(getContext());
+		String checkOut = itinCardData.getFormattedLongShareCheckOutDate(getContext());
 		String address = itinCardData.getAddressString();
 		String phone = itinCardData.getRelevantPhone();
 		String detailsUrl = itinCardData.getPropertyInfoSiteUrl();
@@ -187,8 +187,8 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		ViewGroup commonItinDataContainer = Ui.findView(view, R.id.itin_shared_info_container);
 
 		// Bind
-		checkInDateTextView.setText(itinCardData.getFormattedDetailsCheckInDate());
-		checkOutDateTextView.setText(itinCardData.getFormattedDetailsCheckOutDate());
+		checkInDateTextView.setText(itinCardData.getFormattedDetailsCheckInDate(getContext()));
+		checkOutDateTextView.setText(itinCardData.getFormattedDetailsCheckOutDate(getContext()));
 		guestsTextView.setText(itinCardData.getFormattedGuests());
 
 		if (itinCardData.getPropertyLocation() != null) {

@@ -1,7 +1,5 @@
 package com.expedia.bookings.data.trips;
 
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.Set;
 
@@ -10,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
@@ -22,10 +21,10 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 	// PRIVATE CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	private static final Format DETAIL_DATE_FORMAT = new SimpleDateFormat("MMM d", Locale.getDefault());
-	private static final Format SHARE_CHECK_IN_FORMAT = new SimpleDateFormat("EEE MMM d", Locale.getDefault());
-	private static final Format SHARE_CHECK_OUT_FORMAT = new SimpleDateFormat("EEE MMM d yyyy", Locale.getDefault());
-	private static final Format LONG_SHARE_DATE_FORMAT = new SimpleDateFormat("EEEE MMMM d, yyyy", Locale.getDefault());
+	private static final int DETAIL_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_MONTH;
+	private static final int LONG_SHARE_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_WEEKDAY;
+	private static final int SHARE_CHECK_IN_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_ABBREV_WEEKDAY;
+	private static final int SHARE_CHECK_OUT_FLAGS = LONG_SHARE_DATE_FLAGS | DateUtils.FORMAT_ABBREV_WEEKDAY;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
@@ -93,28 +92,34 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 		return ((TripHotel) getTripComponent()).getCheckInTime();
 	}
 
-	public String getFormattedDetailsCheckInDate() {
-		return DETAIL_DATE_FORMAT.format(getStartDate().getCalendar().getTime());
+	public String getFormattedDetailsCheckInDate(Context context) {
+		long startMillis = getStartDate().getCalendar().getTimeInMillis();
+		return DateUtils.formatDateTime(context, startMillis, DETAIL_DATE_FLAGS);
 	}
 
-	public String getFormattedDetailsCheckOutDate() {
-		return DETAIL_DATE_FORMAT.format(getEndDate().getCalendar().getTime());
+	public String getFormattedDetailsCheckOutDate(Context context) {
+		long endMillis = getEndDate().getCalendar().getTimeInMillis();
+		return DateUtils.formatDateTime(context, endMillis, DETAIL_DATE_FLAGS);
 	}
 
-	public String getFormattedShortShareCheckInDate() {
-		return SHARE_CHECK_IN_FORMAT.format(getStartDate().getCalendar().getTime());
+	public String getFormattedShortShareCheckInDate(Context context) {
+		long checkInMillis = getStartDate().getCalendar().getTimeInMillis();
+		return DateUtils.formatDateTime(context, checkInMillis, SHARE_CHECK_IN_FLAGS);
 	}
 
-	public String getFormattedShortShareCheckOutDate() {
-		return SHARE_CHECK_OUT_FORMAT.format(getEndDate().getCalendar().getTime());
+	public String getFormattedShortShareCheckOutDate(Context context) {
+		long checkOutMillis = getEndDate().getCalendar().getTimeInMillis();
+		return DateUtils.formatDateTime(context, checkOutMillis, SHARE_CHECK_OUT_FLAGS);
 	}
 
-	public String getFormattedLongShareCheckInDate() {
-		return LONG_SHARE_DATE_FORMAT.format(getStartDate().getCalendar().getTime());
+	public String getFormattedLongShareCheckInDate(Context context) {
+		long checkInMillis = getStartDate().getCalendar().getTimeInMillis();
+		return DateUtils.formatDateTime(context, checkInMillis, LONG_SHARE_DATE_FLAGS);
 	}
 
-	public String getFormattedLongShareCheckOutDate() {
-		return LONG_SHARE_DATE_FORMAT.format(getEndDate().getCalendar().getTime());
+	public String getFormattedLongShareCheckOutDate(Context context) {
+		long checkOutMillis = getEndDate().getCalendar().getTimeInMillis();
+		return DateUtils.formatDateTime(context, checkOutMillis, LONG_SHARE_DATE_FLAGS);
 	}
 
 	public String getFormattedGuests() {

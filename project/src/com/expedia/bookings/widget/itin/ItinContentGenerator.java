@@ -1,7 +1,5 @@
 package com.expedia.bookings.widget.itin;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
@@ -444,8 +442,8 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 		// For cards that happened before today, we want "MMM d" ("Mar 5")
 		else if (time < now) {
-			DateFormat dateFormatter = new SimpleDateFormat("MMM d", Locale.getDefault());
-			ret = dateFormatter.format(time);
+			int flags = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_MONTH;
+			ret = DateUtils.formatDateTime(getContext(), time, flags);
 		}
 
 		// For cards coming up in less than one hour, we want "XX Minutes"
@@ -468,8 +466,8 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 		// For cards coming up more than 3 days in the future, we want "MMM d" ("Mar 15")
 		else {
-			DateFormat dateFormatter = new SimpleDateFormat("MMM d", Locale.getDefault());
-			ret = dateFormatter.format(time);
+			int flags = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_MONTH;
+			ret = DateUtils.formatDateTime(getContext(), time, flags);
 		}
 
 		// Capitalize the first letter
