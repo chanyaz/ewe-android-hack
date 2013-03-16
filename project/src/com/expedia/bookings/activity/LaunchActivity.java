@@ -356,8 +356,6 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 			if (mHasMenu) {
 				supportInvalidateOptionsMenu();
 			}
-
-			OmnitureTracking.trackItin(this);
 		}
 	}
 

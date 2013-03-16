@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import java.util.Collection;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -202,6 +203,9 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 			if (syncing) {
 				setIsLoading(true);
 				mItinListView.enableScrollToRevelentWhenDataSetChanged();
+			}
+			else {
+				trackWithOmniture(true);
 			}
 		}
 	}
@@ -442,6 +446,26 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	public void onSyncFinished(Collection<Trip> trips) {
 		setIsLoading(false);
 		setErrorMessage(null, false);
+
+		trackWithOmniture(false);
+	}
+
+	private void trackWithOmniture(boolean trackEmpty) {
+		if (mAllowLoadItins) {
+			ItineraryManager im = ItineraryManager.getInstance();
+			Collection<Trip> trips = im.getTrips();
+			Context context = getActivity();
+			if (context != null) {
+				if (trips.size() > 0) {
+					OmnitureTracking.trackItin(getActivity());
+				}
+				else {
+					if (trackEmpty) {
+						OmnitureTracking.trackItinEmpty(getActivity());
+					}
+				}
+			}
+		}
 	}
 
 	//////////////////////////////////////////
