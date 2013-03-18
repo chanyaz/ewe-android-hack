@@ -17,6 +17,8 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -35,6 +37,7 @@ import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.dialog.SocialMessageChooserDialogFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.widget.ItinCard;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
@@ -43,7 +46,6 @@ import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.ObjectAnimator;
-import com.nineoldandroids.view.ViewHelper;
 
 public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialogFragment.DoLogoutListener,
 		ItinerarySyncListener {
@@ -320,26 +322,34 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 		@Override
 		public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-			int translationY = 0;
-			if (firstVisibleItem == 0) {
-				View child = view.getChildAt(firstVisibleItem);
-				if (child != null) {
-					translationY = child.getTop() + (child.getHeight() / 2);
-					translationY = Math.max(0, translationY);
-				}
-			}
 
-			float scaleY = 1f;
-			if (firstVisibleItem + visibleItemCount >= totalItemCount) {
-				View child = view.getChildAt(visibleItemCount - 1);
-				if (child != null) {
-					final int height = mItinPathView.getHeight();
-					scaleY = (child.getTop() + (child.getHeight() / 2) - translationY) / (float) height;
-				}
+			View firstVisibleItinCard = view.getChildAt(firstVisibleItem);
+			View lastVisibleItinCard;
+			int lastItinCardIndex = firstVisibleItem + visibleItemCount;
+			do {
+				//The rare and beautiful do while loop, useful here as sometimes the last item in the list 
+				//is our footer view not the last itincard in the list we were expecting.
+				lastItinCardIndex--;
+				lastVisibleItinCard = view.getChildAt(lastItinCardIndex);
 			}
+			while (!(lastVisibleItinCard instanceof ItinCard) && lastItinCardIndex > 0);
 
-			ViewHelper.setTranslationY(mItinPathView, translationY);
-			ViewHelper.setScaleY(mItinPathView, scaleY);
+			if (firstVisibleItinCard != null && lastVisibleItinCard != null && mItinPathView != null) {
+				int listViewHeight = view.getHeight() > 0 ? view.getHeight() : view.getMeasuredHeight();
+				int firstChildHalfHeight = firstVisibleItinCard.getHeight() / 2;
+				int lastChildHalfHeight = lastVisibleItinCard.getHeight() / 2;
+				int targetY = firstVisibleItem == 0 ? firstVisibleItinCard.getTop() + firstChildHalfHeight : 0;
+				int targetLineHeight = listViewHeight - targetY;
+				if (lastItinCardIndex < firstVisibleItem + visibleItemCount - 1
+						|| firstVisibleItem + visibleItemCount == totalItemCount) {
+					targetLineHeight = lastVisibleItinCard.getBottom() - lastChildHalfHeight - targetY;
+				}
+
+				RelativeLayout.LayoutParams lineParams = (LayoutParams) mItinPathView.getLayoutParams();
+				lineParams.height = targetLineHeight;
+				lineParams.topMargin = targetY;
+				mItinPathView.setLayoutParams(lineParams);
+			}
 		}
 	};
 
