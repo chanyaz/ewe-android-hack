@@ -11,9 +11,12 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.server.ExpediaServices;
+import com.mobiata.android.Log;
 
 public class ClearPrivateDataUtil {
 	public static void clear(Context context) {
+		Log.i("Clearing all private data!");
+
 		BillingInfo info = new BillingInfo();
 		info.delete(context);
 
