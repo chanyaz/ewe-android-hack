@@ -502,12 +502,12 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	public SummaryButton getSummaryRightButton() {
 		final ItinCardDataFlight itinCardData = getItinCardData();
 
-		final String confCodes = getConfirmationCodeListString((TripFlight) itinCardData.getTripComponent());
-		if (!TextUtils.isEmpty(confCodes)) {
-			return new SummaryButton(R.drawable.ic_confirmation_checkmark_light, confCodes, new OnClickListener() {
+		final String firstConfCode = getFirstFlightConfirmationCodeString((TripFlight) itinCardData.getTripComponent());
+		if (!TextUtils.isEmpty(firstConfCode)) {
+			return new SummaryButton(R.drawable.ic_confirmation_checkmark_light, firstConfCode, new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					ClipboardUtils.setText(getContext(), confCodes);
+					ClipboardUtils.setText(getContext(), firstConfCode);
 					Toast.makeText(getContext(), R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show();
 					OmnitureTracking.trackItinFlightCopyPNR(getContext());
 				}
@@ -832,25 +832,12 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		return v;
 	}
 
-	/**
-	 * Get the confirmation code(s) in a comma separated list or empty string if we dont have any confirmation codes
-	 * @param tripFlight
-	 * @return 
-	 */
-	private String getConfirmationCodeListString(TripFlight tripFlight) {
-		//Confirmation code list
-		String retStr = "";
+	private String getFirstFlightConfirmationCodeString(TripFlight tripFlight) {
 		if (tripFlight.getConfirmations() != null && tripFlight.getConfirmations().size() > 0) {
 			List<FlightConfirmation> confirmations = tripFlight.getConfirmations();
-			String confirmationString = confirmations.get(0).getConfirmationCode();
-			for (int i = 1; i < confirmations.size(); i++) {
-				if (!TextUtils.isEmpty(confirmations.get(i).getConfirmationCode())) {
-					confirmationString += ", " + confirmations.get(i).getConfirmationCode();
-				}
-			}
-			retStr = confirmationString;
+			return confirmations.get(0).getConfirmationCode();
 		}
-		return retStr;
+		return "";
 	}
 
 	private String formatTime(Calendar cal) {
