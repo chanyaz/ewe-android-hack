@@ -16,4 +16,5 @@
 
   <!-- QA Automation ids -->
   <item type="id" name="preference_spoof_booking_checkbox" />
+  <item type="id" name="preference_suppress_flight_booking_checkbox" />
 </resources>
