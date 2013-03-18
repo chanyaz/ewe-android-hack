@@ -20,7 +20,6 @@ import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
-import com.expedia.bookings.widget.itin.SummaryButton;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.Animator;
@@ -77,7 +76,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	private ViewGroup mHeaderLayout;
 	private ViewGroup mSummaryLayout;
 	private ViewGroup mDetailsLayout;
-	private ViewGroup mActionButtonLayout;
+	private ItinActionsSection mActionButtonLayout;
 
 	private ImageView mItinTypeImageView;
 	private ImageView mFixedItinTypeImageView;
@@ -89,9 +88,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	private View mSelectedView;
 	private View mHeaderShadeView;
 	private View mSummaryDividerView;
-
-	private TextView mSummaryLeftButton;
-	private TextView mSummaryRightButton;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -133,9 +129,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		mSelectedView = Ui.findView(this, R.id.selected_view);
 		mHeaderShadeView = Ui.findView(this, R.id.header_mask);
 		mSummaryDividerView = Ui.findView(this, R.id.summary_divider_view);
-
-		mSummaryLeftButton = Ui.findView(this, R.id.summary_left_button);
-		mSummaryRightButton = Ui.findView(this, R.id.summary_right_button);
 
 		Ui.findView(this, R.id.close_image_button).setOnClickListener(mOnClickListener);
 		Ui.findView(this, R.id.share_image_button).setOnClickListener(mOnClickListener);
@@ -198,24 +191,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		}
 
 		// Buttons
-		SummaryButton leftButton = mItinContentGenerator.getSummaryLeftButton();
-		if (leftButton != null) {
-			mSummaryLeftButton.setCompoundDrawablesWithIntrinsicBounds(leftButton.getIconResId(), 0, 0, 0);
-			mSummaryLeftButton.setText(leftButton.getText());
-			mSummaryLeftButton.setOnClickListener(leftButton.getOnClickListener());
-		}
-
-		SummaryButton rightButton = mItinContentGenerator.getSummaryRightButton();
-		if (rightButton != null) {
-			mSummaryRightButton.setCompoundDrawablesWithIntrinsicBounds(rightButton.getIconResId(), 0, 0, 0);
-			mSummaryRightButton.setText(rightButton.getText());
-			mSummaryRightButton.setOnClickListener(rightButton.getOnClickListener());
-		}
-
-		mSummaryLeftButton.setVisibility(leftButton != null ? VISIBLE : GONE);
-		mSummaryRightButton.setVisibility(rightButton != null ? VISIBLE : GONE);
-		Ui.findView(this, R.id.action_button_divider).setVisibility(
-				(leftButton != null && rightButton != null) ? VISIBLE : GONE);
+		mActionButtonLayout.bind(mItinContentGenerator.getSummaryLeftButton(),
+				mItinContentGenerator.getSummaryRightButton());
 
 		// Selected
 		mSelectedView.setVisibility(mSelectCard ? View.VISIBLE : View.GONE);

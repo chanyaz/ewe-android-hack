@@ -179,62 +179,10 @@
             <!-- ACTION BUTTON LAYOUT -->
             <!-- ###################################################################### -->
 
-            <LinearLayout
+            <include
                 android:id="@+id/action_button_layout"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/itin_action_button_height"
-                android:orientation="vertical"
-                android:visibility="gone" >
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:background="#4D555D" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal" >
-
-                    <com.expedia.bookings.widget.TextView
-                        android:id="@+id/summary_left_button"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/list_selector_holo_dark"
-                        android:focusable="true"
-                        android:gravity="center"
-                        android:padding="8dp"
-                        android:textColor="@color/itin_white_text"
-                        android:textSize="12dp"
-                        app:textAllCaps="true"
-                        app:textStyle="bold" />
-
-                    <View
-                        android:id="@+id/action_button_divider"
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginTop="8dp"
-                        android:background="#4D555D" />
-
-                    <com.expedia.bookings.widget.TextView
-                        android:id="@+id/summary_right_button"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/list_selector_holo_dark"
-                        android:focusable="true"
-                        android:gravity="center"
-                        android:padding="8dp"
-                        android:textColor="@color/itin_white_text"
-                        android:textSize="12dp"
-                        app:textAllCaps="true"
-                        app:textStyle="bold" />
-                </LinearLayout>
-            </LinearLayout>
+                layout="@layout/section_itin_actions"
+                android:visibility="gone" />
         </LinearLayout>
 
         <View
