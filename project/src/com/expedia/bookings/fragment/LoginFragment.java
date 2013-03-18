@@ -370,6 +370,11 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		finishParentWithResult();
 	}
 
+	@Override
+	public void setExtenderStatus(String status) {
+		setStatusText(status, true);
+	}
+
 	private void finishParentWithResult() {
 		if (mContext != null) {
 			if (User.isLoggedIn(mContext) && Db.getUser() != null) {
@@ -1431,5 +1436,9 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		 */
 		public void cleanUp();
 
+		/**
+		 * Set status message from Extender
+		 */
+		public void setExtenderStatus(String status);
 	}
 }

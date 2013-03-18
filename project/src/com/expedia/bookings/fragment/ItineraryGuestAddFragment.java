@@ -6,6 +6,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
+import android.text.Html;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -35,6 +37,7 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 	public static final String ARG_LOGIN_EXTENDER = "ARG_LOGIN_EXTENDER";
 	public static final String STATE_LOGIN_EXTENDER = "STATE_LOGIN_EXTENDER";
 	public static final String STATE_LOGIN_EXTENDER_RUNNING = "STATE_LOGIN_EXTENDER_RUNNING";
+	public static final String STATE_STATUS_TEXT = "STATE_HEADER_TEXT";
 
 	private Button mFindItinBtn;
 	private TextView mStatusMessageTv;
@@ -45,6 +48,7 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 	private AddGuestItineraryDialogListener mListener;
 	private LoginExtender mLoginExtender;
 	private boolean mLoginExtenderRunning = false;
+	private String mStatusText;
 
 	public static ItineraryGuestAddFragment newInstance(LoginExtender extender) {
 		ItineraryGuestAddFragment frag = new ItineraryGuestAddFragment();
@@ -70,6 +74,9 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 			if (savedInstanceState.containsKey(STATE_LOGIN_EXTENDER)) {
 				mLoginExtender = savedInstanceState.getParcelable(STATE_LOGIN_EXTENDER);
 			}
+			if (savedInstanceState.containsKey(STATE_STATUS_TEXT)) {
+				mStatusText = savedInstanceState.getString(STATE_STATUS_TEXT);
+			}
 		}
 
 		mOuterContainer = Ui.findView(view, R.id.outer_container);
@@ -89,6 +96,10 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 		mItinNumEdit.addTextChangedListener(mTextWatcher);
 
 		initOnClicks();
+
+		if (!TextUtils.isEmpty(mStatusText)) {
+			setStatusText(mStatusText);
+		}
 
 		return view;
 	}
@@ -112,7 +123,13 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putBoolean(STATE_LOGIN_EXTENDER, mLoginExtenderRunning);
+		outState.putBoolean(STATE_LOGIN_EXTENDER_RUNNING, mLoginExtenderRunning);
+		if (mLoginExtender != null) {
+			outState.putParcelable(STATE_LOGIN_EXTENDER, mLoginExtender);
+		}
+		if (mStatusText != null) {
+			outState.putString(STATE_STATUS_TEXT, mStatusText);
+		}
 	}
 
 	private void initOnClicks() {
@@ -121,7 +138,7 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 			@Override
 			public void onClick(View v) {
 				if (hasFormData()) {
-					mStatusMessageTv.setText(getString(R.string.find_itinerary));
+					setStatusText(getString(R.string.find_itinerary));
 
 					String emailAddr = mEmailEdit.getText().toString();
 					String itinNumber = mItinNumEdit.getText().toString();
@@ -155,6 +172,7 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 
 	public void runExtenderOrFinish() {
 		if (mLoginExtender != null) {
+			mLoginExtenderRunning = true;
 			enableExtenderState(true);
 			mLoginExtender.onLoginComplete(getActivity(), this, mExtenderContainer);
 		}
@@ -203,9 +221,33 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 			getActivity().finish();
 		}
 		else {
-			mStatusMessageTv.setText(R.string.itinerary_fetch_error);
+			setStatusText(R.string.itinerary_fetch_error);
 			enableExtenderState(false);
 		}
+	}
+
+	protected void setStatusText(int textResId) {
+		setStatusText(getString(textResId));
+	}
+
+	protected void setStatusText(final String text) {
+		Runnable runner = new Runnable() {
+			@Override
+			public void run() {
+				if (mStatusMessageTv != null) {
+					mStatusMessageTv.setText(Html.fromHtml(text));
+				}
+			}
+		};
+		mStatusText = text;
+		if (getActivity() != null && this.isAdded()) {
+			getActivity().runOnUiThread(runner);
+		}
+	}
+
+	@Override
+	public void setExtenderStatus(String status) {
+		setStatusText(status);
 	}
 
 	private TextWatcher mTextWatcher = new TextWatcher() {

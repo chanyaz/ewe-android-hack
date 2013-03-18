@@ -90,6 +90,7 @@ public class ItineraryLoaderLoginExtender implements LoginExtender, ItinerarySyn
 
 		ItineraryManager.getInstance().addSyncListener(this);
 		ItineraryManager.getInstance().startSync(false);
+		setExtenderStatus(mContext.getString(R.string.fetching_your_itinerary));
 
 		extenderContainer.addView(mView);
 	}
@@ -104,6 +105,14 @@ public class ItineraryLoaderLoginExtender implements LoginExtender, ItinerarySyn
 		mErrorMessage = null;
 		mListener = null;
 		mContext = null;
+	}
+
+	@Override
+	public void setExtenderStatus(String status) {
+		if (mListener != null) {
+			mListener.setExtenderStatus(status);
+		}
+
 	}
 
 	/////////////////////////////////
@@ -155,9 +164,12 @@ public class ItineraryLoaderLoginExtender implements LoginExtender, ItinerarySyn
 	}
 
 	/**
-	 * This interface provides a call for
+	 * This interface provides a call for 
 	 */
 	public interface LoginExtenderListener {
 		public void loginExtenderWorkComplete(LoginExtender extender);
+
+		public void setExtenderStatus(String status);
 	}
+
 }
