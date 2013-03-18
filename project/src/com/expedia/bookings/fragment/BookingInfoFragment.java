@@ -4,14 +4,15 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.FloatMath;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLayoutChangeListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -20,6 +21,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.ReceiptWidget;
+import com.mobiata.android.util.Ui;
 
 @TargetApi(11)
 public class BookingInfoFragment extends Fragment {
@@ -48,7 +50,7 @@ public class BookingInfoFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_booking, container, false);
+		final View view = inflater.inflate(R.layout.fragment_booking, container, false);
 
 		mCompleteBookingInfoButton = view.findViewById(R.id.complete_booking_info_button);
 		mCompleteBookingInfoButton.setOnClickListener(new OnClickListener() {
@@ -94,6 +96,26 @@ public class BookingInfoFragment extends Fragment {
 					else {
 						((RelativeLayout.LayoutParams) roomDetailsContainer.getLayoutParams()).addRule(
 								RelativeLayout.ALIGN_BOTTOM, R.id.receipt);
+					}
+
+					// #692: Make the hotel description section scrollable if possible & if needed
+					// I know it's a faux pas to have a nested ScrollView. This is the simplest solution
+					// until we come up with a redesign for N7.
+					final ScrollView childScrollView = Ui.findView(view, R.id.room_type_description_scroll_view);
+					if (childScrollView != null && childScrollView.getMeasuredHeight() < childScrollView.getHeight()) {
+						view.setOnTouchListener(new View.OnTouchListener() {
+							public boolean onTouch(View v, MotionEvent event) {
+								childScrollView.getParent().requestDisallowInterceptTouchEvent(false);
+								return false;
+							}
+						});
+						childScrollView.setOnTouchListener(new View.OnTouchListener() {
+							public boolean onTouch(View v, MotionEvent event) {
+								// Disallow the touch request for parent scroll on touch of child view
+								v.getParent().requestDisallowInterceptTouchEvent(true);
+								return false;
+							}
+						});
 					}
 
 				}
