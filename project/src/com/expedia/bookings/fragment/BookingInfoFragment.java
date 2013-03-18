@@ -84,8 +84,8 @@ public class BookingInfoFragment extends Fragment {
 						return;
 					}
 
-					int maxHeightInPx = (int) FloatMath.ceil(getResources().getDisplayMetrics().density
-							* getResources().getDimension(R.dimen.max_height_room_details_container));
+					int maxHeightInPx = getResources().getDimensionPixelSize(R.dimen.max_height_room_details_container);
+
 					if (receipt.getMeasuredHeight() > maxHeightInPx) {
 						((RelativeLayout.LayoutParams) roomDetailsContainer.getLayoutParams()).height = LayoutParams.WRAP_CONTENT;
 						((RelativeLayout.LayoutParams) roomDetailsContainer.getLayoutParams()).addRule(
