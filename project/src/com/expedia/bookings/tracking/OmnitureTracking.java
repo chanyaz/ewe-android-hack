@@ -206,14 +206,14 @@ public class OmnitureTracking {
 	// Lifecycle tracking
 
 	public static void onResume(Activity activity) {
-		Log.d(TAG, "onResume");
+		Log.v(TAG, "onResume");
 		ADMS_Measurement measurement = ADMS_Measurement.sharedInstance(activity);
 		measurement.startActivity(activity);
 
 	}
 
 	public static void onPause() {
-		Log.d(TAG, "onPause");
+		Log.v(TAG, "onPause");
 		ADMS_Measurement measurement = ADMS_Measurement.sharedInstance();
 		measurement.stopActivity();
 	}
