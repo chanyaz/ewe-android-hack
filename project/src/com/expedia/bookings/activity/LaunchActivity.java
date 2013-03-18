@@ -48,9 +48,11 @@ import com.mobiata.flightlib.utils.DateTimeUtils;
 public class LaunchActivity extends SherlockFragmentActivity implements OnListModeChangedListener,
 		ItinItemListFragmentListener, LaunchFragmentListener, DoLogoutListener {
 
-	private static final int REQUEST_SETTINGS = 1;
+	public static final String ARG_FORCE_SHOW_WATERFALL = "ARG_FORCE_SHOW_WATERFALL";
 
+	private static final int REQUEST_SETTINGS = 1;
 	private static final int PAGER_POS_WATERFALL = 0;
+
 	private static final int PAGER_POS_ITIN = 1;
 
 	private LaunchFragment mLaunchFragment;
@@ -110,27 +112,28 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 		actionBar.addTab(shopTab, PAGER_POS_WATERFALL);
 		actionBar.addTab(itineraryTab, PAGER_POS_ITIN);
 
-		
-
-		//Switch to itin mode if we have an inprogress or upcoming trip
-		List<DateTime> startTimes = ItineraryManager.getInstance().getStartTimes();
-		List<DateTime> endTimes = ItineraryManager.getInstance().getEndTimes();
-		if (startTimes != null && endTimes != null && startTimes.size() == endTimes.size()) {
-			boolean startInItin = false;
-			Calendar now = Calendar.getInstance();
-			Calendar oneWeek = Calendar.getInstance();
-			oneWeek.add(Calendar.DATE, 7);
-			for (int i = 0; i < startTimes.size(); i++) {
-				DateTime start = startTimes.get(i);
-				DateTime end = endTimes.get(i);
-				if (DateTimeUtils.getTimeInCurrentTimeZone(now).getTime() < end.getMillisFromEpoch()
-						&& DateTimeUtils.getTimeInCurrentTimeZone(oneWeek).getTime() > start.getMillisFromEpoch()) {
-					startInItin = true;
-					break;
+		// Switch to itin mode if we have an inprogress or upcoming trip (and we aren't forcing reverse waterfall)
+		boolean allowSkipToItin = !getIntent().getBooleanExtra(ARG_FORCE_SHOW_WATERFALL, false);
+		if (allowSkipToItin) {
+			List<DateTime> startTimes = ItineraryManager.getInstance().getStartTimes();
+			List<DateTime> endTimes = ItineraryManager.getInstance().getEndTimes();
+			if (startTimes != null && endTimes != null && startTimes.size() == endTimes.size()) {
+				boolean startInItin = false;
+				Calendar now = Calendar.getInstance();
+				Calendar oneWeek = Calendar.getInstance();
+				oneWeek.add(Calendar.DATE, 7);
+				for (int i = 0; i < startTimes.size(); i++) {
+					DateTime start = startTimes.get(i);
+					DateTime end = endTimes.get(i);
+					if (DateTimeUtils.getTimeInCurrentTimeZone(now).getTime() < end.getMillisFromEpoch()
+							&& DateTimeUtils.getTimeInCurrentTimeZone(oneWeek).getTime() > start.getMillisFromEpoch()) {
+						startInItin = true;
+						break;
+					}
 				}
-			}
-			if (startInItin) {
-				gotoItineraries();
+				if (startInItin) {
+					gotoItineraries();
+				}
 			}
 		}
 
@@ -185,6 +188,15 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 		super.onSaveInstanceState(outState);
 
 		mHockeyPuck.onSaveInstanceState(outState);
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+
+		if (intent.getBooleanExtra(ARG_FORCE_SHOW_WATERFALL, false)) {
+			gotoWaterfall();
+		}
 	}
 
 	@Override

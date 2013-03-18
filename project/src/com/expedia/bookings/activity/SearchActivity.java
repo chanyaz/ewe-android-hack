@@ -52,14 +52,18 @@ public class SearchActivity extends Activity {
 			// Note: 2.0 will not support launch screen nor Flights on tablet ergo send user to EH tablet
 		}
 		else {
-			// We're being ultra-safe here and only sending a kill broadcast if opened from
-			// the widget.  This is so that the widget *always* opens to the launch screen.
-			if (getIntent().getBooleanExtra(OPENED_FROM_WIDGET, true)) {
+			boolean forceShowWaterfall = false;
+			if (getIntent().getBooleanExtra(OPENED_FROM_WIDGET, false)) {
+				// We're being ultra-safe here and only sending a kill broadcast if opened from
+				// the widget.  This is so that the widget *always* opens to the launch screen.
 				NavUtils.sendKillActivityBroadcast(this);
+
+				// If opened from widget, we want to always show the reverse waterfall
+				forceShowWaterfall = true;
 			}
 
 			// On default, go to launch screen
-			NavUtils.goToLaunchScreen(this);
+			NavUtils.goToLaunchScreen(this, forceShowWaterfall);
 		}
 
 		// Finish this Activity after routing
