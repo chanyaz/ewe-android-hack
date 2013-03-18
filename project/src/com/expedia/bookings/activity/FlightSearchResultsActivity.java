@@ -94,6 +94,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	private static final String INSTANCE_ANIM_FORWARD = "INSTANCE_ANIM_FORWARD";
 
 	private static final int REQUEST_CODE_SEARCH_PARAMS = 1;
+	private static final int REQUEST_CODE_FLIGHT_TRIP_OVERVIEW = 2;
 
 	private static final String BACKSTACK_LOADING = "BACKSTACK_LOADING";
 	private static final String BACKSTACK_NO_FLIGHTS = "BACKSTACK_NO_FLIGHTS";
@@ -298,6 +299,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+
+		OmnitureTracking.setPageLoadTrackingFromFSRAEnabled(true);
 
 		if (requestCode == REQUEST_CODE_SEARCH_PARAMS && resultCode == RESULT_OK) {
 			Log.i("Got new search params from FlightSearchOverlayActivity");
@@ -752,6 +755,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		startActivityForResult(intent, REQUEST_CODE_SEARCH_PARAMS);
 
 		OmnitureTracking.trackLinkFlightRefine(mContext, mLegPosition);
+		OmnitureTracking.setPageLoadTrackingFromFSRAEnabled(false);
 	}
 
 	private void startSearch() {
@@ -1045,7 +1049,13 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			}
 			else {
 				Intent intent = new Intent(mContext, FlightTripOverviewActivity.class);
-				startActivity(intent);
+				startActivityForResult(intent, REQUEST_CODE_FLIGHT_TRIP_OVERVIEW);
+
+				// Make sure to explicitly disable this tracking as the next activity has a transparent theme which
+				// as a result forces the previous Activity in the backstack (this one) to redraw and thus go through
+				// its own lifecycle events, improperly invoking the pageLoad tracking events that belong to this
+				// Activity and its Fragments.
+				OmnitureTracking.setPageLoadTrackingFromFSRAEnabled(false);
 			}
 		}
 	};

@@ -756,7 +756,9 @@ public class OmnitureTracking {
 	}
 
 	private static void trackPageLoadFlightSearchResultsInboundList(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ROUNDTRIP_IN, LineOfBusiness.FLIGHTS);
+		if (mTrackPageLoadFromFSRA) {
+			internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ROUNDTRIP_IN, LineOfBusiness.FLIGHTS);
+		}
 	}
 
 	private static void trackPageLoadFlightSearchResultsOneWay(Context context) {
@@ -812,18 +814,27 @@ public class OmnitureTracking {
 		internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_INBOUND_BAGGAGE_FEE, LineOfBusiness.FLIGHTS);
 	}
 
-	public static void trackPageLoadFlightSearchResultsDetails(Context context, int legPosition) {
-		if (legPosition == 0) {
-			if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
-				internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS, LineOfBusiness.FLIGHTS);
-			}
-			else {
-				internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ONE_WAY_DETAILS, LineOfBusiness.FLIGHTS);
-			}
-		}
-		else if (legPosition == 1) {
-			internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ROUNDTRIP_IN_DETAILS, LineOfBusiness.FLIGHTS);
+	private static boolean mTrackPageLoadFromFSRA = true;
 
+	public static void setPageLoadTrackingFromFSRAEnabled(boolean trackingEnabled) {
+		Log.d("OmnitureTracking", "set FSRA tracking: " + trackingEnabled);
+		mTrackPageLoadFromFSRA = trackingEnabled;
+	}
+
+	public static void trackPageLoadFlightSearchResultsDetails(Context context, int legPosition) {
+		if (mTrackPageLoadFromFSRA) {
+			if (legPosition == 0) {
+				if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
+					internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS, LineOfBusiness.FLIGHTS);
+				}
+				else {
+					internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ONE_WAY_DETAILS, LineOfBusiness.FLIGHTS);
+				}
+			}
+			else if (legPosition == 1) {
+				internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ROUNDTRIP_IN_DETAILS, LineOfBusiness.FLIGHTS);
+
+			}
 		}
 	}
 
