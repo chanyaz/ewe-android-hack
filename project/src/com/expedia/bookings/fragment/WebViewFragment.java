@@ -4,7 +4,7 @@ import org.apache.http.cookie.Cookie;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
+import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
@@ -22,6 +23,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.PersistantCookieStore;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -141,7 +143,27 @@ public class WebViewFragment extends Fragment {
 			mWebView.setWebViewClient(new WebViewClient() {
 
 				@Override
+				public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+					// Ignore 
+					if (!AndroidUtils.isRelease(getActivity())) {
+						Log.d("WebViewFragment: Got an SSL certificate error (primary: " + error.getPrimaryError()
+								+ "), but we're going to proceed anyways because this is a debug build.  URL="
+								+ error.getUrl());
+
+						handler.proceed();
+					}
+					else {
+						Log.w("WebViewFragment SSL Error: primaryError=" + error.getPrimaryError() + ", url="
+								+ error.getUrl());
+
+						super.onReceivedSslError(view, handler, error);
+					}
+				}
+
+				@Override
 				public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+					Log.w("WebViewFragment error: code=" + errorCode + ", desc=" + description + ", url=" + failingUrl);
+
 					if (isAdded()) {
 						String errorFormatStr = getResources().getString(R.string.web_view_loading_error_TEMPLATE);
 						String errorMessage = String.format(errorFormatStr, description);
