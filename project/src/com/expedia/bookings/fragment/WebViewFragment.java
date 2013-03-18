@@ -147,14 +147,12 @@ public class WebViewFragment extends Fragment {
 					// Ignore 
 					if (!AndroidUtils.isRelease(getActivity())) {
 						Log.d("WebViewFragment: Got an SSL certificate error (primary: " + error.getPrimaryError()
-								+ "), but we're going to proceed anyways because this is a debug build.  URL="
-								+ error.getUrl());
+								+ "), but we're going to proceed anyways because this is a debug build.  URL=" + mUrl);
 
 						handler.proceed();
 					}
 					else {
-						Log.w("WebViewFragment SSL Error: primaryError=" + error.getPrimaryError() + ", url="
-								+ error.getUrl());
+						Log.w("WebViewFragment SSL Error: primaryError=" + error.getPrimaryError() + ", url=" + mUrl);
 
 						super.onReceivedSslError(view, handler, error);
 					}
