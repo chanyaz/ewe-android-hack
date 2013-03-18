@@ -138,7 +138,14 @@ public class CreditCardInfoEditTest extends ActivityInstrumentationTestCase2<Hot
 					randomNumber = rand.nextInt(10);
 					creditcardNumber += randomNumber;
 				}
-				mSolo.typeText(creditCardEditText, creditcardNumber);
+				try {
+					mSolo.typeText(creditCardEditText, creditcardNumber);
+				}
+				catch (Error e) {
+					// try to enter CC again in case of Robotium error 
+					mDriver.delay();
+					mSolo.typeText(creditCardEditText, creditcardNumber);
+				}
 				mDriver.delay();
 
 				//grab the imageView - it contains the changed credit card image
