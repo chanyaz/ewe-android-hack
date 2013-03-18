@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
 
     <PreferenceCategory android:title="Development" >
         <ListPreference
@@ -40,7 +41,8 @@
             android:summary="Fake some online booking fees.  Positive numbers only."
             android:title="Fake Flight ObFees" />
 
-        <com.expedia.bookings.dialog.SpoofBookingCheckBoxPreference
+        <com.expedia.bookings.widget.CheckBoxPreference
+            app:id="@id/preference_spoof_booking_checkbox"
             android:key="@string/preference_spoof_bookings"
             android:summary="Do not actually perform hotel bookings. Instead, simulate a successful booking response."
             android:title="Spoof hotel bookings" />

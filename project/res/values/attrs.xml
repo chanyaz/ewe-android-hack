@@ -117,4 +117,8 @@
         <attr name="waypointTextColor" format="color|reference" />
     </declare-styleable>
 
+    <!-- CheckBoxPreference -->
+    <declare-styleable name="CheckBoxPreference">
+        <attr name="id" format="reference" />
+    </declare-styleable>
 </resources>
