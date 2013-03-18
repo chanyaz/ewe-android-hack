@@ -13,6 +13,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.dialog.SocialMessageChooserDialogFragment;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.ItinActionsSection;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 
 /**
@@ -22,6 +23,7 @@ public class ItinCardFragment extends Fragment {
 
 	private ViewGroup mItinHeaderContainer;
 	private ScrollView mItinCardContainer;
+	private ItinActionsSection mActionButtons;
 
 	private ItinCardData mCurrentData;
 
@@ -30,6 +32,7 @@ public class ItinCardFragment extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_itin_card, container, false);
 		mItinHeaderContainer = Ui.findView(view, R.id.itin_header_container);
 		mItinCardContainer = Ui.findView(view, R.id.itin_card_container);
+		mActionButtons = Ui.findView(view, R.id.action_button_layout);
 
 		Ui.setOnClickListener(view, R.id.share_image_button, new OnClickListener() {
 			@Override
@@ -60,6 +63,8 @@ public class ItinCardFragment extends Fragment {
 			View detailView = generator.getDetailsView(mItinCardContainer);
 			mItinCardContainer.removeAllViews();
 			mItinCardContainer.addView(detailView);
+
+			mActionButtons.bind(generator.getSummaryLeftButton(), generator.getSummaryRightButton());
 
 			// Make sure we start fully scrolled up when we load new data
 			mItinCardContainer.fullScroll(View.FOCUS_UP);
