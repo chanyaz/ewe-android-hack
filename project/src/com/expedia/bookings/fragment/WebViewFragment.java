@@ -57,8 +57,6 @@ public class WebViewFragment extends Fragment {
 	private boolean mLoadCookies;
 	private TrackingName mTrackingName;
 
-	private Context mContext;
-
 	public static WebViewFragment newInstance(String url, boolean enableSignIn, boolean loadCookies, String name) {
 		WebViewFragment frag = new WebViewFragment();
 
@@ -87,7 +85,6 @@ public class WebViewFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mContext = getActivity();
 
 		Bundle args = getArguments();
 		if (args.containsKey(ARG_HTML_DATA)) {
@@ -223,15 +220,15 @@ public class WebViewFragment extends Fragment {
 		if (mTrackingName != null) {
 			switch (mTrackingName) {
 			case BaggageFeeOneWay: {
-				OmnitureTracking.trackPageLoadFlightBaggageFeeOneWay(mContext);
+				OmnitureTracking.trackPageLoadFlightBaggageFeeOneWay(getActivity());
 				break;
 			}
 			case BaggageFeeOutbound: {
-				OmnitureTracking.trackPageLoadFlightBaggageFeeOutbound(mContext);
+				OmnitureTracking.trackPageLoadFlightBaggageFeeOutbound(getActivity());
 				break;
 			}
 			case BaggageFeeInbound: {
-				OmnitureTracking.trackPageLoadFlightBaggageFeeInbound(mContext);
+				OmnitureTracking.trackPageLoadFlightBaggageFeeInbound(getActivity());
 				break;
 			}
 			}
