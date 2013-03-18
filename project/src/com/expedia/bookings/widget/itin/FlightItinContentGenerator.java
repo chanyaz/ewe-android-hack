@@ -247,11 +247,11 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			Calendar arrivalTimeCal = leg.getLastWaypoint().getBestSearchDateTime();
 
 			String departureTime = formatTime(departureTimeCal);
-			String departureTz = res.getString(R.string.depart_tz_TEMPLATE, departureTimeCal.getTimeZone()
-					.getDisplayName(false, TimeZone.SHORT));
+			String departureTz = res.getString(R.string.depart_tz_TEMPLATE,
+					FormatUtils.formatTimeZone(leg.getFirstWaypoint().getAirport(), departureTimeCal.getTime()));
 			String arrivalTime = formatTime(arrivalTimeCal);
 			String arrivalTz = res.getString(R.string.arrive_tz_TEMPLATE,
-					arrivalTimeCal.getTimeZone().getDisplayName(false, TimeZone.SHORT));
+					FormatUtils.formatTimeZone(leg.getLastWaypoint().getAirport(), arrivalTimeCal.getTime()));
 
 			departureTimeTv.setText(departureTime);
 			departureTimeTzTv.setText(departureTz);
