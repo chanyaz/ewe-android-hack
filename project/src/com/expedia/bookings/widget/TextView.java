@@ -19,6 +19,8 @@ public class TextView extends android.widget.TextView {
 	private static final int MEDIUM = 64;
 	private static final int THIN = 128;
 
+	private boolean mAllCaps = false;
+
 	public TextView(Context context) {
 		super(context);
 		init(context, null, 0);
@@ -37,16 +39,20 @@ public class TextView extends android.widget.TextView {
 	private void init(Context context, AttributeSet attrs, int defStyle) {
 		final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TextView, defStyle, 0);
 		final int textStyle = a.getInt(R.styleable.TextView_textStyle, 0);
-		final boolean allCaps = a.getBoolean(R.styleable.TextView_textAllCaps, false);
+		mAllCaps = a.getBoolean(R.styleable.TextView_textAllCaps, false);
 		a.recycle();
 
 		if (textStyle > 0) {
 			setTypefaceByStyle(this, textStyle);
 		}
 
-		if (allCaps) {
+		if (mAllCaps) {
 			ViewUtils.setAllCaps(this);
 		}
+	}
+
+	public boolean isAllCaps() {
+		return mAllCaps;
 	}
 
 	private void setTypefaceByStyle(TextView view, int style) {
