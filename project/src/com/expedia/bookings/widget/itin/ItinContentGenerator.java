@@ -139,13 +139,13 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Override-able methods with default implementations
-
-	public String getHeaderTextWithDate() {
+	
+	public String getHeaderTextDate(){
 		CharSequence relativeStartDate = getRelativeStartDate();
-		if (relativeStartDate == null) {
-			return getHeaderText();
+		if(relativeStartDate == null){
+			return "";
 		}
-		return getContext().getString(R.string.Title_Date_TEMPLATE, getHeaderText(), relativeStartDate);
+		return getContext().getString(R.string.Title_Date_TEMPLATE, "", relativeStartDate);
 	}
 
 	public boolean hasDetails() {

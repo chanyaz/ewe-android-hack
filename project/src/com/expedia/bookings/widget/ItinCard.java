@@ -74,6 +74,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	private ViewGroup mTitleLayout;
 	private ViewGroup mTitleContentLayout;
 	private ViewGroup mHeaderLayout;
+	private ViewGroup mHeaderTextLayout;
 	private ViewGroup mSummaryLayout;
 	private ViewGroup mDetailsLayout;
 	private ItinActionsSection mActionButtonLayout;
@@ -85,6 +86,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	private OptimizedImageView mHeaderImageView;
 	private ImageView mHeaderOverlayImageView;
 	private TextView mHeaderTextView;
+	private TextView mHeaderTextDateView;
 	private View mSelectedView;
 	private View mHeaderShadeView;
 	private View mSummaryDividerView;
@@ -115,6 +117,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		mTitleLayout = Ui.findView(this, R.id.title_layout);
 		mTitleContentLayout = Ui.findView(this, R.id.title_content_layout);
 		mHeaderLayout = Ui.findView(this, R.id.header_layout);
+		mHeaderTextLayout = Ui.findView(this, R.id.header_text_layout);
 		mSummaryLayout = Ui.findView(this, R.id.summary_layout);
 		mDetailsLayout = Ui.findView(this, R.id.details_layout);
 		mActionButtonLayout = Ui.findView(this, R.id.action_button_layout);
@@ -126,6 +129,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		mHeaderImageView = Ui.findView(this, R.id.header_image_view);
 		mHeaderOverlayImageView = Ui.findView(this, R.id.header_overlay_image_view);
 		mHeaderTextView = Ui.findView(this, R.id.header_text_view);
+		mHeaderTextDateView = Ui.findView(this, R.id.header_text_date_view);
 		mSelectedView = Ui.findView(this, R.id.selected_view);
 		mHeaderShadeView = Ui.findView(this, R.id.header_mask);
 		mSummaryDividerView = Ui.findView(this, R.id.summary_divider_view);
@@ -181,7 +185,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		}
 
 		// Header text
-		mHeaderTextView.setText(mItinContentGenerator.getHeaderTextWithDate());
+		mHeaderTextView.setText(mItinContentGenerator.getHeaderText());
+		mHeaderTextDateView.setText(mItinContentGenerator.getHeaderTextDate());
 
 		// Summary text
 		View summaryView = mItinContentGenerator.getSummaryView(mSummaryLayout);
@@ -308,8 +313,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		animators.add(ObjectAnimator.ofFloat(mHeaderOverlayImageView, "alpha", 1).setDuration(400));
 
 		//Header Text
-		animators.add(ObjectAnimator.ofFloat(mHeaderTextView, "alpha", 1).setDuration(400));
-		animators.add(ObjectAnimator.ofFloat(mHeaderTextView, "translationY", 0).setDuration(400));
+		animators.add(ObjectAnimator.ofFloat(mHeaderTextLayout, "alpha", 1).setDuration(400));
+		animators.add(ObjectAnimator.ofFloat(mHeaderTextLayout, "translationY", 0).setDuration(400));
 
 		// Type Icon
 		if (mItinContentGenerator.getHideDetailsTypeIcon()) {
@@ -394,9 +399,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 		// Header text
 		if (mItinContentGenerator.getHideDetailsTitle()) {
-			ObjectAnimator headerTextAlphaAnimator = ObjectAnimator.ofFloat(mHeaderTextView, "alpha", 0).setDuration(
+			ObjectAnimator headerTextAlphaAnimator = ObjectAnimator.ofFloat(mHeaderTextLayout, "alpha", 0).setDuration(
 					200);
-			ObjectAnimator headerTextTranslationAnimator = ObjectAnimator.ofFloat(mHeaderTextView, "translationY", -50)
+			ObjectAnimator headerTextTranslationAnimator = ObjectAnimator.ofFloat(mHeaderTextLayout, "translationY", -50)
 					.setDuration(400);
 			animators.add(headerTextTranslationAnimator);
 			animators.add(headerTextAlphaAnimator);
