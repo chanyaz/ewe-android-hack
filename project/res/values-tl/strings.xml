@@ -6,12 +6,16 @@
     <string name="facebook_weve_found_your_account">&lt;b&gt;%1$s&lt;/b&gt;, nahanap namin ang inyong Expedia account! Pakilagay lang ang inyong expedia password sa ibaba upang maiugnay ang inyong mga account sa facebook at expedia.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">&lt;b&gt;%1$s&lt;/b&gt;, nai-load na namin ang inyong impormasyon sa facebook!</string>
+    <!-- connect with facebook (button text) -->
+    <string name="connect_with_facebook">Kumunekta sa facebook</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">Kumukuha ng impormasyon sa facebook…</string>
     <!-- Attempting to log you in with facebook credentials -->
     <string name="attempting_to_log_in_with_facebook">Sinusubukang i-log in gamit ang kredensyal sa facebook…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Nagkaroon kami ng hindi matukoy na error. Pakisubukang muli mamaya.</string>
+    <!-- Unable to log in to Facebook -->
+    <string name="unable_to_log_into_facebook">Hindi makapag-log in sa Facebook.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Nabigo ang pag-login, pakilagay muli ang inyong password at subukang muli.</string>
     <!-- Facebook connect expedia password hint -->
@@ -22,6 +26,10 @@
     <string name="failure_to_update_user">Nabigong kunin ang mga na-update na impormasyon ng user.</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Nili-link ang mga account…</string>
+    <!-- Log In -->
+    <string name="Log_In">Mag-log in</string>
+    <!-- Log in with Expedia -->
+    <string name="Log_in_with_Expedia">Mag-log in sa Expedia</string>
     <!-- or -->
     <string name="or">o</string>
 
@@ -46,10 +54,14 @@
     <string name="launch_hotel_fallback_tile_prompt">Manatili sa &lt;font color="#b2b2b2"&gt;&lt;/font&gt;&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Pasensiya na, hindi kami makakonekta.</string>
+    <!-- Menu option for going to see your trips/itineraries -->
+    <string name="your_trips">Inyong Mga Biyahe</string>
 
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerary</string>
+    <!-- Itineraries (plural title) -->
+    <string name="itineraries">Mga Itinerary</string>
     <!--  Shop -->
     <string name="shop">Mamili</string>
     <!-- Find Itinerary -->
@@ -59,15 +71,44 @@
     <!-- Itinerary Number -->
     <string name="itinerary_number">Numero ng Itinerary</string>
     <!-- No upcoming trips -->
-    <string name="no_upcoming_trips">Walang kaganapang darating.</string>
-    <!-- Or enter an itinerary number -->
-    <string name="or_enter_an_itinerary_number">O, ipasok ang Numero ng Itinerary</string>
+    <string name="no_upcoming_trips">Walang mga papalapit na biyahe.</string>
+    <!-- Enter itinerary number -->
+    <string name="enter_itinerary_number">Ilagay ang Numero ng Itinerary</string>
     <!-- Fetching your itinerary -->
-    <string name="fetching_your_itinerary">Kinukuha ang itinerary mo…</string>
+    <string name="fetching_your_itinerary">Kinukuha ang inyong mga itinerary…</string>
     <!-- Error fetching itinerary -->
-    <string name="itinerary_fetch_error">Error sa pagkuha ng itinerary</string>
+    <string name="itinerary_fetch_error">Error sa pagkuha ng mga itinerary</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;Mag-log in&lt;/b&gt; para sa inyong mga biyahe</string>
+    <!-- String for Today as in "Marriott Grand Hotel - Today" -->
+    <string name="Today">Ngayong Araw</string>
+    <!-- "XX Minutes" - an event happening XX minutes in the future -->
+    <plurals name="minutes_from_now">
+        <item quantity="zero">%s (na) minuto</item>
+        <item quantity="one">%s minuto</item>
+        <item quantity="two">%s (na) minuto</item>
+        <item quantity="few">%s (na) minuto</item>
+        <item quantity="many">%s (na) minuto</item>
+        <item quantity="other">%s (na) minuto</item>
+    </plurals>
+    <!-- "XX Hours" - an event happening XX hours in the future -->
+    <plurals name="hours_from_now">
+        <item quantity="zero">%s (na) oras</item>
+        <item quantity="one">%s oras</item>
+        <item quantity="two">%s (na) oras</item>
+        <item quantity="few">%s (na) oras</item>
+        <item quantity="many">%s (na) oras</item>
+        <item quantity="other">%s (na) oras</item>
+    </plurals>
+    <!-- "XX Days" an event happening XX days in the future -->
+    <plurals name="days_from_now">
+        <item quantity="zero">%s (na) araw</item>
+        <item quantity="one">%s araw</item>
+        <item quantity="two">%s (na) araw</item>
+        <item quantity="few">%s (na) araw</item>
+        <item quantity="many">%s (na) araw</item>
+        <item quantity="other">%s (na) araw</item>
+    </plurals>
     <!-- Template for card header text (will be filled in with "Title - Date")-->
     <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
@@ -80,6 +121,8 @@
     <string name="Cruise">Cruise</string>
     <!-- Default (fallback) itin card title for ACTIVITY -->
     <string name="Activity">Aktibidad</string>
+    <!-- Activity information -->
+    <string name="activity_information">Impormasyon ng Aktibidad</string>
     <!-- Depart (TZ) template -->
     <string name="depart_tz_TEMPLATE">Alis (%1$s)</string>
     <!-- Arrive (TZ) template -->
@@ -231,6 +274,7 @@
     <string name="itin_card_details_pick_up">Pick Up</string>
     <string name="itin_card_details_drop_off">Drop Off</string>
     <string name="itin_card_details_agency_phone">Telepono ng Ahensya</string>
+    <string name="itin_card_details_toll_free_phone">Toll Free na Telepono</string>
     <string name="itin_card_details_check_in">Check In</string>
     <string name="itin_card_details_check_out">Check Out</string>
     <string name="itin_card_details_address">Address</string>
@@ -238,6 +282,14 @@
     <string name="itin_card_details_room_type">Uri ng Kuwarto</string>
     <string name="toast_copied_to_clipboard">Nakopya sa clipboard.</string>
     <string name="itin_card_details_reload">I-reload Impormasyon</string>
+    <string name="itin_card_details_reload_activity">I-load Muli ang Impormasyon ng Aktibidad</string>
+    <string name="itin_card_details_reload_car">I-load Muli ang Impormasyon ng Pag-arkila ng Kotse</string>
+    <string name="itin_card_details_reload_flight">I-load Muli ang Impormasyon ng Flight</string>
+    <string name="itin_card_details_reload_hotel">I-load Muli ang Impormasyon ng Hotel</string>
+    <string name="itin_card_details_reload_cruise">I-load Muli ang Impormasyon ng Cruise</string>
+
+    <string name="itin_card_hotel_summary_TEMPLATE">Mag-check-in pagkaraan ng %1$s</string>
+    <string name="itin_card_activity_summary_TEMPLATE">May-bisa simula sa &lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">Mga Direksyon</string>
@@ -253,8 +305,18 @@
     <string name="share_template_subject_hotel">Aking pananatili sa hotel sa %1$s (%2$s – %3$s)</string>
     <!-- 1: hotel name 2: check in date 3: check out date 4: hotel web url -->
     <string name="share_template_short_hotel">Mananatili ako sa %1$s\n%2$s – %3$s\n\n%4$s</string>
-    <!-- 1: hotel Name 2: formatted length of stay 4: check in date 5: check out date 6: street address 7: city 8: state 9: postal code 10: phone 11: hotel web url 12: app download link -->
-    <string name="share_template_long_hotel">Hi,\n\nMananatili ako sa %1$s nang %2$s.\n\n<b>Mag-check In</b> %3$s\n<b>Mag-check Out</b> %4$s\n\n%1$s\n%5$s\n%6$s, %7$s %8$s\n\n<b>Telepono</b>\n%9$s\n\n<b>Higit Pang Impormasyon</b>\n%10$s\n\nGustong mag-book ng mga hotel, flight at tingnan at ibahagi ang inyong mga itinerary? <a href="%11$s">I-download</a> ang libreng app ng Expedia sa mobile ngayon.</string>
+    <!-- 1: Hotel name, 2: Formatted length of stay -->
+    <string name="share_template_long_hotel_1_greeting">Kamusta,\n\nmananatili ako sa %1$s nang %2$s.</string>
+    <!-- 1: Check in date, 2: Check out date -->
+    <string name="share_template_long_hotel_2_checkin_checkout"><b>Check In</b> %1$s\n<b>Check Out</b> %2$s</string>
+    <!-- 1: Hotel name, 2: Hotel street address -->
+    <string name="share_template_long_hotel_3_address">%1$s\n%2$s</string>
+    <!-- Hotel phone number -->
+    <string name="share_template_long_hotel_4_phone"><b>Telepono</b>\n%s</string>
+    <!-- Link to more information about the hotel -->
+    <string name="share_template_long_hotel_5_more_info"><b>Higit Pang Impormasyon</b>\n%s</string>
+    <!-- App download link -->
+    <string name="share_template_long_ad">Mag-book ng mga hotel, flight at tingnan at ibahagi ang inyong mga itinerary. I-download ang libreng app sa mobile ng Expedia ngayon.\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Aking flight papuntang %1$s sa %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
@@ -269,14 +331,29 @@
     <string name="share_template_subject_car">Aking pag-arkila ng kotse (%1$s – %2$s)</string>
     <!-- 1: vehicle type 2: pick up date 3: drop off date 4: vendor name 5: full address -->
     <string name="share_template_short_car">Nagrenta ako ng %1$s mula %2$s – %3$s\n%4$s\n%5$s</string>
-    <!-- 1: vendor name 2: vehicle type 3: pick up date 4: pick up time 5: drop off date 6: drop off time 7: full address 8: phone number 9: app download link -->
-    <string name="share_template_long_car">Kamusta,\n\nNarito ang mga detalye ng aming pag-arkila ng kotse sa %1$s. \n\n<b>Sasakyan</b> %2$s\n<b>Susunduin</b> %3$s sa <b>%4$s</b>\n<b>Ihahatid</b> %5$s sa <b>%6$s</b>\n\n<b>Lokasyon</b>\n%1$s\n%7$s\n%8$s\n\nGustong mag-book ng mga hotel, flight at tingnan at ibahagi ang inyong mga itinerary? <a href="%9$s">I-download</a> ang libreng app ng Expedia sa mobile ngayon.</string>
+    <!-- 1: vendor name, 2: vehicle type, 3: pick up date, 4: pick up time, 5: drop off date, 6: drop off time, 7: full address, 8: phone number -->
+    <string name="share_template_long_car">Kamusta,\n\nNarito ang mga detalye ng aming pag-arkila ng kotse sa %1$s. \n\n<b>Pagsundo ng</b> %2$s\n<b>Sasakyan</b> %3$s sa <b>%4$s</b>\n<b>Paghatid</b> %5$s sa <b>%6$s</b>\n\n<b>Lokasyon</b>\n%1$s\n%7$s\n%8$s</string>
+    <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
+    <string name="share_car_start_TEMPLATE">Narito ang mga detalye ng aking %1$s pag-arkila ng kotse.</string>
+    <!-- Label for type of vehicle.  %1$s is the car type (e.g., "Three Door Car") -->
+    <string name="share_car_vehicle_TEMPLATE">Sasakyan: %1$s</string>
+    <!-- The car rental pick up time.  %1$s is a date, %2$s is a time (e.g., "Pick Up After: 3/21/13 at 5 PM") -->
+    <string name="share_car_pickup_TEMPLATE">Susunduin Pagkaraan ng: %1$s sa %2$s</string>
+    <!-- The car rental drop off time.  %1$s is a date, %2$s is a time (e.g., "Drop Off Before: 3/21/13 at 5 PM") -->
+    <string name="share_car_dropoff_TEMPLATE">Ihahatid Bago ang: %1$s sa %2$s</string>
+    <!-- Section header for the location of the car rental pickup/dropoff. -->
+    <string name="share_car_location_section">Lokasyon:</string>
+    <!-- Section header for the location of the car rental pick up. -->
+    <string name="share_car_pickup_location_section">Lokasyon ng Pagsundo:</string>
+    <!-- Section header for the location of the car rental drop off. -->
+    <string name="share_car_dropoff_location_section">Lokasyon ng Paghatid:</string>
+
     <!-- 1: activity title -->
     <string name="share_template_subject_activity">Mga Detalye ng Aking %1$s</string>
     <!-- 1: activity title 2: valid date 3: expiration date -->
     <string name="share_template_short_activity">Bumili ako ng %1$s\nMay-bisa: %2$s\nMag-e-expire: %3$s</string>
-    <!-- 1: activity title 2: valid date 3: expiration date 4: list of guests 5: app download link -->
-    <string name="share_template_long_activity">Kamusta,\n\nNarito ang mga detalye ng aking %1$s\n\n<b>May-bisa</b> %2$s\n<b>Mag-e-expire</b> %3$s\n\n<b>Mga Bisita</b>\n%4$s\n\nGustong mag-book ng mga hotel, flight at tingnan at ibahagi ang inyong mga itinerary? <a href="%5$s">I-download</a> ang libreng app ng Expedia sa mobile ngayon.</string>
+    <!-- 1: activity title, 2: valid date, 3: expiration date, 4: list of guests -->
+    <string name="share_template_long_activity">Kamusta,\n\nNarito ang mga detalye ng aking %1$s\n\n<b>May-bisa sa</b> %2$s\n<b>Mag-e-expire sa</b> %3$s\n\n<b>Mga Bisita</b>\n%4$s</string>
     <string name="share_template_subject_cruise"></string>
     <string name="share_template_short_cruise"></string>
     <string name="share_template_long_cruise"></string>
@@ -509,6 +586,18 @@
     <string name="log_out">Mag-log Out</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Nakaipon ka ng %1$s (na) puntos para sa biyaheng ito!</string>
+    <!-- Label to show while we are checking for price changes on the checkout receipt -->
+    <string name="calculating_taxes_and_fees">Kinakalkula ang Mga Buwis at Bayarin…</string>
+    <!-- Label to show next to the total price on the checkout receipt -->
+    <string name="grand_total">Kabuuan</string>
+    <!-- String to use when a price change alert should be shown to the user -->
+    <string name="the_hotel_raised_the_price_TEMPLATE">Kakatapos lang itaas ng hotel ang presyo para sa kuwartong ito sa %1$s bawat gabi.</string>
+    <!-- String to use when a price change alert should be shown to the user -->
+    <string name="the_hotel_lowered_the_price_TEMPLATE">Kakatapos lang ibaba ng hotel ang presyo para sa kuwartong ito sa %1$s bawat gabi.</string>
+    <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
+    <string name="done">Tapos na</string>
+    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
+    <string name="total_due_today">Kabuuang Babayaran Ngayon</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -832,14 +921,18 @@
         <item quantity="one">Naririto ang impormasyon ng aking flight reservation:</item>
         <item quantity="two">Naririto ang impormasyon ng aming flight reservation:</item>
         <item quantity="many">Naririto ang impormasyon ng aming flight reservation:</item>
-        <item quantity="other">Naririto ang impormasyon ng aming flight reservation:</item>
+        <item quantity="other">Narito ang impormasyon ng aming pagpapareserba ng flight:</item>
     </plurals>
+    <!-- The first line of the share email (casual introduction) -->
+    <string name="share_hi">Kamusta,</string>
     <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_TEMPLATE">One way trip galing %1$s patungong %2$s</string>
+    <string name="share_flight_one_way_TEMPLATE">Narito ang mga detalye ng aking flight galing sa %1$s papuntang %2$s.</string>
     <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_round_trip_TEMPLATE">Round trip galing %1$s patungong %2$s</string>
+    <string name="share_flight_round_trip_TEMPLATE">Narito ang mga detalye ng aking round-trip na flight galing sa %1$s papuntang %2$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">Itinerary #: %s</string>
+     <!-- Section with a bunch of travelers on the flight (listed below) -->
+    <string name="share_travelers_section">Mga Magbibiyahe:</string>
     <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc… %2$s is their name -->
     <!-- examples: "Traveler 1: Tom Smith" "Traveler 2: David Thomas" or if only one traveler, "Traveler: Matt Long" -->
     <plurals name="share_flight_name_TEMPLATE">

@@ -6,12 +6,16 @@
     <string name="facebook_weve_found_your_account">嗨！&lt;b&gt;%1$s&lt;/b&gt;我们好像找到了您的 Expedia 帐户！请在下面输入 Expedia 密码，关联您的 Facebook 帐户和 Expedia 帐户。</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">嗨！&lt;b&gt;%1$s&lt;/b&gt;我们已经加载了您的 Facebook 信息！</string>
+    <!-- connect with facebook (button text) -->
+    <string name="connect_with_facebook">关联 Facebook</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">正在从 Facebook 提取信息…</string>
     <!-- Attempting to log you in with facebook credentials -->
     <string name="attempting_to_log_in_with_facebook">正在尝试使用 Facebook 帐户和密码登录网站…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">出现错误，具体信息不明。请稍后重试。</string>
+    <!-- Unable to log in to Facebook -->
+    <string name="unable_to_log_into_facebook">无法登录到 Facebook。</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">登录失败，请重新输入密码，再试一次。</string>
     <!-- Facebook connect expedia password hint -->
@@ -22,6 +26,10 @@
     <string name="failure_to_update_user">未能提取更新的用户信息。</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">正在关联您的帐户…</string>
+    <!-- Log In -->
+    <string name="Log_In">登录</string>
+    <!-- Log in with Expedia -->
+    <string name="Log_in_with_Expedia">登录 Expedia</string>
     <!-- or -->
     <string name="or">或</string>
 
@@ -46,10 +54,14 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;&lt;font color="#b2b2b2"&gt;酒店&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">很遗憾，我们无法建立连接。</string>
+    <!-- Menu option for going to see your trips/itineraries -->
+    <string name="your_trips">您的旅行</string>
 
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">行程</string>
+    <!-- Itineraries (plural title) -->
+    <string name="itineraries">行程</string>
     <!--  Shop -->
     <string name="shop">预订</string>
     <!-- Find Itinerary -->
@@ -59,15 +71,44 @@
     <!-- Itinerary Number -->
     <string name="itinerary_number">行程编号</string>
     <!-- No upcoming trips -->
-    <string name="no_upcoming_trips">没有即将到来的行程。</string>
-    <!-- Or enter an itinerary number -->
-    <string name="or_enter_an_itinerary_number">或者输入行程编号</string>
+    <string name="no_upcoming_trips">近期无旅行计划。</string>
+    <!-- Enter itinerary number -->
+    <string name="enter_itinerary_number">输入行程编号</string>
     <!-- Fetching your itinerary -->
-    <string name="fetching_your_itinerary">正在获取您的行程单…</string>
+    <string name="fetching_your_itinerary">正在提取您的行程…</string>
     <!-- Error fetching itinerary -->
-    <string name="itinerary_fetch_error">获取行程单时出错</string>
+    <string name="itinerary_fetch_error">提取行程时出错</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;登录&lt;/b&gt;查看您的旅行</string>
+    <!-- String for Today as in "Marriott Grand Hotel - Today" -->
+    <string name="Today">今天</string>
+    <!-- "XX Minutes" - an event happening XX minutes in the future -->
+    <plurals name="minutes_from_now">
+        <item quantity="zero">%s 分钟</item>
+        <item quantity="one">%s 分钟</item>
+        <item quantity="two">%s 分钟</item>
+        <item quantity="few">%s 分钟</item>
+        <item quantity="many">%s 分钟</item>
+        <item quantity="other">%s 分钟</item>
+    </plurals>
+    <!-- "XX Hours" - an event happening XX hours in the future -->
+    <plurals name="hours_from_now">
+        <item quantity="zero">%s 小时</item>
+        <item quantity="one">%s 小时</item>
+        <item quantity="two">%s 小时</item>
+        <item quantity="few">%s 小时</item>
+        <item quantity="many">%s 小时</item>
+        <item quantity="other">%s 小时</item>
+    </plurals>
+    <!-- "XX Days" an event happening XX days in the future -->
+    <plurals name="days_from_now">
+        <item quantity="zero">%s 天</item>
+        <item quantity="one">%s 天</item>
+        <item quantity="two">%s 天</item>
+        <item quantity="few">%s 天</item>
+        <item quantity="many">%s 天</item>
+        <item quantity="other">%s 天</item>
+    </plurals>
     <!-- Template for card header text (will be filled in with "Title - Date")-->
     <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
@@ -80,6 +121,8 @@
     <string name="Cruise">游轮</string>
     <!-- Default (fallback) itin card title for ACTIVITY -->
     <string name="Activity">活动</string>
+    <!-- Activity information -->
+    <string name="activity_information">活动信息</string>
     <!-- Depart (TZ) template -->
     <string name="depart_tz_TEMPLATE">出发 (%1$s)</string>
     <!-- Arrive (TZ) template -->
@@ -231,6 +274,7 @@
     <string name="itin_card_details_pick_up">取车</string>
     <string name="itin_card_details_drop_off">还车</string>
     <string name="itin_card_details_agency_phone">代理电话</string>
+    <string name="itin_card_details_toll_free_phone">免费电话</string>
     <string name="itin_card_details_check_in">入住</string>
     <string name="itin_card_details_check_out">退房</string>
     <string name="itin_card_details_address">地址</string>
@@ -238,6 +282,14 @@
     <string name="itin_card_details_room_type">客房类型</string>
     <string name="toast_copied_to_clipboard">已复制到剪切板。</string>
     <string name="itin_card_details_reload">重新加载信息</string>
+    <string name="itin_card_details_reload_activity">重新加载活动信息</string>
+    <string name="itin_card_details_reload_car">重新加载租车信息</string>
+    <string name="itin_card_details_reload_flight">重新加载航班信息</string>
+    <string name="itin_card_details_reload_hotel">重新加载酒店信息</string>
+    <string name="itin_card_details_reload_cruise">重新加载游轮信息</string>
+
+    <string name="itin_card_hotel_summary_TEMPLATE">%1$s 后入住</string>
+    <string name="itin_card_activity_summary_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; 起生效</string>
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">路线</string>
@@ -253,8 +305,18 @@
     <string name="share_template_subject_hotel">入住 %1$s (%2$s – %3$s)</string>
     <!-- 1: hotel name 2: check in date 3: check out date 4: hotel web url -->
     <string name="share_template_short_hotel">我住在 %1$s\n%2$s – %3$s\n\n%4$s</string>
-    <!-- 1: hotel Name 2: formatted length of stay 4: check in date 5: check out date 6: street address 7: city 8: state 9: postal code 10: phone 11: hotel web url 12: app download link -->
-    <string name="share_template_long_hotel">嗨，\n\n我会在 %1$s 住 %2$s。\n\n<b>入住</b> %3$s\n<b>退房</b> %4$s\n\n%1$s\n%5$s\n%6$s，%7$s %8$s\n\n<b>电话</b>\n%9$s\n\n<b>详细信息</b>\n%10$s\n\n想要预订酒店、航班，或者查看、分享你的行程？马上<a href="%11$s">下载</a>免费的 Expedia 移动应用。</string>
+    <!-- 1: Hotel name, 2: Formatted length of stay -->
+    <string name="share_template_long_hotel_1_greeting">嗨，\n\n我会在 %1$s 住 %2$s。</string>
+    <!-- 1: Check in date, 2: Check out date -->
+    <string name="share_template_long_hotel_2_checkin_checkout"><b>入住：</b> %1$s\n<b>退房：</b> %2$s</string>
+    <!-- 1: Hotel name, 2: Hotel street address -->
+    <string name="share_template_long_hotel_3_address">%1$s\n%2$s</string>
+    <!-- Hotel phone number -->
+    <string name="share_template_long_hotel_4_phone"><b>电话</b>\n%s</string>
+    <!-- Link to more information about the hotel -->
+    <string name="share_template_long_hotel_5_more_info"><b>详细信息</b>\n%s</string>
+    <!-- App download link -->
+    <string name="share_template_long_ad">预订酒店、航班，查看并分享您的行程。马上下载免费的 Expedia 移动应用。\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">%2$s飞往%1$s的航班</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
@@ -269,14 +331,29 @@
     <string name="share_template_subject_car">租车(%1$s – %2$s)</string>
     <!-- 1: vehicle type 2: pick up date 3: drop off date 4: vendor name 5: full address -->
     <string name="share_template_short_car">我从 %2$s 租了一辆%1$s – %3$s\n%4$s\n%5$s</string>
-    <!-- 1: vendor name 2: vehicle type 3: pick up date 4: pick up time 5: drop off date 6: drop off time 7: full address 8: phone number 9: app download link -->
-    <string name="share_template_long_car">嗨，\n\n这是我的 %1$s 租车。\n\n<b>车型</b> %2$s\n<b>取车：</b> %3$s<b>%4$s</b>\n<b>还车：</b> %5$s<b>%6$s</b>\n\n<b>地点：</b>\n%1$s\n%7$s\n%8$s\n\n想要预订酒店、航班，或者查看、分享你的行程？马上<a href="%9$s">下载</a>免费的 Expedia 移动应用。</string>
+    <!-- 1: vendor name, 2: vehicle type, 3: pick up date, 4: pick up time, 5: drop off date, 6: drop off time, 7: full address, 8: phone number -->
+    <string name="share_template_long_car">嗨，\n\n这是我从 %1$s 租的车的详细信息。\n\n<b>车型：</b> %2$s\n<b>取车：</b> %3$s <b>%4$s</b>\n<b>还车：</b> %5$s <b>%6$s</b>\n\n<b>地点：</b>\n%1$s\n%7$s\n%8$s</string>
+    <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
+    <string name="share_car_start_TEMPLATE">嗨，这是我从 %1$s 租的车的详细信息。</string>
+    <!-- Label for type of vehicle.  %1$s is the car type (e.g., "Three Door Car") -->
+    <string name="share_car_vehicle_TEMPLATE">车型：%1$s</string>
+    <!-- The car rental pick up time.  %1$s is a date, %2$s is a time (e.g., "Pick Up After: 3/21/13 at 5 PM") -->
+    <string name="share_car_pickup_TEMPLATE">取车时间：%1$s %2$s</string>
+    <!-- The car rental drop off time.  %1$s is a date, %2$s is a time (e.g., "Drop Off Before: 3/21/13 at 5 PM") -->
+    <string name="share_car_dropoff_TEMPLATE">还车时间：%1$s %2$s</string>
+    <!-- Section header for the location of the car rental pickup/dropoff. -->
+    <string name="share_car_location_section">地点：</string>
+    <!-- Section header for the location of the car rental pick up. -->
+    <string name="share_car_pickup_location_section">取车地点：</string>
+    <!-- Section header for the location of the car rental drop off. -->
+    <string name="share_car_dropoff_location_section">还车地点：</string>
+
     <!-- 1: activity title -->
     <string name="share_template_subject_activity">我的%1$s详细信息</string>
     <!-- 1: activity title 2: valid date 3: expiration date -->
     <string name="share_template_short_activity">我预订了一个 %1$s\n生效日期：%2$s\n失效日期：%3$s</string>
-    <!-- 1: activity title 2: valid date 3: expiration date 4: list of guests 5: app download link -->
-    <string name="share_template_long_activity">嗨，\n\n这里是我的%1$s的详细日期。\n\n<b>生效日期：</b> %2$s\n<b>失效日期：</b> %3$s\n\n<b>宾客名单：</b>\n%4$s\n\n想要预订酒店、航班，或者查看、分享你的行程？马上<a href="%5$s">下载</a>免费的 Expedia 移动应用。</string>
+    <!-- 1: activity title, 2: valid date, 3: expiration date, 4: list of guests -->
+    <string name="share_template_long_activity">嗨，\n\n以下是我的 %1$s 的详细信息。\n\n<b>生效日期：</b> %2$s\n<b>到期日期：</b> %3$s\n\n<b>旅客名单：</b>\n%4$s</string>
     <string name="share_template_subject_cruise"></string>
     <string name="share_template_short_cruise"></string>
     <string name="share_template_long_cruise"></string>
@@ -509,6 +586,18 @@
     <string name="log_out">退出</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">此次旅行将累积 %1$s 分！</string>
+    <!-- Label to show while we are checking for price changes on the checkout receipt -->
+    <string name="calculating_taxes_and_fees">正在计算税费…</string>
+    <!-- Label to show next to the total price on the checkout receipt -->
+    <string name="grand_total">总计</string>
+    <!-- String to use when a price change alert should be shown to the user -->
+    <string name="the_hotel_raised_the_price_TEMPLATE">酒店已将该房间的价格升至每晚 %1$s。</string>
+    <!-- String to use when a price change alert should be shown to the user -->
+    <string name="the_hotel_lowered_the_price_TEMPLATE">酒店刚刚将该房间的价格将至每晚 %1$s。</string>
+    <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
+    <string name="done">完成</string>
+    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
+    <string name="total_due_today">今日要支付的总金额</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -834,12 +923,16 @@
         <item quantity="many">这是我们的航班预订信息：</item>
         <item quantity="other">这是我们的航班预订信息：</item>
     </plurals>
+    <!-- The first line of the share email (casual introduction) -->
+    <string name="share_hi">嗨，</string>
     <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_TEMPLATE">%1$s 至 %2$s 单程航班</string>
+    <string name="share_flight_one_way_TEMPLATE">这是我%1$s至%2$s的航班的详细信息。</string>
     <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_round_trip_TEMPLATE">%1$s 至 %2$s 往返航班</string>
+    <string name="share_flight_round_trip_TEMPLATE">这是我%1$s至%2$s的往返航班的详细信息。</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">行程编号：%s</string>
+     <!-- Section with a bunch of travelers on the flight (listed below) -->
+    <string name="share_travelers_section">旅客：</string>
     <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc… %2$s is their name -->
     <!-- examples: "Traveler 1: Tom Smith" "Traveler 2: David Thomas" or if only one traveler, "Traveler: Matt Long" -->
     <plurals name="share_flight_name_TEMPLATE">

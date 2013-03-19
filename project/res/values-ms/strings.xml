@@ -6,12 +6,16 @@
     <string name="facebook_weve_found_your_account">Hai &lt;b&gt;%1$s&lt;/b&gt;, nampaknya kami berjaya menemui akaun Expedia anda! Sila masukkan kata laluan expedia anda di bawah untuk memautkan akaun facebook dan expedia anda.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">Hai &lt;b&gt;%1$s&lt;/b&gt;, kami telah memuatkan maklumat facebook anda!</string>
+    <!-- connect with facebook (button text) -->
+    <string name="connect_with_facebook">Bersambung dengan facebook</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">Mendapatkan maklumat dari facebook…</string>
     <!-- Attempting to log you in with facebook credentials -->
     <string name="attempting_to_log_in_with_facebook">Mencuba untuk log anda masuk menggunakan kelayakan facebook…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Kami telah mengalami ralat yang tidak ditentukan. Sila cuba lagi kemudian.</string>
+    <!-- Unable to log in to Facebook -->
+    <string name="unable_to_log_into_facebook">Tidak dapat log masuk ke Facebook.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Log masuk gagal, sila masukkan semula kata laluan anda dan cuba lagi.</string>
     <!-- Facebook connect expedia password hint -->
@@ -22,6 +26,10 @@
     <string name="failure_to_update_user">Kegagalan mendapatkan maklumat pengguna yang dikemas kini.</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Memautkan akaun anda…</string>
+    <!-- Log In -->
+    <string name="Log_In">Log Masuk</string>
+    <!-- Log in with Expedia -->
+    <string name="Log_in_with_Expedia">Log masuk dengan Expedia</string>
     <!-- or -->
     <string name="or">atau</string>
 
@@ -46,10 +54,14 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Inap di&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Malangnya, kita tidak dapat berhubung.</string>
+    <!-- Menu option for going to see your trips/itineraries -->
+    <string name="your_trips">Perjalanan Anda</string>
 
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Jadual Perjalanan</string>
+    <!-- Itineraries (plural title) -->
+    <string name="itineraries">Jadual Perjalanan</string>
     <!--  Shop -->
     <string name="shop">Beli-belah</string>
     <!-- Find Itinerary -->
@@ -59,15 +71,44 @@
     <!-- Itinerary Number -->
     <string name="itinerary_number">Nombor Jadual Perjalanan</string>
     <!-- No upcoming trips -->
-    <string name="no_upcoming_trips">Tiada akan datang.</string>
-    <!-- Or enter an itinerary number -->
-    <string name="or_enter_an_itinerary_number">Atau, Masukkan Nombor Jadual Perjalanan</string>
+    <string name="no_upcoming_trips">Tiada perjalanan akan datang.</string>
+    <!-- Enter itinerary number -->
+    <string name="enter_itinerary_number">Masukkan Nombor Jadual Perjalanan</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Mendapatkan jadual perjalanan anda…</string>
     <!-- Error fetching itinerary -->
-    <string name="itinerary_fetch_error">Ralat mendapatkan jadual perjalanan</string>
+    <string name="itinerary_fetch_error">Ralat mendapatkan jadual perjalanan anda</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;Log masuk&lt;/b&gt; untuk perjalanan anda</string>
+    <!-- String for Today as in "Marriott Grand Hotel - Today" -->
+    <string name="Today">Hari ini</string>
+    <!-- "XX Minutes" - an event happening XX minutes in the future -->
+    <plurals name="minutes_from_now">
+        <item quantity="zero">%s minit</item>
+        <item quantity="one">%s minit</item>
+        <item quantity="two">%s minit</item>
+        <item quantity="few">%s minit</item>
+        <item quantity="many">%s minit</item>
+        <item quantity="other">%s minit</item>
+    </plurals>
+    <!-- "XX Hours" - an event happening XX hours in the future -->
+    <plurals name="hours_from_now">
+        <item quantity="zero">%s jam</item>
+        <item quantity="one">%s jam</item>
+        <item quantity="two">%s jam</item>
+        <item quantity="few">%s jam</item>
+        <item quantity="many">%s jam</item>
+        <item quantity="other">%s jam</item>
+    </plurals>
+    <!-- "XX Days" an event happening XX days in the future -->
+    <plurals name="days_from_now">
+        <item quantity="zero">%s hari</item>
+        <item quantity="one">%s hari</item>
+        <item quantity="two">%s hari</item>
+        <item quantity="few">%s hari</item>
+        <item quantity="many">%s hari</item>
+        <item quantity="other">%s hari</item>
+    </plurals>
     <!-- Template for card header text (will be filled in with "Title - Date")-->
     <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
@@ -80,6 +121,8 @@
     <string name="Cruise">Persiaran</string>
     <!-- Default (fallback) itin card title for ACTIVITY -->
     <string name="Activity">Aktiviti</string>
+    <!-- Activity information -->
+    <string name="activity_information">Maklumat Aktiviti</string>
     <!-- Depart (TZ) template -->
     <string name="depart_tz_TEMPLATE">Berlepas (%1$s)</string>
     <!-- Arrive (TZ) template -->
@@ -95,7 +138,7 @@
     <!-- Itin flight generic terminal and gate template -->
     <string name="generic_terminal_TEMPLATE">Terminal %1$s, Pintu %2$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">Terminal Ketibaan %1$s, Pintu %2$s</string>
+    <string name="arrival_terminal_TEMPLATE">Tiba Terminal %1$s, Pintu %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Berlepas Terminal %1$s, Pintu %2$s</string>
     <!-- To be determined abbrev.-->
@@ -103,15 +146,15 @@
     <!-- Itin flight gate only template -->
     <string name="gate_number_only_TEMPLATE">Pintu %1$s</string>
     <!-- Itin flight arrive gate only template -->
-    <string name="arrive_gate_number_only_TEMPLATE">Pintu Ketibaan %1$s</string>
+    <string name="arrive_gate_number_only_TEMPLATE">Tiba Pintu %1$s</string>
     <!-- Itin flight depart gate only template -->
-    <string name="depart_gate_number_only_TEMPLATE">Pintu Berlepas %1$s</string>
+    <string name="depart_gate_number_only_TEMPLATE">Berlepas Pintu %1$s</string>
     <!-- Itin flight terminal only template -->
     <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">Terminal Ketibaan %1$s</string>
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Tiba Terminal %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">Terminal Berlepas %1$s</string>
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Berlepas Terminal %1$s</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="at_airport_TEMPLATE">&lt;b&gt;Pada %1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
@@ -145,7 +188,7 @@
     <!-- Flight has been cancelled; parameter is the destination city for the canceled flight -->
     <string name="flight_to_city_cancelled_TEMPLATE">Penerbangan ke %1$s dibatalkan</string>
     <!-- Flight has been redirected (location unknown) -->
-    <string name="flight_redirected">Sila semak sambungan anda dan cuba lagi.</string>
+    <string name="flight_redirected">Penerbangan dilencongkan.</string>
     <!-- Flight has been diverted (location unknown) -->
     <string name="flight_diverted">Penerbangan dilencongkan</string>
     <!-- Flight has been diverted to {airport} template -->
@@ -195,9 +238,9 @@
     <!-- Try Again -->
     <string name="try_again">Cuba Lagi</string>
     <!-- Car types -->
-    <string name="car_type_two_door">Dua Pintu Kereta </string>
-    <string name="car_type_three_door">Tiga Pintu Kereta </string>
-    <string name="car_type_four_door">Empat Pintu Kereta </string>
+    <string name="car_type_two_door">Kereta Dua Pintu</string>
+    <string name="car_type_three_door">Kereta Tiga Pintu</string>
+    <string name="car_type_four_door">Kereta Empat Pintu</string>
     <string name="car_type_van">Van</string>
     <string name="car_type_wagon">Wagon</string>
     <string name="car_type_limousine">Limousin</string>
@@ -231,6 +274,7 @@
     <string name="itin_card_details_pick_up">Pengambilan</string>
     <string name="itin_card_details_drop_off">Penghantaran</string>
     <string name="itin_card_details_agency_phone">Telefon Agensi</string>
+    <string name="itin_card_details_toll_free_phone">Telefon Bebas Tol</string>
     <string name="itin_card_details_check_in">Daftar Masuk</string>
     <string name="itin_card_details_check_out">Daftar Keluar</string>
     <string name="itin_card_details_address">Alamat</string>
@@ -238,6 +282,14 @@
     <string name="itin_card_details_room_type">Jenis Bilik</string>
     <string name="toast_copied_to_clipboard">Disalinkan pada papan keratan.</string>
     <string name="itin_card_details_reload">Muat Semula Maklumat</string>
+    <string name="itin_card_details_reload_activity">Muat Semula Maklumat Aktiviti</string>
+    <string name="itin_card_details_reload_car">Muat Semula Maklumat Sewaan Kereta</string>
+    <string name="itin_card_details_reload_flight">Muat Semula Maklumat Penerbangan</string>
+    <string name="itin_card_details_reload_hotel">Muat Semula Maklumat Hotel</string>
+    <string name="itin_card_details_reload_cruise">Muat Semula Maklumat Pelayaran Persiaran</string>
+
+    <string name="itin_card_hotel_summary_TEMPLATE">Daftar masuk selepas %1$s</string>
+    <string name="itin_card_activity_summary_TEMPLATE">Sah dari &lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">Arah</string>
@@ -253,8 +305,18 @@
     <string name="share_template_subject_hotel">Penginapan hotel saya di %1$s (%2$s – %3$s)</string>
     <!-- 1: hotel name 2: check in date 3: check out date 4: hotel web url -->
     <string name="share_template_short_hotel">Saya akan menginap di %1$s\n%2$s – %3$s\n\n%4$s</string>
-    <!-- 1: hotel Name 2: formatted length of stay 4: check in date 5: check out date 6: street address 7: city 8: state 9: postal code 10: phone 11: hotel web url 12: app download link -->
-    <string name="share_template_long_hotel">Hai,\n\nSaya tinggal di %1$s selama %2$s.\n\n<b>Daftar Masuk</b> %3$s\n<b>Daftar Keluar</b> %4$s\n\n%1$s\n%5$s\n%6$s, %7$s %8$s\n\n<b>Telefon</b>\n%9$s\n\n<b>Maklumat Lanjut</b>\n%10$s\n\nIngin menempah hotel, penerbangan serta melihat &amp; berkongsi jadual penerbangan anda? <a href="%11$s">Muat turun</a> apl mudah alih Expedia percuma hari ini.</string>
+    <!-- 1: Hotel name, 2: Formatted length of stay -->
+    <string name="share_template_long_hotel_1_greeting">Hai, \n\nSaya akan menginap di %1$s selama %2$s.</string>
+    <!-- 1: Check in date, 2: Check out date -->
+    <string name="share_template_long_hotel_2_checkin_checkout"><b>Daftar Masuk</b> %1$s\n<b>Daftar Keluar</b> %2$s</string>
+    <!-- 1: Hotel name, 2: Hotel street address -->
+    <string name="share_template_long_hotel_3_address">%1$s\n%2$s</string>
+    <!-- Hotel phone number -->
+    <string name="share_template_long_hotel_4_phone"><b>Telefon</b>\n%s</string>
+    <!-- Link to more information about the hotel -->
+    <string name="share_template_long_hotel_5_more_info"><b>Maklumat Lanjut</b>\n%s</string>
+    <!-- App download link -->
+    <string name="share_template_long_ad">Tempah hotel, penerbangan dan lihat &amp; kongsi jadual perjalanan anda. Muat turun apl mudah alih Expedia percuma hari ini.\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Penerbangan saya ke %1$s pada %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
@@ -262,21 +324,36 @@
      <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
     <string name="share_template_short_flight_multiday">Saya menaiki penerbangan %1$s ke %2$s.\nBerlepas dari %3$s pada %4$s\nTiba di %5$s pada %6$s, %7$s</string>
     <!-- 1: Origin city 2: Destination city 3: Flight Carrier and number 4: Departure date 5: Departure airport code 6: Departure Time 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival terminal gate 11: Traveler list -->
-    <string name="share_template_long_flight_sameday">Hai,\n\nDi sini adalah butiran penerbangan saya dari %1$s ke %2$s.\n\n%3$s - %4$s\n\nBerlepas dari %5$s pada %6$s dari %7$s.\nTiba di %8$s pada %9$s di %10$s.\n\nPengembara\n%11$s</string>
+    <string name="share_template_long_flight_sameday">Hai, \n\nDi sini adalah butiran penerbangan saya dari %1$s ke %2$s.\n\n%3$s - %4$s\n\nBerlepas dari %5$s pada %6$s dari %7$s.\nTiba di %8$s pada %9$s di %10$s.\n\nPengembara\n%11$s</string>
     <!-- 1: Origin city 2: Desitination city 3: Flight carrier and number 4: Departure airport code 5: Departure time 6: Departure date 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival date 11: Arrival terminal gate 12: Traveler list -->
-    <string name="share_template_long_flight_multiday">Hai,\n\nDi sini adalah butiran penerbangan saya dari %1$s ke %2$s.\n\n%3$s\n\nBerlepas dari %4$s pada %5$s pada %6$s dari %7$s.\nTiba di %8$s pada %9$s pada %10$s di %11$s\n\nPengembara\n%12$s</string>
+    <string name="share_template_long_flight_multiday">Hai, \n\nDi sini adalah butiran penerbangan saya dari %1$s ke %2$s.\n\n%3$s\n\nBerlepas dari %4$s pada %5$s pada %6$s dari %7$s.\nTiba di %8$s pada %9$s pada %10$s di %11$s\n\nPengembara\n%12$s</string>
     <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Kereta sewa saya (%1$s – %2$s)</string>
     <!-- 1: vehicle type 2: pick up date 3: drop off date 4: vendor name 5: full address -->
     <string name="share_template_short_car">Saya telah menyewa sebuah %1$s dari %2$s – %3$s\n%4$s\n%5$s</string>
-    <!-- 1: vendor name 2: vehicle type 3: pick up date 4: pick up time 5: drop off date 6: drop off time 7: full address 8: phone number 9: app download link -->
-    <string name="share_template_long_car">Hai,\n\nDi sini adalah butiran kereta sewa %1$s saya. \n\n<b>Kenderaan</b> %2$s\n<b>Pengambilan</b> %3$s pada <b>%4$s</b>\n<b>Penghantaran</b> %5$s pada <b>%6$s</b>\n\n<b>Lokasi</b>\n%1$s\n%7$s\n%8$s\n\nIngin menempah hotel, penerbangan serta melihat &amp; berkongsi jadual perjalanan anda? <a href="%9$s">Muat turun</a> apl mudah alih Expedia percuma hari ini.</string>
+    <!-- 1: vendor name, 2: vehicle type, 3: pick up date, 4: pick up time, 5: drop off date, 6: drop off time, 7: full address, 8: phone number -->
+    <string name="share_template_long_car">Hai, \n\nDi sini adalah butiran kereta sewa %1$s saya. \n\n<b>Kenderaan</b> %2$s\n<b>Pengambilan</b> %3$s di <b>%4$s</b>\n<b>Penghantaran</b> %5$s di <b>%6$s</b>\n\n<b>Lokasi</b>\n%1$s\n%7$s\n%8$s</string>
+    <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
+    <string name="share_car_start_TEMPLATE">Di sini adalah butiran kereta sewa %1$s saya.</string>
+    <!-- Label for type of vehicle.  %1$s is the car type (e.g., "Three Door Car") -->
+    <string name="share_car_vehicle_TEMPLATE">Kenderaan: %1$s</string>
+    <!-- The car rental pick up time.  %1$s is a date, %2$s is a time (e.g., "Pick Up After: 3/21/13 at 5 PM") -->
+    <string name="share_car_pickup_TEMPLATE">Pengambilan Selepas: %1$s di %2$s</string>
+    <!-- The car rental drop off time.  %1$s is a date, %2$s is a time (e.g., "Drop Off Before: 3/21/13 at 5 PM") -->
+    <string name="share_car_dropoff_TEMPLATE">Penghantaran Sebelum: %1$s di%2$s</string>
+    <!-- Section header for the location of the car rental pickup/dropoff. -->
+    <string name="share_car_location_section">Lokasi:</string>
+    <!-- Section header for the location of the car rental pick up. -->
+    <string name="share_car_pickup_location_section">Lokasi Pengambilan:</string>
+    <!-- Section header for the location of the car rental drop off. -->
+    <string name="share_car_dropoff_location_section">Lokasi Penghantaran:</string>
+
     <!-- 1: activity title -->
     <string name="share_template_subject_activity">Butiran %1$s Saya</string>
     <!-- 1: activity title 2: valid date 3: expiration date -->
     <string name="share_template_short_activity">Saya telah membeli %1$s\nSah: %2$s\nTamat tempoh: %3$s</string>
-    <!-- 1: activity title 2: valid date 3: expiration date 4: list of guests 5: app download link -->
-    <string name="share_template_long_activity">Hai,\n\nDi sini adalah butiran %1$s\n saya\n<b>Sah</b> %2$s\n<b>Tamat tempoh</b> %3$s\n\n<b>Tetamu</b>\n%4$s\n\nIngin menempah hotel, penerbangan serta melihat &amp; berkongsi jadual perjalanan anda? <a href="%5$s">Muat turun</a> apl mudah alih Expedia percuma hari ini.</string>
+    <!-- 1: activity title, 2: valid date, 3: expiration date, 4: list of guests -->
+    <string name="share_template_long_activity">Hai, \n\nDi sini adalah butiran %1$s\n saya \n<b>Sah</b> %2$s\n<b>Tamat tempoh</b> %3$s\n\n<b>Tetamu</b>\n%4$s</string>
     <string name="share_template_subject_cruise"></string>
     <string name="share_template_short_cruise"></string>
     <string name="share_template_long_cruise"></string>
@@ -480,7 +557,7 @@
     <!-- Message when loading realtime flight information -->
     <string name="loading_flight_details">Menyemak perubahan harga…</string>
     <!-- Price changed from -->
-    <string name="price_changed_from_TEMPLATE">Harga ditukar daripada %1$s</string>
+    <string name="price_changed_from_TEMPLATE">Harga berubah dari %1$s</string>
 
     <!-- Checkout Activity -->
     <!-- Expedia Account label -->
@@ -509,6 +586,18 @@
     <string name="log_out">Log Keluar</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Anda akan mendapat %1$s mata untuk perjalanan ini!</string>
+    <!-- Label to show while we are checking for price changes on the checkout receipt -->
+    <string name="calculating_taxes_and_fees">Mengira Cukai dan Yuran…</string>
+    <!-- Label to show next to the total price on the checkout receipt -->
+    <string name="grand_total">Jumlah Keseluruhan</string>
+    <!-- String to use when a price change alert should be shown to the user -->
+    <string name="the_hotel_raised_the_price_TEMPLATE">Hotel ini baru sahaja meningkatkan harga bilik ini kepada %1$s semalam.</string>
+    <!-- String to use when a price change alert should be shown to the user -->
+    <string name="the_hotel_lowered_the_price_TEMPLATE">Hotel ini baru sahaja menurunkan harga bilik ini kepada %1$s semalam.</string>
+    <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
+    <string name="done">Selesai</string>
+    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
+    <string name="total_due_today">Jumlah Yang Perlu Dibayar Hari Ini</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -834,12 +923,16 @@
         <item quantity="many">Ini adalah maklumat tempahan pnrbgn kami:</item>
         <item quantity="other">Ini adalah maklumat tempahan pnrbgn kami:</item>
     </plurals>
+    <!-- The first line of the share email (casual introduction) -->
+    <string name="share_hi">Hai, </string>
     <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_TEMPLATE">Perjalanan sehala dari %1$s ke %2$s</string>
+    <string name="share_flight_one_way_TEMPLATE">Di sini adalah butiran penerbangan saya dari %1$s ke %2$s.</string>
     <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_round_trip_TEMPLATE">Perjalanan pergi-balik dari %1$s ke %2$s</string>
+    <string name="share_flight_round_trip_TEMPLATE">Di sini adalah butiran penerbangan pergi balik saya dari %1$s ke %2$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE"># Jadual Perjalanan: %s</string>
+     <!-- Section with a bunch of travelers on the flight (listed below) -->
+    <string name="share_travelers_section">Pengembara:</string>
     <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc… %2$s is their name -->
     <!-- examples: "Traveler 1: Tom Smith" "Traveler 2: David Thomas" or if only one traveler, "Traveler: Matt Long" -->
     <plurals name="share_flight_name_TEMPLATE">
@@ -979,7 +1072,7 @@
     </plurals>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
-    <string name="EnableLocationSettings">Untuk menggunakan Lokasi Saya, anda perlu terlebih dahulu mulakan sumber Lokasi dalam Tetapan.\nPergi ke Tetapan dan mulakannya sekarang?</string>
+    <string name="EnableLocationSettings">Untuk menggunakan Lokasi Saya, anda mesti terlebih dahulu hidupkan sumber Lokasi dalam Tetapan.\nPergi ke Tetapan dan hidupkannya sekarang?</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
     <string name="ProviderDisabled">Penyedia lokasi anda telah dinyahdayakan. Sila dayakan semula untuk mencari mengikut lokasi anda.</string>
     <!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
@@ -1083,7 +1176,7 @@
 
     <!-- Hotel Details Fragment Activity -->
     <!-- Label for the hotel's star rating -->
-    <string name="star_rating">Penarafan Bintang</string>
+    <string name="star_rating">Pengadaran Bintang</string>
     <!-- Bullet point for list items -->
     <string name="bullet_point">•</string>
 
@@ -1334,7 +1427,7 @@
     <!-- Message for dialog confirming the clearing of private data -->
     <string name="dialog_clear_private_data_msg">Ini mengeluarkan semua maklumat pengebilan dan hubungan yang tersimpan.</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_log_out_and_clear_private_data_msg">Ini akan membuat anda log keluar dan mengeluarkan semua maklumat pengebilan dan hubungan yang tersimpan.</string>
+    <string name="dialog_log_out_and_clear_private_data_msg">Ini akan log anda keluar dan mengeluarkan semua maklumat pengebilan dan hubungan yang tersimpan.</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">Data persendirian dikosongkan</string>
     <!-- Error message if field was required but not entered -->
@@ -1528,7 +1621,7 @@
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hotels</string>
     <!-- Message body for "tell a friend" feature -->
-    <string name="tell_a_friend_body">Hai,\n\nLihat sendiri Expedia Hotels bagi iPhone dan telefon Android. Ia adalah PERCUMA dan membolehkan anda mencari dan menempah bilik dari lebih 140,000 hotel di seluruh dunia dengan mudah. Ia cara yang paling mudah untuk menempah bilik hotel menggunakan telefon anda.\n\nhttp://www.expedia.com/app</string>
+    <string name="tell_a_friend_body">Hai, \n\nLihat sendiri Expedia Hotels bagi iPhone dan telefon Android. Ia adalah PERCUMA dan membolehkan anda mencari dan menempah bilik dari lebih 140,000 hotel di seluruh dunia dengan mudah. Ia cara yang paling mudah untuk menempah bilik hotel menggunakan telefon anda.\n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Terma dan Syarat</string>
     <!-- Label for link to privacy policy -->

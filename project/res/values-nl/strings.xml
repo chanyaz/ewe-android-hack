@@ -6,12 +6,16 @@
     <string name="facebook_weve_found_your_account">Hoi &lt;b&gt;%1$s&lt;/b&gt;, we hebben je Expedia-account gevonden! Voer hieronder het wachtwoord van je Expedia-account in om het met je Facebook-account te kunnen koppelen.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">Hoi &lt;b&gt;%1$s&lt;/b&gt;, we hebben je gegevens van Facebook geladen!</string>
+    <!-- connect with facebook (button text) -->
+    <string name="connect_with_facebook">Verbinden met Facebook</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">Facebook-gegevens aan het ophalen…</string>
     <!-- Attempting to log you in with facebook credentials -->
     <string name="attempting_to_log_in_with_facebook">Bezig met aanmelden via Facebook…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Er deed zich een onbekende fout voor. Probeer het later opnieuw.</string>
+    <!-- Unable to log in to Facebook -->
+    <string name="unable_to_log_into_facebook">Aanmelden via Facebook mislukt.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Aanmelding mislukt, voer je wachtwoord opnieuw in en probeer opnieuw.</string>
     <!-- Facebook connect expedia password hint -->
@@ -22,6 +26,10 @@
     <string name="failure_to_update_user">Bijgwerkte gebruikersgegevens ophalen mislukt.</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Accounts aan het koppelen…</string>
+    <!-- Log In -->
+    <string name="Log_In">Aanmelden</string>
+    <!-- Log in with Expedia -->
+    <string name="Log_in_with_Expedia">Aanmelden bij Expedia</string>
     <!-- or -->
     <string name="or">of</string>
 
@@ -46,10 +54,14 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Overnacht in&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Helaas, we kunnen geen verbinding maken</string>
+    <!-- Menu option for going to see your trips/itineraries -->
+    <string name="your_trips">Jouw reizen</string>
 
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Reisplan</string>
+    <!-- Itineraries (plural title) -->
+    <string name="itineraries">Reisplannen</string>
     <!--  Shop -->
     <string name="shop">Shop</string>
     <!-- Find Itinerary -->
@@ -59,15 +71,44 @@
     <!-- Itinerary Number -->
     <string name="itinerary_number">Reisplannummer</string>
     <!-- No upcoming trips -->
-    <string name="no_upcoming_trips">Geen toekomstige reizen.</string>
-    <!-- Or enter an itinerary number -->
-    <string name="or_enter_an_itinerary_number">Of voer een reisplannummer in</string>
+    <string name="no_upcoming_trips">Geen toekomstige reizen</string>
+    <!-- Enter itinerary number -->
+    <string name="enter_itinerary_number">Voer reisplannr. in</string>
     <!-- Fetching your itinerary -->
-    <string name="fetching_your_itinerary">Reisplan aan het ophalen …</string>
+    <string name="fetching_your_itinerary">Reisplannen ophalen …</string>
     <!-- Error fetching itinerary -->
-    <string name="itinerary_fetch_error">Fout bij ophalen van reisplan</string>
+    <string name="itinerary_fetch_error">Reisplannen ophalen mislukt</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;Meld je aan&lt;/b&gt; voor je reizen</string>
+    <!-- String for Today as in "Marriott Grand Hotel - Today" -->
+    <string name="Today">Vandaag</string>
+    <!-- "XX Minutes" - an event happening XX minutes in the future -->
+    <plurals name="minutes_from_now">
+        <item quantity="zero">%s minuten</item>
+        <item quantity="one">%s minuut</item>
+        <item quantity="two">%s minuten</item>
+        <item quantity="few">%s minuten</item>
+        <item quantity="many">%s minuten</item>
+        <item quantity="other">%s minuten</item>
+    </plurals>
+    <!-- "XX Hours" - an event happening XX hours in the future -->
+    <plurals name="hours_from_now">
+        <item quantity="zero">%s uur</item>
+        <item quantity="one">%s uur</item>
+        <item quantity="two">%s uur</item>
+        <item quantity="few">%s uur</item>
+        <item quantity="many">%s uur</item>
+        <item quantity="other">%s uur</item>
+    </plurals>
+    <!-- "XX Days" an event happening XX days in the future -->
+    <plurals name="days_from_now">
+        <item quantity="zero">%s dagen</item>
+        <item quantity="one">%s dag</item>
+        <item quantity="two">%s dagen</item>
+        <item quantity="few">%s dagen</item>
+        <item quantity="many">%s dagen</item>
+        <item quantity="other">%s dagen</item>
+    </plurals>
     <!-- Template for card header text (will be filled in with "Title - Date")-->
     <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
@@ -80,6 +121,8 @@
     <string name="Cruise">Cruise</string>
     <!-- Default (fallback) itin card title for ACTIVITY -->
     <string name="Activity">Activiteit</string>
+    <!-- Activity information -->
+    <string name="activity_information">Activiteiteninfo</string>
     <!-- Depart (TZ) template -->
     <string name="depart_tz_TEMPLATE">Vertrek (%1$s)</string>
     <!-- Arrive (TZ) template -->
@@ -231,6 +274,7 @@
     <string name="itin_card_details_pick_up">Ophalen</string>
     <string name="itin_card_details_drop_off">Terugbrengen</string>
     <string name="itin_card_details_agency_phone">Telefoonnr. bureau</string>
+    <string name="itin_card_details_toll_free_phone">Gratis nummer</string>
     <string name="itin_card_details_check_in">Inchecken</string>
     <string name="itin_card_details_check_out">Uitchecken</string>
     <string name="itin_card_details_address">Adres</string>
@@ -238,6 +282,14 @@
     <string name="itin_card_details_room_type">Kamertype</string>
     <string name="toast_copied_to_clipboard">Gekopieerd naar het klembord.</string>
     <string name="itin_card_details_reload">Informatie opnieuw laden</string>
+    <string name="itin_card_details_reload_activity">Activiteiteninfo opnieuw laden</string>
+    <string name="itin_card_details_reload_car">Autohuurinfo opnieuw laden</string>
+    <string name="itin_card_details_reload_flight">Vluchtinfo opnieuw laden</string>
+    <string name="itin_card_details_reload_hotel">Hotelinfo opnieuw laden</string>
+    <string name="itin_card_details_reload_cruise">Cruiseïnfo opnieuw laden</string>
+
+    <string name="itin_card_hotel_summary_TEMPLATE">Check-in vanaf %1$s</string>
+    <string name="itin_card_activity_summary_TEMPLATE">Geldig vanaf &lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">Richtingaanwijzingen</string>
@@ -253,8 +305,18 @@
     <string name="share_template_subject_hotel">Mijn verblijf in %1$s (%2$s – %3$s)</string>
     <!-- 1: hotel name 2: check in date 3: check out date 4: hotel web url -->
     <string name="share_template_short_hotel">Ik verblijf in %1$s\n%2$s – %3$s\n\n%4$s</string>
-    <!-- 1: hotel Name 2: formatted length of stay 4: check in date 5: check out date 6: street address 7: city 8: state 9: postal code 10: phone 11: hotel web url 12: app download link -->
-    <string name="share_template_long_hotel">Hi,\n\nIk overnacht in %1$s voor %2$s.\n\n<b>Check-in</b> %3$s\n<b>Check-out</b> %4$s\n\n%1$s\n%5$s\n%6$s, %7$s %8$s\n\n<b>Tel</b>\n%9$s\n\n<b>Meer info</b>\n%10$s\n\nWil je hotels en vluchten boeken en je reisplannen bekijken en delen? <a href="%11$s">Download</a> vandaag nog de gratis Expedia mobiele app.</string>
+    <!-- 1: Hotel name, 2: Formatted length of stay -->
+    <string name="share_template_long_hotel_1_greeting">Hi,\n\nIk overnacht in %1$s voor %2$s.</string>
+    <!-- 1: Check in date, 2: Check out date -->
+    <string name="share_template_long_hotel_2_checkin_checkout"><b>Check-in</b> %1$s\n<b>Check-out</b> %2$s</string>
+    <!-- 1: Hotel name, 2: Hotel street address -->
+    <string name="share_template_long_hotel_3_address">%1$s\n%2$s</string>
+    <!-- Hotel phone number -->
+    <string name="share_template_long_hotel_4_phone"><b>Telefoon</b>\n%s</string>
+    <!-- Link to more information about the hotel -->
+    <string name="share_template_long_hotel_5_more_info"><b>Meer info</b>\n%s</string>
+    <!-- App download link -->
+    <string name="share_template_long_ad">Boek hotels, vluchten en bekijk &amp; deel je reisplannen. Download vandaag nog de gratis Expedia mobiele app.\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Mijn vlucht naar %1$s op %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
@@ -269,14 +331,29 @@
     <string name="share_template_subject_car">Mijn autoverhuur (%1$s – %2$s)</string>
     <!-- 1: vehicle type 2: pick up date 3: drop off date 4: vendor name 5: full address -->
     <string name="share_template_short_car">Ik heb een %1$s gehuurd van %2$s – %3$s\n%4$s\n%5$s</string>
-    <!-- 1: vendor name 2: vehicle type 3: pick up date 4: pick up time 5: drop off date 6: drop off time 7: full address 8: phone number 9: app download link -->
-    <string name="share_template_long_car">Hallo,\n\nDit zijn mijn autoverhuurgegevens van %1$s. \n\n<b>Auto</b> %2$s\n<b>Ophalen</b> %3$s om <b>%4$s</b>\n<b>Terugbrengen</b> %5$s om <b>%6$s</b>\n\n<b>Locatie</b>\n%1$s\n%7$s\n%8$s\n\nWil je hotels en vluchten boeken en je reisplannen bekijken en delen? <a href="%9$s">Download</a> vandaag nog de gratis Expedia mobiele app.</string>
+    <!-- 1: vendor name, 2: vehicle type, 3: pick up date, 4: pick up time, 5: drop off date, 6: drop off time, 7: full address, 8: phone number -->
+    <string name="share_template_long_car">Hallo,\n\nDit zijn mijn autoverhuurgegevens van %1$s. \n\n<b>Wagen</b> %2$s\n<b>Ophalen</b> %3$s om <b>%4$s</b>\n<b>Terugbrengen</b> %5$s om <b>%6$s</b>\n\n<b>Locatie</b>\n%1$s\n%7$s\n%8$s</string>
+    <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
+    <string name="share_car_start_TEMPLATE">Dit zijn de gegevens van mijn %1$s autoverhuur.</string>
+    <!-- Label for type of vehicle.  %1$s is the car type (e.g., "Three Door Car") -->
+    <string name="share_car_vehicle_TEMPLATE">Wagen: %1$s</string>
+    <!-- The car rental pick up time.  %1$s is a date, %2$s is a time (e.g., "Pick Up After: 3/21/13 at 5 PM") -->
+    <string name="share_car_pickup_TEMPLATE">Ophalen: %1$s om %2$s</string>
+    <!-- The car rental drop off time.  %1$s is a date, %2$s is a time (e.g., "Drop Off Before: 3/21/13 at 5 PM") -->
+    <string name="share_car_dropoff_TEMPLATE">Terugbrengen: %1$s om %2$s</string>
+    <!-- Section header for the location of the car rental pickup/dropoff. -->
+    <string name="share_car_location_section">Locatie:</string>
+    <!-- Section header for the location of the car rental pick up. -->
+    <string name="share_car_pickup_location_section">Ophaallocatie:</string>
+    <!-- Section header for the location of the car rental drop off. -->
+    <string name="share_car_dropoff_location_section">Terugbrenglocatie:</string>
+
     <!-- 1: activity title -->
     <string name="share_template_subject_activity">Mijn %1$s gegevens</string>
     <!-- 1: activity title 2: valid date 3: expiration date -->
     <string name="share_template_short_activity">Ik heb het volgende gereserveerd: %1$s\nGeldig op: %2$s\nVervalt op: %3$s</string>
-    <!-- 1: activity title 2: valid date 3: expiration date 4: list of guests 5: app download link -->
-    <string name="share_template_long_activity">Hallo,\n\nDit zijn de gegevens voor: %1$s\n\n<b>Geldig op</b> %2$s\n<b>Vervalt op</b> %3$s\n\n<b>Gasten</b>\n%4$s\n\nWil je hotels en vluchten boeken en je reisplannen bekijken en delen? <a href="%5$s">Download</a> vandaag nog de gratis Expedia mobiele app.</string>
+    <!-- 1: activity title, 2: valid date, 3: expiration date, 4: list of guests -->
+    <string name="share_template_long_activity">Hallo,\n\nDit zijn de gegevens van mijn %1$s\n\n<b>Geldig op</b> %2$s\n<b>Vervalt op</b> %3$s\n\n<b>Gasten</b>\n%4$s</string>
     <string name="share_template_subject_cruise"></string>
     <string name="share_template_short_cruise"></string>
     <string name="share_template_long_cruise"></string>
@@ -509,6 +586,18 @@
     <string name="log_out">Afmelden</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Je verdient %1$s punten voor deze reis!</string>
+    <!-- Label to show while we are checking for price changes on the checkout receipt -->
+    <string name="calculating_taxes_and_fees">Belastingen en toeslagen aan het berekenen …</string>
+    <!-- Label to show next to the total price on the checkout receipt -->
+    <string name="grand_total">Totaalprijs</string>
+    <!-- String to use when a price change alert should be shown to the user -->
+    <string name="the_hotel_raised_the_price_TEMPLATE">Het hotel heeft net de kamerprijs verhoogd naar %1$s per nacht.</string>
+    <!-- String to use when a price change alert should be shown to the user -->
+    <string name="the_hotel_lowered_the_price_TEMPLATE">Het hotel heeft net de kamerprijs verlaagd naar %1$s per nacht.</string>
+    <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
+    <string name="done">Gereed</string>
+    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
+    <string name="total_due_today">Totaal nu te betalen</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -835,12 +924,16 @@
         <item quantity="many">Dit is onze vluchtreserveringsinfo:</item>
         <item quantity="other">Dit is onze vluchtreserveringsinfo:</item>
     </plurals>
+    <!-- The first line of the share email (casual introduction) -->
+    <string name="share_hi">Hallo,</string>
     <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_TEMPLATE">Enkele reis van %1$s naar %2$s</string>
+    <string name="share_flight_one_way_TEMPLATE">Dit zijn de gegevens voor mijn vlucht van %1$s naar %2$s.</string>
     <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_round_trip_TEMPLATE">Retourreis van %1$s naar %2$s</string>
+    <string name="share_flight_round_trip_TEMPLATE">Dit zijn de gegevens voor mijn retourvlucht tussen %1$s en %2$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">Reisplannr.: %s</string>
+     <!-- Section with a bunch of travelers on the flight (listed below) -->
+    <string name="share_travelers_section">Reizigers:</string>
     <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc… %2$s is their name -->
     <!-- examples: "Traveler 1: Tom Smith" "Traveler 2: David Thomas" or if only one traveler, "Traveler: Matt Long" -->
     <plurals name="share_flight_name_TEMPLATE">

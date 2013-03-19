@@ -6,12 +6,16 @@
     <string name="facebook_weve_found_your_account">Ciao &lt;b&gt;%1$s&lt;/b&gt;, abbiamo trovato il tuo account Expedia! Inserisci la tua password Expedia in basso per collegare il tuoi account Facebook e Expedia.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">Ciao &lt;b&gt;%1$s&lt;/b&gt;, abbiamo caricato i tuoi dati Facebook!</string>
+    <!-- connect with facebook (button text) -->
+    <string name="connect_with_facebook">Connetti a Facebook</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">Stiamo recuperando le informazioni da Facebook…</string>
     <!-- Attempting to log you in with facebook credentials -->
     <string name="attempting_to_log_in_with_facebook">Stiamo cercando di accedere alle tue credenziali Facebook…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Abbiamo riscontrato un errore generico. Riprova più tardi.</string>
+    <!-- Unable to log in to Facebook -->
+    <string name="unable_to_log_into_facebook">Impossibile collegarsi a Facebook.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Accesso non riuscito: reinserisci la tua password e riprova.</string>
     <!-- Facebook connect expedia password hint -->
@@ -22,6 +26,10 @@
     <string name="failure_to_update_user">Impossibile recuperare dati utente aggiornati.</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Stiamo collegando il tuo account…</string>
+    <!-- Log In -->
+    <string name="Log_In">Accedi</string>
+    <!-- Log in with Expedia -->
+    <string name="Log_in_with_Expedia">Accedi con Expedia</string>
     <!-- or -->
     <string name="or">o</string>
 
@@ -46,10 +54,14 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Soggiorna a&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Purtroppo non è possibile effettuare la connessione.</string>
+    <!-- Menu option for going to see your trips/itineraries -->
+    <string name="your_trips">I tuoi viaggi</string>
 
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerario </string>
+    <!-- Itineraries (plural title) -->
+    <string name="itineraries">Itinerari</string>
     <!--  Shop -->
     <string name="shop">Acquista</string>
     <!-- Find Itinerary -->
@@ -59,15 +71,44 @@
     <!-- Itinerary Number -->
     <string name="itinerary_number">Numero itinerario</string>
     <!-- No upcoming trips -->
-    <string name="no_upcoming_trips">Nessun viaggio in previsto. </string>
-    <!-- Or enter an itinerary number -->
-    <string name="or_enter_an_itinerary_number">Oppure inserisci il numero dell\&apos;itinerario.</string>
+    <string name="no_upcoming_trips">Nessun viaggio futuro.</string>
+    <!-- Enter itinerary number -->
+    <string name="enter_itinerary_number">Inserisci numero itinerario</string>
     <!-- Fetching your itinerary -->
-    <string name="fetching_your_itinerary">Stiamo recuperando l\&apos;itinerario…</string>
+    <string name="fetching_your_itinerary">Stiamo recuperando i tuoi itinerari…</string>
     <!-- Error fetching itinerary -->
-    <string name="itinerary_fetch_error">Errore durante il recupero dell\&apos;itinerario</string>
+    <string name="itinerary_fetch_error">Errore durante il recupero degli itinerari</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;Accedi&lt;/b&gt; per consultare i tuoi viaggi</string>
+    <!-- String for Today as in "Marriott Grand Hotel - Today" -->
+    <string name="Today">Oggi</string>
+    <!-- "XX Minutes" - an event happening XX minutes in the future -->
+    <plurals name="minutes_from_now">
+        <item quantity="zero">%s minuti</item>
+        <item quantity="one">%s minuto</item>
+        <item quantity="two">%s minuti</item>
+        <item quantity="few">%s minuti</item>
+        <item quantity="many">%s minuti</item>
+        <item quantity="other">%s minuti</item>
+    </plurals>
+    <!-- "XX Hours" - an event happening XX hours in the future -->
+    <plurals name="hours_from_now">
+        <item quantity="zero">%s ore</item>
+        <item quantity="one">%s ora</item>
+        <item quantity="two">%s ore</item>
+        <item quantity="few">%s ore</item>
+        <item quantity="many">%s ore</item>
+        <item quantity="other">%s ore</item>
+    </plurals>
+    <!-- "XX Days" an event happening XX days in the future -->
+    <plurals name="days_from_now">
+        <item quantity="zero">%s giorni</item>
+        <item quantity="one">%s giorno</item>
+        <item quantity="two">%s giorni</item>
+        <item quantity="few">%s giorni</item>
+        <item quantity="many">%s giorni</item>
+        <item quantity="other">%s giorni</item>
+    </plurals>
     <!-- Template for card header text (will be filled in with "Title - Date")-->
     <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
@@ -80,6 +121,8 @@
     <string name="Cruise">Crociera</string>
     <!-- Default (fallback) itin card title for ACTIVITY -->
     <string name="Activity">Attività</string>
+    <!-- Activity information -->
+    <string name="activity_information">Informazioni attività</string>
     <!-- Depart (TZ) template -->
     <string name="depart_tz_TEMPLATE">Partenza (%1$s)</string>
     <!-- Arrive (TZ) template -->
@@ -231,6 +274,7 @@
     <string name="itin_card_details_pick_up">Prelievo</string>
     <string name="itin_card_details_drop_off">Riconsegna</string>
     <string name="itin_card_details_agency_phone">Numero di telefono dell\&apos;agenzia</string>
+    <string name="itin_card_details_toll_free_phone">Numero verde</string>
     <string name="itin_card_details_check_in">Arrivo</string>
     <string name="itin_card_details_check_out">Partenza</string>
     <string name="itin_card_details_address">Indirizzo</string>
@@ -238,6 +282,14 @@
     <string name="itin_card_details_room_type">Tipologia camera</string>
     <string name="toast_copied_to_clipboard">Copiato negli appunti.</string>
     <string name="itin_card_details_reload">Ricarica dati</string>
+    <string name="itin_card_details_reload_activity">Ricarica informazioni attività</string>
+    <string name="itin_card_details_reload_car">Ricarica informazioni sull\&apos;autonoleggio</string>
+    <string name="itin_card_details_reload_flight">Ricarica informazioni volo</string>
+    <string name="itin_card_details_reload_hotel">Ricarica informazioni hotel</string>
+    <string name="itin_card_details_reload_cruise">Ricarica informazioni crociera</string>
+
+    <string name="itin_card_hotel_summary_TEMPLATE">Check-in dopo le ore %1$s</string>
+    <string name="itin_card_activity_summary_TEMPLATE">Valido a partire da &lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">Indicazioni</string>
@@ -253,8 +305,18 @@
     <string name="share_template_subject_hotel">Il mio soggiorno in hotel presso %1$s (%2$s – %3$s)</string>
     <!-- 1: hotel name 2: check in date 3: check out date 4: hotel web url -->
     <string name="share_template_short_hotel">Soggiornerò presso %1$s\n%2$s – %3$s\n\n%4$s</string>
-    <!-- 1: hotel Name 2: formatted length of stay 4: check in date 5: check out date 6: street address 7: city 8: state 9: postal code 10: phone 11: hotel web url 12: app download link -->
-    <string name="share_template_long_hotel">Ciao,\n\n soggiornerò presso %1$s per %2$s.\n\n<b>Arrivo</b> %3$s\n<b>Partenza</b> %4$s\n\n%1$s\n%5$s\n%6$s, %7$s %8$s\n\n<b>Telefono</b>\n%9$s\n\n<b>Ulteriori informazioni</b>\n%10$s\n\nDesideri prenotare hotel, voli e visualizzare e condividere i tuoi itinerari? <a href="%11$s">Scarica</a> subito l\&apos;app Expedia per dispositivi mobili.</string>
+    <!-- 1: Hotel name, 2: Formatted length of stay -->
+    <string name="share_template_long_hotel_1_greeting">Ciao,\n\n soggiornerò presso %1$s per %2$s.</string>
+    <!-- 1: Check in date, 2: Check out date -->
+    <string name="share_template_long_hotel_2_checkin_checkout"><b>Check-in</b> %1$s\n<b>Check-out</b> %2$s</string>
+    <!-- 1: Hotel name, 2: Hotel street address -->
+    <string name="share_template_long_hotel_3_address">%1$s\n%2$s</string>
+    <!-- Hotel phone number -->
+    <string name="share_template_long_hotel_4_phone"><b>Telefono</b>\n%s</string>
+    <!-- Link to more information about the hotel -->
+    <string name="share_template_long_hotel_5_more_info"><b>Più informazioni</b>\n%s</string>
+    <!-- App download link -->
+    <string name="share_template_long_ad">Prenota hotel, voli e visualizza e condividi i tuoi itinerari. Scarica subito l\&apos;app Expedia per dispositivi mobili.\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Il mio volo per %1$s in data %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
@@ -269,14 +331,29 @@
     <string name="share_template_subject_car">Il mio noleggio auto (%1$s – %2$s)</string>
     <!-- 1: vehicle type 2: pick up date 3: drop off date 4: vendor name 5: full address -->
     <string name="share_template_short_car">Ho noleggiato una vettura (%1$s) da %2$s – %3$s\n%4$s\n%5$s</string>
-    <!-- 1: vendor name 2: vehicle type 3: pick up date 4: pick up time 5: drop off date 6: drop off time 7: full address 8: phone number 9: app download link -->
-    <string name="share_template_long_car">Ciao,\n\necco i dettagli del mio noleggio auto con %1$s. \n\n<b>Vettura</b> %2$s\n<b>Ritiro</b> %3$s presso <b>%4$s</b>\n<b>Riconsegna</b> %5$s presso <b>%6$s</b>\n\n<b>Posizione</b>\n%1$s\n%7$s\n%8$s\n\nDesideri prenotare hotel, voli e visualizzare e condividere i tuoi itinerari? <a href="%9$s">Scarica</a> subito l\&apos;app Expedia per dispositivi mobili.</string>
+    <!-- 1: vendor name, 2: vehicle type, 3: pick up date, 4: pick up time, 5: drop off date, 6: drop off time, 7: full address, 8: phone number -->
+    <string name="share_template_long_car">Ciao,\n\necco i dettagli del mio noleggio auto con %1$s. \n\n<b>Vettura</b> %2$s\n<b>Ritiro</b> %3$s alle ore <b>%4$s</b>\n<b>Riconsegna</b> in data %5$s alle ore <b>%6$s</b>\n\n<b>Luogo</b>\n%1$s\n%7$s\n%8$s</string>
+    <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
+    <string name="share_car_start_TEMPLATE">Ecco i dettagli del mio noleggio auto con %1$s.</string>
+    <!-- Label for type of vehicle.  %1$s is the car type (e.g., "Three Door Car") -->
+    <string name="share_car_vehicle_TEMPLATE">Vettura: %1$s</string>
+    <!-- The car rental pick up time.  %1$s is a date, %2$s is a time (e.g., "Pick Up After: 3/21/13 at 5 PM") -->
+    <string name="share_car_pickup_TEMPLATE">Ritiro dopo la data %1$s alle ore %2$s</string>
+    <!-- The car rental drop off time.  %1$s is a date, %2$s is a time (e.g., "Drop Off Before: 3/21/13 at 5 PM") -->
+    <string name="share_car_dropoff_TEMPLATE">Riconsegna prima della data %1$s alle ore %2$s</string>
+    <!-- Section header for the location of the car rental pickup/dropoff. -->
+    <string name="share_car_location_section">Luogo: </string>
+    <!-- Section header for the location of the car rental pick up. -->
+    <string name="share_car_pickup_location_section">Luogo di ritiro:</string>
+    <!-- Section header for the location of the car rental drop off. -->
+    <string name="share_car_dropoff_location_section">Luogo di riconsegna:</string>
+
     <!-- 1: activity title -->
     <string name="share_template_subject_activity">I miei dettagli %1$s</string>
     <!-- 1: activity title 2: valid date 3: expiration date -->
     <string name="share_template_short_activity">Ho acquistato %1$s\nValidità a partire da: %2$s\nScadenza: %3$s</string>
-    <!-- 1: activity title 2: valid date 3: expiration date 4: list of guests 5: app download link -->
-    <string name="share_template_long_activity">Ciao,\n\necco i dettagli su %1$s\n\n<b>Validità a partire da</b> %2$s\n<b>Scadenza</b> %3$s\n\n<b>Ospiti</b>\n%4$s\n\nDesideri prenotare hotel, voli e visualizzare e condividere i tuoi itinerari? <a href="%5$s">Scarica</a> subito l\&apos;app Expedia per dispositivi mobili.</string>
+    <!-- 1: activity title, 2: valid date, 3: expiration date, 4: list of guests -->
+    <string name="share_template_long_activity">Ciao,\n\necco i miei dettagli su %1$s\n\n<b>Validità a partire da</b> %2$s\n<b>Scadenza</b> %3$s\n\n<b>Ospiti</b>\n%4$s</string>
     <string name="share_template_subject_cruise"></string>
     <string name="share_template_short_cruise"></string>
     <string name="share_template_long_cruise"></string>
@@ -509,6 +586,18 @@
     <string name="log_out">Disconnessione da</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Per questo viaggio riceverai %1$s crediti!</string>
+    <!-- Label to show while we are checking for price changes on the checkout receipt -->
+    <string name="calculating_taxes_and_fees">Stiamo calcolando tasse e commissioni…</string>
+    <!-- Label to show next to the total price on the checkout receipt -->
+    <string name="grand_total">Totale lordo</string>
+    <!-- String to use when a price change alert should be shown to the user -->
+    <string name="the_hotel_raised_the_price_TEMPLATE">L\&apos;hotel ha appena alzato il prezzo di questa camera a %1$s a notte.</string>
+    <!-- String to use when a price change alert should be shown to the user -->
+    <string name="the_hotel_lowered_the_price_TEMPLATE">L\&apos;hotel ha appena alzato il prezzo di questa camera a %1$s a notte.</string>
+    <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
+    <string name="done">OK</string>
+    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
+    <string name="total_due_today">Importo totale dovuto oggi</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -834,12 +923,16 @@
         <item quantity="many">Ecco i nostri dati della prenotazione volo:</item>
         <item quantity="other">Ecco i nostri dati della prenotazione volo:</item>
     </plurals>
+    <!-- The first line of the share email (casual introduction) -->
+    <string name="share_hi">Ciao,</string>
     <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_TEMPLATE">Viaggio solo andata da %1$s a %2$s</string>
+    <string name="share_flight_one_way_TEMPLATE">Ecco i dettagli del mio volo da %1$s a %2$s.</string>
     <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_round_trip_TEMPLATE">Viaggio andata e ritorno da %1$s a %2$s</string>
+    <string name="share_flight_round_trip_TEMPLATE">Ecco i dettagli del mio volo andata e ritorno da %1$s a %2$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">Itinerario  #: %s</string>
+     <!-- Section with a bunch of travelers on the flight (listed below) -->
+    <string name="share_travelers_section">Viaggiatori</string>
     <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc… %2$s is their name -->
     <!-- examples: "Traveler 1: Tom Smith" "Traveler 2: David Thomas" or if only one traveler, "Traveler: Matt Long" -->
     <plurals name="share_flight_name_TEMPLATE">

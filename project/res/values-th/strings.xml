@@ -6,12 +6,16 @@
     <string name="facebook_weve_found_your_account">สวัสดี &lt;b&gt;%1$s&lt;/b&gt; เราพบบัญชี Expedia ของคุณ! โปรดป้อนรหัสผ่าน Expedia ของคุณด้านล่างเพื่อลิงก์บัญชี Facebook และ Expedia ของคุณ</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">สวัสดี &lt;b&gt;%1$s&lt;/b&gt; เราโหลดข้อมูล Facebook ของคุณแล้ว</string>
+    <!-- connect with facebook (button text) -->
+    <string name="connect_with_facebook">เชื่อมต่อด้วย Facebook</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">กำลังรับข้อมูลจาก Facebook…</string>
     <!-- Attempting to log you in with facebook credentials -->
     <string name="attempting_to_log_in_with_facebook">กำลังล็อกอินคุณด้วยข้อมูล Facebook…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">เราพบข้อผิดพลาดที่ไม่สามารถระบุได้ โปรดลองอีกครั้ง</string>
+    <!-- Unable to log in to Facebook -->
+    <string name="unable_to_log_into_facebook">ไม่สามารถเข้าสู่ระบบ Facebook</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">ล็อกอินไม่สำเร็จ โปรดป้อนรหัสผ่านของคุณใหม่แล้วลองอีกครั้ง</string>
     <!-- Facebook connect expedia password hint -->
@@ -22,6 +26,10 @@
     <string name="failure_to_update_user">รับข้อมูลผู้ใช้ที่อัพเดทไม่สำเร็จ</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">กำลังลิงก์บัญชีของคุณ…</string>
+    <!-- Log In -->
+    <string name="Log_In">เข้าระบบ</string>
+    <!-- Log in with Expedia -->
+    <string name="Log_in_with_Expedia">เข้าสู่ระบบด้วย Expedia</string>
     <!-- or -->
     <string name="or">หรือ</string>
 
@@ -46,28 +54,61 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;เข้าพักที่&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">ขออภัย ไม่สามารถเชื่อมต่อได้</string>
+    <!-- Menu option for going to see your trips/itineraries -->
+    <string name="your_trips">การเดินทางของคุณ</string>
 
     <!-- Itineraries -->
     <!-- Itinerary -->
-    <string name="itinerary">แผนการเดินทาง</string>
+    <string name="itinerary">แผนเดินทาง</string>
+    <!-- Itineraries (plural title) -->
+    <string name="itineraries">แผนเดินทาง</string>
     <!--  Shop -->
     <string name="shop">ช้อป</string>
     <!-- Find Itinerary -->
-    <string name="find_itinerary">ค้นหาแผนการเดินทาง</string>
+    <string name="find_itinerary">ค้นหาแผนเดินทาง</string>
     <!-- Find Itinerary # -->
-    <string name="find_itinerary_pound">ค้นหาแผนการเดินทาง #</string>
+    <string name="find_itinerary_pound">ค้นหาแผนเดินทาง #</string>
     <!-- Itinerary Number -->
-    <string name="itinerary_number">หมายเลขแผนการเดินทาง</string>
+    <string name="itinerary_number">หมายเลขแผนเดินทาง</string>
     <!-- No upcoming trips -->
-    <string name="no_upcoming_trips">ไม่มี</string>
-    <!-- Or enter an itinerary number -->
-    <string name="or_enter_an_itinerary_number">หรือป้อนหมายเลขแผนการเดินทาง</string>
+    <string name="no_upcoming_trips">ไม่มีการเดินทางเร็วๆ นี้</string>
+    <!-- Enter itinerary number -->
+    <string name="enter_itinerary_number">ป้อนหมายเลขแผนเดินทาง</string>
     <!-- Fetching your itinerary -->
-    <string name="fetching_your_itinerary">กำลังเรียกแผนการเดินทาง…</string>
+    <string name="fetching_your_itinerary">กำลังเรียกแผนเดินทางของคุณ…</string>
     <!-- Error fetching itinerary -->
-    <string name="itinerary_fetch_error">เกิดข้อผิดพลาดในการเรียกแผนเดินทาง</string>
+    <string name="itinerary_fetch_error">มีข้อผิดพลาดในการเรียกแผนเดินทาง</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;ล็อกอิน&lt;/b&gt; เพือเข้าสู่ทริปของคุณ</string>
+    <!-- String for Today as in "Marriott Grand Hotel - Today" -->
+    <string name="Today">วันนี้</string>
+    <!-- "XX Minutes" - an event happening XX minutes in the future -->
+    <plurals name="minutes_from_now">
+        <item quantity="zero">%s นาที</item>
+        <item quantity="one">%s นาที</item>
+        <item quantity="two">%s นาที</item>
+        <item quantity="few">%s นาที</item>
+        <item quantity="many">%s นาที</item>
+        <item quantity="other">%s นาที</item>
+    </plurals>
+    <!-- "XX Hours" - an event happening XX hours in the future -->
+    <plurals name="hours_from_now">
+        <item quantity="zero">%s ชั่วโมง</item>
+        <item quantity="one">%s ชั่วโมง</item>
+        <item quantity="two">%s ชั่วโมง</item>
+        <item quantity="few">%s ชั่วโมง</item>
+        <item quantity="many">%s ชั่วโมง</item>
+        <item quantity="other">%s ชั่วโมง</item>
+    </plurals>
+    <!-- "XX Days" an event happening XX days in the future -->
+    <plurals name="days_from_now">
+        <item quantity="zero">%s วัน</item>
+        <item quantity="one">%s วัน</item>
+        <item quantity="two">%s วัน</item>
+        <item quantity="few">%s วัน</item>
+        <item quantity="many">%s วัน</item>
+        <item quantity="other">%s วัน</item>
+    </plurals>
     <!-- Template for card header text (will be filled in with "Title - Date")-->
     <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
@@ -80,6 +121,8 @@
     <string name="Cruise">ทริปล่องเรือ</string>
     <!-- Default (fallback) itin card title for ACTIVITY -->
     <string name="Activity">กิจกรรม</string>
+    <!-- Activity information -->
+    <string name="activity_information">ข้อมูลกิจกรรม</string>
     <!-- Depart (TZ) template -->
     <string name="depart_tz_TEMPLATE">ออกจาก %1$s</string>
     <!-- Arrive (TZ) template -->
@@ -123,7 +166,7 @@
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
     <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;จาก %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin logout confirmation message -->
-    <string name="itin_logout_confirmation_message_TEMPLATE">การออกจากระบบ %1$s จะเป็นการลบข้อมูลแผนการเดินทางที่เกี่ยวข้องกับบัญชีนี้ แน่ใจว่าต้องการออกจากระบบ?</string>
+    <string name="itin_logout_confirmation_message_TEMPLATE">การออกจากระบบ %1$s จะเป็นการลบข้อมูลแผนเดินทางที่เกี่ยวข้องกับบัญชีนี้ แน่ใจว่าต้องการออกจากระบบ?</string>
     <!-- Booking code unavailable message -->
     <string name="missing_booking_code">ไม่มีรหัสการจอง</string>
     <!-- Flight to TEMPLATE -->
@@ -231,6 +274,7 @@
     <string name="itin_card_details_pick_up">รับรถ</string>
     <string name="itin_card_details_drop_off">ส่งคืนรถ</string>
     <string name="itin_card_details_agency_phone">เบอร์โทรศัพท์บริษัทตัวแทน</string>
+    <string name="itin_card_details_toll_free_phone">หมายเลขโทรฟรี</string>
     <string name="itin_card_details_check_in">เช็คอิน</string>
     <string name="itin_card_details_check_out">เช็คเอาท์</string>
     <string name="itin_card_details_address">ที่อยู่</string>
@@ -238,6 +282,14 @@
     <string name="itin_card_details_room_type">ประเภทห้อง</string>
     <string name="toast_copied_to_clipboard">คัดลอกไปยังคลิปบอร์ด</string>
     <string name="itin_card_details_reload">โหลดข้อมูลใหม่</string>
+    <string name="itin_card_details_reload_activity">โหลดข้อมูลกิจกรรมใหม่</string>
+    <string name="itin_card_details_reload_car">โหลดข้อมูลรถเช่าใหม่</string>
+    <string name="itin_card_details_reload_flight">โหลดข้อมูลเที่ยวบินใหม่</string>
+    <string name="itin_card_details_reload_hotel">โหลดข้อมูลโรงแรมใหม่</string>
+    <string name="itin_card_details_reload_cruise">โหลดข้อมูลทริปล่องเรือใหม่</string>
+
+    <string name="itin_card_hotel_summary_TEMPLATE">เช็คอินหลังจาก %1$s</string>
+    <string name="itin_card_activity_summary_TEMPLATE">ใช้ได้ตั้งแต่ &lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">เส้นทาง</string>
@@ -253,8 +305,18 @@
     <string name="share_template_subject_hotel">โรงแรมของฉันใน %1$s (%2$s - %3$s)</string>
     <!-- 1: hotel name 2: check in date 3: check out date 4: hotel web url -->
     <string name="share_template_short_hotel">ฉันจะเข้าพักที่ %1$s\n%2$s - %3$s\n\n%4$s</string>
-    <!-- 1: hotel Name 2: formatted length of stay 4: check in date 5: check out date 6: street address 7: city 8: state 9: postal code 10: phone 11: hotel web url 12: app download link -->
-    <string name="share_template_long_hotel">สวัสดี \n\nฉันเข้าพักที่ %1$s เป็นเวลา %2$s คืน\n\n<b>เช็คอิน</b> %3$s\n<b>เช็คเอาท์</b> %4$s\n\n%1$s\n%5$s\n%6$s, %7$s %8$s\n\n<b>โทรศัพท์</b>\n%9$s\n\n<b>ข้อมูลเพิ่มเติม</b>\n%10$s\n\nต้องการจองโรงแรม เที่ยวบิน ดูและแชร์แผนเดินทางของคุณ? <a href="%11$s">ดาวน์โหลด</a> แอพฯ ฟรีสำหรับมือถือจาก Expedia วันนี้</string>
+    <!-- 1: Hotel name, 2: Formatted length of stay -->
+    <string name="share_template_long_hotel_1_greeting">สวัสดี \n\nฉันเข้าพักที่ %1$s เป็นเวลา %2$s คืน</string>
+    <!-- 1: Check in date, 2: Check out date -->
+    <string name="share_template_long_hotel_2_checkin_checkout"><b>เช็คอิน</b> %1$s\n<b>เช็คเอาท์</b>%2$s</string>
+    <!-- 1: Hotel name, 2: Hotel street address -->
+    <string name="share_template_long_hotel_3_address">%1$s\n%2$s</string>
+    <!-- Hotel phone number -->
+    <string name="share_template_long_hotel_4_phone"><b>โทรศัพท์</b>\n%s</string>
+    <!-- Link to more information about the hotel -->
+    <string name="share_template_long_hotel_5_more_info"><b>ข้อมูลเพิ่มเติม</b>\n%s</string>
+    <!-- App download link -->
+    <string name="share_template_long_ad">จองโรงแรม เที่ยวบิน ดูและแบ่งปันแผนเดินทางของคุณ ดาวน์โหลดแอพฯ ฟรีสำหรับมือถือจาก Expedia วันนี้\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">เที่ยวบินของฉันไปยัง %1$s ใน %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
@@ -269,14 +331,29 @@
     <string name="share_template_subject_car">รถเช่าของฉัน (%1$s - %2$s)</string>
     <!-- 1: vehicle type 2: pick up date 3: drop off date 4: vendor name 5: full address -->
     <string name="share_template_short_car">ฉันเช่า %1$s จาก %2$s – %3$s\n%4$s\n%5$s</string>
-    <!-- 1: vendor name 2: vehicle type 3: pick up date 4: pick up time 5: drop off date 6: drop off time 7: full address 8: phone number 9: app download link -->
-    <string name="share_template_long_car">สวัสดี \n\nนี่คือรายละเอียดการเช่า %1$s \n\n<b>ยานพาหนะ</b> %2$s\n<b>รับรถ</b> %3$s ที่ <b>%4$s</b>\n<b>ส่งคืนรถ</b> %5$s ที่ <b>%6$s</b>\n\n<b>สถานที่</b>\n%1$s\n%7$s\n%8$s\n\nต้องการจองโรงแรม เที่ยวบิน ดูและแชร์แผนเดินทางของคุณ? <a href="%9$s">ดาวน์โหลด</a> แอพฯ ฟรีสำหรับมือถือจาก Expedia วันนี้</string>
+    <!-- 1: vendor name, 2: vehicle type, 3: pick up date, 4: pick up time, 5: drop off date, 6: drop off time, 7: full address, 8: phone number -->
+    <string name="share_template_long_car">สวัสดี \n\nนี่คือรายละเอียดการเช่า %1$s \n\n<b>รถ</b> %2$s\n<b>รับรถ</b> %3$s เวลา <b>%4$s</b>\n<b>ส่งคืนรถ</b> %5$s เวลา <b>%6$s</b>\n\n<b>สถานที่</b>\n%1$s\n%7$s\n%8$s</string>
+    <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
+    <string name="share_car_start_TEMPLATE">รายละเอียดการเช่า %1$s</string>
+    <!-- Label for type of vehicle.  %1$s is the car type (e.g., "Three Door Car") -->
+    <string name="share_car_vehicle_TEMPLATE">ประเภทรถ: %1$s</string>
+    <!-- The car rental pick up time.  %1$s is a date, %2$s is a time (e.g., "Pick Up After: 3/21/13 at 5 PM") -->
+    <string name="share_car_pickup_TEMPLATE">รับรถหลัง: %1$s เวลา %2$s</string>
+    <!-- The car rental drop off time.  %1$s is a date, %2$s is a time (e.g., "Drop Off Before: 3/21/13 at 5 PM") -->
+    <string name="share_car_dropoff_TEMPLATE">ส่งคืนรถก่อน: %1$s เวลา %2$s</string>
+    <!-- Section header for the location of the car rental pickup/dropoff. -->
+    <string name="share_car_location_section">สถานที่:</string>
+    <!-- Section header for the location of the car rental pick up. -->
+    <string name="share_car_pickup_location_section">สถานที่รับรถ:</string>
+    <!-- Section header for the location of the car rental drop off. -->
+    <string name="share_car_dropoff_location_section">สถานที่ส่งคืนรถ:</string>
+
     <!-- 1: activity title -->
     <string name="share_template_subject_activity">รายละเอียด %1$s ของฉัน</string>
     <!-- 1: activity title 2: valid date 3: expiration date -->
     <string name="share_template_short_activity">ฉันได้ซื้อ %1$s\nใช้ได้ตั้งแต่: %2$s\nหมดอายุ: %3$s</string>
-    <!-- 1: activity title 2: valid date 3: expiration date 4: list of guests 5: app download link -->
-    <string name="share_template_long_activity">สวัสดี \n\nนี่คือรายละเอียดของ %1$s\n\n<b>ใช้ได้ตั้งแต่:</b> %2$s\n<b>หมดอายุ</b> %3$s\n\n<b>ผู้เข้าพัก</b>\n%4$s\n\nต้องการจองโรงแรม เที่ยวบิน ดูและแชร์แผนเดินทางของคุณ? <a href="%5$s">ดาวน์โหลด</a> แอพฯ ฟรีสำหรับมือถือจาก Expedia วันนี้</string>
+    <!-- 1: activity title, 2: valid date, 3: expiration date, 4: list of guests -->
+    <string name="share_template_long_activity">สวัสดี\n\nนี่คือรายละเอียดของ %1$s\n\n<b>ใช้ได้ตั้งแต่</b> %2$s\n<b>หมดอายุ</b> %3$s\n\n<b>ผู้ร่วมกิจกรรม</b>\n%4$s</string>
     <string name="share_template_subject_cruise"></string>
     <string name="share_template_short_cruise"></string>
     <string name="share_template_long_cruise"></string>
@@ -414,7 +491,7 @@
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">ชั้นประหยัดพรีเมี่ยม</string>
     <!-- Label for "business" cabin code -->
-    <string name="cabin_code_business">ธุรกิจ</string>
+    <string name="cabin_code_business">ชั้นธุรกิจ</string>
     <!-- Label for "first" cabin code -->
     <string name="cabin_code_first">ชั้นหนึ่ง</string>
     <!-- Button label for selecting flight -->
@@ -509,6 +586,18 @@
     <string name="log_out">ออกจากระบบ</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">คุณจะได้รับ %1$s คะแนนจากทริปนี้!</string>
+    <!-- Label to show while we are checking for price changes on the checkout receipt -->
+    <string name="calculating_taxes_and_fees">กำลังคำนวณภาษีและค่าธรรมเนียม…</string>
+    <!-- Label to show next to the total price on the checkout receipt -->
+    <string name="grand_total">ยอดรวมทั้งหมด</string>
+    <!-- String to use when a price change alert should be shown to the user -->
+    <string name="the_hotel_raised_the_price_TEMPLATE">โรงแรมเพิ่งขึ้นราคาห้องพักนี้เป็น %1$s ต่อคืน</string>
+    <!-- String to use when a price change alert should be shown to the user -->
+    <string name="the_hotel_lowered_the_price_TEMPLATE">โรงแรมเพิ่งลดราคาห้องพักนี้เป็น %1$s ต่อคืน</string>
+    <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
+    <string name="done">เสร็จ</string>
+    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
+    <string name="total_due_today">ยอดที่ต้องชำระวันนี้</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -737,7 +826,7 @@
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
     <string name="calendar_flight_location_TEMPLATE">%1$s, %2$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_flight_desc_itinerary_TEMPLATE">หมายเลขแผนการเดินทาง Expedia: %s</string>
+    <string name="calendar_flight_desc_itinerary_TEMPLATE">หมายเลขแผนเดินทาง Expedia: %s</string>
     <!-- Part of the description, showing a link to directions.  %s is the directions link, e.g. "Directions to airport: http://url-to-map-to-airport" -->
     <string name="calendar_flight_desc_directions_TEMPLATE">เส้นทางไปสนามบิน: %s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
@@ -793,7 +882,7 @@
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
     <string name="error_flight_unhandled">ขออภัย เราไม่สามารถดำเนินการกับคำสั่งซื้อของคุณได้ในตอนนี้ โปรดลองใหม่อีกครั้ง</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE">ขออภัย เราไม่สามารถดำเนินการกับคำสั่งซื้อของคุณได้ในตอนนี้ โปรดลองใหม่อีกครั้ง หรือโทรไปที่ฝ่ายบริการลูกค้าของ Expedia และแจ้งหมายเลขแผนการเดินทางนี้: %s</string>
+    <string name="error_flight_unhandled_TEMPLATE">ขออภัย เราไม่สามารถดำเนินการกับคำสั่งซื้อของคุณได้ในตอนนี้ โปรดลองใหม่อีกครั้ง หรือโทรไปที่ฝ่ายบริการลูกค้าของ Expedia และแจ้งหมายเลขแผนเดินทางนี้: %s</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
     <string name="error_flight_no_longer_available">ขออภัยเป็นอย่างสูง เที่ยวบินของคุณไม่มีให้บริการแล้ว</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
@@ -826,7 +915,7 @@
 
     <!-- Flight booking sharing -->
     <!-- Subject line for flight booking email.  %1$s is the destination, %2$s is a date range (e.g., "Expedia Itinerary - Seattle (10/18 - 10/19)") -->
-    <string name="share_flight_title_TEMPLATE">แผนการเดินทาง Expedia - %1$s (%2$s)</string>
+    <string name="share_flight_title_TEMPLATE">แผนเดินทาง Expedia - %1$s (%2$s)</string>
     <!-- The first line of the share flight email -->
     <plurals name="share_flight_start">
         <item quantity="one">นี่เป็นข้อมูลการจองเที่ยวบินของฉัน:</item>
@@ -834,12 +923,16 @@
         <item quantity="many">นี่เป็นข้อมูลการจองเที่ยวบินของเรา:</item>
         <item quantity="other">นี่เป็นข้อมูลการจองเที่ยวบินของเรา:</item>
     </plurals>
+    <!-- The first line of the share email (casual introduction) -->
+    <string name="share_hi">สวัสดี</string>
     <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_TEMPLATE">การเดินทางเที่ยวเดียวจาก %1$s ไปยัง %2$s</string>
+    <string name="share_flight_one_way_TEMPLATE">นี่คือรายละเอียดเที่ยวบินจาก %1$s ไปยัง %2$s</string>
     <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_round_trip_TEMPLATE">การเดินทางไปกลับจาก %1$s ไปยัง %2$s</string>
+    <string name="share_flight_round_trip_TEMPLATE">นี่คือรายละเอียดเที่ยวบินไป-กลับจาก %1$s ไปยัง %2$s</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
-    <string name="share_flight_itinerary_TEMPLATE">หมายเลขแผนการเดินทาง: %s</string>
+    <string name="share_flight_itinerary_TEMPLATE">หมายเลขแผนเดินทาง: %s</string>
+     <!-- Section with a bunch of travelers on the flight (listed below) -->
+    <string name="share_travelers_section">ผู้เดินทาง:</string>
     <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc… %2$s is their name -->
     <!-- examples: "Traveler 1: Tom Smith" "Traveler 2: David Thomas" or if only one traveler, "Traveler: Matt Long" -->
     <plurals name="share_flight_name_TEMPLATE">
@@ -1384,7 +1477,7 @@
     <!-- Confirmation number label -->
     <string name="confirmation_number">รหัสการยืนยัน</string>
     <!-- Itinerary number label -->
-    <string name="itinerary_number">หมายเลขแผนการเดินทาง</string>
+    <string name="itinerary_number">หมายเลขแผนเดินทาง</string>
     <!-- Confirmation email label -->
     <string name="confirmation_email">อีเมลยืนยัน</string>
     <!-- ActionBar button for starting a new search -->
@@ -1478,7 +1571,7 @@
 
     <!-- Sharing bookings via email -->
     <!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
-    <string name="share_subject_template">หมายเลขแผนการเดินทาง Expedia  - %1$s (%2$s - %3$s)</string>
+    <string name="share_subject_template">หมายเลขแผนเดินทาง Expedia  - %1$s (%2$s - %3$s)</string>
     <!-- Preset at the top of the share body message -->
     <string name="share_body_start">ข้อมูลการจองโรงแรม:</string>
     <!-- Name of user -->
@@ -1646,7 +1739,7 @@
     <!-- The hotel booking failed -->
     <string name="e3_error_checkout_booking_failed">ขออภัย ระบบไม่สามารถดำเนินการจองได้ โปรดลองใหม่อีกครั้ง</string>
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-    <string name="e3_error_checkout_booking_succeeded_with_errors">คุณจองโรงแรมเรียบร้อยแล้ว หากคุณต้องการหมายเลขแผนการเดินทางทันที โปรดติดต่อฝ่ายบริการลูกค้าของ Expedia</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors">คุณจองโรงแรมเรียบร้อยแล้ว หากคุณต้องการหมายเลขแผนเดินทางทันที โปรดติดต่อฝ่ายบริการลูกค้าของ Expedia</string>
     <!-- The hotel room is no longer available -->
     <string name="e3_error_checkout_hotel_room_unavailable">ขออภัย ห้องพักที่คุณเลือกเต็มแล้ว</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->

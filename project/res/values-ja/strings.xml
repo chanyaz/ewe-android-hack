@@ -6,12 +6,16 @@
     <string name="facebook_weve_found_your_account">&lt;b&gt;%1$s&lt;/b&gt;さん、すでにエクスペディアのアカウントをお持ちのようです。以下にエクスペディアのパスワードを入力して、Facebook とエクスペディアのアカウントをリンクしてください。</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">&lt;b&gt;%1$s&lt;/b&gt;さん、Facebook のアカウントをロードしました ! </string>
+    <!-- connect with facebook (button text) -->
+    <string name="connect_with_facebook">Facebook とコネクトする</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">Facebook から情報を取得中…</string>
     <!-- Attempting to log you in with facebook credentials -->
     <string name="attempting_to_log_in_with_facebook">Facebook の認証情報でログイン中…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">詳細不明なエラーが発生しました。後ほどお試しください。</string>
+    <!-- Unable to log in to Facebook -->
+    <string name="unable_to_log_into_facebook">Facebook にログインできません。</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">ログインに失敗しました。パスワードを再入力して、もう一度お試しください。</string>
     <!-- Facebook connect expedia password hint -->
@@ -22,6 +26,10 @@
     <string name="failure_to_update_user">更新されたユーザー情報を取得できませんでした。</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">アカウントをリンク中…</string>
+    <!-- Log In -->
+    <string name="Log_In">ログイン</string>
+    <!-- Log in with Expedia -->
+    <string name="Log_in_with_Expedia">エクスペディアでログイン</string>
     <!-- or -->
     <string name="or">または</string>
 
@@ -46,10 +54,14 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;&lt;font color="#b2b2b2"&gt;に滞在&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">残念ながら、接続できません。</string>
+    <!-- Menu option for going to see your trips/itineraries -->
+    <string name="your_trips">お客様のご予約</string>
 
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">旅程</string>
+    <!-- Itineraries (plural title) -->
+    <string name="itineraries">旅程</string>
     <!--  Shop -->
     <string name="shop">ショップ</string>
     <!-- Find Itinerary -->
@@ -59,15 +71,44 @@
     <!-- Itinerary Number -->
     <string name="itinerary_number">旅程番号</string>
     <!-- No upcoming trips -->
-    <string name="no_upcoming_trips">次回のご予約はありません。</string>
-    <!-- Or enter an itinerary number -->
-    <string name="or_enter_an_itinerary_number">または、旅程番号を入力してください。</string>
+    <string name="no_upcoming_trips">予約された旅行はありません。</string>
+    <!-- Enter itinerary number -->
+    <string name="enter_itinerary_number">旅程番号を入力してください</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">お客様の旅程を取得しています…</string>
     <!-- Error fetching itinerary -->
     <string name="itinerary_fetch_error">旅程を取得できませんでした</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;ログイン&lt;/b&gt;してご予約を確認してください。</string>
+    <!-- String for Today as in "Marriott Grand Hotel - Today" -->
+    <string name="Today">本日</string>
+    <!-- "XX Minutes" - an event happening XX minutes in the future -->
+    <plurals name="minutes_from_now">
+        <item quantity="zero">%s 分</item>
+        <item quantity="one">%s 分</item>
+        <item quantity="two">%s 分</item>
+        <item quantity="few">%s 分</item>
+        <item quantity="many">%s 分</item>
+        <item quantity="other">%s 分</item>
+    </plurals>
+    <!-- "XX Hours" - an event happening XX hours in the future -->
+    <plurals name="hours_from_now">
+        <item quantity="zero">%s 時間</item>
+        <item quantity="one">%s 時間</item>
+        <item quantity="two">%s 時間</item>
+        <item quantity="few">%s 時間</item>
+        <item quantity="many">%s 時間</item>
+        <item quantity="other">%s 時間</item>
+    </plurals>
+    <!-- "XX Days" an event happening XX days in the future -->
+    <plurals name="days_from_now">
+        <item quantity="zero">%s 日</item>
+        <item quantity="one">%s 日</item>
+        <item quantity="two">%s 日</item>
+        <item quantity="few">%s 日</item>
+        <item quantity="many">%s 日</item>
+        <item quantity="other">%s 日</item>
+    </plurals>
     <!-- Template for card header text (will be filled in with "Title - Date")-->
     <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
@@ -80,6 +121,8 @@
     <string name="Cruise">クルーズ</string>
     <!-- Default (fallback) itin card title for ACTIVITY -->
     <string name="Activity">アクティビティ</string>
+    <!-- Activity information -->
+    <string name="activity_information">アクティビティ情報</string>
     <!-- Depart (TZ) template -->
     <string name="depart_tz_TEMPLATE">出発日 (%1$s)</string>
     <!-- Arrive (TZ) template -->
@@ -195,9 +238,9 @@
     <!-- Try Again -->
     <string name="try_again">もう一度試す</string>
     <!-- Car types -->
-    <string name="car_type_two_door">2 ドア  自動車</string>
-    <string name="car_type_three_door">3 ドア  自動車</string>
-    <string name="car_type_four_door">4 ドア  自動車</string>
+    <string name="car_type_two_door">2 ドア 自動車</string>
+    <string name="car_type_three_door">3 ドア 自動車</string>
+    <string name="car_type_four_door">4 ドア 自動車</string>
     <string name="car_type_van">バン</string>
     <string name="car_type_wagon">ワゴン</string>
     <string name="car_type_limousine">リムジン</string>
@@ -231,6 +274,7 @@
     <string name="itin_card_details_pick_up">ピックアップ</string>
     <string name="itin_card_details_drop_off">返却</string>
     <string name="itin_card_details_agency_phone">エージェンシー電話番号</string>
+    <string name="itin_card_details_toll_free_phone">フリーダイヤル</string>
     <string name="itin_card_details_check_in">チェックイン</string>
     <string name="itin_card_details_check_out">チェックアウト</string>
     <string name="itin_card_details_address">住所</string>
@@ -238,6 +282,14 @@
     <string name="itin_card_details_room_type">部屋タイプ</string>
     <string name="toast_copied_to_clipboard">クリップボードにコピーしました。</string>
     <string name="itin_card_details_reload">情報をリロード</string>
+    <string name="itin_card_details_reload_activity">アクティビティ情報をリロード</string>
+    <string name="itin_card_details_reload_car">レンタカー情報をリロード</string>
+    <string name="itin_card_details_reload_flight">フライト情報をリロード</string>
+    <string name="itin_card_details_reload_hotel">ホテル情報をリロード</string>
+    <string name="itin_card_details_reload_cruise">クルーズ情報をリロード</string>
+
+    <string name="itin_card_hotel_summary_TEMPLATE">%1$s以降にチェックイン</string>
+    <string name="itin_card_activity_summary_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;より有効</string>
 
     <!-- Action Buttons -->
     <string name="itin_action_directions">行き方</string>
@@ -253,8 +305,18 @@
     <string name="share_template_subject_hotel">%1$s での宿泊 (%2$s – %3$s)</string>
     <!-- 1: hotel name 2: check in date 3: check out date 4: hotel web url -->
     <string name="share_template_short_hotel">%1$s に宿泊中です\n%2$s – %3$s\n\n%4$s</string>
-    <!-- 1: hotel Name 2: formatted length of stay 4: check in date 5: check out date 6: street address 7: city 8: state 9: postal code 10: phone 11: hotel web url 12: app download link -->
-    <string name="share_template_long_hotel">こんにちは。\n\n今私は%1$sに%2$s滞在しています。\n\n<b>チェックイン</b> %3$s\n<b>チェックアウト</b> %4$s\n\n%1$s\n%5$s\n%6$s, %7$s %8$s\n\n<b>電話</b>\n%9$s\n\n<b>詳細</b>\n%10$s\n\nホテルや航空券の予約および旅程を確認するには、無料のエクスペディア モバイル アプリを今すぐ<a href="%11$s">ダウンロード </a> してください。</string>
+    <!-- 1: Hotel name, 2: Formatted length of stay -->
+    <string name="share_template_long_hotel_1_greeting">こんにちは。\n\n今私は%1$sに%2$s滞在しています。</string>
+    <!-- 1: Check in date, 2: Check out date -->
+    <string name="share_template_long_hotel_2_checkin_checkout"><b>チェックイン</b> %1$s\n<b>チェックアウト</b> %2$s</string>
+    <!-- 1: Hotel name, 2: Hotel street address -->
+    <string name="share_template_long_hotel_3_address">%1$s\n%2$s</string>
+    <!-- Hotel phone number -->
+    <string name="share_template_long_hotel_4_phone"><b>電話</b>\n%s</string>
+    <!-- Link to more information about the hotel -->
+    <string name="share_template_long_hotel_5_more_info"><b>詳細</b>\n%s</string>
+    <!-- App download link -->
+    <string name="share_template_long_ad">ホテルとフライトを予約して、旅程を表示 &amp; シェアできます。無料のエクスペディア モバイル アプリを今すぐダウンロードしてください。\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">%2$sの%1$sへのフライト</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
@@ -269,14 +331,29 @@
     <string name="share_template_subject_car">レンタカー (%1$s – %2$s)</string>
     <!-- 1: vehicle type 2: pick up date 3: drop off date 4: vendor name 5: full address -->
     <string name="share_template_short_car">%1$sを %2$s – %3$sにレンタルしました\n%4$s\n%5$s</string>
-    <!-- 1: vendor name 2: vehicle type 3: pick up date 4: pick up time 5: drop off date 6: drop off time 7: full address 8: phone number 9: app download link -->
-    <string name="share_template_long_car">こんにちは。\n\n%1$sレンタカーについての詳細です。\n\n<b>車両</b> %2$s\n<b>ピックアップ</b> %3$s  <b>%4$s</b>\n<b>返却</b> %5$s <b>%6$s</b>\n\n<b>ロケーション</b>\n%1$s\n%7$s\n%8$s\n\nホテルや航空券の予約および旅程を確認するには、無料のエクスペディア モバイル アプリを今すぐ<a href="%9$s">ダウンロード </a> してください。</string>
+    <!-- 1: vendor name, 2: vehicle type, 3: pick up date, 4: pick up time, 5: drop off date, 6: drop off time, 7: full address, 8: phone number -->
+    <string name="share_template_long_car">こんにちは。\n\n%1$sレンタカーについての詳細です。\n\n<b>車両</b> %2$s\n<b>ピックアップ</b> %3$s <b>%4$s</b>\n<b>返却</b> %5$s <b>%6$s</b>\n\n<b>ロケーション</b>\n%1$s\n%7$s\n%8$s</string>
+    <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
+    <string name="share_car_start_TEMPLATE">%1$sレンタカーについての詳細です。</string>
+    <!-- Label for type of vehicle.  %1$s is the car type (e.g., "Three Door Car") -->
+    <string name="share_car_vehicle_TEMPLATE">車両 : %1$s</string>
+    <!-- The car rental pick up time.  %1$s is a date, %2$s is a time (e.g., "Pick Up After: 3/21/13 at 5 PM") -->
+    <string name="share_car_pickup_TEMPLATE">ピックアップ : %1$s %2$s以降</string>
+    <!-- The car rental drop off time.  %1$s is a date, %2$s is a time (e.g., "Drop Off Before: 3/21/13 at 5 PM") -->
+    <string name="share_car_dropoff_TEMPLATE">返却 : %1$s %2$sまで</string>
+    <!-- Section header for the location of the car rental pickup/dropoff. -->
+    <string name="share_car_location_section">ロケーション :</string>
+    <!-- Section header for the location of the car rental pick up. -->
+    <string name="share_car_pickup_location_section">ピックアップ場所 : </string>
+    <!-- Section header for the location of the car rental drop off. -->
+    <string name="share_car_dropoff_location_section">返却場所 : </string>
+
     <!-- 1: activity title -->
     <string name="share_template_subject_activity">%1$s詳細</string>
     <!-- 1: activity title 2: valid date 3: expiration date -->
     <string name="share_template_short_activity">%1$sを購入しました\n利用開始日 : %2$s\n有効期限 : %3$s</string>
-    <!-- 1: activity title 2: valid date 3: expiration date 4: list of guests 5: app download link -->
-    <string name="share_template_long_activity">こんにちは。\n\n%1$sについての詳細です。\n\n<b>利用開始日</b> %2$s\n<b>有効期限</b> %3$s\n\n<b>ゲスト</b>\n%4$s\n\nホテルや航空券の予約および旅程を確認するには、無料のエクスペディア モバイル アプリを今すぐ<a href="%5$s">ダウンロード </a> してください。</string>
+    <!-- 1: activity title, 2: valid date, 3: expiration date, 4: list of guests -->
+    <string name="share_template_long_activity">こんにちは。\n\n%1$sの詳細です\n\n<b>開始日</b> %2$s\n<b>有効期限</b> %3$s\n\n<b>ゲスト</b>\n%4$s</string>
     <string name="share_template_subject_cruise"></string>
     <string name="share_template_short_cruise"></string>
     <string name="share_template_long_cruise"></string>
@@ -509,6 +586,18 @@
     <string name="log_out">ログアウト</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">今回の旅行で %1$s ポイント取得します !</string>
+    <!-- Label to show while we are checking for price changes on the checkout receipt -->
+    <string name="calculating_taxes_and_fees">税金とサービス料を計算中…</string>
+    <!-- Label to show next to the total price on the checkout receipt -->
+    <string name="grand_total">総計</string>
+    <!-- String to use when a price change alert should be shown to the user -->
+    <string name="the_hotel_raised_the_price_TEMPLATE">ホテルがこの客室の宿泊料金を 1 泊あたり %1$s値上げしました。</string>
+    <!-- String to use when a price change alert should be shown to the user -->
+    <string name="the_hotel_lowered_the_price_TEMPLATE">ホテルがこの客室の宿泊料金を 1 泊あたり %1$s値下げしました。</string>
+    <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
+    <string name="done">完了</string>
+    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
+    <string name="total_due_today">本日お支払の合計料金</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -834,12 +923,16 @@
         <item quantity="many">フライト予約情報 :</item>
         <item quantity="other">フライト予約情報 :</item>
     </plurals>
+    <!-- The first line of the share email (casual introduction) -->
+    <string name="share_hi">こんにちは。</string>
     <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_TEMPLATE">%1$s から %2$s への片道フライト</string>
+    <string name="share_flight_one_way_TEMPLATE">%1$sから%2$sへのフライトの詳細です。</string>
     <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_round_trip_TEMPLATE">%1$s から %2$s への往復フライト</string>
+    <string name="share_flight_round_trip_TEMPLATE">%1$sから%2$sへの往復フライトの詳細です。</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">旅程番号 : %s</string>
+     <!-- Section with a bunch of travelers on the flight (listed below) -->
+    <string name="share_travelers_section">旅行者 : </string>
     <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc… %2$s is their name -->
     <!-- examples: "Traveler 1: Tom Smith" "Traveler 2: David Thomas" or if only one traveler, "Traveler: Matt Long" -->
     <plurals name="share_flight_name_TEMPLATE">
