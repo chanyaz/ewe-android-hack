@@ -2,6 +2,7 @@ package com.expedia.bookings.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -33,6 +34,8 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 	private boolean mAnimatingToItem;
 	private boolean mItemHasDetails;
 
+	private View mFallbackPatternView;
+
 	private ItinItemListFragment mItinListFragment;
 	private ItineraryMapFragment mMapFragment;
 	private ItinCardFragment mItinCardFragment;
@@ -42,6 +45,8 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_itinerary);
+
+		mFallbackPatternView = Ui.findView(this, R.id.fallback_pattern);
 
 		mItinListFragment = Ui.findSupportFragment(this, getString(R.string.tag_itinerary_list));
 		mMapFragment = Ui.findSupportFragment(this, getString(R.string.tag_itinerary_map));
@@ -99,7 +104,17 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 				getSupportFragmentManager().beginTransaction().hide(mItinCardFragment).commit();
 			}
 
-			mAnimatingToItem = mMapFragment.showItinItem(data, animate);
+			if (data.getLocation() == null) {
+				// Item has no location, show the default background
+				mFallbackPatternView.setVisibility(View.VISIBLE);
+				mAnimatingToItem = false;
+			}
+			else {
+				// Item has location, animate to it
+				mFallbackPatternView.setVisibility(View.GONE);
+				mAnimatingToItem = mMapFragment.showItinItem(data, animate);
+			}
+
 			mItemHasDetails = mItinCardFragment.showItinDetails(data);
 
 			if (!mAnimatingToItem && mItemHasDetails) {
