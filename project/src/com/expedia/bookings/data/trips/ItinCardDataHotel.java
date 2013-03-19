@@ -1,6 +1,5 @@
 package com.expedia.bookings.data.trips;
 
-import java.util.Locale;
 import java.util.Set;
 
 import android.content.ComponentName;
@@ -15,6 +14,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
+import com.google.android.gms.maps.model.LatLng;
 
 public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumberable {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -196,4 +196,14 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 		return mProperty != null;
 	}
 
+	@Override
+	public LatLng getLocation() {
+		Location loc = getPropertyLocation();
+
+		if (loc != null) {
+			return new LatLng(loc.getLatitude(), loc.getLongitude());
+		}
+
+		return super.getLocation();
+	}
 }

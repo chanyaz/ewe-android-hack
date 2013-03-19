@@ -2,7 +2,6 @@ package com.expedia.bookings.data.trips;
 
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import android.content.ComponentName;
@@ -20,6 +19,10 @@ import com.expedia.bookings.data.CarVendor;
 import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
+import com.google.android.gms.maps.model.LatLng;
+import com.mobiata.flightlib.data.Airport;
+import com.mobiata.flightlib.data.Flight;
+import com.mobiata.flightlib.data.Waypoint;
 
 public class ItinCardDataCar extends ItinCardData implements ConfirmationNumberable {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -238,5 +241,16 @@ public class ItinCardDataCar extends ItinCardData implements ConfirmationNumbera
 	@Override
 	public int getConfirmationNumberLabelResId() {
 		return R.string.car_rental_confirmation_code_label;
+	}
+
+	@Override
+	public LatLng getLocation() {
+		Location loc = showPickUp() ? getPickUpLocation() : getDropOffLocation();
+
+		if (loc != null) {
+			return new LatLng(loc.getLatitude(), loc.getLongitude());
+		}
+
+		return super.getLocation();
 	}
 }

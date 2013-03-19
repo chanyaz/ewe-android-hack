@@ -9,7 +9,10 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
+import com.google.android.gms.maps.model.LatLng;
+import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Flight;
+import com.mobiata.flightlib.data.Waypoint;
 
 public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumberable {
 
@@ -101,4 +104,18 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 		return R.string.flight_confirmation_code_label;
 	}
 
+	@Override
+	public LatLng getLocation() {
+		long now = Calendar.getInstance().getTimeInMillis();
+		Flight flight = getMostRelevantFlightSegment();
+		Waypoint waypoint = flight.mOrigin.getMostRelevantDateTime().getTimeInMillis() > now ? flight.mOrigin
+				: flight.getArrivalWaypoint();
+		Airport airport = waypoint.getAirport();
+
+		if (airport != null) {
+			return new LatLng(airport.getLatitude(), airport.getLongitude());
+		}
+
+		return super.getLocation();
+	}
 }

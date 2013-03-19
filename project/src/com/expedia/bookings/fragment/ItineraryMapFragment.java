@@ -1,17 +1,13 @@
 package com.expedia.bookings.fragment;
 
-import java.util.Calendar;
+import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.trips.ItinCardData;
-import com.expedia.bookings.data.trips.ItinCardDataCar;
-import com.expedia.bookings.data.trips.ItinCardDataFlight;
-import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.maps.SupportMapFragment;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -22,9 +18,6 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.mobiata.flightlib.data.Airport;
-import com.mobiata.flightlib.data.Flight;
-import com.mobiata.flightlib.data.Waypoint;
 
 public class ItineraryMapFragment extends SupportMapFragment {
 
@@ -67,29 +60,7 @@ public class ItineraryMapFragment extends SupportMapFragment {
 
 		mMarker.setVisible(true);
 
-		long now = Calendar.getInstance().getTimeInMillis();
-
-		if (data instanceof ItinCardDataFlight) {
-			ItinCardDataFlight flightData = (ItinCardDataFlight) data;
-
-			Flight flight = flightData.getMostRelevantFlightSegment();
-			Waypoint waypoint = flight.mOrigin.getMostRelevantDateTime().getTimeInMillis() > now ? flight.mOrigin
-					: flight.getArrivalWaypoint();
-			Airport airport = waypoint.getAirport();
-			position = new LatLng(airport.getLatitude(), airport.getLongitude());
-		}
-		else if (data instanceof ItinCardDataHotel) {
-			ItinCardDataHotel hotelData = (ItinCardDataHotel) data;
-
-			Location loc = hotelData.getPropertyLocation();
-			position = new LatLng(loc.getLatitude(), loc.getLongitude());
-		}
-		else if (data instanceof ItinCardDataCar) {
-			ItinCardDataCar carData = (ItinCardDataCar) data;
-			Location loc = carData.getPickUpDate().getMillisFromEpoch() > now ? carData.getPickUpLocation() : carData
-					.getDropOffLocation();
-			position = new LatLng(loc.getLatitude(), loc.getLongitude());
-		}
+		position = data.getLocation();
 
 		if (position == null) {
 			position = new LatLng(0, 0);

@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import com.expedia.bookings.data.DateTime;
+import com.google.android.gms.maps.model.LatLng;
 import com.mobiata.android.Log;
 
 /**
@@ -69,6 +70,16 @@ public class ItinCardData {
 
 	public boolean hasDetailData() {
 		return true;
+	}
+
+	/**
+	 * Gets the location that this card represents.  Can change
+	 * depending on time of day.
+	 * 
+	 * @return null by default
+	 */
+	public LatLng getLocation() {
+		return null;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
