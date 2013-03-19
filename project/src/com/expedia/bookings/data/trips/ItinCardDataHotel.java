@@ -21,9 +21,12 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 	// PRIVATE CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	private static final int DETAIL_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_MONTH;
-	private static final int LONG_SHARE_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_WEEKDAY;
-	private static final int SHARE_CHECK_IN_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_ABBREV_WEEKDAY;
+	private static final int DETAIL_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR
+			| DateUtils.FORMAT_ABBREV_MONTH;
+	private static final int LONG_SHARE_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR
+			| DateUtils.FORMAT_SHOW_WEEKDAY;
+	private static final int SHARE_CHECK_IN_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_WEEKDAY
+			| DateUtils.FORMAT_ABBREV_WEEKDAY;
 	private static final int SHARE_CHECK_OUT_FLAGS = LONG_SHARE_DATE_FLAGS | DateUtils.FORMAT_ABBREV_WEEKDAY;
 
 	//////////////////////////////////////////////////////////////////////////////////////

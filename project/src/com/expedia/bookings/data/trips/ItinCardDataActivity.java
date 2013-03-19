@@ -1,7 +1,6 @@
 package com.expedia.bookings.data.trips;
 
 import java.util.List;
-import java.util.Locale;
 
 import android.content.Context;
 import android.text.format.DateUtils;
@@ -16,12 +15,13 @@ public class ItinCardDataActivity extends ItinCardData {
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	// SimpleDateFormat equiv: MMM d; eg Mar 15
-	private static final int DETAIL_SHORT_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_MONTH;
+	private static final int DETAIL_SHORT_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR
+			| DateUtils.FORMAT_ABBREV_MONTH;
 	// SimpleDateFormat equiv: MMMM d; eg March 15
 	private static final int DETAIL_LONG_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR;
 	// SimpleDateFormat equiv: EEEE, MMMM d, yyyy; eg Friday, March 15, 2012
-	private static final int SHARE_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_WEEKDAY;
-
+	private static final int SHARE_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR
+			| DateUtils.FORMAT_SHOW_WEEKDAY;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS

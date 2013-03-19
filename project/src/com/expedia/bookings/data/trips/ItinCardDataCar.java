@@ -20,9 +20,6 @@ import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
 import com.google.android.gms.maps.model.LatLng;
-import com.mobiata.flightlib.data.Airport;
-import com.mobiata.flightlib.data.Flight;
-import com.mobiata.flightlib.data.Waypoint;
 
 public class ItinCardDataCar extends ItinCardData implements ConfirmationNumberable {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -62,8 +59,10 @@ public class ItinCardDataCar extends ItinCardData implements ConfirmationNumbera
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	private static final int TIME_FLAGS = DateUtils.FORMAT_SHOW_TIME;
-	private static final int SHORT_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_MONTH;
-	private static final int LONG_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_WEEKDAY;
+	private static final int SHORT_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR
+			| DateUtils.FORMAT_ABBREV_MONTH;
+	private static final int LONG_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR
+			| DateUtils.FORMAT_SHOW_WEEKDAY;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
