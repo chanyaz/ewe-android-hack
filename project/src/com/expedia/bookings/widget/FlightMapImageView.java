@@ -159,15 +159,15 @@ public class FlightMapImageView extends ImageView {
 	}
 
 	private String getOriginMarkerStyleString() {
-		return "color:blue|label:O";
+		return "color:0xCACCD1";
 	}
 
 	private String getWaypointMarkerStyleString() {
-		return "color:green|label:W";
+		return "color:0xCACCD1";
 	}
 
 	private String getDestinationMarkerStyleString() {
-		return "color:red|label:D";
+		return "color:0xCACCD1";
 	}
 
 	private String flightListToCoordinateListString(List<Flight> flights) {
