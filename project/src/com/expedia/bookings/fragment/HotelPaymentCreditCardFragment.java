@@ -12,6 +12,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity.Validatable;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
@@ -83,6 +84,7 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 		if (requiredFields.equals(PointOfSale.RequiredPaymentFieldsHotels.POSTAL_CODE)) {
 			// grab reference to the SectionLocation as we will need to perform validation
 			mSectionLocation = Ui.findView(v, R.id.section_location_address);
+			mSectionLocation.setLineOfBusiness(LineOfBusiness.HOTELS);
 			mSectionLocation.addChangeListener(new SectionChangeListener() {
 				@Override
 				public void onChange() {
@@ -148,7 +150,8 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 
 	/**
 	 * Performs validation on the form. We can possibly have both SectionBillingInfo and SectionLocation, so we must
-	 * account for the different combinations. SectionLocation is null if POS is not US as it is not needed.
+	 * account for the different combinations. SectionLocation is null when it is not required based on the POS, which
+	 * ultimately means that the location validation is successful (as it does not exist, heh).
 	 */
 	private boolean hasValidInput() {
 		boolean hasValidCreditCard = mSectionBillingInfo != null ? mSectionBillingInfo.hasValidInput() : false;

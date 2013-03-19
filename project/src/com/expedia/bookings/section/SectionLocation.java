@@ -20,12 +20,21 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.CountrySpinnerAdapter.CountryDisplayType;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
 
+/**
+ * Important usage note: When using a SectionLocation as a form that requires validation, make sure to use set the LOB
+ * using setLineOfBusiness(). This ensures that the validation happens properly.
+ * 
+ * TODO: improve this class's usability: Extend SectionLocation on a line of business basis to hide this nasty
+ * validation logic. Or perhaps declare an attribute that can be set on the SectionLocation via XML so the consumer does
+ * not have to remember to use setLineOfBusiness() in code.
+ */
 public class SectionLocation extends LinearLayout implements ISection<Location>, ISectionEditable {
 
 	ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<SectionChangeListener>();
@@ -400,7 +409,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			R.id.edit_address_postal_code) {
 		@Override
 		protected Validator<EditText> getValidator() {
-			if (mLineOfBusiness == LineOfBusiness.FLIGHTS) {
+			if (requiresPostalCode()) {
 				return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
 			}
 			else {
@@ -433,6 +442,25 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			return retArr;
 		}
 	};
+
+	/**
+	 * Expedia has complicated logic for required payment fields. It differs on line of business and point of sale.
+	 * Postal code seems to have the most complicated logic, so I encapsulate this logic in a helper method.
+	 */
+	private boolean requiresPostalCode() {
+		if (mLineOfBusiness == LineOfBusiness.FLIGHTS) {
+			return true;
+		}
+
+		if (mLineOfBusiness == LineOfBusiness.HOTELS) {
+			PointOfSale.RequiredPaymentFieldsHotels req = PointOfSale.getPointOfSale().getRequiredPaymentFieldsHotels();
+			if (req == PointOfSale.RequiredPaymentFieldsHotels.POSTAL_CODE) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 
 	SectionFieldEditable<Spinner, Location> mEditCountrySpinner = new SectionFieldEditable<Spinner, Location>(
 			R.id.edit_country_spinner) {
