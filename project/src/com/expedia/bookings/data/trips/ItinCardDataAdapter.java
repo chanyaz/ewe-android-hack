@@ -281,7 +281,10 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 		Calendar now = Calendar.getInstance();
 		for (int i = 0; i < mItinCardDatas.size(); i++) {
 			ItinCardData data = mItinCardDatas.get(i);
-			if (doesCardStartAfterCal(data, now)) {
+			// IN PROGRESS flights are relevant, most def.
+			if (doesCardStartAfterCal(data, now)
+					|| data.getTripComponentType() == TripComponent.Type.FLIGHT
+					&& isCardInProgressAtCal(data, now)) {
 				//The card with the next startTime
 				retVal = i;
 				break;
@@ -344,6 +347,27 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 				return false;
 			}
 		}
+	}
+
+	// Cal is after start time but before finish time
+	private boolean isCardInProgressAtCal(ItinCardData data, Calendar cal) {
+		if (data == null || data.getEndDate() == null || data.getStartDate() == null) {
+			return false;
+		}
+
+		long calTime = cal.getTimeInMillis();
+		long start = data.getStartDate().getCalendar().getTimeInMillis();
+
+		if (calTime < start) {
+			return false;
+		}
+
+		long end = data.getEndDate().getCalendar().getTimeInMillis();
+		if (calTime > end) {
+			return false;
+		}
+
+		return true;
 	}
 
 	//start date is before cal
