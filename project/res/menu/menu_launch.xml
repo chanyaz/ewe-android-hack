@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/add_itinerary"
-        android:icon="@drawable/ic_add_event"
+        android:icon="@drawable/btn_add_guest_itin_normal"
         android:showAsAction="ifRoom"
         android:title="@string/find_itinerary">
         <menu>
