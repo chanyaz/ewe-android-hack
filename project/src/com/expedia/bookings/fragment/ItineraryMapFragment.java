@@ -58,7 +58,9 @@ public class ItineraryMapFragment extends SupportMapFragment {
 
 		mMarker.setVisible(true);
 
-		position = data.getLocation();
+		if (data != null) {
+			position = data.getLocation();
+		}
 
 		if (position == null) {
 			position = new LatLng(0, 0);
