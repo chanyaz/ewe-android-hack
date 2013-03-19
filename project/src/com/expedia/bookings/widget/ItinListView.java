@@ -705,6 +705,16 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 					mSelectCardRunnable.run();
 				}
 			}
+
+			//We want our background line to be refreshed, but not until after the list draws, 250 will usually 
+			//be the right amount of time to delay, this isn't a great solution, but the line is totally non-critical
+			Runnable lineUpdateRunner = new Runnable() {
+				@Override
+				public void run() {
+					onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
+				}
+			};
+			ItinListView.this.postDelayed(lineUpdateRunner, 250);
 		}
 	};
 

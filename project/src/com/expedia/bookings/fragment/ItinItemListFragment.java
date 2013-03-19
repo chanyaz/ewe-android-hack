@@ -315,6 +315,43 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		invalidateOptionsMenu();
 	}
 
+	private void updateLineView(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		View firstVisibleItinCard = view.getChildAt(firstVisibleItem);
+		View lastVisibleItinCard;
+		int lastItinCardIndex = firstVisibleItem + visibleItemCount;
+		do {
+			//The rare and beautiful do while loop, useful here as sometimes the last item in the list 
+			//is our footer view not the last itincard in the list we were expecting.
+			lastItinCardIndex--;
+			lastVisibleItinCard = view.getChildAt(lastItinCardIndex);
+		}
+		while (!(lastVisibleItinCard instanceof ItinCard) && lastItinCardIndex > 0);
+
+		if (firstVisibleItinCard != null && lastVisibleItinCard != null && mItinPathView != null) {
+			int listViewHeight = view.getHeight() > 0 ? view.getHeight() : view.getMeasuredHeight();
+			int firstChildHalfHeight = firstVisibleItinCard.getHeight() / 2;
+			int lastChildHalfHeight = lastVisibleItinCard.getHeight() / 2;
+			int targetY = firstVisibleItem == 0 ? firstVisibleItinCard.getTop() + firstChildHalfHeight : 0;
+			int targetLineHeight = listViewHeight - targetY;
+			if (lastItinCardIndex < firstVisibleItem + visibleItemCount - 1
+					|| firstVisibleItem + visibleItemCount == totalItemCount) {
+				targetLineHeight = lastVisibleItinCard.getTop() + lastChildHalfHeight - targetY;
+			}
+
+			RelativeLayout.LayoutParams lineParams = (LayoutParams) mItinPathView.getLayoutParams();
+			lineParams.height = targetLineHeight;
+			lineParams.topMargin = targetY;
+			mItinPathView.setLayoutParams(lineParams);
+		}
+		else if (mItinPathView != null) {
+			RelativeLayout.LayoutParams lineParams = (LayoutParams) mItinPathView.getLayoutParams();
+			lineParams.height = 0;
+			lineParams.topMargin = 0;
+			mItinPathView.setLayoutParams(lineParams);
+		}
+
+	}
+
 	private OnScrollListener mOnScrollListener = new OnScrollListener() {
 		@Override
 		public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -322,34 +359,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 		@Override
 		public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-			View firstVisibleItinCard = view.getChildAt(firstVisibleItem);
-			View lastVisibleItinCard;
-			int lastItinCardIndex = firstVisibleItem + visibleItemCount;
-			do {
-				//The rare and beautiful do while loop, useful here as sometimes the last item in the list 
-				//is our footer view not the last itincard in the list we were expecting.
-				lastItinCardIndex--;
-				lastVisibleItinCard = view.getChildAt(lastItinCardIndex);
-			}
-			while (!(lastVisibleItinCard instanceof ItinCard) && lastItinCardIndex > 0);
-
-			if (firstVisibleItinCard != null && lastVisibleItinCard != null && mItinPathView != null) {
-				int listViewHeight = view.getHeight() > 0 ? view.getHeight() : view.getMeasuredHeight();
-				int firstChildHalfHeight = firstVisibleItinCard.getHeight() / 2;
-				int lastChildHalfHeight = lastVisibleItinCard.getHeight() / 2;
-				int targetY = firstVisibleItem == 0 ? firstVisibleItinCard.getTop() + firstChildHalfHeight : 0;
-				int targetLineHeight = listViewHeight - targetY;
-				if (lastItinCardIndex < firstVisibleItem + visibleItemCount - 1
-						|| firstVisibleItem + visibleItemCount == totalItemCount) {
-					targetLineHeight = lastVisibleItinCard.getBottom() - lastChildHalfHeight - targetY;
-				}
-
-				RelativeLayout.LayoutParams lineParams = (LayoutParams) mItinPathView.getLayoutParams();
-				lineParams.height = targetLineHeight;
-				lineParams.topMargin = targetY;
-				mItinPathView.setLayoutParams(lineParams);
-			}
+			updateLineView(view, firstVisibleItem, visibleItemCount, totalItemCount);
 		}
 	};
 
