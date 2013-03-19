@@ -9,6 +9,7 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.Projection;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -124,6 +125,17 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 			queuedUpdate.isAnimated = animate;
 			mSavedCameraUpdate = queuedUpdate;
 		}
+	}
+
+	/**
+	 * Equals with floats are bad.  This gets you close enough for government work. 
+	 */
+	public boolean practicallyEquals(CameraPosition pos1, CameraPosition pos2) {
+		return Math.abs(pos1.bearing - pos2.bearing) < .05
+				&& Math.abs(pos1.tilt - pos2.tilt) < .05
+				&& Math.abs(pos1.zoom - pos2.zoom) < .05
+				&& Math.abs(pos1.target.latitude - pos2.target.latitude) < .0005f
+				&& Math.abs(pos1.target.longitude - pos2.target.longitude) < .0005f;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

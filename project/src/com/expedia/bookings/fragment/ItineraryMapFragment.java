@@ -1,7 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -85,14 +83,19 @@ public class ItineraryMapFragment extends SupportMapFragment {
 		}
 
 		CameraPosition camPos = new CameraPosition(camLatLng, ZOOM_LEVEL, 0, 0);
-		CameraUpdate camUpdate = CameraUpdateFactory.newCameraPosition(camPos);
-		if (animate) {
-			animateCamera(camUpdate);
-		}
-		else {
-			moveCamera(camUpdate);
+
+		boolean camPosChanged = !practicallyEquals(origPosition, camPos);
+
+		if (camPosChanged) {
+			CameraUpdate camUpdate = CameraUpdateFactory.newCameraPosition(camPos);
+			if (animate) {
+				animateCamera(camUpdate);
+			}
+			else {
+				moveCamera(camUpdate);
+			}
 		}
 
-		return !origPosition.equals(camPos);
+		return camPosChanged;
 	}
 }
