@@ -186,14 +186,12 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		if (data.showPickUp()) {
 			view.setText(getContext().getString(
 					R.string.itin_card_details_pick_up_TEMPLATE,
-					DateUtils.formatDateTime(getContext(), getItinCardData().getPickUpDate().getCalendar()
-							.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME)));
+					getItinCardData().getPickUpDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME)));
 		}
 		else {
 			view.setText(getContext().getString(
 					R.string.itin_card_details_drop_off_TEMPLATE,
-					DateUtils.formatDateTime(getContext(), getItinCardData().getDropOffDate().getCalendar()
-							.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME)));
+					getItinCardData().getDropOffDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME)));
 		}
 
 		return view;

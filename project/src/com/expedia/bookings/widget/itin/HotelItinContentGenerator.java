@@ -161,13 +161,11 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		if (now.before(startCal) || startCal.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)) {
 			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_TEMPLATE,
-					DateUtils.formatDateTime(getContext(), getItinCardData().getStartDate().getCalendar()
-							.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME)));
+					data.getStartDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME)));
 		}
 		else {
 			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_TEMPLATE,
-					DateUtils.formatDateTime(getContext(), getItinCardData().getEndDate().getCalendar()
-							.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME)));
+					data.getEndDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME)));
 		}
 
 		return view;

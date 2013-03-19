@@ -19,6 +19,7 @@ import com.expedia.bookings.data.CarVendor;
 import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
+import com.expedia.bookings.utils.CalendarUtils;
 import com.google.android.gms.maps.model.LatLng;
 
 public class ItinCardDataCar extends ItinCardData implements ConfirmationNumberable {
@@ -113,43 +114,33 @@ public class ItinCardDataCar extends ItinCardData implements ConfirmationNumbera
 	}
 
 	public String getFormattedPickUpTime(Context context) {
-		long pickUpMillis = getPickUpDate().getCalendar().getTimeInMillis();
-		return DateUtils.formatDateTime(context, pickUpMillis, TIME_FLAGS);
+		return getPickUpDate().formatTime(context, TIME_FLAGS);
 	}
 
 	public String getFormattedDropOffTime(Context context) {
-		long dropOffMillis = getDropOffDate().getCalendar().getTimeInMillis();
-		return DateUtils.formatDateTime(context, dropOffMillis, TIME_FLAGS);
+		return getDropOffDate().formatTime(context, TIME_FLAGS);
 	}
 
 	public String getFormattedShortPickUpDate(Context context) {
-		long pickUpMillis = getPickUpDate().getCalendar().getTimeInMillis();
-		return DateUtils.formatDateTime(context, pickUpMillis, SHORT_DATE_FLAGS);
+		return getPickUpDate().formatTime(context, SHORT_DATE_FLAGS);
 	}
 
 	public String getFormattedShortDropOffDate(Context context) {
-		long dropOffMillis = getDropOffDate().getCalendar().getTimeInMillis();
-		return DateUtils.formatDateTime(context, dropOffMillis, SHORT_DATE_FLAGS);
+		return getDropOffDate().formatTime(context, SHORT_DATE_FLAGS);
 	}
 
 	public String getFormattedLongPickUpDate(Context context) {
-		long pickUpMillis = getPickUpDate().getCalendar().getTimeInMillis();
-		return DateUtils.formatDateTime(context, pickUpMillis, LONG_DATE_FLAGS);
+		return getPickUpDate().formatTime(context, LONG_DATE_FLAGS);
 	}
 
 	public String getFormattedLongDropOffDate(Context context) {
-		long dropOffMillis = getDropOffDate().getCalendar().getTimeInMillis();
-		return DateUtils.formatDateTime(context, dropOffMillis, LONG_DATE_FLAGS);
+		return getDropOffDate().formatTime(context, LONG_DATE_FLAGS);
 	}
 
 	public String getFormattedDays() {
-		final DateTime start = getTripComponent().getParentTrip().getStartDate();
-		final DateTime end = getTripComponent().getParentTrip().getEndDate();
-
-		final long period = (end.getMillisFromEpoch() + end.getTzOffsetMillis())
-				- (start.getMillisFromEpoch() + start.getTzOffsetMillis());
-
-		return String.valueOf((int) (period / (1000 * 60 * 60 * 24)));
+		Trip trip = getTripComponent().getParentTrip();
+		return Integer.toString((int) CalendarUtils.getDaysBetween(trip.getStartDate().getCalendar(), trip.getEndDate()
+				.getCalendar()));
 	}
 
 	public String getRelevantVendorPhone() {

@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
+import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Insurance;
 import com.expedia.bookings.data.trips.Insurance.InsuranceLineOfBusiness;
@@ -429,7 +430,8 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	 * @return
 	 */
 	private CharSequence getRelativeStartDate() {
-		long time = this.getItinCardData().getStartDate().getMillisFromEpoch();
+		DateTime dateTime = getItinCardData().getStartDate();
+		long time = dateTime.getMillisFromEpoch() + dateTime.getTzOffsetMillis();
 		long now = System.currentTimeMillis();
 		long duration = time - now;
 
@@ -443,7 +445,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		// For cards that happened before today, we want "MMM d" ("Mar 5")
 		else if (time < now) {
 			int flags = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_MONTH;
-			ret = DateUtils.formatDateTime(getContext(), time, flags);
+			ret = dateTime.formatTime(getContext(), flags);
 		}
 
 		// For cards coming up in less than one hour, we want "XX Minutes"
@@ -467,7 +469,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		// For cards coming up more than 3 days in the future, we want "MMM d" ("Mar 15")
 		else {
 			int flags = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_MONTH;
-			ret = DateUtils.formatDateTime(getContext(), time, flags);
+			ret = dateTime.formatTime(getContext(), flags);
 		}
 
 		// Capitalize the first letter

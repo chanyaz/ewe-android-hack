@@ -6,6 +6,9 @@ import java.util.SimpleTimeZone;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+import android.text.format.DateUtils;
+
 import com.mobiata.android.json.JSONable;
 
 /**
@@ -25,7 +28,7 @@ public class DateTime implements JSONable, Comparable<DateTime> {
 	public DateTime() {
 		// Empty constructor for JSONable
 	}
-	
+
 	public DateTime(long millisFromEpoch, int tzOffsetMillis) {
 		mMillisFromEpoch = millisFromEpoch;
 		mTzOffsetMillis = tzOffsetMillis;
@@ -47,6 +50,15 @@ public class DateTime implements JSONable, Comparable<DateTime> {
 		}
 
 		return mCal;
+	}
+
+	/**
+	 * Quick way of formatting this DateTime for consumption, using the
+	 * device's locale settings.  Flags should be the same as what is used
+	 * in Android's DateUtils.
+	 */
+	public String formatTime(Context context, int flags) {
+		return DateUtils.formatDateTime(context, mMillisFromEpoch + mTzOffsetMillis, flags | DateUtils.FORMAT_UTC);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

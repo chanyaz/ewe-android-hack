@@ -96,33 +96,27 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 	}
 
 	public String getFormattedDetailsCheckInDate(Context context) {
-		long startMillis = getStartDate().getCalendar().getTimeInMillis();
-		return DateUtils.formatDateTime(context, startMillis, DETAIL_DATE_FLAGS);
+		return getStartDate().formatTime(context, DETAIL_DATE_FLAGS);
 	}
 
 	public String getFormattedDetailsCheckOutDate(Context context) {
-		long endMillis = getEndDate().getCalendar().getTimeInMillis();
-		return DateUtils.formatDateTime(context, endMillis, DETAIL_DATE_FLAGS);
+		return getEndDate().formatTime(context, DETAIL_DATE_FLAGS);
 	}
 
 	public String getFormattedShortShareCheckInDate(Context context) {
-		long checkInMillis = getStartDate().getCalendar().getTimeInMillis();
-		return DateUtils.formatDateTime(context, checkInMillis, SHARE_CHECK_IN_FLAGS);
+		return getStartDate().formatTime(context, SHARE_CHECK_IN_FLAGS);
 	}
 
 	public String getFormattedShortShareCheckOutDate(Context context) {
-		long checkOutMillis = getEndDate().getCalendar().getTimeInMillis();
-		return DateUtils.formatDateTime(context, checkOutMillis, SHARE_CHECK_OUT_FLAGS);
+		return getEndDate().formatTime(context, SHARE_CHECK_OUT_FLAGS);
 	}
 
 	public String getFormattedLongShareCheckInDate(Context context) {
-		long checkInMillis = getStartDate().getCalendar().getTimeInMillis();
-		return DateUtils.formatDateTime(context, checkInMillis, LONG_SHARE_DATE_FLAGS);
+		return getStartDate().formatTime(context, LONG_SHARE_DATE_FLAGS);
 	}
 
 	public String getFormattedLongShareCheckOutDate(Context context) {
-		long checkOutMillis = getEndDate().getCalendar().getTimeInMillis();
-		return DateUtils.formatDateTime(context, checkOutMillis, LONG_SHARE_DATE_FLAGS);
+		return getEndDate().formatTime(context, LONG_SHARE_DATE_FLAGS);
 	}
 
 	public String getFormattedGuests() {

@@ -65,40 +65,35 @@ public class ItinCardDataActivity extends ItinCardData {
 
 	public String getFormattedShareValidDate(Context context) {
 		if (hasContent()) {
-			long validMillis = getValidDate().getCalendar().getTimeInMillis();
-			return DateUtils.formatDateTime(context, validMillis, SHARE_DATE_FLAGS);
+			return getValidDate().formatTime(context, SHARE_DATE_FLAGS);
 		}
 		return null;
 	}
 
 	public String getFormattedShareExpiresDate(Context context) {
 		if (hasContent()) {
-			long expiresMillis = getExpirationDate().getCalendar().getTimeInMillis();
-			return DateUtils.formatDateTime(context, expiresMillis, SHARE_DATE_FLAGS);
+			return getExpirationDate().formatTime(context, SHARE_DATE_FLAGS);
 		}
 		return null;
 	}
 
 	public String getLongFormattedValidDate(Context context) {
 		if (hasContent()) {
-			long validMillis = getValidDate().getCalendar().getTimeInMillis();
-			return DateUtils.formatDateTime(context, validMillis, DETAIL_LONG_DATE_FLAGS);
+			return getValidDate().formatTime(context, DETAIL_LONG_DATE_FLAGS);
 		}
 		return null;
 	}
 
 	public String getFormattedValidDate(Context context) {
 		if (hasContent()) {
-			long validMillis = getValidDate().getCalendar().getTimeInMillis();
-			return DateUtils.formatDateTime(context, validMillis, DETAIL_SHORT_DATE_FLAGS);
+			return getValidDate().formatTime(context, DETAIL_SHORT_DATE_FLAGS);
 		}
 		return null;
 	}
 
 	public String getFormattedExpirationDate(Context context) {
 		if (hasContent()) {
-			long expiresMillis = getExpirationDate().getCalendar().getTimeInMillis();
-			return DateUtils.formatDateTime(context, expiresMillis, DETAIL_SHORT_DATE_FLAGS);
+			return getExpirationDate().formatTime(context, DETAIL_SHORT_DATE_FLAGS);
 		}
 		return null;
 	}
