@@ -301,25 +301,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	//are both start and end dates before cal
-	private boolean isCardBeforeCal(ItinCardData data, Calendar cal) {
-		if (data == null || data.getEndDate() == null || data.getStartDate() == null) {
-			return false;
-		}
-		else {
-			long calTime = cal.getTimeInMillis();
-			long start = data.getStartDate().getCalendar().getTimeInMillis();
-			long end = data.getEndDate().getCalendar().getTimeInMillis();
-
-			if (start < calTime && end < calTime) {
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
-	}
-
 	// start after cal
 	private boolean doesCardStartAfterCal(ItinCardData data, Calendar cal) {
 		if (data == null || data.getStartDate() == null) {
@@ -400,13 +381,20 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 	}
 
 	private boolean isItemInThePast(int position) {
-		if (mItinCardDatas.size() <= position) {
+		ItinCardData data = mItinCardDatas.get(position);
+		if (data == null || data.getEndDate() == null) {
 			return false;
 		}
-		else {
-			ItinCardData data = mItinCardDatas.get(position);
-			return isCardBeforeCal(data, Calendar.getInstance());
-		}
+
+		Calendar endCal = data.getEndDate().getCalendar();
+		int endYear = endCal.get(Calendar.YEAR);
+		int endDay = endCal.get(Calendar.DAY_OF_YEAR);
+
+		Calendar now = Calendar.getInstance();
+		int thisYear = now.get(Calendar.YEAR);
+		int thisDay = now.get(Calendar.DAY_OF_YEAR);
+
+		return (endYear == thisYear && endDay < thisDay) || endYear < thisYear;
 	}
 
 	private boolean isItemASummaryCard(int position) {
