@@ -294,6 +294,8 @@ public class BookingFormFragment extends Fragment {
 					bd.startDownload(KEY_SIGNIN_FETCH, mLoginDownload, mLoginCallback);
 				}
 			}
+
+			loginCompleted();
 		}
 		else {
 			mAccountButton.bind(false, false, null);
