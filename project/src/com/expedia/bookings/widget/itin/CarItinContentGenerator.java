@@ -19,7 +19,6 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.EventSummaryView;
 import com.expedia.bookings.widget.MapImageView;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.flightlib.utils.DateTimeUtils;
 
 public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCar> {
 
@@ -226,10 +225,8 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 			staticMapImageView.setCenterPoint(relevantLocation);
 		}
 
-		pickUpEventSummaryView.bind(DateTimeUtils.getTimeInLocalTimeZone(itinCardData.getPickUpDate().getCalendar()),
-				itinCardData.getPickUpLocation(), true);
-		dropOffEventSummaryView.bind(DateTimeUtils.getTimeInLocalTimeZone(itinCardData.getDropOffDate().getCalendar()),
-				itinCardData.getDropOffLocation(), true);
+		pickUpEventSummaryView.bind(itinCardData.getPickUpDate(), itinCardData.getPickUpLocation(), true);
+		dropOffEventSummaryView.bind(itinCardData.getDropOffDate(), itinCardData.getDropOffLocation(), true);
 
 		showPhoneNumber(localPhoneLabelTextView, localPhoneTextView, itinCardData.getLocalPhoneNumber());
 		showPhoneNumber(tollFreePhoneLabelTextView, tollFreePhoneTextView, itinCardData.getTollFreePhoneNumber());

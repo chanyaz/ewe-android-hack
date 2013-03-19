@@ -1,28 +1,20 @@
 package com.expedia.bookings.widget;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageButton;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.utils.Ui;
 
 public class EventSummaryView extends LinearLayout {
-	//////////////////////////////////////////////////////////////////////////////////////
-	// PRIVATE CONSTANTS
-	//////////////////////////////////////////////////////////////////////////////////////
-
-	private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("h:mm a", Locale.getDefault());
-	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("EE, MMM d, yyyy", Locale.getDefault());
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
@@ -56,9 +48,11 @@ public class EventSummaryView extends LinearLayout {
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	public void bind(Date date, final Location location, final boolean directions) {
-		mTimeTextView.setText(TIME_FORMAT.format(date));
-		mDateTextView.setText(DATE_FORMAT.format(date));
+	public void bind(DateTime dateTime, final Location location, final boolean directions) {
+		Context context = getContext();
+		mTimeTextView.setText(dateTime.formatTime(context, DateUtils.FORMAT_SHOW_TIME));
+		mDateTextView.setText(dateTime.formatTime(context, DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_WEEKDAY
+				| DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_ABBREV_MONTH));
 		mLocationtextView.setText(location.toLongFormattedString());
 		mLocationMapImageButton.setOnClickListener(new OnClickListener() {
 			@Override
