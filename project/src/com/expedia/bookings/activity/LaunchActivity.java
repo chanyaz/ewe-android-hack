@@ -343,6 +343,10 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 				mItinListFragment.setListMode();
 			}
 
+			if (mLaunchFragment != null) {
+				mLaunchFragment.startMarquee();
+			}
+
 			if (mHasMenu) {
 				supportInvalidateOptionsMenu();
 			}

@@ -903,7 +903,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	// We also need to use both preDraw and onGlobalLayout, as sometimes one
 	// or the other is only called.
 
-	private void startMarquee() {
+	public void startMarquee() {
 		ViewTreeObserver vto = mHotelsStreamListView.getViewTreeObserver();
 		vto.addOnGlobalLayoutListener(this);
 		vto.addOnPreDrawListener(this);
