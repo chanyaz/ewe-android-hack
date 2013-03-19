@@ -102,7 +102,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		Intent intent = new Intent(context, HotelDetailsFragmentActivity.class);
 		return intent;
 	}
-	
+
 	/**
 	 * Create intent to open this Activity from a widget.
 	 * @param context
@@ -474,15 +474,15 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 
 			// Notify affected child fragments to refresh.
 
-			if (mIntroFragment != null) {
+			if (mIntroFragment != null && mIntroFragment.isAdded()) {
 				mIntroFragment.populateViews();
 			}
 
-			if (mDescriptionFragment != null) {
+			if (mDescriptionFragment != null && mDescriptionFragment.isAdded()) {
 				mDescriptionFragment.populateViews();
 			}
 
-			if (mGalleryFragment != null) {
+			if (mGalleryFragment != null && mGalleryFragment.isAdded()) {
 				mGalleryFragment.populateViews();
 			}
 		}
