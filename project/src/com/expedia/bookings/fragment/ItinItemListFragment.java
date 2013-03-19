@@ -343,13 +343,6 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 			lineParams.topMargin = targetY;
 			mItinPathView.setLayoutParams(lineParams);
 		}
-		else if (mItinPathView != null) {
-			RelativeLayout.LayoutParams lineParams = (LayoutParams) mItinPathView.getLayoutParams();
-			lineParams.height = 0;
-			lineParams.topMargin = 0;
-			mItinPathView.setLayoutParams(lineParams);
-		}
-
 	}
 
 	private OnScrollListener mOnScrollListener = new OnScrollListener() {
