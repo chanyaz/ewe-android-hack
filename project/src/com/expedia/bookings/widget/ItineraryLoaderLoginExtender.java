@@ -89,7 +89,7 @@ public class ItineraryLoaderLoginExtender implements LoginExtender, ItinerarySyn
 		});
 
 		ItineraryManager.getInstance().addSyncListener(this);
-		ItineraryManager.getInstance().startSync(false);
+		ItineraryManager.getInstance().startSync(true);
 		setExtenderStatus(mContext.getString(R.string.fetching_your_itinerary));
 
 		extenderContainer.addView(mView);
