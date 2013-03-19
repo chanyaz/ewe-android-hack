@@ -9,7 +9,6 @@ import java.util.List;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.text.format.Time;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -26,11 +25,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 
 	private static final int CUTOFF_HOURS = 48;
 
-	public enum TripComponentSortOrder {
-		START_DATE,
-		MULTI
-	}
-
 	private enum State {
 		PAST,
 		SUMMARY,
@@ -45,7 +39,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 	private Context mContext;
 	private ItineraryManager mItinManager;
 	private ArrayList<ItinCardData> mItinCardDatas;
-	private TripComponentSortOrder mSortOrder = TripComponentSortOrder.MULTI;
 	private int mDetailPosition = -1;
 	private String mSelectedCardId;
 
@@ -254,16 +247,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 		mItinManager.removeSyncListener(this);
 	}
 
-	/**
-	 * Update the sort order of the list. The default is by start date.
-	 * @param order - The order to sort the items in
-	 */
-	public synchronized void setSortOrder(TripComponentSortOrder order) {
-		mSortOrder = order;
-		sortItems();
-		notifyDataSetChanged();
-	}
-
 	public void setSimpleMode(boolean enabled) {
 		mSimpleMode = enabled;
 	}
@@ -467,30 +450,10 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 	}
 
 	private void sortItems() {
-		switch (mSortOrder) {
-		case START_DATE:
-			Collections.sort(mItinCardDatas, mItinCardDataStartDateComparator);
-			return;
-		case MULTI:
-			Collections.sort(mItinCardDatas, mItinCardDataMultiComparator);
-			return;
-		}
+		Collections.sort(mItinCardDatas, mItinCardDataComparator);
 	}
 
-	Comparator<ItinCardData> mItinCardDataStartDateComparator = new Comparator<ItinCardData>() {
-		@Override
-		public int compare(ItinCardData dataOne, ItinCardData dataTwo) {
-			if (dataOne.getStartDate() == null) {
-				return -1;
-			}
-			if (dataTwo.getStartDate() == null) {
-				return 1;
-			}
-			return dataOne.getStartDate().compareTo(dataTwo.getStartDate());
-		}
-	};
-
-	Comparator<ItinCardData> mItinCardDataMultiComparator = new Comparator<ItinCardData>() {
+	private Comparator<ItinCardData> mItinCardDataComparator = new Comparator<ItinCardData>() {
 		@Override
 		public int compare(ItinCardData dataOne, ItinCardData dataTwo) {
 			// Sort by:
