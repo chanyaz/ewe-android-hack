@@ -31,8 +31,13 @@ public class ItinActionsSection extends android.widget.LinearLayout {
 	}
 
 	public void bind(SummaryButton leftData, SummaryButton rightData) {
-		setSummaryButton(mLeftButton, leftData);
-		setSummaryButton(mRightButton, rightData);
+		if (leftData != null) {
+			setSummaryButton(mLeftButton, leftData);
+		}
+
+		if (rightData != null) {
+			setSummaryButton(mRightButton, rightData);
+		}
 
 		mLeftButton.setVisibility(leftData != null ? VISIBLE : GONE);
 		mRightButton.setVisibility(rightData != null ? VISIBLE : GONE);
