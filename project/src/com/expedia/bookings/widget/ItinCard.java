@@ -7,10 +7,13 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,6 +23,8 @@ import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
+import com.expedia.bookings.widget.itin.SummaryButton;
+import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.Animator;
@@ -91,6 +96,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	private View mHeaderShadeView;
 	private View mSummaryDividerView;
 
+	private TextView mSummaryLeftButton;
+	private TextView mSummaryRightButton;
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -133,6 +141,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		mSelectedView = Ui.findView(this, R.id.selected_view);
 		mHeaderShadeView = Ui.findView(this, R.id.header_mask);
 		mSummaryDividerView = Ui.findView(this, R.id.summary_divider_view);
+
+		mSummaryLeftButton = Ui.findView(this, R.id.summary_left_button);
+		mSummaryRightButton = Ui.findView(this, R.id.summary_right_button);
 
 		Ui.findView(this, R.id.close_image_button).setOnClickListener(mOnClickListener);
 		Ui.findView(this, R.id.share_image_button).setOnClickListener(mOnClickListener);
@@ -197,7 +208,19 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 		// Buttons
 		mActionButtonLayout.bind(mItinContentGenerator.getSummaryLeftButton(),
-				mItinContentGenerator.getSummaryRightButton());
+		if (leftButton != null) {
+			setSummaryButton(mSummaryLeftButton, leftButton);
+		}
+
+		final SummaryButton rightButton = mItinContentGenerator.getSummaryRightButton();
+		if (rightButton != null) {
+			setSummaryButton(mSummaryRightButton, rightButton);
+		}
+
+		mSummaryLeftButton.setVisibility(leftButton != null ? VISIBLE : GONE);
+		mSummaryRightButton.setVisibility(rightButton != null ? VISIBLE : GONE);
+		Ui.findView(this, R.id.action_button_divider).setVisibility(
+				(leftButton != null && rightButton != null) ? VISIBLE : GONE);
 
 		// Selected
 		mSelectedView.setVisibility(mSelectCard ? View.VISIBLE : View.GONE);
@@ -500,6 +523,54 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 	private void updateClickable() {
 		mScrollView.setEnabled(mDisplayState == DisplayState.EXPANDED);
+	}
+
+	private void setSummaryButton(final TextView textView, final SummaryButton summaryButton) {
+		textView.setCompoundDrawablesWithIntrinsicBounds(summaryButton.getIconResId(), 0, 0, 0);
+		textView.setText(summaryButton.getText());
+		textView.setOnClickListener(new OnClickListener() {
+			@SuppressWarnings("deprecation")
+			@Override
+			public void onClick(View v) {
+				if (!summaryButton.getShouldShowPopup()) {
+					summaryButton.getOnClickListener().onClick(v);
+				}
+				else {
+					final View contentView = summaryButton.getPopupContentView();
+					final PopupWindow popup = new PopupWindow(contentView, ViewGroup.LayoutParams.WRAP_CONTENT,
+							ViewGroup.LayoutParams.WRAP_CONTENT, true);
+
+					popup.setBackgroundDrawable(new BitmapDrawable());
+					popup.setOutsideTouchable(true);
+					popup.setTouchable(true);
+
+					// Some hackery is necessary here: in order to layout the content so we can get its
+					// height, we show it off-screen, then we post a runnable to set it's position relative
+					// too the textview. We don't use showAsDropDown because it moved off-screen due
+					// to some listview weirdness (I'm assuming) and the hacky stuff we're doing to implement
+					// the expand/collapse animations.
+					popup.showAtLocation(textView, Gravity.NO_GRAVITY, -1000, -1000);
+					contentView.post(new Runnable() {
+						@Override
+						public void run() {
+							final int[] location = new int[2];
+							textView.getLocationOnScreen(location);
+
+							popup.update(location[0], location[1] - contentView.getHeight(), -1, -1);
+							contentView.setOnClickListener(new OnClickListener() {
+								@Override
+								public void onClick(View v) {
+									if (summaryButton.getPopupOnClickListener() != null) {
+										summaryButton.getPopupOnClickListener().onClick(v);
+									}
+									popup.dismiss();
+								}
+							});
+						}
+					});
+				}
+			}
+		});
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////

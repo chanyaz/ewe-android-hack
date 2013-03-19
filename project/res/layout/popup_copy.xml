@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.expedia.bookings"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_popup_blue"
+    android:orientation="vertical"
+    android:padding="16dp" >
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/content_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_copy"
+        android:drawablePadding="8dp"
+        android:gravity="center"
+        android:textColor="@color/itin_white_text"
+        android:textSize="14dp"
+        app:textAllCaps="true"
+        app:textStyle="bold" />
+
+</LinearLayout>

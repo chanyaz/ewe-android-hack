@@ -10,12 +10,14 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.MapImageView;
 import com.mobiata.android.SocialUtils;
@@ -229,17 +231,42 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 	@Override
 	public SummaryButton getSummaryRightButton() {
-		return new SummaryButton(R.drawable.ic_phone, getContext().getString(R.string.itin_action_call_hotel),
-				new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						String phone = getItinCardData().getRelevantPhone();
-						if (phone != null) {
-							SocialUtils.call(getContext(), phone);
-							OmnitureTracking.trackItinHotelCall(getContext());
-						}
-					}
-				});
-	}
+		final int iconResId = R.drawable.ic_phone;
+		final String actionText = getContext().getString(R.string.itin_action_call_hotel);
+		final String phone = getItinCardData().getRelevantPhone();
 
+		// Action button OnClickListener
+		final OnClickListener onClickListener = new OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				if (phone != null) {
+					SocialUtils.call(getContext(), phone);
+					OmnitureTracking.trackItinHotelCall(getContext());
+				}
+			}
+		};
+
+		// Popup view and click listener
+		final View popupContentView;
+		final OnClickListener popupOnClickListener;
+
+		if (!SocialUtils.canHandleIntentOfTypeXandUriY(getContext(), Intent.ACTION_VIEW, "tel:")) {
+			popupContentView = getLayoutInflater().inflate(R.layout.popup_copy, null);
+			Ui.setText(popupContentView, R.id.content_text_view, getContext().getString(R.string.copy_TEMPLATE, phone));
+
+			popupOnClickListener = new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					ClipboardUtils.setText(getContext(), phone);
+					Toast.makeText(getContext(), R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show();
+				}
+			};
+		}
+		else {
+			popupContentView = null;
+			popupOnClickListener = null;
+		}
+
+		return new SummaryButton(iconResId, actionText, onClickListener, popupContentView, popupOnClickListener);
+	}
 }
