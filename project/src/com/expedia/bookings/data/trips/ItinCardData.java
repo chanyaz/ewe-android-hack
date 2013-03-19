@@ -1,12 +1,7 @@
 package com.expedia.bookings.data.trips;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-
 import com.expedia.bookings.data.DateTime;
 import com.google.android.gms.maps.model.LatLng;
-import com.mobiata.android.Log;
 
 /**
  * This class represents one item in the Itineraries list
@@ -45,17 +40,6 @@ public class ItinCardData {
 		return mTripComponent.getStartDate();
 	}
 
-	private static DateFormat sFormatter = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
-
-	public int getStartDateSerialized() {
-		DateTime date = getStartDate();
-		if (date == null) {
-			Log.e("getStartDate is null. Unable to sort.");
-			return 0;
-		}
-		return Integer.parseInt(sFormatter.format(date.getMillisFromEpoch()));
-	}
-
 	public DateTime getEndDate() {
 		return mTripComponent.getEndDate();
 	}
@@ -89,7 +73,7 @@ public class ItinCardData {
 		public boolean hasConfirmationNumber();
 
 		public int getConfirmationNumberLabelResId();
-		
+
 		public String getFormattedConfirmationNumbers();
 	}
 }

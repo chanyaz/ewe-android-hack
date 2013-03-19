@@ -1,21 +1,27 @@
 package com.expedia.bookings.data.trips;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.TimeZone;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.widget.ItinCard;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
@@ -221,8 +227,10 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 				}
 			}
 		}
+
 		//Sort Items
-		sortItems();
+		Collections.sort(mItinCardDatas, mItinCardDataComparator);
+
 		//Notify listeners
 		notifyDataSetChanged();
 	}
@@ -449,10 +457,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 		return sumCardPositions;
 	}
 
-	private void sortItems() {
-		Collections.sort(mItinCardDatas, mItinCardDataComparator);
-	}
-
 	private Comparator<ItinCardData> mItinCardDataComparator = new Comparator<ItinCardData>() {
 		@Override
 		public int compare(ItinCardData dataOne, ItinCardData dataTwo) {
@@ -462,8 +466,14 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 			// 3. "checkInDate" (including time)
 			// 4. Unique ID
 
+			long startMillis1 = getStartMillisUtc(dataOne);
+			long startMillis2 = getStartMillisUtc(dataTwo);
+
+			int startDate1 = Integer.parseInt(SORT_DATE_FORMATTER.format(startMillis1));
+			int startDate2 = Integer.parseInt(SORT_DATE_FORMATTER.format(startMillis2));
+
 			// 1
-			int comparison = dataOne.getStartDateSerialized() - dataTwo.getStartDateSerialized();
+			int comparison = startDate1 - startDate2;
 			if (comparison != 0) {
 				return comparison;
 			}
@@ -475,10 +485,12 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 			}
 
 			// 3
-			comparison = (int) (dataOne.getStartDate().getMillisFromEpoch() - dataTwo.getStartDate()
-					.getMillisFromEpoch());
-			if (comparison != 0) {
-				return comparison;
+			long millisComp = startMillis1 - startMillis2;
+			if (millisComp > 0) {
+				return 1;
+			}
+			else if (millisComp < 0) {
+				return -1;
 			}
 
 			// 4
@@ -487,6 +499,24 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 			return comparison;
 		}
 	};
+
+	private long getStartMillisUtc(ItinCardData data) {
+		DateTime date = data.getStartDate();
+		if (date == null) {
+			return 0;
+		}
+		return date.getMillisFromEpoch() + date.getTzOffsetMillis();
+	}
+
+	private static final DateFormat SORT_DATE_FORMATTER = new SimpleDateFormat("yyyyMMdd");
+
+	static {
+		// Try to format in UTC for comparison purposes
+		TimeZone tz = TimeZone.getTimeZone("UTC");
+		if (tz != null) {
+			SORT_DATE_FORMATTER.setTimeZone(tz);
+		}
+	}
 
 	@Override
 	public void onCloseButtonClicked() {
