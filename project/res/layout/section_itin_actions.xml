@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:orientation="horizontal" >
 
-        <com.expedia.bookings.widget.TextView
+        <com.expedia.bookings.widget.AutoResizeTextView
             android:id="@+id/summary_left_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -39,7 +39,7 @@
             android:layout_marginTop="8dp"
             android:background="#4D555D" />
 
-        <com.expedia.bookings.widget.TextView
+        <com.expedia.bookings.widget.AutoResizeTextView
             android:id="@+id/summary_right_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
