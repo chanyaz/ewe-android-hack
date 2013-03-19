@@ -393,7 +393,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			}
 
 			// Response was good, we are going to use this stuff
-			if (searchResponse != null && searchResponse.getPropertiesCount() > 0 && !searchResponse.hasErrors()) {
+			if (searchResponse != null && searchResponse.getPropertiesCount() > 1 && !searchResponse.hasErrors()) {
 
 				// We only want to set the the search from Launch if there exists no SearchResponse data already (to avoid
 				// sending the user through another network request when jumping to Hotels). If there already exists a
