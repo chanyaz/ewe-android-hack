@@ -1,8 +1,11 @@
 package com.expedia.bookings.data.trips;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -21,6 +24,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.google.android.gms.maps.model.LatLng;
+import com.mobiata.flightlib.utils.DateTimeUtils;
 
 public class ItinCardDataCar extends ItinCardData implements ConfirmationNumberable {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -114,11 +118,11 @@ public class ItinCardDataCar extends ItinCardData implements ConfirmationNumbera
 	}
 
 	public String getFormattedPickUpTime(Context context) {
-		return getPickUpDate().formatTime(context, TIME_FLAGS);
+		return getPickUpDate().formatTime(context, TIME_FLAGS) + " " + getPickUpDate().formatTimeZone();
 	}
 
 	public String getFormattedDropOffTime(Context context) {
-		return getDropOffDate().formatTime(context, TIME_FLAGS);
+		return getDropOffDate().formatTime(context, TIME_FLAGS) + " " + getDropOffDate().formatTimeZone();
 	}
 
 	public String getFormattedShortPickUpDate(Context context) {

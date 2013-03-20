@@ -61,6 +61,26 @@ public class DateTime implements JSONable, Comparable<DateTime> {
 		return DateUtils.formatDateTime(context, mMillisFromEpoch + mTzOffsetMillis, flags | DateUtils.FORMAT_UTC);
 	}
 
+	/**
+	 * This method is used to fetch the formatted timeZone string based on only timeZoneOffset.
+	 * Example: If timeZoneOffset = -14400, it returns GMT-4
+	 */
+	public String formatTimeZone() {
+		int offsetSeconds = mTzOffsetMillis / 1000;
+		int offsetMinutes = Math.abs(offsetSeconds / 60);
+		int offsetHours = offsetMinutes / 60;
+		offsetMinutes -= (offsetHours * 60);
+		String timeZoneString = "GMT";
+		if (offsetHours > 0 || offsetMinutes > 0) {
+			timeZoneString += ((offsetSeconds > 0) ? "+" : "-") + offsetHours;
+			if (offsetMinutes > 0) {
+				timeZoneString += ":" + ((offsetMinutes < 10) ? "0" : "") + offsetMinutes;
+			}
+		}
+
+		return timeZoneString;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
