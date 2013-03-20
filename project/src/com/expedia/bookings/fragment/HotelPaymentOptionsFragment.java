@@ -21,7 +21,8 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.model.PaymentFlowState;
+import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.model.HotelPaymentFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -46,7 +47,7 @@ public class HotelPaymentOptionsFragment extends Fragment {
 
 	View mCardErrorImage;
 
-	PaymentFlowState mValidationState;
+	HotelPaymentFlowState mValidationState;
 
 	HotelPaymentYoYoListener mListener;
 
@@ -206,7 +207,7 @@ public class HotelPaymentOptionsFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		mValidationState = PaymentFlowState.getInstance(getActivity());
+		mValidationState = HotelPaymentFlowState.getInstance(getActivity());
 
 		BillingInfo mBillingInfo = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
 
@@ -232,13 +233,33 @@ public class HotelPaymentOptionsFragment extends Fragment {
 		boolean hasSelectedStoredCard = Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard() != null;
 
 		if (mValidationState == null) {
-			mValidationState = PaymentFlowState.getInstance(getActivity());
+			mValidationState = HotelPaymentFlowState.getInstance(getActivity());
 		}
 		boolean addressValid = mValidationState.hasValidBillingAddress(Db.getWorkingBillingInfoManager()
 				.getWorkingBillingInfo());
 		boolean cardValid = mValidationState
 				.hasValidCardInfo(Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
-		boolean displayManualCurrentPayment = !hasSelectedStoredCard && (addressValid || cardValid);
+
+		// Note: the display of the manualCurrentPayment here has slightly different meaning than in other parts of the
+		// checkout flow. For instance, we want to allow the user to book if they have valid information for credit
+		// card and address elsewhere, on HotelPaymentFlowState. If we don't require address then we want to ensure that
+		// we allow the user to book in places where we validate against address and credit card.
+		//
+		// Here, we want to display this container even if some of the information is missing. We don't require address
+		// on all POS, so HotelPaymentFlowState address validation will return true. Unfortunately, this is a little bit 
+		// misleading because in this point in the code it is implied that if the address is valid then the user has been 
+		// entering an address which will not be the case for certain POS. That is why need to inspect on the POS to 
+		// determine whether or not we should display manual current payment.
+		//
+		// tl;dr payment validation is complicated and happens in a lot of places and should probably be refactored
+		boolean displayManualCurrentPayment;
+		PointOfSale.RequiredPaymentFieldsHotels fields = PointOfSale.getPointOfSale().getRequiredPaymentFieldsHotels();
+		if (fields == PointOfSale.RequiredPaymentFieldsHotels.POSTAL_CODE) {
+			displayManualCurrentPayment = !hasSelectedStoredCard && (addressValid || cardValid);
+		}
+		else {
+			displayManualCurrentPayment = !hasSelectedStoredCard && cardValid;
+		}
 
 		mCurrentPaymentLabel.setVisibility(hasSelectedStoredCard || displayManualCurrentPayment ? View.VISIBLE
 				: View.GONE);
