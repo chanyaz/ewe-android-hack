@@ -6,6 +6,8 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
+import android.content.DialogInterface.OnClickListener;
 import android.preference.ListPreference;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -25,6 +27,7 @@ public class DomainPreference extends ListPreference {
 	private Context mContext;
 	private String mValue;
 	private int mSelectedOption;
+	private int mPreviouslySelectedOption;
 
 	private CharSequence[] mEntries;
 	private CharSequence[] mEntrySubText;
@@ -85,9 +88,10 @@ public class DomainPreference extends ListPreference {
 		DomainAdapter domainAdapter = new DomainAdapter(mContext);
 		domainAdapter.setDomains(mEntries, mEntrySubText);
 		domainAdapter.setSelected(mSelectedOption);
+		mPreviouslySelectedOption = mSelectedOption;
 		builder.setAdapter(domainAdapter, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				mSelectedOption = which;
+				setSelectedOption(which);
 				DomainPreference.super.onClick(dialog, DialogInterface.BUTTON_POSITIVE);
 				dialog.dismiss();
 			}
@@ -121,7 +125,18 @@ public class DomainPreference extends ListPreference {
 					Toast.makeText(mContext, R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show();
 				}
 			});
-			builder.setNegativeButton(android.R.string.cancel, null);
+			builder.setNegativeButton(android.R.string.cancel, new OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					setSelectedOption(mPreviouslySelectedOption);
+				}
+			});
+			builder.setOnCancelListener(new OnCancelListener() {
+				@Override
+				public void onCancel(DialogInterface dialog) {
+					setSelectedOption(mPreviouslySelectedOption);
+				}
+			});
 			AlertDialog dialog = builder.create();
 			dialog.show();
 		}
