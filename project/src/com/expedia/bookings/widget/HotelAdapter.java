@@ -168,7 +168,12 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			return -1;
 		}
 
-		return Integer.valueOf(mCachedProperties[position].getPropertyId());
+		try {
+			return Integer.valueOf(mCachedProperties[position].getPropertyId());
+		}
+		catch (java.lang.NumberFormatException e) {
+			return position;
+		}
 	}
 
 	@Override

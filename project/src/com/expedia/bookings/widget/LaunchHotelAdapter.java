@@ -86,7 +86,13 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Object> {
 		}
 
 		if (item instanceof Property) {
-			return Integer.valueOf(((Property) item).getPropertyId());
+			try {
+				return Integer.valueOf(((Property) item).getPropertyId());
+			}
+			catch (java.lang.NumberFormatException e) {
+				return position;
+			}
+
 		}
 		else {
 			return position;
