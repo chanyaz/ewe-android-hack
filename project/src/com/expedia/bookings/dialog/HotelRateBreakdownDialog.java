@@ -156,8 +156,6 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 		rightBuilder.setText(displayedTotal.getFormattedMoney());
 		rightBuilder.build();
 
-		addDivider();
-
 		// Reallocate the cells since we added children, forces a requestLayout
 		mGrid.setColumnCount(2);
 
