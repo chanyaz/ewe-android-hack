@@ -119,8 +119,12 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 		return getEndDate().formatTime(context, LONG_SHARE_DATE_FLAGS);
 	}
 
+	public int getGuestCount() {
+		return ((TripHotel) getTripComponent()).getGuests();
+	}
+
 	public String getFormattedGuests() {
-		return String.valueOf(((TripHotel) getTripComponent()).getGuests());
+		return String.valueOf(getGuestCount());
 	}
 
 	public Location getPropertyLocation() {

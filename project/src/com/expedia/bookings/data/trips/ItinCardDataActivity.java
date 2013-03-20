@@ -74,8 +74,12 @@ public class ItinCardDataActivity extends ItinCardData {
 		return getExpirationDate().formatTime(context, DETAIL_SHORT_DATE_FLAGS);
 	}
 
+	public int getGuestCount() {
+		return mActivity.getGuestCount();
+	}
+
 	public String getFormattedGuestCount() {
-		return String.valueOf(mActivity.getGuestCount());
+		return String.valueOf(getGuestCount());
 	}
 
 	public List<Traveler> getTravelers() {

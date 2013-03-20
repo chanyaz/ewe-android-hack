@@ -159,6 +159,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 		TextView activeDateTextView = Ui.findView(view, R.id.active_date_text_view);
 		TextView expirationDateTextView = Ui.findView(view, R.id.expiration_date_text_view);
 		TextView guestCountTextView = Ui.findView(view, R.id.guest_count_text_view);
+		TextView guestCountLabel = Ui.findView(view, R.id.itin_card_details_guests_label);
 		ViewGroup guestsLayout = Ui.findView(view, R.id.guests_layout);
 		ViewGroup commonItinDataContainer = Ui.findView(view, R.id.itin_shared_info_container);
 
@@ -166,6 +167,8 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 		activeDateTextView.setText(itinCardData.getFormattedValidDate(getContext()));
 		expirationDateTextView.setText(itinCardData.getFormattedExpirationDate(getContext()));
 		guestCountTextView.setText(itinCardData.getFormattedGuestCount());
+		guestCountLabel.setText(getResources().getQuantityText(R.plurals.number_of_guests_label,
+				itinCardData.getGuestCount()));
 
 		guestsLayout.removeAllViews();
 

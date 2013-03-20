@@ -89,9 +89,9 @@
                 app:textStyle="medium" />
 
             <com.expedia.bookings.widget.TextView
+                android:id="@+id/itin_card_details_days_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/itin_card_details_days"
                 android:textColor="#a9abae"
                 android:textSize="14dp"
                 app:textStyle="light" />

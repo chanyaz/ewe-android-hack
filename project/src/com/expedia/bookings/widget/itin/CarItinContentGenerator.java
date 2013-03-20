@@ -206,6 +206,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		TextView pickUpDateTextView = Ui.findView(view, R.id.pick_up_date_text_view);
 		TextView dropOffDateTextView = Ui.findView(view, R.id.drop_off_date_text_view);
 		TextView daysTextView = Ui.findView(view, R.id.days_text_view);
+		TextView daysLabel = Ui.findView(view, R.id.itin_card_details_days_label);
 		MapImageView staticMapImageView = Ui.findView(view, R.id.mini_map);
 		EventSummaryView pickUpEventSummaryView = Ui.findView(view, R.id.pick_up_event_summary_view);
 		EventSummaryView dropOffEventSummaryView = Ui.findView(view, R.id.drop_off_event_summary_view);
@@ -219,6 +220,8 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		pickUpDateTextView.setText(itinCardData.getFormattedShortPickUpDate(getContext()));
 		dropOffDateTextView.setText(itinCardData.getFormattedShortDropOffDate(getContext()));
 		daysTextView.setText(itinCardData.getFormattedDays());
+		daysLabel.setText(getResources().getQuantityText(R.plurals.number_of_days_label,
+				itinCardData.getDays()));
 
 		Location relevantLocation = itinCardData.getRelevantVendorLocation();
 		if (relevantLocation != null) {

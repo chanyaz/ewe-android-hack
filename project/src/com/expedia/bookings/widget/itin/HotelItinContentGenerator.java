@@ -4,6 +4,7 @@ import java.util.Calendar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -180,6 +181,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		TextView checkInDateTextView = Ui.findView(view, R.id.check_in_date_text_view);
 		TextView checkOutDateTextView = Ui.findView(view, R.id.check_out_date_text_view);
 		TextView guestsTextView = Ui.findView(view, R.id.guests_text_view);
+		TextView guestCountLabel = Ui.findView(view, R.id.itin_card_details_guests_label);
 		MapImageView staticMapImageView = Ui.findView(view, R.id.mini_map);
 		TextView addressTextView = Ui.findView(view, R.id.address_text_view);
 		TextView phoneNumberTextView = Ui.findView(view, R.id.phone_number_text_view);
@@ -190,6 +192,8 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		checkInDateTextView.setText(itinCardData.getFormattedDetailsCheckInDate(getContext()));
 		checkOutDateTextView.setText(itinCardData.getFormattedDetailsCheckOutDate(getContext()));
 		guestsTextView.setText(itinCardData.getFormattedGuests());
+		guestCountLabel.setText(getResources().getQuantityText(R.plurals.number_of_guests_label,
+				itinCardData.getGuestCount()));
 
 		if (itinCardData.getPropertyLocation() != null) {
 			staticMapImageView.setCenterPoint(itinCardData.getPropertyLocation());

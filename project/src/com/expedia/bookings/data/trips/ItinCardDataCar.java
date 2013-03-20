@@ -141,10 +141,13 @@ public class ItinCardDataCar extends ItinCardData implements ConfirmationNumbera
 		return getDropOffDate().formatTime(context, LONG_DATE_FLAGS);
 	}
 
-	public String getFormattedDays() {
+	public int getDays() {
 		Trip trip = getTripComponent().getParentTrip();
-		return Integer.toString((int) CalendarUtils.getDaysBetween(trip.getStartDate().getCalendar(), trip.getEndDate()
-				.getCalendar()));
+		return (int) CalendarUtils.getDaysBetween(trip.getStartDate().getCalendar(), trip.getEndDate().getCalendar());
+	}
+
+	public String getFormattedDays() {
+		return Integer.toString(getDays());
 	}
 
 	public String getRelevantVendorPhone() {

@@ -323,7 +323,6 @@
     <string name="itin_card_details_details">Additional Information</string>
     <string name="itin_card_details_pick_up">Pick Up</string>
     <string name="itin_card_details_drop_off">Drop Off</string>
-    <string name="itin_card_details_days">Days</string>
     <!-- Tell users when they can pick up a rental car. %1$s is a time, e.g. ("pick up after 5 PM") -->
     <string name="itin_card_details_pick_up_TEMPLATE">Pick up after %1$s</string>
     <!-- Tell users when they need to drop off a rental car. %1$s is a time, e.g. ("drop off before 5 PM") -->
@@ -1760,13 +1759,37 @@
         <item quantity="many">%d Guests</item>
         <item quantity="other">%d Guests</item>
     </plurals>
-    <!-- A number of nights (as in stay duration). Capitalized -->
+    <!-- A number of guests (but not including the guest count). Capitalized -->
+    <plurals name="number_of_guests_label">
+        <item quantity="zero">Guests</item>
+        <item quantity="one">Guest</item>
+        <item quantity="two">Guests</item>
+        <item quantity="many">Guests</item>
+        <item quantity="other">Guests</item>
+    </plurals>
+    <!-- A number of nights (as in stay duration).  Capitalized -->
     <plurals name="number_of_nights">
         <item quantity="zero">%d Nights</item>
         <item quantity="one">%d Night</item>
         <item quantity="two">%d Nights</item>
         <item quantity="many">%d Nights</item>
         <item quantity="other">%d Nights</item>
+    </plurals>
+    <!-- A number of days (as in rental duration).  Capitalized -->
+    <plurals name="number_of_days">
+        <item quantity="zero">%d Days</item>
+        <item quantity="one">%d Day</item>
+        <item quantity="two">%d Days</item>
+        <item quantity="many">%d Days</item>
+        <item quantity="other">%d Days</item>
+    </plurals>
+    <!-- A number of days (as in rental duration), not including the actual number. Capitalized -->
+    <plurals name="number_of_days_label">
+        <item quantity="zero">Days</item>
+        <item quantity="one">Day</item>
+        <item quantity="two">Days</item>
+        <item quantity="many">Days</item>
+        <item quantity="other">Days</item>
     </plurals>
 
     <!-- Distance strings -->
