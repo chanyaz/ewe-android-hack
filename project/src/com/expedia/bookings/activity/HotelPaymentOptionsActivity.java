@@ -219,9 +219,6 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 				//Back on save means cancel
 				if (mBeforeSaveDialogPos != null) {
 					switch (mBeforeSaveDialogPos) {
-					//					case ADDRESS:
-					//						displayAddress();
-					//						break;
 					case CREDITCARD:
 						displayCreditCard();
 						break;
