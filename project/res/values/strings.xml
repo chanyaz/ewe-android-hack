@@ -64,7 +64,7 @@
     <string name="itinerary">Itinerary</string>
     <!-- Itineraries (plural title) -->
     <string name="itineraries">Itineraries</string>
-    <!--  Shop -->
+    <!-- Shop -->
     <string name="shop">Shop</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Find Itinerary</string>
@@ -113,7 +113,7 @@
         <item quantity="many">%s days</item>
         <item quantity="other">%s days</item>
     </plurals>
-    <!-- Template for card header text (will be filled in with "Title - Date")-->
+    <!-- Template for card header text (will be filled in with "Title - Date") -->
     <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
     <string name="Flight">Flight</string>
@@ -153,7 +153,7 @@
     <string name="arrival_terminal_TEMPLATE">Arrive Terminal %1$s, Gate %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Depart Terminal %1$s, Gate %2$s</string>
-    <!-- To be determined abbrev.-->
+    <!-- To be determined abbrev. -->
     <string name="to_be_determined_abbrev">TBD</string>
     <!-- Itin flight gate only template -->
     <string name="gate_number_only_TEMPLATE">Gate %1$s</string>
@@ -251,7 +251,7 @@
     <string name="try_again">Try Again</string>
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">COPY %1$s</string>
-    
+
     <!-- Car category -->
     <!-- Car category: mini -->
     <string name="car_category_mini">Mini Car</string>
@@ -379,7 +379,7 @@
     <string name="share_template_subject_flight">My flight to %1$s on %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
     <string name="share_template_short_flight_sameday">I\&apos;m on flight %1$s to %2$s on %3$s.\nDeparts %4$s at %5$s\nArrives %6$s at %7$s, %8$s</string>
-     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
+    <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
     <string name="share_template_short_flight_multiday">I\&apos;m on flight %1$s to %2$s.\nDeparts %3$s at %4$s\nArrives %5$s at %6$s, %7$s</string>
     <!-- 1: Origin city 2: Destination city 3: Flight Carrier and number 4: Departure date 5: Departure airport code 6: Departure Time 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival terminal gate 11: Traveler list -->
     <string name="share_template_long_flight_sameday">Hi,\n\nHere are the details of my flight from %1$s to %2$s.\n\n%3$s - %4$s\n\nDeparts %5$s at %6$s from %7$s.\nArrives %8$s at %9$s at %10$s.\n\nTravelers\n%11$s</string>
@@ -405,7 +405,7 @@
     <string name="share_car_pickup_location_section">Pick Up Location:</string>
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">Drop Off Location:</string>
-    
+
     <!-- 1: activity title -->
     <string name="share_template_subject_activity">My %1$s Details</string>
     <!-- 1: activity title 2: valid date 3: expiration date -->
@@ -993,7 +993,7 @@
     <string name="share_flight_round_trip_TEMPLATE">Here are the details of my round-trip flight from %1$s to %2$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">Itinerary #: %s</string>
-     <!-- Section with a bunch of travelers on the flight (listed below) -->
+    <!-- Section with a bunch of travelers on the flight (listed below) -->
     <string name="share_travelers_section">Travelers:</string>
     <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc… %2$s is their name -->
     <!-- examples: "Traveler 1: Tom Smith" "Traveler 2: David Thomas" or if only one traveler, "Traveler: Matt Long" -->
@@ -1736,7 +1736,7 @@
     <string name="preference_point_of_sale_title">Country</string>
 
     <!-- Strings used a lot of places -->
-    <!-- A number of adults -->
+    <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">%d Adults</item>
         <item quantity="one">%d Adult</item>
@@ -1744,7 +1744,7 @@
         <item quantity="many">%d Adults</item>
         <item quantity="other">%d Adults</item>
     </plurals>
-    <!-- A number of children -->
+    <!-- A number of children. Capitalized -->
     <plurals name="number_of_children">
         <item quantity="zero">%d Children</item>
         <item quantity="one">%d Child</item>
@@ -1752,7 +1752,7 @@
         <item quantity="many">%d Children</item>
         <item quantity="other">%d Children</item>
     </plurals>
-    <!-- A number of guests -->
+    <!-- A number of guests. Capitalized -->
     <plurals name="number_of_guests">
         <item quantity="zero">%d Guests</item>
         <item quantity="one">%d Guest</item>
@@ -1760,7 +1760,7 @@
         <item quantity="many">%d Guests</item>
         <item quantity="other">%d Guests</item>
     </plurals>
-    <!-- A number of nights (as in stay duration).  Capitalized -->
+    <!-- A number of nights (as in stay duration). Capitalized -->
     <plurals name="number_of_nights">
         <item quantity="zero">%d Nights</item>
         <item quantity="one">%d Night</item>
