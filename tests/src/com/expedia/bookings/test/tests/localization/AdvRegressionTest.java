@@ -60,6 +60,8 @@ public class AdvRegressionTest extends ActivityInstrumentationTestCase2<SearchAc
 			currentLocale = locales[i];
 			mDriver.setLocale(currentLocale);
 			mDriver.changePOS(currentLocale);
+			mDriver.setSpoofBookings();
+			
 			mDriver.launchHotels();
 			mDriver.delay();
 			mDriver.browseRooms(1, "NYC", true);

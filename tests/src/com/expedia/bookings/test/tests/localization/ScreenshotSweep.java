@@ -74,6 +74,7 @@ public class ScreenshotSweep extends
 			mDriver.setLocale(testingLocale);
 			mDriver.delay();
 			mDriver.changePOS(locales[i]);
+			mDriver.setSpoofBookings();
 
 			mDriver.launchHotels();
 			if (mSolo.searchText(mRes.getString(R.string.NEW_SEARCH))) {

@@ -47,6 +47,7 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 		mDriver.setAllowScreenshots(false); //no screenshots.
 		mSolo.clickOnScreen(50, 50);
 		mDriver.clearPrivateData();
+		mDriver.setSpoofBookings();
 		mDriver.delay(2);
 
 		mDriver.launchHotels();

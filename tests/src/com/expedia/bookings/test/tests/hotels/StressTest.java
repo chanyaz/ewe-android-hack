@@ -38,6 +38,7 @@ public class StressTest extends ActivityInstrumentationTestCase2<SearchActivity>
 		mDriver.setAllowScreenshots(false);
 		mDriver.setAllowOrientationChange(false);
 		mDriver.changePOS(mDriver.AMERICAN_LOCALES[5]);
+		mDriver.setSpoofBookings();
 		mDriver.launchHotels();
 		mDriver.delay();
 		mDriver.browseRooms(NUMBER_OF_HOTELS, "New York City", false);

@@ -317,7 +317,6 @@ public class HotelsRobotHelper {
 		mSolo.clickOnButton(1);
 		delay(1);
 		mSolo.clickOnButton(0);
-		setSpoofBookings();
 		mSolo.goBack();
 		delay();
 		setLocale(locale);
@@ -338,7 +337,6 @@ public class HotelsRobotHelper {
 		mSolo.clickOnButton(1);
 		delay(1);
 		mSolo.clickOnButton(0);
-		setSpoofBookings();
 		mSolo.goBack();
 	}
 
@@ -378,6 +376,7 @@ public class HotelsRobotHelper {
 				suppressFlightsDone = true;
 			}
 		}
+		mSolo.goBack();
 	}
 
 	////////////////////////////////////////////////////////////////
