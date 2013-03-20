@@ -42,6 +42,8 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 
 	private Context mContext;
 	private ItineraryManager mItinManager;
+	private int mSummaryCardPosition;
+	private int mAltSummaryCardPosition;
 	private ArrayList<ItinCardData> mItinCardDatas;
 	private int mDetailPosition = -1;
 	private String mSelectedCardId;
@@ -226,8 +228,8 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 			}
 		}
 
-		//Sort Items
-		Collections.sort(mItinCardDatas, mItinCardDataComparator);
+		// Do some calculations on the data
+		organizeData();
 
 		//Notify listeners
 		notifyDataSetChanged();
@@ -266,21 +268,12 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 	 * @return
 	 */
 	public synchronized int getMostRelevantCardPosition() {
-		int retVal = mItinCardDatas.size() - 1;
-		Calendar now = Calendar.getInstance();
-		for (int i = 0; i < mItinCardDatas.size(); i++) {
-			ItinCardData data = mItinCardDatas.get(i);
-			// IN PROGRESS flights are relevant, most def.
-			if (doesCardStartAfterCal(data, now)
-					|| data.getTripComponentType() == TripComponent.Type.FLIGHT
-					&& isCardInProgressAtCal(data, now)) {
-				//The card with the next startTime
-				retVal = i;
-				break;
-			}
+		if (mSummaryCardPosition >= 0) {
+			return mSummaryCardPosition;
 		}
-		//Return the last card otherwise, because if we got here, all our itins are in the past...
-		return retVal;
+		else {
+			return mItinCardDatas.size() - 1;
+		}
 	}
 
 	public int getPosition(String itinCardId) {
@@ -300,63 +293,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
-
-	// start after cal
-	private boolean doesCardStartAfterCal(ItinCardData data, Calendar cal) {
-		if (data == null || data.getStartDate() == null) {
-			return false;
-		}
-		else {
-			long calTime = cal.getTimeInMillis();
-			long start = data.getStartDate().getCalendar().getTimeInMillis();
-
-			if (start > calTime) {
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
-	}
-
-	// Cal is after start time but before finish time
-	private boolean isCardInProgressAtCal(ItinCardData data, Calendar cal) {
-		if (data == null || data.getEndDate() == null || data.getStartDate() == null) {
-			return false;
-		}
-
-		long calTime = cal.getTimeInMillis();
-		long start = data.getStartDate().getCalendar().getTimeInMillis();
-
-		if (calTime < start) {
-			return false;
-		}
-
-		long end = data.getEndDate().getCalendar().getTimeInMillis();
-		if (calTime > end) {
-			return false;
-		}
-
-		return true;
-	}
-
-	//start date is before cal
-	private boolean doesCardStartBeforeCal(ItinCardData data, Calendar cal) {
-		if (data == null || data.getEndDate() == null || data.getStartDate() == null) {
-			return false;
-		}
-		else {
-			long calTime = cal.getTimeInMillis();
-			long start = data.getStartDate().getCalendar().getTimeInMillis();
-
-			if (start < calTime) {
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
-	}
 
 	private Type getItemViewCardType(int position) {
 		int typeOrd = getItemViewType(position);
@@ -398,49 +334,78 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 	}
 
 	private boolean isItemASummaryCard(int position) {
-		return isItemASummaryCard(position, getSummaryCardPositions());
-	}
-
-	private boolean isItemASummaryCard(int position, List<Integer> summaryCardPositions) {
-		if (!isItemInThePast(position)) {
-			return summaryCardPositions.contains(Integer.valueOf(position));
-		}
-		return false;
+		return position == mSummaryCardPosition || position == mAltSummaryCardPosition;
 	}
 
 	private boolean isItemDetailCard(int position) {
 		return (position == mDetailPosition);
 	}
 
-	private List<Integer> getSummaryCardPositions() {
-		ArrayList<Integer> sumCardPositions = new ArrayList<Integer>();
+	private void organizeData() {
+		// Reset calculated data
+		mSummaryCardPosition = -1;
+		mAltSummaryCardPosition = -1;
 
+		// Nothing to do if there are no itineraries
+		int len = mItinCardDatas.size();
+		if (len == 0) {
+			return;
+		}
+
+		// Sort the list
+		Collections.sort(mItinCardDatas, mItinCardDataComparator);
+
+		// Calculate the summary (and possibly alternate) positions
+		ItinCardData summaryCardData = null;
 		Calendar now = Calendar.getInstance();
-		Calendar futureThreshold = Calendar.getInstance();
-		futureThreshold.add(Calendar.HOUR, 2);
+		int today = now.get(Calendar.DAY_OF_YEAR);
+		for (int a = 0; a < len; a++) {
+			boolean setAsSummaryCard = false;
 
-		int firstCardPos = getMostRelevantCardPosition();
-		for (int i = firstCardPos; i < mItinCardDatas.size(); i++) {
-			ItinCardData data = mItinCardDatas.get(i);
-			if (!data.hasSummaryData()) {
-				continue;
+			ItinCardData data = mItinCardDatas.get(a);
+			Calendar startCal = data.getStartDate().getCalendar();
+
+			if (data instanceof ItinCardDataFlight && ((ItinCardDataFlight) data).isEnRoute()) {
+				setAsSummaryCard = true;
 			}
-			if (i == firstCardPos) {
-				sumCardPositions.add(i);
-				continue;
+			else if (data instanceof ItinCardDataHotel
+					&& startCal.get(Calendar.DAY_OF_YEAR) == today) {
+				if (summaryCardData instanceof ItinCardDataCar) {
+					if (summaryCardData.getStartDate().getCalendar().before(now)) {
+						setAsSummaryCard = true;
+					}
+				}
+				else if (summaryCardData == null) {
+					setAsSummaryCard = true;
+				}
 			}
-			boolean afterNow = doesCardStartAfterCal(data, now);
-			boolean startsBeforeThresh = doesCardStartBeforeCal(data, futureThreshold);
-			if (afterNow && startsBeforeThresh) {
-				sumCardPositions.add(i);
-				continue;
+			else if (startCal.after(now) && summaryCardData == null) {
+				setAsSummaryCard = true;
 			}
-			if (doesCardStartAfterCal(data, futureThreshold)) {
-				//They are in order so if we get to this point lets just be done
-				break;
+
+			if (setAsSummaryCard) {
+				mSummaryCardPosition = a;
+				summaryCardData = data;
 			}
 		}
-		return sumCardPositions;
+
+		if (summaryCardData != null) {
+			// See if we have an alt summary card we want
+			if (mSummaryCardPosition + 1 < len) {
+				ItinCardData possibleAlt = mItinCardDatas.get(mSummaryCardPosition + 1);
+				long startMillis = possibleAlt.getStartDate().getCalendar().getTimeInMillis();
+				if (now.getTimeInMillis() > startMillis - (1000 * 60 * 60 * 3)) {
+					mAltSummaryCardPosition = mSummaryCardPosition + 1;
+				}
+			}
+		}
+		else {
+			// Check if last card hasn't ended; if so, make it the main summary card
+			ItinCardData lastCard = mItinCardDatas.get(len - 1);
+			if (lastCard.getEndDate().getCalendar().getTimeInMillis() > now.getTimeInMillis()) {
+				mSummaryCardPosition = len - 1;
+			}
+		}
 	}
 
 	private Comparator<ItinCardData> mItinCardDataComparator = new Comparator<ItinCardData>() {

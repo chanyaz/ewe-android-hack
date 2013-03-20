@@ -118,4 +118,13 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 
 		return super.getLocation();
 	}
+
+	// Don't trust FlightStats' stats.  Just go off of start/end time.
+	public boolean isEnRoute() {
+		FlightLeg leg = getFlightLeg();
+
+		Calendar now = Calendar.getInstance();
+		return now.after(leg.getFirstWaypoint().getMostRelevantDateTime())
+				&& now.before(leg.getLastWaypoint().getMostRelevantDateTime());
+	}
 }
