@@ -356,7 +356,7 @@ public class HotelsRobotHelper {
 		delay(5);
 		mSolo.scrollDown();
 		ArrayList<CheckBox> a = mSolo.getCurrentCheckBoxes();
-		
+
 		for (int i = 0; i < a.size(); i++) {
 			Log.v("!!!", "!!! " + a.toString());
 			if (spoofBookingsDone && suppressFlightsDone) {
@@ -700,63 +700,66 @@ public class HotelsRobotHelper {
 	//after log in. The try-catch blocks eliminate the need to hardcode what information is needed
 	//where, based upon the POS/locale that you are in.
 
+	public void enterNewTraveler() {
+		delay();
+		screenshot("Picking traveler");
+		landscape();
+		delay();
+		portrait();
+		delay(5);
+		screenshot("Adding new traveler");
+
+		mSolo.enterText((EditText)
+				mSolo.getCurrentActivity().findViewById(R.id.edit_first_name),
+				mUser.mFirstName);
+		mSolo.enterText((EditText)
+				mSolo.getCurrentActivity().findViewById(R.id.edit_last_name),
+				mUser.mLastName);
+		mSolo.enterText((EditText)
+				mSolo.getCurrentActivity().findViewById(R.id.edit_phone_number),
+				mUser.mPhoneNumber);
+
+		landscape();
+		portrait();
+
+		delay();
+		mSolo.clickOnText(mRes.getString(R.string.button_done));
+		//mSolo.clickOnButton(1);
+
+		delay();
+	}
+
 	public void enterMissingInfo() {
 		String travelerInfo = mSolo.getString(R.string.enter_traveler_info);
+
 		if (mSolo.searchText(travelerInfo, true)) {
 			mSolo.clickOnText(travelerInfo);
-			delay(5);
-			if (mSolo.searchText("JexperCC", true)) {
-				mSolo.clickOnText("JexperCC");
-			}
-			else {
-				//At some point, switch this back to entering
-				//new traveler and using that
-				//Must wait until this functionality is restored
-				delay();
-				screenshot("Picking traveler");
-				mSolo.clickOnText(mRes.getString(R.string.enter_traveler_info));
-				landscape();
-				delay();
-				portrait();
-				delay(5);
-				screenshot("Adding new traveler");
-				mSolo.enterText(0, mUser.mFirstName);
-				mSolo.enterText(2, mUser.mLastName);
-				mSolo.enterText(3, mUser.mPhoneNumber);
-				landscape();
-				portrait();
-				delay();
-				mSolo.clickOnScreen(450, 75);//generalize this
-				mSolo.clickOnButton(1);
-
-				delay();
-			}
+			enterNewTraveler();
 		}
-		try {
-			mSolo.clickOnText(mSolo.getString(R.string.payment_method));
-			delay();
-			screenshot("Payment Method");
-			landscape();
-			portrait();
-			delay();
-			mSolo.clickOnText(mSolo.getString(R.string.add_new_card));
-			delay(1);
-			screenshot("Add new card");
-			delay(1);
 
-			landscape();
-			portrait();
-			delay(5);
-			screenshot("Credit card info.");
+		mSolo.clickOnText(mSolo.getString(R.string.payment_method));
+		delay();
+		screenshot("Payment Method");
+		
+		landscape();
+		portrait();
+		delay();
+		
+		mSolo.clickOnText(mSolo.getString(R.string.add_new_card));
+		delay(1);
+		screenshot("Add new card");
+		delay(1);
 
-			if (mSolo.searchText(mRes.getString(R.string.billing_address))) {
-				inputBillingAddress();
-			}
-			inputCCBillingInfo();
+		landscape();
+		portrait();
+		delay(5);
+		screenshot("Credit card info.");
+
+		if (mSolo.searchText(mRes.getString(R.string.billing_address))) {
+			inputBillingAddress();
 		}
-		catch (Error e) {
-			enterLog(TAG, e.toString());
-		}
+		inputCCBillingInfo();
+
 	}
 
 	public void inputBillingAddress() {
@@ -798,8 +801,6 @@ public class HotelsRobotHelper {
 
 		// Do not save this card info
 		mSolo.clickOnText(mRes.getString(R.string.no_thanks));
-
-		mSolo.clickOnView(mSolo.getView(R.id.done_button));
 
 	}
 
