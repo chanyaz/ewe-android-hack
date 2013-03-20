@@ -1103,7 +1103,7 @@ public class HotelsRobotHelper {
 			mSolo.clickOnText(mRes.getString(R.string.sort_flights).toUpperCase());
 		}
 		catch (Error e) {
-			mSolo.clickOnText(mRes.getString(R.string.sort_flights).toUpperCase());
+			mSolo.clickOnText(mRes.getString(R.string.sort_flights));
 		}
 		screenshot("Sort fragment");
 		mSolo.goBack();
