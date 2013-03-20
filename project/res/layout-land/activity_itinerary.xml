@@ -18,11 +18,12 @@
         map:uiZoomControls="false"
         map:uiZoomGestures="false" />
 
-    <View
+    <ImageView
         android:id="@+id/fallback_pattern"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F00"
+        android:background="@drawable/bg_itin_generic_tablet"
+        android:scaleType="centerCrop"
         android:visibility="gone" />
 
     <fragment
