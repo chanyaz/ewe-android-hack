@@ -740,11 +740,11 @@ public class HotelsRobotHelper {
 		mSolo.clickOnText(mSolo.getString(R.string.payment_method));
 		delay();
 		screenshot("Payment Method");
-		
+
 		landscape();
 		portrait();
 		delay();
-		
+
 		mSolo.clickOnText(mSolo.getString(R.string.add_new_card));
 		delay(1);
 		screenshot("Add new card");
@@ -804,7 +804,7 @@ public class HotelsRobotHelper {
 
 	}
 
-	public void confirmAndBook() throws Exception {
+	public void confirmAndBook(boolean assertPostCVVPopUp) throws Exception {
 		delay(5);
 		screenshot("Slide to checkout.");
 		delay();
@@ -844,8 +844,19 @@ public class HotelsRobotHelper {
 
 		delay(5);
 		enterCCV();
-		//If can't complete the suppressed booking, go back to the launcher.
+
 		if (mSolo.searchText("Sorry, we don't seem to be able", true)) {
+			//If asserting post-cvv entry popup, assert that
+			// leaving pop up takes you back to CC entry view
+			if (assertPostCVVPopUp) {
+				mSolo.clickOnButton(0);
+				delay();
+				if(!mSolo.searchText(mSolo.getCurrentActivity().getString(R.string.card_info))) {
+					Exception exception = new Exception();
+					throw exception;
+				}
+			}
+			//If can't complete the suppressed booking, go back to the launcher.
 			mSolo.clickOnButton(0);
 			mSolo.goBack();
 			mSolo.goBack();
@@ -900,7 +911,7 @@ public class HotelsRobotHelper {
 		delay(1);
 		enterMissingInfo();
 
-		confirmAndBook();
+		confirmAndBook(false);
 
 	}
 
