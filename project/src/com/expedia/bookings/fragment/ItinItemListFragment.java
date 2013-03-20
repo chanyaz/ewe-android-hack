@@ -123,7 +123,9 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		mItinListView.post(new Runnable() {
 			@Override
 			public void run() {
-				mItinListView.setExpandedCardHeight(view.getHeight() + getSupportActionBar().getHeight());
+				if (getActivity() != null) {
+					mItinListView.setExpandedCardHeight(view.getHeight() + getSupportActionBar().getHeight());
+				}
 			}
 		});
 
