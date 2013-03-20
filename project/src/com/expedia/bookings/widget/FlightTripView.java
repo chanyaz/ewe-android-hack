@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
@@ -37,6 +36,9 @@ public class FlightTripView extends View {
 	// Dimensions loaded in resources
 	private float mMinPaddingBetweenLabels;
 
+	// Sometimes we want extra space between our circles and our text
+	private float mWaypointTextTopMargin = 0;
+
 	// These are pre-calculated for each draw routine
 	private boolean mDirty; // If true, means we need to recalculate everything
 	private float mCircleDiameter;
@@ -56,14 +58,15 @@ public class FlightTripView extends View {
 
 		int lineColor = r.getColor(R.color.flight_trip);
 		int textColor = r.getColor(R.color.airport_text);
-		
-		if(attrs != null){
+
+		if (attrs != null) {
 			TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.FlightTripView, 0, 0);
 			lineColor = ta.getColor(R.styleable.FlightTripView_flightLineColor, r.getColor(R.color.flight_trip));
 			textColor = ta.getColor(R.styleable.FlightTripView_waypointTextColor, r.getColor(R.color.airport_text));
+			mWaypointTextTopMargin = ta.getDimension(R.styleable.FlightTripView_waypointTextTopMargin, 0);
 			ta.recycle();
 		}
-		
+
 		mMinPaddingBetweenLabels = r.getDimension(R.dimen.flight_line_min_padding_between_labels);
 
 		mTripPaint = new Paint();
@@ -128,8 +131,8 @@ public class FlightTripView extends View {
 		// Draw each waypoint and flight line
 		float height = getHeight();
 		float left = mStartLeft;
-		float mid = height / 2.0f;
-		float quart = height / 4.0f;
+		float circleBottom = (height - mWaypointTextTopMargin) / 2.0f;
+		float circleCenter = (height - mWaypointTextTopMargin) / 4.0f;
 		float halfStrokeWidth = mTripPaint.getStrokeWidth() / 2;
 		float[] pts = new float[4 * (mNumWidths * 2 - mFlightLeg.getSegmentCount() + 1)]; // Use upper bound # of lines
 		int numPts = 0;
@@ -139,9 +142,9 @@ public class FlightTripView extends View {
 
 			if (isFlight) {
 				pts[numPts] = left - halfStrokeWidth;
-				pts[numPts + 1] = quart;
+				pts[numPts + 1] = circleCenter;
 				pts[numPts + 2] = left + currWidth + halfStrokeWidth;
-				pts[numPts + 3] = quart;
+				pts[numPts + 3] = circleCenter;
 				numPts += 4;
 			}
 			else {
@@ -149,7 +152,7 @@ public class FlightTripView extends View {
 				mCircleBounds.left = left + halfStrokeWidth;
 				mCircleBounds.top = mTripPaint.getStrokeWidth() / 2.0f;
 				mCircleBounds.right = left + currWidth - halfStrokeWidth;
-				mCircleBounds.bottom = mid - halfStrokeWidth;
+				mCircleBounds.bottom = circleBottom - halfStrokeWidth;
 				float bHeight = mCircleBounds.height();
 				if (mCircleBounds.width() - bHeight < .1f) {
 					// Draw a circle (as an oval)
@@ -216,7 +219,7 @@ public class FlightTripView extends View {
 		// Setup our bounds based on the view's height/width and other factors
 		int width = getWidth();
 		int height = getHeight();
-		float circleDiameter = height / 2.0f;
+		float circleDiameter = (height - mWaypointTextTopMargin) / 2.0f;
 
 		// F856: Make sure that the font padding is accounted for in the text size
 		float fontPadding = (mTextPaint.descent() - mTextPaint.ascent()) - mTextPaint.getTextSize();
