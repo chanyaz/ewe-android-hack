@@ -23,6 +23,8 @@ public class ItinCardFragment extends Fragment {
 
 	private ViewGroup mItinHeaderContainer;
 	private ScrollView mItinCardContainer;
+	private ViewGroup mItinSummaryContainer;
+	private ViewGroup mItinDetailsContainer;
 	private ItinActionsSection mActionButtons;
 
 	private ItinCardData mCurrentData;
@@ -32,6 +34,8 @@ public class ItinCardFragment extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_itin_card, container, false);
 		mItinHeaderContainer = Ui.findView(view, R.id.itin_header_container);
 		mItinCardContainer = Ui.findView(view, R.id.itin_card_container);
+		mItinSummaryContainer = Ui.findView(view, R.id.summary_layout);
+		mItinDetailsContainer = Ui.findView(view, R.id.itin_details_container);
 		mActionButtons = Ui.findView(view, R.id.action_button_layout);
 
 		Ui.setOnClickListener(view, R.id.share_image_button, new OnClickListener() {
@@ -60,9 +64,13 @@ public class ItinCardFragment extends Fragment {
 			mItinHeaderContainer.removeAllViews();
 			mItinHeaderContainer.addView(headerView);
 
-			View detailView = generator.getDetailsView(mItinCardContainer);
-			mItinCardContainer.removeAllViews();
-			mItinCardContainer.addView(detailView);
+			View summaryView = generator.getSummaryView(mItinSummaryContainer);
+			mItinSummaryContainer.removeAllViews();
+			mItinSummaryContainer.addView(summaryView);
+
+			View detailView = generator.getDetailsView(mItinDetailsContainer);
+			mItinDetailsContainer.removeAllViews();
+			mItinDetailsContainer.addView(detailView);
 
 			mActionButtons.bind(generator.getSummaryLeftButton(), generator.getSummaryRightButton());
 
