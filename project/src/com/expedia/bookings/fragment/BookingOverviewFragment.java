@@ -860,6 +860,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 						HotelPriceChangeDialog dialog = new HotelPriceChangeDialog(isPriceHigher, oldTotal, newTotal);
 						dialog.show(getFragmentManager(), "priceChangeDialog");
 					}
+					newRate.setValueAdds(selectedRate.getValueAdds());
 					Db.setSelectedRate(newRate);
 					AvailabilityResponse availResponse = Db.getSelectedAvailabilityResponse();
 					availResponse.updateRate(response.getOriginalProductKey(), newRate);

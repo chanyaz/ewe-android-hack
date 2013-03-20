@@ -489,6 +489,15 @@ public class Rate implements JSONable {
 		return mValueAdds;
 	}
 
+	public void setValueAdds(List<String> valueAdds) {
+		if (valueAdds == null) {
+			mValueAdds = new ArrayList<String>();
+		}
+		else {
+			mValueAdds = valueAdds;
+		}
+	}
+
 	public void setRateRules(RateRules rateRules) {
 		mRateRules = rateRules;
 	}
