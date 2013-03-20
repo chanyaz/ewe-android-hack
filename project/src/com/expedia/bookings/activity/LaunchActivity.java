@@ -102,8 +102,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 
 		// Tabs
 		Tab shopTab = getSupportActionBar().newTab().setText(R.string.shop).setTabListener(mShopTabListener);
-		Tab itineraryTab = getSupportActionBar().newTab().setText(R.string.itinerary)
-				.setTabListener(mItineraryTabListener);
+		Tab itineraryTab = getSupportActionBar().newTab().setText(R.string.trips).setTabListener(mItineraryTabListener);
 
 		ActionBar actionBar = getSupportActionBar();
 		enableEmbeddedTabs(actionBar);
