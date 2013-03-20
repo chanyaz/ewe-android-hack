@@ -27,6 +27,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 public class ItineraryActivity extends SherlockFragmentActivity implements ItinItemListFragmentListener,
 		OnCameraChangeListener, SupportMapFragmentListener, DoLogoutListener {
 
+	public static final int REQUEST_SETTINGS = 1;
+
 	private boolean mTwoPaneMode;
 
 	private String mSelectedItinCardId;
@@ -77,6 +79,17 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 	}
 
 	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (requestCode == REQUEST_SETTINGS && resultCode == ExpediaBookingPreferenceActivity.RESULT_CHANGED_PREFS) {
+			// Just to be safe, hide the popup window (as the itin may have been removed)
+			mItinListFragment.setListMode();
+			hidePopupWindow();
+		}
+	}
+
+	@Override
 	public void onBackPressed() {
 		if (!mItinListFragment.inListMode()) {
 			mItinListFragment.setListMode();
@@ -120,6 +133,18 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 			if (!mAnimatingToItem && mItemHasDetails) {
 				getSupportFragmentManager().beginTransaction().show(mItinCardFragment).commit();
 			}
+		}
+	}
+
+	private void hidePopupWindow() {
+		if (mTwoPaneMode) {
+			if (!mItinCardFragment.isHidden()) {
+				getSupportFragmentManager().beginTransaction().hide(mItinCardFragment).commit();
+			}
+
+			mMapFragment.showItinItem(null, false);
+
+			mSelectedItinCardId = null;
 		}
 	}
 
@@ -174,9 +199,8 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 			return true;
 		}
 		case R.id.menu_settings: {
-			// Possible TODO: Reset the activity when settings are changed?
 			Intent intent = new Intent(this, TabletPreferenceActivity.class);
-			startActivity(intent);
+			startActivityForResult(intent, REQUEST_SETTINGS);
 			return true;
 		}
 		}
@@ -232,14 +256,6 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 	public void doLogout() {
 		mItinListFragment.doLogout();
 
-		if (mTwoPaneMode) {
-			if (!mItinCardFragment.isHidden()) {
-				getSupportFragmentManager().beginTransaction().hide(mItinCardFragment).commit();
-			}
-
-			mMapFragment.showItinItem(null, false);
-
-			mSelectedItinCardId = null;
-		}
+		hidePopupWindow();
 	}
 }
