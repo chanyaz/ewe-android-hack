@@ -282,12 +282,16 @@ public class TripParser {
 				if (!TextUtils.isEmpty(conf)) {
 					hotel.addConfirmationNumber(conf);
 				}
-				property.setDescriptionText(room.optString("roomRatePlanDescription"));
+
+				//property.setDescriptionText(room.optString("roomRatePlanDescription"));
 
 				JSONObject roomPreferences = room.optJSONObject("roomPreferences");
 				JSONObject otherOccupantInfo = roomPreferences.optJSONObject("otherOccupantInfo");
 				guests += otherOccupantInfo.optInt("adultCount");
 				guests += otherOccupantInfo.optInt("childAndInfantCount");
+
+				JSONObject occupantSelectedRoomOptions = roomPreferences.optJSONObject("occupantSelectedRoomOptions");
+				property.setDescriptionText(occupantSelectedRoomOptions.optString("bedTypeName"));
 			}
 		}
 
