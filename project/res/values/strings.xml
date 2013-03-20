@@ -17,7 +17,7 @@
     <!-- Unable to log in to Facebook -->
     <string name="unable_to_log_into_facebook">Unable to log in to Facebook.</string>
     <!-- Login failed try again -->
-    <string name="login_failed_try_again">Login failed, please re-enter your password and try again.</string>
+    <string name="login_failed_try_again">Login failed. Please re-enter your password and try again.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Expedia Password</string>
     <!-- Link accounts -->
