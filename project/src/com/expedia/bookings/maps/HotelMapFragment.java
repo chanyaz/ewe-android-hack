@@ -399,7 +399,7 @@ public class HotelMapFragment extends SupportMapFragment {
 			for (Property property : mProperties) {
 				Marker marker = mPropertiesToMarkers.get(property);
 				Location location = property.getLocation();
-				LatLng latLng = offsetLatLng(location.getLatitude(), location.getLongitude());
+				LatLng latLng = offsetLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
 				if (marker != null && marker.isVisible()) {
 					builder.include(latLng);
 					numIncluded++;
@@ -453,12 +453,7 @@ public class HotelMapFragment extends SupportMapFragment {
 	}
 
 	private void initMapCameraToGoodSpot() {
-		LatLngBounds.Builder builder = new LatLngBounds.Builder();
-		// Right now just the top-left latlng for the US
-		// and bottom-right latlng for the US
-		builder.include(new LatLng(50.513427, -125.529297));
-		builder.include(new LatLng(25.085599, -63.984375));
-		setInitialCameraPosition(CameraUpdateFactory.newLatLngBounds(builder.build(),
+		setInitialCameraPosition(CameraUpdateFactory.newLatLngBounds(getAmericaBounds(),
 				(int) getResources().getDisplayMetrics().density * 50));
 	}
 

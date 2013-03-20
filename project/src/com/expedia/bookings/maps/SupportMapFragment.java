@@ -7,10 +7,12 @@ import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
 import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 
 /**
  * You can't do anything with maps (like animate cameras) until they
@@ -78,6 +80,16 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 		}
 	}
 
+	////////////////////////////////////////////////////////////////////////
+	// General utilities
+
+	public LatLngBounds getAmericaBounds() {
+		LatLngBounds.Builder builder = new LatLngBounds.Builder();
+		builder.include(new LatLng(50.513427, -125.529297));
+		builder.include(new LatLng(25.085599, -63.984375));
+		return builder.build();
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Camera utilities
 
@@ -108,7 +120,7 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 		changeCamera(cameraUpdate, false);
 	}
 
-	private void changeCamera(CameraUpdate cameraUpdate, boolean animate) {
+	public void changeCamera(CameraUpdate cameraUpdate, boolean animate) {
 		GoogleMap map = getMap();
 
 		if (mLoaded) {
@@ -152,25 +164,33 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 		mCenterOffsetY = y;
 	}
 
+	public float getCenterOffsetX() {
+		return mCenterOffsetX;
+	}
+
+	public float getCenterOffsety() {
+		return mCenterOffsetY;
+	}
+
 	/**
 	 * Offsets a lat lng by the amount of pixels desired.
 	 * 
 	 * *DOES NOT WORK* if you are changing the zoom level at the same time as changing the LatLng.
 	 */
 	public LatLng offsetLatLng(LatLng latLng) {
-		if (mCenterOffsetX == 0 && mCenterOffsetY == 0) {
+		return offsetLatLng(latLng, mCenterOffsetX, mCenterOffsetY);
+	}
+
+	public LatLng offsetLatLng(LatLng latLng, float offsetX, float offsetY) {
+		if (offsetX == 0 && offsetY == 0) {
 			return latLng;
 		}
 
 		Projection projection = getMap().getProjection();
 		Point screenLocation = projection.toScreenLocation(latLng);
-		screenLocation.x += mCenterOffsetX;
-		screenLocation.y += mCenterOffsetY;
+		screenLocation.x += offsetX;
+		screenLocation.y += offsetY;
 		return projection.fromScreenLocation(screenLocation);
-	}
-
-	public LatLng offsetLatLng(double latitude, double longitude) {
-		return offsetLatLng(new LatLng(latitude, longitude));
 	}
 
 	//////////////////////////////////////////////////////////////////////////

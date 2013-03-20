@@ -96,7 +96,8 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 		}
 		else if (mTwoPaneMode && mItinCardFragment.isVisible()) {
 			mItinListFragment.setListMode();
-			getSupportFragmentManager().beginTransaction().hide(mItinCardFragment).commit();
+			hidePopupWindow();
+			mFallbackPatternView.setVisibility(View.GONE);
 		}
 		else {
 			super.onBackPressed();
@@ -142,7 +143,7 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 				getSupportFragmentManager().beginTransaction().hide(mItinCardFragment).commit();
 			}
 
-			mMapFragment.showItinItem(null, false);
+			mMapFragment.hideItinItem();
 
 			mSelectedItinCardId = null;
 		}
@@ -245,6 +246,9 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 			ItinCardData data = mItinListFragment.getSelectedItinCardData();
 			if (data != null) {
 				showPopupWindow(data, false);
+			}
+			else {
+				mMapFragment.showFallback(false);
 			}
 		}
 	}
