@@ -45,7 +45,7 @@ public class HotelPaymentOptionsFragment extends Fragment {
 	ViewGroup mStoredCardsContainer;
 	ViewGroup mCurrentStoredPaymentContainer;
 
-	View mCardErrorImage;
+	View mPaymentInformationErrorImage;
 
 	HotelPaymentFlowState mValidationState;
 
@@ -74,7 +74,7 @@ public class HotelPaymentOptionsFragment extends Fragment {
 		mSectionStoredPayment = Ui.findView(v, R.id.stored_creditcard_section);
 
 		//Section error indicators
-		mCardErrorImage = Ui.findView(mSectionCurrentCreditCard, R.id.error_image);
+		mPaymentInformationErrorImage = Ui.findView(mSectionCurrentCreditCard, R.id.error_image);
 
 		//Other views
 		mStoredPaymentsLabel = Ui.findView(v, R.id.stored_payments_label);
@@ -269,7 +269,7 @@ public class HotelPaymentOptionsFragment extends Fragment {
 		mCurrentStoredPaymentContainer.setVisibility(hasSelectedStoredCard ? View.VISIBLE : View.GONE);
 
 		if (displayManualCurrentPayment) {
-			this.mCardErrorImage.setVisibility(cardValid ? View.GONE : View.VISIBLE);
+			this.mPaymentInformationErrorImage.setVisibility(cardValid && addressValid ? View.GONE : View.VISIBLE);
 		}
 
 		mNewPaymentLabel
