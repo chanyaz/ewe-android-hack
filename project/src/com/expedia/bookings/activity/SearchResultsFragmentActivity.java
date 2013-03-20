@@ -429,16 +429,10 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		super.onActivityResult(requestCode, resultCode, data);
 
 		// Indicates that settings were changed - send out a broadcast
-		if (requestCode == REQUEST_CODE_SETTINGS && resultCode == RESULT_OK) {
-			Log.i("Detected currency settings change.");
-
+		if (requestCode == REQUEST_CODE_SETTINGS && resultCode == ExpediaBookingPreferenceActivity.RESULT_CHANGED_PREFS) {
 			// Clear out the search results data - this will automatically start a search
 			// when we get to onResume().
 			clearSearch();
-		}
-		else if (requestCode == REQUEST_CODE_SETTINGS
-				&& resultCode == ExpediaBookingPreferenceActivity.RESULT_POS_CHANGED) {
-			Db.getFilter().addOnFilterChangedListener(this);
 		}
 	}
 

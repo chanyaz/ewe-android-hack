@@ -26,7 +26,8 @@ import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.mobiata.android.util.AndroidUtils;
 
 public class ExpediaBookingPreferenceActivity extends SherlockPreferenceActivity implements ClearPrivateDataListener {
-	public static final int RESULT_POS_CHANGED = 1;
+	public static final int RESULT_NO_CHANGES = 1;
+	public static final int RESULT_CHANGED_PREFS = 2;
 
 	private static final int DIALOG_CLEAR_DATA = 0;
 	private static final int DIALOG_CLEAR_DATA_SIGNED_OUT = 1;
@@ -62,7 +63,8 @@ public class ExpediaBookingPreferenceActivity extends SherlockPreferenceActivity
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
 				PointOfSale.onPointOfSaleChanged(ExpediaBookingPreferenceActivity.this);
 				configurePointOfSalePreferenceSummary();
-				setResult(RESULT_POS_CHANGED);
+
+				setResult(RESULT_CHANGED_PREFS);
 
 				// IMPORTANT: DomainPreference purposefully breaks the contract a bit.  Changing
 				// this to "false" will not prevent the preference change from continuing without
@@ -73,8 +75,8 @@ public class ExpediaBookingPreferenceActivity extends SherlockPreferenceActivity
 
 		configurePointOfSalePreferenceSummary();
 
-		// If the result is canceled, means no prefs were modified
-		setResult(RESULT_CANCELED);
+		// By default, assume nothing changed
+		setResult(RESULT_NO_CHANGES);
 	}
 
 	@Override
@@ -113,9 +115,10 @@ public class ExpediaBookingPreferenceActivity extends SherlockPreferenceActivity
 		String key = preference.getKey();
 
 		// This is not a foolproof way to determine if preferences were changed, but
-		// it's close enough.
-		if (!key.equals(getString(R.string.preference_clear_private_data_key))) {
-			setResult(RESULT_OK);
+		// it's close enough; should only affect dev options
+		if (!key.equals(getString(R.string.preference_clear_private_data_key))
+				&& !key.equals(getString(R.string.PointOfSaleKey))) {
+			setResult(RESULT_CHANGED_PREFS);
 		}
 
 		if (key.equals(getString(R.string.preference_stubconfig_page))) {
@@ -181,5 +184,7 @@ public class ExpediaBookingPreferenceActivity extends SherlockPreferenceActivity
 	@Override
 	public void onClearPrivateData(boolean signedOut) {
 		showDialog(signedOut ? DIALOG_CLEAR_DATA_SIGNED_OUT : DIALOG_CLEAR_DATA);
+
+		setResult(RESULT_CHANGED_PREFS);
 	}
 }
