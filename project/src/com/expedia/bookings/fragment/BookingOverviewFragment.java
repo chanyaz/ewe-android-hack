@@ -36,6 +36,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SignInResponse;
@@ -847,7 +848,16 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 					int priceComparison = selectedRate.compareTo(newRate);
 					if (priceComparison != 0) {
 						boolean isPriceHigher = priceComparison < 0 ? true : false;
-						HotelPriceChangeDialog dialog = new HotelPriceChangeDialog(isPriceHigher, newRate.getDailyAmountBeforeTax());
+						Money oldTotal, newTotal;
+						if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
+							oldTotal = selectedRate.getTotalPriceWithMandatoryFees();
+							newTotal = newRate.getTotalPriceWithMandatoryFees();
+						}
+						else {
+							oldTotal = selectedRate.getTotalAmountAfterTax();
+							newTotal = newRate.getTotalAmountAfterTax();
+						}
+						HotelPriceChangeDialog dialog = new HotelPriceChangeDialog(isPriceHigher, oldTotal, newTotal);
 						dialog.show(getFragmentManager(), "priceChangeDialog");
 					}
 					Db.setSelectedRate(newRate);
