@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -12,6 +13,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.expedia.bookings.R;
@@ -350,14 +352,32 @@ public class HotelsRobotHelper {
 	}
 
 	public void setSpoofBookings() {
-		try {
-			mSolo.clickOnText("Spoof hotel bookings");
-			mSolo.clickOnText("Suppress Flight Bookings");
+		boolean spoofBookingsDone = false;
+		boolean suppressFlightsDone = false;
+		mSolo.pressMenuItem(0);
+		delay(5);
+		mSolo.scrollDown();
+		ArrayList<CheckBox> a = mSolo.getCurrentCheckBoxes();
+		
+		for (int i = 0; i < a.size(); i++) {
+			Log.v("!!!", "!!! " + a.toString());
+			if (spoofBookingsDone && suppressFlightsDone) {
+				break;
+			}
+			CheckBox currentCheckBox = a.get(i);
+			if (currentCheckBox.getId() == R.id.preference_spoof_booking_checkbox) {
+				if (!currentCheckBox.isChecked()) {
+					mSolo.clickOnText("Spoof hotel bookings");
+				}
+				spoofBookingsDone = true;
+			}
+			else if (currentCheckBox.getId() == R.id.preference_suppress_flight_booking_checkbox) {
+				if (!currentCheckBox.isChecked()) {
+					mSolo.clickOnText("Suppress Flight Bookings");
+				}
+				suppressFlightsDone = true;
+			}
 		}
-		catch (Exception E) {
-			enterLog(TAG, "Spoof bookings not there. Moving on.");
-		}
-
 	}
 
 	////////////////////////////////////////////////////////////////
