@@ -51,10 +51,9 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 	public String getHeaderImageUrl() {
 		if (hasProperty()) {
 			if (mProperty.getMediaCount() > 0) {
-				return mProperty.getMedia(0).getUrl(Media.IMAGE_BIG_SUFFIX);
+				return mProperty.getMedia(0).getUrl(Media.IMAGE_LARGE_SUFFIX);
 			}
-
-			return mProperty.getThumbnail().getUrl();
+			return mProperty.getThumbnail().getUrl(Media.IMAGE_LARGE_SUFFIX);
 		}
 		return null;
 	}
