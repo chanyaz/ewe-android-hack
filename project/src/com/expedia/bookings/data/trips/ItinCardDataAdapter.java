@@ -1,14 +1,8 @@
 package com.expedia.bookings.data.trips;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.TimeZone;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -16,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -26,8 +19,6 @@ import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
 
 public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncListener, OnItinCardClickListener {
-
-	private static final int CUTOFF_HOURS = 48;
 
 	private enum State {
 		PAST,
@@ -204,29 +195,9 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 	 * If enableSelfManagement() is used, the coder does not need to call this.
 	 */
 	public synchronized void syncWithManager() {
-		//Add Items
+		// Add Items (we add to a new list so we can change the list if need be internally)
 		mItinCardDatas.clear();
-		Collection<Trip> trips = mItinManager.getTrips();
-		Calendar pastCutoffCal = Calendar.getInstance();
-		pastCutoffCal.add(Calendar.HOUR_OF_DAY, -CUTOFF_HOURS);
-		if (trips != null) {
-			for (Trip trip : trips) {
-				if (trip.getTripComponents() != null) {
-					List<TripComponent> components = trip.getTripComponents(true);
-					for (TripComponent comp : components) {
-						List<ItinCardData> items = ItinCardDataFactory.generateCardData(comp);
-						if (items != null) {
-							for (ItinCardData item : items) {
-								if (item.getEndDate() != null && item.getEndDate().getCalendar() != null
-										&& item.getEndDate().getCalendar().compareTo(pastCutoffCal) >= 0) {
-									this.mItinCardDatas.add(item);
-								}
-							}
-						}
-					}
-				}
-			}
-		}
+		mItinCardDatas.addAll(mItinManager.getItinCardData());
 
 		// Do some calculations on the data
 		organizeData();
@@ -341,6 +312,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 		return (position == mDetailPosition);
 	}
 
+	// Assumes the list is sorted ahead of time
 	private void organizeData() {
 		// Reset calculated data
 		mSummaryCardPosition = -1;
@@ -351,9 +323,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 		if (len == 0) {
 			return;
 		}
-
-		// Sort the list
-		Collections.sort(mItinCardDatas, mItinCardDataComparator);
 
 		// Calculate the summary (and possibly alternate) positions
 		ItinCardData summaryCardData = null;
@@ -426,67 +395,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 			if (lastCard.getEndDate().getCalendar().getTimeInMillis() > now.getTimeInMillis()) {
 				mSummaryCardPosition = len - 1;
 			}
-		}
-	}
-
-	private Comparator<ItinCardData> mItinCardDataComparator = new Comparator<ItinCardData>() {
-		@Override
-		public int compare(ItinCardData dataOne, ItinCardData dataTwo) {
-			// Sort by:
-			// 1. "checkInDate" (but ignoring the time)
-			// 2. Type (flight < car < activity < hotel < cruise)
-			// 3. "checkInDate" (including time)
-			// 4. Unique ID
-
-			long startMillis1 = getStartMillisUtc(dataOne);
-			long startMillis2 = getStartMillisUtc(dataTwo);
-
-			int startDate1 = Integer.parseInt(SORT_DATE_FORMATTER.format(startMillis1));
-			int startDate2 = Integer.parseInt(SORT_DATE_FORMATTER.format(startMillis2));
-
-			// 1
-			int comparison = startDate1 - startDate2;
-			if (comparison != 0) {
-				return comparison;
-			}
-
-			// 2
-			comparison = dataOne.getTripComponentType().ordinal() - dataTwo.getTripComponentType().ordinal();
-			if (comparison != 0) {
-				return comparison;
-			}
-
-			// 3
-			long millisComp = startMillis1 - startMillis2;
-			if (millisComp > 0) {
-				return 1;
-			}
-			else if (millisComp < 0) {
-				return -1;
-			}
-
-			// 4
-			comparison = dataOne.getId().compareTo(dataTwo.getId());
-
-			return comparison;
-		}
-	};
-
-	private long getStartMillisUtc(ItinCardData data) {
-		DateTime date = data.getStartDate();
-		if (date == null) {
-			return 0;
-		}
-		return date.getMillisFromEpoch() + date.getTzOffsetMillis();
-	}
-
-	private static final DateFormat SORT_DATE_FORMATTER = new SimpleDateFormat("yyyyMMdd");
-
-	static {
-		// Try to format in UTC for comparison purposes
-		TimeZone tz = TimeZone.getTimeZone("UTC");
-		if (tz != null) {
-			SORT_DATE_FORMATTER.setTimeZone(tz);
 		}
 	}
 

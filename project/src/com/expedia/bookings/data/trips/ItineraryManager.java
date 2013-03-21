@@ -2,9 +2,13 @@ package com.expedia.bookings.data.trips;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -12,6 +16,7 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
+import java.util.TimeZone;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,6 +72,13 @@ public class ItineraryManager implements JSONable {
 
 	private Map<String, Trip> mTrips;
 
+	// This is an in-memory representation of the trips.  It is not
+	// saved, but rather reproduced from the trip list.  It updates
+	// each time a sync occurs.
+	// 
+	// It can be assumed that it is sorted at all times.
+	private List<ItinCardData> mItinCardDatas = new ArrayList<ItinCardData>();
+
 	// These are lists of all trip start and end times; unlike mTrips, they will be loaded at app startup, so you can use them to
 	// determine whether you should launch in itin or not.
 	private List<DateTime> mStartTimes = new ArrayList<DateTime>();
@@ -90,6 +102,7 @@ public class ItineraryManager implements JSONable {
 
 		mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP, trip));
 		mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
+		mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
 
 		if (!isSyncing()) {
 			mSyncTask = new SyncTask();
@@ -131,6 +144,10 @@ public class ItineraryManager implements JSONable {
 		}
 
 		return null;
+	}
+
+	public List<ItinCardData> getItinCardData() {
+		return mItinCardDatas;
 	}
 
 	/**
@@ -296,6 +313,97 @@ public class ItineraryManager implements JSONable {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Itin card data
+
+	private static final int CUTOFF_HOURS = 48;
+
+	private void generateItinCardData() {
+		mItinCardDatas.clear();
+
+		Calendar pastCutoffCal = Calendar.getInstance();
+		pastCutoffCal.add(Calendar.HOUR_OF_DAY, -CUTOFF_HOURS);
+		for (Trip trip : mTrips.values()) {
+			if (trip.getTripComponents() != null) {
+				List<TripComponent> components = trip.getTripComponents(true);
+				for (TripComponent comp : components) {
+					List<ItinCardData> items = ItinCardDataFactory.generateCardData(comp);
+					if (items != null) {
+						for (ItinCardData item : items) {
+							if (item.getEndDate() != null && item.getEndDate().getCalendar() != null
+									&& item.getEndDate().getCalendar().compareTo(pastCutoffCal) >= 0) {
+								mItinCardDatas.add(item);
+							}
+						}
+					}
+				}
+			}
+		}
+
+		Collections.sort(mItinCardDatas, mItinCardDataComparator);
+	}
+
+	private Comparator<ItinCardData> mItinCardDataComparator = new Comparator<ItinCardData>() {
+		@Override
+		public int compare(ItinCardData dataOne, ItinCardData dataTwo) {
+			// Sort by:
+			// 1. "checkInDate" (but ignoring the time)
+			// 2. Type (flight < car < activity < hotel < cruise)
+			// 3. "checkInDate" (including time)
+			// 4. Unique ID
+
+			long startMillis1 = getStartMillisUtc(dataOne);
+			long startMillis2 = getStartMillisUtc(dataTwo);
+
+			int startDate1 = Integer.parseInt(SORT_DATE_FORMATTER.format(startMillis1));
+			int startDate2 = Integer.parseInt(SORT_DATE_FORMATTER.format(startMillis2));
+
+			// 1
+			int comparison = startDate1 - startDate2;
+			if (comparison != 0) {
+				return comparison;
+			}
+
+			// 2
+			comparison = dataOne.getTripComponentType().ordinal() - dataTwo.getTripComponentType().ordinal();
+			if (comparison != 0) {
+				return comparison;
+			}
+
+			// 3
+			long millisComp = startMillis1 - startMillis2;
+			if (millisComp > 0) {
+				return 1;
+			}
+			else if (millisComp < 0) {
+				return -1;
+			}
+
+			// 4
+			comparison = dataOne.getId().compareTo(dataTwo.getId());
+
+			return comparison;
+		}
+	};
+
+	private long getStartMillisUtc(ItinCardData data) {
+		DateTime date = data.getStartDate();
+		if (date == null) {
+			return 0;
+		}
+		return date.getMillisFromEpoch() + date.getTzOffsetMillis();
+	}
+
+	private static final DateFormat SORT_DATE_FORMATTER = new SimpleDateFormat("yyyyMMdd");
+
+	static {
+		// Try to format in UTC for comparison purposes
+		TimeZone tz = TimeZone.getTimeZone("UTC");
+		if (tz != null) {
+			SORT_DATE_FORMATTER.setTimeZone(tz);
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// Sync listener
 
 	public enum SyncError {
@@ -453,6 +561,8 @@ public class ItineraryManager implements JSONable {
 		REFRESH_TRIP, // Refreshes a trip
 
 		SAVE_TO_DISK, // Saves state of ItineraryManager to disk
+
+		GENERATE_ITIN_CARDS, // Generates itin card data for use
 	}
 
 	private class Task implements Comparable<Task> {
@@ -545,6 +655,7 @@ public class ItineraryManager implements JSONable {
 			mSyncOpQueue.add(new Task(Operation.REFRESH_USER));
 			mSyncOpQueue.add(new Task(Operation.GATHER_TRIPS));
 			mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
+			mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
 
 			mSyncTask = new SyncTask();
 			mSyncTask.execute();
@@ -565,6 +676,7 @@ public class ItineraryManager implements JSONable {
 		else {
 			mSyncOpQueue.add(new Task(Operation.DEEP_REFRESH_TRIP, trip));
 			mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
+			mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
 
 			if (!isSyncing()) {
 				mSyncTask = new SyncTask();
@@ -653,6 +765,9 @@ public class ItineraryManager implements JSONable {
 					break;
 				case SAVE_TO_DISK:
 					save();
+					break;
+				case GENERATE_ITIN_CARDS:
+					generateItinCardData();
 					break;
 				}
 
