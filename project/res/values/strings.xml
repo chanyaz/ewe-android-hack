@@ -137,6 +137,8 @@
     <string name="flight_confirmation_code_label">Airline Confirmation</string>
     <!-- Flight Carrier confirmation code label template -->
     <string name="flight_carrier_confirmation_code_label_TEMPLATE">%1$s Confirmation</string>
+    <!-- Car rental agency name and location in car itin detail -->
+    <string name="car_rental_agency_name_location">%1$s in %2$s, %3$s</string>
     <!-- Car rental confirmation code "Agency Confirmation Code" -->
     <string name="car_rental_confirmation_code_label">Agency Confirmation Code</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->

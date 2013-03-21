@@ -48,12 +48,13 @@ public class EventSummaryView extends LinearLayout {
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	public void bind(DateTime dateTime, final Location location, final boolean directions) {
+	public void bind(DateTime dateTime, final Location location, final boolean directions, String vendorName) {
 		Context context = getContext();
 		mTimeTextView.setText(dateTime.formatTime(context, DateUtils.FORMAT_SHOW_TIME));
 		mDateTextView.setText(dateTime.formatTime(context, DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_WEEKDAY
 				| DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_ABBREV_MONTH));
-		mLocationtextView.setText(location.toLongFormattedString());
+		mLocationtextView.setText(String.format(context.getString(R.string.car_rental_agency_name_location),
+				vendorName, location.getCity(), location.getStateCode()));
 		mLocationMapImageButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
