@@ -1035,9 +1035,14 @@ public class ItineraryManager implements JSONable {
 						Log.w("Error updating trip " + trip.getTripNumber() + ": "
 								+ response.gatherErrorMessage(mContext));
 
-						for (ServerError error : response.getErrors()) {
-							if (error.getErrorCode() == ServerError.ErrorCode.INVALID_INPUT) {
-								mTrips.remove(trip.getTripNumber());
+						// If it's a guest trip, and we've never retrieved info on it, it may be invalid.
+						// As such, we should remove it (but don't remove a trip if it's ever been loaded
+						// or it's not a guest trip).
+						if (trip.isGuest() && trip.getLevelOfDetail() == LevelOfDetail.NONE) {
+							for (ServerError error : response.getErrors()) {
+								if (error.getErrorCode() == ServerError.ErrorCode.INVALID_INPUT) {
+									mTrips.remove(trip.getTripNumber());
+								}
 							}
 						}
 					}
