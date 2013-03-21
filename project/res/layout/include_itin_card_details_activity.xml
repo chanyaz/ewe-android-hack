@@ -6,103 +6,12 @@
     android:layout_marginBottom="16dp"
     android:orientation="vertical" >
 
-    <LinearLayout
+    <!-- START/EXPIRES/GUEST COUNT -->
+
+    <com.expedia.bookings.widget.InfoTripletView
+        android:id="@+id/info_triplet"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="16dp" >
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/active_date_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#f4f4f4"
-                android:textSize="24dp"
-                app:textStyle="medium" />
-
-            <com.expedia.bookings.widget.TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/itin_card_details_active"
-                android:textColor="#a9abae"
-                android:textSize="14dp"
-                app:textStyle="light" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp"
-            android:background="#4D555D" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="16dp" >
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/expiration_date_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#f4f4f4"
-                android:textSize="24dp"
-                app:textStyle="medium" />
-
-            <com.expedia.bookings.widget.TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/itin_card_details_expires"
-                android:textColor="#a9abae"
-                android:textSize="14dp"
-                app:textStyle="light" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp"
-            android:background="#4D555D" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="16dp" >
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/guest_count_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#f4f4f4"
-                android:textSize="24dp"
-                app:textStyle="medium" />
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/itin_card_details_guests_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#a9abae"
-                android:textSize="14dp"
-                app:textStyle="light" />
-        </LinearLayout>
-    </LinearLayout>
+        android:layout_height="wrap_content" />
 
     <!-- GUESTS -->
 

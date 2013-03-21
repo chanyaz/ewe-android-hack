@@ -33,6 +33,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.InfoTripletView;
 import com.mobiata.android.SocialUtils;
 
 public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardDataActivity> {
@@ -156,19 +157,20 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 		View view = getLayoutInflater().inflate(R.layout.include_itin_card_details_activity, container, false);
 
 		// Find
-		TextView activeDateTextView = Ui.findView(view, R.id.active_date_text_view);
-		TextView expirationDateTextView = Ui.findView(view, R.id.expiration_date_text_view);
-		TextView guestCountTextView = Ui.findView(view, R.id.guest_count_text_view);
-		TextView guestCountLabel = Ui.findView(view, R.id.itin_card_details_guests_label);
+		InfoTripletView infoTriplet = Ui.findView(view, R.id.info_triplet);
 		ViewGroup guestsLayout = Ui.findView(view, R.id.guests_layout);
 		ViewGroup commonItinDataContainer = Ui.findView(view, R.id.itin_shared_info_container);
 
 		// Bind
-		activeDateTextView.setText(itinCardData.getFormattedValidDate(getContext()));
-		expirationDateTextView.setText(itinCardData.getFormattedExpirationDate(getContext()));
-		guestCountTextView.setText(itinCardData.getFormattedGuestCount());
-		guestCountLabel.setText(getResources().getQuantityText(R.plurals.number_of_guests_label,
-				itinCardData.getGuestCount()));
+		Resources res = getResources();
+		infoTriplet.setValues(
+				itinCardData.getFormattedValidDate(getContext()),
+				itinCardData.getFormattedExpirationDate(getContext()),
+				itinCardData.getFormattedGuestCount());
+		infoTriplet.setLabels(
+				res.getString(R.string.itin_card_details_active),
+				res.getString(R.string.itin_card_details_expires),
+				res.getQuantityText(R.plurals.number_of_guests_label, itinCardData.getGuestCount()));
 
 		guestsLayout.removeAllViews();
 

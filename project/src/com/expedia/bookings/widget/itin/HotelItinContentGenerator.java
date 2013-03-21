@@ -20,6 +20,7 @@ import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.InfoTripletView;
 import com.expedia.bookings.widget.MapImageView;
 import com.mobiata.android.SocialUtils;
 
@@ -178,10 +179,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		View view = getLayoutInflater().inflate(R.layout.include_itin_card_details_hotel, container, false);
 
 		// Find
-		TextView checkInDateTextView = Ui.findView(view, R.id.check_in_date_text_view);
-		TextView checkOutDateTextView = Ui.findView(view, R.id.check_out_date_text_view);
-		TextView guestsTextView = Ui.findView(view, R.id.guests_text_view);
-		TextView guestCountLabel = Ui.findView(view, R.id.itin_card_details_guests_label);
+		InfoTripletView infoTriplet = Ui.findView(view, R.id.info_triplet);
 		MapImageView staticMapImageView = Ui.findView(view, R.id.mini_map);
 		TextView addressTextView = Ui.findView(view, R.id.address_text_view);
 		TextView phoneNumberTextView = Ui.findView(view, R.id.phone_number_text_view);
@@ -189,11 +187,15 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		ViewGroup commonItinDataContainer = Ui.findView(view, R.id.itin_shared_info_container);
 
 		// Bind
-		checkInDateTextView.setText(itinCardData.getFormattedDetailsCheckInDate(getContext()));
-		checkOutDateTextView.setText(itinCardData.getFormattedDetailsCheckOutDate(getContext()));
-		guestsTextView.setText(itinCardData.getFormattedGuests());
-		guestCountLabel.setText(getResources().getQuantityText(R.plurals.number_of_guests_label,
-				itinCardData.getGuestCount()));
+		Resources res = getResources();
+		infoTriplet.setValues(
+				itinCardData.getFormattedDetailsCheckInDate(getContext()),
+				itinCardData.getFormattedDetailsCheckOutDate(getContext()),
+				itinCardData.getFormattedGuests());
+		infoTriplet.setLabels(
+				res.getString(R.string.itin_card_details_check_in),
+				res.getString(R.string.itin_card_details_check_out),
+				res.getQuantityText(R.plurals.number_of_guests_label, itinCardData.getGuestCount()));
 
 		if (itinCardData.getPropertyLocation() != null) {
 			staticMapImageView.setCenterPoint(itinCardData.getPropertyLocation());

@@ -2,6 +2,7 @@ package com.expedia.bookings.widget.itin;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.EventSummaryView;
+import com.expedia.bookings.widget.InfoTripletView;
 import com.expedia.bookings.widget.MapImageView;
 import com.mobiata.android.SocialUtils;
 
@@ -203,10 +205,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		View view = getLayoutInflater().inflate(R.layout.include_itin_card_details_car, container, false);
 
 		// Find
-		TextView pickUpDateTextView = Ui.findView(view, R.id.pick_up_date_text_view);
-		TextView dropOffDateTextView = Ui.findView(view, R.id.drop_off_date_text_view);
-		TextView daysTextView = Ui.findView(view, R.id.days_text_view);
-		TextView daysLabel = Ui.findView(view, R.id.itin_card_details_days_label);
+		InfoTripletView infoTriplet = Ui.findView(view, R.id.info_triplet);
 		MapImageView staticMapImageView = Ui.findView(view, R.id.mini_map);
 		EventSummaryView pickUpEventSummaryView = Ui.findView(view, R.id.pick_up_event_summary_view);
 		EventSummaryView dropOffEventSummaryView = Ui.findView(view, R.id.drop_off_event_summary_view);
@@ -217,11 +216,15 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		ViewGroup commonItinDataContainer = Ui.findView(view, R.id.itin_shared_info_container);
 
 		// Bind
-		pickUpDateTextView.setText(itinCardData.getFormattedShortPickUpDate(getContext()));
-		dropOffDateTextView.setText(itinCardData.getFormattedShortDropOffDate(getContext()));
-		daysTextView.setText(itinCardData.getFormattedDays());
-		daysLabel.setText(getResources().getQuantityText(R.plurals.number_of_days_label,
-				itinCardData.getDays()));
+		Resources res = getResources();
+		infoTriplet.setValues(
+				itinCardData.getFormattedShortPickUpDate(getContext()),
+				itinCardData.getFormattedShortDropOffDate(getContext()),
+				itinCardData.getFormattedDays());
+		infoTriplet.setLabels(
+				res.getString(R.string.itin_card_details_pick_up),
+				res.getString(R.string.itin_card_details_drop_off),
+				res.getQuantityText(R.plurals.number_of_days_label, itinCardData.getDays()));
 
 		Location relevantLocation = itinCardData.getRelevantVendorLocation();
 		if (relevantLocation != null) {
