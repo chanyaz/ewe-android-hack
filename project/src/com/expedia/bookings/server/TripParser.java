@@ -600,28 +600,28 @@ public class TripParser {
 		else if (category.equals("Special")) {
 			return Category.SPECIAL;
 		}
-		else if (category.equals("Mini Elite")) {
+		else if (category.equals("MiniElite")) {
 			return Category.MINI_ELITE;
 		}
-		else if (category.equals("Economy Elite")) {
+		else if (category.equals("EconomyElite")) {
 			return Category.ECONOMY_ELITE;
 		}
-		else if (category.equals("Compact Elite")) {
+		else if (category.equals("CompactElite")) {
 			return Category.COMPACT_ELITE;
 		}
-		else if (category.equals("Midsize Elite")) {
+		else if (category.equals("MidsizeElite")) {
 			return Category.MIDSIZE_ELITE;
 		}
-		else if (category.equals("Standard Elite")) {
+		else if (category.equals("StandardElite")) {
 			return Category.STANDARD_ELITE;
 		}
-		else if (category.equals("Fullsize Elite")) {
+		else if (category.equals("FullsizeElite")) {
 			return Category.FULLSIZE_ELITE;
 		}
-		else if (category.equals("Premium Elite")) {
+		else if (category.equals("PremiumElite")) {
 			return Category.PREMIUM_ELITE;
 		}
-		else if (category.equals("Luxury Elite")) {
+		else if (category.equals("LuxuryElite")) {
 			return Category.LUXURY_ELITE;
 		}
 		else if (category.equals("Oversize")) {
