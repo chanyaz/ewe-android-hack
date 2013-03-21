@@ -337,6 +337,10 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 			ItinCardData data = mItinCardDatas.get(a);
 			Calendar startCal = data.getStartDate().getCalendar();
 
+			if (!data.hasDetailData()) {
+				continue;
+			}
+
 			if (data instanceof ItinCardDataFlight && ((ItinCardDataFlight) data).isEnRoute()) {
 				setAsSummaryCard = true;
 			}
@@ -384,7 +388,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 			if (mSummaryCardPosition + 1 < len) {
 				ItinCardData possibleAlt = mItinCardDatas.get(mSummaryCardPosition + 1);
 				long startMillis = possibleAlt.getStartDate().getCalendar().getTimeInMillis();
-				if (nowMillis > startMillis - threeHours) {
+				if (possibleAlt.hasDetailData() && nowMillis > startMillis - threeHours) {
 					mAltSummaryCardPosition = mSummaryCardPosition + 1;
 				}
 			}
