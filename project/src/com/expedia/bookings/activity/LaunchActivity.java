@@ -216,7 +216,9 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 		getSupportMenuInflater().inflate(R.menu.menu_launch, menu);
 
 		DebugMenu.onCreateOptionsMenu(this, menu);
-		mHockeyPuck.onCreateOptionsMenu(menu);
+		if (!AndroidUtils.isRelease(this)) {
+			mHockeyPuck.onCreateOptionsMenu(menu);
+		}
 		mHasMenu = super.onCreateOptionsMenu(menu);
 		return mHasMenu;
 	}
@@ -268,7 +270,9 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 
 		DebugMenu.onPrepareOptionsMenu(this, menu);
 
-		mHockeyPuck.onPrepareOptionsMenu(menu);
+		if (!AndroidUtils.isRelease(this)) {
+			mHockeyPuck.onPrepareOptionsMenu(menu);
+		}
 
 		return retVal;
 	}
@@ -322,7 +326,11 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 		}
 		}
 
-		if (DebugMenu.onOptionsItemSelected(this, item) || mHockeyPuck.onOptionsItemSelected(item)) {
+		if (DebugMenu.onOptionsItemSelected(this, item)) {
+			return true;
+		}
+
+		if (!AndroidUtils.isRelease(this) && mHockeyPuck.onOptionsItemSelected(item)) {
 			return true;
 		}
 
