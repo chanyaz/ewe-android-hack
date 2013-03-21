@@ -83,7 +83,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	private ImageView mFixedItinTypeImageView;
 
 	private ScrollView mScrollView;
-	private OptimizedImageView mHeaderImageView;
+	private ItinHeaderImageView mHeaderImageView;
 	private ImageView mHeaderOverlayImageView;
 	private TextView mHeaderTextView;
 	private TextView mHeaderTextDateView;
@@ -267,6 +267,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		mDisplayState = DisplayState.COLLAPSED;
 		updateClickable();
 
+		mHeaderImageView.setMode(mShowSummary ? ItinHeaderImageView.MODE_SUMMARY : ItinHeaderImageView.MODE_MINI);
+
 		AnimatorSet animSet = getCollapseAnimatorSet();
 		if (startAnimation) {
 			animSet.start();
@@ -365,6 +367,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 		inflateDetailsView();
 		updateClickable();
+
+		mHeaderImageView.setMode(ItinHeaderImageView.MODE_FULL);
 
 		mSummaryDividerView.setVisibility(VISIBLE);
 		mDetailsLayout.setVisibility(VISIBLE);

@@ -123,4 +123,14 @@
         <attr name="id" format="reference" />
     </declare-styleable>
 
+    <!-- ItinHeaderImageView -->
+    <declare-styleable name="ItinHeaderImageView">
+        <attr name="mode">
+            <enum name="mini" value="0" />
+            <enum name="summary" value="1" />
+            <enum name="full" value="2" />
+        </attr>
+        <attr name="radius" format="dimension" />
+    </declare-styleable>
+
 </resources>
