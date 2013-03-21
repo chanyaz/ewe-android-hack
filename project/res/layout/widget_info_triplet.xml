@@ -15,6 +15,7 @@
             android:id="@+id/value1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:textColor="#f4f4f4"
             android:textSize="24sp"
             app:textStyle="medium" />
@@ -23,6 +24,7 @@
             android:id="@+id/label1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:textColor="#a9abae"
             android:textSize="14sp"
             app:textStyle="light" />
@@ -46,6 +48,7 @@
             android:id="@+id/value2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:textColor="#f4f4f4"
             android:textSize="24sp"
             app:textStyle="medium" />
@@ -54,6 +57,7 @@
             android:id="@+id/label2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:textColor="#a9abae"
             android:textSize="14sp"
             app:textStyle="light" />
@@ -77,6 +81,7 @@
             android:id="@+id/value3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:textColor="#f4f4f4"
             android:textSize="24sp"
             app:textStyle="medium" />
@@ -85,6 +90,7 @@
             android:id="@+id/label3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:textColor="#a9abae"
             android:textSize="14sp"
             app:textStyle="light" />
