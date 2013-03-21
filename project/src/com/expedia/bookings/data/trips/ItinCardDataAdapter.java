@@ -357,7 +357,10 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 
 		// Calculate the summary (and possibly alternate) positions
 		ItinCardData summaryCardData = null;
+		ItinCardData firstInProgressCard = null;
+		int firstInProgressCardPos = -1;
 		Calendar now = Calendar.getInstance();
+		long nowMillis = now.getTimeInMillis();
 		int today = now.get(Calendar.DAY_OF_YEAR);
 		for (int a = 0; a < len; a++) {
 			boolean setAsSummaryCard = false;
@@ -387,14 +390,32 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 				mSummaryCardPosition = a;
 				summaryCardData = data;
 			}
+
+			if (firstInProgressCard == null && data.getEndDate().getCalendar().after(now)) {
+				firstInProgressCardPos = a;
+				firstInProgressCard = data;
+			}
 		}
 
 		if (summaryCardData != null) {
+			long threeHours = 1000 * 60 * 60 * 3;
+
+			// If:
+			// 1. The current summary card starts after the first in-progress card ends
+			// 2. The current summary card is not happening in the next 3 hours
+			// Use the first in-progress card as summary instead
+			Calendar startDate = summaryCardData.getStartDate().getCalendar();
+			if (firstInProgressCard.getEndDate().getCalendar().before(startDate)
+					&& nowMillis < startDate.getTimeInMillis() - threeHours) {
+				mSummaryCardPosition = firstInProgressCardPos;
+				summaryCardData = firstInProgressCard;
+			}
+
 			// See if we have an alt summary card we want
 			if (mSummaryCardPosition + 1 < len) {
 				ItinCardData possibleAlt = mItinCardDatas.get(mSummaryCardPosition + 1);
 				long startMillis = possibleAlt.getStartDate().getCalendar().getTimeInMillis();
-				if (now.getTimeInMillis() > startMillis - (1000 * 60 * 60 * 3)) {
+				if (nowMillis > startMillis - threeHours) {
 					mAltSummaryCardPosition = mSummaryCardPosition + 1;
 				}
 			}
