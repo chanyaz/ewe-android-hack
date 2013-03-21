@@ -451,8 +451,29 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	}
 
 	@Override
-	public void onTripRemoved(Trip trip) {
-		// Do nothing
+	public void onTripRemoved(Trip removedTrip) {
+		// If there is an expanded card and the removedTrip matches the expanded card, make sure to collapse the card
+		// otherwise weirdness ensues.
+		Trip selectedTrip = null;
+		if (mItinListView != null) {
+			ItinCardData itinCardData = mItinListView.getSelectedItinCard();
+			if (itinCardData != null && itinCardData.getTripComponent() != null) {
+				selectedTrip = itinCardData.getTripComponent().getParentTrip();
+			}
+		}
+
+		if (selectedTrip != null) {
+			if (removedTrip.isGuest()) {
+				if (removedTrip.isSameGuest(selectedTrip)) {
+					mItinListView.hideDetails();
+				}
+			}
+			else {
+				if (removedTrip.getTripId() != null && removedTrip.getTripId().equals(selectedTrip.getTripId())) {
+					mItinListView.hideDetails();
+				}
+			}
+		}
 	}
 
 	@Override
