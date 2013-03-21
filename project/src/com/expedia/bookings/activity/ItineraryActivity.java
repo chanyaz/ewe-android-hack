@@ -2,6 +2,7 @@ package com.expedia.bookings.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -62,14 +63,21 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 			mItinListFragment.setSimpleMode(true);
 
 			// Setup the correct offset for the map
-			float offsetCenterX = getResources().getDimensionPixelSize(R.dimen.itin_simple_list_width) / 2.0f;
+			float listWidth = getResources().getDimensionPixelSize(R.dimen.itin_simple_list_width);
+			float offsetCenterX = listWidth / 2.0f;
 
-			int height = getWindowManager().getDefaultDisplay().getHeight();
+			Display display = getWindowManager().getDefaultDisplay();
+			int height = display.getHeight();
 			int bottomPadding = getResources().getDimensionPixelSize(R.dimen.itin_map_marker_bottom_padding);
 			int markerHeight = getResources().getDrawable(R.drawable.map_pin_normal).getIntrinsicHeight();
 			float offsetCenterY = (height / 2.0f) - markerHeight - bottomPadding;
 
 			mMapFragment.setCenterOffset(-offsetCenterX, -offsetCenterY);
+
+			float width = display.getWidth();
+			float usableWidth = 1.0f - (listWidth / width);
+			float horizCenterPercent = .5f + ((listWidth / width) / 2.0f);
+			mMapFragment.setUsableArea(usableWidth, horizCenterPercent);
 
 			// Start with itin card hidden
 			// TODO: If a card is already expanded from before, do not start hidden

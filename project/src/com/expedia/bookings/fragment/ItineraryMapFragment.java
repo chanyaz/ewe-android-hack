@@ -29,8 +29,11 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.mobiata.android.LocationServices;
+import com.mobiata.flightlib.maps.MapAnimationUtils;
 
 public class ItineraryMapFragment extends SupportMapFragment implements OnMyLocationChangeListener {
+
+	private static final float BOUNDS_PADDING_PERCENT = .05f;
 
 	private static final float ZOOM_LEVEL = 13;
 
@@ -41,6 +44,9 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 	private LatLngBounds mMarkerBounds;
 
 	private String mSelectedId;
+
+	private float mUsableWidth;
+	private float mHorizCenterPercent;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -92,6 +98,11 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 		super.onDetach();
 
 		ItineraryManager.getInstance().removeSyncListener(mItinerarySyncAdapter);
+	}
+
+	public void setUsableArea(float usableWidth, float horizCenterPercent) {
+		mUsableWidth = usableWidth;
+		mHorizCenterPercent = horizCenterPercent;
 	}
 
 	private void showItinMarkers() {
@@ -168,8 +179,10 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 	}
 
 	private void showBounds(LatLngBounds bounds, boolean animate) {
-		changeCamera(CameraUpdateFactory.newLatLngBounds(bounds,
-				(int) getResources().getDisplayMetrics().density * 50), animate);
+		CameraPosition camPos = MapAnimationUtils.getCameraPositionForRegion(getMap(), bounds, mUsableWidth
+				- BOUNDS_PADDING_PERCENT, 1 - BOUNDS_PADDING_PERCENT, mHorizCenterPercent, .50f);
+
+		changeCamera(CameraUpdateFactory.newCameraPosition(camPos), animate);
 	}
 
 	public void hideItinItem() {
