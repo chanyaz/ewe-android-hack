@@ -230,6 +230,7 @@ public class HotelPaymentOptionsFragment extends Fragment {
 
 		//Set visibilities
 		boolean hasAccountCards = cards != null && cards.size() > 0;
+		int numAccountCards = cards == null ? 0 : cards.size();
 		boolean hasSelectedStoredCard = Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard() != null;
 
 		if (mValidationState == null) {
@@ -277,9 +278,19 @@ public class HotelPaymentOptionsFragment extends Fragment {
 						: getString(R.string.select_payment));
 		mNewPaymentLabelDiv.setVisibility(mNewPaymentLabel.getVisibility());
 
-		mStoredPaymentsLabel.setVisibility(hasAccountCards ? View.VISIBLE : View.GONE);
-		mStoredPaymentsLabelDiv.setVisibility(mStoredPaymentsLabel.getVisibility());
-		mStoredCardsContainer.setVisibility(hasAccountCards ? View.VISIBLE : View.GONE);
+		boolean displayUnselectedStoredCardsLabel = false;
+		int remainingUnselectedStoredCards = numAccountCards;
+
+		if (hasAccountCards) {
+			if (hasSelectedStoredCard) {
+				remainingUnselectedStoredCards--;
+			}
+			displayUnselectedStoredCardsLabel = remainingUnselectedStoredCards > 0;
+		}
+
+		mStoredPaymentsLabel.setVisibility(displayUnselectedStoredCardsLabel ? View.VISIBLE : View.GONE);
+		mStoredPaymentsLabelDiv.setVisibility(displayUnselectedStoredCardsLabel ? View.VISIBLE : View.GONE);
+		mStoredCardsContainer.setVisibility(displayUnselectedStoredCardsLabel ? View.VISIBLE : View.GONE);
 	}
 
 	public interface HotelPaymentYoYoListener {
