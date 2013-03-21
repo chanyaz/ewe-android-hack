@@ -72,7 +72,7 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 
 		// Price before taxes and fees
 		rightBuilder.setHeavy();
-		rightBuilder.setText(rate.getTotalAmountBeforeTax().getFormattedMoney());
+		rightBuilder.setText(rate.getNightlyRateTotal().getFormattedMoney());
 		rightBuilder.build();
 
 		// Room night breakdown
@@ -146,13 +146,7 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 		leftBuilder.setText(R.string.total_price_label);
 		leftBuilder.build();
 
-		Money displayedTotal;
-                if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
-                        displayedTotal = rate.getTotalPriceWithMandatoryFees();
-                }
-                else {
-                        displayedTotal = rate.getTotalAmountAfterTax();
-                }
+		Money displayedTotal = rate.getTotalPriceWithMandatoryFees();
 		rightBuilder.setText(displayedTotal.getFormattedMoney());
 		rightBuilder.build();
 

@@ -35,6 +35,7 @@ public class Rate implements JSONable {
 	private String mRoomLongDescription;
 	private List<RateBreakdown> mRateBreakdown;
 	private boolean mRateChange;
+	private Money mNightlyRateTotal;
 	private Money mDailyAmountBeforeTax; // HP equiv: bookableRate
 	private Money mTotalAmountBeforeTax; // HP equiv: totalRateAmount
 	private Money mTotalAmountAfterTax; // HP equiv: totalCostPerRoom
@@ -268,6 +269,14 @@ public class Rate implements JSONable {
 
 	public void setTotalAmountBeforeTax(Money totalAmountBeforeTax) {
 		this.mTotalAmountBeforeTax = totalAmountBeforeTax;
+	}
+
+	public Money getNightlyRateTotal() {
+		return mNightlyRateTotal;
+	}
+
+	public void setNightlyRateTotal(Money nightlyRateTotal) {
+		mNightlyRateTotal = nightlyRateTotal;
 	}
 
 	public Money getTotalAmountAfterTax() {

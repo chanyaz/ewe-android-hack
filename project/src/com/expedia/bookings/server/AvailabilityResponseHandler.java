@@ -355,6 +355,9 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 				currencyCode);
 		Money strikethroughPriceToShowUsers = ParserUtils.createMoney(
 				chargeableRateInfo.getString("strikethroughPriceToShowUsers"), currencyCode);
+		Money nightlyRateTotal = ParserUtils.createMoney(chargeableRateInfo.getString("nightlyRateTotal"),
+				currencyCode);
+		rate.setNightlyRateTotal(nightlyRateTotal);
 
 		rate.setPriceToShowUsers(priceToShowUsers);
 		rate.setStrikethroughPriceToShowUsers(strikethroughPriceToShowUsers);
