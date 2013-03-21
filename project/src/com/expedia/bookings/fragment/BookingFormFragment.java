@@ -448,7 +448,9 @@ public class BookingFormFragment extends Fragment {
 		Rate rate = Db.getSelectedRate();
 		if (rate != null) {
 			Policy cancellationPolicy = rate.getRateRules().getPolicy(Policy.TYPE_CANCEL);
-			mCancellationPolicyTextView.setText(Html.fromHtml(cancellationPolicy.getDescription()));
+			if (cancellationPolicy != null) {
+				mCancellationPolicyTextView.setText(Html.fromHtml(cancellationPolicy.getDescription()));
+			}
 		}
 
 		// Configure form validation
