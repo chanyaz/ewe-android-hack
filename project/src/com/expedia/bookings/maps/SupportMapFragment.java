@@ -1,15 +1,13 @@
 package com.expedia.bookings.maps;
 
 import android.app.Activity;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
+import com.expedia.bookings.fragment.MeasuringMapFragment;
 import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -178,19 +176,7 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 	 * *DOES NOT WORK* if you are changing the zoom level at the same time as changing the LatLng.
 	 */
 	public LatLng offsetLatLng(LatLng latLng) {
-		return offsetLatLng(latLng, mCenterOffsetX, mCenterOffsetY);
-	}
-
-	public LatLng offsetLatLng(LatLng latLng, float offsetX, float offsetY) {
-		if (offsetX == 0 && offsetY == 0) {
-			return latLng;
-		}
-
-		Projection projection = getMap().getProjection();
-		Point screenLocation = projection.toScreenLocation(latLng);
-		screenLocation.x += offsetX;
-		screenLocation.y += offsetY;
-		return projection.fromScreenLocation(screenLocation);
+		return MeasuringMapFragment.offsetLatLng(getMap(), latLng, mCenterOffsetX, mCenterOffsetX);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

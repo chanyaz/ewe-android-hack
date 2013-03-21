@@ -16,7 +16,7 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncAdapter;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.maps.SupportMapFragment;
-import com.google.android.gms.maps.CameraUpdate;
+import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
@@ -36,6 +36,12 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 	private static final float BOUNDS_PADDING_PERCENT = .05f;
 
 	private static final float ZOOM_LEVEL = 13;
+
+	// Having a Fragment stored in another Fragment is normally bad,
+	// but in this case this Fragment is just providing a utility
+	// such that that I am doing this instead of the much longer
+	// (and confusing) pass through the Activity.
+	private MeasuringMapFragment mMeasuringMapFragment;
 
 	private ItineraryMapFragmentListener mListener;
 
@@ -59,6 +65,9 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 		mListener = (ItineraryMapFragmentListener) activity;
 
 		ItineraryManager.getInstance().addSyncListener(mItinerarySyncAdapter);
+
+		mMeasuringMapFragment = Ui.findSupportFragment(getCompatibilityActivity(),
+				getString(R.string.tag_measuring_map));
 	}
 
 	@Override
@@ -87,7 +96,7 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 			map.setOnCameraChangeListener((OnCameraChangeListener) activity);
 		}
 
-		// Set the initial zoom level; otherwise all of our camera updates will be off target
+		// It's not at all clear to me why, but if I leave this out, the initial zoom doesn't work.  Go figure.
 		moveCamera(CameraUpdateFactory.zoomTo(ZOOM_LEVEL));
 
 		showItinMarkers();
@@ -195,57 +204,31 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 	public boolean showItinItem(ItinCardData data, boolean animate) {
 		getMap().setMyLocationEnabled(false);
 
-		mSelectedId = data.getId();
-
-		LatLng position = null;
-
-		if (data != null) {
-			position = data.getLocation();
+		String id = data.getId();
+		if (id.equals(mSelectedId)) {
+			return false;
 		}
+
+		LatLng position = data.getLocation();
 
 		if (position == null) {
-			position = new LatLng(0, 0);
+			return false;
 		}
 
-		return changeCamera(position, animate);
+		mSelectedId = id;
+
+		changeCamera(position, animate);
+
+		return true;
 	}
 
-	private boolean changeCamera(LatLng target, boolean animate) {
-		return changeCamera(target, animate, getCenterOffsetX(), getCenterOffsety());
+	private void changeCamera(LatLng target, boolean animate) {
+		changeCamera(target, animate, getCenterOffsetX(), getCenterOffsety());
 	}
 
-	/**
-	 * Accounts for offset while moving camera 
-	 * 
-	 * @return true if camera position changed
-	 */
-	private boolean changeCamera(LatLng target, boolean animate, float offsetX, float offsetY) {
-		CameraPosition origPosition = getMap().getCameraPosition();
-
-		LatLng camLatLng = target;
-		if (target.latitude != 0 || target.longitude != 0) {
-			// Quickly set correct zoom level so we calculate offset correctly.  It's noticeable, but
-			// only does anything if we're mid-animation anyways so it doesn't really matter.
-			moveCamera(CameraUpdateFactory.zoomTo(ZOOM_LEVEL));
-
-			camLatLng = offsetLatLng(camLatLng, offsetX, offsetY);
-		}
-
-		CameraPosition camPos = new CameraPosition(camLatLng, ZOOM_LEVEL, 0, 0);
-
-		boolean camPosChanged = !practicallyEquals(origPosition, camPos);
-
-		if (camPosChanged) {
-			CameraUpdate camUpdate = CameraUpdateFactory.newCameraPosition(camPos);
-			if (animate) {
-				animateCamera(camUpdate);
-			}
-			else {
-				moveCamera(camUpdate);
-			}
-		}
-
-		return camPosChanged;
+	private void changeCamera(LatLng target, boolean animate, float offsetX, float offsetY) {
+		CameraPosition camPos = mMeasuringMapFragment.measure(target, ZOOM_LEVEL, offsetX, offsetY);
+		changeCamera(CameraUpdateFactory.newCameraPosition(camPos), animate);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
