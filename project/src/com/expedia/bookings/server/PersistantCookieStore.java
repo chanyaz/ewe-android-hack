@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.text.format.DateFormat;
 
 import com.mobiata.android.Log;
 import com.mobiata.android.util.IoUtils;
@@ -209,5 +210,39 @@ public class PersistantCookieStore extends BasicCookieStore {
 		catch (Exception e) {
 			Log.e("Could not save cookies.", e);
 		}
+	}
+
+	/**
+	 * Generate a set-cookie http header string from the supplied cookie.
+	 * This is useful for creating cookie strings for use with CookieManager.setCookie(s,s);
+	 * 
+	 * @param cookie
+	 * @return set-cookie http header string
+	 */
+	public static String generateSetCookieString(Cookie cookie) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(generateSetCookieStringHelper(cookie.getName(), cookie.getValue()));
+		builder.append(generateSetCookieStringHelper("Comment", cookie.getComment()));
+		builder.append(generateSetCookieStringHelper("CommentUrl", cookie.getCommentURL()));
+		builder.append(generateSetCookieStringHelper("Domain", cookie.getDomain()));
+		builder.append(generateSetCookieStringHelper("Path", cookie.getPath()));
+		builder.append(generateSetCookieStringHelper("Version", "" + cookie.getVersion()));
+		if (cookie.isSecure()) {
+			builder.append(generateSetCookieStringHelper("Secure"));
+		}
+		if (cookie.isPersistent()) {
+			String expires = DateFormat.format("Wdy, DD Mon YYYY HH:MM:SS GMT", cookie.getExpiryDate()).toString();
+			builder.append(generateSetCookieStringHelper("Expires", expires));
+		}
+
+		return builder.toString();
+	};
+
+	private static String generateSetCookieStringHelper(String key, String value) {
+		return key + "=" + value + ";";
+	}
+
+	private static String generateSetCookieStringHelper(String keyvalue) {
+		return keyvalue + ";";
 	}
 }

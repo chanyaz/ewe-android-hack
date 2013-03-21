@@ -104,24 +104,24 @@ public class WebViewFragment extends Fragment {
 
 		mLoadCookies = args.getBoolean(ARG_LOAD_EXPEDIA_COOKIES, false);
 		if (mLoadCookies) {
-			// Set the Expedia cookies for loading the URL properly
-			CookieSyncManager.createInstance(getActivity());
+			CookieSyncManager cookieSyncManager = CookieSyncManager.createInstance(getActivity());
 			CookieManager cookieManager = CookieManager.getInstance();
 
+			// Set the Expedia cookies for loading the URL properly
 			PersistantCookieStore persistantCookieStore = ExpediaServices.getCookieStore(getActivity());
 			cookieManager.setAcceptCookie(true);
 			cookieManager.removeSessionCookie();
 			if (persistantCookieStore != null) {
 				for (Cookie cookie : persistantCookieStore.getCookies()) {
-					String cookieString = cookie.getName() + "=" + cookie.getValue() + "; domain=" + cookie.getDomain();
+					String cookieString = PersistantCookieStore.generateSetCookieString(cookie);
 
 					// Note: this is getting set to two different URLs for Android compatibility reasons. ".expedia.com"
 					//       works with ICS, using the url works with 2.1
-					cookieManager.setCookie(mUrl, cookieString);
-					cookieManager.setCookie(".expedia.com", cookieString);
-				}
 
-				CookieSyncManager.getInstance().sync();
+					cookieManager.setCookie(mUrl, cookieString);
+					cookieManager.setCookie(cookie.getDomain(), cookieString);
+				}
+				cookieSyncManager.sync();
 			}
 		}
 	}
