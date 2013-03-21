@@ -180,6 +180,8 @@ public class ItineraryManager implements JSONable {
 
 		mLastUpdateTime = 0;
 
+		mItinCardDatas.clear();
+
 		if (mTrips == null) {
 			return;
 		}
