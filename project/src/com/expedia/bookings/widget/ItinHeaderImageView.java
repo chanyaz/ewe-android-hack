@@ -100,7 +100,7 @@ public class ItinHeaderImageView extends OptimizedImageView {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		// Use native drawing if we're not altering the image
-		if (mMode == MODE_FULL || mCompositeBitmap == null) {
+		if (mMode == MODE_FULL || mCompositeBitmap == null || getDrawable() == null) {
 			super.onDraw(canvas);
 			return;
 		}
