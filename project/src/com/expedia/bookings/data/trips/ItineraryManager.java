@@ -465,6 +465,27 @@ public class ItineraryManager implements JSONable {
 		public void onSyncFinished(Collection<Trip> trips);
 	}
 
+	// Makes it so you don't have to implement everything from the interface
+	public static class ItinerarySyncAdapter implements ItinerarySyncListener {
+		public void onTripAdded(Trip trip) {
+		}
+
+		public void onTripUpdated(Trip trip) {
+		}
+
+		public void onTripUpdateFailed(Trip trip) {
+		}
+
+		public void onTripRemoved(Trip trip) {
+		}
+
+		public void onSyncFailure(SyncError error) {
+		}
+
+		public void onSyncFinished(Collection<Trip> trips) {
+		}
+	}
+
 	private Set<ItinerarySyncListener> mSyncListeners = new HashSet<ItineraryManager.ItinerarySyncListener>();
 
 	public void addSyncListener(ItinerarySyncListener listener) {

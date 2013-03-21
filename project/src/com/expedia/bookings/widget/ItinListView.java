@@ -415,6 +415,10 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		}
 		return false;
 	}
+	
+	public void showDetails(String id) {
+		showDetails(mAdapter.getPosition(id));
+	}
 
 	private void showDetails() {
 		showDetails(mDetailPosition);
