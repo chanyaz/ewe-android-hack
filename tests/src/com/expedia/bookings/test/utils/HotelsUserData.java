@@ -5,6 +5,7 @@ package com.expedia.bookings.test.utils;
  */
 
 public class HotelsUserData {
+	
 	//Names
 	public String mFirstName;
 	public String mLastName;
@@ -29,7 +30,10 @@ public class HotelsUserData {
 	//Log in Information.
 	public String mLoginEmail;
 	public String mLoginPassword;
-
+	
+	//Configuration options
+	public String mBookingServer;
+	
 	//Default Constructor sets info
 	// to the qa-ehcc@mobiata.com account info
 	HotelsUserData() {
@@ -52,6 +56,8 @@ public class HotelsUserData {
 
 		mSearchLocation = "New York City";
 		mFilterText = "Westin";
+		
+		mBookingServer = "Production";
 	}
 
 }
