@@ -142,11 +142,11 @@ public class ShareUtils {
 			sb.append(mContext.getString(R.string.path_template, formatAirport(flight.mOrigin.getAirport()),
 					formatAirport(flight.mDestination.getAirport())));
 			sb.append("\n");
-			long start = DateTimeUtils.getTimeInLocalTimeZone(flight.mOrigin.getMostRelevantDateTime()).getTime();
+			long start = DateTimeUtils.getTimeInLocalTimeZone(flight.mOrigin.getBestSearchDateTime()).getTime();
 			sb.append(DateUtils.formatDateTime(mContext, start, DateUtils.FORMAT_SHOW_DATE
 					| DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_WEEKDAY));
 			sb.append("\n");
-			long end = DateTimeUtils.getTimeInLocalTimeZone(flight.mDestination.getMostRelevantDateTime()).getTime();
+			long end = DateTimeUtils.getTimeInLocalTimeZone(flight.mDestination.getBestSearchDateTime()).getTime();
 			sb.append(DateUtils.formatDateRange(mContext, start, end, DateUtils.FORMAT_SHOW_TIME));
 			sb.append("\n");
 			sb.append(FormatUtils.formatFlightNumber(flight, mContext));

@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -111,51 +112,49 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			String originAirportCode = leg.getFirstWaypoint().getAirport().mAirportCode;
 			String destinationGateTerminal = getTerminalGateString(leg.getLastWaypoint());
 
-			Calendar departureCal = leg.getFirstWaypoint().getMostRelevantDateTime();
-			Calendar arrivalCal = leg.getLastWaypoint().getMostRelevantDateTime();
+			Calendar departureCal = leg.getFirstWaypoint().getBestSearchDateTime();
+			Calendar arrivalCal = leg.getLastWaypoint().getBestSearchDateTime();
+			
+			Date departureDate = DateTimeUtils.getTimeInLocalTimeZone(departureCal);
+			Date arrivalDate = DateTimeUtils.getTimeInLocalTimeZone(arrivalCal);
+			
+			String departureTzString = FormatUtils.formatTimeZone(leg.getFirstWaypoint().getAirport(), departureDate);
+			String arrivalTzString = FormatUtils.formatTimeZone(leg.getLastWaypoint().getAirport(), arrivalDate);
 
 			//The story contains format strings, but we don't want to bone our international customers
 			DateFormat dateFormat = SimpleDateFormat.getDateInstance(DateFormat.SHORT);
 			DateFormat timeFormat = SimpleDateFormat.getTimeInstance(DateFormat.MEDIUM);
-			DateFormat dateTimeFormat = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM);
 
 			if (PointOfSale.getPointOfSale().getThreeLetterCountryCode().equalsIgnoreCase("USA")) {
 				String dateFormatStr = "M/dd/yy";
-				String timeFormatStr = "h:mma zz";
-				String dateTimeFormatStr = timeFormatStr + " " + dateFormatStr;
+				String timeFormatStr = "h:mma";
 
 				((SimpleDateFormat) dateFormat).applyPattern(dateFormatStr);
 				((SimpleDateFormat) timeFormat).applyPattern(timeFormatStr);
-				((SimpleDateFormat) dateTimeFormat).applyPattern(dateTimeFormatStr);
 			}
 
-			dateFormat.setTimeZone(departureCal.getTimeZone());
-			timeFormat.setTimeZone(departureCal.getTimeZone());
-			dateTimeFormat.setTimeZone(departureCal.getTimeZone());
-			String departureDate = dateFormat.format(departureCal.getTime());
-			String departureTime = timeFormat.format(departureCal.getTime());
-			String departureDateTime = dateTimeFormat.format(departureCal.getTime());
+			String departureDateStr = dateFormat.format(departureDate);
+			String departureTimeStr = timeFormat.format(departureDate) + " " + departureTzString;
+			String departureDateTimeStr = departureTimeStr + " " + departureDateStr;
 
-			dateFormat.setTimeZone(arrivalCal.getTimeZone());
-			timeFormat.setTimeZone(arrivalCal.getTimeZone());
-			dateTimeFormat.setTimeZone(arrivalCal.getTimeZone());
-			String arrivalTime = timeFormat.format(arrivalCal.getTime());
-			String arrivalDateTime = dateTimeFormat.format(arrivalCal.getTime());
+			String arrivalDateStr = dateFormat.format(departureDate);
+			String arrivalTimeStr = timeFormat.format(arrivalDate) + " " + arrivalTzString;
+			String arrivalDateTimeStr = arrivalTimeStr + " " + arrivalDateStr;
 
 			//single day
 			if (leg.getDaySpan() == 0) {
 				String template = getContext().getString(R.string.share_template_short_flight_sameday);
 
-				return String.format(template, airlineAndFlightNumber, destinationCity, departureDate,
+				return String.format(template, airlineAndFlightNumber, destinationCity, departureDateStr,
 						originAirportCode,
-						departureTime, destinationAirportCode, arrivalTime, destinationGateTerminal);
+						departureTimeStr, destinationAirportCode, arrivalTimeStr, destinationGateTerminal);
 			}
 			//multi day
 			else {
 				String template = getContext().getString(R.string.share_template_short_flight_multiday);
 
 				return String.format(template, airlineAndFlightNumber, destinationCity, originAirportCode,
-						departureDateTime, destinationAirportCode, arrivalDateTime, destinationGateTerminal);
+						departureDateTimeStr, destinationAirportCode, arrivalDateTimeStr, destinationGateTerminal);
 			}
 		}
 		return null;
