@@ -22,12 +22,20 @@ for i in $path/values*/strings.xml ; do
     # wrong elipsis
     grep $options "[^\.]\.\.\.[^\.]" $i
 
-    # preceding and trailing space
-    #grep $options "\"> " $i
-    #grep $options " </string>" $i
-    #grep $options " </item>" $i
+    # preceding and trailing space - ignore ": "
+    grep $options "\"> " $i
+    grep $options "[^:] </string>" $i
+    grep $options "[^:] </item>" $i
 
     # check for bunk apos
     grep $options "’" $i
+
+    # check for unescaped html tags
+    #grep $options "<a " $i
+    #grep $options "<a>" $i
+    #grep $options "</a>" $i
+
+    # check for too many spaces
+    grep $options ">.*[^.!]  " $i
 done
 

@@ -33,10 +33,16 @@ for i in $path/values*/strings.xml ; do
 
     # Fix bad elipsis
     gsed -i 's/\([^\.]\)\.\.\.\([^\.]\)/\1…\2/g' $i
+
+    # Fix bad trailing space - ignore " : "
+    gsed -i 's/\([^:]\)\s*<\/string>/\1<\/string>/' $i
+    gsed -i 's/\([^:]\)\s*<\/item>/\1<\/item>/' $i
+
+    # Fix bad preceding space
+    gsed -i 's/<string \(name="[a-zA-Z1-9_]*"\)>\s*/<string \1>/' $i
+    gsed -i 's/<item \(quantity="[a-zA-Z1-9_]*"\)>\s*/<item \1>/' $i
+
+    # Fix multiple spaces
+    gsed -i 's/\(>.*[^.!]\)  /\1 /' $i
 done
 
-# TESTING
-#echo "<!-- Can’t Sav’e Traveler -->" | gsed "$fix_comment"
-#echo "<!-- Can’t Sav’e Traveler -->" | gsed "$fix_string"
-#echo "<string name=\"test\">’’’’</string>" | gsed "$fix_string"
-#echo "<item name=\"test\">’’’’</string>" | gsed "$fix_item"
