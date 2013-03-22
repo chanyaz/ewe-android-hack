@@ -146,6 +146,10 @@ public class CreditCardInfoEditTest extends ActivityInstrumentationTestCase2<Hot
 					mDriver.delay();
 					mSolo.typeText(creditCardEditText, creditcardNumber);
 				}
+				catch (Exception ex) {
+					mDriver.delay();
+					mSolo.typeText(creditCardEditText, creditcardNumber);
+				}
 				mDriver.delay();
 
 				//grab the imageView - it contains the changed credit card image
