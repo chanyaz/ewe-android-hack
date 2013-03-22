@@ -14,15 +14,16 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.trips.TripComponent.Type;
 
 public class ItinHeaderImageView extends OptimizedImageView {
 	public static final int MODE_MINI = 0;
 	public static final int MODE_SUMMARY = 1;
 	public static final int MODE_FULL = 2;
 
+	private Type mType;
 	private int mMode = MODE_MINI;
 	private int mRadius = 10;
 
@@ -74,10 +75,14 @@ public class ItinHeaderImageView extends OptimizedImageView {
 	public void setImageDrawable(Drawable drawable) {
 		super.setImageDrawable(drawable);
 
-		if (drawable != null) {
+		if (mType == Type.FLIGHT && drawable != null) {
 			setScaleType(ScaleType.MATRIX);
 			setImageMatrix(createImageMatrix());
 		}
+	}
+
+	public void setType(Type type) {
+		mType = type;
 	}
 
 	public void setMode(int mode) {
@@ -106,6 +111,11 @@ public class ItinHeaderImageView extends OptimizedImageView {
 		if (mCompositeBitmap == null || w > oldw) {
 			mCompositeBitmap = Bitmap.createBitmap(w, h, Config.ARGB_8888);
 			mCompositeCanvas = new Canvas(mCompositeBitmap);
+		}
+
+		if (mType == Type.FLIGHT && getDrawable() != null) {
+			setScaleType(ScaleType.MATRIX);
+			setImageMatrix(createImageMatrix());
 		}
 	}
 

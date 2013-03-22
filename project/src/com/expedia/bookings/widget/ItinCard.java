@@ -176,6 +176,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		mFixedItinTypeImageView.setImageResource(mItinContentGenerator.getTypeIconResId());
 
 		// Image
+		mHeaderImageView.setType(getType());
+
 		String headerImageUrl = mItinContentGenerator.getHeaderImageUrl();
 		if (headerImageUrl != null) {
 			UrlBitmapDrawable.loadImageView(headerImageUrl, mHeaderImageView);
