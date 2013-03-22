@@ -391,7 +391,6 @@ public class OmnitureTracking {
 		}
 
 		s.setEvar(55, var55);
-		Log.d("bradley", "evar55 " + var55);
 		s.setEvents("event26");
 
 		s.trackLink(null, "o", s.getEvar(28), null, null);
