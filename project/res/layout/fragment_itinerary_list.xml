@@ -64,6 +64,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="24dp"
+                    android:gravity="center_horizontal"
                     android:text="@string/no_upcoming_trips"
                     android:textColor="@color/itin_offwhite_text"
                     android:textSize="24sp"
