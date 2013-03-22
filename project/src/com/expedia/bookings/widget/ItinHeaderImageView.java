@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
@@ -13,6 +14,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 
@@ -66,6 +68,16 @@ public class ItinHeaderImageView extends OptimizedImageView {
 		setMode(a.getInteger(R.styleable.ItinHeaderImageView_mode, mMode));
 		setRadius(a.getDimensionPixelSize(R.styleable.ItinHeaderImageView_radius, mRadius));
 		a.recycle();
+	}
+
+	@Override
+	public void setImageDrawable(Drawable drawable) {
+		super.setImageDrawable(drawable);
+
+		if (drawable != null) {
+			setScaleType(ScaleType.MATRIX);
+			setImageMatrix(createImageMatrix());
+		}
 	}
 
 	public void setMode(int mode) {
@@ -160,5 +172,31 @@ public class ItinHeaderImageView extends OptimizedImageView {
 		mBRMaskCanvas = new Canvas(mBRMaskBitmap);
 		mBRMaskCanvas.drawColor(Color.BLACK);
 		mBRMaskCanvas.drawRoundRect(rect, mRadius, mRadius, mMaskPaint);
+	}
+
+	private Matrix createImageMatrix() {
+		Matrix matrix = new Matrix();
+
+		float scale;
+		float dx = 0, dy = -48 * getResources().getDisplayMetrics().density;
+
+		int dwidth = getDrawable().getIntrinsicWidth();
+		int dheight = getDrawable().getIntrinsicHeight();
+
+		int vwidth = getWidth() - getPaddingLeft() - getPaddingRight();
+		int vheight = getHeight() - getPaddingTop() - getPaddingBottom();
+
+		if (dwidth * vheight > vwidth * dheight) {
+			scale = (float) vheight / (float) dheight;
+			dx = (vwidth - dwidth * scale) * 0.5f;
+		}
+		else {
+			scale = (float) vwidth / (float) dwidth;
+		}
+
+		matrix.setScale(scale, scale);
+		matrix.postTranslate((int) (dx + 0.5f), (int) dy);
+
+		return matrix;
 	}
 }
