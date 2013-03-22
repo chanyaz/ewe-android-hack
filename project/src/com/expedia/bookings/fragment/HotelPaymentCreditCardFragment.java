@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
@@ -96,6 +98,12 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 					Db.getWorkingBillingInfoManager().attemptWorkingBillingInfoSave(getActivity(), false);
 				}
 			});
+
+			// Give US users a streamlined keyboard approach. TODO move this info shared ExpediaConfig json file
+			if (PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.UNITED_STATES) {
+				EditText postalCodeEditText = Ui.findView(v, R.id.edit_address_postal_code);
+				postalCodeEditText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_NORMAL);
+			}
 		}
 		else if (requiredFields.equals(PointOfSale.RequiredPaymentFieldsHotels.NONE)) {
 			// remove the SectionLocation/postalCode as it is not needed

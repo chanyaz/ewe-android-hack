@@ -70,7 +70,6 @@
         android:layout_centerVertical="true"
         android:hint="@string/address_postal_code_hint"
         android:imeOptions="flagNoExtractUi"
-        android:inputType="number"
         android:maxLength="5"
         android:nextFocusLeft="@id/security_code_edit_text"
         android:nextFocusUp="@id/security_code_edit_text"
