@@ -6,8 +6,8 @@
     <string name="facebook_weve_found_your_account">Olá &lt;b&gt;%1$s&lt;/b&gt;, parece que encontramos sua conta da Expedia! Digite sua senha da Expedia a seguir para vincular sua conta do Facebook à da Expedia.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">Olá &lt;b&gt;%1$s&lt;/b&gt;, carregamos suas informações do Facebook!</string>
-    <!-- connect with facebook (button text) -->
-    <string name="connect_with_facebook">Conectar com o Facebook</string>
+    <!-- Log in with facebook (button text) -->
+    <string name="Log_in_with_Facebook">Conecte-se com o Facebook</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">Obtendo informações do Facebook…</string>
     <!-- Attempting to log you in with facebook credentials -->
@@ -70,6 +70,8 @@
     <string name="find_itinerary_pound">Buscar itinerário nº</string>
     <!-- Itinerary Number -->
     <string name="itinerary_number">Número do itinerário</string>
+    <!-- Expedia Itinerary -->
+    <string name="expedia_itinerary">Nº do Itinerário da Expedia</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Nenhuma viagem futura.</string>
     <!-- Enter itinerary number -->
@@ -129,6 +131,14 @@
     <string name="arrive_tz_TEMPLATE">Chegada (%1$s)</string>
     <!-- Confirmation Code Label -->
     <string name="confirmation_code_label">Código de confirmação</string>
+    <!-- Flight Confirmation code label -->
+    <string name="flight_confirmation_code_label">Confirmação da Companhia Aérea</string>
+    <!-- Flight Carrier confirmation code label template -->
+    <string name="flight_carrier_confirmation_code_label_TEMPLATE">Confirmação da %1$s</string>
+    <!-- Car rental confirmation code "Agency Confirmation Code" -->
+    <string name="car_rental_confirmation_code_label">Código de Confirmação da Agência</string>
+    <!-- Hotel confirmation code "Hotel Confirmation Code" -->
+    <string name="hotel_confirmation_code_label">Código de Confirmação do Hotel</string>
     <!-- Passengers Label -->
     <string name="passengers_label">Passageiros</string>
     <!-- Flight receipt and policies -->
@@ -237,6 +247,47 @@
     <string name="refresh">Atualizar</string>
     <!-- Try Again -->
     <string name="try_again">Tente novamente</string>
+    <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
+    <string name="copy_TEMPLATE">COPIAR %1$s</string>
+
+    <!-- Car category -->
+    <!-- Car category: mini -->
+    <string name="car_category_mini">Carro mini</string>
+    <!-- Car category: economy -->
+    <string name="car_category_economy">Carro econômico</string>
+    <!-- Car category: compact -->
+    <string name="car_category_compact">Carro compacto</string>
+    <!-- Car category: midize -->
+    <string name="car_category_midsize">Carro médio</string>
+    <!-- Car category: standard -->
+    <string name="car_category_standard">Carro padrão</string>
+    <!-- Car category: fullsize -->
+    <string name="car_category_fullsize">Carro sedan</string>
+    <!-- Car category: premium -->
+    <string name="car_category_premium">Carro prêmio</string>
+    <!-- Car category: luxury -->
+    <string name="car_category_luxury">Carro de luxo</string>
+    <!-- Car category: mini elite -->
+    <string name="car_category_mini_elite">Carro mini Elite</string>
+    <!-- Car category: economy elite -->
+    <string name="car_category_economy_elite">Carro econômico Elite</string>
+    <!-- Car category: compact elite -->
+    <string name="car_category_compact_elite">Carro compacto Elite</string>
+    <!-- Car category: midize elite -->
+    <string name="car_category_midsize_elite">Carro médio Elite</string>
+    <!-- Car category: standard elite -->
+    <string name="car_category_standard_elite">Carro padrão Elite</string>
+    <!-- Car category: fullsize elite -->
+    <string name="car_category_fullsize_elite">Carro sedan Elite</string>
+    <!-- Car category: premium elite -->
+    <string name="car_category_premium_elite">Carro prêmio Elite</string>
+    <!-- Car category: luxury elite -->
+    <string name="car_category_luxury_elite">Carro de luxo Elite</string>
+    <!-- Car category: special -->
+    <string name="car_category_special">Carro especial</string>
+    <!-- Car category: oversize -->
+    <string name="car_category_oversize">Carro grande</string>
+
     <!-- Car types -->
     <string name="car_type_two_door">Duas portas Carro</string>
     <string name="car_type_three_door">Três portas Carro</string>
@@ -271,8 +322,10 @@
     <string name="itin_card_details_pick_up">Retirada</string>
     <string name="itin_card_details_drop_off">Entrega</string>
     <string name="itin_card_details_days">Dias</string>
-    <string name="itin_card_details_pick_up">Retirada</string>
-    <string name="itin_card_details_drop_off">Entrega</string>
+    <!-- Tell users when they can pick up a rental car. %1$s is a time, e.g. ("pick up after 5 PM") -->
+    <string name="itin_card_details_pick_up_TEMPLATE">Coleta após as %1$s</string>
+    <!-- Tell users when they need to drop off a rental car. %1$s is a time, e.g. ("drop off before 5 PM") -->
+    <string name="itin_card_details_drop_off_TEMPLATE">Devolução antes das %1$s</string>
     <string name="itin_card_details_agency_phone">Telefone da agência</string>
     <string name="itin_card_details_toll_free_phone">Telefone Gratuito</string>
     <string name="itin_card_details_check_in">Check-in</string>
@@ -288,7 +341,10 @@
     <string name="itin_card_details_reload_hotel">Recarregar Info Hotéis</string>
     <string name="itin_card_details_reload_cruise">Regarregar Info Cruzeiro</string>
 
-    <string name="itin_card_hotel_summary_TEMPLATE">Check-in após %1$s</string>
+    <!-- Message to users about when they can check into their hotel.  %1$s is a time (e.g., "Check in after 5 PM") -->
+    <string name="itin_card_hotel_summary_check_in_TEMPLATE">Check-in após as %1$s</string>
+    <!-- Message to users about when they need to check out of their hotel.  %1$s is a time (e.g., "Check out before 5 PM") -->
+    <string name="itin_card_hotel_summary_check_out_TEMPLATE">Check-out antes das %1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">Válido a partir de &lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Action Buttons -->
@@ -394,7 +450,7 @@
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
     <string name="inbound_TEMPLATE">Voos chegando em %s</string>
     <!-- Error when we simple can't connect to E3 servers -->
-    <string name="error_server">Não foi possível conectar-se aos servidores da Expedia  Tente novamente mais tarde.</string>
+    <string name="error_server">Não foi possível conectar-se aos servidores da Expedia Tente novamente mais tarde.</string>
     <!-- Label for changing sort order on flights -->
     <string name="filter_flight_sort">Classificar voos por:</string>
     <!-- Label for filtering flights by time (aka, 10 AM to 3 PM) -->
@@ -427,7 +483,7 @@
     <!-- Title for screen when in an invalid POS we can't search for yet -->
     <string name="taking_off_soon">Decolando em breve…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
-    <string name="invalid_flights_pos">As reservas com  dispositivos móveis ainda &lt;b&gt;não estão disponíveis&lt;/b&gt; para seu local.</string>
+    <string name="invalid_flights_pos">As reservas com dispositivos móveis ainda &lt;b&gt;não estão disponíveis&lt;/b&gt; para seu local.</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">Os aeroportos de partida e chegada não podem ser o mesmo.</string>
 
@@ -617,7 +673,7 @@
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
     <string name="traveler_num_and_category_TEMPLATE">Viajante%1$d</string>
     <!-- Adult -->
-    <string name="adult"> adulto</string>
+    <string name="adult">adulto</string>
 
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
@@ -924,7 +980,7 @@
         <item quantity="other">Estas são as informações de sua reserva de voo:</item>
     </plurals>
     <!-- The first line of the share email (casual introduction) -->
-    <string name="share_hi">Olá, </string>
+    <string name="share_hi">Olá,</string>
     <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_one_way_TEMPLATE">Estes são os detalhes do meu voo de %1$s para %2$s.</string>
     <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
@@ -1761,14 +1817,14 @@
 
     <!-- HotelOffers API method -->
     <!-- The hotel offer is no longer available -->
-    <string name="e3_error_hotel_offers_hotel_offer_unavailable"> As ofertas para este quarto já foram encerradas, mas há outras ofertas disponíveis.</string>
+    <string name="e3_error_hotel_offers_hotel_offer_unavailable">As ofertas para este quarto já foram encerradas, mas há outras ofertas disponíveis.</string>
     <string name="e3_error_hotel_offers_hotel_room_unavailable">O quarto solicitado não está mais disponível.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
     <string name="e3_error_hotel_offers_hotel_service_failure">Não foi possível estabelecer conexão com a Expedia. Tente novamente.</string>
     <!-- There are no longer any rooms for the hotel offer -->
-    <string name="e3_error_hotel_offers_invalid_input"> As ofertas para este quarto já foram encerradas, mas há outras ofertas disponíveis.</string>
+    <string name="e3_error_hotel_offers_invalid_input">As ofertas para este quarto já foram encerradas, mas há outras ofertas disponíveis.</string>
     <!-- There are no longer any rooms for the hotel offer -->
-    <string name="e3_error_hotel_offers_unknown_error"> As ofertas para este quarto já foram encerradas, mas há outras ofertas disponíveis.</string>
+    <string name="e3_error_hotel_offers_unknown_error">As ofertas para este quarto já foram encerradas, mas há outras ofertas disponíveis.</string>
 
     <!-- HotelProduct API method -->
     <string name="e3_error_hotel_product_unknown_error">Ocorreu um erro desconhecido.</string>

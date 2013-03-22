@@ -6,8 +6,8 @@
     <string name="facebook_weve_found_your_account">&lt;b&gt;%1$s&lt;/b&gt; 님! Expedia 계정을 갖고 계신 것 같네요. Facebook과 Expedia 계정을 연결하려면 아래에 Expedia 비밀번호를 입력해 주세요.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">&lt;b&gt;%1$s&lt;/b&gt; 님! 고객님의 Facebook 정보를 가져왔습니다.</string>
-    <!-- connect with facebook (button text) -->
-    <string name="connect_with_facebook">Facebook을 이용하여 연결</string>
+    <!-- Log in with facebook (button text) -->
+    <string name="Log_in_with_Facebook">Facebook 계정으로 로그인</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">Facebook에서 정보 가져오는 중…</string>
     <!-- Attempting to log you in with facebook credentials -->
@@ -70,6 +70,8 @@
     <string name="find_itinerary_pound">일정 번호 찾기</string>
     <!-- Itinerary Number -->
     <string name="itinerary_number">일정 번호</string>
+    <!-- Expedia Itinerary -->
+    <string name="expedia_itinerary">Expedia 일정 번호</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">예정된 여행이 없습니다.</string>
     <!-- Enter itinerary number -->
@@ -110,7 +112,7 @@
         <item quantity="other">%s일</item>
     </plurals>
     <!-- Template for card header text (will be filled in with "Title - Date")-->
-    <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
+    <string name="Title_Date_TEMPLATE">%1$s - %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
     <string name="Flight">항공편</string>
     <!-- Default (fallback) itin card title for HOTEL -->
@@ -129,6 +131,14 @@
     <string name="arrive_tz_TEMPLATE">도착 (%1$s)</string>
     <!-- Confirmation Code Label -->
     <string name="confirmation_code_label">확인 코드</string>
+    <!-- Flight Confirmation code label -->
+    <string name="flight_confirmation_code_label">항공사 확인</string>
+    <!-- Flight Carrier confirmation code label template -->
+    <string name="flight_carrier_confirmation_code_label_TEMPLATE">%1$s 확인</string>
+    <!-- Car rental confirmation code "Agency Confirmation Code" -->
+    <string name="car_rental_confirmation_code_label">렌터카 회사 확인 코드</string>
+    <!-- Hotel confirmation code "Hotel Confirmation Code" -->
+    <string name="hotel_confirmation_code_label">호텔 확인 코드</string>
     <!-- Passengers Label -->
     <string name="passengers_label">승객</string>
     <!-- Flight receipt and policies -->
@@ -160,7 +170,7 @@
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="from_airport_TEMPLATE">&lt;b&gt;%1$s 출발&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint that also includes time of departure; first parameter is the airport code, second parameter is the localized time (e.g. 13:45) -->
-    <string name="from_airport_time_TEMPLATE">&lt;b&gt;%1$s 출발&lt;/b&gt;, 시간: %2$s</string>
+    <string name="from_airport_time_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;, %2$s 출발</string>
     <!-- Itin flight summary second line for arrival waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight arrives/d -->
     <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;%1$s 도착&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
@@ -237,6 +247,47 @@
     <string name="refresh">새로 고침</string>
     <!-- Try Again -->
     <string name="try_again">다시 시도</string>
+    <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
+    <string name="copy_TEMPLATE">%1$s 복사</string>
+
+    <!-- Car category -->
+    <!-- Car category: mini -->
+    <string name="car_category_mini">미니카</string>
+    <!-- Car category: economy -->
+    <string name="car_category_economy">소형</string>
+    <!-- Car category: compact -->
+    <string name="car_category_compact">중소형</string>
+    <!-- Car category: midize -->
+    <string name="car_category_midsize">중형</string>
+    <!-- Car category: standard -->
+    <string name="car_category_standard">표준</string>
+    <!-- Car category: fullsize -->
+    <string name="car_category_fullsize">대형</string>
+    <!-- Car category: premium -->
+    <string name="car_category_premium">프리미엄</string>
+    <!-- Car category: luxury -->
+    <string name="car_category_luxury">고급대형</string>
+    <!-- Car category: mini elite -->
+    <string name="car_category_mini_elite">미니 엘리트</string>
+    <!-- Car category: economy elite -->
+    <string name="car_category_economy_elite">소형 엘리트</string>
+    <!-- Car category: compact elite -->
+    <string name="car_category_compact_elite">중소형 엘리트</string>
+    <!-- Car category: midize elite -->
+    <string name="car_category_midsize_elite">중형 엘리트</string>
+    <!-- Car category: standard elite -->
+    <string name="car_category_standard_elite">표준 엘리트</string>
+    <!-- Car category: fullsize elite -->
+    <string name="car_category_fullsize_elite">대형 엘리트</string>
+    <!-- Car category: premium elite -->
+    <string name="car_category_premium_elite">프리미엄 엘리트</string>
+    <!-- Car category: luxury elite -->
+    <string name="car_category_luxury_elite">고급대형 엘리트</string>
+    <!-- Car category: special -->
+    <string name="car_category_special">스페셜</string>
+    <!-- Car category: oversize -->
+    <string name="car_category_oversize">특대형</string>
+
     <!-- Car types -->
     <string name="car_type_two_door">2도어 차량</string>
     <string name="car_type_three_door">3도어 차량</string>
@@ -271,9 +322,11 @@
     <string name="itin_card_details_pick_up">차량 인수</string>
     <string name="itin_card_details_drop_off">차량 반납</string>
     <string name="itin_card_details_days">기간(일)</string>
-    <string name="itin_card_details_pick_up">차량 인수</string>
-    <string name="itin_card_details_drop_off">차량 반납</string>
-    <string name="itin_card_details_agency_phone">대행 업체 전화번호</string>
+    <!-- Tell users when they can pick up a rental car. %1$s is a time, e.g. ("pick up after 5 PM") -->
+    <string name="itin_card_details_pick_up_TEMPLATE">%1$s 이후에 차량 인수</string>
+    <!-- Tell users when they need to drop off a rental car. %1$s is a time, e.g. ("drop off before 5 PM") -->
+    <string name="itin_card_details_drop_off_TEMPLATE">%1$s 이전에 차량 반납</string>
+    <string name="itin_card_details_agency_phone">렌터카 회사 전화번호</string>
     <string name="itin_card_details_toll_free_phone">무료 전화</string>
     <string name="itin_card_details_check_in">체크인</string>
     <string name="itin_card_details_check_out">체크아웃</string>
@@ -288,7 +341,10 @@
     <string name="itin_card_details_reload_hotel">호텔 정보 다시 로드하기</string>
     <string name="itin_card_details_reload_cruise">크루즈 정보 다시 로드하기</string>
 
-    <string name="itin_card_hotel_summary_TEMPLATE">%1$s 후 체크인</string>
+    <!-- Message to users about when they can check into their hotel.  %1$s is a time (e.g., "Check in after 5 PM") -->
+    <string name="itin_card_hotel_summary_check_in_TEMPLATE">%1$s 이후에 체크인</string>
+    <!-- Message to users about when they need to check out of their hotel.  %1$s is a time (e.g., "Check out before 5 PM") -->
+    <string name="itin_card_hotel_summary_check_out_TEMPLATE">%1$s 이전에 체크아웃</string>
     <string name="itin_card_activity_summary_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;부터 유효</string>
 
     <!-- Action Buttons -->
@@ -553,7 +609,7 @@
         <item quantity="other">여행객 %1$d명</item>
     </plurals>
     <!-- Checkout button text -->
-    <string name="checkout_btn">체크아웃</string>
+    <string name="checkout_btn">예약하기</string>
     <!-- Message when loading realtime flight information -->
     <string name="loading_flight_details">가격 변동 확인 중…</string>
     <!-- Price changed from -->
@@ -577,7 +633,7 @@
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">%1$s의 금액을 호텔에서 결제합니다.</string>
     <!-- Checkout menu item -->
-    <string name="menu_checkout">체크아웃</string>
+    <string name="menu_checkout">예약하기</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">최저가격보장</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
@@ -1719,7 +1775,7 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s 거리</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s%2$s</string>
+    <string name="distance_template_short">%1$s %2$s</string>
 
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->

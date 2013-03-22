@@ -6,8 +6,8 @@
     <string name="facebook_weve_found_your_account">&lt;b&gt;%1$s&lt;/b&gt; 您好，我們找到了您的 Expedia 帳戶。請在下方輸入您的 Expedia 密碼，以便將您的 Facebook 帳戶和 Expedia 帳戶連結。</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">&lt;b&gt;%1$s&lt;/b&gt; 您好，我們已經載入您的 Facebook 資訊。</string>
-    <!-- connect with facebook (button text) -->
-    <string name="connect_with_facebook">連結到 Facebook</string>
+    <!-- Log in with facebook (button text) -->
+    <string name="Log_in_with_Facebook">使用 Facebook 帳號登入</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">正在擷取 Facebook 的資訊…</string>
     <!-- Attempting to log you in with facebook credentials -->
@@ -70,6 +70,8 @@
     <string name="find_itinerary_pound">尋找行程編號</string>
     <!-- Itinerary Number -->
     <string name="itinerary_number">行程編號</string>
+    <!-- Expedia Itinerary -->
+    <string name="expedia_itinerary">Expedia 行程編號</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">沒有即將出發的旅行</string>
     <!-- Enter itinerary number -->
@@ -128,7 +130,15 @@
     <!-- Arrive (TZ) template -->
     <string name="arrive_tz_TEMPLATE">抵達 (%1$s)</string>
     <!-- Confirmation Code Label -->
-    <string name="confirmation_code_label">確認代碼</string>
+    <string name="confirmation_code_label">確認編號</string>
+    <!-- Flight Confirmation code label -->
+    <string name="flight_confirmation_code_label">班機確認編號</string>
+    <!-- Flight Carrier confirmation code label template -->
+    <string name="flight_carrier_confirmation_code_label_TEMPLATE">%1$s確認編號</string>
+    <!-- Car rental confirmation code "Agency Confirmation Code" -->
+    <string name="car_rental_confirmation_code_label">租車確認編號</string>
+    <!-- Hotel confirmation code "Hotel Confirmation Code" -->
+    <string name="hotel_confirmation_code_label">飯店確認編號</string>
     <!-- Passengers Label -->
     <string name="passengers_label">旅客</string>
     <!-- Flight receipt and policies -->
@@ -237,6 +247,47 @@
     <string name="refresh">重新整理</string>
     <!-- Try Again -->
     <string name="try_again">再試一次</string>
+    <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
+    <string name="copy_TEMPLATE">複製%1$s</string>
+
+    <!-- Car category -->
+    <!-- Car category: mini -->
+    <string name="car_category_mini">迷你車</string>
+    <!-- Car category: economy -->
+    <string name="car_category_economy">經濟車</string>
+    <!-- Car category: compact -->
+    <string name="car_category_compact">小型車</string>
+    <!-- Car category: midize -->
+    <string name="car_category_midsize">中型車</string>
+    <!-- Car category: standard -->
+    <string name="car_category_standard">標準車</string>
+    <!-- Car category: fullsize -->
+    <string name="car_category_fullsize">大型車</string>
+    <!-- Car category: premium -->
+    <string name="car_category_premium">高級車</string>
+    <!-- Car category: luxury -->
+    <string name="car_category_luxury">豪華車</string>
+    <!-- Car category: mini elite -->
+    <string name="car_category_mini_elite">迷你房車</string>
+    <!-- Car category: economy elite -->
+    <string name="car_category_economy_elite">經濟房車</string>
+    <!-- Car category: compact elite -->
+    <string name="car_category_compact_elite">小型房車</string>
+    <!-- Car category: midize elite -->
+    <string name="car_category_midsize_elite">中型房車</string>
+    <!-- Car category: standard elite -->
+    <string name="car_category_standard_elite">標準房車</string>
+    <!-- Car category: fullsize elite -->
+    <string name="car_category_fullsize_elite">大型房車</string>
+    <!-- Car category: premium elite -->
+    <string name="car_category_premium_elite">高級房車</string>
+    <!-- Car category: luxury elite -->
+    <string name="car_category_luxury_elite">豪華房車</string>
+    <!-- Car category: special -->
+    <string name="car_category_special">特殊用車</string>
+    <!-- Car category: oversize -->
+    <string name="car_category_oversize">超大型車</string>
+
     <!-- Car types -->
     <string name="car_type_two_door">雙門 汽車</string>
     <string name="car_type_three_door">三門 汽車</string>
@@ -266,14 +317,16 @@
     <string name="itin_card_details_expires">到期</string>
     <string name="itin_card_details_guests">房客</string>
     <string name="itin_card_details_booking_info">預訂資訊</string>
-    <string name="itin_card_details_confirmation_code">確認代碼</string>
+    <string name="itin_card_details_confirmation_code">確認編號</string>
     <string name="itin_card_details_details">其他資訊</string>
     <string name="itin_card_details_pick_up">取車</string>
     <string name="itin_card_details_drop_off">還車</string>
-    <string name="itin_card_details_days">天數</string>
-    <string name="itin_card_details_pick_up">取車</string>
-    <string name="itin_card_details_drop_off">還車</string>
-    <string name="itin_card_details_agency_phone">公司電話</string>
+    <string name="itin_card_details_days">天</string>
+    <!-- Tell users when they can pick up a rental car. %1$s is a time, e.g. ("pick up after 5 PM") -->
+    <string name="itin_card_details_pick_up_TEMPLATE">%1$s後取車</string>
+    <!-- Tell users when they need to drop off a rental car. %1$s is a time, e.g. ("drop off before 5 PM") -->
+    <string name="itin_card_details_drop_off_TEMPLATE">%1$s前還車</string>
+    <string name="itin_card_details_agency_phone">租車公司電話</string>
     <string name="itin_card_details_toll_free_phone">免付費電話</string>
     <string name="itin_card_details_check_in">入住</string>
     <string name="itin_card_details_check_out">退房</string>
@@ -288,7 +341,10 @@
     <string name="itin_card_details_reload_hotel">重新載入飯店資訊</string>
     <string name="itin_card_details_reload_cruise">重新載入遊輪資訊</string>
 
-    <string name="itin_card_hotel_summary_TEMPLATE">%1$s 後入住</string>
+    <!-- Message to users about when they can check into their hotel.  %1$s is a time (e.g., "Check in after 5 PM") -->
+    <string name="itin_card_hotel_summary_check_in_TEMPLATE">%1$s後可入住</string>
+    <!-- Message to users about when they need to check out of their hotel.  %1$s is a time (e.g., "Check out before 5 PM") -->
+    <string name="itin_card_hotel_summary_check_out_TEMPLATE">%1$s前需退房</string>
     <string name="itin_card_activity_summary_TEMPLATE">生效日：&lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Action Buttons -->
@@ -800,7 +856,7 @@
     <!-- Message telling you where you've booked a flight.  %s is the city name, e.g. "You're going to Venice!" -->
     <string name="yay_going_somewhere_TEMPLATE">您要去%s了！</string>
     <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
-    <string name="itinerary_confirmation_TEMPLATE">行程編號 %s 已傳送到 </string>
+    <string name="itinerary_confirmation_TEMPLATE">行程編號 %s 已傳送到</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">預訂飯店</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->

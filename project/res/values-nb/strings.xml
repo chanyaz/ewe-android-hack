@@ -6,12 +6,12 @@
     <string name="facebook_weve_found_your_account">Hei &lt;b&gt;%1$s&lt;/b&gt;, det ser ut som vi har funnet Expedia-kontoen din! Vennligst skriv inn Expedia-passordet ditt nedenfor for å koble Facebook-kontoen din opp mot Expedia-kontoen din.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">Hei &lt;b&gt;%1$s&lt;/b&gt;, vi har hentet Facebook-informasjonen din!</string>
-    <!-- connect with facebook (button text) -->
-    <string name="connect_with_facebook">Koble til Facebook</string>
+    <!-- Log in with facebook (button text) -->
+    <string name="Log_in_with_Facebook">Logg på med Facebook</string>
     <!-- fetching information from Facebook -->
-    <string name="fetching_facebook_info">Henter informasjon fra facebook…</string>
+    <string name="fetching_facebook_info">Henter informasjon fra Facebook…</string>
     <!-- Attempting to log you in with facebook credentials -->
-    <string name="attempting_to_log_in_with_facebook">Prøver å logge deg inn med dine facebook-detaljer</string>
+    <string name="attempting_to_log_in_with_facebook">Prøver å logge deg på med dine Facebook-detaljer…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">En uspesifert feil har oppstått. Prøv igjen senere.</string>
     <!-- Unable to log in to Facebook -->
@@ -29,7 +29,7 @@
     <!-- Log In -->
     <string name="Log_In">Logg på</string>
     <!-- Log in with Expedia -->
-    <string name="Log_in_with_Expedia">Logg inn med Expedia</string>
+    <string name="Log_in_with_Expedia">Logg på med Expedia</string>
     <!-- or -->
     <string name="or">eller</string>
 
@@ -70,6 +70,8 @@
     <string name="find_itinerary_pound">Finn reiserutenummer</string>
     <!-- Itinerary Number -->
     <string name="itinerary_number">Reiserutenummer</string>
+    <!-- Expedia Itinerary -->
+    <string name="expedia_itinerary">Expedia-reiserutenummer:</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Ingen forestående reiser.</string>
     <!-- Enter itinerary number -->
@@ -79,7 +81,7 @@
     <!-- Error fetching itinerary -->
     <string name="itinerary_fetch_error">Feil ved henting av reiseruter</string>
     <!-- Log in for your trips -->
-    <string name="log_in_for_your_trips">&lt;b&gt;Logg inn&lt;/b&gt; for å se dine reiser</string>
+    <string name="log_in_for_your_trips">&lt;b&gt;Logg på&lt;/b&gt; for å se dine reiser</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
     <string name="Today">I dag</string>
     <!-- "XX Minutes" - an event happening XX minutes in the future -->
@@ -129,6 +131,14 @@
     <string name="arrive_tz_TEMPLATE">Ankomst (%1$s)</string>
     <!-- Confirmation Code Label -->
     <string name="confirmation_code_label">Bekreftelseskode</string>
+    <!-- Flight Confirmation code label -->
+    <string name="flight_confirmation_code_label">Bekreftelse fra flyselskapet</string>
+    <!-- Flight Carrier confirmation code label template -->
+    <string name="flight_carrier_confirmation_code_label_TEMPLATE">Bekreftelse fra %1$s</string>
+    <!-- Car rental confirmation code "Agency Confirmation Code" -->
+    <string name="car_rental_confirmation_code_label">Bekreftelseskode fra byrået</string>
+    <!-- Hotel confirmation code "Hotel Confirmation Code" -->
+    <string name="hotel_confirmation_code_label">Bekreftelseskode fra hotellet</string>
     <!-- Passengers Label -->
     <string name="passengers_label">Passasjerer</string>
     <!-- Flight receipt and policies -->
@@ -160,17 +170,17 @@
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="from_airport_TEMPLATE">&lt;b&gt;Fra %1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint that also includes time of departure; first parameter is the airport code, second parameter is the localized time (e.g. 13:45) -->
-    <string name="from_airport_time_TEMPLATE">&lt;b&gt;Fra%1$s&lt;/b&gt; på %2$s</string>
+    <string name="from_airport_time_TEMPLATE">&lt;b&gt;Fra %1$s&lt;/b&gt; kl. %2$s</string>
     <!-- Itin flight summary second line for arrival waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight arrives/d -->
     <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;På %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
     <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;Fra %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin logout confirmation message -->
-    <string name="itin_logout_confirmation_message_TEMPLATE">Hvis du logger ut av %1$s, vil du fjerne alle reiseruter forbundet med denne kontoen. Er du sikker på at du vil logge ut?</string>
+    <string name="itin_logout_confirmation_message_TEMPLATE">Hvis du logger ut av %1$s, vil du fjerne alle reiseruter forbundet med denne kontoen. Er du sikker på at du vil logge av?</string>
     <!-- Booking code unavailable message -->
     <string name="missing_booking_code">Bestillingskode er ikke tilgjengelig.</string>
     <!-- Flight to TEMPLATE -->
-    <string name="flight_to_TEMPLATE">Fly til %1$s</string>
+    <string name="flight_to_TEMPLATE">Flyvning til %1$s</string>
     <!-- Flight Calendar event TEMPLATE -->
     <string name="flight_calendar_event_title_TEMPLATE">Flyvning: %1$s til %2$s</string>
     <!-- Add event button text -->
@@ -184,9 +194,9 @@
     <!-- Legend -->
     <string name="legend">bildetekst</string>
     <!-- Flight has been cancelled -->
-    <string name="flight_cancelled">Fly kansellert</string>
+    <string name="flight_cancelled">Flyvning kansellert</string>
     <!-- Flight has been cancelled; parameter is the destination city for the canceled flight -->
-    <string name="flight_to_city_cancelled_TEMPLATE">Fly til %1$s kansellert</string>
+    <string name="flight_to_city_cancelled_TEMPLATE">Flyvning til %1$s kansellert</string>
     <!-- Flight has been redirected (location unknown) -->
     <string name="flight_redirected">Flyvningen ble omdirigert</string>
     <!-- Flight has been diverted (location unknown) -->
@@ -200,47 +210,88 @@
     <!-- Departs late {duration from now} -->
     <string name="flight_departs_late_TEMPLATE">Sen avreise %1$s</string>
     <!-- Departs on time {duration from now} -->
-    <string name="flight_departs_on_time_TEMPLATE">Avreise på tiden %1$s</string>
+    <string name="flight_departs_on_time_TEMPLATE">Avreise til rett tid %1$s</string>
     <!-- Departs {duration} early -->
     <string name="flight_departs_x_early_TEMPLATE">Avreise %1$s for tidlig</string>
     <!-- Departs {duration} late -->
     <string name="flight_departs_x_late_TEMPLATE">Avreise %1$s for sent</string>
     <!-- Flight departs on time -->
-    <string name="flight_departs_on_time">Avreise på tiden</string>
+    <string name="flight_departs_on_time">Avreise til rett tid</string>
     <!-- Arrives early {duration from now} -->
     <string name="flight_arrives_early_TEMPLATE">Ankommer tidlig %1$s</string>
     <!-- Arrives late {duration from now} -->
     <string name="flight_arrives_late_TEMPLATE">Ankommer sent %1$s</string>
     <!-- Arrives on time {duration from now} -->
-    <string name="flight_arrives_on_time_TEMPLATE">Ankommer på tiden %1$s</string>
+    <string name="flight_arrives_on_time_TEMPLATE">Ankommer til rett tid %1$s</string>
     <!-- Arrives {duration} early -->
     <string name="flight_arrives_x_early_TEMPLATE">Ankommer %1$s for tidlig</string>
     <!-- Arrives {duration} late -->
     <string name="flight_arrives_x_late_TEMPLATE">Ankommer %1$s for sent</string>
     <!-- Flight arrives on time -->
-    <string name="flight_arrives_on_time">Ankommer på tiden</string>
+    <string name="flight_arrives_on_time">Ankommer til rett tid</string>
     <!-- Arrived early {duration from now} -->
     <string name="flight_arrived_early_at_TEMPLATE">Ankom tidlig %1$s</string>
     <!-- Arrived late {duration from now} -->
     <string name="flight_arrived_late_at_TEMPLATE">Ankom sent %1$s</string>
     <!-- Arrived on time {duration from now} -->
-    <string name="flight_arrived_on_time_at_TEMPLATE">Ankom på tiden %1$s</string>
+    <string name="flight_arrived_on_time_at_TEMPLATE">Ankom til rett tid %1$s</string>
     <!-- Arrived {duration} early -->
     <string name="flight_arrived_x_early_TEMPLATE">Ankom %1$s for tidlig</string>
     <!-- Arrived {duration} late -->
     <string name="flight_arrived_x_late_TEMPLATE">Ankom %1$s for sent</string>
     <!-- Flight arrived on time -->
-    <string name="flight_arrived_on_time">Ankom på tiden</string>
+    <string name="flight_arrived_on_time">Ankom til rett tid</string>
     <!-- Flight arrived (fallback when we have very little information about arrival available) -->
     <string name="flight_arrived">Ankom</string>
     <!-- Refresh -->
     <string name="refresh">Oppdater</string>
     <!-- Try Again -->
     <string name="try_again">Prøv igjen</string>
+    <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
+    <string name="copy_TEMPLATE">KOPIER %1$s</string>
+
+    <!-- Car category -->
+    <!-- Car category: mini -->
+    <string name="car_category_mini">Minibil</string>
+    <!-- Car category: economy -->
+    <string name="car_category_economy">Rimelig bil</string>
+    <!-- Car category: compact -->
+    <string name="car_category_compact">Kompakt bil</string>
+    <!-- Car category: midize -->
+    <string name="car_category_midsize">Mellomstor bil</string>
+    <!-- Car category: standard -->
+    <string name="car_category_standard">Standard bil</string>
+    <!-- Car category: fullsize -->
+    <string name="car_category_fullsize">Bil i full størrelse</string>
+    <!-- Car category: premium -->
+    <string name="car_category_premium">Førsteklasses bil</string>
+    <!-- Car category: luxury -->
+    <string name="car_category_luxury">Luksusbil</string>
+    <!-- Car category: mini elite -->
+    <string name="car_category_mini_elite">Liten Elite-bil</string>
+    <!-- Car category: economy elite -->
+    <string name="car_category_economy_elite">Rimelig Elite-bil</string>
+    <!-- Car category: compact elite -->
+    <string name="car_category_compact_elite">Kompakt Elite-bil</string>
+    <!-- Car category: midize elite -->
+    <string name="car_category_midsize_elite">Mellomstor Elite-bil</string>
+    <!-- Car category: standard elite -->
+    <string name="car_category_standard_elite">Standard Elite-bil</string>
+    <!-- Car category: fullsize elite -->
+    <string name="car_category_fullsize_elite">Elite-bil i full størrelse</string>
+    <!-- Car category: premium elite -->
+    <string name="car_category_premium_elite">Førsteklasses Elite-bil</string>
+    <!-- Car category: luxury elite -->
+    <string name="car_category_luxury_elite">Luksuriøs Elite-bil</string>
+    <!-- Car category: special -->
+    <string name="car_category_special">Spesialbil</string>
+    <!-- Car category: oversize -->
+    <string name="car_category_oversize">Stor bil</string>
+
     <!-- Car types -->
-    <string name="car_type_two_door">Todørs Bil</string>
-    <string name="car_type_three_door">Tredørs Bil</string>
-    <string name="car_type_four_door">Firedørs Bil</string>
+    <string name="car_type_two_door">Todørs bil</string>
+    <string name="car_type_three_door">Tredørs bil</string>
+    <string name="car_type_four_door">Firedørs bil</string>
     <string name="car_type_van">Van</string>
     <string name="car_type_wagon">Stasjonsvogn</string>
     <string name="car_type_limousine">Limousine</string>
@@ -271,8 +322,10 @@
     <string name="itin_card_details_pick_up">Henting</string>
     <string name="itin_card_details_drop_off">Avlevering</string>
     <string name="itin_card_details_days">dager</string>
-    <string name="itin_card_details_pick_up">Henting</string>
-    <string name="itin_card_details_drop_off">Avlevering</string>
+    <!-- Tell users when they can pick up a rental car. %1$s is a time, e.g. ("pick up after 5 PM") -->
+    <string name="itin_card_details_pick_up_TEMPLATE">Henting etter %1$s</string>
+    <!-- Tell users when they need to drop off a rental car. %1$s is a time, e.g. ("drop off before 5 PM") -->
+    <string name="itin_card_details_drop_off_TEMPLATE">Levering etter %1$s</string>
     <string name="itin_card_details_agency_phone">Telefonnummer til byrå</string>
     <string name="itin_card_details_toll_free_phone">Gratisnummer</string>
     <string name="itin_card_details_check_in">Innsjekking</string>
@@ -288,7 +341,10 @@
     <string name="itin_card_details_reload_hotel">Last inn informasjon om hotell på nytt</string>
     <string name="itin_card_details_reload_cruise">Last inn informasjon om cruise på nytt</string>
 
-    <string name="itin_card_hotel_summary_TEMPLATE">Innsjekking etter %1$s</string>
+    <!-- Message to users about when they can check into their hotel.  %1$s is a time (e.g., "Check in after 5 PM") -->
+    <string name="itin_card_hotel_summary_check_in_TEMPLATE">Innsjekking etter %1$s</string>
+    <!-- Message to users about when they need to check out of their hotel.  %1$s is a time (e.g., "Check out before 5 PM") -->
+    <string name="itin_card_hotel_summary_check_out_TEMPLATE">Utsjekking før %1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">Gyldig fra &lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Action Buttons -->
@@ -320,27 +376,27 @@
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Mitt fly til %1$s den %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">Jeg er på fly %1$s til %2$s den %3$s.\nAvreise fra %4$s kl %5$s\nAnkomst ved %6$s kl %7$s, %8$s</string>
+    <string name="share_template_short_flight_sameday">Jeg er på fly %1$s til %2$s den %3$s.\nAvreise fra %4$s kl. %5$s\nAnkomst ved %6$s kl. %7$s, %8$s</string>
      <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">Jeg er på fly %1$s til %2$s.\nAvreise fra %3$s kl %4$s\nAnkomst ved %5$s kl %6$s, %7$s</string>
+    <string name="share_template_short_flight_multiday">Jeg er på fly %1$s til %2$s.\nAvreise fra %3$s kl. %4$s\nAnkomst ved %5$s kl. %6$s, %7$s</string>
     <!-- 1: Origin city 2: Destination city 3: Flight Carrier and number 4: Departure date 5: Departure airport code 6: Departure Time 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival terminal gate 11: Traveler list -->
-    <string name="share_template_long_flight_sameday">Hei \n\nHer er informasjonen for flyvningen min fra %1$s til %2$s.\n\n%3$s - %4$s\n\nAvreise fra %5$s kl %6$s fra %7$s.\nAnkomst%8$s ved %9$s kl %10$s.\n\nReisende\n%11$s</string>
+    <string name="share_template_long_flight_sameday">Hei \n\nHer er informasjonen for flyvningen min fra %1$s til %2$s.\n\n%3$s - %4$s\n\nAvreise fra %5$s kl. %6$s fra %7$s.\nAnkomst%8$s ved %9$s kl. %10$s.\n\nReisende\n%11$s</string>
     <!-- 1: Origin city 2: Desitination city 3: Flight carrier and number 4: Departure airport code 5: Departure time 6: Departure date 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival date 11: Arrival terminal gate 12: Traveler list -->
-    <string name="share_template_long_flight_multiday">Hei \n\nHer er informasjonen for flyvningen min fra %1$s til %2$s.\n\n%3$s\n\nAvreise fra %4$s kl %5$s den %6$s fra %7$s.\nAnkomst %8$s kl %9$s den %10$s ved %11$s\n\nReisende\n%12$s</string>
+    <string name="share_template_long_flight_multiday">Hei \n\nHer er informasjonen for flyvningen min fra %1$s til %2$s.\n\n%3$s\n\nAvreise fra %4$s kl. %5$s den %6$s fra %7$s.\nAnkomst %8$s kl. %9$s den %10$s ved %11$s\n\nReisende\n%12$s</string>
     <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Min leiebil (%1$s – %2$s)</string>
     <!-- 1: vehicle type 2: pick up date 3: drop off date 4: vendor name 5: full address -->
     <string name="share_template_short_car">Jeg har leid en %1$s fra %2$s – %3$s\n%4$s\n%5$s</string>
     <!-- 1: vendor name, 2: vehicle type, 3: pick up date, 4: pick up time, 5: drop off date, 6: drop off time, 7: full address, 8: phone number -->
-    <string name="share_template_long_car">Hei \n\nHer informasjonen om %1$s leiebilen min. \n\n<b>Kjøretøy</b> %2$s\n<b>henting</b> %3$s på <b>%4$s</b>\n<b>Avlevering</b> %5$s på <b>%6$s</b>\n\n<b>Sted</b>\n%1$s\n%7$s\n%8$s</string>
+    <string name="share_template_long_car">Hei \n\nHer er informasjonen om %1$s leiebilen min. \n\n<b>Kjøretøy</b> %2$s\n<b>henting</b> %3$s på <b>%4$s</b>\n<b>Avlevering</b> %5$s på <b>%6$s</b>\n\n<b>Sted</b>\n%1$s\n%7$s\n%8$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
-    <string name="share_car_start_TEMPLATE">Her informasjonen om %1$s leiebilen min.</string>
+    <string name="share_car_start_TEMPLATE">Her er informasjonen om %1$s leiebilen min.</string>
     <!-- Label for type of vehicle.  %1$s is the car type (e.g., "Three Door Car") -->
     <string name="share_car_vehicle_TEMPLATE">Kjøretøy: %1$s</string>
     <!-- The car rental pick up time.  %1$s is a date, %2$s is a time (e.g., "Pick Up After: 3/21/13 at 5 PM") -->
     <string name="share_car_pickup_TEMPLATE">Henting etter: %1$s på %2$s</string>
     <!-- The car rental drop off time.  %1$s is a date, %2$s is a time (e.g., "Drop Off Before: 3/21/13 at 5 PM") -->
-    <string name="share_car_dropoff_TEMPLATE">Avlevering før: %1$s på %2$s</string>
+    <string name="share_car_dropoff_TEMPLATE">Levering før: %1$s kl. %2$s</string>
     <!-- Section header for the location of the car rental pickup/dropoff. -->
     <string name="share_car_location_section">Sted:</string>
     <!-- Section header for the location of the car rental pick up. -->
@@ -446,12 +502,12 @@
     <string name="select_dates">Velg datoer</string>
     <!-- Number of adults template -->
     <plurals name="number_of_adults_TEMPLATE">
-        <item quantity="zero">%1$d Voksne</item>
-        <item quantity="one">%1$dVoksen</item>
-        <item quantity="two">%1$d Voksne</item>
-        <item quantity="few">%1$d Voksne</item>
-        <item quantity="many">%1$d Voksne</item>
-        <item quantity="other">%1$d Voksne</item>
+        <item quantity="zero">%1$d voksne</item>
+        <item quantity="one">%1$d voksen</item>
+        <item quantity="two">%1$d voksne</item>
+        <item quantity="few">%1$d voksne</item>
+        <item quantity="many">%1$d voksne</item>
+        <item quantity="other">%1$d voksne</item>
     </plurals>
 
     <!-- Calendar instructions -->
@@ -583,7 +639,7 @@
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Gratis avbestilling&lt;/b&gt; før&lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Log out -->
-    <string name="log_out">Logg ut</string>
+    <string name="log_out">Logg av</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Du vil opptjene %1$s poeng for denne reisen!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->

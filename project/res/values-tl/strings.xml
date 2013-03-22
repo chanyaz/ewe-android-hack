@@ -6,8 +6,8 @@
     <string name="facebook_weve_found_your_account">&lt;b&gt;%1$s&lt;/b&gt;, nahanap namin ang inyong Expedia account! Pakilagay lang ang inyong expedia password sa ibaba upang maiugnay ang inyong mga account sa facebook at expedia.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">&lt;b&gt;%1$s&lt;/b&gt;, nai-load na namin ang inyong impormasyon sa facebook!</string>
-    <!-- connect with facebook (button text) -->
-    <string name="connect_with_facebook">Kumunekta sa facebook</string>
+    <!-- Log in with facebook (button text) -->
+    <string name="Log_in_with_Facebook">Mag-log in sa Facebook</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">Kumukuha ng impormasyon sa facebook…</string>
     <!-- Attempting to log you in with facebook credentials -->
@@ -70,6 +70,8 @@
     <string name="find_itinerary_pound">Hanapin ang # ng Itinerary</string>
     <!-- Itinerary Number -->
     <string name="itinerary_number">Numero ng Itinerary</string>
+    <!-- Expedia Itinerary -->
+    <string name="expedia_itinerary">Expedia Itinerary #</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Walang mga papalapit na biyahe.</string>
     <!-- Enter itinerary number -->
@@ -129,6 +131,14 @@
     <string name="arrive_tz_TEMPLATE">Dating (%1$s)</string>
     <!-- Confirmation Code Label -->
     <string name="confirmation_code_label">Confirmation Code</string>
+    <!-- Flight Confirmation code label -->
+    <string name="flight_confirmation_code_label">Kumpirmasyon ng Airline</string>
+    <!-- Flight Carrier confirmation code label template -->
+    <string name="flight_carrier_confirmation_code_label_TEMPLATE">%1$s Kumpirmasyon</string>
+    <!-- Car rental confirmation code "Agency Confirmation Code" -->
+    <string name="car_rental_confirmation_code_label">Confirmation Code ng Ahensya</string>
+    <!-- Hotel confirmation code "Hotel Confirmation Code" -->
+    <string name="hotel_confirmation_code_label">Confirmation Code ng Hotel</string>
     <!-- Passengers Label -->
     <string name="passengers_label">Mga Pasahero</string>
     <!-- Flight receipt and policies -->
@@ -237,10 +247,51 @@
     <string name="refresh">I-refresh</string>
     <!-- Try Again -->
     <string name="try_again">Subukang Muli</string>
+    <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
+    <string name="copy_TEMPLATE">KOPYAHIN %1$s</string>
+
+    <!-- Car category -->
+    <!-- Car category: mini -->
+    <string name="car_category_mini">Mini Car</string>
+    <!-- Car category: economy -->
+    <string name="car_category_economy">Economy Car</string>
+    <!-- Car category: compact -->
+    <string name="car_category_compact">Compact Car</string>
+    <!-- Car category: midize -->
+    <string name="car_category_midsize">Mid-size Car</string>
+    <!-- Car category: standard -->
+    <string name="car_category_standard">Standard Car</string>
+    <!-- Car category: fullsize -->
+    <string name="car_category_fullsize">Full-size Car</string>
+    <!-- Car category: premium -->
+    <string name="car_category_premium">Premium Car</string>
+    <!-- Car category: luxury -->
+    <string name="car_category_luxury">Luxury Car</string>
+    <!-- Car category: mini elite -->
+    <string name="car_category_mini_elite">Mini Elite Car</string>
+    <!-- Car category: economy elite -->
+    <string name="car_category_economy_elite">Economy Elite Car</string>
+    <!-- Car category: compact elite -->
+    <string name="car_category_compact_elite">Compact Elite Car</string>
+    <!-- Car category: midize elite -->
+    <string name="car_category_midsize_elite">Mid-size Elite Car</string>
+    <!-- Car category: standard elite -->
+    <string name="car_category_standard_elite">Standard Elite Car</string>
+    <!-- Car category: fullsize elite -->
+    <string name="car_category_fullsize_elite">Full-size Elite Car</string>
+    <!-- Car category: premium elite -->
+    <string name="car_category_premium_elite">Premium Elite Car</string>
+    <!-- Car category: luxury elite -->
+    <string name="car_category_luxury_elite">Luxury Elite Car</string>
+    <!-- Car category: special -->
+    <string name="car_category_special">Special Car</string>
+    <!-- Car category: oversize -->
+    <string name="car_category_oversize">Oversize Car</string>
+
     <!-- Car types -->
-    <string name="car_type_two_door">Two Door Kotse</string>
-    <string name="car_type_three_door">Three Door Kotse</string>
-    <string name="car_type_four_door">Four Door Kotse</string>
+    <string name="car_type_two_door">Two Door na Kotse</string>
+    <string name="car_type_three_door">Three Door na Kotse</string>
+    <string name="car_type_four_door">Four Door na Kotse</string>
     <string name="car_type_van">Van</string>
     <string name="car_type_wagon">Wagon</string>
     <string name="car_type_limousine">Limousine</string>
@@ -271,8 +322,10 @@
     <string name="itin_card_details_pick_up">Pick Up</string>
     <string name="itin_card_details_drop_off">Drop Off</string>
     <string name="itin_card_details_days">Mga Araw</string>
-    <string name="itin_card_details_pick_up">Pick Up</string>
-    <string name="itin_card_details_drop_off">Drop Off</string>
+    <!-- Tell users when they can pick up a rental car. %1$s is a time, e.g. ("pick up after 5 PM") -->
+    <string name="itin_card_details_pick_up_TEMPLATE">Susunduin pagkatapos ng %1$s</string>
+    <!-- Tell users when they need to drop off a rental car. %1$s is a time, e.g. ("drop off before 5 PM") -->
+    <string name="itin_card_details_drop_off_TEMPLATE">Ihahatid bago mag-%1$s</string>
     <string name="itin_card_details_agency_phone">Telepono ng Ahensya</string>
     <string name="itin_card_details_toll_free_phone">Toll Free na Telepono</string>
     <string name="itin_card_details_check_in">Check In</string>
@@ -288,7 +341,10 @@
     <string name="itin_card_details_reload_hotel">I-load Muli ang Impormasyon ng Hotel</string>
     <string name="itin_card_details_reload_cruise">I-load Muli ang Impormasyon ng Cruise</string>
 
-    <string name="itin_card_hotel_summary_TEMPLATE">Mag-check-in pagkaraan ng %1$s</string>
+    <!-- Message to users about when they can check into their hotel.  %1$s is a time (e.g., "Check in after 5 PM") -->
+    <string name="itin_card_hotel_summary_check_in_TEMPLATE">Magche-check in pagkatapos ng %1$s</string>
+    <!-- Message to users about when they need to check out of their hotel.  %1$s is a time (e.g., "Check out before 5 PM") -->
+    <string name="itin_card_hotel_summary_check_out_TEMPLATE">Magche-check out bago mag-%1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">May-bisa simula sa &lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Action Buttons -->
@@ -541,7 +597,7 @@
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">Kasama na ang mga buwis at bayarin</string>
     <!-- Date and trip from _ to _ -->
-    <string name="trip_to_with_date">%1$s: %2$s patungong  %3$s</string>
+    <string name="trip_to_with_date">%1$s: %2$s patungong %3$s</string>
     <!-- Number of traverlers template -->
 
     <plurals name="number_of_travelers_TEMPLATE">
@@ -601,7 +657,7 @@
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
-    <string name="menu_done">Tapos na </string>
+    <string name="menu_done">Tapos na</string>
     <!-- unable to load traveler details message -->
     <string name="unable_to_load_traveler_message">Hindi namin mai-load ang mga detalye ng magbibiyaheng ito Pakitingnan ang inyong koneksiyon sa network at pakisubukang muli.</string>
 
@@ -617,7 +673,7 @@
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
     <string name="traveler_num_and_category_TEMPLATE">Magbibiyahe%1$d</string>
     <!-- Adult -->
-    <string name="adult"> Nasa Edad Na</string>
+    <string name="adult">Nasa Edad Na</string>
 
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
@@ -662,7 +718,7 @@
 
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
-    <string name="credit_card_hint">Numero ng Credit Card </string>
+    <string name="credit_card_hint">Numero ng Credit Card</string>
     <!-- Expiration date label -->
     <string name="expiration_date">Petsa ng Pag-expire</string>
     <!-- Set expiration date button -->
@@ -674,7 +730,7 @@
     <!-- Address line 1 hint -->
     <string name="address_line_one_hint">Patlang 1 para sa Address</string>
     <!-- Address line 2 hint -->
-    <string name="address_line_two_hint">Patlang 2 para sa Address </string>
+    <string name="address_line_two_hint">Patlang 2 para sa Address</string>
     <!-- Address city hint -->
     <string name="address_city_hint">Lungsod</string>
     <!-- Address state hint -->
@@ -780,7 +836,7 @@
     <!-- Deaf with hearing dog -->
     <string name="deaf_with_hearing_dog">Bingi na may gabay na aso</string>
     <!-- Wheelchair needed -->
-    <string name="wheel_chair_needed">Nangangailangan ng wheelchair </string>
+    <string name="wheel_chair_needed">Nangangailangan ng wheelchair</string>
     <!-- Cannot climb/descend stairs -->
     <string name="cannot_climb_stairs">Hindi makaakyat/makababa sa hagdan</string>
     <!-- Can climb/descent stairs -->
@@ -788,7 +844,7 @@
     <!-- Immobile -->
     <string name="immobile">Hindi makakilos</string>
     <!-- Wheelchair needed (cannot climb/descend stairs) -->
-    <string name="wheelchair_no_stairs">Nangangailangan ng wheelchair (hindi makaakyat/makababa sa hagdan) </string>
+    <string name="wheelchair_no_stairs">Nangangailangan ng wheelchair (hindi makaakyat/makababa sa hagdan)</string>
     <!-- Wheelchair needed (can climb/descend stairs) -->
     <string name="wheelchair_stairs_ok">Nangangailangan ng wheelchair (nakakaakyat/nakakababa sa hagdan)</string>
     <!-- Wheelchair (immobile) -->
@@ -800,7 +856,7 @@
     <!-- Message telling you where you've booked a flight.  %s is the city name, e.g. "You're going to Venice!" -->
     <string name="yay_going_somewhere_TEMPLATE">Papunta na kayo sa %s!</string>
     <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
-    <string name="itinerary_confirmation_TEMPLATE">Ang Itinerary #%s ay ipinadala na sa </string>
+    <string name="itinerary_confirmation_TEMPLATE">Ang Itinerary #%s ay ipinadala na sa</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">Kumuha ng Kuwarto</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
@@ -814,7 +870,7 @@
     <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
     <string name="add_to_flighttrack">Subaybayan gamit ang FlightTrack</string>
     <!-- Button label for calling expedia customer support -->
-    <string name="call_expedia_customer_support">Tawagan ang Customer Support ng Expedia </string>
+    <string name="call_expedia_customer_support">Tawagan ang Customer Support ng Expedia</string>
     <!-- Add Insurance label -->
     <string name="add_insurance">Magdagdag ng Insurance</string>
     <!-- Insurance -->
@@ -944,7 +1000,7 @@
     <!-- Header for the outbound flight details section of the share flight email -->
     <string name="share_flight_section_outbound">Paalis:</string>
     <!-- Header for the return flight details section of the share flight email -->
-    <string name="share_flight_section_return">Balik:  </string>
+    <string name="share_flight_section_return">Balik: </string>
     <!-- Presenting the total ticket cost of a flight.  %s is a price, e.g. "$500" -->
     <plurals name="share_flight_ticket_cost_TEMPLATE">
         <item quantity="one">Kabuuang presyo ng ticket: %s</item>
@@ -988,7 +1044,7 @@
     <!-- Label for picking guests for hotel booking -->
     <string name="who_is_going">&lt;b&gt;Sino&lt;/b&gt; ang pupunta?</string>
     <!-- Child age dialog button -->
-    <string name="button_done">Tapos na </string>
+    <string name="button_done">Tapos na</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">Piliin ang edad ng bata</item>
@@ -1072,7 +1128,7 @@
     </plurals>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
-    <string name="EnableLocationSettings">Para gamitin ang Ang Aking Lokasyon, dapat munang mapagana ang Lokasyong pinanggagalingan sa Mga Settings.\nPumunta sa Mga Settings at paganahin na ngayon? </string>
+    <string name="EnableLocationSettings">Para gamitin ang Ang Aking Lokasyon, dapat munang mapagana ang Lokasyong pinanggagalingan sa Mga Settings.\nPumunta sa Mga Settings at paganahin na ngayon?</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
     <string name="ProviderDisabled">Hindi pinagana ang provider sa inyong lokasyon. Mangyaring paganahing ulit ito upang maghanap ayon sa inyong lokasyon.</string>
     <!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
@@ -1123,7 +1179,7 @@
     <!-- Message displayed when search comes up with zero results -->
     <string name="no_hotels_availiable_tonight">Walang bakanteng hotel sa gabing ito</string>
     <!-- Message displayed when search comes up with zero results -->
-    <string name="no_hotels_availiable">Walang bakanteng hotel </string>
+    <string name="no_hotels_availiable">Walang bakanteng hotel</string>
     <!-- Message displayed when user need to change input to correct search -->
     <string name="please_try_a_different_location_or_date">Pakisubukan ang ibang bagong lugar o petsa.</string>
 
@@ -1399,7 +1455,7 @@
     <!-- Label for "credit card info" form field section -->
     <string name="credit_card_info">Impormasyon ng Credit Card</string>
     <!-- Label for credit card selection box -->
-    <string name="saved_cards">Mga Naka-save na Card </string>
+    <string name="saved_cards">Mga Naka-save na Card</string>
     <!-- Label for entering new credit card information -->
     <string name="enter_a_new_card">Magpasok ng bagong card</string>
     <!-- Card number form field hint -->
@@ -1421,7 +1477,7 @@
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">Kumpirmahin at I-book</string>
     <!-- Label for clearing private data -->
-    <string name="clear_private_data">I-clear ang Pvt Data </string>
+    <string name="clear_private_data">I-clear ang Pvt Data</string>
     <!-- Title for dialog confirming the clearing of private data -->
     <string name="dialog_clear_private_data_title">I-clear ang Pvt Data?</string>
     <!-- Message for dialog confirming the clearing of private data -->

@@ -6,8 +6,8 @@
     <string name="facebook_weve_found_your_account">Hej &lt;b&gt;%1$s&lt;/b&gt;! Vi verkar ha hittat ditt Expediakonto. Ange ditt lösenord för Expedia nedan för att länka ditt facebookkonto till ditt Expediakonto.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">Hej &lt;b&gt;%1$s&lt;/b&gt;! Vi har hämtat dina facebookuppgifter.</string>
-    <!-- connect with facebook (button text) -->
-    <string name="connect_with_facebook">Länka till facebook</string>
+    <!-- Log in with facebook (button text) -->
+    <string name="Log_in_with_Facebook">Logga in med Facebook</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">Hämtar information från facebook…</string>
     <!-- Attempting to log you in with facebook credentials -->
@@ -45,15 +45,15 @@
 
     <!-- Launch screen -->
     <!-- Label for launch screen hotel button secondary text -->
-    <string name="launch_hotel_secondary_text">Boka ditt rum. </string>
+    <string name="launch_hotel_secondary_text">Boka ditt rum.</string>
     <!-- Label for launch screen flight button secondary text -->
-    <string name="launch_flight_secondary_text">Boka ditt äventyr. </string>
+    <string name="launch_flight_secondary_text">Boka ditt äventyr.</string>
     <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
     <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;Flyg till&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Bo i&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
-    <string name="error_launch_connection">Tyvärr kan vi inte ansluta. </string>
+    <string name="error_launch_connection">Tyvärr kan vi inte ansluta.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="your_trips">Dina resor</string>
 
@@ -70,6 +70,8 @@
     <string name="find_itinerary_pound">Hitta resplan #</string>
     <!-- Itinerary Number -->
     <string name="itinerary_number">Resplansnummer</string>
+    <!-- Expedia Itinerary -->
+    <string name="expedia_itinerary">Expedias resplansnummer</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Inga kommande resor.</string>
     <!-- Enter itinerary number -->
@@ -129,6 +131,14 @@
     <string name="arrive_tz_TEMPLATE">Ankommer (%1$s)</string>
     <!-- Confirmation Code Label -->
     <string name="confirmation_code_label">Bekräftelsekod</string>
+    <!-- Flight Confirmation code label -->
+    <string name="flight_confirmation_code_label">Flygbolagets bekräftelse</string>
+    <!-- Flight Carrier confirmation code label template -->
+    <string name="flight_carrier_confirmation_code_label_TEMPLATE">Bekräftelse från %1$s</string>
+    <!-- Car rental confirmation code "Agency Confirmation Code" -->
+    <string name="car_rental_confirmation_code_label">Bilfirmans bekräftelsekod</string>
+    <!-- Hotel confirmation code "Hotel Confirmation Code" -->
+    <string name="hotel_confirmation_code_label">Hotellets bekräftelsekod</string>
     <!-- Passengers Label -->
     <string name="passengers_label">Passagerare</string>
     <!-- Flight receipt and policies -->
@@ -237,10 +247,51 @@
     <string name="refresh">Uppdatera</string>
     <!-- Try Again -->
     <string name="try_again">Försök igen</string>
+    <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
+    <string name="copy_TEMPLATE">KOPIERA %1$s</string>
+
+    <!-- Car category -->
+    <!-- Car category: mini -->
+    <string name="car_category_mini">Minibil</string>
+    <!-- Car category: economy -->
+    <string name="car_category_economy">Ekonomibil</string>
+    <!-- Car category: compact -->
+    <string name="car_category_compact">Kompakt bil</string>
+    <!-- Car category: midize -->
+    <string name="car_category_midsize">Mellanstor bil</string>
+    <!-- Car category: standard -->
+    <string name="car_category_standard">Standardbil</string>
+    <!-- Car category: fullsize -->
+    <string name="car_category_fullsize">Normalstor bil</string>
+    <!-- Car category: premium -->
+    <string name="car_category_premium">Premiumbil</string>
+    <!-- Car category: luxury -->
+    <string name="car_category_luxury">Lyxbil</string>
+    <!-- Car category: mini elite -->
+    <string name="car_category_mini_elite">Minielitbil</string>
+    <!-- Car category: economy elite -->
+    <string name="car_category_economy_elite">Ekonomielitbil</string>
+    <!-- Car category: compact elite -->
+    <string name="car_category_compact_elite">Kompakt elitbil</string>
+    <!-- Car category: midize elite -->
+    <string name="car_category_midsize_elite">Mellanstor elitbil</string>
+    <!-- Car category: standard elite -->
+    <string name="car_category_standard_elite">Standardelitbil</string>
+    <!-- Car category: fullsize elite -->
+    <string name="car_category_fullsize_elite">Normalstor elitbil</string>
+    <!-- Car category: premium elite -->
+    <string name="car_category_premium_elite">Premiumelitbil</string>
+    <!-- Car category: luxury elite -->
+    <string name="car_category_luxury_elite">Lyxelitbil</string>
+    <!-- Car category: special -->
+    <string name="car_category_special">Specialbil</string>
+    <!-- Car category: oversize -->
+    <string name="car_category_oversize">Stor bil</string>
+
     <!-- Car types -->
-    <string name="car_type_two_door">Två dörrar  Bil</string>
-    <string name="car_type_three_door">Tre dörrar  Bil</string>
-    <string name="car_type_four_door">Fyra dörrar  Bil</string>
+    <string name="car_type_two_door">Två dörrar Bil</string>
+    <string name="car_type_three_door">Tre dörrar Bil</string>
+    <string name="car_type_four_door">Fyra dörrar Bil</string>
     <string name="car_type_van">Skåpbil</string>
     <string name="car_type_wagon">Kombi</string>
     <string name="car_type_limousine">Limousine</string>
@@ -271,8 +322,10 @@
     <string name="itin_card_details_pick_up">Hämtning</string>
     <string name="itin_card_details_drop_off">Avlämning</string>
     <string name="itin_card_details_days">Dagar</string>
-    <string name="itin_card_details_pick_up">Hämtning</string>
-    <string name="itin_card_details_drop_off">Avlämning</string>
+    <!-- Tell users when they can pick up a rental car. %1$s is a time, e.g. ("pick up after 5 PM") -->
+    <string name="itin_card_details_pick_up_TEMPLATE">Hämtning efter %1$s</string>
+    <!-- Tell users when they need to drop off a rental car. %1$s is a time, e.g. ("drop off before 5 PM") -->
+    <string name="itin_card_details_drop_off_TEMPLATE">Avlämning innan %1$s</string>
     <string name="itin_card_details_agency_phone">Telefon</string>
     <string name="itin_card_details_toll_free_phone">Avgiftsfritt telefonnummer</string>
     <string name="itin_card_details_check_in">Incheckning</string>
@@ -280,7 +333,7 @@
     <string name="itin_card_details_address">Adress</string>
     <string name="itin_card_details_phone">Telefon</string>
     <string name="itin_card_details_room_type">Rumstyp</string>
-    <string name="toast_copied_to_clipboard">Kopierat till clipboard. </string>
+    <string name="toast_copied_to_clipboard">Kopierat till clipboard.</string>
     <string name="itin_card_details_reload">Ladda om information</string>
     <string name="itin_card_details_reload_activity">Ladda om aktivitetsinfo</string>
     <string name="itin_card_details_reload_car">Ladda om hyrbilsinfo</string>
@@ -288,7 +341,10 @@
     <string name="itin_card_details_reload_hotel">Ladda om hotellinfo</string>
     <string name="itin_card_details_reload_cruise">Ladda om kryssningsinfo</string>
 
-    <string name="itin_card_hotel_summary_TEMPLATE">Checka in efter %1$s</string>
+    <!-- Message to users about when they can check into their hotel.  %1$s is a time (e.g., "Check in after 5 PM") -->
+    <string name="itin_card_hotel_summary_check_in_TEMPLATE">Checka in efter %1$s</string>
+    <!-- Message to users about when they need to check out of their hotel.  %1$s is a time (e.g., "Check out before 5 PM") -->
+    <string name="itin_card_hotel_summary_check_out_TEMPLATE">Checka ut före %1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">Giltig fr.o.m. &lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Action Buttons -->
@@ -380,11 +436,11 @@
     <!-- Error message when we find no flights -->
     <string name="error_no_flights_found">Inga flyg hittades</string>
     <!-- Error message when we find no flights because of an invalid departure airport -->
-    <string name="error_invalid_departure_airport">Ogiltig avgångsflygplats. </string>
+    <string name="error_invalid_departure_airport">Ogiltig avgångsflygplats.</string>
     <!-- Error message when we find no flights because of an invalid arrival airport -->
-    <string name="error_invalid_arrival_airport">Ogiltig ankomstflygplats. </string>
+    <string name="error_invalid_arrival_airport">Ogiltig ankomstflygplats.</string>
     <!-- Error message when we find no flights because of invalid departure AND arrival airports -->
-    <string name="error_invalid_departure_arrival_airports">Ogiltiga avgångs- och ankomstflygplatser. </string>
+    <string name="error_invalid_departure_arrival_airports">Ogiltiga avgångs- och ankomstflygplatser.</string>
     <!-- "Details" button label, for seeing details of a flight -->
     <string name="details">Info</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
@@ -394,7 +450,7 @@
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
     <string name="inbound_TEMPLATE">Returflyg till %s</string>
     <!-- Error when we simple can't connect to E3 servers -->
-    <string name="error_server">Vi kunde tyvärr inte ansluta till Expedias servrar. Vänligen försök senare. </string>
+    <string name="error_server">Vi kunde tyvärr inte ansluta till Expedias servrar. Vänligen försök senare.</string>
     <!-- Label for changing sort order on flights -->
     <string name="filter_flight_sort">Sortera flyg efter:</string>
     <!-- Label for filtering flights by time (aka, 10 AM to 3 PM) -->
@@ -427,9 +483,9 @@
     <!-- Title for screen when in an invalid POS we can't search for yet -->
     <string name="taking_off_soon">Lyfter snart…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
-    <string name="invalid_flights_pos">Flygbokning via mobil är &lt;b&gt;tyvärr inte tillgängligt&lt;/b&gt; där du befinner dig än. </string>
+    <string name="invalid_flights_pos">Flygbokning via mobil är &lt;b&gt;tyvärr inte tillgängligt&lt;/b&gt; där du befinner dig än.</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
-    <string name="error_same_flight_departure_arrival">Avgångs- och ankomstflygplats kan inte vara densamma. </string>
+    <string name="error_same_flight_departure_arrival">Avgångs- och ankomstflygplats kan inte vara densamma.</string>
 
     <!-- Flight search params fragment -->
     <!-- Hint when no dates are selected for a flight trip -->
@@ -462,7 +518,7 @@
     <!-- Start date and end date selected -->
     <string name="calendar_instructions_range_selected_TEMPLATE">Antal nätter: %1$d.</string>
     <!-- Start date and end date sameday -->
-    <string name="calendar_instructions_range_selected_same_day">Avresa och återresa på samma datum. </string>
+    <string name="calendar_instructions_range_selected_same_day">Avresa och återresa på samma datum.</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -569,7 +625,7 @@
     <!-- I Accept button label -->
     <string name="I_Accept">Jag godkänner villkoren</string>
     <!-- Slide to purchase -->
-    <string name="slide_to_purchase">Dra för att köpa. </string>
+    <string name="slide_to_purchase">Dra för att köpa.</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Ditt kort kommer att debiteras %1$s</string>
     <!-- Amount to be paid now -->
@@ -603,7 +659,7 @@
     <!-- Done menu item -->
     <string name="menu_done">Klar</string>
     <!-- unable to load traveler details message -->
-    <string name="unable_to_load_traveler_message">Vi kunde inte hämta resenärens uppgifter. Kolla dina nätverksanslutning och försök igen. </string>
+    <string name="unable_to_load_traveler_message">Vi kunde inte hämta resenärens uppgifter. Kolla dina nätverksanslutning och försök igen.</string>
 
     <!-- Cost breakdown dialog -->
     <!-- Cost Summary -->
@@ -615,9 +671,9 @@
     <!-- Flight -->
     <string name="flight">Flyg</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
-    <string name="traveler_num_and_category_TEMPLATE"> resenär%1$d</string>
+    <string name="traveler_num_and_category_TEMPLATE">resenär%1$d</string>
     <!-- Adult -->
-    <string name="adult"> vuxen</string>
+    <string name="adult">vuxen</string>
 
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
@@ -872,21 +928,21 @@
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">Kreditkortsnumret som du angav är ogiltigt, försök igen.</string>
     <!-- Error shown to user if their zip code or postal code is invalid (depends on language) -->
-    <string name="error_invalid_zipcode_or_postalcode">Postnumret du angav är ogiltigt. Försök igen. </string>
+    <string name="error_invalid_zipcode_or_postalcode">Postnumret du angav är ogiltigt. Försök igen.</string>
     <!-- Error shown to user if their state or province is invalid (depends on language) -->
-    <string name="error_invalid_state_or_province">Länet du angav är ogiltigt. Försök igen. </string>
+    <string name="error_invalid_state_or_province">Länet du angav är ogiltigt. Försök igen.</string>
     <!-- Error shown to user if their credit card has expired -->
-    <string name="error_expired_payment">Kreditkortet du försökte använda har gått ut. Försök med ett annat kreditkort. </string>
+    <string name="error_expired_payment">Kreditkortet du försökte använda har gått ut. Försök med ett annat kreditkort.</string>
     <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
-    <string name="error_booking_with_minor">Tyvärr är bokningar för minderåriga (under 18 år) inte tillgängliga än. </string>
+    <string name="error_booking_with_minor">Tyvärr är bokningar för minderåriga (under 18 år) inte tillgängliga än.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
-    <string name="error_flight_unhandled">Vi ber om ursäkt, tyvärr verkar vi inte kunna utföra bokningen just nu. Försök igen. </string>
+    <string name="error_flight_unhandled">Vi ber om ursäkt, tyvärr verkar vi inte kunna utföra bokningen just nu. Försök igen.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
     <string name="error_flight_unhandled_TEMPLATE">Vi ber om ursäkt, tyvärr verkar vi inte kunna utföra bokningen just nu. Försök igen eller ring Expedias kundtjänst och uppge följande resplansnummer: %s</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flight_no_longer_available">Vi ber om ursäkt, tyvärr är inte ditt flyg tillgängligt längre. </string>
+    <string name="error_flight_no_longer_available">Vi ber om ursäkt, tyvärr är inte ditt flyg tillgängligt längre.</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flights_no_longer_available">Vi ber om ursäkt, tyvärr är ett av dina flyg inte tillgängligt längre. </string>
+    <string name="error_flights_no_longer_available">Vi ber om ursäkt, tyvärr är ett av dina flyg inte tillgängligt längre.</string>
     <!-- Button label imploring users to pick a new flight due to unavailability -->
     <string name="pick_new_flight">Välj ett nytt flyg</string>
     <!-- Button label imploring users to pick flights due to unavailability -->
@@ -1037,11 +1093,11 @@
     <!-- Hint for filtering results by hotel name -->
     <string name="filter_hotel_name_hint">Filtrera efter hotellnamn</string>
     <!-- Label indicating that there are no results matching their current filter -->
-    <string name="no_filter_results">Tyvärr matchar inga hotell dina nuvarande filterinställningar. </string>
+    <string name="no_filter_results">Tyvärr matchar inga hotell dina nuvarande filterinställningar.</string>
     <!-- Label indicating that geolocation failed -->
-    <string name="geolocation_failed">Kan ej bestämma sökplats. </string>
+    <string name="geolocation_failed">Kan ej bestämma sökplats.</string>
     <!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
-    <string name="NoGeocodingResults">Kunde inte hitta platsen %s. </string>
+    <string name="NoGeocodingResults">Kunde inte hitta platsen %s.</string>
     <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
     <string name="ChooseLocation">Menade du…</string>
     <!-- Button label for upgrading the app -->
@@ -1072,13 +1128,13 @@
     </plurals>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
-    <string name="EnableLocationSettings">För att använda Min Position, måste du först aktivera en positioneringskälla i dina inställningar. \nGå till inställningar och aktivera nu? </string>
+    <string name="EnableLocationSettings">För att använda Min Position, måste du först aktivera en positioneringskälla i dina inställningar. \nGå till inställningar och aktivera nu?</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
-    <string name="ProviderDisabled">Ditt positioneringssystem har avaktiverats. Gör det åter möjligt för den att söka efter din plats. </string>
+    <string name="ProviderDisabled">Ditt positioneringssystem har avaktiverats. Gör det åter möjligt för den att söka efter din plats.</string>
     <!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
-    <string name="ProviderOutOfService">Ditt positioneringssystem fungerar inte. Vänligen försök senare. </string>
+    <string name="ProviderOutOfService">Ditt positioneringssystem fungerar inte. Vänligen försök senare.</string>
     <!-- Message displayed when the location provider is temporarily unavailable. -->
-    <string name="ProviderTemporarilyUnavailable">Ditt positioneringssystem är tillfälligt otillgängligt. Försök igen om några minuter. </string>
+    <string name="ProviderTemporarilyUnavailable">Ditt positioneringssystem är tillfälligt otillgängligt. Försök igen om några minuter.</string>
 
     <!-- Sort descriptions, e.g. Sorted by "description" -->
     <!-- Sort by distance label -->
@@ -1125,7 +1181,7 @@
     <!-- Message displayed when search comes up with zero results -->
     <string name="no_hotels_availiable">Inga hotell tillgängliga</string>
     <!-- Message displayed when user need to change input to correct search -->
-    <string name="please_try_a_different_location_or_date">Försök med annan ort eller annat datum. </string>
+    <string name="please_try_a_different_location_or_date">Försök med annan ort eller annat datum.</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
@@ -1192,7 +1248,7 @@
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>
-    <string name="x_percent_guests_recommend">%2.0f%% av gästerna rekommenderar hotellet. </string>
+    <string name="x_percent_guests_recommend">%2.0f%% av gästerna rekommenderar hotellet.</string>
 
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->
@@ -1312,7 +1368,7 @@
     <!-- Loading message for rooms & rates -->
     <string name="room_rates_loading">Söker efter lediga rum…</string>
     <!-- Error message (no response) for not being able to download room and rates information -->
-    <string name="error_no_response_room_rates">Kunde inte ladda ner rum- och prisinformation. Kontrollera din anslutning och prova igen. </string>
+    <string name="error_no_response_room_rates">Kunde inte ladda ner rum- och prisinformation. Kontrollera din anslutning och prova igen.</string>
     <!-- Rate price displayed "per night" -->
     <string name="rate_per_night">per natt</string>
     <!-- Rate price displayed "average per night" -->
@@ -1358,7 +1414,7 @@
     <!-- Label for room type -->
     <string name="room_type">Rumstyp</string>
     <!-- Error if we couldn't find the room type details -->
-    <string name="error_room_type_nonexistant">Vi ber om ursäkt. Vi kunde inte hitta extra information för det här rummet. </string>
+    <string name="error_room_type_nonexistant">Vi ber om ursäkt. Vi kunde inte hitta extra information för det här rummet.</string>
     <!-- Label for bed type -->
     <string name="bed_type">Sängtyp</string>
     <!-- Label for length of stay -->
@@ -1417,7 +1473,7 @@
     <!-- Rules & restrictions section header -->
     <string name="rules_restrictions">Regler och bestämmelser</string>
     <!-- Disclaimer about how to earn expedia points -->
-    <string name="disclaimer_expedia_points">Om du har ett Expedia Rewards-konto och bokar med samma e-postadress registreras dina poäng automatiskt efter vistelsen. Tänk på att det kan ta upp till 30 dagar innan poängen visas. </string>
+    <string name="disclaimer_expedia_points">Om du har ett Expedia Rewards-konto och bokar med samma e-postadress registreras dina poäng automatiskt efter vistelsen. Tänk på att det kan ta upp till 30 dagar innan poängen visas.</string>
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">Bekräfta och boka</string>
     <!-- Label for clearing private data -->
@@ -1425,9 +1481,9 @@
     <!-- Title for dialog confirming the clearing of private data -->
     <string name="dialog_clear_private_data_title">Radera personliga uppgifter?</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_clear_private_data_msg">Det här tar bort alla sparade betalnings- och kontaktuppgifter. </string>
+    <string name="dialog_clear_private_data_msg">Det här tar bort alla sparade betalnings- och kontaktuppgifter.</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_log_out_and_clear_private_data_msg">Du kommer att loggas ut och alla sparade betalnings- och kontaktuppgifter kommer att raderas. </string>
+    <string name="dialog_log_out_and_clear_private_data_msg">Du kommer att loggas ut och alla sparade betalnings- och kontaktuppgifter kommer att raderas.</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">Personliga uppgifter raderade</string>
     <!-- Error message if field was required but not entered -->
@@ -1453,11 +1509,11 @@
     <!-- Title for error dialog when booking fails -->
     <string name="error_booking_title">Det uppstod ett fel</string>
     <!-- Error message when we couldn't get a response -->
-    <string name="error_booking_null">Kunde inte ansluta till Expedias servrar. Kontrollera din anslutning och prova igen. </string>
+    <string name="error_booking_null">Kunde inte ansluta till Expedias servrar. Kontrollera din anslutning och prova igen.</string>
     <!-- Error message when booking completed with errors -->
     <string name="error_booking_succeeded_with_errors">Ditt hotellrum har bokats. Men tyvärr uppstod följande problem: %s</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
-    <string name="error_unable_to_send_email">Vi kunde inte skicka bokningsbekräftelsen via e-post. </string>
+    <string name="error_unable_to_send_email">Vi kunde inte skicka bokningsbekräftelsen via e-post.</string>
     <!-- Label for button pressing which brings up a dialog to enter info to book a room -->
     <string name="enter_booking_info">Ange bokningsinformation</string>
     <!-- Title for action bar when the user is on the booking info screen -->
@@ -1483,7 +1539,7 @@
     <!-- ActionBar button for starting a new search -->
     <string name="NEW_SEARCH">NY SÖKNING</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template">Om du har några frågor gällande din bokning, ring Expedia på %s. </string>
+    <string name="contact_phone_template">Om du har några frågor gällande din bokning, ring Expedia på %s.</string>
 
     <!-- Confirmation Fragment -->
     <!-- Label to share booking information after a booking confirmation -->
@@ -1517,15 +1573,15 @@
 
     <!-- Expedia policy strings -->
     <!-- Policy displayed to user when an immediate charge is required -->
-    <string name="PolicyImmediateChargeRequired">Totalbeloppet för bokningen dras från ditt kreditkort omedelbart. </string>
+    <string name="PolicyImmediateChargeRequired">Totalbeloppet för bokningen dras från ditt kreditkort omedelbart.</string>
     <!-- Policy displayed to user when the room is non-refundable -->
-    <string name="PolicyNonRefundable">Vi erbjuder ett ovanligt lågt pris på det här hotellet. För att kunna göra det, kan återbetalningar inte göras för det här rummet. Om du väljer att avboka, kommer du inte att få några pengar tillbaka. </string>
+    <string name="PolicyNonRefundable">Vi erbjuder ett ovanligt lågt pris på det här hotellet. För att kunna göra det, kan återbetalningar inte göras för det här rummet. Om du väljer att avboka, kommer du inte att få några pengar tillbaka.</string>
     <!-- Policy displayed to user when a deposit is required -->
-    <string name="PolicyDepositRequired">Ditt kreditkort kommer att debiteras en depositionsavgift för din bokning. Ditt kreditkort kommer att debiteras direkt av hotellet när din bokning är gjord. </string>
+    <string name="PolicyDepositRequired">Ditt kreditkort kommer att debiteras en depositionsavgift för din bokning. Ditt kreditkort kommer att debiteras direkt av hotellet när din bokning är gjord.</string>
     <!-- Policy displayed to user when a guarantee is required -->
-    <string name="PolicyGuaranteeRequired">Vi behöver dina kreditkortsuppgifter för att kunna säkra din bokning. Ditt kreditkort kommer inte att debiteras förrän du anländer till hotellet eller avbokningsfristen löpt ut. </string>
+    <string name="PolicyGuaranteeRequired">Vi behöver dina kreditkortsuppgifter för att kunna säkra din bokning. Ditt kreditkort kommer inte att debiteras förrän du anländer till hotellet eller avbokningsfristen löpt ut.</string>
     <!-- Expedia merchant hotel policies -->
-    <string name="PolicyExpediaMerchant">Genom att gå vidare med bokningen, accepterar du alla regler och villkor, däribland vår avbokningspolicy och alla regler och villkor i användaravtalet. \n\nDu accepterar härmed att betala kostnaden av din bokning. Om du inte betalar den här skulden och den drivs in av en indrivningsbyrå, ett juridiskt ombud, advokat eller via andra rättsliga processer, godkänner du att betala alla skäliga kostnader och avgifter, inklusive advokatkostnader och domstolskostnader, som uppkommit i samband med indrivningen. </string>
+    <string name="PolicyExpediaMerchant">Genom att gå vidare med bokningen, accepterar du alla regler och villkor, däribland vår avbokningspolicy och alla regler och villkor i användaravtalet. \n\nDu accepterar härmed att betala kostnaden av din bokning. Om du inte betalar den här skulden och den drivs in av en indrivningsbyrå, ett juridiskt ombud, advokat eller via andra rättsliga processer, godkänner du att betala alla skäliga kostnader och avgifter, inklusive advokatkostnader och domstolskostnader, som uppkommit i samband med indrivningen.</string>
     <!-- Expedia agent hotel policies -->
     <string name="PolicyExpediaAgent">Du bokar nu ett hotell utan rabatt. Alla priser som visas är beräknade per natt och är baserade på dubbelrum om inte annat anges. Granska noga rumsbeskrivningarna och prisreglerna för att försäkra dig om att rummet du valt kan inhysa hela resesällskapet. Vissa rumspriser kan behöva särskild legitimation. Vår bokningsavgift, skatt och andra tilläggsavgifter som hotellet lägger på är inte inkluderade. Om antalet gäster, barn eller vuxna, överstiger rummets listade kapacitet, kan du tvingas betala tilläggsavgifter på hotellets begäran. \n\nBokningsförfrågningar för fler än två personer, eller för fler gäster än den angivna rumsbeläggningen, kommer att skickas till hotellet men vi garanterar inte att de uppfylls. Om de accepteras, kan hotellet ta ut en tilläggsavgift.</string>
 
@@ -1603,15 +1659,15 @@
     <!-- Label for "Expedia website" button in info page -->
     <string name="expedia_website">Expedias webbplats</string>
     <!-- Extra description for "Expedia website" button, when space allows -->
-    <string name="expedia_website_description">Besök webbplatsen för att boka flyg, bilar, paket med mera. </string>
+    <string name="expedia_website_description">Besök webbplatsen för att boka flyg, bilar, paket med mera.</string>
     <!-- Extra description for "app feedback" button, when space allows -->
-    <string name="app_feedback_description">Tala om för oss vad du tycker om appen. </string>
+    <string name="app_feedback_description">Tala om för oss vad du tycker om appen.</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">Support för appen</string>
     <!-- Extra description for "app support" button, when space allows -->
     <string name="app_support_description">Slå oss en signal så kontaktar vi dig.</string>
     <!-- Extra description for "tell a friend" button, when space allows -->
-    <string name="tell_a_friend_description">Gillar du fantastiska hotellerbjudanden? Berätta för dina vänner om appen. </string>
+    <string name="tell_a_friend_description">Gillar du fantastiska hotellerbjudanden? Berätta för dina vänner om appen.</string>
     <!-- Section header for other apps by Mobiata -->
     <string name="travel_smart">Res smart</string>
     <!-- Section Header for other apps by Mobiata -->
@@ -1627,17 +1683,17 @@
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Integritetspolicy</string>
     <!-- Copyright information -->
-    <string name="copyright">© Copyright 2012-2013 Expedia, Inc.\nAlla rättigheter förbehålles. </string>
+    <string name="copyright">© Copyright 2012-2013 Expedia, Inc.\nAlla rättigheter förbehålles.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_logged_out_and_cleared_private_data">Utloggad och data raderad </string>
+    <string name="dialog_title_logged_out_and_cleared_private_data">Utloggad och data raderad</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_logged_out_and_cleared_private_data">Du är utloggad från ditt Expediakonto och alla sparade betalnings- och kontaktuppgifter har raderats. </string>
+    <string name="dialog_message_logged_out_and_cleared_private_data">Du är utloggad från ditt Expediakonto och alla sparade betalnings- och kontaktuppgifter har raderats.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_cleared_private_data">Personliga uppgifter raderade</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_cleared_private_data">Alla fakturerings- och kontaktuppgifter har raderats. </string>
+    <string name="dialog_message_cleared_private_data">Alla fakturerings- och kontaktuppgifter har raderats.</string>
     <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
-    <string name="dialog_message_launch_expedia_mobile_site">Gå till Expedias mobilsida? </string>
+    <string name="dialog_message_launch_expedia_mobile_site">Gå till Expedias mobilsida?</string>
     <!-- Action button label to Subscribe to our mailing list -->
     <string name="Subscribe">Prenumerera</string>
     <!-- Action button label to follow on twitter -->
@@ -1645,7 +1701,7 @@
     <!-- Action button label to like on facebook -->
     <string name="Like">Gilla</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
-    <string name="stack_blur_credit">Appen använder Stack Blur-algoritmen av Mario Klingemann. </string>
+    <string name="stack_blur_credit">Appen använder Stack Blur-algoritmen av Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="view_open_source_software_licenses">Se softwarelicenser för öppna källor</string>
     <!-- String where we link to the google play services open source licenses -->
@@ -1729,55 +1785,55 @@
 
     <!-- Error strings - replacements for default EAN errors -->
     <!-- Replaces "result was null" for no result search -->
-    <string name="ean_error_no_results">Tyvärr kunde vi inte hitta några lediga hotell just nu. Försök med andra datum eller en annan plats. </string>
+    <string name="ean_error_no_results">Tyvärr kunde vi inte hitta några lediga hotell just nu. Försök med andra datum eller en annan plats.</string>
     <!-- Replaces "result was null" for no result search -->
-    <string name="ean_error_connect_unavailable">Vi kunde inte ansluta till hotellet för att söka efter lediga rum just nu. </string>
+    <string name="ean_error_connect_unavailable">Vi kunde inte ansluta till hotellet för att söka efter lediga rum just nu.</string>
     <!-- Error message displayed when the phone number sent via booking is invalid -->
     <string name="ean_error_invalid_phone_number">Ange ett giltigt telefonnummer</string>
 
     <!-- Checkout API method -->
     <!-- The hotel booking failed -->
-    <string name="e3_error_checkout_booking_failed">Ett fel uppstod. Vi kunde inte slutföra din bokning. Försök igen. </string>
+    <string name="e3_error_checkout_booking_failed">Ett fel uppstod. Vi kunde inte slutföra din bokning. Försök igen.</string>
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-    <string name="e3_error_checkout_booking_succeeded_with_errors">Ditt hotell är bokat! Ring Expedias kundtjänst om du behöver din resplan omedelbart. </string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors">Ditt hotell är bokat! Ring Expedias kundtjänst om du behöver din resplan omedelbart.</string>
     <!-- The hotel room is no longer available -->
-    <string name="e3_error_checkout_hotel_room_unavailable">Tyvärr är rummet inte längre tillgängligt.  </string>
+    <string name="e3_error_checkout_hotel_room_unavailable">Tyvärr är rummet inte längre tillgängligt.</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
-    <string name="e3_error_checkout_invalid_input">Rätta till ogiltiga uppgifter. </string>
+    <string name="e3_error_checkout_invalid_input">Rätta till ogiltiga uppgifter.</string>
     <!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
-    <string name="e3_error_checkout_payment_failed">Det uppstod tyvärr ett problem med din betalning. Kontrollera att betalningsuppgifterna du angav är korrekta. </string>
+    <string name="e3_error_checkout_payment_failed">Det uppstod tyvärr ett problem med din betalning. Kontrollera att betalningsuppgifterna du angav är korrekta.</string>
     <!-- There is invalid expiration date for the credit card used. Please fix it. -->
     <string name="e3_error_checkout_invalid_expiration">Ogiltigt utgångsdatum för kreditkort.</string>
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_search_results_hotel_service_failure">Tyvärr kunde vi inte utföra din sökning. Försök igen. </string>
+    <string name="e3_error_search_results_hotel_service_failure">Tyvärr kunde vi inte utföra din sökning. Försök igen.</string>
     <!-- There were no results matching the input -->
-    <string name="e3_error_search_results_invalid_input">Tyvärr genererade din sökning inga resultat. Försök igen. </string>
+    <string name="e3_error_search_results_invalid_input">Tyvärr genererade din sökning inga resultat. Försök igen.</string>
     <!-- There were no results matching the input -->
-    <string name="e3_error_search_results_invalid_input_unknown">Tyvärr genererade din sökning inga resultat. Försök igen. </string>
+    <string name="e3_error_search_results_invalid_input_unknown">Tyvärr genererade din sökning inga resultat. Försök igen.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_search_results_unknown_error">Tyvärr kunde vi inte genomföra din sökning. Försök igen. </string>
+    <string name="e3_error_search_results_unknown_error">Tyvärr kunde vi inte genomföra din sökning. Försök igen.</string>
 
     <!-- HotelOffers API method -->
     <!-- The hotel offer is no longer available -->
-    <string name="e3_error_hotel_offers_hotel_offer_unavailable">Vi beklagar! Tyvärr gäller inte det här rumserbjudandet längre, men andra erbjudanden är tillgängliga. </string>
-    <string name="e3_error_hotel_offers_hotel_room_unavailable">Tyvärr är rummet inte längre tillgängligt. </string>
+    <string name="e3_error_hotel_offers_hotel_offer_unavailable">Vi beklagar! Tyvärr gäller inte det här rumserbjudandet längre, men andra erbjudanden är tillgängliga.</string>
+    <string name="e3_error_hotel_offers_hotel_room_unavailable">Tyvärr är rummet inte längre tillgängligt.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure">Vi kunde inte tyvärr inte ansluta till Expedia.  Försök igen. </string>
+    <string name="e3_error_hotel_offers_hotel_service_failure">Vi kunde inte tyvärr inte ansluta till Expedia.  Försök igen.</string>
     <!-- There are no longer any rooms for the hotel offer -->
-    <string name="e3_error_hotel_offers_invalid_input">Vi beklagar! Tyvärr gäller inte det här rumserbjudandet längre, men andra erbjudanden är tillgängliga. </string>
+    <string name="e3_error_hotel_offers_invalid_input">Vi beklagar! Tyvärr gäller inte det här rumserbjudandet längre, men andra erbjudanden är tillgängliga.</string>
     <!-- There are no longer any rooms for the hotel offer -->
-    <string name="e3_error_hotel_offers_unknown_error">Vi beklagar! Tyvärr gäller inte det här rumserbjudandet längre, men andra erbjudanden är tillgängliga. </string>
+    <string name="e3_error_hotel_offers_unknown_error">Vi beklagar! Tyvärr gäller inte det här rumserbjudandet längre, men andra erbjudanden är tillgängliga.</string>
 
     <!-- HotelProduct API method -->
-    <string name="e3_error_hotel_product_unknown_error">Ett okänt fel uppstod. </string>
-    <string name="e3_error_hotel_product_invalid_input">Ett okänt fel uppstod. </string>
+    <string name="e3_error_hotel_product_unknown_error">Ett okänt fel uppstod.</string>
+    <string name="e3_error_hotel_product_invalid_input">Ett okänt fel uppstod.</string>
 
     <!-- HotelInformation API method -->
-    <string name="e3_error_hotel_information_hotel_service_failure">Ett okänt fel uppstod. </string>
-    <string name="e3_error_hotel_information_unknown_error">Ett okänt fel uppstod. </string>
-    <string name="e3_error_hotel_information_invalid_input">Ett okänt fel uppstod. </string>
+    <string name="e3_error_hotel_information_hotel_service_failure">Ett okänt fel uppstod.</string>
+    <string name="e3_error_hotel_information_unknown_error">Ett okänt fel uppstod.</string>
+    <string name="e3_error_hotel_information_invalid_input">Ett okänt fel uppstod.</string>
 
     <!-- Country names -->
     <string name="country_af">Afghanistan</string>

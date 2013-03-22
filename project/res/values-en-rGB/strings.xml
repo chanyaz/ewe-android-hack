@@ -6,8 +6,8 @@
     <string name="facebook_weve_found_your_account">Hey &lt;b&gt;%1$s&lt;/b&gt;, looks like we\&apos;ve found your Expedia account! Please enter your expedia password below to link your facebook and expedia accounts.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">Hey &lt;b&gt;%1$s&lt;/b&gt;, we\&apos;ve loaded your facebook information!</string>
-    <!-- connect with facebook (button text) -->
-    <string name="connect_with_facebook">Connect with facebook</string>
+    <!-- Log in with facebook (button text) -->
+    <string name="Log_in_with_Facebook">Log in with Facebook</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">Fetching information from facebook…</string>
     <!-- Attempting to log you in with facebook credentials -->
@@ -37,7 +37,7 @@
     <!-- Home -->
     <string name="nav_home">Home</string>
     <!-- Flights -->
-    <string name="nav_flights"> Flights</string>
+    <string name="nav_flights">Flights</string>
     <!-- Hotels -->
     <string name="nav_hotels">Hotels</string>
     <!-- Account -->
@@ -70,6 +70,8 @@
     <string name="find_itinerary_pound">Find Itinerary #</string>
     <!-- Itinerary Number -->
     <string name="itinerary_number">Itinerary Number</string>
+    <!-- Expedia Itinerary -->
+    <string name="expedia_itinerary">Expedia Itinerary #</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">No upcoming trips.</string>
     <!-- Enter itinerary number -->
@@ -116,7 +118,7 @@
     <!-- Default (fallback) itin card title for HOTEL -->
     <string name="Hotel">Hotel</string>
     <!-- Default (fallback) itin card title for CAR -->
-    <string name="Car"> Car</string>
+    <string name="Car">Car</string>
     <!-- Default (fallback) itin card title for CRUISE -->
     <string name="Cruise">Cruise</string>
     <!-- Default (fallback) itin card title for ACTIVITY -->
@@ -129,6 +131,14 @@
     <string name="arrive_tz_TEMPLATE">Arrive (%1$s)</string>
     <!-- Confirmation Code Label -->
     <string name="confirmation_code_label">Confirmation Code</string>
+    <!-- Flight Confirmation code label -->
+    <string name="flight_confirmation_code_label">Airline Confirmation</string>
+    <!-- Flight Carrier confirmation code label template -->
+    <string name="flight_carrier_confirmation_code_label_TEMPLATE">%1$s Confirmation</string>
+    <!-- Car rental confirmation code "Agency Confirmation Code" -->
+    <string name="car_rental_confirmation_code_label">Agency Confirmation Code</string>
+    <!-- Hotel confirmation code "Hotel Confirmation Code" -->
+    <string name="hotel_confirmation_code_label">Hotel Confirmation Code</string>
     <!-- Passengers Label -->
     <string name="passengers_label">Passengers</string>
     <!-- Flight receipt and policies -->
@@ -237,6 +247,47 @@
     <string name="refresh">Refresh</string>
     <!-- Try Again -->
     <string name="try_again">Try Again</string>
+    <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
+    <string name="copy_TEMPLATE">COPY %1$s</string>
+
+    <!-- Car category -->
+    <!-- Car category: mini -->
+    <string name="car_category_mini">Mini Car</string>
+    <!-- Car category: economy -->
+    <string name="car_category_economy">Economy Car</string>
+    <!-- Car category: compact -->
+    <string name="car_category_compact">Compact Car</string>
+    <!-- Car category: midize -->
+    <string name="car_category_midsize">Mid-size Car</string>
+    <!-- Car category: standard -->
+    <string name="car_category_standard">Standard Car</string>
+    <!-- Car category: fullsize -->
+    <string name="car_category_fullsize">Full-size Car</string>
+    <!-- Car category: premium -->
+    <string name="car_category_premium">Premium Car</string>
+    <!-- Car category: luxury -->
+    <string name="car_category_luxury">Luxury Car</string>
+    <!-- Car category: mini elite -->
+    <string name="car_category_mini_elite">Mini Elite Car</string>
+    <!-- Car category: economy elite -->
+    <string name="car_category_economy_elite">Economy Elite Car</string>
+    <!-- Car category: compact elite -->
+    <string name="car_category_compact_elite">Compact Elite Car</string>
+    <!-- Car category: midize elite -->
+    <string name="car_category_midsize_elite">Mid-size Elite Car</string>
+    <!-- Car category: standard elite -->
+    <string name="car_category_standard_elite">Standard Elite Car</string>
+    <!-- Car category: fullsize elite -->
+    <string name="car_category_fullsize_elite">Full-size Elite Car</string>
+    <!-- Car category: premium elite -->
+    <string name="car_category_premium_elite">Premium Elite Car</string>
+    <!-- Car category: luxury elite -->
+    <string name="car_category_luxury_elite">Luxury Elite Car</string>
+    <!-- Car category: special -->
+    <string name="car_category_special">Special Car</string>
+    <!-- Car category: oversize -->
+    <string name="car_category_oversize">Oversize Car</string>
+
     <!-- Car types -->
     <string name="car_type_two_door">Two Door Car</string>
     <string name="car_type_three_door">Three Door Car</string>
@@ -263,7 +314,7 @@
 
     <!-- Itin card details -->
     <string name="itin_card_details_active">Active</string>
-    <string name="itin_card_details_expires">Expires </string>
+    <string name="itin_card_details_expires">Expires</string>
     <string name="itin_card_details_guests">Guests</string>
     <string name="itin_card_details_booking_info">Booking Info</string>
     <string name="itin_card_details_confirmation_code">Confirmation Code</string>
@@ -271,8 +322,10 @@
     <string name="itin_card_details_pick_up">Pick Up</string>
     <string name="itin_card_details_drop_off">Drop Off</string>
     <string name="itin_card_details_days">Days</string>
-    <string name="itin_card_details_pick_up">Pick Up</string>
-    <string name="itin_card_details_drop_off">Drop Off</string>
+    <!-- Tell users when they can pick up a rental car. %1$s is a time, e.g. ("pick up after 5 PM") -->
+    <string name="itin_card_details_pick_up_TEMPLATE">Pick up after %1$s</string>
+    <!-- Tell users when they need to drop off a rental car. %1$s is a time, e.g. ("drop off before 5 PM") -->
+    <string name="itin_card_details_drop_off_TEMPLATE">Drop off before %1$s</string>
     <string name="itin_card_details_agency_phone">Agency Phone</string>
     <string name="itin_card_details_toll_free_phone">Toll Free Phone</string>
     <string name="itin_card_details_check_in">Check In</string>
@@ -288,7 +341,10 @@
     <string name="itin_card_details_reload_hotel">Reload Hotel Info</string>
     <string name="itin_card_details_reload_cruise">Reload Cruise Info</string>
 
-    <string name="itin_card_hotel_summary_TEMPLATE">Check-in after %1$s</string>
+    <!-- Message to users about when they can check into their hotel.  %1$s is a time (e.g., "Check in after 5 PM") -->
+    <string name="itin_card_hotel_summary_check_in_TEMPLATE">Check in after %1$s</string>
+    <!-- Message to users about when they need to check out of their hotel.  %1$s is a time (e.g., "Check out before 5 PM") -->
+    <string name="itin_card_hotel_summary_check_out_TEMPLATE">Check out before %1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">Valid starting &lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Action Buttons -->
@@ -402,9 +458,9 @@
     <!-- Label for filtering flights by airline (aka, Delta) -->
     <string name="filter_flight_airline">Preferred Airlines</string>
     <!-- Sort by departure timelabel -->
-    <string name="sort_description_departure">Departs </string>
+    <string name="sort_description_departure">Departs</string>
     <!-- Sort by arrival time label -->
-    <string name="sort_description_arrival">Arrives </string>
+    <string name="sort_description_arrival">Arrives</string>
     <!-- Sort by duration label -->
     <string name="sort_description_duration">Duration</string>
     <!-- Pluralization for # of days a flight takes up.  %s is the number of days, positive or minus (-1 day, +2 days) -->
@@ -615,9 +671,9 @@
     <!-- Flight -->
     <string name="flight">Flight</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
-    <string name="traveler_num_and_category_TEMPLATE"> Traveller%1$d</string>
+    <string name="traveler_num_and_category_TEMPLATE">Traveller%1$d</string>
     <!-- Adult -->
-    <string name="adult"> Adult</string>
+    <string name="adult">Adult</string>
 
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
@@ -1649,7 +1705,7 @@
     <!-- String where we link to the google play services open source licenses -->
     <string name="view_open_source_software_licenses">View Open Source Software Licenses</string>
     <!-- String where we link to the google play services open source licenses -->
-    <string name="open_source_software_licenses"> Open Source Software Licenses</string>
+    <string name="open_source_software_licenses">Open Source Software Licenses</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">This app make use of the following open-source libraries:</string>
 
@@ -1711,11 +1767,11 @@
     <!-- Abbreviated miles (used in distance_template) -->
     <string name="unit_miles">mi</string>
     <!-- Abbreviated kilometers (used in distance_template) -->
-    <string name="unit_kilometers"> km</string>
+    <string name="unit_kilometers">km</string>
     <!-- Miles (used in distance_template) -->
-    <string name="unit_miles_full"> miles</string>
+    <string name="unit_miles_full">miles</string>
     <!-- Kilometers (used in distance template) -->
-    <string name="unit_kilometers_full"> kilometres</string>
+    <string name="unit_kilometers_full">kilometres</string>
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s %2$s away</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->

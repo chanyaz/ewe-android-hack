@@ -6,8 +6,8 @@
     <string name="facebook_weve_found_your_account">Halo &lt;b&gt;%1$s&lt;/b&gt;, kami menemukan akun Expedia Anda! Masukkan kata sandi Expedia di bawah untuk menghubungkan akun Facebook dan Expedia Anda.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">Halo &lt;b&gt;%1$s&lt;/b&gt;, kami sudah memuat informasi Facebook Anda!</string>
-    <!-- connect with facebook (button text) -->
-    <string name="connect_with_facebook">Hubungkan dengan Facebook</string>
+    <!-- Log in with facebook (button text) -->
+    <string name="Log_in_with_Facebook">Masuk dengan akun Facebook</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">Mengambil informasi dari Facebook…</string>
     <!-- Attempting to log you in with facebook credentials -->
@@ -70,6 +70,8 @@
     <string name="find_itinerary_pound">Cari No. Rencana Perjalanan</string>
     <!-- Itinerary Number -->
     <string name="itinerary_number">Nomor Rencana Perjalanan</string>
+    <!-- Expedia Itinerary -->
+    <string name="expedia_itinerary">No. Rencana Perjalanan Expedia</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Tidak ada perjalanan akan datang.</string>
     <!-- Enter itinerary number -->
@@ -116,7 +118,7 @@
     <!-- Default (fallback) itin card title for HOTEL -->
     <string name="Hotel">Hotel</string>
     <!-- Default (fallback) itin card title for CAR -->
-    <string name="Car"> Mobil</string>
+    <string name="Car">Mobil</string>
     <!-- Default (fallback) itin card title for CRUISE -->
     <string name="Cruise">Pesiar</string>
     <!-- Default (fallback) itin card title for ACTIVITY -->
@@ -129,6 +131,14 @@
     <string name="arrive_tz_TEMPLATE">Tiba (%1$s)</string>
     <!-- Confirmation Code Label -->
     <string name="confirmation_code_label">Kode Konfirmasi</string>
+    <!-- Flight Confirmation code label -->
+    <string name="flight_confirmation_code_label">Konfirmasi Maskapai</string>
+    <!-- Flight Carrier confirmation code label template -->
+    <string name="flight_carrier_confirmation_code_label_TEMPLATE">Konfirmasi %1$s</string>
+    <!-- Car rental confirmation code "Agency Confirmation Code" -->
+    <string name="car_rental_confirmation_code_label">Kode Konfirmasi Agensi</string>
+    <!-- Hotel confirmation code "Hotel Confirmation Code" -->
+    <string name="hotel_confirmation_code_label">Kode Konfirmasi Hotel</string>
     <!-- Passengers Label -->
     <string name="passengers_label">Penumpang</string>
     <!-- Flight receipt and policies -->
@@ -237,6 +247,47 @@
     <string name="refresh">Muat Ulang</string>
     <!-- Try Again -->
     <string name="try_again">Coba lagi</string>
+    <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
+    <string name="copy_TEMPLATE">SALIN %1$s</string>
+
+    <!-- Car category -->
+    <!-- Car category: mini -->
+    <string name="car_category_mini">Mobil Mini</string>
+    <!-- Car category: economy -->
+    <string name="car_category_economy">Mobil Ekonomis</string>
+    <!-- Car category: compact -->
+    <string name="car_category_compact">Mobil Ringkas</string>
+    <!-- Car category: midize -->
+    <string name="car_category_midsize">Mobil Ukuran Sedang</string>
+    <!-- Car category: standard -->
+    <string name="car_category_standard">Mobil Standar</string>
+    <!-- Car category: fullsize -->
+    <string name="car_category_fullsize">Mobil Ukuran Normal</string>
+    <!-- Car category: premium -->
+    <string name="car_category_premium">Mobil Premium</string>
+    <!-- Car category: luxury -->
+    <string name="car_category_luxury">Mobil Mewah</string>
+    <!-- Car category: mini elite -->
+    <string name="car_category_mini_elite">Mobil Elite Mini</string>
+    <!-- Car category: economy elite -->
+    <string name="car_category_economy_elite">Mobil Elite Ekonomis</string>
+    <!-- Car category: compact elite -->
+    <string name="car_category_compact_elite">Mobil Elite Ringkas</string>
+    <!-- Car category: midize elite -->
+    <string name="car_category_midsize_elite">Mobil Elite Ukuran Sedang</string>
+    <!-- Car category: standard elite -->
+    <string name="car_category_standard_elite">Mobil Elite Standar</string>
+    <!-- Car category: fullsize elite -->
+    <string name="car_category_fullsize_elite">Mobil Elite Ukuran Normal</string>
+    <!-- Car category: premium elite -->
+    <string name="car_category_premium_elite">Mobil Elite Premium</string>
+    <!-- Car category: luxury elite -->
+    <string name="car_category_luxury_elite">Mobil Elite Mewah</string>
+    <!-- Car category: special -->
+    <string name="car_category_special">Mobil Khusus</string>
+    <!-- Car category: oversize -->
+    <string name="car_category_oversize">Mobil Ukuran Ekstra Besar</string>
+
     <!-- Car types -->
     <string name="car_type_two_door">Dua Pintu Mobil</string>
     <string name="car_type_three_door">Tiga Pintu Mobil</string>
@@ -263,7 +314,7 @@
 
     <!-- Itin card details -->
     <string name="itin_card_details_active">Aktif</string>
-    <string name="itin_card_details_expires">Kedaluwarsa </string>
+    <string name="itin_card_details_expires">Kedaluwarsa</string>
     <string name="itin_card_details_guests">Tamu</string>
     <string name="itin_card_details_booking_info">Info Pemesanan</string>
     <string name="itin_card_details_confirmation_code">Kode Konfirmasi</string>
@@ -271,8 +322,10 @@
     <string name="itin_card_details_pick_up">Pengambilan</string>
     <string name="itin_card_details_drop_off">Pengembalian</string>
     <string name="itin_card_details_days">Hari</string>
-    <string name="itin_card_details_pick_up">Pengambilan</string>
-    <string name="itin_card_details_drop_off">Pengembalian</string>
+    <!-- Tell users when they can pick up a rental car. %1$s is a time, e.g. ("pick up after 5 PM") -->
+    <string name="itin_card_details_pick_up_TEMPLATE">Pengambilan setelah pukul %1$s</string>
+    <!-- Tell users when they need to drop off a rental car. %1$s is a time, e.g. ("drop off before 5 PM") -->
+    <string name="itin_card_details_drop_off_TEMPLATE">Pengembalian sebelum pukul %1$s</string>
     <string name="itin_card_details_agency_phone">Telepon Agen</string>
     <string name="itin_card_details_toll_free_phone">Nomor Bebas Pulsa</string>
     <string name="itin_card_details_check_in">Check-In</string>
@@ -288,7 +341,10 @@
     <string name="itin_card_details_reload_hotel">Muat Ulang Info Hotel</string>
     <string name="itin_card_details_reload_cruise">Muat Ulang Info Pesiar</string>
 
-    <string name="itin_card_hotel_summary_TEMPLATE">Check-in setelah %1$s</string>
+    <!-- Message to users about when they can check into their hotel.  %1$s is a time (e.g., "Check in after 5 PM") -->
+    <string name="itin_card_hotel_summary_check_in_TEMPLATE">Check-in setelah pukul %1$s</string>
+    <!-- Message to users about when they need to check out of their hotel.  %1$s is a time (e.g., "Check out before 5 PM") -->
+    <string name="itin_card_hotel_summary_check_out_TEMPLATE">Check-out sebelum pukul %1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">Berlaku mulai &lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Action Buttons -->

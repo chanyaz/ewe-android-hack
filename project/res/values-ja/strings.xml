@@ -5,9 +5,9 @@
     <!-- Weve found your user account -->
     <string name="facebook_weve_found_your_account">&lt;b&gt;%1$s&lt;/b&gt;さん、すでにエクスペディアのアカウントをお持ちのようです。以下にエクスペディアのパスワードを入力して、Facebook とエクスペディアのアカウントをリンクしてください。</string>
     <!-- Weve fetched your facebook info -->
-    <string name="facebook_weve_fetched_your_info">&lt;b&gt;%1$s&lt;/b&gt;さん、Facebook のアカウントをロードしました ! </string>
-    <!-- connect with facebook (button text) -->
-    <string name="connect_with_facebook">Facebook とコネクトする</string>
+    <string name="facebook_weve_fetched_your_info">&lt;b&gt;%1$s&lt;/b&gt;さん、Facebook のアカウントをロードしました !</string>
+    <!-- Log in with facebook (button text) -->
+    <string name="Log_in_with_Facebook">Facebook でログイン</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">Facebook から情報を取得中…</string>
     <!-- Attempting to log you in with facebook credentials -->
@@ -70,6 +70,8 @@
     <string name="find_itinerary_pound">旅程番号を検索する</string>
     <!-- Itinerary Number -->
     <string name="itinerary_number">旅程番号</string>
+    <!-- Expedia Itinerary -->
+    <string name="expedia_itinerary">エクスペディアの旅程番号</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">予約された旅行はありません。</string>
     <!-- Enter itinerary number -->
@@ -129,6 +131,14 @@
     <string name="arrive_tz_TEMPLATE">到着日 (%1$s)</string>
     <!-- Confirmation Code Label -->
     <string name="confirmation_code_label">確認コード</string>
+    <!-- Flight Confirmation code label -->
+    <string name="flight_confirmation_code_label">航空会社の確認</string>
+    <!-- Flight Carrier confirmation code label template -->
+    <string name="flight_carrier_confirmation_code_label_TEMPLATE">%1$sの確認</string>
+    <!-- Car rental confirmation code "Agency Confirmation Code" -->
+    <string name="car_rental_confirmation_code_label">代理店の確認番号</string>
+    <!-- Hotel confirmation code "Hotel Confirmation Code" -->
+    <string name="hotel_confirmation_code_label">ホテルの確認番号</string>
     <!-- Passengers Label -->
     <string name="passengers_label">乗客</string>
     <!-- Flight receipt and policies -->
@@ -184,63 +194,104 @@
     <!-- Legend -->
     <string name="legend">凡例</string>
     <!-- Flight has been cancelled -->
-    <string name="flight_cancelled">フライトはキャンセルされました</string>
+    <string name="flight_cancelled">キャンセルされたフライト</string>
     <!-- Flight has been cancelled; parameter is the destination city for the canceled flight -->
-    <string name="flight_to_city_cancelled_TEMPLATE">%1$sへのフライトはキャンセルされました</string>
+    <string name="flight_to_city_cancelled_TEMPLATE">キャンセルされた %1$s 行きフライト</string>
     <!-- Flight has been redirected (location unknown) -->
-    <string name="flight_redirected">飛行経路が変更されました</string>
+    <string name="flight_redirected">飛行経路が変更されたフライト</string>
     <!-- Flight has been diverted (location unknown) -->
-    <string name="flight_diverted">到着地が変更されました</string>
+    <string name="flight_diverted">到着地が変更されたフライト</string>
     <!-- Flight has been diverted to {airport} template -->
-    <string name="flight_diverted_TEMPLATE">到着地が%1$sに変更されました</string>
+    <string name="flight_diverted_TEMPLATE">%1$s へ到着地が変更されたフライト</string>
     <!-- Flight departs on {date} template -->
     <string name="flight_departs_on_TEMPLATE">%1$s に出発</string>
     <!-- Departs early {duration from now} -->
-    <string name="flight_departs_early_TEMPLATE">早く出発%1$s</string>
+    <string name="flight_departs_early_TEMPLATE">%1$s に早めに出発</string>
     <!-- Departs late {duration from now} -->
-    <string name="flight_departs_late_TEMPLATE">遅く出発%1$s</string>
+    <string name="flight_departs_late_TEMPLATE">%1$s に遅れて出発</string>
     <!-- Departs on time {duration from now} -->
-    <string name="flight_departs_on_time_TEMPLATE">定刻に出発%1$s</string>
+    <string name="flight_departs_on_time_TEMPLATE">%1$s に定刻通りに出発</string>
     <!-- Departs {duration} early -->
-    <string name="flight_departs_x_early_TEMPLATE">%1$s早く出発</string>
+    <string name="flight_departs_x_early_TEMPLATE">%1$s 早めに出発</string>
     <!-- Departs {duration} late -->
-    <string name="flight_departs_x_late_TEMPLATE">%1$s遅く出発</string>
+    <string name="flight_departs_x_late_TEMPLATE">%1$s 遅れで出発</string>
     <!-- Flight departs on time -->
-    <string name="flight_departs_on_time">定刻に出発</string>
+    <string name="flight_departs_on_time">定刻通りに出発</string>
     <!-- Arrives early {duration from now} -->
-    <string name="flight_arrives_early_TEMPLATE">早く到着%1$s</string>
+    <string name="flight_arrives_early_TEMPLATE">%1$s に早めに到着</string>
     <!-- Arrives late {duration from now} -->
-    <string name="flight_arrives_late_TEMPLATE">遅く到着%1$s</string>
+    <string name="flight_arrives_late_TEMPLATE">%1$s に遅れて到着</string>
     <!-- Arrives on time {duration from now} -->
-    <string name="flight_arrives_on_time_TEMPLATE">定刻に到着%1$s</string>
+    <string name="flight_arrives_on_time_TEMPLATE">%1$s に定時通りに到着</string>
     <!-- Arrives {duration} early -->
-    <string name="flight_arrives_x_early_TEMPLATE">%1$s早く到着</string>
+    <string name="flight_arrives_x_early_TEMPLATE">%1$s 早めに到着</string>
     <!-- Arrives {duration} late -->
-    <string name="flight_arrives_x_late_TEMPLATE">%1$s遅く到着</string>
+    <string name="flight_arrives_x_late_TEMPLATE">%1$s 遅れで到着</string>
     <!-- Flight arrives on time -->
-    <string name="flight_arrives_on_time">定刻に到着</string>
+    <string name="flight_arrives_on_time">定刻通りに到着</string>
     <!-- Arrived early {duration from now} -->
-    <string name="flight_arrived_early_at_TEMPLATE">%1$sに早く到着</string>
+    <string name="flight_arrived_early_at_TEMPLATE">%1$s に早めに到着済み</string>
     <!-- Arrived late {duration from now} -->
-    <string name="flight_arrived_late_at_TEMPLATE">%1$sに遅く到着</string>
+    <string name="flight_arrived_late_at_TEMPLATE">%1$s に遅れて到着済み</string>
     <!-- Arrived on time {duration from now} -->
-    <string name="flight_arrived_on_time_at_TEMPLATE">%1$sに定刻に到着</string>
+    <string name="flight_arrived_on_time_at_TEMPLATE">%1$s に定時通りに到着済み</string>
     <!-- Arrived {duration} early -->
-    <string name="flight_arrived_x_early_TEMPLATE">%1$s早く到着</string>
+    <string name="flight_arrived_x_early_TEMPLATE">%1$s 早めに到着済み</string>
     <!-- Arrived {duration} late -->
-    <string name="flight_arrived_x_late_TEMPLATE">%1$s遅く到着</string>
+    <string name="flight_arrived_x_late_TEMPLATE">%1$s 遅れで到着済み</string>
     <!-- Flight arrived on time -->
-    <string name="flight_arrived_on_time">定刻に到着</string>
+    <string name="flight_arrived_on_time">定時通りに到着済み</string>
     <!-- Flight arrived (fallback when we have very little information about arrival available) -->
     <string name="flight_arrived">到着済み</string>
     <!-- Refresh -->
     <string name="refresh">リフレッシュ</string>
     <!-- Try Again -->
     <string name="try_again">もう一度試す</string>
+    <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
+    <string name="copy_TEMPLATE">%1$s をコピー</string>
+
+    <!-- Car category -->
+    <!-- Car category: mini -->
+    <string name="car_category_mini">ミニカー</string>
+    <!-- Car category: economy -->
+    <string name="car_category_economy">エコノミーカー</string>
+    <!-- Car category: compact -->
+    <string name="car_category_compact">コンパクトカー</string>
+    <!-- Car category: midize -->
+    <string name="car_category_midsize">ミドルサイズカー</string>
+    <!-- Car category: standard -->
+    <string name="car_category_standard">スタンダードカー</string>
+    <!-- Car category: fullsize -->
+    <string name="car_category_fullsize">フルサイズカー</string>
+    <!-- Car category: premium -->
+    <string name="car_category_premium">プレミアムカー</string>
+    <!-- Car category: luxury -->
+    <string name="car_category_luxury">ラグジュアリーカー</string>
+    <!-- Car category: mini elite -->
+    <string name="car_category_mini_elite">ミニ エリートカー</string>
+    <!-- Car category: economy elite -->
+    <string name="car_category_economy_elite">エコノミー エリートカー</string>
+    <!-- Car category: compact elite -->
+    <string name="car_category_compact_elite">コンパクト エリートカー</string>
+    <!-- Car category: midize elite -->
+    <string name="car_category_midsize_elite">ミドルサイズ エリートカー</string>
+    <!-- Car category: standard elite -->
+    <string name="car_category_standard_elite">スタンダード エリートカー</string>
+    <!-- Car category: fullsize elite -->
+    <string name="car_category_fullsize_elite">フルサイズ エリートカー</string>
+    <!-- Car category: premium elite -->
+    <string name="car_category_premium_elite">プレミアム エリートカー</string>
+    <!-- Car category: luxury elite -->
+    <string name="car_category_luxury_elite">ラグジュアリー エリートカー</string>
+    <!-- Car category: special -->
+    <string name="car_category_special">スペシャルカー</string>
+    <!-- Car category: oversize -->
+    <string name="car_category_oversize">オーバーサイズカー</string>
+
     <!-- Car types -->
-    <string name="car_type_two_door">2 ドア 自動車</string>
-    <string name="car_type_three_door">3 ドア 自動車</string>
-    <string name="car_type_four_door">4 ドア 自動車</string>
+    <string name="car_type_two_door">2 ドア自動車</string>
+    <string name="car_type_three_door">3 ドア自動車</string>
+    <string name="car_type_four_door">4 ドア自動車</string>
     <string name="car_type_van">バン</string>
     <string name="car_type_wagon">ワゴン</string>
     <string name="car_type_limousine">リムジン</string>
@@ -271,8 +322,10 @@
     <string name="itin_card_details_pick_up">ピックアップ</string>
     <string name="itin_card_details_drop_off">返却</string>
     <string name="itin_card_details_days">日</string>
-    <string name="itin_card_details_pick_up">ピックアップ</string>
-    <string name="itin_card_details_drop_off">返却</string>
+    <!-- Tell users when they can pick up a rental car. %1$s is a time, e.g. ("pick up after 5 PM") -->
+    <string name="itin_card_details_pick_up_TEMPLATE">%1$s 以降にピックアップ</string>
+    <!-- Tell users when they need to drop off a rental car. %1$s is a time, e.g. ("drop off before 5 PM") -->
+    <string name="itin_card_details_drop_off_TEMPLATE">%1$s までに返却</string>
     <string name="itin_card_details_agency_phone">エージェンシー電話番号</string>
     <string name="itin_card_details_toll_free_phone">フリーダイヤル</string>
     <string name="itin_card_details_check_in">チェックイン</string>
@@ -288,7 +341,10 @@
     <string name="itin_card_details_reload_hotel">ホテル情報をリロード</string>
     <string name="itin_card_details_reload_cruise">クルーズ情報をリロード</string>
 
-    <string name="itin_card_hotel_summary_TEMPLATE">%1$s以降にチェックイン</string>
+    <!-- Message to users about when they can check into their hotel.  %1$s is a time (e.g., "Check in after 5 PM") -->
+    <string name="itin_card_hotel_summary_check_in_TEMPLATE">%1$s 以降にチェックイン</string>
+    <!-- Message to users about when they need to check out of their hotel.  %1$s is a time (e.g., "Check out before 5 PM") -->
+    <string name="itin_card_hotel_summary_check_out_TEMPLATE">%1$s までにチェックアウト</string>
     <string name="itin_card_activity_summary_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;より有効</string>
 
     <!-- Action Buttons -->
@@ -565,7 +621,7 @@
     <!-- Checkout Information label -->
     <string name="checkout_information">チェックアウト情報</string>
     <!-- Explicit acceptance of TOS -->
-    <string name="Do_you_accept">上記の全条項に同意しますか ? </string>
+    <string name="Do_you_accept">上記の全条項に同意しますか ?</string>
     <!-- I Accept button label -->
     <string name="I_Accept">同意する</string>
     <!-- Slide to purchase -->
@@ -800,7 +856,7 @@
     <!-- Message telling you where you've booked a flight.  %s is the city name, e.g. "You're going to Venice!" -->
     <string name="yay_going_somewhere_TEMPLATE">%s への旅をお楽しみください !</string>
     <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
-    <string name="itinerary_confirmation_TEMPLATE">旅程番号%s が  に送信されます</string>
+    <string name="itinerary_confirmation_TEMPLATE">旅程番号%s が に送信されます</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">部屋を予約する</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
@@ -1543,7 +1599,7 @@
     <!-- Label for login widget additional text -->
     <string name="log_in_for_faster_booking">ログインして簡単予約</string>
     <!-- Label for account status -->
-    <string name="enrolled_in_expedia_rewards">Expedia Rewards\u2122 に参加 </string>
+    <string name="enrolled_in_expedia_rewards">Expedia Rewards\u2122 に参加</string>
     <!-- Label for account name -->
     <string name="logged_in_as">ログイン済み</string>
     <!-- Label for signin screen -->

@@ -6,8 +6,8 @@
     <string name="facebook_weve_found_your_account">Hej &lt;b&gt;%1$s&lt;/b&gt;, det ser ud til, at vi har fundet din Expedia-konto! Indtast venligst din adgangskode til Expedia nedenfor for at forbinde din facebook-konto og din Expedia-konto.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">Hej &lt;b&gt;%1$s&lt;/b&gt;, vi har hentet dine Facebook-oplysninger!</string>
-    <!-- connect with facebook (button text) -->
-    <string name="connect_with_facebook">Forbind med Facebook</string>
+    <!-- Log in with facebook (button text) -->
+    <string name="Log_in_with_Facebook">Log på med Facebook</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">Henter oplysninger fra Facebook…</string>
     <!-- Attempting to log you in with facebook credentials -->
@@ -70,6 +70,8 @@
     <string name="find_itinerary_pound">Find rejseplansnummer</string>
     <!-- Itinerary Number -->
     <string name="itinerary_number">Rejseplansnummer</string>
+    <!-- Expedia Itinerary -->
+    <string name="expedia_itinerary">Expedia-rejseplansnummer</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Ingen kommende rejser</string>
     <!-- Enter itinerary number -->
@@ -129,6 +131,14 @@
     <string name="arrive_tz_TEMPLATE">Ankomst (%1$s)</string>
     <!-- Confirmation Code Label -->
     <string name="confirmation_code_label">Bekræftelseskode</string>
+    <!-- Flight Confirmation code label -->
+    <string name="flight_confirmation_code_label">Bekræftelse fra flyselskabet</string>
+    <!-- Flight Carrier confirmation code label template -->
+    <string name="flight_carrier_confirmation_code_label_TEMPLATE">Bekræftelse fra %1$s</string>
+    <!-- Car rental confirmation code "Agency Confirmation Code" -->
+    <string name="car_rental_confirmation_code_label">Bureauets bekræftelseskode</string>
+    <!-- Hotel confirmation code "Hotel Confirmation Code" -->
+    <string name="hotel_confirmation_code_label">Hotellets bekræftelseskode</string>
     <!-- Passengers Label -->
     <string name="passengers_label">Passagerer</string>
     <!-- Flight receipt and policies -->
@@ -237,10 +247,51 @@
     <string name="refresh">Opdater</string>
     <!-- Try Again -->
     <string name="try_again">Forsøg igen</string>
+    <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
+    <string name="copy_TEMPLATE">KOPIER %1$s</string>
+
+    <!-- Car category -->
+    <!-- Car category: mini -->
+    <string name="car_category_mini">Minibil</string>
+    <!-- Car category: economy -->
+    <string name="car_category_economy">Økonomibil</string>
+    <!-- Car category: compact -->
+    <string name="car_category_compact">Kompakt bil</string>
+    <!-- Car category: midize -->
+    <string name="car_category_midsize">Mellemstor bil</string>
+    <!-- Car category: standard -->
+    <string name="car_category_standard">Standardbil</string>
+    <!-- Car category: fullsize -->
+    <string name="car_category_fullsize">Stor bil</string>
+    <!-- Car category: premium -->
+    <string name="car_category_premium">Premium-bil</string>
+    <!-- Car category: luxury -->
+    <string name="car_category_luxury">Luksusbil</string>
+    <!-- Car category: mini elite -->
+    <string name="car_category_mini_elite">Elite-bil, mini</string>
+    <!-- Car category: economy elite -->
+    <string name="car_category_economy_elite">Elite-bil, økonomi</string>
+    <!-- Car category: compact elite -->
+    <string name="car_category_compact_elite">Elite-bil, kompakt</string>
+    <!-- Car category: midize elite -->
+    <string name="car_category_midsize_elite">Elite-bil, mellemstor</string>
+    <!-- Car category: standard elite -->
+    <string name="car_category_standard_elite">Elite-bil, standard</string>
+    <!-- Car category: fullsize elite -->
+    <string name="car_category_fullsize_elite">Elite-bil, stor</string>
+    <!-- Car category: premium elite -->
+    <string name="car_category_premium_elite">Elite-bil, Premium</string>
+    <!-- Car category: luxury elite -->
+    <string name="car_category_luxury_elite">Elite-bil, luksus</string>
+    <!-- Car category: special -->
+    <string name="car_category_special">Specialbil</string>
+    <!-- Car category: oversize -->
+    <string name="car_category_oversize">Ekstra stor bil</string>
+
     <!-- Car types -->
-    <string name="car_type_two_door">To døre  Bil</string>
-    <string name="car_type_three_door">Tre døre  Bil</string>
-    <string name="car_type_four_door">Fire døre  Bil</string>
+    <string name="car_type_two_door">To døre Bil</string>
+    <string name="car_type_three_door">Tre døre Bil</string>
+    <string name="car_type_four_door">Fire døre Bil</string>
     <string name="car_type_van">Varevogn</string>
     <string name="car_type_wagon">Wagon</string>
     <string name="car_type_limousine">Limousine</string>
@@ -271,8 +322,10 @@
     <string name="itin_card_details_pick_up">Afhentning</string>
     <string name="itin_card_details_drop_off">Opsamling</string>
     <string name="itin_card_details_days">Dage</string>
-    <string name="itin_card_details_pick_up">Afhentning</string>
-    <string name="itin_card_details_drop_off">Opsamling</string>
+    <!-- Tell users when they can pick up a rental car. %1$s is a time, e.g. ("pick up after 5 PM") -->
+    <string name="itin_card_details_pick_up_TEMPLATE">Afhentning efter %1$s</string>
+    <!-- Tell users when they need to drop off a rental car. %1$s is a time, e.g. ("drop off before 5 PM") -->
+    <string name="itin_card_details_drop_off_TEMPLATE">Aflevering før %1$s</string>
     <string name="itin_card_details_agency_phone">Bureauets telefonnr.</string>
     <string name="itin_card_details_toll_free_phone">Gratis telefonnummer</string>
     <string name="itin_card_details_check_in">Indtjekning</string>
@@ -288,7 +341,10 @@
     <string name="itin_card_details_reload_hotel">Genindlæs hotelinfo</string>
     <string name="itin_card_details_reload_cruise">Genindlæs krydstogtsinfo</string>
 
-    <string name="itin_card_hotel_summary_TEMPLATE">Indtjekning efter %1$s</string>
+    <!-- Message to users about when they can check into their hotel.  %1$s is a time (e.g., "Check in after 5 PM") -->
+    <string name="itin_card_hotel_summary_check_in_TEMPLATE">Indtjekning efter %1$s</string>
+    <!-- Message to users about when they need to check out of their hotel.  %1$s is a time (e.g., "Check out before 5 PM") -->
+    <string name="itin_card_hotel_summary_check_out_TEMPLATE">Udtjekning før %1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">Gyldig fra &lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Action Buttons -->

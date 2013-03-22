@@ -6,8 +6,8 @@
     <string name="facebook_weve_found_your_account">Hoi &lt;b&gt;%1$s&lt;/b&gt;, we hebben je Expedia-account gevonden! Voer hieronder het wachtwoord van je Expedia-account in om het met je Facebook-account te kunnen koppelen.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">Hoi &lt;b&gt;%1$s&lt;/b&gt;, we hebben je gegevens van Facebook geladen!</string>
-    <!-- connect with facebook (button text) -->
-    <string name="connect_with_facebook">Verbinden met Facebook</string>
+    <!-- Log in with facebook (button text) -->
+    <string name="Log_in_with_Facebook">Aanmelden met Facebook</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">Facebook-gegevens aan het ophalen…</string>
     <!-- Attempting to log you in with facebook credentials -->
@@ -70,6 +70,8 @@
     <string name="find_itinerary_pound">Reisplannr. zoeken</string>
     <!-- Itinerary Number -->
     <string name="itinerary_number">Reisplannummer</string>
+    <!-- Expedia Itinerary -->
+    <string name="expedia_itinerary">Expedia reisplannr.</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Geen toekomstige reizen</string>
     <!-- Enter itinerary number -->
@@ -129,6 +131,14 @@
     <string name="arrive_tz_TEMPLATE">Aankomst (%1$s)</string>
     <!-- Confirmation Code Label -->
     <string name="confirmation_code_label">Bevestigingsnummer</string>
+    <!-- Flight Confirmation code label -->
+    <string name="flight_confirmation_code_label">Airline bevestiging</string>
+    <!-- Flight Carrier confirmation code label template -->
+    <string name="flight_carrier_confirmation_code_label_TEMPLATE">%1$s bevestiging</string>
+    <!-- Car rental confirmation code "Agency Confirmation Code" -->
+    <string name="car_rental_confirmation_code_label">Bevestigingsnr. agent</string>
+    <!-- Hotel confirmation code "Hotel Confirmation Code" -->
+    <string name="hotel_confirmation_code_label">Bevestigingsnr. hotel</string>
     <!-- Passengers Label -->
     <string name="passengers_label">Passagiers</string>
     <!-- Flight receipt and policies -->
@@ -212,7 +222,7 @@
     <!-- Arrives late {duration from now} -->
     <string name="flight_arrives_late_TEMPLATE">Komt te laat aan %1$s</string>
     <!-- Arrives on time {duration from now} -->
-    <string name="flight_arrives_on_time_TEMPLATE"> Komt op tijd aan %1$s</string>
+    <string name="flight_arrives_on_time_TEMPLATE">Komt op tijd aan %1$s</string>
     <!-- Arrives {duration} early -->
     <string name="flight_arrives_x_early_TEMPLATE">Komt %1$s te vroeg aan</string>
     <!-- Arrives {duration} late -->
@@ -237,6 +247,47 @@
     <string name="refresh">Vernieuwen</string>
     <!-- Try Again -->
     <string name="try_again">Probeer opnieuw</string>
+    <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
+    <string name="copy_TEMPLATE">KOPIEER %1$s</string>
+
+    <!-- Car category -->
+    <!-- Car category: mini -->
+    <string name="car_category_mini">Mini auto</string>
+    <!-- Car category: economy -->
+    <string name="car_category_economy">Economy auto</string>
+    <!-- Car category: compact -->
+    <string name="car_category_compact">Compact auto</string>
+    <!-- Car category: midize -->
+    <string name="car_category_midsize">Midsize auto</string>
+    <!-- Car category: standard -->
+    <string name="car_category_standard">Standaard auto</string>
+    <!-- Car category: fullsize -->
+    <string name="car_category_fullsize">Fullsize auto</string>
+    <!-- Car category: premium -->
+    <string name="car_category_premium">Premium auto</string>
+    <!-- Car category: luxury -->
+    <string name="car_category_luxury">Luxe auto</string>
+    <!-- Car category: mini elite -->
+    <string name="car_category_mini_elite">Mini Elite auto</string>
+    <!-- Car category: economy elite -->
+    <string name="car_category_economy_elite">Economy Elite auto</string>
+    <!-- Car category: compact elite -->
+    <string name="car_category_compact_elite">Compact Elite auto</string>
+    <!-- Car category: midize elite -->
+    <string name="car_category_midsize_elite">Midsize Elite auto</string>
+    <!-- Car category: standard elite -->
+    <string name="car_category_standard_elite">Standaard Elite auto</string>
+    <!-- Car category: fullsize elite -->
+    <string name="car_category_fullsize_elite">Fullsize Elite auto</string>
+    <!-- Car category: premium elite -->
+    <string name="car_category_premium_elite">Premium Elite auto</string>
+    <!-- Car category: luxury elite -->
+    <string name="car_category_luxury_elite">Luxe Elite auto</string>
+    <!-- Car category: special -->
+    <string name="car_category_special">Speciale auto</string>
+    <!-- Car category: oversize -->
+    <string name="car_category_oversize">Oversize auto</string>
+
     <!-- Car types -->
     <string name="car_type_two_door">2-deurs Auto</string>
     <string name="car_type_three_door">3-deurs Auto</string>
@@ -263,7 +314,7 @@
 
     <!-- Itin card details -->
     <string name="itin_card_details_active">Geldig</string>
-    <string name="itin_card_details_expires">Vervalt </string>
+    <string name="itin_card_details_expires">Vervalt</string>
     <string name="itin_card_details_guests">Gasten</string>
     <string name="itin_card_details_booking_info">Boekingsinfo</string>
     <string name="itin_card_details_confirmation_code">Bevestigingsnummer</string>
@@ -271,8 +322,10 @@
     <string name="itin_card_details_pick_up">Ophalen</string>
     <string name="itin_card_details_drop_off">Terugbrengen</string>
     <string name="itin_card_details_days">Dagen</string>
-    <string name="itin_card_details_pick_up">Ophalen</string>
-    <string name="itin_card_details_drop_off">Terugbrengen</string>
+    <!-- Tell users when they can pick up a rental car. %1$s is a time, e.g. ("pick up after 5 PM") -->
+    <string name="itin_card_details_pick_up_TEMPLATE">Ophalen vanaf %1$s</string>
+    <!-- Tell users when they need to drop off a rental car. %1$s is a time, e.g. ("drop off before 5 PM") -->
+    <string name="itin_card_details_drop_off_TEMPLATE">Terugbrengen voor %1$s</string>
     <string name="itin_card_details_agency_phone">Telefoonnr. bureau</string>
     <string name="itin_card_details_toll_free_phone">Gratis nummer</string>
     <string name="itin_card_details_check_in">Inchecken</string>
@@ -288,7 +341,10 @@
     <string name="itin_card_details_reload_hotel">Hotelinfo opnieuw laden</string>
     <string name="itin_card_details_reload_cruise">Cruiseïnfo opnieuw laden</string>
 
-    <string name="itin_card_hotel_summary_TEMPLATE">Check-in vanaf %1$s</string>
+    <!-- Message to users about when they can check into their hotel.  %1$s is a time (e.g., "Check in after 5 PM") -->
+    <string name="itin_card_hotel_summary_check_in_TEMPLATE">Check-in vanaf %1$s</string>
+    <!-- Message to users about when they need to check out of their hotel.  %1$s is a time (e.g., "Check out before 5 PM") -->
+    <string name="itin_card_hotel_summary_check_out_TEMPLATE">Check-out voor %1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">Geldig vanaf &lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Action Buttons -->
@@ -859,7 +915,7 @@
     <!-- Button label for calling -->
     <string name="call_support">Ondersteuning</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_increased">Het lijkt erop dat de airline de prijs van je vlucht verhoogd heeft met %1$s  Ga je akkoord met het nieuwe totaalbedrag van %2$s?</string>
+    <string name="error_flight_price_increased">Het lijkt erop dat de airline de prijs van je vlucht verhoogd heeft met %1$s Ga je akkoord met het nieuwe totaalbedrag van %2$s?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">We hebben net je aangevraagde vluchten gevonden voor %1$s minder. Ga je akkoord met het nieuwe totaalbedrag van %2$s?</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
@@ -1446,7 +1502,7 @@
     <!-- Error if an invalid security code was entered -->
     <string name="invalid_security_code">Voer een drie- of viercijferige beveiligingscode in</string>
     <!-- Error if an invalid currency code is being used with American Express -->
-    <string name="invalid_currency_for_amex">Sorry, betalingen in deze valuta (%s) worden door American Express niet aanvaard. Gebruik een andere creditcard. </string>
+    <string name="invalid_currency_for_amex">Sorry, betalingen in deze valuta (%s) worden door American Express niet aanvaard. Gebruik een andere creditcard.</string>
     <!-- Error if user agreement needs to be checked but is not -->
     <string name="error_no_user_agreement">Je moet de voorwaarden accepteren om te kunnen boeken</string>
     <!-- Message to display to user while booking is in progress -->
@@ -1528,7 +1584,7 @@
     <!-- Expedia merchant hotel policies -->
     <string name="PolicyExpediaMerchant">Door deze boeking te voltooien bevestig je alle Algemene Voorwaarden, inclusief het Privacybeleid en alle gebruiksvoorwaarden, gelezen en goedgekeurd te hebben.\n\nJe gaat akkoord de kosten van je boeking te betalen. Als je deze kosten niet betaalt zodat deze via een incassobureau, een deurwaarder of andere wettelijke procedures moeten worden gevorderd, ga je akkoord met alle daaruit voortvloeiende kosten, inclusief deurwaarders- en procedurekosten, die verband houden met deze invorderingspogingen.</string>
     <!-- Expedia agent hotel policies -->
-    <string name="PolicyExpediaAgent">Je boekt een accommodatie zonder korting. Alle getoonde tarieven zijn per nacht, en zijn gebaseerd op twee personen per kamer tenzij anders is aangegeven. Lees de kamerbeschrijvingen en de tariefregels goed na om te verzekeren dat de gekozen kamer groot genoeg is. Voor sommige tarieven kan speciale identificatie worden vereist.   Onze boekingstoeslag, belastingen en andere kosten die worden berekend door het hotel zijn niet inbegrepen. De accommodatie rekent mogelijk een extra toeslag aan wanneer extra volwassenen of kinderen aan de kamer worden toegevoegd.\n\nVerzoeken voor meer dan 2 personen of voor meer gasten dan het geselecteerde tarief opgeeft worden naar het hotel gestuurd maar zijn niet gegarandeerd. Als de accommodatie het verzoek aanvaardt, kan het naar eigen goeddunken extra kosten in rekening brengen.</string>
+    <string name="PolicyExpediaAgent">Je boekt een accommodatie zonder korting. Alle getoonde tarieven zijn per nacht, en zijn gebaseerd op twee personen per kamer tenzij anders is aangegeven. Lees de kamerbeschrijvingen en de tariefregels goed na om te verzekeren dat de gekozen kamer groot genoeg is. Voor sommige tarieven kan speciale identificatie worden vereist.  Onze boekingstoeslag, belastingen en andere kosten die worden berekend door het hotel zijn niet inbegrepen. De accommodatie rekent mogelijk een extra toeslag aan wanneer extra volwassenen of kinderen aan de kamer worden toegevoegd.\n\nVerzoeken voor meer dan 2 personen of voor meer gasten dan het geselecteerde tarief opgeeft worden naar het hotel gestuurd maar zijn niet gegarandeerd. Als de accommodatie het verzoek aanvaardt, kan het naar eigen goeddunken extra kosten in rekening brengen.</string>
 
     <!-- Expedia Accounts -->
     <!-- Label for menu item to log into account -->

@@ -6,8 +6,8 @@
     <string name="facebook_weve_found_your_account">Ciao &lt;b&gt;%1$s&lt;/b&gt;, abbiamo trovato il tuo account Expedia! Inserisci la tua password Expedia in basso per collegare il tuoi account Facebook e Expedia.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">Ciao &lt;b&gt;%1$s&lt;/b&gt;, abbiamo caricato i tuoi dati Facebook!</string>
-    <!-- connect with facebook (button text) -->
-    <string name="connect_with_facebook">Connetti a Facebook</string>
+    <!-- Log in with facebook (button text) -->
+    <string name="Log_in_with_Facebook">Accedi con Facebook</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">Stiamo recuperando le informazioni da Facebook…</string>
     <!-- Attempting to log you in with facebook credentials -->
@@ -59,7 +59,7 @@
 
     <!-- Itineraries -->
     <!-- Itinerary -->
-    <string name="itinerary">Itinerario </string>
+    <string name="itinerary">Itinerario</string>
     <!-- Itineraries (plural title) -->
     <string name="itineraries">Itinerari</string>
     <!--  Shop -->
@@ -67,9 +67,11 @@
     <!-- Find Itinerary -->
     <string name="find_itinerary">Trova itinerario</string>
     <!-- Find Itinerary # -->
-    <string name="find_itinerary_pound">Trova # itinerario</string>
+    <string name="find_itinerary_pound">Trova n. itinerario</string>
     <!-- Itinerary Number -->
     <string name="itinerary_number">Numero itinerario</string>
+    <!-- Expedia Itinerary -->
+    <string name="expedia_itinerary">Itinerario Expedia n.</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Nessun viaggio futuro.</string>
     <!-- Enter itinerary number -->
@@ -129,6 +131,14 @@
     <string name="arrive_tz_TEMPLATE">Arrivo (%1$s)</string>
     <!-- Confirmation Code Label -->
     <string name="confirmation_code_label">Codice di conferma</string>
+    <!-- Flight Confirmation code label -->
+    <string name="flight_confirmation_code_label">Conferma della compagnia aerea</string>
+    <!-- Flight Carrier confirmation code label template -->
+    <string name="flight_carrier_confirmation_code_label_TEMPLATE">Conferma %1$s</string>
+    <!-- Car rental confirmation code "Agency Confirmation Code" -->
+    <string name="car_rental_confirmation_code_label">Codice di conferma dell\&apos;agenzia</string>
+    <!-- Hotel confirmation code "Hotel Confirmation Code" -->
+    <string name="hotel_confirmation_code_label">Codice di conferma dell\&apos;agenzia</string>
     <!-- Passengers Label -->
     <string name="passengers_label">Passeggeri</string>
     <!-- Flight receipt and policies -->
@@ -237,10 +247,51 @@
     <string name="refresh">Aggiorna</string>
     <!-- Try Again -->
     <string name="try_again">Riprova</string>
+    <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
+    <string name="copy_TEMPLATE">COPIA %1$s</string>
+
+    <!-- Car category -->
+    <!-- Car category: mini -->
+    <string name="car_category_mini">Minicar</string>
+    <!-- Car category: economy -->
+    <string name="car_category_economy">Vettura Economy</string>
+    <!-- Car category: compact -->
+    <string name="car_category_compact">Vettura compatta</string>
+    <!-- Car category: midize -->
+    <string name="car_category_midsize">Vettura di medie dimensioni</string>
+    <!-- Car category: standard -->
+    <string name="car_category_standard">Vettura standard</string>
+    <!-- Car category: fullsize -->
+    <string name="car_category_fullsize">Vettura di grandi dimensioni</string>
+    <!-- Car category: premium -->
+    <string name="car_category_premium">Vettura premium</string>
+    <!-- Car category: luxury -->
+    <string name="car_category_luxury">Vettura di lusso</string>
+    <!-- Car category: mini elite -->
+    <string name="car_category_mini_elite">Minicar Elite</string>
+    <!-- Car category: economy elite -->
+    <string name="car_category_economy_elite">Vettura Elite Economy</string>
+    <!-- Car category: compact elite -->
+    <string name="car_category_compact_elite">Vettura Elite compatta</string>
+    <!-- Car category: midize elite -->
+    <string name="car_category_midsize_elite">Vettura Elite di medie dimensioni</string>
+    <!-- Car category: standard elite -->
+    <string name="car_category_standard_elite">Vettura Elite standard</string>
+    <!-- Car category: fullsize elite -->
+    <string name="car_category_fullsize_elite">Vettura Elite di grandi dimensioni</string>
+    <!-- Car category: premium elite -->
+    <string name="car_category_premium_elite">Vettura Elite premium</string>
+    <!-- Car category: luxury elite -->
+    <string name="car_category_luxury_elite">Vettura Elite di lusso</string>
+    <!-- Car category: special -->
+    <string name="car_category_special">Vettura speciale</string>
+    <!-- Car category: oversize -->
+    <string name="car_category_oversize">Vettura extralarge</string>
+
     <!-- Car types -->
-    <string name="car_type_two_door">Due porte  Auto</string>
-    <string name="car_type_three_door">Tre porte  Auto</string>
-    <string name="car_type_four_door">Quattro porte  Auto</string>
+    <string name="car_type_two_door">Due porte Auto</string>
+    <string name="car_type_three_door">Tre porte Auto</string>
+    <string name="car_type_four_door">Quattro porte Auto</string>
     <string name="car_type_van">Van</string>
     <string name="car_type_wagon">Wagon</string>
     <string name="car_type_limousine">Limousine</string>
@@ -271,8 +322,10 @@
     <string name="itin_card_details_pick_up">Prelievo</string>
     <string name="itin_card_details_drop_off">Riconsegna</string>
     <string name="itin_card_details_days">Giorni</string>
-    <string name="itin_card_details_pick_up">Prelievo</string>
-    <string name="itin_card_details_drop_off">Riconsegna</string>
+    <!-- Tell users when they can pick up a rental car. %1$s is a time, e.g. ("pick up after 5 PM") -->
+    <string name="itin_card_details_pick_up_TEMPLATE">Ritiro dopo le ore %1$s</string>
+    <!-- Tell users when they need to drop off a rental car. %1$s is a time, e.g. ("drop off before 5 PM") -->
+    <string name="itin_card_details_drop_off_TEMPLATE">Riconsegna prima delle ore %1$s</string>
     <string name="itin_card_details_agency_phone">Numero di telefono dell\&apos;agenzia</string>
     <string name="itin_card_details_toll_free_phone">Numero verde</string>
     <string name="itin_card_details_check_in">Arrivo</string>
@@ -288,7 +341,10 @@
     <string name="itin_card_details_reload_hotel">Ricarica informazioni hotel</string>
     <string name="itin_card_details_reload_cruise">Ricarica informazioni crociera</string>
 
-    <string name="itin_card_hotel_summary_TEMPLATE">Check-in dopo le ore %1$s</string>
+    <!-- Message to users about when they can check into their hotel.  %1$s is a time (e.g., "Check in after 5 PM") -->
+    <string name="itin_card_hotel_summary_check_in_TEMPLATE">Check-in dopo le ore %1$s</string>
+    <!-- Message to users about when they need to check out of their hotel.  %1$s is a time (e.g., "Check out before 5 PM") -->
+    <string name="itin_card_hotel_summary_check_out_TEMPLATE">Check-out prima delle ore %1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">Valido a partire da &lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Action Buttons -->
@@ -569,7 +625,7 @@
     <!-- I Accept button label -->
     <string name="I_Accept">Accetto</string>
     <!-- Slide to purchase -->
-    <string name="slide_to_purchase">Vai al pagamento. </string>
+    <string name="slide_to_purchase">Vai al pagamento.</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">%1$s saranno addebitati sulla tua carta di credito</string>
     <!-- Amount to be paid now -->
@@ -615,15 +671,15 @@
     <!-- Flight -->
     <string name="flight">Volo</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
-    <string name="traveler_num_and_category_TEMPLATE"> viaggiatore%1$d</string>
+    <string name="traveler_num_and_category_TEMPLATE">viaggiatore%1$d</string>
     <!-- Adult -->
-    <string name="adult"> adulto</string>
+    <string name="adult">adulto</string>
 
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Dati viaggiatore</string>
     <!-- Warning shown to users when they enter their name -->
-    <string name="name_must_match_warning">L\&apos;imbarco potrebbe essere negato se il nome del passeggero non coincide con quello del documento d\&apos;identità. </string>
+    <string name="name_must_match_warning">L\&apos;imbarco potrebbe essere negato se il nome del passeggero non coincide con quello del documento d\&apos;identità.</string>
 
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">Assistenza speciale: %1$s</string>
@@ -646,7 +702,7 @@
     <!-- Cardholder -->
     <string name="cardholder">Titolare della carta</string>
     <!-- email disclaimer -->
-    <string name="email_disclaimer">L\&apos;e-mail di conferma verrà inviata a questo indirizzo </string>
+    <string name="email_disclaimer">L\&apos;e-mail di conferma verrà inviata a questo indirizzo</string>
     <!-- Expires on colored template -->
     <string name="expires_colored_TEMPLATE">&lt;font color="#919191"&gt;Scade il &lt;/font&gt;%1$s</string>
 
@@ -732,7 +788,7 @@
     <!-- Passport country / origin heading -->
     <string name="passport_country_origin">Paese di emissione del passaporto/di provenienza</string>
     <!-- Redress number hint -->
-    <string name="only_if_applicable">Redress # (se disponibile)</string>
+    <string name="only_if_applicable">Numero redress (se disponibile)</string>
     <!-- Saving traveler info spinner dialog -->
     <string name="saving_traveler">Stiamo salvando le informazioni sul viaggiatore nel tuo account…</string>
 
@@ -800,7 +856,7 @@
     <!-- Message telling you where you've booked a flight.  %s is the city name, e.g. "You're going to Venice!" -->
     <string name="yay_going_somewhere_TEMPLATE">Partirai per %s!</string>
     <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
-    <string name="itinerary_confirmation_TEMPLATE">Itinerario #%s inviato all\&apos;indirizzo</string>
+    <string name="itinerary_confirmation_TEMPLATE">Itinerario n. %s inviato all\&apos;indirizzo</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">Prenota una camera</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
@@ -826,7 +882,7 @@
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
     <string name="calendar_flight_location_TEMPLATE">%1$s, %2$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_flight_desc_itinerary_TEMPLATE">Itinerario Expedia #: %s</string>
+    <string name="calendar_flight_desc_itinerary_TEMPLATE">Itinerario Expedia n.: %s</string>
     <!-- Part of the description, showing a link to directions.  %s is the directions link, e.g. "Directions to airport: http://url-to-map-to-airport" -->
     <string name="calendar_flight_desc_directions_TEMPLATE">Indicazioni per raggiungere l\&apos;aeroporto: %s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
@@ -878,7 +934,7 @@
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">La carta di credito che hai tentato di utilizzare è scaduta: utilizza una carta di credito diversa.</string>
     <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
-    <string name="error_booking_with_minor">Siamo spiacenti, al momento non è possibile effettuare prenotazioni per i minori di 18 anni. </string>
+    <string name="error_booking_with_minor">Siamo spiacenti, al momento non è possibile effettuare prenotazioni per i minori di 18 anni.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
     <string name="error_flight_unhandled">Spiacenti, non è possibile elaborare l\&apos;ordine in questo momento. Riprova.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -930,7 +986,7 @@
     <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_round_trip_TEMPLATE">Ecco i dettagli del mio volo andata e ritorno da %1$s a %2$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
-    <string name="share_flight_itinerary_TEMPLATE">Itinerario  #: %s</string>
+    <string name="share_flight_itinerary_TEMPLATE">Itinerario n.: %s</string>
      <!-- Section with a bunch of travelers on the flight (listed below) -->
     <string name="share_travelers_section">Viaggiatori</string>
     <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc… %2$s is their name -->
@@ -1713,9 +1769,9 @@
     <!-- Abbreviated kilometers (used in distance_template) -->
     <string name="unit_kilometers">km</string>
     <!-- Miles (used in distance_template) -->
-    <string name="unit_miles_full"> miglia</string>
+    <string name="unit_miles_full">miglia</string>
     <!-- Kilometers (used in distance template) -->
-    <string name="unit_kilometers_full"> chilometri</string>
+    <string name="unit_kilometers_full">chilometri</string>
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">Dista %1$s %2$s</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->

@@ -6,8 +6,8 @@
     <string name="facebook_weve_found_your_account">สวัสดี &lt;b&gt;%1$s&lt;/b&gt; เราพบบัญชี Expedia ของคุณ! โปรดป้อนรหัสผ่าน Expedia ของคุณด้านล่างเพื่อลิงก์บัญชี Facebook และ Expedia ของคุณ</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">สวัสดี &lt;b&gt;%1$s&lt;/b&gt; เราโหลดข้อมูล Facebook ของคุณแล้ว</string>
-    <!-- connect with facebook (button text) -->
-    <string name="connect_with_facebook">เชื่อมต่อด้วย Facebook</string>
+    <!-- Log in with facebook (button text) -->
+    <string name="Log_in_with_Facebook">เข้าสู่ระบบด้วย Facebook</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">กำลังรับข้อมูลจาก Facebook…</string>
     <!-- Attempting to log you in with facebook credentials -->
@@ -70,6 +70,8 @@
     <string name="find_itinerary_pound">ค้นหาแผนเดินทาง #</string>
     <!-- Itinerary Number -->
     <string name="itinerary_number">หมายเลขแผนเดินทาง</string>
+    <!-- Expedia Itinerary -->
+    <string name="expedia_itinerary">หมายเลขแผนเดินทาง Expedia:</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">ไม่มีการเดินทางเร็วๆ นี้</string>
     <!-- Enter itinerary number -->
@@ -129,6 +131,14 @@
     <string name="arrive_tz_TEMPLATE">ไปยัง %1$s</string>
     <!-- Confirmation Code Label -->
     <string name="confirmation_code_label">รหัสยืนยัน</string>
+    <!-- Flight Confirmation code label -->
+    <string name="flight_confirmation_code_label">รหัสยืนยันเที่ยวบิน</string>
+    <!-- Flight Carrier confirmation code label template -->
+    <string name="flight_carrier_confirmation_code_label_TEMPLATE">ยืนยัน %1$s</string>
+    <!-- Car rental confirmation code "Agency Confirmation Code" -->
+    <string name="car_rental_confirmation_code_label">รหัสยืนยันบริษัทตัวแทน</string>
+    <!-- Hotel confirmation code "Hotel Confirmation Code" -->
+    <string name="hotel_confirmation_code_label">รหัสยืนยันโรงแรม</string>
     <!-- Passengers Label -->
     <string name="passengers_label">ผู้โดยสาร</string>
     <!-- Flight receipt and policies -->
@@ -158,7 +168,7 @@
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="at_airport_TEMPLATE">&lt;b&gt;ที่ %1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
-    <string name="from_airport_TEMPLATE">&lt;b&gt;เริ่มจาก %1$s&lt;/b&gt;</string>
+    <string name="from_airport_TEMPLATE">&lt;b&gt;จาก %1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint that also includes time of departure; first parameter is the airport code, second parameter is the localized time (e.g. 13:45) -->
     <string name="from_airport_time_TEMPLATE">&lt;b&gt;จาก %1$s&lt;/b&gt; ที่ %2$s</string>
     <!-- Itin flight summary second line for arrival waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight arrives/d -->
@@ -237,10 +247,51 @@
     <string name="refresh">รีเฟรช</string>
     <!-- Try Again -->
     <string name="try_again">ลองอีกครั้ง</string>
+    <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
+    <string name="copy_TEMPLATE">คัดลอก %1$s</string>
+
+    <!-- Car category -->
+    <!-- Car category: mini -->
+    <string name="car_category_mini">รถขนาดมินิ</string>
+    <!-- Car category: economy -->
+    <string name="car_category_economy">รถประหยัดน้ำมัน</string>
+    <!-- Car category: compact -->
+    <string name="car_category_compact">รถขนาดเล็ก</string>
+    <!-- Car category: midize -->
+    <string name="car_category_midsize">รถขนาดกลาง</string>
+    <!-- Car category: standard -->
+    <string name="car_category_standard">รถขนาดมาตรฐาน</string>
+    <!-- Car category: fullsize -->
+    <string name="car_category_fullsize">รถขนาดใหญ่</string>
+    <!-- Car category: premium -->
+    <string name="car_category_premium">รถระดับพรีเมียม</string>
+    <!-- Car category: luxury -->
+    <string name="car_category_luxury">รถหรู</string>
+    <!-- Car category: mini elite -->
+    <string name="car_category_mini_elite">รถขนาดมินิแบบหรู</string>
+    <!-- Car category: economy elite -->
+    <string name="car_category_economy_elite">รถประหยัดน้ำมันแบบหรู</string>
+    <!-- Car category: compact elite -->
+    <string name="car_category_compact_elite">รถขนาดเล็กแบบหรู</string>
+    <!-- Car category: midize elite -->
+    <string name="car_category_midsize_elite">รถขนาดกลางแบบหรู</string>
+    <!-- Car category: standard elite -->
+    <string name="car_category_standard_elite">รถขนาดมาตรฐานแบบหรู</string>
+    <!-- Car category: fullsize elite -->
+    <string name="car_category_fullsize_elite">รถขนาดใหญ่แบบหรู</string>
+    <!-- Car category: premium elite -->
+    <string name="car_category_premium_elite">รถระดับพรีเมียมแบบหรู</string>
+    <!-- Car category: luxury elite -->
+    <string name="car_category_luxury_elite">รถระดับหรู</string>
+    <!-- Car category: special -->
+    <string name="car_category_special">รถพิเศษ</string>
+    <!-- Car category: oversize -->
+    <string name="car_category_oversize">รถขนาดใหญ่พิเศษ</string>
+
     <!-- Car types -->
-    <string name="car_type_two_door">สองประตู  รถ</string>
-    <string name="car_type_three_door">สามประตู  รถ</string>
-    <string name="car_type_four_door">สี่ประตู  รถ</string>
+    <string name="car_type_two_door">สองประตู รถ</string>
+    <string name="car_type_three_door">สามประตู รถ</string>
+    <string name="car_type_four_door">สี่ประตู รถ</string>
     <string name="car_type_van">รถตู้</string>
     <string name="car_type_wagon">รถแวกอน</string>
     <string name="car_type_limousine">ลิมูซีน</string>
@@ -271,8 +322,10 @@
     <string name="itin_card_details_pick_up">รับรถ</string>
     <string name="itin_card_details_drop_off">ส่งคืนรถ</string>
     <string name="itin_card_details_days">วัน</string>
-    <string name="itin_card_details_pick_up">รับรถ</string>
-    <string name="itin_card_details_drop_off">ส่งคืนรถ</string>
+    <!-- Tell users when they can pick up a rental car. %1$s is a time, e.g. ("pick up after 5 PM") -->
+    <string name="itin_card_details_pick_up_TEMPLATE">รับรถหลังจาก %1$s</string>
+    <!-- Tell users when they need to drop off a rental car. %1$s is a time, e.g. ("drop off before 5 PM") -->
+    <string name="itin_card_details_drop_off_TEMPLATE">ส่งคืนรถก่อน %1$s</string>
     <string name="itin_card_details_agency_phone">เบอร์โทรศัพท์บริษัทตัวแทน</string>
     <string name="itin_card_details_toll_free_phone">หมายเลขโทรฟรี</string>
     <string name="itin_card_details_check_in">เช็คอิน</string>
@@ -288,7 +341,10 @@
     <string name="itin_card_details_reload_hotel">โหลดข้อมูลโรงแรมใหม่</string>
     <string name="itin_card_details_reload_cruise">โหลดข้อมูลทริปล่องเรือใหม่</string>
 
-    <string name="itin_card_hotel_summary_TEMPLATE">เช็คอินหลังจาก %1$s</string>
+    <!-- Message to users about when they can check into their hotel.  %1$s is a time (e.g., "Check in after 5 PM") -->
+    <string name="itin_card_hotel_summary_check_in_TEMPLATE">เช็คอินหลัง %1$s</string>
+    <!-- Message to users about when they need to check out of their hotel.  %1$s is a time (e.g., "Check out before 5 PM") -->
+    <string name="itin_card_hotel_summary_check_out_TEMPLATE">เช็คเอาท์ก่อน %1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">ใช้ได้ตั้งแต่ &lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Action Buttons -->
@@ -394,7 +450,7 @@
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
     <string name="inbound_TEMPLATE">เที่ยวบินขาเข้าไปยัง %s</string>
     <!-- Error when we simple can't connect to E3 servers -->
-    <string name="error_server">ขออภัย เราไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ Expedia  โปรดลองอีกครั้ง</string>
+    <string name="error_server">ขออภัย เราไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ Expedia โปรดลองอีกครั้ง</string>
     <!-- Label for changing sort order on flights -->
     <string name="filter_flight_sort">จัดเรียงเที่ยวบินตาม:</string>
     <!-- Label for filtering flights by time (aka, 10 AM to 3 PM) -->
@@ -417,7 +473,7 @@
         <item quantity="other">%s วัน</item>
     </plurals>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
-    <string name="error_data_expired">แก้จุดบกพร่อง: มีการลบข้อมูลการค้นหาไปแล้ว  โปรดรายงานข้อผิดพลาดนี้ต่อ DLew</string>
+    <string name="error_data_expired">แก้จุดบกพร่อง: มีการลบข้อมูลการค้นหาไปแล้ว โปรดรายงานข้อผิดพลาดนี้ต่อ DLew</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">เลือกเที่ยวบินไปยัง %1$s</string>
     <!-- Select a flight back to (city name) -->
@@ -662,7 +718,7 @@
 
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
-    <string name="credit_card_hint">หมายเลขบัตรเครดิต </string>
+    <string name="credit_card_hint">หมายเลขบัตรเครดิต</string>
     <!-- Expiration date label -->
     <string name="expiration_date">วันหมดอายุ</string>
     <!-- Set expiration date button -->
@@ -858,7 +914,7 @@
     <!-- Button label for calling -->
     <string name="call_support">ทีมงานบริการ</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_increased">ดูเหมือนว่าสายการบินเพิ่งขึ้นราคาตั๋วของคุณอีก %1$s  คุณต้องการที่จะชำระเงินจำนวน %2$s ซึ่งเป็นยอดรวมใหม่นี้หรือไม่</string>
+    <string name="error_flight_price_increased">ดูเหมือนว่าสายการบินเพิ่งขึ้นราคาตั๋วของคุณอีก %1$s คุณต้องการที่จะชำระเงินจำนวน %2$s ซึ่งเป็นยอดรวมใหม่นี้หรือไม่</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">เราเพิ่งพบว่าเที่ยวบินที่คุณต้องการกำลังลดราคาลงอีก %1$s คุณต้องการให้เราเรียกเก็บยอดใหม่กับจำนวน %2$s หรือไม่</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
@@ -870,7 +926,7 @@
     <!-- Error shown to user if their phone number is invalid -->
     <string name="error_invalid_phone_number">หมายเลขโทรศัพท์ไม่ถูกต้อง โปรดลองอีกครั้ง</string>
     <!-- Error shown to user if their credit card number is invalid -->
-    <string name="error_invalid_card_number">ข้อมูลบัตรเครดิตไม่ถูกต้อง โปรดลองอีกครั้ง </string>
+    <string name="error_invalid_card_number">ข้อมูลบัตรเครดิตไม่ถูกต้อง โปรดลองอีกครั้ง</string>
     <!-- Error shown to user if their zip code or postal code is invalid (depends on language) -->
     <string name="error_invalid_zipcode_or_postalcode">รหัสไปรษณีย์ไม่ถูกต้อง โปรดลองอีกครั้ง</string>
     <!-- Error shown to user if their state or province is invalid (depends on language) -->
@@ -957,7 +1013,7 @@
     <!-- Presenting the airfare total cost of a flight.  %s is a price, e.g. "$500" -->
     <string name="share_flight_airfare_total_TEMPLATE">ราคาตั๋วเครื่องบินทั้งหมด: %s</string>
     <!-- Alerts the user to potential other charges.  %s is a URL -->
-    <string name="share_flight_additional_fees_TEMPLATE">สายการบินอาจคิดค่าธรรมเนียมเพิ่มเติมสำหรับสัมภาระที่โหลดใต้ท้องเครื่องหรือบริการเสริมอื่นๆ  %s</string>
+    <string name="share_flight_additional_fees_TEMPLATE">สายการบินอาจคิดค่าธรรมเนียมเพิ่มเติมสำหรับสัมภาระที่โหลดใต้ท้องเครื่องหรือบริการเสริมอื่นๆ %s</string>
     <!-- Gives the user a method of getting support.  %s is a phone number -->
     <string name="share_flight_support_TEMPLATE">หากคุณมีข้อสงสัยเกี่ยวกับการจองห้องพักรายการนี้ โปรดติดต่อ Expedia ที่ %s</string>
     <!-- Advertisement for the app the user just used -->
@@ -1010,7 +1066,7 @@
 
     <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
     <!-- Suggestion to search Times Square -->
-    <string name="suggestion_times_square">ไทม์แสควร์, นิวยอร์ก, NY </string>
+    <string name="suggestion_times_square">ไทม์แสควร์, นิวยอร์ก, NY</string>
     <string name="suggestion_boston">บอสตัน, MA</string>
     <string name="suggestion_los_angeles">ลอสแอนเจลิส, CA</string>
     <string name="suggestion_venice">สวนสาธารณะหาดเวนิส, เวนิส, CA</string>
@@ -1072,13 +1128,13 @@
     </plurals>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
-    <string name="EnableLocationSettings">ในการใช้ตำแหน่งของฉัน คุณต้องเปิดตำแหน่งปัจจุบันในการตั้งค่าก่อน\nไปที่การตั้งค่าและเปิดใช้หรือไม่ </string>
+    <string name="EnableLocationSettings">ในการใช้ตำแหน่งของฉัน คุณต้องเปิดตำแหน่งปัจจุบันในการตั้งค่าก่อน\nไปที่การตั้งค่าและเปิดใช้หรือไม่</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
     <string name="ProviderDisabled">ปิดการให้บริการข้อมูลตำแหน่งแล้ว โปรดเปิดใช้การให้บริการข้อมูลตำแหน่ง หากต้องการค้นหาตามตำแหน่ง</string>
     <!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
     <string name="ProviderOutOfService">การให้บริการข้อมูลตำแหน่งใช้การไม่ได้ โปรดลองอีกครั้ง</string>
     <!-- Message displayed when the location provider is temporarily unavailable. -->
-    <string name="ProviderTemporarilyUnavailable">การให้บริการข้อมูลตำแหน่งใช้การไม่ได้ในขณะนี้  โปรดลองอีกครั้ง</string>
+    <string name="ProviderTemporarilyUnavailable">การให้บริการข้อมูลตำแหน่งใช้การไม่ได้ในขณะนี้ โปรดลองอีกครั้ง</string>
 
     <!-- Sort descriptions, e.g. Sorted by "description" -->
     <!-- Sort by distance label -->
@@ -1186,7 +1242,7 @@
     <!-- Title for the amenities section in the hotel details fragment -->
     <string name="amenities">สิ่งอำนวยความสะดวก</string>
     <!-- Label for button to see all reviews as a modal dialog -->
-    <string name="see_all_reviews">แสดงความคิดเห็นทั้งหมด </string>
+    <string name="see_all_reviews">แสดงความคิดเห็นทั้งหมด</string>
     <!-- Label for button that brings users to the room selection page -->
     <string name="select_room">เลือกห้อง</string>
 
@@ -1268,7 +1324,7 @@
     <!-- Loading more reviews -->
     <string name="user_review_loading_more_reviews">กำลังโหลดความคิดเห็นเพิ่มเติม…</string>
     <!-- Read more of the review -->
-    <string name="user_review_read_more">ศึกษาข้อมูลเพิ่มเติม </string>
+    <string name="user_review_read_more">ศึกษาข้อมูลเพิ่มเติม</string>
     <!--
          User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
         1$ represents the number of guests that recommend this hotel
@@ -1292,11 +1348,11 @@
     -->
     <string name="user_review_name_and_location_signature">%1$s จาก %2$s</string>
     <!-- User review no critical reviews -->
-    <string name="user_review_no_critical_reviews">ไม่มีความคิดเห็นเชิงลบสำหรับโรงแรมนี้ </string>
+    <string name="user_review_no_critical_reviews">ไม่มีความคิดเห็นเชิงลบสำหรับโรงแรมนี้</string>
     <!-- User review no favorable reviews -->
-    <string name="user_review_no_favorable_reviews">ไม่มีความคิดเห็นเชิงบวกสำหรับโรงแรมนี้ </string>
+    <string name="user_review_no_favorable_reviews">ไม่มีความคิดเห็นเชิงบวกสำหรับโรงแรมนี้</string>
     <!-- User review no recent reviews -->
-    <string name="user_review_no_recent_reviews">ไม่มีความคิดเห็นใหม่สำหรับโรงแรมนี้ </string>
+    <string name="user_review_no_recent_reviews">ไม่มีความคิดเห็นใหม่สำหรับโรงแรมนี้</string>
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">ขออภัย ระบบแสดงความคิดเห็นขัดข้อง</string>
 
@@ -1453,7 +1509,7 @@
     <!-- Title for error dialog when booking fails -->
     <string name="error_booking_title">เกิดข้อผิดพลาด</string>
     <!-- Error message when we couldn't get a response -->
-    <string name="error_booking_null">ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ของ Expedia  โปรดตรวจสอบสัญญาณอินเทอร์เน็ต แล้วลองอีกครั้ง</string>
+    <string name="error_booking_null">ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ของ Expedia โปรดตรวจสอบสัญญาณอินเทอร์เน็ต แล้วลองอีกครั้ง</string>
     <!-- Error message when booking completed with errors -->
     <string name="error_booking_succeeded_with_errors">ระบบจองห้องให้คุณแล้ว แต่เกิดข้อผิดพลาดต่อไปนี้: %s</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
@@ -1571,7 +1627,7 @@
 
     <!-- Sharing bookings via email -->
     <!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
-    <string name="share_subject_template">หมายเลขแผนเดินทาง Expedia  - %1$s (%2$s - %3$s)</string>
+    <string name="share_subject_template">หมายเลขแผนเดินทาง Expedia - %1$s (%2$s - %3$s)</string>
     <!-- Preset at the top of the share body message -->
     <string name="share_body_start">ข้อมูลการจองโรงแรม:</string>
     <!-- Name of user -->
@@ -1873,7 +1929,7 @@
     <string name="country_gw">กินี-บิสเซา</string>
     <string name="country_gy">กายอานา</string>
     <string name="country_ht">เฮติ</string>
-    <string name="country_hm"> เกาะเฮิร์ดและหมู่เกาะแมกดอนัลด์</string>
+    <string name="country_hm">เกาะเฮิร์ดและหมู่เกาะแมกดอนัลด์</string>
     <string name="country_va">สันตะสำนัก (นครรัฐวาติกัน)</string>
     <string name="country_hn">ฮอนดูรัส</string>
     <string name="country_hk">ฮ่องกง</string>
