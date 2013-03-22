@@ -21,10 +21,16 @@ public class AirportSelectUtils extends ActivityInstrumentationTestCase2<SearchA
 			"MSP", "DTW", "PHL", "BOS", "LGA",
 	};
 
-	public Pair<String, String> getTwoAirports(String[] airportList){
+	public static String[] AIRPORT_LIST_INTL = new String[] {
+			"LHR", "CDG", "HND", "FRA", "CGK",
+			"DXB", "HKG", "BKK", "AMS", "SIN",
+			"CAN", "MAD", "PVG", "IST", "ICN",
+	};
+
+	public Pair<String, String> getTwoAirports(String[] airportList) {
 		return getTwoAirports(airportList, airportList);
 	}
-	
+
 	public Pair<String, String> getTwoAirports(String[] airportList1, String[] airportList2) {
 		Random numberGen = new Random();
 		String airport1 = airportList1[numberGen.nextInt(airportList1.length)];
