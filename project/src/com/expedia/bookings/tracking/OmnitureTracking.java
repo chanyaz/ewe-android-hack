@@ -463,7 +463,6 @@ public class OmnitureTracking {
 	public static void trackItin(Context context) {
 		Log.d(TAG, "Tracking \"" + ITIN + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(context, ITIN);
-		addEvent15And16Maybe(context, s);
 		s.track();
 	}
 
