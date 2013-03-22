@@ -356,6 +356,10 @@ public class Db {
 		return sDb.mBillingInfo;
 	}
 
+	public static boolean hasBillingInfo() {
+		return sDb.mBillingInfo != null;
+	}
+
 	public static void deleteBillingInfo(Context context) {
 		if (sDb.mBillingInfo != null) {
 			sDb.mBillingInfo.delete(context);

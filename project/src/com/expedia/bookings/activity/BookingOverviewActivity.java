@@ -28,11 +28,6 @@ import com.mobiata.android.util.ViewUtils;
 public class BookingOverviewActivity extends SherlockFragmentActivity implements BookingOverviewFragmentListener,
 		LogInListener, ISlideToListener {
 
-	public static final String STATE_TAG_LOADED_DB_INFO = "STATE_TAG_LOADED_DB_INFO";
-
-	//We only want to load from disk once: when the activity is first started
-	private boolean mLoadedDbInfo = false;
-
 	private BookingOverviewFragment mBookingOverviewFragment;
 	private MenuItem mCheckoutMenuItem;
 
@@ -43,8 +38,10 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (savedInstanceState != null) {
-			mLoadedDbInfo = savedInstanceState.getBoolean(STATE_TAG_LOADED_DB_INFO, false);
+		if (Db.getSelectedProperty() == null) {
+			Log.i("Detected expired DB, finishing activity.");
+			finish();
+			return;
 		}
 
 		loadCachedData(false);
@@ -154,20 +151,13 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 		return super.onOptionsItemSelected(item);
 	}
 
-	@Override
-	public void onSaveInstanceState(Bundle out) {
-		super.onSaveInstanceState(out);
-		out.putBoolean(STATE_TAG_LOADED_DB_INFO, mLoadedDbInfo);
-	}
-
 	// Private methods
 
 	private void loadCachedData(boolean wait) {
-		if (!mLoadedDbInfo) {
+		if (!Db.hasBillingInfo()) {
 			CheckoutDataLoader.CheckoutDataLoadedListener listener = new CheckoutDataLoader.CheckoutDataLoadedListener() {
 				@Override
 				public void onCheckoutDataLoaded(boolean wasSuccessful) {
-					mLoadedDbInfo = wasSuccessful;
 					Runnable refreshDataRunner = new Runnable() {
 						@Override
 						public void run() {
