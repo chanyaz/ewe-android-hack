@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.text.TextUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -76,6 +77,13 @@ public class User implements JSONable {
 
 	public List<Traveler> getAssociatedTravelers() {
 		return mAssociatedTravelers;
+	}
+
+	public boolean isRewardsUser() {
+		if (mPrimaryTraveler != null) {
+			return !TextUtils.isEmpty(mPrimaryTraveler.getLoyaltyMembershipNumber());
+		}
+		return false;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

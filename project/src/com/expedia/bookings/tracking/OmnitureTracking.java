@@ -64,7 +64,6 @@ public class OmnitureTracking {
 
 	// Itineraries
 	private static final String ITIN_EMPTY = "App.Itinerary.Empty";
-	private static final String ITIN_LOGIN_SUCCESS = "App.Itinerary.Login.Success";
 	private static final String ITIN_ADD_SUCCESS = "App.Itinerary.Add.Success";
 	private static final String ITIN = "App.Itinerary";
 	private static final String ITIN_HOTEL = "App.Itinerary.Hotel";
@@ -89,6 +88,12 @@ public class OmnitureTracking {
 	private static final String ITIN_ACTIVITY_INFO = "App.Itinerary.Activity.Info.Additional";
 	private static final String ITIN_ACTIVITY_SHARE_PREFIX = "App.Itinerary.Activity.Share.";
 	private static final String ITIN_RELOAD_TEMPLATE = "App.Itinerary.%s.Info.Reload";
+
+	// Common
+	private static final String LOGIN_SUCCESS_TEMPLATE = "App.%s.Login.Success";
+	private static final String ITIN_LOGIN_PARAM = "Itinerary";
+	private static final String HOTEL_LOGIN_PARAM = "Hotels.Checkout";
+	private static final String FLIGHT_LOGIN_PARAM = "Flight.Checkout";
 
 	// Flights
 	private static final String FLIGHT_SEARCH = "App.Flight.Search";
@@ -123,7 +128,6 @@ public class OmnitureTracking {
 	private static final String HOTELS_CHECKOUT_INFO = "App.Hotels.Checkout.Info";
 
 	private static final String HOTELS_CHECKOUT_LOGIN = "App.Hotels.Checkout.Login";
-	private static final String HOTELS_CHECKOUT_LOGIN_SUCCESS = "App.Hotels.Checkout.Login.Success";
 	private static final String HOTELS_CHECKOUT_LOGIN_FORGOT = "App.Hotels.Checkout.Login.Forgot";
 
 	private static final String HOTELS_CHECKOUT_TRAVELER_SELECT = "App.Hotels.Checkout.Traveler.Select";
@@ -174,7 +178,6 @@ public class OmnitureTracking {
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_IN_REFINE = "App.Flight.Search.Roundtrip.In.RefineSearch";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_IN_REMOVE_OUT = "App.Flight.Search.Roundtrip.In.RemoveOut";
 
-	private static final String FLIGHT_CHECKOUT_LOGIN_SUCCESS = "App.Flight.Checkout.Login.Success";
 	private static final String FLIGHT_CHECKOUT_LOGIN_FORGOT = "App.Flight.Checkout.Login.Forgot";
 
 	private static final String FLIGHT_CHECKOUT_TRAVELER_SELECT_EXISTING = "App.Flight.Checkout.Traveler.Select.Existing";
@@ -289,16 +292,6 @@ public class OmnitureTracking {
 		internalTrackLink(context, FLIGHT_SEARCH_ROUNDTRIP_IN_REMOVE_OUT);
 	}
 
-	public static void trackLinkFlightCheckoutLoginSuccess(Context context) {
-		Log.d(TAG, "Tracking \"" + FLIGHT_CHECKOUT_LOGIN_SUCCESS + "\" linkClick");
-
-		ADMS_Measurement s = createTrackLinkEvent(context, FLIGHT_CHECKOUT_LOGIN_SUCCESS);
-
-		s.setEvents("event26");
-
-		s.trackLink(null, "o", s.getEvar(28), null, null);
-	}
-
 	public static void trackLinkFlightCheckoutLoginForgot(Context context) {
 		internalTrackLink(context, FLIGHT_CHECKOUT_LOGIN_FORGOT);
 	}
@@ -362,11 +355,43 @@ public class OmnitureTracking {
 		internalTrackPageLoadEventStandardNoVars25And25LobShopper(context, ITIN_EMPTY);
 	}
 
-	public static void trackItinLoginSuccess(Context context) {
-		Log.d(TAG, "Tracking \"" + ITIN_LOGIN_SUCCESS + "\" linkClick");
+	public static void trackLoginSuccess(Context ctx, LineOfBusiness lob, boolean loggedInWithFb, boolean isRewards) {
+		// Construct the pageName via LOB
+		String lobParam;
+		switch (lob) {
+			case ITIN:
+				lobParam = ITIN_LOGIN_PARAM;
+				break;
+			case FLIGHTS:
+				lobParam = FLIGHT_LOGIN_PARAM;
+				break;
+			case HOTELS:
+				lobParam = HOTEL_LOGIN_PARAM;
+				break;
+			default:
+				// Should never get here, but no sense in crashing the app over tracking
+				lobParam = HOTEL_LOGIN_PARAM;
+				break;
+		}
+		String pageName = String.format(LOGIN_SUCCESS_TEMPLATE, lobParam);
+		Log.d(TAG, "Tracking \"" + pageName + "\" linkClick");
 
-		ADMS_Measurement s = createTrackLinkEvent(context, ITIN_LOGIN_SUCCESS);
+		ADMS_Measurement s = createTrackLinkEvent(ctx, pageName);
 
+		String var55;
+		if (loggedInWithFb) {
+			var55 = "Facebook";
+		}
+		else {
+			var55 = "Registered";
+		}
+
+		if (isRewards) {
+			var55 += " Rewards";
+		}
+
+		s.setEvar(55, var55);
+		Log.d("bradley", "evar55 " + var55);
 		s.setEvents("event26");
 
 		s.trackLink(null, "o", s.getEvar(28), null, null);
@@ -929,18 +954,6 @@ public class OmnitureTracking {
 
 	public static void trackLinkHotelSort(Context context, String pageName) {
 		internalTrackLink(context, pageName);
-	}
-
-	// Login
-
-	public static void trackLinkHotelsCheckoutLoginSuccess(Context context) {
-		Log.d(TAG, "Tracking \"" + HOTELS_CHECKOUT_LOGIN_SUCCESS + "\" linkClick");
-
-		ADMS_Measurement s = createTrackLinkEvent(context, HOTELS_CHECKOUT_LOGIN_SUCCESS);
-
-		s.setEvents("event26");
-
-		s.trackLink(null, "o", s.getEvar(28), null, null);
 	}
 
 	public static void trackLinkHotelsCheckoutLoginForgot(Context context) {

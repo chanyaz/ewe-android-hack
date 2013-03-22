@@ -156,6 +156,9 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 	private VisibilityState mVisibilityState = VisibilityState.EXPEDIA_WTIH_FB_BUTTON;
 	private LineOfBusiness mLob = LineOfBusiness.HOTELS;
 
+	// Boolean for OmnitureTracking related purposes. false means user logged in manually
+	private boolean loginWithFacebook = false;
+
 	private enum VisibilityState {
 		FACEBOOK_LINK, EXPEDIA_WTIH_FB_BUTTON, EXPEDIA_WITH_EXPEDIA_BUTTON
 	}
@@ -445,6 +448,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 				}
 
 				// Do facebook things!!!
+				loginWithFacebook = true;
 				doFacebookLogin();
 
 				setVisibilityState(VisibilityState.FACEBOOK_LINK, false);
@@ -1032,17 +1036,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 				user.save(mContext);
 				loginWorkComplete();
 
-				switch (mLob) {
-				case HOTELS:
-					OmnitureTracking.trackLinkHotelsCheckoutLoginSuccess(mContext);
-					break;
-				case FLIGHTS:
-					OmnitureTracking.trackLinkFlightCheckoutLoginSuccess(mContext);
-					break;
-				case ITIN:
-					OmnitureTracking.trackItinLoginSuccess(mContext);
-					break;
-				}
+				OmnitureTracking.trackLoginSuccess(mContext, mLob, loginWithFacebook, user.isRewardsUser());
 			}
 		}
 	};
@@ -1222,7 +1216,8 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 				AdTracker.trackLogin();
 				user.save(mContext);
 				Log.d("User saved!");
-				//TODO: Omniture Tracking...
+
+				OmnitureTracking.trackLoginSuccess(mContext, mLob, loginWithFacebook, user.isRewardsUser());
 
 				setIsLoading(false);
 				loginWorkComplete();
