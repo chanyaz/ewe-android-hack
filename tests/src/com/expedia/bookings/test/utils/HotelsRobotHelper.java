@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import junit.framework.AssertionFailedError;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.Log;
@@ -615,21 +616,52 @@ public class HotelsRobotHelper {
 
 	public void logIn() {
 		mSolo.scrollToTop();
-		mSolo.scrollDown();
-
-		String loginButtonText = mRes.getString(R.string.log_in_for_faster_booking);
-
-		enterLog(TAG, "Pressing button: " + loginButtonText);
+		mSolo.clickOnText(mRes.getString(R.string.checkout_btn));
+		String log_in_for_faster_booking = mRes.getString(R.string.log_in_for_faster_booking);
+		String log_in_with_expedia = mRes.getString(R.string.Log_in_with_Expedia);
 		try {
-			mSolo.clickOnText(loginButtonText);
+			if (mSolo.searchText(log_in_for_faster_booking)) {
+				mSolo.clickOnText(log_in_for_faster_booking);
+			}
+			else {
+				mSolo.clickOnText(log_in_with_expedia);
+			}
 		}
-		catch (Error e) {
+		catch (AssertionFailedError e) {
 			delay(5);
-			enterLog(TAG, "Scrolling to top to press button again.");
-			mSolo.scrollToTop();
-			mSolo.clickOnText(mRes.getString(R.string.log_in_for_faster_booking));
+
+			if (mSolo.searchText(mSolo.getCurrentActivity().getString(
+					R.string.e3_error_checkout_hotel_room_unavailable))) {
+				mSolo.clickOnButton(0);
+				delay();
+				mSolo.goBack();
+				mSolo.goBack();
+				mSolo.scrollDown();
+				mSolo.clickInList(1);
+				delay();
+				pressBookRoom();
+				mSolo.clickInList(0);
+				delay();
+				mSolo.clickOnText(mRes.getString(R.string.checkout_btn));
+				if (mSolo.searchText(log_in_for_faster_booking)) {
+					mSolo.clickOnText(log_in_for_faster_booking);
+				}
+				else {
+					mSolo.clickOnText(log_in_with_expedia);
+				}
+			}
+			else {
+				delay();
+				if (mSolo.searchText(log_in_for_faster_booking)) {
+					mSolo.clickOnText(log_in_for_faster_booking);
+				}
+				else {
+					mSolo.clickOnText(log_in_with_expedia);
+				}
+			}
 		}
-		delay(1);
+
+		delay();
 
 		screenshot("Login Screen Pre Text Entry");
 		mSolo.typeText(0, mUser.mLoginEmail);
@@ -643,19 +675,8 @@ public class HotelsRobotHelper {
 		portrait();
 		delay(5);
 
-		try {
-			mSolo.clickOnButton(0); //Log in button.
-		}
-		catch (Error e) {
-			enterLog(TAG, "Button must be clicked on by its text.");
-			delay(5);
-			try {
-				mSolo.clickOnText(mRes.getString(R.string.log_in_for_faster_booking));
-			}
-			catch (Error f) {
-				mSolo.clickOnText(mRes.getString(R.string.Log_in_with_Expedia));
-			}
-		}
+		mSolo.clickOnButton(0);
+
 		// Log log in event for ad tracking
 		if (mWriteEventsToFile) {
 			mFileWriter.addLineToFile("Log in event at", true);
@@ -851,7 +872,7 @@ public class HotelsRobotHelper {
 			if (assertPostCVVPopUp) {
 				mSolo.clickOnButton(0);
 				delay();
-				if(!mSolo.searchText(mSolo.getCurrentActivity().getString(R.string.card_info))) {
+				if (!mSolo.searchText(mSolo.getCurrentActivity().getString(R.string.card_info))) {
 					Exception exception = new Exception();
 					throw exception;
 				}
