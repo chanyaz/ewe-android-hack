@@ -274,7 +274,12 @@ public class Db {
 
 	public static void setSelectedRate(Rate rate) {
 		sDb.mSelectedRate = rate;
-		setSelectedRate(rate.getRateKey());
+		if (rate == null) {
+			setSelectedRate((String) null);
+		}
+		else {
+			setSelectedRate(rate.getRateKey());
+		}
 	}
 
 	public static void setSelectedRate(String rateKey) {

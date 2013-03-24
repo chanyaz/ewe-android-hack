@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,17 +37,24 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Policy;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.dialog.HotelPriceChangeDialog;
+import com.expedia.bookings.dialog.TextViewDialog;
+import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.fragment.LoginFragment.LogInListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
@@ -79,16 +87,19 @@ import com.mobiata.android.validation.Validator;
 
 public class BookingFormFragment extends Fragment {
 	private static final String KEY_SIGNIN_FETCH = "KEY_SIGNIN_FETCH";
+	private static final String KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE = "KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE";
 
 	public static BookingFormFragment newInstance() {
 		BookingFormFragment dialog = new BookingFormFragment();
 		return dialog;
 	}
 
-	private static String GUESTS_EXPANDED = "GUESTS_EXPANDED";
-	private static String RULES_RESTRICTIONS_CHECKED = "RULES_RESTRICTIONS_CHECKED";
-	private static String USER_PROFILE_IS_FRESH = "USER_PROFILE_IS_FRESH";
-	private static String SELECTED_CARD_POSITION = "SELECTED_CARD_POSITION";
+	private static final String GUESTS_EXPANDED = "GUESTS_EXPANDED";
+	private static final String RULES_RESTRICTIONS_CHECKED = "RULES_RESTRICTIONS_CHECKED";
+	private static final String USER_PROFILE_IS_FRESH = "USER_PROFILE_IS_FRESH";
+	private static final String SELECTED_CARD_POSITION = "SELECTED_CARD_POSITION";
+	private static final String INSTANCE_DONE_LOADING_PRICE_CHANGE = "INSTANCE_DONE_LOADING_PRICE_CHANGE";
+	private static final String IS_DONE_LOADING_PRICE_CHANGE = "IS_DONE_LOADING_PRICE_CHANGE";
 
 	// Cached views
 	private View mRootBillingView;
@@ -118,6 +129,8 @@ public class BookingFormFragment extends Fragment {
 	private ViewGroup mRulesRestrictionsLayout;
 	private TextView mCancellationPolicyTextView;
 
+	private ThrobberDialog mHotelProductDialog;
+
 	// Validation
 	private ValidationProcessor mValidationProcessor;
 	private ValidationProcessor mGuestInfoValidationProcessor;
@@ -130,6 +143,7 @@ public class BookingFormFragment extends Fragment {
 	// The state of the form
 	private boolean mFormHasBeenFocused;
 	private boolean mGuestsExpanded;
+	private boolean mIsDoneLoadingPriceChange = false;
 
 	private ReceiptWidget mReceiptWidget;
 	private CouponCodeWidget mCouponCodeWidget;
@@ -264,6 +278,7 @@ public class BookingFormFragment extends Fragment {
 			}
 			mUserProfileIsFresh = savedInstanceState.getBoolean(USER_PROFILE_IS_FRESH);
 			mRulesRestrictionsCheckbox.setChecked(savedInstanceState.getBoolean(RULES_RESTRICTIONS_CHECKED));
+			mIsDoneLoadingPriceChange = savedInstanceState.getBoolean(IS_DONE_LOADING_PRICE_CHANGE);
 		}
 
 		// Expand the guest form if neccesary
@@ -340,6 +355,7 @@ public class BookingFormFragment extends Fragment {
 		outState.putBoolean(GUESTS_EXPANDED, mGuestsExpanded);
 		outState.putBoolean(RULES_RESTRICTIONS_CHECKED, mRulesRestrictionsCheckbox.isChecked());
 		outState.putBoolean(USER_PROFILE_IS_FRESH, mUserProfileIsFresh);
+		outState.putBoolean(IS_DONE_LOADING_PRICE_CHANGE, mIsDoneLoadingPriceChange);
 		if (mCardAdapter != null) {
 			outState.putInt(SELECTED_CARD_POSITION, mCardAdapter.getSelected());
 		}
@@ -353,7 +369,17 @@ public class BookingFormFragment extends Fragment {
 		super.onPause();
 		syncBillingInfo();
 		saveBillingInfo();
-		BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_SIGNIN_FETCH, mLoginCallback);
+
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+
+		bd.unregisterDownloadCallback(KEY_SIGNIN_FETCH, mLoginCallback);
+
+		if (getActivity().isFinishing()) {
+			bd.cancelDownload(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE);
+		}
+		else {
+			bd.unregisterDownloadCallback(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE);
+		}
 	}
 
 	@Override
@@ -364,6 +390,22 @@ public class BookingFormFragment extends Fragment {
 			bd.registerDownloadCallback(KEY_SIGNIN_FETCH, mLoginCallback);
 		}
 		mCouponCodeWidget.startTextWatcher();
+
+
+		if (!mIsDoneLoadingPriceChange) {
+			if (mHotelProductDialog == null) {
+				mHotelProductDialog = new ThrobberDialog();
+			}
+			mHotelProductDialog.setMessage(getString(R.string.calculating_taxes_and_fees));
+			mHotelProductDialog.show(getFragmentManager(), "hotelProductDownloadingDialog");
+
+			if (bd.isDownloading(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE)) {
+				bd.registerDownloadCallback(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, mHotelProductCallback);
+			}
+			else {
+				bd.startDownload(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, mHotelProductDownload, mHotelProductCallback);
+			}
+		}
 	}
 
 	@Override
@@ -1012,6 +1054,88 @@ public class BookingFormFragment extends Fragment {
 			collapseGuestsForm();
 		}
 	}
+
+	private final Download<HotelProductResponse> mHotelProductDownload = new Download<HotelProductResponse>() {
+		@Override
+		public HotelProductResponse doDownload() {
+			ExpediaServices services = new ExpediaServices(getActivity());
+			BackgroundDownloader.getInstance().addDownloadListener(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, services);
+			return services.hotelProduct(Db.getSearchParams(), Db.getSelectedProperty(), Db.getSelectedRate());
+		}
+	};
+
+	private final OnDownloadComplete<HotelProductResponse> mHotelProductCallback = new OnDownloadComplete<HotelProductResponse>() {
+		@Override
+		public void onDownload(HotelProductResponse response) {
+			if (response == null || response.hasErrors()) {
+				handleHotelProductError(response);
+			}
+			else {
+				Rate selectedRate = Db.getSelectedRate();
+				Rate newRate = response.getRate();
+
+				if (TextUtils.equals(selectedRate.getRateKey(), response.getOriginalProductKey())) {
+					int priceComparison = selectedRate.compareTo(newRate);
+					if (priceComparison != 0) {
+						boolean isPriceHigher = priceComparison < 0 ? true : false;
+						Money oldTotal, newTotal;
+						if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
+							oldTotal = selectedRate.getTotalPriceWithMandatoryFees();
+							newTotal = newRate.getTotalPriceWithMandatoryFees();
+						}
+						else {
+							oldTotal = selectedRate.getTotalAmountAfterTax();
+							newTotal = newRate.getTotalAmountAfterTax();
+						}
+						HotelPriceChangeDialog dialog = new HotelPriceChangeDialog(isPriceHigher, oldTotal, newTotal);
+						dialog.show(getFragmentManager(), "priceChangeDialog");
+					}
+					newRate.setValueAdds(selectedRate.getValueAdds());
+					Db.setSelectedRate(newRate);
+					AvailabilityResponse availResponse = Db.getSelectedAvailabilityResponse();
+					availResponse.updateRate(response.getOriginalProductKey(), newRate);
+
+					mIsDoneLoadingPriceChange = true;
+					updateReceiptWidget();
+					mHotelProductDialog.dismiss();
+				}
+				else {
+					handleHotelProductError(response);
+				}
+			}
+		}
+	};
+
+	private void handleHotelProductError(HotelProductResponse response) {
+		TextViewDialog dialog = new TextViewDialog();
+		boolean isUnavailable = false;
+		if (response != null) {
+			for (ServerError error : response.getErrors()) {
+				if (error.getErrorCode() == ServerError.ErrorCode.HOTEL_ROOM_UNAVAILABLE) {
+					isUnavailable = true;
+					AvailabilityResponse availResponse = Db.getSelectedAvailabilityResponse();
+					availResponse.removeRate(response.getOriginalProductKey());
+				}
+			}
+		}
+
+		if (isUnavailable) {
+			Db.setSelectedRate((Rate) null);
+			dialog.setMessage(R.string.e3_error_hotel_offers_hotel_room_unavailable);
+		}
+		else {
+			dialog.setMessage(R.string.e3_error_hotel_offers_hotel_service_failure);
+		}
+
+		dialog.setOnDismissListener(new TextViewDialog.OnDismissListener() {
+			@Override
+			public void onDismissed() {
+				getActivity().finish();
+			}
+		});
+		dialog.show(getFragmentManager(), "hotelOfferErrorDialog");
+	}
+
 
 	private void updateEnterNewCreditCard() {
 		if (mCardAdapter == null || mCardAdapter.getSelectedCard() == null) {

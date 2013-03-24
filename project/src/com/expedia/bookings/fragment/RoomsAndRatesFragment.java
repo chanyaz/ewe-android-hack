@@ -71,7 +71,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 		super.onResume();
 
 		AvailabilityResponse response = Db.getSelectedAvailabilityResponse();
-		if (response != null && !response.canRequestMoreData()) {
+		if (response != null) {
 			loadResponse(response);
 		}
 	}
@@ -134,7 +134,13 @@ public class RoomsAndRatesFragment extends ListFragment {
 		}
 
 		mAdapter = new RoomsAndRatesAdapter(getActivity(), response);
-		mAdapter.setSelectedPosition(getPositionOfRate(Db.getSelectedRate()));
+		if (Db.getSelectedRate() == null || getPositionOfRate(Db.getSelectedRate()) == -1) {
+			mAdapter.setSelectedPosition(0);
+			mListener.onRateSelected((Rate) mAdapter.getItem(0));
+		}
+		else {
+			mAdapter.setSelectedPosition(getPositionOfRate(Db.getSelectedRate()));
+		}
 		setListAdapter(mAdapter);
 
 		// Disable highlighting if we're on phone UI
