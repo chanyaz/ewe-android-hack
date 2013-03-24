@@ -1075,21 +1075,6 @@ public class BookingFormFragment extends Fragment {
 				Rate newRate = response.getRate();
 
 				if (TextUtils.equals(selectedRate.getRateKey(), response.getOriginalProductKey())) {
-					int priceComparison = selectedRate.compareTo(newRate);
-					if (priceComparison != 0) {
-						boolean isPriceHigher = priceComparison < 0 ? true : false;
-						Money oldTotal, newTotal;
-						if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
-							oldTotal = selectedRate.getTotalPriceWithMandatoryFees();
-							newTotal = newRate.getTotalPriceWithMandatoryFees();
-						}
-						else {
-							oldTotal = selectedRate.getTotalAmountAfterTax();
-							newTotal = newRate.getTotalAmountAfterTax();
-						}
-						HotelPriceChangeDialog dialog = new HotelPriceChangeDialog(isPriceHigher, oldTotal, newTotal);
-						dialog.show(getFragmentManager(), "priceChangeDialog");
-					}
 					newRate.setValueAdds(selectedRate.getValueAdds());
 					Db.setSelectedRate(newRate);
 					AvailabilityResponse availResponse = Db.getSelectedAvailabilityResponse();
