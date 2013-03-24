@@ -130,13 +130,14 @@
                 android:orientation="vertical"
                 android:visibility="gone" >
 
-                <TextView
+                <com.expedia.bookings.widget.TextView
                     android:id="@+id/no_trips_error_message"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="24dp"
                     android:textColor="@android:color/white"
-                    android:textSize="28sp" />
+                    android:textSize="28sp"
+                    app:textStyle="light" />
 
                 <Button
                     android:id="@+id/no_trips_try_again_button"
@@ -161,21 +162,23 @@
             android:orientation="vertical"
             android:visibility="gone" >
 
-            <TextView
+            <com.expedia.bookings.widget.TextView
                 android:id="@+id/fetching_your_itin_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:text="@string/fetching_your_itinerary"
                 android:textColor="@android:color/white"
-                android:textSize="22sp" />
+                android:textSize="22sp"
+                app:textStyle="light" />
 
             <ProgressBar
                 android:id="@+id/empty_progress_bar"
                 style="@android:style/Widget.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_height="3dp"
+                android:layout_margin="24dp"
+                android:indeterminateDrawable="@drawable/progressbar_candycane_horizontal"
                 android:indeterminateOnly="true" />
         </LinearLayout>
     </LinearLayout>
