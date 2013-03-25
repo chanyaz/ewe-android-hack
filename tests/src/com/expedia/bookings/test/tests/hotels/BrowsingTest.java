@@ -40,7 +40,7 @@ public class BrowsingTest extends ActivityInstrumentationTestCase2<SearchActivit
 		mDriver.setSpoofBookings();
 		mDriver.launchHotels();
 		mDriver.delay();
-		mDriver.browseRooms(12, "NYC", true);
+		mDriver.browseRooms(12, "Los Angeles, CA", true);
 
 	}
 
