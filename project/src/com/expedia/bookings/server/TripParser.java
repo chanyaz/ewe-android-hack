@@ -421,8 +421,10 @@ public class TripParser {
 			car.setConfNumber(obj.optString("confirmationNumber", null));
 
 			JSONObject priceJson = obj.optJSONObject("price");
-			car.setPrice(ParserUtils.createMoney(priceJson.optString("base", null),
-					priceJson.optString("currency", null)));
+			if (priceJson != null) {
+				car.setPrice(ParserUtils.createMoney(priceJson.optString("base", null),
+						priceJson.optString("currency", null)));
+			}
 
 			car.setPickUpDateTime(parseDateTime(obj.optJSONObject("pickupTime")));
 			car.setDropOffDateTime(parseDateTime(obj.optJSONObject("dropOffTime")));
