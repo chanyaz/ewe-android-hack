@@ -585,7 +585,9 @@ public class HotelsRobotHelper {
 		}
 		catch (Error noRoomsListed) {
 			mSolo.goBack();
+			delay();
 			mSolo.goBack();
+			delay();
 			mSolo.scrollDown();
 			selectHotel(2);
 			pressBookRoom();
