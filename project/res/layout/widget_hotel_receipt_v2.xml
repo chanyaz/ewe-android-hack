@@ -133,6 +133,8 @@
                     android:layout_alignBaseline="@+id/nights_text"
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="6dp"
+                    android:layout_marginRight="6dp"
+                    android:gravity="left"
                     android:textColor="#7f7d7e"
                     android:textSize="12sp"
                     app:textStyle="condensed" />
@@ -149,12 +151,15 @@
                     android:textSize="15sp"
                     app:textStyle="bold" />
 
-                <com.expedia.bookings.widget.TextView
+                <com.expedia.bookings.widget.AutoResizeTextView
                     android:id="@+id/price_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/date_range_text"
+                    android:gravity="right"
+                    android:maxLines="1"
                     android:textColor="@color/hotel_mini_receipt_price_text"
                     android:textSize="22sp"
                     app:textStyle="bold" />
