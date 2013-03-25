@@ -4,13 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
+    android:minHeight="64dp"
     android:orientation="horizontal" >
 
     <ImageView
         android:id="@+id/waypoint_type_image"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:layout_marginLeft="0dp"
         android:layout_weight="0"
         android:src="@drawable/ic_departure_details" />
 
@@ -55,10 +57,10 @@
 
     <ImageView
         android:id="@+id/terminal_map_or_directions_btn"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginRight="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
         android:layout_weight="0"
-        android:src="@drawable/ic_direction" />
+        android:src="@drawable/ic_airport_map_actions" />
 
 </LinearLayout>

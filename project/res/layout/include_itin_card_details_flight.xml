@@ -12,7 +12,8 @@
         android:id="@+id/arrival_departure_times_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="15dp" >
+        android:padding="15dp"
+        android:paddingTop="10dp" >
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/departure_time"
@@ -79,8 +80,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:orientation="vertical" />
 
     <!-- Passengers -->
