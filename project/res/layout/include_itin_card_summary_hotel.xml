@@ -8,4 +8,5 @@
     android:padding="16dp"
     android:text="Check-in after 3:00 PM"
     android:textColor="#F3F3F3"
+    android:textSize="16dp"
     app:textStyle="light" />

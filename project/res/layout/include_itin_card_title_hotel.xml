@@ -18,7 +18,7 @@
 
     <RatingBar
         android:id="@+id/hotel_rating_bar"
-        style="@style/RatingBarSmall.Shadowed.Star.Dark"
+        style="@style/RatingBar.Star.White"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:isIndicator="true"

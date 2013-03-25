@@ -20,8 +20,8 @@ import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.HotelMapImageView;
 import com.expedia.bookings.widget.InfoTripletView;
-import com.expedia.bookings.widget.MapImageView;
 import com.mobiata.android.SocialUtils;
 
 public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardDataHotel> {
@@ -180,7 +180,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		// Find
 		InfoTripletView infoTriplet = Ui.findView(view, R.id.info_triplet);
-		MapImageView staticMapImageView = Ui.findView(view, R.id.mini_map);
+		HotelMapImageView staticMapImageView = Ui.findView(view, R.id.mini_map);
 		TextView addressTextView = Ui.findView(view, R.id.address_text_view);
 		TextView phoneNumberTextView = Ui.findView(view, R.id.phone_number_text_view);
 		TextView roomTypeTextView = Ui.findView(view, R.id.room_type_text_view);
@@ -198,7 +198,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 				res.getQuantityText(R.plurals.number_of_guests_label, itinCardData.getGuestCount()));
 
 		if (itinCardData.getPropertyLocation() != null) {
-			staticMapImageView.setCenterPoint(itinCardData.getPropertyLocation());
+			staticMapImageView.setLocation(itinCardData.getPropertyLocation());
 		}
 
 		addressTextView.setText(itinCardData.getAddressString());
