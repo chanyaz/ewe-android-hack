@@ -6,13 +6,6 @@
     android:orientation="horizontal" >
 
     <fragment
-        android:id="@+id/measure_map_fragment"
-        android:name="com.expedia.bookings.fragment.MeasuringMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:tag="@string/tag_measuring_map" />
-
-    <fragment
         android:id="@+id/itin_map_fragment"
         android:name="com.expedia.bookings.fragment.ItineraryMapFragment"
         android:layout_width="match_parent"

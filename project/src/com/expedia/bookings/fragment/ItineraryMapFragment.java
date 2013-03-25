@@ -16,7 +16,6 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncAdapter;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.maps.SupportMapFragment;
-import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
@@ -36,12 +35,6 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 	private static final float BOUNDS_PADDING_PERCENT = .05f;
 
 	private static final float ZOOM_LEVEL = 13;
-
-	// Having a Fragment stored in another Fragment is normally bad,
-	// but in this case this Fragment is just providing a utility
-	// such that that I am doing this instead of the much longer
-	// (and confusing) pass through the Activity.
-	private MeasuringMapFragment mMeasuringMapFragment;
 
 	private ItineraryMapFragmentListener mListener;
 
@@ -65,9 +58,6 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 		mListener = (ItineraryMapFragmentListener) activity;
 
 		ItineraryManager.getInstance().addSyncListener(mItinerarySyncAdapter);
-
-		mMeasuringMapFragment = Ui.findSupportFragment(getCompatibilityActivity(),
-				getString(R.string.tag_measuring_map));
 	}
 
 	@Override
@@ -227,8 +217,8 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 	}
 
 	private void changeCamera(LatLng target, boolean animate, float offsetX, float offsetY) {
-		CameraPosition camPos = mMeasuringMapFragment.measure(target, ZOOM_LEVEL, offsetX, offsetY);
-		changeCamera(CameraUpdateFactory.newCameraPosition(camPos), animate);
+		LatLng offsetTarget = offsetLatLng(target, offsetX, offsetY, ZOOM_LEVEL);
+		changeCamera(CameraUpdateFactory.newLatLngZoom(offsetTarget, ZOOM_LEVEL), animate);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
