@@ -447,6 +447,17 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 		AnimatorSet set = new AnimatorSet();
 		set.playTogether(animators);
+
+		//Sometimes the scroll view doesnt work correctly after expansion so we try a requestlayout
+		set.addListener(new AnimatorListenerShort() {
+			@Override
+			public void onAnimationEnd(Animator arg0) {
+				if (mScrollView != null) {
+					mScrollView.requestLayout();
+				}
+			}
+		});
+
 		return set;
 	}
 
