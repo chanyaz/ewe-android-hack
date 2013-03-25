@@ -717,7 +717,7 @@ public class ItineraryManager implements JSONable {
 	}
 
 	public boolean isSyncing() {
-		return mSyncTask != null && mSyncTask.getStatus() != AsyncTask.Status.FINISHED && !mSyncTask.finishedCancel();
+		return mSyncTask != null && mSyncTask.getStatus() != AsyncTask.Status.FINISHED && !mSyncTask.finished();
 	}
 
 	private class SyncTask extends AsyncTask<Void, ProgressUpdate, Collection<Trip>> {
@@ -731,13 +731,19 @@ public class ItineraryManager implements JSONable {
 		 */
 		private ExpediaServices mServices;
 
+		// If we have not yet loaded itineraries from disk, then we skip whatever the system
+		// requested and do a "quick sync" instead.  A quick sync only loads what was on the disk
+		// before and then organizes the data.  It then calls a normal, full sync, which
+		// will actually do a refresh in the background.
+		private boolean mQuickSync = false;
+
 		// Used for determining whether to publish an "added" or "update" when we refresh a guest trip
 		private Set<String> mGuestTripsNotYetLoaded = new HashSet<String>();
 
 		// Earlier versions of AsyncTask do not tell you when they are cancelled correctly.
 		// This will let us know when the AsyncTask has fully completed its mission (even
 		// if it was cancelled).
-		private boolean mFinishedCancel = false;
+		private boolean mFinished = false;
 
 		// These variables are used for stat tracking
 		private Map<Operation, Integer> mOpCount = new HashMap<ItineraryManager.Operation, Integer>();
@@ -757,9 +763,20 @@ public class ItineraryManager implements JSONable {
 		}
 
 		@Override
+		protected void onPreExecute() {
+			mQuickSync = mTrips == null;
+		}
+
+		@Override
 		protected Collection<Trip> doInBackground(Void... params) {
 			while (!mSyncOpQueue.isEmpty()) {
 				Task nextTask = mSyncOpQueue.remove();
+				Operation op = nextTask.mOp;
+
+				// If we're doing a quick sync (aka, just loading data from disk), skip most operations
+				if (mQuickSync && !(op == Operation.LOAD_FROM_DISK || op == Operation.GENERATE_ITIN_CARDS)) {
+					continue;
+				}
 
 				switch (nextTask.mOp) {
 				case LOAD_FROM_DISK:
@@ -840,6 +857,11 @@ public class ItineraryManager implements JSONable {
 			onSyncFinished(trips);
 
 			logStats();
+
+			if (mQuickSync) {
+				mFinished = true;
+				startSync(true);
+			}
 		}
 
 		@Override
@@ -855,7 +877,7 @@ public class ItineraryManager implements JSONable {
 
 			logStats();
 
-			mFinishedCancel = true;
+			mFinished = true;
 		}
 
 		// Should be called in addition to cancel(boolean), in order
@@ -864,8 +886,8 @@ public class ItineraryManager implements JSONable {
 			mServices.onCancel();
 		}
 
-		public boolean finishedCancel() {
-			return mFinishedCancel;
+		public boolean finished() {
+			return mFinished;
 		}
 
 		private void logStats() {
