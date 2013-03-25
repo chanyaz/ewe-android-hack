@@ -12,7 +12,7 @@
         android:layout_marginRight="8dp"
         android:background="#4D555D" />
 
-    <LinearLayout
+    <com.expedia.bookings.widget.NoPressLinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal" >
@@ -52,6 +52,6 @@
             android:textSize="12dp"
             app:textAllCaps="true"
             app:textStyle="bold" />
-    </LinearLayout>
+    </com.expedia.bookings.widget.NoPressLinearLayout>
 
 </com.expedia.bookings.widget.ItinActionsSection>
