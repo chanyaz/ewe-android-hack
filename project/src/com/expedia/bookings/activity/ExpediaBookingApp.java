@@ -137,12 +137,19 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		OmnitureTracking.trackCrash(this, ex);
 
 		// Perform a heap dump on OOME for easy reference.
-		String exceptionClass = ex == null ? "" : ex.getClass() == null ? "" : ex.getClass().getName();
-		Log.d("ExpediaBookingApp exception handler with exception of class " + exceptionClass);
-		if (OutOfMemoryError.class.equals(ex.getClass())) {
-			TwoLevelImageCache.debugInfo();
+		if (ex != null) {
+			Throwable rootCause = ex;
+			while (rootCause.getCause() != null) {
+				rootCause = rootCause.getCause();
+			}
 
-			MemoryUtils.dumpHprofDataToSdcard("dump.hprof", getApplicationContext());
+			Log.d("ExpediaBookingApp exception handler w/ class:" + ex.getClass() + "; root cause="
+					+ rootCause.getClass());
+			if (OutOfMemoryError.class.equals(rootCause.getClass())) {
+				TwoLevelImageCache.debugInfo();
+
+				MemoryUtils.dumpHprofDataToSdcard("dump.hprof", getApplicationContext());
+			}
 		}
 
 		// Call the original exception handler
