@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.jayway.android.robotium.solo.Solo;
@@ -541,17 +542,27 @@ public class HotelsRobotHelper {
 	// Hotel Info Screen Methods
 	public void checkReviews() {
 		delay();
-
 		mSolo.scrollToTop();
-		mSolo.clickOnView(mSolo.getView(R.id.user_rating_text_view));
-		mSolo.waitForDialogToClose(10000);
+		View user_rating_text_view =
+				mSolo.getCurrentActivity().findViewById(R.id.user_rating_text_view);
 
-		screenshot("All reviews");
+		if (!user_rating_text_view.equals(null)) {
+			mSolo.clickOnView(user_rating_text_view);
+			mSolo.waitForDialogToClose(10000);
 
-		delay(1);
-		landscape();
-		portrait();
-		delay();
+			screenshot("All reviews");
+
+			delay(1);
+			landscape();
+			portrait();
+			delay();
+		}
+		else {
+			TextView hotelNameView = 
+					(TextView) mSolo.getCurrentActivity().findViewById(R.id.hotel_name_text_view);
+			String hotelName = hotelNameView.toString();
+			enterLog(TAG, "No reviews for hotel: " + hotelName);
+		}
 
 		mSolo.goBack();
 	}
