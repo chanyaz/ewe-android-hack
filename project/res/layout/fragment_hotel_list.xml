@@ -9,7 +9,7 @@
 
     <com.expedia.bookings.widget.MeasureListView
         android:id="@android:id/list"
-        style="@style/ExpediaList"
+        style="@style/HotelList.Search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@drawable/divider_horizontal_dark_opaque" />
