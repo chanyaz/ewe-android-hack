@@ -396,7 +396,8 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 		else {
 			// Check if last card hasn't ended; if so, make it the main summary card
 			ItinCardData lastCard = mItinCardDatas.get(len - 1);
-			if (lastCard.getEndDate().getCalendar().getTimeInMillis() > now.getTimeInMillis()) {
+			if (lastCard.hasDetailData()
+					&& lastCard.getEndDate().getCalendar().getTimeInMillis() > now.getTimeInMillis()) {
 				mSummaryCardPosition = len - 1;
 			}
 		}
