@@ -401,16 +401,16 @@ public class HotelsRobotHelper {
 		enterLog(TAG, "Searching for destination " + location);
 		delay(5);
 		mSolo.clickOnEditText(0);
-		enterLog(TAG, "After clicking EDIT TEXT");
+		enterLog(TAG, "Click selection location EditText");
 		delay(1);
 		mSolo.clearEditText(0);
-		enterLog(TAG, "After clearing EDIT TEXT");
+		enterLog(TAG, "Post-clearing of EditText");
 		delay(1);
-		enterLog(TAG, "BEFORE TYPING TEXT");
+		enterLog(TAG, "Before typing location into location EditText");
 		mSolo.typeText(0, location);
-		enterLog(TAG, "AFTER TYPING TEXT");
+		enterLog(TAG, "After typing location into location EditText");
 		delay(3);
-		enterLog(TAG, "Before clicking search button");
+		enterLog(TAG, "Before initiating location ");
 
 		//If keeping track of events, write current locale/POS to file
 		String currentPOS = mRes.getConfiguration().locale.toString();
@@ -467,7 +467,7 @@ public class HotelsRobotHelper {
 			mSolo.enterText(0, filterText);
 
 			delay(1);
-			screenshot("Filtering for " + filterText);
+			screenshot("Filtering hotels for " + filterText);
 			delay(1);
 			mSolo.goBack();
 		}
@@ -541,6 +541,7 @@ public class HotelsRobotHelper {
 	////////////////////////////////////////////////////////////////
 	// Hotel Info Screen Methods
 	public void checkReviews() {
+		enterLog(TAG, "About to go to Reviews view.");
 		delay();
 		mSolo.scrollToTop();
 		View user_rating_text_view =
@@ -558,7 +559,7 @@ public class HotelsRobotHelper {
 			delay();
 		}
 		else {
-			TextView hotelNameView = 
+			TextView hotelNameView =
 					(TextView) mSolo.getCurrentActivity().findViewById(R.id.hotel_name_text_view);
 			String hotelName = hotelNameView.toString();
 			enterLog(TAG, "No reviews for hotel: " + hotelName);
@@ -628,23 +629,28 @@ public class HotelsRobotHelper {
 	}
 
 	public void logIn() {
+		enterLog(TAG, "Beginning log-in sequence.");
 		mSolo.scrollToTop();
 		mSolo.clickOnText(mRes.getString(R.string.checkout_btn));
 		String log_in_for_faster_booking = mRes.getString(R.string.log_in_for_faster_booking);
 		String log_in_with_expedia = mRes.getString(R.string.Log_in_with_Expedia);
 		try {
 			if (mSolo.searchText(log_in_for_faster_booking)) {
+				enterLog(TAG, "Log in: Clicking " + log_in_for_faster_booking);
 				mSolo.clickOnText(log_in_for_faster_booking);
 			}
 			else {
+				enterLog(TAG, "Log in: Clicking " + log_in_with_expedia);
 				mSolo.clickOnText(log_in_with_expedia);
 			}
 		}
 		catch (AssertionFailedError e) {
+			enterLog(TAG, "Failure clicking log in button");
 			delay(5);
 
 			if (mSolo.searchText(mSolo.getCurrentActivity().getString(
 					R.string.e3_error_checkout_hotel_room_unavailable))) {
+				enterLog(TAG, "Log in: E3 Error - room no longer available. Backing out and trying again.");
 				mSolo.clickOnButton(0);
 				delay();
 				mSolo.goBack();
@@ -665,6 +671,7 @@ public class HotelsRobotHelper {
 			}
 			else {
 				delay();
+				enterLog(TAG, "Log in: If all else fails, try the button again");
 				if (mSolo.searchText(log_in_for_faster_booking)) {
 					mSolo.clickOnText(log_in_for_faster_booking);
 				}
@@ -703,10 +710,12 @@ public class HotelsRobotHelper {
 	}
 
 	public void enterPhoneNumber() throws Exception {
+		enterLog(TAG, "Booking: Entering phone number");
 		mSolo.enterText((EditText) mSolo.getView(R.id.telephone_edit_text), mUser.mPhoneNumber);
 	}
 
 	public void enterCCV() throws Exception {
+		enterLog(TAG, "Booking: Entering CVV");
 		//mSolo.scrollUp();
 		delay(3);
 		screenshot("CVV Screen");
@@ -735,6 +744,7 @@ public class HotelsRobotHelper {
 	//where, based upon the POS/locale that you are in.
 
 	public void enterNewTraveler() {
+		enterLog(TAG, "Booking: Entering a new traveler.");
 		delay();
 		screenshot("Picking traveler");
 		landscape();
@@ -764,6 +774,7 @@ public class HotelsRobotHelper {
 	}
 
 	public void enterMissingInfo() {
+		enterLog(TAG, "Booking: entering traveler info.");
 		String travelerInfo = mSolo.getString(R.string.enter_traveler_info);
 
 		if (mSolo.searchText(travelerInfo, true)) {
@@ -797,6 +808,8 @@ public class HotelsRobotHelper {
 	}
 
 	public void inputBillingAddress() {
+		enterLog(TAG, "Booking: entering billing address.");
+
 		mSolo.enterText((EditText) mSolo.getView(R.id.edit_address_line_one),
 				mUser.mAddressLine1);
 
@@ -814,6 +827,8 @@ public class HotelsRobotHelper {
 	}
 
 	public void inputCCBillingInfo() {
+		enterLog(TAG, "Booking: entering billing credit card information.");
+
 		// Enter Credit Card Number
 		mSolo.enterText((EditText) mSolo.getView(R.id.edit_creditcard_number),
 				mUser.mCreditCardNumber);
@@ -839,6 +854,7 @@ public class HotelsRobotHelper {
 	}
 
 	public void confirmAndBook(boolean assertPostCVVPopUp) throws Exception {
+		enterLog(TAG, "Booking: About to slide to accept.");
 		delay(5);
 		screenshot("Slide to checkout.");
 		delay();
@@ -870,8 +886,8 @@ public class HotelsRobotHelper {
 		int[] endLocation = new int[2];
 		sliderEnd.getLocationOnScreen(endLocation);
 
-		enterLog(TAG, "Slide X from: " + startLocation[0] + " to " + endLocation[0] + ".");
-		enterLog(TAG, "Slide Y from: " + startLocation[1] + " to " + endLocation[1] + ".");
+		enterLog(TAG, "Booking: Slide X from: " + startLocation[0] + " to " + endLocation[0] + ".");
+		enterLog(TAG, "Booking: Slide Y from: " + startLocation[1] + " to " + endLocation[1] + ".");
 		delay();
 
 		mSolo.drag(startLocation[0], mScreenWidth - 5, startLocation[1] + 25, endLocation[1] + 20, 10);
@@ -902,7 +918,7 @@ public class HotelsRobotHelper {
 			Boolean screenLoaded = mSolo.waitForActivity("ConfirmationFragmentActivity");
 
 			if (screenLoaded) {
-				enterLog(TAG, "Should be on confirmation screen now.");
+				enterLog(TAG, "Booking: Should be on confirmation screen now.");
 				delay();
 				screenshot("Confirmation Screen 1");
 				landscape();
@@ -919,7 +935,7 @@ public class HotelsRobotHelper {
 				}
 			}
 			else {
-				enterLog(TAG, "Never got to confirmation screen.");
+				enterLog(TAG, "Booking: Never got to confirmation screen.");
 			}
 			if (!mSolo.searchText(mRes.getString(R.string.total_cost), true)) {
 				delay();
@@ -931,7 +947,7 @@ public class HotelsRobotHelper {
 			}
 			else {
 				mSolo.clickOnText(mRes.getString(R.string.NEW_SEARCH));
-				enterLog(TAG, "Going back to launcher.");
+				enterLog(TAG, "Booking: Going back to launcher.");
 				delay();
 				mSolo.goBack();
 			}
