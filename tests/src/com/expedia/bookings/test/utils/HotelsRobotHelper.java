@@ -559,10 +559,7 @@ public class HotelsRobotHelper {
 			delay();
 		}
 		catch (Error e) {
-			TextView hotelNameView =
-					(TextView) mSolo.getCurrentActivity().findViewById(R.id.hotel_name_text_view);
-			String hotelName = hotelNameView.toString();
-			enterLog(TAG, "No reviews for hotel: " + hotelName);
+			enterLog(TAG, "No reviews for hotel selected");
 		}
 
 		mSolo.goBack();
