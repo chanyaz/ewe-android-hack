@@ -50,6 +50,7 @@ import com.expedia.bookings.fragment.LoginFragment.LoadingDialogFragment.CancelL
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.FocusViewRunnable;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.Ui;
@@ -327,6 +328,14 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 
 		if (mDoLoginExtenderWork) {
 			doLoginExtenderWork();
+		}else{
+			View focused = this.getView().findFocus();
+			if (focused == null || !(focused instanceof EditText)) {
+				focused = mExpediaUserName;
+			}
+			if (focused != null && focused instanceof EditText) {
+				FocusViewRunnable.focusView(this, focused);
+			}
 		}
 
 	}

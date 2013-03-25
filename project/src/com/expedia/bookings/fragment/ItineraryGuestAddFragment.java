@@ -25,6 +25,7 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.fragment.LoginFragment.LoginExtender;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.FocusViewRunnable;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender.LoginExtenderListener;
@@ -117,6 +118,14 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 		super.onResume();
 		if (mLoginExtender != null && mLoginExtenderRunning) {
 			runExtenderOrFinish();
+		}else{
+			View focused = this.getView().findFocus();
+			if (focused == null || !(focused instanceof EditText)) {
+				focused = mEmailEdit;
+			}
+			if (focused != null && focused instanceof EditText) {
+				FocusViewRunnable.focusView(this, focused);
+			}
 		}
 	}
 
