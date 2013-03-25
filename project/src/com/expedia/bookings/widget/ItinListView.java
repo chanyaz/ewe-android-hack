@@ -113,6 +113,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 		mAdapter = new ItinCardDataAdapter(context);
 		mAdapter.setOnItinCardClickListener(this);
+		mAdapter.syncWithManager();
 
 		if (AndroidUtils.getSdkVersion() < 11) {
 			// We add a dummy footer view, if we dont do this before setAdapter future calls to addFooterView wont
