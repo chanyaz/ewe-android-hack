@@ -25,7 +25,7 @@ public class ItinHeaderImageView extends OptimizedImageView {
 
 	private Type mType;
 	private int mMode = MODE_MINI;
-	private int mRadius = 10;
+	private int mRadius = -1;
 
 	private Rect mBounds;
 	private Bitmap mCompositeBitmap;
@@ -67,7 +67,7 @@ public class ItinHeaderImageView extends OptimizedImageView {
 
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ItinHeaderImageView);
 		setMode(a.getInteger(R.styleable.ItinHeaderImageView_mode, mMode));
-		setRadius(a.getDimensionPixelSize(R.styleable.ItinHeaderImageView_radius, mRadius));
+		setRadius(a.getDimensionPixelSize(R.styleable.ItinHeaderImageView_radius, 10));
 		a.recycle();
 	}
 
