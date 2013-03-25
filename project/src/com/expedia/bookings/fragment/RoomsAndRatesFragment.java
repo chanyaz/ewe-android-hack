@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.RoomsAndRatesFragmentActivity;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Rate;
@@ -136,7 +137,9 @@ public class RoomsAndRatesFragment extends ListFragment {
 		mAdapter = new RoomsAndRatesAdapter(getActivity(), response);
 		if (Db.getSelectedRate() == null || getPositionOfRate(Db.getSelectedRate()) == -1) {
 			mAdapter.setSelectedPosition(0);
-			mListener.onRateSelected((Rate) mAdapter.getItem(0));
+			if (mListener instanceof RoomsAndRatesFragmentActivity) {
+				mListener.onRateSelected((Rate) mAdapter.getItem(0));
+			}
 		}
 		else {
 			mAdapter.setSelectedPosition(getPositionOfRate(Db.getSelectedRate()));
