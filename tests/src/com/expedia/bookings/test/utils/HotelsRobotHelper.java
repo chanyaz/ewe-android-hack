@@ -547,7 +547,7 @@ public class HotelsRobotHelper {
 		View user_rating_text_view =
 				mSolo.getCurrentActivity().findViewById(R.id.user_rating_text_view);
 
-		if (!user_rating_text_view.equals(null)) {
+		try {
 			mSolo.clickOnView(user_rating_text_view);
 			mSolo.waitForDialogToClose(10000);
 
@@ -558,7 +558,7 @@ public class HotelsRobotHelper {
 			portrait();
 			delay();
 		}
-		else {
+		catch (Error e) {
 			TextView hotelNameView =
 					(TextView) mSolo.getCurrentActivity().findViewById(R.id.hotel_name_text_view);
 			String hotelName = hotelNameView.toString();
