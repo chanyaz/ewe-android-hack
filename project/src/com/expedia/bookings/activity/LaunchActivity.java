@@ -227,20 +227,17 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		boolean retVal = super.onPrepareOptionsMenu(menu);
 		if (menu != null) {
-			boolean itinButtonEnabled = true;
+			boolean isInItinMode = false;
 			boolean addNewItinButtonEnabled = false;
 			boolean loginBtnEnabled = false;
 			boolean logoutBtnEnabled = false;
 
-			if (mViewPager != null && mViewPager.getCurrentItem() == PAGER_POS_ITIN) {
-				itinButtonEnabled = false;
+			isInItinMode = mViewPager != null && mViewPager.getCurrentItem() == PAGER_POS_ITIN;
+			if (isInItinMode && mItinListFragment != null && mItinListFragment.getItinCardCount() > 0) {
+				addNewItinButtonEnabled = true;
 			}
-			else {
-				itinButtonEnabled = true;
-			}
-			addNewItinButtonEnabled = !itinButtonEnabled;
-			loginBtnEnabled = !itinButtonEnabled && !User.isLoggedIn(this);
-			logoutBtnEnabled = !itinButtonEnabled && User.isLoggedIn(this);
+			loginBtnEnabled = isInItinMode && !User.isLoggedIn(this);
+			logoutBtnEnabled = isInItinMode && User.isLoggedIn(this);
 
 			MenuItem addNewItinBtn = menu.findItem(R.id.add_itinerary);
 			if (addNewItinBtn != null) {
@@ -340,8 +337,6 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	private synchronized void gotoWaterfall() {
 		if (mPagerPosition != PAGER_POS_WATERFALL) {
 			ActionBar actionBar = getSupportActionBar();
-			actionBar.setDisplayHomeAsUpEnabled(false);
-			actionBar.setHomeButtonEnabled(false);
 
 			mPagerPosition = PAGER_POS_WATERFALL;
 			mViewPager.setCurrentItem(PAGER_POS_WATERFALL);
@@ -366,8 +361,6 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	private synchronized void gotoItineraries() {
 		if (mPagerPosition != PAGER_POS_ITIN) {
 			ActionBar actionBar = getSupportActionBar();
-			actionBar.setDisplayHomeAsUpEnabled(true);
-			actionBar.setHomeButtonEnabled(true);
 
 			if (mItinListFragment != null) {
 				mItinListFragment.enableLoadItins();

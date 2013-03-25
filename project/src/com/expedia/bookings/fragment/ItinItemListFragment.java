@@ -187,6 +187,15 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		mItinManager = null;
 	}
 
+	public int getItinCardCount() {
+		int retVal = -1;
+		if (mItinListView != null) {
+			retVal = mItinListView.getCount() - mItinListView.getFooterViewsCount()
+					- mItinListView.getHeaderViewsCount();
+		}
+		return retVal;
+	}
+
 	// Can only be called after onCreateView(); not an issue right now, if it becomes
 	// one we can update the code.
 	public void setBackgroundColor(int color) {
@@ -221,6 +230,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	public void setIsLoading(boolean isLoading) {
 		mEmptyListLoadingContainer.setVisibility(isLoading ? View.VISIBLE : View.GONE);
 		mEmptyListContent.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+		invalidateOptionsMenu();
 	}
 
 	public boolean inListMode() {
