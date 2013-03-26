@@ -11,13 +11,13 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.dialog.GooglePlayServicesDialog;
 import com.expedia.bookings.fragment.SearchParamsFragment;
 import com.expedia.bookings.fragment.SearchParamsFragment.SearchParamsFragmentListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.bitmaps.TwoLevelImageCache;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.DialogUtils;
@@ -66,6 +66,12 @@ public class SearchFragmentActivity extends SherlockFragmentActivity implements 
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_search_fragment);
+
+		//Clear mem caches
+		TwoLevelImageCache.clearMemoryCache();
+		if (Db.isBackgroundImageCacheInitialized()) {
+			Db.getBackgroundImageCache(this).clearMemCache();
+		}
 
 		mSearchParamsFragment = Ui.findSupportFragment(this, getString(R.string.tag_search_params));
 

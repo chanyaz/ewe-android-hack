@@ -41,6 +41,7 @@ import com.expedia.bookings.widget.DisableableViewPager;
 import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
 import com.mobiata.android.Log;
+import com.mobiata.android.bitmaps.TwoLevelImageCache;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.utils.DateTimeUtils;
@@ -73,6 +74,12 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 
 		setContentView(R.layout.activity_launch);
 		getWindow().setBackgroundDrawable(null);
+
+		//Clear mem caches
+		TwoLevelImageCache.clearMemoryCache();
+		if (Db.isBackgroundImageCacheInitialized()) {
+			Db.getBackgroundImageCache(this).clearMemCache();
+		}
 
 		// View Pager
 		mPagerAdapter = new PagerAdapter(getSupportFragmentManager());

@@ -485,6 +485,18 @@ public class Db {
 		return sDb.mBillingInfoIsDirty;
 	}
 
+	public static boolean isBackgroundImageCacheInitialized() {
+		if (sDb == null) {
+			return false;
+		}
+		else if (sDb.mBackgroundImageCache == null) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+
 	public static BackgroundImageCache getBackgroundImageCache(Context context) {
 		if (sDb == null) {
 			return null;
