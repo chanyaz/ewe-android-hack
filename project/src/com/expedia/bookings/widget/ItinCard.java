@@ -368,6 +368,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		inflateDetailsView();
 		updateClickable();
 
+		ViewHelper.setTranslationY(mCardLayout, 0);
+		
 		mHeaderImageView.setMode(ItinHeaderImageView.MODE_FULL);
 
 		mSummaryDividerView.setVisibility(VISIBLE);
