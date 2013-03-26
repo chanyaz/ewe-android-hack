@@ -128,8 +128,10 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 			}
 
 			if (data.getLocation() == null) {
-				// Item has no location, show the default background
-				mFallbackPatternView.setVisibility(View.VISIBLE);
+				if (data.hasDetailData()) {
+					// Item has no location but has details to show in a popup, show the default background
+					mFallbackPatternView.setVisibility(View.VISIBLE);
+				}
 				mAnimatingToItem = false;
 			}
 			else {
