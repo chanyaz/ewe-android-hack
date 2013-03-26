@@ -25,6 +25,12 @@ public class AnimUtils {
 		return set;
 	}
 
+	public static AnimatorSet playTogether(Animator... items) {
+		AnimatorSet set = new AnimatorSet();
+		set.playTogether(items);
+		return set;
+	}
+
 	public static void reverseAnimator(Animator animator) {
 		Stack<Animator> stack = new Stack<Animator>();
 		stack.add(animator);

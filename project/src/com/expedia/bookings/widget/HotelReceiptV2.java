@@ -21,7 +21,10 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.Ui;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.Animator.AnimatorListener;
 
 public class HotelReceiptV2 extends LinearLayout {
 	public interface OnSizeChangedListener {
@@ -156,8 +159,34 @@ public class HotelReceiptV2 extends LinearLayout {
 		}
 
 		if (showMiniReceipt) {
-			mMiniReceiptLoading.setVisibility(View.INVISIBLE);
+			mMiniReceiptLoading.setVisibility(View.VISIBLE);
 			mMiniReceiptDetails.setVisibility(View.VISIBLE);
+
+			Animator fadeout = AnimUtils.createFadeAnimator(mMiniReceiptLoading, false);
+			Animator fadein = AnimUtils.createFadeAnimator(mMiniReceiptDetails, true);
+			Animator crossfade = AnimUtils.playTogether(fadeout, fadein);
+			crossfade.addListener(new AnimatorListener() {
+				@Override
+				public void onAnimationCancel(Animator anim) {
+					this.onAnimationEnd(anim);
+				}
+
+				@Override
+				public void onAnimationEnd(Animator anim) {
+					mMiniReceiptLoading.setVisibility(View.INVISIBLE);
+				}
+
+				@Override
+				public void onAnimationRepeat(Animator anim) {
+					// ignore
+				}
+
+				@Override
+				public void onAnimationStart(Animator anim) {
+					// ignore
+				}
+			});
+			crossfade.start();
 
 			mMiniReceipt.setOnClickListener(new OnClickListener() {
 				@Override
@@ -169,6 +198,7 @@ public class HotelReceiptV2 extends LinearLayout {
 			});
 		}
 		else {
+			// We never go backwards so don't bother with animation here
 			mMiniReceiptLoading.setVisibility(View.VISIBLE);
 			mMiniReceiptDetails.setVisibility(View.INVISIBLE);
 

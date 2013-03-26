@@ -84,30 +84,6 @@
             android:layout_height="wrap_content"
             android:paddingTop="8dp" >
 
-            <LinearLayout
-                android:id="@+id/mini_receipt_loading"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal" >
-
-                <ProgressBar
-                    android:id="@+id/progress_bar"
-                    style="@style/Widget.Sherlock.Light.ProgressBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:indeterminate="true" />
-
-                <com.expedia.bookings.widget.TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:text="@string/calculating_taxes_and_fees"
-                    android:textSize="14sp"
-                    android:textColor="@color/hotel_mini_receipt_text" />
-
-            </LinearLayout>
-
             <RelativeLayout
                 android:id="@+id/mini_receipt_details"
                 android:layout_width="fill_parent"
@@ -177,6 +153,30 @@
                     android:textSize="12sp" />
 
             </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/mini_receipt_loading"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    style="@style/Widget.Sherlock.Light.ProgressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="@string/calculating_taxes_and_fees"
+                    android:textSize="14sp"
+                    android:textColor="@color/hotel_mini_receipt_text" />
+
+            </LinearLayout>
         </com.expedia.bookings.widget.FrameLayout>
     </LinearLayout>
 
