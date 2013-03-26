@@ -21,7 +21,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
-
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -208,6 +207,35 @@ public class ExpediaServices implements DownloadListener {
 		PersistantCookieStore cookieStore = new PersistantCookieStore();
 		cookieStore.clear();
 		cookieStore.save(mContext, COOKIES_FILE);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// User-Agent
+
+	/**
+	 * Constructs a user agent string to be used against Expedia requests. It is important to exclude the word "Android"
+	 * otherwise mobile redirects occur when we don't want them. This is useful for all API requests contained here
+	 * in ExpediaServices as well as certain requests through WebViewActivity in order to prevent the redirects.
+	 * @param context
+	 * @return
+	 */
+	public static String getUserAgentString(Context context) {
+		// Construct a proper user agent string
+		String versionName;
+		try {
+			PackageManager pm = context.getPackageManager();
+			PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
+			versionName = pi.versionName;
+		}
+		catch (Exception e) {
+			// PackageManager is traditionally wonky, need to accept all exceptions here.
+			Log.w("Couldn't get package info in order to submit proper version #!", e);
+			versionName = "1.0";
+		}
+		// Be careful not to use the word "Android" here
+		// https://mingle/projects/e3_mobile_web/cards/676
+		String userAgent = "ExpediaBookings/" + versionName + " (EHad; Mobiata)";
+		return userAgent;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1185,21 +1213,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	private <T extends Response> T doRequest(HttpRequestBase request, ResponseHandler<T> responseHandler, int flags) {
-		// Construct a proper user agent string
-		String versionName;
-		try {
-			PackageManager pm = mContext.getPackageManager();
-			PackageInfo pi = pm.getPackageInfo(mContext.getPackageName(), 0);
-			versionName = pi.versionName;
-		}
-		catch (Exception e) {
-			// PackageManager is traditionally wonky, need to accept all exceptions here.
-			Log.w("Couldn't get package info in order to submit proper version #!", e);
-			versionName = "1.0";
-		}
-		// Be careful not to use the word "Android" here
-		// https://mingle/projects/e3_mobile_web/cards/676
-		String userAgent = "ExpediaBookings/" + versionName + " (EHad; Mobiata)";
+		String userAgent = getUserAgentString(mContext);
 
 		mRequest = request;
 		AndroidHttpClient client = AndroidHttpClient.newInstance(userAgent, mContext);
