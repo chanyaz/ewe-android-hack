@@ -1,8 +1,11 @@
 package com.expedia.bookings.server;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.BasicCookieStore;
@@ -11,7 +14,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.content.Context;
-import android.text.format.DateFormat;
 
 import com.mobiata.android.Log;
 import com.mobiata.android.util.IoUtils;
@@ -231,7 +233,9 @@ public class PersistantCookieStore extends BasicCookieStore {
 			builder.append(generateSetCookieStringHelper("Secure"));
 		}
 		if (cookie.isPersistent()) {
-			String expires = DateFormat.format("Wdy, DD Mon YYYY HH:MM:SS GMT", cookie.getExpiryDate()).toString();
+			SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy kk:mm:ss z", Locale.US);
+			sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+			String expires = sdf.format(cookie.getExpiryDate());
 			builder.append(generateSetCookieStringHelper("Expires", expires));
 		}
 

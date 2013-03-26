@@ -1,5 +1,9 @@
 package com.expedia.bookings.fragment;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 import org.apache.http.cookie.Cookie;
 
 import android.annotation.SuppressLint;
@@ -104,25 +108,7 @@ public class WebViewFragment extends Fragment {
 
 		mLoadCookies = args.getBoolean(ARG_LOAD_EXPEDIA_COOKIES, false);
 		if (mLoadCookies) {
-			CookieSyncManager cookieSyncManager = CookieSyncManager.createInstance(getActivity());
-			CookieManager cookieManager = CookieManager.getInstance();
-
-			// Set the Expedia cookies for loading the URL properly
-			PersistantCookieStore persistantCookieStore = ExpediaServices.getCookieStore(getActivity());
-			cookieManager.setAcceptCookie(true);
-			cookieManager.removeSessionCookie();
-			if (persistantCookieStore != null) {
-				for (Cookie cookie : persistantCookieStore.getCookies()) {
-					String cookieString = PersistantCookieStore.generateSetCookieString(cookie);
-
-					// Note: this is getting set to two different URLs for Android compatibility reasons. ".expedia.com"
-					//       works with ICS, using the url works with 2.1
-
-					cookieManager.setCookie(mUrl, cookieString);
-					cookieManager.setCookie(cookie.getDomain(), cookieString);
-				}
-				cookieSyncManager.sync();
-			}
+			loadCookies();
 		}
 	}
 
@@ -281,6 +267,57 @@ public class WebViewFragment extends Fragment {
 		if (mWebView != null) {
 			out.putBoolean(INSTANCE_LOADED, this.mWebViewLoaded);
 			mWebView.saveState(out);
+		}
+	}
+
+	private void loadCookies() {
+		CookieSyncManager cookieSyncManager = CookieSyncManager.createInstance(getActivity());
+		CookieManager cookieManager = CookieManager.getInstance();
+
+		// Set the Expedia cookies for loading the URL properly
+		PersistantCookieStore persistantCookieStore = ExpediaServices.getCookieStore(getActivity());
+		cookieManager.setAcceptCookie(true);
+		cookieManager.removeSessionCookie();
+		if (persistantCookieStore != null) {
+			//Sort cookies by name and expiration, so newest cookies are last (and will squash old cookies when added to the manager)
+			ArrayList<Cookie> cookies = new ArrayList<Cookie>();
+			cookies.addAll(persistantCookieStore.getCookies());
+			Collections.sort(cookies, new Comparator<Cookie>() {
+				@Override
+				public int compare(Cookie lhs, Cookie rhs) {
+					int nameCompare = lhs.getName().compareTo(rhs.getName());
+					if (nameCompare == 0) {
+						if (lhs.getExpiryDate() != null && rhs.getExpiryDate() != null) {
+							return lhs.getExpiryDate().compareTo(rhs.getExpiryDate());
+						}
+						else if (lhs.getExpiryDate() != null) {
+							//The first expiration is null so it has no expiration and thus comes after the other
+							return 1;
+						}
+						else if (rhs.getExpiryDate() != null) {
+							return -1;
+						}
+						else {
+							return 0;
+						}
+					}
+					else {
+						return nameCompare;
+					}
+				}
+			});
+
+			//for (Cookie cookie : persistantCookieStore.getCookies()) {
+			for (Cookie cookie : cookies) {
+				String cookieString = PersistantCookieStore.generateSetCookieString(cookie);
+
+				// Note: this is getting set to two different URLs for Android compatibility reasons. ".expedia.com"
+				//       works with ICS, using the url works with 2.1
+
+				cookieManager.setCookie(mUrl, cookieString);
+				cookieManager.setCookie(cookie.getDomain(), cookieString);
+			}
+			cookieSyncManager.sync();
 		}
 	}
 
