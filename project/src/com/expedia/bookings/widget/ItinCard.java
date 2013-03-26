@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -177,13 +178,10 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 		// Image
 		mHeaderImageView.setType(getType());
-
+		mHeaderImageView.setImageResource(mItinContentGenerator.getHeaderImagePlaceholderResId());
 		String headerImageUrl = mItinContentGenerator.getHeaderImageUrl();
-		if (headerImageUrl != null) {
+		if (!TextUtils.isEmpty(headerImageUrl)) {
 			UrlBitmapDrawable.loadImageView(headerImageUrl, mHeaderImageView);
-		}
-		else {
-			mHeaderImageView.setImageResource(mItinContentGenerator.getHeaderImagePlaceholderResId());
 		}
 
 		// Header text

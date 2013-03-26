@@ -118,7 +118,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 	@Override
 	public int getHeaderImagePlaceholderResId() {
-		return R.drawable.default_flights_background;
+		return R.drawable.bg_itin_placeholder;
 	}
 
 	@Override
