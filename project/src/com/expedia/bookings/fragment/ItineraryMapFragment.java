@@ -36,10 +36,16 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 
 	private static final float ZOOM_LEVEL = 13;
 
+	// The min/max longitude span for the fallback bounds.  This keeps things from being
+	// too zoomed in (or too zoomed out).
+	private static final double MIN_LON_SPAN = 2;
+	private static final double MAX_LON_SPAN = 120;
+
 	private ItineraryMapFragmentListener mListener;
 
 	private Map<Marker, ItinCardData> mMarkerToCard = new HashMap<Marker, ItinCardData>();
 
+	// The bounds we display when we fallback
 	private LatLngBounds mMarkerBounds;
 
 	private String mSelectedId;
@@ -137,9 +143,24 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 				mMarkerToCard.put(marker, card);
 
 				builder.include(loc);
+
+				// Increase bounds only if the lonspan is not too great
+				LatLngBounds currBounds = builder.build();
+				if (MapAnimationUtils.getLonSpan(currBounds) < MAX_LON_SPAN) {
+					mMarkerBounds = currBounds;
+				}
 			}
 
-			mMarkerBounds = builder.build();
+			// This can easily happen if we only have on itin card (or they are all close to each other)
+			if (MapAnimationUtils.getLonSpan(mMarkerBounds) < MIN_LON_SPAN) {
+				double adjust = MIN_LON_SPAN / 2;
+				mMarkerBounds = new LatLngBounds(
+						new LatLng(mMarkerBounds.northeast.latitude - adjust,
+								mMarkerBounds.northeast.longitude - adjust),
+						new LatLng(
+								mMarkerBounds.southwest.latitude + adjust,
+								mMarkerBounds.southwest.longitude + adjust));
+			}
 		}
 		else {
 			mMarkerBounds = null;
@@ -161,7 +182,7 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 		if (mMarkerBounds != null) {
 			map.setMyLocationEnabled(false);
 
-			// Animate to show all markers on the map
+			// Animate to show all markers on the map (or some markers, if the span was too large)
 			showBounds(mMarkerBounds, animate);
 		}
 		else {
