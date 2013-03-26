@@ -30,6 +30,8 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -114,10 +116,10 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 			Calendar departureCal = leg.getFirstWaypoint().getBestSearchDateTime();
 			Calendar arrivalCal = leg.getLastWaypoint().getBestSearchDateTime();
-			
+
 			Date departureDate = DateTimeUtils.getTimeInLocalTimeZone(departureCal);
 			Date arrivalDate = DateTimeUtils.getTimeInLocalTimeZone(arrivalCal);
-			
+
 			String departureTzString = FormatUtils.formatTimeZone(leg.getFirstWaypoint().getAirport(), departureDate);
 			String arrivalTzString = FormatUtils.formatTimeZone(leg.getLastWaypoint().getAirport(), arrivalDate);
 
@@ -826,6 +828,15 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			tv.setTextColor(res.getColor(R.color.itin_flight_on_time_color));
 			tv.setText(R.string.flight_arrived);
 			tv.setVisibility(View.VISIBLE);
+		}
+
+		//Seems silly but there is a bug in HONEYCOMB where if you set a view below a view that is invisible,
+		//it will end up aligning to that views top.
+		TextView multiDayTextView = Ui.findView(v, R.id.multi_day_text_view);
+		if (multiDayTextView.getVisibility() != View.VISIBLE) {
+			RelativeLayout.LayoutParams params = (LayoutParams) tv.getLayoutParams();
+			params.addRule(RelativeLayout.BELOW, R.id.flight_trip_view);
+			tv.setLayoutParams(params);
 		}
 
 		return v;
