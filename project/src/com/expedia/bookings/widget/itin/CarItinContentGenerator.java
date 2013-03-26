@@ -1,5 +1,8 @@
 package com.expedia.bookings.widget.itin;
 
+import java.util.Arrays;
+import java.util.List;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -155,8 +158,8 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 	}
 
 	@Override
-	public String getHeaderImageUrl() {
-		return getItinCardData().getCarCategoryImageUrl();
+	public List<String> getHeaderImageUrls() {
+		return Arrays.asList(getItinCardData().getCarCategoryImageUrl());
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package com.expedia.bookings.widget.itin;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -172,16 +173,16 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	}
 
 	@Override
-	public String getHeaderImageUrl() {
+	public List<String> getHeaderImageUrls() {
 		final ItinCardDataFlight itinCardData = getItinCardData();
 
 		TripFlight tripFlight = (TripFlight) itinCardData.getTripComponent();
 		if (tripFlight != null && itinCardData != null
 				&& tripFlight.getLegDestinationImageUrl(itinCardData.getLegNumber()) != null) {
-			return tripFlight.getLegDestinationImageUrl(itinCardData.getLegNumber());
+			return Arrays.asList(tripFlight.getLegDestinationImageUrl(itinCardData.getLegNumber()));
 		}
 		else {
-			return "";
+			return null;
 		}
 	}
 

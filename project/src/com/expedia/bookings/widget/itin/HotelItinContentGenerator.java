@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget.itin;
 
 import java.util.Calendar;
+import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
@@ -122,8 +123,8 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	}
 
 	@Override
-	public String getHeaderImageUrl() {
-		return getItinCardData().getHeaderImageUrl();
+	public List<String> getHeaderImageUrls() {
+		return getItinCardData().getHeaderImageUrls();
 	}
 
 	@Override

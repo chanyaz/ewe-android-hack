@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget.itin;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -118,7 +119,10 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	public abstract int getHeaderImagePlaceholderResId();
 
-	public abstract String getHeaderImageUrl();
+	/**
+	 * @return a prioritized list of URLs to try for the header image
+	 */
+	public abstract List<String> getHeaderImageUrls();
 
 	public abstract String getHeaderText();
 

@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget.itin;
 
+import java.util.List;
+
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +52,7 @@ public class CruiseItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	}
 
 	@Override
-	public String getHeaderImageUrl() {
+	public List<String> getHeaderImageUrls() {
 		return null;
 	}
 

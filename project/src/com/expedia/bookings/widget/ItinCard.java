@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -178,10 +177,13 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 		// Image
 		mHeaderImageView.setType(getType());
-		mHeaderImageView.setImageResource(mItinContentGenerator.getHeaderImagePlaceholderResId());
-		String headerImageUrl = mItinContentGenerator.getHeaderImageUrl();
-		if (!TextUtils.isEmpty(headerImageUrl)) {
-			UrlBitmapDrawable.loadImageView(headerImageUrl, mHeaderImageView);
+		int placeholderResId = mItinContentGenerator.getHeaderImagePlaceholderResId();
+		List<String> headerImageUrls = mItinContentGenerator.getHeaderImageUrls();
+		if (headerImageUrls != null && headerImageUrls.size() > 0) {
+			UrlBitmapDrawable.loadImageView(headerImageUrls, mHeaderImageView, placeholderResId);
+		}
+		else {
+			mHeaderImageView.setImageResource(placeholderResId);
 		}
 
 		// Header text
@@ -369,7 +371,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		updateClickable();
 
 		ViewHelper.setTranslationY(mCardLayout, 0);
-		
+
 		mHeaderImageView.setMode(ItinHeaderImageView.MODE_FULL);
 
 		mSummaryDividerView.setVisibility(VISIBLE);

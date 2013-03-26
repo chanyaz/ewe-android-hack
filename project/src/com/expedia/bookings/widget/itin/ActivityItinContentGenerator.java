@@ -118,7 +118,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 	}
 
 	@Override
-	public String getHeaderImageUrl() {
+	public List<String> getHeaderImageUrls() {
 		return null;
 	}
 

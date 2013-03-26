@@ -1,5 +1,6 @@
 package com.expedia.bookings.data.trips;
 
+import java.util.List;
 import java.util.Set;
 
 import android.content.ComponentName;
@@ -48,12 +49,17 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	public String getHeaderImageUrl() {
+	public List<String> getHeaderImageUrls() {
 		if (hasProperty()) {
+			Media media;
 			if (mProperty.getMediaCount() > 0) {
-				return mProperty.getMedia(0).getUrl(Media.IMAGE_LARGE_SUFFIX);
+				media = mProperty.getMedia(0);
 			}
-			return mProperty.getThumbnail().getUrl(Media.IMAGE_LARGE_SUFFIX);
+			else {
+				media = mProperty.getThumbnail();
+			}
+
+			return media.getHighResUrls();
 		}
 		return null;
 	}
