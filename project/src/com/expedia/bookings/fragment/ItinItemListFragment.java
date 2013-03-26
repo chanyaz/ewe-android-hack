@@ -423,8 +423,12 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 			// then at least we can open the details url for this trip.
 			ItinCardData data = (ItinCardData) parent.getAdapter().getItem(position);
 			if (!data.hasDetailData()) {
-				String url = data.getDetailsUrl();
-				startActivity(new WebViewActivity.IntentBuilder(getActivity()).setUrl(url).getIntent());
+				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
+				builder.setUrl(data.getDetailsUrl());
+				builder.setTitle(R.string.itinerary);
+				builder.setTheme(R.style.ItineraryTheme);
+				builder.setAllowMobileRedirects(false);
+				startActivity(builder.getIntent());
 			}
 		}
 	};

@@ -208,7 +208,8 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 						WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getContext());
 						builder.setUrl(getItinCardData().getVoucherPrintUrl());
 						builder.setTitle(R.string.webview_title_print_vouchers);
-						builder.setTheme(R.style.FlightTheme);
+						builder.setTheme(R.style.ItineraryTheme);
+						builder.setAllowMobileRedirects(false);
 						getContext().startActivity(builder.getIntent());
 
 						OmnitureTracking.trackItinActivityRedeem(getContext());

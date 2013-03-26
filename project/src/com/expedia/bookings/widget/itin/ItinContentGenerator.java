@@ -353,8 +353,9 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 						public void onClick(View arg0) {
 							WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getContext());
 							builder.setUrl(insurance.getTermsUrl());
-							builder.setTheme(R.style.FlightTheme);
+							builder.setTheme(R.style.ItineraryTheme);
 							builder.setTitle(R.string.insurance);
+							builder.setAllowMobileRedirects(false);
 							getContext().startActivity(builder.getIntent());
 						}
 					});
