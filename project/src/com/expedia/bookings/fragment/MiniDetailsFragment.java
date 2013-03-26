@@ -126,9 +126,8 @@ public class MiniDetailsFragment extends Fragment implements AvailabilitySummary
 		if (response != null) {
 			mAvailabilitySummary.showRates(response);
 		}
-		else {
-			updateViews(Db.getSelectedProperty());
-		}
+
+		updateViews(Db.getSelectedProperty());
 	}
 
 	//////////////////////////////////////////////////////////////////////////

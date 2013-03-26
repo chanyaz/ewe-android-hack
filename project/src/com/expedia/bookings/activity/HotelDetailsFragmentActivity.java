@@ -465,7 +465,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		public void onDownload(AvailabilityResponse response) {
 			// Check if we got a better response elsewhere before loading up this data
 			AvailabilityResponse possibleBetterResponse = Db.getSelectedAvailabilityResponse();
-			if (possibleBetterResponse != null && !possibleBetterResponse.canRequestMoreData()) {
+			if (possibleBetterResponse != null) {
 				response = possibleBetterResponse;
 			}
 			else {

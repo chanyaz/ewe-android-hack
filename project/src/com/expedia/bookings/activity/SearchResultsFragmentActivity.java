@@ -1175,7 +1175,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	private void startRoomsAndRatesDownload(Property property) {
 		// If we have the proper rates cached, don't bother downloading
 		AvailabilityResponse previousResponse = Db.getSelectedAvailabilityResponse();
-		if (previousResponse != null && !previousResponse.canRequestMoreData()) {
+		if (previousResponse != null) {
 			return;
 		}
 
@@ -1229,11 +1229,6 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 					}
 
 					notifyAvailabilityQueryComplete();
-
-					// Immediately kick off another (more expensive) request to get more data (if possible)
-					if (availabilityResponse.canRequestMoreData()) {
-						startRoomsAndRatesDownload(availabilityProperty);
-					}
 				}
 			}
 		}

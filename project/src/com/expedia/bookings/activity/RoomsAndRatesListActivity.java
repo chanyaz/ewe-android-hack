@@ -127,9 +127,7 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 			findViewById(R.id.nights_container).setVisibility(View.GONE);
 		}
 
-		// Load the initial data from net
-		AvailabilityResponse response = Db.getSelectedAvailabilityResponse();
-		if (response != null && !response.canRequestMoreData()) {
+		if (Db.getSelectedAvailabilityResponse() != null) {
 			mRoomsAndRatesFragment.notifyAvailabilityLoaded();
 		}
 		else {
