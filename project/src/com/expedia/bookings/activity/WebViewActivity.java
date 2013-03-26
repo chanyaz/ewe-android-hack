@@ -24,6 +24,7 @@ public class WebViewActivity extends SherlockFragmentActivity implements WebView
 	private static final String ARG_INJECT_EXPEDIA_COOKIES = "ARG_INJECT_EXPEDIA_COOKIES";
 	private static final String ARG_TRACKING_NAME = "ARG_TRACKING_NAME";
 	private static final String ARG_HTML_DATA = "ARG_HTML_DATA";
+	private static final String ARG_ALLOW_MOBILE_REDIRECTS = "ARG_ALLOW_MOBILE_REDIRECTS";
 
 	private WebViewFragment mFragment;
 
@@ -80,6 +81,11 @@ public class WebViewActivity extends SherlockFragmentActivity implements WebView
 			mIntent.putExtra(ARG_HTML_DATA, data);
 			return this;
 		}
+
+		public IntentBuilder setAllowMobileRedirects(boolean allowMobileRedirects) {
+			mIntent.putExtra(ARG_ALLOW_MOBILE_REDIRECTS, allowMobileRedirects);
+			return this;
+		}
 	}
 
 	@Override
@@ -114,6 +120,10 @@ public class WebViewActivity extends SherlockFragmentActivity implements WebView
 		if (savedInstanceState == null) {
 			boolean enableLogin = extras.getBoolean(ARG_ENABLE_LOGIN, false);
 			boolean injectExpediaCookies = extras.getBoolean(ARG_INJECT_EXPEDIA_COOKIES, false);
+
+			// We default to true as we want to be redirected to the mobile site in most cases, except where we
+			// do want to view desktop version (itineraries, for example).
+			boolean allowMobileRedirects = extras.getBoolean(ARG_ALLOW_MOBILE_REDIRECTS, true);
 			String name = extras.getString(ARG_TRACKING_NAME);
 
 			if (extras.containsKey(ARG_HTML_DATA)) {
@@ -124,7 +134,8 @@ public class WebViewActivity extends SherlockFragmentActivity implements WebView
 			else {
 				String url = extras.getString(ARG_URL);
 				Log.v("WebView url: " + url);
-				mFragment = WebViewFragment.newInstance(url, enableLogin, injectExpediaCookies, name);
+				mFragment = WebViewFragment.newInstance(url, enableLogin, injectExpediaCookies, allowMobileRedirects,
+						name);
 			}
 
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

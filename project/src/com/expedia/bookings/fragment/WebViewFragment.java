@@ -45,6 +45,7 @@ public class WebViewFragment extends Fragment {
 	private static final String ARG_HTML_DATA = "ARG_HTML_DATA";
 	private static final String ARG_ENABLE_LOGIN = "ARG_ENABLE_LOGIN";
 	private static final String ARG_LOAD_EXPEDIA_COOKIES = "ARG_LOAD_EXPEDIA_COOKIES";
+	private static final String ARG_ALLOW_MOBILE_REDIRECTS = "ARG_ALLOW_MOBILE_REDIRECTS";
 
 	private static final String ARG_TRACKING_NAME = "ARG_TRACKING_NAME";
 
@@ -61,15 +62,18 @@ public class WebViewFragment extends Fragment {
 	private String mHtmlData;
 	private boolean enableSignIn;
 	private boolean mLoadCookies;
+	private boolean mAllowUseableNetRedirects;
 	private TrackingName mTrackingName;
 
-	public static WebViewFragment newInstance(String url, boolean enableSignIn, boolean loadCookies, String name) {
+	public static WebViewFragment newInstance(String url, boolean enableSignIn, boolean loadCookies,
+			boolean allowUseableNetRedirects, String name) {
 		WebViewFragment frag = new WebViewFragment();
 
 		Bundle args = new Bundle();
 		args.putString(ARG_URL, url);
 		args.putBoolean(ARG_ENABLE_LOGIN, enableSignIn);
 		args.putBoolean(ARG_LOAD_EXPEDIA_COOKIES, loadCookies);
+		args.putBoolean(ARG_ALLOW_MOBILE_REDIRECTS, allowUseableNetRedirects);
 		args.putString(ARG_TRACKING_NAME, name);
 		frag.setArguments(args);
 		frag.setRetainInstance(true);
@@ -110,6 +114,8 @@ public class WebViewFragment extends Fragment {
 		if (mLoadCookies) {
 			loadCookies();
 		}
+
+		mAllowUseableNetRedirects = args.getBoolean(ARG_ALLOW_MOBILE_REDIRECTS, true);
 	}
 
 	@SuppressLint("NewApi")
@@ -123,6 +129,14 @@ public class WebViewFragment extends Fragment {
 			mWebView.getSettings().setLoadWithOverviewMode(true);
 			mWebView.getSettings().setUseWideViewPort(true);
 			mWebView.getSettings().setBuiltInZoomControls(true);
+
+			// To allow Usablenet redirects to view mobile version of site, we leave the user agent string as be. The
+			// default user-agent string contains "Android" which tips off the redirect to mobile.
+			if (!mAllowUseableNetRedirects) {
+				String userAgentString = ExpediaServices.getUserAgentString(getActivity());
+				mWebView.getSettings().setUserAgentString(userAgentString);
+			}
+
 			if (AndroidUtils.getSdkVersion() >= 11) {
 				mWebView.getSettings().setDisplayZoomControls(false);
 			}
