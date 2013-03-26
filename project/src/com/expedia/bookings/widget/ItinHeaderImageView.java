@@ -127,6 +127,9 @@ public class ItinHeaderImageView extends OptimizedImageView {
 			return;
 		}
 
+		// Clear composite canvas
+		mCompositeCanvas.drawColor(Color.TRANSPARENT);
+
 		// Draw image
 		super.onDraw(mCompositeCanvas);
 
