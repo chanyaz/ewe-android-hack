@@ -281,8 +281,8 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 				public void onClick(View arg0) {
 					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getContext());
 					builder.setUrl(getItinCardData().getDetailsUrl());
-					builder.setTitle(R.string.booking_info);
-					builder.setTheme(R.style.FlightTheme);
+					builder.setTitle(R.string.itin_card_details_details);
+					builder.setTheme(R.style.ItineraryTheme);
 					builder.setInjectExpediaCookies(true);
 					builder.setAllowMobileRedirects(false);
 					getContext().startActivity(builder.getIntent());
