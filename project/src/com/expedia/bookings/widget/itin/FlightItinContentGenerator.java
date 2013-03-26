@@ -17,8 +17,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.CalendarContract;
-import android.provider.CalendarContract.Events;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.text.Html;
@@ -47,11 +45,9 @@ import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.CalendarAPIUtils;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.ShareUtils;
-import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightMapImageView;
 import com.mobiata.android.Log;
@@ -515,58 +511,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			});
 		}
 		else {
-			if (!CalendarAPIUtils.deviceSupportsCalendarAPI(getContext())) {
-				return null;
-			}
-			else {
-				return new SummaryButton(R.drawable.ic_clock_small, getContext().getString(R.string.set_alert),
-						new OnClickListener() {
-							//NOTE: CalendarAPIUtils.deviceSupportsCalendarAPI(getContext()) will block old phones, so NewApi is ok here
-							@SuppressLint("NewApi")
-							@Override
-							public void onClick(View v) {
-								Resources res = getResources();
-								FlightLeg leg = itinCardData.getFlightLeg();
-								Calendar startCal = itinCardData.getStartDate().getCalendar();
-								Calendar endCal = itinCardData.getEndDate().getCalendar();
-								Waypoint origin = itinCardData.getFlightLeg().getFirstWaypoint();
-								Waypoint destination = itinCardData.getFlightLeg().getLastWaypoint();
-								Intent intent = new Intent(Intent.ACTION_INSERT);
-								intent.setData(Events.CONTENT_URI);
-								intent.putExtra(
-										Events.TITLE,
-										res.getString(R.string.flight_calendar_event_title_TEMPLATE,
-												StrUtils.getWaypointCityOrCode(origin),
-												StrUtils.getWaypointCityOrCode(destination)));
-								intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startCal.getTimeInMillis());
-								intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endCal.getTimeInMillis());
-
-								if (leg != null && leg.getSegmentCount() > 0) {
-									// Don't lie to me!
-									Flight firstFlight = leg.getSegment(0);
-									boolean isIndividualFlight = true;
-									if (isIndividualFlight && leg.getSegmentCount() != 1) {
-										isIndividualFlight = false;
-									}
-
-									if (isIndividualFlight) {
-										intent.putExtra(Events.EVENT_LOCATION,
-												FormatUtils.formatFlightNumber(firstFlight, getContext()));
-									}
-									else {
-										intent.putExtra(Events.EVENT_LOCATION, leg.getAirlinesFormatted());
-									}
-
-								}
-								else {
-									intent.putExtra(Events.EVENT_LOCATION,
-											res.getString(R.string.calendar_flight_location_TEMPLATE,
-													origin.getAirport().mName, StrUtils.getWaypointCityOrCode(origin)));
-								}
-								getContext().startActivity(intent);
-							}
-						});
-			}
+			return getSupportSummaryButton();
 		}
 	}
 
