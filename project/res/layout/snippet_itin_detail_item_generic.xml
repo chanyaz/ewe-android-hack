@@ -10,9 +10,12 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/item_label"
-        style="@style/TextView.Itin.SectionHeader.Padded"
+        style="@style/TextView.Itin.SectionHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
         android:visibility="visible" />
 
     <com.expedia.bookings.widget.TextView
@@ -20,9 +23,10 @@
         style="@style/TextView.Itin.SectionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/list_selector_holo_dark"
+        android:padding="8dp"
         android:visibility="visible" />
 
 </LinearLayout>
