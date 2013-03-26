@@ -10,6 +10,7 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -463,16 +464,12 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 	// Type icon position and size
 	public void updateLayout() {
-
 		if (mDisplayState == DisplayState.COLLAPSED) {
 			mItinTypeImageView.setVisibility(View.VISIBLE);
-			int typeImageHeight = mItinTypeImageView.getHeight();
-			int typeImageHalfHeight = typeImageHeight / 2;
-			int headerImageHeight = mHeaderImageView.getHeight();
-			int expandedTypeImageY = headerImageHeight / 2;
-			int miniTypeImageY = (int) (headerImageHeight * 0.4f);
-			int typeImageY = mShowSummary ? expandedTypeImageY : miniTypeImageY;
-			int translateOffset = -(int) (8 * getResources().getDisplayMetrics().density);
+			float typeImageHeight = mItinTypeImageView.getHeight();
+			float typeImageHalfHeight = typeImageHeight / 2;
+			float headerImageHeight = mHeaderImageView.getHeight();
+			float typeImageY = (headerImageHeight - mHeaderTextLayout.getHeight()) / 2;
 
 			float percent = 0;
 			float percentIcon = 0;
@@ -489,13 +486,13 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 			percentIcon = mShowSummary ? percent : Math.min(0.75f, percent);
 
-			final int typeImageTranslationY = mCardLayout.getTop() + translateOffset + typeImageY - typeImageHalfHeight;
-			final int viewTranslationY = Math.max(0,
-					(headerImageHeight - (int) (percent * (float) headerImageHeight)) / 2);
+			final float typeImageTranslationY = mCardLayout.getTop() + typeImageY - typeImageHalfHeight;
+			final float viewTranslationY = Math.max(0, (headerImageHeight - (percent * headerImageHeight)) / 2);
 
 			ViewHelper.setTranslationY(mItinTypeImageView, typeImageTranslationY);
 			ViewHelper.setScaleX(mItinTypeImageView, percentIcon);
 			ViewHelper.setScaleY(mItinTypeImageView, percentIcon);
+			ViewHelper.setTranslationY(mHeaderTextLayout, (mItinTypeImageView.getHeight() * percentIcon) / 2);
 			ViewHelper.setTranslationY(mCardLayout, viewTranslationY);
 		}
 	}

@@ -15,6 +15,9 @@ import com.mobiata.android.util.Ui;
 
 public class ItinActionsSection extends android.widget.LinearLayout {
 
+	private View mLeftLayout;
+	private View mRightLayout;
+
 	private TextView mLeftButton;
 	private TextView mRightButton;
 
@@ -26,6 +29,9 @@ public class ItinActionsSection extends android.widget.LinearLayout {
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 
+		mLeftLayout = Ui.findView(this, R.id.summary_left_layout);
+		mRightLayout = Ui.findView(this, R.id.summary_right_layout);
+
 		mLeftButton = Ui.findView(this, R.id.summary_left_button);
 		mRightButton = Ui.findView(this, R.id.summary_right_button);
 	}
@@ -34,13 +40,12 @@ public class ItinActionsSection extends android.widget.LinearLayout {
 		if (leftData != null) {
 			setSummaryButton(mLeftButton, leftData);
 		}
-
 		if (rightData != null) {
 			setSummaryButton(mRightButton, rightData);
 		}
 
-		mLeftButton.setVisibility(leftData != null ? VISIBLE : GONE);
-		mRightButton.setVisibility(rightData != null ? VISIBLE : GONE);
+		mLeftLayout.setVisibility(leftData != null ? VISIBLE : GONE);
+		mRightLayout.setVisibility(rightData != null ? VISIBLE : GONE);
 		Ui.findView(this, R.id.action_button_divider).setVisibility(
 				(leftData != null && rightData != null) ? VISIBLE : GONE);
 
