@@ -112,6 +112,8 @@ public class RoundedImageView extends OptimizedImageView {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
+		mCompositeCanvas.drawColor(Color.TRANSPARENT, Mode.CLEAR);
+
 		// Draw image
 		super.onDraw(mCompositeCanvas);
 
