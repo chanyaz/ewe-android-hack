@@ -34,6 +34,7 @@
                 android:background="@drawable/bg_itin_card_title"
                 android:gravity="center"
                 android:orientation="horizontal"
+                android:paddingBottom="1dp"
                 android:visibility="gone" >
 
                 <ImageButton
@@ -56,7 +57,7 @@
                     android:id="@+id/title_content_layout"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="11dp"
                     android:layout_marginRight="3dp"
                     android:layout_weight="1" />
 
@@ -64,6 +65,7 @@
                     android:id="@+id/share_image_button"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:layout_marginRight="3dp"
                     android:background="@drawable/list_selector_holo_dark"
                     android:padding="8dp"
                     android:paddingTop="7dp"
