@@ -118,7 +118,8 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 		super.onResume();
 		if (mLoginExtender != null && mLoginExtenderRunning) {
 			runExtenderOrFinish();
-		}else{
+		}
+		else {
 			View focused = this.getView().findFocus();
 			if (focused == null || !(focused instanceof EditText)) {
 				focused = mEmailEdit;
@@ -232,6 +233,7 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 		else {
 			setStatusText(R.string.itinerary_fetch_error);
 			enableExtenderState(false);
+			mLoginExtenderRunning = false;
 		}
 	}
 
