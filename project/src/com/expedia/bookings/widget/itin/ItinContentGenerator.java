@@ -436,7 +436,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	 */
 	private CharSequence getRelativeStartDate() {
 		DateTime dateTime = getItinCardData().getStartDate();
-		long time = dateTime.getMillisFromEpoch() + dateTime.getTzOffsetMillis();
+		long time = dateTime.getMillisFromEpoch();
 		long now = System.currentTimeMillis();
 		long duration = time - now;
 
