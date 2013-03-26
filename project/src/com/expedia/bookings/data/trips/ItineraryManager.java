@@ -21,13 +21,18 @@ import java.util.TimeZone;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.view.Display;
+import android.view.WindowManager;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.DateTime;
@@ -41,6 +46,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.flightlib.data.Flight;
 
@@ -904,7 +910,29 @@ public class ItineraryManager implements JSONable {
 		//////////////////////////////////////////////////////////////////////
 		// Operations
 
+		@SuppressWarnings("deprecation")
+		@SuppressLint("NewApi")
 		private void updateTripImages(Trip trip) {
+
+			//We determine image size to be width=(smallest screen dimen), height=R.dimen.itin_card_expanded_image_height
+			//This is for flights only, but we dont want to do it for every iteration so it goes here
+			int destinationImageWidth = 0;
+			int destinationImageHeight = 0;
+			if (mContext != null) {
+				WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+				Display display = wm.getDefaultDisplay();
+				if (AndroidUtils.getSdkVersion() >= 13) {
+					Point size = new Point();
+					display.getSize(size);
+					destinationImageWidth = Math.min(size.x, size.y);
+				}
+				else {
+					destinationImageWidth = Math.min(display.getWidth(), display.getHeight());
+				}
+				destinationImageHeight = mContext.getResources().getDimensionPixelSize(
+						R.dimen.itin_card_expanded_image_height);
+			}
+
 			// Look for images.  For now, do not update if we already have images (they will remain static)
 			for (TripComponent tripComponent : trip.getTripComponents(true)) {
 				if (tripComponent.getType() == Type.FLIGHT) {
@@ -912,8 +940,10 @@ public class ItineraryManager implements JSONable {
 					FlightTrip flightTrip = tripFlight.getFlightTrip();
 					for (int i = 0; i < flightTrip.getLegCount(); i++) {
 						if (tripFlight.getLegDestinationImageUrl(i) == null) {
+
 							BackgroundImageResponse imageResponse = mServices.getFlightsBackgroundImage(
-									flightTrip.getLeg(i).getLastWaypoint().mAirportCode, 0, 0);
+									flightTrip.getLeg(i).getLastWaypoint().mAirportCode, destinationImageWidth,
+									destinationImageHeight);
 
 							if (isCancelled()) {
 								return;
