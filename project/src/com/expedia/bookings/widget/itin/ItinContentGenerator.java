@@ -284,6 +284,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 					builder.setTitle(R.string.booking_info);
 					builder.setTheme(R.style.FlightTheme);
 					builder.setInjectExpediaCookies(true);
+					builder.setAllowMobileRedirects(false);
 					getContext().startActivity(builder.getIntent());
 
 					OmnitureTracking.trackItinInfoClicked(getContext(), getItinCardData().getTripComponent().getType());
