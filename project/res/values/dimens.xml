@@ -18,16 +18,12 @@
 
     <!-- Itinerary dimens -->
     <dimen name="itin_title_height">48dp</dimen>
-    <dimen name="itin_list_icon_start_size">32dp</dimen>
-    <dimen name="itin_list_icon_end_size">48dp</dimen>
-    <dimen name="itin_list_card_top_image_offset">16dp</dimen>
     <dimen name="itin_card_expanded_image_height">160dp</dimen>
     <dimen name="itin_card_mini_image_height">100dp</dimen>
     <dimen name="itin_action_button_height">48dp</dimen>
     <dimen name="itin_flight_segment_divider_padding">10dp</dimen>
     <dimen name="itin_simple_list_width">440dp</dimen>
     <dimen name="itin_map_marker_bottom_padding">12dp</dimen>
-    <dimen name="itin_details_title_shadow_height">14dp</dimen>
 
     <!-- Dialog title height -->
     <dimen name="alert_dialog_title_height">64dip</dimen>
@@ -167,9 +163,6 @@
     <!-- The child ages button gets animated in height from 5dp to 60dp -->
     <dimen name="child_ages_button_height_minimized">5dp</dimen>
     <dimen name="child_ages_button_height_restored">60dp</dimen>
-
-    <!-- HotelMapFragment -->
-    <dimen name="center_vertical_offset">0dp</dimen>
 
     <!-- Account support dimensions -->
     <dimen name="card_icon_padding">5dp</dimen>
