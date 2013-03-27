@@ -160,13 +160,18 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		Ui.findView(v, R.id.hotels_prompt_text_view).post(new Runnable() {
 			@Override
 			public void run() {
-				View hotelPrompt = Ui.findView(getActivity(), R.id.hotels_prompt_text_view);
-				View hotelIcon = Ui.findView(getActivity(), R.id.big_hotel_icon);
-				View flightsPrompt = Ui.findView(getActivity(), R.id.flights_prompt_text_view);
-				View flightsIcon = Ui.findView(getActivity(), R.id.big_flights_icon);
-				if (hotelPrompt.getLeft() < hotelIcon.getRight() || flightsPrompt.getLeft() < flightsIcon.getRight()) {
-					hotelPrompt.setVisibility(View.INVISIBLE);
-					flightsPrompt.setVisibility(View.INVISIBLE);
+				// #843: Check that we are still attached before doing this, as we may not be anymore
+				// (in the case of quick rotation).
+				if (getActivity() != null) {
+					View hotelPrompt = Ui.findView(getActivity(), R.id.hotels_prompt_text_view);
+					View hotelIcon = Ui.findView(getActivity(), R.id.big_hotel_icon);
+					View flightsPrompt = Ui.findView(getActivity(), R.id.flights_prompt_text_view);
+					View flightsIcon = Ui.findView(getActivity(), R.id.big_flights_icon);
+					if (hotelPrompt.getLeft() < hotelIcon.getRight()
+							|| flightsPrompt.getLeft() < flightsIcon.getRight()) {
+						hotelPrompt.setVisibility(View.INVISIBLE);
+						flightsPrompt.setVisibility(View.INVISIBLE);
+					}
 				}
 			}
 		});
