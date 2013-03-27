@@ -174,7 +174,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 		mScrollViewListener = new ScrollViewListener(mScrollView.getContext());
 
-		mScrollView.setOnScrollListener(mScrollViewListener);
+		mScrollView.addOnScrollListener(mScrollViewListener);
 		mScrollView.setOnTouchListener(mScrollViewListener);
 		mHotelReceipt.setOnSizeChangedListener(mScrollViewListener);
 		mCheckoutLayout.setOnSizeChangedListener(mScrollViewListener);

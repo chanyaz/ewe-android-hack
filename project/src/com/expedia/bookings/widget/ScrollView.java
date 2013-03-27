@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget;
 
+import java.util.HashSet;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -9,7 +11,7 @@ public class ScrollView extends android.widget.ScrollView {
 		void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy);
 	}
 
-	private OnScrollListener mOnScrollListener = null;
+	private HashSet<OnScrollListener> mOnScrollListener = new HashSet<OnScrollListener>();
 
 	public ScrollView(Context context) {
 		super(context);
@@ -36,12 +38,12 @@ public class ScrollView extends android.widget.ScrollView {
 	protected void onScrollChanged(int x, int y, int oldx, int oldy) {
 		super.onScrollChanged(x, y, oldx, oldy);
 
-		if (mOnScrollListener != null) {
-			mOnScrollListener.onScrollChanged(this, x, y, oldx, oldy);
+		for (OnScrollListener listener : mOnScrollListener) {
+			listener.onScrollChanged(this, x, y, oldx, oldy);
 		}
 	}
 
-	public void setOnScrollListener(OnScrollListener onScrollListener) {
-		mOnScrollListener = onScrollListener;
+	public void addOnScrollListener(OnScrollListener onScrollListener) {
+		mOnScrollListener.add(onScrollListener);
 	}
 }
