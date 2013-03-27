@@ -1439,6 +1439,8 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.cancelDownload(KEY_GEOCODE);
 		bd.cancelDownload(KEY_SEARCH);
+		bd.cancelDownload(KEY_HOTEL_SEARCH);
+		bd.cancelDownload(KEY_LOADING_PREVIOUS);
 
 		// Delete the currently saved search results
 		File savedSearchResults = getFileStreamPath(SEARCH_RESULTS_FILE);
