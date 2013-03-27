@@ -50,17 +50,20 @@
     <View
         android:layout_width="@dimen/one_px_hdpi_two_px_xhdpi"
         android:layout_height="match_parent"
-        android:layout_margin="12dp"
-        android:layout_marginRight="17dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="12dp"
         android:layout_weight="0"
         android:background="@color/itin_divider_color" />
 
     <ImageView
         android:id="@+id/terminal_map_or_directions_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="24dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginRight="8dp"
         android:layout_weight="0"
+        android:background="@drawable/list_selector_holo_dark"
+        android:scaleType="centerInside"
         android:src="@drawable/ic_airport_map_actions" />
 
 </LinearLayout>
