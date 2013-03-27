@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/bg_hotel_card"
     android:orientation="vertical" >
 
     <com.expedia.bookings.widget.RoundedImageView
@@ -11,13 +12,12 @@
         android:layout_height="120dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_image_placeholder"
-        app:radiusTL="4dp"
-        app:radiusTR="4dp" />
+        app:radiusTL="2dp"
+        app:radiusTR="2dp" />
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_receipt_bottom_rounds"
         android:orientation="vertical"
         android:padding="8dp">
 
