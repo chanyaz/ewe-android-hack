@@ -391,13 +391,19 @@ public class BookingFormFragment extends Fragment {
 		}
 		mCouponCodeWidget.startTextWatcher();
 
-
 		if (!mIsDoneLoadingPriceChange) {
+			if (mHotelProductDialog == null) {
+				mHotelProductDialog = (ThrobberDialog) getFragmentManager().findFragmentByTag(
+						"hotelProductDownloadingDialog");
+			}
 			if (mHotelProductDialog == null) {
 				mHotelProductDialog = new ThrobberDialog();
 			}
-			mHotelProductDialog.setMessage(getString(R.string.calculating_taxes_and_fees));
-			mHotelProductDialog.show(getFragmentManager(), "hotelProductDownloadingDialog");
+
+			if (!mHotelProductDialog.isAdded()) {
+				mHotelProductDialog.setMessage(getString(R.string.calculating_taxes_and_fees));
+				mHotelProductDialog.show(getFragmentManager(), "hotelProductDownloadingDialog");
+			}
 
 			if (bd.isDownloading(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE)) {
 				bd.registerDownloadCallback(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, mHotelProductCallback);
@@ -1116,7 +1122,6 @@ public class BookingFormFragment extends Fragment {
 		});
 		dialog.show(getFragmentManager(), "hotelOfferErrorDialog");
 	}
-
 
 	private void updateEnterNewCreditCard() {
 		if (mCardAdapter == null || mCardAdapter.getSelectedCard() == null) {
