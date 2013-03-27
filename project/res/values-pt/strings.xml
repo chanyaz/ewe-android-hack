@@ -604,12 +604,12 @@
     <!-- Number of traverlers template -->
 
     <plurals name="number_of_travelers_TEMPLATE">
-        <item quantity="zero">%1$dViajante</item>
-        <item quantity="one">%1$dViajante</item>
-        <item quantity="two">%1$dViajantes</item>
-        <item quantity="few">%1$dViajantes</item>
-        <item quantity="many">%1$dViajantes</item>
-        <item quantity="other">%1$dViajante</item>
+        <item quantity="zero">%1$d Viajante</item>
+        <item quantity="one">%1$d Viajante</item>
+        <item quantity="two">%1$d Viajantes</item>
+        <item quantity="few">%1$d Viajantes</item>
+        <item quantity="many">%1$d Viajantes</item>
+        <item quantity="other">%1$d Viajante</item>
     </plurals>
     <!-- Checkout button text -->
     <string name="checkout_btn">Check-out</string>

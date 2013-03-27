@@ -604,7 +604,7 @@
     <!-- Number of traverlers template -->
 
     <plurals name="number_of_travelers_TEMPLATE">
-        <item quantity="zero">%1$dผู้เดินทาง</item>
+        <item quantity="zero">%1$d ผู้เดินทาง</item>
         <item quantity="one">%1$d ผู้เดินทาง</item>
         <item quantity="two">%1$d ผู้เดินทาง</item>
         <item quantity="few">%1$d ผู้เดินทาง</item>
