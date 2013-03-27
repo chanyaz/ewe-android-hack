@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -111,7 +112,8 @@ public class ItineraryMapFragment extends SupportMapFragment {
 	private void showItinMarkers() {
 		GoogleMap map = getMap();
 
-		List<ItinCardData> data = ItineraryManager.getInstance().getItinCardData();
+		List<ItinCardData> data = new ArrayList<ItinCardData>();
+		data.addAll(ItineraryManager.getInstance().getItinCardData());
 		boolean hasLocations = false;
 		for (ItinCardData card : data) {
 			if (card.getLocation() != null) {
