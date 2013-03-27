@@ -137,11 +137,14 @@
 
     <!-- The visible area of the map on the Hotel Details screen (when collapsed) -->
     <dimen name="hotel_details_map_visible_size">150dp</dimen>
-
     <!-- The total height of the map on the Hotel Details screen that can be scrolled to -->
     <dimen name="hotel_details_map_total_size">300dp</dimen>
+
+    <!-- The visible area of the parallaxed map on the Itin details view -->
+    <dimen name="itin_map_visible_size">160dp</dimen>
     <!-- The total height of the map on the Itin details that can be scrolled to -->
-    <dimen name="itin_map_total_size">160dp</dimen>
+    <dimen name="itin_map_total_size">320dp</dimen>
+    <dimen name="itin_map_flight_total_size">200dp</dimen>
 
     <!-- Dimensions for book now button or any other button in the header -->
     <dimen name="header_button_height">38dp</dimen>

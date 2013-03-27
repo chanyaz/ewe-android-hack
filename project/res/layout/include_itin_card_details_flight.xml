@@ -65,13 +65,22 @@
 
     <!-- MAP -->
 
-    <com.expedia.bookings.widget.FlightMapImageView
-        android:id="@+id/mini_map"
+    <com.expedia.bookings.widget.ParallaxContainer
         android:layout_width="match_parent"
-        android:layout_height="@dimen/itin_map_total_size"
-        android:background="#aaaaaa"
-        android:focusable="false"
-        android:scaleType="centerCrop" />
+        android:layout_height="@dimen/itin_map_visible_size"
+        app:offsetBottom="80dp"
+        app:offsetTop="80dp"
+        app:scrollMax="30dp"
+        app:scrollMin="10dp" >
+
+        <com.expedia.bookings.widget.FlightMapImageView
+            android:id="@+id/mini_map"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/itin_map_flight_total_size"
+            android:background="#aaaaaa"
+            android:focusable="false"
+            android:scaleType="centerCrop" />
+    </com.expedia.bookings.widget.ParallaxContainer>
 
     <!-- Flight legs -->
 
