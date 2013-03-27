@@ -55,6 +55,8 @@
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">죄송합니다. 지금 연결할 수 없습니다.</string>
     <!-- Menu option for going to see your trips/itineraries -->
+    <string name="trips">여행</string>
+    <!-- Menu option for going to see your trips/itineraries (on tablet) -->
     <string name="your_trips">내 여행</string>
 
     <!-- Itineraries -->
@@ -62,7 +64,7 @@
     <string name="itinerary">일정</string>
     <!-- Itineraries (plural title) -->
     <string name="itineraries">일정</string>
-    <!--  Shop -->
+    <!-- Shop -->
     <string name="shop">쇼핑</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">일정 찾기</string>
@@ -111,7 +113,7 @@
         <item quantity="many">%s일</item>
         <item quantity="other">%s일</item>
     </plurals>
-    <!-- Template for card header text (will be filled in with "Title - Date")-->
+    <!-- Template for card header text (will be filled in with "Title - Date") -->
     <string name="Title_Date_TEMPLATE">%1$s - %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
     <string name="Flight">항공편</string>
@@ -135,6 +137,8 @@
     <string name="flight_confirmation_code_label">항공사 확인</string>
     <!-- Flight Carrier confirmation code label template -->
     <string name="flight_carrier_confirmation_code_label_TEMPLATE">%1$s 확인</string>
+    <!-- Car rental agency name and location in car itin detail -->
+    <string name="car_rental_agency_name_location">%1$s, %2$s, %3$s</string>
     <!-- Car rental confirmation code "Agency Confirmation Code" -->
     <string name="car_rental_confirmation_code_label">렌터카 회사 확인 코드</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
@@ -151,7 +155,7 @@
     <string name="arrival_terminal_TEMPLATE">터미널 %1$s, 게이트 %2$s 도착</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">터미널 %1$s, 게이트 %2$s 출발</string>
-    <!-- To be determined abbrev.-->
+    <!-- To be determined abbrev. -->
     <string name="to_be_determined_abbrev">미정</string>
     <!-- Itin flight gate only template -->
     <string name="gate_number_only_TEMPLATE">게이트 %1$s</string>
@@ -321,7 +325,6 @@
     <string name="itin_card_details_details">추가 정보</string>
     <string name="itin_card_details_pick_up">차량 인수</string>
     <string name="itin_card_details_drop_off">차량 반납</string>
-    <string name="itin_card_details_days">기간(일)</string>
     <!-- Tell users when they can pick up a rental car. %1$s is a time, e.g. ("pick up after 5 PM") -->
     <string name="itin_card_details_pick_up_TEMPLATE">%1$s 이후에 차량 인수</string>
     <!-- Tell users when they need to drop off a rental car. %1$s is a time, e.g. ("drop off before 5 PM") -->
@@ -377,7 +380,7 @@
     <string name="share_template_subject_flight">내가 예약한 %1$s행 항공편(%2$s)</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
     <string name="share_template_short_flight_sameday">저 %1$s 비행기로 %2$s에 가요. 날짜는 %3$s이고요.\n%4$s에서 출발하는 시간은 %5$s, \n%6$s에 도착하는 시간은 %7$s에요(%8$s).</string>
-     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
+    <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
     <string name="share_template_short_flight_multiday">저 %1$s 비행기로 %2$s에 가요.\n%3$s에서 출발하는 시간은 %4$s, \n%5$s에 도착하는 시간은 %6$s에요(%7$s).</string>
     <!-- 1: Origin city 2: Destination city 3: Flight Carrier and number 4: Departure date 5: Departure airport code 6: Departure Time 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival terminal gate 11: Traveler list -->
     <string name="share_template_long_flight_sameday">안녕하세요, \n\n%1$s에서 출발하여 %2$s에 도착하는 제 항공편 정보를 아래와 같이 알려드릴게요.\n\n%3$s - %4$s\n\n%5$s에서 출발하는 시간: %6$s(%7$s)\n%8$s에 도착하는 시간: %9$s(%10$s)\n\n여행객:\n%11$s</string>
@@ -625,7 +628,7 @@
     <!-- I Accept button label -->
     <string name="I_Accept">동의</string>
     <!-- Slide to purchase -->
-    <string name="slide_to_purchase">구매하려면 밀어주세요.</string>
+    <string name="slide_to_purchase">밀어서 구매하기</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">고객님의 신용카드로 %1$s의 금액이 청구됩니다.</string>
     <!-- Amount to be paid now -->
@@ -650,6 +653,10 @@
     <string name="the_hotel_raised_the_price_TEMPLATE">호텔에서 방금 이 객실의 가격을 1박당 %1$s의 금액으로 올렸습니다.</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_lowered_the_price_TEMPLATE">호텔에서 방금 이 객실의 가격을 1박당 %1$s의 금액으로 내렸습니다.</string>
+    <!-- String to use when a price change alert should be shown to the user -->
+    <string name="the_hotel_raised_the_total_price_TEMPLATE">호텔에서 방금 이 객실의 총 요금을 %1$s에서 %2$s의 금액으로 올렸습니다.</string>
+    <!-- String to use when a price change alert should be shown to the user -->
+    <string name="the_hotel_lowered_the_total_price_TEMPLATE">호텔에서 방금 이 객실의 총 요금을 %1$s에서 %2$s의 금액으로 내렸습니다.</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">완료</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
@@ -688,7 +695,7 @@
     <!-- Born on -->
     <string name="born_on_TEMPLATE">생년월일: %1$s</string>
     <!-- Born on colored -->
-    <string name="born_on_colored_TEMPLATE">&lt;font color="#919191"&gt;생년월일: &lt;/font&gt;%1$s</string>
+    <string name="born_on_colored_TEMPLATE">&lt;font color="#919191"&gt;생년월일:&lt;/font&gt; %1$s</string>
     <!-- <brand> expiring <date> template -->
     <string name="brand_expiring_TEMPLATE">&lt;font color="#38597D"&gt;%1$s&lt;/font&gt; 만료일: %2$s</string>
 
@@ -704,7 +711,7 @@
     <!-- email disclaimer -->
     <string name="email_disclaimer">예약 일정이 고객님의 이메일로 전송됩니다.</string>
     <!-- Expires on colored template -->
-    <string name="expires_colored_TEMPLATE">&lt;font color="#919191"&gt;만료일: &lt;/font&gt;%1$s</string>
+    <string name="expires_colored_TEMPLATE">&lt;font color="#919191"&gt;만료일:&lt;/font&gt; %1$s</string>
 
     <!-- Section display payment -->
     <!-- Template for blanked out Credit Card -->
@@ -856,7 +863,7 @@
     <!-- Message telling you where you've booked a flight.  %s is the city name, e.g. "You're going to Venice!" -->
     <string name="yay_going_somewhere_TEMPLATE">%s에 가시는군요!</string>
     <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
-    <string name="itinerary_confirmation_TEMPLATE">여행 일정 번호(%s)가 (으)로 전송되었습니다.</string>
+    <string name="itinerary_confirmation_TEMPLATE">여행 일정 번호(%s)가 전송되었습니다.</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">객실 예약하기</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
@@ -987,7 +994,7 @@
     <string name="share_flight_round_trip_TEMPLATE">%1$s에서 출발하여 %2$s에 도착하는 제 왕복 항공편 정보를 아래와 같이 알려드릴게요.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">일정 번호: %s</string>
-     <!-- Section with a bunch of travelers on the flight (listed below) -->
+    <!-- Section with a bunch of travelers on the flight (listed below) -->
     <string name="share_travelers_section">여행객 명단:</string>
     <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc… %2$s is their name -->
     <!-- examples: "Traveler 1: Tom Smith" "Traveler 2: David Thomas" or if only one traveler, "Traveler: Matt Long" -->
@@ -1539,7 +1546,7 @@
     <!-- ActionBar button for starting a new search -->
     <string name="NEW_SEARCH">새로 검색</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template">예약 관련 문의 사항이 있으시면 Expedia 전화 %s(으)로 연락해 주세요.</string>
+    <string name="contact_phone_template">예약 관련 문의 사항이 있으시면 Expedia 전화 %s번으로 연락해 주세요.</string>
 
     <!-- Confirmation Fragment -->
     <!-- Label to share booking information after a booking confirmation -->
@@ -1730,7 +1737,7 @@
     <string name="preference_point_of_sale_title">국가</string>
 
     <!-- Strings used a lot of places -->
-    <!-- A number of adults -->
+    <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">어른 %d명</item>
         <item quantity="one">어른 %d명</item>
@@ -1738,7 +1745,7 @@
         <item quantity="many">어른 %d명</item>
         <item quantity="other">어른 %d명</item>
     </plurals>
-    <!-- A number of children -->
+    <!-- A number of children. Capitalized -->
     <plurals name="number_of_children">
         <item quantity="zero">아동 %d명</item>
         <item quantity="one">아동 %d명</item>
@@ -1746,13 +1753,21 @@
         <item quantity="many">아동 %d명</item>
         <item quantity="other">아동 %d명</item>
     </plurals>
-    <!-- A number of guests -->
+    <!-- A number of guests. Capitalized -->
     <plurals name="number_of_guests">
         <item quantity="zero">숙박객 %d명</item>
         <item quantity="one">숙박객 %d명</item>
         <item quantity="two">숙박객 %d명</item>
         <item quantity="many">숙박객 %d명</item>
         <item quantity="other">숙박객 %d명</item>
+    </plurals>
+    <!-- A number of guests (but not including the guest count). Capitalized -->
+    <plurals name="number_of_guests_label">
+        <item quantity="zero">숙박객 수</item>
+        <item quantity="one">숙박객 수</item>
+        <item quantity="two">숙박객 수</item>
+        <item quantity="many">숙박객 수</item>
+        <item quantity="other">숙박객 수</item>
     </plurals>
     <!-- A number of nights (as in stay duration).  Capitalized -->
     <plurals name="number_of_nights">
@@ -1761,6 +1776,22 @@
         <item quantity="two">%d박</item>
         <item quantity="many">%d박</item>
         <item quantity="other">%d박</item>
+    </plurals>
+    <!-- A number of days (as in rental duration).  Capitalized -->
+    <plurals name="number_of_days">
+        <item quantity="zero">%d일</item>
+        <item quantity="one">%d일</item>
+        <item quantity="two">%d일</item>
+        <item quantity="many">%d일</item>
+        <item quantity="other">%d일</item>
+    </plurals>
+    <!-- A number of days (as in rental duration), not including the actual number. Capitalized -->
+    <plurals name="number_of_days_label">
+        <item quantity="zero">기간(일)</item>
+        <item quantity="one">기간(일)</item>
+        <item quantity="two">기간(일)</item>
+        <item quantity="many">기간(일)</item>
+        <item quantity="other">기간(일)</item>
     </plurals>
 
     <!-- Distance strings -->

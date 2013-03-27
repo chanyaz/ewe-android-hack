@@ -17,7 +17,7 @@
     <!-- Unable to log in to Facebook -->
     <string name="unable_to_log_into_facebook">无法登录到 Facebook。</string>
     <!-- Login failed try again -->
-    <string name="login_failed_try_again">登录失败，请重新输入密码，再试一次。</string>
+    <string name="login_failed_try_again">登录失败。请重新输入密码，再试一次。</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Expedia 密码</string>
     <!-- Link accounts -->
@@ -55,6 +55,8 @@
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">很遗憾，我们无法建立连接。</string>
     <!-- Menu option for going to see your trips/itineraries -->
+    <string name="trips">旅行</string>
+    <!-- Menu option for going to see your trips/itineraries (on tablet) -->
     <string name="your_trips">您的旅行</string>
 
     <!-- Itineraries -->
@@ -62,7 +64,7 @@
     <string name="itinerary">行程</string>
     <!-- Itineraries (plural title) -->
     <string name="itineraries">行程</string>
-    <!--  Shop -->
+    <!-- Shop -->
     <string name="shop">预订</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">查找行程</string>
@@ -111,7 +113,7 @@
         <item quantity="many">%s 天</item>
         <item quantity="other">%s 天</item>
     </plurals>
-    <!-- Template for card header text (will be filled in with "Title - Date")-->
+    <!-- Template for card header text (will be filled in with "Title - Date") -->
     <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
     <string name="Flight">航班</string>
@@ -135,6 +137,8 @@
     <string name="flight_confirmation_code_label">航空公司确认代码</string>
     <!-- Flight Carrier confirmation code label template -->
     <string name="flight_carrier_confirmation_code_label_TEMPLATE">%1$s 确认代码</string>
+    <!-- Car rental agency name and location in car itin detail -->
+    <string name="car_rental_agency_name_location">%3$s %2$s - %1$s</string>
     <!-- Car rental confirmation code "Agency Confirmation Code" -->
     <string name="car_rental_confirmation_code_label">旅行社确认代码</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
@@ -151,7 +155,7 @@
     <string name="arrival_terminal_TEMPLATE">到达航站楼 %1$s，登机口 %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">出港航站楼 %1$s，登机口 %2$s</string>
-    <!-- To be determined abbrev.-->
+    <!-- To be determined abbrev. -->
     <string name="to_be_determined_abbrev">待定</string>
     <!-- Itin flight gate only template -->
     <string name="gate_number_only_TEMPLATE">登机口%1$s</string>
@@ -289,9 +293,9 @@
     <string name="car_category_oversize">特大型车</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">双门 轿车</string>
-    <string name="car_type_three_door">三门 轿车</string>
-    <string name="car_type_four_door">四门 轿车</string>
+    <string name="car_type_two_door">两个门 轿车</string>
+    <string name="car_type_three_door">三个门 轿车</string>
+    <string name="car_type_four_door">四个门 轿车</string>
     <string name="car_type_van">箱型车</string>
     <string name="car_type_wagon">旅行车</string>
     <string name="car_type_limousine">豪华轿车</string>
@@ -321,7 +325,6 @@
     <string name="itin_card_details_details">其他信息</string>
     <string name="itin_card_details_pick_up">取车</string>
     <string name="itin_card_details_drop_off">还车</string>
-    <string name="itin_card_details_days">天数</string>
     <!-- Tell users when they can pick up a rental car. %1$s is a time, e.g. ("pick up after 5 PM") -->
     <string name="itin_card_details_pick_up_TEMPLATE">%1$s 之后取车</string>
     <!-- Tell users when they need to drop off a rental car. %1$s is a time, e.g. ("drop off before 5 PM") -->
@@ -377,7 +380,7 @@
     <string name="share_template_subject_flight">%2$s飞往%1$s的航班</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
     <string name="share_template_short_flight_sameday">我正在 %3$s 飞往 %2$s 的 %1$s 次航班上。\n%5$s\n飞离 %4$s；%7$s, %8$s 到达 %6$s</string>
-     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
+    <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
     <string name="share_template_short_flight_multiday">我正在飞往 %2$s 的 %1$s 次航班上。\n%4$s\n飞离 %3$s；%6$s, %7$s 到达 %5$s</string>
     <!-- 1: Origin city 2: Destination city 3: Flight Carrier and number 4: Departure date 5: Departure airport code 6: Departure Time 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival terminal gate 11: Traveler list -->
     <string name="share_template_long_flight_sameday">嗨，\n\n这是我%1$s至%2$s的航班的详细信息。\n\n%3$s - %4$s\n\n %6$s飞离 %5$s（%7$s）\n%10$s到达%8$s（%9$s）\n\n旅客名单\n%11$s</string>
@@ -647,9 +650,13 @@
     <!-- Label to show next to the total price on the checkout receipt -->
     <string name="grand_total">总计</string>
     <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_raised_the_price_TEMPLATE">酒店已将该房间的价格升至每晚 %1$s。</string>
+    <string name="the_hotel_raised_the_price_TEMPLATE">酒店刚刚将该房间的价格升至每晚 %1$s。</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_lowered_the_price_TEMPLATE">酒店刚刚将该房间的价格将至每晚 %1$s。</string>
+    <!-- String to use when a price change alert should be shown to the user -->
+    <string name="the_hotel_raised_the_total_price_TEMPLATE">酒店刚刚将该房间的总价从 %1$s 升至 %2$s。</string>
+    <!-- String to use when a price change alert should be shown to the user -->
+    <string name="the_hotel_lowered_the_total_price_TEMPLATE">酒店刚刚将该房间的总价从 %1$s 降至 %2$s。</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">完成</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
@@ -987,7 +994,7 @@
     <string name="share_flight_round_trip_TEMPLATE">这是我%1$s至%2$s的往返航班的详细信息。</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">行程编号：%s</string>
-     <!-- Section with a bunch of travelers on the flight (listed below) -->
+    <!-- Section with a bunch of travelers on the flight (listed below) -->
     <string name="share_travelers_section">旅客：</string>
     <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc… %2$s is their name -->
     <!-- examples: "Traveler 1: Tom Smith" "Traveler 2: David Thomas" or if only one traveler, "Traveler: Matt Long" -->
@@ -1730,7 +1737,7 @@
     <string name="preference_point_of_sale_title">国家/地区</string>
 
     <!-- Strings used a lot of places -->
-    <!-- A number of adults -->
+    <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">%d 位成人</item>
         <item quantity="one">%d 位成人</item>
@@ -1738,7 +1745,7 @@
         <item quantity="many">%d 位成人</item>
         <item quantity="other">%d 位成人</item>
     </plurals>
-    <!-- A number of children -->
+    <!-- A number of children. Capitalized -->
     <plurals name="number_of_children">
         <item quantity="zero">%d 名儿童</item>
         <item quantity="one">%d 名儿童</item>
@@ -1746,13 +1753,21 @@
         <item quantity="many">%d 名儿童</item>
         <item quantity="other">%d 名儿童</item>
     </plurals>
-    <!-- A number of guests -->
+    <!-- A number of guests. Capitalized -->
     <plurals name="number_of_guests">
         <item quantity="zero">%d 位宾客</item>
         <item quantity="one">%d 位宾客</item>
         <item quantity="two">%d 位宾客</item>
         <item quantity="many">%d 位宾客</item>
         <item quantity="other">%d 位宾客</item>
+    </plurals>
+    <!-- A number of guests (but not including the guest count). Capitalized -->
+    <plurals name="number_of_guests_label">
+        <item quantity="zero">位宾客</item>
+        <item quantity="one">位宾客</item>
+        <item quantity="two">位宾客</item>
+        <item quantity="many">位宾客</item>
+        <item quantity="other">位宾客</item>
     </plurals>
     <!-- A number of nights (as in stay duration).  Capitalized -->
     <plurals name="number_of_nights">
@@ -1761,6 +1776,22 @@
         <item quantity="two">%d 晚</item>
         <item quantity="many">%d 晚</item>
         <item quantity="other">%d 晚</item>
+    </plurals>
+    <!-- A number of days (as in rental duration).  Capitalized -->
+    <plurals name="number_of_days">
+        <item quantity="zero">%d 天</item>
+        <item quantity="one">%d 天</item>
+        <item quantity="two">%d 天</item>
+        <item quantity="many">%d 天</item>
+        <item quantity="other">%d 天</item>
+    </plurals>
+    <!-- A number of days (as in rental duration), not including the actual number. Capitalized -->
+    <plurals name="number_of_days_label">
+        <item quantity="zero">天</item>
+        <item quantity="one">天</item>
+        <item quantity="two">天</item>
+        <item quantity="many">天</item>
+        <item quantity="other">天</item>
     </plurals>
 
     <!-- Distance strings -->

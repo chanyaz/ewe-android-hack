@@ -3,9 +3,9 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">Hei &lt;b&gt;%1$s&lt;/b&gt;, det ser ut som vi har funnet Expedia-kontoen din! Vennligst skriv inn Expedia-passordet ditt nedenfor for å koble Facebook-kontoen din opp mot Expedia-kontoen din.</string>
+    <string name="facebook_weve_found_your_account">Hei, &lt;b&gt;%1$s&lt;/b&gt;! Det ser ut som vi har funnet Expedia-kontoen din! Vennligst skriv inn Expedia-passordet ditt nedenfor for å koble Facebook-kontoen din opp mot Expedia-kontoen din.</string>
     <!-- Weve fetched your facebook info -->
-    <string name="facebook_weve_fetched_your_info">Hei &lt;b&gt;%1$s&lt;/b&gt;, vi har hentet Facebook-informasjonen din!</string>
+    <string name="facebook_weve_fetched_your_info">Hei, &lt;b&gt;%1$s&lt;/b&gt;! Vi har hentet Facebook-informasjonen din!</string>
     <!-- Log in with facebook (button text) -->
     <string name="Log_in_with_Facebook">Logg på med Facebook</string>
     <!-- fetching information from Facebook -->
@@ -13,11 +13,11 @@
     <!-- Attempting to log you in with facebook credentials -->
     <string name="attempting_to_log_in_with_facebook">Prøver å logge deg på med dine Facebook-detaljer…</string>
     <!-- We have encountered an error -->
-    <string name="unspecified_error">En uspesifert feil har oppstått. Prøv igjen senere.</string>
+    <string name="unspecified_error">En uspesifisert feil har oppstått. Prøv igjen senere.</string>
     <!-- Unable to log in to Facebook -->
     <string name="unable_to_log_into_facebook">Innlogging på Facebook er ikke mulig.</string>
     <!-- Login failed try again -->
-    <string name="login_failed_try_again">Login feilet. Skriv inn passordet ditt og prøv på nytt.</string>
+    <string name="login_failed_try_again">Pålogging feilet. Skriv inn passordet ditt og prøv på nytt.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Expedia-passord</string>
     <!-- Link accounts -->
@@ -45,7 +45,7 @@
 
     <!-- Launch screen -->
     <!-- Label for launch screen hotel button secondary text -->
-    <string name="launch_hotel_secondary_text">Bestill et rom</string>
+    <string name="launch_hotel_secondary_text">Bestill et rom.</string>
     <!-- Label for launch screen flight button secondary text -->
     <string name="launch_flight_secondary_text">Dra på ferie.</string>
     <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
@@ -55,6 +55,8 @@
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Beklager, det er ikke mulig å koble til.</string>
     <!-- Menu option for going to see your trips/itineraries -->
+    <string name="trips">Reiser</string>
+    <!-- Menu option for going to see your trips/itineraries (on tablet) -->
     <string name="your_trips">Dine reiser</string>
 
     <!-- Itineraries -->
@@ -62,7 +64,7 @@
     <string name="itinerary">Reiserute</string>
     <!-- Itineraries (plural title) -->
     <string name="itineraries">Reiseruter</string>
-    <!--  Shop -->
+    <!-- Shop -->
     <string name="shop">Søk</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Finn reiserute</string>
@@ -73,7 +75,7 @@
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">Expedia-reiserutenummer:</string>
     <!-- No upcoming trips -->
-    <string name="no_upcoming_trips">Ingen forestående reiser.</string>
+    <string name="no_upcoming_trips">Ingen kommende reiser.</string>
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">Skriv inn reiserutenummer</string>
     <!-- Fetching your itinerary -->
@@ -111,7 +113,7 @@
         <item quantity="many">%s dager</item>
         <item quantity="other">%s dager</item>
     </plurals>
-    <!-- Template for card header text (will be filled in with "Title - Date")-->
+    <!-- Template for card header text (will be filled in with "Title - Date") -->
     <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
     <string name="Flight">Flyvning</string>
@@ -135,6 +137,8 @@
     <string name="flight_confirmation_code_label">Bekreftelse fra flyselskapet</string>
     <!-- Flight Carrier confirmation code label template -->
     <string name="flight_carrier_confirmation_code_label_TEMPLATE">Bekreftelse fra %1$s</string>
+    <!-- Car rental agency name and location in car itin detail -->
+    <string name="car_rental_agency_name_location">%1$s i %2$s i %3$s</string>
     <!-- Car rental confirmation code "Agency Confirmation Code" -->
     <string name="car_rental_confirmation_code_label">Bekreftelseskode fra byrået</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
@@ -151,7 +155,7 @@
     <string name="arrival_terminal_TEMPLATE">Ankomstterminal %1$s, gate %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Avgangsterminal %1$s, gate %2$s</string>
-    <!-- To be determined abbrev.-->
+    <!-- To be determined abbrev. -->
     <string name="to_be_determined_abbrev">Ikke fastsatt enda</string>
     <!-- Itin flight gate only template -->
     <string name="gate_number_only_TEMPLATE">Gate %1$s</string>
@@ -172,11 +176,11 @@
     <!-- Itin flight summary second line for departure waypoint that also includes time of departure; first parameter is the airport code, second parameter is the localized time (e.g. 13:45) -->
     <string name="from_airport_time_TEMPLATE">&lt;b&gt;Fra %1$s&lt;/b&gt; kl. %2$s</string>
     <!-- Itin flight summary second line for arrival waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight arrives/d -->
-    <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;På %1$s&lt;/b&gt; - %2$s</string>
+    <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;På %1$s&lt;/b&gt; – %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
-    <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;Fra %1$s&lt;/b&gt; - %2$s</string>
+    <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;Fra %1$s&lt;/b&gt; – %2$s</string>
     <!-- Itin logout confirmation message -->
-    <string name="itin_logout_confirmation_message_TEMPLATE">Hvis du logger ut av %1$s, vil du fjerne alle reiseruter forbundet med denne kontoen. Er du sikker på at du vil logge av?</string>
+    <string name="itin_logout_confirmation_message_TEMPLATE">Hvis du logger av %1$s, vil alle reiseruter forbundet med denne kontoen bli fjernet. Er du sikker på at du vil logge av?</string>
     <!-- Booking code unavailable message -->
     <string name="missing_booking_code">Bestillingskode er ikke tilgjengelig.</string>
     <!-- Flight to TEMPLATE -->
@@ -230,11 +234,11 @@
     <!-- Flight arrives on time -->
     <string name="flight_arrives_on_time">Ankommer til rett tid</string>
     <!-- Arrived early {duration from now} -->
-    <string name="flight_arrived_early_at_TEMPLATE">Ankom tidlig %1$s</string>
+    <string name="flight_arrived_early_at_TEMPLATE">Ankom tidlig, kl. %1$s</string>
     <!-- Arrived late {duration from now} -->
-    <string name="flight_arrived_late_at_TEMPLATE">Ankom sent %1$s</string>
+    <string name="flight_arrived_late_at_TEMPLATE">Ankom sent, kl. %1$s</string>
     <!-- Arrived on time {duration from now} -->
-    <string name="flight_arrived_on_time_at_TEMPLATE">Ankom til rett tid %1$s</string>
+    <string name="flight_arrived_on_time_at_TEMPLATE">Ankom til rett tid, kl. %1$s</string>
     <!-- Arrived {duration} early -->
     <string name="flight_arrived_x_early_TEMPLATE">Ankom %1$s for tidlig</string>
     <!-- Arrived {duration} late -->
@@ -242,7 +246,7 @@
     <!-- Flight arrived on time -->
     <string name="flight_arrived_on_time">Ankom til rett tid</string>
     <!-- Flight arrived (fallback when we have very little information about arrival available) -->
-    <string name="flight_arrived">Ankom</string>
+    <string name="flight_arrived">Ankommet</string>
     <!-- Refresh -->
     <string name="refresh">Oppdater</string>
     <!-- Try Again -->
@@ -321,11 +325,10 @@
     <string name="itin_card_details_details">Tilleggsinformasjon</string>
     <string name="itin_card_details_pick_up">Henting</string>
     <string name="itin_card_details_drop_off">Avlevering</string>
-    <string name="itin_card_details_days">dager</string>
     <!-- Tell users when they can pick up a rental car. %1$s is a time, e.g. ("pick up after 5 PM") -->
-    <string name="itin_card_details_pick_up_TEMPLATE">Henting etter %1$s</string>
+    <string name="itin_card_details_pick_up_TEMPLATE">Henting etter kl. %1$s</string>
     <!-- Tell users when they need to drop off a rental car. %1$s is a time, e.g. ("drop off before 5 PM") -->
-    <string name="itin_card_details_drop_off_TEMPLATE">Levering etter %1$s</string>
+    <string name="itin_card_details_drop_off_TEMPLATE">Levering etter kl. %1$s</string>
     <string name="itin_card_details_agency_phone">Telefonnummer til byrå</string>
     <string name="itin_card_details_toll_free_phone">Gratisnummer</string>
     <string name="itin_card_details_check_in">Innsjekking</string>
@@ -342,9 +345,9 @@
     <string name="itin_card_details_reload_cruise">Last inn informasjon om cruise på nytt</string>
 
     <!-- Message to users about when they can check into their hotel.  %1$s is a time (e.g., "Check in after 5 PM") -->
-    <string name="itin_card_hotel_summary_check_in_TEMPLATE">Innsjekking etter %1$s</string>
+    <string name="itin_card_hotel_summary_check_in_TEMPLATE">Innsjekking etter kl. %1$s</string>
     <!-- Message to users about when they need to check out of their hotel.  %1$s is a time (e.g., "Check out before 5 PM") -->
-    <string name="itin_card_hotel_summary_check_out_TEMPLATE">Utsjekking før %1$s</string>
+    <string name="itin_card_hotel_summary_check_out_TEMPLATE">Utsjekking før kl. %1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">Gyldig fra &lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Action Buttons -->
@@ -358,13 +361,13 @@
 
     <!-- Itin Share templates -->
     <!-- 1: hotel name 2: check in date 3: check out date -->
-    <string name="share_template_subject_hotel">Mitt hotellopphold i %1$s (%2$s – %3$s)</string>
+    <string name="share_template_subject_hotel">Mitt hotellopphold på %1$s (%2$s–%3$s)</string>
     <!-- 1: hotel name 2: check in date 3: check out date 4: hotel web url -->
-    <string name="share_template_short_hotel">Jeg bor på %1$s\n%2$s – %3$s\n\n%4$s</string>
+    <string name="share_template_short_hotel">Jeg skal bo på %1$s\n%2$s–%3$s\n\n%4$s</string>
     <!-- 1: Hotel name, 2: Formatted length of stay -->
-    <string name="share_template_long_hotel_1_greeting">Hei, \n\nJeg skal bo på %1$s i %2$s.</string>
+    <string name="share_template_long_hotel_1_greeting">Hei \n\nJeg skal bo på %1$s i %2$s.</string>
     <!-- 1: Check in date, 2: Check out date -->
-    <string name="share_template_long_hotel_2_checkin_checkout"><b>Innsjekking</b>%1$s\n<b>Utsjekking</b>%2$s</string>
+    <string name="share_template_long_hotel_2_checkin_checkout"><b>Innsjekking</b> %1$s\n<b>Utsjekking</b> %2$s</string>
     <!-- 1: Hotel name, 2: Hotel street address -->
     <string name="share_template_long_hotel_3_address">%1$s\n%2$s</string>
     <!-- Hotel phone number -->
@@ -377,24 +380,24 @@
     <string name="share_template_subject_flight">Mitt fly til %1$s den %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
     <string name="share_template_short_flight_sameday">Jeg er på fly %1$s til %2$s den %3$s.\nAvreise fra %4$s kl. %5$s\nAnkomst ved %6$s kl. %7$s, %8$s</string>
-     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
+    <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
     <string name="share_template_short_flight_multiday">Jeg er på fly %1$s til %2$s.\nAvreise fra %3$s kl. %4$s\nAnkomst ved %5$s kl. %6$s, %7$s</string>
     <!-- 1: Origin city 2: Destination city 3: Flight Carrier and number 4: Departure date 5: Departure airport code 6: Departure Time 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival terminal gate 11: Traveler list -->
-    <string name="share_template_long_flight_sameday">Hei \n\nHer er informasjonen for flyvningen min fra %1$s til %2$s.\n\n%3$s - %4$s\n\nAvreise fra %5$s kl. %6$s fra %7$s.\nAnkomst%8$s ved %9$s kl. %10$s.\n\nReisende\n%11$s</string>
+    <string name="share_template_long_flight_sameday">Hei \n\nHer er informasjonen for flyvningen min fra %1$s til %2$s.\n\n%3$s – %4$s\n\nAvreise fra %5$s kl. %6$s, fra %7$s.\nAnkomst%8$s ved %9$s kl. %10$s.\n\nReisende\n%11$s</string>
     <!-- 1: Origin city 2: Desitination city 3: Flight carrier and number 4: Departure airport code 5: Departure time 6: Departure date 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival date 11: Arrival terminal gate 12: Traveler list -->
     <string name="share_template_long_flight_multiday">Hei \n\nHer er informasjonen for flyvningen min fra %1$s til %2$s.\n\n%3$s\n\nAvreise fra %4$s kl. %5$s den %6$s fra %7$s.\nAnkomst %8$s kl. %9$s den %10$s ved %11$s\n\nReisende\n%12$s</string>
     <!-- 1: pick up date 2: drop off date -->
-    <string name="share_template_subject_car">Min leiebil (%1$s – %2$s)</string>
+    <string name="share_template_subject_car">Min leiebil (%1$s–%2$s)</string>
     <!-- 1: vehicle type 2: pick up date 3: drop off date 4: vendor name 5: full address -->
-    <string name="share_template_short_car">Jeg har leid en %1$s fra %2$s – %3$s\n%4$s\n%5$s</string>
+    <string name="share_template_short_car">Jeg har leid en %1$s fra %2$s til %3$s\n%4$s\n%5$s</string>
     <!-- 1: vendor name, 2: vehicle type, 3: pick up date, 4: pick up time, 5: drop off date, 6: drop off time, 7: full address, 8: phone number -->
-    <string name="share_template_long_car">Hei \n\nHer er informasjonen om %1$s leiebilen min. \n\n<b>Kjøretøy</b> %2$s\n<b>henting</b> %3$s på <b>%4$s</b>\n<b>Avlevering</b> %5$s på <b>%6$s</b>\n\n<b>Sted</b>\n%1$s\n%7$s\n%8$s</string>
+    <string name="share_template_long_car">Hei \n\nHer er informasjonen om leiebilen min fra %1$s. \n\n<b>Kjøretøy</b> %2$s\n<b>Henting</b> %3$s kl. <b>%4$s</b>\n<b>Avlevering</b> %5$s kl. <b>%6$s</b>\n\n<b>Sted</b>\n%1$s\n%7$s\n%8$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
-    <string name="share_car_start_TEMPLATE">Her er informasjonen om %1$s leiebilen min.</string>
+    <string name="share_car_start_TEMPLATE">Her er informasjonen om leiebilen min fra %1$s.</string>
     <!-- Label for type of vehicle.  %1$s is the car type (e.g., "Three Door Car") -->
     <string name="share_car_vehicle_TEMPLATE">Kjøretøy: %1$s</string>
     <!-- The car rental pick up time.  %1$s is a date, %2$s is a time (e.g., "Pick Up After: 3/21/13 at 5 PM") -->
-    <string name="share_car_pickup_TEMPLATE">Henting etter: %1$s på %2$s</string>
+    <string name="share_car_pickup_TEMPLATE">Henting etter: %1$s kl. %2$s</string>
     <!-- The car rental drop off time.  %1$s is a date, %2$s is a time (e.g., "Drop Off Before: 3/21/13 at 5 PM") -->
     <string name="share_car_dropoff_TEMPLATE">Levering før: %1$s kl. %2$s</string>
     <!-- Section header for the location of the car rental pickup/dropoff. -->
@@ -405,11 +408,11 @@
     <string name="share_car_dropoff_location_section">Sted for avlevering:</string>
 
     <!-- 1: activity title -->
-    <string name="share_template_subject_activity">Mine %1$s detaljer</string>
+    <string name="share_template_subject_activity">Mine detaljer om %1$s</string>
     <!-- 1: activity title 2: valid date 3: expiration date -->
-    <string name="share_template_short_activity">Jeg har kjøpt en aktivitet: %1$s\n. Den er gyldig fra den %2$s\n og utløper den %3$s</string>
+    <string name="share_template_short_activity">Jeg har kjøpt en aktivitet: %1$s\n. Gyldig fra: %2$s\nUtløper: %3$s</string>
     <!-- 1: activity title, 2: valid date, 3: expiration date, 4: list of guests -->
-    <string name="share_template_long_activity">Hei,\n\nHer er informasjonen om min %1$s\n\n<b>Gyldig</b> %2$s\n<b>Utløper</b> %3$s\n\n<b>gjester</b>\n%4$s</string>
+    <string name="share_template_long_activity">Hei \n\nHer er informasjonen om min aktivitet: %1$s\n\n<b>Gyldig fra</b> %2$s\n<b>Utløper</b> %3$s\n\n<b>Gjester</b>\n%4$s</string>
     <string name="share_template_subject_cruise"></string>
     <string name="share_template_short_cruise"></string>
     <string name="share_template_long_cruise"></string>
@@ -448,7 +451,7 @@
     <!-- Template for outbound flight selection.  %s is the name of a city (e.g., "Outbound to San Francisco") -->
     <string name="outbound_TEMPLATE">Utreise til %s</string>
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
-    <string name="inbound_TEMPLATE">Inkommende flyvninger til %s</string>
+    <string name="inbound_TEMPLATE">Innkommende flyvninger til %s</string>
     <!-- Error when we simple can't connect to E3 servers -->
     <string name="error_server">Beklager, vi kunne ikke koble til Expedias server.  Prøv igjen senere.</string>
     <!-- Label for changing sort order on flights -->
@@ -485,7 +488,7 @@
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">Beklager, flybestillinger på mobil er &lt;b&gt;ikke ennå tilgjengelig&lt;/b&gt; der du befinner deg.</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
-    <string name="error_same_flight_departure_arrival">Avreise og ankomstflyplass må være forskjellige</string>
+    <string name="error_same_flight_departure_arrival">Avreise- og ankomstflyplassene må være forskjellige.</string>
 
     <!-- Flight search params fragment -->
     <!-- Hint when no dates are selected for a flight trip -->
@@ -516,7 +519,7 @@
     <!-- Start date is selected -->
     <string name="calendar_instructions_start_selected">Trykk for å velge &lt;b&gt;&lt;font color="#3b5998"&gt;returdato&lt;/font&gt;&lt;/b&gt;. (Valgfritt)</string>
     <!-- Start date and end date selected -->
-    <string name="calendar_instructions_range_selected_TEMPLATE">%1$d-natts reise valgt.</string>
+    <string name="calendar_instructions_range_selected_TEMPLATE">%1$d-natts/-netters reise valgt.</string>
     <!-- Start date and end date sameday -->
     <string name="calendar_instructions_range_selected_same_day">Tur-retur reise samme dag valgt.</string>
 
@@ -557,11 +560,11 @@
     <!-- Template for where the flight is arriving at.  %s is the city, e.g. "Arrive at San Francisco, CA" -->
     <string name="arrive_at_TEMPLATE">Ankomst på/i %s</string>
     <!-- Template for when a flight is operated by a different carrier.  %s is the other carrier, e.g. "Operated by American Airlines" -->
-    <string name="operated_by_TEMPLATE">Ledet av %s</string>
+    <string name="operated_by_TEMPLATE">Opereres av %s</string>
     <!-- Carry-on baggage fees apply -->
-    <string name="carry_on_baggage_fees_apply">Avvgifter for håndbagasje gjelder.</string>
+    <string name="carry_on_baggage_fees_apply">Avgifter for håndbagasje kommer i tillegg.</string>
     <!-- Payment and baggage fees may apply -->
-    <string name="payment_and_baggage_fees_may_apply">Betalings- og bagasjeavgifter kan gjelde</string>
+    <string name="payment_and_baggage_fees_may_apply">Betalings- og bagasjeavgifter kan komme i tillegg</string>
     <!-- Additional Flight fare fees -->
     <string name="additional_fees">Tilleggsgebyrer</string>
     <!-- Label to view baggage fees information -->
@@ -585,7 +588,7 @@
     <!-- Payment Method -->
     <string name="payment_method">Betalingsmåte</string>
     <!-- Billing Address -->
-    <string name="billing_address">Betalingsadresse</string>
+    <string name="billing_address">Faktureringsadresse</string>
     <!-- Card Info -->
     <string name="card_info">Kortinformasjon</string>
 
@@ -597,16 +600,16 @@
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">Inkluderer skatter og avgifter</string>
     <!-- Date and trip from _ to _ -->
-    <string name="trip_to_with_date">%1$s %2$s til %3$s</string>
+    <string name="trip_to_with_date">%1$s: fra %2$s til %3$s</string>
     <!-- Number of traverlers template -->
 
     <plurals name="number_of_travelers_TEMPLATE">
-        <item quantity="zero">%1$dReisende</item>
-        <item quantity="one">%1$dReisende</item>
-        <item quantity="two">%1$dReisende</item>
-        <item quantity="few">%1$dReisende</item>
-        <item quantity="many">%1$dReisende</item>
-        <item quantity="other">%1$dReisende</item>
+        <item quantity="zero">%1$d reisende</item>
+        <item quantity="one">%1$d reisende</item>
+        <item quantity="two">%1$d reisende</item>
+        <item quantity="few">%1$d reisende</item>
+        <item quantity="many">%1$d reisende</item>
+        <item quantity="other">%1$d reisende</item>
     </plurals>
     <!-- Checkout button text -->
     <string name="checkout_btn">Betaling</string>
@@ -625,7 +628,7 @@
     <!-- I Accept button label -->
     <string name="I_Accept">Jeg godkjenner dette</string>
     <!-- Slide to purchase -->
-    <string name="slide_to_purchase">Slide for å betale.</string>
+    <string name="slide_to_purchase">Bla videre for å betale.</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Kortet ditt vil bli belastet med %1$s</string>
     <!-- Amount to be paid now -->
@@ -637,7 +640,7 @@
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">Prismatch</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
-    <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Gratis avbestilling&lt;/b&gt; før&lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Gratis avbestilling&lt;/b&gt; innen &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Log out -->
     <string name="log_out">Logg av</string>
     <!-- You'll earn points for this trip -->
@@ -650,6 +653,10 @@
     <string name="the_hotel_raised_the_price_TEMPLATE">Hotellet har nettopp satt opp prisen for dette rommet til %1$s per natt.</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_lowered_the_price_TEMPLATE">Hotellet har nettopp satt ned prisen for dette rommet til %1$s per natt.</string>
+    <!-- String to use when a price change alert should be shown to the user -->
+    <string name="the_hotel_raised_the_total_price_TEMPLATE">Hotellet har nettopp satt opp prisen for dette rommet fra %1$s til %2$s</string>
+    <!-- String to use when a price change alert should be shown to the user -->
+    <string name="the_hotel_lowered_the_total_price_TEMPLATE">Hotellet har nettopp satt ned prisen for dette rommet fra %1$s til %2$s</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">Fullført</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
@@ -667,11 +674,11 @@
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">Skatter og avgifter</string>
     <!-- Expedia booking fee -->
-    <string name="expedia_booking_fee">Expedia bestillingsavgift</string>
+    <string name="expedia_booking_fee">Expedias bestillingsavgift</string>
     <!-- Flight -->
     <string name="flight">Flyvning</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
-    <string name="traveler_num_and_category_TEMPLATE">Reisende%1$d</string>
+    <string name="traveler_num_and_category_TEMPLATE">Reisende %1$d</string>
     <!-- Adult -->
     <string name="adult">Voksen</string>
 
@@ -704,7 +711,7 @@
     <!-- email disclaimer -->
     <string name="email_disclaimer">E-postbekreftelsen vil bli sendt hit</string>
     <!-- Expires on colored template -->
-    <string name="expires_colored_TEMPLATE">&lt;font color="#919191"&gt;Utløper&lt;/font&gt;%1$s</string>
+    <string name="expires_colored_TEMPLATE">&lt;font color="#919191"&gt;Utløper&lt;/font&gt; %1$s</string>
 
     <!-- Section display payment -->
     <!-- Template for blanked out Credit Card -->
@@ -796,7 +803,7 @@
     <!-- None -->
     <string name="none">Ingen</string>
     <!-- Gender name template e.g. Chris is Male -->
-    <string name="gender_name_TEMPLATE">&lt;font color="#919191"&gt;%1$s er&lt;/font&gt;%2$s</string>
+    <string name="gender_name_TEMPLATE">&lt;font color="#919191"&gt;%1$s er&lt;/font&gt; %2$s</string>
 
     <!-- Traveler options activity -->
     <!-- Select a traveler -->
@@ -808,9 +815,9 @@
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">Rediger den reisendes informasjon</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_TEMPLATE">Foretrekker %1$s-sete</string>
+    <string name="prefers_seat_TEMPLATE">Foretrekker sete %1$s</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;Foretrekker&lt;/font&gt; %1$s-sete</string>
+    <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;Foretrekker&lt;/font&gt; sete %1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Henter informasjon om reisende…</string>
     <!-- Traveler Information -->
@@ -818,15 +825,15 @@
     <!-- Passport -->
     <string name="passport">Pass</string>
     <!-- Current traveler - <firstname> <lastname> -->
-    <string name="current_traveler_TEMPLATE">&lt;font color="#38597D"&gt;Gjeldende reisende -&lt;/font&gt;%1$s%2$s</string>
+    <string name="current_traveler_TEMPLATE">&lt;font color="#38597D"&gt;Gjeldende reisende –&lt;/font&gt; %1$s %2$s</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
-    <string name="window">Vindu</string>
+    <string name="window">ved vindu</string>
     <!-- Aisle seating preference -->
-    <string name="aisle">Midtgang</string>
+    <string name="aisle">ved midtgang</string>
     <!-- Any -->
-    <string name="any">Hvor som helst</string>
+    <string name="any">hvor som helst</string>
 
     <!-- Assistance Types -->
     <!-- No assistance type -->
@@ -870,7 +877,7 @@
     <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
     <string name="add_to_flighttrack">Spor med FlightTrack</string>
     <!-- Button label for calling expedia customer support -->
-    <string name="call_expedia_customer_support">Ring Expedia kundeservice</string>
+    <string name="call_expedia_customer_support">Ring Expedias kundeservice</string>
     <!-- Add Insurance label -->
     <string name="add_insurance">Legg til forsikring</string>
     <!-- Insurance -->
@@ -878,15 +885,15 @@
 
     <!-- Add to calendar -->
     <!-- Title for calendar event.  %1$s is the starting airport, %2$s is the ending airport, e.g. "SFO to BOS" -->
-    <string name="calendar_flight_title_TEMPLATE">%1$s til %2$s</string>
+    <string name="calendar_flight_title_TEMPLATE">%1$s–%2$s</string>
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
-    <string name="calendar_flight_location_TEMPLATE">%1$s, %2$s</string>
+    <string name="calendar_flight_location_TEMPLATE">%1$s i %2$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_flight_desc_itinerary_TEMPLATE">Expedia reiserutenummer: %s</string>
+    <string name="calendar_flight_desc_itinerary_TEMPLATE">Expedia-reiserutenummer: %s</string>
     <!-- Part of the description, showing a link to directions.  %s is the directions link, e.g. "Directions to airport: http://url-to-map-to-airport" -->
     <string name="calendar_flight_desc_directions_TEMPLATE">Veibeskrivelse til flyplassen: %s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
-    <string name="calendar_flight_desc_support_TEMPLATE">Expedia kundeservice: %s</string>
+    <string name="calendar_flight_desc_support_TEMPLATE">Expedias kundeservice: %s</string>
 
     <!-- Flight Rules -->
     <!-- Legal information header -->
@@ -920,19 +927,19 @@
     <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
     <string name="error_flight_added_processing_fee">Det ser ut til at flyselskapet tar et gebyr på %1$s for betalingsbehandling. Er du villig til å betale det nye totalbeløpet på %2$s?</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
-    <string name="error_flight_price_increased_with_fee">Det ser ut til at flyselskapet tar et gebyr på %1$sfor betalingsbehandling. Prisen på billetten har derfor steget med %2$s. Er du villig til å betale det nye totalbeløpet på %3$s?</string>
+    <string name="error_flight_price_increased_with_fee">Det ser ut til at flyselskapet tar et gebyr på %1$s for betalingsbehandling. Prisen på billetten har derfor steget med %2$s. Er du villig til å betale det nye totalbeløpet på %3$s?</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">Det ser ut til at flyselskapet tar et gebyr på %1$s for betalingsbehandling, men vi har nettopp funnet dine flyvninger på salg for %2$s mindre. Er du villig til å betale det nye totalbeløpet på %3$s?</string>
     <!-- Error shown to user if their phone number is invalid -->
-    <string name="error_invalid_phone_number">Telefonnummeret er ugyldig, vennligts prøv igjen.</string>
+    <string name="error_invalid_phone_number">Telefonnummeret er ugyldig. Vennligst prøv igjen.</string>
     <!-- Error shown to user if their credit card number is invalid -->
-    <string name="error_invalid_card_number">Kredittkortnummeret du oppga er ugyldig. Prøv på nytt.</string>
+    <string name="error_invalid_card_number">Kredittkortnummeret du oppga, er ugyldig. Prøv på nytt.</string>
     <!-- Error shown to user if their zip code or postal code is invalid (depends on language) -->
-    <string name="error_invalid_zipcode_or_postalcode">Postnummeret er ugyldig, prøv å skrive det inn på nytt.</string>
+    <string name="error_invalid_zipcode_or_postalcode">Postnummeret er ugyldig. Prøv å skrive det inn på nytt.</string>
     <!-- Error shown to user if their state or province is invalid (depends on language) -->
-    <string name="error_invalid_state_or_province">Staten du skrev inn er ugyldig, prøv på nytt.</string>
+    <string name="error_invalid_state_or_province">Staten du skrev inn, er ugyldig. Prøv på nytt.</string>
     <!-- Error shown to user if their credit card has expired -->
-    <string name="error_expired_payment">Kredittkortet du prøver å bruke er utgått. Vennligst prøv et annet kredittkort.</string>
+    <string name="error_expired_payment">Kredittkortet du prøver å bruke, er utgått. Vennligst prøv et annet kredittkort.</string>
     <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
     <string name="error_booking_with_minor">Beklager, bestilling for barn under 18 støttes ikke for øyeblikket.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
@@ -940,7 +947,7 @@
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
     <string name="error_flight_unhandled_TEMPLATE">Dessverre kan vi ikke behandle din bestilling akkurat nå. Prøv på nytt, eller kontakt Expedias kundeservice og oppgi dette reiserutenummeret: %s</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flight_no_longer_available">Dessverre er ikke flyet til lenger tilgjengelig.</string>
+    <string name="error_flight_no_longer_available">Dessverre er ikke flyet lenger tilgjengelig.</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
     <string name="error_flights_no_longer_available">Dessverre er et av flyene dine ikke lenger tilgjengelig.</string>
     <!-- Button label imploring users to pick a new flight due to unavailability -->
@@ -965,7 +972,7 @@
     <!-- Asks for a cvv code (credit card code) for a card.  %s is the card name, E.g., "CVV code for Dan's Credit Card" -->
     <string name="cvv_code_TEMPLATE">Sikkerhetskode for &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
-    <string name="card_ending_TEMPLATE">kort som avsluttes med %s</string>
+    <string name="card_ending_TEMPLATE">kort som slutter med %s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
     <string name="title_complete_booking">Fullfør bestilling</string>
 
@@ -975,19 +982,19 @@
     <!-- The first line of the share flight email -->
     <plurals name="share_flight_start">
         <item quantity="one">Her er mine flybestillingsopplysninger:</item>
-        <item quantity="two">Informasjon om flyreservasjonen:</item>
-        <item quantity="many">Informasjon om flyreservasjonen:</item>
-        <item quantity="other">Informasjon om flyreservasjonen:</item>
+        <item quantity="two">Informasjon om flybestillingen:</item>
+        <item quantity="many">Informasjon om flybestillingen:</item>
+        <item quantity="other">Informasjon om flybestillingen:</item>
     </plurals>
     <!-- The first line of the share email (casual introduction) -->
-    <string name="share_hi">Hei,</string>
+    <string name="share_hi">Hei</string>
     <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_one_way_TEMPLATE">Her er informasjonen for flyvningen min fra %1$s til %2$s.</string>
     <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_round_trip_TEMPLATE">Her er informasjonen for tur-retur flyvningen min fra %1$s til %2$s.</string>
+    <string name="share_flight_round_trip_TEMPLATE">Her er informasjonen for tur-retur-flyvningen min fra %1$s til %2$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">Reiserutenummer: %s</string>
-     <!-- Section with a bunch of travelers on the flight (listed below) -->
+    <!-- Section with a bunch of travelers on the flight (listed below) -->
     <string name="share_travelers_section">Reisende:</string>
     <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc… %2$s is their name -->
     <!-- examples: "Traveler 1: Tom Smith" "Traveler 2: David Thomas" or if only one traveler, "Traveler: Matt Long" -->
@@ -1038,7 +1045,7 @@
     <!-- Label for button that starts search -->
     <string name="search_for_hotels">Søk etter hoteller</string>
     <!-- Label for picking search location -->
-    <string name="where_are_you_going">&lt;b&gt;Hvor&lt;/b&gt; skal du reise?</string>
+    <string name="where_are_you_going">&lt;b&gt;Hvor&lt;/b&gt; vil du reise?</string>
     <!-- Label for picking checkin/checkout dates -->
     <string name="drag_to_extend_your_stay">&lt;b&gt;Dra&lt;/b&gt; for å utvide oppholdet.</string>
     <!-- Label for picking guests for hotel booking -->
@@ -1053,10 +1060,10 @@
         <item quantity="other">Velg hvert barns alder</item>
     </plurals>
     <!-- Title of "select child age" spinner dialog box -->
-    <string name="prompt_select_child_age">Velg barnets alder (%1$s-%2$s)</string>
+    <string name="prompt_select_child_age">Velg barnets alder (%1$s–%2$s)</string>
     <!-- Text for child's age on search refinements and in spinner -->
     <plurals name="child_age">
-        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; år</item>
+        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; år gammel</item>
         <item quantity="two">&lt;b&gt;%d&lt;/b&gt; år gammel</item>
         <item quantity="many">&lt;b&gt;%d&lt;/b&gt; år gammel</item>
         <item quantity="other">&lt;b&gt;%d&lt;/b&gt; år gammel</item>
@@ -1089,7 +1096,7 @@
         <item quantity="other">&lt;b&gt;%d&lt;/b&gt; matchende hoteller</item>
     </plurals>
     <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
-    <string name="date_range_TEMPLATE">%1$s til %2$s</string>
+    <string name="date_range_TEMPLATE">%1$s–%2$s</string>
     <!-- Hint for filtering results by hotel name -->
     <string name="filter_hotel_name_hint">Filtrer etter hotellnavn</string>
     <!-- Label indicating that there are no results matching their current filter -->
@@ -1115,7 +1122,7 @@
     <!-- Label to swtich between map and list search results -->
     <string name="switch_view">Endre visning</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
-    <string name="mobile_exclusive">Mobileksklusiv</string>
+    <string name="mobile_exclusive">Eksklusivt for mobil</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="tonight_only">Kun i kveld!</string>
 
@@ -1278,7 +1285,7 @@
     <!-- Breakfast amenity -->
     <string name="AmenityBreakfast">Frokost</string>
     <!-- Babysitting amenity -->
-    <string name="AmenityBabysitting">Barnevakt</string>
+    <string name="AmenityBabysitting">Barnepass</string>
     <!-- Jacuzzi amenity -->
     <string name="AmenityJacuzzi">Boblebad</string>
     <!-- Parking amenity -->
@@ -1330,16 +1337,16 @@
         1$ represents the number of guests that recommend this hotel
         2$ represents the total number of guests
     -->
-    <string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; av &lt;b&gt;%2$d&lt;/b&gt; tidligere gjester anbefaler dette hotellet</string>
+    <string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; av &lt;b&gt;%2$d&lt;/b&gt; tidligere gjester anbefaler dette hotellet.</string>
     <!-- Special case for 0 reviews -->
     <string name="no_reviews">Ingen anmeldelser</string>
     <!-- A number of reviews -->
     <plurals name="number_of_reviews">
         <item quantity="zero">Ingen anmeldelser</item>
-        <item quantity="one">%d Anmeldelse</item>
-        <item quantity="two">%d Anmeldelser</item>
-        <item quantity="many">%d Anmeldelser</item>
-        <item quantity="other">%d Anmeldelser</item>
+        <item quantity="one">%d anmeldelse</item>
+        <item quantity="two">%d anmeldelser</item>
+        <item quantity="many">%d anmeldelser</item>
+        <item quantity="other">%d anmeldelser</item>
     </plurals>
     <!--
          User review name and place review signature eg (John from San Diego, CA)
@@ -1359,11 +1366,11 @@
     <!-- Room and rates list -->
     <!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
     <plurals name="staying_nights">
-        <item quantity="zero">For %d overnattinger</item>
-        <item quantity="one">Bo %d natt</item>
-        <item quantity="two">For %d overnattinger</item>
-        <item quantity="many">For %d overnattinger</item>
-        <item quantity="other">For %d overnattinger</item>
+        <item quantity="zero">For %d netter</item>
+        <item quantity="one">For %d natt</item>
+        <item quantity="two">For %d netter</item>
+        <item quantity="many">For %d netter</item>
+        <item quantity="other">For %d netter</item>
     </plurals>
     <!-- Loading message for rooms & rates -->
     <string name="room_rates_loading">Leter etter tilgjengelige rom…</string>
@@ -1396,7 +1403,7 @@
     <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
     <string name="value_add_template">Inkluderer %s</string>
     <!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms -->
-    <string name="common_value_add_template">Alle rommene inkluderer%s</string>
+    <string name="common_value_add_template">Alle rommene inkluderer %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
     <string name="select_a_room_instruction">Velg et rom</string>
     <!-- The text we use when the search date it tonight -->
@@ -1425,7 +1432,7 @@
         <item quantity="other">%d netter</item>
     </plurals>
     <!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") where %s represents the date -->
-    <string name="room_rate_template">Rompris %s</string>
+    <string name="room_rate_template">Rompris for %s</string>
     <!-- Label for the extra guest charge -->
     <string name="extra_guest_charge">Tillegg for ekstra gjest</string>
     <!-- Label for total cost of hotel stay -->
@@ -1483,7 +1490,7 @@
     <!-- Message for dialog confirming the clearing of private data -->
     <string name="dialog_clear_private_data_msg">Alle lagrede fakturerings- og kontaktopplysninger vil bli fjernet.</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_log_out_and_clear_private_data_msg">Dette vil logge deg ut, og fjerne all lagret betalings- og kontaktinformasjon.</string>
+    <string name="dialog_log_out_and_clear_private_data_msg">Dette vil logge deg av og fjerne alle lagrede fakturerings- og kontaktopplysninger.</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">De private opplysningene ble fjernet</string>
     <!-- Error message if field was required but not entered -->
@@ -1501,7 +1508,7 @@
     <!-- Error if an invalid security code was entered -->
     <string name="invalid_security_code">Oppgi en sikkerhetskode på tre eller fire sifre</string>
     <!-- Error if an invalid currency code is being used with American Express -->
-    <string name="invalid_currency_for_amex">American Express støtter dessverre ikke betalinger i denne valutaen (%s) Vennligst bruk et annet kredittkort.</string>
+    <string name="invalid_currency_for_amex">American Express støtter dessverre ikke betalinger i denne valutaen (%s). Vennligst bruk et annet kredittkort.</string>
     <!-- Error if user agreement needs to be checked but is not -->
     <string name="error_no_user_agreement">Du må akseptere vilkårene for å kunne bestille</string>
     <!-- Message to display to user while booking is in progress -->
@@ -1559,7 +1566,7 @@
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Inkludert</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
-    <string name="MandatoryFees">Hotellgebyrer (Betales på hotell)</string>
+    <string name="MandatoryFees">Hotellgebyrer (betales på hotellet)</string>
     <!-- Label for the total cost of the booking. -->
     <string name="Total">Totalt</string>
     <!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
@@ -1573,7 +1580,7 @@
 
     <!-- Expedia policy strings -->
     <!-- Policy displayed to user when an immediate charge is required -->
-    <string name="PolicyImmediateChargeRequired">Når du bestiller, vil kredittkortet ditt bli belastet umiddelbart med det totale bestillingsbeløpet.</string>
+    <string name="PolicyImmediateChargeRequired">Når du bestiller vil kredittkortet ditt bli belastet umiddelbart med det totale bestillingsbeløpet.</string>
     <!-- Policy displayed to user when the room is non-refundable -->
     <string name="PolicyNonRefundable">Vi tilbyr en usedvanlig lav pris på dette overnattingsstedet. For å kunne gjøre dette, kan vi ikke gjøre prisen refunderbar. Du vil ikke få refundert noe av betalingen dersom du velger å avbestille denne bestillingen.</string>
     <!-- Policy displayed to user when a deposit is required -->
@@ -1581,9 +1588,9 @@
     <!-- Policy displayed to user when a guarantee is required -->
     <string name="PolicyGuaranteeRequired">Kredittkortopplysningene kreves for at vi skal kunne sikre bestillingen din. Kredittkortet ditt vil bli belastet først når du ankommer hotellet eller når avbestillingsfristen er utløpt.</string>
     <!-- Expedia merchant hotel policies -->
-    <string name="PolicyExpediaMerchant">Ved å fortsette med denne bestillingen, godkjenner du alle våre betingelser og vilkår, inkludert avbestillingsregler og alle betingelser og vilkår i brukeravtalen.\n\nDu godkjenner at du må betale prisen på reservasjonen din. Dersom du ikke betaler denne fordringen og den drives inn via et inkassobyrå, en advokat eller andre instanser, samtykker du i å betale alle rimelige kostnader og gebyrer, inklusive advokathonorarer og saksomkostninger som påløper i forbindelse med inndrivingen.</string>
+    <string name="PolicyExpediaMerchant">Ved å fortsette med denne bestillingen, godkjenner du alle våre betingelser og vilkår, inkludert avbestillingsregler og alle betingelser og vilkår i brukeravtalen.\n\nDu godkjenner at du må betale prisen på bestillingen din. Dersom du ikke betaler denne fordringen og den drives inn via et inkassobyrå, en advokat eller andre instanser, samtykker du i å betale alle rimelige kostnader og gebyrer, inklusive advokathonorarer og saksomkostninger som påløper i forbindelse med inndrivingen.</string>
     <!-- Expedia agent hotel policies -->
-    <string name="PolicyExpediaAgent">Du er i ferd med å bestille et ikke-rabattert overnattingssted. Alle priser gjelder per overnatting og for et dobbeltrom, såfremt ikke noe annet er spesifisert. Kontroller rombeskrivelsene og prisreglene for å være sikker på at rommet du velger har plass til hele reisefølget ditt. I forbindelse med enkelte av prisene kan det være påkrevd å fremvise en spesiell type legitimasjon. Bestillingsgebyret vårt, skatter og andre tilleggsgebyrer fra hotellets side er ikke inkludert. Det kan bli lagt til en ekstra avgift for eventuelle ekstragjester, barn eller voksne. Denne avgiften blir satt av hotellet.\n\nForespørsler for mer enn to personer, eller for flere personer enn prisen tilsier, vil bli sendt til hotellet, men kan ikke garanteres. Dersom de aksepteres, vil hotellet fastsette eventuelle tilleggsgebyrer.</string>
+    <string name="PolicyExpediaAgent">Du er i ferd med å bestille et ikke-rabattert overnattingssted. Alle priser gjelder per overnatting og for et dobbeltrom, såfremt ikke noe annet er spesifisert. Kontroller rombeskrivelsene og prisreglene for å være sikker på at rommet du velger har plass til hele reisefølget ditt. I forbindelse med enkelte av prisene kan det være påkrevd å fremvise en spesiell type legitimasjon. Bestillingsgebyret vårt, skatter og andre tilleggsgebyrer fra hotellets side er ikke inkludert. Det kan bli lagt til en ekstra avgift for eventuelle ekstragjester, barn eller voksne. Denne avgiften blir fastsatt av hotellet.\n\nForespørsler for mer enn to personer, eller for flere personer enn prisen tilsier, vil bli sendt til hotellet, men kan ikke garanteres. Dersom de aksepteres, vil hotellet fastsette eventuelle tilleggsgebyrer.</string>
 
     <!-- Expedia Accounts -->
     <!-- Label for menu item to log into account -->
@@ -1591,11 +1598,11 @@
     <!-- Hint for user to enter password into a field -->
     <string name="hint_password">Passord</string>
     <!-- Progress dialog text when we are logging the user into Expedia -->
-    <string name="logging_in">Logger inn…</string>
+    <string name="logging_in">Logger på…</string>
     <!-- Message that tells user they failed to log in -->
     <string name="login_failed">Vennligst logg inn på nytt</string>
     <!-- Label for logout confirmation -->
-    <string name="logout_confirmation">Er du sikker på at du ville logge ut av Expedia-kontoen din?</string>
+    <string name="logout_confirmation">Er du sikker på at du vil logge av Expedia-kontoen din?</string>
     <!-- Label for login widget additional text -->
     <string name="log_in_for_faster_booking">Logg på for raskere bestilling</string>
     <!-- Label for account status -->
@@ -1627,7 +1634,7 @@
 
     <!-- Sharing bookings via email -->
     <!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
-    <string name="share_subject_template">Expedia-reiserute – %1$s (%2$s - %3$s)</string>
+    <string name="share_subject_template">Expedia-reiserute – %1$s (%2$s–%3$s)</string>
     <!-- Preset at the top of the share body message -->
     <string name="share_body_start">Her er mine bestillingsopplysninger:</string>
     <!-- Name of user -->
@@ -1647,7 +1654,7 @@
     <!-- Extra description for "contact Expedia" button, when space allows -->
     <string name="contact_expedia_description">Vi er tilgjengelige døgnet rundt.</string>
     <!-- Title for different ways to connect to Expedia -->
-    <string name="contact_expedia_via">Kontakt Expedia Via…</string>
+    <string name="contact_expedia_via">Kontakt Expedia via…</string>
     <!-- Contact Expedia via phone -->
     <string name="contact_expedia_phone">Telefon</string>
     <!-- Contact Expedia via email -->
@@ -1677,7 +1684,7 @@
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hotels</string>
     <!-- Message body for "tell a friend" feature -->
-    <string name="tell_a_friend_body">Hei,\n\nPrøv Expedia Hotels for iPhone og Android-telefoner. Det er GRATIS og du kan på en enkel måte bestille rom på flere enn 140 000 hotell over hele verden. Det er den enkleste måten å bestille hoteller på telefonen din.\n\nhttp://www.expedia.com/app</string>
+    <string name="tell_a_friend_body">Hei \n\nPrøv Expedia Hotels for iPhone og Android-telefoner. Det er GRATIS og du kan på en enkel måte bestille rom på flere enn 140 000 hotell over hele verden. Det er den enkleste måten å bestille hoteller på telefonen din.\n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Vilkår</string>
     <!-- Label for link to privacy policy -->
@@ -1687,7 +1694,7 @@
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">Du er logget av, og all data er slettet</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_logged_out_and_cleared_private_data">Du er nå logget av Expedia-kontoen din, og all lagret betalingsinformasjon har blitt slettet.</string>
+    <string name="dialog_message_logged_out_and_cleared_private_data">Du er nå logget av Expedia-kontoen din, og alle lagrede faktureringsopplysninger er blitt slettet.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_cleared_private_data">De private opplysningene ble fjernet</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -1730,29 +1737,37 @@
     <string name="preference_point_of_sale_title">Land</string>
 
     <!-- Strings used a lot of places -->
-    <!-- A number of adults -->
+    <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
-        <item quantity="zero">%d Voksne</item>
-        <item quantity="one">%dVoksen</item>
-        <item quantity="two">%d Voksne</item>
-        <item quantity="many">%d Voksne</item>
-        <item quantity="other">%d Voksne</item>
+        <item quantity="zero">%d voksne</item>
+        <item quantity="one">%d voksen</item>
+        <item quantity="two">%d voksne</item>
+        <item quantity="many">%d voksne</item>
+        <item quantity="other">%d voksne</item>
     </plurals>
-    <!-- A number of children -->
+    <!-- A number of children. Capitalized -->
     <plurals name="number_of_children">
-        <item quantity="zero">%d Barn</item>
+        <item quantity="zero">%d barn</item>
         <item quantity="one">%d barn</item>
-        <item quantity="two">%d Barn</item>
-        <item quantity="many">%d Barn</item>
-        <item quantity="other">%d Barn</item>
+        <item quantity="two">%d barn</item>
+        <item quantity="many">%d barn</item>
+        <item quantity="other">%d barn</item>
     </plurals>
-    <!-- A number of guests -->
+    <!-- A number of guests. Capitalized -->
     <plurals name="number_of_guests">
-        <item quantity="zero">%d Gjester</item>
+        <item quantity="zero">%d gjester</item>
         <item quantity="one">%d gjest</item>
-        <item quantity="two">%d Gjester</item>
-        <item quantity="many">%d Gjester</item>
-        <item quantity="other">%d Gjester</item>
+        <item quantity="two">%d gjester</item>
+        <item quantity="many">%d gjester</item>
+        <item quantity="other">%d gjester</item>
+    </plurals>
+    <!-- A number of guests (but not including the guest count). Capitalized -->
+    <plurals name="number_of_guests_label">
+        <item quantity="zero">Gjester</item>
+        <item quantity="one">Gjest</item>
+        <item quantity="two">Gjester</item>
+        <item quantity="many">Gjester</item>
+        <item quantity="other">Gjester</item>
     </plurals>
     <!-- A number of nights (as in stay duration).  Capitalized -->
     <plurals name="number_of_nights">
@@ -1761,6 +1776,22 @@
         <item quantity="two">%d netter</item>
         <item quantity="many">%d netter</item>
         <item quantity="other">%d netter</item>
+    </plurals>
+    <!-- A number of days (as in rental duration).  Capitalized -->
+    <plurals name="number_of_days">
+        <item quantity="zero">%d dager</item>
+        <item quantity="one">%d dag</item>
+        <item quantity="two">%d dager</item>
+        <item quantity="many">%d dager</item>
+        <item quantity="other">%d dager</item>
+    </plurals>
+    <!-- A number of days (as in rental duration), not including the actual number. Capitalized -->
+    <plurals name="number_of_days_label">
+        <item quantity="zero">Dager</item>
+        <item quantity="one">Dag</item>
+        <item quantity="two">Dager</item>
+        <item quantity="many">Dager</item>
+        <item quantity="other">Dager</item>
     </plurals>
 
     <!-- Distance strings -->
@@ -1795,7 +1826,7 @@
     <!-- The hotel booking failed -->
     <string name="e3_error_checkout_booking_failed">En feil forhindret oss fra å fullføre bestillingen din. Prøv på nytt.</string>
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-    <string name="e3_error_checkout_booking_succeeded_with_errors">Bestillingen var vellykket! Har du behov for en reiserute umiddelbart, kan du ringe Expedia kundestøtte.</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors">Bestillingen var vellykket! Har du behov for en reiserute umiddelbart, kan du ringe Expedias kundestøtte.</string>
     <!-- The hotel room is no longer available -->
     <string name="e3_error_checkout_hotel_room_unavailable">Beklager, rommet du ba om er ikke lenger tilgjengelig.</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->

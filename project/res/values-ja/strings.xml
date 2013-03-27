@@ -55,6 +55,8 @@
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">残念ながら、接続できません。</string>
     <!-- Menu option for going to see your trips/itineraries -->
+    <string name="trips">お客様のご予約</string>
+    <!-- Menu option for going to see your trips/itineraries (on tablet) -->
     <string name="your_trips">お客様のご予約</string>
 
     <!-- Itineraries -->
@@ -62,7 +64,7 @@
     <string name="itinerary">旅程</string>
     <!-- Itineraries (plural title) -->
     <string name="itineraries">旅程</string>
-    <!--  Shop -->
+    <!-- Shop -->
     <string name="shop">ショップ</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">旅程を検索する</string>
@@ -111,7 +113,7 @@
         <item quantity="many">%s 日</item>
         <item quantity="other">%s 日</item>
     </plurals>
-    <!-- Template for card header text (will be filled in with "Title - Date")-->
+    <!-- Template for card header text (will be filled in with "Title - Date") -->
     <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
     <string name="Flight">フライト</string>
@@ -135,6 +137,8 @@
     <string name="flight_confirmation_code_label">航空会社の確認</string>
     <!-- Flight Carrier confirmation code label template -->
     <string name="flight_carrier_confirmation_code_label_TEMPLATE">%1$sの確認</string>
+    <!-- Car rental agency name and location in car itin detail -->
+    <string name="car_rental_agency_name_location">%2$s%3$s、%1$s</string>
     <!-- Car rental confirmation code "Agency Confirmation Code" -->
     <string name="car_rental_confirmation_code_label">代理店の確認番号</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
@@ -151,7 +155,7 @@
     <string name="arrival_terminal_TEMPLATE">ターミナル %1$s、ゲート %2$s に到着</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">ターミナル %1$s、ゲート %2$s から出発</string>
-    <!-- To be determined abbrev.-->
+    <!-- To be determined abbrev. -->
     <string name="to_be_determined_abbrev">TBD</string>
     <!-- Itin flight gate only template -->
     <string name="gate_number_only_TEMPLATE">ゲート%1$s</string>
@@ -321,7 +325,6 @@
     <string name="itin_card_details_details">追加情報</string>
     <string name="itin_card_details_pick_up">ピックアップ</string>
     <string name="itin_card_details_drop_off">返却</string>
-    <string name="itin_card_details_days">日</string>
     <!-- Tell users when they can pick up a rental car. %1$s is a time, e.g. ("pick up after 5 PM") -->
     <string name="itin_card_details_pick_up_TEMPLATE">%1$s 以降にピックアップ</string>
     <!-- Tell users when they need to drop off a rental car. %1$s is a time, e.g. ("drop off before 5 PM") -->
@@ -377,7 +380,7 @@
     <string name="share_template_subject_flight">%2$sの%1$sへのフライト</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
     <string name="share_template_short_flight_sameday">私は現在、%1$s便%2$s 行き%3$s 発のフライトに乗っています。\n%4$sを%5$sに出発\n%6$sに%7$s、%8$sに到着</string>
-     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
+    <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
     <string name="share_template_short_flight_multiday">私は現在、%1$s便%2$s行きのフライトに乗っています。\n%3$sを%4$sに出発\n%5$sに%6$s、%7$sに到着</string>
     <!-- 1: Origin city 2: Destination city 3: Flight Carrier and number 4: Departure date 5: Departure airport code 6: Departure Time 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival terminal gate 11: Traveler list -->
     <string name="share_template_long_flight_sameday">こんにちは。\n\n%1$sから%2$sへのフライトの詳細です。\n\n%3$s - %4$s\n\n%5$sを %6$sに%7$sから出発。\n%8$sに%9$sに %10$s に到着。\n\n旅行者\n%11$s</string>
@@ -609,7 +612,7 @@
         <item quantity="other">旅行者 %1$d 名</item>
     </plurals>
     <!-- Checkout button text -->
-    <string name="checkout_btn">チェックアウト</string>
+    <string name="checkout_btn">購入手続き</string>
     <!-- Message when loading realtime flight information -->
     <string name="loading_flight_details">料金の変更を確認中…</string>
     <!-- Price changed from -->
@@ -619,7 +622,7 @@
     <!-- Expedia Account label -->
     <string name="expedia_account">エクスペディア アカウント</string>
     <!-- Checkout Information label -->
-    <string name="checkout_information">チェックアウト情報</string>
+    <string name="checkout_information">お支払い情報</string>
     <!-- Explicit acceptance of TOS -->
     <string name="Do_you_accept">上記の全条項に同意しますか ?</string>
     <!-- I Accept button label -->
@@ -650,6 +653,10 @@
     <string name="the_hotel_raised_the_price_TEMPLATE">ホテルがこの客室の宿泊料金を 1 泊あたり %1$s値上げしました。</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_lowered_the_price_TEMPLATE">ホテルがこの客室の宿泊料金を 1 泊あたり %1$s値下げしました。</string>
+    <!-- String to use when a price change alert should be shown to the user -->
+    <string name="the_hotel_raised_the_total_price_TEMPLATE">ホテルがこの客室の宿泊料金を %1$sから %2$sに値上げしました。</string>
+    <!-- String to use when a price change alert should be shown to the user -->
+    <string name="the_hotel_lowered_the_total_price_TEMPLATE">ホテルがこの客室の宿泊料金を %1$sから %2$sに値下げしました。</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">完了</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
@@ -987,7 +994,7 @@
     <string name="share_flight_round_trip_TEMPLATE">%1$sから%2$sへの往復フライトの詳細です。</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">旅程番号 : %s</string>
-     <!-- Section with a bunch of travelers on the flight (listed below) -->
+    <!-- Section with a bunch of travelers on the flight (listed below) -->
     <string name="share_travelers_section">旅行者 : </string>
     <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc… %2$s is their name -->
     <!-- examples: "Traveler 1: Tom Smith" "Traveler 2: David Thomas" or if only one traveler, "Traveler: Matt Long" -->
@@ -1730,7 +1737,7 @@
     <string name="preference_point_of_sale_title">国名</string>
 
     <!-- Strings used a lot of places -->
-    <!-- A number of adults -->
+    <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">大人 %d 名</item>
         <item quantity="one">大人 %d 名</item>
@@ -1738,7 +1745,7 @@
         <item quantity="many">大人 %d 名</item>
         <item quantity="other">大人 %d 名</item>
     </plurals>
-    <!-- A number of children -->
+    <!-- A number of children. Capitalized -->
     <plurals name="number_of_children">
         <item quantity="zero">お子様 %d 名</item>
         <item quantity="one">お子様 %d 名</item>
@@ -1746,13 +1753,21 @@
         <item quantity="many">お子様 %d 名</item>
         <item quantity="other">お子様 %d 名</item>
     </plurals>
-    <!-- A number of guests -->
+    <!-- A number of guests. Capitalized -->
     <plurals name="number_of_guests">
         <item quantity="zero">ゲスト %d 名</item>
         <item quantity="one">ゲスト %d 名</item>
         <item quantity="two">ゲスト %d 名</item>
         <item quantity="many">ゲスト %d 名</item>
         <item quantity="other">ゲスト %d 名</item>
+    </plurals>
+    <!-- A number of guests (but not including the guest count). Capitalized -->
+    <plurals name="number_of_guests_label">
+        <item quantity="zero">宿泊者</item>
+        <item quantity="one">ゲスト 名</item>
+        <item quantity="two">宿泊者</item>
+        <item quantity="many">宿泊者</item>
+        <item quantity="other">宿泊者</item>
     </plurals>
     <!-- A number of nights (as in stay duration).  Capitalized -->
     <plurals name="number_of_nights">
@@ -1761,6 +1776,22 @@
         <item quantity="two">%d 泊</item>
         <item quantity="many">%d 泊</item>
         <item quantity="other">%d 泊</item>
+    </plurals>
+    <!-- A number of days (as in rental duration).  Capitalized -->
+    <plurals name="number_of_days">
+        <item quantity="zero">%d日</item>
+        <item quantity="one">%d 日</item>
+        <item quantity="two">%d日</item>
+        <item quantity="many">%d日</item>
+        <item quantity="other">%d日</item>
+    </plurals>
+    <!-- A number of days (as in rental duration), not including the actual number. Capitalized -->
+    <plurals name="number_of_days_label">
+        <item quantity="zero">日</item>
+        <item quantity="one">日</item>
+        <item quantity="two">日</item>
+        <item quantity="many">日</item>
+        <item quantity="other">日</item>
     </plurals>
 
     <!-- Distance strings -->

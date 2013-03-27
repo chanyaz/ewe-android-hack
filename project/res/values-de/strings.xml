@@ -17,7 +17,7 @@
     <!-- Unable to log in to Facebook -->
     <string name="unable_to_log_into_facebook">Die Anmeldung bei Facebook hat nicht geklappt.</string>
     <!-- Login failed try again -->
-    <string name="login_failed_try_again">Die Anmeldung hat leider nicht geklappt. Bitte geben Sie Ihr Passwort ein und versuchen Sie es erneut.</string>
+    <string name="login_failed_try_again">Anmeldung fehlgeschlagen Bitte überprüfen Sie Ihr Passwort und versuchen Sie es erneut.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Expedia-Passwort</string>
     <!-- Link accounts -->
@@ -55,6 +55,8 @@
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Leider können wir keine Verbindung aufbauen.</string>
     <!-- Menu option for going to see your trips/itineraries -->
+    <string name="trips">Reisen</string>
+    <!-- Menu option for going to see your trips/itineraries (on tablet) -->
     <string name="your_trips">Ihre Reisen</string>
 
     <!-- Itineraries -->
@@ -62,7 +64,7 @@
     <string name="itinerary">Reiseplan</string>
     <!-- Itineraries (plural title) -->
     <string name="itineraries">Reisepläne</string>
-    <!--  Shop -->
+    <!-- Shop -->
     <string name="shop">Buchen</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Reiseplan suchen</string>
@@ -111,7 +113,7 @@
         <item quantity="many">%s Tage</item>
         <item quantity="other">%s Tage</item>
     </plurals>
-    <!-- Template for card header text (will be filled in with "Title - Date")-->
+    <!-- Template for card header text (will be filled in with "Title - Date") -->
     <string name="Title_Date_TEMPLATE">%1$s – %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
     <string name="Flight">Flug</string>
@@ -135,6 +137,8 @@
     <string name="flight_confirmation_code_label">Fluglinien-Bestätigung</string>
     <!-- Flight Carrier confirmation code label template -->
     <string name="flight_carrier_confirmation_code_label_TEMPLATE">%1$s-Bestätigung</string>
+    <!-- Car rental agency name and location in car itin detail -->
+    <string name="car_rental_agency_name_location">%1$s in %2$s, %3$s</string>
     <!-- Car rental confirmation code "Agency Confirmation Code" -->
     <string name="car_rental_confirmation_code_label">Anbieter-Bestätigungscode</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
@@ -151,7 +155,7 @@
     <string name="arrival_terminal_TEMPLATE">Ankunftsterminal %1$s, Gate %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Abflugterminal %1$s, Gate %2$s</string>
-    <!-- To be determined abbrev.-->
+    <!-- To be determined abbrev. -->
     <string name="to_be_determined_abbrev">Folgt</string>
     <!-- Itin flight gate only template -->
     <string name="gate_number_only_TEMPLATE">Gate %1$s</string>
@@ -321,7 +325,6 @@
     <string name="itin_card_details_details">Weitere Informationen</string>
     <string name="itin_card_details_pick_up">Abholung</string>
     <string name="itin_card_details_drop_off">Rückgabe</string>
-    <string name="itin_card_details_days">Tage</string>
     <!-- Tell users when they can pick up a rental car. %1$s is a time, e.g. ("pick up after 5 PM") -->
     <string name="itin_card_details_pick_up_TEMPLATE">Abholung nach %1$s</string>
     <!-- Tell users when they need to drop off a rental car. %1$s is a time, e.g. ("drop off before 5 PM") -->
@@ -377,7 +380,7 @@
     <string name="share_template_subject_flight">Mein Flug nach %1$s am %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
     <string name="share_template_short_flight_sameday">Ich habe Flug %1$s nach %2$s am %3$s.\nAbflug %4$s um %5$s\nAnkunft%6$s um %7$s, %8$s</string>
-     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
+    <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
     <string name="share_template_short_flight_multiday">Ich habe Flug %1$s nach %2$s.\nAbflug %3$s um %4$s\nAnkunft%5$s um %6$s, %7$s</string>
     <!-- 1: Origin city 2: Destination city 3: Flight Carrier and number 4: Departure date 5: Departure airport code 6: Departure Time 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival terminal gate 11: Traveler list -->
     <string name="share_template_long_flight_sameday">Hallo! \n\nHier sind die Details für meinen Flug von %1$s nach %2$s.\n\n%3$s - %4$s\n\nAbflug %5$s um %6$s ab %7$s.\nAnkunft %8$s um %9$s an %10$s.\n\nReisende\n%11$s</string>
@@ -650,6 +653,10 @@
     <string name="the_hotel_raised_the_price_TEMPLATE">Das Hotel hat den Zimmerpreis gerade auf %1$s pro Nacht geändert.</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_lowered_the_price_TEMPLATE">Das Hotel hat den Zimmerpreis gerade auf %1$s pro Nacht reduziert.</string>
+    <!-- String to use when a price change alert should be shown to the user -->
+    <string name="the_hotel_raised_the_total_price_TEMPLATE">Das Hotel hat den Gesamtpreis für das Zimmer gerade von %1$s auf %2$s erhöht.</string>
+    <!-- String to use when a price change alert should be shown to the user -->
+    <string name="the_hotel_lowered_the_total_price_TEMPLATE">Das Hotel hat den Gesamtpreis für das Zimmer gerade von %1$s auf %2$s reduziert.</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">Fertig</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
@@ -988,7 +995,7 @@
     <string name="share_flight_round_trip_TEMPLATE">Hallo! Hier sind die Details für meinen Hin- und Rückflug von %1$s nach %2$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">Reiseplannr.: %s</string>
-     <!-- Section with a bunch of travelers on the flight (listed below) -->
+    <!-- Section with a bunch of travelers on the flight (listed below) -->
     <string name="share_travelers_section">Reisende:</string>
     <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc… %2$s is their name -->
     <!-- examples: "Traveler 1: Tom Smith" "Traveler 2: David Thomas" or if only one traveler, "Traveler: Matt Long" -->
@@ -1731,7 +1738,7 @@
     <string name="preference_point_of_sale_title">Land</string>
 
     <!-- Strings used a lot of places -->
-    <!-- A number of adults -->
+    <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">%d Erwachsene</item>
         <item quantity="one">%d Erwachsener</item>
@@ -1739,7 +1746,7 @@
         <item quantity="many">%d Erwachsene</item>
         <item quantity="other">%d Erwachsene</item>
     </plurals>
-    <!-- A number of children -->
+    <!-- A number of children. Capitalized -->
     <plurals name="number_of_children">
         <item quantity="zero">%d Kinder</item>
         <item quantity="one">%d Kind</item>
@@ -1747,13 +1754,21 @@
         <item quantity="many">%d Kinder</item>
         <item quantity="other">%d Kinder</item>
     </plurals>
-    <!-- A number of guests -->
+    <!-- A number of guests. Capitalized -->
     <plurals name="number_of_guests">
         <item quantity="zero">%d Gäste</item>
         <item quantity="one">%d Gast</item>
         <item quantity="two">%d Gäste</item>
         <item quantity="many">%d Gäste</item>
         <item quantity="other">%d Gäste</item>
+    </plurals>
+    <!-- A number of guests (but not including the guest count). Capitalized -->
+    <plurals name="number_of_guests_label">
+        <item quantity="zero">Gäste</item>
+        <item quantity="one">Gast</item>
+        <item quantity="two">Gäste</item>
+        <item quantity="many">Gäste</item>
+        <item quantity="other">Gäste</item>
     </plurals>
     <!-- A number of nights (as in stay duration).  Capitalized -->
     <plurals name="number_of_nights">
@@ -1762,6 +1777,22 @@
         <item quantity="two">%d Nächte</item>
         <item quantity="many">%d Nächte</item>
         <item quantity="other">%d Nächte</item>
+    </plurals>
+    <!-- A number of days (as in rental duration).  Capitalized -->
+    <plurals name="number_of_days">
+        <item quantity="zero">%d Tage</item>
+        <item quantity="one">%d Tag</item>
+        <item quantity="two">%d Tage</item>
+        <item quantity="many">%d Tage</item>
+        <item quantity="other">%d Tage</item>
+    </plurals>
+    <!-- A number of days (as in rental duration), not including the actual number. Capitalized -->
+    <plurals name="number_of_days_label">
+        <item quantity="zero">Tage</item>
+        <item quantity="one">Tag</item>
+        <item quantity="two">Tage</item>
+        <item quantity="many">Tage</item>
+        <item quantity="other">Tage</item>
     </plurals>
 
     <!-- Distance strings -->

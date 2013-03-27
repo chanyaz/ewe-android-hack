@@ -55,6 +55,8 @@
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Tyvärr kan vi inte ansluta.</string>
     <!-- Menu option for going to see your trips/itineraries -->
+    <string name="trips">Resor</string>
+    <!-- Menu option for going to see your trips/itineraries (on tablet) -->
     <string name="your_trips">Dina resor</string>
 
     <!-- Itineraries -->
@@ -62,7 +64,7 @@
     <string name="itinerary">Resplan</string>
     <!-- Itineraries (plural title) -->
     <string name="itineraries">Resplaner</string>
-    <!--  Shop -->
+    <!-- Shop -->
     <string name="shop">Shoppa</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Hitta resplan</string>
@@ -111,7 +113,7 @@
         <item quantity="many">%s dagar</item>
         <item quantity="other">%s dagar</item>
     </plurals>
-    <!-- Template for card header text (will be filled in with "Title - Date")-->
+    <!-- Template for card header text (will be filled in with "Title - Date") -->
     <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
     <string name="Flight">Flyg</string>
@@ -135,6 +137,8 @@
     <string name="flight_confirmation_code_label">Flygbolagets bekräftelse</string>
     <!-- Flight Carrier confirmation code label template -->
     <string name="flight_carrier_confirmation_code_label_TEMPLATE">Bekräftelse från %1$s</string>
+    <!-- Car rental agency name and location in car itin detail -->
+    <string name="car_rental_agency_name_location">%1$s i %2$s, %3$s</string>
     <!-- Car rental confirmation code "Agency Confirmation Code" -->
     <string name="car_rental_confirmation_code_label">Bilfirmans bekräftelsekod</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
@@ -151,7 +155,7 @@
     <string name="arrival_terminal_TEMPLATE">Avgångsterminal %1$s, Gate %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Avgångsterminal %1$s, Gate %2$s</string>
-    <!-- To be determined abbrev.-->
+    <!-- To be determined abbrev. -->
     <string name="to_be_determined_abbrev">TBD</string>
     <!-- Itin flight gate only template -->
     <string name="gate_number_only_TEMPLATE">Gate %1$s</string>
@@ -315,13 +319,12 @@
     <!-- Itin card details -->
     <string name="itin_card_details_active">Aktiv</string>
     <string name="itin_card_details_expires">Förfaller</string>
-    <string name="itin_card_details_guests">Gäster</string>
+    <string name="itin_card_details_guests">gäster</string>
     <string name="itin_card_details_booking_info">Bokningsinfo</string>
     <string name="itin_card_details_confirmation_code">Bekräftelsekod</string>
     <string name="itin_card_details_details">Övrig information</string>
     <string name="itin_card_details_pick_up">Hämtning</string>
     <string name="itin_card_details_drop_off">Avlämning</string>
-    <string name="itin_card_details_days">Dagar</string>
     <!-- Tell users when they can pick up a rental car. %1$s is a time, e.g. ("pick up after 5 PM") -->
     <string name="itin_card_details_pick_up_TEMPLATE">Hämtning efter %1$s</string>
     <!-- Tell users when they need to drop off a rental car. %1$s is a time, e.g. ("drop off before 5 PM") -->
@@ -377,7 +380,7 @@
     <string name="share_template_subject_flight">Mitt flyg till %1$s %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
     <string name="share_template_short_flight_sameday">Jag är på flyg %1$s till %2$s %3$s.\nAvgår %4$s %5$s\nAnkommer %6$s %7$s, %8$s</string>
-     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
+    <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
     <string name="share_template_short_flight_multiday">Jag är på flyg %1$s till %2$s.\nAvgår %3$s %4$s\nAnkommer %5$s %6$s, %7$s</string>
     <!-- 1: Origin city 2: Destination city 3: Flight Carrier and number 4: Departure date 5: Departure airport code 6: Departure Time 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival terminal gate 11: Traveler list -->
     <string name="share_template_long_flight_sameday">Hej,\n\nHär är infon för mitt flyg från %1$s till %2$s.\n\n%3$s - %4$s\n\nAvgår %5$s %6$s från %7$s.\nAnkommer %8$s %9$s till %10$s.\n\nResenärer\n%11$s</string>
@@ -650,6 +653,10 @@
     <string name="the_hotel_raised_the_price_TEMPLATE">Hotellet höjde precis priset för det här rummet till %1$s per natt.</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_lowered_the_price_TEMPLATE">Hotellet sänkte precis priset för det här rummet till %1$s per natt.</string>
+    <!-- String to use when a price change alert should be shown to the user -->
+    <string name="the_hotel_raised_the_total_price_TEMPLATE">Hotellet höjde just priset för det här rummet från %1$s till %2$s</string>
+    <!-- String to use when a price change alert should be shown to the user -->
+    <string name="the_hotel_lowered_the_total_price_TEMPLATE">Hotellet sänkte just priset för det här rummet från %1$s till %2$s</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">Klar</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
@@ -987,7 +994,7 @@
     <string name="share_flight_round_trip_TEMPLATE">Här är infon för min tur- och returresa från %1$s till %2$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">Resplansnummer: %s</string>
-     <!-- Section with a bunch of travelers on the flight (listed below) -->
+    <!-- Section with a bunch of travelers on the flight (listed below) -->
     <string name="share_travelers_section">Resenärer:</string>
     <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc… %2$s is their name -->
     <!-- examples: "Traveler 1: Tom Smith" "Traveler 2: David Thomas" or if only one traveler, "Traveler: Matt Long" -->
@@ -1163,7 +1170,7 @@
     <!-- Filter option for "show 5 star hotels ."  (Should remain abbreviated) -->
     <string name="filter_stars_five">5</string>
     <!-- Filter option template for filtering hotels by distance in miles.  (E.g., "5 mi"). -->
-    <string name="filter_distance_miles_template">%s eng.mil</string>
+    <string name="filter_distance_miles_template">%seng.mil</string>
     <!-- Filter option template for filtering hotels by distance in kilometers.  (E.g., "7.5 km"). -->
     <string name="filter_distance_kilometers_template">%s km</string>
 
@@ -1551,7 +1558,7 @@
 
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
-    <string name="GuestsLabel">Gäster</string>
+    <string name="GuestsLabel">gäster</string>
     <!-- Label indicating taxes are included for this booking. -->
     <string name="TaxesAndFees">Inkl. skatter</string>
     <!-- Label for the taxes and fees for a hotel room booking. -->
@@ -1730,7 +1737,7 @@
     <string name="preference_point_of_sale_title">Land</string>
 
     <!-- Strings used a lot of places -->
-    <!-- A number of adults -->
+    <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">%d vuxna</item>
         <item quantity="one">%d vuxen</item>
@@ -1738,7 +1745,7 @@
         <item quantity="many">%d vuxna</item>
         <item quantity="other">%d vuxna</item>
     </plurals>
-    <!-- A number of children -->
+    <!-- A number of children. Capitalized -->
     <plurals name="number_of_children">
         <item quantity="zero">%d barn</item>
         <item quantity="one">%d barn</item>
@@ -1746,13 +1753,21 @@
         <item quantity="many">%d barn</item>
         <item quantity="other">%d barn</item>
     </plurals>
-    <!-- A number of guests -->
+    <!-- A number of guests. Capitalized -->
     <plurals name="number_of_guests">
         <item quantity="zero">%d gäster</item>
         <item quantity="one">%d gäst</item>
         <item quantity="two">%d gäster</item>
         <item quantity="many">%d gäster</item>
         <item quantity="other">%d gäster</item>
+    </plurals>
+    <!-- A number of guests (but not including the guest count). Capitalized -->
+    <plurals name="number_of_guests_label">
+        <item quantity="zero">gäster</item>
+        <item quantity="one">gäst</item>
+        <item quantity="two">gäster</item>
+        <item quantity="many">gäster</item>
+        <item quantity="other">gäster</item>
     </plurals>
     <!-- A number of nights (as in stay duration).  Capitalized -->
     <plurals name="number_of_nights">
@@ -1761,6 +1776,22 @@
         <item quantity="two">%d nätter</item>
         <item quantity="many">%d nätter</item>
         <item quantity="other">%d nätter</item>
+    </plurals>
+    <!-- A number of days (as in rental duration).  Capitalized -->
+    <plurals name="number_of_days">
+        <item quantity="zero">%d dagar</item>
+        <item quantity="one">%d dag</item>
+        <item quantity="two">%d dagar</item>
+        <item quantity="many">%d dagar</item>
+        <item quantity="other">%d dagar</item>
+    </plurals>
+    <!-- A number of days (as in rental duration), not including the actual number. Capitalized -->
+    <plurals name="number_of_days_label">
+        <item quantity="zero">dagar</item>
+        <item quantity="one">dag</item>
+        <item quantity="two">dagar</item>
+        <item quantity="many">dagar</item>
+        <item quantity="other">dagar</item>
     </plurals>
 
     <!-- Distance strings -->
