@@ -241,7 +241,10 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 						mediaName = parser.getCurrentName();
 						mediaToken = parser.nextToken();
 						if (mediaName.equals("url") && mediaToken != JsonToken.VALUE_NULL) {
-							property.addMedia(new Media(parser.getText()));
+							Media media = ParserUtils.parseUrl(parser.getText());
+							if (media != null) {
+								property.addMedia(media);
+							}
 						}
 					}
 				}

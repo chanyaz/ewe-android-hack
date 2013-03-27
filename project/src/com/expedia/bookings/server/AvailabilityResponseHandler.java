@@ -87,12 +87,13 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 				for (int a = 0; a < len; a++) {
 					JSONObject photo = photos.optJSONObject(a);
 					Media media = ParserUtils.parseUrl(photo.optString("url"));
-					property.addMedia(media);
+					if (media != null) {
+						property.addMedia(media);
+					}
 				}
-				
+
 				// Adding the first media as the thumbnail media.
-				JSONObject photo = photos.optJSONObject(0);
-				Media media = ParserUtils.parseUrl(photo.optString("url"));
+				Media media = property.getMedia(0);
 				Media thumbnailMedia = new Media(media.getUrl(Media.IMAGE_BIG_SUFFIX));
 				property.setThumbnail(thumbnailMedia);
 			}
