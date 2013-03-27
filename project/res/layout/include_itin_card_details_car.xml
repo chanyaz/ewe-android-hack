@@ -16,6 +16,7 @@
     <!-- MAP -->
 
     <com.expedia.bookings.widget.ParallaxContainer
+        android:id="@+id/mini_map_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/itin_map_visible_size"
         app:offsetBottom="80dp"
