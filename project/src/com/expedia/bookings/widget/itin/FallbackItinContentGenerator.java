@@ -72,7 +72,7 @@ public class FallbackItinContentGenerator extends ItinContentGenerator<ItinCardD
 		case CAR:
 			return R.drawable.bg_itin_fallback_car;
 		case CRUISE:
-			return R.drawable.bg_itin_fallback_cruise;
+			return R.drawable.itin_header_placeholder_cruises;
 		default:
 			return R.drawable.bg_itin_fallback_activity;
 		}
