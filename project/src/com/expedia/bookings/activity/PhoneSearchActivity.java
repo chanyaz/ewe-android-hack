@@ -296,14 +296,14 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			if (mEditedSearchParams != null) {
 				throw new RuntimeException("edited search params not commited or cleared before search");
 			}
-
+			
 			Property selectedProperty = new Property();
 			selectedProperty.setPropertyId(Db.getSearchParams().getRegionId());
-
+			
 			return services.availability(Db.getSearchParams(), selectedProperty);
 		}
 	};
-
+	
 	private final Download<SearchResponse> mSearchDownload = new Download<SearchResponse>() {
 		@Override
 		public SearchResponse doDownload() {
@@ -312,15 +312,10 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			if (mEditedSearchParams != null) {
 				throw new RuntimeException("edited search params not commited or cleared before search");
 			}
-
-			SearchResponse searchResponse = services.search(Db.getSearchParams(), 0);
-
-			processSearchResponse(searchResponse, false);
-
-			return searchResponse;
+			return services.search(Db.getSearchParams(), 0);
 		}
 	};
-
+	
 	private final OnDownloadComplete<AvailabilityResponse> mSearchHotelCallback = new OnDownloadComplete<AvailabilityResponse>() {
 
 		@Override
@@ -348,84 +343,64 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 					startActivity(HotelDetailsFragmentActivity.createIntent(PhoneSearchActivity.this));
 				}
 			}
-
-			processSearchResponse(searchResponse, true);
-		}
-	};
-
-	/**
-	 * Processes SearchResponse so that it can be displayed on the screen.
-	 * 
-	 * This is intended to be able to be called on either a UI or non-UI threads.
-	 * If you call it in a non-UI thread, then it can save effort.  From a UI
-	 * thread it can be used to revive the current state of the results.
-	 * 
-	 * @param searchResponse the search response
-	 * @param callCallback if true, does the search download callback (which actually loads the results on the screen)
-	 *        Only make this true if you're on the UI thread!
-	 */
-	private void processSearchResponse(SearchResponse searchResponse, boolean callCallback) {
-		// Clear the old listener so we don't end up with a memory leak
-		Db.getFilter().clearOnFilterChangedListeners();
-
-		Db.setSearchResponse(searchResponse);
-
-		// Pre-process the search response (while we're still in the background)
-		if (searchResponse != null && searchResponse.getPropertiesCount() > 0 && !searchResponse.hasErrors()) {
-			incrementNumSearches();
-
-			Filter filter = Db.getFilter();
-
-			// Filter reset is already called, hence reset appropriate searchRadius
-			SearchType searchType = Db.getSearchParams().getSearchType();
-			switch (searchType) {
-			case CITY:
-			case ADDRESS:
-			case FREEFORM:
-			case HOTEL:
-			case VISIBLE_MAP_AREA:
-				filter.setSearchRadius(SearchRadius.ALL);
-				break;
-			case MY_LOCATION:
-			case POI:
-				filter.setSearchRadius(SearchRadius.LARGE);
-				break;
-			}
-			searchResponse.setFilter(filter);
-			filter.addOnFilterChangedListener(PhoneSearchActivity.this);
-
-			SearchParams searchParams = Db.getSearchParams();
-			searchResponse.setSearchType(searchParams.getSearchType());
-			searchResponse.setSearchLatLon(searchParams.getSearchLatitude(), searchParams.getSearchLongitude());
-
-			if (!mLoadedSavedResults && searchResponse.getFilteredAndSortedProperties().length <= 10) {
-				Log.i("Initial search results had not many results, expanding search radius filter to show all.");
-				filter.setSearchRadius(SearchRadius.ALL);
-				mRadiusCheckedId = R.id.radius_all_button;
-				searchResponse.clearCache();
-			}
-
-			// #9773: Show distance sort initially, if user entered street address-level search params
-			if (mShowDistance) {
-				mSortOptionSelectedId = R.id.menu_select_sort_distance;
-				buildFilter();
-			}
-
-			mLastSearchTime = Calendar.getInstance().getTimeInMillis();
-		}
-
-		if (callCallback) {
 			mSearchCallback.onDownload(searchResponse);
 		}
-	}
+
+	};
 
 	private final OnDownloadComplete<SearchResponse> mSearchCallback = new OnDownloadComplete<SearchResponse>() {
 		@Override
 		public void onDownload(SearchResponse searchResponse) {
+			// Clear the old listener so we don't end up with a memory leak
+			Db.getFilter().clearOnFilterChangedListeners();
+
+			Db.setSearchResponse(searchResponse);
+
 			if (searchResponse != null && searchResponse.getPropertiesCount() > 0 && !searchResponse.hasErrors()) {
+				incrementNumSearches();
+
+				Filter filter = Db.getFilter();
+
+				// Filter reset is already called, hence reset appropriate searchRadius
+				SearchType searchType = Db.getSearchParams().getSearchType();
+				switch (searchType) {
+				case CITY:
+				case ADDRESS:
+				case FREEFORM:
+				case HOTEL:
+				case VISIBLE_MAP_AREA:
+					filter.setSearchRadius(SearchRadius.ALL);
+					break;
+				case MY_LOCATION:
+				case POI:
+					filter.setSearchRadius(SearchRadius.LARGE);
+					break;
+				}
+				searchResponse.setFilter(filter);
+				filter.addOnFilterChangedListener(PhoneSearchActivity.this);
+
+				SearchParams searchParams = Db.getSearchParams();
+				searchResponse.setSearchType(searchParams.getSearchType());
+				searchResponse.setSearchLatLon(searchParams.getSearchLatitude(), searchParams.getSearchLongitude());
+
+				if (!mLoadedSavedResults && searchResponse.getFilteredAndSortedProperties().length <= 10) {
+					Log.i("Initial search results had not many results, expanding search radius filter to show all.");
+					filter.setSearchRadius(SearchRadius.ALL);
+					mRadiusCheckedId = R.id.radius_all_button;
+					searchResponse.clearCache();
+				}
+
+				// #9773: Show distance sort initially, if user entered street address-level search params
+				if (mShowDistance) {
+					mSortOptionSelectedId = R.id.menu_select_sort_distance;
+					buildFilter();
+				}
+
 				broadcastSearchCompleted(searchResponse);
 
 				hideLoading();
+
+				mLastSearchTime = Calendar.getInstance().getTimeInMillis();
 			}
 			else if (searchResponse != null && searchResponse.getPropertiesCount() > 0
 					&& searchResponse.getLocations() != null && searchResponse.getLocations().size() > 0) {
@@ -479,7 +454,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			}
 			else {
 				mLoadedSavedResults = true;
-				processSearchResponse(results, true);
+				mSearchCallback.onDownload(results);
 				mLoadedSavedResults = false;
 			}
 		}
@@ -1594,7 +1569,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private void startSearchDownloader() {
 		SearchType searchType = Db.getSearchParams().getSearchType();
 
-		if (searchType == SearchType.HOTEL) {
+		if(searchType == SearchType.HOTEL) {
 			showLoading(true, R.string.progress_searching_selected_hotel);
 		}
 		else {
@@ -1617,8 +1592,8 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		Db.resetFilter();
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-
-		if (searchType == SearchType.HOTEL) {
+		
+		if(searchType == SearchType.HOTEL) {
 			bd.cancelDownload(KEY_HOTEL_SEARCH);
 			bd.startDownload(KEY_HOTEL_SEARCH, mSearchHotelDownload, mSearchHotelCallback);
 		}
@@ -1709,8 +1684,8 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 	private void broadcastSearchCompleted(SearchResponse searchResponse) {
 		Db.setSearchResponse(searchResponse);
-
-		if (Db.getSearchParams().getSearchType() != SearchParams.SearchType.HOTEL) {
+		
+		if(Db.getSearchParams().getSearchType() != SearchParams.SearchType.HOTEL) {
 			Db.clearSelectedProperty();
 		}
 
@@ -1812,7 +1787,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		error.setCode("SIMULATED");
 		response.addError(error);
 
-		processSearchResponse(response, true);
+		mSearchCallback.onDownload(response);
 		mStartSearchOnResume = true;
 	}
 
@@ -2496,7 +2471,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 					mEditedSearchParams.setQuery(o.toString());
 				}
 			}
-
+			
 			startSearch();
 		}
 	};
