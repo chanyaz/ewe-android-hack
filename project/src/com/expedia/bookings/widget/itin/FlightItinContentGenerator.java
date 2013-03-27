@@ -169,7 +169,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 	@Override
 	public int getHeaderImagePlaceholderResId() {
-		return R.drawable.default_flights_background;
+		return R.drawable.bg_itin_placeholder_flight;
 	}
 
 	@Override
