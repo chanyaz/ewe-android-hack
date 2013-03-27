@@ -22,7 +22,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.EventSummaryView;
 import com.expedia.bookings.widget.InfoTripletView;
-import com.expedia.bookings.widget.MapImageView;
+import com.expedia.bookings.widget.LocationMapImageView;
 import com.mobiata.android.SocialUtils;
 
 public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCar> {
@@ -209,7 +209,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 
 		// Find
 		InfoTripletView infoTriplet = Ui.findView(view, R.id.info_triplet);
-		MapImageView staticMapImageView = Ui.findView(view, R.id.mini_map);
+		LocationMapImageView staticMapImageView = Ui.findView(view, R.id.mini_map);
 		EventSummaryView pickUpEventSummaryView = Ui.findView(view, R.id.pick_up_event_summary_view);
 		EventSummaryView dropOffEventSummaryView = Ui.findView(view, R.id.drop_off_event_summary_view);
 		TextView localPhoneLabelTextView = Ui.findView(view, R.id.local_phone_label_text_view);
@@ -231,7 +231,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 
 		Location relevantLocation = itinCardData.getRelevantVendorLocation();
 		if (relevantLocation != null) {
-			staticMapImageView.setCenterPoint(relevantLocation);
+			staticMapImageView.setLocation(relevantLocation);
 		}
 
 		pickUpEventSummaryView.bind(itinCardData.getPickUpDate(), itinCardData.getPickUpLocation(), true,

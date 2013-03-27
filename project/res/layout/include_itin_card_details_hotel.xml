@@ -23,7 +23,7 @@
         app:scrollMax="130dp"
         app:scrollMin="10dp" >
 
-        <com.expedia.bookings.widget.HotelMapImageView
+        <com.expedia.bookings.widget.LocationMapImageView
             android:id="@+id/mini_map"
             android:layout_width="match_parent"
             android:layout_height="@dimen/itin_map_total_size"

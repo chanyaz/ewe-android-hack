@@ -7,4 +7,5 @@
     android:drawablePadding="16dp"
     android:padding="16dp"
     android:textColor="@color/itin_white_text"
+    android:textSize="16dp"
     app:textStyle="light" />
