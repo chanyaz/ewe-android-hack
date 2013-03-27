@@ -42,7 +42,6 @@
     <dimen name="flight_search_header_padding_top">14dp</dimen>
     <dimen name="flight_search_header_padding_bottom">14dp</dimen>
     <dimen name="flight_search_space_between_rows">6dp</dimen>
-    <dimen name="flight_search_space_between_rows">6dp</dimen>
 
     <!-- Plane window view dimens -->
     <!-- These must always be linked -->
@@ -158,8 +157,6 @@
 
     <!-- Dimensions for the placeholder progress bar throbber -->
     <dimen name="placeholder_throbber_size">76dp</dimen>
-    <!-- Offset for placeholder tag -->
-    <dimen name="placeholder_tag_margin_top">15dp</dimen>
     <!-- Offset for placeholder tag -->
     <dimen name="placeholder_tag_margin_top">44dp</dimen>
     <dimen name="booking_form_saved_field_text_size">14dp</dimen>
