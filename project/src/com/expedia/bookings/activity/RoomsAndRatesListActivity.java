@@ -127,16 +127,6 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 			findViewById(R.id.nights_container).setVisibility(View.GONE);
 		}
 
-		if (Db.getSelectedAvailabilityResponse() != null) {
-			mRoomsAndRatesFragment.notifyAvailabilityLoaded();
-		}
-		else {
-			BackgroundDownloader bd = BackgroundDownloader.getInstance();
-			if (!bd.isDownloading(DOWNLOAD_KEY)) {
-				bd.startDownload(DOWNLOAD_KEY, mDownload, mCallback);
-			}
-		}
-
 		if (savedInstanceState == null) {
 			OmnitureTracking.trackAppHotelsRoomsRates(this, property, null);
 		}
@@ -156,10 +146,18 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 			return;
 		}
 
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(DOWNLOAD_KEY)) {
-			mRoomsAndRatesFragment.showProgress();
-			bd.registerDownloadCallback(DOWNLOAD_KEY, mCallback);
+		if (Db.getSelectedAvailabilityResponse() != null) {
+			mRoomsAndRatesFragment.notifyAvailabilityLoaded();
+		}
+		else {
+			BackgroundDownloader bd = BackgroundDownloader.getInstance();
+			if (bd.isDownloading(DOWNLOAD_KEY)) {
+				mRoomsAndRatesFragment.showProgress();
+				bd.registerDownloadCallback(DOWNLOAD_KEY, mCallback);
+			}
+			else {
+				bd.startDownload(DOWNLOAD_KEY, mDownload, mCallback);
+			}
 		}
 
 		OmnitureTracking.onResume(this);

@@ -118,6 +118,10 @@ public class RoomsAndRatesFragment extends ListFragment {
 			mEmptyTextView.setText(R.string.error_no_response_room_rates);
 			return;
 		}
+		else if (response.getRateCount() == 0) {
+			mEmptyTextView.setText(getResources().getQuantityString(R.plurals.num_rooms_left, 0, 0));
+			return;
+		}
 
 		loadResponse(response);
 	}
