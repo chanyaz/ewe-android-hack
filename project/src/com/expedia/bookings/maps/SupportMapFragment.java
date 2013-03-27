@@ -178,7 +178,7 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 	 * *DOES NOT WORK* if you are changing the zoom level at the same time as changing the LatLng.
 	 */
 	public LatLng offsetLatLng(LatLng latLng) {
-		return offsetLatLng(latLng, mCenterOffsetX, mCenterOffsetX);
+		return offsetLatLng(latLng, mCenterOffsetX, mCenterOffsetY);
 	}
 
 	public LatLng offsetLatLng(LatLng latLng, float offsetX, float offsetY) {
