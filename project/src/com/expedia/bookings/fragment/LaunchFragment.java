@@ -66,6 +66,7 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.location.LocationFinder;
+import com.mobiata.android.location.MobiataLocationFinder;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
@@ -79,6 +80,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	public static final String KEY_HOTEL_DESTINATIONS = "LAUNCH_SCREEN_HOTEL_DESTINATIONS";
 
 	private static final long MINIMUM_TIME_AGO = 1000 * 60 * 15; // 15 minutes ago
+	private static final long LOCATION_FINDER_TIMEOUT = 1000 * 5; // 5 seconds
 	private static final int NUM_HOTEL_PROPERTIES = 20;
 	private static final int NUM_FLIGHT_DESTINATIONS = 5;
 
@@ -321,7 +323,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 	// Location finder
 
-	private LocationFinder mLocationFinder;
+	private MobiataLocationFinder mLocationFinder;
 
 	private void findLocation() {
 
@@ -331,7 +333,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		}
 
 		if (mLocationFinder == null) {
-			mLocationFinder = LocationFinder.getInstance(mContext);
+			mLocationFinder = new MobiataLocationFinder(mContext);
 			mLocationFinder.setListener(new LocationFinder.LocationFinderListener() {
 				@Override
 				public void onLocationFound(Location location) {
@@ -353,6 +355,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 					// do nothing
 				}
 			});
+			mLocationFinder.setTimeout(LOCATION_FINDER_TIMEOUT);
 		}
 		mLocationFinder.find();
 	}
