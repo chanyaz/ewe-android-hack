@@ -18,6 +18,7 @@
     <color name="itin_flight_delayed_color">#F7DE08</color>
     <color name="itin_flight_on_time_color">#A2D104</color>
     <color name="itin_list_bg_transparent">#99212527</color>
+    <color name="itin_summary_pressed">#40000000</color>
 
     <!-- Flights colors -->
     <color name="plane_window_background">#CACACA</color>

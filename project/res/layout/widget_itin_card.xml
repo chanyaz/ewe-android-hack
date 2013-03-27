@@ -177,6 +177,7 @@
                         android:id="@+id/summary_section_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/list_selector_transparent"
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:visibility="gone" >
