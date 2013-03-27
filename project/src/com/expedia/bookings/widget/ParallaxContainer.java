@@ -67,6 +67,10 @@ public class ParallaxContainer extends FrameLayout {
 	 * Adjusts this container's scrollY to get a nice parallax effect
 	 */
 	public void parallax() {
+		if (mInterpolator == null) {
+			return;
+		}
+
 		int counterscroll = (int) (mInterpolator.get(mLocation[1]));
 		scrollTo(0, counterscroll);
 	}

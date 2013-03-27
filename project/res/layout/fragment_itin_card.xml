@@ -44,7 +44,7 @@
 
         <!-- Content -->
 
-        <ScrollView
+        <com.expedia.bookings.widget.ScrollView
             android:id="@+id/itin_card_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -73,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical" />
             </LinearLayout>
-        </ScrollView>
+        </com.expedia.bookings.widget.ScrollView>
 
         <!-- Action buttons -->
 
