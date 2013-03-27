@@ -141,5 +141,12 @@
         <attr name="radiusBR" format="dimension" />
     </declare-styleable>
 
+    <!-- ParallaxContainer -->
+    <declare-styleable name="ParallaxContainer">
+        <attr name="offsetTop" format="dimension" />
+        <attr name="offsetBottom" format="dimension" />
+        <attr name="scrollMin" format="dimension" />
+        <attr name="scrollMax" format="dimension" />
+    </declare-styleable>
 
 </resources>
