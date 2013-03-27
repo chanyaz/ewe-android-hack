@@ -144,6 +144,7 @@ public class SearchFragmentActivity extends SherlockFragmentActivity implements 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_launch_tablet, menu);
+		getSupportMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
 
 		DebugMenu.onCreateOptionsMenu(this, menu);
 
@@ -167,6 +168,11 @@ public class SearchFragmentActivity extends SherlockFragmentActivity implements 
 		case R.id.menu_settings: {
 			// Possible TODO: Reset the activity when settings are changed?
 			Intent intent = new Intent(this, TabletPreferenceActivity.class);
+			startActivity(intent);
+			return true;
+		}
+		case R.id.menu_about: {
+			Intent intent = new Intent(this, TabletAboutActivity.class);
 			startActivity(intent);
 			return true;
 		}

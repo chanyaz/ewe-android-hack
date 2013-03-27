@@ -173,6 +173,7 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		getSupportMenuInflater().inflate(R.menu.menu_itinerary, menu);
+		getSupportMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
 
 		mLogInMenuItem = menu.findItem(R.id.menu_log_in);
 		mLogOutMenuItem = menu.findItem(R.id.menu_log_out);
@@ -215,6 +216,11 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 		case R.id.menu_settings: {
 			Intent intent = new Intent(this, TabletPreferenceActivity.class);
 			startActivityForResult(intent, REQUEST_SETTINGS);
+			return true;
+		}
+		case R.id.menu_about: {
+			Intent intent = new Intent(this, TabletAboutActivity.class);
+			startActivity(intent);
 			return true;
 		}
 		}
