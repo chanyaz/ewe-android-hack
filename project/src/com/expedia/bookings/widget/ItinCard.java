@@ -138,6 +138,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		mHeaderShadeView = Ui.findView(this, R.id.header_mask);
 		mSummaryDividerView = Ui.findView(this, R.id.summary_divider_view);
 
+		mSummarySectionLayout.setOnClickListener(mOnClickListener);
 		Ui.findView(this, R.id.close_image_button).setOnClickListener(mOnClickListener);
 		Ui.findView(this, R.id.share_image_button).setOnClickListener(mOnClickListener);
 
@@ -293,8 +294,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		titleResizeAnimator.addListener(new AnimatorListenerShort() {
 			@Override
 			public void onAnimationEnd(Animator arg0) {
-				mHeaderImageView.setMode(mShowSummary ? ItinHeaderImageView.MODE_SUMMARY : ItinHeaderImageView.MODE_MINI);
-				
+				mHeaderImageView.setMode(mShowSummary ? ItinHeaderImageView.MODE_SUMMARY
+						: ItinHeaderImageView.MODE_MINI);
+
 				updateSummaryVisibility();
 
 				mScrollView.scrollTo(0, 0);
@@ -521,6 +523,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	private void updateClickable() {
+		mSummarySectionLayout.setClickable(mDisplayState == DisplayState.EXPANDED);
 		mScrollView.setEnabled(mDisplayState == DisplayState.EXPANDED);
 	}
 
@@ -551,6 +554,12 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 			case R.id.share_image_button: {
 				if (mOnItinCardClickListener != null) {
 					mOnItinCardClickListener.onShareButtonClicked(mItinContentGenerator);
+				}
+				break;
+			}
+			case R.id.summary_section_layout: {
+				if (mDisplayState.equals(DisplayState.EXPANDED) && mOnItinCardClickListener != null) {
+					mOnItinCardClickListener.onCloseButtonClicked();
 				}
 				break;
 			}
