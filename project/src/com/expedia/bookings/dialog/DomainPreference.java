@@ -100,7 +100,8 @@ public class DomainPreference extends ListPreference {
 
 	@Override
 	protected void onDialogClosed(boolean positiveResult) {
-		if (positiveResult && mSelectedOption >= 0 && getEntryValues() != null) {
+		if (positiveResult && mSelectedOption >= 0 && mSelectedOption != mPreviouslySelectedOption
+				&& getEntryValues() != null) {
 			final String value = getEntryValues()[mSelectedOption].toString();
 			setSelectedOption(mSelectedOption);
 			Builder builder = new AlertDialog.Builder(mContext);
