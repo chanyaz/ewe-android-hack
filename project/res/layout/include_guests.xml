@@ -29,6 +29,7 @@
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:paddingRight="8dp"
             android:background="@drawable/bg_counter" >
 
             <com.expedia.bookings.widget.NumberPicker
@@ -43,7 +44,7 @@
             style="@style/WhiteLabelGlowText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="0dp"
             android:layout_marginTop="0px"
             android:text="@string/adults"
             android:textSize="18sp"
@@ -73,6 +74,7 @@
         <FrameLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
+            android:paddingRight="8dp"
             android:layout_weight="1"
             android:background="@drawable/bg_counter" >
 
@@ -88,7 +90,7 @@
             style="@style/WhiteLabelGlowText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="0dp"
             android:layout_marginTop="0px"
             android:text="@string/children"
             android:textSize="18sp"
