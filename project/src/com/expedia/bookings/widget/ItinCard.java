@@ -75,7 +75,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	private ViewGroup mTitleContentLayout;
 	private ViewGroup mHeaderLayout;
 	private ViewGroup mHeaderTextLayout;
+	private ViewGroup mSummarySectionLayout;
 	private ViewGroup mSummaryLayout;
+	private ImageView mChevronImageView;
 	private ViewGroup mDetailsLayout;
 	private ItinActionsSection mActionButtonLayout;
 
@@ -118,7 +120,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		mTitleContentLayout = Ui.findView(this, R.id.title_content_layout);
 		mHeaderLayout = Ui.findView(this, R.id.header_layout);
 		mHeaderTextLayout = Ui.findView(this, R.id.header_text_layout);
+		mSummarySectionLayout = Ui.findView(this, R.id.summary_section_layout);
 		mSummaryLayout = Ui.findView(this, R.id.summary_layout);
+		mChevronImageView = Ui.findView(this, R.id.chevron_image_view);
 		mDetailsLayout = Ui.findView(this, R.id.details_layout);
 		mActionButtonLayout = Ui.findView(this, R.id.action_button_layout);
 
@@ -237,7 +241,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	}
 
 	public void updateSummaryVisibility() {
-		mSummaryLayout.setVisibility(mShowSummary ? VISIBLE : GONE);
+		mSummarySectionLayout.setVisibility(mShowSummary ? VISIBLE : GONE);
 		mActionButtonLayout.setVisibility(mShowSummary ? VISIBLE : GONE);
 	}
 
@@ -358,6 +362,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 					300));
 		}
 
+		// Chevron rotation
+		animators.add(ObjectAnimator.ofFloat(mChevronImageView, "rotation", 0).setDuration(400));
+
 		AnimatorSet set = new AnimatorSet();
 		set.playTogether(animators);
 		return set;
@@ -381,7 +388,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		Animator titleLayoutResizeAnimator = ResizeAnimator.buildResizeAnimator(mTitleLayout, 0, mTitleLayoutHeight);
 		animators.add(titleLayoutResizeAnimator);
 		if (mActionButtonLayout.getVisibility() != VISIBLE) {
-			mSummaryLayout.setVisibility(VISIBLE);
+			mSummarySectionLayout.setVisibility(VISIBLE);
 			mActionButtonLayout.setVisibility(VISIBLE);
 			Animator actionButtonResizeAnimator = ResizeAnimator.buildResizeAnimator(mActionButtonLayout,
 					mActionButtonLayoutHeight);
@@ -446,6 +453,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 			animators.add(ResizeAnimator.buildResizeAnimator(mHeaderLayout, mExpandedCardHeaderImageHeight));
 			animators.add(ResizeAnimator.buildResizeAnimator(mHeaderImageView, mExpandedCardHeaderImageHeight));
 		}
+
+		// Chevron rotation
+		animators.add(ObjectAnimator.ofFloat(mChevronImageView, "rotation", 180).setDuration(400));
 
 		AnimatorSet set = new AnimatorSet();
 		set.playTogether(animators);

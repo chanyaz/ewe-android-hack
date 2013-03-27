@@ -173,11 +173,28 @@
                     <!-- SUMMARY LAYOUT -->
                     <!-- ###################################################################### -->
 
-                    <FrameLayout
-                        android:id="@+id/summary_layout"
+                    <LinearLayout
+                        android:id="@+id/summary_section_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone" />
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:visibility="gone" >
+
+                        <FrameLayout
+                            android:id="@+id/summary_layout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <ImageView
+                            android:id="@+id/chevron_image_view"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginRight="8dp"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/ic_expand_collapse" />
+                    </LinearLayout>
 
                     <View
                         android:id="@+id/summary_divider_view"
