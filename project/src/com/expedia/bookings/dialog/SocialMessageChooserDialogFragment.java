@@ -25,25 +25,20 @@ public class SocialMessageChooserDialogFragment extends DialogFragment {
 		String subject = generator.getShareSubject();
 		String shortMessage = generator.getShareTextShort();
 		String longMessage = generator.getShareTextLong();
+		TripComponent.Type type = generator.getType();
 
-		return newInstance(subject, shortMessage, longMessage);
+		return newInstance(subject, shortMessage, longMessage, type);
 	}
 
-	public static SocialMessageChooserDialogFragment newInstance(String subject, String shortMessage, String longMessage) {
+	private static SocialMessageChooserDialogFragment newInstance(String subject, String shortMessage,
+			String longMessage, TripComponent.Type type) {
 		SocialMessageChooserDialogFragment fragment = new SocialMessageChooserDialogFragment();
 		fragment.mSubject = subject;
 		fragment.mShortMessage = shortMessage;
 		fragment.mLongMessage = longMessage;
+		fragment.mType = type;
 
 		return fragment;
-	}
-
-	/**
-	 * Denotes that you would like to track the itin share through Omniture. Not a strict requirement
-	 * @param type itin card type that is being shared
-	 */
-	public void setTrackingEnabled(TripComponent.Type type) {
-		mType = type;
 	}
 
 	@Override
@@ -62,10 +57,7 @@ public class SocialMessageChooserDialogFragment extends DialogFragment {
 				SocialUtils.email(getActivity(), mSubject, mLongMessage);
 				dismiss();
 
-				// Only track sharing if client has specified an itin card type
-				if (mType != null) {
-					OmnitureTracking.trackItinShare(getActivity(), mType, true);
-				}
+				OmnitureTracking.trackItinShare(getActivity(), mType, true);
 			}
 		});
 

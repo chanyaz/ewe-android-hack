@@ -402,9 +402,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 		@Override
 		public void onShareButtonClicked(ItinContentGenerator<?> generator) {
-			SocialMessageChooserDialogFragment df = SocialMessageChooserDialogFragment.newInstance(generator);
-			df.setTrackingEnabled(generator.getType());
-			df.show(getFragmentManager(), DIALOG_SHARE);
+			SocialMessageChooserDialogFragment.newInstance(generator).show(getFragmentManager(), DIALOG_SHARE);
 		}
 	};
 
