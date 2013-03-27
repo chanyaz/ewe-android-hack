@@ -273,8 +273,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		mDisplayState = DisplayState.COLLAPSED;
 		updateClickable();
 
-		mHeaderImageView.setMode(mShowSummary ? ItinHeaderImageView.MODE_SUMMARY : ItinHeaderImageView.MODE_MINI);
-
 		AnimatorSet animSet = getCollapseAnimatorSet();
 		if (startAnimation) {
 			animSet.start();
@@ -293,9 +291,10 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		ValueAnimator titleResizeAnimator = ResizeAnimator.buildResizeAnimator(mTitleLayout, mTitleLayoutHeight, 0);
 		titleResizeAnimator.setDuration(300);
 		titleResizeAnimator.addListener(new AnimatorListenerShort() {
-
 			@Override
 			public void onAnimationEnd(Animator arg0) {
+				mHeaderImageView.setMode(mShowSummary ? ItinHeaderImageView.MODE_SUMMARY : ItinHeaderImageView.MODE_MINI);
+				
 				updateSummaryVisibility();
 
 				mScrollView.scrollTo(0, 0);
@@ -304,16 +303,13 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 				mDetailsLayout.setVisibility(GONE);
 
 				destroyDetailsView();
-
 			}
 		});
 		titleResizeAnimator.addUpdateListener(new AnimatorUpdateListener() {
-
 			@Override
 			public void onAnimationUpdate(ValueAnimator arg0) {
 				mScrollView.scrollTo(0, (int) (((stopY - startY) * arg0.getAnimatedFraction()) + startY));
 			}
-
 		});
 		animators.add(titleResizeAnimator);
 
