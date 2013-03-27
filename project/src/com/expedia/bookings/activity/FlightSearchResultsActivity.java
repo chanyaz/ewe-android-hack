@@ -75,6 +75,7 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
@@ -89,6 +90,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	private static final String DOWNLOAD_KEY = "com.expedia.bookings.flights";
 	private static final String BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY = "BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY";
 	private static final String BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY = "BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY";
+
+	private static final String ERROR_CODE_SIMULATED = "SIMULATED";
 
 	private static final String INSTANCE_LEG_POSITION = "INSTANCE_LEG_POSITION";
 	private static final String INSTANCE_ANIM_FORWARD = "INSTANCE_ANIM_FORWARD";
@@ -840,8 +843,15 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			if (response == null) {
 				response = new FlightSearchResponse();
 				ServerError error = new ServerError(ApiMethod.FLIGHT_SEARCH);
-				error.setPresentationMessage(getString(R.string.error_server));
-				error.setCode("SIMULATED");
+				if (!NetUtils.isOnline(mContext)) {
+					// 821: If we get a null response and the user is offline,
+					// we can assume it was a lack of internet that caused the problem.
+					error.setPresentationMessage(getString(R.string.error_no_internet));
+				}
+				else {
+					error.setPresentationMessage(getString(R.string.error_server));
+				}
+				error.setCode(ERROR_CODE_SIMULATED);
 				response.addError(error);
 			}
 
@@ -1000,7 +1010,16 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		}
 
 		// If we haven't handled the error by now, throw generic message
-		RetryErrorDialogFragment df = new RetryErrorDialogFragment();
+		RetryErrorDialogFragment df;
+		ServerError firstError = response.getErrors().get(0);
+		if (ERROR_CODE_SIMULATED.equals(firstError.getCode())) {
+			// If we got a simulated error message, use its message
+			df = RetryErrorDialogFragment.newInstance(firstError.getPresentationMessage());
+		}
+		else {
+			df = new RetryErrorDialogFragment();
+		}
+
 		df.show(getSupportFragmentManager(), "retryErrorDialog");
 		mStatusFragment.showError(null);
 	}

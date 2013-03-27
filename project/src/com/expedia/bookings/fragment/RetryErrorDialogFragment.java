@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 
@@ -15,6 +16,16 @@ import com.expedia.bookings.R;
 public class RetryErrorDialogFragment extends DialogFragment implements OnClickListener {
 
 	private RetryErrorDialogFragmentListener mListener;
+
+	private static final String ARG_MESSAGE = "ARG_MESSAGE";
+
+	public static RetryErrorDialogFragment newInstance(String errorMessage) {
+		RetryErrorDialogFragment fragment = new RetryErrorDialogFragment();
+		Bundle bundle = new Bundle();
+		bundle.putString(ARG_MESSAGE, errorMessage);
+		fragment.setArguments(bundle);
+		return fragment;
+	}
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -31,7 +42,7 @@ public class RetryErrorDialogFragment extends DialogFragment implements OnClickL
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		Builder builder = new Builder(getActivity());
-		builder.setMessage(R.string.error_server);
+		builder.setMessage(getErrorMessage());
 		builder.setPositiveButton(R.string.retry, this);
 		builder.setNegativeButton(R.string.cancel, this);
 		return builder.create();
@@ -42,6 +53,18 @@ public class RetryErrorDialogFragment extends DialogFragment implements OnClickL
 		super.onCancel(dialog);
 
 		mListener.onCancelError();
+	}
+
+	private String getErrorMessage() {
+		Bundle args = getArguments();
+		if (args != null) {
+			String msg = args.getString(ARG_MESSAGE);
+			if (!TextUtils.isEmpty(msg)) {
+				return msg;
+			}
+		}
+
+		return getString(R.string.error_server);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
