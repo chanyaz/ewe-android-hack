@@ -2,10 +2,13 @@ package com.expedia.bookings.widget;
 
 import java.util.Date;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -41,6 +44,7 @@ public class HotelReceiptV2 extends LinearLayout {
 		init(context);
 	}
 
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public HotelReceiptV2(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		init(context);
@@ -57,6 +61,7 @@ public class HotelReceiptV2 extends LinearLayout {
 	private ImageView mHeaderImageView;
 	private TextView mRoomTypeDesciptionTextView;
 	private TextView mBedTypeNameTextView;
+	private View mRoomLongDescriptionDivider;
 	private TextView mRoomLongDescriptionTextView;
 	private ViewGroup mExtrasLayout;
 	private View mExtrasDivider;
@@ -77,6 +82,7 @@ public class HotelReceiptV2 extends LinearLayout {
 		mHeaderImageView = Ui.findView(this, R.id.header_image_view);
 		mRoomTypeDesciptionTextView = Ui.findView(this, R.id.room_type_description_text_view);
 		mBedTypeNameTextView = Ui.findView(this, R.id.bed_type_name_text_view);
+		mRoomLongDescriptionDivider = Ui.findView(this, R.id.room_long_description_divider);
 		mRoomLongDescriptionTextView = Ui.findView(this, R.id.room_long_description_text_view);
 
 		mExtrasLayout = Ui.findView(this, R.id.extras_layout);
@@ -120,7 +126,16 @@ public class HotelReceiptV2 extends LinearLayout {
 
 		mRoomTypeDesciptionTextView.setText(rate.getRoomDescription());
 		mBedTypeNameTextView.setText(rate.getFormattedBedNames());
-		mRoomLongDescriptionTextView.setText(rate.getRoomLongDescription());
+
+		if (TextUtils.isEmpty(rate.getRoomLongDescription())) {
+			mRoomLongDescriptionDivider.setVisibility(View.GONE);
+			mRoomLongDescriptionTextView.setVisibility(View.GONE);
+		}
+		else {
+			mRoomLongDescriptionDivider.setVisibility(View.VISIBLE);
+			mRoomLongDescriptionTextView.setVisibility(View.VISIBLE);
+			mRoomLongDescriptionTextView.setText(rate.getRoomLongDescription());
+		}
 
 		mExtrasLayout.removeAllViews();
 		if (PointOfSale.getPointOfSale().displayBestPriceGuarantee()) {

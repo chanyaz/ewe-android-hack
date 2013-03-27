@@ -38,6 +38,7 @@
             app:textStyle="light" />
 
         <View
+            android:id="@+id/room_long_description_divider"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/one_px_hdpi_two_px_xhdpi"
             android:layout_marginTop="8dp"
