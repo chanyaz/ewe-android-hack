@@ -96,6 +96,8 @@ public class SlideToWidget extends RelativeLayout {
 			mHiddenImage.setImageDrawable(mDragingDrawable);
 			mSliderText.setText(ta.getText(R.styleable.SlideToWidget_sliderText));
 			mDestImage.setImageDrawable(mSlideGoalDrawable);
+
+			ta.recycle();
 		}
 	}
 

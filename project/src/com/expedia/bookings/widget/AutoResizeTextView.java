@@ -71,6 +71,7 @@ public class AutoResizeTextView extends com.expedia.bookings.widget.TextView {
 		TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.AutoResizeTextView);
 		setMaxTextSize(attributes.getDimension(R.styleable.AutoResizeTextView_maxTextSize, getTextSize()));
 		setMinTextSize(attributes.getDimension(R.styleable.AutoResizeTextView_minTextSize, MIN_TEXT_SIZE));
+		attributes.recycle();
 	}
 
 	@Override

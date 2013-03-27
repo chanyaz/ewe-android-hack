@@ -51,6 +51,7 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 			TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.stored_credit_card_section);
 			mActiveCardIconResId = a.getResourceId(R.styleable.stored_credit_card_section_activeIcon, 0);
 			mStoredCardIconResId = a.getResourceId(R.styleable.stored_credit_card_section_storedIcon, 0);
+			a.recycle();
 		}
 	}
 
