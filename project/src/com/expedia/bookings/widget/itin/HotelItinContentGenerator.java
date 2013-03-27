@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -163,8 +164,14 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		Calendar now = Calendar.getInstance(startCal.getTimeZone());
 
 		if (now.before(startCal) || startCal.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)) {
-			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_TEMPLATE,
-					data.getStartDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME)));
+			if (!TextUtils.isEmpty(data.getCheckInTime())) {
+				view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_TEMPLATE,
+						data.getCheckInTime()));
+			}
+			else {
+				view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_TEMPLATE,
+						data.getStartDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME)));
+			}
 		}
 		else {
 			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_TEMPLATE,
