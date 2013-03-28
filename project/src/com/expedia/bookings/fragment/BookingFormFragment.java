@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
-import android.text.Html;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -43,8 +42,6 @@ import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.Policy;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SignInResponse;
@@ -52,7 +49,6 @@ import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
-import com.expedia.bookings.dialog.HotelPriceChangeDialog;
 import com.expedia.bookings.dialog.TextViewDialog;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.fragment.LoginFragment.LogInListener;
@@ -127,7 +123,6 @@ public class BookingFormFragment extends Fragment {
 	private TextView mRulesRestrictionsTextView;
 	private CheckBox mRulesRestrictionsCheckbox;
 	private ViewGroup mRulesRestrictionsLayout;
-	private TextView mCancellationPolicyTextView;
 
 	private ThrobberDialog mHotelProductDialog;
 
@@ -208,7 +203,6 @@ public class BookingFormFragment extends Fragment {
 		mRulesRestrictionsCheckbox = (CheckBox) view.findViewById(R.id.rules_restrictions_checkbox);
 		mRulesRestrictionsTextView = (TextView) view.findViewById(R.id.rules_restrictions_text_view);
 		mRulesRestrictionsLayout = (ViewGroup) view.findViewById(R.id.rules_restrictions_layout);
-		mCancellationPolicyTextView = Ui.findView(view, R.id.cancellation_policy_text_view);
 
 		mStoredCardContainer = view.findViewById(R.id.stored_card_container);
 		if (mStoredCardContainer == null) {
@@ -495,13 +489,7 @@ public class BookingFormFragment extends Fragment {
 			}
 		});
 
-		Rate rate = Db.getSelectedRate();
-		if (rate != null) {
-			Policy cancellationPolicy = rate.getRateRules().getPolicy(Policy.TYPE_CANCEL);
-			if (cancellationPolicy != null) {
-				mCancellationPolicyTextView.setText(Html.fromHtml(cancellationPolicy.getDescription()));
-			}
-		}
+		ConfirmationUtils.determineCancellationPolicy(Db.getSelectedRate(), mRootBillingView);
 
 		// Configure form validation
 		// Setup validators and error handlers

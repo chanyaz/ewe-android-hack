@@ -23,6 +23,7 @@ public class ConfirmationUtils {
 		TextView cancellationPolicyView = (TextView) view.findViewById(R.id.cancellation_policy_text_view);
 		if (cancellationPolicyView != null) {
 			if (cancellationPolicy != null) {
+				cancellationPolicyView.setVisibility(View.VISIBLE);
 				cancellationPolicyView.setText(Html.fromHtml(cancellationPolicy.getDescription()));
 			}
 			else {
