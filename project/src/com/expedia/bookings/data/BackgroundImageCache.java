@@ -523,7 +523,18 @@ public class BackgroundImageCache {
 	private void initMemCache() {
 		Log.d(TAG, "initMemCache");
 		//One place for regular, and one place for blurred.
-		mMemoryCache = new LruCache<String, Bitmap>(2);
+		mMemoryCache = new LruCache<String, Bitmap>(2) {
+			@Override
+			protected void entryRemoved(boolean evicted, String key, Bitmap oldValue, Bitmap newValue) {
+				super.entryRemoved(evicted, key, oldValue, newValue);
+
+				// Explicitly recycle the bitmap if it's been evicted or replaced;
+				// older Android phones need the push.
+				if (evicted || newValue != null) {
+					oldValue.recycle();
+				}
+			}
+		};
 	}
 
 	private void addBitmapToMemoryCache(String key, Bitmap bitmap) {
