@@ -924,13 +924,13 @@ public class ItineraryManager implements JSONable {
 				if (AndroidUtils.getSdkVersion() >= 13) {
 					Point size = new Point();
 					display.getSize(size);
-					destinationImageWidth = Math.min(size.x, size.y);
+					destinationImageWidth = size.x;
+					destinationImageHeight = size.y;
 				}
 				else {
-					destinationImageWidth = Math.min(display.getWidth(), display.getHeight());
+					destinationImageWidth = display.getWidth();
+					destinationImageHeight = display.getHeight();
 				}
-				destinationImageHeight = mContext.getResources().getDimensionPixelSize(
-						R.dimen.itin_card_expanded_image_height);
 			}
 
 			// Look for images.  For now, do not update if we already have images (they will remain static)
