@@ -187,7 +187,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		ActivityManager am = (ActivityManager) getActivity().getSystemService(Context.ACTIVITY_SERVICE);
 		int memoryClass = am.getMemoryClass();
 		float density = getResources().getDisplayMetrics().density;
-		if (memoryClass < 48 && memoryClass / density < 25) {
+		if (memoryClass < 48 && memoryClass / density < 28.5f) {
 			// We fallback to a low-memory bg color, depending on density and memory class
 			Log.d("Launcher using simple bg, memoryClass=" + memoryClass + " density=" + density);
 			mBgView.setImageResource(R.color.low_memory_bg_color);
