@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Random;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -180,12 +181,27 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	}
 
 	@Override
+	public void onStart() {
+		super.onStart();
+
+		ActivityManager am = (ActivityManager) getActivity().getSystemService(Context.ACTIVITY_SERVICE);
+		int memoryClass = am.getMemoryClass();
+		float density = getResources().getDisplayMetrics().density;
+		if (memoryClass < 48 && memoryClass / density < 25) {
+			// We fallback to a low-memory bg color, depending on density and memory class
+			Log.d("Launcher using simple bg, memoryClass=" + memoryClass + " density=" + density);
+			mBgView.setImageResource(R.color.low_memory_bg_color);
+		}
+		else {
+			// Pick background image at random
+			Random rand = new Random();
+			mBgView.setImageResource(BACKGROUND_RES_IDS[rand.nextInt(BACKGROUND_RES_IDS.length)]);
+		}
+	}
+
+	@Override
 	public void onResume() {
 		super.onResume();
-
-		// Pick background image at random
-		Random rand = new Random();
-		mBgView.setImageResource(BACKGROUND_RES_IDS[rand.nextInt(BACKGROUND_RES_IDS.length)]);
 
 		// Note: We call this here to avoid reusing recycled Bitmaps. Not ideal, but a simple fix for now
 		initViews();
