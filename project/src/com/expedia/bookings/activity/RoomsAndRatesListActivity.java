@@ -255,6 +255,11 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 		startActivity(intent);
 	}
 
+	@Override
+	public void noRatesAvailable() {
+		// ignore
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Options menu (just for debug)
 

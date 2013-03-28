@@ -11,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLayoutChangeListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -26,7 +27,7 @@ import com.mobiata.android.util.Ui;
 @TargetApi(11)
 public class BookingInfoFragment extends Fragment {
 
-	private View mCompleteBookingInfoButton;
+	private Button mCompleteBookingInfoButton;
 
 	private ReceiptWidget mReceiptWidget;
 
@@ -52,7 +53,7 @@ public class BookingInfoFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View view = inflater.inflate(R.layout.fragment_booking, container, false);
 
-		mCompleteBookingInfoButton = view.findViewById(R.id.complete_booking_info_button);
+		mCompleteBookingInfoButton = (Button) view.findViewById(R.id.complete_booking_info_button);
 		mCompleteBookingInfoButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				mListener.onEnterBookingInfoClick();
@@ -145,9 +146,14 @@ public class BookingInfoFragment extends Fragment {
 	// Fragment control
 
 	public void notifyRateSelected() {
+		mCompleteBookingInfoButton.setEnabled(true);
 		updateReceipt();
 		updateRoomDescription(getView());
 		ConfirmationUtils.determineCancellationPolicy(Db.getSelectedRate(), getView());
+	}
+
+	public void notifyNoRates() {
+		mCompleteBookingInfoButton.setEnabled(false);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

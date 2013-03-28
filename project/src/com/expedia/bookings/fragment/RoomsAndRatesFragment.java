@@ -68,16 +68,6 @@ public class RoomsAndRatesFragment extends ListFragment {
 	}
 
 	@Override
-	public void onResume() {
-		super.onResume();
-
-		AvailabilityResponse response = Db.getSelectedAvailabilityResponse();
-		if (response != null) {
-			loadResponse(response);
-		}
-	}
-
-	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
@@ -120,6 +110,9 @@ public class RoomsAndRatesFragment extends ListFragment {
 		}
 		else if (response.getRateCount() == 0) {
 			mEmptyTextView.setText(getResources().getQuantityString(R.plurals.num_rooms_left, 0, 0));
+			mAdapter = null;
+			setListAdapter(null);
+			mListener.noRatesAvailable();
 			return;
 		}
 
@@ -139,10 +132,16 @@ public class RoomsAndRatesFragment extends ListFragment {
 		}
 
 		mAdapter = new RoomsAndRatesAdapter(getActivity(), response);
+
 		if (Db.getSelectedRate() == null || getPositionOfRate(Db.getSelectedRate()) == -1) {
 			mAdapter.setSelectedPosition(0);
 			if (mListener instanceof RoomsAndRatesFragmentActivity) {
-				mListener.onRateSelected((Rate) mAdapter.getItem(0));
+				if (mAdapter.getCount() > 0) {
+					mListener.onRateSelected((Rate) mAdapter.getItem(0));
+				}
+				else {
+					mListener.noRatesAvailable();
+				}
 			}
 		}
 		else {
@@ -169,5 +168,6 @@ public class RoomsAndRatesFragment extends ListFragment {
 
 	public interface RoomsAndRatesFragmentListener {
 		public void onRateSelected(Rate rate);
+		public void noRatesAvailable();
 	}
 }

@@ -15,6 +15,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.fragment.BookingInfoFragment;
 import com.expedia.bookings.fragment.BookingInfoFragment.BookingInfoFragmentListener;
+import com.expedia.bookings.fragment.RoomsAndRatesFragment;
 import com.expedia.bookings.fragment.RoomsAndRatesFragment.RoomsAndRatesFragmentListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
@@ -39,6 +40,7 @@ public class RoomsAndRatesFragmentActivity extends SherlockFragmentActivity impl
 
 	private Context mContext;
 
+	private RoomsAndRatesFragment mRoomsAndRatesFragment;
 	private BookingInfoFragment mBookingInfoFragment;
 
 	private long mLastResumeTime = -1;
@@ -63,6 +65,7 @@ public class RoomsAndRatesFragmentActivity extends SherlockFragmentActivity impl
 
 		setContentView(R.layout.activity_booking_fragment);
 
+		mRoomsAndRatesFragment = Ui.findSupportFragment(this, getString(R.string.tag_rooms_and_rates));
 		mBookingInfoFragment = Ui.findSupportFragment(this, getString(R.string.tag_booking_info));
 
 		// Need to set this BG from code so we can make it just repeat vertically
@@ -94,6 +97,7 @@ public class RoomsAndRatesFragmentActivity extends SherlockFragmentActivity impl
 	@Override
 	protected void onResume() {
 		super.onResume();
+		Log.d("HERE onResume");
 
 		// #14135, set a 1 hour timeout on this screen
 		if (mLastResumeTime != -1 && mLastResumeTime + RESUME_TIMEOUT < Calendar.getInstance().getTimeInMillis()) {
@@ -101,6 +105,8 @@ public class RoomsAndRatesFragmentActivity extends SherlockFragmentActivity impl
 			return;
 		}
 		mLastResumeTime = Calendar.getInstance().getTimeInMillis();
+
+		mRoomsAndRatesFragment.notifyAvailabilityLoaded();
 
 		OmnitureTracking.onResume(this);
 	}
@@ -160,6 +166,11 @@ public class RoomsAndRatesFragmentActivity extends SherlockFragmentActivity impl
 		Db.setSelectedRate(rate);
 
 		mBookingInfoFragment.notifyRateSelected();
+	}
+
+	@Override
+	public void noRatesAvailable() {
+		mBookingInfoFragment.notifyNoRates();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
