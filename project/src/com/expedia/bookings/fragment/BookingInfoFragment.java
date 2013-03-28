@@ -66,9 +66,11 @@ public class BookingInfoFragment extends Fragment {
 		String contactText = ConfirmationUtils.determineContactText(getActivity());
 		ConfirmationUtils.configureContactView(getActivity(), contactView, contactText);
 
-		updateReceipt();
-		updateRoomDescription(view);
-		ConfirmationUtils.determineCancellationPolicy(Db.getSelectedRate(), view);
+		if (Db.getSelectedRate() != null) {
+			updateReceipt();
+			updateRoomDescription(view);
+			ConfirmationUtils.determineCancellationPolicy(Db.getSelectedRate(), view);
+		}
 
 		final View receipt = view.findViewById(R.id.receipt);
 		final View roomDetailsContainer = view.findViewById(R.id.room_details_container_right);
