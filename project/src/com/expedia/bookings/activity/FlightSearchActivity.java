@@ -126,6 +126,13 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 	@Override
 	protected void onPause() {
 		super.onPause();
+
+		if (isFinishing()) {
+			if (Db.isBackgroundImageCacheInitialized()) {
+				Db.getBackgroundImageCache(this).clearMemCache();
+			}
+		}
+
 		OmnitureTracking.onPause();
 	}
 
