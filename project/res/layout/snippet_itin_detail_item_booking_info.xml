@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="0dp"
@@ -14,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="2dp"
         android:text="@string/booking_info"
         android:visibility="visible" />
 
@@ -53,19 +54,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
             android:background="@drawable/ic_reload_details" />
 
         <ProgressBar
             android:id="@+id/itin_details_progress_bar"
             android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="4dp"
-            android:layout_marginTop="4dp"
             android:indeterminate="true"
             android:visibility="invisible" />
 
@@ -73,8 +72,9 @@
             android:id="@+id/reload_text_view"
             style="@style/TextView.Itin.SectionText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_toRightOf="@id/itin_details_reload_image_view"
+            android:gravity="center_vertical"
             android:padding="8dp" />
     </RelativeLayout>
 

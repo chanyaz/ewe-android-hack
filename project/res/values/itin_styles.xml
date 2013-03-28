@@ -8,7 +8,7 @@
     <style name="TextView.Itin.SectionHeader">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:minHeight">32dp</item>
+        <item name="android:minHeight">26dp</item>
         <item name="android:background">@drawable/itin_section_divider</item>
         <item name="android:textAppearance">@style/TextAppearance.Small</item>
         <item name="android:textColor">@color/itin_section_divider_text</item>
@@ -16,7 +16,7 @@
         <item name="android:paddingLeft">8dp</item>
         <item name="android:ellipsize">end</item>
         <item name="android:singleLine">true</item>
-        <item name="android:textSize">14dp</item>
+        <item name="android:textSize">14sp</item>
         <item name="textStyle">medium</item>
         <item name="textAllCaps">true</item>
     </style>
@@ -26,7 +26,8 @@
     </style>
 
     <style name="TextView.Itin.SectionText">
-        <item name="android:textSize">18dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/itin_section_text</item>
         <item name="textStyle">light</item>
     </style>

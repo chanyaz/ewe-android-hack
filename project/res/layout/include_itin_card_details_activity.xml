@@ -17,7 +17,7 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/guests_header"
-        style="@style/TextView.Itin.SectionHeader.Padded"
+        style="@style/TextView.Itin.SectionHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -29,7 +29,6 @@
         android:id="@+id/guests_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp" />
 

@@ -4,4 +4,5 @@
     style="@style/TextView.Itin.SectionText"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:drawablePadding="8dp" />
+    android:drawablePadding="8dp"
+    android:gravity="center_vertical" />

@@ -36,9 +36,12 @@
     <!-- PICK UP -->
 
     <com.expedia.bookings.widget.TextView
-        style="@style/TextView.Itin.SectionHeader.Padded"
+        style="@style/TextView.Itin.SectionHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
         android:text="@string/itin_card_details_pick_up" />
 
     <com.expedia.bookings.widget.EventSummaryView
@@ -52,9 +55,11 @@
     <!-- DROP OFF -->
 
     <com.expedia.bookings.widget.TextView
-        style="@style/TextView.Itin.SectionHeader.Padded"
+        style="@style/TextView.Itin.SectionHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:text="@string/itin_card_details_drop_off" />
 
     <com.expedia.bookings.widget.EventSummaryView
@@ -74,7 +79,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
         android:text="@string/itin_card_details_agency_phone" />
 
     <com.expedia.bookings.widget.TextView
@@ -85,6 +89,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/list_selector_holo_dark"
+        android:gravity="center_vertical"
         android:padding="8dp" />
 
     <com.expedia.bookings.widget.TextView
@@ -94,7 +99,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
         android:text="@string/itin_card_details_toll_free_phone" />
 
     <com.expedia.bookings.widget.TextView
@@ -105,6 +109,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/list_selector_holo_dark"
+        android:gravity="center_vertical"
         android:padding="8dp" />
 
     <!-- COMMON ITIN DATA -->

@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="2dp"
         android:text="@string/itin_card_details_phone" />
 
     <com.expedia.bookings.widget.TextView
@@ -67,15 +67,18 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:gravity="center_vertical"
         android:background="@drawable/list_selector_holo_dark"
         android:padding="8dp" />
 
     <!-- ROOM TYPE -->
 
     <com.expedia.bookings.widget.TextView
-        style="@style/TextView.Itin.SectionHeader.Padded"
+        style="@style/TextView.Itin.SectionHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:text="@string/itin_card_details_room_type" />
 
     <com.expedia.bookings.widget.TextView
@@ -83,9 +86,9 @@
         style="@style/TextView.Itin.SectionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp" />
+        android:layout_marginRight="16dp"
+        android:gravity="center_vertical" />
 
     <!-- COMMON ITIN DATA -->
 

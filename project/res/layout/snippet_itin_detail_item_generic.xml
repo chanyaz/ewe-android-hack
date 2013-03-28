@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="2dp"
         android:visibility="visible" />
 
     <com.expedia.bookings.widget.TextView
@@ -26,6 +26,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/list_selector_holo_dark"
+        android:gravity="center_vertical"
         android:padding="8dp"
         android:visibility="visible" />
 
