@@ -376,17 +376,23 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	private OnListModeChangedListener mOnListModeChangedListener = new OnListModeChangedListener() {
 		@Override
 		public void onListModeChanged(int mode) {
+			// In some bad timing situations, it's possible for the listener to fire
+			// far after this Fragment is dead in the eyes of its Activity.  In that
+			// case, don't do the list mode change (as it requires being attached).
+			Activity activity = getActivity();
+			if (getActivity() == null) {
+				return;
+			}
+
 			if (mode == ItinListView.MODE_LIST) {
 				getSupportActionBar().show();
 				ObjectAnimator.ofFloat(mItinPathView, "alpha", 1f).setDuration(200).start();
-				Activity activity = getActivity();
-				if (activity != null && activity instanceof OnListModeChangedListener) {
+				if (activity instanceof OnListModeChangedListener) {
 					((OnListModeChangedListener) activity).onListModeChanged(mode);
 				}
 			}
 			else if (mode == ItinListView.MODE_DETAIL) {
-				Activity activity = getActivity();
-				if (activity != null && activity instanceof OnListModeChangedListener) {
+				if (activity instanceof OnListModeChangedListener) {
 					((OnListModeChangedListener) activity).onListModeChanged(mode);
 				}
 				getSupportActionBar().hide();
