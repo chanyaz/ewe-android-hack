@@ -384,12 +384,11 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 				opts.inSampleSize = calculateInSampleSize(windowFrameBounds, windowFrameWidth, windowFrameHeight);
 				Log.v("Window frame sample size: " + opts.inSampleSize);
 				Bitmap origWindowFrameBitmap = BitmapFactory.decodeResource(res, R.drawable.loading_window_frame, opts);
-				Log.v("Window frame width,height: " + origWindowFrameBitmap.getWidth() + ", "
+				Log.v("Window frame (sampled) width,height: " + origWindowFrameBitmap.getWidth() + ", "
 						+ origWindowFrameBitmap.getHeight());
-				mWindowFrameBitmap = Bitmap.createScaledBitmap(origWindowFrameBitmap, windowFrameWidth,
-						windowFrameHeight,
-						true);
-				origWindowFrameBitmap.recycle();
+				mWindowFrameBitmap = scaleBitmap(origWindowFrameBitmap, windowFrameWidth, windowFrameHeight);
+				Log.v("Window frame (final) width,height: " + mWindowFrameBitmap.getWidth() + ", "
+						+ mWindowFrameBitmap.getHeight());
 
 				// Calculate where to place the window frame
 				mFrameLeft = mCanvasWidth / 2 - (windowFrameWidth / 2);
@@ -423,14 +422,13 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 					int skyWidth = (int) Math.round(skyBounds.outWidth
 							* ((double) mSkyDstFull.height() / (double) skyBounds.outHeight));
 					int skyHeight = mSkyDstFull.height();
-					Log.v("Sky target width,height: " + skyWidth + ", "
-							+ skyHeight);
+					Log.v("Sky target width,height: " + skyWidth + ", " + skyHeight);
 					opts.inSampleSize = calculateInSampleSize(skyBounds, skyWidth, skyHeight);
 					Log.v("Sky sample size: " + opts.inSampleSize);
 					Bitmap origSkyBitmap = BitmapFactory.decodeResource(res, R.drawable.loading_repeating_sky, opts);
-					Log.v("Sky width,height: " + origSkyBitmap.getWidth() + ", " + origSkyBitmap.getHeight());
-					mSkyBitmap = Bitmap.createScaledBitmap(origSkyBitmap, skyWidth, skyHeight, true);
-					origSkyBitmap.recycle();
+					Log.v("Sky (sampled) width,height: " + origSkyBitmap.getWidth() + ", " + origSkyBitmap.getHeight());
+					mSkyBitmap = scaleBitmap(origSkyBitmap, skyWidth, skyHeight);
+					Log.v("Sky final width,height: " + mSkyBitmap.getWidth() + ", " + mSkyBitmap.getHeight());
 					mSkyWidth = mSkyBitmap.getWidth();
 					mSkyOffsetPerNano = (double) mSkyWidth / SKY_LOOP_TIME;
 
@@ -440,18 +438,18 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 				}
 				else {
 					// Setup simple image to be drawn, as the plane is grounded
-					Log.v("Grounded target width,height: " + mVisibleFrameWidth + ", " + mVisibleFrameWidth);
+					Log.v("Grounded target width,height: " + mVisibleFrameWidth + ", " + mVisibleFrameHeight);
 					BitmapFactory.Options groundedBounds = decodeBounds(res, R.drawable.loading_grounded);
 					Log.v("Grounded orig width,height: " + groundedBounds.outWidth + ", "
 							+ groundedBounds.outHeight);
 					opts.inSampleSize = calculateInSampleSize(groundedBounds, mVisibleFrameWidth, mVisibleFrameHeight);
 					Log.v("Grounded sample size: " + opts.inSampleSize);
 					Bitmap origGroundedBitmap = BitmapFactory.decodeResource(res, R.drawable.loading_grounded, opts);
-					Log.v("Grounded width,height: " + origGroundedBitmap.getWidth() + ", "
+					Log.v("Grounded (sampled) width,height: " + origGroundedBitmap.getWidth() + ", "
 							+ origGroundedBitmap.getHeight());
-					mGroundedBitmap = Bitmap.createScaledBitmap(origGroundedBitmap, mVisibleFrameWidth,
-							mVisibleFrameHeight, true);
-					origGroundedBitmap.recycle();
+					mGroundedBitmap = scaleBitmap(origGroundedBitmap, mVisibleFrameWidth, mVisibleFrameHeight);
+					Log.v("Grounded (final) width,height: " + mGroundedBitmap.getWidth() + ", "
+							+ mGroundedBitmap.getHeight());
 				}
 
 				// Pre-scale shade
@@ -465,11 +463,11 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 				opts.inSampleSize = calculateInSampleSize(windowShadeBounds, windowShadeWidth, windowShadeHeight);
 				Log.v("Window shade sample size: " + opts.inSampleSize);
 				Bitmap origWindowShadeBitmap = BitmapFactory.decodeResource(res, R.drawable.loading_window_shade, opts);
-				Log.v("Window shade width,height: " + origWindowShadeBitmap.getWidth() + ", "
+				Log.v("Window shade (sampled) width,height: " + origWindowShadeBitmap.getWidth() + ", "
 						+ origWindowShadeBitmap.getHeight());
-				mWindowShadeBitmap = Bitmap.createScaledBitmap(origWindowShadeBitmap, windowShadeWidth,
-						windowShadeHeight, true);
-				origWindowShadeBitmap.recycle();
+				mWindowShadeBitmap = scaleBitmap(origWindowShadeBitmap, windowShadeWidth, windowShadeHeight);
+				Log.v("Window shade (final) width,height: " + mWindowShadeBitmap.getWidth() + ", "
+						+ mWindowShadeBitmap.getHeight());
 				mShadeHeight = mWindowShadeBitmap.getHeight();
 				mShadeMinY = (int) (.17 * mShadeHeight);
 
@@ -490,6 +488,18 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 			}
 
 			Log.d("Prepped PlaneWindowView in " + ((System.nanoTime() - start) / 1e6) + " ms");
+		}
+
+		// Either returns the same Bitmap (if no scaling needed) or scales it and recycles the old one
+		private Bitmap scaleBitmap(Bitmap origBitmap, int desiredWidth, int desiredHeight) {
+			if (origBitmap.getWidth() == desiredWidth && origBitmap.getHeight() == desiredHeight) {
+				return origBitmap;
+			}
+			else {
+				Bitmap scaledBitmap = Bitmap.createScaledBitmap(origBitmap, desiredWidth, desiredHeight, true);
+				origBitmap.recycle();
+				return scaledBitmap;
+			}
 		}
 
 		public void setRunning(boolean running) {
