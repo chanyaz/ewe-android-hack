@@ -97,7 +97,6 @@ public class RoomsAndRatesFragmentActivity extends SherlockFragmentActivity impl
 	@Override
 	protected void onResume() {
 		super.onResume();
-		Log.d("HERE onResume");
 
 		// #14135, set a 1 hour timeout on this screen
 		if (mLastResumeTime != -1 && mLastResumeTime + RESUME_TIMEOUT < Calendar.getInstance().getTimeInMillis()) {
