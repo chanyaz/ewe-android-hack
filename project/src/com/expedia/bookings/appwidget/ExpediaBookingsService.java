@@ -31,6 +31,7 @@ import com.expedia.bookings.activity.PhoneSearchActivity;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Distance.DistanceUnit;
+import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
@@ -723,21 +724,31 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 		final Property property = mWidgetDeals.getDeals().get(widget.mCurrentPosition);
 		updateWidgetWithProperty(property, widget);
-		TwoLevelImageCache.loadImage(WIDGET_THUMBNAIL_KEY_PREFIX + widget.appWidgetIdInteger, property.getThumbnail().getUrl(), new OnImageLoaded() {
-			@Override
-			public void onImageLoaded(String url, Bitmap bitmap) {
-				// making sure that the image actually belongs to the current property loaded in the remote view
-				if (widget.mCurrentPosition != -1
-						&& mWidgetDeals.getDeals().get(widget.mCurrentPosition).getThumbnail().getUrl().equals(url)) {
-					updateWidgetWithImage(widget, bitmap);
+		Media thumbnail = property.getThumbnail();
+		if (thumbnail != null) {
+			TwoLevelImageCache.loadImage(WIDGET_THUMBNAIL_KEY_PREFIX + widget.appWidgetIdInteger, property
+					.getThumbnail().getUrl(), new OnImageLoaded() {
+				@Override
+				public void onImageLoaded(String url, Bitmap bitmap) {
+					// making sure that the image actually belongs to the current property loaded in the remote view
+					if (widget.mCurrentPosition != -1) {
+						Media thumbnail = mWidgetDeals.getDeals().get(widget.mCurrentPosition).getThumbnail();
+						if (thumbnail != null && thumbnail.getUrl().equals(url)) {
+							updateWidgetWithImage(widget, bitmap);
+						}
+					}
 				}
-			}
 
-			@Override
-			public void onImageLoadFailed(String url) {
-				// Do nothing
-			}
-		});
+				@Override
+				public void onImageLoadFailed(String url) {
+					updateWidgetWithImage(widget, null);
+				}
+			});
+		}
+		else {
+			updateWidgetWithImage(widget, null);
+		}
+
 		scheduleRotation(rotateInterval);
 	}
 

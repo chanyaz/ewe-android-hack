@@ -59,7 +59,9 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 				media = mProperty.getThumbnail();
 			}
 
-			return media.getHighResUrls();
+			if (media != null) {
+				return media.getHighResUrls();
+			}
 		}
 		return null;
 	}
