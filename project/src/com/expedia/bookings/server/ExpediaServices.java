@@ -541,33 +541,32 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("sortOrder", "ExpertPicks"));
 		addCommonParams(query);
 
-		query.add(new BasicNameValuePair("city", "saved product"));
-		//if (params.hasRegionId()) {
-		//	Log.d("Searching by regionId...");
-		//	query.add(new BasicNameValuePair("regionId", params.getRegionId()));
-		//}
-		//else if (params.hasSearchLatLon()) {
-		//	Log.d("Searching by latitude/longitude...");
-		//	query.add(new BasicNameValuePair("latitude", params.getSearchLatitude() + ""));
-		//	query.add(new BasicNameValuePair("longitude", params.getSearchLongitude() + ""));
-		//}
-		//else if (params.hasQuery()) {
-		//	Log.d("Searching by city...");
-		//	query.add(new BasicNameValuePair("city", params.getQuery()));
-		//}
+		if (params.hasRegionId()) {
+			Log.d("Searching by regionId...");
+			query.add(new BasicNameValuePair("regionId", params.getRegionId()));
+		}
+		else if (params.hasSearchLatLon()) {
+			Log.d("Searching by latitude/longitude...");
+			query.add(new BasicNameValuePair("latitude", params.getSearchLatitude() + ""));
+			query.add(new BasicNameValuePair("longitude", params.getSearchLongitude() + ""));
+		}
+		else if (params.hasQuery()) {
+			Log.d("Searching by city...");
+			query.add(new BasicNameValuePair("city", params.getQuery()));
+		}
 
 		addHotelSearchParams(query, params);
 
-		//// These values are always the same (for now)
-		//query.add(new BasicNameValuePair("resultsPerPage", HOTEL_MAX_RESULTS + ""));
-		//query.add(new BasicNameValuePair("pageIndex", "0"));
-		//query.add(new BasicNameValuePair("filterUnavailable", "true"));
+		// These values are always the same (for now)
+		query.add(new BasicNameValuePair("resultsPerPage", HOTEL_MAX_RESULTS + ""));
+		query.add(new BasicNameValuePair("pageIndex", "0"));
+		query.add(new BasicNameValuePair("filterUnavailable", "true"));
 
 		SearchResponseHandler rh = new SearchResponseHandler(mContext);
-		//if (params.hasSearchLatLon()) {
-		//	rh.setLatLng(params.getSearchLatitude(), params.getSearchLongitude());
-		//}
-		//rh.setNumNights(params.getStayDuration());
+		if (params.hasSearchLatLon()) {
+			rh.setLatLng(params.getSearchLatitude(), params.getSearchLongitude());
+		}
+		rh.setNumNights(params.getStayDuration());
 		return doE3Request("MobileHotel/Webapp/SearchResults", query, rh, 0);
 	}
 
