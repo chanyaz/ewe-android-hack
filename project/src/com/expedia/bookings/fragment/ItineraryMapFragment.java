@@ -155,11 +155,11 @@ public class ItineraryMapFragment extends SupportMapFragment {
 			if (MapAnimationUtils.getLonSpan(mMarkerBounds) < MIN_LON_SPAN) {
 				double adjust = MIN_LON_SPAN / 2;
 				mMarkerBounds = new LatLngBounds(
-						new LatLng(mMarkerBounds.northeast.latitude - adjust,
-								mMarkerBounds.northeast.longitude - adjust),
+						new LatLng(mMarkerBounds.southwest.latitude - adjust,
+								mMarkerBounds.southwest.longitude - adjust),
 						new LatLng(
-								mMarkerBounds.southwest.latitude + adjust,
-								mMarkerBounds.southwest.longitude + adjust));
+								mMarkerBounds.northeast.latitude + adjust,
+								mMarkerBounds.northeast.longitude + adjust));
 			}
 		}
 		else {
