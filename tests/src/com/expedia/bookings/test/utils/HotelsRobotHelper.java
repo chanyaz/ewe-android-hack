@@ -983,6 +983,19 @@ public class HotelsRobotHelper {
 
 	////////////////////////////////////////////////////////////////
 	// Flights
+	
+	public void enterDepartureAndArrivalAirports(String departure, String arrival) {
+		EditText editDeparture = (EditText) mSolo.getView(R.id.departure_airport_edit_text);
+		EditText editArrival = (EditText) mSolo.getView(R.id.arrival_airport_edit_text);
+		
+		mSolo.clickOnView((View) editDeparture);
+		mSolo.enterText(editDeparture, departure);
+		delay();
+
+		mSolo.clickOnView((View) editArrival);
+		mSolo.enterText(editArrival, arrival);
+		delay();
+	}
 
 	public void flightsHappyPath(String departure, String arrival, boolean doHotelBooking) throws Exception {
 
@@ -1004,14 +1017,8 @@ public class HotelsRobotHelper {
 		screenshot("Flights Search Screen");
 
 		delay(5);
-
-		mSolo.clickOnView((View) mSolo.getView(R.id.departure_airport_edit_text));
-		mSolo.enterText(0, departure);
-		delay();
-
-		mSolo.clickOnView((View) mSolo.getView(R.id.arrival_airport_edit_text));
-		mSolo.enterText((EditText) mSolo.getView(R.id.arrival_airport_edit_text), arrival);
-		delay();
+		
+		enterDepartureAndArrivalAirports(departure, arrival);
 
 		//Select Departure
 		try {
@@ -1049,12 +1056,14 @@ public class HotelsRobotHelper {
 		delay();
 		mSolo.scrollToTop();
 		delay();
+		
 		try {
 			mSolo.clickOnText(mRes.getString(R.string.sort_flights).toUpperCase());
 		}
 		catch (Error e) {
 			mSolo.clickOnText(mRes.getString(R.string.sort_flights));
 		}
+		
 		screenshot("Sort fragment");
 		mSolo.goBack();
 		delay();
