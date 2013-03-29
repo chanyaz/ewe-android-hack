@@ -28,22 +28,22 @@ public class AirportSelectUtils extends ActivityInstrumentationTestCase2<SearchA
 	};
 
 	public Pair<String, String> getTwoInternationalAirports() {
-		return getTwoAirports(AIRPORT_LIST_INTL);
+		return getTwoRandomAirports(AIRPORT_LIST_INTL);
 	}
 	
 	public Pair<String, String> getTwoAmericanAirports() {
-		return getTwoAirports(AIRPORT_LIST_USA);
+		return getTwoRandomAirports(AIRPORT_LIST_USA);
 	}
 	
 	public Pair<String, String> getAmericanAndInternationalAirport() {
-		return getTwoAirports(AIRPORT_LIST_INTL, AIRPORT_LIST_INTL);
+		return getTwoRandomAirports(AIRPORT_LIST_INTL, AIRPORT_LIST_INTL);
 	}
 	
-	public Pair<String, String> getTwoAirports(String[] airportList) {
-		return getTwoAirports(airportList, airportList);
+	public Pair<String, String> getTwoRandomAirports(String[] airportList) {
+		return getTwoRandomAirports(airportList, airportList);
 	}
 
-	public Pair<String, String> getTwoAirports(String[] airportList1, String[] airportList2) {
+	public Pair<String, String> getTwoRandomAirports(String[] airportList1, String[] airportList2) {
 		Random numberGen = new Random();
 		String airport1 = airportList1[numberGen.nextInt(airportList1.length)];
 		String airport2 = airportList2[numberGen.nextInt(airportList2.length)];
