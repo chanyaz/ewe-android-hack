@@ -27,6 +27,18 @@ public class AirportSelectUtils extends ActivityInstrumentationTestCase2<SearchA
 			"CAN", "MAD", "PVG", "IST", "ICN",
 	};
 
+	public Pair<String, String> getTwoInternationalAirports() {
+		return getTwoAirports(AIRPORT_LIST_INTL);
+	}
+	
+	public Pair<String, String> getTwoAmericanAirports() {
+		return getTwoAirports(AIRPORT_LIST_USA);
+	}
+	
+	public Pair<String, String> getAmericanAndInternationalAirport() {
+		return getTwoAirports(AIRPORT_LIST_INTL, AIRPORT_LIST_INTL);
+	}
+	
 	public Pair<String, String> getTwoAirports(String[] airportList) {
 		return getTwoAirports(airportList, airportList);
 	}
