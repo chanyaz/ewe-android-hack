@@ -173,7 +173,7 @@ public class SlideToPurchaseFragment extends Fragment {
 		Rect sliderRect = new Rect();
 		sliderImage.getGlobalVisibleRect(sliderRect);
 
-		// I accept layout should move itself and its children over 
+		// I accept layout should move itself and its children over
 		// to fit on top of the slide to purchase button.
 		Rect iAcceptRect = new Rect();
 		iAccept.getGlobalVisibleRect(iAcceptRect);

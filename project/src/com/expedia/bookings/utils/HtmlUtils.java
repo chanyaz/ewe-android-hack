@@ -22,20 +22,25 @@ public class HtmlUtils {
 
 			if (c == '<') {
 				sb.append("&lt;");
-			} else if (c == '>') {
+			}
+			else if (c == '>') {
 				sb.append("&gt;");
-			} else if (c == '&') {
+			}
+			else if (c == '&') {
 				sb.append("&amp;");
-			} else if (c > 0x7E || c < ' ') {
+			}
+			else if (c > 0x7E || c < ' ') {
 				sb.append("&#" + ((int) c) + ";");
-			} else if (c == ' ') {
+			}
+			else if (c == ' ') {
 				while (i + 1 < text.length() && text.charAt(i + 1) == ' ') {
 					sb.append("&nbsp;");
 					i++;
 				}
 
 				sb.append(' ');
-			} else {
+			}
+			else {
 				sb.append(c);
 			}
 		}

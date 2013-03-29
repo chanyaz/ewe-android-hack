@@ -296,14 +296,14 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			if (mEditedSearchParams != null) {
 				throw new RuntimeException("edited search params not commited or cleared before search");
 			}
-			
+
 			Property selectedProperty = new Property();
 			selectedProperty.setPropertyId(Db.getSearchParams().getRegionId());
-			
+
 			return services.availability(Db.getSearchParams(), selectedProperty);
 		}
 	};
-	
+
 	private final Download<SearchResponse> mSearchDownload = new Download<SearchResponse>() {
 		@Override
 		public SearchResponse doDownload() {
@@ -315,7 +315,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			return services.search(Db.getSearchParams(), 0);
 		}
 	};
-	
+
 	private final OnDownloadComplete<AvailabilityResponse> mSearchHotelCallback = new OnDownloadComplete<AvailabilityResponse>() {
 
 		@Override
@@ -1569,7 +1569,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private void startSearchDownloader() {
 		SearchType searchType = Db.getSearchParams().getSearchType();
 
-		if(searchType == SearchType.HOTEL) {
+		if (searchType == SearchType.HOTEL) {
 			showLoading(true, R.string.progress_searching_selected_hotel);
 		}
 		else {
@@ -1592,8 +1592,8 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		Db.resetFilter();
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		
-		if(searchType == SearchType.HOTEL) {
+
+		if (searchType == SearchType.HOTEL) {
 			bd.cancelDownload(KEY_HOTEL_SEARCH);
 			bd.startDownload(KEY_HOTEL_SEARCH, mSearchHotelDownload, mSearchHotelCallback);
 		}
@@ -1684,8 +1684,8 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 	private void broadcastSearchCompleted(SearchResponse searchResponse) {
 		Db.setSearchResponse(searchResponse);
-		
-		if(Db.getSearchParams().getSearchType() != SearchParams.SearchType.HOTEL) {
+
+		if (Db.getSearchParams().getSearchType() != SearchParams.SearchType.HOTEL) {
 			Db.clearSelectedProperty();
 		}
 
@@ -2471,7 +2471,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 					mEditedSearchParams.setQuery(o.toString());
 				}
 			}
-			
+
 			startSearch();
 		}
 	};

@@ -169,9 +169,9 @@ public class ItineraryMapFragment extends SupportMapFragment {
 
 	/**
 	 * This is what should be displayed whenever no itinerary items are selected.
-	 * 
+	 *
 	 * There are three options here:
-	 * 
+	 *
 	 * 1. A map of all itineraries (if there are itineraries with locations)
 	 * 2. The user's current location (if available)
 	 * 3. America (if nothing else suffices)

@@ -7,12 +7,10 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -255,7 +253,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 					|| (User.isLoggedIn(FlightBookingActivity.this) && Db.getUser() != null
 							&& Db.getUser().getPrimaryTraveler() != null
 							&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail()) && Db.getUser()
-							.getPrimaryTraveler().getEmail().compareToIgnoreCase(billingInfo.getEmail()) != 0)) {
+								.getPrimaryTraveler().getEmail().compareToIgnoreCase(billingInfo.getEmail()) != 0)) {
 				String email = traveler.getEmail();
 				if (TextUtils.isEmpty(email)) {
 					email = Db.getUser().getPrimaryTraveler().getEmail();

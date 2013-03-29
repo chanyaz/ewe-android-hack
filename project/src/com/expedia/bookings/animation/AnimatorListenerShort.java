@@ -5,7 +5,7 @@ import com.nineoldandroids.animation.Animator.AnimatorListener;
 
 /**
  * This is a convenience class. Often we declare AnimatorListeners inline,
- * however we rarely need all 4 of the methods here, and this clutters our code. 
+ * however we rarely need all 4 of the methods here, and this clutters our code.
  * This class should de-clutter some code, by allowing the developer to simply override
  * the callbacks he/she needs.
  */

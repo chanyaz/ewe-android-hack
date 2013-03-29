@@ -24,8 +24,6 @@ import com.gridlayout.GridLayout;
 import com.gridlayout.GridLayout.LayoutParams;
 import com.mobiata.android.util.Ui;
 
-import com.mobiata.android.Log;
-
 public class HotelRateBreakdownDialog extends DialogFragment {
 
 	private static final String ARG_RATE = "ARG_RATE";
@@ -79,23 +77,23 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 		leftBuilder.setLight();
 		leftBuilder.setMarginLeft(17);
 		rightBuilder.setLight();
-                DateFormat breakdownFormat = android.text.format.DateFormat.getDateFormat(getActivity());
-                if (rate.getRateBreakdownList() != null) {
-                        for (RateBreakdown breakdown : rate.getRateBreakdownList()) {
-                                Date date = breakdown.getDate().getCalendar().getTime();
+		DateFormat breakdownFormat = android.text.format.DateFormat.getDateFormat(getActivity());
+		if (rate.getRateBreakdownList() != null) {
+			for (RateBreakdown breakdown : rate.getRateBreakdownList()) {
+				Date date = breakdown.getDate().getCalendar().getTime();
 				leftBuilder.setText(breakdownFormat.format(date));
 				leftBuilder.build();
 
-                                Money amount = breakdown.getAmount();
-                                if (amount.isZero()) {
+				Money amount = breakdown.getAmount();
+				if (amount.isZero()) {
 					rightBuilder.setText(R.string.free);
-                                }
-                                else {
+				}
+				else {
 					rightBuilder.setText(amount.getFormattedMoney());
-                                }
+				}
 				rightBuilder.build();
-                        }
-                }
+			}
+		}
 		// Reset margin now that we are done with the Date TextViews
 		leftBuilder.setMarginLeft(0);
 
@@ -127,7 +125,7 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 
 		addDivider();
 
-                if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
+		if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
 			leftBuilder.setText(R.string.total_due_today);
 			leftBuilder.build();
 

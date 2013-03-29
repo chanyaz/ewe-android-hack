@@ -1,6 +1,5 @@
 package com.expedia.bookings.widget.itin;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -144,10 +143,10 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Override-able methods with default implementations
-	
-	public String getHeaderTextDate(){
+
+	public String getHeaderTextDate() {
 		CharSequence relativeStartDate = getRelativeStartDate();
-		if(relativeStartDate == null){
+		if (relativeStartDate == null) {
 			return "";
 		}
 		return getContext().getString(R.string.Title_Date_TEMPLATE, "", relativeStartDate);
@@ -194,13 +193,13 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	/**
 	 * Itin cards share a lot of gui elements. They don't share layouts, but a container can be passed here and filled with said shared elements.
-	 * 
+	 *
 	 * Currently supported shared elemenets (in this order)
 	 * - Confirmation Code (selectable)
 	 * - Itinerary number
 	 * - Booking Info (additional information link)
 	 * - Insurance
-	 * 
+	 *
 	 * These get added to the viewgroup only if they exist (or have fallback behavior defined)
 	 * @param container
 	 * @param infalter
@@ -413,7 +412,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	}
 
 	/**
-	 * Get a horizontal divider view with the itin divider color 
+	 * Get a horizontal divider view with the itin divider color
 	 * @return
 	 */
 	protected View getHorizontalDividerView(int margin) {

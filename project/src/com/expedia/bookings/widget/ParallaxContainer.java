@@ -129,10 +129,10 @@ public class ParallaxContainer extends FrameLayout {
 	 * will be extended to meet that value.
 	 *
 	 * i.e., it will produce a function that looks like this:
-	 * 
+	 *
 	 *         _______
 	 * _______/
-	 * 
+	 *
 	 */
 	private static class SegmentedLinearInterpolator {
 		PointF[] mPoints;

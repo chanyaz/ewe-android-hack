@@ -47,7 +47,7 @@ public class HotelPaymentFlowState {
 	}
 
 	/**
-	 * For hotels flow we do not need billing address information for all POS that are not US 
+	 * For hotels flow we do not need billing address information for all POS that are not US
 	 */
 	public boolean hasValidBillingAddress(BillingInfo billingInfo) {
 		bind(billingInfo);

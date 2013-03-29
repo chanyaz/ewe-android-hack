@@ -7,7 +7,7 @@ import android.view.View;
 
 /**
  * Runnable that can be posted to a View that then focuses it.
- * 
+ *
  * Only works with Fragments at the moment, but could be extended further.
  */
 public class FocusViewRunnable implements Runnable {

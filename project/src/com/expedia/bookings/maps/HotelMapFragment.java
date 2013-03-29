@@ -385,7 +385,7 @@ public class HotelMapFragment extends SupportMapFragment {
 
 	/**
 	 * Shows all properties visible on the map.
-	 * 
+	 *
 	 * If there are properties but all are hidden (due to filtering),
 	 * then it shows the area they would appear (if they weren't
 	 * hidden).

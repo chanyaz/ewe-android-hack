@@ -14,19 +14,19 @@ import com.mobiata.flightlib.data.Flight;
 public class FlightStatsFlightResponse extends Response implements JSONable {
 
 	private List<Flight> mFlights;
-	
+
 	public FlightStatsFlightResponse() {
 		mFlights = new ArrayList<Flight>();
 	}
-	
+
 	public void addFlight(Flight flight) {
 		mFlights.add(flight);
 	}
-	
+
 	public List<Flight> getFlights() {
 		return mFlights;
 	}
-	
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable interface
 

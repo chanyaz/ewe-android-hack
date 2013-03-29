@@ -880,7 +880,7 @@ public class Db {
 	/**
 	 * Call in onCreate(); will either save (if we are in the middle of the app)
 	 * or will reload (if you launched to this specific Activity)
-	 * 
+	 *
 	 * Should be used for TESTING ONLY.  Do not check in any calls to this!
 	 */
 	public static void saveOrLoadDbForTesting(Activity activity) {

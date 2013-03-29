@@ -15,16 +15,16 @@ import com.mobiata.android.util.ViewUtils;
 
 /**
  * Text view that resizes text to fit a specific number of lines.
- * 
+ *
  * Defaults maxLines to 1 unless otherwise specified.
- * 
+ *
  * Heavily modified from original, found at stackoverflow:
  * http://stackoverflow.com/questions/5033012/auto-scale-textview-text-to-fit-within-bounds/5535672#5535672
- * 
+ *
  * NOTE:
  * This version differs from com.mobiata.android.widget.TextView in that it extends the local
  * TextView instead of android.widget.TextView. It also measures text in all caps if TextView.isAllCaps().
- * 
+ *
  * @author Chase Colburn (original)
  * @since Apr 4, 2011
  */
@@ -191,7 +191,7 @@ public class AutoResizeTextView extends com.expedia.bookings.widget.TextView {
 		Log.v("Resizing TextView " + this.toString() + " to text size of " + targetTextSize + " so it fits on "
 				+ maxLines + " line(s) - " + text);
 
-		// Some devices try to auto adjust line spacing, so force default line spacing 
+		// Some devices try to auto adjust line spacing, so force default line spacing
 		// and invalidate the layout as a side effect
 		setTextSize(TypedValue.COMPLEX_UNIT_PX, targetTextSize);
 		setLineSpacing(mSpacingAdd, mSpacingMult);
@@ -214,17 +214,17 @@ public class AutoResizeTextView extends com.expedia.bookings.widget.TextView {
 
 	/*
 	 * StaticLayout study notes, 12/16/2011 (dlew)
-	 * 
+	 *
 	 * Thoughts on some params:
-	 * 
+	 *
 	 * paint - This determines how the text is painted into the Canvas.  It's worth noting that *density* is actually
 	 *         stored in TextPaints, so it can have a large effect on how text renders into the same width (in pixels).
-	 *         
+	 *
 	 *         Also worth knowing that the text size itself is scaled to the density.  So if you have a text size of
 	 *         14sp, it's 11 on ldpi, 14 on mdpi, 21 on hdpi, and 28 on xhdpi.
-	 * 
+	 *
 	 * width - This is the width in pixels.
-	 * 
+	 *
 	 * alignment - Goes completely unused in the actual source code, so its value *does not matter*.
 	 */
 }

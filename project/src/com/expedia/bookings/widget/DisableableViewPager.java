@@ -12,8 +12,8 @@ import android.view.MotionEvent;
  */
 public class DisableableViewPager extends ViewPager {
 
-	private final String STATE_DEFAULT_SAVESTATE = "STATE_DEFAULT_SAVESTATE";
-	private final String STATE_PAGER_ENABLED = "STATE_PAGER_ENABLED";
+	private static final String STATE_DEFAULT_SAVESTATE = "STATE_DEFAULT_SAVESTATE";
+	private static final String STATE_PAGER_ENABLED = "STATE_PAGER_ENABLED";
 
 	private boolean mPageSwipingEnabled = true;
 

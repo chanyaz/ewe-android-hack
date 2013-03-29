@@ -97,7 +97,7 @@ public class CalendarUtils {
 
 		calendarDatePicker.setMaxDate(maxTime.year, maxTime.month, maxTime.monthDay);
 	}
-	
+
 	public static void syncParamsFromDatePicker(SearchParams searchParams, CalendarDatePicker picker) {
 		Date startDate = new Date(picker.getStartYear(), picker.getStartMonth() + 1, picker.getStartDayOfMonth());
 		Date endDate = new Date(picker.getEndYear(), picker.getEndMonth() + 1, picker.getEndDayOfMonth());

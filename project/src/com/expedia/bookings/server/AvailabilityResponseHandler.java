@@ -68,7 +68,7 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 			property.setTotalRecommendations(response.optInt("totalRecommendations", 0));
 			property.setAverageExpediaRating(response.optDouble("hotelGuestRating", 0));
 			property.setPropertyId(response.optString("hotelId", null));
-			
+
 			Location location = new Location();
 			location.setLatitude(response.optDouble("latitude", 0));
 			location.setLongitude(response.optDouble("longitude", 0));

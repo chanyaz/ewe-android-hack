@@ -13,9 +13,9 @@ import com.mobiata.android.json.JSONable;
 
 /**
  * A simple way to store a milliseconds-from-epoch + static timezone offset.
- * 
+ *
  * Not mutable; it wouldn't make sense to allow someone to change one
- * field without the other. 
+ * field without the other.
  */
 public class DateTime implements JSONable, Comparable<DateTime> {
 

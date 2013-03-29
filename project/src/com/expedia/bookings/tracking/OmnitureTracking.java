@@ -359,19 +359,19 @@ public class OmnitureTracking {
 		// Construct the pageName via LOB
 		String lobParam;
 		switch (lob) {
-			case ITIN:
-				lobParam = ITIN_LOGIN_PARAM;
-				break;
-			case FLIGHTS:
-				lobParam = FLIGHT_LOGIN_PARAM;
-				break;
-			case HOTELS:
-				lobParam = HOTEL_LOGIN_PARAM;
-				break;
-			default:
-				// Should never get here, but no sense in crashing the app over tracking
-				lobParam = HOTEL_LOGIN_PARAM;
-				break;
+		case ITIN:
+			lobParam = ITIN_LOGIN_PARAM;
+			break;
+		case FLIGHTS:
+			lobParam = FLIGHT_LOGIN_PARAM;
+			break;
+		case HOTELS:
+			lobParam = HOTEL_LOGIN_PARAM;
+			break;
+		default:
+			// Should never get here, but no sense in crashing the app over tracking
+			lobParam = HOTEL_LOGIN_PARAM;
+			break;
 		}
 		String pageName = String.format(LOGIN_SUCCESS_TEMPLATE, lobParam);
 		Log.d(TAG, "Tracking \"" + pageName + "\" linkClick");
@@ -1390,7 +1390,7 @@ public class OmnitureTracking {
 	// Private helper methods
 
 	/**
-	 * Method that returns a tracking object without any parameters set to be manipulating for tracking. Because the 
+	 * Method that returns a tracking object without any parameters set to be manipulating for tracking. Because the
 	 * library uses a static object for tracking, clearVars() must be called in order to remove potentially set
 	 * variables from being erroneously sent along with the tracking call.
 	 */

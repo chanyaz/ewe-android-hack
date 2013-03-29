@@ -9,8 +9,8 @@ import android.widget.LinearLayout;
 /**
  * This is a LinearLayout that wont get pressed state from its parent.
  * Things within it can still be pressed
- * 
- * Inspired by this blog post: 
+ *
+ * Inspired by this blog post:
  * http://cyrilmottier.com/2011/11/23/listview-tips-tricks-4-add-several-clickable-areas/
  */
 public class NoPressLinearLayout extends LinearLayout {

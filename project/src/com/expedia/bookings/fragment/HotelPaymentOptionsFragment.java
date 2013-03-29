@@ -247,9 +247,9 @@ public class HotelPaymentOptionsFragment extends Fragment {
 		// we allow the user to book in places where we validate against address and credit card.
 		//
 		// Here, we want to display this container even if some of the information is missing. We don't require address
-		// on all POS, so HotelPaymentFlowState address validation will return true. Unfortunately, this is a little bit 
-		// misleading because in this point in the code it is implied that if the address is valid then the user has been 
-		// entering an address which will not be the case for certain POS. That is why need to inspect on the POS to 
+		// on all POS, so HotelPaymentFlowState address validation will return true. Unfortunately, this is a little bit
+		// misleading because in this point in the code it is implied that if the address is valid then the user has been
+		// entering an address which will not be the case for certain POS. That is why need to inspect on the POS to
 		// determine whether or not we should display manual current payment.
 		//
 		// tl;dr payment validation is complicated and happens in a lot of places and should probably be refactored

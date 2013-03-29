@@ -164,7 +164,7 @@ public class ItineraryLoaderLoginExtender implements LoginExtender, ItinerarySyn
 	}
 
 	/**
-	 * This interface provides a call for 
+	 * This interface provides a call for
 	 */
 	public interface LoginExtenderListener {
 		public void loginExtenderWorkComplete(LoginExtender extender);

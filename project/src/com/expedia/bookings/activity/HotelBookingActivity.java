@@ -13,8 +13,6 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.HotelPaymentOptionsActivity;
-import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Db;
@@ -266,7 +264,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 					|| (User.isLoggedIn(HotelBookingActivity.this) && Db.getUser() != null
 							&& Db.getUser().getPrimaryTraveler() != null
 							&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail()) && Db.getUser()
-							.getPrimaryTraveler().getEmail().compareToIgnoreCase(billingInfo.getEmail()) != 0)) {
+								.getPrimaryTraveler().getEmail().compareToIgnoreCase(billingInfo.getEmail()) != 0)) {
 				String email = traveler.getEmail();
 				if (TextUtils.isEmpty(email)) {
 					email = Db.getUser().getPrimaryTraveler().getEmail();

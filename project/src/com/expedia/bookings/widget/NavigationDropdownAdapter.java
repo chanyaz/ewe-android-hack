@@ -46,49 +46,57 @@ public class NavigationDropdownAdapter extends BaseAdapter {
 		navItems.clear();
 	}
 
+	private final OnClickListener mLaunchScreenClickListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			if (mNoOpBtn != NoOpButton.HOME) {
+				NavUtils.goToLaunchScreen(mContext);
+			}
+		}
+	};
+
+	private final OnClickListener mHotelsClickListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			if (mNoOpBtn != NoOpButton.HOTELS) {
+				NavUtils.goToHotels(mContext);
+			}
+		}
+	};
+
+	private final OnClickListener mFlightsClickListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			if (mNoOpBtn != NoOpButton.FLIGHTS) {
+				NavUtils.goToFlights(mContext);
+			}
+		}
+	};
+
+	private final OnClickListener mAccountClickListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			if (mNoOpBtn != NoOpButton.ACCOUNT) {
+				Ui.showToast(mContext, "Account");
+			}
+		}
+	};
+
 	private void initData(Context context) {
 		navItems = new ArrayList<NavItem>();
 		Resources res = context.getResources();
 
 		addItem(new NavItem(res.getDrawable(R.drawable.ic_expedia_drop_down), res
-				.getString(R.string.nav_home), new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (mNoOpBtn != NoOpButton.HOME) {
-					NavUtils.goToLaunchScreen(mContext);
-				}
-			}
-		}));
+				.getString(R.string.nav_home), mLaunchScreenClickListener));
 
 		addItem(new NavItem(res.getDrawable(R.drawable.ic_hotels_drop_down), res
-				.getString(R.string.nav_hotels), new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (mNoOpBtn != NoOpButton.HOTELS) {
-					NavUtils.goToHotels(mContext);
-				}
-			}
-		}));
+				.getString(R.string.nav_hotels), mHotelsClickListener));
 
 		addItem(new NavItem(res.getDrawable(R.drawable.ic_flights_drop_down), res
-				.getString(R.string.nav_flights), new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (mNoOpBtn != NoOpButton.FLIGHTS) {
-					NavUtils.goToFlights(mContext);
-				}
-			}
-		}));
-		addItem(new NavItem(res.getDrawable(R.drawable.ic_account_drop_down), res
-				.getString(R.string.nav_account), new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (mNoOpBtn != NoOpButton.ACCOUNT) {
-					Ui.showToast(mContext, "Account");
-				}
-			}
-		}));
+				.getString(R.string.nav_flights), mFlightsClickListener));
 
+		addItem(new NavItem(res.getDrawable(R.drawable.ic_account_drop_down), res
+				.getString(R.string.nav_account), mAccountClickListener));
 	}
 
 	/**

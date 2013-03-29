@@ -113,7 +113,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 
 	@Override
 	public int getItemViewType(int position) {
-		//Note: Our types are: 
+		//Note: Our types are:
 		//normal cards: 0 <= TYPE < Type.values().length
 		//shaded cards: Type.values().length <= TYPE < Type.values().length * 2
 		//summary cards: Type.values().length * 2 <= TYPE < Type.values().length * 3
@@ -191,7 +191,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 
 	/**
 	 * Sync the adapter data with the ItineraryManager
-	 * 
+	 *
 	 * If enableSelfManagement() is used, the coder does not need to call this.
 	 */
 	public synchronized void syncWithManager() {
@@ -210,7 +210,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 	 * Calling enableSelfManagement will cause this adapter to listen for changes in the
 	 * ItineraryManager on its own, and thus should always provide views that have the most
 	 * recent state according to the ItineraryManager.
-	 * 
+	 *
 	 * If enableSelfManagement is called, the coder should call disableSelfManagement to
 	 * avoid keeping listeners around beyond when they are useful
 	 */

@@ -217,7 +217,7 @@ public class PersistantCookieStore extends BasicCookieStore {
 	/**
 	 * Generate a set-cookie http header string from the supplied cookie.
 	 * This is useful for creating cookie strings for use with CookieManager.setCookie(s,s);
-	 * 
+	 *
 	 * @param cookie
 	 * @return set-cookie http header string
 	 */

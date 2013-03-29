@@ -59,7 +59,7 @@ public class ItinCardData {
 	/**
 	 * Gets the location that this card represents.  Can change
 	 * depending on time of day.
-	 * 
+	 *
 	 * @return null by default
 	 */
 	public LatLng getLocation() {

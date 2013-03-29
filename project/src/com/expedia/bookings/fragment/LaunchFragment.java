@@ -95,7 +95,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		R.drawable.bg_launch_toronto,
 		R.drawable.bg_launch_hongkong,
 		R.drawable.bg_launch_petronas,
-		R.drawable.bg_launch_vegas
+		R.drawable.bg_launch_vegas,
 	};
 
 	private Context mContext;
@@ -465,7 +465,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		"YYZ",
 		"HKG",
 		"MIA",
-		"BKK"
+		"BKK",
 	};
 
 	private Download<List<Destination>> mFlightsDownload = new Download<List<Destination>>() {
@@ -952,7 +952,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		return true;
 	}
 
-	// Listeners 
+	// Listeners
 
 	private final View.OnClickListener mHeaderItemOnClickListener = new View.OnClickListener() {
 		@Override

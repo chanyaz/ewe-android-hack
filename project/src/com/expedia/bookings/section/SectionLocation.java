@@ -30,7 +30,7 @@ import com.mobiata.android.validation.Validator;
 /**
  * Important usage note: When using a SectionLocation as a form that requires validation, make sure to use set the LOB
  * using setLineOfBusiness(). This ensures that the validation happens properly.
- * 
+ *
  * TODO: improve this class's usability: Extend SectionLocation on a line of business basis to hide this nasty
  * validation logic. Or perhaps declare an attribute that can be set on the SectionLocation via XML so the consumer does
  * not have to remember to use setLineOfBusiness() in code.

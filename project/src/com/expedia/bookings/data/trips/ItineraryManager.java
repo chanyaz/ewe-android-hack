@@ -81,7 +81,7 @@ public class ItineraryManager implements JSONable {
 	// This is an in-memory representation of the trips.  It is not
 	// saved, but rather reproduced from the trip list.  It updates
 	// each time a sync occurs.
-	// 
+	//
 	// It can be assumed that it is sorted at all times.
 	private List<ItinCardData> mItinCardDatas = new ArrayList<ItinCardData>();
 
@@ -92,7 +92,7 @@ public class ItineraryManager implements JSONable {
 
 	/**
 	 * Adds a guest trip to the itinerary list.
-	 * 
+	 *
 	 * Automatically starts to try to get info on the trip from the server.  If a sync is already
 	 * in progress it will queue the guest trip for refresh; otherwise it will only refresh this
 	 * single guest trip.
@@ -138,7 +138,7 @@ public class ItineraryManager implements JSONable {
 
 	/**
 	 * Get a list of the current Trips.
-	 * 
+	 *
 	 * Be warned: these Trips will be updated from a sync
 	 * operation.  If this behavior seems wrong, talk with
 	 * DLew since he's open to the idea of changing this
@@ -210,7 +210,7 @@ public class ItineraryManager implements JSONable {
 
 	/**
 	 * Must be called before using ItineraryManager for the first time.
-	 * 
+	 *
 	 * I expect this to be called from the Application.  That way the
 	 * context won't leak.
 	 */
@@ -424,7 +424,7 @@ public class ItineraryManager implements JSONable {
 
 		/**
 		 * Notes when a trip is added with basic info.
-		 * 
+		 *
 		 * Note: Guest trips will not have this called right when you add them
 		 * (because they have no meaningful info at that point, and may not
 		 * even be a valid trip).
@@ -435,18 +435,18 @@ public class ItineraryManager implements JSONable {
 		 * Each Trip that is updated during a sync gets its own callback
 		 * so that you can update the UI before the entire sync process
 		 * is complete.
-		 * 
+		 *
 		 * Not all Trips may get an updated trip call (e.g., a trip doesn't
-		 * need an update because it was just updated a few minutes ago). 
+		 * need an update because it was just updated a few minutes ago).
 		 */
 		public void onTripUpdated(Trip trip);
 
 		/**
-		 * Notification when a trip failed to update 
-		 * 
+		 * Notification when a trip failed to update
+		 *
 		 * This can be particularly useful to know when a guest trip that
-		 * was added can't be updated at all. 
-		 * 
+		 * was added can't be updated at all.
+		 *
 		 * POSSIBLE TODO: info on why the update failed?
 		 */
 		public void onTripUpdateFailed(Trip trip);
@@ -656,9 +656,9 @@ public class ItineraryManager implements JSONable {
 
 	/**
 	 * Start a sync operation.
-	 * 
+	 *
 	 * If a sync is already in progress then calls to this are ignored.
-	 * 
+	 *
 	 * @return true if the sync started or is in progress, false if it never started
 	 */
 	public boolean startSync(boolean forceRefresh) {
@@ -729,7 +729,7 @@ public class ItineraryManager implements JSONable {
 	private class SyncTask extends AsyncTask<Void, ProgressUpdate, Collection<Trip>> {
 
 		/*
-		 * Implementation note - we regularly check if the sync has been 
+		 * Implementation note - we regularly check if the sync has been
 		 * cancelled (after every service call).  If it has been cancelled,
 		 * then we exit out quickly.  If you add any service calls, also
 		 * check afterwards (since the service calls are where the app

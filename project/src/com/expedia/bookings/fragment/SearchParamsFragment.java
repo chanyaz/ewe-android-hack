@@ -564,7 +564,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 				mChildAgesLayout, mChildAgeSelectedListener);
 
 		// This needs to be run after mChildAgesPopup layout (because of getHeight()).
-		// It also requires TargetApi(11) because [gs]etTranslationY is API 11. But 
+		// It also requires TargetApi(11) because [gs]etTranslationY is API 11. But
 		// that's ok because this activity only targets tablet.
 		mChildAgesLayout.post(new Runnable() {
 			@TargetApi(11)

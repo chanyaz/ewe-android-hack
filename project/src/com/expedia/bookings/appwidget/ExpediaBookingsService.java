@@ -726,8 +726,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		updateWidgetWithProperty(property, widget);
 		Media thumbnail = property.getThumbnail();
 		if (thumbnail != null) {
-			TwoLevelImageCache.loadImage(WIDGET_THUMBNAIL_KEY_PREFIX + widget.appWidgetIdInteger, property
-					.getThumbnail().getUrl(), new OnImageLoaded() {
+			OnImageLoaded onImageLoaded = new OnImageLoaded() {
 				@Override
 				public void onImageLoaded(String url, Bitmap bitmap) {
 					// making sure that the image actually belongs to the current property loaded in the remote view
@@ -743,7 +742,9 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 				public void onImageLoadFailed(String url) {
 					updateWidgetWithImage(widget, null);
 				}
-			});
+			};
+			TwoLevelImageCache.loadImage(WIDGET_THUMBNAIL_KEY_PREFIX + widget.appWidgetIdInteger, property
+					.getThumbnail().getUrl(), onImageLoaded);
 		}
 		else {
 			updateWidgetWithImage(widget, null);

@@ -45,7 +45,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 		R.drawable.bg_activities_guest_cirlce_turquoise,
 		R.drawable.bg_activities_guest_cirlce_red,
 		R.drawable.bg_activities_guest_cirlce_purple,
-		R.drawable.bg_activities_guest_cirlce_yellow
+		R.drawable.bg_activities_guest_cirlce_yellow,
 	};
 
 	public ActivityItinContentGenerator(Context context, ItinCardDataActivity data) {

@@ -9,11 +9,11 @@ import com.expedia.bookings.data.trips.TripComponent.Type;
 
 /**
  * Factory for converting TripComponent objects to (Multiple) ItinCardData Objects
- * 
+ *
  * This is where we break TripComponents into multiple cards, and may need
- * to do some magic to determine what gets broken up and what stays together 
+ * to do some magic to determine what gets broken up and what stays together
  * and under what conditions is it like this
- * 
+ *
  * e.g. a past hotel booking should be represented in one card, but a future hotel booking
  * may be represented by checkin and checkout.
  *

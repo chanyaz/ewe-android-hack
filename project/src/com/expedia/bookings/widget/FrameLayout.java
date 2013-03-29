@@ -3,8 +3,6 @@ package com.expedia.bookings.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.mobiata.android.Log;
-
 public class FrameLayout extends android.widget.FrameLayout {
 	public interface OnSizeChangedListener {
 		public void onSizeChanged(int w, int h, int oldw, int oldh);

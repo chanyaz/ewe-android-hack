@@ -336,7 +336,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		View lastVisibleItinCard;
 		int lastItinCardIndex = firstVisibleItem + visibleItemCount;
 		do {
-			//The rare and beautiful do while loop, useful here as sometimes the last item in the list 
+			//The rare and beautiful do while loop, useful here as sometimes the last item in the list
 			//is our footer view not the last itincard in the list we were expecting.
 			lastItinCardIndex--;
 			lastVisibleItinCard = view.getChildAt(lastItinCardIndex);

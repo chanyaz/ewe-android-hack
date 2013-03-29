@@ -36,7 +36,7 @@ public class SuggestResponseHandler extends JsonResponseHandler<SuggestResponse>
 
 		JSONArray responseSuggestions;
 		try {
-				responseSuggestions = response.getJSONArray("sr");
+			responseSuggestions = response.getJSONArray("sr");
 		}
 		catch (JSONException e) {
 			Log.d("Could not parse JSON autosuggest response.", e);

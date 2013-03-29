@@ -117,8 +117,8 @@ public class StubConfigActivity extends AsyncLoadListActivity {
 
 	@Override
 	public Object downloadImpl() {
-		 ExpediaServices services = new ExpediaServices(this);
-		 return services.getScenarios();
+		ExpediaServices services = new ExpediaServices(this);
+		return services.getScenarios();
 	}
 
 	@Override

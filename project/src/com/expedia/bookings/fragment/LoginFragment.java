@@ -72,10 +72,10 @@ import com.nineoldandroids.view.animation.AnimatorProxy;
 
 /**
  * This fragment is for logging into expedia accounts via the standard method AND facebook connect.
- * 
+ *
  * It should be noted that the facebook connect expedia api is totally undocumented, and totally useless in the case of errors.
  * In fact, the expedia fbconnect apis return nothing more than success or failure, and it is up to us to make due.
- * 
+ *
  * The general workflow for FBConnect is as follows:
  * - Login with facebook (or used stored token)
  * - Attempt auto login (with fb token)
@@ -86,7 +86,7 @@ import com.nineoldandroids.view.animation.AnimatorProxy;
  * -- If creating an expedia account fails
  * ---- We assume here that it is because an account with that email already exists, so we let them enter a password and associate the existing account
  * ---- If associating fails we let them try again, however since our api response is mostly worthless we sort of just get stuck here.
- * 
+ *
  */
 public class LoginFragment extends Fragment implements LoginExtenderListener {
 	private static final String ARG_PATH_MODE = "ARG_PATH_MODE";
@@ -328,7 +328,8 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 
 		if (mDoLoginExtenderWork) {
 			doLoginExtenderWork();
-		}else{
+		}
+		else {
 			View focused = this.getView().findFocus();
 			if (focused == null || !(focused instanceof EditText)) {
 				focused = mExpediaUserName;
@@ -945,10 +946,10 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 
 	/**
 	 * Set the button flip animation percentage
-	 * 
+	 *
 	 * 0 = Facebook button showing, Login with Expedia is not showing
 	 * 1 = Login with Expedia showing, Login with facebook not showing.
-	 * 
+	 *
 	 * @param percentage
 	 */
 	private void setButtonFlipPercentage(float percentage) {
@@ -1052,7 +1053,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 
 	/**
 	 * This attmpts to hand our facebook info to expedia and tries to auto login based on that info.
-	 * This will only succeed if the user has at some point granted Expedia access to fbconnect. 
+	 * This will only succeed if the user has at some point granted Expedia access to fbconnect.
 	 */
 	private final Download<FacebookLinkResponse> mFbLinkAutoLoginDownload = new Download<FacebookLinkResponse>() {
 		@Override
@@ -1196,7 +1197,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 	};
 
 	/**
-	 * Just try to sign in with the cookies we already have. 
+	 * Just try to sign in with the cookies we already have.
 	 */
 	private final Download<SignInResponse> mLoginDownload = new Download<SignInResponse>() {
 		@Override
@@ -1269,7 +1270,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 	}
 
 	/**
-	 * Ok so we have a users facebook session, but we need the users information for that to be useful so lets get that 
+	 * Ok so we have a users facebook session, but we need the users information for that to be useful so lets get that
 	 * @param session
 	 */
 	protected void fetchFacebookUserInfo(Session session) {
@@ -1303,7 +1304,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 
 	/**
 	 * Login with facebook.
-	 * 
+	 *
 	 *  This uses the facebook app if it is installed.
 	 *  If the fb app isn't installed it should use a webpage.
 	 */

@@ -973,27 +973,27 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		notifySearchLocationFound();
 
 		SearchType searchType = Db.getSearchParams().getSearchType();
-	    if(searchType == SearchType.HOTEL) {
-	    	BackgroundDownloader.getInstance().startDownload(KEY_HOTEL_SEARCH, mSearchHotelDownload, mSearchHotelCallback);
-	    }
-	    else {
-	    	BackgroundDownloader.getInstance().startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
-	    }
+		if (searchType == SearchType.HOTEL) {
+			BackgroundDownloader.getInstance().startDownload(KEY_HOTEL_SEARCH, mSearchHotelDownload, mSearchHotelCallback);
+		}
+		else {
+			BackgroundDownloader.getInstance().startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
+		}
 	}
-	
+
 	private final Download<AvailabilityResponse> mSearchHotelDownload = new Download<AvailabilityResponse>() {
 		@Override
 		public AvailabilityResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(SearchResultsFragmentActivity.this);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_HOTEL_SEARCH, services);
-			
+
 			Property selectedProperty = new Property();
 			selectedProperty.setPropertyId(Db.getSearchParams().getRegionId());
-			
+
 			return services.availability(Db.getSearchParams(), selectedProperty);
 		}
 	};
-	
+
 	private final Download<SearchResponse> mSearchDownload = new Download<SearchResponse>() {
 		public SearchResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
@@ -1003,7 +1003,6 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	};
 
 	private final OnDownloadComplete<AvailabilityResponse> mSearchHotelCallback = new OnDownloadComplete<AvailabilityResponse>() {
-
 		@Override
 		public void onDownload(AvailabilityResponse results) {
 			Property property = results.getProperty();
@@ -1026,9 +1025,8 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 			}
 			mSearchCallback.onDownload(searchResponse);
 		}
-
 	};
-	
+
 	private final OnDownloadComplete<SearchResponse> mSearchCallback = new OnDownloadComplete<SearchResponse>() {
 		public void onDownload(SearchResponse response) {
 			loadSearchResponse(response, true);

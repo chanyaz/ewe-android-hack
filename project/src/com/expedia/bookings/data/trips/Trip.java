@@ -40,9 +40,9 @@ public class Trip implements JSONable, Comparable<Trip> {
 	 * For reference:
 	 * tripId == Huge GUID (e.g. 1af310ef-cfa9-442a-96ca-669d67a2fb1d)
 	 * tripNumber == Customer facing number (e.g. 11239187496)
-	 * 
+	 *
 	 * A trip is not valid until it has a tripId (e.g., if it's an invalid guest itin
-	 * then it'll have a trip number but the trip id will never get filled in). 
+	 * then it'll have a trip number but the trip id will never get filled in).
 	 */
 	private String mTripId;
 	private String mTripNumber;

@@ -10,8 +10,8 @@ import com.mobiata.android.Log;
 
 /**
  * A singleton class for loading checkout data from disk ( in the background )
- * 
- * We were loading checkout data from disk in both the hotels and flights flows, and will likely do so for 
+ *
+ * We were loading checkout data from disk in both the hotels and flights flows, and will likely do so for
  * future products (cars, cruises, etc) it makes sense to move the functionality to a common place.
  *
  * Checkout data currently includes: BillingInfo and Travelers
@@ -65,7 +65,7 @@ public class CheckoutDataLoader {
 	 * Load checkout data from disk on a background thread.
 	 * Note if this method is called but a thread is already running, we will just wait for that thread to finish and then fire the listener
 	 * This is not meant to be called millions of times, but rather when a user first enters the checkout portion of the app
-	 * 
+	 *
 	 * @param context - context to use for our loading and disk operations
 	 * @param loadBillingInfo - do we want to load billing info
 	 * @param loadTravelers - do we want to load traveler data
@@ -80,8 +80,7 @@ public class CheckoutDataLoader {
 			@Override
 			public void run() {
 				mLastLoadWasSuccessful = loadCachedData(context, loadBillingInfo, loadTravelers);
-				if (listener != null)
-				{
+				if (listener != null) {
 					listener.onCheckoutDataLoaded(mLastLoadWasSuccessful);
 				}
 			}

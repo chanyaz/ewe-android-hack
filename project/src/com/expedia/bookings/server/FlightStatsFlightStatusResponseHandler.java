@@ -14,15 +14,15 @@ import com.mobiata.flightlib.data.Waypoint;
 public class FlightStatsFlightStatusResponseHandler extends JsonResponseHandler<FlightStatsFlightResponse> {
 
 	private String mAirline;
-	
+
 	public FlightStatsFlightStatusResponseHandler(String airline) {
 		mAirline = airline;
 	}
-	
+
 	@Override
 	public FlightStatsFlightResponse handleJson(JSONObject response) {
 		FlightStatsFlightResponse fsResponse = new FlightStatsFlightResponse();
-		
+
 		try {
 			JSONArray flightStatuses = response.getJSONArray("flightStatuses");
 			if (flightStatuses != null) {
@@ -34,20 +34,20 @@ public class FlightStatsFlightStatusResponseHandler extends JsonResponseHandler<
 		catch (JSONException e) {
 			Log.w("Error parsing FlightStatus response from FlightStats", e);
 		}
-		
+
 		return fsResponse;
 	}
-	
+
 	private Flight parseFlight(JSONObject json) throws JSONException {
 		Flight flight = new Flight();
-		
+
 		JSONObject operationalTimes = json.getJSONObject("operationalTimes");
-		
+
 		flight.mFlightHistoryId = json.getInt("flightId");
 		flight.mStatusCode = json.getString("status");
-		
+
 		parseFlightCode(json, flight, true);
-		
+
 		flight.mOrigin = new Waypoint(Waypoint.ACTION_DEPARTURE);
 		flight.mOrigin.mAirportCode = json.getString("departureAirportFsCode");
 		addDateTime(flight.mOrigin, Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_UNKNOWN, json, "departureDate");
@@ -58,15 +58,15 @@ public class FlightStatsFlightStatusResponseHandler extends JsonResponseHandler<
 		addDateTime(flight.mOrigin, Waypoint.POSITION_RUNWAY, Waypoint.ACCURACY_SCHEDULED, operationalTimes, "flightPlanPlannedDeparture");
 		addDateTime(flight.mOrigin, Waypoint.POSITION_RUNWAY, Waypoint.ACCURACY_ESTIMATED, operationalTimes, "estimatedRunwayDeparture");
 		addDateTime(flight.mOrigin, Waypoint.POSITION_RUNWAY, Waypoint.ACCURACY_ACTUAL, operationalTimes, "actualRunwayDeparture");
-		
+
 		flight.mDestination = new Waypoint(Waypoint.ACTION_ARRIVAL);
 		flight.mDestination.mAirportCode = json.getString("arrivalAirportFsCode");
-		
+
 		if (json.has("divertedAirportFsCode")) {
 			flight.mDiverted = new Waypoint(Waypoint.ACTION_DIVERTED);
 			flight.mDiverted.mAirportCode = json.getString("divertedAirportFsCode");
 		}
-		
+
 		Waypoint arrival = flight.getArrivalWaypoint();
 		addDateTime(arrival, Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_UNKNOWN, json, "arrivalDate");
 		addDateTime(arrival, Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_SCHEDULED, operationalTimes, "publishedArrival");
@@ -83,7 +83,7 @@ public class FlightStatsFlightStatusResponseHandler extends JsonResponseHandler<
 				parseFlightCode(codeshares.getJSONObject(i), flight, false);
 			}
 		}
-		
+
 		if (json.has("airportResources")) {
 			JSONObject airportResources = json.getJSONObject("airportResources");
 			flight.mOrigin.setTerminal(airportResources.optString("departureTerminal", null));
@@ -92,7 +92,7 @@ public class FlightStatsFlightStatusResponseHandler extends JsonResponseHandler<
 			arrival.setGate(airportResources.optString("arrivalGate", null));
 			flight.mBaggageClaim = airportResources.optString("baggage", null);
 		}
-		
+
 		if (json.has("flightEquipment")) {
 			JSONObject flightEquipment = json.getJSONObject("flightEquipment");
 			if (flightEquipment.has("actualEquipmentIataCode")) {
@@ -105,7 +105,7 @@ public class FlightStatsFlightStatusResponseHandler extends JsonResponseHandler<
 
 		return flight;
 	}
-	
+
 	private void parseFlightCode(JSONObject json, Flight flight, boolean isOperator) throws JSONException {
 		String carrierCodeKey = "carrierFsCode";
 		if (!json.has(carrierCodeKey)) {

@@ -18,7 +18,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
  * You can't do anything with maps (like animate cameras) until they
  * have been laid out.  As a result, this implements a way to tell
  * when the layout has occurred and you can manipulate the camera.
- * 
+ *
  * Also has some utilities that are useful overall.
  */
 public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFragment {
@@ -140,7 +140,7 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 	}
 
 	/**
-	 * Equals with floats are bad.  This gets you close enough for government work. 
+	 * Equals with floats are bad.  This gets you close enough for government work.
 	 */
 	public boolean practicallyEquals(CameraPosition pos1, CameraPosition pos2) {
 		return Math.abs(pos1.bearing - pos2.bearing) < .05
@@ -174,7 +174,7 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 
 	/**
 	 * Offsets a lat lng by the amount of pixels desired.
-	 * 
+	 *
 	 * *DOES NOT WORK* if you are changing the zoom level at the same time as changing the LatLng.
 	 */
 	public LatLng offsetLatLng(LatLng latLng) {
@@ -186,7 +186,7 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 
 	}
 
-	// KNOWN PROBLEM: Causes screen to flicker if the zoom changes from the current zoom 
+	// KNOWN PROBLEM: Causes screen to flicker if the zoom changes from the current zoom
 	public LatLng offsetLatLng(LatLng latLng, float offsetX, float offsetY, float zoom) {
 		if (offsetX == 0 && offsetY == 0) {
 			return latLng;

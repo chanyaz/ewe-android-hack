@@ -1,19 +1,16 @@
 package com.expedia.bookings.server;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
 
-import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
-import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.net.JsonResponseHandler;
 
 public class HotelProductResponseHandler extends JsonResponseHandler<HotelProductResponse> {

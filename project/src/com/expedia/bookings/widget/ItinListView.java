@@ -257,13 +257,13 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	public void setMode(int mode) {
 		switch (mode) {
-		default:
-		case MODE_LIST: {
-			hideDetails();
-			break;
-		}
 		case MODE_DETAIL: {
 			showDetails();
+			break;
+		}
+		case MODE_LIST:
+		default: {
+			hideDetails();
 			break;
 		}
 		}
@@ -418,7 +418,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		}
 		return false;
 	}
-	
+
 	public void showDetails(String id) {
 		showDetails(mAdapter.getPosition(id));
 	}
@@ -723,7 +723,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 				}
 			}
 
-			//We want our background line to be refreshed, but not until after the list draws, 250 will usually 
+			//We want our background line to be refreshed, but not until after the list draws, 250 will usually
 			//be the right amount of time to delay, this isn't a great solution, but the line is totally non-critical
 			Runnable lineUpdateRunner = new Runnable() {
 				@Override

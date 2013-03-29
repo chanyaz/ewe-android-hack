@@ -1,11 +1,8 @@
 package com.expedia.bookings.data.trips;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TimeZone;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -24,7 +21,6 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.google.android.gms.maps.model.LatLng;
-import com.mobiata.flightlib.utils.DateTimeUtils;
 
 public class ItinCardDataCar extends ItinCardData implements ConfirmationNumberable {
 	//////////////////////////////////////////////////////////////////////////////////////

@@ -25,7 +25,7 @@ public class AirportAutocompleteProvider extends ContentProvider {
 		SearchManager.SUGGEST_COLUMN_TEXT_1,
 		SearchManager.SUGGEST_COLUMN_TEXT_2,
 		SearchManager.SUGGEST_COLUMN_QUERY,
-		SearchManager.SUGGEST_COLUMN_ICON_1
+		SearchManager.SUGGEST_COLUMN_ICON_1,
 	};
 
 	public static final int COL_ID = 0;
