@@ -67,7 +67,7 @@ public class LocationSelectUtils extends ActivityInstrumentationTestCase2<Search
 	}
 
 	public Pair<String, String> getRandomAmericanAndInternationalAirport() {
-		return getTwoRandomItems(AIRPORT_LIST_INTL, AIRPORT_LIST_INTL);
+		return getTwoRandomItems(AIRPORT_LIST_USA, AIRPORT_LIST_INTL);
 	}
 
 	public Pair<String, String> getTwoRandomItems(String[] airportList) {
