@@ -60,11 +60,11 @@ public class ItinCardFragment extends Fragment {
 
 		ItinContentGenerator<?> generator = ItinContentGenerator.createGenerator(activity, data);
 		if (generator != null && generator.hasDetails()) {
-			View headerView = generator.getTitleView(mItinHeaderContainer);
+			View headerView = generator.getTitleView(null, mItinHeaderContainer);
 			mItinHeaderContainer.removeAllViews();
 			mItinHeaderContainer.addView(headerView);
 
-			View summaryView = generator.getSummaryView(mItinSummaryContainer);
+			View summaryView = generator.getSummaryView(null, mItinSummaryContainer);
 			mItinSummaryContainer.removeAllViews();
 			mItinSummaryContainer.addView(summaryView);
 

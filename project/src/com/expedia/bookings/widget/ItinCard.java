@@ -67,6 +67,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	private int mExpandedCardHeaderImageHeight;
 	private int mMiniCardHeaderImageHeight;
 
+	// Views from the ItinCard itself
 	private View mTopExtraPaddingView;
 	private View mBottomExtraPaddingView;
 
@@ -92,6 +93,11 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	private View mSelectedView;
 	private View mHeaderShadeView;
 	private View mSummaryDividerView;
+
+	// Views generated an ItinContentGenerator (that get reused)
+	private View mHeaderView;
+	private View mSummaryView;
+	private View mDetailsView;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -176,10 +182,10 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		mItinContentGenerator = ItinContentGenerator.createGenerator(getContext(), itinCardData);
 
 		// Title
-		View titleView = mItinContentGenerator.getTitleView(mTitleContentLayout);
-		if (titleView != null) {
-			mTitleContentLayout.removeAllViews();
-			mTitleContentLayout.addView(titleView);
+		boolean wasNull = mHeaderView == null;
+		mHeaderView = mItinContentGenerator.getTitleView(mHeaderView, mTitleContentLayout);
+		if (wasNull && mHeaderView != null) {
+			mTitleContentLayout.addView(mHeaderView);
 		}
 
 		// Type icon
@@ -202,10 +208,10 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		mHeaderTextDateView.setText(mItinContentGenerator.getHeaderTextDate());
 
 		// Summary text
-		View summaryView = mItinContentGenerator.getSummaryView(mSummaryLayout);
-		if (summaryView != null) {
-			mSummaryLayout.removeAllViews();
-			mSummaryLayout.addView(summaryView);
+		wasNull = mSummaryView == null;
+		mSummaryView = mItinContentGenerator.getSummaryView(mSummaryView, mSummaryLayout);
+		if (wasNull && mSummaryView != null) {
+			mSummaryLayout.addView(mSummaryView);
 		}
 
 		// Buttons

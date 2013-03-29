@@ -139,7 +139,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	}
 
 	@Override
-	public View getTitleView(ViewGroup container) {
+	public View getTitleView(View convertView, ViewGroup container) {
 		final ItinCardDataHotel itinCardData = getItinCardData();
 
 		ViewGroup view = (ViewGroup) getLayoutInflater().inflate(R.layout.include_itin_card_title_hotel, container,
@@ -155,7 +155,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	}
 
 	@Override
-	public View getSummaryView(ViewGroup container) {
+	public View getSummaryView(View convertView, ViewGroup container) {
 		TextView view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_summary_hotel, container,
 				false);
 

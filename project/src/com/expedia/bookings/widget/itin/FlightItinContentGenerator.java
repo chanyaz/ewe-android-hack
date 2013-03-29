@@ -206,7 +206,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	}
 
 	@Override
-	public View getTitleView(ViewGroup container) {
+	public View getTitleView(View convertView, ViewGroup container) {
 		TextView view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_title_generic, container,
 				false);
 		view.setText(getHeaderText());
@@ -303,7 +303,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	}
 
 	@Override
-	public View getSummaryView(ViewGroup container) {
+	public View getSummaryView(View convertView, ViewGroup container) {
 		final ItinCardDataFlight itinCardData = getItinCardData();
 
 		if (itinCardData == null || itinCardData.getStartDate() == null || itinCardData.getEndDate() == null) {

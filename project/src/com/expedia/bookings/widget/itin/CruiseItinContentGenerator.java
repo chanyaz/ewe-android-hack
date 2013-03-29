@@ -67,7 +67,7 @@ public class CruiseItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	}
 
 	@Override
-	public View getTitleView(ViewGroup container) {
+	public View getTitleView(View convertView, ViewGroup container) {
 		return null;
 	}
 
@@ -77,7 +77,7 @@ public class CruiseItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	}
 
 	@Override
-	public View getSummaryView(ViewGroup container) {
+	public View getSummaryView(View convertView, ViewGroup container) {
 		return null;
 	}
 

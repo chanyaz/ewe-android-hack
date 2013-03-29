@@ -173,7 +173,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 	}
 
 	@Override
-	public View getTitleView(ViewGroup container) {
+	public View getTitleView(View convertView, ViewGroup container) {
 		TextView view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_title_generic, container,
 				false);
 		view.setText(getItinCardData().getCarCategoryDescription(getContext()));
@@ -181,7 +181,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 	}
 
 	@Override
-	public View getSummaryView(ViewGroup container) {
+	public View getSummaryView(View convertView, ViewGroup container) {
 		TextView view = (TextView) getLayoutInflater()
 				.inflate(R.layout.include_itin_card_summary_car, container, false);
 

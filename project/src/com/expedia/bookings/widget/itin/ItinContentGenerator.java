@@ -130,9 +130,9 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	// Views
 
-	public abstract View getTitleView(ViewGroup container);
+	public abstract View getTitleView(View convertView, ViewGroup container);
 
-	public abstract View getSummaryView(ViewGroup container);
+	public abstract View getSummaryView(View convertView, ViewGroup container);
 
 	public abstract View getDetailsView(ViewGroup container);
 
