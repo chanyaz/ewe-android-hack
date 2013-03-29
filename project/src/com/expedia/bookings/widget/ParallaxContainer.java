@@ -14,6 +14,37 @@ import com.expedia.bookings.R;
  * Use this widget to give a parallax effect to a view. Wrap the desired view with this
  * container (which extends FrameLayout).
  *
+ * <pre>
+ * &lt;com.expedia.bookings.widget.ParallaxContainer
+ *     android:layout_width="wrap_content"
+ *     android:layout_height="200dp"
+ *     app:offsetBottom="80dp"
+ *     app:offsetTop="80dp"
+ *     app:scrollMax="150dp"
+ *     app:scrollMin="10dp" &gt;
+ *
+ *     &lt;ImageView
+ *         android:id="@+id/my_image"
+ *         android:layout_width="wrap_content"
+ *         android:layout_height="500dp"
+ *         android:src="@drawable/tall_image" /&gt;
+ * &lt;/com.expedia.bookings.widget.ParallaxContainer&gt;
+ * </pre>
+ *
+ * <p>As this view is moved about the screen (either from layout changes or from a scroll event),
+ * its scrollY will be modified based on it's on-screen position. <b>NOTE</b>: ParallaxContainer
+ * expects to be a descendant of a {@link com.expedia.bookings.widget.ScrollView}, and may not update
+ * itself properly otherwise.</p>
+ *
+ * <p>As mentioned, this view will be scrolled depending on its location on the physical screen,
+ * using {@link View.getLocationOnScreen(int[])}. If this view isn't expected to make it to the
+ * very edge of the screen, {@link #setOffsetTop(int)} and {@link #setOffsetBottom(int)} will
+ * adjust a distance away from the edges of the screen.</p>
+ *
+ * <p>To set the limits for which this container will be scrolled, use {@link #setScrollMin(int)}
+ * and {@link #setScrollMax(int)}. You might try something like 0dp and 300dp (in the above example).
+ * Making changes to these can cause a different parallax effect.</p>
+ *
  * @author doug@mobiata.com
  */
 public class ParallaxContainer extends FrameLayout {
@@ -63,8 +94,24 @@ public class ParallaxContainer extends FrameLayout {
 		parallax();
 	}
 
+	public float getOffsetTop() {
+		return mOffsetTop;
+	}
+
+	public void setOffsetTop(float offsetTop) {
+		this.mOffsetTop = offsetTop;
+	}
+
+	public float getOffsetBottom() {
+		return mOffsetBottom;
+	}
+
+	public void setOffsetBottom(float offsetBottom) {
+		this.mOffsetBottom = offsetBottom;
+	}
+
 	/**
-	 * Adjusts this container's scrollY to get a nice parallax effect
+	 * Adjusts this container's scrollY to get a nice parallax effect.
 	 */
 	public void parallax() {
 		if (mInterpolator == null) {
