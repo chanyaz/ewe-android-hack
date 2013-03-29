@@ -181,8 +181,6 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 				res.getString(R.string.itin_card_details_expires),
 				res.getQuantityText(R.plurals.number_of_guests_label, itinCardData.getGuestCount()));
 
-		guestsLayout.removeAllViews();
-
 		final List<Traveler> travelers = itinCardData.getTravelers();
 		final int size = travelers == null ? 0 : travelers.size();
 		if (size > 0) {
