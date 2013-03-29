@@ -5,18 +5,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 import junit.framework.AssertionFailedError;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.jayway.android.robotium.solo.Solo;
@@ -26,105 +22,6 @@ public class HotelsRobotHelper {
 	////////////////////////////////////////////////////////////////
 	// Static Locale Data
 	//TODO make these a different container so cool methods can be used
-
-	public static Locale[] AMERICAN_LOCALES = new Locale[] {
-			new Locale("es", "AR"),
-			new Locale("pt", "BR"),
-			new Locale("en", "CA"),
-			new Locale("fr", "CA"),
-			new Locale("es", "MX"),
-			new Locale("en", "US")
-	};
-
-	public static Locale[] APAC_LOCALES = new Locale[] {
-			new Locale("en", "HK"),
-			new Locale("zh", "HK"),
-			new Locale("id", "ID"),
-			new Locale("en", "IN"),
-			new Locale("ja", "JP"),
-			new Locale("ko", "KR"),
-			new Locale("en", "MY"),
-			new Locale("ms", "MY"),
-			new Locale("en", "PH"),
-			new Locale("en", "SG"),
-			new Locale("th", "TH"),
-			new Locale("en", "TW"),
-			new Locale("zh", "TW"),
-			new Locale("vi", "VN"),
-			new Locale("tl", "PH"),
-			new Locale("zh", "CN")
-	};
-
-	public static Locale[] WESTERN_LOCALES = new Locale[] {
-			new Locale("de", "AT"),
-			new Locale("en", "AU"),
-			new Locale("fr", "BE"),
-			new Locale("nl", "BE"),
-			new Locale("de", "DE"),
-			new Locale("da", "DK"),
-			new Locale("es", "ES"),
-			new Locale("fr", "FR"),
-			new Locale("en", "IE"),
-			new Locale("it", "IT"),
-			new Locale("nl", "NL"),
-			new Locale("nb", "NO"),
-			new Locale("en", "NZ"),
-			new Locale("sv", "SE"),
-			new Locale("en", "UK")
-	};
-
-	public static Locale[] FLIGHTS_LOCALES = new Locale[] {
-			AMERICAN_LOCALES[2],
-			AMERICAN_LOCALES[3],
-			AMERICAN_LOCALES[5],
-			WESTERN_LOCALES[9],
-			WESTERN_LOCALES[7],
-			WESTERN_LOCALES[4],
-			WESTERN_LOCALES[14],
-	};
-
-	public static final Map<Locale, Integer> LOCALE_TO_COUNTRY = new HashMap<Locale, Integer>();
-	static {
-		LOCALE_TO_COUNTRY.put(AMERICAN_LOCALES[0], R.string.country_ar);
-		LOCALE_TO_COUNTRY.put(AMERICAN_LOCALES[1], R.string.country_br);
-		LOCALE_TO_COUNTRY.put(AMERICAN_LOCALES[2], R.string.country_ca);
-		LOCALE_TO_COUNTRY.put(AMERICAN_LOCALES[3], R.string.country_ca);
-		LOCALE_TO_COUNTRY.put(AMERICAN_LOCALES[4], R.string.country_mx);
-		LOCALE_TO_COUNTRY.put(AMERICAN_LOCALES[5], R.string.country_us);
-
-		LOCALE_TO_COUNTRY.put(APAC_LOCALES[0], R.string.country_hk);
-		LOCALE_TO_COUNTRY.put(APAC_LOCALES[1], R.string.country_hk);
-		LOCALE_TO_COUNTRY.put(APAC_LOCALES[2], R.string.country_id);
-		LOCALE_TO_COUNTRY.put(APAC_LOCALES[3], R.string.country_in);
-		LOCALE_TO_COUNTRY.put(APAC_LOCALES[4], R.string.country_jp);
-		LOCALE_TO_COUNTRY.put(APAC_LOCALES[5], R.string.country_kr);
-		LOCALE_TO_COUNTRY.put(APAC_LOCALES[6], R.string.country_my);
-		LOCALE_TO_COUNTRY.put(APAC_LOCALES[7], R.string.country_my);
-		LOCALE_TO_COUNTRY.put(APAC_LOCALES[8], R.string.country_ph);
-		LOCALE_TO_COUNTRY.put(APAC_LOCALES[9], R.string.country_sg);
-		LOCALE_TO_COUNTRY.put(APAC_LOCALES[10], R.string.country_th);
-		LOCALE_TO_COUNTRY.put(APAC_LOCALES[11], R.string.country_tw);
-		LOCALE_TO_COUNTRY.put(APAC_LOCALES[12], R.string.country_tw);
-		LOCALE_TO_COUNTRY.put(APAC_LOCALES[13], R.string.country_vn);
-		LOCALE_TO_COUNTRY.put(APAC_LOCALES[14], R.string.country_ph);
-		LOCALE_TO_COUNTRY.put(APAC_LOCALES[15], R.string.country_tw);
-
-		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[0], R.string.country_at);
-		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[1], R.string.country_au);
-		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[2], R.string.country_be);
-		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[3], R.string.country_be);
-		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[4], R.string.country_de);
-		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[5], R.string.country_dk);
-		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[6], R.string.country_es);
-		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[7], R.string.country_fr);
-		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[8], R.string.country_ie);
-		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[9], R.string.country_it);
-		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[10], R.string.country_nl);
-		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[11], R.string.country_no);
-		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[12], R.string.country_nz);
-		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[13], R.string.country_se);
-		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[14], R.string.country_gb);
-	}
 
 	private static final String TAG = "com.expedia.bookings.test";
 	private boolean mAllowScreenshots;
@@ -138,6 +35,8 @@ public class HotelsRobotHelper {
 	private EventTrackingUtils mFileWriter;
 	private int mScreenWidth;
 	private int mScreenHeight;
+	private UserLocaleUtils mLocaleUtils;
+	
 	private static final String mScreenshotDirectory = "Robotium-Screenshots";
 
 	//Defaults are set, including the default user booking info
@@ -152,23 +51,15 @@ public class HotelsRobotHelper {
 		mAllowOrientationChange = false;
 		mWriteEventsToFile = false;
 		mScreenShotCount = 1;
+		
 		mSolo = solo;
 		mRes = res;
 		mUser = customUser;
+		mLocaleUtils = new UserLocaleUtils(res);
+		
 		mScreen = new ScreenshotUtils(mScreenshotDirectory, mSolo);
 		mScreenWidth = mRes.getDisplayMetrics().widthPixels;
 		mScreenWidth = mRes.getDisplayMetrics().heightPixels;
-
-	}
-
-	////////////////////////////////////////////////////////////////
-	// Setting Locale
-
-	public void setLocale(Locale locale) {
-		Configuration config = mRes.getConfiguration(); //get current configuration
-		config.locale = locale; //set to locale specified
-		Locale.setDefault(locale);
-		mRes.updateConfiguration(config, mRes.getDisplayMetrics());
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -311,7 +202,7 @@ public class HotelsRobotHelper {
 		String countryHeader = mRes.getString(R.string.preference_point_of_sale_title);
 		mSolo.clickOnText(countryHeader);
 
-		String countrySelection = mRes.getString(LOCALE_TO_COUNTRY.get(locale));
+		String countrySelection = mRes.getString(mLocaleUtils.LOCALE_TO_COUNTRY.get(locale));
 		Log.d(TAG, "Our countrySelection is: " + countrySelection);
 		delay(1);
 		mSolo.clickOnText(countrySelection);
@@ -321,7 +212,7 @@ public class HotelsRobotHelper {
 		mSolo.clickOnButton(0);
 		mSolo.goBack();
 		delay();
-		setLocale(locale);
+		mLocaleUtils.setLocale(locale);
 
 	}
 
@@ -445,11 +336,11 @@ public class HotelsRobotHelper {
 		View filterButton = mSolo.getView(R.id.menu_select_filter);
 		//Korea and Japan do not support filtering because 
 		//most hotel names are in their respective languages' characters
-		if (mRes.getConfiguration().locale != APAC_LOCALES[4]
-				&& mRes.getConfiguration().locale != APAC_LOCALES[5]
-				&& mRes.getConfiguration().locale != APAC_LOCALES[1]
-				&& mRes.getConfiguration().locale != APAC_LOCALES[12]
-				&& mRes.getConfiguration().locale != APAC_LOCALES[15]) {
+		if (mRes.getConfiguration().locale != mLocaleUtils.APAC_LOCALES[4]
+				&& mRes.getConfiguration().locale != mLocaleUtils.APAC_LOCALES[5]
+				&& mRes.getConfiguration().locale != mLocaleUtils.APAC_LOCALES[1]
+				&& mRes.getConfiguration().locale != mLocaleUtils.APAC_LOCALES[12]
+				&& mRes.getConfiguration().locale != mLocaleUtils.APAC_LOCALES[15]) {
 			enterLog(TAG, "Clicking on Filter label");
 
 			try {
