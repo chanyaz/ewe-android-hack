@@ -353,6 +353,9 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 			if (response.getRateCount() > 0) {
 				mAvailabilityWidget.setButtonEnabled(true);
 			}
+			if (response.getRateCount() == 0) {
+				mAvailabilityWidget.showError(getString(R.string.error_no_hotel_rooms_available));
+			}
 			mAvailabilityWidget.showRates(response);
 		}
 

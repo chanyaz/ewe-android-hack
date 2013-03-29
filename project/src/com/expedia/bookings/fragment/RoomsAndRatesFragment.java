@@ -109,7 +109,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 			return;
 		}
 		else if (response.getRateCount() == 0) {
-			mEmptyTextView.setText(getResources().getQuantityString(R.plurals.num_rooms_left, 0, 0));
+			mEmptyTextView.setText(R.string.error_no_hotel_rooms_available);
 			mAdapter = null;
 			setListAdapter(null);
 			mListener.noRatesAvailable();

@@ -124,7 +124,12 @@ public class MiniDetailsFragment extends Fragment implements AvailabilitySummary
 	public void notifyAvailabilityQueryComplete() {
 		AvailabilityResponse response = Db.getSelectedAvailabilityResponse();
 		if (response != null) {
-			mAvailabilitySummary.showRates(response);
+			if (response.getRateCount() == 0) {
+				mAvailabilitySummary.showError(getString(R.string.error_no_hotel_rooms_available));
+			}
+			else {
+				mAvailabilitySummary.showRates(response);
+			}
 		}
 
 		updateViews(Db.getSelectedProperty());
