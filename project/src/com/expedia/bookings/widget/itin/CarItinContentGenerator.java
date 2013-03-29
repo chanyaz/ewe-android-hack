@@ -174,16 +174,21 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 
 	@Override
 	public View getTitleView(View convertView, ViewGroup container) {
-		TextView view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_title_generic, container,
-				false);
+		TextView view = (TextView) convertView;
+		if (view == null) {
+			view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_title_generic, container, false);
+		}
+
 		view.setText(getItinCardData().getCarCategoryDescription(getContext()));
 		return view;
 	}
 
 	@Override
 	public View getSummaryView(View convertView, ViewGroup container) {
-		TextView view = (TextView) getLayoutInflater()
-				.inflate(R.layout.include_itin_card_summary_car, container, false);
+		TextView view = (TextView) convertView;
+		if (view == null) {
+			view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_summary_car, container, false);
+		}
 
 		ItinCardDataCar data = getItinCardData();
 

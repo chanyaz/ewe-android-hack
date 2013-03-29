@@ -140,24 +140,39 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 	@Override
 	public View getTitleView(View convertView, ViewGroup container) {
+		TitleViewHolder vh;
+		if (convertView == null) {
+			convertView = (ViewGroup) getLayoutInflater().inflate(R.layout.include_itin_card_title_hotel, container,
+					false);
+
+			vh = new TitleViewHolder();
+			vh.mHotelNameTextView = Ui.findView(convertView, R.id.hotel_name_text_view);
+			vh.mHotelRatingBar = Ui.findView(convertView, R.id.hotel_rating_bar);
+
+			convertView.setTag(vh);
+		}
+		else {
+			vh = (TitleViewHolder) convertView.getTag();
+		}
+
 		final ItinCardDataHotel itinCardData = getItinCardData();
+		vh.mHotelNameTextView.setText(itinCardData.getPropertyName());
+		vh.mHotelRatingBar.setRating(itinCardData.getPropertyRating());
 
-		ViewGroup view = (ViewGroup) getLayoutInflater().inflate(R.layout.include_itin_card_title_hotel, container,
-				false);
+		return convertView;
+	}
 
-		TextView hotelNameTextView = Ui.findView(view, R.id.hotel_name_text_view);
-		RatingBar hotelRatingBar = Ui.findView(view, R.id.hotel_rating_bar);
-
-		hotelNameTextView.setText(itinCardData.getPropertyName());
-		hotelRatingBar.setRating(itinCardData.getPropertyRating());
-
-		return view;
+	private static class TitleViewHolder {
+		private TextView mHotelNameTextView;
+		private RatingBar mHotelRatingBar;
 	}
 
 	@Override
 	public View getSummaryView(View convertView, ViewGroup container) {
-		TextView view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_summary_hotel, container,
-				false);
+		TextView view = (TextView) convertView;
+		if (view == null) {
+			view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_summary_hotel, container, false);
+		}
 
 		ItinCardDataHotel data = getItinCardData();
 		Calendar startCal = data.getStartDate().getCalendar();

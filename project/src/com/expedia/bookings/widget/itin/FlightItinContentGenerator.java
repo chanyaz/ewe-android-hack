@@ -207,8 +207,10 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 	@Override
 	public View getTitleView(View convertView, ViewGroup container) {
-		TextView view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_title_generic, container,
-				false);
+		TextView view = (TextView) convertView;
+		if (view == null) {
+			view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_title_generic, container, false);
+		}
 		view.setText(getHeaderText());
 		return view;
 	}
@@ -302,6 +304,13 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		return view;
 	}
 
+	private static class SummaryViewHolder {
+		private TextView mTopLine;
+		private TextView mBottomLine;
+		private ImageView mBulb;
+		private ImageView mGlowBulb;
+	}
+
 	@Override
 	public View getSummaryView(View convertView, ViewGroup container) {
 		final ItinCardDataFlight itinCardData = getItinCardData();
@@ -311,12 +320,24 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			return null;
 		}
 
-		View view = getLayoutInflater().inflate(R.layout.include_itin_card_summary_flight, container, false);
-		TextView topLine = Ui.findView(view, R.id.flight_status_top_line);
-		FontCache.setTypeface(topLine, FontCache.Font.ROBOTO_REGULAR);
-		TextView bottomLine = Ui.findView(view, R.id.flight_status_bottom_line);
-		ImageView bulb = Ui.findView(view, R.id.flight_status_bulb);
-		ImageView glowBulb = Ui.findView(view, R.id.flight_status_bulb_glow);
+		SummaryViewHolder vh;
+		if (convertView == null) {
+			convertView = getLayoutInflater().inflate(R.layout.include_itin_card_summary_flight, container, false);
+
+			vh = new SummaryViewHolder();
+			vh.mTopLine = Ui.findView(convertView, R.id.flight_status_top_line);
+			vh.mBottomLine = Ui.findView(convertView, R.id.flight_status_bottom_line);
+			vh.mBulb = Ui.findView(convertView, R.id.flight_status_bulb);
+			vh.mGlowBulb = Ui.findView(convertView, R.id.flight_status_bulb_glow);
+
+			// One-time setup
+			FontCache.setTypeface(vh.mTopLine, FontCache.Font.ROBOTO_REGULAR);
+
+			convertView.setTag(vh);
+		}
+		else {
+			vh = (SummaryViewHolder) convertView.getTag();
+		}
 
 		Resources res = getResources();
 		Calendar now = Calendar.getInstance();
@@ -326,26 +347,26 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		if (flight.isRedAlert()) {
 			boolean shouldPulseBulb = false;
 			if (Flight.STATUS_CANCELLED.equals(flight.mStatusCode)) {
-				topLine.setText(res.getString(R.string.flight_to_city_cancelled_TEMPLATE,
+				vh.mTopLine.setText(res.getString(R.string.flight_to_city_cancelled_TEMPLATE,
 						FormatUtils.getCityName(flight.getArrivalWaypoint(), getContext())));
 				if ((departure.getTimeInMillis() + (12 * DateUtils.HOUR_IN_MILLIS)) > now.getTimeInMillis()) {
 					shouldPulseBulb = true;
 				}
 			}
 			else if (Flight.STATUS_DIVERTED.equals(flight.mStatusCode)) {
-				topLine.setText(R.string.flight_diverted);
+				vh.mTopLine.setText(R.string.flight_diverted);
 			}
 			else if (Flight.STATUS_REDIRECTED.equals(flight.mStatusCode)) {
-				topLine.setText(R.string.flight_redirected);
+				vh.mTopLine.setText(R.string.flight_redirected);
 				shouldPulseBulb = true;
 			}
-			bottomLine.setText(FormatUtils.formatFlightNumber(flight, getContext()));
-			bulb.setImageResource(R.drawable.ic_flight_status_cancelled);
+			vh.mBottomLine.setText(FormatUtils.formatFlightNumber(flight, getContext()));
+			vh.mBulb.setImageResource(R.drawable.ic_flight_status_cancelled);
 
 			if (shouldPulseBulb) {
-				glowBulb.setImageResource(R.drawable.ic_flight_status_cancelled_glow);
-				glowBulb.setVisibility(View.VISIBLE);
-				glowBulb.startAnimation(getGlowAnimation());
+				vh.mGlowBulb.setImageResource(R.drawable.ic_flight_status_cancelled_glow);
+				vh.mGlowBulb.setVisibility(View.VISIBLE);
+				vh.mGlowBulb.startAnimation(getGlowAnimation());
 			}
 		}
 		else {
@@ -358,23 +379,23 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 				//flight complete
 				if (flight.mFlightHistoryId == -1) {
 					// no FS data
-					topLine.setText(R.string.flight_arrived);
-					bulb.setImageResource(R.drawable.ic_flight_status_on_time);
+					vh.mTopLine.setText(R.string.flight_arrived);
+					vh.mBulb.setImageResource(R.drawable.ic_flight_status_on_time);
 				}
 				else {
 					String timeString = formatTime(arrival);
 					int delay = getDelayForWaypoint(flight.getArrivalWaypoint());
 					if (delay > 0) {
-						topLine.setText(res.getString(R.string.flight_arrived_late_at_TEMPLATE, timeString));
-						bulb.setImageResource(R.drawable.ic_flight_status_delayed);
+						vh.mTopLine.setText(res.getString(R.string.flight_arrived_late_at_TEMPLATE, timeString));
+						vh.mBulb.setImageResource(R.drawable.ic_flight_status_delayed);
 					}
 					else if (delay < 0) {
-						topLine.setText(res.getString(R.string.flight_arrived_early_at_TEMPLATE, timeString));
-						bulb.setImageResource(R.drawable.ic_flight_status_on_time);
+						vh.mTopLine.setText(res.getString(R.string.flight_arrived_early_at_TEMPLATE, timeString));
+						vh.mBulb.setImageResource(R.drawable.ic_flight_status_on_time);
 					}
 					else {
-						topLine.setText(res.getString(R.string.flight_arrived_on_time_at_TEMPLATE, timeString));
-						bulb.setImageResource(R.drawable.ic_flight_status_on_time);
+						vh.mTopLine.setText(res.getString(R.string.flight_arrived_on_time_at_TEMPLATE, timeString));
+						vh.mBulb.setImageResource(R.drawable.ic_flight_status_on_time);
 					}
 				}
 
@@ -389,23 +410,23 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 						now.getTimeInMillis(), DateUtils.MINUTE_IN_MILLIS, 0);
 
 				if (delay > 0) {
-					topLine.setText(res.getString(R.string.flight_arrives_late_TEMPLATE, timeSpanString));
-					bulb.setImageResource(R.drawable.ic_flight_status_delayed);
-					glowBulb.setImageResource(R.drawable.ic_flight_status_delayed_glow);
+					vh.mTopLine.setText(res.getString(R.string.flight_arrives_late_TEMPLATE, timeSpanString));
+					vh.mBulb.setImageResource(R.drawable.ic_flight_status_delayed);
+					vh.mGlowBulb.setImageResource(R.drawable.ic_flight_status_delayed_glow);
 				}
 				else if (delay < 0) {
-					topLine.setText(res.getString(R.string.flight_arrives_early_TEMPLATE, timeSpanString));
-					bulb.setImageResource(R.drawable.ic_flight_status_on_time);
-					glowBulb.setImageResource(R.drawable.ic_flight_status_on_time_glow);
+					vh.mTopLine.setText(res.getString(R.string.flight_arrives_early_TEMPLATE, timeSpanString));
+					vh.mBulb.setImageResource(R.drawable.ic_flight_status_on_time);
+					vh.mGlowBulb.setImageResource(R.drawable.ic_flight_status_on_time_glow);
 				}
 				else {
-					topLine.setText(res.getString(R.string.flight_arrives_on_time_TEMPLATE, timeSpanString));
-					bulb.setImageResource(R.drawable.ic_flight_status_on_time);
-					glowBulb.setImageResource(R.drawable.ic_flight_status_on_time_glow);
+					vh.mTopLine.setText(res.getString(R.string.flight_arrives_on_time_TEMPLATE, timeSpanString));
+					vh.mBulb.setImageResource(R.drawable.ic_flight_status_on_time);
+					vh.mGlowBulb.setImageResource(R.drawable.ic_flight_status_on_time_glow);
 				}
 
-				glowBulb.setVisibility(View.VISIBLE);
-				glowBulb.startAnimation(getGlowAnimation());
+				vh.mGlowBulb.setVisibility(View.VISIBLE);
+				vh.mGlowBulb.startAnimation(getGlowAnimation());
 
 				summaryWaypoint = flight.getArrivalWaypoint();
 				bottomLineTextId = R.string.at_airport_terminal_gate_TEMPLATE;
@@ -416,9 +437,9 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 				//More than 72 hours away or no FS data yet
 				String dateStr = DateUtils.formatDateTime(getContext(), DateTimeUtils.getTimeInLocalTimeZone(departure)
 						.getTime(), DateUtils.FORMAT_SHOW_DATE + DateUtils.FORMAT_SHOW_YEAR);
-				topLine.setText(res.getString(R.string.flight_departs_on_TEMPLATE, dateStr));
-				bulb.setImageResource(R.drawable.ic_flight_status_on_time);
-				bottomLine.setText(Html.fromHtml(res.getString(R.string.from_airport_time_TEMPLATE,
+				vh.mTopLine.setText(res.getString(R.string.flight_departs_on_TEMPLATE, dateStr));
+				vh.mBulb.setImageResource(R.drawable.ic_flight_status_on_time);
+				vh.mBottomLine.setText(Html.fromHtml(res.getString(R.string.from_airport_time_TEMPLATE,
 						flight.mOrigin.mAirportCode,
 						formatTime(flight.mOrigin.getMostRelevantDateTime()))));
 			}
@@ -429,23 +450,23 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 						now.getTimeInMillis(), DateUtils.MINUTE_IN_MILLIS, 0);
 
 				if (delay > 0) {
-					topLine.setText(res.getString(R.string.flight_departs_late_TEMPLATE, timeSpanString));
-					bulb.setImageResource(R.drawable.ic_flight_status_delayed);
-					glowBulb.setImageResource(R.drawable.ic_flight_status_delayed_glow);
+					vh.mTopLine.setText(res.getString(R.string.flight_departs_late_TEMPLATE, timeSpanString));
+					vh.mBulb.setImageResource(R.drawable.ic_flight_status_delayed);
+					vh.mGlowBulb.setImageResource(R.drawable.ic_flight_status_delayed_glow);
 				}
 				else if (delay < 0) {
-					topLine.setText(res.getString(R.string.flight_departs_early_TEMPLATE, timeSpanString));
-					bulb.setImageResource(R.drawable.ic_flight_status_on_time);
-					glowBulb.setImageResource(R.drawable.ic_flight_status_on_time_glow);
+					vh.mTopLine.setText(res.getString(R.string.flight_departs_early_TEMPLATE, timeSpanString));
+					vh.mBulb.setImageResource(R.drawable.ic_flight_status_on_time);
+					vh.mGlowBulb.setImageResource(R.drawable.ic_flight_status_on_time_glow);
 				}
 				else {
-					topLine.setText(res.getString(R.string.flight_departs_on_time_TEMPLATE, timeSpanString));
-					bulb.setImageResource(R.drawable.ic_flight_status_on_time);
-					glowBulb.setImageResource(R.drawable.ic_flight_status_on_time_glow);
+					vh.mTopLine.setText(res.getString(R.string.flight_departs_on_time_TEMPLATE, timeSpanString));
+					vh.mBulb.setImageResource(R.drawable.ic_flight_status_on_time);
+					vh.mGlowBulb.setImageResource(R.drawable.ic_flight_status_on_time_glow);
 				}
 
-				glowBulb.setVisibility(View.VISIBLE);
-				glowBulb.startAnimation(getGlowAnimation());
+				vh.mGlowBulb.setVisibility(View.VISIBLE);
+				vh.mGlowBulb.startAnimation(getGlowAnimation());
 
 				summaryWaypoint = flight.mOrigin;
 				bottomLineTextId = R.string.from_airport_terminal_gate_TEMPLATE;
@@ -456,29 +477,30 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 				boolean hasGate = summaryWaypoint.hasGate();
 				boolean hasTerminal = summaryWaypoint.hasTerminal();
 				if (hasGate && hasTerminal) {
-					bottomLine.setText(Html.fromHtml(res.getString(bottomLineTextId,
+					vh.mBottomLine.setText(Html.fromHtml(res.getString(bottomLineTextId,
 							summaryWaypoint.mAirportCode,
 							res.getString(R.string.generic_terminal_TEMPLATE, summaryWaypoint.getTerminal(),
 									summaryWaypoint.getGate()))));
 				}
 				else if (hasTerminal) {
-					bottomLine.setText(Html.fromHtml(res.getString(bottomLineTextId,
+					vh.mBottomLine.setText(Html.fromHtml(res.getString(bottomLineTextId,
 							summaryWaypoint.mAirportCode,
 							res.getString(R.string.terminal_but_no_gate_TEMPLATE,
 									summaryWaypoint.getTerminal()))));
 				}
 				else if (hasGate) {
-					bottomLine.setText(Html.fromHtml(res.getString(bottomLineTextId,
+					vh.mBottomLine.setText(Html.fromHtml(res.getString(bottomLineTextId,
 							summaryWaypoint.mAirportCode,
 							res.getString(R.string.gate_number_only_TEMPLATE, summaryWaypoint.getGate()))));
 				}
 				else {
-					bottomLine
+					vh.mBottomLine
 							.setText(Html.fromHtml(res.getString(bottomLineFallbackId, summaryWaypoint.mAirportCode)));
 				}
 			}
 		}
-		return view;
+
+		return convertView;
 	}
 
 	@SuppressLint("DefaultLocale")

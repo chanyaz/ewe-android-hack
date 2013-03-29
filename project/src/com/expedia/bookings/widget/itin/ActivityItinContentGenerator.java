@@ -134,6 +134,11 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 
 	@Override
 	public View getTitleView(View convertView, ViewGroup container) {
+		// We don't need to do anything after the initial setup (if we're reusing)
+		if (convertView != null) {
+			return convertView;
+		}
+
 		TextView view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_title_generic, container,
 				false);
 		view.setText(R.string.activity_information);
@@ -142,8 +147,12 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 
 	@Override
 	public View getSummaryView(View convertView, ViewGroup container) {
-		TextView view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_summary_activity, container,
-				false);
+		TextView view = (TextView) convertView;
+		if (view == null) {
+			view = (TextView) getLayoutInflater()
+					.inflate(R.layout.include_itin_card_summary_activity, container, false);
+		}
+
 		view.setText(Html.fromHtml(getContext().getString(R.string.itin_card_activity_summary_TEMPLATE,
 				getItinCardData().getLongFormattedValidDate(getContext()))));
 
