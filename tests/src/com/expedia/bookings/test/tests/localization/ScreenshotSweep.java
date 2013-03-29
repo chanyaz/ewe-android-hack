@@ -46,15 +46,15 @@ public class ScreenshotSweep extends
 	// Test Driver
 
 	public void testBookingsAPAC() throws Exception {
-		testBookings(mDriver.APAC_LOCALES);
+		testBookings(mDriver.mLocaleUtils.APAC_LOCALES);
 	}
 
 	public void testBookingsWestern() throws Exception {
-		testBookings(mDriver.WESTERN_LOCALES);
+		testBookings(mDriver.mLocaleUtils.WESTERN_LOCALES);
 	}
 
 	public void testBookingsAmericas() throws Exception {
-		testBookings(mDriver.AMERICAN_LOCALES);
+		testBookings(mDriver.mLocaleUtils.AMERICAN_LOCALES);
 	}
 
 	private void testBookings(Locale[] locales) throws Exception {
@@ -69,9 +69,8 @@ public class ScreenshotSweep extends
 			mDriver.enterLog(TAG, "Starting sweep of " + locales[i].toString());
 			System.gc();
 			Locale testingLocale = locales[i];
-			mDriver.setLocale(testingLocale);
 
-			mDriver.setLocale(testingLocale);
+			mDriver.mLocaleUtils.setLocale(testingLocale);
 			mDriver.delay();
 			mDriver.changePOS(locales[i]);
 			mDriver.setSpoofBookings();
@@ -98,7 +97,7 @@ public class ScreenshotSweep extends
 			mDriver.delay();
 
 			mDriver.logInAndBook();
-			mDriver.setLocale(testingLocale);
+			mDriver.mLocaleUtils.setLocale(testingLocale);
 			mDriver.delay(5);
 			mSolo.goBack();
 

@@ -39,7 +39,7 @@ public class StressTest extends ActivityInstrumentationTestCase2<SearchActivity>
 		mDriver.setAllowOrientationChange(false);
 		mSolo.clickOnScreen(50, 50);
 		mDriver.delay();
-		mDriver.changePOS(mDriver.AMERICAN_LOCALES[5]);
+		mDriver.changePOS(mDriver.mLocaleUtils.AMERICAN_LOCALES[5]);
 		mDriver.setSpoofBookings();
 		mDriver.launchHotels();
 		mDriver.delay();

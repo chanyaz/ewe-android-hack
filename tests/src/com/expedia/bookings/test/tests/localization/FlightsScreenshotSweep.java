@@ -39,9 +39,9 @@ public class FlightsScreenshotSweep extends
 	// Test Driver	
 	
 	public void testMethod() throws Exception {
-		for(int i = 0; i < mDriver.FLIGHTS_LOCALES.length; i++) {
+		for(int i = 0; i < mDriver.mLocaleUtils.FLIGHTS_LOCALES.length; i++) {
 			mDriver.setScreenshotCount(0);
-			mDriver.changePOS(mDriver.FLIGHTS_LOCALES[i]);
+			mDriver.changePOS(mDriver.mLocaleUtils.FLIGHTS_LOCALES[i]);
 			mDriver.setSpoofBookings();
 			mDriver.flightsHappyPath("LAX", "SEA", false);
 		}

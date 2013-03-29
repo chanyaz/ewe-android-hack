@@ -35,7 +35,7 @@ public class HotelsRobotHelper {
 	private EventTrackingUtils mFileWriter;
 	private int mScreenWidth;
 	private int mScreenHeight;
-	private UserLocaleUtils mLocaleUtils;
+	public UserLocaleUtils mLocaleUtils;
 	
 	private static final String mScreenshotDirectory = "Robotium-Screenshots";
 

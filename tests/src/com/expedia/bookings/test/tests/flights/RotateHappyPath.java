@@ -40,7 +40,7 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 
 	public void testMethod() throws Exception {
 		mSolo.clickOnScreen(50, 50);
-		mDriver.changePOS(mDriver.FLIGHTS_LOCALES[2]);
+		mDriver.changePOS(mDriver.mLocaleUtils.FLIGHTS_LOCALES[2]);
 		mDriver.setSpoofBookings();
 		mDriver.flightsHappyPath("SFO", "LAX", false);
 	}

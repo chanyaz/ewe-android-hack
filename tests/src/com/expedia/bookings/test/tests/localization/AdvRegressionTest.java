@@ -40,15 +40,15 @@ public class AdvRegressionTest extends ActivityInstrumentationTestCase2<SearchAc
 	}
 
 	public void testBookingsAPAC() throws Exception {
-		testMethod(mDriver.APAC_LOCALES);
+		testMethod(mDriver.mLocaleUtils.APAC_LOCALES);
 	}
 
 	public void testBookingsWestern() throws Exception {
-		testMethod(mDriver.WESTERN_LOCALES);
+		testMethod(mDriver.mLocaleUtils.WESTERN_LOCALES);
 	}
 
 	public void testBookingsAmericas() throws Exception {
-		testMethod(mDriver.AMERICAN_LOCALES);
+		testMethod(mDriver.mLocaleUtils.AMERICAN_LOCALES);
 	}
 
 	private void testMethod(Locale[] locales) throws Exception {
@@ -58,7 +58,7 @@ public class AdvRegressionTest extends ActivityInstrumentationTestCase2<SearchAc
 
 		for (int i = 0; i < locales.length; i++) {
 			currentLocale = locales[i];
-			mDriver.setLocale(currentLocale);
+			mDriver.mLocaleUtils.setLocale(currentLocale);
 			mDriver.changePOS(currentLocale);
 			mDriver.setSpoofBookings();
 			
