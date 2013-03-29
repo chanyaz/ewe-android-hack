@@ -14,6 +14,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
@@ -116,6 +118,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		mItinListView.setOnScrollListener(mOnScrollListener);
 		mItinListView.setOnListModeChangedListener(mOnListModeChangedListener);
 		mItinListView.setOnItinCardClickListener(mOnItinCardClickListener);
+		mItinListView.setOnItemClickListener(mOnItemClickListener);
 		mItinListView.post(new Runnable() {
 			@Override
 			public void run() {
@@ -405,6 +408,15 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		@Override
 		public void onShareButtonClicked(ItinContentGenerator<?> generator) {
 			SocialMessageChooserDialogFragment.newInstance(generator).show(getFragmentManager(), DIALOG_SHARE);
+		}
+	};
+
+	private OnItemClickListener mOnItemClickListener = new OnItemClickListener() {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			if (mListener != null) {
+				mListener.onItinCardClicked(mItinListView.getItinCardData(position));
+			}
 		}
 	};
 
