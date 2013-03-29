@@ -23,7 +23,7 @@ public class FallbackItinContentGenerator extends ItinContentGenerator<ItinCardD
 
 	@Override
 	public int getTypeIconResId() {
-		switch (this.getItinCardData().getType()) {
+		switch (this.getItinCardData().getTripComponentType()) {
 		case FLIGHT:
 			return R.drawable.ic_type_circle_flight;
 		case HOTEL:
@@ -39,7 +39,7 @@ public class FallbackItinContentGenerator extends ItinContentGenerator<ItinCardD
 
 	@Override
 	public Type getType() {
-		return getItinCardData().getType();
+		return getItinCardData().getTripComponentType();
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class FallbackItinContentGenerator extends ItinContentGenerator<ItinCardD
 
 	@Override
 	public int getHeaderImagePlaceholderResId() {
-		switch (this.getItinCardData().getType()) {
+		switch (this.getItinCardData().getTripComponentType()) {
 		case FLIGHT:
 			return R.drawable.bg_itin_fallback_flight;
 		case HOTEL:
@@ -86,7 +86,7 @@ public class FallbackItinContentGenerator extends ItinContentGenerator<ItinCardD
 	@Override
 	public String getHeaderText() {
 		int resId = 0;
-		switch (this.getItinCardData().getType()) {
+		switch (this.getItinCardData().getTripComponentType()) {
 		case FLIGHT:
 			resId = R.string.Flight;
 			break;

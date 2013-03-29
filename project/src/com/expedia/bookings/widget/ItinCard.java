@@ -167,6 +167,12 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	}
 
 	public void bind(final T itinCardData) {
+		if (mItinContentGenerator != null && mItinContentGenerator.getType() != itinCardData.getTripComponentType()) {
+			throw new RuntimeException("Attempted to reuse an ItinCard for two different types of cards!"
+					+ "  Previously used " + mItinContentGenerator.getType() + ", reused with"
+					+ itinCardData.getTripComponentType());
+		}
+
 		mItinContentGenerator = ItinContentGenerator.createGenerator(getContext(), itinCardData);
 
 		// Title
