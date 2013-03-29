@@ -22,6 +22,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import com.expedia.bookings.R;
+import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.animation.AnimatorListenerShort;
 import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.trips.ItinCardData;
@@ -614,8 +616,18 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		if (mAdapter.getItem(position).hasDetailData()) {
+		ItinCardData data = mAdapter.getItem(position);
+		if (data.hasDetailData()) {
 			showDetails(position);
+		}
+		else if (!TextUtils.isEmpty(data.getDetailsUrl())) {
+			Context context = getContext();
+			WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(context);
+			builder.setUrl(data.getDetailsUrl());
+			builder.setTitle(R.string.itinerary);
+			builder.setTheme(R.style.ItineraryTheme);
+			builder.setAllowMobileRedirects(false);
+			context.startActivity(builder.getIntent());
 		}
 
 		if (mOnItemClickListener != null) {
