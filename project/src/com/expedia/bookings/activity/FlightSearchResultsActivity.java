@@ -54,7 +54,6 @@ import com.expedia.bookings.data.Suggestion;
 import com.expedia.bookings.fragment.BlurredBackgroundFragment;
 import com.expedia.bookings.fragment.FlightDetailsFragment;
 import com.expedia.bookings.fragment.FlightDetailsFragment.FlightDetailsFragmentListener;
-import com.expedia.bookings.fragment.FlightFilterDialogFragment;
 import com.expedia.bookings.fragment.FlightListFragment;
 import com.expedia.bookings.fragment.FlightListFragment.FlightListFragmentListener;
 import com.expedia.bookings.fragment.NoFlightsFragment;
@@ -1078,14 +1077,6 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			}
 		}
 	};
-
-	//////////////////////////////////////////////////////////////////////////
-	// Filter dialog
-
-	public void showFilterDialog() {
-		FlightFilterDialogFragment fragment = FlightFilterDialogFragment.newInstance(mLegPosition);
-		fragment.show(getSupportFragmentManager(), FlightFilterDialogFragment.TAG);
-	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// FlightListFragmentListener
