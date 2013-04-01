@@ -317,19 +317,7 @@ public class ExpediaServices implements DownloadListener {
 
 		addCommonParams(query);
 
-		// Vary the max # of flights based on memory, so we don't run out.  Numbers are blind guesses.
-		//
-		// TODO: Minimize the memory footprint so we don't have to keep doing this.
-		final int memClass = ((ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
-		if (memClass <= 24) {
-			query.add(new BasicNameValuePair("maxOfferCount", "400"));
-		}
-		else if (memClass <= 32) {
-			query.add(new BasicNameValuePair("maxOfferCount", "800"));
-		}
-		else {
-			query.add(new BasicNameValuePair("maxOfferCount", Integer.toString(FLIGHT_MAX_TRIPS)));
-		}
+		query.add(new BasicNameValuePair("maxOfferCount", Integer.toString(FLIGHT_MAX_TRIPS)));
 
 		return doFlightsRequest("api/flight/search", query, new FlightSearchResponseHandler(mContext), flags);
 	}
