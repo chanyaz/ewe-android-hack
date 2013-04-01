@@ -26,19 +26,19 @@ public class FlightSegmentAttributes implements JSONable {
 		}
 	}
 
-	private String mBookingCode;
+	private char mBookingCode;
 	private CabinCode mCabinCode;
 	
 	public FlightSegmentAttributes() {
 		// Default constructor for JSONable
 	}
 
-	public FlightSegmentAttributes(String bookingCode, CabinCode cabinCode) {
+	public FlightSegmentAttributes(char bookingCode, CabinCode cabinCode) {
 		mBookingCode = bookingCode;
 		mCabinCode = cabinCode;
 	}
 
-	public String getBookingCode() {
+	public char getBookingCode() {
 		return mBookingCode;
 	}
 
@@ -53,7 +53,7 @@ public class FlightSegmentAttributes implements JSONable {
 	public JSONObject toJson() {
 		try {
 			JSONObject obj = new JSONObject();
-			obj.putOpt("bookingCode", mBookingCode);
+			obj.putOpt("bookingCode", (int) mBookingCode);
 			JSONUtils.putEnum(obj, "cabinCode", mCabinCode);
 			return obj;
 		}
@@ -64,7 +64,7 @@ public class FlightSegmentAttributes implements JSONable {
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
-		mBookingCode = obj.optString("bookingCode");
+		mBookingCode = (char) obj.optInt("bookingCode");
 		mCabinCode = JSONUtils.getEnum(obj, "cabinCode", CabinCode.class);
 		return true;
 	}

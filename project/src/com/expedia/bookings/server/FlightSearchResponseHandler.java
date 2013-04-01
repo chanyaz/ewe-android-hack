@@ -249,7 +249,7 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 						throw new RuntimeException("Ran into unknown cabin code: " + cabinCodeStr);
 					}
 
-					attrs[b] = new FlightSegmentAttributes(bookingCode, cabinCode);
+					attrs[b] = new FlightSegmentAttributes(bookingCode.charAt(0), cabinCode);
 				}
 				trip.addFlightSegmentAttributes(a, attrs);
 			}
