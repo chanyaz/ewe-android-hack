@@ -41,7 +41,7 @@ public class HotelsUserData {
 	
 	//Default Constructor sets info
 	// to the qa-ehcc@mobiata.com account info
-	HotelsUserData() {
+	public HotelsUserData() {
 		mFirstName = "JexperCC";
 		mLastName = "MobiataTestaverde";
 
