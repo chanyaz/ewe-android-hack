@@ -34,6 +34,11 @@ public class HotelsUserData {
 	//Configuration options
 	public String mBookingServer;
 	
+	//Airports and hotel locations
+	public String mDepartureAirport;
+	public String mArrivalAirport;
+	public String mHotelSearchCity;
+	
 	//Default Constructor sets info
 	// to the qa-ehcc@mobiata.com account info
 	HotelsUserData() {
@@ -58,6 +63,11 @@ public class HotelsUserData {
 		mFilterText = "Westin";
 		
 		mBookingServer = "Production";
+		
+		mDepartureAirport = "SFO";
+		mArrivalAirport = "LAX";
+		mHotelSearchCity = "New York City";
+		
 	}
 
 }
