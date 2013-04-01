@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:indeterminate="true"
-        android:indeterminateDrawable="@drawable/gallery_progress_throbber"
+        android:indeterminateDrawable="@drawable/progress_large_holo"
         android:maxHeight="@dimen/placeholder_throbber_size"
         android:maxWidth="@dimen/placeholder_throbber_size"
         android:minHeight="@dimen/placeholder_throbber_size"

@@ -16,7 +16,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/rating_good"
+            android:drawableLeft="@drawable/ic_good_rating"
             android:drawablePadding="8dp"
             android:gravity="left|center_vertical"
             android:paddingLeft="15dp"
