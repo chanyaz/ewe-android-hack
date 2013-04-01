@@ -163,6 +163,10 @@ public class SearchFragmentActivity extends SherlockFragmentActivity implements 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+		case R.id.menu_flights: {
+			startActivity(new Intent(this, FlightSearchActivity.class));
+			return true;
+		}
 		case R.id.menu_your_trips: {
 			startActivity(new Intent(this, ItineraryActivity.class));
 			return true;
