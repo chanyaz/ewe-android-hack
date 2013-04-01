@@ -3,6 +3,7 @@ package com.expedia.bookings.test.utils;
 import java.util.Random;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.util.Pair;
 
 import com.expedia.bookings.activity.SearchActivity;
@@ -78,6 +79,7 @@ public class LocationSelectUtils extends ActivityInstrumentationTestCase2<Search
 		Random numberGen = new Random();
 		String airport1 = airportList1[numberGen.nextInt(airportList1.length)];
 		String airport2 = airportList2[numberGen.nextInt(airportList2.length)];
+		Log.d("LocationSelectUtils", "Airports/hotels selected: " + airport1 + " " + airport2);
 
 		while (airport1.equals(airport2)) {
 			airport2 = airportList2[numberGen.nextInt(airportList2.length)];
