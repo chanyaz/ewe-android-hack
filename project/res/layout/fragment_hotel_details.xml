@@ -15,6 +15,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="315dp"
+            android:baselineAligned="false"
             android:orientation="horizontal" >
 
             <LinearLayout

@@ -3,6 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/bg_mini_details"
+    android:baselineAligned="false"
     android:orientation="horizontal"
     android:padding="15dp"
     android:weightSum="10" >

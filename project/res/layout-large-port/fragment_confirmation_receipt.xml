@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/bg_tablet_content">
+    android:background="@color/bg_tablet_content"
+    android:baselineAligned="false" >
 
     <include
         android:layout_width="0dp"
