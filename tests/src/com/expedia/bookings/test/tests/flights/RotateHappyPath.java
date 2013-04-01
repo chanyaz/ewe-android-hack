@@ -1,17 +1,17 @@
 package com.expedia.bookings.test.tests.flights;
 
+import java.util.Random;
+
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.DisplayMetrics;
+import android.util.Pair;
 
-import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.utils.HotelsRobotHelper;
+import com.expedia.bookings.test.utils.HotelsUserData;
+import com.expedia.bookings.test.utils.LocationSelectUtils;
 import com.jayway.android.robotium.solo.Solo;
-import com.mobiata.android.text.format.Time;
-import com.mobiata.android.widget.CalendarDatePicker;
-import com.mobiata.testutils.CalendarTouchUtils;
-import com.mobiata.android.widget.CalendarDatePicker;
 
 public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActivity> {
 	public RotateHappyPath() { //Default constructor
@@ -23,26 +23,34 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 	private Resources mRes;
 	DisplayMetrics mMetric;
 	private HotelsRobotHelper mDriver;
+	private HotelsUserData mUser;
 
 	protected void setUp() throws Exception {
 		super.setUp();
 		mSolo = new Solo(getInstrumentation(), getActivity());
 		//Log.configureLogging("ExpediaBookings", true);
-
+		mUser = new HotelsUserData();
 		mRes = getActivity().getBaseContext().getResources();
 		mMetric = mRes.getDisplayMetrics();
-		mDriver = new HotelsRobotHelper(mSolo, mRes);
+		mDriver = new HotelsRobotHelper(mSolo, mRes, mUser);
+
 		mDriver.setScreenshotCount(1);
 		mDriver.setAllowOrientationChange(true);
 		mDriver.setWriteEventsToFile(false);
-
 	}
 
 	public void testMethod() throws Exception {
+		mUser.setAirportsToRandomUSAirports();
 		mSolo.clickOnScreen(50, 50);
 		mDriver.changePOS(mDriver.mLocaleUtils.FLIGHTS_LOCALES[2]);
 		mDriver.setSpoofBookings();
-		mDriver.flightsHappyPath("SFO", "LAX", false);
+
+		//generate random offset from current date
+		//for flights booking
+		Random offsetNumberGen = new Random();
+		int dateOffset = 1 + offsetNumberGen.nextInt(28);
+
+		mDriver.flightsHappyPath(mUser.mDepartureAirport, mUser.mArrivalAirport, dateOffset, false);
 	}
 
 	@Override
