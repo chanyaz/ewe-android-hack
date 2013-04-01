@@ -88,7 +88,6 @@
     <color name="bg_tablet_gallery">#333333</color>
     <color name="tablet_gallery_actionbar_title">#F4F4F4</color>
     <color name="tablet_gallery_actionbar_title_shadow">#82000000</color>
-    <color name="holo_red_light">#ffff4444</color>
     <color name="text_dark">#ff545454</color>
     <color name="text_black">#ff232323</color>
     <color name="text_blue_dark">#ff1c3061</color>
@@ -141,7 +140,6 @@
     <color name="holo_blue_light">#ff33b5e5</color>
     
     <color name="background_holo_dark">#ff000000</color>
-    <color name="background_holo_light">#fff3f3f3</color>
     <color name="bright_foreground_holo_light">@color/background_holo_dark</color>
     <color name="dim_foreground_holo_light">#323232</color>
     <color name="dim_foreground_disabled_holo_light">#80323232</color>

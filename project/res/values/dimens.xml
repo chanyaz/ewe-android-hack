@@ -29,7 +29,6 @@
     <dimen name="alert_dialog_title_height">64dip</dimen>
 
     <!-- Terminal map legend widths -->
-    <dimen name="terminal_map_legend_2cols_width">307dp</dimen>
     <dimen name="terminal_map_legend_3cols_width">460dp</dimen>
     <dimen name="terminal_map_legend_4cols_width">607dp</dimen>
 

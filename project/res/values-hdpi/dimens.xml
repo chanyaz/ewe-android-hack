@@ -5,7 +5,5 @@
     <dimen name="max_height_rating_bar_small">16dp</dimen>
     
 	<dimen name="margin_top_sale_ribbon_room_rates">25dp</dimen>
-	    
-	<dimen name="itin_details_title_shadow_height">10dp</dimen>
-	
+
 </resources>
