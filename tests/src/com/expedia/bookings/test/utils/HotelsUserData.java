@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.utils;
 
+import android.util.Pair;
+
 /* This class serves as a data structure to hold all Hotel Booking info
  * and to provide methods to easily change that data as desired.
  */
@@ -68,6 +70,27 @@ public class HotelsUserData {
 		mArrivalAirport = "LAX";
 		mHotelSearchCity = "New York City";
 		
+	}
+	
+	public void setAirportsToRandomUSAirports() {
+		LocationSelectUtils airportSelect = new LocationSelectUtils();
+		Pair<String, String> airportPair = airportSelect.getTwoRandomAmericanAirports();
+		mDepartureAirport = airportPair.first;
+		mArrivalAirport = airportPair.second;
+	}
+	
+	public void setAirportsToRandomINTLAirports() {
+		LocationSelectUtils airportSelect = new LocationSelectUtils();
+		Pair<String, String> airportPair = airportSelect.getTwoRandomInternationalAirports();
+		mDepartureAirport = airportPair.first;
+		mArrivalAirport = airportPair.second;
+	}
+	
+	public void setAirportsToRandomINTLAndUSAirports() {
+		LocationSelectUtils airportSelect = new LocationSelectUtils();
+		Pair<String, String> airportPair = airportSelect.getRandomAmericanAndInternationalAirport();
+		mDepartureAirport = airportPair.first;
+		mArrivalAirport = airportPair.second;
 	}
 
 }
