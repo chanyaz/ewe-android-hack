@@ -36,7 +36,7 @@ public class HotelsRobotHelper {
 	private int mScreenWidth;
 	private int mScreenHeight;
 	public UserLocaleUtils mLocaleUtils;
-	
+
 	private static final String mScreenshotDirectory = "Robotium-Screenshots";
 
 	//Defaults are set, including the default user booking info
@@ -51,12 +51,12 @@ public class HotelsRobotHelper {
 		mAllowOrientationChange = false;
 		mWriteEventsToFile = false;
 		mScreenShotCount = 1;
-		
+
 		mSolo = solo;
 		mRes = res;
 		mUser = customUser;
 		mLocaleUtils = new UserLocaleUtils(res);
-		
+
 		mScreen = new ScreenshotUtils(mScreenshotDirectory, mSolo);
 		mScreenWidth = mRes.getDisplayMetrics().widthPixels;
 		mScreenWidth = mRes.getDisplayMetrics().heightPixels;
@@ -983,11 +983,11 @@ public class HotelsRobotHelper {
 
 	////////////////////////////////////////////////////////////////
 	// Flights
-	
+
 	public void enterDepartureAndArrivalAirports(String departure, String arrival) {
 		EditText editDeparture = (EditText) mSolo.getView(R.id.departure_airport_edit_text);
 		EditText editArrival = (EditText) mSolo.getView(R.id.arrival_airport_edit_text);
-		
+
 		mSolo.clickOnView((View) editDeparture);
 		mSolo.enterText(editDeparture, departure);
 		delay();
@@ -997,7 +997,8 @@ public class HotelsRobotHelper {
 		delay();
 	}
 
-	public void flightsHappyPath(String departure, String arrival, boolean doHotelBooking) throws Exception {
+	public void flightsHappyPath(String departure, String arrival, int bookingDateOffset, boolean doHotelBooking)
+			throws Exception {
 
 		landscape();
 		portrait();
@@ -1017,7 +1018,7 @@ public class HotelsRobotHelper {
 		screenshot("Flights Search Screen");
 
 		delay(5);
-		
+
 		enterDepartureAndArrivalAirports(departure, arrival);
 
 		//Select Departure
@@ -1034,7 +1035,7 @@ public class HotelsRobotHelper {
 		delay();
 		screenshot("Calendar");
 		delay();
-		CalendarTouchUtils.selectDay(mSolo, 5, R.id.calendar_date_picker);
+		CalendarTouchUtils.selectDay(mSolo, bookingDateOffset, R.id.calendar_date_picker);
 		delay();
 
 		//Click to search
@@ -1056,14 +1057,14 @@ public class HotelsRobotHelper {
 		delay();
 		mSolo.scrollToTop();
 		delay();
-		
+
 		try {
 			mSolo.clickOnText(mRes.getString(R.string.sort_flights).toUpperCase());
 		}
 		catch (Error e) {
 			mSolo.clickOnText(mRes.getString(R.string.sort_flights));
 		}
-		
+
 		screenshot("Sort fragment");
 		mSolo.goBack();
 		delay();
