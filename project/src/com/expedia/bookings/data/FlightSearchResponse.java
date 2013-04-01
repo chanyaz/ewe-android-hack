@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 
 public class FlightSearchResponse extends Response {
@@ -71,6 +72,42 @@ public class FlightSearchResponse extends Response {
 
 	public String getObFeesDetails() {
 		return mObFeesDetails;
+	}
+
+	/**
+	 * Compacts the memory taken up by de-duplicating String usage.
+	 * 
+	 * Should be safe since Strings are immutable.  Seems dumb, but actually
+	 * saves a TON of memory (if you have a ton of FlightTrips)
+	 */
+	public void compact() {
+		long start = System.nanoTime();
+
+		Map<String, String> usedStringMap = new HashMap<String, String>();
+
+		for (FlightTrip trip : mTrips) {
+			String baggageFeesUrl = trip.getBaggageFeesUrl();
+			if (usedStringMap.containsKey(baggageFeesUrl)) {
+				trip.setBaggageFeesUrl(usedStringMap.get(baggageFeesUrl));
+			}
+			else {
+				usedStringMap.put(baggageFeesUrl, baggageFeesUrl);
+			}
+
+			String currency = trip.getBaseFare().getCurrency();
+			if (usedStringMap.containsKey(currency)) {
+				currency = usedStringMap.get(currency);
+				trip.getBaseFare().setCurrency(currency);
+				trip.getTotalFare().setCurrency(currency);
+				trip.getTaxes().setCurrency(currency);
+				trip.getFees().setCurrency(currency);
+			}
+			else {
+				usedStringMap.put(currency, currency);
+			}
+		}
+
+		Log.d("Flight search results compaction time: " + ((System.nanoTime() - start) / 1000000) + " ms");
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -136,6 +173,9 @@ public class FlightSearchResponse extends Response {
 
 		mSearchCities = JSONUtils.getJSONableList(obj, "searchCities", Location.class);
 		mObFeesDetails = obj.optString("obFeesDetails", null);
+
+		compact();
+
 		return true;
 	}
 }
