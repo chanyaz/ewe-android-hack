@@ -1,8 +1,6 @@
 package com.expedia.bookings.server;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -223,13 +221,16 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 
 		if (tripJson.has("segmentAttributes")) {
 			JSONArray legArr = tripJson.optJSONArray("segmentAttributes");
-			for (int a = 0; a < legArr.length(); a++) {
-				List<FlightSegmentAttributes> attrs = new ArrayList<FlightSegmentAttributes>();
+			int len = legArr.length();
+			trip.initFlightSegmentAttributes(len);
+			for (int a = 0; a < len; a++) {
 				JSONArray segAttrs = legArr.optJSONArray(a);
-				for (int b = 0; b < segAttrs.length(); b++) {
-					attrs.add(JSONUtils.getJSONable(segAttrs, b, FlightSegmentAttributes.class));
+				int subLen = segAttrs.length();
+				FlightSegmentAttributes[] attrs = new FlightSegmentAttributes[subLen];
+				for (int b = 0; b < subLen; b++) {
+					attrs[b] = JSONUtils.getJSONable(segAttrs, b, FlightSegmentAttributes.class);
 				}
-				trip.addFlightSegmentAttributes(attrs);
+				trip.addFlightSegmentAttributes(a, attrs);
 			}
 		}
 

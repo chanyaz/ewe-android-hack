@@ -3,6 +3,7 @@ package com.expedia.bookings.data;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -49,7 +50,7 @@ public class FlightTrip implements JSONable {
 	private int mSeatsRemaining;
 
 	// These are modifiers for each segment in leg
-	private List<List<FlightSegmentAttributes>> mFlightSegmentAttrs = new ArrayList<List<FlightSegmentAttributes>>();
+	private FlightSegmentAttributes[][] mFlightSegmentAttrs;
 
 	// The associated itinerary (not created until requested)
 	private String mItineraryNumber;
@@ -131,15 +132,19 @@ public class FlightTrip implements JSONable {
 		mSeatsRemaining = seatsRemaining;
 	}
 
-	public void addFlightSegmentAttributes(List<FlightSegmentAttributes> attributes) {
-		mFlightSegmentAttrs.add(attributes);
+	public void initFlightSegmentAttributes(int len) {
+		mFlightSegmentAttrs = new FlightSegmentAttributes[len][];
 	}
 
-	public List<FlightSegmentAttributes> getFlightSegmentAttributes(int legPosition) {
-		return mFlightSegmentAttrs.get(legPosition);
+	public void addFlightSegmentAttributes(int index, FlightSegmentAttributes[] attributes) {
+		mFlightSegmentAttrs[index] = attributes;
 	}
 
-	public List<FlightSegmentAttributes> getFlightSegmentAttributes(FlightLeg leg) {
+	public FlightSegmentAttributes[] getFlightSegmentAttributes(int legPosition) {
+		return mFlightSegmentAttrs[legPosition];
+	}
+
+	public FlightSegmentAttributes[] getFlightSegmentAttributes(FlightLeg leg) {
 		for (int a = 0; a < mLegs.size(); a++) {
 			if (leg.equals(mLegs.get(a))) {
 				return getFlightSegmentAttributes(a);
@@ -547,11 +552,13 @@ public class FlightTrip implements JSONable {
 			obj.putOpt("baggageFeesUrl", mBaggageFeesUrl);
 			obj.putOpt("mayChargeObFees", mMayChargeObFees);
 
-			JSONArray arr = new JSONArray();
-			for (List<FlightSegmentAttributes> attributes : mFlightSegmentAttrs) {
-				JSONUtils.putJSONableList(arr, attributes);
+			if (mFlightSegmentAttrs != null) {
+				JSONArray arr = new JSONArray();
+				for (FlightSegmentAttributes[] attributes : mFlightSegmentAttrs) {
+					JSONUtils.putJSONableList(arr, Arrays.asList(attributes));
+				}
+				obj.putOpt("flightSegmentAttributes", arr);
 			}
-			obj.putOpt("flightSegmentAttributes", arr);
 
 			obj.putOpt("itineraryNumber", mItineraryNumber);
 
@@ -596,8 +603,12 @@ public class FlightTrip implements JSONable {
 		mMayChargeObFees = obj.optBoolean("mayChargeObFees");
 
 		JSONArray arr = obj.optJSONArray("flightSegmentAttributes");
-		for (int a = 0; a < arr.length(); a++) {
-			mFlightSegmentAttrs.add(JSONUtils.getJSONableList(arr, a, FlightSegmentAttributes.class));
+		if (arr != null) {
+			initFlightSegmentAttributes(arr.length());
+			for (int a = 0; a < arr.length(); a++) {
+				List<FlightSegmentAttributes> attrs = JSONUtils.getJSONableList(arr, a, FlightSegmentAttributes.class);
+				mFlightSegmentAttrs[a] = attrs.toArray(new FlightSegmentAttributes[0]);
+			}
 		}
 
 		mItineraryNumber = obj.optString("itineraryNumber");
