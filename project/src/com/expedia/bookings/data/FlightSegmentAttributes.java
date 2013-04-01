@@ -4,39 +4,46 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.expedia.bookings.R;
+import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
 public class FlightSegmentAttributes implements JSONable {
 
+	public enum CabinCode {
+		COACH(R.string.cabin_code_coach),
+		PREMIUM_COACH(R.string.cabin_code_premium_coach),
+		BUSINESS(R.string.cabin_code_business),
+		FIRST(R.string.cabin_code_first);
+
+		private int mResId;
+
+		private CabinCode(int resId) {
+			mResId = resId;
+		}
+
+		public int getResId() {
+			return mResId;
+		}
+	}
+
 	private String mBookingCode;
-	private String mCabinCode;
+	private CabinCode mCabinCode;
+	
+	public FlightSegmentAttributes() {
+		// Default constructor for JSONable
+	}
+
+	public FlightSegmentAttributes(String bookingCode, CabinCode cabinCode) {
+		mBookingCode = bookingCode;
+		mCabinCode = cabinCode;
+	}
 
 	public String getBookingCode() {
 		return mBookingCode;
 	}
 
-	public String getCabinCode() {
+	public CabinCode getCabinCode() {
 		return mCabinCode;
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Convenience
-
-	public int getCabinCodeResId() {
-		if (mCabinCode.equals("coach")) {
-			return R.string.cabin_code_coach;
-		}
-		else if (mCabinCode.equals("premium coach")) {
-			return R.string.cabin_code_premium_coach;
-		}
-		else if (mCabinCode.equals("business")) {
-			return R.string.cabin_code_business;
-		}
-		else if (mCabinCode.equals("first")) {
-			return R.string.cabin_code_first;
-		}
-
-		return 0;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -47,7 +54,7 @@ public class FlightSegmentAttributes implements JSONable {
 		try {
 			JSONObject obj = new JSONObject();
 			obj.putOpt("bookingCode", mBookingCode);
-			obj.putOpt("cabinCode", mCabinCode);
+			JSONUtils.putEnum(obj, "cabinCode", mCabinCode);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -58,14 +65,7 @@ public class FlightSegmentAttributes implements JSONable {
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		mBookingCode = obj.optString("bookingCode");
-		mCabinCode = obj.optString("cabinCode");
-
-		// We don't know all the possible cabin codes yet, so I'm throwing errors when we run into a new one
-		if (getCabinCodeResId() == 0) {
-			throw new RuntimeException("DEBUG: FOUND NEW CABIN CODE.  \"" + mCabinCode + "\"");
-		}
-
+		mCabinCode = JSONUtils.getEnum(obj, "cabinCode", CabinCode.class);
 		return true;
 	}
-
 }

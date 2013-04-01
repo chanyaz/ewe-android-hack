@@ -39,7 +39,7 @@ public class FlightSegmentSection extends LinearLayout {
 		mFlightLegSummary.bindFlight(flight, minTime, maxTime);
 
 		String duration = DateTimeUtils.formatDuration(r, flight.getTripTime());
-		String cabin = r.getString(attrs.getCabinCodeResId());
+		String cabin = r.getString(attrs.getCabinCode().getResId());
 
 		mDetailsTextView.setText(Html.fromHtml(r.getString(R.string.flight_details_TEMPLATE, duration, cabin,
 				attrs.getBookingCode(), flight.mAircraftType)));

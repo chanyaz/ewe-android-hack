@@ -12,11 +12,11 @@ import android.content.Context;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightSegmentAttributes;
+import com.expedia.bookings.data.FlightSegmentAttributes.CabinCode;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
-import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.net.JsonResponseHandler;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
@@ -228,7 +228,28 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 				int subLen = segAttrs.length();
 				FlightSegmentAttributes[] attrs = new FlightSegmentAttributes[subLen];
 				for (int b = 0; b < subLen; b++) {
-					attrs[b] = JSONUtils.getJSONable(segAttrs, b, FlightSegmentAttributes.class);
+					JSONObject attrsJson = segAttrs.optJSONObject(b);
+					String bookingCode = attrsJson.optString("bookingCode");
+					String cabinCodeStr = attrsJson.optString("cabinCode");
+
+					CabinCode cabinCode;
+					if ("coach".equals(cabinCodeStr)) {
+						cabinCode = CabinCode.COACH;
+					}
+					else if ("premium coach".equals(cabinCodeStr)) {
+						cabinCode = CabinCode.PREMIUM_COACH;
+					}
+					else if ("business".equals(cabinCodeStr)) {
+						cabinCode = CabinCode.BUSINESS;
+					}
+					else if ("first".equals(cabinCodeStr)) {
+						cabinCode = CabinCode.FIRST;
+					}
+					else {
+						throw new RuntimeException("Ran into unknown cabin code: " + cabinCodeStr);
+					}
+
+					attrs[b] = new FlightSegmentAttributes(bookingCode, cabinCode);
 				}
 				trip.addFlightSegmentAttributes(a, attrs);
 			}
