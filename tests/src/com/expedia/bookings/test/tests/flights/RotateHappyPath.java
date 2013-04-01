@@ -43,12 +43,12 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 		mUser.setAirportsToRandomUSAirports();
 		mSolo.clickOnScreen(50, 50);
 		mDriver.changePOS(mDriver.mLocaleUtils.FLIGHTS_LOCALES[2]);
-		mDriver.setSpoofBookings();
+		mDriver.changeAPI("Integration");
 
 		//generate random offset from current date
 		//for flights booking
 		Random offsetNumberGen = new Random();
-		int dateOffset = 1 + offsetNumberGen.nextInt(28);
+		int dateOffset = 5 + offsetNumberGen.nextInt(23);
 
 		mDriver.flightsHappyPath(mUser.mDepartureAirport, mUser.mArrivalAirport, dateOffset, false);
 	}
