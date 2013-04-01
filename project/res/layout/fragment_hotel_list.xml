@@ -3,7 +3,6 @@
     android:id="@+id/hotel_list_container"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@null"
     android:gravity="center"
     android:orientation="vertical" >
 

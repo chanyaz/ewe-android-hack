@@ -67,6 +67,8 @@ public class SearchFragmentActivity extends SherlockFragmentActivity implements 
 
 		setContentView(R.layout.activity_search_fragment);
 
+		getWindow().setBackgroundDrawable(null);
+
 		//Clear mem caches
 		TwoLevelImageCache.clearMemoryCache();
 		if (Db.isBackgroundImageCacheInitialized()) {

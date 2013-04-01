@@ -50,6 +50,8 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 
 		setContentView(R.layout.activity_itinerary);
 
+		getWindow().setBackgroundDrawable(null);
+
 		mFallbackPatternView = Ui.findView(this, R.id.fallback_pattern);
 
 		mItinListFragment = Ui.findSupportFragment(this, getString(R.string.tag_itinerary_list));

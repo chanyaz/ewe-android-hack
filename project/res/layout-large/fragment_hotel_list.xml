@@ -3,7 +3,6 @@
     android:id="@+id/hotel_list_container"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/bg_expedia_list"
     android:gravity="center"
     android:orientation="vertical" >
 
@@ -24,9 +23,8 @@
     <LinearLayout
         android:id="@android:id/empty"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignWithParentIfMissing="true" >
+        android:layout_height="match_parent"
+        android:background="@color/bg_expedia_list" >
 
         <TextView
             android:id="@+id/no_filter_results_text_view"
