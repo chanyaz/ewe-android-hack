@@ -52,6 +52,7 @@ import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.AssociateUserToTripResponse;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.BillingInfo;
@@ -824,6 +825,19 @@ public class ExpediaServices implements DownloadListener {
 		addProfileTypes(query, flags);
 
 		return doE3Request("MobileHotel/Webapp/SignIn", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
+	}
+
+	public AssociateUserToTripResponse associateUserToTrip(String tripId, int flags) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		addCommonParams(query);
+
+		query.add(new BasicNameValuePair("tripId", tripId));
+
+		addProfileTypes(query, flags);
+
+		return doE3Request("api/user/associateUserToTrip", query, new AssociateUserToTripResponseHandler(mContext),
+				F_SECURE_REQUEST);
 	}
 
 	public SignInResponse updateTraveler(Traveler traveler, int flags) {

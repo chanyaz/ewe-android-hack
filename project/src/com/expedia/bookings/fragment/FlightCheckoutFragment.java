@@ -41,6 +41,7 @@ import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
+import com.expedia.bookings.widget.UserToTripAssocLoginExtender;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -591,8 +592,9 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 
 	@Override
 	public void accountLoginClicked() {
-		Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
-		loginIntent.putExtra(LoginActivity.ARG_PATH_MODE, LineOfBusiness.FLIGHTS.name());
+		String tripId = Db.getItinerary(Db.getFlightSearch().getSelectedFlightTrip().getItineraryNumber()).getTripId();
+		Intent loginIntent = LoginActivity.createIntent(getActivity(), LineOfBusiness.FLIGHTS,
+				new UserToTripAssocLoginExtender(tripId));
 		startActivity(loginIntent);
 
 		OmnitureTracking.trackPageLoadFlightLogin(mContext);
