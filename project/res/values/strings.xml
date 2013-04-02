@@ -1586,8 +1586,6 @@
     <string name="tell_a_friend_description">Like amazing hotel deals? Tell your friends about the app.</string>
     <!-- Section header for other apps by Mobiata -->
     <string name="travel_smart">Travel smart</string>
-    <!-- Section Header for other apps by Mobiata -->
-    <string name="ALSO_BY_MOBIATA">ALSO BY MOBIATA</string>
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hotels</string>
     <!-- Message body for "tell a friend" feature -->
@@ -1618,6 +1616,10 @@
     <string name="stack_blur_credit">This app makes use of the Stack Blur algorithm by Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="view_open_source_software_licenses">View Open Source Software Licenses</string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="open_source_software_licenses">Open Source Software Licenses</string>
+    <!-- String for acrediting the open source libraries we use -->
+    <string name="this_app_makes_use_of_the_following">This app make use of the following open-source libraries:</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
