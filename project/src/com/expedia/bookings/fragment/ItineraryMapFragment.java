@@ -21,6 +21,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
+import com.google.android.gms.maps.GoogleMap.OnMyLocationChangeListener;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -30,7 +31,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.mobiata.android.LocationServices;
 import com.mobiata.flightlib.maps.MapAnimationUtils;
 
-public class ItineraryMapFragment extends SupportMapFragment {
+public class ItineraryMapFragment extends SupportMapFragment implements OnMyLocationChangeListener {
 
 	private static final float BOUNDS_PADDING_PERCENT = .05f;
 
@@ -71,6 +72,7 @@ public class ItineraryMapFragment extends SupportMapFragment {
 		super.onViewCreated(view, savedInstanceState);
 
 		GoogleMap map = getMap();
+		map.setOnMyLocationChangeListener(this);
 
 		// At the moment, can't disable this via XML
 		map.getUiSettings().setMyLocationButtonEnabled(false);
@@ -191,15 +193,6 @@ public class ItineraryMapFragment extends SupportMapFragment {
 
 			if (LocationServices.areProvidersEnabled(getActivity())) {
 				map.setMyLocationEnabled(true);
-
-				// #810, TODO: We really ought to be using a location listener here in order to
-				// move as the dot on the screen moves.  However, using the location listener requires
-				// using the latest google-play-services, which has proven to push us over the LinearAlloc
-				// limit.
-				Location loc = LocationServices.getLastBestLocation(getActivity(), 0);
-				if (loc != null) {
-					changeCamera(new LatLng(loc.getLatitude(), loc.getLongitude()), true, getCenterOffsetX(), 0);
-				}
 			}
 			else {
 				map.setMyLocationEnabled(false);
@@ -264,6 +257,14 @@ public class ItineraryMapFragment extends SupportMapFragment {
 			}
 		}
 	};
+
+	//////////////////////////////////////////////////////////////////////////
+	// OnMyLocationChangeListener
+
+	@Override
+	public void onMyLocationChange(Location myLocation) {
+		changeCamera(new LatLng(myLocation.getLatitude(), myLocation.getLongitude()), true, getCenterOffsetX(), 0);
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Listener
