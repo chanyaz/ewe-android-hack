@@ -59,6 +59,8 @@ import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.ExpediaImageManager;
+import com.expedia.bookings.data.ExpediaImageManager.ImageType;
 import com.expedia.bookings.data.FacebookLinkResponse;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightSearchParams;
@@ -383,20 +385,19 @@ public class ExpediaServices implements DownloadListener {
 	// Images API
 
 	public BackgroundImageResponse getFlightsBackgroundImage(String destinationCode, int width, int height) {
-		return getBackgroundImage("DESTINATION", destinationCode, width, height);
+		return getExpediaImage(ImageType.DESTINATION, destinationCode, width, height);
 	}
 
 	public BackgroundImageResponse getCarsBackgroundImage(Car.Category category, Car.Type type, int width, int height) {
-		String imageCode = category.toString().replace("_", "") + "_" + type.toString().replace("_", "");
-		return getBackgroundImage("CAR", imageCode, width, height);
+		return getExpediaImage(ImageType.CAR, ExpediaImageManager.getImageCode(category, type), width, height);
 	}
 
-	private BackgroundImageResponse getBackgroundImage(String imageType, String imageCode, int width, int height) {
+	public BackgroundImageResponse getExpediaImage(ImageType imageType, String imageCode, int width, int height) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		addCommonParams(query);
 
-		query.add(new BasicNameValuePair("imageType", imageType));
+		query.add(new BasicNameValuePair("imageType", imageType.getIdentifier()));
 		query.add(new BasicNameValuePair("imageCode", imageCode));
 		query.add(new BasicNameValuePair("imageWidth", Integer.toString(width)));
 		query.add(new BasicNameValuePair("imageHeight", Integer.toString(height)));

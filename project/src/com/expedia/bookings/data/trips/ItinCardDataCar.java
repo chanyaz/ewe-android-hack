@@ -84,6 +84,10 @@ public class ItinCardDataCar extends ItinCardData implements ConfirmationNumbera
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
+	public Car getCar() {
+		return mCar;
+	}
+
 	public String getCarCategoryDescription(Context context) {
 		Category category = mCar.getCategory();
 		if (category != null) {
