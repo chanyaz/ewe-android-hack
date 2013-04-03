@@ -999,7 +999,7 @@ public class HotelsRobotHelper {
 	}
 
 	public void flightsHappyPath(String departure, String arrival, int bookingDateOffset, boolean doHotelBooking)
-			throws Exception {
+			throws Exception, IntegrationFailureError {
 
 		landscape();
 		portrait();
@@ -1058,6 +1058,10 @@ public class HotelsRobotHelper {
 		delay();
 		mSolo.scrollToTop();
 		delay();
+
+		if (mSolo.searchText(mRes.getString(R.string.error_server))) {
+			throw new IntegrationFailureError("INTEGRATION FAILURE: Unable to get flights search results");
+		}
 
 		try {
 			mSolo.clickOnText(mRes.getString(R.string.sort_flights).toUpperCase());
