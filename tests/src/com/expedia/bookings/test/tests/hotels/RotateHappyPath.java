@@ -7,6 +7,7 @@ import android.util.DisplayMetrics;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.utils.HotelsRobotHelper;
+import com.expedia.bookings.test.utils.HotelsUserData;
 import com.jayway.android.robotium.solo.Solo;
 
 public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActivity> {
@@ -19,7 +20,8 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 	private Resources mRes;
 	DisplayMetrics mMetric;
 	private HotelsRobotHelper mDriver;
-
+	private HotelsUserData mUser;
+	
 	protected void setUp() throws Exception {
 		super.setUp();
 		mSolo = new Solo(getInstrumentation(), getActivity());
@@ -29,6 +31,8 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 		mMetric = mRes.getDisplayMetrics();
 		mDriver = new HotelsRobotHelper(mSolo, mRes);
 		mDriver.setScreenshotCount(1);
+		mUser = new HotelsUserData();
+		mUser.setHotelCityToRandomUSCity();
 	}
 
 	void rotateFilter() {
@@ -46,8 +50,8 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 		mDriver.setAllowOrientationChange(true); //sets Driver to do the rotates
 		mDriver.setAllowScreenshots(false); //no screenshots.
 		mSolo.clickOnScreen(50, 50);
-		mDriver.clearPrivateData();
 		mDriver.setSpoofBookings();
+		mDriver.clearPrivateData();
 		mDriver.delay(2);
 
 		mDriver.launchHotels();
@@ -55,7 +59,7 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 		mDriver.pressCalendar();
 		mDriver.pressGuestPicker();
 
-		mDriver.selectLocation("New York City");
+		mDriver.selectLocation(mUser.mHotelSearchCity);
 
 		mDriver.pressSort();
 		mDriver.filterFor("a");
