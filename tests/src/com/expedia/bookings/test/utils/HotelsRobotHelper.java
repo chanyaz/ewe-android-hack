@@ -316,6 +316,7 @@ public class HotelsRobotHelper {
 		delay();
 		if (mAllowOrientationChange) {
 			delay();
+			mSolo.clickOnEditText(0);
 			mSolo.clickInList(2);
 		}
 		else {
