@@ -92,5 +92,11 @@ public class HotelsUserData {
 		mDepartureAirport = airportPair.first;
 		mArrivalAirport = airportPair.second;
 	}
+	
+	public void setHotelCityToRandomUSCity() {
+		LocationSelectUtils citySelect = new LocationSelectUtils();
+		String hotelCity = citySelect.getRandomAmericanAndInternationalCity().first;
+		mHotelSearchCity = hotelCity;
+	}
 
 }
