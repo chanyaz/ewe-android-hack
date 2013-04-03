@@ -100,6 +100,7 @@ public class ParallaxContainer extends FrameLayout {
 
 	public void setOffsetTop(float offsetTop) {
 		this.mOffsetTop = offsetTop;
+		invalidate();
 	}
 
 	public float getOffsetBottom() {
@@ -108,13 +109,15 @@ public class ParallaxContainer extends FrameLayout {
 
 	public void setOffsetBottom(float offsetBottom) {
 		this.mOffsetBottom = offsetBottom;
+		invalidate();
 	}
 
 	/**
 	 * Adjusts this container's scrollY to get a nice parallax effect.
+	 * Does nothing if this view is not enabled.
 	 */
 	public void parallax() {
-		if (mInterpolator == null) {
+		if (mInterpolator == null || !isEnabled()) {
 			return;
 		}
 
@@ -166,7 +169,12 @@ public class ParallaxContainer extends FrameLayout {
 
 		PointF p1 = new PointF(minVisiblePosition, mScrollMin);
 		PointF p2 = new PointF(maxVisiblePosition, mScrollMax);
-		mInterpolator = new SegmentedLinearInterpolator(p1, p2);
+		if (minVisiblePosition > maxVisiblePosition) {
+			mInterpolator = new SegmentedLinearInterpolator(p2, p1);
+		}
+		else {
+			mInterpolator = new SegmentedLinearInterpolator(p1, p2);
+		}
 	}
 
 	/**
@@ -194,7 +202,13 @@ public class ParallaxContainer extends FrameLayout {
 				float x2 = mPoints[i + 1].x;
 				float y1 = mPoints[i].y;
 				float y2 = mPoints[i + 1].y;
-				if (x >= x1 && x <= x2 || (i == 0 && x < x1) || (i == mPoints.length - 2 && x > x2)) {
+				if (i == 0 && x < x1) {
+					return y1;
+				}
+				else if (i == mPoints.length - 2 && x > x2) {
+					return y2;
+				}
+				else if (x >= x1 && x <= x2) {
 					return y1 + (y2 - y1) * (x - x1) / (x2 - x1);
 				}
 			}
