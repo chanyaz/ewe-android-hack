@@ -23,8 +23,6 @@ import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.graphics.DestinationBitmapDrawable;
-import com.expedia.bookings.widget.itin.CarItinContentGenerator;
-import com.expedia.bookings.widget.itin.FlightItinContentGenerator;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.Ui;
@@ -206,14 +204,14 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		if (itinCardData instanceof ItinCardDataFlight) {
 			ItinCardDataFlight cardData = ((ItinCardDataFlight) itinCardData);
 			String destinationCode = cardData.getFlightLeg().getLastWaypoint().mAirportCode;
-			DestinationBitmapDrawable drawable = new DestinationBitmapDrawable(getContext(), placeholderResId,
+			DestinationBitmapDrawable drawable = new DestinationBitmapDrawable(getResources(), placeholderResId,
 					destinationCode, 500, 500);
 			drawable.configureImageView(mHeaderImageView);
 		}
 		else if (itinCardData instanceof ItinCardDataCar) {
 			ItinCardDataCar cardData = ((ItinCardDataCar) itinCardData);
 			Car car = cardData.getCar();
-			DestinationBitmapDrawable drawable = new DestinationBitmapDrawable(getContext(), placeholderResId,
+			DestinationBitmapDrawable drawable = new DestinationBitmapDrawable(getResources(), placeholderResId,
 					car.getCategory(), car.getType(), 500, 500);
 			drawable.configureImageView(mHeaderImageView);
 		}

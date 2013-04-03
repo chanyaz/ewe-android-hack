@@ -1,12 +1,10 @@
 package com.expedia.bookings.graphics;
 
-import android.content.Context;
+import android.content.res.Resources;
 
-import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.ExpediaImageManager.ImageType;
-import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -18,8 +16,6 @@ public class DestinationBitmapDrawable extends UrlBitmapDrawable implements Down
 
 	private String mUrl;
 
-	private Context mContext;
-
 	private ImageType mImageType;
 	private String mImageCode;
 	private int mWidth;
@@ -28,11 +24,9 @@ public class DestinationBitmapDrawable extends UrlBitmapDrawable implements Down
 	/**
 	 * Constructor for DESTINATION images
 	 */
-	public DestinationBitmapDrawable(Context context, int placeholderResId, String destinationCode, int width,
+	public DestinationBitmapDrawable(Resources res, int placeholderResId, String destinationCode, int width,
 			int height) {
-		super(context.getResources(), (String) null, placeholderResId);
-
-		mContext = context;
+		super(res, (String) null, placeholderResId);
 
 		mImageType = ImageType.DESTINATION;
 		mImageCode = destinationCode;
@@ -45,11 +39,9 @@ public class DestinationBitmapDrawable extends UrlBitmapDrawable implements Down
 	/**
 	 * Constructor for CAR images
 	 */
-	public DestinationBitmapDrawable(Context context, int placeholderResId, Car.Category category, Car.Type type,
+	public DestinationBitmapDrawable(Resources res, int placeholderResId, Car.Category category, Car.Type type,
 			int width, int height) {
-		super(context.getResources(), (String) null, placeholderResId);
-
-		mContext = context;
+		super(res, (String) null, placeholderResId);
 
 		mImageType = ImageType.CAR;
 		mImageCode = ExpediaImageManager.getImageCode(category, type);
@@ -82,8 +74,6 @@ public class DestinationBitmapDrawable extends UrlBitmapDrawable implements Down
 
 	@Override
 	public String doDownload() {
-		ExpediaServices services = new ExpediaServices(mContext);
-		BackgroundImageResponse response = services.getExpediaImage(mImageType, mImageCode, mWidth, mHeight);
-		return response.getImageUrl();
+		return ExpediaImageManager.getInstance().getExpediaImage(mImageType, mImageCode, mWidth, mHeight);
 	}
 }

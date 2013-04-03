@@ -15,6 +15,7 @@ import android.content.res.Configuration;
 import com.activeandroid.ActiveAndroid;
 import com.expedia.bookings.R;
 import com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider;
+import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
@@ -90,6 +91,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		FontCache.initialize(this);
 		AdTracker.initialize(this);
 		ItineraryManager.getInstance().init(this);
+		ExpediaImageManager.init(this);
 
 		// We want to try to start loading data (but it may not be finished syncing before someone tries to use it).
 		ItineraryManager.getInstance().startSync(false);
