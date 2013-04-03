@@ -178,7 +178,7 @@ public class SearchFragmentActivity extends SherlockFragmentActivity implements 
 			return true;
 		}
 		case R.id.menu_about: {
-			Intent intent = new Intent(this, TabletAboutActivity.class);
+			Intent intent = new Intent(this, AboutActivity.class);
 			startActivity(intent);
 			return true;
 		}
