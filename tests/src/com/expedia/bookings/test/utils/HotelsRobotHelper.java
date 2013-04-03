@@ -1045,6 +1045,14 @@ public class HotelsRobotHelper {
 		screenshot("Loading Flights");
 		mSolo.waitForDialogToClose(10000);
 
+		while (mSolo.searchText(mRes.getString(R.string.loading_flights))
+				|| mSolo.searchText(mRes.getString(R.string.searching))) {
+			delay(5);
+			if (mSolo.searchText(mRes.getString(R.string.error_server))) {
+				throw new IntegrationFailureError("INTEGRATION FAILURE: Unable to get flights search results");
+			}
+		}
+
 		//Scroll up and down
 		landscape();
 		delay();
