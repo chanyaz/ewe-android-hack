@@ -6,6 +6,7 @@ import android.util.DisplayMetrics;
 
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.utils.HotelsRobotHelper;
+import com.expedia.bookings.test.utils.HotelsUserData;
 import com.jayway.android.robotium.solo.Solo;
 
 public class BrowsingTest extends ActivityInstrumentationTestCase2<SearchActivity> {
@@ -21,6 +22,7 @@ public class BrowsingTest extends ActivityInstrumentationTestCase2<SearchActivit
 	private Resources mRes;
 	DisplayMetrics mMetric;
 	private HotelsRobotHelper mDriver;
+	private HotelsUserData mUser;
 
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -30,17 +32,18 @@ public class BrowsingTest extends ActivityInstrumentationTestCase2<SearchActivit
 		mRes = getActivity().getBaseContext().getResources();
 		mMetric = mRes.getDisplayMetrics();
 		mDriver = new HotelsRobotHelper(mSolo, mRes);
+		mUser = new HotelsUserData();
 	}
 
 	public void testMethod() throws Exception {
-
+		mUser.setHotelCityToRandomUSCity();
 		mDriver.setAllowScreenshots(false);
 		mDriver.setAllowOrientationChange(false);
 		mDriver.changePOS(mDriver.mLocaleUtils.AMERICAN_LOCALES[5]);
 		mDriver.setSpoofBookings();
 		mDriver.launchHotels();
 		mDriver.delay();
-		mDriver.browseRooms(12, "Los Angeles, CA", true);
+		mDriver.browseRooms(12, mUser.mHotelSearchCity, true);
 
 	}
 
