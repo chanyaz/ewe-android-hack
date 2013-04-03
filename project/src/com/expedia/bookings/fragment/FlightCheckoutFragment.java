@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Contacts.Intents.UI;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -409,14 +410,14 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		}
 	}
 
-	private boolean hasValidTravelers() {
+	private boolean validateTravelers() {
 		if (mTravelerSections == null || mTravelerSections.size() <= 0) {
 			return false;
 		}
 		else {
-			boolean travelerValid = true;
+			boolean allTravelersValid = true;
 			if (Db.getTravelers() == null || Db.getTravelers().size() <= 0) {
-				travelerValid = false;
+				allTravelersValid = false;
 			}
 			else {
 				TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
@@ -424,16 +425,21 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 					return false;
 				}
 				List<Traveler> travelers = Db.getTravelers();
+				
 				for (int i = 0; i < travelers.size(); i++) {
+					SectionTravelerInfo travSection = mTravelerSections.get(i);
+					boolean currentTravelerValid = false;
 					if (Db.getFlightSearch().getSelectedFlightTrip().isInternational()) {
-						travelerValid &= (state.allTravelerInfoIsValidForInternationalFlight(travelers.get(i)));
+						currentTravelerValid = (state.allTravelerInfoIsValidForInternationalFlight(travelers.get(i)));
 					}
 					else {
-						travelerValid &= (state.allTravelerInfoIsValidForDomesticFlight(travelers.get(i)));
+						currentTravelerValid = (state.allTravelerInfoIsValidForDomesticFlight(travelers.get(i)));
 					}
+					setValidationViewVisibility(travSection, R.id.validation_checkmark, currentTravelerValid);
+					allTravelersValid &= currentTravelerValid;
 				}
 			}
-			return travelerValid;
+			return allTravelersValid;
 		}
 	}
 
@@ -462,22 +468,26 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		boolean hasStoredCard = mBillingInfo.getStoredCard() != null;
 		boolean paymentAddressValid = hasStoredCard ? hasStoredCard : state.hasValidBillingAddress(mBillingInfo);
 		boolean paymentCCValid = hasStoredCard ? hasStoredCard : state.hasValidCardInfo(mBillingInfo);
-		boolean travelerValid = hasValidTravelers();
+		boolean travelerValid = validateTravelers();
 
+		
 		if (hasStoredCard) {
 			mStoredCreditCard.setVisibility(View.VISIBLE);
 			mPaymentButton.setVisibility(View.GONE);
 			mCreditCardSectionButton.setVisibility(View.GONE);
+			setValidationViewVisibility(mStoredCreditCard, R.id.validation_checkmark, true);
 		}
 		else if (paymentAddressValid && paymentCCValid) {
 			mStoredCreditCard.setVisibility(View.GONE);
 			mPaymentButton.setVisibility(View.GONE);
 			mCreditCardSectionButton.setVisibility(View.VISIBLE);
+			setValidationViewVisibility(mCreditCardSectionButton, R.id.validation_checkmark, true);
 		}
 		else {
 			mStoredCreditCard.setVisibility(View.GONE);
 			mPaymentButton.setVisibility(View.VISIBLE);
 			mCreditCardSectionButton.setVisibility(View.GONE);
+			setValidationViewVisibility(mPaymentButton, R.id.validation_checkmark, true);
 		}
 
 		if (paymentAddressValid && paymentCCValid && travelerValid) {
@@ -492,6 +502,13 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		}
 		else {
 			mAccountLabel.setVisibility(View.GONE);
+		}
+	}
+	
+	private void setValidationViewVisibility(View view, int validationViewId, boolean valid){
+		View validationView = Ui.findView(view, validationViewId);
+		if(validationView != null){
+			validationView.setVisibility(valid ? View.VISIBLE : View.GONE);
 		}
 	}
 
