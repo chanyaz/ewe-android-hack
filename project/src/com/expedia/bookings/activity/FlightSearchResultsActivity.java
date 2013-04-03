@@ -1,5 +1,7 @@
 package com.expedia.bookings.activity;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -10,6 +12,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -958,7 +961,17 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		public Bitmap doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
 			BackgroundDownloader.getInstance().addDownloadListener(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY, services);
-			return services.getFlightsBackgroundBitmap(Db.getBackgroundImageInfo().getImageUrl());
+
+			try {
+				URL dlUrl = new URL(Db.getBackgroundImageInfo().getImageUrl());
+				Bitmap dledBmap = BitmapFactory.decodeStream((InputStream) dlUrl.getContent());
+				return dledBmap;
+			}
+			catch (Exception ex) {
+				Log.e("Exception downloading Bitmap", ex);
+			}
+
+			return null;
 		}
 	};
 

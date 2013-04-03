@@ -21,6 +21,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
+
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -43,12 +44,9 @@ import org.apache.http.protocol.HttpContext;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
@@ -383,54 +381,25 @@ public class ExpediaServices implements DownloadListener {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Images API
-	//
 
-	/**
-	 * Get the url for a background image, based on a destination code
-	 * @param destinationCode
-	 * @return
-	 */
-	public BackgroundImageResponse getFlightsBackgroundImage(String destinationCode, Integer width, Integer height) {
-		String w = width.toString();
-		String h = height.toString();
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-		query.add(new BasicNameValuePair("destinationCode", destinationCode));
-		query.add(new BasicNameValuePair("imageWidth", w));
-		query.add(new BasicNameValuePair("imageHeight", h));
-		addCommonParams(query);
-		return doFlightsRequest("api/flight/image", query, new BackgroundImageResponseHandler(mContext), 0);
+	public BackgroundImageResponse getFlightsBackgroundImage(String destinationCode, int width, int height) {
+		return getBackgroundImage("DESTINATION", destinationCode, width, height);
 	}
 
-	public Bitmap getFlightsBackgroundBitmap(String url) {
-		try {
-			URL dlUrl = new URL(url);
-			InputStream dlStream = (InputStream) dlUrl.getContent();
-			Bitmap dledBmap = BitmapFactory.decodeStream(dlStream);
-			return dledBmap;
-		}
-		catch (Exception ex) {
-			Log.e("Exception downloading Bitmap", ex);
-		}
-		return null;
-	}
-
-	/**
-	 * Get the url for a background image, based on a destination code
-	 * @param destinationCode
-	 * @return
-	 */
-	public BackgroundImageResponse getCarsBackgroundImage(Car.Category category, Car.Type type, Integer width,
-			Integer height) {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-		query.add(new BasicNameValuePair("imageType", "CAR"));
-
+	public BackgroundImageResponse getCarsBackgroundImage(Car.Category category, Car.Type type, int width, int height) {
 		String imageCode = category.toString().replace("_", "") + "_" + type.toString().replace("_", "");
-		query.add(new BasicNameValuePair("imageCode", imageCode));
+		return getBackgroundImage("CAR", imageCode, width, height);
+	}
 
-		query.add(new BasicNameValuePair("imageWidth", width.toString()));
-		query.add(new BasicNameValuePair("imageHeight", height.toString()));
+	private BackgroundImageResponse getBackgroundImage(String imageType, String imageCode, int width, int height) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		addCommonParams(query);
+
+		query.add(new BasicNameValuePair("imageType", imageType));
+		query.add(new BasicNameValuePair("imageCode", imageCode));
+		query.add(new BasicNameValuePair("imageWidth", Integer.toString(width)));
+		query.add(new BasicNameValuePair("imageHeight", Integer.toString(height)));
 
 		return doFlightsRequest("api/mobile/image", query, new BackgroundImageResponseHandler(mContext), 0);
 	}
