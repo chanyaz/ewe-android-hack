@@ -81,6 +81,8 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	private int mMode = MODE_LIST;
 
+	private View mLastChild;
+
 	private int mScrollState = SCROLL_STATE_IDLE;
 	private int mDetailPosition = -1;
 	private int mOriginalScrollY;
@@ -216,6 +218,17 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		if (child != null) {
 			MotionEvent childEvent = MotionEvent.obtain(event);
 			childEvent.offsetLocation(0, -child.getTop());
+
+			if (mLastChild != null && mLastChild != child) {
+				MotionEvent actionOutEvent = MotionEvent.obtain(childEvent);
+				actionOutEvent.offsetLocation(0, mLastChild.getHeight());
+				mLastChild.dispatchTouchEvent(actionOutEvent);
+				actionOutEvent.recycle();
+
+				Log.t("Tried moving outside last child");
+			}
+
+			mLastChild = child;
 
 			if (child.dispatchTouchEvent(childEvent)) {
 				childEvent.recycle();
