@@ -5,12 +5,11 @@ import java.util.Random;
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.DisplayMetrics;
-import android.util.Pair;
 
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.utils.HotelsRobotHelper;
 import com.expedia.bookings.test.utils.HotelsUserData;
-import com.expedia.bookings.test.utils.LocationSelectUtils;
+import com.expedia.bookings.test.utils.IntegrationFailureError;
 import com.jayway.android.robotium.solo.Solo;
 
 public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActivity> {
@@ -49,8 +48,13 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 		//for flights booking
 		Random offsetNumberGen = new Random();
 		int dateOffset = 5 + offsetNumberGen.nextInt(23);
-
-		mDriver.flightsHappyPath(mUser.mDepartureAirport, mUser.mArrivalAirport, dateOffset, false);
+		try {
+			mDriver.flightsHappyPath(mUser.mDepartureAirport, mUser.mArrivalAirport, dateOffset, false);
+		}
+		catch (IntegrationFailureError e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
 	}
 
 	@Override
