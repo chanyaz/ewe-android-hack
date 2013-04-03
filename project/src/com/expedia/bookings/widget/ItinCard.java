@@ -387,8 +387,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		if (!mShowSummary) {
 			animators.add(ResizeAnimator.buildResizeAnimator(mHeaderLayout, mMiniCardHeaderImageHeight));
 			animators.add(ResizeAnimator.buildResizeAnimator(mHeaderImageView, mMiniCardHeaderImageHeight));
-			animators.add(ResizeAnimator.buildResizeAnimator(mActionButtonLayout, 0).setDuration(
-					300));
+			animators.add(ResizeAnimator.buildResizeAnimator(mActionButtonLayout, 0).setDuration(300));
 		}
 
 		// Chevron rotation
