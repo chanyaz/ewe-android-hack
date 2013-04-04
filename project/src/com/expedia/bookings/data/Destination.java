@@ -19,18 +19,17 @@ public class Destination implements JSONable {
 	private String mDestinationId;
 	private String mCity;
 	private String mDescription;
-
-	private String mImageKey;
 	private String mImageUrl;
 
 	public Destination() {
 
 	}
 
-	public Destination(String destinationId, String cityName, String description) {
+	public Destination(String destinationId, String cityName, String description, String url) {
 		mDestinationId = destinationId;
 		mCity = cityName;
 		mDescription = description;
+		mImageUrl = url;
 	}
 
 	public String getDestinationId() {
@@ -49,10 +48,6 @@ public class Destination implements JSONable {
 		return mDescription;
 	}
 
-	public String getImageKey() {
-		return mImageKey;
-	}
-
 	public String getImageUrl() {
 		return mImageUrl;
 	}
@@ -69,11 +64,6 @@ public class Destination implements JSONable {
 		mDescription = description;
 	}
 
-	public void setImageMeta(String key, String url) {
-		mImageKey = key;
-		mImageUrl = url;
-	}
-
 	@Override
 	public JSONObject toJson() {
 		try {
@@ -81,7 +71,6 @@ public class Destination implements JSONable {
 			obj.putOpt("description", mDescription);
 			obj.putOpt("city", mCity);
 			obj.putOpt("destinationId", mDestinationId);
-			obj.putOpt("imageKey", mImageKey);
 			obj.putOpt("imageUrl", mImageUrl);
 			return obj;
 		}
@@ -96,7 +85,6 @@ public class Destination implements JSONable {
 		mDescription = obj.optString("description", null);
 		mCity = obj.optString("city", null);
 		mDestinationId = obj.optString("destinationId", null);
-		mImageKey = obj.optString("imageKey", null);
 		mImageUrl = obj.optString("imageUrl", null);
 		return true;
 	}

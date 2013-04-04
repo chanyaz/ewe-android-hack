@@ -35,11 +35,11 @@ import com.expedia.bookings.activity.FlightSearchActivity;
 import com.expedia.bookings.activity.FlightUnsupportedPOSActivity;
 import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
 import com.expedia.bookings.activity.PhoneSearchActivity;
-import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.ConfirmationState;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Destination;
+import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelDestination;
@@ -471,7 +471,8 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	private Download<List<Destination>> mFlightsDownload = new Download<List<Destination>>() {
 		@Override
 		public List<Destination> doDownload() {
-			ExpediaServices services = new ExpediaServices(mContext);
+			ExpediaServices services = new ExpediaServices(getActivity());
+			ExpediaImageManager imageManager = ExpediaImageManager.getInstance();
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_FLIGHT_DESTINATIONS, services);
 			List<Destination> destinations = new ArrayList<Destination>();
 
@@ -516,7 +517,6 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				Suggestion firstSuggestion = suggestions.get(0);
 				Pair<String, String> displayName = firstSuggestion.splitDisplayNameForFlights();
 				String destId = firstSuggestion.getAirportLocationCode();
-				Destination destination = new Destination(destId, displayName.first, displayName.second);
 
 				// Now try to get metadata
 
@@ -525,17 +525,13 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 					return null;
 				}
 
-				BackgroundImageResponse imageResponse = services.getFlightsBackgroundImage(destId, width, height);
-				if (imageResponse == null) {
-					Log.w("Got a null response from server looking for destination bg for: " + destId);
-				}
-				else if (imageResponse.hasErrors()) {
-					Log.w("Got an error response from server looking for destination bg for: " + destId + ", "
-							+ imageResponse.getErrors().get(0).getPresentableMessage(mContext));
+				String url = imageManager.getDestinationImage(destId, width, height, true);
+				if (TextUtils.isEmpty(url)) {
+					Log.w("Could not get URL for destination bg: " + destId);
 				}
 				else {
 					Log.v("Got destination data for: " + destId);
-					destination.setImageMeta(imageResponse.getCacheKey(), imageResponse.getImageUrl());
+					Destination destination = new Destination(destId, displayName.first, displayName.second, url);
 					destinations.add(destination);
 				}
 			}

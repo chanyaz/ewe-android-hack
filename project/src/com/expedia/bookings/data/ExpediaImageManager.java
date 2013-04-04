@@ -86,6 +86,14 @@ public class ExpediaImageManager {
 		return null;
 	}
 
+	public String getCarImage(Car.Category category, Car.Type type, int width, int height, boolean useNetwork) {
+		return getExpediaImage(ImageType.CAR, getImageCode(category, type), width, height, useNetwork);
+	}
+
+	public String getDestinationImage(String destinationCode, int width, int height, boolean useNetwork) {
+		return getExpediaImage(ImageType.DESTINATION, destinationCode, width, height, useNetwork);
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Utility
 
