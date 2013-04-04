@@ -41,6 +41,7 @@ import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightFilter.Sort;
+import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchLeg;
@@ -919,7 +920,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 				height = display.getHeight();
 			}
 
-			return services.getFlightsBackgroundImage(code, width, height);
+			return ExpediaImageManager.getInstance().getDestinationImage(code, width, height, true);
 		}
 	};
 
@@ -928,18 +929,9 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		public void onDownload(BackgroundImageResponse response) {
 			Log.i("Finished background image info download!");
 
-			// If the response is null, fake an error response (for the sake of cleaner code)
-			if (response == null) {
-				response = new BackgroundImageResponse();
-				ServerError error = new ServerError(ApiMethod.BACKGROUND_IMAGE);
-				error.setPresentationMessage(getString(R.string.error_server));
-				error.setCode("SIMULATED");
-				response.addError(error);
-			}
-
 			Db.setBackgroundImageInfo(response);
 
-			if (response.hasErrors()) {
+			if (response == null || response.hasErrors()) {
 				Log.e("Errors downloading background image info");
 			}
 			else {
