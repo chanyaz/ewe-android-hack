@@ -3,6 +3,7 @@ package com.expedia.bookings.graphics;
 import android.content.res.Resources;
 import android.text.TextUtils;
 
+import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.ExpediaImageManager.ImageType;
@@ -11,8 +12,8 @@ import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
-public class DestinationBitmapDrawable extends UrlBitmapDrawable implements Download<String>,
-		OnDownloadComplete<String> {
+public class DestinationBitmapDrawable extends UrlBitmapDrawable implements Download<BackgroundImageResponse>,
+		OnDownloadComplete<BackgroundImageResponse> {
 
 	private String mUrl;
 
@@ -60,9 +61,10 @@ public class DestinationBitmapDrawable extends UrlBitmapDrawable implements Down
 	// URL Retrieval
 
 	private void retrieveUrl() {
-		String url = ExpediaImageManager.getInstance().getExpediaImage(mImageType, mImageCode, mWidth, mHeight, false);
-		if (!TextUtils.isEmpty(url)) {
-			onDownload(url);
+		BackgroundImageResponse response = ExpediaImageManager.getInstance().getExpediaImage(mImageType, mImageCode,
+				mWidth, mHeight, false);
+		if (response != null) {
+			onDownload(response);
 		}
 		else {
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();
@@ -72,17 +74,17 @@ public class DestinationBitmapDrawable extends UrlBitmapDrawable implements Down
 	}
 
 	@Override
-	public void onDownload(String results) {
+	public void onDownload(BackgroundImageResponse results) {
 		// Don't bother reloading the image if the URL hasn't changed
-		if (!TextUtils.equals(mUrl, results)) {
-			mUrl = results;
+		if (results != null && !TextUtils.equals(mUrl, results.getImageUrl())) {
+			mUrl = results.getImageUrl();
 
 			retrieveImage(true);
 		}
 	}
 
 	@Override
-	public String doDownload() {
+	public BackgroundImageResponse doDownload() {
 		return ExpediaImageManager.getInstance().getExpediaImage(mImageType, mImageCode, mWidth, mHeight, true);
 	}
 }

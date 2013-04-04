@@ -59,7 +59,8 @@ public class ExpediaImageManager {
 	 * @param useNetwork if true, will request .  If you set this to true, you better be operating on a non-UI thread!
 	 * @return the URL if available, or null if not
 	 */
-	public String getExpediaImage(ImageType imageType, String imageCode, int width, int height, boolean useNetwork) {
+	public BackgroundImageResponse getExpediaImage(ImageType imageType, String imageCode, int width, int height,
+			boolean useNetwork) {
 		// The key should be unique for each request
 		String cacheUrl = imageType + ":" + imageCode + ":" + width + "x" + height;
 
@@ -80,17 +81,18 @@ public class ExpediaImageManager {
 		}
 
 		if (response != null) {
-			return response.getImageUrl();
+			return response;
 		}
 
 		return null;
 	}
 
-	public String getCarImage(Car.Category category, Car.Type type, int width, int height, boolean useNetwork) {
+	public BackgroundImageResponse getCarImage(Car.Category category, Car.Type type, int width, int height,
+			boolean useNetwork) {
 		return getExpediaImage(ImageType.CAR, getImageCode(category, type), width, height, useNetwork);
 	}
 
-	public String getDestinationImage(String destinationCode, int width, int height, boolean useNetwork) {
+	public BackgroundImageResponse getDestinationImage(String destinationCode, int width, int height, boolean useNetwork) {
 		return getExpediaImage(ImageType.DESTINATION, destinationCode, width, height, useNetwork);
 	}
 

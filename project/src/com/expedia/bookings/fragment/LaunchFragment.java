@@ -35,6 +35,7 @@ import com.expedia.bookings.activity.FlightSearchActivity;
 import com.expedia.bookings.activity.FlightUnsupportedPOSActivity;
 import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
 import com.expedia.bookings.activity.PhoneSearchActivity;
+import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.ConfirmationState;
 import com.expedia.bookings.data.Db;
@@ -525,13 +526,14 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 					return null;
 				}
 
-				String url = imageManager.getDestinationImage(destId, width, height, true);
-				if (TextUtils.isEmpty(url)) {
+				BackgroundImageResponse response = imageManager.getDestinationImage(destId, width, height, true);
+				if (response == null) {
 					Log.w("Could not get URL for destination bg: " + destId);
 				}
 				else {
 					Log.v("Got destination data for: " + destId);
-					Destination destination = new Destination(destId, displayName.first, displayName.second, url);
+					Destination destination = new Destination(destId, displayName.first, displayName.second,
+							response.getImageUrl());
 					destinations.add(destination);
 				}
 			}
