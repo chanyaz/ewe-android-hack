@@ -144,7 +144,15 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 		leftBuilder.setText(R.string.total_price_label);
 		leftBuilder.build();
 
-		Money displayedTotal = rate.getTotalAmountAfterTax();
+		Money displayedTotal;
+
+		if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
+			displayedTotal = rate.getTotalPriceWithMandatoryFees();
+		}
+		else {
+			displayedTotal = rate.getTotalAmountAfterTax();
+		}
+
 		rightBuilder.setText(displayedTotal.getFormattedMoney());
 		rightBuilder.build();
 
