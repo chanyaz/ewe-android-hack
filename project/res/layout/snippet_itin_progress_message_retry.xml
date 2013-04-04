@@ -8,7 +8,7 @@
 
     <ProgressBar
         android:id="@+id/itinerary_loading_progress"
-        style="?android:attr/progressBarStyleLarge"
+        style="@style/ProgressBar"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:indeterminate="true" />

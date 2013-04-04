@@ -173,7 +173,7 @@
 
             <ProgressBar
                 android:id="@+id/empty_progress_bar"
-                style="@android:style/Widget.ProgressBar.Horizontal"
+                style="@style/ProgressBar.CandyCane"
                 android:layout_width="match_parent"
                 android:layout_height="3dp"
                 android:layout_margin="24dp"
