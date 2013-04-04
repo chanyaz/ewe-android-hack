@@ -214,7 +214,10 @@
 
     <!-- TODO: get rid of all RatingBarSmall <<<<<<< -->
 
-    <style name="ProgressBar">
+    <style name="ProgressBar" parent="Widget.Sherlock.Light.ProgressBar">
+    </style>
+
+    <style name="ProgressBar.Large">
         <item name="android:indeterminateDrawable">@drawable/progress_large_holo</item>
         <item name="android:minWidth">76dp</item>
         <item name="android:maxWidth">76dp</item>

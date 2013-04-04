@@ -59,6 +59,7 @@
 
         <ProgressBar
             android:id="@+id/itin_details_progress_bar"
+            style="@style/ProgressBar"
             android:layout_width="32dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
