@@ -94,13 +94,20 @@
                         android:layout_height="@dimen/itin_card_expanded_image_height"
                         android:gravity="center" >
 
-                        <com.expedia.bookings.widget.ItinHeaderImageView
-                            android:id="@+id/header_image_view"
+                        <com.expedia.bookings.widget.ParallaxContainer
+                            android:id="@+id/header_image_container"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_centerInParent="true"
-                            android:scaleType="centerCrop"
-                            app:radius="2dp" />
+                            android:layout_height="@dimen/itin_card_expanded_image_height"
+                            app:scrollMin="-80dp" >
+
+                            <com.expedia.bookings.widget.ItinHeaderImageView
+                                android:id="@+id/header_image_view"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_centerInParent="true"
+                                android:scaleType="centerCrop"
+                                app:radius="2dp" />
+                        </com.expedia.bookings.widget.ParallaxContainer>
 
                         <ImageView
                             android:id="@+id/header_overlay_image_view"

@@ -8,8 +8,10 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -89,6 +91,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	private ImageView mFixedItinTypeImageView;
 
 	private ScrollView mScrollView;
+	private ParallaxContainer mHeaderImageContainer;
 	private ItinHeaderImageView mHeaderImageView;
 	private ImageView mHeaderOverlayImageView;
 	private TextView mHeaderTextView;
@@ -139,6 +142,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		mFixedItinTypeImageView = Ui.findView(this, R.id.fixed_itin_type_image_view);
 
 		mScrollView = Ui.findView(this, R.id.scroll_view);
+		mHeaderImageContainer = Ui.findView(this, R.id.header_image_container);
 		mHeaderImageView = Ui.findView(this, R.id.header_image_view);
 		mHeaderOverlayImageView = Ui.findView(this, R.id.header_overlay_image_view);
 		mHeaderTextView = Ui.findView(this, R.id.header_text_view);
@@ -194,6 +198,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		// Type icon
 		mItinTypeImageView.setImageResource(mItinContentGenerator.getTypeIconResId());
 		mFixedItinTypeImageView.setImageResource(mItinContentGenerator.getTypeIconResId());
+
+		// Header image parallax effect
+		mHeaderImageContainer.setEnabled(mDisplayState.equals(DisplayState.EXPANDED));
 
 		// Image
 		mHeaderImageView.setType(getType());
@@ -281,6 +288,16 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		final int height = mShowSummary ? mExpandedCardHeaderImageHeight : mMiniCardHeaderImageHeight;
 		mHeaderLayout.getLayoutParams().height = height;
 		mHeaderLayout.requestLayout();
+
+		// TODO: the "82" here is somewhat magical, and is related to the distance of mHeaderImageContainer
+		// from the top of the screen. The parallax is not perfect when an image scales up from mini to
+		// expanded, I don't know why.
+		WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+		DisplayMetrics metrics = new DisplayMetrics();
+		wm.getDefaultDisplay().getMetrics(metrics);
+		int offsetBottom = metrics.heightPixels - (int) (82 * metrics.density);
+		mHeaderImageContainer.setOffsetBottom(offsetBottom);
+
 		mHeaderImageView.getLayoutParams().height = height;
 		mHeaderImageView.requestLayout();
 	}
@@ -325,6 +342,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		titleResizeAnimator.addListener(new AnimatorListenerShort() {
 			@Override
 			public void onAnimationEnd(Animator arg0) {
+				mHeaderImageContainer.setEnabled(false);
+
 				mHeaderImageView.setMode(mShowSummary ? ItinHeaderImageView.MODE_SUMMARY
 						: ItinHeaderImageView.MODE_MINI);
 
@@ -382,6 +401,17 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 			});
 			animators.add(dummy);
 		}
+
+		// Header image parallax
+		ValueAnimator parallaxAnimator = ValueAnimator.ofInt(mHeaderImageContainer.getScrollY(), 0)
+				.setDuration(300);
+		parallaxAnimator.addUpdateListener(new AnimatorUpdateListener() {
+			@Override
+			public void onAnimationUpdate(ValueAnimator arg0) {
+				mHeaderImageContainer.scrollTo(0, (Integer) arg0.getAnimatedValue());
+			}
+		});
+		animators.add(parallaxAnimator);
 
 		//Summary View views
 		if (!mShowSummary) {
@@ -488,13 +518,16 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		AnimatorSet set = new AnimatorSet();
 		set.playTogether(animators);
 
-		//Sometimes the scroll view doesnt work correctly after expansion so we try a requestlayout
 		set.addListener(new AnimatorListenerShort() {
 			@Override
 			public void onAnimationEnd(Animator arg0) {
+				// Sometimes the scroll view doesnt work correctly after expansion so we try a requestlayout
 				if (mScrollView != null) {
 					mScrollView.requestLayout();
 				}
+
+				// Enable the parallaxy header image
+				mHeaderImageContainer.setEnabled(mDisplayState.equals(DisplayState.EXPANDED));
 			}
 		});
 
