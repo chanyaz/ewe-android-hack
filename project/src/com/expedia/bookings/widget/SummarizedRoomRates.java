@@ -10,9 +10,9 @@ import java.util.Set;
 import android.util.Pair;
 
 import com.expedia.bookings.data.AvailabilityResponse;
+import com.expedia.bookings.data.BedType;
+import com.expedia.bookings.data.BedType.BedTypeId;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.Rate.BedType;
-import com.expedia.bookings.data.Rate.BedTypeId;
 
 public class SummarizedRoomRates {
 
@@ -101,7 +101,7 @@ public class SummarizedRoomRates {
 	}
 
 	private static Set<BedTypeId> createBedTypeGrouping(BedTypeId... bedTypeIds) {
-		Set<BedTypeId> grouping = new HashSet<Rate.BedTypeId>();
+		Set<BedTypeId> grouping = new HashSet<BedTypeId>();
 		for (BedTypeId bedTypeId : bedTypeIds) {
 			grouping.add(bedTypeId);
 		}
@@ -157,7 +157,7 @@ public class SummarizedRoomRates {
 				continue;
 			}
 			for (BedType bedType : rate.getBedTypes()) {
-				BedTypeId bedTypeId = bedType.bedTypeId;
+				BedTypeId bedTypeId = bedType.getBedTypeId();
 				/*
 				 * If a rate already exists for this bed type,
 				 * check if its the minimum possible rate
@@ -177,7 +177,7 @@ public class SummarizedRoomRates {
 			if (mMinimumRateAvailable == null
 					|| mMinimumRateAvailable.getDisplayRate().getAmount().compareTo(rate.getDisplayRate().getAmount()) > 0) {
 				mMinimumRateAvailable = rate;
-				mMinimumRateBedTypeId = rate.getBedTypes().iterator().next().bedTypeId;
+				mMinimumRateBedTypeId = rate.getBedTypes().iterator().next().getBedTypeId();
 			}
 		}
 
@@ -199,7 +199,7 @@ public class SummarizedRoomRates {
 					PriorityQueue<BedTypeId> queue = mAvailableBedTypes.get(grouping);
 
 					if (queue == null) {
-						queue = new PriorityQueue<Rate.BedTypeId>(2);
+						queue = new PriorityQueue<BedTypeId>(2);
 						mAvailableBedTypes.put(grouping, queue);
 					}
 
@@ -219,7 +219,7 @@ public class SummarizedRoomRates {
 	private void summarizeRates() {
 		// first, add the minimum rate to the summarized rates
 		if (mMinimumRateAvailable != null) {
-			mSummarizedRates.add(new Pair<Rate.BedTypeId, Rate>(mMinimumRateBedTypeId, mMinimumRateAvailable));
+			mSummarizedRates.add(new Pair<BedTypeId, Rate>(mMinimumRateBedTypeId, mMinimumRateAvailable));
 		}
 
 		boolean hasMore;
@@ -237,7 +237,7 @@ public class SummarizedRoomRates {
 			BedTypeId id = queue.poll();
 			Rate rate = mBedTypeToMinRateMap.get(id);
 			if (id != null) {
-				mSummarizedRates.add(new Pair<Rate.BedTypeId, Rate>(id, rate));
+				mSummarizedRates.add(new Pair<BedTypeId, Rate>(id, rate));
 			}
 
 			return !queue.isEmpty();

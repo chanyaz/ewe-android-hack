@@ -16,10 +16,10 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
+import com.expedia.bookings.data.BedType;
+import com.expedia.bookings.data.BedType.BedTypeId;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.Rate.BedType;
-import com.expedia.bookings.data.Rate.BedTypeId;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.text.StrikethroughTagHandler;
 
@@ -249,8 +249,8 @@ public class AvailabilitySummaryWidget implements OnLayoutChangeListener {
 
 			String description = rate.getRoomDescription();
 			for (BedType bedType : rate.getBedTypes()) {
-				if (bedType.bedTypeId == bedTypeId) {
-					description = bedType.bedTypeDescription;
+				if (bedType.getBedTypeId() == bedTypeId) {
+					description = bedType.getBedTypeDescription();
 					break;
 				}
 			}
