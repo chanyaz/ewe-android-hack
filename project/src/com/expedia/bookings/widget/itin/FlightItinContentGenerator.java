@@ -174,16 +174,8 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 	@Override
 	public List<String> getHeaderImageUrls() {
-		final ItinCardDataFlight itinCardData = getItinCardData();
-
-		TripFlight tripFlight = (TripFlight) itinCardData.getTripComponent();
-		if (tripFlight != null && itinCardData != null
-				&& tripFlight.getLegDestinationImageUrl(itinCardData.getLegNumber()) != null) {
-			return Arrays.asList(tripFlight.getLegDestinationImageUrl(itinCardData.getLegNumber()));
-		}
-		else {
-			return null;
-		}
+		// We assume that the image will be a DestinationBitmapDrawable 
+		return null;
 	}
 
 	@Override

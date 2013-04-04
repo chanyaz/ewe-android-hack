@@ -581,7 +581,6 @@ public class ItineraryManager implements JSONable {
 
 		// Refresh ancillary parts of a trip; these are higher priority so that they're
 		// completed after each trip is refreshed (for lazy loading purposes)
-		REFRESH_TRIP_IMAGES, // Refreshes images related to a trip
 		REFRESH_TRIP_FLIGHT_STATUS, // Refreshes trip statuses on trip
 		PUBLISH_TRIP_UPDATE, // Publishes that we've updated a trip
 
@@ -757,7 +756,6 @@ public class ItineraryManager implements JSONable {
 		private int mTripRefreshFailures = 0;
 		private int mTripsAdded = 0;
 		private int mTripsRemoved = 0;
-		private int mImagesGrabbed = 0;
 		private int mFlightsUpdated = 0;
 
 		public SyncTask() {
@@ -793,9 +791,6 @@ public class ItineraryManager implements JSONable {
 					break;
 				case GATHER_TRIPS:
 					gatherTrips();
-					break;
-				case REFRESH_TRIP_IMAGES:
-					updateTripImages(nextTask.mTrip);
 					break;
 				case REFRESH_TRIP_FLIGHT_STATUS:
 					updateFlightStatuses(nextTask.mTrip);
@@ -904,83 +899,11 @@ public class ItineraryManager implements JSONable {
 
 			Log.i("# Trips=" + mTrips.size() + "; # Added=" + mTripsAdded + "; # Removed=" + mTripsRemoved);
 			Log.i("# Refreshed=" + mTripsRefreshed + "; # Failed Refresh=" + mTripRefreshFailures);
-			Log.i("# Images Grabbed=" + mImagesGrabbed + "; # Flights Updated=" + mFlightsUpdated);
+			Log.i("# Flights Updated=" + mFlightsUpdated);
 		}
 
 		//////////////////////////////////////////////////////////////////////
 		// Operations
-
-		@SuppressWarnings("deprecation")
-		@SuppressLint("NewApi")
-		private void updateTripImages(Trip trip) {
-
-			//We determine image size to be width=(smallest screen dimen), height=R.dimen.itin_card_expanded_image_height
-			//This is for flights only, but we dont want to do it for every iteration so it goes here
-			int destinationImageWidth = 0;
-			int destinationImageHeight = 0;
-			if (mContext != null) {
-				WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-				Display display = wm.getDefaultDisplay();
-				if (AndroidUtils.getSdkVersion() >= 13) {
-					Point size = new Point();
-					display.getSize(size);
-					destinationImageWidth = Math.min(size.x, size.y);
-				}
-				else {
-					destinationImageWidth = Math.min(display.getWidth(), display.getHeight());
-				}
-				destinationImageHeight = mContext.getResources().getDimensionPixelSize(
-						R.dimen.itin_card_expanded_image_height);
-			}
-
-			// Look for images.  For now, do not update if we already have images (they will remain static)
-			for (TripComponent tripComponent : trip.getTripComponents(true)) {
-				if (tripComponent.getType() == Type.FLIGHT) {
-					TripFlight tripFlight = (TripFlight) tripComponent;
-					FlightTrip flightTrip = tripFlight.getFlightTrip();
-					for (int i = 0; i < flightTrip.getLegCount(); i++) {
-						if (tripFlight.getLegDestinationImageUrl(i) == null) {
-
-							BackgroundImageResponse imageResponse = mServices.getFlightsBackgroundImage(
-									flightTrip.getLeg(i).getLastWaypoint().mAirportCode, destinationImageWidth,
-									destinationImageHeight);
-
-							if (isCancelled()) {
-								return;
-							}
-
-							if (imageResponse != null) {
-								tripFlight.setLegDestinationImageUrl(i, imageResponse.getImageUrl());
-
-								mImagesGrabbed++;
-							}
-							else {
-								tripFlight.setLegDestinationImageUrl(i, "");
-							}
-						}
-					}
-				}
-				else if (tripComponent.getType() == Type.CAR) {
-					TripCar tripCar = (TripCar) tripComponent;
-					Car.Category category = tripCar.getCar().getCategory();
-
-					if (category != null && TextUtils.isEmpty(tripCar.getCarCategoryImageUrl())) {
-						BackgroundImageResponse imageResponse = mServices.getCarsBackgroundImage(tripCar
-								.getCar().getCategory(), tripCar.getCar().getType(), 0, 0);
-
-						if (isCancelled()) {
-							return;
-						}
-
-						if (imageResponse != null) {
-							tripCar.setCarCategoryImageUrl(imageResponse.getImageUrl());
-
-							mImagesGrabbed++;
-						}
-					}
-				}
-			}
-		}
 
 		private void updateFlightStatuses(Trip trip) {
 			long now = Calendar.getInstance().getTimeInMillis();
@@ -1132,7 +1055,6 @@ public class ItineraryManager implements JSONable {
 			}
 
 			if (gatherAncillaryData) {
-				mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP_IMAGES, trip));
 				mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP_FLIGHT_STATUS, trip));
 				mSyncOpQueue.add(new Task(Operation.PUBLISH_TRIP_UPDATE, trip));
 			}

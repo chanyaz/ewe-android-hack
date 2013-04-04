@@ -9,7 +9,6 @@ import com.mobiata.android.json.JSONUtils;
 public class TripCar extends TripComponent {
 
 	private Car mCar;
-	private String mCarCategoryImageUrl;
 
 	public TripCar() {
 		super(Type.CAR);
@@ -21,14 +20,6 @@ public class TripCar extends TripComponent {
 
 	public Car getCar() {
 		return mCar;
-	}
-
-	public String getCarCategoryImageUrl() {
-		return mCarCategoryImageUrl;
-	}
-
-	public void setCarCategoryImageUrl(String carCategoryImageUrl) {
-		mCarCategoryImageUrl = carCategoryImageUrl;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -43,7 +34,6 @@ public class TripCar extends TripComponent {
 
 		try {
 			JSONUtils.putJSONable(obj, "car", mCar);
-			obj.put("carCategoryImageUrl", mCarCategoryImageUrl);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -55,7 +45,6 @@ public class TripCar extends TripComponent {
 	public boolean fromJson(JSONObject obj) {
 		super.fromJson(obj);
 		mCar = JSONUtils.getJSONable(obj, "car", Car.class);
-		mCarCategoryImageUrl = obj.optString("carCategoryImageUrl");
 		return true;
 	}
 }

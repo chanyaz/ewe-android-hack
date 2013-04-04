@@ -159,7 +159,8 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 
 	@Override
 	public List<String> getHeaderImageUrls() {
-		return Arrays.asList(getItinCardData().getCarCategoryImageUrl());
+		// We assume that the image will be a DestinationBitmapDrawable
+		return null;
 	}
 
 	@Override

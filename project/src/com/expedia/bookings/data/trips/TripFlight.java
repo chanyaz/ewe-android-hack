@@ -16,8 +16,6 @@ public class TripFlight extends TripComponent {
 
 	private List<Traveler> mTravelers;
 
-	private List<String> mDestinationImageUrls = new ArrayList<String>();
-
 	private List<FlightConfirmation> mConfirmations = new ArrayList<FlightConfirmation>();
 
 	public TripFlight() {
@@ -52,25 +50,6 @@ public class TripFlight extends TripComponent {
 		return mConfirmations;
 	}
 
-	public String getLegDestinationImageUrl(int legNum) {
-		if (legNum < mDestinationImageUrls.size()) {
-			return mDestinationImageUrls.get(legNum);
-		}
-		return null;
-	}
-
-	public void setLegDestinationImageUrl(int legNum, String destinationImageUrl) {
-		if (legNum == mDestinationImageUrls.size()) {
-			mDestinationImageUrls.add(destinationImageUrl);
-		}
-		else {
-			while (legNum >= mDestinationImageUrls.size()) {
-				mDestinationImageUrls.add("");
-			}
-			mDestinationImageUrls.set(legNum, destinationImageUrl);
-		}
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
@@ -84,7 +63,6 @@ public class TripFlight extends TripComponent {
 		try {
 			JSONUtils.putJSONable(obj, "flightTrip", mFlightTrip);
 			JSONUtils.putJSONableList(obj, "travelers", mTravelers);
-			JSONUtils.putStringList(obj, "destinationImageUrls", mDestinationImageUrls);
 			JSONUtils.putJSONableList(obj, "confirmationNumbers", mConfirmations);
 			return obj;
 		}
@@ -98,7 +76,6 @@ public class TripFlight extends TripComponent {
 		super.fromJson(obj);
 		mFlightTrip = JSONUtils.getJSONable(obj, "flightTrip", FlightTrip.class);
 		mTravelers = JSONUtils.getJSONableList(obj, "travelers", Traveler.class);
-		mDestinationImageUrls = JSONUtils.getStringList(obj, "destinationImageUrls");
 		mConfirmations = JSONUtils.getJSONableList(obj, "confirmationNumbers", FlightConfirmation.class);
 		return true;
 	}

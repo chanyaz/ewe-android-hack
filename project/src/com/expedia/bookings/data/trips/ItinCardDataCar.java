@@ -97,10 +97,6 @@ public class ItinCardDataCar extends ItinCardData implements ConfirmationNumbera
 		return null;
 	}
 
-	public String getCarCategoryImageUrl() {
-		return ((TripCar) getTripComponent()).getCarCategoryImageUrl();
-	}
-
 	public DateTime getPickUpDate() {
 		return getTripComponent().getParentTrip().getStartDate();
 	}
