@@ -391,10 +391,10 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		return false;
 	}
 
-	private boolean hasValidTravler() {
-		boolean travelerValid = true;
+	private boolean validateTravelers() {
+		boolean allTravelersValid = true;
 		if (Db.getTravelers() == null || Db.getTravelers().size() <= 0) {
-			travelerValid = false;
+			allTravelersValid = false;
 		}
 		else {
 			HotelTravelerFlowState state = HotelTravelerFlowState.getInstance(getActivity());
@@ -403,10 +403,17 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			}
 			List<Traveler> travelers = Db.getTravelers();
 			for (int i = 0; i < travelers.size(); i++) {
-				travelerValid &= (state.hasValidTraveler(travelers.get(i)));
+				allTravelersValid &= (state.hasValidTraveler(travelers.get(i)));
 			}
 		}
-		return travelerValid;
+		return allTravelersValid;
+	}
+
+	private void setValidationViewVisibility(View view, int validationViewId, boolean valid) {
+		View validationView = Ui.findView(view, validationViewId);
+		if (validationView != null) {
+			validationView.setVisibility(valid ? View.VISIBLE : View.GONE);
+		}
 	}
 
 	private void populatePaymentDataFromUser() {
@@ -519,7 +526,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		}
 		mSlideToPurchaseFragment.setTotalPriceString(mSlideToPurchasePriceString);
 
-		mHotelReceipt.bind(mIsDoneLoadingPriceChange, DbPropertyHelper.getBestMediaProperty(), Db.getSearchParams(), Db.getSelectedRate());
+		mHotelReceipt.bind(mIsDoneLoadingPriceChange, DbPropertyHelper.getBestMediaProperty(), Db.getSearchParams(),
+				Db.getSelectedRate());
 	}
 
 	public void updateViewVisibilities() {
@@ -532,7 +540,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		boolean hasStoredCard = mBillingInfo.getStoredCard() != null;
 		boolean paymentAddressValid = hasStoredCard ? hasStoredCard : state.hasValidBillingAddress(mBillingInfo);
 		boolean paymentCCValid = hasStoredCard ? hasStoredCard : state.hasValidCardInfo(mBillingInfo);
-		boolean travelerValid = hasValidTravler();
+		boolean travelerValid = validateTravelers();
 
 		mShowSlideToWidget = travelerValid && paymentAddressValid && paymentCCValid && mIsDoneLoadingPriceChange;
 		if (isInCheckout() && mShowSlideToWidget) {
@@ -559,6 +567,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		if (travelerValid) {
 			mTravelerButton.setVisibility(View.GONE);
 			mTravelerSection.setVisibility(View.VISIBLE);
+			setValidationViewVisibility(mTravelerSection, R.id.validation_checkmark, true);
 		}
 		else {
 			mTravelerButton.setVisibility(View.VISIBLE);
@@ -569,11 +578,13 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			mStoredCreditCard.setVisibility(View.VISIBLE);
 			mPaymentButton.setVisibility(View.GONE);
 			mCreditCardSectionButton.setVisibility(View.GONE);
+			setValidationViewVisibility(mStoredCreditCard, R.id.validation_checkmark, true);
 		}
 		else if (paymentAddressValid && paymentCCValid) {
 			mStoredCreditCard.setVisibility(View.GONE);
 			mPaymentButton.setVisibility(View.GONE);
 			mCreditCardSectionButton.setVisibility(View.VISIBLE);
+			setValidationViewVisibility(mCreditCardSectionButton, R.id.validation_checkmark, true);
 		}
 		else {
 			mStoredCreditCard.setVisibility(View.GONE);
@@ -849,7 +860,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 					availResponse.updateRate(response.getOriginalProductKey(), newRate);
 
 					mIsDoneLoadingPriceChange = true;
-					mHotelReceipt.bind(mIsDoneLoadingPriceChange, DbPropertyHelper.getBestMediaProperty(), Db.getSearchParams(), Db.getSelectedRate());
+					mHotelReceipt.bind(mIsDoneLoadingPriceChange, DbPropertyHelper.getBestMediaProperty(),
+							Db.getSearchParams(), Db.getSelectedRate());
 					updateViewVisibilities();
 				}
 				else {

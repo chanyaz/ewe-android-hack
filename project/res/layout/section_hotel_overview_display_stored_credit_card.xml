@@ -2,11 +2,13 @@
 <com.expedia.bookings.section.SectionStoredCreditCard xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:gravity="center_vertical"
         android:orientation="horizontal" >
 
@@ -24,5 +26,15 @@
             android:textColor="@color/data_entry_text"
             android:textSize="18sp" />
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/validation_checkmark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="0"
+        android:src="@drawable/ic_checkout_checkmark"
+        android:visibility="gone" />
 
 </com.expedia.bookings.section.SectionStoredCreditCard>

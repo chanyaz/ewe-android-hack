@@ -17,8 +17,19 @@
         android:id="@+id/display_creditcard_number_masked"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:bufferType="spannable"
         android:textColor="@color/data_review_grey"
         android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/validation_checkmark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="0"
+        android:src="@drawable/ic_checkout_checkmark"
+        android:visibility="gone" />
 
 </com.expedia.bookings.section.SectionBillingInfo>

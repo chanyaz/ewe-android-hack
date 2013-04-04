@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Contacts.Intents.UI;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -425,7 +424,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 					return false;
 				}
 				List<Traveler> travelers = Db.getTravelers();
-				
+
 				for (int i = 0; i < travelers.size(); i++) {
 					SectionTravelerInfo travSection = mTravelerSections.get(i);
 					boolean currentTravelerValid = false;
@@ -470,7 +469,6 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		boolean paymentCCValid = hasStoredCard ? hasStoredCard : state.hasValidCardInfo(mBillingInfo);
 		boolean travelerValid = validateTravelers();
 
-		
 		if (hasStoredCard) {
 			mStoredCreditCard.setVisibility(View.VISIBLE);
 			mPaymentButton.setVisibility(View.GONE);
@@ -487,7 +485,6 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			mStoredCreditCard.setVisibility(View.GONE);
 			mPaymentButton.setVisibility(View.VISIBLE);
 			mCreditCardSectionButton.setVisibility(View.GONE);
-			setValidationViewVisibility(mPaymentButton, R.id.validation_checkmark, true);
 		}
 
 		if (paymentAddressValid && paymentCCValid && travelerValid) {
@@ -504,10 +501,10 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			mAccountLabel.setVisibility(View.GONE);
 		}
 	}
-	
-	private void setValidationViewVisibility(View view, int validationViewId, boolean valid){
+
+	private void setValidationViewVisibility(View view, int validationViewId, boolean valid) {
 		View validationView = Ui.findView(view, validationViewId);
-		if(validationView != null){
+		if (validationView != null) {
 			validationView.setVisibility(valid ? View.VISIBLE : View.GONE);
 		}
 	}
