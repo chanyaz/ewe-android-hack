@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.PointF;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.ViewParent;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.WindowManager;
@@ -165,7 +166,9 @@ public class ParallaxContainer extends FrameLayout {
 		// then this view would still be visible on the screen.
 		float minVisiblePosition = mOffsetTop - thisHeight;
 		WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-		float maxVisiblePosition = wm.getDefaultDisplay().getHeight() - mOffsetBottom;
+		DisplayMetrics metrics = new DisplayMetrics();
+		wm.getDefaultDisplay().getMetrics(metrics);
+		float maxVisiblePosition = metrics.heightPixels - mOffsetBottom;
 
 		PointF p1 = new PointF(minVisiblePosition, mScrollMin);
 		PointF p2 = new PointF(maxVisiblePosition, mScrollMax);
