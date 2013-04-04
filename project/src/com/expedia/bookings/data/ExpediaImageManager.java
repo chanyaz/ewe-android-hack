@@ -45,22 +45,45 @@ public class ExpediaImageManager {
 	//////////////////////////////////////////////////////////////////////////
 	// Retrieval
 
+	private static final long EXPIRATION = 1000 * 60 * 60 * 24; // 24 hours
+
 	private Map<String, BackgroundImageResponse> mCachedImageUrls = new ConcurrentHashMap<String, BackgroundImageResponse>();
 
-	public String getExpediaImage(ImageType imageType, String imageCode, int width, int height) {
-		String cacheUrl = getCacheUrl(imageType, imageCode);
+	/**
+	 * Retrieves Expedia image URLs.
+	 *  
+	 * @param imageType the type of image
+	 * @param imageCode the image code (determined by image type + other factors)
+	 * @param width the desired width (not guaranteed to be exact on return)
+	 * @param height the desired height (not guaranteed to be exact on return)
+	 * @param useNetwork if true, will request .  If you set this to true, you better be operating on a non-UI thread!
+	 * @return the URL if available, or null if not
+	 */
+	public String getExpediaImage(ImageType imageType, String imageCode, int width, int height, boolean useNetwork) {
+		// The key should be unique for each request
+		String cacheUrl = imageType + ":" + imageCode + ":" + width + "x" + height;
 
-		if (!mCachedImageUrls.containsKey(cacheUrl)) {
-			ExpediaServices services = new ExpediaServices(mContext);
-			BackgroundImageResponse response = services.getExpediaImage(imageType, imageCode, width, height);
-			mCachedImageUrls.put(cacheUrl, response);
+		BackgroundImageResponse response = mCachedImageUrls.get(cacheUrl);
+		if (response == null || response.getTimestamp() + EXPIRATION < System.currentTimeMillis()) {
+			response = null;
+
+			if (useNetwork) {
+				ExpediaServices services = new ExpediaServices(mContext);
+				BackgroundImageResponse newResponse = services.getExpediaImage(imageType, imageCode, width, height);
+
+				// We'll fall back to the old URL if we don't get a new one
+				if (newResponse != null) {
+					response = newResponse;
+					mCachedImageUrls.put(cacheUrl, newResponse);
+				}
+			}
 		}
 
-		return mCachedImageUrls.get(cacheUrl).getImageUrl();
-	}
+		if (response != null) {
+			return response.getImageUrl();
+		}
 
-	private String getCacheUrl(ImageType imageType, String imageCode) {
-		return imageType.getIdentifier() + ":" + imageCode;
+		return null;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

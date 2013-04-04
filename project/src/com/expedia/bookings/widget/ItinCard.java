@@ -75,6 +75,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	private View mTopExtraPaddingView;
 	private View mBottomExtraPaddingView;
 
+	private int mLastMeasuredWidth;
+	private int mLastMeasuredHeight;
+
 	private ViewGroup mCardLayout;
 	private ViewGroup mTitleLayout;
 	private ViewGroup mTitleContentLayout;
@@ -200,19 +203,29 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		mHeaderImageView.setType(getType());
 		int placeholderResId = mItinContentGenerator.getHeaderImagePlaceholderResId();
 
-		// TODO: Come up with a good way to get width/height for destination images
-		if (itinCardData instanceof ItinCardDataFlight) {
+		// The ItinCards go back and forth from being measured/not.  What we do is just
+		// assume that the last non-zero measurement was correct (otherwise we fall back
+		// to the placeholder image).
+		if (mLastMeasuredWidth == 0 && mLastMeasuredHeight == 0) {
+			mLastMeasuredWidth = getWidth();
+			mLastMeasuredHeight = getHeight();
+		}
+
+		if (mLastMeasuredWidth == 0 && mLastMeasuredHeight == 0) {
+			mHeaderImageView.setImageResource(placeholderResId);
+		}
+		else if (itinCardData instanceof ItinCardDataFlight) {
 			ItinCardDataFlight cardData = ((ItinCardDataFlight) itinCardData);
 			String destinationCode = cardData.getFlightLeg().getLastWaypoint().mAirportCode;
 			DestinationBitmapDrawable drawable = new DestinationBitmapDrawable(getResources(), placeholderResId,
-					destinationCode, 500, 500);
+					destinationCode, mLastMeasuredWidth, mLastMeasuredHeight);
 			drawable.configureImageView(mHeaderImageView);
 		}
 		else if (itinCardData instanceof ItinCardDataCar) {
 			ItinCardDataCar cardData = ((ItinCardDataCar) itinCardData);
 			Car car = cardData.getCar();
 			DestinationBitmapDrawable drawable = new DestinationBitmapDrawable(getResources(), placeholderResId,
-					car.getCategory(), car.getType(), 500, 500);
+					car.getCategory(), car.getType(), mLastMeasuredWidth, mLastMeasuredHeight);
 			drawable.configureImageView(mHeaderImageView);
 		}
 		else {
