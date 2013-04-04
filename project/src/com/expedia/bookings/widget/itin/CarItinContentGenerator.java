@@ -1,8 +1,5 @@
 package com.expedia.bookings.widget.itin;
 
-import java.util.Arrays;
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -14,16 +11,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.graphics.DestinationBitmapDrawable;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.EventSummaryView;
 import com.expedia.bookings.widget.InfoTripletView;
 import com.expedia.bookings.widget.LocationMapImageView;
 import com.mobiata.android.SocialUtils;
+import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
 public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCar> {
 
@@ -158,9 +158,10 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 	}
 
 	@Override
-	public List<String> getHeaderImageUrls() {
-		// We assume that the image will be a DestinationBitmapDrawable
-		return null;
+	public UrlBitmapDrawable getHeaderBitmapDrawable(int width, int height) {
+		Car car = getItinCardData().getCar();
+		return new DestinationBitmapDrawable(getResources(), getHeaderImagePlaceholderResId(),
+				car.getCategory(), car.getType(), width, height);
 	}
 
 	@Override

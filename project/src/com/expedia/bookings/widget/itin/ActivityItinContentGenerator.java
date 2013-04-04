@@ -35,6 +35,7 @@ import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.InfoTripletView;
 import com.mobiata.android.SocialUtils;
+import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
 public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardDataActivity> {
 
@@ -118,7 +119,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 	}
 
 	@Override
-	public List<String> getHeaderImageUrls() {
+	public UrlBitmapDrawable getHeaderBitmapDrawable(int width, int height) {
 		return null;
 	}
 

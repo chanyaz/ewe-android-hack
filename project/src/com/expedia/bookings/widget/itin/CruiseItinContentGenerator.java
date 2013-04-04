@@ -1,7 +1,5 @@
 package com.expedia.bookings.widget.itin;
 
-import java.util.List;
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +7,7 @@ import android.view.ViewGroup;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
 public class CruiseItinContentGenerator extends ItinContentGenerator<ItinCardData> {
 
@@ -52,7 +51,7 @@ public class CruiseItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	}
 
 	@Override
-	public List<String> getHeaderImageUrls() {
+	public UrlBitmapDrawable getHeaderBitmapDrawable(int width, int height) {
 		return null;
 	}
 

@@ -41,6 +41,7 @@ import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.widget.LinearLayout;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
+import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.Ui;
 
 public abstract class ItinContentGenerator<T extends ItinCardData> {
@@ -119,9 +120,9 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	public abstract int getHeaderImagePlaceholderResId();
 
 	/**
-	 * @return a prioritized list of URLs to try for the header image
+	 * @return a UrlBitmapDrawable to display, or null if we want to use the placeholder
 	 */
-	public abstract List<String> getHeaderImageUrls();
+	public abstract UrlBitmapDrawable getHeaderBitmapDrawable(int width, int height);
 
 	public abstract String getHeaderText();
 

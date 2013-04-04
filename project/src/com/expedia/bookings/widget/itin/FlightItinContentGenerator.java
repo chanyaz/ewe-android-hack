@@ -3,7 +3,6 @@ package com.expedia.bookings.widget.itin;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -44,6 +43,7 @@ import com.expedia.bookings.data.trips.FlightConfirmation;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
+import com.expedia.bookings.graphics.DestinationBitmapDrawable;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClipboardUtils;
@@ -52,6 +52,7 @@ import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightMapImageView;
 import com.mobiata.android.Log;
+import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Delay;
 import com.mobiata.flightlib.data.Flight;
@@ -173,9 +174,10 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	}
 
 	@Override
-	public List<String> getHeaderImageUrls() {
-		// We assume that the image will be a DestinationBitmapDrawable 
-		return null;
+	public UrlBitmapDrawable getHeaderBitmapDrawable(int width, int height) {
+		String destinationCode = getItinCardData().getFlightLeg().getLastWaypoint().mAirportCode;
+		return new DestinationBitmapDrawable(getResources(), getHeaderImagePlaceholderResId(), destinationCode, width,
+				height);
 	}
 
 	@Override

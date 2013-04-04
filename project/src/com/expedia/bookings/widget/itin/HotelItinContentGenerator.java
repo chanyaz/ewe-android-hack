@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget.itin;
 
 import java.util.Calendar;
-import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,9 +21,10 @@ import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.LocationMapImageView;
 import com.expedia.bookings.widget.InfoTripletView;
+import com.expedia.bookings.widget.LocationMapImageView;
 import com.mobiata.android.SocialUtils;
+import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
 public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardDataHotel> {
 
@@ -124,8 +124,9 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	}
 
 	@Override
-	public List<String> getHeaderImageUrls() {
-		return getItinCardData().getHeaderImageUrls();
+	public UrlBitmapDrawable getHeaderBitmapDrawable(int width, int height) {
+		return new UrlBitmapDrawable(getResources(), getItinCardData().getHeaderImageUrls(),
+				getHeaderImagePlaceholderResId());
 	}
 
 	@Override

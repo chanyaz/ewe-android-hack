@@ -17,12 +17,8 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.AnimatorListenerShort;
 import com.expedia.bookings.animation.ResizeAnimator;
-import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.trips.ItinCardData;
-import com.expedia.bookings.data.trips.ItinCardDataCar;
-import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.TripComponent.Type;
-import com.expedia.bookings.graphics.DestinationBitmapDrawable;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.Ui;
@@ -211,31 +207,19 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 			mLastMeasuredHeight = getHeight();
 		}
 
-		if (mLastMeasuredWidth == 0 && mLastMeasuredHeight == 0) {
+		boolean setHeaderDrawable = false;
+		if (mLastMeasuredWidth != 0 && mLastMeasuredHeight != 0) {
+			UrlBitmapDrawable drawable = mItinContentGenerator.getHeaderBitmapDrawable(mLastMeasuredWidth,
+					mLastMeasuredHeight);
+
+			if (drawable != null) {
+				drawable.configureImageView(mHeaderImageView);
+				setHeaderDrawable = true;
+			}
+		}
+
+		if (!setHeaderDrawable) {
 			mHeaderImageView.setImageResource(placeholderResId);
-		}
-		else if (itinCardData instanceof ItinCardDataFlight) {
-			ItinCardDataFlight cardData = ((ItinCardDataFlight) itinCardData);
-			String destinationCode = cardData.getFlightLeg().getLastWaypoint().mAirportCode;
-			DestinationBitmapDrawable drawable = new DestinationBitmapDrawable(getResources(), placeholderResId,
-					destinationCode, mLastMeasuredWidth, mLastMeasuredHeight);
-			drawable.configureImageView(mHeaderImageView);
-		}
-		else if (itinCardData instanceof ItinCardDataCar) {
-			ItinCardDataCar cardData = ((ItinCardDataCar) itinCardData);
-			Car car = cardData.getCar();
-			DestinationBitmapDrawable drawable = new DestinationBitmapDrawable(getResources(), placeholderResId,
-					car.getCategory(), car.getType(), mLastMeasuredWidth, mLastMeasuredHeight);
-			drawable.configureImageView(mHeaderImageView);
-		}
-		else {
-			List<String> headerImageUrls = mItinContentGenerator.getHeaderImageUrls();
-			if (headerImageUrls != null && headerImageUrls.size() > 0) {
-				UrlBitmapDrawable.loadImageView(headerImageUrls, mHeaderImageView, placeholderResId);
-			}
-			else {
-				mHeaderImageView.setImageResource(placeholderResId);
-			}
 		}
 
 		// Header text
