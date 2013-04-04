@@ -229,33 +229,38 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 		String phoneNumber = "";
 
 		ItinCardDataActivity itinCardData = getItinCardData();
-		TripActivity tripActivity = itinCardData != null ? (TripActivity) itinCardData.getTripComponent() : null;
-		Trip trip = tripActivity != null ? tripActivity.getParentTrip() : null;
-		CustomerSupport support = trip != null ? trip.getCustomerSupport() : null;
-		if (support != null) {
-			if (PointOfSale.getPointOfSale(getContext()).getPointOfSaleId() == PointOfSaleId.UNITED_STATES
-					&& !TextUtils.isEmpty(support.getSupportPhoneNumberDomestic())) {
-				phoneNumber = support.getSupportPhoneNumberDomestic();
-			}
-			else if (!TextUtils.isEmpty(support.getSupportPhoneNumberInternational())) {
-				phoneNumber = support.getSupportPhoneNumberInternational();
-			}
-		}
-
-		if (TextUtils.isEmpty(phoneNumber)) {
-			return getSupportSummaryButton();
-		}
-		else {
-			final String finalPhoneNumber = phoneNumber;
-			return new SummaryButton(R.drawable.ic_phone, getContext().getString(R.string.itin_action_support),
-					new OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							SocialUtils.call(getContext(), finalPhoneNumber);
-							OmnitureTracking.trackItinActivitySupport(getContext());
+		if (itinCardData != null) {
+			TripActivity tripActivity = (TripActivity) itinCardData.getTripComponent();
+			if (tripActivity != null) {
+				Trip trip = tripActivity.getParentTrip();
+				if (trip != null) {
+					CustomerSupport support = trip.getCustomerSupport();
+					if (support != null) {
+						if (PointOfSale.getPointOfSale(getContext()).getPointOfSaleId() == PointOfSaleId.UNITED_STATES
+								&& !TextUtils.isEmpty(support.getSupportPhoneNumberDomestic())) {
+							phoneNumber = support.getSupportPhoneNumberDomestic();
 						}
-					});
+						else if (!TextUtils.isEmpty(support.getSupportPhoneNumberInternational())) {
+							phoneNumber = support.getSupportPhoneNumberInternational();
+						}
+					}
+
+					if (!TextUtils.isEmpty(phoneNumber)) {
+						final String finalPhoneNumber = phoneNumber;
+						return new SummaryButton(R.drawable.ic_phone, getContext().getString(
+								R.string.itin_action_support),
+								new OnClickListener() {
+									@Override
+									public void onClick(View v) {
+										SocialUtils.call(getContext(), finalPhoneNumber);
+										OmnitureTracking.trackItinActivitySupport(getContext());
+									}
+								});
+					}
+				}
+			}
 		}
+		return getSupportSummaryButton();
 	}
 
 	@SuppressLint("DefaultLocale")
