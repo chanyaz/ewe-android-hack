@@ -239,10 +239,11 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		}
 
 		try {
+			//This sometimes throws ArrayIndexOutOfBounds on 2.x. when we are fast scrolling. Cause unclear.
 			return super.onTouchEvent(event);
 		}
 		catch (ArrayIndexOutOfBoundsException ex) {
-			Log.e("ArrayIndexOutOfBoundsException in ItinListView.onTouchEvent()", ex);
+			Log.w("ArrayIndexOutOfBoundsException in ItinListView.onTouchEvent()", ex);
 		}
 		return false;
 	}
