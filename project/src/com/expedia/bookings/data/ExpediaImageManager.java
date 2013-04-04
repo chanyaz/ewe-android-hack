@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import android.content.Context;
 
 import com.expedia.bookings.server.ExpediaServices;
+import com.mobiata.android.bitmaps.TwoLevelImageCache;
 
 public class ExpediaImageManager {
 
@@ -66,20 +67,25 @@ public class ExpediaImageManager {
 
 		BackgroundImageResponse response = mCachedImageUrls.get(cacheUrl);
 		if (response == null || response.getTimestamp() + EXPIRATION < System.currentTimeMillis()) {
-			response = null;
-
 			if (useNetwork) {
 				ExpediaServices services = new ExpediaServices(mContext);
 				BackgroundImageResponse newResponse = services.getExpediaImage(imageType, imageCode, width, height);
 
 				// We'll fall back to the old URL if we don't get a new one
-				if (newResponse != null) {
+				if (newResponse != null && !newResponse.hasErrors()) {
+					// See if we should expire the old cached image out of our image cache
+					if (response != null && !response.getCacheKey().equals(newResponse.getCacheKey())) {
+						TwoLevelImageCache.removeImage(response.getImageUrl());
+					}
+
 					response = newResponse;
 					mCachedImageUrls.put(cacheUrl, newResponse);
 				}
 			}
 		}
 
+		// We might end up falling back to an old response, which is fine;
+		// we're not going for 100% accurate data here.
 		if (response != null) {
 			return response;
 		}
