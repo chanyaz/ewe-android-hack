@@ -544,6 +544,8 @@
     <string name="or_select_new_paymet_method">Select a Payment Method</string>
     <!-- Select Payment -->
     <string name="select_payment">Select Payment</string>
+    <!-- Select payment sentence case -->
+    <string name="select_payment_sentence_case">Select payment</string>
     <!-- Add new card -->
     <string name="add_new_card">Add New Card</string>
     <!-- Overview button -->
@@ -644,6 +646,10 @@
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Traveler Information</string>
+    <!-- Add traveler -->
+    <string name="add_traveler">Add traveler</string>
+    <!-- Add traveler number template -->
+    <string name="add_traveler_number_TEMPLATE">Add traveler %1$s</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Boarding may be denied if traveler name does not match government-issued photo ID.</string>
 

@@ -341,10 +341,10 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			TextView tv = Ui.findView(v, R.id.traveler_empty_text_view);
 
 			if (numAdults == 1) {
-				tv.setText(mContext.getString(R.string.traveler_information));
+				tv.setText(mContext.getString(R.string.add_traveler));
 			}
 			else {
-				tv.setText(mContext.getString(R.string.traveler_num_and_category_TEMPLATE, index + 1)); // no zero index for users
+				tv.setText(mContext.getString(R.string.add_traveler_number_TEMPLATE, index + 1)); // no zero index for users
 			}
 
 			mTravelerContainer.addView(v);

@@ -45,9 +45,7 @@
         android:layout_marginBottom="0dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:orientation="vertical"
-         >
-
+        android:orientation="vertical" >
     </LinearLayout>
 
     <!-- Payment -->
@@ -87,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/payment_method"
+                android:text="@string/select_payment_sentence_case"
                 android:textSize="16sp" />
         </LinearLayout>
 
