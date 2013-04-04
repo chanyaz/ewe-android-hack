@@ -26,6 +26,7 @@ public class BookingInProgressDialogFragment extends DialogFragment {
 		pd.setMessage(getString(R.string.booking_loading));
 		pd.setCancelable(false);
 		pd.setCanceledOnTouchOutside(false);
+		pd.setIndeterminateDrawable(getResources().getDrawable(R.drawable.abs__progress_medium_holo));
 		pd.setOnKeyListener(new OnKeyListener() {
 			@Override
 			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
