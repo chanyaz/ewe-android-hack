@@ -457,7 +457,8 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 		// For cards coming up in less than one hour, we want "XX Minutes"
 		else if (duration <= DateUtils.HOUR_IN_MILLIS) {
-			int minutes = (int) (duration / DateUtils.MINUTE_IN_MILLIS);
+			// Explicitly adding a minute in milliseconds to avoid showing '0 minutes' strings. Defect# 758
+			int minutes = (int) ((duration + DateUtils.MINUTE_IN_MILLIS - 1) / DateUtils.MINUTE_IN_MILLIS);
 			ret = getContext().getResources().getQuantityString(R.plurals.minutes_from_now, minutes, minutes);
 		}
 

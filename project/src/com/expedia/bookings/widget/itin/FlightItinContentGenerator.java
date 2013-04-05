@@ -36,6 +36,7 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TerminalMapActivity;
+import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -400,8 +401,9 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			else if (departure.before(now) && (flight.mFlightHistoryId != -1)) {
 				//flight in progress AND we have FS data, show arrival info
 				int delay = getDelayForWaypoint(flight.getArrivalWaypoint());
-				CharSequence timeSpanString = DateUtils.getRelativeTimeSpanString(arrival.getTimeInMillis(),
-						now.getTimeInMillis(), DateUtils.MINUTE_IN_MILLIS, 0);
+				// Explicitly adding a minute in milliseconds to avoid showing '0 minutes' strings. Defect# 758
+				CharSequence timeSpanString = DateUtils.getRelativeTimeSpanString((arrival.getTimeInMillis()
+						+ DateUtils.MINUTE_IN_MILLIS - 1), now.getTimeInMillis(), DateUtils.MINUTE_IN_MILLIS, 0);
 
 				if (delay > 0) {
 					vh.mTopLine.setText(res.getString(R.string.flight_arrives_late_TEMPLATE, timeSpanString));
@@ -440,8 +442,9 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			else {
 				//Less than 72 hours in the future and has FS data
 				int delay = getDelayForWaypoint(flight.mOrigin);
-				CharSequence timeSpanString = DateUtils.getRelativeTimeSpanString(departure.getTimeInMillis(),
-						now.getTimeInMillis(), DateUtils.MINUTE_IN_MILLIS, 0);
+				// Explicitly adding a minute in milliseconds to avoid showing '0 minutes' strings. Defect# 758
+				CharSequence timeSpanString = DateUtils.getRelativeTimeSpanString((departure.getTimeInMillis()
+						+ DateUtils.MINUTE_IN_MILLIS - 1), now.getTimeInMillis(), DateUtils.MINUTE_IN_MILLIS, 0);
 
 				if (delay > 0) {
 					vh.mTopLine.setText(res.getString(R.string.flight_departs_late_TEMPLATE, timeSpanString));
