@@ -150,7 +150,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 			if (OutOfMemoryError.class.equals(rootCause.getClass())) {
 				TwoLevelImageCache.debugInfo();
 
-				MemoryUtils.dumpHprofDataToSdcard("dump.hprof", getApplicationContext());
+				MemoryUtils.dumpMemoryStateToDisk(getApplicationContext());
 			}
 		}
 
