@@ -25,9 +25,6 @@ public class UserReviewsUtils {
 
 	public void addReviews(String propertyId, ReviewSort sort, List<ReviewWrapper> reviews) {
 		String key = propertyId + "_" + sort.toString();
-
-		Log.d("bradley", "add: " + key + ", " + reviews.size() + " reviews");
-
 		mReviewsMap.put(key, reviews);
 	}
 
