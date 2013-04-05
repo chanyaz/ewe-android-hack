@@ -165,10 +165,8 @@ public class HotelsRobotHelper {
 			fileIn.close();
 		}
 		catch (FileNotFoundException e) {
-			e.printStackTrace();
 		}
 		catch (IOException e) {
-			e.printStackTrace();
 		}
 		finally {
 			closeFileWriter();
@@ -585,7 +583,7 @@ public class HotelsRobotHelper {
 		delay(5);
 
 		mSolo.clickOnText(log_in_with_expedia);
-		
+
 		// Log log in event for ad tracking
 		if (mWriteEventsToFile) {
 			mFileWriter.addLineToFile("Log in event at", true);
@@ -670,7 +668,7 @@ public class HotelsRobotHelper {
 			mSolo.clickOnText(travelerInfo);
 			enterNewTraveler();
 		}
-		
+
 		String select_payment_sentence_case = mSolo.getString(R.string.select_payment_sentence_case);
 
 		if (mSolo.searchText(select_payment_sentence_case, true)) {
@@ -1104,7 +1102,7 @@ public class HotelsRobotHelper {
 		delay(5);
 		mSolo.clickOnText(mRes.getString(R.string.select_flight));
 		mSolo.waitForDialogToClose(10000);
-		if(mSolo.searchText(mRes.getString(R.string.error_server))) {
+		if (mSolo.searchText(mRes.getString(R.string.error_server))) {
 			throw new IntegrationFailureError("INTEGRATION FAILURE: Failed when checking for new price");
 		}
 		mSolo.clickOnText(mRes.getString(R.string.checkout_btn));
