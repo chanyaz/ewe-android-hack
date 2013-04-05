@@ -20,6 +20,7 @@ import com.expedia.bookings.fragment.TerminalMapFragment;
 import com.expedia.bookings.fragment.TerminalMapLegendDialogFragment;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.AirportMap;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
@@ -72,8 +73,18 @@ public class TerminalMapActivity extends SherlockFragmentActivity implements OnN
 				mTerminalNames.add(map.mName);
 			}
 		}
-		mMapSelectorAdapter = new ArrayAdapter<String>(this, R.layout.simple_spinner_dropdown_item_terminal_chooser,
-				mTerminalNames);
+
+		if (AndroidUtils.getSdkVersion() > 11) {
+			mMapSelectorAdapter = new ArrayAdapter<String>(this,
+					R.layout.simple_spinner_dropdown_item_terminal_chooser,
+					mTerminalNames);
+		}
+		else {
+			//On 2.x dropdown items are not ellipsized properly in the nav dropdown spinner so we use a fixed width dropdown
+			mMapSelectorAdapter = new ArrayAdapter<String>(this,
+					R.layout.simple_spinner_dropdown_item_terminal_chooser_sdk11,
+					mTerminalNames);
+		}
 		actionBar.setListNavigationCallbacks(mMapSelectorAdapter, this);
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_POSITION)) {
