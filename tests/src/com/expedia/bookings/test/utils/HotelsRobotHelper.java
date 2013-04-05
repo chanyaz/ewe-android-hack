@@ -584,7 +584,7 @@ public class HotelsRobotHelper {
 		portrait();
 		delay(5);
 
-		mSolo.clickOnButton(0);
+		mSolo.clickOnText(log_in_with_expedia);
 		
 		// Log log in event for ad tracking
 		if (mWriteEventsToFile) {
