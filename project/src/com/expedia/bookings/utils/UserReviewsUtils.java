@@ -5,7 +5,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.expedia.bookings.fragment.UserReviewsFragment.ReviewWrapper;
 import com.expedia.bookings.server.ExpediaServices.ReviewSort;
-import com.mobiata.android.Log;
 
 public class UserReviewsUtils {
 

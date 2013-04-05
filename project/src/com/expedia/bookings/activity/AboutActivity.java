@@ -21,7 +21,6 @@ import com.expedia.bookings.utils.HtmlUtils;
 import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.dialog.MailChimpDialogFragment;
 import com.mobiata.android.dialog.MailChimpDialogFragment.OnSubscribeEmailClickedListener;

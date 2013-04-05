@@ -5,16 +5,10 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.mobiata.android.util.Ui;
 
 public class ThrobberDialog extends DialogFragment {
-	private ViewGroup mRoot;
 	private CharSequence mMessage;
 
 	private CancelListener mCancelListener;

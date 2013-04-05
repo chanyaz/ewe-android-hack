@@ -21,20 +21,12 @@ import java.util.TimeZone;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.TextUtils;
 import android.text.format.DateUtils;
-import android.view.Display;
-import android.view.WindowManager;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.data.BackgroundImageResponse;
-import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
@@ -46,7 +38,6 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.flightlib.data.Flight;
 
