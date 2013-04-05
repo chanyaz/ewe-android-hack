@@ -8,6 +8,7 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.data.AssociateUserToTripResponse;
 import com.expedia.bookings.data.Itinerary;
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.JsonResponseHandler;
@@ -50,6 +51,11 @@ public class AssociateUserToTripResponseHandler extends JsonResponseHandler<Asso
 			itinerary.setTravelRecordLocator(itineraryJson.optString("travelRecordLocator"));
 			itinerary.setTripId(itineraryJson.optString("tripId"));
 			assocUserToTripResp.setItinerary(itinerary);
+		}
+		else {
+			ServerError missingValuesError = new ServerError(ApiMethod.ASSOCIATE_USER_TO_TRIP);
+			missingValuesError.setMessage("Required fields were missing from the server response.");
+			assocUserToTripResp.addError(missingValuesError);
 		}
 
 		return assocUserToTripResp;

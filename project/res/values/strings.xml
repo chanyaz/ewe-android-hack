@@ -1521,7 +1521,7 @@
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_rewards">Enrolled in Expedia Rewards\u2122</string>
     <!-- Loading rewards points message -->
-    <string name="loading_your_rewards_points">Loading your rewards points...</string>
+    <string name="loading_your_rewards_points">Loading your rewards points&#8230;</string>
     <!-- Label for account name -->
     <string name="logged_in_as">Logged in as</string>
     <!-- Label for signin screen -->
