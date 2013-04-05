@@ -52,7 +52,6 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 			mDriver.flightsHappyPath(mUser.mDepartureAirport, mUser.mArrivalAirport, dateOffset, false);
 		}
 		catch (IntegrationFailureError e) {
-			e.printStackTrace();
 			fail(e.getMessage());
 		}
 	}
