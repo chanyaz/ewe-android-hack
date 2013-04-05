@@ -670,10 +670,19 @@ public class HotelsRobotHelper {
 			mSolo.clickOnText(travelerInfo);
 			enterNewTraveler();
 		}
+		
+		String select_payment_sentence_case = mSolo.getString(R.string.select_payment_sentence_case);
 
-		mSolo.clickOnText(mSolo.getString(R.string.payment_method));
+		if (mSolo.searchText(select_payment_sentence_case, true)) {
+			mSolo.clickOnText(select_payment_sentence_case);
+		}
+		else {
+			String select_payment = mSolo.getString(R.string.select_payment);
+			mSolo.clickOnText(select_payment);
+		}
+
 		delay();
-		screenshot("Payment Method");
+		screenshot("Select payment");
 
 		landscape();
 		portrait();
