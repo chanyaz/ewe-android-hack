@@ -35,9 +35,17 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="8dp"
                     android:layout_marginTop="16dp"
                     layout="@layout/include_account_button" />
+
+                <Button
+                    android:id="@+id/wallet_button"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="16dp"
+                    android:text="TMP: Pay using Google Wallet" />
 
                 <TextView
                     android:id="@+id/checkout_information_header_text_view"

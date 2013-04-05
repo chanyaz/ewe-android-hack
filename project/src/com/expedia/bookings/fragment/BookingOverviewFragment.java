@@ -7,6 +7,7 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,6 +17,7 @@ import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
@@ -24,6 +26,7 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -39,6 +42,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SignInResponse;
@@ -57,6 +61,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DbPropertyHelper;
+import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.CouponCodeWidget;
@@ -65,6 +70,16 @@ import com.expedia.bookings.widget.HotelReceipt;
 import com.expedia.bookings.widget.LinearLayout;
 import com.expedia.bookings.widget.ScrollView;
 import com.expedia.bookings.widget.ScrollView.OnScrollListener;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
+import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
+import com.google.android.gms.wallet.Address;
+import com.google.android.gms.wallet.MaskedWallet;
+import com.google.android.gms.wallet.MaskedWalletRequest;
+import com.google.android.gms.wallet.WalletClient;
+import com.google.android.gms.wallet.WalletClient.OnMaskedWalletLoadedListener;
+import com.google.android.gms.wallet.WalletClient.OnPreAuthorizationDeterminedListener;
+import com.google.android.gms.wallet.WalletConstants;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -75,7 +90,9 @@ import com.mobiata.android.util.Ui;
 import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.view.ViewHelper;
 
-public class BookingOverviewFragment extends Fragment implements AccountButtonClickListener {
+public class BookingOverviewFragment extends Fragment implements AccountButtonClickListener, ConnectionCallbacks,
+		OnConnectionFailedListener, OnPreAuthorizationDeterminedListener, OnMaskedWalletLoadedListener {
+
 	public interface BookingOverviewFragmentListener {
 		public void checkoutStarted();
 
@@ -104,6 +121,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	private LinearLayout mCheckoutLayout;
 
 	private AccountButton mAccountButton;
+	private Button mWalletButton;
 	private SectionTravelerInfo mTravelerSection;
 	private SectionBillingInfo mCreditCardSectionButton;
 	private SectionStoredCreditCard mStoredCreditCard;
@@ -144,6 +162,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		walletOnCreate(savedInstanceState);
+
 		if (savedInstanceState != null) {
 			mRefreshedUser = savedInstanceState.getBoolean(INSTANCE_REFRESHED_USER);
 			mInCheckout = savedInstanceState.getBoolean(INSTANCE_IN_CHECKOUT);
@@ -164,6 +184,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		mCheckoutLayout = Ui.findView(view, R.id.checkout_layout);
 
 		mAccountButton = Ui.findView(view, R.id.account_button_layout);
+		mWalletButton = Ui.findView(view, R.id.wallet_button);
 		mTravelerSection = Ui.findView(view, R.id.traveler_section);
 		mStoredCreditCard = Ui.findView(view, R.id.stored_creditcard_section_button);
 		mCreditCardSectionButton = Ui.findView(view, R.id.creditcard_section_button);
@@ -243,6 +264,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 		// Listeners
 		mAccountButton.setListener(this);
+		mWalletButton.setOnClickListener(mWalletButtonClickListener);
 		mTravelerButton.setOnClickListener(mOnClickListener);
 		mTravelerSection.setOnClickListener(mOnClickListener);
 		mPaymentButton.setOnClickListener(mOnClickListener);
@@ -328,6 +350,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		outState.putBoolean(INSTANCE_IN_CHECKOUT, mInCheckout);
 		outState.putBoolean(INSTANCE_SHOW_SLIDE_TO_WIDGET, mShowSlideToWidget);
 		outState.putBoolean(INSTANCE_DONE_LOADING_PRICE_CHANGE, mIsDoneLoadingPriceChange);
+
+		walletSaveInstanceState(outState);
 
 		mHotelReceipt.saveInstanceState(outState);
 		mCouponCodeWidget.saveInstanceState(outState);
@@ -602,6 +626,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			mPaymentButton.setVisibility(View.VISIBLE);
 			mCreditCardSectionButton.setVisibility(View.GONE);
 		}
+
+		updateWalletViewVisibilities();
 	}
 
 	public void setScrollSpacerViewHeight() {
@@ -925,6 +951,10 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 					mHotelReceipt.bind(mIsDoneLoadingPriceChange, DbPropertyHelper.getBestMediaProperty(),
 							Db.getSearchParams(), Db.getSelectedRate());
 					updateViewVisibilities();
+
+					if (mWalletPreAuthorized) {
+						getMaskedWallet();
+					}
 				}
 				else {
 					handleHotelProductError(response);
@@ -1162,6 +1192,211 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		@Override
 		public void onSizeChanged(int w, int h, int oldw, int oldh) {
 			setScrollSpacerViewHeight();
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Google Wallet
+	//
+	// Eventually we'll want to move all this code into appropriate spots, but
+	// for now I'm keeping it all down here to make merging a bit easier.
+
+	public static final int REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET = 101;
+
+	private WalletClient mWalletClient;
+
+	private MaskedWallet mMaskedWallet;
+
+	private boolean mWalletPreAuthorized = false;
+
+	private OnClickListener mWalletButtonClickListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			getMaskedWallet();
+		}
+	};
+
+	private void getMaskedWallet() {
+		Log.i(WalletUtils.TAG, "Attempting to get masked wallet...");
+
+		if (mIsDoneLoadingPriceChange) {
+			Money total = Db.getSelectedRate().getTotalAmountAfterTax();
+			MaskedWalletRequest mwRequest = WalletUtils.buildMaskedWalletRequest(getActivity(), total);
+			mWalletClient.loadMaskedWallet(mwRequest, null, BookingOverviewFragment.this);
+		}
+	}
+
+	private void onMaskedWalletReceived(MaskedWallet maskedWallet) {
+		Log.d(WalletUtils.TAG, "onMaskedWalletReceived(" + maskedWallet + ")");
+
+		mMaskedWallet = maskedWallet;
+
+		// TODO: Make this all populate data from the MaskedWallet
+		populateTravelerData();
+		populatePaymentDataFromUser();
+		populateTravelerDataFromUser();
+
+		bindAll();
+		updateViews();
+		updateViewVisibilities();
+	}
+
+	// We may want to update these more often than the rest of the Views
+	private void updateWalletViewVisibilities() {
+		mWalletButton.setVisibility((mMaskedWallet != null) ? View.GONE : View.VISIBLE);
+		mWalletButton.setEnabled(mWalletClient.isConnected() && mIsDoneLoadingPriceChange);
+	}
+
+	private void handleError(int errorCode) {
+		// TODO: Handle errors in particular
+
+		switch (errorCode) {
+		case WalletConstants.ERROR_CODE_BUYER_CANCELLED:
+			Log.e(WalletUtils.TAG, "Error: ERROR_CODE_BUYER_CANCELLED");
+			break;
+		case WalletConstants.ERROR_CODE_SPENDING_LIMIT_EXCEEDED:
+			Log.e(WalletUtils.TAG, "Error: ERROR_CODE_SPENDING_LIMIT_EXCEEDED");
+			break;
+		case WalletConstants.ERROR_CODE_INVALID_PARAMETERS:
+			Log.e(WalletUtils.TAG, "Error: ERROR_CODE_INVALID_PARAMETERS");
+			break;
+		case WalletConstants.ERROR_CODE_AUTHENTICATION_FAILURE:
+			Log.e(WalletUtils.TAG, "Error: ERROR_CODE_AUTHENTICATION_FAILURE");
+			break;
+		case WalletConstants.ERROR_CODE_BUYER_ACCOUNT_ERROR:
+			Log.e(WalletUtils.TAG, "Error: ERROR_CODE_BUYER_ACCOUNT_ERROR");
+			break;
+		case WalletConstants.ERROR_CODE_MERCHANT_ACCOUNT_ERROR:
+			Log.e(WalletUtils.TAG, "Error: ERROR_CODE_MERCHANT_ACCOUNT_ERROR");
+			break;
+		case WalletConstants.ERROR_CODE_SERVICE_UNAVAILABLE:
+			Log.e(WalletUtils.TAG, "Error: ERROR_CODE_SERVICE_UNAVAILABLE");
+			break;
+		case WalletConstants.ERROR_CODE_UNSUPPORTED_API_VERSION:
+			Log.e(WalletUtils.TAG, "Error: ERROR_CODE_UNSUPPORTED_API_VERSION");
+			break;
+		case WalletConstants.ERROR_CODE_UNKNOWN:
+			Log.e(WalletUtils.TAG, "Error: ERROR_CODE_UNKNOWN");
+			break;
+		default:
+			Log.e(WalletUtils.TAG, "Unknown error code: " + errorCode);
+			break;
+		}
+	}
+
+	// ConnectionCallbacks
+
+	@Override
+	public void onConnected(Bundle connectionHint) {
+		Log.d(WalletUtils.TAG, "onConnected(" + connectionHint + ")");
+
+		mWalletClient.checkForPreAuthorization(connectionHint, this);
+
+		updateWalletViewVisibilities();
+	}
+
+	@Override
+	public void onDisconnected() {
+		Log.d(WalletUtils.TAG, "onDisconnected()");
+
+		updateWalletViewVisibilities();
+	}
+
+	// OnConnectionFailedListener
+
+	@Override
+	public void onConnectionFailed(ConnectionResult result) {
+		Log.w(WalletUtils.TAG, "onConnectionFailed(" + result + ")");
+
+		updateWalletViewVisibilities();
+	}
+
+	// OnPreAuthorizationDeterminedListener
+
+	@Override
+	public void onPreAuthorizationDetermined(ConnectionResult status, boolean isUserPreAuthorized) {
+		Log.d(WalletUtils.TAG, "onPreAuthorizationDetermined(" + status + ", " + isUserPreAuthorized + ")");
+
+		if (isUserPreAuthorized && mMaskedWallet == null) {
+			Log.d(WalletUtils.TAG, "User was pre-authorized, retrieving masked wallet immediately.");
+			mWalletPreAuthorized = true;
+			getMaskedWallet();
+		}
+		else {
+			mMaskedWallet = null;
+		}
+	}
+
+	// OnMaskedWalletLoadedListener
+
+	@Override
+	public void onMaskedWalletLoaded(ConnectionResult status, MaskedWallet wallet) {
+		Log.d(WalletUtils.TAG, "onMaskedWalletLoaded(" + status + ", " + wallet + ")");
+
+		if (status.isSuccess()) {
+			// User has pre-authorized the app
+			onMaskedWalletReceived(wallet);
+		}
+		else if (status.hasResolution()) {
+			try {
+				status.startResolutionForResult(getActivity(), REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET);
+			}
+			catch (SendIntentException e) {
+				// TODO: ASK, WHAT HAPPENS HERE?
+				mWalletClient.connect();
+			}
+		}
+	}
+
+	// LIFECYCLE - MOVE THIS LATER
+
+	private void walletOnCreate(Bundle savedInstanceState) {
+		mWalletClient = new WalletClient(getActivity(), WalletUtils.getWalletEnvironment(), this, this);
+
+		if (savedInstanceState != null) {
+			mMaskedWallet = savedInstanceState.getParcelable(WalletUtils.EXTRA_MASKED_WALLET);
+		}
+	}
+
+	private void walletSaveInstanceState(Bundle outState) {
+		outState.putParcelable(WalletUtils.EXTRA_MASKED_WALLET, mMaskedWallet);
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+
+		mWalletClient.connect();
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+
+		mWalletClient.disconnect();
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (requestCode == REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET) {
+			switch (resultCode) {
+			case Activity.RESULT_OK:
+				onMaskedWalletReceived((MaskedWallet) data.getParcelableExtra(WalletConstants.EXTRA_MASKED_WALLET));
+				break;
+			case Activity.RESULT_CANCELED:
+				Log.w("Masked wallet request: received RESULT_CANCELED");
+
+				// TODO: Figure out correct behavior here (do we just keep trying to reload the masked wallet?)
+				// mWalletClient.loadMaskedWallet(mMaskedWalletRequest, null, this);
+				break;
+			default:
+				int errorCode = data.getIntExtra(WalletConstants.EXTRA_ERROR_CODE, -1);
+				handleError(errorCode);
+				// TODO: Better error handling?
+				break;
+			}
 		}
 	}
 }

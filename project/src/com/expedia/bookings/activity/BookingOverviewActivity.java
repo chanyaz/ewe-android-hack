@@ -118,6 +118,18 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 	}
 
 	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// Need to pass onActivityResult to Fragment, as by default it goes to the Activity
+		switch (requestCode) {
+		case BookingOverviewFragment.REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET:
+			mBookingOverviewFragment.onActivityResult(requestCode, resultCode, data);
+			break;
+		default:
+			super.onActivityResult(requestCode, resultCode, data);
+		}
+	}
+
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_booking_overview, menu);
 

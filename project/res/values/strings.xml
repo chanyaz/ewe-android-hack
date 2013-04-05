@@ -2119,4 +2119,7 @@
     <string name="country_zw">Zimbabwe</string>
     <string name="country_ax">Åland Islands</string>
 
+    <!-- Google Wallet -->
+    <string name="merchant_name">Expedia, Inc.</string>
+
 </resources>
