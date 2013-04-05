@@ -25,6 +25,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.fragment.FlightTravelerInfoOneFragment;
 import com.expedia.bookings.fragment.FlightTravelerInfoOptionsFragment;
 import com.expedia.bookings.fragment.FlightTravelerInfoOptionsFragment.TravelerInfoYoYoListener;
@@ -52,6 +53,8 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 	private static final String STATE_TAG_START_FIRST_NAME = "STATE_TAG_START_FIRST_NAME";
 	private static final String STATE_TAG_START_LAST_NAME = "STATE_TAG_START_LAST_NAME";
 	private static final String STATE_TAG_SKIP_OVERVIEW = "STATE_TAG_SKIP_OVERVIEW";
+
+	private static final String DIALOG_SAVING_TRAVELER = "DIALOG_SAVING_TRAVELER";
 
 	private Context mContext;
 
@@ -775,8 +778,8 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 
 	private void displaySavingDialog() {
 		mPos = YoYoPosition.SAVING;
-		SavingTravelerDialogFragment df = new SavingTravelerDialogFragment();
-		df.show(this.getSupportFragmentManager(), SavingTravelerDialogFragment.TAG);
+		ThrobberDialog df = ThrobberDialog.newInstance(getString(R.string.saving_traveler));
+		df.show(this.getSupportFragmentManager(), DIALOG_SAVING_TRAVELER);
 	}
 
 	private void displayOverwriteDialog() {
@@ -811,9 +814,9 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 				ITravelerUpdateListener travelerupdatedListener = new ITravelerUpdateListener() {
 					@Override
 					public void onTravelerUpdateFinished() {
-						SavingTravelerDialogFragment df = Ui.findSupportFragment(
+						ThrobberDialog df = Ui.findSupportFragment(
 								FlightTravelerInfoOptionsActivity.this,
-								SavingTravelerDialogFragment.TAG);
+								DIALOG_SAVING_TRAVELER);
 						if (df != null) {
 							df.dismiss();
 						}
@@ -845,32 +848,6 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		}
 	}
 
-	public static class SavingTravelerDialogFragment extends DialogFragment {
-
-		public static final String TAG = SavingTravelerDialogFragment.class.getName();
-
-		@Override
-		public void onCreate(Bundle savedInstanceState) {
-			super.onCreate(savedInstanceState);
-			setCancelable(false);
-		}
-
-		@Override
-		public Dialog onCreateDialog(Bundle savedInstanceState) {
-			ProgressDialog pd = new ProgressDialog(getActivity());
-			pd.setMessage(getString(R.string.saving_traveler));
-			pd.setCanceledOnTouchOutside(false);
-			return pd;
-		}
-
-		@Override
-		public void onCancel(DialogInterface dialog) {
-			super.onCancel(dialog);
-			// If the dialog is canceled without finishing loading, don't show this page.
-			getActivity().finish();
-		}
-	}
-
 	public static class OverwriteExistingTravelerDialogFragment extends DialogFragment {
 
 		public static final String TAG = OverwriteExistingTravelerDialogFragment.class.getName();
@@ -895,7 +872,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 			String workingTravelerName = Db.getWorkingTravelerManager().getWorkingTraveler().getFirstName() + " "
 					+ Db.getWorkingTravelerManager().getWorkingTraveler().getLastName();
 
-			AlertDialog pd = new AlertDialog.Builder(getActivity())
+			AlertDialog dialog = new AlertDialog.Builder(getActivity())
 					.setCancelable(false)
 					.setTitle(R.string.cant_save_traveler)
 					.setMessage(
@@ -924,8 +901,8 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 							mListener.moveForward();
 						}
 					}).create();
-			pd.setCanceledOnTouchOutside(false);
-			return pd;
+			dialog.setCanceledOnTouchOutside(false);
+			return dialog;
 		}
 
 		@Override

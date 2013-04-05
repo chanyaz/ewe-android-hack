@@ -1,5 +1,8 @@
 package com.expedia.bookings.dialog;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -14,27 +17,56 @@ public class ThrobberDialog extends DialogFragment {
 	private ViewGroup mRoot;
 	private CharSequence mMessage;
 
-	public ThrobberDialog() {
-		setCancelable(false);
+	private CancelListener mCancelListener;
+
+	public interface CancelListener {
+		public void onCancel();
+	}
+
+	private static String ARG_MESSAGE = "ARG_MESSAGE";
+
+	public static ThrobberDialog newInstance(CharSequence message) {
+		ThrobberDialog dialog = new ThrobberDialog();
+		dialog.setCancelable(true);
+		Bundle args = new Bundle();
+		args.putCharSequence(ARG_MESSAGE, message);
+		dialog.setArguments(args);
+		return dialog;
 	}
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		// TODO - proper style
-		setStyle(DialogFragment.STYLE_NO_FRAME, R.style.SocialMessageChooserDialogTheme);
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		ProgressDialog pd = new ProgressDialog(getActivity());
+		Bundle args = getArguments();
+		if (args.containsKey(ARG_MESSAGE)) {
+			pd.setMessage(args.getCharSequence(ARG_MESSAGE));
+		}
+		pd.setCanceledOnTouchOutside(false);
+		pd.setIndeterminateDrawable(getResources().getDrawable(R.drawable.abs__progress_medium_holo));
+		return pd;
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRoot = (ViewGroup) inflater.inflate(R.layout.dialog_throbber, container, false);
+	public void onCancel(DialogInterface dialog) {
+		super.onCancel(dialog);
 
-		TextView messageView = Ui.findView(mRoot, R.id.message);
-		return mRoot;
+		if (mCancelListener != null) {
+			mCancelListener.onCancel();
+		}
+		else if (getActivity() != null) {
+			getActivity().finish();
+		}
 	}
 
-	public void setMessage(CharSequence message) {
-		mMessage = message;
+	public void setCancelListener(CancelListener listener) {
+		mCancelListener = listener;
 	}
 
+	public void setText(CharSequence text) {
+		ProgressDialog pd = (ProgressDialog) this.getDialog();
+		if (pd != null) {
+			pd.setMessage(text);
+		}
+		getArguments().putCharSequence(ARG_MESSAGE, text);
+	}
 }

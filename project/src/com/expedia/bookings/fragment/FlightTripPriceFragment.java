@@ -2,7 +2,6 @@ package com.expedia.bookings.fragment;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -21,6 +20,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.section.SectionFlightTrip;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.Ui;
@@ -34,6 +34,7 @@ public class FlightTripPriceFragment extends Fragment {
 	private static final String INSTANCE_REQUESTED_DETAILS = "INSTANCE_REQUESTED_DETAILS";
 	private static final String KEY_DETAILS = "KEY_DETAILS";
 	private static final String INSTANCE_PRICE_CHANGE = "INSTANCE_PRICE_CHANGE";
+	private static final String DIALOG_LOADING_DETAILS = "DIALOG_LOADING_DETAILS";
 
 	private boolean mRequestedDetails = false;
 	private String mPriceChangeString = "";
@@ -161,8 +162,8 @@ public class FlightTripPriceFragment extends Fragment {
 			mRequestedDetails = false;
 
 			// Show a loading dialog
-			LoadingDetailsDialogFragment df = new LoadingDetailsDialogFragment();
-			df.show(getFragmentManager(), LoadingDetailsDialogFragment.TAG);
+			ThrobberDialog df = ThrobberDialog.newInstance(getString(R.string.loading_flight_details));
+			df.show(getFragmentManager(), DIALOG_LOADING_DETAILS);
 
 			BackgroundDownloader.getInstance().startDownload(KEY_DETAILS, mFlightDetailsDownload,
 					mFlightDetailsCallback);
@@ -181,8 +182,7 @@ public class FlightTripPriceFragment extends Fragment {
 	private OnDownloadComplete<CreateItineraryResponse> mFlightDetailsCallback = new OnDownloadComplete<CreateItineraryResponse>() {
 		@Override
 		public void onDownload(CreateItineraryResponse results) {
-			LoadingDetailsDialogFragment df = Ui.findSupportFragment(getCompatibilityActivity(),
-					LoadingDetailsDialogFragment.TAG);
+			ThrobberDialog df = Ui.findSupportFragment(getCompatibilityActivity(), DIALOG_LOADING_DETAILS);
 			df.dismiss();
 
 			mRequestedDetails = true;
@@ -236,37 +236,6 @@ public class FlightTripPriceFragment extends Fragment {
 	private void showRetryErrorDialog() {
 		DialogFragment df = new RetryErrorDialogFragment();
 		df.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), "retryErrorDialog");
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Progress dialog
-
-	public static class LoadingDetailsDialogFragment extends DialogFragment {
-
-		public static final String TAG = LoadingDetailsDialogFragment.class.getName();
-
-		@Override
-		public void onCreate(Bundle savedInstanceState) {
-			super.onCreate(savedInstanceState);
-
-			setCancelable(true);
-		}
-
-		@Override
-		public Dialog onCreateDialog(Bundle savedInstanceState) {
-			ProgressDialog pd = new ProgressDialog(getActivity());
-			pd.setMessage(getString(R.string.loading_flight_details));
-			pd.setCanceledOnTouchOutside(false);
-			return pd;
-		}
-
-		@Override
-		public void onCancel(DialogInterface dialog) {
-			super.onCancel(dialog);
-
-			// If the dialog is canceled without finishing loading, don't show this page.
-			getActivity().finish();
-		}
 	}
 
 }

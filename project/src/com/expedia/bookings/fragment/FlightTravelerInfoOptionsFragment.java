@@ -24,6 +24,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
@@ -38,6 +39,8 @@ import com.mobiata.android.util.ViewUtils;
 public class FlightTravelerInfoOptionsFragment extends Fragment {
 
 	private static final String TRAVELER_DETAILS_DOWNLOAD = "TRAVELER_DETAILS_DOWNLOAD";
+
+	private static final String DIALOG_LOADING_TRAVELER = "DIALOG_LOADING_TRAVELER";
 
 	View mOverviewBtn;
 	View mEnterManuallyBtn;
@@ -207,8 +210,8 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 					BackgroundDownloader bd = BackgroundDownloader.getInstance();
 					if (!bd.isDownloading(TRAVELER_DETAILS_DOWNLOAD)) {
 						// Show a loading dialog
-						LoadingTravelerDialogFragment df = new LoadingTravelerDialogFragment();
-						df.show(getFragmentManager(), LoadingTravelerDialogFragment.TAG);
+						ThrobberDialog df = ThrobberDialog.newInstance(getString(R.string.loading_traveler_info));
+						df.show(getFragmentManager(), DIALOG_LOADING_TRAVELER);
 						bd.startDownload(TRAVELER_DETAILS_DOWNLOAD, mTravelerDetailsDownload,
 								mTravelerDetailsCallback);
 
@@ -351,8 +354,8 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 	private OnDownloadComplete<SignInResponse> mTravelerDetailsCallback = new OnDownloadComplete<SignInResponse>() {
 		@Override
 		public void onDownload(SignInResponse results) {
-			LoadingTravelerDialogFragment df = Ui.findSupportFragment(getCompatibilityActivity(),
-					LoadingTravelerDialogFragment.TAG);
+			ThrobberDialog df = Ui.findSupportFragment(getCompatibilityActivity(),
+					DIALOG_LOADING_TRAVELER);
 			df.dismiss();
 
 			if (results == null || results.hasErrors()) {
@@ -398,36 +401,4 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 			}
 		}
 	};
-
-	//////////////////////////////////////////////////////////////////////////
-	// Loading traveler info Progress dialog
-
-	public static class LoadingTravelerDialogFragment extends DialogFragment {
-
-		public static final String TAG = LoadingTravelerDialogFragment.class.getName();
-
-		@Override
-		public void onCreate(Bundle savedInstanceState) {
-			super.onCreate(savedInstanceState);
-
-			setCancelable(true);
-		}
-
-		@Override
-		public Dialog onCreateDialog(Bundle savedInstanceState) {
-			ProgressDialog pd = new ProgressDialog(getActivity());
-			pd.setMessage(getString(R.string.loading_traveler_info));
-			pd.setCanceledOnTouchOutside(false);
-			return pd;
-		}
-
-		@Override
-		public void onCancel(DialogInterface dialog) {
-			super.onCancel(dialog);
-
-			// If the dialog is canceled without finishing loading, don't show this page.
-			getActivity().finish();
-		}
-	}
-
 }

@@ -45,8 +45,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.fragment.FlightTripPriceFragment.LoadingDetailsDialogFragment;
-import com.expedia.bookings.fragment.LoginFragment.LoadingDialogFragment.CancelListener;
+import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -111,6 +110,8 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 	private static final String STATE_DO_LOGIN_EXTENDER_WORK = "STATE_DO_LOGIN_EXTENDER_WORK";
 	private static final String STATE_LOGIN_EXTENDER = "STATE_LOGIN_EXTENDER";
 
+	private static final String DIALOG_LOADING = "DIALOG_LOADING";
+
 	private static final int ANIM_BUTTON_FLIP_DURATION = 200;
 
 	private Activity mContext;
@@ -137,7 +138,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 	private EditText mExpediaPassword;
 	private EditText mLinkPassword;
 
-	private LoadingDialogFragment mLoadingFragment;
+	private ThrobberDialog mLoadingFragment;
 
 	//ANIMATION
 	private Semaphore mButtonToggleSemaphore = new Semaphore(1);
@@ -714,12 +715,11 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		}
 
 		String message = mLoadingText != null ? mLoadingText : getString(R.string.fetching_facebook_info);
-		LoadingDialogFragment ldf = (LoadingDialogFragment) getFragmentManager().findFragmentByTag(
-				LoadingDialogFragment.TAG);
+		ThrobberDialog ldf = (ThrobberDialog) getFragmentManager().findFragmentByTag(DIALOG_LOADING);
 		if (loading) {
 			if (ldf == null) {
-				ldf = LoadingDialogFragment.getInstance(message);
-				ldf.setCancelListener(new CancelListener() {
+				ldf = ThrobberDialog.newInstance(message);
+				ldf.setCancelListener(new ThrobberDialog.CancelListener() {
 					@Override
 					public void onCancel() {
 						loginWorkComplete();
@@ -730,7 +730,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 				ldf.setText(message);
 			}
 			if (!ldf.isAdded()) {
-				ldf.show(getFragmentManager(), LoadingDialogFragment.TAG);
+				ldf.show(getFragmentManager(), DIALOG_LOADING);
 			}
 			mLoadingFragment = ldf;
 		}
@@ -1344,67 +1344,6 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 			fetchFacebookUserInfo(currentSession);
 		}
 
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Progress dialog
-
-	public static class LoadingDialogFragment extends DialogFragment {
-		public static final String TAG = LoadingDetailsDialogFragment.class.getName();
-		private static final String ARG_MESSAGE = "ARG_MESSAGE";
-
-		private CancelListener mCancelListener;
-
-		public interface CancelListener {
-			public void onCancel();
-		}
-
-		public static LoadingDialogFragment getInstance(String message) {
-			LoadingDialogFragment frag = new LoadingDialogFragment();
-			Bundle args = new Bundle();
-			args.putCharSequence(ARG_MESSAGE, message);
-			frag.setArguments(args);
-			return frag;
-		}
-
-		@Override
-		public void onCreate(Bundle savedInstanceState) {
-			super.onCreate(savedInstanceState);
-			setCancelable(true);
-		}
-
-		@Override
-		public Dialog onCreateDialog(Bundle savedInstanceState) {
-			ProgressDialog pd = new ProgressDialog(getActivity());
-			pd.setMessage(this.getArguments().getCharSequence(ARG_MESSAGE));
-			pd.setCanceledOnTouchOutside(false);
-			return pd;
-		}
-
-		@Override
-		public void onCancel(DialogInterface dialog) {
-			super.onCancel(dialog);
-
-			if (mCancelListener != null) {
-				mCancelListener.onCancel();
-			}
-			else {
-				// If the dialog is canceled without finishing loading, don't show this page.
-				getActivity().finish();
-			}
-		}
-
-		public void setCancelListener(CancelListener listener) {
-			mCancelListener = listener;
-		}
-
-		public void setText(String text) {
-			ProgressDialog pd = (ProgressDialog) this.getDialog();
-			if (pd != null) {
-				pd.setMessage(text);
-			}
-			this.getArguments().putCharSequence(ARG_MESSAGE, text);
-		}
 	}
 
 	/////////////////////////////

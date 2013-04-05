@@ -391,11 +391,10 @@ public class BookingFormFragment extends Fragment {
 						"hotelProductDownloadingDialog");
 			}
 			if (mHotelProductDialog == null) {
-				mHotelProductDialog = new ThrobberDialog();
+				mHotelProductDialog = ThrobberDialog.newInstance(getString(R.string.calculating_taxes_and_fees));
 			}
 
 			if (!mHotelProductDialog.isAdded()) {
-				mHotelProductDialog.setMessage(getString(R.string.calculating_taxes_and_fees));
 				mHotelProductDialog.show(getFragmentManager(), "hotelProductDownloadingDialog");
 			}
 
