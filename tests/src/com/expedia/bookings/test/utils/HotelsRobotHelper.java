@@ -165,10 +165,10 @@ public class HotelsRobotHelper {
 			fileIn.close();
 		}
 		catch (FileNotFoundException e) {
-			Log.e(TAG,"FileNotFoundException", e);
+			Log.e(TAG, "FileNotFoundException", e);
 		}
 		catch (IOException e) {
-			Log.e(TAG,"IOException", e);
+			Log.e(TAG, "IOException", e);
 		}
 		finally {
 			closeFileWriter();
@@ -583,7 +583,12 @@ public class HotelsRobotHelper {
 		delay();
 		portrait();
 		delay(5);
-
+		
+		//Ensure that the keyboard isn't covering the log in button
+		String expediaAccount = mRes.getString(R.string.expedia_account);
+		if (mSolo.searchText(expediaAccount) && !mSolo.searchText(log_in_with_expedia, true)) {
+			mSolo.goBack();
+		}
 		mSolo.clickOnText(log_in_with_expedia);
 
 		// Log log in event for ad tracking
