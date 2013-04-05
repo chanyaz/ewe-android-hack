@@ -165,8 +165,10 @@ public class HotelsRobotHelper {
 			fileIn.close();
 		}
 		catch (FileNotFoundException e) {
+			Log.e(TAG,"FileNotFoundException", e);
 		}
 		catch (IOException e) {
+			Log.e(TAG,"IOException", e);
 		}
 		finally {
 			closeFileWriter();
