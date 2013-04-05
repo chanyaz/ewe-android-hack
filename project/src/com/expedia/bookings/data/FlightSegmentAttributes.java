@@ -28,7 +28,7 @@ public class FlightSegmentAttributes implements JSONable {
 
 	private char mBookingCode;
 	private CabinCode mCabinCode;
-	
+
 	public FlightSegmentAttributes() {
 		// Default constructor for JSONable
 	}

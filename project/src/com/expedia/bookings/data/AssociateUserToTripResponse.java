@@ -9,7 +9,7 @@ public class AssociateUserToTripResponse extends Response {
 
 	//04-01 14:24:55.149: V/ExpediaBookings(1850): Response: {"newTrip":{"itineraryNumber":"156115659073","travelRecordLocator":"561156590","tripId":"2cf4aa3b-91f3-4914-b361-73af085d4424"},"rewardsPoints":"69"}
 
-	
+
 	private Itinerary mItinerary;
 	private String mRewardsPoints;
 
@@ -21,11 +21,11 @@ public class AssociateUserToTripResponse extends Response {
 		return mItinerary;
 	}
 
-	public void setRewardsPoints(String rewardsPoints){
+	public void setRewardsPoints(String rewardsPoints) {
 		mRewardsPoints = rewardsPoints;
 	}
-	
-	public String getRewardsPoints(){
+
+	public String getRewardsPoints() {
 		return mRewardsPoints;
 	}
 

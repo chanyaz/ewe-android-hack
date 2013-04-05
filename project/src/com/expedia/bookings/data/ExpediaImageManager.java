@@ -52,7 +52,7 @@ public class ExpediaImageManager {
 
 	/**
 	 * Retrieves Expedia image URLs.
-	 *  
+	 *
 	 * @param imageType the type of image
 	 * @param imageCode the image code (determined by image type + other factors)
 	 * @param width the desired width (not guaranteed to be exact on return)

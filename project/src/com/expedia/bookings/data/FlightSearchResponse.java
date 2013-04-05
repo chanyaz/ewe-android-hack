@@ -76,7 +76,7 @@ public class FlightSearchResponse extends Response {
 
 	/**
 	 * Compacts the memory taken up by de-duplicating String usage.
-	 * 
+	 *
 	 * Should be safe since Strings are immutable.  Seems dumb, but actually
 	 * saves a TON of memory (if you have a ton of FlightTrips)
 	 */
