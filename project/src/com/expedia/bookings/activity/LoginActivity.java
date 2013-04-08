@@ -86,12 +86,9 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 		}
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		if (mTitle != null) {
-			setTitle(mTitle);
-		}
-		else {
-			setTitle(R.string.Log_In);
-		}
+
+		//defaults to login
+		setActionBarTitle(null);
 
 		// Set the background (based on mode)
 		if (mLob.equals(LineOfBusiness.FLIGHTS)) {
@@ -135,11 +132,20 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 		OmnitureTracking.onPause();
 	}
 
+	/**
+	 * Set the actionbar title to the provided string.
+	 * If supplied string is null, revert to default "Log In"
+	 */
 	@Override
 	public void setActionBarTitle(String title) {
 		mTitle = title;
 		ActionBar actionBar = this.getSupportActionBar();
-		actionBar.setTitle(mTitle);
+		if (mTitle == null) {
+			actionBar.setTitle(R.string.Log_In);
+		}
+		else {
+			actionBar.setTitle(mTitle);
+		}
 	}
 
 	@Override

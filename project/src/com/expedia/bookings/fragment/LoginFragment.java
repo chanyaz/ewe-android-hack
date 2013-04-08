@@ -643,7 +643,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		if (enabled) {
 			mSigninWithExpediaButtonContainer.setVisibility(View.GONE);
 			mFacebookButtonContainer.setVisibility(View.GONE);
-			mTitleSetter.setActionBarTitle(getResources().getString(R.string.link_accounts));
+			mTitleSetter.setActionBarTitle(null);
 			hideKeyboard();
 			mOuterContainer.setGravity(Gravity.CENTER);
 		}
