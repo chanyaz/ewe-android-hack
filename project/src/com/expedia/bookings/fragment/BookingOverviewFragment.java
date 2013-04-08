@@ -1228,6 +1228,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 	private void onMaskedWalletReceived(MaskedWallet maskedWallet) {
 		Log.d(WalletUtils.TAG, "onMaskedWalletReceived(" + maskedWallet + ")");
+		WalletUtils.logMaskedWallet(maskedWallet);
 
 		mMaskedWallet = maskedWallet;
 
