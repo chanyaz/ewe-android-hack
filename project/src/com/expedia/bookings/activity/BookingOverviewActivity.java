@@ -2,6 +2,7 @@ package com.expedia.bookings.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -14,9 +15,12 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.BookingOverviewFragment;
 import com.expedia.bookings.fragment.BookingOverviewFragment.BookingOverviewFragmentListener;
 import com.expedia.bookings.fragment.LoginFragment.LogInListener;
@@ -213,7 +217,32 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 
 	@Override
 	public void onSlideAllTheWay() {
-		Db.getBillingInfo().save(this);
+		BillingInfo billingInfo = Db.getBillingInfo();
+
+		billingInfo.save(this);
+
+		// TODO: Does the code below need to run?  I'm really unsure.  Someone should look into it at some point.
+
+		//TODO: This block shouldn't happen. Currently the mocks pair phone number with travelers, but the BillingInfo object contains phone info.
+		//We need to wait on API updates to either A) set phone number as a billing phone number or B) take a bunch of per traveler phone numbers
+		Traveler traveler = Db.getTravelers().get(0);
+		billingInfo.setFirstName(traveler.getFirstName());
+		billingInfo.setLastName(traveler.getLastName());
+		billingInfo.setTelephone(traveler.getPhoneNumber());
+		billingInfo.setTelephoneCountryCode(traveler.getPhoneCountryCode());
+
+		//TODO: This also shouldn't happen, we should expect billingInfo to have a valid email address at this point...
+		if (TextUtils.isEmpty(billingInfo.getEmail()) || (User.isLoggedIn(this) && Db.getUser() != null
+				&& Db.getUser().getPrimaryTraveler() != null
+				&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail()) && Db.getUser()
+				.getPrimaryTraveler().getEmail().compareToIgnoreCase(billingInfo.getEmail()) != 0)) {
+			String email = traveler.getEmail();
+			if (TextUtils.isEmpty(email)) {
+				email = Db.getUser().getPrimaryTraveler().getEmail();
+			}
+			billingInfo.setEmail(email);
+		}
+
 		startActivity(new Intent(this, HotelBookingActivity.class));
 	}
 

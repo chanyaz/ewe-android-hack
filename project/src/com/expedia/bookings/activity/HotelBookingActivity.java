@@ -250,30 +250,8 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 				tuid = Db.getUser().getPrimaryTraveler().getTuid();
 			}
 
-			//TODO: This block shouldn't happen. Currently the mocks pair phone number with travelers, but the BillingInfo object contains phone info.
-			//We need to wait on API updates to either A) set phone number as a billing phone number or B) take a bunch of per traveler phone numbers
-			BillingInfo billingInfo = Db.getBillingInfo();
-			Traveler traveler = Db.getTravelers().get(0);
-			billingInfo.setFirstName(traveler.getFirstName());
-			billingInfo.setLastName(traveler.getLastName());
-			billingInfo.setTelephone(traveler.getPhoneNumber());
-			billingInfo.setTelephoneCountryCode(traveler.getPhoneCountryCode());
-
-			//TODO: This also shouldn't happen, we should expect billingInfo to have a valid email address at this point...
-			if (TextUtils.isEmpty(billingInfo.getEmail())
-					|| (User.isLoggedIn(HotelBookingActivity.this) && Db.getUser() != null
-							&& Db.getUser().getPrimaryTraveler() != null
-							&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail()) && Db.getUser()
-								.getPrimaryTraveler().getEmail().compareToIgnoreCase(billingInfo.getEmail()) != 0)) {
-				String email = traveler.getEmail();
-				if (TextUtils.isEmpty(email)) {
-					email = Db.getUser().getPrimaryTraveler().getEmail();
-				}
-				billingInfo.setEmail(email);
-			}
-
 			return services.reservation(Db.getSearchParams(), Db.getSelectedProperty(), Db.getSelectedRate(),
-					billingInfo, tripId, userId, tuid);
+					Db.getBillingInfo(), tripId, userId, tuid);
 		}
 	};
 
