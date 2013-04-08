@@ -3,16 +3,19 @@ package com.expedia.bookings.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AppFeedbackActivity;
+import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.mobiata.android.Log;
@@ -34,6 +37,7 @@ public class AboutUtils {
 	//////////////////////////////////////////////////////////////////////////
 	// Handling clicks on different items
 
+	@SuppressLint("NewApi")
 	public Dialog createContactExpediaDialog(final Runnable onDismiss) {
 		AlertDialog.Builder builder;
 		if (AndroidUtils.getSdkVersion() < 14) {
@@ -104,6 +108,7 @@ public class AboutUtils {
 		return builder.create();
 	}
 
+	@SuppressLint("NewApi")
 	public Dialog createExpediaWebsiteDialog(final Runnable onDismiss) {
 		AlertDialog.Builder builder;
 		if (AndroidUtils.getSdkVersion() < 14) {
@@ -149,7 +154,7 @@ public class AboutUtils {
 	}
 
 	public void contactViaWeb() {
-		SocialUtils.openSite(mActivity, PointOfSale.getPointOfSale().getSupportUrl());
+		openWebsite(mActivity, PointOfSale.getPointOfSale().getSupportUrl(), false);
 	}
 
 	public void contactViaEmail() {
@@ -159,7 +164,7 @@ public class AboutUtils {
 	}
 
 	public void openExpediaWebsite() {
-		SocialUtils.openSite(mActivity, PointOfSale.getPointOfSale().getWebsiteUrl());
+		openWebsite(mActivity, PointOfSale.getPointOfSale().getWebsiteUrl(), false);
 	}
 
 	public void openAppFeedback() {
@@ -172,7 +177,7 @@ public class AboutUtils {
 	}
 
 	public void openAppSupport() {
-		SocialUtils.openSite(mActivity, "http://www.mobiata.com/support/expediahotels-android");
+		openWebsite(mActivity, "http://www.mobiata.com/support/expediahotels-android", false);
 	}
 
 	public void tellAFriend() {
@@ -180,6 +185,32 @@ public class AboutUtils {
 
 		SocialUtils.email(mActivity, mActivity.getString(R.string.tell_a_friend_subject),
 				mActivity.getString(R.string.tell_a_friend_body));
+	}
+
+	public void openCareers() {
+		openWebsite(mActivity, "http://www.mobiata.com/careers", false);
+		trackHiringLink();
+	}
+
+	public void openTermsAndConditions() {
+		PointOfSale posInfo = PointOfSale.getPointOfSale();
+		openWebsite(mActivity, posInfo.getTermsAndConditionsUrl(), false);
+	}
+
+	public void openPrivacyPolicy() {
+		PointOfSale posInfo = PointOfSale.getPointOfSale();
+		openWebsite(mActivity, posInfo.getPrivacyPolicyUrl(), false);
+	}
+
+	private void openWebsite(Context context, String url, boolean useExternalBrowser) {
+		if (useExternalBrowser) {
+			SocialUtils.openSite(context, url);
+		}
+		else {
+			WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(context);
+			builder.setUrl(url);
+			context.startActivity(builder.getIntent());
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

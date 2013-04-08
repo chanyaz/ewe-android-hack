@@ -32,7 +32,8 @@ import com.mobiata.android.fragment.AboutSectionFragment.AboutSectionFragmentLis
 import com.mobiata.android.util.MailChimpUtils;
 import com.mobiata.android.util.MailChimpUtils.MailChimpResult;
 
-public class AboutActivity extends SherlockFragmentActivity implements AboutSectionFragmentListener, OnSubscribeEmailClickedListener {
+public class AboutActivity extends SherlockFragmentActivity implements AboutSectionFragmentListener,
+		OnSubscribeEmailClickedListener {
 	private static final String TAG_CONTACT_US = "TAG_CONTACT_US";
 	private static final String TAG_ALSO_BY_US = "TAG_ALSO_BY_US";
 	private static final String TAG_LEGAL = "TAG_LEGAL";
@@ -109,7 +110,8 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 		// Copyright
 		CopyrightFragment copyrightFragment = Ui.findSupportFragment(this, TAG_COPYRIGHT);
 		if (copyrightFragment == null) {
-			copyrightFragment = CopyrightFragment.newInstance(getString(R.string.app_name), getString(R.string.copyright));
+			copyrightFragment = CopyrightFragment.newInstance(getString(R.string.app_name),
+					getString(R.string.copyright));
 			ft.add(R.id.section_copyright, copyrightFragment, TAG_COPYRIGHT);
 		}
 
@@ -218,7 +220,7 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 		switch (id) {
 		case ROW_CONTACT_EXPEDIA: {
 			showDialog(DIALOG_CONTACT_EXPEDIA);
-			handled =  true;
+			handled = true;
 			break;
 		}
 		case ROW_APP_SUPPORT: {
@@ -232,22 +234,19 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 			break;
 		}
 		case ROW_WERE_HIRING: {
-			SocialUtils.openSite(this, "http://www.mobiata.com/careers");
-			mAboutUtils.trackHiringLink();
+			mAboutUtils.openCareers();
 			handled = true;
 			break;
 		}
 
 		// Legal section
 		case ROW_TERMS_AND_CONDITIONS: {
-			PointOfSale posInfo = PointOfSale.getPointOfSale();
-			SocialUtils.openSite(this, posInfo.getTermsAndConditionsUrl());
+			mAboutUtils.openTermsAndConditions();
 			handled = true;
 			break;
 		}
 		case ROW_PRIVACY_POLICY: {
-			PointOfSale posInfo = PointOfSale.getPointOfSale();
-			SocialUtils.openSite(this, posInfo.getPrivacyPolicyUrl());
+			mAboutUtils.openPrivacyPolicy();
 			handled = true;
 			break;
 		}
@@ -325,4 +324,3 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 		MailChimpUtils.subscribeEmail(this, DOWNLOAD_MAILCHIMP, email, mMailChimpCallback);
 	}
 }
-
