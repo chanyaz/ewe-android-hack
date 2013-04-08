@@ -45,6 +45,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SignInResponse;
+import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -72,7 +73,6 @@ import com.expedia.bookings.widget.ScrollView.OnScrollListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
 import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
-import com.google.android.gms.wallet.Address;
 import com.google.android.gms.wallet.MaskedWallet;
 import com.google.android.gms.wallet.MaskedWalletRequest;
 import com.google.android.gms.wallet.WalletClient;
@@ -458,7 +458,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 				mBillingInfo.setStoredCard(Db.getUser().getStoredCreditCards().get(0));
 			}
 		}
-		else {
+		else if (mMaskedWallet == null) {
 			//Remove stored card(s)
 			Db.getBillingInfo().setStoredCard(null);
 			//Turn off the save to expedia account flag
@@ -1215,13 +1215,16 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		}
 	};
 
+	private MaskedWalletRequest buildMaskedWalletRequest() {
+		Money total = Db.getSelectedRate().getTotalAmountAfterTax();
+		return WalletUtils.buildMaskedWalletRequest(getActivity(), total);
+	}
+
 	private void getMaskedWallet() {
 		Log.i(WalletUtils.TAG, "Attempting to get masked wallet...");
 
 		if (mIsDoneLoadingPriceChange) {
-			Money total = Db.getSelectedRate().getTotalAmountAfterTax();
-			MaskedWalletRequest mwRequest = WalletUtils.buildMaskedWalletRequest(getActivity(), total);
-			mWalletClient.loadMaskedWallet(mwRequest, BookingOverviewFragment.this);
+			mWalletClient.loadMaskedWallet(buildMaskedWalletRequest(), BookingOverviewFragment.this);
 		}
 	}
 
@@ -1233,8 +1236,22 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 		// TODO: Make this all populate data from the MaskedWallet
 		populateTravelerData();
-		populatePaymentDataFromUser();
-		populateTravelerDataFromUser();
+
+		// Replace the traveler with the one from the wallet
+		//
+		// TODO: This will repeatedly blow away edited changes; find some way to preserve? 
+		Traveler traveler = WalletUtils.convertToTraveler(mMaskedWallet);
+		List<Traveler> travelers = Db.getTravelers();
+		travelers.set(0, traveler);
+
+		// Bind credit card data
+		StoredCreditCard scc = new StoredCreditCard();
+		scc.setDescription(WalletUtils.getFormattedPaymentDescription(mMaskedWallet));
+		scc.setId(mMaskedWallet.getGoogleTransactionId()); // For now, set ID == google transaction id
+		scc.setIsGoogleWallet(true);
+		mBillingInfo.setStoredCard(scc);
+
+		mBillingInfo.setEmail(mMaskedWallet.getEmail());
 
 		bindAll();
 		updateViews();
@@ -1387,9 +1404,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 				break;
 			case Activity.RESULT_CANCELED:
 				Log.w("Masked wallet request: received RESULT_CANCELED");
-
-				// TODO: Figure out correct behavior here (do we just keep trying to reload the masked wallet?)
-				// mWalletClient.loadMaskedWallet(mMaskedWalletRequest, null, this);
+				mWalletClient.loadMaskedWallet(buildMaskedWalletRequest(), this);
 				break;
 			default:
 				int errorCode = data.getIntExtra(WalletConstants.EXTRA_ERROR_CODE, -1);

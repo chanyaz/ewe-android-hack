@@ -68,6 +68,14 @@ public class WalletUtils {
 		return traveler;
 	}
 
+	public static String getFormattedPaymentDescription(MaskedWallet maskedWallet) {
+		StringBuilder sb = new StringBuilder();
+		for (String line : maskedWallet.getPaymentDescriptions()) {
+			sb.append(line + "\n");
+		}
+		return sb.toString().trim();
+	}
+
 	/**
 	 * Arbitrarily splits the names.  We get back name fields as a single
 	 * entity; we try our "best" to split it up, but leave it in a state where
