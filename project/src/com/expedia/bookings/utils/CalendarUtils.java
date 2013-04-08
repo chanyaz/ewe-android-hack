@@ -75,17 +75,10 @@ public class CalendarUtils {
 		// Reset the calendar's today cache
 		calendarDatePicker.resetTodayCache();
 
-		/* Set the min calendar date
-		 *
-		 * 7880: initializing the date on the calendar to 1 day prior to
-		 * the current date so that the date is selectable by the user
-		 * for searches in other timezones where its still a day behind
-		 */
-		Calendar yesterday = Calendar.getInstance();
-		yesterday.add(Calendar.DAY_OF_MONTH, -1);
-
-		calendarDatePicker.setMinDate(yesterday.get(Calendar.YEAR), yesterday.get(Calendar.MONTH),
-				yesterday.get(Calendar.DAY_OF_MONTH));
+		// Set the min calendar date
+		Calendar today = Calendar.getInstance();
+		calendarDatePicker.setMinDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH),
+				today.get(Calendar.DAY_OF_MONTH));
 
 		// Reset the calendar's today cache
 		calendarDatePicker.resetTodayCache();
