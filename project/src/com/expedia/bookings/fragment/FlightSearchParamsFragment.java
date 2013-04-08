@@ -702,7 +702,9 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		}
 		else {
 			mDatesTextView.setBackgroundResource(R.drawable.textfield_default_holo_light);
+			mDepartureAirportEditText.setFocusableInTouchMode(true);
 			mDepartureAirportEditText.setFocusable(true);
+			mArrivalAirportEditText.setFocusableInTouchMode(true);
 			mArrivalAirportEditText.setFocusable(true);
 		}
 
