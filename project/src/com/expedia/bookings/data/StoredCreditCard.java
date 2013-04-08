@@ -22,12 +22,24 @@ public class StoredCreditCard implements JSONable {
 		this.fromJson(obj);
 	}
 
+	public void setType(String type) {
+		mType = type;
+	}
+
 	public String getType() {
 		return mType;
 	}
 
+	public void setId(String id) {
+		mRemoteId = id;
+	}
+
 	public String getId() {
 		return mRemoteId;
+	}
+
+	public void setDescription(String description) {
+		mDescription = description;
 	}
 
 	public String getDescription() {
