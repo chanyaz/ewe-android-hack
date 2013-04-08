@@ -77,6 +77,7 @@
     <string name="preference_fake_current_location">preference_fake_current_location</string>
     <string name="preference_force_new_location">preference_force_new_location</string>
     <string name="preference_cookie_logging">preference_cookie_logging</string>
+    <string name="preference_debug_notify_oom_crash">preference_debug_notify_oom_crash</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_flight_fake_price_change_default">0</string>

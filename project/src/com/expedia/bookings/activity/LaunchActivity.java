@@ -36,6 +36,7 @@ import com.expedia.bookings.fragment.LaunchFragment;
 import com.expedia.bookings.fragment.LaunchFragment.LaunchFragmentListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
+import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.DisableableViewPager;
 import com.expedia.bookings.widget.ItinListView;
@@ -142,6 +143,9 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 				}
 			}
 		}
+
+		// Debug code to notify QA to open ExpediaDebug app
+		ExpediaDebugUtil.showExpediaDebugToastIfNeeded(this);
 
 		// HockeyApp init
 		mHockeyPuck = new HockeyPuck(this, Codes.HOCKEY_APP_ID, !AndroidUtils.isRelease(this));

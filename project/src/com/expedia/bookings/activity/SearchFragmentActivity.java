@@ -16,6 +16,7 @@ import com.expedia.bookings.fragment.SearchParamsFragment;
 import com.expedia.bookings.fragment.SearchParamsFragment.SearchParamsFragmentListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
+import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.bitmaps.TwoLevelImageCache;
 import com.mobiata.android.hockey.HockeyPuck;
@@ -76,6 +77,9 @@ public class SearchFragmentActivity extends SherlockFragmentActivity implements 
 		}
 
 		mSearchParamsFragment = Ui.findSupportFragment(this, getString(R.string.tag_search_params));
+
+		// Debug toast for notifying QA to open ExpediaDebug
+		ExpediaDebugUtil.showExpediaDebugToastIfNeeded(this);
 
 		// HockeyApp update
 		mHockeyPuck = new HockeyPuck(this, Codes.HOCKEY_APP_ID, !AndroidUtils.isRelease(this));
