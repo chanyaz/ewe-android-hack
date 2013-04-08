@@ -1222,7 +1222,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		if (mIsDoneLoadingPriceChange) {
 			Money total = Db.getSelectedRate().getTotalAmountAfterTax();
 			MaskedWalletRequest mwRequest = WalletUtils.buildMaskedWalletRequest(getActivity(), total);
-			mWalletClient.loadMaskedWallet(mwRequest, null, BookingOverviewFragment.this);
+			mWalletClient.loadMaskedWallet(mwRequest, BookingOverviewFragment.this);
 		}
 	}
 
@@ -1291,7 +1291,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	public void onConnected(Bundle connectionHint) {
 		Log.d(WalletUtils.TAG, "onConnected(" + connectionHint + ")");
 
-		mWalletClient.checkForPreAuthorization(connectionHint, this);
+		mWalletClient.checkForPreAuthorization(this);
 
 		updateWalletViewVisibilities();
 	}
@@ -1352,7 +1352,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	// LIFECYCLE - MOVE THIS LATER
 
 	private void walletOnCreate(Bundle savedInstanceState) {
-		mWalletClient = new WalletClient(getActivity(), WalletUtils.getWalletEnvironment(), this, this);
+		mWalletClient = new WalletClient(getActivity(), WalletUtils.getWalletEnvironment(), null, this, this);
 
 		if (savedInstanceState != null) {
 			mMaskedWallet = savedInstanceState.getParcelable(WalletUtils.EXTRA_MASKED_WALLET);
