@@ -289,7 +289,10 @@ public class PointOfSale {
 	 * @return Stylized CharSequence
 	 */
 	public CharSequence getStylizedFlightBookingStatement() {
-		return getStylizedStatement(getPosLocale().mFlightBookingStatement);
+		if (!TextUtils.isEmpty(getPosLocale().mFlightBookingStatement)) {
+			return getStylizedStatement(getPosLocale().mFlightBookingStatement);
+		}
+		return "FAIL FAIL FAIL LOC NEEDED: flightBookingStatement";
 	}
 
 	private CharSequence getStylizedStatement(String statement) {
