@@ -26,7 +26,6 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -121,7 +120,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	private LinearLayout mCheckoutLayout;
 
 	private AccountButton mAccountButton;
-	private Button mWalletButton;
+	private View mWalletButton;
 	private SectionTravelerInfo mTravelerSection;
 	private SectionBillingInfo mCreditCardSectionButton;
 	private SectionStoredCreditCard mStoredCreditCard;
