@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.FlurryTracking;
 import com.expedia.bookings.tracking.GreystripeTracking;
@@ -48,6 +49,9 @@ public class SearchActivity extends Activity {
 		OmnitureTracking.trackAppLoading(mContext);
 		AdTracker.trackLaunch();
 
+		//Hi Facebook!
+		facebookInstallTracking();
+
 		if (NavUtils.skipLaunchScreenAndStartEHTablet(this)) {
 			// Note: 2.0 will not support launch screen nor Flights on tablet ergo send user to EH tablet
 		}
@@ -80,6 +84,14 @@ public class SearchActivity extends Activity {
 	protected void onPause() {
 		super.onPause();
 		OmnitureTracking.onPause();
+	}
+
+	/**
+	 * Tell facebook we installed the app every time we launch!
+	 * This is asynchronous, and after we get a success message back from FB this call no longer does anything at all.
+	 */
+	private void facebookInstallTracking() {
+		com.facebook.Settings.publishInstallAsync(this, ExpediaServices.getFacebookAppId(this));
 	}
 
 	private void trackAppLoading() {
