@@ -116,27 +116,52 @@ public class NavUtils {
 	 * @return true if EHTablet should be (and has been) launched
 	 */
 	public static boolean skipLaunchScreenAndStartEHTablet(Context context) {
+		Intent intent = generateStartEHTabletIntent(context);
+		if (intent != null) {
+			context.startActivity(intent);
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Sometimes we want to get out of flights (or anyplace) and want to go back to our start page.
+	 * @param context
+	 * @return true if we called startActivity on the way to EhTabletStart, false if not
+	 */
+	public static boolean goBackToEhTabletStart(Context context) {
+		Intent intent = generateStartEHTabletIntent(context);
+		if (intent != null) {
+			sendKillActivityBroadcast(context);
+			context.startActivity(intent);
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Builds the intent for starting EhTablet
+	 * @return Intent for going to EHTablet start screen, or null if not valid for this device
+	 */
+	private static Intent generateStartEHTabletIntent(Context context) {
 		// #7090: First, check to see if the user last confirmed a booking.  If that is the case,
 		//        then we should forward the user to the ConfirmationActivity
 		if (ExpediaBookingApp.useTabletInterface(context) && ConfirmationState.hasSavedData(context, Type.HOTEL)) {
 			Intent intent = new Intent(context, ConfirmationFragmentActivity.class);
-			context.startActivity(intent);
-			return true;
+			return intent;
 		}
 
 		// 13820: Check if a booking is in process at this moment (in case BookingFragmentActivity died)
 		else if (BackgroundDownloader.getInstance().isDownloading(BookingFragmentActivity.BOOKING_DOWNLOAD_KEY)) {
 			Intent intent = new Intent(context, BookingFragmentActivity.class);
-			context.startActivity(intent);
-			return true;
+			return intent;
 		}
 
 		else if (ExpediaBookingApp.useTabletInterface(context)) {
 			Intent intent = new Intent(context, SearchFragmentActivity.class);
-			context.startActivity(intent);
-			return true;
+			return intent;
 		}
-		return false;
+		return null;
 	}
 
 	public static void onDataMissing(Activity activity) {

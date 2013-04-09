@@ -17,6 +17,7 @@ import com.expedia.bookings.fragment.FlightSearchParamsFragment.FlightSearchPara
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
+import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.TwoLevelImageCache;
@@ -178,7 +179,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 
 	@Override
 	public void onBackPressed() {
-		if (!mSearchParamsFragment.onBackPressed()) {
+		if (!mSearchParamsFragment.onBackPressed() && !NavUtils.goBackToEhTabletStart(this)) {
 			super.onBackPressed();
 		}
 	}
@@ -215,7 +216,9 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			finish();
+			if (!NavUtils.goBackToEhTabletStart(this)) {
+				finish();
+			}
 			break;
 		case R.id.search:
 			FlightSearchParams params = mSearchParamsFragment.getSearchParams(true);
