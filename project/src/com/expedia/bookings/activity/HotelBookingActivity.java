@@ -1,9 +1,12 @@
 package com.expedia.bookings.activity;
 
+import java.util.GregorianCalendar;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender.SendIntentException;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -14,9 +17,13 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
@@ -33,6 +40,19 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.WalletUtils;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
+import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
+import com.google.android.gms.wallet.Cart;
+import com.google.android.gms.wallet.FullWallet;
+import com.google.android.gms.wallet.FullWalletRequest;
+import com.google.android.gms.wallet.LineItem;
+import com.google.android.gms.wallet.NotifyTransactionStatusRequest;
+import com.google.android.gms.wallet.ProxyCard;
+import com.google.android.gms.wallet.WalletClient;
+import com.google.android.gms.wallet.WalletClient.OnFullWalletLoadedListener;
+import com.google.android.gms.wallet.WalletConstants;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -40,11 +60,13 @@ import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 
 public class HotelBookingActivity extends SherlockFragmentActivity implements CVVEntryFragmentListener,
-		PriceChangeDialogFragmentListener, SimpleCallbackDialogFragmentListener, UnhandledErrorDialogFragmentListener {
+		PriceChangeDialogFragmentListener, SimpleCallbackDialogFragmentListener, UnhandledErrorDialogFragmentListener,
+		ConnectionCallbacks, OnConnectionFailedListener, OnFullWalletLoadedListener {
 
 	public static final String BOOKING_DOWNLOAD_KEY = "com.expedia.bookings.hotel.checkout";
 
 	private static final String STATE_CVV_ERROR_MODE = "STATE_CVV_ERROR_MODE";
+	private static final String STATE_HAS_TRIED_BOOKING = "STATE_HAS_TRIED_BOOKING";
 
 	private static final int DIALOG_CALLBACK_INVALID_CC = 1;
 	private static final int DIALOG_CALLBACK_INVALID_PAYMENT = 2;
@@ -57,6 +79,12 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	private BookingInProgressDialogFragment mProgressFragment;
 
 	private boolean mCvvErrorModeEnabled;
+
+	// If we're using Google Wallet, we want to book instantly (and not show the CVV entry fragment at all)
+	private boolean mBookWithGoogleWallet;
+
+	// If you're booking using google wallet, we don't want to send multiple requests
+	private boolean mHasTriedBookingWithGoogleWallet;
 
 	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
@@ -82,7 +110,11 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 
 		if (savedInstanceState != null) {
 			mCvvErrorModeEnabled = savedInstanceState.getBoolean(STATE_CVV_ERROR_MODE);
+			mHasTriedBookingWithGoogleWallet = savedInstanceState.getBoolean(STATE_HAS_TRIED_BOOKING);
 		}
+
+		StoredCreditCard scc = Db.getBillingInfo().getStoredCard();
+		mBookWithGoogleWallet = scc != null && scc.isGoogleWallet();
 
 		setContentView(R.layout.activity_hotel_booking);
 		setTitle(R.string.title_complete_booking);
@@ -91,20 +123,31 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		mProgressFragment = Ui.findSupportFragment(this, BookingInProgressDialogFragment.TAG);
 
 		if (savedInstanceState == null) {
-			mCVVEntryFragment = CVVEntryFragment.newInstance(this, Db.getBillingInfo());
+			if (mBookWithGoogleWallet) {
+				// Start showing progress dialog; depend on the wallet client connecting for
+				// kicking off the reservation
+				showProgressDialog();
+			}
+			else {
+				mCVVEntryFragment = CVVEntryFragment.newInstance(this, Db.getBillingInfo());
 
-			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-			ft.add(R.id.cvv_frame, mCVVEntryFragment, CVVEntryFragment.TAG);
-			ft.commit();
+				FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+				ft.add(R.id.cvv_frame, mCVVEntryFragment, CVVEntryFragment.TAG);
+				ft.commit();
+			}
 		}
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+		walletOnCreate(savedInstanceState);
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
 		OmnitureTracking.trackPageLoadHotelsCheckoutPaymentCid(this);
+
+		walletOnStart();
 	}
 
 	@Override
@@ -126,6 +169,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		super.onSaveInstanceState(outState);
 
 		outState.putBoolean(STATE_CVV_ERROR_MODE, mCvvErrorModeEnabled);
+		outState.putBoolean(STATE_HAS_TRIED_BOOKING, mHasTriedBookingWithGoogleWallet);
 	}
 
 	@Override
@@ -208,6 +252,11 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	// Invalid CVV modes
 
 	public void setCvvErrorMode(boolean enabled) {
+		// If we're booking with Google Wallet, ignore this entirely
+		if (mBookWithGoogleWallet) {
+			return;
+		}
+
 		mCvvErrorModeEnabled = enabled;
 
 		// Set header bg
@@ -227,16 +276,17 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	//////////////////////////////////////////////////////////////////////////
 	// Booking downloads
 
+	private void showProgressDialog() {
+		mProgressFragment = new BookingInProgressDialogFragment();
+		mProgressFragment.show(getSupportFragmentManager(), BookingInProgressDialogFragment.TAG);
+	}
+
 	private void doBooking() {
 		setCvvErrorMode(false);
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (!bd.isDownloading(BOOKING_DOWNLOAD_KEY)) {
-			// Clear current results (if any)
-			Db.setFlightCheckout(null);
-
-			mProgressFragment = new BookingInProgressDialogFragment();
-			mProgressFragment.show(getSupportFragmentManager(), BookingInProgressDialogFragment.TAG);
+			showProgressDialog();
 
 			bd.startDownload(BOOKING_DOWNLOAD_KEY, mDownload, mCallback);
 		}
@@ -259,8 +309,25 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 				tuid = Db.getUser().getPrimaryTraveler().getTuid();
 			}
 
-			return services.reservation(Db.getSearchParams(), Db.getSelectedProperty(), Db.getSelectedRate(),
-					Db.getBillingInfo(), tripId, userId, tuid);
+			BookingResponse response = services.reservation(Db.getSearchParams(), Db.getSelectedProperty(),
+					Db.getSelectedRate(), Db.getBillingInfo(), tripId, userId, tuid);
+
+			if (mBookWithGoogleWallet) {
+				// While still in the bg, notify Google of what happened when we tried to book
+				NotifyTransactionStatusRequest.Builder notifyBuilder = NotifyTransactionStatusRequest.newBuilder();
+				notifyBuilder.setGoogleTransactionId(Db.getBillingInfo().getGoogleWalletTransactionId());
+				if (response == null || response.hasErrors()) {
+					// TODO: MORE SPECIFIC ERRORS
+					notifyBuilder.setStatus(NotifyTransactionStatusRequest.Status.Error.UNKNOWN);
+				}
+				else {
+					notifyBuilder.setStatus(NotifyTransactionStatusRequest.Status.SUCCESS);
+				}
+
+				mWalletClient.notifyTransactionStatus(notifyBuilder.build());
+			}
+
+			return response;
 		}
 	};
 
@@ -471,5 +538,152 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	@Override
 	public void onCancelUnhandledException() {
 		// Do nothing; we'll just let the user sit on the CVV screen
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Google Wallet
+
+	private static final int REQUEST_CODE_RESOLVE_LOAD_FULL_WALLET = 102;
+
+	private WalletClient mWalletClient;
+
+	private void getFullWallet() {
+		// Build the full wallet request
+		BillingInfo billingInfo = Db.getBillingInfo();
+		Rate rate = Db.getSelectedRate();
+		Money totalBeforeTax = rate.getTotalAmountBeforeTax();
+		Money surcharges = rate.getTotalSurcharge();
+		Money totalAfterTax = rate.getTotalAmountAfterTax();
+
+		FullWalletRequest.Builder walletRequestBuilder = FullWalletRequest.newBuilder();
+		walletRequestBuilder.setGoogleTransactionId(billingInfo.getGoogleWalletTransactionId());
+
+		Cart.Builder cartBuilder = Cart.newBuilder();
+		cartBuilder.setCurrencyCode(totalAfterTax.getCurrency());
+		cartBuilder.setTotalPrice(totalAfterTax.getAmount().toPlainString());
+
+		LineItem.Builder beforeTaxBuilder = LineItem.newBuilder();
+		beforeTaxBuilder.setCurrencyCode(totalBeforeTax.getCurrency());
+		beforeTaxBuilder.setDescription(getString(R.string.room));
+		beforeTaxBuilder.setRole(LineItem.Role.REGULAR);
+		beforeTaxBuilder.setTotalPrice(totalBeforeTax.getAmount().toPlainString());
+		cartBuilder.addLineItem(beforeTaxBuilder.build());
+
+		LineItem.Builder taxesBuilder = LineItem.newBuilder();
+		taxesBuilder.setCurrencyCode(surcharges.getCurrency());
+		taxesBuilder.setDescription(getString(R.string.taxes_and_fees));
+		taxesBuilder.setRole(LineItem.Role.TAX);
+		taxesBuilder.setTotalPrice(surcharges.getAmount().toPlainString());
+		cartBuilder.addLineItem(taxesBuilder.build());
+
+		walletRequestBuilder.setCart(cartBuilder.build());
+		FullWalletRequest fwRequest = walletRequestBuilder.build();
+
+		// Load the full wallet
+		mWalletClient.loadFullWallet(fwRequest, this);
+	}
+
+	private void onFullWalletReceived(FullWallet wallet) {
+		// Fill out the billing info with proxy data
+		BillingInfo billingInfo = Db.getBillingInfo();
+
+		ProxyCard proxyCard = wallet.getProxyCard();
+		billingInfo.setNumber(proxyCard.getPan());
+		billingInfo.setSecurityCode(proxyCard.getCvn());
+		billingInfo.setExpirationDate(new GregorianCalendar(proxyCard.getExpirationYear(), proxyCard
+				.getExpirationMonth() - 1, 1));
+
+		// TODO: Do we need any more info?
+
+		// Start the download
+		BackgroundDownloader.getInstance().startDownload(BOOKING_DOWNLOAD_KEY, mDownload, mCallback);
+		mHasTriedBookingWithGoogleWallet = true;
+	}
+
+	// ConnectionCallbacks
+
+	@Override
+	public void onConnected(Bundle connectionHint) {
+		Log.d(WalletUtils.TAG, "onConnected(" + connectionHint + ")");
+
+		if (!mHasTriedBookingWithGoogleWallet) {
+			getFullWallet();
+		}
+	}
+
+	@Override
+	public void onDisconnected() {
+		Log.d(WalletUtils.TAG, "onDisconnected()");
+	}
+
+	// OnConnectionFailedListener
+
+	@Override
+	public void onConnectionFailed(ConnectionResult result) {
+		Log.w(WalletUtils.TAG, "onConnectionFailed(" + result + ")");
+	}
+
+	// OnFullWalletLoadedListener
+
+	@Override
+	public void onFullWalletLoaded(ConnectionResult status, FullWallet wallet) {
+		if (status.isSuccess()) {
+			// User has pre-authorized the app
+			onFullWalletReceived(wallet);
+		}
+		else if (status.hasResolution()) {
+			try {
+				status.startResolutionForResult(this, REQUEST_CODE_RESOLVE_LOAD_FULL_WALLET);
+			}
+			catch (SendIntentException e) {
+				// TODO: ASK, WHAT HAPPENS HERE?
+				// HANDLE EDGE CASE?
+			}
+		}
+	}
+
+	// Lifecycle - TODO: Move this to proper location eventually
+
+	private void walletOnCreate(Bundle savedInstanceState) {
+		if (mBookWithGoogleWallet) {
+			mWalletClient = new WalletClient(this, WalletUtils.getWalletEnvironment(), null, this, this);
+		}
+	}
+
+	private void walletOnStart() {
+		if (mBookWithGoogleWallet) {
+			mWalletClient.connect();
+		}
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+
+		if (mBookWithGoogleWallet) {
+			mWalletClient.disconnect();
+		}
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (requestCode == REQUEST_CODE_RESOLVE_LOAD_FULL_WALLET) {
+			switch (resultCode) {
+			case Activity.RESULT_OK:
+				onFullWalletReceived((FullWallet) data.getParcelableExtra(WalletConstants.EXTRA_FULL_WALLET));
+				break;
+			case Activity.RESULT_CANCELED:
+				Log.w("Full wallet request: received RESULT_CANCELED; trying again");
+				getFullWallet();
+				break;
+			default:
+				int errorCode = data.getIntExtra(WalletConstants.EXTRA_ERROR_CODE, -1);
+				WalletUtils.logError(errorCode);
+				// TODO: Better error handling?
+				break;
+			}
+		}
 	}
 }

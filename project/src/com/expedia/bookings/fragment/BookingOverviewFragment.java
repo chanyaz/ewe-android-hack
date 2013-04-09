@@ -1252,6 +1252,10 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		mBillingInfo.setStoredCard(scc);
 
 		mBillingInfo.setEmail(mMaskedWallet.getEmail());
+		mBillingInfo.setGoogleWalletTransactionId(mMaskedWallet.getGoogleTransactionId());
+		Location loc = new Location();
+		loc.setPostalCode(mMaskedWallet.getBillingAddress().getPostalCode());
+		mBillingInfo.setLocation(loc);
 
 		bindAll();
 		updateViews();
@@ -1262,43 +1266,6 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	private void updateWalletViewVisibilities() {
 		mWalletButton.setVisibility((mMaskedWallet != null) ? View.GONE : View.VISIBLE);
 		mWalletButton.setEnabled(mWalletClient.isConnected() && mIsDoneLoadingPriceChange);
-	}
-
-	private void handleError(int errorCode) {
-		// TODO: Handle errors in particular
-
-		switch (errorCode) {
-		case WalletConstants.ERROR_CODE_BUYER_CANCELLED:
-			Log.e(WalletUtils.TAG, "Error: ERROR_CODE_BUYER_CANCELLED");
-			break;
-		case WalletConstants.ERROR_CODE_SPENDING_LIMIT_EXCEEDED:
-			Log.e(WalletUtils.TAG, "Error: ERROR_CODE_SPENDING_LIMIT_EXCEEDED");
-			break;
-		case WalletConstants.ERROR_CODE_INVALID_PARAMETERS:
-			Log.e(WalletUtils.TAG, "Error: ERROR_CODE_INVALID_PARAMETERS");
-			break;
-		case WalletConstants.ERROR_CODE_AUTHENTICATION_FAILURE:
-			Log.e(WalletUtils.TAG, "Error: ERROR_CODE_AUTHENTICATION_FAILURE");
-			break;
-		case WalletConstants.ERROR_CODE_BUYER_ACCOUNT_ERROR:
-			Log.e(WalletUtils.TAG, "Error: ERROR_CODE_BUYER_ACCOUNT_ERROR");
-			break;
-		case WalletConstants.ERROR_CODE_MERCHANT_ACCOUNT_ERROR:
-			Log.e(WalletUtils.TAG, "Error: ERROR_CODE_MERCHANT_ACCOUNT_ERROR");
-			break;
-		case WalletConstants.ERROR_CODE_SERVICE_UNAVAILABLE:
-			Log.e(WalletUtils.TAG, "Error: ERROR_CODE_SERVICE_UNAVAILABLE");
-			break;
-		case WalletConstants.ERROR_CODE_UNSUPPORTED_API_VERSION:
-			Log.e(WalletUtils.TAG, "Error: ERROR_CODE_UNSUPPORTED_API_VERSION");
-			break;
-		case WalletConstants.ERROR_CODE_UNKNOWN:
-			Log.e(WalletUtils.TAG, "Error: ERROR_CODE_UNKNOWN");
-			break;
-		default:
-			Log.e(WalletUtils.TAG, "Unknown error code: " + errorCode);
-			break;
-		}
 	}
 
 	// ConnectionCallbacks
@@ -1408,7 +1375,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 				break;
 			default:
 				int errorCode = data.getIntExtra(WalletConstants.EXTRA_ERROR_CODE, -1);
-				handleError(errorCode);
+				WalletUtils.logError(errorCode);
 				// TODO: Better error handling?
 				break;
 			}

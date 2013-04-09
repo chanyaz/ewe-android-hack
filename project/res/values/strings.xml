@@ -2120,6 +2120,9 @@
     <string name="country_ax">Åland Islands</string>
 
     <!-- Google Wallet -->
+    <!-- The merchant name to display to the user for Google Wallet -->
     <string name="merchant_name">Expedia, Inc.</string>
+    <!-- Total room (before taxes) price -->
+    <string name="room">Room</string>
 
 </resources>

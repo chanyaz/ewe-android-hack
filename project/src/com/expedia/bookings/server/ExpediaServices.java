@@ -911,7 +911,7 @@ public class ExpediaServices implements DownloadListener {
 
 		query.add(new BasicNameValuePair("email", billingInfo.getEmail()));
 
-		if (billingInfo.getStoredCard() == null) {
+		if (billingInfo.getStoredCard() == null || !TextUtils.isEmpty(billingInfo.getGoogleWalletTransactionId())) {
 			Location location = billingInfo.getLocation();
 			if ((flags & F_HOTELS) != 0) {
 				// 130 Hotels reservation requires only postalCode for US POS, no billing info for other POS
