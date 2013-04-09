@@ -210,7 +210,8 @@ public class WebViewFragment extends Fragment {
 		if (!mWebViewLoaded) {
 			mListener.setLoading(true);
 			if (!TextUtils.isEmpty(mHtmlData)) {
-				mWebView.loadData(mHtmlData, "text/html", "UTF-8");
+				//Using .loadData() sometimes fails with unescaped html. loadDataWithBaseUrl() doesnt
+				mWebView.loadDataWithBaseURL(null, mHtmlData, "text/html", "UTF-8", null);
 			}
 			else {
 				mWebView.loadUrl(mUrl);
