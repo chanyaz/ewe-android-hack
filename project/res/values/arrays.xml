@@ -804,6 +804,7 @@
         <item>Stable</item>
         <item>Trunk</item>
         <item>Proxy</item>
+        <item>Mock Server</item>
         <item>Public Integration</item>
         <item>Trunk (Stubbed)</item>
     </string-array>

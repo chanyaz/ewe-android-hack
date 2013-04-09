@@ -497,6 +497,12 @@ public class ExpediaServices implements DownloadListener {
 	public SearchResponse search(SearchParams params, int sortType) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
+		if (getEndPoint(mContext) == EndPoint.MOCK_SERVER) {
+			query.add(new BasicNameValuePair("city", "saved product"));
+			SearchResponseHandler rh = new SearchResponseHandler(mContext);
+			return doE3Request("MobileHotel/Webapp/SearchResults", query, rh, 0);
+		}
+
 		query.add(new BasicNameValuePair("sortOrder", "ExpertPicks"));
 		addCommonParams(query);
 
@@ -1275,6 +1281,7 @@ public class ExpediaServices implements DownloadListener {
 		INTEGRATION,
 		STABLE,
 		PROXY,
+		MOCK_SERVER,
 		PUBLIC_INTEGRATION,
 		TRUNK,
 		TRUNK_STUBBED,
@@ -1345,6 +1352,14 @@ public class ExpediaServices implements DownloadListener {
 			builder.append("/");
 			break;
 		}
+		case MOCK_SERVER: {
+			builder.append(SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
+					"localhost:3000"));
+			builder.append("/");
+			builder.append(domain);
+			builder.append("/");
+			break;
+		}
 		}
 
 		String e3url = builder.toString();
@@ -1365,6 +1380,9 @@ public class ExpediaServices implements DownloadListener {
 		}
 		else if (which.equals("Proxy")) {
 			return EndPoint.PROXY;
+		}
+		else if (which.equals("Mock Server")) {
+			return EndPoint.MOCK_SERVER;
 		}
 		else if (which.equals("Public Integration")) {
 			return EndPoint.PUBLIC_INTEGRATION;
