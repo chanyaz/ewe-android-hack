@@ -14,7 +14,7 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
-import com.mobiata.android.util.Ui;
+import com.expedia.bookings.utils.Ui;
 
 public class AccountButton extends LinearLayout {
 	private Context mContext;
@@ -25,6 +25,9 @@ public class AccountButton extends LinearLayout {
 	private View mLogoutContainer;
 	private View mErrorContainer;
 	private View mRewardsContainer;
+	private View mLoginButton;
+	private View mLogoutButton;
+	private View mLoadingLogoutButton;
 
 	public AccountButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -51,16 +54,16 @@ public class AccountButton extends LinearLayout {
 				}
 			}
 		};
-		View loginButton = (View) mLoginContainer.findViewById(R.id.expedia_account_login);
-		if (loginButton == null) {
+		mLoginButton = (View) mLoginContainer.findViewById(R.id.expedia_account_login);
+		if (mLoginButton == null) {
 			mLoginContainer.setOnClickListener(clickListener);
 		}
 		else {
-			loginButton.setOnClickListener(clickListener);
+			mLoginButton.setOnClickListener(clickListener);
 		}
 
-		View logoutButton = mLogoutContainer.findViewById(R.id.account_logout_logout_button);
-		View loadingLogoutButton = mAccountLoadingContainer.findViewById(R.id.account_loading_logout_button);
+		mLogoutButton = mLogoutContainer.findViewById(R.id.account_logout_logout_button);
+		mLoadingLogoutButton = mAccountLoadingContainer.findViewById(R.id.account_loading_logout_button);
 
 		OnClickListener logoutListener = new OnClickListener() {
 			public void onClick(View v) {
@@ -70,8 +73,18 @@ public class AccountButton extends LinearLayout {
 			}
 		};
 
-		logoutButton.setOnClickListener(logoutListener);
-		loadingLogoutButton.setOnClickListener(logoutListener);
+		mLogoutButton.setOnClickListener(logoutListener);
+		mLoadingLogoutButton.setOnClickListener(logoutListener);
+	}
+
+	@Override
+	public void setEnabled(boolean enabled) {
+		super.setEnabled(enabled);
+
+		Ui.setEnabled(mLoginContainer, enabled);
+		Ui.setEnabled(mLoginButton, enabled);
+		Ui.setEnabled(mLogoutButton, enabled);
+		Ui.setEnabled(mLoadingLogoutButton, enabled);
 	}
 
 	public void setListener(AccountButtonClickListener listener) {

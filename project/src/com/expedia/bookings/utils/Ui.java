@@ -2,6 +2,7 @@ package com.expedia.bookings.utils;
 
 import android.support.v4.app.CompatFragmentActivity;
 import android.support.v4.app.Fragment;
+import android.view.View;
 
 /**
  * Adds compatibility library fragment support to Ui.
@@ -58,5 +59,14 @@ public class Ui extends com.mobiata.android.util.Ui {
 	 */
 	public static boolean isAdded(Fragment fragment) {
 		return fragment != null && fragment.isAdded();
+	}
+
+	/**
+	 * Convenience method when setting the enabled property of a View that may or may not be null
+	 */
+	public static void setEnabled(View view, boolean enabled) {
+		if (view != null) {
+			view.setEnabled(enabled);
+		}
 	}
 }
