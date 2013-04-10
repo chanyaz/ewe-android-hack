@@ -43,6 +43,27 @@ public class FlightTrip implements JSONable {
 	// online booking feess
 	private boolean mMayChargeObFees;
 
+	/**
+	 * This one is a mouthful. For certain POS/regions, the Expedia API returns essentially duplicate offers that differ
+	 * only on price. This price difference can be attributed to the fare including baggage fees or not including baggage
+	 * fees. In the client we want to denote this difference to make it obvious to our users why there are essentially
+	 * duplicate FlightTrips in the list that have different prices.
+	 *
+	 * Note: It kind of hurts to have this boolean act as a "double negative", but I don't want to confuse the issue any
+	 * further. It is important to know the implementation details here on the API as it also returns a field, that is
+	 * so aptly named, "showBaggageFeesIncluded" which is the mutually exclusive counterpart to the field this boolean
+	 * represents, "showNoBaggageFeesIncluded". Apparently Expedia backend is super whack and is set up to support the
+	 * case where there are duplicate trips and we want to (1) explicitly call out the baggage fee is NOT included, the
+	 * norm being that baggage fee is included, and (2) explicitly call out that the baggage fee IS included, norm being
+	 * the baggage fee is NOT included. I guess Expedia backend is all-knowing and barks out orders on which type of
+	 * message we have to display. Hell, it might obscure some silly POS logic or something for all I know.
+	 *
+	 * Currently, our app only wants to call out the case where the baggage fee is not included, so we only parse out
+	 * this boolean.
+	 *
+	 */
+	private boolean mShowBaggageFeesNotIncluded;
+
 	// Possible online booking fees (only set when server processes a
 	// real credit card, on non-US/CA POS for specific routes)
 	private Money mOnlineBookingFeesAmount;
@@ -218,6 +239,14 @@ public class FlightTrip implements JSONable {
 		//money.add(mOnlineBookingFeesAmount);
 
 		return money;
+	}
+
+	public void setShowBaggageFeesNotIncluded(boolean show) {
+		mShowBaggageFeesNotIncluded = show;
+	}
+
+	public boolean getShowBaggageFeesNotIncluded() {
+		return mShowBaggageFeesNotIncluded;
 	}
 
 	////////////////////////////////////////////////////////////////////////
@@ -551,6 +580,7 @@ public class FlightTrip implements JSONable {
 			obj.putOpt("seatsRemaining", mSeatsRemaining);
 			obj.putOpt("baggageFeesUrl", mBaggageFeesUrl);
 			obj.putOpt("mayChargeObFees", mMayChargeObFees);
+			obj.putOpt("showBaggageFeesNotIncluded", mShowBaggageFeesNotIncluded);
 
 			if (mFlightSegmentAttrs != null) {
 				JSONArray arr = new JSONArray();
@@ -601,6 +631,7 @@ public class FlightTrip implements JSONable {
 		mSeatsRemaining = obj.optInt("seatsRemaining");
 		mBaggageFeesUrl = obj.optString("baggageFeesUrl");
 		mMayChargeObFees = obj.optBoolean("mayChargeObFees");
+		mShowBaggageFeesNotIncluded = obj.optBoolean("showBaggageFeesNotIncluded");
 
 		JSONArray arr = obj.optJSONArray("flightSegmentAttributes");
 		if (arr != null) {
