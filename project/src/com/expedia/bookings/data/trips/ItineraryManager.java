@@ -34,7 +34,9 @@ import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -812,6 +814,8 @@ public class ItineraryManager implements JSONable {
 				}
 			}
 
+			scheduleLocalNotifications(mTrips.values());
+
 			// If we get down to here, we can assume that the operation queue is finished
 			// and we return a list of the existing Trips.
 			return mTrips.values();
@@ -1162,6 +1166,46 @@ public class ItineraryManager implements JSONable {
 			mType = Type.SYNC_ERROR;
 			mError = error;
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Local Notifications
+
+	private void scheduleLocalNotifications(Collection<Trip> trips) {
+		for (Trip trip : trips) {
+			List<TripComponent> components = trip.getTripComponents(true);
+			if (components == null) {
+				continue;
+			}
+			for (TripComponent tc : components) {
+				List<ItinCardData> list = ItinCardDataFactory.generateCardData(tc);
+				if (list == null) {
+					continue;
+				}
+				for (ItinCardData data : list) {
+					ItinContentGenerator<? extends ItinCardData> generator = ItinContentGenerator.createGenerator(
+							mContext, data);
+
+					List<Notification> notifications = generator.generateNotifications();
+					if (notifications == null) {
+						continue;
+					}
+
+					for (Notification notification : notifications) {
+						Notification existing = Notification.find(notification.getUniqueId());
+						if (existing == null) {
+							notification.save();
+						}
+						else {
+							existing.updateFrom(notification);
+							existing.save();
+						}
+					}
+				}
+			}
+		}
+
+		Notification.scheduleAll(mContext);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

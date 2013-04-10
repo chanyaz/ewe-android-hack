@@ -36,6 +36,7 @@ import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.widget.LinearLayout;
@@ -174,6 +175,17 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	public void setHideDetailsTitle(boolean hide) {
 		mDetailsSummaryHideTitle = hide;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Local notifications
+
+	/**
+	 * Extend this method to return any local notifications related to this trip component.
+	 * @return
+	 */
+	public List<Notification> generateNotifications() {
+		return null;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
