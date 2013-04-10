@@ -1197,6 +1197,9 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 
 	private MaskedWallet mMaskedWallet;
 
+	private boolean mCheckedPreAuth;
+	private boolean mIsUserPreAuthorized;
+
 	private OnClickListener mWalletButtonClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -1258,7 +1261,18 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 	// We may want to update these more often than the rest of the Views
 	private void updateWalletViewVisibilities() {
 		mWalletButton.setVisibility((mMaskedWallet != null) ? View.GONE : View.VISIBLE);
-		mWalletButton.setEnabled(mWalletClient.isConnected());
+		mWalletButton.setEnabled(mWalletClient.isConnected() && mCheckedPreAuth && !mIsUserPreAuthorized
+				&& mMaskedWallet == null);
+
+		// If we are pre-authorized but haven't loaded the masked wallet, disable all buttons
+		boolean enableButtons = !mIsUserPreAuthorized || mMaskedWallet != null;
+		mAccountButton.setEnabled(enableButtons);
+		mTravelerButton.setEnabled(enableButtons);
+		mTravelerSection.setEnabled(enableButtons);
+		mPaymentButton.setEnabled(enableButtons);
+		mStoredCreditCard.setEnabled(enableButtons);
+		mCreditCardSectionButton.setEnabled(enableButtons);
+		mCouponCodeEditText.setEnabled(enableButtons);
 	}
 
 	// ConnectionCallbacks
@@ -1266,6 +1280,8 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 	@Override
 	public void onConnected(Bundle connectionHint) {
 		super.onConnected(connectionHint);
+
+		mWalletClient.checkForPreAuthorization(this);
 
 		// Immediately start requesting the wallet (even if we don't have product back yet)
 		// We can just ballpark the final cost for the masked wallet.
@@ -1281,11 +1297,15 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 		updateWalletViewVisibilities();
 	}
 
-	// OnConnectionFailedListener
+	//////////////////////////////////////////////////////////////////////////
+	// OnPreAuthorizationDeterminedListener
 
 	@Override
-	public void onConnectionFailed(ConnectionResult result) {
-		super.onConnectionFailed(result);
+	public void onPreAuthorizationDetermined(ConnectionResult status, boolean isUserPreAuthorized) {
+		super.onPreAuthorizationDetermined(status, isUserPreAuthorized);
+
+		mCheckedPreAuth = true;
+		mIsUserPreAuthorized = isUserPreAuthorized;
 
 		updateWalletViewVisibilities();
 	}
@@ -1310,6 +1330,11 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 				mProgressDialog.dismiss();
 
 				resolveUnsuccessfulConnectionResult();
+			}
+			else if (mIsUserPreAuthorized) {
+				// We thought the user was pre-authed, but some problem came up; make the user press button
+				mIsUserPreAuthorized = false;
+				updateWalletViewVisibilities();
 			}
 		}
 	}
