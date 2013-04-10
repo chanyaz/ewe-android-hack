@@ -26,6 +26,7 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 	private boolean mUseActiveCreditCardIcon = true;
 	private int mActiveCardIconResId = 0;
 	private int mStoredCardIconResId = 0;
+	private int mWalletCardIconResId = 0;
 
 	public SectionStoredCreditCard(Context context) {
 		super(context);
@@ -48,6 +49,8 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 			TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.stored_credit_card_section);
 			mActiveCardIconResId = a.getResourceId(R.styleable.stored_credit_card_section_activeIcon, 0);
 			mStoredCardIconResId = a.getResourceId(R.styleable.stored_credit_card_section_storedIcon, 0);
+			mWalletCardIconResId = a.getResourceId(R.styleable.stored_credit_card_section_walletIcon,
+					R.drawable.ic_google_wallet_logo);
 			a.recycle();
 		}
 	}
@@ -86,7 +89,10 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 
 			// Icon
 			int iconResId;
-			if (mUseActiveCreditCardIcon) {
+			if (mStoredCard.isGoogleWallet()) {
+				iconResId = mWalletCardIconResId;
+			}
+			else if (mUseActiveCreditCardIcon) {
 				iconResId = mActiveCardIconResId;
 			}
 			else {

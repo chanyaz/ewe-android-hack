@@ -6,7 +6,8 @@
     android:gravity="center_vertical"
     android:orientation="horizontal"
     app:activeIcon="@drawable/ic_credit_card_blue_entered"
-    app:storedIcon="@drawable/ic_credit_card" >
+    app:storedIcon="@drawable/ic_credit_card"
+    app:walletIcon="@drawable/ic_google_wallet_logo" >
 
     <TextView
         android:id="@+id/display_stored_card_desc"

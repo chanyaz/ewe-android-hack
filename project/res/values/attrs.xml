@@ -109,6 +109,7 @@
     <declare-styleable name="stored_credit_card_section">
         <attr name="activeIcon" format="reference" />
         <attr name="storedIcon" format="reference" />
+        <attr name="walletIcon" format="reference" />
     </declare-styleable>
 
     <!-- This is the flight line that shows layovers, we want to be able to control colors -->

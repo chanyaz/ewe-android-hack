@@ -6,7 +6,8 @@
     android:gravity="center_vertical"
     android:orientation="horizontal"
     app:activeIcon="@drawable/ic_credit_card_gray"
-    app:storedIcon="@drawable/ic_credit_card_gray" >
+    app:storedIcon="@drawable/ic_credit_card_gray"
+    app:walletIcon="@drawable/ic_google_wallet_logo" >
 
     <LinearLayout
         android:layout_width="match_parent"
