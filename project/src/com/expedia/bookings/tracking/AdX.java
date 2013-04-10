@@ -27,6 +27,7 @@ public class AdX {
 	public static void trackFirstLaunch() {
 		if (mEnabled) {
 			AdXConnect.getAdXConnectInstance(mContext, false, mLogLevel);
+			AdXConnect.getAdXConnectEventInstance(mContext, "FirstLaunch", "", "");
 			Log.i("AdX first launch event");
 		}
 	}
@@ -34,9 +35,9 @@ public class AdX {
 	public static void trackLaunch() {
 		if (mEnabled) {
 			AdXConnect.getAdXConnectInstance(mContext, true, mLogLevel);
+			AdXConnect.getAdXConnectEventInstance(mContext, "Launch", "", "");
 			Log.i("AdX launch event");
 		}
 	}
 
 }
-
