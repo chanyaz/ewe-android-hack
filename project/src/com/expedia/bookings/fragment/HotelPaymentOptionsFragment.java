@@ -6,7 +6,6 @@ import java.util.List;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,9 +25,10 @@ import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.WalletUtils;
 import com.mobiata.android.util.ViewUtils;
 
-public class HotelPaymentOptionsFragment extends Fragment {
+public class HotelPaymentOptionsFragment extends WalletFragment {
 
 	SectionBillingInfo mSectionCurrentCreditCard;
 	SectionStoredCreditCard mSectionStoredPayment;
@@ -124,12 +124,7 @@ public class HotelPaymentOptionsFragment extends Fragment {
 		ViewUtils.setAllCaps(mCurrentPaymentLabel);
 		ViewUtils.setAllCaps(mNewPaymentLabel);
 
-		List<StoredCreditCard> cards = new ArrayList<StoredCreditCard>();
-
-		//Populate stored creditcard list
-		if (User.isLoggedIn(getActivity()) && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
-			cards = Db.getUser().getStoredCreditCards();
-		}
+		List<StoredCreditCard> cards = getStoredCreditCards();
 
 		if (cards != null && cards.size() > 0) {
 			int paymentOptionPadding = getResources().getDimensionPixelSize(R.dimen.payment_option_vertical_padding);
@@ -220,12 +215,7 @@ public class HotelPaymentOptionsFragment extends Fragment {
 	}
 
 	public void updateVisibilities() {
-		List<StoredCreditCard> cards = new ArrayList<StoredCreditCard>();
-
-		//Populate stored creditcard list
-		if (User.isLoggedIn(getActivity()) && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
-			cards = Db.getUser().getStoredCreditCards();
-		}
+		List<StoredCreditCard> cards = getStoredCreditCards();
 
 		//Set visibilities
 		boolean hasAccountCards = cards != null && cards.size() > 0;
@@ -283,6 +273,21 @@ public class HotelPaymentOptionsFragment extends Fragment {
 		mStoredPaymentsLabel.setVisibility(displayUnselectedStoredCardsLabel ? View.VISIBLE : View.GONE);
 		mStoredPaymentsLabelDiv.setVisibility(displayUnselectedStoredCardsLabel ? View.VISIBLE : View.GONE);
 		mStoredCardsContainer.setVisibility(displayUnselectedStoredCardsLabel ? View.VISIBLE : View.GONE);
+	}
+
+	private List<StoredCreditCard> getStoredCreditCards() {
+		List<StoredCreditCard> cards = new ArrayList<StoredCreditCard>();
+
+		//Populate stored creditcard list
+		if (User.isLoggedIn(getActivity()) && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
+			cards.addAll(Db.getUser().getStoredCreditCards());
+		}
+
+		if (Db.getMaskedWallet() != null) {
+			cards.add(WalletUtils.convertToStoredCreditCard(Db.getMaskedWallet()));
+		}
+
+		return cards;
 	}
 
 	public interface HotelPaymentYoYoListener {

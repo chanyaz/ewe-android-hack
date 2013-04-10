@@ -7,6 +7,7 @@ import android.util.Pair;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.google.android.gms.wallet.Address;
 import com.google.android.gms.wallet.FullWallet;
@@ -68,6 +69,14 @@ public class WalletUtils {
 		traveler.setHomeAddress(address);
 
 		return traveler;
+	}
+
+	public static StoredCreditCard convertToStoredCreditCard(MaskedWallet maskedWallet) {
+		StoredCreditCard scc = new StoredCreditCard();
+		scc.setDescription(getFormattedPaymentDescription(maskedWallet));
+		scc.setId(maskedWallet.getGoogleTransactionId()); // For now, set ID == google transaction id
+		scc.setIsGoogleWallet(true);
+		return scc;
 	}
 
 	public static String getFormattedPaymentDescription(MaskedWallet maskedWallet) {

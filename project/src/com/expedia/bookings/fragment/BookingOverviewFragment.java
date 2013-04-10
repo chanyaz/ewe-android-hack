@@ -1239,11 +1239,7 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 		travelers.set(0, traveler);
 
 		// Bind credit card data
-		StoredCreditCard scc = new StoredCreditCard();
-		scc.setDescription(WalletUtils.getFormattedPaymentDescription(maskedWallet));
-		scc.setId(maskedWallet.getGoogleTransactionId()); // For now, set ID == google transaction id
-		scc.setIsGoogleWallet(true);
-		mBillingInfo.setStoredCard(scc);
+		mBillingInfo.setStoredCard(WalletUtils.convertToStoredCreditCard(maskedWallet));
 
 		mBillingInfo.setEmail(maskedWallet.getEmail());
 		mBillingInfo.setGoogleWalletTransactionId(maskedWallet.getGoogleTransactionId());
@@ -1259,10 +1255,12 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 	// We may want to update these more often than the rest of the Views
 	private void updateWalletViewVisibilities() {
 		MaskedWallet maskedWallet = Db.getMaskedWallet();
+		StoredCreditCard scc = Db.getBillingInfo().getStoredCard();
+		boolean storedCardIsGoogleWallet = scc != null && scc.isGoogleWallet();
 
-		mWalletButton.setVisibility((maskedWallet != null) ? View.GONE : View.VISIBLE);
+		mWalletButton.setVisibility((maskedWallet != null && storedCardIsGoogleWallet) ? View.GONE : View.VISIBLE);
 		mWalletButton.setEnabled(mWalletClient.isConnected() && mCheckedPreAuth && !mIsUserPreAuthorized
-				&& maskedWallet == null);
+				&& (maskedWallet == null || !storedCardIsGoogleWallet));
 
 		// If we are pre-authorized but haven't loaded the masked wallet, disable all buttons
 		boolean enableButtons = !mIsUserPreAuthorized || maskedWallet != null;
@@ -1336,10 +1334,12 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 			}
 			else if (mIsUserPreAuthorized) {
 				// We thought the user was pre-authed, but some problem came up; make the user press button
-				mIsUserPreAuthorized = false;
 				updateWalletViewVisibilities();
 			}
 		}
+
+		// It no longer matters if we're pre-authed, since we have a wallet (or a resolution thereof)
+		mIsUserPreAuthorized = false;
 	}
 
 	// LIFECYCLE - MOVE THIS LATER
