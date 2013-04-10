@@ -7,9 +7,7 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
@@ -75,7 +73,6 @@ import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallback
 import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
 import com.google.android.gms.wallet.MaskedWallet;
 import com.google.android.gms.wallet.MaskedWalletRequest;
-import com.google.android.gms.wallet.WalletClient;
 import com.google.android.gms.wallet.WalletClient.OnMaskedWalletLoadedListener;
 import com.google.android.gms.wallet.WalletClient.OnPreAuthorizationDeterminedListener;
 import com.google.android.gms.wallet.WalletConstants;
@@ -89,7 +86,7 @@ import com.mobiata.android.util.Ui;
 import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.view.ViewHelper;
 
-public class BookingOverviewFragment extends Fragment implements AccountButtonClickListener, ConnectionCallbacks,
+public class BookingOverviewFragment extends WalletFragment implements AccountButtonClickListener, ConnectionCallbacks,
 		OnConnectionFailedListener, OnPreAuthorizationDeterminedListener, OnMaskedWalletLoadedListener {
 
 	public interface BookingOverviewFragmentListener {
@@ -950,10 +947,6 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 					mHotelReceipt.bind(mIsDoneLoadingPriceChange, DbPropertyHelper.getBestMediaProperty(),
 							Db.getSearchParams(), Db.getSelectedRate());
 					updateViewVisibilities();
-
-					if (mWalletPreAuthorized) {
-						getMaskedWallet();
-					}
 				}
 				else {
 					handleHotelProductError(response);
@@ -1202,16 +1195,12 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 	public static final int REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET = 101;
 
-	private WalletClient mWalletClient;
-
 	private MaskedWallet mMaskedWallet;
-
-	private boolean mWalletPreAuthorized = false;
 
 	private OnClickListener mWalletButtonClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			getMaskedWallet();
+			buyWithGoogleWallet();
 		}
 	};
 
@@ -1220,21 +1209,25 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		return WalletUtils.buildMaskedWalletRequest(getActivity(), total);
 	}
 
-	private void getMaskedWallet() {
-		Log.i(WalletUtils.TAG, "Attempting to get masked wallet...");
-
-		if (mIsDoneLoadingPriceChange) {
-			mWalletClient.loadMaskedWallet(buildMaskedWalletRequest(), BookingOverviewFragment.this);
+	private void buyWithGoogleWallet() {
+		if (mGoogleWalletDisabled) {
+			// TODO: Show that Google Wallet is unavailable (with a toast?)
+		}
+		else if (mMaskedWallet != null) {
+			bindMaskedWallet();
+		}
+		else if (mConnectionResult != null) {
+			resolveUnsuccessfulConnectionResult();
+		}
+		else {
+			// Still waiting for the WalletClient to connect so wait for
+			// mWalletClient.loadMaskedWallet() to be called from onConnected()
+			mProgressDialog.show();
+			mHandleMaskedWalletWhenReady = true;
 		}
 	}
 
-	private void onMaskedWalletReceived(MaskedWallet maskedWallet) {
-		Log.d(WalletUtils.TAG, "onMaskedWalletReceived(" + maskedWallet + ")");
-		WalletUtils.logMaskedWallet(maskedWallet);
-
-		mMaskedWallet = maskedWallet;
-
-		// TODO: Make this all populate data from the MaskedWallet
+	private void bindMaskedWallet() {
 		populateTravelerData();
 
 		// Replace the traveler with the one from the wallet
@@ -1265,23 +1258,25 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	// We may want to update these more often than the rest of the Views
 	private void updateWalletViewVisibilities() {
 		mWalletButton.setVisibility((mMaskedWallet != null) ? View.GONE : View.VISIBLE);
-		mWalletButton.setEnabled(mWalletClient.isConnected() && mIsDoneLoadingPriceChange);
+		mWalletButton.setEnabled(mWalletClient.isConnected());
 	}
 
 	// ConnectionCallbacks
 
 	@Override
 	public void onConnected(Bundle connectionHint) {
-		Log.d(WalletUtils.TAG, "onConnected(" + connectionHint + ")");
+		super.onConnected(connectionHint);
 
-		mWalletClient.checkForPreAuthorization(this);
+		// Immediately start requesting the wallet (even if we don't have product back yet)
+		// We can just ballpark the final cost for the masked wallet.
+		mWalletClient.loadMaskedWallet(buildMaskedWalletRequest(), BookingOverviewFragment.this);
 
 		updateWalletViewVisibilities();
 	}
 
 	@Override
 	public void onDisconnected() {
-		Log.d(WalletUtils.TAG, "onDisconnected()");
+		super.onDisconnected();
 
 		updateWalletViewVisibilities();
 	}
@@ -1290,44 +1285,31 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 	@Override
 	public void onConnectionFailed(ConnectionResult result) {
-		Log.w(WalletUtils.TAG, "onConnectionFailed(" + result + ")");
+		super.onConnectionFailed(result);
 
 		updateWalletViewVisibilities();
-	}
-
-	// OnPreAuthorizationDeterminedListener
-
-	@Override
-	public void onPreAuthorizationDetermined(ConnectionResult status, boolean isUserPreAuthorized) {
-		Log.d(WalletUtils.TAG, "onPreAuthorizationDetermined(" + status + ", " + isUserPreAuthorized + ")");
-
-		if (isUserPreAuthorized && mMaskedWallet == null) {
-			Log.d(WalletUtils.TAG, "User was pre-authorized, retrieving masked wallet immediately.");
-			mWalletPreAuthorized = true;
-			getMaskedWallet();
-		}
-		else {
-			mMaskedWallet = null;
-		}
 	}
 
 	// OnMaskedWalletLoadedListener
 
 	@Override
 	public void onMaskedWalletLoaded(ConnectionResult status, MaskedWallet wallet) {
-		Log.d(WalletUtils.TAG, "onMaskedWalletLoaded(" + status + ", " + wallet + ")");
+		super.onMaskedWalletLoaded(status, wallet);
 
 		if (status.isSuccess()) {
 			// User has pre-authorized the app
-			onMaskedWalletReceived(wallet);
+			Log.i(WalletUtils.TAG, "User has pre-authorized app with Wallet before, automatically binding data...");
+			mMaskedWallet = wallet;
+			bindMaskedWallet();
 		}
 		else if (status.hasResolution()) {
-			try {
-				status.startResolutionForResult(getActivity(), REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET);
-			}
-			catch (SendIntentException e) {
-				// TODO: ASK, WHAT HAPPENS HERE?
-				mWalletClient.connect();
+			mConnectionResult = status;
+			mRequestCode = REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET;
+
+			if (mHandleMaskedWalletWhenReady) {
+				mProgressDialog.dismiss();
+
+				resolveUnsuccessfulConnectionResult();
 			}
 		}
 	}
@@ -1335,8 +1317,6 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	// LIFECYCLE - MOVE THIS LATER
 
 	private void walletOnCreate(Bundle savedInstanceState) {
-		mWalletClient = new WalletClient(getActivity(), WalletUtils.getWalletEnvironment(), null, this, this);
-
 		if (savedInstanceState != null) {
 			mMaskedWallet = savedInstanceState.getParcelable(WalletUtils.EXTRA_MASKED_WALLET);
 		}
@@ -1347,38 +1327,34 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	}
 
 	@Override
-	public void onStart() {
-		super.onStart();
-
-		mWalletClient.connect();
-	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
-
-		mWalletClient.disconnect();
-	}
-
-	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		if (requestCode == REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET) {
+		switch (requestCode) {
+		case REQUEST_CODE_RESOLVE_ERR:
+			// Call connect regardless of success or failure.
+			// If the result was success, the connect should succeed
+			// If the result was not success, this should get a new connection result
+			mWalletClient.connect();
+			break;
+		case REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET:
 			switch (resultCode) {
 			case Activity.RESULT_OK:
-				onMaskedWalletReceived((MaskedWallet) data.getParcelableExtra(WalletConstants.EXTRA_MASKED_WALLET));
+				mMaskedWallet = data.getParcelableExtra(WalletConstants.EXTRA_MASKED_WALLET);
+				bindMaskedWallet();
 				break;
 			case Activity.RESULT_CANCELED:
 				Log.w("Masked wallet request: received RESULT_CANCELED");
+				// Need to load a new ConnectionResult (even if user canceled)
+				// in case they want to try it again
 				mWalletClient.loadMaskedWallet(buildMaskedWalletRequest(), this);
 				break;
 			default:
 				int errorCode = data.getIntExtra(WalletConstants.EXTRA_ERROR_CODE, -1);
-				WalletUtils.logError(errorCode);
-				// TODO: Better error handling?
+				handleError(errorCode);
 				break;
 			}
+			break;
 		}
 	}
 }

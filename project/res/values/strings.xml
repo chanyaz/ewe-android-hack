@@ -2124,5 +2124,7 @@
     <string name="merchant_name">Expedia, Inc.</string>
     <!-- Total room (before taxes) price -->
     <string name="room">Room</string>
+    <!-- Loading message -->
+    <string name="loading">Loading</string>
 
 </resources>

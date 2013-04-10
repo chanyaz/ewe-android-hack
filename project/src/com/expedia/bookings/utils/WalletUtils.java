@@ -9,8 +9,10 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Traveler;
 import com.google.android.gms.wallet.Address;
+import com.google.android.gms.wallet.FullWallet;
 import com.google.android.gms.wallet.MaskedWallet;
 import com.google.android.gms.wallet.MaskedWalletRequest;
+import com.google.android.gms.wallet.ProxyCard;
 import com.google.android.gms.wallet.WalletConstants;
 import com.mobiata.android.Log;
 
@@ -86,24 +88,54 @@ public class WalletUtils {
 		return new Pair<String, String>(name.substring(0, firstSpace), name.substring(firstSpace + 2));
 	}
 
-	public static void logMaskedWallet(MaskedWallet maskedWallet) {
+	public static void logWallet(MaskedWallet wallet) {
 		Log.d(TAG, "DUMPING MASKED WALLET");
-		if (maskedWallet.getBillingAddress() != null) {
+		if (wallet.getBillingAddress() != null) {
 			Log.d(TAG, "BillingAddress");
-			logAddress(maskedWallet.getBillingAddress());
+			logAddress(wallet.getBillingAddress());
 		}
-		if (maskedWallet.getShippingAddress() != null) {
+		if (wallet.getShippingAddress() != null) {
 			Log.d(TAG, "ShippingAddress");
-			logAddress(maskedWallet.getShippingAddress());
+			logAddress(wallet.getShippingAddress());
 		}
-		Log.d(TAG, "Email=" + maskedWallet.getEmail());
-		Log.d(TAG, "GoogleTransactionId=" + maskedWallet.getGoogleTransactionId() + ", merchantTransactionId="
-				+ maskedWallet.getMerchantTransactionId());
+		Log.d(TAG, "Email=" + wallet.getEmail());
+		Log.d(TAG, "GoogleTransactionId=" + wallet.getGoogleTransactionId() + ", merchantTransactionId="
+				+ wallet.getMerchantTransactionId());
 
-		String[] paymentDescriptions = maskedWallet.getPaymentDescriptions();
-		for (int a = 0; a < paymentDescriptions.length; a++) {
-			Log.d(TAG, "payDesc[" + a + "]=" + paymentDescriptions[a]);
+		String[] paymentDescriptions = wallet.getPaymentDescriptions();
+		if (paymentDescriptions != null) {
+			for (int a = 0; a < paymentDescriptions.length; a++) {
+				Log.d(TAG, "payDesc[" + a + "]=" + paymentDescriptions[a]);
+			}
 		}
+	}
+
+	public static void logWallet(FullWallet wallet) {
+		Log.d(TAG, "DUMPING FULL WALLET");
+		if (wallet.getBillingAddress() != null) {
+			Log.d(TAG, "BillingAddress");
+			logAddress(wallet.getBillingAddress());
+		}
+		if (wallet.getShippingAddress() != null) {
+			Log.d(TAG, "ShippingAddress");
+			logAddress(wallet.getShippingAddress());
+		}
+		Log.d(TAG, "Email=" + wallet.getEmail());
+		Log.d(TAG, "GoogleTransactionId=" + wallet.getGoogleTransactionId() + ", merchantTransactionId="
+				+ wallet.getMerchantTransactionId());
+
+		String[] paymentDescriptions = wallet.getPaymentDescriptions();
+		if (paymentDescriptions != null) {
+			for (int a = 0; a < paymentDescriptions.length; a++) {
+				Log.d(TAG, "payDesc[" + a + "]=" + paymentDescriptions[a]);
+			}
+		}
+
+		ProxyCard proxyCard = wallet.getProxyCard();
+		Log.d(TAG, "proxyCard.pan=" + proxyCard.getPan());
+		Log.d(TAG, "proxyCard.cvn=" + proxyCard.getCvn());
+		Log.d(TAG, "proxyCard.expMonth=" + proxyCard.getExpirationMonth());
+		Log.d(TAG, "proxyCard.expYear=" + proxyCard.getExpirationYear());
 	}
 
 	public static void logAddress(Address address) {
