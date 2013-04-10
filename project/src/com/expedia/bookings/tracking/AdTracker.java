@@ -43,6 +43,9 @@ public class AdTracker {
 		// Omniture
 		mAndroidId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
 		mMarketingDate = SettingUtils.get(context, context.getString(R.string.preference_amobee_marketing_date), "");
+
+		// AdX
+		AdX.initialize(context, true);
 	}
 
 	public static void trackFirstLaunch() {
@@ -52,6 +55,7 @@ public class AdTracker {
 		// Other
 		Amobee.trackFirstLaunch();
 		Somo.trackFirstLaunch();
+		AdX.trackFirstLaunch();
 	}
 
 	public static void trackLaunch() {
@@ -61,6 +65,7 @@ public class AdTracker {
 		// Other
 		Amobee.trackLaunch();
 		//Somo.trackLaunch();
+		AdX.trackLaunch();
 
 		OmnitureTracking.trackAppLaunch(mContext, mAndroidId, mMarketingDate);
 	}

@@ -42,6 +42,14 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/mapsv2_dev_key" />
 
+        <!-- Ad-X -->
+        <meta-data
+            android:name="APP_NAME"
+            android:value="com.expedia.bookings" />
+        <meta-data
+            android:name="ADX_CLIENT_ID"
+            android:value="exped2345789jo" />
+
         <!-- Make sure activity uses full path, i.e. com.expedia.bookings.activity.* -->
 
         <activity
@@ -307,6 +315,13 @@
         </receiver>
         <receiver
             android:name="com.amobee.agency.tracking.AmobeeReceiver"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.AdX.tag.AdXAppTracker"
             android:exported="true" >
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
