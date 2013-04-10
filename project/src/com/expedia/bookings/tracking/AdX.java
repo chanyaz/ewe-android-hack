@@ -47,6 +47,13 @@ public class AdX {
 		}
 	}
 
+	public static void trackViewItinList() {
+		if (mEnabled) {
+			AdXConnect.getAdXConnectEventInstance(mContext, "Itinerary", "", "");
+			Log.i("AdX Itinerary event");
+		}
+	}
+
 	public static void trackHotelBooking(String currency, double totalPrice) {
 		if (mEnabled) {
 			AdXConnect.getAdXConnectEventInstance(mContext, "Booking", String.valueOf(totalPrice), currency);

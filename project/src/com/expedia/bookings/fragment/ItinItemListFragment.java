@@ -35,6 +35,7 @@ import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.dialog.SocialMessageChooserDialogFragment;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.ItinCard;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
@@ -500,6 +501,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 			if (context != null) {
 				if (trips.size() > 0) {
 					OmnitureTracking.trackItin(getActivity());
+					AdTracker.trackViewItinList();
 				}
 				else {
 					if (trackEmpty) {

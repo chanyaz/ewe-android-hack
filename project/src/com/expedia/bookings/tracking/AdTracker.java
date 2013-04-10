@@ -81,6 +81,10 @@ public class AdTracker {
 		AdX.trackLogin();
 	}
 
+	public static void trackViewItinList() {
+		AdX.trackViewItinList();
+	}
+
 	public static void trackBooking() {
 		// Values
 		final SearchParams searchParams = Db.getSearchParams().copy();
