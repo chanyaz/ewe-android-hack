@@ -34,7 +34,7 @@
         android:theme="@style/Theme" >
         <meta-data
             android:name="AA_DB_VERSION"
-            android:value="7" />
+            android:value="8" />
         <meta-data
             android:name="com.somo.apptimiser.PUBLIC_KEY_BASE64_STRING"
             android:value="@string/soma_rsa_key" />
@@ -266,6 +266,12 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/eb_appwidget_info" />
+        </receiver>
+
+        <!-- Notifications -->
+        <receiver
+            android:name="com.expedia.bookings.notification.LocalNotificationReceiver"
+            android:exported="false" >
         </receiver>
 
         <!-- Search stuff -->

@@ -335,6 +335,7 @@
     <string name="itin_action_call_hotel">Call Hotel</string>
     <string name="itin_action_redeem">Redeem</string>
     <string name="itin_action_support">Support</string>
+    <string name="itin_action_share">Share</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">Print Vouchers</string>
