@@ -347,8 +347,6 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 		outState.putBoolean(INSTANCE_SHOW_SLIDE_TO_WIDGET, mShowSlideToWidget);
 		outState.putBoolean(INSTANCE_DONE_LOADING_PRICE_CHANGE, mIsDoneLoadingPriceChange);
 
-		walletSaveInstanceState(outState);
-
 		mHotelReceipt.saveInstanceState(outState);
 		mCouponCodeWidget.saveInstanceState(outState);
 	}
@@ -455,7 +453,7 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 				mBillingInfo.setStoredCard(Db.getUser().getStoredCreditCards().get(0));
 			}
 		}
-		else if (mMaskedWallet == null) {
+		else if (Db.getMaskedWallet() == null) {
 			//Remove stored card(s)
 			Db.getBillingInfo().setStoredCard(null);
 			//Turn off the save to expedia account flag
@@ -1195,8 +1193,6 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 
 	public static final int REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET = 101;
 
-	private MaskedWallet mMaskedWallet;
-
 	private boolean mCheckedPreAuth;
 	private boolean mIsUserPreAuthorized;
 
@@ -1216,7 +1212,7 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 		if (mGoogleWalletDisabled) {
 			// TODO: Show that Google Wallet is unavailable (with a toast?)
 		}
-		else if (mMaskedWallet != null) {
+		else if (Db.getMaskedWallet() != null) {
 			bindMaskedWallet();
 		}
 		else if (mConnectionResult != null) {
@@ -1233,24 +1229,26 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 	private void bindMaskedWallet() {
 		populateTravelerData();
 
+		MaskedWallet maskedWallet = Db.getMaskedWallet();
+
 		// Replace the traveler with the one from the wallet
 		//
 		// TODO: This will repeatedly blow away edited changes; find some way to preserve? 
-		Traveler traveler = WalletUtils.convertToTraveler(mMaskedWallet);
+		Traveler traveler = WalletUtils.convertToTraveler(maskedWallet);
 		List<Traveler> travelers = Db.getTravelers();
 		travelers.set(0, traveler);
 
 		// Bind credit card data
 		StoredCreditCard scc = new StoredCreditCard();
-		scc.setDescription(WalletUtils.getFormattedPaymentDescription(mMaskedWallet));
-		scc.setId(mMaskedWallet.getGoogleTransactionId()); // For now, set ID == google transaction id
+		scc.setDescription(WalletUtils.getFormattedPaymentDescription(maskedWallet));
+		scc.setId(maskedWallet.getGoogleTransactionId()); // For now, set ID == google transaction id
 		scc.setIsGoogleWallet(true);
 		mBillingInfo.setStoredCard(scc);
 
-		mBillingInfo.setEmail(mMaskedWallet.getEmail());
-		mBillingInfo.setGoogleWalletTransactionId(mMaskedWallet.getGoogleTransactionId());
+		mBillingInfo.setEmail(maskedWallet.getEmail());
+		mBillingInfo.setGoogleWalletTransactionId(maskedWallet.getGoogleTransactionId());
 		Location loc = new Location();
-		loc.setPostalCode(mMaskedWallet.getBillingAddress().getPostalCode());
+		loc.setPostalCode(maskedWallet.getBillingAddress().getPostalCode());
 		mBillingInfo.setLocation(loc);
 
 		bindAll();
@@ -1260,12 +1258,14 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 
 	// We may want to update these more often than the rest of the Views
 	private void updateWalletViewVisibilities() {
-		mWalletButton.setVisibility((mMaskedWallet != null) ? View.GONE : View.VISIBLE);
+		MaskedWallet maskedWallet = Db.getMaskedWallet();
+
+		mWalletButton.setVisibility((maskedWallet != null) ? View.GONE : View.VISIBLE);
 		mWalletButton.setEnabled(mWalletClient.isConnected() && mCheckedPreAuth && !mIsUserPreAuthorized
-				&& mMaskedWallet == null);
+				&& maskedWallet == null);
 
 		// If we are pre-authorized but haven't loaded the masked wallet, disable all buttons
-		boolean enableButtons = !mIsUserPreAuthorized || mMaskedWallet != null;
+		boolean enableButtons = !mIsUserPreAuthorized || maskedWallet != null;
 		mAccountButton.setEnabled(enableButtons);
 		mTravelerButton.setEnabled(enableButtons);
 		mTravelerSection.setEnabled(enableButtons);
@@ -1282,7 +1282,7 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 		super.onConnected(connectionHint);
 
 		// Don't re-request the masked wallet if we already have it
-		if (mMaskedWallet == null) {
+		if (Db.getMaskedWallet() == null) {
 			mWalletClient.checkForPreAuthorization(this);
 
 			// Immediately start requesting the wallet (even if we don't have product back yet)
@@ -1322,7 +1322,7 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 		if (status.isSuccess()) {
 			// User has pre-authorized the app
 			Log.i(WalletUtils.TAG, "User has pre-authorized app with Wallet before, automatically binding data...");
-			mMaskedWallet = wallet;
+			Db.setMaskedWallet(wallet);
 			bindMaskedWallet();
 		}
 		else if (status.hasResolution()) {
@@ -1345,13 +1345,10 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 	// LIFECYCLE - MOVE THIS LATER
 
 	private void walletOnCreate(Bundle savedInstanceState) {
-		if (savedInstanceState != null) {
-			mMaskedWallet = savedInstanceState.getParcelable(WalletUtils.EXTRA_MASKED_WALLET);
+		if (savedInstanceState == null) {
+			// Reset masked wallet each time we start here, so we start from scratch
+			Db.setMaskedWallet(null);
 		}
-	}
-
-	private void walletSaveInstanceState(Bundle outState) {
-		outState.putParcelable(WalletUtils.EXTRA_MASKED_WALLET, mMaskedWallet);
 	}
 
 	@Override
@@ -1368,7 +1365,7 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 		case REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET:
 			switch (resultCode) {
 			case Activity.RESULT_OK:
-				mMaskedWallet = data.getParcelableExtra(WalletConstants.EXTRA_MASKED_WALLET);
+				Db.setMaskedWallet((MaskedWallet) data.getParcelableExtra(WalletConstants.EXTRA_MASKED_WALLET));
 				bindMaskedWallet();
 				break;
 			case Activity.RESULT_CANCELED:

@@ -20,6 +20,7 @@ import android.text.TextUtils;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.widget.SummarizedRoomRates;
+import com.google.android.gms.wallet.MaskedWallet;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -88,6 +89,9 @@ public class Db {
 
 	//Is the billingInfo object dirty? This is to help the coder manage saves, and it is up to them to set it when needed
 	private boolean mBillingInfoIsDirty = false;
+
+	// Google Masked Wallet; kept separate from BillingInfo as it is more transient
+	private MaskedWallet mMaskedWallet;
 
 	// The booking response.  Make sure to properly clear this out after finishing booking.
 	private BookingResponse mBookingResponse;
@@ -370,6 +374,14 @@ public class Db {
 		if (sDb.mBillingInfo != null) {
 			sDb.mBillingInfo.delete(context);
 		}
+	}
+
+	public static void setMaskedWallet(MaskedWallet maskedWallet) {
+		sDb.mMaskedWallet = maskedWallet;
+	}
+
+	public static MaskedWallet getMaskedWallet() {
+		return sDb.mMaskedWallet;
 	}
 
 	public static void setBookingResponse(BookingResponse bookingResponse) {
