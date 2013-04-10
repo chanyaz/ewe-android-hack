@@ -77,6 +77,8 @@ public class AdTracker {
 		// Other
 		Amobee.trackLogin();
 		Somo.trackLogin();
+
+		AdX.trackLogin();
 	}
 
 	public static void trackBooking() {
