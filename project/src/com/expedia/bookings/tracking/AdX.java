@@ -40,4 +40,10 @@ public class AdX {
 		}
 	}
 
+	public static void trackHotelBooking(String currency, double totalPrice) {
+		if (mEnabled) {
+			AdXConnect.getAdXConnectEventInstance(mContext, "Booking", String.valueOf(totalPrice), currency);
+			Log.i("AdX hotel booking event currency=" + currency + " total=" + totalPrice);
+		}
+	}
 }

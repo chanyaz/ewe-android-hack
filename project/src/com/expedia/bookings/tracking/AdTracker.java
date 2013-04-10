@@ -108,5 +108,7 @@ public class AdTracker {
 		// Other
 		Amobee.trackBooking(currency, totalPrice, duration, daysRemaining);
 		Somo.trackBooking(currency, totalPrice, duration, daysRemaining);
+
+		AdX.trackHotelBooking(currency, totalPrice);
 	}
 }
