@@ -617,9 +617,9 @@
     <!-- Label to show next to the total price on the checkout receipt -->
     <string name="grand_total">Grand Total</string>
     <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_raised_the_total_price_TEMPLATE">The hotel has just raised the total price for this room from %1$s to %2$s</string>
+    <string name="the_hotel_raised_the_total_price_TEMPLATE">Sorry, but it looks like the hotel just raised the total cost of this stay from %1$s to %2$s.</string>
     <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_lowered_the_total_price_TEMPLATE">The hotel has just lowered the total price for this room from %1$s to %2$s</string>
+    <string name="the_hotel_lowered_the_total_price_TEMPLATE">We’ve got great news! The cost of your stay just decreased from %1$s to %2$s.</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">Done</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->

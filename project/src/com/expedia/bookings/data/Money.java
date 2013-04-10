@@ -287,6 +287,22 @@ public class Money implements JSONable {
 		return mAmount.compareTo(other.getAmount());
 	}
 
+	public int compareToTheWholeValue(Money other) {
+		if (equals(other)) {
+			return 0;
+		}
+
+		if (other == null || other.getAmount() == null) {
+			return 1;
+		}
+
+		// Get the whole dollar amount
+		int thisAmount = mAmount.intValue();
+		int otherAmount = other.getAmount().intValue();
+
+		return thisAmount - otherAmount;
+	}
+
 	public Money copy() {
 		return new Money(toJson());
 	}
