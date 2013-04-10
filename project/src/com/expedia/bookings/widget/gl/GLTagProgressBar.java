@@ -16,12 +16,13 @@ import android.view.View.OnTouchListener;
 
 import com.expedia.bookings.widget.gl.GLTagProgressBarRenderer.OnDrawStartedListener;
 
-public class GLTagProgressBar extends GLSurfaceView implements SensorEventListener, OnTouchListener {
+public class GLTagProgressBar extends GLSurfaceView implements OnTouchListener {
 	//////////////////////////////////////////////////////////////////////////////////
 	// Private members
 	private Context mContext;
 
 	private SensorManager mSensorManager;
+	private SensorListenerProxy mSensorListenerProxy;
 	private Sensor mAccelerometer;
 	private int mOrientation;
 
@@ -102,10 +103,12 @@ public class GLTagProgressBar extends GLSurfaceView implements SensorEventListen
 
 	public void setSensorManagerRegistration(boolean registered) {
 		if (registered) {
-			mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+			mSensorListenerProxy = new SensorListenerProxy();
+			mSensorManager.registerListener(mSensorListenerProxy, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 		}
 		else {
-			mSensorManager.unregisterListener(this);
+			mSensorManager.unregisterListener(mSensorListenerProxy);
+			mSensorListenerProxy = null;
 			reset();
 		}
 	}
@@ -113,37 +116,49 @@ public class GLTagProgressBar extends GLSurfaceView implements SensorEventListen
 	//////////////////////////////////////////////////////////////////////////////////
 	// Listener implementations
 
-	@Override
-	public void onAccuracyChanged(Sensor sensor, int accuracy) {
-	}
+	/**
+	 * Note: The reason that there exists this proxy class for the SensorEventListener is to workaround a known bug
+	 * in the Android SDK. SensorManager does not properly unregister SensorEventListeners, and in our case this causes
+	 * memory issues. Use this proxy class to leak only the SensorListenerProxy.
+	 *
+	 * http://code.google.com/p/android/issues/detail?id=15170
+	 */
 
-	@Override
-	public void onSensorChanged(SensorEvent event) {
-		if (mRenderer == null) {
-			return;
-		}
+	private class SensorListenerProxy implements SensorEventListener {
 
-		final float[] acceleration = event.values.clone();
-		final int orientation = ((Activity) mContext).getWindowManager().getDefaultDisplay().getOrientation();
-		switch (orientation) {
-		case Surface.ROTATION_90: {
-			acceleration[0] = -event.values[1];
-			acceleration[1] = event.values[0];
-			break;
-		}
-		case Surface.ROTATION_180: {
-			acceleration[0] = -event.values[0];
-			acceleration[1] = -event.values[1];
-			break;
-		}
-		case Surface.ROTATION_270: {
-			acceleration[0] = event.values[1];
-			acceleration[1] = -event.values[0];
-			break;
-		}
+		@Override
+		public void onAccuracyChanged(Sensor sensor, int accuracy) {
 		}
 
-		mRenderer.setAcceleration(acceleration[0] * -1, acceleration[1] * -1, acceleration[2] * -1);
+		@Override
+		public void onSensorChanged(SensorEvent event) {
+			if (mRenderer == null) {
+				return;
+			}
+
+			final float[] acceleration = event.values.clone();
+			final int orientation = ((Activity) mContext).getWindowManager().getDefaultDisplay().getOrientation();
+			switch (orientation) {
+				case Surface.ROTATION_90: {
+					acceleration[0] = -event.values[1];
+					acceleration[1] = event.values[0];
+					break;
+				}
+				case Surface.ROTATION_180: {
+					acceleration[0] = -event.values[0];
+					acceleration[1] = -event.values[1];
+					break;
+				}
+				case Surface.ROTATION_270: {
+					acceleration[0] = event.values[1];
+					acceleration[1] = -event.values[0];
+					break;
+				}
+			}
+
+			mRenderer.setAcceleration(acceleration[0] * -1, acceleration[1] * -1, acceleration[2] * -1);
+		}
+
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
