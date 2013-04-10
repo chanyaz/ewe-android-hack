@@ -5,10 +5,13 @@ import java.util.regex.Pattern;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.TypedValue;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,6 +24,7 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 
 	private TextView mDescriptionView;
 	private ImageView mIconView;
+	private TextView mWalletTextView;
 
 	private StoredCreditCard mStoredCard;
 	private boolean mUseActiveCreditCardIcon = true;
@@ -61,6 +65,7 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 
 		mDescriptionView = Ui.findView(this, R.id.display_stored_card_desc);
 		mIconView = Ui.findView(this, R.id.icon_view);
+		mWalletTextView = Ui.findView(this, R.id.google_wallet_text_view);
 	}
 
 	@Override
@@ -85,6 +90,30 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 				}
 				amexPatternMatcher.appendTail(sb);
 				mDescriptionView.setText(sb.toString());
+			}
+
+			// Use different styling based on whether it's Google wallet or not
+			if (mWalletTextView != null) {
+				Resources res = getResources();
+				TextView primaryTextView;
+				if (mStoredCard.isGoogleWallet()) {
+					mWalletTextView.setVisibility(View.VISIBLE);
+
+					primaryTextView = mWalletTextView;
+
+					mDescriptionView.setTextColor(res.getColor(R.color.data_review_grey));
+					mDescriptionView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+							res.getDimensionPixelSize(R.dimen.data_display_sub_text));
+				}
+				else {
+					mWalletTextView.setVisibility(View.GONE);
+
+					primaryTextView = mDescriptionView;
+				}
+
+				primaryTextView.setTextColor(res.getColor(R.color.data_review_dark));
+				primaryTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+						res.getDimensionPixelSize(R.dimen.data_display_primary_text));
 			}
 
 			// Icon
