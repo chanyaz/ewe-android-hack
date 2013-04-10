@@ -14,6 +14,7 @@ import android.view.Display;
 import android.view.WindowManager;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.ExpediaImageManager;
 import com.mobiata.android.BackgroundDownloader;
@@ -123,12 +124,13 @@ public class LocalNotificationReceiver extends BroadcastReceiver {
 		};
 
 		private void scheduleNotification() {
-			PendingIntent pendingIntent = null; //TODO
-			PendingIntent directionsPendingIntent = null; //TODO
-			PendingIntent sharePendingIntent = null; //TODO
+			PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, new Intent(mContext,
+					SearchActivity.class), 0); //TODO
+			PendingIntent directionsPendingIntent = pendingIntent; //TODO
+			PendingIntent sharePendingIntent = pendingIntent; //TODO
 
 			NotificationCompat.BigPictureStyle style = new NotificationCompat.BigPictureStyle()
-					.bigPicture(Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getWidth(), 400, null, false))
+					.bigPicture(Bitmap.createBitmap(mBitmap, 0, 96, mBitmap.getWidth(), 400, null, false))
 					.setSummaryText(mNotification.getBody());
 
 			String directions = mContext.getString(R.string.itin_action_directions);
