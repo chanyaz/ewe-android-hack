@@ -778,6 +778,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 	private void displaySavingDialog() {
 		mPos = YoYoPosition.SAVING;
 		ThrobberDialog df = ThrobberDialog.newInstance(getString(R.string.saving_traveler));
+		df.setCancelable(false);
 		df.show(this.getSupportFragmentManager(), DIALOG_SAVING_TRAVELER);
 	}
 
