@@ -1,6 +1,5 @@
 package com.expedia.bookings.section;
 
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,21 +9,23 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.StoredCreditCard;
+import com.expedia.bookings.utils.Ui;
 
 public class SectionStoredCreditCard extends LinearLayout implements ISection<StoredCreditCard> {
 
-	ArrayList<SectionField<?, StoredCreditCard>> mFields = new ArrayList<SectionField<?, StoredCreditCard>>();
+	private TextView mDescriptionView;
+	private ImageView mIconView;
 
-	Context mContext;
-	StoredCreditCard mStoredCard;
-	boolean mUseActiveCreditCardIcon = true;
-	int mActiveCardIconResId = 0;
-	int mStoredCardIconResId = 0;
+	private StoredCreditCard mStoredCard;
+	private boolean mUseActiveCreditCardIcon = true;
+	private int mActiveCardIconResId = 0;
+	private int mStoredCardIconResId = 0;
 
 	public SectionStoredCreditCard(Context context) {
 		super(context);
@@ -43,10 +44,6 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 	}
 
 	private void init(Context context, AttributeSet attrs) {
-		mContext = context;
-
-		mFields.add(mDisplayCard);
-
 		if (attrs != null) {
 			TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.stored_credit_card_section);
 			mActiveCardIconResId = a.getResourceId(R.styleable.stored_credit_card_section_activeIcon, 0);
@@ -59,46 +56,19 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 	public void onFinishInflate() {
 		super.onFinishInflate();
 
-		for (SectionField<?, StoredCreditCard> field : mFields) {
-			field.bindField(this);
-		}
+		mDescriptionView = Ui.findView(this, R.id.display_stored_card_desc);
+		mIconView = Ui.findView(this, R.id.icon_view);
 	}
 
 	@Override
 	public void bind(StoredCreditCard data) {
 		mStoredCard = data;
+
 		if (mStoredCard != null) {
-			for (SectionField<?, StoredCreditCard> field : mFields) {
-				field.bindData(mStoredCard);
-			}
-		}
-	}
-
-	/**
-	 * This sets the state of the card icon (not the brand icon)
-	 * The default is active.
-	 * @param active - should we display the active or inactive icon
-	 * @param bind - should we make a call to bind for the icon field?
-	 */
-	public void setUseActiveCardIcon(boolean active, boolean bind) {
-		mUseActiveCreditCardIcon = active;
-		if (bind) {
-			mDisplayCard.bindData(mStoredCard);
-		}
-	}
-
-	//////////////////////////////////////
-	////// DISPLAY FIELDS
-	//////////////////////////////////////
-
-	SectionField<TextView, StoredCreditCard> mDisplayCard = new SectionField<TextView, StoredCreditCard>(
-			R.id.display_stored_card_desc) {
-		@Override
-		public void onHasFieldAndData(TextView field, StoredCreditCard data) {
 			// Text
 			String desc = data.getDescription();
 			if (TextUtils.isEmpty(desc)) {
-				field.setText("");
+				mDescriptionView.setText("");
 			}
 			else {
 				//We replace american express with amex. Why? Because there is a mingle card for it, that's why!
@@ -111,18 +81,34 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 					amexPatternMatcher.appendReplacement(sb, Matcher.quoteReplacement(replacement));
 				}
 				amexPatternMatcher.appendTail(sb);
-				field.setText(sb.toString());
+				mDescriptionView.setText(sb.toString());
 			}
 
 			// Icon
+			int iconResId;
 			if (mUseActiveCreditCardIcon) {
-				field.setCompoundDrawablesWithIntrinsicBounds(mActiveCardIconResId, 0, 0, 0);
+				iconResId = mActiveCardIconResId;
 			}
 			else {
-				field.setCompoundDrawablesWithIntrinsicBounds(mStoredCardIconResId, 0, 0, 0);
+				iconResId = mStoredCardIconResId;
 			}
 
+			if (mIconView != null) {
+				mIconView.setImageResource(iconResId);
+			}
+			else {
+				mDescriptionView.setCompoundDrawablesWithIntrinsicBounds(iconResId, 0, 0, 0);
+			}
 		}
-	};
+	}
 
+	/**
+	 * This sets the state of the card icon (not the brand icon)
+	 * The default is active.
+	 * @param active - should we display the active or inactive icon
+	 * @param bind - should we make a call to bind for the icon field?
+	 */
+	public void setUseActiveCardIcon(boolean active) {
+		mUseActiveCreditCardIcon = active;
+	}
 }

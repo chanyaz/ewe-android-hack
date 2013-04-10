@@ -180,7 +180,7 @@ public class FlightPaymentOptionsFragment extends Fragment {
 
 				SectionStoredCreditCard card = (SectionStoredCreditCard) inflater.inflate(
 						R.layout.section_display_stored_credit_card, null);
-				card.setUseActiveCardIcon(false, false);
+				card.setUseActiveCardIcon(false);
 				card.bind(storedCard);
 				card.setPadding(0, paymentOptionPadding, 0, paymentOptionPadding);
 				card.setBackgroundResource(R.drawable.bg_payment_method_row);
