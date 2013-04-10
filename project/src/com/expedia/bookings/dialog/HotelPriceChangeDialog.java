@@ -10,20 +10,31 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Money;
 
 public class HotelPriceChangeDialog extends DialogFragment {
-	private boolean mIsPriceHigher;
-	private Money mOldTotal;
-	private Money mNewTotal;
+	private static String ARG_IS_PRICE_HIGHER = "ARG_IS_PRICE_HIGHER";
+	private static String ARG_OLD_TOTAL = "ARG_OLD_TOTAL";
+	private static String ARG_NEW_TOTAL = "ARG_NEW_TOTAL";
 
-	public HotelPriceChangeDialog(boolean isPriceHigher, Money oldTotal, Money newTotal) {
-		mIsPriceHigher = isPriceHigher;
-		mOldTotal = oldTotal;
-		mNewTotal = newTotal;
+	public static HotelPriceChangeDialog newInstance(boolean isPriceHigher, Money oldTotal, Money newTotal) {
+		HotelPriceChangeDialog frag = new HotelPriceChangeDialog();
+
+		Bundle args = new Bundle();
+		args.putBoolean(ARG_IS_PRICE_HIGHER, isPriceHigher);
+		args.putString(ARG_OLD_TOTAL, oldTotal.getFormattedMoney());
+		args.putString(ARG_NEW_TOTAL, newTotal.getFormattedMoney());
+		frag.setArguments(args);
+
+		return frag;
 	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		Bundle args = getArguments();
+		boolean isPriceHigher = args.getBoolean(ARG_IS_PRICE_HIGHER, false);
+		String oldTotal = args.getString(ARG_OLD_TOTAL);
+		String newTotal = args.getString(ARG_NEW_TOTAL);
+
 		int priceChangeMessageId;
-		if (mIsPriceHigher) {
+		if (isPriceHigher) {
 			priceChangeMessageId = R.string.the_hotel_raised_the_total_price_TEMPLATE;
 		}
 		else {
@@ -32,8 +43,8 @@ public class HotelPriceChangeDialog extends DialogFragment {
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-		builder.setMessage(getString(priceChangeMessageId, mOldTotal.getFormattedMoney(),
-				mNewTotal.getFormattedMoney()));
+		builder.setMessage(getString(priceChangeMessageId, oldTotal,
+				newTotal));
 
 		builder.setNeutralButton(com.mobiata.android.R.string.ok, new DialogInterface.OnClickListener() {
 			@Override

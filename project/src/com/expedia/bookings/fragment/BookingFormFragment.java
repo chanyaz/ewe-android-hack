@@ -49,6 +49,7 @@ import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.dialog.HotelPriceChangeDialog;
 import com.expedia.bookings.dialog.TextViewDialog;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.fragment.LoginFragment.LogInListener;
@@ -1064,6 +1065,12 @@ public class BookingFormFragment extends Fragment {
 				Rate newRate = response.getRate();
 
 				if (TextUtils.equals(selectedRate.getRateKey(), response.getOriginalProductKey())) {
+					int priceChange = selectedRate.compareForPriceChange(newRate);
+					if (priceChange != 0) {
+						boolean isPriceHigher = priceChange < 0;
+						HotelPriceChangeDialog dialog = HotelPriceChangeDialog.newInstance(isPriceHigher, selectedRate.getDisplayRate(), newRate.getDisplayRate());
+						dialog.show(getFragmentManager(), "priceChangeDialog");
+					}
 					newRate.setValueAdds(selectedRate.getValueAdds());
 					Db.setSelectedRate(newRate);
 					AvailabilityResponse availResponse = Db.getSelectedAvailabilityResponse();
