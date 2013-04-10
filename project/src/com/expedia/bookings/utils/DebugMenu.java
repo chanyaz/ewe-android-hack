@@ -63,6 +63,8 @@ public class DebugMenu {
 			return "Server: Trunk";
 		case PUBLIC_INTEGRATION:
 			return "Server: Public Integration";
+		case MOCK_SERVER:
+			return "Server: Mock Server";
 		default:
 			return "Server: Unknown";
 		}
