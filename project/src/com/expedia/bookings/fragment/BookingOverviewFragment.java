@@ -1281,11 +1281,14 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 	public void onConnected(Bundle connectionHint) {
 		super.onConnected(connectionHint);
 
-		mWalletClient.checkForPreAuthorization(this);
+		// Don't re-request the masked wallet if we already have it
+		if (mMaskedWallet == null) {
+			mWalletClient.checkForPreAuthorization(this);
 
-		// Immediately start requesting the wallet (even if we don't have product back yet)
-		// We can just ballpark the final cost for the masked wallet.
-		mWalletClient.loadMaskedWallet(buildMaskedWalletRequest(), BookingOverviewFragment.this);
+			// Immediately start requesting the wallet (even if we don't have product back yet)
+			// We can just ballpark the final cost for the masked wallet.
+			mWalletClient.loadMaskedWallet(buildMaskedWalletRequest(), BookingOverviewFragment.this);
+		}
 
 		updateWalletViewVisibilities();
 	}
