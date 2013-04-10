@@ -146,4 +146,8 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 	public void setUseActiveCardIcon(boolean active) {
 		mUseActiveCreditCardIcon = active;
 	}
+
+	public StoredCreditCard getStoredCreditCard() {
+		return mStoredCard;
+	}
 }

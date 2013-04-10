@@ -1191,8 +1191,6 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 	// Eventually we'll want to move all this code into appropriate spots, but
 	// for now I'm keeping it all down here to make merging a bit easier.
 
-	public static final int REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET = 101;
-
 	private boolean mCheckedPreAuth;
 	private boolean mIsUserPreAuthorized;
 

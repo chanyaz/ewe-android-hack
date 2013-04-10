@@ -13,9 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.WalletUtils;
@@ -54,7 +52,28 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 	 * Only use this request code when calling {@link ConnectionResult#startResolutionForResult(
 	 * android.app.Activity, int)}.
 	 */
-	protected static final int REQUEST_CODE_RESOLVE_ERR = 1000;
+	public static final int REQUEST_CODE_RESOLVE_ERR = 1000;
+
+	/**
+	 * Request code used when attempting to resolve issues with loading a masked wallet
+	 * Only use this request code when calling {@link ConnectionResult#startResolutionForResult(
+	 * android.app.Activity, int)}.
+	 */
+	public static final int REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET = 1001;
+
+	/**
+	 * Request code used when attempting to resolve issues with loading a full wallet
+	 * Only use this request code when calling {@link ConnectionResult#startResolutionForResult(
+	 * android.app.Activity, int)}.
+	 */
+	public static final int REQUEST_CODE_RESOLVE_LOAD_FULL_WALLET = 1002;
+
+	/**
+	 * Request code used when attempting to resolve issues with changing a masked wallet
+	 * Only use this request code when calling {@link ConnectionResult#startResolutionForResult(
+	 * android.app.Activity, int)}.
+	 */
+	public static final int REQUEST_CODE_RESOLVE_CHANGE_MASKED_WALLET = 1003;
 
 	protected WalletClient mWalletClient;
 
@@ -79,8 +98,23 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 	//////////////////////////////////////////////////////////////////////////
 	// CUSTOM CODE - BETTER NAME FOR SECTION?
 
+	public static boolean isRequestCodeFromWalletFragment(int requestCode) {
+		return requestCode == REQUEST_CODE_RESOLVE_ERR
+				|| requestCode == REQUEST_CODE_RESOLVE_CHANGE_MASKED_WALLET
+				|| requestCode == REQUEST_CODE_RESOLVE_LOAD_FULL_WALLET
+				|| requestCode == REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET;
+	}
+
 	protected void handleError(int errorCode) {
 		WalletUtils.logError(errorCode);
+	}
+
+	protected void handleUnrecoverableGoogleWalletError(int errorCode) {
+		WalletUtils.logError(errorCode);
+
+		mGoogleWalletDisabled = true;
+
+		// TODO: Figure out something to do?
 	}
 
 	/**
@@ -149,7 +183,9 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+
 		// Initialize the progress dialog (in case we need to use it later)
 		mProgressDialog = new ProgressDialog(getActivity());
 		mProgressDialog.setMessage(getString(R.string.loading));
@@ -161,8 +197,6 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 				mHandleFullWalletWhenReady = false;
 			}
 		});
-
-		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
 	@Override

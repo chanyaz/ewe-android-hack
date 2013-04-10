@@ -25,6 +25,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.BookingOverviewFragment;
 import com.expedia.bookings.fragment.BookingOverviewFragment.BookingOverviewFragmentListener;
 import com.expedia.bookings.fragment.LoginFragment.LogInListener;
+import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
 import com.mobiata.android.Log;
@@ -119,14 +120,11 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// Need to pass onActivityResult to Fragment, as by default it goes to the Activity
-		switch (requestCode) {
-		case BookingOverviewFragment.REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET:
+		if (WalletFragment.isRequestCodeFromWalletFragment(requestCode)) {
 			mBookingOverviewFragment.onActivityResult(requestCode, resultCode, data);
-			break;
-		default:
-			super.onActivityResult(requestCode, resultCode, data);
 		}
+
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	@Override

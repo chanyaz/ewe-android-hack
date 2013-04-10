@@ -1,6 +1,7 @@
 package com.expedia.bookings.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.HotelPaymentCreditCardFragment;
 import com.expedia.bookings.fragment.HotelPaymentOptionsFragment;
+import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.fragment.HotelPaymentOptionsFragment.HotelPaymentYoYoListener;
 import com.expedia.bookings.fragment.HotelPaymentSaveDialogFragment;
 import com.expedia.bookings.model.HotelPaymentFlowState;
@@ -475,5 +477,14 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 		mMode = YoYoMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
 		mPos = YoYoPosition.valueOf(savedInstanceState.getString(STATE_TAG_DEST));
 		super.onRestoreInstanceState(savedInstanceState);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (WalletFragment.isRequestCodeFromWalletFragment(requestCode)) {
+			mOptionsFragment.onActivityResult(requestCode, resultCode, data);
+		}
+
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 }
