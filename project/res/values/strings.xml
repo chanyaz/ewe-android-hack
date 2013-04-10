@@ -57,6 +57,12 @@
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Trips</string>
 
+    <!-- Notifications -->
+    <!-- Title for flight Check In Local Notification -->
+    <string name="Check_In_Available">Check In Available</string>
+    <!-- Content for flight Check In Local Notification -->
+    <string name="x_flight_to_x">%1$s flight to %2$s</string>
+
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerary</string>

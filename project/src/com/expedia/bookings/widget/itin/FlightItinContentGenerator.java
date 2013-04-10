@@ -45,6 +45,7 @@ import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.graphics.DestinationBitmapDrawable;
+import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClipboardUtils;
@@ -558,6 +559,50 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			}
 		}
 		return false;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Notifications
+
+	@Override
+	public List<Notification> generateNotifications() {
+		// Given I have a flight, when it is 24 hours prior to the scheduled departure of that flight,
+		// then I want to receive a notification that reads "You can now check in for your Virgin America
+		// flight to Chicago."
+		// If there is more than one segment for a given leg, the notification should just be sent
+		// 24 hours prior to the scheduled departure of the first flight.
+
+		FlightLeg leg = getItinCardData().getFlightLeg();
+		if (leg == null) {
+			return null;
+		}
+
+		ArrayList<Notification> notifications = new ArrayList<Notification>(1);
+		Notification notification = generateCheckinNotification(leg);
+		notifications.add(notification);
+
+		return notifications;
+	}
+
+	private Notification generateCheckinNotification(FlightLeg leg) {
+		String destinationCode = leg.getLastWaypoint().mAirportCode;
+
+		String uniqueId = getItinCardData().getId();
+		long triggerTimeMillis = getItinCardData().getStartDate().getMillisFromEpoch() - DateUtils.DAY_IN_MILLIS;
+
+		Notification notification = new Notification(uniqueId, triggerTimeMillis);
+
+		notification.setTicker(getContext().getString(R.string.Check_In_Available));
+		notification.setTitle(getContext().getString(R.string.Check_In_Available));
+
+		String body = getContext().getString(R.string.x_flight_to_x, leg.getAirlinesFormatted(),
+				leg.getLastWaypoint().getAirport().mCity);
+		notification.setBody(body);
+
+		notification.setImage(Notification.ImageType.DESTINATION, R.drawable.bg_itin_placeholder_flight,
+				destinationCode);
+
+		return notification;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
