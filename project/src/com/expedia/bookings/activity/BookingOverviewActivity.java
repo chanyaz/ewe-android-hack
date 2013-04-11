@@ -123,8 +123,9 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 		if (WalletFragment.isRequestCodeFromWalletFragment(requestCode)) {
 			mBookingOverviewFragment.onActivityResult(requestCode, resultCode, data);
 		}
-
-		super.onActivityResult(requestCode, resultCode, data);
+		else {
+			super.onActivityResult(requestCode, resultCode, data);
+		}
 	}
 
 	@Override

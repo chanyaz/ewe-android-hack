@@ -478,13 +478,14 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 		mPos = YoYoPosition.valueOf(savedInstanceState.getString(STATE_TAG_DEST));
 		super.onRestoreInstanceState(savedInstanceState);
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (WalletFragment.isRequestCodeFromWalletFragment(requestCode)) {
 			mOptionsFragment.onActivityResult(requestCode, resultCode, data);
 		}
-
-		super.onActivityResult(requestCode, resultCode, data);
+		else {
+			super.onActivityResult(requestCode, resultCode, data);
+		}
 	}
 }
