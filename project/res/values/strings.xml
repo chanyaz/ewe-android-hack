@@ -59,7 +59,7 @@
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
-    <string name="Check_In_Available">Check In Available</string>
+    <string name="Check_in_available">Check in available</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">%1$s flight to %2$s</string>
 
