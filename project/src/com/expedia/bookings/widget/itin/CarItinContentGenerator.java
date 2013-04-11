@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget.itin;
 
+import java.util.Calendar;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -193,16 +195,59 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		}
 
 		ItinCardDataCar data = getItinCardData();
+		Calendar start = data.getStartDate().getCalendar();
+		Calendar end = data.getEndDate().getCalendar();
+		Calendar preDrop1 = (Calendar) end.clone();
+		Calendar now = Calendar.getInstance(start.getTimeZone());
 
-		if (data.showPickUp()) {
+		preDrop1.add(Calendar.DAY_OF_YEAR, -1);
+
+		// Pick up Jun 11
+		if (now.before(start) && now.get(Calendar.DAY_OF_YEAR) != start.get(Calendar.DAY_OF_YEAR)) {
 			view.setText(getContext().getString(
-					R.string.itin_card_details_pick_up_TEMPLATE,
-					getItinCardData().getPickUpDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME)));
+					R.string.itin_card_details_pick_up_day_TEMPLATE,
+					getItinCardData().getPickUpDate().formatTime(getContext(),
+							DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR)));
 		}
-		else {
+		else if (now.get(Calendar.DAY_OF_YEAR) == start.get(Calendar.DAY_OF_YEAR)) {
+			// Pick up after 3PM
+			if (now.before(end) && start.get(Calendar.DAY_OF_YEAR) == end.get(Calendar.DAY_OF_YEAR)) {
+				view.setText(getContext().getString(
+						R.string.itin_card_details_pick_up_TEMPLATE,
+						getItinCardData().getPickUpDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME)));
+			}
+			// Drop off before 5PM
+			else {
+				view.setText(getContext().getString(
+						R.string.itin_card_details_drop_off_TEMPLATE,
+						getItinCardData().getDropOffDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME)));
+			}
+		}
+		// Drop off Jun 15
+		else if (now.before(preDrop1) && now.get(Calendar.DAY_OF_YEAR) != preDrop1.get(Calendar.DAY_OF_YEAR)) {
+			view.setText(getContext().getString(
+					R.string.itin_card_details_drop_off_day_TEMPLATE,
+					getItinCardData().getDropOffDate().formatTime(getContext(),
+							DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR)));
+		}
+		// Drop off tomorrow before 5PM
+		else if (now.get(Calendar.DAY_OF_YEAR) == preDrop1.get(Calendar.DAY_OF_YEAR)) {
+			view.setText(getContext().getString(
+					R.string.itin_card_details_drop_off_tomorrow_TEMPLATE,
+					getItinCardData().getDropOffDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME)));
+		}
+		// Drop off before 5PM
+		else if (now.get(Calendar.DAY_OF_YEAR) == start.get(Calendar.DAY_OF_YEAR)) {
 			view.setText(getContext().getString(
 					R.string.itin_card_details_drop_off_TEMPLATE,
 					getItinCardData().getDropOffDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME)));
+		}
+		// Dropped off Jun 15
+		else {
+			view.setText(getContext().getString(
+					R.string.itin_card_details_dropped_off_TEMPLATE,
+					getItinCardData().getDropOffDate().formatTime(getContext(),
+							DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR)));
 		}
 
 		return view;
