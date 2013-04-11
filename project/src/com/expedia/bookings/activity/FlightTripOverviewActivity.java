@@ -42,6 +42,7 @@ import com.expedia.bookings.fragment.FlightTripPriceFragment;
 import com.expedia.bookings.fragment.LoginFragment.LogInListener;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
 import com.expedia.bookings.fragment.SlideToPurchaseFragment;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.NavUtils;
@@ -162,6 +163,8 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 		//We load things from disk in the background
 		loadCachedData(false);
+
+		AdTracker.trackFlightCheckoutStarted();
 	}
 
 	@Override

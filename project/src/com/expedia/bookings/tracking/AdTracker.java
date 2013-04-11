@@ -8,6 +8,7 @@ import android.provider.Settings;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
@@ -121,5 +122,18 @@ public class AdTracker {
 	public static void trackFlightBooked(String currency, double value, int days, String destAirport) {
 		Amobee.trackCheckout(currency, value, days, destAirport);
 		AdX.trackFlightBooked(currency, value);
+	}
+
+	public static void trackHotelCheckoutStarted() {
+		final Rate rate = Db.getSelectedRate();
+		final Money totalPrice = rate.getTotalAmountAfterTax();
+		AdX.trackHotelCheckoutStarted(totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
+	}
+
+	public static void trackFlightCheckoutStarted() {
+		if (Db.getFlightSearch() != null && Db.getFlightSearch().getSelectedFlightTrip() != null) {
+			Money totalPrice = Db.getFlightSearch().getSelectedFlightTrip().getTotalFare();
+			AdX.trackFlightCheckoutStarted(totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
+		}
 	}
 }

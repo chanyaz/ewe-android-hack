@@ -51,6 +51,7 @@ import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DbPropertyHelper;
 import com.expedia.bookings.widget.AccountButton;
@@ -142,6 +143,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			mShowSlideToWidget = savedInstanceState.getBoolean(INSTANCE_SHOW_SLIDE_TO_WIDGET);
 			mIsDoneLoadingPriceChange = savedInstanceState.getBoolean(INSTANCE_DONE_LOADING_PRICE_CHANGE);
 		}
+
+		AdTracker.trackHotelCheckoutStarted();
 	}
 
 	@Override

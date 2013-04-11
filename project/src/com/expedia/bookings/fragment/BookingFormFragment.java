@@ -158,6 +158,7 @@ public class BookingFormFragment extends Fragment {
 		mValidationProcessor = new ValidationProcessor();
 		mGuestInfoValidationProcessor = new ValidationProcessor();
 		mBookingInfoValidation = new BookingInfoValidation();
+		AdTracker.trackHotelCheckoutStarted();
 	}
 
 	@Override
