@@ -30,12 +30,13 @@ import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
 import com.expedia.bookings.fragment.FlightUnavailableDialogFragment;
+import com.expedia.bookings.fragment.HotelBookingFragment;
+import com.expedia.bookings.fragment.HotelBookingFragment.HotelBookingFragmentListener;
 import com.expedia.bookings.fragment.PriceChangeDialogFragment.PriceChangeDialogFragmentListener;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
 import com.expedia.bookings.fragment.UnhandledErrorDialogFragment;
 import com.expedia.bookings.fragment.UnhandledErrorDialogFragment.UnhandledErrorDialogFragmentListener;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
@@ -48,22 +49,16 @@ import com.google.android.gms.wallet.Cart;
 import com.google.android.gms.wallet.FullWallet;
 import com.google.android.gms.wallet.FullWalletRequest;
 import com.google.android.gms.wallet.LineItem;
-import com.google.android.gms.wallet.NotifyTransactionStatusRequest;
 import com.google.android.gms.wallet.ProxyCard;
 import com.google.android.gms.wallet.WalletClient;
 import com.google.android.gms.wallet.WalletClient.OnFullWalletLoadedListener;
 import com.google.android.gms.wallet.WalletConstants;
-import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.BackgroundDownloader.Download;
-import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 
 public class HotelBookingActivity extends SherlockFragmentActivity implements CVVEntryFragmentListener,
 		PriceChangeDialogFragmentListener, SimpleCallbackDialogFragmentListener, UnhandledErrorDialogFragmentListener,
-		ConnectionCallbacks, OnConnectionFailedListener, OnFullWalletLoadedListener {
-
-	public static final String BOOKING_DOWNLOAD_KEY = "com.expedia.bookings.hotel.checkout";
+		ConnectionCallbacks, OnConnectionFailedListener, OnFullWalletLoadedListener, HotelBookingFragmentListener {
 
 	private static final String STATE_CVV_ERROR_MODE = "STATE_CVV_ERROR_MODE";
 	private static final String STATE_HAS_TRIED_BOOKING = "STATE_HAS_TRIED_BOOKING";
@@ -77,6 +72,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 
 	private CVVEntryFragment mCVVEntryFragment;
 	private BookingInProgressDialogFragment mProgressFragment;
+	private HotelBookingFragment mBookingFragment;
 
 	private boolean mCvvErrorModeEnabled;
 
@@ -123,6 +119,11 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		mProgressFragment = Ui.findSupportFragment(this, BookingInProgressDialogFragment.TAG);
 
 		if (savedInstanceState == null) {
+			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+			mBookingFragment = new HotelBookingFragment();
+			ft.add(mBookingFragment, HotelBookingFragment.TAG);
+
 			if (mBookWithGoogleWallet) {
 				// Start showing progress dialog; depend on the wallet client connecting for
 				// kicking off the reservation
@@ -130,11 +131,10 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 			}
 			else {
 				mCVVEntryFragment = CVVEntryFragment.newInstance(this, Db.getBillingInfo());
-
-				FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 				ft.add(R.id.cvv_frame, mCVVEntryFragment, CVVEntryFragment.TAG);
-				ft.commit();
 			}
+
+			ft.commit();
 		}
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -156,11 +156,6 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 
 		setCvvErrorMode(mCvvErrorModeEnabled);
 
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(BOOKING_DOWNLOAD_KEY)) {
-			bd.registerDownloadCallback(BOOKING_DOWNLOAD_KEY, mCallback);
-		}
-
 		OmnitureTracking.onResume(this);
 	}
 
@@ -175,8 +170,6 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	@Override
 	protected void onPause() {
 		super.onPause();
-
-		BackgroundDownloader.getInstance().unregisterDownloadCallback(BOOKING_DOWNLOAD_KEY);
 
 		OmnitureTracking.onPause();
 	}
@@ -193,7 +186,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	@Override
 	public void onBackPressed() {
 		// F1053: Do not let user go back when we are mid-download
-		if (!BackgroundDownloader.getInstance().isDownloading(BOOKING_DOWNLOAD_KEY)) {
+		if (!mBookingFragment.isBooking()) {
 			super.onBackPressed();
 		}
 	}
@@ -277,87 +270,17 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	// Booking downloads
 
 	private void showProgressDialog() {
-		mProgressFragment = new BookingInProgressDialogFragment();
-		mProgressFragment.show(getSupportFragmentManager(), BookingInProgressDialogFragment.TAG);
+		if (mProgressFragment == null) {
+			mProgressFragment = new BookingInProgressDialogFragment();
+			mProgressFragment.show(getSupportFragmentManager(), BookingInProgressDialogFragment.TAG);
+		}
 	}
 
 	private void doBooking() {
 		setCvvErrorMode(false);
 
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (!bd.isDownloading(BOOKING_DOWNLOAD_KEY)) {
-			showProgressDialog();
-
-			bd.startDownload(BOOKING_DOWNLOAD_KEY, mDownload, mCallback);
-		}
+		mBookingFragment.doBooking();
 	}
-
-	private Download<BookingResponse> mDownload = new Download<BookingResponse>() {
-		@Override
-		public BookingResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(mContext);
-			String userId = null;
-			String tripId = null;
-			Long tuid = null;
-
-			if (Db.getCreateTripResponse() != null) {
-				tripId = Db.getCreateTripResponse().getTripId();
-				userId = Db.getCreateTripResponse().getUserId();
-			}
-
-			if (Db.getUser() != null) {
-				tuid = Db.getUser().getPrimaryTraveler().getTuid();
-			}
-
-			BookingResponse response = services.reservation(Db.getSearchParams(), Db.getSelectedProperty(),
-					Db.getSelectedRate(), Db.getBillingInfo(), tripId, userId, tuid);
-
-			if (mBookWithGoogleWallet) {
-				// While still in the bg, notify Google of what happened when we tried to book
-				NotifyTransactionStatusRequest.Builder notifyBuilder = NotifyTransactionStatusRequest.newBuilder();
-				notifyBuilder.setGoogleTransactionId(Db.getBillingInfo().getGoogleWalletTransactionId());
-				if (response == null || response.hasErrors()) {
-					// TODO: MORE SPECIFIC ERRORS
-					notifyBuilder.setStatus(NotifyTransactionStatusRequest.Status.Error.UNKNOWN);
-				}
-				else {
-					notifyBuilder.setStatus(NotifyTransactionStatusRequest.Status.SUCCESS);
-				}
-
-				mWalletClient.notifyTransactionStatus(notifyBuilder.build());
-			}
-
-			return response;
-		}
-	};
-
-	private OnDownloadComplete<BookingResponse> mCallback = new OnDownloadComplete<BookingResponse>() {
-		@Override
-		public void onDownload(BookingResponse results) {
-			mProgressFragment.dismiss();
-
-			Db.setBookingResponse(results);
-			setCvvErrorMode(false);
-
-			if (results == null) {
-				DialogFragment df = UnhandledErrorDialogFragment.newInstance(null);
-				df.show(getSupportFragmentManager(), "noResultsErrorDialog");
-
-				OmnitureTracking.trackErrorPage(mContext, "ReservationRequestFailed");
-			}
-			else if (!results.isSuccess() && !results.succeededWithErrors()) {
-				handleErrorResponse(results);
-			}
-			else {
-				AdTracker.trackHotelBooked();
-				launchConfirmationActivity();
-			}
-
-			if (Db.getCreateTripResponse() != null) {
-				Db.setCouponDiscountRate(Db.getCreateTripResponse().getNewRate());
-			}
-		}
-	};
 
 	//////////////////////////////////////////////////////////////////////////
 	// Error handling code
@@ -596,7 +519,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		// TODO: Do we need any more info?
 
 		// Start the download
-		BackgroundDownloader.getInstance().startDownload(BOOKING_DOWNLOAD_KEY, mDownload, mCallback);
+		doBooking();
 		mHasTriedBookingWithGoogleWallet = true;
 	}
 
@@ -684,6 +607,40 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 				// TODO: Better error handling?
 				break;
 			}
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// HotelBookingFragmentListener
+
+	@Override
+	public void onStartBooking() {
+		showProgressDialog();
+	}
+
+	@Override
+	public void onBookingResponse(BookingResponse results) {
+		mProgressFragment.dismiss();
+
+		Db.setBookingResponse(results);
+		setCvvErrorMode(false);
+
+		if (results == null) {
+			DialogFragment df = UnhandledErrorDialogFragment.newInstance(null);
+			df.show(getSupportFragmentManager(), "noResultsErrorDialog");
+
+			OmnitureTracking.trackErrorPage(mContext, "ReservationRequestFailed");
+		}
+		else if (!results.isSuccess() && !results.succeededWithErrors()) {
+			handleErrorResponse(results);
+		}
+		else {
+			AdTracker.trackHotelBooked();
+			launchConfirmationActivity();
+		}
+
+		if (Db.getCreateTripResponse() != null) {
+			Db.setCouponDiscountRate(Db.getCreateTripResponse().getNewRate());
 		}
 	}
 }

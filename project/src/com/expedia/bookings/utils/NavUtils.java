@@ -24,6 +24,7 @@ import com.expedia.bookings.data.ConfirmationState;
 import com.expedia.bookings.data.ConfirmationState.Type;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.fragment.HotelBookingFragment;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 
@@ -60,7 +61,7 @@ public class NavUtils {
 		}
 
 		// 13820: Check if a booking is in process at this moment (in case BookingInfoActivity died)
-		else if (BackgroundDownloader.getInstance().isDownloading(HotelBookingActivity.BOOKING_DOWNLOAD_KEY)) {
+		else if (BackgroundDownloader.getInstance().isDownloading(HotelBookingFragment.BOOKING_DOWNLOAD_KEY)) {
 			routingTarget = HotelBookingActivity.class;
 		}
 
