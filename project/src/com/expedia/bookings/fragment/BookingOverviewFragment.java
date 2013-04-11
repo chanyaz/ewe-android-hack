@@ -1208,7 +1208,8 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 
 	private void buyWithGoogleWallet() {
 		if (mGoogleWalletDisabled) {
-			// TODO: Show that Google Wallet is unavailable (with a toast?)
+			updateWalletViewVisibilities();
+			displayGoogleWalletUnavailableToast();
 		}
 		else if (Db.getMaskedWallet() != null) {
 			bindMaskedWallet();
@@ -1224,14 +1225,17 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 		}
 	}
 
+	/**
+	 * Binds the masked wallet to the billing info.  Warning: it WILL
+	 * blow away whatever was here before - so only call this when
+	 * we want to override the current data with Google Wallet!
+	 */
 	private void bindMaskedWallet() {
 		populateTravelerData();
 
 		MaskedWallet maskedWallet = Db.getMaskedWallet();
 
-		// Replace the traveler with the one from the wallet
-		//
-		// TODO: This will repeatedly blow away edited changes; find some way to preserve? 
+		// Replace the traveler with the one from the wallet 
 		Traveler traveler = WalletUtils.convertToTraveler(maskedWallet);
 		List<Traveler> travelers = Db.getTravelers();
 		travelers.set(0, traveler);
@@ -1256,12 +1260,13 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 		StoredCreditCard scc = Db.getBillingInfo().getStoredCard();
 		boolean storedCardIsGoogleWallet = scc != null && scc.isGoogleWallet();
 
-		mWalletButton.setVisibility((maskedWallet != null && storedCardIsGoogleWallet) ? View.GONE : View.VISIBLE);
+		mWalletButton.setVisibility(maskedWallet != null && storedCardIsGoogleWallet && !mGoogleWalletDisabled
+				? View.GONE : View.VISIBLE);
 		mWalletButton.setEnabled(mWalletClient.isConnected() && mCheckedPreAuth && !mIsUserPreAuthorized
 				&& (maskedWallet == null || !storedCardIsGoogleWallet));
 
 		// If we are pre-authorized but haven't loaded the masked wallet, disable all buttons
-		boolean enableButtons = !mIsUserPreAuthorized || maskedWallet != null;
+		boolean enableButtons = mGoogleWalletDisabled || !mIsUserPreAuthorized || maskedWallet != null;
 		mAccountButton.setEnabled(enableButtons);
 		mTravelerButton.setEnabled(enableButtons);
 		mTravelerSection.setEnabled(enableButtons);

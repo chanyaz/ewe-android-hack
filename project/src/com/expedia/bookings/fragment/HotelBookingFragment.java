@@ -112,8 +112,7 @@ public class HotelBookingFragment extends WalletFragment {
 				break;
 			default:
 				int errorCode = data.getIntExtra(WalletConstants.EXTRA_ERROR_CODE, -1);
-				WalletUtils.logError(errorCode);
-				// TODO: Better error handling?
+				handleError(errorCode);
 				break;
 			}
 		}
@@ -181,17 +180,13 @@ public class HotelBookingFragment extends WalletFragment {
 
 			if (willBookViaGoogleWallet()) {
 				// While still in the bg, notify Google of what happened when we tried to book
-				NotifyTransactionStatusRequest.Builder notifyBuilder = NotifyTransactionStatusRequest.newBuilder();
-				notifyBuilder.setGoogleTransactionId(Db.getBillingInfo().getGoogleWalletTransactionId());
-				if (response == null || response.hasErrors()) {
-					// TODO: MORE SPECIFIC ERRORS
-					notifyBuilder.setStatus(NotifyTransactionStatusRequest.Status.Error.UNKNOWN);
+				int status = WalletUtils.getStatus(response);
+				if (status != 0) {
+					NotifyTransactionStatusRequest.Builder notifyBuilder = NotifyTransactionStatusRequest.newBuilder();
+					notifyBuilder.setGoogleTransactionId(Db.getBillingInfo().getGoogleWalletTransactionId());
+					notifyBuilder.setStatus(status);
+					mWalletClient.notifyTransactionStatus(notifyBuilder.build());
 				}
-				else {
-					notifyBuilder.setStatus(NotifyTransactionStatusRequest.Status.SUCCESS);
-				}
-
-				mWalletClient.notifyTransactionStatus(notifyBuilder.build());
 			}
 
 			return response;
@@ -254,8 +249,6 @@ public class HotelBookingFragment extends WalletFragment {
 		billingInfo.setExpirationDate(new GregorianCalendar(proxyCard.getExpirationYear(), proxyCard
 				.getExpirationMonth() - 1, 1));
 
-		// TODO: Do we need any more info?
-
 		// Start the download
 		mHasTriedBookingWithGoogleWallet = true;
 		startBookingDownload();
@@ -289,8 +282,10 @@ public class HotelBookingFragment extends WalletFragment {
 				status.startResolutionForResult(getActivity(), REQUEST_CODE_RESOLVE_LOAD_FULL_WALLET);
 			}
 			catch (SendIntentException e) {
-				// TODO: ASK, WHAT HAPPENS HERE?
-				// HANDLE EDGE CASE?
+				// Retry loading the full wallet
+				mProgressDialog.show();
+				mHandleFullWalletWhenReady = true;
+				getFullWallet();
 			}
 		}
 	}

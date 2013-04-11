@@ -7,12 +7,16 @@ import android.util.Pair;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.Response;
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.google.android.gms.wallet.Address;
 import com.google.android.gms.wallet.FullWallet;
 import com.google.android.gms.wallet.MaskedWallet;
 import com.google.android.gms.wallet.MaskedWalletRequest;
+import com.google.android.gms.wallet.NotifyTransactionStatusRequest;
 import com.google.android.gms.wallet.ProxyCard;
 import com.google.android.gms.wallet.WalletConstants;
 import com.mobiata.android.Log;
@@ -95,6 +99,52 @@ public class WalletUtils {
 	public static Pair<String, String> splitName(String name) {
 		int firstSpace = name.indexOf(' ');
 		return new Pair<String, String>(name.substring(0, firstSpace), name.substring(firstSpace + 2));
+	}
+
+	/**
+	 * Returns the NotifyTransactionStatusRequest.Status for the response, or
+	 * 0 if there is no reason to notify
+	 * 
+	 * In general, we don't notify if we don't know what's gone wrong; we should
+	 * only notify Google Wallet of transaction issues if our payment processor
+	 * hated what they gave us.
+	 */
+	public static int getStatus(Response response) {
+		if (response == null) {
+			return 0;
+		}
+		else if (response.hasErrors()) {
+			// We only examine the first error for the most core reason it failed
+			ServerError error = response.getErrors().get(0);
+			ErrorCode errorCode = error.getErrorCode();
+
+			if (errorCode == ErrorCode.INVALID_INPUT) {
+				String field = error.getExtra("field");
+
+				if (!TextUtils.isEmpty(field)) {
+					if ("creditCardNumber".equals(field) || "expirationDate".equals(field)) {
+						return NotifyTransactionStatusRequest.Status.Error.BAD_CARD;
+					}
+					else if ("cvv".equals(field)) {
+						return NotifyTransactionStatusRequest.Status.Error.BAD_CVC;
+					}
+				}
+			}
+			else if (errorCode == ErrorCode.BOOKING_FAILED
+					&& error.getDiagnosticFullText().contains("INVALID_CCNUMBER")) {
+				return NotifyTransactionStatusRequest.Status.Error.BAD_CARD;
+			}
+			else if (errorCode == ErrorCode.TRIP_ALREADY_BOOKED) {
+				// If the trip was already booked, consider it a massive success!
+				return NotifyTransactionStatusRequest.Status.SUCCESS;
+			}
+
+			// If we got here, we don't know why it failed, so don't notify Google
+			return 0;
+		}
+		else {
+			return NotifyTransactionStatusRequest.Status.SUCCESS;
+		}
 	}
 
 	public static void logWallet(MaskedWallet wallet) {

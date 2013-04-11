@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.View;
+import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.WalletUtils;
@@ -113,8 +114,10 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 		WalletUtils.logError(errorCode);
 
 		mGoogleWalletDisabled = true;
+	}
 
-		// TODO: Figure out something to do?
+	protected void displayGoogleWalletUnavailableToast() {
+		Toast.makeText(getActivity(), R.string.google_wallet_unavailable, Toast.LENGTH_LONG).show();
 	}
 
 	/**

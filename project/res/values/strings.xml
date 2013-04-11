@@ -2128,5 +2128,7 @@
     <string name="loading">Loading</string>
     <!-- Google Wallet label -->
     <string name="google_wallet">Google wallet</string>
+    <!-- Google wallet unavailable error -->
+    <string name="google_wallet_unavailable">Google Wallet is unavailable</string>
 
 </resources>
