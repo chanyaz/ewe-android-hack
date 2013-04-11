@@ -13,6 +13,7 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.server.ExpediaServices;
@@ -29,9 +30,9 @@ import com.google.android.gms.wallet.WalletConstants;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
-import com.mobiata.android.Log;
 
 /**
  * This is an View-less Fragment which performs a hotel booking.
@@ -235,6 +236,7 @@ public class HotelBookingFragment extends WalletFragment {
 				&& SettingUtils.get(getActivity(), getString(R.string.preference_google_wallet_cvv_challenge), false);
 
 		// Build the full wallet request
+		Property property = Db.getSelectedProperty();
 		BillingInfo billingInfo = Db.getBillingInfo();
 		Rate rate = Db.getSelectedRate();
 		Money totalBeforeTax = rate.getTotalAmountBeforeTax();
@@ -260,7 +262,7 @@ public class HotelBookingFragment extends WalletFragment {
 
 		LineItem.Builder beforeTaxBuilder = LineItem.newBuilder();
 		beforeTaxBuilder.setCurrencyCode(totalBeforeTax.getCurrency());
-		beforeTaxBuilder.setDescription(getString(R.string.room));
+		beforeTaxBuilder.setDescription(property.getName());
 		beforeTaxBuilder.setRole(LineItem.Role.REGULAR);
 		beforeTaxBuilder.setTotalPrice(totalBeforeTax.getAmount().toPlainString());
 		cartBuilder.addLineItem(beforeTaxBuilder.build());
