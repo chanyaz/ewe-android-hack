@@ -299,6 +299,7 @@ public class HotelBookingFragment extends WalletFragment {
 		billingInfo.setSecurityCode(proxyCard.getCvn());
 		billingInfo.setExpirationDate(new GregorianCalendar(proxyCard.getExpirationYear(), proxyCard
 				.getExpirationMonth() - 1, 1));
+		billingInfo.setNameOnCard(wallet.getBillingAddress().getName());
 
 		// Start the download
 		mHasTriedBookingWithGoogleWallet = true;
