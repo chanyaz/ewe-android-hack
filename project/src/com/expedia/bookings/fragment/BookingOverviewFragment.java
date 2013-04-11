@@ -1264,7 +1264,7 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 		StoredCreditCard scc = Db.getBillingInfo().getStoredCard();
 		boolean storedCardIsGoogleWallet = scc != null && scc.isGoogleWallet();
 
-		mWalletButton.setVisibility(maskedWallet != null && storedCardIsGoogleWallet && !mGoogleWalletDisabled
+		mWalletButton.setVisibility(mGoogleWalletDisabled || (maskedWallet != null && storedCardIsGoogleWallet)
 				? View.GONE : View.VISIBLE);
 		mWalletButton.setEnabled(mWalletClient.isConnected() && mCheckedPreAuth && !mIsUserPreAuthorized
 				&& (maskedWallet == null || !storedCardIsGoogleWallet));
@@ -1286,8 +1286,13 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 	public void onConnected(Bundle connectionHint) {
 		super.onConnected(connectionHint);
 
+		// Check that we're not going to go over the transaction limit; if we are, shut it all down
+		if (!WalletUtils.offerGoogleWallet(Db.getSelectedRate().getTotalAmountAfterTax())) {
+			mGoogleWalletDisabled = true;
+		}
+
 		// Don't re-request the masked wallet if we already have it
-		if (Db.getMaskedWallet() == null) {
+		if (!mGoogleWalletDisabled && Db.getMaskedWallet() == null) {
 			mWalletClient.checkForPreAuthorization(this);
 
 			// Immediately start requesting the wallet (even if we don't have product back yet)
@@ -1349,7 +1354,7 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 		mIsUserPreAuthorized = false;
 	}
 
-	// LIFECYCLE - MOVE THIS LATER
+	// LIFECYCLE - TODO MOVE THIS LATER
 
 	private void walletOnCreate(Bundle savedInstanceState) {
 		if (savedInstanceState == null) {

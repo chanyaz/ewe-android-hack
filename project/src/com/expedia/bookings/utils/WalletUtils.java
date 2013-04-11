@@ -1,5 +1,7 @@
 package com.expedia.bookings.utils;
 
+import java.math.BigDecimal;
+
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Pair;
@@ -9,9 +11,10 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.ServerError.ErrorCode;
+import com.expedia.bookings.fragment.WalletFragment;
 import com.google.android.gms.wallet.Address;
 import com.google.android.gms.wallet.FullWallet;
 import com.google.android.gms.wallet.MaskedWallet;
@@ -35,6 +38,13 @@ public class WalletUtils {
 	// eventually want to make this more dynamic.
 	public static int getWalletEnvironment() {
 		return WalletConstants.ENVIRONMENT_SANDBOX;
+	}
+
+	/**
+	 * In some cases we can't offer google wallet (e.g., it goes over the transaction limit).
+	 */
+	public static boolean offerGoogleWallet(Money total) {
+		return total.getAmount().compareTo(new BigDecimal(WalletFragment.MAX_TRANSACTION_CHARGE)) < 0;
 	}
 
 	public static void addStandardFieldsToMaskedWalletRequest(Context context, MaskedWalletRequest.Builder builder,
