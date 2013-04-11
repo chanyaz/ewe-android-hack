@@ -61,7 +61,7 @@
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_In_Available">Check In Available</string>
     <!-- Content for flight Check In Local Notification -->
-    <string name="x_flight_to_x">%1$s flight to %2$s</string>
+    <string name="x_flight_to_x_TEMPLATE">%1$s flight to %2$s</string>
 
     <!-- Itineraries -->
     <!-- Itinerary -->
