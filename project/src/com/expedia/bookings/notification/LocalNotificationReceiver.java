@@ -104,7 +104,29 @@ public class LocalNotificationReceiver extends BroadcastReceiver {
 		private OnDownloadComplete<BackgroundImageResponse> mDestinationImageUrlCallback = new OnDownloadComplete<BackgroundImageResponse>() {
 			@Override
 			public void onDownload(BackgroundImageResponse results) {
-				TwoLevelImageCache.loadImage(results.getImageUrl(), mTwoLevelImageLoaded);
+				TwoLevelImageCache.loadImage(results.getImageUrl(), mDestinationImageLoaded);
+			}
+		};
+
+		// Callbacks for TwoLevelImageCache image loader. Special for Destination Image because
+		// we have to crop the returned bitmap.
+		private OnImageLoaded mDestinationImageLoaded = new OnImageLoaded() {
+			@Override
+			public void onImageLoadFailed(String url) {
+				mBitmap = BitmapFactory.decodeResource(mContext.getResources(), mNotification.getImageResId());
+				scheduleNotification();
+			}
+
+			@Override
+			public void onImageLoaded(String url, Bitmap bitmap) {
+				// These are tailored to the specific size of our destination images (720x1140 on xhdpi).
+				// They don't need to be exact anyway.
+				int left = 0;
+				int top = (int) (bitmap.getHeight() * 0.1);
+				int width = bitmap.getWidth();
+				int height = (int) (bitmap.getHeight() * 0.35);
+				mBitmap = Bitmap.createBitmap(bitmap, left, top, width, height, null, false);
+				scheduleNotification();
 			}
 		};
 
@@ -130,7 +152,7 @@ public class LocalNotificationReceiver extends BroadcastReceiver {
 			PendingIntent sharePendingIntent = pendingIntent; //TODO
 
 			NotificationCompat.BigPictureStyle style = new NotificationCompat.BigPictureStyle()
-					.bigPicture(Bitmap.createBitmap(mBitmap, 0, 96, mBitmap.getWidth(), 400, null, false))
+					.bigPicture(mBitmap)
 					.setSummaryText(mNotification.getBody());
 
 			String directions = mContext.getString(R.string.itin_action_directions);
