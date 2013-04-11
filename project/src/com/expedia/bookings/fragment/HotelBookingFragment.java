@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import java.math.BigDecimal;
 import java.util.GregorianCalendar;
 
 import android.app.Activity;
@@ -28,6 +29,8 @@ import com.google.android.gms.wallet.WalletConstants;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.Log;
 
 /**
@@ -225,12 +228,28 @@ public class HotelBookingFragment extends WalletFragment {
 	// Google Wallet bookings
 
 	private void getFullWallet() {
+		// To create a CVV challenge, we need to do two things:
+		// 1. Greatly increase the price (but not above the limit)
+		// 2. Add the cvv_challenge line item
+		boolean createCvvChallenge = !AndroidUtils.isRelease(getActivity())
+				&& SettingUtils.get(getActivity(), getString(R.string.preference_google_wallet_cvv_challenge), false);
+
 		// Build the full wallet request
 		BillingInfo billingInfo = Db.getBillingInfo();
 		Rate rate = Db.getSelectedRate();
 		Money totalBeforeTax = rate.getTotalAmountBeforeTax();
 		Money surcharges = rate.getTotalSurcharge();
 		Money totalAfterTax = rate.getTotalAmountAfterTax();
+
+		if (createCvvChallenge) {
+			// Don't want to reset the existing prices - just up them before we send
+			totalBeforeTax = new Money(totalBeforeTax);
+			totalBeforeTax.setAmount(new BigDecimal(WalletFragment.MAX_TRANSACTION_CHARGE));
+			surcharges = new Money(surcharges);
+			surcharges.setAmount(BigDecimal.ZERO);
+			totalAfterTax = new Money(totalAfterTax);
+			totalAfterTax.setAmount(new BigDecimal(WalletFragment.MAX_TRANSACTION_CHARGE));
+		}
 
 		FullWalletRequest.Builder walletRequestBuilder = FullWalletRequest.newBuilder();
 		walletRequestBuilder.setGoogleTransactionId(billingInfo.getGoogleWalletTransactionId());
@@ -252,6 +271,15 @@ public class HotelBookingFragment extends WalletFragment {
 		taxesBuilder.setRole(LineItem.Role.TAX);
 		taxesBuilder.setTotalPrice(surcharges.getAmount().toPlainString());
 		cartBuilder.addLineItem(taxesBuilder.build());
+
+		if (createCvvChallenge) {
+			LineItem.Builder cvvChallengeBuilder = LineItem.newBuilder();
+			cvvChallengeBuilder.setCurrencyCode(totalBeforeTax.getCurrency());
+			cvvChallengeBuilder.setDescription("cvv_challenge");
+			cvvChallengeBuilder.setRole(LineItem.Role.REGULAR);
+			cvvChallengeBuilder.setTotalPrice("0.00");
+			cartBuilder.addLineItem(cvvChallengeBuilder.build());
+		}
 
 		walletRequestBuilder.setCart(cartBuilder.build());
 		FullWalletRequest fwRequest = walletRequestBuilder.build();
