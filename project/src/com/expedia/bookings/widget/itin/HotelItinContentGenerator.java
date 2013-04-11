@@ -182,20 +182,19 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		Calendar preIn2 = (Calendar) start.clone();
 		Calendar preIn3 = (Calendar) start.clone();
 		Calendar preOut1 = (Calendar) end.clone();
+		Calendar preOut2 = (Calendar) end.clone();
+		Calendar preOut3 = (Calendar) end.clone();
 		Calendar now = Calendar.getInstance(start.getTimeZone());
 
 		preIn1.add(Calendar.DAY_OF_YEAR, -1);
 		preIn2.add(Calendar.DAY_OF_YEAR, -2);
 		preIn3.add(Calendar.DAY_OF_YEAR, -3);
 		preOut1.add(Calendar.DAY_OF_YEAR, -1);
+		preOut2.add(Calendar.DAY_OF_YEAR, -2);
+		preOut3.add(Calendar.DAY_OF_YEAR, -3);
 
-		// Check in May 14
-		if (now.before(preIn3) && now.get(Calendar.DAY_OF_YEAR) != preIn3.get(Calendar.DAY_OF_YEAR)) {
-			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_day_TEMPLATE,
-					data.getFormattedDetailsCheckInDate(getContext())));
-		}
 		// Check in - 3 days
-		else if (now.get(Calendar.DAY_OF_YEAR) == preIn3.get(Calendar.DAY_OF_YEAR)) {
+		if (now.get(Calendar.DAY_OF_YEAR) == preIn3.get(Calendar.DAY_OF_YEAR)) {
 			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_three_days));
 		}
 		// Check in - 2 days
@@ -217,11 +216,18 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 						data.getStartDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME)));
 			}
 		}
-		// Check out May 18
-		else if (now.after(start) && now.before(end)
-				&& now.get(Calendar.DAY_OF_YEAR) != preOut1.get(Calendar.DAY_OF_YEAR)) {
-			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_day_TEMPLATE,
-					data.getFormattedDetailsCheckOutDate(getContext())));
+		// Check in May 14
+		else if (now.before(start)) {
+			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_day_TEMPLATE,
+					data.getFormattedDetailsCheckInDate(getContext())));
+		}
+		// Check out in 3 days
+		else if (now.get(Calendar.DAY_OF_YEAR) == preOut3.get(Calendar.DAY_OF_YEAR)) {
+			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_three_days));
+		}
+		// Check out in 2 days
+		else if (now.get(Calendar.DAY_OF_YEAR) == preOut2.get(Calendar.DAY_OF_YEAR)) {
+			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_two_days));
 		}
 		// Check out tomorrow
 		else if (now.get(Calendar.DAY_OF_YEAR) == preOut1.get(Calendar.DAY_OF_YEAR)) {
@@ -231,6 +237,11 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		else if (now.get(Calendar.DAY_OF_YEAR) == end.get(Calendar.DAY_OF_YEAR)) {
 			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_TEMPLATE,
 					data.getEndDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME)));
+		}
+		// Check out May 18
+		else if (now.before(end)) {
+			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_day_TEMPLATE,
+					data.getFormattedDetailsCheckOutDate(getContext())));
 		}
 		// Checked out at May 18
 		else {

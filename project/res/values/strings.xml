@@ -349,7 +349,11 @@
     <!-- Message to users about when (time) they can check into their hotel.  %1$s is a time (e.g., "Check in after 5 PM") -->
     <string name="itin_card_hotel_summary_check_in_TEMPLATE">Check in after %1$s</string>
     <!-- Message to users about when (date) they can check out of their hotel.  %1$s is a date (e.g., "Check out Jul 11") -->
-    <string name="itin_card_hotel_summary_check_out_day_TEMPLATE">Check out %1$s</string>    
+    <string name="itin_card_hotel_summary_check_out_day_TEMPLATE">Check out %1$s</string>
+    <!-- Message to users that they can check out of their hotel in three days -->
+    <string name="itin_card_hotel_summary_check_out_three_days">Check out in 3 days</string>
+    <!-- Message to users that they can check out of their hotel in two days. -->
+    <string name="itin_card_hotel_summary_check_out_two_days">Check out in 2 days</string>  
     <!-- Message to users that they can check out of their hotel tomorrow.-->
     <string name="itin_card_hotel_summary_check_out_tomorrow">Check out tomorrow</string>
     <!-- Message to users about when they need to check out of their hotel.  %1$s is a time (e.g., "Check out before 5 PM") -->
