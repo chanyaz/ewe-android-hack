@@ -5,9 +5,11 @@ import java.util.Date;
 import android.content.Context;
 import android.content.res.Resources;
 import android.provider.Settings;
+import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -134,6 +136,21 @@ public class AdTracker {
 		if (Db.getFlightSearch() != null && Db.getFlightSearch().getSelectedFlightTrip() != null) {
 			Money totalPrice = Db.getFlightSearch().getSelectedFlightTrip().getTotalFare();
 			AdX.trackFlightCheckoutStarted(totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
+		}
+	}
+
+	public static void trackHotelSearch() {
+		SearchParams params = Db.getSearchParams();
+		if (params != null && !TextUtils.isEmpty(params.getRegionId())) {
+			AdX.trackHotelSearch(params.getRegionId());
+		}
+	}
+
+	public static void trackFlightSearch() {
+		if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchParams() != null) {
+			FlightSearchParams searchParams = Db.getFlightSearch().getSearchParams();
+			String dest = searchParams.getArrivalLocation().getDestinationId();
+			AdX.trackFlightSearch(dest);
 		}
 	}
 }

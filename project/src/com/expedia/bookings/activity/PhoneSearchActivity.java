@@ -96,6 +96,7 @@ import com.expedia.bookings.maps.HotelMapFragment.HotelMapFragmentListener;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.model.WidgetConfigurationState;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.CalendarUtils;
@@ -2788,6 +2789,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 		// Start actually tracking the search result change
 		OmnitureTracking.trackAppHotelsSearch(this, searchParams, searchResponse, refinements);
+		AdTracker.trackHotelSearch();
 	}
 
 	private void onOpenFilterPanel() {

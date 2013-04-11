@@ -81,4 +81,18 @@ public class AdX {
 			Log.i("AdX flight checkout started currency=" + currency + " total=" + totalPrice);
 		}
 	}
+
+	public static void trackHotelSearch(String regionId) {
+		if (mEnabled) {
+			AdXConnect.getAdXConnectEventInstance(mContext, "Search", "", regionId, "Hotel");
+			Log.i("AdX hotel search regionId=" + regionId);
+		}
+	}
+
+	public static void trackFlightSearch(String destinationAirport) {
+		if (mEnabled) {
+			AdXConnect.getAdXConnectEventInstance(mContext, "Search", "", destinationAirport, "Flight");
+			Log.i("AdX flight search destination=" + destinationAirport);
+		}
+	}
 }

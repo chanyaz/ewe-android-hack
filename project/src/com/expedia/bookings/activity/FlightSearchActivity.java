@@ -15,6 +15,7 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.fragment.FlightSearchParamsFragment;
 import com.expedia.bookings.fragment.FlightSearchParamsFragment.FlightSearchParamsFragmentListener;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.NavUtils;
@@ -239,6 +240,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 				mUpdateOnResume = true;
 				mSaveState = false;
 				OmnitureTracking.markTrackNewSearchResultSet(true);
+				AdTracker.trackFlightSearch();
 			}
 			return true;
 		}

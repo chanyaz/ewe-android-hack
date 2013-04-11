@@ -80,6 +80,7 @@ import com.expedia.bookings.maps.HotelMapFragment.HotelMapFragmentListener;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.ExpediaServices.ReviewSort;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.DebugMenu;
@@ -1488,6 +1489,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		mLastFilterJson = filter.toJson().toString();
 
 		OmnitureTracking.trackAppHotelsSearch(this, Db.getSearchParams(), Db.getSearchResponse(), refinements);
+		AdTracker.trackHotelSearch();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
