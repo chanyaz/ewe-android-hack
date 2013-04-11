@@ -85,7 +85,7 @@ public class AdTracker {
 		AdX.trackViewItinList();
 	}
 
-	public static void trackBooking() {
+	public static void trackHotelBooked() {
 		// Values
 		final SearchParams searchParams = Db.getSearchParams().copy();
 		final Property property = Db.getSelectedProperty();
@@ -115,6 +115,11 @@ public class AdTracker {
 		Amobee.trackBooking(currency, totalPrice, duration, daysRemaining);
 		Somo.trackBooking(currency, totalPrice, duration, daysRemaining);
 
-		AdX.trackHotelBooking(currency, totalPrice);
+		AdX.trackHotelBooked(currency, totalPrice);
+	}
+
+	public static void trackFlightBooked(String currency, double value, int days, String destAirport) {
+		Amobee.trackCheckout(currency, value, days, destAirport);
+		AdX.trackFlightBooked(currency, value);
 	}
 }

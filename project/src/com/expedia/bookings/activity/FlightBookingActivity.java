@@ -41,7 +41,7 @@ import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallback
 import com.expedia.bookings.fragment.UnhandledErrorDialogFragment;
 import com.expedia.bookings.fragment.UnhandledErrorDialogFragment.UnhandledErrorDialogFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.tracking.Amobee;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
@@ -312,7 +312,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 						String destAirportCode = Db.getFlightSearch().getSearchParams().getArrivalLocation()
 								.getDestinationId();
 						if (money != null) {
-							Amobee.trackCheckout(money.getCurrency(), money.getAmount().doubleValue(), days,
+							AdTracker.trackFlightBooked(money.getCurrency(), money.getAmount().doubleValue(), days,
 									destAirportCode);
 						}
 					}

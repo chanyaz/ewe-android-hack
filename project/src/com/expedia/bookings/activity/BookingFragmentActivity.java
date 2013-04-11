@@ -263,8 +263,8 @@ public class BookingFragmentActivity extends SherlockFragmentActivity implements
 				return;
 			}
 
-			// Track successful booking with Amobee
-			AdTracker.trackBooking();
+			// Track successful booking
+			AdTracker.trackHotelBooked();
 
 			if (Db.getCreateTripResponse() != null) {
 				Db.setCouponDiscountRate(Db.getCreateTripResponse().getNewRate());

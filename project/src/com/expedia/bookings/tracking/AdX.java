@@ -54,10 +54,17 @@ public class AdX {
 		}
 	}
 
-	public static void trackHotelBooking(String currency, double totalPrice) {
+	public static void trackHotelBooked(String currency, double totalPrice) {
 		if (mEnabled) {
-			AdXConnect.getAdXConnectEventInstance(mContext, "Booking", String.valueOf(totalPrice), currency);
+			AdXConnect.getAdXConnectEventInstance(mContext, "Booking", String.valueOf(totalPrice), currency, "Hotel");
 			Log.i("AdX hotel booking event currency=" + currency + " total=" + totalPrice);
+		}
+	}
+
+	public static void trackFlightBooked(String currency, double totalPrice) {
+		if (mEnabled) {
+			AdXConnect.getAdXConnectEventInstance(mContext, "Booking", String.valueOf(totalPrice), currency, "Flight");
+			Log.i("AdX flight booking event currency=" + currency + " total=" + totalPrice);
 		}
 	}
 }
