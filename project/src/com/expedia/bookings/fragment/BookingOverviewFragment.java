@@ -25,6 +25,7 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
@@ -1278,6 +1279,30 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 		mStoredCreditCard.setEnabled(enableButtons);
 		mCreditCardSectionButton.setEnabled(enableButtons);
 		mCouponCodeEditText.setEnabled(enableButtons);
+	}
+
+	@Override
+	protected void handleError(int errorCode) {
+		super.handleError(errorCode);
+
+		switch (errorCode) {
+		case WalletConstants.ERROR_CODE_BUYER_CANCELLED:
+			// Fetch a new ConnectionResult by calling loadMaskedWallet() again.
+			// This is necessary because ConnectionResults cannot be reused
+			mWalletClient.loadMaskedWallet(buildMaskedWalletRequest(), this);
+			break;
+		case WalletConstants.ERROR_CODE_SPENDING_LIMIT_EXCEEDED:
+			mGoogleWalletDisabled = true;
+			Toast.makeText(getActivity(), getString(R.string.spending_limit_exceeded), Toast.LENGTH_LONG).show();
+			break;
+		default:
+			// Unrecoverable error
+			mGoogleWalletDisabled = true;
+			displayGoogleWalletUnavailableToast();
+			break;
+		}
+
+		updateWalletViewVisibilities();
 	}
 
 	// ConnectionCallbacks

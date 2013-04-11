@@ -15,6 +15,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.WalletUtils;
@@ -53,7 +54,13 @@ public class HotelBookingFragment extends WalletFragment {
 	// If you're booking using google wallet, we don't want to send multiple requests
 	private boolean mHasTriedBookingWithGoogleWallet;
 
+	// Sometimes we want to display dialogs but can't yet; in that case, defer until onResume() 
+	private boolean mCanModifyFragmentStack;
+
 	private boolean mDoBookingOnResume;
+
+	// If we need to defer handling till later
+	private int mGoogleWalletErrorCode;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -86,6 +93,12 @@ public class HotelBookingFragment extends WalletFragment {
 		else if (mDoBookingOnResume) {
 			doBooking();
 		}
+
+		mCanModifyFragmentStack = true;
+		if (mGoogleWalletErrorCode != 0) {
+			simulateError(mGoogleWalletErrorCode);
+			mGoogleWalletErrorCode = 0;
+		}
 	}
 
 	@Override
@@ -93,6 +106,8 @@ public class HotelBookingFragment extends WalletFragment {
 		super.onSaveInstanceState(outState);
 
 		outState.putBoolean(STATE_HAS_TRIED_BOOKING, mHasTriedBookingWithGoogleWallet);
+
+		mCanModifyFragmentStack = false;
 	}
 
 	@Override
@@ -132,8 +147,8 @@ public class HotelBookingFragment extends WalletFragment {
 				}
 				break;
 			case Activity.RESULT_CANCELED:
-				Log.w("Full wallet request: received RESULT_CANCELED; trying again");
-				getFullWallet();
+				Log.w("Full wallet request: received RESULT_CANCELED, quitting out of activity");
+				getActivity().finish();
 				break;
 			default:
 				handleError(errorCode);
@@ -304,6 +319,26 @@ public class HotelBookingFragment extends WalletFragment {
 		// Start the download
 		mHasTriedBookingWithGoogleWallet = true;
 		startBookingDownload();
+	}
+
+	@Override
+	protected void handleError(int errorCode) {
+		super.handleError(errorCode);
+
+		if (mCanModifyFragmentStack) {
+			simulateError(errorCode);
+		}
+		else {
+			mGoogleWalletErrorCode = errorCode;
+		}
+	}
+
+	private void simulateError(int errorCode) {
+		BookingResponse response = new BookingResponse();
+		ServerError error = new ServerError();
+		error.setCode("GOOGLE_WALLET_ERROR");
+		response.addError(error);
+		mListener.onBookingResponse(response);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

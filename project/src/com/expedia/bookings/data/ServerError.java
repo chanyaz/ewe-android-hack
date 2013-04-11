@@ -55,7 +55,8 @@ public class ServerError implements JSONable {
 		FLIGHT_SOLD_OUT,
 		FLIGHT_PRODUCT_NOT_FOUND,
 		SESSION_TIMEOUT,
-		CANNOT_BOOK_WITH_MINOR
+		CANNOT_BOOK_WITH_MINOR,
+		GOOGLE_WALLET_ERROR,
 	}
 
 	public static final String FLAG_ITINERARY_BOOKED = "itineraryBooked";

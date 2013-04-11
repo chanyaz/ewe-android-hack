@@ -360,6 +360,11 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		case SESSION_TIMEOUT:
 			showUnavailableErrorDialog();
 			return;
+		case GOOGLE_WALLET_ERROR:
+			DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
+					getString(R.string.google_wallet_unavailable), getString(android.R.string.ok), 0);
+			frag.show(getSupportFragmentManager(), "googleWalletErrorDialog");
+			return;
 		default:
 			break;
 		}
@@ -412,6 +417,9 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 			break;
 		case DIALOG_CALLBACK_INVALID_PHONENUMBER:
 			launchHotelTravelerPhoneNumberFragment();
+			finish();
+			break;
+		default:
 			finish();
 			break;
 		}
