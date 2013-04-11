@@ -21,6 +21,7 @@ import com.google.android.gms.wallet.Cart;
 import com.google.android.gms.wallet.FullWallet;
 import com.google.android.gms.wallet.FullWalletRequest;
 import com.google.android.gms.wallet.LineItem;
+import com.google.android.gms.wallet.MaskedWallet;
 import com.google.android.gms.wallet.NotifyTransactionStatusRequest;
 import com.google.android.gms.wallet.ProxyCard;
 import com.google.android.gms.wallet.WalletConstants;
@@ -101,20 +102,40 @@ public class HotelBookingFragment extends WalletFragment {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		if (requestCode == REQUEST_CODE_RESOLVE_LOAD_FULL_WALLET) {
+		int errorCode = -1;
+		if (data != null) {
+			errorCode = data.getIntExtra(WalletConstants.EXTRA_ERROR_CODE, -1);
+		}
+
+		switch (requestCode) {
+		case REQUEST_CODE_RESOLVE_ERR:
+			if (resultCode == Activity.RESULT_OK) {
+				mWalletClient.connect();
+			}
+			else {
+				handleUnrecoverableGoogleWalletError(errorCode);
+			}
+			break;
+		case REQUEST_CODE_RESOLVE_LOAD_FULL_WALLET:
 			switch (resultCode) {
 			case Activity.RESULT_OK:
-				onFullWalletReceived((FullWallet) data.getParcelableExtra(WalletConstants.EXTRA_FULL_WALLET));
+				if (data.hasExtra(WalletConstants.EXTRA_FULL_WALLET)) {
+					onFullWalletReceived((FullWallet) data.getParcelableExtra(WalletConstants.EXTRA_FULL_WALLET));
+				}
+				else if (data.hasExtra(WalletConstants.EXTRA_MASKED_WALLET)) {
+					Db.setMaskedWallet((MaskedWallet) data.getParcelableExtra(WalletConstants.EXTRA_MASKED_WALLET));
+					getFullWallet();
+				}
 				break;
 			case Activity.RESULT_CANCELED:
 				Log.w("Full wallet request: received RESULT_CANCELED; trying again");
 				getFullWallet();
 				break;
 			default:
-				int errorCode = data.getIntExtra(WalletConstants.EXTRA_ERROR_CODE, -1);
 				handleError(errorCode);
 				break;
 			}
+			break;
 		}
 	}
 
