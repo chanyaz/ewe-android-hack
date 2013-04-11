@@ -282,7 +282,7 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 
 	@Override
 	public void onFullWalletLoaded(ConnectionResult status, FullWallet wallet) {
-		Log.d(WalletUtils.TAG, "onMaskedWalletLoaded(" + status + ", " + wallet + ")");
+		Log.d(WalletUtils.TAG, "onFullWalletLoaded(" + status + ", " + wallet + ")");
 
 		if (status.isSuccess()) {
 			WalletUtils.logWallet(wallet);

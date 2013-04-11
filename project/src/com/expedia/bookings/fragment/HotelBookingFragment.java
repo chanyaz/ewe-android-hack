@@ -282,7 +282,7 @@ public class HotelBookingFragment extends WalletFragment {
 	public void onConnected(Bundle connectionHint) {
 		super.onConnected(connectionHint);
 
-		if (mHandleFullWalletWhenReady && !mHasTriedBookingWithGoogleWallet) {
+		if (!isBooking() && mHandleFullWalletWhenReady && !mHasTriedBookingWithGoogleWallet) {
 			getFullWallet();
 		}
 	}
