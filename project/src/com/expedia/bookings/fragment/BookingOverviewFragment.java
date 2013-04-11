@@ -1203,7 +1203,11 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 
 	private MaskedWalletRequest buildMaskedWalletRequest() {
 		Money total = Db.getSelectedRate().getTotalAmountAfterTax();
-		return WalletUtils.buildMaskedWalletRequest(getActivity(), total);
+		MaskedWalletRequest.Builder builder = MaskedWalletRequest.newBuilder();
+		WalletUtils.addStandardFieldsToMaskedWalletRequest(getActivity(), builder, total);
+		builder.setPhoneNumberRequired(true);
+		builder.setUseMinimalBillingAddress(true);
+		return builder.build();
 	}
 
 	private void buyWithGoogleWallet() {

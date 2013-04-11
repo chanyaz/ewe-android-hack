@@ -37,14 +37,11 @@ public class WalletUtils {
 		return WalletConstants.ENVIRONMENT_SANDBOX;
 	}
 
-	public static MaskedWalletRequest buildMaskedWalletRequest(Context context, Money total) {
-		MaskedWalletRequest.Builder builder = MaskedWalletRequest.newBuilder();
+	public static void addStandardFieldsToMaskedWalletRequest(Context context, MaskedWalletRequest.Builder builder,
+			Money total) {
 		builder.setMerchantName(context.getString(R.string.merchant_name));
-		builder.setPhoneNumberRequired(true);
-		builder.setUseMinimalBillingAddress(true);
 		builder.setCurrencyCode(total.getCurrency());
 		builder.setEstimatedTotalPrice(total.getAmount().toPlainString());
-		return builder.build();
 	}
 
 	public static Traveler convertToTraveler(MaskedWallet maskedWallet) {
