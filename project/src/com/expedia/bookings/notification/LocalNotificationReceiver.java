@@ -113,7 +113,7 @@ public class LocalNotificationReceiver extends BroadcastReceiver {
 		private OnImageLoaded mDestinationImageLoaded = new OnImageLoaded() {
 			@Override
 			public void onImageLoadFailed(String url) {
-				mBitmap = BitmapFactory.decodeResource(mContext.getResources(), mNotification.getImageResId());
+				mBitmap = null;
 				scheduleNotification();
 			}
 
@@ -134,7 +134,7 @@ public class LocalNotificationReceiver extends BroadcastReceiver {
 		private OnImageLoaded mTwoLevelImageLoaded = new OnImageLoaded() {
 			@Override
 			public void onImageLoadFailed(String url) {
-				mBitmap = BitmapFactory.decodeResource(mContext.getResources(), mNotification.getImageResId());
+				mBitmap = null;
 				scheduleNotification();
 			}
 
@@ -151,9 +151,17 @@ public class LocalNotificationReceiver extends BroadcastReceiver {
 			PendingIntent directionsPendingIntent = pendingIntent; //TODO
 			PendingIntent sharePendingIntent = pendingIntent; //TODO
 
-			NotificationCompat.BigPictureStyle style = new NotificationCompat.BigPictureStyle()
-					.bigPicture(mBitmap)
-					.setSummaryText(mNotification.getBody());
+			NotificationCompat.Style style = null;
+
+			if (mBitmap != null) {
+				style = new NotificationCompat.BigPictureStyle()
+						.bigPicture(mBitmap)
+						.setSummaryText(mNotification.getBody());
+			}
+			else {
+				style = new NotificationCompat.BigTextStyle()
+						.bigText(mNotification.getBody());
+			}
 
 			String directions = mContext.getString(R.string.itin_action_directions);
 			String share = mContext.getString(R.string.itin_action_share);
