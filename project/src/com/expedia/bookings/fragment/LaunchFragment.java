@@ -55,6 +55,7 @@ import com.expedia.bookings.data.Suggestion;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.NavUtils;
@@ -277,20 +278,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 			// No cached hotel data and no hotel search downloading...that must mean we need to find a Location!
 			else {
-				Location location = null;
-				if (!AndroidUtils.isRelease(mContext)) {
-					String fakeLatLng = SettingUtils.get(mContext,
-							getString(R.string.preference_fake_current_location), "");
-					if (!TextUtils.isEmpty(fakeLatLng)) {
-						String[] split = fakeLatLng.split(",");
-						if (split.length == 2) {
-							Log.i("Using fake location for hotel search!");
-							location = new Location("fakeProvider");
-							location.setLatitude(Double.parseDouble(split[0]));
-							location.setLongitude(Double.parseDouble(split[1]));
-						}
-					}
-				}
+				Location location = ExpediaDebugUtil.getFakeLocation(getActivity());
 
 				// Attempt to find last best Location from OS cache
 				if (location == null) {

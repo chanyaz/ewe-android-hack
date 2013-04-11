@@ -101,6 +101,7 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.NavUtils;
@@ -1488,9 +1489,15 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			break;
 
 		case MY_LOCATION:
+			// Use faked location first
+			Location location = ExpediaDebugUtil.getFakeLocation(mContext);
+
 			// See if we have a good enough location stored
-			long minTime = Calendar.getInstance().getTimeInMillis() - MINIMUM_TIME_AGO;
-			Location location = LocationServices.getLastBestLocation(this, minTime);
+			if (location == null) {
+				long minTime = Calendar.getInstance().getTimeInMillis() - MINIMUM_TIME_AGO;
+				location = LocationServices.getLastBestLocation(this, minTime);
+			}
+
 			if (location != null) {
 				onLocationFound(location);
 			}

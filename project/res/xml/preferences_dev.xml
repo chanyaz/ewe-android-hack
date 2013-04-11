@@ -62,7 +62,7 @@
         <EditTextPreference
             android:defaultValue=""
             android:key="@string/preference_fake_current_location"
-            android:summary="Type in as &apos;lat,lng&apos;.  Currently only works for launcher."
+            android:summary="Type in as &apos;lat,lng&apos;.  Works on launcher and hotel search."
             android:title="Fake Current Location" />
 
         <CheckBoxPreference
