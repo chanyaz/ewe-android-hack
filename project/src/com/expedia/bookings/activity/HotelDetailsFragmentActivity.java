@@ -8,9 +8,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.TaskStackBuilder;
+import android.text.TextUtils;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -42,6 +43,7 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
+import com.mobiata.android.SocialUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
@@ -80,6 +82,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	private HotelDetailsIntroFragment mIntroFragment;
 	private HotelDetailsMiniMapFragment mMapFragment;
 	private HotelDetailsDescriptionFragment mDescriptionFragment;
+	private TextView mBookByPhoneButton;
 
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
@@ -388,6 +391,8 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		mDescriptionFragment = Ui.findOrAddSupportFragment(this, R.id.hotel_details_description_fragment_container,
 				HotelDetailsDescriptionFragment.class, FRAGMENT_DESCRIPTION_TAG);
 
+		mBookByPhoneButton = Ui.findView(this, R.id.book_by_phone_button);
+
 		// Tracking
 		if (savedInstanceState == null) {
 			OmnitureTracking.trackPageLoadHotelsInfosite(mContext, getIntent().getIntExtra(EXTRA_POSITION, -1));
@@ -402,6 +407,25 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		}
 
 		initLandscapeGalleryLayout();
+	}
+
+	private void setupBookByPhoneButton(AvailabilityResponse response) {
+		if (mBookByPhoneButton == null) {
+			return;
+		}
+
+		final Property property = response.getProperty();
+		if (property != null && !TextUtils.isEmpty(property.getTelephoneSalesNumber())) {
+			mBookByPhoneButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					SocialUtils.call(HotelDetailsFragmentActivity.this, property.getTelephoneSalesNumber());
+				}
+			});
+		}
+		else {
+			mBookByPhoneButton.setVisibility(View.GONE);
+		}
 	}
 
 	// Initialize the gallery if we're in landscape mode. The gallery should be scooched
@@ -484,6 +508,10 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 
 			if (mGalleryFragment != null && mGalleryFragment.isAdded()) {
 				mGalleryFragment.populateViews();
+			}
+
+			if (mBookByPhoneButton != null) {
+				setupBookByPhoneButton(response);
 			}
 		}
 	};

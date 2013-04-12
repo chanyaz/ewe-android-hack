@@ -90,6 +90,7 @@ public class Property implements JSONable {
 	private boolean mIsLowestRateMobileExclusive = false;
 	private boolean mIsLowestRateTonightOnly = false;
 	private String mInfoSiteUrl;
+	private String mTelephoneSalesNumber;
 
 	// Hotel rating ranges from 0-5, in .5 intervals
 	private double mHotelRating;
@@ -318,6 +319,14 @@ public class Property implements JSONable {
 		mInfoSiteUrl = infoSiteUrl;
 	}
 
+	public String getTelephoneSalesNumber() {
+		return mTelephoneSalesNumber;
+	}
+
+	public void setTelephoneSalesNumber(String telephoneSalesNumber) {
+		mTelephoneSalesNumber = telephoneSalesNumber;
+	}
+
 	// Updates a Property from another Property (currently, one returned via an AvailabilityResponse)
 	public void updateFrom(Property property) {
 		if (property.hasAmenitiesSet()) {
@@ -357,6 +366,7 @@ public class Property implements JSONable {
 			obj.putOpt("isLowestRateMobileExclusive", mIsLowestRateMobileExclusive);
 			obj.putOpt("isLowestRateTonightOnly", mIsLowestRateTonightOnly);
 			obj.putOpt("infoSiteUrl", mInfoSiteUrl);
+			obj.putOpt("telephoneSalesNumber", mTelephoneSalesNumber);
 
 			JSONUtils.putJSONable(obj, "lowestRate", mLowestRate);
 
@@ -390,6 +400,7 @@ public class Property implements JSONable {
 		mIsLowestRateMobileExclusive = obj.optBoolean("isLowestRateMobileExclusive");
 		mIsLowestRateTonightOnly = obj.optBoolean("isLowestRateTonightOnly");
 		mInfoSiteUrl = obj.optString("infoSiteUrl", null);
+		mTelephoneSalesNumber = obj.optString("telephoneSalesNumber", null);
 
 		return true;
 	}

@@ -48,12 +48,28 @@
                     android:layout_margin="12dp"
                     android:background="@drawable/map_frame" />
 
-                <LinearLayout
+                <FrameLayout
                     android:id="@+id/hotel_details_description_fragment_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#efefef"
                     android:minHeight="100dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#efefef" >
+
+                    <Button
+                        android:id="@+id/book_by_phone_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:text="@string/book_by_phone"
+                        android:textSize="18sp" />
+                </LinearLayout>
             </LinearLayout>
         </com.expedia.bookings.widget.HotelDetailsScrollView>
     </LinearLayout>
