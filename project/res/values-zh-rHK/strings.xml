@@ -56,14 +56,10 @@
     <string name="error_launch_connection">抱歉，我們無法連線。</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">行程</string>
-    <!-- Menu option for going to see your trips/itineraries (on tablet) -->
-    <string name="your_trips">您的行程</string>
 
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">行程</string>
-    <!-- Itineraries (plural title) -->
-    <string name="itineraries">行程</string>
     <!-- Shop -->
     <string name="shop">購物</string>
     <!-- Find Itinerary -->
@@ -131,8 +127,6 @@
     <string name="depart_tz_TEMPLATE">出發 (%1$s)</string>
     <!-- Arrive (TZ) template -->
     <string name="arrive_tz_TEMPLATE">抵達 (%1$s)</string>
-    <!-- Confirmation Code Label -->
-    <string name="confirmation_code_label">確認碼</string>
     <!-- Flight Confirmation code label -->
     <string name="flight_confirmation_code_label">航空公司確認碼</string>
     <!-- Flight Carrier confirmation code label template -->
@@ -145,8 +139,6 @@
     <string name="hotel_confirmation_code_label">酒店確認碼</string>
     <!-- Passengers Label -->
     <string name="passengers_label">旅客</string>
-    <!-- Flight receipt and policies -->
-    <string name="flight_receipt_and_policies">機票收據和規定</string>
     <!-- Booking info label -->
     <string name="booking_info">預訂資料</string>
     <!-- Itin flight generic terminal and gate template -->
@@ -181,16 +173,6 @@
     <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;來自：%1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">登出 %1$s 將令所有與此帳戶相關的行程項目被移除。確定要登出嗎？</string>
-    <!-- Booking code unavailable message -->
-    <string name="missing_booking_code">沒有預訂代碼。</string>
-    <!-- Flight to TEMPLATE -->
-    <string name="flight_to_TEMPLATE">航班飛往%1$s</string>
-    <!-- Flight Calendar event TEMPLATE -->
-    <string name="flight_calendar_event_title_TEMPLATE">航班：%1$s 至 %2$s</string>
-    <!-- Add event button text -->
-    <string name="add_event">新增活動</string>
-    <!-- Set Alert button text -->
-    <string name="set_alert">設置提示</string>
     <!-- Directions -->
     <string name="directions">路徑</string>
     <!-- Terminal Maps -->
@@ -208,7 +190,7 @@
     <!-- Flight has been diverted to {airport} template -->
     <string name="flight_diverted_TEMPLATE">班機已轉降%1$s</string>
     <!-- Flight departs on {date} template -->
-    <string name="flight_departs_on_TEMPLATE">離境時間%1$s</string>
+    <string name="flight_departs_on_TEMPLATE">出發日期：%1$s</string>
     <!-- Departs early {duration from now} -->
     <string name="flight_departs_early_TEMPLATE">提早出發：%1$s</string>
     <!-- Departs late {duration from now} -->
@@ -320,8 +302,6 @@
     <string name="itin_card_details_active">有效</string>
     <string name="itin_card_details_expires">到期日</string>
     <string name="itin_card_details_guests">房客</string>
-    <string name="itin_card_details_booking_info">預訂資料</string>
-    <string name="itin_card_details_confirmation_code">確認碼</string>
     <string name="itin_card_details_details">其他資料</string>
     <string name="itin_card_details_pick_up">取車</string>
     <string name="itin_card_details_drop_off">還車</string>
@@ -382,16 +362,10 @@
     <string name="share_template_short_flight_sameday">我正乘搭 %1$s 前往%2$s，日期：%3$s。\n出發機場：%4$s，時間：%5$s\n抵達機場：%6$s，時間：%7$s，客運大樓和閘口：%8$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
     <string name="share_template_short_flight_multiday">我正乘搭 %1$s 前往%2$s。\n出發機場：%3$s，時間：%4$s\n抵達機場：%5$s，時間：%6$s，客運大樓和閘口：%7$s</string>
-    <!-- 1: Origin city 2: Destination city 3: Flight Carrier and number 4: Departure date 5: Departure airport code 6: Departure Time 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival terminal gate 11: Traveler list -->
-    <string name="share_template_long_flight_sameday">您好，\n\n以下是我從%1$s到%2$s的航班資料。\n\n%3$s - %4$s\n\n出發機場：%5$s，時間：%6$s，客運大樓和閘口：%7$s。\n抵達機場：%8$s，時間：%9$s，客運大樓和閘口：%10$s\n\n旅客名單：\n%11$s</string>
-    <!-- 1: Origin city 2: Desitination city 3: Flight carrier and number 4: Departure airport code 5: Departure time 6: Departure date 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival date 11: Arrival terminal gate 12: Traveler list -->
-    <string name="share_template_long_flight_multiday">您好，\n\n以下是我從%1$s到%2$s的航班資料。\n\n%3$s\n\n出發機場：%4$s，時間：%5$s，日期：%6$s，客運大樓和閘口：%7$s。\n抵達機場：%8$s，時間：%9$s，日期：%10$s，客運大樓和閘口：%11$s\n\n旅客名單：\n%12$s</string>
     <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">我的租車資料 (%1$s – %2$s)</string>
     <!-- 1: vehicle type 2: pick up date 3: drop off date 4: vendor name 5: full address -->
     <string name="share_template_short_car">我租了一部%1$s，日期：%2$s – %3$s\n%4$s\n%5$s</string>
-    <!-- 1: vendor name, 2: vehicle type, 3: pick up date, 4: pick up time, 5: drop off date, 6: drop off time, 7: full address, 8: phone number -->
-    <string name="share_template_long_car">您好，\n\n以下是我的 %1$s 租車資料。\n\n<b>車輛類型：</b>%2$s\n<b>取車日期：</b> %3$s 時間：<b>%4$s</b>\n<b>還車日期：</b> %5$s 時間：<b>%6$s</b>\n\n<b> 地點：</b>\n%1$s\n%7$s\n%8$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
     <string name="share_car_start_TEMPLATE">以下是我的 %1$s 租車資料。</string>
     <!-- Label for type of vehicle.  %1$s is the car type (e.g., "Three Door Car") -->
@@ -413,9 +387,6 @@
     <string name="share_template_short_activity">我購買了一個%1$s活動\n生效日期：%2$s\n到期日：%3$s</string>
     <!-- 1: activity title, 2: valid date, 3: expiration date, 4: list of guests -->
     <string name="share_template_long_activity">您好！\n\n以下是我的%1$s詳情\n\n<b>生效日期：</b> %2$s\n<b>到期日：</b> %3$s\n\n<b>旅客：</b>\n%4$s</string>
-    <string name="share_template_subject_cruise"></string>
-    <string name="share_template_short_cruise"></string>
-    <string name="share_template_long_cruise"></string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
@@ -454,14 +425,8 @@
     <string name="inbound_TEMPLATE">返回 %s 的航班</string>
     <!-- Error when we simple can't connect to E3 servers -->
     <string name="error_server">很抱歉，我們未能連接 Expedia 的伺服器。請稍後再試一次。</string>
-    <!-- Label for changing sort order on flights -->
-    <string name="filter_flight_sort">航班排序方式：</string>
-    <!-- Label for filtering flights by time (aka, 10 AM to 3 PM) -->
-    <string name="filter_flight_time">航班時間</string>
-    <!-- Label for filtering flights by airline (aka, Delta) -->
-    <string name="filter_flight_airline">選擇的航空公司</string>
     <!-- Sort by departure timelabel -->
-    <string name="sort_description_departure">離境時間</string>
+    <string name="sort_description_departure">出發時間</string>
     <!-- Sort by arrival time label -->
     <string name="sort_description_arrival">抵達時間</string>
     <!-- Sort by duration label -->
@@ -488,7 +453,7 @@
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">很抱歉，您的地點&lt;b&gt;尚未提供&lt;/b&gt;流動機票預訂服務。</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
-    <string name="error_same_flight_departure_arrival">離境及到境機場必須不同。</string>
+    <string name="error_same_flight_departure_arrival">出發及抵達機場必須不同。</string>
 
     <!-- Flight search params fragment -->
     <!-- Hint when no dates are selected for a flight trip -->
@@ -579,6 +544,8 @@
     <string name="or_select_new_paymet_method">選擇付款方法</string>
     <!-- Select Payment -->
     <string name="select_payment">選擇付款</string>
+    <!-- Select payment sentence case -->
+    <string name="select_payment_sentence_case">選擇付款</string>
     <!-- Add new card -->
     <string name="add_new_card">新增信用卡</string>
     <!-- Overview button -->
@@ -650,10 +617,6 @@
     <!-- Label to show next to the total price on the checkout receipt -->
     <string name="grand_total">總額</string>
     <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_raised_the_price_TEMPLATE">酒店剛將此客房的價格提高至每晚 %1$s。</string>
-    <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_lowered_the_price_TEMPLATE">酒店剛將此客房的價格降低至每晚 %1$s。</string>
-    <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_raised_the_total_price_TEMPLATE">酒店剛將此客房的總價由 %1$s 提高至 %2$s</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_lowered_the_total_price_TEMPLATE">酒店剛將此客房的總價由 %1$s 降低至 %2$s</string>
@@ -679,12 +642,14 @@
     <string name="flight">航班</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
     <string name="traveler_num_and_category_TEMPLATE">旅客 %1$d</string>
-    <!-- Adult -->
-    <string name="adult">成人</string>
 
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">旅客資料</string>
+    <!-- Add traveler -->
+    <string name="add_traveler">新增旅客</string>
+    <!-- Add traveler number template -->
+    <string name="add_traveler_number_TEMPLATE">新增旅客 %1$s</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">如旅客姓名與政府簽發附有照片的身分證明不符，可能被拒絕登機。</string>
 
@@ -930,14 +895,8 @@
     <string name="error_flight_price_increased_with_fee">航空公司將收取付款處理費 %1$s，並剛將您的機票價格提高了%2$s。您願意支付新的總額 %3$s 嗎？</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">航空公司將收取付款處理費 %1$s，但我們剛得悉您要求的航班減價 %2$s。您願意支付新的總額 %3$s 嗎？</string>
-    <!-- Error shown to user if their phone number is invalid -->
-    <string name="error_invalid_phone_number">您輸入的電話號碼無效，請再試一次。</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">您輸入的信用卡號碼無效，請再試一次。</string>
-    <!-- Error shown to user if their zip code or postal code is invalid (depends on language) -->
-    <string name="error_invalid_zipcode_or_postalcode">您輸入的郵遞區號無效，請再試一次。</string>
-    <!-- Error shown to user if their state or province is invalid (depends on language) -->
-    <string name="error_invalid_state_or_province">您輸入的州/省無效，請再試一次。</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">您剛使用的信用卡已過期，請使用另一張信用卡。</string>
     <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
@@ -977,15 +936,6 @@
     <string name="title_complete_booking">完成預訂</string>
 
     <!-- Flight booking sharing -->
-    <!-- Subject line for flight booking email.  %1$s is the destination, %2$s is a date range (e.g., "Expedia Itinerary - Seattle (10/18 - 10/19)") -->
-    <string name="share_flight_title_TEMPLATE">Expedia 行程 - %1$s (%2$s)</string>
-    <!-- The first line of the share flight email -->
-    <plurals name="share_flight_start">
-        <item quantity="one">我的機票預訂詳情如下：</item>
-        <item quantity="two">我們的機票預訂詳情如下：</item>
-        <item quantity="many">我們的機票預訂詳情如下：</item>
-        <item quantity="other">我們的機票預訂詳情如下：</item>
-    </plurals>
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">您好！</string>
     <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
@@ -996,35 +946,10 @@
     <string name="share_flight_itinerary_TEMPLATE">行程編號：%s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
     <string name="share_travelers_section">旅客</string>
-    <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc… %2$s is their name -->
-    <!-- examples: "Traveler 1: Tom Smith" "Traveler 2: David Thomas" or if only one traveler, "Traveler: Matt Long" -->
-    <plurals name="share_flight_name_TEMPLATE">
-        <item quantity="one">旅客：%s</item>
-        <item quantity="two">旅客 %1$s：%2$s</item>
-        <item quantity="many">旅客 %1$s：%2$s</item>
-        <item quantity="other">旅客 %1$s：%2$s</item>
-    </plurals>
     <!-- Header for the outbound flight details section of the share flight email -->
     <string name="share_flight_section_outbound">出發航班：</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">回程航班：</string>
-    <!-- Presenting the total ticket cost of a flight.  %s is a price, e.g. "$500" -->
-    <plurals name="share_flight_ticket_cost_TEMPLATE">
-        <item quantity="one">總票價：%s</item>
-        <item quantity="two">總票價：%s</item>
-        <item quantity="many">總票價：%s</item>
-        <item quantity="other">總票價：%s</item>
-    </plurals>
-    <!-- Presenting the taxes and fees cost of a flight.  %s is a price, e.g. "$500" -->
-    <string name="share_flight_taxes_fees_TEMPLATE">稅項及其他費用：%s</string>
-    <!-- Presenting the airfare total cost of a flight.  %s is a price, e.g. "$500" -->
-    <string name="share_flight_airfare_total_TEMPLATE">機票總金額：%s</string>
-    <!-- Alerts the user to potential other charges.  %s is a URL -->
-    <string name="share_flight_additional_fees_TEMPLATE">航空公司可就托運行李或其他選擇服務收取額外費用。%s</string>
-    <!-- Gives the user a method of getting support.  %s is a phone number -->
-    <string name="share_flight_support_TEMPLATE">如有任何關於此次預訂的問題，請致電 Expedia：%s</string>
-    <!-- Advertisement for the app the user just used -->
-    <string name="share_flight_shill_app">使用 Expedia 精美的流動裝置應用程式，隨時隨地預訂機票和酒店！http://www.expedia.com/app</string>
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
@@ -1189,6 +1114,8 @@
     <string name="no_hotels_availiable">沒有可供預訂的酒店</string>
     <!-- Message displayed when user need to change input to correct search -->
     <string name="please_try_a_different_location_or_date">請搜尋另一個地點或日期。</string>
+    <!-- Message displayed when no hotel rooms are available -->
+    <string name="error_no_hotel_rooms_available">沒有可供預訂的酒店客房</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
@@ -1447,18 +1374,6 @@
     <string name="Telephone">電話</string>
     <!-- The "email for booking confirmation" booking info field. -->
     <string name="EmailForConf">作確認用途的電郵地址</string>
-    <!-- Label for "billing info" form field section -->
-    <string name="billing_info">付款資訊</string>
-    <!-- Address line 1 form field hint -->
-    <string name="hint_address1">地址第 1 行</string>
-    <!-- Address line 2 form field hint -->
-    <string name="hint_address2">地址第 2 行 (選填)</string>
-    <!-- The "city" booking info field. -->
-    <string name="City">城市</string>
-    <!-- The "postal code" booking info field. -->
-    <string name="PostalCode">郵遞區號</string>
-    <!-- State code hint -->
-    <string name="hint_state_code">州</string>
     <!-- Label for "credit card info" form field section -->
     <string name="credit_card_info">信用卡資料</string>
     <!-- Label for credit card selection box -->
@@ -1559,8 +1474,6 @@
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
     <string name="GuestsLabel">房客</string>
-    <!-- Label indicating taxes are included for this booking. -->
-    <string name="TaxesAndFees">已包括稅項</string>
     <!-- Label for the taxes and fees for a hotel room booking. -->
     <string name="taxes_and_fees">稅項及其他費用</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
@@ -1607,6 +1520,8 @@
     <string name="log_in_for_faster_booking">登入以加快預訂速度</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_rewards">已登記 Expedia Rewards\u2122</string>
+    <!-- Loading rewards points message -->
+    <string name="loading_your_rewards_points">正在載入您的獎賞積分…</string>
     <!-- Label for account name -->
     <string name="logged_in_as">已登入為</string>
     <!-- Label for signin screen -->
@@ -1677,10 +1592,6 @@
     <string name="tell_a_friend_description">喜歡震撼的酒店優惠？向好友推薦此應用程式。</string>
     <!-- Section header for other apps by Mobiata -->
     <string name="travel_smart">精明計劃旅遊行程</string>
-    <!-- Section Header for other apps by Mobiata -->
-    <string name="ALSO_BY_MOBIATA">Mobiata 的其他應用程式</string>
-    <!-- Section Header for other apps by Mobiata -->
-    <string name="also_by_mobiata">Mobiata 的其他應用程式</string>
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hotels</string>
     <!-- Message body for "tell a friend" feature -->
@@ -1776,14 +1687,6 @@
         <item quantity="two">%d 晚</item>
         <item quantity="many">%d 晚</item>
         <item quantity="other">%d 晚</item>
-    </plurals>
-    <!-- A number of days (as in rental duration).  Capitalized -->
-    <plurals name="number_of_days">
-        <item quantity="zero">%d 天</item>
-        <item quantity="one">%d 天</item>
-        <item quantity="two">%d 天</item>
-        <item quantity="many">%d 天</item>
-        <item quantity="other">%d 天</item>
     </plurals>
     <!-- A number of days (as in rental duration), not including the actual number. Capitalized -->
     <plurals name="number_of_days_label">
@@ -1895,7 +1798,6 @@
     <string name="country_bo">玻利維亞多民族國</string>
     <string name="country_ba">波斯尼亞與黑塞哥維那</string>
     <string name="country_bw">博茨瓦納</string>
-    <string name="country_bv">布威島</string>
     <string name="country_br">巴西</string>
     <string name="country_io">英屬印度洋地區</string>
     <string name="country_bn">汶萊</string>
@@ -1942,7 +1844,6 @@
     <string name="country_fr">法國</string>
     <string name="country_gf">法屬圭亞那</string>
     <string name="country_pf">法國克利珀頓島</string>
-    <string name="country_tf">法國南方領土</string>
     <string name="country_ga">加蓬</string>
     <string name="country_gm">岡比亞</string>
     <string name="country_ge">格魯吉亞</string>
@@ -1960,7 +1861,6 @@
     <string name="country_gw">幾內亞 - 比紹</string>
     <string name="country_gy">蓋亞那</string>
     <string name="country_ht">海地</string>
-    <string name="country_hm">赫德島與麥當勞群島</string>
     <string name="country_va">羅馬教區 (梵蒂岡)</string>
     <string name="country_hn">洪都拉斯</string>
     <string name="country_hk">香港</string>

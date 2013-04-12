@@ -56,14 +56,10 @@
     <string name="error_launch_connection">Helaas, we kunnen geen verbinding maken</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Reizen</string>
-    <!-- Menu option for going to see your trips/itineraries (on tablet) -->
-    <string name="your_trips">Jouw reizen</string>
 
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Reisplan</string>
-    <!-- Itineraries (plural title) -->
-    <string name="itineraries">Reisplannen</string>
     <!-- Shop -->
     <string name="shop">Shop</string>
     <!-- Find Itinerary -->
@@ -131,8 +127,6 @@
     <string name="depart_tz_TEMPLATE">Vertrek (%1$s)</string>
     <!-- Arrive (TZ) template -->
     <string name="arrive_tz_TEMPLATE">Aankomst (%1$s)</string>
-    <!-- Confirmation Code Label -->
-    <string name="confirmation_code_label">Bevestigingsnummer</string>
     <!-- Flight Confirmation code label -->
     <string name="flight_confirmation_code_label">Airline bevestiging</string>
     <!-- Flight Carrier confirmation code label template -->
@@ -145,8 +139,6 @@
     <string name="hotel_confirmation_code_label">Bevestigingsnr. hotel</string>
     <!-- Passengers Label -->
     <string name="passengers_label">Passagiers</string>
-    <!-- Flight receipt and policies -->
-    <string name="flight_receipt_and_policies">Vluchtbevestiging en -beleid</string>
     <!-- Booking info label -->
     <string name="booking_info">Boekingsinfo</string>
     <!-- Itin flight generic terminal and gate template -->
@@ -181,16 +173,6 @@
     <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;Vanaf %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Wanneer je je afmeldt bij %1$s verwijder je alle reisplanitems die aan dit account gekoppeld zijn. Weet je zeker dat je je wil afmelden?</string>
-    <!-- Booking code unavailable message -->
-    <string name="missing_booking_code">Boekingscode niet beschikbaar</string>
-    <!-- Flight to TEMPLATE -->
-    <string name="flight_to_TEMPLATE">Vlucht naar %1$s</string>
-    <!-- Flight Calendar event TEMPLATE -->
-    <string name="flight_calendar_event_title_TEMPLATE">Vlucht: %1$s naar %2$s</string>
-    <!-- Add event button text -->
-    <string name="add_event">Activiteit toevoegen</string>
-    <!-- Set Alert button text -->
-    <string name="set_alert">Notificatie instellen</string>
     <!-- Directions -->
     <string name="directions">Richtingaanwijzingen</string>
     <!-- Terminal Maps -->
@@ -320,8 +302,6 @@
     <string name="itin_card_details_active">Geldig</string>
     <string name="itin_card_details_expires">Vervalt</string>
     <string name="itin_card_details_guests">Gasten</string>
-    <string name="itin_card_details_booking_info">Boekingsinfo</string>
-    <string name="itin_card_details_confirmation_code">Bevestigingsnummer</string>
     <string name="itin_card_details_details">Bijkomende informatie</string>
     <string name="itin_card_details_pick_up">Ophalen</string>
     <string name="itin_card_details_drop_off">Terugbrengen</string>
@@ -382,16 +362,10 @@
     <string name="share_template_short_flight_sameday">Mijn vlucht is %1$s naar %2$s op %3$s.\nVertrekt vanaf %4$s om %5$s\nKomt aan op %6$s om %7$s, %8$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
     <string name="share_template_short_flight_multiday">Mijn vlucht is %1$s naar %2$s.\nVertrekt vanaf %3$s om %4$s\nKomt aan op %5$s om %6$s, %7$s</string>
-    <!-- 1: Origin city 2: Destination city 3: Flight Carrier and number 4: Departure date 5: Departure airport code 6: Departure Time 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival terminal gate 11: Traveler list -->
-    <string name="share_template_long_flight_sameday">Hallo,\n\nDit zijn mijn vluchtgegevens van %1$s naar %2$s.\n\n%3$s - %4$s\n\nVertrekt vanaf %5$s om %6$s aan %7$s.\nKomt aan op %8$s om %9$s aan %10$s.\n\nReizigers\n%11$s</string>
-    <!-- 1: Origin city 2: Desitination city 3: Flight carrier and number 4: Departure airport code 5: Departure time 6: Departure date 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival date 11: Arrival terminal gate 12: Traveler list -->
-    <string name="share_template_long_flight_multiday">Hi,\n\nDit zijn mijn vluchtgegevens van %1$s naar %2$s.\n\n%3$s\n\nVertrekt vanaf %4$s om %5$s op %6$s aan %7$s.\nKomt aan op %8$s om %9$s op %10$s aan %11$s\n\nReizigers\n%12$s</string>
     <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Mijn autoverhuur (%1$s – %2$s)</string>
     <!-- 1: vehicle type 2: pick up date 3: drop off date 4: vendor name 5: full address -->
     <string name="share_template_short_car">Ik heb een %1$s gehuurd van %2$s – %3$s\n%4$s\n%5$s</string>
-    <!-- 1: vendor name, 2: vehicle type, 3: pick up date, 4: pick up time, 5: drop off date, 6: drop off time, 7: full address, 8: phone number -->
-    <string name="share_template_long_car">Hallo,\n\nDit zijn mijn autoverhuurgegevens van %1$s. \n\n<b>Wagen</b> %2$s\n<b>Ophalen</b> %3$s om <b>%4$s</b>\n<b>Terugbrengen</b> %5$s om <b>%6$s</b>\n\n<b>Locatie</b>\n%1$s\n%7$s\n%8$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
     <string name="share_car_start_TEMPLATE">Dit zijn de gegevens van mijn %1$s autoverhuur.</string>
     <!-- Label for type of vehicle.  %1$s is the car type (e.g., "Three Door Car") -->
@@ -413,9 +387,6 @@
     <string name="share_template_short_activity">Ik heb het volgende gereserveerd: %1$s\nGeldig op: %2$s\nVervalt op: %3$s</string>
     <!-- 1: activity title, 2: valid date, 3: expiration date, 4: list of guests -->
     <string name="share_template_long_activity">Hallo,\n\nDit zijn de gegevens van mijn %1$s\n\n<b>Geldig op</b> %2$s\n<b>Vervalt op</b> %3$s\n\n<b>Gasten</b>\n%4$s</string>
-    <string name="share_template_subject_cruise"></string>
-    <string name="share_template_short_cruise"></string>
-    <string name="share_template_long_cruise"></string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
@@ -454,14 +425,8 @@
     <string name="inbound_TEMPLATE">Terugvluchten naar %s</string>
     <!-- Error when we simple can't connect to E3 servers -->
     <string name="error_server">We konden geen verbinding maken met de servers van Expedia.  Probeer het later opnieuw.</string>
-    <!-- Label for changing sort order on flights -->
-    <string name="filter_flight_sort">Vluchten sorteren op:</string>
-    <!-- Label for filtering flights by time (aka, 10 AM to 3 PM) -->
-    <string name="filter_flight_time">Vluchtduur</string>
-    <!-- Label for filtering flights by airline (aka, Delta) -->
-    <string name="filter_flight_airline">Airlines van je voorkeur</string>
     <!-- Sort by departure timelabel -->
-    <string name="sort_description_departure">Vertrek</string>
+    <string name="sort_description_departure">Vertrektijd</string>
     <!-- Sort by arrival time label -->
     <string name="sort_description_arrival">Aankomst</string>
     <!-- Sort by duration label -->
@@ -578,7 +543,9 @@
     <!-- Or Select a new payment method -->
     <string name="or_select_new_paymet_method">Kies een betalingsmethode</string>
     <!-- Select Payment -->
-    <string name="select_payment">Kies betaling</string>
+    <string name="select_payment">Kies betalingsmethode</string>
+    <!-- Select payment sentence case -->
+    <string name="select_payment_sentence_case">Kies betalingsmethode</string>
     <!-- Add new card -->
     <string name="add_new_card">Nieuwe kaart toevoegen</string>
     <!-- Overview button -->
@@ -650,10 +617,6 @@
     <!-- Label to show next to the total price on the checkout receipt -->
     <string name="grand_total">Totaalprijs</string>
     <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_raised_the_price_TEMPLATE">Het hotel heeft net de kamerprijs verhoogd naar %1$s per nacht.</string>
-    <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_lowered_the_price_TEMPLATE">Het hotel heeft net de kamerprijs verlaagd naar %1$s per nacht.</string>
-    <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_raised_the_total_price_TEMPLATE">Het hotel heeft net de totaalprijs voor deze kamer verhoogd van %1$s naar %2$s</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_lowered_the_total_price_TEMPLATE">Het hotel heeft net de totaalprijs voor deze kamer verlaagd van %1$s naar %2$s</string>
@@ -679,12 +642,14 @@
     <string name="flight">Vlucht</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
     <string name="traveler_num_and_category_TEMPLATE">Reiziger %1$d</string>
-    <!-- Adult -->
-    <string name="adult">Volwassene</string>
 
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Reizigersinformatie</string>
+    <!-- Add traveler -->
+    <string name="add_traveler">Reiziger toevoegen</string>
+    <!-- Add traveler number template -->
+    <string name="add_traveler_number_TEMPLATE">Reiziger %1$s toevoegen</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Mogelijk wordt toegang tot het vliegtuig geweigerd als de naam van de reiziger niet overeenstemt met die op het identiteitsbewijs.</string>
 
@@ -931,14 +896,8 @@
     <string name="error_flight_price_increased_with_fee">Het lijkt erop dat de airline een betalingstoeslag van %1$s in rekening brengt en net de prijs van je vlucht verhoogd heeft met %2$s. Ga je akkoord met het nieuwe totaalbedrag van %3$s?</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">Het lijkt erop dat de airline een betalingstoeslag van %1$s in rekening brengt maar dat je aangevraagde vluchten net worden aangeboden voor %2$s minder. Ga je akkoord met het nieuwe totaalbedrag van %3$s?</string>
-    <!-- Error shown to user if their phone number is invalid -->
-    <string name="error_invalid_phone_number">Het telefoonnnr. is ongeldig, probeer het opnieuw</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">Het ingevoerde creditcardnummer is ongeldig, probeer het opnieuw.</string>
-    <!-- Error shown to user if their zip code or postal code is invalid (depends on language) -->
-    <string name="error_invalid_zipcode_or_postalcode">De ingevoerde postcode is verkeerd, probeer opnieuw</string>
-    <!-- Error shown to user if their state or province is invalid (depends on language) -->
-    <string name="error_invalid_state_or_province">De ingevoerde staat is verkeerd, probeer opnieuw</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">De creditcard die je wil gebruiken is verlopen, gebruik een nieuwe creditcard.</string>
     <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
@@ -978,15 +937,6 @@
     <string name="title_complete_booking">Voltooi je boeking</string>
 
     <!-- Flight booking sharing -->
-    <!-- Subject line for flight booking email.  %1$s is the destination, %2$s is a date range (e.g., "Expedia Itinerary - Seattle (10/18 - 10/19)") -->
-    <string name="share_flight_title_TEMPLATE">Expedia reisplan - %1$s (%2$s)</string>
-    <!-- The first line of the share flight email -->
-    <plurals name="share_flight_start">
-        <item quantity="one">Dit is mijn vluchtreserveringsinfo:</item>
-        <item quantity="two">Dit is onze vluchtreserveringsinfo:</item>
-        <item quantity="many">Dit is onze vluchtreserveringsinfo:</item>
-        <item quantity="other">Dit is onze vluchtreserveringsinfo:</item>
-    </plurals>
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">Hallo,</string>
     <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
@@ -997,35 +947,10 @@
     <string name="share_flight_itinerary_TEMPLATE">Reisplannr.: %s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
     <string name="share_travelers_section">Reizigers:</string>
-    <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc… %2$s is their name -->
-    <!-- examples: "Traveler 1: Tom Smith" "Traveler 2: David Thomas" or if only one traveler, "Traveler: Matt Long" -->
-    <plurals name="share_flight_name_TEMPLATE">
-        <item quantity="one">Reiziger: %s</item>
-        <item quantity="two">Reiziger: %1$s%2$s</item>
-        <item quantity="many">Reiziger: %1$s%2$s</item>
-        <item quantity="other">Reiziger: %1$s%2$s</item>
-    </plurals>
     <!-- Header for the outbound flight details section of the share flight email -->
     <string name="share_flight_section_outbound">Heenreis:</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">Terugreis:</string>
-    <!-- Presenting the total ticket cost of a flight.  %s is a price, e.g. "$500" -->
-    <plurals name="share_flight_ticket_cost_TEMPLATE">
-        <item quantity="one">Ticketprijs: %s</item>
-        <item quantity="two">Totaalprijs tickets: %s</item>
-        <item quantity="many">Totaalprijs tickets: %s</item>
-        <item quantity="other">Totaalprijs tickets: %s</item>
-    </plurals>
-    <!-- Presenting the taxes and fees cost of a flight.  %s is a price, e.g. "$500" -->
-    <string name="share_flight_taxes_fees_TEMPLATE">Belastingen &amp; toeslagen: %s</string>
-    <!-- Presenting the airfare total cost of a flight.  %s is a price, e.g. "$500" -->
-    <string name="share_flight_airfare_total_TEMPLATE">Totaalprijs: %s</string>
-    <!-- Alerts the user to potential other charges.  %s is a URL -->
-    <string name="share_flight_additional_fees_TEMPLATE">De luchtvaartmaatschappij berekent mogelijk extra toeslagen voor ingecheckte bagage of andere optionele diensten.  %s</string>
-    <!-- Gives the user a method of getting support.  %s is a phone number -->
-    <string name="share_flight_support_TEMPLATE">Bel Expedia op %s als je vragen hebt over deze boeking</string>
-    <!-- Advertisement for the app the user just used -->
-    <string name="share_flight_shill_app">Boek vluchten en hotels waar je ook bent met de nieuwe mobile app van Expedia! http://www.expedia.com/app</string>
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
@@ -1190,6 +1115,8 @@
     <string name="no_hotels_availiable">Geen hotels beschikbaar</string>
     <!-- Message displayed when user need to change input to correct search -->
     <string name="please_try_a_different_location_or_date">Probeer een andere locatie of datum.</string>
+    <!-- Message displayed when no hotel rooms are available -->
+    <string name="error_no_hotel_rooms_available">Geen kamers beschikbaar</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
@@ -1448,18 +1375,6 @@
     <string name="Telephone">Telefoon</string>
     <!-- The "email for booking confirmation" booking info field. -->
     <string name="EmailForConf">E-mailadres voor bevestiging</string>
-    <!-- Label for "billing info" form field section -->
-    <string name="billing_info">Betalingsgegevens</string>
-    <!-- Address line 1 form field hint -->
-    <string name="hint_address1">Adreslijn 1</string>
-    <!-- Address line 2 form field hint -->
-    <string name="hint_address2">Adreslijn 2 (niet verplicht)</string>
-    <!-- The "city" booking info field. -->
-    <string name="City">Stad</string>
-    <!-- The "postal code" booking info field. -->
-    <string name="PostalCode">Postcode</string>
-    <!-- State code hint -->
-    <string name="hint_state_code">Provincie</string>
     <!-- Label for "credit card info" form field section -->
     <string name="credit_card_info">Creditcardgegevens</string>
     <!-- Label for credit card selection box -->
@@ -1560,8 +1475,6 @@
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
     <string name="GuestsLabel">Gasten</string>
-    <!-- Label indicating taxes are included for this booking. -->
-    <string name="TaxesAndFees">Belastingen inbegrepen</string>
     <!-- Label for the taxes and fees for a hotel room booking. -->
     <string name="taxes_and_fees">Belastingen &amp; Toeslagen</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
@@ -1608,6 +1521,8 @@
     <string name="log_in_for_faster_booking">Meld je aan</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_rewards">Ingeschreven voor Expedia Rewards\u2122</string>
+    <!-- Loading rewards points message -->
+    <string name="loading_your_rewards_points">Rewards aan het laden…</string>
     <!-- Label for account name -->
     <string name="logged_in_as">Aangemeld als</string>
     <!-- Label for signin screen -->
@@ -1678,10 +1593,6 @@
     <string name="tell_a_friend_description">Hou je van geweldige hotelaanbiedingen? Vertel je vrienden over onze app.</string>
     <!-- Section header for other apps by Mobiata -->
     <string name="travel_smart">Reis slim</string>
-    <!-- Section Header for other apps by Mobiata -->
-    <string name="ALSO_BY_MOBIATA">OOK VAN MOBIATA</string>
-    <!-- Section Header for other apps by Mobiata -->
-    <string name="also_by_mobiata">Ook van Mobiata</string>
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hotels</string>
     <!-- Message body for "tell a friend" feature -->
@@ -1777,14 +1688,6 @@
         <item quantity="two">%d nachten</item>
         <item quantity="many">%d nachten</item>
         <item quantity="other">%d nachten</item>
-    </plurals>
-    <!-- A number of days (as in rental duration).  Capitalized -->
-    <plurals name="number_of_days">
-        <item quantity="zero">%dDagen</item>
-        <item quantity="one">%d dag</item>
-        <item quantity="two">%dDagen</item>
-        <item quantity="many">%dDagen</item>
-        <item quantity="other">%dDagen</item>
     </plurals>
     <!-- A number of days (as in rental duration), not including the actual number. Capitalized -->
     <plurals name="number_of_days_label">
@@ -1896,7 +1799,6 @@
     <string name="country_bo">Bolivia, Plurinationale Staat</string>
     <string name="country_ba">Bosnië en Herzegovina</string>
     <string name="country_bw">Botswana</string>
-    <string name="country_bv">Bouvet</string>
     <string name="country_br">Brazilië</string>
     <string name="country_io">Brits Indische Oceaanterritorium</string>
     <string name="country_bn">Brunei Darussalam</string>
@@ -1943,7 +1845,6 @@
     <string name="country_fr">Frankrijk</string>
     <string name="country_gf">Frans Guyana</string>
     <string name="country_pf">Frans-Polynesië</string>
-    <string name="country_tf">Franse Zuidelijke Gebieden</string>
     <string name="country_ga">Gabon</string>
     <string name="country_gm">Gambia</string>
     <string name="country_ge">Georgië</string>
@@ -1961,7 +1862,6 @@
     <string name="country_gw">Guinee-Bissau</string>
     <string name="country_gy">Guyana</string>
     <string name="country_ht">Haïti</string>
-    <string name="country_hm">Heardeiland en McDonaldeilanden</string>
     <string name="country_va">Vaticaanstad</string>
     <string name="country_hn">Honduras</string>
     <string name="country_hk">Hongkong</string>

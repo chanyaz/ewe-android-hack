@@ -363,7 +363,7 @@
     <!-- Message to users that they can check out of their hotel in three days -->
     <string name="itin_card_hotel_summary_check_out_three_days">Check out in 3 days</string>
     <!-- Message to users that they can check out of their hotel in two days. -->
-    <string name="itin_card_hotel_summary_check_out_two_days">Check out in 2 days</string>  
+    <string name="itin_card_hotel_summary_check_out_two_days">Check out in 2 days</string>
     <!-- Message to users that they can check out of their hotel tomorrow.-->
     <string name="itin_card_hotel_summary_check_out_tomorrow">Check out tomorrow</string>
     <!-- Message to users about when they need to check out of their hotel.  %1$s is a time (e.g., "Check out before 5 PM") -->
@@ -662,7 +662,7 @@
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_raised_the_total_price_TEMPLATE">Sorry, but it looks like the hotel just raised the total cost of this stay from %1$s to %2$s.</string>
     <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_lowered_the_total_price_TEMPLATE">We’ve got great news! The cost of your stay just decreased from %1$s to %2$s.</string>
+    <string name="the_hotel_lowered_the_total_price_TEMPLATE">We\&apos;ve got great news! The cost of your stay just decreased from %1$s to %2$s.</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">Done</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->

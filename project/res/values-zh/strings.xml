@@ -56,14 +56,10 @@
     <string name="error_launch_connection">很遗憾，我们无法建立连接。</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">旅行</string>
-    <!-- Menu option for going to see your trips/itineraries (on tablet) -->
-    <string name="your_trips">您的旅行</string>
 
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">行程</string>
-    <!-- Itineraries (plural title) -->
-    <string name="itineraries">行程</string>
     <!-- Shop -->
     <string name="shop">预订</string>
     <!-- Find Itinerary -->
@@ -131,8 +127,6 @@
     <string name="depart_tz_TEMPLATE">出发 (%1$s)</string>
     <!-- Arrive (TZ) template -->
     <string name="arrive_tz_TEMPLATE">到达 (%1$s)</string>
-    <!-- Confirmation Code Label -->
-    <string name="confirmation_code_label">确认代码</string>
     <!-- Flight Confirmation code label -->
     <string name="flight_confirmation_code_label">航空公司确认代码</string>
     <!-- Flight Carrier confirmation code label template -->
@@ -145,8 +139,6 @@
     <string name="hotel_confirmation_code_label">酒店确认代码</string>
     <!-- Passengers Label -->
     <string name="passengers_label">乘客</string>
-    <!-- Flight receipt and policies -->
-    <string name="flight_receipt_and_policies">航班收据和政策</string>
     <!-- Booking info label -->
     <string name="booking_info">预订信息</string>
     <!-- Itin flight generic terminal and gate template -->
@@ -181,16 +173,6 @@
     <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;飞离 %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">退出 %1$s 将删除与该帐户关联的所有行程项目。是否确定要退出？</string>
-    <!-- Booking code unavailable message -->
-    <string name="missing_booking_code">无预订编号信息。</string>
-    <!-- Flight to TEMPLATE -->
-    <string name="flight_to_TEMPLATE">飞往 %1$s 的航班</string>
-    <!-- Flight Calendar event TEMPLATE -->
-    <string name="flight_calendar_event_title_TEMPLATE">航班：%1$s 至 %2$s</string>
-    <!-- Add event button text -->
-    <string name="add_event">添加记事</string>
-    <!-- Set Alert button text -->
-    <string name="set_alert">设置提醒</string>
     <!-- Directions -->
     <string name="directions">路线</string>
     <!-- Terminal Maps -->
@@ -320,8 +302,6 @@
     <string name="itin_card_details_active">有效</string>
     <string name="itin_card_details_expires">到期</string>
     <string name="itin_card_details_guests">宾客</string>
-    <string name="itin_card_details_booking_info">预订信息</string>
-    <string name="itin_card_details_confirmation_code">确认代码</string>
     <string name="itin_card_details_details">其他信息</string>
     <string name="itin_card_details_pick_up">取车</string>
     <string name="itin_card_details_drop_off">还车</string>
@@ -382,16 +362,10 @@
     <string name="share_template_short_flight_sameday">我正在 %3$s 飞往 %2$s 的 %1$s 次航班上。\n%5$s\n飞离 %4$s；%7$s, %8$s 到达 %6$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
     <string name="share_template_short_flight_multiday">我正在飞往 %2$s 的 %1$s 次航班上。\n%4$s\n飞离 %3$s；%6$s, %7$s 到达 %5$s</string>
-    <!-- 1: Origin city 2: Destination city 3: Flight Carrier and number 4: Departure date 5: Departure airport code 6: Departure Time 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival terminal gate 11: Traveler list -->
-    <string name="share_template_long_flight_sameday">嗨，\n\n这是我%1$s至%2$s的航班的详细信息。\n\n%3$s - %4$s\n\n %6$s飞离 %5$s（%7$s）\n%10$s到达%8$s（%9$s）\n\n旅客名单\n%11$s</string>
-    <!-- 1: Origin city 2: Desitination city 3: Flight carrier and number 4: Departure airport code 5: Departure time 6: Departure date 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival date 11: Arrival terminal gate 12: Traveler list -->
-    <string name="share_template_long_flight_multiday">嗨，\n\n这是我%1$s至%2$s的航班的详细信息。\n\n%3$s\n\n %6$s%5$s飞离 %4$s（%7$s）。\n%10$s %9$s到达%8$s（%11$s）\n\n旅客名单\n%12$s</string>
     <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">租车(%1$s – %2$s)</string>
     <!-- 1: vehicle type 2: pick up date 3: drop off date 4: vendor name 5: full address -->
     <string name="share_template_short_car">我从 %2$s 租了一辆%1$s – %3$s\n%4$s\n%5$s</string>
-    <!-- 1: vendor name, 2: vehicle type, 3: pick up date, 4: pick up time, 5: drop off date, 6: drop off time, 7: full address, 8: phone number -->
-    <string name="share_template_long_car">嗨，\n\n这是我从 %1$s 租的车的详细信息。\n\n<b>车型：</b> %2$s\n<b>取车：</b> %3$s <b>%4$s</b>\n<b>还车：</b> %5$s <b>%6$s</b>\n\n<b>地点：</b>\n%1$s\n%7$s\n%8$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
     <string name="share_car_start_TEMPLATE">嗨，这是我从 %1$s 租的车的详细信息。</string>
     <!-- Label for type of vehicle.  %1$s is the car type (e.g., "Three Door Car") -->
@@ -413,9 +387,6 @@
     <string name="share_template_short_activity">我预订了一个 %1$s\n生效日期：%2$s\n失效日期：%3$s</string>
     <!-- 1: activity title, 2: valid date, 3: expiration date, 4: list of guests -->
     <string name="share_template_long_activity">嗨，\n\n以下是我的 %1$s 的详细信息。\n\n<b>生效日期：</b> %2$s\n<b>到期日期：</b> %3$s\n\n<b>旅客名单：</b>\n%4$s</string>
-    <string name="share_template_subject_cruise"></string>
-    <string name="share_template_short_cruise"></string>
-    <string name="share_template_long_cruise"></string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
@@ -454,12 +425,6 @@
     <string name="inbound_TEMPLATE">抵达 %s 的航班</string>
     <!-- Error when we simple can't connect to E3 servers -->
     <string name="error_server">很抱歉，我们无法连接 Expedia 的服务器。请稍后重试。</string>
-    <!-- Label for changing sort order on flights -->
-    <string name="filter_flight_sort">航班排序：</string>
-    <!-- Label for filtering flights by time (aka, 10 AM to 3 PM) -->
-    <string name="filter_flight_time">航班时间</string>
-    <!-- Label for filtering flights by airline (aka, Delta) -->
-    <string name="filter_flight_airline">首选航空公司</string>
     <!-- Sort by departure timelabel -->
     <string name="sort_description_departure">出发</string>
     <!-- Sort by arrival time label -->
@@ -579,6 +544,8 @@
     <string name="or_select_new_paymet_method">选择付款方式</string>
     <!-- Select Payment -->
     <string name="select_payment">选择付款</string>
+    <!-- Select payment sentence case -->
+    <string name="select_payment_sentence_case">选择付款</string>
     <!-- Add new card -->
     <string name="add_new_card">添加新卡</string>
     <!-- Overview button -->
@@ -650,10 +617,6 @@
     <!-- Label to show next to the total price on the checkout receipt -->
     <string name="grand_total">总计</string>
     <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_raised_the_price_TEMPLATE">酒店刚刚将该房间的价格升至每晚 %1$s。</string>
-    <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_lowered_the_price_TEMPLATE">酒店刚刚将该房间的价格将至每晚 %1$s。</string>
-    <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_raised_the_total_price_TEMPLATE">酒店刚刚将该房间的总价从 %1$s 升至 %2$s。</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_lowered_the_total_price_TEMPLATE">酒店刚刚将该房间的总价从 %1$s 降至 %2$s。</string>
@@ -679,12 +642,14 @@
     <string name="flight">航班</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
     <string name="traveler_num_and_category_TEMPLATE">旅客 %1$d</string>
-    <!-- Adult -->
-    <string name="adult">成人</string>
 
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">旅客信息</string>
+    <!-- Add traveler -->
+    <string name="add_traveler">添加旅客</string>
+    <!-- Add traveler number template -->
+    <string name="add_traveler_number_TEMPLATE">添加旅客 %1$s</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">如果旅客的姓名与政府签发的带照片的身份证不符，则可能被拒绝登机。</string>
 
@@ -930,14 +895,8 @@
     <string name="error_flight_price_increased_with_fee">似乎该航空公司收取 %1$s 的帐款处理费用，并且刚刚将您的票价调高了 %2$s。您是否乐意支付新的总价 %3$s？</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">似乎该航空公司收取 %1$s 的帐款处理费用，但我们刚发现您申请的航班降价了 %2$s。您是否乐意支付新的总价 %3$s？</string>
-    <!-- Error shown to user if their phone number is invalid -->
-    <string name="error_invalid_phone_number">您输入的电话号码无效，请再试一次。</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">您输入的信用卡号无效，请再试一次。</string>
-    <!-- Error shown to user if their zip code or postal code is invalid (depends on language) -->
-    <string name="error_invalid_zipcode_or_postalcode">您输入的邮政编码无效，请再试一次。</string>
-    <!-- Error shown to user if their state or province is invalid (depends on language) -->
-    <string name="error_invalid_state_or_province">您输入的省/市/自治区无效，请再试一次。</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">您尝试使用的信用卡已过期，请换一张信用卡。</string>
     <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
@@ -977,15 +936,6 @@
     <string name="title_complete_booking">完成预订</string>
 
     <!-- Flight booking sharing -->
-    <!-- Subject line for flight booking email.  %1$s is the destination, %2$s is a date range (e.g., "Expedia Itinerary - Seattle (10/18 - 10/19)") -->
-    <string name="share_flight_title_TEMPLATE">Expedia 行程概要 - %1$s (%2$s)</string>
-    <!-- The first line of the share flight email -->
-    <plurals name="share_flight_start">
-        <item quantity="one">这是我的航班预订信息：</item>
-        <item quantity="two">这是我们的航班预订信息：</item>
-        <item quantity="many">这是我们的航班预订信息：</item>
-        <item quantity="other">这是我们的航班预订信息：</item>
-    </plurals>
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">嗨，</string>
     <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
@@ -996,35 +946,10 @@
     <string name="share_flight_itinerary_TEMPLATE">行程编号：%s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
     <string name="share_travelers_section">旅客：</string>
-    <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc… %2$s is their name -->
-    <!-- examples: "Traveler 1: Tom Smith" "Traveler 2: David Thomas" or if only one traveler, "Traveler: Matt Long" -->
-    <plurals name="share_flight_name_TEMPLATE">
-        <item quantity="one">旅客：%s</item>
-        <item quantity="two">旅客 %1$s：%2$s</item>
-        <item quantity="many">旅客 %1$s：%2$s</item>
-        <item quantity="other">旅客 %1$s：%2$s</item>
-    </plurals>
     <!-- Header for the outbound flight details section of the share flight email -->
     <string name="share_flight_section_outbound">出发：</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">返程：</string>
-    <!-- Presenting the total ticket cost of a flight.  %s is a price, e.g. "$500" -->
-    <plurals name="share_flight_ticket_cost_TEMPLATE">
-        <item quantity="one">票价总额：%s</item>
-        <item quantity="two">票价总额：%s</item>
-        <item quantity="many">票价总额：%s</item>
-        <item quantity="other">票价总额：%s</item>
-    </plurals>
-    <!-- Presenting the taxes and fees cost of a flight.  %s is a price, e.g. "$500" -->
-    <string name="share_flight_taxes_fees_TEMPLATE">税费：%s</string>
-    <!-- Presenting the airfare total cost of a flight.  %s is a price, e.g. "$500" -->
-    <string name="share_flight_airfare_total_TEMPLATE">机票总计：%s</string>
-    <!-- Alerts the user to potential other charges.  %s is a URL -->
-    <string name="share_flight_additional_fees_TEMPLATE">航空公司可能会对托运行李或其他可选服务额外收费。%s</string>
-    <!-- Gives the user a method of getting support.  %s is a phone number -->
-    <string name="share_flight_support_TEMPLATE">如果您对该预订有任何问题，请致电 %s 与 Expedia 联系。</string>
-    <!-- Advertisement for the app the user just used -->
-    <string name="share_flight_shill_app">使用美观的 Expedia 移动应用，随时随地预订航班和酒店！http://www.expedia.com/app</string>
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
@@ -1189,6 +1114,8 @@
     <string name="no_hotels_availiable">找不到有空房的酒店</string>
     <!-- Message displayed when user need to change input to correct search -->
     <string name="please_try_a_different_location_or_date">请尝试另一位置或日期。</string>
+    <!-- Message displayed when no hotel rooms are available -->
+    <string name="error_no_hotel_rooms_available">没有酒店空房</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
@@ -1447,18 +1374,6 @@
     <string name="Telephone">电话</string>
     <!-- The "email for booking confirmation" booking info field. -->
     <string name="EmailForConf">确认电子邮件</string>
-    <!-- Label for "billing info" form field section -->
-    <string name="billing_info">帐单信息</string>
-    <!-- Address line 1 form field hint -->
-    <string name="hint_address1">地址 1</string>
-    <!-- Address line 2 form field hint -->
-    <string name="hint_address2">地址 2（可选）</string>
-    <!-- The "city" booking info field. -->
-    <string name="City">城市</string>
-    <!-- The "postal code" booking info field. -->
-    <string name="PostalCode">邮政编码</string>
-    <!-- State code hint -->
-    <string name="hint_state_code">省</string>
     <!-- Label for "credit card info" form field section -->
     <string name="credit_card_info">信用卡信息</string>
     <!-- Label for credit card selection box -->
@@ -1559,8 +1474,6 @@
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
     <string name="GuestsLabel">宾客</string>
-    <!-- Label indicating taxes are included for this booking. -->
-    <string name="TaxesAndFees">含税</string>
     <!-- Label for the taxes and fees for a hotel room booking. -->
     <string name="taxes_and_fees">税款与服务费</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
@@ -1607,6 +1520,8 @@
     <string name="log_in_for_faster_booking">登录后可加快预订速度</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_rewards">参加 Expedia 奖励计划\u2122</string>
+    <!-- Loading rewards points message -->
+    <string name="loading_your_rewards_points">正在加载您的奖励晚数…</string>
     <!-- Label for account name -->
     <string name="logged_in_as">登录身份</string>
     <!-- Label for signin screen -->
@@ -1677,10 +1592,6 @@
     <string name="tell_a_friend_description">喜欢我们提供的超值酒店优惠吗？请向您的朋友推荐本应用程序。</string>
     <!-- Section header for other apps by Mobiata -->
     <string name="travel_smart">精明旅游</string>
-    <!-- Section Header for other apps by Mobiata -->
-    <string name="ALSO_BY_MOBIATA">其他 MOBIATA 产品</string>
-    <!-- Section Header for other apps by Mobiata -->
-    <string name="also_by_mobiata">Mobiata 开发的其他产品</string>
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia 酒店</string>
     <!-- Message body for "tell a friend" feature -->
@@ -1776,14 +1687,6 @@
         <item quantity="two">%d 晚</item>
         <item quantity="many">%d 晚</item>
         <item quantity="other">%d 晚</item>
-    </plurals>
-    <!-- A number of days (as in rental duration).  Capitalized -->
-    <plurals name="number_of_days">
-        <item quantity="zero">%d 天</item>
-        <item quantity="one">%d 天</item>
-        <item quantity="two">%d 天</item>
-        <item quantity="many">%d 天</item>
-        <item quantity="other">%d 天</item>
     </plurals>
     <!-- A number of days (as in rental duration), not including the actual number. Capitalized -->
     <plurals name="number_of_days_label">
@@ -1895,7 +1798,6 @@
     <string name="country_bo">玻利维亚</string>
     <string name="country_ba">波斯尼亚和黑塞哥维纳</string>
     <string name="country_bw">博茨瓦纳</string>
-    <string name="country_bv">布维岛</string>
     <string name="country_br">巴西</string>
     <string name="country_io">英属印度洋领地</string>
     <string name="country_bn">文莱</string>
@@ -1942,7 +1844,6 @@
     <string name="country_fr">法国</string>
     <string name="country_gf">法属圭亚那</string>
     <string name="country_pf">法属波利尼西亚</string>
-    <string name="country_tf">法属南部领土</string>
     <string name="country_ga">加蓬</string>
     <string name="country_gm">冈比亚</string>
     <string name="country_ge">格鲁吉亚</string>
@@ -1960,7 +1861,6 @@
     <string name="country_gw">几内亚比绍</string>
     <string name="country_gy">圭亚那</string>
     <string name="country_ht">海地</string>
-    <string name="country_hm">赫德岛和麦当劳群岛</string>
     <string name="country_va">罗马教廷（梵蒂冈城国）</string>
     <string name="country_hn">洪都拉斯</string>
     <string name="country_hk">香港</string>

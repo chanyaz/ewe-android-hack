@@ -56,14 +56,10 @@
     <string name="error_launch_connection">Maaf, kami tidak dapat menghubungkan.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Perjalanan</string>
-    <!-- Menu option for going to see your trips/itineraries (on tablet) -->
-    <string name="your_trips">Perjalanan Anda</string>
 
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Rencana Perjalanan</string>
-    <!-- Itineraries (plural title) -->
-    <string name="itineraries">Rencana Perjalanan Anda</string>
     <!-- Shop -->
     <string name="shop">Beli</string>
     <!-- Find Itinerary -->
@@ -131,8 +127,6 @@
     <string name="depart_tz_TEMPLATE">Berangkat (%1$s)</string>
     <!-- Arrive (TZ) template -->
     <string name="arrive_tz_TEMPLATE">Tiba (%1$s)</string>
-    <!-- Confirmation Code Label -->
-    <string name="confirmation_code_label">Kode Konfirmasi</string>
     <!-- Flight Confirmation code label -->
     <string name="flight_confirmation_code_label">Konfirmasi Maskapai</string>
     <!-- Flight Carrier confirmation code label template -->
@@ -145,8 +139,6 @@
     <string name="hotel_confirmation_code_label">Kode Konfirmasi Hotel</string>
     <!-- Passengers Label -->
     <string name="passengers_label">Penumpang</string>
-    <!-- Flight receipt and policies -->
-    <string name="flight_receipt_and_policies">Tanda terima dan kebijakan penerbangan</string>
     <!-- Booking info label -->
     <string name="booking_info">Info Pemesanan</string>
     <!-- Itin flight generic terminal and gate template -->
@@ -181,16 +173,6 @@
     <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;Dari %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Jika Anda keluar dari %1$s, semua rencana perjalanan yang terkait dengan akun ini akan dihapus. Yakin ingin keluar?</string>
-    <!-- Booking code unavailable message -->
-    <string name="missing_booking_code">Kode pemesanan tidak tersedia.</string>
-    <!-- Flight to TEMPLATE -->
-    <string name="flight_to_TEMPLATE">Penerbangan ke %1$s</string>
-    <!-- Flight Calendar event TEMPLATE -->
-    <string name="flight_calendar_event_title_TEMPLATE">Penerbangan: %1$s ke %2$s</string>
-    <!-- Add event button text -->
-    <string name="add_event">Tambah Acara</string>
-    <!-- Set Alert button text -->
-    <string name="set_alert">Setel Pengingat</string>
     <!-- Directions -->
     <string name="directions">Arah</string>
     <!-- Terminal Maps -->
@@ -320,8 +302,6 @@
     <string name="itin_card_details_active">Aktif</string>
     <string name="itin_card_details_expires">Kedaluwarsa</string>
     <string name="itin_card_details_guests">Tamu</string>
-    <string name="itin_card_details_booking_info">Info Pemesanan</string>
-    <string name="itin_card_details_confirmation_code">Kode Konfirmasi</string>
     <string name="itin_card_details_details">Informasi Tambahan</string>
     <string name="itin_card_details_pick_up">Pengambilan</string>
     <string name="itin_card_details_drop_off">Pengembalian</string>
@@ -382,16 +362,10 @@
     <string name="share_template_short_flight_sameday">Saya dalam penerbangan %1$s ke %2$s tanggal %3$s.\nBerangkat dari %4$s pukul %5$s\nTiba di %6$s%7$s pukul, %8$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
     <string name="share_template_short_flight_multiday">Saya dalam penerbangan %1$s ke %2$s.\nBerangkat dari %3$s pukul %4$s\nTiba di %5$s%6$s pukul, %7$s</string>
-    <!-- 1: Origin city 2: Destination city 3: Flight Carrier and number 4: Departure date 5: Departure airport code 6: Departure Time 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival terminal gate 11: Traveler list -->
-    <string name="share_template_long_flight_sameday">Halo,\n\nBerikut perincian penerbangan saya dari %1$s menuju %2$s.\n\n%3$s - %4$s\n\nBerangkat dari %5$s pukul %6$s di %7$s.\nTiba di %8$s pukul %9$s di %10$s.\n\nPelancong\n%11$s</string>
-    <!-- 1: Origin city 2: Desitination city 3: Flight carrier and number 4: Departure airport code 5: Departure time 6: Departure date 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival date 11: Arrival terminal gate 12: Traveler list -->
-    <string name="share_template_long_flight_multiday">Halo,\n\nBerikut perincian penerbangan saya dari %1$s menuju %2$s.\n\n%3$s\n\nBerangkat dari %4$s pukul %5$s tanggal %6$s dari %7$s.\nTiba di %8$s pukul %9$s tanggal %10$s di %11$s\n\nPelancong\n%12$s</string>
     <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Rental mobil saya (%1$s – %2$s)</string>
     <!-- 1: vehicle type 2: pick up date 3: drop off date 4: vendor name 5: full address -->
     <string name="share_template_short_car">Saya sudah menyewa %1$s dari %2$s – %3$s\n%4$s\n%5$s</string>
-    <!-- 1: vendor name, 2: vehicle type, 3: pick up date, 4: pick up time, 5: drop off date, 6: drop off time, 7: full address, 8: phone number -->
-    <string name="share_template_long_car">Halo,\n\nBerikut perincian rental mobil %1$s saya. \n\n<b>Pengambilan</b> %2$s\n<b>Kendaraan</b> %3$s pukul <b>%4$s</b>\n<b>Pengembalian</b> %5$s pukul <b>%6$s</b>\n\n<b>Lokasi</b>\n%1$s\n%7$s\n%8$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
     <string name="share_car_start_TEMPLATE">Berikut perincian rental mobil %1$s saya.</string>
     <!-- Label for type of vehicle.  %1$s is the car type (e.g., "Three Door Car") -->
@@ -413,9 +387,6 @@
     <string name="share_template_short_activity">Saya sudah membeli %1$s\nBerlaku: %2$s\nKedaluwarsa: %3$s</string>
     <!-- 1: activity title, 2: valid date, 3: expiration date, 4: list of guests -->
     <string name="share_template_long_activity">Halo,\n\nBerikut perincian %1$s saya\n\n<b>Berlaku</b> %2$s\n<b>Kedaluwarsa</b> %3$s\n\n<b>Tamu</b>\n%4$s</string>
-    <string name="share_template_subject_cruise"></string>
-    <string name="share_template_short_cruise"></string>
-    <string name="share_template_long_cruise"></string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
@@ -453,13 +424,7 @@
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
     <string name="inbound_TEMPLATE">Penerbangan masuk ke %s</string>
     <!-- Error when we simple can't connect to E3 servers -->
-    <string name="error_server">Maaf, kami tidak dapat terhubung ke server Expedia.  Coba lagi nanti.</string>
-    <!-- Label for changing sort order on flights -->
-    <string name="filter_flight_sort">Urutkan Penerbangan Berdasar:</string>
-    <!-- Label for filtering flights by time (aka, 10 AM to 3 PM) -->
-    <string name="filter_flight_time">Waktu Penerbangan</string>
-    <!-- Label for filtering flights by airline (aka, Delta) -->
-    <string name="filter_flight_airline">Maskapai Pilihan</string>
+    <string name="error_server">Maaf, kami tidak dapat terhubung ke server Expedia.  Harap coba lagi nanti.</string>
     <!-- Sort by departure timelabel -->
     <string name="sort_description_departure">Berangkat</string>
     <!-- Sort by arrival time label -->
@@ -579,6 +544,8 @@
     <string name="or_select_new_paymet_method">Pilih Metode Pembayaran</string>
     <!-- Select Payment -->
     <string name="select_payment">Pilih Pembayaran</string>
+    <!-- Select payment sentence case -->
+    <string name="select_payment_sentence_case">Pilih pembayaran</string>
     <!-- Add new card -->
     <string name="add_new_card">Tambahkan Kartu Baru</string>
     <!-- Overview button -->
@@ -650,10 +617,6 @@
     <!-- Label to show next to the total price on the checkout receipt -->
     <string name="grand_total">Total Keseluruhan</string>
     <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_raised_the_price_TEMPLATE">Hotel ini baru saja menurunkan harga kamar menjadi %1$s per malam.</string>
-    <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_lowered_the_price_TEMPLATE">Hotel ini baru saja menurunkan harga kamar ini menjadi %1$s per malam.</string>
-    <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_raised_the_total_price_TEMPLATE">Hotel baru saja menaikkan harga total untuk kamar ini dari %1$s menjadi %2$s</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_lowered_the_total_price_TEMPLATE">Hotel baru saja menurunkan harga total untuk kamar ini dari %1$s menjadi %2$s</string>
@@ -679,12 +642,14 @@
     <string name="flight">Penerbangan</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
     <string name="traveler_num_and_category_TEMPLATE">Pelancong %1$d</string>
-    <!-- Adult -->
-    <string name="adult">Dewasa</string>
 
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Informasi Pelancong</string>
+    <!-- Add traveler -->
+    <string name="add_traveler">Tambah pelancong</string>
+    <!-- Add traveler number template -->
+    <string name="add_traveler_number_TEMPLATE">Tambah pelancong %1$s</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Anda mungkin akan ditolak naik pesawat jika nama pelancong tidak sama dengan nama pada kartu identitas resmi berfoto Anda.</string>
 
@@ -930,14 +895,8 @@
     <string name="error_flight_price_increased_with_fee">Sepertinya maskapai penerbangan ini mengenakan biaya pemrosesan pembayaran sebesar %1$s dan baru saja menaikkan harga tiket Anda sebesar %2$s. Apakah Anda bersedia membayar jumlah yang baru sebesar %3$s?</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">Sepertinya maskapai penerbangan ini mengenakan biaya pemrosesan pembayaran sebesar %1$s tapi kami baru saja menemukan penerbangan yang Anda minta sedang didiskon sebesar %2$s. Apakah Anda bersedia membayar jumlah yang baru sebesar %3$s?</string>
-    <!-- Error shown to user if their phone number is invalid -->
-    <string name="error_invalid_phone_number">Nomor telepon yang Anda masukkan tidak valid. Coba lagi nanti.</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">Nomor kartu kredit yang Anda masukkan tidak valid. Coba lagi.</string>
-    <!-- Error shown to user if their zip code or postal code is invalid (depends on language) -->
-    <string name="error_invalid_zipcode_or_postalcode">Kode pos yang Anda masukkan tidak valid. Coba lagi nanti.</string>
-    <!-- Error shown to user if their state or province is invalid (depends on language) -->
-    <string name="error_invalid_state_or_province">Provinsi yang Anda masukkan tidak valid. Coba lagi nanti.</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">Kartu kredit yang Anda coba gunakan sudah kedaluwarsa. Silakan gunakan kartu kredit lain.</string>
     <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
@@ -977,15 +936,6 @@
     <string name="title_complete_booking">Selesaikan Pemesanan</string>
 
     <!-- Flight booking sharing -->
-    <!-- Subject line for flight booking email.  %1$s is the destination, %2$s is a date range (e.g., "Expedia Itinerary - Seattle (10/18 - 10/19)") -->
-    <string name="share_flight_title_TEMPLATE">Rencana Perjalanan Expedia - %1$s (%2$s)</string>
-    <!-- The first line of the share flight email -->
-    <plurals name="share_flight_start">
-        <item quantity="one">Berikut adalah informasi reservasi penerbangan saya:</item>
-        <item quantity="two">Berikut adalah informasi reservasi penerbangan kami:</item>
-        <item quantity="many">Berikut adalah informasi reservasi penerbangan kami:</item>
-        <item quantity="other">Berikut adalah informasi reservasi penerbangan kami:</item>
-    </plurals>
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">Halo,</string>
     <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
@@ -996,35 +946,10 @@
     <string name="share_flight_itinerary_TEMPLATE">No. Rencana Perjalanan: %s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
     <string name="share_travelers_section">Pelancong:</string>
-    <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc… %2$s is their name -->
-    <!-- examples: "Traveler 1: Tom Smith" "Traveler 2: David Thomas" or if only one traveler, "Traveler: Matt Long" -->
-    <plurals name="share_flight_name_TEMPLATE">
-        <item quantity="one">Pelancong: %s</item>
-        <item quantity="two">Pelancong %1$s: %2$s</item>
-        <item quantity="many">Pelancong %1$s: %2$s</item>
-        <item quantity="other">Pelancong %1$s: %2$s</item>
-    </plurals>
     <!-- Header for the outbound flight details section of the share flight email -->
     <string name="share_flight_section_outbound">Keluar:</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">Kembali:</string>
-    <!-- Presenting the total ticket cost of a flight.  %s is a price, e.g. "$500" -->
-    <plurals name="share_flight_ticket_cost_TEMPLATE">
-        <item quantity="one">Biaya tiket total: %s</item>
-        <item quantity="two">Biaya tiket total: %s</item>
-        <item quantity="many">Biaya tiket total: %s</item>
-        <item quantity="other">Biaya tiket total: %s</item>
-    </plurals>
-    <!-- Presenting the taxes and fees cost of a flight.  %s is a price, e.g. "$500" -->
-    <string name="share_flight_taxes_fees_TEMPLATE">Pajak &amp; Biaya: %s</string>
-    <!-- Presenting the airfare total cost of a flight.  %s is a price, e.g. "$500" -->
-    <string name="share_flight_airfare_total_TEMPLATE">Total tiket pesawat: %s</string>
-    <!-- Alerts the user to potential other charges.  %s is a URL -->
-    <string name="share_flight_additional_fees_TEMPLATE">Maskapai penerbangan mungkin mengenakan biaya tambahan untuk bagasi atau layanan tambahan lainnya. %s</string>
-    <!-- Gives the user a method of getting support.  %s is a phone number -->
-    <string name="share_flight_support_TEMPLATE">Jika Anda memiliki pertanyaan tentang reservasi ini, hubungi Expedia di %s</string>
-    <!-- Advertisement for the app the user just used -->
-    <string name="share_flight_shill_app">Pesan penerbangan dan hotel dari mana pun dengan aplikasi mobile Expedia yang indah ini! http://www.expedia.com/app</string>
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
@@ -1189,6 +1114,8 @@
     <string name="no_hotels_availiable">Tidak ada hotel yang tersedia</string>
     <!-- Message displayed when user need to change input to correct search -->
     <string name="please_try_a_different_location_or_date">Silakan coba lokasi atau tanggal lain.</string>
+    <!-- Message displayed when no hotel rooms are available -->
+    <string name="error_no_hotel_rooms_available">Tidak ada kamar yang tersedia</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
@@ -1447,18 +1374,6 @@
     <string name="Telephone">Telepon</string>
     <!-- The "email for booking confirmation" booking info field. -->
     <string name="EmailForConf">Email untuk Konfirmasi</string>
-    <!-- Label for "billing info" form field section -->
-    <string name="billing_info">Info Penagihan</string>
-    <!-- Address line 1 form field hint -->
-    <string name="hint_address1">Alamat 1</string>
-    <!-- Address line 2 form field hint -->
-    <string name="hint_address2">Alamat 2 (opsional)</string>
-    <!-- The "city" booking info field. -->
-    <string name="City">Kota</string>
-    <!-- The "postal code" booking info field. -->
-    <string name="PostalCode">Kode Pos</string>
-    <!-- State code hint -->
-    <string name="hint_state_code">Provinsi</string>
     <!-- Label for "credit card info" form field section -->
     <string name="credit_card_info">Info Kartu Kredit</string>
     <!-- Label for credit card selection box -->
@@ -1559,8 +1474,6 @@
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
     <string name="GuestsLabel">Tamu</string>
-    <!-- Label indicating taxes are included for this booking. -->
-    <string name="TaxesAndFees">Pajak Termasuk</string>
     <!-- Label for the taxes and fees for a hotel room booking. -->
     <string name="taxes_and_fees">Pajak &amp; Biaya</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
@@ -1607,6 +1520,8 @@
     <string name="log_in_for_faster_booking">Masuk untuk pemesanan lebih cepat</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_rewards">Daftar Expedia Rewards\u2122</string>
+    <!-- Loading rewards points message -->
+    <string name="loading_your_rewards_points">Memuat poin reward Anda…</string>
     <!-- Label for account name -->
     <string name="logged_in_as">Masuk sebagai</string>
     <!-- Label for signin screen -->
@@ -1677,10 +1592,6 @@
     <string name="tell_a_friend_description">Suka dengan tawaran hotel yang menakjubkan? Beri tahu teman Anda tentang aplikasi ini.</string>
     <!-- Section header for other apps by Mobiata -->
     <string name="travel_smart">Bepergian dengan pintar</string>
-    <!-- Section Header for other apps by Mobiata -->
-    <string name="ALSO_BY_MOBIATA">JUGA DARI MOBIATA</string>
-    <!-- Section Header for other apps by Mobiata -->
-    <string name="also_by_mobiata">Juga dari Mobiata</string>
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hotels</string>
     <!-- Message body for "tell a friend" feature -->
@@ -1776,14 +1687,6 @@
         <item quantity="two">%d Malam</item>
         <item quantity="many">%d Malam</item>
         <item quantity="other">%d Malam</item>
-    </plurals>
-    <!-- A number of days (as in rental duration).  Capitalized -->
-    <plurals name="number_of_days">
-        <item quantity="zero">%d Hari</item>
-        <item quantity="one">%d Hari</item>
-        <item quantity="two">%d Hari</item>
-        <item quantity="many">%d Hari</item>
-        <item quantity="other">%d Hari</item>
     </plurals>
     <!-- A number of days (as in rental duration), not including the actual number. Capitalized -->
     <plurals name="number_of_days_label">
@@ -1895,7 +1798,6 @@
     <string name="country_bo">Bolivia</string>
     <string name="country_ba">Bosnia-Herzegovina</string>
     <string name="country_bw">Botswana</string>
-    <string name="country_bv">Pulau Bouvet</string>
     <string name="country_br">Brasil</string>
     <string name="country_io">Wilayah Samudra Hindia Britania</string>
     <string name="country_bn">Brunei Darussalam</string>
@@ -1942,7 +1844,6 @@
     <string name="country_fr">Prancis</string>
     <string name="country_gf">Guiana Prancis</string>
     <string name="country_pf">Polinesia Prancis</string>
-    <string name="country_tf">Wilayah Selatan Prancis</string>
     <string name="country_ga">Gabon</string>
     <string name="country_gm">Gambia</string>
     <string name="country_ge">Georgia</string>
@@ -1960,7 +1861,6 @@
     <string name="country_gw">Guinea-Bissau</string>
     <string name="country_gy">Guyana</string>
     <string name="country_ht">Haiti</string>
-    <string name="country_hm">Pulau Heard dan Kepulauan McDonald</string>
     <string name="country_va">Tahta Suci (Negara Kota Vatikan)</string>
     <string name="country_hn">Honduras</string>
     <string name="country_hk">Hong Kong</string>

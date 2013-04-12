@@ -56,14 +56,10 @@
     <string name="error_launch_connection">Desafortunadamente, no podemos conectarnos.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Viajes</string>
-    <!-- Menu option for going to see your trips/itineraries (on tablet) -->
-    <string name="your_trips">Tus viajes</string>
 
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerario</string>
-    <!-- Itineraries (plural title) -->
-    <string name="itineraries">Itinerarios</string>
     <!-- Shop -->
     <string name="shop">Comprar</string>
     <!-- Find Itinerary -->
@@ -131,8 +127,6 @@
     <string name="depart_tz_TEMPLATE">Salida (%1$s)</string>
     <!-- Arrive (TZ) template -->
     <string name="arrive_tz_TEMPLATE">Llegada (%1$s)</string>
-    <!-- Confirmation Code Label -->
-    <string name="confirmation_code_label">Código de confirmación</string>
     <!-- Flight Confirmation code label -->
     <string name="flight_confirmation_code_label">Confirmación de la línea aérea</string>
     <!-- Flight Carrier confirmation code label template -->
@@ -145,8 +139,6 @@
     <string name="hotel_confirmation_code_label">Código de confirmación del hotel</string>
     <!-- Passengers Label -->
     <string name="passengers_label">Pasajeros</string>
-    <!-- Flight receipt and policies -->
-    <string name="flight_receipt_and_policies">Políticas y recibos de vuelo</string>
     <!-- Booking info label -->
     <string name="booking_info">Información de reservación</string>
     <!-- Itin flight generic terminal and gate template -->
@@ -181,16 +173,6 @@
     <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;Desde %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Cerrar la sesión en %1$seliminará cualquier elemento del itinerario asociado con esta cuenta. ¿Estás seguro de que deseas cerrar la sesión?</string>
-    <!-- Booking code unavailable message -->
-    <string name="missing_booking_code">El código de reservación no está disponible.</string>
-    <!-- Flight to TEMPLATE -->
-    <string name="flight_to_TEMPLATE">Vuelo a %1$s</string>
-    <!-- Flight Calendar event TEMPLATE -->
-    <string name="flight_calendar_event_title_TEMPLATE">Vuelo: de %1$s a %2$s</string>
-    <!-- Add event button text -->
-    <string name="add_event">Agregar un acontecimiento</string>
-    <!-- Set Alert button text -->
-    <string name="set_alert">Establecer una alerta</string>
     <!-- Directions -->
     <string name="directions">Indicaciones</string>
     <!-- Terminal Maps -->
@@ -320,8 +302,6 @@
     <string name="itin_card_details_active">Activo</string>
     <string name="itin_card_details_expires">Vencimiento</string>
     <string name="itin_card_details_guests">Huéspedes</string>
-    <string name="itin_card_details_booking_info">Información de reservación</string>
-    <string name="itin_card_details_confirmation_code">Código de confirmación</string>
     <string name="itin_card_details_details">Información adicional</string>
     <string name="itin_card_details_pick_up">Entrega</string>
     <string name="itin_card_details_drop_off">Devolución</string>
@@ -382,16 +362,10 @@
     <string name="share_template_short_flight_sameday">Estoy en el vuelo %1$s a %2$s en %3$s.\nSale de %4$s a las %5$s\nLlega a %6$sa las %7$s, %8$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
     <string name="share_template_short_flight_multiday">Estoy en el vuelo %1$s a %2$s.\nSale de %3$s a las %4$s\nLlega a %5$s a las %6$s, %7$s</string>
-    <!-- 1: Origin city 2: Destination city 3: Flight Carrier and number 4: Departure date 5: Departure airport code 6: Departure Time 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival terminal gate 11: Traveler list -->
-    <string name="share_template_long_flight_sameday">Hola:\n\naquí están los detalles de mi vuelo de %1$s a %2$s.\n\n%3$s - %4$s\n\nSale de %5$s a las %6$s de %7$s.\nLlega de %8$s a %9$s a las %10$s.\n\nPasajeros\n%11$s</string>
-    <!-- 1: Origin city 2: Desitination city 3: Flight carrier and number 4: Departure airport code 5: Departure time 6: Departure date 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival date 11: Arrival terminal gate 12: Traveler list -->
-    <string name="share_template_long_flight_multiday">Hola:\n\naquí están los detalles de mi vuelo de %1$s a %2$s.\n\n%3$s\n\nSale de %4$s a las %5$s el %6$s de %7$s.\nLlega de %8$s a las %9$s el %10$s at %11$s\n\nPasajeros\n%12$s</string>
     <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Mi renta de auto (%1$s – %2$s)</string>
     <!-- 1: vehicle type 2: pick up date 3: drop off date 4: vendor name 5: full address -->
     <string name="share_template_short_car">Renté lo siguiente: %1$s del %2$s al %3$s\n%4$s\n%5$s</string>
-    <!-- 1: vendor name, 2: vehicle type, 3: pick up date, 4: pick up time, 5: drop off date, 6: drop off time, 7: full address, 8: phone number -->
-    <string name="share_template_long_car">Hola:\n\naquí están los detalles de mi renta de auto %1$s. \n\n<b>El vehículo</b> %2$s\n<b>se entrega el</b> %3$s a las <b>%4$s</b>\n<b>se devuelve el</b> %5$s a las <b>%6$s</b>\n\n<b>Lugar</b>\n%1$s\n%7$s\n%8$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
     <string name="share_car_start_TEMPLATE">Aquí están los detalles de mi renta de auto %1$s.</string>
     <!-- Label for type of vehicle.  %1$s is the car type (e.g., "Three Door Car") -->
@@ -413,9 +387,6 @@
     <string name="share_template_short_activity">Adquirí lo siguiente: %1$s\nValidez: %2$s\nVence:%3$s</string>
     <!-- 1: activity title, 2: valid date, 3: expiration date, 4: list of guests -->
     <string name="share_template_long_activity">Hola:\n\nAquí están los detalles de mi %1$s\n\n<b>Validez</b>%2$s\n<b>Vence</b> %3$s\n\n<b>huéspedes</b>\n%4$s</string>
-    <string name="share_template_subject_cruise"></string>
-    <string name="share_template_short_cruise"></string>
-    <string name="share_template_long_cruise"></string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
@@ -454,12 +425,6 @@
     <string name="inbound_TEMPLATE">Vuelos de ida a %s</string>
     <!-- Error when we simple can't connect to E3 servers -->
     <string name="error_server">Lo sentimos, no pudimos conectarnos con los servidores de Expedia.  Favor de intentarlo más tarde.</string>
-    <!-- Label for changing sort order on flights -->
-    <string name="filter_flight_sort">Ordenar los vuelos por:</string>
-    <!-- Label for filtering flights by time (aka, 10 AM to 3 PM) -->
-    <string name="filter_flight_time">Tiempo del vuelo</string>
-    <!-- Label for filtering flights by airline (aka, Delta) -->
-    <string name="filter_flight_airline">Líneas aéreas preferidas</string>
     <!-- Sort by departure timelabel -->
     <string name="sort_description_departure">Salidas</string>
     <!-- Sort by arrival time label -->
@@ -579,6 +544,8 @@
     <string name="or_select_new_paymet_method">Seleccionar un método de pago</string>
     <!-- Select Payment -->
     <string name="select_payment">Seleccionar el pago</string>
+    <!-- Select payment sentence case -->
+    <string name="select_payment_sentence_case">Seleccionar el pago</string>
     <!-- Add new card -->
     <string name="add_new_card">Ingresar una tarjeta nueva</string>
     <!-- Overview button -->
@@ -650,10 +617,6 @@
     <!-- Label to show next to the total price on the checkout receipt -->
     <string name="grand_total">Total</string>
     <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_raised_the_price_TEMPLATE">El hotel acaba de incrementar el precio de esta habitación a %1$s por noche</string>
-    <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_lowered_the_price_TEMPLATE">El hotel acaba de disminuir el precio de esta habitación a %1$s por noche</string>
-    <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_raised_the_total_price_TEMPLATE">El hotel acaba de incrementar el precio de esta habitación de %1$s a %2$s</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_lowered_the_total_price_TEMPLATE">El hotel acaba de disminuir el precio de esta habitación de %1$s a %2$s</string>
@@ -678,13 +641,15 @@
     <!-- Flight -->
     <string name="flight">Vuelo</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
-    <string name="traveler_num_and_category_TEMPLATE">Pasajero%1$d</string>
-    <!-- Adult -->
-    <string name="adult">Adulto</string>
+    <string name="traveler_num_and_category_TEMPLATE">Pasajero %1$d</string>
 
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Información del pasajero</string>
+    <!-- Add traveler -->
+    <string name="add_traveler">Agregar un pasajero</string>
+    <!-- Add traveler number template -->
+    <string name="add_traveler_number_TEMPLATE">Agregar un pasajero %1$s</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Es posible que se rechace el abordaje si el nombre del pasajero no corresponde al de la identificación oficial con foto emitida por el gobierno.</string>
 
@@ -930,14 +895,8 @@
     <string name="error_flight_price_increased_with_fee">Parece ser que la línea aérea está cobrando un cargo por procesamiento de pago de %1$s y ha subido el precio de tu boleto de %2$s. ¿Estás de acuerdo en pagar un total nuevo de %3$s?</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">Parece ser que la línea aérea está cobrando un cargo por procesamiento de pago de %1$s sin embargo acabamos de encontrar los vuelos que solicitaste en oferta por %2$s menos. ¿Estás de acuerdo en pagar un total nuevo de %3$s?</string>
-    <!-- Error shown to user if their phone number is invalid -->
-    <string name="error_invalid_phone_number">El número de teléfono que has ingresado no es válido, favor de intentarlo de nuevo.</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">El número de tarjeta de crédito que has ingresado no es válido, favor de intentarlo de nuevo.</string>
-    <!-- Error shown to user if their zip code or postal code is invalid (depends on language) -->
-    <string name="error_invalid_zipcode_or_postalcode">El código postal que ingresaste no es válido, inténtalo de nuevo.</string>
-    <!-- Error shown to user if their state or province is invalid (depends on language) -->
-    <string name="error_invalid_state_or_province">El estado que ingresaste no es válido, inténtalo de nuevo.</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">La tarjeta de crédito que trataste de utilizar ya venció, utiliza otra por favor.</string>
     <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
@@ -977,15 +936,6 @@
     <string name="title_complete_booking">Completar la reservación</string>
 
     <!-- Flight booking sharing -->
-    <!-- Subject line for flight booking email.  %1$s is the destination, %2$s is a date range (e.g., "Expedia Itinerary - Seattle (10/18 - 10/19)") -->
-    <string name="share_flight_title_TEMPLATE">Itinerario de Expedia - %1$s (%2$s)</string>
-    <!-- The first line of the share flight email -->
-    <plurals name="share_flight_start">
-        <item quantity="one">Esta es la información de mi reservación de vuelo:</item>
-        <item quantity="two">Esta es la información de nuestra reservación de vuelo:</item>
-        <item quantity="many">Esta es la información de nuestra reservación de vuelo:</item>
-        <item quantity="other">Esta es la información de nuestra reservación de vuelo:</item>
-    </plurals>
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">Hola:</string>
     <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
@@ -996,35 +946,10 @@
     <string name="share_flight_itinerary_TEMPLATE">No. de itinerario: %s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
     <string name="share_travelers_section">Pasajeros:</string>
-    <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc… %2$s is their name -->
-    <!-- examples: "Traveler 1: Tom Smith" "Traveler 2: David Thomas" or if only one traveler, "Traveler: Matt Long" -->
-    <plurals name="share_flight_name_TEMPLATE">
-        <item quantity="one">Pasajero: %s</item>
-        <item quantity="two">Pasajero %1$s: %2$s</item>
-        <item quantity="many">Pasajero %1$s: %2$s</item>
-        <item quantity="other">Pasajero %1$s: %2$s</item>
-    </plurals>
     <!-- Header for the outbound flight details section of the share flight email -->
     <string name="share_flight_section_outbound">Viaje de ida:</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">Viaje de regreso: </string>
-    <!-- Presenting the total ticket cost of a flight.  %s is a price, e.g. "$500" -->
-    <plurals name="share_flight_ticket_cost_TEMPLATE">
-        <item quantity="one">Costo total del boleto: %s</item>
-        <item quantity="two">Costo total del boleto: %s</item>
-        <item quantity="many">Costo total del boleto: %s</item>
-        <item quantity="other">Costo total del boleto: %s</item>
-    </plurals>
-    <!-- Presenting the taxes and fees cost of a flight.  %s is a price, e.g. "$500" -->
-    <string name="share_flight_taxes_fees_TEMPLATE">Impuestos y cargos: %s</string>
-    <!-- Presenting the airfare total cost of a flight.  %s is a price, e.g. "$500" -->
-    <string name="share_flight_airfare_total_TEMPLATE">Total del boleto de avión: %s</string>
-    <!-- Alerts the user to potential other charges.  %s is a URL -->
-    <string name="share_flight_additional_fees_TEMPLATE">La línea aérea puede cobrar cargos adicionales por equipaje registrado u otros servicios opcionales.  %s</string>
-    <!-- Gives the user a method of getting support.  %s is a phone number -->
-    <string name="share_flight_support_TEMPLATE">Si tienes preguntas con respecto a tu reservación, llama a Expedia al %s</string>
-    <!-- Advertisement for the app the user just used -->
-    <string name="share_flight_shill_app">¡Reserva vuelos y hoteles desde cualquier lugar con la estupenda aplicación de Expedia para dispositivos móviles!  http://www.expedia.com/app</string>
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
@@ -1189,6 +1114,8 @@
     <string name="no_hotels_availiable">No hay hoteles disponibles</string>
     <!-- Message displayed when user need to change input to correct search -->
     <string name="please_try_a_different_location_or_date">Intenta buscar otro lugar o fecha por favor.</string>
+    <!-- Message displayed when no hotel rooms are available -->
+    <string name="error_no_hotel_rooms_available">No hay habitaciones de hotel disponibles</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
@@ -1447,18 +1374,6 @@
     <string name="Telephone">Teléfono</string>
     <!-- The "email for booking confirmation" booking info field. -->
     <string name="EmailForConf">Correo electrónico para confirmación</string>
-    <!-- Label for "billing info" form field section -->
-    <string name="billing_info">Información de pago</string>
-    <!-- Address line 1 form field hint -->
-    <string name="hint_address1">Dirección (línea 1)</string>
-    <!-- Address line 2 form field hint -->
-    <string name="hint_address2">Dirección (línea 2) (opcional)</string>
-    <!-- The "city" booking info field. -->
-    <string name="City">Ciudad</string>
-    <!-- The "postal code" booking info field. -->
-    <string name="PostalCode">Código Postal</string>
-    <!-- State code hint -->
-    <string name="hint_state_code">Estado</string>
     <!-- Label for "credit card info" form field section -->
     <string name="credit_card_info">Datos de la tarjeta de crédito</string>
     <!-- Label for credit card selection box -->
@@ -1559,8 +1474,6 @@
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
     <string name="GuestsLabel">Huéspedes</string>
-    <!-- Label indicating taxes are included for this booking. -->
-    <string name="TaxesAndFees">Impuestos incluidos</string>
     <!-- Label for the taxes and fees for a hotel room booking. -->
     <string name="taxes_and_fees">Impuestos y cargos</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
@@ -1607,6 +1520,8 @@
     <string name="log_in_for_faster_booking">Iniciar sesión para realizar tu reservación más rápido</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_rewards">Inscrito en Expedia Rewards\u2122</string>
+    <!-- Loading rewards points message -->
+    <string name="loading_your_rewards_points">Se están cargando tus puntos de recompensa</string>
     <!-- Label for account name -->
     <string name="logged_in_as">Haz iniciado sesión como</string>
     <!-- Label for signin screen -->
@@ -1677,10 +1592,6 @@
     <string name="tell_a_friend_description">¿Te gustan las ofertas increíbles? Cuéntales a tus amigos sobre la aplicación.</string>
     <!-- Section header for other apps by Mobiata -->
     <string name="travel_smart">Viaja inteligentemente</string>
-    <!-- Section Header for other apps by Mobiata -->
-    <string name="ALSO_BY_MOBIATA">TAMBIÉN POR MOBIATA</string>
-    <!-- Section Header for other apps by Mobiata -->
-    <string name="also_by_mobiata">También por Mobiata</string>
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Hoteles de Expedia</string>
     <!-- Message body for "tell a friend" feature -->
@@ -1776,14 +1687,6 @@
         <item quantity="two">%d noches</item>
         <item quantity="many">%d noches</item>
         <item quantity="other">%d noches</item>
-    </plurals>
-    <!-- A number of days (as in rental duration).  Capitalized -->
-    <plurals name="number_of_days">
-        <item quantity="zero">%d días</item>
-        <item quantity="one">%d día</item>
-        <item quantity="two">%d días</item>
-        <item quantity="many">%d días</item>
-        <item quantity="other">%d días</item>
     </plurals>
     <!-- A number of days (as in rental duration), not including the actual number. Capitalized -->
     <plurals name="number_of_days_label">
@@ -1895,7 +1798,6 @@
     <string name="country_bo">Bolivia, Estado Plurinacional de</string>
     <string name="country_ba">Bosnia y Herzegovina</string>
     <string name="country_bw">Botsuana</string>
-    <string name="country_bv">Isla Bouvet</string>
     <string name="country_br">Brasil</string>
     <string name="country_io">Territorio británico del océano Índico</string>
     <string name="country_bn">Sultanato de Brunéi</string>
@@ -1942,7 +1844,6 @@
     <string name="country_fr">Francia</string>
     <string name="country_gf">Guayana Francesa</string>
     <string name="country_pf">Polinesia Francesa</string>
-    <string name="country_tf">Tierras Australes Francesas</string>
     <string name="country_ga">Gabón</string>
     <string name="country_gm">Gambia</string>
     <string name="country_ge">Georgia</string>
@@ -1960,7 +1861,6 @@
     <string name="country_gw">Guinea-Bisáu</string>
     <string name="country_gy">Guyana</string>
     <string name="country_ht">Haití</string>
-    <string name="country_hm">Isla Heard e Islas McDonald</string>
     <string name="country_va">Santa Sede (Estado de la Ciudad del Vaticano)</string>
     <string name="country_hn">Honduras</string>
     <string name="country_hk">Hong Kong</string>

@@ -56,14 +56,10 @@
     <string name="error_launch_connection">Rất tiếc, chúng tôi không thể kết nối.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Chuyến đi</string>
-    <!-- Menu option for going to see your trips/itineraries (on tablet) -->
-    <string name="your_trips">Chuyến đi của quý vị</string>
 
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Lịch trình</string>
-    <!-- Itineraries (plural title) -->
-    <string name="itineraries">Lịch trình</string>
     <!-- Shop -->
     <string name="shop">Mua sắm</string>
     <!-- Find Itinerary -->
@@ -131,8 +127,6 @@
     <string name="depart_tz_TEMPLATE">Khởi hành (%1$s)</string>
     <!-- Arrive (TZ) template -->
     <string name="arrive_tz_TEMPLATE">Đến (%1$s)</string>
-    <!-- Confirmation Code Label -->
-    <string name="confirmation_code_label">Mã xác nhận</string>
     <!-- Flight Confirmation code label -->
     <string name="flight_confirmation_code_label">Xác nhận của hãng hàng không</string>
     <!-- Flight Carrier confirmation code label template -->
@@ -145,8 +139,6 @@
     <string name="hotel_confirmation_code_label">Mã xác nhận của Khách sạn</string>
     <!-- Passengers Label -->
     <string name="passengers_label">Hành khách</string>
-    <!-- Flight receipt and policies -->
-    <string name="flight_receipt_and_policies">Biên nhận và chính sách Chuyến bay</string>
     <!-- Booking info label -->
     <string name="booking_info">Thông tin đặt chỗ</string>
     <!-- Itin flight generic terminal and gate template -->
@@ -181,16 +173,6 @@
     <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;Từ %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Thoát %1$s sẽ đồng thời gỡ mọi lịch trình liên kết với tài khoản này. Quý vị có chắc chắn muốn thoát không?</string>
-    <!-- Booking code unavailable message -->
-    <string name="missing_booking_code">Không có mã đặt chỗ.</string>
-    <!-- Flight to TEMPLATE -->
-    <string name="flight_to_TEMPLATE">Bay đến %1$s</string>
-    <!-- Flight Calendar event TEMPLATE -->
-    <string name="flight_calendar_event_title_TEMPLATE">Chuyến bay: %1$s đến %2$s</string>
-    <!-- Add event button text -->
-    <string name="add_event">Thêm sự kiện</string>
-    <!-- Set Alert button text -->
-    <string name="set_alert">Cài đặt báo hiệu</string>
     <!-- Directions -->
     <string name="directions">Hướng dẫn đường đi</string>
     <!-- Terminal Maps -->
@@ -320,8 +302,6 @@
     <string name="itin_card_details_active">Hoạt động</string>
     <string name="itin_card_details_expires">Hết hạn</string>
     <string name="itin_card_details_guests">Khách</string>
-    <string name="itin_card_details_booking_info">Thông tin đặt chỗ</string>
-    <string name="itin_card_details_confirmation_code">Mã xác nhận</string>
     <string name="itin_card_details_details">Thông tin bổ sung</string>
     <string name="itin_card_details_pick_up">Nhận</string>
     <string name="itin_card_details_drop_off">Trả</string>
@@ -382,16 +362,10 @@
     <string name="share_template_short_flight_sameday">Tôi đang trên chuyến bay %1$s đến %2$s vào %3$s.\nKhởi hành từ %4$s lúc %5$s\nĐến %6$s lúc %7$s, %8$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
     <string name="share_template_short_flight_multiday">Tôi đang trên chuyến bay %1$s đến %2$s.\nKhởi hành từ %3$s lúc %4$s\nĐến %5$s lúc %6$s, %7$s</string>
-    <!-- 1: Origin city 2: Destination city 3: Flight Carrier and number 4: Departure date 5: Departure airport code 6: Departure Time 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival terminal gate 11: Traveler list -->
-    <string name="share_template_long_flight_sameday">Xin chào,\n\nĐây là chi tiết chuyến bay từ %1$s đến %2$s của tôi.\n\n%3$s - %4$s\n\nKhởi hành từ %5$s lúc %6$s từ %7$s.\nĐến %8$s lúc %9$s tại %10$s.\n\nHành khách\n%11$s</string>
-    <!-- 1: Origin city 2: Desitination city 3: Flight carrier and number 4: Departure airport code 5: Departure time 6: Departure date 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival date 11: Arrival terminal gate 12: Traveler list -->
-    <string name="share_template_long_flight_multiday">Xin chào,\n\nĐây là chi tiết chuyến bay từ %1$s đến %2$s của tôi.\n\n%3$s\n\nKhởi hành từ %4$s lúc %5$s vào %6$s từ %7$s.\nĐến %8$s lúc %9$s vào %10$s tại %11$s\n\nHành khách\n%12$s</string>
     <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Xe thuê của tôi (%1$s – %2$s)</string>
     <!-- 1: vehicle type 2: pick up date 3: drop off date 4: vendor name 5: full address -->
     <string name="share_template_short_car">Tôi thuê một %1$s từ %2$s – %3$s\n%4$s\n%5$s</string>
-    <!-- 1: vendor name, 2: vehicle type, 3: pick up date, 4: pick up time, 5: drop off date, 6: drop off time, 7: full address, 8: phone number -->
-    <string name="share_template_long_car">Xin chào,\n\nĐây là chi tiết xe thuê tại %1$s của tôi. \n\n<b>Loại xe</b> %2$s\n<b>Nhận xe</b> %3$s lúc <b>%4$s</b>\n<b>Trả xe</b> %5$s lúc <b>%6$s</b>\n\n<b>Địa điểm</b>\n%1$s\n%7$s\n%8$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
     <string name="share_car_start_TEMPLATE">Đây là chi tiết xe thuê tại %1$s của tôi.</string>
     <!-- Label for type of vehicle.  %1$s is the car type (e.g., "Three Door Car") -->
@@ -413,9 +387,6 @@
     <string name="share_template_short_activity">Tôi đã mua vé %1$s\nHiệu lực: %2$s\nHết hạn: %3$s</string>
     <!-- 1: activity title, 2: valid date, 3: expiration date, 4: list of guests -->
     <string name="share_template_long_activity">Xin chào,\n\nĐây là chi tiết %1$s của tôi\n\n<b>Hiệu lực</b> %2$s\n<b>Hết hạn</b> %3$s\n\n<b>Khách</b>\n%4$s</string>
-    <string name="share_template_subject_cruise"></string>
-    <string name="share_template_short_cruise"></string>
-    <string name="share_template_long_cruise"></string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
@@ -454,12 +425,6 @@
     <string name="inbound_TEMPLATE">Chuyến bay vào nội địa đến %s</string>
     <!-- Error when we simple can't connect to E3 servers -->
     <string name="error_server">Rất tiếc, chúng tôi không thể kết nối đến máy chủ Expedia.  Vui lòng thử lại sau.</string>
-    <!-- Label for changing sort order on flights -->
-    <string name="filter_flight_sort">Sắp xếp theo:</string>
-    <!-- Label for filtering flights by time (aka, 10 AM to 3 PM) -->
-    <string name="filter_flight_time">Giờ bay</string>
-    <!-- Label for filtering flights by airline (aka, Delta) -->
-    <string name="filter_flight_airline">Hãng hàng không ưu tiên</string>
     <!-- Sort by departure timelabel -->
     <string name="sort_description_departure">K.hành</string>
     <!-- Sort by arrival time label -->
@@ -579,6 +544,8 @@
     <string name="or_select_new_paymet_method">Chọn phương thức thanh toán</string>
     <!-- Select Payment -->
     <string name="select_payment">Chọn phương thức thanh toán</string>
+    <!-- Select payment sentence case -->
+    <string name="select_payment_sentence_case">Chọn hình thức thanh toán</string>
     <!-- Add new card -->
     <string name="add_new_card">Thêm thẻ mới</string>
     <!-- Overview button -->
@@ -650,10 +617,6 @@
     <!-- Label to show next to the total price on the checkout receipt -->
     <string name="grand_total">Tổng giá</string>
     <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_raised_the_price_TEMPLATE">Khách sạn vừa nâng giá phòng lên %1$s một đêm.</string>
-    <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_lowered_the_price_TEMPLATE">Khách sạn vừa giảm giá phòng còn %1$s một đêm.</string>
-    <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_raised_the_total_price_TEMPLATE">Khách sạn vừa tăng tổng giá phòng này từ %1$s lên %2$s</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_lowered_the_total_price_TEMPLATE">Khách sạn vừa giảm tổng giá phòng này từ %1$s xuống %2$s</string>
@@ -679,12 +642,14 @@
     <string name="flight">Chuyến bay</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
     <string name="traveler_num_and_category_TEMPLATE">Khách %1$d</string>
-    <!-- Adult -->
-    <string name="adult">Người lớn</string>
 
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Thông tin khách</string>
+    <!-- Add traveler -->
+    <string name="add_traveler">Thêm khách</string>
+    <!-- Add traveler number template -->
+    <string name="add_traveler_number_TEMPLATE">Thêm khách %1$s</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Khách có thể không được lên máy bay nếu tên khách không trùng khớp với giấy tờ tùy thân (ID) có ảnh hợp lệ.</string>
 
@@ -930,14 +895,8 @@
     <string name="error_flight_price_increased_with_fee">Dường như hãng hàng không sẽ thu phí quy trình thanh toán %1$s và nâng giá vé của quý vị thêm %2$s. Quý vị có đồng ý thanh toán tổng giá mới %3$s không?</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">Dường như hãng hàng không sẽ thu phí quy trình thanh toán %1$s, tuy nhiên, chúng tôi phát hiện chuyến bay quý vị yêu cầu vừa giảm giá %2$s. Quý vị có đồng ý thanh toán tổng giá mới %3$s không?</string>
-    <!-- Error shown to user if their phone number is invalid -->
-    <string name="error_invalid_phone_number">Số điện thoại quý vị nhập không hợp lệ, vui lòng thử lại.</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">Số thẻ tín dụng quý vị nhập không hợp lệ, vui lòng nhập lại.</string>
-    <!-- Error shown to user if their zip code or postal code is invalid (depends on language) -->
-    <string name="error_invalid_zipcode_or_postalcode">Mã bưu chính quý vị nhập không hợp lệ, vui lòng thử lại.</string>
-    <!-- Error shown to user if their state or province is invalid (depends on language) -->
-    <string name="error_invalid_state_or_province">Bang quý vị nhập không hợp lệ, vui lòng thử lại.</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">Thẻ tín dụng quý vị dự định sử dụng đã hết hạn, vui lòng sử dụng thẻ khác.</string>
     <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
@@ -977,15 +936,6 @@
     <string name="title_complete_booking">Hoàn tất việc đặt</string>
 
     <!-- Flight booking sharing -->
-    <!-- Subject line for flight booking email.  %1$s is the destination, %2$s is a date range (e.g., "Expedia Itinerary - Seattle (10/18 - 10/19)") -->
-    <string name="share_flight_title_TEMPLATE">Số lịch trình Expedia - %1$s (%2$s)</string>
-    <!-- The first line of the share flight email -->
-    <plurals name="share_flight_start">
-        <item quantity="one">Đây là thông tin đặt chuyến bay của tôi:</item>
-        <item quantity="two">Đây là thông tin đặt chuyến bay của chúng tôi:</item>
-        <item quantity="many">Đây là thông tin đặt chuyến bay của chúng tôi:</item>
-        <item quantity="other">Đây là thông tin đặt chuyến bay của chúng tôi:</item>
-    </plurals>
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">Xin chào,</string>
     <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
@@ -996,35 +946,10 @@
     <string name="share_flight_itinerary_TEMPLATE">Số lịch trình: %s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
     <string name="share_travelers_section">Khách:</string>
-    <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc… %2$s is their name -->
-    <!-- examples: "Traveler 1: Tom Smith" "Traveler 2: David Thomas" or if only one traveler, "Traveler: Matt Long" -->
-    <plurals name="share_flight_name_TEMPLATE">
-        <item quantity="one">Khách: %s</item>
-        <item quantity="two">Khách %1$s: %2$s</item>
-        <item quantity="many">Khách %1$s: %2$s</item>
-        <item quantity="other">Khách %1$s: %2$s</item>
-    </plurals>
     <!-- Header for the outbound flight details section of the share flight email -->
     <string name="share_flight_section_outbound">Chuyến bay đi:</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">Trở về:</string>
-    <!-- Presenting the total ticket cost of a flight.  %s is a price, e.g. "$500" -->
-    <plurals name="share_flight_ticket_cost_TEMPLATE">
-        <item quantity="one">Tổng giá vé: %s</item>
-        <item quantity="two">Tổng giá vé: %s</item>
-        <item quantity="many">Tổng giá vé: %s</item>
-        <item quantity="other">Tổng giá vé: %s</item>
-    </plurals>
-    <!-- Presenting the taxes and fees cost of a flight.  %s is a price, e.g. "$500" -->
-    <string name="share_flight_taxes_fees_TEMPLATE">Thuế &amp; Phí: %s</string>
-    <!-- Presenting the airfare total cost of a flight.  %s is a price, e.g. "$500" -->
-    <string name="share_flight_airfare_total_TEMPLATE">Tổng giá tiền: %s</string>
-    <!-- Alerts the user to potential other charges.  %s is a URL -->
-    <string name="share_flight_additional_fees_TEMPLATE">Hãng hàng không có thể sẽ thu thêm phụ phí hành lý ký gửi và các dịch vụ khác.  %s</string>
-    <!-- Gives the user a method of getting support.  %s is a phone number -->
-    <string name="share_flight_support_TEMPLATE">Nếu có bất kỳ câu hỏi nào về đặt chỗ này, vui lòng gọi cho Expedia qua %s.</string>
-    <!-- Advertisement for the app the user just used -->
-    <string name="share_flight_shill_app">Đặt các chuyến bay và khách sạn từ mọi nơi cùng ứng dụng di động tuyệt vời của Expedia!  http://www.expedia.com/app</string>
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
@@ -1189,6 +1114,8 @@
     <string name="no_hotels_availiable">Không có khách sạn nào</string>
     <!-- Message displayed when user need to change input to correct search -->
     <string name="please_try_a_different_location_or_date">Vui lòng thử lại với địa điểm hoặc ngày khác.</string>
+    <!-- Message displayed when no hotel rooms are available -->
+    <string name="error_no_hotel_rooms_available">Không có phòng khách sạn</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
@@ -1447,18 +1374,6 @@
     <string name="Telephone">Điện thoại</string>
     <!-- The "email for booking confirmation" booking info field. -->
     <string name="EmailForConf">Email để xác nhận</string>
-    <!-- Label for "billing info" form field section -->
-    <string name="billing_info">Thông tin thanh toán</string>
-    <!-- Address line 1 form field hint -->
-    <string name="hint_address1">Địa chỉ 1</string>
-    <!-- Address line 2 form field hint -->
-    <string name="hint_address2">Địa chỉ 2 (không bắt buộc)</string>
-    <!-- The "city" booking info field. -->
-    <string name="City">Thành phố</string>
-    <!-- The "postal code" booking info field. -->
-    <string name="PostalCode">Mã zip</string>
-    <!-- State code hint -->
-    <string name="hint_state_code">Bang</string>
     <!-- Label for "credit card info" form field section -->
     <string name="credit_card_info">Thông tin thẻ tín dụng</string>
     <!-- Label for credit card selection box -->
@@ -1559,8 +1474,6 @@
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
     <string name="GuestsLabel">Khách</string>
-    <!-- Label indicating taxes are included for this booking. -->
-    <string name="TaxesAndFees">Bao gồm thuế</string>
     <!-- Label for the taxes and fees for a hotel room booking. -->
     <string name="taxes_and_fees">Thuế &amp; Phí</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
@@ -1607,6 +1520,8 @@
     <string name="log_in_for_faster_booking">Đăng nhập để đặt nhanh hơn</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_rewards">Tham gia Expedia Rewards\u2122</string>
+    <!-- Loading rewards points message -->
+    <string name="loading_your_rewards_points">Đang tải điểm thưởng của quý vị…</string>
     <!-- Label for account name -->
     <string name="logged_in_as">Đăng nhập bằng</string>
     <!-- Label for signin screen -->
@@ -1677,10 +1592,6 @@
     <string name="tell_a_friend_description">Thích những deal khách sạn tuyệt vời? Giới thiệu với bạn bè về ứng dụng này.</string>
     <!-- Section header for other apps by Mobiata -->
     <string name="travel_smart">Du lịch một cách thông minh</string>
-    <!-- Section Header for other apps by Mobiata -->
-    <string name="ALSO_BY_MOBIATA">CŨNG TẠO BỞI MOBIATA</string>
-    <!-- Section Header for other apps by Mobiata -->
-    <string name="also_by_mobiata">Cũng tạo bởi Mobiata</string>
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hotels</string>
     <!-- Message body for "tell a friend" feature -->
@@ -1776,14 +1687,6 @@
         <item quantity="two">%d đêm</item>
         <item quantity="many">%d đêm</item>
         <item quantity="other">%d đêm</item>
-    </plurals>
-    <!-- A number of days (as in rental duration).  Capitalized -->
-    <plurals name="number_of_days">
-        <item quantity="zero">%dNgày</item>
-        <item quantity="one">%d ngày</item>
-        <item quantity="two">%dNgày</item>
-        <item quantity="many">%dNgày</item>
-        <item quantity="other">%dNgày</item>
     </plurals>
     <!-- A number of days (as in rental duration), not including the actual number. Capitalized -->
     <plurals name="number_of_days_label">
@@ -1895,7 +1798,6 @@
     <string name="country_bo">Liên bang Bolivia</string>
     <string name="country_ba">Bosnia-Herzegovina</string>
     <string name="country_bw">Botswana</string>
-    <string name="country_bv">Đảo Bouvet</string>
     <string name="country_br">Brazil</string>
     <string name="country_io">Lãnh thổ Ấn Độ Dương thuộc Anh</string>
     <string name="country_bn">Brunei Darussalam</string>
@@ -1942,7 +1844,6 @@
     <string name="country_fr">Pháp</string>
     <string name="country_gf">Guiana thuộc Pháp</string>
     <string name="country_pf">Polynesia thuộc Pháp</string>
-    <string name="country_tf">Vùng đất phía Nam và Châu Nam Cực thuộc Pháp</string>
     <string name="country_ga">Gabon</string>
     <string name="country_gm">Gambia</string>
     <string name="country_ge">Georgia</string>
@@ -1960,7 +1861,6 @@
     <string name="country_gw">Cộng hòa Guinea-Bissau</string>
     <string name="country_gy">Guyana</string>
     <string name="country_ht">Haiti</string>
-    <string name="country_hm">Đảo Heard và quần đảo McDonald</string>
     <string name="country_va">Holy See (Thành phố Vatican)</string>
     <string name="country_hn">Honduras</string>
     <string name="country_hk">Hong Kong</string>
