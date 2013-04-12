@@ -62,6 +62,8 @@
     <string name="Check_in_available">Check in available</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">%1$s flight to %2$s</string>
+    <!-- Notification title for hotel check-out notification -->
+    <string name="Check_out_today">Check out today</string>
 
     <!-- Itineraries -->
     <!-- Itinerary -->

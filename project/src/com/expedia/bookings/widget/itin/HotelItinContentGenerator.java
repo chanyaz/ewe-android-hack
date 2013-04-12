@@ -1,6 +1,9 @@
 package com.expedia.bookings.widget.itin;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.TimeZone;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +21,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.Ui;
@@ -351,5 +355,85 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		}
 
 		return new SummaryButton(iconResId, actionText, onClickListener, popupContentView, popupOnClickListener);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Notifications
+	//////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public List<Notification> generateNotifications() {
+		ArrayList<Notification> notifications = new ArrayList<Notification>(2);
+		notifications.add(generateCheckinNotification());
+		notifications.add(generateCheckoutNotification());
+		return notifications;
+	}
+
+	// https://mingle.karmalab.net/projects/eb_ad_app/cards/876
+	// Given I have a hotel, when it is 10 AM on the check-in day, then I want to receive a notification
+	// that reads "Check in at The Hyatt Regency Bellevue begins at 3PM today."
+	private Notification generateCheckinNotification() {
+		ItinCardDataHotel data = getItinCardData();
+
+		String uniqueId = data.getId();
+
+		Calendar trigger = data.getStartDate().getCalendar();
+		trigger.set(Calendar.MINUTE, 0);
+		trigger.set(Calendar.MILLISECOND, 0);
+		trigger.set(Calendar.HOUR_OF_DAY, 10);
+		long triggerTimeMillis = trigger.getTimeInMillis();
+
+		// Offset the trigger time to the user's current timezone
+		triggerTimeMillis -= TimeZone.getDefault().getOffset(triggerTimeMillis);
+
+		Notification notification = new Notification(uniqueId, triggerTimeMillis);
+
+		String title = getContext()
+				.getString(R.string.itin_card_hotel_summary_check_in_TEMPLATE, data.getCheckInTime());
+		notification.setTicker(title);
+		notification.setTitle(title);
+
+		String body = data.getPropertyName();
+		notification.setBody(body);
+
+		String imageUrl = data.getHeaderImageUrls().get(0);
+		notification.setImage(Notification.ImageType.URL, 0, imageUrl);
+
+		return notification;
+	}
+
+	// https://mingle.karmalab.net/projects/eb_ad_app/cards/877
+	// Given I have a hotel, when it is 7 AM on the checkout day, then I want to receive a notification
+	// that reads "Check out at The Hyatt Regency Bellevue is at 11AM today."
+	private Notification generateCheckoutNotification() {
+		ItinCardDataHotel data = getItinCardData();
+
+		String uniqueId = data.getId();
+
+		Calendar trigger = data.getStartDate().getCalendar();
+		trigger.set(Calendar.MINUTE, 0);
+		trigger.set(Calendar.MILLISECOND, 0);
+		trigger.set(Calendar.HOUR_OF_DAY, 7);
+		long triggerTimeMillis = trigger.getTimeInMillis();
+
+		// Offset the trigger time to the user's current timezone
+		triggerTimeMillis -= TimeZone.getDefault().getOffset(triggerTimeMillis);
+
+		Notification notification = new Notification(uniqueId, triggerTimeMillis);
+
+		//TODO: use the specific time for checkout (coming in E3 5r1 early may)
+		//String title = getContext().getString(R.string.itin_card_hotel_summary_check_out_TEMPLATE, data.getCheckOutTime());
+		String title = getContext().getString(R.string.Check_out_today);
+		notification.setTicker(title);
+		notification.setTitle(title);
+
+		String body = data.getPropertyName();
+		notification.setBody(body);
+
+		String imageUrl = data.getHeaderImageUrls().get(0);
+		data.getPropertyInfoSiteUrl();
+		notification.setImage(Notification.ImageType.URL, 0, imageUrl);
+
+		return notification;
 	}
 }

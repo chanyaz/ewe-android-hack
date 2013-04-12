@@ -181,8 +181,7 @@ public class LocalNotificationReceiver extends BroadcastReceiver {
 
 			NotificationManager nm = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 
-			//TODO: uncomment this if you want to be spammed with notifications
-			//nm.notify(tag, 0, builder.build());
+			nm.notify(tag, 0, builder.build());
 		}
 	}
 
