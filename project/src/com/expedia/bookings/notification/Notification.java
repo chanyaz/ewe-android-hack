@@ -18,6 +18,11 @@ import com.mobiata.android.Log;
 @Table(name = "Notifications")
 public class Notification extends Model {
 
+	public long FLAG_LOCAL = 0x01;
+	public long FLAG_PUSH = 0x02;
+	public long FLAG_DIRECTIONS = 0x4;
+	public long FLAG_SHARE = 0x8;
+
 	/**
 	 * NEW = This notification has never been displayed to the user.
 	 * NOTIFIED = This notification has been displayed and is still visible/active.
@@ -51,11 +56,31 @@ public class Notification extends Model {
 		ACTIVITY;
 	}
 
+	/**
+	 * These correspond to the notification types we report through omniture.
+	 * https://confluence/display/Omniture/App+Itinerary#AppItinerary-Version31
+	 */
+	public enum NotificationType {
+		ACTIVITY_START,
+		CAR_DROP_OFF,
+		CAR_PICK_UP,
+		FLIGHT_CHECK_IN,
+		FLIGHT_CANCELLED,
+		FLIGHT_GATE_TIME_CHANGE,
+		FLIGHT_GATE_NUMBER_CHANGE,
+		FLIGHT_BAGGAGE_CLAIM,
+		HOTEL_CHECK_IN,
+		HOTEL_CHECK_OUT;
+	}
+
 	@Column(name = "UniqueId")
 	private String mUniqueId;
 
 	@Column(name = "TriggerTimeMillis")
 	private long mTriggerTimeMillis;
+
+	@Column(name = "IconResId")
+	private int mIconResId;
 
 	@Column(name = "Ticker")
 	private String mTicker;
@@ -78,13 +103,31 @@ public class Notification extends Model {
 	@Column(name = "ImageValue")
 	private String mImageValue;
 
+	@Column(name = "Flags")
+	private long mFlags;
+
+	// For Omniture tracking
+	@Column(name = "NotificationType")
+	private String mNotificationType;
+
 	public Notification() {
 	}
 
+	/**
+	 * Create a new com.expedia.bookings.notification.Notification object. If two 
+	 * notification objects share the same uniqueId, only the later one will be 
+	 * displayed.
+	 * @param uniqueId
+	 * @param triggerTimeMillis
+	 */
 	public Notification(String uniqueId, long triggerTimeMillis) {
 		setUniqueId(uniqueId);
 		setTriggerTimeMillis(triggerTimeMillis);
+
+		// Defaults
 		setStatus(StatusType.NEW);
+		setIconResId(R.drawable.ic_stat_expedia);
+		setFlags(0);
 	}
 
 	public String getUniqueId() {
@@ -101,6 +144,14 @@ public class Notification extends Model {
 
 	public void setTriggerTimeMillis(long triggerTimeMillis) {
 		this.mTriggerTimeMillis = triggerTimeMillis;
+	}
+
+	public long getIconResId() {
+		return mIconResId;
+	}
+
+	public void setIconResId(int iconResId) {
+		this.mIconResId = iconResId;
 	}
 
 	public String getTicker() {
@@ -165,6 +216,22 @@ public class Notification extends Model {
 		setImageValue(value);
 	}
 
+	public long getFlags() {
+		return mFlags;
+	}
+
+	public void setFlags(int flags) {
+		this.mFlags = flags;
+	}
+
+	public NotificationType getNotificationType() {
+		return NotificationType.valueOf(mNotificationType);
+	}
+
+	public void setNotificationType(NotificationType notificationType) {
+		this.mNotificationType = notificationType.toString();
+	}
+
 	/**
 	 * Updates this Notification object with data from the other object (meanwhile
 	 * not destroying this object's status or unique id).
@@ -197,7 +264,7 @@ public class Notification extends Model {
 		long triggerTimeMillis = mTriggerTimeMillis;
 
 		//TODO: temporary ->
-		triggerTimeMillis = System.currentTimeMillis() + 5000;
+		//triggerTimeMillis = System.currentTimeMillis() + 5000;
 		//TODO: <-temporary
 
 		mgr.set(AlarmManager.RTC_WAKEUP, triggerTimeMillis, pendingIntent);
