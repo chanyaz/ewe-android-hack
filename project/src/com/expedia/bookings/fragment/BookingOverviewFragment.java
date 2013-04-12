@@ -118,7 +118,9 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 	private LinearLayout mCheckoutLayout;
 
 	private AccountButton mAccountButton;
+	private ViewGroup mWalletContainer;
 	private View mWalletButton;
+	private View mWalletProgressBar;
 	private SectionTravelerInfo mTravelerSection;
 	private SectionBillingInfo mCreditCardSectionButton;
 	private SectionStoredCreditCard mStoredCreditCard;
@@ -181,7 +183,9 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 		mCheckoutLayout = Ui.findView(view, R.id.checkout_layout);
 
 		mAccountButton = Ui.findView(view, R.id.account_button_layout);
+		mWalletContainer = Ui.findView(view, R.id.wallet_container);
 		mWalletButton = Ui.findView(view, R.id.wallet_button);
+		mWalletProgressBar = Ui.findView(view, R.id.wallet_progress_bar);
 		mTravelerSection = Ui.findView(view, R.id.traveler_section);
 		mStoredCreditCard = Ui.findView(view, R.id.stored_creditcard_section_button);
 		mCreditCardSectionButton = Ui.findView(view, R.id.creditcard_section_button);
@@ -1265,10 +1269,11 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 		StoredCreditCard scc = Db.getBillingInfo().getStoredCard();
 		boolean storedCardIsGoogleWallet = scc != null && scc.isGoogleWallet();
 
-		mWalletButton.setVisibility(mGoogleWalletDisabled || (maskedWallet != null && storedCardIsGoogleWallet)
+		mWalletContainer.setVisibility(mGoogleWalletDisabled || (maskedWallet != null && storedCardIsGoogleWallet)
 				? View.GONE : View.VISIBLE);
 		mWalletButton.setEnabled(mWalletClient.isConnected() && mCheckedPreAuth && !mIsUserPreAuthorized
 				&& (maskedWallet == null || !storedCardIsGoogleWallet));
+		mWalletProgressBar.setVisibility(mWalletButton.isEnabled() ? View.GONE : View.VISIBLE);
 
 		// If we are pre-authorized but haven't loaded the masked wallet, disable all buttons
 		boolean enableButtons = mGoogleWalletDisabled || !mIsUserPreAuthorized || maskedWallet != null;
