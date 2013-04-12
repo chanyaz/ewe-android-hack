@@ -64,6 +64,15 @@ public class WalletUtils {
 		loc.setPostalCode(wallet.getBillingAddress().getPostalCode());
 		billingInfo.setLocation(loc);
 	}
+	
+	// If something goes wrong, we actually *don't* want GoogleWallet in the billing info anymore
+	// so clear it out.
+	public static void unbindWalletFromBillingInfo(BillingInfo billingInfo) {
+		billingInfo.setStoredCard(null);
+		billingInfo.setEmail(null);
+		billingInfo.setGoogleWalletTransactionId(null);
+		billingInfo.setLocation(null);
+	}
 
 	public static Traveler convertToTraveler(MaskedWallet maskedWallet) {
 		Traveler traveler = new Traveler();

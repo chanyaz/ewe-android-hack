@@ -330,13 +330,37 @@ public class HotelPaymentOptionsFragment extends WalletFragment {
 	// This page primarily deals with *changing* the masked wallet
 
 	private void changeMaskedWallet() {
-		if (mConnectionResult != null) {
+		if (mGoogleWalletDisabled) {
+			displayGoogleWalletUnavailableToast();
+		}
+		else if (mConnectionResult != null) {
 			resolveUnsuccessfulConnectionResult();
 		}
 		else {
 			MaskedWallet maskedWallet = Db.getMaskedWallet();
 			mWalletClient.changeMaskedWallet(maskedWallet.getGoogleTransactionId(),
 					maskedWallet.getMerchantTransactionId(), this);
+		}
+	}
+
+	@Override
+	protected void handleError(int errorCode) {
+		super.handleError(errorCode);
+
+		switch (errorCode) {
+		case WalletConstants.ERROR_CODE_BUYER_CANCELLED:
+			// No action needed, the user did not change their payment method
+			break;
+		default:
+			// If we get an error trying to change the wallet, kick the user back
+			// to the previous page (so they can click the "buy with google wallet"
+			// button again if they want to use it) and unbind Google Wallet.
+			displayGoogleWalletUnavailableToast();
+
+			WalletUtils.unbindWalletFromBillingInfo(Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+
+			mListener.setMode(YoYoMode.NONE);
+			mListener.moveBackwards();
 		}
 	}
 
