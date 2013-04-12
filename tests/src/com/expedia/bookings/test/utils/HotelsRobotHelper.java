@@ -248,25 +248,27 @@ public class HotelsRobotHelper {
 		mSolo.pressMenuItem(0);
 		delay(5);
 		mSolo.scrollDown();
-		ArrayList<CheckBox> a = mSolo.getCurrentCheckBoxes();
-
+		ArrayList<View> a = mSolo.getCurrentViews();
 		for (int i = 0; i < a.size(); i++) {
 			Log.v("!!!", "!!! " + a.toString());
 			if (spoofBookingsDone && suppressFlightsDone) {
 				break;
 			}
-			CheckBox currentCheckBox = a.get(i);
-			if (currentCheckBox.getId() == R.id.preference_spoof_booking_checkbox) {
-				if (!currentCheckBox.isChecked()) {
-					mSolo.clickOnText("Spoof hotel bookings");
+			View currentView = a.get(i);
+			if (currentView instanceof CheckBox) {
+				CheckBox currentCheckBox = (CheckBox) currentView;
+				if (currentCheckBox.getId() == R.id.preference_spoof_booking_checkbox) {
+					if (!currentCheckBox.isChecked()) {
+						mSolo.clickOnText("Spoof hotel bookings");
+					}
+					spoofBookingsDone = true;
 				}
-				spoofBookingsDone = true;
-			}
-			else if (currentCheckBox.getId() == R.id.preference_suppress_flight_booking_checkbox) {
-				if (!currentCheckBox.isChecked()) {
-					mSolo.clickOnText("Suppress Flight Bookings");
+				else if (currentCheckBox.getId() == R.id.preference_suppress_flight_booking_checkbox) {
+					if (!currentCheckBox.isChecked()) {
+						mSolo.clickOnText("Suppress Flight Bookings");
+					}
+					suppressFlightsDone = true;
 				}
-				suppressFlightsDone = true;
 			}
 		}
 		mSolo.goBack();
