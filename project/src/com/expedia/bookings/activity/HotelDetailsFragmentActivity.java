@@ -82,6 +82,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	private HotelDetailsIntroFragment mIntroFragment;
 	private HotelDetailsMiniMapFragment mMapFragment;
 	private HotelDetailsDescriptionFragment mDescriptionFragment;
+	private TextView mBookNowButton;
 	private TextView mBookByPhoneButton;
 
 	// For tracking - tells you when a user paused the Activity but came back to it
@@ -391,6 +392,13 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		mDescriptionFragment = Ui.findOrAddSupportFragment(this, R.id.hotel_details_description_fragment_container,
 				HotelDetailsDescriptionFragment.class, FRAGMENT_DESCRIPTION_TAG);
 
+		mBookNowButton = Ui.findView(this, R.id.book_now_button);
+		mBookNowButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startActivity(RoomsAndRatesListActivity.createIntent(HotelDetailsFragmentActivity.this));
+			}
+		});
 		mBookByPhoneButton = Ui.findView(this, R.id.book_by_phone_button);
 
 		// Tracking
