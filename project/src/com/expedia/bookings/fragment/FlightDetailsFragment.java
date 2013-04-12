@@ -150,13 +150,28 @@ public class FlightDetailsFragment extends Fragment {
 		mInfoContainer.addView(arriveAtSection);
 
 		// Footer
-		if (trip.getMayChargeObFees()) {
-			mFeesTextView.setText(getString(R.string.additional_fees));
-			ViewUtils.setAllCaps(mFeesTextView);
-			mFeesTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_info_small, 0, 0, 0);
 
-			mFeesSecondaryTextView.setText(getString(R.string.payment_and_baggage_fees_may_apply));
+		// Configure the first TextView, "Baggage Fee Information"
+		if (trip.getShowBaggageFeesNotIncluded()) {
+			mFeesTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_suitcase_baggage_fee, 0, 0, 0);
+
+			if (leg.isSpirit()) {
+				mFeesTextView.setText(R.string.carry_on_baggage_fees_apply);
+			}
+			else {
+				mFeesTextView.setText(R.string.checked_baggage_not_included);
+			}
+			ViewUtils.setAllCaps(mFeesTextView);
+		}
+		else {
+			// The text/drawable defined in XML defines the default behavior
+		}
+
+		// Configure the second TextView, "Payment Fees Apply"
+		if (trip.getMayChargeObFees()) {
 			mFeesSecondaryTextView.setVisibility(View.VISIBLE);
+			mFeesSecondaryTextView.setText(getString(R.string.payment_and_baggage_fees_may_apply));
+			ViewUtils.setAllCaps(mFeesSecondaryTextView);
 
 			mFeesContainer.setOnClickListener(new OnClickListener() {
 				@Override
@@ -169,11 +184,6 @@ public class FlightDetailsFragment extends Fragment {
 			});
 		}
 		else {
-			if (leg.isSpirit()) {
-				mFeesSecondaryTextView.setText(getString(R.string.carry_on_baggage_fees_apply));
-				mFeesSecondaryTextView.setVisibility(View.VISIBLE);
-			}
-
 			mFeesContainer.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {

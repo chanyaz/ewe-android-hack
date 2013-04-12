@@ -570,9 +570,11 @@
     <!-- Template for when a flight is operated by a different carrier.  %s is the other carrier, e.g. "Operated by American Airlines" -->
     <string name="operated_by_TEMPLATE">Operated by %s</string>
     <!-- Carry-on baggage fees apply -->
-    <string name="carry_on_baggage_fees_apply">Carry-on baggage fees apply.</string>
+    <string name="carry_on_baggage_fees_apply">Carry-on baggage fees apply</string>
+    <!-- A message for a flight that does not include baggage fees in the fare total -->
+    <string name="checked_baggage_not_included">Checked baggage not included</string>
     <!-- Payment and baggage fees may apply -->
-    <string name="payment_and_baggage_fees_may_apply">Payment and baggage fees may apply</string>
+    <string name="payment_and_baggage_fees_may_apply">Payment fees may apply</string>
     <!-- Additional Flight fare fees -->
     <string name="additional_fees">Additional Fees</string>
     <!-- Label to view baggage fees information -->
