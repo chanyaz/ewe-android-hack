@@ -54,6 +54,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -123,6 +124,7 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
+import com.mobiata.android.util.ViewUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.SegmentedControlGroup;
 import com.nineoldandroids.animation.AnimatorSet;
@@ -1080,9 +1082,22 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private ActionMode.Callback mSearchActionMode = new ActionMode.Callback() {
 
 		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+		public boolean onCreateActionMode(final ActionMode mode, Menu menu) {
 			// Inflate a menu resource providing context menu items
 			mode.getMenuInflater().inflate(R.menu.action_mode_search, menu);
+			final MenuItem searchMenuItem = menu.findItem(R.id.menu_select_search);
+			Button searchButton = (Button) getLayoutInflater().inflate(R.layout.actionbar_select_hotel, null);
+			searchButton.setText(getString(R.string.SEARCH));
+			ViewUtils.setAllCaps(searchButton);
+
+			searchButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					mSearchActionMode.onActionItemClicked(mode, searchMenuItem);
+				}
+			});
+
+			searchMenuItem.setActionView(searchButton);
 			return true;
 		}
 
