@@ -244,6 +244,8 @@ public class HotelBookingFragment extends WalletFragment {
 	// Google Wallet bookings
 
 	private void getFullWallet() {
+		Log.i(WalletUtils.TAG, "Attempting to retrieve full wallet for booking...");
+
 		// To create a CVV challenge, we need to do two things:
 		// 1. Greatly increase the price (but not above the limit)
 		// 2. Add the cvv_challenge line item

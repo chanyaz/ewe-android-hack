@@ -1250,13 +1250,7 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 		travelers.set(0, traveler);
 
 		// Bind credit card data
-		mBillingInfo.setStoredCard(WalletUtils.convertToStoredCreditCard(maskedWallet));
-
-		mBillingInfo.setEmail(maskedWallet.getEmail());
-		mBillingInfo.setGoogleWalletTransactionId(maskedWallet.getGoogleTransactionId());
-		Location loc = new Location();
-		loc.setPostalCode(maskedWallet.getBillingAddress().getPostalCode());
-		mBillingInfo.setLocation(loc);
+		WalletUtils.bindWalletToBillingInfo(maskedWallet, mBillingInfo);
 
 		bindAll();
 		updateViews();

@@ -382,6 +382,8 @@ public class HotelPaymentOptionsFragment extends WalletFragment {
 			case Activity.RESULT_OK:
 				MaskedWallet maskedWallet = data.getParcelableExtra(WalletConstants.EXTRA_MASKED_WALLET);
 				Db.setMaskedWallet(maskedWallet);
+				WalletUtils.bindWalletToBillingInfo(maskedWallet, Db.getWorkingBillingInfoManager()
+						.getWorkingBillingInfo());
 				onStoredCardSelected(WalletUtils.convertToStoredCreditCard(maskedWallet));
 				break;
 			case Activity.RESULT_CANCELED:

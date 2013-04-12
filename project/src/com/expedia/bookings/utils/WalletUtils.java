@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.util.Pair;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Response;
@@ -52,6 +53,16 @@ public class WalletUtils {
 		builder.setMerchantName(context.getString(R.string.merchant_name));
 		builder.setCurrencyCode(total.getCurrency());
 		builder.setEstimatedTotalPrice(total.getAmount().toPlainString());
+	}
+
+	public static void bindWalletToBillingInfo(MaskedWallet wallet, BillingInfo billingInfo) {
+		billingInfo.setStoredCard(WalletUtils.convertToStoredCreditCard(wallet));
+
+		billingInfo.setEmail(wallet.getEmail());
+		billingInfo.setGoogleWalletTransactionId(wallet.getGoogleTransactionId());
+		Location loc = new Location();
+		loc.setPostalCode(wallet.getBillingAddress().getPostalCode());
+		billingInfo.setLocation(loc);
 	}
 
 	public static Traveler convertToTraveler(MaskedWallet maskedWallet) {
