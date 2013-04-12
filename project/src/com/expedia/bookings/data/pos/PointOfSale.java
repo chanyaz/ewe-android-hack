@@ -184,6 +184,10 @@ public class PointOfSale {
 		return mSupportPhoneNumber;
 	}
 
+	public String getTwoLetterCountryCode() {
+		return mTwoLetterCountryCode;
+	}
+
 	public String getThreeLetterCountryCode() {
 		return mThreeLetterCountryCode;
 	}

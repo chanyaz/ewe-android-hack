@@ -3,6 +3,7 @@ package com.expedia.bookings.tracking;
 import android.content.Context;
 
 import com.AdX.tag.AdXConnect;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -26,7 +27,8 @@ public class AdX {
 
 	public static void trackFirstLaunch() {
 		if (mEnabled) {
-			AdXConnect.getAdXConnectInstance(mContext, false, mLogLevel);
+			String pos = PointOfSale.getPointOfSale(mContext).getTwoLetterCountryCode();
+			AdXConnect.getAdXConnectInstance(mContext, false, mLogLevel, pos);
 			AdXConnect.getAdXConnectEventInstance(mContext, "FirstLaunch", "", "");
 			Log.i("AdX first launch event");
 		}
@@ -34,7 +36,8 @@ public class AdX {
 
 	public static void trackLaunch() {
 		if (mEnabled) {
-			AdXConnect.getAdXConnectInstance(mContext, true, mLogLevel);
+			String pos = PointOfSale.getPointOfSale(mContext).getTwoLetterCountryCode();
+			AdXConnect.getAdXConnectInstance(mContext, true, mLogLevel, pos);
 			AdXConnect.getAdXConnectEventInstance(mContext, "Launch", "", "");
 			Log.i("AdX launch event");
 		}

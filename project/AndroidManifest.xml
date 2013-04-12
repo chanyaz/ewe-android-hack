@@ -49,6 +49,9 @@
         <meta-data
             android:name="ADX_CLIENT_ID"
             android:value="exped2345789jo" />
+        <meta-data
+            android:name="NOMACADDRESS"
+            android:value="TRUE" />
 
         <!-- Make sure activity uses full path, i.e. com.expedia.bookings.activity.* -->
 
