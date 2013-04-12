@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -40,6 +41,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 		sDaySpanFormatter.setPositivePrefix("+");
 	}
 
+	private LinearLayout mAirlineContainer;
 	private TextView mAirlineTextView;
 	private ImageView mOperatingCarrierImageView;
 	private TextView mOperatingCarrierTextView;
@@ -58,6 +60,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 		super.onFinishInflate();
 
 		// Cache views
+		mAirlineContainer = Ui.findView(this, R.id.airline_container);
 		mAirlineTextView = Ui.findView(this, R.id.airline_text_view);
 		mOperatingCarrierImageView = Ui.findView(this, R.id.operating_carrier_image_view);
 		mOperatingCarrierTextView = Ui.findView(this, R.id.operating_carrier_text_view);
@@ -101,6 +104,16 @@ public class FlightLegSummarySection extends RelativeLayout {
 			else {
 				mAirlineTextView.setText(leg.getAirlinesFormatted());
 			}
+
+			if (trip != null) {
+				if (trip.getShowBaggageFeesNotIncluded()) {
+					mAirlineTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0,
+							R.drawable.ic_suitcase_baggage_fee_blue, 0);
+				}
+				else {
+					mAirlineTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+				}
+			}
 		}
 
 		int belowTarget;
@@ -123,7 +136,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 			belowTarget = mOperatingCarrierTextView.getId();
 		}
 		else {
-			belowTarget = mAirlineTextView.getId();
+			belowTarget = mAirlineContainer.getId();
 		}
 
 		// Adjust rules depending on what we need to be below
