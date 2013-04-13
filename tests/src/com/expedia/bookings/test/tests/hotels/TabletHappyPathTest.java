@@ -40,6 +40,7 @@ public class TabletHappyPathTest extends ActivityInstrumentationTestCase2<Search
 	}
 
 	public void testMethod() {
+		mDriver.delay(5);
 		mDriver.setSpoofBookings();
 		mDriver.selectLocation(mUser.mHotelSearchCity);
 		mDriver.pressToSearch();
