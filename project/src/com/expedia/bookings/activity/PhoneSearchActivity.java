@@ -1086,7 +1086,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			// Inflate a menu resource providing context menu items
 			mode.getMenuInflater().inflate(R.menu.action_mode_search, menu);
 			final MenuItem searchMenuItem = menu.findItem(R.id.menu_select_search);
-			Button searchButton = (Button) getLayoutInflater().inflate(R.layout.actionbar_select_hotel, null);
+			Button searchButton = (Button) getLayoutInflater().inflate(R.layout.actionbar_checkmark_item, null);
 			searchButton.setText(getString(R.string.SEARCH));
 			ViewUtils.setAllCaps(searchButton);
 

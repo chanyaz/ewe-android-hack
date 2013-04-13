@@ -140,7 +140,7 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 		getSupportMenuInflater().inflate(R.menu.menu_hotel_details, menu);
 
 		final MenuItem select = menu.findItem(R.id.menu_select_hotel);
-		Button tv = (Button) getLayoutInflater().inflate(R.layout.actionbar_select_hotel, null);
+		Button tv = (Button) getLayoutInflater().inflate(R.layout.actionbar_checkmark_item, null);
 		ViewUtils.setAllCaps(tv);
 		tv.setOnClickListener(new OnClickListener() {
 			@Override
