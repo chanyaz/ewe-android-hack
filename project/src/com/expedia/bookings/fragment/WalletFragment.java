@@ -97,14 +97,58 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 	protected ProgressDialog mProgressDialog;
 
 	//////////////////////////////////////////////////////////////////////////
-	// CUSTOM CODE - BETTER NAME FOR SECTION?
+	// Lifecycle
 
-	public static boolean isRequestCodeFromWalletFragment(int requestCode) {
-		return requestCode == REQUEST_CODE_RESOLVE_ERR
-				|| requestCode == REQUEST_CODE_RESOLVE_CHANGE_MASKED_WALLET
-				|| requestCode == REQUEST_CODE_RESOLVE_LOAD_FULL_WALLET
-				|| requestCode == REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET;
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		// Set up a wallet client
+		mWalletClient = new WalletClient(getActivity(), WalletUtils.getWalletEnvironment(), null, this, this);
+		mRetryHandler = new RetryHandler(this);
 	}
+
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+
+		// Initialize the progress dialog (in case we need to use it later)
+		mProgressDialog = new ProgressDialog(getActivity());
+		mProgressDialog.setMessage(getString(R.string.loading));
+		mProgressDialog.setIndeterminate(true);
+		mProgressDialog.setOnDismissListener(new OnDismissListener() {
+			@Override
+			public void onDismiss(DialogInterface dialog) {
+				mHandleMaskedWalletWhenReady = false;
+				mHandleFullWalletWhenReady = false;
+			}
+		});
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+
+		// Connect to Google Play Services
+		mWalletClient.connect();
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+
+		// Disconnect from Google Play Services
+		mWalletClient.disconnect();
+
+		if (mProgressDialog != null) {
+			mProgressDialog.dismiss();
+		}
+
+		mRetryHandler.removeMessages(MESSAGE_RETRY_CONNECTION);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Error handling/resolution resolving code
 
 	protected void handleError(int errorCode) {
 		WalletUtils.logError(errorCode);
@@ -118,6 +162,13 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 
 	protected void displayGoogleWalletUnavailableToast() {
 		Toast.makeText(getActivity(), R.string.google_wallet_unavailable, Toast.LENGTH_LONG).show();
+	}
+
+	public static boolean isRequestCodeFromWalletFragment(int requestCode) {
+		return requestCode == REQUEST_CODE_RESOLVE_ERR
+				|| requestCode == REQUEST_CODE_RESOLVE_CHANGE_MASKED_WALLET
+				|| requestCode == REQUEST_CODE_RESOLVE_LOAD_FULL_WALLET
+				|| requestCode == REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET;
 	}
 
 	/**
@@ -171,57 +222,6 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 
 		// Results are one time use
 		mConnectionResult = null;
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Lifecycle
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		// Set up a wallet client
-		mWalletClient = new WalletClient(getActivity(), WalletUtils.getWalletEnvironment(), null, this, this);
-		mRetryHandler = new RetryHandler(this);
-	}
-
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-
-		// Initialize the progress dialog (in case we need to use it later)
-		mProgressDialog = new ProgressDialog(getActivity());
-		mProgressDialog.setMessage(getString(R.string.loading));
-		mProgressDialog.setIndeterminate(true);
-		mProgressDialog.setOnDismissListener(new OnDismissListener() {
-			@Override
-			public void onDismiss(DialogInterface dialog) {
-				mHandleMaskedWalletWhenReady = false;
-				mHandleFullWalletWhenReady = false;
-			}
-		});
-	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
-
-		// Connect to Google Play Services
-		mWalletClient.connect();
-	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
-
-		// Disconnect from Google Play Services
-		mWalletClient.disconnect();
-
-		if (mProgressDialog != null) {
-			mProgressDialog.dismiss();
-		}
-
-		mRetryHandler.removeMessages(MESSAGE_RETRY_CONNECTION);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

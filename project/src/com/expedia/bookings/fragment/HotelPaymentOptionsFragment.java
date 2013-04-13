@@ -224,6 +224,39 @@ public class HotelPaymentOptionsFragment extends WalletFragment {
 		super.onSaveInstanceState(outState);
 	}
 
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		mProgressDialog.hide();
+
+		// Retrieve the error code, if available
+		int errorCode = -1;
+		if (data != null) {
+			errorCode = data.getIntExtra(WalletConstants.EXTRA_ERROR_CODE, -1);
+		}
+
+		switch (requestCode) {
+		case REQUEST_CODE_RESOLVE_ERR:
+			mWalletClient.connect();
+			break;
+		case REQUEST_CODE_RESOLVE_CHANGE_MASKED_WALLET:
+			switch (resultCode) {
+			case Activity.RESULT_OK:
+				MaskedWallet maskedWallet = data.getParcelableExtra(WalletConstants.EXTRA_MASKED_WALLET);
+				Db.setMaskedWallet(maskedWallet);
+				WalletUtils.bindWalletToBillingInfo(maskedWallet, Db.getWorkingBillingInfoManager()
+						.getWorkingBillingInfo());
+				onStoredCardSelected(WalletUtils.convertToStoredCreditCard(maskedWallet));
+				break;
+			case Activity.RESULT_CANCELED:
+				// Who cares if they canceled?  Just stay as before
+				break;
+			default:
+				handleError(errorCode);
+			}
+			break;
+		}
+	}
+
 	public void updateVisibilities() {
 		List<StoredCreditCard> cards = getStoredCreditCards();
 
@@ -384,40 +417,4 @@ public class HotelPaymentOptionsFragment extends WalletFragment {
 			handleUnrecoverableGoogleWalletError(status.getErrorCode());
 		}
 	}
-
-	// Lifecycle - TODO: MOVE
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		mProgressDialog.hide();
-
-		// Retrieve the error code, if available
-		int errorCode = -1;
-		if (data != null) {
-			errorCode = data.getIntExtra(WalletConstants.EXTRA_ERROR_CODE, -1);
-		}
-
-		switch (requestCode) {
-		case REQUEST_CODE_RESOLVE_ERR:
-			mWalletClient.connect();
-			break;
-		case REQUEST_CODE_RESOLVE_CHANGE_MASKED_WALLET:
-			switch (resultCode) {
-			case Activity.RESULT_OK:
-				MaskedWallet maskedWallet = data.getParcelableExtra(WalletConstants.EXTRA_MASKED_WALLET);
-				Db.setMaskedWallet(maskedWallet);
-				WalletUtils.bindWalletToBillingInfo(maskedWallet, Db.getWorkingBillingInfoManager()
-						.getWorkingBillingInfo());
-				onStoredCardSelected(WalletUtils.convertToStoredCreditCard(maskedWallet));
-				break;
-			case Activity.RESULT_CANCELED:
-				// Who cares if they canceled?  Just stay as before
-				break;
-			default:
-				handleError(errorCode);
-			}
-			break;
-		}
-	}
-
 }

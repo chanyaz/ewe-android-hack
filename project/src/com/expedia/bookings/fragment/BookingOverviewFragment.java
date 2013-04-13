@@ -161,13 +161,15 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		walletOnCreate(savedInstanceState);
-
 		if (savedInstanceState != null) {
 			mRefreshedUser = savedInstanceState.getBoolean(INSTANCE_REFRESHED_USER);
 			mInCheckout = savedInstanceState.getBoolean(INSTANCE_IN_CHECKOUT);
 			mShowSlideToWidget = savedInstanceState.getBoolean(INSTANCE_SHOW_SLIDE_TO_WIDGET);
 			mIsDoneLoadingPriceChange = savedInstanceState.getBoolean(INSTANCE_DONE_LOADING_PRICE_CHANGE);
+		}
+		else {
+			// Reset masked wallet each time we start here, so we start from scratch
+			Db.setMaskedWallet(null);
 		}
 
 		AdTracker.trackHotelCheckoutStarted();
@@ -354,6 +356,38 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 
 		mHotelReceipt.saveInstanceState(outState);
 		mCouponCodeWidget.saveInstanceState(outState);
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		switch (requestCode) {
+		case REQUEST_CODE_RESOLVE_ERR:
+			// Call connect regardless of success or failure.
+			// If the result was success, the connect should succeed
+			// If the result was not success, this should get a new connection result
+			mWalletClient.connect();
+			break;
+		case REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET:
+			switch (resultCode) {
+			case Activity.RESULT_OK:
+				Db.setMaskedWallet((MaskedWallet) data.getParcelableExtra(WalletConstants.EXTRA_MASKED_WALLET));
+				bindMaskedWallet();
+				break;
+			case Activity.RESULT_CANCELED:
+				Log.w("Masked wallet request: received RESULT_CANCELED");
+				// Need to load a new ConnectionResult (even if user canceled)
+				// in case they want to try it again
+				mWalletClient.loadMaskedWallet(buildMaskedWalletRequest(), this);
+				break;
+			default:
+				int errorCode = data.getIntExtra(WalletConstants.EXTRA_ERROR_CODE, -1);
+				handleError(errorCode);
+				break;
+			}
+			break;
+		}
 	}
 
 	// Public methods
@@ -1192,9 +1226,6 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 
 	//////////////////////////////////////////////////////////////////////////
 	// Google Wallet
-	//
-	// Eventually we'll want to move all this code into appropriate spots, but
-	// for now I'm keeping it all down here to make merging a bit easier.
 
 	private boolean mCheckedPreAuth;
 	private boolean mIsUserPreAuthorized;
@@ -1334,7 +1365,6 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 		updateWalletViewVisibilities();
 	}
 
-	//////////////////////////////////////////////////////////////////////////
 	// OnPreAuthorizationDeterminedListener
 
 	@Override
@@ -1376,46 +1406,5 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 
 		// It no longer matters if we're pre-authed, since we have a wallet (or a resolution thereof)
 		mIsUserPreAuthorized = false;
-	}
-
-	// LIFECYCLE - TODO MOVE THIS LATER
-
-	private void walletOnCreate(Bundle savedInstanceState) {
-		if (savedInstanceState == null) {
-			// Reset masked wallet each time we start here, so we start from scratch
-			Db.setMaskedWallet(null);
-		}
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-
-		switch (requestCode) {
-		case REQUEST_CODE_RESOLVE_ERR:
-			// Call connect regardless of success or failure.
-			// If the result was success, the connect should succeed
-			// If the result was not success, this should get a new connection result
-			mWalletClient.connect();
-			break;
-		case REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET:
-			switch (resultCode) {
-			case Activity.RESULT_OK:
-				Db.setMaskedWallet((MaskedWallet) data.getParcelableExtra(WalletConstants.EXTRA_MASKED_WALLET));
-				bindMaskedWallet();
-				break;
-			case Activity.RESULT_CANCELED:
-				Log.w("Masked wallet request: received RESULT_CANCELED");
-				// Need to load a new ConnectionResult (even if user canceled)
-				// in case they want to try it again
-				mWalletClient.loadMaskedWallet(buildMaskedWalletRequest(), this);
-				break;
-			default:
-				int errorCode = data.getIntExtra(WalletConstants.EXTRA_ERROR_CODE, -1);
-				handleError(errorCode);
-				break;
-			}
-			break;
-		}
 	}
 }

@@ -343,7 +343,6 @@ public class HotelBookingFragment extends WalletFragment {
 		mListener.onBookingResponse(response);
 	}
 
-	//////////////////////////////////////////////////////////////////////////
 	// ConnectionCallbacks
 
 	@Override
@@ -355,7 +354,6 @@ public class HotelBookingFragment extends WalletFragment {
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////
 	// OnFullWalletLoadedListener
 
 	@Override
