@@ -157,7 +157,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 
 		updateViews();
 
-		if (Db.getSearchParams().getNumChildren() == 0) {
+		if (Db.getHotelSearch().getSearchParams().getNumChildren() == 0) {
 			hideChildAgesButton(false);
 		}
 		else {
@@ -230,7 +230,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 
 		// Autosuggestions
 		initSuggestionViews(view, inflater);
-		startAutocomplete(Db.getSearchParams().getQuery());
+		startAutocomplete(Db.getHotelSearch().getSearchParams().getQuery());
 
 		// Configure the calendar
 		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker, CalendarDatePicker.SelectionMode.RANGE);
@@ -285,12 +285,12 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 		super.onStart();
 
 		// If the search params changed since last time we updated the views, update the views
-		if (!Db.getSearchParams().equals(mLastSearchParams)) {
+		if (!Db.getHotelSearch().getSearchParams().equals(mLastSearchParams)) {
 			Log.d("SearchParamsFragment: Detected change in SearchParams, updating views.");
 			mHasFocusedSearchField = true;
 
 			updateViews();
-			startAutocomplete(Db.getSearchParams().getQuery());
+			startAutocomplete(Db.getHotelSearch().getSearchParams().getQuery());
 		}
 	}
 
@@ -329,7 +329,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 	// Views
 
 	public void updateViews() {
-		SearchParams params = Db.getSearchParams();
+		SearchParams params = Db.getHotelSearch().getSearchParams();
 
 		// Before we update views, make sure we have a valid checkin/checkout dates
 		params.ensureValidCheckInDate();
@@ -381,7 +381,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 
 	private final CalendarDatePicker.OnDateChangedListener mDatesDateChangedListener = new CalendarDatePicker.OnDateChangedListener() {
 		public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
-			CalendarUtils.syncParamsFromDatePicker(Db.getSearchParams(), mCalendarDatePicker);
+			CalendarUtils.syncParamsFromDatePicker(Db.getHotelSearch().getSearchParams(), mCalendarDatePicker);
 		}
 	};
 
@@ -390,7 +390,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 
 		public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
 			if (!isHidden()) {
-				SearchParams searchParams = Db.getSearchParams();
+				SearchParams searchParams = Db.getHotelSearch().getSearchParams();
 				searchParams.setNumAdults(mAdultsNumberPicker.getValue());
 			}
 
@@ -403,7 +403,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 
 		public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
 			if (!isHidden()) {
-				SearchParams searchParams = Db.getSearchParams();
+				SearchParams searchParams = Db.getHotelSearch().getSearchParams();
 				List<Integer> children = searchParams.getChildren();
 				Activity activity = getActivity();
 				GuestsPickerUtils.resizeChildrenList(activity, children, mChildrenNumberPicker.getValue());
@@ -477,7 +477,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 		@Override
 		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 			Context context = getActivity();
-			List<Integer> children = Db.getSearchParams().getChildren();
+			List<Integer> children = Db.getHotelSearch().getSearchParams().getChildren();
 			GuestsPickerUtils.setChildrenFromSpinners(context, mChildAgesLayout, children);
 			GuestsPickerUtils.updateDefaultChildAges(context, children);
 		}
@@ -560,7 +560,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 			mChildAgesLayout.setVisibility(View.VISIBLE);
 		}
 
-		GuestsPickerUtils.showOrHideChildAgeSpinners(getActivity(), Db.getSearchParams().getChildren(),
+		GuestsPickerUtils.showOrHideChildAgeSpinners(getActivity(), Db.getHotelSearch().getSearchParams().getChildren(),
 				mChildAgesLayout, mChildAgeSelectedListener);
 
 		// This needs to be run after mChildAgesPopup layout (because of getHeight()).
@@ -669,9 +669,9 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 		private OnClickListener createRowOnClickListener(final String suggestion, final Search search) {
 			return new OnClickListener() {
 				public void onClick(View v) {
-					Db.getSearchParams().setQuery(suggestion);
+					Db.getHotelSearch().getSearchParams().setQuery(suggestion);
 					if (search != null) {
-						Db.getSearchParams().fillFromSearch(search);
+						Db.getHotelSearch().getSearchParams().fillFromSearch(search);
 					}
 					mLocationEditText.setText(suggestion);
 					mLocationEditText.clearFocus();
@@ -778,7 +778,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 			mHasFocusedSearchField = true;
 
 			String location = s.toString().trim();
-			SearchParams searchParams = Db.getSearchParams();
+			SearchParams searchParams = Db.getHotelSearch().getSearchParams();
 			if (location.length() == 0 || location.equals(getString(R.string.current_location))) {
 				searchParams.setSearchType(SearchType.MY_LOCATION);
 				startAutocomplete("");
@@ -820,7 +820,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 		public void onReceive(Context context, Intent intent) {
 			if (mDetectedInitialConnectivity) {
 				// Kick off a new suggestion query based on the current text.
-				startAutocomplete(Db.getSearchParams().getQuery());
+				startAutocomplete(Db.getHotelSearch().getSearchParams().getQuery());
 			}
 			else {
 				mDetectedInitialConnectivity = true;
@@ -861,7 +861,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 	// Fragment control
 
 	public void onResetParams() {
-		startAutocomplete(Db.getSearchParams().getQuery());
+		startAutocomplete(Db.getHotelSearch().getSearchParams().getQuery());
 	}
 
 	//////////////////////////////////////////////////////////////////////////

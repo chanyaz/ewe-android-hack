@@ -53,7 +53,7 @@ public class HotelGalleryActivity extends SherlockFragmentActivity {
 		super.onCreate(savedInstanceState);
 
 		// #13365: If the Db expired, finish out of this activity
-		if (Db.getSelectedProperty() == null) {
+		if (Db.getHotelSearch().getSelectedProperty() == null) {
 			Log.i("Detected expired DB, finishing activity.");
 			finish();
 			return;
@@ -71,7 +71,7 @@ public class HotelGalleryActivity extends SherlockFragmentActivity {
 			mSelectedMedia = JSONUtils.parseJSONableFromIntent(this.getIntent(), Codes.SELECTED_IMAGE, Media.class);
 		}
 
-		mProperty = Db.getSelectedProperty();
+		mProperty = Db.getHotelSearch().getSelectedProperty();
 
 		// setup the ViewPager
 		HotelImagePagerAdapter pagerAdapter = new HotelImagePagerAdapter(getSupportFragmentManager());

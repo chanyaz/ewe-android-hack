@@ -66,7 +66,8 @@ public class HotelMapActivity extends SherlockFragmentActivity implements HotelM
 		mKillReceiver.onCreate();
 
 		// #13365: If the Db expired, finish out of this activity
-		if (Db.getSelectedProperty() == null) {
+		Property selectedProperty = Db.getHotelSearch().getSelectedProperty();
+		if (selectedProperty == null) {
 			Log.i("Detected expired DB, finishing activity.");
 			finish();
 			return;
@@ -75,11 +76,11 @@ public class HotelMapActivity extends SherlockFragmentActivity implements HotelM
 		setContentView(R.layout.activity_hotel_map);
 
 		mHotelMapFragment = Ui.findSupportFragment(this, getString(R.string.tag_single_hotel_map));
-		mHotelMapFragment.setShowDistances(Db.getSearchParams().getSearchType().shouldShowDistance());
-		mHotelMapFragment.setProperty(Db.getSelectedProperty());
-		mHotelMapFragment.focusProperty(Db.getSelectedProperty(), false, 12.0f);
+		mHotelMapFragment.setShowDistances(Db.getHotelSearch().getSearchParams().getSearchType().shouldShowDistance());
+		mHotelMapFragment.setProperty(selectedProperty);
+		mHotelMapFragment.focusProperty(selectedProperty, false, 12.0f);
 
-		Location location = Db.getSelectedProperty().getLocation();
+		Location location = selectedProperty.getLocation();
 
 		// Display the address
 		TextView addressTextView = Ui.findView(this, R.id.address_text_view);
@@ -120,7 +121,7 @@ public class HotelMapActivity extends SherlockFragmentActivity implements HotelM
 
 		ViewGroup titleView = (ViewGroup) getLayoutInflater().inflate(R.layout.actionbar_hotel_name_with_stars, null);
 
-		Property property = Db.getSelectedProperty();
+		Property property = Db.getHotelSearch().getSelectedProperty();
 		String title = property.getName();
 		((TextView) titleView.findViewById(R.id.title)).setText(title);
 

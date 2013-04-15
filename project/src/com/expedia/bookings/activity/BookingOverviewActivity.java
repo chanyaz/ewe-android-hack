@@ -58,7 +58,7 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 			}
 		}
 
-		if (Db.getSelectedProperty() == null) {
+		if (Db.getHotelSearch().getSelectedProperty() == null) {
 			Log.i("Detected expired DB, finishing activity.");
 			finish();
 			return;
@@ -139,7 +139,7 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 
 		ViewGroup titleView = (ViewGroup) getLayoutInflater().inflate(R.layout.actionbar_hotel_name_with_stars, null);
 
-		Property property = Db.getSelectedProperty();
+		Property property = Db.getHotelSearch().getSelectedProperty();
 		if (property == null) {
 			Log.i("Detected expired DB, finishing activity.");
 			finish();

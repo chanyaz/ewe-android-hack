@@ -21,7 +21,6 @@ import com.expedia.bookings.data.HotelDescription;
 import com.expedia.bookings.data.HotelDescription.DescriptionSection;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.ReviewsStatisticsResponse;
-import com.expedia.bookings.utils.DbPropertyHelper;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.AnimatorSet;
@@ -51,9 +50,10 @@ public class HotelDetailsIntroFragment extends Fragment {
 	}
 
 	private void populateViews(View view) {
-		populateBannerSection(view, DbPropertyHelper.getBestReviewsProperty(),
-				Db.getSelectedReviewsStatisticsResponse());
-		populateIntroParagraph(view, DbPropertyHelper.getBestDescriptionProperty());
+		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		ReviewsStatisticsResponse statsResponse = Db.getHotelSearch().getReviewsStatisticsResponse(selectedId);
+		populateBannerSection(view, Db.getHotelSearch().getSelectedProperty(), statsResponse);
+		populateIntroParagraph(view, Db.getHotelSearch().getSelectedProperty());
 	}
 
 	// Reviews

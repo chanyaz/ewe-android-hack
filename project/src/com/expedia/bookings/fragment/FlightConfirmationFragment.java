@@ -325,7 +325,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 		}
 
 		//Update the Db object to have our search params (which will be used by hotels search)
-		Db.setSearchParams(sp);
+		Db.getHotelSearch().setSearchParams(sp);
 
 		// Launch hotel search
 		if (ExpediaBookingApp.useTabletInterface(getActivity())) {

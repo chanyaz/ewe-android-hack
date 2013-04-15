@@ -15,10 +15,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelDescription;
 import com.expedia.bookings.data.HotelDescription.DescriptionSection;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.utils.DbPropertyHelper;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
@@ -41,8 +41,8 @@ public class HotelDetailsDescriptionFragment extends Fragment {
 	}
 
 	private void populateViews(View view) {
-		setupAmenities(view, DbPropertyHelper.getBestAmenityProperty());
-		setupDescriptionSections(view, DbPropertyHelper.getBestDescriptionProperty());
+		setupAmenities(view, Db.getHotelSearch().getSelectedProperty());
+		setupDescriptionSections(view, Db.getHotelSearch().getSelectedProperty());
 	}
 
 	private void setupAmenities(View view, Property property) {

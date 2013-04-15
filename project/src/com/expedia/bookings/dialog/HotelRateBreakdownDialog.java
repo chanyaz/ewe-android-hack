@@ -54,8 +54,9 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 			}
 		});
 
-		final Rate rate = Db.getSelectedRate();
-		final SearchParams params = Db.getSearchParams();
+		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		final Rate rate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
+		final SearchParams params = Db.getHotelSearch().getSearchParams();
 
 		Builder leftBuilder = new Builder();
 		leftBuilder.setLeft();

@@ -14,6 +14,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.BookingInfoUtils;
@@ -251,8 +252,10 @@ public class CouponCodeWidget {
 			String code = mCouponCode.getText().toString();
 			ExpediaServices services = new ExpediaServices(mContext);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_CREATE_TRIP, services);
-			return services.createTripWithCoupon(code, Db.getSearchParams(), Db.getSelectedProperty(),
-					Db.getSelectedRate());
+			String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+			Rate selectedRate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
+			return services.createTripWithCoupon(code, Db.getHotelSearch().getSearchParams(), Db.getHotelSearch().getSelectedProperty(),
+					selectedRate);
 		}
 	};
 

@@ -48,8 +48,8 @@ public class HotelDetailsMiniMapFragment extends Fragment {
 			}
 		});
 
-		SearchParams searchParams = Db.getSearchParams();
-		Property searchProperty = Db.getSelectedProperty();
+		SearchParams searchParams = Db.getHotelSearch().getSearchParams();
+		Property searchProperty = Db.getHotelSearch().getSelectedProperty();
 		if (searchParams != null && searchProperty != null) {
 			mStaticMapImageView.setCenterPoint(searchProperty.getLocation());
 

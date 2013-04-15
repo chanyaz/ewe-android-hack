@@ -66,10 +66,12 @@ public class BookingInfoFragment extends Fragment {
 		String contactText = ConfirmationUtils.determineContactText(getActivity());
 		ConfirmationUtils.configureContactView(getActivity(), contactView, contactText);
 
-		if (Db.getSelectedRate() != null) {
+		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		Rate selectedRate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
+		if (selectedRate != null) {
 			updateReceipt();
 			updateRoomDescription(view);
-			ConfirmationUtils.determineCancellationPolicy(Db.getSelectedRate(), view);
+			ConfirmationUtils.determineCancellationPolicy(selectedRate, view);
 		}
 
 		final View receipt = view.findViewById(R.id.receipt);
@@ -132,7 +134,8 @@ public class BookingInfoFragment extends Fragment {
 			return;
 		}
 
-		Rate rate = Db.getSelectedRate();
+		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		Rate rate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
 		TextView roomTypeDescriptionTitleTextView = (TextView) view.findViewById(R.id.room_type_description_title_view);
 		roomTypeDescriptionTitleTextView.setText(rate.getRatePlanName());
 
@@ -141,7 +144,9 @@ public class BookingInfoFragment extends Fragment {
 	}
 
 	private void updateReceipt() {
-		mReceiptWidget.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate());
+		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		Rate selectedRate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
+		mReceiptWidget.updateData(Db.getHotelSearch().getSelectedProperty(), Db.getHotelSearch().getSearchParams(), selectedRate);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -151,7 +156,9 @@ public class BookingInfoFragment extends Fragment {
 		mCompleteBookingInfoButton.setEnabled(true);
 		updateReceipt();
 		updateRoomDescription(getView());
-		ConfirmationUtils.determineCancellationPolicy(Db.getSelectedRate(), getView());
+		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		Rate selectedRate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
+		ConfirmationUtils.determineCancellationPolicy(selectedRate, getView());
 	}
 
 	public void notifyNoRates() {

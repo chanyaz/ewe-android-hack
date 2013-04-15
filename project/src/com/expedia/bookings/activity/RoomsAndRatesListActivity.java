@@ -90,8 +90,8 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 		mRoomsAndRatesFragment = Ui.findSupportFragment(this, getString(R.string.tag_rooms_and_rates));
 
 		// Format the header
-		Property property = Db.getSelectedProperty();
-		SearchParams searchParams = Db.getSearchParams();
+		Property property = Db.getHotelSearch().getSelectedProperty();
+		SearchParams searchParams = Db.getHotelSearch().getSearchParams();
 		ImageView thumbnailView = (ImageView) findViewById(R.id.thumbnail_image_view);
 		if (property.getThumbnail() != null) {
 			UrlBitmapDrawable.loadImageView(property.getThumbnail().getUrl(), thumbnailView, R.drawable.ic_image_placeholder);
@@ -146,7 +146,8 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 			return;
 		}
 
-		if (Db.getSelectedAvailabilityResponse() != null) {
+		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		if (Db.getHotelSearch().getHotelOffersResponse(selectedId) != null) {
 			mRoomsAndRatesFragment.notifyAvailabilityLoaded();
 		}
 		else {
@@ -208,7 +209,7 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 
 	private boolean checkFinishConditionsAndFinish() {
 		// #13365: If the Db expired, finish out of this activity
-		if (Db.getSelectedProperty() == null) {
+		if (Db.getHotelSearch().getSelectedProperty() == null) {
 			Log.i("Detected expired DB, finishing activity.");
 			finish();
 			return true;
@@ -232,14 +233,14 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 		public AvailabilityResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(RoomsAndRatesListActivity.this);
 			BackgroundDownloader.getInstance().addDownloadListener(DOWNLOAD_KEY, services);
-			return services.availability(Db.getSearchParams(), Db.getSelectedProperty());
+			return services.availability(Db.getHotelSearch().getSearchParams(), Db.getHotelSearch().getSelectedProperty());
 		}
 	};
 
 	private final OnDownloadComplete<AvailabilityResponse> mCallback = new OnDownloadComplete<AvailabilityResponse>() {
 		@Override
 		public void onDownload(AvailabilityResponse response) {
-			Db.addAvailabilityResponse(response);
+			Db.getHotelSearch().updateFrom(response);
 			mRoomsAndRatesFragment.notifyAvailabilityLoaded();
 		}
 	};
@@ -249,7 +250,8 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 
 	@Override
 	public void onRateSelected(Rate rate) {
-		Db.setSelectedRate(rate);
+		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		Db.getHotelSearch().getAvailability(selectedId).setSelectedRate(rate);
 
 		Intent intent = new Intent(this, BookingOverviewActivity.class);
 		startActivity(intent);

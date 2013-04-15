@@ -67,13 +67,15 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 
 		View v = super.onCreateView(inflater, container, savedInstanceState);
 
-		Ui.setText(v, R.id.hotel_name_text_view, Db.getSelectedProperty().getName());
+		Ui.setText(v, R.id.hotel_name_text_view, Db.getHotelSearch().getSelectedProperty().getName());
 
 		// Construct the hotel card
-		Property property = Db.getSelectedProperty();
+		Property property = Db.getHotelSearch().getSelectedProperty();
 		ItinHeaderImageView hotelImageView = Ui.findView(v, R.id.hotel_image_view);
 		hotelImageView.setGradient(CARD_GRADIENT_COLORS, CARD_GRADIENT_POSITIONS);
-		Media media = HotelUtils.getRoomMedia(property, Db.getSelectedRate());
+		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		Rate selectedRate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
+		Media media = HotelUtils.getRoomMedia(property, selectedRate);
 		if (media != null) {
 			UrlBitmapDrawable.loadImageView(media.getHighResUrls(), hotelImageView,
 					R.drawable.bg_itin_placeholder);
@@ -82,7 +84,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 			hotelImageView.setImageResource(R.drawable.bg_itin_placeholder);
 		}
 
-		SearchParams params = Db.getSearchParams();
+		SearchParams params = Db.getHotelSearch().getSearchParams();
 		int numGuests = params.getNumAdults() + params.getNumChildren();
 		String guests = getResources().getQuantityString(R.plurals.number_of_guests, numGuests, numGuests);
 		String duration = CalendarUtils.formatDateRange2(getActivity(), params, DateUtils.FORMAT_SHOW_DATE
@@ -204,10 +206,10 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		flightSearchParams.reset();
 
 		Location loc = new Location();
-		loc.setDestinationId(Db.getSelectedProperty().getLocation().toLongFormattedString());
+		loc.setDestinationId(Db.getHotelSearch().getSelectedProperty().getLocation().toLongFormattedString());
 		flightSearchParams.setArrivalLocation(loc);
 
-		SearchParams params = Db.getSearchParams();
+		SearchParams params = Db.getHotelSearch().getSearchParams();
 		flightSearchParams.setDepartureDate(new Date(params.getCheckInDate()));
 		flightSearchParams.setReturnDate(new Date(params.getCheckOutDate()));
 
@@ -221,11 +223,12 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 	private void share() {
 		Context context = getActivity();
 
-		SearchParams searchParams = Db.getSearchParams();
-		Property property = Db.getSelectedProperty();
+		SearchParams searchParams = Db.getHotelSearch().getSearchParams();
+		Property property = Db.getHotelSearch().getSelectedProperty();
 		BookingResponse bookingResponse = Db.getBookingResponse();
 		BillingInfo billingInfo = Db.getBillingInfo();
-		Rate rate = Db.getSelectedRate();
+		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		Rate rate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
 		Rate discountRate = Db.getCouponDiscountRate();
 
 		ShareUtils socialUtils = new ShareUtils(context);
@@ -250,8 +253,8 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 	}
 
 	private Intent generateHotelCalendarIntent(boolean checkIn) {
-		Calendar cal = checkIn ? Db.getSearchParams().getCheckInDate() : Db.getSearchParams().getCheckOutDate();
-		Property property = Db.getSelectedProperty();
+		Calendar cal = checkIn ? Db.getHotelSearch().getSearchParams().getCheckInDate() : Db.getHotelSearch().getSearchParams().getCheckOutDate();
+		Property property = Db.getHotelSearch().getSelectedProperty();
 		BookingResponse bookingResponse = Db.getBookingResponse();
 
 		int titleResId = checkIn ? R.string.calendar_hotel_title_checkin_TEMPLATE

@@ -138,7 +138,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		super.onCreate(savedInstanceState);
 
 		// property
-		mProperty = Db.getSelectedProperty();
+		mProperty = Db.getHotelSearch().getSelectedProperty();
 
 		// review sort
 		final Bundle args = getArguments();
@@ -215,7 +215,9 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		if (savedInstanceState != null) {
 			mAttemptedDownload = savedInstanceState.getBoolean(INSTANCE_ATTEMPTED_DOWNLOAD, false);
 			boolean reincarnatedReviews = savedInstanceState.getBoolean(INSTANCE_HAS_REVIEWS, false);
-			if (reincarnatedReviews && Db.getSelectedReviewsStatisticsResponse() != null) {
+			String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+			ReviewsStatisticsResponse statsResponse = Db.getHotelSearch().getReviewsStatisticsResponse(selectedId);
+			if (reincarnatedReviews && statsResponse != null) {
 				mRecommendedReviewCount = savedInstanceState.getInt(INSTANCE_RECOMMENDED_REVIEW_COUNT);
 				mTotalReviewCount = savedInstanceState.getInt(INSTANCE_TOTAL_REVIEW_COUNT);
 
@@ -282,7 +284,8 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	// Public Methods
 
 	public void populateListHeader() {
-		ReviewsStatisticsResponse stats = Db.getSelectedReviewsStatisticsResponse();
+		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		ReviewsStatisticsResponse stats = Db.getHotelSearch().getReviewsStatisticsResponse(selectedId);
 		mRecommendedReviewCount = stats.getRecommendedCount();
 		mTotalReviewCount = stats.getTotalReviewCount();
 

@@ -428,7 +428,7 @@ public class OmnitureTracking {
 		s.setProp(25, "Shopper");
 
 		// Rating or highly rated
-		Property property = Db.getSelectedProperty();
+		Property property = Db.getHotelSearch().getSelectedProperty();
 		addHotelRating(s, property);
 
 		// Products
@@ -458,7 +458,7 @@ public class OmnitureTracking {
 		s.setProp(25, "Shopper");
 
 		// Products
-		addProducts(s, Db.getSelectedProperty());
+		addProducts(s, Db.getHotelSearch().getSelectedProperty());
 
 		// Send the tracking data
 		s.track();

@@ -90,7 +90,7 @@ public class SearchFragmentActivity extends SherlockFragmentActivity implements 
 		super.onNewIntent(intent);
 
 		if (intent.hasExtra(EXTRA_NEW_SEARCH)) {
-			Db.resetSearchParams();
+			Db.getHotelSearch().resetSearchParams();
 
 			mSearchParamsFragment.onResetParams();
 		}

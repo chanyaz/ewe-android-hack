@@ -33,7 +33,8 @@ public class HotelRulesFragment extends SherlockFragment {
 
 		ViewUtils.setAllCaps((TextView) Ui.findView(view, R.id.cancellation_policy_header_text_view));
 
-		Rate rate = Db.getSelectedRate();
+		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		Rate rate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
 		if (rate != null) {
 			Policy cancellationPolicy = rate.getRateRules().getPolicy(Policy.TYPE_CANCEL);
 

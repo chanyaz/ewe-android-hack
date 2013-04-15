@@ -58,7 +58,6 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
-import com.expedia.bookings.utils.DbPropertyHelper;
 import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
@@ -523,7 +522,8 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 	public void updateViews() {
 		mLegalInformationTextView.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement());
 
-		Rate rate = Db.getSelectedRate();
+		final String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		Rate rate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
 
 		// Configure the total cost and (if necessary) total cost paid to Expedia
 		if (Db.getCreateTripResponse() != null) {
@@ -531,7 +531,7 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 		}
 
 		// Configure slide to purchase string
-		if (!Db.getSelectedProperty().isMerchant()) {
+		if (!Db.getHotelSearch().getSelectedProperty().isMerchant()) {
 			mCouponCodeLayout.setVisibility(View.GONE);
 			mSlideToPurchasePriceString = getString(R.string.collected_by_the_hotel_TEMPLATE,
 					rate.getTotalPriceWithMandatoryFees().getFormattedMoney());
@@ -546,7 +546,7 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 		}
 		mSlideToPurchaseFragment.setTotalPriceString(mSlideToPurchasePriceString);
 
-		mHotelReceipt.bind(mIsDoneLoadingPriceChange, DbPropertyHelper.getBestMediaProperty(), Db.getSearchParams(),
+		mHotelReceipt.bind(mIsDoneLoadingPriceChange, Db.getHotelSearch().getSelectedProperty(), Db.getHotelSearch().getSearchParams(),
 				rate);
 	}
 
@@ -571,7 +571,7 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 		}
 
 		if (mInCheckout) {
-			if (Db.getSelectedProperty().isMerchant()) {
+			if (Db.getHotelSearch().getSelectedProperty().isMerchant()) {
 				mCouponCodeLayout.setVisibility(View.VISIBLE);
 			}
 			else {
@@ -899,7 +899,9 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 		public HotelProductResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, services);
-			return services.hotelProduct(Db.getSearchParams(), Db.getSelectedProperty(), Db.getSelectedRate());
+			String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+			Rate selectedRate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
+			return services.hotelProduct(Db.getHotelSearch().getSearchParams(), Db.getHotelSearch().getSelectedProperty(), selectedRate);
 		}
 	};
 
@@ -910,7 +912,8 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 				handleHotelProductError(response);
 			}
 			else {
-				Rate selectedRate = Db.getSelectedRate();
+				final String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+				Rate selectedRate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
 				Rate newRate = response.getRate();
 
 				if (TextUtils.equals(selectedRate.getRateKey(), response.getOriginalProductKey())) {
@@ -929,14 +932,13 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 								selectedRate.getDisplayTotalPrice(), newRate.getDisplayTotalPrice());
 						dialog.show(getFragmentManager(), "priceChangeDialog");
 					}
-					newRate.setValueAdds(selectedRate.getValueAdds());
-					Db.setSelectedRate(newRate);
-					AvailabilityResponse availResponse = Db.getSelectedAvailabilityResponse();
-					availResponse.updateRate(response.getOriginalProductKey(), newRate);
+
+					Db.getHotelSearch().getAvailability(selectedId).updateFrom(selectedRate.getRateKey(), response);
+					Db.getHotelSearch().getAvailability(selectedId).setSelectedRate(newRate);
 
 					mIsDoneLoadingPriceChange = true;
-					mHotelReceipt.bind(mIsDoneLoadingPriceChange, DbPropertyHelper.getBestMediaProperty(),
-							Db.getSearchParams(), Db.getSelectedRate());
+					mHotelReceipt.bind(mIsDoneLoadingPriceChange, Db.getHotelSearch().getSelectedProperty(),
+							Db.getHotelSearch().getSearchParams(), selectedRate);
 					updateViewVisibilities();
 				}
 				else {
@@ -953,8 +955,8 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 			for (ServerError error : response.getErrors()) {
 				if (error.getErrorCode() == ServerError.ErrorCode.HOTEL_ROOM_UNAVAILABLE) {
 					isUnavailable = true;
-					AvailabilityResponse availResponse = Db.getSelectedAvailabilityResponse();
-					availResponse.removeRate(response.getOriginalProductKey());
+					String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+					Db.getHotelSearch().getAvailability(selectedId).removeRate(response.getOriginalProductKey());
 				}
 			}
 		}
@@ -1190,7 +1192,9 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 
 	@Override
 	protected Money getEstimatedTotal() {
-		return Db.getSelectedRate().getTotalAmountAfterTax();
+		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		Rate selectedRate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
+		return selectedRate.getTotalAmountAfterTax();
 	}
 
 	@Override

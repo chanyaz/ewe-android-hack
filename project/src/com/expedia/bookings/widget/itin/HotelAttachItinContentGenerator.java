@@ -58,7 +58,7 @@ public class HotelAttachItinContentGenerator extends ItinButtonContentGenerator<
 	private void startSearchActivity(Context context) {
 		OmnitureTracking.trackCrossSellItinToHotel(context);
 
-		Db.setSearchParams(getItinCardData().getSearchParams());
+		Db.getHotelSearch().setSearchParams(getItinCardData().getSearchParams());
 
 		Class<? extends Activity> targetClass = ExpediaBookingApp.useTabletInterface(context) ? SearchResultsFragmentActivity.class
 				: PhoneSearchActivity.class;

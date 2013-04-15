@@ -84,7 +84,7 @@ public class FilterDialogFragment extends DialogFragment {
 		}
 		}
 		mRadiusButtonGroup.check(checkId);
-		SearchType searchType = Db.getSearchParams().getSearchType();
+		SearchType searchType = Db.getHotelSearch().getSearchParams().getSearchType();
 		mRadiusButtonGroup.setVisibility(searchType == SearchType.ADDRESS || searchType == SearchType.MY_LOCATION
 				|| searchType == SearchType.POI ? View.VISIBLE : View.GONE);
 
@@ -151,7 +151,7 @@ public class FilterDialogFragment extends DialogFragment {
 	}
 
 	public CharSequence getTitle() {
-		Property[] properties = Db.getSearchResponse().getFilteredAndSortedProperties();
+		Property[] properties = Db.getHotelSearch().getSearchResponse().getFilteredAndSortedProperties();
 		int count = properties == null ? 0 : properties.length;
 		return Html.fromHtml(getResources().getQuantityString(R.plurals.number_of_matching_hotels, count, count));
 	}

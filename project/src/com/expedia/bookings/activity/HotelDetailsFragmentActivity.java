@@ -151,7 +151,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 			Property property = (Property) JSONUtils.parseJSONableFromIntent(getIntent(), Codes.PROPERTY,
 					Property.class);
 			if (property != null) {
-				Db.setSelectedProperty(property);
+				Db.getHotelSearch().setSelectedProperty(property);
 			}
 			else {
 				// It means we came back from the reviews activity and Db.getSelectedProperty is already valid
@@ -160,7 +160,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 
 		if (intent.hasExtra(Codes.SEARCH_PARAMS)) {
 			SearchParams params = JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS, SearchParams.class);
-			Db.setSearchParams(params);
+			Db.getHotelSearch().setSearchParams(params);
 		}
 
 		if (checkFinishConditionsAndFinish()) {
@@ -195,7 +195,8 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 
-		AvailabilityResponse infoResponse = Db.getSelectedAvailabilityResponse();
+		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		AvailabilityResponse infoResponse = Db.getHotelSearch().getHotelOffersResponse(selectedId);
 		if (infoResponse != null) {
 			// We may have been downloading the data here before getting it elsewhere, so cancel
 			// our own download once we have data
@@ -213,7 +214,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 			}
 		}
 
-		ReviewsStatisticsResponse reviewsResponse = Db.getSelectedReviewsStatisticsResponse();
+		ReviewsStatisticsResponse reviewsResponse = Db.getHotelSearch().getReviewsStatisticsResponse(selectedId);
 		if (reviewsResponse != null) {
 			// We may have been downloading the data here before getting it elsewhere, so cancel
 			// our own download once we have data
@@ -293,7 +294,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 
 		ViewGroup titleView = (ViewGroup) getLayoutInflater().inflate(R.layout.actionbar_hotel_name_with_stars, null);
 
-		Property property = Db.getSelectedProperty();
+		Property property = Db.getHotelSearch().getSelectedProperty();
 		String title = property.getName();
 		((TextView) titleView.findViewById(R.id.title)).setText(title);
 
@@ -323,7 +324,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 			// TODO: this doesn't seem to be working, even on JB. But really, we know the one case
 			// when the task stack should be recreated: when we've found this hotel via widget.
 			//boolean shouldUpRecreateTask = NavUtils.shouldUpRecreateTask(this, intent);
-			boolean shouldUpRecreateTask = Db.getSearchParams().isFromWidget();
+			boolean shouldUpRecreateTask = Db.getHotelSearch().getSearchParams().isFromWidget();
 
 			if (shouldUpRecreateTask) {
 				Intent intent = PhoneSearchActivity.createIntent(this, true);
@@ -465,7 +466,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	}
 
 	private boolean checkFinishConditionsAndFinish() {
-		Property property = Db.getSelectedProperty();
+		Property property = Db.getHotelSearch().getSelectedProperty();
 		if (property == null) {
 			Log.i("Detected expired DB, finishing activity.");
 			finish();
@@ -488,7 +489,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		@Override
 		public AvailabilityResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
-			return services.availability(Db.getSearchParams(), Db.getSelectedProperty());
+			return services.availability(Db.getHotelSearch().getSearchParams(), Db.getHotelSearch().getSelectedProperty());
 		}
 	};
 
@@ -496,12 +497,13 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		@Override
 		public void onDownload(AvailabilityResponse response) {
 			// Check if we got a better response elsewhere before loading up this data
-			AvailabilityResponse possibleBetterResponse = Db.getSelectedAvailabilityResponse();
+			String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+			AvailabilityResponse possibleBetterResponse = Db.getHotelSearch().getHotelOffersResponse(selectedId);
 			if (possibleBetterResponse != null) {
 				response = possibleBetterResponse;
 			}
 			else {
-				Db.addAvailabilityResponse(response);
+				Db.getHotelSearch().updateFrom(response);
 			}
 
 			// Notify affected child fragments to refresh.
@@ -531,15 +533,15 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		@Override
 		public ReviewsStatisticsResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
-			return services.reviewsStatistics(Db.getSelectedProperty());
+			return services.reviewsStatistics(Db.getHotelSearch().getSelectedProperty());
 		}
 	};
 
 	private final OnDownloadComplete<ReviewsStatisticsResponse> mReviewsCallback = new OnDownloadComplete<ReviewsStatisticsResponse>() {
 		@Override
 		public void onDownload(ReviewsStatisticsResponse response) {
-
-			Db.addReviewsStatisticsResponse(response);
+			String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+			Db.getHotelSearch().addReviewsStatisticsResponse(selectedId, response);
 
 			// Notify affected child fragments to refresh.
 

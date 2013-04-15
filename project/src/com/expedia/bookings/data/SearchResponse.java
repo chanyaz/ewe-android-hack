@@ -27,7 +27,6 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 
 	// We keep both a list of properties (for ordering) and a map (for easy id lookup)
 	private List<Property> mProperties;
-	private Map<String, Property> mPropertyMap;
 
 	// If the web service was doing the geocoding, here are where
 	// the alternate results will go
@@ -51,37 +50,12 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 		return mProperties.get(index);
 	}
 
-	public Property getProperty(String id) {
-		if (id == null || id.length() == 0) {
-			return null;
-		}
-
-		// We don't bother initializing this until it's used, since it's
-		// just a different data representation of the property list.
-		if (mPropertyMap == null) {
-			mPropertyMap = new HashMap<String, Property>();
-
-			if (mProperties != null) {
-				for (Property property : mProperties) {
-					mPropertyMap.put(property.getPropertyId(), property);
-				}
-			}
-		}
-
-		return mPropertyMap.get(id);
-	}
-
 	public void addProperty(Property property) {
 		if (mProperties == null) {
 			mProperties = new ArrayList<Property>();
 		}
 
 		mProperties.add(property);
-
-		// If we've already loaded the property map, add there as well
-		if (mPropertyMap != null) {
-			mPropertyMap.put(property.getPropertyId(), property);
-		}
 
 		clearCache();
 	}

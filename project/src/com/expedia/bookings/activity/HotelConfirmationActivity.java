@@ -8,6 +8,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
@@ -27,7 +28,7 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity {
 
 		// The app will get in to this state if being restored after background kill. In this case let's just be a good
 		// guy and send them to the itin screen.
-		if (Db.getSelectedProperty() == null) {
+		if (Db.getHotelSearch().getSelectedProperty() == null) {
 			Log.d("HotelConfirmationActivity launched without confirmation data, sending to itin");
 			NavUtils.goToItin(this);
 			finish();
@@ -50,8 +51,11 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity {
 			}
 
 			// Track page load
-			OmnitureTracking.trackAppHotelsCheckoutConfirmation(this, Db.getSearchParams(), Db.getSelectedProperty(),
-					Db.getBillingInfo(), Db.getSelectedRate(), Db.getBookingResponse());
+			String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+			Rate selectedRate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
+			OmnitureTracking.trackAppHotelsCheckoutConfirmation(this, Db.getHotelSearch().getSearchParams(),
+					Db.getHotelSearch().getSelectedProperty(), Db.getBillingInfo(),
+					selectedRate, Db.getBookingResponse());
 		}
 
 		setContentView(R.layout.activity_hotel_confirmation);

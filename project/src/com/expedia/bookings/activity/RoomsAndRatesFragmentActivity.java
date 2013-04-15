@@ -55,7 +55,7 @@ public class RoomsAndRatesFragmentActivity extends SherlockFragmentActivity impl
 		super.onCreate(savedInstanceState);
 
 		// #13365: If the Db expired, finish out of this activity
-		if (Db.getSelectedProperty() == null) {
+		if (Db.getHotelSearch().getSelectedProperty() == null) {
 			Log.i("Detected expired DB, finishing activity.");
 			finish();
 			return;
@@ -77,7 +77,7 @@ public class RoomsAndRatesFragmentActivity extends SherlockFragmentActivity impl
 			String referrer = getIntent().getBooleanExtra(EXTRA_SPECIFIC_RATE, false) ? "App.Hotels.ViewSpecificRoom"
 					: "App.Hotels.ViewAllRooms";
 
-			OmnitureTracking.trackAppHotelsRoomsRates(this, Db.getSelectedProperty(), referrer);
+			OmnitureTracking.trackAppHotelsRoomsRates(this, Db.getHotelSearch().getSelectedProperty(), referrer);
 		}
 
 		mKillReciever = new ActivityKillReceiver(this);
@@ -164,7 +164,8 @@ public class RoomsAndRatesFragmentActivity extends SherlockFragmentActivity impl
 
 	@Override
 	public void onRateSelected(Rate rate) {
-		Db.setSelectedRate(rate);
+		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		Db.getHotelSearch().getAvailability(selectedId).setSelectedRate(rate);
 
 		mBookingInfoFragment.notifyRateSelected();
 	}

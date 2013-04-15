@@ -221,14 +221,14 @@ public class HotelListFragment extends ListFragment {
 	}
 
 	public void notifyFilterChanged() {
-		if (Db.getSearchResponse() != null) {
+		if (Db.getHotelSearch().getSearchResponse() != null) {
 			updateViews();
 			resetToTop();
 		}
 	}
 
 	public void notifyPropertySelected() {
-		int position = getPositionOfProperty(Db.getSelectedProperty());
+		int position = getPositionOfProperty(Db.getHotelSearch().getSelectedProperty());
 		if (position != mAdapter.getSelectedPosition()) {
 			mAdapter.setSelectedPosition(position);
 			mAdapter.notifyDataSetChanged();
@@ -261,7 +261,7 @@ public class HotelListFragment extends ListFragment {
 		updateHeaderDateRange();
 
 		// Update ListItem or show status
-		SearchResponse response = Db.getSearchResponse();
+		SearchResponse response = Db.getHotelSearch().getSearchResponse();
 		if (response == null) {
 			updateStatus(true);
 		}
@@ -280,7 +280,7 @@ public class HotelListFragment extends ListFragment {
 
 	private void updateHeaderLawyerLabel() {
 		if (mLawyerLabelTextView != null) {
-			SearchResponse searchResponse = Db.getSearchResponse();
+			SearchResponse searchResponse = Db.getHotelSearch().getSearchResponse();
 			boolean isTablet = ExpediaBookingApp.useTabletInterface(getActivity());
 			if (searchResponse != null && searchResponse.getUserPriceType() == UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES) {
 				if (isTablet) {
@@ -304,7 +304,7 @@ public class HotelListFragment extends ListFragment {
 	private void updateHeaderDateRange() {
 		// only update if view has been initialized
 		if (mSearchDateRangeText != null) {
-			SearchParams params = Db.getSearchParams();
+			SearchParams params = Db.getHotelSearch().getSearchParams();
 
 			Date today = new Date(Calendar.getInstance());
 			Date checkIn = new Date(params.getCheckInDate());
@@ -319,12 +319,12 @@ public class HotelListFragment extends ListFragment {
 	}
 
 	private void updateSearchResults() {
-		SearchResponse response = Db.getSearchResponse();
+		SearchResponse response = Db.getHotelSearch().getSearchResponse();
 		mAdapter.setSearchResponse(response);
 
-		if (Db.getSelectedProperty() != null) {
+		if (Db.getHotelSearch().getSelectedProperty() != null) {
 			// In case there is a currently selected property, select it on the screen.
-			int position = getPositionOfProperty(Db.getSelectedProperty());
+			int position = getPositionOfProperty(Db.getHotelSearch().getSelectedProperty());
 			mAdapter.setSelectedPosition(position);
 		}
 
@@ -345,7 +345,7 @@ public class HotelListFragment extends ListFragment {
 	}
 
 	private void resetToTop() {
-		if (Db.getSelectedProperty() == null) {
+		if (Db.getHotelSearch().getSelectedProperty() == null) {
 			final ListView lv = getListView();
 			lv.post(new Runnable() {
 				@Override

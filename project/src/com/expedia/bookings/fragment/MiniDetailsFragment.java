@@ -70,7 +70,7 @@ public class MiniDetailsFragment extends Fragment implements AvailabilitySummary
 
 		mAvailabilitySummary.init(view);
 
-		updateViews(Db.getSelectedProperty(), view);
+		updateViews(Db.getHotelSearch().getSelectedProperty(), view);
 
 		return view;
 	}
@@ -93,7 +93,8 @@ public class MiniDetailsFragment extends Fragment implements AvailabilitySummary
 
 			mAvailabilitySummary.updateProperty(property);
 
-			AvailabilityResponse availabilityResponse = Db.getSelectedAvailabilityResponse();
+			String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+			AvailabilityResponse availabilityResponse = Db.getHotelSearch().getHotelOffersResponse(selectedId);
 
 			if (availabilityResponse != null) {
 				mAvailabilitySummary.showRates(availabilityResponse);
@@ -106,7 +107,7 @@ public class MiniDetailsFragment extends Fragment implements AvailabilitySummary
 	// Fragment control
 
 	public void notifyPropertySelected() {
-		updateViews(Db.getSelectedProperty());
+		updateViews(Db.getHotelSearch().getSelectedProperty());
 	}
 
 	public void notifyAvailabilityQueryStarted() {
@@ -122,7 +123,8 @@ public class MiniDetailsFragment extends Fragment implements AvailabilitySummary
 	}
 
 	public void notifyAvailabilityQueryComplete() {
-		AvailabilityResponse response = Db.getSelectedAvailabilityResponse();
+		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		AvailabilityResponse response = Db.getHotelSearch().getHotelOffersResponse(selectedId);
 		if (response != null) {
 			if (response.getRateCount() == 0) {
 				mAvailabilitySummary.showError(getString(R.string.error_no_hotel_rooms_available));
@@ -132,7 +134,7 @@ public class MiniDetailsFragment extends Fragment implements AvailabilitySummary
 			}
 		}
 
-		updateViews(Db.getSelectedProperty());
+		updateViews(Db.getHotelSearch().getSelectedProperty());
 	}
 
 	//////////////////////////////////////////////////////////////////////////

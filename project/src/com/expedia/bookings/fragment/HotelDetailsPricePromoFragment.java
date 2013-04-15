@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Rate.UserPriceType;
-import com.expedia.bookings.utils.DbPropertyHelper;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.android.util.Ui;
@@ -35,7 +35,7 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 	}
 
 	private void populateViews(View view) {
-		populatePricePromoBar(view, DbPropertyHelper.getBestRateProperty());
+		populatePricePromoBar(view, Db.getHotelSearch().getSelectedProperty());
 	}
 
 	private void populatePricePromoBar(View view, Property property) {

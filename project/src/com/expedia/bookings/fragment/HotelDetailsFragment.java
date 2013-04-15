@@ -163,8 +163,8 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 		mAmenitiesContainer.setVisibility(View.GONE);
 		mAmenitiesNoneText.setVisibility(View.GONE);
 
-		if (Db.getSelectedProperty() != null) {
-			updateViews(Db.getSelectedProperty(), view);
+		if (Db.getHotelSearch().getSelectedProperty() != null) {
+			updateViews(Db.getHotelSearch().getSelectedProperty(), view);
 		}
 
 		return view;
@@ -278,7 +278,8 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 				mReviewsErrorTextView.setVisibility(View.GONE);
 			}
 
-			ReviewsResponse reviews = Db.getSelectedReviewsResponse();
+			String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+			ReviewsResponse reviews = Db.getHotelSearch().getReviewsResponse(selectedId);
 			if (reviews != null) {
 				addReviews(reviews);
 
@@ -329,7 +330,7 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 
 	public void notifyPropertySelected() {
 		mLoadedReviews = false;
-		updateViews(Db.getSelectedProperty());
+		updateViews(Db.getHotelSearch().getSelectedProperty());
 	}
 
 	public void notifyAvailabilityQueryStarted() {
@@ -348,7 +349,8 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 	}
 
 	public void notifyAvailabilityQueryComplete() {
-		AvailabilityResponse response = Db.getSelectedAvailabilityResponse();
+		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		AvailabilityResponse response = Db.getHotelSearch().getHotelOffersResponse(selectedId);
 		if (response != null) {
 			if (response.getRateCount() > 0) {
 				mAvailabilityWidget.setButtonEnabled(true);
@@ -359,7 +361,7 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 			mAvailabilityWidget.showRates(response);
 		}
 
-		updateViews(Db.getSelectedProperty());
+		updateViews(Db.getHotelSearch().getSelectedProperty());
 	}
 
 	public void notifyReviewsQueryStarted() {
@@ -380,7 +382,8 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 	}
 
 	public void notifyReviewsQueryComplete() {
-		addReviews(Db.getSelectedReviewsResponse());
+		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		addReviews(Db.getHotelSearch().getReviewsResponse(selectedId));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -389,7 +392,8 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 	private void setupAvailabilityContainer(Property property) {
 		mAvailabilityWidget.updateProperty(property);
 
-		AvailabilityResponse availabilityResponse = Db.getSelectedAvailabilityResponse();
+		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		AvailabilityResponse availabilityResponse = Db.getHotelSearch().getHotelOffersResponse(selectedId);
 		if (availabilityResponse != null && !availabilityResponse.hasErrors() && availabilityResponse.getRateCount() > 0) {
 			mAvailabilityWidget.setButtonEnabled(true);
 		}

@@ -98,11 +98,6 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 			return;
 		}
 
-		// Start the download of the user reviews statistics (if needed)
-		/*if (Db.getSelectedReviewsStatisticsResponse() != null) {
-			populateReviewsStats();
-		}
-		else*/
 		if (mBackgroundDownloader.isDownloading(REVIEWS_STATISTICS_DOWNLOAD)) {
 			mBackgroundDownloader.registerDownloadCallback(REVIEWS_STATISTICS_DOWNLOAD,
 					mReviewStatisticsDownloadCallback);
@@ -117,7 +112,7 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 
 	private boolean checkFinishConditionsAndFinish() {
 		// #13365: If the Db expired, finish out of this activity
-		if (Db.getSelectedProperty() == null) {
+		if (Db.getHotelSearch().getSelectedProperty() == null) {
 			Log.i("Detected expired DB, finishing activity.");
 			finish();
 			return true;
@@ -217,7 +212,7 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 		public ReviewsStatisticsResponse doDownload() {
 			ExpediaServices expediaServices = new ExpediaServices(UserReviewsListActivity.this);
 			mBackgroundDownloader.addDownloadListener(REVIEWS_STATISTICS_DOWNLOAD, expediaServices);
-			return expediaServices.reviewsStatistics(Db.getSelectedProperty());
+			return expediaServices.reviewsStatistics(Db.getHotelSearch().getSelectedProperty());
 		}
 	};
 
@@ -232,9 +227,10 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 					showReviewsUnavailableError();
 				}
 				else {
-					Db.addReviewsStatisticsResponse(response);
-					// grab the stats
+					String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+					Db.getHotelSearch().addReviewsStatisticsResponse(selectedId, response);
 
+					// use the stats
 					populateReviewsStats();
 				}
 			}
@@ -259,7 +255,8 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 		TextView titleTextView = (TextView) titleView.findViewById(R.id.title);
 		RatingBar ratingBar = (RatingBar) titleView.findViewById(R.id.user_rating);
 
-		ReviewsStatisticsResponse stats = Db.getSelectedReviewsStatisticsResponse();
+		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		ReviewsStatisticsResponse stats = Db.getHotelSearch().getReviewsStatisticsResponse(selectedId);
 		if (stats == null) {
 			if (ratingBar != null) {
 				ratingBar.setVisibility(View.GONE);

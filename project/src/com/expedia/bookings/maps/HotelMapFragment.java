@@ -209,7 +209,7 @@ public class HotelMapFragment extends SupportMapFragment {
 		}
 
 		showExactLocation();
-		setSearchResponse(Db.getSearchResponse());
+		setSearchResponse(Db.getHotelSearch().getSearchResponse());
 		if (isReady()) {
 			showAll();
 			checkIfSearchIsCurrentLocation();
@@ -243,9 +243,9 @@ public class HotelMapFragment extends SupportMapFragment {
 
 	// Only call this if isReady()
 	private void addExactLocation() {
-		if (Db.getSearchResponse() != null && Db.getSearchResponse().getSearchType() != null
-				&& Db.getSearchResponse().getSearchType().shouldShowExactLocation()) {
-			SearchParams params = Db.getSearchParams();
+		if (Db.getHotelSearch().getSearchResponse() != null && Db.getHotelSearch().getSearchResponse().getSearchType() != null
+				&& Db.getHotelSearch().getSearchResponse().getSearchType().shouldShowExactLocation()) {
+			SearchParams params = Db.getHotelSearch().getSearchParams();
 			LatLng point = new LatLng(params.getSearchLatitude(), params.getSearchLongitude());
 
 			if (mExactLocationMarker == null) {
@@ -333,8 +333,8 @@ public class HotelMapFragment extends SupportMapFragment {
 	}
 
 	public void notifyFilterChanged() {
-		if (mProperties != null && Db.getSearchResponse() != null) {
-			List<Property> newSet = Arrays.asList(Db.getSearchResponse().getFilteredAndSortedProperties());
+		if (mProperties != null && Db.getHotelSearch().getSearchResponse() != null) {
+			List<Property> newSet = Arrays.asList(Db.getHotelSearch().getSearchResponse().getFilteredAndSortedProperties());
 
 			// Add properties we have not seen.
 			// This happens if we are already filtered,
@@ -433,7 +433,7 @@ public class HotelMapFragment extends SupportMapFragment {
 	}
 
 	public void notifySearchLocationFound() {
-		SearchParams params = Db.getSearchParams();
+		SearchParams params = Db.getHotelSearch().getSearchParams();
 
 		LatLng loc = new LatLng(params.getSearchLatitude(), params.getSearchLongitude());
 
@@ -445,12 +445,12 @@ public class HotelMapFragment extends SupportMapFragment {
 	}
 
 	public void notifyPropertySelected() {
-		showBalloon(Db.getSelectedProperty());
-		focusProperty(Db.getSelectedProperty(), true);
+		showBalloon(Db.getHotelSearch().getSelectedProperty());
+		focusProperty(Db.getHotelSearch().getSelectedProperty(), true);
 	}
 
 	private void checkIfSearchIsCurrentLocation() {
-		SearchParams params = Db.getSearchParams();
+		SearchParams params = Db.getHotelSearch().getSearchParams();
 		boolean showCurrentLocation = params.getSearchType() == SearchParams.SearchType.MY_LOCATION;
 		if (mMap != null) {
 			mMap.setMyLocationEnabled(showCurrentLocation);

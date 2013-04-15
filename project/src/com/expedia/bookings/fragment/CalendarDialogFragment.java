@@ -79,7 +79,7 @@ public class CalendarDialogFragment extends DialogFragment {
 		builder.setView(view);
 
 		// Dialog-specific stuff
-		builder.setTitle(getTitleText(Db.getSearchParams()));
+		builder.setTitle(getTitleText(Db.getHotelSearch().getSearchParams()));
 
 		// Configure buttons
 		builder.setPositiveButton(R.string.search, new OnClickListener() {

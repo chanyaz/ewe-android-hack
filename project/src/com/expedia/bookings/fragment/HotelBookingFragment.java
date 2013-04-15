@@ -51,8 +51,11 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> {
 					tuid = Db.getUser().getPrimaryTraveler().getTuid();
 				}
 
-				BookingResponse response = services.reservation(Db.getSearchParams(), Db.getSelectedProperty(),
-						Db.getSelectedRate(), Db.getBillingInfo(), tripId, userId, tuid);
+				String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+				Rate selectedRate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
+				BookingResponse response = services.reservation(Db.getHotelSearch().getSearchParams(),
+						Db.getHotelSearch().getSelectedProperty(), selectedRate,
+						Db.getBillingInfo(), tripId, userId, tuid);
 
 				notifyWalletTransactionStatus(response);
 
@@ -70,8 +73,9 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> {
 
 	@Override
 	protected FullWalletRequest getFullWalletRequest() {
-		Property property = Db.getSelectedProperty();
-		Rate rate = Db.getSelectedRate();
+		Property property = Db.getHotelSearch().getSelectedProperty();
+		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		Rate rate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
 		Money totalBeforeTax = rate.getTotalAmountBeforeTax();
 		Money surcharges = rate.getTotalSurcharge();
 		Money totalAfterTax = rate.getTotalAmountAfterTax();

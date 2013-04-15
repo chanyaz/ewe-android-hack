@@ -58,7 +58,7 @@ public class UserReviewsFragmentPagerAdapter extends FragmentPagerAdapter {
 	@Override
 	public Fragment getItem(int position) {
 		if (mFragments.get(position) == null) {
-			Property property = Db.getSelectedProperty();
+			Property property = Db.getHotelSearch().getSelectedProperty();
 			UserReviewsFragment fragment = UserReviewsFragment.newInstance(property, TABS[position]);
 			mFragments.set(position, fragment);
 		}

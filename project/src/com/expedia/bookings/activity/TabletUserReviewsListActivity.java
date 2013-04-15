@@ -65,7 +65,7 @@ public class TabletUserReviewsListActivity extends FragmentActivity implements U
 		super.onCreate(savedInstanceState);
 
 		// #13365: If the Db expired, finish out of this activity
-		if (Db.getSelectedProperty() == null) {
+		if (Db.getHotelSearch().getSelectedProperty() == null) {
 			Log.i("Detected expired DB, finishing activity.");
 			finish();
 			return;
@@ -91,11 +91,6 @@ public class TabletUserReviewsListActivity extends FragmentActivity implements U
 	protected void onResume() {
 		super.onResume();
 
-		// Start the download of the user reviews statistics (if needed)
-		/*if (Db.getSelectedReviewsStatisticsResponse() != null) {
-			populateReviewsStats();
-		}
-		else*/
 		if (mBackgroundDownloader.isDownloading(REVIEWS_STATISTICS_DOWNLOAD)) {
 			mBackgroundDownloader.registerDownloadCallback(REVIEWS_STATISTICS_DOWNLOAD,
 					mReviewStatisticsDownloadCallback);
@@ -150,7 +145,7 @@ public class TabletUserReviewsListActivity extends FragmentActivity implements U
 		public ReviewsStatisticsResponse doDownload() {
 			ExpediaServices expediaServices = new ExpediaServices(TabletUserReviewsListActivity.this);
 			mBackgroundDownloader.addDownloadListener(REVIEWS_STATISTICS_DOWNLOAD, expediaServices);
-			return expediaServices.reviewsStatistics(Db.getSelectedProperty());
+			return expediaServices.reviewsStatistics(Db.getHotelSearch().getSelectedProperty());
 		}
 	};
 
@@ -165,9 +160,10 @@ public class TabletUserReviewsListActivity extends FragmentActivity implements U
 					showReviewsUnavailableError();
 				}
 				else {
-					Db.addReviewsStatisticsResponse(response);
-					// grab the stats
+					String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+					Db.getHotelSearch().addReviewsStatisticsResponse(selectedId, response);
 
+					// use the stats
 					mPagerAdapter.populateReviewsStats();
 				}
 			}

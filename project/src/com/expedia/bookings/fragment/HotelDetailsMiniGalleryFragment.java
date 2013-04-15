@@ -15,7 +15,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.utils.DbPropertyHelper;
 import com.expedia.bookings.widget.AdapterView;
 import com.expedia.bookings.widget.AdapterView.OnItemClickListener;
 import com.expedia.bookings.widget.AdapterView.OnItemSelectedListener;
@@ -83,7 +82,7 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 	public void populateViews() {
 		final List<Media> media = new ArrayList<Media>();
 
-		Property property = DbPropertyHelper.getBestMediaProperty();
+		Property property = Db.getHotelSearch().getSelectedProperty();
 		if (property != null && property.getMediaCount() > 0) {
 			media.addAll(property.getMediaList());
 		}
@@ -96,7 +95,7 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 		mGallery.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Property selected = Db.getSelectedProperty();
+				Property selected = Db.getHotelSearch().getSelectedProperty();
 				if (selected != null) {
 					mListener.onMiniGalleryItemClicked(selected, parent.getSelectedItem());
 				}

@@ -19,7 +19,6 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
-import com.expedia.bookings.widget.SummarizedRoomRates;
 import com.google.android.gms.wallet.MaskedWallet;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -64,25 +63,13 @@ public class Db {
 
 	private LaunchFlightData mLaunchFlightData;
 
-	// The search params (the details for how to do a search)
-	private SearchParams mSearchParams = new SearchParams();
-
-	// The search response (should correspond at all times to the SearchParams, or be null if SearchParams
-	// has changed).
-	private SearchResponse mSearchResponse;
+	// Hotel search object - represents both the parameters and
+	// the returned results
+	private HotelSearch mHotelSearch = new HotelSearch();
 
 	// The filter applied to SearchResponse.  Note that this Filter can cause a memory leak;
 	// One has to be sure to change the listeners on the Filter whenever appropriate.
 	private Filter mFilter = new Filter();
-
-	// Mapping of Property ID --> AvailabilityResponse
-	private Map<String, AvailabilityResponse> mAvailabilityResponses = new HashMap<String, AvailabilityResponse>();
-
-	// Mapping of Property ID --> ReviewsStatisticsResponse
-	private Map<String, ReviewsStatisticsResponse> mReviewsStatisticsResponses = new HashMap<String, ReviewsStatisticsResponse>();
-
-	// Mapping of Property ID --> ReviewsResponse
-	private Map<String, ReviewsResponse> mReviewsResponses = new HashMap<String, ReviewsResponse>();
 
 	// The billing info.  Make sure to properly clear this out when requested
 	private BillingInfo mBillingInfo;
@@ -95,19 +82,6 @@ public class Db {
 
 	// The booking response.  Make sure to properly clear this out after finishing booking.
 	private BookingResponse mBookingResponse;
-
-	// The "currently selected" property/rate is not strictly necessary, but
-	// provide a useful shorthand for commonly used functionality.  Note that
-	// these will only work if you properly set them on selection.
-	private String mSelectedPropertyId;
-	private String mSelectedRateKey;
-
-	// These are here in the case that a single property/rate is loaded
-	// (without the corresponding SearchResponse/AvailabilityResponse).
-	// This can happen when reloading a single saved piece of info (such
-	// as on the confirmation page).
-	private Property mSelectedProperty;
-	private Rate mSelectedRate;
 
 	// The currently logged in User profile
 	private User mUser;
@@ -188,25 +162,8 @@ public class Db {
 		return sDb.mLaunchFlightData;
 	}
 
-	public static SearchParams resetSearchParams() {
-		sDb.mSearchParams = new SearchParams();
-		return sDb.mSearchParams;
-	}
-
-	public static void setSearchParams(SearchParams searchParams) {
-		sDb.mSearchParams = searchParams;
-	}
-
-	public static SearchParams getSearchParams() {
-		return sDb.mSearchParams;
-	}
-
-	public static void setSearchResponse(SearchResponse searchResponse) {
-		sDb.mSearchResponse = searchResponse;
-	}
-
-	public static SearchResponse getSearchResponse() {
-		return sDb.mSearchResponse;
+	public static HotelSearch getHotelSearch() {
+		return sDb.mHotelSearch;
 	}
 
 	public static void resetFilter() {
@@ -219,136 +176,6 @@ public class Db {
 
 	public static Filter getFilter() {
 		return sDb.mFilter;
-	}
-
-	public static Property getProperty(String propertyId) {
-		return (sDb.mSearchResponse != null) ? sDb.mSearchResponse.getProperty(propertyId) : null;
-	}
-
-	public static void clearSelectedProperty() {
-		sDb.mSelectedPropertyId = null;
-		sDb.mSelectedProperty = null;
-	}
-
-	public static void setSelectedProperty(Property property) {
-		sDb.mSelectedProperty = property;
-		if (property != null) {
-			setSelectedProperty(property.getPropertyId());
-		}
-		else {
-			setSelectedProperty("");
-		}
-	}
-
-	public static void setSelectedProperty(String propertyId) {
-		sDb.mSelectedPropertyId = propertyId;
-	}
-
-	public static Property getSelectedProperty() {
-		if (sDb.mSelectedProperty != null) {
-			return sDb.mSelectedProperty;
-		}
-		return getProperty(sDb.mSelectedPropertyId);
-	}
-
-	public static void clearAvailabilityResponses() {
-		sDb.mAvailabilityResponses.clear();
-	}
-
-	public static void addAvailabilityResponse(AvailabilityResponse availabilityResponse) {
-		if (availabilityResponse != null && availabilityResponse.getProperty() != null) {
-			String propertyId = availabilityResponse.getProperty().getPropertyId();
-			sDb.mAvailabilityResponses.put(propertyId, availabilityResponse);
-		}
-	}
-
-	public static AvailabilityResponse getAvailabilityResponse(String propertyId) {
-		return sDb.mAvailabilityResponses.get(propertyId);
-	}
-
-	public static AvailabilityResponse getSelectedAvailabilityResponse() {
-		return getAvailabilityResponse(sDb.mSelectedPropertyId);
-	}
-
-	public static SummarizedRoomRates getSummarizedRoomRates(String propertyId) {
-		AvailabilityResponse response = getAvailabilityResponse(propertyId);
-		if (response == null) {
-			return null;
-		}
-		return response.getSummarizedRoomRates();
-	}
-
-	public static SummarizedRoomRates getSelectedSummarizedRoomRates() {
-		return getSummarizedRoomRates(sDb.mSelectedPropertyId);
-	}
-
-	public static Rate getRate(String propertyId, String rateKey) {
-		if (!sDb.mAvailabilityResponses.containsKey(propertyId)) {
-			return null;
-		}
-		return sDb.mAvailabilityResponses.get(propertyId).getRate(rateKey);
-	}
-
-	public static void setSelectedRate(Rate rate) {
-		sDb.mSelectedRate = rate;
-		if (rate == null) {
-			setSelectedRate((String) null);
-		}
-		else {
-			setSelectedRate(rate.getRateKey());
-		}
-	}
-
-	public static void setSelectedRate(String rateKey) {
-		sDb.mSelectedRateKey = rateKey;
-	}
-
-	public static Rate getSelectedRate() {
-		if (sDb.mSelectedRate != null) {
-			return sDb.mSelectedRate;
-		}
-		return getRate(sDb.mSelectedPropertyId, sDb.mSelectedRateKey);
-	}
-
-	public static void clearReviewsStatisticsResponses() {
-		sDb.mReviewsStatisticsResponses.clear();
-	}
-
-	public static void addReviewsStatisticsResponse(ReviewsStatisticsResponse reviewsStatisticsResponse) {
-		addReviewsStatisticsResponse(sDb.mSelectedPropertyId, reviewsStatisticsResponse);
-	}
-
-	public static void addReviewsStatisticsResponse(String propertyId,
-			ReviewsStatisticsResponse reviewsStatisticsResponse) {
-		sDb.mReviewsStatisticsResponses.put(propertyId, reviewsStatisticsResponse);
-	}
-
-	public static ReviewsStatisticsResponse getReviewsStatisticsResponse(String propertyId) {
-		return sDb.mReviewsStatisticsResponses.get(propertyId);
-	}
-
-	public static ReviewsStatisticsResponse getSelectedReviewsStatisticsResponse() {
-		return getReviewsStatisticsResponse(sDb.mSelectedPropertyId);
-	}
-
-	public static void clearReviewsResponses() {
-		sDb.mReviewsResponses.clear();
-	}
-
-	public static void addReviewsResponse(ReviewsResponse reviewsResponse) {
-		addReviewsResponse(sDb.mSelectedPropertyId, reviewsResponse);
-	}
-
-	public static void addReviewsResponse(String propertyId, ReviewsResponse reviewsResponse) {
-		sDb.mReviewsResponses.put(propertyId, reviewsResponse);
-	}
-
-	public static ReviewsResponse getReviewsResponse(String propertyId) {
-		return sDb.mReviewsResponses.get(propertyId);
-	}
-
-	public static ReviewsResponse getSelectedReviewsResponse() {
-		return getReviewsResponse(sDb.mSelectedPropertyId);
 	}
 
 	public static boolean loadBillingInfo(Context context) {
@@ -740,13 +567,6 @@ public class Db {
 		return sDb.mCouponDiscountRate;
 	}
 
-	public static void clearHotelSearch() {
-		clearAvailabilityResponses();
-		clearReviewsResponses();
-		clearReviewsStatisticsResponses();
-		sDb.mSearchResponse = null;
-	}
-
 	public static void clearGoogleWallet() {
 		sDb.mMaskedWallet = null;
 		sDb.mGoogleWalletTraveler = null;
@@ -762,16 +582,10 @@ public class Db {
 	}
 
 	public static void clear() {
-		clearHotelSearch();
 		resetFilter();
 		resetBillingInfo();
-		resetSearchParams();
+		getHotelSearch().reset();
 
-		sDb.mSelectedPropertyId = null;
-		sDb.mSelectedProperty = null;
-		sDb.mSelectedRateKey = null;
-		sDb.mSelectedRate = null;
-		sDb.mSearchResponse = null;
 		sDb.mBookingResponse = null;
 		sDb.mCreateTripResponse = null;
 		sDb.mCouponDiscountRate = null;
@@ -1006,18 +820,10 @@ public class Db {
 		JSONObject obj = new JSONObject();
 
 		try {
-			putJsonable(obj, "searchParams", sDb.mSearchParams);
-			putJsonable(obj, "searchResponse", sDb.mSearchResponse);
+			putJsonable(obj, "hotelSearch", sDb.mHotelSearch);
 			putJsonable(obj, "filter", sDb.mFilter);
-			putMap(obj, "offers", sDb.mAvailabilityResponses);
-			putMap(obj, "reviewsStatistics", sDb.mReviewsStatisticsResponses);
-			putMap(obj, "reviews", sDb.mReviewsResponses);
 			putJsonable(obj, "billingInfo", sDb.mBillingInfo);
 			putJsonable(obj, "bookingResponse", sDb.mBookingResponse);
-			obj.putOpt("selectedPropertyId", sDb.mSelectedPropertyId);
-			obj.putOpt("selectedRateKey", sDb.mSelectedRateKey);
-			putJsonable(obj, "selectedProperty", sDb.mSelectedProperty);
-			putJsonable(obj, "selectedRate", sDb.mSelectedRate);
 			putJsonable(obj, "flightSearch", sDb.mFlightSearch);
 			putJsonable(obj, "flightCheckout", sDb.mFlightCheckout);
 			putMap(obj, "itineraries", sDb.mItineraries);
@@ -1049,19 +855,10 @@ public class Db {
 		try {
 			JSONObject obj = new JSONObject(IoUtils.readStringFromFile(TEST_DATA_FILE, context));
 
-			sDb.mSearchParams = getJsonable(obj, "searchParams", SearchParams.class, sDb.mSearchParams);
-			sDb.mSearchResponse = getJsonable(obj, "searchResponse", SearchResponse.class, sDb.mSearchResponse);
+			sDb.mHotelSearch = getJsonable(obj, "hotelSearch", HotelSearch.class, sDb.mHotelSearch);
 			sDb.mFilter = getJsonable(obj, "filter", Filter.class, sDb.mFilter);
-			sDb.mAvailabilityResponses = getMap(obj, "offers", AvailabilityResponse.class, sDb.mAvailabilityResponses);
-			sDb.mReviewsStatisticsResponses = getMap(obj, "reviewsStatistics", ReviewsStatisticsResponse.class,
-					sDb.mReviewsStatisticsResponses);
-			sDb.mReviewsResponses = getMap(obj, "reviews", ReviewsResponse.class, sDb.mReviewsResponses);
 			sDb.mBillingInfo = getJsonable(obj, "billingInfo", BillingInfo.class, sDb.mBillingInfo);
 			sDb.mBookingResponse = getJsonable(obj, "bookingResponse", BookingResponse.class, sDb.mBookingResponse);
-			sDb.mSelectedPropertyId = obj.optString("selectedPropertyId", null);
-			sDb.mSelectedRateKey = obj.optString("selectedRateKey", null);
-			sDb.mSelectedProperty = getJsonable(obj, "selectedProperty", Property.class, sDb.mSelectedProperty);
-			sDb.mSelectedRate = getJsonable(obj, "selectedRate", Rate.class, sDb.mSelectedRate);
 			sDb.mFlightSearch = getJsonable(obj, "flightSearch", FlightSearch.class, sDb.mFlightSearch);
 			sDb.mFlightCheckout = getJsonable(obj, "flightCheckout", FlightCheckoutResponse.class, sDb.mFlightCheckout);
 			sDb.mItineraries = getMap(obj, "itineraries", Itinerary.class, sDb.mItineraries);
@@ -1092,34 +889,13 @@ public class Db {
 	}
 
 	private static void putMap(JSONObject obj, String key, Map<String, ? extends JSONable> map) throws JSONException {
-		if (map != null) {
-			JSONObject mapObj = new JSONObject();
-			for (String mapKey : map.keySet()) {
-				mapObj.putOpt(mapKey, map.get(mapKey).toJson());
-			}
-			obj.putOpt(key, mapObj);
-		}
+		JSONUtils.putJSONableStringMap(obj, key, map);
 	}
 
 	@SuppressWarnings("rawtypes")
 	private static <T extends JSONable> Map<String, T> getMap(JSONObject obj, String key, Class<T> c,
 			Map<String, T> defaultVal) throws Exception {
-		if (obj.has(key)) {
-			JSONObject mapObj = obj.getJSONObject(key);
-			Map<String, T> retMap = new HashMap<String, T>();
-
-			Iterator it = mapObj.keys();
-			while (it.hasNext()) {
-				String mapKey = (String) it.next();
-				T jsonable = c.newInstance();
-				jsonable.fromJson(mapObj.getJSONObject(mapKey));
-				retMap.put(mapKey, jsonable);
-			}
-
-			return retMap;
-		}
-
-		return defaultVal;
+		return JSONUtils.getJSONableStringMap(obj, key, c, defaultVal);
 	}
 
 	private static void putList(JSONObject obj, String key, List<? extends JSONable> arrlist)

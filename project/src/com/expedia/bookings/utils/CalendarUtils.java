@@ -162,7 +162,7 @@ public class CalendarUtils {
 	}
 
 	public static boolean isSearchDateTonight() {
-		SearchParams params = Db.getSearchParams();
+		SearchParams params = Db.getHotelSearch().getSearchParams();
 		com.expedia.bookings.data.Date today = new com.expedia.bookings.data.Date(Calendar.getInstance());
 		com.expedia.bookings.data.Date checkIn = new com.expedia.bookings.data.Date(params.getCheckInDate());
 		return params.getStayDuration() == 1 && today.equals(checkIn);

@@ -402,9 +402,9 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				// We only want to set the the search from Launch if there exists no SearchResponse data already (to avoid
 				// sending the user through another network request when jumping to Hotels). If there already exists a
 				// Search response in the Db, do not flush it out.
-				if (isExpired() || Db.getSearchResponse() == null) {
-					Db.setSearchParams(mSearchParams);
-					Db.setSearchResponse(searchResponse);
+				if (isExpired() || Db.getHotelSearch().getSearchResponse() == null) {
+					Db.getHotelSearch().setSearchParams(mSearchParams);
+					Db.getHotelSearch().setSearchResponse(searchResponse);
 				}
 
 				// Extract relevant data here
@@ -700,15 +700,24 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 			if (item instanceof Property) {
 				Property property = (Property) item;
+				String propertyId = property.getPropertyId();
 
-				// H1041: Clear out the current search results
-				Db.clearHotelSearch();
+				if (Db.getHotelSearch().getProperty(propertyId) == null) {
+					// H1041: Clear out the current search results
+					Db.getHotelSearch().reset();
+
+					// Now that HotelSearch is cleared we need to tell it about the property
+					SearchResponse searchResponse = new SearchResponse();
+					searchResponse.addProperty(property);
+					Db.getHotelSearch().setSearchResponse(searchResponse);
+				}
+
 				if (mSearchParams == null) {
 					mSearchParams = new SearchParams();
 				}
 
-				Db.setSearchParams(mSearchParams);
-				Db.setSelectedProperty(property);
+				Db.getHotelSearch().setSearchParams(mSearchParams);
+				Db.getHotelSearch().setSelectedProperty(property);
 
 				Intent intent = new Intent(getActivity(), HotelDetailsFragmentActivity.class);
 				intent.putExtra(HotelDetailsMiniGalleryFragment.ARG_FROM_LAUNCH, true);
@@ -717,7 +726,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			else if (item instanceof HotelDestination) {
 				HotelDestination destination = (HotelDestination) item;
 
-				SearchParams searchParams = Db.getSearchParams();
+				SearchParams searchParams = Db.getHotelSearch().getSearchParams();
 
 				// where
 				searchParams.setQuery(destination.getPhoneSearchDisplayText());

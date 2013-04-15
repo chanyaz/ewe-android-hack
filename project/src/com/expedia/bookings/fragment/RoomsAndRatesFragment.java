@@ -99,7 +99,8 @@ public class RoomsAndRatesFragment extends ListFragment {
 	}
 
 	public void notifyAvailabilityLoaded() {
-		AvailabilityResponse response = Db.getSelectedAvailabilityResponse();
+		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		AvailabilityResponse response = Db.getHotelSearch().getHotelOffersResponse(selectedId);
 
 		mProgressBar.setVisibility(View.GONE);
 
@@ -133,7 +134,9 @@ public class RoomsAndRatesFragment extends ListFragment {
 
 		mAdapter = new RoomsAndRatesAdapter(getActivity(), response);
 
-		if (Db.getSelectedRate() == null || getPositionOfRate(Db.getSelectedRate()) == -1) {
+		final String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		final Rate selectedRate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
+		if (selectedRate == null || getPositionOfRate(selectedRate) == -1) {
 			mAdapter.setSelectedPosition(0);
 			if (mListener instanceof RoomsAndRatesFragmentActivity) {
 				if (mAdapter.getCount() > 0) {
@@ -145,7 +148,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 			}
 		}
 		else {
-			mAdapter.setSelectedPosition(getPositionOfRate(Db.getSelectedRate()));
+			mAdapter.setSelectedPosition(getPositionOfRate(selectedRate));
 		}
 		setListAdapter(mAdapter);
 

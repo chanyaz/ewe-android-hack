@@ -20,7 +20,6 @@ import com.mobiata.android.json.JSONUtils;
 
 public class AvailabilityResponse extends Response {
 	private List<Rate> mRates;
-	private Map<String, Rate> mRateMap;
 
 	private Property mProperty;
 
@@ -31,31 +30,13 @@ public class AvailabilityResponse extends Response {
 			mRates = new ArrayList<Rate>();
 		}
 		mRates.add(rate);
-
-		// If ratemap is already initialized, add it here as well
-		if (mRateMap != null) {
-			mRateMap.put(rate.getRateKey(), rate);
-		}
 	}
 
-	public void updateRate(String rateKey, Rate newRate) {
-		Rate oldRate = getRate(rateKey);
-		if (oldRate == null) {
-			addRate(newRate);
-		}
-		else {
-			mRates.set(mRates.indexOf(oldRate), newRate);
-
-			mRateMap.remove(oldRate.getRateKey());
-			mRateMap.put(newRate.getRateKey(), newRate);
-		}
+	public void replaceRate(Rate oldRate, Rate newRate) {
+		mRates.set(mRates.indexOf(oldRate), newRate);
 	}
 
-	public void removeRate(String rateKey) {
-		Rate rate = getRate(rateKey);
-		if (mRateMap != null) {
-			mRateMap.remove(rateKey);
-		}
+	public void removeRate(Rate rate) {
 		if (rate != null) {
 			mRates.remove(rate);
 		}
@@ -73,26 +54,6 @@ public class AvailabilityResponse extends Response {
 			return null;
 		}
 		return mRates.get(index);
-	}
-
-	public Rate getRate(String rateKey) {
-		if (rateKey == null || rateKey.length() == 0) {
-			return null;
-		}
-
-		// We don't bother initializing this until it's used, since it's
-		// just a different data representation of the rate list.
-		if (mRateMap == null) {
-			mRateMap = new HashMap<String, Rate>();
-
-			if (mRates != null) {
-				for (Rate rate : mRates) {
-					mRateMap.put(rate.getRateKey(), rate);
-				}
-			}
-		}
-
-		return mRateMap.get(rateKey);
 	}
 
 	public List<Rate> getRates() {
