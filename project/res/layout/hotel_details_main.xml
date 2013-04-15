@@ -45,6 +45,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:background="#efefef"
             android:orientation="vertical" >
 
@@ -52,8 +55,6 @@
                 android:id="@+id/book_now_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
                 android:background="@drawable/btn_signin"
                 android:text="@string/book_now"
                 android:textSize="18sp" />
@@ -62,7 +63,7 @@
                 android:id="@+id/book_by_phone_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/book_by_phone"
                 android:textSize="18sp" />
         </LinearLayout>
