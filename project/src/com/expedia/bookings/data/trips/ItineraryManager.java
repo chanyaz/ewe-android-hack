@@ -189,6 +189,7 @@ public class ItineraryManager implements JSONable {
 		Log.d("Informing the removal of " + mTrips.size() + " trips due to clearing of ItineraryManager...");
 
 		for (Trip trip : mTrips.values()) {
+			deletePendingNotification(trip);
 			onTripRemoved(trip);
 		}
 
@@ -1222,6 +1223,7 @@ public class ItineraryManager implements JSONable {
 			for (ItinCardData data : list) {
 				Notification notification = Notification.find(data.getId());
 				if (notification != null) {
+					notification.cancelNotification(mContext);
 					notification.delete();
 				}
 			}
