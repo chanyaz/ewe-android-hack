@@ -1,10 +1,10 @@
 package com.expedia.bookings.utils;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Pair;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
@@ -95,9 +95,11 @@ public class WalletUtils {
 
 		Address billingAddress = maskedWallet.getBillingAddress();
 
-		Pair<String, String> name = WalletUtils.splitName(billingAddress.getName());
-		traveler.setFirstName(name.first);
-		traveler.setLastName(name.second);
+		String fullName = billingAddress.getName();
+		String[] name = WalletUtils.splitName(fullName);
+		traveler.setFirstName(name[0]);
+		traveler.setMiddleName(name[1]);
+		traveler.setLastName(name[2]);
 
 		traveler.setEmail(maskedWallet.getEmail());
 
@@ -142,10 +144,24 @@ public class WalletUtils {
 	 * Arbitrarily splits the names.  We get back name fields as a single
 	 * entity; we try our "best" to split it up, but leave it in a state where
 	 * users can correct it if it's wrong.
+	 * 
+	 * @return a String array of length 3 (first/middle/last) 
 	 */
-	public static Pair<String, String> splitName(String name) {
-		int firstSpace = name.indexOf(' ');
-		return new Pair<String, String>(name.substring(0, firstSpace), name.substring(firstSpace + 2));
+	public static String[] splitName(String name) {
+		String[] split = name.split("\\W+");
+		String[] ret = new String[] { "", "", "" };
+
+		ret[0] = split[0];
+		if (split.length == 2) {
+			ret[2] = split[2];
+		}
+		else {
+			// Assume that everything after the first two spaces is last name
+			ret[1] = split[1];
+			ret[2] = TextUtils.join(" ", Arrays.copyOfRange(split, 2, split.length));
+		}
+
+		return ret;
 	}
 
 	/**
