@@ -199,6 +199,7 @@ public class TabletsRobotHelper extends HotelsRobotHelper {
 		mSolo.clickOnView(confirmAndBook);
 		enterLog(TAG, "Pressed to confirm & book. Waiting...");
 		mSolo.waitForDialogToClose(20000);
+		delay(5);
 		screenshot("Tablet: Hotel confirmation screen");
 	}
 }
