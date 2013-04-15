@@ -554,7 +554,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			hidePurchaseViews();
 		}
 
-		if (mShowSlideToWidget) {
+		if (mInCheckout) {
 			if (Db.getSelectedProperty().isMerchant()) {
 				mCouponCodeLayout.setVisibility(View.VISIBLE);
 			}
@@ -682,6 +682,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		if (mShowSlideToWidget) {
 			showPurchaseViews(animate);
 		}
+
+		updateViewVisibilities();
 	}
 
 	public void endCheckout() {
@@ -861,7 +863,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 					int priceChange = selectedRate.compareForPriceChange(newRate);
 					if (priceChange != 0) {
 						boolean isPriceHigher = priceChange < 0;
-						HotelPriceChangeDialog dialog = HotelPriceChangeDialog.newInstance(isPriceHigher, selectedRate.getDisplayRate(), newRate.getDisplayRate());
+						HotelPriceChangeDialog dialog = HotelPriceChangeDialog.newInstance(isPriceHigher,
+								selectedRate.getDisplayRate(), newRate.getDisplayRate());
 						dialog.show(getFragmentManager(), "priceChangeDialog");
 					}
 					newRate.setValueAdds(selectedRate.getValueAdds());
