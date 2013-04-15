@@ -37,8 +37,16 @@ public class TabletsRobotHelper extends HotelsRobotHelper {
 	public void setSpoofBookings() {
 		boolean spoofBookingsDone = false;
 		boolean suppressFlightsDone = false;
-		mSolo.pressMenuItem(0);
+		mSolo.pressMenuItem(2);
 		delay(5);
+		
+		//Robotium handles different OS versions' menus in different ways
+		String settings = mRes.getString(R.string.Settings);
+		if(mSolo.searchText(settings, true)) {
+			mSolo.clickOnText(settings);
+			delay(1);
+		}
+		
 		mSolo.scrollDown();
 		ArrayList<View> a = mSolo.getCurrentViews();
 		for (int i = 0; i < a.size(); i++) {
