@@ -189,9 +189,7 @@ public class LocalNotificationReceiver extends BroadcastReceiver {
 			}
 
 			String tag = mNotification.getUniqueId();
-
 			NotificationManager nm = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-
 			nm.notify(tag, 0, builder.build());
 		}
 	}

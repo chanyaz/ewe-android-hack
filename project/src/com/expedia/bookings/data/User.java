@@ -4,13 +4,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.text.TextUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.server.ExpediaServices;
 import com.facebook.Session;
 import com.mobiata.android.FileCipher;
@@ -117,6 +118,9 @@ public class User implements JSONable {
 		}
 
 		ItineraryManager.getInstance().clear();
+
+		//Delete all Notifications
+		Notification.deleteAll(context);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

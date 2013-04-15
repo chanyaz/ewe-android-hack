@@ -125,6 +125,7 @@ public class ItineraryManager implements JSONable {
 			// Do not inform of removal if it was never valid (since we never informed of adding in the first place)
 			if (trip.getLevelOfDetail() != LevelOfDetail.NONE) {
 				onTripRemoved(trip);
+				deletePendingNotification(trip);
 			}
 		}
 	}
@@ -1206,6 +1207,25 @@ public class ItineraryManager implements JSONable {
 		}
 
 		Notification.scheduleAll(mContext);
+	}
+
+	private void deletePendingNotification(Trip trip) {
+		List<TripComponent> components = trip.getTripComponents(true);
+		if (components == null) {
+			return;
+		}
+		for (TripComponent tc : components) {
+			List<ItinCardData> list = ItinCardDataFactory.generateCardData(tc);
+			if (list == null) {
+				continue;
+			}
+			for (ItinCardData data : list) {
+				Notification notification = Notification.find(data.getId());
+				if (notification != null) {
+					notification.delete();
+				}
+			}
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

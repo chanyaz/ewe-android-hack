@@ -3,6 +3,7 @@ package com.expedia.bookings.notification;
 import java.util.List;
 
 import android.app.AlarmManager;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -12,9 +13,9 @@ import android.text.TextUtils;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.expedia.bookings.R;
-import com.mobiata.android.Log;
 
 @Table(name = "Notifications")
 public class Notification extends Model {
@@ -258,20 +259,38 @@ public class Notification extends Model {
 	 * Schedule this notification with the OS AlarmManager. Multiple calls to this method
 	 * will not result in multiple notifications, as long as the UniqueId remains the same.
 	 *
-	 * @param notification
+	 * @param context
 	 */
 	public void scheduleNotification(Context context) {
 		PendingIntent pendingIntent = createNotifyPendingIntent(context, mUniqueId);
 
-		AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
 		long triggerTimeMillis = mTriggerTimeMillis;
 
 		//TODO: temporary ->
-		triggerTimeMillis = System.currentTimeMillis() + 5000;
+		//triggerTimeMillis = System.currentTimeMillis() + 5000;
 		//TODO: <-temporary
 
+		AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		mgr.set(AlarmManager.RTC_WAKEUP, triggerTimeMillis, pendingIntent);
+	}
+
+	/**
+	 * Cancel a previously scheduled notification with the OS AlarmManager.
+	 *
+	 * @param context
+	 */
+	public void cancelNotification(Context context) {
+		PendingIntent pendingIntent = createNotifyPendingIntent(context, mUniqueId);
+
+		// Cancel if in the future
+		AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+		mgr.cancel(pendingIntent);
+
+		// Dismiss a possibly displayed notification
+		String tag = getUniqueId();
+		NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+		nm.cancel(tag, 0);
+
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -322,6 +341,17 @@ public class Notification extends Model {
 		for (Notification notification : notifications) {
 			notification.scheduleNotification(context);
 		}
+	}
+
+	public static void deleteAll(Context context) {
+		List<Notification> notifications = new Select().from(Notification.class).execute();
+
+		for (Notification notification : notifications) {
+			notification.cancelNotification(context);
+		}
+
+		// Delete all here instead of individually in the loop, for efficiency.
+		new Delete().from(Notification.class).execute();
 	}
 
 	public static void updateStatus(String uniqueId, StatusType statusType) {
