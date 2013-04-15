@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget.itin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -14,6 +15,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -29,6 +31,9 @@ import com.expedia.bookings.data.trips.ItinCardDataActivity;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripActivity;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.notification.Notification;
+import com.expedia.bookings.notification.Notification.ImageType;
+import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
@@ -292,5 +297,43 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 		drawable.setBounds(0, 0, width, height);
 
 		return drawable;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Notifications
+	//////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public List<Notification> generateNotifications() {
+		ArrayList<Notification> notifications = new ArrayList<Notification>(2);
+		notifications.add(generateActivityStartNotification());
+		return notifications;
+	}
+
+	// https://mingle.karmalab.net/projects/eb_ad_app/cards/880
+	// Given I have an activity, when it is 12 hours prior to the validity start
+	// date, then I want to receive a notification that reads "Your Universal
+	// Studios ticket can be redeemed starting tomorrow."
+	private Notification generateActivityStartNotification() {
+		ItinCardDataActivity data = getItinCardData();
+
+		String uniqueId = data.getId();
+
+		long triggerTimeMillis = data.getStartDate().getMillisFromEpoch();
+		triggerTimeMillis -= 12 * DateUtils.HOUR_IN_MILLIS;
+
+		Notification notification = new Notification(uniqueId, triggerTimeMillis);
+		notification.setNotificationType(NotificationType.ACTIVITY_START);
+		notification.setImageType(ImageType.ACTIVITY);
+		notification.setFlags(Notification.FLAG_LOCAL);
+
+		String title = getContext().getString(R.string.Activity_starting_soon);
+		notification.setTicker(title);
+		notification.setTitle(title);
+
+		String body = getContext().getString(R.string.Your_X_ticket_can_be_redeemed_TEMPLATE, data.getTitle());
+		notification.setBody(body);
+
+		return notification;
 	}
 }

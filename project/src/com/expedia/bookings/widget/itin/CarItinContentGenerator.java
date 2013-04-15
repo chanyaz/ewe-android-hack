@@ -1,6 +1,9 @@
 package com.expedia.bookings.widget.itin;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.TimeZone;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,11 +17,16 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Car;
+import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardDataCar;
+import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.graphics.DestinationBitmapDrawable;
+import com.expedia.bookings.notification.Notification;
+import com.expedia.bookings.notification.Notification.ImageType;
+import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.EventSummaryView;
@@ -382,6 +390,73 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		else {
 			return getSupportSummaryButton();
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Notifications
+	//////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public List<Notification> generateNotifications() {
+		ArrayList<Notification> notifications = new ArrayList<Notification>(2);
+		notifications.add(generatePickUpNotification());
+		notifications.add(generateDropOffNotification());
+		return notifications;
+	}
+
+	// https://mingle.karmalab.net/projects/eb_ad_app/cards/941
+	// Given I have a car rental, when the pickup time starts, then I want to
+	// receive a notification that reads (contentTitle) "Car Pick Up Ñ Alamo"
+	// (contentText) "You can now pick up your car."
+	private Notification generatePickUpNotification() {
+		ItinCardDataCar data = getItinCardData();
+
+		String uniqueId = data.getId();
+
+		long triggerTimeMillis = data.getPickUpDate().getMillisFromEpoch();
+
+		Notification notification = new Notification(uniqueId, triggerTimeMillis);
+		notification.setNotificationType(NotificationType.CAR_PICK_UP);
+		String carImageValue = ExpediaImageManager.getImageCode(data.getCar().getCategory(), data.getCar().getType());
+		notification.setImage(ImageType.CAR, 0, carImageValue);
+		notification.setFlags(Notification.FLAG_LOCAL);
+
+		String title = getContext().getString(R.string.Car_Pick_Up_X_TEMPLATE, data.getVendorName());
+		notification.setTicker(title);
+		notification.setTitle(title);
+
+		String body = getContext().getString(R.string.You_can_now_pick_up_your_car);
+		notification.setBody(body);
+
+		return notification;
+	}
+
+	// https://mingle.karmalab.net/projects/eb_ad_app/cards/879
+	// Given I have a car rental, when it is 2 hours prior to the return time,
+	// then I want to receive a notification that reads "Your Enterprise rental
+	// car is due to be returned in two hours."
+	private Notification generateDropOffNotification() {
+		ItinCardDataCar data = getItinCardData();
+
+		String uniqueId = data.getId();
+
+		long triggerTimeMillis = data.getDropOffDate().getMillisFromEpoch();
+		triggerTimeMillis -= 2 * DateUtils.HOUR_IN_MILLIS;
+
+		Notification notification = new Notification(uniqueId, triggerTimeMillis);
+		notification.setNotificationType(NotificationType.CAR_DROP_OFF);
+		String carImageValue = ExpediaImageManager.getImageCode(data.getCar().getCategory(), data.getCar().getType());
+		notification.setImage(ImageType.CAR, 0, carImageValue);
+		notification.setFlags(Notification.FLAG_LOCAL);
+
+		String title = getContext().getString(R.string.Car_Drop_Off_X_TEMPLATE, data.getVendorName());
+		notification.setTicker(title);
+		notification.setTitle(title);
+
+		String body = getContext().getString(R.string.Your_rental_is_due_returned);
+		notification.setBody(body);
+
+		return notification;
 	}
 
 }

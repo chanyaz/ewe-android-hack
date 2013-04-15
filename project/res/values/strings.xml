@@ -64,7 +64,19 @@
     <string name="x_flight_to_x_TEMPLATE">%1$s flight to %2$s</string>
     <!-- Notification title for hotel check-out notification -->
     <string name="Check_out_today">Check out today</string>
-
+    <!-- Notification title for car pick up -->
+    <string name="Car_Pick_Up_X_TEMPLATE">Car Pick Up – %s</string>
+    <!-- Notification text for car pick up -->
+    <string name="You_can_now_pick_up_your_car">You can now pick up your car.</string>
+    <!-- Notification title for car drop off -->
+    <string name="Car_Drop_Off_X_TEMPLATE">Car Drop Off – %s</string>
+    <!-- Notification text for car drop off -->
+    <string name="Your_rental_is_due_returned">Your rental car is due to be returned in two hours.</string>
+    <!-- Notification title for activity start -->
+    <string name="Activity_starting_soon">Activity starting soon</string>
+    <!-- Notification text for activity start -->
+    <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Your %s ticket can be redeemed starting tomorrow.</string>
+    
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerary</string>
