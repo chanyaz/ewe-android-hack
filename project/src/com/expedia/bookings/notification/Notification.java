@@ -14,6 +14,7 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 import com.expedia.bookings.R;
+import com.mobiata.android.Log;
 
 @Table(name = "Notifications")
 public class Notification extends Model {
@@ -147,7 +148,7 @@ public class Notification extends Model {
 		this.mTriggerTimeMillis = triggerTimeMillis;
 	}
 
-	public long getIconResId() {
+	public int getIconResId() {
 		return mIconResId;
 	}
 
@@ -243,9 +244,14 @@ public class Notification extends Model {
 	 */
 	public void updateFrom(Notification other) {
 		setTriggerTimeMillis(other.mTriggerTimeMillis);
+		setIconResId(other.mIconResId);
 		setTicker(other.mTicker);
 		setTitle(other.mTitle);
 		setBody(other.mBody);
+		setImageType(other.getImageType());
+		setImageResId(other.mImageResId);
+		setImageValue(other.mImageValue);
+		setFlags(other.mFlags);
 	}
 
 	/**
@@ -255,23 +261,38 @@ public class Notification extends Model {
 	 * @param notification
 	 */
 	public void scheduleNotification(Context context) {
-		Intent intent = new Intent(context, LocalNotificationReceiver.class);
-
-		String uriString = "expedia://trip/component/" + mUniqueId;
-
-		intent.setData(Uri.parse(uriString));
-
-		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+		PendingIntent pendingIntent = createNotifyPendingIntent(context, mUniqueId);
 
 		AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
 		long triggerTimeMillis = mTriggerTimeMillis;
 
 		//TODO: temporary ->
-		//triggerTimeMillis = System.currentTimeMillis() + 5000;
+		triggerTimeMillis = System.currentTimeMillis() + 5000;
 		//TODO: <-temporary
 
 		mgr.set(AlarmManager.RTC_WAKEUP, triggerTimeMillis, pendingIntent);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Intents
+
+	public static Intent createNotifyIntent(Context context, String uniqueId) {
+		Intent intent = new Intent(context, LocalNotificationReceiver.class);
+
+		String uriString = "expedia://notify/" + uniqueId;
+
+		intent.setData(Uri.parse(uriString));
+
+		return intent;
+	}
+
+	public static PendingIntent createNotifyPendingIntent(Context context, String uniqueId) {
+		Intent intent = createNotifyIntent(context, uniqueId);
+
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+
+		return pendingIntent;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
