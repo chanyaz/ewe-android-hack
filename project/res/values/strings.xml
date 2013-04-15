@@ -2125,7 +2125,7 @@
     <!-- Loading message -->
     <string name="loading">Loading</string>
     <!-- Google Wallet label -->
-    <string name="google_wallet">Google wallet</string>
+    <string name="google_wallet">Google Wallet</string>
     <!-- Google wallet unavailable error -->
     <string name="google_wallet_unavailable">Google Wallet is unavailable</string>
     <!-- Error if you've exceeded your overall Google Wallet spending limit -->
