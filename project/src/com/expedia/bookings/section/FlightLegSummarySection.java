@@ -136,7 +136,15 @@ public class FlightLegSummarySection extends RelativeLayout {
 			belowTarget = mOperatingCarrierTextView.getId();
 		}
 		else {
-			belowTarget = mAirlineContainer.getId();
+			// section_flight_leg_summary.xml and section_flight_leg_summary_itin.xml are similar but different layouts...
+			// The container has first order of precedence if present for proper laying out on section_flight_leg_summary
+			// section_flight_leg_summary_itin.xml does not require the container, so default to the TextView in that case
+			if (mAirlineContainer != null) {
+				belowTarget = mAirlineContainer.getId();
+			}
+			else {
+				belowTarget = mAirlineTextView.getId();
+			}
 		}
 
 		// Adjust rules depending on what we need to be below
