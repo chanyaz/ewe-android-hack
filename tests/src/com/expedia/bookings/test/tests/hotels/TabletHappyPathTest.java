@@ -59,6 +59,7 @@ public class TabletHappyPathTest extends ActivityInstrumentationTestCase2<Search
 
 		mDriver.pressLoginButton();
 		mDriver.enterLoginCredentials();
+		mDriver.delay(5);
 		mDriver.enterCCVAndZIP();
 		mDriver.pressToConfirmAndBook();
 		mDriver.delay(10);
