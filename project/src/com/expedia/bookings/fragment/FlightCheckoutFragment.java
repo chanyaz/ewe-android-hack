@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +25,7 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
@@ -40,16 +40,19 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.UserToTripAssocLoginExtender;
+import com.expedia.bookings.widget.WalletButton;
+import com.google.android.gms.wallet.MaskedWallet;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.ViewUtils;
 
-public class FlightCheckoutFragment extends Fragment implements AccountButtonClickListener,
+public class FlightCheckoutFragment extends LoadWalletFragment implements AccountButtonClickListener,
 		ConfirmLogoutDialogFragment.DoLogoutListener {
 
 	private static final String INSTANCE_REFRESHED_USER = "INSTANCE_REFRESHED_USER";
@@ -65,6 +68,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 
 	private TextView mAccountLabel;
 	private AccountButton mAccountButton;
+	private WalletButton mWalletButton;
 	private SectionBillingInfo mCreditCardSectionButton;
 	private SectionLocation mSectionLocation;
 	private SectionStoredCreditCard mStoredCreditCard;
@@ -101,6 +105,10 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		if (savedInstanceState != null) {
 			mRefreshedUser = savedInstanceState.getBoolean(INSTANCE_REFRESHED_USER);
 		}
+		else {
+			// Always start fresh
+			Db.setMaskedWallet(null);
+		}
 	}
 
 	@Override
@@ -132,6 +140,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		mSectionLocation = Ui.findView(v, R.id.section_location_address);
 		mAccountButton = Ui.findView(v, R.id.account_button_root);
 		mAccountLabel = Ui.findView(v, R.id.expedia_account_label);
+		mWalletButton = Ui.findView(v, R.id.wallet_button_layout);
 		mTravelerContainer = Ui.findView(v, R.id.traveler_container);
 
 		ViewUtils.setAllCaps(mAccountLabel);
@@ -143,6 +152,8 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 
 		// Detect user state, update account button accordingly
 		mAccountButton.setListener(this);
+
+		mWalletButton.setOnClickListener(mWalletButtonClickListener);
 
 		// rules and restrictions link stuff
 		TextView tv = Ui.findView(v, R.id.legal_blurb);
@@ -479,6 +490,8 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		else {
 			mAccountLabel.setVisibility(View.GONE);
 		}
+
+		updateWalletViewVisibilities();
 	}
 
 	private void setValidationViewVisibility(View view, int validationViewId, boolean valid) {
@@ -572,7 +585,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 				mBillingInfo.setStoredCard(Db.getUser().getStoredCreditCards().get(0));
 			}
 		}
-		else {
+		else if (Db.getMaskedWallet() == null) {
 			//Remove stored card(s)
 			Db.getBillingInfo().setStoredCard(null);
 			//Turn off the save to expedia account flag
@@ -684,6 +697,68 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			}
 		}
 	};
+
+	//////////////////////////////////////////////////////////////////////////
+	// LoadWalletFragment
+
+	private OnClickListener mWalletButtonClickListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			buyWithGoogleWallet();
+		}
+	};
+
+	@Override
+	protected Money getEstimatedTotal() {
+		return Db.getFlightSearch().getSelectedFlightTrip().getTotalFare();
+	}
+
+	@Override
+	protected int getMaskedWalletBuilderFlags() {
+		return WalletUtils.F_PHONE_NUMBER_REQUIRED;
+	}
+
+	/**
+	 * Binds the masked wallet to the billing info.  Warning: it WILL
+	 * blow away whatever was here before - so only call this when
+	 * we want to override the current data with Google Wallet!
+	 */
+	protected void onMaskedWalletFullyLoaded() {
+		populateTravelerData();
+
+		MaskedWallet maskedWallet = Db.getMaskedWallet();
+
+		// Replace the traveler with the one from the wallet 
+		Traveler traveler = WalletUtils.convertToTraveler(maskedWallet);
+		List<Traveler> travelers = Db.getTravelers();
+		travelers.set(0, traveler);
+
+		// Bind credit card data
+		WalletUtils.bindWalletToBillingInfo(maskedWallet, mBillingInfo);
+
+		bindAll();
+		refreshAccountButtonState();
+		updateViewVisibilities();
+	}
+
+	// We may want to update these more often than the rest of the Views
+	protected void updateWalletViewVisibilities() {
+		boolean showWalletButton = showWalletButton();
+		boolean isWalletLoading = isWalletLoading();
+
+		mWalletButton.setVisibility(showWalletButton ? View.VISIBLE : View.GONE);
+		mWalletButton.setEnabled(!isWalletLoading);
+
+		// Enable buttons if we're either not showing the wallet button or we're not loading a masked wallet 
+		boolean enableButtons = !showWalletButton || !isWalletLoading;
+		mAccountButton.setEnabled(enableButtons);
+		mPaymentButton.setEnabled(enableButtons);
+		mStoredCreditCard.setEnabled(enableButtons);
+		mCreditCardSectionButton.setEnabled(enableButtons);
+		for (SectionTravelerInfo info : mTravelerSections) {
+			info.setEnabled(enableButtons);
+		}
+	}
 
 	///////////////////////////////////
 	// Interfaces

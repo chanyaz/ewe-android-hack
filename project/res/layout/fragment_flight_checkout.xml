@@ -25,13 +25,28 @@
         android:layout_marginRight="8dp"
         layout="@layout/include_account_button_flights" />
 
+    <include
+        android:id="@+id/wallet_button_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        layout="@layout/include_wallet_button" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/div_checkout_light" />
+
     <TextView
         android:id="@+id/checkout_information_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="20dp"
         android:text="@string/checkout_information"
         android:textColor="#BBFFFFFF"
         android:textSize="@dimen/data_form_section_header_text" />

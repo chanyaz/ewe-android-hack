@@ -36,6 +36,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.ConfirmLogoutDialogFragment.DoLogoutListener;
 import com.expedia.bookings.fragment.FlightCheckoutFragment;
+import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment.DisplayMode;
@@ -757,6 +758,16 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		else {
 			clearCCNumber();
 			super.onBackPressed();
+		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (WalletFragment.isRequestCodeFromWalletFragment(requestCode)) {
+			mCheckoutFragment.onActivityResult(requestCode, resultCode, data);
+		}
+		else {
+			super.onActivityResult(requestCode, resultCode, data);
 		}
 	}
 
