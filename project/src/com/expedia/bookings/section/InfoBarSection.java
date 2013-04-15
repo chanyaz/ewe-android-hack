@@ -5,6 +5,7 @@ import java.util.Calendar;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.text.Html;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
@@ -75,7 +76,11 @@ public class InfoBarSection extends LinearLayout {
 		// Bind right label (booking price)
 		String fare = trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL);
 		int seatsRemaining = trip.getSeatsRemaining();
-		if (seatsRemaining > 0 && seatsRemaining <= SHOW_URGENCY_CUTOFF) {
+		if (!TextUtils.isEmpty(trip.getFareName())) {
+			String fareStr = getResources().getString(R.string.fare_name_and_price_TEMPLATE, trip.getFareName(), fare);
+			mRightTextView.setText(fareStr);
+		}
+		else if (seatsRemaining > 0 && seatsRemaining <= SHOW_URGENCY_CUTOFF) {
 			String urgencyStr = getResources().getQuantityString(R.plurals.urgency_book_TEMPLATE, seatsRemaining,
 					seatsRemaining, fare);
 			mRightTextView.setText(Html.fromHtml(urgencyStr));

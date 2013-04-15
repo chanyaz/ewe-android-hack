@@ -64,6 +64,9 @@ public class FlightTrip implements JSONable {
 	 */
 	private boolean mShowBaggageFeesNotIncluded;
 
+	// Optional name for certain fares, such as low cost or saver fare, etc..
+	private String mFareName;
+
 	// Possible online booking fees (only set when server processes a
 	// real credit card, on non-US/CA POS for specific routes)
 	private Money mOnlineBookingFeesAmount;
@@ -247,6 +250,14 @@ public class FlightTrip implements JSONable {
 
 	public boolean getShowBaggageFeesNotIncluded() {
 		return mShowBaggageFeesNotIncluded;
+	}
+
+	public void setFareName(String fareName) {
+		mFareName = fareName;
+	}
+
+	public String getFareName() {
+		return mFareName;
 	}
 
 	////////////////////////////////////////////////////////////////////////
@@ -581,6 +592,7 @@ public class FlightTrip implements JSONable {
 			obj.putOpt("baggageFeesUrl", mBaggageFeesUrl);
 			obj.putOpt("mayChargeObFees", mMayChargeObFees);
 			obj.putOpt("showBaggageFeesNotIncluded", mShowBaggageFeesNotIncluded);
+			obj.putOpt("fareName", mFareName);
 
 			if (mFlightSegmentAttrs != null) {
 				JSONArray arr = new JSONArray();
@@ -632,6 +644,7 @@ public class FlightTrip implements JSONable {
 		mBaggageFeesUrl = obj.optString("baggageFeesUrl");
 		mMayChargeObFees = obj.optBoolean("mayChargeObFees");
 		mShowBaggageFeesNotIncluded = obj.optBoolean("showBaggageFeesNotIncluded");
+		mFareName = obj.optString("fareName");
 
 		JSONArray arr = obj.optJSONArray("flightSegmentAttributes");
 		if (arr != null) {

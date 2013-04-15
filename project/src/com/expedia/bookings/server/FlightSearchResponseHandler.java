@@ -221,6 +221,7 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 		trip.setBaggageFeesUrl(tripJson.optString("baggageFeesUrl"));
 		trip.setMayChargeObFees(tripJson.optBoolean("mayChargeOBFees"));
 		trip.setShowBaggageFeesNotIncluded(tripJson.optBoolean("showNoBaggageFeesIncluded", false));
+		trip.setFareName(tripJson.optString("fareName"));
 
 		if (tripJson.has("segmentAttributes")) {
 			JSONArray legArr = tripJson.optJSONArray("segmentAttributes");
