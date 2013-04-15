@@ -53,8 +53,8 @@
         android:id="@+id/operating_carrier_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/airline_text_view"
-        android:layout_below="@id/airline_text_view"
+        android:layout_alignLeft="@id/airline_container"
+        android:layout_below="@id/airline_container"
         android:layout_marginLeft="6dp"
         android:src="@drawable/ic_operating_carrier"
         android:visibility="gone" />
