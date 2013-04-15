@@ -420,6 +420,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		String carImageValue = ExpediaImageManager.getImageCode(data.getCar().getCategory(), data.getCar().getType());
 		notification.setImage(ImageType.CAR, 0, carImageValue);
 		notification.setFlags(Notification.FLAG_LOCAL);
+		notification.setIconResId(R.drawable.ic_stat_car);
 
 		String title = getContext().getString(R.string.Car_Pick_Up_X_TEMPLATE, data.getVendorName());
 		notification.setTicker(title);
@@ -448,6 +449,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		String carImageValue = ExpediaImageManager.getImageCode(data.getCar().getCategory(), data.getCar().getType());
 		notification.setImage(ImageType.CAR, 0, carImageValue);
 		notification.setFlags(Notification.FLAG_LOCAL);
+		notification.setIconResId(R.drawable.ic_stat_car);
 
 		String title = getContext().getString(R.string.Car_Drop_Off_X_TEMPLATE, data.getVendorName());
 		notification.setTicker(title);

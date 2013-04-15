@@ -151,6 +151,7 @@ public class LocalNotificationReceiver extends BroadcastReceiver {
 					SearchActivity.class), 0); //TODO
 			PendingIntent directionsPendingIntent = pendingIntent; //TODO
 			PendingIntent sharePendingIntent = pendingIntent; //TODO
+			PendingIntent deletePendingIntent = null;
 
 			NotificationCompat.Style style = null;
 
@@ -168,10 +169,13 @@ public class LocalNotificationReceiver extends BroadcastReceiver {
 					.setStyle(style)
 					.setTicker(mNotification.getTitle())
 					.setSmallIcon(R.drawable.ic_stat_expedia)
+					.setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), mNotification.getIconResId()))
 					.setContentTitle(mNotification.getTitle())
 					.setContentText(mNotification.getBody())
 					.setAutoCancel(true)
-					.setContentIntent(pendingIntent);
+					.setDeleteIntent(deletePendingIntent)
+					.setContentIntent(pendingIntent)
+					.setLights(0xfbc51e, 200, 8000); // Expedia suitcase color
 
 			long flags = mNotification.getFlags();
 			if ((flags & Notification.FLAG_DIRECTIONS) != 0) {

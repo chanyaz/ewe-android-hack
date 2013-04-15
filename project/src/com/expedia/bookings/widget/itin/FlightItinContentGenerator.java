@@ -594,6 +594,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		Notification notification = new Notification(uniqueId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.FLIGHT_CHECK_IN);
 		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_SHARE);
+		notification.setIconResId(R.drawable.ic_stat_flight);
 
 		notification.setTicker(getContext().getString(R.string.Check_in_available));
 		notification.setTitle(getContext().getString(R.string.Check_in_available));
