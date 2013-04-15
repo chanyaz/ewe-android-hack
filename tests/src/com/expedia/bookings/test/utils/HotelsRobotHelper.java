@@ -585,7 +585,7 @@ public class HotelsRobotHelper {
 		delay();
 		portrait();
 		delay(5);
-		
+
 		//Ensure that the keyboard isn't covering the log in button
 		String expediaAccount = mRes.getString(R.string.expedia_account);
 		if (mSolo.searchText(expediaAccount) && !mSolo.searchText(log_in_with_expedia, true)) {
@@ -742,9 +742,13 @@ public class HotelsRobotHelper {
 		mSolo.typeText((EditText) mSolo.getView(R.id.edit_name_on_card),
 				mUser.mFirstName + " " + mUser.mLastName);
 
-		// Enter Postal Code
-		mSolo.typeText((EditText) mSolo.getView(R.id.edit_address_postal_code),
-				mUser.mZIPCode);
+		try {
+			mSolo.typeText((EditText) mSolo.getView(R.id.edit_address_postal_code),
+					mUser.mZIPCode);
+		}
+		catch (Error e) {
+			enterLog(TAG, "No postal code edit text found.");
+		}
 
 		// Pick generic date
 		mSolo.clickOnText(mRes.getString(R.string.expiration_date));
