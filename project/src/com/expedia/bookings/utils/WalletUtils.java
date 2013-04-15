@@ -60,11 +60,10 @@ public class WalletUtils {
 
 		billingInfo.setEmail(wallet.getEmail());
 		billingInfo.setGoogleWalletTransactionId(wallet.getGoogleTransactionId());
-		Location loc = new Location();
-		loc.setPostalCode(wallet.getBillingAddress().getPostalCode());
-		billingInfo.setLocation(loc);
+
+		billingInfo.setLocation(convertAddressToLocation(wallet.getBillingAddress()));
 	}
-	
+
 	// If something goes wrong, we actually *don't* want GoogleWallet in the billing info anymore
 	// so clear it out.
 	public static void unbindWalletFromBillingInfo(BillingInfo billingInfo) {
@@ -88,16 +87,7 @@ public class WalletUtils {
 		traveler.setPhoneCountryCode("1"); // Currently, all wallet accounts are US only
 		traveler.setPhoneNumber(billingAddress.getPhoneNumber());
 
-		// Not all home address fields may be available if we are getting minimal billing info back
-		Location address = new Location();
-		address.addStreetAddressLine(billingAddress.getAddress1());
-		address.addStreetAddressLine(billingAddress.getAddress2());
-		address.addStreetAddressLine(billingAddress.getAddress3());
-		address.setCity(billingAddress.getCity());
-		address.setStateCode(billingAddress.getState());
-		address.setPostalCode(billingAddress.getPostalCode());
-		address.setCountryCode(billingAddress.getCountryCode());
-		traveler.setHomeAddress(address);
+		traveler.setHomeAddress(convertAddressToLocation(billingAddress));
 
 		return traveler;
 	}
@@ -108,6 +98,19 @@ public class WalletUtils {
 		scc.setId(maskedWallet.getGoogleTransactionId()); // For now, set ID == google transaction id
 		scc.setIsGoogleWallet(true);
 		return scc;
+	}
+
+	// Not all home address fields may be available if we are getting minimal billing info back
+	public static Location convertAddressToLocation(Address address) {
+		Location location = new Location();
+		location.addStreetAddressLine(address.getAddress1());
+		location.addStreetAddressLine(address.getAddress2());
+		location.addStreetAddressLine(address.getAddress3());
+		location.setCity(address.getCity());
+		location.setStateCode(address.getState());
+		location.setPostalCode(address.getPostalCode());
+		location.setCountryCode(address.getCountryCode());
+		return location;
 	}
 
 	public static String getFormattedPaymentDescription(MaskedWallet maskedWallet) {

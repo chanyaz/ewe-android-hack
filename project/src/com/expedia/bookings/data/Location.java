@@ -51,11 +51,11 @@ public class Location implements JSONable {
 
 	// Handy shortcut
 	public void addStreetAddressLine(String line) {
-		if (mStreetAddress == null) {
-			mStreetAddress = new ArrayList<String>();
-		}
+		if (!TextUtils.isEmpty(line)) {
+			if (mStreetAddress == null) {
+				mStreetAddress = new ArrayList<String>();
+			}
 
-		if (line != null) {
 			mStreetAddress.add(line);
 		}
 	}
