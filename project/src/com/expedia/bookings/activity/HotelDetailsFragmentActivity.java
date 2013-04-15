@@ -418,7 +418,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	}
 
 	private void setupBookByPhoneButton(AvailabilityResponse response) {
-		if (mBookByPhoneButton == null) {
+		if (mBookByPhoneButton == null || response == null) {
 			return;
 		}
 
