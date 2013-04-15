@@ -406,7 +406,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 
 	// https://mingle.karmalab.net/projects/eb_ad_app/cards/941
 	// Given I have a car rental, when the pickup time starts, then I want to
-	// receive a notification that reads (contentTitle) "Car Pick Up Ñ Alamo"
+	// receive a notification that reads (contentTitle) "Car Pick Up - Alamo"
 	// (contentText) "You can now pick up your car."
 	private Notification generatePickUpNotification() {
 		ItinCardDataCar data = getItinCardData();
