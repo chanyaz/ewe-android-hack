@@ -430,6 +430,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 					SocialUtils.call(HotelDetailsFragmentActivity.this, property.getTelephoneSalesNumber());
 				}
 			});
+			mBookByPhoneButton.setVisibility(View.VISIBLE);
 		}
 		else {
 			mBookByPhoneButton.setVisibility(View.GONE);
