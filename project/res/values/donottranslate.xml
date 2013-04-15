@@ -68,7 +68,7 @@
     <string name="preference_which_api_to_use_key">which_api</string>
     <string name="preference_proxy_server_address">proxy_server_address</string>
     <string name="preference_stubconfig_page">preference_stubconfig_page</string>
-    <string name="preference_flight_fake_price_change">flight_fake_price_change</string>
+    <string name="preference_fake_price_change">fake_price_change</string>
     <string name="preference_flight_fake_obfees">flight_fake_obfees</string>
     <string name="preference_spoof_bookings">spoof_bookings</string>
     <string name="preference_filter_merchant_properties">filter_merchant_properties</string>
@@ -80,7 +80,7 @@
     <string name="preference_debug_notify_oom_crash">preference_debug_notify_oom_crash</string>
 
     <!-- Default values for preference keys -->
-    <string name="preference_flight_fake_price_change_default">0</string>
+    <string name="preference_fake_price_change_default">0</string>
     <string name="preference_flight_fake_obfees_default">0</string>
 
     <!-- Country codes -->

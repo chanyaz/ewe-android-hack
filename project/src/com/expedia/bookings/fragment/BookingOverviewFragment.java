@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +67,8 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.view.ViewHelper;
@@ -860,6 +863,13 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 				Rate newRate = response.getRate();
 
 				if (TextUtils.equals(selectedRate.getRateKey(), response.getOriginalProductKey())) {
+					if (!AndroidUtils.isRelease(getActivity())) {
+						String val = SettingUtils.get(getActivity(),
+								getString(R.string.preference_fake_price_change),
+								getString(R.string.preference_fake_price_change_default));
+						newRate.getDisplayRate().add(new BigDecimal(val));
+					}
+
 					int priceChange = selectedRate.compareForPriceChange(newRate);
 					if (priceChange != 0) {
 						boolean isPriceHigher = priceChange < 0;
