@@ -33,6 +33,7 @@ public class TabletHappyPathTest extends ActivityInstrumentationTestCase2<Search
 		mDriver = new TabletsRobotHelper(mSolo, mRes, mUser);
 
 		mDriver.setScreenshotCount(1);
+		mDriver.setAllowScreenshots(true);
 		mDriver.setAllowOrientationChange(false);
 		mDriver.setWriteEventsToFile(false);
 
