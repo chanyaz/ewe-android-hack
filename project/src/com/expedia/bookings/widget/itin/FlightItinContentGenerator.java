@@ -47,6 +47,7 @@ import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.graphics.DestinationBitmapDrawable;
 import com.expedia.bookings.notification.Notification;
+import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClipboardUtils;
@@ -591,6 +592,8 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		long triggerTimeMillis = data.getStartDate().getMillisFromEpoch() - DateUtils.DAY_IN_MILLIS;
 
 		Notification notification = new Notification(uniqueId, triggerTimeMillis);
+		notification.setNotificationType(NotificationType.FLIGHT_CHECK_IN);
+		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_SHARE);
 
 		notification.setTicker(getContext().getString(R.string.Check_in_available));
 		notification.setTitle(getContext().getString(R.string.Check_in_available));

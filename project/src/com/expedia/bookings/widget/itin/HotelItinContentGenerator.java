@@ -22,6 +22,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.notification.Notification;
+import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.Ui;
@@ -387,6 +388,8 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		triggerTimeMillis -= TimeZone.getDefault().getOffset(triggerTimeMillis);
 
 		Notification notification = new Notification(uniqueId, triggerTimeMillis);
+		notification.setNotificationType(NotificationType.HOTEL_CHECK_IN);
+		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_SHARE);
 
 		String title = getContext()
 				.getString(R.string.itin_card_hotel_summary_check_in_TEMPLATE, data.getCheckInTime());
@@ -420,6 +423,8 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		triggerTimeMillis -= TimeZone.getDefault().getOffset(triggerTimeMillis);
 
 		Notification notification = new Notification(uniqueId, triggerTimeMillis);
+		notification.setNotificationType(NotificationType.HOTEL_CHECK_OUT);
+		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_SHARE);
 
 		//TODO: use the specific time for checkout (coming in E3 5r1 early may)
 		//String title = getContext().getString(R.string.itin_card_hotel_summary_check_out_TEMPLATE, data.getCheckOutTime());

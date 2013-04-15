@@ -66,8 +66,9 @@ public class LocalNotificationReceiver extends BroadcastReceiver {
 						mDestinationImageUrlCallback);
 				break;
 			case CAR:
-				break;
 			case ACTIVITY:
+			case NONE:
+				scheduleNotification();
 				break;
 			}
 		}
@@ -163,9 +164,6 @@ public class LocalNotificationReceiver extends BroadcastReceiver {
 						.bigText(mNotification.getBody());
 			}
 
-			String directions = mContext.getString(R.string.itin_action_directions);
-			String share = mContext.getString(R.string.itin_action_share);
-
 			NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)
 					.setStyle(style)
 					.setTicker(mNotification.getTitle())
@@ -173,9 +171,18 @@ public class LocalNotificationReceiver extends BroadcastReceiver {
 					.setContentTitle(mNotification.getTitle())
 					.setContentText(mNotification.getBody())
 					.setAutoCancel(true)
-					.addAction(R.drawable.ic_direction, directions, directionsPendingIntent)
-					.addAction(R.drawable.ic_social_share, share, sharePendingIntent)
 					.setContentIntent(pendingIntent);
+
+			long flags = mNotification.getFlags();
+			if ((flags & Notification.FLAG_DIRECTIONS) != 0) {
+				String directions = mContext.getString(R.string.itin_action_directions);
+				builder = builder.addAction(R.drawable.ic_direction, directions, directionsPendingIntent);
+			}
+
+			if ((flags & Notification.FLAG_SHARE) != 0) {
+				String share = mContext.getString(R.string.itin_action_share);
+				builder = builder.addAction(R.drawable.ic_social_share, share, sharePendingIntent);
+			}
 
 			String tag = mNotification.getUniqueId();
 

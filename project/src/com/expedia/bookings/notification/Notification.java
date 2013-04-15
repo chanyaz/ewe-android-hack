@@ -7,21 +7,21 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 import com.expedia.bookings.R;
-import com.mobiata.android.Log;
 
 @Table(name = "Notifications")
 public class Notification extends Model {
 
-	public long FLAG_LOCAL = 0x01;
-	public long FLAG_PUSH = 0x02;
-	public long FLAG_DIRECTIONS = 0x4;
-	public long FLAG_SHARE = 0x8;
+	public static final long FLAG_LOCAL = 0x01;
+	public static final long FLAG_PUSH = 0x02;
+	public static final long FLAG_DIRECTIONS = 0x4;
+	public static final long FLAG_SHARE = 0x8;
 
 	/**
 	 * NEW = This notification has never been displayed to the user.
@@ -53,7 +53,8 @@ public class Notification extends Model {
 		URL,
 		DESTINATION,
 		CAR,
-		ACTIVITY;
+		ACTIVITY,
+		NONE;
 	}
 
 	/**
@@ -187,6 +188,9 @@ public class Notification extends Model {
 	}
 
 	public ImageType getImageType() {
+		if (TextUtils.isEmpty(mImageType)) {
+			return ImageType.NONE;
+		}
 		return ImageType.valueOf(mImageType);
 	}
 
@@ -220,7 +224,7 @@ public class Notification extends Model {
 		return mFlags;
 	}
 
-	public void setFlags(int flags) {
+	public void setFlags(long flags) {
 		this.mFlags = flags;
 	}
 
