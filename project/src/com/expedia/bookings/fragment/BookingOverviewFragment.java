@@ -25,7 +25,6 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
@@ -44,7 +43,6 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SignInResponse;
-import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -70,14 +68,7 @@ import com.expedia.bookings.widget.LinearLayout;
 import com.expedia.bookings.widget.ScrollView;
 import com.expedia.bookings.widget.ScrollView.OnScrollListener;
 import com.expedia.bookings.widget.WalletButton;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
-import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
 import com.google.android.gms.wallet.MaskedWallet;
-import com.google.android.gms.wallet.MaskedWalletRequest;
-import com.google.android.gms.wallet.WalletClient.OnMaskedWalletLoadedListener;
-import com.google.android.gms.wallet.WalletClient.OnPreAuthorizationDeterminedListener;
-import com.google.android.gms.wallet.WalletConstants;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -88,8 +79,7 @@ import com.mobiata.android.util.Ui;
 import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.view.ViewHelper;
 
-public class BookingOverviewFragment extends WalletFragment implements AccountButtonClickListener, ConnectionCallbacks,
-		OnConnectionFailedListener, OnPreAuthorizationDeterminedListener, OnMaskedWalletLoadedListener {
+public class BookingOverviewFragment extends LoadWalletFragment implements AccountButtonClickListener {
 
 	public interface BookingOverviewFragmentListener {
 		public void checkoutStarted();
@@ -353,38 +343,6 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 
 		mHotelReceipt.saveInstanceState(outState);
 		mCouponCodeWidget.saveInstanceState(outState);
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-
-		switch (requestCode) {
-		case REQUEST_CODE_RESOLVE_ERR:
-			// Call connect regardless of success or failure.
-			// If the result was success, the connect should succeed
-			// If the result was not success, this should get a new connection result
-			mWalletClient.connect();
-			break;
-		case REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET:
-			switch (resultCode) {
-			case Activity.RESULT_OK:
-				Db.setMaskedWallet((MaskedWallet) data.getParcelableExtra(WalletConstants.EXTRA_MASKED_WALLET));
-				bindMaskedWallet();
-				break;
-			case Activity.RESULT_CANCELED:
-				Log.w("Masked wallet request: received RESULT_CANCELED");
-				// Need to load a new ConnectionResult (even if user canceled)
-				// in case they want to try it again
-				mWalletClient.loadMaskedWallet(buildMaskedWalletRequest(), this);
-				break;
-			default:
-				int errorCode = data.getIntExtra(WalletConstants.EXTRA_ERROR_CODE, -1);
-				handleError(errorCode);
-				break;
-			}
-			break;
-		}
 	}
 
 	// Public methods
@@ -1224,9 +1182,6 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 	//////////////////////////////////////////////////////////////////////////
 	// Google Wallet
 
-	private boolean mCheckedPreAuth;
-	private boolean mIsUserPreAuthorized;
-
 	private OnClickListener mWalletButtonClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -1234,32 +1189,14 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 		}
 	};
 
-	private MaskedWalletRequest buildMaskedWalletRequest() {
-		Money total = Db.getSelectedRate().getTotalAmountAfterTax();
-		MaskedWalletRequest.Builder builder = MaskedWalletRequest.newBuilder();
-		WalletUtils.addStandardFieldsToMaskedWalletRequest(getActivity(), builder, total);
-		builder.setPhoneNumberRequired(true);
-		builder.setUseMinimalBillingAddress(true);
-		return builder.build();
+	@Override
+	protected Money getEstimatedTotal() {
+		return Db.getSelectedRate().getTotalAmountAfterTax();
 	}
 
-	private void buyWithGoogleWallet() {
-		if (mGoogleWalletDisabled) {
-			updateWalletViewVisibilities();
-			displayGoogleWalletUnavailableToast();
-		}
-		else if (Db.getMaskedWallet() != null) {
-			bindMaskedWallet();
-		}
-		else if (mConnectionResult != null) {
-			resolveUnsuccessfulConnectionResult();
-		}
-		else {
-			// Still waiting for the WalletClient to connect so wait for
-			// mWalletClient.loadMaskedWallet() to be called from onConnected()
-			mProgressDialog.show();
-			mHandleMaskedWalletWhenReady = true;
-		}
+	@Override
+	protected int getMaskedWalletBuilderFlags() {
+		return WalletUtils.F_PHONE_NUMBER_REQUIRED | WalletUtils.F_USE_MINIMAL_BILLING_ADDRESS;
 	}
 
 	/**
@@ -1267,7 +1204,7 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 	 * blow away whatever was here before - so only call this when
 	 * we want to override the current data with Google Wallet!
 	 */
-	private void bindMaskedWallet() {
+	protected void onMaskedWalletFullyLoaded() {
 		populateTravelerData();
 
 		MaskedWallet maskedWallet = Db.getMaskedWallet();
@@ -1286,18 +1223,15 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 	}
 
 	// We may want to update these more often than the rest of the Views
-	private void updateWalletViewVisibilities() {
-		MaskedWallet maskedWallet = Db.getMaskedWallet();
-		StoredCreditCard scc = Db.getBillingInfo().getStoredCard();
-		boolean storedCardIsGoogleWallet = scc != null && scc.isGoogleWallet();
+	protected void updateWalletViewVisibilities() {
+		boolean showWalletButton = showWalletButton();
+		boolean isWalletLoading = isWalletLoading();
 
-		mWalletButton.setVisibility(mGoogleWalletDisabled || (maskedWallet != null && storedCardIsGoogleWallet)
-				? View.GONE : View.VISIBLE);
-		mWalletButton.setEnabled(mWalletClient.isConnected() && mCheckedPreAuth && !mIsUserPreAuthorized
-				&& (maskedWallet == null || !storedCardIsGoogleWallet));
+		mWalletButton.setVisibility(showWalletButton ? View.VISIBLE : View.GONE);
+		mWalletButton.setEnabled(!isWalletLoading);
 
-		// If we are pre-authorized but haven't loaded the masked wallet, disable all buttons
-		boolean enableButtons = mGoogleWalletDisabled || !mIsUserPreAuthorized || maskedWallet != null;
+		// Enable buttons if we're either not showing the wallet button or we're not loading a masked wallet 
+		boolean enableButtons = !showWalletButton || !isWalletLoading;
 		mAccountButton.setEnabled(enableButtons);
 		mTravelerButton.setEnabled(enableButtons);
 		mTravelerSection.setEnabled(enableButtons);
@@ -1305,102 +1239,5 @@ public class BookingOverviewFragment extends WalletFragment implements AccountBu
 		mStoredCreditCard.setEnabled(enableButtons);
 		mCreditCardSectionButton.setEnabled(enableButtons);
 		mCouponCodeEditText.setEnabled(enableButtons);
-	}
-
-	@Override
-	protected void handleError(int errorCode) {
-		super.handleError(errorCode);
-
-		switch (errorCode) {
-		case WalletConstants.ERROR_CODE_BUYER_CANCELLED:
-			// Fetch a new ConnectionResult by calling loadMaskedWallet() again.
-			// This is necessary because ConnectionResults cannot be reused
-			mWalletClient.loadMaskedWallet(buildMaskedWalletRequest(), this);
-			break;
-		case WalletConstants.ERROR_CODE_SPENDING_LIMIT_EXCEEDED:
-			mGoogleWalletDisabled = true;
-			Toast.makeText(getActivity(), getString(R.string.spending_limit_exceeded), Toast.LENGTH_LONG).show();
-			break;
-		default:
-			// Unrecoverable error
-			mGoogleWalletDisabled = true;
-			displayGoogleWalletUnavailableToast();
-			break;
-		}
-
-		updateWalletViewVisibilities();
-	}
-
-	// ConnectionCallbacks
-
-	@Override
-	public void onConnected(Bundle connectionHint) {
-		super.onConnected(connectionHint);
-
-		// Check that we're not going to go over the transaction limit; if we are, shut it all down
-		if (!WalletUtils.offerGoogleWallet(Db.getSelectedRate().getTotalAmountAfterTax())) {
-			mGoogleWalletDisabled = true;
-		}
-
-		// Don't re-request the masked wallet if we already have it
-		if (!mGoogleWalletDisabled && Db.getMaskedWallet() == null) {
-			mWalletClient.checkForPreAuthorization(this);
-
-			// Immediately start requesting the wallet (even if we don't have product back yet)
-			// We can just ballpark the final cost for the masked wallet.
-			mWalletClient.loadMaskedWallet(buildMaskedWalletRequest(), BookingOverviewFragment.this);
-		}
-
-		updateWalletViewVisibilities();
-	}
-
-	@Override
-	public void onDisconnected() {
-		super.onDisconnected();
-
-		updateWalletViewVisibilities();
-	}
-
-	// OnPreAuthorizationDeterminedListener
-
-	@Override
-	public void onPreAuthorizationDetermined(ConnectionResult status, boolean isUserPreAuthorized) {
-		super.onPreAuthorizationDetermined(status, isUserPreAuthorized);
-
-		mCheckedPreAuth = true;
-		mIsUserPreAuthorized = isUserPreAuthorized;
-
-		updateWalletViewVisibilities();
-	}
-
-	// OnMaskedWalletLoadedListener
-
-	@Override
-	public void onMaskedWalletLoaded(ConnectionResult status, MaskedWallet wallet) {
-		super.onMaskedWalletLoaded(status, wallet);
-
-		if (status.isSuccess()) {
-			// User has pre-authorized the app
-			Log.i(WalletUtils.TAG, "User has pre-authorized app with Wallet before, automatically binding data...");
-			Db.setMaskedWallet(wallet);
-			bindMaskedWallet();
-		}
-		else if (status.hasResolution()) {
-			mConnectionResult = status;
-			mRequestCode = REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET;
-
-			if (mHandleMaskedWalletWhenReady) {
-				mProgressDialog.dismiss();
-
-				resolveUnsuccessfulConnectionResult();
-			}
-			else if (mIsUserPreAuthorized) {
-				// We thought the user was pre-authed, but some problem came up; make the user press button
-				updateWalletViewVisibilities();
-			}
-		}
-
-		// It no longer matters if we're pre-authed, since we have a wallet (or a resolution thereof)
-		mIsUserPreAuthorized = false;
 	}
 }

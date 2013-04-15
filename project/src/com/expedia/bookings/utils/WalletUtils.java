@@ -35,6 +35,10 @@ public class WalletUtils {
 	public static final String EXTRA_MASKED_WALLET = "EXTRA_MASKED_WALLET";
 	public static final String EXTRA_FULL_WALLET = "EXTRA_FULL_WALLET";
 
+	public static final int F_PHONE_NUMBER_REQUIRED = 1;
+	public static final int F_SHIPPING_ADDRESS_REQUIRED = 2;
+	public static final int F_USE_MINIMAL_BILLING_ADDRESS = 4;
+
 	// TODO: This is currently always set the sandbox, but we will
 	// eventually want to make this more dynamic.
 	public static int getWalletEnvironment() {
@@ -46,6 +50,19 @@ public class WalletUtils {
 	 */
 	public static boolean offerGoogleWallet(Money total) {
 		return total.getAmount().compareTo(new BigDecimal(WalletFragment.MAX_TRANSACTION_CHARGE)) < 0;
+	}
+
+	public static MaskedWalletRequest buildMaskedWalletRequest(Context context, Money total, int flags) {
+		MaskedWalletRequest.Builder builder = MaskedWalletRequest.newBuilder();
+		builder.setMerchantName(context.getString(R.string.merchant_name));
+		builder.setCurrencyCode(total.getCurrency());
+		builder.setEstimatedTotalPrice(total.getAmount().toPlainString());
+
+		builder.setPhoneNumberRequired((flags & F_PHONE_NUMBER_REQUIRED) != 0);
+		builder.setShippingAddressRequired((flags & F_SHIPPING_ADDRESS_REQUIRED) != 0);
+		builder.setUseMinimalBillingAddress((flags & F_USE_MINIMAL_BILLING_ADDRESS) != 0);
+
+		return builder.build();
 	}
 
 	public static void addStandardFieldsToMaskedWalletRequest(Context context, MaskedWalletRequest.Builder builder,
