@@ -86,8 +86,12 @@
     <string name="itinerary_fetch_error">Error fetching itineraries</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;Log in&lt;/b&gt; for your trips</string>
+    <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
+    <string name="tomorrow">Tomorrow</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
     <string name="Today">Today</string>
+    <!-- String for Yesterday as in "Marriott Grand Hotel - Yesterday" -->
+    <string name="yesterday">Yesterday</string>
     <!-- "XX Minutes" - an event happening XX minutes in the future -->
     <plurals name="minutes_from_now">
         <item quantity="zero">%s minutes</item>

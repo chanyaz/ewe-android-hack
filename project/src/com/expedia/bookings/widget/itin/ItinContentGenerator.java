@@ -456,37 +456,41 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 		CharSequence ret = null;
 
-		// For cards that happened earlier today, we want "Today"
-		if (time < now && DateUtils.isToday(time)) {
+		// For cards that happened yesterday, we want "Yesterday"
+		if (time < now && getNumberOfDaysPassed(now, time) == 1) {
+			ret = getContext().getString(R.string.yesterday);
+		}
+
+		// For flight cards coming up in less than one hour, we want "XX Minutes"
+		else if (time > now && getType().equals(Type.FLIGHT) && duration <= DateUtils.HOUR_IN_MILLIS) {
+			// Explicitly adding a minute in milliseconds to avoid showing '0 minutes' strings. Defect# 758
+			int minutes = (int) ((duration + DateUtils.MINUTE_IN_MILLIS - 1) / DateUtils.MINUTE_IN_MILLIS);
+			ret = getResources().getQuantityString(R.plurals.minutes_from_now, minutes, minutes);
+		}
+
+		// For flight cards coming up in greater than one hour but less than one day, we want "XX Hours"
+		else if (time > now && getType().equals(Type.FLIGHT) && duration <= DateUtils.DAY_IN_MILLIS) {
+			int hours = (int) (duration / DateUtils.HOUR_IN_MILLIS);
+			ret = getResources().getQuantityString(R.plurals.hours_from_now, hours, hours);
+		}
+
+		// For flight cards that happen today, we want "Today"
+		else if (DateUtils.isToday(time)) {
 			ret = getContext().getString(R.string.Today);
 		}
 
-		// For cards that happened before today, we want "MMM d" ("Mar 5")
-		else if (time < now) {
-			int flags = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_MONTH;
-			ret = dateTime.formatTime(getContext(), flags);
-		}
-
-		// For cards coming up in less than one hour, we want "XX Minutes"
-		else if (duration <= DateUtils.HOUR_IN_MILLIS) {
-			// Explicitly adding a minute in milliseconds to avoid showing '0 minutes' strings. Defect# 758
-			int minutes = (int) ((duration + DateUtils.MINUTE_IN_MILLIS - 1) / DateUtils.MINUTE_IN_MILLIS);
-			ret = getContext().getResources().getQuantityString(R.plurals.minutes_from_now, minutes, minutes);
-		}
-
-		// For cards coming up in greater than one hour but less than one day, we want "XX Hours"
-		else if (duration <= DateUtils.DAY_IN_MILLIS) {
-			int hours = (int) (duration / DateUtils.HOUR_IN_MILLIS);
-			ret = getContext().getResources().getQuantityString(R.plurals.hours_from_now, hours, hours);
+		// For cards coming up tomorrow, we want "Tomorrow"
+		else if (time > now && getNumberOfDaysPassed(now, time) == 1) {
+			ret = getContext().getString(R.string.tomorrow);
 		}
 
 		// For cards coming up greater than 24 hours but in 3 days or less want "XX Days"
-		else if (getNumberOfDaysPassed(time, now) <= 3) {
+		else if (time > now && getNumberOfDaysPassed(now, time) <= 3) {
 			int days = (int) (getNumberOfDaysPassed(time, now));
-			ret = getContext().getResources().getQuantityString(R.plurals.days_from_now, days, days);
+			ret = getResources().getQuantityString(R.plurals.days_from_now, days, days);
 		}
 
-		// For cards coming up more than 3 days in the future, we want "MMM d" ("Mar 15")
+		// Fall back to the date, we want "MMM d" ("Mar 15")
 		else {
 			int flags = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_MONTH;
 			ret = dateTime.formatTime(getContext(), flags);
