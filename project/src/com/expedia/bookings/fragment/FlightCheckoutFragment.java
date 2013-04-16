@@ -504,27 +504,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	private void populateTravelerDataFromUser() {
 		if (User.isLoggedIn(getActivity())) {
 			//Populate traveler data
-			if (Db.getTravelers() != null && Db.getTravelers().size() >= 1) {
-				//If the first traveler is not already all the way filled out, and the default profile for the expedia account has all required data, use the account profile
-				boolean isInternational = Db.getFlightSearch().getSelectedFlightTrip().isInternational();
-				TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
-				if (isInternational) {
-					//International
-					if (!state.allTravelerInfoIsValidForInternationalFlight(Db.getTravelers().get(0))) {
-						if (state.allTravelerInfoIsValidForInternationalFlight(Db.getUser().getPrimaryTraveler())) {
-							Db.getTravelers().set(0, Db.getUser().getPrimaryTraveler());
-						}
-					}
-				}
-				else {
-					//Domestic
-					if (!state.allTravelerInfoIsValidForDomesticFlight(Db.getTravelers().get(0))) {
-						if (state.allTravelerInfoIsValidForDomesticFlight(Db.getUser().getPrimaryTraveler())) {
-							Db.getTravelers().set(0, Db.getUser().getPrimaryTraveler());
-						}
-					}
-				}
-			}
+			populateTravelerData(Db.getUser().getPrimaryTraveler());
 		}
 		else {
 			for (int i = 0; i < Db.getTravelers().size(); i++) {
@@ -536,6 +516,29 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 				Db.getTravelers().get(i).setSaveTravelerToExpediaAccount(false);
 			}
 
+		}
+	}
+
+	private void populateTravelerData(Traveler traveler) {
+		if (Db.getTravelers() != null && Db.getTravelers().size() >= 1) {
+			// If the first traveler is not already all the way filled out, and the
+			// provided traveler has all the required data, then use that one instead
+			TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
+			Traveler currentFirstTraveler = Db.getTravelers().get(0);
+			if (Db.getFlightSearch().getSelectedFlightTrip().isInternational()) {
+				// International
+				if (!state.allTravelerInfoIsValidForInternationalFlight(currentFirstTraveler)
+						&& state.allTravelerInfoIsValidForInternationalFlight(traveler)) {
+					Db.getTravelers().set(0, traveler);
+				}
+			}
+			else {
+				// Domestic
+				if (!state.allTravelerInfoIsValidForDomesticFlight(currentFirstTraveler)
+						&& state.allTravelerInfoIsValidForDomesticFlight(traveler)) {
+					Db.getTravelers().set(0, traveler);
+				}
+			}
 		}
 	}
 
@@ -728,10 +731,11 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 		MaskedWallet maskedWallet = Db.getMaskedWallet();
 
-		// Replace the traveler with the one from the wallet 
+		// If we don't currently have traveler data, and the wallet gives us sufficient data, use it
+		// NOTE: At the moment we are *guaranteed* not to get sufficient data, but there's no reason
+		// not to hope someday we will get it! 
 		Traveler traveler = WalletUtils.convertToTraveler(maskedWallet);
-		List<Traveler> travelers = Db.getTravelers();
-		travelers.set(0, traveler);
+		populateTravelerData(traveler);
 
 		// Bind credit card data
 		WalletUtils.bindWalletToBillingInfo(maskedWallet, mBillingInfo);

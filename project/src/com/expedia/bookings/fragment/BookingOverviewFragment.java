@@ -458,15 +458,7 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 	private void populateTravelerDataFromUser() {
 		if (User.isLoggedIn(getActivity())) {
 			//Populate traveler data
-			if (Db.getTravelers() != null && Db.getTravelers().size() >= 1) {
-				//If the first traveler is not already all the way filled out, and the default profile for the expedia account has all required data, use the account profile
-				HotelTravelerFlowState state = HotelTravelerFlowState.getInstance(getActivity());
-				if (!state.hasValidTraveler(Db.getTravelers().get(0))) {
-					if (state.hasValidTraveler(Db.getUser().getPrimaryTraveler())) {
-						Db.getTravelers().set(0, Db.getUser().getPrimaryTraveler());
-					}
-				}
-			}
+			populateTravelerData(Db.getUser().getPrimaryTraveler());
 		}
 		else {
 			for (int i = 0; i < Db.getTravelers().size(); i++) {
@@ -476,6 +468,19 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 				}
 				//We can't save travelers to an account if we aren't logged in, so we unset the flag
 				Db.getTravelers().get(i).setSaveTravelerToExpediaAccount(false);
+			}
+		}
+	}
+
+	private void populateTravelerData(Traveler traveler) {
+		if (Db.getTravelers() != null && Db.getTravelers().size() >= 1) {
+			// If the first traveler is not already all the way filled out, and the
+			// provided traveler has all the required data, then use that one instead
+			HotelTravelerFlowState state = HotelTravelerFlowState.getInstance(getActivity());
+			if (!state.hasValidTraveler(Db.getTravelers().get(0))) {
+				if (state.hasValidTraveler(traveler)) {
+					Db.getTravelers().set(0, traveler);
+				}
 			}
 		}
 	}
@@ -1209,10 +1214,9 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 
 		MaskedWallet maskedWallet = Db.getMaskedWallet();
 
-		// Replace the traveler with the one from the wallet 
+		// Add the current traveler from the wallet, if it is full of data and we have none at the moment 
 		Traveler traveler = WalletUtils.convertToTraveler(maskedWallet);
-		List<Traveler> travelers = Db.getTravelers();
-		travelers.set(0, traveler);
+		populateTravelerData(traveler);
 
 		// Bind credit card data
 		WalletUtils.bindWalletToBillingInfo(maskedWallet, mBillingInfo);
