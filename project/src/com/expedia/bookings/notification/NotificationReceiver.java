@@ -20,6 +20,7 @@ import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.notification.Notification.StatusType;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -99,6 +100,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 			notification.setStatus(StatusType.DISMISSED);
 			notification.save();
 			int clickTarget = intent.getIntExtra(EXTRA_CLICK_TARGET, CLICK_TARGET_MAIN);
+			handleTracking(context, clickTarget, notification);
 			handleClick(context, clickTarget);
 			break;
 		case ACTION_DISMISS:
@@ -263,6 +265,20 @@ public class NotificationReceiver extends BroadcastReceiver {
 			String tag = mNotification.getUniqueId();
 			NotificationManager nm = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 			nm.notify(tag, 0, builder.build());
+		}
+	}
+
+	private void handleTracking(Context context, int clickTarget, Notification notification) {
+		switch (clickTarget) {
+		case CLICK_TARGET_MAIN:
+			OmnitureTracking.trackNotificationClick(context, notification);
+			break;
+		case CLICK_TARGET_DIRECTIONS:
+			//TODO (this might be handled by the on click intent anyway)
+			break;
+		case CLICK_TARGET_SHARE:
+			//TODO (this might be handled by the on click intent anyway)
+			break;
 		}
 	}
 

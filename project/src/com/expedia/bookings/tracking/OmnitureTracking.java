@@ -38,6 +38,8 @@ import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.fragment.BookingInfoValidation;
+import com.expedia.bookings.notification.Notification;
+import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
@@ -193,6 +195,18 @@ public class OmnitureTracking {
 	private static final String HOTELS_SEARCH_REFINE_NAME = "App.Hotels.Search.Refine.Name";
 	private static final String HOTELS_SEARCH_REFINE_PRICE_RANGE = "App.Hotels.Search.Refine.PriceRange";
 	private static final String HOTELS_SEARCH_REFINE_SEARCH_RADIUS = "App.Hotels.Search.Refine.SearchRadius";
+
+	// Notifications
+	private static final String NOTIFICATION_ACTIVITY_START = "Itinerary.Activity.Start";
+	private static final String NOTIFICATION_CAR_DROP_OFF = "Itinerary.Car.DropOff";
+	private static final String NOTIFICATION_CAR_PICK_UP = "Itinerary.Car.PickUp";
+	private static final String NOTIFICATION_FLIGHT_CHECK_IN = "Itinerary.Flight.CheckIn";
+	private static final String NOTIFICATION_FLIGHT_CANCELLED = "Itinerary.Flight.Cancelled";
+	private static final String NOTIFICATION_FLIGHT_GATE_TIME_CHANGE = "Itinerary.Flight.GateTimeChange";
+	private static final String NOTIFICATION_FLIGHT_GATE_NUMBER_CHANGE = "Itinerary.Flight.GateNumberChange";
+	private static final String NOTIFICATION_FLIGHT_BAGGAGE_CLAIM = "Itinerary.Flight.BaggageClaim";
+	private static final String NOTIFICATION_HOTEL_CHECK_IN = "Itinerary.Hotel.CheckIn";
+	private static final String NOTIFICATION_HOTEL_CHECK_OUT = "Itinerary.Hotel.CheckOut";
 
 	private static final DateFormat FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -573,6 +587,61 @@ public class OmnitureTracking {
 			event += ",event16";
 		}
 		s.setEvents(event);
+	}
+
+	/////////////////////////////////
+	// Notification Click Tracking
+	//
+	// Spec: https://confluence/display/Omniture/App+Itinerary#AppItinerary-Version31
+	//
+	/////////////////////////////////
+
+	public static void trackNotificationClick(Context context, Notification notification) {
+		NotificationType type = notification.getNotificationType();
+		String link = null;
+		switch (type) {
+		case ACTIVITY_START:
+			link = NOTIFICATION_ACTIVITY_START;
+			break;
+		case CAR_DROP_OFF:
+			link = NOTIFICATION_CAR_DROP_OFF;
+			break;
+		case CAR_PICK_UP:
+			link = NOTIFICATION_CAR_PICK_UP;
+			break;
+		case FLIGHT_CHECK_IN:
+			link = NOTIFICATION_FLIGHT_CHECK_IN;
+			break;
+		case FLIGHT_CANCELLED:
+			link = NOTIFICATION_FLIGHT_CANCELLED;
+			break;
+		case FLIGHT_GATE_TIME_CHANGE:
+			link = NOTIFICATION_FLIGHT_GATE_TIME_CHANGE;
+			break;
+		case FLIGHT_GATE_NUMBER_CHANGE:
+			link = NOTIFICATION_FLIGHT_GATE_NUMBER_CHANGE;
+			break;
+		case FLIGHT_BAGGAGE_CLAIM:
+			link = NOTIFICATION_FLIGHT_BAGGAGE_CLAIM;
+			break;
+		case HOTEL_CHECK_IN:
+			link = NOTIFICATION_HOTEL_CHECK_IN;
+			break;
+		case HOTEL_CHECK_OUT:
+			link = NOTIFICATION_HOTEL_CHECK_OUT;
+			break;
+		default:
+			link = "Itinerary." + type.name();
+			Log.w(TAG, "Unknown Notification Type \"" + type.name() + "\". Taking a guess.");
+			break;
+		}
+
+		Log.d(TAG, "Tracking \"" + link + "\" click");
+
+		ADMS_Measurement s = createTrackLinkEvent(context, link);
+		s.setEvar(11, link);
+		s.setEvents("event12");
+		s.trackLink(null, "o", s.getEvar(28), null, null);
 	}
 
 	/////////////////////////////////
