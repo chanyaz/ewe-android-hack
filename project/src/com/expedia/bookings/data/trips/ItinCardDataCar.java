@@ -98,11 +98,11 @@ public class ItinCardDataCar extends ItinCardData implements ConfirmationNumbera
 	}
 
 	public DateTime getPickUpDate() {
-		return getTripComponent().getParentTrip().getStartDate();
+		return mCar.getPickUpDateTime();
 	}
 
 	public DateTime getDropOffDate() {
-		return getTripComponent().getParentTrip().getEndDate();
+		return mCar.getDropOffDateTime();
 	}
 
 	public Location getPickUpLocation() {

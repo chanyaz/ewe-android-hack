@@ -342,9 +342,9 @@
     <!-- Tell users when they need to drop off a rental car. %1$s is a date, e.g. ("drop off Jun 15") -->
     <string name="itin_card_details_drop_off_day_TEMPLATE">Drop off %1$s</string>
     <!-- Tell users that they need to drop off a rental car in three days. -->
-    <string name="itin_card_details_drop_off_three_days">Drop in 3 days</string>
+    <string name="itin_card_details_drop_off_three_days">Drop off in 3 days</string>
     <!-- Tell users that they need to drop off a rental car in two days. -->
-    <string name="itin_card_details_drop_off_two_days">Drop in 2 days</string>
+    <string name="itin_card_details_drop_off_two_days">Drop off in 2 days</string>
     <!-- Tell users that they need to drop off a rental car the next day. -->
     <string name="itin_card_details_drop_off_tomorrow">Drop off tomorrow</string>
     <!-- Tell users when they need to drop off a rental car. %1$s is a time, e.g. ("drop off before 5 PM") -->

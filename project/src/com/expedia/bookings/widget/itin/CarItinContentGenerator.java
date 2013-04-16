@@ -203,8 +203,8 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		}
 
 		ItinCardDataCar data = getItinCardData();
-		Calendar start = data.getStartDate().getCalendar();
-		Calendar end = data.getEndDate().getCalendar();
+		Calendar start = data.getPickUpDate().getCalendar();
+		Calendar end = data.getDropOffDate().getCalendar();
 		Calendar preStart1 = (Calendar) start.clone();
 		Calendar preStart2 = (Calendar) start.clone();
 		Calendar preStart3 = (Calendar) start.clone();
@@ -233,17 +233,17 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 			view.setText(R.string.itin_card_details_pick_up_tomorrow);
 		}
 		else if (now.get(Calendar.DAY_OF_YEAR) == start.get(Calendar.DAY_OF_YEAR)) {
-			// Pick up after 3PM
-			if (now.before(end) && start.get(Calendar.DAY_OF_YEAR) == end.get(Calendar.DAY_OF_YEAR)) {
-				view.setText(getContext().getString(
-						R.string.itin_card_details_pick_up_TEMPLATE,
-						getItinCardData().getPickUpDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME)));
-			}
 			// Drop off before 5PM
-			else {
+			if (start.get(Calendar.DAY_OF_YEAR) == end.get(Calendar.DAY_OF_YEAR) && now.after(start)) {
 				view.setText(getContext().getString(
 						R.string.itin_card_details_drop_off_TEMPLATE,
 						getItinCardData().getDropOffDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME)));
+			}
+			// Pick up after 3PM
+			else {
+				view.setText(getContext().getString(
+						R.string.itin_card_details_pick_up_TEMPLATE,
+						getItinCardData().getPickUpDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME)));
 			}
 		}
 		// Pick up May 14
