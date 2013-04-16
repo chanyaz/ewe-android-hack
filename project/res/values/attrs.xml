@@ -110,6 +110,8 @@
         <attr name="activeIcon" format="reference" />
         <attr name="storedIcon" format="reference" />
         <attr name="walletIcon" format="reference" />
+        <attr name="primaryTextColor" format="color|reference" />
+        <attr name="secondaryTextColor" format="color|reference" />
     </declare-styleable>
 
     <!-- This is the flight line that shows layovers, we want to be able to control colors -->

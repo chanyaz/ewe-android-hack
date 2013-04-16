@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Build;
@@ -31,6 +32,8 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 	private int mActiveCardIconResId = 0;
 	private int mStoredCardIconResId = 0;
 	private int mWalletCardIconResId = 0;
+	private ColorStateList mPrimaryTextColor;
+	private ColorStateList mSecondaryTextColor;
 
 	public SectionStoredCreditCard(Context context) {
 		super(context);
@@ -55,7 +58,17 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 			mStoredCardIconResId = a.getResourceId(R.styleable.stored_credit_card_section_storedIcon, 0);
 			mWalletCardIconResId = a.getResourceId(R.styleable.stored_credit_card_section_walletIcon,
 					R.drawable.ic_google_wallet_logo);
+			mPrimaryTextColor = a.getColorStateList(R.styleable.stored_credit_card_section_primaryTextColor);
+			mSecondaryTextColor = a.getColorStateList(R.styleable.stored_credit_card_section_secondaryTextColor);
 			a.recycle();
+		}
+
+		if (mPrimaryTextColor == null) {
+			mPrimaryTextColor = context.getResources().getColorStateList(R.color.data_review_dark);
+		}
+
+		if (mSecondaryTextColor == null) {
+			mSecondaryTextColor = context.getResources().getColorStateList(R.color.data_review_grey);
 		}
 	}
 
@@ -101,7 +114,7 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 
 					primaryTextView = mWalletTextView;
 
-					mDescriptionView.setTextColor(res.getColor(R.color.data_review_grey));
+					mDescriptionView.setTextColor(mSecondaryTextColor);
 					mDescriptionView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 							res.getDimensionPixelSize(R.dimen.data_display_sub_text));
 				}
@@ -111,7 +124,7 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 					primaryTextView = mDescriptionView;
 				}
 
-				primaryTextView.setTextColor(res.getColor(R.color.data_review_dark));
+				primaryTextView.setTextColor(mPrimaryTextColor);
 				primaryTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 						res.getDimensionPixelSize(R.dimen.data_display_primary_text));
 			}
