@@ -39,9 +39,9 @@ public class TabletsRobotHelper extends HotelsRobotHelper {
 	public void setSpoofBookings() {
 		boolean spoofBookingsDone = false;
 		boolean suppressFlightsDone = false;
-		
+
 		screenshot("Tablet - main screen");
-		
+
 		mSolo.pressMenuItem(2);
 		delay(5);
 
@@ -51,7 +51,7 @@ public class TabletsRobotHelper extends HotelsRobotHelper {
 			mSolo.clickOnText(settings);
 			delay(1);
 		}
-		
+
 		screenshot("Tablet - settings");
 
 		mSolo.scrollDown();
@@ -90,18 +90,22 @@ public class TabletsRobotHelper extends HotelsRobotHelper {
 	@Override
 	public void selectLocation(String location) {
 		EditText locationEditText = (EditText) mSolo.getView(R.id.location_edit_text);
-		
+
 		enterLog(TAG, "Selecting location: " + location);
 
 		mSolo.clickOnView(locationEditText);
 		mSolo.clearEditText(locationEditText);
 		mSolo.typeText(locationEditText, location);
+		landscape();
+		portrait();
 	}
 
 	public void pressToSearch() {
 		View searchForHotelsBtn = mSolo.getView(R.id.search_button);
 		mSolo.clickOnView(searchForHotelsBtn);
 		enterLog(TAG, "Pressed search button");
+		landscape();
+		portrait();
 	}
 
 	@Override
@@ -109,6 +113,8 @@ public class TabletsRobotHelper extends HotelsRobotHelper {
 		enterLog(TAG, "Selecting hotel from list with index: " + index);
 		screenshot("Tablet: Search results");
 		mSolo.clickInList(index);
+		landscape();
+		portrait();
 	}
 
 	public void pressSeeDetails() {
@@ -117,6 +123,8 @@ public class TabletsRobotHelper extends HotelsRobotHelper {
 		enterLog(TAG, "Pressed to see hotel details");
 		delay(1);
 		screenshot("Tablet: Hotel details");
+		landscape();
+		portrait();
 	}
 
 	public void pressSelectRoom() {
@@ -125,12 +133,16 @@ public class TabletsRobotHelper extends HotelsRobotHelper {
 		mSolo.clickOnText(selectRoomButton);
 		enterLog(TAG, "Pressed to select first room");
 		screenshot("Tablet: Room info");
+		landscape();
+		portrait();
 	}
 
 	public void pressBookingInfo() {
 		View enterBookingInfoBtn = mSolo.getView(R.id.complete_booking_info_button);
 		mSolo.clickOnView(enterBookingInfoBtn);
 		enterLog(TAG, "Pressed to see booking info");
+		landscape();
+		portrait();
 	}
 
 	//Button to get to login screen
@@ -139,12 +151,19 @@ public class TabletsRobotHelper extends HotelsRobotHelper {
 		String expediaAccount = mRes.getString(R.string.expedia_account);
 		mSolo.clickOnText(expediaAccount);
 		enterLog(TAG, "Pressed to log in for booking");
+		landscape();
+		portrait();
 	}
 
 	public void enterLoginCredentials() {
 		mSolo.typeText(0, mUser.mLoginEmail);
 		delay(1);
 		mSolo.typeText((EditText) mSolo.getView(R.id.password_edit_text), mUser.mLoginPassword);
+		delay(1);
+
+		landscape();
+		portrait();
+
 		delay(1);
 		screenshot("Tablet: Log in screen");
 		mSolo.clickOnView(mSolo.getView(R.id.log_in_with_expedia_btn));
@@ -155,6 +174,8 @@ public class TabletsRobotHelper extends HotelsRobotHelper {
 		mSolo.enterText((EditText) mSolo.getView(R.id.security_code_edit_text), mUser.mCCV);
 		mSolo.enterText(mSolo.getEditText(mRes.getString(R.string.address_postal_code_hint)), mUser.mZIPCode);
 		screenshot("Tablet: Booking screen after log in and ZIP & CCV entry");
+		landscape();
+		portrait();
 		enterLog(TAG, "Entered CCV: " + mUser.mCCV + "and ZIP " + mUser.mZIPCode);
 	}
 
@@ -198,6 +219,8 @@ public class TabletsRobotHelper extends HotelsRobotHelper {
 		View confirmAndBook = mSolo.getView(R.id.menu_confirm_book);
 		mSolo.clickOnView(confirmAndBook);
 		enterLog(TAG, "Pressed to confirm & book. Waiting...");
+		landscape();
+		portrait();
 		mSolo.waitForDialogToClose(20000);
 		delay(5);
 		screenshot("Tablet: Hotel confirmation screen");
