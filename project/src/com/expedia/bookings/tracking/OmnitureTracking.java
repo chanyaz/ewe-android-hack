@@ -917,7 +917,8 @@ public class OmnitureTracking {
 		if (mTrackPageLoadFromFSRA) {
 			if (legPosition == 0) {
 				if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
-					internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS, LineOfBusiness.FLIGHTS);
+					internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS,
+							LineOfBusiness.FLIGHTS);
 				}
 				else {
 					internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ONE_WAY_DETAILS, LineOfBusiness.FLIGHTS);
