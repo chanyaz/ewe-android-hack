@@ -106,6 +106,11 @@ public class TabletsRobotHelper extends HotelsRobotHelper {
 		enterLog(TAG, "Pressed search button");
 		landscape();
 		portrait();
+
+		String loadingHotels = mRes.getString(R.string.loading_hotels);
+		while (mSolo.searchText(loadingHotels, 1, false)) {
+			delay(3);
+		}
 	}
 
 	@Override
