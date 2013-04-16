@@ -273,7 +273,7 @@
 
         <!-- Notifications -->
         <receiver
-            android:name="com.expedia.bookings.notification.LocalNotificationReceiver"
+            android:name="com.expedia.bookings.notification.NotificationReceiver"
             android:exported="false" >
         </receiver>
 

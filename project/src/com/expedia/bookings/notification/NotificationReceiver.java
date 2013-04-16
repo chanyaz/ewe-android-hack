@@ -28,9 +28,9 @@ import com.mobiata.android.bitmaps.TwoLevelImageCache;
 import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
 import com.mobiata.android.util.AndroidUtils;
 
-public class LocalNotificationReceiver extends BroadcastReceiver {
+public class NotificationReceiver extends BroadcastReceiver {
 
-	private static final String TAG = LocalNotificationReceiver.class.getSimpleName();
+	private static final String TAG = NotificationReceiver.class.getSimpleName();
 
 	private static final String EXTRA_ACTION = "EXTRA_ACTION";
 	private static final String EXTRA_CLICK_TARGET = "EXTRA_CLICK_TARGET";
@@ -47,7 +47,7 @@ public class LocalNotificationReceiver extends BroadcastReceiver {
 	// Intent Generators
 
 	public static PendingIntent generateSchedulePendingIntent(Context context, String uniqueId) {
-		Intent intent = new Intent(context, LocalNotificationReceiver.class);
+		Intent intent = new Intent(context, NotificationReceiver.class);
 		String uriString = "expedia://notification/schedule/" + uniqueId;
 		intent.setData(Uri.parse(uriString));
 		intent.putExtra(EXTRA_ACTION, ACTION_SCHEDULE);
@@ -55,7 +55,7 @@ public class LocalNotificationReceiver extends BroadcastReceiver {
 	}
 
 	public static PendingIntent generateDismissPendingIntent(Context context, String uniqueId) {
-		Intent intent = new Intent(context, LocalNotificationReceiver.class);
+		Intent intent = new Intent(context, NotificationReceiver.class);
 		String uriString = "expedia://notification/dismiss/" + uniqueId;
 		intent.setData(Uri.parse(uriString));
 		intent.putExtra(EXTRA_ACTION, ACTION_DISMISS);
@@ -63,7 +63,7 @@ public class LocalNotificationReceiver extends BroadcastReceiver {
 	}
 
 	public static PendingIntent generateClickPendingIntent(Context context, String uniqueId, int clickTarget) {
-		Intent intent = new Intent(context, LocalNotificationReceiver.class);
+		Intent intent = new Intent(context, NotificationReceiver.class);
 		String uriString = "expedia://notification/click/" + uniqueId;
 		intent.setData(Uri.parse(uriString));
 		intent.putExtra(EXTRA_ACTION, ACTION_CLICK);

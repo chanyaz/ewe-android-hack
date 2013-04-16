@@ -266,7 +266,7 @@ public class Notification extends Model {
 	 * @param context
 	 */
 	public void scheduleNotification(Context context) {
-		PendingIntent pendingIntent = LocalNotificationReceiver.generateSchedulePendingIntent(context, mUniqueId);
+		PendingIntent pendingIntent = NotificationReceiver.generateSchedulePendingIntent(context, mUniqueId);
 		AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		mgr.set(AlarmManager.RTC_WAKEUP, mTriggerTimeMillis, pendingIntent);
 	}
@@ -277,7 +277,7 @@ public class Notification extends Model {
 	 * @param context
 	 */
 	public void cancelNotification(Context context) {
-		PendingIntent pendingIntent = LocalNotificationReceiver.generateSchedulePendingIntent(context, mUniqueId);
+		PendingIntent pendingIntent = NotificationReceiver.generateSchedulePendingIntent(context, mUniqueId);
 
 		// Cancel if in the future
 		AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
