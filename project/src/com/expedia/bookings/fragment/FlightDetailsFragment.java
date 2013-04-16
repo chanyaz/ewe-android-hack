@@ -153,7 +153,7 @@ public class FlightDetailsFragment extends Fragment {
 
 		// Configure the first TextView, "Baggage Fee Information"
 		ViewUtils.setAllCaps(mFeesTextView);
-		if (trip.getShowBaggageFeesNotIncluded()) {
+		if (trip.showBaggageFeesNotIncluded()) {
 			mFeesTextView.setText(R.string.checked_baggage_not_included);
 			mFeesTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_suitcase_baggage_fee, 0, 0, 0);
 		}

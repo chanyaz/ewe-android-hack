@@ -248,7 +248,7 @@ public class FlightTrip implements JSONable {
 		mShowBaggageFeesNotIncluded = show;
 	}
 
-	public boolean getShowBaggageFeesNotIncluded() {
+	public boolean showBaggageFeesNotIncluded() {
 		return mShowBaggageFeesNotIncluded;
 	}
 
