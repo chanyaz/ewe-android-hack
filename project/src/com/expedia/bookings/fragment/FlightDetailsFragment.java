@@ -152,19 +152,14 @@ public class FlightDetailsFragment extends Fragment {
 		// Footer
 
 		// Configure the first TextView, "Baggage Fee Information"
+		ViewUtils.setAllCaps(mFeesTextView);
 		if (trip.getShowBaggageFeesNotIncluded()) {
+			mFeesTextView.setText(R.string.checked_baggage_not_included);
 			mFeesTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_suitcase_baggage_fee, 0, 0, 0);
-
-			if (leg.isSpirit()) {
-				mFeesTextView.setText(R.string.carry_on_baggage_fees_apply);
-			}
-			else {
-				mFeesTextView.setText(R.string.checked_baggage_not_included);
-			}
-			ViewUtils.setAllCaps(mFeesTextView);
 		}
-		else {
-			// The text/drawable defined in XML defines the default behavior
+		if (leg.isSpirit()) {
+			mFeesTextView.setText(R.string.carry_on_baggage_fees_apply);
+			mFeesTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_suitcase_baggage_fee, 0, 0, 0);
 		}
 
 		// Configure the second TextView, "Payment Fees Apply"
