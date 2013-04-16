@@ -29,14 +29,6 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 	private List<Property> mProperties;
 	private Map<String, Property> mPropertyMap;
 
-	// For paging through results
-	private boolean mLastPage;
-	private int mEndingMatchIndex;
-
-	// For paging through results, for Expedia
-	private String mCacheKey;
-	private String mCacheLocation;
-
 	// If the web service was doing the geocoding, here are where
 	// the alternate results will go
 	private List<Location> mLocations;
@@ -99,38 +91,6 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 			return 0;
 		}
 		return mProperties.size();
-	}
-
-	public boolean isLastPage() {
-		return mLastPage;
-	}
-
-	public void setLastPage(boolean lastPage) {
-		this.mLastPage = lastPage;
-	}
-
-	public int getEndingMatchIndex() {
-		return mEndingMatchIndex;
-	}
-
-	public void setEndingMatchIndex(int endingMatchIndex) {
-		this.mEndingMatchIndex = endingMatchIndex;
-	}
-
-	public void setCacheKey(String cacheKey) {
-		mCacheKey = cacheKey;
-	}
-
-	public String getCachekey() {
-		return mCacheKey;
-	}
-
-	public void setCacheLocation(String cacheLocation) {
-		mCacheLocation = cacheLocation;
-	}
-
-	public String getCacheLocation() {
-		return mCacheLocation;
 	}
 
 	public void setSearchType(SearchType searchType) {
@@ -786,13 +746,6 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 			}
 
 			JSONUtils.putJSONableList(obj, "properties", mProperties);
-
-			obj.putOpt("lastPage", mLastPage);
-			obj.putOpt("endingMatchIndex", mEndingMatchIndex);
-
-			obj.putOpt("cacheKey", mCacheKey);
-			obj.putOpt("cacheLocation", mCacheLocation);
-
 			JSONUtils.putJSONableList(obj, "locations", mLocations);
 
 			obj.putOpt("searchLatitude", mSearchLatitude);
@@ -813,13 +766,6 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 		try {
 			mSearchType = SearchType.valueOf(obj.getString("searchType"));
 			mProperties = (List<Property>) JSONUtils.getJSONableList(obj, "properties", Property.class);
-
-			mLastPage = obj.optBoolean("lastPage");
-			mEndingMatchIndex = obj.optInt("endingMatchIndex");
-
-			mCacheKey = obj.optString("cacheKey", null);
-			mCacheLocation = obj.optString("cacheLocation", null);
-
 			mLocations = (List<Location>) JSONUtils.getJSONableList(obj, "locations", Location.class);
 
 			mSearchLatitude = obj.optDouble("searchLatitude");
