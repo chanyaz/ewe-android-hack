@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+import android.text.TextUtils;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -17,6 +19,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.ExpediaImageManager;
+import com.expedia.bookings.notification.Notification.StatusType;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -27,17 +30,87 @@ import com.mobiata.android.util.AndroidUtils;
 
 public class LocalNotificationReceiver extends BroadcastReceiver {
 
+	private static final String TAG = LocalNotificationReceiver.class.getSimpleName();
+
+	private static final String EXTRA_ACTION = "EXTRA_ACTION";
+	private static final String EXTRA_CLICK_TARGET = "EXTRA_CLICK_TARGET";
+
+	private static final int ACTION_SCHEDULE = 0;
+	private static final int ACTION_DISMISS = 1;
+	private static final int ACTION_CLICK = 2;
+
+	private static final int CLICK_TARGET_MAIN = 100;
+	private static final int CLICK_TARGET_DIRECTIONS = 101;
+	private static final int CLICK_TARGET_SHARE = 102;
+
+	//////////////////////////////////////////////////////////////////////////
+	// Intent Generators
+
+	public static PendingIntent generateSchedulePendingIntent(Context context, String uniqueId) {
+		Intent intent = new Intent(context, LocalNotificationReceiver.class);
+		String uriString = "expedia://notification/schedule/" + uniqueId;
+		intent.setData(Uri.parse(uriString));
+		intent.putExtra(EXTRA_ACTION, ACTION_SCHEDULE);
+		return PendingIntent.getBroadcast(context, 0, intent, 0);
+	}
+
+	public static PendingIntent generateDismissPendingIntent(Context context, String uniqueId) {
+		Intent intent = new Intent(context, LocalNotificationReceiver.class);
+		String uriString = "expedia://notification/dismiss/" + uniqueId;
+		intent.setData(Uri.parse(uriString));
+		intent.putExtra(EXTRA_ACTION, ACTION_DISMISS);
+		return PendingIntent.getBroadcast(context, 0, intent, 0);
+	}
+
+	public static PendingIntent generateClickPendingIntent(Context context, String uniqueId, int clickTarget) {
+		Intent intent = new Intent(context, LocalNotificationReceiver.class);
+		String uriString = "expedia://notification/click/" + uniqueId;
+		intent.setData(Uri.parse(uriString));
+		intent.putExtra(EXTRA_ACTION, ACTION_CLICK);
+		intent.putExtra(EXTRA_CLICK_TARGET, clickTarget);
+		return PendingIntent.getBroadcast(context, 0, intent, 0);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Broadcast Receiver lifecycle events
+
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		String uniqueId = intent.getData().getLastPathSegment();
-		Notification notification = Notification.find(uniqueId);
+		String uniqueId = null;
+		if (intent.getData() != null) {
+			uniqueId = intent.getData().getLastPathSegment();
+		}
 
-		if (notification == null) {
-			Log.w("unable to find notification with unique id = " + uniqueId + ". Ignoring");
+		if (TextUtils.isEmpty(uniqueId)) {
+			Log.w("Notification unique id not found. Ignoring");
 			return;
 		}
 
-		new NotificationScheduler(context, notification).start();
+		Notification notification = Notification.find(uniqueId);
+
+		if (notification == null) {
+			Log.w("Unable to find notification with unique id = " + uniqueId + ". Ignoring");
+			return;
+		}
+
+		int action = intent.getIntExtra(EXTRA_ACTION, ACTION_SCHEDULE);
+		switch (action) {
+		case ACTION_CLICK:
+			notification.setStatus(StatusType.DISMISSED);
+			notification.save();
+			int clickTarget = intent.getIntExtra(EXTRA_CLICK_TARGET, CLICK_TARGET_MAIN);
+			handleClick(context, clickTarget);
+			break;
+		case ACTION_DISMISS:
+			notification.setStatus(StatusType.DISMISSED);
+			notification.save();
+			break;
+		case ACTION_SCHEDULE:
+		default:
+			notification.setStatus(StatusType.NOTIFIED);
+			new NotificationScheduler(context, notification).start();
+			break;
+		}
 	}
 
 	private static class NotificationScheduler {
@@ -147,12 +220,6 @@ public class LocalNotificationReceiver extends BroadcastReceiver {
 		};
 
 		private void scheduleNotification() {
-			PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, new Intent(mContext,
-					SearchActivity.class), 0); //TODO
-			PendingIntent directionsPendingIntent = pendingIntent; //TODO
-			PendingIntent sharePendingIntent = pendingIntent; //TODO
-			PendingIntent deletePendingIntent = null;
-
 			NotificationCompat.Style style = null;
 
 			if (mBitmap != null) {
@@ -173,17 +240,22 @@ public class LocalNotificationReceiver extends BroadcastReceiver {
 					.setContentTitle(mNotification.getTitle())
 					.setContentText(mNotification.getBody())
 					.setAutoCancel(true)
-					.setDeleteIntent(deletePendingIntent)
-					.setContentIntent(pendingIntent)
+					.setDeleteIntent(generateDismissPendingIntent(mContext, mNotification.getUniqueId()))
+					.setContentIntent(
+							generateClickPendingIntent(mContext, mNotification.getUniqueId(), CLICK_TARGET_MAIN))
 					.setLights(0xfbc51e, 200, 8000); // Expedia suitcase color
 
 			long flags = mNotification.getFlags();
 			if ((flags & Notification.FLAG_DIRECTIONS) != 0) {
+				PendingIntent directionsPendingIntent = generateClickPendingIntent(mContext,
+						mNotification.getUniqueId(), CLICK_TARGET_DIRECTIONS);
 				String directions = mContext.getString(R.string.itin_action_directions);
 				builder = builder.addAction(R.drawable.ic_direction, directions, directionsPendingIntent);
 			}
 
 			if ((flags & Notification.FLAG_SHARE) != 0) {
+				PendingIntent sharePendingIntent = generateClickPendingIntent(mContext,
+						mNotification.getUniqueId(), CLICK_TARGET_SHARE);
 				String share = mContext.getString(R.string.itin_action_share);
 				builder = builder.addAction(R.drawable.ic_social_share, share, sharePendingIntent);
 			}
@@ -194,4 +266,9 @@ public class LocalNotificationReceiver extends BroadcastReceiver {
 		}
 	}
 
+	private void handleClick(Context context, int clickTarget) {
+		Intent intent = new Intent(context, SearchActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // Since this is started from a broadcast receiver
+		context.startActivity(intent);
+	}
 }

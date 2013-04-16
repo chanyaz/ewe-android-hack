@@ -6,8 +6,6 @@ import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.text.TextUtils;
 
 import com.activeandroid.Model;
@@ -33,7 +31,7 @@ public class Notification extends Model {
 	public enum StatusType {
 		NEW,
 		NOTIFIED,
-		REMOVED;
+		DISMISSED;
 	}
 
 	/**
@@ -239,12 +237,18 @@ public class Notification extends Model {
 	}
 
 	/**
-	 * Updates this Notification object with data from the other object (meanwhile
-	 * not destroying this object's status or unique id).
+	 * Updates this Notification object with data from the other object (being very
+	 * careful when changing its status).
 	 * @param other
 	 */
 	public void updateFrom(Notification other) {
-		setTriggerTimeMillis(other.mTriggerTimeMillis);
+		// The idea here is that if there is a later notification about the same
+		// thing, then we should display that later (and presumably more relevant)
+		// notification.
+		if (other.mTriggerTimeMillis > mTriggerTimeMillis) {
+			setTriggerTimeMillis(other.mTriggerTimeMillis);
+			setStatus(other.getStatus());
+		}
 		setIconResId(other.mIconResId);
 		setTicker(other.mTicker);
 		setTitle(other.mTitle);
@@ -262,16 +266,9 @@ public class Notification extends Model {
 	 * @param context
 	 */
 	public void scheduleNotification(Context context) {
-		PendingIntent pendingIntent = createNotifyPendingIntent(context, mUniqueId);
-
-		long triggerTimeMillis = mTriggerTimeMillis;
-
-		//TODO: temporary ->
-		//triggerTimeMillis = System.currentTimeMillis() + 5000;
-		//TODO: <-temporary
-
+		PendingIntent pendingIntent = LocalNotificationReceiver.generateSchedulePendingIntent(context, mUniqueId);
 		AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-		mgr.set(AlarmManager.RTC_WAKEUP, triggerTimeMillis, pendingIntent);
+		mgr.set(AlarmManager.RTC_WAKEUP, mTriggerTimeMillis, pendingIntent);
 	}
 
 	/**
@@ -280,7 +277,7 @@ public class Notification extends Model {
 	 * @param context
 	 */
 	public void cancelNotification(Context context) {
-		PendingIntent pendingIntent = createNotifyPendingIntent(context, mUniqueId);
+		PendingIntent pendingIntent = LocalNotificationReceiver.generateSchedulePendingIntent(context, mUniqueId);
 
 		// Cancel if in the future
 		AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -291,27 +288,6 @@ public class Notification extends Model {
 		NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		nm.cancel(tag, 0);
 
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Intents
-
-	public static Intent createNotifyIntent(Context context, String uniqueId) {
-		Intent intent = new Intent(context, LocalNotificationReceiver.class);
-
-		String uriString = "expedia://notify/" + uniqueId;
-
-		intent.setData(Uri.parse(uriString));
-
-		return intent;
-	}
-
-	public static PendingIntent createNotifyPendingIntent(Context context, String uniqueId) {
-		Intent intent = createNotifyIntent(context, uniqueId);
-
-		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-
-		return pendingIntent;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
