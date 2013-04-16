@@ -108,6 +108,9 @@ public class PointOfSale {
 	// Used to determine which fields are required for Hotels checkout
 	private RequiredPaymentFieldsHotels mRequiredPaymentFieldsHotels;
 
+	// Whether or not to show cross-sells
+	private boolean mShowHotelCrossSell;
+
 	/**
 	 * There can be multiple different locales for a given POS.
 	 *
@@ -274,6 +277,10 @@ public class PointOfSale {
 
 	public RequiredPaymentFieldsHotels getRequiredPaymentFieldsHotels() {
 		return mRequiredPaymentFieldsHotels;
+	}
+
+	public boolean showHotelCrossSell() {
+		return mShowHotelCrossSell;
 	}
 
 	/**
@@ -583,6 +590,7 @@ public class PointOfSale {
 		pos.mSupportsFlights = data.optBoolean("flightsEnabled");
 		pos.mUseAmobeeTracking = data.optBoolean("useAmobeeTracking");
 		pos.mUseSomoTracking = data.optBoolean("useSomoTracking");
+		pos.mShowHotelCrossSell = !data.optBoolean("hideHotelCrossSell", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");
