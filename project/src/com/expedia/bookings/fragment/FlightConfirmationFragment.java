@@ -148,13 +148,20 @@ public class FlightConfirmationFragment extends Fragment {
 
 		setTextAndRobotoFont(v, R.id.email_text_view, Db.getBillingInfo().getEmail());
 
-		Ui.setText(v, R.id.hotels_action_text_view, getString(R.string.hotels_in_TEMPLATE, destinationCity));
-		Ui.setOnClickListener(v, R.id.hotels_action_text_view, new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				searchForHotels();
-			}
-		});
+		if (PointOfSale.getPointOfSale().showHotelCrossSell()) {
+			Ui.setText(v, R.id.hotels_action_text_view, getString(R.string.hotels_in_TEMPLATE, destinationCity));
+			Ui.setOnClickListener(v, R.id.hotels_action_text_view, new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					searchForHotels();
+				}
+			});
+		}
+		else {
+			Ui.findView(v, R.id.hotels_action_text_view).setVisibility(View.GONE);
+			Ui.findView(v, R.id.get_a_room_text_view).setVisibility(View.GONE);
+			Ui.findView(v, R.id.get_a_room_divider).setVisibility(View.GONE);
+		}
 
 		Ui.setOnClickListener(v, R.id.share_action_text_view, new OnClickListener() {
 			@Override
