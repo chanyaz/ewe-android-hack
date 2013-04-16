@@ -51,9 +51,8 @@ public class TerminalMapActivity extends SherlockFragmentActivity implements OnN
 
 		// Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
-		actionBar.setIcon(R.drawable.ic_expedia_white_logo_small);
 		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.setDisplayUseLogoEnabled(false);
+		actionBar.setDisplayUseLogoEnabled(true);
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);

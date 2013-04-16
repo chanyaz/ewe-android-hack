@@ -162,6 +162,13 @@
         <item name="actionBarStyle">@style/LaunchActionBar</item>
         <item name="android:actionBarStyle">@style/LaunchActionBar</item>
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
+        <item name="dropDownListViewStyle">@style/LaunchSpinner</item>
+        <item name="android:dropDownListViewStyle">@style/LaunchSpinner</item>
+    </style>
+
+    <style name="LaunchSpinner" parent="Widget.Sherlock.ListView.DropDown">
+        <item name="android:divider">#999999</item>
+    	<item name="android:dividerHeight">1dp</item>
     </style>
 
     <style name="ItineraryTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar">
@@ -279,9 +286,8 @@
         <item name="android:windowEnterAnimation">@anim/slide_up</item>
         <item name="android:windowExitAnimation">@anim/slide_down</item>
     </style>
-    
 
-    <style name="SocialMessageChooserDialogTheme"  parent="@android:style/Theme.Dialog">
+    <style name="SocialMessageChooserDialogTheme" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowTitleStyle">@null</item>
         <item name="android:windowBackground">@android:color/transparent</item>
