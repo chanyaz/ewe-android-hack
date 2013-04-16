@@ -104,7 +104,7 @@ public class HotelsRobotHelper {
 	public void screenshot(String fileName) { //screenshot is saved to device SD card.
 		if (mAllowScreenshots) {
 			String currentLocale = mRes.getConfiguration().locale.toString();
-
+			enterLog(TAG, "Taking screenshot: " + fileName);
 			mScreen.screenshot(currentLocale + " " + String.format("%02d", mScreenShotCount) + " " + fileName);
 			mScreenShotCount++;
 		}
