@@ -96,6 +96,9 @@ public class PointOfSale {
 	// Whether or not to let users access flights on this POS
 	private boolean mSupportsFlights;
 
+	// Whether or not to let users checkout using Google Wallet
+	private boolean mSupportsGoogleWallet;
+
 	// Whether or not to track data with Amobee on this POS
 	private boolean mUseAmobeeTracking;
 
@@ -217,6 +220,10 @@ public class PointOfSale {
 
 	public boolean supportsFlights() {
 		return mSupportsFlights;
+	}
+
+	public boolean supportsGoogleWallet() {
+		return mSupportsGoogleWallet;
 	}
 
 	public boolean useAmobeeTracking() {
@@ -588,6 +595,7 @@ public class PointOfSale {
 		pos.mRequiresRulesRestrictionsCheckbox = data.optBoolean("explicitConsentRequired");
 		pos.mDisplayBestPriceGuarantee = data.optBoolean("shouldDisplayBestPriceGuarantee");
 		pos.mSupportsFlights = data.optBoolean("flightsEnabled");
+		pos.mSupportsGoogleWallet = data.optBoolean("googleWalletEnabled");
 		pos.mUseAmobeeTracking = data.optBoolean("useAmobeeTracking");
 		pos.mUseSomoTracking = data.optBoolean("useSomoTracking");
 		pos.mShowHotelCrossSell = !data.optBoolean("hideHotelCrossSell", false);
