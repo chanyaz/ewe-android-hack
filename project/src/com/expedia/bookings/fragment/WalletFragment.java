@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.WalletUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
@@ -102,6 +103,9 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		// Before we do *anything*, check if Google Wallet has been disabled
+		mGoogleWalletDisabled = !PointOfSale.getPointOfSale().supportsGoogleWallet();
 
 		// Set up a wallet client
 		mWalletClient = new WalletClient(getActivity(), WalletUtils.getWalletEnvironment(), null, this, this);
