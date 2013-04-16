@@ -230,4 +230,29 @@ public class TabletsRobotHelper extends HotelsRobotHelper {
 		delay(5);
 		screenshot("Tablet: Hotel confirmation screen");
 	}
+
+	public void runHotelHappyPath() {
+		delay(5);
+		setSpoofBookings();
+		selectLocation(mUser.mHotelSearchCity);
+		pressToSearch();
+
+		selectHotel(3);
+		delay();
+
+		pressSeeDetails();
+		mSolo.scrollDown();
+		mSolo.scrollToTop();
+
+		pressSelectRoom();
+		pressBookingInfo();
+		delay();
+
+		pressLoginButton();
+		enterLoginCredentials();
+		delay(5);
+		enterCCVAndZIP();
+		pressToConfirmAndBook();
+		delay(10);
+	}
 }

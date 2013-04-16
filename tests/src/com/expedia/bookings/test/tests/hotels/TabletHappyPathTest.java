@@ -41,29 +41,7 @@ public class TabletHappyPathTest extends ActivityInstrumentationTestCase2<Search
 	}
 
 	public void testMethod() {
-		mDriver.delay(5);
-		mDriver.setSpoofBookings();
-		mDriver.selectLocation(mUser.mHotelSearchCity);
-		mDriver.pressToSearch();
-		mDriver.delay(10);
-
-		mDriver.selectHotel(3);
-		mDriver.delay();
-
-		mDriver.pressSeeDetails();
-		mSolo.scrollDown();
-		mSolo.scrollToTop();
-
-		mDriver.pressSelectRoom();
-		mDriver.pressBookingInfo();
-		mDriver.delay();
-
-		mDriver.pressLoginButton();
-		mDriver.enterLoginCredentials();
-		mDriver.delay(5);
-		mDriver.enterCCVAndZIP();
-		mDriver.pressToConfirmAndBook();
-		mDriver.delay(10);
+		mDriver.runHotelHappyPath();
 	}
 
 	@Override

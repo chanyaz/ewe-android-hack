@@ -41,28 +41,7 @@ public class TabletHotelsRotateTest extends ActivityInstrumentationTestCase2<Sea
 	}
 
 	public void testMethod() {
-		mDriver.delay(5);
-		mDriver.setSpoofBookings();
-		mDriver.selectLocation(mUser.mHotelSearchCity);
-		mDriver.pressToSearch();
-
-		mDriver.selectHotel(3);
-		mDriver.delay();
-
-		mDriver.pressSeeDetails();
-		mSolo.scrollDown();
-		mSolo.scrollToTop();
-
-		mDriver.pressSelectRoom();
-		mDriver.pressBookingInfo();
-		mDriver.delay();
-
-		mDriver.pressLoginButton();
-		mDriver.enterLoginCredentials();
-		mDriver.delay(5);
-		mDriver.enterCCVAndZIP();
-		mDriver.pressToConfirmAndBook();
-		mDriver.delay(10);
+		mDriver.runHotelHappyPath();
 	}
 
 	@Override
