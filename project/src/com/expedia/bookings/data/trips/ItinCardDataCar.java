@@ -142,8 +142,12 @@ public class ItinCardDataCar extends ItinCardData implements ConfirmationNumbera
 		return (int) CalendarUtils.getDaysBetween(trip.getStartDate().getCalendar(), trip.getEndDate().getCalendar());
 	}
 
+	public int getInclusiveDays() {
+		return getDays() + 1;
+	}
+
 	public String getFormattedDays() {
-		return Integer.toString(getDays());
+		return Integer.toString(getInclusiveDays());
 	}
 
 	public String getRelevantVendorPhone() {

@@ -3,7 +3,6 @@ package com.expedia.bookings.widget.itin;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,7 +20,6 @@ import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardDataCar;
-import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.graphics.DestinationBitmapDrawable;
 import com.expedia.bookings.notification.Notification;
@@ -315,7 +313,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		infoTriplet.setLabels(
 				res.getString(R.string.itin_card_details_pick_up),
 				res.getString(R.string.itin_card_details_drop_off),
-				res.getQuantityText(R.plurals.number_of_days_label, itinCardData.getDays()));
+				res.getQuantityText(R.plurals.number_of_days_label, itinCardData.getInclusiveDays()));
 
 		Location relevantLocation = itinCardData.getRelevantVendorLocation();
 		if (relevantLocation != null && (relevantLocation.getLatitude() != 0 || relevantLocation.getLongitude() != 0)) {
