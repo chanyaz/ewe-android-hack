@@ -148,5 +148,10 @@
         <attr name="scrollMin" format="dimension" />
         <attr name="scrollMax" format="dimension" />
     </declare-styleable>
-
+    
+    <!-- ItinListView -->
+    <declare-styleable name="ItinListView">
+        <attr name="pathViewWidth" format="dimension" />
+        <attr name="pathViewColor" format="color" />
+    </declare-styleable>
 </resources>

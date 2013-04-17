@@ -7,8 +7,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.TypedArray;
 import android.database.DataSetObserver;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.content.LocalBroadcastManager;
@@ -100,6 +103,14 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	// If true, there's a second pane which handles showing card details.  Don't expand cards when clicked.
 	private boolean mSimpleMode = false;
 
+	//Path vars
+	private Paint mPathViewPaint;
+	private int mPathStartY = -1;
+	private int mPathStopY = -1;
+	private int mPathX = -1;
+	private int mPathColor = Color.WHITE;
+	private int mPathWidth = 4;
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -114,6 +125,18 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	public ItinListView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+
+		if (attrs != null) {
+			TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.ItinListView, 0, 0);
+			if (ta.hasValue(R.styleable.ItinListView_pathViewColor)) {
+				mPathColor = ta.getColor(R.styleable.ItinListView_pathViewColor, Color.WHITE);
+			}
+			if (ta.hasValue(R.styleable.ItinListView_pathViewWidth)) {
+				mPathWidth = ta.getDimensionPixelSize(R.styleable.ItinListView_pathViewWidth, 2);
+			}
+
+			ta.recycle();
+		}
 
 		mAdapter = new ItinCardDataAdapter(context);
 		mAdapter.setOnItinCardClickListener(this);
@@ -134,6 +157,10 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 		IntentFilter filter = new IntentFilter(ItineraryManager.TRIP_REFRESH_BROADCAST);
 		LocalBroadcastManager.getInstance(context).registerReceiver(mTripRefreshReceiver, filter);
+
+		mPathViewPaint = new Paint();
+		mPathViewPaint.setColor(mPathColor);
+		mPathViewPaint.setStrokeWidth(mPathWidth);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -257,6 +284,17 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		return super.onInterceptTouchEvent(ev);
 	}
 
+	@Override
+	public void onDraw(Canvas canvas) {
+		//Draw the path behind the views
+		if (mMode == MODE_LIST) {
+			drawPathView(canvas);
+		}
+
+		//Draw the views
+		super.onDraw(canvas);
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -319,6 +357,57 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
+
+	//Draw helper for the line background view
+	private void drawPathView(Canvas canvas) {
+		if (mPathViewPaint != null) {
+			updateLinePosition();
+
+			if (mPathStartY >= 0 && mPathStopY > mPathStartY && mPathX >= 0) {
+				canvas.drawLine(mPathX, mPathStartY, mPathX, mPathStopY, mPathViewPaint);
+			}
+		}
+	}
+
+	private void updateLinePosition() {
+		//Set x pos to the middle
+		mPathX = getWidth() / 2;
+
+		//Find where the line should start
+		int firstChildIndex = 0;
+		View firstChildView = this.getChildAt(firstChildIndex);
+		if (this.getFirstVisiblePosition() == 0 && firstChildView != null) {
+			//If the first visible view is 0, then this is the top, so line stops behind it
+			mPathStartY = Math.max(0, firstChildView.getTop() + (firstChildView.getHeight() / 2));
+		}
+		else {
+			//Otherwise we have veiws above, so we go to the top
+			mPathStartY = 0;
+		}
+
+		//Find where the line should end
+		if (getLastVisiblePosition() < (getCount() - 1 - getFooterViewsCount())) {
+			//If there are views below the screen fold, go all the way to the bottom.
+			mPathStopY = getHeight();
+		}
+		else {
+			//Otherwise find the last view, and stop behind that dude
+			int lastChildIndex = getChildCount() - 1;
+			View lastChildView = this.getChildAt(lastChildIndex);
+			while (lastChildIndex > firstChildIndex && !(lastChildView instanceof ItinCard)) {
+				//Sometimes we have footers, so we need to get the last ItinCard by looping 
+				//Note: Usually we dont enter the loop, when we do it should usually run one time
+				lastChildIndex--;
+				lastChildView = getChildAt(lastChildIndex);
+			}
+			if (lastChildView != null) {
+				mPathStopY = lastChildView.getTop() + (lastChildView.getHeight() / 2);
+			}
+			else {
+				mPathStopY = getHeight();
+			}
+		}
+	}
 
 	private View findMotionView(int y) {
 		int childCount = getChildCount();

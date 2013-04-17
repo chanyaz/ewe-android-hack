@@ -9,14 +9,6 @@
 
     <!-- The listview -->
 
-    <View
-        android:id="@+id/itin_path_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/bg_itin_card_path"
-        android:visibility="visible" />
-
     <com.expedia.bookings.widget.ItinListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
@@ -25,7 +17,9 @@
         android:divider="@null"
         android:dividerHeight="0dp"
         android:listSelector="@android:color/transparent"
-        android:scrollbars="none" />
+        android:scrollbars="none"
+        app:pathViewWidth="2dp"
+        app:pathViewColor="#FF586169" />
 
     <!-- The No itins portion -->
 

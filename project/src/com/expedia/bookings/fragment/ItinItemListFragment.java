@@ -12,13 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -37,7 +33,6 @@ import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.dialog.SocialMessageChooserDialogFragment;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.widget.ItinCard;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
@@ -45,7 +40,6 @@ import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
-import com.nineoldandroids.animation.ObjectAnimator;
 
 public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialogFragment.DoLogoutListener,
 		ItinerarySyncListener {
@@ -59,7 +53,6 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	private ItinItemListFragmentListener mListener;
 
 	private View mRoot;
-	private View mItinPathView;
 	private ItinListView mItinListView;
 	private View mEmptyView;
 	private View mOrEnterNumberTv;
@@ -101,7 +94,6 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		final View view = inflater.inflate(R.layout.fragment_itinerary_list, null);
 
 		mRoot = Ui.findView(view, R.id.outer_container);
-		mItinPathView = Ui.findView(view, R.id.itin_path_view);
 		mItinListView = Ui.findView(view, android.R.id.list);
 		mEmptyView = Ui.findView(view, android.R.id.empty);
 		mOrEnterNumberTv = Ui.findView(view, R.id.or_enter_itin_number_tv);
@@ -116,7 +108,6 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		mErrorContainer = Ui.findView(view, R.id.error_container);
 
 		mItinListView.setEmptyView(mEmptyView);
-		mItinListView.setOnScrollListener(mOnScrollListener);
 		mItinListView.setOnListModeChangedListener(mOnListModeChangedListener);
 		mItinListView.setOnItinCardClickListener(mOnItinCardClickListener);
 		mItinListView.setOnItemClickListener(mOnItemClickListener);
@@ -332,47 +323,6 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		invalidateOptionsMenu();
 	}
 
-	private void updateLineView(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-		View firstVisibleItinCard = view.getChildAt(firstVisibleItem);
-		View lastVisibleItinCard;
-		int lastItinCardIndex = firstVisibleItem + visibleItemCount;
-		do {
-			//The rare and beautiful do while loop, useful here as sometimes the last item in the list
-			//is our footer view not the last itincard in the list we were expecting.
-			lastItinCardIndex--;
-			lastVisibleItinCard = view.getChildAt(lastItinCardIndex);
-		}
-		while (!(lastVisibleItinCard instanceof ItinCard) && lastItinCardIndex > 0);
-
-		if (firstVisibleItinCard != null && lastVisibleItinCard != null && mItinPathView != null) {
-			int listViewHeight = view.getHeight() > 0 ? view.getHeight() : view.getMeasuredHeight();
-			int firstChildHalfHeight = firstVisibleItinCard.getHeight() / 2;
-			int lastChildHalfHeight = lastVisibleItinCard.getHeight() / 2;
-			int targetY = firstVisibleItem == 0 ? firstVisibleItinCard.getTop() + firstChildHalfHeight : 0;
-			int targetLineHeight = listViewHeight - targetY;
-			if (lastItinCardIndex < firstVisibleItem + visibleItemCount - 1
-					|| firstVisibleItem + visibleItemCount == totalItemCount) {
-				targetLineHeight = lastVisibleItinCard.getTop() + lastChildHalfHeight - targetY;
-			}
-
-			RelativeLayout.LayoutParams lineParams = (LayoutParams) mItinPathView.getLayoutParams();
-			lineParams.height = targetLineHeight;
-			lineParams.topMargin = targetY;
-			mItinPathView.setLayoutParams(lineParams);
-		}
-	}
-
-	private OnScrollListener mOnScrollListener = new OnScrollListener() {
-		@Override
-		public void onScrollStateChanged(AbsListView view, int scrollState) {
-		}
-
-		@Override
-		public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-			updateLineView(view, firstVisibleItem, visibleItemCount, totalItemCount);
-		}
-	};
-
 	private OnListModeChangedListener mOnListModeChangedListener = new OnListModeChangedListener() {
 		@Override
 		public void onListModeChanged(int mode) {
@@ -386,7 +336,6 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 			if (mode == ItinListView.MODE_LIST) {
 				getSupportActionBar().show();
-				ObjectAnimator.ofFloat(mItinPathView, "alpha", 1f).setDuration(200).start();
 				if (activity instanceof OnListModeChangedListener) {
 					((OnListModeChangedListener) activity).onListModeChanged(mode);
 				}
@@ -396,7 +345,6 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 					((OnListModeChangedListener) activity).onListModeChanged(mode);
 				}
 				getSupportActionBar().hide();
-				ObjectAnimator.ofFloat(mItinPathView, "alpha", 0f).setDuration(200).start();
 			}
 		}
 	};
