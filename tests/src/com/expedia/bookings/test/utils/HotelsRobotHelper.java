@@ -462,6 +462,7 @@ public class HotelsRobotHelper {
 	public void pressBookRoom() {
 
 		mSolo.clickOnButton(0);
+		//Wait for rooms and rates to appear!
 		Boolean didItLoad = mSolo.waitForActivity("RoomsAndRatesListActivity", 20000);
 		if (didItLoad) {
 			enterLog(TAG, "On Rooms and Rates Screen");
@@ -486,7 +487,9 @@ public class HotelsRobotHelper {
 		try {
 			mSolo.clickInList(roomIndex);
 		}
+		//select new hotel if current hotel as no rooms
 		catch (Error noRoomsListed) {
+			enterLog(TAG, "No rooms at this hotel. Going to a new one.");
 			mSolo.goBack();
 			delay();
 			mSolo.goBack();
@@ -520,11 +523,15 @@ public class HotelsRobotHelper {
 	}
 
 	public void logIn() {
+
 		enterLog(TAG, "Beginning log-in sequence.");
+
 		mSolo.scrollToTop();
 		mSolo.clickOnText(mRes.getString(R.string.checkout_btn));
+
 		String log_in_for_faster_booking = mRes.getString(R.string.log_in_for_faster_booking);
 		String log_in_with_expedia = mRes.getString(R.string.Log_in_with_Expedia);
+		// Try clicking login button
 		try {
 			if (mSolo.searchText(log_in_for_faster_booking)) {
 				enterLog(TAG, "Log in: Clicking " + log_in_for_faster_booking);
@@ -535,6 +542,8 @@ public class HotelsRobotHelper {
 				mSolo.clickOnText(log_in_with_expedia);
 			}
 		}
+		// A failure probably means that the room isn't available
+		// so go back and grab a new hotel
 		catch (AssertionFailedError e) {
 			enterLog(TAG, "Failure clicking log in button");
 			delay(5);
@@ -715,18 +724,23 @@ public class HotelsRobotHelper {
 	public void inputBillingAddress() {
 		enterLog(TAG, "Booking: entering billing address.");
 
+		//Enter billing street address
 		mSolo.enterText((EditText) mSolo.getView(R.id.edit_address_line_one),
 				mUser.mAddressLine1);
 
+		//Enter billing address city
 		mSolo.enterText((EditText) mSolo.getView(R.id.edit_address_city),
 				mUser.mCityName);
 
+		//Enter billing address state
 		mSolo.enterText((EditText) mSolo.getView(R.id.edit_address_state),
 				mUser.mStateCode);
 
+		//Enter billing address postal code
 		mSolo.enterText((EditText) mSolo.getView(R.id.edit_address_postal_code),
 				mUser.mZIPCode);
 
+		//Press "Next" to continue
 		mSolo.clickOnText(mRes.getString(R.string.next));
 
 	}
@@ -742,6 +756,7 @@ public class HotelsRobotHelper {
 		mSolo.typeText((EditText) mSolo.getView(R.id.edit_name_on_card),
 				mUser.mFirstName + " " + mUser.mLastName);
 
+		// Try to enter postal code
 		try {
 			mSolo.typeText((EditText) mSolo.getView(R.id.edit_address_postal_code),
 					mUser.mZIPCode);
@@ -762,11 +777,11 @@ public class HotelsRobotHelper {
 
 	}
 
-	public void confirmAndBook(boolean assertPostCVVPopUp) throws Exception {
+	public void confirmAndBook(boolean assertPostCCVPopUp) throws Exception {
 		enterLog(TAG, "Booking: About to slide to accept.");
-		delay(5);
 		screenshot("Slide to checkout.");
 		delay();
+
 		try {
 			mSolo.clickOnText(mRes.getString(R.string.checkout_btn));
 		}
@@ -781,12 +796,13 @@ public class HotelsRobotHelper {
 			enterLog(TAG, "There is no 'I accept' button on this POS");
 		}
 
-		delay();
 		landscape();
 		portrait();
 		delay();
 		mSolo.scrollToBottom();
 
+		// Slide to checkout automation
+		// gets location of start point and end point, slides 
 		View sliderStart = mSolo.getView(R.id.slider_image);
 		int[] startLocation = new int[2];
 		sliderStart.getLocationOnScreen(startLocation);
@@ -802,12 +818,23 @@ public class HotelsRobotHelper {
 		mSolo.drag(startLocation[0], mScreenWidth - 5, startLocation[1] + 25, endLocation[1] + 20, 10);
 
 		delay(5);
+
+		//ENTER CCV HERE!
 		enterCCV();
 
+		postBookingHandling(assertPostCCVPopUp);
+
+	}
+
+	public void postBookingHandling(boolean assertPostCCVPopUp) throws Exception {
+
+		// If booking error appears, either throw exception
+		// or try to enter CVV again.
 		if (mSolo.searchText("Sorry, we don't seem to be able", true)) {
+
 			//If asserting post-cvv entry popup, assert that
 			// leaving pop up takes you back to CC entry view
-			if (assertPostCVVPopUp) {
+			if (assertPostCCVPopUp) {
 				mSolo.clickOnButton(0);
 				delay();
 				if (!mSolo.searchText(mSolo.getCurrentActivity().getString(R.string.card_info))) {
@@ -824,6 +851,8 @@ public class HotelsRobotHelper {
 			mSolo.goBack();
 		}
 		else {
+			//Take pictures of confirmation screen and 
+			//go back to launcher
 			Boolean screenLoaded = mSolo.waitForActivity("ConfirmationFragmentActivity");
 
 			if (screenLoaded) {
@@ -983,15 +1012,15 @@ public class HotelsRobotHelper {
 			mSolo.clickOnMenuItem(mRes.getString(R.string.About));
 		}
 		landscape();
-		delay(2);
 		portrait();
-		delay(2);
-		screenshot("Info Screen 1");
+
 		delay(1);
+		screenshot("Info Screen 1");
+
 		mSolo.scrollToBottom();
+
 		delay(1);
 		screenshot("Info Screen 2");
-		delay(1);
 		mSolo.goBack();
 	}
 
