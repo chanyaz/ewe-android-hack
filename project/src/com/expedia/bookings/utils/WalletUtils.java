@@ -2,6 +2,7 @@ package com.expedia.bookings.utils;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.GregorianCalendar;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -17,13 +18,18 @@ import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.fragment.WalletFragment;
 import com.google.android.gms.wallet.Address;
+import com.google.android.gms.wallet.Cart;
 import com.google.android.gms.wallet.FullWallet;
+import com.google.android.gms.wallet.FullWalletRequest;
+import com.google.android.gms.wallet.LineItem;
 import com.google.android.gms.wallet.MaskedWallet;
 import com.google.android.gms.wallet.MaskedWalletRequest;
 import com.google.android.gms.wallet.NotifyTransactionStatusRequest;
 import com.google.android.gms.wallet.ProxyCard;
 import com.google.android.gms.wallet.WalletConstants;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.SettingUtils;
 
 /**
  * Utilities shared across our multiple Google Wallet instances.
@@ -83,6 +89,20 @@ public class WalletUtils {
 		// have some half-filled BillingInfo in addition to a stored credit card
 		billingInfo.setLocation(null);
 		billingInfo.setNumber(null);
+	}
+
+	public static void bindWalletToBillingInfo(FullWallet wallet, BillingInfo billingInfo) {
+		billingInfo.setEmail(wallet.getEmail());
+		billingInfo.setGoogleWalletTransactionId(wallet.getGoogleTransactionId());
+
+		billingInfo.setLocation(convertAddressToLocation(wallet.getBillingAddress()));
+
+		ProxyCard proxyCard = wallet.getProxyCard();
+		billingInfo.setNumber(proxyCard.getPan());
+		billingInfo.setSecurityCode(proxyCard.getCvn());
+		billingInfo.setExpirationDate(new GregorianCalendar(proxyCard.getExpirationYear(), proxyCard
+				.getExpirationMonth() - 1, 1));
+		billingInfo.setNameOnCard(wallet.getBillingAddress().getName());
 	}
 
 	// If something goes wrong, we actually *don't* want GoogleWallet in the billing info anymore
@@ -212,6 +232,37 @@ public class WalletUtils {
 		else {
 			return NotifyTransactionStatusRequest.Status.SUCCESS;
 		}
+	}
+
+	public static boolean tryToCreateCvvChallenge(Context context) {
+		return !AndroidUtils.isRelease(context)
+				&& SettingUtils.get(context, context.getString(R.string.preference_google_wallet_cvv_challenge), false);
+	}
+
+	public static FullWalletRequest buildCvvChallengeRequest(String googleWalletTransactionId) {
+		// To create a CVV challenge, we need to do two things:
+		// 1. Greatly increase the price (but not above the limit)
+		// 2. Add the cvv_challenge line item
+
+		FullWalletRequest.Builder walletRequestBuilder = FullWalletRequest.newBuilder();
+		walletRequestBuilder.setGoogleTransactionId(googleWalletTransactionId);
+
+		String currency = "USD";
+		String price = Integer.toString(WalletFragment.MAX_TRANSACTION_CHARGE);
+
+		Cart.Builder cartBuilder = Cart.newBuilder();
+		cartBuilder.setCurrencyCode(currency);
+		cartBuilder.setTotalPrice(price);
+
+		LineItem.Builder cvvChallengeBuilder = LineItem.newBuilder();
+		cvvChallengeBuilder.setCurrencyCode(currency);
+		cvvChallengeBuilder.setDescription("cvv_challenge");
+		cvvChallengeBuilder.setRole(LineItem.Role.REGULAR);
+		cvvChallengeBuilder.setTotalPrice(price);
+		cartBuilder.addLineItem(cvvChallengeBuilder.build());
+
+		walletRequestBuilder.setCart(cartBuilder.build());
+		return walletRequestBuilder.build();
 	}
 
 	public static void logWallet(MaskedWallet wallet) {
