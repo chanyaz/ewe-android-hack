@@ -69,6 +69,11 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 			}
 		};
 	}
+	
+	@Override
+	public Class<FlightCheckoutResponse> getResponseClass() {
+		return FlightCheckoutResponse.class;
+	}
 
 	// FullWalletFragment
 

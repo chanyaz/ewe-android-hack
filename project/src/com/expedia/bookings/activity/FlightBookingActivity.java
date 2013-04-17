@@ -478,11 +478,11 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 		Db.setFlightCheckout(response);
 
-		if (results == null) {
+		if (response == null) {
 			DialogFragment df = UnhandledErrorDialogFragment.newInstance(null);
 			df.show(getSupportFragmentManager(), "noResultsErrorDialog");
 		}
-		else if (results.hasErrors()) {
+		else if (response.hasErrors()) {
 			handleErrorResponse(response);
 		}
 		else {

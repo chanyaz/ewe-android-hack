@@ -60,6 +60,11 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> {
 		};
 	}
 
+	@Override
+	public Class<BookingResponse> getResponseClass() {
+		return BookingResponse.class;
+	}
+
 	// FullWalletFragment
 
 	@Override

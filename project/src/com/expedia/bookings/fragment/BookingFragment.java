@@ -34,6 +34,8 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 
 	public abstract Download<T> getDownload();
 
+	public abstract Class<T> getResponseClass();
+
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
 
@@ -166,7 +168,14 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 	}
 
 	private void simulateError(int errorCode) {
-		Response response = new Response();
+		T response;
+		try {
+			response = getResponseClass().newInstance();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+
 		ServerError error = new ServerError();
 		error.setCode("GOOGLE_WALLET_ERROR");
 		response.addError(error);
