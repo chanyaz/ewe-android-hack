@@ -11,7 +11,6 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -19,21 +18,19 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity.YoYoPosition;
-import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ErrorCode;
-import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
+import com.expedia.bookings.fragment.FlightBookingFragment;
+import com.expedia.bookings.fragment.FlightBookingFragment.FlightBookingFragmentListener;
 import com.expedia.bookings.fragment.FlightUnavailableDialogFragment;
 import com.expedia.bookings.fragment.PriceChangeDialogFragment;
 import com.expedia.bookings.fragment.PriceChangeDialogFragment.PriceChangeDialogFragmentListener;
@@ -41,23 +38,18 @@ import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
 import com.expedia.bookings.fragment.UnhandledErrorDialogFragment;
 import com.expedia.bookings.fragment.UnhandledErrorDialogFragment.UnhandledErrorDialogFragmentListener;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.BackgroundDownloader.Download;
-import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
 public class FlightBookingActivity extends SherlockFragmentActivity implements CVVEntryFragmentListener,
-		PriceChangeDialogFragmentListener, SimpleCallbackDialogFragmentListener, UnhandledErrorDialogFragmentListener {
-
-	private static final String DOWNLOAD_KEY = "com.expedia.bookings.flight.checkout";
+		PriceChangeDialogFragmentListener, SimpleCallbackDialogFragmentListener, UnhandledErrorDialogFragmentListener,
+		FlightBookingFragmentListener {
 
 	private static final String STATE_CVV_ERROR_MODE = "STATE_CVV_ERROR_MODE";
 
@@ -69,6 +61,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 	private CVVEntryFragment mCVVEntryFragment;
 	private BookingInProgressDialogFragment mProgressFragment;
+	private FlightBookingFragment mBookingFragment;
 
 	private boolean mCvvErrorModeEnabled;
 
@@ -107,12 +100,15 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 		mCVVEntryFragment = Ui.findSupportFragment(this, CVVEntryFragment.TAG);
 		mProgressFragment = Ui.findSupportFragment(this, BookingInProgressDialogFragment.TAG);
+		mBookingFragment = Ui.findSupportFragment(this, FlightBookingFragment.TAG);
 
 		if (savedInstanceState == null) {
 			mCVVEntryFragment = CVVEntryFragment.newInstance(this, Db.getBillingInfo());
+			mBookingFragment = new FlightBookingFragment();
 
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 			ft.add(R.id.cvv_frame, mCVVEntryFragment, CVVEntryFragment.TAG);
+			ft.add(mBookingFragment, FlightBookingFragment.TAG);
 			ft.commit();
 
 			// If the debug setting is made to fake a price change, then fake the current price (by changing it)
@@ -146,11 +142,6 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 		setCvvErrorMode(mCvvErrorModeEnabled);
 
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(DOWNLOAD_KEY)) {
-			bd.registerDownloadCallback(DOWNLOAD_KEY, mCallback);
-		}
-
 		OmnitureTracking.onResume(this);
 	}
 
@@ -164,8 +155,6 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	@Override
 	protected void onPause() {
 		super.onPause();
-
-		BackgroundDownloader.getInstance().unregisterDownloadCallback(DOWNLOAD_KEY);
 
 		OmnitureTracking.onPause();
 	}
@@ -182,7 +171,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	@Override
 	public void onBackPressed() {
 		// F1053: Do not let user go back when we are mid-download
-		if (!BackgroundDownloader.getInstance().isDownloading(DOWNLOAD_KEY)) {
+		if (!mBookingFragment.isBooking()) {
 			super.onBackPressed();
 		}
 	}
@@ -234,109 +223,8 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	private void doBooking() {
 		setCvvErrorMode(false);
 
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (!bd.isDownloading(DOWNLOAD_KEY)) {
-			// Clear current results (if any)
-			Db.setFlightCheckout(null);
-
-			mProgressFragment = new BookingInProgressDialogFragment();
-			mProgressFragment.show(getSupportFragmentManager(), BookingInProgressDialogFragment.TAG);
-
-			bd.startDownload(DOWNLOAD_KEY, mDownload, mCallback);
-		}
+		mBookingFragment.doBooking();
 	}
-
-	private Download<FlightCheckoutResponse> mDownload = new Download<FlightCheckoutResponse>() {
-		@Override
-		public FlightCheckoutResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(mContext);
-			BackgroundDownloader.getInstance().addDownloadListener(DOWNLOAD_KEY, services);
-
-			//TODO: This block shouldn't happen. Currently the mocks pair phone number with travelers, but the BillingInfo object contains phone info.
-			//We need to wait on API updates to either A) set phone number as a billing phone number or B) take a bunch of per traveler phone numbers
-			BillingInfo billingInfo = Db.getBillingInfo();
-			Traveler traveler = Db.getTravelers().get(0);
-			billingInfo.setTelephone(traveler.getPhoneNumber());
-			billingInfo.setTelephoneCountryCode(traveler.getPhoneCountryCode());
-
-			//TODO: This also shouldn't happen, we should expect billingInfo to have a valid email address at this point...
-			if (TextUtils.isEmpty(billingInfo.getEmail())
-					|| (User.isLoggedIn(FlightBookingActivity.this) && Db.getUser() != null
-							&& Db.getUser().getPrimaryTraveler() != null
-							&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail()) && Db.getUser()
-							.getPrimaryTraveler().getEmail().compareToIgnoreCase(billingInfo.getEmail()) != 0)) {
-				String email = traveler.getEmail();
-				if (TextUtils.isEmpty(email)) {
-					email = Db.getUser().getPrimaryTraveler().getEmail();
-				}
-				billingInfo.setEmail(email);
-			}
-
-			FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
-			Itinerary itinerary = Db.getItinerary(trip.getItineraryNumber());
-
-			return services.flightCheckout(trip, itinerary, billingInfo, Db.getTravelers(), 0);
-		}
-	};
-
-	private OnDownloadComplete<FlightCheckoutResponse> mCallback = new OnDownloadComplete<FlightCheckoutResponse>() {
-		@Override
-		public void onDownload(FlightCheckoutResponse results) {
-			mProgressFragment.dismiss();
-
-			// Modify the response to fake online booking fees
-			if (!AndroidUtils.isRelease(mContext)) {
-				BigDecimal fakeObFees = getFakeObFeesAmount();
-				if (!fakeObFees.equals(BigDecimal.ZERO)) {
-					Money amount = new Money(results.getNewOffer().getTotalFare());
-					amount.setAmount(fakeObFees);
-					results.getNewOffer().setOnlineBookingFeesAmount(amount);
-				}
-			}
-
-			Db.setFlightCheckout(results);
-
-			if (results == null) {
-				DialogFragment df = UnhandledErrorDialogFragment.newInstance(null);
-				df.show(getSupportFragmentManager(), "noResultsErrorDialog");
-			}
-			else if (results.hasErrors()) {
-				handleErrorResponse(results);
-			}
-			else {
-				// Tracking
-				try {
-					if (Db.getFlightSearch() != null && Db.getFlightSearch().getSelectedFlightTrip() != null) {
-						FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
-						int days = 0;
-						if (trip.getLegCount() > 0) {
-							FlightLeg firstLeg = Db.getFlightSearch().getSelectedFlightTrip().getLeg(0);
-							Calendar departureCal = firstLeg.getFirstWaypoint().getMostRelevantDateTime();
-							Calendar cal = GregorianCalendar.getInstance();
-							long diff = departureCal.getTimeInMillis() - cal.getTimeInMillis();
-							days = Math.round(diff / (1000 * 60 * 60 * 24));
-							if (days < 0) {
-								days = 0;
-							}
-						}
-						Money money = Db.getFlightSearch().getSelectedFlightTrip().getTotalFare();
-						String destAirportCode = Db.getFlightSearch().getSearchParams().getArrivalLocation()
-								.getDestinationId();
-						if (money != null) {
-							AdTracker.trackFlightBooked(money.getCurrency(), money.getAmount().doubleValue(), days,
-									destAirportCode);
-						}
-					}
-				}
-				catch (Exception ex) {
-					Log.e("Exception tracking flight checkout", ex);
-				}
-				launchConfirmationActivity();
-
-				OmnitureTracking.trackPageLoadFlightCheckoutConfirmation(mContext);
-			}
-		}
-	};
 
 	//////////////////////////////////////////////////////////////////////////
 	// Error handling code
@@ -524,6 +412,72 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// FlightBookingFragmentListener
+
+	@Override
+	public void onStartBooking() {
+		mProgressFragment = new BookingInProgressDialogFragment();
+		mProgressFragment.show(getSupportFragmentManager(), BookingInProgressDialogFragment.TAG);
+	}
+
+	@Override
+	public void onCheckoutResponse(FlightCheckoutResponse results) {
+		mProgressFragment.dismiss();
+
+		// Modify the response to fake online booking fees
+		if (!AndroidUtils.isRelease(mContext)) {
+			BigDecimal fakeObFees = getFakeObFeesAmount();
+			if (!fakeObFees.equals(BigDecimal.ZERO)) {
+				Money amount = new Money(results.getNewOffer().getTotalFare());
+				amount.setAmount(fakeObFees);
+				results.getNewOffer().setOnlineBookingFeesAmount(amount);
+			}
+		}
+
+		Db.setFlightCheckout(results);
+
+		if (results == null) {
+			DialogFragment df = UnhandledErrorDialogFragment.newInstance(null);
+			df.show(getSupportFragmentManager(), "noResultsErrorDialog");
+		}
+		else if (results.hasErrors()) {
+			handleErrorResponse(results);
+		}
+		else {
+			// Tracking
+			try {
+				if (Db.getFlightSearch() != null && Db.getFlightSearch().getSelectedFlightTrip() != null) {
+					FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+					int days = 0;
+					if (trip.getLegCount() > 0) {
+						FlightLeg firstLeg = Db.getFlightSearch().getSelectedFlightTrip().getLeg(0);
+						Calendar departureCal = firstLeg.getFirstWaypoint().getMostRelevantDateTime();
+						Calendar cal = GregorianCalendar.getInstance();
+						long diff = departureCal.getTimeInMillis() - cal.getTimeInMillis();
+						days = Math.round(diff / (1000 * 60 * 60 * 24));
+						if (days < 0) {
+							days = 0;
+						}
+					}
+					Money money = Db.getFlightSearch().getSelectedFlightTrip().getTotalFare();
+					String destAirportCode = Db.getFlightSearch().getSearchParams().getArrivalLocation()
+							.getDestinationId();
+					if (money != null) {
+						AdTracker.trackFlightBooked(money.getCurrency(), money.getAmount().doubleValue(), days,
+								destAirportCode);
+					}
+				}
+			}
+			catch (Exception ex) {
+				Log.e("Exception tracking flight checkout", ex);
+			}
+			launchConfirmationActivity();
+
+			OmnitureTracking.trackPageLoadFlightCheckoutConfirmation(mContext);
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// Debug code
 
 	private BigDecimal getFakePriceChangeAmount() {
@@ -539,4 +493,5 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 				getString(R.string.preference_flight_fake_obfees_default));
 		return new BigDecimal(amount);
 	}
+
 }
