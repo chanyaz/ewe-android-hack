@@ -23,14 +23,15 @@ import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.fragment.BookingFragment.BookingFragmentListener;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
 import com.expedia.bookings.fragment.FlightBookingFragment;
-import com.expedia.bookings.fragment.FlightBookingFragment.FlightBookingFragmentListener;
 import com.expedia.bookings.fragment.FlightUnavailableDialogFragment;
 import com.expedia.bookings.fragment.PriceChangeDialogFragment;
 import com.expedia.bookings.fragment.PriceChangeDialogFragment.PriceChangeDialogFragmentListener;
@@ -38,6 +39,7 @@ import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
 import com.expedia.bookings.fragment.UnhandledErrorDialogFragment;
 import com.expedia.bookings.fragment.UnhandledErrorDialogFragment.UnhandledErrorDialogFragmentListener;
+import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
@@ -49,7 +51,7 @@ import com.mobiata.android.util.SettingUtils;
 
 public class FlightBookingActivity extends SherlockFragmentActivity implements CVVEntryFragmentListener,
 		PriceChangeDialogFragmentListener, SimpleCallbackDialogFragmentListener, UnhandledErrorDialogFragmentListener,
-		FlightBookingFragmentListener {
+		BookingFragmentListener {
 
 	private static final String STATE_CVV_ERROR_MODE = "STATE_CVV_ERROR_MODE";
 
@@ -103,12 +105,22 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		mBookingFragment = Ui.findSupportFragment(this, FlightBookingFragment.TAG);
 
 		if (savedInstanceState == null) {
-			mCVVEntryFragment = CVVEntryFragment.newInstance(this, Db.getBillingInfo());
-			mBookingFragment = new FlightBookingFragment();
-
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-			ft.add(R.id.cvv_frame, mCVVEntryFragment, CVVEntryFragment.TAG);
+
+			mBookingFragment = new FlightBookingFragment();
 			ft.add(mBookingFragment, FlightBookingFragment.TAG);
+
+			if (mBookingFragment.willBookViaGoogleWallet()) {
+				// Start showing progress dialog; depend on the wallet client connecting for
+				// kicking off the reservation
+				showProgressDialog();
+				mBookingFragment.doBooking();
+			}
+			else {
+				mCVVEntryFragment = CVVEntryFragment.newInstance(this, Db.getBillingInfo());
+				ft.add(R.id.cvv_frame, mCVVEntryFragment, CVVEntryFragment.TAG);
+			}
+
 			ft.commit();
 
 			// If the debug setting is made to fake a price change, then fake the current price (by changing it)
@@ -169,6 +181,16 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	}
 
 	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (WalletFragment.isRequestCodeFromWalletFragment(requestCode)) {
+			mBookingFragment.onActivityResult(requestCode, resultCode, data);
+		}
+		else {
+			super.onActivityResult(requestCode, resultCode, data);
+		}
+	}
+
+	@Override
 	public void onBackPressed() {
 		// F1053: Do not let user go back when we are mid-download
 		if (!mBookingFragment.isBooking()) {
@@ -201,6 +223,11 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	// Invalid CVV modes
 
 	public void setCvvErrorMode(boolean enabled) {
+		// If we're booking with Google Wallet, ignore this entirely
+		if (mBookingFragment.willBookViaGoogleWallet()) {
+			return;
+		}
+
 		mCvvErrorModeEnabled = enabled;
 
 		// Set header bg
@@ -219,6 +246,13 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 	//////////////////////////////////////////////////////////////////////////
 	// Booking downloads
+
+	private void showProgressDialog() {
+		if (mProgressFragment == null) {
+			mProgressFragment = new BookingInProgressDialogFragment();
+			mProgressFragment.show(getSupportFragmentManager(), BookingInProgressDialogFragment.TAG);
+		}
+	}
 
 	private void doBooking() {
 		setCvvErrorMode(false);
@@ -308,13 +342,20 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 			showUnavailableErrorDialog();
 			OmnitureTracking.trackErrorPageLoadFlightSearchExpired(mContext);
 			return;
-		case CANNOT_BOOK_WITH_MINOR:
+		case CANNOT_BOOK_WITH_MINOR: {
 			DialogFragment frag = SimpleCallbackDialogFragment
 					.newInstance(null,
 							getString(R.string.error_booking_with_minor), getString(android.R.string.ok),
 							DIALOG_CALLBACK_MINOR);
 			frag.show(getSupportFragmentManager(), "cannotBookWithMinorDialog");
 			return;
+		}
+		case GOOGLE_WALLET_ERROR: {
+			DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
+					getString(R.string.google_wallet_unavailable), getString(android.R.string.ok), 0);
+			frag.show(getSupportFragmentManager(), "googleWalletErrorDialog");
+			return;
+		}
 		default:
 			OmnitureTracking.trackErrorPageLoadFlightCheckout(mContext);
 			break;
@@ -412,36 +453,37 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// FlightBookingFragmentListener
+	// BookingFragmentListener
 
 	@Override
 	public void onStartBooking() {
-		mProgressFragment = new BookingInProgressDialogFragment();
-		mProgressFragment.show(getSupportFragmentManager(), BookingInProgressDialogFragment.TAG);
+		showProgressDialog();
 	}
 
 	@Override
-	public void onCheckoutResponse(FlightCheckoutResponse results) {
+	public void onBookingResponse(Response results) {
+		FlightCheckoutResponse response = (FlightCheckoutResponse) results;
+
 		mProgressFragment.dismiss();
 
 		// Modify the response to fake online booking fees
 		if (!AndroidUtils.isRelease(mContext)) {
 			BigDecimal fakeObFees = getFakeObFeesAmount();
 			if (!fakeObFees.equals(BigDecimal.ZERO)) {
-				Money amount = new Money(results.getNewOffer().getTotalFare());
+				Money amount = new Money(response.getNewOffer().getTotalFare());
 				amount.setAmount(fakeObFees);
-				results.getNewOffer().setOnlineBookingFeesAmount(amount);
+				response.getNewOffer().setOnlineBookingFeesAmount(amount);
 			}
 		}
 
-		Db.setFlightCheckout(results);
+		Db.setFlightCheckout(response);
 
 		if (results == null) {
 			DialogFragment df = UnhandledErrorDialogFragment.newInstance(null);
 			df.show(getSupportFragmentManager(), "noResultsErrorDialog");
 		}
 		else if (results.hasErrors()) {
-			handleErrorResponse(results);
+			handleErrorResponse(response);
 		}
 		else {
 			// Tracking
@@ -493,5 +535,4 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 				getString(R.string.preference_flight_fake_obfees_default));
 		return new BigDecimal(amount);
 	}
-
 }
