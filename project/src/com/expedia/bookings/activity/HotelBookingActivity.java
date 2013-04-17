@@ -16,15 +16,16 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.fragment.BookingFragment.BookingFragmentListener;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
 import com.expedia.bookings.fragment.FlightUnavailableDialogFragment;
 import com.expedia.bookings.fragment.HotelBookingFragment;
-import com.expedia.bookings.fragment.HotelBookingFragment.HotelBookingFragmentListener;
 import com.expedia.bookings.fragment.PriceChangeDialogFragment.PriceChangeDialogFragmentListener;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
@@ -40,7 +41,7 @@ import com.mobiata.android.SocialUtils;
 
 public class HotelBookingActivity extends SherlockFragmentActivity implements CVVEntryFragmentListener,
 		PriceChangeDialogFragmentListener, SimpleCallbackDialogFragmentListener, UnhandledErrorDialogFragmentListener,
-		HotelBookingFragmentListener {
+		BookingFragmentListener {
 
 	private static final String STATE_CVV_ERROR_MODE = "STATE_CVV_ERROR_MODE";
 
@@ -449,7 +450,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// HotelBookingFragmentListener
+	// BookingFragmentListener
 
 	@Override
 	public void onStartBooking() {
@@ -457,10 +458,12 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	}
 
 	@Override
-	public void onBookingResponse(BookingResponse results) {
+	public void onBookingResponse(Response results) {
+		BookingResponse response = (BookingResponse) results;
+
 		mProgressFragment.dismiss();
 
-		Db.setBookingResponse(results);
+		Db.setBookingResponse(response);
 		setCvvErrorMode(false);
 
 		if (results == null) {
@@ -469,8 +472,8 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 
 			OmnitureTracking.trackErrorPage(mContext, "ReservationRequestFailed");
 		}
-		else if (!results.isSuccess() && !results.succeededWithErrors()) {
-			handleErrorResponse(results);
+		else if (!results.isSuccess() && !response.succeededWithErrors()) {
+			handleErrorResponse(response);
 		}
 		else {
 			AdTracker.trackHotelBooked();
