@@ -35,6 +35,8 @@
             android:layout_weight="1"
             android:hint="@string/middle_name"
             android:inputType="textPersonName|textCapWords"
+            android:nextFocusDown="@+id/edit_last_name"
+            android:nextFocusRight="@+id/edit_last_name"
             android:paddingBottom="12dp"
             android:singleLine="true" />
     </LinearLayout>
