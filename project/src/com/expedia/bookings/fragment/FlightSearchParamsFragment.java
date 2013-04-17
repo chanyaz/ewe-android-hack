@@ -36,6 +36,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
@@ -54,6 +55,7 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AirportDropDownAdapter;
 import com.expedia.bookings.widget.NumTravelersPopupDropdown;
 import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.OnDateChangedListener;
 import com.nineoldandroids.animation.ValueAnimator;
@@ -110,6 +112,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 	// Special code just for landscape
 	private boolean mIsLandscape;
+	private boolean mIsTablet;
 
 	// So we can tell if we are running this fragment for the very first time
 	private boolean mFirstRun;
@@ -136,6 +139,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		}
 
 		mIsLandscape = getResources().getBoolean(R.bool.is_landscape);
+		mIsTablet = AndroidUtils.isTablet(getActivity());
 		mFirstRun = savedInstanceState == null;
 	}
 
@@ -178,9 +182,14 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		}
 
 		// In landscape, make the calendar date picker fill the screen
-		if (mIsLandscape) {
+		if (mIsLandscape && !mIsTablet) {
 			mCalendarShadow.setVisibility(View.GONE);
 			mCalendarContainer.getLayoutParams().height = LayoutParams.MATCH_PARENT;
+		}
+
+		if (mIsLandscape && mIsTablet) {
+			RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mCalendarContainer.getLayoutParams();
+			lp.addRule(RelativeLayout.BELOW, R.id.header);
 		}
 
 		mAirportAdapter = new AirportDropDownAdapter(getActivity());
@@ -692,7 +701,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			}
 
 			// F1213 - Show action bar because landscape takes up the entire screen otherwise
-			if (mIsLandscape) {
+			if (mIsLandscape && !mIsTablet) {
 				((SherlockFragmentActivity) getActivity()).startActionMode(mCalendarActionMode);
 				mDepartureAirportEditText.setFocusable(false);
 				mArrivalAirportEditText.setFocusable(false);

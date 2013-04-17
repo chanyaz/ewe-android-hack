@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Tablet Flights -->
+    <dimen name="flight_content_width">600dp</dimen>
+    <dimen name="flight_header_bottom_margin">200dp</dimen>
+    <dimen name="plane_window_height">500dp</dimen>
+    <dimen name="plane_window_text_offset">220dp</dimen>
+
+</resources>

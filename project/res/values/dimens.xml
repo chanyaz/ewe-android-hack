@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <dimen name="match_parent">-1px</dimen>
+    <dimen name="wrap_content">-2px</dimen>
+
     <!-- Launch dimens -->
     <dimen name="launch_tile_space_width">2dp</dimen>
     <dimen name="launch_header_height">100dp</dimen>
@@ -37,6 +40,7 @@
     <dimen name="flight_search_header_padding_top">14dp</dimen>
     <dimen name="flight_search_header_padding_bottom">14dp</dimen>
     <dimen name="flight_search_space_between_rows">6dp</dimen>
+    <dimen name="flight_search_calendar_height">300dp</dimen>
 
     <!-- Plane window view dimens -->
     <!-- These must always be linked -->
@@ -208,5 +212,9 @@
 
     <!-- HotelReceiptV2 -->
     <dimen name="hotel_rate_breakdown_cell_margin">8dp</dimen>
+
+    <!-- -1px == match_parent forall screen sizes -->
+    <!-- This is overridden for tablets in landscape -->
+    <dimen name="flight_content_width">@dimen/match_parent</dimen>
 
 </resources>

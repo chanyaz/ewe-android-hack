@@ -40,9 +40,10 @@
 
                 <LinearLayout
                     android:id="@+id/trip_checkout_container"
-                    android:layout_width="match_parent"
+                    android:layout_width="@dimen/flight_content_width"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
                     android:orientation="vertical"
                     android:visibility="visible" />
 
@@ -58,6 +59,7 @@
             android:id="@+id/trip_price_container_bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:orientation="vertical" />
     </LinearLayout>
 
