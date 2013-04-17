@@ -638,10 +638,14 @@ public class OmnitureTracking {
 
 		Log.d(TAG, "Tracking \"" + link + "\" click");
 
-		ADMS_Measurement s = createTrackLinkEvent(context, link);
+		ADMS_Measurement s = getFreshTrackingObject(context);
+
+		TrackingUtils.addStandardFields(context, s);
+
 		s.setEvar(11, link);
 		s.setEvents("event12");
-		s.trackLink(null, "o", s.getEvar(28), null, null);
+
+		s.trackLink(null, "o", link, null, null);
 	}
 
 	/////////////////////////////////
