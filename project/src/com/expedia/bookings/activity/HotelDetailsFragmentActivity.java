@@ -251,8 +251,12 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	protected void onPause() {
 		super.onPause();
 
-		if (!isFinishing()) {
-			BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (isFinishing()) {
+			bd.cancelDownload(INFO_DOWNLOAD_KEY);
+			bd.cancelDownload(REVIEWS_DOWNLOAD_KEY);
+		}
+		else {
 			bd.unregisterDownloadCallback(INFO_DOWNLOAD_KEY);
 			bd.unregisterDownloadCallback(REVIEWS_DOWNLOAD_KEY);
 		}
