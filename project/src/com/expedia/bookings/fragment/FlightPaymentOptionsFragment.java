@@ -5,7 +5,6 @@ import java.util.List;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,9 +26,11 @@ import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.WalletUtils;
+import com.google.android.gms.wallet.MaskedWallet;
 import com.mobiata.android.util.ViewUtils;
 
-public class FlightPaymentOptionsFragment extends Fragment {
+public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 
 	SectionLocation mSectionCurrentBillingAddress;
 	SectionBillingInfo mSectionCurrentCreditCard;
@@ -106,8 +107,13 @@ public class FlightPaymentOptionsFragment extends Fragment {
 		mCurrentStoredPaymentContainer.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mListener.setMode(YoYoMode.NONE);
-				mListener.moveBackwards();
+				if (mSectionStoredPayment.getStoredCreditCard().isGoogleWallet()) {
+					changeMaskedWallet();
+				}
+				else {
+					mListener.setMode(YoYoMode.NONE);
+					mListener.moveBackwards();
+				}
 			}
 		});
 
@@ -189,10 +195,11 @@ public class FlightPaymentOptionsFragment extends Fragment {
 				card.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setStoredCard(storedCard);
-						if (mListener != null) {
-							mListener.setMode(YoYoMode.NONE);
-							mListener.moveBackwards();
+						if (storedCard.isGoogleWallet()) {
+							changeMaskedWallet();
+						}
+						else {
+							onStoredCardSelected(storedCard);
 
 							OmnitureTracking.trackLinkFlightCheckoutPaymentSelectExisting(getActivity());
 						}
@@ -218,6 +225,15 @@ public class FlightPaymentOptionsFragment extends Fragment {
 		updateVisibilities();
 
 		return v;
+	}
+
+	private void onStoredCardSelected(StoredCreditCard storedCard) {
+		Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setStoredCard(storedCard);
+
+		if (mListener != null) {
+			mListener.setMode(YoYoMode.NONE);
+			mListener.moveBackwards();
+		}
 	}
 
 	@Override
@@ -309,5 +325,19 @@ public class FlightPaymentOptionsFragment extends Fragment {
 		public void displaySaveDialog();
 
 		public void displayCheckout();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// ChangeWalletFragment
+
+	@Override
+	protected void onMaskedWalletChanged(MaskedWallet maskedWallet) {
+		onStoredCardSelected(WalletUtils.convertToStoredCreditCard(maskedWallet));
+	}
+
+	@Override
+	protected void onCriticalWalletError() {
+		mListener.setMode(YoYoMode.NONE);
+		mListener.moveBackwards();
 	}
 }

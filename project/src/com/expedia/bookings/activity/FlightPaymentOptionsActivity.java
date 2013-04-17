@@ -20,12 +20,14 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.FlightPaymentAddressFragment;
 import com.expedia.bookings.fragment.FlightPaymentCreditCardFragment;
 import com.expedia.bookings.fragment.FlightPaymentOptionsFragment;
+import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.fragment.FlightPaymentOptionsFragment.FlightPaymentYoYoListener;
 import com.expedia.bookings.fragment.FlightPaymentSaveDialogFragment;
 import com.expedia.bookings.model.FlightPaymentFlowState;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
+import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -471,12 +473,9 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 	}
 
 	public boolean canOnlySelectNewCard() {
-
-		//Is the user logged in and has account cards?
-		if (User.isLoggedIn(this) && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
-			if (Db.getUser().getStoredCreditCards() != null && Db.getUser().getStoredCreditCards().size() > 0) {
-				return false;
-			}
+		// Does the user have cards they could select?
+		if (BookingInfoUtils.getStoredCreditCards(this).size() > 0) {
+			return false;
 		}
 
 		//Has the user manually entered data already?
@@ -601,4 +600,13 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		super.onRestoreInstanceState(savedInstanceState);
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (WalletFragment.isRequestCodeFromWalletFragment(requestCode)) {
+			mOptionsFragment.onActivityResult(requestCode, resultCode, data);
+		}
+		else {
+			super.onActivityResult(requestCode, resultCode, data);
+		}
+	}
 }
