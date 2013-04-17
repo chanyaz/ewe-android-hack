@@ -3,7 +3,6 @@ package com.expedia.bookings.fragment;
 import java.util.List;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -26,12 +25,10 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.WalletUtils;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.wallet.MaskedWallet;
-import com.google.android.gms.wallet.WalletConstants;
 import com.mobiata.android.util.ViewUtils;
 
-public class HotelPaymentOptionsFragment extends WalletFragment {
+public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 
 	SectionBillingInfo mSectionCurrentCreditCard;
 	SectionStoredCreditCard mSectionStoredPayment;
@@ -223,39 +220,6 @@ public class HotelPaymentOptionsFragment extends WalletFragment {
 		super.onSaveInstanceState(outState);
 	}
 
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		mProgressDialog.hide();
-
-		// Retrieve the error code, if available
-		int errorCode = -1;
-		if (data != null) {
-			errorCode = data.getIntExtra(WalletConstants.EXTRA_ERROR_CODE, -1);
-		}
-
-		switch (requestCode) {
-		case REQUEST_CODE_RESOLVE_ERR:
-			mWalletClient.connect();
-			break;
-		case REQUEST_CODE_RESOLVE_CHANGE_MASKED_WALLET:
-			switch (resultCode) {
-			case Activity.RESULT_OK:
-				MaskedWallet maskedWallet = data.getParcelableExtra(WalletConstants.EXTRA_MASKED_WALLET);
-				Db.setMaskedWallet(maskedWallet);
-				WalletUtils.bindWalletToBillingInfo(maskedWallet, Db.getWorkingBillingInfoManager()
-						.getWorkingBillingInfo());
-				onStoredCardSelected(WalletUtils.convertToStoredCreditCard(maskedWallet));
-				break;
-			case Activity.RESULT_CANCELED:
-				// Who cares if they canceled?  Just stay as before
-				break;
-			default:
-				handleError(errorCode);
-			}
-			break;
-		}
-	}
-
 	public void updateVisibilities() {
 		List<StoredCreditCard> cards = BookingInfoUtils.getStoredCreditCards(getActivity());
 
@@ -343,63 +307,16 @@ public class HotelPaymentOptionsFragment extends WalletFragment {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// Google Wallet
-	//
-	// This page primarily deals with *changing* the masked wallet
+	// ChangeWalletFragment
 
-	private void changeMaskedWallet() {
-		if (mGoogleWalletDisabled) {
-			displayGoogleWalletUnavailableToast();
-		}
-		else if (mConnectionResult != null) {
-			resolveUnsuccessfulConnectionResult();
-		}
-		else {
-			MaskedWallet maskedWallet = Db.getMaskedWallet();
-			mWalletClient.changeMaskedWallet(maskedWallet.getGoogleTransactionId(),
-					maskedWallet.getMerchantTransactionId(), this);
-		}
+	@Override
+	protected void onMaskedWalletChanged(MaskedWallet maskedWallet) {
+		onStoredCardSelected(WalletUtils.convertToStoredCreditCard(maskedWallet));
 	}
 
 	@Override
-	protected void handleError(int errorCode) {
-		super.handleError(errorCode);
-
-		switch (errorCode) {
-		case WalletConstants.ERROR_CODE_BUYER_CANCELLED:
-			// No action needed, the user did not change their payment method
-			break;
-		default:
-			// If we get an error trying to change the wallet, kick the user back
-			// to the previous page (so they can click the "buy with google wallet"
-			// button again if they want to use it) and unbind Google Wallet.
-			displayGoogleWalletUnavailableToast();
-
-			WalletUtils.unbindWalletFromBillingInfo(Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
-
-			mListener.setMode(YoYoMode.NONE);
-			mListener.moveBackwards();
-		}
-	}
-
-	// OnMaskedWalletLoadedListener
-
-	@Override
-	public void onMaskedWalletLoaded(ConnectionResult status, MaskedWallet wallet) {
-		super.onMaskedWalletLoaded(status, wallet);
-
-		mConnectionResult = status;
-		mRequestCode = REQUEST_CODE_RESOLVE_CHANGE_MASKED_WALLET;
-
-		// This callback is the result of a call to changeMaskedWallet(), so the result should
-		// never be isSuccess() because changeMaskedWallet() should never return a MaskedWallet
-		if (status.hasResolution()) {
-			mProgressDialog.dismiss();
-			resolveUnsuccessfulConnectionResult();
-		}
-		else {
-			// This should never happen, but who knows!
-			handleUnrecoverableGoogleWalletError(status.getErrorCode());
-		}
+	protected void onCriticalWalletError() {
+		mListener.setMode(YoYoMode.NONE);
+		mListener.moveBackwards();
 	}
 }
