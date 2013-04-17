@@ -43,16 +43,19 @@ public class ScreenshotSweep extends
 	}
 
 	////////////////////////////////////////////////////////////////
-	// Test Driver
-
+	// Test Drivers
+	
+	// Run screenshot sweep on APAC locales
 	public void testBookingsAPAC() throws Exception {
 		testBookings(mDriver.mLocaleUtils.APAC_LOCALES);
 	}
-
+	
+	// Run screenshot sweep on Western locales
 	public void testBookingsWestern() throws Exception {
 		testBookings(mDriver.mLocaleUtils.WESTERN_LOCALES);
 	}
 
+	// Run screenshot sweep on North, South, and Central American locales
 	public void testBookingsAmericas() throws Exception {
 		testBookings(mDriver.mLocaleUtils.AMERICAN_LOCALES);
 	}
@@ -65,9 +68,10 @@ public class ScreenshotSweep extends
 
 		for (int i = 0; i < locales.length; i++) {
 			
+			//Reset screenshot file name to start with index 1
 			mDriver.setScreenshotCount(1);
+			
 			mDriver.enterLog(TAG, "Starting sweep of " + locales[i].toString());
-			System.gc();
 			Locale testingLocale = locales[i];
 
 			mDriver.mLocaleUtils.setLocale(testingLocale);
@@ -76,31 +80,46 @@ public class ScreenshotSweep extends
 			mDriver.setSpoofBookings();
 
 			mDriver.launchHotels();
+			
+			//If the app is on a hotel confirmation screen, "NEW SEARCH"
+			//will be on that screen. Click it to get back to hotel search
 			if (mSolo.searchText(mRes.getString(R.string.NEW_SEARCH))) {
 				mSolo.clickOnText(mRes.getString(R.string.NEW_SEARCH));
 			}
+			// Open calendar and guest picker fragments
 			mDriver.delay();
-			System.gc();
 			mDriver.pressCalendar();
 			mDriver.pressGuestPicker();
+			
+			//Enter and select San Francisco as destination
 			mDriver.selectLocation("San Francisco");
 
+			//Open sort dialog for hotels search
 			mDriver.pressSort();
+			
+			//Filter fragment for generic string 
 			mDriver.filterFor("a");
+			
+			//Select second hotel in list
 			mDriver.selectHotel(2);
 			mDriver.delay();
-
+			
+			// From hotel info screen
+			// Check reviews and come back,
+			// Press to book room, and select 
+			// first room in list
 			mDriver.checkReviews();
 			mDriver.pressBookRoom();
 			mDriver.selectRoom(0);
-			System.gc();
 			mDriver.delay();
-
+			
+			//Go through the log in and booking processes
 			mDriver.logInAndBook();
 			mDriver.mLocaleUtils.setLocale(testingLocale);
 			mDriver.delay(5);
 			mSolo.goBack();
-
+			
+			//Look at the flights search screen
 			mDriver.checkFlightsScreen();
 		}
 	}
