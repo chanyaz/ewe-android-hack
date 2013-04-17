@@ -1,6 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -20,13 +19,13 @@ import com.expedia.bookings.activity.FlightPaymentOptionsActivity.YoYoMode;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.StoredCreditCard;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.model.FlightPaymentFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.ViewUtils;
 
@@ -163,12 +162,7 @@ public class FlightPaymentOptionsFragment extends Fragment {
 			}
 		});
 
-		List<StoredCreditCard> cards = new ArrayList<StoredCreditCard>();
-
-		//Populate stored creditcard list
-		if (User.isLoggedIn(getActivity()) && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
-			cards = Db.getUser().getStoredCreditCards();
-		}
+		List<StoredCreditCard> cards = BookingInfoUtils.getStoredCreditCards(getActivity());
 
 		if (cards != null && cards.size() > 0) {
 			int paymentOptionPadding = getResources().getDimensionPixelSize(R.dimen.payment_option_vertical_padding);
@@ -262,12 +256,7 @@ public class FlightPaymentOptionsFragment extends Fragment {
 	}
 
 	public void updateVisibilities() {
-		List<StoredCreditCard> cards = new ArrayList<StoredCreditCard>();
-
-		//Populate stored creditcard list
-		if (User.isLoggedIn(getActivity()) && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
-			cards = Db.getUser().getStoredCreditCards();
-		}
+		List<StoredCreditCard> cards = BookingInfoUtils.getStoredCreditCards(getActivity());
 
 		//Set visibilities
 		boolean hasAccountCards = cards != null && cards.size() > 0;

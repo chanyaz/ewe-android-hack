@@ -78,7 +78,11 @@ public class WalletUtils {
 		billingInfo.setEmail(wallet.getEmail());
 		billingInfo.setGoogleWalletTransactionId(wallet.getGoogleTransactionId());
 
-		billingInfo.setLocation(convertAddressToLocation(wallet.getBillingAddress()));
+		// With a masked wallet, we actually explicitly *clear* some data from the BillingInfo
+		// The reason why we do this is so that the app does not simultaneously think that we
+		// have some half-filled BillingInfo in addition to a stored credit card
+		billingInfo.setLocation(null);
+		billingInfo.setNumber(null);
 	}
 
 	// If something goes wrong, we actually *don't* want GoogleWallet in the billing info anymore

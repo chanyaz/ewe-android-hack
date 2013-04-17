@@ -1,6 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -20,11 +19,11 @@ import com.expedia.bookings.activity.HotelPaymentOptionsActivity.YoYoMode;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.StoredCreditCard;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.model.HotelPaymentFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.WalletUtils;
 import com.google.android.gms.common.ConnectionResult;
@@ -133,7 +132,7 @@ public class HotelPaymentOptionsFragment extends WalletFragment {
 		ViewUtils.setAllCaps(mCurrentPaymentLabel);
 		ViewUtils.setAllCaps(mNewPaymentLabel);
 
-		List<StoredCreditCard> cards = getStoredCreditCards();
+		List<StoredCreditCard> cards = BookingInfoUtils.getStoredCreditCards(getActivity());
 
 		if (cards != null && cards.size() > 0) {
 			int paymentOptionPadding = getResources().getDimensionPixelSize(R.dimen.payment_option_vertical_padding);
@@ -258,7 +257,7 @@ public class HotelPaymentOptionsFragment extends WalletFragment {
 	}
 
 	public void updateVisibilities() {
-		List<StoredCreditCard> cards = getStoredCreditCards();
+		List<StoredCreditCard> cards = BookingInfoUtils.getStoredCreditCards(getActivity());
 
 		//Set visibilities
 		boolean hasAccountCards = cards != null && cards.size() > 0;
@@ -316,20 +315,6 @@ public class HotelPaymentOptionsFragment extends WalletFragment {
 		mStoredPaymentsLabel.setVisibility(displayUnselectedStoredCardsLabel ? View.VISIBLE : View.GONE);
 		mStoredPaymentsLabelDiv.setVisibility(displayUnselectedStoredCardsLabel ? View.VISIBLE : View.GONE);
 		mStoredCardsContainer.setVisibility(displayUnselectedStoredCardsLabel ? View.VISIBLE : View.GONE);
-	}
-
-	private List<StoredCreditCard> getStoredCreditCards() {
-		List<StoredCreditCard> cards = new ArrayList<StoredCreditCard>();
-
-		if (Db.getMaskedWallet() != null) {
-			cards.add(WalletUtils.convertToStoredCreditCard(Db.getMaskedWallet()));
-		}
-
-		if (User.isLoggedIn(getActivity()) && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
-			cards.addAll(Db.getUser().getStoredCreditCards());
-		}
-
-		return cards;
 	}
 
 	private void onStoredCardSelected(StoredCreditCard storedCard) {

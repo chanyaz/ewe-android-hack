@@ -1,6 +1,8 @@
 package com.expedia.bookings.utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import android.content.Context;
 import android.view.View;
@@ -9,6 +11,9 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.CreditCardType;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.StoredCreditCard;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -19,6 +24,20 @@ public class BookingInfoUtils {
 	public static final int DIALOG_BOOKING_PROGRESS = 1;
 	public static final int DIALOG_BOOKING_NULL = 2;
 	public static final int DIALOG_BOOKING_ERROR = 3;
+
+	public static List<StoredCreditCard> getStoredCreditCards(Context context) {
+		List<StoredCreditCard> cards = new ArrayList<StoredCreditCard>();
+
+		if (Db.getMaskedWallet() != null) {
+			cards.add(WalletUtils.convertToStoredCreditCard(Db.getMaskedWallet()));
+		}
+
+		if (User.isLoggedIn(context) && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
+			cards.addAll(Db.getUser().getStoredCreditCards());
+		}
+
+		return cards;
+	}
 
 	public static void focusAndOpenKeyboard(Context context, View view) {
 		view.requestFocus();
