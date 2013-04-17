@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -69,6 +70,20 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	private String mErrorMessage;
 	private boolean mShowError = false;
 	private boolean mAllowLoadItins = false;
+
+	private boolean mIsLoading = false;
+	private String mJumpToItinId = null;
+
+	/**
+	 * Creates a new fragment that will open right away to the passed uniqueId.
+	 * @param uniqueId
+	 * @return
+	 */
+	public static ItinItemListFragment newInstance(String uniqueId) {
+		ItinItemListFragment frag = new ItinItemListFragment();
+		frag.mJumpToItinId = uniqueId;
+		return frag;
+	}
 
 	public static ItinItemListFragment newInstance() {
 		return new ItinItemListFragment();
@@ -198,7 +213,12 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	}
 
 	public void showItinCard(String id) {
+		if (mIsLoading) {
+			mJumpToItinId = id;
+			return;
+		}
 		mItinListView.showDetails(id);
+		mJumpToItinId = null;
 	}
 
 	public ItinCardData getSelectedItinCardData() {
@@ -220,9 +240,14 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	}
 
 	public void setIsLoading(boolean isLoading) {
+		mIsLoading = isLoading;
 		mEmptyListLoadingContainer.setVisibility(isLoading ? View.VISIBLE : View.GONE);
 		mEmptyListContent.setVisibility(isLoading ? View.GONE : View.VISIBLE);
 		invalidateOptionsMenu();
+	}
+
+	public boolean isLoading() {
+		return mIsLoading;
 	}
 
 	public boolean inListMode() {
@@ -439,6 +464,10 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		setErrorMessage(null, false);
 
 		trackWithOmniture(false);
+
+		if (mJumpToItinId != null) {
+			showItinCard(mJumpToItinId);
+		}
 	}
 
 	private void trackWithOmniture(boolean trackEmpty) {
