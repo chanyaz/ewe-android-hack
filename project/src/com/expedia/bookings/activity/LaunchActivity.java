@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.List;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -51,6 +52,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 		ItinItemListFragmentListener, LaunchFragmentListener, DoLogoutListener {
 
 	public static final String ARG_FORCE_SHOW_WATERFALL = "ARG_FORCE_SHOW_WATERFALL";
+	public static final String ARG_JUMP_TO_ITIN_UNIQUE_ID = "ARG_JUMP_TO_ITIN_UNIQUE_ID";
 
 	private static final int REQUEST_SETTINGS = 1;
 	private static final int PAGER_POS_WATERFALL = 0;
@@ -66,6 +68,27 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	private boolean mHasMenu = false;
 
 	private HockeyPuck mHockeyPuck;
+
+	private String mJumpToItinId = null;
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Static Methods
+	//////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Create intent to open this activity and jump straight to a particular itin item.
+	 * @param context
+	 * @return
+	 */
+	public static Intent createIntent(Context context, String uniqueId) {
+		Intent intent = new Intent(context, LaunchActivity.class);
+		intent.putExtra(LaunchActivity.ARG_JUMP_TO_ITIN_UNIQUE_ID, uniqueId);
+		return intent;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Lifecycle Methods
+	//////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -122,25 +145,32 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 		// Switch to itin mode if we have an inprogress or upcoming trip (and we aren't forcing reverse waterfall)
 		boolean allowSkipToItin = !getIntent().getBooleanExtra(ARG_FORCE_SHOW_WATERFALL, false);
 		if (allowSkipToItin) {
-			List<DateTime> startTimes = ItineraryManager.getInstance().getStartTimes();
-			List<DateTime> endTimes = ItineraryManager.getInstance().getEndTimes();
-			if (startTimes != null && endTimes != null && startTimes.size() == endTimes.size()) {
-				boolean startInItin = false;
-				Calendar now = Calendar.getInstance();
-				Calendar oneWeek = Calendar.getInstance();
-				oneWeek.add(Calendar.DATE, 7);
-				for (int i = 0; i < startTimes.size(); i++) {
-					DateTime start = startTimes.get(i);
-					DateTime end = endTimes.get(i);
-					if (DateTimeUtils.getTimeInCurrentTimeZone(now).getTime() < end.getMillisFromEpoch()
-							&& DateTimeUtils.getTimeInCurrentTimeZone(oneWeek).getTime() > start.getMillisFromEpoch()) {
-						startInItin = true;
-						break;
+			boolean startInItin = false;
+			if (getIntent().hasExtra(ARG_JUMP_TO_ITIN_UNIQUE_ID)) {
+				mJumpToItinId = getIntent().getStringExtra(ARG_JUMP_TO_ITIN_UNIQUE_ID);
+				startInItin = true;
+			}
+			else {
+				List<DateTime> startTimes = ItineraryManager.getInstance().getStartTimes();
+				List<DateTime> endTimes = ItineraryManager.getInstance().getEndTimes();
+				if (startTimes != null && endTimes != null && startTimes.size() == endTimes.size()) {
+					Calendar now = Calendar.getInstance();
+					Calendar oneWeek = Calendar.getInstance();
+					oneWeek.add(Calendar.DATE, 7);
+					for (int i = 0; i < startTimes.size(); i++) {
+						DateTime start = startTimes.get(i);
+						DateTime end = endTimes.get(i);
+						if (DateTimeUtils.getTimeInCurrentTimeZone(now).getTime() < end.getMillisFromEpoch()
+								&& DateTimeUtils.getTimeInCurrentTimeZone(oneWeek).getTime() > start
+										.getMillisFromEpoch()) {
+							startInItin = true;
+							break;
+						}
 					}
 				}
-				if (startInItin) {
-					gotoItineraries();
-				}
+			}
+			if (startInItin) {
+				gotoItineraries();
 			}
 		}
 
@@ -206,6 +236,10 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 
 		if (intent.getBooleanExtra(ARG_FORCE_SHOW_WATERFALL, false)) {
 			gotoWaterfall();
+		}
+		else if (intent.hasExtra(ARG_JUMP_TO_ITIN_UNIQUE_ID)) {
+			mJumpToItinId = intent.getStringExtra(ARG_JUMP_TO_ITIN_UNIQUE_ID);
+			gotoItineraries();
 		}
 	}
 
@@ -385,6 +419,11 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 				supportInvalidateOptionsMenu();
 			}
 		}
+
+		if (mJumpToItinId != null) {
+			mItinListFragment.showItinCard(mJumpToItinId);
+			mJumpToItinId = null;
+		}
 	}
 
 	private void enableEmbeddedTabs(Object actionBar) {
@@ -417,7 +456,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 
 			switch (position) {
 			case PAGER_POS_ITIN:
-				frag = ItinItemListFragment.newInstance();
+				frag = ItinItemListFragment.newInstance(mJumpToItinId);
 				break;
 			case PAGER_POS_WATERFALL:
 				frag = LaunchFragment.newInstance();
