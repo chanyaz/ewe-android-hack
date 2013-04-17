@@ -16,6 +16,7 @@ import android.view.Display;
 import android.view.WindowManager;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.LaunchActivity;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.ExpediaImageManager;
@@ -101,7 +102,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 			notification.save();
 			int clickTarget = intent.getIntExtra(EXTRA_CLICK_TARGET, CLICK_TARGET_MAIN);
 			handleTracking(context, clickTarget, notification);
-			handleClick(context, clickTarget);
+			handleClick(context, clickTarget, notification);
 			break;
 		case ACTION_DISMISS:
 			notification.setStatus(StatusType.DISMISSED);
@@ -282,8 +283,15 @@ public class NotificationReceiver extends BroadcastReceiver {
 		}
 	}
 
-	private void handleClick(Context context, int clickTarget) {
-		Intent intent = new Intent(context, SearchActivity.class);
+	private void handleClick(Context context, int clickTarget, Notification notification) {
+		Intent intent = null;
+		if (AndroidUtils.isTablet(context)) {
+			//TODO: this needs a little more work on tablet
+			intent = new Intent(context, SearchActivity.class);
+		}
+		else {
+			intent = LaunchActivity.createIntent(context, notification.getUniqueId());
+		}
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // Since this is started from a broadcast receiver
 		context.startActivity(intent);
 	}
