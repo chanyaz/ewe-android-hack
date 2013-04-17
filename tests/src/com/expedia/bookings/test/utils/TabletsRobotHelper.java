@@ -108,7 +108,7 @@ public class TabletsRobotHelper extends HotelsRobotHelper {
 		portrait();
 
 		String loadingHotels = mRes.getString(R.string.loading_hotels);
-		while (mSolo.searchText(loadingHotels, 1, false)) {
+		while (mSolo.searchText(loadingHotels, true)) {
 			delay(3);
 		}
 	}
