@@ -421,11 +421,13 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	}
 
 	private void showFlightDetails(FlightTrip trip, FlightLeg leg) {
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		mFlightDetailsFragment = FlightDetailsFragment.newInstance(trip, leg, mLegPosition);
-		ft.add(R.id.details_container, mFlightDetailsFragment, FlightDetailsFragment.TAG);
-		ft.addToBackStack(getFlightDetailsBackStackName(mLegPosition));
-		ft.commit();
+		if (!areFlightDetailsShowing()) {
+			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+			mFlightDetailsFragment = FlightDetailsFragment.newInstance(trip, leg, mLegPosition);
+			ft.add(R.id.details_container, mFlightDetailsFragment, FlightDetailsFragment.TAG);
+			ft.addToBackStack(getFlightDetailsBackStackName(mLegPosition));
+			ft.commit();
+		}
 
 		mAnimForward = true;
 	}
