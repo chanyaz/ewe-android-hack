@@ -199,6 +199,8 @@
     <string name="itin_logout_confirmation_message_TEMPLATE">Logging out of %1$s will remove any itinerary items associated with this account. Are you sure you want to logout?</string>
     <!-- Directions -->
     <string name="directions">Directions</string>
+    <!-- Terminal Map -->
+    <string name="Terminal_Map">Terminal Map</string>
     <!-- Terminal Maps -->
     <string name="terminal_maps">Terminal Maps</string>
     <!-- Legend -->
@@ -464,6 +466,10 @@
     <string name="Short_message">Short (SMS, Social)</string>
 
     <!-- Flights -->
+    <!-- Label for Flight Search in task manager -->
+    <string name="Expedia_Flights">Expedia Flights</string>
+    <!-- Label for Flight Confirmation activity in task manager -->
+    <string name="Flights_Confirmation">Flights Confirmation</string>
     <!-- Label for flight search part of app -->
     <string name="search_flights">Search Flights</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
@@ -631,6 +637,8 @@
     <string name="card_info">Card Info</string>
 
     <!-- Trip Overview Activity -->
+    <!-- Label for Overview activity in task manager -->
+    <string name="Overview">Overview</string>
     <!-- Trip total price label -->
     <string name="total_price_label">Total Price</string>
     <!-- Your trip to template -->
@@ -715,6 +723,10 @@
     <string name="traveler_num_and_category_TEMPLATE">Traveler %1$d</string>
 
     <!-- Section display contact -->
+    <!-- Label for "Add Traveler" in task manager -->
+    <string name="Add_Traveler">Add Traveler</string>
+    <!-- Label for "Add Payment" in task manager -->
+    <string name="Add_Payment">Add Payment</string>
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Traveler Information</string>
     <!-- Add traveler -->

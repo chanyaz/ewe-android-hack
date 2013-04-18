@@ -131,11 +131,11 @@
             android:theme="@style/Theme.Phone" />
         <activity
             android:name="com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity"
-            android:label="Add Traveler"
+            android:label="@string/Add_Traveler"
             android:theme="@style/Theme.Phone.Dark" />
         <activity
             android:name="com.expedia.bookings.activity.HotelPaymentOptionsActivity"
-            android:label="Add Payment"
+            android:label="@string/Add_Payment"
             android:theme="@style/Theme.Phone.Dark" />
         <activity
             android:name="com.expedia.bookings.activity.HotelBookingActivity"
@@ -165,7 +165,7 @@
         </activity>
         <activity
             android:name="com.expedia.bookings.activity.FlightSearchActivity"
-            android:label="Expedia Flights"
+            android:label="@string/Expedia_Flights"
             android:theme="@style/FlightTheme"
             android:windowSoftInputMode="stateUnchanged" >
         </activity>
@@ -182,7 +182,7 @@
             android:windowSoftInputMode="stateUnchanged" />
         <activity
             android:name="com.expedia.bookings.activity.FlightTripOverviewActivity"
-            android:label="Overview"
+            android:label="@string/Overview"
             android:theme="@style/FlightTheme.Transparent" >
         </activity>
         <activity
@@ -203,7 +203,7 @@
         </activity>
         <activity
             android:name="com.expedia.bookings.activity.FlightConfirmationActivity"
-            android:label="Flights Confirmation"
+            android:label="@string/Flights_Confirmation"
             android:theme="@style/FlightTheme" />
 
         <!-- Login/Facebook -->
@@ -232,7 +232,7 @@
         </activity>
         <activity
             android:name="com.expedia.bookings.activity.TerminalMapActivity"
-            android:label="Terminal Map"
+            android:label="@string/Terminal_Map"
             android:theme="@style/LaunchTheme" />
 
         <!-- Testing -->
