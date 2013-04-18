@@ -172,14 +172,14 @@ public class WalletUtils {
 	 * @return a String array of length 3 (first/middle/last) 
 	 */
 	public static String[] splitName(String name) {
-		String[] split = name.split("\\W+");
+		String[] split = name.trim().split("\\W+");
 		String[] ret = new String[] { "", "", "" };
 
 		ret[0] = split[0];
 		if (split.length == 2) {
-			ret[2] = split[2];
+			ret[2] = split[1];
 		}
-		else {
+		else if (split.length > 2) {
 			// Assume that everything after the first two spaces is last name
 			ret[1] = split[1];
 			ret[2] = TextUtils.join(" ", Arrays.copyOfRange(split, 2, split.length));
