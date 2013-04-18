@@ -213,7 +213,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	}
 
 	public void showItinCard(String id) {
-		if (mIsLoading) {
+		if (mIsLoading || mItinListView == null) {
 			mJumpToItinId = id;
 			return;
 		}

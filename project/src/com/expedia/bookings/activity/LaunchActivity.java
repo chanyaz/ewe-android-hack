@@ -420,7 +420,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 			}
 		}
 
-		if (mJumpToItinId != null) {
+		if (mJumpToItinId != null && mItinListFragment != null) {
 			mItinListFragment.showItinCard(mJumpToItinId);
 			mJumpToItinId = null;
 		}
@@ -529,6 +529,10 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 			mItinListFragment.enableLoadItins();
 		}
 
+		if (mJumpToItinId != null) {
+			mItinListFragment.showItinCard(mJumpToItinId);
+			mJumpToItinId = null;
+		}
 	}
 
 	@Override
