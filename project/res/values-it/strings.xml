@@ -57,6 +57,26 @@
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Viaggi</string>
 
+    <!-- Notifications -->
+    <!-- Title for flight Check In Local Notification -->
+    <string name="Check_in_available">Check-in disponibile</string>
+    <!-- Content for flight Check In Local Notification -->
+    <string name="x_flight_to_x_TEMPLATE">%1$s volo per %2$s</string>
+    <!-- Notification title for hotel check-out notification -->
+    <string name="Check_out_today">Check-out oggi</string>
+    <!-- Notification title for car pick up -->
+    <string name="Car_Pick_Up_X_TEMPLATE">Ritiro dell\&apos;auto – %s</string>
+    <!-- Notification text for car pick up -->
+    <string name="You_can_now_pick_up_your_car">Ora puoi ritirare la tua auto.</string>
+    <!-- Notification title for car drop off -->
+    <string name="Car_Drop_Off_X_TEMPLATE">Riconsegna dell\&apos;auto – %s</string>
+    <!-- Notification text for car drop off -->
+    <string name="Your_rental_is_due_returned">Il tuo autonoleggio prevede la riconsegna del veicolo tra due ore.</string>
+    <!-- Notification title for activity start -->
+    <string name="Activity_starting_soon">L\&apos;attività inizia presto</string>
+    <!-- Notification text for activity start -->
+    <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Il tuo biglietto per %s potrà essere riscattato a partire da domani.</string>
+
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerario</string>
@@ -80,8 +100,12 @@
     <string name="itinerary_fetch_error">Errore durante il recupero degli itinerari</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;Accedi&lt;/b&gt; per consultare i tuoi viaggi</string>
+    <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
+    <string name="tomorrow">Domani</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
     <string name="Today">Oggi</string>
+    <!-- String for Yesterday as in "Marriott Grand Hotel - Yesterday" -->
+    <string name="yesterday">Ieri</string>
     <!-- "XX Minutes" - an event happening XX minutes in the future -->
     <plurals name="minutes_from_now">
         <item quantity="zero">%s minuti</item>
@@ -254,21 +278,21 @@
     <!-- Car category: luxury -->
     <string name="car_category_luxury">Vettura di lusso</string>
     <!-- Car category: mini elite -->
-    <string name="car_category_mini_elite">Minicar Elite</string>
+    <string name="car_category_mini_elite">Minicar Élite</string>
     <!-- Car category: economy elite -->
-    <string name="car_category_economy_elite">Vettura Elite Economy</string>
+    <string name="car_category_economy_elite">Vettura Élite Economy</string>
     <!-- Car category: compact elite -->
-    <string name="car_category_compact_elite">Vettura Elite compatta</string>
+    <string name="car_category_compact_elite">Vettura Élite compatta</string>
     <!-- Car category: midize elite -->
-    <string name="car_category_midsize_elite">Vettura Elite di medie dimensioni</string>
+    <string name="car_category_midsize_elite">Vettura Élite di medie dimensioni</string>
     <!-- Car category: standard elite -->
-    <string name="car_category_standard_elite">Vettura Elite standard</string>
+    <string name="car_category_standard_elite">Vettura Élite standard</string>
     <!-- Car category: fullsize elite -->
-    <string name="car_category_fullsize_elite">Vettura Elite di grandi dimensioni</string>
+    <string name="car_category_fullsize_elite">Vettura Élite di grandi dimensioni</string>
     <!-- Car category: premium elite -->
-    <string name="car_category_premium_elite">Vettura Elite premium</string>
+    <string name="car_category_premium_elite">Vettura Élite premium</string>
     <!-- Car category: luxury elite -->
-    <string name="car_category_luxury_elite">Vettura Elite di lusso</string>
+    <string name="car_category_luxury_elite">Vettura Élite di lusso</string>
     <!-- Car category: special -->
     <string name="car_category_special">Vettura speciale</string>
     <!-- Car category: oversize -->
@@ -305,10 +329,28 @@
     <string name="itin_card_details_details">Informazioni aggiuntive</string>
     <string name="itin_card_details_pick_up">Ritiro</string>
     <string name="itin_card_details_drop_off">Riconsegna</string>
+    <!-- Tell users when they can pick up a rental car in three days -->
+    <string name="itin_card_details_pick_up_three_days">Ritiro tra 3 giorni</string>
+    <!-- Tell users when they can pick up a rental car in two days -->
+    <string name="itin_card_details_pick_up_two_days">Ritiro tra 2 giorni</string>
+    <!-- Tell users when they can pick up a rental car tomorrow -->
+    <string name="itin_card_details_pick_up_tomorrow">Ritiro domani</string>
+    <!-- Tell users when they can pick up a rental car. %1$s is a day, e.g. ("pick up Jun 11") -->
+    <string name="itin_card_details_pick_up_day_TEMPLATE">Ritiro %1$s</string>
     <!-- Tell users when they can pick up a rental car. %1$s is a time, e.g. ("pick up after 5 PM") -->
     <string name="itin_card_details_pick_up_TEMPLATE">Ritiro dopo le ore %1$s</string>
+    <!-- Tell users when they need to drop off a rental car. %1$s is a date, e.g. ("drop off Jun 15") -->
+    <string name="itin_card_details_drop_off_day_TEMPLATE">Riconsegna %1$s</string>
+    <!-- Tell users that they need to drop off a rental car in three days. -->
+    <string name="itin_card_details_drop_off_three_days">Riconsegna tra 3 giorni</string>
+    <!-- Tell users that they need to drop off a rental car in two days. -->
+    <string name="itin_card_details_drop_off_two_days">Riconsegna tra 2 giorni</string>
+    <!-- Tell users that they need to drop off a rental car the next day. -->
+    <string name="itin_card_details_drop_off_tomorrow">Riconsegna domani</string>
     <!-- Tell users when they need to drop off a rental car. %1$s is a time, e.g. ("drop off before 5 PM") -->
     <string name="itin_card_details_drop_off_TEMPLATE">Riconsegna prima delle ore %1$s</string>
+    <!-- Tell users when they dropped off a rental car. %1$s is a date, e.g. ("dropped off Jun 15") -->
+    <string name="itin_card_details_dropped_off_TEMPLATE">Riconsegnato %1$s</string>
     <string name="itin_card_details_agency_phone">Numero di telefono dell\&apos;agenzia</string>
     <string name="itin_card_details_toll_free_phone">Numero verde</string>
     <string name="itin_card_details_check_in">Arrivo</string>
@@ -324,10 +366,28 @@
     <string name="itin_card_details_reload_hotel">Ricarica informazioni hotel</string>
     <string name="itin_card_details_reload_cruise">Ricarica informazioni crociera</string>
 
-    <!-- Message to users about when they can check into their hotel.  %1$s is a time (e.g., "Check in after 5 PM") -->
+    <!-- Message to users that they can check into their hotel in three days -->
+    <string name="itin_card_hotel_summary_check_in_three_days">Check-in — 3 giorni</string>
+    <!-- Message to users that they can check into their hotel in two days. -->
+    <string name="itin_card_hotel_summary_check_in_two_days">Check-in — 2 giorni</string>
+    <!-- Message to users that they can check into their hotel tomorrow.-->
+    <string name="itin_card_hotel_summary_check_in_tomorrow">Check-in domani</string>
+    <!-- Message to users about when (date) they can check into their hotel.  %1$s is a date (e.g., "Check in Jul 11") -->
+    <string name="itin_card_hotel_summary_check_in_day_TEMPLATE">Check-in in data %1$s</string>
+    <!-- Message to users about when (time) they can check into their hotel.  %1$s is a time (e.g., "Check in after 5 PM") -->
     <string name="itin_card_hotel_summary_check_in_TEMPLATE">Arrivo dopo le ore %1$s</string>
+    <!-- Message to users about when (date) they can check out of their hotel.  %1$s is a date (e.g., "Check out Jul 11") -->
+    <string name="itin_card_hotel_summary_check_out_day_TEMPLATE">Check-out in data %1$s</string>
+    <!-- Message to users that they can check out of their hotel in three days -->
+    <string name="itin_card_hotel_summary_check_out_three_days">Partenza tra 3 giorni</string>
+    <!-- Message to users that they can check out of their hotel in two days. -->
+    <string name="itin_card_hotel_summary_check_out_two_days">Partenza tra 2 giorni</string>
+    <!-- Message to users that they can check out of their hotel tomorrow.-->
+    <string name="itin_card_hotel_summary_check_out_tomorrow">Partenza domani</string>
     <!-- Message to users about when they need to check out of their hotel.  %1$s is a time (e.g., "Check out before 5 PM") -->
     <string name="itin_card_hotel_summary_check_out_TEMPLATE">Partenza prima delle ore %1$s</string>
+    <!-- Message to users about when they checked out of their hotel.  %1$s is a date (e.g., "Checked out Jul 11") -->
+    <string name="itin_card_hotel_summary_checked_out_day_TEMPLATE">Check-out effettuato in data %1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">Valido a partire da &lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Action Buttons -->
@@ -335,6 +395,7 @@
     <string name="itin_action_call_hotel">Chiama hotel</string>
     <string name="itin_action_redeem">Riscatta</string>
     <string name="itin_action_support">Assistenza</string>
+    <string name="itin_action_share">Condividi</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">Stampa voucher</string>
@@ -504,6 +565,8 @@
         <item quantity="many">%1$s disponibile/i a &lt;b&gt;%2$s&lt;/b&gt;</item>
         <item quantity="other">%1$s disponibile/i a &lt;b&gt;%2$s&lt;/b&gt;</item>
     </plurals>
+    <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
+    <string name="fare_name_and_price_TEMPLATE">%1$s : %2$s</string>
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">Informazioni sulla franchigia bagagli</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
@@ -528,8 +591,10 @@
     <string name="operated_by_TEMPLATE">Operato da %s</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">Si applicano costi per bagagli da cabina.</string>
+    <!-- A message for a flight that does not include baggage fees in the fare total -->
+    <string name="checked_baggage_not_included">Bagagli da stiva non inclusi</string>
     <!-- Payment and baggage fees may apply -->
-    <string name="payment_and_baggage_fees_may_apply">Potrebbero essere previste commissioni sul pagamento o per bagaglio extra</string>
+    <string name="payment_and_baggage_fees_may_apply">Possono essere previsti oneri di pagamento</string>
     <!-- Additional Flight fare fees -->
     <string name="additional_fees">Costi aggiuntivi</string>
     <!-- Label to view baggage fees information -->
@@ -617,9 +682,9 @@
     <!-- Label to show next to the total price on the checkout receipt -->
     <string name="grand_total">Totale lordo</string>
     <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_raised_the_total_price_TEMPLATE">L\&apos;hotel ha appena alzato il prezzo totale di questa camera a da %1$s a notte a %2$s.</string>
+    <string name="the_hotel_raised_the_total_price_TEMPLATE">Siamo spiacenti, ma pare che l\&apos;hotel abbia appena aumentato il costo totale di questo soggiorno da %1$s a %2$s.</string>
     <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_lowered_the_total_price_TEMPLATE">L\&apos;hotel ha appena abbassato il prezzo totale di questa camera a da %1$s a notte a %2$s.</string>
+    <string name="the_hotel_lowered_the_total_price_TEMPLATE">Abbiamo ottime notizie! Il costo del tuo soggiorno è appena diminuito da %1$s a %2$s.</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">OK</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
@@ -1116,6 +1181,10 @@
     <string name="please_try_a_different_location_or_date">Scegliere una località o una data diverse.</string>
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">Nessuna camera disponibile</string>
+    <!-- Message displayed when the hotel room is sold out -->
+    <string name="error_room_is_now_sold_out">Siamo spiacenti, ma questa stanza è esaurita.</string>
+    <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
+    <string name="error_hotel_is_now_sold_out">Siamo spiacenti, ma questa stanza è esaurita.</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
@@ -1169,6 +1238,10 @@
     <string name="star_rating">Numero stelle</string>
     <!-- Bullet point for list items -->
     <string name="bullet_point">•</string>
+    <!-- Label for button that lets the user complete the booking through the normal flow -->
+    <string name="book_now">Prenota ora</string>
+    <!-- Label for button that lets the user complete the booking by calling a phone number -->
+    <string name="book_by_phone">Prenota telefonicamente</string>
 
     <!-- Hotel Details Fragment -->
     <!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available -->

@@ -57,6 +57,26 @@
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Perjalanan</string>
 
+    <!-- Notifications -->
+    <!-- Title for flight Check In Local Notification -->
+    <string name="Check_in_available">Check-in tersedia</string>
+    <!-- Content for flight Check In Local Notification -->
+    <string name="x_flight_to_x_TEMPLATE">%1$s penerbangan ke %2$s</string>
+    <!-- Notification title for hotel check-out notification -->
+    <string name="Check_out_today">Check-out hari ini</string>
+    <!-- Notification title for car pick up -->
+    <string name="Car_Pick_Up_X_TEMPLATE">Pengambilan Mobil – %s</string>
+    <!-- Notification text for car pick up -->
+    <string name="You_can_now_pick_up_your_car">Anda bisa mengambil mobil Anda sekarang.</string>
+    <!-- Notification title for car drop off -->
+    <string name="Car_Drop_Off_X_TEMPLATE">Pengembalian Mobil – %s</string>
+    <!-- Notification text for car drop off -->
+    <string name="Your_rental_is_due_returned">Mobil rental Anda harus dikembalikan dalam dua jam.</string>
+    <!-- Notification title for activity start -->
+    <string name="Activity_starting_soon">Aktivitas akan segera dimulai</string>
+    <!-- Notification text for activity start -->
+    <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Tiket %s Anda bisa ditukarkan mulai besok.</string>
+
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Rencana Perjalanan</string>
@@ -80,8 +100,12 @@
     <string name="itinerary_fetch_error">Bermasalah dalam mengambil rencana perjalanan</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;Masuk&lt;/b&gt; untuk melihat perjalanan Anda</string>
+    <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
+    <string name="tomorrow">Besok</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
     <string name="Today">Hari ini</string>
+    <!-- String for Yesterday as in "Marriott Grand Hotel - Yesterday" -->
+    <string name="yesterday">Kemarin</string>
     <!-- "XX Minutes" - an event happening XX minutes in the future -->
     <plurals name="minutes_from_now">
         <item quantity="zero">%s menit</item>
@@ -305,10 +329,28 @@
     <string name="itin_card_details_details">Informasi Tambahan</string>
     <string name="itin_card_details_pick_up">Pengambilan</string>
     <string name="itin_card_details_drop_off">Pengembalian</string>
+    <!-- Tell users when they can pick up a rental car in three days -->
+    <string name="itin_card_details_pick_up_three_days">Ambil dalam 3 hari</string>
+    <!-- Tell users when they can pick up a rental car in two days -->
+    <string name="itin_card_details_pick_up_two_days">Ambil dalam 2 hari</string>
+    <!-- Tell users when they can pick up a rental car tomorrow -->
+    <string name="itin_card_details_pick_up_tomorrow">Ambil besok</string>
+    <!-- Tell users when they can pick up a rental car. %1$s is a day, e.g. ("pick up Jun 11") -->
+    <string name="itin_card_details_pick_up_day_TEMPLATE">Ambil %1$s</string>
     <!-- Tell users when they can pick up a rental car. %1$s is a time, e.g. ("pick up after 5 PM") -->
     <string name="itin_card_details_pick_up_TEMPLATE">Pengambilan setelah pukul %1$s</string>
+    <!-- Tell users when they need to drop off a rental car. %1$s is a date, e.g. ("drop off Jun 15") -->
+    <string name="itin_card_details_drop_off_day_TEMPLATE">Kembalikan %1$s</string>
+    <!-- Tell users that they need to drop off a rental car in three days. -->
+    <string name="itin_card_details_drop_off_three_days">Kembalikan dalam 3 hari</string>
+    <!-- Tell users that they need to drop off a rental car in two days. -->
+    <string name="itin_card_details_drop_off_two_days">Kembalikan dalam 2 hari</string>
+    <!-- Tell users that they need to drop off a rental car the next day. -->
+    <string name="itin_card_details_drop_off_tomorrow">Kembalikan besok</string>
     <!-- Tell users when they need to drop off a rental car. %1$s is a time, e.g. ("drop off before 5 PM") -->
     <string name="itin_card_details_drop_off_TEMPLATE">Pengembalian sebelum pukul %1$s</string>
+    <!-- Tell users when they dropped off a rental car. %1$s is a date, e.g. ("dropped off Jun 15") -->
+    <string name="itin_card_details_dropped_off_TEMPLATE">Dikembalikan %1$s</string>
     <string name="itin_card_details_agency_phone">Telepon Agen</string>
     <string name="itin_card_details_toll_free_phone">Nomor Bebas Pulsa</string>
     <string name="itin_card_details_check_in">Check-In</string>
@@ -324,10 +366,28 @@
     <string name="itin_card_details_reload_hotel">Muat Ulang Info Hotel</string>
     <string name="itin_card_details_reload_cruise">Muat Ulang Info Pesiar</string>
 
-    <!-- Message to users about when they can check into their hotel.  %1$s is a time (e.g., "Check in after 5 PM") -->
+    <!-- Message to users that they can check into their hotel in three days -->
+    <string name="itin_card_hotel_summary_check_in_three_days">Check-in — 3 hari</string>
+    <!-- Message to users that they can check into their hotel in two days. -->
+    <string name="itin_card_hotel_summary_check_in_two_days">Check-in — 2 hari</string>
+    <!-- Message to users that they can check into their hotel tomorrow.-->
+    <string name="itin_card_hotel_summary_check_in_tomorrow">Check-in besok</string>
+    <!-- Message to users about when (date) they can check into their hotel.  %1$s is a date (e.g., "Check in Jul 11") -->
+    <string name="itin_card_hotel_summary_check_in_day_TEMPLATE">Check-in %1$s</string>
+    <!-- Message to users about when (time) they can check into their hotel.  %1$s is a time (e.g., "Check in after 5 PM") -->
     <string name="itin_card_hotel_summary_check_in_TEMPLATE">Check-in setelah pukul %1$s</string>
+    <!-- Message to users about when (date) they can check out of their hotel.  %1$s is a date (e.g., "Check out Jul 11") -->
+    <string name="itin_card_hotel_summary_check_out_day_TEMPLATE">Check-out %1$s</string>
+    <!-- Message to users that they can check out of their hotel in three days -->
+    <string name="itin_card_hotel_summary_check_out_three_days">Check-out dalam 3 hari</string>
+    <!-- Message to users that they can check out of their hotel in two days. -->
+    <string name="itin_card_hotel_summary_check_out_two_days">Check-out dalam 2 hari</string>
+    <!-- Message to users that they can check out of their hotel tomorrow.-->
+    <string name="itin_card_hotel_summary_check_out_tomorrow">Check-out besok</string>
     <!-- Message to users about when they need to check out of their hotel.  %1$s is a time (e.g., "Check out before 5 PM") -->
     <string name="itin_card_hotel_summary_check_out_TEMPLATE">Check-out sebelum pukul %1$s</string>
+    <!-- Message to users about when they checked out of their hotel.  %1$s is a date (e.g., "Checked out Jul 11") -->
+    <string name="itin_card_hotel_summary_checked_out_day_TEMPLATE">Sudah check-out %1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">Berlaku mulai &lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Action Buttons -->
@@ -335,6 +395,7 @@
     <string name="itin_action_call_hotel">Telepon Hotel</string>
     <string name="itin_action_redeem">Tukarkan</string>
     <string name="itin_action_support">Dukungan</string>
+    <string name="itin_action_share">Bagikan</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">Cetak Voucher</string>
@@ -504,6 +565,8 @@
         <item quantity="many">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt;</item>
         <item quantity="other">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt;</item>
     </plurals>
+    <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
+    <string name="fare_name_and_price_TEMPLATE">%1$s : %2$s</string>
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">INFORMASI BIAYA BAGASI</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
@@ -527,9 +590,11 @@
     <!-- Template for when a flight is operated by a different carrier.  %s is the other carrier, e.g. "Operated by American Airlines" -->
     <string name="operated_by_TEMPLATE">Dioperasikan oleh %s</string>
     <!-- Carry-on baggage fees apply -->
-    <string name="carry_on_baggage_fees_apply">Biaya tas kabin berlaku.</string>
+    <string name="carry_on_baggage_fees_apply">Biaya tas kabin berlaku</string>
+    <!-- A message for a flight that does not include baggage fees in the fare total -->
+    <string name="checked_baggage_not_included">Bagasi tidak termasuk</string>
     <!-- Payment and baggage fees may apply -->
-    <string name="payment_and_baggage_fees_may_apply">Biaya bagasi dan pembayaran mungkin berlaku</string>
+    <string name="payment_and_baggage_fees_may_apply">Biaya tambahan mungkin berlaku</string>
     <!-- Additional Flight fare fees -->
     <string name="additional_fees">Biaya Tambahan</string>
     <!-- Label to view baggage fees information -->
@@ -617,9 +682,9 @@
     <!-- Label to show next to the total price on the checkout receipt -->
     <string name="grand_total">Total Keseluruhan</string>
     <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_raised_the_total_price_TEMPLATE">Hotel baru saja menaikkan harga total untuk kamar ini dari %1$s menjadi %2$s</string>
+    <string name="the_hotel_raised_the_total_price_TEMPLATE">Maaf, tapi sepertinya hotel baru saja menaikkan biaya total untuk masa menginap ini dari %1$s menjadi %2$s.</string>
     <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_lowered_the_total_price_TEMPLATE">Hotel baru saja menurunkan harga total untuk kamar ini dari %1$s menjadi %2$s</string>
+    <string name="the_hotel_lowered_the_total_price_TEMPLATE">Kami punya berita gembira! Biaya menginap Anda baru saja turun dari %1$s menjadi %2$s.</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">Selesai</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
@@ -1116,6 +1181,10 @@
     <string name="please_try_a_different_location_or_date">Silakan coba lokasi atau tanggal lain.</string>
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">Tidak ada kamar yang tersedia</string>
+    <!-- Message displayed when the hotel room is sold out -->
+    <string name="error_room_is_now_sold_out">Maaf tapi kamar ini sudah habis terjual.</string>
+    <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
+    <string name="error_hotel_is_now_sold_out">Maaf tapi hotel ini sudah habis terjual.</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
@@ -1169,6 +1238,10 @@
     <string name="star_rating">Peringkat Bintang</string>
     <!-- Bullet point for list items -->
     <string name="bullet_point">•</string>
+    <!-- Label for button that lets the user complete the booking through the normal flow -->
+    <string name="book_now">Pesan Sekarang</string>
+    <!-- Label for button that lets the user complete the booking by calling a phone number -->
+    <string name="book_by_phone">Pesan lewat Telepon</string>
 
     <!-- Hotel Details Fragment -->
     <!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available -->

@@ -57,6 +57,26 @@
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">行程</string>
 
+    <!-- Notifications -->
+    <!-- Title for flight Check In Local Notification -->
+    <string name="Check_in_available">可辦理登機手續</string>
+    <!-- Content for flight Check In Local Notification -->
+    <string name="x_flight_to_x_TEMPLATE">有 %1$s 個航班前往 %2$s</string>
+    <!-- Notification title for hotel check-out notification -->
+    <string name="Check_out_today">請於今日退房</string>
+    <!-- Notification title for car pick up -->
+    <string name="Car_Pick_Up_X_TEMPLATE">取車 - %s</string>
+    <!-- Notification text for car pick up -->
+    <string name="You_can_now_pick_up_your_car">您現在可取車。</string>
+    <!-- Notification title for car drop off -->
+    <string name="Car_Drop_Off_X_TEMPLATE">還車 - %s</string>
+    <!-- Notification text for car drop off -->
+    <string name="Your_rental_is_due_returned">您須於兩小時內還車。</string>
+    <!-- Notification title for activity start -->
+    <string name="Activity_starting_soon">活動快將開始</string>
+    <!-- Notification text for activity start -->
+    <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">您可於明天起兌換 %s 門票。</string>
+
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">行程</string>
@@ -80,8 +100,12 @@
     <string name="itinerary_fetch_error">載入行程時出現錯誤</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;登入&lt;/b&gt;以查閱行程</string>
+    <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
+    <string name="tomorrow">明日</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
     <string name="Today">即日</string>
+    <!-- String for Yesterday as in "Marriott Grand Hotel - Yesterday" -->
+    <string name="yesterday">昨日</string>
     <!-- "XX Minutes" - an event happening XX minutes in the future -->
     <plurals name="minutes_from_now">
         <item quantity="zero">%s 分鐘</item>
@@ -305,10 +329,28 @@
     <string name="itin_card_details_details">其他資料</string>
     <string name="itin_card_details_pick_up">取車</string>
     <string name="itin_card_details_drop_off">還車</string>
+    <!-- Tell users when they can pick up a rental car in three days -->
+    <string name="itin_card_details_pick_up_three_days">可於 3 日後取車</string>
+    <!-- Tell users when they can pick up a rental car in two days -->
+    <string name="itin_card_details_pick_up_two_days">可於 2 日後取車</string>
+    <!-- Tell users when they can pick up a rental car tomorrow -->
+    <string name="itin_card_details_pick_up_tomorrow">可於明天取車</string>
+    <!-- Tell users when they can pick up a rental car. %1$s is a day, e.g. ("pick up Jun 11") -->
+    <string name="itin_card_details_pick_up_day_TEMPLATE">取車日期：%1$s</string>
     <!-- Tell users when they can pick up a rental car. %1$s is a time, e.g. ("pick up after 5 PM") -->
     <string name="itin_card_details_pick_up_TEMPLATE">於以下時間後取車：%1$s</string>
+    <!-- Tell users when they need to drop off a rental car. %1$s is a date, e.g. ("drop off Jun 15") -->
+    <string name="itin_card_details_drop_off_day_TEMPLATE">還車日期：%1$s</string>
+    <!-- Tell users that they need to drop off a rental car in three days. -->
+    <string name="itin_card_details_drop_off_three_days">需於 3 日後還車</string>
+    <!-- Tell users that they need to drop off a rental car in two days. -->
+    <string name="itin_card_details_drop_off_two_days">需於 2 日後還車</string>
+    <!-- Tell users that they need to drop off a rental car the next day. -->
+    <string name="itin_card_details_drop_off_tomorrow">需於明天還車</string>
     <!-- Tell users when they need to drop off a rental car. %1$s is a time, e.g. ("drop off before 5 PM") -->
     <string name="itin_card_details_drop_off_TEMPLATE">於以下時間前還車：%1$s</string>
+    <!-- Tell users when they dropped off a rental car. %1$s is a date, e.g. ("dropped off Jun 15") -->
+    <string name="itin_card_details_dropped_off_TEMPLATE">已於以下日期還車：%1$s</string>
     <string name="itin_card_details_agency_phone">代理電話</string>
     <string name="itin_card_details_toll_free_phone">免費電話</string>
     <string name="itin_card_details_check_in">入住</string>
@@ -324,10 +366,28 @@
     <string name="itin_card_details_reload_hotel">重新載入酒店資料</string>
     <string name="itin_card_details_reload_cruise">重新載入郵輪假期資料</string>
 
-    <!-- Message to users about when they can check into their hotel.  %1$s is a time (e.g., "Check in after 5 PM") -->
+    <!-- Message to users that they can check into their hotel in three days -->
+    <string name="itin_card_hotel_summary_check_in_three_days">入住 - 3 日後</string>
+    <!-- Message to users that they can check into their hotel in two days. -->
+    <string name="itin_card_hotel_summary_check_in_two_days">入住 - 2 日後</string>
+    <!-- Message to users that they can check into their hotel tomorrow.-->
+    <string name="itin_card_hotel_summary_check_in_tomorrow">於明天入住</string>
+    <!-- Message to users about when (date) they can check into their hotel.  %1$s is a date (e.g., "Check in Jul 11") -->
+    <string name="itin_card_hotel_summary_check_in_day_TEMPLATE">入住日期：%1$s</string>
+    <!-- Message to users about when (time) they can check into their hotel.  %1$s is a time (e.g., "Check in after 5 PM") -->
     <string name="itin_card_hotel_summary_check_in_TEMPLATE">於以下時間後入住：%1$s</string>
+    <!-- Message to users about when (date) they can check out of their hotel.  %1$s is a date (e.g., "Check out Jul 11") -->
+    <string name="itin_card_hotel_summary_check_out_day_TEMPLATE">退房日期：%1$s</string>
+    <!-- Message to users that they can check out of their hotel in three days -->
+    <string name="itin_card_hotel_summary_check_out_three_days">於 3 日後退房</string>
+    <!-- Message to users that they can check out of their hotel in two days. -->
+    <string name="itin_card_hotel_summary_check_out_two_days">於 2 日後退房</string>
+    <!-- Message to users that they can check out of their hotel tomorrow.-->
+    <string name="itin_card_hotel_summary_check_out_tomorrow">於明天退房</string>
     <!-- Message to users about when they need to check out of their hotel.  %1$s is a time (e.g., "Check out before 5 PM") -->
     <string name="itin_card_hotel_summary_check_out_TEMPLATE">於以下時間前退房：%1$s</string>
+    <!-- Message to users about when they checked out of their hotel.  %1$s is a date (e.g., "Checked out Jul 11") -->
+    <string name="itin_card_hotel_summary_checked_out_day_TEMPLATE">退房日期：%1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">生效日期：&lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Action Buttons -->
@@ -335,6 +395,7 @@
     <string name="itin_action_call_hotel">致電酒店</string>
     <string name="itin_action_redeem">兌換</string>
     <string name="itin_action_support">支援</string>
+    <string name="itin_action_share">分享</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">列印優惠券</string>
@@ -504,6 +565,8 @@
         <item quantity="many">尚餘 %1$s 個機位，價格：&lt;b&gt;%2$s&lt;/b&gt;</item>
         <item quantity="other">尚餘 %1$s 個機位，價格：&lt;b&gt;%2$s&lt;/b&gt;</item>
     </plurals>
+    <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
+    <string name="fare_name_and_price_TEMPLATE">%1$s：%2$s</string>
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">行李費詳情</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
@@ -527,9 +590,11 @@
     <!-- Template for when a flight is operated by a different carrier.  %s is the other carrier, e.g. "Operated by American Airlines" -->
     <string name="operated_by_TEMPLATE">由 %s 營運</string>
     <!-- Carry-on baggage fees apply -->
-    <string name="carry_on_baggage_fees_apply">收取隨身行李費。</string>
+    <string name="carry_on_baggage_fees_apply">收取隨身行李費</string>
+    <!-- A message for a flight that does not include baggage fees in the fare total -->
+    <string name="checked_baggage_not_included">不包括托運行李</string>
     <!-- Payment and baggage fees may apply -->
-    <string name="payment_and_baggage_fees_may_apply">可能收取款項及行李費</string>
+    <string name="payment_and_baggage_fees_may_apply">可能收取付款處理費</string>
     <!-- Additional Flight fare fees -->
     <string name="additional_fees">額外費用</string>
     <!-- Label to view baggage fees information -->
@@ -617,9 +682,9 @@
     <!-- Label to show next to the total price on the checkout receipt -->
     <string name="grand_total">總額</string>
     <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_raised_the_total_price_TEMPLATE">酒店剛將此客房的總價由 %1$s 提高至 %2$s</string>
+    <string name="the_hotel_raised_the_total_price_TEMPLATE">很抱歉，酒店剛將此住宿的總收費由 %1$s 提高至 %2$s。</string>
     <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_lowered_the_total_price_TEMPLATE">酒店剛將此客房的總價由 %1$s 降低至 %2$s</string>
+    <string name="the_hotel_lowered_the_total_price_TEMPLATE">好消息！您住宿的收費剛由 %1$s 降低至 %2$s。</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">完成</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
@@ -1116,6 +1181,10 @@
     <string name="please_try_a_different_location_or_date">請搜尋另一個地點或日期。</string>
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">沒有可供預訂的酒店客房</string>
+    <!-- Message displayed when the hotel room is sold out -->
+    <string name="error_room_is_now_sold_out">很抱歉，此客房現已售罄。</string>
+    <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
+    <string name="error_hotel_is_now_sold_out">很抱歉，此酒店現已售罄。</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
@@ -1169,6 +1238,10 @@
     <string name="star_rating">星級評級</string>
     <!-- Bullet point for list items -->
     <string name="bullet_point">•</string>
+    <!-- Label for button that lets the user complete the booking through the normal flow -->
+    <string name="book_now">立即預訂</string>
+    <!-- Label for button that lets the user complete the booking by calling a phone number -->
+    <string name="book_by_phone">電話預訂</string>
 
     <!-- Hotel Details Fragment -->
     <!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available -->
@@ -1635,7 +1708,7 @@
     <!-- Section header for rating (1-5 stars) -->
     <string name="oosdk_rating_overall_header">請給我們一個評級</string>
     <!-- Footer for the view -->
-    <string name="powered_by_opinion_lab">技術支援：Opinion Lab　<a href="http://mobile.opinionlab.com/static/privacy.html">私隱政策</a></string>
+    <string name="powered_by_opinion_lab">技術支援：Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">私隱政策</a></string>
     <!-- Hint to type in email address -->
     <string name="email_address">電郵地址</string>
     <!-- Hint to type in comments -->

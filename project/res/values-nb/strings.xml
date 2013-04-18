@@ -57,6 +57,26 @@
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Reiser</string>
 
+    <!-- Notifications -->
+    <!-- Title for flight Check In Local Notification -->
+    <string name="Check_in_available">Innsjekking tilgjengelig</string>
+    <!-- Content for flight Check In Local Notification -->
+    <string name="x_flight_to_x_TEMPLATE">%1$s flyvning til %2$s</string>
+    <!-- Notification title for hotel check-out notification -->
+    <string name="Check_out_today">Utsjekking i dag</string>
+    <!-- Notification title for car pick up -->
+    <string name="Car_Pick_Up_X_TEMPLATE">Henting av leiebil – %s</string>
+    <!-- Notification text for car pick up -->
+    <string name="You_can_now_pick_up_your_car">Du kan nå hente leiebilen din.</string>
+    <!-- Notification title for car drop off -->
+    <string name="Car_Drop_Off_X_TEMPLATE">Avlevering av leiebil – %s</string>
+    <!-- Notification text for car drop off -->
+    <string name="Your_rental_is_due_returned">Leiebilen din må avleveres innen de neste to timene.</string>
+    <!-- Notification title for activity start -->
+    <string name="Activity_starting_soon">Aktiviteten starter snart</string>
+    <!-- Notification text for activity start -->
+    <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Din billett til %s kan løses inn fra og med i morgen.</string>
+
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Reiserute</string>
@@ -80,8 +100,12 @@
     <string name="itinerary_fetch_error">Feil ved henting av reiseruter</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;Logg på&lt;/b&gt; for å se dine reiser</string>
+    <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
+    <string name="tomorrow">I morgen</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
     <string name="Today">I dag</string>
+    <!-- String for Yesterday as in "Marriott Grand Hotel - Yesterday" -->
+    <string name="yesterday">I går</string>
     <!-- "XX Minutes" - an event happening XX minutes in the future -->
     <plurals name="minutes_from_now">
         <item quantity="zero">%s minutter</item>
@@ -305,10 +329,28 @@
     <string name="itin_card_details_details">Tilleggsinformasjon</string>
     <string name="itin_card_details_pick_up">Henting</string>
     <string name="itin_card_details_drop_off">Avlevering</string>
+    <!-- Tell users when they can pick up a rental car in three days -->
+    <string name="itin_card_details_pick_up_three_days">Henting om 3 dager</string>
+    <!-- Tell users when they can pick up a rental car in two days -->
+    <string name="itin_card_details_pick_up_two_days">Henting om 2 dager</string>
+    <!-- Tell users when they can pick up a rental car tomorrow -->
+    <string name="itin_card_details_pick_up_tomorrow">Henting i morgen</string>
+    <!-- Tell users when they can pick up a rental car. %1$s is a day, e.g. ("pick up Jun 11") -->
+    <string name="itin_card_details_pick_up_day_TEMPLATE">Henting %1$s</string>
     <!-- Tell users when they can pick up a rental car. %1$s is a time, e.g. ("pick up after 5 PM") -->
     <string name="itin_card_details_pick_up_TEMPLATE">Henting etter kl. %1$s</string>
+    <!-- Tell users when they need to drop off a rental car. %1$s is a date, e.g. ("drop off Jun 15") -->
+    <string name="itin_card_details_drop_off_day_TEMPLATE">Avlevering %1$s</string>
+    <!-- Tell users that they need to drop off a rental car in three days. -->
+    <string name="itin_card_details_drop_off_three_days">Avlevering om 3 dager</string>
+    <!-- Tell users that they need to drop off a rental car in two days. -->
+    <string name="itin_card_details_drop_off_two_days">Avlevering om 2 dager</string>
+    <!-- Tell users that they need to drop off a rental car the next day. -->
+    <string name="itin_card_details_drop_off_tomorrow">Avlevering i morgen</string>
     <!-- Tell users when they need to drop off a rental car. %1$s is a time, e.g. ("drop off before 5 PM") -->
     <string name="itin_card_details_drop_off_TEMPLATE">Levering etter kl. %1$s</string>
+    <!-- Tell users when they dropped off a rental car. %1$s is a date, e.g. ("dropped off Jun 15") -->
+    <string name="itin_card_details_dropped_off_TEMPLATE">Avlevert %1$s</string>
     <string name="itin_card_details_agency_phone">Telefonnummer til byrå</string>
     <string name="itin_card_details_toll_free_phone">Gratisnummer</string>
     <string name="itin_card_details_check_in">Innsjekking</string>
@@ -324,10 +366,28 @@
     <string name="itin_card_details_reload_hotel">Last inn informasjon om hotell på nytt</string>
     <string name="itin_card_details_reload_cruise">Last inn informasjon om cruise på nytt</string>
 
-    <!-- Message to users about when they can check into their hotel.  %1$s is a time (e.g., "Check in after 5 PM") -->
+    <!-- Message to users that they can check into their hotel in three days -->
+    <string name="itin_card_hotel_summary_check_in_three_days">Innsjekking — 3 dager</string>
+    <!-- Message to users that they can check into their hotel in two days. -->
+    <string name="itin_card_hotel_summary_check_in_two_days">Innsjekking — 2 dager</string>
+    <!-- Message to users that they can check into their hotel tomorrow.-->
+    <string name="itin_card_hotel_summary_check_in_tomorrow">Innsjekking i morgen</string>
+    <!-- Message to users about when (date) they can check into their hotel.  %1$s is a date (e.g., "Check in Jul 11") -->
+    <string name="itin_card_hotel_summary_check_in_day_TEMPLATE">Innsjekking %1$s</string>
+    <!-- Message to users about when (time) they can check into their hotel.  %1$s is a time (e.g., "Check in after 5 PM") -->
     <string name="itin_card_hotel_summary_check_in_TEMPLATE">Innsjekking etter kl. %1$s</string>
+    <!-- Message to users about when (date) they can check out of their hotel.  %1$s is a date (e.g., "Check out Jul 11") -->
+    <string name="itin_card_hotel_summary_check_out_day_TEMPLATE">Utsjekking %1$s</string>
+    <!-- Message to users that they can check out of their hotel in three days -->
+    <string name="itin_card_hotel_summary_check_out_three_days">Utsjekking om 3 dager</string>
+    <!-- Message to users that they can check out of their hotel in two days. -->
+    <string name="itin_card_hotel_summary_check_out_two_days">Utsjekking om 2 dager</string>
+    <!-- Message to users that they can check out of their hotel tomorrow.-->
+    <string name="itin_card_hotel_summary_check_out_tomorrow">Utsjekking i morgen</string>
     <!-- Message to users about when they need to check out of their hotel.  %1$s is a time (e.g., "Check out before 5 PM") -->
     <string name="itin_card_hotel_summary_check_out_TEMPLATE">Utsjekking før kl. %1$s</string>
+    <!-- Message to users about when they checked out of their hotel.  %1$s is a date (e.g., "Checked out Jul 11") -->
+    <string name="itin_card_hotel_summary_checked_out_day_TEMPLATE">Sjekket ut %1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">Gyldig fra &lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Action Buttons -->
@@ -335,6 +395,7 @@
     <string name="itin_action_call_hotel">Ring hotell</string>
     <string name="itin_action_redeem">Løs inn</string>
     <string name="itin_action_support">Støtte</string>
+    <string name="itin_action_share">Del</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">Skriv ut kuponger</string>
@@ -504,6 +565,8 @@
         <item quantity="many">%1$s igjen til &lt;b&gt;%2$s&lt;/b&gt;</item>
         <item quantity="other">%1$s igjen til &lt;b&gt;%2$s&lt;/b&gt;</item>
     </plurals>
+    <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
+    <string name="fare_name_and_price_TEMPLATE">%1$s : %2$s</string>
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">INFORMASJON OM BAGASJEAVGIFT</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
@@ -527,9 +590,11 @@
     <!-- Template for when a flight is operated by a different carrier.  %s is the other carrier, e.g. "Operated by American Airlines" -->
     <string name="operated_by_TEMPLATE">Opereres av %s</string>
     <!-- Carry-on baggage fees apply -->
-    <string name="carry_on_baggage_fees_apply">Avgifter for håndbagasje kommer i tillegg.</string>
+    <string name="carry_on_baggage_fees_apply">Avgifter for håndbagasje gjelder.</string>
+    <!-- A message for a flight that does not include baggage fees in the fare total -->
+    <string name="checked_baggage_not_included">Innsjekket bagasje ikke inkludert</string>
     <!-- Payment and baggage fees may apply -->
-    <string name="payment_and_baggage_fees_may_apply">Betalings- og bagasjeavgifter kan komme i tillegg</string>
+    <string name="payment_and_baggage_fees_may_apply">Betalingsavgifter kan tilkomme</string>
     <!-- Additional Flight fare fees -->
     <string name="additional_fees">Tilleggsgebyrer</string>
     <!-- Label to view baggage fees information -->
@@ -617,9 +682,9 @@
     <!-- Label to show next to the total price on the checkout receipt -->
     <string name="grand_total">Totalpris</string>
     <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_raised_the_total_price_TEMPLATE">Hotellet har nettopp satt opp prisen for dette rommet fra %1$s til %2$s</string>
+    <string name="the_hotel_raised_the_total_price_TEMPLATE">Beklager, det ser ut som hotellet nettopp satt opp totalprisen på dette oppholdet fra %1$s til %2$s.</string>
     <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_lowered_the_total_price_TEMPLATE">Hotellet har nettopp satt ned prisen for dette rommet fra %1$s til %2$s</string>
+    <string name="the_hotel_lowered_the_total_price_TEMPLATE">Vi har gode nyheter! Prisen på oppholdet ditt ble nettopp satt ned fra %1$s til %2$s.</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">Fullført</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
@@ -1116,6 +1181,10 @@
     <string name="please_try_a_different_location_or_date">Vennligst prøv en annen dato eller beliggenhet.</string>
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">Ingen hotellrom tilgjengelige</string>
+    <!-- Message displayed when the hotel room is sold out -->
+    <string name="error_room_is_now_sold_out">Beklager, dette rommet er nå utsolgt.</string>
+    <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
+    <string name="error_hotel_is_now_sold_out">Beklager, dette hotellet er nå utsolgt.</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
@@ -1169,6 +1238,10 @@
     <string name="star_rating">Stjernerangering</string>
     <!-- Bullet point for list items -->
     <string name="bullet_point">•</string>
+    <!-- Label for button that lets the user complete the booking through the normal flow -->
+    <string name="book_now">Bestill nå</string>
+    <!-- Label for button that lets the user complete the booking by calling a phone number -->
+    <string name="book_by_phone">Bestill via telefon</string>
 
     <!-- Hotel Details Fragment -->
     <!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available -->
