@@ -14,13 +14,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Point;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Pair;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -465,8 +465,8 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_FLIGHT_DESTINATIONS, services);
 			List<Destination> destinations = new ArrayList<Destination>();
 
-			Display display = getActivity().getWindowManager().getDefaultDisplay();
-			int width = Math.round(display.getWidth() / 2);
+			Point size = AndroidUtils.getScreenSize(getActivity());
+			int width = Math.round(size.x / 2);
 			int height = Math.round(getResources().getDimension(R.dimen.launch_tile_height_flight));
 
 			// Randomly shuffle destinations

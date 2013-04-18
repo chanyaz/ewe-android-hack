@@ -22,7 +22,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Pair;
-import android.view.Display;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -39,9 +38,9 @@ import com.expedia.bookings.data.BackgroundImageCache;
 import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightFilter.Sort;
-import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchLeg;
@@ -900,29 +899,14 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	// Background Image Download
 
 	private Download<BackgroundImageResponse> mBackgroundImageInfoDownload = new Download<BackgroundImageResponse>() {
-		@SuppressWarnings("deprecation")
 		@SuppressLint("NewApi")
 		@Override
 		public BackgroundImageResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
 			BackgroundDownloader.getInstance().addDownloadListener(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY, services);
 			String code = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
-
-			int width, height;
-			if (AndroidUtils.getSdkVersion() >= 13) {
-				Display display = getWindowManager().getDefaultDisplay();
-				Point size = new Point();
-				display.getSize(size);
-				width = size.x;
-				height = size.y;
-			}
-			else {
-				Display display = getWindowManager().getDefaultDisplay();
-				width = display.getWidth();
-				height = display.getHeight();
-			}
-
-			return ExpediaImageManager.getInstance().getDestinationImage(code, width, height, true);
+			Point size = AndroidUtils.getScreenSize(mContext);
+			return ExpediaImageManager.getInstance().getDestinationImage(code, size.x, size.y, true);
 		}
 	};
 

@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -23,6 +24,7 @@ import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
@@ -72,9 +74,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	// Views from the ItinCard itself
 	private View mTopExtraPaddingView;
 	private View mBottomExtraPaddingView;
-
-	private int mLastMeasuredWidth;
-	private int mLastMeasuredHeight;
 
 	private ViewGroup mCardLayout;
 	private ViewGroup mTitleLayout;
@@ -206,26 +205,13 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		mHeaderImageView.setType(getType());
 		int placeholderResId = mItinContentGenerator.getHeaderImagePlaceholderResId();
 
-		// The ItinCards go back and forth from being measured/not.  What we do is just
-		// assume that the last non-zero measurement was correct (otherwise we fall back
-		// to the placeholder image).
-		if (mLastMeasuredWidth == 0 && mLastMeasuredHeight == 0) {
-			mLastMeasuredWidth = getWidth();
-			mLastMeasuredHeight = getHeight();
+		// We currently use the size of the screen, as that is what is required by us of the Expedia image API
+		Point size = AndroidUtils.getScreenSize(getContext());
+		UrlBitmapDrawable drawable = mItinContentGenerator.getHeaderBitmapDrawable(size.x, size.y);
+		if (drawable != null) {
+			drawable.configureImageView(mHeaderImageView);
 		}
-
-		boolean setHeaderDrawable = false;
-		if (mLastMeasuredWidth != 0 && mLastMeasuredHeight != 0) {
-			UrlBitmapDrawable drawable = mItinContentGenerator.getHeaderBitmapDrawable(mLastMeasuredWidth,
-					mLastMeasuredHeight);
-
-			if (drawable != null) {
-				drawable.configureImageView(mHeaderImageView);
-				setHeaderDrawable = true;
-			}
-		}
-
-		if (!setHeaderDrawable) {
+		else {
 			mHeaderImageView.setImageResource(placeholderResId);
 		}
 

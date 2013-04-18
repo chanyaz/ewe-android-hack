@@ -12,8 +12,6 @@ import android.graphics.Point;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
-import android.view.Display;
-import android.view.WindowManager;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.LaunchActivity;
@@ -151,29 +149,12 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 		// For BackgroundDownloader, the object that will download the Destination Image
 		private Download<BackgroundImageResponse> mDestinationImageUrlDownload = new Download<BackgroundImageResponse>() {
-			@SuppressWarnings("deprecation")
 			@SuppressLint("NewApi")
 			@Override
 			public BackgroundImageResponse doDownload() {
 				String code = mNotification.getImageValue();
-
-				int width, height;
-				if (AndroidUtils.getSdkVersion() >= 13) {
-					WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-					Display display = wm.getDefaultDisplay();
-					Point size = new Point();
-					display.getSize(size);
-					width = size.x;
-					height = size.y;
-				}
-				else {
-					WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-					Display display = wm.getDefaultDisplay();
-					width = display.getWidth();
-					height = display.getHeight();
-				}
-
-				return ExpediaImageManager.getInstance().getDestinationImage(code, width, height, true);
+				Point size = AndroidUtils.getScreenSize(mContext);
+				return ExpediaImageManager.getInstance().getDestinationImage(code, size.x, size.y, true);
 			}
 		};
 

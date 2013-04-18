@@ -8,6 +8,14 @@ import android.content.Context;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.bitmaps.TwoLevelImageCache;
 
+/**
+ * Manages images retrieved from Expedia's database.
+ * 
+ * Implementation note: currently, the way that Expedia images are sized is
+ * based on the size of the device, not the desired display size of the image.
+ * Once they fix that, we should stop defaulting to using the full-size
+ * images all the time.
+ */
 public class ExpediaImageManager {
 
 	public enum ImageType {
@@ -93,11 +101,17 @@ public class ExpediaImageManager {
 		return null;
 	}
 
+	/**
+	 * Retrieves a car image.
+	 */
 	public BackgroundImageResponse getCarImage(Car.Category category, Car.Type type, int width, int height,
 			boolean useNetwork) {
 		return getExpediaImage(ImageType.CAR, getImageCode(category, type), width, height, useNetwork);
 	}
 
+	/**
+	 * Retrieves a destination image.
+	 */
 	public BackgroundImageResponse getDestinationImage(String destinationCode, int width, int height, boolean useNetwork) {
 		return getExpediaImage(ImageType.DESTINATION, destinationCode, width, height, useNetwork);
 	}
