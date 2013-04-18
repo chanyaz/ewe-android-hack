@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Distance.DistanceUnit;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchResponse;
@@ -226,6 +227,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 		// We assume we have a lowest rate here; this may not be a safe assumption
 		Rate lowestRate = property.getLowestRate();
+		Money highestPriceFromSurvey = property.getHighestPriceFromSurvey();
 
 		final String hotelPrice = StrUtils.formatHotelPrice(lowestRate.getDisplayRate());
 
@@ -247,6 +249,17 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder.saleImage.setVisibility(View.VISIBLE);
 			holder.saleText
 					.setText(mContext.getString(R.string.percent_minus_template, lowestRate.getDiscountPercent()));
+		}
+		// Story #790. Expedia's way of making it seem like they are offering a discount.
+		else if (highestPriceFromSurvey != null && (highestPriceFromSurvey.compareTo(lowestRate.getDisplayRate()) > 0)) {
+			holder.strikethroughPrice.setVisibility(View.VISIBLE);
+			holder.strikethroughPrice.setText(Html.fromHtml(
+					mContext.getString(R.string.strike_template,
+							StrUtils.formatHotelPrice(highestPriceFromSurvey)), null,
+					new StrikethroughTagHandler()));
+			holder.saleText.setVisibility(View.GONE);
+			holder.saleImage.setVisibility(View.GONE);
+			holder.price.setTextColor(mContext.getResources().getColor(R.color.hotel_price_text_color));
 		}
 		else {
 			holder.strikethroughPrice.setVisibility(View.GONE);

@@ -87,6 +87,7 @@ public class Property implements JSONable {
 	private boolean mHasAmenitiesSet;
 	private String mSupplierType; // E == merchant, S or W == GDS
 	private Rate mLowestRate;
+	private Money mHighestPriceFromSurvey;
 	private boolean mIsLowestRateMobileExclusive = false;
 	private boolean mIsLowestRateTonightOnly = false;
 	private String mInfoSiteUrl;
@@ -325,6 +326,14 @@ public class Property implements JSONable {
 
 	public void setTelephoneSalesNumber(String telephoneSalesNumber) {
 		mTelephoneSalesNumber = telephoneSalesNumber;
+	}
+
+	public Money getHighestPriceFromSurvey() {
+		return mHighestPriceFromSurvey;
+	}
+
+	public void setHighestPriceFromSurvey(Money mHighestPriceFromSurvey) {
+		this.mHighestPriceFromSurvey = mHighestPriceFromSurvey;
 	}
 
 	// Updates a Property from another Property (currently, one returned via an AvailabilityResponse)
