@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.expedia.bookings.data.SearchParams;
 import com.mobiata.android.Log;
@@ -104,8 +105,10 @@ public class Search extends Model implements JSONable {
 	}
 
 	public static void delete(Context context, SearchParams searchParams) {
-		Search.delete(Search.class, "lower(FreeFormLocation) = ?", searchParams.getQuery().toLowerCase()
-				.trim());
+		new Delete()
+				.from(Search.class)
+				.where("lower(FreeFormLocation = ?", searchParams.getQuery().toLowerCase().trim())
+				.execute();
 	}
 
 	@Override

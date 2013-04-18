@@ -8,6 +8,7 @@ import android.content.Context;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
 @Table(name = "WidgetConfigurations")
@@ -81,8 +82,10 @@ public class WidgetConfigurationState extends Model {
 	}
 
 	public static void deleteWidgetConfigState(Context context, int appWidgetId) {
-		WidgetConfigurationState.delete(WidgetConfigurationState.class,
-				AppWidgetId + "=" + Integer.toString(appWidgetId));
+		new Delete()
+				.from(WidgetConfigurationState.class)
+				.where(AppWidgetId + "=" + Integer.toString(appWidgetId))
+				.execute();
 	}
 
 	/**
