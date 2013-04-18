@@ -6,6 +6,7 @@ import java.util.Collection;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -438,22 +439,32 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 
 		for (int i = 0; i < len; i++) {
 			ItinCardData data = mItinCardDatas.get(i);
-			if (data.getTripComponentType().equals(Type.FLIGHT)) {
-				boolean hasHotel = false;
-				for (int j = i + 1; j < len; j++) {
-					ItinCardData nextData = mItinCardDatas.get(j);
-					Type nextType = nextData.getTripComponentType();
+			Calendar start = data.getStartDate().getCalendar();
+			Calendar now = Calendar.getInstance(start.getTimeZone());
 
-					if (nextType.equals(Type.HOTEL)) {
-						hasHotel = true;
-					}
-					else if (nextType.equals(Type.FLIGHT)) {
-						if (!hasHotel) {
-							// Attach hotel here
-							mItinCardDatas.add(i + 1, new ItinCardDataHotelAttach(data.getTripComponent()));
-							return;
-						}
-					}
+			// Ignore past itineraries
+			if (now.after(start) && now.get(Calendar.DAY_OF_YEAR) > start.get(Calendar.DAY_OF_YEAR)) {
+				continue;
+			}
+
+			// Ignore non-flight itineraries
+			if (!data.getTripComponentType().equals(Type.FLIGHT)) {
+				continue;
+			}
+
+			for (int j = i + 1; j < len; j++) {
+				ItinCardData nextData = mItinCardDatas.get(j);
+				Calendar end = nextData.getStartDate().getCalendar();
+
+				if ((nextData.getTripComponentType().equals(Type.HOTEL) || nextData.getTripComponentType().equals(
+						Type.FLIGHT)) && start.get(Calendar.DAY_OF_YEAR) == end.get(Calendar.DAY_OF_YEAR)) {
+					break;
+				}
+
+				if (nextData.getTripComponentType().equals(Type.FLIGHT)) {
+					// Attach hotel
+					mItinCardDatas.add(i + 1, new ItinCardDataHotelAttach(data.getTripComponent()));
+					return;
 				}
 			}
 		}
