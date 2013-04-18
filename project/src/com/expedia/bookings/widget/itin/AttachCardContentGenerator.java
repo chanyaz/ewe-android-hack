@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.view.LayoutInflater;
 
-import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataHotelAttach;
 

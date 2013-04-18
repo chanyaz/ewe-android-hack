@@ -8,12 +8,19 @@ import com.expedia.bookings.activity.PhoneSearchActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.SearchParams;
 
 public class ItinCardDataHotelAttach extends ItinCardData {
-	public ItinCardDataHotelAttach(TripComponent tripComponent) {
-		super(tripComponent);
+	private int mLegNumber;
+
+	public ItinCardDataHotelAttach(TripFlight parent, int leg) {
+		super(parent);
+
+		mLegNumber = leg;
+	}
+
+	public FlightLeg getFlightLeg() {
+		return ((TripFlight) getTripComponent()).getFlightTrip().getLeg(mLegNumber);
 	}
 
 	public SearchParams getSearchParams() {
@@ -22,9 +29,7 @@ public class ItinCardDataHotelAttach extends ItinCardData {
 		SearchParams searchParams = new SearchParams();
 
 		// Where
-		FlightTrip flightTrip = ((TripFlight) getTripComponent()).getFlightTrip();
-		FlightLeg flightLeg = flightTrip.getLeg(0);
-
+		FlightLeg flightLeg = getFlightLeg();
 		if (flightLeg != null && flightLeg.getLastWaypoint() != null
 				&& flightLeg.getLastWaypoint().getAirport() != null
 				&& !TextUtils.isEmpty(flightLeg.getLastWaypoint().getAirport().mCity)) {

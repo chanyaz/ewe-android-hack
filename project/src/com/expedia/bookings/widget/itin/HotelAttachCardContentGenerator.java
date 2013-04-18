@@ -5,9 +5,7 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.trips.ItinCardDataHotelAttach;
-import com.expedia.bookings.data.trips.TripFlight;
 
 public class HotelAttachCardContentGenerator extends AttachCardContentGenerator<ItinCardDataHotelAttach> {
 	public HotelAttachCardContentGenerator(Context context, ItinCardDataHotelAttach itinCardData) {
@@ -21,8 +19,7 @@ public class HotelAttachCardContentGenerator extends AttachCardContentGenerator<
 
 	@Override
 	public String getButtonText() {
-		FlightTrip flightTrip = ((TripFlight) getItinCardData().getTripComponent()).getFlightTrip();
-		FlightLeg flightLeg = flightTrip.getLeg(0);
+		FlightLeg flightLeg = ((ItinCardDataHotelAttach) getItinCardData()).getFlightLeg();
 
 		if (flightLeg != null && flightLeg.getLastWaypoint() != null
 				&& flightLeg.getLastWaypoint().getAirport() != null

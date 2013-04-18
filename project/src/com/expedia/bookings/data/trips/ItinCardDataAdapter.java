@@ -6,7 +6,6 @@ import java.util.Collection;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -463,7 +462,11 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 
 				if (nextData.getTripComponentType().equals(Type.FLIGHT)) {
 					// Attach hotel
-					mItinCardDatas.add(i + 1, new ItinCardDataHotelAttach(data.getTripComponent()));
+					TripFlight tripFlight = (TripFlight) data.getTripComponent();
+					int legNumber = ((ItinCardDataFlight) data).getLegNumber();
+
+					mItinCardDatas.add(i + 1, new ItinCardDataHotelAttach(tripFlight, legNumber));
+
 					return;
 				}
 			}
