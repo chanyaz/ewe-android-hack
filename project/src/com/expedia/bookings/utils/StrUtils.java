@@ -292,4 +292,36 @@ public class StrUtils {
 		}
 		return a.compareTo(b);
 	}
+
+	public static String slice(String str, int start) {
+		return slice(str, start, null);
+	}
+
+	/**
+	 * Does a string slice in the style of Python
+	 * 
+	 * If you enter bullshit params, you will get an empty string.
+	 */
+	public static String slice(String str, int start, Integer end) {
+		int len = str.length();
+
+		if (start < 0) {
+			start = len + start;
+		}
+
+		if (end == null) {
+			end = len;
+		}
+		else if (end < 0) {
+			end = len + end;
+		}
+
+		// If the user put us in an awkward place, just return the empty string
+		if (start > len || end < start) {
+			return "";
+		}
+
+		return str.substring(start, end);
+	}
+
 }

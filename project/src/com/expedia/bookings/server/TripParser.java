@@ -41,6 +41,7 @@ import com.expedia.bookings.data.trips.TripCruise;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.data.trips.TripPackage;
+import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
@@ -162,15 +163,22 @@ public class TripParser {
 		}
 		else if (obj instanceof String) {
 			// TODO: DELETE ONCE OBSELETE
-			//
-			// Parse with no timezone.  The current timezone code is buggy and we shouldn't
-			// be using this code anyways.
-
 			String str = (String) obj;
+
 			for (DateFormat df : DATE_FORMATS) {
 				try {
 					Date date = df.parse(str);
-					return new DateTime(date.getTime(), 0);
+
+					// We are going to do this hacky way of parsing the timezone for fun and profit
+					String sign = StrUtils.slice(str, -6, -5);
+					String hourStr = StrUtils.slice(str, -5, -3);
+					String minuteStr = StrUtils.slice(str, -2);
+					int offset = (60 * 60 * Integer.parseInt(hourStr)) + (60 * Integer.parseInt(minuteStr));
+					if (sign.equals("-")) {
+						offset *= -1;
+					}
+
+					return new DateTime(date.getTime(), offset * 1000);
 				}
 				catch (ParseException e) {
 					// Ignore
