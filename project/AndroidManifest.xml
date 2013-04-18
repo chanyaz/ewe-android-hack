@@ -35,7 +35,7 @@
         android:theme="@style/Theme" >
         <meta-data
             android:name="AA_DB_VERSION"
-            android:value="8" />
+            android:value="9" />
         <meta-data
             android:name="com.somo.apptimiser.PUBLIC_KEY_BASE64_STRING"
             android:value="@string/soma_rsa_key" />

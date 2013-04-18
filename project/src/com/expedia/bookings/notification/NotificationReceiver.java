@@ -16,7 +16,7 @@ import android.text.TextUtils;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.LaunchActivity;
 import com.expedia.bookings.activity.SearchActivity;
-import com.expedia.bookings.data.BackgroundImageResponse;
+import com.expedia.bookings.data.ExpediaImage;
 import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.notification.Notification.StatusType;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -148,10 +148,10 @@ public class NotificationReceiver extends BroadcastReceiver {
 		}
 
 		// For BackgroundDownloader, the object that will download the Destination Image
-		private Download<BackgroundImageResponse> mDestinationImageUrlDownload = new Download<BackgroundImageResponse>() {
+		private Download<ExpediaImage> mDestinationImageUrlDownload = new Download<ExpediaImage>() {
 			@SuppressLint("NewApi")
 			@Override
-			public BackgroundImageResponse doDownload() {
+			public ExpediaImage doDownload() {
 				String code = mNotification.getImageValue();
 				Point size = AndroidUtils.getScreenSize(mContext);
 				return ExpediaImageManager.getInstance().getDestinationImage(code, size.x, size.y, true);
@@ -159,10 +159,10 @@ public class NotificationReceiver extends BroadcastReceiver {
 		};
 
 		// Callback for BackgroundDownloader for the Destination Image
-		private OnDownloadComplete<BackgroundImageResponse> mDestinationImageUrlCallback = new OnDownloadComplete<BackgroundImageResponse>() {
+		private OnDownloadComplete<ExpediaImage> mDestinationImageUrlCallback = new OnDownloadComplete<ExpediaImage>() {
 			@Override
-			public void onDownload(BackgroundImageResponse results) {
-				TwoLevelImageCache.loadImage(results.getImageUrl(), mDestinationImageLoaded);
+			public void onDownload(ExpediaImage image) {
+				TwoLevelImageCache.loadImage(image.getUrl(), mDestinationImageLoaded);
 			}
 		};
 

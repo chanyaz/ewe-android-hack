@@ -3,8 +3,8 @@ package com.expedia.bookings.graphics;
 import android.content.res.Resources;
 import android.text.TextUtils;
 
-import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.Car;
+import com.expedia.bookings.data.ExpediaImage;
 import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.ExpediaImageManager.ImageType;
 import com.mobiata.android.BackgroundDownloader;
@@ -12,8 +12,8 @@ import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
-public class DestinationBitmapDrawable extends UrlBitmapDrawable implements Download<BackgroundImageResponse>,
-		OnDownloadComplete<BackgroundImageResponse> {
+public class DestinationBitmapDrawable extends UrlBitmapDrawable implements Download<ExpediaImage>,
+		OnDownloadComplete<ExpediaImage> {
 
 	private String mUrl;
 
@@ -61,10 +61,10 @@ public class DestinationBitmapDrawable extends UrlBitmapDrawable implements Down
 	// URL Retrieval
 
 	private void retrieveUrl() {
-		BackgroundImageResponse response = ExpediaImageManager.getInstance().getExpediaImage(mImageType, mImageCode,
+		ExpediaImage image = ExpediaImageManager.getInstance().getExpediaImage(mImageType, mImageCode,
 				mWidth, mHeight, false);
-		if (response != null) {
-			onDownload(response);
+		if (image != null) {
+			onDownload(image);
 		}
 		else {
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();
@@ -74,17 +74,17 @@ public class DestinationBitmapDrawable extends UrlBitmapDrawable implements Down
 	}
 
 	@Override
-	public void onDownload(BackgroundImageResponse results) {
+	public void onDownload(ExpediaImage image) {
 		// Don't bother reloading the image if the URL hasn't changed
-		if (results != null && !TextUtils.equals(mUrl, results.getImageUrl())) {
-			mUrl = results.getImageUrl();
+		if (image != null && !TextUtils.equals(mUrl, image.getUrl())) {
+			mUrl = image.getUrl();
 
 			retrieveImage(true);
 		}
 	}
 
 	@Override
-	public BackgroundImageResponse doDownload() {
+	public ExpediaImage doDownload() {
 		return ExpediaImageManager.getInstance().getExpediaImage(mImageType, mImageCode, mWidth, mHeight, true);
 	}
 }

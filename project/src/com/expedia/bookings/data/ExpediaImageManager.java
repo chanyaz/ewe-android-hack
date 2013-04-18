@@ -56,7 +56,8 @@ public class ExpediaImageManager {
 
 	private static final long EXPIRATION = 1000 * 60 * 60 * 24; // 24 hours
 
-	private Map<String, BackgroundImageResponse> mCachedImageUrls = new ConcurrentHashMap<String, BackgroundImageResponse>();
+	// Fast, in-memory cache (so we don't always have to go to disk)
+	private Map<String, ExpediaImage> mCachedImageUrls = new ConcurrentHashMap<String, ExpediaImage>();
 
 	/**
 	 * Retrieves Expedia image URLs.
@@ -68,43 +69,55 @@ public class ExpediaImageManager {
 	 * @param useNetwork if true, will request .  If you set this to true, you better be operating on a non-UI thread!
 	 * @return the URL if available, or null if not
 	 */
-	public BackgroundImageResponse getExpediaImage(ImageType imageType, String imageCode, int width, int height,
+	public ExpediaImage getExpediaImage(ImageType imageType, String imageCode, int width, int height,
 			boolean useNetwork) {
 		// The key should be unique for each request
 		String cacheUrl = imageType + ":" + imageCode + ":" + width + "x" + height;
 
-		BackgroundImageResponse response = mCachedImageUrls.get(cacheUrl);
-		if (response == null || response.getTimestamp() + EXPIRATION < System.currentTimeMillis()) {
+		ExpediaImage image = mCachedImageUrls.get(cacheUrl);
+		if (image == null || image.getTimestamp() + EXPIRATION < System.currentTimeMillis()) {
 			if (useNetwork) {
-				ExpediaServices services = new ExpediaServices(mContext);
-				BackgroundImageResponse newResponse = services.getExpediaImage(imageType, imageCode, width, height);
+				// Try to retrieve the latest from disk
+				image = ExpediaImage.getImage(imageType, imageCode, width, height);
 
-				// We'll fall back to the old URL if we don't get a new one
-				if (newResponse != null && !newResponse.hasErrors()) {
-					// See if we should expire the old cached image out of our image cache
-					if (response != null && !response.getCacheKey().equals(newResponse.getCacheKey())) {
-						TwoLevelImageCache.removeImage(response.getImageUrl());
+				// If disk is nonexistant or  old, then resort to network
+				if (image == null || image.getTimestamp() + EXPIRATION < System.currentTimeMillis()) {
+					ExpediaServices services = new ExpediaServices(mContext);
+					BackgroundImageResponse newResponse = services.getExpediaImage(imageType, imageCode, width, height);
+
+					// We'll fall back to the old URL if we don't get a new one
+					if (newResponse != null && !newResponse.hasErrors()) {
+						// See if we should expire the old cached image out of our image cache
+						if (image != null && !image.getCacheKey().equals(newResponse.getCacheKey())) {
+							TwoLevelImageCache.removeImage(image.getUrl());
+						}
+
+						if (image == null) {
+							image = new ExpediaImage(imageType, imageCode, width, height);
+						}
+
+						image.setBackgroundImageResponse(newResponse);
+
+						image.save();
 					}
+				}
 
-					response = newResponse;
-					mCachedImageUrls.put(cacheUrl, newResponse);
+				// If we loaded image data (either from disk or network), put it into the memory cache
+				if (image != null) {
+					mCachedImageUrls.put(cacheUrl, image);
 				}
 			}
 		}
 
 		// We might end up falling back to an old response, which is fine;
 		// we're not going for 100% accurate data here.
-		if (response != null) {
-			return response;
-		}
-
-		return null;
+		return image;
 	}
 
 	/**
 	 * Retrieves a car image.
 	 */
-	public BackgroundImageResponse getCarImage(Car.Category category, Car.Type type, int width, int height,
+	public ExpediaImage getCarImage(Car.Category category, Car.Type type, int width, int height,
 			boolean useNetwork) {
 		return getExpediaImage(ImageType.CAR, getImageCode(category, type), width, height, useNetwork);
 	}
@@ -112,7 +125,7 @@ public class ExpediaImageManager {
 	/**
 	 * Retrieves a destination image.
 	 */
-	public BackgroundImageResponse getDestinationImage(String destinationCode, int width, int height, boolean useNetwork) {
+	public ExpediaImage getDestinationImage(String destinationCode, int width, int height, boolean useNetwork) {
 		return getExpediaImage(ImageType.DESTINATION, destinationCode, width, height, useNetwork);
 	}
 

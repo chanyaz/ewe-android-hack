@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -38,6 +37,7 @@ import com.expedia.bookings.data.BackgroundImageCache;
 import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.ExpediaImage;
 import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightFilter.Sort;
@@ -896,10 +896,9 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	//////////////////////////////////////////////////////////////////////////
 	// Background Image Download
 
-	private Download<BackgroundImageResponse> mBackgroundImageInfoDownload = new Download<BackgroundImageResponse>() {
-		@SuppressLint("NewApi")
+	private Download<ExpediaImage> mBackgroundImageInfoDownload = new Download<ExpediaImage>() {
 		@Override
-		public BackgroundImageResponse doDownload() {
+		public ExpediaImage doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
 			BackgroundDownloader.getInstance().addDownloadListener(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY, services);
 			String code = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
@@ -908,20 +907,26 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		}
 	};
 
-	private OnDownloadComplete<BackgroundImageResponse> mBackgroundImageInfoDownloadCallback = new OnDownloadComplete<BackgroundImageResponse>() {
+	private OnDownloadComplete<ExpediaImage> mBackgroundImageInfoDownloadCallback = new OnDownloadComplete<ExpediaImage>() {
 		@Override
-		public void onDownload(BackgroundImageResponse response) {
+		public void onDownload(ExpediaImage image) {
 			Log.i("Finished background image info download!");
 
-			Db.setBackgroundImageInfo(response);
-
-			if (response == null || response.hasErrors()) {
+			if (image == null) {
 				Log.e("Errors downloading background image info");
 			}
 			else {
-				if (!TextUtils.isEmpty(response.getCacheKey())) {
+				// We convert this back to a BackgroundImageResponse for the sake of compatibility,
+				// but at some point in the future we should really fix this up.
+				BackgroundImageResponse response = new BackgroundImageResponse();
+				response.setImageUrl(image.getUrl());
+				response.setCacheKey(image.getCacheKey());
+
+				Db.setBackgroundImageInfo(response);
+
+				if (!TextUtils.isEmpty(image.getCacheKey())) {
 					BackgroundImageCache cache = Db.getBackgroundImageCache(FlightSearchResultsActivity.this);
-					if (!cache.hasKeyAndBlurredKey(response.getCacheKey())) {
+					if (!cache.hasKeyAndBlurredKey(image.getCacheKey())) {
 						BackgroundDownloader bd = BackgroundDownloader.getInstance();
 						bd.cancelDownload(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY);
 						bd.startDownload(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY, mBackgroundImageFileDownload,
