@@ -15,10 +15,14 @@ import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.widget.ItinCard;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
+import com.expedia.bookings.widget.itin.AttachCard;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
 
 public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncListener, OnItinCardClickListener {
+	//////////////////////////////////////////////////////////////////////////////////////
+	// PRIVATE ENUMERATIONS
+	//////////////////////////////////////////////////////////////////////////////////////
 
 	private enum State {
 		PAST,
@@ -86,29 +90,48 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 
 	@Override
 	public synchronized View getView(final int position, View convertView, ViewGroup Parent) {
-		ItinCard card = (ItinCard) convertView;
-		if (card == null) {
-			card = new ItinCard(mContext);
-			card.setOnItinCardClickListener(this);
+		final ItinCardData data = getItem(position);
+
+		if (data instanceof ItinCardDataHotelAttach) {
+			AttachCard card;
+			if (convertView instanceof AttachCard) {
+				card = (AttachCard) convertView;
+			}
+			else {
+				card = new AttachCard(mContext);
+				//card.setOnItinCardClickListener(this);
+			}
+
+			card.bind(data);
+
+			return card;
 		}
+		else {
+			ItinCard card;
+			if (convertView instanceof ItinCard) {
+				card = (ItinCard) convertView;
+			}
+			else {
+				card = new ItinCard(mContext);
+				card.setOnItinCardClickListener(this);
+			}
 
-		State state = getItemViewCardState(position);
+			State state = getItemViewCardState(position);
 
-		ItinCardData data = getItem(position);
+			card.setCardSelected(mSimpleMode && data.getId().equals(mSelectedCardId));
+			card.setCardShaded(state == State.PAST);
+			card.bind(data);
+			card.setShowSummary(state == State.SUMMARY);
 
-		card.setCardSelected(mSimpleMode && data.getId().equals(mSelectedCardId));
-		card.setCardShaded(state == State.PAST);
-		card.bind(data);
-		card.setShowSummary(state == State.SUMMARY);
+			if (state == State.SUMMARY) {
+				card.updateSummaryVisibility();
+			}
 
-		if (state == State.SUMMARY) {
-			card.updateSummaryVisibility();
+			card.setShowExtraTopPadding(position == 0);
+			card.setShowExtraBottomPadding(position == getCount() - 1);
+
+			return card;
 		}
-
-		card.setShowExtraTopPadding(position == 0);
-		card.setShowExtraBottomPadding(position == getCount() - 1);
-
-		return card;
 	}
 
 	@Override
@@ -201,6 +224,9 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 
 		// Do some calculations on the data
 		organizeData();
+
+		// Add attach cards
+		addAttachData();
 
 		//Notify listeners
 		notifyDataSetChanged();
@@ -399,6 +425,36 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 			if (lastCard.hasDetailData()
 					&& lastCard.getEndDate().getCalendar().getTimeInMillis() > now.getTimeInMillis()) {
 				mSummaryCardPosition = len - 1;
+			}
+		}
+	}
+
+	private void addAttachData() {
+		// Nothing to do if there are no itineraries
+		int len = mItinCardDatas.size();
+		if (len == 0) {
+			return;
+		}
+
+		for (int i = 0; i < len; i++) {
+			ItinCardData data = mItinCardDatas.get(i);
+			if (data.getTripComponentType().equals(Type.FLIGHT)) {
+				boolean hasHotel = false;
+				for (int j = i + 1; j < len; j++) {
+					ItinCardData nextData = mItinCardDatas.get(j);
+					Type nextType = nextData.getTripComponentType();
+
+					if (nextType.equals(Type.HOTEL)) {
+						hasHotel = true;
+					}
+					else if (nextType.equals(Type.FLIGHT)) {
+						if (!hasHotel) {
+							// Attach hotel here
+							mItinCardDatas.add(i + 1, new ItinCardDataHotelAttach(data.getTripComponent()));
+							return;
+						}
+					}
+				}
 			}
 		}
 	}

@@ -548,7 +548,13 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		try {
 			if (mModeSwitchSemaphore.tryAcquire()) {
 				semGot = true;
-				mDetailsCard = (ItinCard) getFreshDetailView(position);
+
+				View view = getFreshDetailView(position);
+				if (!(view instanceof ItinCard)) {
+					return false;
+				}
+
+				mDetailsCard = (ItinCard) view;
 				if (mDetailsCard == null || !mDetailsCard.hasDetails()) {
 					return false;
 				}
@@ -722,6 +728,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		ItinCardData data = mAdapter.getItem(position);
 		if (data.hasDetailData()) {
 			showDetails(position);
+		}
+		else if (data.getClickIntent(getContext()) != null) {
+			getContext().startActivity(data.getClickIntent(getContext()));
 		}
 		else if (!TextUtils.isEmpty(data.getDetailsUrl())) {
 			Context context = getContext();

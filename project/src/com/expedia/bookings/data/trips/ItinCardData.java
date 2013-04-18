@@ -1,5 +1,8 @@
 package com.expedia.bookings.data.trips;
 
+import android.content.Context;
+import android.content.Intent;
+
 import com.expedia.bookings.data.DateTime;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -46,6 +49,10 @@ public class ItinCardData {
 
 	public String getDetailsUrl() {
 		return mTripComponent.getParentTrip().getDetailsUrl();
+	}
+
+	public Intent getClickIntent(Context context) {
+		return null;
 	}
 
 	public boolean hasSummaryData() {

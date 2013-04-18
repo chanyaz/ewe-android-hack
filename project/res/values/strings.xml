@@ -259,6 +259,12 @@
     <string name="try_again">Try Again</string>
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">COPY %1$s</string>
+    
+    <!-- Hotel attach -->
+    <!-- Button label to search for a hotel in the flight destination city. %1$s is the city, e.g. "Washington, DC" -->
+    <string name="add_hotel_TEMPLATE">Add a hotel in %1$s</string>
+    <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
+    <string name="add_hotel_fallback">Add a hotel at your destination</string>
 
     <!-- Car category -->
     <!-- Car category: mini -->
