@@ -92,11 +92,32 @@ public class CalendarUtils {
 	}
 
 	public static void syncParamsFromDatePicker(SearchParams searchParams, CalendarDatePicker picker) {
+		if (picker.getSelectionMode() != CalendarDatePicker.SelectionMode.RANGE) {
+			throw new UnsupportedOperationException("Can't use syncParamsFromDatePicker with picker of type "
+					+ picker.getSelectionMode());
+		}
 		Date startDate = new Date(picker.getStartYear(), picker.getStartMonth() + 1, picker.getStartDayOfMonth());
 		Date endDate = new Date(picker.getEndYear(), picker.getEndMonth() + 1, picker.getEndDayOfMonth());
 
-		searchParams.setCheckInDate(startDate);
-		searchParams.setCheckOutDate(endDate);
+		// Ensure the dates from the picker are valid before using them
+		Calendar now = Calendar.getInstance();
+		Calendar start = startDate.getCalendar();
+		boolean bogus = start.before(now);
+		if (bogus) {
+			// Reset the SearchParams and Calendar to default stay if we somehow got bogus values from picker
+			searchParams.setDefaultStay();
+			Calendar checkIn = searchParams.getCheckInDate();
+			Calendar checkOut = searchParams.getCheckOutDate();
+
+			picker.updateStartDate(checkIn.get(Calendar.YEAR), checkIn.get(Calendar.MONTH),
+					checkIn.get(Calendar.DAY_OF_MONTH));
+			picker.updateEndDate(checkOut.get(Calendar.YEAR), checkOut.get(Calendar.MONTH),
+					checkOut.get(Calendar.DAY_OF_MONTH));
+		}
+		else {
+			searchParams.setCheckInDate(startDate);
+			searchParams.setCheckOutDate(endDate);
+		}
 	}
 
 	// #9770: Add an hour of buffer so that the date range is always > the number of days
