@@ -1,8 +1,8 @@
 package com.expedia.bookings.activity;
 
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.View;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -22,6 +22,7 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.mobiata.android.util.AndroidUtils;
 
 /**
  * Full-screen Itinerary activity.  Used in tablets.
@@ -68,15 +69,15 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 			float listWidth = getResources().getDimensionPixelSize(R.dimen.itin_simple_list_width);
 			float offsetCenterX = listWidth / 2.0f;
 
-			Display display = getWindowManager().getDefaultDisplay();
-			int height = display.getHeight();
+			Point size = AndroidUtils.getScreenSize(this);
+			int height = size.y;
 			int bottomPadding = getResources().getDimensionPixelSize(R.dimen.itin_map_marker_bottom_padding);
 			int markerHeight = getResources().getDrawable(R.drawable.map_pin_normal).getIntrinsicHeight();
 			float offsetCenterY = (height / 2.0f) - markerHeight - bottomPadding;
 
 			mMapFragment.setCenterOffset(-offsetCenterX, -offsetCenterY);
 
-			float width = display.getWidth();
+			float width = size.x;
 			float usableWidth = 1.0f - (listWidth / width);
 			float horizCenterPercent = .5f + ((listWidth / width) / 2.0f);
 			mMapFragment.setUsableArea(usableWidth, horizCenterPercent);

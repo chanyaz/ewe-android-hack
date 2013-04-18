@@ -613,7 +613,6 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		return super.onCreateOptionsMenu(menu);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// Either show standard action bar options, or just show the custom
@@ -664,8 +663,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 						numVisible++;
 					}
 				}
-				mSearchMenuItem.getActionView().setMinimumWidth(
-						getWindowManager().getDefaultDisplay().getWidth() / numVisible);
+				mSearchMenuItem.getActionView().setMinimumWidth(AndroidUtils.getScreenSize(this).x / numVisible);
 			}
 
 			if (resultsVisible) {

@@ -11,7 +11,6 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.view.Display;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
@@ -30,18 +29,9 @@ public class TerminalMapLegendDialogFragment extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		ImageView legend = new ImageView(getActivity());
-		Display display = getActivity().getWindowManager().getDefaultDisplay();
+		Point size = AndroidUtils.getScreenSize(getActivity());
 		Resources res = getResources();
-		int screenWidth = 0;
-
-		if (AndroidUtils.getSdkVersion() >= 13) {
-			Point size = new Point();
-			display.getSize(size);
-			screenWidth = size.x;
-		}
-		else {
-			screenWidth = display.getWidth();
-		}
+		int screenWidth = size.x;
 
 		int legendDrawableId = R.drawable.terminal_map_legend_2cols;
 		if (screenWidth >= res.getDimensionPixelSize(R.dimen.terminal_map_legend_4cols_width)) {

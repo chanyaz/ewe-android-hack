@@ -4,13 +4,13 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.TwoLevelImageCache;
 import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
+import com.mobiata.android.util.AndroidUtils;
 import com.nineoldandroids.animation.ObjectAnimator;
 
 public abstract class LaunchBaseAdapter<T> extends CircularArrayAdapter<T> implements OnMeasureListener {
@@ -68,8 +68,7 @@ public abstract class LaunchBaseAdapter<T> extends CircularArrayAdapter<T> imple
 
 	protected int getNumTiles() {
 		if (mNumTiles == 0) {
-			WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-			int height = wm.getDefaultDisplay().getHeight();
+			int height = AndroidUtils.getScreenSize(getContext()).y;
 			int tileHeight = getTileHeight();
 			mNumTiles = (int) Math.ceil((float) height / (float) tileHeight) + 1;
 		}
