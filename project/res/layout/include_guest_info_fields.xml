@@ -7,43 +7,10 @@
     android:orientation="vertical"
     android:visibility="gone" >
 
-    <LinearLayout
-        android:layout_width="fill_parent"
+   <include
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <com.expedia.bookings.widget.CustomEditText
-            android:id="@+id/first_name_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/FirstName"
-            android:imeOptions="flagNoExtractUi"
-            android:inputType="textPersonName|textCapWords"
-            android:nextFocusDown="@+id/last_name_edit_text"
-            android:nextFocusLeft="@+id/first_name_edit_text"
-            android:nextFocusRight="@+id/last_name_edit_text"
-            android:nextFocusUp="@+id/first_name_edit_text"
-            android:textColorHint="@color/hint_color"
-            mobiata:errorTextColor="@android:color/black"
-            mobiata:touchAreaPadding="25dp" />
-
-        <com.expedia.bookings.widget.CustomEditText
-            android:id="@+id/last_name_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/LastName"
-            android:imeOptions="flagNoExtractUi"
-            android:inputType="textPersonName|textCapWords"
-            android:nextFocusDown="@+id/telephone_country_code_spinner"
-            android:nextFocusLeft="@+id/first_name_edit_text"
-            android:nextFocusRight="@+id/telephone_country_code_spinner"
-            android:nextFocusUp="@+id/first_name_edit_text"
-            android:textColorHint="@color/hint_color"
-            mobiata:errorTextColor="@android:color/black"
-            mobiata:touchAreaPadding="25dp" />
-    </LinearLayout>
+        layout="@layout/include_guest_info_fields_names" />
 
     <LinearLayout
         android:layout_width="fill_parent"
