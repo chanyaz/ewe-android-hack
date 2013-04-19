@@ -364,7 +364,7 @@ public class Rate implements JSONable {
 
 	// #10905 - If the property's sale is <1%, we don't consider it on sale.
 	public boolean isOnSale() {
-		return getDiscountPercent() >= 1;
+		return ((getDiscountPercent() >= 1) && (this.getDisplayRate().compareTo(this.getDisplayBaseRate()) < 0));
 	}
 
 	// 9.5% or higher will be rounded to 10% when the percent is displayed as an integer.
