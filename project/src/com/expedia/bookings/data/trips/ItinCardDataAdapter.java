@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -463,9 +464,10 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 				if (nextData.getTripComponentType().equals(Type.FLIGHT)) {
 					// Attach hotel
 					TripFlight tripFlight = (TripFlight) data.getTripComponent();
-					int legNumber = ((ItinCardDataFlight) data).getLegNumber();
+					FlightLeg firstLeg = ((ItinCardDataFlight) data).getFlightLeg();
+					FlightLeg secondLeg = ((ItinCardDataFlight) nextData).getFlightLeg();
 
-					mItinCardDatas.add(i + 1, new ItinCardDataHotelAttach(tripFlight, legNumber));
+					mItinCardDatas.add(i + 1, new ItinCardDataHotelAttach(tripFlight, firstLeg, secondLeg));
 
 					return;
 				}

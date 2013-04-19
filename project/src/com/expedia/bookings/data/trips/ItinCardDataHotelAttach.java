@@ -15,39 +15,40 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.SearchParams;
 
 public class ItinCardDataHotelAttach extends ItinCardData {
-	private int mLegNumber;
+	private FlightLeg mFirstLeg;
+	private FlightLeg mNextLeg;
 
-	public ItinCardDataHotelAttach(TripFlight parent, int leg) {
+	public ItinCardDataHotelAttach(TripFlight parent, FlightLeg firstLeg, FlightLeg nextLeg) {
 		super(parent);
 
-		mLegNumber = leg;
+		mFirstLeg = firstLeg;
+		mNextLeg = nextLeg;
 	}
 
 	public FlightLeg getFlightLeg() {
-		return ((TripFlight) getTripComponent()).getFlightTrip().getLeg(mLegNumber);
+		return mFirstLeg;
 	}
 
 	public SearchParams getSearchParams() {
 		SearchParams searchParams = new SearchParams();
 
 		// Where
-		FlightLeg flightLeg = getFlightLeg();
-		double latitude = flightLeg.getLastWaypoint().getAirport().getLatitude();
-		double longitude = flightLeg.getLastWaypoint().getAirport().getLongitude();
+		double latitude = mFirstLeg.getLastWaypoint().getAirport().getLatitude();
+		double longitude = mFirstLeg.getLastWaypoint().getAirport().getLongitude();
 
-		searchParams.setQuery(flightLeg.getLastWaypoint().getAirport().mCity);
+		searchParams.setQuery(mFirstLeg.getLastWaypoint().getAirport().mCity);
 		searchParams.setSearchType(SearchParams.SearchType.CITY);
 		searchParams.setSearchLatLon(latitude, longitude);
 
 		// When
-		Calendar checkIn = flightLeg.getLastWaypoint().getMostRelevantDateTime();
-		Calendar checkOut = flightLeg.getLastWaypoint().getMostRelevantDateTime();
+		Calendar checkIn = mFirstLeg.getLastWaypoint().getBestSearchDateTime();
+		Calendar checkOut = mNextLeg.getFirstWaypoint().getBestSearchDateTime();
+		Calendar max = (Calendar) checkIn.clone();
 
-		checkIn.setTimeZone(flightLeg.getLastWaypoint().getAirport().mTimeZone);
-		checkOut.setTimeZone(flightLeg.getLastWaypoint().getAirport().mTimeZone);
+		max.add(Calendar.DAY_OF_YEAR, 28);
 
 		searchParams.setCheckInDate(checkIn);
-		searchParams.setCheckOutDate(checkOut);
+		searchParams.setCheckOutDate(checkOut.after(max) ? max : checkOut);
 
 		// Who
 		searchParams.setNumAdults(1);
