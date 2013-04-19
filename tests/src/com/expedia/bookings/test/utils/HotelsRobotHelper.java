@@ -212,8 +212,6 @@ public class HotelsRobotHelper {
 		mSolo.clickOnButton(0);
 		mSolo.goBack();
 		delay();
-		mLocaleUtils.setLocale(locale);
-
 	}
 
 	public void clearPrivateData() {
