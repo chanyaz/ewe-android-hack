@@ -35,7 +35,6 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.notification.Notification;
-import com.expedia.bookings.notification.Notification.StatusType;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
@@ -178,6 +177,7 @@ public class ItineraryManager implements JSONable {
 
 		mStartTimes.clear();
 		mEndTimes.clear();
+		deleteStartAndEndTimes();
 
 		mLastUpdateTime = 0;
 
@@ -287,15 +287,20 @@ public class ItineraryManager implements JSONable {
 			}
 		}
 
-		try {
-			// Save to disk
-			JSONObject obj = new JSONObject();
-			JSONUtils.putJSONableList(obj, "startTimes", mStartTimes);
-			JSONUtils.putJSONableList(obj, "endTimes", mEndTimes);
-			IoUtils.writeStringToFile(MANAGER_START_END_TIMES_PATH, obj.toString(), mContext);
+		if (mStartTimes.size() <= 0 && mEndTimes.size() <= 0) {
+			deleteStartAndEndTimes();
 		}
-		catch (Exception e) {
-			Log.w("Could not save start and end times", e);
+		else {
+			try {
+				// Save to disk
+				JSONObject obj = new JSONObject();
+				JSONUtils.putJSONableList(obj, "startTimes", mStartTimes);
+				JSONUtils.putJSONableList(obj, "endTimes", mEndTimes);
+				IoUtils.writeStringToFile(MANAGER_START_END_TIMES_PATH, obj.toString(), mContext);
+			}
+			catch (Exception e) {
+				Log.w("Could not save start and end times", e);
+			}
 		}
 	}
 
@@ -313,6 +318,13 @@ public class ItineraryManager implements JSONable {
 				Log.w("Could not load start times", e);
 				file.delete();
 			}
+		}
+	}
+
+	private void deleteStartAndEndTimes() {
+		File file = mContext.getFileStreamPath(MANAGER_START_END_TIMES_PATH);
+		if (file.exists()) {
+			file.delete();
 		}
 	}
 
