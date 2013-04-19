@@ -1,10 +1,14 @@
 package com.expedia.bookings.data.trips;
 
+import java.util.Calendar;
+
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.text.TextUtils;
 
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.PhoneSearchActivity;
+import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
@@ -24,27 +28,26 @@ public class ItinCardDataHotelAttach extends ItinCardData {
 	}
 
 	public SearchParams getSearchParams() {
-		TripFlight flight = (TripFlight) getTripComponent();
-
 		SearchParams searchParams = new SearchParams();
 
 		// Where
 		FlightLeg flightLeg = getFlightLeg();
-		if (flightLeg != null && flightLeg.getLastWaypoint() != null
-				&& flightLeg.getLastWaypoint().getAirport() != null
-				&& !TextUtils.isEmpty(flightLeg.getLastWaypoint().getAirport().mCity)) {
+		double latitude = flightLeg.getLastWaypoint().getAirport().getLatitude();
+		double longitude = flightLeg.getLastWaypoint().getAirport().getLongitude();
 
-			double latitude = flightLeg.getLastWaypoint().getAirport().getLatitude();
-			double longitude = flightLeg.getLastWaypoint().getAirport().getLongitude();
-
-			searchParams.setQuery(flightLeg.getLastWaypoint().getAirport().mCity);
-			searchParams.setSearchType(SearchParams.SearchType.CITY);
-			searchParams.setSearchLatLon(latitude, longitude);
-		}
+		searchParams.setQuery(flightLeg.getLastWaypoint().getAirport().mCity);
+		searchParams.setSearchType(SearchParams.SearchType.CITY);
+		searchParams.setSearchLatLon(latitude, longitude);
 
 		// When
-		searchParams.setCheckInDate(flight.getStartDate().getCalendar());
-		searchParams.setCheckOutDate(flight.getEndDate().getCalendar());
+		Calendar checkIn = flightLeg.getLastWaypoint().getMostRelevantDateTime();
+		Calendar checkOut = flightLeg.getLastWaypoint().getMostRelevantDateTime();
+
+		checkIn.setTimeZone(flightLeg.getLastWaypoint().getAirport().mTimeZone);
+		checkOut.setTimeZone(flightLeg.getLastWaypoint().getAirport().mTimeZone);
+
+		searchParams.setCheckInDate(checkIn);
+		searchParams.setCheckOutDate(checkOut);
 
 		// Who
 		searchParams.setNumAdults(1);
@@ -57,7 +60,10 @@ public class ItinCardDataHotelAttach extends ItinCardData {
 	public Intent getClickIntent(Context context) {
 		Db.setSearchParams(getSearchParams());
 
-		Intent intent = new Intent(context, PhoneSearchActivity.class);
+		Class<? extends Activity> targetClass = ExpediaBookingApp.useTabletInterface(context) ? SearchResultsFragmentActivity.class
+				: PhoneSearchActivity.class;
+
+		Intent intent = new Intent(context, targetClass);
 		intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
 
 		return intent;
