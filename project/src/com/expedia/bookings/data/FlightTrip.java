@@ -559,6 +559,30 @@ public class FlightTrip implements JSONable {
 
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
+	// There is a core problem that FlightTrips can be *very* numerous when
+	// saved, so we take steps to reduce the size as much as possible
+
+	private static final int JSON_VERSION = 2;
+
+	private static final String KEY_VERSION = "a";
+	private static final String KEY_PRODUCT_KEY = "b";
+	private static final String KEY_LEGS = "c";
+	private static final String KEY_LEG_IDS = "d";
+	private static final String KEY_BASE_FARE = "e";
+	private static final String KEY_TOTAL_FARE = "f";
+	private static final String KEY_TAXES = "g";
+	private static final String KEY_FEES = "h";
+	private static final String KEY_PRICE_CHANGE_AMOUNT = "i";
+	private static final String KEY_ONLINE_BOOKING_FEES_AMOUNT = "j";
+	private static final String KEY_REWARDS_POINTS = "k";
+	private static final String KEY_SEATS_REMAINING = "l";
+	private static final String KEY_BAGGAGE_FEES_URL = "m";
+	private static final String KEY_MAY_CHARGE_OB_FEES = "n";
+	private static final String KEY_SHOW_BAGGAGE_FEES_NOT_INCLUDED = "o";
+	private static final String KEY_FARE_NAME = "p";
+	private static final String KEY_FLIGHT_SEGMENT_ATTRS = "q";
+	private static final String KEY_ITINERARY_NUMBER = "r";
+	private static final String KEY_RULES = "s";
 
 	@Override
 	public JSONObject toJson() {
@@ -568,44 +592,47 @@ public class FlightTrip implements JSONable {
 	public JSONObject toJson(boolean includeFullLegData) {
 		try {
 			JSONObject obj = new JSONObject();
-			obj.putOpt("productKey", mProductKey);
+
+			obj.put(KEY_VERSION, JSON_VERSION);
+
+			obj.putOpt(KEY_PRODUCT_KEY, mProductKey);
 
 			if (includeFullLegData) {
-				JSONUtils.putJSONableList(obj, "legs", mLegs);
+				JSONUtils.putJSONableList(obj, KEY_LEGS, mLegs);
 			}
 			else {
 				JSONArray legIds = new JSONArray();
 				for (FlightLeg leg : mLegs) {
 					legIds.put(leg.getLegId());
 				}
-				obj.putOpt("legIds", legIds);
+				obj.putOpt(KEY_LEG_IDS, legIds);
 			}
 
-			JSONUtils.putJSONable(obj, "baseFare", mBaseFare);
-			JSONUtils.putJSONable(obj, "totalFare", mTotalFare);
-			JSONUtils.putJSONable(obj, "taxes", mTaxes);
-			JSONUtils.putJSONable(obj, "fees", mFees);
-			JSONUtils.putJSONable(obj, "priceChangeAmount", mPriceChangeAmount);
-			JSONUtils.putJSONable(obj, "onlineBookingFeesAmount", mOnlineBookingFeesAmount);
-			obj.putOpt("rewardsPoints", mRewardsPoints);
-			obj.putOpt("seatsRemaining", mSeatsRemaining);
-			obj.putOpt("baggageFeesUrl", mBaggageFeesUrl);
-			obj.putOpt("mayChargeObFees", mMayChargeObFees);
-			obj.putOpt("showBaggageFeesNotIncluded", mShowBaggageFeesNotIncluded);
-			obj.putOpt("fareName", mFareName);
+			JSONUtils.putJSONable(obj, KEY_BASE_FARE, mBaseFare);
+			JSONUtils.putJSONable(obj, KEY_TOTAL_FARE, mTotalFare);
+			JSONUtils.putJSONable(obj, KEY_TAXES, mTaxes);
+			JSONUtils.putJSONable(obj, KEY_FEES, mFees);
+			JSONUtils.putJSONable(obj, KEY_PRICE_CHANGE_AMOUNT, mPriceChangeAmount);
+			JSONUtils.putJSONable(obj, KEY_ONLINE_BOOKING_FEES_AMOUNT, mOnlineBookingFeesAmount);
+			obj.putOpt(KEY_REWARDS_POINTS, mRewardsPoints);
+			obj.putOpt(KEY_SEATS_REMAINING, mSeatsRemaining);
+			obj.putOpt(KEY_BAGGAGE_FEES_URL, mBaggageFeesUrl);
+			obj.putOpt(KEY_MAY_CHARGE_OB_FEES, mMayChargeObFees);
+			obj.putOpt(KEY_SHOW_BAGGAGE_FEES_NOT_INCLUDED, mShowBaggageFeesNotIncluded);
+			obj.putOpt(KEY_FARE_NAME, mFareName);
 
 			if (mFlightSegmentAttrs != null) {
 				JSONArray arr = new JSONArray();
 				for (FlightSegmentAttributes[] attributes : mFlightSegmentAttrs) {
 					JSONUtils.putJSONableList(arr, Arrays.asList(attributes));
 				}
-				obj.putOpt("flightSegmentAttributes", arr);
+				obj.putOpt(KEY_FLIGHT_SEGMENT_ATTRS, arr);
 			}
 
-			obj.putOpt("itineraryNumber", mItineraryNumber);
+			obj.putOpt(KEY_ITINERARY_NUMBER, mItineraryNumber);
 
 			if (mRules != null) {
-				JSONUtils.putJSONableList(obj, "rules", new ArrayList<Rule>(mRules.values()));
+				JSONUtils.putJSONableList(obj, KEY_RULES, new ArrayList<Rule>(mRules.values()));
 			}
 
 			return obj;
@@ -621,6 +648,64 @@ public class FlightTrip implements JSONable {
 	}
 
 	public boolean fromJson(JSONObject obj, Map<String, FlightLeg> legMap) {
+		int version = obj.optInt(KEY_VERSION, 1);
+		if (version == 1) {
+			return fromJsonV1(obj, legMap);
+		}
+
+		mProductKey = obj.optString(KEY_PRODUCT_KEY, null);
+
+		if (obj.has(KEY_LEGS)) {
+			mLegs = JSONUtils.getJSONableList(obj, KEY_LEGS, FlightLeg.class);
+		}
+		else if (obj.has(KEY_LEG_IDS) && legMap != null) {
+			JSONArray legIds = obj.optJSONArray(KEY_LEG_IDS);
+			for (int a = 0; a < legIds.length(); a++) {
+				addLeg(legMap.get(legIds.opt(a)));
+			}
+		}
+
+		mBaseFare = JSONUtils.getJSONable(obj, KEY_BASE_FARE, Money.class);
+		mTotalFare = JSONUtils.getJSONable(obj, KEY_TOTAL_FARE, Money.class);
+		mTaxes = JSONUtils.getJSONable(obj, KEY_TAXES, Money.class);
+		mFees = JSONUtils.getJSONable(obj, KEY_FEES, Money.class);
+		mPriceChangeAmount = JSONUtils.getJSONable(obj, KEY_PRICE_CHANGE_AMOUNT, Money.class);
+		mOnlineBookingFeesAmount = JSONUtils.getJSONable(obj, KEY_ONLINE_BOOKING_FEES_AMOUNT, Money.class);
+		mRewardsPoints = obj.optString(KEY_REWARDS_POINTS);
+		mSeatsRemaining = obj.optInt(KEY_SEATS_REMAINING);
+		mBaggageFeesUrl = obj.optString(KEY_BAGGAGE_FEES_URL);
+		mMayChargeObFees = obj.optBoolean(KEY_MAY_CHARGE_OB_FEES);
+		mShowBaggageFeesNotIncluded = obj.optBoolean(KEY_SHOW_BAGGAGE_FEES_NOT_INCLUDED);
+		mFareName = obj.optString(KEY_FARE_NAME);
+
+		JSONArray arr = obj.optJSONArray(KEY_FLIGHT_SEGMENT_ATTRS);
+		if (arr != null) {
+			initFlightSegmentAttributes(arr.length());
+			for (int a = 0; a < arr.length(); a++) {
+				List<FlightSegmentAttributes> attrs = JSONUtils.getJSONableList(arr, a,
+						FlightSegmentAttributes.class);
+				mFlightSegmentAttrs[a] = attrs.toArray(new FlightSegmentAttributes[0]);
+			}
+		}
+
+		mItineraryNumber = obj.optString(KEY_ITINERARY_NUMBER);
+
+		List<Rule> rules = JSONUtils.getJSONableList(obj, KEY_RULES, Rule.class);
+		if (rules != null) {
+			for (Rule rule : rules) {
+				addRule(rule);
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Backwards compatible (aka old) version of the FlightTrip parser.
+	 * 
+	 * Can slowly be phased out.
+	 */
+	public boolean fromJsonV1(JSONObject obj, Map<String, FlightLeg> legMap) {
 		mProductKey = obj.optString("productKey", null);
 
 		if (obj.has("legs")) {
