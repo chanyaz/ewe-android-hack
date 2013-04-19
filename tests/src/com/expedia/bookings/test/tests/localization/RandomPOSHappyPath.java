@@ -117,9 +117,6 @@ public class RandomPOSHappyPath extends
 		mDriver.mLocaleUtils.setLocale(testingLocale);
 		mDriver.delay(5);
 
-		//Look at the flights search screen
-		mDriver.checkFlightsScreen();
-
 	}
 
 	@Override
