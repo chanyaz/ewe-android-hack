@@ -30,7 +30,7 @@ public class AdX {
 			String pos = PointOfSale.getPointOfSale(mContext).getTwoLetterCountryCode();
 			AdXConnect.getAdXConnectInstance(mContext, false, mLogLevel, pos);
 			AdXConnect.getAdXConnectEventInstance(mContext, "FirstLaunch", "", "");
-			Log.i("AdX first launch event");
+			Log.i("AdX first launch event PointOfSale=" + pos);
 		}
 	}
 
@@ -39,7 +39,7 @@ public class AdX {
 			String pos = PointOfSale.getPointOfSale(mContext).getTwoLetterCountryCode();
 			AdXConnect.getAdXConnectInstance(mContext, true, mLogLevel, pos);
 			AdXConnect.getAdXConnectEventInstance(mContext, "Launch", "", "");
-			Log.i("AdX launch event");
+			Log.i("AdX launch event PointOfSale=" + pos);
 		}
 	}
 
