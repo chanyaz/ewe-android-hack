@@ -42,7 +42,6 @@ import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.util.AndroidUtils;
 
 public class ConfirmationFragmentActivity extends SherlockFragmentActivity implements
 		BookingConfirmationFragmentListener {
@@ -58,7 +57,7 @@ public class ConfirmationFragmentActivity extends SherlockFragmentActivity imple
 		mContext = this;
 		mConfState = new ConfirmationState(this, Type.HOTEL);
 
-		if (AndroidUtils.isTablet(this)) {
+		if (ExpediaBookingApp.useTabletInterface(this)) {
 			setTheme(R.style.Theme_Tablet_Confirmation);
 			NavUtils.sendKillActivityBroadcast(mContext);
 		}
@@ -153,7 +152,7 @@ public class ConfirmationFragmentActivity extends SherlockFragmentActivity imple
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		if (AndroidUtils.isTablet(this)) {
+		if (ExpediaBookingApp.useTabletInterface(this)) {
 			getSupportMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
 		}
 		else {
@@ -165,9 +164,9 @@ public class ConfirmationFragmentActivity extends SherlockFragmentActivity imple
 		actionBar.setDisplayShowTitleEnabled(true);
 
 		// We want the phones to have an up button for the launch screen
-		actionBar.setDisplayHomeAsUpEnabled(!AndroidUtils.isTablet(this));
-		actionBar.setHomeButtonEnabled(!AndroidUtils.isTablet(this));
-		actionBar.setDisplayUseLogoEnabled(!AndroidUtils.isTablet(this));
+		actionBar.setDisplayHomeAsUpEnabled(!ExpediaBookingApp.useTabletInterface(this));
+		actionBar.setHomeButtonEnabled(!ExpediaBookingApp.useTabletInterface(this));
+		actionBar.setDisplayUseLogoEnabled(!ExpediaBookingApp.useTabletInterface(this));
 
 		actionBar.setTitle(getString(R.string.booking_complete));
 

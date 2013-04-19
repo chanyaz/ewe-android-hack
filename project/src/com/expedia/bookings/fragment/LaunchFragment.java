@@ -31,7 +31,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.FlightSearchActivity;
 import com.expedia.bookings.activity.FlightUnsupportedPOSActivity;
 import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
 import com.expedia.bookings.activity.PhoneSearchActivity;

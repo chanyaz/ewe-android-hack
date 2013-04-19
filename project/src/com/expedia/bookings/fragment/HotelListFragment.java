@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
@@ -274,7 +275,7 @@ public class HotelListFragment extends ListFragment {
 	private void updateHeaderLawyerLabel() {
 		if (mLawyerLabelTextView != null) {
 			SearchResponse searchResponse = Db.getSearchResponse();
-			boolean isTablet = AndroidUtils.isTablet(getActivity());
+			boolean isTablet = ExpediaBookingApp.useTabletInterface(getActivity());
 			if (searchResponse != null && searchResponse.getUserPriceType() == UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES) {
 				if (isTablet) {
 					mLawyerLabelTextView.setText(getString(R.string.total_price_for_stay_punctuated));

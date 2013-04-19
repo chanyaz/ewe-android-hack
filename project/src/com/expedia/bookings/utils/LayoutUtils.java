@@ -33,6 +33,7 @@ import android.widget.TextView;
 import com.actionbarsherlock.internal.ActionBarSherlockCompat;
 import com.actionbarsherlock.internal.ResourcesCompat;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.SearchRadius;
@@ -212,7 +213,7 @@ public class LayoutUtils {
 
 		// fix width for first amenity
 
-		if (amenitiesTable.getChildCount() == 0 && AndroidUtils.isTablet(context)) {
+		if (amenitiesTable.getChildCount() == 0 && ExpediaBookingApp.useTabletInterface(context)) {
 			LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) amenityTextView.getLayoutParams();
 			params.width = LayoutParams.WRAP_CONTENT;
 			amenityTextView.setLayoutParams(params);

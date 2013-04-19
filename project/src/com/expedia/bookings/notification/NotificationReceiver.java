@@ -14,6 +14,7 @@ import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.LaunchActivity;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.data.ExpediaImage;
@@ -266,7 +267,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 	private void handleClick(Context context, int clickTarget, Notification notification) {
 		Intent intent = null;
-		if (AndroidUtils.isTablet(context)) {
+		if (ExpediaBookingApp.useTabletInterface(context)) {
 			//TODO: this needs a little more work on tablet
 			intent = new Intent(context, SearchActivity.class);
 		}

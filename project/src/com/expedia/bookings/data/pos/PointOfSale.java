@@ -27,10 +27,10 @@ import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.ResourceUtils;
 import com.mobiata.android.util.SettingUtils;
@@ -649,7 +649,7 @@ public class PointOfSale {
 		JSONObject numbers = data.getJSONObject(name);
 
 		// Try to find a device specific number
-		String deviceSpecificKey = AndroidUtils.isTablet(context) ? "AndroidTablet" : "Android";
+		String deviceSpecificKey = ExpediaBookingApp.useTabletInterface(context) ? "AndroidTablet" : "Android";
 		String result = numbers.optString(deviceSpecificKey, null);
 		if (!TextUtils.isEmpty(result)) {
 			return result;

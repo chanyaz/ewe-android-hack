@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.section.SectionBillingInfo.ExpirationPickerFragment.OnSetExpirationListener;
@@ -33,7 +34,6 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ExpirationPicker;
 import com.expedia.bookings.widget.ExpirationPicker.IExpirationListener;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
@@ -682,7 +682,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			LayoutInflater inflater = getActivity().getLayoutInflater();
 			View view = inflater.inflate(R.layout.fragment_dialog_expiration, null);
 
-			int themeResId = AndroidUtils.isTablet(getActivity())
+			int themeResId = ExpediaBookingApp.useTabletInterface(getActivity())
 					? R.style.Theme_Light_Fullscreen_Panel
 					: R.style.ExpediaLoginDialog;
 			Dialog dialog = new Dialog(getActivity(), themeResId);

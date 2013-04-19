@@ -78,11 +78,11 @@ public class HotelGalleryActivity extends SherlockFragmentActivity {
 		mPager = (ViewPager) findViewById(R.id.big_image_pager);
 		mPager.setAdapter(pagerAdapter);
 
-		if (!AndroidUtils.isTablet(mContext)) {
+		if (!ExpediaBookingApp.useTabletInterface(mContext)) {
 			mPager.setPageMargin(10);
 		}
 
-		if (AndroidUtils.isTablet(mContext)) {
+		if (ExpediaBookingApp.useTabletInterface(mContext)) {
 			ActionBar actionBar = getSupportActionBar();
 			actionBar.setTitle(Html.fromHtml(getString(R.string.gallery_title_template, mProperty.getName())));
 			actionBar.setDisplayHomeAsUpEnabled(true);
