@@ -107,7 +107,7 @@ public class Search extends Model implements JSONable {
 	public static void delete(Context context, SearchParams searchParams) {
 		new Delete()
 				.from(Search.class)
-				.where("lower(FreeFormLocation = ?", searchParams.getQuery().toLowerCase().trim())
+				.where("lower(FreeFormLocation) = ?", searchParams.getQuery().toLowerCase().trim())
 				.execute();
 	}
 
