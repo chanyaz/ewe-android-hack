@@ -1187,6 +1187,9 @@ public class ItineraryManager implements JSONable {
 	// Local Notifications
 
 	private void scheduleLocalNotifications() {
+		return;
+		/* #994: Do not schedule any local notifications for the current release (3.1)
+
 		for (ItinCardData data : mItinCardDatas) {
 			ItinContentGenerator<?> generator = ItinContentGenerator.createGenerator(mContext, data);
 
@@ -1197,6 +1200,16 @@ public class ItineraryManager implements JSONable {
 
 			for (Notification notification : notifications) {
 				Notification existing = Notification.find(notification.getUniqueId());
+
+				//TODO: temporary -->
+				// This is just to get the notifications to show up frequently for development
+				//				notification.setTriggerTimeMillis(System.currentTimeMillis() + 5000);
+				//				notification.setStatus(StatusType.NEW);
+				//				if (existing != null) {
+				//					existing.setTriggerTimeMillis(0);
+				//				}
+				//TODO: <-- temporary
+
 				if (existing == null) {
 					notification.save();
 				}
@@ -1208,6 +1221,7 @@ public class ItineraryManager implements JSONable {
 		}
 
 		Notification.scheduleAll(mContext);
+		*/
 	}
 
 	private void deletePendingNotification(Trip trip) {
