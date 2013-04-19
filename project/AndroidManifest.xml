@@ -235,6 +235,9 @@
             android:name="com.expedia.bookings.activity.TerminalMapActivity"
             android:label="@string/Terminal_Map"
             android:theme="@style/LaunchTheme" />
+        <activity
+            android:name="com.expedia.bookings.activity.StandaloneShareActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!-- Testing -->
         <activity android:name=".test.activity.CalendarDatePickerTestActivity" />

@@ -35,6 +35,7 @@ import com.expedia.bookings.fragment.ItinItemListFragment;
 import com.expedia.bookings.fragment.ItinItemListFragment.ItinItemListFragmentListener;
 import com.expedia.bookings.fragment.LaunchFragment;
 import com.expedia.bookings.fragment.LaunchFragment.LaunchFragmentListener;
+import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
@@ -53,6 +54,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 
 	public static final String ARG_FORCE_SHOW_WATERFALL = "ARG_FORCE_SHOW_WATERFALL";
 	public static final String ARG_JUMP_TO_ITIN_UNIQUE_ID = "ARG_JUMP_TO_ITIN_UNIQUE_ID";
+	public static final String ARG_IS_FROM_NOTIFICATION = "ARG_IS_FROM_NOTIFICATION";
 
 	private static final int REQUEST_SETTINGS = 1;
 	private static final int PAGER_POS_WATERFALL = 0;
@@ -80,9 +82,10 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	 * @param context
 	 * @return
 	 */
-	public static Intent createIntent(Context context, String uniqueId) {
+	public static Intent createIntent(Context context, String uniqueId, boolean fromNotification) {
 		Intent intent = new Intent(context, LaunchActivity.class);
 		intent.putExtra(LaunchActivity.ARG_JUMP_TO_ITIN_UNIQUE_ID, uniqueId);
+		intent.putExtra(LaunchActivity.ARG_IS_FROM_NOTIFICATION, true);
 		return intent;
 	}
 
@@ -176,6 +179,12 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 
 		// Debug code to notify QA to open ExpediaDebug app
 		ExpediaDebugUtil.showExpediaDebugToastIfNeeded(this);
+
+		// Omniture tracking
+		if (mJumpToItinId != null && getIntent().getBooleanExtra(ARG_IS_FROM_NOTIFICATION, false)) {
+			Notification notification = Notification.find(mJumpToItinId);
+			OmnitureTracking.trackNotificationClick(this, notification);
+		}
 
 		// HockeyApp init
 		mHockeyPuck = new HockeyPuck(this, Codes.HOCKEY_APP_ID, !AndroidUtils.isRelease(this));
