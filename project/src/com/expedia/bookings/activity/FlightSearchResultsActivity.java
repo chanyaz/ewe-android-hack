@@ -54,6 +54,7 @@ import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.data.Suggestion;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.BlurredBackgroundFragment;
 import com.expedia.bookings.fragment.FlightDetailsFragment;
 import com.expedia.bookings.fragment.FlightDetailsFragment.FlightDetailsFragmentListener;
@@ -75,9 +76,11 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
+import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
+import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
@@ -417,6 +420,17 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		ft.commit();
 
 		mAnimForward = true;
+
+		// APAC POS warning dialog that low cost flights are not yet available. Only shown once per install.
+		if (PointOfSale.getPointOfSale().showLCCNotAvailableDialog(mContext)) {
+			String title = getString(R.string.low_cost_flights);
+			String body = getString(R.string.lcc_flights_not_available);
+			SimpleDialogFragment dg = SimpleDialogFragment.newInstance(title, body);
+			dg.show(getSupportFragmentManager(), getString(R.string.tag_booking_error));
+
+			// We only want to display the dialog once, so make sure to modify the pref to prevent it being shown again
+			SettingUtils.save(mContext, getString(R.string.preference_show_lcc_warning), false);
+		}
 	}
 
 	private void showFlightDetails(FlightTrip trip, FlightLeg leg) {
