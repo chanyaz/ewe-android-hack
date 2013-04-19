@@ -3,6 +3,7 @@ package com.expedia.bookings.test.utils;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -12,9 +13,9 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity;
 
 public class UserLocaleUtils extends ActivityInstrumentationTestCase2<SearchActivity> {
-	
+
 	private Resources mRes;
-	
+
 	public UserLocaleUtils(Resources res) {
 		super("com.expedia.bookings", SearchActivity.class);
 		mRes = res;
@@ -123,6 +124,16 @@ public class UserLocaleUtils extends ActivityInstrumentationTestCase2<SearchActi
 
 	////////////////////////////////////////////////////////////////
 	// Setting Locale
+	
+	// Select a random locale from the array of locales given
+	public Locale setRandomLocale(Locale[] localeList) {
+		Random rand = new Random();
+		int localeIndex = rand.nextInt(localeList.length);
+		Locale selectedLocale = localeList[localeIndex];
+		setLocale(selectedLocale);
+		
+		return selectedLocale;
+	}
 
 	public void setLocale(Locale locale) {
 		Configuration config = mRes.getConfiguration(); //get current configuration
