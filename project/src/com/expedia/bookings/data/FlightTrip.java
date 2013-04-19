@@ -583,6 +583,7 @@ public class FlightTrip implements JSONable {
 	private static final String KEY_FLIGHT_SEGMENT_ATTRS = "q";
 	private static final String KEY_ITINERARY_NUMBER = "r";
 	private static final String KEY_RULES = "s";
+	private static final String KEY_CURRENCY = "t";
 
 	@Override
 	public JSONObject toJson() {
@@ -608,12 +609,14 @@ public class FlightTrip implements JSONable {
 				obj.putOpt(KEY_LEG_IDS, legIds);
 			}
 
-			JSONUtils.putJSONable(obj, KEY_BASE_FARE, mBaseFare);
-			JSONUtils.putJSONable(obj, KEY_TOTAL_FARE, mTotalFare);
-			JSONUtils.putJSONable(obj, KEY_TAXES, mTaxes);
-			JSONUtils.putJSONable(obj, KEY_FEES, mFees);
-			JSONUtils.putJSONable(obj, KEY_PRICE_CHANGE_AMOUNT, mPriceChangeAmount);
-			JSONUtils.putJSONable(obj, KEY_ONLINE_BOOKING_FEES_AMOUNT, mOnlineBookingFeesAmount);
+			obj.put(KEY_CURRENCY, mBaseFare.getCurrency());
+			addMoney(obj, KEY_BASE_FARE, mBaseFare);
+			addMoney(obj, KEY_TOTAL_FARE, mTotalFare);
+			addMoney(obj, KEY_TAXES, mTaxes);
+			addMoney(obj, KEY_FEES, mFees);
+			addMoney(obj, KEY_PRICE_CHANGE_AMOUNT, mPriceChangeAmount);
+			addMoney(obj, KEY_ONLINE_BOOKING_FEES_AMOUNT, mOnlineBookingFeesAmount);
+
 			obj.putOpt(KEY_REWARDS_POINTS, mRewardsPoints);
 			obj.putOpt(KEY_SEATS_REMAINING, mSeatsRemaining);
 			obj.putOpt(KEY_BAGGAGE_FEES_URL, mBaggageFeesUrl);
@@ -642,6 +645,22 @@ public class FlightTrip implements JSONable {
 		}
 	}
 
+	private void addMoney(JSONObject obj, String key, Money money) throws JSONException {
+		if (money != null) {
+			obj.put(key, money.getAmount().toPlainString());
+		}
+	}
+
+	private Money parseMoney(JSONObject obj, String key, String currency) {
+		if (obj.has(key)) {
+			Money money = new Money();
+			money.setAmount(obj.optString(key));
+			money.setCurrency(currency);
+			return money;
+		}
+		return null;
+	}
+
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		return fromJson(obj, null);
@@ -665,12 +684,16 @@ public class FlightTrip implements JSONable {
 			}
 		}
 
-		mBaseFare = JSONUtils.getJSONable(obj, KEY_BASE_FARE, Money.class);
-		mTotalFare = JSONUtils.getJSONable(obj, KEY_TOTAL_FARE, Money.class);
-		mTaxes = JSONUtils.getJSONable(obj, KEY_TAXES, Money.class);
-		mFees = JSONUtils.getJSONable(obj, KEY_FEES, Money.class);
-		mPriceChangeAmount = JSONUtils.getJSONable(obj, KEY_PRICE_CHANGE_AMOUNT, Money.class);
-		mOnlineBookingFeesAmount = JSONUtils.getJSONable(obj, KEY_ONLINE_BOOKING_FEES_AMOUNT, Money.class);
+		String currency = obj.optString(KEY_CURRENCY);
+		if (!TextUtils.isEmpty(currency)) {
+			mBaseFare = parseMoney(obj, KEY_BASE_FARE, currency);
+			mTotalFare = parseMoney(obj, KEY_TOTAL_FARE, currency);
+			mTaxes = parseMoney(obj, KEY_TAXES, currency);
+			mFees = parseMoney(obj, KEY_FEES, currency);
+			mPriceChangeAmount = parseMoney(obj, KEY_PRICE_CHANGE_AMOUNT, currency);
+			mOnlineBookingFeesAmount = parseMoney(obj, KEY_ONLINE_BOOKING_FEES_AMOUNT, currency);
+		}
+
 		mRewardsPoints = obj.optString(KEY_REWARDS_POINTS);
 		mSeatsRemaining = obj.optInt(KEY_SEATS_REMAINING);
 		mBaggageFeesUrl = obj.optString(KEY_BAGGAGE_FEES_URL);
