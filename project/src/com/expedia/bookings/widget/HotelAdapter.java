@@ -232,7 +232,8 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		final String hotelPrice = StrUtils.formatHotelPrice(lowestRate.getDisplayRate());
 
 		// Detect if the property is on sale, if it is do special things
-		if (lowestRate.isOnSale() && lowestRate.isSaleTenPercentOrBetter()) {
+		if (lowestRate.isOnSale() && lowestRate.isSaleTenPercentOrBetter()
+				&& (lowestRate.getDisplayRate().compareTo(lowestRate.getDisplayBaseRate()) < 0)) {
 			if (hotelPrice.length() < HOTEL_PRICE_TOO_LONG) {
 				holder.strikethroughPrice.setVisibility(View.VISIBLE);
 				holder.strikethroughPrice.setText(Html.fromHtml(
