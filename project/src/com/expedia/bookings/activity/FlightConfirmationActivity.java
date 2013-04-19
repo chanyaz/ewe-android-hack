@@ -131,7 +131,9 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 	@Override
 	public void onBackPressed() {
 		// F854: Do not let users go back to the previous screens if they successfully booked
-		NavUtils.goToLaunchScreen(this);
+		if (!NavUtils.skipLaunchScreenAndStartEHTablet(this)) {
+			NavUtils.goToLaunchScreen(this);
+		}
 	}
 
 	@Override

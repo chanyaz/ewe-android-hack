@@ -76,6 +76,10 @@ public class NavUtils {
 	}
 
 	public static void goToFlights(Context context) {
+		goToFlights(context, false);
+	}
+
+	public static void goToFlights(Context context, boolean fromLaunchWithSearchParams) {
 		if (!PointOfSale.getPointOfSale().supportsFlights()) {
 			// Because the user can't actually navigate forward from here, perhaps it makes sense to preserve the
 			// backstack so as not to add insult to injury (can't access Flights, lost activity backstack)
@@ -88,6 +92,9 @@ public class NavUtils {
 		else {
 			sendKillActivityBroadcast(context);
 			Intent intent = new Intent(context, FlightSearchActivity.class);
+			if (fromLaunchWithSearchParams) {
+				intent.putExtra(FlightSearchActivity.ARG_FROM_LAUNCH_WITH_SEARCH_PARAMS, true);
+			}
 			context.startActivity(intent);
 		}
 	}

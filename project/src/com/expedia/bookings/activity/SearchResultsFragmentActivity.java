@@ -86,6 +86,7 @@ import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.SearchUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -975,7 +976,8 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 
 		SearchType searchType = Db.getSearchParams().getSearchType();
 		if (searchType == SearchType.HOTEL) {
-			BackgroundDownloader.getInstance().startDownload(KEY_HOTEL_SEARCH, mSearchHotelDownload, mSearchHotelCallback);
+			BackgroundDownloader.getInstance().startDownload(KEY_HOTEL_SEARCH, mSearchHotelDownload,
+					mSearchHotelCallback);
 		}
 		else {
 			BackgroundDownloader.getInstance().startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
@@ -1652,4 +1654,20 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	public void onListItemClicked(Property property, int position) {
 		propertySelected(property, SOURCE_LIST);
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Back Stack
+
+	@Override
+	public void onBackPressed() {
+		//If we enter the results from somewhere other than the SearchFragmentActivity, we still want hitting back to bring us there.
+		if (this.getSupportFragmentManager().getBackStackEntryCount() == 0) {
+			NavUtils.goBackToEhTabletStart(this);
+		}
+		else {
+			super.onBackPressed();
+		}
+
+	}
+
 }

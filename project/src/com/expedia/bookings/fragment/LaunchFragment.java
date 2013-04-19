@@ -791,9 +791,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				mContext.startActivity(new Intent(mContext, FlightUnsupportedPOSActivity.class));
 			}
 			else {
-				Intent intent = new Intent(mContext, FlightSearchActivity.class);
-				intent.putExtra(FlightSearchActivity.ARG_FROM_LAUNCH_WITH_SEARCH_PARAMS, true);
-				mContext.startActivity(intent);
+				NavUtils.goToFlights(mContext, true);
 			}
 		}
 	};
