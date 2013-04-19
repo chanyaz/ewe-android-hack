@@ -25,6 +25,7 @@ import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.PriceRange;
 import com.expedia.bookings.data.Filter.SearchRadius;
+import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
@@ -35,12 +36,14 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.fragment.BookingInfoValidation;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.CurrencyUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
@@ -713,7 +716,11 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPageLoadFlightCheckoutSlideToPurchase(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_SLIDE_TO_PURCHASE, LineOfBusiness.FLIGHTS);
+		Log.d(TAG, "Tracking \"" + FLIGHT_CHECKOUT_SLIDE_TO_PURCHASE + "\" pageLoad");
+		ADMS_Measurement s = createTrackPageLoadEventStandardAsShopper(context, FLIGHT_CHECKOUT_SLIDE_TO_PURCHASE,
+				LineOfBusiness.FLIGHTS);
+		s.setEvar(37, getPaymentType(context));
+		s.track();
 	}
 
 	public static void trackPageLoadFlightCheckoutPaymentEditSave(Context context) {
@@ -1071,7 +1078,11 @@ public class OmnitureTracking {
 	// Overview
 
 	public static void trackPageLoadHotelsCheckoutSlideToPurchase(Context context) {
-		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_SLIDE_TO_PURCHASE, LineOfBusiness.HOTELS);
+		Log.d(TAG, "Tracking \"" + HOTELS_CHECKOUT_SLIDE_TO_PURCHASE + "\" pageLoad");
+		ADMS_Measurement s = createTrackPageLoadEventStandardAsShopper(context, HOTELS_CHECKOUT_SLIDE_TO_PURCHASE,
+				LineOfBusiness.HOTELS);
+		s.setEvar(37, getPaymentType(context));
+		s.track();
 	}
 
 	// Rules
@@ -1611,5 +1622,42 @@ public class OmnitureTracking {
 		str += "|C0";
 
 		return str;
+	}
+
+	private static String getPaymentType(Context context) {
+		BillingInfo billingInfo = Db.getBillingInfo();
+		StoredCreditCard scc = billingInfo.getStoredCard();
+		CreditCardType type;
+		if (scc != null) {
+			type = scc.getCardType();
+		}
+		else {
+			type = CurrencyUtils.detectCreditCardBrand(context, billingInfo.getNumber());
+		}
+
+		if (type != null) {
+			switch (type) {
+			case AMERICAN_EXPRESS:
+				return "AmericanExpress";
+			case CARTE_BLANCHE:
+				return "CarteBlanche";
+			case CHINA_UNION_PAY:
+				return "ChinaUnionPay";
+			case DINERS_CLUB:
+				return "DinersClub";
+			case DISCOVER:
+				return "Discover";
+			case JAPAN_CREDIT_BUREAU:
+				return "JapanCreditBureau";
+			case MAESTRO:
+				return "Maestro";
+			case MASTERCARD:
+				return "MasterCard";
+			case VISA:
+				return "Visa";
+			}
+		}
+
+		return "Unknown";
 	}
 }
