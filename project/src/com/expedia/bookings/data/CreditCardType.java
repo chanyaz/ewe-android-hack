@@ -14,7 +14,8 @@ public enum CreditCardType {
 	JAPAN_CREDIT_BUREAU("JC"),
 	MAESTRO("TO"),
 	MASTERCARD("CA"),
-	VISA("VI");
+	VISA("VI"),
+	GOOGLE_WALLET("GOOG");
 
 	private String mCode;
 

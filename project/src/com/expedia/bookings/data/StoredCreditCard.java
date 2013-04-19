@@ -57,6 +57,10 @@ public class StoredCreditCard implements JSONable {
 	}
 
 	public CreditCardType getCardType() {
+		if (isGoogleWallet()) {
+			return CreditCardType.GOOGLE_WALLET;
+		}
+
 		if (TextUtils.isEmpty(mType)) {
 			return null;
 		}

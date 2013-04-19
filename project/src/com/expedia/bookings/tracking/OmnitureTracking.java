@@ -2091,6 +2091,8 @@ public class OmnitureTracking {
 				return "MasterCard";
 			case VISA:
 				return "Visa";
+			case GOOGLE_WALLET:
+				return "GoogleWallet";
 			}
 		}
 
