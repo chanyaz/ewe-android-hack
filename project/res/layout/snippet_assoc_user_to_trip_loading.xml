@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/itinerary_loading_progress"
-    style="@style/ProgressBar.Large"
+    android:id="@+id/assoc_user_to_trip_loading_progress"
+    style="@style/ProgressBar"
     android:layout_width="48dp"
     android:layout_height="48dp"
     android:indeterminate="true" />
