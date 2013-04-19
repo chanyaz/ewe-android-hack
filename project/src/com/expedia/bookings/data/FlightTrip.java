@@ -620,9 +620,15 @@ public class FlightTrip implements JSONable {
 			obj.putOpt(KEY_REWARDS_POINTS, mRewardsPoints);
 			obj.putOpt(KEY_SEATS_REMAINING, mSeatsRemaining);
 			obj.putOpt(KEY_BAGGAGE_FEES_URL, mBaggageFeesUrl);
-			obj.putOpt(KEY_MAY_CHARGE_OB_FEES, mMayChargeObFees);
-			obj.putOpt(KEY_SHOW_BAGGAGE_FEES_NOT_INCLUDED, mShowBaggageFeesNotIncluded);
-			obj.putOpt(KEY_FARE_NAME, mFareName);
+			if (mMayChargeObFees) {
+				obj.putOpt(KEY_MAY_CHARGE_OB_FEES, mMayChargeObFees);
+			}
+			if (mShowBaggageFeesNotIncluded) {
+				obj.putOpt(KEY_SHOW_BAGGAGE_FEES_NOT_INCLUDED, mShowBaggageFeesNotIncluded);
+			}
+			if (!TextUtils.isEmpty(mFareName)) {
+				obj.putOpt(KEY_FARE_NAME, mFareName);
+			}
 
 			if (mFlightSegmentAttrs != null) {
 				JSONArray arr = new JSONArray();
@@ -697,9 +703,9 @@ public class FlightTrip implements JSONable {
 		mRewardsPoints = obj.optString(KEY_REWARDS_POINTS);
 		mSeatsRemaining = obj.optInt(KEY_SEATS_REMAINING);
 		mBaggageFeesUrl = obj.optString(KEY_BAGGAGE_FEES_URL);
-		mMayChargeObFees = obj.optBoolean(KEY_MAY_CHARGE_OB_FEES);
-		mShowBaggageFeesNotIncluded = obj.optBoolean(KEY_SHOW_BAGGAGE_FEES_NOT_INCLUDED);
-		mFareName = obj.optString(KEY_FARE_NAME);
+		mMayChargeObFees = obj.optBoolean(KEY_MAY_CHARGE_OB_FEES, false);
+		mShowBaggageFeesNotIncluded = obj.optBoolean(KEY_SHOW_BAGGAGE_FEES_NOT_INCLUDED, false);
+		mFareName = obj.optString(KEY_FARE_NAME, null);
 
 		JSONArray arr = obj.optJSONArray(KEY_FLIGHT_SEGMENT_ATTRS);
 		if (arr != null) {
