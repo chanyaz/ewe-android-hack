@@ -50,7 +50,8 @@ if [ ! -d "$LOCAL_DIRECTORY" ]; then
     mkdir $LOCAL_DIRECTORY
 fi
 
-adb shell ls | adb pull $ANDROID_DIRECTORY $LOCAL_DIRECTORY/ | rm -r "$ANDROID_DIRECTORY" |  exit
+adb pull $ANDROID_DIRECTORY $LOCAL_DIRECTORY/
+adb shell rm $ANDROID_DIRECTORY/* 
 
 cd $LOCAL_DIRECTORY
 
@@ -70,4 +71,4 @@ for locale in "${locales[@]}"
   
    fi
 
-   done
+done
