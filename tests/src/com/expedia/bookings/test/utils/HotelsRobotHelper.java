@@ -525,8 +525,7 @@ public class HotelsRobotHelper {
 		enterLog(TAG, "Beginning log-in sequence.");
 
 		mSolo.scrollToTop();
-		mSolo.clickOnText(mRes.getString(R.string.checkout_btn));
-
+		
 		String log_in_for_faster_booking = mRes.getString(R.string.log_in_for_faster_booking);
 		String log_in_with_expedia = mRes.getString(R.string.Log_in_with_Expedia);
 		// Try clicking login button
@@ -685,37 +684,43 @@ public class HotelsRobotHelper {
 			enterNewTraveler();
 		}
 
+		boolean addNewCC = false;
+
 		String select_payment_sentence_case = mSolo.getString(R.string.select_payment_sentence_case);
+		String select_payment = mSolo.getString(R.string.select_payment);
 
 		if (mSolo.searchText(select_payment_sentence_case, true)) {
 			mSolo.clickOnText(select_payment_sentence_case);
+			addNewCC = true;
 		}
-		else {
-			String select_payment = mSolo.getString(R.string.select_payment);
+		else if (mSolo.searchText(select_payment, true)) {
 			mSolo.clickOnText(select_payment);
+			addNewCC = true;
 		}
 
-		delay();
-		screenshot("Select payment");
+		if (addNewCC) {
+			delay();
+			screenshot("Select payment");
 
-		landscape();
-		portrait();
-		delay();
+			landscape();
+			portrait();
+			delay();
 
-		mSolo.clickOnText(mSolo.getString(R.string.add_new_card));
-		delay(1);
-		screenshot("Add new card");
-		delay(1);
+			mSolo.clickOnText(mSolo.getString(R.string.add_new_card));
+			delay(1);
+			screenshot("Add new card");
+			delay(1);
 
-		landscape();
-		portrait();
-		delay(5);
-		screenshot("Credit card info.");
+			landscape();
+			portrait();
+			delay(5);
+			screenshot("Credit card info.");
 
-		if (mSolo.searchText(mRes.getString(R.string.billing_address))) {
-			inputBillingAddress();
+			if (mSolo.searchText(mRes.getString(R.string.billing_address))) {
+				inputBillingAddress();
+			}
+			inputCCBillingInfo();
 		}
-		inputCCBillingInfo();
 
 	}
 
@@ -777,6 +782,7 @@ public class HotelsRobotHelper {
 
 	public void confirmAndBook(boolean assertPostCCVPopUp) throws Exception {
 		enterLog(TAG, "Booking: About to slide to accept.");
+		delay();
 		screenshot("Slide to checkout.");
 		delay();
 
