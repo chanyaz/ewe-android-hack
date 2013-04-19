@@ -45,6 +45,7 @@ import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.animation.AnimationListenerAdapter;
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
@@ -55,7 +56,6 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AirportDropDownAdapter;
 import com.expedia.bookings.widget.NumTravelersPopupDropdown;
 import com.mobiata.android.json.JSONUtils;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.OnDateChangedListener;
 import com.nineoldandroids.animation.ValueAnimator;
@@ -139,7 +139,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		}
 
 		mIsLandscape = getResources().getBoolean(R.bool.is_landscape);
-		mIsTablet = AndroidUtils.isTablet(getActivity());
+		mIsTablet = ExpediaBookingApp.useTabletInterface(getActivity());
 		mFirstRun = savedInstanceState == null;
 	}
 
