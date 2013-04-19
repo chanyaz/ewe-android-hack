@@ -93,6 +93,11 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 		if (focused != null && focused instanceof EditText) {
 			FocusViewRunnable.focusView(this, focused);
 		}
+
+		if (User.isLoggedIn(getActivity())) {
+			EditText cardHolderName = Ui.findView(mSectionCreditCard, R.id.edit_name_on_card);
+			cardHolderName.setText(Db.getUser().getPrimaryTraveler().getFullName());
+		}
 	}
 
 	@Override
