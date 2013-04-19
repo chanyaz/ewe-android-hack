@@ -461,7 +461,8 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 					break;
 				}
 
-				if (nextData.getTripComponentType().equals(Type.FLIGHT)) {
+				if (nextData.getTripComponentType().equals(Type.FLIGHT) && data instanceof ItinCardDataFlight
+						&& nextData instanceof ItinCardDataFlight) {
 					// Attach hotel
 					TripFlight tripFlight = (TripFlight) data.getTripComponent();
 					FlightLeg firstLeg = ((ItinCardDataFlight) data).getFlightLeg();
