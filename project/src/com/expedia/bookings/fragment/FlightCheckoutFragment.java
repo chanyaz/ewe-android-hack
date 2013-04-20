@@ -30,9 +30,11 @@ import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.model.PaymentFlowState;
 import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
+import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
@@ -64,6 +66,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	private TextView mAccountLabel;
 	private AccountButton mAccountButton;
 	private SectionBillingInfo mCreditCardSectionButton;
+	private SectionLocation mSectionLocation;
 	private SectionStoredCreditCard mStoredCreditCard;
 
 	private ViewGroup mTravelerContainer;
@@ -126,12 +129,17 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		mPaymentButton = Ui.findView(v, R.id.payment_info_btn);
 		mStoredCreditCard = Ui.findView(v, R.id.stored_creditcard_section_button);
 		mCreditCardSectionButton = Ui.findView(v, R.id.creditcard_section_button);
+		mSectionLocation = Ui.findView(v, R.id.section_location_address);
 		mAccountButton = Ui.findView(v, R.id.account_button_root);
 		mAccountLabel = Ui.findView(v, R.id.expedia_account_label);
 		mTravelerContainer = Ui.findView(v, R.id.traveler_container);
 
 		ViewUtils.setAllCaps(mAccountLabel);
 		ViewUtils.setAllCaps((TextView) Ui.findView(v, R.id.checkout_information_label));
+
+		if (!PointOfSale.getPointOfSale().requiresBillingAddressFlights()) {
+			mSectionLocation.setVisibility(View.GONE);
+		}
 
 		// Detect user state, update account button accordingly
 		mAccountButton.setListener(this);

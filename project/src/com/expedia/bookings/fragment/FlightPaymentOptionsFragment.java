@@ -21,6 +21,8 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.model.PaymentFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
@@ -48,6 +50,7 @@ public class FlightPaymentOptionsFragment extends Fragment {
 	ViewGroup mCurrentPaymentContainer;
 	ViewGroup mStoredCardsContainer;
 	ViewGroup mCurrentStoredPaymentContainer;
+	View mCurrentPaymentCcAddressDiv;
 
 	PaymentFlowState mValidationState;
 
@@ -86,6 +89,7 @@ public class FlightPaymentOptionsFragment extends Fragment {
 		mCurrentPaymentContainer = Ui.findView(v, R.id.current_payment_container);
 		mStoredCardsContainer = Ui.findView(v, R.id.new_payment_stored_cards);
 		mCurrentStoredPaymentContainer = Ui.findView(v, R.id.current_stored_payment_container);
+		mCurrentPaymentCcAddressDiv = Ui.findView(v, R.id.current_payment_cc_address_divider);
 
 		mSectionPartialCard = Ui.findView(v, R.id.new_payment_partial_card);
 		mPartialCardDiv = Ui.findView(v, R.id.new_payment_partial_card_divider);
@@ -95,6 +99,11 @@ public class FlightPaymentOptionsFragment extends Fragment {
 		ViewUtils.setAllCaps(mStoredPaymentsLabel);
 		ViewUtils.setAllCaps(mCurrentPaymentLabel);
 		ViewUtils.setAllCaps(mNewPaymentLabel);
+
+		if (!PointOfSale.getPointOfSale().requiresBillingAddressFlights()) {
+			mCurrentPaymentCcAddressDiv.setVisibility(View.GONE);
+			mSectionCurrentBillingAddress.setVisibility(View.GONE);
+		}
 
 		mCurrentStoredPaymentContainer.setOnClickListener(new OnClickListener() {
 			@Override

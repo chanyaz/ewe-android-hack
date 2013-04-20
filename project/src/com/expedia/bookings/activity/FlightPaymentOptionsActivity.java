@@ -16,6 +16,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.fragment.FlightPaymentAddressFragment;
 import com.expedia.bookings.fragment.FlightPaymentCreditCardFragment;
 import com.expedia.bookings.fragment.FlightPaymentOptionsFragment;
@@ -161,7 +163,12 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		if (mMode.equals(YoYoMode.YOYO)) {
 			switch (mPos) {
 			case OPTIONS:
-				displayAddress();
+				if (PointOfSale.getPointOfSale().requiresBillingAddressFlights()) {
+					displayAddress();
+				}
+				else {
+					displayCreditCard();
+				}
 				break;
 			case ADDRESS:
 				if (validate(mAddressFragment)) {
@@ -252,7 +259,13 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 				displayOptions();
 				break;
 			case CREDITCARD:
-				displayAddress();
+				if (PointOfSale.getPointOfSale().requiresBillingAddressFlights()) {
+					displayAddress();
+				}
+				else {
+					displayOptions();
+				}
+
 				break;
 			case SAVE:
 				closeSaveDialog();
@@ -382,7 +395,12 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		else {
 			if (canOnlySelectNewCard()) {
 				mMode = YoYoMode.YOYO;
-				displayAddress();
+				if (PointOfSale.getPointOfSale().requiresBillingAddressFlights()) {
+					displayAddress();
+				}
+				else {
+					displayCreditCard();
+				}
 			}
 			else {
 				displayOptions();

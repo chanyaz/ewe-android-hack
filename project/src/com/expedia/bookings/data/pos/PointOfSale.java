@@ -286,6 +286,11 @@ public class PointOfSale {
 		return mRequiredPaymentFieldsHotels;
 	}
 
+	public boolean requiresBillingAddressFlights() {
+		// TODO: MOVE THIS to ExpediaPOSConfig.json and don't make it as horrible as the hotels required payment fields
+		return mPointOfSale != PointOfSaleId.JAPAN;
+	}
+
 	public boolean showHotelCrossSell() {
 		return mShowHotelCrossSell;
 	}
