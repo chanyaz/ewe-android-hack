@@ -254,8 +254,8 @@ public class HotelPaymentOptionsFragment extends Fragment {
 		//
 		// tl;dr payment validation is complicated and happens in a lot of places and should probably be refactored
 		boolean displayManualCurrentPayment;
-		PointOfSale.RequiredPaymentFieldsHotels fields = PointOfSale.getPointOfSale().getRequiredPaymentFieldsHotels();
-		if (fields == PointOfSale.RequiredPaymentFieldsHotels.POSTAL_CODE) {
+		PointOfSale.RequiredPaymentFields fields = PointOfSale.getPointOfSale().getRequiredPaymentFieldsHotels();
+		if (fields == PointOfSale.RequiredPaymentFields.POSTAL_CODE) {
 			displayManualCurrentPayment = !hasSelectedStoredCard && (addressValid || cardValid);
 		}
 		else {

@@ -81,9 +81,9 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 			}
 		});
 
-		PointOfSale.RequiredPaymentFieldsHotels requiredFields = PointOfSale.getPointOfSale()
+		PointOfSale.RequiredPaymentFields requiredFields = PointOfSale.getPointOfSale()
 				.getRequiredPaymentFieldsHotels();
-		if (requiredFields.equals(PointOfSale.RequiredPaymentFieldsHotels.POSTAL_CODE)) {
+		if (requiredFields.equals(PointOfSale.RequiredPaymentFields.POSTAL_CODE)) {
 			// grab reference to the SectionLocation as we will need to perform validation
 			mSectionLocation = Ui.findView(v, R.id.section_location_address);
 			mSectionLocation.setLineOfBusiness(LineOfBusiness.HOTELS);
@@ -105,7 +105,7 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 				postalCodeEditText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_NORMAL);
 			}
 		}
-		else if (requiredFields.equals(PointOfSale.RequiredPaymentFieldsHotels.NONE)) {
+		else if (requiredFields.equals(PointOfSale.RequiredPaymentFields.NONE)) {
 			// remove the SectionLocation/postalCode as it is not needed
 			ViewGroup vg = Ui.findView(v, R.id.edit_creditcard_exp_date_and_zipcode_container);
 			vg.removeView(Ui.findView(v, R.id.section_location_address));

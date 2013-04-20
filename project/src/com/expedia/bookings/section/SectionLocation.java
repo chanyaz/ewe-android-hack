@@ -456,8 +456,8 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		}
 
 		if (mLineOfBusiness == LineOfBusiness.HOTELS) {
-			PointOfSale.RequiredPaymentFieldsHotels req = PointOfSale.getPointOfSale().getRequiredPaymentFieldsHotels();
-			if (req == PointOfSale.RequiredPaymentFieldsHotels.POSTAL_CODE) {
+			PointOfSale.RequiredPaymentFields req = PointOfSale.getPointOfSale().getRequiredPaymentFieldsHotels();
+			if (req == PointOfSale.RequiredPaymentFields.POSTAL_CODE) {
 				return true;
 			}
 		}

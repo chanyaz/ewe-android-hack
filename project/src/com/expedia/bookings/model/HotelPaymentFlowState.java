@@ -20,8 +20,8 @@ public class HotelPaymentFlowState {
 
 		// Important note: Hotels checkout flow only requires a Location (only for postal code) for a set of POS. If we
 		// require the postal code field, then we need to inflate and validate against its value.
-		PointOfSale.RequiredPaymentFieldsHotels field = PointOfSale.getPointOfSale().getRequiredPaymentFieldsHotels();
-		if (field == PointOfSale.RequiredPaymentFieldsHotels.POSTAL_CODE) {
+		PointOfSale.RequiredPaymentFields field = PointOfSale.getPointOfSale().getRequiredPaymentFieldsHotels();
+		if (field == PointOfSale.RequiredPaymentFields.POSTAL_CODE) {
 			mSectionLocation = (SectionLocation) inflater.inflate(R.layout.section_hotel_edit_address, null);
 			mSectionLocation.setLineOfBusiness(LineOfBusiness.HOTELS);
 		}

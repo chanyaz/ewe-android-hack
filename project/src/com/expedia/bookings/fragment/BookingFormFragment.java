@@ -967,9 +967,9 @@ public class BookingFormFragment extends Fragment {
 	}
 
 	private boolean enablePostalCode() {
-		PointOfSale.RequiredPaymentFieldsHotels requiredFields = PointOfSale.getPointOfSale()
+		PointOfSale.RequiredPaymentFields requiredFields = PointOfSale.getPointOfSale()
 				.getRequiredPaymentFieldsHotels();
-		if (requiredFields.equals(PointOfSale.RequiredPaymentFieldsHotels.POSTAL_CODE)) {
+		if (requiredFields.equals(PointOfSale.RequiredPaymentFields.POSTAL_CODE)) {
 			return true;
 		}
 		else {

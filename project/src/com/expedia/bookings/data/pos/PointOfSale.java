@@ -45,7 +45,7 @@ public class PointOfSale {
 	/**
 	 * This enum defines the different types of fields required for hotels checkout.
 	 */
-	public enum RequiredPaymentFieldsHotels {
+	public enum RequiredPaymentFields {
 		NONE,
 		POSTAL_CODE,
 	}
@@ -109,7 +109,7 @@ public class PointOfSale {
 	private String[] mDefaultLocales;
 
 	// Used to determine which fields are required for Hotels checkout
-	private RequiredPaymentFieldsHotels mRequiredPaymentFieldsHotels;
+	private RequiredPaymentFields mRequiredPaymentFieldsHotels;
 
 	// Whether or not to show cross-sells
 	private boolean mShowHotelCrossSell;
@@ -282,7 +282,7 @@ public class PointOfSale {
 
 	// TODO: As more complicated payment combinations arise, think about a refactor
 
-	public RequiredPaymentFieldsHotels getRequiredPaymentFieldsHotels() {
+	public RequiredPaymentFields getRequiredPaymentFieldsHotels() {
 		return mRequiredPaymentFieldsHotels;
 	}
 
@@ -668,14 +668,14 @@ public class PointOfSale {
 	 * Parses out "requiredPaymentFields:hotels" from JSON file. Must be updated if JSON file returns new values
 	 * for this field. Currently the only value for this field is "postalCode" (or omitted).
 	 */
-	private static RequiredPaymentFieldsHotels parseRequiredPaymentFieldsHotels(JSONObject data) {
+	private static RequiredPaymentFields parseRequiredPaymentFieldsHotels(JSONObject data) {
 		String paymentFields = data.optString("requiredPaymentFields:hotels");
-		RequiredPaymentFieldsHotels type;
+		RequiredPaymentFields type;
 		if ("postalCode".equals(paymentFields)) {
-			type = RequiredPaymentFieldsHotels.POSTAL_CODE;
+			type = RequiredPaymentFields.POSTAL_CODE;
 		}
 		else {
-			type = RequiredPaymentFieldsHotels.NONE;
+			type = RequiredPaymentFields.NONE;
 		}
 		return type;
 	}
