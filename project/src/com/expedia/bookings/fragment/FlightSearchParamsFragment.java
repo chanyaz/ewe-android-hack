@@ -187,7 +187,10 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			mCalendarContainer.getLayoutParams().height = LayoutParams.MATCH_PARENT;
 		}
 
-		if (mIsLandscape && mIsTablet) {
+		// If it is set to MATCH_PARENT on tablet though we want
+		// to clamp it to the bottom of the other search params
+		if (mIsLandscape && mIsTablet
+				&& getResources().getDimensionPixelSize(R.dimen.flight_search_calendar_height) == LayoutParams.MATCH_PARENT) {
 			RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mCalendarContainer.getLayoutParams();
 			lp.addRule(RelativeLayout.BELOW, R.id.header);
 		}
