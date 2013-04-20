@@ -48,6 +48,7 @@ public class PointOfSale {
 	public enum RequiredPaymentFields {
 		NONE,
 		POSTAL_CODE,
+		ALL,
 	}
 
 	public static final String ACTION_POS_CHANGED = "com.expedia.bookings.action.pos_changed";
@@ -110,6 +111,9 @@ public class PointOfSale {
 
 	// Used to determine which fields are required for Hotels checkout
 	private RequiredPaymentFields mRequiredPaymentFieldsHotels;
+
+	// Used to determine which fields are required for Flights checkout
+	private RequiredPaymentFields mRequiredPaymentFieldsFlights;
 
 	// Whether or not to show cross-sells
 	private boolean mShowHotelCrossSell;
@@ -286,9 +290,12 @@ public class PointOfSale {
 		return mRequiredPaymentFieldsHotels;
 	}
 
+	public RequiredPaymentFields getRequiredPaymentFieldsFlights() {
+		return mRequiredPaymentFieldsFlights;
+	}
+
 	public boolean requiresBillingAddressFlights() {
-		// TODO: MOVE THIS to ExpediaPOSConfig.json and don't make it as horrible as the hotels required payment fields
-		return mPointOfSale != PointOfSaleId.JAPAN;
+		return mRequiredPaymentFieldsFlights == RequiredPaymentFields.ALL;
 	}
 
 	public boolean showHotelCrossSell() {
@@ -635,6 +642,7 @@ public class PointOfSale {
 		pos.mDefaultLocales = stringJsonArrayToArray(mappedLocales);
 
 		pos.mRequiredPaymentFieldsHotels = parseRequiredPaymentFieldsHotels(data);
+		pos.mRequiredPaymentFieldsFlights = parseRequiredPaymentFieldsFlights(data);
 
 		return pos;
 	}
@@ -678,6 +686,22 @@ public class PointOfSale {
 			type = RequiredPaymentFields.NONE;
 		}
 		return type;
+	}
+
+	private static RequiredPaymentFields parseRequiredPaymentFieldsFlights(JSONObject data) {
+		String paymentFields = data.optString("requiredPaymentFields:flights");
+		RequiredPaymentFields type;
+		if ("postalCode".equals(paymentFields)) {
+			type = RequiredPaymentFields.POSTAL_CODE;
+		}
+		else if ("none".equals(paymentFields)) {
+			type = RequiredPaymentFields.NONE;
+		}
+		else {
+			type = RequiredPaymentFields.ALL;
+		}
+		return type;
+
 	}
 
 	private static String[] stringJsonArrayToArray(JSONArray stringJsonArr) {
