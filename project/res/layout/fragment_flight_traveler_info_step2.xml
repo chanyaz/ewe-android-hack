@@ -2,14 +2,20 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/flight_checkout_opaque_white"
-    android:fillViewport="true"
-    android:padding="10dp" >
+    android:background="@color/flight_checkout_opaque_grey"
+    android:fillViewport="true" >
 
-    <include
-        android:id="@+id/traveler_info"
-        android:layout_width="match_parent"
+    <FrameLayout
+        android:layout_width="@dimen/flight_content_width"
         android:layout_height="wrap_content"
-        layout="@layout/section_edit_traveler_pt2" />
+        android:layout_gravity="center_horizontal"
+        android:background="@color/flight_checkout_opaque_white"
+        android:padding="8dp" >
+
+        <include
+            android:id="@+id/traveler_info"
+            layout="@layout/section_edit_traveler_pt2" />
+
+    </FrameLayout>
 
 </ScrollView>

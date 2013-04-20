@@ -1,33 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/flight_checkout_opaque_white"
-    android:fillViewport="true"
-    android:orientation="vertical"
-    android:padding="10dp" >
+    android:background="@color/flight_checkout_opaque_grey" >
 
-    <TextView
-        android:id="@+id/edit_traveler_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:text="@string/passport_country_origin"
-        android:textColor="@color/data_entry_heading"
-        android:textSize="@dimen/data_form_section_header_text"
-        android:textStyle="bold" />
+    <LinearLayout
+        android:layout_width="@dimen/flight_content_width"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/flight_checkout_opaque_white"
+        android:fillViewport="true"
+        android:orientation="vertical"
+        android:padding="8dp" >
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="4dp"
-        android:background="@color/data_entry_heading_divider" />
+        <TextView
+            android:id="@+id/edit_traveler_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="@string/passport_country_origin"
+            android:textColor="@color/data_entry_heading"
+            android:textSize="@dimen/data_form_section_header_text"
+            android:textStyle="bold" />
 
-    <include
-        android:id="@+id/traveler_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/section_edit_traveler_pt3" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/data_entry_heading_divider" />
 
-</LinearLayout>
+        <include
+            android:id="@+id/traveler_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/section_edit_traveler_pt3" />
+
+    </LinearLayout>
+</FrameLayout>
