@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Tablet Flights -->
     <dimen name="flight_content_width">600dp</dimen>
-
     <dimen name="plane_window_height">400dp</dimen>
     <dimen name="plane_window_text_offset">175dp</dimen>
-
     <dimen name="flight_search_calendar_height">@dimen/match_parent</dimen>
 
 </resources>
