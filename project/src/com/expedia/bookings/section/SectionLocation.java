@@ -21,6 +21,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.section.CountrySpinnerAdapter.CountryDisplayType;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.mobiata.android.Log;
@@ -448,7 +449,9 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 	 * Postal code seems to have the most complicated logic, so I encapsulate this logic in a helper method.
 	 */
 	private boolean requiresPostalCode() {
-		if (mLineOfBusiness == LineOfBusiness.FLIGHTS) {
+		// #954. Postal codes aren't mandatory for Ireland POS
+		if ((mLineOfBusiness == LineOfBusiness.FLIGHTS)
+				&& (PointOfSale.getPointOfSale().getPointOfSaleId() != PointOfSaleId.IRELAND)) {
 			return true;
 		}
 
