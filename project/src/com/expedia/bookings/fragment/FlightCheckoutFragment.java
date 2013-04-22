@@ -368,7 +368,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		}
 		int padding = getResources().getDimensionPixelSize(R.dimen.traveler_button_padding);
 		travelerSection.setPadding(padding, padding, padding, padding);
-		travelerSection.setOnClickListener(new OnTravelerClickListener(travelerIndex, false));
+		travelerSection.setOnClickListener(new OnTravelerClickListener(travelerIndex));
 	}
 
 	private Traveler getTraveler(int index) {
@@ -385,13 +385,11 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 
 	private class OnTravelerClickListener implements OnClickListener {
 		int mTravelerIndex = 0;
-		boolean mAttemptDiskLoad = false;
 
-		public OnTravelerClickListener(int travelerIndex, boolean attemptDiskLoad) {
+		public OnTravelerClickListener(int travelerIndex) {
 			if (travelerIndex >= 0) {
 				mTravelerIndex = travelerIndex;
 			}
-			mAttemptDiskLoad = attemptDiskLoad;
 		}
 
 		@Override
@@ -409,9 +407,9 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			else {
 				Db.getWorkingTravelerManager().setWorkingTravelerAndBase(new Traveler());
 			}
-			if (mAttemptDiskLoad) {
-				Db.getWorkingTravelerManager().setAttemptToLoadFromDisk(mAttemptDiskLoad);
-			}
+			
+			Db.getWorkingTravelerManager().setAttemptToLoadFromDisk(false);
+
 			startActivity(editTravelerIntent);
 		}
 	}

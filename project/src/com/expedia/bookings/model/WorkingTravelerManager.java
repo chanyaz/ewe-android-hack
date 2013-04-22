@@ -345,7 +345,7 @@ public class WorkingTravelerManager {
 	public void clearWorkingTraveler(Context context) {
 		mWorkingTraveler = null;
 		mBaseTraveler = null;
-		context.deleteFile(WORKING_TRAVELER_FILE_NAME);
+		deleteWorkingTravelerFile(context);
 		mAttemptLoadFromDisk = false;
 	}
 

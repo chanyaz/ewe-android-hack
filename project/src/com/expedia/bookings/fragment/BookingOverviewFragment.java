@@ -937,7 +937,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 				else {
 					Db.getWorkingTravelerManager().setWorkingTravelerAndBase(new Traveler());
 				}
-				Db.getWorkingTravelerManager().setAttemptToLoadFromDisk(true);
+				Db.getWorkingTravelerManager().setAttemptToLoadFromDisk(false);
 				startActivity(new Intent(getActivity(), HotelTravelerInfoOptionsActivity.class));
 				break;
 			}

@@ -13,12 +13,10 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment;
@@ -177,7 +175,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 			traveler.getPrimaryPhoneNumber().setAreaCode(null);
 		}
 		Db.getWorkingTravelerManager().setWorkingTravelerAndBase(Db.getTravelers().get(0));
-		Db.getWorkingTravelerManager().setAttemptToLoadFromDisk(true);
+		Db.getWorkingTravelerManager().setAttemptToLoadFromDisk(false);
 
 		startActivity(intent);
 	}
