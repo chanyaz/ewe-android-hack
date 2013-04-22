@@ -609,7 +609,10 @@ public class FlightTrip implements JSONable {
 				obj.putOpt(KEY_LEG_IDS, legIds);
 			}
 
-			obj.put(KEY_CURRENCY, mBaseFare.getCurrency());
+			if (mBaseFare != null) {
+				obj.put(KEY_CURRENCY, mBaseFare.getCurrency());
+			}
+			
 			addMoney(obj, KEY_BASE_FARE, mBaseFare);
 			addMoney(obj, KEY_TOTAL_FARE, mTotalFare);
 			addMoney(obj, KEY_TAXES, mTaxes);
