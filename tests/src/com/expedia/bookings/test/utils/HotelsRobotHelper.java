@@ -506,10 +506,6 @@ public class HotelsRobotHelper {
 		mSolo.scrollDown();
 		delay(1);
 
-		screenshot("Booking Screen 2");
-		mSolo.scrollToBottom();
-		delay(1);
-
 		screenshot("Bottom of Booking Screen");
 		mSolo.scrollToTop();
 	}
