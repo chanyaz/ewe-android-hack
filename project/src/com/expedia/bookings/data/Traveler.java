@@ -51,6 +51,9 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	// Utility - not actually coming from the Expedia
 	private boolean mSaveTravelerToExpediaAccount = false;
 
+	// Is the Traveler from Google Wallet?  Treat them differently!
+	private boolean mFromGoogleWallet;
+
 	public enum Gender {
 		MALE, FEMALE, OTHER
 	}
@@ -298,6 +301,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	}
 
 	public boolean getSaveTravelerToExpediaAccount() {
+		if (mFromGoogleWallet) {
+			return false;
+		}
+
 		return mSaveTravelerToExpediaAccount;
 	}
 
@@ -415,6 +422,14 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mIsRedeemer = isRedeemer;
 	}
 
+	public void setFromGoogleWallet(boolean fromGoogleWallet) {
+		mFromGoogleWallet = fromGoogleWallet;
+	}
+
+	public boolean fromGoogleWallet() {
+		return mFromGoogleWallet;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Convenience methods
 
@@ -488,6 +503,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 			obj.putOpt("saveToExpediaAccount", mSaveTravelerToExpediaAccount);
 
+			obj.putOpt("fromGoogleWallet", mFromGoogleWallet);
+
 			return obj;
 		}
 		catch (JSONException e) {
@@ -524,6 +541,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mIsRedeemer = obj.optBoolean("isRedeemer");
 
 		mSaveTravelerToExpediaAccount = obj.optBoolean("saveToExpediaAccount");
+
+		mFromGoogleWallet = obj.optBoolean("fromGoogleWallet");
 
 		return true;
 	}
@@ -684,6 +703,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		diff = compareEnum(getAssistance(), another.getAssistance());
 		if (diff != 0) {
 			return diff;
+		}
+
+		if (fromGoogleWallet() != another.fromGoogleWallet()) {
+			return fromGoogleWallet() ? BEFORE : AFTER;
 		}
 
 		return EQUAL;

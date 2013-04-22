@@ -159,6 +159,7 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 		else {
 			// Reset masked wallet each time we start here, so we start from scratch
 			Db.setMaskedWallet(null);
+			Db.setGoogleWalletTraveler(null);
 		}
 
 		AdTracker.trackHotelCheckoutStarted();
@@ -1217,6 +1218,7 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 		// Add the current traveler from the wallet, if it is full of data and we have none at the moment 
 		Traveler traveler = WalletUtils.convertToTraveler(maskedWallet);
 		populateTravelerData(traveler);
+		Db.setGoogleWalletTraveler(traveler);
 
 		// Bind credit card data
 		WalletUtils.bindWalletToBillingInfo(maskedWallet, mBillingInfo);

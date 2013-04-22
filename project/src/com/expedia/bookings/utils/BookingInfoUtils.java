@@ -13,6 +13,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.StoredCreditCard;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
@@ -37,6 +38,33 @@ public class BookingInfoUtils {
 		}
 
 		return cards;
+	}
+
+	public static List<Traveler> getAlternativeTravelers(Context context) {
+		List<Traveler> travelers = new ArrayList<Traveler>();
+
+		if (Db.getGoogleWalletTraveler() != null) {
+			travelers.add(Db.getGoogleWalletTraveler());
+		}
+
+		if (User.isLoggedIn(context) && Db.getUser() != null && Db.getUser().getAssociatedTravelers() != null) {
+			travelers.addAll(Db.getUser().getAssociatedTravelers());
+		}
+
+		return travelers;
+	}
+
+	public static boolean travelerInUse(Traveler traveler) {
+		for (int j = 0; j < Db.getTravelers().size(); j++) {
+			Traveler inUseTraveler = Db.getTravelers().get(j);
+			if ((traveler.hasTuid() && inUseTraveler.hasTuid()
+					&& traveler.getTuid().compareTo(inUseTraveler.getTuid()) == 0)
+					|| (traveler.fromGoogleWallet() && inUseTraveler.fromGoogleWallet())) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public static void focusAndOpenKeyboard(Context context, View view) {

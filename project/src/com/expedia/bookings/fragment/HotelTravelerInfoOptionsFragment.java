@@ -1,5 +1,7 @@
 package com.expedia.bookings.fragment;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -19,11 +21,11 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -98,57 +100,54 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 
 		//Associated Travelers (From Expedia Account)
 		mAssociatedTravelersContainer.removeAllViews();
-		if (User.isLoggedIn(getActivity())) {
-			Resources res = getResources();
-			for (int i = 0; i < Db.getUser().getAssociatedTravelers().size(); i++) {
-				final Traveler traveler = Db.getUser().getAssociatedTravelers().get(i);
+		List<Traveler> alternativeTravelers = BookingInfoUtils.getAlternativeTravelers(getActivity());
+		int numAltTravelers = alternativeTravelers.size();
+		Resources res = getResources();
+		for (int i = 0; i < numAltTravelers; i++) {
+			final Traveler traveler = alternativeTravelers.get(i);
 
-				//We check if this traveler is already in the list of travelers
-				boolean alreadyInUse = false;
-				for (int j = 0; j < Db.getTravelers().size(); j++) {
-					if (traveler.hasTuid() && Db.getTravelers().get(j).hasTuid()
-							&& traveler.getTuid().compareTo(Db.getTravelers().get(j).getTuid()) == 0) {
-						alreadyInUse = true;
-						break;
-					}
-				}
-				if (alreadyInUse) {
-					continue;
-				}
+			//We check if this traveler is already in the list of travelers
+			boolean alreadyInUse = BookingInfoUtils.travelerInUse(traveler);
 
-				//We inflate the traveler as an option for the user to select
-				SectionTravelerInfo travelerInfo = (SectionTravelerInfo) inflater.inflate(
-						R.layout.section_hotel_display_traveler_info_name, null);
-				travelerInfo.bind(traveler);
-				travelerInfo.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						mCurrentTraveler = traveler;
-
-						// Begin loading travler details in the background, if we haven't already
-						BackgroundDownloader bd = BackgroundDownloader.getInstance();
-						if (!bd.isDownloading(TRAVELER_DETAILS_DOWNLOAD)) {
-							// Show a loading dialog
-							ThrobberDialog df = ThrobberDialog.newInstance(getString(R.string.loading_traveler_info));
-							df.show(getFragmentManager(), DIALOG_LOADING_TRAVELER);
-							bd.startDownload(TRAVELER_DETAILS_DOWNLOAD, mTravelerDetailsDownload,
-									mTravelerDetailsCallback);
-
-							OmnitureTracking.trackLinkFlightCheckoutTravelerSelectExisting(getActivity());
-						}
-					}
-				});
-
-				mAssociatedTravelersContainer.addView(travelerInfo);
-
-				//Add divider
-				View divider = new View(getActivity());
-				LinearLayout.LayoutParams divLayoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
-						res.getDimensionPixelSize(R.dimen.simple_grey_divider_height));
-				divider.setLayoutParams(divLayoutParams);
-				divider.setBackgroundColor(0x69FFFFFF);
-				mAssociatedTravelersContainer.addView(divider);
+			if (alreadyInUse) {
+				continue;
 			}
+
+			//We inflate the traveler as an option for the user to select
+			SectionTravelerInfo travelerInfo = (SectionTravelerInfo) inflater.inflate(
+					R.layout.section_hotel_display_traveler_info_name, null);
+			travelerInfo.bind(traveler);
+			travelerInfo.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					mCurrentTraveler = traveler;
+
+					BackgroundDownloader bd = BackgroundDownloader.getInstance();
+					if (mCurrentTraveler.fromGoogleWallet()) {
+						onTravelerDetailsReceived(mCurrentTraveler);
+					}
+					else if (!bd.isDownloading(TRAVELER_DETAILS_DOWNLOAD)) {
+						// Begin loading travler details in the background, if we haven't already
+						// Show a loading dialog
+						ThrobberDialog df = ThrobberDialog.newInstance(getString(R.string.loading_traveler_info));
+						df.show(getFragmentManager(), DIALOG_LOADING_TRAVELER);
+						bd.startDownload(TRAVELER_DETAILS_DOWNLOAD, mTravelerDetailsDownload,
+								mTravelerDetailsCallback);
+
+						OmnitureTracking.trackLinkFlightCheckoutTravelerSelectExisting(getActivity());
+					}
+				}
+			});
+
+			mAssociatedTravelersContainer.addView(travelerInfo);
+
+			//Add divider
+			View divider = new View(getActivity());
+			LinearLayout.LayoutParams divLayoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+					res.getDimensionPixelSize(R.dimen.simple_grey_divider_height));
+			divider.setLayoutParams(divLayoutParams);
+			divider.setBackgroundColor(0x69FFFFFF);
+			mAssociatedTravelersContainer.addView(divider);
 		}
 
 		mTravelerContact = Ui.findView(v, R.id.current_traveler_contact);
@@ -266,14 +265,17 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 				dialogFragment.show(getFragmentManager(), "errorFragment");
 			}
 			else {
-				Traveler traveler = results.getTraveler();
-				if (traveler != null) {
-					Db.getWorkingTravelerManager().shiftWorkingTraveler(traveler);
-					mCurrentTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
-					mCurrentTraveler.setSaveTravelerToExpediaAccount(true);//We default account travelers to save, unless the user alters the name
-					mListener.displayCheckout();
-				}
+				onTravelerDetailsReceived(results.getTraveler());
 			}
 		}
 	};
+
+	private void onTravelerDetailsReceived(Traveler traveler) {
+		if (traveler != null) {
+			Db.getWorkingTravelerManager().shiftWorkingTraveler(traveler);
+			mCurrentTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
+			mCurrentTraveler.setSaveTravelerToExpediaAccount(!traveler.fromGoogleWallet());//We default account travelers to save, unless the user alters the name
+			mListener.displayCheckout();
+		}
+	}
 }

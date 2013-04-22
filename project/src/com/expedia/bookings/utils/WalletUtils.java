@@ -117,6 +117,8 @@ public class WalletUtils {
 	public static Traveler convertToTraveler(MaskedWallet maskedWallet) {
 		Traveler traveler = new Traveler();
 
+		traveler.setFromGoogleWallet(true);
+
 		Address billingAddress = maskedWallet.getBillingAddress();
 
 		String fullName = billingAddress.getName();

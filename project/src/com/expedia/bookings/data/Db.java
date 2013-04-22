@@ -133,6 +133,14 @@ public class Db {
 	private List<Traveler> mTravelers = new ArrayList<Traveler>();
 	private boolean mTravelersAreDirty = false;
 
+	// This is the Traveler we've generated from Google Wallet data.
+	// It is expected that you will generate this when you first
+	// retrieve a masked wallet.
+	//
+	// This should be transient, as we do not want to restore this
+	// if the user has changed the Wallet permissions.
+	private Traveler mGoogleWalletTraveler;
+
 	// The current traveler manager this helps us save state and edit a copy of the working traveler
 	private WorkingTravelerManager mWorkingTravelerManager;
 
@@ -488,6 +496,14 @@ public class Db {
 
 	public static boolean getTravelersAreDirty() {
 		return sDb.mTravelersAreDirty;
+	}
+
+	public static void setGoogleWalletTraveler(Traveler traveler) {
+		sDb.mGoogleWalletTraveler = traveler;
+	}
+
+	public static Traveler getGoogleWalletTraveler() {
+		return sDb.mGoogleWalletTraveler;
 	}
 
 	public static void setBillingInfoIsDirty(boolean dirty) {

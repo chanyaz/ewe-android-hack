@@ -1,5 +1,7 @@
 package com.expedia.bookings.fragment;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -20,12 +22,12 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -109,40 +111,33 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 
 		//Associated Travelers (From Expedia Account)
 		mAssociatedTravelersContainer.removeAllViews();
-		if (User.isLoggedIn(getActivity()) && Db.getUser() != null && Db.getUser().getAssociatedTravelers() != null) {
-			Resources res = getResources();
-			for (int i = 0; i < Db.getUser().getAssociatedTravelers().size(); i++) {
-				final Traveler traveler = Db.getUser().getAssociatedTravelers().get(i);
+		List<Traveler> alternativeTravelers = BookingInfoUtils.getAlternativeTravelers(getActivity());
+		int numAltTravelers = alternativeTravelers.size();
+		Resources res = getResources();
+		for (int i = 0; i < numAltTravelers; i++) {
+			final Traveler traveler = alternativeTravelers.get(i);
 
-				//We check if this traveler is already in the list of travelers
-				boolean alreadyInUse = false;
-				for (int j = 0; j < Db.getTravelers().size(); j++) {
-					if (traveler.hasTuid() && Db.getTravelers().get(j).hasTuid()
-							&& traveler.getTuid().compareTo(Db.getTravelers().get(j).getTuid()) == 0) {
-						alreadyInUse = true;
-						break;
-					}
-				}
+			//We check if this traveler is already in the list of travelers
+			boolean alreadyInUse = BookingInfoUtils.travelerInUse(traveler);
 
-				//We inflate the traveler as an option for the user to select
-				SectionTravelerInfo travelerInfo = (SectionTravelerInfo) inflater.inflate(
-						R.layout.section_display_traveler_info_btn, null);
-				travelerInfo.bind(traveler);
+			//We inflate the traveler as an option for the user to select
+			SectionTravelerInfo travelerInfo = (SectionTravelerInfo) inflater.inflate(
+					R.layout.section_display_traveler_info_btn, null);
+			travelerInfo.bind(traveler);
 
-				toggleTravelerSection(travelerInfo, !alreadyInUse);
+			toggleTravelerSection(travelerInfo, !alreadyInUse);
 
-				mAssociatedTravelersContainer.addView(travelerInfo);
+			mAssociatedTravelersContainer.addView(travelerInfo);
 
-				//Add divider
-				View divider = new View(getActivity());
-				LinearLayout.LayoutParams divLayoutParams = new LinearLayout.LayoutParams(
-						LayoutParams.MATCH_PARENT, res.getDimensionPixelSize(R.dimen.simple_grey_divider_height));
-				divLayoutParams.setMargins(0, res.getDimensionPixelSize(R.dimen.simple_grey_divider_margin_top), 0,
-						res.getDimensionPixelSize(R.dimen.simple_grey_divider_margin_bottom));
-				divider.setLayoutParams(divLayoutParams);
-				divider.setBackgroundColor(res.getColor(R.color.divider_grey));
-				mAssociatedTravelersContainer.addView(divider);
-			}
+			//Add divider
+			View divider = new View(getActivity());
+			LinearLayout.LayoutParams divLayoutParams = new LinearLayout.LayoutParams(
+					LayoutParams.MATCH_PARENT, res.getDimensionPixelSize(R.dimen.simple_grey_divider_height));
+			divLayoutParams.setMargins(0, res.getDimensionPixelSize(R.dimen.simple_grey_divider_margin_top), 0,
+					res.getDimensionPixelSize(R.dimen.simple_grey_divider_margin_bottom));
+			divider.setLayoutParams(divLayoutParams);
+			divider.setBackgroundColor(res.getColor(R.color.divider_grey));
+			mAssociatedTravelersContainer.addView(divider);
 		}
 
 		mTravelerContact = Ui.findView(v, R.id.current_traveler_contact);
@@ -203,9 +198,12 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 				public void onClick(View v) {
 					mCurrentTraveler = section.getTraveler();
 
-					// Begin loading flight details in the background, if we haven't already
 					BackgroundDownloader bd = BackgroundDownloader.getInstance();
-					if (!bd.isDownloading(TRAVELER_DETAILS_DOWNLOAD)) {
+					if (mCurrentTraveler.fromGoogleWallet()) {
+						onTravelerDetailsReceived(mCurrentTraveler);
+					}
+					else if (!bd.isDownloading(TRAVELER_DETAILS_DOWNLOAD)) {
+						// Begin loading flight details in the background, if we haven't already
 						// Show a loading dialog
 						ThrobberDialog df = ThrobberDialog.newInstance(getString(R.string.loading_traveler_info));
 						df.show(getFragmentManager(), DIALOG_LOADING_TRAVELER);
@@ -214,7 +212,6 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 
 						OmnitureTracking.trackLinkFlightCheckoutTravelerSelectExisting(getActivity());
 					}
-
 				}
 			});
 		}
@@ -368,34 +365,37 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 				}
 			}
 			else {
-				Traveler traveler = results.getTraveler();
-				if (traveler != null) {
-					Db.getWorkingTravelerManager().shiftWorkingTraveler(traveler);
-					mCurrentTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
-					mCurrentTraveler.setSaveTravelerToExpediaAccount(true);//We default account travelers to save, unless the user alters the name
-					TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
-					if (state.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler)) {
-						boolean flightIsInternational = Db.getFlightSearch().getSelectedFlightTrip().isInternational();
-						if (!flightIsInternational) {
-							mListener.displayCheckout();
-						}
-						else {
-							//Because we know we have valid domestic flight, we only need to check the third screen
-							if (state.hasValidTravelerPartThree(mCurrentTraveler)) {
-								mListener.displayCheckout();
-							}
-							else {
-								mListener.setMode(YoYoMode.YOYO);
-								mListener.displayTravelerEntryThree();
-							}
-						}
-					}
-					else {
-						mListener.setMode(YoYoMode.YOYO);
-						mListener.displayTravelerEntryOne();
-					}
-				}
+				onTravelerDetailsReceived(results.getTraveler());
 			}
 		}
 	};
+
+	private void onTravelerDetailsReceived(Traveler traveler) {
+		if (traveler != null) {
+			Db.getWorkingTravelerManager().shiftWorkingTraveler(traveler);
+			mCurrentTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
+			mCurrentTraveler.setSaveTravelerToExpediaAccount(!mCurrentTraveler.fromGoogleWallet());//We default account travelers to save, unless the user alters the name
+			TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
+			if (state.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler)) {
+				boolean flightIsInternational = Db.getFlightSearch().getSelectedFlightTrip().isInternational();
+				if (!flightIsInternational) {
+					mListener.displayCheckout();
+				}
+				else {
+					//Because we know we have valid domestic flight, we only need to check the third screen
+					if (state.hasValidTravelerPartThree(mCurrentTraveler)) {
+						mListener.displayCheckout();
+					}
+					else {
+						mListener.setMode(YoYoMode.YOYO);
+						mListener.displayTravelerEntryThree();
+					}
+				}
+			}
+			else {
+				mListener.setMode(YoYoMode.YOYO);
+				mListener.displayTravelerEntryOne();
+			}
+		}
+	}
 }

@@ -108,6 +108,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		else {
 			// Always start fresh
 			Db.setMaskedWallet(null);
+			Db.setGoogleWalletTraveler(null);
 		}
 	}
 
@@ -736,6 +737,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		// not to hope someday we will get it! 
 		Traveler traveler = WalletUtils.convertToTraveler(maskedWallet);
 		populateTravelerData(traveler);
+		Db.setGoogleWalletTraveler(traveler);
 
 		// Bind credit card data
 		WalletUtils.bindWalletToBillingInfo(maskedWallet, mBillingInfo);

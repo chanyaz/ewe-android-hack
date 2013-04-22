@@ -121,7 +121,9 @@ public abstract class LoadWalletFragment extends WalletFragment {
 		case REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET:
 			switch (resultCode) {
 			case Activity.RESULT_OK:
-				Db.setMaskedWallet((MaskedWallet) data.getParcelableExtra(WalletConstants.EXTRA_MASKED_WALLET));
+				MaskedWallet wallet = (MaskedWallet) data.getParcelableExtra(WalletConstants.EXTRA_MASKED_WALLET);
+				WalletUtils.logWallet(wallet);
+				Db.setMaskedWallet(wallet);
 				onMaskedWalletFullyLoaded();
 				break;
 			case Activity.RESULT_CANCELED:
