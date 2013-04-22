@@ -126,12 +126,6 @@ public class HotelsRobotHelper {
 		}
 	}
 
-	public void clickTopRightBtn() {
-		int w = 479;
-		int h = 46;
-		mSolo.clickOnScreen(w, h);
-	}
-
 	public void createFileWriter() {
 		mFileWriter = new EventTrackingUtils();
 		mWriteEventsToFile = true;
