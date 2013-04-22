@@ -732,10 +732,6 @@
         <item name="android:background">@drawable/btn_find</item>
     </style>
 
-    <style name="LoginFormHeading">
-        <item name="android:layout_width">match_parent</item>
-    </style> 
-    
     <!-- DIALOGS -->
 
     <style name="DialogWindowTitle" />
@@ -747,18 +743,18 @@
         <item name="android:scrollHorizontally">true</item>
         <item name="android:textAppearance">@style/TextAppearance.Holo.Light.DialogWindowTitle</item>
     </style>
-    
+
     <!-- TEXT APPEARANCE -->
 
     <style name="TextAppearance" />
 
     <style name="TextAppearance.Holo" />
-    
+
     <style name="TextAppearance.Small">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/secondary_text_holo_light</item>
     </style>
-    
+
     <style name="TextAppearance.Holo.Light" />
 
     <style name="TextAppearance.Holo.Light.DialogWindowTitle">

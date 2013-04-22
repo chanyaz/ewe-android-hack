@@ -8,7 +8,7 @@
     <dimen name="login_header_top_spacing">8dp</dimen>
     <dimen name="login_divider_content_spacing">14dp</dimen>
     <dimen name="login_header_divider_spacing">14dp</dimen>
-    <dimen name="login_heading_width">960dp</dimen>
+    <dimen name="login_heading_width">@dimen/login_field_width</dimen>
     <dimen name="login_or_spacing">12dp</dimen>
 
 </resources>

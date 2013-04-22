@@ -6,69 +6,46 @@
 
     <LinearLayout
         android:id="@+id/outer_container"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/flight_content_width"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="#28000000"
         android:gravity="center_horizontal"
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
         android:orientation="vertical" >
 
         <!-- Header message -->
 
         <TextView
             android:id="@+id/itin_heading_textview"
-            style="@style/LoginFormHeading"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/login_side_margin_large"
-            android:layout_marginRight="@dimen/login_side_margin_large"
-            android:layout_marginTop="@dimen/login_header_top_spacing"
+            android:layout_marginBottom="8dp"
             android:bufferType="spannable"
             android:text="@string/find_itinerary"
             android:textColor="#f3f3f3"
             android:textSize="@dimen/login_header_text_size" />
 
         <View
-            style="@style/LoginFormHeading"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/login_divider_height"
-            android:layout_marginBottom="@dimen/login_divider_content_spacing"
-            android:layout_marginLeft="@dimen/login_side_margin_medium"
-            android:layout_marginRight="@dimen/login_side_margin_medium"
-            android:layout_marginTop="@dimen/login_header_divider_spacing"
             android:background="#5CFFFFFF" />
 
         <!-- The fields for expedia login -->
 
-        <LinearLayout
-            android:id="@+id/expedia_signin_container"
+        <include
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/login_side_margin_medium"
-            android:layout_marginRight="@dimen/login_side_margin_medium"
-            android:gravity="center"
-            android:orientation="vertical" >
-
-            <EditText
-                android:id="@+id/email_edit_text"
-                style="@style/LoginFormEditText"
-                android:hint="@string/email_address"
-                android:imeOptions="actionNext"
-                android:inputType="textEmailAddress"
-                android:nextFocusDown="@+id/password_edit_text"
-                android:nextFocusRight="@+id/password_edit_text" />
-
-            <EditText
-                android:id="@+id/itin_number_edit_text"
-                style="@style/LoginFormEditText"
-                android:layout_marginBottom="@dimen/login_bottom_room_spacing"
-                android:layout_marginTop="@dimen/login_field_spacing"
-                android:hint="@string/itinerary_number"
-                android:imeOptions="actionDone"
-                android:inputType="number" />
-        </LinearLayout>
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            layout="@layout/include_guest_itin_fields" />
 
         <Button
             android:id="@+id/find_itinerary_button"
             style="@style/ItinFindButton"
-            android:layout_marginLeft="@dimen/login_side_margin_small"
-            android:layout_marginRight="@dimen/login_side_margin_small"
             android:gravity="center"
             android:text="@string/find_itinerary" />
 

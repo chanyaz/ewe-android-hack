@@ -776,17 +776,11 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 			float textSize = resources.getDimensionPixelSize(R.dimen.login_header_text_size);
 			mStatusMessageTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
 			FontCache.setTypeface(mStatusMessageTv, Font.ROBOTO_LIGHT);
-			int marginpx = resources.getDimensionPixelSize(R.dimen.login_header_text_size);
-			lp.leftMargin = marginpx;
-			lp.rightMargin = marginpx;
 		}
 		else {
 			float textSize = resources.getDimensionPixelSize(R.dimen.login_header_text_small_size);
 			mStatusMessageTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
 			FontCache.setTypeface(mStatusMessageTv, Font.ROBOTO_REGULAR);
-			int marginpx = resources.getDimensionPixelSize(R.dimen.login_header_text_small_size);
-			lp.leftMargin = marginpx;
-			lp.rightMargin = marginpx;
 		}
 		mStatusMessageTv.setLayoutParams(lp);
 	}

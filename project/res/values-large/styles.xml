@@ -18,8 +18,4 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="LoginFormHeading">
-        <item name="android:layout_width">@dimen/login_heading_width</item>
-    </style>
-
 </resources>

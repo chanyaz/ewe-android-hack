@@ -34,8 +34,4 @@
         <item name="android:background">@drawable/btn_find</item>
     </style>
 
-    <style name="LoginFormHeading">
-        <item name="android:layout_width">match_parent</item>
-    </style>
-
 </resources>
