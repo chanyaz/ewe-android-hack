@@ -7,7 +7,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
 
@@ -43,7 +42,7 @@ public class PaymentFlowState {
 
 	public boolean hasValidBillingAddress(BillingInfo billingInfo) {
 		bind(billingInfo);
-		return !PointOfSale.getPointOfSale().requiresBillingAddressFlights()|| mBillingAddress.hasValidInput();
+		return !PointOfSale.getPointOfSale().requiresBillingAddressFlights() || mBillingAddress.hasValidInput();
 	}
 
 	public boolean hasValidCardInfo(BillingInfo billingInfo) {
@@ -53,8 +52,7 @@ public class PaymentFlowState {
 
 	public boolean allBillingInfoIsValid(BillingInfo billingInfo) {
 		bind(billingInfo);
-		return mBillingAddress.hasValidInput()
-				&& mCardInfo.hasValidInput();
+		return mBillingAddress.hasValidInput() && mCardInfo.hasValidInput();
 	}
 
 }
