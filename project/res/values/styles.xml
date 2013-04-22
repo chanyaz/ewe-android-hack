@@ -403,10 +403,7 @@
     </style>
 
     <style name="BookingSection">
-        <item name="android:paddingTop">2dp</item>
-        <item name="android:paddingLeft">5dp</item>
-        <item name="android:paddingRight">5dp</item>
-        <item name="android:paddingBottom">5dp</item>
+        <item name="android:padding">@dimen/booking_form_saved_section_padding</item>
         <item name="android:background">@drawable/bg_hotel_checkout_information</item>
     </style>
 

@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_error_box"
         android:gravity="center"
-        android:padding="@dimen/booking_form_saved_section_padding"
         android:visibility="gone" >
 
         <ImageView
@@ -36,7 +35,6 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="@dimen/booking_form_saved_section_padding"
         android:visibility="gone" >
 
         <ProgressBar
@@ -89,7 +87,6 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="@dimen/booking_form_saved_section_padding"
         android:visibility="gone" >
 
         <ImageView
