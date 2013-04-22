@@ -32,7 +32,7 @@ public class HotelsRobotHelper {
 	private Resources mRes;
 	private HotelsUserData mUser; //user info container
 	private ScreenshotUtils mScreen;
-	private EventTrackingUtils mFileWriter;
+	private FileIOUtils mFileWriter;
 	private int mScreenWidth;
 	private int mScreenHeight;
 	public UserLocaleUtils mLocaleUtils;
@@ -127,7 +127,7 @@ public class HotelsRobotHelper {
 	}
 
 	public void createFileWriter() {
-		mFileWriter = new EventTrackingUtils();
+		mFileWriter = new FileIOUtils();
 		mWriteEventsToFile = true;
 		mFileWriter.addLineToFile("Install Event within a couple of minutes",
 				true);
