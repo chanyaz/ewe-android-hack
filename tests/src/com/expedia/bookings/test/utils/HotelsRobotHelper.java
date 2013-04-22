@@ -279,12 +279,6 @@ public class HotelsRobotHelper {
 		if (mAllowScreenshots) {
 			screenshot("Search Results");
 			mSolo.scrollDown();
-			delay(1);
-			screenshot("Results2");
-			delay(1);
-			mSolo.scrollDown();
-			delay(1);
-			screenshot("Results3");
 		}
 	}
 
