@@ -253,7 +253,7 @@ public class ExpediaServices implements DownloadListener {
 	// http://suggest.expedia.com/hint/es/v1/ac/en_US/new%20york?type=95&lob=Flights
 
 	public SuggestResponse suggest(String query, int flags) {
-		if (query == null || query.length() < 3) {
+		if (query == null || query.length() < getMinSuggestQueryLength()) {
 			return null;
 		}
 
@@ -286,6 +286,21 @@ public class ExpediaServices implements DownloadListener {
 		Log.d("Autosuggest request: " + url + "?" + NetUtils.getParamsForLogging(params));
 
 		return doRequest(get, responseHandler, 0);
+	}
+
+	
+	/**
+	 * Get the minimum number of characters required to provide drop down auto fill results.
+	 * This is useful for languages like Japanese where Tokyo is spelt with 2 characters.
+	 * @return min number of characters considered to be a valid query
+	 */
+	private int getMinSuggestQueryLength() {
+		if (mContext != null) {
+			return mContext.getResources().getInteger(R.integer.suggest_min_query_length);
+		}
+		else {
+			return 3;
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

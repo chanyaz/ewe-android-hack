@@ -5,6 +5,9 @@
     <integer name="somo_user_id">25</integer>
     <integer name="somo_application_id">44</integer>
 
+    <!-- Auto complete settings -->
+    <integer name="suggest_min_query_length">3</integer>
+
     <!-- Animation durations -->
     <integer name="sort_filter_animation_duration">250</integer>
 
