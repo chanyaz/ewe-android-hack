@@ -1,5 +1,10 @@
 package com.expedia.bookings.test.utils;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -8,6 +13,7 @@ import java.util.Random;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity;
@@ -15,7 +21,7 @@ import com.expedia.bookings.activity.SearchActivity;
 public class UserLocaleUtils extends ActivityInstrumentationTestCase2<SearchActivity> {
 
 	private Resources mRes;
-
+	public static String TAG = "LocaleUtils";
 	public UserLocaleUtils(Resources res) {
 		super("com.expedia.bookings", SearchActivity.class);
 		mRes = res;
@@ -73,18 +79,18 @@ public class UserLocaleUtils extends ActivityInstrumentationTestCase2<SearchActi
 			AMERICAN_LOCALES[2], //en_CA
 			AMERICAN_LOCALES[3], //fr_CA
 			AMERICAN_LOCALES[5], //en_US
-			WESTERN_LOCALES[9],  //it_IT
-			WESTERN_LOCALES[7],  //fr_FR
-			WESTERN_LOCALES[4],  //de_DE
+			WESTERN_LOCALES[9], //it_IT
+			WESTERN_LOCALES[7], //fr_FR
+			WESTERN_LOCALES[4], //de_DE
 			WESTERN_LOCALES[14], //en_UK
-			WESTERN_LOCALES[1],  //en_AU
+			WESTERN_LOCALES[1], //en_AU
 			WESTERN_LOCALES[12], //en_NZ
 			WESTERN_LOCALES[11], //nb_NO
-			WESTERN_LOCALES[5],  //da_DK
-			WESTERN_LOCALES[2],  //fr_BE
-			WESTERN_LOCALES[3],  //nl_BE
-			WESTERN_LOCALES[8],  //en_IE
-			APAC_LOCALES[4],     //ja_JP
+			WESTERN_LOCALES[5], //da_DK
+			WESTERN_LOCALES[2], //fr_BE
+			WESTERN_LOCALES[3], //nl_BE
+			WESTERN_LOCALES[8], //en_IE
+			APAC_LOCALES[4], //ja_JP
 	};
 
 	public static final Map<Locale, Integer> LOCALE_TO_COUNTRY = new HashMap<Locale, Integer>();
@@ -132,14 +138,51 @@ public class UserLocaleUtils extends ActivityInstrumentationTestCase2<SearchActi
 
 	////////////////////////////////////////////////////////////////
 	// Setting Locale
-	
+
+	//Set locale to top locale code in listName file
+	//Remove that line from the list afterward
+	public Locale selectNextLocaleFromInternalList(String listName) throws IOException {
+		File fileIn = new File(listName);
+		File tempFile = new File("tempFile");
+
+		BufferedReader listReader = new BufferedReader(new FileReader(fileIn));
+
+		//Get substrings for new locale, instantiate new locale, set new locale
+		String localeCode = listReader.readLine();
+		Locale newLocale;
+		if (localeCode.equals("")) {
+			newLocale = AMERICAN_LOCALES[5];
+			Log.d(TAG, "No more locales listed. Adding new one.");
+		}
+		else {
+			 newLocale = new Locale(localeCode.substring(0, 2), localeCode.substring(3, 5));
+		}
+		setLocale(newLocale);
+
+		//write the rest of the existing file to a temporary one
+
+		PrintWriter fileWriter = new PrintWriter(tempFile);
+
+		String nextLine = listReader.readLine();
+		while (!nextLine.equals(null)) {
+			fileWriter.write(nextLine);
+			nextLine = listReader.readLine();
+		}
+
+		//set old file to be the new file
+		//which has one less locale listed
+		fileIn = tempFile;
+
+		return newLocale;
+	}
+
 	// Select a random locale from the array of locales given
 	public Locale setRandomLocale(Locale[] localeList) {
 		Random rand = new Random();
 		int localeIndex = rand.nextInt(localeList.length);
 		Locale selectedLocale = localeList[localeIndex];
 		setLocale(selectedLocale);
-		
+
 		return selectedLocale;
 	}
 
