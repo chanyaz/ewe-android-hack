@@ -29,7 +29,7 @@ public class UserLocaleUtils extends ActivityInstrumentationTestCase2<SearchActi
 			new Locale("en", "CA"),
 			new Locale("fr", "CA"),
 			new Locale("es", "MX"),
-			new Locale("en", "US")
+			new Locale("en", "US"),
 	};
 
 	public static Locale[] APAC_LOCALES = new Locale[] {
@@ -48,7 +48,7 @@ public class UserLocaleUtils extends ActivityInstrumentationTestCase2<SearchActi
 			new Locale("zh", "TW"),
 			new Locale("vi", "VN"),
 			new Locale("tl", "PH"),
-			new Locale("zh", "CN")
+			new Locale("zh", "CN"),
 	};
 
 	public static Locale[] WESTERN_LOCALES = new Locale[] {
@@ -66,17 +66,25 @@ public class UserLocaleUtils extends ActivityInstrumentationTestCase2<SearchActi
 			new Locale("nb", "NO"),
 			new Locale("en", "NZ"),
 			new Locale("sv", "SE"),
-			new Locale("en", "UK")
+			new Locale("en", "UK"),
 	};
 
 	public static Locale[] FLIGHTS_LOCALES = new Locale[] {
-			AMERICAN_LOCALES[2],
-			AMERICAN_LOCALES[3],
-			AMERICAN_LOCALES[5],
-			WESTERN_LOCALES[9],
-			WESTERN_LOCALES[7],
-			WESTERN_LOCALES[4],
-			WESTERN_LOCALES[14],
+			AMERICAN_LOCALES[2], //en_CA
+			AMERICAN_LOCALES[3], //fr_CA
+			AMERICAN_LOCALES[5], //en_US
+			WESTERN_LOCALES[9],  //it_IT
+			WESTERN_LOCALES[7],  //fr_FR
+			WESTERN_LOCALES[4],  //de_DE
+			WESTERN_LOCALES[14], //en_UK
+			WESTERN_LOCALES[1],  //en_AU
+			WESTERN_LOCALES[12], //en_NZ
+			WESTERN_LOCALES[11], //nb_NO
+			WESTERN_LOCALES[5],  //da_DK
+			WESTERN_LOCALES[2],  //fr_BE
+			WESTERN_LOCALES[3],  //nl_BE
+			WESTERN_LOCALES[8],  //en_IE
+			APAC_LOCALES[4],     //ja_JP
 	};
 
 	public static final Map<Locale, Integer> LOCALE_TO_COUNTRY = new HashMap<Locale, Integer>();
