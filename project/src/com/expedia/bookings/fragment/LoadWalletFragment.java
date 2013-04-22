@@ -127,10 +127,12 @@ public abstract class LoadWalletFragment extends WalletFragment {
 				onMaskedWalletFullyLoaded();
 				break;
 			case Activity.RESULT_CANCELED:
-				Log.w("Masked wallet request: received RESULT_CANCELED");
-				// Need to load a new ConnectionResult (even if user canceled)
-				// in case they want to try it again
-				mWalletClient.loadMaskedWallet(buildMaskedWalletRequest(), this);
+				if (mWalletClient != null && mWalletClient.isConnected()) {
+					Log.w("Masked wallet request: received RESULT_CANCELED");
+					// Need to load a new ConnectionResult (even if user canceled)
+					// in case they want to try it again
+					mWalletClient.loadMaskedWallet(buildMaskedWalletRequest(), this);
+				}
 				break;
 			default:
 				int errorCode = data.getIntExtra(WalletConstants.EXTRA_ERROR_CODE, -1);
