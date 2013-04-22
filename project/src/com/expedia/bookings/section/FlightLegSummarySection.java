@@ -106,7 +106,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 			}
 
 			if (trip != null) {
-				if (trip.showBaggageFeesNotIncluded()) {
+				if (trip.hasBagFee()) {
 					mAirlineTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0,
 							R.drawable.ic_suitcase_baggage_fee_blue, 0);
 				}
