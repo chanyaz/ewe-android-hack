@@ -448,7 +448,13 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 			}
 
 			// Ignore non-flight itineraries
-			if (!data.getTripComponentType().equals(Type.FLIGHT)) {
+			if (!data.getTripComponentType().equals(Type.FLIGHT) || !(data instanceof ItinCardDataFlight)) {
+				continue;
+			}
+
+			// Ignore last leg flights
+			TripFlight tripFlight = (TripFlight) data.getTripComponent();
+			if (((ItinCardDataFlight) data).getLegNumber() == tripFlight.getFlightTrip().getLegCount() - 1) {
 				continue;
 			}
 
@@ -461,10 +467,8 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 					break;
 				}
 
-				if (nextData.getTripComponentType().equals(Type.FLIGHT) && data instanceof ItinCardDataFlight
-						&& nextData instanceof ItinCardDataFlight) {
+				if (nextData.getTripComponentType().equals(Type.FLIGHT) && nextData instanceof ItinCardDataFlight) {
 					// Attach hotel
-					TripFlight tripFlight = (TripFlight) data.getTripComponent();
 					FlightLeg firstLeg = ((ItinCardDataFlight) data).getFlightLeg();
 					FlightLeg secondLeg = ((ItinCardDataFlight) nextData).getFlightLeg();
 
