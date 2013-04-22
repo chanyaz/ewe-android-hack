@@ -17,13 +17,12 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.fragment.FlightPaymentAddressFragment;
 import com.expedia.bookings.fragment.FlightPaymentCreditCardFragment;
 import com.expedia.bookings.fragment.FlightPaymentOptionsFragment;
 import com.expedia.bookings.fragment.FlightPaymentOptionsFragment.FlightPaymentYoYoListener;
 import com.expedia.bookings.fragment.FlightPaymentSaveDialogFragment;
-import com.expedia.bookings.model.PaymentFlowState;
+import com.expedia.bookings.model.FlightPaymentFlowState;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
@@ -481,7 +480,7 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		}
 
 		//Has the user manually entered data already?
-		PaymentFlowState validationState = PaymentFlowState.getInstance(this);
+		FlightPaymentFlowState validationState = FlightPaymentFlowState.getInstance(this);
 		boolean addressValid = validationState.hasValidBillingAddress(Db.getWorkingBillingInfoManager()
 				.getWorkingBillingInfo());
 		boolean cardValid = validationState

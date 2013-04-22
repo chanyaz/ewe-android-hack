@@ -22,8 +22,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.pos.PointOfSaleId;
-import com.expedia.bookings.model.PaymentFlowState;
+import com.expedia.bookings.model.FlightPaymentFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.section.SectionStoredCreditCard;
@@ -52,7 +51,7 @@ public class FlightPaymentOptionsFragment extends Fragment {
 	ViewGroup mCurrentStoredPaymentContainer;
 	View mCurrentPaymentCcAddressDiv;
 
-	PaymentFlowState mValidationState;
+	FlightPaymentFlowState mValidationState;
 
 	FlightPaymentYoYoListener mListener;
 
@@ -247,7 +246,7 @@ public class FlightPaymentOptionsFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		mValidationState = PaymentFlowState.getInstance(getActivity());
+		mValidationState = FlightPaymentFlowState.getInstance(getActivity());
 
 		BillingInfo mBillingInfo = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
 
@@ -276,7 +275,7 @@ public class FlightPaymentOptionsFragment extends Fragment {
 		boolean onlyAccountCardIsSelected = cards != null && cards.size() == 1 && hasSelectedStoredCard;
 
 		if (mValidationState == null) {
-			mValidationState = PaymentFlowState.getInstance(getActivity());
+			mValidationState = FlightPaymentFlowState.getInstance(getActivity());
 		}
 		boolean addressValid = mValidationState.hasValidBillingAddress(Db.getWorkingBillingInfoManager()
 				.getWorkingBillingInfo());

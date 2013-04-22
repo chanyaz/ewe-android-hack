@@ -30,8 +30,7 @@ import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.pos.PointOfSaleId;
-import com.expedia.bookings.model.PaymentFlowState;
+import com.expedia.bookings.model.FlightPaymentFlowState;
 import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
@@ -461,7 +460,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 
 	public void updateViewVisibilities() {
 
-		PaymentFlowState state = PaymentFlowState.getInstance(getActivity());
+		FlightPaymentFlowState state = FlightPaymentFlowState.getInstance(getActivity());
 		if (state == null) {
 			//This is a rare case that happens when the fragment is attached and then detached quickly
 			return;

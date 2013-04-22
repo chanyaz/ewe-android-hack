@@ -15,21 +15,21 @@ import com.expedia.bookings.section.SectionLocation;
  * @author jdrotos
  *
  */
-public class PaymentFlowState {
+public class FlightPaymentFlowState {
 	SectionLocation mBillingAddress;
 	SectionBillingInfo mCardInfo;
 
-	private PaymentFlowState(Context context) {
+	private FlightPaymentFlowState(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mBillingAddress = (SectionLocation) inflater.inflate(R.layout.section_edit_address, null);
 		mCardInfo = (SectionBillingInfo) inflater.inflate(R.layout.section_edit_creditcard, null);
 	}
 
-	public static PaymentFlowState getInstance(Context context) {
+	public static FlightPaymentFlowState getInstance(Context context) {
 		if (context == null) {
 			return null;
 		}
-		return new PaymentFlowState(context);
+		return new FlightPaymentFlowState(context);
 	}
 
 	private void bind(BillingInfo billingInfo) {
