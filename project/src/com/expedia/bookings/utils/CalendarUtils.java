@@ -100,9 +100,10 @@ public class CalendarUtils {
 		Date endDate = new Date(picker.getEndYear(), picker.getEndMonth() + 1, picker.getEndDayOfMonth());
 
 		// Ensure the dates from the picker are valid before using them
-		Calendar now = Calendar.getInstance();
-		Calendar start = startDate.getCalendar();
-		boolean bogus = start.before(now);
+		Date nowDate = new Date();
+		nowDate.fromCalendar(Calendar.getInstance());
+
+		boolean bogus = startDate.before(nowDate);
 		if (bogus) {
 			// Reset the SearchParams and Calendar to default stay if we somehow got bogus values from picker
 			searchParams.setDefaultStay();
