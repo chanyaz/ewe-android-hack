@@ -8,13 +8,13 @@ import java.util.Date;
 
 import android.util.Log;
 
-public class EventTrackingUtils {
+public class FileIOUtils {
 
 	private final static String TAG = "Event Tracking";
 	PrintWriter mFileWriter;
 	private String mFileName;
 
-	public EventTrackingUtils() {
+	public FileIOUtils() {
 		Date fileTimeInfo = new Date();
 		String fileTimeStamp = fileTimeInfo.toString();
 		mFileName = "/sdcard/" + fileTimeStamp + ".txt";
