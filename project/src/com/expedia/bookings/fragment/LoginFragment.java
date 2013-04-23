@@ -34,6 +34,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FacebookLinkResponse;
 import com.expedia.bookings.data.FacebookLinkResponse.FacebookLinkResponseCode;
@@ -465,7 +466,6 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		mForgotYourPasswordTv.setText(Html.fromHtml(String.format(
 				"<a href=\"http://www.%s/pub/agent.dll?qscr=apwd\">%s</a>",
 				PointOfSale.getPointOfSale(mContext).getUrl(), mContext.getString(R.string.forgot_your_password))));
-		mForgotYourPasswordTv.setMovementMethod(LinkMovementMethod.getInstance());
 		mForgotYourPasswordTv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -475,6 +475,12 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 				else {
 					OmnitureTracking.trackLinkHotelsCheckoutLoginForgot(mContext);
 				}
+
+				// Open link in the app's webview instead of default browser.
+				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(mContext);
+				builder.setUrl(String.format("http://www.%s/pub/agent.dll?qscr=apwd",
+						PointOfSale.getPointOfSale(mContext).getUrl()));
+				startActivity(builder.getIntent());
 			}
 		});
 
