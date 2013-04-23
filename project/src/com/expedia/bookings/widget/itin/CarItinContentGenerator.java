@@ -205,6 +205,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		Calendar start = data.getPickUpDate().getCalendar();
 		Calendar end = data.getDropOffDate().getCalendar();
 		Calendar now = Calendar.getInstance(start.getTimeZone());
+		
 		// Pick up in 3 days
 		if (now.before(start) && CalendarUtils.getDaysBetween(now, start) == 3) {
 			view.setText(R.string.itin_card_details_pick_up_three_days);
