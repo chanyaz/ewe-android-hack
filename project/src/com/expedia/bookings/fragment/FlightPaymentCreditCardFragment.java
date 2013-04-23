@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,7 +97,9 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 
 		if (User.isLoggedIn(getActivity())) {
 			EditText cardHolderName = Ui.findView(mSectionCreditCard, R.id.edit_name_on_card);
-			cardHolderName.setText(Db.getUser().getPrimaryTraveler().getFullName());
+			if (TextUtils.isEmpty(cardHolderName.getText())) {
+				cardHolderName.setText(Db.getUser().getPrimaryTraveler().getFullName());
+			}
 		}
 	}
 
