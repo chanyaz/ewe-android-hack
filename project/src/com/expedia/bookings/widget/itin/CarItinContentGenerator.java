@@ -26,6 +26,7 @@ import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.ImageType;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.EventSummaryView;
 import com.expedia.bookings.widget.InfoTripletView;
@@ -203,46 +204,24 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		ItinCardDataCar data = getItinCardData();
 		Calendar start = data.getPickUpDate().getCalendar();
 		Calendar end = data.getDropOffDate().getCalendar();
-		Calendar preStart1 = (Calendar) start.clone();
-		Calendar preStart2 = (Calendar) start.clone();
-		Calendar preStart3 = (Calendar) start.clone();
-		Calendar preEnd1 = (Calendar) end.clone();
-		Calendar preEnd2 = (Calendar) end.clone();
-		Calendar preEnd3 = (Calendar) end.clone();
 		Calendar now = Calendar.getInstance(start.getTimeZone());
-
-		preStart1.add(Calendar.DAY_OF_YEAR, -1);
-		preStart2.add(Calendar.DAY_OF_YEAR, -2);
-		preStart3.add(Calendar.DAY_OF_YEAR, -3);
-		preEnd1.add(Calendar.DAY_OF_YEAR, -1);
-		preEnd2.add(Calendar.DAY_OF_YEAR, -2);
-		preEnd3.add(Calendar.DAY_OF_YEAR, -3);
-
 		// Pick up in 3 days
-		if (now.get(Calendar.DAY_OF_YEAR) == preStart3.get(Calendar.DAY_OF_YEAR)) {
+		if (now.before(start) && CalendarUtils.getDaysBetween(now, start) == 3) {
 			view.setText(R.string.itin_card_details_pick_up_three_days);
 		}
 		// Pick up in 2 days
-		else if (now.get(Calendar.DAY_OF_YEAR) == preStart2.get(Calendar.DAY_OF_YEAR)) {
+		else if (now.before(start) && CalendarUtils.getDaysBetween(now, start) == 2) {
 			view.setText(R.string.itin_card_details_pick_up_two_days);
 		}
 		// Pick up tomorrow
-		else if (now.get(Calendar.DAY_OF_YEAR) == preStart1.get(Calendar.DAY_OF_YEAR)) {
+		else if (now.before(start) && CalendarUtils.getDaysBetween(now, start) == 1) {
 			view.setText(R.string.itin_card_details_pick_up_tomorrow);
 		}
-		else if (now.get(Calendar.DAY_OF_YEAR) == start.get(Calendar.DAY_OF_YEAR)) {
-			// Drop off before 5PM
-			if (start.get(Calendar.DAY_OF_YEAR) == end.get(Calendar.DAY_OF_YEAR) && now.after(start)) {
-				view.setText(getContext().getString(
-						R.string.itin_card_details_drop_off_TEMPLATE,
-						getItinCardData().getDropOffDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME)));
-			}
-			// Pick up after 3PM
-			else {
-				view.setText(getContext().getString(
-						R.string.itin_card_details_pick_up_TEMPLATE,
-						getItinCardData().getPickUpDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME)));
-			}
+		// Pick up after 3PM
+		else if (now.before(start) && CalendarUtils.getDaysBetween(now, start) == 0) {
+			view.setText(getContext().getString(
+					R.string.itin_card_details_pick_up_TEMPLATE,
+					getItinCardData().getPickUpDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME)));
 		}
 		// Pick up May 14
 		else if (now.before(start)) {
@@ -252,19 +231,19 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 							DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR)));
 		}
 		// Drop off in 3 days
-		else if (now.get(Calendar.DAY_OF_YEAR) == preEnd3.get(Calendar.DAY_OF_YEAR)) {
+		else if (now.after(start) && CalendarUtils.getDaysBetween(now, end) == 3) {
 			view.setText(R.string.itin_card_details_drop_off_three_days);
 		}
 		// Drop off in 2 days
-		else if (now.get(Calendar.DAY_OF_YEAR) == preEnd2.get(Calendar.DAY_OF_YEAR)) {
+		else if (now.after(start) && CalendarUtils.getDaysBetween(now, end) == 2) {
 			view.setText(R.string.itin_card_details_drop_off_two_days);
 		}
 		// Drop off tomorrow
-		else if (now.get(Calendar.DAY_OF_YEAR) == preEnd1.get(Calendar.DAY_OF_YEAR)) {
+		else if (now.after(start) && CalendarUtils.getDaysBetween(now, end) == 1) {
 			view.setText(R.string.itin_card_details_drop_off_tomorrow);
 		}
 		// Drop off before 5PM
-		else if (now.get(Calendar.DAY_OF_YEAR) == end.get(Calendar.DAY_OF_YEAR)) {
+		else if (now.after(start) && CalendarUtils.getDaysBetween(now, end) == 0) {
 			view.setText(getContext().getString(
 					R.string.itin_card_details_drop_off_TEMPLATE,
 					getItinCardData().getDropOffDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME)));

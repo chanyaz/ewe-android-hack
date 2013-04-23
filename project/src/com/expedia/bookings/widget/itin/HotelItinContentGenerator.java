@@ -24,6 +24,7 @@ import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.InfoTripletView;
@@ -183,35 +184,22 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		ItinCardDataHotel data = getItinCardData();
 		Calendar start = data.getStartDate().getCalendar();
 		Calendar end = data.getEndDate().getCalendar();
-		Calendar preIn1 = (Calendar) start.clone();
-		Calendar preIn2 = (Calendar) start.clone();
-		Calendar preIn3 = (Calendar) start.clone();
-		Calendar preOut1 = (Calendar) end.clone();
-		Calendar preOut2 = (Calendar) end.clone();
-		Calendar preOut3 = (Calendar) end.clone();
 		Calendar now = Calendar.getInstance(start.getTimeZone());
 
-		preIn1.add(Calendar.DAY_OF_YEAR, -1);
-		preIn2.add(Calendar.DAY_OF_YEAR, -2);
-		preIn3.add(Calendar.DAY_OF_YEAR, -3);
-		preOut1.add(Calendar.DAY_OF_YEAR, -1);
-		preOut2.add(Calendar.DAY_OF_YEAR, -2);
-		preOut3.add(Calendar.DAY_OF_YEAR, -3);
-
 		// Check in - 3 days
-		if (now.get(Calendar.DAY_OF_YEAR) == preIn3.get(Calendar.DAY_OF_YEAR)) {
+		if (now.before(start) && CalendarUtils.getDaysBetween(now, start) == 3) {
 			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_three_days));
 		}
 		// Check in - 2 days
-		else if (now.get(Calendar.DAY_OF_YEAR) == preIn2.get(Calendar.DAY_OF_YEAR)) {
+		else if (now.before(start) && CalendarUtils.getDaysBetween(now, start) == 2) {
 			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_two_days));
 		}
 		// Check in tomorrow
-		else if (now.get(Calendar.DAY_OF_YEAR) == preIn1.get(Calendar.DAY_OF_YEAR)) {
+		else if (now.before(start) && CalendarUtils.getDaysBetween(now, start) == 1) {
 			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_tomorrow));
 		}
 		// Check in after 3:00 PM
-		else if (now.get(Calendar.DAY_OF_YEAR) == start.get(Calendar.DAY_OF_YEAR)) {
+		else if (now.before(start) && CalendarUtils.getDaysBetween(now, start) == 0) {
 			if (!TextUtils.isEmpty(data.getCheckInTime())) {
 				view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_TEMPLATE,
 						data.getCheckInTime()));
@@ -227,19 +215,19 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 					data.getFormattedDetailsCheckInDate(getContext())));
 		}
 		// Check out in 3 days
-		else if (now.get(Calendar.DAY_OF_YEAR) == preOut3.get(Calendar.DAY_OF_YEAR)) {
+		else if (now.after(start) && CalendarUtils.getDaysBetween(now, end) == 3) {
 			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_three_days));
 		}
 		// Check out in 2 days
-		else if (now.get(Calendar.DAY_OF_YEAR) == preOut2.get(Calendar.DAY_OF_YEAR)) {
+		else if (now.after(start) && CalendarUtils.getDaysBetween(now, end) == 2) {
 			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_two_days));
 		}
 		// Check out tomorrow
-		else if (now.get(Calendar.DAY_OF_YEAR) == preOut1.get(Calendar.DAY_OF_YEAR)) {
+		else if (now.after(start) && CalendarUtils.getDaysBetween(now, end) == 1) {
 			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_tomorrow));
 		}
 		// Check out before 11:00AM
-		else if (now.get(Calendar.DAY_OF_YEAR) == end.get(Calendar.DAY_OF_YEAR)) {
+		else if (now.after(start) && CalendarUtils.getDaysBetween(now, end) == 0) {
 			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_TEMPLATE,
 					data.getEndDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME)));
 		}
