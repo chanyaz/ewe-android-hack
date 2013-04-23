@@ -61,6 +61,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	private BillingInfo mBillingInfo;
 
 	private ArrayList<SectionTravelerInfo> mTravelerSections = new ArrayList<SectionTravelerInfo>();
+	private List<View> mAddTravelerSections = new ArrayList<View>();
 
 	private TextView mAccountLabel;
 	private AccountButton mAccountButton;
@@ -229,15 +230,11 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		mStoredCreditCard.bind(mBillingInfo.getStoredCard());
 
 		List<Traveler> travelers = Db.getTravelers();
-		if (travelers.size() != mTravelerSections.size()) {
-			Ui.showToast(getActivity(), "Traveler info out of date...");
-			Log.e("Traveler info fail... travelers size():" + travelers.size() + " sections:"
-					+ mTravelerSections.size());
-		}
-		else {
-			for (int i = 0; i < travelers.size(); i++) {
-				mTravelerSections.get(i).bind(travelers.get(i));
-			}
+
+		// We can have more travelers than sections (if we have empty traveler sections)
+		// Bind to sections as we have them available
+		for (int a = 0; a < mTravelerSections.size(); a++) {
+			mTravelerSections.get(a).bind(travelers.get(a));
 		}
 	}
 
@@ -278,30 +275,13 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			Db.setTravelers(travelers);
 		}
 
-		buildTravelerBase();
-	}
-
-	private void buildTravelerBase() {
-		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-		if (Db.getTravelers() == null) {
-			Db.setTravelers(new ArrayList<Traveler>());
-		}
-
 		// If there are more numAdults from SearchParams, add empty Travelers to the Db to anticipate the addition of
 		// new Travelers in order for check out
-		final int numTravelers = Db.getTravelers().size();
+		final int numTravelers = travelers.size();
 		final int numAdults = Db.getFlightSearch().getSearchParams().getNumAdults();
 		if (numTravelers < numAdults) {
 			for (int i = numTravelers; i < numAdults; i++) {
-				Db.getTravelers().add(new Traveler());
-
-				// Add the traveler sections
-				SectionTravelerInfo travelerSection = (SectionTravelerInfo) inflater.inflate(
-						R.layout.section_display_traveler_info_btn, null);
-				//travelerSection.setOnClickListener(new OnTravelerClickListener(i, false));
-				dressSectionTraveler(travelerSection, i);
-				mTravelerSections.add(travelerSection);
+				travelers.add(new Traveler());
 			}
 		}
 
@@ -309,7 +289,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		// although, keep the first numAdults Travelers.
 		else if (numTravelers > numAdults) {
 			for (int i = numTravelers - 1; i >= numAdults; i--) {
-				Db.getTravelers().remove(i);
+				travelers.remove(i);
 			}
 		}
 	}
@@ -317,46 +297,52 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	private void buildTravelerBox() {
 		mTravelerContainer.removeAllViews();
 		mTravelerSections.clear();
+		mAddTravelerSections.clear();
 
-		final int numAdults = Db.getFlightSearch().getSearchParams().getNumAdults();
-		for (int i = 0; i < numAdults; i++) {
-			constructIndividualTravelerBox(i, numAdults);
-		}
-	}
-
-	private void constructIndividualTravelerBox(int index, int numAdults) {
 		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		final int numAdults = Db.getFlightSearch().getSearchParams().getNumAdults();
+		List<Traveler> travelers = Db.getTravelers();
 
-		Traveler traveler = getTraveler(index);
-
-		// The traveler has information, fill it in
-		SectionTravelerInfo travelerSection = (SectionTravelerInfo) inflater.inflate(
-				R.layout.section_display_traveler_info_btn, null);
-
-		dressSectionTraveler(travelerSection, index);
-		mTravelerSections.add(travelerSection);
-
-		if (traveler != null && traveler.hasName()) {
-			mTravelerContainer.addView(travelerSection);
+		// Not sure if this state could happen, but there was a LOT of defensive code
+		// I've removed, so I might as well keep everything from breaking.
+		if (travelers == null || numAdults != travelers.size()) {
+			populateTravelerData();
 		}
 
-		// This traveler is likely blank, show the empty label, prompt user to fill in
-		else {
-			View v = inflater.inflate(R.layout.snippet_booking_overview_traveler, null);
-			dressSectionTraveler(v, index);
+		TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
+		boolean isInternational = Db.getFlightSearch().getSelectedFlightTrip().isInternational();
+		for (int index = 0; index < numAdults; index++) {
+			Traveler traveler = travelers.get(index);
 
-			TextView tv = Ui.findView(v, R.id.traveler_empty_text_view);
+			if (traveler != null && state.allTravelerInfoValid(traveler, isInternational)) {
+				// The traveler has information, fill it in
+				SectionTravelerInfo travelerSection = (SectionTravelerInfo) inflater.inflate(
+						R.layout.section_display_traveler_info_btn, null);
 
-			if (numAdults == 1) {
-				tv.setText(mContext.getString(R.string.add_traveler));
+				dressSectionTraveler(travelerSection, index);
+				mTravelerSections.add(travelerSection);
+
+				mTravelerContainer.addView(travelerSection);
 			}
+
+			// This traveler is likely blank, show the empty label, prompt user to fill in
 			else {
-				tv.setText(mContext.getString(R.string.add_traveler_number_TEMPLATE, index + 1)); // no zero index for users
+				View v = inflater.inflate(R.layout.snippet_booking_overview_traveler, null);
+				dressSectionTraveler(v, index);
+
+				TextView tv = Ui.findView(v, R.id.traveler_empty_text_view);
+
+				if (numAdults == 1) {
+					tv.setText(mContext.getString(R.string.add_traveler));
+				}
+				else {
+					tv.setText(mContext.getString(R.string.add_traveler_number_TEMPLATE, index + 1)); // no zero index for users
+				}
+
+				mAddTravelerSections.add(v);
+				mTravelerContainer.addView(v);
 			}
-
-			mTravelerContainer.addView(v);
 		}
-
 	}
 
 	private void dressSectionTraveler(View travelerSection, int travelerIndex) {
@@ -369,18 +355,6 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		int padding = getResources().getDimensionPixelSize(R.dimen.traveler_button_padding);
 		travelerSection.setPadding(padding, padding, padding, padding);
 		travelerSection.setOnClickListener(new OnTravelerClickListener(travelerIndex));
-	}
-
-	private Traveler getTraveler(int index) {
-		if (Db.getTravelers() == null) {
-			return null;
-		}
-
-		if (Db.getTravelers().size() <= index) {
-			return null;
-		}
-
-		return Db.getTravelers().get(index);
 	}
 
 	private class OnTravelerClickListener implements OnClickListener {
@@ -407,7 +381,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			else {
 				Db.getWorkingTravelerManager().setWorkingTravelerAndBase(new Traveler());
 			}
-			
+
 			Db.getWorkingTravelerManager().setAttemptToLoadFromDisk(false);
 
 			startActivity(editTravelerIntent);
@@ -415,12 +389,12 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	}
 
 	private boolean validateTravelers() {
-		if (mTravelerSections == null || mTravelerSections.size() <= 0) {
+		if (mTravelerSections == null || mTravelerSections.size() == 0) {
 			return false;
 		}
 		else {
 			boolean allTravelersValid = true;
-			if (Db.getTravelers() == null || Db.getTravelers().size() <= 0) {
+			if (Db.getTravelers() == null || Db.getTravelers().size() != mTravelerSections.size()) {
 				allTravelersValid = false;
 			}
 			else {
@@ -643,8 +617,6 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		// Sign out user
 		User.signOut(getActivity());
 
-		mTravelerSections.clear();
-
 		// Remove all Expedia account Travelers and keep the manually entered, not saved Travelers
 		Iterator<Traveler> i = Db.getTravelers().iterator();
 		Traveler traveler;
@@ -654,12 +626,12 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 				i.remove();
 			}
 		}
-		buildTravelerBase();
 
 		// Update UI
 		mAccountButton.bind(false, false, null, true);
 
 		//After logout this will clear stored cards
+		populateTravelerData();
 		populatePaymentDataFromUser();
 		populateTravelerDataFromUser();
 		buildTravelerBox();

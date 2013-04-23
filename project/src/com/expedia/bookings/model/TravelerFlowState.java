@@ -71,4 +71,12 @@ public class TravelerFlowState {
 		return travOne && travTwo && hasPassport;
 	}
 
+	public boolean allTravelerInfoValid(Traveler traveler, boolean isInternational) {
+		if (isInternational) {
+			return allTravelerInfoIsValidForInternationalFlight(traveler);
+		}
+		else {
+			return allTravelerInfoIsValidForDomesticFlight(traveler);
+		}
+	}
 }
