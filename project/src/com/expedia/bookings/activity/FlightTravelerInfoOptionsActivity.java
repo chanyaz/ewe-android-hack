@@ -35,6 +35,7 @@ import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.model.WorkingTravelerManager.ITravelerUpdateListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
+import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -335,8 +336,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 	public boolean canOnlySelectNewTraveler() {
 
 		//Is the user logged in and has associated travelers?
-		if (User.isLoggedIn(this) && Db.getUser() != null && Db.getUser().getAssociatedTravelers() != null
-				&& Db.getUser().getAssociatedTravelers().size() > 0) {
+		if (BookingInfoUtils.getAlternativeTravelers(this).size() > 0) {
 			return false;
 		}
 
