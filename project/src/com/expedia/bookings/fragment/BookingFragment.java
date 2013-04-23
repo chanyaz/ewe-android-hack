@@ -2,11 +2,13 @@ package com.expedia.bookings.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.StoredCreditCard;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.utils.WalletUtils;
 import com.google.android.gms.wallet.FullWallet;
 import com.mobiata.android.BackgroundDownloader;
@@ -148,6 +150,15 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 	@Override
 	protected void onFullWalletLoaded(FullWallet wallet) {
 		WalletUtils.bindWalletToBillingInfo(wallet, Db.getBillingInfo());
+
+		// 1027: If we're logged in, we still want to use the email from
+		// the logged in user (so that they get credit for the booking).
+		if (User.isLoggedIn(getActivity())) {
+			String email = Db.getUser().getPrimaryTraveler().getEmail();
+			if (!TextUtils.isEmpty(email)) {
+				Db.getBillingInfo().setEmail(email);
+			}
+		}
 
 		startBookingDownload();
 	}
