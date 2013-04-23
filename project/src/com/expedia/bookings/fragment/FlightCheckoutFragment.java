@@ -763,6 +763,9 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		for (SectionTravelerInfo info : mTravelerSections) {
 			info.setEnabled(enableButtons);
 		}
+		for (View v : mAddTravelerSections) {
+			v.setEnabled(enableButtons);
+		}
 	}
 
 	///////////////////////////////////
