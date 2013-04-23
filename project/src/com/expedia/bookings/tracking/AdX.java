@@ -1,6 +1,7 @@
 package com.expedia.bookings.tracking;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.AdX.tag.AdXConnect;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -31,6 +32,8 @@ public class AdX {
 			AdXConnect.getAdXConnectInstance(mContext, false, mLogLevel, pos);
 			AdXConnect.getAdXConnectEventInstance(mContext, "FirstLaunch", "", "");
 			Log.i("AdX first launch event PointOfSale=" + pos);
+
+			reportReferralToOmniture();
 		}
 	}
 
@@ -97,5 +100,21 @@ public class AdX {
 			AdXConnect.getAdXConnectEventInstance(mContext, "Search", "", destinationAirport, "Flight");
 			Log.i("AdX flight search destination=" + destinationAirport);
 		}
+	}
+
+	private static void reportReferralToOmniture() {
+		// getAdXReferral is blocking, run off the UI thread
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				String referral = AdXConnect.getAdXReferral(mContext, 10);
+				if (TextUtils.isEmpty(referral)) {
+					Log.w("Unable to retrieve AdX referral string");
+				}
+				else {
+					OmnitureTracking.trackAdXReferralLink(mContext, referral);
+				}
+			}
+		}).start();
 	}
 }

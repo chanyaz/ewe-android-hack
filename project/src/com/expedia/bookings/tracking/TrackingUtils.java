@@ -120,9 +120,6 @@ public class TrackingUtils {
 		s.setReportSuiteIDs(getReportSuiteIds(context));
 
 		// Amobee tracking
-
-		s.setVisitorID(Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID));
-		s.setEvar(7, Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID));
 		s.setEvar(10, SettingUtils.get(context, context.getString(R.string.preference_amobee_marketing_date), ""));
 
 		// Server

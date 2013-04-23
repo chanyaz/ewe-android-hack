@@ -20,12 +20,12 @@ import com.adobe.adms.measurement.ADMS_ReferrerHandler;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.PriceRange;
 import com.expedia.bookings.data.Filter.SearchRadius;
-import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
@@ -95,6 +95,7 @@ public class OmnitureTracking {
 	private static final String ITIN_RELOAD_TEMPLATE = "App.Itinerary.%s.Info.Reload";
 
 	// Common
+	private static final String ADX_EVENT = "Ad-X Download";
 	private static final String LOGIN_SUCCESS_TEMPLATE = "App.%s.Login.Success";
 	private static final String ITIN_LOGIN_PARAM = "Itinerary";
 	private static final String HOTEL_LOGIN_PARAM = "Hotels.Checkout";
@@ -220,7 +221,6 @@ public class OmnitureTracking {
 		Log.d(TAG, "init");
 		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
 		s.configureMeasurement(TrackingUtils.getReportSuiteIds(context), TrackingUtils.getTrackingServer());
-		s.setVisitorID(Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID));
 	}
 
 	// Lifecycle tracking
@@ -1194,11 +1194,9 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackAppLaunch(Context context, String id, String date) {
+	public static void trackAppLaunch(Context context, String date) {
 		Log.d(TAG, "Tracking \"App Launch\" pageLoad");
 		ADMS_Measurement s = getFreshTrackingObject(context);
-		s.setVisitorID(id);
-		s.setEvar(7, id);
 		s.setEvar(10, date);
 		s.setEvar(27, "App Launch");
 		s.track();
@@ -1210,16 +1208,21 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject(context);
 
 		String marketingDate = FORMATTER.format(new Date());
-		String androidId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-
 		SettingUtils.save(context, context.getString(R.string.preference_amobee_marketing_date), marketingDate);
 
-		s.setVisitorID(androidId);
-		s.setEvar(7, androidId);
 		s.setEvar(10, marketingDate);
 		s.setEvar(28, "App Install");
 
 		s.track();
+	}
+
+	public static void trackAdXReferralLink(Context context, String referral) {
+		Log.d(TAG, "Tracking " + ADX_EVENT + " trackLink, with referral value=" + referral);
+
+		ADMS_Measurement s = createTrackLinkEvent(context, ADX_EVENT);
+		s.setEvar(8, referral);
+		s.setEvents("event20");
+		s.trackLink(null, "o", s.getEvar(28), null, null);
 	}
 
 	public static void trackGooglePlayReferralLink(Context context, Intent intent) {

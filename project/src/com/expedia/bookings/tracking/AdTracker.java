@@ -22,7 +22,6 @@ import com.mobiata.android.util.SettingUtils;
 
 public class AdTracker {
 	private static Context mContext;
-	private static String mAndroidId;
 	private static String mMarketingDate;
 
 	public static void initialize(Context context) {
@@ -44,7 +43,6 @@ public class AdTracker {
 		Somo.initialize(context, userId, applicationId, pos.useSomoTracking());
 
 		// Omniture
-		mAndroidId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
 		mMarketingDate = SettingUtils.get(context, context.getString(R.string.preference_amobee_marketing_date), "");
 
 		// AdX
@@ -70,7 +68,7 @@ public class AdTracker {
 		//Somo.trackLaunch();
 		AdX.trackLaunch();
 
-		OmnitureTracking.trackAppLaunch(mContext, mAndroidId, mMarketingDate);
+		OmnitureTracking.trackAppLaunch(mContext, mMarketingDate);
 	}
 
 	public static void trackLogin() {
