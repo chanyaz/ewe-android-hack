@@ -178,6 +178,13 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	public void onResume() {
 		super.onResume();
 
+		OmnitureTracking.onResume(this);
+	}
+
+	@Override
+	protected void onPostResume() {
+		super.onPostResume();
+
 		mSafeToAttach = true;
 
 		if (mOverviewFragment != null) {
@@ -205,8 +212,6 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		else if (mBottomBarMode == BottomBarMode.SLIDE_TO_PURCHASE) {
 			addSlideToCheckoutFragment();
 		}
-
-		OmnitureTracking.onResume(this);
 	}
 
 	@Override
