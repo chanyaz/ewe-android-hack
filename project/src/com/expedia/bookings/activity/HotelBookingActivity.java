@@ -30,7 +30,6 @@ import com.expedia.bookings.fragment.UnhandledErrorDialogFragment.UnhandledError
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
@@ -265,7 +264,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 				DialogFragment df = UnhandledErrorDialogFragment.newInstance(null);
 				df.show(getSupportFragmentManager(), "noResultsErrorDialog");
 
-				TrackingUtils.trackErrorPage(mContext, "ReservationRequestFailed");
+				OmnitureTracking.trackErrorPage(mContext, "ReservationRequestFailed");
 			}
 			else if (!results.isSuccess() && !results.succeededWithErrors()) {
 				handleErrorResponse(results);

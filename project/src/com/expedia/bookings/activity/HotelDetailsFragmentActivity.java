@@ -10,8 +10,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -36,7 +36,6 @@ import com.expedia.bookings.fragment.HotelDetailsMiniMapFragment.HotelMiniMapFra
 import com.expedia.bookings.fragment.HotelDetailsPricePromoFragment;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.HotelDetailsScrollView;
 import com.mobiata.android.BackgroundDownloader;
@@ -406,7 +405,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 			// Track here if user opened app from widget.  Currently assumes that all widget searches
 			// are "nearby" - if this ever changes, this needs to be updated.
 			if (intent.getBooleanExtra(OPENED_FROM_WIDGET, false)) {
-				TrackingUtils.trackSimpleEvent(this, null, null, null, "App.Widget.Deal.Nearby");
+				OmnitureTracking.trackSimpleEvent(this, null, null, null, "App.Widget.Deal.Nearby");
 				mApp.broadcastSearchParamsChangedInWidget((SearchParams) JSONUtils.parseJSONableFromIntent(intent,
 						Codes.SEARCH_PARAMS, SearchParams.class));
 			}

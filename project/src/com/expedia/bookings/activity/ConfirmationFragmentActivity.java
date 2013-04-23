@@ -22,7 +22,6 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.ConfirmationState;
 import com.expedia.bookings.data.ConfirmationState.Type;
-import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Policy;
@@ -32,10 +31,10 @@ import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.fragment.BookingConfirmationFragment.BookingConfirmationFragmentListener;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.NavUtils;
@@ -399,7 +398,7 @@ public class ConfirmationFragmentActivity extends SherlockFragmentActivity imple
 
 		// Track the share
 		Log.d("Tracking \"CKO.CP.ShareBooking\" onClick");
-		TrackingUtils.trackSimpleEvent(context, null, null, "Shopper", "CKO.CP.ShareBooking");
+		OmnitureTracking.trackSimpleEvent(context, null, null, "Shopper", "CKO.CP.ShareBooking");
 	}
 
 	private void appendLabelValue(Context context, StringBuilder sb, int labelStrId, String value) {

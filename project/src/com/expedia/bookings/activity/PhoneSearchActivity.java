@@ -76,8 +76,6 @@ import com.expedia.bookings.content.AutocompleteProvider;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.ConfirmationState;
-import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ConfirmationState.Type;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Filter;
@@ -85,7 +83,9 @@ import com.expedia.bookings.data.Filter.OnFilterChangedListener;
 import com.expedia.bookings.data.Filter.PriceRange;
 import com.expedia.bookings.data.Filter.SearchRadius;
 import com.expedia.bookings.data.Filter.Sort;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
@@ -95,11 +95,9 @@ import com.expedia.bookings.fragment.HotelListFragment.HotelListFragmentListener
 import com.expedia.bookings.maps.HotelMapFragment;
 import com.expedia.bookings.maps.HotelMapFragment.HotelMapFragmentListener;
 import com.expedia.bookings.model.Search;
-import com.expedia.bookings.model.WidgetConfigurationState;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.GuestsPickerUtils;
@@ -1176,7 +1174,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				@Override
 				public void onLocationFindFailed() {
 					simulateErrorResponse(R.string.ProviderDisabled);
-					TrackingUtils.trackErrorPage(mContext, "LocationServicesNotAvailable");
+					OmnitureTracking.trackErrorPage(mContext, "LocationServicesNotAvailable");
 
 				}
 
@@ -1542,7 +1540,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private final OnDownloadComplete<List<Address>> mGeocodeCallback = new OnDownloadComplete<List<Address>>() {
 		public void onDownload(List<Address> results) {
 			if (results == null || results.size() == 0) {
-				TrackingUtils.trackErrorPage(PhoneSearchActivity.this, "LocationNotFound");
+				OmnitureTracking.trackErrorPage(PhoneSearchActivity.this, "LocationNotFound");
 				simulateErrorResponse(R.string.geolocation_failed);
 			}
 			else {
@@ -1765,7 +1763,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				// Deprecated client version
 				showDialog(DIALOG_CLIENT_DEPRECATED);
 
-				TrackingUtils.trackErrorPage(PhoneSearchActivity.this, "OutdatedVersion");
+				OmnitureTracking.trackErrorPage(PhoneSearchActivity.this, "OutdatedVersion");
 
 				showLoading(false, errorOne.getExtra("message"));
 			}
@@ -1776,7 +1774,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		}
 
 		if (!handledError) {
-			TrackingUtils.trackErrorPage(PhoneSearchActivity.this, "HotelListRequestFailed");
+			OmnitureTracking.trackErrorPage(PhoneSearchActivity.this, "HotelListRequestFailed");
 			showLoading(false, LayoutUtils.noHotelsFoundMessage(mContext));
 		}
 	}
@@ -2744,7 +2742,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		//
 		// This is a somewhat lazy way of doing things, but it is easiest and catches a bunch
 		// of refinements at once instead of flooding the system with a ton of different refinements
-		String refinements = TrackingUtils.getRefinements(searchParams, mOldSearchParams, filter, mOldFilter);
+		String refinements = OmnitureTracking.getRefinements(searchParams, mOldSearchParams, filter, mOldFilter);
 
 		// Update the last filter/search params we used to track refinements
 		mOldSearchParams = searchParams.copy();
@@ -2757,12 +2755,12 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 	private void onOpenFilterPanel() {
 		Log.d("Tracking \"App.Hotels.Search.Refine\" onClick...");
-		TrackingUtils.trackSimpleEvent(this, "App.Hotels.Search.Refine", null, "Shopper", null);
+		OmnitureTracking.trackSimpleEvent(this, "App.Hotels.Search.Refine", null, "Shopper", null);
 	}
 
 	private void onSwitchToMap() {
 		Log.d("Tracking \"App.Hotels.Search.Map\" pageLoad...");
-		TrackingUtils.trackSimpleEvent(this, "App.Hotels.Search.Map", null, "Shopper", null);
+		OmnitureTracking.trackSimpleEvent(this, "App.Hotels.Search.Map", null, "Shopper", null);
 	}
 
 	private void onGuestsChanged() {
@@ -2771,7 +2769,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		final String pageName = "App.Hotels.Search.Refine.NumberTravelers."
 				+ (mAdultsNumberPicker.getValue() + mChildrenNumberPicker.getValue());
 
-		TrackingUtils.trackSimpleEvent(this, pageName, null, "Shopper", null);
+		OmnitureTracking.trackSimpleEvent(this, pageName, null, "Shopper", null);
 	}
 
 	// Filter tracking

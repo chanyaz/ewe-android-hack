@@ -25,7 +25,7 @@ import com.expedia.bookings.fragment.LoginFragment.LogInListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
@@ -238,7 +238,7 @@ public class BookingFragmentActivity extends SherlockFragmentActivity implements
 			if (response == null) {
 				showErrorDialog(getString(R.string.error_booking_null));
 
-				TrackingUtils.trackErrorPage(mContext, "ReservationRequestFailed");
+				OmnitureTracking.trackErrorPage(mContext, "ReservationRequestFailed");
 
 				return;
 			}
@@ -258,7 +258,7 @@ public class BookingFragmentActivity extends SherlockFragmentActivity implements
 					}
 				}
 
-				TrackingUtils.trackErrorPage(mContext, "ReservationRequestFailed");
+				OmnitureTracking.trackErrorPage(mContext, "ReservationRequestFailed");
 
 				return;
 			}

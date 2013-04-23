@@ -26,7 +26,7 @@ import com.expedia.bookings.fragment.UserReviewsFragment;
 import com.expedia.bookings.fragment.UserReviewsFragment.UserReviewsFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserReviewsUtils;
 import com.expedia.bookings.widget.UserReviewsFragmentPagerAdapter;
@@ -128,7 +128,7 @@ public class TabletUserReviewsListActivity extends FragmentActivity implements U
 			int numReviewsSeen = mViewedReviews.size();
 			Log.d("Tracking # of reviews seen: " + numReviewsSeen);
 			String referrerId = "App.Hotels.Reviews." + numReviewsSeen + "ReviewsViewed";
-			TrackingUtils.trackSimpleEvent(this, null, null, "Shopper", referrerId);
+			OmnitureTracking.trackSimpleEvent(this, null, null, "Shopper", referrerId);
 
 			// cancel all downloads
 			mBackgroundDownloader.cancelDownload(REVIEWS_STATISTICS_DOWNLOAD);
@@ -243,7 +243,7 @@ public class TabletUserReviewsListActivity extends FragmentActivity implements U
 		}
 
 		Log.d("Tracking \"App.Hotels.Reviews\" pageLoad");
-		TrackingUtils.trackSimpleEvent(this, "App.Hotels.Reviews", null, "Shopper", referrerId);
+		OmnitureTracking.trackSimpleEvent(this, "App.Hotels.Reviews", null, "Shopper", referrerId);
 
 		mViewPager.setCurrentItem(position);
 	}

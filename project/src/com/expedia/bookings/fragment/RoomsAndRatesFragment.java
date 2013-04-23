@@ -16,7 +16,7 @@ import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.RoomsAndRatesAdapter;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
@@ -104,7 +104,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 		mProgressBar.setVisibility(View.GONE);
 
 		if (response == null) {
-			TrackingUtils.trackErrorPage(getActivity(), "RatesListRequestFailed");
+			OmnitureTracking.trackErrorPage(getActivity(), "RatesListRequestFailed");
 			mEmptyTextView.setText(R.string.error_no_response_room_rates);
 			return;
 		}
@@ -127,7 +127,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 				sb.append("\n");
 			}
 			mEmptyTextView.setText(sb.toString().trim());
-			TrackingUtils.trackErrorPage(getActivity(), "RatesListRequestFailed");
+			OmnitureTracking.trackErrorPage(getActivity(), "RatesListRequestFailed");
 			return;
 		}
 
@@ -159,7 +159,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 		}
 
 		if (mAdapter.getCount() == 0) {
-			TrackingUtils.trackErrorPage(getActivity(), "HotelHasNoRoomsAvailable");
+			OmnitureTracking.trackErrorPage(getActivity(), "HotelHasNoRoomsAvailable");
 		}
 	}
 

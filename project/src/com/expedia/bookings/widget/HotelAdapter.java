@@ -23,7 +23,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchResponse;
-import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.Log;
@@ -103,7 +103,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			mCachedProperties = mSearchResponse.getFilteredAndSortedProperties();
 			final int size = mCachedProperties == null ? 0 : mCachedProperties.length;
 			if (size == 0) {
-				TrackingUtils.trackErrorPage(mContext, "FilteredToZeroResults");
+				OmnitureTracking.trackErrorPage(mContext, "FilteredToZeroResults");
 			}
 
 			mDistanceUnit = mSearchResponse.getFilter().getDistanceUnit();

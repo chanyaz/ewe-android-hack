@@ -59,7 +59,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.model.Search;
-import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.widget.NumberPicker;
@@ -880,6 +880,6 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 		final String pageName = "App.Hotels.Search.Refine.NumberTravelers."
 				+ (mAdultsNumberPicker.getValue() + mChildrenNumberPicker.getValue());
 
-		TrackingUtils.trackSimpleEvent(getActivity(), pageName, null, "Shopper", null);
+		OmnitureTracking.trackSimpleEvent(getActivity(), pageName, null, "Shopper", null);
 	}
 }

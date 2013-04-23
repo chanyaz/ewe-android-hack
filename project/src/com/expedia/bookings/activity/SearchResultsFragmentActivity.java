@@ -82,7 +82,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.ExpediaServices.ReviewSort;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.LayoutUtils;
@@ -956,7 +956,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	public void onGeocodeFailure() {
 		simulateSearchErrorResponse(R.string.geolocation_failed);
 
-		TrackingUtils.trackErrorPage(this, "App.Error.LocationNotFound");
+		OmnitureTracking.trackErrorPage(this, "App.Error.LocationNotFound");
 	}
 
 	public void onMyLocationFound(Location location) {
@@ -1041,12 +1041,12 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 
 		if (response == null || response.getPropertiesCount() == 0) {
 			mHotelListFragment.updateStatus(LayoutUtils.noHotelsFoundMessage(mContext), false);
-			TrackingUtils.trackErrorPage(this, "HotelListRequestFailed");
+			OmnitureTracking.trackErrorPage(this, "HotelListRequestFailed");
 		}
 		else {
 			if (response.hasErrors()) {
 				mHotelListFragment.updateStatus(response.getErrors().get(0).getPresentableMessage(mContext), false);
-				TrackingUtils.trackErrorPage(this, "HotelListRequestFailed");
+				OmnitureTracking.trackErrorPage(this, "HotelListRequestFailed");
 			}
 			else {
 				response.setFilter(Db.getFilter());
@@ -1210,13 +1210,13 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		public void onDownload(AvailabilityResponse availabilityResponse) {
 			if (availabilityResponse == null) {
 				notifyAvailabilityQueryError(getString(R.string.error_no_response_room_rates));
-				TrackingUtils.trackErrorPage(mContext, "RatesListRequestFailed");
+				OmnitureTracking.trackErrorPage(mContext, "RatesListRequestFailed");
 			}
 			else {
 				if (availabilityResponse.hasErrors()) {
 					notifyAvailabilityQueryError(availabilityResponse.getErrors().get(0)
 							.getPresentableMessage(mContext));
-					TrackingUtils.trackErrorPage(mContext, "RatesListRequestFailed");
+					OmnitureTracking.trackErrorPage(mContext, "RatesListRequestFailed");
 				}
 				else {
 					Db.addAvailabilityResponse(availabilityResponse);
@@ -1272,7 +1272,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 
 			if (reviewResponse == null || reviewResponse.hasErrors()) {
 				notifyReviewsQueryError(null);
-				TrackingUtils.trackErrorPage(mContext, "UserReviewLoadFailed");
+				OmnitureTracking.trackErrorPage(mContext, "UserReviewLoadFailed");
 			}
 			else {
 				notifyReviewsQueryComplete();
@@ -1484,7 +1484,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		}
 
 		Filter filter = Db.getFilter();
-		String refinements = TrackingUtils.getRefinements(Db.getSearchParams(), lastSearchParams, filter, lastFilter);
+		String refinements = OmnitureTracking.getRefinements(Db.getSearchParams(), lastSearchParams, filter, lastFilter);
 
 		// Update the last filter/search params we used to track refinements
 		mLastSearchParamsJson = Db.getSearchParams().toJson().toString();

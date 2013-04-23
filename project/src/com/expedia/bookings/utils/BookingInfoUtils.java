@@ -11,7 +11,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
-import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.mobiata.android.Log;
 
 public class BookingInfoUtils {
@@ -28,17 +28,17 @@ public class BookingInfoUtils {
 
 	public static void onCompletedSection(Context context, String sectionName) {
 		Log.d("Tracking \"" + sectionName + "\" onClick");
-		TrackingUtils.trackSimpleEvent(context, null, null, "Shopper", sectionName);
+		OmnitureTracking.trackSimpleEvent(context, null, null, "Shopper", sectionName);
 	}
 
 	public static void onCountrySpinnerClick(Context context) {
 		Log.d("Tracking \"country spinner\" onClick");
-		TrackingUtils.trackSimpleEvent(context, null, null, "Shopper", "CKO.BD.ChangeCountry");
+		OmnitureTracking.trackSimpleEvent(context, null, null, "Shopper", "CKO.BD.ChangeCountry");
 	}
 
 	public static void onClickSubmit(Context context) {
 		Log.d("Tracking \"submit\" onClick");
-		TrackingUtils.trackSimpleEvent(context, null, null, "Shopper", "CKO.BD.Confirm");
+		OmnitureTracking.trackSimpleEvent(context, null, null, "Shopper", "CKO.BD.Confirm");
 	}
 
 	public static void determineExpediaPointsDisclaimer(Context context, View view) {

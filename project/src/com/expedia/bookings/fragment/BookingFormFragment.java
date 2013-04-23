@@ -57,7 +57,7 @@ import com.expedia.bookings.fragment.LoginFragment.LogInListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
@@ -526,16 +526,16 @@ public class BookingFormFragment extends Fragment {
 		mValidationProcessor.add(mCardNumberEditText, new TextViewValidator(new Validator<CharSequence>() {
 			public int validate(CharSequence number) {
 				if (mCreditCardType == null) {
-					TrackingUtils.trackErrorPage(getActivity(), "CreditCardNotSupported");
+					OmnitureTracking.trackErrorPage(getActivity(), "CreditCardNotSupported");
 					return BookingInfoValidation.ERROR_INVALID_CARD_TYPE;
 				}
 				else if (!FormatUtils.isValidCreditCardNumber(number)) {
-					TrackingUtils.trackErrorPage(getActivity(), "CreditCardNotSupported");
+					OmnitureTracking.trackErrorPage(getActivity(), "CreditCardNotSupported");
 					return BookingInfoValidation.ERROR_INVALID_CARD_NUMBER;
 				}
 				else if (mCreditCardType == CreditCardType.AMERICAN_EXPRESS
 						&& !CurrencyUtils.currencySupportedByAmex(getActivity(), userCurrency)) {
-					TrackingUtils.trackErrorPage(getActivity(), "CurrencyNotSupported");
+					OmnitureTracking.trackErrorPage(getActivity(), "CurrencyNotSupported");
 					return BookingInfoValidation.ERROR_AMEX_BAD_CURRENCY;
 				}
 				return 0;
