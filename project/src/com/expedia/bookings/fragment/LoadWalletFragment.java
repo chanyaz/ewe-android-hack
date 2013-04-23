@@ -22,6 +22,9 @@ import com.mobiata.android.Log;
  */
 public abstract class LoadWalletFragment extends WalletFragment {
 
+	private static final String INSTANCE_CHECK_PRE_AUTH = "INSTANCE_CHECK_PRE_AUTH";
+
+	protected boolean mCheckPreAuth = true;
 	protected boolean mCheckedPreAuth;
 	protected boolean mIsUserPreAuthorized;
 
@@ -108,6 +111,22 @@ public abstract class LoadWalletFragment extends WalletFragment {
 	// Lifecycle
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		if (savedInstanceState != null) {
+			mCheckPreAuth = savedInstanceState.getBoolean(INSTANCE_CHECK_PRE_AUTH, true);
+		}
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		outState.putBoolean(INSTANCE_CHECK_PRE_AUTH, mCheckPreAuth);
+	}
+
+	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
@@ -182,7 +201,13 @@ public abstract class LoadWalletFragment extends WalletFragment {
 
 		// Don't re-request the masked wallet if we already have it
 		if (!mGoogleWalletDisabled && Db.getMaskedWallet() == null) {
-			mWalletClient.checkForPreAuthorization(this);
+			if (mCheckPreAuth) {
+				mWalletClient.checkForPreAuthorization(this);
+			}
+			else {
+				// For state purposes, act like we checked it (and we're just not pre-authed) 
+				mCheckedPreAuth = true;
+			}
 
 			// Immediately start requesting the wallet (even if we don't have product back yet)
 			// We can just ballpark the final cost for the masked wallet.
@@ -227,6 +252,10 @@ public abstract class LoadWalletFragment extends WalletFragment {
 			mConnectionResult = status;
 			mRequestCode = REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET;
 
+			// If we require resolution, do not check for preauth in the future;
+			// it will just be a waste of time.
+			mCheckPreAuth = false;
+
 			if (mHandleMaskedWalletWhenReady) {
 				mProgressDialog.dismiss();
 
@@ -234,6 +263,7 @@ public abstract class LoadWalletFragment extends WalletFragment {
 			}
 			else if (mIsUserPreAuthorized) {
 				// We thought the user was pre-authed, but some problem came up; make the user press button
+				mIsUserPreAuthorized = false;
 				updateWalletViewVisibilities();
 			}
 		}
