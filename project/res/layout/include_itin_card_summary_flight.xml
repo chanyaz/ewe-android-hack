@@ -38,14 +38,15 @@
             android:singleLine="true"
             android:textColor="@color/itin_white_text"
             android:textSize="16sp"
-            app:minTextSize="15sp" />
+            app:minTextSize="10sp" />
 
-        <com.expedia.bookings.widget.TextView
+        <com.mobiata.android.widget.AutoResizeTextView
             android:id="@+id/flight_status_bottom_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/itin_offwhite_text"
             android:textSize="15sp"
+            app:minTextSize="10sp"
             app:textStyle="light" />
     </LinearLayout>
 
