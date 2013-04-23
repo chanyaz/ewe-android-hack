@@ -106,9 +106,8 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			mRefreshedUser = savedInstanceState.getBoolean(INSTANCE_REFRESHED_USER);
 		}
 		else {
-			// Always start fresh
-			Db.setMaskedWallet(null);
-			Db.setGoogleWalletTraveler(null);
+			// Reset Google Wallet state each time we get here
+			Db.clearGoogleWallet();
 		}
 	}
 

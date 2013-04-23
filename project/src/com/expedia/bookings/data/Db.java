@@ -627,6 +627,16 @@ public class Db {
 				JSONObject obj = new JSONObject();
 
 				List<Traveler> travelersList = new ArrayList<Traveler>(Db.getTravelers());
+
+				// Remove any Google Wallet entries from the list
+				Iterator<Traveler> travelers = travelersList.iterator();
+				while (travelers.hasNext()) {
+					Traveler traveler = travelers.next();
+					if (traveler.fromGoogleWallet()) {
+						travelers.remove();
+					}
+				}
+
 				JSONUtils.putJSONableList(obj, SAVED_TRAVELERS_TAG, travelersList);
 
 				String json = obj.toString();
@@ -711,6 +721,20 @@ public class Db {
 		clearReviewsResponses();
 		clearReviewsStatisticsResponses();
 		sDb.mSearchResponse = null;
+	}
+
+	public static void clearGoogleWallet() {
+		sDb.mMaskedWallet = null;
+		sDb.mGoogleWalletTraveler = null;
+
+		// Clear out the traveler from the Travelers array
+		Iterator<Traveler> travelers = sDb.mTravelers.iterator();
+		while (travelers.hasNext()) {
+			Traveler traveler = travelers.next();
+			if (traveler.fromGoogleWallet()) {
+				travelers.remove();
+			}
+		}
 	}
 
 	public static void clear() {

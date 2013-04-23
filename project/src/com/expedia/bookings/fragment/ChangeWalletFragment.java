@@ -87,7 +87,7 @@ public abstract class ChangeWalletFragment extends WalletFragment {
 			// button again if they want to use it) and unbind Google Wallet.
 			displayGoogleWalletUnavailableToast();
 
-			WalletUtils.unbindWalletFromBillingInfo(Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+			WalletUtils.unbindAllWalletDataFromBillingInfo(Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
 
 			onCriticalWalletError();
 		}

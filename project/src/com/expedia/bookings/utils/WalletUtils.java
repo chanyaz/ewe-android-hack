@@ -105,13 +105,24 @@ public class WalletUtils {
 		billingInfo.setNameOnCard(wallet.getBillingAddress().getName());
 	}
 
+	// Unbind just the data that is added via the full wallet; this is important
+	// to do after the user books (as we do not want the 
+	public static void unbindFullWalletDataFromBillingInfo(BillingInfo billingInfo) {
+		billingInfo.setEmail(null);
+		billingInfo.setNumber(null);
+		billingInfo.setSecurityCode(null);
+		billingInfo.setLocation(null);
+		billingInfo.setNameOnCard(null);
+		billingInfo.setExpirationDate(null);
+	}
+
 	// If something goes wrong, we actually *don't* want GoogleWallet in the billing info anymore
 	// so clear it out.
-	public static void unbindWalletFromBillingInfo(BillingInfo billingInfo) {
+	public static void unbindAllWalletDataFromBillingInfo(BillingInfo billingInfo) {
+		unbindFullWalletDataFromBillingInfo(billingInfo);
+
 		billingInfo.setStoredCard(null);
-		billingInfo.setEmail(null);
 		billingInfo.setGoogleWalletTransactionId(null);
-		billingInfo.setLocation(null);
 	}
 
 	public static Traveler convertToTraveler(MaskedWallet maskedWallet) {

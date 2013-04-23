@@ -157,9 +157,8 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 			mIsDoneLoadingPriceChange = savedInstanceState.getBoolean(INSTANCE_DONE_LOADING_PRICE_CHANGE);
 		}
 		else {
-			// Reset masked wallet each time we start here, so we start from scratch
-			Db.setMaskedWallet(null);
-			Db.setGoogleWalletTraveler(null);
+			// Reset Google Wallet state each time we get here
+			Db.clearGoogleWallet();
 		}
 
 		AdTracker.trackHotelCheckoutStarted();

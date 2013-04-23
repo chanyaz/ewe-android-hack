@@ -220,6 +220,17 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 		data.remove("number");
 		data.remove("securityCode");
 
+		// If we're booking using Google Wallet, we'll have a lot of data just from
+		// Wallet but we don't want to save any of it
+		StoredCreditCard scc = getStoredCard();
+		if (scc != null && scc.isGoogleWallet()) {
+			data.remove("nameOnCard");
+			data.remove("email");
+			data.remove("location");
+			data.remove("expMonth");
+			data.remove("expYear");
+		}
+
 		mExistsOnDisk = true;
 
 		return fileCipher.saveSecureData(context.getFileStreamPath(SAVED_INFO_FILENAME), data.toString());
