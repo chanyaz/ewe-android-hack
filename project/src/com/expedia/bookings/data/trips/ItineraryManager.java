@@ -102,6 +102,7 @@ public class ItineraryManager implements JSONable {
 		mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP, trip));
 		mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
 		mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
+		mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
 
 		if (!isSyncing()) {
 			mSyncTask = new SyncTask();
@@ -599,6 +600,8 @@ public class ItineraryManager implements JSONable {
 		SAVE_TO_DISK, // Saves state of ItineraryManager to disk
 
 		GENERATE_ITIN_CARDS, // Generates itin card data for use
+
+		SCHEDULE_NOTIFICATIONS, // Schedule local notifications
 	}
 
 	private class Task implements Comparable<Task> {
@@ -692,6 +695,7 @@ public class ItineraryManager implements JSONable {
 			mSyncOpQueue.add(new Task(Operation.GATHER_TRIPS));
 			mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
 			mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
+			mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
 
 			mSyncTask = new SyncTask();
 			mSyncTask.execute();
@@ -713,6 +717,7 @@ public class ItineraryManager implements JSONable {
 			mSyncOpQueue.add(new Task(Operation.DEEP_REFRESH_TRIP, trip));
 			mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
 			mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
+			mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
 
 			if (!isSyncing()) {
 				mSyncTask = new SyncTask();
@@ -818,6 +823,9 @@ public class ItineraryManager implements JSONable {
 				case GENERATE_ITIN_CARDS:
 					generateItinCardData();
 					break;
+				case SCHEDULE_NOTIFICATIONS:
+					scheduleLocalNotifications();
+					break;
 				}
 
 				// Update stats
@@ -828,8 +836,6 @@ public class ItineraryManager implements JSONable {
 					return null;
 				}
 			}
-
-			scheduleLocalNotifications();
 
 			// If we get down to here, we can assume that the operation queue is finished
 			// and we return a list of the existing Trips.
