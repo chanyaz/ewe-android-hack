@@ -1,92 +1,104 @@
 package com.expedia.bookings.widget;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.text.Html;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
+import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.BookingResponse;
-import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.utils.CalendarUtils;
-import com.expedia.bookings.utils.StrUtils;
-import com.mobiata.android.bitmaps.UrlBitmapDrawable;
+import com.expedia.bookings.utils.AnimUtils;
+import com.expedia.bookings.utils.Ui;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.Animator.AnimatorListener;
 
-public class HotelReceipt extends FrameLayout {
+public class HotelReceipt extends LinearLayout {
 	public interface OnSizeChangedListener {
 		public void onReceiptSizeChanged(int w, int h, int oldw, int oldh);
+
+		public void onMiniReceiptSizeChanged(int w, int h, int oldw, int oldh);
 	}
 
-	private OnSizeChangedListener mOnSizeChangedListener;
-
-	private LayoutInflater mInflater;
-
-	// Cached views
-	private ImageView mThumbnailImageView;
-	private TextView mNameTextView;
-	private TextView mAddress1TextView;
-	private TextView mAddress2TextView;
-	private ViewGroup mDetailsLayout;
-	private ViewGroup mExtrasLayout;
-	private View mExtraSectionDivider;
-	private HotelReceiptMini mHotelReceiptMini;
-
-	// The room type widget
-	// TODO: Should this be integrated with ReceiptWidget?
-	private RoomTypeWidget mRoomTypeWidget;
-
-	// Constructors
-
 	public HotelReceipt(Context context) {
-		this(context, null, 0);
+		this(context, null);
 	}
 
 	public HotelReceipt(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
+		super(context, attrs);
+		init(context);
 	}
 
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public HotelReceipt(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+		init(context);
+	}
 
-		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		mInflater.inflate(R.layout.widget_hotel_receipt, this);
+	private void init(Context context) {
+		LayoutInflater inflater = LayoutInflater.from(context);
+		inflater.inflate(R.layout.widget_hotel_receipt_v2, this);
+	}
 
-		mThumbnailImageView = (ImageView) findViewById(R.id.thumbnail_image_view);
-		mNameTextView = (TextView) findViewById(R.id.name_text_view);
-		mAddress1TextView = (TextView) findViewById(R.id.address1_text_view);
-		mAddress2TextView = (TextView) findViewById(R.id.address2_text_view);
-		mDetailsLayout = (ViewGroup) findViewById(R.id.details_layout);
-		mExtrasLayout = (ViewGroup) findViewById(R.id.extras_layout);
-		mExtraSectionDivider = (View) findViewById(R.id.extras_div);
-		mHotelReceiptMini = (HotelReceiptMini) findViewById(R.id.receipt_mini);
+	private OnSizeChangedListener mOnSizeChangedListener;
+	private OnClickListener mRateBreakdownClickListener;
 
-		boolean isRoomTypeExpandable = false;
-		if (getParent() instanceof DialogFragment) {
-			isRoomTypeExpandable = !((DialogFragment) getParent()).getShowsDialog();
-		}
+	private ImageView mHeaderImageView;
+	private TextView mRoomTypeDesciptionTextView;
+	private TextView mBedTypeNameTextView;
+	private View mRoomLongDescriptionDivider;
+	private TextView mRoomLongDescriptionTextView;
+	private ViewGroup mExtrasLayout;
+	private View mExtrasDivider;
 
-		mRoomTypeWidget = new RoomTypeWidget(getContext(), isRoomTypeExpandable);
+	private FrameLayout mMiniReceipt;
+	private ViewGroup mMiniReceiptLoading;
+	private ViewGroup mMiniReceiptDetails;
+	private TextView mNightsTextView;
+	private TextView mDateRangeTextView;
+	private TextView mGuestsTextView;
+	private TextView mPriceTextView;
+	private TextView mGrandTotalTextView;
+
+	@Override
+	public void onFinishInflate() {
+		super.onFinishInflate();
+
+		mHeaderImageView = Ui.findView(this, R.id.header_image_view);
+		mRoomTypeDesciptionTextView = Ui.findView(this, R.id.room_type_description_text_view);
+		mBedTypeNameTextView = Ui.findView(this, R.id.bed_type_name_text_view);
+		mRoomLongDescriptionDivider = Ui.findView(this, R.id.room_long_description_divider);
+		mRoomLongDescriptionTextView = Ui.findView(this, R.id.room_long_description_text_view);
+
+		mExtrasLayout = Ui.findView(this, R.id.extras_layout);
+		mExtrasDivider = Ui.findView(this, R.id.extras_divider);
+
+		mMiniReceipt = Ui.findView(this, R.id.mini_receipt_layout);
+		mMiniReceipt.setOnSizeChangedListener(mMiniReceiptOnSizeChangedListener);
+
+		mMiniReceiptLoading = Ui.findView(this, R.id.mini_receipt_loading);
+		mMiniReceiptDetails = Ui.findView(this, R.id.mini_receipt_details);
+
+		mNightsTextView = Ui.findView(this, R.id.nights_text);
+		mDateRangeTextView = Ui.findView(this, R.id.date_range_text);
+		mGuestsTextView = Ui.findView(this, R.id.guests_text);
+		mPriceTextView = Ui.findView(this, R.id.price_text);
+		mGrandTotalTextView = Ui.findView(this, R.id.grand_total_text);
 	}
 
 	@Override
@@ -98,248 +110,150 @@ public class HotelReceipt extends FrameLayout {
 		}
 	}
 
-	// public methods
-
-	public void setOnSizeChangedListener(OnSizeChangedListener onSizeChangedListener) {
-		mOnSizeChangedListener = onSizeChangedListener;
-
-		if (onSizeChangedListener instanceof HotelReceiptMini.OnSizeChangedListener) {
-			setMiniReceiptOnSizeChangedListener((HotelReceiptMini.OnSizeChangedListener) onSizeChangedListener);
+	private final FrameLayout.OnSizeChangedListener mMiniReceiptOnSizeChangedListener = new FrameLayout.OnSizeChangedListener() {
+		@Override
+		public void onSizeChanged(int w, int h, int oldw, int oldh) {
+			if (mOnSizeChangedListener != null) {
+				mOnSizeChangedListener.onMiniReceiptSizeChanged(w, h, oldw, oldh);
+			}
 		}
-	}
+	};
 
-	public void setMiniReceiptOnSizeChangedListener(HotelReceiptMini.OnSizeChangedListener onSizeChangedListener) {
-		mHotelReceiptMini.setOnSizeChangedListener(onSizeChangedListener);
-	}
+	public void bind(boolean showMiniReceipt, Property property, SearchParams params, Rate rate) {
+		if (property != null && property.getMedia(0) != null) {
+			property.getMedia(0).loadHighResImage(mHeaderImageView, null);
+		}
 
-	public void saveInstanceState(Bundle outState) {
-		mRoomTypeWidget.saveInstanceState(outState);
-	}
+		mRoomTypeDesciptionTextView.setText(rate.getRoomDescription());
+		mBedTypeNameTextView.setText(rate.getFormattedBedNames());
 
-	public void restoreInstanceState(Bundle savedState) {
-		mRoomTypeWidget.restoreInstanceState(savedState);
-	}
-
-	public void updateData(Property property, SearchParams searchParams, Rate rate) {
-		updateData(property, searchParams, rate, null, null, null);
-	}
-
-	public void updateData(Property property, SearchParams searchParams, Rate rate, Rate discountRate) {
-		updateData(property, searchParams, rate, null, null, discountRate);
-	}
-
-	public void updateData(Property property, SearchParams searchParams, Rate rate, BookingResponse bookingResponse,
-			BillingInfo billingInfo, Rate discountRate) {
-		reset();
-
-		mRoomTypeWidget.updateRate(rate);
-
-		// Configuring the header at the top
-		if (property.getThumbnail() != null) {
-			UrlBitmapDrawable.loadImageView(property.getThumbnail().getUrl(), mThumbnailImageView,
-					R.drawable.ic_image_placeholder);
-			mThumbnailImageView.setVisibility(View.VISIBLE);
+		if (TextUtils.isEmpty(rate.getRoomLongDescription())) {
+			mRoomLongDescriptionDivider.setVisibility(View.GONE);
+			mRoomLongDescriptionTextView.setVisibility(View.GONE);
 		}
 		else {
-			mThumbnailImageView.setVisibility(View.GONE);
+			mRoomLongDescriptionDivider.setVisibility(View.VISIBLE);
+			mRoomLongDescriptionTextView.setVisibility(View.VISIBLE);
+			mRoomLongDescriptionTextView.setText(rate.getRoomLongDescription());
 		}
 
-		mNameTextView.setText(property.getName());
-
-		Location location = property.getLocation();
-		mAddress1TextView.setText(Html.fromHtml(StrUtils.formatAddressStreet(location)));
-		mAddress2TextView.setText(Html.fromHtml(StrUtils.formatAddressCity(location)));
-
-		// Configure the details
-		if (billingInfo != null && bookingResponse != null) {
-			if (!TextUtils.isEmpty(bookingResponse.getHotelConfNumber())) {
-				addRateRow(mDetailsLayout, R.string.confirmation_number, bookingResponse.getHotelConfNumber());
-			}
-			addRateRow(mDetailsLayout, R.string.itinerary_number, bookingResponse.getItineraryId());
-			addRateRow(mDetailsLayout, R.string.confirmation_email, billingInfo.getEmail());
-		}
-
-		mDetailsLayout.addView(mRoomTypeWidget.getView());
-
-		if (property.isMerchant()) {
-			View bedTypeRow = addTextRow(mDetailsLayout, R.string.bed_type, rate.getRatePlanName());
-			mRoomTypeWidget.addClickableView(bedTypeRow);
-		}
-
-		addTextRow(mDetailsLayout, R.string.GuestsLabel, StrUtils.formatGuests(getContext(), searchParams));
-
-		addTextRow(mDetailsLayout, R.string.CheckIn, formatCheckInOutDate(searchParams.getCheckInDate()));
-		addTextRow(mDetailsLayout, R.string.CheckOut, formatCheckInOutDate(searchParams.getCheckOutDate()));
-
-		int numDays = searchParams.getStayDuration();
-		addTextRow(mDetailsLayout, R.string.stay_duration,
-				getContext().getResources().getQuantityString(R.plurals.length_of_stay, numDays, numDays));
-
-		addSpace(mDetailsLayout, 8);
-
-		// Rate breakdown list.  Only works with merchant hotels now.
-		DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getContext());
-		if (rate.getRateBreakdownList() != null && rate.getRateBreakdownList().size() <= 3) {
-			for (RateBreakdown breakdown : rate.getRateBreakdownList()) {
-				Date date = breakdown.getDate().getCalendar().getTime();
-				String label = getContext().getString(R.string.room_rate_template, dateFormat.format(date));
-				Money amount = breakdown.getAmount();
-				if (amount.isZero()) {
-					addRateRow(mDetailsLayout, label, getContext().getString(R.string.free));
-				}
-				else {
-					addRateRow(mDetailsLayout, label, amount.getFormattedMoney());
-				}
-			}
-		}
-
-		Money extraGuestFee = rate.getExtraGuestFee();
-		if (extraGuestFee != null) {
-			addRateRow(mDetailsLayout, R.string.extra_guest_charge, extraGuestFee.getFormattedMoney());
-		}
-
-		Money totalSurcharge = rate.getTotalSurcharge();
-		if (totalSurcharge != null) {
-			if (totalSurcharge.isZero()) {
-				addRateRow(mDetailsLayout, R.string.taxes_and_fees, getContext().getString(R.string.included));
-			}
-			else {
-				addRateRow(mDetailsLayout, R.string.taxes_and_fees, totalSurcharge.getFormattedMoney());
-			}
-		}
-
-		Money totalMandatoryFees = rate.getTotalMandatoryFees();
-		if (totalMandatoryFees != null && !totalMandatoryFees.isZero()
-				&& PointOfSale.getPointOfSale().displayMandatoryFees()) {
-			addRateRow(mDetailsLayout, R.string.MandatoryFees, totalMandatoryFees.getFormattedMoney());
-		}
-
-		// Configure the total cost and (if necessary) total cost paid to Expedia
-		if (discountRate != null) {
-			Money amountDiscounted;
-			if (discountRate.getTotalPriceAdjustments() != null) {
-				amountDiscounted = discountRate.getTotalPriceAdjustments();
-			}
-			else {
-				amountDiscounted = new Money(rate.getDisplayTotalPrice());
-				Money after = discountRate.getDisplayTotalPrice();
-
-				amountDiscounted.subtract(after);
-				amountDiscounted.negate();
-			}
-
-			rate = discountRate;
-			addTextRow(mDetailsLayout, R.string.discount, amountDiscounted.getFormattedMoney());
-		}
-
+		mExtrasLayout.removeAllViews();
 		if (PointOfSale.getPointOfSale().displayBestPriceGuarantee()) {
-			addExtra(mExtrasLayout, R.string.best_price_guarantee);
+			addExtraRow(R.string.best_price_guarantee);
 		}
 
 		if (rate.shouldShowFreeCancellation()) {
 			Date window = rate.getFreeCancellationWindowDate();
 			if (window != null) {
-				DateFormat df = new SimpleDateFormat("ha, MMM dd");
-				df.setTimeZone(CalendarUtils.getFormatTimeZone());
-				String formattedDate = df.format(window);
+				CharSequence formattedDate = DateFormat.format("ha, MMM dd", window);
 				String formattedString = getContext()
 						.getString(R.string.free_cancellation_date_TEMPLATE, formattedDate);
-				addExtra(mExtrasLayout, Html.fromHtml(formattedString));
+				addExtraRow(Html.fromHtml(formattedString));
 			}
 			else {
-				addExtra(mExtrasLayout, R.string.free_cancellation);
+				addExtraRow(R.string.free_cancellation);
 			}
 		}
 
-		mHotelReceiptMini.updateData(property, searchParams, rate);
-	}
+		final Resources res = getContext().getResources();
 
-	public void showTotalCostLayout() {
-		mHotelReceiptMini.showTotalCostLayout();
-	}
+		int numNights = params.getStayDuration();
+		String numNightsString = res.getQuantityString(R.plurals.number_of_nights, numNights, numNights);
+		mNightsTextView.setText(numNightsString);
 
-	public void showMiniDetailsLayout() {
-		mHotelReceiptMini.showMiniDetailsLayout();
-	}
+		mDateRangeTextView.setText(getFormattedDateRange(params));
 
-	// private methods
+		int numberOfGuests = params.getNumAdults() + params.getNumChildren();
+		mGuestsTextView.setText(res.getQuantityString(R.plurals.number_of_guests, numberOfGuests, numberOfGuests));
 
-	private void reset() {
-		// Clear current data
-		// TODO: If this ever becomes a performance issue, we could start caching
-		// views and re-using them.
-		mDetailsLayout.removeAllViews();
-		mExtrasLayout.removeAllViews();
-		mExtrasLayout.setVisibility(View.GONE);
-		mExtraSectionDivider.setVisibility(View.GONE);
-		mHotelReceiptMini.reset();
-	}
+		mPriceTextView.setText(rate.getDisplayTotalPrice().getFormattedMoney());
 
-	/**
-	 * This adds a row, using snippet_booking_detail_text, where the LEFT column has a
-	 * width of wrap_content and the RIGHT column is wrapped if too long.
-	 */
-	private View addTextRow(ViewGroup parent, int labelStrId, CharSequence value) {
-		return addRow(parent, getContext().getString(labelStrId), value, R.layout.snippet_booking_detail_text);
-	}
+		if (showMiniReceipt) {
+			mMiniReceiptLoading.setVisibility(View.VISIBLE);
+			mMiniReceiptDetails.setVisibility(View.VISIBLE);
 
-	/**
-	 * This adds a row, using snippet_booking_detail_rate, where the RIGHT column has a
-	 * width of wrap_content and the LEFT column is wrapped if too long.
-	 */
-	private View addRateRow(ViewGroup parent, int labelStrId, CharSequence value) {
-		return addRow(parent, getContext().getString(labelStrId), value, R.layout.snippet_booking_detail_rate);
-	}
+			Animator fadeout = AnimUtils.createFadeAnimator(mMiniReceiptLoading, false);
+			Animator fadein = AnimUtils.createFadeAnimator(mMiniReceiptDetails, true);
+			Animator crossfade = AnimUtils.playTogether(fadeout, fadein);
+			crossfade.addListener(new AnimatorListener() {
+				@Override
+				public void onAnimationCancel(Animator anim) {
+					this.onAnimationEnd(anim);
+				}
 
-	/**
-	 * This adds a row, using snippet_booking_detail_rate, where the RIGHT column has a
-	 * width of wrap_content and the LEFT column is wrapped if too long.
-	 */
-	private View addRateRow(ViewGroup parent, CharSequence label, CharSequence value) {
-		return addRow(parent, label, value, R.layout.snippet_booking_detail_rate);
-	}
+				@Override
+				public void onAnimationEnd(Animator anim) {
+					mMiniReceiptLoading.setVisibility(View.INVISIBLE);
+				}
 
-	private View addRow(ViewGroup parent, CharSequence label, CharSequence value, int layoutResId) {
-		if (value == null || value.length() == 0) {
-			return null;
+				@Override
+				public void onAnimationRepeat(Animator anim) {
+					// ignore
+				}
+
+				@Override
+				public void onAnimationStart(Animator anim) {
+					// ignore
+				}
+			});
+			crossfade.start();
+
+			mMiniReceipt.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (mRateBreakdownClickListener != null) {
+						mRateBreakdownClickListener.onClick(v);
+					}
+				}
+			});
 		}
+		else {
+			// We never go backwards so don't bother with animation here
+			mMiniReceiptLoading.setVisibility(View.VISIBLE);
+			mMiniReceiptDetails.setVisibility(View.INVISIBLE);
 
-		View detailRow = mInflater.inflate(layoutResId, parent, false);
-		TextView labelView = (TextView) detailRow.findViewById(R.id.label_text_view);
-		labelView.setText(label);
-		TextView valueView = (TextView) detailRow.findViewById(R.id.value_text_view);
-		valueView.setText(value);
-		parent.addView(detailRow);
-		return detailRow;
+			mMiniReceipt.setOnClickListener(null);
+		}
 	}
 
-	private View addExtra(ViewGroup parent, int stringResId) {
-		return addExtra(parent, getContext().getString(stringResId));
+	private String getFormattedDateRange(SearchParams params) {
+		final Resources res = getContext().getResources();
+
+		CharSequence from = DateFormat.format("MM/dd", params.getCheckInDate());
+		CharSequence to = DateFormat.format("MM/dd", params.getCheckOutDate());
+		String rangeString = getContext().getString(R.string.date_range_TEMPLATE, from, to);
+		return "(" + rangeString + ")";
+
 	}
 
-	private View addExtra(ViewGroup parent, CharSequence label) {
+	private void addExtraRow(int stringId) {
+		addExtraRow(getContext().getString(stringId));
+	}
+
+	private void addExtraRow(CharSequence label) {
 		mExtrasLayout.setVisibility(View.VISIBLE);
-		mExtraSectionDivider.setVisibility(View.VISIBLE);
+		mExtrasDivider.setVisibility(View.VISIBLE);
 
-		View extraRow = mInflater.inflate(R.layout.snippet_hotel_receipt_extra, parent, false);
+		LayoutInflater inflater = LayoutInflater.from(getContext());
+		View extraRow = inflater.inflate(R.layout.snippet_hotel_receipt_extra, mExtrasLayout, false);
 		TextView labelView = (TextView) extraRow.findViewById(R.id.extra_label);
 		labelView.setText(label);
-		parent.addView(extraRow);
-		return extraRow;
+		mExtrasLayout.addView(extraRow);
 	}
 
-	private String formatCheckInOutDate(Calendar cal) {
-		DateFormat medDf = android.text.format.DateFormat.getMediumDateFormat(getContext());
-		return DateUtils.getDayOfWeekString(cal.get(Calendar.DAY_OF_WEEK), DateUtils.LENGTH_MEDIUM) + ", "
-				+ medDf.format(cal.getTime());
+	public void saveInstanceState(Bundle outState) {
+		// TODO
 	}
 
-	private void addSpace(ViewGroup parent, int spaceInDp) {
-		int height = (int) getContext().getResources().getDisplayMetrics().density * spaceInDp;
+	public void restoreInstanceState(Bundle inState) {
+		// TODO
+	}
 
-		View v = new View(getContext());
-		v.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height));
+	public void setOnSizeChangedListener(OnSizeChangedListener onSizeChangedListener) {
+		mOnSizeChangedListener = onSizeChangedListener;
+	}
 
-		parent.addView(v);
+	public void setRateBreakdownClickListener(OnClickListener listener) {
+		mRateBreakdownClickListener = listener;
 	}
 }

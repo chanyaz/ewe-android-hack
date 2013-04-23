@@ -17,7 +17,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp" >
 
-            <com.expedia.bookings.widget.HotelReceiptV2
+            <com.expedia.bookings.widget.HotelReceipt
                 android:id="@+id/receipt"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

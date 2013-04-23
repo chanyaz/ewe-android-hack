@@ -210,7 +210,7 @@
     <!-- SearchParamsFragment -->
     <dimen name="child_ages_layout_width">500dp</dimen>
 
-    <!-- HotelReceiptV2 -->
+    <!-- HotelReceipt -->
     <dimen name="hotel_rate_breakdown_cell_margin">8dp</dimen>
 
     <!-- -1px == match_parent forall screen sizes -->

@@ -59,7 +59,7 @@ import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.CouponCodeWidget;
 import com.expedia.bookings.widget.FrameLayout;
-import com.expedia.bookings.widget.HotelReceiptV2;
+import com.expedia.bookings.widget.HotelReceipt;
 import com.expedia.bookings.widget.LinearLayout;
 import com.expedia.bookings.widget.ScrollView;
 import com.expedia.bookings.widget.ScrollView.OnScrollListener;
@@ -98,7 +98,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	private ScrollView mScrollView;
 	private ScrollViewListener mScrollViewListener;
 
-	private HotelReceiptV2 mHotelReceipt;
+	private HotelReceipt mHotelReceipt;
 	private LinearLayout mCheckoutLayout;
 
 	private AccountButton mAccountButton;
@@ -973,7 +973,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	// Scroll Listener
 
 	private class ScrollViewListener extends GestureDetector.SimpleOnGestureListener implements OnScrollListener,
-			OnTouchListener, HotelReceiptV2.OnSizeChangedListener, LinearLayout.OnSizeChangedListener,
+			OnTouchListener, HotelReceipt.OnSizeChangedListener, LinearLayout.OnSizeChangedListener,
 			FrameLayout.OnSizeChangedListener {
 
 		private static final float FADE_RANGE = 100.0f;
