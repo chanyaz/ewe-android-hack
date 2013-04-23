@@ -270,6 +270,12 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 				currencyCode = parser.getText();
 			}
 			else if (name.equals("highestPriceFromSurvey")) {
+				//if the API changes in the future and we end up parsing out of order,
+				//then we should still try and fetch the correct currency from lowestRateInfo.
+				if (currencyCode == null) {
+					String tempCurrencyCode = property.getLowestRate().getAverageRate().getCurrency();
+					currencyCode = tempCurrencyCode;
+				}
 				property.setHighestPriceFromSurvey(ParserUtils.createMoney(parser.getText(), currencyCode));
 			}
 			else {

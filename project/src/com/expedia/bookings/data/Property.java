@@ -376,7 +376,7 @@ public class Property implements JSONable {
 			obj.putOpt("isLowestRateTonightOnly", mIsLowestRateTonightOnly);
 			obj.putOpt("infoSiteUrl", mInfoSiteUrl);
 			obj.putOpt("telephoneSalesNumber", mTelephoneSalesNumber);
-
+			JSONUtils.putJSONable(obj, "highestPriceFromSurvey", mHighestPriceFromSurvey);
 			JSONUtils.putJSONable(obj, "lowestRate", mLowestRate);
 
 			return obj;
@@ -410,6 +410,7 @@ public class Property implements JSONable {
 		mIsLowestRateTonightOnly = obj.optBoolean("isLowestRateTonightOnly");
 		mInfoSiteUrl = obj.optString("infoSiteUrl", null);
 		mTelephoneSalesNumber = obj.optString("telephoneSalesNumber", null);
+		mHighestPriceFromSurvey = JSONUtils.getJSONable(obj, "highestPriceFromSurvey", Money.class);
 
 		return true;
 	}
