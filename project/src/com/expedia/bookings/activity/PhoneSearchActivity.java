@@ -126,9 +126,6 @@ import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.ViewUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.SegmentedControlGroup;
-import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.ValueAnimator;
-import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
 public class PhoneSearchActivity extends SherlockFragmentActivity implements OnDrawStartedListener,
 		HotelListFragmentListener, HotelMapFragmentListener, OnFilterChangedListener,
@@ -2618,7 +2615,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			if (hasFocus) {
 				showClearSearchButton();
 
-				//expandSearchEditText();
 				setDisplayType(DisplayType.KEYBOARD);
 				SearchType searchType = getCurrentSearchParams().getSearchType();
 				if (searchType == SearchType.MY_LOCATION || searchType == SearchType.VISIBLE_MAP_AREA) {
@@ -2645,61 +2641,11 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			else {
 				hideClearSeachButton();
 
-				//collapseSearchEditText();
 				TextView tv = (TextView) v;
 				hideSoftKeyboard(tv);
 			}
 		}
 	};
-
-	private AnimatorUpdateListener mUpDownListener = new AnimatorUpdateListener() {
-		@Override
-		public void onAnimationUpdate(ValueAnimator animator) {
-			int val = (Integer) animator.getAnimatedValue();
-			((RelativeLayout.LayoutParams) mDatesButton.getLayoutParams()).bottomMargin = val;
-			((RelativeLayout.LayoutParams) mGuestsButton.getLayoutParams()).bottomMargin = val;
-			mDatesButton.requestLayout();
-			mGuestsButton.requestLayout();
-		}
-	};
-
-	private AnimatorUpdateListener mGrowShrinkListener = new AnimatorUpdateListener() {
-		@Override
-		public void onAnimationUpdate(ValueAnimator animator) {
-			int val = (Integer) animator.getAnimatedValue();
-			((RelativeLayout.LayoutParams) mDatesButton.getLayoutParams()).width = val;
-			((RelativeLayout.LayoutParams) mGuestsButton.getLayoutParams()).width = val;
-			mDatesButton.requestLayout();
-			mGuestsButton.requestLayout();
-		}
-	};
-
-	private void expandSearchEditText() {
-		ValueAnimator animUp = ValueAnimator.ofInt(0, mSearchEditText.getMeasuredHeight());
-		animUp.addUpdateListener(mUpDownListener);
-
-		ValueAnimator animShrink = ValueAnimator.ofInt(
-				getResources().getDimensionPixelSize(R.dimen.actionbar_refinement_width), 0);
-		animShrink.addUpdateListener(mGrowShrinkListener);
-
-		AnimatorSet set = new AnimatorSet();
-		set.setStartDelay(1000);
-		set.playSequentially(animUp, animShrink);
-		set.start();
-	}
-
-	private void collapseSearchEditText() {
-		ValueAnimator animDown = ValueAnimator.ofInt(mSearchEditText.getMeasuredHeight(), 0);
-		animDown.addUpdateListener(mUpDownListener);
-
-		ValueAnimator animGrow = ValueAnimator.ofInt(0,
-				getResources().getDimensionPixelSize(R.dimen.actionbar_refinement_width));
-		animGrow.addUpdateListener(mGrowShrinkListener);
-
-		AnimatorSet set = new AnimatorSet();
-		set.playSequentially(animGrow, animDown);
-		set.start();
-	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// HANDLERS
