@@ -186,20 +186,24 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		Calendar end = data.getEndDate().getCalendar();
 		Calendar now = Calendar.getInstance(start.getTimeZone());
 
+		final boolean beforeStart = now.before(start);
+		final long daysBetweenStart = CalendarUtils.getDaysBetween(now, start);
+		final long daysBetweenEnd = CalendarUtils.getDaysBetween(now, end);
+
 		// Check in - 3 days
-		if (now.before(start) && CalendarUtils.getDaysBetween(now, start) == 3) {
+		if (beforeStart && daysBetweenStart == 3) {
 			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_three_days));
 		}
 		// Check in - 2 days
-		else if (now.before(start) && CalendarUtils.getDaysBetween(now, start) == 2) {
+		else if (beforeStart && daysBetweenStart == 2) {
 			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_two_days));
 		}
 		// Check in tomorrow
-		else if (now.before(start) && CalendarUtils.getDaysBetween(now, start) == 1) {
+		else if (beforeStart && daysBetweenStart == 1) {
 			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_tomorrow));
 		}
 		// Check in after 3:00 PM
-		else if (now.before(start) && CalendarUtils.getDaysBetween(now, start) == 0) {
+		else if (beforeStart && daysBetweenStart == 0) {
 			if (!TextUtils.isEmpty(data.getCheckInTime())) {
 				view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_TEMPLATE,
 						data.getCheckInTime()));
@@ -210,24 +214,24 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			}
 		}
 		// Check in May 14
-		else if (now.before(start)) {
+		else if (beforeStart) {
 			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_day_TEMPLATE,
 					data.getFormattedDetailsCheckInDate(getContext())));
 		}
 		// Check out in 3 days
-		else if (now.after(start) && CalendarUtils.getDaysBetween(now, end) == 3) {
+		else if (!beforeStart && daysBetweenEnd == 3) {
 			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_three_days));
 		}
 		// Check out in 2 days
-		else if (now.after(start) && CalendarUtils.getDaysBetween(now, end) == 2) {
+		else if (!beforeStart && daysBetweenEnd == 2) {
 			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_two_days));
 		}
 		// Check out tomorrow
-		else if (now.after(start) && CalendarUtils.getDaysBetween(now, end) == 1) {
+		else if (!beforeStart && daysBetweenEnd == 1) {
 			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_tomorrow));
 		}
 		// Check out before 11:00AM
-		else if (now.after(start) && CalendarUtils.getDaysBetween(now, end) == 0) {
+		else if (!beforeStart && daysBetweenEnd == 0) {
 			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_TEMPLATE,
 					data.getEndDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME)));
 		}

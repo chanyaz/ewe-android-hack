@@ -205,46 +205,50 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		Calendar start = data.getPickUpDate().getCalendar();
 		Calendar end = data.getDropOffDate().getCalendar();
 		Calendar now = Calendar.getInstance(start.getTimeZone());
-		
+
+		final boolean beforeStart = now.before(start);
+		final long daysBetweenStart = CalendarUtils.getDaysBetween(now, start);
+		final long daysBetweenEnd = CalendarUtils.getDaysBetween(now, end);
+
 		// Pick up in 3 days
-		if (now.before(start) && CalendarUtils.getDaysBetween(now, start) == 3) {
+		if (beforeStart && daysBetweenStart == 3) {
 			view.setText(R.string.itin_card_details_pick_up_three_days);
 		}
 		// Pick up in 2 days
-		else if (now.before(start) && CalendarUtils.getDaysBetween(now, start) == 2) {
+		else if (beforeStart && daysBetweenStart == 2) {
 			view.setText(R.string.itin_card_details_pick_up_two_days);
 		}
 		// Pick up tomorrow
-		else if (now.before(start) && CalendarUtils.getDaysBetween(now, start) == 1) {
+		else if (beforeStart && daysBetweenStart == 1) {
 			view.setText(R.string.itin_card_details_pick_up_tomorrow);
 		}
 		// Pick up after 3PM
-		else if (now.before(start) && CalendarUtils.getDaysBetween(now, start) == 0) {
+		else if (beforeStart && daysBetweenStart == 0) {
 			view.setText(getContext().getString(
 					R.string.itin_card_details_pick_up_TEMPLATE,
 					getItinCardData().getPickUpDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME)));
 		}
 		// Pick up May 14
-		else if (now.before(start)) {
+		else if (beforeStart) {
 			view.setText(getContext().getString(
 					R.string.itin_card_details_pick_up_day_TEMPLATE,
 					getItinCardData().getPickUpDate().formatTime(getContext(),
 							DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR)));
 		}
 		// Drop off in 3 days
-		else if (now.after(start) && CalendarUtils.getDaysBetween(now, end) == 3) {
+		else if (!beforeStart && daysBetweenEnd == 3) {
 			view.setText(R.string.itin_card_details_drop_off_three_days);
 		}
 		// Drop off in 2 days
-		else if (now.after(start) && CalendarUtils.getDaysBetween(now, end) == 2) {
+		else if (!beforeStart && daysBetweenEnd == 2) {
 			view.setText(R.string.itin_card_details_drop_off_two_days);
 		}
 		// Drop off tomorrow
-		else if (now.after(start) && CalendarUtils.getDaysBetween(now, end) == 1) {
+		else if (!beforeStart && daysBetweenEnd == 1) {
 			view.setText(R.string.itin_card_details_drop_off_tomorrow);
 		}
 		// Drop off before 5PM
-		else if (now.after(start) && CalendarUtils.getDaysBetween(now, end) == 0) {
+		else if (!beforeStart && daysBetweenEnd == 0) {
 			view.setText(getContext().getString(
 					R.string.itin_card_details_drop_off_TEMPLATE,
 					getItinCardData().getDropOffDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME)));
