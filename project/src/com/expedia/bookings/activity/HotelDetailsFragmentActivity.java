@@ -271,12 +271,6 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		if (mKillReceiver != null) {
 			mKillReceiver.onDestroy();
 		}
-
-		if (isFinishing()) {
-			BackgroundDownloader bd = BackgroundDownloader.getInstance();
-			bd.cancelDownload(INFO_DOWNLOAD_KEY);
-			bd.cancelDownload(REVIEWS_DOWNLOAD_KEY);
-		}
 	}
 
 	//----------------------------------
