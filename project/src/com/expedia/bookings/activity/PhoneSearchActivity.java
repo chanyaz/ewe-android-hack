@@ -361,8 +361,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			Db.setSearchResponse(searchResponse);
 
 			if (searchResponse != null && searchResponse.getPropertiesCount() > 0 && !searchResponse.hasErrors()) {
-				incrementNumSearches();
-
 				Filter filter = Db.getFilter();
 
 				// Filter reset is already called, hence reset appropriate searchRadius
@@ -1736,63 +1734,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		if (mHotelMapFragment != null) {
 			mHotelMapFragment.notifySearchStarted();
 		}
-	}
-
-	//--------------------------------------------
-	// Widget notification related private methods
-	//--------------------------------------------
-
-	private static final String NUM_SEARCHES = "NUM_SEARCHES";
-	private static final String APP_VERSION = "APP_VERSION";
-	private static final String WIDGET_NOTIFICATION_SHOWN = "WIDGET_NOTIFICATION_SHOWN";
-	private static final int THRESHOLD_LAUNCHES = 2;
-
-	private boolean shouldShowWidgetNotification() {
-
-		// wait for 2 launches before deciding to show the widget
-		if (getNumSearches() > THRESHOLD_LAUNCHES) {
-			return !wasWidgetNotificationShown() && !areWidgetsInstalled();
-		}
-
-		return false;
-	}
-
-	private void markWidgetNotificationAsShown() {
-		SettingUtils.save(this, WIDGET_NOTIFICATION_SHOWN, true);
-	}
-
-	private void incrementNumSearches() {
-		// reset bookkeeping if the app was upgraded
-		// so that the widget can be shown again
-		if (wasAppUpgraded()) {
-			SettingUtils.save(this, NUM_SEARCHES, 1);
-			SettingUtils.save(this, WIDGET_NOTIFICATION_SHOWN, false);
-		}
-		else {
-			int numLaunches = SettingUtils.get(this, NUM_SEARCHES, 0);
-			SettingUtils.save(this, NUM_SEARCHES, ++numLaunches);
-		}
-	}
-
-	private int getNumSearches() {
-		int numLaunches = SettingUtils.get(this, NUM_SEARCHES, 0);
-		return numLaunches;
-	}
-
-	private boolean wasAppUpgraded() {
-		String currentVersionNumber = AndroidUtils.getAppVersion(this);
-		String savedVersionNumber = SettingUtils.get(this, APP_VERSION, null);
-		SettingUtils.save(this, APP_VERSION, currentVersionNumber);
-		return !currentVersionNumber.equals(savedVersionNumber);
-	}
-
-	private boolean wasWidgetNotificationShown() {
-		return SettingUtils.get(this, WIDGET_NOTIFICATION_SHOWN, false);
-	}
-
-	private boolean areWidgetsInstalled() {
-		List<WidgetConfigurationState> widgetConfigs = WidgetConfigurationState.getAll();
-		return !widgetConfigs.isEmpty();
 	}
 
 	//----------------------------------
