@@ -296,13 +296,7 @@ public class CouponCodeWidget {
 	private void setNewTotal() {
 		CreateTripResponse response = Db.getCreateTripResponse();
 		if (response != null) {
-			Money m;
-			if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
-				m = response.getNewRate().getTotalPriceWithMandatoryFees();
-			}
-			else {
-				m = response.getNewRate().getTotalAmountAfterTax();
-			}
+			Money m = response.getNewRate().getDisplayTotalPrice();
 			mNewTotal.setText(mContext.getString(R.string.new_total) + "\n" + m.getFormattedMoney());
 		}
 	}

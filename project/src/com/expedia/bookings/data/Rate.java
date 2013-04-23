@@ -511,8 +511,23 @@ public class Rate implements JSONable {
 		}
 	}
 
+	/**
+	 * Total price to display to the user (including MandatoryFees if required)
+	 * This either returns getTotalPriceWithMandatoryFees() or getTotalAmountAfterTax()
+	 * depending on POS settings
+	 * @return
+	 */
+	public Money getDisplayTotalPrice() {
+		if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
+			return getTotalPriceWithMandatoryFees();
+		}
+		else {
+			return getTotalAmountAfterTax();
+		}
+	}
+
 	public int compareForPriceChange(Rate other) {
-		return getDisplayRate().compareToTheWholeValue(other.getDisplayRate());
+		return getDisplayTotalPrice().compareToTheWholeValue(other.getDisplayTotalPrice());
 	}
 
 	public int compareTo(Rate other) {

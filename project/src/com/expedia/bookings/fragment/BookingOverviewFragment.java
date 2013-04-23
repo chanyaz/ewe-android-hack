@@ -867,14 +867,15 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 						String val = SettingUtils.get(getActivity(),
 								getString(R.string.preference_fake_price_change),
 								getString(R.string.preference_fake_price_change_default));
-						newRate.getDisplayRate().add(new BigDecimal(val));
+
+						newRate.getDisplayTotalPrice().add(new BigDecimal(val));
 					}
 
 					int priceChange = selectedRate.compareForPriceChange(newRate);
 					if (priceChange != 0) {
 						boolean isPriceHigher = priceChange < 0;
 						HotelPriceChangeDialog dialog = HotelPriceChangeDialog.newInstance(isPriceHigher,
-								selectedRate.getDisplayRate(), newRate.getDisplayRate());
+								selectedRate.getDisplayTotalPrice(), newRate.getDisplayTotalPrice());
 						dialog.show(getFragmentManager(), "priceChangeDialog");
 					}
 					newRate.setValueAdds(selectedRate.getValueAdds());

@@ -13,7 +13,6 @@ import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,6 +31,7 @@ import com.nineoldandroids.animation.Animator.AnimatorListener;
 public class HotelReceiptV2 extends LinearLayout {
 	public interface OnSizeChangedListener {
 		public void onReceiptSizeChanged(int w, int h, int oldw, int oldh);
+
 		public void onMiniReceiptSizeChanged(int w, int h, int oldw, int oldh);
 	}
 
@@ -147,7 +147,7 @@ public class HotelReceiptV2 extends LinearLayout {
 			if (window != null) {
 				CharSequence formattedDate = DateFormat.format("ha, MMM dd", window);
 				String formattedString = getContext()
-					.getString(R.string.free_cancellation_date_TEMPLATE, formattedDate);
+						.getString(R.string.free_cancellation_date_TEMPLATE, formattedDate);
 				addExtraRow(Html.fromHtml(formattedString));
 			}
 			else {
@@ -166,12 +166,7 @@ public class HotelReceiptV2 extends LinearLayout {
 		int numberOfGuests = params.getNumAdults() + params.getNumChildren();
 		mGuestsTextView.setText(res.getQuantityString(R.plurals.number_of_guests, numberOfGuests, numberOfGuests));
 
-		if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
-			mPriceTextView.setText(rate.getTotalPriceWithMandatoryFees().getFormattedMoney());
-		}
-		else {
-			mPriceTextView.setText(rate.getTotalAmountAfterTax().getFormattedMoney());
-		}
+		mPriceTextView.setText(rate.getDisplayTotalPrice().getFormattedMoney());
 
 		if (showMiniReceipt) {
 			mMiniReceiptLoading.setVisibility(View.VISIBLE);

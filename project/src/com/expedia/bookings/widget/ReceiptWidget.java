@@ -88,7 +88,8 @@ public class ReceiptWidget {
 
 		// Configuring the header at the top
 		if (property.getThumbnail() != null) {
-			UrlBitmapDrawable.loadImageView(property.getThumbnail().getUrl(), mThumbnailImageView, R.drawable.ic_image_placeholder);
+			UrlBitmapDrawable.loadImageView(property.getThumbnail().getUrl(), mThumbnailImageView,
+					R.drawable.ic_image_placeholder);
 			mThumbnailImageView.setVisibility(View.VISIBLE);
 		}
 		else {
@@ -172,16 +173,8 @@ public class ReceiptWidget {
 				amountDiscounted = discountRate.getTotalPriceAdjustments();
 			}
 			else {
-				Money after;
-
-				if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
-					amountDiscounted = new Money(rate.getTotalPriceWithMandatoryFees());
-					after = discountRate.getTotalPriceWithMandatoryFees();
-				}
-				else {
-					amountDiscounted = new Money(rate.getTotalAmountAfterTax());
-					after = discountRate.getTotalAmountAfterTax();
-				}
+				amountDiscounted = new Money(rate.getDisplayTotalPrice());
+				Money after = discountRate.getDisplayTotalPrice();
 				amountDiscounted.subtract(after);
 				amountDiscounted.negate();
 			}
