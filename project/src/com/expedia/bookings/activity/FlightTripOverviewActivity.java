@@ -318,6 +318,8 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 	private void addSlideToCheckoutFragment() {
 		if (mSafeToAttach) {
+			mBottomBarMode = null;
+
 			mSlideToPurchaseFragment = Ui.findSupportFragment(this, TAG_SLIDE_TO_PURCHASE_FRAG);
 			if (mSlideToPurchaseFragment == null) {
 				Money totalFare = Db.getFlightSearch().getSelectedFlightTrip().getTotalFare();
@@ -339,6 +341,8 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 	private void addPriceBarFragment() {
 		if (mSafeToAttach) {
+			mBottomBarMode = null;
+
 			mPriceBottomFragment = Ui.findSupportFragment(this, TAG_PRICE_BAR_BOTTOM_FRAG);
 			if (mPriceBottomFragment == null) {
 				mPriceBottomFragment = FlightTripPriceFragment.newInstance();
