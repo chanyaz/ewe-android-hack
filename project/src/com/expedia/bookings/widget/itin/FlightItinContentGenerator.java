@@ -53,6 +53,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.ShareUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightMapImageView;
 import com.mobiata.android.Log;
@@ -599,8 +600,9 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		notification.setTicker(getContext().getString(R.string.Check_in_available));
 		notification.setTitle(getContext().getString(R.string.Check_in_available));
 
-		String body = getContext().getString(R.string.x_flight_to_x_TEMPLATE, leg.getAirlinesFormatted(),
-				leg.getLastWaypoint().getAirport().mCity);
+		String airline = leg.getAirlinesFormatted();
+		String destination = StrUtils.getWaypointCityOrCode(leg.getLastWaypoint());
+		String body = getContext().getString(R.string.x_flight_to_x_TEMPLATE, airline, destination);
 		notification.setBody(body);
 
 		String destinationCode = leg.getLastWaypoint().mAirportCode;
