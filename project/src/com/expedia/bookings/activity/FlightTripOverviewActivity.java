@@ -109,6 +109,13 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	// This variable exists to ensure that the correct tracking event gets called the correct number of times
 	private TrackingMode mLastTrackingMode;
 
+	private enum BottomBarMode {
+		PRICE_BAR, SLIDE_TO_PURCHASE
+	}
+
+	// Go to a mode on resume, if we need to change state during an unsafe time
+	private BottomBarMode mBottomBarMode;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -188,6 +195,15 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		}
 		else {
 			gotoOverviewMode(false);
+		}
+
+		// Normally we won't need this; but if we try to attach when it's not safe
+		// we will want to make the changes later.
+		if (mBottomBarMode == BottomBarMode.PRICE_BAR) {
+			addPriceBarFragment();
+		}
+		else if (mBottomBarMode == BottomBarMode.SLIDE_TO_PURCHASE) {
+			addSlideToCheckoutFragment();
 		}
 
 		OmnitureTracking.onResume(this);
@@ -296,29 +312,40 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	}
 
 	private void addSlideToCheckoutFragment() {
-		mSlideToPurchaseFragment = Ui.findSupportFragment(this, TAG_SLIDE_TO_PURCHASE_FRAG);
-		if (mSlideToPurchaseFragment == null) {
-			Money totalFare = Db.getFlightSearch().getSelectedFlightTrip().getTotalFare();
-			String template = getString(R.string.your_card_will_be_charged_TEMPLATE);
-			String text = String.format(template, totalFare.getFormattedMoney());
-			mSlideToPurchaseFragment = SlideToPurchaseFragment.newInstance(text);
+		if (mSafeToAttach) {
+			mSlideToPurchaseFragment = Ui.findSupportFragment(this, TAG_SLIDE_TO_PURCHASE_FRAG);
+			if (mSlideToPurchaseFragment == null) {
+				Money totalFare = Db.getFlightSearch().getSelectedFlightTrip().getTotalFare();
+				String template = getString(R.string.your_card_will_be_charged_TEMPLATE);
+				String text = String.format(template, totalFare.getFormattedMoney());
+				mSlideToPurchaseFragment = SlideToPurchaseFragment.newInstance(text);
+			}
+			if (!mSlideToPurchaseFragment.isAdded()) {
+				FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+				transaction.replace(R.id.trip_price_container_bottom, mSlideToPurchaseFragment,
+						TAG_SLIDE_TO_PURCHASE_FRAG);
+				transaction.commit();
+			}
 		}
-		if (!mSlideToPurchaseFragment.isAdded()) {
-			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-			transaction.replace(R.id.trip_price_container_bottom, mSlideToPurchaseFragment, TAG_SLIDE_TO_PURCHASE_FRAG);
-			transaction.commit();
+		else {
+			mBottomBarMode = BottomBarMode.SLIDE_TO_PURCHASE;
 		}
 	}
 
 	private void addPriceBarFragment() {
-		mPriceBottomFragment = Ui.findSupportFragment(this, TAG_PRICE_BAR_BOTTOM_FRAG);
-		if (mPriceBottomFragment == null) {
-			mPriceBottomFragment = FlightTripPriceFragment.newInstance();
+		if (mSafeToAttach) {
+			mPriceBottomFragment = Ui.findSupportFragment(this, TAG_PRICE_BAR_BOTTOM_FRAG);
+			if (mPriceBottomFragment == null) {
+				mPriceBottomFragment = FlightTripPriceFragment.newInstance();
+			}
+			if (!mPriceBottomFragment.isAdded()) {
+				FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+				transaction.replace(R.id.trip_price_container_bottom, mPriceBottomFragment, TAG_PRICE_BAR_BOTTOM_FRAG);
+				transaction.commit();
+			}
 		}
-		if (!mPriceBottomFragment.isAdded()) {
-			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-			transaction.replace(R.id.trip_price_container_bottom, mPriceBottomFragment, TAG_PRICE_BAR_BOTTOM_FRAG);
-			transaction.commit();
+		else {
+			mBottomBarMode = BottomBarMode.PRICE_BAR;
 		}
 	}
 
