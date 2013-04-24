@@ -12,7 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
@@ -112,15 +112,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 		mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
 		mViewPager = Ui.findView(this, R.id.viewpager);
 		mViewPager.setAdapter(mPagerAdapter);
-		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
-			@Override
-			public void onPageScrollStateChanged(int state) {
-			}
-
-			@Override
-			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-			}
-
+		mViewPager.setOnPageChangeListener(new SimpleOnPageChangeListener() {
 			@Override
 			public void onPageSelected(int position) {
 				if (mViewPager != null && position != mPagerPosition) {
@@ -129,6 +121,10 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 					}
 					else if (position == PAGER_POS_ITIN) {
 						gotoItineraries();
+					}
+
+					if (mLaunchFragment != null) {
+						mLaunchFragment.startMarquee();
 					}
 				}
 			}
