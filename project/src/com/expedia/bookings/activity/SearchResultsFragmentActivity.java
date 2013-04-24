@@ -18,8 +18,6 @@ import android.content.res.Resources;
 import android.graphics.Rect;
 import android.location.Address;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Build;
 import android.os.Bundle;
@@ -97,6 +95,8 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
+import com.mobiata.android.location.LocationFinder;
+import com.mobiata.android.location.MobiataLocationFinder;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 
@@ -107,10 +107,10 @@ import com.mobiata.android.util.NetUtils;
 // So for now, we'll use the Honeycomb SearchView in here.
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class SearchResultsFragmentActivity extends SherlockFragmentActivity implements LocationListener,
-		OnFilterChangedListener, SortDialogFragmentListener, CalendarDialogFragmentListener,
-		GeocodeDisambiguationDialogFragmentListener, GuestsDialogFragmentListener, HotelDetailsFragmentListener,
-		OnCollageImageClickedListener, MiniDetailsFragmentListener, HotelMapFragmentListener, HotelListFragmentListener {
+public class SearchResultsFragmentActivity extends SherlockFragmentActivity implements OnFilterChangedListener,
+		SortDialogFragmentListener, CalendarDialogFragmentListener, GeocodeDisambiguationDialogFragmentListener,
+		GuestsDialogFragmentListener, HotelDetailsFragmentListener, OnCollageImageClickedListener,
+		MiniDetailsFragmentListener, HotelMapFragmentListener, HotelListFragmentListener {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Constants
@@ -389,6 +389,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	protected void onPause() {
 		super.onPause();
 
+		stopLocation();
 		Db.getFilter().removeOnFilterChangedListener(this);
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
@@ -889,7 +890,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 				onMyLocationFound(location);
 			}
 			else {
-				startLocationListener();
+				findLocation();
 			}
 			break;
 		}
@@ -1106,66 +1107,47 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	//////////////////////////////////////////////////////////////////////////
 	// Location
 
-	private void startLocationListener() {
+	private MobiataLocationFinder mLocationFinder;
+
+	private void findLocation() {
 		mHotelListFragment.updateStatus(getString(R.string.progress_finding_location), true);
 
-		// Prefer network location (because it's faster).  Otherwise use GPS
-		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		String provider = null;
-		if (lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-			provider = LocationManager.NETWORK_PROVIDER;
-		}
-		else if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-			provider = LocationManager.GPS_PROVIDER;
-		}
+		if (mLocationFinder == null) {
+			mLocationFinder = new MobiataLocationFinder(mContext);
+			mLocationFinder.setListener(new LocationFinder.LocationFinderListener() {
+				@Override
+				public void onLocationFound(Location location) {
+					onMyLocationFound(location);
+				}
 
-		if (provider == null) {
-			Log.w("Could not find a location provider, informing user of error...");
-			simulateSearchErrorResponse(R.string.ProviderDisabled);
+				@Override
+				public void onLocationServicesDisabled() {
+					simulateSearchErrorResponse(R.string.ProviderDisabled);
+					// TODO: Show user dialog to go to enable location services
+				}
 
-			// TODO: Show user dialog to go to enable location services
+				@Override
+				public void onLocationFindFailed() {
+					simulateSearchErrorResponse(R.string.ProviderTemporarilyUnavailable);
+				}
+
+				@Override
+				public void onStatusChanged(int status) {
+					if (status == LocationProvider.OUT_OF_SERVICE) {
+						simulateSearchErrorResponse(R.string.ProviderOutOfService);
+					}
+					else if (status == LocationProvider.TEMPORARILY_UNAVAILABLE) {
+						simulateSearchErrorResponse(R.string.ProviderTemporarilyUnavailable);
+					}
+				}
+			});
 		}
-		else {
-			Log.i("Starting location listener, provider=" + provider);
-			lm.requestLocationUpdates(provider, 0, 0, this);
-		}
+		mLocationFinder.find();
 	}
 
-	private void stopLocationListener() {
-		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		lm.removeUpdates(this);
-	}
-
-	@Override
-	public void onLocationChanged(Location location) {
-		stopLocationListener();
-
-		onMyLocationFound(location);
-	}
-
-	@Override
-	public void onProviderDisabled(String provider) {
-		// TODO: Worry about providers being disabled midway through search?
-	}
-
-	@Override
-	public void onProviderEnabled(String provider) {
-		// TODO: Worry about providers being enabled midway through search?
-	}
-
-	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras) {
-		Log.w("onStatusChanged(): provider=" + provider + " status=" + status);
-
-		if (status == LocationProvider.OUT_OF_SERVICE) {
-			stopLocationListener();
-			Log.w("Location listener failed: out of service");
-			simulateSearchErrorResponse(R.string.ProviderOutOfService);
-		}
-		else if (status == LocationProvider.TEMPORARILY_UNAVAILABLE) {
-			stopLocationListener();
-			Log.w("Location listener failed: temporarily unavailable");
-			simulateSearchErrorResponse(R.string.ProviderTemporarilyUnavailable);
+	private void stopLocation() {
+		if (mLocationFinder != null) {
+			mLocationFinder.stop();
 		}
 	}
 
