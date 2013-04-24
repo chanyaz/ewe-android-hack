@@ -8,6 +8,7 @@ package com.expedia.bookings.test.tests.localization;
 import java.util.Locale;
 
 import android.content.res.Resources;
+import android.os.Environment;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.DisplayMetrics;
 
@@ -25,6 +26,8 @@ public class RandomPOSHappyPath extends
 	}
 
 	private static final String TAG = "SearchTest";
+	private static final String LOCALE_LIST_LOCATION =
+			Environment.getExternalStorageDirectory().getPath() + "/locales_list.txt";
 
 	private Solo mSolo;
 
@@ -49,74 +52,62 @@ public class RandomPOSHappyPath extends
 	////////////////////////////////////////////////////////////////
 	// Test Drivers
 
-	// Run screenshot sweep on APAC locales
-	public void testBookingsAPAC() throws Exception {
-		testBookings(mDriver.mLocaleUtils.APAC_LOCALES);
-	}
+	public void testBookings() throws Exception {
+		
+		//Limit to two POSs at a time.
+		for (int i = 0; i < 2; i++) {
+			mDriver.setAllowScreenshots(true);
+			//change device locale and set variable
+			Locale testingLocale = mDriver.mLocaleUtils.selectNextLocaleFromInternalList(LOCALE_LIST_LOCATION);
+			mDriver.enterLog(TAG, "Starting sweep of " + testingLocale.toString());
 
-	// Run screenshot sweep on Western locales
-	public void testBookingsWestern() throws Exception {
-		testBookings(mDriver.mLocaleUtils.WESTERN_LOCALES);
-	}
+			mDriver.changeAPI("Production");
 
-	// Run screenshot sweep on North, South, and Central American locales
-	public void testBookingsAmericas() throws Exception {
-		testBookings(mDriver.mLocaleUtils.AMERICAN_LOCALES);
-	}
+			//Reset screenshot file name to start with index 1
+			mDriver.setScreenshotCount(1);
 
-	private void testBookings(Locale[] localeList) throws Exception {
-		mDriver.setAllowScreenshots(true);
-		//change device locale and set variable
-		Locale testingLocale = mDriver.mLocaleUtils.setRandomLocale(localeList);
-		mDriver.enterLog(TAG, "Starting sweep of " + testingLocale.toString());
+			mDriver.changePOS(testingLocale);
+			mDriver.setSpoofBookings();
 
-		mDriver.changeAPI("Production");
+			mDriver.launchHotels();
 
-		//Reset screenshot file name to start with index 1
-		mDriver.setScreenshotCount(1);
+			//If the app is on a hotel confirmation screen, "NEW SEARCH"
+			//will be on that screen. Click it to get back to hotel search
+			if (mSolo.searchText(mRes.getString(R.string.NEW_SEARCH))) {
+				mSolo.clickOnText(mRes.getString(R.string.NEW_SEARCH));
+			}
+			// Open calendar and guest picker fragments
+			mDriver.delay();
+			mDriver.pressCalendar();
+			mDriver.pressGuestPicker();
 
-		mDriver.changePOS(testingLocale);
-		mDriver.setSpoofBookings();
+			//Enter and select San Francisco as destination
+			mDriver.selectLocation(mUser.mHotelSearchCity);
 
-		mDriver.launchHotels();
+			//Open sort dialog for hotels search
+			mDriver.pressSort();
 
-		//If the app is on a hotel confirmation screen, "NEW SEARCH"
-		//will be on that screen. Click it to get back to hotel search
-		if (mSolo.searchText(mRes.getString(R.string.NEW_SEARCH))) {
-			mSolo.clickOnText(mRes.getString(R.string.NEW_SEARCH));
+			//Filter fragment for generic string 
+			mDriver.filterFor("a");
+
+			//Select second hotel in list
+			mDriver.selectHotel(2);
+			mDriver.delay();
+
+			// From hotel info screen
+			// Check reviews and come back,
+			// Press to book room, and select 
+			// first room in list
+			mDriver.checkReviews();
+			mDriver.pressBookRoom();
+			mDriver.selectRoom(0);
+			mDriver.delay();
+
+			//Go through the log in and booking processes
+			mDriver.logInAndBook();
+			mDriver.mLocaleUtils.setLocale(testingLocale);
+			mDriver.delay(5);
 		}
-		// Open calendar and guest picker fragments
-		mDriver.delay();
-		mDriver.pressCalendar();
-		mDriver.pressGuestPicker();
-
-		//Enter and select San Francisco as destination
-		mDriver.selectLocation(mUser.mHotelSearchCity);
-
-		//Open sort dialog for hotels search
-		mDriver.pressSort();
-
-		//Filter fragment for generic string 
-		mDriver.filterFor("a");
-
-		//Select second hotel in list
-		mDriver.selectHotel(2);
-		mDriver.delay();
-
-		// From hotel info screen
-		// Check reviews and come back,
-		// Press to book room, and select 
-		// first room in list
-		mDriver.checkReviews();
-		mDriver.pressBookRoom();
-		mDriver.selectRoom(0);
-		mDriver.delay();
-
-		//Go through the log in and booking processes
-		mDriver.logInAndBook();
-		mDriver.mLocaleUtils.setLocale(testingLocale);
-		mDriver.delay(5);
-
 	}
 
 	@Override
