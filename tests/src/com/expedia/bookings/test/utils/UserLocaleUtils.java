@@ -168,7 +168,7 @@ public class UserLocaleUtils extends ActivityInstrumentationTestCase2<SearchActi
 			fileWriter.write(nextLine);
 			nextLine = listReader.readLine();
 		}
-
+		fileWriter.flush();
 		//set old file to be the new file
 		//which has one less locale listed
 		fileIn = tempFile;
