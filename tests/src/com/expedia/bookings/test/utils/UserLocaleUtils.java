@@ -12,6 +12,7 @@ import java.util.Random;
 
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Environment;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 
@@ -22,6 +23,7 @@ public class UserLocaleUtils extends ActivityInstrumentationTestCase2<SearchActi
 
 	private Resources mRes;
 	public static String TAG = "LocaleUtils";
+
 	public UserLocaleUtils(Resources res) {
 		super("com.expedia.bookings", SearchActivity.class);
 		mRes = res;
@@ -143,8 +145,7 @@ public class UserLocaleUtils extends ActivityInstrumentationTestCase2<SearchActi
 	//Remove that line from the list afterward
 	public Locale selectNextLocaleFromInternalList(String listName) throws IOException {
 		File fileIn = new File(listName);
-		File tempFile = new File("tempFile");
-
+		File tempFile = new File(Environment.getExternalStorageDirectory().getPath() + "/tempFile");
 		BufferedReader listReader = new BufferedReader(new FileReader(fileIn));
 
 		//Get substrings for new locale, instantiate new locale, set new locale
@@ -155,7 +156,7 @@ public class UserLocaleUtils extends ActivityInstrumentationTestCase2<SearchActi
 			Log.d(TAG, "No more locales listed. Adding new one.");
 		}
 		else {
-			 newLocale = new Locale(localeCode.substring(0, 2), localeCode.substring(3, 5));
+			newLocale = new Locale(localeCode.substring(0, 2), localeCode.substring(3, 5));
 		}
 		setLocale(newLocale);
 
@@ -164,14 +165,17 @@ public class UserLocaleUtils extends ActivityInstrumentationTestCase2<SearchActi
 		PrintWriter fileWriter = new PrintWriter(tempFile);
 
 		String nextLine = listReader.readLine();
-		while (!nextLine.equals(null)) {
-			fileWriter.write(nextLine);
+		while (nextLine != null) {
+			Log.d(TAG, "Writing POS to temp file: " + nextLine);
+			fileWriter.write(nextLine + '\n');
 			nextLine = listReader.readLine();
 		}
 		fileWriter.flush();
+		fileWriter.close();
 		//set old file to be the new file
 		//which has one less locale listed
-		fileIn = tempFile;
+		fileIn.delete();
+		tempFile.renameTo(fileIn);
 
 		return newLocale;
 	}
