@@ -2,6 +2,7 @@ package com.expedia.bookings.test.tests.flights;
 
 import java.util.Random;
 
+import ErrorsAndExceptions.IntegrationFailureError;
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.DisplayMetrics;
@@ -9,7 +10,6 @@ import android.util.DisplayMetrics;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.utils.HotelsRobotHelper;
 import com.expedia.bookings.test.utils.HotelsUserData;
-import com.expedia.bookings.test.utils.IntegrationFailureError;
 import com.jayway.android.robotium.solo.Solo;
 
 public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActivity> {

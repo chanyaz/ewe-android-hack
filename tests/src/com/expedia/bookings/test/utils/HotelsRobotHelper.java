@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import junit.framework.AssertionFailedError;
+import ErrorsAndExceptions.IntegrationFailureError;
 import android.content.res.Resources;
 import android.util.Log;
 import android.view.View;

@@ -1,11 +1,11 @@
-package com.expedia.bookings.test.utils;
+package ErrorsAndExceptions;
 
 public class IntegrationFailureError extends Error {
 	IntegrationFailureError() {
 		super();
 	}
 
-	IntegrationFailureError(String msg) {
+	public IntegrationFailureError(String msg) {
 		super(msg);
 	}
 	
