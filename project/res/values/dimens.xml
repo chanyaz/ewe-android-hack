@@ -217,4 +217,7 @@
     <!-- This is overridden for tablets in landscape -->
     <dimen name="flight_content_width">@dimen/match_parent</dimen>
 
+	<!-- From ABS, Dialog title height -->
+    <dimen name="abs__alert_dialog_title_height">64dip</dimen>
+
 </resources>
