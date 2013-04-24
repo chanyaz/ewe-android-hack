@@ -1,8 +1,12 @@
 package com.expedia.bookings.activity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -22,6 +26,7 @@ import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.TwoLevelImageCache;
+import com.mobiata.android.util.SettingUtils;
 
 public class FlightSearchActivity extends SherlockFragmentActivity implements FlightSearchParamsFragmentListener {
 
@@ -30,6 +35,8 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 	public static final String ARG_FROM_LAUNCH_WITH_SEARCH_PARAMS = "ARG_FROM_LAUNCH_WITH_SEARCH_PARAMS";
 
 	private static final String INSTANCE_UPDATE_ON_RESUME = "INSTANCE_UPDATE_ON_RESUME";
+
+	private static final String SEARCH_PARAMS_SETTING = "flightSearchParamsSetting";
 
 	private FlightSearchParamsFragment mSearchParamsFragment;
 
@@ -160,8 +167,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 			FlightSearch search = Db.getFlightSearch();
 			search.reset();
 			search.setSearchParams(mSearchParamsFragment.getSearchParams(true));
-			Db.kickOffBackgroundSave(this);
-			Log.i("Saved search params to disk.");
+			saveParamsToDisk();
 		}
 	}
 
@@ -185,11 +191,24 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 		}
 	}
 
-	private void loadParamsFromDisk() {
-		if (Db.loadCachedFlightData(this)) {
-			Log.i("Restoring search params from disk...");
+	private void saveParamsToDisk() {
+		Log.i("Saving flight search params to disk.");
+		SettingUtils.save(this, SEARCH_PARAMS_SETTING, Db.getFlightSearch().getSearchParams().toJson().toString());
+	}
 
-			Db.getFlightSearch().getSearchParams().ensureValidDates();
+	private void loadParamsFromDisk() {
+		String searchParamsJson = SettingUtils.get(this, SEARCH_PARAMS_SETTING, null);
+		if (!TextUtils.isEmpty(searchParamsJson)) {
+			try {
+				Log.i("Restoring flight search params from disk...");
+				FlightSearchParams params = new FlightSearchParams();
+				params.fromJson(new JSONObject(searchParamsJson));
+				params.ensureValidDates();
+				Db.getFlightSearch().setSearchParams(params);
+			}
+			catch (JSONException e) {
+				Log.w("Could not restore flight search params from disk", e);
+			}
 		}
 	}
 
