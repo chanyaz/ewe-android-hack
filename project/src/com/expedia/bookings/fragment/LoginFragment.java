@@ -480,6 +480,9 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(mContext);
 				builder.setUrl(String.format("http://www.%s/pub/agent.dll?qscr=apwd",
 						PointOfSale.getPointOfSale(mContext).getUrl()));
+				builder.setInjectExpediaCookies(true);
+				builder.setTheme(R.style.ItineraryTheme);
+				builder.setTitle(getString(R.string.title_forgot_password));
 				startActivity(builder.getIntent());
 			}
 		});

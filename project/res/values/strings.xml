@@ -1625,6 +1625,8 @@
     <string name="loading_expedia_account">Loading Expedia Account</string>
     <!-- Label for password recovery -->
     <string name="forgot_your_password">Forgot your password?</string>
+    <!-- Webview title for password recovery -->
+    <string name="title_forgot_password">Forgot Password</string>
     <!-- Label for coupon code area of booking form -->
     <string name="coupon_code">Enter a coupon or promotion code</string>
     <!-- Label for coupon code hint -->
