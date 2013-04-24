@@ -1924,7 +1924,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 		if (mTag.equals(getString(R.string.tag_hotel_list))) {
 			newFragmentTag = getString(R.string.tag_hotel_map);
-			OmnitureTracking.trackAppHotelsSearch(this, Db.getSearchParams(), Db.getSearchResponse(), null);
+			OmnitureTracking.trackAppHotelsSearchWithoutRefinements(this, Db.getSearchParams(), Db.getSearchResponse());
 		}
 		else {
 			newFragmentTag = getString(R.string.tag_hotel_list);
@@ -2683,19 +2683,12 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		Filter filter = Db.getFilter();
 		SearchResponse searchResponse = Db.getSearchResponse();
 
-		// If we already have results, check for refinements; if there were none, it's possible
-		// that the user just opened/closed a search param change without changing anything.
-		//
-		// This is a somewhat lazy way of doing things, but it is easiest and catches a bunch
-		// of refinements at once instead of flooding the system with a ton of different refinements
-		String refinements = OmnitureTracking.getRefinements(searchParams, mOldSearchParams, filter, mOldFilter);
-
 		// Update the last filter/search params we used to track refinements
 		mOldSearchParams = searchParams.copy();
 		mOldFilter = filter.copy();
 
 		// Start actually tracking the search result change
-		OmnitureTracking.trackAppHotelsSearch(this, searchParams, searchResponse, refinements);
+		OmnitureTracking.trackAppHotelsSearch(this, searchParams, mOldSearchParams, filter, mOldFilter, searchResponse);
 		AdTracker.trackHotelSearch();
 	}
 
