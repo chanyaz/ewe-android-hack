@@ -76,6 +76,9 @@ public class PointOfSale {
 	// The POS's contact phone number
 	private String mSupportPhoneNumber;
 
+	// The POS's support email address
+	private String mSupportEmail;
+
 	// The two-letter country code associated with this locale (e.g. "US")
 	private String mTwoLetterCountryCode;
 
@@ -192,6 +195,15 @@ public class PointOfSale {
 
 	public String getSupportPhoneNumber() {
 		return mSupportPhoneNumber;
+	}
+
+	public String getSupportEmail() {
+		if (!TextUtils.isEmpty(mSupportEmail)) {
+			return mSupportEmail;
+		}
+		else {
+			return "support@expedia.com";
+		}
 	}
 
 	public String getTwoLetterCountryCode() {
@@ -610,6 +622,7 @@ public class PointOfSale {
 
 		// Support
 		pos.mSupportPhoneNumber = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumber");
+		pos.mSupportEmail = data.optString("supportEmail");
 
 		// POS config
 		pos.mDistanceUnit = data.optString("distanceUnit", "").equals("miles") ? DistanceUnit.MILES

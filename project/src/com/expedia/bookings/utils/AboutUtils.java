@@ -159,7 +159,7 @@ public class AboutUtils {
 
 	public void contactViaEmail() {
 		trackEmailSupport();
-		SocialUtils.email(mActivity, "support@expedia.com",
+		SocialUtils.email(mActivity, PointOfSale.getPointOfSale().getSupportEmail(),
 				mActivity.getString(R.string.contact_expedia_email_subject), null);
 	}
 
