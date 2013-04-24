@@ -131,6 +131,6 @@
     <color name="dim_foreground_disabled_holo_light">#80323232</color>
 
     <!-- From ABS, Sherlock Light DialogWindowTitle  -->
-	<color name="abs__holo_blue_light">#ff33b5e5</color>
+	<color name="dialog_window_holo_blue_light">#ff33b5e5</color>
 
 </resources>

@@ -63,10 +63,10 @@
     </style>
 
     <!-- From ABS, Light dialog window -->
-    <style name="Theme.Sherlock.Light.Dialog" parent="android:Theme.Light">
+    <style name="Theme.Light.Dialog" parent="android:Theme.Light">
         <item name="android:windowFrame">@null</item>
-        <item name="android:windowTitleStyle">@style/DialogWindowTitle.Sherlock.Light</item>
-        <item name="android:windowBackground">@drawable/abs__dialog_full_holo_light</item>
+        <item name="android:windowTitleStyle">@style/DialogWindowTitle.Light</item>
+        <item name="android:windowBackground">@drawable/dialog_full_holo_light</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
@@ -90,7 +90,7 @@
         <item name="windowContentOverlay">@null</item>
     </style>
 
-    <style name="Theme.Light.Fullscreen.Panel" parent="@style/Theme.Sherlock.Light.Dialog">
+    <style name="Theme.Light.Fullscreen.Panel" parent="@style/Theme.Light.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
     </style>
@@ -100,7 +100,7 @@
         <item name="actionBarStyle">@style/Light.ActionBar.Sherlock</item>
     </style>
 
-    <style name="Theme.Tablet.Preferences" parent="@style/Theme.Sherlock.Light.Dialog">
+    <style name="Theme.Tablet.Preferences" parent="@style/Theme.Light.Dialog">
         <item name="android:windowNoTitle">true</item>
         <item name="windowNoTitle">true</item>
         <item name="android:listSeparatorTextViewStyle">@style/TabletPreferenceSeparator</item>

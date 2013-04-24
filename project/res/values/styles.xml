@@ -679,7 +679,7 @@
         <item name="android:shadowRadius">0</item>
     </style>
 
-    <style name="LightDialog" parent="Theme.Sherlock.Light.Dialog">
+    <style name="LightDialog" parent="Theme.Light.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
@@ -763,16 +763,16 @@
     </style>
 
     <!-- From ABS, Dialog window title -->
-    <style name="TextAppearance.Sherlock.Light.DialogWindowTitle" parent="Widget">
+    <style name="TextAppearance.Light.DialogWindowTitle" parent="Widget">
         <item name="android:textSize">22sp</item>
-        <item name="android:textColor">@color/abs__holo_blue_light</item>
+        <item name="android:textColor">@color/dialog_window_holo_blue_light</item>
     </style>
 
-    <style name="DialogWindowTitle.Sherlock.Light" parent="Widget">
+    <style name="DialogWindowTitle.Light" parent="Widget">
         <item name="android:maxLines">1</item>
         <item name="android:scrollHorizontally">true</item>
-        <item name="android:textAppearance">@style/TextAppearance.Sherlock.Light.DialogWindowTitle</item>
-        <item name="android:minHeight">@dimen/abs__alert_dialog_title_height</item>
+        <item name="android:textAppearance">@style/TextAppearance.Light.DialogWindowTitle</item>
+        <item name="android:minHeight">@dimen/alert_dialog_window_title_height</item>
         <item name="android:paddingLeft">16dip</item>
         <item name="android:paddingRight">16dip</item>
     </style>
