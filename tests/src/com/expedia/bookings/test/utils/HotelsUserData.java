@@ -26,9 +26,8 @@ public class HotelsUserData {
 	public String mCCV;
 
 	//Search options
-	public String mSearchLocation;
 	public String mFilterText;
-
+	
 	//Log in Information.
 	public String mLoginEmail;
 	public String mLoginPassword;
@@ -61,7 +60,6 @@ public class HotelsUserData {
 		mCardExpYear = "20";
 		mCCV = "111";
 
-		mSearchLocation = "New York City";
 		mFilterText = "Westin";
 		
 		mBookingServer = "Production";
