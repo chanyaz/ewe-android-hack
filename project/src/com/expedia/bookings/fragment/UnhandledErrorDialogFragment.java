@@ -58,6 +58,13 @@ public class UnhandledErrorDialogFragment extends DialogFragment implements OnCl
 		return builder.create();
 	}
 
+	@Override
+	public void onCancel(DialogInterface dialog) {
+		super.onCancel(dialog);
+
+		mListener.onCancelUnhandledException();
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// OnClickListener
 

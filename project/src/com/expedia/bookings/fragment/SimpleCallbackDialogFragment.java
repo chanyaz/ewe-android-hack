@@ -78,7 +78,16 @@ public class SimpleCallbackDialogFragment extends DialogFragment {
 		return builder.create();
 	}
 
+	@Override
+	public void onCancel(DialogInterface dialog) {
+		super.onCancel(dialog);
+
+		mListener.onSimpleDialogCancel(getArguments().getInt(ARG_CALLBACK));
+	}
+
 	public interface SimpleCallbackDialogFragmentListener {
 		public void onSimpleDialogClick(int callbackId);
+
+		public void onSimpleDialogCancel(int callbackId);
 	}
 }

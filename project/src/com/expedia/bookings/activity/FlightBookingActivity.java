@@ -253,7 +253,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 					|| (User.isLoggedIn(FlightBookingActivity.this) && Db.getUser() != null
 							&& Db.getUser().getPrimaryTraveler() != null
 							&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail()) && Db.getUser()
-								.getPrimaryTraveler().getEmail().compareToIgnoreCase(billingInfo.getEmail()) != 0)) {
+							.getPrimaryTraveler().getEmail().compareToIgnoreCase(billingInfo.getEmail()) != 0)) {
 				String email = traveler.getEmail();
 				if (TextUtils.isEmpty(email)) {
 					email = Db.getUser().getPrimaryTraveler().getEmail();
@@ -489,6 +489,11 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		}
 	}
 
+	@Override
+	public void onSimpleDialogCancel(int callbackId) {
+		// Do nothing; we'll just let the user sit on the CVV screen
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// UnhandledErrorDialogFragmentListener
 
@@ -504,7 +509,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 	@Override
 	public void onCancelUnhandledException() {
-		finish();
+		// Do nothing; we'll just let the user sit on the CVV screen
 	}
 
 	//////////////////////////////////////////////////////////////////////////

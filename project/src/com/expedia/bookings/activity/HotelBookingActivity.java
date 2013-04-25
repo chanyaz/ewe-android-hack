@@ -426,6 +426,11 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		}
 	}
 
+	@Override
+	public void onSimpleDialogCancel(int callbackId) {
+		// Do nothing; we'll just let the user sit on the CVV screen
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// UnhandledErrorDialogFragmentListener
 
@@ -441,6 +446,6 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 
 	@Override
 	public void onCancelUnhandledException() {
-		finish();
+		// Do nothing; we'll just let the user sit on the CVV screen
 	}
 }
