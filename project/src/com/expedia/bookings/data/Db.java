@@ -628,12 +628,24 @@ public class Db {
 
 				List<Traveler> travelersList = new ArrayList<Traveler>(Db.getTravelers());
 
-				// Remove any Google Wallet entries from the list
-				Iterator<Traveler> travelers = travelersList.iterator();
-				while (travelers.hasNext()) {
-					Traveler traveler = travelers.next();
-					if (traveler.fromGoogleWallet()) {
-						travelers.remove();
+				// There is only ever going to be a single Google Wallet traveler;
+				// if the user has edited *anything*, then save it (and make it a non-
+				// GWallet user)
+				Traveler gwTraveler = Db.getGoogleWalletTraveler();
+				if (gwTraveler != null) {
+					Iterator<Traveler> travelers = travelersList.iterator();
+					while (travelers.hasNext()) {
+						Traveler traveler = travelers.next();
+						if (traveler.fromGoogleWallet()) {
+							if (traveler.compareTo(gwTraveler) == 0) {
+								travelers.remove();
+							}
+							else {
+								traveler.setFromGoogleWallet(false);
+							}
+
+							break;
+						}
 					}
 				}
 

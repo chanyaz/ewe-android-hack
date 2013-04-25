@@ -1215,9 +1215,10 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 		MaskedWallet maskedWallet = Db.getMaskedWallet();
 
 		// Add the current traveler from the wallet, if it is full of data and we have none at the moment 
-		Traveler traveler = WalletUtils.convertToTraveler(maskedWallet);
-		populateTravelerData(traveler);
-		Db.setGoogleWalletTraveler(traveler);
+		Traveler traveler = WalletUtils.addWalletAsTraveler(getActivity(), maskedWallet);
+		if (traveler != null) {
+			populateTravelerData(traveler);
+		}
 
 		// Bind credit card data
 		WalletUtils.bindWalletToBillingInfo(maskedWallet, mBillingInfo);

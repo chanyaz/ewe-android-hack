@@ -734,9 +734,10 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		// If we don't currently have traveler data, and the wallet gives us sufficient data, use it
 		// NOTE: At the moment we are *guaranteed* not to get sufficient data, but there's no reason
 		// not to hope someday we will get it! 
-		Traveler traveler = WalletUtils.convertToTraveler(maskedWallet);
-		populateTravelerData(traveler);
-		Db.setGoogleWalletTraveler(traveler);
+		Traveler traveler = WalletUtils.addWalletAsTraveler(getActivity(), maskedWallet);
+		if (traveler != null) {
+			populateTravelerData(traveler);
+		}
 
 		// Bind credit card data
 		WalletUtils.bindWalletToBillingInfo(maskedWallet, mBillingInfo);

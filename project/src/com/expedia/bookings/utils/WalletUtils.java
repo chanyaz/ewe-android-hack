@@ -3,12 +3,14 @@ package com.expedia.bookings.utils;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import android.content.Context;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Response;
@@ -125,6 +127,22 @@ public class WalletUtils {
 		billingInfo.setGoogleWalletTransactionId(null);
 	}
 
+	public static Traveler addWalletAsTraveler(Context context, MaskedWallet maskedWallet) {
+		Traveler gwTraveler = WalletUtils.convertToTraveler(maskedWallet);
+
+		// Only add the traveler if we don't have someone with the same name already
+		List<Traveler> currTravelers = BookingInfoUtils.getAlternativeTravelers(context);
+		currTravelers.addAll(Db.getTravelers());
+		for (Traveler traveler : currTravelers) {
+			if (traveler.compareNameTo(gwTraveler) == 0) {
+				return null;
+			}
+		}
+
+		Db.setGoogleWalletTraveler(gwTraveler);
+		return gwTraveler;
+	}
+
 	public static Traveler convertToTraveler(MaskedWallet maskedWallet) {
 		Traveler traveler = new Traveler();
 
@@ -144,6 +162,9 @@ public class WalletUtils {
 		traveler.setPhoneNumber(billingAddress.getPhoneNumber());
 
 		traveler.setHomeAddress(convertAddressToLocation(billingAddress));
+
+		// The app reacts badly if this is null, set it to blank
+		traveler.setRedressNumber("");
 
 		return traveler;
 	}
