@@ -29,6 +29,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.animation.AnimatorListenerShort;
 import com.expedia.bookings.animation.ResizeAnimator;
+import com.expedia.bookings.data.trips.BookingStatus;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
 import com.expedia.bookings.data.trips.ItineraryManager;
@@ -881,9 +882,19 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 					if (data != null) {
 						String expandedCardTripId = data.getTripComponent().getParentTrip().getTripId();
 						if (tripId.equals(expandedCardTripId)) {
-							Log.d("ItinListView - TRIP_REFRESH broadcast received, re-inflate expanded card details");
-							if (mDetailsCard != null) {
-								mDetailsCard.inflateDetailsView();
+
+							//If the open itin got cancelled, close that sucker (and let the adapter remove it from the list).
+							if (data.getTripComponent() != null
+									&& data.getTripComponent().getBookingStatus() == BookingStatus.CANCELLED) {
+								Log.d("ItinListView - TRIP_REFRESH broadcast received, itin be canceled, get rid of that sucka!");
+								hideDetails();
+							}
+							else {
+								//Otherwise we just refresh the views
+								Log.d("ItinListView - TRIP_REFRESH broadcast received, re-inflate expanded card details");
+								if (mDetailsCard != null) {
+									mDetailsCard.inflateDetailsView();
+								}
 							}
 						}
 					}
