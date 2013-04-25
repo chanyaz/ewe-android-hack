@@ -254,6 +254,13 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		}
 	}
 
+	private void dismissProgressDialog() {
+		if (mProgressFragment != null) {
+			mProgressFragment.dismiss();
+			mProgressFragment = null;
+		}
+	}
+
 	private void doBooking() {
 		setCvvErrorMode(false);
 
@@ -464,7 +471,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	public void onBookingResponse(Response results) {
 		FlightCheckoutResponse response = (FlightCheckoutResponse) results;
 
-		mProgressFragment.dismiss();
+		dismissProgressDialog();
 
 		// Modify the response to fake online booking fees
 		if (!AndroidUtils.isRelease(mContext)) {

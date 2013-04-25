@@ -254,6 +254,13 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		}
 	}
 
+	private void dismissProgressDialog() {
+		if (mProgressFragment != null) {
+			mProgressFragment.dismiss();
+			mProgressFragment = null;
+		}
+	}
+
 	private void doBooking() {
 		setCvvErrorMode(false);
 
@@ -328,7 +335,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 			}
 			else if (hasCVVError) {
 				setCvvErrorMode(true);
-				mProgressFragment.dismiss();
+				dismissProgressDialog();
 				return;
 			}
 			else if (hasCreditCardNumberError) {
@@ -461,7 +468,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	public void onBookingResponse(Response results) {
 		BookingResponse response = (BookingResponse) results;
 
-		mProgressFragment.dismiss();
+		dismissProgressDialog();
 
 		Db.setBookingResponse(response);
 		setCvvErrorMode(false);
