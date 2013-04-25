@@ -1,7 +1,7 @@
 package ErrorsAndExceptions;
 
 public class OutOfPOSException extends Error {
-	OutOfPOSException() {
+	public OutOfPOSException() {
 		super();
 	}
 
