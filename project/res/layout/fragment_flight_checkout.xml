@@ -3,14 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingTop="20dp" >
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp" >
 
     <TextView
         android:id="@+id/expedia_account_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="-10dp"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="8dp"
         android:text="@string/expedia_account"
         android:textColor="#BBFFFFFF"
         android:textSize="@dimen/data_form_section_header_text"
@@ -21,24 +22,22 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginBottom="5dp"
         layout="@layout/include_account_button_flights" />
 
     <include
         android:id="@+id/wallet_button_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
         layout="@layout/include_wallet_button" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="14dp"
+        android:layout_marginTop="8dp"
         android:src="@drawable/div_checkout_light" />
 
     <TextView
@@ -46,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="8dp"
         android:text="@string/checkout_information"
         android:textColor="#BBFFFFFF"
         android:textSize="@dimen/data_form_section_header_text" />
@@ -57,11 +56,7 @@
         android:id="@+id/traveler_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:orientation="vertical" >
-    </LinearLayout>
+        android:orientation="vertical" />
 
     <!-- Payment -->
 
@@ -69,9 +64,6 @@
         android:id="@+id/payment_outer_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="0dp"
         android:addStatesFromChildren="true"
         android:background="@drawable/bg_checkout_information_bottom_tab"
         android:orientation="vertical"
@@ -123,8 +115,8 @@
         android:id="@+id/legal_blurb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
         android:layout_marginTop="8dp"
         android:textColor="@android:color/white" />
 

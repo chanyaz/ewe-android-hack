@@ -67,7 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="3dp"
         android:layout_marginTop="3dp"
-        android:background="@drawable/btn_expedia_flights_login"
+        android:background="@drawable/btn_login_flights"
         android:gravity="center"
         android:padding="@dimen/card_icon_padding"
         android:visibility="gone" >

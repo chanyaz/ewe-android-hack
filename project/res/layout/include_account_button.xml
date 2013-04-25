@@ -65,8 +65,7 @@
         android:id="@+id/account_login_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="3dp"
-        android:background="@drawable/btn_expedia_login"
+        android:background="@drawable/btn_login_hotels"
         android:gravity="center"
         android:visibility="gone" >
 
