@@ -36,13 +36,11 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TerminalMapActivity;
-import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.FlightConfirmation;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
-import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.graphics.DestinationBitmapDrawable;
@@ -68,6 +66,8 @@ import com.mobiata.flightlib.utils.FormatUtils;
 public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDataFlight> {
 
 	private static final String FRAG_TAG_AIRPORT_ACTION_CHOOSER = "FRAG_TAG_AIRPORT_ACTION_CHOOSER";
+
+	private static final int MAX_TIMEZONE_LENGTH = 6;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
@@ -123,8 +123,10 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			Date departureDate = DateTimeUtils.getTimeInLocalTimeZone(departureCal);
 			Date arrivalDate = DateTimeUtils.getTimeInLocalTimeZone(arrivalCal);
 
-			String departureTzString = FormatUtils.formatTimeZone(leg.getFirstWaypoint().getAirport(), departureDate);
-			String arrivalTzString = FormatUtils.formatTimeZone(leg.getLastWaypoint().getAirport(), arrivalDate);
+			String departureTzString = FormatUtils.formatTimeZone(leg.getFirstWaypoint().getAirport(), departureDate,
+					MAX_TIMEZONE_LENGTH);
+			String arrivalTzString = FormatUtils.formatTimeZone(leg.getLastWaypoint().getAirport(), arrivalDate,
+					MAX_TIMEZONE_LENGTH);
 
 			//The story contains format strings, but we don't want to bone our international customers
 			DateFormat dateFormat = SimpleDateFormat.getDateInstance(DateFormat.SHORT);
@@ -245,10 +247,12 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 			String departureTime = formatTime(departureTimeCal);
 			String departureTz = res.getString(R.string.depart_tz_TEMPLATE,
-					FormatUtils.formatTimeZone(leg.getFirstWaypoint().getAirport(), departureTimeCal.getTime()));
+					FormatUtils.formatTimeZone(leg.getFirstWaypoint().getAirport(), departureTimeCal.getTime(),
+							MAX_TIMEZONE_LENGTH));
 			String arrivalTime = formatTime(arrivalTimeCal);
 			String arrivalTz = res.getString(R.string.arrive_tz_TEMPLATE,
-					FormatUtils.formatTimeZone(leg.getLastWaypoint().getAirport(), arrivalTimeCal.getTime()));
+					FormatUtils.formatTimeZone(leg.getLastWaypoint().getAirport(), arrivalTimeCal.getTime(),
+							MAX_TIMEZONE_LENGTH));
 
 			departureTimeTv.setText(departureTime);
 			departureTimeTzTv.setText(departureTz);
