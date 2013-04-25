@@ -28,7 +28,6 @@ import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.trips.BookingStatus;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
-import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
@@ -322,21 +321,20 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		mOnItinCardClickListener = onItinCardClickListener;
 	}
 
-	public void onTripUpdated(Trip trip) {
-		String tripId = trip.getTripId();
+	/**
+	 * Invoke when ItinManager notifies that a trip has been updated. This method makes sure to re-draw the expanded
+	 * details card if its corresponding trip was updated.
+	 * @param updatedTripId
+	 */
+	public void onTripUpdated(String updatedTripId) {
+		// Return if there is not a details card expanded as there is no work to do in this case
+		if (mDetailPosition == -1 || mDetailsCard == null || mAdapter.getItem(mDetailPosition) == null) {
+			return;
+		}
 
-		if (!TextUtils.isEmpty(tripId)) {
-			if (mDetailPosition != -1) {
-				ItinCardData data = mAdapter.getItem(mDetailPosition);
-				if (data != null) {
-					String expandedCardTripId = data.getTripComponent().getParentTrip().getTripId();
-					if (tripId.equals(expandedCardTripId)) {
-						if (mDetailsCard != null) {
-							mDetailsCard.inflateDetailsView();
-						}
-					}
-				}
-			}
+		String expandedCardTripId = mAdapter.getItem(mDetailPosition).getTripComponent().getParentTrip().getTripId();
+		if (updatedTripId.equals(expandedCardTripId)) {
+			mDetailsCard.inflateDetailsView();
 		}
 	}
 
