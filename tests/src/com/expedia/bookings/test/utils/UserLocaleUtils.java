@@ -159,12 +159,12 @@ public class UserLocaleUtils extends ActivityInstrumentationTestCase2<SearchActi
 		// If there are no more POSs listed in the file
 		// throw on OutOfPOSException
 
-		if (localeCode.equals("")) {
-			Log.e(TAG, "No more locales listed. Throwing OutOfPOSException");
-			throw new OutOfPOSException();
-		}
-		else {
+		try {
 			newLocale = new Locale(localeCode.substring(0, 2), localeCode.substring(3, 5));
+		}
+		catch (NullPointerException e) {
+			Log.e(TAG, "Out of locales. Throwing OutOfPOSException");
+			throw new OutOfPOSException();
 		}
 		setLocale(newLocale);
 
