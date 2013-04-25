@@ -10,6 +10,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
+import ErrorsAndExceptions.OutOfPOSException;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Environment;
@@ -143,24 +144,31 @@ public class UserLocaleUtils extends ActivityInstrumentationTestCase2<SearchActi
 
 	//Set locale to top locale code in listName file
 	//Remove that line from the list afterward
-	public Locale selectNextLocaleFromInternalList(String listName) throws IOException {
+	public Locale selectNextLocaleFromInternalList(String listName)
+			throws IOException, OutOfPOSException {
+
 		File fileIn = new File(listName);
 		File tempFile = new File(Environment.getExternalStorageDirectory().getPath() + "/tempFile");
 		BufferedReader listReader = new BufferedReader(new FileReader(fileIn));
 
-		//Get substrings for new locale, instantiate new locale, set new locale
+		//Each line from file is a POS code
 		String localeCode = listReader.readLine();
 		Locale newLocale;
+
+		// Get substrings for new locale, instantiate new locale, set new locale
+		// If there are no more POSs listed in the file
+		// throw on OutOfPOSException
+
 		if (localeCode.equals("")) {
-			newLocale = AMERICAN_LOCALES[5];
-			Log.d(TAG, "No more locales listed. Adding new one.");
+			Log.e(TAG, "No more locales listed. Throwing OutOfPOSException");
+			throw new OutOfPOSException();
 		}
 		else {
 			newLocale = new Locale(localeCode.substring(0, 2), localeCode.substring(3, 5));
 		}
 		setLocale(newLocale);
 
-		//write the rest of the existing file to a temporary one
+		//write the rest of the existing file to a temporary file
 
 		PrintWriter fileWriter = new PrintWriter(tempFile);
 
@@ -170,8 +178,8 @@ public class UserLocaleUtils extends ActivityInstrumentationTestCase2<SearchActi
 			fileWriter.write(nextLine + '\n');
 			nextLine = listReader.readLine();
 		}
-		fileWriter.flush();
 		fileWriter.close();
+
 		//set old file to be the new file
 		//which has one less locale listed
 		fileIn.delete();
