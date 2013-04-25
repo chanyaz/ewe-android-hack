@@ -319,6 +319,9 @@ public class Money implements JSONable {
 	// #13560 - No space between BRL currency and price
 	private static final String BRL_CURRENCY_STRING = "R$";
 
+	private static final String CURRENCY_SIGN_UNICODE = "\u00A4";
+	private static final String EURO_CURRENCY_UNICODE = "\u20AC";
+
 	private static String formatRate(BigDecimal amount, String currencyCode, int flags) {
 		// We use the default user locale for both of these, as it should
 		// be properly set by the Android system.
@@ -372,6 +375,16 @@ public class Money implements JSONable {
 			}
 			else if (formatted.endsWith(BRL_CURRENCY_STRING) && formatted.charAt(formatted.length() - 3) != ' ') {
 				formatted = formatted.substring(0, formatted.length() - BRL_CURRENCY_STRING.length()) + " R$";
+			}
+		}
+		// #1032 - EUR for a few 2.3 devices are displayed incorrectly. Ugly hack here
+		else if (currencyCode.equals("EUR") && AndroidUtils.getSdkVersion() <= 10) {
+			if (formatted.startsWith(CURRENCY_SIGN_UNICODE)) {
+				formatted = EURO_CURRENCY_UNICODE + formatted.substring(CURRENCY_SIGN_UNICODE.length());
+			}
+			else if (formatted.endsWith(CURRENCY_SIGN_UNICODE)) {
+				formatted = formatted.substring(0, formatted.length() - CURRENCY_SIGN_UNICODE.length())
+						+ EURO_CURRENCY_UNICODE;
 			}
 		}
 
