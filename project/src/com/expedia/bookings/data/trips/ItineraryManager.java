@@ -22,9 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v4.content.LocalBroadcastManager;
 import android.text.format.DateUtils;
 
 import com.expedia.bookings.data.DateTime;
@@ -36,7 +34,6 @@ import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -47,9 +44,6 @@ import com.mobiata.flightlib.data.Flight;
 //
 // In addition, make sure to call startSync() before manipulating data.
 public class ItineraryManager implements JSONable {
-
-	public static final String TRIP_REFRESH_BROADCAST = "com.expedia.bookings.data.trips.DEEP_REFRESH";
-	public static final String TRIP_REFRESH_ARG_TRIP_ID = "tripId";
 
 	private static final long UPDATE_CUTOFF = 1000 * 60; // At most once a minute
 
@@ -725,13 +719,6 @@ public class ItineraryManager implements JSONable {
 			}
 			return true;
 		}
-	}
-
-	public static void broadcastTripRefresh(Context context, Trip trip) {
-		Log.d("ItineraryManager - Broacasting TRIP_REFRESH");
-		Intent intent = new Intent(TRIP_REFRESH_BROADCAST);
-		intent.putExtra(TRIP_REFRESH_ARG_TRIP_ID, trip.getTripId());
-		LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 	}
 
 	public boolean isSyncing() {

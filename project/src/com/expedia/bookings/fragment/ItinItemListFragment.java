@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -425,11 +424,13 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	public void onTripUpdated(Trip trip) {
 		Log.d("ItinItemListFragment - onTripUpdated");
 		OmnitureTracking.trackItinAdd(getActivity(), trip);
+
+		notifyListView(trip);
 	}
 
 	@Override
 	public void onTripUpdateFailed(Trip trip) {
-		// Do nothing
+		notifyListView(trip);
 	}
 
 	@Override
@@ -478,6 +479,12 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 	public void resetTrackingState() {
 		mItinListTracked = false;
+	}
+
+	private void notifyListView(Trip trip) {
+		if (mItinListView != null) {
+			mItinListView.onTripUpdated(trip);
+		}
 	}
 
 	private void trackItins(boolean trackEmpty) {

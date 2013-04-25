@@ -3,10 +3,7 @@ package com.expedia.bookings.widget;
 import java.util.concurrent.Semaphore;
 
 import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
 import android.graphics.Canvas;
@@ -14,7 +11,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -32,7 +28,7 @@ import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.trips.BookingStatus;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
-import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
@@ -156,9 +152,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		setOnItemClickListener(null);
 		setOnScrollListener(null);
 
-		IntentFilter filter = new IntentFilter(ItineraryManager.TRIP_REFRESH_BROADCAST);
-		LocalBroadcastManager.getInstance(context).registerReceiver(mTripRefreshReceiver, filter);
-
 		mPathViewPaint = new Paint();
 		mPathViewPaint.setColor(mPathColor);
 		mPathViewPaint.setStrokeWidth(mPathWidth);
@@ -195,7 +188,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	@Override
 	public void onDetachedFromWindow() {
 		super.onDetachedFromWindow();
-		LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(mTripRefreshReceiver);
 		unregisterDataSetObserver();
 		mAdapter.disableSelfManagement();
 	}
@@ -328,6 +320,24 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	public void setOnItinCardClickListener(OnItinCardClickListener onItinCardClickListener) {
 		mOnItinCardClickListener = onItinCardClickListener;
+	}
+
+	public void onTripUpdated(Trip trip) {
+		String tripId = trip.getTripId();
+
+		if (!TextUtils.isEmpty(tripId)) {
+			if (mDetailPosition != -1) {
+				ItinCardData data = mAdapter.getItem(mDetailPosition);
+				if (data != null) {
+					String expandedCardTripId = data.getTripComponent().getParentTrip().getTripId();
+					if (tripId.equals(expandedCardTripId)) {
+						if (mDetailsCard != null) {
+							mDetailsCard.inflateDetailsView();
+						}
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -869,38 +879,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		public void onAnimationStart(Animator arg0) {
 		}
 
-	};
-
-	private BroadcastReceiver mTripRefreshReceiver = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			String tripId = intent.getStringExtra(ItineraryManager.TRIP_REFRESH_ARG_TRIP_ID);
-
-			if (!TextUtils.isEmpty(tripId)) {
-				if (mDetailPosition != -1) {
-					ItinCardData data = mAdapter.getItem(mDetailPosition);
-					if (data != null) {
-						String expandedCardTripId = data.getTripComponent().getParentTrip().getTripId();
-						if (tripId.equals(expandedCardTripId)) {
-
-							//If the open itin got cancelled, close that sucker (and let the adapter remove it from the list).
-							if (data.getTripComponent() != null
-									&& data.getTripComponent().getBookingStatus() == BookingStatus.CANCELLED) {
-								Log.d("ItinListView - TRIP_REFRESH broadcast received, itin be canceled, get rid of that sucka!");
-								hideDetails();
-							}
-							else {
-								//Otherwise we just refresh the views
-								Log.d("ItinListView - TRIP_REFRESH broadcast received, re-inflate expanded card details");
-								if (mDetailsCard != null) {
-									mDetailsCard.inflateDetailsView();
-								}
-							}
-						}
-					}
-				}
-			}
-		}
 	};
 
 	//////////////////////////////////////////////////////////////////////////////////////
