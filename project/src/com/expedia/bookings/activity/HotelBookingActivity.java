@@ -435,7 +435,10 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 
 	@Override
 	public void onSimpleDialogCancel(int callbackId) {
-		// Do nothing; we'll just let the user sit on the CVV screen
+		// If we're booking via wallet, back out; otherwise sit on CVV screen
+		if (mBookingFragment.willBookViaGoogleWallet()) {
+			finish();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -453,7 +456,10 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 
 	@Override
 	public void onCancelUnhandledException() {
-		// Do nothing; we'll just let the user sit on the CVV screen
+		// If we're booking via wallet, back out; otherwise sit on CVV screen
+		if (mBookingFragment.willBookViaGoogleWallet()) {
+			finish();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
