@@ -2,6 +2,7 @@ package com.expedia.bookings.test.utils;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -24,6 +25,7 @@ public class UserLocaleUtils extends ActivityInstrumentationTestCase2<SearchActi
 
 	private Resources mRes;
 	public static String TAG = "LocaleUtils";
+	private String mCurrentLocaleString;
 
 	public UserLocaleUtils(Resources res) {
 		super("com.expedia.bookings", SearchActivity.class);
@@ -160,6 +162,7 @@ public class UserLocaleUtils extends ActivityInstrumentationTestCase2<SearchActi
 		// throw on OutOfPOSException
 
 		try {
+			mCurrentLocaleString = localeCode;
 			newLocale = new Locale(localeCode.substring(0, 2), localeCode.substring(3, 5));
 		}
 		catch (NullPointerException e) {
@@ -186,6 +189,31 @@ public class UserLocaleUtils extends ActivityInstrumentationTestCase2<SearchActi
 		tempFile.renameTo(fileIn);
 
 		return newLocale;
+	}
+
+	// If a test fails for errors/exceptions, 
+	// we do not want to have skipped any POS
+	// This method is for adding the POS back to the list
+	public void appendCurrentLocaleBackOnToList(String listName) throws Exception {
+		File fileIn = new File(listName);
+		File tempFile = new File(Environment.getExternalStorageDirectory().getPath() + "/tempFile");
+
+		BufferedReader listReader = new BufferedReader(new FileReader(fileIn));
+		PrintWriter fileWriter = new PrintWriter(tempFile);
+
+		fileWriter.println(mCurrentLocaleString);
+		String nextLine = listReader.readLine();
+
+		while (nextLine != null) {
+			Log.d(TAG, "Writing POS to temp file: " + nextLine);
+			fileWriter.write(nextLine + '\n');
+			nextLine = listReader.readLine();
+		}
+		fileWriter.close();
+		listReader.close();
+
+		fileIn.delete();
+		tempFile.renameTo(fileIn);
 	}
 
 	// Select a random locale from the array of locales given
