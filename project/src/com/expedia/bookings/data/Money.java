@@ -311,15 +311,14 @@ public class Money implements JSONable {
 	private static final String INR_MESSED_UP = "=0#Rs.|1#Re.|1<Rs.";
 
 	// #12791 - PHP (Philippine Peso) doesn't display correctly on SGS2 Gingerbread, so fix it here.
-	private static final String PHP_UNICODE = "₱";
+	private static final String PHP_CURRENCY_UNICODE = "₱";
 
 	// #12855 - Indonesian POS shows the generic money symbol instead of Rp
-	private static final String GENERIC_UNICODE = "¤";
+	private static final String GENERIC_CURRENCY_UNICODE = "¤";
 
 	// #13560 - No space between BRL currency and price
 	private static final String BRL_CURRENCY_STRING = "R$";
 
-	private static final String CURRENCY_SIGN_UNICODE = "\u00A4";
 	private static final String EURO_CURRENCY_UNICODE = "\u20AC";
 
 	private static String formatRate(BigDecimal amount, String currencyCode, int flags) {
@@ -354,19 +353,19 @@ public class Money implements JSONable {
 
 		// #12791 - PHP (Philippine Peso) doesn't display correctly on SGS2 Gingerbread, so fix it here.
 		else if (currencyCode.equals("PHP") && AndroidUtils.isGalaxyS2() && AndroidUtils.getSdkVersion() <= 10) {
-			if (formatted.startsWith(PHP_UNICODE)) {
-				formatted = currencyCode + formatted.substring(PHP_UNICODE.length());
+			if (formatted.startsWith(PHP_CURRENCY_UNICODE)) {
+				formatted = currencyCode + formatted.substring(PHP_CURRENCY_UNICODE.length());
 			}
-			else if (formatted.endsWith(PHP_UNICODE)) {
-				formatted = formatted.substring(0, formatted.length() - PHP_UNICODE.length()) + currencyCode;
+			else if (formatted.endsWith(PHP_CURRENCY_UNICODE)) {
+				formatted = formatted.substring(0, formatted.length() - PHP_CURRENCY_UNICODE.length()) + currencyCode;
 			}
 		}
 		else if (currencyCode.equals("IDR")) {
-			if (formatted.startsWith(GENERIC_UNICODE)) {
-				formatted = "Rp" + formatted.substring(GENERIC_UNICODE.length());
+			if (formatted.startsWith(GENERIC_CURRENCY_UNICODE)) {
+				formatted = "Rp" + formatted.substring(GENERIC_CURRENCY_UNICODE.length());
 			}
-			else if (formatted.endsWith(GENERIC_UNICODE)) {
-				formatted = formatted.substring(0, formatted.length() - GENERIC_UNICODE.length()) + "Rp";
+			else if (formatted.endsWith(GENERIC_CURRENCY_UNICODE)) {
+				formatted = formatted.substring(0, formatted.length() - GENERIC_CURRENCY_UNICODE.length()) + "Rp";
 			}
 		}
 		else if (currencyCode.equals("BRL")) {
@@ -379,11 +378,11 @@ public class Money implements JSONable {
 		}
 		// #1032 - EUR for a few 2.3 devices are displayed incorrectly. Ugly hack here
 		else if (currencyCode.equals("EUR") && AndroidUtils.getSdkVersion() <= 10) {
-			if (formatted.startsWith(CURRENCY_SIGN_UNICODE)) {
-				formatted = EURO_CURRENCY_UNICODE + formatted.substring(CURRENCY_SIGN_UNICODE.length());
+			if (formatted.startsWith(GENERIC_CURRENCY_UNICODE)) {
+				formatted = EURO_CURRENCY_UNICODE + formatted.substring(GENERIC_CURRENCY_UNICODE.length());
 			}
-			else if (formatted.endsWith(CURRENCY_SIGN_UNICODE)) {
-				formatted = formatted.substring(0, formatted.length() - CURRENCY_SIGN_UNICODE.length())
+			else if (formatted.endsWith(GENERIC_CURRENCY_UNICODE)) {
+				formatted = formatted.substring(0, formatted.length() - GENERIC_CURRENCY_UNICODE.length())
 						+ EURO_CURRENCY_UNICODE;
 			}
 		}
