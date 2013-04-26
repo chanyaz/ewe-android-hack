@@ -199,6 +199,8 @@
     <string name="itin_logout_confirmation_message_TEMPLATE">A desconexão do %1$s removerá todos os itens de itinerário associados a Tem certeza de que deseja se desconectar?</string>
     <!-- Directions -->
     <string name="directions">Direções</string>
+    <!-- Terminal Map -->
+    <string name="Terminal_Map">Mapa do Terminal</string>
     <!-- Terminal Maps -->
     <string name="terminal_maps">Mapas do terminal</string>
     <!-- Legend -->
@@ -259,6 +261,12 @@
     <string name="try_again">Tente novamente</string>
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">COPIAR %1$s</string>
+
+    <!-- Hotel attach -->
+    <!-- Button label to search for a hotel in the flight destination city. %1$s is the city, e.g. "Washington, DC" -->
+    <string name="add_hotel_TEMPLATE">Adicionar hotel em %1$s</string>
+    <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
+    <string name="add_hotel_fallback">Adicione um hotel em seu destino</string>
 
     <!-- Car category -->
     <!-- Car category: mini -->
@@ -458,6 +466,10 @@
     <string name="Short_message">Curto (SMS, Social)</string>
 
     <!-- Flights -->
+    <!-- Label for Flight Search in task manager -->
+    <string name="Expedia_Flights">Expedia Flights</string>
+    <!-- Label for Flight Confirmation activity in task manager -->
+    <string name="Flights_Confirmation">Confirmação de Voos</string>
     <!-- Label for flight search part of app -->
     <string name="search_flights">Procurar voos</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
@@ -503,6 +515,10 @@
     </plurals>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">DEBUG: os dados de pesquisa foram cancelados.  Informe DLew sobre este erro.</string>
+    <!-- Low Cost Flights label -->
+    <string name="low_cost_flights">Voos de Baixo Custo</string>
+    <!-- Message shown to user when viewing flight search results that do not contain low-cost flights, although the same search on desktop returns low cost flights -->
+    <string name="lcc_flights_not_available">Procurando por Jetstar, Scoot ou Air Asia? Passagens para essas companhias aéreas estão disponíveis em nosso site e, em breve, no app.</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">Selecione um voo para %1$s</string>
     <!-- Select a flight back to (city name) -->
@@ -625,6 +641,8 @@
     <string name="card_info">Informações do cartão</string>
 
     <!-- Trip Overview Activity -->
+    <!-- Label for Overview activity in task manager -->
+    <string name="Overview">Visão geral</string>
     <!-- Trip total price label -->
     <string name="total_price_label">Preço total</string>
     <!-- Your trip to template -->
@@ -666,7 +684,7 @@
     <!-- Amount to be paid now -->
     <string name="Amount_to_be_paid_now_TEMPLATE">Valor a ser pago agora %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
-    <string name="collected_by_the_hotel_TEMPLATE">%1$s cobrados pelo hotel</string>
+    <string name="collected_by_the_hotel_TEMPLATE">A ser cobrado pelo hotel: %1$s</string>
     <!-- Checkout menu item -->
     <string name="menu_checkout">Check-out</string>
     <!-- Our best price gaurentee string -->
@@ -709,6 +727,10 @@
     <string name="traveler_num_and_category_TEMPLATE">Viajante%1$d</string>
 
     <!-- Section display contact -->
+    <!-- Label for "Add Traveler" in task manager -->
+    <string name="Add_Traveler">Adicionar Viajante</string>
+    <!-- Label for "Add Payment" in task manager -->
+    <string name="Add_Payment">Adicionar Pagamento</string>
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Informações do viajante</string>
     <!-- Add traveler -->
@@ -1603,6 +1625,8 @@
     <string name="loading_expedia_account">Carregando conta da Expedia</string>
     <!-- Label for password recovery -->
     <string name="forgot_your_password">Esqueceu sua senha?</string>
+    <!-- Webview title for password recovery -->
+    <string name="title_forgot_password">Esqueceu a Senha</string>
     <!-- Label for coupon code area of booking form -->
     <string name="coupon_code">Inserir um cupom ou código de promoção</string>
     <!-- Label for coupon code hint -->

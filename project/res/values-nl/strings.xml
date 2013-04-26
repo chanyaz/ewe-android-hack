@@ -3,7 +3,7 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">Hoi &lt;b&gt;%1$s&lt;/b&gt;, we hebben je Expedia-account gevonden! Voer hieronder het wachtwoord van je Expedia-account in om het met je Facebook-account te kunnen koppelen.</string>
+    <string name="facebook_weve_found_your_account">Hallo, &lt;b&gt;%1$s&lt;/b&gt;, we hebben je Expedia-account gevonden! Voer hieronder het wachtwoord van je Expedia-account in om het met je Facebook-account te kunnen koppelen.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">Hoi &lt;b&gt;%1$s&lt;/b&gt;, we hebben je gegevens van Facebook geladen!</string>
     <!-- Log in with facebook (button text) -->
@@ -17,7 +17,7 @@
     <!-- Unable to log in to Facebook -->
     <string name="unable_to_log_into_facebook">Aanmelden via Facebook mislukt.</string>
     <!-- Login failed try again -->
-    <string name="login_failed_try_again">Aanmelding mislukt. Voer je wachtwoord opnieuw in en probeer opnieuw.</string>
+    <string name="login_failed_try_again">Aanmelding mislukt. Voer je wachtwoord opnieuw in en probeer nogmaals.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Expedia-wachtwoord</string>
     <!-- Link accounts -->
@@ -199,6 +199,8 @@
     <string name="itin_logout_confirmation_message_TEMPLATE">Wanneer je je afmeldt bij %1$s verwijder je alle reisplanitems die aan dit account gekoppeld zijn. Weet je zeker dat je je wil afmelden?</string>
     <!-- Directions -->
     <string name="directions">Richtingaanwijzingen</string>
+    <!-- Terminal Map -->
+    <string name="Terminal_Map">Terminal Map</string>
     <!-- Terminal Maps -->
     <string name="terminal_maps">Terminal Maps</string>
     <!-- Legend -->
@@ -259,6 +261,12 @@
     <string name="try_again">Probeer opnieuw</string>
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">KOPIEER %1$s</string>
+
+    <!-- Hotel attach -->
+    <!-- Button label to search for a hotel in the flight destination city. %1$s is the city, e.g. "Washington, DC" -->
+    <string name="add_hotel_TEMPLATE">Hotel toevoegen in %1$s</string>
+    <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
+    <string name="add_hotel_fallback">Voeg een hotel toe op je bestemming</string>
 
     <!-- Car category -->
     <!-- Car category: mini -->
@@ -458,6 +466,10 @@
     <string name="Short_message">Kort (SMS, Social Media)</string>
 
     <!-- Flights -->
+    <!-- Label for Flight Search in task manager -->
+    <string name="Expedia_Flights">Expedia Vluchten</string>
+    <!-- Label for Flight Confirmation activity in task manager -->
+    <string name="Flights_Confirmation">Vluchtbevestiging</string>
     <!-- Label for flight search part of app -->
     <string name="search_flights">Zoeken naar een vlucht</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
@@ -503,6 +515,10 @@
     </plurals>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">DEBUG: zoekgegevens zijn gewist.  Meld deze fout bij DLew.</string>
+    <!-- Low Cost Flights label -->
+    <string name="low_cost_flights">Lowcost vluchten</string>
+    <!-- Message shown to user when viewing flight search results that do not contain low-cost flights, although the same search on desktop returns low cost flights -->
+    <string name="lcc_flights_not_available">Op zoek naar Jetstar, Scoot of Air Asia? Tickets voor deze airlines vind je op onze website maar zijn binnenkort ook te koop via de app.</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">Kies een vlucht naar %1$s</string>
     <!-- Select a flight back to (city name) -->
@@ -625,6 +641,8 @@
     <string name="card_info">Kaartgegevens</string>
 
     <!-- Trip Overview Activity -->
+    <!-- Label for Overview activity in task manager -->
+    <string name="Overview">Overzicht</string>
     <!-- Trip total price label -->
     <string name="total_price_label">Totaalprijs</string>
     <!-- Your trip to template -->
@@ -666,7 +684,7 @@
     <!-- Amount to be paid now -->
     <string name="Amount_to_be_paid_now_TEMPLATE">Nu te betalen %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
-    <string name="collected_by_the_hotel_TEMPLATE">%1$s in rekening gebracht in het hotel</string>
+    <string name="collected_by_the_hotel_TEMPLATE">Wordt bij de hotelreceptie in rekening gebracht: %1$s</string>
     <!-- Checkout menu item -->
     <string name="menu_checkout">Betaling</string>
     <!-- Our best price gaurentee string -->
@@ -709,6 +727,10 @@
     <string name="traveler_num_and_category_TEMPLATE">Reiziger %1$d</string>
 
     <!-- Section display contact -->
+    <!-- Label for "Add Traveler" in task manager -->
+    <string name="Add_Traveler">Reiziger toevoegen</string>
+    <!-- Label for "Add Payment" in task manager -->
+    <string name="Add_Payment">Betaling toevoegen</string>
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Reizigersinformatie</string>
     <!-- Add traveler -->
@@ -1183,9 +1205,9 @@
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">Geen kamers beschikbaar</string>
     <!-- Message displayed when the hotel room is sold out -->
-    <string name="error_room_is_now_sold_out">Helaas, deze kamer is net uitverkocht op Expedia</string>
+    <string name="error_room_is_now_sold_out">Helaas, deze kamer is net uitverkocht op Expedia.</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
-    <string name="error_hotel_is_now_sold_out">Helaas, dit hotel is net uitverkocht op Expedia</string>
+    <string name="error_hotel_is_now_sold_out">Helaas, dit hotel is net uitverkocht op Expedia.</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
@@ -1604,8 +1626,10 @@
     <string name="loading_expedia_account">Bezig met laden van Expedia account</string>
     <!-- Label for password recovery -->
     <string name="forgot_your_password">Je wachtwoord vergeten?</string>
+    <!-- Webview title for password recovery -->
+    <string name="title_forgot_password">Wachtwoord vergeten</string>
     <!-- Label for coupon code area of booking form -->
-    <string name="coupon_code">Voer een coupon of promotionele code in</string>
+    <string name="coupon_code">Voer een coupon of promocode in</string>
     <!-- Label for coupon code hint -->
     <string name="optional">Optioneel</string>
     <!-- Label applying a coupon -->

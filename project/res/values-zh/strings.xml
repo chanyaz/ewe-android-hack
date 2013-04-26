@@ -199,6 +199,8 @@
     <string name="itin_logout_confirmation_message_TEMPLATE">退出 %1$s 将删除与该帐户关联的所有行程项目。是否确定要退出？</string>
     <!-- Directions -->
     <string name="directions">路线</string>
+    <!-- Terminal Map -->
+    <string name="Terminal_Map">航站楼示意图</string>
     <!-- Terminal Maps -->
     <string name="terminal_maps">航站楼示意图</string>
     <!-- Legend -->
@@ -260,6 +262,12 @@
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">复制%1$s</string>
 
+    <!-- Hotel attach -->
+    <!-- Button label to search for a hotel in the flight destination city. %1$s is the city, e.g. "Washington, DC" -->
+    <string name="add_hotel_TEMPLATE">添加%1$s酒店</string>
+    <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
+    <string name="add_hotel_fallback">添加您的目的地的酒店</string>
+
     <!-- Car category -->
     <!-- Car category: mini -->
     <string name="car_category_mini">迷你车</string>
@@ -299,9 +307,9 @@
     <string name="car_category_oversize">特大型车</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">两个门 轿车</string>
-    <string name="car_type_three_door">三个门 轿车</string>
-    <string name="car_type_four_door">四个门 轿车</string>
+    <string name="car_type_two_door">两个门轿车</string>
+    <string name="car_type_three_door">三个门轿车</string>
+    <string name="car_type_four_door">四个门轿车</string>
     <string name="car_type_van">箱型车</string>
     <string name="car_type_wagon">旅行车</string>
     <string name="car_type_limousine">豪华轿车</string>
@@ -458,6 +466,10 @@
     <string name="Short_message">短（短信、社交网）</string>
 
     <!-- Flights -->
+    <!-- Label for Flight Search in task manager -->
+    <string name="Expedia_Flights">Expedia 航班</string>
+    <!-- Label for Flight Confirmation activity in task manager -->
+    <string name="Flights_Confirmation">航班确认</string>
     <!-- Label for flight search part of app -->
     <string name="search_flights">搜索航班</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
@@ -503,6 +515,10 @@
     </plurals>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">程序调试：搜索数据因故被清除。请将这个错误报告给 DLew。</string>
+    <!-- Low Cost Flights label -->
+    <string name="low_cost_flights">廉价航班</string>
+    <!-- Message shown to user when viewing flight search results that do not contain low-cost flights, although the same search on desktop returns low cost flights -->
+    <string name="lcc_flights_not_available">要预订 Jetstar、Scoot 或 Air Asia 的机票？我们的网站提供以上航空公司的机票，并很快提供相应的应用程序。</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">选择飞往 %1$s 的航班</string>
     <!-- Select a flight back to (city name) -->
@@ -625,6 +641,8 @@
     <string name="card_info">卡信息</string>
 
     <!-- Trip Overview Activity -->
+    <!-- Label for Overview activity in task manager -->
+    <string name="Overview">概要</string>
     <!-- Trip total price label -->
     <string name="total_price_label">总价</string>
     <!-- Your trip to template -->
@@ -666,7 +684,7 @@
     <!-- Amount to be paid now -->
     <string name="Amount_to_be_paid_now_TEMPLATE">现在要支付的金额 %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
-    <string name="collected_by_the_hotel_TEMPLATE">酒店收取 %1$s</string>
+    <string name="collected_by_the_hotel_TEMPLATE">需要由酒店收取的费用：%1$s</string>
     <!-- Checkout menu item -->
     <string name="menu_checkout">付款</string>
     <!-- Our best price gaurentee string -->
@@ -709,6 +727,10 @@
     <string name="traveler_num_and_category_TEMPLATE">旅客 %1$d</string>
 
     <!-- Section display contact -->
+    <!-- Label for "Add Traveler" in task manager -->
+    <string name="Add_Traveler">添加旅客</string>
+    <!-- Label for "Add Payment" in task manager -->
+    <string name="Add_Payment">添加帐款</string>
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">旅客信息</string>
     <!-- Add traveler -->
@@ -1603,6 +1625,8 @@
     <string name="loading_expedia_account">正在加载 Expedia 帐户</string>
     <!-- Label for password recovery -->
     <string name="forgot_your_password">忘记密码？</string>
+    <!-- Webview title for password recovery -->
+    <string name="title_forgot_password">忘记密码</string>
     <!-- Label for coupon code area of booking form -->
     <string name="coupon_code">请输入优惠券或促销代码</string>
     <!-- Label for coupon code hint -->

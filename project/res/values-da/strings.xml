@@ -199,6 +199,8 @@
     <string name="itin_logout_confirmation_message_TEMPLATE">Hvis du logger af %1$s, vil det fjerne alle rejseplansoplysninger for denne konto. Er du sikker på, du vil logge af?</string>
     <!-- Directions -->
     <string name="directions">Rutevejledning</string>
+    <!-- Terminal Map -->
+    <string name="Terminal_Map">Terminalkort</string>
     <!-- Terminal Maps -->
     <string name="terminal_maps">Terminalkort</string>
     <!-- Legend -->
@@ -259,6 +261,12 @@
     <string name="try_again">Forsøg igen</string>
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">KOPIER %1$s</string>
+
+    <!-- Hotel attach -->
+    <!-- Button label to search for a hotel in the flight destination city. %1$s is the city, e.g. "Washington, DC" -->
+    <string name="add_hotel_TEMPLATE">Tilføj et hotel i %1$s</string>
+    <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
+    <string name="add_hotel_fallback">Tilføj et hotel på din destination</string>
 
     <!-- Car category -->
     <!-- Car category: mini -->
@@ -458,6 +466,10 @@
     <string name="Short_message">Kort (SMS, Socialt)</string>
 
     <!-- Flights -->
+    <!-- Label for Flight Search in task manager -->
+    <string name="Expedia_Flights">Expedia-flyrejser</string>
+    <!-- Label for Flight Confirmation activity in task manager -->
+    <string name="Flights_Confirmation">Bekræftelse af flyrejse</string>
     <!-- Label for flight search part of app -->
     <string name="search_flights">Søg efter flybilletter</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
@@ -503,6 +515,10 @@
     </plurals>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">Fejlfinding: Søgeoplysninger blev desværre ryddet.  Rapporter denne fejl til DLew.</string>
+    <!-- Low Cost Flights label -->
+    <string name="low_cost_flights">Lavprisfly</string>
+    <!-- Message shown to user when viewing flight search results that do not contain low-cost flights, although the same search on desktop returns low cost flights -->
+    <string name="lcc_flights_not_available">Leder du efter Jetstar, Scoot eller Air Asia? Billetter hos disse flyselskaber er til rådighed på vores hjemmeside og vil også snart kunne findes i app\&apos;en.</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">Vælg et fly til %1$s</string>
     <!-- Select a flight back to (city name) -->
@@ -510,7 +526,7 @@
     <!-- Error message template when loading a webpage fails -->
     <string name="web_view_loading_error_TEMPLATE">Fejl ved indlæsning af siden! Fejlmeddelelse: %1$s</string>
     <!-- Title for screen when in an invalid POS we can't search for yet -->
-    <string name="taking_off_soon">Afgang om lidt…</string>
+    <string name="taking_off_soon">Så er der snart afgang…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">Vi beklager, men flyreservation via mobilen er &lt;b&gt;endnu ikke tilgængelig&lt;/b&gt;, hvor du befinder dig.</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
@@ -625,6 +641,8 @@
     <string name="card_info">Kortoplysninger</string>
 
     <!-- Trip Overview Activity -->
+    <!-- Label for Overview activity in task manager -->
+    <string name="Overview">Oversigt</string>
     <!-- Trip total price label -->
     <string name="total_price_label">Pris i alt</string>
     <!-- Your trip to template -->
@@ -666,7 +684,7 @@
     <!-- Amount to be paid now -->
     <string name="Amount_to_be_paid_now_TEMPLATE">Beløb til betaling nu %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
-    <string name="collected_by_the_hotel_TEMPLATE">%1$s opkrævet af hotellet</string>
+    <string name="collected_by_the_hotel_TEMPLATE">Opkræves på hotellet: %1$s</string>
     <!-- Checkout menu item -->
     <string name="menu_checkout">Til kassen</string>
     <!-- Our best price gaurentee string -->
@@ -698,7 +716,7 @@
 
     <!-- Cost breakdown dialog -->
     <!-- Cost Summary -->
-    <string name="cost_summary">Omkostningsoversigt</string>
+    <string name="cost_summary">Prisoversigt</string>
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">Skatter og afgifter</string>
     <!-- Expedia booking fee -->
@@ -709,6 +727,10 @@
     <string name="traveler_num_and_category_TEMPLATE">Rejsende %1$d</string>
 
     <!-- Section display contact -->
+    <!-- Label for "Add Traveler" in task manager -->
+    <string name="Add_Traveler">Tilføj rejsende</string>
+    <!-- Label for "Add Payment" in task manager -->
+    <string name="Add_Payment">Tilføj betaling</string>
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Oplysninger om rejsende</string>
     <!-- Add traveler -->
@@ -1603,6 +1625,8 @@
     <string name="loading_expedia_account">Indlæser Expedia-konto</string>
     <!-- Label for password recovery -->
     <string name="forgot_your_password">Har du glemt din adgangskode?</string>
+    <!-- Webview title for password recovery -->
+    <string name="title_forgot_password">Glemt adgangskode</string>
     <!-- Label for coupon code area of booking form -->
     <string name="coupon_code">Indtast en kupon eller kampagnekode</string>
     <!-- Label for coupon code hint -->

@@ -199,6 +199,8 @@
     <string name="itin_logout_confirmation_message_TEMPLATE">%1$s からログアウトすると、このアカウントに関連付けられている旅程項目が全て削除されます。ログアウトしてもよろしいですか ?</string>
     <!-- Directions -->
     <string name="directions">行き方</string>
+    <!-- Terminal Map -->
+    <string name="Terminal_Map">ターミナル マップ</string>
     <!-- Terminal Maps -->
     <string name="terminal_maps">ターミナルマップ</string>
     <!-- Legend -->
@@ -259,6 +261,12 @@
     <string name="try_again">もう一度試す</string>
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">%1$s をコピー</string>
+
+    <!-- Hotel attach -->
+    <!-- Button label to search for a hotel in the flight destination city. %1$s is the city, e.g. "Washington, DC" -->
+    <string name="add_hotel_TEMPLATE">%1$sにホテルを追加</string>
+    <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
+    <string name="add_hotel_fallback">目的地のホテルを追加</string>
 
     <!-- Car category -->
     <!-- Car category: mini -->
@@ -458,6 +466,10 @@
     <string name="Short_message">ショート (SMS)</string>
 
     <!-- Flights -->
+    <!-- Label for Flight Search in task manager -->
+    <string name="Expedia_Flights">エクスペディア フライト予約</string>
+    <!-- Label for Flight Confirmation activity in task manager -->
+    <string name="Flights_Confirmation">フライト予約通知</string>
     <!-- Label for flight search part of app -->
     <string name="search_flights">フライト検索</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
@@ -503,6 +515,10 @@
     </plurals>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">デバック : 検索データが削除されました。エラーを報告してください。</string>
+    <!-- Low Cost Flights label -->
+    <string name="low_cost_flights">格安航空券</string>
+    <!-- Message shown to user when viewing flight search results that do not contain low-cost flights, although the same search on desktop returns low cost flights -->
+    <string name="lcc_flights_not_available">エアアジア、ジェットスター、スクートの航空券をお探しですか ?格安航空会社の航空券予約には PC サイトをご利用ください (アプリ版は近日中に対応予定)。</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">%1$s へのフライトを選択</string>
     <!-- Select a flight back to (city name) -->
@@ -625,6 +641,8 @@
     <string name="card_info">カード情報</string>
 
     <!-- Trip Overview Activity -->
+    <!-- Label for Overview activity in task manager -->
+    <string name="Overview">概要</string>
     <!-- Trip total price label -->
     <string name="total_price_label">合計料金</string>
     <!-- Your trip to template -->
@@ -666,7 +684,7 @@
     <!-- Amount to be paid now -->
     <string name="Amount_to_be_paid_now_TEMPLATE">現在支払う金額%1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
-    <string name="collected_by_the_hotel_TEMPLATE">%1$s をホテルにお支払いください</string>
+    <string name="collected_by_the_hotel_TEMPLATE">ホテルで徴収 : %1$s</string>
     <!-- Checkout menu item -->
     <string name="menu_checkout">購入手続き</string>
     <!-- Our best price gaurentee string -->
@@ -709,6 +727,10 @@
     <string name="traveler_num_and_category_TEMPLATE">旅行者名 %1$d</string>
 
     <!-- Section display contact -->
+    <!-- Label for "Add Traveler" in task manager -->
+    <string name="Add_Traveler">旅行者を追加</string>
+    <!-- Label for "Add Payment" in task manager -->
+    <string name="Add_Payment">お支払い情報を追加</string>
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">旅行者情報</string>
     <!-- Add traveler -->
@@ -719,7 +741,7 @@
     <string name="name_must_match_warning">旅行者名がパスポートなど写真付きの公的証明書に記載された名前と一致しない場合は搭乗できません。</string>
 
     <!-- Special Assistance label template -->
-    <string name="special_assistance_label_TEMPLATE">スペシャル サポート : %1$s</string>
+    <string name="special_assistance_label_TEMPLATE">スペシャルサポート : %1$s</string>
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <!-- Born on -->
@@ -825,7 +847,7 @@
     <!-- Passport country / origin heading -->
     <string name="passport_country_origin">パスポートの発行国 / 出身国</string>
     <!-- Redress number hint -->
-    <string name="only_if_applicable">リドレスナンバー (該当する場合)</string>
+    <string name="only_if_applicable">リドレス No. (任意)</string>
     <!-- Saving traveler info spinner dialog -->
     <string name="saving_traveler">お客様のアカウントに旅行者情報を保存中…</string>
 
@@ -845,7 +867,7 @@
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">旅行者情報を変更</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_TEMPLATE">希望のシート : %1$s</string>
+    <string name="prefers_seat_TEMPLATE">希望の座席 : %1$s</string>
     <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;希望のシート : &lt;/font&gt;%1$s</string>
     <!-- loading traveler info -->
@@ -867,7 +889,7 @@
 
     <!-- Assistance Types -->
     <!-- No assistance type -->
-    <string name="no_assistance">スペシャル サポート不要</string>
+    <string name="no_assistance">スペシャルサポート不要</string>
     <!-- Blind with seeing eye dog -->
     <string name="blind_with_seeing_eye_dog">盲導犬をお連れの視覚障害者の方</string>
     <!-- Deaf with hearing dog -->
@@ -1603,6 +1625,8 @@
     <string name="loading_expedia_account">エクスペディア アカウントを読み込み中</string>
     <!-- Label for password recovery -->
     <string name="forgot_your_password">パスワードをお忘れですか ?</string>
+    <!-- Webview title for password recovery -->
+    <string name="title_forgot_password">パスワードを忘れた場合</string>
     <!-- Label for coupon code area of booking form -->
     <string name="coupon_code">クーポンコードを入力</string>
     <!-- Label for coupon code hint -->

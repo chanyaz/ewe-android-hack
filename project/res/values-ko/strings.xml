@@ -199,6 +199,8 @@
     <string name="itin_logout_confirmation_message_TEMPLATE">%1$s에서 로그아웃하면 이 계정과 연결된 모든 일정 항목이 제거됩니다. 그래도 로그아웃하시겠어요?</string>
     <!-- Directions -->
     <string name="directions">길 안내</string>
+    <!-- Terminal Map -->
+    <string name="Terminal_Map">터미널 지도</string>
     <!-- Terminal Maps -->
     <string name="terminal_maps">터미널 지도</string>
     <!-- Legend -->
@@ -259,6 +261,12 @@
     <string name="try_again">다시 시도</string>
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">%1$s 복사</string>
+
+    <!-- Hotel attach -->
+    <!-- Button label to search for a hotel in the flight destination city. %1$s is the city, e.g. "Washington, DC" -->
+    <string name="add_hotel_TEMPLATE">%1$s의 호텔 추가</string>
+    <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
+    <string name="add_hotel_fallback">목적지의 호텔 추가</string>
 
     <!-- Car category -->
     <!-- Car category: mini -->
@@ -458,6 +466,10 @@
     <string name="Short_message">단문(SMS, SNS)</string>
 
     <!-- Flights -->
+    <!-- Label for Flight Search in task manager -->
+    <string name="Expedia_Flights">Expedia 항공편</string>
+    <!-- Label for Flight Confirmation activity in task manager -->
+    <string name="Flights_Confirmation">항공편 확인</string>
     <!-- Label for flight search part of app -->
     <string name="search_flights">항공편 검색</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
@@ -503,6 +515,10 @@
     </plurals>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">디버그: 검색 데이터가 삭제되었습니다. 이 오류를 DLew에게 보고해 주시기 바랍니다.</string>
+    <!-- Low Cost Flights label -->
+    <string name="low_cost_flights">저가 항공</string>
+    <!-- Message shown to user when viewing flight search results that do not contain low-cost flights, although the same search on desktop returns low cost flights -->
+    <string name="lcc_flights_not_available">Jetstar, Scoot 또는 Air Asia를 찾고 계세요? 이들 항공사의 항공권은 당사 웹사이트에서 구입하실 수 있으며 앱에서도 곧 지원될 예정입니다.</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">%1$s행 항공편을 선택하세요.</string>
     <!-- Select a flight back to (city name) -->
@@ -625,6 +641,8 @@
     <string name="card_info">카드 정보</string>
 
     <!-- Trip Overview Activity -->
+    <!-- Label for Overview activity in task manager -->
+    <string name="Overview">요약</string>
     <!-- Trip total price label -->
     <string name="total_price_label">총 금액</string>
     <!-- Your trip to template -->
@@ -666,7 +684,7 @@
     <!-- Amount to be paid now -->
     <string name="Amount_to_be_paid_now_TEMPLATE">지금 결제할 금액은 %1$s입니다.</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
-    <string name="collected_by_the_hotel_TEMPLATE">%1$s의 금액을 호텔에서 결제합니다.</string>
+    <string name="collected_by_the_hotel_TEMPLATE">호텔에서 결제: %1$s</string>
     <!-- Checkout menu item -->
     <string name="menu_checkout">예약하기</string>
     <!-- Our best price gaurentee string -->
@@ -709,6 +727,10 @@
     <string name="traveler_num_and_category_TEMPLATE">여행객 %1$d</string>
 
     <!-- Section display contact -->
+    <!-- Label for "Add Traveler" in task manager -->
+    <string name="Add_Traveler">여행객 추가</string>
+    <!-- Label for "Add Payment" in task manager -->
+    <string name="Add_Payment">결제 추가</string>
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">여행객 정보</string>
     <!-- Add traveler -->
@@ -1603,6 +1625,8 @@
     <string name="loading_expedia_account">Expedia 계정 로드 중</string>
     <!-- Label for password recovery -->
     <string name="forgot_your_password">비밀번호를 잊으셨나요?</string>
+    <!-- Webview title for password recovery -->
+    <string name="title_forgot_password">비밀번호를 잊으셨나요?</string>
     <!-- Label for coupon code area of booking form -->
     <string name="coupon_code">쿠폰 또는 프로모션 코드를 입력해 주세요.</string>
     <!-- Label for coupon code hint -->

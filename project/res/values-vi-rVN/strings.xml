@@ -199,6 +199,8 @@
     <string name="itin_logout_confirmation_message_TEMPLATE">Thoát %1$s sẽ đồng thời gỡ mọi lịch trình liên kết với tài khoản này. Quý vị có chắc chắn muốn thoát không?</string>
     <!-- Directions -->
     <string name="directions">Hướng dẫn đường đi</string>
+    <!-- Terminal Map -->
+    <string name="Terminal_Map">Bản đồ ga</string>
     <!-- Terminal Maps -->
     <string name="terminal_maps">Bản đồ ga</string>
     <!-- Legend -->
@@ -259,6 +261,12 @@
     <string name="try_again">Hãy thử lại</string>
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">Sao chép %1$s</string>
+
+    <!-- Hotel attach -->
+    <!-- Button label to search for a hotel in the flight destination city. %1$s is the city, e.g. "Washington, DC" -->
+    <string name="add_hotel_TEMPLATE">Thêm khách sạn tại %1$s</string>
+    <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
+    <string name="add_hotel_fallback">Thêm khách sạn tại điểm đến của quý vị</string>
 
     <!-- Car category -->
     <!-- Car category: mini -->
@@ -458,6 +466,10 @@
     <string name="Short_message">Ngắn (SMS, Mạng xã hội)</string>
 
     <!-- Flights -->
+    <!-- Label for Flight Search in task manager -->
+    <string name="Expedia_Flights">Chuyến bay Expedia</string>
+    <!-- Label for Flight Confirmation activity in task manager -->
+    <string name="Flights_Confirmation">Xác nhận chuyến bay</string>
     <!-- Label for flight search part of app -->
     <string name="search_flights">Tìm chuyến bay</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
@@ -503,6 +515,10 @@
     </plurals>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">DEBUG: Thông tin tìm kiếm đã bị xóa.  Vui lòng báo lỗi với DLew.</string>
+    <!-- Low Cost Flights label -->
+    <string name="low_cost_flights">Chuyến bay giá rẻ</string>
+    <!-- Message shown to user when viewing flight search results that do not contain low-cost flights, although the same search on desktop returns low cost flights -->
+    <string name="lcc_flights_not_available">Tìm Jetstar, Scoot hay Air Asia? Vé máy bay của các hãng này đã được bán tại trang web của chúng tôi và sẽ sớm có mặt trên app.</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">Chọn chuyến bay đến %1$s</string>
     <!-- Select a flight back to (city name) -->
@@ -625,6 +641,8 @@
     <string name="card_info">Thông tin thẻ</string>
 
     <!-- Trip Overview Activity -->
+    <!-- Label for Overview activity in task manager -->
+    <string name="Overview">Tổng quan</string>
     <!-- Trip total price label -->
     <string name="total_price_label">Tổng giá</string>
     <!-- Your trip to template -->
@@ -666,7 +684,7 @@
     <!-- Amount to be paid now -->
     <string name="Amount_to_be_paid_now_TEMPLATE">Số tiền phải thanh toán ngay %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
-    <string name="collected_by_the_hotel_TEMPLATE">%1$s Thanh toán tại khách sạn</string>
+    <string name="collected_by_the_hotel_TEMPLATE">Thanh toán tại khách sạn: %1$s</string>
     <!-- Checkout menu item -->
     <string name="menu_checkout">Thanh toán</string>
     <!-- Our best price gaurentee string -->
@@ -709,6 +727,10 @@
     <string name="traveler_num_and_category_TEMPLATE">Khách %1$d</string>
 
     <!-- Section display contact -->
+    <!-- Label for "Add Traveler" in task manager -->
+    <string name="Add_Traveler">Thêm khách</string>
+    <!-- Label for "Add Payment" in task manager -->
+    <string name="Add_Payment">Thêm hình thức thanh toán</string>
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Thông tin khách</string>
     <!-- Add traveler -->
@@ -1182,9 +1204,9 @@
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">Không có phòng khách sạn</string>
     <!-- Message displayed when the hotel room is sold out -->
-    <string name="error_room_is_now_sold_out">Chúng tôi rất tiếc nhưng hiện đã hết phòng này.</string>
+    <string name="error_room_is_now_sold_out">Rất tiếc nhưng hiện đã hết phòng này.</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
-    <string name="error_hotel_is_now_sold_out">Chúng tôi rất tiếc nhưng hiện khách này đã hết phòng.</string>
+    <string name="error_hotel_is_now_sold_out">Rất tiếc nhưng hiện khách sạn này đã hết phòng.</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
@@ -1603,6 +1625,8 @@
     <string name="loading_expedia_account">Đang tải tài khoản Expedia</string>
     <!-- Label for password recovery -->
     <string name="forgot_your_password">Quên mật khẩu?</string>
+    <!-- Webview title for password recovery -->
+    <string name="title_forgot_password">Quên mật khẩu</string>
     <!-- Label for coupon code area of booking form -->
     <string name="coupon_code">Nhập mã coupon hoặc khuyến mãi</string>
     <!-- Label for coupon code hint -->

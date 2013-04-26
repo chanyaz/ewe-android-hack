@@ -199,6 +199,8 @@
     <string name="itin_logout_confirmation_message_TEMPLATE">Jika Anda keluar dari %1$s, semua rencana perjalanan yang terkait dengan akun ini akan dihapus. Yakin ingin keluar?</string>
     <!-- Directions -->
     <string name="directions">Arah</string>
+    <!-- Terminal Map -->
+    <string name="Terminal_Map">Peta Terminal</string>
     <!-- Terminal Maps -->
     <string name="terminal_maps">Peta Terminal</string>
     <!-- Legend -->
@@ -259,6 +261,12 @@
     <string name="try_again">Coba lagi</string>
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">SALIN %1$s</string>
+
+    <!-- Hotel attach -->
+    <!-- Button label to search for a hotel in the flight destination city. %1$s is the city, e.g. "Washington, DC" -->
+    <string name="add_hotel_TEMPLATE">Tambah hotel di %1$s</string>
+    <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
+    <string name="add_hotel_fallback">Tambahkan hotel di destinasi Anda</string>
 
     <!-- Car category -->
     <!-- Car category: mini -->
@@ -458,6 +466,10 @@
     <string name="Short_message">Pendek (SMS, Media Sosial)</string>
 
     <!-- Flights -->
+    <!-- Label for Flight Search in task manager -->
+    <string name="Expedia_Flights">Penerbangan Expedia</string>
+    <!-- Label for Flight Confirmation activity in task manager -->
+    <string name="Flights_Confirmation">Konfirmasi Penerbangan</string>
     <!-- Label for flight search part of app -->
     <string name="search_flights">Cari Penerbangan</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
@@ -503,6 +515,10 @@
     </plurals>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">DEBUG: Data pencarian hilang tanpa sebab.  Please report this error to DLew.</string>
+    <!-- Low Cost Flights label -->
+    <string name="low_cost_flights">Penerbangan Murah</string>
+    <!-- Message shown to user when viewing flight search results that do not contain low-cost flights, although the same search on desktop returns low cost flights -->
+    <string name="lcc_flights_not_available">Mencari Jetstar, Scoot, atau AirAsia? Tiket untuk maskapai ini tersedia di situs kami dan akan segera hadir di aplikasi ini.</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">Pilih penerbangan ke %1$s</string>
     <!-- Select a flight back to (city name) -->
@@ -625,6 +641,8 @@
     <string name="card_info">Informasi Kartu</string>
 
     <!-- Trip Overview Activity -->
+    <!-- Label for Overview activity in task manager -->
+    <string name="Overview">Ringkasan</string>
     <!-- Trip total price label -->
     <string name="total_price_label">Harga Total</string>
     <!-- Your trip to template -->
@@ -666,7 +684,7 @@
     <!-- Amount to be paid now -->
     <string name="Amount_to_be_paid_now_TEMPLATE">Jumlah harus dibayar sekarang %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
-    <string name="collected_by_the_hotel_TEMPLATE">%1$s Ditagihkan oleh hotel</string>
+    <string name="collected_by_the_hotel_TEMPLATE">Akan ditagihkan oleh hotel: %1$s</string>
     <!-- Checkout menu item -->
     <string name="menu_checkout">Pembayaran</string>
     <!-- Our best price gaurentee string -->
@@ -709,6 +727,10 @@
     <string name="traveler_num_and_category_TEMPLATE">Pelancong %1$d</string>
 
     <!-- Section display contact -->
+    <!-- Label for "Add Traveler" in task manager -->
+    <string name="Add_Traveler">Tambah Pelancong</string>
+    <!-- Label for "Add Payment" in task manager -->
+    <string name="Add_Payment">Tambah Pembayaran</string>
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Informasi Pelancong</string>
     <!-- Add traveler -->
@@ -1603,6 +1625,8 @@
     <string name="loading_expedia_account">Memuat Akun Expedia</string>
     <!-- Label for password recovery -->
     <string name="forgot_your_password">Lupa kata sandi Anda?</string>
+    <!-- Webview title for password recovery -->
+    <string name="title_forgot_password">Lupa Kata Sandi</string>
     <!-- Label for coupon code area of booking form -->
     <string name="coupon_code">Masukkan kupon atau kode promosi</string>
     <!-- Label for coupon code hint -->
