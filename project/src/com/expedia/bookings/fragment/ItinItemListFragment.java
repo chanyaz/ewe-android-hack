@@ -50,6 +50,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 	private static final String STATE_ERROR_MESSAGE = "STATE_ERROR_MESSAGE";
 	private static final String STATE_ALLOW_LOAD_ITINS = "STATE_ALLOW_LOAD_ITINS";
+	private static final String STATE_ITIN_LIST_TRACKED = "STATE_ITIN_LIST_TRACKED";
 
 	private ItinItemListFragmentListener mListener;
 
@@ -73,6 +74,9 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 	private boolean mIsLoading = false;
 	private String mJumpToItinId = null;
+
+	//Have we tracked this itin list view yet?
+	private boolean mItinListTracked = false;
 
 	/**
 	 * Creates a new fragment that will open right away to the passed uniqueId.
@@ -164,6 +168,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 				setErrorMessage(savedInstanceState.getString(STATE_ERROR_MESSAGE), true);
 			}
 			mAllowLoadItins = savedInstanceState.getBoolean(STATE_ALLOW_LOAD_ITINS);
+			mItinListTracked = savedInstanceState.getBoolean(STATE_ITIN_LIST_TRACKED, false);
 		}
 
 		return view;
@@ -183,6 +188,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 			outState.putString(STATE_ERROR_MESSAGE, mErrorMessage);
 		}
 		outState.putBoolean(STATE_ALLOW_LOAD_ITINS, mAllowLoadItins);
+		outState.putBoolean(STATE_ITIN_LIST_TRACKED, mItinListTracked);
 	}
 
 	@Override
@@ -234,7 +240,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 			}
 			else {
 				invalidateOptionsMenu();
-				trackWithOmniture(true);
+				trackItins(true);
 			}
 		}
 	}
@@ -463,14 +469,18 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		setIsLoading(false);
 		setErrorMessage(null, false);
 
-		trackWithOmniture(false);
+		trackItins(false);
 
 		if (mJumpToItinId != null) {
 			showItinCard(mJumpToItinId);
 		}
 	}
 
-	private void trackWithOmniture(boolean trackEmpty) {
+	public void resetTrackingState() {
+		mItinListTracked = false;
+	}
+
+	private void trackItins(boolean trackEmpty) {
 		if (mAllowLoadItins) {
 			ItineraryManager im = ItineraryManager.getInstance();
 			Collection<Trip> trips = im.getTrips();
@@ -478,13 +488,19 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 			if (context != null) {
 				if (trips.size() > 0) {
 					OmnitureTracking.trackItin(getActivity());
-					AdTracker.trackViewItinList();
 				}
 				else {
 					if (trackEmpty) {
 						OmnitureTracking.trackItinEmpty(getActivity());
 					}
 				}
+
+				//AdX we just want to track when the user goes to the page. 
+				if (!mItinListTracked) {
+					mItinListTracked = true;
+					AdTracker.trackViewItinList();
+				}
+
 			}
 		}
 	}

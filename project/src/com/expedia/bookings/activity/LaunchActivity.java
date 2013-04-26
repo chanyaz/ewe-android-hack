@@ -419,6 +419,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 			ActionBar actionBar = getSupportActionBar();
 
 			if (mItinListFragment != null) {
+				mItinListFragment.resetTrackingState();
 				mItinListFragment.enableLoadItins();
 			}
 
