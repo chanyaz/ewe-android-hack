@@ -413,7 +413,7 @@ public class PointOfSale {
 		loadExpediaSuggestSupportedLanguages(context);
 
 		// Load Expedia countries for which Payment Postal code is optional
-		loadExpediaPaymentPostalCodeOptionalLocales(context);
+		loadExpediaPaymentPostalCodeOptionalCountries(context);
 
 		// Init the cache
 		getPointOfSale(context);
@@ -799,18 +799,18 @@ public class PointOfSale {
 	//////////////////////////////////////////////////////////////////////////
 	// Expedia flight payment postal code optional locales
 
-	private static Set<String> sExpediaPaymentPostalCodeOptionalLocales = new HashSet<String>();
+	private static Set<String> sExpediaPaymentPostalCodeOptionalCountries = new HashSet<String>();
 
-	private static void loadExpediaPaymentPostalCodeOptionalLocales(Context context) {
-		sExpediaPaymentPostalCodeOptionalLocales.clear();
+	private static void loadExpediaPaymentPostalCodeOptionalCountries(Context context) {
+		sExpediaPaymentPostalCodeOptionalCountries.clear();
 
 		try {
-			InputStream is = context.getAssets().open("ExpediaSharedData/ExpediaPaymentPostalCodeOptionalLocales.json");
+			InputStream is = context.getAssets().open("ExpediaSharedData/ExpediaPaymentPostalCodeOptionalCountries.json");
 			String data = IoUtils.convertStreamToString(is);
 			JSONArray countryArr = new JSONArray(data);
 			int len = countryArr.length();
 			for (int a = 0; a < len; a++) {
-				sExpediaPaymentPostalCodeOptionalLocales.add(countryArr.optString(a));
+				sExpediaPaymentPostalCodeOptionalCountries.add(countryArr.optString(a));
 			}
 		}
 		catch (Exception e) {
@@ -819,7 +819,7 @@ public class PointOfSale {
 		}
 	}
 
-	public static boolean localePaymentRequiresPostalCode(String localeIdentifier) {
-		return !sExpediaPaymentPostalCodeOptionalLocales.contains(localeIdentifier);
+	public static boolean countryPaymentRequiresPostalCode(String localeIdentifier) {
+		return !sExpediaPaymentPostalCodeOptionalCountries.contains(localeIdentifier);
 	}
 }

@@ -454,7 +454,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			CountrySpinnerAdapter countryAdapter = (CountrySpinnerAdapter) mEditCountrySpinner.mField.getAdapter();
 			String selectedCountry = countryAdapter.getItemValue(mEditCountrySpinner.mField.getSelectedItemPosition(),
 					CountryDisplayType.THREE_LETTER);
-			return PointOfSale.localePaymentRequiresPostalCode(selectedCountry);
+			return PointOfSale.countryPaymentRequiresPostalCode(selectedCountry);
 		}
 
 		if (mLineOfBusiness == LineOfBusiness.HOTELS) {
