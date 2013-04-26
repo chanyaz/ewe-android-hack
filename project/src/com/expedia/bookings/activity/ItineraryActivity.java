@@ -1,5 +1,7 @@
 package com.expedia.bookings.activity;
 
+import java.util.Collection;
+
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -11,6 +13,9 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItinCardData;
+import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
+import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.fragment.ConfirmLogoutDialogFragment.DoLogoutListener;
 import com.expedia.bookings.fragment.ItinCardFragment;
 import com.expedia.bookings.fragment.ItinItemListFragment;
@@ -28,7 +33,8 @@ import com.mobiata.android.util.AndroidUtils;
  * Full-screen Itinerary activity.  Used in tablets.
  */
 public class ItineraryActivity extends SherlockFragmentActivity implements ItinItemListFragmentListener,
-		OnCameraChangeListener, SupportMapFragmentListener, DoLogoutListener, ItineraryMapFragmentListener {
+		OnCameraChangeListener, SupportMapFragmentListener, DoLogoutListener, ItineraryMapFragmentListener,
+		ItinerarySyncListener {
 
 	public static final int REQUEST_SETTINGS = 1;
 
@@ -92,6 +98,13 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 		}
 
 		mItinListFragment.enableLoadItins();
+		ItineraryManager.getInstance().addSyncListener(this);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		ItineraryManager.getInstance().removeSyncListener(this);
 	}
 
 	@Override
@@ -310,5 +323,54 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 	public void onItinMarkerClicked(ItinCardData data) {
 		mItinListFragment.showItinCard(data.getId());
 		showPopupWindow(data, true);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// ItinerarySyncListener
+
+	@Override
+	public void onTripAdded(Trip trip) {
+		// Do nothing
+	}
+
+	@Override
+	public void onTripUpdated(Trip trip) {
+		// Do nothing
+	}
+
+	@Override
+	public void onTripUpdateFailed(Trip trip) {
+		// Do nothing
+	}
+
+	@Override
+	public void onTripRemoved(Trip trip) {
+		// Do nothing
+	}
+
+	@Override
+	public void onSyncFailure(ItineraryManager.SyncError error) {
+		// Do nothing
+	}
+
+	@Override
+	public void onSyncFinished(Collection<Trip> trips) {
+		if (mItinCardFragment != null && mItinCardFragment.isVisible()) {
+			ItinCardData selectedCardData = mItinCardFragment.getItinCardData();
+			String selectedCardId = selectedCardData.getTripComponent().getUniqueId();
+
+			boolean tripExists = false;
+			for (ItinCardData updatedCard : ItineraryManager.getInstance().getItinCardData()) {
+				if (selectedCardId.equals(updatedCard.getTripComponent().getUniqueId())) {
+					tripExists = true;
+					mItinCardFragment.showItinDetails(updatedCard, false);
+					break;
+				}
+			}
+
+			if (!tripExists) {
+				getSupportFragmentManager().beginTransaction().hide(mItinCardFragment).commit();
+			}
+		}
 	}
 }

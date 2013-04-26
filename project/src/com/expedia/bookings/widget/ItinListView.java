@@ -188,7 +188,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	public void onDetachedFromWindow() {
 		super.onDetachedFromWindow();
 		unregisterDataSetObserver();
-		mAdapter.disableSelfManagement();
 	}
 
 	@Override
@@ -196,7 +195,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		super.onAttachedToWindow();
 
 		registerDataSetObserver();
-		mAdapter.enableSelfManagement();
+		mAdapter.syncWithManager();
 	}
 
 	@Override
@@ -321,20 +320,16 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		mOnItinCardClickListener = onItinCardClickListener;
 	}
 
-	/**
-	 * Invoke when ItinManager notifies that a trip has been updated. This method makes sure to re-draw the expanded
-	 * details card if its corresponding trip was updated.
-	 * @param updatedTripId
-	 */
-	public void onTripUpdated(String updatedTripId) {
-		// Return if there is not a details card expanded as there is no work to do in this case
-		if (mDetailPosition == -1 || mDetailsCard == null || mAdapter.getItem(mDetailPosition) == null) {
-			return;
-		}
+	public void syncWithManager() {
+		if (mAdapter != null) {
+			mAdapter.syncWithManager();
 
-		String expandedCardTripId = mAdapter.getItem(mDetailPosition).getTripComponent().getParentTrip().getTripId();
-		if (updatedTripId.equals(expandedCardTripId)) {
-			mDetailsCard.inflateDetailsView();
+			// Redraw an expanded card if it exists as its underlying data may have changed after the sync
+			if (mDetailPosition != -1 && mDetailsCard != null) {
+				mDetailsCard = (ItinCard) getFreshDetailView(mDetailPosition);
+				mDetailsCard.expand(false);
+				mDetailsCard.requestLayout();
+			}
 		}
 	}
 
@@ -537,6 +532,10 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	private void showDetails() {
 		showDetails(mDetailPosition);
+	}
+
+	private void showDetails(boolean animate) {
+		showDetails(mDetailPosition, animate);
 	}
 
 	private boolean showDetails(int position) {

@@ -50,7 +50,15 @@ public class ItinCardFragment extends Fragment {
 		return view;
 	}
 
+	public ItinCardData getItinCardData() {
+		return mCurrentData;
+	}
+
 	public boolean showItinDetails(ItinCardData data) {
+		return showItinDetails(data, true);
+	}
+
+	public boolean showItinDetails(ItinCardData data, boolean scrollToTop) {
 		if (data == mCurrentData) {
 			return false;
 		}
@@ -74,8 +82,9 @@ public class ItinCardFragment extends Fragment {
 
 			mActionButtons.bind(generator.getSummaryLeftButton(), generator.getSummaryRightButton());
 
-			// Make sure we start fully scrolled up when we load new data
-			mItinCardContainer.fullScroll(View.FOCUS_UP);
+			if (scrollToTop) {
+				mItinCardContainer.fullScroll(View.FOCUS_UP);
+			}
 
 			return true;
 		}

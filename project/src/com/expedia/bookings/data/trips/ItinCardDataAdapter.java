@@ -2,7 +2,6 @@ package com.expedia.bookings.data.trips;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -11,16 +10,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
-import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.widget.ItinCard;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 import com.expedia.bookings.widget.itin.AttachCard;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
-import com.mobiata.android.Log;
 
-public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncListener, OnItinCardClickListener {
+public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickListener {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE ENUMERATIONS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -165,36 +161,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
-	// ItinerarySyncListener
-	//////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public void onTripAdded(Trip trip) {
-	}
-
-	@Override
-	public void onTripUpdated(Trip trip) {
-	}
-
-	@Override
-	public void onTripUpdateFailed(Trip trip) {
-	}
-
-	@Override
-	public void onTripRemoved(Trip trip) {
-	}
-
-	@Override
-	public void onSyncFailure(SyncError error) {
-	}
-
-	@Override
-	public void onSyncFinished(Collection<Trip> trips) {
-		Log.d("ItinCardDataAdapter - ItineraryManager - onSyncFinished");
-		syncWithManager();
-	}
-
-	//////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
@@ -208,8 +174,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 
 	/**
 	 * Sync the adapter data with the ItineraryManager
-	 *
-	 * If enableSelfManagement() is used, the coder does not need to call this.
 	 */
 	public synchronized void syncWithManager() {
 		// Add Items (we add to a new list so we can change the list if need be internally)
@@ -224,26 +188,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 
 		//Notify listeners
 		notifyDataSetChanged();
-	}
-
-	/**
-	 * Calling enableSelfManagement will cause this adapter to listen for changes in the
-	 * ItineraryManager on its own, and thus should always provide views that have the most
-	 * recent state according to the ItineraryManager.
-	 *
-	 * If enableSelfManagement is called, the coder should call disableSelfManagement to
-	 * avoid keeping listeners around beyond when they are useful
-	 */
-	public void enableSelfManagement() {
-		mItinManager.addSyncListener(this);
-		syncWithManager();
-	}
-
-	/**
-	 * Disables self management. See enableSelfManagement();
-	 */
-	public void disableSelfManagement() {
-		mItinManager.removeSyncListener(this);
 	}
 
 	public void setSimpleMode(boolean enabled) {
