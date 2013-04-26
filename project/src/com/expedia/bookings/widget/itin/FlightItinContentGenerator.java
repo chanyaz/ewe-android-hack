@@ -654,7 +654,6 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			waypointTypeIcon.setImageResource(R.drawable.ic_departure_details);
 			break;
 		case LAYOVER:
-			//TODO: We are waiting on the asset for layovers
 			waypointTypeIcon.setImageResource(R.drawable.ic_layover_details);
 			break;
 		case ARRIVAL:
