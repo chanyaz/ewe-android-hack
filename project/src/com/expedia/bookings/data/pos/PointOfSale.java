@@ -412,6 +412,9 @@ public class PointOfSale {
 		// Load supported Expedia suggest locales
 		loadExpediaSuggestSupportedLanguages(context);
 
+		// Load Expedia countries for which Payment Postal code is optional
+		loadExpediaPaymentPostalCodeOptionalLocales(context);
+
 		// Init the cache
 		getPointOfSale(context);
 	}
@@ -791,5 +794,32 @@ public class PointOfSale {
 			// If this data fails to load, then we should fail horribly
 			throw new RuntimeException(e);
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Expedia flight payment postal code optional locales
+
+	private static Set<String> sExpediaPaymentPostalCodeOptionalLocales = new HashSet<String>();
+
+	private static void loadExpediaPaymentPostalCodeOptionalLocales(Context context) {
+		sExpediaPaymentPostalCodeOptionalLocales.clear();
+
+		try {
+			InputStream is = context.getAssets().open("ExpediaSharedData/ExpediaPaymentPostalCodeOptionalLocales.json");
+			String data = IoUtils.convertStreamToString(is);
+			JSONArray countryArr = new JSONArray(data);
+			int len = countryArr.length();
+			for (int a = 0; a < len; a++) {
+				sExpediaPaymentPostalCodeOptionalLocales.add(countryArr.optString(a));
+			}
+		}
+		catch (Exception e) {
+			// If this data fails to load, then we should fail horribly
+			throw new RuntimeException(e);
+		}
+	}
+
+	public static boolean localePaymentRequiresPostalCode(String localeIdentifier) {
+		return !sExpediaPaymentPostalCodeOptionalLocales.contains(localeIdentifier);
 	}
 }

@@ -445,14 +445,16 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 	};
 
 	/**
-	 * Expedia has complicated logic for required payment fields. It differs on line of business and point of sale.
+	 * Expedia has complicated logic for required payment fields. It differs for the country of payment billing.
 	 * Postal code seems to have the most complicated logic, so I encapsulate this logic in a helper method.
 	 */
 	private boolean requiresPostalCode() {
-		// #954. Postal codes aren't mandatory for Ireland POS
-		if ((mLineOfBusiness == LineOfBusiness.FLIGHTS)
-				&& (PointOfSale.getPointOfSale().getPointOfSaleId() != PointOfSaleId.IRELAND)) {
-			return true;
+		// #1056. Postal code check depends on the country, of billing, selected.
+		if (mLineOfBusiness == LineOfBusiness.FLIGHTS) {
+			CountrySpinnerAdapter countryAdapter = (CountrySpinnerAdapter) mEditCountrySpinner.mField.getAdapter();
+			String selectedCountry = countryAdapter.getItemValue(mEditCountrySpinner.mField.getSelectedItemPosition(),
+					CountryDisplayType.THREE_LETTER);
+			return PointOfSale.localePaymentRequiresPostalCode(selectedCountry);
 		}
 
 		if (mLineOfBusiness == LineOfBusiness.HOTELS) {
