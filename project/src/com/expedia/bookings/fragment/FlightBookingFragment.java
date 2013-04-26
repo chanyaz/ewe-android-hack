@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment;
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
@@ -11,8 +10,6 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.server.ExpediaServices;
 import com.google.android.gms.wallet.Cart;
 import com.google.android.gms.wallet.FullWalletRequest;
@@ -42,25 +39,7 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 				ExpediaServices services = new ExpediaServices(context);
 				BackgroundDownloader.getInstance().addDownloadListener(DOWNLOAD_KEY, services);
 
-				//TODO: This block shouldn't happen. Currently the mocks pair phone number with travelers, but the BillingInfo object contains phone info.
-				//We need to wait on API updates to either A) set phone number as a billing phone number or B) take a bunch of per traveler phone numbers
 				BillingInfo billingInfo = Db.getBillingInfo();
-				Traveler traveler = Db.getTravelers().get(0);
-				billingInfo.setTelephone(traveler.getPhoneNumber());
-				billingInfo.setTelephoneCountryCode(traveler.getPhoneCountryCode());
-
-				//TODO: This also shouldn't happen, we should expect billingInfo to have a valid email address at this point...
-				if (TextUtils.isEmpty(billingInfo.getEmail())
-						|| (User.isLoggedIn(context) && Db.getUser() != null
-								&& Db.getUser().getPrimaryTraveler() != null
-								&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail()) && Db.getUser()
-								.getPrimaryTraveler().getEmail().compareToIgnoreCase(billingInfo.getEmail()) != 0)) {
-					String email = traveler.getEmail();
-					if (TextUtils.isEmpty(email)) {
-						email = Db.getUser().getPrimaryTraveler().getEmail();
-					}
-					billingInfo.setEmail(email);
-				}
 
 				FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
 				Itinerary itinerary = Db.getItinerary(trip.getItineraryNumber());
@@ -69,7 +48,7 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 			}
 		};
 	}
-	
+
 	@Override
 	public Class<FlightCheckoutResponse> getResponseClass() {
 		return FlightCheckoutResponse.class;

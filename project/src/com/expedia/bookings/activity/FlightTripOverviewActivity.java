@@ -29,14 +29,15 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.AnimatorListenerShort;
+import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.ConfirmLogoutDialogFragment.DoLogoutListener;
 import com.expedia.bookings.fragment.FlightCheckoutFragment;
-import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment.DisplayMode;
@@ -44,6 +45,7 @@ import com.expedia.bookings.fragment.FlightTripPriceFragment;
 import com.expedia.bookings.fragment.LoginFragment.LogInListener;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
 import com.expedia.bookings.fragment.SlideToPurchaseFragment;
+import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
@@ -904,11 +906,32 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			Db.getBillingInfo().setEmail(Db.getUser().getPrimaryTraveler().getEmail());
 		}
 
+		// The below code may be totally unnecessary.  It's just being kept because *someone* wanted it to run
+
+		//TODO: This block shouldn't happen. Currently the mocks pair phone number with travelers, but the BillingInfo object contains phone info.
+		//We need to wait on API updates to either A) set phone number as a billing phone number or B) take a bunch of per traveler phone numbers
+		BillingInfo billingInfo = Db.getBillingInfo();
+		Traveler traveler = Db.getTravelers().get(0);
+		billingInfo.setTelephone(traveler.getPhoneNumber());
+		billingInfo.setTelephoneCountryCode(traveler.getPhoneCountryCode());
+
+		//TODO: This also shouldn't happen, we should expect billingInfo to have a valid email address at this point...
+		if (TextUtils.isEmpty(billingInfo.getEmail())
+				|| (User.isLoggedIn(this) && Db.getUser() != null
+						&& Db.getUser().getPrimaryTraveler() != null
+						&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail()) && Db.getUser()
+						.getPrimaryTraveler().getEmail().compareToIgnoreCase(billingInfo.getEmail()) != 0)) {
+			String email = traveler.getEmail();
+			if (TextUtils.isEmpty(email)) {
+				email = Db.getUser().getPrimaryTraveler().getEmail();
+			}
+			billingInfo.setEmail(email);
+		}
+
 		Db.getBillingInfo().save(this);
 
 		Intent intent = new Intent(this, FlightBookingActivity.class);
 		startActivity(intent);
-
 	}
 
 	@Override
