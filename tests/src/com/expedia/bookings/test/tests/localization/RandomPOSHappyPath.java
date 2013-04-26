@@ -8,10 +8,10 @@ package com.expedia.bookings.test.tests.localization;
 import java.util.Locale;
 
 import ErrorsAndExceptions.OutOfPOSException;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Environment;
 import android.test.ActivityInstrumentationTestCase2;
-import junit.framework.AssertionFailedError;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
@@ -117,11 +117,15 @@ public class RandomPOSHappyPath extends
 			throw e;
 		}
 		catch (Exception e) {
-			Log.e(TAG, "Caught exception. Rewriting locale list on device.");
+			Configuration config = mRes.getConfiguration();
+			Log.e(TAG, "On Locale: " + config.locale.toString()
+					+ "Caught exception. Rewriting locale list on device.");
 			mDriver.mLocaleUtils.appendCurrentLocaleBackOnToList(LOCALE_LIST_LOCATION);
 		}
 		catch (Error e) {
-			Log.e(TAG, "Caught error. Rewriting locale list on device.");
+			Configuration config = mRes.getConfiguration();
+			Log.e(TAG, "On Locale: " + config.locale.toString()
+					+ "Caught error. Rewriting locale list on device.");
 			mDriver.mLocaleUtils.appendCurrentLocaleBackOnToList(LOCALE_LIST_LOCATION);
 		}
 	}
