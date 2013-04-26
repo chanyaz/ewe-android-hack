@@ -189,7 +189,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 		// If it is set to MATCH_PARENT on tablet though we want
 		// to clamp it to the bottom of the other search params
-		if (mIsLandscape && mIsTablet
+		if (mIsLandscape
+				&& mIsTablet
 				&& getResources().getDimensionPixelSize(R.dimen.flight_search_calendar_height) == LayoutParams.MATCH_PARENT) {
 			RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mCalendarContainer.getLayoutParams();
 			lp.addRule(RelativeLayout.BELOW, R.id.header);
@@ -614,11 +615,22 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		if (textWithFocus != null && isAdded()) {
 			mFocusStealer.requestFocus();
 
-			InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.hideSoftInputFromWindow(textWithFocus.getWindowToken(), 0);
+			hideKeyboard();
 		}
 
 		resetAirportEditTexts();
+	}
+
+	private void hideKeyboard() {
+		Activity activity = getActivity();
+		if (activity != null) {
+			View focusView = activity.getCurrentFocus();
+			if (focusView != null) {
+				InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
+						Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
+			}
+		}
 	}
 
 	private void clearDates() {
@@ -680,6 +692,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		}
 
 		if (enabled) {
+			hideKeyboard();
+
 			Date departureDate = mSearchParams.getDepartureDate();
 			Date returnDate = mSearchParams.getReturnDate();
 
