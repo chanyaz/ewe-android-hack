@@ -45,6 +45,10 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 	private ItineraryMapFragment mMapFragment;
 	private ItinCardFragment mItinCardFragment;
 
+	// #854: There is a very subtle possible timing issue where we can try to modify
+	// the fragment stack after onSaveInstanceState().  This helps prevent that.
+	private boolean mFragmentSafe;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -88,6 +92,20 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 		}
 
 		mItinListFragment.enableLoadItins();
+	}
+
+	@Override
+	protected void onPostResume() {
+		super.onPostResume();
+
+		mFragmentSafe = true;
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		mFragmentSafe = false;
 	}
 
 	@Override
@@ -253,7 +271,7 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 
 	@Override
 	public void onCameraChange(CameraPosition position) {
-		if (mAnimatingToItem && mItemHasDetails) {
+		if (mAnimatingToItem && mItemHasDetails && mFragmentSafe) {
 			getSupportFragmentManager().beginTransaction().show(mItinCardFragment).commit();
 			mAnimatingToItem = false;
 		}
