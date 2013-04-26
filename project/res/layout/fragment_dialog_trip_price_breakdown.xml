@@ -73,7 +73,7 @@
                 <!-- Booking fee -->
 
                 <RelativeLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="15dp" >
 
@@ -106,7 +106,7 @@
                 <!-- Total -->
 
                 <RelativeLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="15dp"
                     android:paddingTop="15dp" >
