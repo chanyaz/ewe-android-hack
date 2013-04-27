@@ -16,7 +16,6 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.method.LinkMovementMethod;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -436,12 +435,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		mSignInWithExpediaBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				BackgroundDownloader bd = BackgroundDownloader.getInstance();
-				if (!bd.isDownloading(NET_MANUAL_LOGIN)) {
-					setLoadingText(R.string.logging_in);
-					setIsLoading(true);
-					bd.startDownload(NET_MANUAL_LOGIN, mManualLoginDownload, mManualLoginCallback);
-				}
+				initiateLoginWithExpedia();
 			}
 		});
 
@@ -534,9 +528,12 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		mExpediaPassword.setOnEditorActionListener(new OnEditorActionListener() {
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-				if (actionId == EditorInfo.IME_ACTION_NEXT || actionId == EditorInfo.IME_ACTION_DONE
-						|| actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_GO
-						|| actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
+				if (actionId == EditorInfo.IME_ACTION_DONE) {
+					initiateLoginWithExpedia();
+					return true;
+				}
+				if (actionId == EditorInfo.IME_ACTION_NEXT || actionId == EditorInfo.IME_ACTION_SEARCH ||
+						actionId == EditorInfo.IME_ACTION_GO || actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
 					InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(
 							Context.INPUT_METHOD_SERVICE);
 					imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
@@ -1014,6 +1011,15 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 
 	//////////////////////////////////
 	// Downloads
+
+	private void initiateLoginWithExpedia() {
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (!bd.isDownloading(NET_MANUAL_LOGIN)) {
+			setLoadingText(R.string.logging_in);
+			setIsLoading(true);
+			bd.startDownload(NET_MANUAL_LOGIN, mManualLoginDownload, mManualLoginCallback);
+		}
+	}
 
 	/**
 	 * Good old fashioned expedia login, nothing too complicated.
