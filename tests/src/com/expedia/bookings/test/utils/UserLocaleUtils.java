@@ -201,7 +201,6 @@ public class UserLocaleUtils extends ActivityInstrumentationTestCase2<SearchActi
 		BufferedReader listReader = new BufferedReader(new FileReader(fileIn));
 		PrintWriter fileWriter = new PrintWriter(tempFile);
 
-		fileWriter.println(mCurrentLocaleString);
 		String nextLine = listReader.readLine();
 
 		while (nextLine != null) {
@@ -209,6 +208,8 @@ public class UserLocaleUtils extends ActivityInstrumentationTestCase2<SearchActi
 			fileWriter.write(nextLine + '\n');
 			nextLine = listReader.readLine();
 		}
+		
+		fileWriter.println(mCurrentLocaleString);
 		fileWriter.close();
 		listReader.close();
 
