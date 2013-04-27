@@ -52,7 +52,7 @@
             android:value="exped2345789jo" />
         <meta-data
             android:name="NOMACADDRESS"
-            android:value="TRUE" />
+            android:value="ON" />
 
         <!-- Make sure activity uses full path, i.e. com.expedia.bookings.activity.* -->
 
