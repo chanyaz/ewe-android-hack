@@ -114,18 +114,21 @@ public class RandomPOSHappyPath extends
 		}
 		catch (OutOfPOSException e) {
 			Log.e(TAG, "POSHappyPath out of POSs. Throwing exception");
+			Log.e(TAG, e.toString());
 			throw e;
 		}
 		catch (Exception e) {
 			Configuration config = mRes.getConfiguration();
 			Log.e(TAG, "On Locale: " + config.locale.toString()
 					+ "Caught exception. Rewriting locale list on device.");
+			Log.e(TAG, e.toString());
 			mDriver.mLocaleUtils.appendCurrentLocaleBackOnToList(LOCALE_LIST_LOCATION);
 		}
 		catch (Error e) {
 			Configuration config = mRes.getConfiguration();
 			Log.e(TAG, "On Locale: " + config.locale.toString()
 					+ "Caught error. Rewriting locale list on device.");
+			Log.e(TAG, e.toString());
 			mDriver.mLocaleUtils.appendCurrentLocaleBackOnToList(LOCALE_LIST_LOCATION);
 		}
 	}
