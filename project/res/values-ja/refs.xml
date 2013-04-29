@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <item name="include_edit_traveler_names" type="layout">@layout/include_edit_traveler_names_reversed</item>
-    <item name="include_guest_info_fields_names" type="layout">@layout/include_guest_info_fields_names_reversed</item>
-
-</resources>

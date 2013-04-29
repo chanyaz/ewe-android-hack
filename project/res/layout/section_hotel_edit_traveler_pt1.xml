@@ -6,10 +6,11 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <include
+    <LinearLayout
+        android:id="@+id/edit_names_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/include_edit_traveler_names" />
+        android:orientation="vertical" />
 
     <com.gridlayout.GridLayout
         android:layout_width="match_parent"

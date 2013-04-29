@@ -97,6 +97,12 @@ public class PointOfSale {
 	// Whether or not we should show the best price guarantee
 	private boolean mDisplayBestPriceGuarantee;
 
+	//Whether we should show last name first
+	private boolean mShowLastNameFirst;
+
+	//Whether we should hide middle name
+	private boolean mHideMiddleName;
+
 	// Whether or not to let users access flights on this POS
 	private boolean mSupportsFlights;
 
@@ -232,6 +238,14 @@ public class PointOfSale {
 
 	public boolean displayBestPriceGuarantee() {
 		return mDisplayBestPriceGuarantee;
+	}
+
+	public boolean showLastNameFirst() {
+		return mShowLastNameFirst;
+	}
+
+	public boolean hideMiddleName() {
+		return mHideMiddleName;
 	}
 
 	public boolean supportsFlights() {
@@ -633,6 +647,8 @@ public class PointOfSale {
 		pos.mDisplayMandatoryFees = data.optBoolean("shouldDisplayTotalPriceWithMandatoryFees");
 		pos.mRequiresRulesRestrictionsCheckbox = data.optBoolean("explicitConsentRequired");
 		pos.mDisplayBestPriceGuarantee = data.optBoolean("shouldDisplayBestPriceGuarantee");
+		pos.mShowLastNameFirst = data.optBoolean("shouldShowLastNameFirst");
+		pos.mHideMiddleName = data.optBoolean("shouldHideMiddleName");
 		pos.mSupportsFlights = data.optBoolean("flightsEnabled");
 		pos.mSupportsGoogleWallet = data.optBoolean("googleWalletEnabled");
 		pos.mUseAmobeeTracking = data.optBoolean("useAmobeeTracking");
@@ -805,7 +821,8 @@ public class PointOfSale {
 		sExpediaPaymentPostalCodeOptionalCountries.clear();
 
 		try {
-			InputStream is = context.getAssets().open("ExpediaSharedData/ExpediaPaymentPostalCodeOptionalCountries.json");
+			InputStream is = context.getAssets().open(
+					"ExpediaSharedData/ExpediaPaymentPostalCodeOptionalCountries.json");
 			String data = IoUtils.convertStreamToString(is);
 			JSONArray countryArr = new JSONArray(data);
 			int len = countryArr.length();

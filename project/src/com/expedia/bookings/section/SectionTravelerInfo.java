@@ -19,6 +19,7 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -64,6 +65,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		init(context);
 	}
 
+	@SuppressLint("NewApi")
 	public SectionTravelerInfo(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		init(context);
@@ -101,15 +103,20 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		mFields.add(mEditPassportCountryListView);
 		mFields.add(mEditAssistancePreferenceSpinner);
 		mFields.add(mEditSeatPreferenceSpinner);
+
 	}
 
 	@Override
 	public void onFinishInflate() {
+		preFinishInflate();
+
 		super.onFinishInflate();
 
 		for (SectionField<?, Traveler> field : mFields) {
 			field.bindField(this);
 		}
+
+		postFinishInflate();
 	}
 
 	@Override
@@ -120,6 +127,32 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		if (mTraveler != null) {
 			for (SectionField<?, Traveler> field : mFields) {
 				field.bindData(mTraveler);
+			}
+		}
+	}
+
+	private void preFinishInflate() {
+		//Load the pos specific name edit fields if we have the container for them.
+		ViewGroup nameContainer = Ui.findView(this, R.id.edit_names_container);
+		if (nameContainer != null) {
+			PointOfSale pos = PointOfSale.getPointOfSale(mContext);
+			if (pos.showLastNameFirst()) {
+				View.inflate(mContext, R.layout.include_edit_traveler_names_reversed, nameContainer);
+			}
+			else {
+				View.inflate(mContext, R.layout.include_edit_traveler_names, nameContainer);
+			}
+		}
+	}
+
+	private void postFinishInflate() {
+		//If we have the middle name field, but it isnt supported by this pos
+		//then we hide it and remove it from our list of fields
+		PointOfSale pos = PointOfSale.getPointOfSale(mContext);
+		if (pos.hideMiddleName()) {
+			if (this.mEditMiddleName.getField() != null) {
+				this.mEditMiddleName.getField().setVisibility(View.GONE);
+				mFields.remove(mEditMiddleName);
 			}
 		}
 	}

@@ -189,6 +189,16 @@ public class BookingFormFragment extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_booking_form, null);
 		mRootBillingView = view;
 
+		//Inflate name container according to pos
+		PointOfSale pos = PointOfSale.getPointOfSale(mActivity);
+		ViewGroup editNamesContainer = Ui.findView(view, R.id.edit_names_container);
+		if (pos.showLastNameFirst()) {
+			inflater.inflate(R.layout.include_guest_info_fields_names_reversed, editNamesContainer);
+		}
+		else {
+			inflater.inflate(R.layout.include_guest_info_fields_names, editNamesContainer);
+		}
+
 		// Retrieve views that we need for the form fields
 		mGuestSavedLayout = (ViewGroup) view.findViewById(R.id.saved_guest_info_layout);
 		mGuestFormLayout = (ViewGroup) view.findViewById(R.id.guest_info_layout);
