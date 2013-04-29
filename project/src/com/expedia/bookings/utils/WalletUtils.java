@@ -47,9 +47,20 @@ public class WalletUtils {
 	public static final int F_SHIPPING_ADDRESS_REQUIRED = 2;
 	public static final int F_USE_MINIMAL_BILLING_ADDRESS = 4;
 
-	// TODO: This is currently always set the sandbox, but we will
-	// eventually want to make this more dynamic.
-	public static int getWalletEnvironment() {
+	/**
+	 * Returns the Google Wallet environment.
+	 * 
+	 * The GW production environment only works on release builds, so we're
+	 * making it such that it's always prod when we're on a release build
+	 * (and sandbox otherwise).
+	 */
+	public static int getWalletEnvironment(Context context) {
+		if (AndroidUtils.isRelease(context)) {
+			Log.v("Using Google Wallet environment: PRODUCTION");
+			return WalletConstants.ENVIRONMENT_PRODUCTION;
+		}
+
+		Log.v("Using Google Wallet environment: SANDBOX");
 		return WalletConstants.ENVIRONMENT_SANDBOX;
 	}
 

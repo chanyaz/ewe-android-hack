@@ -5,6 +5,7 @@ import java.lang.ref.WeakReference;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
@@ -108,7 +109,8 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 		mGoogleWalletDisabled = !PointOfSale.getPointOfSale().supportsGoogleWallet();
 
 		// Set up a wallet client
-		mWalletClient = new WalletClient(getActivity(), WalletUtils.getWalletEnvironment(), null, this, this);
+		Context context = getActivity();
+		mWalletClient = new WalletClient(context, WalletUtils.getWalletEnvironment(context), null, this, this);
 		mRetryHandler = new RetryHandler(this);
 	}
 
