@@ -4,6 +4,7 @@ import java.util.concurrent.Semaphore;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
 import android.graphics.Canvas;
@@ -25,7 +26,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.animation.AnimatorListenerShort;
 import com.expedia.bookings.animation.ResizeAnimator;
-import com.expedia.bookings.data.trips.BookingStatus;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -734,11 +734,12 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		ItinCardData data = mAdapter.getItem(position);
+		Intent clickIntent = data.getClickIntent(getContext());
 		if (data.hasDetailData()) {
 			showDetails(position);
 		}
-		else if (data.getClickIntent(getContext()) != null) {
-			getContext().startActivity(data.getClickIntent(getContext()));
+		else if (clickIntent != null) {
+			getContext().startActivity(clickIntent);
 		}
 		else if (!TextUtils.isEmpty(data.getDetailsUrl())) {
 			Context context = getContext();

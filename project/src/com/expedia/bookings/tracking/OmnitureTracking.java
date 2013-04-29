@@ -707,7 +707,6 @@ public class OmnitureTracking {
 	private static final String FLIGHT_CHECKOUT_SLIDE_TO_PURCHASE = "App.Flight.Checkout.SlideToPurchase";
 	private static final String FLIGHT_CHECKOUT_PAYMENT_CID = "App.Flight.Checkout.Payment.CID";
 	private static final String FLIGHT_CHECKOUT_CONFIRMATION = "App.Flight.Checkout.Confirmation";
-	private static final String FLIGHT_CONFIRMATION_HOTEL_X_SELL = "App.Flight.Checkout.Confirmation.HotelXSell";
 
 	private static final String FLIGHT_SEARCH_RESULTS_ONE_WAY = "App.Flight.Search.OneWay";
 	private static final String PREFIX_FLIGHT_SEARCH_ONE_WAY_SELECT = "App.Flight.Search.OneWay.Select";
@@ -1102,10 +1101,6 @@ public class OmnitureTracking {
 		internalTrackLink(context, FLIGHT_CHECKOUT_PAYMENT_ENTER_MANUALLY);
 	}
 
-	public static void trackLinkFlightConfirmationHotelCrossSell(Context context) {
-		internalTrackLink(context, FLIGHT_CONFIRMATION_HOTEL_X_SELL);
-	}
-
 	public static void trackErrorPageLoadFlightUnsupportedPOS(Context context) {
 		internalTrackPageLoadEventStandard(context, FLIGHT_ERROR_NOT_YET_AVAILABLE, LineOfBusiness.FLIGHTS);
 	}
@@ -1416,6 +1411,33 @@ public class OmnitureTracking {
 
 		s.setEvar(11, link);
 		s.setEvents("event12");
+
+		s.trackLink(null, "o", link, null, null);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Itinerary Notification Click Tracking
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private static final String CROSS_SELL_ITIN_TO_HOTEL = "CrossSell.Itinerary.Hotels";
+	private static final String CROSS_SELL_FLIGHT_TO_HOTEL = "CrossSell.Flights.Hotels";
+
+	public static void trackCrossSellItinToHotel(Context context) {
+		trackCrossSell(context, CROSS_SELL_ITIN_TO_HOTEL);
+	}
+
+	public static void trackCrossSellFlightToHotel(Context context) {
+		trackCrossSell(context, CROSS_SELL_FLIGHT_TO_HOTEL);
+	}
+
+	private static void trackCrossSell(Context context, String link) {
+		Log.d(TAG, "Tracking \"" + link + "\"");
+
+		ADMS_Measurement s = getFreshTrackingObject(context);
+
+		addStandardFields(context, s);
+
+		s.setEvar(12, link);
 
 		s.trackLink(null, "o", link, null, null);
 	}

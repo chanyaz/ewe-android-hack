@@ -100,8 +100,8 @@ public class FlightConfirmationFragment extends Fragment {
 
 		// Measure the frontmost card - we need to know its height to correctly size the fake cards
 		FlightLeg frontmostLeg = trip.getLeg(0);
-		FlightLegSummarySection card = (FlightLegSummarySection) inflater.inflate(
-				R.layout.section_flight_leg_summary, cardContainer, false);
+		FlightLegSummarySection card = (FlightLegSummarySection) inflater.inflate(R.layout.section_flight_leg_summary,
+				cardContainer, false);
 		card.bind(trip, frontmostLeg);
 		LayoutUtils.setBackgroundResource(card, R.drawable.bg_flight_conf_row);
 		card.measure(MeasureSpec.makeMeasureSpec(LayoutParams.MATCH_PARENT, MeasureSpec.EXACTLY),
@@ -378,7 +378,7 @@ public class FlightConfirmationFragment extends Fragment {
 		// broadcast does not need to be sent.
 		getActivity().finish();
 
-		OmnitureTracking.trackLinkFlightConfirmationHotelCrossSell(getActivity());
+		OmnitureTracking.trackCrossSellFlightToHotel(getActivity());
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -443,7 +443,8 @@ public class FlightConfirmationFragment extends Fragment {
 				getString(R.string.calendar_flight_title_TEMPLATE, origin.mAirportCode, destination.mAirportCode));
 		intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, origin.getMostRelevantDateTime().getTimeInMillis());
 		intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, destination.getMostRelevantDateTime().getTimeInMillis());
-		intent.putExtra(Events.EVENT_LOCATION,
+		intent.putExtra(
+				Events.EVENT_LOCATION,
 				getString(R.string.calendar_flight_location_TEMPLATE, originAirport.mName,
 						StrUtils.getWaypointCityOrCode(origin)));
 
@@ -453,8 +454,8 @@ public class FlightConfirmationFragment extends Fragment {
 		sb.append(getString(R.string.calendar_flight_desc_directions_TEMPLATE, "https://maps.google.com/maps?q="
 				+ origin.mAirportCode));
 		sb.append("\n\n");
-		sb.append(getString(R.string.calendar_flight_desc_support_TEMPLATE,
-				PointOfSale.getPointOfSale().getSupportPhoneNumber()));
+		sb.append(getString(R.string.calendar_flight_desc_support_TEMPLATE, PointOfSale.getPointOfSale()
+				.getSupportPhoneNumber()));
 		sb.append("\n\n");
 		intent.putExtra(Events.DESCRIPTION, sb.toString());
 		return intent;

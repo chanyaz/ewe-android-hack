@@ -13,6 +13,7 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.tracking.OmnitureTracking;
 
 public class ItinCardDataHotelAttach extends ItinCardData {
 	private FlightLeg mFirstLeg;
@@ -59,6 +60,8 @@ public class ItinCardDataHotelAttach extends ItinCardData {
 
 	@Override
 	public Intent getClickIntent(Context context) {
+		OmnitureTracking.trackCrossSellItinToHotel(context);
+		
 		Db.setSearchParams(getSearchParams());
 
 		Class<? extends Activity> targetClass = ExpediaBookingApp.useTabletInterface(context) ? SearchResultsFragmentActivity.class
