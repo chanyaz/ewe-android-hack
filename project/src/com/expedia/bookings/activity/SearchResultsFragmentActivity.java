@@ -1066,7 +1066,8 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 				mLastSearchTime = Calendar.getInstance().getTimeInMillis();
 
 				if (initialLoad) {
-					onSearchResultsChanged();
+					//Dont track on initial load, because this is already getting tracked from our filter changing
+					onSearchResultsChanged(false);
 				}
 			}
 		}
@@ -1336,7 +1337,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 
 		hideDetails();
 
-		onSearchResultsChanged();
+		onSearchResultsChanged(true);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1447,7 +1448,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	//////////////////////////////////////////////////////////////////////////
 	// Tracking
 
-	public void onSearchResultsChanged() {
+	public void onSearchResultsChanged(boolean trackHotelSearch) {
 		SearchParams lastSearchParams = null;
 		Filter lastFilter = null;
 
@@ -1470,9 +1471,11 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		mLastSearchParamsJson = Db.getSearchParams().toJson().toString();
 		mLastFilterJson = filter.toJson().toString();
 
-		OmnitureTracking.trackAppHotelsSearch(this, Db.getSearchParams(), lastSearchParams, filter, lastFilter,
-				Db.getSearchResponse());
-		AdTracker.trackHotelSearch();
+		if (trackHotelSearch) {
+			OmnitureTracking.trackAppHotelsSearch(this, Db.getSearchParams(), lastSearchParams, filter, lastFilter,
+					Db.getSearchResponse());
+			AdTracker.trackHotelSearch();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
