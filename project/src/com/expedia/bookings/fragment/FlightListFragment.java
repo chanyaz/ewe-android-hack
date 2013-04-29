@@ -227,46 +227,48 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 		List<Animator> set = new ArrayList<Animator>();
 		float[] values = new float[2];
 
-		// Animate each element of the listview away, at relative speeds (the further from position, the faster)
-		float maxTranslateY = getResources().getDisplayMetrics().density * MAX_TRANSLATE_Y_DP;
-		int skipPosition = mAdapter.getPosition(flightLeg) + mListView.getHeaderViewsCount()
-				- mListView.getFirstVisiblePosition();
-		Pair<Integer, Integer> cardTopAndBottom = getFlightCardTopAndBottom(flightLeg);
-		int targetTop = cardTopAndBottom.first;
-		int spaceBelow = mListView.getHeight() - targetTop;
-		int childCount = mListView.getChildCount();
-		for (int a = 0; a < childCount; a++) {
-			View child = mListView.getChildAt(a);
-			int childTop = child.getTop();
-			if (a < skipPosition) {
-				float translation = ((float) (targetTop - childTop) / (float) targetTop) * maxTranslateY;
-				if (enter) {
-					values[0] = -translation;
-					values[1] = 0;
+		if (v != null && mAdapter != null && mListView != null) {
+
+			// Animate each element of the listview away, at relative speeds (the further from position, the faster)
+			float maxTranslateY = getResources().getDisplayMetrics().density * MAX_TRANSLATE_Y_DP;
+			int skipPosition = mAdapter.getPosition(flightLeg) + mListView.getHeaderViewsCount()
+					- mListView.getFirstVisiblePosition();
+			Pair<Integer, Integer> cardTopAndBottom = getFlightCardTopAndBottom(flightLeg);
+			int targetTop = cardTopAndBottom.first;
+			int spaceBelow = mListView.getHeight() - targetTop;
+			int childCount = mListView.getChildCount();
+			for (int a = 0; a < childCount; a++) {
+				View child = mListView.getChildAt(a);
+				int childTop = child.getTop();
+				if (a < skipPosition) {
+					float translation = ((float) (targetTop - childTop) / (float) targetTop) * maxTranslateY;
+					if (enter) {
+						values[0] = -translation;
+						values[1] = 0;
+					}
+					else {
+						values[0] = 0;
+						values[1] = -translation;
+					}
+					set.add(ObjectAnimator.ofFloat(child, "translationY", values));
 				}
-				else {
-					values[0] = 0;
-					values[1] = -translation;
+				else if (a > skipPosition) {
+					float translation = ((float) (childTop - targetTop) / (float) spaceBelow) * maxTranslateY;
+					if (enter) {
+						values[0] = translation;
+						values[1] = 0;
+					}
+					else {
+						values[0] = 0;
+						values[1] = translation;
+					}
+					set.add(ObjectAnimator.ofFloat(child, "translationY", values));
 				}
-				set.add(ObjectAnimator.ofFloat(child, "translationY", values));
 			}
-			else if (a > skipPosition) {
-				float translation = ((float) (childTop - targetTop) / (float) spaceBelow) * maxTranslateY;
-				if (enter) {
-					values[0] = translation;
-					values[1] = 0;
-				}
-				else {
-					values[0] = 0;
-					values[1] = translation;
-				}
-				set.add(ObjectAnimator.ofFloat(child, "translationY", values));
-			}
+
+			// Fade in/out the entire view
+			set.add(AnimUtils.createFadeAnimator(v, enter));
 		}
-
-		// Fade in/out the entire view
-		set.add(AnimUtils.createFadeAnimator(v, enter));
-
 		return AnimUtils.playTogether(set);
 	}
 
@@ -275,16 +277,19 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 		List<Animator> set = new ArrayList<Animator>();
 		float[] values;
 
-		// Animate the entire listview up (except header)
-		int translate = mListView.getHeight() - mListView.getChildAt(0).getHeight();
-		int childCount = mListView.getChildCount();
-		values = (enter) ? new float[] { translate, 0 } : new float[] { 0, translate };
-		for (int a = 1; a < childCount; a++) {
-			set.add(ObjectAnimator.ofFloat(mListView.getChildAt(a), "translationY", values));
-		}
+		if (v != null && mAdapter != null && mListView != null) {
 
-		// Fade in/out the entire view
-		set.add(AnimUtils.createFadeAnimator(v, enter));
+			// Animate the entire listview up (except header)
+			int translate = mListView.getHeight() - mListView.getChildAt(0).getHeight();
+			int childCount = mListView.getChildCount();
+			values = (enter) ? new float[] { translate, 0 } : new float[] { 0, translate };
+			for (int a = 1; a < childCount; a++) {
+				set.add(ObjectAnimator.ofFloat(mListView.getChildAt(a), "translationY", values));
+			}
+
+			// Fade in/out the entire view
+			set.add(AnimUtils.createFadeAnimator(v, enter));
+		}
 
 		// Create AnimatorSet and return
 		return AnimUtils.playTogether(set);
@@ -292,31 +297,37 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 
 	// Used to find out where to animate to/from a card in the list
 	public Pair<Integer, Integer> getFlightCardTopAndBottom(FlightLeg flightLeg) {
-		int position = mAdapter.getPosition(flightLeg) + mListView.getHeaderViewsCount();
-		int firstPosition = mListView.getFirstVisiblePosition();
-		int lastPosition = mListView.getLastVisiblePosition();
+		if (flightLeg != null && mAdapter != null && mListView != null) {
+			int position = mAdapter.getPosition(flightLeg) + mListView.getHeaderViewsCount();
+			int firstPosition = mListView.getFirstVisiblePosition();
+			int lastPosition = mListView.getLastVisiblePosition();
 
-		if (position >= firstPosition && position <= lastPosition) {
-			View v = mListView.getChildAt(position - firstPosition);
-			// F1302: Need to account for top padding in listview when calculating top/bottom
-			int paddingTop = mListView.getPaddingTop();
-			return new Pair<Integer, Integer>(v.getTop() - paddingTop, v.getBottom() - paddingTop);
-		}
-		else {
-			// Find the first visible card and use that as measurement
-			int headerCount = mListView.getHeaderViewsCount();
-			int targetPosition = (firstPosition < headerCount) ? headerCount - firstPosition : 0;
-			View v = mListView.getChildAt(targetPosition);
-			int cardHeight = v.getHeight();
-
-			// Return a set of top/bottom just above or just below the ListView
-			if (position < firstPosition) {
-				return new Pair<Integer, Integer>(-cardHeight, 0);
+			if (position >= firstPosition && position <= lastPosition) {
+				View v = mListView.getChildAt(position - firstPosition);
+				// F1302: Need to account for top padding in listview when calculating top/bottom
+				int paddingTop = mListView.getPaddingTop();
+				return new Pair<Integer, Integer>(v.getTop() - paddingTop, v.getBottom() - paddingTop);
 			}
 			else {
-				int listViewHeight = mListView.getHeight();
-				return new Pair<Integer, Integer>(listViewHeight, listViewHeight + cardHeight);
+				// Find the first visible card and use that as measurement
+				int headerCount = mListView.getHeaderViewsCount();
+				int targetPosition = (firstPosition < headerCount) ? headerCount - firstPosition : 0;
+				View v = mListView.getChildAt(targetPosition);
+				int cardHeight = v.getHeight();
+
+				// Return a set of top/bottom just above or just below the ListView
+				if (position < firstPosition) {
+					return new Pair<Integer, Integer>(-cardHeight, 0);
+				}
+				else {
+					int listViewHeight = mListView.getHeight();
+					return new Pair<Integer, Integer>(listViewHeight, listViewHeight + cardHeight);
+				}
 			}
+		}
+		else {
+			//By default we return 0,0 which wont look great, but is valid
+			return new Pair<Integer, Integer>(0, 0);
 		}
 	}
 
@@ -339,11 +350,11 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 				boolean returnFlight = mLegPosition > 0;
 				if (returnFlight) {
 					mNumFlightsTextView.setText((getResources().getString(R.string.select_a_flight_back_to_TEMPLATE,
-								StrUtils.getLocationCityOrCode(location))).toUpperCase());
+							StrUtils.getLocationCityOrCode(location))).toUpperCase());
 				}
 				else {
 					mNumFlightsTextView.setText((getResources().getString(R.string.select_a_flight_to_TEMPLATE,
-								StrUtils.getLocationCityOrCode(location))).toUpperCase());
+							StrUtils.getLocationCityOrCode(location))).toUpperCase());
 				}
 			}
 		}
