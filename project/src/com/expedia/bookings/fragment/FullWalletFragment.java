@@ -87,6 +87,10 @@ public abstract class FullWalletFragment extends WalletFragment {
 	private void onFullWalletReceived(FullWallet wallet) {
 		mFullWallet = wallet;
 
+		// Clear out the Wallet data from before, now that we have
+		// a full wallet (which invalidates previous data)
+		Db.setMaskedWallet(null);
+
 		onFullWalletLoaded(wallet);
 	}
 

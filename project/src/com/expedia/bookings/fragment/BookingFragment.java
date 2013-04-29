@@ -90,11 +90,6 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		super.onPause();
 
 		BackgroundDownloader.getInstance().unregisterDownloadCallback(mDownloadKey);
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
 
 		// When we leave this Fragment, we want to unbind any data we might have gotten
 		// from the FullWallet; otherwise the user can see/edit this data later.

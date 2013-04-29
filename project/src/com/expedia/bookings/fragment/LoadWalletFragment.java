@@ -23,10 +23,18 @@ import com.mobiata.android.Log;
 public abstract class LoadWalletFragment extends WalletFragment {
 
 	private static final String INSTANCE_CHECK_PRE_AUTH = "INSTANCE_CHECK_PRE_AUTH";
+	private static final String INSTANCE_LOADED_MASKED_WALLET = "INSTANCE_LOADED_MASKED_WALLET";
 
 	protected boolean mCheckPreAuth = true;
 	protected boolean mCheckedPreAuth;
 	protected boolean mIsUserPreAuthorized;
+
+	// Whether we've previously loaded a masked wallet in this Fragment
+	//
+	// Should not be used to determine if a masked wallet is loaded - this
+	// is actually used to determine if we should reload it (in case the
+	// masked wallet was cleared for some reason).
+	protected boolean mLoadedMaskedWallet;
 
 	// Abstractions
 
@@ -108,6 +116,15 @@ public abstract class LoadWalletFragment extends WalletFragment {
 		return WalletUtils.buildMaskedWalletRequest(getActivity(), getEstimatedTotal(), getMaskedWalletBuilderFlags());
 	}
 
+	private void onMaskedWalletReceived(MaskedWallet wallet) {
+		WalletUtils.logWallet(wallet);
+
+		Db.setMaskedWallet(wallet);
+		mLoadedMaskedWallet = true;
+
+		onMaskedWalletFullyLoaded();
+	}
+
 	// Lifecycle
 
 	@Override
@@ -116,6 +133,22 @@ public abstract class LoadWalletFragment extends WalletFragment {
 
 		if (savedInstanceState != null) {
 			mCheckPreAuth = savedInstanceState.getBoolean(INSTANCE_CHECK_PRE_AUTH, true);
+			mLoadedMaskedWallet = savedInstanceState.getBoolean(INSTANCE_LOADED_MASKED_WALLET, false);
+		}
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+
+		// If the MaskedWallet used to exist but has since been cleared, we want
+		// to reset the state of this fragment
+		if (mLoadedMaskedWallet && Db.getMaskedWallet() == null) {
+			mCheckPreAuth = true;
+			mCheckedPreAuth = false;
+			mIsUserPreAuthorized = false;
+
+			Db.clearGoogleWallet();
 		}
 	}
 
@@ -124,6 +157,7 @@ public abstract class LoadWalletFragment extends WalletFragment {
 		super.onSaveInstanceState(outState);
 
 		outState.putBoolean(INSTANCE_CHECK_PRE_AUTH, mCheckPreAuth);
+		outState.putBoolean(INSTANCE_LOADED_MASKED_WALLET, mLoadedMaskedWallet);
 	}
 
 	@Override
@@ -140,10 +174,7 @@ public abstract class LoadWalletFragment extends WalletFragment {
 		case REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET:
 			switch (resultCode) {
 			case Activity.RESULT_OK:
-				MaskedWallet wallet = (MaskedWallet) data.getParcelableExtra(WalletConstants.EXTRA_MASKED_WALLET);
-				WalletUtils.logWallet(wallet);
-				Db.setMaskedWallet(wallet);
-				onMaskedWalletFullyLoaded();
+				onMaskedWalletReceived((MaskedWallet) data.getParcelableExtra(WalletConstants.EXTRA_MASKED_WALLET));
 				break;
 			case Activity.RESULT_CANCELED:
 				if (mWalletClient != null && mWalletClient.isConnected()) {
@@ -245,8 +276,7 @@ public abstract class LoadWalletFragment extends WalletFragment {
 		if (status.isSuccess()) {
 			// User has pre-authorized the app
 			Log.i(WalletUtils.TAG, "User has pre-authorized app with Wallet before, automatically binding data...");
-			Db.setMaskedWallet(wallet);
-			onMaskedWalletFullyLoaded();
+			onMaskedWalletReceived(wallet);
 		}
 		else if (status.hasResolution()) {
 			mConnectionResult = status;
