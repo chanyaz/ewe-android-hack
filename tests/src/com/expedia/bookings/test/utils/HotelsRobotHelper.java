@@ -510,7 +510,7 @@ public class HotelsRobotHelper {
 		enterLog(TAG, "Beginning log-in sequence.");
 
 		mSolo.scrollToTop();
-		
+
 		String log_in_for_faster_booking = mRes.getString(R.string.log_in_for_faster_booking);
 		String log_in_with_expedia = mRes.getString(R.string.Log_in_with_Expedia);
 		// Try clicking login button
@@ -767,9 +767,6 @@ public class HotelsRobotHelper {
 
 	public void confirmAndBook(boolean assertPostCCVPopUp) throws Exception {
 		enterLog(TAG, "Booking: About to slide to accept.");
-		delay();
-		screenshot("Slide to checkout.");
-		delay();
 
 		try {
 			mSolo.clickOnText(mRes.getString(R.string.checkout_btn));
@@ -799,6 +796,10 @@ public class HotelsRobotHelper {
 		View sliderEnd = mSolo.getView(R.id.destination_image);
 		int[] endLocation = new int[2];
 		sliderEnd.getLocationOnScreen(endLocation);
+
+		delay();
+		screenshot("Slide to checkout");
+		delay();
 
 		enterLog(TAG, "Booking: Slide X from: " + startLocation[0] + " to " + endLocation[0] + ".");
 		enterLog(TAG, "Booking: Slide Y from: " + startLocation[1] + " to " + endLocation[1] + ".");
