@@ -13,7 +13,7 @@ import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.format.DateFormat;
+import android.text.format.DateUtils;
 import android.text.format.Time;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -76,8 +76,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	// 1 == takes up the full size, 0 == takes up 50%.
 	private static final float EDITTEXT_EXPANSION_RATIO = .25f;
 
-	// TODO: Localize this date format
-	private static final String DATE_FORMAT = "MMM d";
+	private static final int DATE_FORMAT_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH
+			| DateUtils.FORMAT_NO_YEAR;
 
 	private FlightSearchParamsFragmentListener mListener;
 
@@ -795,20 +795,25 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	}
 
 	private void updateCalendarText() {
-		Calendar dateStart = mSearchParams.getDepartureDate() == null ? null : mSearchParams.getDepartureDate()
-				.getCalendar();
-		Calendar dateEnd = mSearchParams.getReturnDate() == null ? null : mSearchParams.getReturnDate().getCalendar();
+		CharSequence start = null;
+		if (mSearchParams.getDepartureDate() != null) {
+			start = DateUtils.formatDateTime(getActivity(), mSearchParams.getDepartureDate().getCalendar()
+					.getTimeInMillis(), DATE_FORMAT_FLAGS);
+		}
 
-		if (dateStart == null && dateEnd == null) {
+		CharSequence end = null;
+		if (mSearchParams.getReturnDate() != null) {
+			end = DateUtils.formatDateTime(getActivity(),
+					mSearchParams.getReturnDate().getCalendar().getTimeInMillis(), DATE_FORMAT_FLAGS);
+		}
+
+		if (start == null && end == null) {
 			mDatesTextView.setText(null);
 		}
-		else if (dateStart != null && dateEnd == null) {
-			CharSequence start = DateFormat.format(DATE_FORMAT, dateStart);
+		else if (end == null) {
 			mDatesTextView.setText(Html.fromHtml(getString(R.string.one_way_TEMPLATE, start)));
 		}
-		else if (dateStart != null && dateEnd != null) {
-			CharSequence start = DateFormat.format(DATE_FORMAT, dateStart);
-			CharSequence end = DateFormat.format(DATE_FORMAT, dateEnd);
+		else {
 			mDatesTextView.setText(Html.fromHtml(getString(R.string.round_trip_TEMPLATE, start, end)));
 		}
 	}
