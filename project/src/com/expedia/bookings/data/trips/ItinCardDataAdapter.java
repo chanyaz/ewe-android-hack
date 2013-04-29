@@ -391,7 +391,8 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 			// Ignore last leg flights
 			TripFlight tripFlight = (TripFlight) data.getTripComponent();
-			if (((ItinCardDataFlight) data).getLegNumber() == tripFlight.getFlightTrip().getLegCount() - 1) {
+			final int legCount = tripFlight.getFlightTrip().getLegCount();
+			if (legCount > 0 && ((ItinCardDataFlight) data).getLegNumber() == legCount - 1) {
 				continue;
 			}
 
