@@ -1064,10 +1064,6 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 
 				notifySearchComplete();
 				mLastSearchTime = Calendar.getInstance().getTimeInMillis();
-
-				if (initialLoad) {
-					onSearchResultsChanged();
-				}
 			}
 		}
 
