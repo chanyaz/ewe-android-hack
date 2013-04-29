@@ -93,10 +93,12 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 					}
 				}
 
-				// Adding the first media as the thumbnail media.
-				Media media = property.getMedia(0);
-				Media thumbnailMedia = new Media(media.getUrl(Media.IMAGE_BIG_SUFFIX));
-				property.setThumbnail(thumbnailMedia);
+				// Adding the first media as the thumbnail media, if it exists
+				if (property.getMediaCount() > 0) {
+					Media media = property.getMedia(0);
+					Media thumbnailMedia = new Media(media.getUrl(Media.IMAGE_BIG_SUFFIX));
+					property.setThumbnail(thumbnailMedia);
+				}
 			}
 
 			int numberOfNights = response.optInt("numberOfNights");
