@@ -1451,7 +1451,6 @@ public class OmnitureTracking {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	private static final String LAUNCH_SCREEN = "App.LaunchScreen";
-	private static final String ADX_EVENT = "Ad-X Download";
 	private static final String LOGIN_SUCCESS_TEMPLATE = "App.%s.Login.Success";
 	private static final String ITIN_LOGIN_PARAM = "Itinerary";
 	private static final String HOTEL_LOGIN_PARAM = "Hotels.Checkout";
@@ -1595,13 +1594,27 @@ public class OmnitureTracking {
 		s.track();
 	}
 
+	// Documentation: https://confluence/display/Omniture/Ad-X+Campaign+Measurement
+
+	private static final String ADX_EVENT = "Ad-X Download";
+	private static final String ADX_ORGANIC_EVENT = "Ad-X Organic";
+	private static String ORGANIC_ADX_DOWNLOAD_REFERRAL_STRING = "Mob :: Brand";
+
 	public static void trackAdXReferralLink(Context context, String referral) {
 		Log.d(TAG, "Tracking " + ADX_EVENT + " trackLink, with referral value=" + referral);
 
-		ADMS_Measurement s = createTrackLinkEvent(context, ADX_EVENT);
-		s.setEvar(8, referral);
-		s.setEvents("event20");
-		s.trackLink(null, "o", s.getEvar(28), null, null);
+		if (ORGANIC_ADX_DOWNLOAD_REFERRAL_STRING.equals(referral)) {
+			ADMS_Measurement s = createTrackLinkEvent(context, ADX_ORGANIC_EVENT);
+			s.setEvar(8, referral);
+			s.trackLink(null, "o", s.getEvar(28), null, null);
+		}
+		else {
+			ADMS_Measurement s = createTrackLinkEvent(context, ADX_EVENT);
+			s.setEvar(8, referral);
+			s.setEvents("event20");
+			s.trackLink(null, "o", s.getEvar(28), null, null);
+		}
+
 	}
 
 	public static void trackGooglePlayReferralLink(Context context, Intent intent) {
