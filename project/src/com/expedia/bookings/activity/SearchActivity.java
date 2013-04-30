@@ -7,7 +7,6 @@ import android.os.Bundle;
 
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
-import com.expedia.bookings.tracking.FlurryTracking;
 import com.expedia.bookings.tracking.GreystripeTracking;
 import com.expedia.bookings.tracking.MillennialTracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -105,9 +104,6 @@ public class SearchActivity extends Activity {
 
 				// GreyStripe tracking
 				GreystripeTracking.trackDownload(mContext);
-
-				// Flurry tracking
-				FlurryTracking.trackConversion(mContext);
 			}
 		}).start();
 	}
