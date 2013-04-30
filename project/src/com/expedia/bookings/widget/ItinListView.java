@@ -28,6 +28,7 @@ import com.expedia.bookings.animation.AnimatorListenerShort;
 import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
+import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
@@ -322,13 +323,36 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	public void syncWithManager() {
 		if (mAdapter != null) {
+			// Grab the data of the expanded card before sync, otherwise there may be a disparity between the index of
+			// the expanded card and the data that exists in the adapter (think about if a trip gets removed or a new
+			// trip is added)
+			ItinCardData expandedCardData = null;
+			if (mDetailPosition != -1) {
+				expandedCardData = mAdapter.getItem(mDetailPosition);
+			}
+
 			mAdapter.syncWithManager();
 
-			// Redraw an expanded card if it exists as its underlying data may have changed after the sync
-			if (mDetailPosition != -1 && mDetailsCard != null) {
-				mDetailsCard = (ItinCard) getFreshDetailView(mDetailPosition);
-				mDetailsCard.expand(false);
-				mDetailsCard.requestLayout();
+			if (expandedCardData != null) {
+				String expandedCardId = expandedCardData.getTripComponent().getUniqueId();
+
+				boolean tripExists = false;
+				for (ItinCardData updatedCard : ItineraryManager.getInstance().getItinCardData()) {
+					String updatedCardId = updatedCard.getTripComponent().getUniqueId();
+					if (expandedCardId.equals(updatedCardId)) {
+						tripExists = true;
+						break;
+					}
+				}
+
+				if (tripExists) {
+					mDetailsCard = (ItinCard) getFreshDetailView(mDetailPosition);
+					mDetailsCard.expand(false);
+					mDetailsCard.requestLayout();
+				}
+				else {
+					hideDetails();
+				}
 			}
 		}
 	}

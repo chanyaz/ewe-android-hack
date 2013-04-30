@@ -38,7 +38,6 @@ import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialogFragment.DoLogoutListener,
@@ -422,38 +421,17 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 	@Override
 	public void onTripUpdated(Trip trip) {
-		Log.d("ItinItemListFragment - onTripUpdated");
 		OmnitureTracking.trackItinAdd(getActivity(), trip);
 	}
 
 	@Override
 	public void onTripUpdateFailed(Trip trip) {
+		// Do nothing
 	}
 
 	@Override
 	public void onTripRemoved(Trip removedTrip) {
-		// If there is an expanded card and the removedTrip matches the expanded card, make sure to collapse the card
-		// otherwise weirdness ensues.
-		Trip selectedTrip = null;
-		if (mItinListView != null) {
-			ItinCardData itinCardData = mItinListView.getSelectedItinCard();
-			if (itinCardData != null && itinCardData.getTripComponent() != null) {
-				selectedTrip = itinCardData.getTripComponent().getParentTrip();
-			}
-		}
-
-		if (selectedTrip != null) {
-			if (removedTrip.isGuest()) {
-				if (removedTrip.isSameGuest(selectedTrip)) {
-					mItinListView.hideDetails();
-				}
-			}
-			else {
-				if (removedTrip.getTripId() != null && removedTrip.getTripId().equals(selectedTrip.getTripId())) {
-					mItinListView.hideDetails();
-				}
-			}
-		}
+		// Do nothing
 	}
 
 	@Override
