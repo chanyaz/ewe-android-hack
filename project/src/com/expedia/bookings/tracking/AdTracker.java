@@ -4,7 +4,6 @@ import java.util.Date;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.provider.Settings;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
@@ -21,11 +20,8 @@ import com.google.analytics.tracking.android.Transaction;
 import com.mobiata.android.util.SettingUtils;
 
 public class AdTracker {
-	private static Context mContext;
-	private static String mMarketingDate;
 
 	public static void initialize(Context context) {
-		mContext = context;
 		final Resources res = context.getResources();
 
 		// Google
@@ -37,9 +33,6 @@ public class AdTracker {
 		final int userId = res.getInteger(R.integer.somo_user_id);
 		final int applicationId = res.getInteger(R.integer.somo_application_id);
 		Somo.initialize(context, userId, applicationId, pos.useSomoTracking());
-
-		// Omniture
-		mMarketingDate = SettingUtils.get(context, context.getString(R.string.preference_amobee_marketing_date), "");
 
 		// AdX
 		AdX.initialize(context, true);
@@ -54,7 +47,7 @@ public class AdTracker {
 		AdX.trackFirstLaunch();
 	}
 
-	public static void trackLaunch() {
+	public static void trackLaunch(Context context) {
 		// Google Analytics
 		EasyTracker.getTracker().trackEvent("user_action", "launch", "launch", null);
 
@@ -62,7 +55,7 @@ public class AdTracker {
 		//Somo.trackLaunch();
 		AdX.trackLaunch();
 
-		OmnitureTracking.trackAppLaunch(mContext, mMarketingDate);
+		OmnitureTracking.trackAppLaunch(context);
 	}
 
 	public static void trackLogin() {

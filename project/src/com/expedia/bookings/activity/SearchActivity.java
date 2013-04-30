@@ -47,7 +47,7 @@ public class SearchActivity extends Activity {
 		// Track the app loading
 		trackAppLoading();
 		OmnitureTracking.trackAppLoading(mContext);
-		AdTracker.trackLaunch();
+		AdTracker.trackLaunch(mContext);
 
 		//Hi Facebook!
 		facebookInstallTracking();

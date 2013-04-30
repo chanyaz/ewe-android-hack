@@ -75,10 +75,16 @@ public class OmnitureTracking {
 
 	private static final String TAG = "OmnitureTracking";
 
+	// So we don't have to keep reloading this from settings
+	private static String sMarketingDate = "";
+
 	public static void init(Context context) {
 		Log.d(TAG, "init");
 		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
 		s.configureMeasurement(getReportSuiteIds(context), getTrackingServer());
+
+		sMarketingDate = SettingUtils.get(context, context.getString(R.string.preference_marketing_date),
+				sMarketingDate);
 	}
 
 	public static void onResume(Activity activity) {
@@ -1528,10 +1534,10 @@ public class OmnitureTracking {
 		trackOnClick(s);
 	}
 
-	public static void trackAppLaunch(Context context, String date) {
+	public static void trackAppLaunch(Context context) {
 		Log.d(TAG, "Tracking \"App Launch\" pageLoad");
 		ADMS_Measurement s = getFreshTrackingObject(context);
-		s.setEvar(10, date);
+		s.setEvar(10, sMarketingDate);
 		s.setEvar(27, "App Launch");
 		s.track();
 	}
@@ -1583,10 +1589,10 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = getFreshTrackingObject(context);
 
-		String marketingDate = FORMATTER.format(new Date());
-		SettingUtils.save(context, context.getString(R.string.preference_amobee_marketing_date), marketingDate);
+		sMarketingDate = FORMATTER.format(new Date());
+		SettingUtils.save(context, context.getString(R.string.preference_marketing_date), sMarketingDate);
 
-		s.setEvar(10, marketingDate);
+		s.setEvar(10, sMarketingDate);
 		s.setEvar(28, "App Install");
 
 		s.track();
@@ -1795,8 +1801,8 @@ public class OmnitureTracking {
 		// account
 		s.setReportSuiteIDs(getReportSuiteIds(context));
 
-		// Amobee tracking
-		s.setEvar(10, SettingUtils.get(context, context.getString(R.string.preference_amobee_marketing_date), ""));
+		// Marketing date tracking
+		s.setEvar(10, sMarketingDate);
 
 		// Server
 		s.setTrackingServer(getTrackingServer());
