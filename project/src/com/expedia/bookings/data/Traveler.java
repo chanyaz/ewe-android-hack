@@ -12,6 +12,7 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.UserPreference.Category;
+import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
@@ -583,91 +584,127 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			return BEFORE;
 		}
 
-		if ((getFirstName() == null && another.getFirstName() != null)
-				|| (getFirstName() != null && getFirstName().compareTo(another.getFirstName()) != 0)) {
-			return getFirstName() == null ? BEFORE : getFirstName().compareTo(another.getFirstName());
+		int diff = 0;
+
+		// First name
+		diff = StrUtils.compareTo(getFirstName(), another.getFirstName());
+		if (diff != 0) {
+			return diff;
 		}
 
-		if ((getMiddleName() == null && another.getMiddleName() != null)
-				|| (getMiddleName() != null && getMiddleName().compareTo(another.getMiddleName()) != 0)) {
-			return getMiddleName() == null ? BEFORE : getMiddleName().compareTo(another.getMiddleName());
+		// Middle name
+		diff = StrUtils.compareTo(getMiddleName(), another.getMiddleName());
+		if (diff != 0) {
+			return diff;
 		}
 
-		if ((getLastName() == null && another.getLastName() != null)
-				|| (getLastName() != null && getLastName().compareTo(another.getLastName()) != 0)) {
-			return getLastName() == null ? BEFORE : getLastName().compareTo(another.getLastName());
+		// Last name
+		diff = StrUtils.compareTo(getLastName(), another.getLastName());
+		if (diff != 0) {
+			return diff;
 		}
 
-		if ((getHomeAddress() == null && another.getHomeAddress() != null)
-				|| (getHomeAddress() != null && getHomeAddress().toJson().toString()
-						.compareTo(another.getHomeAddress().toJson().toString()) != 0)) {
-			return getHomeAddress() == null ? BEFORE : getHomeAddress().toJson().toString()
-					.compareTo(another.getHomeAddress().toJson().toString());
+		// Home address
+		diff = compareJsonable(getHomeAddress(), another.getHomeAddress());
+		if (diff != 0) {
+			return diff;
 		}
 
-		if ((getPhoneNumber() == null && another.getPhoneNumber() != null)
-				|| (getPhoneNumber() != null && getPhoneNumber().compareTo(another.getPhoneNumber()) != 0)) {
-			return getPhoneNumber() == null ? BEFORE : getPhoneNumber().compareTo(another.getPhoneNumber());
-		}
-		if ((getPhoneCountryCode() == null && another.getPhoneCountryCode() != null)
-				|| (getPhoneCountryCode() != null && getPhoneCountryCode().compareTo(another.getPhoneCountryCode()) != 0)) {
-			return getPhoneCountryCode() == null ? BEFORE : getPhoneCountryCode().compareTo(
-					another.getPhoneCountryCode());
-		}
-		if ((getEmail() == null && another.getEmail() != null)
-				|| (getEmail() != null && getEmail().compareTo(another.getEmail()) != 0)) {
-			return getEmail() == null ? BEFORE : getEmail().compareTo(another.getEmail());
+		// Phone number
+		diff = StrUtils.compareTo(getPhoneNumber(), another.getPhoneNumber());
+		if (diff != 0) {
+			return diff;
 		}
 
-		if (isSmokingPreferred() != another.isSmokingPreferred()) {
-			return BEFORE;
+		// Phone country code
+		diff = StrUtils.compareTo(getPhoneCountryCode(), another.getPhoneCountryCode());
+		if (diff != 0) {
+			return diff;
 		}
 
-		if ((getGender() == null && another.getGender() != null)
-				|| (getGender() != null && getGender().compareTo(another.getGender()) != 0)) {
-			return getGender() == null ? BEFORE : getGender().compareTo(another.getGender());
+		// Email
+		diff = StrUtils.compareTo(getEmail(), another.getEmail());
+		if (diff != 0) {
+			return diff;
 		}
 
-		if ((getBirthDate() == null && another.getBirthDate() != null)
-				|| (getBirthDate() != null && getBirthDate().toJson().toString()
-						.compareTo(another.getBirthDate().toJson().toString()) != 0)) {
-			return getBirthDate() == null ? BEFORE : getBirthDate().toJson().toString()
-					.compareTo(another.getBirthDate().toJson().toString());
-		}
-		if ((getRedressNumber() == null && another.getRedressNumber() != null)
-				|| (getRedressNumber() != null && getRedressNumber().compareTo(another.getRedressNumber()) != 0)) {
-			return getRedressNumber() == null ? BEFORE : getRedressNumber().compareTo(another.getRedressNumber());
+		// Smoking preference
+		diff = compareBooleans(isSmokingPreferred(), another.isSmokingPreferred());
+		if (diff != 0) {
+			return diff;
 		}
 
-		if (hasPassportCountry() != another.hasPassportCountry()) {
-			return BEFORE;
+		// Gender
+		diff = compareEnum(getGender(), another.getGender());
+		if (diff != 0) {
+			return diff;
+		}
+
+		// Birth date
+		diff = compareJsonable(getBirthDate(), another.getBirthDate());
+		if (diff != 0) {
+			return diff;
+		}
+
+		// Redress #
+		diff = StrUtils.compareTo(getRedressNumber(), another.getRedressNumber());
+		if (diff != 0) {
+			return diff;
+		}
+
+		// Passport countries
+		diff = compareBooleans(hasPassportCountry(), another.hasPassportCountry());
+		if (diff != 0) {
+			return diff;
 		}
 		else if (hasPassportCountry() && !mPassportCountries.equals(another.mPassportCountries)) {
-			//Compare list length
+			// Compare list length
 			int mySize = mPassportCountries.size();
-			if (mySize != another.mPassportCountries.size()) {
-				return mySize < another.mPassportCountries.size() ? BEFORE : AFTER;
+			diff = mySize - another.mPassportCountries.size();
+			if (diff != 0) {
+				return diff;
 			}
 
 			// Compare each item
 			for (int a = 0; a < mySize; a++) {
-				int compared = mPassportCountries.get(a).compareTo(another.mPassportCountries.get(a));
-				if (compared != 0) {
-					return compared;
+				diff = StrUtils.compareTo(mPassportCountries.get(a), another.mPassportCountries.get(a));
+				if (diff != 0) {
+					return diff;
 				}
 			}
 		}
 
-		if ((getSeatPreference() == null && another.getSeatPreference() != null)
-				|| (getSeatPreference() != null && getSeatPreference().compareTo(another.getSeatPreference()) != 0)) {
-			return getSeatPreference() == null ? BEFORE : getSeatPreference().compareTo(another.getSeatPreference());
+		// Seat preference
+		diff = compareEnum(getSeatPreference(), another.getSeatPreference());
+		if (diff != 0) {
+			return diff;
 		}
 
-		if ((getAssistance() == null && another.getAssistance() != null)
-				|| (getAssistance() != null && getAssistance().compareTo(another.getAssistance()) != 0)) {
-			return getAssistance() == null ? BEFORE : getAssistance().compareTo(another.getAssistance());
+		// Assistance
+		diff = compareEnum(getAssistance(), another.getAssistance());
+		if (diff != 0) {
+			return diff;
 		}
 
 		return EQUAL;
+	}
+
+	private static int compareBooleans(boolean a, boolean b) {
+		if (a != b) {
+			return a ? -1 : 1;
+		}
+		return 0;
+	}
+
+	private static int compareEnum(Enum<?> a, Enum<?> b) {
+		int ordinalA = a != null ? a.ordinal() : Integer.MAX_VALUE;
+		int ordinalB = b != null ? b.ordinal() : Integer.MAX_VALUE;
+		return ordinalA - ordinalB;
+	}
+
+	private static int compareJsonable(JSONable a, JSONable b) {
+		String jsonA = a != null ? a.toJson().toString() : "";
+		String jsonB = b != null ? b.toJson().toString() : "";
+		return jsonA.compareTo(jsonB);
 	}
 }
