@@ -1475,8 +1475,6 @@ public class OmnitureTracking {
 			break;
 		}
 		String pageName = String.format(LOGIN_SUCCESS_TEMPLATE, lobParam);
-		Log.d(TAG, "Tracking \"" + pageName + "\" linkClick");
-
 		ADMS_Measurement s = createTrackLinkEvent(ctx, pageName);
 
 		String var55;
@@ -1494,7 +1492,7 @@ public class OmnitureTracking {
 		s.setEvar(55, var55);
 		s.setEvents("event26");
 
-		s.trackLink(null, "o", s.getEvar(28), null, null);
+		internalTrackLink(s);
 	}
 
 	public static void trackLinkLaunchScreenToHotels(Context context) {
@@ -1601,20 +1599,17 @@ public class OmnitureTracking {
 	private static String ORGANIC_ADX_DOWNLOAD_REFERRAL_STRING = "Mob :: Brand";
 
 	public static void trackAdXReferralLink(Context context, String referral) {
-		Log.d(TAG, "Tracking " + ADX_EVENT + " trackLink, with referral value=" + referral);
-
 		if (ORGANIC_ADX_DOWNLOAD_REFERRAL_STRING.equals(referral)) {
 			ADMS_Measurement s = createTrackLinkEvent(context, ADX_ORGANIC_EVENT);
 			s.setEvar(8, referral);
-			s.trackLink(null, "o", s.getEvar(28), null, null);
+			internalTrackLink(s);
 		}
 		else {
 			ADMS_Measurement s = createTrackLinkEvent(context, ADX_EVENT);
 			s.setEvar(8, referral);
 			s.setEvents("event20");
-			s.trackLink(null, "o", s.getEvar(28), null, null);
+			internalTrackLink(s);
 		}
-
 	}
 
 	public static void trackGooglePlayReferralLink(Context context, Intent intent) {
@@ -1659,7 +1654,7 @@ public class OmnitureTracking {
 	}
 
 	private static void trackOnClick(ADMS_Measurement s) {
-		s.trackLink(null, "o", s.getEvar(28), null, null);
+		internalTrackLink(s);
 	}
 
 	private static ADMS_Measurement createSimpleEvent(Context context, String pageName, String events,
@@ -1722,8 +1717,12 @@ public class OmnitureTracking {
 	}
 
 	private static void internalTrackLink(Context context, String link) {
-		Log.d(TAG, "Tracking \"" + link + "\" linkClick");
 		ADMS_Measurement s = createTrackLinkEvent(context, link);
+		internalTrackLink(s);
+	}
+
+	private static void internalTrackLink(ADMS_Measurement s) {
+		Log.d(TAG, "Tracking \"" + s.getProp(16) + "\" linkClick");
 		s.trackLink(null, "o", s.getEvar(28), null, null);
 	}
 
