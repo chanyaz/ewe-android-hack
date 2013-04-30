@@ -7,10 +7,8 @@ import android.os.Bundle;
 
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
-import com.expedia.bookings.tracking.MillennialTracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
-import com.mobiata.android.util.NetUtils;
 
 /**
  * This is a routing Activity that points users towards either the phone or
@@ -43,7 +41,6 @@ public class SearchActivity extends Activity {
 		mContext = this;
 
 		// Track the app loading
-		trackAppLoading();
 		OmnitureTracking.trackAppLoading(mContext);
 		AdTracker.trackLaunch(mContext);
 
@@ -91,17 +88,4 @@ public class SearchActivity extends Activity {
 	private void facebookInstallTracking() {
 		com.facebook.Settings.publishInstallAsync(this, ExpediaServices.getFacebookAppId(this));
 	}
-
-	private void trackAppLoading() {
-		// Start a background thread to do conversion tracking
-		new Thread(new Runnable() {
-			public void run() {
-				// Millennial tracking (possibly)
-				if (!MillennialTracking.hasTrackedMillennial(mContext) && NetUtils.isOnline(mContext)) {
-					MillennialTracking.trackConversion(mContext);
-				}
-			}
-		}).start();
-	}
-
 }
