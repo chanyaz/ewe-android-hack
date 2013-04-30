@@ -293,7 +293,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 				handleErrorResponse(results);
 			}
 			else {
-				//Amobee tracking
+				// Tracking
 				try {
 					if (Db.getFlightSearch() != null && Db.getFlightSearch().getSelectedFlightTrip() != null) {
 						FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
@@ -318,7 +318,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 					}
 				}
 				catch (Exception ex) {
-					Log.e("Exception calling Amobee.trackCheckout", ex);
+					Log.e("Exception tracking flight checkout", ex);
 				}
 				launchConfirmationActivity();
 

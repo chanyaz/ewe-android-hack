@@ -328,13 +328,6 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="com.amobee.agency.tracking.AmobeeReceiver"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER" />
-            </intent-filter>
-        </receiver>
-        <receiver
             android:name="com.AdX.tag.AdXAppTracker"
             android:exported="true" >
             <intent-filter>

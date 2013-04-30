@@ -33,10 +33,6 @@ public class AdTracker {
 
 		PointOfSale pos = PointOfSale.getPointOfSale();
 
-		// Amobee
-		final String appId = context.getString(R.string.amobee_app_id);
-		Amobee.initialize(context, appId, pos.useAmobeeTracking());
-
 		// Somo
 		final int userId = res.getInteger(R.integer.somo_user_id);
 		final int applicationId = res.getInteger(R.integer.somo_application_id);
@@ -54,7 +50,6 @@ public class AdTracker {
 		EasyTracker.getTracker().trackEvent("user_action", "first_launch", "launch", null);
 
 		// Other
-		Amobee.trackFirstLaunch();
 		Somo.trackFirstLaunch();
 		AdX.trackFirstLaunch();
 	}
@@ -64,7 +59,6 @@ public class AdTracker {
 		EasyTracker.getTracker().trackEvent("user_action", "launch", "launch", null);
 
 		// Other
-		Amobee.trackLaunch();
 		//Somo.trackLaunch();
 		AdX.trackLaunch();
 
@@ -76,7 +70,6 @@ public class AdTracker {
 		EasyTracker.getTracker().trackEvent("user_action", "login", "login", null);
 
 		// Other
-		Amobee.trackLogin();
 		Somo.trackLogin();
 
 		AdX.trackLogin();
@@ -113,14 +106,12 @@ public class AdTracker {
 		EasyTracker.getTracker().trackTransaction(transaction);
 
 		// Other
-		Amobee.trackBooking(currency, totalPrice, duration, daysRemaining);
 		Somo.trackBooking(currency, totalPrice, duration, daysRemaining);
 
 		AdX.trackHotelBooked(currency, totalPrice);
 	}
 
 	public static void trackFlightBooked(String currency, double value, int days, String destAirport) {
-		Amobee.trackCheckout(currency, value, days, destAirport);
 		AdX.trackFlightBooked(currency, value);
 	}
 
