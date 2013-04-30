@@ -13,6 +13,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightTravelerInfoOptionsActivity.Validatable;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -87,7 +88,11 @@ public class FlightTravelerInfoOneFragment extends Fragment implements Validatab
 
 		View focused = this.getView().findFocus();
 		if (focused == null || !(focused instanceof EditText)) {
-			focused = Ui.findView(mSectionTravelerInfo, R.id.edit_first_name);
+			int firstFocusResId = R.id.edit_first_name;
+			if (PointOfSale.getPointOfSale(getActivity()).showLastNameFirst()) {
+				firstFocusResId = R.id.edit_last_name;
+			}
+			focused = Ui.findView(mSectionTravelerInfo, firstFocusResId);
 		}
 		if (focused != null && focused instanceof EditText) {
 			FocusViewRunnable.focusView(this, focused);

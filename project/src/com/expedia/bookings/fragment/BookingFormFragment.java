@@ -680,7 +680,12 @@ public class BookingFormFragment extends Fragment {
 			fixFocus();
 
 			if (animateAndFocus) {
-				BookingInfoUtils.focusAndOpenKeyboard(getActivity(), mFirstNameEditText);
+				if (PointOfSale.getPointOfSale(getActivity()).showLastNameFirst()) {
+					BookingInfoUtils.focusAndOpenKeyboard(getActivity(), mLastNameEditText);
+				}
+				else {
+					BookingInfoUtils.focusAndOpenKeyboard(getActivity(), mFirstNameEditText);
+				}
 			}
 
 			// TODO: Animation if animated
