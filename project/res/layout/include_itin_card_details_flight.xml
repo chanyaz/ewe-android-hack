@@ -4,64 +4,77 @@
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:layout_marginBottom="16dp"
+    android:gravity="center"
     android:orientation="vertical" >
 
     <!-- DEPARTURE/ARRIVAL TIMES -->
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/arrival_departure_times_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:padding="15dp"
         android:paddingTop="10dp" >
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/departure_time"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:textColor="@color/itin_white_text"
-            android:textSize="26sp"
-            app:textStyle="normal" />
+            android:layout_weight="1"
+            android:orientation="vertical" >
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/departure_time_tz"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/departure_time"
-            android:textColor="@color/itin_offwhite_text"
-            android:textSize="14sp"
-            app:textStyle="light" />
+            <com.expedia.bookings.widget.AutoResizeTextView
+                android:id="@+id/departure_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textColor="@color/itin_white_text"
+                android:textSize="26sp"
+                app:textStyle="normal" />
+
+            <com.expedia.bookings.widget.AutoResizeTextView
+                android:id="@+id/departure_time_tz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textColor="@color/itin_offwhite_text"
+                android:textSize="14sp"
+                app:textStyle="light" />
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/departure_arrival_arrow"
             android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_centerInParent="true"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
             android:src="@drawable/ic_depart_arrive_arrow" />
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/arrival_time"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:textColor="@color/itin_white_text"
-            android:textSize="26sp"
-            app:textStyle="medium" />
+            android:layout_weight="1"
+            android:gravity="right"
+            android:orientation="vertical" >
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/arrival_time_tz"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/arrival_time"
-            android:textColor="@color/itin_offwhite_text"
-            android:textSize="14sp"
-            app:textStyle="light" />
-    </RelativeLayout>
+            <com.expedia.bookings.widget.AutoResizeTextView
+                android:id="@+id/arrival_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textColor="@color/itin_white_text"
+                android:textSize="26sp"
+                app:textStyle="medium" />
+
+            <com.expedia.bookings.widget.AutoResizeTextView
+                android:id="@+id/arrival_time_tz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textColor="@color/itin_offwhite_text"
+                android:textSize="14sp"
+                app:textStyle="light" />
+        </LinearLayout>
+    </LinearLayout>
 
     <!-- MAP -->
 

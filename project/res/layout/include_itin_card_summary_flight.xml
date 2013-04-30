@@ -24,9 +24,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/flight_status_bulb"
+        android:gravity="left|center"
         android:orientation="vertical" >
 
         <com.mobiata.android.widget.AutoResizeTextView
@@ -44,6 +45,7 @@
             android:id="@+id/flight_status_bottom_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:textColor="@color/itin_offwhite_text"
             android:textSize="15sp"
             app:minTextSize="10sp"
