@@ -11,9 +11,11 @@ import com.mobiata.android.util.AndroidUtils;
 public class AdX {
 	private static Context mContext;
 	private static boolean mEnabled;
+	private static boolean mConnected;
 	private static int mLogLevel;
 
 	public static void initialize(Context context, boolean enabled) {
+		mConnected = false;
 		mContext = context;
 		mEnabled = enabled;
 		if (AndroidUtils.isRelease(mContext)) {
@@ -26,10 +28,17 @@ public class AdX {
 		Log.i("AdX tracking initialized (enabled: " + String.valueOf(enabled) + ")");
 	}
 
+	private static void connect(boolean launchedAgain) {
+		if (!mConnected) {
+			AdXConnect.getAdXConnectInstance(mContext, launchedAgain, mLogLevel, pos);
+			mConnected = true;
+		}
+	}
+
 	public static void trackFirstLaunch() {
 		if (mEnabled) {
 			String pos = PointOfSale.getPointOfSale(mContext).getTwoLetterCountryCode();
-			AdXConnect.getAdXConnectInstance(mContext, false, mLogLevel, pos);
+			connect(false);
 			AdXConnect.getAdXConnectEventInstance(mContext, "FirstLaunch", "", "");
 			Log.i("AdX first launch event PointOfSale=" + pos);
 
@@ -40,7 +49,7 @@ public class AdX {
 	public static void trackLaunch() {
 		if (mEnabled) {
 			String pos = PointOfSale.getPointOfSale(mContext).getTwoLetterCountryCode();
-			AdXConnect.getAdXConnectInstance(mContext, true, mLogLevel, pos);
+			connect(true);
 			AdXConnect.getAdXConnectEventInstance(mContext, "Launch", "", "");
 			Log.i("AdX launch event PointOfSale=" + pos);
 		}
