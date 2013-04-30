@@ -3,36 +3,23 @@ package com.expedia.bookings.tracking;
 import java.util.Date;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.text.TextUtils;
 
-import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Item;
 import com.google.analytics.tracking.android.Transaction;
-import com.mobiata.android.util.SettingUtils;
 
 public class AdTracker {
 
 	public static void initialize(Context context) {
-		final Resources res = context.getResources();
-
 		// Google
 		EasyTracker.getInstance().setContext(context);
-
-		PointOfSale pos = PointOfSale.getPointOfSale();
-
-		// Somo
-		final int userId = res.getInteger(R.integer.somo_user_id);
-		final int applicationId = res.getInteger(R.integer.somo_application_id);
-		Somo.initialize(context, userId, applicationId, pos.useSomoTracking());
 
 		// AdX
 		AdX.initialize(context, true);
@@ -43,7 +30,6 @@ public class AdTracker {
 		EasyTracker.getTracker().trackEvent("user_action", "first_launch", "launch", null);
 
 		// Other
-		Somo.trackFirstLaunch();
 		AdX.trackFirstLaunch();
 	}
 
@@ -52,7 +38,6 @@ public class AdTracker {
 		EasyTracker.getTracker().trackEvent("user_action", "launch", "launch", null);
 
 		// Other
-		//Somo.trackLaunch();
 		AdX.trackLaunch();
 
 		OmnitureTracking.trackAppLaunch(context);
@@ -63,8 +48,6 @@ public class AdTracker {
 		EasyTracker.getTracker().trackEvent("user_action", "login", "login", null);
 
 		// Other
-		Somo.trackLogin();
-
 		AdX.trackLogin();
 	}
 
@@ -99,8 +82,6 @@ public class AdTracker {
 		EasyTracker.getTracker().trackTransaction(transaction);
 
 		// Other
-		Somo.trackBooking(currency, totalPrice, duration, daysRemaining);
-
 		AdX.trackHotelBooked(currency, totalPrice);
 	}
 

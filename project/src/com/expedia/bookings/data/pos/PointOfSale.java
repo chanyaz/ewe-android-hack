@@ -109,9 +109,6 @@ public class PointOfSale {
 	// Whether or not to let users checkout using Google Wallet
 	private boolean mSupportsGoogleWallet;
 
-	// Whether or not to track data with Somo on this POS
-	private boolean mUseSomoTracking;
-
 	// Used to determine the default POS, based on the device's locale
 	private String[] mDefaultLocales;
 
@@ -251,10 +248,6 @@ public class PointOfSale {
 
 	public boolean supportsGoogleWallet() {
 		return mSupportsGoogleWallet;
-	}
-
-	public boolean useSomoTracking() {
-		return mUseSomoTracking;
 	}
 
 	public boolean showAtolInfo() {
@@ -644,7 +637,6 @@ public class PointOfSale {
 		pos.mHideMiddleName = data.optBoolean("shouldHideMiddleName");
 		pos.mSupportsFlights = data.optBoolean("flightsEnabled");
 		pos.mSupportsGoogleWallet = data.optBoolean("googleWalletEnabled");
-		pos.mUseSomoTracking = data.optBoolean("useSomoTracking");
 		pos.mShowHotelCrossSell = !data.optBoolean("hideHotelCrossSell", false);
 
 		// Parse POS locales

@@ -37,9 +37,6 @@
             android:name="AA_DB_VERSION"
             android:value="9" />
         <meta-data
-            android:name="com.somo.apptimiser.PUBLIC_KEY_BASE64_STRING"
-            android:value="@string/soma_rsa_key" />
-        <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/mapsv2_dev_key" />
 
@@ -315,13 +312,6 @@
 
         <receiver
             android:name="com.expedia.bookings.tracking.InstallReceiver"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name="com.somo.apptimiser.SomoMarketBroadcastReceiver"
             android:exported="true" >
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />

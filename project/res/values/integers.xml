@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Tracking -->
-    <integer name="somo_user_id">25</integer>
-    <integer name="somo_application_id">44</integer>
-
     <!-- Auto complete settings -->
     <integer name="suggest_min_query_length">3</integer>
 
