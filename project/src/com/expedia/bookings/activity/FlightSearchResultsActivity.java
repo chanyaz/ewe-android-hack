@@ -316,6 +316,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			FlightSearchParams params = JSONUtils.getJSONable(data, FlightSearchOverlayActivity.EXTRA_SEARCH_PARAMS,
 					FlightSearchParams.class);
 			Db.getFlightSearch().setSearchParams(params);
+			Db.saveFlightSearchParamsToDisk(this);
 			mStartSearchOnPostResume = true;
 
 			OmnitureTracking.markTrackNewSearchResultSet(true);
@@ -715,7 +716,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 				deselectBackToLegPosition(mLegPosition - 1);
 			}
 			else {
-				NavUtils.goToFlights(this);
+				onBackPressed();
 			}
 			return true;
 		}

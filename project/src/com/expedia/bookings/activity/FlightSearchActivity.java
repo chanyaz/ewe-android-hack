@@ -66,7 +66,8 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 		}
 
 		// On first launch, try to restore cached flight data (in this case, just for the search params)
-		if (savedInstanceState == null && !getIntent().getBooleanExtra(ARG_FROM_LAUNCH_WITH_SEARCH_PARAMS, false)) {
+		if (savedInstanceState == null && !Db.getFlightSearch().getSearchParams().isFilled()
+				&& !getIntent().getBooleanExtra(ARG_FROM_LAUNCH_WITH_SEARCH_PARAMS, false)) {
 			Db.loadFlightSearchParamsFromDisk(this);
 		}
 
