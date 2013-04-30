@@ -122,7 +122,7 @@
             android:name="com.expedia.bookings.activity.BookingOverviewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Phone.Dark"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.expedia.bookings.activity.HotelRulesActivity"
             android:theme="@style/FlightTheme" />
