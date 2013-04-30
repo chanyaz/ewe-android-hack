@@ -1,12 +1,8 @@
 package com.expedia.bookings.activity;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.text.TextUtils;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -26,7 +22,6 @@ import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.TwoLevelImageCache;
-import com.mobiata.android.util.SettingUtils;
 
 public class FlightSearchActivity extends SherlockFragmentActivity implements FlightSearchParamsFragmentListener {
 
@@ -35,8 +30,6 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 	public static final String ARG_FROM_LAUNCH_WITH_SEARCH_PARAMS = "ARG_FROM_LAUNCH_WITH_SEARCH_PARAMS";
 
 	private static final String INSTANCE_UPDATE_ON_RESUME = "INSTANCE_UPDATE_ON_RESUME";
-
-	private static final String SEARCH_PARAMS_SETTING = "flightSearchParamsSetting";
 
 	private FlightSearchParamsFragment mSearchParamsFragment;
 
@@ -74,7 +67,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 
 		// On first launch, try to restore cached flight data (in this case, just for the search params)
 		if (savedInstanceState == null && !getIntent().getBooleanExtra(ARG_FROM_LAUNCH_WITH_SEARCH_PARAMS, false)) {
-			loadParamsFromDisk();
+			Db.loadFlightSearchParamsFromDisk(this);
 		}
 
 		//We load up the default backgrounds so they are ready to go later if/when we need them
@@ -129,7 +122,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 				// F1073: If we got back here but the search params are not filled, that is probably an indicator
 				// that the app crashed (because otherwise the search params *should* have data).  In this case,
 				// attempt to reload the saved search params from disk.
-				loadParamsFromDisk();
+				Db.loadFlightSearchParamsFromDisk(this);
 				supportInvalidateOptionsMenu();
 			}
 
@@ -167,7 +160,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 			FlightSearch search = Db.getFlightSearch();
 			search.reset();
 			search.setSearchParams(mSearchParamsFragment.getSearchParams(true));
-			saveParamsToDisk();
+			Db.saveFlightSearchParamsToDisk(this);
 		}
 	}
 
@@ -188,27 +181,6 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 	public void onBackPressed() {
 		if (!mSearchParamsFragment.onBackPressed() && !NavUtils.goBackToEhTabletStart(this)) {
 			super.onBackPressed();
-		}
-	}
-
-	private void saveParamsToDisk() {
-		Log.i("Saving flight search params to disk.");
-		SettingUtils.save(this, SEARCH_PARAMS_SETTING, Db.getFlightSearch().getSearchParams().toJson().toString());
-	}
-
-	private void loadParamsFromDisk() {
-		String searchParamsJson = SettingUtils.get(this, SEARCH_PARAMS_SETTING, null);
-		if (!TextUtils.isEmpty(searchParamsJson)) {
-			try {
-				Log.i("Restoring flight search params from disk...");
-				FlightSearchParams params = new FlightSearchParams();
-				params.fromJson(new JSONObject(searchParamsJson));
-				params.ensureValidDates();
-				Db.getFlightSearch().setSearchParams(params);
-			}
-			catch (JSONException e) {
-				Log.w("Could not restore flight search params from disk", e);
-			}
 		}
 	}
 

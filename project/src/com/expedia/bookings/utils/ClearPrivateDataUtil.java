@@ -65,5 +65,8 @@ public class ClearPrivateDataUtil {
 
 		ConfirmationState.delete(context, ConfirmationState.Type.FLIGHT);
 		ConfirmationState.delete(context, ConfirmationState.Type.HOTEL);
+
+		// Clear anything else out that might remain
+		Db.clear();
 	}
 }

@@ -25,6 +25,7 @@ import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
+import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Airline;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
@@ -714,6 +715,30 @@ public class Db {
 	private static final String SAVED_FLIGHT_DATA_FILE = "flights-data.db";
 	private static final String SAVED_AIRLINE_DATA_FILE = "airlines-data.db";
 
+	private static final String FLIGHT_SEARCH_PARAMS_SETTING = "flightSearchParamsSetting";
+
+	public static void saveFlightSearchParamsToDisk(Context context) {
+		Log.i("Saving flight search params to disk.");
+		SettingUtils.save(context, FLIGHT_SEARCH_PARAMS_SETTING, getFlightSearch().getSearchParams().toJson()
+				.toString());
+	}
+
+	public static void loadFlightSearchParamsFromDisk(Context context) {
+		String searchParamsJson = SettingUtils.get(context, FLIGHT_SEARCH_PARAMS_SETTING, null);
+		if (!TextUtils.isEmpty(searchParamsJson)) {
+			try {
+				Log.i("Restoring flight search params from disk...");
+				FlightSearchParams params = new FlightSearchParams();
+				params.fromJson(new JSONObject(searchParamsJson));
+				params.ensureValidDates();
+				getFlightSearch().setSearchParams(params);
+			}
+			catch (JSONException e) {
+				Log.w("Could not restore flight search params from disk", e);
+			}
+		}
+	}
+
 	/**
 	 * MAKE SURE TO CALL THIS IN A NON-UI THREAD
 	 */
@@ -834,6 +859,8 @@ public class Db {
 	}
 
 	public static boolean deleteCachedFlightData(Context context) {
+		SettingUtils.remove(context, FLIGHT_SEARCH_PARAMS_SETTING);
+
 		File file = context.getFileStreamPath(SAVED_FLIGHT_DATA_FILE);
 		if (!file.exists()) {
 			return true;
