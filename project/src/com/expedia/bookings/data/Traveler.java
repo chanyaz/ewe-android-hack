@@ -705,8 +705,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			return diff;
 		}
 
-		if (fromGoogleWallet() != another.fromGoogleWallet()) {
-			return fromGoogleWallet() ? BEFORE : AFTER;
+		// Google Wallet
+		diff = compareBooleans(fromGoogleWallet(), another.fromGoogleWallet());
+		if (diff != 0) {
+			return diff;
 		}
 
 		return EQUAL;
