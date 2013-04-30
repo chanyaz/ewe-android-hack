@@ -7,7 +7,6 @@ import android.os.Bundle;
 
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
-import com.expedia.bookings.tracking.GreystripeTracking;
 import com.expedia.bookings.tracking.MillennialTracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
@@ -101,9 +100,6 @@ public class SearchActivity extends Activity {
 				if (!MillennialTracking.hasTrackedMillennial(mContext) && NetUtils.isOnline(mContext)) {
 					MillennialTracking.trackConversion(mContext);
 				}
-
-				// GreyStripe tracking
-				GreystripeTracking.trackDownload(mContext);
 			}
 		}).start();
 	}
