@@ -28,7 +28,7 @@ public class AdX {
 		Log.i("AdX tracking initialized (enabled: " + String.valueOf(enabled) + ")");
 	}
 
-	private static void connect(boolean launchedAgain) {
+	private static void connect(String pos, boolean launchedAgain) {
 		if (!mConnected) {
 			AdXConnect.getAdXConnectInstance(mContext, launchedAgain, mLogLevel, pos);
 			mConnected = true;
@@ -38,7 +38,7 @@ public class AdX {
 	public static void trackFirstLaunch() {
 		if (mEnabled) {
 			String pos = PointOfSale.getPointOfSale(mContext).getTwoLetterCountryCode();
-			connect(false);
+			connect(pos, false);
 			AdXConnect.getAdXConnectEventInstance(mContext, "FirstLaunch", "", "");
 			Log.i("AdX first launch event PointOfSale=" + pos);
 
@@ -49,7 +49,7 @@ public class AdX {
 	public static void trackLaunch() {
 		if (mEnabled) {
 			String pos = PointOfSale.getPointOfSale(mContext).getTwoLetterCountryCode();
-			connect(true);
+			connect(pos, true);
 			AdXConnect.getAdXConnectEventInstance(mContext, "Launch", "", "");
 			Log.i("AdX launch event PointOfSale=" + pos);
 		}
