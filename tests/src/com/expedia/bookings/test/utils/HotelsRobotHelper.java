@@ -324,7 +324,7 @@ public class HotelsRobotHelper {
 	public void filterFor(String filterText) { //filter currently does not work.
 		//solo.clickOnText(getStringFromR(R.string.filter_hotels));
 		View filterButton = mSolo.getView(R.id.menu_select_filter);
-		
+
 		//Filtering Asian languages with English characters often
 		// leads to no hotels being found, so we don't filter on those locales.
 
@@ -665,7 +665,7 @@ public class HotelsRobotHelper {
 		delay();
 	}
 
-	public void enterMissingInfo() {
+	public void enterMissingInfo(boolean addNewCC) {
 		enterLog(TAG, "Booking: entering traveler info.");
 		String travelerInfo = mSolo.getString(R.string.enter_traveler_info);
 
@@ -674,21 +674,8 @@ public class HotelsRobotHelper {
 			enterNewTraveler();
 		}
 
-		boolean addNewCC = false;
-
-		String select_payment_sentence_case = mSolo.getString(R.string.select_payment_sentence_case);
-		String select_payment = mSolo.getString(R.string.select_payment);
-
-		if (mSolo.searchText(select_payment_sentence_case, true)) {
-			mSolo.clickOnText(select_payment_sentence_case);
-			addNewCC = true;
-		}
-		else if (mSolo.searchText(select_payment, true)) {
-			mSolo.clickOnText(select_payment);
-			addNewCC = true;
-		}
-
 		if (addNewCC) {
+			mSolo.clickOnView(mSolo.getView(R.id.payment_info_btn));
 			delay();
 			screenshot("Select payment");
 
@@ -887,12 +874,12 @@ public class HotelsRobotHelper {
 		}
 	}
 
-	public void logInAndBook() throws Exception {
+	public void logInAndBook(boolean addNewCC) throws Exception {
 		bookingScreenShots();
 
 		logIn();
 		delay(1);
-		enterMissingInfo();
+		enterMissingInfo(addNewCC);
 
 		confirmAndBook(false);
 
@@ -918,7 +905,7 @@ public class HotelsRobotHelper {
 			selectHotel(2);
 			pressBookRoom();
 			selectRoom(0);
-			logInAndBook();
+			logInAndBook(true);
 		}
 
 	}
@@ -1145,7 +1132,7 @@ public class HotelsRobotHelper {
 		mSolo.clickOnText(mRes.getString(R.string.checkout_btn));
 
 		//log in and do a booking
-		logInAndBook();
+		logInAndBook(true);
 
 		//if hotel booking switch is true, do a hotel booking 
 		//in that city
