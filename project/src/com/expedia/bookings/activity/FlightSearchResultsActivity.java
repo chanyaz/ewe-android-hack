@@ -367,14 +367,22 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	//////////////////////////////////////////////////////////////////////////
 	// Stack management
 
+	private boolean mCurrentlyPoppingBackStack = false;
+
 	private void popBackStack() {
-		getSupportFragmentManager().popBackStack();
-		mAnimForward = false;
+		if (!mCurrentlyPoppingBackStack) {
+			mCurrentlyPoppingBackStack = true;
+			getSupportFragmentManager().popBackStack();
+			mAnimForward = false;
+		}
 	}
 
 	private void popBackStack(String name) {
-		getSupportFragmentManager().popBackStack(name, 0);
-		mSkipAnimation = true;
+		if (!mCurrentlyPoppingBackStack) {
+			mCurrentlyPoppingBackStack = true;
+			getSupportFragmentManager().popBackStack(name, 0);
+			mSkipAnimation = true;
+		}
 	}
 
 	private void showLoadingFragment() {
@@ -449,13 +457,16 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	private void deselectBackToLegPosition(int newLegPosition) {
 		Log.d("deselectBackToLegPosition(" + newLegPosition + ")");
 
-		// Clear the selected flight legs
-		setNewLegPosition(newLegPosition);
+		if (!mCurrentlyPoppingBackStack) {
 
-		// Pop back stack to proper location
-		popBackStack(getFlightListBackStackName(newLegPosition));
+			// Clear the selected flight legs
+			setNewLegPosition(newLegPosition);
 
-		OmnitureTracking.trackLinkFlightRemoveOutboundSelection(mContext);
+			// Pop back stack to proper location
+			popBackStack(getFlightListBackStackName(newLegPosition));
+
+			OmnitureTracking.trackLinkFlightRemoveOutboundSelection(mContext);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -581,7 +592,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 				ft.commit();
 			}
 			else {
-				getSupportFragmentManager().popBackStack();
+				popBackStack();
 			}
 
 			if (mMenu != null) {
@@ -1055,7 +1066,9 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		public void onClick(View v) {
 			Log.d("Cancel selecting flight leg.");
 
-			popBackStack();
+			if (areFlightDetailsShowing()) {
+				popBackStack();
+			}
 		}
 	};
 
@@ -1138,6 +1151,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		}
 
 		supportInvalidateOptionsMenu();
+
+		mCurrentlyPoppingBackStack = false;
 
 		// Leave debug message
 		Log.d("onBackStackChanged(): legPos=" + mLegPosition + ", stack=" + getBackStackDebugString());
