@@ -324,13 +324,18 @@ public class HotelsRobotHelper {
 	public void filterFor(String filterText) { //filter currently does not work.
 		//solo.clickOnText(getStringFromR(R.string.filter_hotels));
 		View filterButton = mSolo.getView(R.id.menu_select_filter);
-		//Korea and Japan do not support filtering because 
-		//most hotel names are in their respective languages' characters
-		if (mRes.getConfiguration().locale != mLocaleUtils.APAC_LOCALES[4]
-				&& mRes.getConfiguration().locale != mLocaleUtils.APAC_LOCALES[5]
-				&& mRes.getConfiguration().locale != mLocaleUtils.APAC_LOCALES[1]
-				&& mRes.getConfiguration().locale != mLocaleUtils.APAC_LOCALES[12]
-				&& mRes.getConfiguration().locale != mLocaleUtils.APAC_LOCALES[15]) {
+		
+		//Filtering Asian languages with English characters often
+		// leads to no hotels being found, so we don't filter on those locales.
+
+		Locale currentLocale = mRes.getConfiguration().locale;
+		Log.d(TAG, "!!!!! " + currentLocale.toString());
+		if (!currentLocale.equals(mLocaleUtils.APAC_LOCALES[4]) //Japan
+				&& !currentLocale.equals(mLocaleUtils.APAC_LOCALES[5]) //Korea
+				&& !currentLocale.equals(mLocaleUtils.APAC_LOCALES[1]) //Chinese-Hong Kong
+				&& !currentLocale.equals(mLocaleUtils.APAC_LOCALES[12]) //Chinese-Taiwan
+				&& !currentLocale.equals(mLocaleUtils.APAC_LOCALES[15]) //China 
+		) {
 			enterLog(TAG, "Clicking on Filter label");
 
 			try {
