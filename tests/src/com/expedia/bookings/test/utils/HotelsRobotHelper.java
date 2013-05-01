@@ -805,7 +805,7 @@ public class HotelsRobotHelper {
 		enterLog(TAG, "Booking: Slide Y from: " + startLocation[1] + " to " + endLocation[1] + ".");
 		delay();
 
-		mSolo.drag(startLocation[0], mScreenWidth - 5, startLocation[1] + 25, endLocation[1] + 20, 10);
+		mSolo.drag(startLocation[0], mScreenWidth - 5, startLocation[1] + 50, endLocation[1] + 50, 10);
 
 		delay(5);
 
