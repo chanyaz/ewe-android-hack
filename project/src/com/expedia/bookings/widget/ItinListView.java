@@ -558,10 +558,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		showDetails(mDetailPosition);
 	}
 
-	private void showDetails(boolean animate) {
-		showDetails(mDetailPosition, animate);
-	}
-
 	private boolean showDetails(int position) {
 		return showDetails(position, true);
 	}

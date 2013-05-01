@@ -2693,18 +2693,14 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	}
 
 	private void onOpenFilterPanel() {
-		Log.d("Tracking \"App.Hotels.Search.Refine\" onClick...");
 		OmnitureTracking.trackSimpleEvent(this, "App.Hotels.Search.Refine", null, "Shopper", null);
 	}
 
 	private void onSwitchToMap() {
-		Log.d("Tracking \"App.Hotels.Search.Map\" pageLoad...");
 		OmnitureTracking.trackSimpleEvent(this, "App.Hotels.Search.Map", null, "Shopper", null);
 	}
 
 	private void onGuestsChanged() {
-		Log.d("Tracking \"App.Hotels.Search.Refine.NumberTravelers\" change");
-
 		final String pageName = "App.Hotels.Search.Refine.NumberTravelers."
 				+ (mAdultsNumberPicker.getValue() + mChildrenNumberPicker.getValue());
 
@@ -2714,13 +2710,10 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	// Filter tracking
 
 	private void onFilterClosed() {
-		Log.d("Tracking \"App.Hotels.Search.Refine.Name\" change...");
 		OmnitureTracking.trackLinkHotelRefineName(this, mFilterHotelNameEditText.getText().toString());
 	}
 
 	private void onPriceFilterChanged() {
-		Log.d("Tracking \"App.Hotels.Search.Refine.PriceRange\" change...");
-
 		switch (mPriceButtonGroup.getCheckedRadioButtonId()) {
 		case R.id.price_cheap_button: {
 			OmnitureTracking.trackLinkHotelRefinePriceRange(this, PriceRange.CHEAP);
@@ -2743,8 +2736,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	}
 
 	private void onRadiusFilterChanged() {
-		Log.d("Tracking \"App.Hotels.Search.Refine.SearchRadius\" rating change...");
-
 		switch (mRadiusButtonGroup.getCheckedRadioButtonId()) {
 		case R.id.radius_small_button: {
 			OmnitureTracking.trackLinkHotelRefineSearchRadius(this, SearchRadius.SMALL);
@@ -2767,8 +2758,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	}
 
 	private void onRatingFilterChanged() {
-		Log.d("Tracking \"App.Hotels.Search.Refine\" rating change...");
-
 		switch (mRatingButtonGroup.getCheckedRadioButtonId()) {
 		case R.id.rating_low_button: {
 			OmnitureTracking.trackLinkHotelRefineRating(this, "3Stars");
