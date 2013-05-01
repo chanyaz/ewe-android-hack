@@ -1511,6 +1511,8 @@
     <string name="invalid_field">Please enter a valid value for this field.</string>
     <!-- Error if an invalid card number was entered -->
     <string name="invalid_card_number">The credit card number you entered is invalid, please try again.</string>
+    <!-- Error shown to user if their credit card postal code is invalid -->
+    <string name="invalid_postal_code">We\'re sorry, but a valid postal code is required to process your credit card.</string>
     <!-- Error if an invalid credit card type was entered -->
     <string name="invalid_card_type">We could not detect your credit card type, please enter a valid credit card.</string>
     <!-- Error if an invalid month (not 1-12) was entered -->

@@ -48,6 +48,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	private static final int DIALOG_CALLBACK_INVALID_CC = 1;
 	private static final int DIALOG_CALLBACK_INVALID_PAYMENT = 2;
 	private static final int DIALOG_CALLBACK_INVALID_PHONENUMBER = 3;
+	private static final int DIALOG_CALLBACK_INVALID_POSTALCODE = 4;
 
 	private Context mContext;
 
@@ -292,6 +293,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		boolean hasExpirationDateError = false;
 		boolean hasCreditCardNumberError = false;
 		boolean hasPhoneError = false;
+		boolean hasPostalCodeError = false;
 
 		// Log all errors, in case we need to see them
 		for (int a = 0; a < errors.size(); a++) {
@@ -314,6 +316,9 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 			}
 			else if (field.equals("phone")) {
 				hasPhoneError = true;
+			}
+			else if (field.equals("postalCode")) {
+				hasPostalCodeError = true;
 			}
 		}
 
@@ -359,6 +364,13 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 						getString(R.string.ean_error_invalid_phone_number), getString(android.R.string.ok),
 						DIALOG_CALLBACK_INVALID_PHONENUMBER);
 				frag.show(getSupportFragmentManager(), "badPhoneNumberDialog");
+				return;
+			}
+			else if (hasPostalCodeError) {
+				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
+						getString(R.string.invalid_postal_code), getString(android.R.string.ok),
+						DIALOG_CALLBACK_INVALID_POSTALCODE);
+				frag.show(getSupportFragmentManager(), "badPostalCodeDialog");
 				return;
 			}
 			break;
@@ -415,6 +427,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	public void onSimpleDialogClick(int callbackId) {
 		switch (callbackId) {
 		case DIALOG_CALLBACK_INVALID_CC:
+		case DIALOG_CALLBACK_INVALID_POSTALCODE:
 		case DIALOG_CALLBACK_INVALID_PAYMENT:
 			launchHotelPaymentCreditCardFragment();
 			finish();

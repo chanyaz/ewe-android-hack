@@ -458,10 +458,8 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		}
 
 		if (mLineOfBusiness == LineOfBusiness.HOTELS) {
-			PointOfSale.RequiredPaymentFields req = PointOfSale.getPointOfSale().getRequiredPaymentFieldsHotels();
-			if (req == PointOfSale.RequiredPaymentFields.POSTAL_CODE) {
-				return true;
-			}
+			// #1056. Postal code for hotels is always optional, regardless of POS or country of billing.
+			return false;
 		}
 
 		return false;
