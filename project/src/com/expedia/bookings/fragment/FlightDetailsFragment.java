@@ -149,18 +149,27 @@ public class FlightDetailsFragment extends Fragment {
 				StrUtils.formatWaypoint(leg.getSegment(segmentCount - 1).mDestination)));
 		mInfoContainer.addView(arriveAtSection);
 
-		// Footer
+		// Footer: https://mingle/projects/eb_ad_app/cards/660
 
 		// Configure the first TextView, "Baggage Fee Information"
-		ViewUtils.setAllCaps(mFeesTextView);
-		if (trip.hasBagFee()) {
-			mFeesTextView.setText(R.string.checked_baggage_not_included);
-			mFeesTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_suitcase_baggage_fee, 0, 0, 0);
-		}
+		int textViewResId;
+		int drawableResId;
 		if (leg.isSpirit()) {
-			mFeesTextView.setText(R.string.carry_on_baggage_fees_apply);
-			mFeesTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_suitcase_baggage_fee, 0, 0, 0);
+			textViewResId = R.string.carry_on_baggage_fees_apply;
+			drawableResId = R.drawable.ic_suitcase_baggage_fee;
 		}
+		else if (trip.hasBagFee()) {
+			textViewResId = R.string.checked_baggage_not_included;
+			drawableResId = R.drawable.ic_suitcase_baggage_fee;
+		}
+		else {
+			textViewResId = R.string.baggage_fee_info;
+			drawableResId = R.drawable.ic_suitcase_small;
+		}
+
+		ViewUtils.setAllCaps(mFeesTextView);
+		mFeesTextView.setText(textViewResId);
+		mFeesTextView.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0, 0);
 
 		// Configure the second TextView, "Payment Fees Apply"
 		if (trip.getMayChargeObFees()) {
