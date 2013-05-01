@@ -1602,7 +1602,7 @@ public class OmnitureTracking {
 
 	private static final String ADX_EVENT = "Ad-X Download";
 	private static final String ADX_ORGANIC_EVENT = "Ad-X Organic";
-	private static String ORGANIC_ADX_DOWNLOAD_REFERRAL_STRING = "Mob :: Brand";
+	private static final String ORGANIC_ADX_DOWNLOAD_REFERRAL_STRING = "Mob :: Brand";
 
 	public static void trackAdXReferralLink(Context context, String referral) {
 		if (ORGANIC_ADX_DOWNLOAD_REFERRAL_STRING.equals(referral)) {
