@@ -9,7 +9,7 @@
     <dimen name="flight_header_bottom_margin">44dp</dimen>
 
     <dimen name="plane_window_height">220dp</dimen>
-    <dimen name="plane_window_text_offset">100dp</dimen>
+    <dimen name="plane_window_text_offset">-22dp</dimen>
 
 	<!-- The limiting dimension of the gallery (either height or width, depending on orientation) -->
 	<dimen name="gallery_size">250dp</dimen>

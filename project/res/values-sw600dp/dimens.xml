@@ -7,7 +7,7 @@
     <!-- Tablet Flights -->
     <dimen name="flight_header_bottom_margin">140dp</dimen>
     <dimen name="plane_window_height">600dp</dimen>
-    <dimen name="plane_window_text_offset">250dp</dimen>
+    <dimen name="plane_window_text_offset">-60dp</dimen>
     <dimen name="flight_search_calendar_height">380dp</dimen>
 
 </resources>

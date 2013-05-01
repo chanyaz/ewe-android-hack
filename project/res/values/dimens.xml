@@ -45,7 +45,7 @@
     <!-- Plane window view dimens -->
     <!-- These must always be linked -->
     <dimen name="plane_window_height">350dp</dimen>
-    <dimen name="plane_window_text_offset">150dp</dimen>
+    <dimen name="plane_window_text_offset">-35dp</dimen>
 
     <!-- Flights dimens -->
     <dimen name="flight_header_bottom_margin">88dp</dimen>
