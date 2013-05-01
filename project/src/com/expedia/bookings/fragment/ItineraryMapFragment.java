@@ -230,6 +230,14 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 
 		mSelectedId = id;
 
+		LatLng newLatLng = offsetLatLng(position);
+		CameraPosition newPos = new CameraPosition(newLatLng, ZOOM_LEVEL, 0, 0);
+		CameraPosition origPos = getMap().getCameraPosition();
+
+		if (practicallyEquals(origPos, newPos)) {
+			return false;
+		}
+
 		changeCamera(position, animate);
 
 		return true;
