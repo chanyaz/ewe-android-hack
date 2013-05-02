@@ -161,7 +161,7 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 				getSupportFragmentManager().beginTransaction().hide(mItinCardFragment).commit();
 			}
 
-			if (data.getLocation() == null) {
+			if (data.getLocation() == null || (data.getLocation().latitude == 0 && data.getLocation().latitude == 0)) {
 				if (data.hasDetailData()) {
 					// Item has no location but has details to show in a popup, show the default background
 					mFallbackPatternView.setVisibility(View.VISIBLE);
