@@ -2,7 +2,6 @@ package com.expedia.bookings.test.utils;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -147,74 +146,113 @@ public class UserLocaleUtils extends ActivityInstrumentationTestCase2<SearchActi
 	//Set locale to top locale code in listName file
 	//Remove that line from the list afterward
 	public Locale selectNextLocaleFromInternalList(String listName)
-			throws IOException, OutOfPOSException {
+			throws OutOfPOSException {
 
 		File fileIn = new File(listName);
 		File tempFile = new File(Environment.getExternalStorageDirectory().getPath() + "/tempFile");
-		BufferedReader listReader = new BufferedReader(new FileReader(fileIn));
+		PrintWriter fileWriter = null;
+		BufferedReader listReader = null;
 
-		//Each line from file is a POS code
-		String localeCode = listReader.readLine();
 		Locale newLocale;
 
-		// Get substrings for new locale, instantiate new locale, set new locale
-		// If there are no more POSs listed in the file
-		// throw on OutOfPOSException
-
 		try {
-			mCurrentLocaleString = localeCode;
-			newLocale = new Locale(localeCode.substring(0, 2), localeCode.substring(3, 5));
+
+			fileWriter = new PrintWriter(tempFile);
+			listReader = new BufferedReader(new FileReader(fileIn));
+
+			//Each line from file is a POS code
+			String localeCode = listReader.readLine();
+
+			// Get substrings for new locale, instantiate new locale, set new locale
+			// If there are no more POSs listed in the file
+			// throw on OutOfPOSException
+
+			try {
+				mCurrentLocaleString = localeCode;
+				newLocale = new Locale(localeCode.substring(0, 2), localeCode.substring(3, 5));
+			}
+			catch (NullPointerException e) {
+				Log.e(TAG, "Out of locales. Throwing OutOfPOSException");
+				throw new OutOfPOSException();
+			}
+			catch(StringIndexOutOfBoundsException s) {
+				Log.e(TAG, "Out of locales. Throwing OutOfPOSException");
+				throw new OutOfPOSException();
+			}
+			setLocale(newLocale);
+
+			//write the rest of the existing file to a temporary file
+
+			String nextLine = listReader.readLine();
+			while (nextLine != null) {
+				Log.d(TAG, "Writing POS to temp file: " + nextLine);
+				fileWriter.write(nextLine + '\n');
+				nextLine = listReader.readLine();
+			}
+
+			//set old file to be the new file
+			//which has one less locale listed
+			fileIn.delete();
+			tempFile.renameTo(fileIn);
+
+			return newLocale;
 		}
-		catch (NullPointerException e) {
-			Log.e(TAG, "Out of locales. Throwing OutOfPOSException");
-			throw new OutOfPOSException();
+		catch(OutOfPOSException o) {
+			throw o;
 		}
-		setLocale(newLocale);
-
-		//write the rest of the existing file to a temporary file
-
-		PrintWriter fileWriter = new PrintWriter(tempFile);
-
-		String nextLine = listReader.readLine();
-		while (nextLine != null) {
-			Log.d(TAG, "Writing POS to temp file: " + nextLine);
-			fileWriter.write(nextLine + '\n');
-			nextLine = listReader.readLine();
+		catch (IOException e) {
+			throw new RuntimeException(e);
 		}
-		fileWriter.close();
+		finally {
+			fileWriter.close();
 
-		//set old file to be the new file
-		//which has one less locale listed
-		fileIn.delete();
-		tempFile.renameTo(fileIn);
-
-		return newLocale;
+			try {
+				listReader.close();
+			}
+			catch (IOException e) {
+				Log.e(TAG, "Failed closing listReader", e);
+			}
+		}
 	}
 
 	// If a test fails for errors/exceptions, 
 	// we do not want to have skipped any POS
 	// This method is for adding the POS back to the list
-	public void appendCurrentLocaleBackOnToList(String listName) throws Exception {
+	public void appendCurrentLocaleBackOnToList(String listName) {
 		File fileIn = new File(listName);
 		File tempFile = new File(Environment.getExternalStorageDirectory().getPath() + "/tempFile");
+		PrintWriter fileWriter = null;
+		BufferedReader listReader = null;
 
-		BufferedReader listReader = new BufferedReader(new FileReader(fileIn));
-		PrintWriter fileWriter = new PrintWriter(tempFile);
+		try {
+			listReader = new BufferedReader(new FileReader(fileIn));
+			fileWriter = new PrintWriter(tempFile);
 
-		String nextLine = listReader.readLine();
+			String nextLine = listReader.readLine();
 
-		while (nextLine != null) {
-			Log.d(TAG, "Writing POS to temp file: " + nextLine);
-			fileWriter.write(nextLine + '\n');
-			nextLine = listReader.readLine();
+			while (nextLine != null) {
+				Log.d(TAG, "Writing POS to temp file: " + nextLine);
+				fileWriter.write(nextLine + '\n');
+				nextLine = listReader.readLine();
+			}
+
+			fileWriter.println(mCurrentLocaleString);
+			fileIn.delete();
+			tempFile.renameTo(fileIn);
 		}
-		
-		fileWriter.println(mCurrentLocaleString);
-		fileWriter.close();
-		listReader.close();
+		catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		finally {
+			fileWriter.close();
+			try {
+				listReader.close();
+			}
+			catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
 
-		fileIn.delete();
-		tempFile.renameTo(fileIn);
 	}
 
 	// Select a random locale from the array of locales given
