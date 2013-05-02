@@ -5,7 +5,7 @@
     android:fillViewport="true" >
 
     <RelativeLayout
-        android:layout_width="@dimen/flight_content_width"
+        android:layout_width="@dimen/standard_content_width"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:orientation="vertical" >

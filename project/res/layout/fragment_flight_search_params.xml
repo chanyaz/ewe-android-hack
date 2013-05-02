@@ -174,7 +174,7 @@
 
         <com.mobiata.android.widget.CalendarDatePicker
             android:id="@+id/calendar_date_picker"
-            android:layout_width="@dimen/flight_content_width"
+            android:layout_width="@dimen/standard_content_width"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_gravity="center_horizontal"

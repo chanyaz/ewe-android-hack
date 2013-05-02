@@ -7,7 +7,7 @@
 
     <ScrollView
         android:id="@+id/flight_info_scroll_view"
-        android:layout_width="@dimen/flight_content_width"
+        android:layout_width="@dimen/standard_content_width"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
         android:fillViewport="true" >
