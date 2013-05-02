@@ -41,6 +41,7 @@ import com.expedia.bookings.widget.TelephoneSpinner;
 import com.expedia.bookings.widget.TelephoneSpinnerAdapter;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.validation.MultiValidator;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
 
@@ -233,7 +234,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 	@Override
 	public void clearChangeListeners() {
 		mChangeListeners.clear();
-
 	}
 
 	/**
@@ -392,7 +392,10 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			R.id.edit_first_name) {
 		@Override
 		protected Validator<EditText> getValidator() {
-			return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
+			MultiValidator<EditText> nameValidators = new MultiValidator<EditText>();
+			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR);
+			nameValidators.addValidator(CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET);
+			return nameValidators;
 		}
 
 		@Override
@@ -427,7 +430,10 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			R.id.edit_middle_name) {
 		@Override
 		protected Validator<EditText> getValidator() {
-			return CommonSectionValidators.ALWAYS_VALID_VALIDATOR_ET;
+			MultiValidator<EditText> nameValidators = new MultiValidator<EditText>();
+			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR);
+			nameValidators.addValidator(CommonSectionValidators.ALWAYS_VALID_VALIDATOR_ET);
+			return nameValidators;
 		}
 
 		@Override
@@ -477,7 +483,10 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 		@Override
 		protected Validator<EditText> getValidator() {
-			return mValidator;
+			MultiValidator<EditText> nameValidators = new MultiValidator<EditText>();
+			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR);
+			nameValidators.addValidator(mValidator);
+			return nameValidators;
 		}
 
 		@Override
