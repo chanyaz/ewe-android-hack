@@ -92,8 +92,9 @@ public class WalletUtils {
 	}
 
 	public static void bindWalletToBillingInfo(MaskedWallet wallet, BillingInfo billingInfo) {
-		billingInfo.setStoredCard(WalletUtils.convertToStoredCreditCard(wallet));
+		Log.d(TAG, "Binding MASKED wallet data to billing info...");
 
+		billingInfo.setStoredCard(WalletUtils.convertToStoredCreditCard(wallet));
 		billingInfo.setEmail(wallet.getEmail());
 
 		// With a masked wallet, we actually explicitly *clear* some data from the BillingInfo
@@ -104,6 +105,8 @@ public class WalletUtils {
 	}
 
 	public static void bindWalletToBillingInfo(FullWallet wallet, BillingInfo billingInfo) {
+		Log.d(TAG, "Binding FULL wallet data to billing info...");
+
 		billingInfo.setEmail(wallet.getEmail());
 
 		billingInfo.setLocation(convertAddressToLocation(wallet.getBillingAddress()));
@@ -119,6 +122,8 @@ public class WalletUtils {
 	// Unbind just the data that is added via the full wallet; this is important
 	// to do after the user books (as we do not want the 
 	public static void unbindFullWalletDataFromBillingInfo(BillingInfo billingInfo) {
+		Log.d(TAG, "Unbinding full wallet data from billing info...");
+
 		billingInfo.setEmail(null);
 		billingInfo.setNumber(null);
 		billingInfo.setSecurityCode(null);
@@ -130,6 +135,8 @@ public class WalletUtils {
 	// If something goes wrong, we actually *don't* want GoogleWallet in the billing info anymore
 	// so clear it out.
 	public static void unbindAllWalletDataFromBillingInfo(BillingInfo billingInfo) {
+		Log.d(TAG, "Unbinding ALL wallet data from billing info...");
+
 		unbindFullWalletDataFromBillingInfo(billingInfo);
 
 		StoredCreditCard scc = billingInfo.getStoredCard();

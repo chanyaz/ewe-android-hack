@@ -144,6 +144,8 @@ public abstract class LoadWalletFragment extends WalletFragment {
 		// If the MaskedWallet used to exist but has since been cleared, we want
 		// to reset the state of this fragment
 		if (mLoadedMaskedWallet && Db.getMaskedWallet() == null) {
+			Log.i(WalletUtils.TAG, "Masked wallet *was* loaded, but is now null; resetting LoadWalletFragment");
+
 			mCheckPreAuth = true;
 			mCheckedPreAuth = false;
 			mIsUserPreAuthorized = false;
