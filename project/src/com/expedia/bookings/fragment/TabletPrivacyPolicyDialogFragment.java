@@ -52,7 +52,7 @@ public class TabletPrivacyPolicyDialogFragment extends DialogFragment {
 			itemUrls.add(PointOfSale.getPointOfSale().getBestPriceGuaranteeUrl());
 		}
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.Theme_Light_Dialog);
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.Theme_Light_Dialog_NoAb);
 		builder.setTitle(getString(R.string.legal_information));
 		builder.setItems(itemNames.toArray(new String[itemNames.size()]), new DialogInterface.OnClickListener() {
 			@Override
