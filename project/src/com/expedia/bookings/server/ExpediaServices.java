@@ -916,7 +916,10 @@ public class ExpediaServices implements DownloadListener {
 					}
 					query.add(new BasicNameValuePair("city", location.getCity()));
 					query.add(new BasicNameValuePair("state", location.getStateCode()));
-					query.add(new BasicNameValuePair("postalCode", location.getPostalCode()));
+					// #1056. Flights booking postalCode check depends on the billing country chosen during checkout.
+					if (!TextUtils.isEmpty(location.getPostalCode())) {
+						query.add(new BasicNameValuePair("postalCode", location.getPostalCode()));
+					}
 					query.add(new BasicNameValuePair("country", location.getCountryCode()));
 				}
 			}
