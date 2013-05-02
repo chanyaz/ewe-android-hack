@@ -11,6 +11,7 @@ import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.utils.WalletUtils;
 import com.google.android.gms.wallet.FullWallet;
+import com.google.android.gms.wallet.MaskedWallet;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;

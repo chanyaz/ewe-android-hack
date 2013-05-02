@@ -726,7 +726,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	 * blow away whatever was here before - so only call this when
 	 * we want to override the current data with Google Wallet!
 	 */
-	protected void onMaskedWalletFullyLoaded() {
+	protected void onMaskedWalletFullyLoaded(boolean fromPreauth) {
 		populateTravelerData();
 
 		MaskedWallet maskedWallet = Db.getMaskedWallet();
@@ -739,8 +739,11 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			populateTravelerData(traveler);
 		}
 
-		// Bind credit card data
-		WalletUtils.bindWalletToBillingInfo(maskedWallet, mBillingInfo);
+		// Bind credit card data, but only if they explicitly clicked "buy with wallet" or they have
+		// no existing credit card info entered
+		if (!fromPreauth || (TextUtils.isEmpty(mBillingInfo.getNumber()) && mBillingInfo.getStoredCard() == null)) {
+			WalletUtils.bindWalletToBillingInfo(maskedWallet, mBillingInfo);
+		}
 
 		bindAll();
 		refreshAccountButtonState();

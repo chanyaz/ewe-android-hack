@@ -51,7 +51,7 @@ public abstract class LoadWalletFragment extends WalletFragment {
 	/**
 	 * This is called once we have a MaskedWallet loaded and in Db.
 	 */
-	protected abstract void onMaskedWalletFullyLoaded();
+	protected abstract void onMaskedWalletFullyLoaded(boolean fromPreauth);
 
 	/**
 	 * This indicates that something has changed with the state of Google Wallet,
@@ -71,7 +71,7 @@ public abstract class LoadWalletFragment extends WalletFragment {
 			displayGoogleWalletUnavailableToast();
 		}
 		else if (Db.getMaskedWallet() != null) {
-			onMaskedWalletFullyLoaded();
+			onMaskedWalletFullyLoaded(false);
 		}
 		else if (mConnectionResult != null) {
 			resolveUnsuccessfulConnectionResult();
@@ -116,13 +116,13 @@ public abstract class LoadWalletFragment extends WalletFragment {
 		return WalletUtils.buildMaskedWalletRequest(getActivity(), getEstimatedTotal(), getMaskedWalletBuilderFlags());
 	}
 
-	private void onMaskedWalletReceived(MaskedWallet wallet) {
+	private void onMaskedWalletReceived(MaskedWallet wallet, boolean fromPreauth) {
 		WalletUtils.logWallet(wallet);
 
 		Db.setMaskedWallet(wallet);
 		mLoadedMaskedWallet = true;
 
-		onMaskedWalletFullyLoaded();
+		onMaskedWalletFullyLoaded(fromPreauth);
 	}
 
 	// Lifecycle
@@ -174,7 +174,8 @@ public abstract class LoadWalletFragment extends WalletFragment {
 		case REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET:
 			switch (resultCode) {
 			case Activity.RESULT_OK:
-				onMaskedWalletReceived((MaskedWallet) data.getParcelableExtra(WalletConstants.EXTRA_MASKED_WALLET));
+				onMaskedWalletReceived((MaskedWallet) data.getParcelableExtra(WalletConstants.EXTRA_MASKED_WALLET),
+						false);
 				break;
 			case Activity.RESULT_CANCELED:
 				if (mWalletClient != null && mWalletClient.isConnected()) {
@@ -276,7 +277,7 @@ public abstract class LoadWalletFragment extends WalletFragment {
 		if (status.isSuccess()) {
 			// User has pre-authorized the app
 			Log.i(WalletUtils.TAG, "User has pre-authorized app with Wallet before, automatically binding data...");
-			onMaskedWalletReceived(wallet);
+			onMaskedWalletReceived(wallet, true);
 		}
 		else if (status.hasResolution()) {
 			mConnectionResult = status;
