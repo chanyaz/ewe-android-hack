@@ -136,7 +136,6 @@
             android:theme="@style/Theme.Phone.Dark" />
         <activity
             android:name="com.expedia.bookings.activity.HotelBookingActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/Theme.Phone.Dark" />
         <activity
             android:name="com.expedia.bookings.activity.AboutActivity"
