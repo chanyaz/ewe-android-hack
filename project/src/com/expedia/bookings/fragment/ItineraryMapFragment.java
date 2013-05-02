@@ -133,7 +133,7 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 
 			for (ItinCardData card : data) {
 				LatLng loc = card.getLocation();
-				if (loc == null) {
+				if (loc == null || (loc.latitude == 0 && loc.longitude == 0)) {
 					continue;
 				}
 
