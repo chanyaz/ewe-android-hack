@@ -117,7 +117,6 @@
             android:theme="@style/Theme.Phone" />
         <activity
             android:name="com.expedia.bookings.activity.BookingOverviewActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/Theme.Phone.Dark"
             android:windowSoftInputMode="adjustPan" />
         <activity
