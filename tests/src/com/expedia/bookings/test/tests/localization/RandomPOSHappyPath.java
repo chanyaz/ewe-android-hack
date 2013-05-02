@@ -116,6 +116,10 @@ public class RandomPOSHappyPath extends
 			Log.e(TAG, "POSHappyPath out of POSs. Throwing exception", e);
 			throw e;
 		}
+		catch (RuntimeException r) {
+			Log.e(TAG, "RuntimeException", r);
+			throw r;
+		}
 		catch (Exception e) {
 			Configuration config = mRes.getConfiguration();
 			Log.e(TAG, "On Locale: " + config.locale.toString()
