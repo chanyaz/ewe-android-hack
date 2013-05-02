@@ -186,7 +186,6 @@
         </activity>
         <activity
             android:name="com.expedia.bookings.activity.FlightBookingActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/FlightTheme" />
         <activity
             android:name="com.expedia.bookings.activity.FlightPaymentOptionsActivity"
