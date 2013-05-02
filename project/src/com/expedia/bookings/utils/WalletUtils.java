@@ -95,13 +95,13 @@ public class WalletUtils {
 		Log.d(TAG, "Binding MASKED wallet data to billing info...");
 
 		billingInfo.setStoredCard(WalletUtils.convertToStoredCreditCard(wallet));
-		billingInfo.setEmail(wallet.getEmail());
 
 		// With a masked wallet, we actually explicitly *clear* some data from the BillingInfo
 		// The reason why we do this is so that the app does not simultaneously think that we
 		// have some half-filled BillingInfo in addition to a stored credit card
 		billingInfo.setLocation(null);
 		billingInfo.setNumber(null);
+		billingInfo.setEmail(null);
 	}
 
 	public static void bindWalletToBillingInfo(FullWallet wallet, BillingInfo billingInfo) {
