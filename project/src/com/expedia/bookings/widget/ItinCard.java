@@ -10,6 +10,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -173,6 +174,46 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Is the MotionEvent happening atop our Summary Buttons?
+	 * @param event - MotionEvent designated for the ItinCard
+	 * This motion event will already have its offsetLocation set to the top of the ItinCard.
+	 * @return true if touch would effect the itin card summary buttons
+	 */
+	public boolean isTouchOnSummaryButtons(MotionEvent event) {
+		if (mActionButtonLayout != null && mActionButtonLayout.getVisibility() == View.VISIBLE && event != null) {
+			int ex = (int) event.getX();
+			int ey = (int) event.getY();
+
+			int ax1 = mActionButtonLayout.getLeft();
+			int ax2 = mActionButtonLayout.getRight();
+			int ay1 = mActionButtonLayout.getTop();
+			int ay2 = mActionButtonLayout.getBottom();
+
+			if (ax1 <= ex && ax2 >= ex && ay1 <= ey && ay2 >= ey) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Pass touch event to our Summary Buttons
+	 * @param event - MotionEvent designated for the ItinCard
+	 * This motion event will already have its offsetLocation set to the top of the ItinCard.
+	 * @return true
+	 */
+	public boolean doSummaryButtonTouch(MotionEvent event) {
+		if (mActionButtonLayout != null && mActionButtonLayout.getVisibility() == View.VISIBLE && event != null) {
+			MotionEvent childEvent = MotionEvent.obtain(event);
+			childEvent.offsetLocation(0, -mActionButtonLayout.getTop());
+			mActionButtonLayout.dispatchTouchEvent(childEvent);
+			childEvent.recycle();
+			return true;
+		}
+		return false;
+	}
 
 	public void setOnItinCardClickListener(OnItinCardClickListener onItinCardClickListener) {
 		mOnItinCardClickListener = onItinCardClickListener;

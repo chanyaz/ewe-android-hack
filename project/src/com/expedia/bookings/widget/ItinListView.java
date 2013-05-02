@@ -81,7 +81,8 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	private int mMode = MODE_LIST;
 
-	private View mLastChild;
+	private View mLastChild = null;
+	private boolean mWasSummaryButtonTouch = false;
 
 	private int mScrollState = SCROLL_STATE_IDLE;
 	private int mDetailPosition = -1;
@@ -223,6 +224,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	// Touch overrides
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
+
+		//If we are in detail mode, pass all touches to the ItinCard
+
 		if (mMode == MODE_DETAIL) {
 			if (mDetailsCard != null) {
 				boolean retVal = mDetailsCard.dispatchTouchEvent(event);
@@ -233,38 +237,101 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			}
 		}
 
+		//If we are in list mode, some shit goes down. 
+		//We want the appropriate action to reach the appropriate target.
+		//Thus when we touch a card and drag so our finger is no longer on the card
+		//we send ACTION_DOWN to the card, all of the ACTION_MOVES that occur on the card
+		//also get sent there, however, when we are no longer over the card
+		//we send ACTION_CANCEL to the card, and ACTION_DOWN to the list (along with the rest of the events).
+		//We try to handle all events like this, sending ACTION_CANCEL when we aren't above old views anymore,
+		//and ACTION_DOWNS to the new touch targets.
+
+		boolean isTouchDown = event.getAction() == MotionEvent.ACTION_DOWN;
+		boolean isTouchUp = event.getAction() == MotionEvent.ACTION_UP;
+		boolean isSummaryButtonTouch = false;
+
 		View child = findMotionView((int) event.getY());
+
+		MotionEvent childEvent = MotionEvent.obtain(event);
 		if (child != null) {
-			MotionEvent childEvent = MotionEvent.obtain(event);
 			childEvent.offsetLocation(0, -child.getTop());
 
-			if (mLastChild != null && mLastChild != child) {
-				MotionEvent actionOutEvent = MotionEvent.obtain(childEvent);
-				actionOutEvent.offsetLocation(0, mLastChild.getHeight());
-				mLastChild.dispatchTouchEvent(actionOutEvent);
-				actionOutEvent.recycle();
-
-				Log.t("Tried moving outside last child");
+			if (child instanceof ItinCard && ((ItinCard) child).isTouchOnSummaryButtons(childEvent)) {
+				isSummaryButtonTouch = true;
 			}
+		}
 
-			mLastChild = child;
+		MotionEvent downChildEvent = MotionEvent.obtain(event);
+		if (mLastChild != null) {
+			downChildEvent.offsetLocation(0, -mLastChild.getTop());
+		}
 
-			if (child.dispatchTouchEvent(childEvent)) {
-				childEvent.recycle();
-				return true;
+		if (isTouchDown) {
+			if (isSummaryButtonTouch) {
+				sendEventToView(childEvent, child);
+				mLastChild = child;
 			}
-
-			childEvent.recycle();
+			else {
+				onTouchEventSafe(event);
+			}
+		}
+		else if (isTouchUp) {
+			if (isSummaryButtonTouch && mWasSummaryButtonTouch) {
+				if (child == mLastChild) {
+					alterEventActionAndSendToView(childEvent, MotionEvent.ACTION_UP, child);
+				}
+				else {
+					alterEventActionAndSendToView(downChildEvent, MotionEvent.ACTION_CANCEL, mLastChild);
+					alterEventActionAndSendToView(childEvent, MotionEvent.ACTION_UP, child);
+				}
+			}
+			else if (isSummaryButtonTouch) {
+				alterEventActionAndSendToView(childEvent, MotionEvent.ACTION_UP, child);
+				alterEventActionAndFireTouchEvent(event, MotionEvent.ACTION_CANCEL);
+			}
+			else if (mWasSummaryButtonTouch) {
+				if (mLastChild != null) {
+					alterEventActionAndSendToView(downChildEvent, MotionEvent.ACTION_CANCEL, mLastChild);
+				}
+				alterEventActionAndFireTouchEvent(event, MotionEvent.ACTION_UP);
+			}
+			else {
+				onTouchEventSafe(event);
+			}
+			mLastChild = null;
+		}
+		else {
+			if (isSummaryButtonTouch && mWasSummaryButtonTouch) {
+				if (child == mLastChild) {
+					sendEventToView(childEvent, child);
+				}
+				else {
+					alterEventActionAndSendToView(downChildEvent, MotionEvent.ACTION_CANCEL, mLastChild);
+					alterEventActionAndSendToView(childEvent, MotionEvent.ACTION_DOWN, child);
+					mLastChild = child;
+				}
+			}
+			else if (!isSummaryButtonTouch && !mWasSummaryButtonTouch) {
+				onTouchEventSafe(event);
+			}
+			else if (isSummaryButtonTouch) {
+				alterEventActionAndFireTouchEvent(event, MotionEvent.ACTION_CANCEL);
+				alterEventActionAndSendToView(childEvent, MotionEvent.ACTION_DOWN, child);
+				mLastChild = child;
+			}
+			else {
+				alterEventActionAndSendToView(childEvent, MotionEvent.ACTION_CANCEL, child);
+				alterEventActionAndFireTouchEvent(event, MotionEvent.ACTION_DOWN);
+				mLastChild = null;
+			}
 		}
 
-		try {
-			//This sometimes throws ArrayIndexOutOfBounds on 2.x. when we are fast scrolling. Cause unclear.
-			return super.onTouchEvent(event);
-		}
-		catch (ArrayIndexOutOfBoundsException ex) {
-			Log.w("ArrayIndexOutOfBoundsException in ItinListView.onTouchEvent()", ex);
-		}
-		return false;
+		mWasSummaryButtonTouch = !isTouchUp && isSummaryButtonTouch;
+
+		downChildEvent.recycle();
+		childEvent.recycle();
+
+		return true;
 	}
 
 	@Override
@@ -385,6 +452,33 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
+
+	//Touch Helpers
+
+	private boolean sendEventToView(MotionEvent event, View view) {
+		return view.dispatchTouchEvent(event);
+	}
+
+	private boolean alterEventActionAndSendToView(MotionEvent event, int action, View view) {
+		event.setAction(action);
+		return sendEventToView(event, view);
+	}
+
+	private boolean onTouchEventSafe(MotionEvent event) {
+		try {
+			//This sometimes throws ArrayIndexOutOfBounds on 2.x. when we are fast scrolling. Cause unclear.
+			return super.onTouchEvent(event);
+		}
+		catch (ArrayIndexOutOfBoundsException ex) {
+			Log.w("ArrayIndexOutOfBoundsException in ItinListView.onTouchEvent()", ex);
+		}
+		return false;
+	}
+
+	private boolean alterEventActionAndFireTouchEvent(MotionEvent event, int action) {
+		event.setAction(action);
+		return onTouchEventSafe(event);
+	}
 
 	//Draw helper for the line background view
 	private void drawPathView(Canvas canvas) {
