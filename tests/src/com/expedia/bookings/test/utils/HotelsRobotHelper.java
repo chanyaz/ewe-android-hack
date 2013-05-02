@@ -33,7 +33,6 @@ public class HotelsRobotHelper {
 	private Resources mRes;
 	private HotelsUserData mUser; //user info container
 	private ScreenshotUtils mScreen;
-	private FileIOUtils mFileWriter;
 	private int mScreenWidth;
 	private int mScreenHeight;
 	public UserLocaleUtils mLocaleUtils;
@@ -124,49 +123,6 @@ public class HotelsRobotHelper {
 			delay(2);
 			mSolo.setActivityOrientation(Solo.PORTRAIT);
 			delay(2);
-		}
-	}
-
-	public void createFileWriter() {
-		mFileWriter = new FileIOUtils();
-		mWriteEventsToFile = true;
-		mFileWriter.addLineToFile("Install Event within a couple of minutes",
-				true);
-	}
-
-	public void closeFileWriter() {
-		mFileWriter.closeFileWriter();
-	}
-
-	public void flushFileWriter() {
-		mFileWriter.flushFileWriter();
-	}
-
-	//Can't use before instantiating mFileWriter!
-	// Reading any instructions from a text file
-	// Expected file format:
-	// Line 1: Device information
-	// Other lines: any other info
-	public void readInstructionsToOutFile(String inputFile) {
-		BufferedReader fileIn;
-		try {
-			fileIn = new BufferedReader(new FileReader(inputFile));
-			String deviceName = fileIn.readLine();
-			mFileWriter.addLineToFile("Device: " + deviceName, false);
-			String fileLine;
-			while ((fileLine = fileIn.readLine()) != null) {
-				mFileWriter.addLineToFile(fileLine, false);
-			}
-			fileIn.close();
-		}
-		catch (FileNotFoundException e) {
-			Log.e(TAG, "FileNotFoundException", e);
-		}
-		catch (IOException e) {
-			Log.e(TAG, "IOException", e);
-		}
-		finally {
-			closeFileWriter();
 		}
 	}
 
@@ -295,10 +251,6 @@ public class HotelsRobotHelper {
 		//If keeping track of events, write current locale/POS to file
 		String currentPOS = mRes.getConfiguration().locale.toString();
 		Log.d(TAG, "Current POS/Locale: " + currentPOS);
-
-		if (mWriteEventsToFile) {
-			mFileWriter.addLineToFile("POS: " + currentPOS, false);
-		}
 
 		landscape();
 		portrait();
@@ -589,11 +541,6 @@ public class HotelsRobotHelper {
 		}
 		mSolo.clickOnText(log_in_with_expedia);
 
-		// Log log in event for ad tracking
-		if (mWriteEventsToFile) {
-			mFileWriter.addLineToFile("Log in event at", true);
-		}
-
 		delay(5);
 		mSolo.scrollToTop();
 		delay();
@@ -848,11 +795,6 @@ public class HotelsRobotHelper {
 				delay(1);
 				screenshot("Confirmation Screen 2");
 				mSolo.scrollToTop();
-
-				// Log booking event for ad tracking
-				if (mWriteEventsToFile) {
-					mFileWriter.addLineToFile("BOOKING EVENT", true);
-				}
 			}
 			else {
 				enterLog(TAG, "Booking: Never got to confirmation screen.");
