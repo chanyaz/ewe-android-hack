@@ -25,7 +25,6 @@ public class AccountButton extends LinearLayout {
 	private View mLogoutContainer;
 	private View mErrorContainer;
 	private View mRewardsContainer;
-	private View mLoginButton;
 	private View mLogoutButton;
 	private View mLoadingLogoutButton;
 
@@ -54,13 +53,8 @@ public class AccountButton extends LinearLayout {
 				}
 			}
 		};
-		mLoginButton = (View) mLoginContainer.findViewById(R.id.expedia_account_login);
-		if (mLoginButton == null) {
-			mLoginContainer.setOnClickListener(clickListener);
-		}
-		else {
-			mLoginButton.setOnClickListener(clickListener);
-		}
+
+		mLoginContainer.setOnClickListener(clickListener);
 
 		mLogoutButton = mLogoutContainer.findViewById(R.id.account_logout_logout_button);
 		mLoadingLogoutButton = mAccountLoadingContainer.findViewById(R.id.account_loading_logout_button);
@@ -82,7 +76,6 @@ public class AccountButton extends LinearLayout {
 		super.setEnabled(enabled);
 
 		Ui.setEnabled(mLoginContainer, enabled);
-		Ui.setEnabled(mLoginButton, enabled);
 		Ui.setEnabled(mLogoutButton, enabled);
 		Ui.setEnabled(mLoadingLogoutButton, enabled);
 	}
