@@ -40,10 +40,6 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 
 	private boolean mExistsOnDisk = false;
 
-	// Do not store this long term; it is transient (created each time you want
-	// to book using Google Wallet).
-	private String mGoogleWalletTransactionId;
-
 	public BillingInfo() {
 	}
 
@@ -72,7 +68,6 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 				mStoredCard.fromJson(base.getStoredCard().toJson());
 			}
 			mSaveCardToExpediaAccount = base.getSaveCardToExpediaAccount();
-			mGoogleWalletTransactionId = base.getGoogleWalletTransactionId();
 		}
 	}
 
@@ -194,14 +189,6 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 
 	public boolean getSaveCardToExpediaAccount() {
 		return mSaveCardToExpediaAccount;
-	}
-
-	public void setGoogleWalletTransactionId(String id) {
-		mGoogleWalletTransactionId = id;
-	}
-
-	public String getGoogleWalletTransactionId() {
-		return mGoogleWalletTransactionId;
 	}
 
 	public boolean save(Context context) {

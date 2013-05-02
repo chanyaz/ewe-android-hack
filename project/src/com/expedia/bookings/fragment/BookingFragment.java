@@ -150,7 +150,11 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 
 	@Override
 	protected String getGoogleWalletTransactionId() {
-		return Db.getBillingInfo().getGoogleWalletTransactionId();
+		MaskedWallet maskedWallet = Db.getMaskedWallet();
+		if (maskedWallet == null) {
+			throw new RuntimeException("Tried to retrieve the full wallet without having a valid masked wallet first.");
+		}
+		return maskedWallet.getGoogleTransactionId();
 	}
 
 	@Override

@@ -95,7 +95,6 @@ public class WalletUtils {
 		billingInfo.setStoredCard(WalletUtils.convertToStoredCreditCard(wallet));
 
 		billingInfo.setEmail(wallet.getEmail());
-		billingInfo.setGoogleWalletTransactionId(wallet.getGoogleTransactionId());
 
 		// With a masked wallet, we actually explicitly *clear* some data from the BillingInfo
 		// The reason why we do this is so that the app does not simultaneously think that we
@@ -106,7 +105,6 @@ public class WalletUtils {
 
 	public static void bindWalletToBillingInfo(FullWallet wallet, BillingInfo billingInfo) {
 		billingInfo.setEmail(wallet.getEmail());
-		billingInfo.setGoogleWalletTransactionId(wallet.getGoogleTransactionId());
 
 		billingInfo.setLocation(convertAddressToLocation(wallet.getBillingAddress()));
 
@@ -134,8 +132,10 @@ public class WalletUtils {
 	public static void unbindAllWalletDataFromBillingInfo(BillingInfo billingInfo) {
 		unbindFullWalletDataFromBillingInfo(billingInfo);
 
-		billingInfo.setStoredCard(null);
-		billingInfo.setGoogleWalletTransactionId(null);
+		StoredCreditCard scc = billingInfo.getStoredCard();
+		if (scc != null && scc.isGoogleWallet()) {
+			billingInfo.setStoredCard(null);
+		}
 	}
 
 	public static Traveler addWalletAsTraveler(Context context, MaskedWallet maskedWallet) {

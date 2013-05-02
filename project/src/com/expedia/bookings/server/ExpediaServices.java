@@ -82,6 +82,7 @@ import com.expedia.bookings.data.ScenarioSetResponse;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.SuggestResponse;
@@ -911,7 +912,8 @@ public class ExpediaServices implements DownloadListener {
 
 		query.add(new BasicNameValuePair("email", billingInfo.getEmail()));
 
-		if (billingInfo.getStoredCard() == null || !TextUtils.isEmpty(billingInfo.getGoogleWalletTransactionId())) {
+		StoredCreditCard scc = billingInfo.getStoredCard();
+		if (scc == null || scc.isGoogleWallet()) {
 			Location location = billingInfo.getLocation();
 			if ((flags & F_HOTELS) != 0) {
 				// 130 Hotels reservation requires only postalCode for US POS, no billing info for other POS

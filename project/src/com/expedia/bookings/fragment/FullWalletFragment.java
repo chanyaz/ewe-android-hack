@@ -60,7 +60,7 @@ public abstract class FullWalletFragment extends WalletFragment {
 			int status = WalletUtils.getStatus(response);
 			if (status != 0) {
 				NotifyTransactionStatusRequest.Builder notifyBuilder = NotifyTransactionStatusRequest.newBuilder();
-				notifyBuilder.setGoogleTransactionId(Db.getBillingInfo().getGoogleWalletTransactionId());
+				notifyBuilder.setGoogleTransactionId(mFullWallet.getGoogleTransactionId());
 				notifyBuilder.setStatus(status);
 				mWalletClient.notifyTransactionStatus(notifyBuilder.build());
 			}
