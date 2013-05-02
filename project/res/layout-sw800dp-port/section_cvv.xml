@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.section.CVVSection xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mobiata="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- This is a dummy center view, from which we can align things above/below -->
+
+    <View
+        android:id="@+id/center"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true"
+        android:visibility="invisible" />
+
+    <!-- The marginTop of this view is specifically set to hit the right spot -->
+
+    <TextView
+        android:id="@+id/cvv_text_view"
+        android:layout_width="84dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="324dp"
+        android:background="@drawable/div_cvv"
+        android:freezesText="true"
+        android:gravity="center_horizontal"
+        android:maxLength="4"
+        android:paddingTop="14dp"
+        android:textColor="@color/cvv_normal"
+        android:textSize="20dp" />
+
+    <com.mobiata.android.widget.AutoResizeTextView
+        android:id="@+id/cvv_explanation_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/cvv_text_view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="48dp"
+        android:ellipsize="end"
+        android:shadowColor="#2D000000"
+        android:shadowDx="0"
+        android:shadowDy="1"
+        android:shadowRadius=".1"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+        android:textSize="15dp"
+        mobiata:maxTextSize="15dp"
+        mobiata:minTextSize="13dp" />
+
+</com.expedia.bookings.section.CVVSection>
