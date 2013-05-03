@@ -25,6 +25,7 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity;
 import com.expedia.bookings.activity.HotelRulesActivity;
@@ -602,7 +603,6 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 	public void setScrollSpacerViewHeight() {
 		int height = 0;
-
 		final int scrollViewHeight = mScrollView.getHeight();
 		final int receiptMiniHeight = mScrollViewListener.getReceiptMiniHeight();
 		final int checkoutLayoutHeight = mCheckoutLayout.getHeight();
@@ -612,8 +612,21 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 				&& slideToPurchaseFragmentHeight > 0;
 
 		if (isInCheckout() && mShowSlideToWidget) {
-			final int paddingBottom = (int) (getResources().getDisplayMetrics().density * 16f);
-			height = slideToPurchaseFragmentHeight + paddingBottom;
+			final int screenHeight = AndroidUtils.getScreenSize(getActivity()).y;
+			final int actionBarHeight = ((SherlockFragmentActivity) getActivity()).getSupportActionBar().getHeight();
+
+			// We compute this based on screenHeight incase all of the content fits on the screen
+			// For example on a large tablet
+			height = screenHeight + actionBarHeight - checkoutLayoutHeight - receiptMiniHeight - slideToPurchaseFragmentHeight;
+
+			if (height < slideToPurchaseFragmentHeight) {
+				// This means the content fills the height of the screen and then some
+				// So we just need to set the spacer so anything hiding behind the slide
+				// to purchase is revealed
+				final int paddingBottom = (int) (getResources().getDisplayMetrics().density * 16f);
+				height = slideToPurchaseFragmentHeight + paddingBottom;
+			}
+			Log.d("HERE height=" + height);
 		}
 		else {
 			final int paddingBottom = (int) (getResources().getDisplayMetrics().density * 8f);
