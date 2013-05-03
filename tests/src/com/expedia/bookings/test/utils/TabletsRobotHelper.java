@@ -102,7 +102,18 @@ public class TabletsRobotHelper extends HotelsRobotHelper {
 
 	public void pressToSearch() {
 		View searchForHotelsBtn = mSolo.getView(R.id.search_button);
-		mSolo.clickOnView(searchForHotelsBtn);
+		try {
+			mSolo.clickOnView(searchForHotelsBtn);
+		}
+		catch (Error e) {
+			enterLog(TAG,
+					"Error when trying to press to search for hotels. " +
+					"Keyboard may be displayed, so trying to close it.");
+			mSolo.goBack();
+			delay(1);
+			mSolo.clickOnView(searchForHotelsBtn);
+		}
+
 		enterLog(TAG, "Pressed search button");
 		landscape();
 		portrait();
