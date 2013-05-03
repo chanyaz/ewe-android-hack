@@ -746,15 +746,15 @@ public class HotelsRobotHelper {
 
 		mSolo.drag(startLocation[0], mScreenWidth - 5, startLocation[1] + 50, endLocation[1] + 50, 10);
 		delay(1);
-		
+
 		String legal_information = mRes.getString(R.string.legal_information);
-		if(mSolo.searchText(legal_information, true)) {
+		if (mSolo.searchText(legal_information, true)) {
 			enterLog(TAG, "Got to legal info screen by mistake. Going back and sliding to checkout.");
 			mSolo.goBack();
 			delay(1);
 			mSolo.drag(startLocation[0], mScreenWidth - 5, startLocation[1] + 50, endLocation[1] + 50, 10);
 		}
-		
+
 		delay(5);
 
 		//ENTER CCV HERE!
@@ -817,7 +817,19 @@ public class HotelsRobotHelper {
 				mSolo.clickOnActionBarItem(R.drawable.ic_action_bar_magnifying_glass);
 			}
 			else {
-				mSolo.clickOnText(mRes.getString(R.string.NEW_SEARCH));
+				String new_search = mRes.getString(R.string.NEW_SEARCH);
+				String start_new_search = mRes.getString(R.string.start_new_search);
+
+				if (mSolo.searchText(start_new_search, true)) {
+					mSolo.clickOnText(start_new_search);
+				}
+				else if (mSolo.searchText(new_search, true)) {
+					mSolo.clickOnText(new_search);
+				}
+				else {
+					throw new Exception("No button found to return to launcher from booking confirmation!");
+				}
+
 				enterLog(TAG, "Booking: Going back to launcher.");
 				delay();
 				mSolo.goBack();
