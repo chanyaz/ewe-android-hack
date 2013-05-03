@@ -707,6 +707,8 @@
     <string name="done">Selesai</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Jumlah Yang Perlu Dibayar Hari Ini</string>
+    <!-- Label to show user when they use unsupported characters in their name or address -->
+    <string name="please_use_only_the_following_characters">Sila gunakan hanya aksara berikut: A-Z, a-z, 0-9, dan ,.\&apos;-</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -1509,6 +1511,8 @@
     <string name="invalid_field">Sila masukkan nilai yang sah untuk medan ini.</string>
     <!-- Error if an invalid card number was entered -->
     <string name="invalid_card_number">Nombor kad kredit yang anda masukkan tidak sah, sila cuba lagi.</string>
+    <!-- Error shown to user if their credit card postal code is invalid -->
+    <string name="invalid_postal_code">Kami mohon maaf, tetapi poskod yang sah diperlukan untuk memproses kad kredit anda.</string>
     <!-- Error if an invalid credit card type was entered -->
     <string name="invalid_card_type">Kami tidak dapat mengesan jenis kad kredit anda, sila masukkan kad kredit yang sah.</string>
     <!-- Error if an invalid month (not 1-12) was entered -->

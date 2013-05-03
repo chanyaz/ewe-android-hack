@@ -707,6 +707,8 @@
     <string name="done">완료</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">오늘 결제할 총액</string>
+    <!-- Label to show user when they use unsupported characters in their name or address -->
+    <string name="please_use_only_the_following_characters">다음 문자만 사용해 주세요: A-Z, a-z, 0-9, 및 ,\&apos;-</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -1509,6 +1511,8 @@
     <string name="invalid_field">이 항목을 정확히 입력해 주세요.</string>
     <!-- Error if an invalid card number was entered -->
     <string name="invalid_card_number">입력하신 신용카드 번호가 올바르지 않습니다. 다시 입력해 주세요.</string>
+    <!-- Error shown to user if their credit card postal code is invalid -->
+    <string name="invalid_postal_code">죄송합니다. 고객님의 신용카드를 처리하려면 유효한 우편번호가 필요합니다.</string>
     <!-- Error if an invalid credit card type was entered -->
     <string name="invalid_card_type">고객님의 신용카드 종류를 찾을 수 없습니다. 신용카드 정보를 올바르게 입력해 주세요.</string>
     <!-- Error if an invalid month (not 1-12) was entered -->

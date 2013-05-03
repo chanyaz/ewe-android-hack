@@ -707,6 +707,8 @@
     <string name="done">Fullført</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Totalbeløp som må betales i dag</string>
+    <!-- Label to show user when they use unsupported characters in their name or address -->
+    <string name="please_use_only_the_following_characters">Bruk kun de følgende bokstavene: A-Z, a-z, 0-9 og .\&apos;-</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -1509,6 +1511,8 @@
     <string name="invalid_field">Oppgi en gyldig verdi i dette feltet.</string>
     <!-- Error if an invalid card number was entered -->
     <string name="invalid_card_number">Kredittkortnummeret du oppga, er ugyldig. Prøv på nytt.</string>
+    <!-- Error shown to user if their credit card postal code is invalid -->
+    <string name="invalid_postal_code">Beklager, vi trenger et gyldig postnummer for å behandle kortet ditt.</string>
     <!-- Error if an invalid credit card type was entered -->
     <string name="invalid_card_type">Vi kan ikke se at du har oppgitt en gyldig kredittkorttype. Vennligst oppgi et gyldig kredittkort.</string>
     <!-- Error if an invalid month (not 1-12) was entered -->

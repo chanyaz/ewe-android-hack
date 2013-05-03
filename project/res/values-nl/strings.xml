@@ -542,7 +542,7 @@
     <!-- Label for "sort" button -->
     <string name="sort_flights">Vluchten sorteren</string>
     <!-- Edit search title -->
-    <string name="edit_search">Zoekactie wijzigen</string>
+    <string name="edit_search">Zoekopdracht wijzigen</string>
     <!-- Action mode asking users to select dates -->
     <string name="select_dates">Kies datums</string>
     <!-- Number of adults template -->
@@ -622,19 +622,19 @@
     <!-- Edit current payment -->
     <string name="edit_current_payment_details">Huidige betalingsgegevens</string>
     <!-- Or Select a new payment method -->
-    <string name="or_select_new_paymet_method">Kies een betalingsmethode</string>
+    <string name="or_select_new_paymet_method">Kies een betaalmethode</string>
     <!-- Select Payment -->
-    <string name="select_payment">Kies betalingsmethode</string>
+    <string name="select_payment">Kies betaalmethode</string>
     <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">Kies betalingsmethode</string>
+    <string name="select_payment_sentence_case">Kies betaalmethode</string>
     <!-- Add new card -->
     <string name="add_new_card">Nieuwe kaart toevoegen</string>
     <!-- Overview button -->
     <string name="overview_btn">Overzicht</string>
     <!-- Stored Payment label -->
-    <string name="stored_payment_label">Kies een opgeslagen betalingsmethode</string>
+    <string name="stored_payment_label">Kies een opgeslagen betaalmethode</string>
     <!-- Payment Method -->
-    <string name="payment_method">Betalingsmethode</string>
+    <string name="payment_method">Betaling</string>
     <!-- Billing Address -->
     <string name="billing_address">Factuuradres</string>
     <!-- Card Info -->
@@ -707,6 +707,8 @@
     <string name="done">Gereed</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Totaal nu te betalen</string>
+    <!-- Label to show user when they use unsupported characters in their name or address -->
+    <string name="please_use_only_the_following_characters">Gebruik alleen de volgende tekens: A-Z, a-z, 0-9, en ,.\&apos;-</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -801,7 +803,7 @@
     <!-- save billing info -->
     <string name="save_billing_info">Betalingsinfo opslaan</string>
     <!-- save billing info message -->
-    <string name="save_billing_info_message">Wil je deze betalingsmethode in je Expedia-account opslaan om in de toekomst sneller te kunnen boeken?</string>
+    <string name="save_billing_info_message">Wil je deze betaalmethode in je Expedia-account opslaan om in de toekomst sneller te kunnen boeken?</string>
     <!-- save -->
     <string name="save">Opslaan</string>
     <!-- dont save -->
@@ -1510,6 +1512,8 @@
     <string name="invalid_field">Voer een geldige waarde in voor dit veld.</string>
     <!-- Error if an invalid card number was entered -->
     <string name="invalid_card_number">Het ingevoerde creditcardnummer is ongeldig, probeer het opnieuw.</string>
+    <!-- Error shown to user if their credit card postal code is invalid -->
+    <string name="invalid_postal_code">We hebben een geldige postcode nodig om je creditcard te verwerken.</string>
     <!-- Error if an invalid credit card type was entered -->
     <string name="invalid_card_type">We hebben je creditcardtype niet kunnen vaststellen, voer een geldige creditcard in.</string>
     <!-- Error if an invalid month (not 1-12) was entered -->
@@ -1555,7 +1559,7 @@
     <!-- Confirmation email label -->
     <string name="confirmation_email">Bevestigingsmail</string>
     <!-- ActionBar button for starting a new search -->
-    <string name="NEW_SEARCH">Nieuwe zoekactie</string>
+    <string name="NEW_SEARCH">Nieuwe zoekopdracht</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_template">Als je vragen hebt over je boeking, bel dan Expedia op %s.</string>
 
@@ -1563,7 +1567,7 @@
     <!-- Label to share booking information after a booking confirmation -->
     <string name="share_booking_info">Boekingsgegevens delen</string>
     <!-- Label to start a new search from a confirmation screen -->
-    <string name="start_new_search">Nieuwe zoekactie starten</string>
+    <string name="start_new_search">Nieuwe zoekopdracht starten</string>
     <!-- Label to view hotel in google maps to get directions from a confirmation screen -->
     <string name="show_on_map">Bekijk op de kaart</string>
 
@@ -1599,7 +1603,7 @@
     <!-- Expedia merchant hotel policies -->
     <string name="PolicyExpediaMerchant">Door deze boeking te voltooien bevestig je alle Algemene Voorwaarden, inclusief het Privacybeleid en alle gebruiksvoorwaarden, gelezen en goedgekeurd te hebben.\n\nJe gaat akkoord de kosten van je boeking te betalen. Als je deze kosten niet betaalt zodat deze via een incassobureau, een deurwaarder of andere wettelijke procedures moeten worden gevorderd, ga je akkoord met alle daaruit voortvloeiende kosten, inclusief deurwaarders- en procedurekosten, die verband houden met deze invorderingspogingen.</string>
     <!-- Expedia agent hotel policies -->
-    <string name="PolicyExpediaAgent">Je boekt een accommodatie zonder korting. Alle getoonde tarieven zijn per nacht, en zijn gebaseerd op twee personen per kamer tenzij anders is aangegeven. Lees de kamerbeschrijvingen en de tariefregels goed na om te verzekeren dat de gekozen kamer groot genoeg is. Voor sommige tarieven kan speciale identificatie worden vereist.  Onze boekingstoeslag, belastingen en andere kosten die worden berekend door het hotel zijn niet inbegrepen. De accommodatie rekent mogelijk een extra toeslag aan wanneer extra volwassenen of kinderen aan de kamer worden toegevoegd.\n\nVerzoeken voor meer dan 2 personen of voor meer gasten dan het geselecteerde tarief opgeeft worden naar het hotel gestuurd maar zijn niet gegarandeerd. Als de accommodatie het verzoek aanvaardt, kan het naar eigen goeddunken extra kosten in rekening brengen.</string>
+    <string name="PolicyExpediaAgent">Je boekt een accommodatie zonder korting. Alle getoonde tarieven zijn per nacht, en zijn gebaseerd op twee personen per kamer tenzij anders is aangegeven. Lees de kamerbeschrijvingen en de tariefregels goed na om te verzekeren dat de gekozen kamer groot genoeg is. Voor sommige tarieven kan speciale identificatie worden vereist. Onze boekingstoeslag, belastingen en andere kosten die worden berekend door het hotel zijn niet inbegrepen. De accommodatie rekent mogelijk een extra toeslag aan wanneer extra volwassenen of kinderen aan de kamer worden toegevoegd.\n\nVerzoeken voor meer dan 2 personen of voor meer gasten dan het geselecteerde tarief opgeeft worden naar het hotel gestuurd maar zijn niet gegarandeerd. Als de accommodatie het verzoek aanvaardt, kan het naar eigen goeddunken extra kosten in rekening brengen.</string>
 
     <!-- Expedia Accounts -->
     <!-- Label for menu item to log into account -->
@@ -1839,13 +1843,13 @@
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_search_results_hotel_service_failure">Het spijt ons, maar we konden je zoekactie niet beëindigen. Probeer het opnieuw.</string>
+    <string name="e3_error_search_results_hotel_service_failure">Het spijt ons, maar we konden je zoekopdracht niet voltooien. Probeer het opnieuw.</string>
     <!-- There were no results matching the input -->
     <string name="e3_error_search_results_invalid_input">Sorry, er zijn geen resultaten voor je zoektermen. Probeer het opnieuw.</string>
     <!-- There were no results matching the input -->
     <string name="e3_error_search_results_invalid_input_unknown">Sorry, er zijn geen resultaten voor je zoektermen. Probeer het opnieuw.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_search_results_unknown_error">Het spijt ons, maar we konden je zoekactie niet beëindigen. Probeer het opnieuw.</string>
+    <string name="e3_error_search_results_unknown_error">Het spijt ons, maar we konden je zoekopdracht niet voltooien. Probeer het opnieuw.</string>
 
     <!-- HotelOffers API method -->
     <!-- The hotel offer is no longer available -->

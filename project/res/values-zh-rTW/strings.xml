@@ -707,6 +707,8 @@
     <string name="done">完成</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">今日應付金額</string>
+    <!-- Label to show user when they use unsupported characters in their name or address -->
+    <string name="please_use_only_the_following_characters">僅限使用以下字元：A-Z、a-z、0-9 和 ,.\&apos;-</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -1509,8 +1511,10 @@
     <string name="invalid_field">請於此欄位輸入一個有效的值。</string>
     <!-- Error if an invalid card number was entered -->
     <string name="invalid_card_number">您輸入的信用卡卡號無效，請再試一次。</string>
+    <!-- Error shown to user if their credit card postal code is invalid -->
+    <string name="invalid_postal_code">很抱歉，我們需要正確的郵遞區號才能處理您的信用卡。</string>
     <!-- Error if an invalid credit card type was entered -->
-    <string name="invalid_card_type">我們無法偵測您的信用卡卡別，請輸入一張有效的信用卡。</string>
+    <string name="invalid_card_type">我們無法識別您的信用卡類型，請輸入有效的信用卡卡號。</string>
     <!-- Error if an invalid month (not 1-12) was entered -->
     <string name="invalid_month">請輸入1 至 12 之間的數值</string>
     <!-- Error if an invalid year was entered -->

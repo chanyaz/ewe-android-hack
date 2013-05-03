@@ -497,7 +497,7 @@
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
     <string name="inbound_TEMPLATE">Voos chegando em %s</string>
     <!-- Error when we simple can't connect to E3 servers -->
-    <string name="error_server">Não foi possível conectar-se aos servidores da Expedia Tente novamente mais tarde.</string>
+    <string name="error_server">Não foi possível conectar-se aos servidores da Expedia. Tente novamente mais tarde.</string>
     <!-- Sort by departure timelabel -->
     <string name="sort_description_departure">Parte</string>
     <!-- Sort by arrival time label -->
@@ -707,6 +707,8 @@
     <string name="done">Concluído</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Total devido hoje</string>
+    <!-- Label to show user when they use unsupported characters in their name or address -->
+    <string name="please_use_only_the_following_characters">Use somente os seguintes caracteres: A-Z, a-z, 0-9 e,.\&apos;-</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -1509,6 +1511,8 @@
     <string name="invalid_field">Insira um valor válido neste campo.</string>
     <!-- Error if an invalid card number was entered -->
     <string name="invalid_card_number">O número de cartão de crédito que você inseriu não é válido. Tente novamente.</string>
+    <!-- Error shown to user if their credit card postal code is invalid -->
+    <string name="invalid_postal_code">É necessário um CEP válido para processarmos seu cartão de crédito.</string>
     <!-- Error if an invalid credit card type was entered -->
     <string name="invalid_card_type">Não foi possível identificar o tipo do seu cartão de crédito. Insira um cartão de crédito válido.</string>
     <!-- Error if an invalid month (not 1-12) was entered -->

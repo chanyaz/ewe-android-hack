@@ -707,6 +707,8 @@
     <string name="done">Fertig</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Heute fällig</string>
+    <!-- Label to show user when they use unsupported characters in their name or address -->
+    <string name="please_use_only_the_following_characters">Bitte verwenden Sie nur A-Z, a-z, 0-9 und ,.\&apos;-</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -1510,6 +1512,8 @@
     <string name="invalid_field">Bitte geben Sie in dieses Feld einen gültigen Wert ein.</string>
     <!-- Error if an invalid card number was entered -->
     <string name="invalid_card_number">Die Kreditkartennummer ist ungültig. Bitte versuchen Sie es erneut.</string>
+    <!-- Error shown to user if their credit card postal code is invalid -->
+    <string name="invalid_postal_code">Leider brauchen wir eine gültige Postleitzahl, um Ihre Kreditkarte belasten zu können.</string>
     <!-- Error if an invalid credit card type was entered -->
     <string name="invalid_card_type">Ihr Kreditkartentyp wurde nicht gefunden. Bitte geben Sie gültige Kreditkartendaten ein.</string>
     <!-- Error if an invalid month (not 1-12) was entered -->

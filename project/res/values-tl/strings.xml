@@ -707,6 +707,8 @@
     <string name="done">Tapos na</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Kabuuang Babayaran Ngayon</string>
+    <!-- Label to show user when they use unsupported characters in their name or address -->
+    <string name="please_use_only_the_following_characters">Mangyaring ang mga sumusunod na character lang ang gamitin: A-Z, a-z, 0-9, at ,.\&apos;-</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -1036,7 +1038,7 @@
     <!-- Header for the outbound flight details section of the share flight email -->
     <string name="share_flight_section_outbound">Paalis:</string>
     <!-- Header for the return flight details section of the share flight email -->
-    <string name="share_flight_section_return">Balik: </string>
+    <string name="share_flight_section_return">Balik:</string>
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
@@ -1508,7 +1510,9 @@
     <!-- Error message if field had data entered but was invalid -->
     <string name="invalid_field">Mangyaring maglagay ng wastong halaga para sa field na ito.</string>
     <!-- Error if an invalid card number was entered -->
-    <string name="invalid_card_number">Di wasto ang inilagay ninyong numero ng credit card, pakisubukang muli.</string>
+    <string name="invalid_card_number">Di-wasto ang inilagay ninyong numero ng credit card, pakisubukang muli.</string>
+    <!-- Error shown to user if their credit card postal code is invalid -->
+    <string name="invalid_postal_code">Paumanhin, ngunit kinakailangan ang isang wastong postal code upang maproseso ang inyong credit card.</string>
     <!-- Error if an invalid credit card type was entered -->
     <string name="invalid_card_type">Hindi namin matukoy ang uri ng inyong credit card, mangyaring maglagay ng wastong credit card.</string>
     <!-- Error if an invalid month (not 1-12) was entered -->

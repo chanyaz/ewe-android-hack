@@ -654,7 +654,7 @@
     <!-- Number of traverlers template -->
 
     <plurals name="number_of_travelers_TEMPLATE">
-        <item quantity="zero">%1$dผู้เดินทาง</item>
+        <item quantity="zero">%1$d ผู้เดินทาง</item>
         <item quantity="one">%1$d ผู้เดินทาง</item>
         <item quantity="two">%1$d ผู้เดินทาง</item>
         <item quantity="few">%1$d ผู้เดินทาง</item>
@@ -707,6 +707,8 @@
     <string name="done">เสร็จ</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">ยอดที่ต้องชำระวันนี้</string>
+    <!-- Label to show user when they use unsupported characters in their name or address -->
+    <string name="please_use_only_the_following_characters">โปรดใช้เพียงตัวอักษรดังต่อไปนี้: A-Z, a-z, 0-9 และ ,\&apos;-</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -1509,6 +1511,8 @@
     <string name="invalid_field">โปรดระบุข้อมูลในช่องนี้</string>
     <!-- Error if an invalid card number was entered -->
     <string name="invalid_card_number">ข้อมูลบัตรเครดิตไม่ถูกต้อง โปรดลองอีกครั้ง</string>
+    <!-- Error shown to user if their credit card postal code is invalid -->
+    <string name="invalid_postal_code">ขออภัย คุณต้องระบุรหัสไปรษณีย์เพื่อดำเนินการบัตรเครดิตของคุณ</string>
     <!-- Error if an invalid credit card type was entered -->
     <string name="invalid_card_type">ระบบไม่พบประเภทบัตรเครดิตของคุณ โปรดระบุข้อมูลใหม่</string>
     <!-- Error if an invalid month (not 1-12) was entered -->

@@ -307,9 +307,9 @@
     <string name="car_category_oversize">特大型车</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">两个门轿车</string>
-    <string name="car_type_three_door">三个门轿车</string>
-    <string name="car_type_four_door">四个门轿车</string>
+    <string name="car_type_two_door">两个门 轿车</string>
+    <string name="car_type_three_door">三个门 轿车</string>
+    <string name="car_type_four_door">四个门 轿车</string>
     <string name="car_type_van">箱型车</string>
     <string name="car_type_wagon">旅行车</string>
     <string name="car_type_limousine">豪华轿车</string>
@@ -707,6 +707,8 @@
     <string name="done">完成</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">今日要支付的总金额</string>
+    <!-- Label to show user when they use unsupported characters in their name or address -->
+    <string name="please_use_only_the_following_characters">只能使用以下字符：A-Z、a-z、0-9、和 ,。\&apos;-</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -1508,7 +1510,9 @@
     <!-- Error message if field had data entered but was invalid -->
     <string name="invalid_field">请在此字段中输入一个有效值。</string>
     <!-- Error if an invalid card number was entered -->
-    <string name="invalid_card_number">您输入的信用卡号无效，请重试。</string>
+    <string name="invalid_card_number">您输入的信用卡号无效，请再试一次。</string>
+    <!-- Error shown to user if their credit card postal code is invalid -->
+    <string name="invalid_postal_code">很抱歉，需要提供有效的邮政编码，才能处理您的信用卡。</string>
     <!-- Error if an invalid credit card type was entered -->
     <string name="invalid_card_type">我们无法检测到您的信用卡类型，请输入有效的信用卡。</string>
     <!-- Error if an invalid month (not 1-12) was entered -->

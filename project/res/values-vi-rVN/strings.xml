@@ -707,6 +707,8 @@
     <string name="done">Hoàn tất</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Tổng số tiền phải thanh toán hôm nay</string>
+    <!-- Label to show user when they use unsupported characters in their name or address -->
+    <string name="please_use_only_the_following_characters">Vui lòng chỉ sử dụng các ký tự và chữ số sau: A-Z, a-z, 0-9 và ,.\&apos;-</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -1509,6 +1511,8 @@
     <string name="invalid_field">Vui lòng nhập thông tin hợp lệ.</string>
     <!-- Error if an invalid card number was entered -->
     <string name="invalid_card_number">Số thẻ tín dụng quý vị nhập không hợp lệ, vui lòng nhập lại.</string>
+    <!-- Error shown to user if their credit card postal code is invalid -->
+    <string name="invalid_postal_code">Rất tiếc, chúng tôi cần mã bưu chính hợp lệ để tiến hành thủ tục thanh tóa trên thẻ tín dụng của quý vị.</string>
     <!-- Error if an invalid credit card type was entered -->
     <string name="invalid_card_type">Chúng tôi không thể xác minh loại thẻ tín dụng của quý vị, vui lòng nhập thông tin thẻ hợp lệ.</string>
     <!-- Error if an invalid month (not 1-12) was entered -->

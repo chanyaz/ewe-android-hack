@@ -81,7 +81,7 @@
     <!-- Itinerary -->
     <string name="itinerary">Voyage</string>
     <!-- Shop -->
-    <string name="shop">Acheter</string>
+    <string name="shop">Accueil</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Trouver un voyage</string>
     <!-- Find Itinerary # -->
@@ -152,7 +152,7 @@
     <!-- Arrive (TZ) template -->
     <string name="arrive_tz_TEMPLATE">Arrivée (%1$s)</string>
     <!-- Flight Confirmation code label -->
-    <string name="flight_confirmation_code_label">Confirmation de la compagnie aérienne</string>
+    <string name="flight_confirmation_code_label">Confirmation de vol</string>
     <!-- Flight Carrier confirmation code label template -->
     <string name="flight_carrier_confirmation_code_label_TEMPLATE">Confirmation %1$s</string>
     <!-- Car rental agency name and location in car itin detail -->
@@ -198,7 +198,7 @@
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">En vous déconnectant de %1$s vous supprimerez tous les voyages associés à ce compte. Êtes-vous sûr de vouloir vous déconnecter ?</string>
     <!-- Directions -->
-    <string name="directions">Indications</string>
+    <string name="directions">Plan</string>
     <!-- Terminal Map -->
     <string name="Terminal_Map">Plan du terminal</string>
     <!-- Terminal Maps -->
@@ -307,9 +307,9 @@
     <string name="car_category_oversize">Voiture très grande</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">Voiture 2 portes</string>
-    <string name="car_type_three_door">Voiture 3 portes</string>
-    <string name="car_type_four_door">Voiture 4 portes</string>
+    <string name="car_type_two_door">2 portes Voiture</string>
+    <string name="car_type_three_door">3 portes Voiture</string>
+    <string name="car_type_four_door">4 portes Voiture</string>
     <string name="car_type_van">Fourgon</string>
     <string name="car_type_wagon">Break</string>
     <string name="car_type_limousine">Limousine</string>
@@ -333,7 +333,7 @@
     <!-- Itin card details -->
     <string name="itin_card_details_active">Actif</string>
     <string name="itin_card_details_expires">Expire fin</string>
-    <string name="itin_card_details_guests">Personnes</string>
+    <string name="itin_card_details_guests">Voyageurs</string>
     <string name="itin_card_details_details">Informations additionnelles</string>
     <string name="itin_card_details_pick_up">Départ</string>
     <string name="itin_card_details_drop_off">Retour</string>
@@ -399,7 +399,7 @@
     <string name="itin_card_activity_summary_TEMPLATE">Valable à partir du &lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Action Buttons -->
-    <string name="itin_action_directions">Indications</string>
+    <string name="itin_action_directions">Plan</string>
     <string name="itin_action_call_hotel">Appeler l\&apos;hôtel</string>
     <string name="itin_action_redeem">Utiliser</string>
     <string name="itin_action_support">Assistance</string>
@@ -707,6 +707,8 @@
     <string name="done">Terminé</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Total dû aujourd\&apos;hui</string>
+    <!-- Label to show user when they use unsupported characters in their name or address -->
+    <string name="please_use_only_the_following_characters">Veuillez utiliser uniquement les caractères suivants : A-Z, a-z, 0-0 et ,.\&apos;-</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -943,7 +945,7 @@
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
     <string name="calendar_flight_desc_itinerary_TEMPLATE">N° de voyage Expedia : %s</string>
     <!-- Part of the description, showing a link to directions.  %s is the directions link, e.g. "Directions to airport: http://url-to-map-to-airport" -->
-    <string name="calendar_flight_desc_directions_TEMPLATE">Indications pour rejoindre l\&apos;aéroport : %s</string>
+    <string name="calendar_flight_desc_directions_TEMPLATE">Pour rejoindre l\&apos;aéroport : %s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
     <string name="calendar_flight_desc_support_TEMPLATE">Assistance clientèle Expedia : %s</string>
 
@@ -1509,6 +1511,8 @@
     <string name="invalid_field">Veuillez saisir une valeur valide pour ce champ.</string>
     <!-- Error if an invalid card number was entered -->
     <string name="invalid_card_number">Le numéro de carte de paiement que vous avez saisi n\&apos;est pas valide. Veuillez réessayer.</string>
+    <!-- Error shown to user if their credit card postal code is invalid -->
+    <string name="invalid_postal_code">Désolés, afin de pouvoir traiter votre carte de paiement, nous avons besoin d\&apos;un code postal valide.</string>
     <!-- Error if an invalid credit card type was entered -->
     <string name="invalid_card_type">Nous ne sommes pas en mesure d\&apos;identifier le type de carte de paiement. Veuillez entrer une carte de paiement valide.</string>
     <!-- Error if an invalid month (not 1-12) was entered -->
@@ -1568,7 +1572,7 @@
 
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
-    <string name="GuestsLabel">Personnes</string>
+    <string name="GuestsLabel">Voyageurs</string>
     <!-- Label for the taxes and fees for a hotel room booking. -->
     <string name="taxes_and_fees">Taxes et frais</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
