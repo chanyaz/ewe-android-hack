@@ -250,11 +250,11 @@ public class TabletsRobotHelper extends HotelsRobotHelper {
 		pressBookingInfo();
 		delay();
 
-		pressLoginButton();
-		enterLoginCredentials();
-		delay(5);
-		enterCCVAndZIP();
-		pressToConfirmAndBook();
-		delay(10);
+		try {
+			logInAndBook(true);
+		}
+		catch (Exception e) {
+			Log.e(TAG, "Failed while logging in/booking.", e);
+		}
 	}
 }
