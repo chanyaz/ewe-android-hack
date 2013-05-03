@@ -4,7 +4,4 @@
     <item name="include_guest_itin_fields" type="layout">@layout/include_guest_itin_fields_horizontal</item>
     <item name="include_log_in_fields" type="layout">@layout/include_log_in_fields_horizontal</item>
 
-    <item name="fragment_cvv_entry" type="layout">@layout/fragment_cvv_entry_landscape</item>
-    <item name="section_cvv" type="layout">@layout/section_cvv_landscape</item>
-
 </resources>
