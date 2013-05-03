@@ -626,7 +626,6 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 				final int paddingBottom = (int) (getResources().getDisplayMetrics().density * 16f);
 				height = slideToPurchaseFragmentHeight + paddingBottom;
 			}
-			Log.d("HERE height=" + height);
 		}
 		else {
 			final int paddingBottom = (int) (getResources().getDisplayMetrics().density * 8f);
