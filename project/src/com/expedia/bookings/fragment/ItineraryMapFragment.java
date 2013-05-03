@@ -118,7 +118,7 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 		data.addAll(ItineraryManager.getInstance().getItinCardData());
 		boolean hasLocations = false;
 		for (ItinCardData card : data) {
-			if (card.getLocation() != null) {
+			if (isValidLatLng(card.getLocation())) {
 				hasLocations = true;
 				break;
 			}
@@ -133,7 +133,7 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 
 			for (ItinCardData card : data) {
 				LatLng loc = card.getLocation();
-				if (loc == null || (loc.latitude == 0 && loc.longitude == 0)) {
+				if (!isValidLatLng(loc)) {
 					continue;
 				}
 

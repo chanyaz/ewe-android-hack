@@ -83,11 +83,18 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 	////////////////////////////////////////////////////////////////////////
 	// General utilities
 
-	public LatLngBounds getAmericaBounds() {
+	public static LatLngBounds getAmericaBounds() {
 		LatLngBounds.Builder builder = new LatLngBounds.Builder();
 		builder.include(new LatLng(50.513427, -125.529297));
 		builder.include(new LatLng(25.085599, -63.984375));
 		return builder.build();
+	}
+
+	/**
+	 * @return true if this LatLng represents a point; false if it is null or (0, 0)
+	 */
+	public static boolean isValidLatLng(LatLng latLng) {
+		return latLng != null && (latLng.latitude != 0 || latLng.longitude != 0);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
