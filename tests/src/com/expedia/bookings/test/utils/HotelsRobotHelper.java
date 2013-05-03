@@ -745,7 +745,16 @@ public class HotelsRobotHelper {
 		delay();
 
 		mSolo.drag(startLocation[0], mScreenWidth - 5, startLocation[1] + 50, endLocation[1] + 50, 10);
-
+		delay(1);
+		
+		String legal_information = mRes.getString(R.string.legal_information);
+		if(mSolo.searchText(legal_information, true)) {
+			enterLog(TAG, "Got to legal info screen by mistake. Going back and sliding to checkout.");
+			mSolo.goBack();
+			delay(1);
+			mSolo.drag(startLocation[0], mScreenWidth - 5, startLocation[1] + 50, endLocation[1] + 50, 10);
+		}
+		
 		delay(5);
 
 		//ENTER CCV HERE!
