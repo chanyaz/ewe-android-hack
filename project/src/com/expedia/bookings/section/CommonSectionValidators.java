@@ -84,15 +84,7 @@ public class CommonSectionValidators {
 		}
 	};
 
-	public static final SupportedCharacterValidator SUPPORTED_CHARACTER_VALIDATOR = new SupportedCharacterValidator();
-
-	static class SupportedCharacterValidator implements Validator<EditText> {
-		//A-Z, a-z, 0-9, and ,.'-
-		private Pattern supportedCharacterPattern = Pattern.compile("^([\\-\\.,'\\s\\w&&[^_]]*)$");
-
-		public Pattern getPattern() {
-			return supportedCharacterPattern;
-		}
+	public static final Validator<EditText> SUPPORTED_CHARACTER_VALIDATOR = new Validator<EditText>() {
 
 		@Override
 		public int validate(EditText obj) {
@@ -100,7 +92,7 @@ public class CommonSectionValidators {
 				return ValidationError.ERROR_DATA_MISSING;
 			}
 			else {
-				return supportedCharacterPattern.matcher(obj.getText()).matches() ? ValidationError.NO_ERROR
+				return InvalidCharacterHelper.getSupportedCharacterPattern().matcher(obj.getText()).matches() ? ValidationError.NO_ERROR
 						: ValidationError.ERROR_DATA_INVALID;
 			}
 		}

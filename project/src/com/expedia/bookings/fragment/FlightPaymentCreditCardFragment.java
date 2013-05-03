@@ -15,6 +15,8 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
+import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
+import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FocusViewRunnable;
@@ -69,6 +71,13 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 				}
 				//Attempt to save on change
 				Db.getWorkingBillingInfoManager().attemptWorkingBillingInfoSave(getActivity(), false);
+			}
+		});
+
+		mSectionCreditCard.addInvalidCharacterListener(new InvalidCharacterListener() {
+			@Override
+			public void onInvalidCharacterEntered(CharSequence text) {
+				InvalidCharacterHelper.showInvalidCharacterPopup(getFragmentManager());
 			}
 		});
 

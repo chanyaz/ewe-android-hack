@@ -18,6 +18,8 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
+import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
+import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -78,6 +80,13 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 				}
 				//Attempt to save on change
 				Db.getWorkingBillingInfoManager().attemptWorkingBillingInfoSave(getActivity(), false);
+			}
+		});
+
+		mSectionBillingInfo.addInvalidCharacterListener(new InvalidCharacterListener() {
+			@Override
+			public void onInvalidCharacterEntered(CharSequence text) {
+				InvalidCharacterHelper.showInvalidCharacterPopup(getFragmentManager());
 			}
 		});
 

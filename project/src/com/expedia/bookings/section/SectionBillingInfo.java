@@ -27,6 +27,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
+import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.SectionBillingInfo.ExpirationPickerFragment.OnSetExpirationListener;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
@@ -39,7 +40,8 @@ import com.mobiata.android.validation.MultiValidator;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
 
-public class SectionBillingInfo extends LinearLayout implements ISection<BillingInfo>, ISectionEditable {
+public class SectionBillingInfo extends LinearLayout implements ISection<BillingInfo>, ISectionEditable,
+		InvalidCharacterListener {
 
 	ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<SectionChangeListener>();
 	ArrayList<SectionField<?, BillingInfo>> mFields = new ArrayList<SectionField<?, BillingInfo>>();
@@ -169,6 +171,27 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	public void clearChangeListeners() {
 		mChangeListeners.clear();
 
+	}
+
+	//////////////////////////////////////
+	//////INVALID CHARACTER STUFF
+	//////////////////////////////////////
+
+	ArrayList<InvalidCharacterListener> mInvalidCharacterListeners = new ArrayList<InvalidCharacterListener>();
+
+	@Override
+	public void onInvalidCharacterEntered(CharSequence text) {
+		for (InvalidCharacterListener listener : mInvalidCharacterListeners) {
+			listener.onInvalidCharacterEntered(text);
+		}
+	}
+
+	public void addInvalidCharacterListener(InvalidCharacterListener listener) {
+		mInvalidCharacterListeners.add(listener);
+	}
+
+	public void removeInvalidCharacterListener(InvalidCharacterListener listener) {
+		mInvalidCharacterListeners.remove(listener);
 	}
 
 	//////////////////////////////////////
@@ -439,6 +462,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 					onChange(SectionBillingInfo.this);
 				}
 			});
+
+			field.addTextChangedListener(InvalidCharacterHelper
+					.generateInvalidCharacterTextWatcher(SectionBillingInfo.this));
 		}
 
 		@Override
@@ -481,6 +507,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 					onChange(SectionBillingInfo.this);
 				}
 			});
+
+			field.addTextChangedListener(InvalidCharacterHelper
+					.generateInvalidCharacterTextWatcher(SectionBillingInfo.this));
 		}
 
 		@Override
@@ -523,6 +552,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 					onChange(SectionBillingInfo.this);
 				}
 			});
+
+			field.addTextChangedListener(InvalidCharacterHelper
+					.generateInvalidCharacterTextWatcher(SectionBillingInfo.this));
 		}
 
 		@Override

@@ -14,6 +14,8 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
+import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
+import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FocusViewRunnable;
@@ -56,6 +58,13 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 				}
 				//We attempt a save on change
 				Db.getWorkingTravelerManager().attemptWorkingTravelerSave(getActivity(), false);
+			}
+		});
+
+		mSectionTravelerInfo.addInvalidCharacterListener(new InvalidCharacterListener() {
+			@Override
+			public void onInvalidCharacterEntered(CharSequence text) {
+				InvalidCharacterHelper.showInvalidCharacterPopup(getFragmentManager());
 			}
 		});
 

@@ -14,6 +14,7 @@ public class TextViewDialog extends DialogFragment {
 	private int mMessageId = 0;
 	private CharSequence mMessage;
 	private OnDismissListener mDismissListener;
+	private boolean mCancelOnTouchOutside = true;
 
 	public void setMessage(int stringId) {
 		mMessageId = stringId;
@@ -27,6 +28,19 @@ public class TextViewDialog extends DialogFragment {
 
 	public void setOnDismissListener(OnDismissListener listener) {
 		mDismissListener = listener;
+	}
+
+	public void setCanceledOnTouchOutside(boolean cancel) {
+		mCancelOnTouchOutside = cancel;
+	}
+
+	public boolean isShowing() {
+		if (getDialog() == null) {
+			return false;
+		}
+		else {
+			return isAdded() && getDialog().isShowing();
+		}
 	}
 
 	@Override
@@ -49,7 +63,10 @@ public class TextViewDialog extends DialogFragment {
 			}
 		});
 
-		return builder.create();
+		Dialog dialog = builder.create();
+		dialog.setCanceledOnTouchOutside(mCancelOnTouchOutside);
+
+		return dialog;
 	}
 
 	@Override

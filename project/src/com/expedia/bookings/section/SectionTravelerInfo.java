@@ -35,7 +35,9 @@ import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Phone;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
+
 import com.expedia.bookings.section.CountrySpinnerAdapter.CountryDisplayType;
+import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TelephoneSpinner;
 import com.expedia.bookings.widget.TelephoneSpinnerAdapter;
@@ -45,7 +47,8 @@ import com.mobiata.android.validation.MultiValidator;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
 
-public class SectionTravelerInfo extends LinearLayout implements ISection<Traveler>, ISectionEditable {
+public class SectionTravelerInfo extends LinearLayout implements ISection<Traveler>, ISectionEditable,
+		InvalidCharacterListener {
 
 	ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<SectionChangeListener>();
 	ArrayList<SectionField<?, Traveler>> mFields = new ArrayList<SectionField<?, Traveler>>();
@@ -258,6 +261,27 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 	}
 
 	//////////////////////////////////////
+	//////INVALID CHARACTER STUFF
+	//////////////////////////////////////
+
+	ArrayList<InvalidCharacterListener> mInvalidCharacterListeners = new ArrayList<InvalidCharacterListener>();
+
+	@Override
+	public void onInvalidCharacterEntered(CharSequence text) {
+		for (InvalidCharacterListener listener : mInvalidCharacterListeners) {
+			listener.onInvalidCharacterEntered(text);
+		}
+	}
+
+	public void addInvalidCharacterListener(InvalidCharacterListener listener) {
+		mInvalidCharacterListeners.add(listener);
+	}
+
+	public void removeInvalidCharacterListener(InvalidCharacterListener listener) {
+		mInvalidCharacterListeners.remove(listener);
+	}
+
+	//////////////////////////////////////
 	////// VALIDATION INDICATOR FIELDS
 	//////////////////////////////////////
 
@@ -410,6 +434,9 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 					onChange(SectionTravelerInfo.this);
 				}
 			});
+
+			field.addTextChangedListener(InvalidCharacterHelper
+					.generateInvalidCharacterTextWatcher(SectionTravelerInfo.this));
 		}
 
 		@Override
@@ -447,6 +474,9 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 					onChange(SectionTravelerInfo.this);
 				}
 			});
+
+			field.addTextChangedListener(InvalidCharacterHelper
+					.generateInvalidCharacterTextWatcher(SectionTravelerInfo.this));
 		}
 
 		@Override
@@ -500,6 +530,9 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 					onChange(SectionTravelerInfo.this);
 				}
 			});
+
+			field.addTextChangedListener(InvalidCharacterHelper
+					.generateInvalidCharacterTextWatcher(SectionTravelerInfo.this));
 		}
 
 		@Override

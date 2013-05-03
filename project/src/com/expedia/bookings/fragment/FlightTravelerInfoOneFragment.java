@@ -15,7 +15,10 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
+import com.expedia.bookings.section.InvalidCharacterHelper;
+import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.SectionTravelerInfo;
+
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FocusViewRunnable;
 import com.expedia.bookings.utils.Ui;
@@ -65,6 +68,13 @@ public class FlightTravelerInfoOneFragment extends Fragment implements Validatab
 				Db.getWorkingTravelerManager().attemptWorkingTravelerSave(getActivity(), false);
 
 				onInteraction();
+			}
+		});
+
+		mSectionTravelerInfo.addInvalidCharacterListener(new InvalidCharacterListener() {
+			@Override
+			public void onInvalidCharacterEntered(CharSequence text) {
+				InvalidCharacterHelper.showInvalidCharacterPopup(getFragmentManager());
 			}
 		});
 
