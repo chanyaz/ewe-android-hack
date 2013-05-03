@@ -122,12 +122,11 @@ public class RandomPOSHappyPath extends
 		}
 		catch (Exception e) {
 			Configuration config = mRes.getConfiguration();
-			Log.e(TAG, "On Locale: " + config.locale.toString()
-					+ "Caught exception. Rewriting locale list on device.", e);
+			Log.e(TAG, "Exception on Locale: " + config.locale.toString(), e);
 		}
 		catch (Error e) {
 			Configuration config = mRes.getConfiguration();
-			Log.e(TAG, "On Locale: " + config.locale.toString(), e);
+			Log.e(TAG, "Error on Locale: " + config.locale.toString(), e);
 		}
 	}
 
