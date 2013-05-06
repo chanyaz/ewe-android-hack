@@ -158,11 +158,6 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home: {
-			if (mBookingOverviewFragment.isInCheckout()) {
-				mBookingOverviewFragment.endCheckout();
-				return true;
-			}
-
 			onBackPressed();
 			return true;
 		}
