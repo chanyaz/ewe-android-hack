@@ -14,6 +14,9 @@
     <!-- Production Facebook app id -->
     <string name="facebook_app_id">131538103586818</string>
 
+    <!-- Push Notifications (GCM) -->
+    <string name="gcm_sender_id">TEST</string>
+
     <!-- MapsV2 -->
     <string name="mapsv2_dev_key">AIzaSyCcUFcOBytf5_4zQCVisZeZ1Vw1PHuVI24</string>
     <string name="mapsv2_ha_key">AIzaSyDBpxfQT-N3CLCtDsfbvJRvWc0RFMIIbAA</string>
@@ -50,7 +53,6 @@
     <string name="tag_itinerary_list">ITINERARY_LIST</string>
     <string name="tag_itinerary_map">ITINERARY_MAP</string>
     <string name="tag_itinerary_card">ITINERARY_CARD</string>
-
     <string name="map_snippet_template">%1$s · %2$s</string>
 
     <!-- An alternative way to modify text, if you don't want to set the typeface of the TextView -->
@@ -396,4 +398,3 @@
     <string name="state_code_yt" tools:ignore="UnusedResources">YT</string>
 
 </resources>
-
