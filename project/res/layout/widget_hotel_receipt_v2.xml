@@ -9,7 +9,7 @@
     <com.expedia.bookings.widget.RoundedImageView
         android:id="@+id/header_image_view"
         android:layout_width="fill_parent"
-        android:layout_height="120dp"
+        android:layout_height="@dimen/hotel_checkout_overview_image_height"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_image_placeholder"
         app:radiusTL="2dp"
