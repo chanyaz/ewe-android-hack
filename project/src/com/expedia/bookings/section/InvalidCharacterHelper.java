@@ -18,7 +18,7 @@ import android.text.TextWatcher;
 public class InvalidCharacterHelper {
 
 	private static final Pattern sSupportedCharacterPatternName = Pattern.compile("^([\\-\\.,'\\s\\w&&[^_]]*)$");
-	private static final Pattern sSupportedCharacterPatternEmail = Pattern.compile("^([\\-\\.,'\\s\\w@&&[^_]]*)$");
+	private static final Pattern sSupportedCharacterPatternEmail = Pattern.compile("^([\\-\\.\\s\\w@]*)$");
 	private static final String INVALID_CHARACTER_POPUP_TAG = "INVALID_CHARACTER_POPUP_TAG";
 
 	//Used to only display one instance of the popup. This is useful because sometimes our TextWatchers

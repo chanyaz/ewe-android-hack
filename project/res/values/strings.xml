@@ -710,7 +710,7 @@
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_only_the_following_characters">Please only use the following characters: A-Z, a-z, 0-9, and ,.\&apos;-</string>
     <!-- Label to show user when they use unsupported characters in their email -->
-    <string name="please_use_only_the_following_characters_email">Please only use the following characters: A-Z, a-z, 0-9, and ,.\&apos;-@</string>
+    <string name="please_use_only_the_following_characters_email">Please only use the following characters: A-Z, a-z, 0-9, and .-_@</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
