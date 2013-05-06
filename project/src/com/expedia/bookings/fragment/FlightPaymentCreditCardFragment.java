@@ -16,6 +16,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
+import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -76,8 +77,8 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 
 		mSectionCreditCard.addInvalidCharacterListener(new InvalidCharacterListener() {
 			@Override
-			public void onInvalidCharacterEntered(CharSequence text) {
-				InvalidCharacterHelper.showInvalidCharacterPopup(getFragmentManager());
+			public void onInvalidCharacterEntered(CharSequence text, Mode mode) {
+				InvalidCharacterHelper.showInvalidCharacterPopup(getFragmentManager(), mode);
 			}
 		});
 
