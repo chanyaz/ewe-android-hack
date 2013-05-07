@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.widget.DisableableViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+android:id/viewpager"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_height="match_parent"
+    android:background="#212527" >
+
+    <View
+        android:id="@+id/spacer_view"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize" />
+
+    <com.expedia.bookings.widget.DisableableViewPager
+        android:id="@+android:id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/spacer_view" />
+
+    <ImageView
+        android:id="@+id/shadow_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:layout_below="@id/spacer_view"
+        android:background="@drawable/ab_shadow" />
+
+</RelativeLayout>

@@ -140,14 +140,12 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		mAdapter.setOnItinCardClickListener(this);
 		mAdapter.syncWithManager();
 
-		if (AndroidUtils.getSdkVersion() < 11) {
-			// We add a dummy footer view, if we dont do this before setAdapter future calls to addFooterView wont
-			// have their views accounted for when measuring
-			mFooterVisibilityView = new View(getContext());
-			AbsListView.LayoutParams spacerViewParams = new AbsListView.LayoutParams(LayoutParams.MATCH_PARENT, 1);
-			mFooterVisibilityView.setLayoutParams(spacerViewParams);
-			addFooterView(mFooterVisibilityView);
-		}
+		// We add a dummy footer view, if we dont do this before setAdapter future calls to addFooterView wont
+		// have their views accounted for when measuring
+		mFooterVisibilityView = new View(getContext());
+		AbsListView.LayoutParams spacerViewParams = new AbsListView.LayoutParams(LayoutParams.MATCH_PARENT, 1);
+		mFooterVisibilityView.setLayoutParams(spacerViewParams);
+		addFooterView(mFooterVisibilityView);
 
 		setAdapter(mAdapter);
 		setOnItemClickListener(null);
@@ -593,10 +591,8 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 					mOnListModeChangedListener.onListModeChanged(mMode);
 				}
 
-				if (AndroidUtils.getSdkVersion() < 11) {
-					removeFooterView(mFooterView);
-					mFooterView = null;
-				}
+				removeFooterView(mFooterView);
+				mFooterView = null;
 
 				final int startY = getScrollY();
 				final int stopY = mOriginalScrollY;
@@ -709,39 +705,39 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 				else {
 					//If our expanding views are at the bottom of the list  we need to add a footer view to make room for the expanded view on 2.x
 					this.setSelectionFromTop(mDetailPosition, 0);
+				}
 
-					int lastViewPos = getCount() - 1;
-					int firstVisiblePos = getFirstVisiblePosition();
-					int lastVisiblePos = getLastVisiblePosition();
+				int lastViewPos = getCount() - 1;
+				int firstVisiblePos = getFirstVisiblePosition();
+				int lastVisiblePos = getLastVisiblePosition();
 
-					//If we are not yet scrolled into position, or all rows are on screen, add our footer view
-					if (firstVisiblePos != mDetailPosition || ((getCount() - 1) == (lastVisiblePos - firstVisiblePos))) {
-						if (mFooterView == null) {
-							//footerview calls showDetails again in onDraw
-							mFooterView = new FooterView(getContext());
-							AbsListView.LayoutParams spacerViewParams = new AbsListView.LayoutParams(
-									LayoutParams.MATCH_PARENT, mExpandedCardHeight);
-							mFooterView.setLayoutParams(spacerViewParams);
-							mFooterView.setFocusable(true);
-							addFooterView(mFooterView);
-						}
-						if (firstVisiblePos != mDetailPosition) {
-							//If we aren't scrolled to where we need to be, we continue calling showDetails until we are
-							Runnable showDetailsRunner = new Runnable() {
-								@Override
-								public void run() {
-									showDetails();
-								}
-							};
-							this.postDelayed(showDetailsRunner, 25);
-							return false;
-						}
+				//If we are not yet scrolled into position, or all rows are on screen, add our footer view
+				if (firstVisiblePos != mDetailPosition || ((getCount() - 1) == (lastVisiblePos - firstVisiblePos))) {
+					if (mFooterView == null) {
+						//footerview calls showDetails again in onDraw
+						mFooterView = new FooterView(getContext());
+						AbsListView.LayoutParams spacerViewParams = new AbsListView.LayoutParams(
+								LayoutParams.MATCH_PARENT, mExpandedCardHeight);
+						mFooterView.setLayoutParams(spacerViewParams);
+						mFooterView.setFocusable(true);
+						addFooterView(mFooterView);
 					}
-
-					//If we are scrolled down but our footer still hasn't drawn, we wait
-					if (lastVisiblePos == lastViewPos && mFooterView != null && !mFooterView.getHasDrawn()) {
+					if (firstVisiblePos != mDetailPosition && AndroidUtils.getSdkVersion() < 11) {
+						//If we aren't scrolled to where we need to be, we continue calling showDetails until we are
+						Runnable showDetailsRunner = new Runnable() {
+							@Override
+							public void run() {
+								showDetails();
+							}
+						};
+						this.postDelayed(showDetailsRunner, 25);
 						return false;
 					}
+				}
+
+				//If we are scrolled down but our footer still hasn't drawn, we wait
+				if (lastVisiblePos == lastViewPos && mFooterView != null && !mFooterView.getHasDrawn()) {
+					return false;
 				}
 
 				AnimatorSet set = new AnimatorSet();
