@@ -26,7 +26,7 @@ public class Notification extends Model {
 	/**
 	 * NEW = This notification has never been displayed to the user.
 	 * NOTIFIED = This notification has been displayed and is still visible/active.
-	 * REMOVED = This notification has passed or been dismissed by the user.
+	 * DISMISSED = This notification has passed or been dismissed by the user.
 	 */
 	public enum StatusType {
 		NEW,
