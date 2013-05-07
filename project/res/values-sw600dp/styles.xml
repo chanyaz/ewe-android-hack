@@ -2,7 +2,7 @@
 <resources>
     <style name="Widget.TextView.CVVPrompt">
         <item name="android:layout_centerHorizontal">true</item>
-        <item name="android:maxWidth">340dp</item>
+        <item name="android:maxWidth">300dp</item>
         <item name="android:layout_marginTop">48dp</item>
         <item name="android:shadowColor">#2D000000</item>
         <item name="android:shadowDx">0</item>
@@ -10,5 +10,7 @@
         <item name="android:shadowRadius">.1</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">15dp</item>
+        <item name="maxTextSize">15dp</item>
+        <item name="minTextSize">15dp</item>
     </style>
 </resources>
