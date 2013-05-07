@@ -134,6 +134,7 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 		if (!NavUtils.skipLaunchScreenAndStartEHTablet(this)) {
 			NavUtils.goToLaunchScreen(this);
 		}
+		finish();
 	}
 
 	@Override
