@@ -89,6 +89,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 
 		mCVVEntryFragment = Ui.findSupportFragment(this, CVVEntryFragment.TAG);
 		mProgressFragment = Ui.findSupportFragment(this, BookingInProgressDialogFragment.TAG);
+		mBookingFragment = Ui.findSupportFragment(this, HotelBookingFragment.TAG);
 
 		if (savedInstanceState == null) {
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
