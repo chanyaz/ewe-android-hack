@@ -46,9 +46,12 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	public static final String TAG = "TAG_ITIN_ITEM_LIST_FRAGMENT";
 	public static final String DIALOG_SHARE = "DIALOG_SHARE";
 
+	public static final String ARG_JUMP_TO_UNIQUE_ID = "JUMP_TO_UNIQUE_ID";
+
 	private static final String STATE_ERROR_MESSAGE = "STATE_ERROR_MESSAGE";
 	private static final String STATE_ALLOW_LOAD_ITINS = "STATE_ALLOW_LOAD_ITINS";
 	private static final String STATE_ITIN_LIST_TRACKED = "STATE_ITIN_LIST_TRACKED";
+	private static final String STATE_JUMP_TO_UNIQUE_ID = "STATE_JUMP_TO_UNIQUE_ID";
 
 	private ItinItemListFragmentListener mListener;
 
@@ -83,7 +86,9 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	 */
 	public static ItinItemListFragment newInstance(String uniqueId) {
 		ItinItemListFragment frag = new ItinItemListFragment();
-		frag.mJumpToItinId = uniqueId;
+		Bundle args = new Bundle();
+		args.putString(ARG_JUMP_TO_UNIQUE_ID, uniqueId);
+		frag.setArguments(args);
 		return frag;
 	}
 
@@ -167,6 +172,10 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 			}
 			mAllowLoadItins = savedInstanceState.getBoolean(STATE_ALLOW_LOAD_ITINS);
 			mItinListTracked = savedInstanceState.getBoolean(STATE_ITIN_LIST_TRACKED, false);
+			mJumpToItinId = savedInstanceState.getString(STATE_JUMP_TO_UNIQUE_ID);
+		}
+		else if (getArguments() != null) {
+			mJumpToItinId = getArguments().getString(ARG_JUMP_TO_UNIQUE_ID);
 		}
 
 		return view;
@@ -187,6 +196,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		}
 		outState.putBoolean(STATE_ALLOW_LOAD_ITINS, mAllowLoadItins);
 		outState.putBoolean(STATE_ITIN_LIST_TRACKED, mItinListTracked);
+		outState.putString(STATE_JUMP_TO_UNIQUE_ID, mJumpToItinId);
 	}
 
 	@Override
