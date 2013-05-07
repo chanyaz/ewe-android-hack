@@ -7,4 +7,6 @@
     <dimen name="plane_window_height">500dp</dimen>
     <dimen name="plane_window_text_offset">-50dp</dimen>
 
+    <dimen name="hotel_checkout_overview_image_height">320dp</dimen>
+
 </resources>

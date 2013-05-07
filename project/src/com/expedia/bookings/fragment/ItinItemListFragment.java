@@ -364,7 +364,6 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 			}
 
 			if (mode == ItinListView.MODE_LIST) {
-				getSupportActionBar().show();
 				if (activity instanceof OnListModeChangedListener) {
 					((OnListModeChangedListener) activity).onListModeChanged(mode);
 				}
@@ -373,7 +372,6 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 				if (activity instanceof OnListModeChangedListener) {
 					((OnListModeChangedListener) activity).onListModeChanged(mode);
 				}
-				getSupportActionBar().hide();
 			}
 		}
 	};

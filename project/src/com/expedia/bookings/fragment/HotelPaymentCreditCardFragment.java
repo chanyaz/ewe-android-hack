@@ -19,6 +19,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
+import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
@@ -85,8 +86,8 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 
 		mSectionBillingInfo.addInvalidCharacterListener(new InvalidCharacterListener() {
 			@Override
-			public void onInvalidCharacterEntered(CharSequence text) {
-				InvalidCharacterHelper.showInvalidCharacterPopup(getFragmentManager());
+			public void onInvalidCharacterEntered(CharSequence text, Mode mode) {
+				InvalidCharacterHelper.showInvalidCharacterPopup(getFragmentManager(), mode);
 			}
 		});
 

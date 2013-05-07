@@ -52,7 +52,7 @@ public class HotelReceipt extends LinearLayout {
 
 	private void init(Context context) {
 		LayoutInflater inflater = LayoutInflater.from(context);
-		inflater.inflate(R.layout.widget_hotel_receipt_v2, this);
+		inflater.inflate(R.layout.widget_hotel_receipt, this);
 	}
 
 	private OnSizeChangedListener mOnSizeChangedListener;

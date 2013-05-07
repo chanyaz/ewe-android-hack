@@ -38,6 +38,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 
 import com.expedia.bookings.section.CountrySpinnerAdapter.CountryDisplayType;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
+import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TelephoneSpinner;
 import com.expedia.bookings.widget.TelephoneSpinnerAdapter;
@@ -267,9 +268,9 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 	ArrayList<InvalidCharacterListener> mInvalidCharacterListeners = new ArrayList<InvalidCharacterListener>();
 
 	@Override
-	public void onInvalidCharacterEntered(CharSequence text) {
+	public void onInvalidCharacterEntered(CharSequence text, Mode mode) {
 		for (InvalidCharacterListener listener : mInvalidCharacterListeners) {
-			listener.onInvalidCharacterEntered(text);
+			listener.onInvalidCharacterEntered(text, mode);
 		}
 	}
 
@@ -417,7 +418,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		@Override
 		protected Validator<EditText> getValidator() {
 			MultiValidator<EditText> nameValidators = new MultiValidator<EditText>();
-			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR);
+			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_NAMES);
 			nameValidators.addValidator(CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET);
 			return nameValidators;
 		}
@@ -436,7 +437,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			});
 
 			field.addTextChangedListener(InvalidCharacterHelper
-					.generateInvalidCharacterTextWatcher(SectionTravelerInfo.this));
+					.generateInvalidCharacterTextWatcher(SectionTravelerInfo.this, Mode.NAME));
 		}
 
 		@Override
@@ -458,7 +459,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		@Override
 		protected Validator<EditText> getValidator() {
 			MultiValidator<EditText> nameValidators = new MultiValidator<EditText>();
-			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR);
+			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_NAMES);
 			nameValidators.addValidator(CommonSectionValidators.ALWAYS_VALID_VALIDATOR_ET);
 			return nameValidators;
 		}
@@ -476,7 +477,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			});
 
 			field.addTextChangedListener(InvalidCharacterHelper
-					.generateInvalidCharacterTextWatcher(SectionTravelerInfo.this));
+					.generateInvalidCharacterTextWatcher(SectionTravelerInfo.this, Mode.NAME));
 		}
 
 		@Override
@@ -514,7 +515,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		@Override
 		protected Validator<EditText> getValidator() {
 			MultiValidator<EditText> nameValidators = new MultiValidator<EditText>();
-			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR);
+			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_NAMES);
 			nameValidators.addValidator(mValidator);
 			return nameValidators;
 		}
@@ -532,7 +533,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			});
 
 			field.addTextChangedListener(InvalidCharacterHelper
-					.generateInvalidCharacterTextWatcher(SectionTravelerInfo.this));
+					.generateInvalidCharacterTextWatcher(SectionTravelerInfo.this, Mode.NAME));
 		}
 
 		@Override

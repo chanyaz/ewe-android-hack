@@ -17,6 +17,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
+import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
 import com.expedia.bookings.section.SectionTravelerInfo;
 
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -73,8 +74,8 @@ public class FlightTravelerInfoOneFragment extends Fragment implements Validatab
 
 		mSectionTravelerInfo.addInvalidCharacterListener(new InvalidCharacterListener() {
 			@Override
-			public void onInvalidCharacterEntered(CharSequence text) {
-				InvalidCharacterHelper.showInvalidCharacterPopup(getFragmentManager());
+			public void onInvalidCharacterEntered(CharSequence text, Mode mode) {
+				InvalidCharacterHelper.showInvalidCharacterPopup(getFragmentManager(), mode);
 			}
 		});
 

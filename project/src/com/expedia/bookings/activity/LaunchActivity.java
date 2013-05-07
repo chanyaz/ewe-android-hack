@@ -530,11 +530,23 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	public void onListModeChanged(int mode) {
 		if (mode == ItinListView.MODE_LIST) {
 			mViewPager.setPageSwipingEnabled(true);
-			getCollapseAnimatorSet().start();
+			mSpacerView.post(new Runnable() {
+				@Override
+				public void run() {
+					getCollapseAnimatorSet().start();
+					getSupportActionBar().show();
+				}
+			});
 		}
 		else if (mode == ItinListView.MODE_DETAIL) {
 			mViewPager.setPageSwipingEnabled(false);
-			getExpandAnimatorSet().start();
+			mSpacerView.post(new Runnable() {
+				@Override
+				public void run() {
+					getExpandAnimatorSet().start();
+					getSupportActionBar().hide();
+				}
+			});
 		}
 		else {
 			mViewPager.setPageSwipingEnabled(true);

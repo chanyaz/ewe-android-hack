@@ -17,7 +17,13 @@ import android.text.TextWatcher;
 
 public class InvalidCharacterHelper {
 
-	private static final Pattern sSupportedCharacterPattern = Pattern.compile("^([\\-\\.,'\\s\\w&&[^_]]*)$");
+	private static final Pattern sSupportedCharacterPatternName = Pattern.compile("^([\\-\\.,'\\s\\w&&[^_]]*)$");
+
+	//NOTE: This regex does not determine a valid email address, it determines if the characters
+	//entered are valid characters to be contained in an email address. We leave full validation to the api.
+	private static final Pattern sSupportedCharacterPatternEmail = Pattern
+			.compile("^([\\w\\s\\.\\!#\\$%&'\\*\\+\\-\\/=\\?\\^\\`{|}~\\\"\\(\\),:;\\<\\>\\\\@\\[\\]]*)$");
+
 	private static final String INVALID_CHARACTER_POPUP_TAG = "INVALID_CHARACTER_POPUP_TAG";
 
 	//Used to only display one instance of the popup. This is useful because sometimes our TextWatchers
@@ -25,7 +31,12 @@ public class InvalidCharacterHelper {
 	private static final Semaphore sDialogSemaphore = new Semaphore(1);
 
 	public interface InvalidCharacterListener {
-		public void onInvalidCharacterEntered(CharSequence text);
+		public void onInvalidCharacterEntered(CharSequence text, Mode mode);
+	}
+
+	public enum Mode {
+		NAME,
+		EMAIL
 	}
 
 	//Don't instantiate this class
@@ -36,8 +47,16 @@ public class InvalidCharacterHelper {
 	 * Get the pattern used to determine if characters are valid
 	 * @return
 	 */
-	public static Pattern getSupportedCharacterPattern() {
-		return sSupportedCharacterPattern;
+	public static Pattern getSupportedCharacterPattern(Mode mode) {
+		if (mode == Mode.EMAIL) {
+			return sSupportedCharacterPatternEmail;
+		}
+		else if (mode == Mode.NAME) {
+			return sSupportedCharacterPatternName;
+		}
+		else {
+			return sSupportedCharacterPatternName;
+		}
 	}
 
 	/**
@@ -47,24 +66,25 @@ public class InvalidCharacterHelper {
 	 * @param chainListener - listener to fire if invalid characters are present
 	 * @return TextWatcher that removes invalid characters
 	 */
-	public static TextWatcher generateInvalidCharacterTextWatcher(final InvalidCharacterListener chainListener) {
+	public static TextWatcher generateInvalidCharacterTextWatcher(final InvalidCharacterListener chainListener,
+			final Mode mode) {
 		return new AfterChangeTextWatcher() {
 			@Override
 			public synchronized void afterTextChanged(Editable s) {
-				Pattern p = getSupportedCharacterPattern();
+				Pattern p = getSupportedCharacterPattern(mode);
 				String str = s.toString();
 				if (!p.matcher(str).matches()) {
 					//This is a bit strange, but using the filter allows us to not duplicate code
 					//and it gives us a bit of flexibility for how we block the questionable characters
 					InputFilter[] origFilters = s.getFilters();
 					CharSequence origStr = s.toString();
-					s.setFilters(new InputFilter[] { generateValidCharacterInputFilter() });
+					s.setFilters(new InputFilter[] { generateValidCharacterInputFilter(mode) });
 					s.clear();
 					s.append(origStr);
 					s.setFilters(origFilters);
 
 					if (chainListener != null) {
-						chainListener.onInvalidCharacterEntered(s.toString());
+						chainListener.onInvalidCharacterEntered(s.toString(), mode);
 					}
 
 				}
@@ -76,13 +96,13 @@ public class InvalidCharacterHelper {
 	 * Generate a new InputFilter that only allows for valid characters
 	 * @return
 	 */
-	public static InputFilter generateValidCharacterInputFilter() {
+	public static InputFilter generateValidCharacterInputFilter(final Mode mode) {
 		return new InputFilter() {
 			@Override
 			public CharSequence filter(CharSequence source, int start, int end,
 					Spanned dest, int dstart, int dend) {
 
-				Pattern pattern = getSupportedCharacterPattern();
+				Pattern pattern = getSupportedCharacterPattern(mode);
 				if (!pattern.matcher(source).matches()) {
 					if (source instanceof SpannableStringBuilder) {
 						SpannableStringBuilder sourceAsSpannableBuilder = (SpannableStringBuilder) source;
@@ -114,7 +134,7 @@ public class InvalidCharacterHelper {
 	 * This will show the invalid characters dialog fragment if it is  not already showing.
 	 * @param fm - The FragmentManager to attach the dialog to.
 	 */
-	public static void showInvalidCharacterPopup(FragmentManager fm) {
+	public static void showInvalidCharacterPopup(FragmentManager fm, Mode mode) {
 		boolean semGot = false;
 		boolean releaseSet = false;
 		try {
@@ -126,7 +146,13 @@ public class InvalidCharacterHelper {
 					mDialog = new TextViewDialog();
 					mDialog.setCancelable(false);
 					mDialog.setCanceledOnTouchOutside(false);
-					mDialog.setMessage(R.string.please_use_only_the_following_characters);
+					if (mode == Mode.EMAIL) {
+						mDialog.setMessage(R.string.please_enter_a_valid_email_address);
+					}
+					else {
+						mDialog.setMessage(R.string.please_use_only_the_following_characters);
+					}
+
 				}
 				if (!mDialog.isShowing()) {
 					//Show the dialog

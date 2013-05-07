@@ -28,6 +28,7 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
+import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
 import com.expedia.bookings.section.SectionBillingInfo.ExpirationPickerFragment.OnSetExpirationListener;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
@@ -180,9 +181,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	ArrayList<InvalidCharacterListener> mInvalidCharacterListeners = new ArrayList<InvalidCharacterListener>();
 
 	@Override
-	public void onInvalidCharacterEntered(CharSequence text) {
+	public void onInvalidCharacterEntered(CharSequence text, Mode mode) {
 		for (InvalidCharacterListener listener : mInvalidCharacterListeners) {
-			listener.onInvalidCharacterEntered(text);
+			listener.onInvalidCharacterEntered(text, mode);
 		}
 	}
 
@@ -464,7 +465,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			});
 
 			field.addTextChangedListener(InvalidCharacterHelper
-					.generateInvalidCharacterTextWatcher(SectionBillingInfo.this));
+					.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.NAME));
 		}
 
 		@Override
@@ -480,7 +481,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		@Override
 		protected Validator<EditText> getValidator() {
 			MultiValidator<EditText> nameValidators = new MultiValidator<EditText>();
-			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR);
+			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_NAMES);
 			nameValidators.addValidator(CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET);
 			return nameValidators;
 		}
@@ -509,7 +510,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			});
 
 			field.addTextChangedListener(InvalidCharacterHelper
-					.generateInvalidCharacterTextWatcher(SectionBillingInfo.this));
+					.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.NAME));
 		}
 
 		@Override
@@ -525,7 +526,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		@Override
 		protected Validator<EditText> getValidator() {
 			MultiValidator<EditText> nameValidators = new MultiValidator<EditText>();
-			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR);
+			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_NAMES);
 			nameValidators.addValidator(CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET);
 			return nameValidators;
 		}
@@ -554,7 +555,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			});
 
 			field.addTextChangedListener(InvalidCharacterHelper
-					.generateInvalidCharacterTextWatcher(SectionBillingInfo.this));
+					.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.NAME));
 		}
 
 		@Override
@@ -565,7 +566,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		@Override
 		protected Validator<EditText> getValidator() {
 			MultiValidator<EditText> nameValidators = new MultiValidator<EditText>();
-			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR);
+			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_NAMES);
 			nameValidators.addValidator(CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET);
 			return nameValidators;
 		}
@@ -592,6 +593,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 					onChange(SectionBillingInfo.this);
 				}
 			});
+
+			field.addTextChangedListener(InvalidCharacterHelper
+					.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.EMAIL));
 		}
 
 		@Override
@@ -606,7 +610,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		@Override
 		protected Validator<EditText> getValidator() {
-			return CommonSectionValidators.EMAIL_VALIDATOR_ET;
+			MultiValidator<EditText> emailValidators = new MultiValidator<EditText>();
+			emailValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_EMAIL);
+			emailValidators.addValidator(CommonSectionValidators.EMAIL_VALIDATOR_ET);
+			return emailValidators;
 		}
 
 		@Override

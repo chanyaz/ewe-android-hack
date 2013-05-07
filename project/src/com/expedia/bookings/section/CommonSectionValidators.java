@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
+import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
 import com.mobiata.android.validation.MultiValidator;
 import com.mobiata.android.validation.PatternValidator;
 import com.mobiata.android.validation.PatternValidator.EmailValidator;
@@ -84,7 +85,7 @@ public class CommonSectionValidators {
 		}
 	};
 
-	public static final Validator<EditText> SUPPORTED_CHARACTER_VALIDATOR = new Validator<EditText>() {
+	public static final Validator<EditText> SUPPORTED_CHARACTER_VALIDATOR_NAMES = new Validator<EditText>() {
 
 		@Override
 		public int validate(EditText obj) {
@@ -92,7 +93,21 @@ public class CommonSectionValidators {
 				return ValidationError.ERROR_DATA_MISSING;
 			}
 			else {
-				return InvalidCharacterHelper.getSupportedCharacterPattern().matcher(obj.getText()).matches() ? ValidationError.NO_ERROR
+				return InvalidCharacterHelper.getSupportedCharacterPattern(Mode.NAME).matcher(obj.getText()).matches() ? ValidationError.NO_ERROR
+						: ValidationError.ERROR_DATA_INVALID;
+			}
+		}
+	};
+
+	public static final Validator<EditText> SUPPORTED_CHARACTER_VALIDATOR_EMAIL = new Validator<EditText>() {
+
+		@Override
+		public int validate(EditText obj) {
+			if (obj == null) {
+				return ValidationError.ERROR_DATA_MISSING;
+			}
+			else {
+				return InvalidCharacterHelper.getSupportedCharacterPattern(Mode.EMAIL).matcher(obj.getText()).matches() ? ValidationError.NO_ERROR
 						: ValidationError.ERROR_DATA_INVALID;
 			}
 		}
