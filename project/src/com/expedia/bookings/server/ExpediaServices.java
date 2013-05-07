@@ -44,6 +44,7 @@ import org.apache.http.protocol.HttpContext;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -288,7 +289,6 @@ public class ExpediaServices implements DownloadListener {
 		return doRequest(get, responseHandler, 0);
 	}
 
-	
 	/**
 	 * Get the minimum number of characters required to provide drop down auto fill results.
 	 * This is useful for languages like Japanese where Tokyo is spelt with 2 characters.
@@ -332,7 +332,22 @@ public class ExpediaServices implements DownloadListener {
 
 		addCommonParams(query);
 
-		query.add(new BasicNameValuePair("maxOfferCount", Integer.toString(FLIGHT_MAX_TRIPS)));
+		// Vary the max # of flights based on memory, so we don't run out.  Numbers are semi-educated guesses.
+		//
+		// TODO: Minimize the memory footprint so we don't have to keep doing this.
+		int maxOfferCount;
+		final int memClass = ((ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
+		if (memClass <= 24) {
+			maxOfferCount = 800;
+		}
+		else if (memClass <= 32) {
+			maxOfferCount = 1200;
+		}
+		else {
+			maxOfferCount = FLIGHT_MAX_TRIPS;
+		}
+
+		query.add(new BasicNameValuePair("maxOfferCount", Integer.toString(maxOfferCount)));
 
 		return doFlightsRequest("api/flight/search", query, new FlightSearchResponseHandler(mContext), flags);
 	}
