@@ -142,7 +142,7 @@ public class InvalidCharacterHelper {
 					mDialog.setCancelable(false);
 					mDialog.setCanceledOnTouchOutside(false);
 					if (mode == Mode.EMAIL) {
-						mDialog.setMessage(R.string.please_use_only_the_following_characters_email);
+						mDialog.setMessage(R.string.please_enter_a_valid_email_address);
 					}
 					else {
 						mDialog.setMessage(R.string.please_use_only_the_following_characters);
