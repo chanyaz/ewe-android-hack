@@ -10,7 +10,6 @@ import android.content.pm.ResolveInfo;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.expedia.bookings.activity.ActivityKillReceiver;
-import com.expedia.bookings.activity.BookingFragmentActivity;
 import com.expedia.bookings.activity.ConfirmationFragmentActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.FlightConfirmationActivity;
@@ -155,12 +154,6 @@ public class NavUtils {
 		//        then we should forward the user to the ConfirmationActivity
 		if (ExpediaBookingApp.useTabletInterface(context) && ConfirmationState.hasSavedData(context, Type.HOTEL)) {
 			Intent intent = new Intent(context, ConfirmationFragmentActivity.class);
-			return intent;
-		}
-
-		// 13820: Check if a booking is in process at this moment (in case BookingFragmentActivity died)
-		else if (BackgroundDownloader.getInstance().isDownloading(BookingFragmentActivity.BOOKING_DOWNLOAD_KEY)) {
-			Intent intent = new Intent(context, BookingFragmentActivity.class);
 			return intent;
 		}
 

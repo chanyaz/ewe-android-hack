@@ -420,7 +420,7 @@
     </style>
 
     <style name="BookingSection">
-        <item name="android:padding">@dimen/booking_form_saved_section_padding</item>
+        <item name="android:padding">8dp</item>
         <item name="android:background">@drawable/bg_hotel_checkout_information</item>
     </style>
 

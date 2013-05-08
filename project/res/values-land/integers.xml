@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <integer name="booking_info_columns_width_weight_sum">10</integer>
-    <integer name="booking_info_receipt_width_weight">4</integer>
-    <integer name="booking_info_form_width_weight">6</integer>
-    
-</resources>

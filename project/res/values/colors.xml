@@ -56,9 +56,6 @@
     <color name="calendar_header_tablet">#60FFFFFF</color>
     <color name="bg_expedia_list">#e7e7e7</color>
 
-    <!-- The color for text hints on input -->
-    <color name="hint_color">#808080</color>
-
     <!-- BookingOverviewFragment -->
     <color name="overview_receipt_divider">#666D6D6D</color>
     <color name="hotel_receipt_header_text">#3d4552</color>
@@ -90,7 +87,6 @@
     <color name="tablet_gallery_actionbar_title_shadow">#82000000</color>
     <color name="text_dark">#ff545454</color>
     <color name="text_black">#ff232323</color>
-    <color name="text_blue_dark">#ff1c3061</color>
     <color name="bottom_bar_background">#c000</color>
     <color name="actionbar_button_background_pressed">#60000000</color>
     <color name="tab_text">#d7d9dc</color>

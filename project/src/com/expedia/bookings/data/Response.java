@@ -86,47 +86,6 @@ public class Response implements JSONable {
 		return builder.substring(0, builder.length() - 1);
 	}
 
-	/**
-	 * Special handling for certain errors that contain a field name (for known fields).
-	 * @param activity
-	 * @return
-	 */
-	public List<ValidationError> checkForInvalidFields(Window parent, boolean isStoredCreditCard) {
-		if (parent == null) {
-			Log.d("Window parent is null");
-			return null;
-		}
-		ArrayList<ValidationError> errors = new ArrayList<ValidationError>();
-		for (ServerError error : mErrors) {
-			String field = error.getExtra("field");
-			if (field != null) {
-				if ("cvv".equals(field)) {
-					View v = parent.findViewById(R.id.security_code_edit_text);
-					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
-				}
-				else if (!isStoredCreditCard && "creditCardNumber".equals(field)) {
-					View v = parent.findViewById(R.id.card_number_edit_text);
-					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
-				}
-				else if (!isStoredCreditCard && "expirationDate".equals(field)) {
-					View v = parent.findViewById(R.id.expiration_month_edit_text);
-					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
-					v = parent.findViewById(R.id.expiration_year_edit_text);
-					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
-				}
-				else if (!isStoredCreditCard && "streetAddress".equals(field)) {
-					View v = parent.findViewById(R.id.address1_edit_text);
-					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
-				}
-				else if (!isStoredCreditCard && "postalCode".equals(field)) {
-					View v = parent.findViewById(R.id.billing_zipcode_edit_text);
-					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
-				}
-			}
-		}
-		return errors;
-	}
-
 	public long getTimestamp() {
 		return mTimestamp;
 	}

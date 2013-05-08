@@ -50,7 +50,6 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
-import com.expedia.bookings.fragment.BookingInfoValidation;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.utils.CalendarUtils;
@@ -349,44 +348,6 @@ public class OmnitureTracking {
 
 		// Products
 		addProducts(s, property);
-
-		// Send the tracking data
-		s.track();
-	}
-
-	public static void trackAppHotelsCheckoutPayment(Context context, Property property,
-			BookingInfoValidation validation) {
-		Log.d(TAG, "Tracking \"App.Hotels.Checkout.Payment\" pageLoad");
-
-		ADMS_Measurement s = getFreshTrackingObject(context);
-
-		addStandardFields(context, s);
-
-		s.setAppState("App.Hotels.Checkout.Payment");
-
-		s.setEvents("event34");
-
-		// Shopper/Confirmer
-		s.setEvar(25, "Shopper");
-		s.setProp(25, "Shopper");
-
-		// Products
-		addProducts(s, property);
-
-		// If any sections were already complete, fill them in here
-		String referrerId = null;
-		if (validation.isGuestsSectionCompleted() && validation.isBillingSectionCompleted()) {
-			referrerId = "CKO.BD.CompletedGuestInfo|CKO.BD.CompletedBillingInfo";
-		}
-		else if (validation.isGuestsSectionCompleted()) {
-			referrerId = "CKO.BD.CompletedGuestInfo";
-		}
-		else if (validation.isBillingSectionCompleted()) {
-			referrerId = "CKO.BD.CompletedBillingInfo";
-		}
-
-		s.setEvar(28, referrerId);
-		s.setProp(16, referrerId);
 
 		// Send the tracking data
 		s.track();
