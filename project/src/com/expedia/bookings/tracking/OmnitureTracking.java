@@ -127,6 +127,8 @@ public class OmnitureTracking {
 	private static final String HOTELS_SEARCH_REFINE_NAME = "App.Hotels.Search.Refine.Name";
 	private static final String HOTELS_SEARCH_REFINE_PRICE_RANGE = "App.Hotels.Search.Refine.PriceRange";
 	private static final String HOTELS_SEARCH_REFINE_SEARCH_RADIUS = "App.Hotels.Search.Refine.SearchRadius";
+	private static final String HOTELS_COUPON_APPLIED = "Coupon Applied";
+	private static final String HOTELS_COUPON_REMOVED = "Coupon Removed";
 
 	public static final String HOTELS_SEARCH_SORT_POPULAR = "App.Hotels.Search.Sort.Popular";
 	public static final String HOTELS_SEARCH_SORT_PRICE = "App.Hotels.Search.Sort.Price";
@@ -675,6 +677,25 @@ public class OmnitureTracking {
 
 	public static void trackPageLoadHotelsCheckoutPaymentCid(Context context) {
 		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_PAYMENT_CID, LineOfBusiness.HOTELS);
+	}
+
+	public static void trackHotelCouponApplied(Context context, Rate rate) {
+		Log.d(TAG, "Tracking \"" + HOTELS_COUPON_APPLIED + "\" click");
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+		s.setEvents("event21");
+		if (rate != null) {
+			s.setEvar(24, rate.getPromoDescription());
+		}
+		s.trackLink(null, "o", HOTELS_COUPON_APPLIED, null, null);
+	}
+
+	public static void trackHotelCouponRemoved(Context context) {
+		Log.d(TAG, "Tracking \"" + HOTELS_COUPON_REMOVED + "\" click");
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		addStandardFields(context, s);
+		s.setEvar(24, HOTELS_COUPON_REMOVED);
+		s.trackLink(null, "o", HOTELS_COUPON_REMOVED, null, null);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
