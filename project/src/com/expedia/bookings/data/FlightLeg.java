@@ -9,8 +9,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.expedia.bookings.utils.CalendarUtils;
+import com.mobiata.android.MapUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
+import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Waypoint;
 
@@ -80,8 +82,24 @@ public class FlightLeg implements JSONable {
 	public int getDistanceInMiles() {
 		int totalDistance = 0;
 		if (mSegments != null) {
+			Airport origin;
+			Airport destination;
+
 			for (Flight flight : mSegments) {
-				totalDistance += flight.mDistanceToTravel;
+				if (flight.mDistanceToTravel > -1) {
+					totalDistance += flight.mDistanceToTravel;
+				}
+				else if (flight.mOrigin != null && flight.mDestination != null) {
+					origin = flight.mOrigin.getAirport();
+					destination = flight.mOrigin.getAirport();
+
+					// Airports shouldn't be null here, but we'll check anyway since this
+					// else if block should be relatively uncommon
+					if (origin != null && destination != null) {
+						totalDistance += MapUtils.getDistance(origin.getLatitude(), origin.getLongitude(),
+								destination.getLatitude(), destination.getLongitude());
+					}
+				}
 			}
 		}
 		return totalDistance;
