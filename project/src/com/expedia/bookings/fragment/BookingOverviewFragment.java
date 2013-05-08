@@ -638,14 +638,17 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 		final int finalHeight = height;
 		ViewGroup.LayoutParams lp = mScrollSpacerView.getLayoutParams();
-		lp.height = finalHeight;
-		mScrollSpacerView.setLayoutParams(lp);
-		mScrollView.post(new Runnable() {
-			@Override
-			public void run() {
-				mScrollView.requestLayout();
-			}
-		});
+		final int initialHeight = lp.height;
+		if (initialHeight != finalHeight) {
+			lp.height = finalHeight;
+			mScrollSpacerView.setLayoutParams(lp);
+			mScrollView.post(new Runnable() {
+				@Override
+				public void run() {
+					mScrollView.requestLayout();
+				}
+			});
+		}
 	}
 
 	public boolean isInCheckout() {
