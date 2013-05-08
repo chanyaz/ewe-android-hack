@@ -101,7 +101,7 @@ public class MapImageView extends ImageView {
 		double longitude = mCenterPoint.longitudeDeg;
 
 		int width = getWidth();
-		int height = getResources().getDimensionPixelSize(R.dimen.hotel_details_map_visible_size) * 2;
+		int height = getHeight();
 		if (width == 0 || height == 0) {
 			// It would be a useless image anyways
 			return;

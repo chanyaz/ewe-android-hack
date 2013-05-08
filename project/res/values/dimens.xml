@@ -102,8 +102,6 @@
 
     <!-- Radius of the blue circle drawn on the hotel details mini map fragment -->
     <dimen name="mini_map_circle_radius">7dp</dimen>
-    <!-- Vertical portion of the mini map that we want to be always displayed -->
-    <dimen name="mini_map_critical_section">20dp</dimen>
 
     <!-- Dimensions for hotel rows -->
     <!--
@@ -136,7 +134,7 @@
     <!-- The visible area of the map on the Hotel Details screen (when collapsed) -->
     <dimen name="hotel_details_map_visible_size">150dp</dimen>
     <!-- The total height of the map on the Hotel Details screen that can be scrolled to -->
-    <dimen name="hotel_details_map_total_size">300dp</dimen>
+    <dimen name="hotel_details_map_total_size">200dp</dimen>
 
     <!-- The visible area of the parallaxed map on the Itin details view -->
     <dimen name="itin_map_visible_size">160dp</dimen>

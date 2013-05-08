@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.animation.ValueAnimator;
@@ -221,16 +222,29 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 	private void mapCounterscroll(int parentScroll) {
 		// Setup interpolator for Map counterscroll (if needed)
 		if (mIMapScroll == null) {
-			// The middle portion of the map that we want visible as long as possible
-			int mapCriticalHeight = getResources().getDimensionPixelSize(R.dimen.mini_map_critical_section);
 			int mapHeight = mMapScrollView.findViewById(R.id.mini_map).getHeight();
 			int frameHeight = mMapScrollView.getHeight();
-			PointF p1 = new PointF(mMapScrollView.getTop() - this.getHeight(), (mapHeight - mapCriticalHeight) / 2);
-			PointF p2 = new PointF(mMapScrollView.getBottom(), frameHeight - (mapHeight - mapCriticalHeight) / 2);
-			mIMapScroll = new SegmentedLinearInterpolator(p1, p2);
+			int screenHeight = this.getHeight();
+			int mapTop = mMapScrollView.getTop();
+			int mapBottom = mMapScrollView.getBottom();
+
+			int mapTopScreenBottom = mapTop - screenHeight; // when map top is at screen bottom
+			PointF p1 = new PointF(mapTopScreenBottom, mapHeight / 2);
+
+			int mapBottomScreenBottom = mapBottom - screenHeight; // when map bottom is at screen bottom
+			PointF p2 = new PointF(mapBottomScreenBottom, mapHeight - frameHeight);
+
+			int mapTopScreenTop = mapTop; // when map top is at screen top
+			PointF p3 = new PointF(mapTopScreenTop, 0);
+
+			int mapBottomScreenTop = mapBottom; // when map bottom is at screen top
+			PointF p4 = new PointF(mapBottomScreenTop, mapHeight / 2 - frameHeight);
+
+			mIMapScroll = new SegmentedLinearInterpolator(p1, p2, p3, p4);
 		}
 
 		int counterscroll = (int) mIMapScroll.get(parentScroll);
+
 		mMapScrollView.scrollTo(0, counterscroll);
 	}
 
