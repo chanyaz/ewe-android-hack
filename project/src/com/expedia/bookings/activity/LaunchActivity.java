@@ -59,6 +59,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 		ItinItemListFragmentListener, LaunchFragmentListener, DoLogoutListener {
 
 	public static final String ARG_FORCE_SHOW_WATERFALL = "ARG_FORCE_SHOW_WATERFALL";
+	public static final String ARG_FORCE_SHOW_ITIN = "ARG_FORCE_SHOW_ITIN";
 	public static final String ARG_JUMP_TO_ITIN_UNIQUE_ID = "ARG_JUMP_TO_ITIN_UNIQUE_ID";
 	public static final String ARG_IS_FROM_NOTIFICATION = "ARG_IS_FROM_NOTIFICATION";
 
@@ -158,6 +159,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 		actionBar.addTab(itineraryTab, PAGER_POS_ITIN);
 
 		// Switch to itin mode if we have an inprogress or upcoming trip (and we aren't forcing reverse waterfall)
+		// TODO this page jumping/arg stuff becoming a little unwieldy, a refactor may be in order
 		boolean allowSkipToItin = !getIntent().getBooleanExtra(ARG_FORCE_SHOW_WATERFALL, false);
 		if (allowSkipToItin) {
 			boolean startInItin = false;
@@ -184,7 +186,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 					}
 				}
 			}
-			if (startInItin) {
+			if (startInItin || getIntent().getBooleanExtra(ARG_FORCE_SHOW_ITIN, false)) {
 				gotoItineraries();
 			}
 		}
@@ -260,6 +262,9 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 		}
 		else if (intent.hasExtra(ARG_JUMP_TO_ITIN_UNIQUE_ID)) {
 			mJumpToItinId = intent.getStringExtra(ARG_JUMP_TO_ITIN_UNIQUE_ID);
+			gotoItineraries();
+		}
+		else if (intent.getBooleanExtra(ARG_FORCE_SHOW_ITIN, false)) {
 			gotoItineraries();
 		}
 	}

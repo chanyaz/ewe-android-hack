@@ -18,6 +18,7 @@ import com.expedia.bookings.activity.FlightSearchActivity;
 import com.expedia.bookings.activity.FlightSearchResultsActivity;
 import com.expedia.bookings.activity.FlightUnsupportedPOSActivity;
 import com.expedia.bookings.activity.HotelBookingActivity;
+import com.expedia.bookings.activity.ItineraryActivity;
 import com.expedia.bookings.activity.LaunchActivity;
 import com.expedia.bookings.activity.PhoneSearchActivity;
 import com.expedia.bookings.activity.SearchFragmentActivity;
@@ -46,6 +47,19 @@ public class NavUtils {
 			intent.putExtra(LaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
 		}
 
+		context.startActivity(intent);
+	}
+
+	public static void goToItin(Context context) {
+		Intent intent;
+		if (ExpediaBookingApp.useTabletInterface(context)) {
+			intent = new Intent(context, ItineraryActivity.class);
+		}
+		else {
+			intent = new Intent(context, LaunchActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			intent.putExtra(LaunchActivity.ARG_FORCE_SHOW_ITIN, true);
+		}
 		context.startActivity(intent);
 	}
 
