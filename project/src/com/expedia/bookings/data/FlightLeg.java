@@ -129,6 +129,19 @@ public class FlightLeg implements JSONable {
 		return airlines;
 	}
 
+	/**
+	 * Returns the airline code for the *first* segment of this flight leg.
+	 * @return string, or null if there are no segments.
+	 */
+	public String getFirstAirlineCode() {
+		if (mSegments != null) {
+			for (Flight flight : mSegments) {
+				return flight.getPrimaryFlightCode().mAirlineCode;
+			}
+		}
+		return null;
+	}
+
 	public String getAirlinesFormatted() {
 		StringBuilder sb = new StringBuilder();
 		for (String airlineCode : getPrimaryAirlines()) {

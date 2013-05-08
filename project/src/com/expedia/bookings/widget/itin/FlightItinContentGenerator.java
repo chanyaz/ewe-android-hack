@@ -36,6 +36,7 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TerminalMapActivity;
+import com.expedia.bookings.data.AirlineCheckInIntervals;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -590,11 +591,17 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	// flight to Chicago."
 	// If there is more than one segment for a given leg, the notification should just be sent
 	// 24 hours prior to the scheduled departure of the first flight.
+	//
+	// https://mingle.karmalab.net/projects/eb_ad_app/cards/981
+	// The amount of time shouldn't be exactly 24 hours, it should rely on AirlineCheckInIntervals.json
 	private Notification generateCheckinNotification(FlightLeg leg) {
+		Context context = getContext();
 		ItinCardDataFlight data = getItinCardData();
 
 		String uniqueId = data.getId();
-		long triggerTimeMillis = data.getStartDate().getMillisFromEpoch() - DateUtils.DAY_IN_MILLIS;
+
+		int checkInIntervalSeconds = AirlineCheckInIntervals.get(context, leg.getFirstAirlineCode());
+		long triggerTimeMillis = data.getStartDate().getMillisFromEpoch() - checkInIntervalSeconds * DateUtils.SECOND_IN_MILLIS;
 
 		Notification notification = new Notification(uniqueId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.FLIGHT_CHECK_IN);
