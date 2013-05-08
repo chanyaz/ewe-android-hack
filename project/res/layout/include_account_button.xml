@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_log_in"
             android:drawablePadding="@dimen/card_icon_padding"
-            android:text="@string/log_in_for_faster_booking"
+            android:text="@string/Log_in_with_Expedia"
             android:textColor="#FFFFFF"
             android:textSize="16sp" />
     </LinearLayout>

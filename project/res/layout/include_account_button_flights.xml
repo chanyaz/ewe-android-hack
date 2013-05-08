@@ -80,7 +80,7 @@
             android:drawableLeft="@drawable/ic_expedia_logo"
             android:drawablePadding="@dimen/card_icon_padding"
             android:gravity="center_vertical"
-            android:text="@string/log_in_for_faster_booking"
+            android:text="@string/Log_in_with_Expedia"
             android:textColor="#232323"
             android:textSize="16sp" />
     </LinearLayout>
