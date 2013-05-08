@@ -94,7 +94,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	public static Intent createIntent(Context context, String uniqueId, boolean fromNotification) {
 		Intent intent = new Intent(context, LaunchActivity.class);
 		intent.putExtra(LaunchActivity.ARG_JUMP_TO_ITIN_UNIQUE_ID, uniqueId);
-		intent.putExtra(LaunchActivity.ARG_IS_FROM_NOTIFICATION, true);
+		intent.putExtra(LaunchActivity.ARG_IS_FROM_NOTIFICATION, fromNotification);
 		return intent;
 	}
 
