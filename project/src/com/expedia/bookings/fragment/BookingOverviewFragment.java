@@ -535,7 +535,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		mSlideToPurchaseFragment.setTotalPriceString(mSlideToPurchasePriceString);
 
 		mHotelReceipt.bind(mIsDoneLoadingPriceChange, DbPropertyHelper.getBestMediaProperty(), Db.getSearchParams(),
-				Db.getSelectedRate());
+				rate);
 	}
 
 	public void updateViewVisibilities() {
