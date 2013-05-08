@@ -138,7 +138,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			mFirstAdapterLocation = JSONUtils.getJSONable(savedInstanceState, INSTANCE_FIRST_LOCATION, Location.class);
 		}
 
-		mIsLandscape = getResources().getBoolean(R.bool.is_landscape);
+		mIsLandscape = getResources().getBoolean(R.bool.landscape);
 		mIsTablet = ExpediaBookingApp.useTabletInterface(getActivity());
 		mFirstRun = savedInstanceState == null;
 	}

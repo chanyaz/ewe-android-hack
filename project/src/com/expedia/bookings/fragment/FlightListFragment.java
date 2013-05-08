@@ -76,7 +76,7 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 
 		mLegPosition = getArguments().getInt(ARG_LEG_POSITION);
 
-		mIsLandscape = getResources().getBoolean(R.bool.is_landscape);
+		mIsLandscape = getResources().getBoolean(R.bool.landscape);
 	}
 
 	@Override
