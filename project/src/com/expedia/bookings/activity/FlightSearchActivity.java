@@ -180,7 +180,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 
 	@Override
 	public void onBackPressed() {
-		if (!mSearchParamsFragment.onBackPressed() && !NavUtils.goBackToEhTabletStart(this)) {
+		if (!mSearchParamsFragment.onBackPressed()) {
 			super.onBackPressed();
 		}
 	}
@@ -209,9 +209,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			if (!NavUtils.goBackToEhTabletStart(this)) {
-				finish();
-			}
+			finish();
 			break;
 		case R.id.search:
 			FlightSearchParams params = mSearchParamsFragment.getSearchParams(true);
