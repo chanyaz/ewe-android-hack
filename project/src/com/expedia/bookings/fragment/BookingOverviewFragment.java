@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
@@ -124,6 +125,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 	private boolean mRefreshedUser;
 	private boolean mIsDoneLoadingPriceChange = false;
+
+	private boolean mMaintainStartCheckoutPosition;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -646,6 +649,15 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 				@Override
 				public void run() {
 					mScrollView.requestLayout();
+					if (mMaintainStartCheckoutPosition) {
+						mScrollView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+							@Override
+							public void onGlobalLayout() {
+								scrollToCheckout(false);
+								mScrollView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+							}
+						});
+					}
 				}
 			});
 		}
@@ -672,29 +684,34 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		startCheckout(true, true);
 	}
 
-	public void startCheckout(final boolean animate, boolean scrollToCheckout) {
+	private void scrollToCheckout(final boolean animate) {
+		mScrollView.post(new Runnable() {
+			@Override
+			public void run() {
+				mScrollView.scrollTo(0, mScrollViewListener.getScrollY());
+
+				if (animate) {
+					mScrollView.smoothScrollTo(0, mScrollViewListener.getCheckoutY());
+				}
+				else {
+					mScrollView.scrollTo(0, mScrollViewListener.getCheckoutY());
+				}
+			}
+		});
+	}
+
+	public void startCheckout(final boolean animate, boolean shouldScrollToCheckout) {
 		if (!isInCheckout()) {
 			OmnitureTracking.trackPageLoadHotelsCheckoutInfo(getActivity());
 		}
 
+		mMaintainStartCheckoutPosition = true;
 		setInCheckout(true);
 		setScrollSpacerViewHeight();
 
 		// Scroll to checkout
-		if (scrollToCheckout) {
-			mScrollView.post(new Runnable() {
-				@Override
-				public void run() {
-					mScrollView.scrollTo(0, mScrollViewListener.getScrollY());
-
-					if (animate) {
-						mScrollView.smoothScrollTo(0, mScrollViewListener.getCheckoutY());
-					}
-					else {
-						mScrollView.scrollTo(0, mScrollViewListener.getCheckoutY());
-					}
-				}
-			});
+		if (shouldScrollToCheckout) {
+			scrollToCheckout(animate);
 		}
 
 		if (mShowSlideToWidget) {
@@ -708,6 +725,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		if (isInCheckout()) {
 			OmnitureTracking.trackPageLoadHotelsRateDetails(getActivity());
 		}
+
+		mMaintainStartCheckoutPosition = false;
 
 		setInCheckout(false);
 		setScrollSpacerViewHeight();
@@ -1085,6 +1104,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			// past the checkout state, stop it at the checkout position.
 			if (!mTouchDown && y <= oldy && oldy >= mCheckoutY && isInCheckout()) {
 				mScrollView.scrollTo(0, (int) mCheckoutY);
+				mMaintainStartCheckoutPosition = false;
 				return;
 			}
 			else if (mTouchDown && y >= mCheckoutY && !isInCheckout()) {
