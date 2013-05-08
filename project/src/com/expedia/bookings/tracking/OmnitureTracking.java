@@ -1588,15 +1588,25 @@ public class OmnitureTracking {
 
 	public static void trackAdXReferralLink(Context context, String referral) {
 		if (ORGANIC_ADX_DOWNLOAD_REFERRAL_STRING.equals(referral)) {
-			ADMS_Measurement s = createTrackLinkEvent(context, ADX_ORGANIC_EVENT);
+			Log.d(TAG, "Tracking \"" + ADX_ORGANIC_EVENT + "\"");
+
+			ADMS_Measurement s = getFreshTrackingObject(context);
+
+			addStandardFields(context, s);
 			s.setEvar(8, referral);
-			internalTrackLink(s);
+
+			s.trackLink(null, "o", ADX_ORGANIC_EVENT, null, null);
 		}
 		else {
-			ADMS_Measurement s = createTrackLinkEvent(context, ADX_EVENT);
+			Log.d(TAG, "Tracking \"" + ADX_EVENT + "\"");
+
+			ADMS_Measurement s = getFreshTrackingObject(context);
+			addStandardFields(context, s);
+
 			s.setEvar(8, referral);
 			s.setEvents("event20");
-			internalTrackLink(s);
+
+			s.trackLink(null, "o", ADX_EVENT, null, null);
 		}
 	}
 
