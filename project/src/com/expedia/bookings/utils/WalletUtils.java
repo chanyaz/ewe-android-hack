@@ -149,10 +149,12 @@ public class WalletUtils {
 		Traveler gwTraveler = WalletUtils.convertToTraveler(maskedWallet);
 
 		// Only add the traveler if we don't have someone with the same name already
+		//
+		// Alternatively, replace the current traveler if it is a wallet traveler
 		List<Traveler> currTravelers = BookingInfoUtils.getAlternativeTravelers(context);
 		currTravelers.addAll(Db.getTravelers());
 		for (Traveler traveler : currTravelers) {
-			if (traveler.compareNameTo(gwTraveler) == 0) {
+			if (!traveler.fromGoogleWallet() && traveler.compareNameTo(gwTraveler) == 0) {
 				return null;
 			}
 		}

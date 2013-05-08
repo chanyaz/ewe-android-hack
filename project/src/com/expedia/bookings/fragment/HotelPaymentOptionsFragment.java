@@ -17,7 +17,9 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity.YoYoMode;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.StoredCreditCard;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.model.HotelPaymentFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionStoredCreditCard;
@@ -311,6 +313,10 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 
 	@Override
 	protected void onMaskedWalletChanged(MaskedWallet maskedWallet) {
+		// Add the current traveler from the wallet, if it is full of data and we have none at the moment 
+		Traveler traveler = WalletUtils.addWalletAsTraveler(getActivity(), maskedWallet);
+		BookingInfoUtils.insertTravelerDataIfNotFilled(getActivity(), traveler, LineOfBusiness.HOTELS);
+
 		onStoredCardSelected(WalletUtils.convertToStoredCreditCard(maskedWallet));
 	}
 

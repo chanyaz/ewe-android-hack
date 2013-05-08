@@ -38,6 +38,7 @@ import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.WalletUtils;
@@ -504,7 +505,8 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	private void populateTravelerDataFromUser() {
 		if (User.isLoggedIn(getActivity())) {
 			//Populate traveler data
-			populateTravelerData(Db.getUser().getPrimaryTraveler());
+			BookingInfoUtils.insertTravelerDataIfNotFilled(getActivity(), Db.getUser().getPrimaryTraveler(),
+					LineOfBusiness.FLIGHTS);
 		}
 		else {
 			for (int i = 0; i < Db.getTravelers().size(); i++) {
@@ -514,30 +516,6 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 				}
 				//We can't save travelers to an account if we aren't logged in, so we unset the flag
 				Db.getTravelers().get(i).setSaveTravelerToExpediaAccount(false);
-			}
-
-		}
-	}
-
-	private void populateTravelerData(Traveler traveler) {
-		if (Db.getTravelers() != null && Db.getTravelers().size() >= 1) {
-			// If the first traveler is not already all the way filled out, and the
-			// provided traveler has all the required data, then use that one instead
-			TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
-			Traveler currentFirstTraveler = Db.getTravelers().get(0);
-			if (Db.getFlightSearch().getSelectedFlightTrip().isInternational()) {
-				// International
-				if (!state.allTravelerInfoIsValidForInternationalFlight(currentFirstTraveler)
-						&& state.allTravelerInfoIsValidForInternationalFlight(traveler)) {
-					Db.getTravelers().set(0, traveler);
-				}
-			}
-			else {
-				// Domestic
-				if (!state.allTravelerInfoIsValidForDomesticFlight(currentFirstTraveler)
-						&& state.allTravelerInfoIsValidForDomesticFlight(traveler)) {
-					Db.getTravelers().set(0, traveler);
-				}
 			}
 		}
 	}
@@ -735,9 +713,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		// NOTE: At the moment we are *guaranteed* not to get sufficient data, but there's no reason
 		// not to hope someday we will get it! 
 		Traveler traveler = WalletUtils.addWalletAsTraveler(getActivity(), maskedWallet);
-		if (traveler != null) {
-			populateTravelerData(traveler);
-		}
+		BookingInfoUtils.insertTravelerDataIfNotFilled(getActivity(), traveler, LineOfBusiness.FLIGHTS);
 
 		// Bind credit card data, but only if they explicitly clicked "buy with wallet" or they have
 		// no existing credit card info entered

@@ -57,6 +57,7 @@ import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.DbPropertyHelper;
 import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.AccountButton;
@@ -458,7 +459,8 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 	private void populateTravelerDataFromUser() {
 		if (User.isLoggedIn(getActivity())) {
 			//Populate traveler data
-			populateTravelerData(Db.getUser().getPrimaryTraveler());
+			BookingInfoUtils.insertTravelerDataIfNotFilled(getActivity(), Db.getUser().getPrimaryTraveler(),
+					LineOfBusiness.HOTELS);
 		}
 		else {
 			for (int i = 0; i < Db.getTravelers().size(); i++) {
@@ -468,19 +470,6 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 				}
 				//We can't save travelers to an account if we aren't logged in, so we unset the flag
 				Db.getTravelers().get(i).setSaveTravelerToExpediaAccount(false);
-			}
-		}
-	}
-
-	private void populateTravelerData(Traveler traveler) {
-		if (Db.getTravelers() != null && Db.getTravelers().size() >= 1) {
-			// If the first traveler is not already all the way filled out, and the
-			// provided traveler has all the required data, then use that one instead
-			HotelTravelerFlowState state = HotelTravelerFlowState.getInstance(getActivity());
-			if (!state.hasValidTraveler(Db.getTravelers().get(0))) {
-				if (state.hasValidTraveler(traveler)) {
-					Db.getTravelers().set(0, traveler);
-				}
 			}
 		}
 	}
@@ -639,7 +628,8 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 
 			// We compute this based on screenHeight incase all of the content fits on the screen
 			// For example on a large tablet
-			height = screenHeight + actionBarHeight - checkoutLayoutHeight - receiptMiniHeight - slideToPurchaseFragmentHeight;
+			height = screenHeight + actionBarHeight - checkoutLayoutHeight - receiptMiniHeight
+					- slideToPurchaseFragmentHeight;
 
 			if (height < slideToPurchaseFragmentHeight) {
 				// This means the content fills the height of the screen and then some
@@ -1216,9 +1206,7 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 
 		// Add the current traveler from the wallet, if it is full of data and we have none at the moment 
 		Traveler traveler = WalletUtils.addWalletAsTraveler(getActivity(), maskedWallet);
-		if (traveler != null) {
-			populateTravelerData(traveler);
-		}
+		BookingInfoUtils.insertTravelerDataIfNotFilled(getActivity(), traveler, LineOfBusiness.HOTELS);
 
 		// Bind credit card data, but only if they explicitly clicked "buy with wallet" or they have
 		// no existing credit card info entered

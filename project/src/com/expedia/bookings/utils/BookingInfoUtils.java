@@ -12,11 +12,14 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.model.HotelTravelerFlowState;
+import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.mobiata.android.Log;
 
@@ -65,6 +68,44 @@ public class BookingInfoUtils {
 		}
 
 		return false;
+	}
+
+	public static void insertTravelerDataIfNotFilled(Context context, Traveler traveler, LineOfBusiness lob) {
+		if (traveler != null && Db.getTravelers() != null && Db.getTravelers().size() >= 1) {
+			// If the first traveler is not already all the way filled out, and the
+			// provided traveler has all the required data, then use that one instead
+			boolean useNewTraveler = false;
+			Traveler currentFirstTraveler = Db.getTravelers().get(0);
+
+			if (traveler.fromGoogleWallet() && currentFirstTraveler.fromGoogleWallet()) {
+				// If the current user is from GWallet (and no edits have been made, signified
+				// by the fact that we still think it is from GWallet) then replace it automatically.
+				useNewTraveler = true;
+			}
+			else if (lob == LineOfBusiness.HOTELS) {
+				HotelTravelerFlowState state = HotelTravelerFlowState.getInstance(context);
+				if (!state.hasValidTraveler(currentFirstTraveler)) {
+					useNewTraveler = state.hasValidTraveler(traveler);
+				}
+			}
+			else if (lob == LineOfBusiness.FLIGHTS) {
+				TravelerFlowState state = TravelerFlowState.getInstance(context);
+				if (Db.getFlightSearch().getSelectedFlightTrip().isInternational()) {
+					// International
+					useNewTraveler = !state.allTravelerInfoIsValidForInternationalFlight(currentFirstTraveler)
+							&& state.allTravelerInfoIsValidForInternationalFlight(traveler);
+				}
+				else {
+					// Domestic
+					useNewTraveler = !state.allTravelerInfoIsValidForDomesticFlight(currentFirstTraveler)
+							&& state.allTravelerInfoIsValidForDomesticFlight(traveler);
+				}
+			}
+
+			if (useNewTraveler) {
+				Db.getTravelers().set(0, traveler);
+			}
+		}
 	}
 
 	public static void focusAndOpenKeyboard(Context context, View view) {
