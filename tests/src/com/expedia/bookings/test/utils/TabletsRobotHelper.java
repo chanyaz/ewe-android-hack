@@ -188,62 +188,6 @@ public class TabletsRobotHelper extends HotelsRobotHelper {
 		enterLog(TAG, "Enter login credentials and pressed button");
 	}
 
-	public void enterCCVAndZIP() {
-		mSolo.enterText((EditText) mSolo.getView(R.id.security_code_edit_text), mUser.mCCV);
-		mSolo.enterText(mSolo.getEditText(mRes.getString(R.string.address_postal_code_hint)), mUser.mZIPCode);
-		screenshot("Tablet: Booking screen after log in and ZIP & CCV entry");
-		landscape();
-		portrait();
-		enterLog(TAG, "Entered CCV: " + mUser.mCCV + "and ZIP " + mUser.mZIPCode);
-	}
-
-	public void enterBookingInfo() {
-		EditText firstName = (EditText) mSolo.getView(R.id.first_name_edit_text);
-		EditText lastName = (EditText) mSolo.getView(R.id.last_name_edit_text);
-		EditText phoneNumber = (EditText) mSolo.getView(R.id.edit_phone_number);
-		EditText email = (EditText) mSolo.getView(R.id.edit_email_address);
-		EditText ccNumber = (EditText) mSolo.getView(R.id.edit_creditcard_number);
-		EditText ccExpirationMonth = (EditText) mSolo.getView(R.id.expiration_month_edit_text);
-		EditText ccExpirationYear = (EditText) mSolo.getView(R.id.expiration_year_edit_text);
-		EditText ccCCV = (EditText) mSolo.getView(R.id.security_code_edit_text);
-		EditText zipCode = (EditText) mSolo.getView(R.id.edit_address_postal_code);
-
-		mSolo.enterText(firstName, mUser.mFirstName);
-		mSolo.enterText(lastName, mUser.mLastName);
-
-		enterLog("!!! ", "111" + mUser.mPhoneNumber);
-		mSolo.enterText(phoneNumber, mUser.mPhoneNumber);
-
-		enterLog("!!! ", "111" + mUser.mLoginEmail);
-		mSolo.enterText(email, mUser.mLoginEmail);
-
-		enterLog("!!! ", "111" + mUser.mCreditCardNumber);
-		mSolo.enterText(ccNumber, mUser.mCreditCardNumber);
-
-		enterLog("!!! ", "111" + mUser.mCardExpMonth);
-		mSolo.enterText(ccExpirationMonth, mUser.mCardExpMonth);
-
-		enterLog("!!! ", "111" + mUser.mCardExpYear);
-		mSolo.enterText(ccExpirationYear, mUser.mCardExpYear);
-
-		enterLog("!!! ", "111" + mUser.mCCV);
-		mSolo.enterText(ccCCV, mUser.mCCV);
-
-		enterLog("!!! ", "111" + mUser.mZIPCode);
-		mSolo.enterText(zipCode, mUser.mZIPCode);
-	}
-
-	public void pressToConfirmAndBook() {
-		View confirmAndBook = mSolo.getView(R.id.menu_confirm_book);
-		mSolo.clickOnView(confirmAndBook);
-		enterLog(TAG, "Pressed to confirm & book. Waiting...");
-		landscape();
-		portrait();
-		mSolo.waitForDialogToClose(20000);
-		delay(5);
-		screenshot("Tablet: Hotel confirmation screen");
-	}
-
 	public void runHotelHappyPath() {
 		delay(5);
 		setSpoofBookings();

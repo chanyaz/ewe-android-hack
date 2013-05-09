@@ -102,22 +102,8 @@ public class HotelsTestingUtils {
 	public static void enterBookingInfo(Solo solo) {
 		Log.d(TAG, "enterBookingInfo()");
 
-		//need some padding here; without it, initial views are null to getView()
-		solo.sleep(2000);
-
-		RobotiumWorkflowUtils.enterText(solo, R.id.first_name_edit_text, "Jimmy");
-		RobotiumWorkflowUtils.enterText(solo, R.id.last_name_edit_text, "James");
-		RobotiumWorkflowUtils.enterText(solo, R.id.telephone_edit_text, "4155551212");
-		RobotiumWorkflowUtils.enterText(solo, R.id.email_edit_text, "numb@nuts.com");
-		RobotiumWorkflowUtils.enterText(solo, R.id.card_number_edit_text, "4111111111111111");
-		RobotiumWorkflowUtils.enterText(solo, R.id.expiration_month_edit_text, "11");
-		RobotiumWorkflowUtils.enterText(solo, R.id.expiration_year_edit_text, "14");
-		RobotiumWorkflowUtils.enterText(solo, R.id.address1_edit_text, "1 Rincon Hill");
-		RobotiumWorkflowUtils.enterText(solo, R.id.billing_zipcode_edit_text, "94107");
-
-		//will always need to enter security code, regardless of login state
-		RobotiumWorkflowUtils.enterText(solo, R.id.security_code_edit_text, "123");
-
+		// TODO: This needs to be rewritten now that tablet uses the same
+		// checkout as phone
 	}
 
 	public static void completeBooking(Solo solo, String environment) throws Exception {

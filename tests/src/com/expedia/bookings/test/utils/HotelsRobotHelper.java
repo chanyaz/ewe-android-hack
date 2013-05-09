@@ -1,9 +1,5 @@
 package com.expedia.bookings.test.utils;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -548,11 +544,6 @@ public class HotelsRobotHelper {
 
 	}
 
-	public void enterPhoneNumber() throws Exception {
-		enterLog(TAG, "Booking: Entering phone number");
-		mSolo.enterText((EditText) mSolo.getView(R.id.telephone_edit_text), mUser.mPhoneNumber);
-	}
-
 	public void enterCCV() throws Exception {
 		enterLog(TAG, "Booking: Entering CVV");
 		//mSolo.scrollUp();
@@ -561,8 +552,6 @@ public class HotelsRobotHelper {
 		landscape();
 		portrait();
 		delay(5);
-		final EditText CCVview =
-				(EditText) mSolo.getCurrentActivity().findViewById(R.id.security_code_edit_text);
 
 		View one = mSolo.getView(R.id.one_button);
 		mSolo.clickOnView(one);

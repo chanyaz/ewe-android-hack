@@ -74,7 +74,9 @@ public class HotelsHappyPathTest extends ActivityInstrumentationTestCase2<Search
 		assertEquals(mHotelName, HotelsTestingUtils.getHotelName(solo));
 
 		//book and check out
-		HotelsTestingUtils.enterBookingInfo(solo);
+		// TODO: We do NOT enter booking info at this point because it's out of date!
+		// This test should fail until it's properly rewritten!
+		// HotelsTestingUtils.enterBookingInfo(solo);
 		assertEquals(mHotelName, HotelsTestingUtils.getHotelName(solo));
 		HotelsTestingUtils.completeBooking(solo, environment);
 		assertEquals(mHotelName, HotelsTestingUtils.getHotelName(solo));
