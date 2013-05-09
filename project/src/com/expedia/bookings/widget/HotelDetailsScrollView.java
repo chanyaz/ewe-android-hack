@@ -223,10 +223,10 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 		// Setup interpolator for Map counterscroll (if needed)
 		if (mIMapScroll == null) {
 			int mapHeight = mMapScrollView.findViewById(R.id.mini_map).getHeight();
-			int frameHeight = mMapScrollView.getHeight();
 			int screenHeight = this.getHeight();
-			int mapTop = mMapScrollView.getTop();
-			int mapBottom = mMapScrollView.getBottom();
+			int mapTop = mMapScrollView.getTop() + mMapScrollView.getPaddingTop();
+			int mapBottom = mMapScrollView.getBottom() - mMapScrollView.getPaddingBottom();
+			int frameHeight = mapBottom - mapTop;
 
 			int mapTopScreenBottom = mapTop - screenHeight; // when map top is at screen bottom
 			PointF p1 = new PointF(mapTopScreenBottom, mapHeight / 2);
