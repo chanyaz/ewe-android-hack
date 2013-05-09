@@ -24,6 +24,7 @@ import com.expedia.bookings.model.HotelPaymentFlowState;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
+import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.Ui;
 
 public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implements HotelPaymentYoYoListener {
@@ -360,11 +361,9 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 	}
 
 	public boolean canOnlySelectNewCard() {
-		//Is the user logged in and has account cards?
-		if (User.isLoggedIn(this) && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
-			if (Db.getUser().getStoredCreditCards() != null && Db.getUser().getStoredCreditCards().size() > 0) {
-				return false;
-			}
+		// Does the user have cards they could select?
+		if (BookingInfoUtils.getStoredCreditCards(this).size() > 0) {
+			return false;
 		}
 
 		//Has the user manually entered data already?
