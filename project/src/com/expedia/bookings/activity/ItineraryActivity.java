@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -32,8 +31,6 @@ import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.mobiata.android.util.AndroidUtils;
-import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.ObjectAnimator;
 
 /**
  * Full-screen Itinerary activity.  Used in tablets.
@@ -51,8 +48,6 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 	private boolean mAnimatingToItem;
 	private boolean mItemHasDetails;
 
-	private View mSpacerView;
-	private ImageView mShadowImageView;
 	private View mFallbackPatternView;
 
 	private ItinItemListFragment mItinListFragment;
@@ -75,8 +70,6 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 
 		getWindow().setBackgroundDrawable(null);
 
-		mSpacerView = Ui.findView(this, R.id.spacer_view);
-		mShadowImageView = Ui.findView(this, R.id.shadow_image_view);
 		mFallbackPatternView = Ui.findView(this, R.id.fallback_pattern);
 
 		mItinListFragment = Ui.findSupportFragment(this, getString(R.string.tag_itinerary_list));
@@ -398,54 +391,10 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 		}
 
 		if (mode == ItinListView.MODE_LIST) {
-			mSpacerView.post(new Runnable() {
-				@Override
-				public void run() {
-					getCollapseAnimatorSet().start();
-					getSupportActionBar().show();
-				}
-			});
+			getSupportActionBar().show();
 		}
 		else if (mode == ItinListView.MODE_DETAIL) {
-			mSpacerView.post(new Runnable() {
-				@Override
-				public void run() {
-					getExpandAnimatorSet().start();
-					getSupportActionBar().hide();
-				}
-			});
+			getSupportActionBar().hide();
 		}
-	}
-
-	// Animators
-
-	private AnimatorSet getCollapseAnimatorSet() {
-		final int actionBarHeight = getSupportActionBar().getHeight();
-
-		mSpacerView.setVisibility(View.VISIBLE);
-
-		ObjectAnimator pagerSlideDown = ObjectAnimator.ofFloat(mItinListFragment, "translationY", -actionBarHeight, 0);
-		ObjectAnimator shadowSlideDown = ObjectAnimator.ofFloat(mShadowImageView, "translationY", -actionBarHeight, 0);
-
-		AnimatorSet animatorSet = new AnimatorSet();
-		animatorSet.playTogether(pagerSlideDown, shadowSlideDown);
-		animatorSet.setDuration(200);
-
-		return animatorSet;
-	}
-
-	private AnimatorSet getExpandAnimatorSet() {
-		final int actionBarHeight = getSupportActionBar().getHeight();
-
-		mSpacerView.setVisibility(View.GONE);
-
-		ObjectAnimator pagerSlideUp = ObjectAnimator.ofFloat(mItinListFragment, "translationY", actionBarHeight, 0);
-		ObjectAnimator shadowSlideUp = ObjectAnimator.ofFloat(mShadowImageView, "translationY", actionBarHeight, 0);
-
-		AnimatorSet animatorSet = new AnimatorSet();
-		animatorSet.playTogether(pagerSlideUp, shadowSlideUp);
-		animatorSet.setDuration(200);
-
-		return animatorSet;
 	}
 }

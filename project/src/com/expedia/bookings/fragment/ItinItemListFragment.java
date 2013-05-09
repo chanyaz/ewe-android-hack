@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -39,6 +40,8 @@ import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.util.Ui;
+import com.nineoldandroids.animation.AnimatorSet;
+import com.nineoldandroids.animation.ObjectAnimator;
 
 public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialogFragment.DoLogoutListener,
 		ItinerarySyncListener {
@@ -53,6 +56,8 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	private ItinItemListFragmentListener mListener;
 
 	private View mRoot;
+	private View mSpacerView;
+	private ImageView mShadowImageView;
 	private ItinListView mItinListView;
 	private View mEmptyView;
 	private View mOrEnterNumberTv;
@@ -111,6 +116,8 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		final View view = inflater.inflate(R.layout.fragment_itinerary_list, null);
 
 		mRoot = Ui.findView(view, R.id.outer_container);
+		mSpacerView = Ui.findView(view, R.id.spacer_view);
+		mShadowImageView = Ui.findView(view, R.id.shadow_image_view);
 		mItinListView = Ui.findView(view, android.R.id.list);
 		mEmptyView = Ui.findView(view, android.R.id.empty);
 		mOrEnterNumberTv = Ui.findView(view, R.id.or_enter_itin_number_tv);
@@ -132,7 +139,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 			@Override
 			public void run() {
 				if (getActivity() != null) {
-					mItinListView.setExpandedCardHeight(view.getHeight() + getSupportActionBar().getHeight());
+					mItinListView.setExpandedCardHeight(view.getHeight());
 				}
 			}
 		});
@@ -214,6 +221,15 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 	public void setSimpleMode(boolean enabled) {
 		mItinListView.setSimpleMode(true);
+
+		if (enabled) {
+			mSpacerView.setVisibility(View.GONE);
+			mShadowImageView.setVisibility(View.GONE);
+		}
+		else if (inListMode()) {
+			mSpacerView.setVisibility(View.VISIBLE);
+			mShadowImageView.setVisibility(View.VISIBLE);
+		}
 	}
 
 	public void showItinCard(String id) {
@@ -364,11 +380,25 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 			}
 
 			if (mode == ItinListView.MODE_LIST) {
+				mSpacerView.post(new Runnable() {
+					@Override
+					public void run() {
+						getCollapseAnimatorSet().start();
+					}
+				});
+
 				if (activity instanceof OnListModeChangedListener) {
 					((OnListModeChangedListener) activity).onListModeChanged(mode);
 				}
 			}
 			else if (mode == ItinListView.MODE_DETAIL) {
+				mSpacerView.post(new Runnable() {
+					@Override
+					public void run() {
+						getExpandAnimatorSet().start();
+					}
+				});
+
 				if (activity instanceof OnListModeChangedListener) {
 					((OnListModeChangedListener) activity).onListModeChanged(mode);
 				}
@@ -395,6 +425,38 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 			}
 		}
 	};
+
+	// Animations
+
+	private AnimatorSet getCollapseAnimatorSet() {
+		final int actionBarHeight = getSupportActionBar().getHeight();
+
+		mSpacerView.setVisibility(View.VISIBLE);
+
+		ObjectAnimator pagerSlideDown = ObjectAnimator.ofFloat(mItinListView, "translationY", -actionBarHeight, 0);
+		ObjectAnimator shadowSlideDown = ObjectAnimator.ofFloat(mShadowImageView, "translationY", -actionBarHeight, 0);
+
+		AnimatorSet animatorSet = new AnimatorSet();
+		animatorSet.playTogether(pagerSlideDown, shadowSlideDown);
+		animatorSet.setDuration(200);
+
+		return animatorSet;
+	}
+
+	private AnimatorSet getExpandAnimatorSet() {
+		final int actionBarHeight = getSupportActionBar().getHeight();
+
+		mSpacerView.setVisibility(View.GONE);
+
+		ObjectAnimator pagerSlideUp = ObjectAnimator.ofFloat(mItinListView, "translationY", actionBarHeight, 0);
+		ObjectAnimator shadowSlideUp = ObjectAnimator.ofFloat(mShadowImageView, "translationY", actionBarHeight, 0);
+
+		AnimatorSet animatorSet = new AnimatorSet();
+		animatorSet.playTogether(pagerSlideUp, shadowSlideUp);
+		animatorSet.setDuration(200);
+
+		return animatorSet;
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Access into SherlockFragmentActivity

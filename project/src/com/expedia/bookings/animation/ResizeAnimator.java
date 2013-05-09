@@ -27,7 +27,6 @@ public class ResizeAnimator {
 				view.getLayoutParams().height = (Integer) arg0.getAnimatedValue();
 				view.requestLayout();
 			}
-
 		});
 
 		anim.setDuration(400);

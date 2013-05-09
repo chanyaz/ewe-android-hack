@@ -14,8 +14,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
-import android.view.View;
-import android.widget.ImageView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
@@ -52,8 +50,6 @@ import com.mobiata.android.bitmaps.TwoLevelImageCache;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.utils.DateTimeUtils;
-import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.ObjectAnimator;
 
 public class LaunchActivity extends SherlockFragmentActivity implements OnListModeChangedListener,
 		ItinItemListFragmentListener, LaunchFragmentListener, DoLogoutListener {
@@ -71,8 +67,6 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	private ItinItemListFragment mItinListFragment;
 
 	private PagerAdapter mPagerAdapter;
-	private View mSpacerView;
-	private ImageView mShadowImageView;
 	private DisableableViewPager mViewPager;
 	private int mPagerPosition = PAGER_POS_WATERFALL;
 	private boolean mHasMenu = false;
@@ -119,8 +113,6 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 
 		// View Pager
 		mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
-		mSpacerView = Ui.findView(this, R.id.spacer_view);
-		mShadowImageView = Ui.findView(this, R.id.shadow_image_view);
 		mViewPager = Ui.findView(this, R.id.viewpager);
 		mViewPager.setAdapter(mPagerAdapter);
 		mViewPager.setOnPageChangeListener(new SimpleOnPageChangeListener() {
@@ -530,23 +522,11 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	public void onListModeChanged(int mode) {
 		if (mode == ItinListView.MODE_LIST) {
 			mViewPager.setPageSwipingEnabled(true);
-			mSpacerView.post(new Runnable() {
-				@Override
-				public void run() {
-					getCollapseAnimatorSet().start();
-					getSupportActionBar().show();
-				}
-			});
+			getSupportActionBar().show();
 		}
 		else if (mode == ItinListView.MODE_DETAIL) {
 			mViewPager.setPageSwipingEnabled(false);
-			mSpacerView.post(new Runnable() {
-				@Override
-				public void run() {
-					getExpandAnimatorSet().start();
-					getSupportActionBar().hide();
-				}
-			});
+			getSupportActionBar().hide();
 		}
 		else {
 			mViewPager.setPageSwipingEnabled(true);
@@ -574,38 +554,6 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	@Override
 	public void onItinCardClicked(ItinCardData data) {
 		// Do nothing (let fragment handle it)
-	}
-
-	// Animators
-
-	private AnimatorSet getCollapseAnimatorSet() {
-		final int actionBarHeight = getSupportActionBar().getHeight();
-
-		mSpacerView.setVisibility(View.VISIBLE);
-
-		ObjectAnimator pagerSlideDown = ObjectAnimator.ofFloat(mViewPager, "translationY", -actionBarHeight, 0);
-		ObjectAnimator shadowSlideDown = ObjectAnimator.ofFloat(mShadowImageView, "translationY", -actionBarHeight, 0);
-
-		AnimatorSet animatorSet = new AnimatorSet();
-		animatorSet.playTogether(pagerSlideDown, shadowSlideDown);
-		animatorSet.setDuration(200);
-
-		return animatorSet;
-	}
-
-	private AnimatorSet getExpandAnimatorSet() {
-		final int actionBarHeight = getSupportActionBar().getHeight();
-
-		mSpacerView.setVisibility(View.GONE);
-
-		ObjectAnimator pagerSlideUp = ObjectAnimator.ofFloat(mViewPager, "translationY", actionBarHeight, 0);
-		ObjectAnimator shadowSlideUp = ObjectAnimator.ofFloat(mShadowImageView, "translationY", actionBarHeight, 0);
-
-		AnimatorSet animatorSet = new AnimatorSet();
-		animatorSet.playTogether(pagerSlideUp, shadowSlideUp);
-		animatorSet.setDuration(200);
-
-		return animatorSet;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
