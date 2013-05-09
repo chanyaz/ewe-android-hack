@@ -2,7 +2,9 @@ package com.expedia.bookings.section;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.text.Editable;
@@ -25,6 +27,7 @@ import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.section.CountrySpinnerAdapter.CountryDisplayType;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.mobiata.android.Log;
+import com.mobiata.android.validation.MultiValidator;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
 
@@ -55,6 +58,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		init(context);
 	}
 
+	@SuppressLint("NewApi")
 	public SectionLocation(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		init(context);
@@ -408,14 +412,37 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 
 	SectionFieldEditable<EditText, Location> mEditAddressPostalCode = new SectionFieldEditable<EditText, Location>(
 			R.id.edit_address_postal_code) {
+
+		Validator<EditText> mPostalCodeCharacterCountValidator = new Validator<EditText>() {
+
+			//Allow anything between 5 and 15 characters OR blank
+			Pattern mPattern = Pattern.compile("^(.{5,15})??$");
+
+			@Override
+			public int validate(EditText obj) {
+				if (obj == null || obj.getText() == null) {
+					return ValidationError.ERROR_DATA_MISSING;
+				}
+				else {
+					if (mPattern.matcher(obj.getText()).matches()) {
+						return ValidationError.NO_ERROR;
+					}
+					else {
+						return ValidationError.ERROR_DATA_INVALID;
+					}
+				}
+			}
+
+		};
+
 		@Override
 		protected Validator<EditText> getValidator() {
+			MultiValidator<EditText> postalCodeValidators = new MultiValidator<EditText>();
+			postalCodeValidators.addValidator(mPostalCodeCharacterCountValidator);
 			if (requiresPostalCode()) {
-				return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
+				postalCodeValidators.addValidator(CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET);
 			}
-			else {
-				return CommonSectionValidators.ALWAYS_VALID_VALIDATOR_ET;
-			}
+			return postalCodeValidators;
 		}
 
 		@Override
