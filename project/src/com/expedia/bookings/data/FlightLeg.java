@@ -86,12 +86,12 @@ public class FlightLeg implements JSONable {
 			Airport destination;
 
 			for (Flight flight : mSegments) {
-				if (flight.mDistanceToTravel > -1) {
+				if (flight.mDistanceToTravel > 0) {
 					totalDistance += flight.mDistanceToTravel;
 				}
 				else if (flight.mOrigin != null && flight.mDestination != null) {
 					origin = flight.mOrigin.getAirport();
-					destination = flight.mOrigin.getAirport();
+					destination = flight.mDestination.getAirport();
 
 					// Airports shouldn't be null here, but we'll check anyway since this
 					// else if block should be relatively uncommon
