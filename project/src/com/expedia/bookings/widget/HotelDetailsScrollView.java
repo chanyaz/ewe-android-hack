@@ -25,7 +25,7 @@ import com.nineoldandroids.view.animation.AnimatorProxy;
 public class HotelDetailsScrollView extends CustomScrollerScrollView {
 	private static final String TAG = HotelDetailsScrollView.class.getSimpleName();
 
-	ViewGroup mMapScrollView;
+	ViewGroup mMapContainer;
 	View mGalleryContainer;
 	HotelDetailsGallery mGallery;
 
@@ -116,7 +116,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 	}
 
 	private void initMap() {
-		mMapScrollView = (ViewGroup) findViewById(R.id.hotel_details_map_fragment_container);
+		mMapContainer = (ViewGroup) findViewById(R.id.hotel_details_map_fragment_container);
 	}
 
 	@Override
@@ -145,7 +145,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 		if (mGalleryContainer != null) {
 			galleryCounterscroll(t);
 		}
-		if (mMapScrollView != null) {
+		if (mMapContainer != null) {
 			mapCounterscroll(t);
 		}
 	}
@@ -222,10 +222,10 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 	private void mapCounterscroll(int parentScroll) {
 		// Setup interpolator for Map counterscroll (if needed)
 		if (mIMapScroll == null) {
-			int mapHeight = mMapScrollView.findViewById(R.id.mini_map).getHeight();
+			int mapHeight = mMapContainer.findViewById(R.id.mini_map).getHeight();
 			int screenHeight = this.getHeight();
-			int mapTop = mMapScrollView.getTop() + mMapScrollView.getPaddingTop();
-			int mapBottom = mMapScrollView.getBottom() - mMapScrollView.getPaddingBottom();
+			int mapTop = mMapContainer.getTop() + mMapContainer.getPaddingTop();
+			int mapBottom = mMapContainer.getBottom() - mMapContainer.getPaddingBottom();
 			int frameHeight = mapBottom - mapTop;
 
 			int mapTopScreenBottom = mapTop - screenHeight; // when map top is at screen bottom
@@ -245,7 +245,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 
 		int counterscroll = (int) mIMapScroll.get(parentScroll);
 
-		mMapScrollView.scrollTo(0, counterscroll);
+		mMapContainer.scrollTo(0, counterscroll);
 	}
 
 	@Override
