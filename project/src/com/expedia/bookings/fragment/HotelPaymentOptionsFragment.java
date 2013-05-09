@@ -256,7 +256,7 @@ public class HotelPaymentOptionsFragment extends Fragment {
 		boolean displayManualCurrentPayment;
 		PointOfSale.RequiredPaymentFields fields = PointOfSale.getPointOfSale().getRequiredPaymentFieldsHotels();
 		if (fields == PointOfSale.RequiredPaymentFields.POSTAL_CODE) {
-			displayManualCurrentPayment = !hasSelectedStoredCard && (addressValid || cardValid);
+			displayManualCurrentPayment = !hasSelectedStoredCard && addressValid && cardValid;
 		}
 		else {
 			displayManualCurrentPayment = !hasSelectedStoredCard && cardValid;
