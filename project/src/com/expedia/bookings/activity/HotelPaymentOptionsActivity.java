@@ -18,6 +18,7 @@ import com.expedia.bookings.fragment.HotelPaymentCreditCardFragment;
 import com.expedia.bookings.fragment.HotelPaymentOptionsFragment;
 import com.expedia.bookings.fragment.HotelPaymentOptionsFragment.HotelPaymentYoYoListener;
 import com.expedia.bookings.fragment.HotelPaymentSaveDialogFragment;
+import com.expedia.bookings.model.HotelPaymentFlowState;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
@@ -295,7 +296,13 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 			}
 		}
 		else {
-			displayOptions();
+			if (canOnlySelectNewCard()) {
+				mMode = YoYoMode.YOYO;
+				displayCreditCard();
+			}
+			else {
+				displayOptions();
+			}
 		}
 
 		//Actionbar
@@ -348,6 +355,26 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 		}
 
 		return super.onPrepareOptionsMenu(menu);
+	}
+
+	public boolean canOnlySelectNewCard() {
+		//Is the user logged in and has account cards?
+		if (User.isLoggedIn(this) && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
+			if (Db.getUser().getStoredCreditCards() != null && Db.getUser().getStoredCreditCards().size() > 0) {
+				return false;
+			}
+		}
+
+		//Has the user manually entered data already?
+		HotelPaymentFlowState validationState = HotelPaymentFlowState.getInstance(this);
+		boolean addressValid = validationState.hasValidBillingAddress(Db.getWorkingBillingInfoManager()
+				.getWorkingBillingInfo());
+		boolean cardValid = validationState.hasValidCardInfo(Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+		if (addressValid && cardValid) {
+			return false;
+		}
+
+		return true;
 	}
 
 	public void setShowNextButton(boolean showNext) {
