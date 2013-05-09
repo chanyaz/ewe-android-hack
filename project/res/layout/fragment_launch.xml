@@ -4,6 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <!-- ActionBar spacer -->
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize" />
+
     <include
         android:layout_width="match_parent"
         layout="@layout/snippet_launch_header" />
