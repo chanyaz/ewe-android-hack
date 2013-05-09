@@ -654,7 +654,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 							@Override
 							public void onGlobalLayout() {
 								scrollToCheckout(false);
-								mScrollView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+								mScrollView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 							}
 						});
 					}
