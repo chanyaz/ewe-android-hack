@@ -203,7 +203,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_tomorrow));
 		}
 		// Check in after 3:00 PM
-		else if (beforeStart && daysBetweenStart == 0) {
+		else if (daysBetweenStart == 0) {
 			if (!TextUtils.isEmpty(data.getCheckInTime())) {
 				view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_TEMPLATE,
 						data.getCheckInTime()));
@@ -231,7 +231,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_tomorrow));
 		}
 		// Check out before 11:00AM
-		else if (!beforeStart && daysBetweenEnd == 0) {
+		else if (daysBetweenEnd == 0) {
 			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_TEMPLATE,
 					data.getEndDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME)));
 		}
