@@ -7,6 +7,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -93,6 +94,8 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	 */
 	public static Intent createIntent(Context context, String uniqueId, boolean fromNotification) {
 		Intent intent = new Intent(context, LaunchActivity.class);
+		String uriString = "expedia://notification/launch/" + uniqueId + "/" + fromNotification;
+		intent.setData(Uri.parse(uriString));
 		intent.putExtra(LaunchActivity.ARG_JUMP_TO_ITIN_UNIQUE_ID, uniqueId);
 		intent.putExtra(LaunchActivity.ARG_IS_FROM_NOTIFICATION, fromNotification);
 		return intent;

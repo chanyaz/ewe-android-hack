@@ -72,7 +72,6 @@ public class NotificationReceiver extends BroadcastReceiver {
 		}
 
 		Notification notification = Notification.find(uniqueId);
-
 		if (notification == null) {
 			Log.w("Unable to find notification with unique id = " + uniqueId + ". Ignoring");
 			return;
@@ -87,17 +86,17 @@ public class NotificationReceiver extends BroadcastReceiver {
 		case ACTION_SCHEDULE:
 		default:
 			notification.setStatus(StatusType.NOTIFIED);
-			new NotificationScheduler(context, notification).start();
+			new Notifier(context, notification).start();
 			break;
 		}
 	}
 
-	private static class NotificationScheduler {
+	private static class Notifier {
 		private Notification mNotification;
 		private Context mContext;
 		private Bitmap mBitmap;
 
-		public NotificationScheduler(Context context, Notification notification) {
+		public Notifier(Context context, Notification notification) {
 			mContext = context;
 			mNotification = notification;
 		}
@@ -107,7 +106,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 			switch (imageType) {
 			case RESOURCE:
 				mBitmap = BitmapFactory.decodeResource(mContext.getResources(), mNotification.getImageResId());
-				scheduleNotification();
+				display();
 				break;
 			case URL:
 				TwoLevelImageCache.loadImage(mNotification.getImageValue(), mTwoLevelImageLoaded);
@@ -120,7 +119,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 			case CAR:
 			case ACTIVITY:
 			case NONE:
-				scheduleNotification();
+				display();
 				break;
 			}
 		}
@@ -150,7 +149,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 			@Override
 			public void onImageLoadFailed(String url) {
 				mBitmap = null;
-				scheduleNotification();
+				display();
 			}
 
 			@Override
@@ -162,7 +161,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 				int width = bitmap.getWidth();
 				int height = (int) (bitmap.getHeight() * 0.35);
 				mBitmap = Bitmap.createBitmap(bitmap, left, top, width, height, null, false);
-				scheduleNotification();
+				display();
 			}
 		};
 
@@ -171,17 +170,17 @@ public class NotificationReceiver extends BroadcastReceiver {
 			@Override
 			public void onImageLoadFailed(String url) {
 				mBitmap = null;
-				scheduleNotification();
+				display();
 			}
 
 			@Override
 			public void onImageLoaded(String url, Bitmap bitmap) {
 				mBitmap = bitmap;
-				scheduleNotification();
+				display();
 			}
 		};
 
-		private void scheduleNotification() {
+		private void display() {
 			NotificationCompat.Style style = null;
 
 			if (mBitmap != null) {

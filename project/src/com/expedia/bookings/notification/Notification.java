@@ -309,7 +309,6 @@ public class Notification extends Model {
 	}
 
 	public static void scheduleAll(Context context) {
-		long now = System.currentTimeMillis();
 		List<Notification> notifications = new Select().from(Notification.class)
 				.where("Status IN (?,?)", StatusType.NEW.name(), StatusType.NOTIFIED.name())
 				.orderBy("TriggerTimeMillis").execute();
