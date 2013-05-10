@@ -519,6 +519,9 @@
     <string name="low_cost_flights">Low Cost Flights</string>
     <!-- Message shown to user when viewing flight search results that do not contain low-cost flights, although the same search on desktop returns low cost flights -->
     <string name="lcc_flights_not_available">Looking for Jetstar, Scoot or Air Asia? Tickets for these airlines are available on our website and coming to the app soon.</string>
+    <!-- Message shown to user when they attempt a flight search against the India point of sale that is domestic (which we don't support yet) -->
+    <string name="india_domestic_flights_not_available_title">Coming Soon!</string>
+    <string name="india_domestic_flights_not_available_body">We’re working hard to add domestic flights in an upcoming version.</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">Select a flight to %1$s</string>
     <!-- Select a flight back to (city name) -->

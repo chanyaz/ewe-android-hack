@@ -51,6 +51,7 @@ public class SuggestResponseHandler extends JsonResponseHandler<SuggestResponse>
 
 				suggestion.setId(responseSuggestion.optString("id"));
 				suggestion.setType(JSONUtils.getEnum(responseSuggestion, "t", Suggestion.Type.class));
+				suggestion.setCountryCode(responseSuggestion.optString("ccc"));
 
 				if (mType == Type.FLIGHTS) {
 					suggestion.setDisplayName(responseSuggestion.optString("l"));

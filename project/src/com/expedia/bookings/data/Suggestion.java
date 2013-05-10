@@ -51,6 +51,7 @@ public class Suggestion implements JSONable {
 	private double mLatitude;
 	private double mLongitude;
 	private String mAirportLocationCode;
+	private String mCountryCode;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Getters/setters
@@ -101,6 +102,14 @@ public class Suggestion implements JSONable {
 
 	public void setAirportLocationCode(String airportLocationCode) {
 		mAirportLocationCode = airportLocationCode;
+	}
+
+	public String getCountryCode() {
+		return mCountryCode;
+	}
+
+	public void setCountryCode(String countryCode) {
+		mCountryCode = countryCode;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -159,6 +168,7 @@ public class Suggestion implements JSONable {
 			location.setDestinationId(mAirportLocationCode);
 			location.setCity(displayName.first);
 			location.setDescription(displayName.second);
+			location.setCountryCode(mCountryCode);
 
 			return location;
 		}
