@@ -40,6 +40,7 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 
 	private BookingOverviewFragment mBookingOverviewFragment;
 	private MenuItem mCheckoutMenuItem;
+	private boolean mCheckoutButtonVisible;
 
 	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
@@ -104,7 +105,8 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 	public void onBackPressed() {
 		if (mBookingOverviewFragment.isInCheckout()) {
 			mBookingOverviewFragment.endCheckout();
-			mCheckoutMenuItem.setVisible(true);
+			mCheckoutButtonVisible = true;
+			invalidateOptionsMenu();
 
 			return;
 		}
@@ -148,7 +150,8 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 		mCheckoutMenuItem.setActionView(tv);
 
 		if (mBookingOverviewFragment != null) {
-			mCheckoutMenuItem.setVisible(!mBookingOverviewFragment.isInCheckout());
+			mCheckoutButtonVisible = !mBookingOverviewFragment.isInCheckout();
+			mCheckoutMenuItem.setVisible(mCheckoutButtonVisible);
 		}
 
 		return super.onCreateOptionsMenu(menu);
@@ -168,6 +171,14 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		mCheckoutMenuItem = menu.findItem(R.id.menu_checkout);
+		mCheckoutMenuItem.setVisible(mCheckoutButtonVisible);
+
+		return super.onPrepareOptionsMenu(menu);
 	}
 
 	// Private methods
@@ -199,16 +210,14 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 
 	@Override
 	public void checkoutStarted() {
-		if (mCheckoutMenuItem != null) {
-			mCheckoutMenuItem.setVisible(false);
-		}
+		mCheckoutButtonVisible = false;
+		invalidateOptionsMenu();
 	}
 
 	@Override
 	public void checkoutEnded() {
-		if (mCheckoutMenuItem != null) {
-			mCheckoutMenuItem.setVisible(true);
-		}
+		mCheckoutButtonVisible = true;
+		invalidateOptionsMenu();
 	}
 
 	// LogInListener implementation
