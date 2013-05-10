@@ -21,7 +21,6 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.model.HotelPaymentFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionStoredCreditCard;
@@ -253,14 +252,7 @@ public class HotelPaymentOptionsFragment extends Fragment {
 		// determine whether or not we should display manual current payment.
 		//
 		// tl;dr payment validation is complicated and happens in a lot of places and should probably be refactored
-		boolean displayManualCurrentPayment;
-		PointOfSale.RequiredPaymentFields fields = PointOfSale.getPointOfSale().getRequiredPaymentFieldsHotels();
-		if (fields == PointOfSale.RequiredPaymentFields.POSTAL_CODE) {
-			displayManualCurrentPayment = !hasSelectedStoredCard && addressValid && cardValid;
-		}
-		else {
-			displayManualCurrentPayment = !hasSelectedStoredCard && cardValid;
-		}
+		boolean displayManualCurrentPayment = !hasSelectedStoredCard && addressValid && cardValid;
 
 		mCurrentPaymentLabel.setVisibility(hasSelectedStoredCard || displayManualCurrentPayment ? View.VISIBLE
 				: View.GONE);

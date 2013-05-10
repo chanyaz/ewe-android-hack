@@ -112,9 +112,6 @@ public class PointOfSale {
 	// Used to determine the default POS, based on the device's locale
 	private String[] mDefaultLocales;
 
-	// Used to determine which fields are required for Hotels checkout
-	private RequiredPaymentFields mRequiredPaymentFieldsHotels;
-
 	// Used to determine which fields are required for Flights checkout
 	private RequiredPaymentFields mRequiredPaymentFieldsFlights;
 
@@ -297,10 +294,6 @@ public class PointOfSale {
 	}
 
 	// TODO: As more complicated payment combinations arise, think about a refactor
-
-	public RequiredPaymentFields getRequiredPaymentFieldsHotels() {
-		return mRequiredPaymentFieldsHotels;
-	}
 
 	public RequiredPaymentFields getRequiredPaymentFieldsFlights() {
 		return mRequiredPaymentFieldsFlights;
@@ -657,7 +650,6 @@ public class PointOfSale {
 		JSONArray mappedLocales = data.optJSONArray("automaticallyMappedLocales");
 		pos.mDefaultLocales = stringJsonArrayToArray(mappedLocales);
 
-		pos.mRequiredPaymentFieldsHotels = parseRequiredPaymentFieldsHotels(data);
 		pos.mRequiredPaymentFieldsFlights = parseRequiredPaymentFieldsFlights(data);
 
 		return pos;
@@ -686,22 +678,6 @@ public class PointOfSale {
 
 		// Just use the default number (or null if it doesn't exist)
 		return numbers.optString("*", null);
-	}
-
-	/**
-	 * Parses out "requiredPaymentFields:hotels" from JSON file. Must be updated if JSON file returns new values
-	 * for this field. Currently the only value for this field is "postalCode" (or omitted).
-	 */
-	private static RequiredPaymentFields parseRequiredPaymentFieldsHotels(JSONObject data) {
-		String paymentFields = data.optString("requiredPaymentFields:hotels");
-		RequiredPaymentFields type;
-		if ("postalCode".equals(paymentFields)) {
-			type = RequiredPaymentFields.POSTAL_CODE;
-		}
-		else {
-			type = RequiredPaymentFields.NONE;
-		}
-		return type;
 	}
 
 	private static RequiredPaymentFields parseRequiredPaymentFieldsFlights(JSONObject data) {
