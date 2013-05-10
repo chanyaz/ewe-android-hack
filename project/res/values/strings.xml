@@ -2130,5 +2130,7 @@
     <string name="google_wallet_unavailable">Google Wallet is unavailable</string>
     <!-- Error if you've exceeded your overall Google Wallet spending limit -->
     <string name="spending_limit_exceeded">You have exceeded your Google Wallet spending limit</string>
+    <!-- Content description for "buy with wallet" button -->
+    <string name="wallet_buy_with_google_wallet">Buy with Google wallet</string>
 
 </resources>

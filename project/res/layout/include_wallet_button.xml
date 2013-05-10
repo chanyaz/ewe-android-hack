@@ -4,10 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 
-    <com.google.android.gms.wallet.button.BuyWithButton
+    <ImageButton
         android:id="@+id/wallet_button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="48dp"
+        android:background="@drawable/wallet_button_background"
+        android:contentDescription="@string/wallet_buy_with_google_wallet"
+        android:minWidth="200dp"
+        android:src="@drawable/wallet_button_buy_with_foreground" />
 
     <ProgressBar
         android:id="@+id/wallet_progress_bar"
