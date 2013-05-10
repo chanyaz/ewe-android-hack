@@ -418,7 +418,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		@Override
 		protected Validator<EditText> getValidator() {
 			MultiValidator<EditText> nameValidators = new MultiValidator<EditText>();
-			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_NAMES);
+			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_ASCII);
 			nameValidators.addValidator(CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET);
 			return nameValidators;
 		}
@@ -459,7 +459,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		@Override
 		protected Validator<EditText> getValidator() {
 			MultiValidator<EditText> nameValidators = new MultiValidator<EditText>();
-			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_NAMES);
+			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_ASCII);
 			nameValidators.addValidator(CommonSectionValidators.ALWAYS_VALID_VALIDATOR_ET);
 			return nameValidators;
 		}
@@ -515,7 +515,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		@Override
 		protected Validator<EditText> getValidator() {
 			MultiValidator<EditText> nameValidators = new MultiValidator<EditText>();
-			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_NAMES);
+			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_ASCII);
 			nameValidators.addValidator(mValidator);
 			return nameValidators;
 		}

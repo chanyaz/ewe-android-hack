@@ -17,12 +17,8 @@ import android.text.TextWatcher;
 
 public class InvalidCharacterHelper {
 
-	private static final Pattern sSupportedCharacterPatternName = Pattern.compile("^([\\-\\.,'\\s\\w&&[^_]]*)$");
-
-	//NOTE: This regex does not determine a valid email address, it determines if the characters
-	//entered are valid characters to be contained in an email address. We leave full validation to the api.
-	private static final Pattern sSupportedCharacterPatternEmail = Pattern
-			.compile("^([\\w\\s\\.\\!#\\$%&'\\*\\+\\-\\/=\\?\\^\\`{|}~\\\"\\(\\),:;\\<\\>\\\\@\\[\\]]*)$");
+	//Matches only ascii characters (thus disallowing multibyte characters)
+	private static final Pattern sSupportedCharacterPatternASCII = Pattern.compile("^(\\p{ASCII})*$");
 
 	private static final String INVALID_CHARACTER_POPUP_TAG = "INVALID_CHARACTER_POPUP_TAG";
 
@@ -35,8 +31,10 @@ public class InvalidCharacterHelper {
 	}
 
 	public enum Mode {
+		ASCII,
 		NAME,
-		EMAIL
+		EMAIL,
+		ADDRESS
 	}
 
 	//Don't instantiate this class
@@ -48,15 +46,7 @@ public class InvalidCharacterHelper {
 	 * @return
 	 */
 	public static Pattern getSupportedCharacterPattern(Mode mode) {
-		if (mode == Mode.EMAIL) {
-			return sSupportedCharacterPatternEmail;
-		}
-		else if (mode == Mode.NAME) {
-			return sSupportedCharacterPatternName;
-		}
-		else {
-			return sSupportedCharacterPatternName;
-		}
+		return sSupportedCharacterPatternASCII;
 	}
 
 	/**
@@ -146,13 +136,7 @@ public class InvalidCharacterHelper {
 					mDialog = new TextViewDialog();
 					mDialog.setCancelable(false);
 					mDialog.setCanceledOnTouchOutside(false);
-					if (mode == Mode.EMAIL) {
-						mDialog.setMessage(R.string.please_enter_a_valid_email_address);
-					}
-					else {
-						mDialog.setMessage(R.string.please_use_only_the_following_characters);
-					}
-
+					mDialog.setMessage(R.string.please_use_the_roman_alphabet);
 				}
 				if (!mDialog.isShowing()) {
 					//Show the dialog

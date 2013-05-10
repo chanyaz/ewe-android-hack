@@ -84,12 +84,14 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 			}
 		});
 
-		mSectionBillingInfo.addInvalidCharacterListener(new InvalidCharacterListener() {
+		InvalidCharacterListener invalidCharacterListener = new InvalidCharacterListener() {
 			@Override
 			public void onInvalidCharacterEntered(CharSequence text, Mode mode) {
 				InvalidCharacterHelper.showInvalidCharacterPopup(getFragmentManager(), mode);
 			}
-		});
+		};
+		mSectionBillingInfo.addInvalidCharacterListener(invalidCharacterListener);
+		
 
 		PointOfSale.RequiredPaymentFields requiredFields = PointOfSale.getPointOfSale()
 				.getRequiredPaymentFieldsHotels();
@@ -97,6 +99,7 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 			// grab reference to the SectionLocation as we will need to perform validation
 			mSectionLocation = Ui.findView(v, R.id.section_location_address);
 			mSectionLocation.setLineOfBusiness(LineOfBusiness.HOTELS);
+			mSectionLocation.addInvalidCharacterListener(invalidCharacterListener);
 			mSectionLocation.addChangeListener(new SectionChangeListener() {
 				@Override
 				public void onChange() {

@@ -23,8 +23,9 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.section.CountrySpinnerAdapter.CountryDisplayType;
+import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
+import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.validation.MultiValidator;
@@ -39,7 +40,8 @@ import com.mobiata.android.validation.Validator;
  * validation logic. Or perhaps declare an attribute that can be set on the SectionLocation via XML so the consumer does
  * not have to remember to use setLineOfBusiness() in code.
  */
-public class SectionLocation extends LinearLayout implements ISection<Location>, ISectionEditable {
+public class SectionLocation extends LinearLayout implements ISection<Location>, ISectionEditable,
+		InvalidCharacterListener {
 
 	ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<SectionChangeListener>();
 	ArrayList<SectionField<?, Location>> mFields = new ArrayList<SectionField<?, Location>>();
@@ -149,6 +151,27 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 	}
 
 	//////////////////////////////////////
+	//////INVALID CHARACTER STUFF
+	//////////////////////////////////////
+
+	ArrayList<InvalidCharacterListener> mInvalidCharacterListeners = new ArrayList<InvalidCharacterListener>();
+
+	@Override
+	public void onInvalidCharacterEntered(CharSequence text, Mode mode) {
+		for (InvalidCharacterListener listener : mInvalidCharacterListeners) {
+			listener.onInvalidCharacterEntered(text, mode);
+		}
+	}
+
+	public void addInvalidCharacterListener(InvalidCharacterListener listener) {
+		mInvalidCharacterListeners.add(listener);
+	}
+
+	public void removeInvalidCharacterListener(InvalidCharacterListener listener) {
+		mInvalidCharacterListeners.remove(listener);
+	}
+
+	//////////////////////////////////////
 	////// DISPLAY FIELDS
 	//////////////////////////////////////
 
@@ -220,7 +243,10 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 
 		@Override
 		protected Validator<EditText> getValidator() {
-			return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
+			MultiValidator<EditText> addrValidators = new MultiValidator<EditText>();
+			addrValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_ASCII);
+			addrValidators.addValidator(CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET);
+			return addrValidators;
 		}
 
 		@Override
@@ -242,6 +268,9 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 					onChange(SectionLocation.this);
 				}
 			});
+
+			field.addTextChangedListener(InvalidCharacterHelper
+					.generateInvalidCharacterTextWatcher(SectionLocation.this, Mode.ADDRESS));
 		}
 
 		@Override
@@ -270,7 +299,10 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 
 		@Override
 		protected Validator<EditText> getValidator() {
-			return CommonSectionValidators.ALWAYS_VALID_VALIDATOR_ET;
+			MultiValidator<EditText> addrValidators = new MultiValidator<EditText>();
+			addrValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_ASCII);
+			addrValidators.addValidator(CommonSectionValidators.ALWAYS_VALID_VALIDATOR_ET);
+			return addrValidators;
 		}
 
 		@Override
@@ -295,6 +327,9 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 					onChange(SectionLocation.this);
 				}
 			});
+
+			field.addTextChangedListener(InvalidCharacterHelper
+					.generateInvalidCharacterTextWatcher(SectionLocation.this, Mode.ADDRESS));
 		}
 
 		@Override
@@ -322,7 +357,10 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			R.id.edit_address_city) {
 		@Override
 		protected Validator<EditText> getValidator() {
-			return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
+			MultiValidator<EditText> addrValidators = new MultiValidator<EditText>();
+			addrValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_ASCII);
+			addrValidators.addValidator(CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET);
+			return addrValidators;
 		}
 
 		@Override
@@ -357,6 +395,9 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 					onChange(SectionLocation.this);
 				}
 			});
+
+			field.addTextChangedListener(InvalidCharacterHelper
+					.generateInvalidCharacterTextWatcher(SectionLocation.this, Mode.ADDRESS));
 		}
 
 		@Override
@@ -376,12 +417,15 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			R.id.edit_address_state) {
 		@Override
 		protected Validator<EditText> getValidator() {
+			MultiValidator<EditText> addrValidators = new MultiValidator<EditText>();
+			addrValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_ASCII);
 			if (mLineOfBusiness == LineOfBusiness.FLIGHTS) {
-				return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
+				addrValidators.addValidator(CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET);
 			}
 			else {
-				return CommonSectionValidators.ALWAYS_VALID_VALIDATOR_ET;
+				addrValidators.addValidator(CommonSectionValidators.ALWAYS_VALID_VALIDATOR_ET);
 			}
+			return addrValidators;
 		}
 
 		@Override
@@ -395,6 +439,9 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 					onChange(SectionLocation.this);
 				}
 			});
+
+			field.addTextChangedListener(InvalidCharacterHelper
+					.generateInvalidCharacterTextWatcher(SectionLocation.this, Mode.ADDRESS));
 		}
 
 		@Override
@@ -439,6 +486,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		protected Validator<EditText> getValidator() {
 			MultiValidator<EditText> postalCodeValidators = new MultiValidator<EditText>();
 			postalCodeValidators.addValidator(mPostalCodeCharacterCountValidator);
+			postalCodeValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_ASCII);
 			if (requiresPostalCode()) {
 				postalCodeValidators.addValidator(CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET);
 			}
@@ -456,6 +504,9 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 					onChange(SectionLocation.this);
 				}
 			});
+
+			field.addTextChangedListener(InvalidCharacterHelper
+					.generateInvalidCharacterTextWatcher(SectionLocation.this, Mode.ADDRESS));
 		}
 
 		@Override

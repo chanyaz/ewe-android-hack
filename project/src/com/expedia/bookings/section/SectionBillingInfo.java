@@ -481,7 +481,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		@Override
 		protected Validator<EditText> getValidator() {
 			MultiValidator<EditText> nameValidators = new MultiValidator<EditText>();
-			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_NAMES);
+			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_ASCII);
 			nameValidators.addValidator(CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET);
 			return nameValidators;
 		}
@@ -526,7 +526,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		@Override
 		protected Validator<EditText> getValidator() {
 			MultiValidator<EditText> nameValidators = new MultiValidator<EditText>();
-			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_NAMES);
+			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_ASCII);
 			nameValidators.addValidator(CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET);
 			return nameValidators;
 		}
@@ -566,7 +566,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		@Override
 		protected Validator<EditText> getValidator() {
 			MultiValidator<EditText> nameValidators = new MultiValidator<EditText>();
-			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_NAMES);
+			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_ASCII);
 			nameValidators.addValidator(CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET);
 			return nameValidators;
 		}
@@ -611,8 +611,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		@Override
 		protected Validator<EditText> getValidator() {
 			MultiValidator<EditText> emailValidators = new MultiValidator<EditText>();
-			emailValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_EMAIL);
-			emailValidators.addValidator(CommonSectionValidators.EMAIL_VALIDATOR_ET);
+			emailValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_ASCII);
+			emailValidators.addValidator(CommonSectionValidators.EMAIL_VALIDATOR_STRICT);
 			return emailValidators;
 		}
 

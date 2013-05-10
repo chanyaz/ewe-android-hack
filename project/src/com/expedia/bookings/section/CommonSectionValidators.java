@@ -75,6 +75,28 @@ public class CommonSectionValidators {
 		}
 	};
 
+	public static final Validator<EditText> EMAIL_VALIDATOR_STRICT = new Validator<EditText>() {
+
+		//This pattern is borrowed from iOS
+		PatternValidator mValidator = new PatternValidator(
+				Pattern.compile("(?:[a-z0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[a-z0-9!#$%\\&'*+/=?\\^_`{|}~-]+)*|\\\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\\\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"));
+
+		@Override
+		public int validate(EditText obj) {
+			if (obj == null) {
+				return ValidationError.ERROR_DATA_MISSING;
+			}
+			else {
+				if (obj.getText().length() >= 132) {
+					return ValidationError.ERROR_DATA_INVALID;
+				}
+				else {
+					return mValidator.validate(obj.getText());
+				}
+			}
+		}
+	};
+
 	public static final Validator<RadioGroup> RADIO_GROUP_HAS_SELECTION = new Validator<RadioGroup>() {
 		@Override
 		public int validate(RadioGroup obj) {
@@ -85,7 +107,7 @@ public class CommonSectionValidators {
 		}
 	};
 
-	public static final Validator<EditText> SUPPORTED_CHARACTER_VALIDATOR_NAMES = new Validator<EditText>() {
+	public static final Validator<EditText> SUPPORTED_CHARACTER_VALIDATOR_ASCII = new Validator<EditText>() {
 
 		@Override
 		public int validate(EditText obj) {
@@ -93,21 +115,7 @@ public class CommonSectionValidators {
 				return ValidationError.ERROR_DATA_MISSING;
 			}
 			else {
-				return InvalidCharacterHelper.getSupportedCharacterPattern(Mode.NAME).matcher(obj.getText()).matches() ? ValidationError.NO_ERROR
-						: ValidationError.ERROR_DATA_INVALID;
-			}
-		}
-	};
-
-	public static final Validator<EditText> SUPPORTED_CHARACTER_VALIDATOR_EMAIL = new Validator<EditText>() {
-
-		@Override
-		public int validate(EditText obj) {
-			if (obj == null) {
-				return ValidationError.ERROR_DATA_MISSING;
-			}
-			else {
-				return InvalidCharacterHelper.getSupportedCharacterPattern(Mode.EMAIL).matcher(obj.getText()).matches() ? ValidationError.NO_ERROR
+				return InvalidCharacterHelper.getSupportedCharacterPattern(Mode.ASCII).matcher(obj.getText()).matches() ? ValidationError.NO_ERROR
 						: ValidationError.ERROR_DATA_INVALID;
 			}
 		}

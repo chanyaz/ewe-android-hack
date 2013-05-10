@@ -14,6 +14,9 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
+import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
+import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
+import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FocusViewRunnable;
@@ -59,6 +62,13 @@ public class FlightPaymentAddressFragment extends Fragment implements Validatabl
 				}
 				//Attempt to save on change
 				Db.getWorkingBillingInfoManager().attemptWorkingBillingInfoSave(getActivity(), false);
+			}
+		});
+		
+		mSectionLocation.addInvalidCharacterListener(new InvalidCharacterListener() {
+			@Override
+			public void onInvalidCharacterEntered(CharSequence text, Mode mode) {
+				InvalidCharacterHelper.showInvalidCharacterPopup(getFragmentManager(), mode);
 			}
 		});
 
