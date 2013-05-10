@@ -67,6 +67,12 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 
 		if (!ExpediaBookingApp.useTabletInterface(this)) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+			// #1106: Don't continue to load onCreate() as
+			// we're just about to recreate the activity
+			if (!getResources().getBoolean(R.bool.portrait)) {
+				return;
+			}
 		}
 
 		mKillReceiver = new ActivityKillReceiver(this);
