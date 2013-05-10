@@ -15,7 +15,7 @@
     <string name="facebook_app_id">131538103586818</string>
 
     <!-- Push Notifications (GCM) -->
-    <string name="gcm_sender_id">TEST</string>
+    <string name="gcm_sender_id">895052546820</string>
 
     <!-- MapsV2 -->
     <string name="mapsv2_dev_key">AIzaSyCcUFcOBytf5_4zQCVisZeZ1Vw1PHuVI24</string>

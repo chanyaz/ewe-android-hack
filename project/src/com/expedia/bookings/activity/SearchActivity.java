@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.expedia.bookings.GCMIntentService;
 import com.expedia.bookings.R;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
@@ -51,13 +52,17 @@ public class SearchActivity extends Activity {
 		facebookInstallTracking();
 
 		//Push Notifications, alllll riiiiiight
+		Log.d("GCM GCMRegistrar.checkDevice(this);");
 		GCMRegistrar.checkDevice(this);
+		Log.d("GCM GCMRegistrar.checkManifest(this);");
 		GCMRegistrar.checkManifest(this);
 		final String regId = GCMRegistrar.getRegistrationId(this);
+		Log.d("GCM GCMRegistrar regId:" + regId);
 		if (regId.equals("")) {
-			GCMRegistrar.register(this, getString(R.string.gcm_sender_id));
+			GCMRegistrar.register(this, GCMIntentService.SENDER_ID);
 		}
 		else {
+			GCMIntentService.setRegistrationId(regId);
 			Log.v("GCM Already registered");
 		}
 
