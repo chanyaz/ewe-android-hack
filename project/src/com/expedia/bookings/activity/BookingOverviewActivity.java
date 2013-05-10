@@ -39,8 +39,6 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 	private boolean mLoadedDbInfo = false;
 
 	private BookingOverviewFragment mBookingOverviewFragment;
-	private MenuItem mCheckoutMenuItem;
-	private boolean mCheckoutButtonVisible;
 
 	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
@@ -111,8 +109,7 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 	public void onBackPressed() {
 		if (mBookingOverviewFragment.isInCheckout()) {
 			mBookingOverviewFragment.endCheckout();
-			mCheckoutButtonVisible = true;
-			invalidateOptionsMenu();
+			supportInvalidateOptionsMenu();
 
 			return;
 		}
@@ -143,22 +140,17 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 
 		actionBar.setCustomView(titleView);
 
+		final MenuItem checkoutItem = menu.findItem(R.id.menu_checkout);
 		Button tv = (Button) getLayoutInflater().inflate(R.layout.actionbar_checkout, null);
 		ViewUtils.setAllCaps(tv);
 		tv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				onOptionsItemSelected(mCheckoutMenuItem);
+				onOptionsItemSelected(checkoutItem);
 			}
 		});
 
-		mCheckoutMenuItem = menu.findItem(R.id.menu_checkout);
-		mCheckoutMenuItem.setActionView(tv);
-
-		if (mBookingOverviewFragment != null) {
-			mCheckoutButtonVisible = !mBookingOverviewFragment.isInCheckout();
-			mCheckoutMenuItem.setVisible(mCheckoutButtonVisible);
-		}
+		checkoutItem.setActionView(tv);
 
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -182,8 +174,12 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (menu != null) {
-			mCheckoutMenuItem = menu.findItem(R.id.menu_checkout);
-			mCheckoutMenuItem.setVisible(mCheckoutButtonVisible);
+			MenuItem checkoutItem = menu.findItem(R.id.menu_checkout);
+			if (mBookingOverviewFragment != null && checkoutItem != null) {
+				boolean visible = !mBookingOverviewFragment.isInCheckout();
+				Log.d("Setting Checkout Button Visibility: visible=" + visible);
+				checkoutItem.setVisible(visible);
+			}
 		}
 
 		return super.onPrepareOptionsMenu(menu);
@@ -218,14 +214,12 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 
 	@Override
 	public void checkoutStarted() {
-		mCheckoutButtonVisible = false;
-		invalidateOptionsMenu();
+		supportInvalidateOptionsMenu();
 	}
 
 	@Override
 	public void checkoutEnded() {
-		mCheckoutButtonVisible = true;
-		invalidateOptionsMenu();
+		supportInvalidateOptionsMenu();
 	}
 
 	// LogInListener implementation
