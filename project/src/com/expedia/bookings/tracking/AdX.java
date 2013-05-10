@@ -121,6 +121,7 @@ public class AdX {
 					Log.w("Unable to retrieve AdX referral string");
 				}
 				else {
+					Log.d("Got AdX referral string: " + referral);
 					OmnitureTracking.trackAdXReferralLink(mContext, referral);
 				}
 			}
