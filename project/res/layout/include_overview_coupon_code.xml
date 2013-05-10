@@ -33,6 +33,8 @@
             android:imeOptions="flagNoExtractUi"
             android:inputType="textFilter"
             android:singleLine="true"
+            mobiata:useClearFieldDrawable="true"
+            mobiata:clearFieldDrawable="@drawable/ic_clear_edittext_dark"
             mobiata:touchAreaPadding="25dp" />
 
         <LinearLayout

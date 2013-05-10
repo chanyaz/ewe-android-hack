@@ -107,6 +107,10 @@ public class CouponCodeWidget {
 				Db.setCreateTripResponse(null);
 				update();
 
+				if (mListener != null) {
+					mListener.couponCodeApplied();
+				}
+
 				OmnitureTracking.trackHotelCouponRemoved(mContext);
 			}
 		}
