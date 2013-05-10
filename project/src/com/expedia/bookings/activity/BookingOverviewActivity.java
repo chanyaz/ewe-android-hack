@@ -175,8 +175,10 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		mCheckoutMenuItem = menu.findItem(R.id.menu_checkout);
-		mCheckoutMenuItem.setVisible(mCheckoutButtonVisible);
+		if (menu != null) {
+			mCheckoutMenuItem = menu.findItem(R.id.menu_checkout);
+			mCheckoutMenuItem.setVisible(mCheckoutButtonVisible);
+		}
 
 		return super.onPrepareOptionsMenu(menu);
 	}
