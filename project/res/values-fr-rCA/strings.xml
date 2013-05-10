@@ -378,7 +378,7 @@
     <string name="itin_card_hotel_summary_check_in_three_days">Arrivée — 3 jours</string>
     <!-- Message to users that they can check into their hotel in two days. -->
     <string name="itin_card_hotel_summary_check_in_two_days">Arrivée — 2 jours</string>
-    <!-- Message to users that they can check into their hotel tomorrow.-->
+    <!-- Message to users that they can check into their hotel tomorrow. -->
     <string name="itin_card_hotel_summary_check_in_tomorrow">Arrivée demain</string>
     <!-- Message to users about when (date) they can check into their hotel.  %1$s is a date (e.g., "Check in Jul 11") -->
     <string name="itin_card_hotel_summary_check_in_day_TEMPLATE">Arrivée %1$s</string>
@@ -390,7 +390,7 @@
     <string name="itin_card_hotel_summary_check_out_three_days">Départ dans 3 jours</string>
     <!-- Message to users that they can check out of their hotel in two days. -->
     <string name="itin_card_hotel_summary_check_out_two_days">Départ dans 2 jours</string>
-    <!-- Message to users that they can check out of their hotel tomorrow.-->
+    <!-- Message to users that they can check out of their hotel tomorrow. -->
     <string name="itin_card_hotel_summary_check_out_tomorrow">Départ demain</string>
     <!-- Message to users about when they need to check out of their hotel.  %1$s is a time (e.g., "Check out before 5 PM") -->
     <string name="itin_card_hotel_summary_check_out_TEMPLATE">Départ avant %1$s</string>
@@ -424,7 +424,7 @@
     <!-- Link to more information about the hotel -->
     <string name="share_template_long_hotel_5_more_info"><b>Plus d\&apos;information</b>\n%s</string>
     <!-- App download link -->
-    <string name="share_template_long_ad">Réservez hôtels, vols, consultez et partagez vos itinéraires. Téléchargez l\&apos;appli mobile gratuite Expedia aujourd\&apos;hui.\n%s</string>
+    <string name="share_template_long_ad">Réservez hôtels, vols, consultez et partagez vos itinéraires. Téléchargez l\&apos;app mobile gratuite Expedia aujourd\&apos;hui.\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Mon vol à %1$s le %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
@@ -514,11 +514,11 @@
         <item quantity="other">%s jours</item>
     </plurals>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
-    <string name="error_data_expired">DÉBOGAGE : La recherche de données a été effacée.  Veuillez signaler cette erreur à DLew.</string>
+    <string name="error_data_expired">DÉBOGAGE : La recherche de données a été effacée. Veuillez signaler cette erreur à DLew.</string>
     <!-- Low Cost Flights label -->
     <string name="low_cost_flights">Vols à bas prix</string>
     <!-- Message shown to user when viewing flight search results that do not contain low-cost flights, although the same search on desktop returns low cost flights -->
-    <string name="lcc_flights_not_available">Vous recherchez Jetstar, Scoot ou Air Asia? Les billets pour ces compagnies aériennes sont disponibles sur notre site Web et le seront bientôt sur l\&apos;appli.</string>
+    <string name="lcc_flights_not_available">Vous recherchez Jetstar, Scoot ou Air Asia? Les billets pour ces compagnies aériennes sont disponibles sur notre site Web et le seront bientôt sur l\&apos;app.</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">Sélectionnez un vol vers %1$s</string>
     <!-- Select a flight back to (city name) -->
@@ -709,6 +709,10 @@
     <string name="total_due_today">Montant dû aujourd\&apos;hui</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_only_the_following_characters">Veuillez n\&apos;utiliser que les caractères suivants : A à Z, a à z, 0 à 9 et ,.\&apos; -</string>
+    <!-- Label to show user when they use unsupported characters in their name or address -->
+    <string name="please_use_the_roman_alphabet">Veuillez utiliser l\&apos;alphabet romain</string>
+    <!-- Label to show user when they use unsupported characters in their email -->
+    <string name="please_enter_a_valid_email_address">Veuillez entrer une adresse courriel valide</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -1684,19 +1688,19 @@
     <!-- Extra description for "Expedia website" button, when space allows -->
     <string name="expedia_website_description">Consultez le site Web pour réserver vols, voitures, forfaits et plus encore.</string>
     <!-- Extra description for "app feedback" button, when space allows -->
-    <string name="app_feedback_description">Dites-nous ce que vous pensez de l\&apos;appli.</string>
+    <string name="app_feedback_description">Dites-nous ce que vous pensez de l\&apos;app.</string>
     <!-- Label for "app support" button in info page -->
-    <string name="app_support">Soutien pour l\&apos;appli</string>
+    <string name="app_support">Soutien pour l\&apos;app</string>
     <!-- Extra description for "app support" button, when space allows -->
     <string name="app_support_description">Écrivez-nous et nous vous répondrons.</string>
     <!-- Extra description for "tell a friend" button, when space allows -->
-    <string name="tell_a_friend_description">Vous aimez les aubaines sur les hôtels? Parlez de l\&apos;appli à vos amis.</string>
+    <string name="tell_a_friend_description">Vous aimez les aubaines sur les hôtels? Parlez de l\&apos;app à vos amis.</string>
     <!-- Section header for other apps by Mobiata -->
     <string name="travel_smart">Voyagez intelligemment</string>
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hotels</string>
     <!-- Message body for "tell a friend" feature -->
-    <string name="tell_a_friend_body">Bonjour,\n\nJetez un coup d\&apos;œil à l\&apos;appli Expedia Hotels pour téléphones iPhone et Android. Elle est gratuite et vous permet de chercher et de réserver des chambres dans plus de 140 000 hôtels dans le monde. C\&apos;est la façon la plus simple de réserver une chambre à partir de votre téléphone.\n\nhttp://www.expedia.com/app</string>
+    <string name="tell_a_friend_body">Bonjour,\n\nJetez un coup d\&apos;œil à l\&apos;app Expedia Hotels pour téléphones iPhone et Android. Elle est gratuite et vous permet de chercher et de réserver des chambres dans plus de 140 000 hôtels dans le monde. C\&apos;est la façon la plus simple de réserver une chambre à partir de votre téléphone.\n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Conditions générales</string>
     <!-- Label for link to privacy policy -->
@@ -1720,19 +1724,19 @@
     <!-- Action button label to like on facebook -->
     <string name="Like">J\&apos;aime</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
-    <string name="stack_blur_credit">Cette appli a recours à l\&apos;algorithme Stack Blur de Mario Klingemann.</string>
+    <string name="stack_blur_credit">Cette app a recours à l\&apos;algorithme Stack Blur de Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="view_open_source_software_licenses">Afficher les licences des logiciels de source libre</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">Licences des logiciels de source libre</string>
     <!-- String for acrediting the open source libraries we use -->
-    <string name="this_app_makes_use_of_the_following">Cette appli a recours aux bibliothèques de source libre suivantes :</string>
+    <string name="this_app_makes_use_of_the_following">Cette app a recours aux bibliothèques de source libre suivantes :</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
     <string name="send_feedback">Envoyer un commentaire</string>
     <!-- Header title -->
-    <string name="app_feedback">Commentaire sur l\&apos;appli</string>
+    <string name="app_feedback">Commentaire sur l\&apos;app</string>
     <!-- Section header for rating (1-5 stars) -->
     <string name="oosdk_rating_overall_header">Veuillez nous attribuer une classification</string>
     <!-- Footer for the view -->

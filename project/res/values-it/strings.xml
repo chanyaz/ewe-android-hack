@@ -378,7 +378,7 @@
     <string name="itin_card_hotel_summary_check_in_three_days">Check-in — 3 giorni</string>
     <!-- Message to users that they can check into their hotel in two days. -->
     <string name="itin_card_hotel_summary_check_in_two_days">Check-in — 2 giorni</string>
-    <!-- Message to users that they can check into their hotel tomorrow.-->
+    <!-- Message to users that they can check into their hotel tomorrow. -->
     <string name="itin_card_hotel_summary_check_in_tomorrow">Check-in domani</string>
     <!-- Message to users about when (date) they can check into their hotel.  %1$s is a date (e.g., "Check in Jul 11") -->
     <string name="itin_card_hotel_summary_check_in_day_TEMPLATE">Check-in in data %1$s</string>
@@ -390,7 +390,7 @@
     <string name="itin_card_hotel_summary_check_out_three_days">Partenza tra 3 giorni</string>
     <!-- Message to users that they can check out of their hotel in two days. -->
     <string name="itin_card_hotel_summary_check_out_two_days">Partenza tra 2 giorni</string>
-    <!-- Message to users that they can check out of their hotel tomorrow.-->
+    <!-- Message to users that they can check out of their hotel tomorrow. -->
     <string name="itin_card_hotel_summary_check_out_tomorrow">Partenza domani</string>
     <!-- Message to users about when they need to check out of their hotel.  %1$s is a time (e.g., "Check out before 5 PM") -->
     <string name="itin_card_hotel_summary_check_out_TEMPLATE">Partenza prima delle ore %1$s</string>
@@ -709,6 +709,10 @@
     <string name="total_due_today">Importo totale dovuto oggi</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_only_the_following_characters">Utilizza solo i caratteri seguenti: A-Z, a-z, 0-9 e ,.\&apos;-</string>
+    <!-- Label to show user when they use unsupported characters in their name or address -->
+    <string name="please_use_the_roman_alphabet">Usa l\&apos;alfabeto latino</string>
+    <!-- Label to show user when they use unsupported characters in their email -->
+    <string name="please_enter_a_valid_email_address">Inserisci un indirizzo e-mail valido.</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->

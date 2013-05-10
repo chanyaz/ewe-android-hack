@@ -65,7 +65,7 @@
     <!-- Notification title for hotel check-out notification -->
     <string name="Check_out_today">Départ aujourd\&apos;hui</string>
     <!-- Notification title for car pick up -->
-    <string name="Car_Pick_Up_X_TEMPLATE">Départ – %s</string>
+    <string name="Car_Pick_Up_X_TEMPLATE">Prise en charge – %s</string>
     <!-- Notification text for car pick up -->
     <string name="You_can_now_pick_up_your_car">Les clés de votre voiture vous attendent !</string>
     <!-- Notification title for car drop off -->
@@ -335,18 +335,18 @@
     <string name="itin_card_details_expires">Expire fin</string>
     <string name="itin_card_details_guests">Voyageurs</string>
     <string name="itin_card_details_details">Informations additionnelles</string>
-    <string name="itin_card_details_pick_up">Départ</string>
+    <string name="itin_card_details_pick_up">Prise en charge</string>
     <string name="itin_card_details_drop_off">Retour</string>
     <!-- Tell users when they can pick up a rental car in three days -->
-    <string name="itin_card_details_pick_up_three_days">Départ dans 3 jours</string>
+    <string name="itin_card_details_pick_up_three_days">Prise en charge dans 3 jours</string>
     <!-- Tell users when they can pick up a rental car in two days -->
-    <string name="itin_card_details_pick_up_two_days">Départ dans 2 jours</string>
+    <string name="itin_card_details_pick_up_two_days">Prise en charge dans 2 jours</string>
     <!-- Tell users when they can pick up a rental car tomorrow -->
-    <string name="itin_card_details_pick_up_tomorrow">Départ demain</string>
+    <string name="itin_card_details_pick_up_tomorrow">Prise en charge demain</string>
     <!-- Tell users when they can pick up a rental car. %1$s is a day, e.g. ("pick up Jun 11") -->
-    <string name="itin_card_details_pick_up_day_TEMPLATE">Départ le %1$s</string>
+    <string name="itin_card_details_pick_up_day_TEMPLATE">Prise en charge le %1$s</string>
     <!-- Tell users when they can pick up a rental car. %1$s is a time, e.g. ("pick up after 5 PM") -->
-    <string name="itin_card_details_pick_up_TEMPLATE">Départ à partir de %1$s</string>
+    <string name="itin_card_details_pick_up_TEMPLATE">Prise en charge à partir de %1$s</string>
     <!-- Tell users when they need to drop off a rental car. %1$s is a date, e.g. ("drop off Jun 15") -->
     <string name="itin_card_details_drop_off_day_TEMPLATE">Retour le %1$s</string>
     <!-- Tell users that they need to drop off a rental car in three days. -->
@@ -378,7 +378,7 @@
     <string name="itin_card_hotel_summary_check_in_three_days">Arrivée dans 3 jours</string>
     <!-- Message to users that they can check into their hotel in two days. -->
     <string name="itin_card_hotel_summary_check_in_two_days">Arrivée dans 2 jours</string>
-    <!-- Message to users that they can check into their hotel tomorrow.-->
+    <!-- Message to users that they can check into their hotel tomorrow. -->
     <string name="itin_card_hotel_summary_check_in_tomorrow">Arrivée demain</string>
     <!-- Message to users about when (date) they can check into their hotel.  %1$s is a date (e.g., "Check in Jul 11") -->
     <string name="itin_card_hotel_summary_check_in_day_TEMPLATE">Arrivée le %1$s</string>
@@ -390,10 +390,10 @@
     <string name="itin_card_hotel_summary_check_out_three_days">Départ dans 3 jours</string>
     <!-- Message to users that they can check out of their hotel in two days. -->
     <string name="itin_card_hotel_summary_check_out_two_days">Départ dans 2 jours</string>
-    <!-- Message to users that they can check out of their hotel tomorrow.-->
+    <!-- Message to users that they can check out of their hotel tomorrow. -->
     <string name="itin_card_hotel_summary_check_out_tomorrow">Départ demain</string>
     <!-- Message to users about when they need to check out of their hotel.  %1$s is a time (e.g., "Check out before 5 PM") -->
-    <string name="itin_card_hotel_summary_check_out_TEMPLATE">Départs avant %1$s</string>
+    <string name="itin_card_hotel_summary_check_out_TEMPLATE">Départ avant %1$s</string>
     <!-- Message to users about when they checked out of their hotel.  %1$s is a date (e.g., "Checked out Jul 11") -->
     <string name="itin_card_hotel_summary_checked_out_day_TEMPLATE">Départ effectué le %1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">Valable à partir du &lt;b&gt;%1$s&lt;/b&gt;</string>
@@ -440,13 +440,13 @@
     <!-- Label for type of vehicle.  %1$s is the car type (e.g., "Three Door Car") -->
     <string name="share_car_vehicle_TEMPLATE">Véhicule : %1$s</string>
     <!-- The car rental pick up time.  %1$s is a date, %2$s is a time (e.g., "Pick Up After: 3/21/13 at 5 PM") -->
-    <string name="share_car_pickup_TEMPLATE">Départ à partir du : %1$s à %2$s</string>
+    <string name="share_car_pickup_TEMPLATE">Prise en charge à partir du %1$s à %2$s</string>
     <!-- The car rental drop off time.  %1$s is a date, %2$s is a time (e.g., "Drop Off Before: 3/21/13 at 5 PM") -->
-    <string name="share_car_dropoff_TEMPLATE">Retour avant le : %1$s à %2$s</string>
+    <string name="share_car_dropoff_TEMPLATE">Retour avant le %1$s à %2$s</string>
     <!-- Section header for the location of the car rental pickup/dropoff. -->
     <string name="share_car_location_section">Lieu :</string>
     <!-- Section header for the location of the car rental pick up. -->
-    <string name="share_car_pickup_location_section">Lieu de départ :</string>
+    <string name="share_car_pickup_location_section">Lieu de prise en charge :</string>
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">Lieu de retour :</string>
 
@@ -709,6 +709,10 @@
     <string name="total_due_today">Total dû aujourd\&apos;hui</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_only_the_following_characters">Veuillez utiliser uniquement les caractères suivants : A-Z, a-z, 0-0 et ,.\&apos;-</string>
+    <!-- Label to show user when they use unsupported characters in their name or address -->
+    <string name="please_use_the_roman_alphabet">Veuillez utiliser l\&apos;alphabet latin</string>
+    <!-- Label to show user when they use unsupported characters in their email -->
+    <string name="please_enter_a_valid_email_address">Veuillez saisir une adresse email valide</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -1686,7 +1690,7 @@
     <!-- Extra description for "app feedback" button, when space allows -->
     <string name="app_feedback_description">Dites-nous ce que vous pensez de notre app !</string>
     <!-- Label for "app support" button in info page -->
-    <string name="app_support">Assistance pour l\&apos;App</string>
+    <string name="app_support">Assistance pour l\&apos;app</string>
     <!-- Extra description for "app support" button, when space allows -->
     <string name="app_support_description">Écrivez-nous et nous vous répondrons dans les plus brefs délais.</string>
     <!-- Extra description for "tell a friend" button, when space allows -->

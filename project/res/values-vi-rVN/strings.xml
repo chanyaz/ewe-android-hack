@@ -378,7 +378,7 @@
     <string name="itin_card_hotel_summary_check_in_three_days">Nhận phòng trong 3 ngày</string>
     <!-- Message to users that they can check into their hotel in two days. -->
     <string name="itin_card_hotel_summary_check_in_two_days">Nhận phòng trong 2 ngày</string>
-    <!-- Message to users that they can check into their hotel tomorrow.-->
+    <!-- Message to users that they can check into their hotel tomorrow. -->
     <string name="itin_card_hotel_summary_check_in_tomorrow">Nhận phòng ngày mai</string>
     <!-- Message to users about when (date) they can check into their hotel.  %1$s is a date (e.g., "Check in Jul 11") -->
     <string name="itin_card_hotel_summary_check_in_day_TEMPLATE">Nhận phòng %1$s</string>
@@ -390,7 +390,7 @@
     <string name="itin_card_hotel_summary_check_out_three_days">Trả phòng trong 3 ngày</string>
     <!-- Message to users that they can check out of their hotel in two days. -->
     <string name="itin_card_hotel_summary_check_out_two_days">Trả phòng trong 2 ngày</string>
-    <!-- Message to users that they can check out of their hotel tomorrow.-->
+    <!-- Message to users that they can check out of their hotel tomorrow. -->
     <string name="itin_card_hotel_summary_check_out_tomorrow">Trả phòng ngày mai</string>
     <!-- Message to users about when they need to check out of their hotel.  %1$s is a time (e.g., "Check out before 5 PM") -->
     <string name="itin_card_hotel_summary_check_out_TEMPLATE">Trả phòng trước %1$s</string>
@@ -516,7 +516,7 @@
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">DEBUG: Thông tin tìm kiếm đã bị xóa.  Vui lòng báo lỗi với DLew.</string>
     <!-- Low Cost Flights label -->
-    <string name="low_cost_flights">Chuyến bay giá rẻ</string>
+    <string name="low_cost_flights">Hàng không giá rẻ</string>
     <!-- Message shown to user when viewing flight search results that do not contain low-cost flights, although the same search on desktop returns low cost flights -->
     <string name="lcc_flights_not_available">Tìm Jetstar, Scoot hay Air Asia? Vé máy bay của các hãng này đã được bán tại trang web của chúng tôi và sẽ sớm có mặt trên app.</string>
     <!-- Select a flight to (city name) -->
@@ -709,6 +709,10 @@
     <string name="total_due_today">Tổng số tiền phải thanh toán hôm nay</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_only_the_following_characters">Vui lòng chỉ sử dụng các ký tự và chữ số sau: A-Z, a-z, 0-9 và ,.\&apos;-</string>
+    <!-- Label to show user when they use unsupported characters in their name or address -->
+    <string name="please_use_the_roman_alphabet">Vui lòng chỉ sử dụng các ký tự Latin không dấu</string>
+    <!-- Label to show user when they use unsupported characters in their email -->
+    <string name="please_enter_a_valid_email_address">Vui lòng nhập địa chỉ email hợp lệ</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -1343,9 +1347,9 @@
 
     <!-- User Reviews list strings -->
     <!-- Loading text prompt -->
-    <string name="user_review_loading_text">Đang tải đánh giá người dùng…</string>
+    <string name="user_review_loading_text">Đang tải nhận xét người dùng…</string>
     <!-- Header for reviews of the non-native language -->
-    <string name="user_review_other_languages_title">Những nhận xét bằng ngôn ngữ khác</string>
+    <string name="user_review_other_languages_title">Nhận xét bằng ngôn ngữ khác</string>
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">Gần đây</string>
     <!-- The text for the sort button, recent -->
@@ -1353,7 +1357,7 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_critical">Tiêu cực</string>
     <!-- Loading more reviews -->
-    <string name="user_review_loading_more_reviews">Đang tải thêm các đánh giá khác…</string>
+    <string name="user_review_loading_more_reviews">Đang tải thêm nhận xét khác…</string>
     <!-- Read more of the review -->
     <string name="user_review_read_more">Đọc thêm</string>
     <!--
@@ -1363,14 +1367,14 @@
     -->
     <string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt;/&lt;b&gt;%2$d&lt;/b&gt; khách giới thiệu khách sạn này.</string>
     <!-- Special case for 0 reviews -->
-    <string name="no_reviews">Không có đánh giá</string>
+    <string name="no_reviews">Không có nhận xét</string>
     <!-- A number of reviews -->
     <plurals name="number_of_reviews">
-        <item quantity="zero">Không có đánh giá</item>
-        <item quantity="one">%d Đánh giá</item>
-        <item quantity="two">%d Đánh giá</item>
-        <item quantity="many">%d Đánh giá</item>
-        <item quantity="other">%d Đánh giá</item>
+        <item quantity="zero">Không có nhận xét</item>
+        <item quantity="one">%d Nhận xét</item>
+        <item quantity="two">%d Nhận xét</item>
+        <item quantity="many">%d Nhận xét</item>
+        <item quantity="other">%d Nhận xét</item>
     </plurals>
     <!--
          User review name and place review signature eg (John from San Diego, CA)
