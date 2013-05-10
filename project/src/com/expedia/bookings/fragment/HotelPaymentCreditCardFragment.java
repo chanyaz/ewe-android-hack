@@ -3,7 +3,6 @@ package com.expedia.bookings.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +14,6 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
@@ -71,18 +68,22 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 			mBillingInfo.setEmail(Db.getUser().getPrimaryTraveler().getEmail());
 		}
 
-		mSectionBillingInfo = Ui.findView(v, R.id.creditcard_section);
-		mSectionBillingInfo.addChangeListener(new SectionChangeListener() {
+		SectionChangeListener sectionListener = new SectionChangeListener() {
 			@Override
 			public void onChange() {
 				if (mAttemptToLeaveMade) {
 					//If we tried to leave, but we had invalid input, we should update the validation feedback with every change
-					mSectionBillingInfo.hasValidInput();
+					if (mSectionBillingInfo != null) {
+						mSectionBillingInfo.hasValidInput();
+					}
+					if (mSectionLocation != null) {
+						mSectionLocation.hasValidInput();
+					}
 				}
 				//Attempt to save on change
 				Db.getWorkingBillingInfoManager().attemptWorkingBillingInfoSave(getActivity(), false);
 			}
-		});
+		};
 
 		InvalidCharacterListener invalidCharacterListener = new InvalidCharacterListener() {
 			@Override
@@ -90,39 +91,16 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 				InvalidCharacterHelper.showInvalidCharacterPopup(getFragmentManager(), mode);
 			}
 		};
+
+		mSectionBillingInfo = Ui.findView(v, R.id.creditcard_section);
+		mSectionLocation = Ui.findView(v, R.id.section_location_address);
+		mSectionLocation.setLineOfBusiness(LineOfBusiness.HOTELS);
+
+		mSectionBillingInfo.addChangeListener(sectionListener);
+		mSectionLocation.addChangeListener(sectionListener);
+
 		mSectionBillingInfo.addInvalidCharacterListener(invalidCharacterListener);
-		
-
-		PointOfSale.RequiredPaymentFields requiredFields = PointOfSale.getPointOfSale()
-				.getRequiredPaymentFieldsHotels();
-		if (requiredFields.equals(PointOfSale.RequiredPaymentFields.POSTAL_CODE)) {
-			// grab reference to the SectionLocation as we will need to perform validation
-			mSectionLocation = Ui.findView(v, R.id.section_location_address);
-			mSectionLocation.setLineOfBusiness(LineOfBusiness.HOTELS);
-			mSectionLocation.addInvalidCharacterListener(invalidCharacterListener);
-			mSectionLocation.addChangeListener(new SectionChangeListener() {
-				@Override
-				public void onChange() {
-					if (mAttemptToLeaveMade) {
-						//If we tried to leave, but we had invalid input, we should update the validation feedback with every change
-						mSectionLocation.hasValidInput();
-					}
-					//Attempt to save on change
-					Db.getWorkingBillingInfoManager().attemptWorkingBillingInfoSave(getActivity(), false);
-				}
-			});
-
-			// Give US users a streamlined keyboard approach. TODO move this info shared ExpediaConfig json file
-			if (PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.UNITED_STATES) {
-				EditText postalCodeEditText = Ui.findView(v, R.id.edit_address_postal_code);
-				postalCodeEditText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_NORMAL);
-			}
-		}
-		else if (requiredFields.equals(PointOfSale.RequiredPaymentFields.NONE)) {
-			// remove the SectionLocation/postalCode as it is not needed
-			ViewGroup vg = Ui.findView(v, R.id.edit_creditcard_exp_date_and_zipcode_container);
-			vg.removeView(Ui.findView(v, R.id.section_location_address));
-		}
+		mSectionLocation.addInvalidCharacterListener(invalidCharacterListener);
 
 		return v;
 	}

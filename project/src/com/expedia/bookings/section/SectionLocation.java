@@ -23,6 +23,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.section.CountrySpinnerAdapter.CountryDisplayType;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
@@ -148,6 +149,10 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 	public void clearChangeListeners() {
 		mChangeListeners.clear();
 
+	}
+
+	protected void rebindCountryDependantFields() {
+		mEditAddressPostalCode.bindData(mLocation);
 	}
 
 	//////////////////////////////////////
@@ -482,15 +487,43 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 
 		};
 
+		Validator<EditText> mCurrentCountryValidator = new Validator<EditText>() {
+			@Override
+			public int validate(EditText obj) {
+				if (requiresPostalCode()) {
+					return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET.validate(obj);
+				}
+				else {
+					return ValidationError.NO_ERROR;
+				}
+			}
+
+		};
+
 		@Override
 		protected Validator<EditText> getValidator() {
 			MultiValidator<EditText> postalCodeValidators = new MultiValidator<EditText>();
 			postalCodeValidators.addValidator(mPostalCodeCharacterCountValidator);
 			postalCodeValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_ASCII);
-			if (requiresPostalCode()) {
-				postalCodeValidators.addValidator(CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET);
-			}
+			postalCodeValidators.addValidator(mCurrentCountryValidator);
 			return postalCodeValidators;
+		}
+
+		@Override
+		public void bindData(Location location) {
+			super.bindData(location);
+
+			if (this.hasBoundField()) {
+				//If we set the country to USA (or we dont select a country, but POS is USA) use the number keyboard
+				if (location.getCountryCode() != null
+						&& location.getCountryCode().equalsIgnoreCase("USA")
+						|| (!mEditCountrySpinner.hasBoundField() && PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.UNITED_STATES)) {
+					this.getField().setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_NORMAL);
+				}
+				else {
+					this.getField().setInputType(InputType.TYPE_CLASS_TEXT);
+				}
+			}
 		}
 
 		@Override
@@ -577,6 +610,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 								.setCountryCode(countryAdapter.getItemValue(position, CountryDisplayType.THREE_LETTER));
 						updateCountryDependantValidation();
 						updatePostalCodeFormat();
+						rebindCountryDependantFields();
 					}
 
 					if (!mSetFieldManually) {
@@ -600,6 +634,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 
 			// Force the State/Province section to update its validator
 			mEditAddressState.onChange(null);
+
 		}
 
 		protected void updatePostalCodeFormat() {
