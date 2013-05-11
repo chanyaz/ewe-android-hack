@@ -668,16 +668,20 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	}
 
 	public void setInCheckout(boolean inCheckout) {
+		// #1111: Fixed timing issue with ABS in compat mode; when in compat
+		// mode, it fires the action bar update immediately, so the state var
+		// needs to be updated before we fire supportInvalidateOptionsMenu()
+		boolean wasInCheckout = mInCheckout;
+		mInCheckout = inCheckout;
+
 		if (mBookingOverviewFragmentListener != null) {
-			if (inCheckout && !mInCheckout) {
+			if (inCheckout && !wasInCheckout) {
 				mBookingOverviewFragmentListener.checkoutStarted();
 			}
-			else if (!inCheckout && mInCheckout) {
+			else if (!inCheckout && wasInCheckout) {
 				mBookingOverviewFragmentListener.checkoutEnded();
 			}
 		}
-
-		mInCheckout = inCheckout;
 	}
 
 	public void startCheckout() {
