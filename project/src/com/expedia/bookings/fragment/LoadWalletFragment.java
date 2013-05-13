@@ -142,7 +142,7 @@ public abstract class LoadWalletFragment extends WalletFragment {
 		super.onStart();
 
 		// If the MaskedWallet used to exist but has since been cleared, we want
-		// to reset the state of this fragment
+		// to reset the state of this fragment (and unbind all wallet data)
 		if (mLoadedMaskedWallet && Db.getMaskedWallet() == null) {
 			Log.i(WalletUtils.TAG, "Masked wallet *was* loaded, but is now null; resetting LoadWalletFragment");
 
@@ -151,6 +151,7 @@ public abstract class LoadWalletFragment extends WalletFragment {
 			mIsUserPreAuthorized = false;
 
 			Db.clearGoogleWallet();
+			WalletUtils.unbindAllWalletDataFromBillingInfo(Db.getBillingInfo());
 		}
 	}
 
