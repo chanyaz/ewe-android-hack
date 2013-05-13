@@ -215,6 +215,9 @@ public class HotelMapFragment extends SupportMapFragment {
 	}
 
 	public void reset() {
+		mAddPropertiesWhenReady = false;
+		mAddExactMarkerWhenReady = false;
+		mShowAllWhenReady = false;
 		mProperties = null;
 		if (mMap != null) {
 			mMap.clear();
@@ -235,8 +238,7 @@ public class HotelMapFragment extends SupportMapFragment {
 
 	// Only call this if isReady()
 	private void addExactLocation() {
-		if (Db.getSearchResponse() != null
-				&& Db.getSearchResponse().getSearchType() != null
+		if (Db.getSearchResponse() != null && Db.getSearchResponse().getSearchType() != null
 				&& Db.getSearchResponse().getSearchType().shouldShowExactLocation()) {
 			SearchParams params = Db.getSearchParams();
 			LatLng point = new LatLng(params.getSearchLatitude(), params.getSearchLongitude());
@@ -428,13 +430,12 @@ public class HotelMapFragment extends SupportMapFragment {
 	public void notifySearchLocationFound() {
 		SearchParams params = Db.getSearchParams();
 
-
 		LatLng loc = new LatLng(params.getSearchLatitude(), params.getSearchLongitude());
 
 		// For some Expedia-suggested locations they do not return a latitude/longitude; in those
 		// cases, do not try to move the map around
 		if (SupportMapFragment.isValidLatLng(loc)) {
-			animateCamera(CameraUpdateFactory.newLatLngZoom(loc , DEFAULT_ZOOM));
+			animateCamera(CameraUpdateFactory.newLatLngZoom(loc, DEFAULT_ZOOM));
 		}
 	}
 
@@ -452,8 +453,8 @@ public class HotelMapFragment extends SupportMapFragment {
 	}
 
 	private void initMapCameraToGoodSpot() {
-		setInitialCameraPosition(CameraUpdateFactory.newLatLngBounds(getAmericaBounds(),
-				(int) getResources().getDisplayMetrics().density * 50));
+		setInitialCameraPosition(CameraUpdateFactory.newLatLngBounds(getAmericaBounds(), (int) getResources()
+				.getDisplayMetrics().density * 50));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
