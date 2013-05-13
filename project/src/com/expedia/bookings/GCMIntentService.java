@@ -4,10 +4,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
-import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.StrUtils;
 import com.google.android.gcm.GCMBaseIntentService;
 import com.mobiata.android.Log;
 
@@ -68,13 +70,10 @@ public class GCMIntentService extends GCMBaseIntentService {
 						locArgsStrings[i] = locArgs.getString(i);
 					}
 
-					showTestNotification(fhid + "_" + locArgs);
-
-					//String formattedMessage = String.format(locStr, locArgsStrings);
-
 					//We should find the flight in itin manager (using fhid) and do a deep refresh. and to find the correct uniqueid for the itin in question
 
 					//After the refresh completes we should show the notification
+					generateNotification(Integer.parseInt(fhid), locStr, locArgsStrings);
 
 				}
 				catch (Exception ex) {
@@ -92,25 +91,44 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	}
 
-	private void showTestNotification(String uniqueId) {
-		long triggerTimeMillis = System.currentTimeMillis();
+	private void generateNotification(int fhid, String displayMessage, String[] displayMessageArgs) {
 
-		Notification notification = new Notification(uniqueId, triggerTimeMillis);
-		notification.setNotificationType(NotificationType.FLIGHT_CHECK_IN);
-		notification.setFlags(Notification.FLAG_PUSH);
+//		//TODO: REMOVE!!!
+//		fhid = 296881321;
 
-		String title = "We got a push notification";
-		notification.setTicker(title);
-		notification.setTitle(title);
+		if (fhid >= 0) {
+			ItinCardDataFlight data = (ItinCardDataFlight) ItineraryManager.getInstance()	
+					.getItinCardDataFromFlightHistoryId(fhid);
+			if (data != null) {
+				
+				FlightLeg leg = data.getFlightLeg();
 
-		String body = "Test body, test body, test body";
-		notification.setBody(body);
+				String uniqueId = data.getId();
+				long triggerTimeMillis = System.currentTimeMillis();
 
-		notification.setImage(Notification.ImageType.DESTINATION, R.drawable.bg_itin_placeholder_flight,
-				"MSP");
+				Notification notification = new Notification(uniqueId, triggerTimeMillis);
+				notification.setNotificationType(NotificationType.FLIGHT_CHECK_IN);
+				notification.setFlags(Notification.FLAG_PUSH | Notification.FLAG_DIRECTIONS | Notification.FLAG_SHARE);
+				notification.setIconResId(R.drawable.ic_stat_flight);
 
-		notification.save();
-		notification.scheduleNotification(this);
+				//String formattedMessage = String.format(displayMessage, displayMessageArgs);
+
+				notification.setTicker(displayMessage);
+				notification.setTitle(displayMessage);
+
+				String airline = leg.getAirlinesFormatted();
+				String destination = StrUtils.getWaypointCityOrCode(leg.getLastWaypoint());
+				String body = getString(R.string.x_flight_to_x_TEMPLATE, airline, destination);
+				notification.setBody(body);
+
+				String destinationCode = leg.getLastWaypoint().mAirportCode;
+				notification.setImage(Notification.ImageType.DESTINATION, R.drawable.bg_itin_placeholder_flight,
+						destinationCode);
+
+				notification.save();
+				notification.scheduleNotification(this);
+			}
+		}
 	}
 
 	private String getLocStr(String locKey) {

@@ -148,6 +148,52 @@ public class ItineraryManager implements JSONable {
 	}
 
 	/**
+	 * Get a TripComponent object from a flightHistoryId
+	 * This is useful for push notifications which provide us with a flightHistoryId as
+	 * the only identifier
+	 * @param fhid - flightHistoryId from flightstats
+	 * @return TripComponent containing the flight with the matching historyId or null
+	 */
+	public TripFlight getTripComponentFromFlightHistoryId(int fhid) {
+		for (Trip trip : mTrips.values()) {
+			for (TripComponent tripComponent : trip.getTripComponents(true)) {
+				if (tripComponent.getType() == Type.FLIGHT) {
+					TripFlight tripFlight = (TripFlight) tripComponent;
+					FlightTrip flightTrip = tripFlight.getFlightTrip();
+					for (int i = 0; i < flightTrip.getLegCount(); i++) {
+						FlightLeg fl = flightTrip.getLeg(i);
+						for (Flight segment : fl.getSegments()) {
+							if (segment.mFlightHistoryId == fhid) {
+								return tripFlight;
+							}
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Get a ItinCardData object from a flightHistoryId
+	 * This is useful for push notifications which provide us with a flightHistoryId as
+	 * the only identifier
+	 * @param fhid - flightHistoryId from flightstats
+	 * @return ItinCardData containing the flight with the matching historyId or null
+	 */
+	public ItinCardData getItinCardDataFromFlightHistoryId(int fhid) {
+		TripFlight tripFlight = getTripComponentFromFlightHistoryId(fhid);
+		if (tripFlight != null && mItinCardDatas != null) {
+			for (ItinCardData data : mItinCardDatas) {
+				if (data.getTripComponent() == tripFlight) {
+					return data;
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Clear all data from the itinerary manager.  Used on sign out or
 	 * when private data is cleared.
 	 */
