@@ -16,7 +16,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -111,7 +110,8 @@ public class CouponCodeWidget {
 					mListener.couponCodeApplied();
 				}
 
-				OmnitureTracking.trackHotelCouponRemoved(mContext);
+				// TODO: enable coupon tracking for 3.2
+				//				OmnitureTracking.trackHotelCouponRemoved(mContext);
 			}
 		}
 	};
@@ -296,7 +296,8 @@ public class CouponCodeWidget {
 					mListener.couponCodeApplied();
 				}
 
-				OmnitureTracking.trackHotelCouponApplied(mContext, response.getNewRate());
+				// TODO: enable coupon tracking for 3.2
+				//				OmnitureTracking.trackHotelCouponApplied(mContext, response.getNewRate());
 			}
 		}
 	};
