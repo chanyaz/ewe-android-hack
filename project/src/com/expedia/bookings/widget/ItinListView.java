@@ -974,7 +974,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		}
 	};
 
-	private AnimatorListener mModeSwitchSemListener = new AnimatorListener() {
+	private AnimatorListener mModeSwitchSemListener = new AnimatorListenerShort() {
 
 		@Override
 		public void onAnimationCancel(Animator arg0) {
@@ -984,14 +984,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		@Override
 		public void onAnimationEnd(Animator arg0) {
 			mModeSwitchSemaphore.release();
-		}
-
-		@Override
-		public void onAnimationRepeat(Animator arg0) {
-		}
-
-		@Override
-		public void onAnimationStart(Animator arg0) {
 		}
 
 	};
