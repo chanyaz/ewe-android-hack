@@ -85,7 +85,9 @@ public class CreditCardSection extends LinearLayout {
 			mLogoImageView.setVisibility(View.INVISIBLE);
 		}
 
-		mSignatureTextView.setText(name);
+		// #1116 - For some reason this typeface calculates the left edge
+		// bounds incorrectly, so we add a space just in case.
+		mSignatureTextView.setText(" " + name);
 		mNameTextView.setText(name.toUpperCase());
 	}
 }
