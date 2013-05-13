@@ -22,19 +22,10 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <LinearLayout
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border_horizontal_expedia_striped" >
-
-        <!-- This is sort of silly, but we want to ensure the correct height -->
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/border_horizontal_expedia_striped"
-            android:visibility="invisible" />
-    </LinearLayout>
+        android:layout_height="4px"
+        android:background="@drawable/border_horizontal_expedia_striped" />
 
     <!-- Traveler price breakdown -->
 
