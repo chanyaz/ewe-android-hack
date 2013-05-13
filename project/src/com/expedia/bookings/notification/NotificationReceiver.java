@@ -32,7 +32,6 @@ public class NotificationReceiver extends BroadcastReceiver {
 	private static final String TAG = NotificationReceiver.class.getSimpleName();
 
 	private static final String EXTRA_ACTION = "EXTRA_ACTION";
-	private static final String EXTRA_CLICK_TARGET = "EXTRA_CLICK_TARGET";
 
 	private static final int ACTION_SCHEDULE = 0;
 	private static final int ACTION_DISMISS = 1;
