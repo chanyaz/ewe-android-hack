@@ -116,7 +116,16 @@ public class AdX {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				String referral = AdXConnect.getAdXReferral(mContext, 10);
+				// Was told by the AdX guys to just hold off for a bit before
+				// calling getAdXReferral()
+				try {
+					Thread.sleep(15 * 1000); // 15 seconds
+				}
+				catch (Exception e) {
+					// Should not ever happen
+				}
+
+				String referral = AdXConnect.getAdXReferral(mContext, 15);
 				if (TextUtils.isEmpty(referral)) {
 					Log.w("Unable to retrieve AdX referral string");
 				}
