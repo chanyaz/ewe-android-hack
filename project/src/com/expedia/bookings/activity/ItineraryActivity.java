@@ -321,7 +321,7 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 
 	@Override
 	public void onItinMarkerClicked(ItinCardData data) {
-		mItinListFragment.showItinCard(data.getId());
+		mItinListFragment.showItinCard(data.getId(), true);
 		showPopupWindow(data, true);
 	}
 

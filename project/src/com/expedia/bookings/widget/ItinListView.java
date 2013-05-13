@@ -372,7 +372,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		}
 		case MODE_LIST:
 		default: {
-			hideDetails();
+			hideDetails(true);
 			break;
 		}
 		}
@@ -416,7 +416,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 					mDetailsCard.requestLayout();
 				}
 				else {
-					hideDetails();
+					hideDetails(true);
 				}
 			}
 		}
@@ -569,7 +569,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		setSelectedCardId(null);
 	}
 
-	public boolean hideDetails() {
+	public boolean hideDetails(boolean animate) {
 		if (mSimpleMode) {
 			setSelectedCardId(null);
 			mAdapter.notifyDataSetChanged();
@@ -627,6 +627,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 				});
 
 				set.addListener(mModeSwitchSemListener);
+				if (!animate) {
+					set.setDuration(0);
+				}
 				set.start();
 				releaseSemHere = false;
 				return true;
@@ -641,7 +644,11 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	}
 
 	public void showDetails(String id) {
-		showDetails(mAdapter.getPosition(id));
+		showDetails(id, true);
+	}
+
+	public void showDetails(String id, boolean animate) {
+		showDetails(mAdapter.getPosition(id), animate);
 	}
 
 	private void showDetails() {
@@ -890,7 +897,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	@Override
 	public void onCloseButtonClicked() {
-		hideDetails();
+		hideDetails(true);
 
 		if (mOnItinCardClickListener != null) {
 			mOnItinCardClickListener.onCloseButtonClicked();

@@ -226,12 +226,13 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		mItinListView.setSimpleMode(true);
 	}
 
-	public void showItinCard(String id) {
+	public void showItinCard(String id, boolean animate) {
 		if (mIsLoading || mItinListView == null) {
 			mJumpToItinId = id;
 			return;
 		}
-		mItinListView.showDetails(id);
+		mItinListView.hideDetails(false);
+		mItinListView.showDetails(id, animate);
 		mJumpToItinId = null;
 	}
 
@@ -338,7 +339,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		// Note: On 2.x, the user can logout from the expanded details view, be sure to collapse the view so when we
 		// re-populate the ListView with data, it does not think there is something expanded.
 		if (mItinListView != null) {
-			mItinListView.hideDetails();
+			mItinListView.hideDetails(false);
 		}
 
 		// Sign out user
@@ -458,7 +459,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		trackItins(false);
 
 		if (mJumpToItinId != null) {
-			showItinCard(mJumpToItinId);
+			showItinCard(mJumpToItinId, true);
 		}
 	}
 
