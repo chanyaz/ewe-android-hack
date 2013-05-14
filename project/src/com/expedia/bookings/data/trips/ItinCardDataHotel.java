@@ -15,6 +15,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
+import com.expedia.bookings.utils.CalendarUtils;
 import com.google.android.gms.maps.model.LatLng;
 
 public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumberable {
@@ -94,7 +95,7 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 	}
 
 	public String getFormattedLengthOfStay(Context context) {
-		int nights = (int) ((getEndDate().getMillisFromEpoch() - getStartDate().getMillisFromEpoch()) / (1000 * 60 * 60 * 24));
+		int nights = (int) CalendarUtils.getDaysBetween(getStartDate().getCalendar(), getEndDate().getCalendar());
 		return context.getResources().getQuantityString(R.plurals.length_of_stay, nights, nights);
 	}
 
