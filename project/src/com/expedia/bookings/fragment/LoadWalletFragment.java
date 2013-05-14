@@ -101,15 +101,19 @@ public abstract class LoadWalletFragment extends WalletFragment {
 	 * We consider Google Wallet loading if:
 	 * 
 	 * 1. Google Wallet is enabled (otherwise it never loads)
-	 * 2. The WalletClient is not yet connected
-	 * 3. We have not yet checked for pre-authorization
-	 * 4. The user is pre-authorized but has no masked wallet 
+	 * 2. The masked wallet is already loaded (at which point obviously it's good)
+	 * 3. The WalletClient is not yet connected
+	 * 4. We have not yet checked for pre-authorization
+	 * 5. The user is pre-authorized but has no masked wallet yet 
 	 */
 	protected boolean isWalletLoading() {
 		MaskedWallet maskedWallet = Db.getMaskedWallet();
 
 		return !mGoogleWalletDisabled
-				&& (!mWalletClient.isConnected() || !mCheckedPreAuth || (mIsUserPreAuthorized && maskedWallet == null));
+				&& maskedWallet == null
+				&& (!mWalletClient.isConnected()
+						|| !mCheckedPreAuth
+						|| mIsUserPreAuthorized);
 	}
 
 	private MaskedWalletRequest buildMaskedWalletRequest() {
