@@ -3,11 +3,12 @@
 
     <item
         android:id="@+id/menu_flights"
+        android:icon="@drawable/ic_action_bar_flights"
         android:showAsAction="always|withText"
         android:title="@string/nav_flights"/>
     <item
         android:id="@+id/menu_your_trips"
-        android:icon="@drawable/ic_action_bar_suitcase"
+        android:icon="@drawable/ic_action_bar_trips"
         android:showAsAction="always|withText"
         android:title="@string/trips"/>
     <item
