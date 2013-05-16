@@ -26,7 +26,7 @@ public class Notification extends Model {
 	/**
 	 * NEW = This notification has never been displayed to the user.
 	 * NOTIFIED = This notification has been displayed and is still visible/active.
-	 * REMOVED = This notification has passed or been dismissed by the user.
+	 * DISMISSED = This notification has passed or been dismissed by the user.
 	 */
 	public enum StatusType {
 		NEW,
@@ -309,9 +309,8 @@ public class Notification extends Model {
 	}
 
 	public static void scheduleAll(Context context) {
-		long now = System.currentTimeMillis();
 		List<Notification> notifications = new Select().from(Notification.class)
-				.where("TriggerTimeMillis >= ? AND Status IN (?,?)", now, "NEW", "NOTIFIED")
+				.where("Status IN (?,?)", StatusType.NEW.name(), StatusType.NOTIFIED.name())
 				.orderBy("TriggerTimeMillis").execute();
 
 		for (Notification notification : notifications) {

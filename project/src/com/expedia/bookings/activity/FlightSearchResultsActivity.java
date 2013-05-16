@@ -64,6 +64,8 @@ import com.expedia.bookings.fragment.NoFlightsFragment;
 import com.expedia.bookings.fragment.NoFlightsFragment.NoFlightsFragmentListener;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
+import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
+import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
 import com.expedia.bookings.fragment.StatusFragment;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -88,7 +90,7 @@ import com.nineoldandroids.animation.AnimatorSet;
 
 public class FlightSearchResultsActivity extends SherlockFragmentActivity implements FlightListFragmentListener,
 		OnBackStackChangedListener, RetryErrorDialogFragmentListener, NoFlightsFragmentListener,
-		FlightDetailsFragmentListener {
+		FlightDetailsFragmentListener, SimpleCallbackDialogFragmentListener {
 
 	public static final String EXTRA_DESELECT_LEG_ID = "EXTRA_DESELECT_LEG_ID";
 
@@ -103,6 +105,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 	private static final int REQUEST_CODE_SEARCH_PARAMS = 1;
 	private static final int REQUEST_CODE_FLIGHT_TRIP_OVERVIEW = 2;
+
+	private static final int SIMPLE_CALLBACK_DIALOG_CODE_INDIA_DOMESTIC = 1;
 
 	private static final String BACKSTACK_LOADING = "BACKSTACK_LOADING";
 	private static final String BACKSTACK_NO_FLIGHTS = "BACKSTACK_NO_FLIGHTS";
@@ -822,9 +826,20 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 				completeLocation(leg.getArrivalLocation());
 			}
 
-			ExpediaServices services = new ExpediaServices(mContext);
-			BackgroundDownloader.getInstance().addDownloadListener(DOWNLOAD_KEY, services);
-			return services.flightSearch(params, 0);
+			if (params.isIndiaDomestic()) {
+				// Add a simulated error to trip the error handling logic to display the dialog.
+				FlightSearchResponse response = new FlightSearchResponse();
+				response.setIsIndiaDomestic(true);
+				ServerError error = new ServerError(ApiMethod.FLIGHT_SEARCH);
+				error.setCode(ERROR_CODE_SIMULATED);
+				response.addError(error);
+				return response;
+			}
+			else {
+				ExpediaServices services = new ExpediaServices(mContext);
+				BackgroundDownloader.getInstance().addDownloadListener(DOWNLOAD_KEY, services);
+				return services.flightSearch(params, 0);
+			}
 		}
 	};
 
@@ -832,7 +847,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		Location updatedLocation = mUpdatedLocations.get(location.getDestinationId().toLowerCase());
 
 		// If we don't have city, it must not be a filled out location
-		if (updatedLocation == null && TextUtils.isEmpty(location.getCity())) {
+		if (updatedLocation == null && TextUtils.isEmpty(location.getCity())
+				&& TextUtils.isEmpty(location.getCountryCode())) {
 			ExpediaServices services = new ExpediaServices(mContext);
 			SuggestResponse response = services.suggest(location.getDestinationId(), ExpediaServices.F_FLIGHTS);
 
@@ -1028,6 +1044,19 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			}
 		}
 
+		// 911 alert users of india domestic flights not being available
+		if (response.isIndiaDomestic()) {
+			String title = getString(R.string.india_domestic_flights_not_available_title);
+			String body = getString(R.string.india_domestic_flights_not_available_body);
+			String ok = getString(R.string.ok);
+
+			SimpleCallbackDialogFragment.newInstance(title, body, ok, SIMPLE_CALLBACK_DIALOG_CODE_INDIA_DOMESTIC)
+					.show(getSupportFragmentManager(), "indiaDomesticDialog");
+			mStatusFragment.showError(null);
+
+			return;
+		}
+
 		// If we haven't handled the error by now, throw generic message
 		RetryErrorDialogFragment df;
 		ServerError firstError = response.getErrors().get(0);
@@ -1216,5 +1245,22 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	public void onFlightDetailsLayout(FlightDetailsFragment fragment) {
 		mFlightDetailsFragment = fragment;
 		onFragmentLoaded(mFlightDetailsFragment);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// SimpleCallbackDialogFragmentListener
+
+	@Override
+	public void onSimpleDialogClick(int callbackId) {
+		if (callbackId == SIMPLE_CALLBACK_DIALOG_CODE_INDIA_DOMESTIC) {
+			finish();
+		}
+	}
+
+	@Override
+	public void onSimpleDialogCancel(int callbackId) {
+		if (callbackId == SIMPLE_CALLBACK_DIALOG_CODE_INDIA_DOMESTIC) {
+			finish();
+		}
 	}
 }

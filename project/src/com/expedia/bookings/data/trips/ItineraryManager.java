@@ -33,7 +33,9 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.notification.Notification;
+import com.expedia.bookings.notification.Notification.StatusType;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -1180,9 +1182,6 @@ public class ItineraryManager implements JSONable {
 	// Local Notifications
 
 	private void scheduleLocalNotifications() {
-		return;
-		/* #994: Do not schedule any local notifications for the current release (3.1)
-
 		for (ItinCardData data : mItinCardDatas) {
 			ItinContentGenerator<?> generator = ItinContentGenerator.createGenerator(mContext, data);
 
@@ -1214,7 +1213,6 @@ public class ItineraryManager implements JSONable {
 		}
 
 		Notification.scheduleAll(mContext);
-		*/
 	}
 
 	private void deletePendingNotification(Trip trip) {

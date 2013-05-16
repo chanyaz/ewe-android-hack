@@ -26,6 +26,7 @@ public class AirportAutocompleteProvider extends ContentProvider {
 		SearchManager.SUGGEST_COLUMN_TEXT_2,
 		SearchManager.SUGGEST_COLUMN_QUERY,
 		SearchManager.SUGGEST_COLUMN_ICON_1,
+		SearchManager.SUGGEST_COLUMN_TEXT_2_URL,
 	};
 
 	public static final int COL_ID = 0;
@@ -33,6 +34,7 @@ public class AirportAutocompleteProvider extends ContentProvider {
 	public static final int COL_SUGGEST_COLUMN_TEXT_2 = 2;
 	public static final int COL_SUGGEST_COLUMN_QUERY = 3;
 	public static final int COL_SUGGEST_COLUMN_ICON_1 = 4;
+	public static final int COL_SUGGEST_COLUMN_TEXT_2_URL = 5;
 
 	public static final Uri CONTENT_FILTER_URI = Uri.parse("content://com.expedia.booking.autocomplete.air");
 
@@ -84,6 +86,7 @@ public class AirportAutocompleteProvider extends ContentProvider {
 			row[2] = displayName.second;
 			row[3] = suggestion.getAirportLocationCode();
 			row[4] = R.drawable.ic_location_search;
+			row[5] = suggestion.getCountryCode();
 			return row;
 		}
 
@@ -95,6 +98,7 @@ public class AirportAutocompleteProvider extends ContentProvider {
 		loc.setDestinationId(c.getString(COL_SUGGEST_COLUMN_QUERY));
 		loc.setCity(c.getString(COL_SUGGEST_COLUMN_TEXT_1));
 		loc.setDescription(c.getString(COL_SUGGEST_COLUMN_TEXT_2));
+		loc.setCountryCode(c.getString(COL_SUGGEST_COLUMN_TEXT_2_URL));
 		return loc;
 	}
 

@@ -420,7 +420,9 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		}
 
 		final Property property = response.getProperty();
-		if (property != null && !TextUtils.isEmpty(property.getTelephoneSalesNumber())) {
+		boolean showBookByPhone = property != null && !TextUtils.isEmpty(property.getTelephoneSalesNumber())
+				&& !property.isDesktopOverrideNumber();
+		if (showBookByPhone) {
 			mBookByPhoneButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {

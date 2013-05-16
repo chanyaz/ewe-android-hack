@@ -89,6 +89,7 @@ public class AirportDropDownAdapter extends CursorAdapter {
 					row[2] = airport.mAirportCode + "-" + airport.mName;
 					row[3] = airport.mAirportCode;
 					row[4] = R.drawable.ic_nearby_search;
+					row[5] = airport.mCountryCode;
 					cursor.addRow(row);
 				}
 			}
@@ -100,6 +101,7 @@ public class AirportDropDownAdapter extends CursorAdapter {
 				row[2] = location.getDescription();
 				row[3] = location.getDestinationId();
 				row[4] = R.drawable.ic_recent_search;
+				row[5] = location.getCountryCode();
 				cursor.addRow(row);
 			}
 

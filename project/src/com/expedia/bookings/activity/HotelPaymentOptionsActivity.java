@@ -198,6 +198,11 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 				displayCheckout();
 				break;
 			case CREDITCARD:
+				//If we are backing up we want to restore the base billing info...
+				if (Db.getWorkingBillingInfoManager().getBaseBillingInfo() != null) {
+					Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
+							Db.getWorkingBillingInfoManager().getBaseBillingInfo());
+				}
 				displayOptions();
 				break;
 			case SAVE:

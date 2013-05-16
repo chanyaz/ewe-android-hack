@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
+import android.text.TextUtils.TruncateAt;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -135,6 +136,22 @@ public class HotelReceipt extends LinearLayout {
 			mRoomLongDescriptionDivider.setVisibility(View.VISIBLE);
 			mRoomLongDescriptionTextView.setVisibility(View.VISIBLE);
 			mRoomLongDescriptionTextView.setText(rate.getRoomLongDescription());
+
+			// #817. Let user tap to expand or contract the room description text.
+			mRoomLongDescriptionTextView.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					if (mRoomLongDescriptionTextView.getEllipsize() != null) {
+						mRoomLongDescriptionTextView.setEllipsize(null);
+						mRoomLongDescriptionTextView.setMaxLines(Integer.MAX_VALUE);
+					}
+					else {
+						mRoomLongDescriptionTextView.setEllipsize(TruncateAt.END);
+						mRoomLongDescriptionTextView.setMaxLines(5);
+					}
+				}
+			});
 		}
 
 		mExtrasLayout.removeAllViews();
