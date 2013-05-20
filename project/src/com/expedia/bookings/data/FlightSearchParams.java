@@ -131,10 +131,10 @@ public class FlightSearchParams implements JSONable {
 
 	private static final String INDIA_COUNTRY_CODE = "IND";
 
-	public boolean isIndiaDomestic() {
+	public boolean blockIndiaDomesticFlightSearch() {
 		boolean isIndiaDomestic = false;
 
-		if (PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.INDIA) {
+		if (PointOfSale.getPointOfSale().blockDomesticFlightSearch()) {
 			for (FlightSearchLeg leg : mQueryLegs) {
 				String dep = leg.getDepartureLocation().getCountryCode();
 				String arr = leg.getArrivalLocation().getCountryCode();

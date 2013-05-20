@@ -826,7 +826,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 				completeLocation(leg.getArrivalLocation());
 			}
 
-			if (params.isIndiaDomestic()) {
+			if (params.blockIndiaDomesticFlightSearch()) {
 				// Add a simulated error to trip the error handling logic to display the dialog.
 				FlightSearchResponse response = new FlightSearchResponse();
 				response.setIsIndiaDomestic(true);
