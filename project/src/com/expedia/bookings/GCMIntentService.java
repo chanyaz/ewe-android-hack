@@ -7,6 +7,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.utils.StrUtils;
@@ -57,7 +58,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 					//Used for omniture tracking
 					String type = data.optString("t");
 					//Flight history id
-					String fhid = data.optString("fhid");
+					String flightHistoryId = data.optString("fhid");
+					int fhid = Integer.parseInt(flightHistoryId);
 
 					//The key to determine which string to use
 					String locKey = message.getString("loc-key");
@@ -71,9 +73,15 @@ public class GCMIntentService extends GCMBaseIntentService {
 					}
 
 					//We should find the flight in itin manager (using fhid) and do a deep refresh. and to find the correct uniqueid for the itin in question
-
+					TripComponent component = ItineraryManager.getInstance().getTripComponentFromFlightHistoryId(fhid);
+					if(component != null){
+						
+						//TODO: Wait  until the deep refresh is complete before scheduling the notification
+						ItineraryManager.getInstance().deepRefreshTrip(component.getParentTrip());
+					}
+					
 					//After the refresh completes we should show the notification
-					generateNotification(Integer.parseInt(fhid), locStr, locArgsStrings);
+					generateNotification(fhid, locStr, locArgsStrings);
 
 				}
 				catch (Exception ex) {
@@ -93,8 +101,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	private void generateNotification(int fhid, String displayMessage, String[] displayMessageArgs) {
 
-//		//TODO: REMOVE!!!
-//		fhid = 296881321;
+
 
 		if (fhid >= 0) {
 			ItinCardDataFlight data = (ItinCardDataFlight) ItineraryManager.getInstance()	

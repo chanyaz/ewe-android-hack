@@ -2,6 +2,7 @@ package com.expedia.bookings.server;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.net.URL;
 import java.net.URLConnection;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 import javax.net.ssl.SSLContext;
@@ -27,6 +29,7 @@ import javax.net.ssl.X509TrustManager;
 
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.params.HttpClientParams;
 import org.apache.http.client.protocol.ClientContext;
@@ -35,14 +38,17 @@ import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.cookie.CookieSpecRegistry;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -71,6 +77,7 @@ import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ReviewsResponse;
@@ -1114,6 +1121,81 @@ public class ExpediaServices implements DownloadListener {
 
 		return doE3Request("api/auth/linkExistingAccount", query, new FacebookLinkResponseHandler(mContext),
 				F_SECURE_REQUEST);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Push Notifications
+
+	//The server will splode if we make simultanious calls using the same regId,
+	//so we create objects to synchronize with (usually this will have one entry) 
+	private static final HashMap<String, Object> sPushLocks = new HashMap<String, Object>();
+
+	@SuppressLint("SimpleDateFormat")
+	public JSONObject buildPushRegistrationPayload(String token, long tuid, List<Flight> flightList) {
+		JSONObject retObj = new JSONObject();
+		JSONObject courier = new JSONObject();
+		JSONArray flights = new JSONArray();
+		JSONObject user = new JSONObject();
+		try {
+			retObj.putOpt("__type__", "RegisterForAlertsRequest");
+			retObj.putOpt("version", "4");
+
+			user.putOpt("__type__", "ExpediaUser");
+			user.put("site_id", 1);
+			user.put("tuid", tuid);
+
+			courier.put("__type__", "Courier");
+			courier.put("group", "gcm");
+			courier.put("token", token);
+
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			for (Flight f : flightList) {
+				JSONObject flightJson = new JSONObject();
+				flightJson.put("__type__", "Flight");
+				flightJson.put("arrival_date", sdf.format(f.mDestination.getBestSearchDateTime().getTime()));
+				flightJson.put("departure_date", sdf.format(f.mOrigin.getBestSearchDateTime().getTime()));
+				flightJson.put("destination", f.mDestination.mAirportCode);
+				flightJson.put("origin", f.mOrigin.mAirportCode);
+				flightJson.put("airline", f.getPrimaryFlightCode().mAirlineCode);
+				flightJson.put("flight_no", f.getPrimaryFlightCode().mNumber);
+				flights.put(flightJson);
+			}
+
+			retObj.putOpt("courier", courier);
+			retObj.putOpt("flights", flights);
+			retObj.putOpt("user", user);
+		}
+		catch (Exception ex) {
+			Log.d("Exception in buildPushRegistrationPayload", ex);
+		}
+
+		return retObj;
+	}
+
+	public PushNotificationRegistrationResponse registerForPushNotifications(
+			ResponseHandler<PushNotificationRegistrationResponse> responseHandler, JSONObject payload, String regId) {
+		String serverUrl = "http://ewetest.flightalerts.mobiata.com/register_for_flight_alerts";
+
+		// Create the request
+		HttpPost post = NetUtils.createHttpPost(serverUrl, (List<BasicNameValuePair>) null);
+		post.setHeader("Content-type", "application/json");
+		post.addHeader("MobiataPushName", "ExpediaBookingsAlpha");
+
+		try {
+			StringEntity strEntity = new StringEntity(payload.toString());
+			post.setEntity(strEntity);
+		}
+		catch (UnsupportedEncodingException e) {
+			Log.e("Failure to create StringEntity", e);
+		}
+
+		if (!sPushLocks.containsKey(regId)) {
+			sPushLocks.put(regId, new Object());
+		}
+
+		synchronized (sPushLocks.get(regId)) {
+			return doRequest(post, responseHandler, F_POST);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

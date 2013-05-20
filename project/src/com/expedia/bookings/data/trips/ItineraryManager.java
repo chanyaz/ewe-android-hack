@@ -21,13 +21,17 @@ import java.util.TimeZone;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.text.format.DateUtils;
 
+import com.expedia.bookings.GCMIntentService;
 import com.expedia.bookings.data.DateTime;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
@@ -36,7 +40,11 @@ import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.StatusType;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
+import com.expedia.bookings.server.PushRegistrationResponseHandler;
+import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
+import com.mobiata.android.BackgroundDownloader.Download;
+import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.IoUtils;
@@ -99,6 +107,7 @@ public class ItineraryManager implements JSONable {
 		mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
 		mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
 		mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
+		mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
 
 		if (!isSyncing()) {
 			mSyncTask = new SyncTask();
@@ -194,6 +203,27 @@ public class ItineraryManager implements JSONable {
 	}
 
 	/**
+	 * Get every Flight instance represented in all of our Itineraries
+	 * @return a list of Flight instances
+	 */
+	public List<Flight> getAllItinFlights() {
+		List<Flight> retFlights = new ArrayList<Flight>();
+		for (Trip trip : mTrips.values()) {
+			for (TripComponent tripComponent : trip.getTripComponents(true)) {
+				if (tripComponent.getType() == Type.FLIGHT) {
+					TripFlight tripFlight = (TripFlight) tripComponent;
+					FlightTrip flightTrip = tripFlight.getFlightTrip();
+					for (int i = 0; i < flightTrip.getLegCount(); i++) {
+						FlightLeg fl = flightTrip.getLeg(i);
+						retFlights.addAll(fl.getSegments());
+					}
+				}
+			}
+		}
+		return retFlights;
+	}
+
+	/**
 	 * Clear all data from the itinerary manager.  Used on sign out or
 	 * when private data is cleared.
 	 */
@@ -238,6 +268,24 @@ public class ItineraryManager implements JSONable {
 		}
 
 		mTrips.clear();
+
+		//As we have no trips, this will unregister all of our push notifications
+		String PUSH_REG_KEY = "PUSH_REG_KEY";
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (bd.isDownloading(PUSH_REG_KEY)) {
+			bd.cancelDownload(PUSH_REG_KEY);
+		}
+		bd.startDownload(PUSH_REG_KEY, new Download<PushNotificationRegistrationResponse>() {
+			@Override
+			public PushNotificationRegistrationResponse doDownload() {
+				return registerForPushNotifications();
+			}
+		}, new OnDownloadComplete<PushNotificationRegistrationResponse>() {
+			@Override
+			public void onDownload(PushNotificationRegistrationResponse result) {
+				//DO NOTHING...
+			}
+		});
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -452,6 +500,7 @@ public class ItineraryManager implements JSONable {
 		return date.getMillisFromEpoch() + date.getTzOffsetMillis();
 	}
 
+	@SuppressLint("SimpleDateFormat")
 	private static final DateFormat SORT_DATE_FORMATTER = new SimpleDateFormat("yyyyMMdd");
 
 	static {
@@ -644,6 +693,8 @@ public class ItineraryManager implements JSONable {
 		GENERATE_ITIN_CARDS, // Generates itin card data for use
 
 		SCHEDULE_NOTIFICATIONS, // Schedule local notifications
+		REGISTER_FOR_PUSH_NOTIFICATIONS, //Tell the push server which flights to notify us about
+
 	}
 
 	private class Task implements Comparable<Task> {
@@ -738,6 +789,7 @@ public class ItineraryManager implements JSONable {
 			mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
 			mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
 			mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
+			mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
 
 			mSyncTask = new SyncTask();
 			mSyncTask.execute();
@@ -760,6 +812,7 @@ public class ItineraryManager implements JSONable {
 			mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
 			mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
 			mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
+			mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
 
 			if (!isSyncing()) {
 				mSyncTask = new SyncTask();
@@ -860,6 +913,9 @@ public class ItineraryManager implements JSONable {
 					break;
 				case SCHEDULE_NOTIFICATIONS:
 					scheduleLocalNotifications();
+					break;
+				case REGISTER_FOR_PUSH_NOTIFICATIONS:
+					registerForPushNotifications();
 					break;
 				}
 
@@ -1222,6 +1278,39 @@ public class ItineraryManager implements JSONable {
 			mType = Type.SYNC_ERROR;
 			mError = error;
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Push Notifications
+
+	private PushNotificationRegistrationResponse registerForPushNotifications() {
+		ExpediaServices services = new ExpediaServices(mContext);
+
+		long userTuid = 0;
+		if (User.isLoggedIn(mContext)) {
+			userTuid = Db.getUser().getPrimaryTraveler().getTuid();
+		}
+
+		String regId = GCMIntentService.getRegistrationId();
+		JSONObject payload = services.buildPushRegistrationPayload(regId, userTuid, getAllItinFlights());
+
+		Log.d("registerForPushNotifications payload:" + payload.toString());
+
+		int attempts = 0;
+		int maxAttempts = 5;
+		PushNotificationRegistrationResponse resp = null;
+		while (attempts < maxAttempts) {
+			resp = services.registerForPushNotifications(
+					new PushRegistrationResponseHandler(mContext), payload, regId);
+			attempts++;
+
+			if (resp != null) {
+				break;
+			}
+		}
+
+		Log.d("registerForPushNotifications response:" + (resp == null ? "null" : resp.getSuccess()));
+		return resp;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
