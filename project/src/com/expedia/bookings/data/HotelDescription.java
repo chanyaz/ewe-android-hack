@@ -162,6 +162,10 @@ public class HotelDescription {
 					else {
 						start = html.indexOf('<', i);
 						end = html.indexOf('>', start);
+						// #1126. Hotel details section title with a ":" skip it, don't show.
+						if (html.substring(i, start).equals(":")) {
+							i++;
+						}
 						sectionString = html.substring(i, start);
 						i = end + 1;
 					}
