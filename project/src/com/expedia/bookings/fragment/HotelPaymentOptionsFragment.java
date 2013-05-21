@@ -149,9 +149,8 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 					continue;
 				}
 
-				SectionStoredCreditCard card = (SectionStoredCreditCard) inflater.inflate(
-						R.layout.section_hotel_display_stored_credit_card, null);
-				card.setUseActiveCardIcon(false);
+				SectionStoredCreditCard card = new SectionStoredCreditCard(getActivity());
+				card.configure(R.drawable.ic_credit_card_white, android.R.color.white, R.color.hotels_cc_text_color_secondary);
 				card.bind(storedCard);
 				card.setPadding(0, paymentOptionPadding, 0, paymentOptionPadding);
 				card.setBackgroundResource(R.drawable.bg_payment_method_row);

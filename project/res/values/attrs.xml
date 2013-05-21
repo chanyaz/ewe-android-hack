@@ -107,9 +107,7 @@
 
     <!-- So that we can define different credit card icons for flights vs hotels -->
     <declare-styleable name="stored_credit_card_section">
-        <attr name="activeIcon" format="reference" />
-        <attr name="storedIcon" format="reference" />
-        <attr name="walletIcon" format="reference" />
+        <attr name="cardIcon" format="reference" />
         <attr name="primaryTextColor" format="color|reference" />
         <attr name="secondaryTextColor" format="color|reference" />
     </declare-styleable>

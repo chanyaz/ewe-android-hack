@@ -12,6 +12,7 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,36 +29,32 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 	private TextView mWalletTextView;
 
 	private StoredCreditCard mStoredCard;
-	private boolean mUseActiveCreditCardIcon = true;
-	private int mActiveCardIconResId = 0;
-	private int mStoredCardIconResId = 0;
-	private int mWalletCardIconResId = 0;
+
+	private int mCardIconResId = 0;
 	private ColorStateList mPrimaryTextColor;
 	private ColorStateList mSecondaryTextColor;
 
 	public SectionStoredCreditCard(Context context) {
-		super(context);
-		init(context, null);
+		this(context, null);
 	}
 
 	public SectionStoredCreditCard(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		init(context, attrs);
+		this(context, attrs, 0);
 	}
 
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public SectionStoredCreditCard(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		init(context, attrs);
-	}
 
-	private void init(Context context, AttributeSet attrs) {
+		inflate(context, R.layout.widget_stored_credit_card, this);
+
+		// Set a few attributes that widget_stored_credit_card desires
+		setOrientation(LinearLayout.HORIZONTAL);
+		setGravity(Gravity.CENTER_VERTICAL);
+
 		if (attrs != null) {
 			TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.stored_credit_card_section);
-			mActiveCardIconResId = a.getResourceId(R.styleable.stored_credit_card_section_activeIcon, 0);
-			mStoredCardIconResId = a.getResourceId(R.styleable.stored_credit_card_section_storedIcon, 0);
-			mWalletCardIconResId = a.getResourceId(R.styleable.stored_credit_card_section_walletIcon,
-					R.drawable.ic_google_wallet_logo);
+			mCardIconResId = a.getResourceId(R.styleable.stored_credit_card_section_cardIcon, 0);
 			mPrimaryTextColor = a.getColorStateList(R.styleable.stored_credit_card_section_primaryTextColor);
 			mSecondaryTextColor = a.getColorStateList(R.styleable.stored_credit_card_section_secondaryTextColor);
 			a.recycle();
@@ -79,6 +76,20 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 		mDescriptionView = Ui.findView(this, R.id.display_stored_card_desc);
 		mIconView = Ui.findView(this, R.id.icon_view);
 		mWalletTextView = Ui.findView(this, R.id.google_wallet_text_view);
+	}
+
+	public void configure(int cardResId, int primaryTextColorResId, int secondaryTextColorResId) {
+		if (cardResId != 0) {
+			mCardIconResId = cardResId;
+		}
+
+		if (primaryTextColorResId != 0) {
+			mPrimaryTextColor = getResources().getColorStateList(primaryTextColorResId);
+		}
+
+		if (secondaryTextColorResId != 0) {
+			mSecondaryTextColor = getResources().getColorStateList(secondaryTextColorResId);
+		}
 	}
 
 	@Override
@@ -132,13 +143,10 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 			// Icon
 			int iconResId;
 			if (mStoredCard.isGoogleWallet()) {
-				iconResId = mWalletCardIconResId;
-			}
-			else if (mUseActiveCreditCardIcon) {
-				iconResId = mActiveCardIconResId;
+				iconResId = R.drawable.ic_google_wallet_logo;
 			}
 			else {
-				iconResId = mStoredCardIconResId;
+				iconResId = mCardIconResId;
 			}
 
 			if (mIconView != null) {
@@ -148,16 +156,6 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 				mDescriptionView.setCompoundDrawablesWithIntrinsicBounds(iconResId, 0, 0, 0);
 			}
 		}
-	}
-
-	/**
-	 * This sets the state of the card icon (not the brand icon)
-	 * The default is active.
-	 * @param active - should we display the active or inactive icon
-	 * @param bind - should we make a call to bind for the icon field?
-	 */
-	public void setUseActiveCardIcon(boolean active) {
-		mUseActiveCreditCardIcon = active;
 	}
 
 	public StoredCreditCard getStoredCreditCard() {

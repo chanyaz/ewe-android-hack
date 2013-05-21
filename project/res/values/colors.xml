@@ -38,6 +38,9 @@
     <color name="flights_holo_blue_light">#ff33b5e5</color>
     <color name="flights_traveler_disabled_grey">#ffa5a5a5</color>
 
+    <!-- Hotels colors -->
+    <color name="hotels_cc_text_color_secondary">#868a8f</color>
+
     <!-- Login -->
     <color name="login_shade_flights">#32000000</color>
     <color name="login_text_hotels">#FFFFFF</color>

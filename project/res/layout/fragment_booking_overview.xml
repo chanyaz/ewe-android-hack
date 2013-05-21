@@ -155,11 +155,11 @@
                         android:layout_height="wrap_content"
                         layout="@layout/section_hotel_display_creditcard_btn" />
 
-                    <include
+                    <com.expedia.bookings.section.SectionStoredCreditCard
                         android:id="@+id/stored_creditcard_section_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        layout="@layout/section_hotel_overview_display_stored_credit_card" />
+                        app:cardIcon="@drawable/ic_credit_card_gray" />
                 </LinearLayout>
 
                 <!-- Coupon codes -->

@@ -188,9 +188,8 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 					continue;
 				}
 
-				SectionStoredCreditCard card = (SectionStoredCreditCard) inflater.inflate(
-						R.layout.section_display_stored_credit_card, null);
-				card.setUseActiveCardIcon(false);
+				SectionStoredCreditCard card = new SectionStoredCreditCard(getActivity());
+				card.configure(R.drawable.ic_credit_card, 0, 0);
 				card.bind(storedCard);
 				card.setPadding(0, paymentOptionPadding, 0, paymentOptionPadding);
 				card.setBackgroundResource(R.drawable.bg_payment_method_row);
