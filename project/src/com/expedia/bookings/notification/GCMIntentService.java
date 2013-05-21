@@ -1,11 +1,10 @@
-package com.expedia.bookings;
+package com.expedia.bookings.notification;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.TripComponent;
-import com.expedia.bookings.notification.PushNotificationUtils;
 import com.google.android.gcm.GCMBaseIntentService;
 import com.mobiata.android.Log;
 
