@@ -35,17 +35,22 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 	private ColorStateList mSecondaryTextColor;
 
 	public SectionStoredCreditCard(Context context) {
-		this(context, null);
+		super(context);
+		init(context, null);
 	}
 
 	public SectionStoredCreditCard(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
+		super(context, attrs);
+		init(context, attrs);
 	}
 
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public SectionStoredCreditCard(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+		init(context, attrs);
+	}
 
+	private void init(Context context, AttributeSet attrs) {
 		inflate(context, R.layout.widget_stored_credit_card, this);
 
 		// Set a few attributes that widget_stored_credit_card desires
