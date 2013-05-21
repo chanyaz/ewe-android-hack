@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 import javax.net.ssl.SSLContext;
@@ -44,7 +43,6 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -101,6 +99,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripDetailsResponse;
 import com.expedia.bookings.data.trips.TripResponse;
+import com.expedia.bookings.notification.PushNotificationUtils;
 import com.facebook.Session;
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
@@ -113,6 +112,7 @@ import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 
+@SuppressLint("SimpleDateFormat")
 public class ExpediaServices implements DownloadListener {
 
 	private static final String ISO_FORMAT = "yyyy-MM-dd";
@@ -1126,55 +1126,9 @@ public class ExpediaServices implements DownloadListener {
 	//////////////////////////////////////////////////////////////////////////
 	// Push Notifications
 
-	//The server will splode if we make simultanious calls using the same regId,
-	//so we create objects to synchronize with (usually this will have one entry) 
-	private static final HashMap<String, Object> sPushLocks = new HashMap<String, Object>();
-
-	@SuppressLint("SimpleDateFormat")
-	public JSONObject buildPushRegistrationPayload(String token, long tuid, List<Flight> flightList) {
-		JSONObject retObj = new JSONObject();
-		JSONObject courier = new JSONObject();
-		JSONArray flights = new JSONArray();
-		JSONObject user = new JSONObject();
-		try {
-			retObj.putOpt("__type__", "RegisterForAlertsRequest");
-			retObj.putOpt("version", "4");
-
-			user.putOpt("__type__", "ExpediaUser");
-			user.put("site_id", 1);
-			user.put("tuid", tuid);
-
-			courier.put("__type__", "Courier");
-			courier.put("group", "gcm");
-			courier.put("token", token);
-
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			for (Flight f : flightList) {
-				JSONObject flightJson = new JSONObject();
-				flightJson.put("__type__", "Flight");
-				flightJson.put("arrival_date", sdf.format(f.mDestination.getBestSearchDateTime().getTime()));
-				flightJson.put("departure_date", sdf.format(f.mOrigin.getBestSearchDateTime().getTime()));
-				flightJson.put("destination", f.mDestination.mAirportCode);
-				flightJson.put("origin", f.mOrigin.mAirportCode);
-				flightJson.put("airline", f.getPrimaryFlightCode().mAirlineCode);
-				flightJson.put("flight_no", f.getPrimaryFlightCode().mNumber);
-				flights.put(flightJson);
-			}
-
-			retObj.putOpt("courier", courier);
-			retObj.putOpt("flights", flights);
-			retObj.putOpt("user", user);
-		}
-		catch (Exception ex) {
-			Log.d("Exception in buildPushRegistrationPayload", ex);
-		}
-
-		return retObj;
-	}
-
 	public PushNotificationRegistrationResponse registerForPushNotifications(
 			ResponseHandler<PushNotificationRegistrationResponse> responseHandler, JSONObject payload, String regId) {
-		String serverUrl = "http://ewetest.flightalerts.mobiata.com/register_for_flight_alerts";
+		String serverUrl = PushNotificationUtils.REGISTRATION_URL;
 
 		// Create the request
 		HttpPost post = NetUtils.createHttpPost(serverUrl, (List<BasicNameValuePair>) null);
@@ -1189,11 +1143,7 @@ public class ExpediaServices implements DownloadListener {
 			Log.e("Failure to create StringEntity", e);
 		}
 
-		if (!sPushLocks.containsKey(regId)) {
-			sPushLocks.put(regId, new Object());
-		}
-
-		synchronized (sPushLocks.get(regId)) {
+		synchronized (PushNotificationUtils.getLockObject(regId)) {
 			return doRequest(post, responseHandler, F_POST);
 		}
 	}

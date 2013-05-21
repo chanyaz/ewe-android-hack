@@ -5,8 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.expedia.bookings.GCMIntentService;
-import com.expedia.bookings.R;
+import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -59,10 +58,10 @@ public class SearchActivity extends Activity {
 		final String regId = GCMRegistrar.getRegistrationId(this);
 		Log.d("GCM GCMRegistrar regId:" + regId);
 		if (regId.equals("")) {
-			GCMRegistrar.register(this, GCMIntentService.SENDER_ID);
+			GCMRegistrar.register(this, PushNotificationUtils.SENDER_ID);
 		}
 		else {
-			GCMIntentService.setRegistrationId(regId);
+			PushNotificationUtils.setRegistrationId(this,regId);
 			Log.v("GCM Already registered");
 		}
 

@@ -26,7 +26,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.text.format.DateUtils;
 
-import com.expedia.bookings.GCMIntentService;
 import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
@@ -37,14 +36,11 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.notification.Notification;
-import com.expedia.bookings.notification.Notification.StatusType;
+import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.expedia.bookings.server.PushRegistrationResponseHandler;
-import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
-import com.mobiata.android.BackgroundDownloader.Download;
-import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.IoUtils;
@@ -269,23 +265,8 @@ public class ItineraryManager implements JSONable {
 
 		mTrips.clear();
 
-		//As we have no trips, this will unregister all of our push notifications
-		String PUSH_REG_KEY = "PUSH_REG_KEY";
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(PUSH_REG_KEY)) {
-			bd.cancelDownload(PUSH_REG_KEY);
-		}
-		bd.startDownload(PUSH_REG_KEY, new Download<PushNotificationRegistrationResponse>() {
-			@Override
-			public PushNotificationRegistrationResponse doDownload() {
-				return registerForPushNotifications();
-			}
-		}, new OnDownloadComplete<PushNotificationRegistrationResponse>() {
-			@Override
-			public void onDownload(PushNotificationRegistrationResponse result) {
-				//DO NOTHING...
-			}
-		});
+		//As we have no trips, we unregister all of our push notifications
+		PushNotificationUtils.unRegister(mContext, PushNotificationUtils.getRegistrationId());
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1291,23 +1272,13 @@ public class ItineraryManager implements JSONable {
 			userTuid = Db.getUser().getPrimaryTraveler().getTuid();
 		}
 
-		String regId = GCMIntentService.getRegistrationId();
-		JSONObject payload = services.buildPushRegistrationPayload(regId, userTuid, getAllItinFlights());
+		String regId = PushNotificationUtils.getRegistrationId();
+		JSONObject payload = PushNotificationUtils.buildPushRegistrationPayload(regId, userTuid, getAllItinFlights());
 
 		Log.d("registerForPushNotifications payload:" + payload.toString());
 
-		int attempts = 0;
-		int maxAttempts = 5;
-		PushNotificationRegistrationResponse resp = null;
-		while (attempts < maxAttempts) {
-			resp = services.registerForPushNotifications(
-					new PushRegistrationResponseHandler(mContext), payload, regId);
-			attempts++;
-
-			if (resp != null) {
-				break;
-			}
-		}
+		PushNotificationRegistrationResponse resp = services.registerForPushNotifications(
+				new PushRegistrationResponseHandler(mContext), payload, regId);
 
 		Log.d("registerForPushNotifications response:" + (resp == null ? "null" : resp.getSuccess()));
 		return resp;
