@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="5dp"
-        layout="@layout/include_account_button_flights" />
+        layout="@layout/include_account_button" />
 
     <include
         android:id="@+id/wallet_button_layout"

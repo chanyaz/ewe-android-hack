@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -22,6 +23,7 @@ public class AccountButton extends LinearLayout {
 
 	private View mAccountLoadingContainer;
 	private View mLoginContainer;
+	private TextView mLoginTextView;
 	private View mLogoutContainer;
 	private View mErrorContainer;
 	private View mRewardsContainer;
@@ -42,6 +44,7 @@ public class AccountButton extends LinearLayout {
 	protected void onFinishInflate() {
 		mAccountLoadingContainer = findViewById(R.id.account_loading_container);
 		mLoginContainer = findViewById(R.id.account_login_container);
+		mLoginTextView = Ui.findView(this, R.id.login_text_view);
 		mLogoutContainer = findViewById(R.id.account_logout_container);
 		mErrorContainer = findViewById(R.id.error_container);
 		mRewardsContainer = findViewById(R.id.account_rewards_container);
@@ -94,6 +97,16 @@ public class AccountButton extends LinearLayout {
 		if (mRewardsContainer != null) {
 			mRewardsContainer.setVisibility(View.GONE);
 		}
+
+		// Some styling, based on whether this is a hotels or flights button
+		Resources res = getResources();
+		mLoginContainer.setBackgroundResource(isFlights ? R.drawable.btn_login_flights : R.drawable.btn_login_hotels);
+		mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(isFlights ? R.drawable.ic_expedia_logo
+				: R.drawable.ic_log_in, 0, 0, 0);
+		mLoginTextView.setTextColor(isFlights ? res.getColor(R.color.login_text_flight) : res
+				.getColor(R.color.login_text_hotels));
+		mLogoutContainer.setBackgroundResource(isFlights ? R.drawable.bg_checkout_logged_in
+				: R.drawable.bg_hotel_checkout_information);
 
 		if (isLoading) {
 			mAccountLoadingContainer.setVisibility(View.VISIBLE);

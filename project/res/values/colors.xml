@@ -40,6 +40,8 @@
 
     <!-- Login -->
     <color name="login_shade_flights">#32000000</color>
+    <color name="login_text_hotels">#FFFFFF</color>
+    <color name="login_text_flight">#232323</color>
 
     <!-- CVV entry colors -->
     <color name="cvv_normal">#326096</color>
