@@ -50,7 +50,7 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 
-public class ConfirmationFragmentActivity extends SherlockFragmentActivity implements
+public class HotelConfirmationActivity extends SherlockFragmentActivity implements
 		BookingConfirmationFragmentListener {
 
 	private Context mContext;

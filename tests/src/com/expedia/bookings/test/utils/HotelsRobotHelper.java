@@ -780,7 +780,7 @@ public class HotelsRobotHelper {
 		else {
 			//Take pictures of confirmation screen and 
 			//go back to launcher
-			Boolean screenLoaded = mSolo.waitForActivity("ConfirmationFragmentActivity");
+			Boolean screenLoaded = mSolo.waitForActivity("HotelConfirmationActivity");
 
 			if (screenLoaded) {
 				enterLog(TAG, "Booking: Should be on confirmation screen now.");

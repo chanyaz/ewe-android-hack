@@ -101,7 +101,7 @@
             android:theme="@style/Theme.Tablet"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name="com.expedia.bookings.activity.ConfirmationFragmentActivity"
+            android:name="com.expedia.bookings.activity.HotelConfirmationActivity"
             android:uiOptions="splitActionBarWhenNarrow"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
