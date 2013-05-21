@@ -33,6 +33,8 @@ public class PushNotificationUtils {
 	public static final String SENDER_ID = "895052546820";
 	public static final String REGISTRATION_URL = "http://ewetest.flightalerts.mobiata.com/register_for_flight_alerts";
 
+	public static HashMap<String, Integer> sLocStringMap;
+
 	private static String sGCMRegistrationId = "";
 
 	//The server will splode if we make simultanious calls using the same regId,
@@ -50,16 +52,16 @@ public class PushNotificationUtils {
 		//a new id (which shouldn't happen often but can happen) that we SUCCESSFULLY remove all registrations
 		//for the old id, otherwise we are likely to get double notifications and clutter the apis data
 		//as the registrations will just persist indefinitely if we don't remove them.
-		
+
 		Log.d("PushNotificationUtils  setRegistrationId  - old:" + sGCMRegistrationId + " new:" + regId);
-		
+
 		//If this doesn't change then we don't care
 		if (!sGCMRegistrationId.equals(regId)) {
 			if (!TextUtils.isEmpty(sGCMRegistrationId)) {
 				//Send empty list to server for old regId
 				unRegister(context, sGCMRegistrationId);
 			}
-			
+
 			//set the id
 			sGCMRegistrationId = regId;
 
@@ -96,43 +98,54 @@ public class PushNotificationUtils {
 	/**
 	 * Build and display a notification for the provided arguments
 	 * @param fhid - The FlightHistoryId as provided by flightstats
-	 * @param displayMessage - The display message provided by the push
-	 * @param displayMessageArgs - The arguments to be formatted into the displayMessage
+	 * @param locKey - The display message provided by the push
+	 * @param locKeyArgs - The arguments to be formatted into the displayMessage
 	 * @param context
 	 */
-	public static void generateNotification(Context context, int fhid, String displayMessage, String[] displayMessageArgs) {
-		if (fhid >= 0) {
+	public static void generateNotification(Context context, int fhid, String locKey,
+			String[] locKeyArgs, String typeIntStr) {
+		if (fhid < 0) {
+			Log.e("PushNotificationUtils.generateNotification FlightHistoryId must be >= 0");
+		}
+		else {
 			ItinCardDataFlight data = (ItinCardDataFlight) ItineraryManager.getInstance()
 					.getItinCardDataFromFlightHistoryId(fhid);
-			if (data != null) {
+			if (data == null) {
+				Log.e("PushNotificationUtils.generateNotification couldnt find ItinCardData for fhid:" + fhid);
+			}
+			else {
 
 				FlightLeg leg = data.getFlightLeg();
 
 				String uniqueId = data.getId();
 				long triggerTimeMillis = System.currentTimeMillis();
 
-				Notification notification = new Notification(uniqueId, triggerTimeMillis);
-				//TODO: we should set this to the appropriate type, or just make a new generic type titled push
-				notification.setNotificationType(NotificationType.FLIGHT_CHECK_IN);
-				notification.setFlags(Notification.FLAG_PUSH | Notification.FLAG_DIRECTIONS | Notification.FLAG_SHARE);
-				notification.setIconResId(R.drawable.ic_stat_flight);
+				String formattedMessage = getFormattedLocString(context, locKey, locKeyArgs);
 
-				//String formattedMessage = String.format(displayMessage, displayMessageArgs);
+				if (formattedMessage == null) {
+					Log.e("PushNotificationUtils.generateNotification Formatted message was null for locKey:" + locKey);
+				}
+				else {
+					Notification notification = new Notification(uniqueId, triggerTimeMillis);
+					notification.setNotificationType(pushApiTypeToNotificationType(typeIntStr));
+					notification.setFlags(Notification.FLAG_PUSH);
+					notification.setIconResId(R.drawable.ic_stat_flight);
 
-				notification.setTicker(displayMessage);
-				notification.setTitle(displayMessage);
+					notification.setTicker(formattedMessage);
+					notification.setTitle(formattedMessage);
 
-				String airline = leg.getAirlinesFormatted();
-				String destination = StrUtils.getWaypointCityOrCode(leg.getLastWaypoint());
-				String body = context.getString(R.string.x_flight_to_x_TEMPLATE, airline, destination);
-				notification.setBody(body);
+					String airline = leg.getAirlinesFormatted();
+					String destination = StrUtils.getWaypointCityOrCode(leg.getLastWaypoint());
+					String body = context.getString(R.string.x_flight_to_x_TEMPLATE, airline, destination);
+					notification.setBody(body);
 
-				String destinationCode = leg.getLastWaypoint().mAirportCode;
-				notification.setImage(Notification.ImageType.DESTINATION, R.drawable.bg_itin_placeholder_flight,
-						destinationCode);
+					String destinationCode = leg.getLastWaypoint().mAirportCode;
+					notification.setImage(Notification.ImageType.DESTINATION, R.drawable.bg_itin_placeholder_flight,
+							destinationCode);
 
-				notification.save();
-				notification.scheduleNotification(context);
+					notification.save();
+					notification.scheduleNotification(context);
+				}
 			}
 		}
 	}
@@ -189,15 +202,127 @@ public class PushNotificationUtils {
 	}
 
 	/**
+	 * Provided the locKey and the arguments, return a formatted localized string for a notification
+	 * @param context
+	 * @param locKey
+	 * @param args
+	 * @return
+	 */
+	public static String getFormattedLocString(Context context, String locKey, Object[] args) {
+		String locStr = getLocStringForKey(context, locKey);
+		if (TextUtils.isEmpty(locStr)) {
+			return null;
+		}
+		else {
+			return String.format(locStr, args);
+		}
+	}
+
+	/**
 	 * Given the key provided by the push notification, we return
 	 * the localized string it represents
 	 * 
 	 * @param locKey
-	 * @return
+	 * @return - the loc string or null
 	 */
-	public static String getLocStringForKey(String locKey) {
-		//TODO: GET STRINGS FROM IOS
-		return "FAKE_LOC_STRING";
+	public static String getLocStringForKey(Context context, String locKey) {
+		if (sLocStringMap == null) {
+			initLocStrMap();
+		}
+		if (sLocStringMap.containsKey(locKey)) {
+			return context.getString(sLocStringMap.get(locKey));
+		}
+		return null;
+	}
+
+	/**
+	 * Set up the hash map for loc strings.
+	 * Basically the api returns to us a key, and we need to produce a localized string from it.
+	 */
+	private static void initLocStrMap() {
+		sLocStringMap = new HashMap<String, Integer>();
+		sLocStringMap.put("S_Push_flight_CITY_delayed_HOUR", R.string.S_Push_flight_CITY_delayed_HOUR);
+		sLocStringMap.put("S_Push_flight_CITY_delayed_HOURS", R.string.S_Push_flight_CITY_delayed_HOURS);
+		sLocStringMap.put("S_Push_flight_CITY_delayed_MINUTE", R.string.S_Push_flight_CITY_delayed_MINUTE);
+		sLocStringMap.put("S_Push_flight_CITY_delayed_MINUTES", R.string.S_Push_flight_CITY_delayed_MINUTES);
+		sLocStringMap.put("S_Push_flight_CITY_delayed_HOUR_MINUTE", R.string.S_Push_flight_CITY_delayed_HOUR_MINUTE);
+		sLocStringMap.put("S_Push_flight_CITY_delayed_HOUR_MINUTES", R.string.S_Push_flight_CITY_delayed_HOUR_MINUTES);
+		sLocStringMap.put("S_Push_flight_CITY_delayed_HOURS_MINUTE", R.string.S_Push_flight_CITY_delayed_HOURS_MINUTE);
+		sLocStringMap
+				.put("S_Push_flight_CITY_delayed_HOURS_MINUTES", R.string.S_Push_flight_CITY_delayed_HOURS_MINUTES);
+		sLocStringMap.put("S_Push_flight_CITY_early_MINUTE", R.string.S_Push_flight_CITY_early_MINUTE);
+		sLocStringMap.put("S_Push_flight_CITY_early_MINUTES", R.string.S_Push_flight_CITY_early_MINUTES);
+		sLocStringMap.put("S_Push_flight_CITY_early_HOUR", R.string.S_Push_flight_CITY_early_HOUR);
+		sLocStringMap.put("S_Push_flight_CITY_early_HOURS", R.string.S_Push_flight_CITY_early_HOURS);
+		sLocStringMap.put("S_Push_flight_CITY_early_HOUR_MINUTE", R.string.S_Push_flight_CITY_early_HOUR_MINUTE);
+		sLocStringMap.put("S_Push_flight_CITY_early_HOURS_MINUTE", R.string.S_Push_flight_CITY_early_HOURS_MINUTE);
+		sLocStringMap.put("S_Push_flight_CITY_early_HOUR_MINUTES", R.string.S_Push_flight_CITY_early_HOUR_MINUTES);
+		sLocStringMap.put("S_Push_flight_CITY_early_HOURS_MINUTES", R.string.S_Push_flight_CITY_early_HOURS_MINUTES);
+		sLocStringMap.put("S_Push_flight_CITY_delayed_MINUTE_gate_GATE",
+				R.string.S_Push_flight_CITY_delayed_MINUTE_gate_GATE);
+		sLocStringMap.put("S_Push_flight_CITY_delayed_MINUTES_gate_GATE",
+				R.string.S_Push_flight_CITY_delayed_MINUTES_gate_GATE);
+		sLocStringMap.put("S_Push_flight_CITY_delayed_HOUR_gate_GATE",
+				R.string.S_Push_flight_CITY_delayed_HOUR_gate_GATE);
+		sLocStringMap.put("S_Push_flight_CITY_delayed_HOURS_gate_GATE",
+				R.string.S_Push_flight_CITY_delayed_HOURS_gate_GATE);
+		sLocStringMap.put("S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE",
+				R.string.S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE);
+		sLocStringMap.put("S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE",
+				R.string.S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE);
+		sLocStringMap.put("S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE",
+				R.string.S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE);
+		sLocStringMap.put("S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE",
+				R.string.S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE);
+		sLocStringMap.put("S_Push_flight_CITY_early_MINUTE_gate_GATE",
+				R.string.S_Push_flight_CITY_early_MINUTE_gate_GATE);
+		sLocStringMap.put("S_Push_flight_CITY_early_MINUTES_gate_GATE",
+				R.string.S_Push_flight_CITY_early_MINUTES_gate_GATE);
+		sLocStringMap.put("S_Push_flight_CITY_early_HOUR_gate_GATE", R.string.S_Push_flight_CITY_early_HOUR_gate_GATE);
+		sLocStringMap
+				.put("S_Push_flight_CITY_early_HOURS_gate_GATE", R.string.S_Push_flight_CITY_early_HOURS_gate_GATE);
+		sLocStringMap.put("S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE",
+				R.string.S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE);
+		sLocStringMap.put("S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE",
+				R.string.S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE);
+		sLocStringMap.put("S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE",
+				R.string.S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE);
+		sLocStringMap.put("S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE",
+				R.string.S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE);
+		sLocStringMap.put("S_Push_flight_from_CITY_to_CITY_cancelled",
+				R.string.S_Push_flight_from_CITY_to_CITY_cancelled);
+		sLocStringMap.put("S_Push_flight_CITY_departs_in_HOUR", R.string.S_Push_flight_CITY_departs_in_HOUR);
+		sLocStringMap.put("S_Push_flight_CITY_departs_in_HOURS", R.string.S_Push_flight_CITY_departs_in_HOURS);
+		sLocStringMap.put("S_Push_flight_CITY_departs_in_HOURS_MINUTE",
+				R.string.S_Push_flight_CITY_departs_in_HOURS_MINUTE);
+		sLocStringMap.put("S_Push_flight_CITY_departs_in_HOURS_MINUTES",
+				R.string.S_Push_flight_CITY_departs_in_HOURS_MINUTES);
+		sLocStringMap.put("S_Push_flight_CITY_departs_in_HOUR_MINUTE",
+				R.string.S_Push_flight_CITY_departs_in_HOUR_MINUTE);
+		sLocStringMap.put("S_Push_flight_CITY_departs_in_HOUR_MINUTES",
+				R.string.S_Push_flight_CITY_departs_in_HOUR_MINUTES);
+		sLocStringMap.put("S_Push_flight_CITY_departs_in_MINUTES", R.string.S_Push_flight_CITY_departs_in_MINUTES);
+		sLocStringMap.put("S_Push_flight_CITY_gate_GATE", R.string.S_Push_flight_CITY_gate_GATE);
+		sLocStringMap.put("S_Push_baggage_BAGGAGE", R.string.S_Push_baggage_BAGGAGE);
+	}
+
+	/**
+	 * Get the NotificationType from the "type" value returned from the api
+	 * @param typeIntStr - The "type" string returned from the api
+	 * @return - NotificationType, default to NotificationType.FLIGHT_GATE_TIME_CHANGE;
+	 */
+	public static NotificationType pushApiTypeToNotificationType(String typeIntStr) {
+		try {
+			int iType = Integer.parseInt(typeIntStr);
+			if (NotificationType.values().length > iType) {
+				return NotificationType.values()[iType];
+			}
+		}
+		catch (Exception ex) {
+			Log.e("Type couldn't be converted from type:" + typeIntStr + " to valid NotificationType enum", ex);
+		}
+		//Default as this is largely used for tracking only
+		return NotificationType.FLIGHT_GATE_TIME_CHANGE;
 	}
 
 	/**
@@ -239,6 +364,7 @@ public class PushNotificationUtils {
 		}, new OnDownloadComplete<PushNotificationRegistrationResponse>() {
 			@Override
 			public void onDownload(PushNotificationRegistrationResponse result) {
+				//TODO: If this fails we should try again...
 				Log.d("PushNotificationUtils.unRegister regId " + regId + " complete! result:"
 						+ (result == null ? "null" : "success:" + result.getSuccess()));
 			}

@@ -45,16 +45,16 @@ public class GCMIntentService extends GCMBaseIntentService {
 					JSONObject data = new JSONObject(extras.getString("data"));
 					JSONObject message = new JSONObject(extras.getString("message"));
 
-					//Used for omniture tracking
-					@SuppressWarnings("unused")
+					//Used for omniture tracking  - should always be an int string
 					String type = data.optString("t");
+
 					//Flight history id
 					String flightHistoryId = data.optString("fhid");
 					int fhid = Integer.parseInt(flightHistoryId);
 
 					//The key to determine which string to use
 					String locKey = message.getString("loc-key");
-					String locStr = PushNotificationUtils.getLocStringForKey(locKey);
+					String locStr = PushNotificationUtils.getLocStringForKey(this, locKey);
 
 					//The arguments for the locKey string
 					JSONArray locArgs = message.getJSONArray("loc-args");
@@ -72,7 +72,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 					}
 
 					//After the refresh completes we should show the notification
-					PushNotificationUtils.generateNotification(this, fhid, locStr, locArgsStrings);
+					PushNotificationUtils.generateNotification(this, fhid, locStr, locArgsStrings, type);
 
 				}
 				catch (Exception ex) {
