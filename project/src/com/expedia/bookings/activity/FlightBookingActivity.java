@@ -480,7 +480,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		dismissProgressDialog();
 
 		// Modify the response to fake online booking fees
-		if (!AndroidUtils.isRelease(mContext)) {
+		if (!AndroidUtils.isRelease(mContext) && response.getNewOffer() != null) {
 			BigDecimal fakeObFees = getFakeObFeesAmount();
 			if (!fakeObFees.equals(BigDecimal.ZERO)) {
 				Money amount = new Money(response.getNewOffer().getTotalFare());
