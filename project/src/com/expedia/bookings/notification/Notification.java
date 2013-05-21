@@ -78,11 +78,15 @@ public class Notification extends Model implements JSONable {
 		HOTEL_CHECK_OUT;
 	}
 
+	// Odd name here for legacy purposes
 	@Column(name = "UniqueId")
-	private String mUniqueId;
+	private String mItinId;
 
 	@Column(name = "TriggerTimeMillis")
 	private long mTriggerTimeMillis;
+
+	@Column(name = "ExpirationTimeMillis")
+	private long mExpirationTimeMillis;
 
 	@Column(name = "IconResId")
 	private int mIconResId;
@@ -126,7 +130,7 @@ public class Notification extends Model implements JSONable {
 	 * @param triggerTimeMillis
 	 */
 	public Notification(String uniqueId, long triggerTimeMillis) {
-		setUniqueId(uniqueId);
+		setItinId(uniqueId);
 		setTriggerTimeMillis(triggerTimeMillis);
 
 		// Defaults
@@ -135,12 +139,12 @@ public class Notification extends Model implements JSONable {
 		setFlags(0);
 	}
 
-	public String getUniqueId() {
-		return mUniqueId;
+	public String getItinId() {
+		return mItinId;
 	}
 
-	public void setUniqueId(String uniqueId) {
-		this.mUniqueId = uniqueId;
+	public void setItinId(String itinId) {
+		this.mItinId = itinId;
 	}
 
 	public long getTriggerTimeMillis() {
@@ -149,6 +153,14 @@ public class Notification extends Model implements JSONable {
 
 	public void setTriggerTimeMillis(long triggerTimeMillis) {
 		this.mTriggerTimeMillis = triggerTimeMillis;
+	}
+
+	public long getExpirationTimeMillis() {
+		return mExpirationTimeMillis;
+	}
+
+	public void setExpirationTimeMillis(long expirationTimeMillis) {
+		this.mExpirationTimeMillis = expirationTimeMillis;
 	}
 
 	public int getIconResId() {
@@ -270,7 +282,7 @@ public class Notification extends Model implements JSONable {
 	 * @param context
 	 */
 	public void scheduleNotification(Context context) {
-		PendingIntent pendingIntent = NotificationReceiver.generateSchedulePendingIntent(context, mUniqueId);
+		PendingIntent pendingIntent = NotificationReceiver.generateSchedulePendingIntent(context, mItinId);
 		AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		mgr.set(AlarmManager.RTC_WAKEUP, mTriggerTimeMillis, pendingIntent);
 	}
@@ -281,14 +293,14 @@ public class Notification extends Model implements JSONable {
 	 * @param context
 	 */
 	public void cancelNotification(Context context) {
-		PendingIntent pendingIntent = NotificationReceiver.generateSchedulePendingIntent(context, mUniqueId);
+		PendingIntent pendingIntent = NotificationReceiver.generateSchedulePendingIntent(context, mItinId);
 
 		// Cancel if in the future
 		AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		mgr.cancel(pendingIntent);
 
 		// Dismiss a possibly displayed notification
-		String tag = getUniqueId();
+		String tag = getItinId();
 		NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		nm.cancel(tag, 0);
 
@@ -301,7 +313,7 @@ public class Notification extends Model implements JSONable {
 	public JSONObject toJson() {
 		try {
 			JSONObject obj = new JSONObject();
-			obj.put("UniqueId", mUniqueId);
+			obj.put("ItinId", mItinId);
 			obj.put("TriggerTimeMillis", mTriggerTimeMillis);
 			obj.put("IconResId", mIconResId);
 			obj.put("Ticker", mTicker);
@@ -322,7 +334,7 @@ public class Notification extends Model implements JSONable {
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
-		mUniqueId = obj.optString("UniqueId");
+		mItinId = obj.optString("ItinId");
 		mTriggerTimeMillis = obj.optLong("TriggerTimeMillis");
 		mIconResId = obj.optInt("IconResId");
 		mTicker = obj.optString("Ticker");
@@ -355,9 +367,17 @@ public class Notification extends Model implements JSONable {
 		return notifications.get(0);
 	}
 
+	/**
+	 * Schedules all non-expired notifications.
+	 * @param context
+	 */
 	public static void scheduleAll(Context context) {
-		List<Notification> notifications = new Select().from(Notification.class)
-				.where("Status IN (?,?)", StatusType.NEW.name(), StatusType.NOTIFIED.name())
+		List<Notification> notifications = new Select()
+				.from(Notification.class)
+				.where("Status IN (?,?) AND ExpirationTimeMillis>?",
+						StatusType.NEW.name(),
+						StatusType.NOTIFIED.name(),
+						System.currentTimeMillis())
 				.orderBy("TriggerTimeMillis").execute();
 
 		for (Notification notification : notifications) {
@@ -365,6 +385,10 @@ public class Notification extends Model implements JSONable {
 		}
 	}
 
+	/**
+	 * Cancels and removes _all_ notifications from the database.
+	 * @param context
+	 */
 	public static void deleteAll(Context context) {
 		List<Notification> notifications = new Select().from(Notification.class).execute();
 
@@ -376,11 +400,19 @@ public class Notification extends Model implements JSONable {
 		new Delete().from(Notification.class).execute();
 	}
 
-	public static void updateStatus(String uniqueId, StatusType statusType) {
-		Notification notification = find(uniqueId);
-		if (notification != null) {
-			notification.setStatus(statusType);
-			notification.save();
+	/**
+	 * Cancels and deletes all notifications related to the passed itinId.
+	 * @param context
+	 * @param itinId
+	 */
+	public static void deleteAll(Context context, String itinId) {
+		List<Notification> notifications = new Select().from(Notification.class).where("UniqueId=?", itinId).execute();
+
+		for (Notification notification : notifications) {
+			notification.cancelNotification(context);
 		}
+
+		// Delete all here instead of individually in the loop, for efficiency.
+		new Delete().from(Notification.class).where("UniqueId=?", itinId).execute();
 	}
 }

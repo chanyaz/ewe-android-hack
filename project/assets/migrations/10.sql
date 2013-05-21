@@ -1,0 +1,1 @@
+ALTER TABLE Notifications ADD COLUMN ExpirationTimeMillis INTEGER;

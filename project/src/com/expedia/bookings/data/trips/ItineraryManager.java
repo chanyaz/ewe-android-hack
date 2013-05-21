@@ -259,9 +259,10 @@ public class ItineraryManager implements JSONable {
 		Log.d("Informing the removal of " + mTrips.size() + " trips due to clearing of ItineraryManager...");
 
 		for (Trip trip : mTrips.values()) {
-			deletePendingNotification(trip);
 			onTripRemoved(trip);
 		}
+
+		Notification.deleteAll(mContext);
 
 		mTrips.clear();
 
@@ -1300,7 +1301,7 @@ public class ItineraryManager implements JSONable {
 			}
 
 			for (Notification notification : notifications) {
-				Notification existing = Notification.find(notification.getUniqueId());
+				Notification existing = Notification.find(notification.getItinId());
 
 				//TODO: temporary -->
 				// This is just to get the notifications to show up frequently for development
@@ -1335,11 +1336,7 @@ public class ItineraryManager implements JSONable {
 				continue;
 			}
 			for (ItinCardData data : list) {
-				Notification notification = Notification.find(data.getId());
-				if (notification != null) {
-					notification.cancelNotification(mContext);
-					notification.delete();
-				}
+				Notification.deleteAll(mContext, data.getId());
 			}
 		}
 	}

@@ -112,7 +112,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 				break;
 			case DESTINATION:
 				BackgroundDownloader bd = BackgroundDownloader.getInstance();
-				bd.startDownload(mNotification.getUniqueId(), mDestinationImageUrlDownload,
+				bd.startDownload(mNotification.getItinId(), mDestinationImageUrlDownload,
 						mDestinationImageUrlCallback);
 				break;
 			case CAR:
@@ -192,7 +192,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 						.bigText(mNotification.getBody());
 			}
 
-			Intent clickIntent = LaunchActivity.createIntent(mContext, mNotification.getUniqueId(), true);
+			Intent clickIntent = LaunchActivity.createIntent(mContext, mNotification.getItinId(), true);
 			PendingIntent clickPendingIntent = PendingIntent.getActivity(mContext, 0, clickIntent, 0);
 
 			NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)
@@ -203,14 +203,14 @@ public class NotificationReceiver extends BroadcastReceiver {
 					.setContentTitle(mNotification.getTitle())
 					.setContentText(mNotification.getBody())
 					.setAutoCancel(true)
-					.setDeleteIntent(generateDismissPendingIntent(mContext, mNotification.getUniqueId()))
+					.setDeleteIntent(generateDismissPendingIntent(mContext, mNotification.getItinId()))
 					.setContentIntent(clickPendingIntent)
 					.setLights(0xfbc51e, 200, 8000); // Expedia suitcase color
 
 			long flags = mNotification.getFlags();
 			if ((flags & Notification.FLAG_DIRECTIONS) != 0) {
 				//TODO: directions
-				Intent intent = LaunchActivity.createIntent(mContext, mNotification.getUniqueId(), true);
+				Intent intent = LaunchActivity.createIntent(mContext, mNotification.getItinId(), true);
 				PendingIntent directionsPendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
 
 				String directions = mContext.getString(R.string.itin_action_directions);
@@ -218,7 +218,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 			}
 
 			if ((flags & Notification.FLAG_SHARE) != 0) {
-				Intent intent = StandaloneShareActivity.createIntent(mContext, mNotification.getUniqueId());
+				Intent intent = StandaloneShareActivity.createIntent(mContext, mNotification.getItinId());
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				PendingIntent sharePendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
 
@@ -226,7 +226,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 				builder = builder.addAction(R.drawable.ic_social_share, share, sharePendingIntent);
 			}
 
-			String tag = mNotification.getUniqueId();
+			String tag = mNotification.getItinId();
 			NotificationManager nm = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 			nm.notify(tag, 0, builder.build());
 		}
