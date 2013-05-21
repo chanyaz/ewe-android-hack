@@ -2,6 +2,9 @@ package com.expedia.bookings.notification;
 
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -14,9 +17,10 @@ import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.expedia.bookings.R;
+import com.mobiata.android.json.JSONable;
 
 @Table(name = "Notifications")
-public class Notification extends Model {
+public class Notification extends Model implements JSONable {
 
 	public static final long FLAG_LOCAL = 0x01;
 	public static final long FLAG_PUSH = 0x02;
@@ -288,6 +292,49 @@ public class Notification extends Model {
 		NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		nm.cancel(tag, 0);
 
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// JSONable
+
+	@Override
+	public JSONObject toJson() {
+		try {
+			JSONObject obj = new JSONObject();
+			obj.put("UniqueId", mUniqueId);
+			obj.put("TriggerTimeMillis", mTriggerTimeMillis);
+			obj.put("IconResId", mIconResId);
+			obj.put("Ticker", mTicker);
+			obj.put("Title", mTitle);
+			obj.put("Body", mBody);
+			obj.put("Status", mStatus);
+			obj.put("ImageType", mImageType);
+			obj.put("ImageResId", mImageResId);
+			obj.put("ImageValue", mImageValue);
+			obj.put("Flags", mFlags);
+			obj.put("NotificationType", mNotificationType);
+			return obj;
+		}
+		catch (JSONException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public boolean fromJson(JSONObject obj) {
+		mUniqueId = obj.optString("UniqueId");
+		mTriggerTimeMillis = obj.optLong("TriggerTimeMillis");
+		mIconResId = obj.optInt("IconResId");
+		mTicker = obj.optString("Ticker");
+		mTitle = obj.optString("Title");
+		mBody = obj.optString("Body");
+		mStatus = obj.optString("Status");
+		mImageType = obj.optString("ImageType");
+		mImageResId = obj.optInt("ImageResId");
+		mImageValue = obj.optString("ImageValue");
+		mFlags = obj.optLong("Flags");
+		mNotificationType = obj.optString("NotificationType");
+		return true;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
