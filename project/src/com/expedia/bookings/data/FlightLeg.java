@@ -134,12 +134,11 @@ public class FlightLeg implements JSONable {
 	 * @return string, or null if there are no segments.
 	 */
 	public String getFirstAirlineCode() {
-		if (mSegments != null) {
-			for (Flight flight : mSegments) {
-				return flight.getPrimaryFlightCode().mAirlineCode;
-			}
+		if (mSegments == null || mSegments.size() == 0) {
+			return null;
 		}
-		return null;
+
+		return mSegments.get(0).getPrimaryFlightCode().mAirlineCode;
 	}
 
 	public String getAirlinesFormatted() {
