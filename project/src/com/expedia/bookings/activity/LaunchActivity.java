@@ -5,6 +5,9 @@ import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -57,7 +60,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 
 	public static final String ARG_FORCE_SHOW_WATERFALL = "ARG_FORCE_SHOW_WATERFALL";
 	public static final String ARG_FORCE_SHOW_ITIN = "ARG_FORCE_SHOW_ITIN";
-	public static final String ARG_JUMP_TO_ITIN_UNIQUE_ID = "ARG_JUMP_TO_ITIN_UNIQUE_ID";
+	public static final String ARG_JUMP_TO_NOTIFICATION = "ARG_JUMP_TO_NOTIFICATION";
 	public static final String ARG_IS_FROM_NOTIFICATION = "ARG_IS_FROM_NOTIFICATION";
 
 	private static final int REQUEST_SETTINGS = 1;
@@ -86,12 +89,12 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	 * @param context
 	 * @return
 	 */
-	public static Intent createIntent(Context context, String uniqueId, boolean fromNotification) {
+	public static Intent createIntent(Context context, Notification notification) {
 		Intent intent = new Intent(context, LaunchActivity.class);
-		String uriString = "expedia://notification/launch/" + uniqueId + "/" + fromNotification;
+		String uriString = "expedia://notification/launch/" + notification.getTag();
 		intent.setData(Uri.parse(uriString));
-		intent.putExtra(LaunchActivity.ARG_JUMP_TO_ITIN_UNIQUE_ID, uniqueId);
-		intent.putExtra(LaunchActivity.ARG_IS_FROM_NOTIFICATION, fromNotification);
+		intent.putExtra(ARG_JUMP_TO_NOTIFICATION, notification.toJson().toString());
+		intent.putExtra(ARG_IS_FROM_NOTIFICATION, true);
 		return intent;
 	}
 
@@ -158,9 +161,17 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 		boolean allowSkipToItin = !getIntent().getBooleanExtra(ARG_FORCE_SHOW_WATERFALL, false);
 		if (allowSkipToItin) {
 			boolean startInItin = false;
-			if (getIntent().hasExtra(ARG_JUMP_TO_ITIN_UNIQUE_ID)) {
-				mJumpToItinId = getIntent().getStringExtra(ARG_JUMP_TO_ITIN_UNIQUE_ID);
-				startInItin = true;
+			if (getIntent().hasExtra(ARG_JUMP_TO_NOTIFICATION)) {
+				try {
+					String jsonNotification = getIntent().getStringExtra(ARG_JUMP_TO_NOTIFICATION);
+					Notification notification = new Notification();
+					notification.fromJson(new JSONObject(jsonNotification));
+					mJumpToItinId = notification.getItinId();
+					startInItin = true;
+				}
+				catch (JSONException e) {
+					Log.e("Unable to parse notification.");
+				}
 			}
 			else {
 				List<DateTime> startTimes = ItineraryManager.getInstance().getStartTimes();
@@ -191,8 +202,15 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 
 		// Omniture tracking
 		if (mJumpToItinId != null && getIntent().getBooleanExtra(ARG_IS_FROM_NOTIFICATION, false)) {
-			Notification notification = Notification.find(mJumpToItinId);
-			OmnitureTracking.trackNotificationClick(this, notification);
+			try {
+				String jsonNotification = getIntent().getStringExtra(ARG_JUMP_TO_NOTIFICATION);
+				Notification notification = new Notification();
+				notification.fromJson(new JSONObject(jsonNotification));
+				OmnitureTracking.trackNotificationClick(this, notification);
+			}
+			catch (JSONException e) {
+				Log.d("Bad notification object, unable to perform Omniture Tracking.");
+			}
 		}
 
 		// HockeyApp init
@@ -255,9 +273,18 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 		if (intent.getBooleanExtra(ARG_FORCE_SHOW_WATERFALL, false)) {
 			gotoWaterfall();
 		}
-		else if (intent.hasExtra(ARG_JUMP_TO_ITIN_UNIQUE_ID)) {
-			mJumpToItinId = intent.getStringExtra(ARG_JUMP_TO_ITIN_UNIQUE_ID);
-			gotoItineraries();
+		else if (intent.hasExtra(ARG_JUMP_TO_NOTIFICATION)) {
+			try {
+				String jsonNotification = intent.getStringExtra(ARG_JUMP_TO_NOTIFICATION);
+				Notification notification = new Notification();
+				notification.fromJson(new JSONObject(jsonNotification));
+				mJumpToItinId = notification.getItinId();
+				OmnitureTracking.trackNotificationClick(this, notification);
+				gotoItineraries();
+			}
+			catch (JSONException e) {
+				Log.e("Unable to parse notification.");
+			}
 		}
 		else if (intent.getBooleanExtra(ARG_FORCE_SHOW_ITIN, false)) {
 			gotoItineraries();

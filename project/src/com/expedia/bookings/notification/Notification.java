@@ -10,6 +10,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
@@ -35,7 +36,8 @@ public class Notification extends Model implements JSONable {
 	public enum StatusType {
 		NEW,
 		NOTIFIED,
-		DISMISSED;
+		DISMISSED,
+		EXPIRED;
 	}
 
 	/**
@@ -134,10 +136,14 @@ public class Notification extends Model implements JSONable {
 		setTriggerTimeMillis(triggerTimeMillis);
 
 		// Defaults
+		setExpirationTimeMillis(triggerTimeMillis + DateUtils.DAY_IN_MILLIS);
 		setStatus(StatusType.NEW);
 		setIconResId(R.drawable.ic_stat_expedia);
 		setFlags(0);
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Accessors
 
 	public String getItinId() {
 		return mItinId;
@@ -252,37 +258,17 @@ public class Notification extends Model implements JSONable {
 		this.mNotificationType = notificationType.toString();
 	}
 
-	/**
-	 * Updates this Notification object with data from the other object (being very
-	 * careful when changing its status).
-	 * @param other
-	 */
-	public void updateFrom(Notification other) {
-		// The idea here is that if there is a later notification about the same
-		// thing, then we should display that later (and presumably more relevant)
-		// notification.
-		if (other.mTriggerTimeMillis > mTriggerTimeMillis) {
-			setTriggerTimeMillis(other.mTriggerTimeMillis);
-			setStatus(other.getStatus());
-		}
-		setIconResId(other.mIconResId);
-		setTicker(other.mTicker);
-		setTitle(other.mTitle);
-		setBody(other.mBody);
-		setImageType(other.getImageType());
-		setImageResId(other.mImageResId);
-		setImageValue(other.mImageValue);
-		setFlags(other.mFlags);
-	}
+	//////////////////////////////////////////////////////////////////////////
+	// public methods
 
 	/**
 	 * Schedule this notification with the OS AlarmManager. Multiple calls to this method
-	 * will not result in multiple notifications, as long as the UniqueId remains the same.
+	 * will not result in multiple notifications, as long as the ItinId*NotificationType remains the same.
 	 *
 	 * @param context
 	 */
 	public void scheduleNotification(Context context) {
-		PendingIntent pendingIntent = NotificationReceiver.generateSchedulePendingIntent(context, mItinId);
+		PendingIntent pendingIntent = NotificationReceiver.generateSchedulePendingIntent(context, this);
 		AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		mgr.set(AlarmManager.RTC_WAKEUP, mTriggerTimeMillis, pendingIntent);
 	}
@@ -293,17 +279,23 @@ public class Notification extends Model implements JSONable {
 	 * @param context
 	 */
 	public void cancelNotification(Context context) {
-		PendingIntent pendingIntent = NotificationReceiver.generateSchedulePendingIntent(context, mItinId);
+		PendingIntent pendingIntent = NotificationReceiver.generateSchedulePendingIntent(context, this);
 
 		// Cancel if in the future
 		AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		mgr.cancel(pendingIntent);
 
 		// Dismiss a possibly displayed notification
-		String tag = getItinId();
 		NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-		nm.cancel(tag, 0);
+		nm.cancel(getTag(), 0);
+	}
 
+	/**
+	 * Returns the tag that should be used for the NotificationManager.
+	 * @return
+	 */
+	public String getTag() {
+		return getItinId() + "/" + getNotificationType().name();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -315,6 +307,7 @@ public class Notification extends Model implements JSONable {
 			JSONObject obj = new JSONObject();
 			obj.put("ItinId", mItinId);
 			obj.put("TriggerTimeMillis", mTriggerTimeMillis);
+			obj.put("ExpirationTimeMillis", mExpirationTimeMillis);
 			obj.put("IconResId", mIconResId);
 			obj.put("Ticker", mTicker);
 			obj.put("Title", mTitle);
@@ -336,6 +329,7 @@ public class Notification extends Model implements JSONable {
 	public boolean fromJson(JSONObject obj) {
 		mItinId = obj.optString("ItinId");
 		mTriggerTimeMillis = obj.optLong("TriggerTimeMillis");
+		mExpirationTimeMillis = obj.optLong("ExpirationTimeMillis");
 		mIconResId = obj.optInt("IconResId");
 		mTicker = obj.optString("Ticker");
 		mTitle = obj.optString("Title");
@@ -353,31 +347,35 @@ public class Notification extends Model implements JSONable {
 	// Database type operations
 
 	/**
-	 * Returns a Notification, if found, from the table whose UniqueId matches the
-	 * passed UniqueId.
-	 * @param uniqueId
+	 * Returns a Notification, if found, from the table whose UniqueId*NotificationId matches the
+	 * data in the passed notification object.
+	 * @param notification
 	 * @return
 	 */
-	public static Notification find(String uniqueId) {
+	public static Notification findExisting(Notification notification) {
 		List<Notification> notifications = new Select().from(Notification.class)
-				.where("UniqueId=?", uniqueId).limit("1").execute();
+				.where("UniqueId=? AND NotificationType=?", notification.mItinId, notification.mNotificationType)
+				.limit("1").execute();
 		if (notifications == null || notifications.size() == 0) {
 			return null;
 		}
 		return notifications.get(0);
 	}
 
+	public static boolean hasExisting(Notification notification) {
+		return findExisting(notification) != null;
+	}
+
 	/**
-	 * Schedules all non-expired notifications.
+	 * Schedules all new or notified notifications.
 	 * @param context
 	 */
 	public static void scheduleAll(Context context) {
 		List<Notification> notifications = new Select()
 				.from(Notification.class)
-				.where("Status IN (?,?) AND ExpirationTimeMillis>?",
+				.where("Status IN (?,?)",
 						StatusType.NEW.name(),
-						StatusType.NOTIFIED.name(),
-						System.currentTimeMillis())
+						StatusType.NOTIFIED.name())
 				.orderBy("TriggerTimeMillis").execute();
 
 		for (Notification notification : notifications) {

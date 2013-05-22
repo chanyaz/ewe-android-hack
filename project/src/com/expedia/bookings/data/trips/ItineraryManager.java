@@ -1301,24 +1301,22 @@ public class ItineraryManager implements JSONable {
 			}
 
 			for (Notification notification : notifications) {
-				Notification existing = Notification.find(notification.getItinId());
+
+				// If we already have this notification, don't notify again.
+				if (!Notification.hasExisting(notification)) {
+					notification.save();
+				}
 
 				//TODO: temporary -->
 				// This is just to get the notifications to show up frequently for development
-				//				notification.setTriggerTimeMillis(System.currentTimeMillis() + 5000);
-				//				notification.setStatus(StatusType.NEW);
-				//				if (existing != null) {
-				//					existing.setTriggerTimeMillis(0);
+				//				else {
+				//					notification = Notification.findExisting(notification);
 				//				}
+				//				notification.setTriggerTimeMillis(System.currentTimeMillis() + 5000);
+				//				notification.setExpirationTimeMillis(System.currentTimeMillis() + DateUtils.DAY_IN_MILLIS);
+				//				notification.setStatus(StatusType.NEW);
+				//				notification.save();
 				//TODO: <-- temporary
-
-				if (existing == null) {
-					notification.save();
-				}
-				else {
-					existing.updateFrom(notification);
-					existing.save();
-				}
 			}
 		}
 

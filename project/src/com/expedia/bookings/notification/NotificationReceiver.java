@@ -1,5 +1,8 @@
 package com.expedia.bookings.notification;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -11,7 +14,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
-import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.LaunchActivity;
@@ -32,6 +34,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 	private static final String TAG = NotificationReceiver.class.getSimpleName();
 
 	private static final String EXTRA_ACTION = "EXTRA_ACTION";
+	private static final String EXTRA_NOTIFICATION = "EXTRA_NOTIFICATION";
 
 	private static final int ACTION_SCHEDULE = 0;
 	private static final int ACTION_DISMISS = 1;
@@ -39,19 +42,21 @@ public class NotificationReceiver extends BroadcastReceiver {
 	//////////////////////////////////////////////////////////////////////////
 	// Intent Generators
 
-	public static PendingIntent generateSchedulePendingIntent(Context context, String uniqueId) {
+	public static PendingIntent generateSchedulePendingIntent(Context context, Notification notification) {
 		Intent intent = new Intent(context, NotificationReceiver.class);
-		String uriString = "expedia://notification/schedule/" + uniqueId;
+		String uriString = "expedia://notification/schedule/" + notification.getTag();
 		intent.setData(Uri.parse(uriString));
 		intent.putExtra(EXTRA_ACTION, ACTION_SCHEDULE);
+		intent.putExtra(EXTRA_NOTIFICATION, notification.toJson().toString());
 		return PendingIntent.getBroadcast(context, 0, intent, 0);
 	}
 
-	public static PendingIntent generateDismissPendingIntent(Context context, String uniqueId) {
+	public static PendingIntent generateDismissPendingIntent(Context context, Notification notification) {
 		Intent intent = new Intent(context, NotificationReceiver.class);
-		String uriString = "expedia://notification/dismiss/" + uniqueId;
+		String uriString = "expedia://notification/dismiss/" + notification.getTag();
 		intent.setData(Uri.parse(uriString));
 		intent.putExtra(EXTRA_ACTION, ACTION_DISMISS);
+		intent.putExtra(EXTRA_NOTIFICATION, notification.toJson().toString());
 		return PendingIntent.getBroadcast(context, 0, intent, 0);
 	}
 
@@ -60,19 +65,30 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		String uniqueId = null;
-		if (intent.getData() != null) {
-			uniqueId = intent.getData().getLastPathSegment();
+		Notification notification = null;
+		try {
+			Notification deserialized = new Notification();
+			String jsonString = intent.getStringExtra(EXTRA_NOTIFICATION);
+			deserialized.fromJson(new JSONObject(jsonString));
+			notification = Notification.findExisting(deserialized);
 		}
-
-		if (TextUtils.isEmpty(uniqueId)) {
-			Log.w("Notification unique id not found. Ignoring");
+		catch (JSONException e) {
+			Log.w("JSONException, unable to create notification. Ignoring");
 			return;
 		}
 
-		Notification notification = Notification.find(uniqueId);
 		if (notification == null) {
-			Log.w("Unable to find notification with unique id = " + uniqueId + ". Ignoring");
+			Log.w("Unable to find existing notification. Ignoring");
+			return;
+		}
+
+		// Don't display old notifications
+		if (notification.getExpirationTimeMillis() < System.currentTimeMillis()) {
+			notification.setStatus(StatusType.EXPIRED);
+			notification.save();
+
+			// Just in case it's still showing up
+			notification.cancelNotification(context);
 			return;
 		}
 
@@ -182,17 +198,18 @@ public class NotificationReceiver extends BroadcastReceiver {
 		private void display() {
 			NotificationCompat.Style style = null;
 
-			if (mBitmap != null) {
-				style = new NotificationCompat.BigPictureStyle()
-						.bigPicture(mBitmap)
-						.setSummaryText(mNotification.getBody());
-			}
-			else {
+			//TODO: fix BigPictureStyle sometimes crashing
+//			if (mBitmap != null) {
+//				style = new NotificationCompat.BigPictureStyle()
+//						.bigPicture(mBitmap)
+//						.setSummaryText(mNotification.getBody());
+//			}
+//			else {
 				style = new NotificationCompat.BigTextStyle()
 						.bigText(mNotification.getBody());
-			}
+//			}
 
-			Intent clickIntent = LaunchActivity.createIntent(mContext, mNotification.getItinId(), true);
+			Intent clickIntent = LaunchActivity.createIntent(mContext, mNotification);
 			PendingIntent clickPendingIntent = PendingIntent.getActivity(mContext, 0, clickIntent, 0);
 
 			NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)
@@ -203,14 +220,14 @@ public class NotificationReceiver extends BroadcastReceiver {
 					.setContentTitle(mNotification.getTitle())
 					.setContentText(mNotification.getBody())
 					.setAutoCancel(true)
-					.setDeleteIntent(generateDismissPendingIntent(mContext, mNotification.getItinId()))
+					.setDeleteIntent(generateDismissPendingIntent(mContext, mNotification))
 					.setContentIntent(clickPendingIntent)
 					.setLights(0xfbc51e, 200, 8000); // Expedia suitcase color
 
 			long flags = mNotification.getFlags();
 			if ((flags & Notification.FLAG_DIRECTIONS) != 0) {
 				//TODO: directions
-				Intent intent = LaunchActivity.createIntent(mContext, mNotification.getItinId(), true);
+				Intent intent = LaunchActivity.createIntent(mContext, mNotification);
 				PendingIntent directionsPendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
 
 				String directions = mContext.getString(R.string.itin_action_directions);
@@ -226,9 +243,9 @@ public class NotificationReceiver extends BroadcastReceiver {
 				builder = builder.addAction(R.drawable.ic_social_share, share, sharePendingIntent);
 			}
 
-			String tag = mNotification.getItinId();
+			android.app.Notification notif = builder.build();
 			NotificationManager nm = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-			nm.notify(tag, 0, builder.build());
+			nm.notify(mNotification.getTag(), 0, notif);
 		}
 	}
 }
