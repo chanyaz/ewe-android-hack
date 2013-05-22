@@ -315,17 +315,6 @@ public class PointOfSale {
 	}
 
 	/**
-	 * We show a dialog warning to users that low cost flights are not yet available for APAC. This could be moved
-	 * to ExpediaSharedJSON file, although, as it is temporary I don't feel the need to define in the JSON file.
-	 * @param context used to key off a SharedPreferences key defined in XML
-	 */
-	public boolean showLCCNotAvailableDialog(Context context) {
-		PointOfSaleId pos = getPointOfSaleId();
-		boolean show = pos == PointOfSaleId.AUSTRALIA || pos == PointOfSaleId.NEW_ZEALND || pos == PointOfSaleId.JAPAN;
-		return show && SettingUtils.get(context, context.getString(R.string.preference_show_lcc_warning), true);
-	}
-
-	/**
 	 * On phone, we'll underline and bold the entire second half of the statement,
 	 * which includes "Rules and Restrictions", "Terms and Conditions",
 	 * "Privacy Policy", and "Terms of Booking"

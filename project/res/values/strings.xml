@@ -515,10 +515,6 @@
     </plurals>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">DEBUG: Search data was cleared somehow.  Please report this error to DLew.</string>
-    <!-- Low Cost Flights label -->
-    <string name="low_cost_flights">Low Cost Flights</string>
-    <!-- Message shown to user when viewing flight search results that do not contain low-cost flights, although the same search on desktop returns low cost flights -->
-    <string name="lcc_flights_not_available">Looking for Jetstar, Scoot or Air Asia? Tickets for these airlines are available on our website and coming to the app soon.</string>
     <!-- Message shown to user when they attempt a flight search against the India point of sale that is domestic (which we don't support yet) -->
     <string name="india_domestic_flights_not_available_title">Coming Soon!</string>
     <string name="india_domestic_flights_not_available_body">We’re working hard to add domestic flights in an upcoming version.</string>
