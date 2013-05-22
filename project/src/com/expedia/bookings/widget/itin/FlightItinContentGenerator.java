@@ -601,9 +601,11 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		String uniqueId = data.getId();
 
 		int checkInIntervalSeconds = AirlineCheckInIntervals.get(context, leg.getFirstAirlineCode());
-		long triggerTimeMillis = data.getStartDate().getMillisFromEpoch() - checkInIntervalSeconds * DateUtils.SECOND_IN_MILLIS;
+		long expirationTimeMillis = data.getStartDate().getMillisFromEpoch();
+		long triggerTimeMillis = expirationTimeMillis - checkInIntervalSeconds * DateUtils.SECOND_IN_MILLIS;
 
 		Notification notification = new Notification(uniqueId, triggerTimeMillis);
+		notification.setExpirationTimeMillis(expirationTimeMillis);
 		notification.setNotificationType(NotificationType.FLIGHT_CHECK_IN);
 		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_SHARE);
 		notification.setIconResId(R.drawable.ic_stat_flight);
