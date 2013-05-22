@@ -1269,7 +1269,10 @@ public class ItineraryManager implements JSONable {
 
 		long userTuid = 0;
 		if (User.isLoggedIn(mContext)) {
-			userTuid = Db.getUser().getPrimaryTraveler().getTuid();
+			if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
+					&& Db.getUser().getPrimaryTraveler().getTuid() > 0) {
+				userTuid = Db.getUser().getPrimaryTraveler().getTuid();
+			}
 		}
 
 		String regId = PushNotificationUtils.getRegistrationId();
