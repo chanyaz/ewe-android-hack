@@ -33,7 +33,6 @@ import com.expedia.bookings.activity.PhoneSearchActivity;
 import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Codes;
-import com.expedia.bookings.data.ConfirmationState;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
@@ -55,7 +54,6 @@ import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.CalendarAPIUtils;
-import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Flight;
@@ -71,14 +69,37 @@ public class FlightConfirmationFragment extends Fragment {
 
 	private Context mContext;
 
+	private static final String INSTANCE_HAS_SHARED_VIA_EMAIL = "INSTANCE_HAS_SHARED_VIA_EMAIL";
+	private static final String INSTANCE_HAS_TRACKED_WITH_FT = "INSTANCE_HAS_TRACKED_WITH_FT";
+	private static final String INSTANCE_HAS_ADDED_TO_CALENDAR = "INSTANCE_HAS_ADDED_TO_CALENDAR";
+	private static final String INSTANCE_HAS_ADDED_INSURANCE = "INSTANCE_HAS_ADDED_INSURANCE";
+
+	private boolean mHasSharedViaEmail;
+	private boolean mHasTrackedWithFT;
+	private boolean mHasAddedToCalendar;
+	private boolean mHasAddedInsurance;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mContext = getActivity();
+
+		if (savedInstanceState != null) {
+			mHasSharedViaEmail = savedInstanceState.getBoolean(INSTANCE_HAS_SHARED_VIA_EMAIL, false);
+			mHasTrackedWithFT = savedInstanceState.getBoolean(INSTANCE_HAS_TRACKED_WITH_FT, false);
+			mHasAddedToCalendar = savedInstanceState.getBoolean(INSTANCE_HAS_ADDED_TO_CALENDAR, false);
+			mHasAddedInsurance = savedInstanceState.getBoolean(INSTANCE_HAS_ADDED_INSURANCE, false);
+		}
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		// This can be invoked when the parent activity finishes itself (when it detects missing data, in the case of
+		// a background kill). In this case, lets just return a null view because it won't be used anyway. Prevents NPE.
+		if (getActivity().isFinishing()) {
+			return null;
+		}
+
 		View v = inflater.inflate(R.layout.fragment_flight_confirmation, container, false);
 
 		FlightSearch search = Db.getFlightSearch();
@@ -190,7 +211,7 @@ public class FlightConfirmationFragment extends Fragment {
 				@Override
 				public void onClick(View v) {
 					startActivity(getFlightTrackIntent());
-					SettingUtils.save(mContext, ConfirmationState.PREF_HAS_TRACKED_WITH_FLIGHTTRACK, true);
+					mHasTrackedWithFT = true;
 				}
 			});
 		}
@@ -232,19 +253,25 @@ public class FlightConfirmationFragment extends Fragment {
 		super.onResume();
 
 		// Check prefs to see if user has performed share action, we will reward them with a satisfying check-mark ;-)
-		toggleActionCompletion(R.id.share_action_text_view, ConfirmationState.PREF_HAS_SHARED_VIA_EMAIL,
-				R.drawable.ic_social_share);
-		toggleActionCompletion(R.id.calendar_action_text_view, ConfirmationState.PREF_HAS_ADDED_TO_CALENDAR,
-				R.drawable.ic_calendar_add);
-		toggleActionCompletion(R.id.flighttrack_action_text_view, ConfirmationState.PREF_HAS_TRACKED_WITH_FLIGHTTRACK,
-				R.drawable.ic_flight_track);
-		toggleActionCompletion(R.id.ca_insurance_action_text_view, ConfirmationState.PREF_HAS_ADDED_INSURANCE,
-				R.drawable.ic_insurance);
+		toggleActionCompletion(R.id.share_action_text_view, mHasSharedViaEmail, R.drawable.ic_social_share);
+		toggleActionCompletion(R.id.calendar_action_text_view, mHasAddedToCalendar, R.drawable.ic_calendar_add);
+		toggleActionCompletion(R.id.flighttrack_action_text_view, mHasTrackedWithFT, R.drawable.ic_flight_track);
+		toggleActionCompletion(R.id.ca_insurance_action_text_view, mHasAddedInsurance, R.drawable.ic_insurance);
 	}
 
-	private void toggleActionCompletion(int textViewResId, String pref, int drawableResId) {
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		outState.putBoolean(INSTANCE_HAS_ADDED_TO_CALENDAR, mHasAddedToCalendar);
+		outState.putBoolean(INSTANCE_HAS_TRACKED_WITH_FT, mHasTrackedWithFT);
+		outState.putBoolean(INSTANCE_HAS_SHARED_VIA_EMAIL, mHasSharedViaEmail);
+		outState.putBoolean(INSTANCE_HAS_ADDED_INSURANCE, mHasAddedInsurance);
+	}
+
+	private void toggleActionCompletion(int textViewResId, boolean completed, int drawableResId) {
 		TextView tv = Ui.findView(getActivity(), textViewResId);
-		if (SettingUtils.get(mContext, pref, false)) {
+		if (completed) {
 			tv.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, R.drawable.ic_confirmation_checkmark, 0);
 		}
 		else {
@@ -357,9 +384,6 @@ public class FlightConfirmationFragment extends Fragment {
 		//Update the Db object to have our search params (which will be used by hotels search)
 		Db.setSearchParams(sp);
 
-		// Make sure to delete the Hotel ConfirmationState if it exists
-		ConfirmationState.delete(getActivity(), ConfirmationState.Type.HOTEL);
-
 		// Launch hotel search
 		if (ExpediaBookingApp.useTabletInterface(getActivity())) {
 			//Goto tablet search, which automatically looks for search params in Db.
@@ -399,7 +423,7 @@ public class FlightConfirmationFragment extends Fragment {
 		builder.setTitle(R.string.insurance);
 		startActivity(builder.getIntent());
 
-		SettingUtils.save(mContext, ConfirmationState.PREF_HAS_ADDED_INSURANCE, true);
+		mHasAddedInsurance = true;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -415,7 +439,7 @@ public class FlightConfirmationFragment extends Fragment {
 
 		SocialUtils.email(getActivity(), subject, body);
 
-		SettingUtils.save(mContext, ConfirmationState.PREF_HAS_SHARED_VIA_EMAIL, true);
+		mHasSharedViaEmail = true;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -427,7 +451,7 @@ public class FlightConfirmationFragment extends Fragment {
 			Intent intent = generateCalendarInsertIntent(trip.getLeg(a));
 			startActivity(intent);
 		}
-		SettingUtils.save(mContext, ConfirmationState.PREF_HAS_ADDED_TO_CALENDAR, true);
+		mHasAddedToCalendar = true;
 	}
 
 	@SuppressLint("NewApi")

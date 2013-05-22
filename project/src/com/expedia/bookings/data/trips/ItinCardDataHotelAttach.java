@@ -10,8 +10,6 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.PhoneSearchActivity;
 import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.data.Codes;
-import com.expedia.bookings.data.ConfirmationState;
-import com.expedia.bookings.data.ConfirmationState.Type;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.SearchParams;
@@ -65,10 +63,6 @@ public class ItinCardDataHotelAttach extends ItinCardData {
 		OmnitureTracking.trackCrossSellItinToHotel(context);
 
 		Db.setSearchParams(getSearchParams());
-
-		// #1128: Delete previous confirmation state if we get here (from anywhere)
-		// This assumes we're about to actually click the hotel
-		ConfirmationState.delete(context, Type.HOTEL);
 
 		Class<? extends Activity> targetClass = ExpediaBookingApp.useTabletInterface(context) ? SearchResultsFragmentActivity.class
 				: PhoneSearchActivity.class;

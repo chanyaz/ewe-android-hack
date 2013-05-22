@@ -10,9 +10,7 @@ import android.content.pm.ResolveInfo;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.expedia.bookings.activity.ActivityKillReceiver;
-import com.expedia.bookings.activity.HotelConfirmationActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.activity.FlightConfirmationActivity;
 import com.expedia.bookings.activity.FlightSearchActivity;
 import com.expedia.bookings.activity.FlightSearchResultsActivity;
 import com.expedia.bookings.activity.FlightUnsupportedPOSActivity;
@@ -21,8 +19,6 @@ import com.expedia.bookings.activity.ItineraryActivity;
 import com.expedia.bookings.activity.LaunchActivity;
 import com.expedia.bookings.activity.PhoneSearchActivity;
 import com.expedia.bookings.activity.SearchFragmentActivity;
-import com.expedia.bookings.data.ConfirmationState;
-import com.expedia.bookings.data.ConfirmationState.Type;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.HotelBookingFragment;
@@ -68,14 +64,8 @@ public class NavUtils {
 
 		Class<? extends Activity> routingTarget;
 
-		// #7090: First, check to see if the user last confirmed a booking.  If that is the case,
-		//        then we should forward the user to the ConfirmationActivity
-		if (ConfirmationState.hasSavedData(context, Type.HOTEL)) {
-			routingTarget = HotelConfirmationActivity.class;
-		}
-
 		// 13820: Check if a booking is in process at this moment (in case BookingInfoActivity died)
-		else if (BackgroundDownloader.getInstance().isDownloading(HotelBookingFragment.BOOKING_DOWNLOAD_KEY)) {
+		if (BackgroundDownloader.getInstance().isDownloading(HotelBookingFragment.BOOKING_DOWNLOAD_KEY)) {
 			routingTarget = HotelBookingActivity.class;
 		}
 
@@ -99,10 +89,6 @@ public class NavUtils {
 			// backstack so as not to add insult to injury (can't access Flights, lost activity backstack)
 			context.startActivity(new Intent(context, FlightUnsupportedPOSActivity.class));
 		}
-		else if (ConfirmationState.hasSavedData(context, Type.FLIGHT)) {
-			sendKillActivityBroadcast(context);
-			context.startActivity(new Intent(context, FlightConfirmationActivity.class));
-		}
 		else {
 			sendKillActivityBroadcast(context);
 			Intent intent = new Intent(context, FlightSearchActivity.class);
@@ -111,11 +97,6 @@ public class NavUtils {
 			}
 			context.startActivity(intent);
 		}
-	}
-
-	public static void goToFlightSearchResults(Context context) {
-		sendKillActivityBroadcast(context);
-		context.startActivity(new Intent(context, FlightSearchResultsActivity.class));
 	}
 
 	// Assumes we are already searching in flights, but are not on the flight
@@ -165,14 +146,7 @@ public class NavUtils {
 	 * @return Intent for going to EHTablet start screen, or null if not valid for this device
 	 */
 	private static Intent generateStartEHTabletIntent(Context context) {
-		// #7090: First, check to see if the user last confirmed a booking.  If that is the case,
-		//        then we should forward the user to the ConfirmationActivity
-		if (ExpediaBookingApp.useTabletInterface(context) && ConfirmationState.hasSavedData(context, Type.HOTEL)) {
-			Intent intent = new Intent(context, HotelConfirmationActivity.class);
-			return intent;
-		}
-
-		else if (ExpediaBookingApp.useTabletInterface(context)) {
+		if (ExpediaBookingApp.useTabletInterface(context)) {
 			Intent intent = new Intent(context, SearchFragmentActivity.class);
 			return intent;
 		}

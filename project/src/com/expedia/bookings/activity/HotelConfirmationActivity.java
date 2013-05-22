@@ -20,8 +20,6 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
-import com.expedia.bookings.data.ConfirmationState;
-import com.expedia.bookings.data.ConfirmationState.Type;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Policy;
@@ -47,14 +45,19 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity implemen
 
 	private Context mContext;
 
-	private ConfirmationState mConfState;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		mContext = this;
-		mConfState = new ConfirmationState(this, Type.HOTEL);
+
+		// The app will get in to this state if being restored after background kill. In this case let's just be a good
+		// guy and send them to the itin screen.
+		if (Db.getSelectedProperty() == null) {
+			Log.d("HotelConfirmationActivity launched without confirmation data, sending to itin");
+			NavUtils.goToItin(this);
+			finish();
+			return;
+		}
 
 		if (ExpediaBookingApp.useTabletInterface(this)) {
 			setTheme(R.style.Theme_Tablet_Confirmation);
@@ -65,63 +68,26 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity implemen
 		}
 
 		if (savedInstanceState == null) {
-			if (mConfState.hasSavedData()) {
-				// Load saved data from disk
-				if (!mConfState.load()) {
-					// If we failed to load the saved confirmation data, we should
-					// delete the file and go back (since we are only here if we were called
-					// directly from a startup).
-					mConfState.delete();
-					finish();
-					return;
-				}
+			//Add guest itin to itin manager
+			if (Db.getBookingResponse() != null && Db.getBillingInfo() != null && !User.isLoggedIn(this)) {
+				String email = Db.getBillingInfo().getEmail();
+				String tripId = Db.getBookingResponse().getItineraryId();
+				ItineraryManager.getInstance().addGuestTrip(email, tripId);
 			}
-			else {
-				//Add guest itin to itin manager
-				if (Db.getBookingResponse() != null && Db.getBillingInfo() != null && !User.isLoggedIn(this)) {
-					String email = Db.getBillingInfo().getEmail();
-					String tripId = Db.getBookingResponse().getItineraryId();
-					ItineraryManager.getInstance().addGuestTrip(email, tripId);
-				}
-
-				// Start a background thread to save this data to the disk
-				new Thread(new Runnable() {
-					public void run() {
-						Rate discountRate = null;
-						if (Db.getCreateTripResponse() != null) {
-							discountRate = Db.getCreateTripResponse().getNewRate();
-						}
-						BillingInfo billingInfo = new BillingInfo(Db.getBillingInfo());
-
-						Traveler primaryTraveler = Db.getUser() == null ? null : Db.getUser().getPrimaryTraveler();
-						mConfState.save(Db.getSearchParams(),
-								Db.getSelectedProperty(), Db.getSelectedRate(), billingInfo,
-								Db.getBookingResponse(), discountRate, primaryTraveler);
-					}
-				}).start();
-			}
-		}
-
-		// #13365: If the Db expired, finish out of this activity
-		if (Db.getSelectedProperty() == null) {
-			Log.i("Detected expired DB, finishing activity.");
-			finish();
-			return;
 		}
 
 		setContentView(R.layout.activity_confirmation_fragment);
 
 		// We don't want to display the "succeeded with errors" dialog box if:
 		// 1. It's not the first launch of the activity (savedInstanceState != null)
-		// 2. We're re-launching the activity with saved confirmation data
-		if (Db.getBookingResponse().succeededWithErrors() && savedInstanceState == null
-				&& !mConfState.hasSavedData()) {
+		if (Db.getBookingResponse().succeededWithErrors() && savedInstanceState == null) {
 			showSucceededWithErrorsDialog();
 		}
 
 		// Track page load
 		if (savedInstanceState == null) {
-			OmnitureTracking.trackAppHotelsCheckoutConfirmation(this, Db.getSearchParams(), Db.getSelectedProperty(),
+			OmnitureTracking.trackAppHotelsCheckoutConfirmation(this, Db.getSearchParams(),
+					Db.getSelectedProperty(),
 					Db.getBillingInfo(), Db.getSelectedRate(), Db.getBookingResponse());
 		}
 	}
@@ -228,7 +194,6 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity implemen
 		OmnitureTracking.trackNewSearch(this);
 
 		// Ensure we can't come back here again
-		mConfState.delete();
 		Db.clear();
 
 		Intent intent = ExpediaBookingApp.useTabletInterface(this)
@@ -294,15 +259,19 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity implemen
 		appendLabelValue(context, body, R.string.itinerary_number, bookingResponse.getItineraryId());
 		body.append("\n\n");
 
-		if (mConfState.getPrimaryTraveler() != null) {
-			appendLabelValue(context, body, R.string.name,
-					context.getString(R.string.name_template, mConfState.getPrimaryTraveler().getFirstName(),
-							mConfState.getPrimaryTraveler().getLastName()));
+		String first;
+		String last;
+		Traveler traveler = Db.getUser() == null ? null : Db.getUser().getPrimaryTraveler();
+		if (traveler != null) {
+			first = traveler.getFirstName();
+			last = traveler.getLastName();
 		}
 		else {
-			appendLabelValue(context, body, R.string.name,
-					context.getString(R.string.name_template, billingInfo.getFirstName(), billingInfo.getLastName()));
+			first = billingInfo.getFirstName();
+			last = billingInfo.getLastName();
 		}
+		appendLabelValue(context, body, R.string.name, context.getString(R.string.name_template, first, last));
+
 		body.append("\n");
 		appendLabelValue(context, body, R.string.CheckIn,
 				dayFormatter.format(checkIn) + ", " + fullDateFormatter.format(checkIn));

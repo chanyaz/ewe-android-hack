@@ -75,8 +75,6 @@ import com.expedia.bookings.activity.ExpediaBookingApp.OnSearchParamsChangedInWi
 import com.expedia.bookings.content.AutocompleteProvider;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Codes;
-import com.expedia.bookings.data.ConfirmationState;
-import com.expedia.bookings.data.ConfirmationState.Type;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.OnFilterChangedListener;
@@ -764,7 +762,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 		// do not attempt to save parameters if the user was short circuited to the
 		// confirmation screen when the search activity started
-		if (isFinishing() && !ConfirmationState.hasSavedData(this, Type.HOTEL)) {
+		if (isFinishing()) {
 			saveParams();
 
 			File savedSearchResults = getFileStreamPath(SEARCH_RESULTS_FILE);
