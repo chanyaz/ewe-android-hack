@@ -10,4 +10,5 @@
     <suppress files="gl/Renderable\.java$" checks="[a-zA-Z0-9]*"/>
     <suppress files="Gallery\.java$" checks="[a-zA-Z0-9]*"/>
     <suppress files="AbsSpinner\.java$" checks="[a-zA-Z0-9]*"/>
+    <suppress files="GLTagProgressBar\.java$" checks="[a-zA-Z0-9]*"/>
 </suppressions>
