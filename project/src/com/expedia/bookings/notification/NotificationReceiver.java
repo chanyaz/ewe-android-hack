@@ -20,7 +20,12 @@ import com.expedia.bookings.activity.LaunchActivity;
 import com.expedia.bookings.activity.StandaloneShareActivity;
 import com.expedia.bookings.data.ExpediaImage;
 import com.expedia.bookings.data.ExpediaImageManager;
+import com.expedia.bookings.data.trips.ItinCardData;
+import com.expedia.bookings.data.trips.ItinCardDataFlight;
+import com.expedia.bookings.data.trips.ItinCardDataHotel;
+import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.notification.Notification.StatusType;
+import com.expedia.bookings.widget.itin.FlightItinContentGenerator;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -28,6 +33,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.TwoLevelImageCache;
 import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.flightlib.data.Airport;
 
 public class NotificationReceiver extends BroadcastReceiver {
 
@@ -226,12 +232,22 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 			long flags = mNotification.getFlags();
 			if ((flags & Notification.FLAG_DIRECTIONS) != 0) {
-				//TODO: directions
-				Intent intent = LaunchActivity.createIntent(mContext, mNotification);
-				PendingIntent directionsPendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
+				ItinCardData data = ItineraryManager.getInstance().getItinCardDataFromItinId(mNotification.getItinId());
 
-				String directions = mContext.getString(R.string.itin_action_directions);
-				builder = builder.addAction(R.drawable.ic_direction, directions, directionsPendingIntent);
+				Intent intent = null;
+				if (data instanceof ItinCardDataFlight) {
+					Airport airport = ((ItinCardDataFlight) data).getFlightLeg().getFirstWaypoint().getAirport();
+					intent = FlightItinContentGenerator.getAirportDirectionsIntent(airport);
+				}
+				else if (data instanceof ItinCardDataHotel) {
+					intent = ((ItinCardDataHotel) data).getDirectionsIntent();
+				}
+
+				if (intent != null) {
+					PendingIntent directionsPendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
+					String directions = mContext.getString(R.string.itin_action_directions);
+					builder = builder.addAction(R.drawable.ic_direction, directions, directionsPendingIntent);
+				}
 			}
 
 			if ((flags & Notification.FLAG_SHARE) != 0) {

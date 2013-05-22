@@ -199,6 +199,20 @@ public class ItineraryManager implements JSONable {
 	}
 
 	/**
+	 * Get an ItinCardData object from all known itins given a known data.getId()
+	 * @param itinId
+	 * @return first ItinCardData found matching the passed id or null
+	 */
+	public ItinCardData getItinCardDataFromItinId(String itinId) {
+		for (ItinCardData data : mItinCardDatas) {
+			if (data.getId().equals(itinId)) {
+				return data;
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Get every Flight instance represented in all of our Itineraries
 	 * @return a list of Flight instances
 	 */
