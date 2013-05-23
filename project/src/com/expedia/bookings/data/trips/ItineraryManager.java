@@ -223,9 +223,11 @@ public class ItineraryManager implements JSONable {
 				if (tripComponent.getType() == Type.FLIGHT) {
 					TripFlight tripFlight = (TripFlight) tripComponent;
 					FlightTrip flightTrip = tripFlight.getFlightTrip();
-					for (int i = 0; i < flightTrip.getLegCount(); i++) {
-						FlightLeg fl = flightTrip.getLeg(i);
-						retFlights.addAll(fl.getSegments());
+					if (flightTrip != null) {
+						for (int i = 0; i < flightTrip.getLegCount(); i++) {
+							FlightLeg fl = flightTrip.getLeg(i);
+							retFlights.addAll(fl.getSegments());
+						}
 					}
 				}
 			}
