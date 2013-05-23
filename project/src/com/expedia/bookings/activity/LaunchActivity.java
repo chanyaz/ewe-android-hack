@@ -42,6 +42,7 @@ import com.expedia.bookings.fragment.ItinItemListFragment.ItinItemListFragmentLi
 import com.expedia.bookings.fragment.LaunchFragment;
 import com.expedia.bookings.fragment.LaunchFragment.LaunchFragmentListener;
 import com.expedia.bookings.notification.Notification;
+import com.expedia.bookings.notification.Notification.StatusType;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
@@ -156,62 +157,23 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 		actionBar.addTab(shopTab, PAGER_POS_WATERFALL);
 		actionBar.addTab(itineraryTab, PAGER_POS_ITIN);
 
-		// Switch to itin mode if we have an inprogress or upcoming trip (and we aren't forcing reverse waterfall)
-		// TODO this page jumping/arg stuff becoming a little unwieldy, a refactor may be in order
-		boolean allowSkipToItin = !getIntent().getBooleanExtra(ARG_FORCE_SHOW_WATERFALL, false);
-		if (allowSkipToItin) {
-			boolean startInItin = false;
-			if (getIntent().hasExtra(ARG_JUMP_TO_NOTIFICATION)) {
-				try {
-					String jsonNotification = getIntent().getStringExtra(ARG_JUMP_TO_NOTIFICATION);
-					Notification notification = new Notification();
-					notification.fromJson(new JSONObject(jsonNotification));
-					mJumpToItinId = notification.getItinId();
-					startInItin = true;
-				}
-				catch (JSONException e) {
-					Log.e("Unable to parse notification.");
-				}
-			}
-			else {
-				List<DateTime> startTimes = ItineraryManager.getInstance().getStartTimes();
-				List<DateTime> endTimes = ItineraryManager.getInstance().getEndTimes();
-				if (startTimes != null && endTimes != null && startTimes.size() == endTimes.size()) {
-					Calendar now = Calendar.getInstance();
-					Calendar oneWeek = Calendar.getInstance();
-					oneWeek.add(Calendar.DATE, 7);
-					for (int i = 0; i < startTimes.size(); i++) {
-						DateTime start = startTimes.get(i);
-						DateTime end = endTimes.get(i);
-						if (DateTimeUtils.getTimeInCurrentTimeZone(now).getTime() < end.getMillisFromEpoch()
-								&& DateTimeUtils.getTimeInCurrentTimeZone(oneWeek).getTime() > start
-										.getMillisFromEpoch()) {
-							startInItin = true;
-							break;
-						}
-					}
-				}
-			}
-			if (startInItin || getIntent().getBooleanExtra(ARG_FORCE_SHOW_ITIN, false)) {
-				gotoItineraries();
-			}
+		Intent intent = getIntent();
+		if (intent.getBooleanExtra(ARG_FORCE_SHOW_WATERFALL, false)) {
+			// No need to do anything special, waterfall is the default behavior anyway
+		}
+		else if (intent.hasExtra(ARG_JUMP_TO_NOTIFICATION)) {
+			handleArgJumpToNotification(intent);
+			gotoItineraries();
+		}
+		else if (intent.getBooleanExtra(ARG_FORCE_SHOW_ITIN, false)) {
+			gotoItineraries();
+		}
+		else if (haveTimelyItinItem()) {
+			gotoItineraries();
 		}
 
 		// Debug code to notify QA to open ExpediaDebug app
 		ExpediaDebugUtil.showExpediaDebugToastIfNeeded(this);
-
-		// Omniture tracking
-		if (mJumpToItinId != null && getIntent().getBooleanExtra(ARG_IS_FROM_NOTIFICATION, false)) {
-			try {
-				String jsonNotification = getIntent().getStringExtra(ARG_JUMP_TO_NOTIFICATION);
-				Notification notification = new Notification();
-				notification.fromJson(new JSONObject(jsonNotification));
-				OmnitureTracking.trackNotificationClick(this, notification);
-			}
-			catch (JSONException e) {
-				Log.d("Bad notification object, unable to perform Omniture Tracking.");
-			}
-		}
 
 		// HockeyApp init
 		mHockeyPuck = new HockeyPuck(this, Codes.HOCKEY_APP_ID, !AndroidUtils.isRelease(this));
@@ -274,17 +236,8 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 			gotoWaterfall();
 		}
 		else if (intent.hasExtra(ARG_JUMP_TO_NOTIFICATION)) {
-			try {
-				String jsonNotification = intent.getStringExtra(ARG_JUMP_TO_NOTIFICATION);
-				Notification notification = new Notification();
-				notification.fromJson(new JSONObject(jsonNotification));
-				mJumpToItinId = notification.getItinId();
-				OmnitureTracking.trackNotificationClick(this, notification);
-				gotoItineraries();
-			}
-			catch (JSONException e) {
-				Log.e("Unable to parse notification.");
-			}
+			handleArgJumpToNotification(intent);
+			gotoItineraries();
 		}
 		else if (intent.getBooleanExtra(ARG_FORCE_SHOW_ITIN, false)) {
 			gotoItineraries();
@@ -425,6 +378,54 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	/**
+	 * Returns true if the user has an in progress or upcoming trip, as of the current time.
+	 * @return
+	 */
+	private boolean haveTimelyItinItem() {
+		ItineraryManager manager = ItineraryManager.getInstance();
+		List<DateTime> startTimes = manager.getStartTimes();
+		List<DateTime> endTimes = manager.getEndTimes();
+		if (startTimes != null && endTimes != null && startTimes.size() == endTimes.size()) {
+			Calendar now = Calendar.getInstance();
+			Calendar oneWeek = Calendar.getInstance();
+			oneWeek.add(Calendar.DATE, 7);
+			for (int i = 0; i < startTimes.size(); i++) {
+				DateTime start = startTimes.get(i);
+				DateTime end = endTimes.get(i);
+				if (DateTimeUtils.getTimeInCurrentTimeZone(now).getTime() < end.getMillisFromEpoch()
+						&& DateTimeUtils.getTimeInCurrentTimeZone(oneWeek).getTime() > start
+								.getMillisFromEpoch()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Parses ARG_JUMP_TO_NOTIFICATION out of the intent into a Notification object,
+	 * sets mJumpToItinId.
+	 * This function expects to be called only when this activity is started via
+	 * the given intent (onCreate or onNewIntent) and has side effects that
+	 * rely on that assumption:
+	 * 1. Tracks this incoming intent in Omniture.
+	 * @param intent
+	 */
+	private void handleArgJumpToNotification(Intent intent) {
+		try {
+			String jsonNotification = intent.getStringExtra(ARG_JUMP_TO_NOTIFICATION);
+			Notification notification = new Notification();
+			notification.fromJson(new JSONObject(jsonNotification));
+			mJumpToItinId = notification.getItinId();
+
+			OmnitureTracking.trackNotificationClick(this, notification);
+		}
+		catch (JSONException e) {
+			Log.e("Unable to parse notification.");
+		}
 	}
 
 	private synchronized void gotoWaterfall() {
