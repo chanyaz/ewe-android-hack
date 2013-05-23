@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
+import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 
 public class SamsungWalletUtils {
@@ -51,6 +52,7 @@ public class SamsungWalletUtils {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			Log.d("SamsungWallet: Received intent from SamsungWallet:" + intent.toString());
 			if (CHECK_TICKET_RESULT.equals(intent.getAction())) {
 				mCallback.onResult(intent.getIntExtra("RESULT_CODE", RESULT_INTERNAL_ERROR));
 				context.unregisterReceiver(this);
@@ -65,6 +67,7 @@ public class SamsungWalletUtils {
 
 		context.registerReceiver(receiver, filter);
 		context.sendBroadcast(intent);
+		Log.d("SamsungWallet: checkTicket() registered receiver and sent broadcast");
 	}
 
 	public static Intent downloadTicketIntent(Context context, String ticketId) {

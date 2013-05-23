@@ -104,6 +104,7 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity implemen
 		}
 
 		if (SamsungWalletUtils.isAvailable(this)) {
+			Log.d("SamsungWallet: is available");
 			mSamsungWalletButton = (TextView) findViewById(R.id.samsung_wallet_button);
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();
 			if (bd.isDownloading(SAMSUNG_WALLET_DOWNLOAD_KEY)) {
@@ -272,6 +273,7 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity implemen
 				SamsungWalletUtils.Callback callback = new SamsungWalletUtils.Callback() {
 					@Override
 					public void onResult(int result) {
+						Log.d("SamsungWallet: Got result: " + result);
 						if (result == SamsungWalletUtils.RESULT_TICKET_EXISTS) {
 							mSamsungWalletButton.setVisibility(View.VISIBLE);
 							mSamsungWalletButton.setText(getString(R.string.view_in_samsung_wallet));
