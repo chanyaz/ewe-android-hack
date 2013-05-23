@@ -565,6 +565,33 @@
         <item name="android:drawSelectorOnTop">true</item>
     </style>
 
+    <style name="FlightAirportAutocomplete">
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:dropDownSelector">@drawable/abs__list_selector_holo_dark</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:imeOptions">actionNext</item>
+        <item name="android:inputType">textCapWords|textNoSuggestions</item>
+        <item name="android:popupBackground">@drawable/bg_autocomplete</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="FlightAirportAutocomplete.Departure">
+        <item name="android:id">@id/departure_airport_edit_text</item>
+        <item name="android:layout_marginRight">2.5dp</item>
+        <item name="android:drawableLeft">@drawable/ic_field_depart</item>
+        <item name="android:hint">@string/hint_departure_airport</item>
+        <item name="android:nextFocusRight">@id/arrival_airport_edit_text</item>
+        <item name="android:nextFocusDown">@id/arrival_airport_edit_text</item>
+    </style>
+
+    <style name="FlightAirportAutocomplete.Arrival">
+        <item name="android:id">@id/arrival_airport_edit_text</item>
+        <item name="android:layout_marginLeft">2.5dp</item>
+        <item name="android:drawableLeft">@drawable/ic_field_arrive</item>
+        <item name="android:hint">@string/hint_arrival_airport</item>
+    </style>
+
     <style name="FlightDetailsText">
         <item name="android:textColor">@color/roboto_light</item>
         <item name="android:textSize">16dp</item>
@@ -793,4 +820,5 @@
         <item name="android:paddingLeft">16dip</item>
         <item name="android:paddingRight">16dip</item>
     </style>
+
 </resources>

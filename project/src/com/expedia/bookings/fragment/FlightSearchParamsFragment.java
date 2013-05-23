@@ -23,6 +23,7 @@ import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
@@ -58,6 +59,9 @@ import com.expedia.bookings.widget.NumTravelersPopupDropdown;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.OnDateChangedListener;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorListenerAdapter;
+import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
@@ -84,7 +88,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	private View mFocusStealer;
 	private View mDimmerView;
 	private ViewGroup mHeaderGroup;
-	private LinearLayout mAirportsContainer;
+	private ViewGroup mAirportsContainer;
 	private AutoCompleteTextView mDepartureAirportEditText;
 	private AutoCompleteTextView mArrivalAirportEditText;
 	private TextView mDatesTextView;
@@ -259,6 +263,9 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 		mArrivalAirportEditText.setImeOptions(mIsLandscape ? EditorInfo.IME_ACTION_DONE : EditorInfo.IME_ACTION_NEXT);
 
+		// Always initially reset the airport texts (otherwise they start overlapping)
+		resetAirportEditTexts(false);
+
 		if (savedInstanceState == null) {
 			// Fill in the initial departure/arrival airports if we are just launching
 			updateAirportText();
@@ -359,10 +366,14 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 					InputMethodManager imm = (InputMethodManager) context
 							.getSystemService(Context.INPUT_METHOD_SERVICE);
 					imm.showSoftInput(mDepartureAirportEditText, 0);
-
-					expandAirportEditText(mDepartureAirportEditText);
 				}
 			}, 250);
+		}
+		else if (mDepartureAirportEditText.isFocused()) {
+			expandAirportEditText(mDepartureAirportEditText, false);
+		}
+		else if (mArrivalAirportEditText.isFocused()) {
+			expandAirportEditText(mArrivalAirportEditText, false);
 		}
 	}
 
@@ -436,7 +447,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 				TextView tv = (TextView) v;
 				tv.setText(null);
 
-				expandAirportEditText(v);
+				expandAirportEditText(v, true);
 			}
 			else if (mItemClicked) {
 				mItemClicked = false;
@@ -504,40 +515,120 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		}
 	}
 
-	private void expandAirportEditText(View focusView) {
-		final View expandingView;
-		final View shrinkingView;
+	private void expandAirportEditText(final View focusView, final boolean animate) {
+		adjustAirportEditTexts(focusView, EDITTEXT_EXPANSION_RATIO, animate);
+	}
 
-		if (focusView == mDepartureAirportEditText) {
-			expandingView = mDepartureAirportEditText;
-			shrinkingView = mArrivalAirportEditText;
+	private void resetAirportEditTexts(final boolean animate) {
+		if (!isAdded()) {
+			return;
+		}
+
+		adjustAirportEditTexts(mDepartureAirportEditText, .5f, animate);
+	}
+
+	private void adjustAirportEditTexts(final View focusView, final float ratio, final boolean animate) {
+		// There are two possible setups here - one where we use LinearLayout (but never animate)
+		// and one where we use StableFrameLayout (and do animate, but only on newer devices).
+		if (mAirportsContainer instanceof LinearLayout) {
+			LinearLayout airportsContainer = (LinearLayout) mAirportsContainer;
+			View expandingView = focusView == mDepartureAirportEditText ? mDepartureAirportEditText
+					: mArrivalAirportEditText;
+			View shrinkingView = focusView == mDepartureAirportEditText ? mArrivalAirportEditText
+					: mDepartureAirportEditText;
+
+			final LinearLayout.LayoutParams expandingLayoutParams = (LinearLayout.LayoutParams) expandingView
+					.getLayoutParams();
+			final LinearLayout.LayoutParams shrinkingLayoutParams = (LinearLayout.LayoutParams) shrinkingView
+					.getLayoutParams();
+			final float totalWeight = airportsContainer.getWeightSum();
+			expandingLayoutParams.weight = totalWeight * (1 - ratio);
+			shrinkingLayoutParams.weight = totalWeight * ratio;
+			mAirportsContainer.requestLayout();
 		}
 		else {
-			expandingView = mArrivalAirportEditText;
-			shrinkingView = mDepartureAirportEditText;
-		}
-
-		// Show an animation to expand/collapse one or the other.
-		final LinearLayout.LayoutParams expandingLayoutParams = (LinearLayout.LayoutParams) expandingView
-				.getLayoutParams();
-		final LinearLayout.LayoutParams shrinkingLayoutParams = (LinearLayout.LayoutParams) shrinkingView
-				.getLayoutParams();
-		final float halfWeight = mAirportsContainer.getWeightSum() / 2;
-		final float startVal = expandingLayoutParams.weight - halfWeight;
-		final float endVal = halfWeight * EDITTEXT_EXPANSION_RATIO;
-
-		ValueAnimator anim = ValueAnimator.ofFloat(startVal, endVal);
-		anim.addUpdateListener(new AnimatorUpdateListener() {
-			@Override
-			public void onAnimationUpdate(ValueAnimator animator) {
-				float val = (Float) animator.getAnimatedValue();
-				expandingLayoutParams.weight = halfWeight + val;
-				shrinkingLayoutParams.weight = halfWeight - val;
-				mAirportsContainer.requestLayout();
+			final int totalWidth = mAirportsContainer.getWidth();
+			if (totalWidth == 0) {
+				// Defer reset until we have layout
+				mAirportsContainer.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+					@Override
+					public boolean onPreDraw() {
+						mAirportsContainer.getViewTreeObserver().removeOnPreDrawListener(this);
+						adjustAirportEditTexts(focusView, ratio, animate);
+						return true;
+					}
+				});
 			}
-		});
-		anim.setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
-		anim.start();
+			else {
+				float mod = focusView == mDepartureAirportEditText ? 1 - ratio : ratio;
+				int midPoint = (int) Math.round(totalWidth * mod);
+				final int startDepRight = mDepartureAirportEditText.getRight();
+				final int changeRight = startDepRight - midPoint;
+				final int startArrLeft = mArrivalAirportEditText.getLeft();
+				final int changeLeft = startArrLeft - midPoint;
+
+				if (!animate) {
+					mDepartureAirportEditText.setRight(startDepRight - changeRight);
+					mArrivalAirportEditText.setLeft(startArrLeft - changeLeft);
+				}
+				else {
+					final boolean isExpandingDeparture = changeRight < 0;
+					final CharSequence departureHint = mDepartureAirportEditText.getHint();
+					ValueAnimator depAnim = ValueAnimator.ofInt(0, changeRight);
+					depAnim.addUpdateListener(new AnimatorUpdateListener() {
+						public void onAnimationUpdate(ValueAnimator animator) {
+							int val = (Integer) animator.getAnimatedValue();
+							mDepartureAirportEditText.setRight(startDepRight - val);
+
+							// Trick into re-laying out the hint (otherwise end up with ellipsis)
+							if (isExpandingDeparture) {
+								mDepartureAirportEditText.setHint(departureHint);
+							}
+						}
+					});
+
+					final boolean isExpandingArrival = changeLeft > 0;
+					final CharSequence arrivalHint = mArrivalAirportEditText.getHint();
+					ValueAnimator arrAnim = ValueAnimator.ofInt(0, changeLeft);
+					arrAnim.addUpdateListener(new AnimatorUpdateListener() {
+						public void onAnimationUpdate(ValueAnimator animator) {
+							int val = (Integer) animator.getAnimatedValue();
+							mArrivalAirportEditText.setLeft(startArrLeft - val);
+
+							// Trick into re-laying out the hint (otherwise end up with ellipsis)
+							if (isExpandingArrival) {
+								mArrivalAirportEditText.setHint(arrivalHint);
+							}
+						}
+					});
+
+					AnimatorSet set = new AnimatorSet();
+					set.playTogether(depAnim, arrAnim);
+
+					// We want to hide the dropdown durin the animation so it doesn't end up
+					// in a funny state.
+					set.addListener(new AnimatorListenerAdapter() {
+						@Override
+						public void onAnimationStart(Animator animation) {
+							mDepartureAirportEditText.dismissDropDown();
+							mArrivalAirportEditText.dismissDropDown();
+						}
+
+						@Override
+						public void onAnimationEnd(Animator animation) {
+							if (getActivity() != null) {
+								mDepartureAirportEditText.showDropDown();
+								mArrivalAirportEditText.showDropDown();
+							}
+						}
+					});
+
+					set.setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
+
+					set.start();
+				}
+			}
+		}
 	}
 
 	private void onDepartureInputComplete() {
@@ -558,48 +649,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		}
 		else {
 			mArrivalAirportEditText.clearFocus();
+			resetAirportEditTexts(true);
 		}
-	}
-
-	private void resetAirportEditTexts() {
-		if (!isAdded()) {
-			return;
-		}
-
-		// Animate both views back to 50/50
-		final float halfWeight = mAirportsContainer.getWeightSum() / 2;
-
-		final LinearLayout.LayoutParams expandingLayoutParams;
-		final LinearLayout.LayoutParams shrinkingLayoutParams;
-
-		if (((LinearLayout.LayoutParams) mDepartureAirportEditText.getLayoutParams()).weight > halfWeight) {
-			expandingLayoutParams = (LinearLayout.LayoutParams) mArrivalAirportEditText.getLayoutParams();
-			shrinkingLayoutParams = (LinearLayout.LayoutParams) mDepartureAirportEditText.getLayoutParams();
-		}
-		else {
-			expandingLayoutParams = (LinearLayout.LayoutParams) mDepartureAirportEditText.getLayoutParams();
-			shrinkingLayoutParams = (LinearLayout.LayoutParams) mArrivalAirportEditText.getLayoutParams();
-		}
-
-		float startVal = expandingLayoutParams.weight - halfWeight;
-
-		// If they weren't already focused, don't bother with this animation
-		if (Math.abs(startVal) < .001) {
-			return;
-		}
-
-		ValueAnimator anim = ValueAnimator.ofFloat(expandingLayoutParams.weight - halfWeight, 0);
-		anim.addUpdateListener(new AnimatorUpdateListener() {
-			@Override
-			public void onAnimationUpdate(ValueAnimator animator) {
-				float val = (Float) animator.getAnimatedValue();
-				expandingLayoutParams.weight = halfWeight + val;
-				shrinkingLayoutParams.weight = halfWeight - val;
-				mAirportsContainer.requestLayout();
-			}
-		});
-		anim.setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
-		anim.start();
 	}
 
 	private void clearEditTextFocus() {
@@ -618,7 +669,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			hideKeyboard();
 		}
 
-		resetAirportEditTexts();
+		resetAirportEditTexts(true);
 	}
 
 	private void hideKeyboard() {

@@ -13,6 +13,10 @@
     <item name="tag_flight_trip_position" type="id"/>
     <item name="itin_flight_map_container_active" type="id"/>
 
+    <!-- For styles that want to declare IDs -->
+    <item name="departure_airport_edit_text" type="id"/>
+    <item name="arrival_airport_edit_text" type="id"/>
+
     <!-- QA Automation ids -->
     <item name="preference_spoof_booking_checkbox" type="id"/>
     <item name="preference_suppress_flight_booking_checkbox" type="id"/>
