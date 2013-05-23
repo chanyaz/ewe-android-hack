@@ -116,7 +116,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/flight_search_calendar_height"
         android:layout_alignParentBottom="true"
-        android:background="#CCCCCC"
         android:orientation="vertical"
         android:visibility="gone" >
 
@@ -135,7 +134,6 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_gravity="center_horizontal"
-            android:background="#DDD"
             mobiata:allowHybridDragging="true"
             mobiata:calendarHeaderBackground="@color/calendar_header"
             mobiata:cellTextColor="@color/calendar_cell_text"
