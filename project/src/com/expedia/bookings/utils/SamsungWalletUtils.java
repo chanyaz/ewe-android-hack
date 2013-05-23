@@ -52,7 +52,7 @@ public class SamsungWalletUtils {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (CHECK_TICKET_RESULT.equals(intent.getAction())) {
-				mCallback.onResult(0);
+				mCallback.onResult(intent.getIntExtra("RESULT_CODE", RESULT_INTERNAL_ERROR));
 				context.unregisterReceiver(this);
 			}
 		}
