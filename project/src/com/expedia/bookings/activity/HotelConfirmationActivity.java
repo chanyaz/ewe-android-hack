@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.text.Html;
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -26,17 +28,23 @@ import com.expedia.bookings.data.Policy;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
+import com.expedia.bookings.data.SamsungWalletResponse;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.fragment.BookingConfirmationFragment.BookingConfirmationFragmentListener;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
+import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.NavUtils;
+import com.expedia.bookings.utils.SamsungWalletUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.BackgroundDownloader.Download;
+import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 
@@ -44,6 +52,10 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity implemen
 		BookingConfirmationFragmentListener {
 
 	private Context mContext;
+
+	private TextView mSamsungWalletButton;
+
+	private static final String SAMSUNG_WALLET_DOWNLOAD_KEY = "SAMSUNG_WALLET_DOWNLOAD_KEY";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +102,17 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity implemen
 					Db.getSelectedProperty(),
 					Db.getBillingInfo(), Db.getSelectedRate(), Db.getBookingResponse());
 		}
+
+		if (SamsungWalletUtils.isAvailable(this)) {
+			mSamsungWalletButton = (TextView) findViewById(R.id.samsung_wallet_button);
+			BackgroundDownloader bd = BackgroundDownloader.getInstance();
+			if (bd.isDownloading(SAMSUNG_WALLET_DOWNLOAD_KEY)) {
+				bd.registerDownloadCallback(SAMSUNG_WALLET_DOWNLOAD_KEY, mWalletCallback);
+			}
+			else {
+				bd.startDownload(SAMSUNG_WALLET_DOWNLOAD_KEY, mWalletDownload, mWalletCallback);
+			}
+		}
 	}
 
 	@Override
@@ -108,6 +131,15 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity implemen
 			Db.setCreateTripResponse(null);
 			Db.setCouponDiscountRate(null);
 		}
+
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (isFinishing()) {
+			bd.cancelDownload(SAMSUNG_WALLET_DOWNLOAD_KEY);
+		}
+		else {
+			bd.unregisterDownloadCallback(SAMSUNG_WALLET_DOWNLOAD_KEY, mWalletCallback);
+		}
+
 
 		OmnitureTracking.onPause();
 	}
@@ -221,6 +253,40 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity implemen
 		newIntent.setData(Uri.parse("geo:0,0?q=" + queryAddress));
 		startActivity(newIntent);
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// SamsungWallet downloads
+
+	private final Download<SamsungWalletResponse> mWalletDownload = new Download<SamsungWalletResponse>() {
+		@Override
+		public SamsungWalletResponse doDownload() {
+			ExpediaServices services = new ExpediaServices(HotelConfirmationActivity.this);
+			return services.getSamsungWalletTicketId(Db.getBookingResponse().getItineraryId());
+		}
+	};
+
+	private final OnDownloadComplete<SamsungWalletResponse> mWalletCallback = new OnDownloadComplete<SamsungWalletResponse>() {
+		@Override
+		public void onDownload(SamsungWalletResponse response) {
+			if (response != null) {
+				SamsungWalletUtils.Callback callback = new SamsungWalletUtils.Callback() {
+					@Override
+					public void onResult(int result) {
+						if (result == SamsungWalletUtils.RESULT_TICKET_EXISTS) {
+							mSamsungWalletButton.setVisibility(View.VISIBLE);
+							mSamsungWalletButton.setText(getString(R.string.view_in_samsung_wallet));
+						}
+						else if (result == SamsungWalletUtils.RESULT_TICKET_NOT_FOUND) {
+							mSamsungWalletButton.setVisibility(View.VISIBLE);
+							mSamsungWalletButton.setText(getString(R.string.add_to_samsung_wallet));
+						}
+					}
+				};
+
+				SamsungWalletUtils.checkTicket(HotelConfirmationActivity.this, callback, response.getTicketId());
+			}
+		}
+	};
 
 	//////////////////////////////////////////////////////////////////////////
 	// Sharing
