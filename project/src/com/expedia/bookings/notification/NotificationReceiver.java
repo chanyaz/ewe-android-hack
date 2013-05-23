@@ -107,6 +107,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 		case ACTION_SCHEDULE:
 		default:
 			notification.setStatus(StatusType.NOTIFIED);
+			notification.save();
 			new Notifier(context, notification).start();
 			break;
 		}

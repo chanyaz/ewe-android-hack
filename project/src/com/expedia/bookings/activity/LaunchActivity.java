@@ -412,20 +412,33 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	 * the given intent (onCreate or onNewIntent) and has side effects that
 	 * rely on that assumption:
 	 * 1. Tracks this incoming intent in Omniture.
+	 * 2. Updates the Notifications table that this notification is dismissed.
 	 * @param intent
 	 */
 	private void handleArgJumpToNotification(Intent intent) {
+		Notification notification = new Notification();
+
 		try {
 			String jsonNotification = intent.getStringExtra(ARG_JUMP_TO_NOTIFICATION);
-			Notification notification = new Notification();
 			notification.fromJson(new JSONObject(jsonNotification));
-			mJumpToItinId = notification.getItinId();
-
-			OmnitureTracking.trackNotificationClick(this, notification);
 		}
 		catch (JSONException e) {
 			Log.e("Unable to parse notification.");
 		}
+
+		notification = Notification.findExisting(notification);
+		if (notification == null) {
+			return;
+		}
+
+		mJumpToItinId = notification.getItinId();
+		OmnitureTracking.trackNotificationClick(this, notification);
+
+		// Set status = DISMISSED so we don't notify again for the same notification.
+		// There's no need to dismiss with the notification manager, since it was set to
+		// auto dismiss when clicked. Let's say "dismiss" a couple more times dismiss.
+		notification.setStatus(StatusType.DISMISSED);
+		notification.save();
 	}
 
 	private synchronized void gotoWaterfall() {
