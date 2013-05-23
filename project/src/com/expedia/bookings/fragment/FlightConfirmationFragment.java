@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
@@ -41,7 +40,6 @@ import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
@@ -227,12 +225,14 @@ public class FlightConfirmationFragment extends Fragment {
 			}
 		});
 
-		if (PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.CANADA) {
+		// Only display an insurance url if it exists. Currently only present for CA POS.
+		final String insuranceUrl = PointOfSale.getPointOfSale().getInsuranceUrl();
+		if (!TextUtils.isEmpty(insuranceUrl)) {
 			Ui.setOnClickListener(v, R.id.ca_insurance_action_text_view, new OnClickListener() {
 
 				@Override
 				public void onClick(View arg0) {
-					addInsurance();
+					addInsurance(insuranceUrl);
 				}
 			});
 		}
@@ -406,21 +406,14 @@ public class FlightConfirmationFragment extends Fragment {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// Add insurance (Canada only)
+	// Add insurance
 
-	private void addInsurance() {
-		String url;
-		if (Locale.getDefault().getLanguage().equals("fr")) {
-			url = "http://www.expedia.ca/daily/frc3084/travelinsurance/default.asp";
-		}
-		else {
-			url = "http://www.expedia.ca/daily/enc4105/travelinsurance/default.asp";
-		}
-
+	private void addInsurance(String url) {
 		WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 		builder.setUrl(url);
 		builder.setTheme(R.style.FlightTheme);
 		builder.setTitle(R.string.insurance);
+		builder.setInjectExpediaCookies(true);
 		startActivity(builder.getIntent());
 
 		mHasAddedInsurance = true;

@@ -140,6 +140,9 @@ public class PointOfSale {
 		// The url for just the website
 		private String mWebsiteUrl;
 
+		// The url for travel insurance. Not present for all POS
+		private String mInsuranceUrl;
+
 		// The url for the best price guarantee policy (if available in the POS)
 		private String mBestPriceGuaranteePolicyUrl;
 
@@ -278,6 +281,10 @@ public class PointOfSale {
 
 	public String getWebsiteUrl() {
 		return getPosLocale().mWebsiteUrl;
+	}
+
+	public String getInsuranceUrl() {
+		return getPosLocale().mInsuranceUrl;
 	}
 
 	public String getBestPriceGuaranteeUrl() {
@@ -710,6 +717,7 @@ public class PointOfSale {
 		locale.mSupportUrl = data.optString("supportURL", null);
 		locale.mAppInfoUrl = data.optString("appInfoURL", null);
 		locale.mWebsiteUrl = data.optString("contactURL", null);
+		locale.mInsuranceUrl = data.optString("insuranceURL", null);
 		locale.mBestPriceGuaranteePolicyUrl = data.optString("bestPriceGuaranteePolicyURL", null);
 
 		// All fields for rules & restrictions disclaimer
