@@ -105,6 +105,11 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 		}
 
 		mItinListFragment.enableLoadItins();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
 		ItineraryManager.getInstance().addSyncListener(this);
 	}
 
