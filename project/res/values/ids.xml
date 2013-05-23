@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:android="http://schemas.android.com/apk/res/android">  
-  <item type="id" name="check_in_time" />
-  <item type="id" name="check_out_time" />
-  <item type="id" name="sort_popular_button"/>
-  <item type="id" name="sort_price_button"/>
-  <item type="id" name="sort_deals_button"/>
-  <item type="id" name="sort_distance_button"/>
-  <item type="id" name="sort_reviews_button"/>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <item type="id" name="tag_flight_trip"/>
-  <item type="id" name="tag_flight_leg"/>
-  <item type="id" name="tag_flight_trip_position"/>
-  
-  <item type="id" name="itin_flight_map_container_active"/>
+    <item name="check_in_time" type="id"/>
+    <item name="check_out_time" type="id"/>
+    <item name="sort_popular_button" type="id"/>
+    <item name="sort_price_button" type="id"/>
+    <item name="sort_deals_button" type="id"/>
+    <item name="sort_distance_button" type="id"/>
+    <item name="sort_reviews_button" type="id"/>
+    <item name="tag_flight_trip" type="id"/>
+    <item name="tag_flight_leg" type="id"/>
+    <item name="tag_flight_trip_position" type="id"/>
+    <item name="itin_flight_map_container_active" type="id"/>
 
-  <!-- QA Automation ids -->
-  <item type="id" name="preference_spoof_booking_checkbox" />
-  <item type="id" name="preference_suppress_flight_booking_checkbox" />
+    <!-- QA Automation ids -->
+    <item name="preference_spoof_booking_checkbox" type="id"/>
+    <item name="preference_suppress_flight_booking_checkbox" type="id"/>
+
 </resources>
