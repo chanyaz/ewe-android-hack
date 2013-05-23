@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.database.DataSetObserver;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Pair;
@@ -35,7 +36,10 @@ import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.FlightAdapter;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorListenerAdapter;
+import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
+import com.nineoldandroids.animation.PropertyValuesHolder;
 
 // IMPLEMENTATION NOTE: This implementation heavily leans towards the user only picking
 // two legs of a flight (outbound and inbound).  If you want to adapt it for 3+ legs, you
@@ -225,9 +229,11 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 	public Animator createLegClickAnimator(boolean enter, FlightLeg flightLeg) {
 		View v = getView();
 		List<Animator> set = new ArrayList<Animator>();
+		final List<View> hwLayerViews = new ArrayList<View>();
 		float[] values = new float[2];
 
 		if (v != null && mAdapter != null && mListView != null) {
+			PropertyValuesHolder pvhAlpha = AnimUtils.createFadePropertyValuesHolder(enter);
 
 			// Animate each element of the listview away, at relative speeds (the further from position, the faster)
 			float maxTranslateY = getResources().getDisplayMetrics().density * MAX_TRANSLATE_Y_DP;
@@ -250,7 +256,13 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 						values[0] = 0;
 						values[1] = -translation;
 					}
-					set.add(ObjectAnimator.ofFloat(child, "translationY", values));
+					PropertyValuesHolder pvhTranslation = PropertyValuesHolder.ofFloat("translationY", values);
+					set.add(ObjectAnimator.ofPropertyValuesHolder(child, pvhAlpha, pvhTranslation));
+					hwLayerViews.add(child);
+				}
+				else if (a == skipPosition) {
+					set.add(ObjectAnimator.ofPropertyValuesHolder(child, pvhAlpha));
+					hwLayerViews.add(child);
 				}
 				else if (a > skipPosition) {
 					float translation = ((float) (childTop - targetTop) / (float) spaceBelow) * maxTranslateY;
@@ -262,37 +274,83 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 						values[0] = 0;
 						values[1] = translation;
 					}
-					set.add(ObjectAnimator.ofFloat(child, "translationY", values));
+					PropertyValuesHolder pvhTranslation = PropertyValuesHolder.ofFloat("translationY", values);
+					set.add(ObjectAnimator.ofPropertyValuesHolder(child, pvhAlpha, pvhTranslation));
+					hwLayerViews.add(child);
 				}
 			}
-
-			// Fade in/out the entire view
-			set.add(AnimUtils.createFadeAnimator(v, enter));
 		}
-		return AnimUtils.playTogether(set);
+
+		AnimatorSet animSet = AnimUtils.playTogether(set);
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			animSet.addListener(new AnimatorListenerAdapter() {
+				@Override
+				public void onAnimationStart(Animator animation) {
+					for (View view : hwLayerViews) {
+						view.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+					}
+				}
+
+				@Override
+				public void onAnimationEnd(Animator animation) {
+					for (View view : hwLayerViews) {
+						view.setLayerType(View.LAYER_TYPE_NONE, null);
+					}
+				}
+			});
+		}
+
+		return animSet;
 	}
 
 	public Animator createLegSelectAnimator(boolean enter) {
 		View v = getView();
 		List<Animator> set = new ArrayList<Animator>();
+		final List<View> hwLayerViews = new ArrayList<View>();
 		float[] values;
 
 		if (v != null && mAdapter != null && mListView != null) {
-
 			// Animate the entire listview up (except header)
 			int translate = mListView.getHeight() - mListView.getChildAt(0).getHeight();
 			int childCount = mListView.getChildCount();
 			values = (enter) ? new float[] { translate, 0 } : new float[] { 0, translate };
+			PropertyValuesHolder pvhAlpha = AnimUtils.createFadePropertyValuesHolder(enter);
+			PropertyValuesHolder pvhTranslation = PropertyValuesHolder.ofFloat("translationY", values);
 			for (int a = 1; a < childCount; a++) {
-				set.add(ObjectAnimator.ofFloat(mListView.getChildAt(a), "translationY", values));
+				View child = mListView.getChildAt(a);
+				set.add(ObjectAnimator.ofPropertyValuesHolder(child, pvhAlpha, pvhTranslation));
+				hwLayerViews.add(child);
 			}
 
-			// Fade in/out the entire view
-			set.add(AnimUtils.createFadeAnimator(v, enter));
+			// Alpha in the header
+			View header = mListView.getChildAt(0);
+			set.add(ObjectAnimator.ofPropertyValuesHolder(header, pvhAlpha));
+			hwLayerViews.add(header);
 		}
 
 		// Create AnimatorSet and return
-		return AnimUtils.playTogether(set);
+		AnimatorSet animSet = AnimUtils.playTogether(set);
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			animSet.addListener(new AnimatorListenerAdapter() {
+				@Override
+				public void onAnimationStart(Animator animation) {
+					for (View view : hwLayerViews) {
+						view.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+					}
+				}
+
+				@Override
+				public void onAnimationEnd(Animator animation) {
+					for (View view : hwLayerViews) {
+						view.setLayerType(View.LAYER_TYPE_NONE, null);
+					}
+				}
+			});
+		}
+
+		return animSet;
 	}
 
 	// Used to find out where to animate to/from a card in the list

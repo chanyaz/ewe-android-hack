@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -38,7 +39,10 @@ import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Layover;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorListenerAdapter;
+import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
+import com.nineoldandroids.animation.PropertyValuesHolder;
 
 public class FlightDetailsFragment extends Fragment {
 
@@ -287,9 +291,15 @@ public class FlightDetailsFragment extends Fragment {
 	// Animators
 
 	public Animator createAnimator(int top, int bottom, boolean enter) {
-		View v = getView();
 		List<Animator> set = new ArrayList<Animator>();
 		float[] values = new float[2];
+		PropertyValuesHolder pvhAlpha = AnimUtils.createFadePropertyValuesHolder(enter);
+		PropertyValuesHolder pvhTranslation, pvhScale;
+
+		// A list of views to set in a HW layer.  We only do this for complex Views; for simple
+		// Views it is somewhat a waste of time (as we're actually adding work, due to the slight
+		// overhead of HW layers).  It is an experiment right now which are complex enough.
+		final List<View> hwLayerViews = new ArrayList<View>();
 
 		int center = (top + bottom) / 2;
 		int height = bottom - top;
@@ -307,7 +317,7 @@ public class FlightDetailsFragment extends Fragment {
 				values[0] = 0;
 				values[1] = translation;
 			}
-			set.add(ObjectAnimator.ofFloat(child, "translationY", values));
+			pvhTranslation = PropertyValuesHolder.ofFloat("translationY", values);
 
 			// Scale the flight cards a bit, so they look like they are growing out of/into a row
 			if (child instanceof FlightSegmentSection) {
@@ -320,8 +330,14 @@ public class FlightDetailsFragment extends Fragment {
 					values[0] = 1;
 					values[1] = change;
 				}
-				set.add(ObjectAnimator.ofFloat(child, "scaleY", values));
+				pvhScale = PropertyValuesHolder.ofFloat("scaleY", values);
+				set.add(ObjectAnimator.ofPropertyValuesHolder(child, pvhAlpha, pvhTranslation, pvhScale));
 			}
+			else {
+				set.add(ObjectAnimator.ofPropertyValuesHolder(child, pvhAlpha, pvhTranslation));
+			}
+
+			hwLayerViews.add(child);
 		}
 
 		// Animate the header
@@ -333,7 +349,9 @@ public class FlightDetailsFragment extends Fragment {
 			values[0] = 0;
 			values[1] = -mInfoBar.getHeight();
 		}
-		set.add(ObjectAnimator.ofFloat(mInfoBar, "translationY", values));
+		pvhTranslation = PropertyValuesHolder.ofFloat("translationY", values);
+		set.add(ObjectAnimator.ofPropertyValuesHolder(mInfoBar, pvhAlpha, pvhTranslation));
+		hwLayerViews.add(mInfoBar);
 
 		// Animate the baggage fee (if it's not in the scroll view)
 		if (!mFeesContainerInScrollView) {
@@ -345,13 +363,32 @@ public class FlightDetailsFragment extends Fragment {
 				values[0] = 0;
 				values[1] = mFeesContainer.getHeight();
 			}
-			set.add(ObjectAnimator.ofFloat(mFeesContainer, "translationY", values));
+			pvhTranslation = PropertyValuesHolder.ofFloat("translationY", values);
+			set.add(ObjectAnimator.ofPropertyValuesHolder(mFeesContainer, pvhAlpha, pvhTranslation));
+			hwLayerViews.add(mFeesContainer);
 		}
 
-		// Make the entire screen fade out
-		set.add(AnimUtils.createFadeAnimator(v, enter));
+		AnimatorSet animSet = AnimUtils.playTogether(set);
 
-		return AnimUtils.playTogether(set);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			animSet.addListener(new AnimatorListenerAdapter() {
+				@Override
+				public void onAnimationStart(Animator animation) {
+					for (View view : hwLayerViews) {
+						view.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+					}
+				}
+
+				@Override
+				public void onAnimationEnd(Animator animation) {
+					for (View view : hwLayerViews) {
+						view.setLayerType(View.LAYER_TYPE_NONE, null);
+					}
+				}
+			});
+		}
+
+		return animSet;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
