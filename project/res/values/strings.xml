@@ -2132,6 +2132,12 @@
     <!-- Content description for "buy with wallet" button -->
     <string name="wallet_buy_with_google_wallet">Buy with Google wallet</string>
 
+    <!-- Samsung Wallet -->
+    <!-- Label to use when the ticket already exists in the wallet -->
+    <string name="view_in_samsung_wallet">View in Samsung Wallet</string>
+    <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
+    <string name="add_to_samsung_wallet">Add to Samsung Wallet</string>
+
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- S_Push_flight_CITY_delayed_HOUR -->
     <string name="S_Push_flight_CITY_delayed_HOUR">Your flight to %1$s is delayed %2$s hour.</string>
