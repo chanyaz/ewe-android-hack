@@ -197,7 +197,7 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 			mEmailEdit.setEnabled(false);
 			mItinNumEdit.setEnabled(false);
 			hideKeyboard();
-			mOuterContainer.setGravity(Gravity.CENTER);
+			mOuterContainer.setGravity(Gravity.TOP);
 			mExtenderContainer.setVisibility(View.VISIBLE);
 		}
 		else {
