@@ -109,16 +109,16 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 	}
 
 	@Override
-	public void onPause() {
-		super.onPause();
-		ItineraryManager.getInstance().removeSyncListener(this);
-	}
-
-	@Override
 	protected void onPostResume() {
 		super.onPostResume();
 
 		mFragmentSafe = true;
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		ItineraryManager.getInstance().removeSyncListener(this);
 	}
 
 	@Override
