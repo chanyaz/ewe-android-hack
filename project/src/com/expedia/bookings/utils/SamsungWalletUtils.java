@@ -70,6 +70,21 @@ public class SamsungWalletUtils {
 		Log.d("SamsungWallet: checkTicket() registered receiver and sent broadcast");
 	}
 
+	// For starting the samsung wallet viewing activity
+	public static Intent viewTicketIntent(Context context, String ticketId) {
+		Intent intent = new Intent();
+		ComponentName comp = new ComponentName("com.sec.android.wallet",
+				"com.sec.android.wallet.ui.activity.ticket.ExternalTicketDetailViewActivity");
+		intent.setComponent(comp);
+
+		intent.putExtra("TICKET_ID", ticketId);
+		intent.putExtra("BOUNCE_ID", ""+System.currentTimeMillis());
+		intent.putExtra("RESULT_ACTION", "com.sample.partners.action.VIEW_TICKET_RESULT");
+
+		return intent;
+	}
+
+	// For starting the samsung wallet download activity if the ticket is not in the wallet
 	public static Intent downloadTicketIntent(Context context, String ticketId) {
 		Intent intent = new Intent();
 		ComponentName comp = new ComponentName("com.sec.android.wallet",
