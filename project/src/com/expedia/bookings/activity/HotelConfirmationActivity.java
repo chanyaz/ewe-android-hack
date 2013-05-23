@@ -270,23 +270,44 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity implemen
 		@Override
 		public void onDownload(SamsungWalletResponse response) {
 			if (response != null) {
+				Db.setSamsungWalletTicketId(response.getTicketId());
 				SamsungWalletUtils.Callback callback = new SamsungWalletUtils.Callback() {
 					@Override
 					public void onResult(int result) {
 						Log.d("SamsungWallet: Got result: " + result);
-						if (result == SamsungWalletUtils.RESULT_TICKET_EXISTS) {
+						final boolean shouldView = result == SamsungWalletUtils.RESULT_TICKET_EXISTS;
+						final boolean shouldDownload = result == SamsungWalletUtils.RESULT_TICKET_NOT_FOUND;
+						if (shouldView || shouldDownload) {
 							mSamsungWalletButton.setVisibility(View.VISIBLE);
-							mSamsungWalletButton.setText(getString(R.string.view_in_samsung_wallet));
-						}
-						else if (result == SamsungWalletUtils.RESULT_TICKET_NOT_FOUND) {
-							mSamsungWalletButton.setVisibility(View.VISIBLE);
-							mSamsungWalletButton.setText(getString(R.string.add_to_samsung_wallet));
+							int textId = shouldView ? R.string.view_in_samsung_wallet : R.string.add_to_samsung_wallet;
+							mSamsungWalletButton.setText(getString(textId));
+							mSamsungWalletButton.getTag(result);
+							mSamsungWalletButton.setOnClickListener(mSamsungWalletClickListener);
 						}
 					}
 				};
 
 				SamsungWalletUtils.checkTicket(HotelConfirmationActivity.this, callback, response.getTicketId());
 			}
+		}
+	};
+
+	private final View.OnClickListener mSamsungWalletClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			int result = (Integer) v.getTag();
+			Context context = HotelConfirmationActivity.this;
+			String ticketId = Db.getSamsungWalletTicketId();
+			Intent intent;
+			if (result == SamsungWalletUtils.RESULT_TICKET_EXISTS) {
+				Log.d("SamsungWallet: Starting view ticket activity");
+				intent = SamsungWalletUtils.viewTicketIntent(context, ticketId);
+			}
+			else {
+				Log.d("SamsungWallet: Starting download ticket activity");
+				intent = SamsungWalletUtils.downloadTicketIntent(context, ticketId);
+			}
+			startActivity(intent);
 		}
 	};
 

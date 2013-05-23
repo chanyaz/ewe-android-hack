@@ -157,6 +157,10 @@ public class Db {
 	private CreateTripResponse mCreateTripResponse;
 	private Rate mCouponDiscountRate;
 
+	// To store the samsung ticketId we get from the server
+	// Do not persist!
+	private String mSamsungWalletTicketId;
+
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
 
@@ -410,6 +414,14 @@ public class Db {
 
 	public static User getUser() {
 		return sDb.mUser;
+	}
+
+	public static void setSamsungWalletTicketId(String id) {
+		sDb.mSamsungWalletTicketId = id;
+	}
+
+	public static String getSamsungWalletTicketId() {
+		return sDb.mSamsungWalletTicketId;
 	}
 
 	/**
