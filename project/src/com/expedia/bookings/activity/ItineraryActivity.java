@@ -110,6 +110,9 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 	@Override
 	protected void onResume() {
 		super.onResume();
+		// Make sure to syncWithManager in the event the ItineraryManager has received updated data while our
+		// syncListener was not attached.
+		syncWithManager();
 		ItineraryManager.getInstance().addSyncListener(this);
 	}
 
@@ -367,21 +370,33 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 
 	@Override
 	public void onSyncFinished(Collection<Trip> trips) {
+		syncWithManager();
+	}
+
+	/**
+	 * Call this to either redraw or hide the popup after the ItineraryManager could have new data.
+	 */
+	private void syncWithManager() {
 		if (mItinCardFragment != null && mItinCardFragment.isVisible()) {
 			ItinCardData selectedCardData = mItinCardFragment.getItinCardData();
 			String selectedCardId = selectedCardData.getTripComponent().getUniqueId();
 
 			boolean tripExists = false;
+			ItinCardData displayCard = null;
 			for (ItinCardData updatedCard : ItineraryManager.getInstance().getItinCardData()) {
 				if (selectedCardId.equals(updatedCard.getTripComponent().getUniqueId())) {
+					displayCard = updatedCard;
 					tripExists = true;
-					mItinCardFragment.showItinDetails(updatedCard, false);
 					break;
 				}
 			}
 
-			if (!tripExists) {
-				getSupportFragmentManager().beginTransaction().hide(mItinCardFragment).commit();
+			if (tripExists) {
+				// Redraw the popup
+				mItinCardFragment.showItinDetails(displayCard, false);
+			}
+			else {
+				hidePopupWindow();
 			}
 		}
 	}
