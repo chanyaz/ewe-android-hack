@@ -133,6 +133,9 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 	private boolean mRefreshedUser;
 	private boolean mIsDoneLoadingPriceChange = false;
 
+	// We keep track of if we need to maintain the scroll position
+	// This is needed when we call startCheckout before a layout occurs
+	// typically on rotation
 	private boolean mMaintainStartCheckoutPosition;
 
 	@Override
@@ -659,6 +662,7 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 				public void run() {
 					mScrollView.requestLayout();
 					if (mMaintainStartCheckoutPosition) {
+						// Now we have to wire this up so we can scroll the page after a layout occurs
 						mScrollView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 							@Override
 							public void onGlobalLayout() {
