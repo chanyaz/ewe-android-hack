@@ -167,7 +167,7 @@ public class ItineraryManager implements JSONable {
 	 */
 	public TripFlight getTripComponentFromFlightHistoryId(int fhid) {
 
-		if (mItinCardDatas != null) {
+		synchronized (mItinCardDatas) {
 			for (ItinCardData data : mItinCardDatas) {
 				if (data instanceof ItinCardDataFlight) {
 					ItinCardDataFlight fData = (ItinCardDataFlight) data;
@@ -201,10 +201,12 @@ public class ItineraryManager implements JSONable {
 	 */
 	public ItinCardData getItinCardDataFromFlightHistoryId(int fhid) {
 		TripFlight tripFlight = getTripComponentFromFlightHistoryId(fhid);
-		if (tripFlight != null && mItinCardDatas != null) {
-			for (ItinCardData data : mItinCardDatas) {
-				if (data.getTripComponent() == tripFlight) {
-					return data;
+		if (tripFlight != null) {
+			synchronized (mItinCardDatas) {
+				for (ItinCardData data : mItinCardDatas) {
+					if (data.getTripComponent() == tripFlight) {
+						return data;
+					}
 				}
 			}
 		}
@@ -217,11 +219,15 @@ public class ItineraryManager implements JSONable {
 	 * @return first ItinCardData found matching the passed id or null
 	 */
 	public ItinCardData getItinCardDataFromItinId(String itinId) {
-		for (ItinCardData data : mItinCardDatas) {
-			if (data.getId().equals(itinId)) {
-				return data;
+
+		synchronized (mItinCardDatas) {
+			for (ItinCardData data : mItinCardDatas) {
+				if (data.getId().equals(itinId)) {
+					return data;
+				}
 			}
 		}
+
 		return null;
 	}
 
@@ -235,7 +241,8 @@ public class ItineraryManager implements JSONable {
 	 */
 	public List<Flight> getAllItinFlights() {
 		List<Flight> retFlights = new ArrayList<Flight>();
-		if (mItinCardDatas != null) {
+
+		synchronized (mItinCardDatas) {
 			for (ItinCardData data : mItinCardDatas) {
 				if (data.getTripComponentType() != null && data.getTripComponentType() == Type.FLIGHT
 						&& data.getTripComponent() != null) {
@@ -247,6 +254,7 @@ public class ItineraryManager implements JSONable {
 				}
 			}
 		}
+
 		return retFlights;
 	}
 
@@ -281,7 +289,9 @@ public class ItineraryManager implements JSONable {
 
 		mLastUpdateTime = 0;
 
-		mItinCardDatas.clear();
+		synchronized (mItinCardDatas) {
+			mItinCardDatas.clear();
+		}
 
 		if (mTrips == null) {
 			return;
@@ -438,28 +448,30 @@ public class ItineraryManager implements JSONable {
 	private static final int CUTOFF_HOURS = 48;
 
 	private void generateItinCardData() {
-		mItinCardDatas.clear();
+		synchronized (mItinCardDatas) {
+			mItinCardDatas.clear();
 
-		Calendar pastCutoffCal = Calendar.getInstance();
-		pastCutoffCal.add(Calendar.HOUR_OF_DAY, -CUTOFF_HOURS);
-		for (Trip trip : mTrips.values()) {
-			if (trip.getTripComponents() != null) {
-				List<TripComponent> components = trip.getTripComponents(true);
-				for (TripComponent comp : components) {
-					List<ItinCardData> items = ItinCardDataFactory.generateCardData(comp);
-					if (items != null) {
-						for (ItinCardData item : items) {
-							if (item.getEndDate() != null && item.getEndDate().getCalendar() != null
-									&& item.getEndDate().getCalendar().compareTo(pastCutoffCal) >= 0) {
-								mItinCardDatas.add(item);
+			Calendar pastCutoffCal = Calendar.getInstance();
+			pastCutoffCal.add(Calendar.HOUR_OF_DAY, -CUTOFF_HOURS);
+			for (Trip trip : mTrips.values()) {
+				if (trip.getTripComponents() != null) {
+					List<TripComponent> components = trip.getTripComponents(true);
+					for (TripComponent comp : components) {
+						List<ItinCardData> items = ItinCardDataFactory.generateCardData(comp);
+						if (items != null) {
+							for (ItinCardData item : items) {
+								if (item.getEndDate() != null && item.getEndDate().getCalendar() != null
+										&& item.getEndDate().getCalendar().compareTo(pastCutoffCal) >= 0) {
+									mItinCardDatas.add(item);
+								}
 							}
 						}
 					}
 				}
 			}
-		}
 
-		Collections.sort(mItinCardDatas, mItinCardDataComparator);
+			Collections.sort(mItinCardDatas, mItinCardDataComparator);
+		}
 	}
 
 	private Comparator<ItinCardData> mItinCardDataComparator = new Comparator<ItinCardData>() {
@@ -1353,31 +1365,33 @@ public class ItineraryManager implements JSONable {
 	// Local Notifications
 
 	private void scheduleLocalNotifications() {
-		for (ItinCardData data : mItinCardDatas) {
-			ItinContentGenerator<?> generator = ItinContentGenerator.createGenerator(mContext, data);
+		synchronized (mItinCardDatas) {
+			for (ItinCardData data : mItinCardDatas) {
+				ItinContentGenerator<?> generator = ItinContentGenerator.createGenerator(mContext, data);
 
-			List<Notification> notifications = generator.generateNotifications();
-			if (notifications == null) {
-				continue;
-			}
-
-			for (Notification notification : notifications) {
-
-				// If we already have this notification, don't notify again.
-				if (!Notification.hasExisting(notification)) {
-					notification.save();
+				List<Notification> notifications = generator.generateNotifications();
+				if (notifications == null) {
+					continue;
 				}
 
-				//TODO: temporary -->
-				// This is just to get the notifications to show up frequently for development
-				//				else {
-				//					notification = Notification.findExisting(notification);
-				//				}
-				//				notification.setTriggerTimeMillis(System.currentTimeMillis() + 5000);
-				//				notification.setExpirationTimeMillis(System.currentTimeMillis() + DateUtils.DAY_IN_MILLIS);
-				//				notification.setStatus(StatusType.NEW);
-				//				notification.save();
-				//TODO: <-- temporary
+				for (Notification notification : notifications) {
+
+					// If we already have this notification, don't notify again.
+					if (!Notification.hasExisting(notification)) {
+						notification.save();
+					}
+
+					//TODO: temporary -->
+					// This is just to get the notifications to show up frequently for development
+					//				else {
+					//					notification = Notification.findExisting(notification);
+					//				}
+					//				notification.setTriggerTimeMillis(System.currentTimeMillis() + 5000);
+					//				notification.setExpirationTimeMillis(System.currentTimeMillis() + DateUtils.DAY_IN_MILLIS);
+					//				notification.setStatus(StatusType.NEW);
+					//				notification.save();
+					//TODO: <-- temporary
+				}
 			}
 		}
 
