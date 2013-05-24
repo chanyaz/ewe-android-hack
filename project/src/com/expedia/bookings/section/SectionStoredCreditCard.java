@@ -53,6 +53,10 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 	private void init(Context context, AttributeSet attrs) {
 		inflate(context, R.layout.widget_stored_credit_card, this);
 
+		mDescriptionView = Ui.findView(this, R.id.display_stored_card_desc);
+		mIconView = Ui.findView(this, R.id.icon_view);
+		mWalletTextView = Ui.findView(this, R.id.google_wallet_text_view);
+
 		// Set a few attributes that widget_stored_credit_card desires
 		setOrientation(LinearLayout.HORIZONTAL);
 		setGravity(Gravity.CENTER_VERTICAL);
@@ -72,15 +76,6 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 		if (mSecondaryTextColor == null) {
 			mSecondaryTextColor = context.getResources().getColorStateList(R.color.data_review_grey);
 		}
-	}
-
-	@Override
-	public void onFinishInflate() {
-		super.onFinishInflate();
-
-		mDescriptionView = Ui.findView(this, R.id.display_stored_card_desc);
-		mIconView = Ui.findView(this, R.id.icon_view);
-		mWalletTextView = Ui.findView(this, R.id.google_wallet_text_view);
 	}
 
 	public void configure(int cardResId, int primaryTextColorResId, int secondaryTextColorResId) {
