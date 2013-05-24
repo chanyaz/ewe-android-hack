@@ -205,16 +205,15 @@ public class NotificationReceiver extends BroadcastReceiver {
 		private void display() {
 			NotificationCompat.Style style = null;
 
-			//TODO: fix BigPictureStyle sometimes crashing
-//			if (mBitmap != null) {
-//				style = new NotificationCompat.BigPictureStyle()
-//						.bigPicture(mBitmap)
-//						.setSummaryText(mNotification.getBody());
-//			}
-//			else {
+			if (mBitmap != null) {
+				style = new NotificationCompat.BigPictureStyle()
+						.bigPicture(mBitmap)
+						.setSummaryText(mNotification.getBody());
+			}
+			else {
 				style = new NotificationCompat.BigTextStyle()
 						.bigText(mNotification.getBody());
-//			}
+			}
 
 			Intent clickIntent = LaunchActivity.createIntent(mContext, mNotification);
 			PendingIntent clickPendingIntent = PendingIntent.getActivity(mContext, 0, clickIntent, 0);
