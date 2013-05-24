@@ -221,6 +221,14 @@ public class FlightSearch implements JSONable {
 		}
 	}
 
+	public FlightSearchState getSearchState() {
+		return mSearchState;
+	}
+
+	public void setSearchState(FlightSearchState state) {
+		mSearchState = state;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Trips query
 	//

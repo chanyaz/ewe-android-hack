@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -46,6 +49,7 @@ import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchLeg;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
+import com.expedia.bookings.data.FlightSearchState;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.Location;
@@ -80,6 +84,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
+import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
@@ -162,6 +167,10 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			if (!Db.loadCachedFlightData(this)) {
 				NavUtils.onDataMissing(this);
 				return;
+			}
+			else {
+				// If we did successfully reload the search, try to restore the state.
+				restoreSearchState();
 			}
 		}
 
@@ -784,6 +793,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		Db.getFlightSearch().setSearchResponse(null);
 		mLegPosition = 0;
 		Db.kickOffBackgroundSave(this);
+		deleteSearchState();
 
 		showLoadingFragment();
 
@@ -1059,6 +1069,40 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Search state
+	//
+	// For this activity only, we save a copy of the FlightSearchState.  We do it so that
+	// we don't have to write out the *entire* FlightSearch whenever the state changes.
+
+	private static final String PREF_SEARCH_STATE = "com.expedia.bookings.flights.search.state";
+
+	private void saveSearchState() {
+		String searchState = Db.getFlightSearch().getSearchState().toJson().toString();
+		SettingUtils.save(this, PREF_SEARCH_STATE, searchState);
+	}
+
+	private void restoreSearchState() {
+		String searchState = SettingUtils.get(this, PREF_SEARCH_STATE, null);
+		if (!TextUtils.isEmpty(PREF_SEARCH_STATE)) {
+			FlightSearchState state = new FlightSearchState();
+			try {
+				state.fromJson(new JSONObject(searchState));
+				Db.getFlightSearch().setSearchState(state);
+			}
+			catch (JSONException e) {
+				Log.w("Could not restore FlightSearchState", e);
+			}
+		}
+		else {
+			Log.d("Tried restoring search state but found none; perhaps nothing had been selected yet.");
+		}
+	}
+
+	private void deleteSearchState() {
+		SettingUtils.remove(this, PREF_SEARCH_STATE);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// Flight list
 
 	private String getFlightListBackStackName(int legPosition) {
@@ -1096,7 +1140,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			FlightTripLeg ftl = mFlightDetailsFragment.getFlightTripLeg();
 			FlightSearch flightSearch = Db.getFlightSearch();
 			flightSearch.setSelectedLeg(mLegPosition, new FlightTripLeg(ftl.getFlightTrip(), ftl.getFlightLeg()));
-			Db.kickOffBackgroundSave(mContext);
+
+			saveSearchState();
 
 			if (flightSearch.getSelectedFlightTrip() == null) {
 				// Remove the flight details fragment, show new list results
@@ -1152,7 +1197,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			Db.getFlightSearch().clearQuery(mLegPosition); // #443: Clear cached query
 		}
 
-		Db.kickOffBackgroundSave(mContext);
+		saveSearchState();
 
 		mLegPosition = legPosition;
 	}
