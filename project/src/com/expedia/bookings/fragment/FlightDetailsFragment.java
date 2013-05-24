@@ -221,6 +221,7 @@ public class FlightDetailsFragment extends Fragment {
 			});
 		}
 
+		mFirstLayoutPass = true;
 		v.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
