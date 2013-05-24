@@ -1,7 +1,6 @@
 package com.expedia.bookings.data;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -27,8 +26,7 @@ public class FlightSearch implements JSONable {
 
 	private FlightSearchParams mSearchParams = new FlightSearchParams();
 	private FlightSearchResponse mSearchResponse;
-	private FlightTripLeg[] mSelectedLegs;
-	private FlightFilter[] mFilters;
+	private FlightSearchState mSearchState = new FlightSearchState();
 
 	// Not to be saved - transitory states!
 	private Map<String, FlightTrip> mFlightTripMap = new HashMap<String, FlightTrip>();
@@ -38,8 +36,7 @@ public class FlightSearch implements JSONable {
 	public void reset() {
 		mSearchParams.reset();
 		mSearchResponse = null;
-		mSelectedLegs = null;
-		mFilters = null;
+		mSearchState.reset();
 	}
 
 	public void setSearchParams(FlightSearchParams params) {
@@ -77,8 +74,7 @@ public class FlightSearch implements JSONable {
 
 		// Clear the selected legs and filters, as we've got new results
 		mFlightTripQueries = null;
-		mSelectedLegs = null;
-		mFilters = null;
+		mSearchState.reset();
 	}
 
 	public FlightTrip getFlightTrip(String productKey) {
@@ -151,11 +147,7 @@ public class FlightSearch implements JSONable {
 	}
 
 	public FlightTripLeg[] getSelectedLegs() {
-		if (mSelectedLegs == null || mSelectedLegs.length != mSearchParams.getQueryLegCount()) {
-			mSelectedLegs = new FlightTripLeg[mSearchParams.getQueryLegCount()];
-		}
-
-		return mSelectedLegs;
+		return mSearchState.getSelectedLegs(mSearchParams.getQueryLegCount());
 	}
 
 	public void setSelectedLeg(int position, FlightTripLeg leg) {
@@ -198,15 +190,7 @@ public class FlightSearch implements JSONable {
 	}
 
 	public FlightFilter getFilter(int legPosition) {
-		if (mFilters == null || mFilters.length != mSearchParams.getQueryLegCount()) {
-			mFilters = new FlightFilter[mSearchParams.getQueryLegCount()];
-		}
-
-		if (mFilters[legPosition] == null) {
-			mFilters[legPosition] = new FlightFilter();
-		}
-
-		return mFilters[legPosition];
+		return mSearchState.getFilter(mSearchParams.getQueryLegCount(), legPosition);
 	}
 
 	public FlightTripQuery queryTrips(final int legPosition) {
@@ -369,11 +353,7 @@ public class FlightSearch implements JSONable {
 			JSONObject obj = new JSONObject();
 			JSONUtils.putJSONable(obj, "searchParams", mSearchParams);
 			JSONUtils.putJSONable(obj, "searchResponse", mSearchResponse);
-
-			if (mSelectedLegs != null) {
-				JSONUtils.putJSONableList(obj, "selectedLegs", Arrays.asList(mSelectedLegs));
-			}
-
+			JSONUtils.putJSONable(obj, "searchState", mSearchState);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -385,12 +365,7 @@ public class FlightSearch implements JSONable {
 	public boolean fromJson(JSONObject obj) {
 		mSearchParams = JSONUtils.getJSONable(obj, "searchParams", FlightSearchParams.class);
 		setSearchResponse(JSONUtils.getJSONable(obj, "searchResponse", FlightSearchResponse.class));
-
-		List<FlightTripLeg> selectedLegs = JSONUtils.getJSONableList(obj, "selectedLegs", FlightTripLeg.class);
-		if (selectedLegs != null) {
-			mSelectedLegs = selectedLegs.toArray(new FlightTripLeg[0]);
-		}
-
+		mSearchState = JSONUtils.getJSONable(obj, "searchState", FlightSearchState.class);
 		return true;
 	}
 }
