@@ -666,6 +666,19 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			if (mModeSwitchSemaphore.tryAcquire()) {
 				semGot = true;
 
+				// If position is somewhere offscreen, the view for this row won't have been created yet.
+				// In this case, we need to scroll to a visible position first, and _then_ expand it.
+				if (position < getFirstVisiblePosition() || position > getLastVisiblePosition()) {
+					setSelectionFromTop(position, 0);
+					post(new Runnable() {
+						@Override
+						public void run() {
+							showDetails(position, animate);
+						}
+					});
+					return;
+				}
+
 				View view = getFreshDetailView(position);
 				if (!(view instanceof ItinCard)) {
 					return;
