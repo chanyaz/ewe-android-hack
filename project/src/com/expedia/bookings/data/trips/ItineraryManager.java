@@ -1376,22 +1376,23 @@ public class ItineraryManager implements JSONable {
 
 				for (Notification notification : notifications) {
 
-					// If we already have this notification, don't notify again.
-					if (!Notification.hasExisting(notification)) {
-						notification.save();
-					}
-
-					//TODO: temporary -->
-					// This is just to get the notifications to show up frequently for development
-					//				else {
-					//					notification = Notification.findExisting(notification);
-					//				}
-					//				notification.setTriggerTimeMillis(System.currentTimeMillis() + 5000);
-					//				notification.setExpirationTimeMillis(System.currentTimeMillis() + DateUtils.DAY_IN_MILLIS);
-					//				notification.setStatus(StatusType.NEW);
-					//				notification.save();
-					//TODO: <-- temporary
+				// If we already have this notification, don't notify again.
+				if (Notification.hasExisting(notification)) {
+					Notification existing = Notification.findExisting(notification);
+					// ResId's could change on a new build.
+					existing.setIconResId(notification.getIconResId());
+					existing.setImageResId(notification.getImageResId());
+					notification = existing;
 				}
+
+				//TODO: temporary -->
+				// This is just to get the notifications to show up frequently for development
+				//				notification.setTriggerTimeMillis(System.currentTimeMillis() + 5000);
+				//				notification.setExpirationTimeMillis(System.currentTimeMillis() + DateUtils.DAY_IN_MILLIS);
+				//				notification.setStatus(com.expedia.bookings.notification.Notification.StatusType.NEW);
+				//TODO: <-- temporary
+
+				notification.save();
 			}
 		}
 
