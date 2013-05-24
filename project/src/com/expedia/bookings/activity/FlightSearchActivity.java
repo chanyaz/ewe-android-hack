@@ -1,6 +1,7 @@
 package com.expedia.bookings.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
@@ -10,7 +11,6 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.fragment.FlightSearchParamsFragment;
 import com.expedia.bookings.fragment.FlightSearchParamsFragment.FlightSearchParamsFragmentListener;
@@ -18,7 +18,6 @@ import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
-import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.TwoLevelImageCache;
@@ -37,12 +36,6 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 	// the latest SearchParams on resume.  This is checked when the user leaves
 	// this activity and comes back later (e.g., did a search).
 	private boolean mUpdateOnResume = false;
-
-	// Determines whether we should save the state on pause.  We want to save
-	// when the user is leaving the app, but not if they're simply progressing
-	// forward or they're rotating the screen.
-	private boolean mConfigChange = false;
-	private boolean mSaveState = true;
 
 	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
@@ -116,8 +109,6 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 	protected void onResume() {
 		super.onResume();
 
-		mSaveState = true;
-
 		if (mUpdateOnResume) {
 			if (!Db.getFlightSearch().getSearchParams().isFilled()) {
 				// F1073: If we got back here but the search params are not filled, that is probably an indicator
@@ -149,26 +140,29 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 	}
 
 	@Override
+	protected void onStop() {
+		super.onStop();
+
+		// If the configuration isn't changing but we are stopping this activity, save the search params
+		//
+		// Due to not being able to tell a config change or not on earlier versions of Android, we just
+		// always save.
+		boolean configChange = false;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			configChange = isChangingConfigurations();
+		}
+		if (!configChange) {
+			Db.saveFlightSearchParamsToDisk(this);
+		}
+	}
+
+	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 
 		if (mKillReceiver != null) {
 			mKillReceiver.onDestroy();
 		}
-
-		// Save the current search params to disc
-		if (mSaveState && !mConfigChange) {
-			FlightSearch search = Db.getFlightSearch();
-			search.reset();
-			search.setSearchParams(mSearchParamsFragment.getSearchParams(true));
-			Db.saveFlightSearchParamsToDisk(this);
-		}
-	}
-
-	@Override
-	public Object onRetainCustomNonConfigurationInstance() {
-		mConfigChange = true;
-		return super.onRetainCustomNonConfigurationInstance();
 	}
 
 	@Override
@@ -228,7 +222,6 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 				Db.getFlightSearch().setSearchParams(params);
 				startActivity(new Intent(FlightSearchActivity.this, FlightSearchResultsActivity.class));
 				mUpdateOnResume = true;
-				mSaveState = false;
 				OmnitureTracking.markTrackNewSearchResultSet(true);
 				AdTracker.trackFlightSearch();
 			}
