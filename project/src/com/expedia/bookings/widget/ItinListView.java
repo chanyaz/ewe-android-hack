@@ -643,29 +643,21 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		return false;
 	}
 
-	public void showDetails(String id) {
-		showDetails(id, true);
-	}
-
 	public void showDetails(String id, boolean animate) {
 		showDetails(mAdapter.getPosition(id), animate);
 	}
 
 	private void showDetails() {
-		showDetails(mDetailPosition);
-	}
-
-	private boolean showDetails(int position) {
-		return showDetails(position, true);
+		showDetails(mDetailPosition, true);
 	}
 
 	@SuppressLint("NewApi")
-	private boolean showDetails(int position, boolean animate) {
+	private void showDetails(final int position, final boolean animate) {
 		if (mSimpleMode) {
 			setSelectedCardId(mAdapter.getItem(position).getId());
 			mAdapter.notifyDataSetChanged();
 
-			return false;
+			return;
 		}
 
 		boolean releaseSemHere = true;
@@ -676,12 +668,12 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 				View view = getFreshDetailView(position);
 				if (!(view instanceof ItinCard)) {
-					return false;
+					return;
 				}
 
 				mDetailsCard = (ItinCard) view;
 				if (mDetailsCard == null || !mDetailsCard.hasDetails()) {
-					return false;
+					return;
 				}
 
 				mDetailPosition = position;
@@ -691,7 +683,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 					mOnListModeChangedListener.onListModeChanged(mMode);
 				}
 
-				mExpandedCardHeight = mExpandedCardHeight > getHeight() ? mExpandedCardHeight : getHeight();
+				mExpandedCardHeight = Math.max(mExpandedCardHeight, getHeight());
 				mExpandedCardOriginalHeight = mDetailsCard.getHeight();
 				mOriginalScrollY = getScrollY();
 
@@ -738,13 +730,13 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 							}
 						};
 						this.postDelayed(showDetailsRunner, 25);
-						return false;
+						return;
 					}
 				}
 
 				//If we are scrolled down but our footer still hasn't drawn, we wait
 				if (lastVisiblePos == lastViewPos && mFooterView != null && !mFooterView.getHasDrawn()) {
-					return false;
+					return;
 				}
 
 				AnimatorSet set = new AnimatorSet();
@@ -796,7 +788,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 				}
 				set.start();
 				releaseSemHere = false;
-				return true;
+				return;
 			}
 		}
 		finally {
@@ -804,7 +796,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 				mModeSwitchSemaphore.release();
 			}
 		}
-		return false;
+		return;
 	}
 
 	private void registerDataSetObserver() {
@@ -853,7 +845,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		ItinCardData data = mAdapter.getItem(position);
 		Intent clickIntent = data.getClickIntent(getContext());
 		if (data.hasDetailData()) {
-			showDetails(position);
+			showDetails(position, true);
 		}
 		else if (clickIntent != null) {
 			getContext().startActivity(clickIntent);
