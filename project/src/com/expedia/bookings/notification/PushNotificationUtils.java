@@ -66,7 +66,9 @@ public class PushNotificationUtils {
 			sGCMRegistrationId = regId;
 
 			//We should now tell the server about our current flights
-			ItineraryManager.getInstance().startSync(true);
+			if (!ItineraryManager.getInstance().isSyncing()) {
+				ItineraryManager.getInstance().startSync(true);
+			}
 		}
 	}
 
@@ -131,13 +133,12 @@ public class PushNotificationUtils {
 					notification.setFlags(Notification.FLAG_PUSH);
 					notification.setIconResId(R.drawable.ic_stat_flight);
 
-					notification.setTicker(formattedMessage);
-					notification.setTitle(formattedMessage);
-
 					String airline = leg.getAirlinesFormatted();
 					String destination = StrUtils.getWaypointCityOrCode(leg.getLastWaypoint());
-					String body = context.getString(R.string.x_flight_to_x_TEMPLATE, airline, destination);
-					notification.setBody(body);
+					String title = context.getString(R.string.x_flight_to_x_TEMPLATE, airline, destination);
+					notification.setTitle(title);
+					notification.setBody(formattedMessage);
+					notification.setTicker(formattedMessage);
 
 					String destinationCode = leg.getLastWaypoint().mAirportCode;
 					notification.setImage(Notification.ImageType.DESTINATION, R.drawable.bg_itin_placeholder_flight,
@@ -209,6 +210,7 @@ public class PushNotificationUtils {
 	 * @return
 	 */
 	public static String getFormattedLocString(Context context, String locKey, Object[] args) {
+		Log.d("PushNotificationUtils.getFormattedLocString locKey:" + locKey);
 		String locStr = getLocStringForKey(context, locKey);
 		if (TextUtils.isEmpty(locStr)) {
 			return null;

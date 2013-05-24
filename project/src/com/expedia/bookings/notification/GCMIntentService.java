@@ -1,14 +1,17 @@
 package com.expedia.bookings.notification;
 
+import java.util.Collection;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncAdapter;
+import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent;
 import com.google.android.gcm.GCMBaseIntentService;
 import com.mobiata.android.Log;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,18 +26,18 @@ public class GCMIntentService extends GCMBaseIntentService {
 	@Override
 	public void onRegistered(Context context, String regId) {
 		Log.d("GCM onRegistered regId:" + regId);
-		PushNotificationUtils.setRegistrationId(this, regId);
+		PushNotificationUtils.setRegistrationId(context, regId);
 	}
 
 	@Override
-	protected void onUnregistered(Context arg0, String arg1) {
-		Log.d("GCM onUnregistered arg1:" + arg1);
-		//TODO: Maybe do a callback or something
-		PushNotificationUtils.setRegistrationId(this, "");
+	protected void onUnregistered(Context context, String regId) {
+		Log.d("GCM onUnregistered arg1:" + regId);
+		//TODO: Maybe do a callback or something it would be nice for stuff to know when this becomes available
+		PushNotificationUtils.setRegistrationId(context, "");
 	}
 
 	@Override
-	protected void onMessage(Context arg0, Intent intent) {
+	protected void onMessage(Context context, Intent intent) {
 		Log.d("GCM onMessage intent:" + intent);
 		printItent(intent);
 
@@ -46,33 +49,38 @@ public class GCMIntentService extends GCMBaseIntentService {
 					JSONObject message = new JSONObject(extras.getString("message"));
 
 					//Used for omniture tracking  - should always be an int string
-					String type = data.optString("t");
+					final String type = data.optString("t");
 
 					//Flight history id
 					String flightHistoryId = data.optString("fhid");
-					int fhid = Integer.parseInt(flightHistoryId);
+					final int fhid = Integer.parseInt(flightHistoryId);
 
 					//The key to determine which string to use
-					String locKey = message.getString("loc-key");
-					String locStr = PushNotificationUtils.getLocStringForKey(this, locKey);
+					final String locKey = message.getString("loc-key");
 
 					//The arguments for the locKey string
 					JSONArray locArgs = message.getJSONArray("loc-args");
-					String[] locArgsStrings = new String[locArgs.length()];
+					final String[] locArgsStrings = new String[locArgs.length()];
 					for (int i = 0; i < locArgs.length(); i++) {
 						locArgsStrings[i] = locArgs.getString(i);
 					}
 
-					//We should find the flight in itin manager (using fhid) and do a deep refresh. and to find the correct uniqueid for the itin in question
-					TripComponent component = ItineraryManager.getInstance().getTripComponentFromFlightHistoryId(fhid);
-					if (component != null) {
-
-						//TODO: Wait  until the deep refresh is complete before scheduling the notification
-						ItineraryManager.getInstance().deepRefreshTrip(component.getParentTrip());
+					//If our itins arent synced yet, we cant show pretty notifications, so if we are syncing, we wait
+					if (!ItineraryManager.getInstance().isSyncing()) {
+						Log.d("GCM onMessage - generating the notification right away.");
+						generateNotificaiton(fhid, locKey, locArgsStrings, type);
 					}
-
-					//After the refresh completes we should show the notification
-					PushNotificationUtils.generateNotification(this, fhid, locStr, locArgsStrings, type);
+					else {
+						Log.d("GCM onMessage - Waiting for the ItinManager to finish syncing...");
+						ItineraryManager.getInstance().addSyncListener(new ItinerarySyncAdapter() {
+							@Override
+							public void onSyncFinished(Collection<Trip> trips) {
+								Log.d("GCM onMessage - ItinManager finished syncing, building notification now.");
+								ItineraryManager.getInstance().removeSyncListener(this);
+								generateNotificaiton(fhid, locKey, locArgsStrings, type);
+							}
+						});
+					}
 
 				}
 				catch (Exception ex) {
@@ -86,7 +94,6 @@ public class GCMIntentService extends GCMBaseIntentService {
 		else {
 			Log.e("GCM - No Extras Bundle");
 		}
-
 	}
 
 	@Override
@@ -101,12 +108,24 @@ public class GCMIntentService extends GCMBaseIntentService {
 		return false;
 	}
 
-	@SuppressLint("NewApi")
 	private void printItent(Intent intent) {
 		Log.d("GCM printItent");
 		for (String key : intent.getExtras().keySet()) {
-			Log.d("GCM key:" + key + " value:" + intent.getExtras().getString(key, "FAIL"));
+			Log.d("GCM key:" + key + " value:" + intent.getExtras().getString(key));
 		}
+	}
+
+	private void generateNotificaiton(int fhid, String locKey, String[] locArgs, String type) {
+		//We should find the flight in itin manager (using fhid) and do a deep refresh. and to find the correct uniqueid for the itin in question
+		TripComponent component = ItineraryManager.getInstance().getTripComponentFromFlightHistoryId(fhid);
+		if (component != null) {
+
+			//TODO: Wait  until the deep refresh is complete before scheduling the notification??
+			ItineraryManager.getInstance().deepRefreshTrip(component.getParentTrip());
+		}
+
+		//After the refresh completes we should show the notification
+		PushNotificationUtils.generateNotification(this, fhid, locKey, locArgs, type);
 	}
 
 }

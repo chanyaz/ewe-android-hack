@@ -5,13 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
-import com.google.android.gcm.GCMRegistrar;
-import com.mobiata.android.Log;
 
 /**
  * This is a routing Activity that points users towards either the phone or
@@ -49,21 +46,6 @@ public class SearchActivity extends Activity {
 
 		//Hi Facebook!
 		facebookInstallTracking();
-
-		//Push Notifications, alllll riiiiiight
-		Log.d("GCM GCMRegistrar.checkDevice(this);");
-		GCMRegistrar.checkDevice(this);
-		Log.d("GCM GCMRegistrar.checkManifest(this);");
-		GCMRegistrar.checkManifest(this);
-		final String regId = GCMRegistrar.getRegistrationId(this);
-		Log.d("GCM GCMRegistrar regId:" + regId);
-		if (regId.equals("")) {
-			GCMRegistrar.register(this, PushNotificationUtils.SENDER_ID);
-		}
-		else {
-			PushNotificationUtils.setRegistrationId(this,regId);
-			Log.v("GCM Already registered");
-		}
 
 		if (NavUtils.skipLaunchScreenAndStartEHTablet(this)) {
 			// Note: 2.0 will not support launch screen nor Flights on tablet ergo send user to EH tablet

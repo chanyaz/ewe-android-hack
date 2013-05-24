@@ -24,6 +24,7 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 
 import com.expedia.bookings.data.DateTime;
@@ -40,6 +41,7 @@ import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.PushRegistrationResponseHandler;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
+import com.google.android.gcm.GCMRegistrar;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -156,23 +158,30 @@ public class ItineraryManager implements JSONable {
 	 * Get a TripComponent object from a flightHistoryId
 	 * This is useful for push notifications which provide us with a flightHistoryId as
 	 * the only identifier
+	 * 
+	 * Note: We are only searching the mItinCardDatas collection, so only itins displayed
+	 * in the itin list will be searched
+	 * 
 	 * @param fhid - flightHistoryId from flightstats
 	 * @return TripComponent containing the flight with the matching historyId or null
 	 */
 	public TripFlight getTripComponentFromFlightHistoryId(int fhid) {
-		for (Trip trip : mTrips.values()) {
-			for (TripComponent tripComponent : trip.getTripComponents(true)) {
-				if (tripComponent.getType() == Type.FLIGHT) {
-					TripFlight tripFlight = (TripFlight) tripComponent;
-					FlightTrip flightTrip = tripFlight.getFlightTrip();
-					for (int i = 0; i < flightTrip.getLegCount(); i++) {
-						FlightLeg fl = flightTrip.getLeg(i);
-						for (Flight segment : fl.getSegments()) {
-							if (segment.mFlightHistoryId == fhid) {
-								return tripFlight;
-							}
+
+		if (mItinCardDatas != null) {
+			for (ItinCardData data : mItinCardDatas) {
+				if (data instanceof ItinCardDataFlight) {
+					ItinCardDataFlight fData = (ItinCardDataFlight) data;
+
+					FlightLeg flightLeg = fData.getFlightLeg();
+					for (Flight segment : flightLeg.getSegments()) {
+						if (segment.mFlightHistoryId == fhid) {
+							return (TripFlight) fData.getTripComponent();
 						}
 					}
+
+					//					//TODO: DELETE - THIS IS JUST SO WE GET SOME VALID FLIGHT
+					//					TripFlight tripFlight = (TripFlight) fData.getTripComponent();
+					//					return tripFlight;
 				}
 			}
 		}
@@ -183,6 +192,10 @@ public class ItineraryManager implements JSONable {
 	 * Get a ItinCardData object from a flightHistoryId
 	 * This is useful for push notifications which provide us with a flightHistoryId as
 	 * the only identifier
+	 * 
+	 * Note: We are only searching the mItinCardDatas collection, so only itins displayed
+	 * in the itin list will be searched
+	 * 
 	 * @param fhid - flightHistoryId from flightstats
 	 * @return ItinCardData containing the flight with the matching historyId or null
 	 */
@@ -213,21 +226,23 @@ public class ItineraryManager implements JSONable {
 	}
 
 	/**
-	 * Get every Flight instance represented in all of our Itineraries
+	 * Get every Flight instance represented in our Itineraries
+	 * 
+	 * Note: We are only searching the mItinCardDatas collection, so only itins displayed
+	 * in the itin list will be searched
+	 * 
 	 * @return a list of Flight instances
 	 */
 	public List<Flight> getAllItinFlights() {
 		List<Flight> retFlights = new ArrayList<Flight>();
-		for (Trip trip : mTrips.values()) {
-			for (TripComponent tripComponent : trip.getTripComponents(true)) {
-				if (tripComponent.getType() == Type.FLIGHT) {
-					TripFlight tripFlight = (TripFlight) tripComponent;
-					FlightTrip flightTrip = tripFlight.getFlightTrip();
-					if (flightTrip != null) {
-						for (int i = 0; i < flightTrip.getLegCount(); i++) {
-							FlightLeg fl = flightTrip.getLeg(i);
-							retFlights.addAll(fl.getSegments());
-						}
+		if (mItinCardDatas != null) {
+			for (ItinCardData data : mItinCardDatas) {
+				if (data.getTripComponentType() != null && data.getTripComponentType() == Type.FLIGHT
+						&& data.getTripComponent() != null) {
+					ItinCardDataFlight dataFlight = (ItinCardDataFlight) data;
+					FlightLeg leg = dataFlight.getFlightLeg();
+					if (leg != null && leg.getSegments() != null) {
+						retFlights.addAll(leg.getSegments());
 					}
 				}
 			}
@@ -1282,26 +1297,56 @@ public class ItineraryManager implements JSONable {
 	// Push Notifications
 
 	private PushNotificationRegistrationResponse registerForPushNotifications() {
-		ExpediaServices services = new ExpediaServices(mContext);
-
-		long userTuid = 0;
-		if (User.isLoggedIn(mContext)) {
-			if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
-					&& Db.getUser().getPrimaryTraveler().getTuid() > 0) {
-				userTuid = Db.getUser().getPrimaryTraveler().getTuid();
+		//If we have not yet registered with GCM, we do so now
+		//Typically this would be on app startup, but need itinmanager to be fully
+		//initialized before notifications are useful, so here we are
+		if (TextUtils.isEmpty(PushNotificationUtils.getRegistrationId())) {
+			Log.d("GCM GCMRegistrar.checkDevice(this);");
+			GCMRegistrar.checkDevice(mContext);
+			Log.d("GCM GCMRegistrar.checkManifest(this);");
+			GCMRegistrar.checkManifest(mContext);
+			final String regId = GCMRegistrar.getRegistrationId(mContext);
+			Log.d("GCM GCMRegistrar regId:" + regId);
+			if (regId.equals("")) {
+				GCMRegistrar.register(mContext, PushNotificationUtils.SENDER_ID);
+			}
+			else {
+				PushNotificationUtils.setRegistrationId(mContext, regId);
+				Log.v("GCM Already registered");
 			}
 		}
 
-		String regId = PushNotificationUtils.getRegistrationId();
-		JSONObject payload = PushNotificationUtils.buildPushRegistrationPayload(regId, userTuid, getAllItinFlights());
+		//TODO: WAIT FOR REGID...
 
-		Log.d("registerForPushNotifications payload:" + payload.toString());
+		//Tell our server about all of our current flights
+		if (!TextUtils.isEmpty(PushNotificationUtils.getRegistrationId())) {
 
-		PushNotificationRegistrationResponse resp = services.registerForPushNotifications(
-				new PushRegistrationResponseHandler(mContext), payload, regId);
+			ExpediaServices services = new ExpediaServices(mContext);
 
-		Log.d("registerForPushNotifications response:" + (resp == null ? "null" : resp.getSuccess()));
-		return resp;
+			long userTuid = 0;
+			if (User.isLoggedIn(mContext)) {
+				if (Db.getUser() == null) {
+					Db.loadUser(mContext);
+				}
+				if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null) {
+					userTuid = Db.getUser().getPrimaryTraveler().getTuid();
+				}
+			}
+
+			String regId = PushNotificationUtils.getRegistrationId();
+			JSONObject payload = PushNotificationUtils.buildPushRegistrationPayload(regId, userTuid,
+					getAllItinFlights());
+
+			Log.d("registerForPushNotifications payload:" + payload.toString());
+
+			PushNotificationRegistrationResponse resp = services.registerForPushNotifications(
+					new PushRegistrationResponseHandler(mContext), payload, regId);
+
+			Log.d("registerForPushNotifications response:" + (resp == null ? "null" : resp.getSuccess()));
+			return resp;
+		}
+
+		return null;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
