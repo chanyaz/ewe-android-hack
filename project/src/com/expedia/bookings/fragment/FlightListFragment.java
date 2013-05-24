@@ -40,6 +40,7 @@ import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.animation.PropertyValuesHolder;
+import com.nineoldandroids.view.animation.AnimatorProxy;
 
 // IMPLEMENTATION NOTE: This implementation heavily leans towards the user only picking
 // two legs of a flight (outbound and inbound).  If you want to adapt it for 3+ legs, you
@@ -232,6 +233,9 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 		final List<View> hwLayerViews = new ArrayList<View>();
 		float[] values = new float[2];
 
+		// NineOldAndroids + PropertyValuesHolder don't get along
+		boolean usingProxyAnimators = AnimatorProxy.NEEDS_PROXY;
+
 		if (v != null && mAdapter != null && mListView != null) {
 			PropertyValuesHolder pvhAlpha = AnimUtils.createFadePropertyValuesHolder(enter);
 
@@ -256,12 +260,24 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 						values[0] = 0;
 						values[1] = -translation;
 					}
-					PropertyValuesHolder pvhTranslation = PropertyValuesHolder.ofFloat("translationY", values);
-					set.add(ObjectAnimator.ofPropertyValuesHolder(child, pvhAlpha, pvhTranslation));
+
+					if (usingProxyAnimators) {
+						set.add(ObjectAnimator.ofFloat(child, "translationY", values));
+						set.add(AnimUtils.createFadeAnimator(child, enter));
+					}
+					else {
+						PropertyValuesHolder pvhTranslation = PropertyValuesHolder.ofFloat("translationY", values);
+						set.add(ObjectAnimator.ofPropertyValuesHolder(child, pvhAlpha, pvhTranslation));
+					}
 					hwLayerViews.add(child);
 				}
 				else if (a == skipPosition) {
-					set.add(ObjectAnimator.ofPropertyValuesHolder(child, pvhAlpha));
+					if (usingProxyAnimators) {
+						set.add(AnimUtils.createFadeAnimator(child, enter));
+					}
+					else {
+						set.add(ObjectAnimator.ofPropertyValuesHolder(child, pvhAlpha));
+					}
 					hwLayerViews.add(child);
 				}
 				else if (a > skipPosition) {
@@ -274,8 +290,15 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 						values[0] = 0;
 						values[1] = translation;
 					}
-					PropertyValuesHolder pvhTranslation = PropertyValuesHolder.ofFloat("translationY", values);
-					set.add(ObjectAnimator.ofPropertyValuesHolder(child, pvhAlpha, pvhTranslation));
+
+					if (usingProxyAnimators) {
+						set.add(AnimUtils.createFadeAnimator(child, enter));
+						set.add(ObjectAnimator.ofFloat(child, "translationY", values));
+					}
+					else {
+						PropertyValuesHolder pvhTranslation = PropertyValuesHolder.ofFloat("translationY", values);
+						set.add(ObjectAnimator.ofPropertyValuesHolder(child, pvhAlpha, pvhTranslation));
+					}
 					hwLayerViews.add(child);
 				}
 			}
@@ -310,6 +333,9 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 		final List<View> hwLayerViews = new ArrayList<View>();
 		float[] values;
 
+		// NineOldAndroids + PropertyValuesHolder don't get along
+		boolean usingProxyAnimators = AnimatorProxy.NEEDS_PROXY;
+
 		if (v != null && mAdapter != null && mListView != null) {
 			// Animate the entire listview up (except header)
 			int translate = mListView.getHeight() - mListView.getChildAt(0).getHeight();
@@ -319,13 +345,24 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 			PropertyValuesHolder pvhTranslation = PropertyValuesHolder.ofFloat("translationY", values);
 			for (int a = 1; a < childCount; a++) {
 				View child = mListView.getChildAt(a);
-				set.add(ObjectAnimator.ofPropertyValuesHolder(child, pvhAlpha, pvhTranslation));
+				if (usingProxyAnimators) {
+					set.add(AnimUtils.createFadeAnimator(child, enter));
+					set.add(ObjectAnimator.ofFloat(child, "translationY", values));
+				}
+				else {
+					set.add(ObjectAnimator.ofPropertyValuesHolder(child, pvhAlpha, pvhTranslation));
+				}
 				hwLayerViews.add(child);
 			}
 
 			// Alpha in the header
 			View header = mListView.getChildAt(0);
-			set.add(ObjectAnimator.ofPropertyValuesHolder(header, pvhAlpha));
+			if (usingProxyAnimators) {
+				set.add(AnimUtils.createFadeAnimator(header, enter));
+			}
+			else {
+				set.add(ObjectAnimator.ofPropertyValuesHolder(header, pvhAlpha));
+			}
 			hwLayerViews.add(header);
 		}
 
