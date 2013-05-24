@@ -64,11 +64,6 @@ public class PushNotificationUtils {
 
 			//set the id
 			sGCMRegistrationId = regId;
-
-			//We should now tell the server about our current flights
-			if (!ItineraryManager.getInstance().isSyncing()) {
-				ItineraryManager.getInstance().startSync(true);
-			}
 		}
 	}
 
