@@ -59,7 +59,9 @@ public class FontCache {
 	}
 
 	public static void setTypeface(TextView tv, Font font) {
-		tv.setTypeface(getTypeface(font));
+		if (!tv.isInEditMode()) {
+			tv.setTypeface(getTypeface(font));
+		}
 	}
 
 	public static void setTypeface(View view, int resId, Font font) {
