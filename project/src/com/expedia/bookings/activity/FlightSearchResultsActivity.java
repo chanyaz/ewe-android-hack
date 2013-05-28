@@ -183,7 +183,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		getWindow().setBackgroundDrawable(null);
 
 		// Try to recover any Fragments
-		mBgFragment = Ui.findSupportFragment(this, R.id.background_fragment);
+		mBgFragment = Ui.findSupportFragment(this, BlurredBackgroundFragment.TAG);
 		mStatusFragment = Ui.findSupportFragment(this, StatusFragment.TAG);
 		mNoFlightsFragment = Ui.findSupportFragment(this, NoFlightsFragment.TAG);
 		mListFragment = Ui.findSupportFragment(this, FlightListFragment.TAG);
@@ -425,15 +425,19 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	private void showResultsListFragment(int position) {
 		mListFragment = FlightListFragment.newInstance(position);
 
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
 		// Make sure to cover up while showing the list fragment
 		if (position == 0) {
 			mStatusFragment.setCoverEnabled(true);
 
 			// F1150: Always skip the animation when lodaing the initial flight list
 			mSkipAnimation = true;
+
+			// Show the bg fragment
+			ft.add(R.id.bg_container, mBgFragment, BlurredBackgroundFragment.TAG);
 		}
 
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		ft.replace(R.id.content_container, mListFragment, FlightListFragment.TAG);
 		ft.addToBackStack(getFlightListBackStackName(position));
 		ft.commit();
@@ -914,17 +918,20 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 				BackgroundDownloader.getInstance().unregisterDownloadCallback(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY);
 				BackgroundDownloader.getInstance().cancelDownload(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY);
 				BackgroundDownloader.getInstance().cancelDownload(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY);
-				if (FlightSearchResultsActivity.this.mBgFragment != null) {
-					BackgroundImageCache cache = Db.getBackgroundImageCache(FlightSearchResultsActivity.this);
-					if (cache.isAddingBitmap()) {
-						//Didn't finish in time. We continue to download, but we get rid of our reference to the bg key, and thus revert to defaults
-						Db.setBackgroundImageInfo(null);
-					}
-					FlightSearchResultsActivity.this.mBgFragment.setBitmap(
-							Db.getBackgroundImage(FlightSearchResultsActivity.this, false),
-							Db.getBackgroundImage(FlightSearchResultsActivity.this, true));
 
+				BackgroundImageCache cache = Db.getBackgroundImageCache(mContext);
+				if (cache.isAddingBitmap()) {
+					//Didn't finish in time. We continue to download, but we get rid of our reference to the bg key, and thus revert to defaults
+					Db.setBackgroundImageInfo(null);
 				}
+
+				// If this is the first time we've shown results, we need to create the blurred bg fragment
+				// before trying to load an image into it.
+				if (mBgFragment == null) {
+					mBgFragment = new BlurredBackgroundFragment();
+				}
+
+				mBgFragment.loadBitmapFromDb(mContext);
 
 				showResultsListFragment(0);
 			}

@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
@@ -36,9 +37,23 @@ public class BlurredBackgroundFragment extends Fragment {
 		mBackgroundBgView = Ui.findView(v, R.id.background_bg_view);
 		mBackgroundFgView = Ui.findView(v, R.id.background_fg_view);
 
-		setBitmap(Db.getBackgroundImage(getActivity(), false), Db.getBackgroundImage(getActivity(), true));
+		loadBitmapFromDb(getActivity());
 
 		return v;
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+
+		mBackgroundBgView = null;
+		mBackgroundFgView = null;
+		mBgBitmap = null;
+		mBlurredBgBitmap = null;
+	}
+
+	public void loadBitmapFromDb(Context context) {
+		setBitmap(Db.getBackgroundImage(context, false), Db.getBackgroundImage(context, true));
 	}
 
 	public void setBitmap(Bitmap bgBitmap, Bitmap blurredBgBitmap) {

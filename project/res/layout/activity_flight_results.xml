@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <fragment
-        android:id="@+id/background_fragment"
+    <FrameLayout
+        android:id="@+id/bg_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        class="com.expedia.bookings.fragment.BlurredBackgroundFragment" />
+        android:layout_height="match_parent" />
 
     <!-- Content fragment container -->
 
