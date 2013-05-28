@@ -29,6 +29,7 @@ import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.InfoTripletView;
 import com.expedia.bookings.widget.LocationMapImageView;
+import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
@@ -371,14 +372,15 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		String uniqueId = data.getId();
 
 		Calendar trigger = data.getStartDate().getCalendar();
+
+		// Use the phone's current timezone, because if you were flying
+		// to LHR from LAX that day, you wouldn't want a notification at 2am.
+		trigger.setTimeZone(TimeZone.getDefault());
+
 		trigger.set(Calendar.MINUTE, 0);
 		trigger.set(Calendar.MILLISECOND, 0);
 		trigger.set(Calendar.HOUR_OF_DAY, 10);
 		long triggerTimeMillis = trigger.getTimeInMillis();
-
-		// Offset the trigger time to the user's current timezone,
-		// because if you were flying to LHR from LAX that day, you wouldn't want a notification at 2am.
-		triggerTimeMillis -= TimeZone.getDefault().getOffset(triggerTimeMillis);
 
 		Notification notification = new Notification(uniqueId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.HOTEL_CHECK_IN);
@@ -408,13 +410,14 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		String uniqueId = data.getId();
 
 		Calendar trigger = data.getEndDate().getCalendar();
+
+		// Use the phone's current timezone. Presumably you're at the hotel anyway.
+		trigger.setTimeZone(TimeZone.getDefault());
+
 		trigger.set(Calendar.MINUTE, 0);
 		trigger.set(Calendar.MILLISECOND, 0);
 		trigger.set(Calendar.HOUR_OF_DAY, 7);
 		long triggerTimeMillis = trigger.getTimeInMillis();
-
-		// Offset the trigger time to the user's current timezone
-		triggerTimeMillis -= TimeZone.getDefault().getOffset(triggerTimeMillis);
 
 		Notification notification = new Notification(uniqueId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.HOTEL_CHECK_OUT);
