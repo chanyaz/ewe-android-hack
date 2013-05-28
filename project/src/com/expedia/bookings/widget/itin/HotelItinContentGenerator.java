@@ -407,7 +407,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		String uniqueId = data.getId();
 
-		Calendar trigger = data.getStartDate().getCalendar();
+		Calendar trigger = data.getEndDate().getCalendar();
 		trigger.set(Calendar.MINUTE, 0);
 		trigger.set(Calendar.MILLISECOND, 0);
 		trigger.set(Calendar.HOUR_OF_DAY, 7);
