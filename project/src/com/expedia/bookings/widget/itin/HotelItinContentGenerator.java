@@ -376,7 +376,8 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		trigger.set(Calendar.HOUR_OF_DAY, 10);
 		long triggerTimeMillis = trigger.getTimeInMillis();
 
-		// Offset the trigger time to the user's current timezone
+		// Offset the trigger time to the user's current timezone,
+		// because if you were flying to LHR from LAX that day, you wouldn't want a notification at 2am.
 		triggerTimeMillis -= TimeZone.getDefault().getOffset(triggerTimeMillis);
 
 		Notification notification = new Notification(uniqueId, triggerTimeMillis);
