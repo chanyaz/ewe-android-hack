@@ -417,6 +417,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	private void showNoFlights(CharSequence errMsg) {
 		mNoFlightsFragment = NoFlightsFragment.newInstance(errMsg);
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		ft.add(R.id.bg_container, mBgFragment, BlurredBackgroundFragment.TAG);
 		ft.replace(R.id.content_container, mNoFlightsFragment, NoFlightsFragment.TAG);
 		ft.addToBackStack(BACKSTACK_NO_FLIGHTS);
 		ft.commit();
@@ -908,11 +909,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			if (response.hasErrors()) {
 				handleErrors(response);
 			}
-			else if (response.getTripCount() == 0) {
-				showNoFlights(null);
-			}
 			else {
-
 				//We set the bgimage for getter or worse
 				BackgroundDownloader.getInstance().unregisterDownloadCallback(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY);
 				BackgroundDownloader.getInstance().unregisterDownloadCallback(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY);
@@ -933,7 +930,12 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 				mBgFragment.loadBitmapFromDb(mContext);
 
-				showResultsListFragment(0);
+				if (response.getTripCount() == 0) {
+					showNoFlights(null);
+				}
+				else {
+					showResultsListFragment(0);
+				}
 			}
 		}
 	};
