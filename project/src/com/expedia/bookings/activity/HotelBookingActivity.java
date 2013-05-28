@@ -171,7 +171,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	}
 
 	private void launchConfirmationActivity() {
-		startActivity(new Intent(this, HotelConfirmationActivity.class));
+		startActivity(new Intent(this, HotelConfirmationActivityNew.class));
 
 		// Destroy the activity backstack
 		NavUtils.sendKillActivityBroadcast(this);

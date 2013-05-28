@@ -115,6 +115,7 @@
             android:name="com.expedia.bookings.activity.HotelConfirmationActivity"
             android:uiOptions="splitActionBarWhenNarrow"
             android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity android:name="com.expedia.bookings.activity.HotelConfirmationActivityNew" />
         <activity
             android:name="com.expedia.bookings.activity.HotelDetailsFragmentActivity"
             android:theme="@style/Theme.Phone" />
