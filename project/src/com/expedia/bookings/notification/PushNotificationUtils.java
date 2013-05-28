@@ -35,45 +35,9 @@ public class PushNotificationUtils {
 
 	public static HashMap<String, Integer> sLocStringMap;
 
-	private static String sGCMRegistrationId = "";
-
 	//The server will splode if we make simultanious calls using the same regId,
 	//so we create objects to synchronize with (usually this will have one entry) 
 	private static final HashMap<String, Object> sPushLocks = new HashMap<String, Object>();
-
-	/**
-	 * Set the registrationId to use for push notifications and ensure that old
-	 * registration ids get cleaned up.
-	 * @param context
-	 * @param regId
-	 */
-	public static void setRegistrationId(Context context, String regId) {
-		//TODO: We need to persist a list of registration ids on disk, and ensure that when we get
-		//a new id (which shouldn't happen often but can happen) that we SUCCESSFULLY remove all registrations
-		//for the old id, otherwise we are likely to get double notifications and clutter the apis data
-		//as the registrations will just persist indefinitely if we don't remove them.
-
-		Log.d("PushNotificationUtils  setRegistrationId  - old:" + sGCMRegistrationId + " new:" + regId);
-
-		//If this doesn't change then we don't care
-		if (!sGCMRegistrationId.equals(regId)) {
-			if (!TextUtils.isEmpty(sGCMRegistrationId)) {
-				//Send empty list to server for old regId
-				unRegister(context, sGCMRegistrationId);
-			}
-
-			//set the id
-			sGCMRegistrationId = regId;
-		}
-	}
-
-	/**
-	 * The registration id to use for push notification registration
-	 * @return
-	 */
-	public static String getRegistrationId() {
-		return sGCMRegistrationId;
-	}
 
 	/**
 	 * This provides a unique object for a given registration id that can be locked on to ensure
@@ -335,12 +299,14 @@ public class PushNotificationUtils {
 
 	/**
 	 * This is a helper method that essentially just sends an empty flight list to the api
-	 * (in the background) and thereby unregisters all of our current push notifications
+	 * (in the background) and thereby unregisters all of the current push notifications for 
+	 * the supplied regId
 	 * 
 	 * @param context
 	 * @param regId
 	 */
-	public static void unRegister(final Context context, final String regId) {
+	public static void unRegister(final Context context, final String regId,
+			OnDownloadComplete<PushNotificationRegistrationResponse> unregistrationCompleteHandler) {
 		Log.d("PushNotificationUtils.unRegister regId " + regId);
 		String downloadKey = buildUnregisterDownloadKey(regId);
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
@@ -352,16 +318,32 @@ public class PushNotificationUtils {
 			public PushNotificationRegistrationResponse doDownload() {
 				long userTuid = 0;
 				if (User.isLoggedIn(context)) {
-					userTuid = Db.getUser().getPrimaryTraveler().getTuid();
+					if (Db.getUser() == null) {
+						Db.loadUser(context);
+					}
+					if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null) {
+						userTuid = Db.getUser().getPrimaryTraveler().getTuid();
+					}
 				}
 				ExpediaServices services = new ExpediaServices(context);
 				return services.registerForPushNotifications(new PushRegistrationResponseHandler(context),
 						buildPushRegistrationPayload(regId, userTuid, null), regId);
 			}
-		}, new OnDownloadComplete<PushNotificationRegistrationResponse>() {
+		}, unregistrationCompleteHandler);
+	}
+
+	/**
+	 * Helper for unRegistering flights for a particular regId.
+	 * This does the unRegistration and only logs result. Basically useful if you just want to clear
+	 * the current registrations, but the registration id has not changed.
+	 *  
+	 * @param context
+	 * @param regId
+	 */
+	public static void unRegister(final Context context, final String regId) {
+		unRegister(context, regId, new OnDownloadComplete<PushNotificationRegistrationResponse>() {
 			@Override
 			public void onDownload(PushNotificationRegistrationResponse result) {
-				//TODO: If this fails we should try again...
 				Log.d("PushNotificationUtils.unRegister regId " + regId + " complete! result:"
 						+ (result == null ? "null" : "success:" + result.getSuccess()));
 			}

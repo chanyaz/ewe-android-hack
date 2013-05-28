@@ -26,14 +26,13 @@ public class GCMIntentService extends GCMBaseIntentService {
 	@Override
 	public void onRegistered(Context context, String regId) {
 		Log.d("GCM onRegistered regId:" + regId);
-		PushNotificationUtils.setRegistrationId(context, regId);
+		GCMRegistrationKeeper.getInstance(context).setRegistrationId(context, regId);
 	}
 
 	@Override
 	protected void onUnregistered(Context context, String regId) {
-		Log.d("GCM onUnregistered arg1:" + regId);
-		//TODO: Maybe do a callback or something it would be nice for stuff to know when this becomes available
-		PushNotificationUtils.setRegistrationId(context, "");
+		Log.d("GCM onUnregistered regId:" + regId);
+		GCMRegistrationKeeper.getInstance(context).setRegistrationId(context, "");
 	}
 
 	@Override
@@ -120,7 +119,9 @@ public class GCMIntentService extends GCMBaseIntentService {
 		TripComponent component = ItineraryManager.getInstance().getTripComponentFromFlightHistoryId(fhid);
 		if (component != null) {
 
-			//TODO: Wait  until the deep refresh is complete before scheduling the notification??
+			//TODO:
+			// 1) Not sure if this is safe to call from our Service thread.
+			// 2) Wait  until the deep refresh is complete before scheduling the notification??
 			ItineraryManager.getInstance().deepRefreshTrip(component.getParentTrip());
 		}
 

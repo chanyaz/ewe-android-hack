@@ -36,12 +36,12 @@ import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.PushRegistrationResponseHandler;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
-import com.google.android.gcm.GCMRegistrar;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -308,7 +308,8 @@ public class ItineraryManager implements JSONable {
 		mTrips.clear();
 
 		//As we have no trips, we unregister all of our push notifications
-		PushNotificationUtils.unRegister(mContext, PushNotificationUtils.getRegistrationId());
+		PushNotificationUtils.unRegister(mContext,
+				GCMRegistrationKeeper.getInstance(mContext).getRegistrationId(mContext));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1309,30 +1310,12 @@ public class ItineraryManager implements JSONable {
 	// Push Notifications
 
 	private PushNotificationRegistrationResponse registerForPushNotifications() {
-		//If we have not yet registered with GCM, we do so now
-		//Typically this would be on app startup, but need itinmanager to be fully
-		//initialized before notifications are useful, so here we are
-		if (TextUtils.isEmpty(PushNotificationUtils.getRegistrationId())) {
-			Log.d("GCM GCMRegistrar.checkDevice(this);");
-			GCMRegistrar.checkDevice(mContext);
-			Log.d("GCM GCMRegistrar.checkManifest(this);");
-			GCMRegistrar.checkManifest(mContext);
-			final String regId = GCMRegistrar.getRegistrationId(mContext);
-			Log.d("GCM GCMRegistrar regId:" + regId);
-			if (regId.equals("")) {
-				GCMRegistrar.register(mContext, PushNotificationUtils.SENDER_ID);
-			}
-			else {
-				PushNotificationUtils.setRegistrationId(mContext, regId);
-				Log.v("GCM Already registered");
-			}
-		}
 
-		//TODO: WAIT FOR REGID...
-
-		//Tell our server about all of our current flights
-		if (!TextUtils.isEmpty(PushNotificationUtils.getRegistrationId())) {
-
+		//NOTE: If this is the first time we are registering for push notifications, regId will likely be empty
+		//we need to wait for a gcm callback before we will get a regid, so we just skip for now and wait for the next sync
+		//at which time we should have a valid id (assuming network is up and running) 
+		String regId = GCMRegistrationKeeper.getInstance(mContext).getRegistrationId(mContext);
+		if (!TextUtils.isEmpty(regId)) {
 			ExpediaServices services = new ExpediaServices(mContext);
 
 			long userTuid = 0;
@@ -1345,7 +1328,6 @@ public class ItineraryManager implements JSONable {
 				}
 			}
 
-			String regId = PushNotificationUtils.getRegistrationId();
 			JSONObject payload = PushNotificationUtils.buildPushRegistrationPayload(regId, userTuid,
 					getAllItinFlights());
 
