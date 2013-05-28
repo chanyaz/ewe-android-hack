@@ -120,10 +120,11 @@
 
         <ImageView
             android:id="@+id/calendar_shadow"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/standard_content_width"
             android:layout_height="wrap_content"
-            android:src="@drawable/calendar_shadow"
-            android:scaleType="fitXY" />
+            android:layout_gravity="center_horizontal"
+            android:scaleType="fitXY"
+            android:src="@drawable/calendar_shadow" />
 
         <!-- Calendar pop-up -->
 
