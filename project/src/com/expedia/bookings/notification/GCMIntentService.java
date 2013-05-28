@@ -15,6 +15,8 @@ import com.mobiata.android.Log;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 
 public class GCMIntentService extends GCMBaseIntentService {
 
@@ -27,6 +29,15 @@ public class GCMIntentService extends GCMBaseIntentService {
 	public void onRegistered(Context context, String regId) {
 		Log.d("GCM onRegistered regId:" + regId);
 		GCMRegistrationKeeper.getInstance(context).setRegistrationId(context, regId);
+
+		//ItineraryManager.startSync needs to happen on the UI thread, hence the Handler magic
+		Handler handler = new Handler(Looper.getMainLooper());
+		handler.post(new Runnable() {
+			@Override
+			public void run() {
+				ItineraryManager.getInstance().startSync(true);
+			}
+		});
 	}
 
 	@Override
@@ -119,10 +130,17 @@ public class GCMIntentService extends GCMBaseIntentService {
 		TripComponent component = ItineraryManager.getInstance().getTripComponentFromFlightHistoryId(fhid);
 		if (component != null) {
 
-			//TODO:
-			// 1) Not sure if this is safe to call from our Service thread.
-			// 2) Wait  until the deep refresh is complete before scheduling the notification??
-			ItineraryManager.getInstance().deepRefreshTrip(component.getParentTrip());
+			//ItineraryManager.startSync needs to happen on the UI thread, hence the Handler magic
+			final Trip trip = component.getParentTrip();
+			if (trip != null) {
+				Handler handler = new Handler(Looper.getMainLooper());
+				handler.post(new Runnable() {
+					@Override
+					public void run() {
+						ItineraryManager.getInstance().deepRefreshTrip(trip);
+					}
+				});
+			}
 		}
 
 		//After the refresh completes we should show the notification
