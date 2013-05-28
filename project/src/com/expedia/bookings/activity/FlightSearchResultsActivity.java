@@ -1090,7 +1090,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 	private void restoreSearchState() {
 		String searchState = SettingUtils.get(this, PREF_SEARCH_STATE, null);
-		if (!TextUtils.isEmpty(PREF_SEARCH_STATE)) {
+		if (!TextUtils.isEmpty(searchState)) {
 			FlightSearchState state = new FlightSearchState();
 			try {
 				state.fromJson(new JSONObject(searchState));
