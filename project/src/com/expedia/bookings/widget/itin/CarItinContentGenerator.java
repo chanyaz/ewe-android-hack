@@ -396,9 +396,12 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		String uniqueId = data.getId();
 
 		long triggerTimeMillis = data.getPickUpDate().getMillisFromEpoch();
+		long expirationTimeMillis = Math.min(triggerTimeMillis + DateUtils.DAY_IN_MILLIS,
+				calculateDropOffNotificationMillis());
 
 		Notification notification = new Notification(uniqueId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.CAR_PICK_UP);
+		notification.setExpirationTimeMillis(expirationTimeMillis);
 		String carImageValue = ExpediaImageManager.getImageCode(data.getCar().getCategory(), data.getCar().getType());
 		notification.setImage(ImageType.CAR, 0, carImageValue);
 		notification.setFlags(Notification.FLAG_LOCAL);
@@ -423,8 +426,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 
 		String uniqueId = data.getId();
 
-		long triggerTimeMillis = data.getDropOffDate().getMillisFromEpoch();
-		triggerTimeMillis -= 2 * DateUtils.HOUR_IN_MILLIS;
+		long triggerTimeMillis = calculateDropOffNotificationMillis();
 
 		Notification notification = new Notification(uniqueId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.CAR_DROP_OFF);
@@ -441,6 +443,13 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		notification.setBody(body);
 
 		return notification;
+	}
+
+	private long calculateDropOffNotificationMillis() {
+		ItinCardDataCar data = getItinCardData();
+		long triggerTimeMillis = data.getDropOffDate().getMillisFromEpoch();
+		triggerTimeMillis -= 2 * DateUtils.HOUR_IN_MILLIS;
+		return triggerTimeMillis;
 	}
 
 }
