@@ -319,7 +319,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 
 		String uniqueId = data.getId();
 
-		long triggerTimeMillis = data.getStartDate().getMillisFromEpoch();
+		long triggerTimeMillis = data.getValidDate().getMillisFromEpoch();
 		triggerTimeMillis -= 12 * DateUtils.HOUR_IN_MILLIS;
 
 		Notification notification = new Notification(uniqueId, triggerTimeMillis);
