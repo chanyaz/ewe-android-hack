@@ -18,7 +18,7 @@ import android.text.TextWatcher;
 public class InvalidCharacterHelper {
 
 	//Matches only ascii characters (thus disallowing multibyte characters)
-	private static final Pattern sSupportedCharacterPatternASCII = Pattern.compile("^(\\p{ASCII})*$");
+	private static final Pattern SUPPORTED_CHARACTER_PATTERN_ASCII = Pattern.compile("^(\\p{ASCII})*$");
 
 	private static final String INVALID_CHARACTER_POPUP_TAG = "INVALID_CHARACTER_POPUP_TAG";
 
@@ -46,7 +46,7 @@ public class InvalidCharacterHelper {
 	 * @return
 	 */
 	public static Pattern getSupportedCharacterPattern(Mode mode) {
-		return sSupportedCharacterPatternASCII;
+		return SUPPORTED_CHARACTER_PATTERN_ASCII;
 	}
 
 	/**
