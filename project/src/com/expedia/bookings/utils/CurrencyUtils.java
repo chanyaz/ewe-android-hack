@@ -112,4 +112,39 @@ public class CurrencyUtils {
 		// Didn't find a valid card type, return null
 		return null;
 	}
+
+	public static CreditCardType getType(String type) {
+		// Code lovingly stolen from iOS, where they note that these
+		// values are not yet verified from the API folks.
+		if (type.equals("AmericanExpress")) {
+			return CreditCardType.AMERICAN_EXPRESS;
+		}
+		else if (type.equals("CarteBlanche")) {
+			return CreditCardType.CARTE_BLANCHE;
+		}
+		else if (type.equals("ChinaUnionPay")) {
+			return CreditCardType.CHINA_UNION_PAY;
+		}
+		else if (type.equals("DinersClub")) {
+			return CreditCardType.DINERS_CLUB;
+		}
+		else if (type.equals("Discover")) {
+			return CreditCardType.DISCOVER;
+		}
+		else if (type.equals("JCB")) {
+			return CreditCardType.JAPAN_CREDIT_BUREAU;
+		}
+		else if (type.equals("Maestro")) {
+			return CreditCardType.MAESTRO;
+		}
+		else if (type.equals("MasterCard")) {
+			return CreditCardType.MASTERCARD;
+		}
+		else if (type.equals("Visa")) {
+			return CreditCardType.VISA;
+		}
+		else {
+			return null;
+		}
+	}
 }
