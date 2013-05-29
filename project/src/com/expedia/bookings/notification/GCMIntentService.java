@@ -78,7 +78,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 					//If our itins arent synced yet, we cant show pretty notifications, so if we are syncing, we wait
 					if (!ItineraryManager.getInstance().isSyncing()) {
 						Log.d("GCM onMessage - generating the notification right away.");
-						generateNotificaiton(fhid, locKey, locArgsStrings, type);
+						generateNotification(fhid, locKey, locArgsStrings, type);
 					}
 					else {
 						Log.d("GCM onMessage - Waiting for the ItinManager to finish syncing...");
@@ -87,7 +87,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 							public void onSyncFinished(Collection<Trip> trips) {
 								Log.d("GCM onMessage - ItinManager finished syncing, building notification now.");
 								ItineraryManager.getInstance().removeSyncListener(this);
-								generateNotificaiton(fhid, locKey, locArgsStrings, type);
+								generateNotification(fhid, locKey, locArgsStrings, type);
 							}
 						});
 					}
@@ -125,7 +125,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		}
 	}
 
-	private void generateNotificaiton(int fhid, String locKey, String[] locArgs, String type) {
+	private void generateNotification(int fhid, String locKey, String[] locArgs, String type) {
 		//We should find the flight in itin manager (using fhid) and do a deep refresh. and to find the correct uniqueid for the itin in question
 		TripComponent component = ItineraryManager.getInstance().getTripComponentFromFlightHistoryId(fhid);
 		if (component != null) {
