@@ -423,7 +423,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 			notification.fromJson(new JSONObject(jsonNotification));
 		}
 		catch (JSONException e) {
-			Log.e("Unable to parse notification.");
+			Log.e("Unable to parse notification.", e);
 		}
 
 		notification = Notification.findExisting(notification);

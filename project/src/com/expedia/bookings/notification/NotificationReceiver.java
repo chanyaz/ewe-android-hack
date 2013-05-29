@@ -79,7 +79,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 			notification = Notification.findExisting(deserialized);
 		}
 		catch (JSONException e) {
-			Log.w("JSONException, unable to create notification. Ignoring");
+			Log.w("JSONException, unable to create notification. Ignoring", e);
 			return;
 		}
 
