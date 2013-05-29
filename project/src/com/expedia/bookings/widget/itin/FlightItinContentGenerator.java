@@ -99,81 +99,19 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	@Override
 	public String getShareSubject() {
 		ShareUtils shareUtils = new ShareUtils(getContext());
-		return shareUtils.getFlightShareSubject(getItinCardData().getFlightLeg());
+		return shareUtils.getShareSubject(getItinCardData());
 	}
 
 	@Override
 	public String getShareTextShort() {
-		final ItinCardDataFlight itinCardData = getItinCardData();
-
-		if (itinCardData != null && itinCardData.getFlightLeg() != null
-				&& itinCardData.getFlightLeg().getLastWaypoint() != null
-				&& itinCardData.getFlightLeg().getLastWaypoint().getAirport() != null) {
-
-			FlightLeg leg = itinCardData.getFlightLeg();
-			String airlineAndFlightNumber = FormatUtils.formatFlightNumberShort(
-					leg.getSegment(leg.getSegmentCount() - 1), getContext());
-			String destinationCity = leg.getLastWaypoint().getAirport().mCity;
-			String destinationAirportCode = leg.getLastWaypoint().getAirport().mAirportCode;
-			String originAirportCode = leg.getFirstWaypoint().getAirport().mAirportCode;
-			String destinationGateTerminal = getTerminalGateString(leg.getLastWaypoint());
-
-			Calendar departureCal = leg.getFirstWaypoint().getBestSearchDateTime();
-			Calendar arrivalCal = leg.getLastWaypoint().getBestSearchDateTime();
-
-			Date departureDate = DateTimeUtils.getTimeInLocalTimeZone(departureCal);
-			Date arrivalDate = DateTimeUtils.getTimeInLocalTimeZone(arrivalCal);
-
-			String departureTzString = FormatUtils.formatTimeZone(leg.getFirstWaypoint().getAirport(), departureDate,
-					MAX_TIMEZONE_LENGTH);
-			String arrivalTzString = FormatUtils.formatTimeZone(leg.getLastWaypoint().getAirport(), arrivalDate,
-					MAX_TIMEZONE_LENGTH);
-
-			//The story contains format strings, but we don't want to bone our international customers
-			DateFormat dateFormat = SimpleDateFormat.getDateInstance(DateFormat.SHORT);
-			DateFormat timeFormat = SimpleDateFormat.getTimeInstance(DateFormat.MEDIUM);
-
-			if (PointOfSale.getPointOfSale().getThreeLetterCountryCode().equalsIgnoreCase("USA")) {
-				String dateFormatStr = "M/dd/yy";
-				String timeFormatStr = "h:mma";
-
-				((SimpleDateFormat) dateFormat).applyPattern(dateFormatStr);
-				((SimpleDateFormat) timeFormat).applyPattern(timeFormatStr);
-			}
-
-			String departureDateStr = dateFormat.format(departureDate);
-			String departureTimeStr = timeFormat.format(departureDate) + " " + departureTzString;
-			String departureDateTimeStr = departureTimeStr + " " + departureDateStr;
-
-			String arrivalDateStr = dateFormat.format(departureDate);
-			String arrivalTimeStr = timeFormat.format(arrivalDate) + " " + arrivalTzString;
-			String arrivalDateTimeStr = arrivalTimeStr + " " + arrivalDateStr;
-
-			//single day
-			if (leg.getDaySpan() == 0) {
-				String template = getContext().getString(R.string.share_template_short_flight_sameday);
-
-				return String.format(template, airlineAndFlightNumber, destinationCity, departureDateStr,
-						originAirportCode,
-						departureTimeStr, destinationAirportCode, arrivalTimeStr, destinationGateTerminal);
-			}
-			//multi day
-			else {
-				String template = getContext().getString(R.string.share_template_short_flight_multiday);
-
-				return String.format(template, airlineAndFlightNumber, destinationCity, originAirportCode,
-						departureDateTimeStr, destinationAirportCode, arrivalDateTimeStr, destinationGateTerminal);
-			}
-		}
-		return null;
+        ShareUtils shareUtils = new ShareUtils(getContext());
+        return shareUtils.getShareTextShort(getItinCardData());
 	}
 
 	@Override
 	public String getShareTextLong() {
-		final ItinCardDataFlight itinCardData = getItinCardData();
-		TripFlight tripFlight = (TripFlight) itinCardData.getTripComponent();
 		ShareUtils shareUtils = new ShareUtils(getContext());
-		return shareUtils.getFlightShareEmail(itinCardData.getFlightLeg(), tripFlight.getTravelers());
+		return shareUtils.getShareTextLong(getItinCardData());
 	}
 
 	@Override
@@ -899,26 +837,6 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		}
 		else {
 			return 0;
-		}
-	}
-
-	private String getTerminalGateString(Waypoint waypoint) {
-		Resources res = getResources();
-		if (!waypoint.hasGate() && !waypoint.hasTerminal()) {
-			//no gate or terminal info
-			return res.getString(R.string.gate_number_only_TEMPLATE, res.getString(R.string.to_be_determined_abbrev));
-		}
-		else if (waypoint.hasGate()) {
-			//gate only
-			return res.getString(R.string.gate_number_only_TEMPLATE, waypoint.getGate());
-		}
-		else if (waypoint.hasTerminal()) {
-			//terminal only
-			return res.getString(R.string.terminal_but_no_gate_TEMPLATE, waypoint.getTerminal());
-		}
-		else {
-			//We have gate and terminal info
-			return res.getString(R.string.generic_terminal_TEMPLATE, waypoint.getTerminal(), waypoint.getGate());
 		}
 	}
 

@@ -165,6 +165,13 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 		return null;
 	}
 
+    public String getPropertyCity() {
+        if(hasProperty()) {
+            return mProperty.getLocation().getCity();
+        }
+        return null;
+    }
+
 	public String getRelevantPhone() {
 		if (hasProperty()) {
 			if (!TextUtils.isEmpty(mProperty.getTollFreePhone())) {

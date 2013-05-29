@@ -25,6 +25,7 @@ import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.ClipboardUtils;
+import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.InfoTripletView;
 import com.expedia.bookings.widget.LocationMapImageView;
@@ -58,70 +59,20 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 	@Override
 	public String getShareSubject() {
-		final ItinCardDataHotel itinCardData = getItinCardData();
-
-		String template = getContext().getString(R.string.share_template_subject_hotel);
-		String checkIn = itinCardData.getFormattedShortShareCheckInDate(getContext());
-		String checkOut = itinCardData.getFormattedShortShareCheckOutDate(getContext());
-
-		return String.format(template, "", checkIn, checkOut);
+        ShareUtils shareUtils = new ShareUtils(getContext());
+        return shareUtils.getShareSubject(getItinCardData());
 	}
 
 	@Override
 	public String getShareTextShort() {
-		final ItinCardDataHotel itinCardData = getItinCardData();
-
-		String template = getContext().getString(R.string.share_template_short_hotel);
-		String hotelName = itinCardData.getPropertyName();
-		String checkIn = itinCardData.getFormattedShortShareCheckInDate(getContext());
-		String checkOut = itinCardData.getFormattedShortShareCheckOutDate(getContext());
-		String detailsUrl = itinCardData.getPropertyInfoSiteUrl();
-
-		return String.format(template, hotelName, checkIn, checkOut, detailsUrl);
+		ShareUtils shareUtils = new ShareUtils(getContext());
+		return shareUtils.getShareTextShort(getItinCardData());
 	}
 
 	@Override
 	public String getShareTextLong() {
-		final ItinCardDataHotel itinCardData = getItinCardData();
-
-		Context ctx = getContext();
-
-		String hotelName = itinCardData.getPropertyName();
-		String lengthOfStay = itinCardData.getFormattedLengthOfStay(getContext());
-		String checkIn = itinCardData.getFormattedLongShareCheckInDate(getContext());
-		String checkOut = itinCardData.getFormattedLongShareCheckOutDate(getContext());
-		String address = itinCardData.getAddressString();
-		String phone = itinCardData.getRelevantPhone();
-		String detailsUrl = itinCardData.getPropertyInfoSiteUrl();
-		String downloadUrl = PointOfSale.getPointOfSale().getAppInfoUrl();
-
-		StringBuilder builder = new StringBuilder();
-		builder.append(ctx.getString(R.string.share_template_long_hotel_1_greeting, hotelName, lengthOfStay));
-		builder.append("\n\n");
-
-		if (checkIn != null || checkOut != null) {
-			builder.append(ctx.getString(R.string.share_template_long_hotel_2_checkin_checkout, checkIn, checkOut));
-			builder.append("\n\n");
-		}
-
-		if (address != null) {
-			builder.append(ctx.getString(R.string.share_template_long_hotel_3_address, hotelName, address));
-			builder.append("\n\n");
-		}
-
-		if (phone != null) {
-			builder.append(ctx.getString(R.string.share_template_long_hotel_4_phone, phone));
-			builder.append("\n\n");
-		}
-
-		if (detailsUrl != null) {
-			builder.append(ctx.getString(R.string.share_template_long_hotel_5_more_info, detailsUrl));
-			builder.append("\n\n");
-		}
-
-		builder.append(ctx.getString(R.string.share_template_long_ad, downloadUrl));
-
-		return builder.toString();
+        ShareUtils shareUtils = new ShareUtils(getContext());
+        return shareUtils.getShareTextLong(getItinCardData());
 	}
 
 	@Override
