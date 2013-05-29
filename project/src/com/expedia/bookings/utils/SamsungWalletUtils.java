@@ -54,7 +54,7 @@ public class SamsungWalletUtils {
 		public void onReceive(Context context, Intent intent) {
 			Log.d("SamsungWallet: Received intent from SamsungWallet:" + intent.toString());
 			if (CHECK_TICKET_RESULT.equals(intent.getAction())) {
-				mCallback.onResult(intent.getIntExtra("RESULT_CODE", RESULT_INTERNAL_ERROR));
+				mCallback.onResult(Integer.parseInt(intent.getStringExtra("RESULT_CODE")));
 				context.unregisterReceiver(this);
 			}
 		}

@@ -313,6 +313,7 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity implemen
 							samsungWalletMenuText.setText(textId);
 							samsungWalletMenuText.setTag(result);
 							mSamsungWalletMenuItem.getActionView().setOnClickListener(mSamsungWalletClickListener);
+
 						}
 					}
 				};
