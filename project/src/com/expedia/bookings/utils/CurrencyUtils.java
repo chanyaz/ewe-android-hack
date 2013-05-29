@@ -124,7 +124,7 @@ public class CurrencyUtils {
 		else if (type.equals("ChinaUnionPay")) {
 			return CreditCardType.CHINA_UNION_PAY;
 		}
-		else if (type.equals("DinersClub")) {
+		else if (type.equals("Diner's Club International")) {
 			return CreditCardType.DINERS_CLUB;
 		}
 		else if (type.equals("Discover")) {
