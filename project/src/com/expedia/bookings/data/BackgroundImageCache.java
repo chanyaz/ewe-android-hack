@@ -6,10 +6,22 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.concurrent.Semaphore;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Build;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.Matrix3f;
+import android.renderscript.RenderScript;
+import android.renderscript.Script.KernelID;
+import android.renderscript.ScriptGroup;
+import android.renderscript.ScriptIntrinsicBlur;
+import android.renderscript.ScriptIntrinsicColorMatrix;
+import android.renderscript.Type;
 import android.support.v4.util.LruCache;
 
 import com.expedia.bookings.R;
@@ -18,6 +30,7 @@ import com.jakewharton.DiskLruCache.Editor;
 import com.jakewharton.DiskLruCache.Snapshot;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.TimingLogger;
 
 public class BackgroundImageCache {
 	private LruCache<String, Bitmap> mMemoryCache;
@@ -28,6 +41,7 @@ public class BackgroundImageCache {
 
 	private static final int DISK_CACHE_SIZE = 1024 * 1024 * 10; //10MB
 	private static final int DISK_WRITE_BUFFER_SIZE = 4096;
+	private static final float DARKEN_MULTIPLIER = 0.65f;
 	private static final String DISK_CACHE_SUBDIR = "LruImageChacher";
 	private static final String TAG = "BG_IMAGE_CACHE";
 	private static final String BLUR_KEY_SUFFIX = "blurkeysuffix";
@@ -104,7 +118,7 @@ public class BackgroundImageCache {
 		return getBitmap(getBlurredKey(bmapkey), context);
 	}
 
-	public void putBitmap(final String bmapkey, final Bitmap bitmap, final boolean blur) {
+	public void putBitmap(final String bmapkey, final Bitmap bitmap, final boolean blur, final Context context) {
 		Runnable putBitmapRunner = new Runnable() {
 
 			@Override
@@ -127,7 +141,7 @@ public class BackgroundImageCache {
 
 					Bitmap blurred = null;
 					if (blur) {
-						blurred = blur(bitmap);
+						blurred = blur(bitmap, context);
 						if (mCancelAddBitmap) {
 							throw new Exception("Canceled after blur");
 						}
@@ -249,7 +263,7 @@ public class BackgroundImageCache {
 					Bitmap bg = BitmapFactory.decodeResource(context.getResources(),
 							R.drawable.default_flights_background,
 							options);
-					putBitmap(DEFAULT_KEY, bg, false);
+					putBitmap(DEFAULT_KEY, bg, false, context);
 					waitForAddingBitmap(50);
 					bg.recycle();
 				}
@@ -258,7 +272,7 @@ public class BackgroundImageCache {
 					Bitmap bg = BitmapFactory.decodeResource(context.getResources(),
 							R.drawable.default_flights_background_blurred,
 							options);
-					putBitmap(getBlurredKey(DEFAULT_KEY), bg, false);
+					putBitmap(getBlurredKey(DEFAULT_KEY), bg, false, context);
 					waitForAddingBitmap(50);
 					bg.recycle();
 				}
@@ -293,18 +307,80 @@ public class BackgroundImageCache {
 		return key.endsWith(BLUR_KEY_SUFFIX);
 	}
 
-	private Bitmap blur(Bitmap bmapToBlur) {
+	private Bitmap blur(Bitmap bmapToBlur, Context context) {
 		//Shrink it, we will have a lot fewer pixels, and they are going to get blurred so nobody should care...
 		int w = bmapToBlur.getWidth() / BLURRED_IMAGE_SIZE_REDUCTION_FACTOR;
 		int h = bmapToBlur.getHeight() / BLURRED_IMAGE_SIZE_REDUCTION_FACTOR;
 		Bitmap shrunk = Bitmap.createScaledBitmap(bmapToBlur, w, h, false);
 
 		//Blur and darken it
-		return stackBlurAndDarken(shrunk);
+		if (AndroidUtils.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+			return stackBlurAndDarkenRenderscript(shrunk, context);
+		}
+		else {
+			return stackBlurAndDarken(shrunk);
+		}
+	}
+
+	/**
+	 * Newer Devices get super fast renderscript blur and darken.
+	 * @param bitmap
+	 * @param context
+	 * @return
+	 */
+	@SuppressLint("NewApi")
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+	public Bitmap stackBlurAndDarkenRenderscript(Bitmap bitmap, Context context) {
+		TimingLogger tictoc = new TimingLogger("STACK_BLUR_AND_DARKEN", "RENDERSCRIPT");
+
+		tictoc.addSplit("Begin CreateBitmap");
+		Bitmap outputBmap = Bitmap.createBitmap(bitmap);
+
+		tictoc.addSplit("Init Renderscript stuff");
+		RenderScript mRs = RenderScript.create(context);
+
+		Allocation blurInputAllocation = Allocation.createFromBitmap(mRs, bitmap);
+		Allocation blurOutputAllocation = Allocation.createFromBitmap(mRs, outputBmap);
+
+		ScriptIntrinsicBlur blur = ScriptIntrinsicBlur.create(mRs, Element.U8_4(mRs));
+		blur.setRadius(STACK_BLUR_RADIUS);
+		ScriptIntrinsicColorMatrix darken = ScriptIntrinsicColorMatrix.create(mRs, Element.U8_4(mRs));
+		Matrix3f colorMatrix = new Matrix3f(
+				new float[] { DARKEN_MULTIPLIER, 0f, 0f, 0f, DARKEN_MULTIPLIER, 0f, 0f, 0f, DARKEN_MULTIPLIER });
+		darken.setColorMatrix(colorMatrix);
+
+		Type.Builder typeBuilder = new Type.Builder(mRs, Element.U8_4(mRs));
+		typeBuilder.setX(blurInputAllocation.getType().getX());
+		typeBuilder.setY(blurInputAllocation.getType().getY());
+
+		KernelID blurId = blur.getKernelID();
+		KernelID darkenId = darken.getKernelID();
+
+		ScriptGroup.Builder builder = new ScriptGroup.Builder(mRs);
+		builder.addKernel(blurId);
+		builder.addKernel(darkenId);
+		builder.addConnection(typeBuilder.create(), blurId, darkenId);
+		ScriptGroup scriptGroup = builder.create();
+
+		blur.setInput(blurInputAllocation);
+		scriptGroup.setOutput(darkenId, blurOutputAllocation);
+
+		tictoc.addSplit("Do Blur");
+		scriptGroup.execute();
+
+		tictoc.addSplit("Begin Copy to outputBmap");
+		blurOutputAllocation.copyTo(outputBmap);
+
+		tictoc.addSplit("Done");
+		tictoc.dumpToLog();
+
+		return outputBmap;
 	}
 
 	//This does require some memory...
-	private Bitmap stackBlurAndDarken(Bitmap bitmap) {
+	public Bitmap stackBlurAndDarken(Bitmap bitmap) {
+		TimingLogger tictoc = new TimingLogger("STACK_BLUR_AND_DARKEN", "JAVA");
+		tictoc.addSplit("Begin Blur");
 		if (bitmap == null) {
 			return null;
 		}
@@ -319,8 +395,6 @@ public class BackgroundImageCache {
 
 		int[] pix = new int[wh];
 		bitmap.getPixels(pix, 0, w, 0, 0, w, h);
-
-		long tic = System.currentTimeMillis();
 
 		int r[] = new int[wh];
 		int g[] = new int[wh];
@@ -502,18 +576,19 @@ public class BackgroundImageCache {
 		}
 
 		//Darken each pixel. (this should be the equivalent of adding a black .35 opacity mask)
-		double maskValue = 0.65;
+		tictoc.addSplit("Begin Darken");
+		double maskValue = DARKEN_MULTIPLIER;
 		for (int d = 0; d < pix.length; d++) {
 			pix[d] = Color.rgb((int) (Color.red(pix[d]) * maskValue), (int) (Color.green(pix[d]) * maskValue),
 					(int) (Color.blue(pix[d]) * maskValue));
 		}
 
-		long toc = System.currentTimeMillis();
-
+		tictoc.addSplit("Begin Copy to new bitmap");
 		Bitmap newbitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
 		newbitmap.setPixels(pix, 0, w, 0, 0, w, h);
 
-		Log.d("StackBlurAndDarken", (toc - tic) + "ms");
+		tictoc.addSplit("Done");
+		tictoc.dumpToLog();
 		return newbitmap;
 	}
 

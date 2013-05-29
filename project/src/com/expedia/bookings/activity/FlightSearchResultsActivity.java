@@ -1011,7 +1011,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			// If the response is null, fake an error response (for the sake of cleaner code)
 			if (response != null) {
 				BackgroundImageCache cache = Db.getBackgroundImageCache(FlightSearchResultsActivity.this);
-				cache.putBitmap(Db.getBackgroundImageKey(), response, true);
+				cache.putBitmap(Db.getBackgroundImageKey(), response, true, FlightSearchResultsActivity.this);
 			}
 			else {
 				Log.e("Image download returned null.");
