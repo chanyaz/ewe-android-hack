@@ -245,15 +245,6 @@ public class FlightTrip implements JSONable {
 		return mOnlineBookingFeesAmount;
 	}
 
-	public Money getTotalFareWithObFees() {
-		Money money = new Money(mTotalFare);
-
-		// mTotalFare already includes the OBFees. Defect #395
-		//money.add(mOnlineBookingFeesAmount);
-
-		return money;
-	}
-
 	public void setHasBagFee(boolean has) {
 		mHasBagFee = has;
 	}

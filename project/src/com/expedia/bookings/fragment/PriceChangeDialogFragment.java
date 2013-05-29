@@ -77,7 +77,7 @@ public class PriceChangeDialogFragment extends DialogFragment {
 		// Reset the price to always be positive for formatting purposes
 		diff.setAmount(diff.getAmount().abs());
 		String diffFormatted = diff.getFormattedMoney();
-		String totalFareFormatted = newOffer.getTotalFareWithObFees().getFormattedMoney();
+		String totalFareFormatted = newOffer.getTotalFare().getFormattedMoney();
 		if (compareTo < 0) {
 			if (obFeesFormatted != null) {
 				message = getString(R.string.error_flight_price_increased_with_fee, obFeesFormatted, diffFormatted,
