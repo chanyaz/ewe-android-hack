@@ -2068,7 +2068,7 @@ public class OmnitureTracking {
 			type = scc.getCardType();
 		}
 		else {
-			type = CurrencyUtils.detectCreditCardBrand(context, billingInfo.getNumber());
+			type = CurrencyUtils.detectCreditCardBrand(billingInfo.getNumber());
 		}
 
 		if (type != null) {

@@ -173,7 +173,7 @@ public class FlightTrip implements JSONable {
 		else {
 			String number = Db.getBillingInfo().getNumber();
 			if (!TextUtils.isEmpty(number)) {
-				selectedCardType = CurrencyUtils.detectCreditCardBrand(null, number);
+				selectedCardType = CurrencyUtils.detectCreditCardBrand(number);
 			}
 		}
 

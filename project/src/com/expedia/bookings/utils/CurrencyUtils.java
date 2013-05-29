@@ -43,12 +43,11 @@ public class CurrencyUtils {
 	 * Maestro             16, 18, 19       50, 63, 67
 	 * MasterCard          16               51, 52, 53, 54, 55
 	 * Visa                13, 16           4
-	 *
-	 * @param context the context (used to retrieve strings/images)
 	 * @param cardNumber the number of the card (as entered so far)
+	 *
 	 * @return the credit card brand if detected, null if not detected
 	 */
-	public static CreditCardType detectCreditCardBrand(Context context, String cardNumber) {
+	public static CreditCardType detectCreditCardBrand(String cardNumber) {
 		int numDigits = cardNumber.length();
 
 		// We don't start trying to detect cards until we have at least 13 digits

@@ -389,8 +389,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 							//A strange special case, as when we load billingInfo from disk, we don't have number, but we retain brandcode
 							//We don't want to get rid of the brand code until the user has started to enter new data...
 							if (!TextUtils.isEmpty(getData().getNumber())) {
-								CreditCardType type = CurrencyUtils.detectCreditCardBrand(mContext, getData()
-										.getNumber());
+								CreditCardType type = CurrencyUtils.detectCreditCardBrand(getData().getNumber());
 								if (type == null) {
 									getData().setBrandCode(null);
 									getData().setBrandName(null);
@@ -428,8 +427,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 						return ValidationError.ERROR_DATA_MISSING;
 					}
 					else {
-						CreditCardType type = CurrencyUtils.detectCreditCardBrand(mContext, obj.getText().toString()
-								.trim());
+						CreditCardType type = CurrencyUtils.detectCreditCardBrand(obj.getText().toString().trim());
 						if (type == null) {
 							return ValidationError.ERROR_DATA_INVALID;
 						}

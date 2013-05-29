@@ -71,7 +71,7 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 			String ccNumber = billingInfo.getNumber();
 			cardName = context.getString(R.string.card_ending_TEMPLATE, ccNumber.substring(ccNumber.length() - 4));
 
-			cardType = CurrencyUtils.detectCreditCardBrand(context, ccNumber);
+			cardType = CurrencyUtils.detectCreditCardBrand(ccNumber);
 		}
 
 		return CVVEntryFragment.newInstance(personName, cardName, cardType);
