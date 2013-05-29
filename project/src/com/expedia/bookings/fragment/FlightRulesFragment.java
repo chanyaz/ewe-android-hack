@@ -1,6 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
@@ -44,7 +43,6 @@ public class FlightRulesFragment extends SherlockFragment {
 
 	}
 
-	private Context mContext;
 	private FlightTrip mFlightTrip;
 
 	private TextView mCompletePenaltyRulesTextView;
@@ -58,8 +56,6 @@ public class FlightRulesFragment extends SherlockFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		mContext = getSherlockActivity();
 
 		String tripKey = Db.getFlightSearch().getSelectedFlightTrip().getProductKey();
 		mFlightTrip = Db.getFlightSearch().getFlightTrip(tripKey);
@@ -98,13 +94,13 @@ public class FlightRulesFragment extends SherlockFragment {
 			@Override
 			public void onClick(View v) {
 				Rule completeRule = mFlightTrip.getRule(RulesKeys.COMPLETE_PENALTY_RULES.getKey());
-				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(mContext);
+				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 				builder.setUrl(completeRule.getUrl());
 				builder.setTheme(R.style.FlightTheme);
 				builder.setTitle(R.string.rules_and_restrictions);
 				builder.setInjectExpediaCookies(true);
 				builder.setLoginEnabled(true);
-				mContext.startActivity(builder.getIntent());
+				startActivity(builder.getIntent());
 			}
 
 		});
@@ -114,11 +110,11 @@ public class FlightRulesFragment extends SherlockFragment {
 		terms.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(mContext);
+				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 				builder.setUrl(pos.getTermsAndConditionsUrl());
 				builder.setTheme(R.style.FlightTheme);
 				builder.setTitle(R.string.terms_and_conditions);
-				mContext.startActivity(builder.getIntent());
+				startActivity(builder.getIntent());
 			}
 		});
 
@@ -128,11 +124,11 @@ public class FlightRulesFragment extends SherlockFragment {
 			booking.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(mContext);
+					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 					builder.setUrl(pos.getTermsOfBookingUrl());
 					builder.setTheme(R.style.FlightTheme);
 					builder.setTitle(R.string.Terms_of_Booking);
-					mContext.startActivity(builder.getIntent());
+					startActivity(builder.getIntent());
 				}
 			});
 		}
@@ -146,11 +142,11 @@ public class FlightRulesFragment extends SherlockFragment {
 		privacy.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(mContext);
+				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 				builder.setUrl(pos.getPrivacyPolicyUrl());
 				builder.setTheme(R.style.FlightTheme);
 				builder.setTitle(R.string.privacy_policy);
-				mContext.startActivity(builder.getIntent());
+				startActivity(builder.getIntent());
 			}
 		});
 
@@ -160,9 +156,9 @@ public class FlightRulesFragment extends SherlockFragment {
 			atolInformation.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(mContext);
+					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 
-					String message = mContext.getString(R.string.lawyer_label_atol_long_message);
+					String message = getString(R.string.lawyer_label_atol_long_message);
 					String html = HtmlUtils.wrapInHeadAndBody(message);
 					builder.setHtmlData(html);
 
@@ -221,11 +217,11 @@ public class FlightRulesFragment extends SherlockFragment {
 			textView.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(mContext);
+					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 					builder.setUrl(rule.getUrl());
 					builder.setTheme(R.style.FlightTheme);
 					builder.setTitle(R.string.legal_information);
-					mContext.startActivity(builder.getIntent());
+					startActivity(builder.getIntent());
 				}
 			});
 		}

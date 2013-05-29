@@ -98,8 +98,6 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		R.drawable.bg_launch_vegas,
 	};
 
-	private Context mContext;
-
 	private ImageView mBgView;
 	private ViewGroup mErrorContainer;
 	private ViewGroup mScrollContainer;
@@ -129,12 +127,6 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		if (activity instanceof LaunchFragmentListener) {
 			((LaunchFragmentListener) activity).onLaunchFragmentAttached(this);
 		}
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		mContext = getActivity();
 	}
 
 	@Override
@@ -277,17 +269,18 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			// No cached hotel data and no hotel search downloading...that must mean we need to find a Location!
 			else {
 				Location location = ExpediaDebugUtil.getFakeLocation(getActivity());
+				Context context = getActivity();
 
 				// Attempt to find last best Location from OS cache
 				if (location == null) {
 					long minTime = Calendar.getInstance().getTimeInMillis() - MINIMUM_TIME_AGO;
-					location = LocationServices.getLastBestLocation(mContext, minTime);
+					location = LocationServices.getLastBestLocation(context, minTime);
 				}
 
 				// force location fetch by setting location null. use fake location if it exists, though.
-				if (!AndroidUtils.isRelease(mContext)) {
-					if (SettingUtils.get(mContext, getString(R.string.preference_force_new_location), false)) {
-						String fakeLatLng = SettingUtils.get(mContext,
+				if (!AndroidUtils.isRelease(context)) {
+					if (SettingUtils.get(context, getString(R.string.preference_force_new_location), false)) {
+						String fakeLatLng = SettingUtils.get(context,
 								getString(R.string.preference_fake_current_location), "");
 						if (TextUtils.isEmpty(fakeLatLng)) {
 							location = null;
@@ -335,13 +328,13 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 	private void findLocation() {
 
-		if (!NetUtils.isOnline(mContext)) {
+		if (!NetUtils.isOnline(getActivity())) {
 			useHotelFallback();
 			return;
 		}
 
 		if (mLocationFinder == null) {
-			mLocationFinder = new MobiataLocationFinder(mContext);
+			mLocationFinder = new MobiataLocationFinder(getActivity());
 			mLocationFinder.setListener(new LocationFinder.LocationFinderListener() {
 				@Override
 				public void onLocationFound(Location location) {
@@ -491,7 +484,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				}
 				else if (suggestResponse.hasErrors()) {
 					Log.w("Got an error response from server autocompleting for: " + destinationId + ", "
-							+ suggestResponse.getErrors().get(0).getPresentableMessage(mContext));
+							+ suggestResponse.getErrors().get(0).getPresentableMessage(getActivity()));
 					continue;
 				}
 
@@ -577,7 +570,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	private Download<List<HotelDestination>> mHotelsFallbackDownload = new Download<List<HotelDestination>>() {
 		@Override
 		public List<HotelDestination> doDownload() {
-			ExpediaServices services = new ExpediaServices(mContext);
+			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_HOTEL_DESTINATIONS, services);
 			List<HotelDestination> destinations = HOTEL_DESTINATION_FALLBACK_LIST;
 
@@ -595,7 +588,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				}
 				else if (suggestResponse.hasErrors()) {
 					Log.w("Got an error response from server autocompleting for: " + hotel.getLaunchTileText() + ", "
-							+ suggestResponse.getErrors().get(0).getPresentableMessage(mContext));
+							+ suggestResponse.getErrors().get(0).getPresentableMessage(getActivity()));
 					continue;
 				}
 
@@ -660,14 +653,14 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		Log.d("LaunchFragment.initViews() - initializing views...");
 
 		if (mHotelAdapter == null) {
-			mHotelAdapter = new LaunchHotelAdapter(mContext);
+			mHotelAdapter = new LaunchHotelAdapter(getActivity());
 			mHotelsStreamListView.setAdapter(mHotelAdapter);
 			if (!mHotelsStreamListView.restorePosition()) {
 				mHotelsStreamListView.selectMiddle();
 			}
 		}
 
-		mFlightAdapter = new LaunchFlightAdapter(mContext);
+		mFlightAdapter = new LaunchFlightAdapter(getActivity());
 		mFlightsStreamListView.setAdapter(mFlightAdapter);
 		if (!mFlightsStreamListView.restorePosition()) {
 			mFlightsStreamListView.selectMiddle();
@@ -717,9 +710,9 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				Db.setSearchParams(mSearchParams);
 				Db.setSelectedProperty(property);
 
-				Intent intent = new Intent(mContext, HotelDetailsFragmentActivity.class);
+				Intent intent = new Intent(getActivity(), HotelDetailsFragmentActivity.class);
 				intent.putExtra(HotelDetailsMiniGalleryFragment.ARG_FROM_LAUNCH, true);
-				mContext.startActivity(intent);
+				startActivity(intent);
 			}
 			else if (item instanceof HotelDestination) {
 				HotelDestination destination = (HotelDestination) item;
@@ -745,9 +738,9 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				searchParams.setChildren(null);
 
 				// Launch hotel search
-				Intent intent = new Intent(mContext, PhoneSearchActivity.class);
+				Intent intent = new Intent(getActivity(), PhoneSearchActivity.class);
 				intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
-				mContext.startActivity(intent);
+				startActivity(intent);
 			}
 		}
 	};
@@ -780,10 +773,10 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			// F1330: Tapping on tiles should take you to unsupported POS page
 			// if you are on an unsupported POS!
 			if (!PointOfSale.getPointOfSale().supportsFlights()) {
-				mContext.startActivity(new Intent(mContext, FlightUnsupportedPOSActivity.class));
+				startActivity(new Intent(getActivity(), FlightUnsupportedPOSActivity.class));
 			}
 			else {
-				NavUtils.goToFlights(mContext, true);
+				NavUtils.goToFlights(getActivity(), true);
 			}
 		}
 	};

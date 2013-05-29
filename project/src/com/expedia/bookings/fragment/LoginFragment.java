@@ -110,7 +110,6 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 
 	private static final int ANIM_BUTTON_FLIP_DURATION = 200;
 
-	private Activity mContext;
 	private TitleSettable mTitleSetter;
 	private LoginExtender mLoginExtender;
 
@@ -278,7 +277,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 			Session.getActiveSession().removeCallback(mFacebookStatusCallback);
 		}
 
-		if (mContext.isFinishing()) {
+		if (getActivity().isFinishing()) {
 			BackgroundDownloader.getInstance().cancelDownload(NET_MANUAL_LOGIN);
 			BackgroundDownloader.getInstance().cancelDownload(NET_AUTO_LOGIN);
 			BackgroundDownloader.getInstance().cancelDownload(NET_LINK_EXISTING_USER);
@@ -341,8 +340,8 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		mContext = activity;
-		mTitleSetter = (TitleSettable) mContext;
+
+		mTitleSetter = (TitleSettable) getActivity();
 	}
 
 	@Override
@@ -366,7 +365,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		setEditTextsEnabled(false);
 		setLoginExtenderEnabled(true, false);
 		mLoginExtenderContainer.setVisibility(View.VISIBLE);
-		if (User.isLoggedIn(mContext) && Db.getUser() != null) {
+		if (User.isLoggedIn(getActivity()) && Db.getUser() != null) {
 			mLoginExtender.onLoginComplete(getActivity(), this, mLoginExtenderContainer);
 		}
 		else {
@@ -386,14 +385,15 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 	}
 
 	private void finishParentWithResult() {
-		if (mContext != null) {
-			if (User.isLoggedIn(mContext) && Db.getUser() != null) {
-				mContext.setResult(Activity.RESULT_OK);
+		Activity activity = getActivity();
+		if (activity != null) {
+			if (User.isLoggedIn(activity) && Db.getUser() != null) {
+				activity.setResult(Activity.RESULT_OK);
 			}
 			else {
-				mContext.setResult(Activity.RESULT_CANCELED);
+				activity.setResult(Activity.RESULT_CANCELED);
 			}
-			mContext.finish();
+			activity.finish();
 		}
 	}
 
@@ -459,21 +459,22 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 
 		mForgotYourPasswordTv.setText(Html.fromHtml(String.format(
 				"<a href=\"http://www.%s/pub/agent.dll?qscr=apwd\">%s</a>",
-				PointOfSale.getPointOfSale(mContext).getUrl(), mContext.getString(R.string.forgot_your_password))));
+				PointOfSale.getPointOfSale().getUrl(), getString(R.string.forgot_your_password))));
 		mForgotYourPasswordTv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				Context context = getActivity();
 				if (mLob.equals(LineOfBusiness.FLIGHTS)) {
-					OmnitureTracking.trackLinkFlightCheckoutLoginForgot(mContext);
+					OmnitureTracking.trackLinkFlightCheckoutLoginForgot(context);
 				}
 				else {
-					OmnitureTracking.trackLinkHotelsCheckoutLoginForgot(mContext);
+					OmnitureTracking.trackLinkHotelsCheckoutLoginForgot(context);
 				}
 
 				// Open link in the app's webview instead of default browser.
-				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(mContext);
+				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(context);
 				builder.setUrl(String.format("http://www.%s/pub/agent.dll?qscr=apwd",
-						PointOfSale.getPointOfSale(mContext).getUrl()));
+						PointOfSale.getPointOfSale().getUrl()));
 				builder.setInjectExpediaCookies(true);
 				builder.setTheme(R.style.ItineraryTheme);
 				builder.setTitle(getString(R.string.title_forgot_password));
@@ -708,7 +709,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 	protected void setIsLoading(boolean loading) {
 		mIsLoading = loading;
 
-		if (mContext == null || !this.isAdded()) {
+		if (getActivity() == null || !this.isAdded()) {
 			return;
 		}
 
@@ -744,14 +745,14 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 	}
 
 	protected void setStatusTextExpediaAccountFound(String name) {
-		if (mContext != null && this.isAdded()) {
+		if (getActivity() != null && this.isAdded()) {
 			String str = String.format(getString(R.string.facebook_weve_found_your_account), name);
 			setStatusText(str, false);
 		}
 	}
 
 	protected void setStatusTextFbInfoLoaded(String name) {
-		if (mContext != null && this.isAdded()) {
+		if (getActivity() != null && this.isAdded()) {
 			String str = String.format(getString(R.string.facebook_weve_fetched_your_info), name);
 			setStatusText(str, false);
 		}
@@ -768,8 +769,8 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 			}
 		};
 		mStatusText = text;
-		if (mContext != null && this.isAdded()) {
-			mContext.runOnUiThread(runner);
+		if (getActivity() != null && this.isAdded()) {
+			getActivity().runOnUiThread(runner);
 		}
 		updateButtonState();
 	}
@@ -792,7 +793,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 	}
 
 	protected void setStatusText(int resId, boolean isHeading) {
-		if (mContext != null && this.isAdded()) {
+		if (getActivity() != null && this.isAdded()) {
 			String str = getString(resId);
 			setStatusText(str, isHeading);
 		}
@@ -808,14 +809,14 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 			}
 		};
 		mLoadingText = text;
-		if (mContext != null && this.isAdded()) {
-			mContext.runOnUiThread(runner);
+		if (getActivity() != null && this.isAdded()) {
+			getActivity().runOnUiThread(runner);
 		}
 
 	}
 
 	protected void setLoadingText(int resId) {
-		if (mContext != null && this.isAdded()) {
+		if (getActivity() != null && this.isAdded()) {
 			String str = getString(resId);
 			setLoadingText(str);
 		}
@@ -830,8 +831,8 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 				}
 			}
 		};
-		if (mContext != null && this.isAdded()) {
-			mContext.runOnUiThread(runner);
+		if (getActivity() != null && this.isAdded()) {
+			getActivity().runOnUiThread(runner);
 		}
 	}
 
@@ -1030,7 +1031,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 			String email = mExpediaUserName.getText().toString();
 			String password = mExpediaPassword.getText().toString();
 
-			ExpediaServices services = new ExpediaServices(mContext);
+			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(NET_MANUAL_LOGIN, services);
 			return services.signIn(email, password, ExpediaServices.F_FLIGHTS | ExpediaServices.F_HOTELS);
 		}
@@ -1048,10 +1049,10 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 				User user = response.getUser();
 				Db.setUser(user);
 				AdTracker.trackLogin();
-				user.save(mContext);
+				user.save(getActivity());
 				loginWorkComplete();
 
-				OmnitureTracking.trackLoginSuccess(mContext, mLob, loginWithFacebook, user.isRewardsUser());
+				OmnitureTracking.trackLoginSuccess(getActivity(), mLob, loginWithFacebook, user.isRewardsUser());
 			}
 		}
 	};
@@ -1070,7 +1071,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 			}
 
 			setLoadingText(R.string.attempting_to_log_in_with_facebook);
-			ExpediaServices services = new ExpediaServices(mContext);
+			ExpediaServices services = new ExpediaServices(getActivity());
 			return services.facebookAutoLogin(mFbUserId, fbSession.getAccessToken());
 		}
 	};
@@ -1089,7 +1090,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 			}
 
 			setLoadingText(R.string.attempting_to_log_in_with_facebook);
-			ExpediaServices services = new ExpediaServices(mContext);
+			ExpediaServices services = new ExpediaServices(getActivity());
 			return services.facebookLinkNewUser(mFbUserId, fbSession.getAccessToken(), mFbUserEmail);
 		}
 	};
@@ -1109,7 +1110,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 
 			setLoadingText(R.string.linking_your_accounts);
 			String expediaPw = mLinkPassword.getText().toString();
-			ExpediaServices services = new ExpediaServices(mContext);
+			ExpediaServices services = new ExpediaServices(getActivity());
 			return services.facebookLinkExistingUser(mFbUserId, fbSession.getAccessToken(), mFbUserEmail, expediaPw);
 		}
 	};
@@ -1208,7 +1209,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		@Override
 		public SignInResponse doDownload() {
 			Log.d("doDownload: mLoginDownload");
-			ExpediaServices services = new ExpediaServices(mContext);
+			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(NET_LOG_IN, services);
 
 			return services.signIn(ExpediaServices.F_FLIGHTS | ExpediaServices.F_HOTELS);
@@ -1221,7 +1222,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 			Log.d("onDownload: mLoginHandler");
 			if (response == null || response.hasErrors()) {
 				//TODO: set better error
-				Ui.showToast(mContext, R.string.failure_to_update_user);
+				Ui.showToast(getActivity(), R.string.failure_to_update_user);
 				setIsLoading(false);
 				loginWorkComplete();
 			}
@@ -1229,10 +1230,10 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 				User user = response.getUser();
 				Db.setUser(user);
 				AdTracker.trackLogin();
-				user.save(mContext);
+				user.save(getActivity());
 				Log.d("User saved!");
 
-				OmnitureTracking.trackLoginSuccess(mContext, mLob, loginWithFacebook, user.isRewardsUser());
+				OmnitureTracking.trackLoginSuccess(getActivity(), mLob, loginWithFacebook, user.isRewardsUser());
 
 				setIsLoading(false);
 				loginWorkComplete();
@@ -1324,7 +1325,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		Session currentSession = Session.getActiveSession();
 		if (currentSession == null || currentSession.getState().isClosed()) {
 			Session session = new Session.Builder(getActivity()).setApplicationId(
-					ExpediaServices.getFacebookAppId(mContext)).build();
+					ExpediaServices.getFacebookAppId(getActivity())).build();
 			Session.setActiveSession(session);
 			currentSession = session;
 		}

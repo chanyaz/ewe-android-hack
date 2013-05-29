@@ -7,7 +7,6 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -65,8 +64,6 @@ public class FlightConfirmationFragment extends Fragment {
 
 	public static final String TAG = FlightConfirmationFragment.class.getName();
 
-	private Context mContext;
-
 	private static final String INSTANCE_HAS_SHARED_VIA_EMAIL = "INSTANCE_HAS_SHARED_VIA_EMAIL";
 	private static final String INSTANCE_HAS_TRACKED_WITH_FT = "INSTANCE_HAS_TRACKED_WITH_FT";
 	private static final String INSTANCE_HAS_ADDED_TO_CALENDAR = "INSTANCE_HAS_ADDED_TO_CALENDAR";
@@ -80,7 +77,6 @@ public class FlightConfirmationFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mContext = getActivity();
 
 		if (savedInstanceState != null) {
 			mHasSharedViaEmail = savedInstanceState.getBoolean(INSTANCE_HAS_SHARED_VIA_EMAIL, false);
@@ -426,7 +422,7 @@ public class FlightConfirmationFragment extends Fragment {
 		FlightSearch search = Db.getFlightSearch();
 		FlightTrip trip = search.getSelectedFlightTrip();
 
-		ShareUtils shareUtils = new ShareUtils(mContext);
+		ShareUtils shareUtils = new ShareUtils(getActivity());
 		String subject = shareUtils.getFlightShareSubject(trip);
 		String body = shareUtils.getFlightShareEmail(trip, Db.getTravelers());
 

@@ -60,8 +60,6 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
 
-	private Context mContext;
-
 	private BillingInfo mBillingInfo;
 
 	private ArrayList<SectionTravelerInfo> mTravelerSections = new ArrayList<SectionTravelerInfo>();
@@ -100,8 +98,6 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		mContext = getActivity();
 
 		if (savedInstanceState != null) {
 			mRefreshedUser = savedInstanceState.getBoolean(INSTANCE_REFRESHED_USER);
@@ -163,7 +159,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		tv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(mContext, FlightRulesActivity.class);
+				Intent intent = new Intent(getActivity(), FlightRulesActivity.class);
 				startActivity(intent);
 			}
 		});
@@ -345,10 +341,10 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 				TextView tv = Ui.findView(v, R.id.traveler_empty_text_view);
 
 				if (numAdults == 1) {
-					tv.setText(mContext.getString(R.string.add_traveler));
+					tv.setText(R.string.add_traveler);
 				}
 				else {
-					tv.setText(mContext.getString(R.string.add_traveler_number_TEMPLATE, index + 1)); // no zero index for users
+					tv.setText(getString(R.string.add_traveler_number_TEMPLATE, index + 1)); // no zero index for users
 				}
 
 				mAddTravelerSections.add(v);
@@ -584,7 +580,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 				new UserToTripAssocLoginExtender(tripId));
 		startActivity(loginIntent);
 
-		OmnitureTracking.trackPageLoadFlightLogin(mContext);
+		OmnitureTracking.trackPageLoadFlightLogin(getActivity());
 	}
 
 	@Override
