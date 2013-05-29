@@ -281,7 +281,7 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity implemen
 							mSamsungWalletButton.setVisibility(View.VISIBLE);
 							int textId = shouldView ? R.string.view_in_samsung_wallet : R.string.add_to_samsung_wallet;
 							mSamsungWalletButton.setText(getString(textId));
-							mSamsungWalletButton.getTag(result);
+							mSamsungWalletButton.setTag(result);
 							mSamsungWalletButton.setOnClickListener(mSamsungWalletClickListener);
 						}
 					}
