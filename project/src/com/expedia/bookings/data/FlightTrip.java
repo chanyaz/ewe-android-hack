@@ -159,19 +159,20 @@ public class FlightTrip implements JSONable {
 	}
 
 	/**
-	 * This method determines whether or not a card fee will be incurred during the booking process, based upon the 
-	 * currently selected credit card and the ValidPayment (and fees) associated with the credit card type. Returns the
-	 * card fee if it exists.
+	 * This method calculates the card fee based upon looking at the ValidPayments (and their associated fees) and also 
+	 * the selected card from the given BillingInfo.
+	 * @param billingInfo
+	 * @return cardFee as Money or null if no card fee
 	 */
-	public Money getCardFee() {
+	public Money getCardFee(BillingInfo billingInfo) {
 		CreditCardType selectedCardType = null;
-		StoredCreditCard scc = Db.getBillingInfo().getStoredCard();
+		StoredCreditCard scc = billingInfo.getStoredCard();
 
 		if (scc != null) {
 			selectedCardType = scc.getCardType();
 		}
 		else {
-			String number = Db.getBillingInfo().getNumber();
+			String number = billingInfo.getNumber();
 			if (!TextUtils.isEmpty(number)) {
 				selectedCardType = CurrencyUtils.detectCreditCardBrand(number);
 			}
@@ -187,9 +188,9 @@ public class FlightTrip implements JSONable {
 		return null;
 	}
 
-	public Money getTotalFareWithCardFee() {
+	public Money getTotalFareWithCardFee(BillingInfo billingInfo) {
 		Money base = new Money(mTotalFare);
-		Money cardFee = getCardFee();
+		Money cardFee = getCardFee(billingInfo);
 
 		if (cardFee != null) {
 			base.add(cardFee);

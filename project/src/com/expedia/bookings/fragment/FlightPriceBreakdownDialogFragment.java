@@ -77,7 +77,7 @@ public class FlightPriceBreakdownDialogFragment extends DialogFragment {
 		ViewGroup cardFeeContainer = Ui.findView(body, R.id.container_card_fee);
 		TextView cardFees = Ui.findView(body, R.id.display_card_fees);
 
-		Money cardFee = trip.getCardFee();
+		Money cardFee = trip.getCardFee(Db.getBillingInfo());
 
 		if (cardFee != null) {
 			divider.setVisibility(View.VISIBLE);
@@ -92,7 +92,7 @@ public class FlightPriceBreakdownDialogFragment extends DialogFragment {
 
 		TextView totalPriceBottom = Ui.findView(body, R.id.display_total_price_bottom);
 		if (trip.getTotalFare() != null) {
-			totalPriceBottom.setText(trip.getTotalFareWithCardFee().getFormattedMoney());
+			totalPriceBottom.setText(trip.getTotalFareWithCardFee(Db.getBillingInfo()).getFormattedMoney());
 		}
 		else {
 			totalPriceBottom.setText("");
