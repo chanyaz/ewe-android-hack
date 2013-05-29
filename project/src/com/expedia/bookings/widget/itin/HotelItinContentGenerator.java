@@ -414,9 +414,8 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_SHARE);
 		notification.setIconResId(R.drawable.ic_stat_hotel);
 
-		//TODO: use the specific time for checkout (coming in E3 5r1 early may)
-		//String title = getContext().getString(R.string.itin_card_hotel_summary_check_out_TEMPLATE, data.getCheckOutTime());
-		String title = getContext().getString(R.string.Check_out_today);
+		String title = getContext().getString(R.string.itin_card_hotel_summary_check_out_TEMPLATE,
+				data.getEndDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME));
 		notification.setTicker(title);
 		notification.setTitle(title);
 
