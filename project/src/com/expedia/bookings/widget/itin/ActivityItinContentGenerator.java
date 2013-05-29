@@ -1,6 +1,8 @@
 package com.expedia.bookings.widget.itin;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -15,7 +17,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -39,8 +40,10 @@ import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.InfoTripletView;
+import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
+import com.mobiata.flightlib.utils.DateTimeUtils;
 
 public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardDataActivity> {
 
@@ -314,13 +317,18 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 	// Given I have an activity, when it is 12 hours prior to the validity start
 	// date, then I want to receive a notification that reads "Your Universal
 	// Studios ticket can be redeemed starting tomorrow."
+	// Update: use Noon on the day before, instead of "12 hours prior"
 	private Notification generateActivityStartNotification() {
 		ItinCardDataActivity data = getItinCardData();
 
 		String uniqueId = data.getId();
 
-		long triggerTimeMillis = data.getValidDate().getMillisFromEpoch();
-		triggerTimeMillis -= 12 * DateUtils.HOUR_IN_MILLIS;
+		Calendar trigger = data.getValidDate().getCalendar();
+		trigger.add(Calendar.DAY_OF_MONTH, -1);
+		trigger.set(Calendar.MINUTE, 0);
+		trigger.set(Calendar.MILLISECOND, 0);
+		trigger.set(Calendar.HOUR_OF_DAY, 12);
+		long triggerTimeMillis = DateTimeUtils.getTimeInLocalTimeZone(trigger).getTime();
 
 		Notification notification = new Notification(uniqueId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.ACTIVITY_START);
