@@ -323,7 +323,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 
 		String uniqueId = data.getId();
 
-		Calendar trigger = data.getValidDate().getCalendar();
+		Calendar trigger = (Calendar) data.getValidDate().getCalendar().clone();
 		trigger.add(Calendar.DAY_OF_MONTH, -1);
 		trigger.set(Calendar.MINUTE, 0);
 		trigger.set(Calendar.MILLISECOND, 0);

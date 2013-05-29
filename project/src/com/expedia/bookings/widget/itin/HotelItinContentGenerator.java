@@ -370,7 +370,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		String uniqueId = data.getId();
 
-		Calendar trigger = data.getStartDate().getCalendar();
+		Calendar trigger = (Calendar) data.getStartDate().getCalendar().clone();
 		trigger.set(Calendar.MINUTE, 0);
 		trigger.set(Calendar.MILLISECOND, 0);
 		trigger.set(Calendar.HOUR_OF_DAY, 10);
@@ -403,7 +403,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		String uniqueId = data.getId();
 
-		Calendar trigger = data.getEndDate().getCalendar();
+		Calendar trigger = (Calendar) data.getEndDate().getCalendar().clone();
 		trigger.set(Calendar.MINUTE, 0);
 		trigger.set(Calendar.MILLISECOND, 0);
 		trigger.set(Calendar.HOUR_OF_DAY, 7);
