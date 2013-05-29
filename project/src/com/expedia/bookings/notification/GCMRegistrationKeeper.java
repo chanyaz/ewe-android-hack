@@ -84,7 +84,7 @@ public class GCMRegistrationKeeper implements JSONable {
 			//set the new id
 			mActiveRegistrationId = regId;
 			writeToDisk(context);
-			
+
 		}
 
 		//Unregister old regIds with api

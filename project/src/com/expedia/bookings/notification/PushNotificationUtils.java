@@ -33,7 +33,11 @@ public class PushNotificationUtils {
 	public static final String SENDER_ID = "895052546820";
 	public static final String REGISTRATION_URL = "http://ewetest.flightalerts.mobiata.com/register_for_flight_alerts";
 
-	public static HashMap<String, Integer> sLocStringMap;
+	private static HashMap<String, Integer> sLocStringMap;
+
+	//We can cache the payloads we have sent to our api, and use them to prevent ourselves from sending
+	//the same payload multiple times. Usually our flights dont change so this will save the api some work.
+	private static HashMap<String, JSONObject> sPayloadMap = new HashMap<String, JSONObject>();
 
 	//The server will splode if we make simultanious calls using the same regId,
 	//so we create objects to synchronize with (usually this will have one entry) 
@@ -54,6 +58,56 @@ public class PushNotificationUtils {
 			sPushLocks.put(regId, new Object());
 		}
 		return sPushLocks.get(regId);
+	}
+
+	/**
+	 * Before we send a payload to the PushNotification API, we can call this method to
+	 * see if the payload provided has already been sent to the API, and thus save ourselves a network call
+	 * (and save the api a bunch of traffic, as our flight list will typically not change)
+	 * We dont persist these payloads on disk because the api doesnt care if we send the same thing twice
+	 * we just want to reduce our network usage and reduce server load
+	 * 
+	 * @param regId
+	 * @param payload
+	 * @return true if we should send this payload, false if the payload is invalid or already sent
+	 */
+	public static boolean sendPayloadCheck(String regId, JSONObject payload) {
+		Log.d("PushNotificationUtils.sendPayloadCheck() regId:" + regId);
+		if (TextUtils.isEmpty(regId)) {
+			Log.e("PushNotificationUtils.sendPayloadCheck() returning false - regId empty");
+			return false;
+		}
+		if (payload == null || (payload != null && TextUtils.isEmpty(payload.toString()))) {
+			Log.e("PushNotificationUtils.sendPayloadCheck() returning false - payload empty");
+			return false;
+		}
+
+		if (!sPayloadMap.containsKey(regId)) {
+			sPayloadMap.put(regId, payload);
+			return true;
+		}
+		else {
+			JSONObject oldPayload = sPayloadMap.get(regId);
+			//We should send this to the api if the payloads DON'T match
+			boolean shouldSend = !oldPayload.toString().equals(payload.toString());
+
+			if (!shouldSend) {
+				Log.d("PushNotificationUtils.sendPayloadCheck() returning false because the payloads match. regId:"
+						+ regId + " payload:" + payload.toString());
+			}
+
+			return shouldSend;
+		}
+	}
+
+	public static void clearPayloadMap() {
+		sPayloadMap.clear();
+	}
+
+	public static void removePayloadFromMap(String regId) {
+		if (sPayloadMap.containsKey(regId)) {
+			sPayloadMap.remove(regId);
+		}
 	}
 
 	/**

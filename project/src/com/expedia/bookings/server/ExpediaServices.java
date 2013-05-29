@@ -892,7 +892,8 @@ public class ExpediaServices implements DownloadListener {
 	// Samsung Wallet ticket creation
 
 	public SamsungWalletResponse getSamsungWalletTicketId(String itineraryId) {
-		return doE3Request("api/common/samsungwalletmock/" + itineraryId, null, new SamsungWalletResponseHandler(mContext), 0);
+		return doE3Request("api/common/samsungwalletmock/" + itineraryId, null, new SamsungWalletResponseHandler(
+				mContext), 0);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1152,7 +1153,19 @@ public class ExpediaServices implements DownloadListener {
 		}
 
 		synchronized (PushNotificationUtils.getLockObject(regId)) {
-			return doRequest(post, responseHandler, F_POST);
+			//We first check to see if we have already sent this payload for this regId
+			if (PushNotificationUtils.sendPayloadCheck(regId, payload)) {
+				//If not we go ahead and do the request
+				PushNotificationRegistrationResponse response = doRequest(post, responseHandler, F_POST);
+				if (!response.getSuccess()) {
+					//If we failed to register, remove the payload from our map, so we dont prevent ourselves form trying again later.
+					PushNotificationUtils.removePayloadFromMap(regId);
+				}
+				return response;
+			}
+			else {
+				return null;
+			}
 		}
 	}
 

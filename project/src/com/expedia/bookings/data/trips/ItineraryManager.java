@@ -306,6 +306,7 @@ public class ItineraryManager implements JSONable {
 		//As we have no trips, we unregister all of our push notifications
 		PushNotificationUtils.unRegister(mContext,
 				GCMRegistrationKeeper.getInstance(mContext).getRegistrationId(mContext));
+		PushNotificationUtils.clearPayloadMap();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
