@@ -1,6 +1,7 @@
 package com.expedia.bookings.notification;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,6 +28,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.flightlib.data.Flight;
+import com.mobiata.flightlib.utils.DateTimeUtils;
 
 public class PushNotificationUtils {
 
@@ -192,10 +194,13 @@ public class PushNotificationUtils {
 			if (flightList != null) {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				for (Flight f : flightList) {
+					Date departureDate = DateTimeUtils.getTimeInLocalTimeZone(f.mOrigin.getBestSearchDateTime());
+					Date arrivalDate = DateTimeUtils.getTimeInLocalTimeZone(f.mDestination.getBestSearchDateTime());
+					
 					JSONObject flightJson = new JSONObject();
 					flightJson.put("__type__", "Flight");
-					flightJson.put("arrival_date", sdf.format(f.mDestination.getBestSearchDateTime().getTime()));
-					flightJson.put("departure_date", sdf.format(f.mOrigin.getBestSearchDateTime().getTime()));
+					flightJson.put("departure_date", sdf.format(departureDate));
+					flightJson.put("arrival_date", sdf.format(arrivalDate));
 					flightJson.put("destination", f.mDestination.mAirportCode);
 					flightJson.put("origin", f.mOrigin.mAirportCode);
 					flightJson.put("airline", f.getPrimaryFlightCode().mAirlineCode);
