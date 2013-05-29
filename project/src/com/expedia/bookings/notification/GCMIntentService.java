@@ -35,7 +35,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		handler.post(new Runnable() {
 			@Override
 			public void run() {
-				ItineraryManager.getInstance().startSync(true);
+				ItineraryManager.getInstance().startPushNotificationSync();
 			}
 		});
 	}

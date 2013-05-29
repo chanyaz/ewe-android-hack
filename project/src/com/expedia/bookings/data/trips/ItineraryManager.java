@@ -844,6 +844,15 @@ public class ItineraryManager implements JSONable {
 		}
 	}
 
+	public boolean startPushNotificationSync() {
+		mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
+		if (!isSyncing()) {
+			mSyncTask = new SyncTask();
+			mSyncTask.execute();
+		}
+		return true;
+	}
+
 	public boolean isSyncing() {
 		return mSyncTask != null && mSyncTask.getStatus() != AsyncTask.Status.FINISHED && !mSyncTask.finished();
 	}
