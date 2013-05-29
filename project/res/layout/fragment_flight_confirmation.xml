@@ -83,36 +83,40 @@
 
             <View style="@style/Confirmation.Divider.Header.Flight" />
 
-            <TextView
+            <com.expedia.bookings.widget.ConfirmationActionTextView
                 android:id="@+id/share_action_text_view"
                 style="@style/Confirmation.Action.Flight"
+                android:drawableLeft="@drawable/ic_social_share"
                 android:text="@string/share_trip" />
 
             <View
                 android:id="@+id/ca_insurance_divider"
                 style="@style/Confirmation.Divider.Action.Flight" />
 
-            <TextView
+            <com.expedia.bookings.widget.ConfirmationActionTextView
                 android:id="@+id/ca_insurance_action_text_view"
                 style="@style/Confirmation.Action.Flight"
+                android:drawableLeft="@drawable/ic_insurance"
                 android:text="@string/add_insurance" />
 
             <View
                 android:id="@+id/calendar_divider"
                 style="@style/Confirmation.Divider.Action.Flight" />
 
-            <TextView
+            <com.expedia.bookings.widget.ConfirmationActionTextView
                 android:id="@+id/calendar_action_text_view"
                 style="@style/Confirmation.Action.Flight"
+                android:drawableLeft="@drawable/ic_calendar_add"
                 android:text="@string/add_to_calendar" />
 
             <View
                 android:id="@+id/flighttrack_divider"
                 style="@style/Confirmation.Divider.Action.Flight" />
 
-            <TextView
+            <com.expedia.bookings.widget.ConfirmationActionTextView
                 android:id="@+id/flighttrack_action_text_view"
                 style="@style/Confirmation.Action.Flight"
+                android:drawableLeft="@drawable/ic_flight_track"
                 android:text="@string/add_to_flighttrack" />
 
             <TextView

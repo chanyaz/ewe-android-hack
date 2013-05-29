@@ -64,28 +64,6 @@ public class FlightConfirmationFragment extends Fragment {
 
 	public static final String TAG = FlightConfirmationFragment.class.getName();
 
-	private static final String INSTANCE_HAS_SHARED_VIA_EMAIL = "INSTANCE_HAS_SHARED_VIA_EMAIL";
-	private static final String INSTANCE_HAS_TRACKED_WITH_FT = "INSTANCE_HAS_TRACKED_WITH_FT";
-	private static final String INSTANCE_HAS_ADDED_TO_CALENDAR = "INSTANCE_HAS_ADDED_TO_CALENDAR";
-	private static final String INSTANCE_HAS_ADDED_INSURANCE = "INSTANCE_HAS_ADDED_INSURANCE";
-
-	private boolean mHasSharedViaEmail;
-	private boolean mHasTrackedWithFT;
-	private boolean mHasAddedToCalendar;
-	private boolean mHasAddedInsurance;
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		if (savedInstanceState != null) {
-			mHasSharedViaEmail = savedInstanceState.getBoolean(INSTANCE_HAS_SHARED_VIA_EMAIL, false);
-			mHasTrackedWithFT = savedInstanceState.getBoolean(INSTANCE_HAS_TRACKED_WITH_FT, false);
-			mHasAddedToCalendar = savedInstanceState.getBoolean(INSTANCE_HAS_ADDED_TO_CALENDAR, false);
-			mHasAddedInsurance = savedInstanceState.getBoolean(INSTANCE_HAS_ADDED_INSURANCE, false);
-		}
-	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// This can be invoked when the parent activity finishes itself (when it detects missing data, in the case of
@@ -205,7 +183,6 @@ public class FlightConfirmationFragment extends Fragment {
 				@Override
 				public void onClick(View v) {
 					startActivity(getFlightTrackIntent());
-					mHasTrackedWithFT = true;
 				}
 			});
 		}
@@ -242,37 +219,6 @@ public class FlightConfirmationFragment extends Fragment {
 		setTextAndRobotoFont(v, R.id.more_actions_text_view, getString(R.string.more_actions).toUpperCase());
 
 		return v;
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-
-		// Check prefs to see if user has performed share action, we will reward them with a satisfying check-mark ;-)
-		toggleActionCompletion(R.id.share_action_text_view, mHasSharedViaEmail, R.drawable.ic_social_share);
-		toggleActionCompletion(R.id.calendar_action_text_view, mHasAddedToCalendar, R.drawable.ic_calendar_add);
-		toggleActionCompletion(R.id.flighttrack_action_text_view, mHasTrackedWithFT, R.drawable.ic_flight_track);
-		toggleActionCompletion(R.id.ca_insurance_action_text_view, mHasAddedInsurance, R.drawable.ic_insurance);
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-
-		outState.putBoolean(INSTANCE_HAS_ADDED_TO_CALENDAR, mHasAddedToCalendar);
-		outState.putBoolean(INSTANCE_HAS_TRACKED_WITH_FT, mHasTrackedWithFT);
-		outState.putBoolean(INSTANCE_HAS_SHARED_VIA_EMAIL, mHasSharedViaEmail);
-		outState.putBoolean(INSTANCE_HAS_ADDED_INSURANCE, mHasAddedInsurance);
-	}
-
-	private void toggleActionCompletion(int textViewResId, boolean completed, int drawableResId) {
-		TextView tv = Ui.findView(getActivity(), textViewResId);
-		if (completed) {
-			tv.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, R.drawable.ic_confirmation_checkmark, 0);
-		}
-		else {
-			tv.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0, 0);
-		}
 	}
 
 	private void setTextAndRobotoFont(View root, int resId, CharSequence text) {
@@ -411,8 +357,6 @@ public class FlightConfirmationFragment extends Fragment {
 		builder.setTitle(R.string.insurance);
 		builder.setInjectExpediaCookies(true);
 		startActivity(builder.getIntent());
-
-		mHasAddedInsurance = true;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -427,8 +371,6 @@ public class FlightConfirmationFragment extends Fragment {
 		String body = shareUtils.getFlightShareEmail(trip, Db.getTravelers());
 
 		SocialUtils.email(getActivity(), subject, body);
-
-		mHasSharedViaEmail = true;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -440,7 +382,6 @@ public class FlightConfirmationFragment extends Fragment {
 			Intent intent = generateCalendarInsertIntent(trip.getLeg(a));
 			startActivity(intent);
 		}
-		mHasAddedToCalendar = true;
 	}
 
 	@SuppressLint("NewApi")
