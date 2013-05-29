@@ -42,8 +42,6 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
-import com.expedia.bookings.utils.FontCache;
-import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.NavUtils;
@@ -52,6 +50,7 @@ import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.CalendarAPIUtils;
 import com.mobiata.android.util.Ui;
+import com.mobiata.android.util.ViewUtils;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Waypoint;
@@ -135,13 +134,12 @@ public class FlightConfirmationFragment extends Fragment {
 		}
 
 		// Fill out all the actions
-		setTextAndRobotoFont(v, R.id.going_to_text_view,
-				getString(R.string.yay_going_somewhere_TEMPLATE, destinationCity));
+		Ui.setText(v, R.id.going_to_text_view, getString(R.string.yay_going_somewhere_TEMPLATE, destinationCity));
 
 		Ui.setText(v, R.id.itinerary_text_view,
 				getString(R.string.itinerary_confirmation_TEMPLATE, itinerary.getItineraryNumber()));
 
-		setTextAndRobotoFont(v, R.id.email_text_view, Db.getBillingInfo().getEmail());
+		Ui.setText(v, R.id.email_text_view, Db.getBillingInfo().getEmail());
 
 		if (PointOfSale.getPointOfSale().showHotelCrossSell()) {
 			Ui.setText(v, R.id.hotels_action_text_view, getString(R.string.hotels_in_TEMPLATE, destinationCity));
@@ -215,16 +213,10 @@ public class FlightConfirmationFragment extends Fragment {
 		}
 
 		// We need to capitalize in code because the all_caps field isn't until a later API
-		setTextAndRobotoFont(v, R.id.get_a_room_text_view, getString(R.string.get_a_room).toUpperCase());
-		setTextAndRobotoFont(v, R.id.more_actions_text_view, getString(R.string.more_actions).toUpperCase());
+		ViewUtils.setAllCaps((TextView) Ui.findView(v, R.id.get_a_room_text_view));
+		ViewUtils.setAllCaps((TextView) Ui.findView(v, R.id.more_actions_text_view));
 
 		return v;
-	}
-
-	private void setTextAndRobotoFont(View root, int resId, CharSequence text) {
-		TextView tv = Ui.findView(root, resId);
-		tv.setTypeface(FontCache.getTypeface(Font.ROBOTO_LIGHT));
-		tv.setText(text);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
