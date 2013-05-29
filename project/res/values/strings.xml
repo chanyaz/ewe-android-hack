@@ -1820,7 +1820,7 @@
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">Settings</string>
-    <!-- Label for "info about this app" menu item.   -->
+    <!-- Label for "info about this app" menu item. -->
     <string name="Info">Info</string>
     <!-- Label for "about this app" menu item. Deprecated for the time being, but kept because maybe it wil return -->
     <string name="About">About</string>
@@ -2143,89 +2143,89 @@
     <string name="add_to_samsung_wallet">Add to Samsung Wallet</string>
 
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
-    <!-- S_Push_flight_CITY_delayed_HOUR -->
+    <!-- Your flight to _ delayed _ hour TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR">Your flight to %1$s is delayed %2$s hour.</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS -->
+    <!-- Your flight to _ delayed _ hours TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS">Your flight to %1$s is delayed %2$s hours.</string>
-    <!-- S_Push_flight_CITY_delayed_MINUTE -->
+    <!-- Your flight to _ delayed _ minute TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_MINUTE">Your flight to %1$s is delayed %2$s minute.</string>
-    <!-- S_Push_flight_CITY_delayed_MINUTES -->
+    <!-- Your flight to _ delayed _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_MINUTES">Your flight to %1$s is delayed %2$s minutes.</string>
-    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTE -->
+    <!-- Your flight to _ delayed _ hour _ minute TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE">Your flight to %1$s is delayed %2$s hour %3$s minute.</string>
-    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTES -->
+    <!-- Your flight to _ delayed _ hour _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES">Your flight to %1$s is delayed %2$s hour %3$s minutes.</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTE -->
+    <!-- Your flight to _ delayed _ hours _ minute TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE">Your flight to %1$s is delayed %2$s hours %3$s minute.</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTES -->
+    <!-- Your flight to _ delayed _ hours _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES">Your flight to %1$s is delayed %2$s hours %3$s minutes.</string>
-    <!-- S_Push_flight_CITY_early_MINUTE -->
+    <!-- Your flight to _ departs _ minute early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_MINUTE">Your flight to %1$s departs %2$s minute early.</string>
-    <!-- S_Push_flight_CITY_early_MINUTES -->
+    <!-- Your flight to _ departs _ minutes early  TEMPLATE -->
     <string name="S_Push_flight_CITY_early_MINUTES">Your flight to %1$s departs %2$s minutes early.</string>
-    <!-- S_Push_flight_CITY_early_HOUR -->
+    <!-- Your flight to _ departs _ hour early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR">Your flight to %1$s departs %2$s hour early.</string>
-    <!-- S_Push_flight_CITY_early_HOURS -->
+    <!-- Your flight to _ departs _ hours early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS">Your flight to %1$s departs %2$s hours early.</string>
-    <!-- S_Push_flight_CITY_early_HOUR_MINUTE -->
+    <!-- Your flight to _ departs _ hour _ minute early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR_MINUTE">Your flight to %1$s departs %2$s hour %3$s minute early.</string>
-    <!-- S_Push_flight_CITY_early_HOURS_MINUTE -->
+    <!-- Your flight to _ departs _ hours _ minute early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS_MINUTE">Your flight to %1$s departs %2$s hours %3$s minute early.</string>
-    <!-- S_Push_flight_CITY_early_HOUR_MINUTES -->
+    <!-- Your flight to _ departs _ hour _ minutes early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR_MINUTES">Your flight to %1$s departs %2$s hour %3$s minutes early.</string>
-    <!-- S_Push_flight_CITY_early_HOURS_MINUTES -->
+    <!-- Your flight to _ departs _ hours _ minutes early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS_MINUTES">Your flight to %1$s departs %2$s hours %3$s minutes early.</string>
-    <!-- S_Push_flight_CITY_delayed_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is delayed _ minute and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE">Your flight to %1$s is delayed %2$s minute and now departs from gate %3$s.</string>
-    <!-- S_Push_flight_CITY_delayed_MINUTES_gate_GATE -->
+    <!-- Your flight to _ is delayed _ minutes and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE">Your flight to %1$s is delayed %2$s minutes and now departs from gate %3$s.</string>
-    <!-- S_Push_flight_CITY_delayed_HOUR_gate_GATE -->
+    <!-- Your flight to _ is delayed _ hour and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE">Your flight to %1$s is delayed %2$s hour and now departs from gate %3$s.</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS_gate_GATE -->
+    <!-- Your flight to _ is delayed _ hours and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE">Your flight to %1$s is delayed %2$s hours and now departs from gate %3$s.</string>
-    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is delayed _ hour _ minute and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE">Your flight to %1$s is delayed %2$s hour %3$s minute and now departs from gate %4$s.</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is delayed _ hours _ minute and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE">Your flight to %1$s is delayed %2$s hours %3$s minute and now departs from gate %4$s.</string>
-    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE -->
+    <!-- Your flight ot _ is delayed _ hour _ minutes and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE">Your flight to %1$s is delayed %2$s hour %3$s minutes and now departs from gate %4$s.</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE -->
+    <!-- Your flight to _ is delayed _ hours _ minutes and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE">Your flight to %1$s is delayed %2$s hours %3$s minutes and now departs from gate %4$s.</string>
-    <!-- S_Push_flight_CITY_early_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is now departing _ minute early from gate _ TEMPLATE -->
     <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE">Your flight to %1$s is now departing %2$s minute early from gate %3$s.</string>
-    <!-- S_Push_flight_CITY_early_MINUTES_gate_GATE -->
+    <!-- Your flight to _ is now departing _ minutes early from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE">Your flight to %1$s is now departing %2$s minutes early from gate %3$s.</string>
-    <!-- S_Push_flight_CITY_early_HOUR_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hour early from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR_gate_GATE">Your flight to %1$s is now departing %2$s hour early from gate %3$s.</string>
-    <!-- S_Push_flight_CITY_early_HOURS_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hours early from gate _ TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS_gate_GATE">Your flight to %1$s is now departing %2$s hours early from gate %3$s.</string>
-    <!-- S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hour _ minute early from gate _ TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE">Your flight to %1$s is now departing %2$s hour %3$s minute early from gate %4$s.</string>
-    <!-- S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hours _ minute early from gate _ TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE">Your flight to %1$s is now departing %2$s hours %3$s minute early from gate %4$s.</string>
-    <!-- S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hour _ minutes early from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE">Your flight to %1$s is now departing %2$s hour %3$s minutes early from gate %4$s.</string>
-    <!-- S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hours _ minutes early from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE">Your flight to %1$s is now departing %2$s hours %3$s minutes early from gate %4$s.</string>
-    <!-- S_Push_flight_from_CITY_to_CITY_cancelled -->
+    <!-- Your flight from _ to _ has been cancelled TEMPLATE -->
     <string name="S_Push_flight_from_CITY_to_CITY_cancelled">Your flight from %1$s to %2$s has been cancelled.</string>
-    <!-- S_Push_flight_CITY_departs_in_HOUR -->
+    <!-- Your flight to _ departs in _ hour TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOUR">Your flight to %1$s departs in %2$s hour.</string>
-    <!-- S_Push_flight_CITY_departs_in_HOURS -->
+    <!-- Your flight to _ departs in _ hours TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOURS">Your flight to %1$s departs in %2$s hours.</string>
-    <!-- S_Push_flight_CITY_departs_in_HOURS_MINUTE -->
+    <!-- Your flight to _ departs in _ hours _ minute TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE">Your flight to %1$s departs in %2$s hours %3$s minute.</string>
-    <!-- S_Push_flight_CITY_departs_in_HOURS_MINUTES -->
+    <!-- Your flight to _ departs in _ hours _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES">Your flight to %1$s departs in %2$s hours %3$s minutes.</string>
-    <!-- S_Push_flight_CITY_departs_in_HOUR_MINUTE -->
+    <!-- Your flight to _ departs in _ hour _ minute TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE">Your flight to %1$s departs in %2$s hour %3$s minute.</string>
-    <!-- S_Push_flight_CITY_departs_in_HOUR_MINUTES -->
+    <!-- Your flight to _ departs in _ hour _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES">Your flight to %1$s departs in %2$s hour %3$s minutes.</string>
-    <!-- S_Push_flight_CITY_departs_in_MINUTES -->
+    <!-- Your flight to _ departs in _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_MINUTES">Your flight to %1$s departs in %2$s minutes.</string>
-    <!-- S_Push_flight_CITY_gate_GATE -->
+    <!-- Your flight to _ now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_gate_GATE">Your flight to %1$s now departs from gate %2$s.</string>
-    <!-- S_Push_baggage_BAGGAGE -->
+    <!-- Your bags will be at baggage claim _  TEMPLATE -->
     <string name="S_Push_baggage_BAGGAGE">Your bags will be at baggage claim %1$s.</string>
 
 </resources>
