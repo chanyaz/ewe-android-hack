@@ -112,7 +112,7 @@ public class CurrencyUtils {
 		return null;
 	}
 
-	public static CreditCardType getType(String type) {
+	public static CreditCardType parseCardType(String type) {
 		// Code lovingly stolen from iOS, where they note that these
 		// values are not yet verified from the API folks.
 		if (type.equals("AmericanExpress")) {
@@ -143,7 +143,7 @@ public class CurrencyUtils {
 			return CreditCardType.VISA;
 		}
 		else {
-			return null;
+			throw new RuntimeException("Attempting to parse an unknown credit card, name=" + type);
 		}
 	}
 }

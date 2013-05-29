@@ -19,7 +19,7 @@ public class ValidPayment implements JSONable {
 	}
 
 	public CreditCardType getCreditCardType() {
-		return CurrencyUtils.getType(mCreditCardType);
+		return CurrencyUtils.parseCardType(mCreditCardType);
 	}
 
 	public Money getFee() {

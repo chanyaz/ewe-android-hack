@@ -66,7 +66,7 @@ public class StoredCreditCard implements JSONable {
 			return null;
 		}
 
-		return CurrencyUtils.getType(mType);
+		return CurrencyUtils.parseCardType(mType);
 	}
 
 	@Override
