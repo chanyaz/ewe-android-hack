@@ -641,7 +641,13 @@
         <item name="textColor">@color/actionbar_text</item>
     </style>
 
-    <style name="FlightConfirmationHeader">
+    <style name="Confirmation" />
+
+    <style name="Confirmation.Header" />
+
+    <style name="Confirmation.Action" />
+
+    <style name="Confirmation.Header.Flight">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_marginLeft">24dp</item>
@@ -649,7 +655,7 @@
         <item name="android:textSize">14dp</item>
     </style>
 
-    <style name="FlightConfirmationAction">
+    <style name="Confirmation.Action.Flight">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_marginLeft">12dp</item>
@@ -665,20 +671,24 @@
         <item name="android:drawablePadding">12dp</item>
     </style>
 
-    <style name="FlightConfirmationHeaderDivider">
+    <style name="Confirmation.Divider">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">2dp</item>
         <item name="android:layout_marginLeft">12dp</item>
         <item name="android:layout_marginRight">12dp</item>
+    </style>
+
+    <style name="Confirmation.Divider.Action" />
+
+    <style name="Confirmation.Divider.Header" />
+
+    <style name="Confirmation.Divider.Header.Flight">
+        <item name="android:layout_height">2dp</item>
         <item name="android:layout_marginTop">4dp</item>
         <item name="android:background">@color/confirmation_header_divider</item>
     </style>
 
-    <style name="FlightConfirmationActionDivider">
-        <item name="android:layout_width">match_parent</item>
+    <style name="Confirmation.Divider.Action.Flight">
         <item name="android:layout_height">1dp</item>
-        <item name="android:layout_marginLeft">12dp</item>
-        <item name="android:layout_marginRight">12dp</item>
         <item name="android:background">@color/confirmation_item_divider</item>
     </style>
 

@@ -65,59 +65,59 @@
 
             <TextView
                 android:id="@+id/get_a_room_text_view"
-                style="@style/FlightConfirmationHeader" />
+                style="@style/Confirmation.Header.Flight" />
 
             <View
                 android:id="@+id/get_a_room_divider"
-                style="@style/FlightConfirmationHeaderDivider" />
+                style="@style/Confirmation.Divider.Header.Flight" />
 
             <TextView
                 android:id="@+id/hotels_action_text_view"
-                style="@style/FlightConfirmationAction"
+                style="@style/Confirmation.Action.Flight"
                 android:drawableLeft="@drawable/ic_bed" />
 
             <TextView
                 android:id="@+id/more_actions_text_view"
-                style="@style/FlightConfirmationHeader"
+                style="@style/Confirmation.Header.Flight"
                 android:layout_marginTop="16dp" />
 
-            <View style="@style/FlightConfirmationHeaderDivider" />
+            <View style="@style/Confirmation.Divider.Header.Flight" />
 
             <TextView
                 android:id="@+id/share_action_text_view"
-                style="@style/FlightConfirmationAction"
+                style="@style/Confirmation.Action.Flight"
                 android:text="@string/share_trip" />
 
             <View
                 android:id="@+id/ca_insurance_divider"
-                style="@style/FlightConfirmationActionDivider" />
+                style="@style/Confirmation.Divider.Action.Flight" />
 
             <TextView
                 android:id="@+id/ca_insurance_action_text_view"
-                style="@style/FlightConfirmationAction"
+                style="@style/Confirmation.Action.Flight"
                 android:text="@string/add_insurance" />
 
             <View
                 android:id="@+id/calendar_divider"
-                style="@style/FlightConfirmationActionDivider" />
+                style="@style/Confirmation.Divider.Action.Flight" />
 
             <TextView
                 android:id="@+id/calendar_action_text_view"
-                style="@style/FlightConfirmationAction"
+                style="@style/Confirmation.Action.Flight"
                 android:text="@string/add_to_calendar" />
 
             <View
                 android:id="@+id/flighttrack_divider"
-                style="@style/FlightConfirmationActionDivider" />
+                style="@style/Confirmation.Divider.Action.Flight" />
 
             <TextView
                 android:id="@+id/flighttrack_action_text_view"
-                style="@style/FlightConfirmationAction"
+                style="@style/Confirmation.Action.Flight"
                 android:text="@string/add_to_flighttrack" />
 
             <TextView
                 android:id="@+id/call_action_text_view"
-                style="@style/FlightConfirmationAction"
+                style="@style/Confirmation.Action.Flight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
