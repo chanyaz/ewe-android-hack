@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import android.text.TextUtils;
 
+import com.expedia.bookings.utils.CurrencyUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.flightlib.data.Flight;
@@ -42,6 +43,12 @@ public class FlightTrip implements JSONable {
 	// Server indicates ahead of time *if* we might be charged
 	// online booking feess
 	private boolean mMayChargeObFees;
+
+	/**
+	 * A list of ValidPayments that are accepted for this flight trip. For LCC flights, a fee will be associated with
+	 * the ValidPayment.
+	 */
+	private List<ValidPayment> mValidPayments;
 
 	/**
 	 * This one is a mouthful. For certain POS/regions, the Expedia API returns essentially duplicate offers that differ
@@ -142,6 +149,13 @@ public class FlightTrip implements JSONable {
 
 	public void setPriceChangeAmount(Money priceChangeAmount) {
 		mPriceChangeAmount = priceChangeAmount;
+	}
+
+	public void addValidPayment(ValidPayment payment) {
+		if (mValidPayments == null) {
+			mValidPayments = new ArrayList<ValidPayment>();
+		}
+		mValidPayments.add(payment);
 	}
 
 	public int getSeatsRemaining() {
@@ -551,6 +565,10 @@ public class FlightTrip implements JSONable {
 		if (other.mRules != null) {
 			mRules = other.mRules;
 		}
+
+		if (other.mValidPayments != null) {
+			mValidPayments = other.mValidPayments;
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -580,6 +598,7 @@ public class FlightTrip implements JSONable {
 	private static final String KEY_ITINERARY_NUMBER = "r";
 	private static final String KEY_RULES = "s";
 	private static final String KEY_CURRENCY = "t";
+	private static final String KEY_VALID_PAYMENTS = "u";
 
 	@Override
 	public JSONObject toJson() {
@@ -608,13 +627,16 @@ public class FlightTrip implements JSONable {
 			if (mBaseFare != null) {
 				obj.put(KEY_CURRENCY, mBaseFare.getCurrency());
 			}
-			
 			addMoney(obj, KEY_BASE_FARE, mBaseFare);
 			addMoney(obj, KEY_TOTAL_FARE, mTotalFare);
 			addMoney(obj, KEY_TAXES, mTaxes);
 			addMoney(obj, KEY_FEES, mFees);
 			addMoney(obj, KEY_PRICE_CHANGE_AMOUNT, mPriceChangeAmount);
 			addMoney(obj, KEY_ONLINE_BOOKING_FEES_AMOUNT, mOnlineBookingFeesAmount);
+
+			// TODO: As it looks like care is put into saving/loading Money in low memory fashion, explore a way to save
+			// the List<ValidPayment> (which contains Money) minimally.
+			JSONUtils.putJSONableList(obj, KEY_VALID_PAYMENTS, mValidPayments);
 
 			obj.putOpt(KEY_REWARDS_POINTS, mRewardsPoints);
 			obj.putOpt(KEY_SEATS_REMAINING, mSeatsRemaining);
@@ -698,6 +720,7 @@ public class FlightTrip implements JSONable {
 			mPriceChangeAmount = parseMoney(obj, KEY_PRICE_CHANGE_AMOUNT, currency);
 			mOnlineBookingFeesAmount = parseMoney(obj, KEY_ONLINE_BOOKING_FEES_AMOUNT, currency);
 		}
+		mValidPayments = JSONUtils.getJSONableList(obj, KEY_VALID_PAYMENTS, ValidPayment.class);
 
 		mRewardsPoints = obj.optString(KEY_REWARDS_POINTS);
 		mSeatsRemaining = obj.optInt(KEY_SEATS_REMAINING);

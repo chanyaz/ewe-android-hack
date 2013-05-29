@@ -2,6 +2,7 @@ package com.expedia.bookings.server;
 
 import java.util.Iterator;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -14,6 +15,7 @@ import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rule;
 import com.expedia.bookings.data.ServerError.ApiMethod;
+import com.expedia.bookings.data.ValidPayment;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.JsonResponseHandler;
 
@@ -81,6 +83,22 @@ public class CreateItineraryResponseHandler extends JsonResponseHandler<CreateIt
 				rule.setText(rulesTextMap.optString(key));
 				rule.setUrl(rulesUrlMap.optString(key, null));
 				offer.addRule(rule);
+			}
+		}
+
+		// Parse the validFormsOfPayment
+		JSONArray paymentsJson = response.optJSONArray("validFormsOfPayment");
+		if (paymentsJson != null) {
+			for (int i = 0; i < paymentsJson.length(); i++) {
+				JSONObject paymentJson = paymentsJson.optJSONObject(i);
+				ValidPayment validPayment = new ValidPayment();
+
+				String currencyCode = paymentJson.optString("feeCurrencyCode");
+				validPayment.setCreditCardType(paymentJson.optString("name"));
+				validPayment.setCurrencyCode(currencyCode);
+				validPayment.setFee(ParserUtils.createMoney(paymentJson.optString("fee"), currencyCode));
+
+				offer.addValidPayment(validPayment);
 			}
 		}
 
