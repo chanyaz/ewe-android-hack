@@ -189,6 +189,7 @@ public class GCMRegistrationKeeper implements JSONable {
 	 */
 	public void onRegistrationIdSuccessfullyUnregistered(Context context, String regId) {
 		mExpiredRegistrationIds.remove(regId);
+		PushNotificationUtils.removePayloadFromMap(regId);
 		writeToDisk(context);
 	}
 
