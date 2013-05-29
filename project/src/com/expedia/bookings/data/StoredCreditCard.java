@@ -3,33 +3,27 @@ package com.expedia.bookings.data;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.text.TextUtils;
-
-import com.expedia.bookings.utils.CurrencyUtils;
 import com.mobiata.android.Log;
+import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
 public class StoredCreditCard implements JSONable {
 
-	private String mType;
+	private CreditCardType mType;
 	private String mDescription;
 	private String mRemoteId;
 
 	private boolean mIsGoogleWallet;
 
-	public StoredCreditCard() {
-		// Default constructor
-	}
-
-	public StoredCreditCard(JSONObject obj) {
-		this.fromJson(obj);
-	}
-
-	public void setType(String type) {
+	public void setType(CreditCardType type) {
 		mType = type;
 	}
 
-	public String getType() {
+	public CreditCardType getType() {
+		if (isGoogleWallet()) {
+			return CreditCardType.GOOGLE_WALLET;
+		}
+
 		return mType;
 	}
 
@@ -57,24 +51,12 @@ public class StoredCreditCard implements JSONable {
 		return mIsGoogleWallet;
 	}
 
-	public CreditCardType getCardType() {
-		if (isGoogleWallet()) {
-			return CreditCardType.GOOGLE_WALLET;
-		}
-
-		if (TextUtils.isEmpty(mType)) {
-			return null;
-		}
-
-		return CurrencyUtils.parseCardType(mType);
-	}
-
 	@Override
 	public JSONObject toJson() {
 		JSONObject obj = new JSONObject();
 
 		try {
-			obj.putOpt("creditCardType", mType);
+			JSONUtils.putEnum(obj, "creditCardType", mType);
 			obj.putOpt("description", mDescription);
 			obj.putOpt("paymentsInstrumentsId", mRemoteId);
 			obj.putOpt("isGoogleWallet", mIsGoogleWallet);
@@ -88,7 +70,7 @@ public class StoredCreditCard implements JSONable {
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
-		mType = obj.optString("creditCardType", null);
+		mType = JSONUtils.getEnum(obj, "creditCardType", CreditCardType.class);
 		mDescription = obj.optString("description", null);
 		mRemoteId = obj.optString("paymentsInstrumentsId", null);
 		mIsGoogleWallet = obj.optBoolean("isGoogleWallet");

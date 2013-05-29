@@ -3,7 +3,6 @@ package com.expedia.bookings.data;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.expedia.bookings.utils.CurrencyUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -13,8 +12,8 @@ public class ValidPayment implements JSONable {
 	private CreditCardType mCreditCardType;
 	private Money mFee;
 
-	public void setCreditCardType(String type) {
-		mCreditCardType = CurrencyUtils.parseCardType(type);
+	public void setCreditCardType(CreditCardType type) {
+		mCreditCardType = type;
 	}
 
 	public CreditCardType getCreditCardType() {
@@ -36,7 +35,7 @@ public class ValidPayment implements JSONable {
 	public JSONObject toJson() {
 		try {
 			JSONObject json = new JSONObject();
-			json.putOpt("name", mCreditCardType);
+			JSONUtils.putEnum(json, "name", mCreditCardType);
 			JSONUtils.putJSONable(json, "fee", mFee);
 			return json;
 		}
@@ -48,10 +47,7 @@ public class ValidPayment implements JSONable {
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
-		String name = obj.optString("name", null);
-		if (name != null) {
-			mCreditCardType = CreditCardType.valueOf(name);
-		}
+		mCreditCardType = JSONUtils.getEnum(obj, "name", CreditCardType.class);
 		mFee = JSONUtils.getJSONable(obj, "fee", Money.class);
 		return true;
 	}

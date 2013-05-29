@@ -12,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Location;
@@ -25,6 +26,7 @@ import com.expedia.bookings.data.Traveler.Gender;
 import com.expedia.bookings.data.Traveler.SeatPreference;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.UserPreference;
+import com.expedia.bookings.utils.CurrencyUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.net.JsonResponseHandler;
@@ -146,7 +148,14 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 				if (ccArr != null && ccArr.length() > 0) {
 					int size = ccArr.length();
 					for (int a = 0; a < size; a++) {
-						StoredCreditCard scc = new StoredCreditCard(ccArr.optJSONObject(a));
+						JSONObject sccJson = ccArr.optJSONObject(a);
+						StoredCreditCard scc = new StoredCreditCard();
+						String type = sccJson.optString("creditCardType", null);
+						if (!TextUtils.isEmpty(type)) {
+							scc.setType(CurrencyUtils.parseCardType(type));
+						}
+						scc.setDescription(sccJson.optString("description", null));
+						scc.setId(sccJson.optString("paymentsInstrumentsId", null));
 						user.addStoredCreditCard(scc);
 					}
 				}

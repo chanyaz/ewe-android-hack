@@ -169,7 +169,7 @@ public class FlightTrip implements JSONable {
 		StoredCreditCard scc = billingInfo.getStoredCard();
 
 		if (scc != null) {
-			selectedCardType = scc.getCardType();
+			selectedCardType = scc.getType();
 		}
 		else {
 			String number = billingInfo.getNumber();

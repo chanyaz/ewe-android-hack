@@ -2065,7 +2065,7 @@ public class OmnitureTracking {
 		StoredCreditCard scc = billingInfo.getStoredCard();
 		CreditCardType type;
 		if (scc != null) {
-			type = scc.getCardType();
+			type = scc.getType();
 		}
 		else {
 			type = CurrencyUtils.detectCreditCardBrand(billingInfo.getNumber());

@@ -16,6 +16,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rule;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.expedia.bookings.data.ValidPayment;
+import com.expedia.bookings.utils.CurrencyUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.JsonResponseHandler;
 
@@ -93,7 +94,10 @@ public class CreateItineraryResponseHandler extends JsonResponseHandler<CreateIt
 				JSONObject paymentJson = paymentsJson.optJSONObject(i);
 				ValidPayment validPayment = new ValidPayment();
 
-				validPayment.setCreditCardType(paymentJson.optString("name"));
+				String name = paymentJson.optString("name");
+				if (!TextUtils.isEmpty(name)) {
+					validPayment.setCreditCardType(CurrencyUtils.parseCardType(name));
+				}
 				String currencyCode = paymentJson.optString("feeCurrencyCode");
 				validPayment.setFee(ParserUtils.createMoney(paymentJson.optString("fee"), currencyCode));
 
