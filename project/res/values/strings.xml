@@ -726,6 +726,8 @@
     <string name="taxes_and_airline_fees">Taxes &amp; Fees</string>
     <!-- Expedia booking fee -->
     <string name="expedia_booking_fee">Expedia Booking Fee</string>
+    <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
+    <string name="airline_card_fee">Airline Card Fee</string>
     <!-- Flight -->
     <string name="flight">Flight</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->

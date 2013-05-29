@@ -9,12 +9,15 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.R.id;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.section.SectionFlightTrip;
 import com.expedia.bookings.utils.Ui;
 
@@ -71,9 +74,26 @@ public class FlightPriceBreakdownDialogFragment extends DialogFragment {
 			fees.setText("");
 		}
 
+		View divider = Ui.findView(body, id.divider_card_fee);
+		ViewGroup cardFeeContainer = Ui.findView(body, R.id.container_card_fee);
+		TextView cardFees = Ui.findView(body, R.id.display_card_fees);
+
+		Money cardFee = trip.getCardFee();
+
+		if (cardFee != null) {
+			divider.setVisibility(View.VISIBLE);
+			cardFeeContainer.setVisibility(View.VISIBLE);
+
+			cardFees.setText(cardFee.getFormattedMoney());
+		}
+		else {
+			divider.setVisibility(View.GONE);
+			cardFeeContainer.setVisibility(View.GONE);
+		}
+
 		TextView totalPriceBottom = Ui.findView(body, R.id.display_total_price_bottom);
 		if (trip.getTotalFare() != null) {
-			totalPriceBottom.setText(trip.getTotalFare().getFormattedMoney());
+			totalPriceBottom.setText(trip.getTotalFareWithCardFee().getFormattedMoney());
 		}
 		else {
 			totalPriceBottom.setText("");

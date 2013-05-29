@@ -53,6 +53,42 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
+                <!-- Airline card fee -->
+
+                <RelativeLayout
+                    android:id="@+id/container_card_fee"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="15dp" >
+
+                    <com.mobiata.android.widget.AutoResizeTextView
+                        android:id="@+id/label_card_fee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_toLeftOf="@+id/display_card_fees"
+                        android:text="@string/airline_card_fee"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@id/display_card_fees"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/label_flight_fee"
+                        android:layout_alignParentRight="true"
+                        android:gravity="right"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <!-- Divider -->
+
+                <View
+                    android:id="@+id/divider_card_fee"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/one_px_hdpi_two_px_xhdpi"
+                    android:layout_marginBottom="15dp"
+                    android:background="@color/divider_grey" />
+
                 <!-- Booking fee -->
 
                 <RelativeLayout

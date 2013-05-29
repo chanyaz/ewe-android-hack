@@ -158,6 +158,46 @@ public class FlightTrip implements JSONable {
 		mValidPayments.add(payment);
 	}
 
+	/**
+	 * This method determines whether or not a card fee will be incurred during the booking process, based upon the 
+	 * currently selected credit card and the ValidPayment (and fees) associated with the credit card type. Returns the
+	 * card fee if it exists.
+	 */
+	public Money getCardFee() {
+		CreditCardType selectedCardType = null;
+		StoredCreditCard scc = Db.getBillingInfo().getStoredCard();
+
+		if (scc != null) {
+			selectedCardType = scc.getCardType();
+		}
+		else {
+			String number = Db.getBillingInfo().getNumber();
+			if (!TextUtils.isEmpty(number)) {
+				selectedCardType = CurrencyUtils.detectCreditCardBrand(null, number);
+			}
+		}
+
+		if (selectedCardType != null) {
+			for (ValidPayment payment : mValidPayments) {
+				if (payment.getCreditCardType() == selectedCardType) {
+					return payment.getFee();
+				}
+			}
+		}
+		return null;
+	}
+
+	public Money getTotalFareWithCardFee() {
+		Money base = new Money(mTotalFare);
+		Money cardFee = getCardFee();
+
+		if (cardFee != null) {
+			base.add(cardFee);
+		}
+
+		return base;
+	}
+
 	public int getSeatsRemaining() {
 		return mSeatsRemaining;
 	}
