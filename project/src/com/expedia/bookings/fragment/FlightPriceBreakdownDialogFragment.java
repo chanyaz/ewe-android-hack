@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.R.id;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
@@ -74,7 +73,7 @@ public class FlightPriceBreakdownDialogFragment extends DialogFragment {
 			fees.setText("");
 		}
 
-		View divider = Ui.findView(body, id.divider_card_fee);
+		View divider = Ui.findView(body, R.id.divider_card_fee);
 		ViewGroup cardFeeContainer = Ui.findView(body, R.id.container_card_fee);
 		TextView cardFees = Ui.findView(body, R.id.display_card_fees);
 
