@@ -10,16 +10,15 @@ import com.mobiata.android.json.JSONable;
 
 public class ValidPayment implements JSONable {
 
-	private String mCreditCardType;
+	private CreditCardType mCreditCardType;
 	private Money mFee;
-	private String mCurrencyCode;
 
 	public void setCreditCardType(String type) {
-		mCreditCardType = type;
+		mCreditCardType = CurrencyUtils.parseCardType(type);
 	}
 
 	public CreditCardType getCreditCardType() {
-		return CurrencyUtils.parseCardType(mCreditCardType);
+		return mCreditCardType;
 	}
 
 	public Money getFee() {
@@ -30,20 +29,8 @@ public class ValidPayment implements JSONable {
 		mFee = fee;
 	}
 
-	public String getCurrencyCode() {
-		return mCurrencyCode;
-	}
-
-	public void setCurrencyCode(String currencyCode) {
-		mCurrencyCode = currencyCode;
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
-
-	//		"name": "AmericanExpress",
-	//		"fee": "8.50",
-	//		"feeCurrencyCode": "AUD"
 
 	@Override
 	public JSONObject toJson() {
@@ -51,7 +38,6 @@ public class ValidPayment implements JSONable {
 			JSONObject json = new JSONObject();
 			json.putOpt("name", mCreditCardType);
 			JSONUtils.putJSONable(json, "fee", mFee);
-			json.putOpt("feeCurrencyCode", mCurrencyCode);
 			return json;
 		}
 		catch (JSONException e) {
@@ -62,9 +48,11 @@ public class ValidPayment implements JSONable {
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
-		mCreditCardType = obj.optString("name", null);
+		String name = obj.optString("name", null);
+		if (name != null) {
+			mCreditCardType = CreditCardType.valueOf(name);
+		}
 		mFee = JSONUtils.getJSONable(obj, "fee", Money.class);
-		mCurrencyCode = obj.optString("feeCurrencyCode", null);
 		return true;
 	}
 }

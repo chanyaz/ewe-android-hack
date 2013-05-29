@@ -93,9 +93,8 @@ public class CreateItineraryResponseHandler extends JsonResponseHandler<CreateIt
 				JSONObject paymentJson = paymentsJson.optJSONObject(i);
 				ValidPayment validPayment = new ValidPayment();
 
-				String currencyCode = paymentJson.optString("feeCurrencyCode");
 				validPayment.setCreditCardType(paymentJson.optString("name"));
-				validPayment.setCurrencyCode(currencyCode);
+				String currencyCode = paymentJson.optString("feeCurrencyCode");
 				validPayment.setFee(ParserUtils.createMoney(paymentJson.optString("fee"), currencyCode));
 
 				offer.addValidPayment(validPayment);
