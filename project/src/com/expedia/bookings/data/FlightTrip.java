@@ -666,8 +666,8 @@ public class FlightTrip implements JSONable {
 			addMoney(obj, KEY_PRICE_CHANGE_AMOUNT, mPriceChangeAmount);
 			addMoney(obj, KEY_ONLINE_BOOKING_FEES_AMOUNT, mOnlineBookingFeesAmount);
 
-			// TODO: As it looks like care is put into saving/loading Money in low memory fashion, explore a way to save
-			// the List<ValidPayment> (which contains Money) minimally.
+			// mValidPayments (which in of itself contains Money) will only exist after a api/flight/trip/create call,
+			// this means we can store list uncompressed rather than taking care as in "addMoney()"
 			JSONUtils.putJSONableList(obj, KEY_VALID_PAYMENTS, mValidPayments);
 
 			obj.putOpt(KEY_REWARDS_POINTS, mRewardsPoints);
