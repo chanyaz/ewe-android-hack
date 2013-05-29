@@ -20,13 +20,15 @@ import com.expedia.bookings.server.ExpediaServices;
 
 public class AirportAutocompleteProvider extends ContentProvider {
 
+	public static final String SUGGEST_COLUMN_COUNTRY_CODE = "suggest_column_country_code";
+
 	public static final String[] COLUMNS = {
 		BaseColumns._ID,
 		SearchManager.SUGGEST_COLUMN_TEXT_1,
 		SearchManager.SUGGEST_COLUMN_TEXT_2,
 		SearchManager.SUGGEST_COLUMN_QUERY,
 		SearchManager.SUGGEST_COLUMN_ICON_1,
-		SearchManager.SUGGEST_COLUMN_TEXT_2_URL,
+		SUGGEST_COLUMN_COUNTRY_CODE,
 	};
 
 	public static final int COL_ID = 0;
@@ -34,7 +36,7 @@ public class AirportAutocompleteProvider extends ContentProvider {
 	public static final int COL_SUGGEST_COLUMN_TEXT_2 = 2;
 	public static final int COL_SUGGEST_COLUMN_QUERY = 3;
 	public static final int COL_SUGGEST_COLUMN_ICON_1 = 4;
-	public static final int COL_SUGGEST_COLUMN_TEXT_2_URL = 5;
+	public static final int COL_SUGGEST_COLUMN_COUNTRY_CODE = 5;
 
 	public static final Uri CONTENT_FILTER_URI = Uri.parse("content://com.expedia.booking.autocomplete.air");
 
@@ -98,7 +100,7 @@ public class AirportAutocompleteProvider extends ContentProvider {
 		loc.setDestinationId(c.getString(COL_SUGGEST_COLUMN_QUERY));
 		loc.setCity(c.getString(COL_SUGGEST_COLUMN_TEXT_1));
 		loc.setDescription(c.getString(COL_SUGGEST_COLUMN_TEXT_2));
-		loc.setCountryCode(c.getString(COL_SUGGEST_COLUMN_TEXT_2_URL));
+		loc.setCountryCode(c.getString(COL_SUGGEST_COLUMN_COUNTRY_CODE));
 		return loc;
 	}
 

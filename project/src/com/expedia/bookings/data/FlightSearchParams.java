@@ -8,7 +8,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -132,20 +131,17 @@ public class FlightSearchParams implements JSONable {
 	private static final String INDIA_COUNTRY_CODE = "IND";
 
 	public boolean blockIndiaDomesticFlightSearch() {
-		boolean isIndiaDomestic = false;
-
 		if (PointOfSale.getPointOfSale().blockDomesticFlightSearch()) {
 			for (FlightSearchLeg leg : mQueryLegs) {
 				String dep = leg.getDepartureLocation().getCountryCode();
 				String arr = leg.getArrivalLocation().getCountryCode();
 
 				if (INDIA_COUNTRY_CODE.equals(dep) && INDIA_COUNTRY_CODE.equals(arr)) {
-					isIndiaDomestic = true;
-					break;
+					return true;
 				}
 			}
 		}
-		return isIndiaDomestic;
+		return false;
 	}
 
 	public void setDepartureDate(Date departureDate) {
