@@ -178,10 +178,6 @@ public class ItineraryManager implements JSONable {
 							return (TripFlight) fData.getTripComponent();
 						}
 					}
-
-					//					//TODO: DELETE - THIS IS JUST SO WE GET SOME VALID FLIGHT
-					//					TripFlight tripFlight = (TripFlight) fData.getTripComponent();
-					//					return tripFlight;
 				}
 			}
 		}
