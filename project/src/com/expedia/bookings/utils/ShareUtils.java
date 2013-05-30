@@ -33,7 +33,6 @@ public class ShareUtils {
 	private static final int MAX_TIMEZONE_LENGTH = 6;
 
 	// Hotel
-
 	private static final int LONG_SHARE_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR
 			| DateUtils.FORMAT_SHOW_WEEKDAY;
 	private static final int SHARE_CHECK_IN_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_WEEKDAY
@@ -44,8 +43,6 @@ public class ShareUtils {
 	private static final int TIME_FLAGS = DateUtils.FORMAT_SHOW_TIME;
 	private static final int SHORT_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR
 			| DateUtils.FORMAT_ABBREV_MONTH;
-	private static final int LONG_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR
-			| DateUtils.FORMAT_SHOW_WEEKDAY;
 
 	// Activity
 	private static final int SHARE_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR
