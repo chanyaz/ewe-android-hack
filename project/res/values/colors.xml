@@ -56,7 +56,6 @@
     <color name="light_gray">#777777</color>
     <color name="dark_blue">#1C3061</color>
     <color name="dismiss">#72000000</color>
-    <color name="bg_default">#e7e7e7</color>
     <color name="calendar_header">#FFF3F3F3</color>
     <color name="calendar_header_tablet">#60FFFFFF</color>
     <color name="bg_expedia_list">#e7e7e7</color>

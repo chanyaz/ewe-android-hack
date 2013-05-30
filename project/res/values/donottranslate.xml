@@ -42,8 +42,6 @@
     <string name="tag_rooms_and_rates">ROOMS_AND_RATES</string>
     <string name="tag_booking_info">BOOKING_INFO</string>
     <string name="tag_booking_error">BOOKING_ERROR</string>
-    <string name="tag_booking_confirmation">BOOKING_CONFIRMATION</string>
-    <string name="tag_confirmation_receipt">CONFIRMATION_RECEIPT</string>
     <string name="tag_filter_dialog">FILTER_DIALOG</string>
     <string name="tag_sort_dialog">SORT_DIALOG</string>
     <string name="tag_geocode_disambiguation_dialog">GEOCODE_DISAMBIGUATION_DIALOG</string>

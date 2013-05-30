@@ -90,12 +90,6 @@
     <!-- Dimensions for the list header fragment -->
     <dimen name="sort_view_max_width">250dp</dimen>
 
-    <!--
-         This is the amount of padding the bottom of the booking info activity 
-		needs to account for the see-through bar
-    -->
-    <dimen name="bottom_bar_height">50dp</dimen>
-
     <!-- Offset so that the price and "mobile exclusive" overlaps the gallery -->
     <dimen name="hotel_details_intro_offset">-45dp</dimen>
     <dimen name="price_promo_banner_height">45dp</dimen>
