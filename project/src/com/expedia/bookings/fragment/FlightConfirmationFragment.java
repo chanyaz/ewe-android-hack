@@ -12,7 +12,6 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Events;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,7 +58,7 @@ import com.mobiata.flightlib.utils.DateTimeUtils;
 
 // We can assume that if this fragment loaded we successfully booked, so most
 // data we need to grab is available.
-public class FlightConfirmationFragment extends Fragment {
+public class FlightConfirmationFragment extends ConfirmationFragment {
 
 	public static final String TAG = FlightConfirmationFragment.class.getName();
 
@@ -71,12 +70,11 @@ public class FlightConfirmationFragment extends Fragment {
 			return null;
 		}
 
-		View v = inflater.inflate(R.layout.fragment_flight_confirmation, container, false);
+		View v = super.onCreateView(inflater, container, savedInstanceState);
 
 		FlightSearch search = Db.getFlightSearch();
 		FlightTrip trip = search.getSelectedFlightTrip();
 		String destinationCity = StrUtils.getWaypointCityOrCode(trip.getLeg(0).getLastWaypoint());
-		Itinerary itinerary = Db.getItinerary(trip.getItineraryNumber());
 
 		// Format the flight cards
 		RelativeLayout cardContainer = Ui.findView(v, R.id.flight_card_container);
@@ -136,11 +134,6 @@ public class FlightConfirmationFragment extends Fragment {
 		// Fill out all the actions
 		Ui.setText(v, R.id.going_to_text_view, getString(R.string.yay_going_somewhere_TEMPLATE, destinationCity));
 
-		Ui.setText(v, R.id.itinerary_text_view,
-				getString(R.string.itinerary_confirmation_TEMPLATE, itinerary.getItineraryNumber()));
-
-		Ui.setText(v, R.id.email_text_view, Db.getBillingInfo().getEmail());
-
 		if (PointOfSale.getPointOfSale().showHotelCrossSell()) {
 			Ui.setText(v, R.id.hotels_action_text_view, getString(R.string.hotels_in_TEMPLATE, destinationCity));
 			Ui.setOnClickListener(v, R.id.hotels_action_text_view, new OnClickListener() {
@@ -189,13 +182,6 @@ public class FlightConfirmationFragment extends Fragment {
 			Ui.findView(v, R.id.flighttrack_divider).setVisibility(View.GONE);
 		}
 
-		Ui.setOnClickListener(v, R.id.call_action_text_view, new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				SocialUtils.call(getActivity(), PointOfSale.getPointOfSale().getSupportPhoneNumber());
-			}
-		});
-
 		// Only display an insurance url if it exists. Currently only present for CA POS.
 		final String insuranceUrl = PointOfSale.getPointOfSale().getInsuranceUrl();
 		if (!TextUtils.isEmpty(insuranceUrl)) {
@@ -217,6 +203,27 @@ public class FlightConfirmationFragment extends Fragment {
 		ViewUtils.setAllCaps((TextView) Ui.findView(v, R.id.more_actions_text_view));
 
 		return v;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// ConfirmationFragment
+
+	@Override
+	protected int getLayoutId() {
+		return R.layout.fragment_flight_confirmation;
+	}
+
+	@Override
+	protected int getActionsLayoutId() {
+		return R.layout.include_confirmation_actions_flights;
+	}
+
+	@Override
+	protected String getItinNumber() {
+		FlightSearch search = Db.getFlightSearch();
+		FlightTrip trip = search.getSelectedFlightTrip();
+		Itinerary itinerary = Db.getItinerary(trip.getItineraryNumber());
+		return itinerary.getItineraryNumber();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -422,4 +429,5 @@ public class FlightConfirmationFragment extends Fragment {
 	public boolean canTrackWithFlightTrack() {
 		return NavUtils.isIntentAvailable(getActivity(), getFlightTrackIntent());
 	}
+
 }
