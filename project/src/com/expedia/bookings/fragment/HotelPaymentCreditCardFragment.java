@@ -56,8 +56,7 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(User.isLoggedIn(getActivity()) ? R.layout.fragment_hotel_payment_creditcard_logged_in
-				: R.layout.fragment_hotel_payment_creditcard, container, false);
+		View v = inflater.inflate(R.layout.fragment_hotel_payment_creditcard, container, false);
 
 		mAttemptToLeaveMade = savedInstanceState != null ? savedInstanceState.getBoolean(STATE_TAG_ATTEMPTED_LEAVE,
 				false) : false;

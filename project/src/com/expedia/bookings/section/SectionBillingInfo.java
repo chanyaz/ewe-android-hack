@@ -27,6 +27,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
 import com.expedia.bookings.section.SectionBillingInfo.ExpirationPickerFragment.OnSetExpirationListener;
@@ -36,6 +37,7 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ExpirationPicker;
 import com.expedia.bookings.widget.ExpirationPicker.IExpirationListener;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
 import com.mobiata.android.validation.MultiValidator;
 import com.mobiata.android.validation.ValidationError;
@@ -47,7 +49,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<SectionChangeListener>();
 	ArrayList<SectionField<?, BillingInfo>> mFields = new ArrayList<SectionField<?, BillingInfo>>();
 
-	//TODO:Don't hardcode this format string..
+	//TODO:Don't hardcode this format string.
 	DateFormat mExpirationFormater = new SimpleDateFormat("MM/yy");
 
 	Context mContext;
@@ -83,6 +85,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		mFields.add(this.mDisplayFullName);
 		mFields.add(this.mDisplayAddress);
 		mFields.add(this.mDisplayBrandAndExpirationColored);
+		mFields.add(this.mDisplayEmailDisclaimer);
 
 		//Validation indicator fields
 		mFields.add(mValidCCNum);
@@ -114,6 +117,50 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		mDisplayCreditCardBrandIconWhiteDefaultBlank.bindData(mBillingInfo);
 	}
 
+	/**
+	 * Remove field from layout by setting visibility to GONE
+	 * Remove field from field list so it is no longer validated against
+	 * Fix focus order if we removed a view that someone has set as nextFocus
+	 * @param field
+	 */
+	@SuppressLint("NewApi")
+	private void removeField(SectionField<?, BillingInfo> sectionFieldForRemoval) {
+		//Remove from fields list
+		mFields.remove(sectionFieldForRemoval);
+
+		if (sectionFieldForRemoval.hasBoundField()) {
+			View removeView = sectionFieldForRemoval.getField();
+			int removeViewId = removeView.getId();
+
+			//Fix focus order
+			for (SectionField<?, BillingInfo> sectionField : mFields) {
+				if (sectionField.hasBoundField()) {
+					View view = sectionField.getField();
+					if (view.getNextFocusDownId() == removeViewId) {
+						view.setNextFocusDownId(removeView.getNextFocusDownId());
+					}
+					if (view.getNextFocusUpId() == removeViewId) {
+						view.setNextFocusUpId(removeView.getNextFocusUpId());
+					}
+					if (view.getNextFocusLeftId() == removeViewId) {
+						view.setNextFocusLeftId(removeView.getNextFocusLeftId());
+					}
+					if (view.getNextFocusRightId() == removeViewId) {
+						view.setNextFocusRightId(removeView.getNextFocusRightId());
+					}
+					if (AndroidUtils.getSdkVersion() >= 11) {
+						if (view.getNextFocusForwardId() == removeViewId) {
+							view.setNextFocusForwardId(removeView.getNextFocusForwardId());
+						}
+					}
+				}
+			}
+
+			//Hide view
+			removeView.setVisibility(View.GONE);
+		}
+	}
+
 	@Override
 	public void onFinishInflate() {
 		super.onFinishInflate();
@@ -126,6 +173,15 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			ViewUtils.setAllCaps((TextView) findViewById(R.id.cardholder_label));
 		}
 
+		postFinishInflate();
+	}
+
+	private void postFinishInflate() {
+		//Remove email fields if user is logged in
+		if (User.isLoggedIn(mContext)) {
+			removeField(mEditEmailAddress);
+			removeField(mDisplayEmailDisclaimer);
+		}
 	}
 
 	@Override
@@ -229,6 +285,14 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			else {
 				field.setText("");
 			}
+		}
+	};
+
+	SectionField<TextView, BillingInfo> mDisplayEmailDisclaimer = new SectionField<TextView, BillingInfo>(
+			R.id.email_disclaimer) {
+		@Override
+		public void onHasFieldAndData(TextView field, BillingInfo data) {
+			field.setText(R.string.email_disclaimer);
 		}
 	};
 
