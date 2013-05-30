@@ -173,5 +173,6 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 
 	private void addToCalendar() {
 		// TODO
+		Ui.showToast(getActivity(), "TODO: #1254");
 	}
 }
