@@ -8,7 +8,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.text.TextUtils;
 
+import com.expedia.bookings.utils.CurrencyUtils;
 import com.mobiata.android.FileCipher;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -189,6 +191,30 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 
 	public boolean getSaveCardToExpediaAccount() {
 		return mSaveCardToExpediaAccount;
+	}
+
+	/**
+	 * Return the type for the currently active creditcard.
+	 * 
+	 * If we have a stored credit card, we return the type of that.
+	 * If we have a CC number we determine the type from that.
+	 * 
+	 * @return the CreditCardType this billingInfo encapsulates (or null if it cannot be determined)
+	 */
+	public CreditCardType getCardType() {
+		CreditCardType selectedCardType = null;
+		StoredCreditCard scc = getStoredCard();
+
+		if (scc != null) {
+			selectedCardType = scc.getType();
+		}
+		else {
+			String number = getNumber();
+			if (!TextUtils.isEmpty(number)) {
+				selectedCardType = CurrencyUtils.detectCreditCardBrand(number);
+			}
+		}
+		return selectedCardType;
 	}
 
 	public boolean save(Context context) {

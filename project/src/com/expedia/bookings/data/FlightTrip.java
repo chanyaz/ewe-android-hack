@@ -17,7 +17,6 @@ import org.json.JSONObject;
 
 import android.text.TextUtils;
 
-import com.expedia.bookings.utils.CurrencyUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.flightlib.data.Flight;
@@ -165,19 +164,7 @@ public class FlightTrip implements JSONable {
 	 * @return cardFee as Money or null if no card fee
 	 */
 	public Money getCardFee(BillingInfo billingInfo) {
-		CreditCardType selectedCardType = null;
-		StoredCreditCard scc = billingInfo.getStoredCard();
-
-		if (scc != null) {
-			selectedCardType = scc.getType();
-		}
-		else {
-			String number = billingInfo.getNumber();
-			if (!TextUtils.isEmpty(number)) {
-				selectedCardType = CurrencyUtils.detectCreditCardBrand(number);
-			}
-		}
-
+		CreditCardType selectedCardType = billingInfo.getCardType();
 		if (selectedCardType != null) {
 			for (ValidPayment payment : mValidPayments) {
 				if (payment.getCreditCardType() == selectedCardType) {
@@ -186,6 +173,24 @@ public class FlightTrip implements JSONable {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Is the card in the supplied billingInfo a valid CreditCardType for this FlightTrip?
+	 * 
+	 * @param billingInfo
+	 * @return true if this FlightTrip supports the card in the supplied billingInfo, false otherswise.
+	 */
+	public boolean getCardTypeSupported(BillingInfo billingInfo) {
+		CreditCardType selectedCardType = billingInfo.getCardType();
+		if (selectedCardType != null) {
+			for (ValidPayment payment : mValidPayments) {
+				if (payment.getCreditCardType() == selectedCardType) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	public Money getTotalFareWithCardFee(BillingInfo billingInfo) {
