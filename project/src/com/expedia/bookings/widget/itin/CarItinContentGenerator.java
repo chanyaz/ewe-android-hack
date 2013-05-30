@@ -27,6 +27,7 @@ import com.expedia.bookings.notification.Notification.ImageType;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.EventSummaryView;
 import com.expedia.bookings.widget.InfoTripletView;
@@ -60,105 +61,20 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 
 	@Override
 	public String getShareSubject() {
-		ItinCardDataCar itinCardData = getItinCardData();
-
-		String template = getContext().getString(R.string.share_template_subject_car);
-		String pickUpDate = itinCardData.getFormattedShortPickUpDate(getContext());
-		String dropOffDate = itinCardData.getFormattedShortDropOffDate(getContext());
-
-		return String.format(template, pickUpDate, dropOffDate);
+        ShareUtils shareUtils = new ShareUtils(getContext());
+        return shareUtils.getShareSubject(getItinCardData());
 	}
 
 	@Override
 	public String getShareTextShort() {
-		ItinCardDataCar itinCardData = getItinCardData();
-
-		String template = getContext().getString(R.string.share_template_short_car);
-		String carCategory = itinCardData.getCarCategoryDescription(getContext());
-		String pickUpDate = itinCardData.getFormattedShortPickUpDate(getContext());
-		String dropOffDate = itinCardData.getFormattedShortDropOffDate(getContext());
-		String vendorName = itinCardData.getVendorName();
-		String vendorAddress = itinCardData.getRelevantVendorLocation().toLongFormattedString();
-
-		return String.format(template, carCategory, pickUpDate, dropOffDate, vendorName, vendorAddress);
+        ShareUtils shareUtils = new ShareUtils(getContext());
+        return shareUtils.getShareTextShort(getItinCardData());
 	}
 
 	@Override
 	public String getShareTextLong() {
-		ItinCardDataCar itinCardData = getItinCardData();
-
-		Context context = getContext();
-		StringBuilder sb = new StringBuilder();
-
-		sb.append(context.getString(R.string.share_hi));
-		sb.append("\n\n");
-
-		sb.append(context.getString(R.string.share_car_start_TEMPLATE, itinCardData.getVendorName()));
-		sb.append("\n\n");
-
-		sb.append(context.getString(R.string.share_car_vehicle_TEMPLATE,
-				itinCardData.getCarCategoryDescription(context)));
-		sb.append("\n");
-
-		String pickUpDate = itinCardData.getFormattedLongPickUpDate(getContext());
-		String pickUpTime = itinCardData.getFormattedPickUpTime(getContext());
-		sb.append(context.getString(R.string.share_car_pickup_TEMPLATE, pickUpDate, pickUpTime));
-		sb.append("\n");
-
-		String dropOffDate = itinCardData.getFormattedLongDropOffDate(getContext());
-		String dropOffTime = itinCardData.getFormattedDropOffTime(getContext());
-		sb.append(context.getString(R.string.share_car_dropoff_TEMPLATE, dropOffDate, dropOffTime));
-		sb.append("\n\n");
-
-		String localPhone = itinCardData.getLocalPhoneNumber();
-		String vendorPhone = itinCardData.getTollFreePhoneNumber();
-
-		Location pickupLoc = itinCardData.getPickUpLocation();
-		Location dropoffLoc = itinCardData.getDropOffLocation();
-		boolean hasDiffLocations = pickupLoc != null && !pickupLoc.equals(dropoffLoc);
-
-		if (pickupLoc != null) {
-			if (!hasDiffLocations) {
-				sb.append(context.getString(R.string.share_car_location_section));
-			}
-			else {
-				sb.append(context.getString(R.string.share_car_pickup_location_section));
-			}
-
-			sb.append("\n");
-			sb.append(pickupLoc.toLongFormattedString());
-			sb.append("\n");
-
-			if (!TextUtils.isEmpty(localPhone)) {
-				sb.append(localPhone);
-				sb.append("\n");
-			}
-
-			if (!TextUtils.isEmpty(vendorPhone)) {
-				sb.append(vendorPhone);
-				sb.append("\n");
-			}
-
-			sb.append("\n");
-		}
-
-		if (hasDiffLocations && dropoffLoc != null) {
-			sb.append(context.getString(R.string.share_car_dropoff_location_section));
-			sb.append("\n");
-			sb.append(dropoffLoc.toLongFormattedString());
-			sb.append("\n");
-
-			if (!TextUtils.isEmpty(vendorPhone)) {
-				sb.append(vendorPhone);
-				sb.append("\n");
-			}
-
-			sb.append("\n");
-		}
-
-		sb.append(getContext().getString(R.string.share_template_long_ad, PointOfSale.getPointOfSale().getAppInfoUrl()));
-
-		return sb.toString();
+        ShareUtils shareUtils = new ShareUtils(getContext());
+        return shareUtils.getShareTextLong(getItinCardData());
 	}
 
 	@Override

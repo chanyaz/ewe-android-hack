@@ -13,15 +13,9 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.DateTime;
-import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.*;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.trips.ItinCardData;
-import com.expedia.bookings.data.trips.ItinCardDataFlight;
-import com.expedia.bookings.data.trips.ItinCardDataHotel;
-import com.expedia.bookings.data.trips.TripFlight;
+import com.expedia.bookings.data.trips.*;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Layover;
@@ -39,6 +33,12 @@ public class ShareUtils {
 	private static final int SHARE_CHECK_IN_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_WEEKDAY
 			| DateUtils.FORMAT_ABBREV_WEEKDAY;
 	private static final int SHARE_CHECK_OUT_FLAGS = LONG_SHARE_DATE_FLAGS | DateUtils.FORMAT_ABBREV_WEEKDAY;
+
+	private static final int TIME_FLAGS = DateUtils.FORMAT_SHOW_TIME;
+	private static final int SHORT_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR
+			| DateUtils.FORMAT_ABBREV_MONTH;
+	private static final int LONG_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR
+			| DateUtils.FORMAT_SHOW_WEEKDAY;
 
 	private static final int MAX_TIMEZONE_LENGTH = 6;
 
@@ -67,6 +67,12 @@ public class ShareUtils {
 		else if (itinCardData instanceof ItinCardDataHotel) {
 			return getHotelShareSubject((ItinCardDataHotel) itinCardData);
 		}
+		else if (itinCardData instanceof ItinCardDataCar) {
+			return getCarShareSubject((ItinCardDataCar) itinCardData);
+		}
+		else if (itinCardData instanceof ItinCardDataActivity) {
+			return getActivityShareSubject((ItinCardDataActivity) itinCardData);
+		}
 
 		return null;
 	}
@@ -78,6 +84,12 @@ public class ShareUtils {
 		else if (itinCardData instanceof ItinCardDataHotel) {
 			return getHotelShareTextShort((ItinCardDataHotel) itinCardData);
 		}
+		else if (itinCardData instanceof ItinCardDataCar) {
+			return getCarShareTextShort((ItinCardDataCar) itinCardData);
+		}
+		else if (itinCardData instanceof ItinCardDataActivity) {
+			return getActivityShareTextShort((ItinCardDataActivity) itinCardData);
+		}
 
 		return null;
 	}
@@ -88,6 +100,12 @@ public class ShareUtils {
 		}
 		else if (itinCardData instanceof ItinCardDataHotel) {
 			return getHotelShareTextLong((ItinCardDataHotel) itinCardData);
+		}
+		else if (itinCardData instanceof ItinCardDataCar) {
+			return getCarShareTextLong((ItinCardDataCar) itinCardData);
+		}
+		else if (itinCardData instanceof ItinCardDataActivity) {
+			return getActivityShareTextLong((ItinCardDataActivity) itinCardData);
 		}
 
 		return null;
@@ -108,6 +126,14 @@ public class ShareUtils {
 				itinCardData.getEndDate());
 	}
 
+	public String getCarShareSubject(ItinCardDataCar itinCardData) {
+		return getCarShareSubject(itinCardData.getPickUpDate(), itinCardData.getDropOffDate());
+	}
+
+	public String getActivityShareSubject(ItinCardDataActivity itinCardData) {
+		return getActivityShareSubject();
+	}
+
 	// SHARE TEXT SHORT
 
 	public String getFlightShareTextShort(ItinCardDataFlight itinCardData) {
@@ -120,6 +146,20 @@ public class ShareUtils {
 	public String getHotelShareTextShort(ItinCardDataHotel itinCardData) {
 		return getHotelShareTextShort(itinCardData.getPropertyName(), itinCardData.getStartDate(),
 				itinCardData.getEndDate(), itinCardData.getDetailsUrl());
+	}
+
+	public String getCarShareTextShort(ItinCardDataCar itinCardData) {
+		Car.Category category = itinCardData.getCar().getCategory();
+		DateTime pickUpDate = itinCardData.getPickUpDate();
+		DateTime dropOffDate = itinCardData.getDropOffDate();
+		String vendorName = itinCardData.getVendorName();
+		String vendorAddress = itinCardData.getRelevantVendorLocation().toLongFormattedString();
+
+		return getCarShareTextShort(category, pickUpDate, dropOffDate, vendorName, vendorAddress);
+	}
+
+	public String getActivityShareTextShort(ItinCardDataActivity itinCardData) {
+		return getActivityShareTextShort();
 	}
 
 	// SHARE TEXT LONG
@@ -146,6 +186,21 @@ public class ShareUtils {
 		String detailsUrl = itinCardData.getDetailsUrl();
 
 		return getHotelShareTextLong(hotelName, address, phone, startDate, endDate, detailsUrl);
+	}
+
+	public String getCarShareTextLong(ItinCardDataCar itinCardData) {
+		Car.Category category = itinCardData.getCar().getCategory();
+		DateTime pickUpDate = itinCardData.getPickUpDate();
+		DateTime dropOffDate = itinCardData.getDropOffDate();
+		CarVendor vendor = itinCardData.getCar().getVendor();
+		Location pickUpLocation = itinCardData.getPickUpLocation();
+		Location dropOffLocation = itinCardData.getDropOffLocation();
+
+		return getCarShareTextLong(category, pickUpDate, dropOffDate, vendor, pickUpLocation, dropOffLocation);
+	}
+
+	public String getActivityShareTextLong(ItinCardDataActivity itinCardData) {
+		return getActivityShareTextLong();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -351,6 +406,115 @@ public class ShareUtils {
 		builder.append(mContext.getString(R.string.share_template_long_ad, downloadUrl));
 
 		return builder.toString();
+	}
+
+	// Cars
+
+	public String getCarShareSubject(DateTime pickUpDateTime, DateTime dropOffDateTime) {
+		String template = mContext.getString(R.string.share_template_subject_car);
+		String pickUpDate = pickUpDateTime.formatTime(mContext, SHORT_DATE_FLAGS);
+		String dropOffDate = dropOffDateTime.formatTime(mContext, SHORT_DATE_FLAGS);
+
+		return String.format(template, pickUpDate, dropOffDate);
+	}
+
+	public String getCarShareTextShort(Car.Category carCategory, DateTime pickUpDateTime, DateTime dropOffDateTime,
+			String vendorName, String vendorAddress) {
+
+		String category = mContext.getString(carCategory.getCategoryResId());
+		String template = mContext.getString(R.string.share_template_short_car);
+		String pickUpDate = pickUpDateTime.formatTime(mContext, SHORT_DATE_FLAGS);
+		String dropOffDate = dropOffDateTime.formatTime(mContext, SHORT_DATE_FLAGS);
+
+		return String.format(template, category, pickUpDate, dropOffDate, vendorName, vendorAddress);
+	}
+
+	public String getCarShareTextLong(Car.Category carCategory, DateTime pickUpDateTime, DateTime dropOffDateTime,
+			CarVendor vendor, Location pickUpLocation, Location dropOffLocation) {
+
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(mContext.getString(R.string.share_hi));
+		sb.append("\n\n");
+
+		sb.append(mContext.getString(R.string.share_car_start_TEMPLATE, vendor.getShortName()));
+		sb.append("\n\n");
+
+		sb.append(mContext.getString(R.string.share_car_vehicle_TEMPLATE,
+				mContext.getString(carCategory.getCategoryResId())));
+		sb.append("\n");
+
+		String pickUpDate = pickUpDateTime.formatTime(mContext, SHORT_DATE_FLAGS);
+		String pickUpTime = pickUpDateTime.formatTime(mContext, TIME_FLAGS) + " " + pickUpDateTime.formatTimeZone();
+		sb.append(mContext.getString(R.string.share_car_pickup_TEMPLATE, pickUpDate, pickUpTime));
+		sb.append("\n");
+
+		String dropOffDate = dropOffDateTime.formatTime(mContext, SHORT_DATE_FLAGS);
+		String dropOffTime = dropOffDateTime.formatTime(mContext, TIME_FLAGS) + " " + dropOffDateTime.formatTimeZone();
+		sb.append(mContext.getString(R.string.share_car_dropoff_TEMPLATE, dropOffDate, dropOffTime));
+		sb.append("\n\n");
+
+		String localPhone = vendor.getLocalPhone();
+		String vendorPhone = vendor.getTollFreePhone();
+
+		boolean hasDiffLocations = pickUpLocation != null && !pickUpLocation.equals(dropOffLocation);
+
+		if (pickUpLocation != null) {
+			if (!hasDiffLocations) {
+				sb.append(mContext.getString(R.string.share_car_location_section));
+			}
+			else {
+				sb.append(mContext.getString(R.string.share_car_pickup_location_section));
+			}
+
+			sb.append("\n");
+			sb.append(pickUpLocation.toLongFormattedString());
+			sb.append("\n");
+
+			if (!TextUtils.isEmpty(localPhone)) {
+				sb.append(localPhone);
+				sb.append("\n");
+			}
+
+			if (!TextUtils.isEmpty(vendorPhone)) {
+				sb.append(vendorPhone);
+				sb.append("\n");
+			}
+
+			sb.append("\n");
+		}
+
+		if (hasDiffLocations && dropOffLocation != null) {
+			sb.append(mContext.getString(R.string.share_car_dropoff_location_section));
+			sb.append("\n");
+			sb.append(dropOffLocation.toLongFormattedString());
+			sb.append("\n");
+
+			if (!TextUtils.isEmpty(vendorPhone)) {
+				sb.append(vendorPhone);
+				sb.append("\n");
+			}
+
+			sb.append("\n");
+		}
+
+		sb.append(mContext.getString(R.string.share_template_long_ad, PointOfSale.getPointOfSale().getAppInfoUrl()));
+
+		return sb.toString();
+	}
+
+	// Activities
+
+	public String getActivityShareSubject() {
+		return null;
+	}
+
+	public String getActivityShareTextShort() {
+		return null;
+	}
+
+	public String getActivityShareTextLong() {
+		return null;
 	}
 
 	// Helper methods
