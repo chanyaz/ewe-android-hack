@@ -6,16 +6,12 @@
     android:fillViewport="true" >
 
     <FrameLayout
+        android:id="@+id/content_container"
         android:layout_width="@dimen/standard_content_width"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:background="@color/flight_checkout_opaque_white"
         android:padding="8dp" >
-
-        <include
-            android:id="@+id/creditcard_section"
-            layout="@layout/section_edit_creditcard" />
-
     </FrameLayout>
 
 </ScrollView>

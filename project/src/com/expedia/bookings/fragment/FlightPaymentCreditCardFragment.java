@@ -49,9 +49,17 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(
-				User.isLoggedIn(getActivity()) ? R.layout.fragment_flight_payment_creditcard_logged_in
-						: R.layout.fragment_flight_payment_creditcard, container, false);
+		View v = inflater.inflate(R.layout.fragment_flight_payment_creditcard, container, false);
+		if (User.isLoggedIn(getActivity())) {
+			mSectionCreditCard = (SectionBillingInfo) inflater
+					.inflate(R.layout.section_edit_creditcard_logged_in, null);
+		}
+		else {
+			mSectionCreditCard = (SectionBillingInfo) inflater.inflate(R.layout.section_edit_creditcard, null);
+		}
+
+		ViewGroup contentViewGroup = Ui.findView(v, R.id.content_container);
+		contentViewGroup.addView(mSectionCreditCard);
 
 		mAttemptToLeaveMade = savedInstanceState != null ? savedInstanceState.getBoolean(STATE_TAG_ATTEMPTED_LEAVE,
 				false) : false;
@@ -62,7 +70,6 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 			mBillingInfo.setEmail(Db.getUser().getPrimaryTraveler().getEmail());
 		}
 
-		mSectionCreditCard = Ui.findView(v, R.id.creditcard_section);
 		mSectionCreditCard.addChangeListener(new SectionChangeListener() {
 			@Override
 			public void onChange() {
