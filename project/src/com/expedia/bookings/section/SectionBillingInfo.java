@@ -37,7 +37,6 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ExpirationPicker;
 import com.expedia.bookings.widget.ExpirationPicker.IExpirationListener;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
 import com.mobiata.android.validation.MultiValidator;
 import com.mobiata.android.validation.ValidationError;
@@ -47,7 +46,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		InvalidCharacterListener {
 
 	ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<SectionChangeListener>();
-	ArrayList<SectionField<?, BillingInfo>> mFields = new ArrayList<SectionField<?, BillingInfo>>();
+	SectionFieldList<BillingInfo> mFields = new SectionFieldList<BillingInfo>();
 
 	//TODO:Don't hardcode this format string.
 	DateFormat mExpirationFormater = new SimpleDateFormat("MM/yy");
@@ -117,57 +116,11 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		mDisplayCreditCardBrandIconWhiteDefaultBlank.bindData(mBillingInfo);
 	}
 
-	/**
-	 * Remove field from layout by setting visibility to GONE
-	 * Remove field from field list so it is no longer validated against
-	 * Fix focus order if we removed a view that someone has set as nextFocus
-	 * @param field
-	 */
-	@SuppressLint("NewApi")
-	private void removeField(SectionField<?, BillingInfo> sectionFieldForRemoval) {
-		//Remove from fields list
-		mFields.remove(sectionFieldForRemoval);
-
-		if (sectionFieldForRemoval.hasBoundField()) {
-			View removeView = sectionFieldForRemoval.getField();
-			int removeViewId = removeView.getId();
-
-			//Fix focus order
-			for (SectionField<?, BillingInfo> sectionField : mFields) {
-				if (sectionField.hasBoundField()) {
-					View view = sectionField.getField();
-					if (view.getNextFocusDownId() == removeViewId) {
-						view.setNextFocusDownId(removeView.getNextFocusDownId());
-					}
-					if (view.getNextFocusUpId() == removeViewId) {
-						view.setNextFocusUpId(removeView.getNextFocusUpId());
-					}
-					if (view.getNextFocusLeftId() == removeViewId) {
-						view.setNextFocusLeftId(removeView.getNextFocusLeftId());
-					}
-					if (view.getNextFocusRightId() == removeViewId) {
-						view.setNextFocusRightId(removeView.getNextFocusRightId());
-					}
-					if (AndroidUtils.getSdkVersion() >= 11) {
-						if (view.getNextFocusForwardId() == removeViewId) {
-							view.setNextFocusForwardId(removeView.getNextFocusForwardId());
-						}
-					}
-				}
-			}
-
-			//Hide view
-			removeView.setVisibility(View.GONE);
-		}
-	}
-
 	@Override
 	public void onFinishInflate() {
 		super.onFinishInflate();
 
-		for (SectionField<?, BillingInfo> field : mFields) {
-			field.bindField(this);
-		}
+		mFields.bindFieldsAll(this);
 
 		if (findViewById(R.id.cardholder_label) != null) {
 			ViewUtils.setAllCaps((TextView) findViewById(R.id.cardholder_label));
@@ -179,8 +132,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	private void postFinishInflate() {
 		//Remove email fields if user is logged in
 		if (User.isLoggedIn(mContext)) {
-			removeField(mEditEmailAddress);
-			removeField(mDisplayEmailDisclaimer);
+			mFields.removeField(mEditEmailAddress);
+			mFields.removeField(mDisplayEmailDisclaimer);
 		}
 	}
 
@@ -189,23 +142,12 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		mBillingInfo = (BillingInfo) data;
 
 		if (mBillingInfo != null) {
-			for (SectionField<?, BillingInfo> field : mFields) {
-				field.bindData(mBillingInfo);
-			}
+			mFields.bindDataAll(mBillingInfo);
 		}
 	}
 
 	public boolean hasValidInput() {
-		SectionFieldEditable<?, BillingInfo> editable;
-		boolean valid = true;
-		for (SectionField<?, BillingInfo> field : mFields) {
-			if (field instanceof SectionFieldEditable) {
-				editable = (SectionFieldEditable<?, BillingInfo>) field;
-				boolean newIsValid = editable.isValid();
-				valid = (valid && newIsValid);
-			}
-		}
-		return valid;
+		return mFields.hasValidInput();
 	}
 
 	public void onChange() {

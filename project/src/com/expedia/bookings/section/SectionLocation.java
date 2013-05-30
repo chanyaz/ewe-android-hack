@@ -45,7 +45,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		InvalidCharacterListener {
 
 	ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<SectionChangeListener>();
-	ArrayList<SectionField<?, Location>> mFields = new ArrayList<SectionField<?, Location>>();
+	SectionFieldList<Location> mFields = new SectionFieldList<Location>();
 
 	Location mLocation;
 	Context mContext;
@@ -95,9 +95,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 	public void onFinishInflate() {
 		super.onFinishInflate();
 
-		for (SectionField<?, Location> field : mFields) {
-			field.bindField(this);
-		}
+		mFields.bindFieldsAll(this);
 	}
 
 	@Override
@@ -106,9 +104,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		mLocation = location;
 
 		if (mLocation != null) {
-			for (SectionField<?, Location> field : mFields) {
-				field.bindData(mLocation);
-			}
+			mFields.bindDataAll(mLocation);
 		}
 	}
 
@@ -117,16 +113,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 	}
 
 	public boolean hasValidInput() {
-		boolean valid = true;
-		SectionFieldEditable<?, Location> editable;
-		for (SectionField<?, Location> field : mFields) {
-			if (field instanceof SectionFieldEditable) {
-				editable = (SectionFieldEditable<?, Location>) field;
-				boolean newIsValid = editable.isValid();
-				valid = (valid && newIsValid);
-			}
-		}
-		return valid;
+		return mFields.hasValidInput();
 	}
 
 	public void onChange() {

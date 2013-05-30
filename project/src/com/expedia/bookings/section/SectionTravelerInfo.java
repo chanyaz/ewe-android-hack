@@ -52,7 +52,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		InvalidCharacterListener {
 
 	ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<SectionChangeListener>();
-	ArrayList<SectionField<?, Traveler>> mFields = new ArrayList<SectionField<?, Traveler>>();
+	SectionFieldList<Traveler> mFields = new SectionFieldList<Traveler>();
 
 	Context mContext;
 
@@ -117,9 +117,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 		super.onFinishInflate();
 
-		for (SectionField<?, Traveler> field : mFields) {
-			field.bindField(this);
-		}
+		mFields.bindFieldsAll(this);
 
 		postFinishInflate();
 	}
@@ -130,9 +128,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		mTraveler = traveler;
 
 		if (mTraveler != null) {
-			for (SectionField<?, Traveler> field : mFields) {
-				field.bindData(mTraveler);
-			}
+			mFields.bindDataAll(traveler);
 		}
 	}
 
@@ -155,67 +151,12 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		//then we hide it and remove it from our list of fields
 		PointOfSale pos = PointOfSale.getPointOfSale(mContext);
 		if (pos.hideMiddleName()) {
-			removeField(mEditMiddleName);
-		}
-	}
-
-	/**
-	 * Remove field from layout by setting visibility to GONE
-	 * Remove field from field list so it is no longer validated against
-	 * Fix focus order if we removed a view that someone has set as nextFocus
-	 * @param field
-	 */
-	@SuppressLint("NewApi")
-	private void removeField(SectionField<?, Traveler> sectionFieldForRemoval) {
-		//Remove from fields list
-		mFields.remove(sectionFieldForRemoval);
-
-		if (sectionFieldForRemoval.hasBoundField()) {
-			View removeView = sectionFieldForRemoval.getField();
-			int removeViewId = removeView.getId();
-
-			//Fix focus order
-			for (SectionField<?, Traveler> sectionField : mFields) {
-				if (sectionField.hasBoundField()) {
-					View view = sectionField.getField();
-					if (view.getNextFocusDownId() == removeViewId) {
-						view.setNextFocusDownId(removeView.getNextFocusDownId());
-					}
-					if (view.getNextFocusUpId() == removeViewId) {
-						view.setNextFocusUpId(removeView.getNextFocusUpId());
-					}
-					if (view.getNextFocusLeftId() == removeViewId) {
-						view.setNextFocusLeftId(removeView.getNextFocusLeftId());
-					}
-					if (view.getNextFocusRightId() == removeViewId) {
-						view.setNextFocusRightId(removeView.getNextFocusRightId());
-					}
-					if (AndroidUtils.getSdkVersion() >= 11) {
-						if (view.getNextFocusForwardId() == removeViewId) {
-							view.setNextFocusForwardId(removeView.getNextFocusForwardId());
-						}
-					}
-				}
-			}
-
-			//Hide view
-			removeView.setVisibility(View.GONE);
+			mFields.removeField(mEditMiddleName);
 		}
 	}
 
 	public boolean hasValidInput() {
-		SectionFieldEditable<?, Traveler> editable;
-		boolean valid = true;
-		for (SectionField<?, Traveler> field : mFields) {
-			if (field instanceof SectionFieldEditable) {
-				editable = (SectionFieldEditable<?, Traveler>) field;
-
-				boolean newIsValid = editable.isValid();
-
-				valid = (valid && newIsValid);
-			}
-		}
-		return valid;
+		return mFields.hasValidInput();
 	}
 
 	@Override

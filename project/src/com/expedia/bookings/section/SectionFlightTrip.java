@@ -1,7 +1,6 @@
 package com.expedia.bookings.section;
 
-import java.util.ArrayList;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
@@ -11,9 +10,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightTrip;
 
 public class SectionFlightTrip extends LinearLayout implements ISection<FlightTrip> {
-
-	ArrayList<SectionField<?, FlightTrip>> mFields = new ArrayList<SectionField<?, FlightTrip>>();
-
+	SectionFieldList<FlightTrip> mFields = new SectionFieldList<FlightTrip>();
+	
 	FlightTrip mTrip;
 
 	Context mContext;
@@ -28,6 +26,7 @@ public class SectionFlightTrip extends LinearLayout implements ISection<FlightTr
 		init(context);
 	}
 
+	@SuppressLint("NewApi")
 	public SectionFlightTrip(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		init(context);
@@ -47,9 +46,7 @@ public class SectionFlightTrip extends LinearLayout implements ISection<FlightTr
 	public void onFinishInflate() {
 		super.onFinishInflate();
 
-		for (SectionField<?, FlightTrip> field : mFields) {
-			field.bindField(this);
-		}
+		mFields.bindFieldsAll(this);
 	}
 
 	@Override
@@ -57,9 +54,7 @@ public class SectionFlightTrip extends LinearLayout implements ISection<FlightTr
 		//Update fields
 		mTrip = trip;
 		if (mTrip != null) {
-			for (SectionField<?, FlightTrip> field : mFields) {
-				field.bindData(mTrip);
-			}
+			mFields.bindDataAll(mTrip);
 		}
 	}
 
