@@ -92,7 +92,7 @@ public class HotelConfirmationActivityNew extends SherlockFragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_flight_confirmation, menu);
+		getSupportMenuInflater().inflate(R.menu.menu_confirmation, menu);
 		ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_done);
 		return super.onCreateOptionsMenu(menu);
 	}
