@@ -132,9 +132,12 @@ public class CalendarUtils {
 	 * @return a numeric representation of the stay range (e.g., "10/31 - 11/04").
 	 */
 	public static String formatDateRange(Context context, SearchParams searchParams) {
+		return formatDateRange(context, searchParams, DateUtils.FORMAT_NUMERIC_DATE);
+	}
+
+	public static String formatDateRange(Context context, SearchParams searchParams, int flags) {
 		return DateUtils.formatDateRange(context, searchParams.getCheckInDate().getTimeInMillis(),
-				searchParams.getCheckOutDate().getTimeInMillis() + DATE_RANGE_BUFFER,
-				DateUtils.FORMAT_NUMERIC_DATE + DateUtils.FORMAT_UTC);
+				searchParams.getCheckOutDate().getTimeInMillis() + DATE_RANGE_BUFFER, flags | DateUtils.FORMAT_UTC);
 	}
 
 	public static CharSequence getCalendarDatePickerTitle(Context context, SearchParams params) {
