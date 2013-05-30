@@ -13,13 +13,17 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearchParams;
+import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
@@ -123,7 +127,20 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 	// Cross-sell
 
 	private void searchForFlights() {
-		// TODO
+		// Load the search params
+		FlightSearchParams flightSearchParams = Db.getFlightSearch().getSearchParams();
+		flightSearchParams.reset();
+
+		Location loc = new Location();
+		loc.setDestinationId(Db.getSelectedProperty().getLocation().toLongFormattedString());
+		flightSearchParams.setArrivalLocation(loc);
+
+		SearchParams params = Db.getSearchParams();
+		flightSearchParams.setDepartureDate(new Date(params.getCheckInDate()));
+		flightSearchParams.setReturnDate(new Date(params.getCheckOutDate()));
+
+		// Go to flights
+		NavUtils.goToFlights(getActivity(), true);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
