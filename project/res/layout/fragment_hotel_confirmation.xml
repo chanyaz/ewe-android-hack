@@ -11,10 +11,50 @@
         android:layout_gravity="center_horizontal"
         android:orientation="vertical" >
 
+        <RelativeLayout
+            android:id="@+id/hotel_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="12dp" >
+
+            <ImageView
+                android:id="@+id/hotel_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="194dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/bg_launch_ny" />
+
+            <TextView
+                android:id="@+id/stay_summary_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/hotel_image_view"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="54dp"
+                android:ellipsize="middle"
+                android:singleLine="true"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/hotel_name_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/stay_summary_text_view"
+                android:layout_centerHorizontal="true"
+                android:ellipsize="middle"
+                android:singleLine="true"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
         <include
             android:id="@+id/action_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/hotel_card"
+            android:layout_marginTop="-50dp"
             layout="@layout/include_confirmation_actions" />
     </RelativeLayout>
 

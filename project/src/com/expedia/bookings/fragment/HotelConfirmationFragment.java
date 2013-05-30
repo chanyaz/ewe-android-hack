@@ -1,15 +1,21 @@
 package com.expedia.bookings.fragment;
 
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.utils.CalendarUtils;
+import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.CalendarAPIUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.util.ViewUtils;
@@ -28,11 +34,26 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 
 		View v = super.onCreateView(inflater, container, savedInstanceState);
 
+		Ui.setText(v, R.id.hotel_name_text_view, Db.getSelectedProperty().getName());
+
+		// Construct the hotel card
+		Property property = Db.getSelectedProperty();
+		ImageView hotelImageView = Ui.findView(v, R.id.hotel_image_view);
+		UrlBitmapDrawable.loadImageView(property.getThumbnail().getHighResUrls(), hotelImageView,
+				R.drawable.bg_itin_placeholder);
+
+		SearchParams params = Db.getSearchParams();
+		int numGuests = params.getNumAdults() + params.getNumChildren();
+		String guests = getResources().getQuantityString(R.plurals.number_of_guests, numGuests, numGuests);
+		String duration = CalendarUtils.formatDateRange2(getActivity(), params, DateUtils.FORMAT_SHOW_DATE
+				| DateUtils.FORMAT_ABBREV_MONTH);
+		Ui.setText(v, R.id.stay_summary_text_view, getString(R.string.stay_summary_TEMPLATE, guests, duration));
+
 		PointOfSale pos = PointOfSale.getPointOfSale();
 		if (pos.showHotelCrossSell() && pos.supportsFlights()) {
 			ViewUtils.setAllCaps((TextView) Ui.findView(v, R.id.get_there_text_view));
 
-			String city = Db.getSelectedProperty().getLocation().getCity();
+			String city = property.getLocation().getCity();
 			Ui.setText(v, R.id.flights_action_text_view, getString(R.string.flights_to_TEMPLATE, city));
 			Ui.setOnClickListener(v, R.id.flights_action_text_view, new OnClickListener() {
 				@Override
