@@ -4,41 +4,41 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/get_there_text_view"
-        style="@style/Confirmation.Header.Flight"
+        style="@style/Confirmation.Header"
         android:text="@string/get_there"
         app:textStyle="light" />
 
     <View
         android:id="@+id/get_there_text_divider"
-        style="@style/Confirmation.Divider.Header.Flight" />
+        style="@style/Confirmation.Divider.Header.Hotel" />
 
     <TextView
         android:id="@+id/flights_action_text_view"
-        style="@style/Confirmation.Action.Flight"
+        style="@style/Confirmation.Action"
         android:drawableLeft="@drawable/ic_bed" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/more_actions_text_view"
-        style="@style/Confirmation.Header.Flight"
+        style="@style/Confirmation.Header"
         android:layout_marginTop="16dp"
         android:text="@string/more_actions"
         app:textStyle="light" />
 
-    <View style="@style/Confirmation.Divider.Header.Flight" />
+    <View style="@style/Confirmation.Divider.Header.Hotel" />
 
     <com.expedia.bookings.widget.ConfirmationActionTextView
         android:id="@+id/share_action_text_view"
-        style="@style/Confirmation.Action.Flight"
+        style="@style/Confirmation.Action"
         android:drawableLeft="@drawable/ic_social_share"
         android:text="@string/share_trip" />
 
     <View
         android:id="@+id/calendar_divider"
-        style="@style/Confirmation.Divider.Action.Flight" />
+        style="@style/Confirmation.Divider.Action" />
 
     <com.expedia.bookings.widget.ConfirmationActionTextView
         android:id="@+id/calendar_action_text_view"
-        style="@style/Confirmation.Action.Flight"
+        style="@style/Confirmation.Action"
         android:drawableLeft="@drawable/ic_calendar_add"
         android:text="@string/add_to_calendar" />
 
