@@ -3,11 +3,14 @@ package com.expedia.bookings.data.trips;
 import java.util.List;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 
 import com.expedia.bookings.data.Activity;
 import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 
 public class ItinCardDataActivity extends ItinCardData {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -89,4 +92,29 @@ public class ItinCardDataActivity extends ItinCardData {
 	public String getVoucherPrintUrl() {
 		return mActivity.getVoucherPrintUrl();
 	}
+
+	public String getBestSupportPhoneNumber(Context context) {
+		TripActivity tripActivity = (TripActivity) getTripComponent();
+		if (tripActivity == null) {
+			return null;
+		}
+
+		Trip trip = tripActivity.getParentTrip();
+		if (trip == null) {
+			return null;
+		}
+
+		CustomerSupport support = trip.getCustomerSupport();
+		if (support == null) {
+			return null;
+		}
+
+		if (PointOfSale.getPointOfSale(context).getPointOfSaleId() == PointOfSaleId.UNITED_STATES
+				&& !TextUtils.isEmpty(support.getSupportPhoneNumberDomestic())) {
+			return support.getSupportPhoneNumberDomestic();
+		}
+
+		return support.getSupportPhoneNumberInternational();
+	}
+
 }
