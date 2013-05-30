@@ -9,9 +9,10 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop" />
 
-    <FrameLayout
-        android:id="@+id/content_container"
+    <fragment
+        android:id="@+id/confirmation_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        class="com.expedia.bookings.fragment.FlightConfirmationFragment" />
 
 </FrameLayout>

@@ -1,7 +1,6 @@
 package com.expedia.bookings.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.widget.ImageView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -14,7 +13,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItineraryManager;
-import com.expedia.bookings.fragment.FlightConfirmationFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.NavUtils;
@@ -62,12 +60,6 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 
 		ImageView bgImageView = Ui.findView(this, R.id.background_bg_view);
 		bgImageView.setImageBitmap(Db.getBackgroundImage(this, true));
-
-		if (savedInstanceState == null) {
-			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-			ft.add(R.id.content_container, new FlightConfirmationFragment(), FlightConfirmationFragment.TAG);
-			ft.commit();
-		}
 
 		// Action bar setup
 		ActionBar actionBar = this.getSupportActionBar();
