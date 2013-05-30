@@ -48,7 +48,10 @@ public class CurrencyUtils {
 	 * @return the credit card brand if detected, null if not detected
 	 */
 	public static CreditCardType detectCreditCardBrand(String cardNumber) {
-		int numDigits = cardNumber.length();
+		int numDigits = 0;
+		if (cardNumber != null) {
+			numDigits = cardNumber.length();
+		}
 
 		// We don't start trying to detect cards until we have at least 13 digits
 		if (numDigits < 13) {
