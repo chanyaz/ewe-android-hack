@@ -26,7 +26,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 
 	public static final String EXTRA_DATA_EXPIRED = "EXTRA_DATA_EXPIRED";
 
-	public static final String ARG_FROM_LAUNCH_WITH_SEARCH_PARAMS = "ARG_FROM_LAUNCH_WITH_SEARCH_PARAMS";
+	public static final String ARG_USE_PRESET_SEARCH_PARAMS = "ARG_FROM_LAUNCH_WITH_SEARCH_PARAMS";
 
 	private static final String INSTANCE_UPDATE_ON_RESUME = "INSTANCE_UPDATE_ON_RESUME";
 
@@ -60,7 +60,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 
 		// On first launch, try to restore cached flight data (in this case, just for the search params)
 		if (savedInstanceState == null && !Db.getFlightSearch().getSearchParams().isFilled()
-				&& !getIntent().getBooleanExtra(ARG_FROM_LAUNCH_WITH_SEARCH_PARAMS, false)) {
+				&& !getIntent().getBooleanExtra(ARG_USE_PRESET_SEARCH_PARAMS, false)) {
 			Db.loadFlightSearchParamsFromDisk(this);
 		}
 
