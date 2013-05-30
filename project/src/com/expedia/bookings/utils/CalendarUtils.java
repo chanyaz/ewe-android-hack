@@ -140,6 +140,17 @@ public class CalendarUtils {
 				searchParams.getCheckOutDate().getTimeInMillis() + DATE_RANGE_BUFFER, flags | DateUtils.FORMAT_UTC);
 	}
 
+	/**
+	 * Alternative formatter - instead of solely using the system formatter, it is more of "DATE to DATE"
+	 */
+	public static String formatDateRange2(Context context, SearchParams params, int flags) {
+		CharSequence from = DateUtils.formatDateTime(context, params.getCheckInDate().getTimeInMillis(), flags
+				| DateUtils.FORMAT_UTC);
+		CharSequence to = DateUtils.formatDateTime(context, params.getCheckOutDate().getTimeInMillis(), flags
+				| DateUtils.FORMAT_UTC);
+		return context.getString(R.string.date_range_TEMPLATE, from, to);
+	}
+
 	public static CharSequence getCalendarDatePickerTitle(Context context, SearchParams params) {
 		int nights = params.getStayDuration();
 		if (nights <= 1) {

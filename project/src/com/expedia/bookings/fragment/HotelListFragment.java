@@ -5,7 +5,7 @@ import java.util.Calendar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.text.format.DateFormat;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,6 +23,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate.UserPriceType;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.HotelAdapter;
 import com.expedia.bookings.widget.PlaceholderTagProgressBar;
@@ -306,9 +307,8 @@ public class HotelListFragment extends ListFragment {
 				mSearchDateRangeText.setText(getString(R.string.Tonight));
 			}
 			else {
-				CharSequence from = DateFormat.format("MMM d", params.getCheckInDate());
-				CharSequence to = DateFormat.format("MMM d", params.getCheckOutDate());
-				mSearchDateRangeText.setText(getString(R.string.date_range_TEMPLATE, from, to));
+				mSearchDateRangeText.setText(CalendarUtils.formatDateRange2(getActivity(), params,
+						DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH));
 			}
 		}
 	}
