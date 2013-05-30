@@ -7,12 +7,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.FlightTrip;
 
 public class SectionFlightTrip extends LinearLayout implements ISection<FlightTrip> {
 	SectionFieldList<FlightTrip> mFields = new SectionFieldList<FlightTrip>();
-	
+
 	FlightTrip mTrip;
+	BillingInfo mBillingInfo;
 
 	Context mContext;
 
@@ -58,6 +60,11 @@ public class SectionFlightTrip extends LinearLayout implements ISection<FlightTr
 		}
 	}
 
+	public void bind(FlightTrip trip, BillingInfo billingInfo) {
+		mBillingInfo = billingInfo;
+		bind(trip);
+	}
+
 	//////////////////////////////////////
 	////// DISPLAY FIELDS
 	//////////////////////////////////////
@@ -65,7 +72,8 @@ public class SectionFlightTrip extends LinearLayout implements ISection<FlightTr
 	SectionField<TextView, FlightTrip> mTripTotal = new SectionField<TextView, FlightTrip>(R.id.trip_total) {
 		@Override
 		public void onHasFieldAndData(TextView field, FlightTrip data) {
-			field.setText((data.getBaseFare() != null) ? data.getTotalFare().getFormattedMoney() : "");
+			field.setText((data.getBaseFare() != null) ? data.getTotalFareWithCardFee(mBillingInfo).getFormattedMoney()
+					: "");
 		}
 	};
 

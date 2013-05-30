@@ -74,6 +74,9 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 	private ViewGroup mTravelerContainer;
 	private ViewGroup mPaymentButton;
+	private ViewGroup mPaymentOuterContainer;
+	private TextView mCardFeeTextView;
+	private View mLccTriangle;
 
 	private boolean mRefreshedUser;
 
@@ -132,6 +135,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		}
 
 		mPaymentButton = Ui.findView(v, R.id.payment_info_btn);
+		mPaymentOuterContainer = Ui.findView(v, R.id.payment_outer_container);
 		mStoredCreditCard = Ui.findView(v, R.id.stored_creditcard_section_button);
 		mCreditCardSectionButton = Ui.findView(v, R.id.creditcard_section_button);
 		mSectionLocation = Ui.findView(v, R.id.section_location_address);
@@ -139,6 +143,8 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		mAccountLabel = Ui.findView(v, R.id.expedia_account_label);
 		mWalletButton = Ui.findView(v, R.id.wallet_button_layout);
 		mTravelerContainer = Ui.findView(v, R.id.traveler_container);
+		mCardFeeTextView = Ui.findView(v, R.id.lcc_card_fee_warning);
+		mLccTriangle = Ui.findView(v, R.id.lcc_triangle);
 
 		ViewUtils.setAllCaps(mAccountLabel);
 		ViewUtils.setAllCaps((TextView) Ui.findView(v, R.id.checkout_information_label));
@@ -439,7 +445,6 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	};
 
 	public void updateViewVisibilities() {
-
 		FlightPaymentFlowState state = FlightPaymentFlowState.getInstance(getActivity());
 		if (state == null) {
 			//This is a rare case that happens when the fragment is attached and then detached quickly
@@ -481,6 +486,20 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			mListener.checkoutInformationIsNotValid();
 		}
 
+		Money cardFee = Db.getFlightSearch().getSelectedFlightTrip().getCardFee(mBillingInfo);
+		if (cardFee != null) {
+			setPaymentContainerBg(R.drawable.bg_lcc_checkout_information_bottom_tab, false);
+
+			mCardFeeTextView.setText(getString(R.string.airline_card_fee_TEMPLATE, cardFee.getFormattedMoney()));
+			mCardFeeTextView.setVisibility(View.VISIBLE);
+			mLccTriangle.setVisibility(View.VISIBLE);
+		}
+		else {
+			setPaymentContainerBg(R.drawable.bg_checkout_information_bottom_tab, true);
+			mCardFeeTextView.setVisibility(View.GONE);
+			mLccTriangle.setVisibility(View.GONE);
+		}
+
 		if (User.isLoggedIn(getActivity())) {
 			mAccountLabel.setVisibility(View.VISIBLE);
 		}
@@ -489,6 +508,17 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		}
 
 		updateWalletViewVisibilities();
+	}
+
+	/**
+	 * Sets the background resource and also makes sure to (re)-set the padding (otherwise it gets blown away)
+	 * @param bgResId drawable resource id to set the background of the payment container
+	 */
+	private void setPaymentContainerBg(int bgResId, boolean padBottom) {
+		mPaymentOuterContainer.setBackgroundResource(bgResId);
+		int pad = (int) getResources().getDimension(R.dimen.flight_payment_container_padding);
+		int bottomPad = padBottom ? pad : 0;
+		mPaymentOuterContainer.setPadding(pad, pad, pad, bottomPad);
 	}
 
 	private void setValidationViewVisibility(View view, int validationViewId, boolean valid) {

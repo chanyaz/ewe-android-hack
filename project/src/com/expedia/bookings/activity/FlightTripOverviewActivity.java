@@ -181,6 +181,10 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	public void onResume() {
 		super.onResume();
 
+		if (Ui.isAdded(mPriceBottomFragment)) {
+			mPriceBottomFragment.refresh();
+		}
+
 		OmnitureTracking.onResume(this);
 	}
 

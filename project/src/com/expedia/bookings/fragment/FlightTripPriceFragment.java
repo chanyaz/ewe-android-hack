@@ -77,6 +77,10 @@ public class FlightTripPriceFragment extends Fragment {
 		}
 	}
 
+	public void refresh() {
+		mTripSection.bind(mTrip, Db.getBillingInfo());
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mFragmentContent = inflater.inflate(R.layout.fragment_flight_price_bar,
@@ -196,7 +200,7 @@ public class FlightTripPriceFragment extends Fragment {
 				Money originalPrice = mTrip.getTotalFare();
 
 				mTrip.updateFrom(results.getOffer());
-				mTripSection.bind(mTrip);//rebind to update price
+				mTripSection.bind(mTrip, Db.getBillingInfo()); // rebind to update price
 
 				Db.kickOffBackgroundSave(getActivity());
 

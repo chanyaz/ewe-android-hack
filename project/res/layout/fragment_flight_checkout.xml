@@ -68,10 +68,7 @@
         android:addStatesFromChildren="true"
         android:background="@drawable/bg_checkout_information_bottom_tab"
         android:orientation="vertical"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="10dp" >
+        android:padding="@dimen/flight_payment_container_padding" >
 
         <LinearLayout
             android:id="@+id/payment_info_btn"
@@ -108,7 +105,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardIcon="@drawable/ic_credit_card_blue_entered" />
+
+        <ImageView
+            android:id="@+id/lcc_triangle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/flight_payment_container_padding"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/bg_lcc_checkout_fee_bottom_tab_triangle" />
     </LinearLayout>
+
+    <!-- Card fee warning -->
+
+    <TextView
+        android:id="@+id/lcc_card_fee_warning"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_lcc_checkout_fee_bottom_tab_normal"
+        android:drawableLeft="@drawable/ic_urgency_clock"
+        android:drawablePadding="8dp"
+        android:paddingBottom="@dimen/flight_payment_container_padding"
+        android:paddingLeft="15dp"
+        android:paddingRight="@dimen/flight_payment_container_padding"
+        android:paddingTop="@dimen/flight_payment_container_padding"
+        android:textColor="@android:color/white" />
 
     <!-- Legal -->
 
