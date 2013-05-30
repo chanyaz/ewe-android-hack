@@ -16,7 +16,7 @@ import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.mobiata.android.Log;
 
-public class HotelConfirmationActivityNew extends SherlockFragmentActivity {
+public class HotelConfirmationActivity extends SherlockFragmentActivity {
 
 	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;

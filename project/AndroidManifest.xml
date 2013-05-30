@@ -112,7 +112,7 @@
             android:theme="@style/Theme.Tablet"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name="com.expedia.bookings.activity.HotelConfirmationActivityNew"
+            android:name="com.expedia.bookings.activity.HotelConfirmationActivity"
             android:label="@string/booking_complete"
             android:theme="@style/Theme.Phone.Dark" />
         <activity
