@@ -38,6 +38,7 @@ import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
+import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.InfoTripletView;
 import com.mobiata.android.Log;
@@ -76,49 +77,20 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 
 	@Override
 	public String getShareSubject() {
-		String template = getContext().getString(R.string.share_template_subject_activity);
-		String title = getItinCardData().getTitle();
-
-		return String.format(template, title);
+        ShareUtils shareUtils = new ShareUtils(getContext());
+        return shareUtils.getShareSubject(getItinCardData());
 	}
 
 	@Override
 	public String getShareTextShort() {
-		ItinCardDataActivity itinCardData = getItinCardData();
-
-		String template = getContext().getString(R.string.share_template_short_activity);
-		String title = itinCardData.getTitle();
-		String validDate = itinCardData.getFormattedShareValidDate(getContext());
-		String expirationDate = itinCardData.getFormattedShareExpiresDate(getContext());
-
-		return String.format(template, title, validDate, expirationDate);
+        ShareUtils shareUtils = new ShareUtils(getContext());
+        return shareUtils.getShareTextShort(getItinCardData());
 	}
 
 	@Override
 	public String getShareTextLong() {
-		ItinCardDataActivity itinCardData = getItinCardData();
-
-		String template = getContext().getString(R.string.share_template_long_activity);
-		String title = itinCardData.getTitle();
-		String validDate = itinCardData.getFormattedShareValidDate(getContext());
-		String expirationDate = itinCardData.getFormattedShareExpiresDate(getContext());
-		String downloadUrl = PointOfSale.getPointOfSale().getAppInfoUrl();
-
-		final List<Traveler> travelers = itinCardData.getTravelers();
-		final int guestCount = travelers.size();
-		final String[] guests = new String[guestCount];
-		for (int i = 0; i < guestCount; i++) {
-			guests[i] = travelers.get(i).getFullName();
-		}
-
-		StringBuilder builder = new StringBuilder();
-
-		builder.append(String.format(template, title, validDate, expirationDate, TextUtils.join("\n", guests)));
-
-		builder.append("\n\n");
-		builder.append(getContext().getString(R.string.share_template_long_ad, downloadUrl));
-
-		return builder.toString();
+        ShareUtils shareUtils = new ShareUtils(getContext());
+        return shareUtils.getShareTextLong(getItinCardData());
 	}
 
 	@Override

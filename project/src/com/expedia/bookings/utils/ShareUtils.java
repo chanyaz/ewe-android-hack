@@ -28,19 +28,28 @@ public class ShareUtils {
 	// PRIVATE CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////
 
+	// Flight
+
+	private static final int MAX_TIMEZONE_LENGTH = 6;
+
+	// Hotel
+
 	private static final int LONG_SHARE_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR
 			| DateUtils.FORMAT_SHOW_WEEKDAY;
 	private static final int SHARE_CHECK_IN_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_WEEKDAY
 			| DateUtils.FORMAT_ABBREV_WEEKDAY;
 	private static final int SHARE_CHECK_OUT_FLAGS = LONG_SHARE_DATE_FLAGS | DateUtils.FORMAT_ABBREV_WEEKDAY;
 
+	// Car
 	private static final int TIME_FLAGS = DateUtils.FORMAT_SHOW_TIME;
 	private static final int SHORT_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR
 			| DateUtils.FORMAT_ABBREV_MONTH;
 	private static final int LONG_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR
 			| DateUtils.FORMAT_SHOW_WEEKDAY;
 
-	private static final int MAX_TIMEZONE_LENGTH = 6;
+	// Activity
+	private static final int SHARE_DATE_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR
+			| DateUtils.FORMAT_SHOW_WEEKDAY;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
@@ -131,7 +140,7 @@ public class ShareUtils {
 	}
 
 	public String getActivityShareSubject(ItinCardDataActivity itinCardData) {
-		return getActivityShareSubject();
+		return getActivityShareSubject(itinCardData.getTitle());
 	}
 
 	// SHARE TEXT SHORT
@@ -159,7 +168,8 @@ public class ShareUtils {
 	}
 
 	public String getActivityShareTextShort(ItinCardDataActivity itinCardData) {
-		return getActivityShareTextShort();
+		return getActivityShareTextShort(itinCardData.getTitle(), itinCardData.getValidDate(),
+				itinCardData.getExpirationDate());
 	}
 
 	// SHARE TEXT LONG
@@ -200,7 +210,8 @@ public class ShareUtils {
 	}
 
 	public String getActivityShareTextLong(ItinCardDataActivity itinCardData) {
-		return getActivityShareTextLong();
+		return getActivityShareTextLong(itinCardData.getTitle(), itinCardData.getValidDate(),
+				itinCardData.getExpirationDate(), itinCardData.getTravelers());
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -505,16 +516,41 @@ public class ShareUtils {
 
 	// Activities
 
-	public String getActivityShareSubject() {
-		return null;
+	public String getActivityShareSubject(String title) {
+		String template = mContext.getString(R.string.share_template_subject_activity);
+		return String.format(template, title);
 	}
 
-	public String getActivityShareTextShort() {
-		return null;
+	public String getActivityShareTextShort(String title, DateTime validDateTime, DateTime expirationDateTime) {
+		String template = mContext.getString(R.string.share_template_short_activity);
+		String validDate = validDateTime.formatTime(mContext, SHARE_DATE_FLAGS);
+		String expirationDate = expirationDateTime.formatTime(mContext, SHARE_DATE_FLAGS);
+
+		return String.format(template, title, validDate, expirationDate);
 	}
 
-	public String getActivityShareTextLong() {
-		return null;
+	public String getActivityShareTextLong(String title, DateTime validDateTime, DateTime expirationDateTime,
+			List<Traveler> travelers) {
+
+		String template = mContext.getString(R.string.share_template_long_activity);
+		String validDate = validDateTime.formatTime(mContext, SHARE_DATE_FLAGS);
+		String expirationDate = expirationDateTime.formatTime(mContext, SHARE_DATE_FLAGS);
+		String downloadUrl = PointOfSale.getPointOfSale().getAppInfoUrl();
+
+		final int guestCount = travelers.size();
+		final String[] guests = new String[guestCount];
+		for (int i = 0; i < guestCount; i++) {
+			guests[i] = travelers.get(i).getFullName();
+		}
+
+		StringBuilder builder = new StringBuilder();
+
+		builder.append(String.format(template, title, validDate, expirationDate, TextUtils.join("\n", guests)));
+
+		builder.append("\n\n");
+		builder.append(mContext.getString(R.string.share_template_long_ad, downloadUrl));
+
+		return builder.toString();
 	}
 
 	// Helper methods
