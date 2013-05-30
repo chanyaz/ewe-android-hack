@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -10,11 +11,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.ShareUtils;
+import com.mobiata.android.Log;
+import com.mobiata.android.SocialUtils;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.CalendarAPIUtils;
 import com.mobiata.android.util.Ui;
@@ -122,7 +130,25 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 	// Share booking
 
 	private void share() {
-		// TODO
+		Context context = getActivity();
+
+		SearchParams searchParams = Db.getSearchParams();
+		Property property = Db.getSelectedProperty();
+		BookingResponse bookingResponse = Db.getBookingResponse();
+		BillingInfo billingInfo = Db.getBillingInfo();
+		Rate rate = Db.getSelectedRate();
+		Rate discountRate = Db.getCouponDiscountRate();
+
+		ShareUtils socialUtils = new ShareUtils(context);
+		String subject = socialUtils.getHotelConfirmationShareSubject(searchParams, property);
+		String body = socialUtils.getHotelConfirmationShareText(searchParams, property, bookingResponse, billingInfo,
+				rate, discountRate);
+
+		SocialUtils.email(context, subject, body);
+
+		// Track the share
+		Log.d("Tracking \"CKO.CP.ShareBooking\" onClick");
+		OmnitureTracking.trackSimpleEvent(context, null, null, "Shopper", "CKO.CP.ShareBooking");
 	}
 
 	//////////////////////////////////////////////////////////////////////////
