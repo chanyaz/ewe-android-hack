@@ -632,24 +632,23 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	}
 
 	private void onDepartureInputComplete() {
-		if (mSearchParams.getArrivalLocation() == null || mSearchParams.isFilled()) {
+		if (mSearchParams.getArrivalLocation() == null) {
 			mArrivalAirportEditText.requestFocus();
 		}
-		else if (!mIsLandscape) {
+		else if (mSearchParams.getDepartureDate() == null && !mIsLandscape) {
 			mDatesTextView.performClick();
 		}
 		else {
-			mDepartureAirportEditText.clearFocus();
+			clearEditTextFocus();
 		}
 	}
 
 	private void onArrivalInputComplete() {
-		if (!mIsLandscape) {
+		if (mSearchParams.getDepartureDate() == null && !mIsLandscape) {
 			mDatesTextView.performClick();
 		}
 		else {
-			mArrivalAirportEditText.clearFocus();
-			resetAirportEditTexts(true);
+			clearEditTextFocus();
 		}
 	}
 
