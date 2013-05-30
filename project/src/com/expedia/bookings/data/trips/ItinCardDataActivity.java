@@ -3,9 +3,12 @@ package com.expedia.bookings.data.trips;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
+import com.expedia.bookings.R;
+import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Activity;
 import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.Traveler;
@@ -115,6 +118,15 @@ public class ItinCardDataActivity extends ItinCardData {
 		}
 
 		return support.getSupportPhoneNumberInternational();
+	}
+
+	public Intent buildRedeemIntent(Context context) {
+		WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(context);
+		builder.setUrl(getVoucherPrintUrl());
+		builder.setTitle(R.string.webview_title_print_vouchers);
+		builder.setTheme(R.style.ItineraryTheme);
+		builder.setAllowMobileRedirects(false);
+		return builder.getIntent();
 	}
 
 }

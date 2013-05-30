@@ -2,11 +2,11 @@ package com.expedia.bookings.widget.itin;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,14 +23,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.pos.PointOfSaleId;
-import com.expedia.bookings.data.trips.CustomerSupport;
 import com.expedia.bookings.data.trips.ItinCardDataActivity;
-import com.expedia.bookings.data.trips.Trip;
-import com.expedia.bookings.data.trips.TripActivity;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.ImageType;
@@ -41,7 +35,6 @@ import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.InfoTripletView;
-import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.flightlib.utils.DateTimeUtils;
@@ -193,14 +186,10 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 				new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getContext());
-						builder.setUrl(getItinCardData().getVoucherPrintUrl());
-						builder.setTitle(R.string.webview_title_print_vouchers);
-						builder.setTheme(R.style.ItineraryTheme);
-						builder.setAllowMobileRedirects(false);
-						getContext().startActivity(builder.getIntent());
-
-						OmnitureTracking.trackItinActivityRedeem(getContext());
+						Context context = getContext();
+						Intent intent = getItinCardData().buildRedeemIntent(context);
+						context.startActivity(intent);
+						OmnitureTracking.trackItinActivityRedeem(context);
 					}
 				});
 	}
