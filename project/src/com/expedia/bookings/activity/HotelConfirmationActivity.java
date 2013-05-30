@@ -296,7 +296,7 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity implemen
 	private final Download<SamsungWalletResponse> mWalletDownload = new Download<SamsungWalletResponse>() {
 		@Override
 		public SamsungWalletResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(ConfirmationFragmentActivity.this);
+			ExpediaServices services = new ExpediaServices(HotelConfirmationActivity.this);
 			return services.getSamsungWalletTicketId(Db.getBookingResponse().getItineraryId());
 		}
 	};
@@ -322,7 +322,7 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity implemen
 					}
 				};
 
-				SamsungWalletUtils.checkTicket(ConfirmationFragmentActivity.this, callback, response.getTicketId());
+				SamsungWalletUtils.checkTicket(HotelConfirmationActivity.this, callback, response.getTicketId());
 			}
 		}
 	};
