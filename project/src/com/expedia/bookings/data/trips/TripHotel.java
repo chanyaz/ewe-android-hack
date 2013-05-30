@@ -14,6 +14,7 @@ public class TripHotel extends TripComponent {
 
 	private Property mProperty;
 	private String mCheckInTime;
+	private String mCheckOutTime;
 	private int mGuests;
 	private Set<String> mConfirmationNumbers;
 
@@ -35,6 +36,14 @@ public class TripHotel extends TripComponent {
 
 	public void setCheckInTime(String checkInTime) {
 		mCheckInTime = checkInTime;
+	}
+
+	public String getCheckOutTime() {
+		return mCheckOutTime;
+	}
+
+	public void setCheckOutTime(String checkOutTime) {
+		mCheckOutTime = checkOutTime;
 	}
 
 	public int getGuests() {

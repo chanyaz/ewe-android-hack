@@ -272,6 +272,11 @@ public class TripParser {
 				hotel.setCheckInTime(checkInStartTimePolicyJson.optString("value"));
 			}
 
+			JSONObject checkOutTimePolicyJson = propertyJson.optJSONObject("checkOutTimePolicy");
+			if (checkOutTimePolicyJson != null) {
+				hotel.setCheckOutTime(checkOutTimePolicyJson.optString("value"));
+			}
+
 			property.setLocalPhone(propertyJson.optString("localPhone"));
 			property.setTollFreePhone(propertyJson.optString("tollFreePhone"));
 

@@ -202,16 +202,10 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		else if (beforeStart && daysBetweenStart == 1) {
 			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_tomorrow));
 		}
-		// Check in after 3:00 PM
+		// Check in after 3 PM
 		else if (daysBetweenStart == 0) {
-			if (!TextUtils.isEmpty(data.getCheckInTime())) {
-				view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_TEMPLATE,
-						data.getCheckInTime()));
-			}
-			else {
-				view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_TEMPLATE,
-						data.getStartDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME)));
-			}
+			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_TEMPLATE,
+					data.getFallbackCheckInTime(getContext())));
 		}
 		// Check in May 14
 		else if (beforeStart) {
@@ -230,10 +224,10 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		else if (!beforeStart && daysBetweenEnd == 1) {
 			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_tomorrow));
 		}
-		// Check out before 11:00AM
+		// Check out before noon
 		else if (daysBetweenEnd == 0) {
 			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_TEMPLATE,
-					data.getEndDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME)));
+					data.getFallbackCheckOutTime(getContext())));
 		}
 		// Check out May 18
 		else if (now.before(end)) {
@@ -381,8 +375,9 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_SHARE);
 		notification.setIconResId(R.drawable.ic_stat_hotel);
 
-		String title = getContext()
-				.getString(R.string.itin_card_hotel_summary_check_in_TEMPLATE, data.getCheckInTime());
+		String title = getContext().getString(R.string.itin_card_hotel_summary_check_in_TEMPLATE,
+				data.getFallbackCheckInTime(getContext()));
+
 		notification.setTicker(title);
 		notification.setTitle(title);
 
@@ -415,7 +410,8 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		notification.setIconResId(R.drawable.ic_stat_hotel);
 
 		String title = getContext().getString(R.string.itin_card_hotel_summary_check_out_TEMPLATE,
-				data.getEndDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME));
+				data.getFallbackCheckOutTime(getContext()));
+
 		notification.setTicker(title);
 		notification.setTitle(title);
 

@@ -107,6 +107,10 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 		return getStartDate().formatTime(context, DETAIL_DATE_FLAGS);
 	}
 
+	public String getCheckOutTime() {
+		return ((TripHotel) getTripComponent()).getCheckOutTime();
+	}
+
 	public String getFormattedDetailsCheckOutDate(Context context) {
 		return getEndDate().formatTime(context, DETAIL_DATE_FLAGS);
 	}
@@ -125,6 +129,18 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 
 	public String getFormattedLongShareCheckOutDate(Context context) {
 		return getEndDate().formatTime(context, LONG_SHARE_DATE_FLAGS);
+	}
+
+	public String getFallbackCheckInTime(Context context) {
+		return TextUtils.isEmpty(getCheckInTime())
+				? getStartDate().formatTime(context, DateUtils.FORMAT_SHOW_TIME)
+				: getCheckInTime();
+	}
+
+	public String getFallbackCheckOutTime(Context context) {
+		return TextUtils.isEmpty(getCheckOutTime())
+				? getEndDate().formatTime(context, DateUtils.FORMAT_SHOW_TIME)
+				: getCheckOutTime();
 	}
 
 	public int getGuestCount() {
