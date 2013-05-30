@@ -514,25 +514,63 @@ public class ShareUtils {
 	// Activities
 
 	public String getActivityShareSubject(String title) {
-		String template = mContext.getString(R.string.share_template_subject_activity);
-		return String.format(template, title);
+		String subject;
+		if (!TextUtils.isEmpty(title)) {
+			subject = mContext.getString(R.string.share_template_subject_activity, title);
+		}
+		else {
+			subject = mContext.getString(R.string.share_template_subject_activity_no_title);
+		}
+
+		return subject;
 	}
 
 	public String getActivityShareTextShort(String title, DateTime validDateTime, DateTime expirationDateTime) {
-		String template = mContext.getString(R.string.share_template_short_activity);
 		String validDate = validDateTime.formatTime(mContext, SHARE_DATE_FLAGS);
 		String expirationDate = expirationDateTime.formatTime(mContext, SHARE_DATE_FLAGS);
 
-		return String.format(template, title, validDate, expirationDate);
+		StringBuilder sb = new StringBuilder();
+
+		if (!TextUtils.isEmpty(title)) {
+			sb.append(mContext.getString(R.string.share_template_short_activity_title, title));
+		}
+
+		if (!TextUtils.isEmpty(validDate)) {
+            sb.append("\n");
+			sb.append(mContext.getString(R.string.share_template_short_activity_valid, validDate));
+		}
+
+		if (!TextUtils.isEmpty(expirationDate)) {
+            sb.append("\n");
+			sb.append(mContext.getString(R.string.share_template_short_activity_expires, expirationDate));
+		}
+
+		return sb.toString();
 	}
 
 	public String getActivityShareTextLong(String title, DateTime validDateTime, DateTime expirationDateTime,
 			List<Traveler> travelers) {
 
-		String template = mContext.getString(R.string.share_template_long_activity);
 		String validDate = validDateTime.formatTime(mContext, SHARE_DATE_FLAGS);
 		String expirationDate = expirationDateTime.formatTime(mContext, SHARE_DATE_FLAGS);
 		String downloadUrl = PointOfSale.getPointOfSale().getAppInfoUrl();
+
+        StringBuilder sb = new StringBuilder();
+
+        if (!TextUtils.isEmpty(title)) {
+            sb.append(mContext.getString(R.string.share_template_long_activity_title, title));
+            sb.append("\n");
+        }
+
+        if (!TextUtils.isEmpty(validDate)) {
+            sb.append("\n");
+            sb.append(mContext.getString(R.string.share_template_long_activity_valid, validDate));
+        }
+
+        if (!TextUtils.isEmpty(expirationDate)) {
+            sb.append("\n");
+            sb.append(mContext.getString(R.string.share_template_long_activity_expires, expirationDate));
+        }
 
 		final int guestCount = travelers.size();
 		final String[] guests = new String[guestCount];
@@ -540,14 +578,13 @@ public class ShareUtils {
 			guests[i] = travelers.get(i).getFullName();
 		}
 
-		StringBuilder builder = new StringBuilder();
+        sb.append("\n\n");
+        sb.append(mContext.getString(R.string.share_template_long_activity_guests, TextUtils.join("\n", guests)));
 
-		builder.append(String.format(template, title, validDate, expirationDate, TextUtils.join("\n", guests)));
+        sb.append("\n\n");
+        sb.append(mContext.getString(R.string.share_template_long_ad, downloadUrl));
 
-		builder.append("\n\n");
-		builder.append(mContext.getString(R.string.share_template_long_ad, downloadUrl));
-
-		return builder.toString();
+		return sb.toString();
 	}
 
 	// Helper methods

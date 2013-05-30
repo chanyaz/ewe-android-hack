@@ -450,12 +450,25 @@
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">Drop Off Location:</string>
 
-    <!-- 1: activity title -->
+
+    <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">My %1$s Details</string>
-    <!-- 1: activity title 2: valid date 3: expiration date -->
-    <string name="share_template_short_activity">I\&apos;ve purchased a %1$s\nValid: %2$s\nExpires: %3$s</string>
-    <!-- 1: activity title, 2: valid date, 3: expiration date, 4: list of guests -->
-    <string name="share_template_long_activity">Hi,\n\nHere are the details of my %1$s\n\n<b>Valid</b> %2$s\n<b>Expires</b> %3$s\n\n<b>Guests</b>\n%4$s</string>
+    <!-- activity message subject when the title is unknown -->
+    <string name="share_template_subject_activity_no_title">My Activity Details</string>
+    <!-- message displaying the purchased activity title -->
+    <string name="share_template_short_activity_title">I\&apos;ve purchased a %1$s</string>
+    <!-- activity valid date -->
+    <string name="share_template_short_activity_valid">Valid: %1$s</string>
+    <!-- activity expiration date -->
+    <string name="share_template_short_activity_expires">Expires: %1$s</string>
+    <!-- message for activity message for 1: title -->
+    <string name="share_template_long_activity_title">Hi,\n\nHere are the details of my %1$s</string>
+    <!-- label for activity 1: valid date -->
+    <string name="share_template_long_activity_valid"><b>Valid</b> %1$s</string>
+    <!-- label for activity 1: expiration date -->
+    <string name="share_template_long_activity_expires"><b>Expires</b> %1$s</string>
+    <!-- label for activity 1: list of guests -->
+    <string name="share_template_long_activity_guests"><b>Guests</b>\n%1$s</string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
