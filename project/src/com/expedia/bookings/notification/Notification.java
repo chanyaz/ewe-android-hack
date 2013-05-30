@@ -27,6 +27,8 @@ public class Notification extends Model implements JSONable {
 	public static final long FLAG_PUSH = 0x02;
 	public static final long FLAG_DIRECTIONS = 0x4;
 	public static final long FLAG_SHARE = 0x8;
+	public static final long FLAG_CALL = 0x10;
+	public static final long FLAG_REDEEM = 0x20;
 
 	/**
 	 * NEW = This notification has never been displayed to the user.

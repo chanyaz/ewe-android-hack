@@ -21,15 +21,19 @@ import com.expedia.bookings.activity.StandaloneShareActivity;
 import com.expedia.bookings.data.ExpediaImage;
 import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.trips.ItinCardData;
+import com.expedia.bookings.data.trips.ItinCardDataActivity;
+import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.notification.Notification.StatusType;
 import com.expedia.bookings.widget.itin.FlightItinContentGenerator;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
+import com.mobiata.android.SocialUtils;
 import com.mobiata.android.bitmaps.TwoLevelImageCache;
 import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
 import com.mobiata.android.util.AndroidUtils;
@@ -231,9 +235,9 @@ public class NotificationReceiver extends BroadcastReceiver {
 					.setLights(0xfbc51e, 200, 8000); // Expedia suitcase color
 
 			long flags = mNotification.getFlags();
-			if ((flags & Notification.FLAG_DIRECTIONS) != 0) {
-				ItinCardData data = ItineraryManager.getInstance().getItinCardDataFromItinId(mNotification.getItinId());
+			ItinCardData data = ItineraryManager.getInstance().getItinCardDataFromItinId(mNotification.getItinId());
 
+			if ((flags & Notification.FLAG_DIRECTIONS) != 0) {
 				Intent intent = null;
 				if (data instanceof ItinCardDataFlight) {
 					Airport airport = ((ItinCardDataFlight) data).getFlightLeg().getFirstWaypoint().getAirport();
@@ -242,11 +246,48 @@ public class NotificationReceiver extends BroadcastReceiver {
 				else if (data instanceof ItinCardDataHotel) {
 					intent = ((ItinCardDataHotel) data).getDirectionsIntent();
 				}
+				else if (data instanceof ItinCardDataCar) {
+					intent = mNotification.getNotificationType() == NotificationType.CAR_DROP_OFF
+							? ((ItinCardDataCar) data).getDropOffDirectionsIntent()
+							: ((ItinCardDataCar) data).getPikcupDirectionsIntent();
+				}
 
 				if (intent != null) {
 					PendingIntent directionsPendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
 					String directions = mContext.getString(R.string.itin_action_directions);
 					builder = builder.addAction(R.drawable.ic_direction, directions, directionsPendingIntent);
+				}
+			}
+
+			if ((flags & Notification.FLAG_REDEEM) != 0) {
+				Intent intent = null;
+				if (data instanceof ItinCardDataActivity) {
+					intent = ((ItinCardDataActivity) data).buildRedeemIntent(mContext);
+				}
+
+				if (intent != null) {
+					PendingIntent redeemPendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
+					String redeem = mContext.getString(R.string.itin_action_redeem);
+					builder = builder.addAction(R.drawable.ic_printer_redeem, redeem, redeemPendingIntent);
+				}
+			}
+
+			if ((flags & Notification.FLAG_CALL) != 0) {
+				String label = null;
+				String phoneNumber = null;
+				if (data instanceof ItinCardDataActivity) {
+					phoneNumber = ((ItinCardDataActivity) data).getBestSupportPhoneNumber(mContext);
+					label = mContext.getString(R.string.itin_action_support);
+				}
+				else if (data instanceof ItinCardDataCar) {
+					phoneNumber = ((ItinCardDataCar) data).getRelevantVendorPhone();
+					label = ((ItinCardDataCar) data).getVendorName();
+				}
+
+				if (phoneNumber != null) {
+					Intent intent = SocialUtils.getCallIntent(mContext, phoneNumber);
+					PendingIntent callPendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
+					builder = builder.addAction(R.drawable.ic_phone, label, callPendingIntent);
 				}
 			}
 

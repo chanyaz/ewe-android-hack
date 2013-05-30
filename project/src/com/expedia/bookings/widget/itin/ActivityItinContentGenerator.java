@@ -277,7 +277,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 		Notification notification = new Notification(uniqueId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.ACTIVITY_START);
 		notification.setImageType(ImageType.ACTIVITY);
-		notification.setFlags(Notification.FLAG_LOCAL);
+		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_REDEEM | Notification.FLAG_CALL);
 
 		String title = getContext().getString(R.string.Activity_starting_soon);
 		notification.setTicker(title);
