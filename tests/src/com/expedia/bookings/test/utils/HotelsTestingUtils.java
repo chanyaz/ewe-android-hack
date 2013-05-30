@@ -113,15 +113,17 @@ public class HotelsTestingUtils {
 		// Warning: CURRENTLY DOES NOT WORK, AS THIS IS NO LONGER A BUTTON
 		// solo.clickOnView(solo.getView(R.id.menu_book_now));
 		
+		// Warning: this may not work due to us changing the hotel confirmation page
 		if ( ! environment.equals("Production")) {
-			RobotiumWorkflowUtils.waitForElement(solo, R.id.menu_new_search, 60);
+			RobotiumWorkflowUtils.waitForElement(solo, R.id.menu_done, 60);
 		}
 	}
 
 	public static void leaveConfirmationPage(Solo solo, String environment) {
 		Log.d(TAG, "leaveConfirmationPage()");
 		if (environment != "Production") {
-			solo.clickOnView(solo.getView(R.id.menu_new_search));
+			// Warning: this may not work due to us changing the hotel confirmation page
+			solo.clickOnView(solo.getView(R.id.menu_done));
 		}
 		RobotiumWorkflowUtils.waitForElement(solo, R.id.search_edit_text, 60);
 	}
