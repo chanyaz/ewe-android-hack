@@ -211,15 +211,11 @@ public class ShareUtils {
 				itinCardData.getExpirationDate(), itinCardData.getTravelers());
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////
-	// PRIVATE METHODS
-	//////////////////////////////////////////////////////////////////////////////////////
-
 	// Share methods
 
 	// Flights
 
-	private String getFlightShareSubject(FlightLeg firstLeg, FlightLeg lastLeg) {
+    public String getFlightShareSubject(FlightLeg firstLeg, FlightLeg lastLeg) {
 		String destinationCity = StrUtils.getWaypointCityOrCode(firstLeg.getLastWaypoint());
 
 		long start = DateTimeUtils.getTimeInLocalTimeZone(firstLeg.getFirstWaypoint().getMostRelevantDateTime())
@@ -232,7 +228,7 @@ public class ShareUtils {
 		return mContext.getString(R.string.share_template_subject_flight, destinationCity, dateRange);
 	}
 
-	private String getFlightShareTextShort(FlightLeg leg) {
+    public String getFlightShareTextShort(FlightLeg leg) {
 		if (leg == null || leg.getLastWaypoint() == null || leg.getLastWaypoint().getAirport() == null) {
 			return null;
 		}
@@ -292,7 +288,7 @@ public class ShareUtils {
 		}
 	}
 
-	private String getFlightShareEmail(FlightTrip trip, FlightLeg firstLeg, FlightLeg lastLeg, List<Traveler> travelers) {
+    public String getFlightShareEmail(FlightTrip trip, FlightLeg firstLeg, FlightLeg lastLeg, List<Traveler> travelers) {
 		int numTravelers = travelers.size();
 		boolean moreThanOneLeg = firstLeg != lastLeg;
 
@@ -361,7 +357,7 @@ public class ShareUtils {
 
 	// Hotels
 
-	private String getHotelShareSubject(String city, DateTime startDate, DateTime endDate) {
+    public String getHotelShareSubject(String city, DateTime startDate, DateTime endDate) {
 		String template = mContext.getString(R.string.share_template_subject_hotel);
 		String checkIn = startDate.formatTime(mContext, SHARE_CHECK_IN_FLAGS);
 		String checkOut = endDate.formatTime(mContext, SHARE_CHECK_IN_FLAGS);
@@ -369,7 +365,7 @@ public class ShareUtils {
 		return String.format(template, city, checkIn, checkOut);
 	}
 
-	private String getHotelShareTextShort(String hotelName, DateTime startDate, DateTime endDate, String detailsUrl) {
+    public String getHotelShareTextShort(String hotelName, DateTime startDate, DateTime endDate, String detailsUrl) {
 		String template = mContext.getString(R.string.share_template_short_hotel);
 		String checkIn = startDate.formatTime(mContext, SHARE_CHECK_IN_FLAGS);
 		String checkOut = endDate.formatTime(mContext, SHARE_CHECK_OUT_FLAGS);
@@ -377,7 +373,7 @@ public class ShareUtils {
 		return String.format(template, hotelName, checkIn, checkOut, detailsUrl);
 	}
 
-	private String getHotelShareTextLong(String hotelName, String address, String phone, DateTime startDate,
+    public String getHotelShareTextLong(String hotelName, String address, String phone, DateTime startDate,
 			DateTime endDate, String detailsUrl) {
 
 		String checkIn = startDate.formatTime(mContext, LONG_SHARE_DATE_FLAGS);
