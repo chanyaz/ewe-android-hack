@@ -3,7 +3,6 @@ package com.expedia.bookings.activity;
 import android.os.Bundle;
 import android.widget.ImageView;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -60,10 +59,6 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 
 		ImageView bgImageView = Ui.findView(this, R.id.background_bg_view);
 		bgImageView.setImageBitmap(Db.getBackgroundImage(this, true));
-
-		// Action bar setup
-		ActionBar actionBar = this.getSupportActionBar();
-		actionBar.setTitle(R.string.booking_complete);
 	}
 
 	@Override

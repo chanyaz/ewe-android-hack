@@ -215,7 +215,7 @@
         </activity>
         <activity
             android:name="com.expedia.bookings.activity.FlightConfirmationActivity"
-            android:label="@string/Flights_Confirmation"
+            android:label="@string/booking_complete"
             android:theme="@style/FlightTheme" />
 
         <!-- Login/Facebook -->
