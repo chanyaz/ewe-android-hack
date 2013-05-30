@@ -431,10 +431,14 @@
     <string name="share_template_short_flight_sameday">I\&apos;m on flight %1$s to %2$s on %3$s.\nDeparts %4$s at %5$s\nArrives %6$s at %7$s, %8$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
     <string name="share_template_short_flight_multiday">I\&apos;m on flight %1$s to %2$s.\nDeparts %3$s at %4$s\nArrives %5$s at %6$s, %7$s</string>
-    <!-- 1: pick up date 2: drop off date -->
+    <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">My car rental (%1$s – %2$s)</string>
-    <!-- 1: vehicle type 2: pick up date 3: drop off date 4: vendor name 5: full address -->
-    <string name="share_template_short_car">I\&apos;ve rented a %1$s from %2$s – %3$s\n%4$s\n%5$s</string>
+    <!-- Car rental share subject (no dates) -->
+    <string name="share_template_subject_car_no_dates">My car rental</string>
+    <!-- 1: vehicle type  -->
+    <string name="share_template_short_car_type">I\&apos;ve rented a %1$s</string>
+    <!--1: pick up date 2: drop off date -->
+    <string name="share_template_short_car_dates">from %1$s – %2$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
     <string name="share_car_start_TEMPLATE">Here are the details of my %1$s car rental.</string>
     <!-- Label for type of vehicle.  %1$s is the car type (e.g., "Three Door Car") -->

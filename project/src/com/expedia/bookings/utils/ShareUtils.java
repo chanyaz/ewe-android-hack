@@ -419,22 +419,48 @@ public class ShareUtils {
 	// Cars
 
 	public String getCarShareSubject(DateTime pickUpDateTime, DateTime dropOffDateTime) {
-		String template = mContext.getString(R.string.share_template_subject_car);
-		String pickUpDate = pickUpDateTime.formatTime(mContext, SHORT_DATE_FLAGS);
-		String dropOffDate = dropOffDateTime.formatTime(mContext, SHORT_DATE_FLAGS);
+		String subject;
+		if (pickUpDateTime != null && dropOffDateTime != null) {
+			String pickUpDate = pickUpDateTime.formatTime(mContext, SHORT_DATE_FLAGS);
+			String dropOffDate = dropOffDateTime.formatTime(mContext, SHORT_DATE_FLAGS);
 
-		return String.format(template, pickUpDate, dropOffDate);
+			subject = mContext.getString(R.string.share_template_subject_car, pickUpDate, dropOffDate);
+		}
+		else {
+			subject = mContext.getString(R.string.share_template_subject_car_no_dates);
+		}
+
+		return subject;
 	}
 
 	public String getCarShareTextShort(Car.Category carCategory, DateTime pickUpDateTime, DateTime dropOffDateTime,
 			String vendorName, String vendorAddress) {
 
 		String category = mContext.getString(carCategory.getCategoryResId());
-		String template = mContext.getString(R.string.share_template_short_car);
 		String pickUpDate = pickUpDateTime.formatTime(mContext, SHORT_DATE_FLAGS);
 		String dropOffDate = dropOffDateTime.formatTime(mContext, SHORT_DATE_FLAGS);
 
-		return String.format(template, category, pickUpDate, dropOffDate, vendorName, vendorAddress);
+		StringBuilder sb = new StringBuilder();
+
+		if (!TextUtils.isEmpty(category)) {
+			sb.append(mContext.getString(R.string.share_template_short_car_type, category));
+		}
+
+		if (!TextUtils.isEmpty(pickUpDate) && !TextUtils.isEmpty(dropOffDate)) {
+			sb.append(mContext.getString(R.string.share_template_short_car_dates, pickUpDate, dropOffDate));
+		}
+
+		if (!TextUtils.isEmpty(vendorName)) {
+			sb.append("\n");
+			sb.append(vendorName);
+		}
+
+		if (!TextUtils.isEmpty(vendorAddress)) {
+			sb.append("\n");
+			sb.append(vendorAddress);
+		}
+
+		return sb.toString();
 	}
 
 	public String getCarShareTextLong(Car.Category carCategory, DateTime pickUpDateTime, DateTime dropOffDateTime,
@@ -445,22 +471,31 @@ public class ShareUtils {
 		sb.append(mContext.getString(R.string.share_hi));
 		sb.append("\n\n");
 
-		sb.append(mContext.getString(R.string.share_car_start_TEMPLATE, vendor.getShortName()));
-		sb.append("\n\n");
+		if (!TextUtils.isEmpty(vendor.getShortName())) {
+			sb.append(mContext.getString(R.string.share_car_start_TEMPLATE, vendor.getShortName()));
+			sb.append("\n\n");
+		}
 
-		sb.append(mContext.getString(R.string.share_car_vehicle_TEMPLATE,
-				mContext.getString(carCategory.getCategoryResId())));
-		sb.append("\n");
+		String category = mContext.getString(carCategory.getCategoryResId());
+		if (!TextUtils.isEmpty(category)) {
+			sb.append(mContext.getString(R.string.share_car_vehicle_TEMPLATE, category));
+			sb.append("\n");
+		}
 
-		String pickUpDate = pickUpDateTime.formatTime(mContext, SHORT_DATE_FLAGS);
-		String pickUpTime = pickUpDateTime.formatTime(mContext, TIME_FLAGS) + " " + pickUpDateTime.formatTimeZone();
-		sb.append(mContext.getString(R.string.share_car_pickup_TEMPLATE, pickUpDate, pickUpTime));
-		sb.append("\n");
+		if (pickUpDateTime != null) {
+			String pickUpDate = pickUpDateTime.formatTime(mContext, SHORT_DATE_FLAGS);
+			String pickUpTime = pickUpDateTime.formatTime(mContext, TIME_FLAGS) + " " + pickUpDateTime.formatTimeZone();
+			sb.append(mContext.getString(R.string.share_car_pickup_TEMPLATE, pickUpDate, pickUpTime));
+			sb.append("\n");
+		}
 
-		String dropOffDate = dropOffDateTime.formatTime(mContext, SHORT_DATE_FLAGS);
-		String dropOffTime = dropOffDateTime.formatTime(mContext, TIME_FLAGS) + " " + dropOffDateTime.formatTimeZone();
-		sb.append(mContext.getString(R.string.share_car_dropoff_TEMPLATE, dropOffDate, dropOffTime));
-		sb.append("\n\n");
+		if (dropOffDateTime != null) {
+			String dropOffDate = dropOffDateTime.formatTime(mContext, SHORT_DATE_FLAGS);
+			String dropOffTime = dropOffDateTime.formatTime(mContext, TIME_FLAGS) + " "
+					+ dropOffDateTime.formatTimeZone();
+			sb.append(mContext.getString(R.string.share_car_dropoff_TEMPLATE, dropOffDate, dropOffTime));
+			sb.append("\n\n");
+		}
 
 		String localPhone = vendor.getLocalPhone();
 		String vendorPhone = vendor.getTollFreePhone();
@@ -536,12 +571,12 @@ public class ShareUtils {
 		}
 
 		if (!TextUtils.isEmpty(validDate)) {
-            sb.append("\n");
+			sb.append("\n");
 			sb.append(mContext.getString(R.string.share_template_short_activity_valid, validDate));
 		}
 
 		if (!TextUtils.isEmpty(expirationDate)) {
-            sb.append("\n");
+			sb.append("\n");
 			sb.append(mContext.getString(R.string.share_template_short_activity_expires, expirationDate));
 		}
 
@@ -555,22 +590,22 @@ public class ShareUtils {
 		String expirationDate = expirationDateTime.formatTime(mContext, SHARE_DATE_FLAGS);
 		String downloadUrl = PointOfSale.getPointOfSale().getAppInfoUrl();
 
-        StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder();
 
-        if (!TextUtils.isEmpty(title)) {
-            sb.append(mContext.getString(R.string.share_template_long_activity_title, title));
-            sb.append("\n");
-        }
+		if (!TextUtils.isEmpty(title)) {
+			sb.append(mContext.getString(R.string.share_template_long_activity_title, title));
+			sb.append("\n");
+		}
 
-        if (!TextUtils.isEmpty(validDate)) {
-            sb.append("\n");
-            sb.append(mContext.getString(R.string.share_template_long_activity_valid, validDate));
-        }
+		if (!TextUtils.isEmpty(validDate)) {
+			sb.append("\n");
+			sb.append(mContext.getString(R.string.share_template_long_activity_valid, validDate));
+		}
 
-        if (!TextUtils.isEmpty(expirationDate)) {
-            sb.append("\n");
-            sb.append(mContext.getString(R.string.share_template_long_activity_expires, expirationDate));
-        }
+		if (!TextUtils.isEmpty(expirationDate)) {
+			sb.append("\n");
+			sb.append(mContext.getString(R.string.share_template_long_activity_expires, expirationDate));
+		}
 
 		final int guestCount = travelers.size();
 		final String[] guests = new String[guestCount];
@@ -578,11 +613,11 @@ public class ShareUtils {
 			guests[i] = travelers.get(i).getFullName();
 		}
 
-        sb.append("\n\n");
-        sb.append(mContext.getString(R.string.share_template_long_activity_guests, TextUtils.join("\n", guests)));
+		sb.append("\n\n");
+		sb.append(mContext.getString(R.string.share_template_long_activity_guests, TextUtils.join("\n", guests)));
 
-        sb.append("\n\n");
-        sb.append(mContext.getString(R.string.share_template_long_ad, downloadUrl));
+		sb.append("\n\n");
+		sb.append(mContext.getString(R.string.share_template_long_ad, downloadUrl));
 
 		return sb.toString();
 	}
