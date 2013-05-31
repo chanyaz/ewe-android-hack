@@ -6,8 +6,10 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Shader;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
@@ -43,6 +45,11 @@ public class ItinHeaderImageView extends OptimizedImageView {
 
 	private Drawable mHighlightDrawable;
 
+	// For a built-in gradient
+	private int[] mColors;
+	private float[] mPositions;
+	private Paint mGradientPaint;
+
 	public ItinHeaderImageView(Context context) {
 		super(context);
 		init(context, null, 0);
@@ -64,6 +71,8 @@ public class ItinHeaderImageView extends OptimizedImageView {
 		mMaskPaint.setXfermode(new PorterDuffXfermode(Mode.DST_OUT));
 
 		mHighlightDrawable = context.getResources().getDrawable(R.drawable.card_top_lighting);
+
+		mGradientPaint = new Paint();
 
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ItinHeaderImageView);
 		setMode(a.getInteger(R.styleable.ItinHeaderImageView_mode, mMode));
@@ -100,6 +109,23 @@ public class ItinHeaderImageView extends OptimizedImageView {
 		}
 	}
 
+	/**
+	 * Sets a gradient for the image.  Does not apply the gradient to the corners
+	 * or the highlight.
+	 * 
+	 * If colors is null, it cancels the gradient
+	 * 
+	 * @param colors The colors to be distributed along the gradient line
+	 * @param positions May be null. The relative positions [0..1] of each corresponding color in the colors array.
+	 * 		If this is null, the the colors are distributed evenly along the gradient line.
+	 */
+	public void setGradient(int[] colors, float[] positions) {
+		mColors = colors;
+		mPositions = positions;
+
+		updateGradient();
+	}
+
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
@@ -117,6 +143,8 @@ public class ItinHeaderImageView extends OptimizedImageView {
 			setScaleType(ScaleType.MATRIX);
 			setImageMatrix(createImageMatrix());
 		}
+
+		updateGradient();
 	}
 
 	@Override
@@ -132,6 +160,10 @@ public class ItinHeaderImageView extends OptimizedImageView {
 
 		// Draw image
 		super.onDraw(mCompositeCanvas);
+
+		if (mGradientPaint.getShader() != null) {
+			mCompositeCanvas.drawRect(mBounds, mGradientPaint);
+		}
 
 		// Draw masks
 		mCompositeCanvas.drawBitmap(mTLMaskBitmap, 0, 0, mMaskPaint);
@@ -211,5 +243,15 @@ public class ItinHeaderImageView extends OptimizedImageView {
 		matrix.postTranslate((int) (dx + 0.5f), (int) dy);
 
 		return matrix;
+	}
+
+	private void updateGradient() {
+		if (mColors != null && mBounds.height() > 0) {
+			mGradientPaint.setShader(new LinearGradient(0, 0, 0, mBounds.height(), mColors, mPositions,
+					Shader.TileMode.CLAMP));
+		}
+		else {
+			mGradientPaint.setShader(null);
+		}
 	}
 }

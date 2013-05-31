@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -25,6 +24,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.ShareUtils;
+import com.expedia.bookings.widget.ItinHeaderImageView;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
@@ -35,6 +35,10 @@ import com.mobiata.android.util.ViewUtils;
 public class HotelConfirmationFragment extends ConfirmationFragment {
 
 	public static final String TAG = HotelConfirmationFragment.class.getName();
+
+	private static final int[] CARD_GRADIENT_COLORS = new int[] { 0, 206 << 24, 255 << 24 };
+
+	private static final float[] CARD_GRADIENT_POSITIONS = new float[] { 0f, .82f, 1f };
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,7 +54,8 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 
 		// Construct the hotel card
 		Property property = Db.getSelectedProperty();
-		ImageView hotelImageView = Ui.findView(v, R.id.hotel_image_view);
+		ItinHeaderImageView hotelImageView = Ui.findView(v, R.id.hotel_image_view);
+		hotelImageView.setGradient(CARD_GRADIENT_COLORS, CARD_GRADIENT_POSITIONS);
 		UrlBitmapDrawable.loadImageView(property.getThumbnail().getHighResUrls(), hotelImageView,
 				R.drawable.bg_itin_placeholder);
 
