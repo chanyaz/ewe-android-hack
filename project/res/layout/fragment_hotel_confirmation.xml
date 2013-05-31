@@ -17,14 +17,15 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
-            android:layout_marginTop="12dp" >
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_itin_card" >
 
-            <ImageView
+            <com.expedia.bookings.widget.ItinHeaderImageView
                 android:id="@+id/hotel_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="194dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/bg_launch_ny" />
+                app:radius="2dp" />
 
             <TextView
                 android:id="@+id/stay_summary_text_view"
@@ -34,6 +35,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="54dp"
                 android:ellipsize="middle"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 android:singleLine="true"
                 android:textSize="15dp" />
 
@@ -44,6 +47,8 @@
                 android:layout_above="@+id/stay_summary_text_view"
                 android:layout_centerHorizontal="true"
                 android:ellipsize="middle"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 android:singleLine="true"
                 android:textSize="18dp"
                 android:textStyle="bold" />
