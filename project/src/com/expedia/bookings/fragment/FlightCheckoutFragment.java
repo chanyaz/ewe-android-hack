@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -490,7 +491,8 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		if (cardFee != null) {
 			setPaymentContainerBg(R.drawable.bg_lcc_checkout_information_bottom_tab, false);
 
-			mCardFeeTextView.setText(getString(R.string.airline_card_fee_TEMPLATE, cardFee.getFormattedMoney()));
+			mCardFeeTextView.setText(Html.fromHtml(getString(R.string.airline_card_fee_TEMPLATE,
+					cardFee.getFormattedMoney())));
 			mCardFeeTextView.setVisibility(View.VISIBLE);
 			mLccTriangle.setVisibility(View.VISIBLE);
 		}
