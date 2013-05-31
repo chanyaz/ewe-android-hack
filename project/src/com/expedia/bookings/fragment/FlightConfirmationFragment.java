@@ -131,6 +131,8 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 					.getDimensionPixelSize(R.dimen.flight_card_with_span_mask_offset);
 		}
 
+		Ui.findView(v, R.id.action_container).setBackgroundResource(R.drawable.bg_confirmation_mask_flights);
+
 		// Fill out all the actions
 		Ui.setText(v, R.id.going_to_text_view, getString(R.string.yay_going_somewhere_TEMPLATE, destinationCity));
 

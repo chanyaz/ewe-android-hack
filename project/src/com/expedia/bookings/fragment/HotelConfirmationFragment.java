@@ -66,6 +66,8 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 				| DateUtils.FORMAT_ABBREV_MONTH);
 		Ui.setText(v, R.id.stay_summary_text_view, getString(R.string.stay_summary_TEMPLATE, guests, duration));
 
+		Ui.findView(v, R.id.action_container).setBackgroundResource(R.drawable.bg_confirmation_mask_hotels);
+
 		PointOfSale pos = PointOfSale.getPointOfSale();
 		if (pos.showHotelCrossSell() && pos.supportsFlights()) {
 			ViewUtils.setAllCaps((TextView) Ui.findView(v, R.id.get_there_text_view));

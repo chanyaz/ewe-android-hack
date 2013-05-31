@@ -4,7 +4,6 @@
     android:id="@+id/action_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_confirmation_mask"
     android:orientation="vertical" >
 
     <TextView
