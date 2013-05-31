@@ -252,7 +252,13 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			if (!TextUtils.isEmpty(data.getBrandName())) {
 				CreditCardType cardType = CreditCardType.valueOf(data.getBrandName());
 				if (cardType != null && !TextUtils.isEmpty(getData().getNumber())) {
-					field.setImageResource(BookingInfoUtils.CREDIT_CARD_GREY_ICONS.get(cardType));
+					if (mLineOfBusiness != null && mLineOfBusiness == LineOfBusiness.FLIGHTS
+							&& !Db.getFlightSearch().getSelectedFlightTrip().getCardTypeSupported(getData())) {
+						field.setImageResource(R.drawable.ic_lcc_no_card_payment_entry);
+					}
+					else {
+						field.setImageResource(BookingInfoUtils.CREDIT_CARD_GREY_ICONS.get(cardType));
+					}
 				}
 				else {
 					field.setImageResource(R.drawable.ic_generic_card);
@@ -390,8 +396,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	SectionFieldEditable<EditText, BillingInfo> mEditCreditCardNumber = new SectionFieldEditable<EditText, BillingInfo>(
 			R.id.edit_creditcard_number) {
 
+		private int mOriginalTextColor = -1;
+
 		@Override
-		public void setChangeListener(EditText field) {
+		public void setChangeListener(final EditText field) {
 			field.addTextChangedListener(new AfterChangeTextWatcher() {
 				@Override
 				public void afterTextChanged(Editable s) {
@@ -406,13 +414,26 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 								if (type == null) {
 									getData().setBrandCode(null);
 									getData().setBrandName(null);
+									if (mLineOfBusiness != null && mLineOfBusiness == LineOfBusiness.FLIGHTS) {
+										field.setTextColor(mOriginalTextColor);
+									}
 								}
 								else {
 									getData().setBrandCode(type.getCode());
 									getData().setBrandName(type.name());
+									if (mLineOfBusiness != null && mLineOfBusiness == LineOfBusiness.FLIGHTS) {
+										if (!Db.getFlightSearch().getSelectedFlightTrip()
+												.getCardTypeSupported(getData())) {
+											field.setTextColor(getResources().getColor(
+													R.color.flight_card_invalid_cc_type_text_color));
+										}
+										else {
+											field.setTextColor(mOriginalTextColor);
+										}
+									}
 								}
-								rebindNumDependantFields();
 							}
+							rebindNumDependantFields();
 						}
 					}
 					onChange(SectionBillingInfo.this);
@@ -428,6 +449,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			else {
 				field.setText("");
 			}
+			mOriginalTextColor = field.getCurrentTextColor();
 		}
 
 		@Override

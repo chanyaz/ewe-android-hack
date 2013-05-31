@@ -40,6 +40,7 @@
     <color name="flight_card_airline_fee_warning">#577494</color>
     <color name="flight_card_unsupported_warning">#BA4D4D</color>
     <color name="flight_card_warning_text">#F0F0F0</color>
+    <color name="flight_card_invalid_cc_type_text_color">#B4B4B4</color>
 
     <!-- Hotels colors -->
     <color name="hotels_cc_text_color_secondary">#868a8f</color>
