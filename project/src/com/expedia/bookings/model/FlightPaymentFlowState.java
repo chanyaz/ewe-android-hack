@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -23,6 +24,8 @@ public class FlightPaymentFlowState {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mBillingAddress = (SectionLocation) inflater.inflate(R.layout.section_edit_address, null);
 		mCardInfo = (SectionBillingInfo) inflater.inflate(R.layout.section_edit_creditcard, null);
+		mBillingAddress.setLineOfBusiness(LineOfBusiness.FLIGHTS);
+		mCardInfo.setLineOfBusiness(LineOfBusiness.FLIGHTS);
 	}
 
 	public static FlightPaymentFlowState getInstance(Context context) {

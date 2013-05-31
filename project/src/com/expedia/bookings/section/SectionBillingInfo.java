@@ -27,6 +27,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
@@ -54,6 +56,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	Context mContext;
 
 	BillingInfo mBillingInfo;
+	LineOfBusiness mLineOfBusiness;
 
 	public SectionBillingInfo(Context context) {
 		super(context);
@@ -127,6 +130,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 
 		postFinishInflate();
+	}
+
+	public void setLineOfBusiness(LineOfBusiness lob) {
+		mLineOfBusiness = lob;
 	}
 
 	private void postFinishInflate() {
@@ -438,6 +445,13 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 							return ValidationError.ERROR_DATA_INVALID;
 						}
 						else {
+							if (mLineOfBusiness != null && mLineOfBusiness == LineOfBusiness.FLIGHTS
+									&& getData().getCardType() != null
+									&& !Db.getFlightSearch().getSelectedFlightTrip().getCardTypeSupported(getData())) {
+
+								return ValidationError.ERROR_DATA_INVALID;
+
+							}
 							return ValidationError.NO_ERROR;
 						}
 					}

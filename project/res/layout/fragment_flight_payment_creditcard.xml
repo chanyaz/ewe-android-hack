@@ -1,21 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/flight_checkout_opaque_grey"
-    android:fillViewport="true" >
+    android:fillViewport="true"
+    android:orientation="vertical" >
 
-    <FrameLayout
-        android:id="@+id/content_container"
-        android:layout_width="@dimen/standard_content_width"
+    <ScrollView
+        android:id="@+id/content_scrollview"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1" >
+
+        <FrameLayout
+            android:id="@+id/content_container"
+            android:layout_width="@dimen/standard_content_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:padding="8dp" >
+
+            <include
+                android:id="@+id/creditcard_section"
+                layout="@layout/section_edit_creditcard" />
+        </FrameLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/card_message"
+        android:layout_width="@dimen/standard_content_width"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:background="@color/flight_checkout_opaque_white"
-        android:padding="8dp" >
+        android:layout_weight="0"
+        android:bufferType="spannable"
+        android:gravity="center"
+        android:padding="16dp"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        android:visibility="gone" />
 
-        <include
-            android:id="@+id/creditcard_section"
-            layout="@layout/section_edit_creditcard" />
-    </FrameLayout>
-
-</ScrollView>
+</LinearLayout>

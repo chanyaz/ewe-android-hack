@@ -92,6 +92,7 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 		};
 
 		mSectionBillingInfo = Ui.findView(v, R.id.creditcard_section);
+		mSectionBillingInfo.setLineOfBusiness(LineOfBusiness.HOTELS);
 		mSectionLocation = Ui.findView(v, R.id.section_location_address);
 		mSectionLocation.setLineOfBusiness(LineOfBusiness.HOTELS);
 

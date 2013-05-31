@@ -28,6 +28,7 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:hint="@string/credit_card_hint"
+            android:imeOptions="flagNoExtractUi"
             android:inputType="number"
             android:paddingBottom="12dp"
             android:singleLine="true" >

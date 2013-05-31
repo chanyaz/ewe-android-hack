@@ -18,8 +18,9 @@ public class HotelPaymentFlowState {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		mSectionLocation = (SectionLocation) inflater.inflate(R.layout.section_hotel_edit_address, null);
-		mSectionLocation.setLineOfBusiness(LineOfBusiness.HOTELS);
 		mSectionBillingInfo = (SectionBillingInfo) inflater.inflate(R.layout.section_edit_creditcard, null);
+		mSectionLocation.setLineOfBusiness(LineOfBusiness.HOTELS);
+		mSectionBillingInfo.setLineOfBusiness(LineOfBusiness.HOTELS);
 	}
 
 	public static HotelPaymentFlowState getInstance(Context context) {

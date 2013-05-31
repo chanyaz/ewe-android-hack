@@ -37,6 +37,8 @@
     <color name="roboto_light">#fff3f3f3</color>
     <color name="flights_holo_blue_light">#ff33b5e5</color>
     <color name="flights_traveler_disabled_grey">#ffa5a5a5</color>
+    <color name="flight_card_airline_fee_warning">#485F85</color>
+    <color name="flight_card_unsupported_warning">#A33B3B</color>
 
     <!-- Hotels colors -->
     <color name="hotels_cc_text_color_secondary">#868a8f</color>
@@ -121,16 +123,15 @@
     <color name="hotel_list_progress_text_color">#555555</color>
     <color name="hotel_map_progress_text_color">@color/actionbar_text</color>
     <color name="map_dimmer">#90000000</color>
-    
+
     <!-- A light Holo shade of blue -->
     <color name="holo_blue_light">#ff33b5e5</color>
-    
     <color name="background_holo_dark">#ff000000</color>
     <color name="bright_foreground_holo_light">@color/background_holo_dark</color>
     <color name="dim_foreground_holo_light">#323232</color>
     <color name="dim_foreground_disabled_holo_light">#80323232</color>
 
-    <!-- From ABS, Sherlock Light DialogWindowTitle  -->
-	<color name="dialog_window_holo_blue_light">#ff33b5e5</color>
+    <!-- From ABS, Sherlock Light DialogWindowTitle -->
+    <color name="dialog_window_holo_blue_light">#ff33b5e5</color>
 
 </resources>
