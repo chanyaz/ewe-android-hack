@@ -675,7 +675,14 @@
 
     <style name="Confirmation.Divider.Action">
         <item name="android:layout_height">1dp</item>
-        <item name="android:background">@color/confirmation_item_divider</item>
+    </style>
+
+    <style name="Confirmation.Divider.Action.Flight">
+        <item name="android:background">@color/confirmation_item_divider_flight</item>
+    </style>
+
+    <style name="Confirmation.Divider.Action.Hotel">
+        <item name="android:background">@color/confirmation_item_divider_hotel</item>
     </style>
 
     <style name="Confirmation.Divider.Header">
@@ -684,11 +691,11 @@
     </style>
 
     <style name="Confirmation.Divider.Header.Flight">
-        <item name="android:background">@color/confirmation_header_divider</item>
+        <item name="android:background">@color/confirmation_header_divider_flight</item>
     </style>
 
     <style name="Confirmation.Divider.Header.Hotel">
-        <item name="android:background">@android:color/white</item>
+        <item name="android:background">@color/confirmation_header_divider_hotel</item>
     </style>
 
     <style name="FauxActionBarTitleText">

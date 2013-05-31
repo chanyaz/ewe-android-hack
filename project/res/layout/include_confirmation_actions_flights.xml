@@ -34,7 +34,7 @@
 
     <View
         android:id="@+id/ca_insurance_divider"
-        style="@style/Confirmation.Divider.Action" />
+        style="@style/Confirmation.Divider.Action.Flight" />
 
     <com.expedia.bookings.widget.ConfirmationActionTextView
         android:id="@+id/ca_insurance_action_text_view"
@@ -44,7 +44,7 @@
 
     <View
         android:id="@+id/calendar_divider"
-        style="@style/Confirmation.Divider.Action" />
+        style="@style/Confirmation.Divider.Action.Flight" />
 
     <com.expedia.bookings.widget.ConfirmationActionTextView
         android:id="@+id/calendar_action_text_view"
@@ -54,7 +54,7 @@
 
     <View
         android:id="@+id/flighttrack_divider"
-        style="@style/Confirmation.Divider.Action" />
+        style="@style/Confirmation.Divider.Action.Flight" />
 
     <com.expedia.bookings.widget.ConfirmationActionTextView
         android:id="@+id/flighttrack_action_text_view"

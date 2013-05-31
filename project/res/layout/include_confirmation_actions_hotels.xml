@@ -34,7 +34,7 @@
 
     <View
         android:id="@+id/calendar_divider"
-        style="@style/Confirmation.Divider.Action" />
+        style="@style/Confirmation.Divider.Action.Hotel" />
 
     <com.expedia.bookings.widget.ConfirmationActionTextView
         android:id="@+id/calendar_action_text_view"
