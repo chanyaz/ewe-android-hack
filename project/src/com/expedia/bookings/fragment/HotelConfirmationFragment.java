@@ -1,12 +1,18 @@
 package com.expedia.bookings.fragment;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewPropertyAnimator;
+import android.view.ViewTreeObserver.OnPreDrawListener;
+import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -40,6 +46,8 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 
 	private static final float[] CARD_GRADIENT_POSITIONS = new float[] { 0f, .82f, 1f };
 
+	private ViewGroup mHotelCard;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// This can be invoked when the parent activity finishes itself (when it detects missing data, in the case of
@@ -65,6 +73,20 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		String duration = CalendarUtils.formatDateRange2(getActivity(), params, DateUtils.FORMAT_SHOW_DATE
 				| DateUtils.FORMAT_ABBREV_MONTH);
 		Ui.setText(v, R.id.stay_summary_text_view, getString(R.string.stay_summary_TEMPLATE, guests, duration));
+
+		// Setup a dropping animation with the hotel card.  Only animate on versions of Android
+		// that will allow us to make the animation nice and smooth.
+		mHotelCard = Ui.findView(v, R.id.hotel_card);
+		if (savedInstanceState == null && Build.VERSION.SDK_INT >= 12) {
+			mHotelCard.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+				@Override
+				public boolean onPreDraw() {
+					mHotelCard.getViewTreeObserver().removeOnPreDrawListener(this);
+					animateHotelCard();
+					return false;
+				}
+			});
+		}
 
 		Ui.findView(v, R.id.action_container).setBackgroundResource(R.drawable.bg_confirmation_mask_hotels);
 
@@ -128,6 +150,34 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 	@Override
 	protected String getItinNumber() {
 		return Db.getBookingResponse().getItineraryId();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Animation
+
+	private void animateHotelCard() {
+		// Animate the card from -height to 0
+		mHotelCard.setTranslationY(-mHotelCard.getHeight());
+
+		ViewPropertyAnimator animator = mHotelCard.animate();
+		animator.translationY(0);
+		animator.setDuration(getResources().getInteger(android.R.integer.config_longAnimTime));
+		animator.setInterpolator(new OvershootInterpolator());
+
+		if (Build.VERSION.SDK_INT >= 16) {
+			animator.withLayer();
+		}
+		else {
+			mHotelCard.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+			animator.setListener(new AnimatorListenerAdapter() {
+				@Override
+				public void onAnimationEnd(Animator animation) {
+					mHotelCard.setLayerType(View.LAYER_TYPE_NONE, null);
+				}
+			});
+		}
+
+		animator.start();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
