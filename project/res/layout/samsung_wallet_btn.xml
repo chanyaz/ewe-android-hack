@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_vertical"
+    android:background="@drawable/bg_actionbar_button"
+    android:drawableLeft="@drawable/ic_samsung_wallet"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:minHeight="?attr/actionBarSize"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:textAppearance="?attr/actionMenuTextAppearance"
+    android:textColor="@color/actionbar_text" />

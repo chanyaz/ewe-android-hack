@@ -2,15 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/menu_share"
-        android:icon="@drawable/ic_action_share"
+        android:id="@+id/menu_samsung_wallet"
+        android:actionLayout="@layout/samsung_wallet_btn"
         android:showAsAction="always"
-        android:title="@string/share_booking_info"/>
-    <item
-        android:id="@+id/menu_show_on_map"
-        android:icon="@drawable/ic_menu_map"
-        android:showAsAction="always"
-        android:title="@string/show_on_map"/>
+        android:visible="false"/>
     <item
         android:id="@+id/menu_new_search"
         android:showAsAction="always"

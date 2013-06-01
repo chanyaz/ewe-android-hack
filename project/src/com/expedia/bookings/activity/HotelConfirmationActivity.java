@@ -57,7 +57,7 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity implemen
 
 	private ConfirmationState mConfState;
 
-	private TextView mSamsungWalletButton;
+	private MenuItem mSamsungWalletMenuItem;
 
 	private static final String SAMSUNG_WALLET_DOWNLOAD_KEY = "SAMSUNG_WALLET_DOWNLOAD_KEY";
 
@@ -139,7 +139,6 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity implemen
 
 		if (SamsungWalletUtils.isAvailable(this)) {
 			Log.d("SamsungWallet: is available");
-			mSamsungWalletButton = (TextView) findViewById(R.id.samsung_wallet_button);
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();
 			if (bd.isDownloading(SAMSUNG_WALLET_DOWNLOAD_KEY)) {
 				bd.registerDownloadCallback(SAMSUNG_WALLET_DOWNLOAD_KEY, mWalletCallback);
@@ -191,6 +190,8 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity implemen
 			getSupportMenuInflater().inflate(R.menu.menu_confirmation, menu);
 		}
 
+		mSamsungWalletMenuItem = menu.findItem(R.id.menu_samsung_wallet);
+
 		// Configure the ActionBar
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowTitleEnabled(true);
@@ -210,14 +211,6 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity implemen
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			NavUtils.goToLaunchScreen(this);
-			return true;
-
-		case R.id.menu_share:
-			onShareBooking();
-			return true;
-
-		case R.id.menu_show_on_map:
-			onShowOnMap();
 			return true;
 
 		case R.id.menu_new_search:
@@ -313,11 +306,13 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity implemen
 						final boolean shouldView = result == SamsungWalletUtils.RESULT_TICKET_EXISTS;
 						final boolean shouldDownload = result == SamsungWalletUtils.RESULT_TICKET_NOT_FOUND;
 						if (shouldView || shouldDownload) {
-							mSamsungWalletButton.setVisibility(View.VISIBLE);
-							int textId = shouldView ? R.string.view_in_samsung_wallet : R.string.add_to_samsung_wallet;
-							mSamsungWalletButton.setText(getString(textId));
-							mSamsungWalletButton.getTag(result);
-							mSamsungWalletButton.setOnClickListener(mSamsungWalletClickListener);
+							int textId = shouldView ? R.string.view_in_samsung_wallet : R.string.load_to_samsung_wallet;
+							mSamsungWalletMenuItem.setVisible(true);
+							mSamsungWalletMenuItem.setEnabled(true);
+							TextView samsungWalletMenuText = (TextView) mSamsungWalletMenuItem.getActionView();
+							samsungWalletMenuText.setText(textId);
+							samsungWalletMenuText.setTag(result);
+							mSamsungWalletMenuItem.getActionView().setOnClickListener(mSamsungWalletClickListener);
 						}
 					}
 				};
