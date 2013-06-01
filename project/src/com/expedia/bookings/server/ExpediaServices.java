@@ -884,7 +884,7 @@ public class ExpediaServices implements DownloadListener {
 	// Samsung Wallet ticket creation
 
 	public SamsungWalletResponse getSamsungWalletTicketId(String itineraryId) {
-		return doE3Request("api/common/samsungwalletmock/" + itineraryId, null, new SamsungWalletResponseHandler(mContext), 0);
+		return doE3Request("api/common/samsungwallet/" + itineraryId, null, new SamsungWalletResponseHandler(mContext), 0);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
