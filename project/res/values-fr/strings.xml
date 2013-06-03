@@ -307,9 +307,9 @@
     <string name="car_category_oversize">Voiture très grande</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2 portes Voiture</string>
-    <string name="car_type_three_door">3 portes Voiture</string>
-    <string name="car_type_four_door">4 portes Voiture</string>
+    <string name="car_type_two_door">Voiture 2 portes</string>
+    <string name="car_type_three_door">Voiture 3 portes</string>
+    <string name="car_type_four_door">Voiture 4 portes</string>
     <string name="car_type_van">Fourgon</string>
     <string name="car_type_wagon">Break</string>
     <string name="car_type_limousine">Limousine</string>
@@ -515,10 +515,9 @@
     </plurals>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">DEBUG : les données de la recherche ont été supprimées. Veuillez signaler cette erreur à DLew.</string>
-    <!-- Low Cost Flights label -->
-    <string name="low_cost_flights">Vols low cost</string>
-    <!-- Message shown to user when viewing flight search results that do not contain low-cost flights, although the same search on desktop returns low cost flights -->
-    <string name="lcc_flights_not_available">Vous recherchez un vol Jetstar, Scoot ou Air Asia ? Les billets pour ces compagnies sont disponibles sur notre site et le seront bientôt sur notre app.</string>
+    <!-- Message shown to user when they attempt a flight search against the India point of sale that is domestic (which we don't support yet) -->
+    <string name="india_domestic_flights_not_available_title">Bientôt !</string>
+    <string name="india_domestic_flights_not_available_body">Nous allons ajouter la possibilité de réserver les vols nationaux dans une prochaine version.</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">Choisir un vol vers %1$s</string>
     <!-- Select a flight back to (city name) -->
@@ -1819,7 +1818,9 @@
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">Paramètres</string>
-    <!-- Label for "about this app" menu item. -->
+    <!-- Label for "info about this app" menu item.   -->
+    <string name="Info">Infos</string>
+    <!-- Label for "about this app" menu item. Deprecated for the time being, but kept because maybe it wil return -->
     <string name="About">Informations</string>
 
     <!-- Error strings - replacements for default EAN errors -->
@@ -2118,5 +2119,111 @@
     <string name="country_zm">Zambie</string>
     <string name="country_zw">Zimbabwe</string>
     <string name="country_ax">Åland</string>
+
+    <!-- Google Wallet -->
+    <!-- The merchant name to display to the user for Google Wallet -->
+    <string name="merchant_name">Expedia, INc.</string>
+    <!-- Loading message -->
+    <string name="loading">Chargement</string>
+    <!-- Google Wallet label -->
+    <string name="google_wallet">Google Wallet</string>
+    <!-- Google wallet unavailable error -->
+    <string name="google_wallet_unavailable">Google Wallet n\&apos;est pas disponible</string>
+    <!-- Error if you've exceeded your overall Google Wallet spending limit -->
+    <string name="spending_limit_exceeded">Vous avez dépassé votre plafond Google Wallet</string>
+    <!-- Content description for "buy with wallet" button -->
+    <string name="wallet_buy_with_google_wallet">Acheter avec Google Wallet</string>
+
+    <!-- Samsung Wallet -->
+    <!-- Label to use when the ticket already exists in the wallet -->
+    <string name="view_in_samsung_wallet">Voir dans Samsung Wallet</string>
+    <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
+    <string name="add_to_samsung_wallet">Ajouter à Samsung Wallet</string>
+
+    <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
+    <!-- S_Push_flight_CITY_delayed_HOUR -->
+    <string name="S_Push_flight_CITY_delayed_HOUR">Votre vol pour %1$s a %2$s heure de retard.</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS -->
+    <string name="S_Push_flight_CITY_delayed_HOURS">Votre vol pour %1$s a %2$s heures de retard.</string>
+    <!-- S_Push_flight_CITY_delayed_MINUTE -->
+    <string name="S_Push_flight_CITY_delayed_MINUTE">Votre vol pour %1$s a %2$s minute de retard.</string>
+    <!-- S_Push_flight_CITY_delayed_MINUTES -->
+    <string name="S_Push_flight_CITY_delayed_MINUTES">Votre vol pour %1$s a %2$s minutes de retard.</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTE -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE">Votre vol pour %1$s a %2$s heure et %3$s minute de retard.</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTES -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES">Votre vol pour %1$s a %2$s heure et %3$s minutes de retard.</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTE -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE">Votre vol pour %1$s a %2$s heures et %3$s minute de retard.</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTES -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES">Votre vol pour %1$s a %2$s heures et %3$s minutes de retard.</string>
+    <!-- S_Push_flight_CITY_early_MINUTE -->
+    <string name="S_Push_flight_CITY_early_MINUTE">Votre vol pour %1$s partira %2$s minute en avance.</string>
+    <!-- S_Push_flight_CITY_early_MINUTES -->
+    <string name="S_Push_flight_CITY_early_MINUTES">Votre vol pour %1$s partira %2$s minutes en avance.</string>
+    <!-- S_Push_flight_CITY_early_HOUR -->
+    <string name="S_Push_flight_CITY_early_HOUR">Votre vol pour %1$s partira %2$s heure en avance.</string>
+    <!-- S_Push_flight_CITY_early_HOURS -->
+    <string name="S_Push_flight_CITY_early_HOURS">Votre vol pour %1$s partira %2$s heures en avance.</string>
+    <!-- S_Push_flight_CITY_early_HOUR_MINUTE -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE">Votre vol pour %1$s partira %2$s heure et %3$s minute en avance.</string>
+    <!-- S_Push_flight_CITY_early_HOURS_MINUTE -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTE">Votre vol pour %1$s partira %2$s heures et %3$s minute en avance.</string>
+    <!-- S_Push_flight_CITY_early_HOUR_MINUTES -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES">Votre vol pour %1$s partira %2$s heure et %3$s minutes en avance.</string>
+    <!-- S_Push_flight_CITY_early_HOURS_MINUTES -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTES">Votre vol pour %1$s partira %2$s heures et %3$s minutes en avance.</string>
+    <!-- S_Push_flight_CITY_delayed_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE">Votre vol pour %1$s a %2$s minute de retard et partira de la porte %3$s.</string>
+    <!-- S_Push_flight_CITY_delayed_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE">Votre vol pour %1$s a %2$s minutes de retard et partira de la porte %3$s.</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE">Votre vol pour %1$s a %2$s heure de retard et partira de la porte %3$s.</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE">Votre vol pour %1$s a %2$s heures de retard et partira de la porte %3$s.</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE">Votre vol pour %1$s a %2$s heure et %3$s minute de retard et partira de la porte %4$s.</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE">Votre vol pour %1$s a %2$s heures et %3$s minute de retard et partira de la porte %4$s.</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE">Votre vol pour %1$s a %2$s heure et %3$s minutes de retard et partira de la porte %4$s.</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE">Votre vol pour %1$s a %2$s heures et %3$s minutes de retard et partira de la porte %4$s.</string>
+    <!-- S_Push_flight_CITY_early_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE">Votre vol pour %1$s partira %2$s minute en avance de la porte %3$s.</string>
+    <!-- S_Push_flight_CITY_early_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE">Votre vol pour %1$s partira %2$s minutes en avance de la porte %3$s.</string>
+    <!-- S_Push_flight_CITY_early_HOUR_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE">Votre vol pour %1$s partira %2$s heure en avance de la porte %3$s.</string>
+    <!-- S_Push_flight_CITY_early_HOURS_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE">Votre vol pour %1$s partira %2$s heures en avance de la porte %3$s.</string>
+    <!-- S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE">Votre vol pour %1$s partira %2$s heure et %3$s minute en avance de la porte %4$s.</string>
+    <!-- S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE">Votre vol pour %1$s partira %2$s heures et %3$s minute en avance de la porte %4$s.</string>
+    <!-- S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE">Votre vol pour %1$s partira %2$s heure et %3$s minutes en avance de la porte %4$s.</string>
+    <!-- S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE">Votre vol pour %1$s partira %2$s heures et %3$s minutes en avance de la porte %4$s.</string>
+    <!-- S_Push_flight_from_CITY_to_CITY_cancelled -->
+    <string name="S_Push_flight_from_CITY_to_CITY_cancelled">Votre vol %1$s - %2$s a été annulé.</string>
+    <!-- S_Push_flight_CITY_departs_in_HOUR -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR">Votre vol pour %1$s partira dans %2$s heure.</string>
+    <!-- S_Push_flight_CITY_departs_in_HOURS -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS">Votre vol pour %1$s partira dans %2$s heures.</string>
+    <!-- S_Push_flight_CITY_departs_in_HOURS_MINUTE -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE">Votre vol pour %1$s partira dans %2$s heures et %3$s minute.</string>
+    <!-- S_Push_flight_CITY_departs_in_HOURS_MINUTES -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES">Votre vol pour %1$s partira dans %2$s heures et %3$s minutes.</string>
+    <!-- S_Push_flight_CITY_departs_in_HOUR_MINUTE -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE">Votre vol pour %1$s partira dans %2$s heure et %3$s minute.</string>
+    <!-- S_Push_flight_CITY_departs_in_HOUR_MINUTES -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES">Votre vol pour %1$s partira dans %2$s heure et %3$s minutes.</string>
+    <!-- S_Push_flight_CITY_departs_in_MINUTES -->
+    <string name="S_Push_flight_CITY_departs_in_MINUTES">Votre vol pour %1$s partira dans %2$s minutes.</string>
+    <!-- S_Push_flight_CITY_gate_GATE -->
+    <string name="S_Push_flight_CITY_gate_GATE">Votre vol pour %1$s partira de la porte %2$s.</string>
+    <!-- S_Push_baggage_BAGGAGE -->
+    <string name="S_Push_baggage_BAGGAGE">Retrait des bagages %1$s</string>
 
 </resources>

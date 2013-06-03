@@ -515,10 +515,9 @@
     </plurals>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">디버그: 검색 데이터가 삭제되었습니다. 이 오류를 DLew에게 보고해 주시기 바랍니다.</string>
-    <!-- Low Cost Flights label -->
-    <string name="low_cost_flights">저가 항공</string>
-    <!-- Message shown to user when viewing flight search results that do not contain low-cost flights, although the same search on desktop returns low cost flights -->
-    <string name="lcc_flights_not_available">Jetstar, Scoot 또는 Air Asia 항공편을 찾고 계세요? 이들 항공사의 항공권은 저희 웹사이트에서 구입하실 수 있으며 앱에서도 곧 지원될 예정입니다.</string>
+    <!-- Message shown to user when they attempt a flight search against the India point of sale that is domestic (which we don't support yet) -->
+    <string name="india_domestic_flights_not_available_title">제공 예정!</string>
+    <string name="india_domestic_flights_not_available_body">곧 출시될 버전에 국내 항공편을 추가하기 위해 현재 최선을 다하고 있습니다.</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">%1$s행 항공편을 선택하세요.</string>
     <!-- Select a flight back to (city name) -->
@@ -1552,7 +1551,7 @@
     <!-- Friendly message at the top of the receipt -->
     <string name="Enjoy_your_stay">즐거운 여행되세요!</string>
     <!-- Format for a first/last name -->
-    <string name="name_template">%1$s %2$s</string>
+    <string name="name_template">%1$s %2$s 님</string>
     <!-- Reservation summary label -->
     <string name="reservation_summary">예약 내용</string>
     <!-- Confirmation number label -->
@@ -1819,7 +1818,9 @@
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">설정</string>
-    <!-- Label for "about this app" menu item. -->
+    <!-- Label for "info about this app" menu item.   -->
+    <string name="Info">정보</string>
+    <!-- Label for "about this app" menu item. Deprecated for the time being, but kept because maybe it wil return -->
     <string name="About">정보</string>
 
     <!-- Error strings - replacements for default EAN errors -->
@@ -2118,5 +2119,111 @@
     <string name="country_zm">잠비아</string>
     <string name="country_zw">짐바브웨</string>
     <string name="country_ax">알랜드 제도</string>
+
+    <!-- Google Wallet -->
+    <!-- The merchant name to display to the user for Google Wallet -->
+    <string name="merchant_name">Expedia, Inc.</string>
+    <!-- Loading message -->
+    <string name="loading">로드 중</string>
+    <!-- Google Wallet label -->
+    <string name="google_wallet">Google Wallet</string>
+    <!-- Google wallet unavailable error -->
+    <string name="google_wallet_unavailable">Google Wallet을 이용할 수 없습니다.</string>
+    <!-- Error if you've exceeded your overall Google Wallet spending limit -->
+    <string name="spending_limit_exceeded">Google Wallet의 소비 한도를 초과하셨습니다.</string>
+    <!-- Content description for "buy with wallet" button -->
+    <string name="wallet_buy_with_google_wallet">Google Wallet으로 구매</string>
+
+    <!-- Samsung Wallet -->
+    <!-- Label to use when the ticket already exists in the wallet -->
+    <string name="view_in_samsung_wallet">Samsung Wallet에서 보기</string>
+    <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
+    <string name="add_to_samsung_wallet">Samsung Wallet에 추가</string>
+
+    <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
+    <!-- S_Push_flight_CITY_delayed_HOUR -->
+    <string name="S_Push_flight_CITY_delayed_HOUR">고객님의 %1$s행 항공편이 %2$s시간 지연입니다.</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS -->
+    <string name="S_Push_flight_CITY_delayed_HOURS">고객님의 %1$s행 항공편이 %2$s시간 지연입니다.</string>
+    <!-- S_Push_flight_CITY_delayed_MINUTE -->
+    <string name="S_Push_flight_CITY_delayed_MINUTE">고객님의 %1$s행 항공편이 %2$s분 지연입니다.</string>
+    <!-- S_Push_flight_CITY_delayed_MINUTES -->
+    <string name="S_Push_flight_CITY_delayed_MINUTES">고객님의 %1$s행 항공편이 %2$s분 지연입니다.</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTE -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 지연입니다.</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTES -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 지연입니다.</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTE -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 지연입니다.</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTES -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 지연입니다.</string>
+    <!-- S_Push_flight_CITY_early_MINUTE -->
+    <string name="S_Push_flight_CITY_early_MINUTE">고객님의 %1$s행 항공편이 %2$s분 일찍 출발합니다.</string>
+    <!-- S_Push_flight_CITY_early_MINUTES -->
+    <string name="S_Push_flight_CITY_early_MINUTES">고객님의 %1$s행 항공편이 %2$s분 일찍 출발합니다.</string>
+    <!-- S_Push_flight_CITY_early_HOUR -->
+    <string name="S_Push_flight_CITY_early_HOUR">고객님의 %1$s행 항공편이 %2$s시간 일찍 출발합니다.</string>
+    <!-- S_Push_flight_CITY_early_HOURS -->
+    <string name="S_Push_flight_CITY_early_HOURS">고객님의 %1$s행 항공편이 %2$s시간 일찍 출발합니다.</string>
+    <!-- S_Push_flight_CITY_early_HOUR_MINUTE -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 일찍 출발합니다.</string>
+    <!-- S_Push_flight_CITY_early_HOURS_MINUTE -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTE">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 일찍 출발합니다.</string>
+    <!-- S_Push_flight_CITY_early_HOUR_MINUTES -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 일찍 출발합니다.</string>
+    <!-- S_Push_flight_CITY_early_HOURS_MINUTES -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTES">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 일찍 출발합니다.</string>
+    <!-- S_Push_flight_CITY_delayed_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE">고객님의 %1$s행 항공편이 %2$s분 지연되어 지금 게이트 %3$s에서 출발합니다.</string>
+    <!-- S_Push_flight_CITY_delayed_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE">고객님의 %1$s행 항공편이 %2$s분 지연되어 지금 게이트 %3$s에서 출발합니다.</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE">고객님의 %1$s행 항공편이 %2$s시간 지연되어 지금 게이트 %3$s에서 출발합니다.</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE">고객님의 %1$s행 항공편이 %2$s시간 지연되어 지금 게이트 %3$s에서 출발합니다.</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 지연되어 지금 게이트 %4$s에서 출발합니다.</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 지연되어 지금 게이트 %4$s에서 출발합니다.</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 지연되어 지금 게이트 %4$s에서 출발합니다.</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 지연되어 지금 게이트 %4$s에서 출발합니다.</string>
+    <!-- S_Push_flight_CITY_early_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE">고객님의 %1$s행 항공편이 예정보다 %2$s분 이른 지금 게이트 %3$s에서 출발합니다.</string>
+    <!-- S_Push_flight_CITY_early_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE">고객님의 %1$s행 항공편이 예정보다 %2$s분 이른 지금 게이트 %3$s에서 출발합니다.</string>
+    <!-- S_Push_flight_CITY_early_HOUR_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE">고객님의 %1$s행 항공편이 예정보다 %2$s시간 이른 지금 게이트 %3$s에서 출발합니다.</string>
+    <!-- S_Push_flight_CITY_early_HOURS_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE">고객님의 %1$s행 항공편이 예정보다 %2$s시간 이른 지금 게이트 %3$s에서 출발합니다.</string>
+    <!-- S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE">고객님의 %1$s행 항공편이 예정보다 %2$s시간 %3$s분 이른 지금 게이트 %4$s에서 출발합니다.</string>
+    <!-- S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE">고객님의 %1$s행 항공편이 예정보다 %2$s시간 %3$s분 이른 지금 게이트 %4$s에서 출발합니다.</string>
+    <!-- S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE">고객님의 %1$s행 항공편이 예정보다 %2$s시간 %3$s분 이른 지금 게이트 %4$s에서 출발합니다.</string>
+    <!-- S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE">고객님의 %1$s행 항공편이 예정보다 %2$s시간 %3$s분 이른 지금 게이트 %4$s에서 출발합니다.</string>
+    <!-- S_Push_flight_from_CITY_to_CITY_cancelled -->
+    <string name="S_Push_flight_from_CITY_to_CITY_cancelled">고객님의 %1$s발 %2$s행 항공편이 취소되었습니다.</string>
+    <!-- S_Push_flight_CITY_departs_in_HOUR -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR">고객님의 %1$s행 항공편이 %2$s시간 후 출발합니다.</string>
+    <!-- S_Push_flight_CITY_departs_in_HOURS -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS">고객님의 %1$s행 항공편이 %2$s시간 후 출발합니다.</string>
+    <!-- S_Push_flight_CITY_departs_in_HOURS_MINUTE -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 후 출발합니다.</string>
+    <!-- S_Push_flight_CITY_departs_in_HOURS_MINUTES -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 후 출발합니다.</string>
+    <!-- S_Push_flight_CITY_departs_in_HOUR_MINUTE -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 후 출발합니다.</string>
+    <!-- S_Push_flight_CITY_departs_in_HOUR_MINUTES -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 후 출발합니다.</string>
+    <!-- S_Push_flight_CITY_departs_in_MINUTES -->
+    <string name="S_Push_flight_CITY_departs_in_MINUTES">고객님의 %1$s행 항공편이 %2$s분 후 출발합니다.</string>
+    <!-- S_Push_flight_CITY_gate_GATE -->
+    <string name="S_Push_flight_CITY_gate_GATE">고객님의 %1$s행 항공편이 게이트 %2$s에서 출발합니다.</string>
+    <!-- S_Push_baggage_BAGGAGE -->
+    <string name="S_Push_baggage_BAGGAGE">수하물 찾는 곳 %1$s에서 고객님의 수하물을 찾으실 수 있습니다.</string>
 
 </resources>

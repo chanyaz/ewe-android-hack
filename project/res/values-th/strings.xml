@@ -515,10 +515,9 @@
     </plurals>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">แก้จุดบกพร่อง: มีการลบข้อมูลการค้นหาไปแล้ว โปรดรายงานข้อผิดพลาดนี้ต่อ DLew</string>
-    <!-- Low Cost Flights label -->
-    <string name="low_cost_flights">เที่ยวบินราคาประหยัด</string>
-    <!-- Message shown to user when viewing flight search results that do not contain low-cost flights, although the same search on desktop returns low cost flights -->
-    <string name="lcc_flights_not_available">กำลังมองหาเที่ยวบิน Jetstar, Scoot หรือ AirAsia หรือ ตั๋วของสายการบินเหล่านี้มีพร้อมจองบนเว็บไซต์ของเรา และจะมีให้จองในแอพฯ เร็วๆ นี้</string>
+    <!-- Message shown to user when they attempt a flight search against the India point of sale that is domestic (which we don't support yet) -->
+    <string name="india_domestic_flights_not_available_title">เร็วๆ นี้!</string>
+    <string name="india_domestic_flights_not_available_body">เรากำลังทำงานอย่างเต็มที่เพื่อเพิ่มการจองเที่ยวบินภายในประเทศลงในเวอร์ชั่นใหม่</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">เลือกเที่ยวบินไปยัง %1$s</string>
     <!-- Select a flight back to (city name) -->
@@ -1819,7 +1818,9 @@
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">การตั้งค่า</string>
-    <!-- Label for "about this app" menu item. -->
+    <!-- Label for "info about this app" menu item.   -->
+    <string name="Info">ข้อมูล</string>
+    <!-- Label for "about this app" menu item. Deprecated for the time being, but kept because maybe it wil return -->
     <string name="About">เกี่ยวกับ</string>
 
     <!-- Error strings - replacements for default EAN errors -->
@@ -2118,5 +2119,111 @@
     <string name="country_zm">แซมเบีย</string>
     <string name="country_zw">ซิมบับเว</string>
     <string name="country_ax">หมู่เกาะโอลันด์</string>
+
+    <!-- Google Wallet -->
+    <!-- The merchant name to display to the user for Google Wallet -->
+    <string name="merchant_name">Expedia, Inc.</string>
+    <!-- Loading message -->
+    <string name="loading">กำลังโหลด</string>
+    <!-- Google Wallet label -->
+    <string name="google_wallet">Google Wallet</string>
+    <!-- Google wallet unavailable error -->
+    <string name="google_wallet_unavailable">Google Wallet ไม่พร้อมใช้งาน</string>
+    <!-- Error if you've exceeded your overall Google Wallet spending limit -->
+    <string name="spending_limit_exceeded">คุณมียอดใช้จ่ายเกินวงเงิน Google Wallet ของคุณ</string>
+    <!-- Content description for "buy with wallet" button -->
+    <string name="wallet_buy_with_google_wallet">ซื้อด้วย Google Wallet</string>
+
+    <!-- Samsung Wallet -->
+    <!-- Label to use when the ticket already exists in the wallet -->
+    <string name="view_in_samsung_wallet">ดูใน Samsung Wallet</string>
+    <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
+    <string name="add_to_samsung_wallet">เพิ่มลงใน Samsung Wallet</string>
+
+    <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
+    <!-- S_Push_flight_CITY_delayed_HOUR -->
+    <string name="S_Push_flight_CITY_delayed_HOUR">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s ชั่วโมง</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS -->
+    <string name="S_Push_flight_CITY_delayed_HOURS">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s ชั่วโมง</string>
+    <!-- S_Push_flight_CITY_delayed_MINUTE -->
+    <string name="S_Push_flight_CITY_delayed_MINUTE">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s นาที</string>
+    <!-- S_Push_flight_CITY_delayed_MINUTES -->
+    <string name="S_Push_flight_CITY_delayed_MINUTES">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s นาที</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTE -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTES -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTE -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTES -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที</string>
+    <!-- S_Push_flight_CITY_early_MINUTE -->
+    <string name="S_Push_flight_CITY_early_MINUTE">เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s นาที</string>
+    <!-- S_Push_flight_CITY_early_MINUTES -->
+    <string name="S_Push_flight_CITY_early_MINUTES">เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s นาที</string>
+    <!-- S_Push_flight_CITY_early_HOUR -->
+    <string name="S_Push_flight_CITY_early_HOUR">เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง</string>
+    <!-- S_Push_flight_CITY_early_HOURS -->
+    <string name="S_Push_flight_CITY_early_HOURS">เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง</string>
+    <!-- S_Push_flight_CITY_early_HOUR_MINUTE -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE">เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที</string>
+    <!-- S_Push_flight_CITY_early_HOURS_MINUTE -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTE">เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที</string>
+    <!-- S_Push_flight_CITY_early_HOUR_MINUTES -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES">เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที</string>
+    <!-- S_Push_flight_CITY_early_HOURS_MINUTES -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTES">เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที</string>
+    <!-- S_Push_flight_CITY_delayed_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s นาที และขณะนี้กำลังออกจากประตู %3$s</string>
+    <!-- S_Push_flight_CITY_delayed_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s นาที และขณะนี้กำลังออกจากประตู %3$s</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s ชั่วโมง และขณะนี้กำลังออกจากประตู %3$s</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s ชั่วโมง และขณะนี้กำลังออกจากประตู %3$s</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที และขณะนี้กำลังออกจากประตู %4$s</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที และขณะนี้กำลังออกจากประตู %4$s</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที และขณะนี้กำลังออกจากประตู %4$s</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที และขณะนี้กำลังออกจากประตู %4$s</string>
+    <!-- S_Push_flight_CITY_early_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE">ขณะนี้เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s นาที จากประตู %3$s</string>
+    <!-- S_Push_flight_CITY_early_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE">ขณะนี้เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s นาที จากประตู %3$s</string>
+    <!-- S_Push_flight_CITY_early_HOUR_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE">ขณะนี้เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง จากประตู %3$s</string>
+    <!-- S_Push_flight_CITY_early_HOURS_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE">ขณะนี้เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง จากประตู %3$s</string>
+    <!-- S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE">ขณะนี้เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที จากประตู %4$s</string>
+    <!-- S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE">ขณะนี้เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที จากประตู %4$s</string>
+    <!-- S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE">ขณะนี้เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที จากประตู %4$s</string>
+    <!-- S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE">ขณะนี้เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที จากประตู %4$s</string>
+    <!-- S_Push_flight_from_CITY_to_CITY_cancelled -->
+    <string name="S_Push_flight_from_CITY_to_CITY_cancelled">เที่ยวบินจาก %1$s ไปยัง %2$s ของคุณถูกยกเลิก</string>
+    <!-- S_Push_flight_CITY_departs_in_HOUR -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR">เที่ยวบินไปยัง %1$s ของคุณจะออกเดินทางใน %2$s ชั่วโมง</string>
+    <!-- S_Push_flight_CITY_departs_in_HOURS -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS">เที่ยวบินไปยัง %1$s ของคุณจะออกเดินทางใน %2$s ชั่วโมง</string>
+    <!-- S_Push_flight_CITY_departs_in_HOURS_MINUTE -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE">เที่ยวบินไปยัง %1$s ของคุณจะออกเดินทางใน %2$s ชั่วโมง %3$s นาที</string>
+    <!-- S_Push_flight_CITY_departs_in_HOURS_MINUTES -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES">เที่ยวบินไปยัง %1$s ของคุณจะออกเดินทางใน %2$s ชั่วโมง %3$s นาที</string>
+    <!-- S_Push_flight_CITY_departs_in_HOUR_MINUTE -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE">เที่ยวบินไปยัง %1$s ของคุณจะออกเดินทางใน %2$s ชั่วโมง %3$s นาที</string>
+    <!-- S_Push_flight_CITY_departs_in_HOUR_MINUTES -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES">เที่ยวบินไปยัง %1$s ของคุณจะออกเดินทางใน %2$s ชั่วโมง %3$s นาที</string>
+    <!-- S_Push_flight_CITY_departs_in_MINUTES -->
+    <string name="S_Push_flight_CITY_departs_in_MINUTES">เที่ยวบินไปยัง %1$s ของคุณจะออกเดินทางใน %2$s นาที</string>
+    <!-- S_Push_flight_CITY_gate_GATE -->
+    <string name="S_Push_flight_CITY_gate_GATE">ขณะนี้เที่ยวบินไปยัง %1$s ของคุณกำลังออกจากประตู %2$s</string>
+    <!-- S_Push_baggage_BAGGAGE -->
+    <string name="S_Push_baggage_BAGGAGE">กระเป๋าของคุณจะอยู่บริเวณจุดรับกระเป๋า %1$s</string>
 
 </resources>

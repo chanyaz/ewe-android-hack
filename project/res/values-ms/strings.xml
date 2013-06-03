@@ -515,10 +515,9 @@
     </plurals>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">NYAHPEPIJAT: Data carian telah dikosongkan.  Sila laporkan ralat ini kepada DLew.</string>
-    <!-- Low Cost Flights label -->
-    <string name="low_cost_flights">Pnrbgn Kos Rendah</string>
-    <!-- Message shown to user when viewing flight search results that do not contain low-cost flights, although the same search on desktop returns low cost flights -->
-    <string name="lcc_flights_not_available">Mencari Jetstar, Scoot atau Air Asia? Tiket untuk sykt pnrbgn ini tersedia di laman web kami dan akan dtg ke apl tidak lama lagi.</string>
+    <!-- Message shown to user when they attempt a flight search against the India point of sale that is domestic (which we don't support yet) -->
+    <string name="india_domestic_flights_not_available_title">Akan Datang Tidak Lama Lagi!</string>
+    <string name="india_domestic_flights_not_available_body">Kami sedang bertungkus lumus untuk menambahkan penerbangan domestik dalam versi akan datang.</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">Pilih penerbangan ke %1$s</string>
     <!-- Select a flight back to (city name) -->
@@ -1819,7 +1818,9 @@
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">Tetapan</string>
-    <!-- Label for "about this app" menu item. -->
+    <!-- Label for "info about this app" menu item.   -->
+    <string name="Info">Makl</string>
+    <!-- Label for "about this app" menu item. Deprecated for the time being, but kept because maybe it wil return -->
     <string name="About">Mengenai</string>
 
     <!-- Error strings - replacements for default EAN errors -->
@@ -2118,5 +2119,111 @@
     <string name="country_zm">Zambia</string>
     <string name="country_zw">Zimbabwe</string>
     <string name="country_ax">Kepulauan Åland</string>
+
+    <!-- Google Wallet -->
+    <!-- The merchant name to display to the user for Google Wallet -->
+    <string name="merchant_name">Expedia, Inc.</string>
+    <!-- Loading message -->
+    <string name="loading">Memuatkan</string>
+    <!-- Google Wallet label -->
+    <string name="google_wallet">Google Wallet</string>
+    <!-- Google wallet unavailable error -->
+    <string name="google_wallet_unavailable">Google Wallet tidak tersedia</string>
+    <!-- Error if you've exceeded your overall Google Wallet spending limit -->
+    <string name="spending_limit_exceeded">Anda telah melebihi had perbelanjaan Google Wallet anda</string>
+    <!-- Content description for "buy with wallet" button -->
+    <string name="wallet_buy_with_google_wallet">Beli dengan Google wallet</string>
+
+    <!-- Samsung Wallet -->
+    <!-- Label to use when the ticket already exists in the wallet -->
+    <string name="view_in_samsung_wallet">Lihat dalam Samsung Wallet</string>
+    <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
+    <string name="add_to_samsung_wallet">Tambah kepada Samsung Wallet</string>
+
+    <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
+    <!-- S_Push_flight_CITY_delayed_HOUR -->
+    <string name="S_Push_flight_CITY_delayed_HOUR">Pnrbgn anda ke %1$s lewat selama %2$s jam.</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS -->
+    <string name="S_Push_flight_CITY_delayed_HOURS">Pnrbgn anda ke %1$s lewat selama %2$s jam.</string>
+    <!-- S_Push_flight_CITY_delayed_MINUTE -->
+    <string name="S_Push_flight_CITY_delayed_MINUTE">Pnrbgn anda ke %1$s lewat selama %2$s minit.</string>
+    <!-- S_Push_flight_CITY_delayed_MINUTES -->
+    <string name="S_Push_flight_CITY_delayed_MINUTES">Pnrbgn anda ke %1$s lewat selama %2$s minit.</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTE -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE">Pnrbgn anda ke %1$s lewat selama %2$s jam %3$s minit.</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTES -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES">Pnrbgn anda ke %1$s lewat selama %2$s jam %3$s minit.</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTE -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE">Pnrbgn anda ke %1$s lewat selama %2$s jam %3$s minit.</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTES -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES">Pnrbgn anda ke %1$s lewat selama %2$s jam %3$s minit.</string>
+    <!-- S_Push_flight_CITY_early_MINUTE -->
+    <string name="S_Push_flight_CITY_early_MINUTE">Pnrbgn anda ke %1$s akan berlepas %2$s minit lebih awal.</string>
+    <!-- S_Push_flight_CITY_early_MINUTES -->
+    <string name="S_Push_flight_CITY_early_MINUTES">Pnrbgn anda ke %1$s akan berlepas %2$s minit lebih awal.</string>
+    <!-- S_Push_flight_CITY_early_HOUR -->
+    <string name="S_Push_flight_CITY_early_HOUR">Pnrbgn anda ke %1$s akan berlepas %2$s jam lebih awal.</string>
+    <!-- S_Push_flight_CITY_early_HOURS -->
+    <string name="S_Push_flight_CITY_early_HOURS">Pnrbgn anda ke %1$s akan berlepas %2$s jam lebih awal.</string>
+    <!-- S_Push_flight_CITY_early_HOUR_MINUTE -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE">Pnrbgn anda ke %1$s akan berlepas %2$s jam %3$s minit lebih awal.</string>
+    <!-- S_Push_flight_CITY_early_HOURS_MINUTE -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTE">Pnrbgn anda ke %1$s akan berlepas %2$s jam %3$s minit lebih awal.</string>
+    <!-- S_Push_flight_CITY_early_HOUR_MINUTES -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES">Pnrbgn anda ke %1$s akan berlepas %2$s jam %3$s minit lebih awal.</string>
+    <!-- S_Push_flight_CITY_early_HOURS_MINUTES -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTES">Pnrbgn anda ke %1$s akan berlepas %2$s jam %3$s minit lebih awal.</string>
+    <!-- S_Push_flight_CITY_delayed_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE">Pnrbgn anda ke %1$s lewat selama %2$s minit dan kini berlepas dari pintu %3$s.</string>
+    <!-- S_Push_flight_CITY_delayed_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE">Pnrbgn anda ke %1$s lewat selama %2$s minit dan kini berlepas dari pintu %3$s.</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE">Pnrbgn anda ke %1$s lewat selama %2$s jam dan kini berlepas dari pintu %3$s.</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE">Pnrbgn anda ke %1$s lewat selama %2$s jam dan kini berlepas dari pintu %3$s.</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE">Pnrbgn anda ke %1$s lewat selama %2$s jam %3$s minit dan kini berlepas dari pintu %4$s.</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE">Pnrbgn anda ke %1$s lewat selama %2$s jam %3$s minit dan kini berlepas dari pintu %4$s.</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE">Pnrbgn anda ke %1$s lewat selama %2$s jam %3$s minit dan kini berlepas dari pintu %4$s.</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE">Pnrbgn anda ke %1$s lewat selama %2$s jam %3$s minit dan kini berlepas dari pintu %4$s.</string>
+    <!-- S_Push_flight_CITY_early_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE">Pnrbgn anda ke %1$s sedang kini berlepas %2$s minit lebih awal dari pintu %3$s.</string>
+    <!-- S_Push_flight_CITY_early_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE">Pnrbgn anda ke %1$s sedang kini berlepas %2$s minit lebih awal dari pintu %3$s.</string>
+    <!-- S_Push_flight_CITY_early_HOUR_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE">Pnrbgn anda ke %1$s sedang kini berlepas %2$s jam lebih awal dari pintu %3$s.</string>
+    <!-- S_Push_flight_CITY_early_HOURS_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE">Pnrbgn anda ke %1$s sedang kini berlepas %2$s jam lebih awal dari pintu %3$s.</string>
+    <!-- S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE">Pnrbgn anda ke %1$s sedang kini berlepas %2$s jam %3$s minit lebih awal dari pintu %4$s.</string>
+    <!-- S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE">Pnrbgn anda ke %1$s sedang kini berlepas %2$s jam %3$s minit lebih awal dari pintu %4$s.</string>
+    <!-- S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE">Pnrbgn anda ke %1$s sedang kini berlepas %2$s jam %3$s minit lebih awal dari pintu %4$s.</string>
+    <!-- S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE">Pnrbgn anda ke %1$s sedang kini berlepas %2$s jam %3$s minit lebih awal dari pintu %4$s.</string>
+    <!-- S_Push_flight_from_CITY_to_CITY_cancelled -->
+    <string name="S_Push_flight_from_CITY_to_CITY_cancelled">Pnrbgn anda dari %1$s ke %2$s telah dibatalkan.</string>
+    <!-- S_Push_flight_CITY_departs_in_HOUR -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR">Pnrbgn anda ke %1$s akan berlepas dalam masa %2$s jam.</string>
+    <!-- S_Push_flight_CITY_departs_in_HOURS -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS">Pnrbgn anda ke %1$s akan berlepas dalam masa %2$s jam.</string>
+    <!-- S_Push_flight_CITY_departs_in_HOURS_MINUTE -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE">Pnrbgn anda ke %1$s akan berlepas dalam masa %2$s jam %3$s minit.</string>
+    <!-- S_Push_flight_CITY_departs_in_HOURS_MINUTES -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES">Pnrbgn anda ke %1$s akan berlepas dalam masa %2$s jam %3$s minit.</string>
+    <!-- S_Push_flight_CITY_departs_in_HOUR_MINUTE -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE">Pnrbgn anda ke %1$s akan berlepas dalam masa %2$s jam %3$s minit.</string>
+    <!-- S_Push_flight_CITY_departs_in_HOUR_MINUTES -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES">Pnrbgn anda ke %1$s akan berlepas dalam masa %2$s jam %3$s minit.</string>
+    <!-- S_Push_flight_CITY_departs_in_MINUTES -->
+    <string name="S_Push_flight_CITY_departs_in_MINUTES">Pnrbgn anda ke %1$s akan berlepas dalam masa %2$s minit.</string>
+    <!-- S_Push_flight_CITY_gate_GATE -->
+    <string name="S_Push_flight_CITY_gate_GATE">Pnrbgn anda ke %1$s kini berlepas dari pintu %2$s.</string>
+    <!-- S_Push_baggage_BAGGAGE -->
+    <string name="S_Push_baggage_BAGGAGE">Beg anda akan berada di bahagian tuntutan bagasi %1$s.</string>
 
 </resources>

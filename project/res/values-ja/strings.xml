@@ -515,10 +515,9 @@
     </plurals>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">デバック : 検索データが削除されました。エラーを報告してください。</string>
-    <!-- Low Cost Flights label -->
-    <string name="low_cost_flights">格安航空券</string>
-    <!-- Message shown to user when viewing flight search results that do not contain low-cost flights, although the same search on desktop returns low cost flights -->
-    <string name="lcc_flights_not_available">エアアジア、ジェットスター、スクートの航空券をお探しですか ?格安航空会社の航空券予約には PC サイトをご利用ください (アプリ版は近日中に対応予定)。</string>
+    <!-- Message shown to user when they attempt a flight search against the India point of sale that is domestic (which we don't support yet) -->
+    <string name="india_domestic_flights_not_available_title">準備中…</string>
+    <string name="india_domestic_flights_not_available_body">新バージョンには国内線のフライトも追加される予定です。</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">%1$s へのフライトを選択</string>
     <!-- Select a flight back to (city name) -->
@@ -574,12 +573,12 @@
     <string name="book_now_price_TEMPLATE">今すぐ予約で &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label, when there are only a few seats left.  %1$s is the number of seats, %2$s is the price - e.g., "3 left at $500" -->
     <plurals name="urgency_book_TEMPLATE">
-        <item quantity="zero">残り %1$s 席 &lt;b&gt; より%2$s&lt;/b&gt;</item>
-        <item quantity="one">残り %1$s 席 &lt;b&gt; より%2$s&lt;/b&gt;</item>
-        <item quantity="two">残り %1$s 席 &lt;b&gt; より%2$s&lt;/b&gt;</item>
-        <item quantity="few">残り %1$s 席 &lt;b&gt; より%2$s&lt;/b&gt;</item>
-        <item quantity="many">残り %1$s 席 &lt;b&gt; より%2$s&lt;/b&gt;</item>
-        <item quantity="other">残り %1$s 席 &lt;b&gt; より%2$s&lt;/b&gt;</item>
+        <item quantity="zero">残り %1$s 席 &lt;b&gt;%2$s ～&lt;/b&gt;</item>
+        <item quantity="one">残り %1$s 席 &lt;b&gt;%2$s ～&lt;/b&gt;</item>
+        <item quantity="two">残り %1$s 席 &lt;b&gt;%2$s ～&lt;/b&gt;</item>
+        <item quantity="few">残り %1$s 席 &lt;b&gt;%2$s ～&lt;/b&gt;</item>
+        <item quantity="many">残り %1$s 席 &lt;b&gt;%2$s ～&lt;/b&gt;</item>
+        <item quantity="other">残り %1$s 席 &lt;b&gt;%2$s ～&lt;/b&gt;</item>
     </plurals>
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
     <string name="fare_name_and_price_TEMPLATE">%1$s : %2$s</string>
@@ -747,7 +746,7 @@
     <string name="name_must_match_warning">旅行者名がパスポートなど写真付きの公的証明書に記載された名前と一致しない場合は搭乗できません。</string>
 
     <!-- Special Assistance label template -->
-    <string name="special_assistance_label_TEMPLATE">スペシャルサポート : %1$s</string>
+    <string name="special_assistance_label_TEMPLATE">サポート : %1$s</string>
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <!-- Born on -->
@@ -875,7 +874,7 @@
     <!-- prefers seat template -->
     <string name="prefers_seat_TEMPLATE">希望の座席 : %1$s</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;希望のシート : &lt;/font&gt;%1$s</string>
+    <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;希望の座席 : &lt;/font&gt;%1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">旅行者情報を読み込んでいます…</string>
     <!-- Traveler Information -->
@@ -895,7 +894,7 @@
 
     <!-- Assistance Types -->
     <!-- No assistance type -->
-    <string name="no_assistance">スペシャルサポート不要</string>
+    <string name="no_assistance">サポート不要</string>
     <!-- Blind with seeing eye dog -->
     <string name="blind_with_seeing_eye_dog">盲導犬をお連れの視覚障害者の方</string>
     <!-- Deaf with hearing dog -->
@@ -1819,7 +1818,9 @@
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">設定</string>
-    <!-- Label for "about this app" menu item. -->
+    <!-- Label for "info about this app" menu item.   -->
+    <string name="Info">情報</string>
+    <!-- Label for "about this app" menu item. Deprecated for the time being, but kept because maybe it wil return -->
     <string name="About">情報</string>
 
     <!-- Error strings - replacements for default EAN errors -->
@@ -2118,5 +2119,111 @@
     <string name="country_zm">ザンビア</string>
     <string name="country_zw">ジンバブエ</string>
     <string name="country_ax">オーランド諸島</string>
+
+    <!-- Google Wallet -->
+    <!-- The merchant name to display to the user for Google Wallet -->
+    <string name="merchant_name">Expedia, Inc.</string>
+    <!-- Loading message -->
+    <string name="loading">ロード中…</string>
+    <!-- Google Wallet label -->
+    <string name="google_wallet">Google ウォレット機能</string>
+    <!-- Google wallet unavailable error -->
+    <string name="google_wallet_unavailable">Google ウォレット機能は利用できません</string>
+    <!-- Error if you've exceeded your overall Google Wallet spending limit -->
+    <string name="spending_limit_exceeded">Google ウォレット機能の利用限度額を越えました</string>
+    <!-- Content description for "buy with wallet" button -->
+    <string name="wallet_buy_with_google_wallet">Google ウォレット機能で購入する</string>
+
+    <!-- Samsung Wallet -->
+    <!-- Label to use when the ticket already exists in the wallet -->
+    <string name="view_in_samsung_wallet">サムスン ウォレット機能を表示する</string>
+    <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
+    <string name="add_to_samsung_wallet">サムスン ウォレット機能に追加する</string>
+
+    <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
+    <!-- S_Push_flight_CITY_delayed_HOUR -->
+    <string name="S_Push_flight_CITY_delayed_HOUR">ご利用の%1$s行きフライトは %2$s 時間遅延しています。</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS -->
+    <string name="S_Push_flight_CITY_delayed_HOURS">ご利用の%1$s行きフライトは %2$s 時間遅延しています。</string>
+    <!-- S_Push_flight_CITY_delayed_MINUTE -->
+    <string name="S_Push_flight_CITY_delayed_MINUTE">ご利用の%1$s行きフライトは %2$s 分遅延しています。</string>
+    <!-- S_Push_flight_CITY_delayed_MINUTES -->
+    <string name="S_Push_flight_CITY_delayed_MINUTES">ご利用の%1$s行きフライトは %2$s 分遅延しています。</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTE -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分遅延しています。</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTES -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分遅延しています。</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTE -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分遅延しています。</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTES -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分遅延しています。</string>
+    <!-- S_Push_flight_CITY_early_MINUTE -->
+    <string name="S_Push_flight_CITY_early_MINUTE">ご利用の%1$s行きフライトは %2$s 分早く出発します。</string>
+    <!-- S_Push_flight_CITY_early_MINUTES -->
+    <string name="S_Push_flight_CITY_early_MINUTES">ご利用の%1$s行きフライトは %2$s 分早く出発します。</string>
+    <!-- S_Push_flight_CITY_early_HOUR -->
+    <string name="S_Push_flight_CITY_early_HOUR">ご利用の%1$s行きフライトは %2$s 時間早く出発します。</string>
+    <!-- S_Push_flight_CITY_early_HOURS -->
+    <string name="S_Push_flight_CITY_early_HOURS">ご利用の%1$s行きフライトは %2$s 時間早く出発します。</string>
+    <!-- S_Push_flight_CITY_early_HOUR_MINUTE -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分早く出発します。</string>
+    <!-- S_Push_flight_CITY_early_HOURS_MINUTE -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTE">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分早く出発します。</string>
+    <!-- S_Push_flight_CITY_early_HOUR_MINUTES -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分早く出発します。</string>
+    <!-- S_Push_flight_CITY_early_HOURS_MINUTES -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTES">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分早く出発します。</string>
+    <!-- S_Push_flight_CITY_delayed_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE">ご利用の%1$s行きフライトは %2$s 分遅延でゲート %3$s より今から出発します。</string>
+    <!-- S_Push_flight_CITY_delayed_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE">ご利用の%1$s行きフライトは %2$s 分遅延でゲート %3$s より今から出発します。</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE">ご利用の%1$s行きフライトは %2$s 時間遅延でゲート %3$s より今から出発します。</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE">ご利用の%1$s行きフライトは %2$s 時間遅延でゲート %3$s より今から出発します。</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分遅延でゲート %4$s より今から出発します。</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分遅延でゲート %4$s より今から出発します。</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分遅延でゲート %4$s より今から出発します。</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分遅延でゲート %4$s より今から出発します。</string>
+    <!-- S_Push_flight_CITY_early_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE">ご利用の%1$s行きフライトは %2$s 分早くゲート %3$s より今から出発するところです。</string>
+    <!-- S_Push_flight_CITY_early_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE">ご利用の%1$s行きフライトは %2$s 分早くゲート %3$s より今から出発するところです。</string>
+    <!-- S_Push_flight_CITY_early_HOUR_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE">ご利用の%1$s行きフライトは %2$s 時間早くゲート %3$s より今から出発するところです。</string>
+    <!-- S_Push_flight_CITY_early_HOURS_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE">ご利用の%1$s行きフライトは %2$s 時間早くゲート %3$s より今から出発するところです。</string>
+    <!-- S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分早くゲート %4$s より今から出発するところです。</string>
+    <!-- S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分早くゲート %4$s より今から出発するところです。</string>
+    <!-- S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分早くゲート %4$s より今から出発するところです。</string>
+    <!-- S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分早くゲート %4$s より今から出発するところです。</string>
+    <!-- S_Push_flight_from_CITY_to_CITY_cancelled -->
+    <string name="S_Push_flight_from_CITY_to_CITY_cancelled">ご利用の%1$s発%2$s行きフライトはキャンセルされました。</string>
+    <!-- S_Push_flight_CITY_departs_in_HOUR -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR">ご利用の%1$s行きフライトは %2$s 時間後に出発します。</string>
+    <!-- S_Push_flight_CITY_departs_in_HOURS -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS">ご利用の%1$s行きフライトは %2$s 時間後に出発します。</string>
+    <!-- S_Push_flight_CITY_departs_in_HOURS_MINUTE -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分後に出発します。</string>
+    <!-- S_Push_flight_CITY_departs_in_HOURS_MINUTES -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分後に出発します。</string>
+    <!-- S_Push_flight_CITY_departs_in_HOUR_MINUTE -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分後に出発します。</string>
+    <!-- S_Push_flight_CITY_departs_in_HOUR_MINUTES -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES">ご利用の%1$s行きフライトは %2$s 時間 %3$s 分後に出発します。</string>
+    <!-- S_Push_flight_CITY_departs_in_MINUTES -->
+    <string name="S_Push_flight_CITY_departs_in_MINUTES">ご利用の%1$s行きフライトは %2$s 分後に出発します。</string>
+    <!-- S_Push_flight_CITY_gate_GATE -->
+    <string name="S_Push_flight_CITY_gate_GATE">ご利用の%1$s行きフライトはゲート %2$s より今から出発します。</string>
+    <!-- S_Push_baggage_BAGGAGE -->
+    <string name="S_Push_baggage_BAGGAGE">手荷物は手荷物受取場 %1$s に運ばれます。</string>
 
 </resources>

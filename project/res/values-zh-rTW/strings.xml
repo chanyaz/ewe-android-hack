@@ -515,10 +515,9 @@
     </plurals>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">除錯：搜尋資料因不明原因已被清除。請將此錯誤回報給 DLew。</string>
-    <!-- Low Cost Flights label -->
-    <string name="low_cost_flights">廉價航空班機</string>
-    <!-- Message shown to user when viewing flight search results that do not contain low-cost flights, although the same search on desktop returns low cost flights -->
-    <string name="lcc_flights_not_available">想訂 Jetstar、Scoot 還是 AirAsia？這些廉價航空的機票，現在在我們的網站上也買得到，同時很快也會在 App 上推出。</string>
+    <!-- Message shown to user when they attempt a flight search against the India point of sale that is domestic (which we don't support yet) -->
+    <string name="india_domestic_flights_not_available_title">即將推出，敬請期待…</string>
+    <string name="india_domestic_flights_not_available_body">我們正在努力將本地航班加入新一版的 App 中。</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">選擇前往%1$s的航班</string>
     <!-- Select a flight back to (city name) -->
@@ -526,7 +525,7 @@
     <!-- Error message template when loading a webpage fails -->
     <string name="web_view_loading_error_TEMPLATE">載入頁面錯誤！錯誤訊息：%1$s</string>
     <!-- Title for screen when in an invalid POS we can't search for yet -->
-    <string name="taking_off_soon">即將推出…</string>
+    <string name="taking_off_soon">即將推出，敬請期待…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">很抱歉，您的所在地點&lt;b&gt;尚未提供&lt;/b&gt;以行動裝置預訂航班。</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
@@ -759,7 +758,7 @@
 
     <!-- Section edit contact -->
     <!-- name on card hint -->
-    <string name="name_on_card_hint">持卡人姓名</string>
+    <string name="name_on_card_hint">持卡人姓名 (英文)</string>
     <!-- email hint -->
     <string name="email_address_hint">電子郵件地址</string>
     <!-- phone number hint -->
@@ -1468,9 +1467,9 @@
     <!-- Label for "guest info" form field section -->
     <string name="guest_info">房客資訊</string>
     <!-- The "first name" booking info field. -->
-    <string name="FirstName">名字</string>
+    <string name="FirstName">名字 (英文)</string>
     <!-- The "last name" booking info field. -->
-    <string name="LastName">姓氏</string>
+    <string name="LastName">姓氏 (英文)</string>
     <!-- The "telephone" booking info field. -->
     <string name="Telephone">電話</string>
     <!-- The "email for booking confirmation" booking info field. -->
@@ -1819,7 +1818,9 @@
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">設定</string>
-    <!-- Label for "about this app" menu item. -->
+    <!-- Label for "info about this app" menu item.   -->
+    <string name="Info">資訊</string>
+    <!-- Label for "about this app" menu item. Deprecated for the time being, but kept because maybe it wil return -->
     <string name="About">關於</string>
 
     <!-- Error strings - replacements for default EAN errors -->
@@ -2118,5 +2119,111 @@
     <string name="country_zm">尚比亞</string>
     <string name="country_zw">辛巴威</string>
     <string name="country_ax">奧蘭群島</string>
+
+    <!-- Google Wallet -->
+    <!-- The merchant name to display to the user for Google Wallet -->
+    <string name="merchant_name">Expedia, Inc.</string>
+    <!-- Loading message -->
+    <string name="loading">正在載入</string>
+    <!-- Google Wallet label -->
+    <string name="google_wallet">Google 電子錢包</string>
+    <!-- Google wallet unavailable error -->
+    <string name="google_wallet_unavailable">無法取得 Google 電子錢包</string>
+    <!-- Error if you've exceeded your overall Google Wallet spending limit -->
+    <string name="spending_limit_exceeded">您已經超過 Google 電子錢包的消費額度</string>
+    <!-- Content description for "buy with wallet" button -->
+    <string name="wallet_buy_with_google_wallet">使用 Google 電子錢包購買</string>
+
+    <!-- Samsung Wallet -->
+    <!-- Label to use when the ticket already exists in the wallet -->
+    <string name="view_in_samsung_wallet">在 Samsung 電子錢包中檢視</string>
+    <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
+    <string name="add_to_samsung_wallet">加入 Samsung 電子錢包中</string>
+
+    <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
+    <!-- S_Push_flight_CITY_delayed_HOUR -->
+    <string name="S_Push_flight_CITY_delayed_HOUR">前往%1$s的班機將延遲 %2$s 小時起飛。</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS -->
+    <string name="S_Push_flight_CITY_delayed_HOURS">前往%1$s的班機將延遲 %2$s 小時起飛。</string>
+    <!-- S_Push_flight_CITY_delayed_MINUTE -->
+    <string name="S_Push_flight_CITY_delayed_MINUTE">前往%1$s的班機將延遲 %2$s 分鐘起飛。</string>
+    <!-- S_Push_flight_CITY_delayed_MINUTES -->
+    <string name="S_Push_flight_CITY_delayed_MINUTES">前往%1$s的班機將延遲 %2$s 分鐘起飛。</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTE -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE">前往%1$s的班機將延遲 %2$s 小時 %3$s 分鐘起飛。</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTES -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES">前往%1$s的班機將延遲 %2$s 小時 %3$s 分鐘起飛。</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTE -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE">前往%1$s的班機將延遲 %2$s 小時 %3$s 分鐘起飛。</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTES -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES">前往%1$s的班機將延遲 %2$s 小時 %3$s 分鐘起飛。</string>
+    <!-- S_Push_flight_CITY_early_MINUTE -->
+    <string name="S_Push_flight_CITY_early_MINUTE">前往%1$s的班機將提前 %2$s 分鐘起飛。</string>
+    <!-- S_Push_flight_CITY_early_MINUTES -->
+    <string name="S_Push_flight_CITY_early_MINUTES">前往%1$s的班機將提前 %2$s 分鐘起飛。</string>
+    <!-- S_Push_flight_CITY_early_HOUR -->
+    <string name="S_Push_flight_CITY_early_HOUR">前往%1$s的班機將提前 %2$s 小時起飛。</string>
+    <!-- S_Push_flight_CITY_early_HOURS -->
+    <string name="S_Push_flight_CITY_early_HOURS">前往%1$s的班機將提前 %2$s 小時起飛。</string>
+    <!-- S_Push_flight_CITY_early_HOUR_MINUTE -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE">前往%1$s的班機將提前 %2$s 小時 %3$s 分鐘起飛。</string>
+    <!-- S_Push_flight_CITY_early_HOURS_MINUTE -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTE">前往%1$s的班機將提前 %2$s 小時 %3$s 分鐘起飛。</string>
+    <!-- S_Push_flight_CITY_early_HOUR_MINUTES -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES">前往%1$s的班機將提前 %2$s 小時 %3$s 分鐘起飛。</string>
+    <!-- S_Push_flight_CITY_early_HOURS_MINUTES -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTES">前往%1$s的班機將提前 %2$s 小時 %3$s 分鐘起飛。</string>
+    <!-- S_Push_flight_CITY_delayed_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE">前往%1$s的班機將延遲 %2$s 分鐘起飛，同時登機門已改為 %3$s。</string>
+    <!-- S_Push_flight_CITY_delayed_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE">前往%1$s的班機將延遲 %2$s 分鐘起飛，同時登機門已改為 %3$s。</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE">前往%1$s的班機將延遲 %2$s 小時起飛，同時登機門已改為 %3$s。</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE">前往%1$s的班機將延遲 %2$s 小時起飛，同時登機門已改為 %3$s。</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE">前往%1$s的班機將延遲 %2$s 小時 %3$s 分鐘起飛，同時登機門已改為 %4$s。</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE">前往%1$s的班機將延遲 %2$s 小時 %3$s 分鐘起飛，同時登機門已改為 %4$s。</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE">前往%1$s的班機將延遲 %2$s 小時 %3$s 分鐘起飛，同時登機門已改為 %4$s。</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE">前往%1$s的班機將延遲 %2$s 小時 %3$s 分鐘起飛，同時登機門已改為 %4$s。</string>
+    <!-- S_Push_flight_CITY_early_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE">前往%1$s的班機將提前 %2$s 分鐘起飛，同時登機門已改為%3$s。</string>
+    <!-- S_Push_flight_CITY_early_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE">前往%1$s的班機將提前 %2$s 分鐘起飛，同時登機門已改為%3$s。</string>
+    <!-- S_Push_flight_CITY_early_HOUR_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE">前往%1$s的班機將提前 %2$s 小時起飛，同時登機門已改為%3$s。</string>
+    <!-- S_Push_flight_CITY_early_HOURS_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE">前往%1$s的班機將提前 %2$s 小時起飛，同時登機門已改為%3$s。</string>
+    <!-- S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE">前往%1$s的班機將提前 %2$s 小時 %3$s 分鐘起飛，同時登機門已改為 %4$s。</string>
+    <!-- S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE">前往%1$s的班機將提前 %2$s 小時 %3$s 分鐘起飛，同時登機門已改為 %4$s。</string>
+    <!-- S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE">前往%1$s的班機將提前 %2$s 小時 %3$s 分鐘起飛，同時登機門已改為 %4$s。</string>
+    <!-- S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE">前往%1$s的班機將提前 %2$s 小時 %3$s 分鐘起飛，同時登機門已改為 %4$s。</string>
+    <!-- S_Push_flight_from_CITY_to_CITY_cancelled -->
+    <string name="S_Push_flight_from_CITY_to_CITY_cancelled">從%1$s前往%2$s的班機已經取消。</string>
+    <!-- S_Push_flight_CITY_departs_in_HOUR -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR">前往%1$s的班機將於 %2$s 小時後起飛。</string>
+    <!-- S_Push_flight_CITY_departs_in_HOURS -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS">前往%1$s的班機將於 %2$s 小時後起飛。</string>
+    <!-- S_Push_flight_CITY_departs_in_HOURS_MINUTE -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE">前往%1$s的班機將於 %2$s 小時 %3$s 分鐘後起飛。</string>
+    <!-- S_Push_flight_CITY_departs_in_HOURS_MINUTES -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES">前往%1$s的班機將於 %2$s 小時 %3$s 分鐘後起飛。</string>
+    <!-- S_Push_flight_CITY_departs_in_HOUR_MINUTE -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE">前往%1$s的班機將於 %2$s 小時 %3$s 分鐘後起飛。</string>
+    <!-- S_Push_flight_CITY_departs_in_HOUR_MINUTES -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES">前往%1$s的班機將於 %2$s 小時 %3$s 分鐘後起飛。</string>
+    <!-- S_Push_flight_CITY_departs_in_MINUTES -->
+    <string name="S_Push_flight_CITY_departs_in_MINUTES">前往%1$s的班機將於 %2$s 分鐘後起飛。</string>
+    <!-- S_Push_flight_CITY_gate_GATE -->
+    <string name="S_Push_flight_CITY_gate_GATE">前往%1$s的班機，登機門已改為 %2$s。</string>
+    <!-- S_Push_baggage_BAGGAGE -->
+    <string name="S_Push_baggage_BAGGAGE">您的行李將會在第 %1$s 號輸送帶。</string>
 
 </resources>

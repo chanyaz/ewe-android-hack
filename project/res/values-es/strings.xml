@@ -515,10 +515,9 @@
     </plurals>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">DEBUG: Los datos de búsqueda se han borrado.  Informa de este error a DLew.</string>
-    <!-- Low Cost Flights label -->
-    <string name="low_cost_flights">Vuelos de bajo coste</string>
-    <!-- Message shown to user when viewing flight search results that do not contain low-cost flights, although the same search on desktop returns low cost flights -->
-    <string name="lcc_flights_not_available">¿No encuentras Jetstar, Scoot o Air Asia? Pronto estarán disponibles en la aplicación. Mientras tanto, puedes comprar tus billetes a través de nuestro sitio web.</string>
+    <!-- Message shown to user when they attempt a flight search against the India point of sale that is domestic (which we don't support yet) -->
+    <string name="india_domestic_flights_not_available_title">¡Próximamente!</string>
+    <string name="india_domestic_flights_not_available_body">Estamos trabajando a fondo para añadir vuelos domésticos a la próxima versión.</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">Selecciona un vuelo a %1$s</string>
     <!-- Select a flight back to (city name) -->
@@ -1153,7 +1152,7 @@
     </plurals>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
-    <string name="EnableLocationSettings">Para poder usar \&apos;Mi ubicación\&apos; debes introducir al menos una ubicación dentro de la pestaña de Ajustes.\n}¿Quieres ir a Ajustes ahora para activarla?</string>
+    <string name="EnableLocationSettings">Para poder usar ‘Mi ubicación\&apos; debes introducir al menos una ubicación dentro de la pestaña de Ajustes.\n}¿Quieres ir a Ajustes ahora para activarla?</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
     <string name="ProviderDisabled">La recepción de datos de ubicación está desactivada. Vuelve a activarla para realizar una búsqueda por ubicación.</string>
     <!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
@@ -1819,7 +1818,9 @@
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">Ajustes</string>
-    <!-- Label for "about this app" menu item. -->
+    <!-- Label for "info about this app" menu item.   -->
+    <string name="Info">Info</string>
+    <!-- Label for "about this app" menu item. Deprecated for the time being, but kept because maybe it wil return -->
     <string name="About">Más información</string>
 
     <!-- Error strings - replacements for default EAN errors -->
@@ -2118,5 +2119,111 @@
     <string name="country_zm">Zambia</string>
     <string name="country_zw">Zimbabue</string>
     <string name="country_ax">Islas de Åland</string>
+
+    <!-- Google Wallet -->
+    <!-- The merchant name to display to the user for Google Wallet -->
+    <string name="merchant_name">Expedia, Inc.</string>
+    <!-- Loading message -->
+    <string name="loading">Cargando</string>
+    <!-- Google Wallet label -->
+    <string name="google_wallet">Google Wallet</string>
+    <!-- Google wallet unavailable error -->
+    <string name="google_wallet_unavailable">Google Wallet no está disponible</string>
+    <!-- Error if you've exceeded your overall Google Wallet spending limit -->
+    <string name="spending_limit_exceeded">Has superado el límite de gasto de tu Google Wallet</string>
+    <!-- Content description for "buy with wallet" button -->
+    <string name="wallet_buy_with_google_wallet">Comprar con Google Wallet</string>
+
+    <!-- Samsung Wallet -->
+    <!-- Label to use when the ticket already exists in the wallet -->
+    <string name="view_in_samsung_wallet">Ver en Samsung Wallet</string>
+    <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
+    <string name="add_to_samsung_wallet">Añadir a Samsung Wallet</string>
+
+    <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
+    <!-- S_Push_flight_CITY_delayed_HOUR -->
+    <string name="S_Push_flight_CITY_delayed_HOUR">Tu vuelo a %1$s tiene un retraso de %2$s hora.</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS -->
+    <string name="S_Push_flight_CITY_delayed_HOURS">Tu vuelo a %1$s tiene un retraso de %2$s horas.</string>
+    <!-- S_Push_flight_CITY_delayed_MINUTE -->
+    <string name="S_Push_flight_CITY_delayed_MINUTE">Tu vuelo a %1$s tiene un retraso de %2$s minuto.</string>
+    <!-- S_Push_flight_CITY_delayed_MINUTES -->
+    <string name="S_Push_flight_CITY_delayed_MINUTES">Tu vuelo a %1$s tiene un retraso de %2$s minutos.</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTE -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE">Tu vuelo a %1$s tiene un retraso de %2$s hora %3$s minuto.</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTES -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES">Tu vuelo a %1$s tiene un retraso de %2$s hora %3$s minutos.</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTE -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE">Tu vuelo a %1$s tiene un retraso de %2$s horas %3$s minuto.</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTES -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES">Tu vuelo a %1$s tiene un retraso de %2$s horas %3$s minutos.</string>
+    <!-- S_Push_flight_CITY_early_MINUTE -->
+    <string name="S_Push_flight_CITY_early_MINUTE">Tu vuelo a %1$s sale %2$s minuto antes.</string>
+    <!-- S_Push_flight_CITY_early_MINUTES -->
+    <string name="S_Push_flight_CITY_early_MINUTES">Tu vuelo a %1$s sale %2$s minutos antes.</string>
+    <!-- S_Push_flight_CITY_early_HOUR -->
+    <string name="S_Push_flight_CITY_early_HOUR">Tu vuelo a %1$s sale %2$s hora antes.</string>
+    <!-- S_Push_flight_CITY_early_HOURS -->
+    <string name="S_Push_flight_CITY_early_HOURS">Tu vuelo a %1$s sale %2$s horas antes.</string>
+    <!-- S_Push_flight_CITY_early_HOUR_MINUTE -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE">Tu vuelo a %1$s sale %2$s hora %3$s minuto antes.</string>
+    <!-- S_Push_flight_CITY_early_HOURS_MINUTE -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTE">Tu vuelo a %1$s sale %2$s horas %3$s minuto antes.</string>
+    <!-- S_Push_flight_CITY_early_HOUR_MINUTES -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES">Tu vuelo a %1$s sale %2$s hora %3$s minutos antes.</string>
+    <!-- S_Push_flight_CITY_early_HOURS_MINUTES -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTES">Tu vuelo a %1$s sale %2$s horas %3$s minutos antes.</string>
+    <!-- S_Push_flight_CITY_delayed_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE">Tu vuelo a %1$s tiene un retraso de %2$s minuto y ahora la puerta de embarque es %3$s.</string>
+    <!-- S_Push_flight_CITY_delayed_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE">Tu vuelo a %1$s tiene un retraso de %2$s minutos y ahora la puerta de embarque es %3$s.</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE">Tu vuelo a %1$s tiene un retraso de %2$s hora y ahora la puerta de embarque es %3$s.</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE">Tu vuelo a %1$s tiene un retraso de %2$s horas y ahora la puerta de embarque es %3$s.</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE">Tu vuelo a %1$s tiene un retraso de %2$s hora %3$s minuto y ahora la puerta de embarque es %4$s.</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE">Tu vuelo a %1$s tiene un retraso de %2$s horas %3$s minuto y ahora la puerta de embarque es %4$s.</string>
+    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE">Tu vuelo a %1$s tiene un retraso de %2$s hora %3$s minutos y ahora la puerta de embarque es %4$s.</string>
+    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE">Tu vuelo a %1$s tiene un retraso de %2$s horas %3$s minutos y ahora la puerta de embarque es %4$s.</string>
+    <!-- S_Push_flight_CITY_early_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE">Tu vuelo a %1$s sale ahora %2$s minuto antes desde la puerta de embarque %3$s.</string>
+    <!-- S_Push_flight_CITY_early_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE">Tu vuelo a %1$s sale ahora %2$s minutos antes desde la puerta de embarque %3$s.</string>
+    <!-- S_Push_flight_CITY_early_HOUR_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE">Tu vuelo a %1$s sale ahora %2$s hora antes desde la puerta de embarque %3$s.</string>
+    <!-- S_Push_flight_CITY_early_HOURS_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE">Tu vuelo a %1$s sale ahora %2$s horas antes desde la puerta de embarque %3$s.</string>
+    <!-- S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE">Tu vuelo a %1$s sale ahora %2$s hora %3$s minuto antes desde la puerta de embarque %4$s.</string>
+    <!-- S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE">Tu vuelo a %1$s sale ahora %2$s horas %3$s minuto antes desde la puerta de embarque %4$s.</string>
+    <!-- S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE">Tu vuelo a %1$s sale ahora %2$s hora %3$s minutos antes desde la puerta de embarque %4$s.</string>
+    <!-- S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE">Tu vuelo a %1$s sale ahora %2$s horas %3$s minutos antes desde la puerta de embarque %4$s.</string>
+    <!-- S_Push_flight_from_CITY_to_CITY_cancelled -->
+    <string name="S_Push_flight_from_CITY_to_CITY_cancelled">Tu vuelo con salida desde %1$s y llegada a %2$s se ha cancelado.</string>
+    <!-- S_Push_flight_CITY_departs_in_HOUR -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR">Tu vuelo a %1$s sale en %2$s hora.</string>
+    <!-- S_Push_flight_CITY_departs_in_HOURS -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS">Tu vuelo a %1$s sale en %2$s horas.</string>
+    <!-- S_Push_flight_CITY_departs_in_HOURS_MINUTE -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE">Tu vuelo a %1$s sale en %2$s horas %3$s minuto.</string>
+    <!-- S_Push_flight_CITY_departs_in_HOURS_MINUTES -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES">Tu vuelo a %1$s sale en %2$s horas %3$s minutos.</string>
+    <!-- S_Push_flight_CITY_departs_in_HOUR_MINUTE -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE">Tu vuelo a %1$s sale en %2$s hora %3$s minuto.</string>
+    <!-- S_Push_flight_CITY_departs_in_HOUR_MINUTES -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES">Tu vuelo a %1$s sale en %2$s hora %3$s minutos.</string>
+    <!-- S_Push_flight_CITY_departs_in_MINUTES -->
+    <string name="S_Push_flight_CITY_departs_in_MINUTES">Tu vuelo a %1$s sale en %2$s minutos.</string>
+    <!-- S_Push_flight_CITY_gate_GATE -->
+    <string name="S_Push_flight_CITY_gate_GATE">Tu vuelo a %1$s sale ahora de la puerta de embarque %2$s.</string>
+    <!-- S_Push_baggage_BAGGAGE -->
+    <string name="S_Push_baggage_BAGGAGE">Encontrarás tus maletas en la zona de recogida de equipaje.%1$s</string>
 
 </resources>
