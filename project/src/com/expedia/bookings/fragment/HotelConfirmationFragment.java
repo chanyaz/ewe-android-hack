@@ -1,10 +1,16 @@
 package com.expedia.bookings.fragment;
 
+import java.util.Calendar;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.CalendarContract;
+import android.provider.CalendarContract.Events;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +35,7 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.ShareUtils;
@@ -237,7 +244,37 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 	// Add to Calendar
 
 	private void addToCalendar() {
-		// TODO
-		Ui.showToast(getActivity(), "TODO: #1254");
+		// Go in reverse order, so that "check in" is shown to the user first
+		startActivity(generateHotelCalendarIntent(false));
+		startActivity(generateHotelCalendarIntent(true));
+	}
+
+	private Intent generateHotelCalendarIntent(boolean checkIn) {
+		Calendar cal = checkIn ? Db.getSearchParams().getCheckInDate() : Db.getSearchParams().getCheckOutDate();
+		Property property = Db.getSelectedProperty();
+		BookingResponse bookingResponse = Db.getBookingResponse();
+
+		int titleResId = checkIn ? R.string.calendar_hotel_title_checkin_TEMPLATE
+				: R.string.calendar_hotel_title_checkout_TEMPLATE;
+
+		Intent intent = new Intent(Intent.ACTION_INSERT);
+		intent.setData(Events.CONTENT_URI);
+
+		intent.putExtra(Events.TITLE, getString(titleResId, property.getName()));
+		intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, cal.getTimeInMillis());
+		intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true);
+		intent.putExtra(Events.EVENT_LOCATION, property.getLocation().toLongFormattedString());
+
+		StringBuilder sb = new StringBuilder();
+		if (!TextUtils.isEmpty(bookingResponse.getHotelConfNumber())) {
+			sb.append(getString(R.string.confirmation_number) + ": " + bookingResponse.getHotelConfNumber());
+			sb.append("\n");
+		}
+		sb.append(getString(R.string.itinerary_number) + ": " + bookingResponse.getItineraryId());
+		sb.append("\n\n");
+		sb.append(ConfirmationUtils.determineContactText(getActivity()));
+		intent.putExtra(Events.DESCRIPTION, sb.toString());
+
+		return intent;
 	}
 }
