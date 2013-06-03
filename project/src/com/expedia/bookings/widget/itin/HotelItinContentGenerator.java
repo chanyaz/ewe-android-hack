@@ -59,8 +59,8 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 	@Override
 	public String getShareSubject() {
-        ShareUtils shareUtils = new ShareUtils(getContext());
-        return shareUtils.getShareSubject(getItinCardData());
+		ShareUtils shareUtils = new ShareUtils(getContext());
+		return shareUtils.getShareSubject(getItinCardData());
 	}
 
 	@Override
@@ -71,8 +71,8 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 	@Override
 	public String getShareTextLong() {
-        ShareUtils shareUtils = new ShareUtils(getContext());
-        return shareUtils.getShareTextLong(getItinCardData());
+		ShareUtils shareUtils = new ShareUtils(getContext());
+		return shareUtils.getShareTextLong(getItinCardData());
 	}
 
 	@Override

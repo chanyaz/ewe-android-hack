@@ -61,20 +61,20 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 
 	@Override
 	public String getShareSubject() {
-        ShareUtils shareUtils = new ShareUtils(getContext());
-        return shareUtils.getShareSubject(getItinCardData());
+		ShareUtils shareUtils = new ShareUtils(getContext());
+		return shareUtils.getShareSubject(getItinCardData());
 	}
 
 	@Override
 	public String getShareTextShort() {
-        ShareUtils shareUtils = new ShareUtils(getContext());
-        return shareUtils.getShareTextShort(getItinCardData());
+		ShareUtils shareUtils = new ShareUtils(getContext());
+		return shareUtils.getShareTextShort(getItinCardData());
 	}
 
 	@Override
 	public String getShareTextLong() {
-        ShareUtils shareUtils = new ShareUtils(getContext());
-        return shareUtils.getShareTextLong(getItinCardData());
+		ShareUtils shareUtils = new ShareUtils(getContext());
+		return shareUtils.getShareTextLong(getItinCardData());
 	}
 
 	@Override
