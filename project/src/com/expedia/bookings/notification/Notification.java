@@ -12,6 +12,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
+import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
@@ -382,6 +383,34 @@ public class Notification extends Model implements JSONable {
 
 		for (Notification notification : notifications) {
 			notification.scheduleNotification(context);
+		}
+	}
+
+	/**
+	 * Cancels all new or notified notifications, and removes them
+	 * from the notification bar if they've already been notified.
+	 * @param context
+	 */
+	public static void cancelAllExpired(Context context) {
+		List<Notification> notifications = new Select()
+				.from(Notification.class)
+				.where("Status IN (?,?) AND ExpirationTimeMillis<?",
+						StatusType.NEW.name(),
+						StatusType.NOTIFIED.name(),
+						System.currentTimeMillis())
+				.execute();
+
+		// Set all to expired at once
+		ActiveAndroid.beginTransaction();
+		for (Notification notification : notifications) {
+			notification.setStatus(StatusType.EXPIRED);
+			notification.save();
+		}
+		ActiveAndroid.endTransaction();
+
+		// Cancel all newly expired notifications
+		for (Notification notification : notifications) {
+			notification.cancelNotification(context);
 		}
 	}
 

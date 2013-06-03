@@ -1398,6 +1398,7 @@ public class ItineraryManager implements JSONable {
 		}
 
 		Notification.scheduleAll(mContext);
+		Notification.cancelAllExpired(mContext);
 	}
 
 	private void deletePendingNotification(Trip trip) {
