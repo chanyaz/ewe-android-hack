@@ -178,16 +178,15 @@ public class FlightTrip implements JSONable {
 	}
 
 	/**
-	 * Is the card in the supplied billingInfo a valid CreditCardType for this FlightTrip?
+	 * Is the supplied card type valid for this FlightTrip?
 	 * 
-	 * @param billingInfo
-	 * @return true if this FlightTrip supports the card in the supplied billingInfo, false otherswise.
+	 * @param creditCardType
+	 * @return true if this FlightTrip supports the card type, false otherswise.
 	 */
-	public boolean getCardTypeSupported(BillingInfo billingInfo) {
-		CreditCardType selectedCardType = billingInfo.getCardType();
-		if (selectedCardType != null) {
+	public boolean isCardTypeSupported(CreditCardType creditCardType) {
+		if (creditCardType != null) {
 			for (ValidPayment payment : mValidPayments) {
-				if (payment.getCreditCardType() == selectedCardType) {
+				if (payment.getCreditCardType() == creditCardType) {
 					return true;
 				}
 			}

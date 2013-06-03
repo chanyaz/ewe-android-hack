@@ -252,8 +252,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			if (!TextUtils.isEmpty(data.getBrandName())) {
 				CreditCardType cardType = CreditCardType.valueOf(data.getBrandName());
 				if (cardType != null && !TextUtils.isEmpty(getData().getNumber())) {
-					if (mLineOfBusiness != null && mLineOfBusiness == LineOfBusiness.FLIGHTS
-							&& !Db.getFlightSearch().getSelectedFlightTrip().getCardTypeSupported(getData())) {
+					if (mLineOfBusiness != null
+							&& mLineOfBusiness == LineOfBusiness.FLIGHTS
+							&& !Db.getFlightSearch().getSelectedFlightTrip()
+									.isCardTypeSupported(getData().getCardType())) {
 						field.setImageResource(R.drawable.ic_lcc_no_card_payment_entry);
 					}
 					else {
@@ -423,7 +425,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 									getData().setBrandName(type.name());
 									if (mLineOfBusiness != null && mLineOfBusiness == LineOfBusiness.FLIGHTS) {
 										if (!Db.getFlightSearch().getSelectedFlightTrip()
-												.getCardTypeSupported(getData())) {
+												.isCardTypeSupported(getData().getCardType())) {
 											field.setTextColor(getResources().getColor(
 													R.color.flight_card_invalid_cc_type_text_color));
 										}
@@ -467,9 +469,11 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 							return ValidationError.ERROR_DATA_INVALID;
 						}
 						else {
-							if (mLineOfBusiness != null && mLineOfBusiness == LineOfBusiness.FLIGHTS
+							if (mLineOfBusiness != null
+									&& mLineOfBusiness == LineOfBusiness.FLIGHTS
 									&& getData().getCardType() != null
-									&& !Db.getFlightSearch().getSelectedFlightTrip().getCardTypeSupported(getData())) {
+									&& !Db.getFlightSearch().getSelectedFlightTrip()
+											.isCardTypeSupported(getData().getCardType())) {
 
 								return ValidationError.ERROR_DATA_INVALID;
 

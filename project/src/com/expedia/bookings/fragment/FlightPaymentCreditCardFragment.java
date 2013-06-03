@@ -95,7 +95,7 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 			public void onChange() {
 				if (mBillingInfo.getCardType() != null) {
 					FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
-					if (!trip.getCardTypeSupported(mBillingInfo)) {
+					if (!trip.isCardTypeSupported(mBillingInfo.getCardType())) {
 						String message = getString(R.string.airline_does_not_accept_cardtype_TEMPLATE,
 								CurrencyUtils.getHumanReadableCardTypeName(getActivity(), mBillingInfo.getCardType()));
 						updateCardMessage(
