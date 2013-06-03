@@ -22,12 +22,14 @@ import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.widget.ItinHeaderImageView;
@@ -64,8 +66,14 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		Property property = Db.getSelectedProperty();
 		ItinHeaderImageView hotelImageView = Ui.findView(v, R.id.hotel_image_view);
 		hotelImageView.setGradient(CARD_GRADIENT_COLORS, CARD_GRADIENT_POSITIONS);
-		UrlBitmapDrawable.loadImageView(property.getThumbnail().getHighResUrls(), hotelImageView,
-				R.drawable.bg_itin_placeholder);
+		Media media = HotelUtils.getRoomMedia(property, Db.getSelectedRate());
+		if (media != null) {
+			UrlBitmapDrawable.loadImageView(media.getHighResUrls(), hotelImageView,
+					R.drawable.bg_itin_placeholder);
+		}
+		else {
+			hotelImageView.setImageResource(R.drawable.bg_itin_placeholder);
+		}
 
 		SearchParams params = Db.getSearchParams();
 		int numGuests = params.getNumAdults() + params.getNumChildren();

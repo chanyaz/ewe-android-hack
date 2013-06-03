@@ -20,11 +20,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.AnimUtils;
+import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Ui;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;
@@ -121,8 +123,9 @@ public class HotelReceipt extends LinearLayout {
 	};
 
 	public void bind(boolean showMiniReceipt, Property property, SearchParams params, Rate rate) {
-		if (property != null && property.getMedia(0) != null) {
-			property.getMedia(0).loadHighResImage(mHeaderImageView, null);
+		Media media = HotelUtils.getRoomMedia(property, rate);
+		if (media != null) {
+			media.loadHighResImage(mHeaderImageView, null);
 		}
 
 		mRoomTypeDesciptionTextView.setText(rate.getRoomDescription());
@@ -139,7 +142,7 @@ public class HotelReceipt extends LinearLayout {
 
 			// #817. Let user tap to expand or contract the room description text.
 			mRoomLongDescriptionTextView.setOnClickListener(new OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
 					if (mRoomLongDescriptionTextView.getEllipsize() != null) {

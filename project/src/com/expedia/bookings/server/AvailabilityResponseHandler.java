@@ -306,6 +306,7 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 		rate.setRoomTypeCode(jsonRate.optString("roomTypeCode", null));
 		rate.setRoomDescription(JSONUtils.getNormalizedString(jsonRate, "roomTypeDescription"));
 		rate.setRoomLongDescription(JSONUtils.optNormalizedString(jsonRate, "roomLongDescription", null));
+		rate.setThumbnail(ParserUtils.parseUrl(jsonRate.optString("roomThumbnailUrl", null)));
 
 		rate.setRateChange(rateInfo.optBoolean("rateChange", false));
 		rate.setNumRoomsLeft(jsonRate.optInt("currentAllotment", 0));

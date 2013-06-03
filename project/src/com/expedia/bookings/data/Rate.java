@@ -80,6 +80,9 @@ public class Rate implements JSONable {
 	// For Expedia, RateRules are provided with with availability response
 	private RateRules mRateRules;
 
+	// #1266: There's sometimes thumbnail associated with the rate (of the specific room)
+	private Media mThumbnail;
+
 	// These are computed rates, based on the user's current locale.  They should
 	// not be saved, but instead computed on demand (since locale can change).
 	private Money mMandatoryFeesBaseRate = null;
@@ -409,6 +412,14 @@ public class Rate implements JSONable {
 		return mRateRules;
 	}
 
+	public void setThumbnail(Media thumbnail) {
+		mThumbnail = thumbnail;
+	}
+
+	public Media getThumbnail() {
+		return mThumbnail;
+	}
+
 	/**
 	 * Returns the qualifier on what the rate means - e.g., is it per night?  Average per night?  Total?
 	 *
@@ -581,6 +592,8 @@ public class Rate implements JSONable {
 			JSONUtils.putJSONableList(obj, "bedTypes", mBedTypes);
 
 			JSONUtils.putJSONable(obj, "rateRules", mRateRules);
+
+			JSONUtils.putJSONable(obj, "thumbnail", mThumbnail);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -642,6 +655,8 @@ public class Rate implements JSONable {
 		}
 
 		mRateRules = JSONUtils.getJSONable(obj, "rateRules", RateRules.class);
+
+		mThumbnail = JSONUtils.getJSONable(obj, "thumbnail", Media.class);
 
 		return true;
 	}
