@@ -274,8 +274,13 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 		trigger.set(Calendar.HOUR_OF_DAY, 12);
 		long triggerTimeMillis = DateTimeUtils.getTimeInLocalTimeZone(trigger).getTime();
 
+		trigger.set(Calendar.HOUR_OF_DAY, 23);
+		trigger.set(Calendar.MINUTE, 59);
+		long expirationTimeMillis = DateTimeUtils.getTimeInLocalTimeZone(trigger).getTime();
+
 		Notification notification = new Notification(uniqueId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.ACTIVITY_START);
+		notification.setExpirationTimeMillis(expirationTimeMillis);
 		notification.setImageType(ImageType.ACTIVITY);
 		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_REDEEM | Notification.FLAG_CALL);
 

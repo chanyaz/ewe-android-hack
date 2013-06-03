@@ -310,6 +310,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	// https://mingle.karmalab.net/projects/eb_ad_app/cards/876
 	// Given I have a hotel, when it is 10 AM on the check-in day, then I want to receive a notification
 	// that reads "Check in at The Hyatt Regency Bellevue begins at 3PM today."
+	// Hotel Check-in: Valid from 10:00AM-11:59PM on the day of check-in
 	private Notification generateCheckinNotification() {
 		ItinCardDataHotel data = getItinCardData();
 
@@ -321,8 +322,13 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		trigger.set(Calendar.HOUR_OF_DAY, 10);
 		long triggerTimeMillis = DateTimeUtils.getTimeInLocalTimeZone(trigger).getTime();
 
+		trigger.set(Calendar.HOUR_OF_DAY, 23);
+		trigger.set(Calendar.MINUTE, 59);
+		long expirationTimeMillis = DateTimeUtils.getTimeInLocalTimeZone(trigger).getTime();
+
 		Notification notification = new Notification(uniqueId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.HOTEL_CHECK_IN);
+		notification.setExpirationTimeMillis(expirationTimeMillis);
 		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_SHARE);
 		notification.setIconResId(R.drawable.ic_stat_hotel);
 
@@ -344,6 +350,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	// https://mingle.karmalab.net/projects/eb_ad_app/cards/877
 	// Given I have a hotel, when it is 7 AM on the checkout day, then I want to receive a notification
 	// that reads "Check out at The Hyatt Regency Bellevue is at 11AM today."
+	// Hotel Check-out: Valid from 7:00AM-11:59PM on the day of check-out
 	private Notification generateCheckoutNotification() {
 		ItinCardDataHotel data = getItinCardData();
 
@@ -355,8 +362,13 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		trigger.set(Calendar.HOUR_OF_DAY, 7);
 		long triggerTimeMillis = DateTimeUtils.getTimeInLocalTimeZone(trigger).getTime();
 
+		trigger.set(Calendar.HOUR_OF_DAY, 23);
+		trigger.set(Calendar.MINUTE, 59);
+		long expirationTimeMillis = DateTimeUtils.getTimeInLocalTimeZone(trigger).getTime();
+
 		Notification notification = new Notification(uniqueId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.HOTEL_CHECK_OUT);
+		notification.setExpirationTimeMillis(expirationTimeMillis);
 		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_SHARE);
 		notification.setIconResId(R.drawable.ic_stat_hotel);
 

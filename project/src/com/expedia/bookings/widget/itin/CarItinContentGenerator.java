@@ -34,6 +34,7 @@ import com.expedia.bookings.widget.InfoTripletView;
 import com.expedia.bookings.widget.LocationMapImageView;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
+import com.mobiata.flightlib.utils.DateTimeUtils;
 
 public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCar> {
 
@@ -306,13 +307,21 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 	// Given I have a car rental, when the pickup time starts, then I want to
 	// receive a notification that reads (contentTitle) "Car Pick Up - Alamo"
 	// (contentText) "You can now pick up your car."
+	// Car Pick-up: Valid starting 2 hours prior to pick-up time, ending at 11:59PM
+	// the day of pick-up or 2 hours prior to the drop-off time (if on the same day).
 	private Notification generatePickUpNotification() {
 		ItinCardDataCar data = getItinCardData();
 
 		String uniqueId = data.getId();
 
 		long triggerTimeMillis = data.getPickUpDate().getMillisFromEpoch();
-		long expirationTimeMillis = Math.min(triggerTimeMillis + DateUtils.DAY_IN_MILLIS,
+
+		Calendar expiration = (Calendar) data.getPickUpDate().getCalendar().clone();
+		expiration.set(Calendar.MINUTE, 59);
+		expiration.set(Calendar.MILLISECOND, 0);
+		expiration.set(Calendar.HOUR_OF_DAY, 11);
+		long expirationTimeMillis = Math.min(
+				DateTimeUtils.getTimeInLocalTimeZone(expiration).getTime(),
 				calculateDropOffNotificationMillis());
 
 		Notification notification = new Notification(uniqueId, triggerTimeMillis);
@@ -344,8 +353,15 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 
 		long triggerTimeMillis = calculateDropOffNotificationMillis();
 
+		Calendar expiration = (Calendar) data.getDropOffDate().getCalendar().clone();
+		expiration.set(Calendar.MINUTE, 59);
+		expiration.set(Calendar.MILLISECOND, 0);
+		expiration.set(Calendar.HOUR_OF_DAY, 11);
+		long expirationTimeMillis = DateTimeUtils.getTimeInLocalTimeZone(expiration).getTime();
+
 		Notification notification = new Notification(uniqueId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.CAR_DROP_OFF);
+		notification.setExpirationTimeMillis(expirationTimeMillis);
 		String carImageValue = ExpediaImageManager.getImageCode(data.getCar().getCategory(), data.getCar().getType());
 		notification.setImage(ImageType.CAR, 0, carImageValue);
 		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_CALL);
