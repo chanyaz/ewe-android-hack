@@ -249,7 +249,7 @@ public class ItineraryManager implements JSONable {
 		synchronized (mItinCardDatas) {
 			for (ItinCardData data : mItinCardDatas) {
 				if (data.getTripComponentType() != null && data.getTripComponentType() == Type.FLIGHT
-						&& data.getTripComponent() != null) {
+						&& data.getTripComponent() != null && data instanceof ItinCardDataFlight) {
 					ItinCardDataFlight dataFlight = (ItinCardDataFlight) data;
 					FlightLeg leg = dataFlight.getFlightLeg();
 					if (leg != null && leg.getSegments() != null) {
