@@ -154,7 +154,7 @@ def move_files(in_dir, out_dir):
                     if new_dir is not None:
                         os.mkdir(new_dir)
                         shutil.copy(filepath, os.path.join(new_dir, "strings.xml"))
-                elif "expedia" in filename or "EBad" in filename:
+                elif "expedia" in filename or "EBad" in filename or "EBAd" in filename:
                     new_dir = os.path.join(expedia_dir, "values-%s" % postfix)
                     os.mkdir(new_dir)
                     shutil.copy(filepath, os.path.join(new_dir, "strings.xml"))
