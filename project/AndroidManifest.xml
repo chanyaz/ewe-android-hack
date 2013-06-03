@@ -54,7 +54,7 @@
         android:theme="@style/Theme" >
         <meta-data
             android:name="AA_DB_VERSION"
-            android:value="10" />
+            android:value="11" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/mapsv2_dev_key" />

@@ -83,8 +83,10 @@ public class Notification extends Model implements JSONable {
 		HOTEL_CHECK_OUT;
 	}
 
-	// Odd name here for legacy purposes
 	@Column(name = "UniqueId")
+	private String mUniqueId;
+
+	@Column(name = "ItinId")
 	private String mItinId;
 
 	@Column(name = "TriggerTimeMillis")
@@ -135,10 +137,11 @@ public class Notification extends Model implements JSONable {
 	 * @param triggerTimeMillis
 	 */
 	public Notification(String uniqueId, long triggerTimeMillis) {
-		setItinId(uniqueId);
+		setUniqueId(uniqueId);
 		setTriggerTimeMillis(triggerTimeMillis);
 
 		// Defaults
+		setItinId(uniqueId);
 		setExpirationTimeMillis(triggerTimeMillis + DateUtils.DAY_IN_MILLIS);
 		setStatus(StatusType.NEW);
 		setIconResId(R.drawable.ic_stat_expedia);
@@ -147,6 +150,14 @@ public class Notification extends Model implements JSONable {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Accessors
+
+	public String getUniqueId() {
+		return mUniqueId;
+	}
+
+	public void setUniqueId(String itinId) {
+		this.mUniqueId = itinId;
+	}
 
 	public String getItinId() {
 		return mItinId;
@@ -350,7 +361,7 @@ public class Notification extends Model implements JSONable {
 	// Database type operations
 
 	/**
-	 * Returns a Notification, if found, from the table whose UniqueId*NotificationId matches the
+	 * Returns a Notification, if found, from the table whose UniqueId*NotificationType matches the
 	 * data in the passed notification object.
 	 * @param notification
 	 * @return
@@ -435,13 +446,13 @@ public class Notification extends Model implements JSONable {
 	 * @param itinId
 	 */
 	public static void deleteAll(Context context, String itinId) {
-		List<Notification> notifications = new Select().from(Notification.class).where("UniqueId=?", itinId).execute();
+		List<Notification> notifications = new Select().from(Notification.class).where("ItinId=?", itinId).execute();
 
 		for (Notification notification : notifications) {
 			notification.cancelNotification(context);
 		}
 
 		// Delete all here instead of individually in the loop, for efficiency.
-		new Delete().from(Notification.class).where("UniqueId=?", itinId).execute();
+		new Delete().from(Notification.class).where("ItinId=?", itinId).execute();
 	}
 }

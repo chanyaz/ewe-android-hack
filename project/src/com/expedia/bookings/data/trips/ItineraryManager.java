@@ -1375,6 +1375,7 @@ public class ItineraryManager implements JSONable {
 					if (Notification.hasExisting(notification)) {
 						Notification existing = Notification.findExisting(notification);
 						// These things could possibly change on a new build.
+						existing.setItinId(notification.getItinId());
 						existing.setTriggerTimeMillis(notification.getTriggerTimeMillis());
 						existing.setExpirationTimeMillis(notification.getExpirationTimeMillis());
 						existing.setIconResId(notification.getIconResId());
