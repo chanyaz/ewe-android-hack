@@ -126,10 +126,10 @@
         android:drawablePadding="16dp"
         android:paddingBottom="@dimen/flight_payment_container_padding"
         android:paddingLeft="22dp"
-        android:textSize="12sp"
         android:paddingRight="@dimen/flight_payment_container_padding"
         android:paddingTop="@dimen/flight_payment_container_padding"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:textSize="12sp" />
 
     <!-- Legal -->
 
