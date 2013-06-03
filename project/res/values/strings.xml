@@ -416,13 +416,13 @@
     <!-- 1: Hotel name, 2: Formatted length of stay -->
     <string name="share_template_long_hotel_1_greeting">Hi,\n\nI\&apos;m staying at the %1$s for %2$s.</string>
     <!-- 1: Check in date, 2: Check out date -->
-    <string name="share_template_long_hotel_2_checkin_checkout"><b>Check In</b> %1$s\n<b>Check Out</b> %2$s</string>
+    <string name="share_template_long_hotel_2_checkin_checkout">Check In %1$s\nCheck Out %2$s</string>
     <!-- 1: Hotel name, 2: Hotel street address -->
     <string name="share_template_long_hotel_3_address">%1$s\n%2$s</string>
     <!-- Hotel phone number -->
-    <string name="share_template_long_hotel_4_phone"><b>Phone</b>\n%s</string>
+    <string name="share_template_long_hotel_4_phone">Phone\n%s</string>
     <!-- Link to more information about the hotel -->
-    <string name="share_template_long_hotel_5_more_info"><b>More Information</b>\n%s</string>
+    <string name="share_template_long_hotel_5_more_info">More Information\n%s</string>
     <!-- App download link -->
     <string name="share_template_long_ad">Book hotels, flights and view &amp; share your itineraries. Download the free Expedia mobile app today.\n%s</string>
     <!-- 1: city 2: date string -->
@@ -468,11 +468,11 @@
     <!-- message for activity message for 1: title -->
     <string name="share_template_long_activity_title">Hi,\n\nHere are the details of my %1$s</string>
     <!-- label for activity 1: valid date -->
-    <string name="share_template_long_activity_valid"><b>Valid</b> %1$s</string>
+    <string name="share_template_long_activity_valid">Valid %1$s</string>
     <!-- label for activity 1: expiration date -->
-    <string name="share_template_long_activity_expires"><b>Expires</b> %1$s</string>
+    <string name="share_template_long_activity_expires">Expires %1$s</string>
     <!-- label for activity 1: list of guests -->
-    <string name="share_template_long_activity_guests"><b>Guests</b>\n%1$s</string>
+    <string name="share_template_long_activity_guests">Guests\n%1$s</string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
@@ -1694,7 +1694,7 @@
     <!-- Subject property name template. -->
     <string name="share_subject_template">Expedia Itinerary - </string>
     <!-- Subject dates template. 1$ and 2$ are the ` ranges (e.g., 3/21 - 3/24) -->
-    <string name="share_subject_template_dates">(%2$s - %3$s)</string>
+    <string name="share_subject_template_dates">(%1$s - %2$s)</string>
     <!-- Preset at the top of the share body message -->
     <string name="share_body_start">Here is my hotel reservation info:</string>
     <!-- Name of user -->
