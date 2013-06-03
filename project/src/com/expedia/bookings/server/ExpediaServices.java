@@ -1152,20 +1152,27 @@ public class ExpediaServices implements DownloadListener {
 			Log.e("Failure to create StringEntity", e);
 		}
 
-		synchronized (PushNotificationUtils.getLockObject(regId)) {
-			//We first check to see if we have already sent this payload for this regId
-			if (PushNotificationUtils.sendPayloadCheck(regId, payload)) {
-				//If not we go ahead and do the request
-				PushNotificationRegistrationResponse response = doRequest(post, responseHandler, F_POST);
-				if (!response.getSuccess()) {
-					//If we failed to register, remove the payload from our map, so we dont prevent ourselves form trying again later.
-					PushNotificationUtils.removePayloadFromMap(regId);
+		if (!SettingUtils.get(mContext, mContext.getString(R.string.preference_disable_push_registration), false)) {
+
+			synchronized (PushNotificationUtils.getLockObject(regId)) {
+				//We first check to see if we have already sent this payload for this regId
+				if (PushNotificationUtils.sendPayloadCheck(regId, payload)) {
+					//If not we go ahead and do the request
+					PushNotificationRegistrationResponse response = doRequest(post, responseHandler, F_POST);
+					if (!response.getSuccess()) {
+						//If we failed to register, remove the payload from our map, so we dont prevent ourselves form trying again later.
+						PushNotificationUtils.removePayloadFromMap(regId);
+					}
+					return response;
 				}
-				return response;
+				else {
+					return null;
+				}
 			}
-			else {
-				return null;
-			}
+		}
+		else {
+			Log.d("PushNotification registration is disabled in settings!");
+			return null;
 		}
 	}
 

@@ -27,6 +27,7 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
@@ -46,6 +47,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.IoUtils;
+import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
 
 // Make sure to call init() before using in the app!
@@ -171,12 +173,18 @@ public class ItineraryManager implements JSONable {
 			for (ItinCardData data : mItinCardDatas) {
 				if (data instanceof ItinCardDataFlight) {
 					ItinCardDataFlight fData = (ItinCardDataFlight) data;
-
-					FlightLeg flightLeg = fData.getFlightLeg();
-					for (Flight segment : flightLeg.getSegments()) {
-						if (segment.mFlightHistoryId == fhid) {
-							return (TripFlight) fData.getTripComponent();
+					if (!SettingUtils.get(mContext,
+							mContext.getString(R.string.preference_push_notification_any_flight), false)) {
+						FlightLeg flightLeg = fData.getFlightLeg();
+						for (Flight segment : flightLeg.getSegments()) {
+							if (segment.mFlightHistoryId == fhid) {
+								return (TripFlight) fData.getTripComponent();
+							}
 						}
+					}
+					else {
+						Log.d("PushNotifications returning the first flight in the itin list. Check Settings");
+						return (TripFlight) fData.getTripComponent();
 					}
 				}
 			}
