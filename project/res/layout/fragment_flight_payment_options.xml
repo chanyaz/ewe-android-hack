@@ -41,6 +41,7 @@
             android:background="@drawable/bg_payment_method_row"
             android:orientation="vertical"
             android:paddingBottom="@dimen/payment_option_vertical_padding"
+            android:paddingLeft="@dimen/checkout_info_cc_padding"
             android:paddingTop="@dimen/payment_option_vertical_padding" >
 
             <com.expedia.bookings.section.SectionStoredCreditCard
@@ -101,6 +102,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingBottom="5dp"
+            android:paddingLeft="@dimen/checkout_info_cc_padding"
             android:paddingTop="1dp" />
 
         <TextView
@@ -127,6 +129,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingBottom="8dp"
+            android:paddingLeft="@dimen/checkout_info_cc_padding"
             android:paddingTop="1dp" >
 
             <com.expedia.bookings.section.SectionBillingInfo
@@ -140,8 +143,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="13dp"
+                    android:layout_marginRight="@dimen/checkout_info_container_padding"
                     android:layout_weight="0"
                     android:src="@drawable/ic_credit_card_blue_entered" />
 
@@ -171,7 +173,7 @@
                 android:drawablePadding="3dp"
                 android:gravity="center_vertical"
                 android:paddingBottom="@dimen/payment_option_vertical_padding"
-                android:paddingLeft="12dp"
+                android:paddingLeft="@dimen/checkout_info_container_padding"
                 android:paddingTop="@dimen/payment_option_vertical_padding"
                 android:text="@string/add_new_card"
                 android:textColor="@color/data_entry_text"

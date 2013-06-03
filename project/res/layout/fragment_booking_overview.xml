@@ -86,7 +86,7 @@
                         <ImageView
                             android:layout_width="32dp"
                             android:layout_height="32dp"
-                            android:layout_marginRight="16dp"
+                            android:layout_marginRight="@dimen/checkout_info_container_padding"
                             android:layout_weight="0"
                             android:src="@drawable/ic_traveler" />
 
@@ -136,7 +136,7 @@
                         <ImageView
                             android:layout_width="32dp"
                             android:layout_height="32dp"
-                            android:layout_marginRight="16dp"
+                            android:layout_marginRight="@dimen/checkout_info_container_padding"
                             android:layout_weight="0"
                             android:src="@drawable/ic_credit_card" />
 
