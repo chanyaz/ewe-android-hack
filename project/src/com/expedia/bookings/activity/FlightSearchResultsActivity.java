@@ -906,6 +906,11 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 			Db.kickOffBackgroundSave(mContext);
 
+			// We may need the bg fragment, depending on what we need to show next
+			if (mBgFragment == null) {
+				mBgFragment = new BlurredBackgroundFragment();
+			}
+
 			if (response.hasErrors()) {
 				handleErrors(response);
 			}
@@ -920,12 +925,6 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 				if (cache.isAddingBitmap()) {
 					//Didn't finish in time. We continue to download, but we get rid of our reference to the bg key, and thus revert to defaults
 					Db.setBackgroundImageInfo(null);
-				}
-
-				// If this is the first time we've shown results, we need to create the blurred bg fragment
-				// before trying to load an image into it.
-				if (mBgFragment == null) {
-					mBgFragment = new BlurredBackgroundFragment();
 				}
 
 				mBgFragment.loadBitmapFromDb(mContext);
