@@ -15,7 +15,7 @@
     <TextView
         android:id="@+id/flights_action_text_view"
         style="@style/Confirmation.Action"
-        android:drawableLeft="@drawable/ic_bed" />
+        android:drawableLeft="@drawable/ic_plane" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/more_actions_text_view"
