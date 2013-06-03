@@ -28,6 +28,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SignInResponse;
+import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -588,10 +589,14 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 	private void populatePaymentDataFromUser() {
 		if (User.isLoggedIn(getActivity())) {
-			//Populate Credit Card only if the user doesn't have any manually entered (or selected) data
+			// Populate Credit Card only if the user doesn't have any manually entered (or selected) data
 			if (Db.getUser().getStoredCreditCards() != null && Db.getUser().getStoredCreditCards().size() == 1
 					&& !hasSomeManuallyEnteredData(mBillingInfo) && mBillingInfo.getStoredCard() == null) {
-				mBillingInfo.setStoredCard(Db.getUser().getStoredCreditCards().get(0));
+				StoredCreditCard scc = Db.getUser().getStoredCreditCards().get(0);
+				// Make sure the card is supported by this flight trip before automatically selecting it
+				if (Db.getFlightSearch().getSelectedFlightTrip().isCardTypeSupported(scc.getType())) {
+					mBillingInfo.setStoredCard(scc);
+				}
 			}
 		}
 		else if (Db.getMaskedWallet() == null) {
