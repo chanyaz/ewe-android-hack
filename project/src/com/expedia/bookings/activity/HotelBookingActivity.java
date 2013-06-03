@@ -181,8 +181,14 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		Intent intent = new Intent(mContext, HotelPaymentOptionsActivity.class);
 		intent.putExtra(HotelPaymentOptionsActivity.STATE_TAG_MODE,
 				HotelPaymentOptionsActivity.YoYoMode.YOYO.name());
-		intent.putExtra(HotelPaymentOptionsActivity.STATE_TAG_DEST,
-				HotelPaymentOptionsActivity.YoYoPosition.CREDITCARD.name());
+		if (Db.getBillingInfo() != null && Db.getBillingInfo().getStoredCard() != null) {
+			intent.putExtra(HotelPaymentOptionsActivity.STATE_TAG_DEST,
+					HotelPaymentOptionsActivity.YoYoPosition.OPTIONS.name());
+		}
+		else {
+			intent.putExtra(HotelPaymentOptionsActivity.STATE_TAG_DEST,
+					HotelPaymentOptionsActivity.YoYoPosition.CREDITCARD.name());
+		}
 
 		Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(Db.getBillingInfo());
 
@@ -421,7 +427,11 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		case DIALOG_CALLBACK_INVALID_CC:
 		case DIALOG_CALLBACK_INVALID_POSTALCODE:
 		case DIALOG_CALLBACK_INVALID_PAYMENT:
-			launchHotelPaymentCreditCardFragment();
+			// #1269: Don't do the invalid CC page jump if we're booking using Google Wallet
+			if (!mBookingFragment.willBookViaGoogleWallet()) {
+				launchHotelPaymentCreditCardFragment();
+			}
+
 			finish();
 			break;
 		case DIALOG_CALLBACK_INVALID_PHONENUMBER:

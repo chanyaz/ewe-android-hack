@@ -76,7 +76,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 		if (!ExpediaBookingApp.useTabletInterface(this)) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-			
+
 			// #1106: Don't continue to load onCreate() as
 			// we're just about to recreate the activity
 			if (!getResources().getBoolean(R.bool.portrait)) {
@@ -408,6 +408,12 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 	@Override
 	public void onSimpleDialogClick(int callbackId) {
+		// #1269: Don't do the invalid CC page jump if we're booking using Google Wallet
+		if (mBookingFragment.willBookViaGoogleWallet()) {
+			finish();
+			return;
+		}
+
 		switch (callbackId) {
 		case DIALOG_CALLBACK_INVALID_CC:
 			//Go to CC number entry page
