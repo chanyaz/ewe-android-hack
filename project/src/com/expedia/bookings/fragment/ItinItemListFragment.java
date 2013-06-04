@@ -191,8 +191,13 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	@Override
 	public void onResume() {
 		super.onResume();
+
 		updateLoginState();
 		syncItinManager(false, false);
+
+		if (mJumpToItinId != null) {
+			showItinCard(mJumpToItinId, true);
+		}
 	}
 
 	@Override
