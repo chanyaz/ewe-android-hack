@@ -111,9 +111,11 @@
             android:id="@+id/lcc_triangle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
             android:layout_marginLeft="@dimen/flight_payment_container_padding"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/bg_lcc_checkout_fee_bottom_tab_triangle" />
+            android:layout_weight="1"
+            android:scaleType="fitEnd"
+            android:src="@drawable/bg_lcc_checkout_fee_bottom_tab_triangle" />
     </LinearLayout>
 
     <!-- Card fee warning -->
