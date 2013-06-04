@@ -1,5 +1,8 @@
 package com.expedia.bookings.notification;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -37,9 +40,9 @@ public class PushNotificationUtils {
 
 	private static HashMap<String, Integer> sLocStringMap;
 
-	//We can cache the payloads we have sent to our api, and use them to prevent ourselves from sending
+	//We can cache (hashes of) the payloads we have sent to our api, and use them to prevent ourselves from sending
 	//the same payload multiple times. Usually our flights dont change so this will save the api some work.
-	private static HashMap<String, JSONObject> sPayloadMap = new HashMap<String, JSONObject>();
+	private static HashMap<String, String> sPayloadMap = new HashMap<String, String>();
 
 	//The server will splode if we make simultanious calls using the same regId,
 	//so we create objects to synchronize with (usually this will have one entry) 
@@ -79,23 +82,29 @@ public class PushNotificationUtils {
 			Log.e("PushNotificationUtils.sendPayloadCheck() returning false - regId empty");
 			return false;
 		}
-		if (payload == null || (payload != null && TextUtils.isEmpty(payload.toString()))) {
-			Log.e("PushNotificationUtils.sendPayloadCheck() returning false - payload empty");
+
+		String payloadHash = hashJsonPayload(payload);
+		if (payloadHash == null) {
+			Log.e("PushNotificationUtils.sendPayloadCheck() returning false - payloadHash empty");
 			return false;
+		}
+		else {
+			Log.d("PushNotificationUtils.sendPayloadCheck() payloadHash:" + payloadHash);
 		}
 
 		if (!sPayloadMap.containsKey(regId)) {
-			sPayloadMap.put(regId, payload);
+			sPayloadMap.put(regId, payloadHash);
 			return true;
 		}
 		else {
-			JSONObject oldPayload = sPayloadMap.get(regId);
+			String oldPayloadHash = sPayloadMap.get(regId);
+
 			//We should send this to the api if the payloads DON'T match
-			boolean shouldSend = !oldPayload.toString().equals(payload.toString());
+			boolean shouldSend = !oldPayloadHash.equals(payloadHash);
 
 			if (!shouldSend) {
 				Log.d("PushNotificationUtils.sendPayloadCheck() returning false because the payloads match. regId:"
-						+ regId + " payload:" + payload.toString());
+						+ regId + " Hash:" + payloadHash + " payload:" + payload.toString());
 			}
 
 			return shouldSend;
@@ -196,7 +205,7 @@ public class PushNotificationUtils {
 				for (Flight f : flightList) {
 					Date departureDate = DateTimeUtils.getTimeInLocalTimeZone(f.mOrigin.getBestSearchDateTime());
 					Date arrivalDate = DateTimeUtils.getTimeInLocalTimeZone(f.mDestination.getBestSearchDateTime());
-					
+
 					JSONObject flightJson = new JSONObject();
 					flightJson.put("__type__", "Flight");
 					flightJson.put("departure_date", sdf.format(departureDate));
@@ -407,5 +416,37 @@ public class PushNotificationUtils {
 						+ (result == null ? "null" : "success:" + result.getSuccess()));
 			}
 		});
+	}
+
+	/**
+	 * Generate a checksum of our JSONpayload.
+	 * 
+	 * This was written to build a hash string of our payload which we can keep in memory to
+	 * prevent us from sending the same payload to the push server twice.
+	 * 
+	 * @param payload - The payload
+	 * @return A hash of the argument
+	 */
+	private static String hashJsonPayload(JSONObject payload)
+	{
+		if (payload == null || TextUtils.isEmpty(payload.toString())) {
+			return null;
+		}
+
+		try {
+			InputStream payloadStream = new ByteArrayInputStream(payload.toString().getBytes("UTF-8"));
+			MessageDigest digester = MessageDigest.getInstance("SHA-256");
+			byte[] bytes = new byte[2048];
+			int byteCount;
+			while ((byteCount = payloadStream.read(bytes)) > 0) {
+				digester.update(bytes, 0, byteCount);
+			}
+			byte[] digest = digester.digest();
+			return new String(digest);
+		}
+		catch (Exception ex) {
+			Log.e("Exception generating hash of our PushNotification payload");
+			return null;
+		}
 	}
 }
