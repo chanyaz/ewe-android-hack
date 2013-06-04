@@ -14,8 +14,8 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.AboutWebViewActivity;
 import com.expedia.bookings.activity.AppFeedbackActivity;
-import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.mobiata.android.Log;
@@ -177,7 +177,7 @@ public class AboutUtils {
 	}
 
 	public void openAppSupport() {
-		openWebsite(mActivity, "http://www.mobiata.com/support/expediahotels-android", false);
+		openWebsite(mActivity, "http://www.mobiata.com/support/expediahotels-android", false, true);
 	}
 
 	public void tellAFriend() {
@@ -203,12 +203,17 @@ public class AboutUtils {
 	}
 
 	private void openWebsite(Context context, String url, boolean useExternalBrowser) {
+		openWebsite(context, url, useExternalBrowser, false);
+	}
+
+	private void openWebsite(Context context, String url, boolean useExternalBrowser, boolean showEmailButton) {
 		if (useExternalBrowser) {
 			SocialUtils.openSite(context, url);
 		}
 		else {
-			WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(context);
+			AboutWebViewActivity.IntentBuilder builder = new AboutWebViewActivity.IntentBuilder(context);
 			builder.setUrl(url);
+			builder.setShowEmailButton(showEmailButton);
 			context.startActivity(builder.getIntent());
 		}
 	}

@@ -1778,6 +1778,10 @@
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">This app make use of the following open-source libraries:</string>
 
+    <!-- App support webview -->
+    <!-- menu -->
+    <string name="email_us">Email Us</string>
+
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
     <string name="send_feedback">Send Feedback</string>

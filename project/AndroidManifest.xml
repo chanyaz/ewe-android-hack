@@ -138,6 +138,7 @@
             android:name="com.expedia.bookings.activity.HotelRulesActivity"
             android:theme="@style/FlightTheme" />
         <activity android:name="com.expedia.bookings.activity.WebViewActivity" />
+        <activity android:name="com.expedia.bookings.activity.AboutWebViewActivity" />
         <activity
             android:name="com.expedia.bookings.activity.TextViewActivity"
             android:theme="@style/Theme.Phone" />
