@@ -1638,13 +1638,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	@Override
 	public void onBackPressed() {
 		//If we enter the results from somewhere other than the SearchFragmentActivity, we still want hitting back to bring us there.
-		if (this.getSupportFragmentManager().getBackStackEntryCount() == 0) {
-			NavUtils.goBackToEhTabletStart(this);
-		}
-		else {
-			super.onBackPressed();
-		}
-
+		android.support.v4.app.NavUtils.navigateUpTo(this, SearchFragmentActivity.createIntent(this, false));
 	}
 
 }
