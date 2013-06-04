@@ -323,7 +323,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 				DateTimeUtils.getTimeInLocalTimeZone(expiration).getTime(),
 				calculateDropOffNotificationMillis());
 
-		Notification notification = new Notification(itinId, itinId, triggerTimeMillis);
+		Notification notification = new Notification(itinId + "_pickup", itinId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.CAR_PICK_UP);
 		notification.setExpirationTimeMillis(expirationTimeMillis);
 		String carImageValue = ExpediaImageManager.getImageCode(data.getCar().getCategory(), data.getCar().getType());
@@ -358,7 +358,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		expiration.set(Calendar.HOUR_OF_DAY, 11);
 		long expirationTimeMillis = DateTimeUtils.getTimeInLocalTimeZone(expiration).getTime();
 
-		Notification notification = new Notification(itinId, itinId, triggerTimeMillis);
+		Notification notification = new Notification(itinId + "_dropoff", itinId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.CAR_DROP_OFF);
 		notification.setExpirationTimeMillis(expirationTimeMillis);
 		String carImageValue = ExpediaImageManager.getImageCode(data.getCar().getCategory(), data.getCar().getType());

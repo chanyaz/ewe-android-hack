@@ -140,10 +140,10 @@ public class Notification extends Model implements JSONable {
 	 */
 	public Notification(String uniqueId, String itinId, long triggerTimeMillis) {
 		setUniqueId(uniqueId);
+		setItinId(itinId);
 		setTriggerTimeMillis(triggerTimeMillis);
 
 		// Defaults
-		setItinId(itinId);
 		setExpirationTimeMillis(triggerTimeMillis + DateUtils.DAY_IN_MILLIS);
 		setStatus(StatusType.NEW);
 		setIconResId(R.drawable.ic_stat_expedia);
@@ -303,15 +303,7 @@ public class Notification extends Model implements JSONable {
 
 		// Dismiss a possibly displayed notification
 		NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-		nm.cancel(getTag(), 0);
-	}
-
-	/**
-	 * Returns the tag that should be used for the NotificationManager.
-	 * @return
-	 */
-	public String getTag() {
-		return getItinId() + "/" + getNotificationType().name();
+		nm.cancel(getUniqueId(), 0);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

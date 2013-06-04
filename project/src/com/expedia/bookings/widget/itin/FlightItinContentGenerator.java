@@ -539,7 +539,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		long expirationTimeMillis = data.getStartDate().getMillisFromEpoch();
 		long triggerTimeMillis = expirationTimeMillis - checkInIntervalSeconds * DateUtils.SECOND_IN_MILLIS;
 
-		Notification notification = new Notification(itinId, itinId, triggerTimeMillis);
+		Notification notification = new Notification(itinId + "_checkin", itinId, triggerTimeMillis);
 		notification.setExpirationTimeMillis(expirationTimeMillis);
 		notification.setNotificationType(NotificationType.FLIGHT_CHECK_IN);
 		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_SHARE);

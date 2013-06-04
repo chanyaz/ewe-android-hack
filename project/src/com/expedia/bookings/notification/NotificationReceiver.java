@@ -54,7 +54,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 	public static PendingIntent generateSchedulePendingIntent(Context context, Notification notification) {
 		Intent intent = new Intent(context, NotificationReceiver.class);
-		String uriString = "expedia://notification/schedule/" + notification.getTag();
+		String uriString = "expedia://notification/schedule/" + notification.getUniqueId();
 		intent.setData(Uri.parse(uriString));
 		intent.putExtra(EXTRA_ACTION, ACTION_SCHEDULE);
 		intent.putExtra(EXTRA_NOTIFICATION, notification.toJson().toString());
@@ -63,7 +63,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 	public static PendingIntent generateDismissPendingIntent(Context context, Notification notification) {
 		Intent intent = new Intent(context, NotificationReceiver.class);
-		String uriString = "expedia://notification/dismiss/" + notification.getTag();
+		String uriString = "expedia://notification/dismiss/" + notification.getUniqueId();
 		intent.setData(Uri.parse(uriString));
 		intent.putExtra(EXTRA_ACTION, ACTION_DISMISS);
 		intent.putExtra(EXTRA_NOTIFICATION, notification.toJson().toString());
@@ -302,7 +302,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 			android.app.Notification notif = builder.build();
 			NotificationManager nm = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-			nm.notify(mNotification.getTag(), 0, notif);
+			nm.notify(mNotification.getUniqueId(), 0, notif);
 		}
 	}
 }

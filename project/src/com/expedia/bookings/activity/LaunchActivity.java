@@ -92,7 +92,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	 */
 	public static Intent createIntent(Context context, Notification notification) {
 		Intent intent = new Intent(context, LaunchActivity.class);
-		String uriString = "expedia://notification/launch/" + notification.getTag();
+		String uriString = "expedia://notification/launch/" + notification.getUniqueId();
 		intent.setData(Uri.parse(uriString));
 		intent.putExtra(ARG_JUMP_TO_NOTIFICATION, notification.toJson().toString());
 		intent.putExtra(ARG_IS_FROM_NOTIFICATION, true);

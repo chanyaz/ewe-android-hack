@@ -323,7 +323,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		trigger.set(Calendar.MINUTE, 59);
 		long expirationTimeMillis = DateTimeUtils.getTimeInLocalTimeZone(trigger).getTime();
 
-		Notification notification = new Notification(itinId, itinId, triggerTimeMillis);
+		Notification notification = new Notification(itinId + "_checkin", itinId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.HOTEL_CHECK_IN);
 		notification.setExpirationTimeMillis(expirationTimeMillis);
 		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_SHARE);
@@ -363,7 +363,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		trigger.set(Calendar.MINUTE, 59);
 		long expirationTimeMillis = DateTimeUtils.getTimeInLocalTimeZone(trigger).getTime();
 
-		Notification notification = new Notification(itinId, itinId, triggerTimeMillis);
+		Notification notification = new Notification(itinId + "_checkout", itinId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.HOTEL_CHECK_OUT);
 		notification.setExpirationTimeMillis(expirationTimeMillis);
 		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_SHARE);
