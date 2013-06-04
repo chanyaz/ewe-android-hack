@@ -18,7 +18,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.graphics.DestinationBitmapDrawable;
@@ -312,7 +311,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 	private Notification generatePickUpNotification() {
 		ItinCardDataCar data = getItinCardData();
 
-		String uniqueId = data.getId();
+		String itinId = data.getId();
 
 		long triggerTimeMillis = data.getPickUpDate().getMillisFromEpoch();
 
@@ -324,7 +323,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 				DateTimeUtils.getTimeInLocalTimeZone(expiration).getTime(),
 				calculateDropOffNotificationMillis());
 
-		Notification notification = new Notification(uniqueId, triggerTimeMillis);
+		Notification notification = new Notification(itinId, itinId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.CAR_PICK_UP);
 		notification.setExpirationTimeMillis(expirationTimeMillis);
 		String carImageValue = ExpediaImageManager.getImageCode(data.getCar().getCategory(), data.getCar().getType());
@@ -349,7 +348,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 	private Notification generateDropOffNotification() {
 		ItinCardDataCar data = getItinCardData();
 
-		String uniqueId = data.getId();
+		String itinId = data.getId();
 
 		long triggerTimeMillis = calculateDropOffNotificationMillis();
 
@@ -359,7 +358,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		expiration.set(Calendar.HOUR_OF_DAY, 11);
 		long expirationTimeMillis = DateTimeUtils.getTimeInLocalTimeZone(expiration).getTime();
 
-		Notification notification = new Notification(uniqueId, triggerTimeMillis);
+		Notification notification = new Notification(itinId, itinId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.CAR_DROP_OFF);
 		notification.setExpirationTimeMillis(expirationTimeMillis);
 		String carImageValue = ExpediaImageManager.getImageCode(data.getCar().getCategory(), data.getCar().getType());

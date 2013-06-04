@@ -265,7 +265,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 	private Notification generateActivityStartNotification() {
 		ItinCardDataActivity data = getItinCardData();
 
-		String uniqueId = data.getId();
+		String itinId = data.getId();
 
 		Calendar trigger = (Calendar) data.getValidDate().getCalendar().clone();
 		trigger.add(Calendar.DAY_OF_MONTH, -1);
@@ -278,7 +278,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 		trigger.set(Calendar.MINUTE, 59);
 		long expirationTimeMillis = DateTimeUtils.getTimeInLocalTimeZone(trigger).getTime();
 
-		Notification notification = new Notification(uniqueId, triggerTimeMillis);
+		Notification notification = new Notification(itinId, itinId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.ACTIVITY_START);
 		notification.setExpirationTimeMillis(expirationTimeMillis);
 		notification.setImageType(ImageType.ACTIVITY);

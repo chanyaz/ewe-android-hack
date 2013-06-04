@@ -7,8 +7,6 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.text.TextUtils;
-import android.text.format.DateUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -17,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.notification.Notification;
@@ -314,7 +311,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	private Notification generateCheckinNotification() {
 		ItinCardDataHotel data = getItinCardData();
 
-		String uniqueId = data.getId();
+		String itinId = data.getId();
 
 		Calendar trigger = (Calendar) data.getStartDate().getCalendar().clone();
 		trigger.set(Calendar.MINUTE, 0);
@@ -326,7 +323,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		trigger.set(Calendar.MINUTE, 59);
 		long expirationTimeMillis = DateTimeUtils.getTimeInLocalTimeZone(trigger).getTime();
 
-		Notification notification = new Notification(uniqueId, triggerTimeMillis);
+		Notification notification = new Notification(itinId, itinId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.HOTEL_CHECK_IN);
 		notification.setExpirationTimeMillis(expirationTimeMillis);
 		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_SHARE);
@@ -354,7 +351,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	private Notification generateCheckoutNotification() {
 		ItinCardDataHotel data = getItinCardData();
 
-		String uniqueId = data.getId();
+		String itinId = data.getId();
 
 		Calendar trigger = (Calendar) data.getEndDate().getCalendar().clone();
 		trigger.set(Calendar.MINUTE, 0);
@@ -366,7 +363,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		trigger.set(Calendar.MINUTE, 59);
 		long expirationTimeMillis = DateTimeUtils.getTimeInLocalTimeZone(trigger).getTime();
 
-		Notification notification = new Notification(uniqueId, triggerTimeMillis);
+		Notification notification = new Notification(itinId, itinId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.HOTEL_CHECK_OUT);
 		notification.setExpirationTimeMillis(expirationTimeMillis);
 		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_SHARE);

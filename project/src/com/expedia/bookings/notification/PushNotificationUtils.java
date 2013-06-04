@@ -143,7 +143,7 @@ public class PushNotificationUtils {
 
 				FlightLeg leg = data.getFlightLeg();
 
-				String uniqueId = data.getId();
+				String itinId = data.getId();
 				long triggerTimeMillis = System.currentTimeMillis();
 
 				String formattedMessage = getFormattedLocString(context, locKey, locKeyArgs);
@@ -152,7 +152,10 @@ public class PushNotificationUtils {
 					Log.e("PushNotificationUtils.generateNotification Formatted message was null for locKey:" + locKey);
 				}
 				else {
-					Notification notification = new Notification(uniqueId, triggerTimeMillis);
+					String uniqueId = itinId + "_" + formattedMessage;
+
+					Notification notification = new Notification(uniqueId, itinId, triggerTimeMillis);
+					notification.setItinId(itinId);
 					notification.setNotificationType(pushApiTypeToNotificationType(typeIntStr));
 					notification.setFlags(Notification.FLAG_PUSH);
 					notification.setIconResId(R.drawable.ic_stat_flight);
@@ -169,6 +172,7 @@ public class PushNotificationUtils {
 							destinationCode);
 
 					notification.save();
+
 					notification.scheduleNotification(context);
 				}
 			}
@@ -429,12 +433,26 @@ public class PushNotificationUtils {
 	 */
 	private static String hashJsonPayload(JSONObject payload)
 	{
-		if (payload == null || TextUtils.isEmpty(payload.toString())) {
+		if (payload == null) {
+			return null;
+		}
+
+		return hashString(payload.toString());
+	}
+
+	/**
+	 * Hash a string
+	 * 
+	 * @param strToHash
+	 * @return hashed String or null if the input was bad.
+	 */
+	private static String hashString(String strToHash) {
+		if (TextUtils.isEmpty(strToHash)) {
 			return null;
 		}
 
 		try {
-			InputStream payloadStream = new ByteArrayInputStream(payload.toString().getBytes("UTF-8"));
+			InputStream payloadStream = new ByteArrayInputStream(strToHash.getBytes("UTF-8"));
 			MessageDigest digester = MessageDigest.getInstance("SHA-256");
 			byte[] bytes = new byte[2048];
 			int byteCount;
@@ -445,7 +463,7 @@ public class PushNotificationUtils {
 			return new String(digest);
 		}
 		catch (Exception ex) {
-			Log.e("Exception generating hash of our PushNotification payload");
+			Log.e("Exception generating hash of string:" + strToHash);
 			return null;
 		}
 	}

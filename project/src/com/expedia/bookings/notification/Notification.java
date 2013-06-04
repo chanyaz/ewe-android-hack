@@ -130,18 +130,20 @@ public class Notification extends Model implements JSONable {
 	}
 
 	/**
-	 * Create a new com.expedia.bookings.notification.Notification object. If two 
-	 * notification objects share the same uniqueId, only the later one will be 
+	 * Create a new com.expedia.bookings.notification.Notification object. If two
+	 * notification objects share the same uniqueId, only the later one will be
 	 * displayed.
-	 * @param uniqueId
-	 * @param triggerTimeMillis
+	 * 
+	 * @param uniqueId - UniqueId to key the notification on
+	 * @param itinId - Id of the Itin to open when clicked.
+	 * @param triggerTimeMillis - when to display notification
 	 */
-	public Notification(String uniqueId, long triggerTimeMillis) {
+	public Notification(String uniqueId, String itinId, long triggerTimeMillis) {
 		setUniqueId(uniqueId);
 		setTriggerTimeMillis(triggerTimeMillis);
 
 		// Defaults
-		setItinId(uniqueId);
+		setItinId(itinId);
 		setExpirationTimeMillis(triggerTimeMillis + DateUtils.DAY_IN_MILLIS);
 		setStatus(StatusType.NEW);
 		setIconResId(R.drawable.ic_stat_expedia);
@@ -320,6 +322,7 @@ public class Notification extends Model implements JSONable {
 		try {
 			JSONObject obj = new JSONObject();
 			obj.put("ItinId", mItinId);
+			obj.put("UniqueId", mUniqueId);
 			obj.put("TriggerTimeMillis", mTriggerTimeMillis);
 			obj.put("ExpirationTimeMillis", mExpirationTimeMillis);
 			obj.put("IconResId", mIconResId);
@@ -342,6 +345,7 @@ public class Notification extends Model implements JSONable {
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		mItinId = obj.optString("ItinId");
+		mUniqueId = obj.optString("UniqueId");
 		mTriggerTimeMillis = obj.optLong("TriggerTimeMillis");
 		mExpirationTimeMillis = obj.optLong("ExpirationTimeMillis");
 		mIconResId = obj.optInt("IconResId");
@@ -368,7 +372,7 @@ public class Notification extends Model implements JSONable {
 	 */
 	public static Notification findExisting(Notification notification) {
 		List<Notification> notifications = new Select().from(Notification.class)
-				.where("UniqueId=? AND NotificationType=?", notification.mItinId, notification.mNotificationType)
+				.where("UniqueId=? AND NotificationType=?", notification.mUniqueId, notification.mNotificationType)
 				.limit("1").execute();
 		if (notifications == null || notifications.size() == 0) {
 			return null;

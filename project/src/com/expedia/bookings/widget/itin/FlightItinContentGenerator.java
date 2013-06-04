@@ -1,10 +1,8 @@
 package com.expedia.bookings.widget.itin;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -39,7 +37,6 @@ import com.expedia.bookings.activity.TerminalMapActivity;
 import com.expedia.bookings.data.AirlineCheckInIntervals;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.FlightConfirmation;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -536,13 +533,13 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		Context context = getContext();
 		ItinCardDataFlight data = getItinCardData();
 
-		String uniqueId = data.getId();
+		String itinId = data.getId();
 
 		int checkInIntervalSeconds = AirlineCheckInIntervals.get(context, leg.getFirstAirlineCode());
 		long expirationTimeMillis = data.getStartDate().getMillisFromEpoch();
 		long triggerTimeMillis = expirationTimeMillis - checkInIntervalSeconds * DateUtils.SECOND_IN_MILLIS;
 
-		Notification notification = new Notification(uniqueId, triggerTimeMillis);
+		Notification notification = new Notification(itinId, itinId, triggerTimeMillis);
 		notification.setExpirationTimeMillis(expirationTimeMillis);
 		notification.setNotificationType(NotificationType.FLIGHT_CHECK_IN);
 		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_SHARE);
