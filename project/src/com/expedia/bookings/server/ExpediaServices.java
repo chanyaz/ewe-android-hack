@@ -359,7 +359,7 @@ public class ExpediaServices implements DownloadListener {
 
 		query.add(new BasicNameValuePair("lccAndMerchantFareCheckoutAllowed", "true"));
 
-		return doFlightsRequest("api/flight/search", query, new FlightSearchResponseHandler(mContext), flags);
+		return doFlightsRequest("api/flight/search", query, new StreamingFlightSearchResponseHandler(), flags);
 	}
 
 	public CreateItineraryResponse createItinerary(String productKey, int flags) {

@@ -20,7 +20,6 @@ import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Media;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
@@ -108,9 +107,7 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 			token = parser.nextToken();
 
 			if (name.equals("errors")) {
-				while (parser.nextToken() != JsonToken.END_ARRAY) {
-					readServerError(parser, searchResponse);
-				}
+				ParserUtils.readServerErrors(parser, searchResponse, ApiMethod.SEARCH_RESULTS);
 			}
 			else if (name.equals("hotelList")) {
 				if (token != JsonToken.START_ARRAY) {

@@ -1,8 +1,11 @@
 package com.expedia.bookings.server;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.JsonToken;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,11 +56,17 @@ public class ParserUtils {
 		if (jsonResponse == null) {
 			Log.d("activityId: Null response, thus no activityId.");
 		}
-		else if (!jsonResponse.has("activityId")) {
+		else {
+			logActivityId(jsonResponse.optString("activityId", null));
+		}
+	}
+
+	public static void logActivityId(String activityId) {
+		if (TextUtils.isEmpty(activityId)) {
 			Log.d("activityId: Response had no activityId");
 		}
 		else {
-			Log.d("activityId: " + jsonResponse.optString("activityId"));
+			Log.d("activityId: " + activityId);
 		}
 	}
 
@@ -209,5 +218,52 @@ public class ParserUtils {
 		}
 
 		return serverError;
+	}
+
+	public static void readServerErrors(JsonParser parser, Response response, ApiMethod apiMethod) throws IOException {
+		while (parser.nextToken() != JsonToken.END_ARRAY) {
+			readServerError(parser, response, apiMethod);
+		}
+	}
+
+	public static void readServerError(JsonParser parser, Response response, ApiMethod apiMethod) throws IOException {
+		ServerError serverError = new ServerError(apiMethod);
+
+		if (parser.getCurrentToken() != JsonToken.START_OBJECT && parser.nextToken() != JsonToken.START_OBJECT) {
+			throw new IOException("Expected readServerError() to start with an Object, started with "
+					+ parser.getCurrentToken() + " instead.");
+		}
+
+		// TODO: FIGURE OUT MESSAGE TO DISPLAY TO USER ON ERROR
+
+		while (parser.nextToken() != JsonToken.END_OBJECT) {
+			String name = parser.getCurrentName();
+			JsonToken token = parser.nextToken();
+
+			if (name.equals("errorCode")) {
+				serverError.setCode(parser.getText());
+			}
+			else if (name.equals("errorInfo")) {
+				if (token != JsonToken.START_OBJECT) {
+					throw new IOException("Expected errorInfo to start with an Object, started with "
+							+ parser.getCurrentToken() + " instead.");
+				}
+				while (parser.nextToken() != JsonToken.END_OBJECT) {
+					String name2 = parser.getCurrentName();
+					parser.nextToken();
+					if (name2.equals("field")) {
+						serverError.addExtra("field", parser.getText());
+					}
+					else if (name2.equals("summary")) {
+						serverError.setMessage(parser.getText());
+					}
+				}
+			}
+			else {
+				parser.skipChildren();
+			}
+		}
+
+		response.addError(serverError);
 	}
 }

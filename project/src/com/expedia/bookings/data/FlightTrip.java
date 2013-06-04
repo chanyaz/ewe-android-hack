@@ -222,6 +222,10 @@ public class FlightTrip implements JSONable {
 		mFlightSegmentAttrs[index] = attributes;
 	}
 
+	public void setFlightSegmentAttributes(FlightSegmentAttributes[][] attrs) {
+		mFlightSegmentAttrs = attrs;
+	}
+
 	public FlightSegmentAttributes[] getFlightSegmentAttributes(int legPosition) {
 		return mFlightSegmentAttrs[legPosition];
 	}
