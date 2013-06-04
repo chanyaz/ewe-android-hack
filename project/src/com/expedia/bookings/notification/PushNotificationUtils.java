@@ -22,6 +22,7 @@ import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.notification.Notification.ImageType;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.PushRegistrationResponseHandler;
@@ -152,13 +153,14 @@ public class PushNotificationUtils {
 					Log.e("PushNotificationUtils.generateNotification Formatted message was null for locKey:" + locKey);
 				}
 				else {
-					String uniqueId = itinId + "_" + formattedMessage;
+					String uniqueId = sanatizeUniqueId(itinId + "_" + formattedMessage);
 
 					Notification notification = new Notification(uniqueId, itinId, triggerTimeMillis);
 					notification.setItinId(itinId);
 					notification.setNotificationType(pushApiTypeToNotificationType(typeIntStr));
 					notification.setFlags(Notification.FLAG_PUSH);
 					notification.setIconResId(R.drawable.ic_stat_flight);
+					notification.setImageType(ImageType.NONE);
 
 					String airline = leg.getAirlinesFormatted();
 					String destination = StrUtils.getWaypointCityOrCode(leg.getLastWaypoint());
@@ -167,16 +169,27 @@ public class PushNotificationUtils {
 					notification.setBody(formattedMessage);
 					notification.setTicker(formattedMessage);
 
-					String destinationCode = leg.getLastWaypoint().mAirportCode;
-					notification.setImage(Notification.ImageType.DESTINATION, R.drawable.bg_itin_placeholder_flight,
-							destinationCode);
-
 					notification.save();
-
 					notification.scheduleNotification(context);
 				}
 			}
 		}
+	}
+
+	/**
+	 * We want to build the uniqueId such that it includes only word characters and isn't too long.
+	 * This function strips out all of the non word characters and chops it down to length == 1024 if needed.
+	 * 
+	 * @param uniqueId
+	 * @return
+	 */
+	private static String sanatizeUniqueId(String uniqueId) {
+		String retStr = uniqueId.replaceAll("\\W", "");
+		if (retStr.length() > 1024) {
+			retStr = retStr.substring(0, 1024);
+		}
+		Log.d("PushNotificationUtils.sanatizeUniqueId input:" + uniqueId + " output:" + retStr);
+		return retStr;
 	}
 
 	/**
