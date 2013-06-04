@@ -1,8 +1,11 @@
 package com.expedia.bookings.server;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,9 +49,16 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 	}
 
 	@Override
-	public FlightSearchResponse handleJson(JSONObject response) {
+	public FlightSearchResponse handleResponse(HttpResponse response) throws ClientProtocolException, IOException {
 		long start = System.nanoTime();
+		super.handleResponse(response);
+		Log.d("Flight search response parse time: " + ((System.nanoTime() - start) / 1000000) + " ms; # trips="
+				+ mResponse.getTripCount() + ", # legs=" + mLegs.size());
+		return mResponse;
+	}
 
+	@Override
+	public FlightSearchResponse handleJson(JSONObject response) {
 		mResponse = new FlightSearchResponse();
 		mLegs = new HashMap<String, FlightLeg>();
 		mAirlineNames = new HashMap<String, String>();
@@ -113,9 +123,6 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 		mResponse.setObFeesDetails(response.optString("obFeesDetails", null));
 
 		mResponse.compact();
-
-		Log.d("Flight search response parse time: " + ((System.nanoTime() - start) / 1000000) + " ms; # trips="
-				+ mResponse.getTripCount() + ", # legs=" + mLegs.size());
 
 		return mResponse;
 	}
