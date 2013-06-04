@@ -406,22 +406,25 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 				bookingCode = parser.getTextCharacters()[0];
 			}
 			else if (name.equals("cabinCode")) {
-				String cabinCodeStr = parser.getText();
-
-				if ("coach".equals(cabinCodeStr)) {
+				// Because each cabin code has a unique first letter, we parse
+				// based on that for speed.  If that ever becomes no longer the
+				// case, we should switch back to a slower, equals() based parser
+				char firstChar = parser.getTextCharacters()[0];
+				switch (firstChar) {
+				case 'c': // "coach"
 					cabinCode = CabinCode.COACH;
-				}
-				else if ("premium coach".equals(cabinCodeStr)) {
+					break;
+				case 'p': // "premium coach"
 					cabinCode = CabinCode.PREMIUM_COACH;
-				}
-				else if ("business".equals(cabinCodeStr)) {
+					break;
+				case 'b': // "business"
 					cabinCode = CabinCode.BUSINESS;
-				}
-				else if ("first".equals(cabinCodeStr)) {
+					break;
+				case 'f': // "first"
 					cabinCode = CabinCode.FIRST;
-				}
-				else {
-					throw new RuntimeException("Ran into unknown cabin code: " + cabinCodeStr);
+					break;
+				default:
+					throw new RuntimeException("Ran into unknown cabin code: " + parser.getText());
 				}
 			}
 			else {
