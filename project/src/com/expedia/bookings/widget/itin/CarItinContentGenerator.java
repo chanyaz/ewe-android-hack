@@ -318,7 +318,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		Calendar expiration = (Calendar) data.getPickUpDate().getCalendar().clone();
 		expiration.set(Calendar.MINUTE, 59);
 		expiration.set(Calendar.MILLISECOND, 0);
-		expiration.set(Calendar.HOUR_OF_DAY, 11);
+		expiration.set(Calendar.HOUR_OF_DAY, 23);
 		long expirationTimeMillis = Math.min(
 				DateTimeUtils.getTimeInLocalTimeZone(expiration).getTime(),
 				calculateDropOffNotificationMillis());
@@ -355,7 +355,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		Calendar expiration = (Calendar) data.getDropOffDate().getCalendar().clone();
 		expiration.set(Calendar.MINUTE, 59);
 		expiration.set(Calendar.MILLISECOND, 0);
-		expiration.set(Calendar.HOUR_OF_DAY, 11);
+		expiration.set(Calendar.HOUR_OF_DAY, 23);
 		long expirationTimeMillis = DateTimeUtils.getTimeInLocalTimeZone(expiration).getTime();
 
 		Notification notification = new Notification(itinId + "_dropoff", itinId, triggerTimeMillis);
