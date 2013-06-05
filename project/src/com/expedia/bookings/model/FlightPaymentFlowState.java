@@ -43,6 +43,20 @@ public class FlightPaymentFlowState {
 		mCardInfo.bind(billingInfo);
 	}
 
+	/**
+	 * Looks at the billingInfo and determines whether or not it contains a valid, selected card of any type. A valid,
+	 * selected card means that the card in the billingInfo (either stored or manual) has a valid credit card and a
+	 * valid billing address
+	 * @param billingInfo
+	 * @return
+	 */
+	public boolean hasAValidCardSelected(BillingInfo billingInfo) {
+		if (billingInfo.hasStoredCard()) {
+			return true;
+		}
+		return hasValidBillingAddress(billingInfo) && hasValidCardInfo(billingInfo);
+	}
+
 	public boolean hasValidBillingAddress(BillingInfo billingInfo) {
 		bind(billingInfo);
 		return !PointOfSale.getPointOfSale().requiresBillingAddressFlights() || mBillingAddress.hasValidInput();
@@ -51,11 +65,6 @@ public class FlightPaymentFlowState {
 	public boolean hasValidCardInfo(BillingInfo billingInfo) {
 		bind(billingInfo);
 		return mCardInfo.hasValidInput();
-	}
-
-	public boolean allBillingInfoIsValid(BillingInfo billingInfo) {
-		bind(billingInfo);
-		return mBillingAddress.hasValidInput() && mCardInfo.hasValidInput();
 	}
 
 }

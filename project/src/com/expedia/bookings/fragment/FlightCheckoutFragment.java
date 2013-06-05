@@ -458,18 +458,16 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			return;
 		}
 
-		boolean hasStoredCard = mBillingInfo.getStoredCard() != null;
-		boolean paymentAddressValid = hasStoredCard ? hasStoredCard : state.hasValidBillingAddress(mBillingInfo);
-		boolean paymentCCValid = hasStoredCard ? hasStoredCard : state.hasValidCardInfo(mBillingInfo);
+		boolean hasValidCard = state.hasAValidCardSelected(mBillingInfo);
 		boolean travelerValid = validateTravelers();
 
-		if (hasStoredCard) {
+		if (mBillingInfo.hasStoredCard()) {
 			mStoredCreditCard.setVisibility(View.VISIBLE);
 			mPaymentButton.setVisibility(View.GONE);
 			mCreditCardSectionButton.setVisibility(View.GONE);
 			setValidationViewVisibility(mStoredCreditCard, R.id.validation_checkmark, true);
 		}
-		else if (paymentAddressValid && paymentCCValid) {
+		else if (state.hasAValidCardSelected(mBillingInfo)) {
 			mStoredCreditCard.setVisibility(View.GONE);
 			mPaymentButton.setVisibility(View.GONE);
 			mCreditCardSectionButton.setVisibility(View.VISIBLE);
@@ -481,7 +479,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			mCreditCardSectionButton.setVisibility(View.GONE);
 		}
 
-		if (paymentAddressValid && paymentCCValid && travelerValid) {
+		if (hasValidCard && travelerValid) {
 			mListener.checkoutInformationIsValid();
 		}
 		else {
@@ -489,7 +487,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		}
 
 		Money cardFee = Db.getFlightSearch().getSelectedFlightTrip().getCardFee(mBillingInfo);
-		if (cardFee != null) {
+		if (hasValidCard && cardFee != null) {
 			setPaymentContainerBg(R.drawable.bg_lcc_checkout_information_bottom_tab, false);
 
 			mCardFeeTextView.setText(Html.fromHtml(getString(R.string.airline_card_fee_TEMPLATE,

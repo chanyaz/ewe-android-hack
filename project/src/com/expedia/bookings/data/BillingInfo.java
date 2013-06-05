@@ -185,6 +185,10 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 		return mStoredCard;
 	}
 
+	public boolean hasStoredCard() {
+		return mStoredCard != null;
+	}
+
 	public void setSaveCardToExpediaAccount(boolean save) {
 		mSaveCardToExpediaAccount = save;
 	}
