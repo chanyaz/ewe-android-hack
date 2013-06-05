@@ -50,8 +50,11 @@ SECONDS_DIFF=$ONE_DAY_IN_SECONDS
 
 #counters
 badhashcount=0
-densitymissingtotal=0
+densityuncopiedtotal=0
 creationtimethresholdfiles=0
+primarydensityfilecount=0
+densitymissingtotal=0
+
 
 echo -e "\n*** CHECKING IF DESIGN FILES MATCH FILES IN RES ***"
 for density in ${DENSITIES[*]}
@@ -107,7 +110,7 @@ do
 				then
 					echo -e "\tWe have an ${density} asset for ${filename} in design but not in res"
 					#echo "You should run cp ${fname_des} ${fname_res}"
-					densitymissingtotal=$[densitymissingtotal + 1]
+					densityuncopiedtotal=$[densityuncopiedtotal + 1]
 				fi	
 			fi
 
@@ -148,6 +151,80 @@ do
 
 done
 
+echo -e "\n*** GENERATING DENSITY MAP ***"
+densityTable="FILENAME\t"
+for density in ${DENSITIES[*]}
+do
+    densityTable="${densityTable}|"
+    if [ "${density}" == "${PRIMARY_DENSITY}" ]; then
+        densityTable="${densityTable}${density}*\t"
+    else
+        densityTable="${densityTable}${density}\t"
+    fi
+done
+for file in $PROJECT_RES/drawable-$PRIMARY_DENSITY/*
+do
+    echo -e ".\c"
+    primarydensityfilecount=$[primarydensityfilecount + 1]
+    filename=$(basename "${file}")
+    densityTable="${densityTable}\n${filename}\t"
+    for density in ${DENSITIES[*]}
+    do
+        densityTable="${densityTable}|"
+        filename_other=$PROJECT_RES/drawable-${density}/${filename}
+
+        if [ -f "${filename_other}" ]; then
+            densityTable="${densityTable}x\t"
+        else
+            densityTable="${densityTable} \t"
+            densitymissingtotal=$[densitymissingtotal + 1]
+        fi
+    done
+    densityTable="${densityTable}\n"
+done
+echo -e "Done\n"
+echo -e "${densityTable}" | column -t
 
 
-echo -e "\n\n*** REPORT: ***\n\t${badhashcount} files differ between design and res \n\t${densitymissingtotal} missing but available density files \n\t${creationtimethresholdfiles} files had creation times that differed from  the ${PRIMARY_DENSITY} versions by more than ${SECONDS_DIFF} seconds\n"
+echo -e "\n*** GENERATING DIMENSION MAP ***"
+dimensionTable="FILENAME\t"
+for density in ${DENSITIES[*]}
+do
+    dimensionTable="${dimensionTable}|"
+    if [ "${density}" == "${PRIMARY_DENSITY}" ]; then
+        dimensionTable="${dimensionTable}${density}*\t"
+    else
+        dimensionTable="${dimensionTable}${density}\t"
+    fi
+done
+for file in $PROJECT_RES/drawable-$PRIMARY_DENSITY/*
+do
+    echo -e ".\c"
+    filename=$(basename "${file}")
+    dimensionTable="${dimensionTable}\n${filename}\t"
+    for density in ${DENSITIES[*]}
+    do
+        dimensionTable="${dimensionTable}|"
+        filename_other=$PROJECT_RES/drawable-${density}/${filename}
+
+        if [ -f "${filename_other}" ]; then
+            curImageDimen=$(identify -format "%wx%h" "${filename_other}")
+            dimensionTable="${dimensionTable}${curImageDimen}\t"
+        else
+            dimensionTable="${dimensionTable} \t"
+        fi
+    done
+    dimensionTable="${dimensionTable}\n"
+done
+echo -e "Done\n"
+echo -e "${dimensionTable}" | column -t
+
+
+
+
+echo -e "\n\n*** REPORT: ***"
+echo -e "\t${badhashcount} files differ between design and res"
+echo -e "\t${densityuncopiedtotal} missing but available density files"
+echo -e "\t${creationtimethresholdfiles} files had creation times that differed from the ${PRIMARY_DENSITY} versions by more than ${SECONDS_DIFF} seconds"
+echo -e "\t${primarydensityfilecount} files in the ${PRIMARY_DENSITY} drawable folder"
+echo -e "\t${densitymissingtotal} missing density specific files"
