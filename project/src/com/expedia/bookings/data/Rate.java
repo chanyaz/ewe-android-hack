@@ -98,12 +98,14 @@ public class Rate implements JSONable {
 	}
 
 	public String getFormattedBedNames() {
-		ArrayList<String> bedNames = new ArrayList();
+		if (mBedTypes == null) {
+			return "";
+		}
 
+		ArrayList<String> bedNames = new ArrayList();
 		for (BedType bed : mBedTypes) {
 			bedNames.add(bed.getBedTypeDescription());
 		}
-
 		return StrUtils.joinWithoutEmpties(", ", bedNames);
 	}
 
