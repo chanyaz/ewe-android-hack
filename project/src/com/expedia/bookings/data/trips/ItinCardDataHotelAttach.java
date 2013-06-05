@@ -59,21 +59,6 @@ public class ItinCardDataHotelAttach extends ItinCardData {
 	}
 
 	@Override
-	public Intent getClickIntent(Context context) {
-		OmnitureTracking.trackCrossSellItinToHotel(context);
-
-		Db.setSearchParams(getSearchParams());
-
-		Class<? extends Activity> targetClass = ExpediaBookingApp.useTabletInterface(context) ? SearchResultsFragmentActivity.class
-				: PhoneSearchActivity.class;
-
-		Intent intent = new Intent(context, targetClass);
-		intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
-
-		return intent;
-	}
-
-	@Override
 	public boolean hasDetailData() {
 		return false;
 	}

@@ -15,6 +15,10 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout {
 	// PRIVATE MEMBERS
 	//////////////////////////////////////////////////////////////////////////////////////
 
+	private ItinButtonContentGenerator mItinContentGenerator;
+
+	// Views
+
 	private ViewGroup mItinButtonLayout;
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -36,12 +40,20 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout {
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	public void bind(T itinCardData) {
-		ItinContentGenerator itinContentGenerator = ItinContentGenerator.createGenerator(getContext(), itinCardData);
+		mItinContentGenerator = (ItinButtonContentGenerator) ItinContentGenerator.createGenerator(getContext(),
+				itinCardData);
 
-		View buttonView = itinContentGenerator.getDetailsView(mItinButtonLayout);
+		View buttonView = mItinContentGenerator.getDetailsView(mItinButtonLayout);
 		if (buttonView != null) {
 			mItinButtonLayout.removeAllViews();
 			mItinButtonLayout.addView(buttonView);
+		}
+	}
+
+	public void onItemClick() {
+		Runnable runnable = mItinContentGenerator.getOnItemClickRunnable(getContext());
+		if (runnable != null) {
+			runnable.run();
 		}
 	}
 

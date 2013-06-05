@@ -31,6 +31,7 @@ import com.expedia.bookings.data.trips.ItinCardDataAdapter;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
+import com.expedia.bookings.widget.itin.ItinButtonCard;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
@@ -671,11 +672,11 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 				if (position < getFirstVisiblePosition() || position > getLastVisiblePosition()) {
 					setSelectionFromTop(position, 0);
 					post(new Runnable() {
-						@Override
-						public void run() {
-							showDetails(position, animate);
-						}
-					});
+                        @Override
+                        public void run() {
+                            showDetails(position, animate);
+                        }
+                    });
 					return;
 				}
 
@@ -856,12 +857,11 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		ItinCardData data = mAdapter.getItem(position);
-		Intent clickIntent = data.getClickIntent(getContext());
 		if (data.hasDetailData()) {
 			showDetails(position, true);
 		}
-		else if (clickIntent != null) {
-			getContext().startActivity(clickIntent);
+		else if (view instanceof ItinButtonCard) {
+            ((ItinButtonCard) view).onItemClick();
 		}
 		else if (!TextUtils.isEmpty(data.getDetailsUrl())) {
 			Context context = getContext();

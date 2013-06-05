@@ -9,11 +9,6 @@ public class ItinCardDataLocalExpert extends ItinCardData {
 	}
 
 	@Override
-	public Intent getClickIntent(Context context) {
-		return null;
-	}
-
-	@Override
 	public boolean hasDetailData() {
 		return false;
 	}

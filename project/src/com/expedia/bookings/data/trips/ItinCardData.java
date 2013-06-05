@@ -51,10 +51,6 @@ public class ItinCardData {
 		return mTripComponent.getParentTrip().getDetailsUrl();
 	}
 
-	public Intent getClickIntent(Context context) {
-		return null;
-	}
-
 	public boolean hasSummaryData() {
 		return true;
 	}
