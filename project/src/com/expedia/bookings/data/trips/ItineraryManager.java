@@ -1383,6 +1383,7 @@ public class ItineraryManager implements JSONable {
 						existing.setTitle(notification.getTitle());
 						existing.setBody(notification.getBody());
 						existing.setTicker(notification.getTicker());
+						existing.setFlags(notification.getFlags());
 						notification = existing;
 					}
 
