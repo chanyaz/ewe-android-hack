@@ -692,8 +692,7 @@
     <string name="loading_flight_details">Checking for price changes…</string>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">Price changed from %1$s</string>
-    <!-- Message shown to user when the airline is charging a fee to use their credit card brand -->
-    <!-- e.g. This airline charges a $5 fee to book with the selected card, included in the total. -->
+    <!-- Message shown to user when the airline is charging a fee to use their credit card brand e.g. This airline charges a $5 fee to book with the selected card, included in the total. -->
     <string name="airline_card_fee_TEMPLATE">This airline charges a &lt;b&gt;%1$s&lt;/b&gt; fee to book with the selected card, included in the total.</string>
 
     <!-- Checkout Activity -->
