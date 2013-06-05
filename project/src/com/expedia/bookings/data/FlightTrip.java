@@ -49,6 +49,10 @@ public class FlightTrip implements JSONable {
 	 */
 	private List<ValidPayment> mValidPayments;
 
+	// A boolean that denotes whether or not to show the total fare with or without the card fee. This is dependent
+	// on which screens the user has seen and what billing info they have selected. Transient; do not serialize.
+	private boolean mShowFareWithCardFee;
+
 	/**
 	 * This one is a mouthful. For certain POS/regions, the Expedia API returns essentially duplicate offers that differ
 	 * only on price. This price difference can be attributed to the fare including baggage fees or not including baggage
@@ -203,6 +207,14 @@ public class FlightTrip implements JSONable {
 		}
 
 		return base;
+	}
+
+	public boolean showFareWithCardFee() {
+		return mShowFareWithCardFee;
+	}
+
+	public void setShowFareWithCardFee(boolean showFareWithCardFee) {
+		mShowFareWithCardFee = showFareWithCardFee;
 	}
 
 	public int getSeatsRemaining() {

@@ -19,6 +19,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.dialog.ThrobberDialog;
+import com.expedia.bookings.model.FlightPaymentFlowState;
 import com.expedia.bookings.section.SectionFlightTrip;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.Ui;
@@ -77,8 +78,20 @@ public class FlightTripPriceFragment extends Fragment {
 		}
 	}
 
-	public void refresh() {
-		mTripSection.bind(mTrip, Db.getBillingInfo());
+	public void bind() {
+		bindPrice();
+	}
+
+	private void bindPrice() {
+		mTrip = Db.getFlightSearch().getSelectedFlightTrip();
+		FlightPaymentFlowState state = FlightPaymentFlowState.getInstance(getActivity());
+
+		if (state.hasAValidCardSelected(Db.getBillingInfo()) && mTrip.showFareWithCardFee()) {
+			mTripSection.bindWithCardFee(mTrip, Db.getBillingInfo());
+		}
+		else {
+			mTripSection.bindWithoutCardFee(mTrip);
+		}
 	}
 
 	@Override
@@ -126,7 +139,7 @@ public class FlightTripPriceFragment extends Fragment {
 
 		if (Db.getFlightSearch().getSelectedFlightTrip() != null) {
 			mTrip = Db.getFlightSearch().getSelectedFlightTrip();
-			mTripSection.bind(mTrip);
+			bindPrice();
 		}
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
@@ -200,7 +213,7 @@ public class FlightTripPriceFragment extends Fragment {
 				Money originalPrice = mTrip.getTotalFare();
 
 				mTrip.updateFrom(results.getOffer());
-				mTripSection.bind(mTrip, Db.getBillingInfo()); // rebind to update price
+				mTripSection.bind(mTrip); // rebind to update price
 
 				Db.kickOffBackgroundSave(getActivity());
 

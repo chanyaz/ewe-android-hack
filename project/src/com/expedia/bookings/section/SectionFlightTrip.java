@@ -14,7 +14,8 @@ public class SectionFlightTrip extends LinearLayout implements ISection<FlightTr
 	SectionFieldList<FlightTrip> mFields = new SectionFieldList<FlightTrip>();
 
 	FlightTrip mTrip;
-	BillingInfo mBillingInfo;
+	private BillingInfo mBillingInfo;
+	private boolean mShowCardFee = false;
 
 	Context mContext;
 
@@ -60,8 +61,14 @@ public class SectionFlightTrip extends LinearLayout implements ISection<FlightTr
 		}
 	}
 
-	public void bind(FlightTrip trip, BillingInfo billingInfo) {
+	public void bindWithoutCardFee(FlightTrip trip) {
+		mShowCardFee = false;
+		bind(trip);
+	}
+
+	public void bindWithCardFee(FlightTrip trip, BillingInfo billingInfo) {
 		mBillingInfo = billingInfo;
+		mShowCardFee = true;
 		bind(trip);
 	}
 
@@ -72,8 +79,19 @@ public class SectionFlightTrip extends LinearLayout implements ISection<FlightTr
 	SectionField<TextView, FlightTrip> mTripTotal = new SectionField<TextView, FlightTrip>(R.id.trip_total) {
 		@Override
 		public void onHasFieldAndData(TextView field, FlightTrip data) {
-			field.setText((data.getBaseFare() != null) ? data.getTotalFareWithCardFee(mBillingInfo).getFormattedMoney()
-					: "");
+			String text;
+			if (data.getBaseFare() == null) {
+				text = "";
+			}
+			else {
+				if (mShowCardFee) {
+					text = data.getTotalFareWithCardFee(mBillingInfo).getFormattedMoney();
+				}
+				else {
+					text = data.getTotalFare().getFormattedMoney();
+				}
+			}
+			field.setText(text);
 		}
 	};
 

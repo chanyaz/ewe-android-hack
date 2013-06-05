@@ -20,9 +20,9 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.FlightPaymentAddressFragment;
 import com.expedia.bookings.fragment.FlightPaymentCreditCardFragment;
 import com.expedia.bookings.fragment.FlightPaymentOptionsFragment;
-import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.fragment.FlightPaymentOptionsFragment.FlightPaymentYoYoListener;
 import com.expedia.bookings.fragment.FlightPaymentSaveDialogFragment;
+import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.model.FlightPaymentFlowState;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -178,6 +178,7 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 				break;
 			case CREDITCARD:
 				if (validate(mCCFragment)) {
+					Db.getFlightSearch().getSelectedFlightTrip().setShowFareWithCardFee(true);
 					if (User.isLoggedIn(this)) {
 						displaySaveDialog();
 					}
@@ -213,6 +214,7 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 				break;
 			case CREDITCARD:
 				if (validate(mCCFragment)) {
+					Db.getFlightSearch().getSelectedFlightTrip().setShowFareWithCardFee(true);
 					if (User.isLoggedIn(this)
 							&& !Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getSaveCardToExpediaAccount()
 							&& workingBillingInfoChanged()) {

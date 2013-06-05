@@ -38,6 +38,7 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.ConfirmLogoutDialogFragment.DoLogoutListener;
 import com.expedia.bookings.fragment.FlightCheckoutFragment;
+import com.expedia.bookings.fragment.FlightCheckoutFragment.BillingInfoListener;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment.DisplayMode;
@@ -60,7 +61,8 @@ import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
 public class FlightTripOverviewActivity extends SherlockFragmentActivity implements LogInListener,
-		CheckoutInformationListener, RetryErrorDialogFragmentListener, ISlideToListener, DoLogoutListener {
+		CheckoutInformationListener, RetryErrorDialogFragmentListener, ISlideToListener, DoLogoutListener,
+		BillingInfoListener {
 
 	public static final String TAG_OVERVIEW_FRAG = "TAG_OVERVIEW_FRAG";
 	public static final String TAG_CHECKOUT_FRAG = "TAG_CHECKOUT_FRAG";
@@ -181,10 +183,6 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	public void onResume() {
 		super.onResume();
 
-		if (Ui.isAdded(mPriceBottomFragment)) {
-			mPriceBottomFragment.refresh();
-		}
-
 		OmnitureTracking.onResume(this);
 	}
 
@@ -219,6 +217,11 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		else if (mBottomBarMode == BottomBarMode.SLIDE_TO_PURCHASE) {
 			addSlideToCheckoutFragment();
 		}
+
+		// Make sure to re-attach the listener in the event of a re-creation
+		if (mCheckoutFragment != null) {
+			mCheckoutFragment.setCardFeeListener(this);
+		}
 	}
 
 	@Override
@@ -240,6 +243,12 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+
+		// When leaving the activity, we want to ensure that if the user returns, they do not see the card fee on the
+		// overview, even if we have a card selected for them in the background.
+		if (isFinishing()) {
+			Db.getFlightSearch().getSelectedFlightTrip().setShowFareWithCardFee(false);
+		}
 
 		if (mKillReceiver != null) {
 			mKillReceiver.onDestroy();
@@ -284,6 +293,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			mCheckoutFragment = Ui.findSupportFragment(this, TAG_CHECKOUT_FRAG);
 			if (mCheckoutFragment == null) {
 				mCheckoutFragment = FlightCheckoutFragment.newInstance();
+				mCheckoutFragment.setCardFeeListener(this);
 			}
 			else if (refreshCheckoutData) {
 				//Incase we only now finished loading cached data...
@@ -329,7 +339,8 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 			mSlideToPurchaseFragment = Ui.findSupportFragment(this, TAG_SLIDE_TO_PURCHASE_FRAG);
 			if (mSlideToPurchaseFragment == null) {
-				Money totalFare = Db.getFlightSearch().getSelectedFlightTrip().getTotalFare();
+				Money totalFare = Db.getFlightSearch().getSelectedFlightTrip()
+						.getTotalFareWithCardFee(Db.getBillingInfo());
 				String template = getString(R.string.your_card_will_be_charged_TEMPLATE);
 				String text = String.format(template, totalFare.getFormattedMoney());
 				mSlideToPurchaseFragment = SlideToPurchaseFragment.newInstance(text);
@@ -388,6 +399,10 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			@Override
 			public void onAnimationEnd(Animator arg0) {
 				FlightTripOverviewActivity.this.setCheckoutPercent(endPercentage);
+
+				// In checkout mode, we always want to show the price at bottom with the card fee
+				Db.getFlightSearch().getSelectedFlightTrip().setShowFareWithCardFee(true);
+				mPriceBottomFragment.bind();
 			}
 		});
 
@@ -950,4 +965,11 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		mCheckoutFragment.doLogout();
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// BillingInfoListener
+
+	@Override
+	public void onBillingInfoChange() {
+		mPriceBottomFragment.bind();
+	}
 }
