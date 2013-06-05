@@ -96,8 +96,7 @@ public class FlightTripPriceFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mFragmentContent = inflater.inflate(R.layout.fragment_flight_price_bar,
-				container, false);
+		mFragmentContent = inflater.inflate(R.layout.fragment_flight_price_bar, container, false);
 
 		mTripSection = Ui.findView(mFragmentContent, R.id.price_section);
 		if (Db.getFlightSearch().getSelectedFlightTrip() != null) {
@@ -116,8 +115,8 @@ public class FlightTripPriceFragment extends Fragment {
 			}
 		}
 
-		View infoBtn = Ui.findView(mTripSection, R.id.info_btn);
-		infoBtn.setOnClickListener(new OnClickListener() {
+		View priceSection = Ui.findView(mTripSection, R.id.price_section);
+		priceSection.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				DialogFragment newFragment = FlightPriceBreakdownDialogFragment.newInstance();
