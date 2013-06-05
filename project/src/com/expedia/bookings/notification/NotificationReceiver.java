@@ -283,6 +283,10 @@ public class NotificationReceiver extends BroadcastReceiver {
 					phoneNumber = ((ItinCardDataCar) data).getRelevantVendorPhone();
 					label = ((ItinCardDataCar) data).getVendorName();
 				}
+				else if (data instanceof ItinCardDataHotel) {
+					phoneNumber = ((ItinCardDataHotel) data).getRelevantPhone();
+					label = mContext.getString(R.string.itin_action_call_hotel);
+				}
 
 				if (phoneNumber != null) {
 					Intent intent = SocialUtils.getCallIntent(mContext, phoneNumber);

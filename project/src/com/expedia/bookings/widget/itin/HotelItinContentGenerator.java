@@ -326,7 +326,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		Notification notification = new Notification(itinId + "_checkin", itinId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.HOTEL_CHECK_IN);
 		notification.setExpirationTimeMillis(expirationTimeMillis);
-		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_SHARE);
+		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_CALL);
 		notification.setIconResId(R.drawable.ic_stat_hotel);
 
 		String title = getContext().getString(R.string.itin_card_hotel_summary_check_in_TEMPLATE,
@@ -366,7 +366,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		Notification notification = new Notification(itinId + "_checkout", itinId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.HOTEL_CHECK_OUT);
 		notification.setExpirationTimeMillis(expirationTimeMillis);
-		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_SHARE);
+		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_CALL);
 		notification.setIconResId(R.drawable.ic_stat_hotel);
 
 		String title = getContext().getString(R.string.itin_card_hotel_summary_check_out_TEMPLATE,
