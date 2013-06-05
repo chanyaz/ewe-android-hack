@@ -54,6 +54,32 @@ densityuncopiedtotal=0
 creationtimethresholdfiles=0
 primarydensityfilecount=0
 densitymissingtotal=0
+crashyninepatches=0
+crashyhdpiimages=0
+
+echo -e "\n*** SEARCHING FOR CRASHY 1px HDPI IMAGES***"
+for file in $PROJECT_RES/drawable-hdpi/*[^9].png
+do
+    curImageHeight=$(identify -format "%h" "${file}")
+    curImageWidth=$(identify -format "%w" "${file}")
+    if [ "${curImageHeight}" == "1" -o "${curImageWidth}" == "1" ]; then
+        echo -e "IMAGE ${curImageHeight}x${curImageWidth} - ${file}"
+        crashyhdpiimages=$[crashyhdpiimages + 1]
+    fi
+done
+echo -e "${crashyhdpiimages} crashy 1px hdpi images"
+
+echo -e "\n*** SEARCHING FOR CRASHY NINE-PATCH IMAGES***"
+for file in $PROJECT_RES/drawable-*/*.9.png
+do
+    curImageHeight=$(identify -format "%h" "${file}")
+    curImageWidth=$(identify -format "%w" "${file}")
+    if [ "${curImageHeight}" == "3" -o "${curImageWidth}" == "3" ]; then
+        echo -e "NINEPATCH ${curImageHeight}x${curImageWidth} - ${file}"
+        crashyninepatches=$[crashyninepatches + 1]
+    fi
+done
+echo -e "${crashyninepatches} crashy 3px 9patch images"
 
 
 echo -e "\n*** CHECKING IF DESIGN FILES MATCH FILES IN RES ***"
@@ -218,7 +244,6 @@ do
 done
 echo -e "Done\n"
 echo -e "${dimensionTable}" | column -t
-
 
 
 
