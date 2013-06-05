@@ -83,10 +83,11 @@ public class AboutWebViewActivity extends WebViewActivity {
 	}
 
     private void sendSupportEmail() {
-        String to = getString(R.string.email_app_support);
-        String subject = getString(R.string.app_support_message_subject);
-
         StringBuilder body = new StringBuilder();
+
+        body.append("\n\n\n");
+        body.append("------");
+        body.append("\n\n");
         body.append(getString(R.string.app_support_message_body));
         body.append("\n\n");
 
@@ -109,6 +110,6 @@ public class AboutWebViewActivity extends WebViewActivity {
 
         body.append(DebugUtils.getBuildInfo());
 
-        SocialUtils.email(this, to, subject, body);
+        SocialUtils.email(this, getString(R.string.email_app_support), "", body);
     }
 }

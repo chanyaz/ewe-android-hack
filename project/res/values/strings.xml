@@ -1781,8 +1781,6 @@
     <!-- App support WebView -->
     <!-- menu -->
     <string name="email_us">Email Us</string>
-    <!-- Support email subject -->
-    <string name="app_support_message_subject"></string>
     <!-- Support email body -->
     <string name="app_support_message_body">We look forward to replying to you! Below is some information that may help us assist you:</string>
 
