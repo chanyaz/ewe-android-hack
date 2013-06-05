@@ -1778,9 +1778,13 @@
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">This app make use of the following open-source libraries:</string>
 
-    <!-- App support webview -->
+    <!-- App support WebView -->
     <!-- menu -->
     <string name="email_us">Email Us</string>
+    <!-- Support email subject -->
+    <string name="app_support_message_subject"></string>
+    <!-- Support email body -->
+    <string name="app_support_message_body">We look forward to replying to you! Below is some information that may help us assist you:</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

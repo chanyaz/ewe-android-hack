@@ -32,6 +32,10 @@
     <!-- Tracking tags -->
     <string name="google_analytics_ua">UA-31534750-3</string>
 
+    <!-- Email addresses -->
+    <string name="email_expedia_support">support@expedia.com</string>
+    <string name="email_app_support">Expedia-Android@mobiata.com</string>
+
     <!-- Fragment tags -->
     <string name="tag_search_params">SEARCH_PARAMS</string>
     <string name="tag_hotel_list">HOTEL_LIST</string>

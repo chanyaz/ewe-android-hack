@@ -9,6 +9,13 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.pos.PointOfSale;
+import com.mobiata.android.DebugUtils;
+import com.mobiata.android.SocialUtils;
+import com.mobiata.android.util.AndroidUtils;
+
+import java.util.Locale;
 
 public class AboutWebViewActivity extends WebViewActivity {
 	private static final String ARG_SHOW_EMAIL_BUTTON = "ARG_SHOW_EMAIL_BUTTON";
@@ -76,6 +83,32 @@ public class AboutWebViewActivity extends WebViewActivity {
 	}
 
     private void sendSupportEmail() {
+        String to = getString(R.string.email_app_support);
+        String subject = getString(R.string.app_support_message_subject);
 
+        StringBuilder body = new StringBuilder();
+        body.append(getString(R.string.app_support_message_body));
+        body.append("\n\n");
+
+        body.append("PACKAGE: ");
+        body.append(getPackageName());
+        body.append("\n");
+        body.append("VERSION: ");
+        body.append(AndroidUtils.getAppVersion(this));
+        body.append("\n");
+        body.append("CODE: ");
+        body.append(AndroidUtils.getAppCode(this));
+        body.append("\n");
+        body.append("POS: ");
+        body.append(PointOfSale.getPointOfSale().getPointOfSaleId().toString());
+        body.append("\n");
+        body.append("LOCALE: ");
+        body.append(Locale.getDefault().toString());
+
+        body.append("\n\n");
+
+        body.append(DebugUtils.getBuildInfo());
+
+        SocialUtils.email(this, to, subject, body);
     }
 }
