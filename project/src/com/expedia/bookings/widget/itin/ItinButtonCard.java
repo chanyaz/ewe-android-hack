@@ -2,31 +2,31 @@ package com.expedia.bookings.widget.itin;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.ImageView;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.TextView;
 
-public class AttachCard<T extends ItinCardData> extends LinearLayout {
+public class ItinButtonCard<T extends ItinCardData> extends LinearLayout {
+	//////////////////////////////////////////////////////////////////////////////////////
+	// PRIVATE MEMBERS
+	//////////////////////////////////////////////////////////////////////////////////////
 
-	private AttachCardContentGenerator<? extends ItinCardData> mAttachCardContentGenerator;
-
-	private ImageView mActionImageView;
-	private TextView mActionTextView;
+	private ViewGroup mItinButtonLayout;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	public AttachCard(Context context) {
+	public ItinButtonCard(Context context) {
 		super(context);
 		init(context, null);
 	}
 
-	public AttachCard(Context context, AttributeSet attrs) {
+	public ItinButtonCard(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init(context, attrs);
 	}
@@ -36,10 +36,13 @@ public class AttachCard<T extends ItinCardData> extends LinearLayout {
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	public void bind(T itinCardData) {
-		mAttachCardContentGenerator = HotelAttachCardContentGenerator.createGenerator(getContext(), itinCardData);
+		ItinContentGenerator itinContentGenerator = ItinContentGenerator.createGenerator(getContext(), itinCardData);
 
-		mActionImageView.setImageResource(mAttachCardContentGenerator.getButtonImageResId());
-		mActionTextView.setText(mAttachCardContentGenerator.getButtonText());
+		View buttonView = itinContentGenerator.getDetailsView(mItinButtonLayout);
+		if (buttonView != null) {
+			mItinButtonLayout.removeAllViews();
+			mItinButtonLayout.addView(buttonView);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -48,8 +51,6 @@ public class AttachCard<T extends ItinCardData> extends LinearLayout {
 
 	private void init(Context context, AttributeSet attrs) {
 		inflate(context, R.layout.widget_attach_card, this);
-
-		mActionImageView = Ui.findView(this, R.id.action_image_view);
-		mActionTextView = Ui.findView(this, R.id.action_text_view);
+		mItinButtonLayout = Ui.findView(this, R.id.itin_button_layout);
 	}
 }

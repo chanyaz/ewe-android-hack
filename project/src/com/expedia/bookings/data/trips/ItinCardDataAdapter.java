@@ -13,7 +13,7 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.widget.ItinCard;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
-import com.expedia.bookings.widget.itin.AttachCard;
+import com.expedia.bookings.widget.itin.ItinButtonCard;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 
 public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickListener {
@@ -27,6 +27,13 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		NORMAL,
 		DETAIL
 	}
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// PRIVATE CONSTANTS
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	private static final int TYPE_BUTTON_CARD = 0;
+	private static final int TYPE_ITINERARY_CARD = 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
@@ -88,14 +95,15 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	@Override
 	public synchronized View getView(final int position, View convertView, ViewGroup Parent) {
 		final ItinCardData data = getItem(position);
+		final int type = getItemViewType(position);
 
-		if (data instanceof ItinCardDataHotelAttach) {
-			AttachCard card;
-			if (convertView instanceof AttachCard) {
-				card = (AttachCard) convertView;
+		if (type == TYPE_BUTTON_CARD) {
+			ItinButtonCard card;
+			if (convertView instanceof ItinButtonCard) {
+				card = (ItinButtonCard) convertView;
 			}
 			else {
-				card = new AttachCard(mContext);
+				card = new ItinButtonCard(mContext);
 				//card.setOnItinCardClickListener(this);
 			}
 
@@ -142,7 +150,11 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		boolean isInThePast = isItemInThePast(position);
 		boolean isSumCard = isItemASummaryCard(position);
 		boolean isDetailCard = isItemDetailCard(position);
-		if (isDetailCard) {
+		boolean isButtonCard = isItemAButtonCard(position);
+		if (isButtonCard) {
+			return TYPE_BUTTON_CARD;
+		}
+		else if (isDetailCard) {
 			retVal += (TripComponent.Type.values().length * 3);
 		}
 		else if (isInThePast) {
@@ -151,13 +163,17 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		else if (isSumCard && !mSimpleMode) {
 			retVal += (TripComponent.Type.values().length * 2);
 		}
+
+		retVal += TYPE_ITINERARY_CARD;
+
 		return retVal;
 	}
 
 	@Override
 	public int getViewTypeCount() {
 		//the *3 is so we have one for each type and one for each type that is shaded and one for each type in summary mode
-		return TripComponent.Type.values().length * State.values().length;
+		// the +1 is for the button card type
+		return TripComponent.Type.values().length * State.values().length + 1;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -230,13 +246,13 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	private Type getItemViewCardType(int position) {
-		int typeOrd = getItemViewType(position);
+		int typeOrd = getItemViewType(position) - TYPE_ITINERARY_CARD;
 		typeOrd = typeOrd % TripComponent.Type.values().length;
 		return Type.values()[typeOrd];
 	}
 
 	private State getItemViewCardState(int position) {
-		int typeOrd = getItemViewType(position) / TripComponent.Type.values().length;
+		int typeOrd = (getItemViewType(position) - TYPE_ITINERARY_CARD) / TripComponent.Type.values().length;
 		switch (typeOrd) {
 		case 0:
 			return State.NORMAL;
@@ -274,6 +290,11 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 	private boolean isItemDetailCard(int position) {
 		return (position == mDetailPosition);
+	}
+
+	private boolean isItemAButtonCard(int position) {
+		final ItinCardData item = getItem(position);
+		return item instanceof ItinCardDataHotelAttach || item instanceof ItinCardDataLocalExpert;
 	}
 
 	// Assumes the list is sorted ahead of time

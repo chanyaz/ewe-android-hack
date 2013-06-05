@@ -24,17 +24,9 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.trips.Insurance;
+import com.expedia.bookings.data.trips.*;
 import com.expedia.bookings.data.trips.Insurance.InsuranceLineOfBusiness;
-import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
-import com.expedia.bookings.data.trips.ItinCardDataActivity;
-import com.expedia.bookings.data.trips.ItinCardDataCar;
-import com.expedia.bookings.data.trips.ItinCardDataFallback;
-import com.expedia.bookings.data.trips.ItinCardDataFlight;
-import com.expedia.bookings.data.trips.ItinCardDataHotel;
-import com.expedia.bookings.data.trips.ItineraryManager;
-import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -89,6 +81,12 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		else if (itinCardData instanceof ItinCardDataCar) {
 			return new CarItinContentGenerator(context, (ItinCardDataCar) itinCardData);
 		}
+        else if(itinCardData instanceof ItinCardDataHotelAttach) {
+            return new HotelAttachItinContentGenerator(context, (ItinCardDataHotelAttach) itinCardData);
+        }
+        else if(itinCardData instanceof ItinCardDataLocalExpert) {
+            return new LocalExpertItinContentGenerator(context, (ItinCardDataLocalExpert) itinCardData);
+        }
 		else if (itinCardData instanceof ItinCardDataFallback) {
 			return new FallbackItinContentGenerator(context, (ItinCardDataFallback) itinCardData);
 		}
