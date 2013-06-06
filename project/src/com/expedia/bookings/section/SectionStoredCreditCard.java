@@ -9,6 +9,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Build;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -19,16 +20,25 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.CreditCardType;
+import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.StoredCreditCard;
+import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.utils.Ui;
 
 public class SectionStoredCreditCard extends LinearLayout implements ISection<StoredCreditCard> {
 
+	private Context mContext;
+
 	private TextView mDescriptionView;
 	private ImageView mIconView;
 	private TextView mWalletTextView;
+	private com.expedia.bookings.widget.TextView mLccFeeTextView;
+	private View mLccDivider;
 
 	private StoredCreditCard mStoredCard;
+	private FlightTrip mFlightTrip;
 
 	private int mCardIconResId = 0;
 	private ColorStateList mPrimaryTextColor;
@@ -53,9 +63,12 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 	private void init(Context context, AttributeSet attrs) {
 		inflate(context, R.layout.widget_stored_credit_card, this);
 
+		mContext = context;
 		mDescriptionView = Ui.findView(this, R.id.display_stored_card_desc);
 		mIconView = Ui.findView(this, R.id.icon_view);
 		mWalletTextView = Ui.findView(this, R.id.google_wallet_text_view);
+		mLccFeeTextView = Ui.findView(this, R.id.card_fee_icon);
+		mLccDivider = Ui.findView(this, R.id.card_fee_divider);
 
 		// Set a few attributes that widget_stored_credit_card desires
 		setOrientation(LinearLayout.HORIZONTAL);
@@ -90,6 +103,11 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 		if (secondaryTextColorResId != 0) {
 			mSecondaryTextColor = getResources().getColorStateList(secondaryTextColorResId);
 		}
+	}
+
+	public void bind(StoredCreditCard data, FlightTrip flightTrip) {
+		mFlightTrip = flightTrip;
+		bind(data);
 	}
 
 	@Override
@@ -155,6 +173,29 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 			else {
 				mDescriptionView.setCompoundDrawablesWithIntrinsicBounds(iconResId, 0, 0, 0);
 			}
+
+			// LCC fee warning
+			if (mContext instanceof FragmentActivity && mFlightTrip != null) {
+				final FragmentActivity fa = (FragmentActivity) mContext;
+				final CreditCardType type = mStoredCard.getType();
+				Money cardFee = mFlightTrip.getCardFee(type);
+
+				if (cardFee != null) {
+					final String feeText = cardFee.getFormattedMoney();
+					mLccFeeTextView.setVisibility(View.VISIBLE);
+					mLccDivider.setVisibility(View.VISIBLE);
+					mLccFeeTextView.setText(feeText);
+					mLccFeeTextView.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							String text = mContext.getString(R.string.airline_card_fee_select_TEMPLATE, feeText, type);
+							SimpleSupportDialogFragment.newInstance(null, text).show(fa.getSupportFragmentManager(),
+									"lccDialog");
+						}
+					});
+				}
+			}
+
 		}
 	}
 

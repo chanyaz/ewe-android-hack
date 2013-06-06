@@ -42,4 +42,9 @@
         android:src="@drawable/ic_checkout_checkmark"
         android:visibility="gone" />
 
+    <include
+        layout="@layout/include_lcc_fee_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 </merge>

@@ -17,6 +17,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity.YoYoMode;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
@@ -170,6 +171,8 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 
 		List<StoredCreditCard> cards = BookingInfoUtils.getStoredCreditCards(getActivity());
 
+		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+
 		if (cards != null && cards.size() > 0) {
 			int paymentOptionPadding = getResources().getDimensionPixelSize(R.dimen.payment_option_vertical_padding);
 			boolean firstCard = true;
@@ -180,15 +183,14 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 				final StoredCreditCard storedCard = cards.get(i);
 
 				//Skip this card if it is the selected card
-				if (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard() != null
-						&& Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard().getId()
-								.compareToIgnoreCase(storedCard.getId()) == 0) {
+				BillingInfo bi = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
+				if (bi.hasStoredCard() && bi.getStoredCard().getId().compareToIgnoreCase(storedCard.getId()) == 0) {
 					continue;
 				}
 
 				SectionStoredCreditCard card = new SectionStoredCreditCard(getActivity());
 				card.configure(R.drawable.ic_credit_card, 0, 0);
-				card.bind(storedCard);
+				card.bind(storedCard, trip);
 				card.setPadding(0, paymentOptionPadding, 0, paymentOptionPadding);
 				card.setBackgroundResource(R.drawable.bg_payment_method_row);
 				card.setOnClickListener(new OnClickListener() {
@@ -257,12 +259,13 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 		super.onResume();
 		mValidationState = FlightPaymentFlowState.getInstance(getActivity());
 
-		BillingInfo mBillingInfo = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
+		BillingInfo billingInfo = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
+		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
 
-		mSectionCurrentBillingAddress.bind(mBillingInfo.getLocation());
-		mSectionCurrentCreditCard.bind(mBillingInfo);
-		mSectionStoredPayment.bind(mBillingInfo.getStoredCard());
-		mSectionPartialCard.bind(mBillingInfo);
+		mSectionCurrentBillingAddress.bind(billingInfo.getLocation());
+		mSectionCurrentCreditCard.bind(billingInfo, trip);
+		mSectionStoredPayment.bind(billingInfo.getStoredCard(), trip);
+		mSectionPartialCard.bind(billingInfo, trip);
 	}
 
 	@Override
@@ -273,18 +276,19 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 	public void updateVisibilities() {
 		List<StoredCreditCard> cards = BookingInfoUtils.getStoredCreditCards(getActivity());
 
+		BillingInfo billingInfo = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
+
 		//Set visibilities
 		boolean hasAccountCards = cards != null && cards.size() > 0;
-		boolean hasSelectedStoredCard = Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard() != null;
+		boolean hasSelectedStoredCard = billingInfo.hasStoredCard();
 		boolean onlyAccountCardIsSelected = cards != null && cards.size() == 1 && hasSelectedStoredCard;
 
 		if (mValidationState == null) {
 			mValidationState = FlightPaymentFlowState.getInstance(getActivity());
 		}
-		boolean addressValid = mValidationState.hasValidBillingAddress(Db.getWorkingBillingInfoManager()
-				.getWorkingBillingInfo());
-		boolean cardValid = mValidationState
-				.hasValidCardInfo(Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+
+		boolean addressValid = mValidationState.hasValidBillingAddress(billingInfo);
+		boolean cardValid = mValidationState.hasValidCardInfo(billingInfo);
 		boolean displayManualCurrentPayment = !hasSelectedStoredCard && (addressValid && cardValid);
 		boolean displayPartialPayment = !displayManualCurrentPayment && (addressValid || cardValid);
 
@@ -298,9 +302,9 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 		mCurrentPaymentContainer.setVisibility(displayManualCurrentPayment ? View.VISIBLE : View.GONE);
 		mCurrentStoredPaymentContainer.setVisibility(hasSelectedStoredCard ? View.VISIBLE : View.GONE);
 
-		mNewPaymentLabel
-				.setText(hasSelectedStoredCard || displayManualCurrentPayment ? getString(R.string.or_select_new_paymet_method)
-						: getString(R.string.select_payment));
+		String paymentText = hasSelectedStoredCard || displayManualCurrentPayment ? getString(R.string.or_select_new_paymet_method)
+				: getString(R.string.select_payment);
+		mNewPaymentLabel.setText(paymentText);
 		mNewPaymentLabelDiv.setVisibility(mNewPaymentLabel.getVisibility());
 
 		mStoredPaymentsLabel.setVisibility(hasAccountCards && !onlyAccountCardIsSelected ? View.VISIBLE : View.GONE);

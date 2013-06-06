@@ -28,8 +28,11 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
 import com.expedia.bookings.section.SectionBillingInfo.ExpirationPickerFragment.OnSetExpirationListener;
@@ -56,6 +59,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	Context mContext;
 
 	BillingInfo mBillingInfo;
+	FlightTrip mFlightTrip;
 	LineOfBusiness mLineOfBusiness;
 
 	public SectionBillingInfo(Context context) {
@@ -88,6 +92,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		mFields.add(this.mDisplayAddress);
 		mFields.add(this.mDisplayBrandAndExpirationColored);
 		mFields.add(this.mDisplayEmailDisclaimer);
+		mFields.add(this.mDisplayLccFeeWarning);
+		mFields.add(this.mDisplayLccFeeDivider);
 
 		//Validation indicator fields
 		mFields.add(mValidCCNum);
@@ -132,6 +138,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		postFinishInflate();
 	}
 
+	public BillingInfo getBillingInfo() {
+		return mBillingInfo;
+	}
+
 	public void setLineOfBusiness(LineOfBusiness lob) {
 		mLineOfBusiness = lob;
 	}
@@ -144,9 +154,14 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 	}
 
+	public void bind(BillingInfo billingInfo, FlightTrip flightTrip) {
+		mFlightTrip = flightTrip;
+		bind(billingInfo);
+	}
+
 	@Override
 	public void bind(BillingInfo data) {
-		mBillingInfo = (BillingInfo) data;
+		mBillingInfo = data;
 
 		if (mBillingInfo != null) {
 			mFields.bindDataAll(mBillingInfo);
@@ -369,6 +384,45 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			}
 			else {
 				field.setText("");
+			}
+		}
+	};
+
+	SectionField<com.expedia.bookings.widget.TextView, BillingInfo> mDisplayLccFeeWarning = new SectionField<com.expedia.bookings.widget.TextView, BillingInfo>(
+			R.id.card_fee_icon) {
+		@Override
+		public void onHasFieldAndData(com.expedia.bookings.widget.TextView field, BillingInfo billingInfo) {
+			if (mContext instanceof FragmentActivity && mFlightTrip != null) {
+				final FragmentActivity fa = (FragmentActivity) mContext;
+				final CreditCardType type = CurrencyUtils.detectCreditCardBrand(billingInfo.getNumber());
+				Money cardFee = mFlightTrip.getCardFee(type);
+				if (cardFee != null) {
+					final String feeText = cardFee.getFormattedMoney();
+					field.setVisibility(View.VISIBLE);
+					field.setText(feeText);
+
+					field.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							String text = mContext.getString(R.string.airline_card_fee_select_TEMPLATE, feeText, type);
+							SimpleSupportDialogFragment.newInstance(null, text).show(fa.getSupportFragmentManager(),
+									"lccDialog");
+						}
+					});
+				}
+			}
+		}
+	};
+
+	SectionField<View, BillingInfo> mDisplayLccFeeDivider = new SectionField<View, BillingInfo>(R.id.card_fee_divider) {
+		@Override
+		public void onHasFieldAndData(View field, BillingInfo billingInfo) {
+			final CreditCardType type = CurrencyUtils.detectCreditCardBrand(billingInfo.getNumber());
+			if (mFlightTrip != null) {
+				Money cardFee = mFlightTrip.getCardFee(type);
+				if (cardFee != null) {
+					field.setVisibility(View.VISIBLE);
+				}
 			}
 		}
 	};

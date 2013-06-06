@@ -168,13 +168,17 @@ public class FlightTrip implements JSONable {
 	 * @return cardFee as Money or null if no card fee
 	 */
 	public Money getCardFee(BillingInfo billingInfo) {
-		if (billingInfo != null) {
-			CreditCardType selectedCardType = billingInfo.getCardType();
-			if (selectedCardType != null) {
-				for (ValidPayment payment : mValidPayments) {
-					if (payment.getCreditCardType() == selectedCardType) {
-						return payment.getFee();
-					}
+		if (billingInfo == null || billingInfo.getCardType() == null) {
+			return null;
+		}
+		return getCardFee(billingInfo.getCardType());
+	}
+
+	public Money getCardFee(CreditCardType creditCardType) {
+		if (creditCardType != null) {
+			for (ValidPayment payment : mValidPayments) {
+				if (payment.getCreditCardType() == creditCardType) {
+					return payment.getFee();
 				}
 			}
 		}

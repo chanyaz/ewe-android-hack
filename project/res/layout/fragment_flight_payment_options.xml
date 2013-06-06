@@ -144,16 +144,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/checkout_info_container_padding"
-                    android:layout_weight="0"
                     android:src="@drawable/ic_credit_card_blue_entered" />
 
                 <TextView
                     android:id="@+id/display_brand_and_expiration_colored"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:textColor="@color/data_entry_text"
                     android:textSize="18sp" />
+
+                <include
+                    layout="@layout/include_lcc_fee_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
             </com.expedia.bookings.section.SectionBillingInfo>
 
             <View
