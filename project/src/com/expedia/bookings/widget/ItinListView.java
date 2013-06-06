@@ -4,7 +4,6 @@ import java.util.concurrent.Semaphore;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
 import android.graphics.Canvas;
@@ -83,7 +82,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	private int mMode = MODE_LIST;
 
 	private View mLastChild = null;
-	private boolean mWasSummaryButtonTouch = false;
+	private boolean mWasChildConsumedTouch = false;
 
 	private int mScrollState = SCROLL_STATE_IDLE;
 	private int mDetailPosition = -1;
@@ -236,7 +235,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			}
 		}
 
-		//If we are in list mode, some shit goes down. 
+		//If we are in list mode, some shit goes down.
 		//We want the appropriate action to reach the appropriate target.
 		//Thus when we touch a card and drag so our finger is no longer on the card
 		//we send ACTION_DOWN to the card, all of the ACTION_MOVES that occur on the card
@@ -247,16 +246,17 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 		boolean isTouchDown = event.getAction() == MotionEvent.ACTION_DOWN;
 		boolean isTouchUp = event.getAction() == MotionEvent.ACTION_UP;
-		boolean isSummaryButtonTouch = false;
+		boolean isChildConsumedTouch = false;
 
-		View child = findMotionView((int) event.getY());
+        View child = findMotionView((int) event.getY());
 
 		MotionEvent childEvent = MotionEvent.obtain(event);
 		if (child != null) {
 			childEvent.offsetLocation(0, -child.getTop());
 
-			if (child instanceof ItinCard && ((ItinCard) child).isTouchOnSummaryButtons(childEvent)) {
-				isSummaryButtonTouch = true;
+			if (child instanceof ItinButtonCard
+					|| (child instanceof ItinCard && ((ItinCard) child).isTouchOnSummaryButtons(childEvent))) {
+				isChildConsumedTouch = true;
 			}
 		}
 
@@ -266,7 +266,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		}
 
 		if (isTouchDown) {
-			if (isSummaryButtonTouch) {
+			if (isChildConsumedTouch) {
 				sendEventToView(childEvent, child);
 				mLastChild = child;
 			}
@@ -275,7 +275,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			}
 		}
 		else if (isTouchUp) {
-			if (isSummaryButtonTouch && mWasSummaryButtonTouch) {
+			if (isChildConsumedTouch && mWasChildConsumedTouch) {
 				if (child == mLastChild) {
 					alterEventActionAndSendToView(childEvent, MotionEvent.ACTION_UP, child);
 				}
@@ -284,11 +284,11 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 					alterEventActionAndSendToView(childEvent, MotionEvent.ACTION_UP, child);
 				}
 			}
-			else if (isSummaryButtonTouch) {
+			else if (isChildConsumedTouch) {
 				alterEventActionAndSendToView(childEvent, MotionEvent.ACTION_UP, child);
 				alterEventActionAndFireTouchEvent(event, MotionEvent.ACTION_CANCEL);
 			}
-			else if (mWasSummaryButtonTouch) {
+			else if (mWasChildConsumedTouch) {
 				if (mLastChild != null) {
 					alterEventActionAndSendToView(downChildEvent, MotionEvent.ACTION_CANCEL, mLastChild);
 				}
@@ -300,7 +300,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			mLastChild = null;
 		}
 		else {
-			if (isSummaryButtonTouch && mWasSummaryButtonTouch) {
+			if (isChildConsumedTouch && mWasChildConsumedTouch) {
 				if (child == mLastChild) {
 					sendEventToView(childEvent, child);
 				}
@@ -310,10 +310,10 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 					mLastChild = child;
 				}
 			}
-			else if (!isSummaryButtonTouch && !mWasSummaryButtonTouch) {
+			else if (!isChildConsumedTouch && !mWasChildConsumedTouch) {
 				onTouchEventSafe(event);
 			}
-			else if (isSummaryButtonTouch) {
+			else if (isChildConsumedTouch) {
 				alterEventActionAndFireTouchEvent(event, MotionEvent.ACTION_CANCEL);
 				alterEventActionAndSendToView(childEvent, MotionEvent.ACTION_DOWN, child);
 				mLastChild = child;
@@ -325,7 +325,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			}
 		}
 
-		mWasSummaryButtonTouch = !isTouchUp && isSummaryButtonTouch;
+		mWasChildConsumedTouch = !isTouchUp && isChildConsumedTouch;
 
 		downChildEvent.recycle();
 		childEvent.recycle();
@@ -516,7 +516,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			int lastChildIndex = getChildCount() - 1;
 			View lastChildView = this.getChildAt(lastChildIndex);
 			while (lastChildIndex > firstChildIndex && !(lastChildView instanceof ItinCard)) {
-				//Sometimes we have footers, so we need to get the last ItinCard by looping 
+				//Sometimes we have footers, so we need to get the last ItinCard by looping
 				//Note: Usually we dont enter the loop, when we do it should usually run one time
 				lastChildIndex--;
 				lastChildView = getChildAt(lastChildIndex);
@@ -672,11 +672,11 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 				if (position < getFirstVisiblePosition() || position > getLastVisiblePosition()) {
 					setSelectionFromTop(position, 0);
 					post(new Runnable() {
-                        @Override
-                        public void run() {
-                            showDetails(position, animate);
-                        }
-                    });
+						@Override
+						public void run() {
+							showDetails(position, animate);
+						}
+					});
 					return;
 				}
 
@@ -857,11 +857,11 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		ItinCardData data = mAdapter.getItem(position);
-		if (data.hasDetailData()) {
-			showDetails(position, true);
+		if (view instanceof ItinButtonCard) {
+			// Do nothing
 		}
-		else if (view instanceof ItinButtonCard) {
-            ((ItinButtonCard) view).onItemClick();
+		else if (data.hasDetailData()) {
+			showDetails(position, true);
 		}
 		else if (!TextUtils.isEmpty(data.getDetailsUrl())) {
 			Context context = getContext();

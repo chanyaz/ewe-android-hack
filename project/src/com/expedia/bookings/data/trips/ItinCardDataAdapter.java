@@ -452,7 +452,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		for (int i = mSummaryCardPosition; i < len; i++) {
 			ItinCardData data = mItinCardDatas.get(i);
 			if (data.getTripComponentType().equals(Type.HOTEL)) {
-                // TODO: Limit by date (2 days prior) when done developing feature.
+                // TODO: Limit by date (2 days prior) and location (Orlando, Las Vegas, HI) when done developing feature.
 				mItinCardDatas.add(i + 1, new ItinCardDataLocalExpert(data.getTripComponent()));
 				return;
 			}
