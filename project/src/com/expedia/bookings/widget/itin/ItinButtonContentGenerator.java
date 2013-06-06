@@ -18,11 +18,11 @@ public abstract class ItinButtonContentGenerator<T extends ItinCardData> extends
 
     // Implement these
 
-    // This may seem strange to return a runnable instead of just
+    // This may seem strange to return a click listener instead of just
     // calling this to execute the code, however this is a content
     // GENERATOR, and it would be a SoC conflict to run this code
     // from within the generator instead of the actual view
-    public abstract Runnable getOnItemClickRunnable(Context context);
+    public abstract View.OnClickListener getOnItemClickListener();
 
     // Ignore these
 

@@ -268,6 +268,9 @@
     <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
     <string name="add_hotel_fallback">Add a hotel at your destination</string>
 
+    <!-- Itin Local Expert -->
+    <string name="talk_to_local_expert">Talk to a Local Expert</string>
+
     <!-- Car category -->
     <!-- Car category: mini -->
     <string name="car_category_mini">Mini Car</string>

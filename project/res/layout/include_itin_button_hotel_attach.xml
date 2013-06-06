@@ -7,10 +7,10 @@
     android:gravity="center">
 
     <ImageView
-        android:id="@+id/action_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="8dp"/>
+        android:layout_marginRight="8dp"
+        android:src="@drawable/ic_hotel_attach"/>
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/action_text_view"

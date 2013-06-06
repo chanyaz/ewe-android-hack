@@ -51,9 +51,9 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout {
 	}
 
 	public void onItemClick() {
-		Runnable runnable = mItinContentGenerator.getOnItemClickRunnable(getContext());
-		if (runnable != null) {
-			runnable.run();
+		OnClickListener onClickListener = mItinContentGenerator.getOnItemClickListener();
+		if (onClickListener != null) {
+            onClickListener.onClick(this);
 		}
 	}
 

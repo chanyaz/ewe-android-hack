@@ -40,29 +40,32 @@ public class HotelAttachItinContentGenerator extends ItinButtonContentGenerator<
 			buttonText = getContext().getString(R.string.add_hotel_fallback);
 		}
 
-		Ui.setImageResource(view, R.id.action_image_view, R.drawable.ic_hotel_attach);
 		Ui.setText(view, R.id.action_text_view, buttonText);
 
 		return view;
 	}
 
-	@Override
-	public Runnable getOnItemClickRunnable(final Context context) {
-		return new Runnable() {
+    @Override
+	public View.OnClickListener getOnItemClickListener() {
+		return new View.OnClickListener() {
 			@Override
-			public void run() {
-				OmnitureTracking.trackCrossSellItinToHotel(context);
-
-				Db.setSearchParams(getItinCardData().getSearchParams());
-
-				Class<? extends Activity> targetClass = ExpediaBookingApp.useTabletInterface(context) ? SearchResultsFragmentActivity.class
-						: PhoneSearchActivity.class;
-
-				Intent intent = new Intent(context, targetClass);
-				intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
-
-				context.startActivity(intent);
+			public void onClick(View v) {
+				startSearchActivity(v.getContext());
 			}
 		};
+	}
+
+	private void startSearchActivity(Context context) {
+		OmnitureTracking.trackCrossSellItinToHotel(context);
+
+		Db.setSearchParams(getItinCardData().getSearchParams());
+
+		Class<? extends Activity> targetClass = ExpediaBookingApp.useTabletInterface(context) ? SearchResultsFragmentActivity.class
+				: PhoneSearchActivity.class;
+
+		Intent intent = new Intent(context, targetClass);
+		intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
+
+		context.startActivity(intent);
 	}
 }
