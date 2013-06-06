@@ -28,6 +28,7 @@ import com.mobiata.android.bitmaps.TwoLevelImageCache;
 import com.mobiata.android.debug.MemoryUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
+import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 import com.nullwire.trace.ExceptionHandler;
 
@@ -42,11 +43,17 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 	public void onCreate() {
 		super.onCreate();
 
+		TimingLogger startupTimer = new TimingLogger("ExpediaBookings", "startUp");
+
 		ActiveAndroid.initialize(this);
+
+		startupTimer.addSplit("ActiveAndroid Init");
 
 		boolean isRelease = AndroidUtils.isRelease(this);
 		boolean isLogEnablerInstalled = DebugUtils.isLogEnablerInstalled(this);
 		Log.configureLogging("ExpediaBookings", !isRelease || isLogEnablerInstalled);
+
+		startupTimer.addSplit("Logger Init");
 
 		try {
 			FlightStatsDbUtils.createDatabaseIfNotExists(this);
@@ -54,6 +61,8 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+
+		startupTimer.addSplit("FS.db Init");
 
 		try {
 			final ApplicationInfo ai = this.getPackageManager().getApplicationInfo(this.getPackageName(),
@@ -75,11 +84,15 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 			throw new RuntimeException(e);
 		}
 
+		startupTimer.addSplit("Maps V2 Key Check");
+
 		// Init required for Omniture tracking
 		OmnitureTracking.init(this);
 		// Setup Omniture for tracking crashes
 		mOriginalUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
 		Thread.setDefaultUncaughtExceptionHandler(this);
+
+		startupTimer.addSplit("Omniture Init");
 
 		// Setup our personal logging for crashes
 		if (isRelease && !isLogEnablerInstalled) {
@@ -88,10 +101,19 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 		// Initialize some parts of the code that require a Context
 		PointOfSale.init(this);
+		startupTimer.addSplit("PointOfSale Init");
+
 		FontCache.initialize(this);
+		startupTimer.addSplit("FontCache Init");
+
 		AdTracker.initialize(this);
+		startupTimer.addSplit("AdTracker Init");
+
 		ItineraryManager.getInstance().init(this);
+		startupTimer.addSplit("ItineraryManager Init");
+
 		ExpediaImageManager.init(this);
+		startupTimer.addSplit("ExpediaImageManager Init");
 
 		// We want to try to start loading data (but it may not be finished syncing before someone tries to use it).
 		ItineraryManager.getInstance().startSync(false);
@@ -99,6 +121,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		if (!SettingUtils.get(this, PREF_FIRST_LAUNCH, false)) {
 			SettingUtils.save(this, PREF_FIRST_LAUNCH, true);
 			AdTracker.trackFirstLaunch();
+			startupTimer.addSplit("AdTracker first launch tracking");
 		}
 
 		// #13097: We need a way to disable the widget on ICS tablets.  This is a hacky way of doing so,
@@ -117,6 +140,8 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 			}
 		}
 
+		startupTimer.addSplit("Disable ICS Tablet Widgets");
+
 		// Some useful info to have on hand in case of memory crashes
 		long maxMemory = Runtime.getRuntime().maxMemory();
 		int memoryClass = ((ActivityManager) getSystemService(ACTIVITY_SERVICE)).getMemoryClass();
@@ -132,6 +157,10 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 		// Init TwoLevelImageCache
 		TwoLevelImageCache.init(this, maxCacheSize);
+
+		startupTimer.addSplit("TwoLevelImageCache init");
+
+		startupTimer.dumpToLog();
 	}
 
 	@Override
