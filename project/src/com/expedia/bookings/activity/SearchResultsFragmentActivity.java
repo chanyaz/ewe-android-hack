@@ -83,7 +83,6 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.LayoutUtils;
-import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.SearchUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -1643,7 +1642,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 			return;
 		}
 
-		// Just in case we started this activity directly (like from a Notification),
+		// Just in case we started this activity directly (like from HotelAttach),
 		// we always want the back button to take us to the SearchFragmentActivity.
 		android.support.v4.app.NavUtils.navigateUpTo(this, SearchFragmentActivity.createIntent(this, false));
 	}
