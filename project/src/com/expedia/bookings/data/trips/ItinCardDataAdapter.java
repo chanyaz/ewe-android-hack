@@ -199,8 +199,11 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		// Do some calculations on the data
 		organizeData();
 
-		// Add attach cards
-		addAttachData();
+		// Add hotel attach cards
+		addHotelAttachData();
+
+		// Add local expert cards
+		addLocalExpertData();
 
 		//Notify listeners
 		notifyDataSetChanged();
@@ -388,7 +391,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		}
 	}
 
-	private void addAttachData() {
+	private void addHotelAttachData() {
 		// Nothing to do if there are no itineraries
 		int len = mItinCardDatas.size();
 		if (len == 0) {
@@ -435,6 +438,23 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 					return;
 				}
+			}
+		}
+	}
+
+	private void addLocalExpertData() {
+		// Nothing to do if there are no itineraries
+		int len = mItinCardDatas.size();
+		if (len == 0) {
+			return;
+		}
+
+		for (int i = mSummaryCardPosition; i < len; i++) {
+			ItinCardData data = mItinCardDatas.get(i);
+			if (data.getTripComponentType().equals(Type.HOTEL)) {
+                // TODO: Limit by date (2 days prior) when done developing feature.
+				mItinCardDatas.add(i + 1, new ItinCardDataLocalExpert(data.getTripComponent()));
+				return;
 			}
 		}
 	}
