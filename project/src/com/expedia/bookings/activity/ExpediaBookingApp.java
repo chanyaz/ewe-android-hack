@@ -56,6 +56,10 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		startupTimer.addSplit("Logger Init");
 
 		try {
+			if (!isRelease) {
+				FlightStatsDbUtils.setUpgradeCutoff(1000 * 60 * 60 * 24); // 1 day cutoff for upgrading FS.db
+			}
+
 			FlightStatsDbUtils.createDatabaseIfNotExists(this);
 		}
 		catch (IOException e) {

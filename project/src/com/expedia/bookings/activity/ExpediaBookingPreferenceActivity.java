@@ -1,5 +1,7 @@
 package com.expedia.bookings.activity;
 
+import java.io.IOException;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -23,7 +25,9 @@ import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference.ClearPrivateDataListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 public class ExpediaBookingPreferenceActivity extends SherlockPreferenceActivity implements ClearPrivateDataListener {
 	public static final int RESULT_NO_CHANGES = 1;
@@ -123,6 +127,15 @@ public class ExpediaBookingPreferenceActivity extends SherlockPreferenceActivity
 
 		if (key.equals(getString(R.string.preference_stubconfig_page))) {
 			startActivity(new Intent(this, StubConfigActivity.class));
+		}
+		else if (key.equals(getString(R.string.preference_force_fs_db_update))) {
+			try {
+				FlightStatsDbUtils.setUpgradeCutoff(0);
+				FlightStatsDbUtils.createDatabaseIfNotExists(this);
+			}
+			catch (IOException e) {
+				Log.w("Could not force update FS.db", e);
+			}
 		}
 
 		return super.onPreferenceTreeClick(preferenceScreen, preference);

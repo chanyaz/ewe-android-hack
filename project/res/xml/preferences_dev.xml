@@ -86,6 +86,11 @@
             android:summary="If we get a push notification for a flight, but can&apos;t find that flight locally, then just use any other available flight"
             android:title="Push notifications use local flight." />
 
+        <Preference
+            android:key="@string/preference_force_fs_db_update"
+            android:summary="If you think the internal FS.db is out of date"
+            android:title="Force FlightStats DB Update" />
+
         <com.expedia.bookings.widget.GCMIdDialogPreference
             android:key="@string/preference_push_notification_gcm_id"
             android:title="GCM Info" />
