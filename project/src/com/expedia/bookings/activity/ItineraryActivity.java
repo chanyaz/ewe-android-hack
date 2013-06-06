@@ -5,6 +5,7 @@ import java.util.Collection;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -79,6 +80,13 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 	public static Intent createIntent(Context context, String jumpToItinId) {
 		Intent intent = new Intent(context, ItineraryActivity.class);
 		intent.putExtra(ARG_JUMP_TO_ITIN_ID, jumpToItinId);
+
+		// Even though we don't use the url directly anywhere, Android OS needs a way
+		// to differentiate multiple intents to this same activity.
+		// http://developer.android.com/reference/android/content/Intent.html#filterEquals(android.content.Intent)
+		String uriString = "expedia://notification/itinerary/" + jumpToItinId;
+		intent.setData(Uri.parse(uriString));
+
 		return intent;
 	}
 
