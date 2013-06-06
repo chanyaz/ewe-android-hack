@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import java.util.Calendar;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
@@ -527,6 +528,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		adjustAirportEditTexts(mDepartureAirportEditText, .5f, animate);
 	}
 
+	@SuppressLint("NewApi")
 	private void adjustAirportEditTexts(final View focusView, final float ratio, final boolean animate) {
 		// There are two possible setups here - one where we use LinearLayout (but never animate)
 		// and one where we use StableFrameLayout (and do animate, but only on newer devices).
@@ -804,6 +806,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 		updateCalendarInstructionText();
 
+		mCalendarDatePicker.suppressTooltip(!enabled);
+		
 		if (!animate) {
 			mCalendarContainer.setVisibility(enabled ? View.VISIBLE : View.GONE);
 		}
