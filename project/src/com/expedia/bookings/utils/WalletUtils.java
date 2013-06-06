@@ -1,6 +1,8 @@
 package com.expedia.bookings.utils;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -47,6 +49,15 @@ public class WalletUtils {
 	public static final int F_SHIPPING_ADDRESS_REQUIRED = 2;
 	public static final int F_USE_MINIMAL_BILLING_ADDRESS = 4;
 
+	private static final DecimalFormat MONEY_FORMAT = new DecimalFormat("0.00");
+
+	// Force the separator to be '.', since that's the format that Google Wallet requires
+	static {
+		DecimalFormatSymbols symbols = MONEY_FORMAT.getDecimalFormatSymbols();
+		symbols.setDecimalSeparator('.');
+		MONEY_FORMAT.setDecimalFormatSymbols(symbols);
+	}
+
 	/**
 	 * Returns the Google Wallet environment.
 	 * 
@@ -75,7 +86,7 @@ public class WalletUtils {
 		MaskedWalletRequest.Builder builder = MaskedWalletRequest.newBuilder();
 		builder.setMerchantName(context.getString(R.string.merchant_name));
 		builder.setCurrencyCode(total.getCurrency());
-		builder.setEstimatedTotalPrice(total.getAmount().toPlainString());
+		builder.setEstimatedTotalPrice(formatAmount(total));
 
 		builder.setPhoneNumberRequired((flags & F_PHONE_NUMBER_REQUIRED) != 0);
 		builder.setShippingAddressRequired((flags & F_SHIPPING_ADDRESS_REQUIRED) != 0);
@@ -88,7 +99,7 @@ public class WalletUtils {
 			Money total) {
 		builder.setMerchantName(context.getString(R.string.merchant_name));
 		builder.setCurrencyCode(total.getCurrency());
-		builder.setEstimatedTotalPrice(total.getAmount().toPlainString());
+		builder.setEstimatedTotalPrice(formatAmount(total));
 	}
 
 	public static void bindWalletToBillingInfo(MaskedWallet wallet, BillingInfo billingInfo) {
@@ -208,6 +219,10 @@ public class WalletUtils {
 		location.setPostalCode(address.getPostalCode());
 		location.setCountryCode(address.getCountryCode());
 		return location;
+	}
+
+	public static String formatAmount(Money money) {
+		return MONEY_FORMAT.format(money.getAmount());
 	}
 
 	public static String getFormattedPaymentDescription(MaskedWallet maskedWallet) {

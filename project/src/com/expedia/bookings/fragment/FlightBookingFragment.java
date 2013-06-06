@@ -11,6 +11,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.WalletUtils;
 import com.google.android.gms.wallet.Cart;
 import com.google.android.gms.wallet.FullWalletRequest;
 import com.google.android.gms.wallet.LineItem;
@@ -74,21 +75,21 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 
 		Cart.Builder cartBuilder = Cart.newBuilder();
 		cartBuilder.setCurrencyCode(totalAfterTax.getCurrency());
-		cartBuilder.setTotalPrice(totalAfterTax.getAmount().toPlainString());
+		cartBuilder.setTotalPrice(WalletUtils.formatAmount(totalAfterTax));
 
 		LineItem.Builder beforeTaxBuilder = LineItem.newBuilder();
 		beforeTaxBuilder.setCurrencyCode(totalBeforeTax.getCurrency());
 		beforeTaxBuilder.setDescription(getString(R.string.path_template, firstLeg.getFirstWaypoint().mAirportCode,
 				firstLeg.getLastWaypoint().mAirportCode));
 		beforeTaxBuilder.setRole(LineItem.Role.REGULAR);
-		beforeTaxBuilder.setTotalPrice(totalBeforeTax.getAmount().toPlainString());
+		beforeTaxBuilder.setTotalPrice(WalletUtils.formatAmount(totalBeforeTax));
 		cartBuilder.addLineItem(beforeTaxBuilder.build());
 
 		LineItem.Builder taxesBuilder = LineItem.newBuilder();
 		taxesBuilder.setCurrencyCode(surcharges.getCurrency());
 		taxesBuilder.setDescription(getString(R.string.taxes_and_fees));
 		taxesBuilder.setRole(LineItem.Role.TAX);
-		taxesBuilder.setTotalPrice(surcharges.getAmount().toPlainString());
+		taxesBuilder.setTotalPrice(WalletUtils.formatAmount(surcharges));
 		cartBuilder.addLineItem(taxesBuilder.build());
 
 		walletRequestBuilder.setCart(cartBuilder.build());
