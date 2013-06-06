@@ -224,4 +224,18 @@ public class NavUtils {
 		List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
 		return list.size() > 0;
 	}
+
+	// Takes care of the VSC flow. For now we only support for phone UI.
+	// TODO: How do we handle for tablets?
+	public static void goToVSC(Context context) {
+		sendKillActivityBroadcast(context);
+
+		Class<? extends Activity> routingTarget;
+
+		// Send user to hotelListing by default
+		routingTarget = PhoneSearchActivity.class;
+
+		Intent intent = new Intent(context, routingTarget);
+		context.startActivity(intent);
+	}
 }

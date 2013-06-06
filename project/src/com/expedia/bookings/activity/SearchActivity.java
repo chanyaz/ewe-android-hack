@@ -48,8 +48,8 @@ public class SearchActivity extends Activity {
 		facebookInstallTracking();
 
 		// If VSC app, then go directly to hotelListing screen.
-		if (ExpediaBookingApp.isVSCApp()) {
-			NavUtils.goToHotels(this);
+		if (ExpediaBookingApp.IS_VSC) {
+			NavUtils.goToVSC(this);
 		}
 		else {
 			if (NavUtils.skipLaunchScreenAndStartEHTablet(this)) {

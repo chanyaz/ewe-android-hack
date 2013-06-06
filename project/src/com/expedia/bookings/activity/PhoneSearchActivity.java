@@ -590,17 +590,19 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 		// Setup custom action bar view
 		ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
+
+		if (!ExpediaBookingApp.IS_VSC) {
+			actionBar.setDisplayHomeAsUpEnabled(true);
+		}
+		// For VSC app the hotelListing is the launch screen.
+		else {
+			actionBar.setHomeButtonEnabled(false);
+		}
+
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setCustomView(mActionBarCustomView);
-
-		// For VSC app the hotelListing is the launch screen.
-		if (ExpediaBookingApp.isVSCApp()) {
-			actionBar.setDisplayHomeAsUpEnabled(false);
-			actionBar.setHomeButtonEnabled(false);
-		}
 
 		SearchParams searchParams = getCurrentSearchParams();
 
