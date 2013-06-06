@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -42,6 +43,8 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 
 	public static final int REQUEST_SETTINGS = 1;
 
+	public static final String ARG_JUMP_TO_ITIN_ID = "ARG_JUMP_TO_ITIN_ID";
+
 	private boolean mTwoPaneMode;
 
 	private String mSelectedItinCardId;
@@ -65,6 +68,17 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 
 	public static Intent createIntent(Context context) {
 		Intent intent = new Intent(context, ItineraryActivity.class);
+		return intent;
+	}
+
+	/**
+	 * Create intent to open this activity and jump straight to a particular itin item.
+	 * @param context
+	 * @return
+	 */
+	public static Intent createIntent(Context context, String jumpToItinId) {
+		Intent intent = new Intent(context, ItineraryActivity.class);
+		intent.putExtra(ARG_JUMP_TO_ITIN_ID, jumpToItinId);
 		return intent;
 	}
 
@@ -118,7 +132,22 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 			getSupportFragmentManager().beginTransaction().hide(mItinCardFragment).commit();
 		}
 
+		String jumpToItinId = getIntent().getStringExtra(ARG_JUMP_TO_ITIN_ID);
+		if (!TextUtils.isEmpty(jumpToItinId)) {
+			mItinListFragment.showItinCard(jumpToItinId, true);
+		}
+
 		mItinListFragment.enableLoadItins();
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+
+		String jumpToItinId = intent.getStringExtra(ARG_JUMP_TO_ITIN_ID);
+		if (!TextUtils.isEmpty(jumpToItinId)) {
+			mItinListFragment.showItinCard(jumpToItinId, true);
+		}
 	}
 
 	@Override

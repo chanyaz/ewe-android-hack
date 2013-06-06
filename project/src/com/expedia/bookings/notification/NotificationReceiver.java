@@ -16,6 +16,8 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.activity.ItineraryActivity;
 import com.expedia.bookings.activity.LaunchActivity;
 import com.expedia.bookings.activity.StandaloneShareActivity;
 import com.expedia.bookings.data.ExpediaImage;
@@ -219,7 +221,13 @@ public class NotificationReceiver extends BroadcastReceiver {
 						.bigText(mNotification.getBody());
 			}
 
-			Intent clickIntent = LaunchActivity.createIntent(mContext, mNotification);
+			Intent clickIntent;
+			if (ExpediaBookingApp.useTabletInterface(mContext)) {
+				clickIntent = ItineraryActivity.createIntent(mContext, mNotification.getItinId());
+			}
+			else {
+				clickIntent = LaunchActivity.createIntent(mContext, mNotification);
+			}
 			PendingIntent clickPendingIntent = PendingIntent.getActivity(mContext, 0, clickIntent, 0);
 
 			NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)
