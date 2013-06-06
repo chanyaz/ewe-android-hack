@@ -108,20 +108,33 @@
             android:layout_height="1dp"
             android:background="#63FFFFFF" />
 
-        <TextView
-            android:id="@+id/new_payment_new_card"
+        <LinearLayout
+            android:id="@+id/add_new_payment_method_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_payment_method_row"
-            android:drawableLeft="@drawable/ic_add_credit_card"
-            android:drawablePadding="3dp"
             android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:paddingBottom="@dimen/payment_option_vertical_padding"
-            android:paddingLeft="13dp"
-            android:paddingTop="@dimen/payment_option_vertical_padding"
-            android:text="@string/add_new_card"
-            android:textColor="@android:color/white"
-            android:textSize="18sp" />
+            android:paddingTop="@dimen/payment_option_vertical_padding" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="4dp"
+                android:src="@drawable/ic_add_credit_card" />
+
+            <TextView
+                android:id="@+id/new_payment_new_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="-3dp"
+                android:gravity="center_vertical"
+                android:text="@string/add_new_card"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>

@@ -34,7 +34,6 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 
 	SectionBillingInfo mSectionCurrentCreditCard;
 	SectionStoredCreditCard mSectionStoredPayment;
-	View mNewCreditCardBtn;
 
 	TextView mStoredPaymentsLabel;
 	View mStoredPaymentsLabelDiv;
@@ -45,6 +44,7 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 	ViewGroup mCurrentPaymentContainer;
 	ViewGroup mStoredCardsContainer;
 	ViewGroup mCurrentStoredPaymentContainer;
+	ViewGroup mAddNewPaymentMethodContainer;
 
 	View mPaymentInformationErrorImage;
 
@@ -87,6 +87,7 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 		mCurrentPaymentContainer = Ui.findView(v, R.id.current_payment_container);
 		mStoredCardsContainer = Ui.findView(v, R.id.new_payment_stored_cards);
 		mCurrentStoredPaymentContainer = Ui.findView(v, R.id.current_stored_payment_container);
+		mAddNewPaymentMethodContainer = Ui.findView(v, R.id.add_new_payment_method_container);
 
 		mCurrentStoredPaymentContainer.setOnClickListener(new OnClickListener() {
 			@Override
@@ -101,9 +102,7 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 			}
 		});
 
-		mNewCreditCardBtn = Ui.findView(v, R.id.new_payment_new_card);
-
-		mNewCreditCardBtn.setOnClickListener(new OnClickListener() {
+		mAddNewPaymentMethodContainer.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 
