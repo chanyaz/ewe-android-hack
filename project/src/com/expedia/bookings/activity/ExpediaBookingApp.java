@@ -36,6 +36,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 	private static final String PREF_FIRST_LAUNCH = "PREF_FIRST_LAUNCH";
 
 	private static final int MIN_IMAGE_CACHE_SIZE = (1024 * 1024 * 6); // 6 MB
+	private static final boolean isVSC = false;
 
 	private UncaughtExceptionHandler mOriginalUncaughtExceptionHandler;
 
@@ -191,6 +192,11 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 		// Call the original exception handler
 		mOriginalUncaughtExceptionHandler.uncaughtException(thread, ex);
+	}
+
+	// Check to see if this is a VSC app build
+	public static boolean isVSCApp() {
+		return isVSC;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

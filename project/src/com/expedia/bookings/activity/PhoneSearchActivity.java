@@ -596,6 +596,12 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setCustomView(mActionBarCustomView);
 
+		// For VSC app the hotelListing is the launch screen.
+		if (ExpediaBookingApp.isVSCApp()) {
+			actionBar.setDisplayHomeAsUpEnabled(false);
+			actionBar.setHomeButtonEnabled(false);
+		}
+
 		SearchParams searchParams = getCurrentSearchParams();
 
 		mAdultsNumberPicker.setFormatter(mAdultsNumberPickerFormatter);
