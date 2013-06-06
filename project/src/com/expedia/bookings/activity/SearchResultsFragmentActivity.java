@@ -1637,7 +1637,14 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 
 	@Override
 	public void onBackPressed() {
-		//If we enter the results from somewhere other than the SearchFragmentActivity, we still want hitting back to bring us there.
+		// Don't affect the fragment back stack behavior
+		if (getSupportFragmentManager().getBackStackEntryCount() != 0) {
+			super.onBackPressed();
+			return;
+		}
+
+		// Just in case we started this activity directly (like from a Notification),
+		// we always want the back button to take us to the SearchFragmentActivity.
 		android.support.v4.app.NavUtils.navigateUpTo(this, SearchFragmentActivity.createIntent(this, false));
 	}
 
