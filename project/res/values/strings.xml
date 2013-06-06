@@ -435,9 +435,9 @@
     <string name="share_template_subject_car">My car rental (%1$s – %2$s)</string>
     <!-- Car rental share subject (no dates) -->
     <string name="share_template_subject_car_no_dates">My car rental</string>
-    <!-- 1: vehicle type  -->
+    <!-- 1: vehicle type -->
     <string name="share_template_short_car_type">I\&apos;ve rented a %1$s</string>
-    <!--1: pick up date 2: drop off date -->
+    <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_short_car_dates">from %1$s – %2$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
     <string name="share_car_start_TEMPLATE">Here are the details of my %1$s car rental.</string>
@@ -453,7 +453,6 @@
     <string name="share_car_pickup_location_section">Pick Up Location:</string>
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">Drop Off Location:</string>
-
 
     <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">My %1$s Details</string>
@@ -581,6 +580,10 @@
     <string name="calendar_instructions_range_selected_TEMPLATE">%1$d night trip selected.</string>
     <!-- Start date and end date sameday -->
     <string name="calendar_instructions_range_selected_same_day">Same-day trip selected.</string>
+    <!-- Calendar tooltip bottom line after a single date is selected e.g. (Optional) Select Return Date -->
+    <string name="calendar_tooltip_bottom_select_return_date">(Optional) Select Return Date</string>
+    <!-- Calendar tooltip bottom line after two dates are selected E.g. Drag End Dates to Modify -->
+    <string name="calendar_tooltip_bottom_drag_to_modify">Drag End Dates to Modify</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -989,7 +992,7 @@
     <string name="calendar_flight_desc_directions_TEMPLATE">Directions to airport: %s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
     <string name="calendar_flight_desc_support_TEMPLATE">Expedia Customer Support: %s</string>
-    
+
     <!-- Add to calendar (hotels) -->
     <!-- Title for calendar entry for when you check into a hotel -->
     <string name="calendar_hotel_title_checkin_TEMPLATE">Check In: %s</string>

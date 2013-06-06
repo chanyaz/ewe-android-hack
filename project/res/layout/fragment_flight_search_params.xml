@@ -141,7 +141,14 @@
             mobiata:headerInstructionText="@string/calendar_instructions_nothing_selected"
             mobiata:headerInstructionTextSpaceReserved="true"
             mobiata:popupBackground="@drawable/calendar_date_picker_popup"
-            mobiata:stateCellDrawable="@drawable/calendar_date_picker_cell" />
+            mobiata:stateCellDrawable="@drawable/calendar_date_picker_cell"
+            mobiata:toolTipBackground="@drawable/calendar_tooltip"
+            mobiata:toolTipEnabled="true"
+            mobiata:toolTipEndBottomText="@string/calendar_tooltip_bottom_drag_to_modify"
+            mobiata:toolTipStartBottomText="@string/calendar_tooltip_bottom_select_return_date"
+            mobiata:toolTipTailDrawable="@drawable/calendar_tooltip_tail"
+            mobiata:toolTipTailMarginMin="8dp"
+            mobiata:toolTipTextColor="#FFFFFF" />
     </LinearLayout>
 
 </RelativeLayout>
