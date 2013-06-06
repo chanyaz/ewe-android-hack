@@ -147,8 +147,7 @@ public class NavUtils {
 	 */
 	private static Intent generateStartEHTabletIntent(Context context) {
 		if (ExpediaBookingApp.useTabletInterface(context)) {
-			Intent intent = new Intent(context, SearchFragmentActivity.class);
-			return intent;
+			return SearchFragmentActivity.createIntent(context, false);
 		}
 		return null;
 	}

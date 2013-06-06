@@ -2,6 +2,7 @@ package com.expedia.bookings.activity;
 
 import java.util.Collection;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -57,6 +58,19 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 	// #854: There is a very subtle possible timing issue where we can try to modify
 	// the fragment stack after onSaveInstanceState().  This helps prevent that.
 	private boolean mFragmentSafe;
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Static Methods
+	//////////////////////////////////////////////////////////////////////////////////////////
+
+	public static Intent createIntent(Context context) {
+		Intent intent = new Intent(context, ItineraryActivity.class);
+		return intent;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Lifecycle Methods
+	//////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -156,6 +170,11 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 			mItinListFragment.setListMode();
 			hidePopupWindow();
 			mFallbackPatternView.setVisibility(View.GONE);
+		}
+		else if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+			// Just in case we started this activity directly (like from clicking a Notification),
+			// we always want the back button to take us to the SearchFragmentActivity.
+			android.support.v4.app.NavUtils.navigateUpTo(this, SearchFragmentActivity.createIntent(this, false));
 		}
 		else {
 			super.onBackPressed();

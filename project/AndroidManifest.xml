@@ -236,6 +236,7 @@
         <activity
             android:name="com.expedia.bookings.activity.ItineraryActivity"
             android:label="@string/trips"
+            android:launchMode="singleTop"
             android:theme="@style/ItineraryTheme" />
         <activity
             android:name="com.expedia.bookings.activity.ItineraryGuestAddActivity"

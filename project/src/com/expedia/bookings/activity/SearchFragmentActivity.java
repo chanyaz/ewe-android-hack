@@ -36,7 +36,7 @@ public class SearchFragmentActivity extends SherlockFragmentActivity implements 
 
 	public static final int DIALOG_NO_INTERNET = 1;
 
-	// Used in onNewIntent(), if the calling Activity wants the SearchActivity to start fresh
+	// Used in createIntent(), if the calling Activity wants the SearchActivity to start fresh
 	private static final String EXTRA_NEW_SEARCH = "EXTRA_NEW_SEARCH";
 
 	//////////////////////////////////////////////////////////////////////////
@@ -160,7 +160,7 @@ public class SearchFragmentActivity extends SherlockFragmentActivity implements 
 			return true;
 		}
 		case R.id.menu_your_trips: {
-			startActivity(new Intent(this, ItineraryActivity.class));
+			startActivity(ItineraryActivity.createIntent(this));
 			return true;
 		}
 		case R.id.menu_settings: {

@@ -62,7 +62,6 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	public static final String ARG_FORCE_SHOW_WATERFALL = "ARG_FORCE_SHOW_WATERFALL";
 	public static final String ARG_FORCE_SHOW_ITIN = "ARG_FORCE_SHOW_ITIN";
 	public static final String ARG_JUMP_TO_NOTIFICATION = "ARG_JUMP_TO_NOTIFICATION";
-	public static final String ARG_IS_FROM_NOTIFICATION = "ARG_IS_FROM_NOTIFICATION";
 
 	private static final int REQUEST_SETTINGS = 1;
 	private static final int PAGER_POS_WATERFALL = 0;
@@ -92,10 +91,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	 */
 	public static Intent createIntent(Context context, Notification notification) {
 		Intent intent = new Intent(context, LaunchActivity.class);
-		String uriString = "expedia://notification/launch/" + notification.getUniqueId();
-		intent.setData(Uri.parse(uriString));
 		intent.putExtra(ARG_JUMP_TO_NOTIFICATION, notification.toJson().toString());
-		intent.putExtra(ARG_IS_FROM_NOTIFICATION, true);
 		return intent;
 	}
 
