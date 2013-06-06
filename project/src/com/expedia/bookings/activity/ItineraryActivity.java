@@ -143,6 +143,7 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 		String jumpToItinId = getIntent().getStringExtra(ARG_JUMP_TO_ITIN_ID);
 		if (!TextUtils.isEmpty(jumpToItinId)) {
 			mItinListFragment.showItinCard(jumpToItinId, true);
+			showPopupWindow(jumpToItinId, true);
 		}
 
 		mItinListFragment.enableLoadItins();
@@ -155,6 +156,7 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 		String jumpToItinId = intent.getStringExtra(ARG_JUMP_TO_ITIN_ID);
 		if (!TextUtils.isEmpty(jumpToItinId)) {
 			mItinListFragment.showItinCard(jumpToItinId, true);
+			showPopupWindow(jumpToItinId, true);
 		}
 	}
 
@@ -216,6 +218,11 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 		else {
 			super.onBackPressed();
 		}
+	}
+
+	private void showPopupWindow(String itinId, boolean animate) {
+		ItinCardData data = ItineraryManager.getInstance().getItinCardDataFromItinId(itinId);
+		showPopupWindow(data, animate);
 	}
 
 	private void showPopupWindow(ItinCardData data, boolean animate) {
