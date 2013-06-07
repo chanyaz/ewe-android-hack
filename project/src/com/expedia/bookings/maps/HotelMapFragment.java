@@ -203,6 +203,11 @@ public class HotelMapFragment extends SupportMapFragment {
 	}
 
 	public void notifySearchComplete() {
+		// #1303: Don't execute if not attached to Activity
+		if (!isAdded()) {
+			return;
+		}
+
 		showExactLocation();
 		setSearchResponse(Db.getSearchResponse());
 		if (isReady()) {

@@ -208,6 +208,11 @@ public class HotelListFragment extends ListFragment {
 	}
 
 	public void notifySearchComplete() {
+		// #1303: Don't execute if not attached to Activity
+		if (!isAdded()) {
+			return;
+		}
+
 		updateViews();
 		if (mListNeedsReset) {
 			resetToTop();
