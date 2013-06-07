@@ -74,6 +74,13 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		// When resuming this activity after a background kill, just finish() back to FlightTripOverviewActivity. We
+		// don't have enough information to proceed and crash will happen. FTOA has nice handling of reloading state
+		// from disk or sending user back to FlightSearch at the very least.
+		if (Db.getFlightSearch().getSearchResponse() == null) {
+			finish();
+		}
+
 		if (!ExpediaBookingApp.useTabletInterface(this)) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
