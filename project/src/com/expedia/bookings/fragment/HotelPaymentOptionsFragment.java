@@ -44,8 +44,8 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 	ViewGroup mCurrentPaymentContainer;
 	ViewGroup mStoredCardsContainer;
 	ViewGroup mCurrentStoredPaymentContainer;
-	ViewGroup mAddNewPaymentMethodContainer;
 
+	View mNewCreditCardBtn;
 	View mPaymentInformationErrorImage;
 
 	HotelPaymentFlowState mValidationState;
@@ -87,7 +87,6 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 		mCurrentPaymentContainer = Ui.findView(v, R.id.current_payment_container);
 		mStoredCardsContainer = Ui.findView(v, R.id.new_payment_stored_cards);
 		mCurrentStoredPaymentContainer = Ui.findView(v, R.id.current_stored_payment_container);
-		mAddNewPaymentMethodContainer = Ui.findView(v, R.id.add_new_payment_method_container);
 
 		mCurrentStoredPaymentContainer.setOnClickListener(new OnClickListener() {
 			@Override
@@ -102,7 +101,9 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 			}
 		});
 
-		mAddNewPaymentMethodContainer.setOnClickListener(new OnClickListener() {
+		mNewCreditCardBtn = Ui.findView(v, R.id.new_payment_new_card);
+
+		mNewCreditCardBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 

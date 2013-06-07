@@ -50,9 +50,9 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 	ViewGroup mCurrentPaymentContainer;
 	ViewGroup mStoredCardsContainer;
 	ViewGroup mCurrentStoredPaymentContainer;
-	ViewGroup mAddNewPaymentMethodContainer;
 	View mCurrentPaymentCcAddressDiv;
 
+	View mNewCreditCardBtn;
 	FlightPaymentFlowState mValidationState;
 
 	FlightPaymentYoYoListener mListener;
@@ -91,10 +91,11 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 		mStoredCardsContainer = Ui.findView(v, R.id.new_payment_stored_cards);
 		mCurrentStoredPaymentContainer = Ui.findView(v, R.id.current_stored_payment_container);
 		mCurrentPaymentCcAddressDiv = Ui.findView(v, R.id.current_payment_cc_address_divider);
-		mAddNewPaymentMethodContainer = Ui.findView(v, R.id.add_new_payment_method_container);
 
 		mSectionPartialCard = Ui.findView(v, R.id.new_payment_partial_card);
 		mPartialCardDiv = Ui.findView(v, R.id.new_payment_partial_card_divider);
+
+		mNewCreditCardBtn = Ui.findView(v, R.id.new_payment_new_card);
 
 		ViewUtils.setAllCaps(mStoredPaymentsLabel);
 		ViewUtils.setAllCaps(mCurrentPaymentLabel);
@@ -118,7 +119,7 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 			}
 		});
 
-		mAddNewPaymentMethodContainer.setOnClickListener(new OnClickListener() {
+		mNewCreditCardBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 
