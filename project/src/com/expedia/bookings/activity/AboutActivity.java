@@ -171,7 +171,12 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_about, menu);
+
+		// #1242. For VSC don't add social media menu items.
+		if (!ExpediaBookingApp.IS_VSC) {
+			getSupportMenuInflater().inflate(R.menu.menu_about, menu);
+		}
+
 		return super.onCreateOptionsMenu(menu);
 	}
 
