@@ -144,7 +144,7 @@ public class CurrencyUtils {
 		else if (type.equals("MasterCard")) {
 			return CreditCardType.MASTERCARD;
 		}
-		else if (type.equals("Visa")) {
+		else if (type.equals("Visa") || type.equals("Visa Electron")) {
 			return CreditCardType.VISA;
 		}
 		else {
