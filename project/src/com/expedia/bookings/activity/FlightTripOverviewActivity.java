@@ -247,7 +247,10 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		// When leaving the activity, we want to ensure that if the user returns, they do not see the card fee on the
 		// overview, even if we have a card selected for them in the background.
 		if (isFinishing()) {
-			Db.getFlightSearch().getSelectedFlightTrip().setShowFareWithCardFee(false);
+			FlightTrip flightTrip = Db.getFlightSearch().getSelectedFlightTrip();
+			if (flightTrip != null) {
+				flightTrip.setShowFareWithCardFee(false);
+			}
 		}
 
 		if (mKillReceiver != null) {
