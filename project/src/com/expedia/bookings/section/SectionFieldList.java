@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import android.annotation.SuppressLint;
 import android.view.View;
 
-import com.expedia.bookings.data.Traveler;
 import com.mobiata.android.util.AndroidUtils;
 
 /**

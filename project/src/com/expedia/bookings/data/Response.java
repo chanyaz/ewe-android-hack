@@ -10,14 +10,10 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.view.View;
-import android.view.Window;
 
-import com.expedia.bookings.R;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
-import com.mobiata.android.validation.ValidationError;
 
 public class Response implements JSONable {
 	private List<ServerError> mErrors;

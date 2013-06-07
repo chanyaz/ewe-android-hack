@@ -1,8 +1,5 @@
 package com.expedia.bookings.data.trips;
 
-import android.content.Context;
-import android.content.Intent;
-
 import com.expedia.bookings.data.DateTime;
 import com.google.android.gms.maps.model.LatLng;
 

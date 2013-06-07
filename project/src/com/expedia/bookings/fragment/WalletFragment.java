@@ -2,7 +2,6 @@ package com.expedia.bookings.fragment;
 
 import java.lang.ref.WeakReference;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;

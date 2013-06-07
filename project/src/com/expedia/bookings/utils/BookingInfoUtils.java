@@ -7,7 +7,6 @@ import java.util.List;
 import android.content.Context;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.CreditCardType;
@@ -16,8 +15,6 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.model.HotelTravelerFlowState;
 import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.tracking.OmnitureTracking;

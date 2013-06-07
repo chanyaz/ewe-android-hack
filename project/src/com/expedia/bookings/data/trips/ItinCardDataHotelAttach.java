@@ -2,18 +2,8 @@ package com.expedia.bookings.data.trips;
 
 import java.util.Calendar;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-
-import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.activity.PhoneSearchActivity;
-import com.expedia.bookings.activity.SearchResultsFragmentActivity;
-import com.expedia.bookings.data.Codes;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.tracking.OmnitureTracking;
 
 public class ItinCardDataHotelAttach extends ItinCardData {
 	private FlightLeg mFirstLeg;
