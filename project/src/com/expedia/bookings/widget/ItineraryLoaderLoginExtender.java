@@ -18,7 +18,8 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.Trip;
-import com.expedia.bookings.fragment.LoginFragment.LoginExtender;
+import com.expedia.bookings.fragment.LoginExtender;
+import com.expedia.bookings.fragment.LoginExtenderListener;
 import com.mobiata.android.util.Ui;
 
 public class ItineraryLoaderLoginExtender implements LoginExtender, ItinerarySyncListener {
@@ -161,15 +162,6 @@ public class ItineraryLoaderLoginExtender implements LoginExtender, ItinerarySyn
 			mListener.loginExtenderWorkComplete(ItineraryLoaderLoginExtender.this);
 		}
 		ItineraryManager.getInstance().removeSyncListener(this);
-	}
-
-	/**
-	 * This interface provides a call for
-	 */
-	public interface LoginExtenderListener {
-		public void loginExtenderWorkComplete(LoginExtender extender);
-
-		public void setExtenderStatus(String status);
 	}
 
 }

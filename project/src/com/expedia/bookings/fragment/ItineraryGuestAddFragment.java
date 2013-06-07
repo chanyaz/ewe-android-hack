@@ -23,12 +23,10 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.Trip;
-import com.expedia.bookings.fragment.LoginFragment.LoginExtender;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FocusViewRunnable;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
-import com.expedia.bookings.widget.ItineraryLoaderLoginExtender.LoginExtenderListener;
 import com.mobiata.android.util.Ui;
 
 public class ItineraryGuestAddFragment extends Fragment implements LoginExtenderListener {
