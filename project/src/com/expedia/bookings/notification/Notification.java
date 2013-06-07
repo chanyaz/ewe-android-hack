@@ -19,6 +19,7 @@ import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.expedia.bookings.R;
+import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 
 @Table(name = "Notifications")
@@ -83,6 +84,24 @@ public class Notification extends Model implements JSONable {
 		HOTEL_CHECK_OUT;
 	}
 
+	/**
+	 * An array of valid resId's that can be used both for
+	 * get/setImageResId and get/setIconResId.
+	 * 
+	 * Be careful when modifying this: only append to it and don't
+	 * reorder anything. We'll store the INDEX of the resid from this array
+	 * into the database. We won't store the resId's themselves because
+	 * resId's are apt to change in a later build.
+	 */
+	private static final int[] sResIdMap = {
+		0,
+		R.drawable.ic_stat_expedia,
+		R.drawable.ic_stat_flight,
+		R.drawable.ic_stat_car,
+		R.drawable.ic_stat_hotel,
+		R.drawable.bg_itin_placeholder_flight
+	};
+
 	@Column(name = "UniqueId")
 	private String mUniqueId;
 
@@ -95,8 +114,9 @@ public class Notification extends Model implements JSONable {
 	@Column(name = "ExpirationTimeMillis")
 	private long mExpirationTimeMillis;
 
+	// Oddly named for historical purposes
 	@Column(name = "IconResId")
-	private int mIconResId;
+	private int mIconId;
 
 	@Column(name = "Ticker")
 	private String mTicker;
@@ -113,8 +133,9 @@ public class Notification extends Model implements JSONable {
 	@Column(name = "ImageType")
 	private String mImageType;
 
+	// Oddly named for historical purposes
 	@Column(name = "ImageResId")
-	private int mImageResId;
+	private int mImageId;
 
 	@Column(name = "ImageValue")
 	private String mImageValue;
@@ -186,11 +207,11 @@ public class Notification extends Model implements JSONable {
 	}
 
 	public int getIconResId() {
-		return mIconResId;
+		return unmarshallResId(mIconId);
 	}
 
 	public void setIconResId(int iconResId) {
-		this.mIconResId = iconResId;
+		this.mIconId = marshallResId(iconResId);
 	}
 
 	public String getTicker() {
@@ -237,11 +258,11 @@ public class Notification extends Model implements JSONable {
 	}
 
 	public int getImageResId() {
-		return mImageResId;
+		return unmarshallResId(mImageId);
 	}
 
 	public void setImageResId(int imageResId) {
-		this.mImageResId = imageResId;
+		this.mImageId = marshallResId(imageResId);
 	}
 
 	public String getImageValue() {
@@ -317,13 +338,13 @@ public class Notification extends Model implements JSONable {
 			obj.put("UniqueId", mUniqueId);
 			obj.put("TriggerTimeMillis", mTriggerTimeMillis);
 			obj.put("ExpirationTimeMillis", mExpirationTimeMillis);
-			obj.put("IconResId", mIconResId);
+			obj.put("IconId", mIconId);
 			obj.put("Ticker", mTicker);
 			obj.put("Title", mTitle);
 			obj.put("Body", mBody);
 			obj.put("Status", mStatus);
 			obj.put("ImageType", mImageType);
-			obj.put("ImageResId", mImageResId);
+			obj.put("ImageId", mImageId);
 			obj.put("ImageValue", mImageValue);
 			obj.put("Flags", mFlags);
 			obj.put("NotificationType", mNotificationType);
@@ -340,13 +361,13 @@ public class Notification extends Model implements JSONable {
 		mUniqueId = obj.optString("UniqueId");
 		mTriggerTimeMillis = obj.optLong("TriggerTimeMillis");
 		mExpirationTimeMillis = obj.optLong("ExpirationTimeMillis");
-		mIconResId = obj.optInt("IconResId");
+		mIconId = obj.optInt("IconId");
 		mTicker = obj.optString("Ticker");
 		mTitle = obj.optString("Title");
 		mBody = obj.optString("Body");
 		mStatus = obj.optString("Status");
 		mImageType = obj.optString("ImageType");
-		mImageResId = obj.optInt("ImageResId");
+		mImageId = obj.optInt("ImageId");
 		mImageValue = obj.optString("ImageValue");
 		mFlags = obj.optLong("Flags");
 		mNotificationType = obj.optString("NotificationType");
@@ -450,5 +471,27 @@ public class Notification extends Model implements JSONable {
 
 		// Delete all here instead of individually in the loop, for efficiency.
 		new Delete().from(Notification.class).where("ItinId=?", itinId).execute();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Helpers
+
+	// Find the index of resId in sResIdMap
+	private static int marshallResId(int resId) {
+		for (int i = 0; i < sResIdMap.length; i++) {
+			if (sResIdMap[i] == resId) {
+				return i;
+			}
+		}
+		Log.e("ResId not expected: " + resId);
+		return 0;
+	}
+
+	// Return the resId, given its index in sResIdMap
+	private static int unmarshallResId(int index) {
+		if (index < 0 || index > sResIdMap.length) {
+			return R.drawable.ic_stat_expedia;
+		}
+		return sResIdMap[index];
 	}
 }
