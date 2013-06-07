@@ -248,7 +248,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		boolean isTouchUp = event.getAction() == MotionEvent.ACTION_UP;
 		boolean isChildConsumedTouch = false;
 
-        View child = findMotionView((int) event.getY());
+		View child = findMotionView((int) event.getY());
 
 		MotionEvent childEvent = MotionEvent.obtain(event);
 		if (child != null) {
@@ -317,6 +317,13 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 				alterEventActionAndFireTouchEvent(event, MotionEvent.ACTION_CANCEL);
 				alterEventActionAndSendToView(childEvent, MotionEvent.ACTION_DOWN, child);
 				mLastChild = child;
+			}
+			else if (mWasChildConsumedTouch) {
+				if (mLastChild != null) {
+					alterEventActionAndSendToView(downChildEvent, MotionEvent.ACTION_CANCEL, mLastChild);
+				}
+				alterEventActionAndFireTouchEvent(event, MotionEvent.ACTION_DOWN);
+				mLastChild = null;
 			}
 			else {
 				alterEventActionAndSendToView(childEvent, MotionEvent.ACTION_CANCEL, child);
