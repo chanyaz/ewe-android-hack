@@ -153,7 +153,7 @@ public class PushNotificationUtils {
 					Log.e("PushNotificationUtils.generateNotification Formatted message was null for locKey:" + locKey);
 				}
 				else {
-					String uniqueId = sanatizeUniqueId(itinId + "_" + formattedMessage);
+					String uniqueId = sanatizeUniqueId(fhid + "_" + formattedMessage);
 
 					Notification notification = new Notification(uniqueId, itinId, triggerTimeMillis);
 					notification.setItinId(itinId);
