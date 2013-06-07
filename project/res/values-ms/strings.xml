@@ -308,8 +308,8 @@
 
     <!-- Car types -->
     <string name="car_type_two_door">Kereta Dua Pintu</string>
-    <string name="car_type_three_door">Tiga Pintu Kereta</string>
-    <string name="car_type_four_door">Empat Pintu Kereta</string>
+    <string name="car_type_three_door">Kereta Tiga Pintu</string>
+    <string name="car_type_four_door">Kereta Empat Pintu</string>
     <string name="car_type_van">Van</string>
     <string name="car_type_wagon">Wagon</string>
     <string name="car_type_limousine">Limousin</string>
@@ -416,13 +416,13 @@
     <!-- 1: Hotel name, 2: Formatted length of stay -->
     <string name="share_template_long_hotel_1_greeting">Hai, \n\nSaya akan menginap di %1$s selama %2$s.</string>
     <!-- 1: Check in date, 2: Check out date -->
-    <string name="share_template_long_hotel_2_checkin_checkout"><b>Daftar Masuk</b> %1$s\n<b>Daftar Keluar</b> %2$s</string>
+    <string name="share_template_long_hotel_2_checkin_checkout">Daftar Masuk %1$s\nDaftar Keluar %2$s</string>
     <!-- 1: Hotel name, 2: Hotel street address -->
     <string name="share_template_long_hotel_3_address">%1$s\n%2$s</string>
     <!-- Hotel phone number -->
-    <string name="share_template_long_hotel_4_phone"><b>Telefon</b>\n%s</string>
+    <string name="share_template_long_hotel_4_phone">Telefon\n%s</string>
     <!-- Link to more information about the hotel -->
-    <string name="share_template_long_hotel_5_more_info"><b>Maklumat Lanjut</b>\n%s</string>
+    <string name="share_template_long_hotel_5_more_info">Maklumat Lanjut\n%s</string>
     <!-- App download link -->
     <string name="share_template_long_ad">Tempah hotel, penerbangan dan lihat &amp; kongsi jadual perjalanan anda. Muat turun apl mudah alih Expedia percuma hari ini.\n%s</string>
     <!-- 1: city 2: date string -->
@@ -431,10 +431,14 @@
     <string name="share_template_short_flight_sameday">Saya menaiki penerbangan %1$s ke %2$s pada %3$s.\nBerlepas dari %4$s pada %5$s\nTiba di %6$s pada %7$s, %8$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
     <string name="share_template_short_flight_multiday">Saya menaiki penerbangan %1$s ke %2$s.\nBerlepas dari %3$s pada %4$s\nTiba di %5$s pada %6$s, %7$s</string>
-    <!-- 1: pick up date 2: drop off date -->
+    <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Kereta sewa saya (%1$s – %2$s)</string>
-    <!-- 1: vehicle type 2: pick up date 3: drop off date 4: vendor name 5: full address -->
-    <string name="share_template_short_car">Saya telah menyewa sebuah %1$s dari %2$s – %3$s\n%4$s\n%5$s</string>
+    <!-- Car rental share subject (no dates) -->
+    <string name="share_template_subject_car_no_dates">Kereta sewa saya</string>
+    <!-- 1: vehicle type  -->
+    <string name="share_template_short_car_type">Saya telah menyewa %1$s</string>
+    <!--1: pick up date 2: drop off date -->
+    <string name="share_template_short_car_dates">dari %1$s – %2$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
     <string name="share_car_start_TEMPLATE">Di sini adalah butiran kereta sewa %1$s saya.</string>
     <!-- Label for type of vehicle.  %1$s is the car type (e.g., "Three Door Car") -->
@@ -450,12 +454,25 @@
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">Lokasi Penghantaran:</string>
 
-    <!-- 1: activity title -->
+
+    <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">Butiran %1$s Saya</string>
-    <!-- 1: activity title 2: valid date 3: expiration date -->
-    <string name="share_template_short_activity">Saya telah membeli %1$s\nSah: %2$s\nTamat tempoh: %3$s</string>
-    <!-- 1: activity title, 2: valid date, 3: expiration date, 4: list of guests -->
-    <string name="share_template_long_activity">Hai, \n\nDi sini adalah butiran %1$s\n saya \n<b>Sah</b> %2$s\n<b>Tamat tempoh</b> %3$s\n\n<b>Tetamu</b>\n%4$s</string>
+    <!-- activity message subject when the title is unknown -->
+    <string name="share_template_subject_activity_no_title">Butiran Aktiviti Saya</string>
+    <!-- message displaying the purchased activity title -->
+    <string name="share_template_short_activity_title">Saya telah membeli %1$s</string>
+    <!-- activity valid date -->
+    <string name="share_template_short_activity_valid">Sah: %1$s</string>
+    <!-- activity expiration date -->
+    <string name="share_template_short_activity_expires">Tamat Tempoh: %1$s</string>
+    <!-- message for activity message for 1: title -->
+    <string name="share_template_long_activity_title">Hai,\n\nBerikut adalah butiran bagi %1$s saya</string>
+    <!-- label for activity 1: valid date -->
+    <string name="share_template_long_activity_valid">Sah %1$s</string>
+    <!-- label for activity 1: expiration date -->
+    <string name="share_template_long_activity_expires">Tamat Tempoh %1$s</string>
+    <!-- label for activity 1: list of guests -->
+    <string name="share_template_long_activity_guests">Tetamu\n%1$s</string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
@@ -515,9 +532,10 @@
     </plurals>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">NYAHPEPIJAT: Data carian telah dikosongkan.  Sila laporkan ralat ini kepada DLew.</string>
-    <!-- Message shown to user when they attempt a flight search against the India point of sale that is domestic (which we don't support yet) -->
+    <!-- Title of a message shown to user explaining functionality that is not yet implemented but will be shortly -->
     <string name="india_domestic_flights_not_available_title">Akan Datang Tidak Lama Lagi!</string>
-    <string name="india_domestic_flights_not_available_body">Kami sedang bertungkus lumus untuk menambahkan penerbangan domestik dalam versi akan datang.</string>
+    <!-- Message shown to user when they attempt a flight search against the India point of sale that is domestic (which we don't support yet) -->
+    <string name="india_domestic_flights_not_available_body">Kami bekerja keras untuk menambah penerbangan domestik dalam versi yang akan datang.</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">Pilih penerbangan ke %1$s</string>
     <!-- Select a flight back to (city name) -->
@@ -639,6 +657,14 @@
     <!-- Card Info -->
     <string name="card_info">Maklumat Kad</string>
 
+    <!-- Edit CreditCard Fragment -->
+    <!-- Airline processing fee for this card: <Dollar Amount> (e.g. Airling processing fee for this card: $5) -->
+    <string name="airline_processing_fee_TEMPLATE">Bayaran pemprosesan syarikat penerbangan untuk kad ini: &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Airline does not accept <Credit Card Brand> (e.g. "Airline does not accept Visa") -->
+    <string name="airline_does_not_accept_cardtype_TEMPLATE">Syarikat penerbangan tidak menerima %1$s</string>
+    <!-- "Airline Fee Information" -->
+    <string name="airline_fee_information">Maklumat Bayaran Syarikat Penerbangan</string>
+
     <!-- Trip Overview Activity -->
     <!-- Label for Overview activity in task manager -->
     <string name="Overview">Gambaran Keseluruhan</string>
@@ -666,6 +692,9 @@
     <string name="loading_flight_details">Menyemak perubahan harga…</string>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">Harga berubah dari %1$s</string>
+    <!-- Message shown to user when the airline is charging a fee to use their credit card brand -->
+    <!-- e.g. This airline charges a $5 fee to book with the selected card, included in the total. -->
+    <string name="airline_card_fee_TEMPLATE">Syarikat penerbangan mengenakan bayaran &lt;b&gt;%1$s&lt;/b&gt; untuk menempah dengan kad yang telah dipilih, dimasukkan dalam jumlah.</string>
 
     <!-- Checkout Activity -->
     <!-- Expedia Account label -->
@@ -726,6 +755,8 @@
     <string name="taxes_and_airline_fees">Cukai &amp; Yuran</string>
     <!-- Expedia booking fee -->
     <string name="expedia_booking_fee">Yuran Tempahan Expedia</string>
+    <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
+    <string name="airline_card_fee">Bayaran Kad Syarikat Penerbangan</string>
     <!-- Flight -->
     <string name="flight">Penerbangan</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
@@ -940,7 +971,15 @@
     <!-- Insurance -->
     <string name="insurance">Insurans</string>
 
-    <!-- Add to calendar -->
+    <!-- Hotel confirmation page -->
+    <!-- Title for section helping users get flights after booking a hotel -->
+    <string name="get_there">Pergilah ke Sana</string>
+    <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->
+    <string name="flights_to_TEMPLATE">Penerbangan ke %s</string>
+    <!-- Summary of the user's hotel stay.  %1$s is the # of guests, %2$s is the duration, e.g. "3 Guests, Aug 1 to Aug 3" -->
+    <string name="stay_summary_TEMPLATE">%1$s, %2$s</string>
+
+    <!-- Add to calendar (flights) -->
     <!-- Title for calendar event.  %1$s is the starting airport, %2$s is the ending airport, e.g. "SFO to BOS" -->
     <string name="calendar_flight_title_TEMPLATE">%1$s ke %2$s</string>
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
@@ -951,6 +990,12 @@
     <string name="calendar_flight_desc_directions_TEMPLATE">Arah ke lapangan terbang: %s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
     <string name="calendar_flight_desc_support_TEMPLATE">Skngn Pelanggan Expedia: %s</string>
+
+    <!-- Add to calendar (hotels) -->
+    <!-- Title for calendar entry for when you check into a hotel -->
+    <string name="calendar_hotel_title_checkin_TEMPLATE">Daftar Masuk: %s</string>
+    <!-- Title for calendar entry for when you check out of a hotel -->
+    <string name="calendar_hotel_title_checkout_TEMPLATE">Daftar Keluar: %s</string>
 
     <!-- Flight Rules -->
     <!-- Legal information header -->
@@ -1652,8 +1697,10 @@
     <string name="coupon_error">Ralat Kupon</string>
 
     <!-- Sharing bookings via email -->
-    <!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
-    <string name="share_subject_template">Jadual Perjalanan Expedia - %1$s (%2$s - %3$s)</string>
+    <!-- Subject property name template. -->
+    <string name="share_subject_template">Jadual Perjalanan Expedia -</string>
+    <!-- Subject dates template. 1$ and 2$ are the ` ranges (e.g., 3/21 - 3/24) -->
+    <string name="share_subject_template_dates">(%1$s - %2$s)</string>
     <!-- Preset at the top of the share body message -->
     <string name="share_body_start">Ini adalah makl tempahan hotel saya:</string>
     <!-- Name of user -->
@@ -1818,7 +1865,7 @@
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">Tetapan</string>
-    <!-- Label for "info about this app" menu item.   -->
+    <!-- Label for "info about this app" menu item. -->
     <string name="Info">Makl</string>
     <!-- Label for "about this app" menu item. Deprecated for the time being, but kept because maybe it wil return -->
     <string name="About">Mengenai</string>
@@ -2140,90 +2187,110 @@
     <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
     <string name="add_to_samsung_wallet">Tambah kepada Samsung Wallet</string>
 
+    <!-- Human readable credit card names -->
+    <!-- American Express -->
+    <string name="cc_american_express">American Express</string>
+    <!-- Carte Blanche -->
+    <string name="cc_carte_blanche">Carte Blanche</string>
+    <!-- China Union Pay -->
+    <string name="cc_china_union_pay">China Union Pay</string>
+    <!-- Diners Club -->
+    <string name="cc_diners_club">Diners Club</string>
+    <!-- Discover -->
+    <string name="cc_discover">Discover</string>
+    <!-- Japan Credit Bureau -->
+    <string name="cc_japan_credit_bureau">Japan Credit Bureau</string>
+    <!-- Maestro -->
+    <string name="cc_maestro">Maestro</string>
+    <!-- Master Card -->
+    <string name="cc_master_card">Master Card</string>
+    <!-- Visa -->
+    <string name="cc_visa">Visa</string>
+
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
-    <!-- S_Push_flight_CITY_delayed_HOUR -->
+    <!-- Your flight to _ delayed _ hour TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR">Pnrbgn anda ke %1$s lewat selama %2$s jam.</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS -->
+    <!-- Your flight to _ delayed _ hours TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS">Pnrbgn anda ke %1$s lewat selama %2$s jam.</string>
-    <!-- S_Push_flight_CITY_delayed_MINUTE -->
+    <!-- Your flight to _ delayed _ minute TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_MINUTE">Pnrbgn anda ke %1$s lewat selama %2$s minit.</string>
-    <!-- S_Push_flight_CITY_delayed_MINUTES -->
+    <!-- Your flight to _ delayed _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_MINUTES">Pnrbgn anda ke %1$s lewat selama %2$s minit.</string>
-    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTE -->
+    <!-- Your flight to _ delayed _ hour _ minute TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE">Pnrbgn anda ke %1$s lewat selama %2$s jam %3$s minit.</string>
-    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTES -->
+    <!-- Your flight to _ delayed _ hour _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES">Pnrbgn anda ke %1$s lewat selama %2$s jam %3$s minit.</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTE -->
+    <!-- Your flight to _ delayed _ hours _ minute TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE">Pnrbgn anda ke %1$s lewat selama %2$s jam %3$s minit.</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTES -->
+    <!-- Your flight to _ delayed _ hours _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES">Pnrbgn anda ke %1$s lewat selama %2$s jam %3$s minit.</string>
-    <!-- S_Push_flight_CITY_early_MINUTE -->
+    <!-- Your flight to _ departs _ minute early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_MINUTE">Pnrbgn anda ke %1$s akan berlepas %2$s minit lebih awal.</string>
-    <!-- S_Push_flight_CITY_early_MINUTES -->
+    <!-- Your flight to _ departs _ minutes early  TEMPLATE -->
     <string name="S_Push_flight_CITY_early_MINUTES">Pnrbgn anda ke %1$s akan berlepas %2$s minit lebih awal.</string>
-    <!-- S_Push_flight_CITY_early_HOUR -->
+    <!-- Your flight to _ departs _ hour early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR">Pnrbgn anda ke %1$s akan berlepas %2$s jam lebih awal.</string>
-    <!-- S_Push_flight_CITY_early_HOURS -->
+    <!-- Your flight to _ departs _ hours early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS">Pnrbgn anda ke %1$s akan berlepas %2$s jam lebih awal.</string>
-    <!-- S_Push_flight_CITY_early_HOUR_MINUTE -->
+    <!-- Your flight to _ departs _ hour _ minute early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR_MINUTE">Pnrbgn anda ke %1$s akan berlepas %2$s jam %3$s minit lebih awal.</string>
-    <!-- S_Push_flight_CITY_early_HOURS_MINUTE -->
+    <!-- Your flight to _ departs _ hours _ minute early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS_MINUTE">Pnrbgn anda ke %1$s akan berlepas %2$s jam %3$s minit lebih awal.</string>
-    <!-- S_Push_flight_CITY_early_HOUR_MINUTES -->
+    <!-- Your flight to _ departs _ hour _ minutes early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR_MINUTES">Pnrbgn anda ke %1$s akan berlepas %2$s jam %3$s minit lebih awal.</string>
-    <!-- S_Push_flight_CITY_early_HOURS_MINUTES -->
+    <!-- Your flight to _ departs _ hours _ minutes early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS_MINUTES">Pnrbgn anda ke %1$s akan berlepas %2$s jam %3$s minit lebih awal.</string>
-    <!-- S_Push_flight_CITY_delayed_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is delayed _ minute and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE">Pnrbgn anda ke %1$s lewat selama %2$s minit dan kini berlepas dari pintu %3$s.</string>
-    <!-- S_Push_flight_CITY_delayed_MINUTES_gate_GATE -->
+    <!-- Your flight to _ is delayed _ minutes and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE">Pnrbgn anda ke %1$s lewat selama %2$s minit dan kini berlepas dari pintu %3$s.</string>
-    <!-- S_Push_flight_CITY_delayed_HOUR_gate_GATE -->
+    <!-- Your flight to _ is delayed _ hour and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE">Pnrbgn anda ke %1$s lewat selama %2$s jam dan kini berlepas dari pintu %3$s.</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS_gate_GATE -->
+    <!-- Your flight to _ is delayed _ hours and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE">Pnrbgn anda ke %1$s lewat selama %2$s jam dan kini berlepas dari pintu %3$s.</string>
-    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is delayed _ hour _ minute and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE">Pnrbgn anda ke %1$s lewat selama %2$s jam %3$s minit dan kini berlepas dari pintu %4$s.</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is delayed _ hours _ minute and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE">Pnrbgn anda ke %1$s lewat selama %2$s jam %3$s minit dan kini berlepas dari pintu %4$s.</string>
-    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE -->
+    <!-- Your flight ot _ is delayed _ hour _ minutes and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE">Pnrbgn anda ke %1$s lewat selama %2$s jam %3$s minit dan kini berlepas dari pintu %4$s.</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE -->
+    <!-- Your flight to _ is delayed _ hours _ minutes and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE">Pnrbgn anda ke %1$s lewat selama %2$s jam %3$s minit dan kini berlepas dari pintu %4$s.</string>
-    <!-- S_Push_flight_CITY_early_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is now departing _ minute early from gate _ TEMPLATE -->
     <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE">Pnrbgn anda ke %1$s sedang kini berlepas %2$s minit lebih awal dari pintu %3$s.</string>
-    <!-- S_Push_flight_CITY_early_MINUTES_gate_GATE -->
+    <!-- Your flight to _ is now departing _ minutes early from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE">Pnrbgn anda ke %1$s sedang kini berlepas %2$s minit lebih awal dari pintu %3$s.</string>
-    <!-- S_Push_flight_CITY_early_HOUR_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hour early from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR_gate_GATE">Pnrbgn anda ke %1$s sedang kini berlepas %2$s jam lebih awal dari pintu %3$s.</string>
-    <!-- S_Push_flight_CITY_early_HOURS_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hours early from gate _ TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS_gate_GATE">Pnrbgn anda ke %1$s sedang kini berlepas %2$s jam lebih awal dari pintu %3$s.</string>
-    <!-- S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hour _ minute early from gate _ TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE">Pnrbgn anda ke %1$s sedang kini berlepas %2$s jam %3$s minit lebih awal dari pintu %4$s.</string>
-    <!-- S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hours _ minute early from gate _ TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE">Pnrbgn anda ke %1$s sedang kini berlepas %2$s jam %3$s minit lebih awal dari pintu %4$s.</string>
-    <!-- S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hour _ minutes early from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE">Pnrbgn anda ke %1$s sedang kini berlepas %2$s jam %3$s minit lebih awal dari pintu %4$s.</string>
-    <!-- S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hours _ minutes early from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE">Pnrbgn anda ke %1$s sedang kini berlepas %2$s jam %3$s minit lebih awal dari pintu %4$s.</string>
-    <!-- S_Push_flight_from_CITY_to_CITY_cancelled -->
+    <!-- Your flight from _ to _ has been cancelled TEMPLATE -->
     <string name="S_Push_flight_from_CITY_to_CITY_cancelled">Pnrbgn anda dari %1$s ke %2$s telah dibatalkan.</string>
-    <!-- S_Push_flight_CITY_departs_in_HOUR -->
+    <!-- Your flight to _ departs in _ hour TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOUR">Pnrbgn anda ke %1$s akan berlepas dalam masa %2$s jam.</string>
-    <!-- S_Push_flight_CITY_departs_in_HOURS -->
+    <!-- Your flight to _ departs in _ hours TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOURS">Pnrbgn anda ke %1$s akan berlepas dalam masa %2$s jam.</string>
-    <!-- S_Push_flight_CITY_departs_in_HOURS_MINUTE -->
+    <!-- Your flight to _ departs in _ hours _ minute TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE">Pnrbgn anda ke %1$s akan berlepas dalam masa %2$s jam %3$s minit.</string>
-    <!-- S_Push_flight_CITY_departs_in_HOURS_MINUTES -->
+    <!-- Your flight to _ departs in _ hours _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES">Pnrbgn anda ke %1$s akan berlepas dalam masa %2$s jam %3$s minit.</string>
-    <!-- S_Push_flight_CITY_departs_in_HOUR_MINUTE -->
+    <!-- Your flight to _ departs in _ hour _ minute TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE">Pnrbgn anda ke %1$s akan berlepas dalam masa %2$s jam %3$s minit.</string>
-    <!-- S_Push_flight_CITY_departs_in_HOUR_MINUTES -->
+    <!-- Your flight to _ departs in _ hour _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES">Pnrbgn anda ke %1$s akan berlepas dalam masa %2$s jam %3$s minit.</string>
-    <!-- S_Push_flight_CITY_departs_in_MINUTES -->
+    <!-- Your flight to _ departs in _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_MINUTES">Pnrbgn anda ke %1$s akan berlepas dalam masa %2$s minit.</string>
-    <!-- S_Push_flight_CITY_gate_GATE -->
+    <!-- Your flight to _ now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_gate_GATE">Pnrbgn anda ke %1$s kini berlepas dari pintu %2$s.</string>
-    <!-- S_Push_baggage_BAGGAGE -->
+    <!-- Your bags will be at baggage claim _  TEMPLATE -->
     <string name="S_Push_baggage_BAGGAGE">Beg anda akan berada di bahagian tuntutan bagasi %1$s.</string>
 
 </resources>

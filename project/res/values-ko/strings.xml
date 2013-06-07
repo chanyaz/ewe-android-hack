@@ -416,13 +416,13 @@
     <!-- 1: Hotel name, 2: Formatted length of stay -->
     <string name="share_template_long_hotel_1_greeting">안녕하세요,\n\n저 %1$s에서 %2$s 머물 예정이에요.</string>
     <!-- 1: Check in date, 2: Check out date -->
-    <string name="share_template_long_hotel_2_checkin_checkout"><b>체크인:</b> %1$s\n<b>체크아웃:</b> %2$s</string>
+    <string name="share_template_long_hotel_2_checkin_checkout">체크인: %1$s\n체크아웃: %2$s</string>
     <!-- 1: Hotel name, 2: Hotel street address -->
     <string name="share_template_long_hotel_3_address">%1$s\n%2$s</string>
     <!-- Hotel phone number -->
-    <string name="share_template_long_hotel_4_phone"><b>전화:</b>\n%s</string>
+    <string name="share_template_long_hotel_4_phone">전화:\n%s</string>
     <!-- Link to more information about the hotel -->
-    <string name="share_template_long_hotel_5_more_info"><b>자세한 정보:</b>\n%s</string>
+    <string name="share_template_long_hotel_5_more_info">자세한 정보:\n%s</string>
     <!-- App download link -->
     <string name="share_template_long_ad">호텔과 항공편을 예약하고 일정을 확인 및 공유하실 수 있어요. 오늘 바로 Expedia 모바일 앱을 다운로드하세요.\n%s</string>
     <!-- 1: city 2: date string -->
@@ -431,10 +431,14 @@
     <string name="share_template_short_flight_sameday">저 %1$s 비행기로 %2$s에 가요. 날짜는 %3$s이고요.\n%4$s에서 출발하는 시간은 %5$s, \n%6$s에 도착하는 시간은 %7$s에요(%8$s).</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
     <string name="share_template_short_flight_multiday">저 %1$s 비행기로 %2$s에 가요.\n%3$s에서 출발하는 시간은 %4$s, \n%5$s에 도착하는 시간은 %6$s에요(%7$s).</string>
-    <!-- 1: pick up date 2: drop off date -->
+    <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">내가 예약한 렌터카(%1$s ~ %2$s)</string>
-    <!-- 1: vehicle type 2: pick up date 3: drop off date 4: vendor name 5: full address -->
-    <string name="share_template_short_car">제가 %1$s 차량을 %2$s ~ %3$s 동안 사용할 수 있도록 예약했어요. \n%4$s\n%5$s</string>
+    <!-- Car rental share subject (no dates) -->
+    <string name="share_template_subject_car_no_dates">내가 예약한 렌터카</string>
+    <!-- 1: vehicle type  -->
+    <string name="share_template_short_car_type">제가 %1$s 차량을</string>
+    <!--1: pick up date 2: drop off date -->
+    <string name="share_template_short_car_dates">%1$s ~ %2$s 동안 예약했어요.</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
     <string name="share_car_start_TEMPLATE">제가 %1$s에서 예약한 렌터카에 대한 정보를 아래와 같이 알려드릴게요.</string>
     <!-- Label for type of vehicle.  %1$s is the car type (e.g., "Three Door Car") -->
@@ -450,12 +454,25 @@
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">차량 반납 위치:</string>
 
-    <!-- 1: activity title -->
-    <string name="share_template_subject_activity">내가 예약한 %1$s에 대한 세부 정보</string>
-    <!-- 1: activity title 2: valid date 3: expiration date -->
-    <string name="share_template_short_activity">제가 %1$s 상품을 구매했어요.\n발효일: %2$s\n만료일: %3$s</string>
-    <!-- 1: activity title, 2: valid date, 3: expiration date, 4: list of guests -->
-    <string name="share_template_long_activity">안녕하세요,\n\n제가 예약한 %1$s에 대한 세부 정보를 아래와 같이 알려드릴게요.\n\n<b>발효일:</b> %2$s\n<b>만료일:</b> %3$s\n\n<b>고객 명단:</b>\n%4$s</string>
+
+    <!-- activity message subject 1: activity title -->
+    <string name="share_template_subject_activity">내가 예약한 %1$s에 대한 정보</string>
+    <!-- activity message subject when the title is unknown -->
+    <string name="share_template_subject_activity_no_title">내가 예약한 즐길거리 정보</string>
+    <!-- message displaying the purchased activity title -->
+    <string name="share_template_short_activity_title">제가 %1$s 즐길거리를 구매했어요.</string>
+    <!-- activity valid date -->
+    <string name="share_template_short_activity_valid">유효일: %1$s</string>
+    <!-- activity expiration date -->
+    <string name="share_template_short_activity_expires">만료일: %1$s</string>
+    <!-- message for activity message for 1: title -->
+    <string name="share_template_long_activity_title">안녕하세요,\n\n제가 예약한 %1$s에 대한 정보를 알려드릴게요.</string>
+    <!-- label for activity 1: valid date -->
+    <string name="share_template_long_activity_valid">유효일: %1$s</string>
+    <!-- label for activity 1: expiration date -->
+    <string name="share_template_long_activity_expires">만료일: %1$s</string>
+    <!-- label for activity 1: list of guests -->
+    <string name="share_template_long_activity_guests">고객:\n%1$s</string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
@@ -515,8 +532,9 @@
     </plurals>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">디버그: 검색 데이터가 삭제되었습니다. 이 오류를 DLew에게 보고해 주시기 바랍니다.</string>
-    <!-- Message shown to user when they attempt a flight search against the India point of sale that is domestic (which we don't support yet) -->
+    <!-- Title of a message shown to user explaining functionality that is not yet implemented but will be shortly -->
     <string name="india_domestic_flights_not_available_title">제공 예정!</string>
+    <!-- Message shown to user when they attempt a flight search against the India point of sale that is domestic (which we don't support yet) -->
     <string name="india_domestic_flights_not_available_body">곧 출시될 버전에 국내 항공편을 추가하기 위해 현재 최선을 다하고 있습니다.</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">%1$s행 항공편을 선택하세요.</string>
@@ -639,6 +657,14 @@
     <!-- Card Info -->
     <string name="card_info">카드 정보</string>
 
+    <!-- Edit CreditCard Fragment -->
+    <!-- Airline processing fee for this card: <Dollar Amount> (e.g. Airling processing fee for this card: $5) -->
+    <string name="airline_processing_fee_TEMPLATE">이 카드에 대한 항공사 처리 수수료: &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Airline does not accept <Credit Card Brand> (e.g. "Airline does not accept Visa") -->
+    <string name="airline_does_not_accept_cardtype_TEMPLATE">항공사에서 %1$s 결제를 지원하지 않습니다.</string>
+    <!-- "Airline Fee Information" -->
+    <string name="airline_fee_information">카드 결제 수수료 정보</string>
+
     <!-- Trip Overview Activity -->
     <!-- Label for Overview activity in task manager -->
     <string name="Overview">요약</string>
@@ -666,6 +692,9 @@
     <string name="loading_flight_details">가격 변동 확인 중…</string>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">기존 요금 %1$s에서 요금 변경됨</string>
+    <!-- Message shown to user when the airline is charging a fee to use their credit card brand -->
+    <!-- e.g. This airline charges a $5 fee to book with the selected card, included in the total. -->
+    <string name="airline_card_fee_TEMPLATE">항공사에서 해당 카드를 사용하는 예약에 &lt;b&gt;%1$s&lt;/b&gt;의 카드 결제 수수료를 부과하며, 이는 총 금액에 포함됩니다.</string>
 
     <!-- Checkout Activity -->
     <!-- Expedia Account label -->
@@ -726,6 +755,8 @@
     <string name="taxes_and_airline_fees">세금 및 수수료</string>
     <!-- Expedia booking fee -->
     <string name="expedia_booking_fee">Expedia 예약 수수료</string>
+    <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
+    <string name="airline_card_fee">카드 결제 수수료</string>
     <!-- Flight -->
     <string name="flight">항공편</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
@@ -940,7 +971,15 @@
     <!-- Insurance -->
     <string name="insurance">보험</string>
 
-    <!-- Add to calendar -->
+    <!-- Hotel confirmation page -->
+    <!-- Title for section helping users get flights after booking a hotel -->
+    <string name="get_there">가는 방법</string>
+    <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->
+    <string name="flights_to_TEMPLATE">%s행 항공편</string>
+    <!-- Summary of the user's hotel stay.  %1$s is the # of guests, %2$s is the duration, e.g. "3 Guests, Aug 1 to Aug 3" -->
+    <string name="stay_summary_TEMPLATE">%1$s, %2$s</string>
+
+    <!-- Add to calendar (flights) -->
     <!-- Title for calendar event.  %1$s is the starting airport, %2$s is the ending airport, e.g. "SFO to BOS" -->
     <string name="calendar_flight_title_TEMPLATE">%1$s - %2$s</string>
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
@@ -951,6 +990,12 @@
     <string name="calendar_flight_desc_directions_TEMPLATE">공항까지 가는 길 안내: %s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
     <string name="calendar_flight_desc_support_TEMPLATE">Expedia 고객 지원: %s</string>
+
+    <!-- Add to calendar (hotels) -->
+    <!-- Title for calendar entry for when you check into a hotel -->
+    <string name="calendar_hotel_title_checkin_TEMPLATE">체크인: %s</string>
+    <!-- Title for calendar entry for when you check out of a hotel -->
+    <string name="calendar_hotel_title_checkout_TEMPLATE">체크아웃: %s</string>
 
     <!-- Flight Rules -->
     <!-- Legal information header -->
@@ -1551,7 +1596,7 @@
     <!-- Friendly message at the top of the receipt -->
     <string name="Enjoy_your_stay">즐거운 여행되세요!</string>
     <!-- Format for a first/last name -->
-    <string name="name_template">%1$s %2$s 님</string>
+    <string name="name_template">%1$s %2$s</string>
     <!-- Reservation summary label -->
     <string name="reservation_summary">예약 내용</string>
     <!-- Confirmation number label -->
@@ -1652,8 +1697,10 @@
     <string name="coupon_error">쿠폰 오류</string>
 
     <!-- Sharing bookings via email -->
-    <!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
-    <string name="share_subject_template">Expedia 일정 - %1$s (%2$s ~ %3$s)</string>
+    <!-- Subject property name template. -->
+    <string name="share_subject_template">Expedia 일정 -</string>
+    <!-- Subject dates template. 1$ and 2$ are the ` ranges (e.g., 3/21 - 3/24) -->
+    <string name="share_subject_template_dates">(%1$s - %2$s)</string>
     <!-- Preset at the top of the share body message -->
     <string name="share_body_start">내 호텔 예약 정보:</string>
     <!-- Name of user -->
@@ -1818,7 +1865,7 @@
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">설정</string>
-    <!-- Label for "info about this app" menu item.   -->
+    <!-- Label for "info about this app" menu item. -->
     <string name="Info">정보</string>
     <!-- Label for "about this app" menu item. Deprecated for the time being, but kept because maybe it wil return -->
     <string name="About">정보</string>
@@ -2140,90 +2187,110 @@
     <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
     <string name="add_to_samsung_wallet">Samsung Wallet에 추가</string>
 
+    <!-- Human readable credit card names -->
+    <!-- American Express -->
+    <string name="cc_american_express">American Express</string>
+    <!-- Carte Blanche -->
+    <string name="cc_carte_blanche">Carte Blanche</string>
+    <!-- China Union Pay -->
+    <string name="cc_china_union_pay">China Union Pay</string>
+    <!-- Diners Club -->
+    <string name="cc_diners_club">Diners Club</string>
+    <!-- Discover -->
+    <string name="cc_discover">Discover</string>
+    <!-- Japan Credit Bureau -->
+    <string name="cc_japan_credit_bureau">JCB</string>
+    <!-- Maestro -->
+    <string name="cc_maestro">Maestro</string>
+    <!-- Master Card -->
+    <string name="cc_master_card">Master Card</string>
+    <!-- Visa -->
+    <string name="cc_visa">Visa</string>
+
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
-    <!-- S_Push_flight_CITY_delayed_HOUR -->
+    <!-- Your flight to _ delayed _ hour TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR">고객님의 %1$s행 항공편이 %2$s시간 지연입니다.</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS -->
+    <!-- Your flight to _ delayed _ hours TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS">고객님의 %1$s행 항공편이 %2$s시간 지연입니다.</string>
-    <!-- S_Push_flight_CITY_delayed_MINUTE -->
+    <!-- Your flight to _ delayed _ minute TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_MINUTE">고객님의 %1$s행 항공편이 %2$s분 지연입니다.</string>
-    <!-- S_Push_flight_CITY_delayed_MINUTES -->
+    <!-- Your flight to _ delayed _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_MINUTES">고객님의 %1$s행 항공편이 %2$s분 지연입니다.</string>
-    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTE -->
+    <!-- Your flight to _ delayed _ hour _ minute TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 지연입니다.</string>
-    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTES -->
+    <!-- Your flight to _ delayed _ hour _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 지연입니다.</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTE -->
+    <!-- Your flight to _ delayed _ hours _ minute TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 지연입니다.</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTES -->
+    <!-- Your flight to _ delayed _ hours _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 지연입니다.</string>
-    <!-- S_Push_flight_CITY_early_MINUTE -->
+    <!-- Your flight to _ departs _ minute early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_MINUTE">고객님의 %1$s행 항공편이 %2$s분 일찍 출발합니다.</string>
-    <!-- S_Push_flight_CITY_early_MINUTES -->
+    <!-- Your flight to _ departs _ minutes early  TEMPLATE -->
     <string name="S_Push_flight_CITY_early_MINUTES">고객님의 %1$s행 항공편이 %2$s분 일찍 출발합니다.</string>
-    <!-- S_Push_flight_CITY_early_HOUR -->
+    <!-- Your flight to _ departs _ hour early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR">고객님의 %1$s행 항공편이 %2$s시간 일찍 출발합니다.</string>
-    <!-- S_Push_flight_CITY_early_HOURS -->
+    <!-- Your flight to _ departs _ hours early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS">고객님의 %1$s행 항공편이 %2$s시간 일찍 출발합니다.</string>
-    <!-- S_Push_flight_CITY_early_HOUR_MINUTE -->
+    <!-- Your flight to _ departs _ hour _ minute early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR_MINUTE">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 일찍 출발합니다.</string>
-    <!-- S_Push_flight_CITY_early_HOURS_MINUTE -->
+    <!-- Your flight to _ departs _ hours _ minute early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS_MINUTE">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 일찍 출발합니다.</string>
-    <!-- S_Push_flight_CITY_early_HOUR_MINUTES -->
+    <!-- Your flight to _ departs _ hour _ minutes early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR_MINUTES">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 일찍 출발합니다.</string>
-    <!-- S_Push_flight_CITY_early_HOURS_MINUTES -->
+    <!-- Your flight to _ departs _ hours _ minutes early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS_MINUTES">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 일찍 출발합니다.</string>
-    <!-- S_Push_flight_CITY_delayed_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is delayed _ minute and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE">고객님의 %1$s행 항공편이 %2$s분 지연되어 지금 게이트 %3$s에서 출발합니다.</string>
-    <!-- S_Push_flight_CITY_delayed_MINUTES_gate_GATE -->
+    <!-- Your flight to _ is delayed _ minutes and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE">고객님의 %1$s행 항공편이 %2$s분 지연되어 지금 게이트 %3$s에서 출발합니다.</string>
-    <!-- S_Push_flight_CITY_delayed_HOUR_gate_GATE -->
+    <!-- Your flight to _ is delayed _ hour and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE">고객님의 %1$s행 항공편이 %2$s시간 지연되어 지금 게이트 %3$s에서 출발합니다.</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS_gate_GATE -->
+    <!-- Your flight to _ is delayed _ hours and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE">고객님의 %1$s행 항공편이 %2$s시간 지연되어 지금 게이트 %3$s에서 출발합니다.</string>
-    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is delayed _ hour _ minute and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 지연되어 지금 게이트 %4$s에서 출발합니다.</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is delayed _ hours _ minute and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 지연되어 지금 게이트 %4$s에서 출발합니다.</string>
-    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE -->
+    <!-- Your flight ot _ is delayed _ hour _ minutes and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 지연되어 지금 게이트 %4$s에서 출발합니다.</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE -->
+    <!-- Your flight to _ is delayed _ hours _ minutes and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 지연되어 지금 게이트 %4$s에서 출발합니다.</string>
-    <!-- S_Push_flight_CITY_early_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is now departing _ minute early from gate _ TEMPLATE -->
     <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE">고객님의 %1$s행 항공편이 예정보다 %2$s분 이른 지금 게이트 %3$s에서 출발합니다.</string>
-    <!-- S_Push_flight_CITY_early_MINUTES_gate_GATE -->
+    <!-- Your flight to _ is now departing _ minutes early from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE">고객님의 %1$s행 항공편이 예정보다 %2$s분 이른 지금 게이트 %3$s에서 출발합니다.</string>
-    <!-- S_Push_flight_CITY_early_HOUR_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hour early from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR_gate_GATE">고객님의 %1$s행 항공편이 예정보다 %2$s시간 이른 지금 게이트 %3$s에서 출발합니다.</string>
-    <!-- S_Push_flight_CITY_early_HOURS_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hours early from gate _ TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS_gate_GATE">고객님의 %1$s행 항공편이 예정보다 %2$s시간 이른 지금 게이트 %3$s에서 출발합니다.</string>
-    <!-- S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hour _ minute early from gate _ TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE">고객님의 %1$s행 항공편이 예정보다 %2$s시간 %3$s분 이른 지금 게이트 %4$s에서 출발합니다.</string>
-    <!-- S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hours _ minute early from gate _ TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE">고객님의 %1$s행 항공편이 예정보다 %2$s시간 %3$s분 이른 지금 게이트 %4$s에서 출발합니다.</string>
-    <!-- S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hour _ minutes early from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE">고객님의 %1$s행 항공편이 예정보다 %2$s시간 %3$s분 이른 지금 게이트 %4$s에서 출발합니다.</string>
-    <!-- S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hours _ minutes early from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE">고객님의 %1$s행 항공편이 예정보다 %2$s시간 %3$s분 이른 지금 게이트 %4$s에서 출발합니다.</string>
-    <!-- S_Push_flight_from_CITY_to_CITY_cancelled -->
+    <!-- Your flight from _ to _ has been cancelled TEMPLATE -->
     <string name="S_Push_flight_from_CITY_to_CITY_cancelled">고객님의 %1$s발 %2$s행 항공편이 취소되었습니다.</string>
-    <!-- S_Push_flight_CITY_departs_in_HOUR -->
+    <!-- Your flight to _ departs in _ hour TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOUR">고객님의 %1$s행 항공편이 %2$s시간 후 출발합니다.</string>
-    <!-- S_Push_flight_CITY_departs_in_HOURS -->
+    <!-- Your flight to _ departs in _ hours TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOURS">고객님의 %1$s행 항공편이 %2$s시간 후 출발합니다.</string>
-    <!-- S_Push_flight_CITY_departs_in_HOURS_MINUTE -->
+    <!-- Your flight to _ departs in _ hours _ minute TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 후 출발합니다.</string>
-    <!-- S_Push_flight_CITY_departs_in_HOURS_MINUTES -->
+    <!-- Your flight to _ departs in _ hours _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 후 출발합니다.</string>
-    <!-- S_Push_flight_CITY_departs_in_HOUR_MINUTE -->
+    <!-- Your flight to _ departs in _ hour _ minute TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 후 출발합니다.</string>
-    <!-- S_Push_flight_CITY_departs_in_HOUR_MINUTES -->
+    <!-- Your flight to _ departs in _ hour _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES">고객님의 %1$s행 항공편이 %2$s시간 %3$s분 후 출발합니다.</string>
-    <!-- S_Push_flight_CITY_departs_in_MINUTES -->
+    <!-- Your flight to _ departs in _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_MINUTES">고객님의 %1$s행 항공편이 %2$s분 후 출발합니다.</string>
-    <!-- S_Push_flight_CITY_gate_GATE -->
+    <!-- Your flight to _ now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_gate_GATE">고객님의 %1$s행 항공편이 게이트 %2$s에서 출발합니다.</string>
-    <!-- S_Push_baggage_BAGGAGE -->
+    <!-- Your bags will be at baggage claim _  TEMPLATE -->
     <string name="S_Push_baggage_BAGGAGE">수하물 찾는 곳 %1$s에서 고객님의 수하물을 찾으실 수 있습니다.</string>
 
 </resources>

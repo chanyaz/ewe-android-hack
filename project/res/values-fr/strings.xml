@@ -307,9 +307,9 @@
     <string name="car_category_oversize">Voiture très grande</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">Voiture 2 portes</string>
-    <string name="car_type_three_door">Voiture 3 portes</string>
-    <string name="car_type_four_door">Voiture 4 portes</string>
+    <string name="car_type_two_door">2 portes Voiture</string>
+    <string name="car_type_three_door">3 portes Voiture</string>
+    <string name="car_type_four_door">4 portes Voiture</string>
     <string name="car_type_van">Fourgon</string>
     <string name="car_type_wagon">Break</string>
     <string name="car_type_limousine">Limousine</string>
@@ -416,13 +416,13 @@
     <!-- 1: Hotel name, 2: Formatted length of stay -->
     <string name="share_template_long_hotel_1_greeting">Bonjour,\n\nJe vais séjourner ici : %1$s, pendant %2$s.</string>
     <!-- 1: Check in date, 2: Check out date -->
-    <string name="share_template_long_hotel_2_checkin_checkout"><b>Arrivée</b> %1$s\n<b>Départ</b> %2$s</string>
+    <string name="share_template_long_hotel_2_checkin_checkout">Arrivée %1$s \nDépart %2$s</string>
     <!-- 1: Hotel name, 2: Hotel street address -->
     <string name="share_template_long_hotel_3_address">%1$s\n%2$s</string>
     <!-- Hotel phone number -->
-    <string name="share_template_long_hotel_4_phone"><b>Téléphone</b>\n%s</string>
+    <string name="share_template_long_hotel_4_phone">Téléphone\n%s</string>
     <!-- Link to more information about the hotel -->
-    <string name="share_template_long_hotel_5_more_info"><b>Plus d\&apos;infos</b>\n%s</string>
+    <string name="share_template_long_hotel_5_more_info">Plus d\&apos;infos\n%s</string>
     <!-- App download link -->
     <string name="share_template_long_ad">Réservez des hôtels et des billets d\&apos;avion. Consultez et partagez vos voyages. Téléchargez l\&apos;appli gratuite Expedia !\n%s</string>
     <!-- 1: city 2: date string -->
@@ -431,10 +431,14 @@
     <string name="share_template_short_flight_sameday">Le %3$s, je prends l\&apos;avion (%1$s) pour aller à %2$s !\nDépart de %4$s à %5$s\nArrivée à %6$s à %7$s, %8$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
     <string name="share_template_short_flight_multiday">Je prends l\&apos;avion (%1$s) pour aller à %2$s !\nDépart de %3$s à %4$s\nArrivée à %5$s à %6$s, %7$s</string>
-    <!-- 1: pick up date 2: drop off date -->
+    <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Ma location de voiture (du %1$s au %2$s)</string>
-    <!-- 1: vehicle type 2: pick up date 3: drop off date 4: vendor name 5: full address -->
-    <string name="share_template_short_car">J\&apos;ai loué %1$s du %2$s au %3$s\n%4$s\n%5$s</string>
+    <!-- Car rental share subject (no dates) -->
+    <string name="share_template_subject_car_no_dates">Ma location de voiture</string>
+    <!-- 1: vehicle type  -->
+    <string name="share_template_short_car_type">Ma location : %1$s</string>
+    <!--1: pick up date 2: drop off date -->
+    <string name="share_template_short_car_dates">du %1$s au %2$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
     <string name="share_car_start_TEMPLATE">Voici les détails de ma location de voiture avec %1$s.</string>
     <!-- Label for type of vehicle.  %1$s is the car type (e.g., "Three Door Car") -->
@@ -450,12 +454,25 @@
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">Lieu de retour :</string>
 
-    <!-- 1: activity title -->
+
+    <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">%1$s : mes détails</string>
-    <!-- 1: activity title 2: valid date 3: expiration date -->
-    <string name="share_template_short_activity">Je viens de réserver l\&apos;activité suivante : %1$s\nValide : %2$s\nExpire : %3$s</string>
-    <!-- 1: activity title, 2: valid date, 3: expiration date, 4: list of guests -->
-    <string name="share_template_long_activity">Bonjour,\n\nVoici les détails de mon activité : %1$s\n\n<b>Valable</b> %2$s\n<b>Expire</b> %3$s\n\n<b>Personnes</b>\n%4$s</string>
+    <!-- activity message subject when the title is unknown -->
+    <string name="share_template_subject_activity_no_title">Les détails de mon activité</string>
+    <!-- message displaying the purchased activity title -->
+    <string name="share_template_short_activity_title">Mon activité : %1$s</string>
+    <!-- activity valid date -->
+    <string name="share_template_short_activity_valid">Valable à partir du : %1$s</string>
+    <!-- activity expiration date -->
+    <string name="share_template_short_activity_expires">Valable jusqu\&apos;au : %1$s</string>
+    <!-- message for activity message for 1: title -->
+    <string name="share_template_long_activity_title">Bonjour,\n\nVoici les détails de mon activité (%1$s)</string>
+    <!-- label for activity 1: valid date -->
+    <string name="share_template_long_activity_valid">Valable à partir du %1$s</string>
+    <!-- label for activity 1: expiration date -->
+    <string name="share_template_long_activity_expires">Valable jusqu\&apos;au %1$s</string>
+    <!-- label for activity 1: list of guests -->
+    <string name="share_template_long_activity_guests">Personnes\n%1$s</string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
@@ -515,8 +532,9 @@
     </plurals>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">DEBUG : les données de la recherche ont été supprimées. Veuillez signaler cette erreur à DLew.</string>
-    <!-- Message shown to user when they attempt a flight search against the India point of sale that is domestic (which we don't support yet) -->
+    <!-- Title of a message shown to user explaining functionality that is not yet implemented but will be shortly -->
     <string name="india_domestic_flights_not_available_title">Bientôt !</string>
+    <!-- Message shown to user when they attempt a flight search against the India point of sale that is domestic (which we don't support yet) -->
     <string name="india_domestic_flights_not_available_body">Nous allons ajouter la possibilité de réserver les vols nationaux dans une prochaine version.</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">Choisir un vol vers %1$s</string>
@@ -639,6 +657,14 @@
     <!-- Card Info -->
     <string name="card_info">Données de la carte</string>
 
+    <!-- Edit CreditCard Fragment -->
+    <!-- Airline processing fee for this card: <Dollar Amount> (e.g. Airling processing fee for this card: $5) -->
+    <string name="airline_processing_fee_TEMPLATE">Frais de paiement de la compagnie pour cette carte : &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Airline does not accept <Credit Card Brand> (e.g. "Airline does not accept Visa") -->
+    <string name="airline_does_not_accept_cardtype_TEMPLATE">Cette compagnie aérienne n\&apos;accepte pas les paiements avec une carte %1$s</string>
+    <!-- "Airline Fee Information" -->
+    <string name="airline_fee_information">Informations sur les frais de la compagnie</string>
+
     <!-- Trip Overview Activity -->
     <!-- Label for Overview activity in task manager -->
     <string name="Overview">Aperçu</string>
@@ -666,6 +692,9 @@
     <string name="loading_flight_details">Nous vérifions le prix…</string>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">Le prix a changé et n\&apos;est plus de %1$s</string>
+    <!-- Message shown to user when the airline is charging a fee to use their credit card brand -->
+    <!-- e.g. This airline charges a $5 fee to book with the selected card, included in the total. -->
+    <string name="airline_card_fee_TEMPLATE">La compagnie aérienne facture des frais de &lt;b&gt;%1$s&lt;/b&gt; (inclus dans le total) pour les réservations avec la carte sélectionnée.</string>
 
     <!-- Checkout Activity -->
     <!-- Expedia Account label -->
@@ -726,6 +755,8 @@
     <string name="taxes_and_airline_fees">Taxes et frais</string>
     <!-- Expedia booking fee -->
     <string name="expedia_booking_fee">Frais de réservation Expedia</string>
+    <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
+    <string name="airline_card_fee">Frais de paiement compagnie</string>
     <!-- Flight -->
     <string name="flight">Vol</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
@@ -940,7 +971,15 @@
     <!-- Insurance -->
     <string name="insurance">Assurance</string>
 
-    <!-- Add to calendar -->
+    <!-- Hotel confirmation page -->
+    <!-- Title for section helping users get flights after booking a hotel -->
+    <string name="get_there">S\&apos;y rendre</string>
+    <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->
+    <string name="flights_to_TEMPLATE">Vols à destination de %s</string>
+    <!-- Summary of the user's hotel stay.  %1$s is the # of guests, %2$s is the duration, e.g. "3 Guests, Aug 1 to Aug 3" -->
+    <string name="stay_summary_TEMPLATE">%1$s, %2$s</string>
+
+    <!-- Add to calendar (flights) -->
     <!-- Title for calendar event.  %1$s is the starting airport, %2$s is the ending airport, e.g. "SFO to BOS" -->
     <string name="calendar_flight_title_TEMPLATE">De %1$s à %2$s</string>
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
@@ -951,6 +990,12 @@
     <string name="calendar_flight_desc_directions_TEMPLATE">Pour rejoindre l\&apos;aéroport : %s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
     <string name="calendar_flight_desc_support_TEMPLATE">Assistance clientèle Expedia : %s</string>
+
+    <!-- Add to calendar (hotels) -->
+    <!-- Title for calendar entry for when you check into a hotel -->
+    <string name="calendar_hotel_title_checkin_TEMPLATE">Arrivée : %s</string>
+    <!-- Title for calendar entry for when you check out of a hotel -->
+    <string name="calendar_hotel_title_checkout_TEMPLATE">Départ : %s</string>
 
     <!-- Flight Rules -->
     <!-- Legal information header -->
@@ -1649,11 +1694,13 @@
     <!-- Label for when a user has entered a coupon which is expired -->
     <string name="expired_coupon">Code expiré</string>
     <!-- Label for when a user has entered a coupon and the server fails -->
-    <string name="coupon_error">Erreur code</string>
+    <string name="coupon_error">Erreur code promotionnel</string>
 
     <!-- Sharing bookings via email -->
-    <!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
-    <string name="share_subject_template">Voyage Expedia - %1$s (%2$s - %3$s)</string>
+    <!-- Subject property name template. -->
+    <string name="share_subject_template">Numéro de voyage Expedia -</string>
+    <!-- Subject dates template. 1$ and 2$ are the ` ranges (e.g., 3/21 - 3/24) -->
+    <string name="share_subject_template_dates">(%1$s - %2$s)</string>
     <!-- Preset at the top of the share body message -->
     <string name="share_body_start">Ci-après les informations de ma réservation d\&apos;hôtel :</string>
     <!-- Name of user -->
@@ -1818,7 +1865,7 @@
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">Paramètres</string>
-    <!-- Label for "info about this app" menu item.   -->
+    <!-- Label for "info about this app" menu item. -->
     <string name="Info">Infos</string>
     <!-- Label for "about this app" menu item. Deprecated for the time being, but kept because maybe it wil return -->
     <string name="About">Informations</string>
@@ -2140,90 +2187,110 @@
     <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
     <string name="add_to_samsung_wallet">Ajouter à Samsung Wallet</string>
 
+    <!-- Human readable credit card names -->
+    <!-- American Express -->
+    <string name="cc_american_express">American Express</string>
+    <!-- Carte Blanche -->
+    <string name="cc_carte_blanche">Carte Blanche</string>
+    <!-- China Union Pay -->
+    <string name="cc_china_union_pay">China Union Pay</string>
+    <!-- Diners Club -->
+    <string name="cc_diners_club">Diners Club</string>
+    <!-- Discover -->
+    <string name="cc_discover">Discover</string>
+    <!-- Japan Credit Bureau -->
+    <string name="cc_japan_credit_bureau">Japan Credit Bureau</string>
+    <!-- Maestro -->
+    <string name="cc_maestro">Maestro</string>
+    <!-- Master Card -->
+    <string name="cc_master_card">MasterCard</string>
+    <!-- Visa -->
+    <string name="cc_visa">Visa</string>
+
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
-    <!-- S_Push_flight_CITY_delayed_HOUR -->
+    <!-- Your flight to _ delayed _ hour TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR">Votre vol pour %1$s a %2$s heure de retard.</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS -->
+    <!-- Your flight to _ delayed _ hours TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS">Votre vol pour %1$s a %2$s heures de retard.</string>
-    <!-- S_Push_flight_CITY_delayed_MINUTE -->
+    <!-- Your flight to _ delayed _ minute TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_MINUTE">Votre vol pour %1$s a %2$s minute de retard.</string>
-    <!-- S_Push_flight_CITY_delayed_MINUTES -->
+    <!-- Your flight to _ delayed _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_MINUTES">Votre vol pour %1$s a %2$s minutes de retard.</string>
-    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTE -->
+    <!-- Your flight to _ delayed _ hour _ minute TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE">Votre vol pour %1$s a %2$s heure et %3$s minute de retard.</string>
-    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTES -->
+    <!-- Your flight to _ delayed _ hour _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES">Votre vol pour %1$s a %2$s heure et %3$s minutes de retard.</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTE -->
+    <!-- Your flight to _ delayed _ hours _ minute TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE">Votre vol pour %1$s a %2$s heures et %3$s minute de retard.</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTES -->
+    <!-- Your flight to _ delayed _ hours _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES">Votre vol pour %1$s a %2$s heures et %3$s minutes de retard.</string>
-    <!-- S_Push_flight_CITY_early_MINUTE -->
+    <!-- Your flight to _ departs _ minute early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_MINUTE">Votre vol pour %1$s partira %2$s minute en avance.</string>
-    <!-- S_Push_flight_CITY_early_MINUTES -->
+    <!-- Your flight to _ departs _ minutes early  TEMPLATE -->
     <string name="S_Push_flight_CITY_early_MINUTES">Votre vol pour %1$s partira %2$s minutes en avance.</string>
-    <!-- S_Push_flight_CITY_early_HOUR -->
+    <!-- Your flight to _ departs _ hour early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR">Votre vol pour %1$s partira %2$s heure en avance.</string>
-    <!-- S_Push_flight_CITY_early_HOURS -->
+    <!-- Your flight to _ departs _ hours early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS">Votre vol pour %1$s partira %2$s heures en avance.</string>
-    <!-- S_Push_flight_CITY_early_HOUR_MINUTE -->
+    <!-- Your flight to _ departs _ hour _ minute early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR_MINUTE">Votre vol pour %1$s partira %2$s heure et %3$s minute en avance.</string>
-    <!-- S_Push_flight_CITY_early_HOURS_MINUTE -->
+    <!-- Your flight to _ departs _ hours _ minute early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS_MINUTE">Votre vol pour %1$s partira %2$s heures et %3$s minute en avance.</string>
-    <!-- S_Push_flight_CITY_early_HOUR_MINUTES -->
+    <!-- Your flight to _ departs _ hour _ minutes early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR_MINUTES">Votre vol pour %1$s partira %2$s heure et %3$s minutes en avance.</string>
-    <!-- S_Push_flight_CITY_early_HOURS_MINUTES -->
+    <!-- Your flight to _ departs _ hours _ minutes early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS_MINUTES">Votre vol pour %1$s partira %2$s heures et %3$s minutes en avance.</string>
-    <!-- S_Push_flight_CITY_delayed_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is delayed _ minute and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE">Votre vol pour %1$s a %2$s minute de retard et partira de la porte %3$s.</string>
-    <!-- S_Push_flight_CITY_delayed_MINUTES_gate_GATE -->
+    <!-- Your flight to _ is delayed _ minutes and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE">Votre vol pour %1$s a %2$s minutes de retard et partira de la porte %3$s.</string>
-    <!-- S_Push_flight_CITY_delayed_HOUR_gate_GATE -->
+    <!-- Your flight to _ is delayed _ hour and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE">Votre vol pour %1$s a %2$s heure de retard et partira de la porte %3$s.</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS_gate_GATE -->
+    <!-- Your flight to _ is delayed _ hours and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE">Votre vol pour %1$s a %2$s heures de retard et partira de la porte %3$s.</string>
-    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is delayed _ hour _ minute and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE">Votre vol pour %1$s a %2$s heure et %3$s minute de retard et partira de la porte %4$s.</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is delayed _ hours _ minute and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE">Votre vol pour %1$s a %2$s heures et %3$s minute de retard et partira de la porte %4$s.</string>
-    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE -->
+    <!-- Your flight ot _ is delayed _ hour _ minutes and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE">Votre vol pour %1$s a %2$s heure et %3$s minutes de retard et partira de la porte %4$s.</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE -->
+    <!-- Your flight to _ is delayed _ hours _ minutes and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE">Votre vol pour %1$s a %2$s heures et %3$s minutes de retard et partira de la porte %4$s.</string>
-    <!-- S_Push_flight_CITY_early_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is now departing _ minute early from gate _ TEMPLATE -->
     <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE">Votre vol pour %1$s partira %2$s minute en avance de la porte %3$s.</string>
-    <!-- S_Push_flight_CITY_early_MINUTES_gate_GATE -->
+    <!-- Your flight to _ is now departing _ minutes early from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE">Votre vol pour %1$s partira %2$s minutes en avance de la porte %3$s.</string>
-    <!-- S_Push_flight_CITY_early_HOUR_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hour early from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR_gate_GATE">Votre vol pour %1$s partira %2$s heure en avance de la porte %3$s.</string>
-    <!-- S_Push_flight_CITY_early_HOURS_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hours early from gate _ TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS_gate_GATE">Votre vol pour %1$s partira %2$s heures en avance de la porte %3$s.</string>
-    <!-- S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hour _ minute early from gate _ TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE">Votre vol pour %1$s partira %2$s heure et %3$s minute en avance de la porte %4$s.</string>
-    <!-- S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hours _ minute early from gate _ TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE">Votre vol pour %1$s partira %2$s heures et %3$s minute en avance de la porte %4$s.</string>
-    <!-- S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hour _ minutes early from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE">Votre vol pour %1$s partira %2$s heure et %3$s minutes en avance de la porte %4$s.</string>
-    <!-- S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hours _ minutes early from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE">Votre vol pour %1$s partira %2$s heures et %3$s minutes en avance de la porte %4$s.</string>
-    <!-- S_Push_flight_from_CITY_to_CITY_cancelled -->
+    <!-- Your flight from _ to _ has been cancelled TEMPLATE -->
     <string name="S_Push_flight_from_CITY_to_CITY_cancelled">Votre vol %1$s - %2$s a été annulé.</string>
-    <!-- S_Push_flight_CITY_departs_in_HOUR -->
+    <!-- Your flight to _ departs in _ hour TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOUR">Votre vol pour %1$s partira dans %2$s heure.</string>
-    <!-- S_Push_flight_CITY_departs_in_HOURS -->
+    <!-- Your flight to _ departs in _ hours TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOURS">Votre vol pour %1$s partira dans %2$s heures.</string>
-    <!-- S_Push_flight_CITY_departs_in_HOURS_MINUTE -->
+    <!-- Your flight to _ departs in _ hours _ minute TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE">Votre vol pour %1$s partira dans %2$s heures et %3$s minute.</string>
-    <!-- S_Push_flight_CITY_departs_in_HOURS_MINUTES -->
+    <!-- Your flight to _ departs in _ hours _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES">Votre vol pour %1$s partira dans %2$s heures et %3$s minutes.</string>
-    <!-- S_Push_flight_CITY_departs_in_HOUR_MINUTE -->
+    <!-- Your flight to _ departs in _ hour _ minute TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE">Votre vol pour %1$s partira dans %2$s heure et %3$s minute.</string>
-    <!-- S_Push_flight_CITY_departs_in_HOUR_MINUTES -->
+    <!-- Your flight to _ departs in _ hour _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES">Votre vol pour %1$s partira dans %2$s heure et %3$s minutes.</string>
-    <!-- S_Push_flight_CITY_departs_in_MINUTES -->
+    <!-- Your flight to _ departs in _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_MINUTES">Votre vol pour %1$s partira dans %2$s minutes.</string>
-    <!-- S_Push_flight_CITY_gate_GATE -->
+    <!-- Your flight to _ now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_gate_GATE">Votre vol pour %1$s partira de la porte %2$s.</string>
-    <!-- S_Push_baggage_BAGGAGE -->
+    <!-- Your bags will be at baggage claim _  TEMPLATE -->
     <string name="S_Push_baggage_BAGGAGE">Retrait des bagages %1$s</string>
 
 </resources>

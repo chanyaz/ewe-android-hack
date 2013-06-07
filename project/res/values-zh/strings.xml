@@ -416,13 +416,13 @@
     <!-- 1: Hotel name, 2: Formatted length of stay -->
     <string name="share_template_long_hotel_1_greeting">嗨，\n\n我会在 %1$s 住 %2$s。</string>
     <!-- 1: Check in date, 2: Check out date -->
-    <string name="share_template_long_hotel_2_checkin_checkout"><b>入住：</b> %1$s\n<b>退房：</b> %2$s</string>
+    <string name="share_template_long_hotel_2_checkin_checkout">入住：%1$s\n退房：%2$s</string>
     <!-- 1: Hotel name, 2: Hotel street address -->
     <string name="share_template_long_hotel_3_address">%1$s\n%2$s</string>
     <!-- Hotel phone number -->
-    <string name="share_template_long_hotel_4_phone"><b>电话</b>\n%s</string>
+    <string name="share_template_long_hotel_4_phone">电话\n%s</string>
     <!-- Link to more information about the hotel -->
-    <string name="share_template_long_hotel_5_more_info"><b>详细信息</b>\n%s</string>
+    <string name="share_template_long_hotel_5_more_info">详细信息\n%s</string>
     <!-- App download link -->
     <string name="share_template_long_ad">预订酒店、航班，查看并分享您的行程。马上下载免费的 Expedia 移动应用。\n%s</string>
     <!-- 1: city 2: date string -->
@@ -431,10 +431,14 @@
     <string name="share_template_short_flight_sameday">我正在 %3$s 飞往 %2$s 的 %1$s 次航班上。\n%5$s\n飞离 %4$s；%7$s, %8$s 到达 %6$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
     <string name="share_template_short_flight_multiday">我正在飞往 %2$s 的 %1$s 次航班上。\n%4$s\n飞离 %3$s；%6$s, %7$s 到达 %5$s</string>
-    <!-- 1: pick up date 2: drop off date -->
+    <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">租车(%1$s – %2$s)</string>
-    <!-- 1: vehicle type 2: pick up date 3: drop off date 4: vendor name 5: full address -->
-    <string name="share_template_short_car">我从 %2$s 租了一辆%1$s – %3$s\n%4$s\n%5$s</string>
+    <!-- Car rental share subject (no dates) -->
+    <string name="share_template_subject_car_no_dates">租车</string>
+    <!-- 1: vehicle type  -->
+    <string name="share_template_short_car_type">我租了一辆%1$s</string>
+    <!--1: pick up date 2: drop off date -->
+    <string name="share_template_short_car_dates">使用期限为 %1$s – %2$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
     <string name="share_car_start_TEMPLATE">嗨，这是我从 %1$s 租的车的详细信息。</string>
     <!-- Label for type of vehicle.  %1$s is the car type (e.g., "Three Door Car") -->
@@ -450,12 +454,25 @@
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">还车地点：</string>
 
-    <!-- 1: activity title -->
+
+    <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">我的%1$s详细信息</string>
-    <!-- 1: activity title 2: valid date 3: expiration date -->
-    <string name="share_template_short_activity">我预订了一个 %1$s\n生效日期：%2$s\n失效日期：%3$s</string>
-    <!-- 1: activity title, 2: valid date, 3: expiration date, 4: list of guests -->
-    <string name="share_template_long_activity">嗨，\n\n以下是我的 %1$s 的详细信息。\n\n<b>生效日期：</b> %2$s\n<b>到期日期：</b> %3$s\n\n<b>旅客名单：</b>\n%4$s</string>
+    <!-- activity message subject when the title is unknown -->
+    <string name="share_template_subject_activity_no_title">我的活动详细信息</string>
+    <!-- message displaying the purchased activity title -->
+    <string name="share_template_short_activity_title">我购买了%1$s</string>
+    <!-- activity valid date -->
+    <string name="share_template_short_activity_valid">有效日期：%1$s</string>
+    <!-- activity expiration date -->
+    <string name="share_template_short_activity_expires">到期日期：%1$s</string>
+    <!-- message for activity message for 1: title -->
+    <string name="share_template_long_activity_title">嗨，\n\n这是我的 %1$s 的详细信息。</string>
+    <!-- label for activity 1: valid date -->
+    <string name="share_template_long_activity_valid">有效日期为 %1$s</string>
+    <!-- label for activity 1: expiration date -->
+    <string name="share_template_long_activity_expires">到期日期为 %1$s</string>
+    <!-- label for activity 1: list of guests -->
+    <string name="share_template_long_activity_guests">宾客\n%1$s</string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
@@ -515,8 +532,9 @@
     </plurals>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">程序调试：搜索数据因故被清除。请将这个错误报告给 DLew。</string>
-    <!-- Message shown to user when they attempt a flight search against the India point of sale that is domestic (which we don't support yet) -->
+    <!-- Title of a message shown to user explaining functionality that is not yet implemented but will be shortly -->
     <string name="india_domestic_flights_not_available_title">即将推出！</string>
+    <!-- Message shown to user when they attempt a flight search against the India point of sale that is domestic (which we don't support yet) -->
     <string name="india_domestic_flights_not_available_body">我们正在努力，争取在即将推出的版本中添加国内航班。</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">选择飞往 %1$s 的航班</string>
@@ -639,6 +657,14 @@
     <!-- Card Info -->
     <string name="card_info">卡信息</string>
 
+    <!-- Edit CreditCard Fragment -->
+    <!-- Airline processing fee for this card: <Dollar Amount> (e.g. Airling processing fee for this card: $5) -->
+    <string name="airline_processing_fee_TEMPLATE">航空公司对此卡收取手续费：&lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Airline does not accept <Credit Card Brand> (e.g. "Airline does not accept Visa") -->
+    <string name="airline_does_not_accept_cardtype_TEMPLATE">该航空公司不接受 %1$s</string>
+    <!-- "Airline Fee Information" -->
+    <string name="airline_fee_information">航空公司收费信息</string>
+
     <!-- Trip Overview Activity -->
     <!-- Label for Overview activity in task manager -->
     <string name="Overview">概要</string>
@@ -666,6 +692,9 @@
     <string name="loading_flight_details">正在查询价格变动…</string>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">%1$s 的价格发生了变动</string>
+    <!-- Message shown to user when the airline is charging a fee to use their credit card brand -->
+    <!-- e.g. This airline charges a $5 fee to book with the selected card, included in the total. -->
+    <string name="airline_card_fee_TEMPLATE">通过选定的卡进行预订时，该航空公司收取 &lt;b&gt;%1$s&lt;/b&gt; 的费用，该费用包含在总价中。</string>
 
     <!-- Checkout Activity -->
     <!-- Expedia Account label -->
@@ -726,6 +755,8 @@
     <string name="taxes_and_airline_fees">税款与服务费</string>
     <!-- Expedia booking fee -->
     <string name="expedia_booking_fee">Expedia 预订费</string>
+    <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
+    <string name="airline_card_fee">航空公司卡费用</string>
     <!-- Flight -->
     <string name="flight">航班</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
@@ -940,7 +971,15 @@
     <!-- Insurance -->
     <string name="insurance">保险</string>
 
-    <!-- Add to calendar -->
+    <!-- Hotel confirmation page -->
+    <!-- Title for section helping users get flights after booking a hotel -->
+    <string name="get_there">前往那里</string>
+    <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->
+    <string name="flights_to_TEMPLATE">飞往%s的航班</string>
+    <!-- Summary of the user's hotel stay.  %1$s is the # of guests, %2$s is the duration, e.g. "3 Guests, Aug 1 to Aug 3" -->
+    <string name="stay_summary_TEMPLATE">%1$s，%2$s</string>
+
+    <!-- Add to calendar (flights) -->
     <!-- Title for calendar event.  %1$s is the starting airport, %2$s is the ending airport, e.g. "SFO to BOS" -->
     <string name="calendar_flight_title_TEMPLATE">%1$s到%2$s</string>
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
@@ -951,6 +990,12 @@
     <string name="calendar_flight_desc_directions_TEMPLATE">前往机场的路线：%s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
     <string name="calendar_flight_desc_support_TEMPLATE">Expedia 客户支持电话：%s</string>
+
+    <!-- Add to calendar (hotels) -->
+    <!-- Title for calendar entry for when you check into a hotel -->
+    <string name="calendar_hotel_title_checkin_TEMPLATE">入住日期：%s</string>
+    <!-- Title for calendar entry for when you check out of a hotel -->
+    <string name="calendar_hotel_title_checkout_TEMPLATE">退房日期：%s</string>
 
     <!-- Flight Rules -->
     <!-- Legal information header -->
@@ -1652,8 +1697,10 @@
     <string name="coupon_error">优惠券错误</string>
 
     <!-- Sharing bookings via email -->
-    <!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
-    <string name="share_subject_template">Expedia 行程概要 - %1$s (%2$s - %3$s)</string>
+    <!-- Subject property name template. -->
+    <string name="share_subject_template">Expedia 行程概要 -</string>
+    <!-- Subject dates template. 1$ and 2$ are the ` ranges (e.g., 3/21 - 3/24) -->
+    <string name="share_subject_template_dates">（%1$s - %2$s）</string>
     <!-- Preset at the top of the share body message -->
     <string name="share_body_start">这是我的酒店预订信息：</string>
     <!-- Name of user -->
@@ -1818,7 +1865,7 @@
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">设置</string>
-    <!-- Label for "info about this app" menu item.   -->
+    <!-- Label for "info about this app" menu item. -->
     <string name="Info">信息</string>
     <!-- Label for "about this app" menu item. Deprecated for the time being, but kept because maybe it wil return -->
     <string name="About">关于</string>
@@ -2140,90 +2187,110 @@
     <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
     <string name="add_to_samsung_wallet">添加到三星钱包</string>
 
+    <!-- Human readable credit card names -->
+    <!-- American Express -->
+    <string name="cc_american_express">American Express</string>
+    <!-- Carte Blanche -->
+    <string name="cc_carte_blanche">Carte Blanche</string>
+    <!-- China Union Pay -->
+    <string name="cc_china_union_pay">中国银联支付</string>
+    <!-- Diners Club -->
+    <string name="cc_diners_club">Diners Club</string>
+    <!-- Discover -->
+    <string name="cc_discover">Discover</string>
+    <!-- Japan Credit Bureau -->
+    <string name="cc_japan_credit_bureau">Japan Credit Bureau</string>
+    <!-- Maestro -->
+    <string name="cc_maestro">Maestro</string>
+    <!-- Master Card -->
+    <string name="cc_master_card">Master Card</string>
+    <!-- Visa -->
+    <string name="cc_visa">Visa</string>
+
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
-    <!-- S_Push_flight_CITY_delayed_HOUR -->
+    <!-- Your flight to _ delayed _ hour TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR">您飞往 %1$s 的航班延迟了 %2$s 小时。</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS -->
+    <!-- Your flight to _ delayed _ hours TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS">您飞往 %1$s 的航班延迟了 %2$s 小时。</string>
-    <!-- S_Push_flight_CITY_delayed_MINUTE -->
+    <!-- Your flight to _ delayed _ minute TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_MINUTE">您飞往 %1$s 的航班延迟了 %2$s 分钟。</string>
-    <!-- S_Push_flight_CITY_delayed_MINUTES -->
+    <!-- Your flight to _ delayed _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_MINUTES">您飞往 %1$s 的航班延迟了 %2$s 分钟。</string>
-    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTE -->
+    <!-- Your flight to _ delayed _ hour _ minute TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE">您飞往 %1$s 的航班延迟了 %2$s 小时 %3$s 分钟。</string>
-    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTES -->
+    <!-- Your flight to _ delayed _ hour _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES">您飞往 %1$s 的航班延迟了 %2$s 小时 %3$s 分钟。</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTE -->
+    <!-- Your flight to _ delayed _ hours _ minute TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE">您飞往 %1$s 的航班延迟了 %2$s 小时 %3$s 分钟。</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTES -->
+    <!-- Your flight to _ delayed _ hours _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES">您飞往 %1$s 的航班延迟了 %2$s 小时 %3$s 分钟。</string>
-    <!-- S_Push_flight_CITY_early_MINUTE -->
+    <!-- Your flight to _ departs _ minute early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_MINUTE">您飞往 %1$s 的航班提前 %2$s 分钟起飞。</string>
-    <!-- S_Push_flight_CITY_early_MINUTES -->
+    <!-- Your flight to _ departs _ minutes early  TEMPLATE -->
     <string name="S_Push_flight_CITY_early_MINUTES">您飞往 %1$s 的航班提前 %2$s 分钟起飞。</string>
-    <!-- S_Push_flight_CITY_early_HOUR -->
+    <!-- Your flight to _ departs _ hour early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR">您飞往 %1$s 的航班提前 %2$s 小时起飞。</string>
-    <!-- S_Push_flight_CITY_early_HOURS -->
+    <!-- Your flight to _ departs _ hours early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS">您飞往 %1$s 的航班提前 %2$s 小时起飞。</string>
-    <!-- S_Push_flight_CITY_early_HOUR_MINUTE -->
+    <!-- Your flight to _ departs _ hour _ minute early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR_MINUTE">您飞往 %1$s 的航班提前 %2$s 小时 %3$s 分钟起飞。</string>
-    <!-- S_Push_flight_CITY_early_HOURS_MINUTE -->
+    <!-- Your flight to _ departs _ hours _ minute early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS_MINUTE">您飞往 %1$s 的航班提前 %2$s 小时 %3$s 分钟起飞。</string>
-    <!-- S_Push_flight_CITY_early_HOUR_MINUTES -->
+    <!-- Your flight to _ departs _ hour _ minutes early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR_MINUTES">您飞往 %1$s 的航班提前 %2$s 小时 %3$s 分钟起飞。</string>
-    <!-- S_Push_flight_CITY_early_HOURS_MINUTES -->
+    <!-- Your flight to _ departs _ hours _ minutes early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS_MINUTES">您飞往 %1$s 的航班提前 %2$s 小时 %3$s 分钟起飞。</string>
-    <!-- S_Push_flight_CITY_delayed_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is delayed _ minute and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE">您飞往 %1$s 的航班延迟了 %2$s 分钟，现从第 %3$s 号登机口起飞。</string>
-    <!-- S_Push_flight_CITY_delayed_MINUTES_gate_GATE -->
+    <!-- Your flight to _ is delayed _ minutes and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE">您飞往 %1$s 的航班延迟了 %2$s 分钟，现从第 %3$s 号登机口起飞。</string>
-    <!-- S_Push_flight_CITY_delayed_HOUR_gate_GATE -->
+    <!-- Your flight to _ is delayed _ hour and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE">您飞往 %1$s 的航班延迟了 %2$s 小时，现从第 %3$s 号登机口起飞。</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS_gate_GATE -->
+    <!-- Your flight to _ is delayed _ hours and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE">您飞往 %1$s 的航班延迟了 %2$s 小时，现从第 %3$s 号登机口起飞。</string>
-    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is delayed _ hour _ minute and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE">您飞往 %1$s 的航班延迟了 %2$s 小时 %3$s 分钟，现从第 %4$s 号登机口起飞。</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is delayed _ hours _ minute and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE">您飞往 %1$s 的航班延迟了 %2$s 小时 %3$s 分钟，现从第 %4$s 号登机口起飞。</string>
-    <!-- S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE -->
+    <!-- Your flight ot _ is delayed _ hour _ minutes and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE">您飞往 %1$s 的航班延迟了 %2$s 小时 %3$s 分钟，现从第 %4$s 号登机口起飞。</string>
-    <!-- S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE -->
+    <!-- Your flight to _ is delayed _ hours _ minutes and now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE">您飞往 %1$s 的航班延迟了 %2$s 小时 %3$s 分钟，现从第 %4$s 号登机口起飞。</string>
-    <!-- S_Push_flight_CITY_early_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is now departing _ minute early from gate _ TEMPLATE -->
     <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE">您飞往 %1$s 的航班现在提前 %2$s 分钟从第 %3$s 号登机口起飞。</string>
-    <!-- S_Push_flight_CITY_early_MINUTES_gate_GATE -->
+    <!-- Your flight to _ is now departing _ minutes early from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE">您飞往 %1$s 的航班现在提前 %2$s 分钟从第 %3$s 号登机口起飞。</string>
-    <!-- S_Push_flight_CITY_early_HOUR_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hour early from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR_gate_GATE">您飞往 %1$s 的航班现在提前 %2$s 小时从第 %3$s 号登机口起飞。</string>
-    <!-- S_Push_flight_CITY_early_HOURS_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hours early from gate _ TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS_gate_GATE">您飞往 %1$s 的航班现在提前 %2$s 小时从第 %3$s 号登机口起飞。</string>
-    <!-- S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hour _ minute early from gate _ TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE">您飞往 %1$s 的航班现在提前 %2$s 小时 %3$s 分钟从第 %4$s 号登机口起飞。</string>
-    <!-- S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hours _ minute early from gate _ TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE">您飞往 %1$s 的航班现在提前 %2$s 小时 %3$s 分钟从第 %4$s 号登机口起飞。</string>
-    <!-- S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hour _ minutes early from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE">您飞往 %1$s 的航班现在提前 %2$s 小时 %3$s 分钟从第 %4$s 号登机口起飞。</string>
-    <!-- S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE -->
+    <!-- Your flight to _ is now departing _ hours _ minutes early from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE">您飞往 %1$s 的航班现在提前 %2$s 小时 %3$s 分钟从第 %4$s 号登机口起飞。</string>
-    <!-- S_Push_flight_from_CITY_to_CITY_cancelled -->
+    <!-- Your flight from _ to _ has been cancelled TEMPLATE -->
     <string name="S_Push_flight_from_CITY_to_CITY_cancelled">您从 %1$s 飞往 %2$s 的航班已经取消。</string>
-    <!-- S_Push_flight_CITY_departs_in_HOUR -->
+    <!-- Your flight to _ departs in _ hour TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOUR">您飞往 %1$s 的航班将在 %2$s 小时内起飞。</string>
-    <!-- S_Push_flight_CITY_departs_in_HOURS -->
+    <!-- Your flight to _ departs in _ hours TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOURS">您飞往 %1$s 的航班将在 %2$s 小时内起飞。</string>
-    <!-- S_Push_flight_CITY_departs_in_HOURS_MINUTE -->
+    <!-- Your flight to _ departs in _ hours _ minute TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE">您飞往 %1$s 的航班将在 %2$s 小时 %3$s 分钟内起飞。</string>
-    <!-- S_Push_flight_CITY_departs_in_HOURS_MINUTES -->
+    <!-- Your flight to _ departs in _ hours _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES">您飞往 %1$s 的航班将在 %2$s 小时 %3$s 分钟内起飞。</string>
-    <!-- S_Push_flight_CITY_departs_in_HOUR_MINUTE -->
+    <!-- Your flight to _ departs in _ hour _ minute TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE">您飞往 %1$s 的航班将在 %2$s 小时 %3$s 分钟内起飞。</string>
-    <!-- S_Push_flight_CITY_departs_in_HOUR_MINUTES -->
+    <!-- Your flight to _ departs in _ hour _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES">您飞往 %1$s 的航班将在 %2$s 小时 %3$s 分钟内起飞。</string>
-    <!-- S_Push_flight_CITY_departs_in_MINUTES -->
+    <!-- Your flight to _ departs in _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_MINUTES">您飞往 %1$s 的航班将在 %2$s 分钟内起飞。</string>
-    <!-- S_Push_flight_CITY_gate_GATE -->
+    <!-- Your flight to _ now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_gate_GATE">您飞往 %1$s 的航班现在从第 %2$s 号登机口起飞。</string>
-    <!-- S_Push_baggage_BAGGAGE -->
+    <!-- Your bags will be at baggage claim _  TEMPLATE -->
     <string name="S_Push_baggage_BAGGAGE">您的行李将送到第 %1$s 号行李提取处。</string>
 
 </resources>
