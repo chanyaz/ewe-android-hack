@@ -1704,8 +1704,10 @@
     <string name="coupon_error">Coupon Error</string>
 
     <!-- Sharing bookings via email -->
-    <!-- Subject property name template. -->
-    <string name="share_subject_template">Expedia Itinerary - </string>
+    <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
+    <string name="share_subject_template">%1$s - %2$s</string>
+    <!-- The title of the share subject line -->
+    <string name="share_subject_title">Expedia Itinerary</string>
     <!-- Subject dates template. 1$ and 2$ are the ` ranges (e.g., 3/21 - 3/24) -->
     <string name="share_subject_template_dates">(%1$s - %2$s)</string>
     <!-- Preset at the top of the share body message -->

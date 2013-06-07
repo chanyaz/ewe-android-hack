@@ -421,9 +421,6 @@ public class ShareUtils {
 		String dateEnd = dateFormatter.format(checkOut);
 
 		StringBuilder sb = new StringBuilder();
-
-		sb.append(mContext.getString(R.string.share_subject_template));
-
 		if (!TextUtils.isEmpty(property.getName())) {
 			sb.append(property.getName());
 			sb.append(" ");
@@ -433,7 +430,14 @@ public class ShareUtils {
 			sb.append(mContext.getString(R.string.share_subject_template_dates, dateStart, dateEnd));
 		}
 
-		return sb.toString();
+		if (sb.length() == 0) {
+			String template = mContext.getString(R.string.share_subject_template);
+			String title = mContext.getString(R.string.share_subject_title);
+			return String.format(template, title, sb.toString());
+		}
+		else {
+			return mContext.getString(R.string.share_subject_title);
+		}
 	}
 
 	public String getHotelConfirmationShareText(SearchParams searchParams, Property property,
