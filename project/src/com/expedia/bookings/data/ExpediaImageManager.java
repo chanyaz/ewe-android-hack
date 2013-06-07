@@ -72,7 +72,7 @@ public class ExpediaImageManager {
 	public ExpediaImage getExpediaImage(ImageType imageType, String imageCode, int width, int height,
 			boolean useNetwork) {
 		// The key should be unique for each request
-		String cacheUrl = imageType + ":" + imageCode + ":" + width + "x" + height;
+		String cacheUrl = getImageKey(imageType, imageCode, width, height);
 
 		ExpediaImage image = mCachedImageUrls.get(cacheUrl);
 		if (image == null || image.getTimestamp() + EXPIRATION < System.currentTimeMillis()) {
@@ -131,6 +131,10 @@ public class ExpediaImageManager {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Utility
+
+	public static String getImageKey(ImageType imageType, String imageCode, int width, int height) {
+		return imageType + ":" + imageCode + ":" + width + "x" + height;
+	}
 
 	public static String getImageCode(Car.Category category, Car.Type type) {
 		return category.toString().replace("_", "") + "_" + type.toString().replace("_", "");

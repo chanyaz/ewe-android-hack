@@ -68,7 +68,7 @@ public class DestinationBitmapDrawable extends UrlBitmapDrawable implements Down
 		}
 		else {
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();
-			String key = this.toString();
+			String key = ExpediaImageManager.getImageKey(mImageType, mImageCode, mWidth, mHeight);
 			bd.startDownload(key, this, this);
 		}
 	}
