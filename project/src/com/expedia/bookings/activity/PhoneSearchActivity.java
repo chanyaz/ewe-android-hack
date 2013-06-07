@@ -77,6 +77,7 @@ import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Filter;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.Filter.OnFilterChangedListener;
 import com.expedia.bookings.data.Filter.PriceRange;
 import com.expedia.bookings.data.Filter.SearchRadius;
@@ -915,6 +916,11 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_search, menu);
 
+		// #1169. Add "About" menu item if VSC build.
+		if (ExpediaBookingApp.IS_VSC) {
+			getSupportMenuInflater().inflate(R.menu.menu_launch, menu);
+		}
+
 		boolean ret = super.onCreateOptionsMenu(menu);
 
 		mIsOptionsMenuCreated = true;
@@ -977,6 +983,39 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		menu.findItem(R.id.menu_select_sort).setShowAsActionFlags(menuFlags);
 		menu.findItem(R.id.menu_select_filter).setShowAsActionFlags(menuFlags);
 		menu.findItem(R.id.menu_select_search_map).setShowAsActionFlags(menuFlags);
+
+		// #1169. VSC app related menu arrangement.
+		// We need to only show an "About" menu item.
+		if (ExpediaBookingApp.IS_VSC) {
+
+			boolean loginBtnEnabled = false;
+			boolean logoutBtnEnabled = false;
+
+			loginBtnEnabled = !User.isLoggedIn(this);
+			logoutBtnEnabled = User.isLoggedIn(this);
+
+			MenuItem addItinBtn = menu.findItem(R.id.add_itinerary);
+			if (addItinBtn != null) {
+				addItinBtn.setVisible(false);
+				addItinBtn.setEnabled(false);
+			}
+
+			MenuItem settingsBtn = menu.findItem(R.id.settings);
+			if (settingsBtn != null) {
+				settingsBtn.setVisible(false);
+				settingsBtn.setEnabled(false);
+			}
+
+			MenuItem logOutBtn = menu.findItem(R.id.ab_log_out);
+			if (logOutBtn != null) {
+				logOutBtn.setVisible(logoutBtnEnabled);
+				logOutBtn.setEnabled(logoutBtnEnabled);
+			}
+
+			// Rename "Info" to "About"
+			MenuItem aboutBtn = menu.findItem(R.id.about);
+			aboutBtn.setTitle(R.string.About);
+		}
 
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -1058,6 +1097,24 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			}
 			break;
 		}
+
+		////////////////////////////////////////////////////////////////
+		// VSC related menu items
+
+		// #1169. VSC "About" menu item.
+		case R.id.about:
+			Intent aboutIntent = new Intent(this, AboutActivity.class);
+			startActivity(aboutIntent);
+			break;
+
+		// VSC "Log Out" menu item.
+		// TODO: Learn more about the VSC login flow and check other dependencies.
+		case R.id.ab_log_out:
+			if (User.isLoggedIn(this)) {
+				User.signOut(this);
+			}
+			break;
+
 		}
 
 		if (rebuildFilter) {
