@@ -405,7 +405,12 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 				// In checkout mode, we always want to show the price at bottom with the card fee
 				Db.getFlightSearch().getSelectedFlightTrip().setShowFareWithCardFee(true);
-				mPriceBottomFragment.bind();
+
+				// We only want to update the price bottom fragment if it is added to the content right now, otherwise
+				// it will attempt to find a context (that doesn't exist) and blow up, despite having a reference to it.
+				if (Ui.isAdded(mPriceBottomFragment)) {
+					mPriceBottomFragment.bind();
+				}
 			}
 		});
 
@@ -973,6 +978,8 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 	@Override
 	public void onBillingInfoChange() {
-		mPriceBottomFragment.bind();
+		if (Ui.isAdded(mPriceBottomFragment)) {
+			mPriceBottomFragment.bind();
+		}
 	}
 }
