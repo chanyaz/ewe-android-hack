@@ -19,18 +19,20 @@
             android:id="@+id/dates_date_picker"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            mobiata:cellBackground="@drawable/bg_calendar_cell"
-            mobiata:cellTextColor="@color/cell_text"
-            mobiata:drawGridLines="false"
             mobiata:calendarHeaderBackground="@color/calendar_header"
-            mobiata:nextMonthBackground="@drawable/bg_calendar_next"
-            mobiata:otherMonthCellBackground="@drawable/bg_calendar_cell"
-            mobiata:otherMonthCellTextColor="@color/cell_text_other_month"
+            mobiata:cellTextColor="@color/calendar_cell_text"
+            mobiata:drawGridLines="false"
             mobiata:popupBackground="@drawable/calendar_date_picker_popup"
-            mobiata:previousMonthBackground="@drawable/bg_calendar_previous"
-            mobiata:rangeEndCellBackground="@drawable/bg_calendar_cell_range_end"
-            mobiata:rangeStartCellBackground="@drawable/bg_calendar_cell_range_start"
-            mobiata:todayCellBackground="@drawable/bg_calendar_cell_today" />
+            mobiata:stateCellDrawable="@drawable/calendar_date_picker_cell"
+            mobiata:toolTipBackground="@drawable/calendar_tooltip"
+            mobiata:toolTipDateFormat="MMM dd"
+            mobiata:toolTipEnabled="true"
+            mobiata:toolTipEndBottomText="@string/calendar_tooltip_bottom_drag_to_modify"
+            mobiata:toolTipEndTopTextTemplate="@string/calendar_tooltip_hotel_top_text_date_range_and_nights_TEMPLATE"
+            mobiata:toolTipStartBottomText="@string/calendar_tooltip_hotel_bottom_select_checkout_date"
+            mobiata:toolTipTailDrawable="@drawable/calendar_tooltip_tail"
+            mobiata:toolTipTailMarginMin="8dp"
+            mobiata:toolTipTextColor="#FFFFFF" />
     </LinearLayout>
 
     <LinearLayout
@@ -61,7 +63,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -102,7 +103,6 @@
                 android:id="@+id/child_4_age_layout"
                 layout="@layout/include_child_age_row"
                 android:visibility="gone" />
-
         </LinearLayout>
     </LinearLayout>
 

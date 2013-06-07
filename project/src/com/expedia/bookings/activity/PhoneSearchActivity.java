@@ -1966,6 +1966,8 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		}
 		}
 
+		mDatesCalendarDatePicker.suppressTooltip(mDisplayType != DisplayType.CALENDAR);
+
 		if (mDisplayType == DisplayType.KEYBOARD) {
 			showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
 			addSearchTextWatcher();

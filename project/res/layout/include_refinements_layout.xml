@@ -25,7 +25,16 @@
             mobiata:drawGridLines="false"
             mobiata:headerHeight="52dp"
             mobiata:popupBackground="@drawable/calendar_date_picker_popup"
-            mobiata:stateCellDrawable="@drawable/calendar_date_picker_cell" />
+            mobiata:stateCellDrawable="@drawable/calendar_date_picker_cell"
+            mobiata:toolTipBackground="@drawable/calendar_tooltip"
+            mobiata:toolTipDateFormat="MMM dd"
+            mobiata:toolTipEnabled="true"
+            mobiata:toolTipEndBottomText="@string/calendar_tooltip_bottom_drag_to_modify"
+            mobiata:toolTipEndTopTextTemplate="@string/calendar_tooltip_hotel_top_text_date_range_and_nights_TEMPLATE"
+            mobiata:toolTipStartBottomText="@string/calendar_tooltip_hotel_bottom_select_checkout_date"
+            mobiata:toolTipTailDrawable="@drawable/calendar_tooltip_tail"
+            mobiata:toolTipTailMarginMin="8dp"
+            mobiata:toolTipTextColor="#FFFFFF" />
     </LinearLayout>
 
     <LinearLayout
