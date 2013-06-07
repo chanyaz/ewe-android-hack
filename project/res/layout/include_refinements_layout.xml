@@ -21,18 +21,11 @@
             android:layout_width="fill_parent"
             android:layout_height="300dp"
             mobiata:calendarHeaderBackground="@drawable/bg_calendar_header"
-            mobiata:cellBackground="@drawable/bg_calendar_cell"
-            mobiata:cellTextColor="@color/cell_text"
+            mobiata:cellTextColor="@color/calendar_cell_text"
             mobiata:drawGridLines="false"
             mobiata:headerHeight="52dp"
-            mobiata:nextMonthBackground="@drawable/bg_calendar_next"
-            mobiata:otherMonthCellBackground="@drawable/bg_calendar_cell"
-            mobiata:otherMonthCellTextColor="@color/cell_text_other_month"
             mobiata:popupBackground="@drawable/calendar_date_picker_popup"
-            mobiata:previousMonthBackground="@drawable/bg_calendar_previous"
-            mobiata:rangeEndCellBackground="@drawable/bg_calendar_cell_range_end"
-            mobiata:rangeStartCellBackground="@drawable/bg_calendar_cell_range_start"
-            mobiata:todayCellBackground="@drawable/bg_calendar_cell_today" />
+            mobiata:stateCellDrawable="@drawable/calendar_date_picker_cell" />
     </LinearLayout>
 
     <LinearLayout
@@ -101,9 +94,7 @@
                         layout="@layout/include_child_age_row"
                         android:visibility="gone" />
                 </LinearLayout>
-
             </LinearLayout>
-
         </LinearLayout>
 
         <LinearLayout
@@ -123,7 +114,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
-
         </LinearLayout>
     </LinearLayout>
 
