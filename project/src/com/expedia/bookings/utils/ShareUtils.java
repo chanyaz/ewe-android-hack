@@ -431,7 +431,7 @@ public class ShareUtils {
 		}
 
 		if (sb.length() == 0) {
-			String template = mContext.getString(R.string.share_subject_template);
+			String template = mContext.getString(R.string.share_subject_dash_template);
 			String title = mContext.getString(R.string.share_subject_title);
 			return String.format(template, title, sb.toString());
 		}
