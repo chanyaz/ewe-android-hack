@@ -341,8 +341,8 @@ public class Property implements JSONable {
 		return mHighestPriceFromSurvey;
 	}
 
-	public void setHighestPriceFromSurvey(Money mHighestPriceFromSurvey) {
-		this.mHighestPriceFromSurvey = mHighestPriceFromSurvey;
+	public void setHighestPriceFromSurvey(Money highestPriceFromSurvey) {
+		mHighestPriceFromSurvey = highestPriceFromSurvey;
 	}
 
 	// Updates a Property from another Property (currently, one returned via an AvailabilityResponse)
