@@ -444,8 +444,7 @@ public class PushNotificationUtils {
 	 * @param payload - The payload
 	 * @return A hash of the argument
 	 */
-	private static String hashJsonPayload(JSONObject payload)
-	{
+	private static String hashJsonPayload(JSONObject payload) {
 		if (payload == null) {
 			return null;
 		}

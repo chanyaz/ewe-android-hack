@@ -32,7 +32,7 @@ public class SamsungWalletUtils {
 		Intent intent = new Intent(); intent.setAction("com.sec.android.wallet.action.CHECK_TICKET");
 
 		intent.putExtra("TICKET_ID", ticketId);
-		intent.putExtra("BOUNCE_ID", ""+System.currentTimeMillis());
+		intent.putExtra("BOUNCE_ID", "" + System.currentTimeMillis());
 		intent.putExtra("RESULT_ACTION", CHECK_TICKET_RESULT);
 
 		return intent;
@@ -78,7 +78,7 @@ public class SamsungWalletUtils {
 		intent.setComponent(comp);
 
 		intent.putExtra("TICKET_ID", ticketId);
-		intent.putExtra("BOUNCE_ID", ""+System.currentTimeMillis());
+		intent.putExtra("BOUNCE_ID", "" + System.currentTimeMillis());
 		intent.putExtra("RESULT_ACTION", "com.sample.partners.action.VIEW_TICKET_RESULT");
 
 		return intent;
@@ -92,7 +92,7 @@ public class SamsungWalletUtils {
 		intent.setComponent(comp);
 
 		intent.putExtra("TICKET_ID", ticketId);
-		intent.putExtra("BOUNCE_ID", ""+System.currentTimeMillis());
+		intent.putExtra("BOUNCE_ID", "" + System.currentTimeMillis());
 		intent.putExtra("RESULT_ACTION", "com.sample.partners.action.DOWNLOAD_TICKET_RESULT");
 
 		return intent;
