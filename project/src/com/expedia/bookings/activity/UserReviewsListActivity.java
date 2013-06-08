@@ -32,7 +32,6 @@ import com.expedia.bookings.fragment.UserReviewsFragment;
 import com.expedia.bookings.fragment.UserReviewsFragment.UserReviewsFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserReviewsUtils;
 import com.expedia.bookings.widget.UserReviewsFragmentPagerAdapter;
