@@ -58,17 +58,19 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 	FlightPaymentYoYoListener mListener;
 
 	public static FlightPaymentOptionsFragment newInstance() {
-		FlightPaymentOptionsFragment fragment = new FlightPaymentOptionsFragment();
-		Bundle args = new Bundle();
-		//TODO:Set args here..
-		fragment.setArguments(args);
-		return fragment;
+		return new FlightPaymentOptionsFragment();
 	}
 
 	@Override
-	public void onStart() {
-		super.onStart();
-		OmnitureTracking.trackPageLoadFlightCheckoutPaymentSelect(getActivity());
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		if (!(activity instanceof FlightPaymentYoYoListener)) {
+			throw new RuntimeException(
+					"FlightPaymentOptiosnFragment activity must implement FlightPaymentYoYoListener!");
+		}
+
+		mListener = (FlightPaymentYoYoListener) activity;
 	}
 
 	@Override
@@ -229,30 +231,10 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 		return v;
 	}
 
-	private void onStoredCardSelected(StoredCreditCard storedCard) {
-		Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setStoredCard(storedCard);
-
-		if (mListener != null) {
-			mListener.setMode(YoYoMode.NONE);
-			mListener.moveBackwards();
-		}
-	}
-
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-
-		if (!(activity instanceof FlightPaymentYoYoListener)) {
-			throw new RuntimeException(
-					"FlightPaymentOptiosnFragment activity must implement FlightPaymentYoYoListener!");
-		}
-
-		mListener = (FlightPaymentYoYoListener) activity;
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
+	public void onStart() {
+		super.onStart();
+		OmnitureTracking.trackPageLoadFlightCheckoutPaymentSelect(getActivity());
 	}
 
 	@Override
@@ -267,11 +249,6 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 		mSectionCurrentCreditCard.bind(billingInfo, trip);
 		mSectionStoredPayment.bind(billingInfo.getStoredCard(), trip);
 		mSectionPartialCard.bind(billingInfo, trip);
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
 	}
 
 	public void updateVisibilities() {
@@ -311,6 +288,15 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 		mStoredPaymentsLabel.setVisibility(hasAccountCards && !onlyAccountCardIsSelected ? View.VISIBLE : View.GONE);
 		mStoredPaymentsLabelDiv.setVisibility(mStoredPaymentsLabel.getVisibility());
 		mStoredCardsContainer.setVisibility(mStoredPaymentsLabel.getVisibility());
+	}
+
+	private void onStoredCardSelected(StoredCreditCard storedCard) {
+		Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setStoredCard(storedCard);
+
+		if (mListener != null) {
+			mListener.setMode(YoYoMode.NONE);
+			mListener.moveBackwards();
+		}
 	}
 
 	public interface FlightPaymentYoYoListener {
