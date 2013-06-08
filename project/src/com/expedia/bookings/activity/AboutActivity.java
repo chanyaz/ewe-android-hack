@@ -26,9 +26,9 @@ import com.mobiata.android.dialog.MailChimpDialogFragment;
 import com.mobiata.android.dialog.MailChimpDialogFragment.OnSubscribeEmailClickedListener;
 import com.mobiata.android.dialog.MailChimpFailureDialogFragment;
 import com.mobiata.android.dialog.MailChimpSuccessDialogFragment;
-import com.mobiata.android.fragment.CopyrightFragment;
 import com.mobiata.android.fragment.AboutSectionFragment;
 import com.mobiata.android.fragment.AboutSectionFragment.AboutSectionFragmentListener;
+import com.mobiata.android.fragment.CopyrightFragment;
 import com.mobiata.android.util.MailChimpUtils;
 import com.mobiata.android.util.MailChimpUtils.MailChimpResult;
 

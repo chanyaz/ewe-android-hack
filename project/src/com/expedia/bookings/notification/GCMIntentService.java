@@ -5,18 +5,18 @@ import java.util.Collection;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncAdapter;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent;
 import com.google.android.gcm.GCMBaseIntentService;
 import com.mobiata.android.Log;
-
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 
 public class GCMIntentService extends GCMBaseIntentService {
 

@@ -28,9 +28,9 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.PushRegistrationResponseHandler;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.Log;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 

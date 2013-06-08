@@ -12,8 +12,8 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.google.android.gcm.GCMRegistrar;
-import com.mobiata.android.Log;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.IoUtils;
 

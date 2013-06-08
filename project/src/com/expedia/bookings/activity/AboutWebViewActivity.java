@@ -1,5 +1,7 @@
 package com.expedia.bookings.activity;
 
+import java.util.Locale;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,8 +14,6 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
-
-import java.util.Locale;
 
 public class AboutWebViewActivity extends WebViewActivity {
 	private static final String ARG_SHOW_EMAIL_BUTTON = "ARG_SHOW_EMAIL_BUTTON";

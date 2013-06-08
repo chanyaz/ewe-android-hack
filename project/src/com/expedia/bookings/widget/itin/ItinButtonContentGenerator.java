@@ -4,6 +4,7 @@ import android.content.Context;
 
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;

@@ -1,10 +1,5 @@
 package com.expedia.bookings.widget;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.data.User;
-import com.expedia.bookings.notification.GCMRegistrationKeeper;
-import com.expedia.bookings.utils.ClipboardUtils;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -14,6 +9,11 @@ import android.preference.DialogPreference;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.Toast;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.data.User;
+import com.expedia.bookings.notification.GCMRegistrationKeeper;
+import com.expedia.bookings.utils.ClipboardUtils;
 
 /**
  * This is a DialogPreference that just displays the GCM Id used for push notifications.

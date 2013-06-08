@@ -3,17 +3,17 @@ package com.expedia.bookings.section;
 import java.util.concurrent.Semaphore;
 import java.util.regex.Pattern;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.dialog.TextViewDialog;
-import com.expedia.bookings.dialog.TextViewDialog.OnDismissListener;
-import com.mobiata.android.Log;
-
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextWatcher;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.dialog.TextViewDialog;
+import com.expedia.bookings.dialog.TextViewDialog.OnDismissListener;
+import com.mobiata.android.Log;
 
 public class InvalidCharacterHelper {
 

@@ -2,7 +2,6 @@ package com.expedia.bookings.model;
 
 import java.util.List;
 
-import junit.framework.Assert;
 import android.content.Context;
 
 import com.activeandroid.Model;
@@ -72,8 +71,10 @@ public class WidgetConfigurationState extends Model {
 			return (WidgetConfigurationState) results.get(0);
 		}
 
-		Assert.assertTrue("There should not be more than 1 widget configuration state for the specified id!",
-				results.size() == 1);
+		if (results.size() > 1) {
+			throw new RuntimeException("There should not be more than 1 widget configuration state for the specified id!");
+		}
+
 		return null;
 	}
 
