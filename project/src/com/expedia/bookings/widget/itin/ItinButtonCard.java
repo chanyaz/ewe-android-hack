@@ -88,7 +88,7 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout {
 	}
 
 	private void showDismissLayout() {
-        // TODO: animation
+		// TODO: animation
 		mButtonActionLayout.setVisibility(View.GONE);
 		mDismissActionLayout.setVisibility(View.VISIBLE);
 	}

@@ -76,38 +76,38 @@ public class AboutWebViewActivity extends WebViewActivity {
 
 		if (mEmailMenuItem != null) {
 			mEmailMenuItem.setVisible(mShowEmailButton && !mLoading);
-            supportInvalidateOptionsMenu();
+			supportInvalidateOptionsMenu();
 		}
 	}
 
-    private void sendSupportEmail() {
-        StringBuilder body = new StringBuilder();
+	private void sendSupportEmail() {
+		StringBuilder body = new StringBuilder();
 
-        body.append("\n\n\n");
-        body.append("------");
-        body.append("\n\n");
-        body.append(getString(R.string.app_support_message_body));
-        body.append("\n\n");
+		body.append("\n\n\n");
+		body.append("------");
+		body.append("\n\n");
+		body.append(getString(R.string.app_support_message_body));
+		body.append("\n\n");
 
-        body.append("PACKAGE: ");
-        body.append(getPackageName());
-        body.append("\n");
-        body.append("VERSION: ");
-        body.append(AndroidUtils.getAppVersion(this));
-        body.append("\n");
-        body.append("CODE: ");
-        body.append(AndroidUtils.getAppCode(this));
-        body.append("\n");
-        body.append("POS: ");
-        body.append(PointOfSale.getPointOfSale().getPointOfSaleId().toString());
-        body.append("\n");
-        body.append("LOCALE: ");
-        body.append(Locale.getDefault().toString());
+		body.append("PACKAGE: ");
+		body.append(getPackageName());
+		body.append("\n");
+		body.append("VERSION: ");
+		body.append(AndroidUtils.getAppVersion(this));
+		body.append("\n");
+		body.append("CODE: ");
+		body.append(AndroidUtils.getAppCode(this));
+		body.append("\n");
+		body.append("POS: ");
+		body.append(PointOfSale.getPointOfSale().getPointOfSaleId().toString());
+		body.append("\n");
+		body.append("LOCALE: ");
+		body.append(Locale.getDefault().toString());
 
-        body.append("\n\n");
+		body.append("\n\n");
 
-        body.append(DebugUtils.getBuildInfo());
+		body.append(DebugUtils.getBuildInfo());
 
-        SocialUtils.email(this, getString(R.string.email_app_support), "", body);
-    }
+		SocialUtils.email(this, getString(R.string.email_app_support), "", body);
+	}
 }

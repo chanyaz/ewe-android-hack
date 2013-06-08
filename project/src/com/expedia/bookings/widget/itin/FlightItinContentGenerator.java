@@ -101,8 +101,8 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 	@Override
 	public String getShareTextShort() {
-        ShareUtils shareUtils = new ShareUtils(getContext());
-        return shareUtils.getShareTextShort(getItinCardData());
+		ShareUtils shareUtils = new ShareUtils(getContext());
+		return shareUtils.getShareTextShort(getItinCardData());
 	}
 
 	@Override

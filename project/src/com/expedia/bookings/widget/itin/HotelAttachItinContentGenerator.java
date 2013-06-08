@@ -45,7 +45,7 @@ public class HotelAttachItinContentGenerator extends ItinButtonContentGenerator<
 		return view;
 	}
 
-    @Override
+	@Override
 	public View.OnClickListener getOnItemClickListener() {
 		return new View.OnClickListener() {
 			@Override

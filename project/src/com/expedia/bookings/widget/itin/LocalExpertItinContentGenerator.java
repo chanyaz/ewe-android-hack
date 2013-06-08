@@ -22,10 +22,10 @@ public class LocalExpertItinContentGenerator extends ItinButtonContentGenerator<
 	@Override
 	public View.OnClickListener getOnItemClickListener() {
 		return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        };
+			@Override
+			public void onClick(View v) {
+				//empty on purpose for now
+			}
+		};
 	}
 }

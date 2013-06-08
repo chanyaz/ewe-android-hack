@@ -91,12 +91,12 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		else if (itinCardData instanceof ItinCardDataCar) {
 			return new CarItinContentGenerator(context, (ItinCardDataCar) itinCardData);
 		}
-        else if(itinCardData instanceof ItinCardDataHotelAttach) {
-            return new HotelAttachItinContentGenerator(context, (ItinCardDataHotelAttach) itinCardData);
-        }
-        else if(itinCardData instanceof ItinCardDataLocalExpert) {
-            return new LocalExpertItinContentGenerator(context, (ItinCardDataLocalExpert) itinCardData);
-        }
+		else if (itinCardData instanceof ItinCardDataHotelAttach) {
+			return new HotelAttachItinContentGenerator(context, (ItinCardDataHotelAttach) itinCardData);
+		}
+		else if (itinCardData instanceof ItinCardDataLocalExpert) {
+			return new LocalExpertItinContentGenerator(context, (ItinCardDataLocalExpert) itinCardData);
+		}
 		else if (itinCardData instanceof ItinCardDataFallback) {
 			return new FallbackItinContentGenerator(context, (ItinCardDataFallback) itinCardData);
 		}
