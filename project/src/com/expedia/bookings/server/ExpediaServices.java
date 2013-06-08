@@ -74,6 +74,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.Rate;
@@ -87,9 +88,9 @@ import com.expedia.bookings.data.ScenarioSetResponse;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.SignInResponse;
+import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.AssistanceType;
@@ -379,6 +380,12 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("tripId", itinerary.getTripId()));
 		query.add(new BasicNameValuePair("expectedTotalFare", flightTrip.getTotalFare().getAmount().toString() + ""));
 		query.add(new BasicNameValuePair("expectedFareCurrencyCode", flightTrip.getTotalFare().getCurrency()));
+
+		Money cardFee = flightTrip.getCardFee(billingInfo.getCardType());
+		if (cardFee != null) {
+			query.add(new BasicNameValuePair("expectedCardFee", cardFee.getAmount().toString() + ""));
+			query.add(new BasicNameValuePair("expectedCardFeeCurrencyCode", cardFee.getCurrency()));
+		}
 
 		addBillingInfo(query, billingInfo, F_HAS_TRAVELER);
 
