@@ -218,10 +218,10 @@ public class OmnitureTracking {
 	/**
 	 * 	If we already have results, check for refinements; if there were none, it's possible
 	 * 	that the user just opened/closed a search param change without changing anything.
-	 * 	
+	 *
 	 * 	This is a somewhat lazy way of doing things, but it is easiest and catches a bunch
 	 * 	of refinements at once instead of flooding the system with a ton of different refinements
-	 * 	
+	 *
 	 */
 	private static String getHotelSearchRefinements(SearchParams searchParams, SearchParams oldSearchParams,
 			Filter filter, Filter oldFilter) {
@@ -1524,7 +1524,7 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	private static final String TRACK_VERSION = "tracking_version"; // The SettingUtils key for the last version tracked	
+	private static final String TRACK_VERSION = "tracking_version"; // The SettingUtils key for the last version tracked
 
 	public static void trackAppLoading(Context context) {
 		Log.d(TAG, "Tracking \"App.Loading\" pageLoad...");
@@ -1618,7 +1618,7 @@ public class OmnitureTracking {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Public utility tracking events (this pattern has been deprecated)
 	//
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Most tracking events are pretty simple and can be captured by these few fields.  This method handles

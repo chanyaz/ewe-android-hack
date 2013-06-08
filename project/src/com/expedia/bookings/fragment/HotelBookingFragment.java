@@ -15,7 +15,7 @@ import com.mobiata.android.BackgroundDownloader.Download;
 
 /**
  * This is an View-less Fragment which performs a hotel booking.
- * 
+ *
  * It is separated into its own Fragment so that it can use the lifecycle on its own (and
  * can be derived from a Fragment, which will help with Google Wallet compatibility)
  */

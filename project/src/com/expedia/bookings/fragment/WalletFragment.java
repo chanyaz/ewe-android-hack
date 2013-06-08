@@ -34,9 +34,9 @@ import com.mobiata.android.Log;
 
 /**
  * This is a base Fragment for usage with the Google Wallet API.
- * 
+ *
  * It provides some assistance for common problems.
- * 
+ *
  * TODO: Improve progress dialog so it's a fragment?  Or possibly leave it up
  * to a listener to determine how loading should be shown?
  */
@@ -45,7 +45,7 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 
 	/**
 	 * The upper limit on transactions from Google Wallet.  If the charge exceeds this,
-	 * then we should not show any Google Wallet options at all. 
+	 * then we should not show any Google Wallet options at all.
 	 */
 	public static final int MAX_TRANSACTION_CHARGE = 1800;
 
@@ -188,7 +188,7 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 	 * if none of the other cases apply, the error will be handled in {@link #handleError(int)}.
 	 */
 	protected void resolveUnsuccessfulConnectionResult() {
-		// Additional user input is needed	
+		// Additional user input is needed
 		if (mConnectionResult.hasResolution()) {
 			try {
 				mConnectionResult.startResolutionForResult(getActivity(), mRequestCode);

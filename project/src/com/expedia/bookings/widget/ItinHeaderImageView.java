@@ -112,9 +112,9 @@ public class ItinHeaderImageView extends OptimizedImageView {
 	/**
 	 * Sets a gradient for the image.  Does not apply the gradient to the corners
 	 * or the highlight.
-	 * 
+	 *
 	 * If colors is null, it cancels the gradient
-	 * 
+	 *
 	 * @param colors The colors to be distributed along the gradient line
 	 * @param positions May be null. The relative positions [0..1] of each corresponding color in the colors array.
 	 * 		If this is null, the the colors are distributed evenly along the gradient line.

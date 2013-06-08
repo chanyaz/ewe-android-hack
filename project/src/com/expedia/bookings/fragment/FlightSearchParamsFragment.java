@@ -807,7 +807,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		updateCalendarInstructionText();
 
 		mCalendarDatePicker.suppressTooltip(!enabled);
-		
+
 		if (!animate) {
 			mCalendarContainer.setVisibility(enabled ? View.VISIBLE : View.GONE);
 		}

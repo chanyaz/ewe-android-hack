@@ -299,7 +299,7 @@ public class StrUtils {
 
 	/**
 	 * Does a string slice in the style of Python
-	 * 
+	 *
 	 * If you enter bullshit params, you will get an empty string.
 	 */
 	public static String slice(String str, int start, Integer end) {

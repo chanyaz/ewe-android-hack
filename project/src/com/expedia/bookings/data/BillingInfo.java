@@ -199,10 +199,10 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 
 	/**
 	 * Return the type for the currently active creditcard.
-	 * 
+	 *
 	 * If we have a stored credit card, we return the type of that.
 	 * If we have a CC number we determine the type from that.
-	 * 
+	 *
 	 * @return the CreditCardType this billingInfo encapsulates (or null if it cannot be determined)
 	 */
 	public CreditCardType getCardType() {

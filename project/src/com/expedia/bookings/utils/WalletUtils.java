@@ -60,7 +60,7 @@ public class WalletUtils {
 
 	/**
 	 * Returns the Google Wallet environment.
-	 * 
+	 *
 	 * The GW production environment only works on release builds, so we're
 	 * making it such that it's always prod when we're on a release build
 	 * (and sandbox otherwise).
@@ -131,7 +131,7 @@ public class WalletUtils {
 	}
 
 	// Unbind just the data that is added via the full wallet; this is important
-	// to do after the user books (as we do not want the 
+	// to do after the user books (as we do not want the
 	public static void unbindFullWalletDataFromBillingInfo(BillingInfo billingInfo) {
 		Log.d(TAG, "Unbinding full wallet data from billing info...");
 
@@ -237,8 +237,8 @@ public class WalletUtils {
 	 * Arbitrarily splits the names.  We get back name fields as a single
 	 * entity; we try our "best" to split it up, but leave it in a state where
 	 * users can correct it if it's wrong.
-	 * 
-	 * @return a String array of length 3 (first/middle/last) 
+	 *
+	 * @return a String array of length 3 (first/middle/last)
 	 */
 	public static String[] splitName(String name) {
 		String[] split = name.trim().split("\\W+");
@@ -260,7 +260,7 @@ public class WalletUtils {
 	/**
 	 * Returns the NotifyTransactionStatusRequest.Status for the response, or
 	 * 0 if there is no reason to notify
-	 * 
+	 *
 	 * In general, we don't notify if we don't know what's gone wrong; we should
 	 * only notify Google Wallet of transaction issues if our payment processor
 	 * hated what they gave us.

@@ -86,7 +86,7 @@ public abstract class LoadWalletFragment extends WalletFragment {
 
 	/**
 	 * We want the WalletButton visible when:
-	 * 
+	 *
 	 * 1. Google wallet is enabled
 	 * 2. The stored credit card is not a Google Wallet card
 	 * @return
@@ -99,12 +99,12 @@ public abstract class LoadWalletFragment extends WalletFragment {
 
 	/**
 	 * We consider Google Wallet loading if:
-	 * 
+	 *
 	 * 1. Google Wallet is enabled (otherwise it never loads)
 	 * 2. The masked wallet is already loaded (at which point obviously it's good)
 	 * 3. The WalletClient is not yet connected
 	 * 4. We have not yet checked for pre-authorization
-	 * 5. The user is pre-authorized but has no masked wallet yet 
+	 * 5. The user is pre-authorized but has no masked wallet yet
 	 */
 	protected boolean isWalletLoading() {
 		MaskedWallet maskedWallet = Db.getMaskedWallet();
@@ -244,7 +244,7 @@ public abstract class LoadWalletFragment extends WalletFragment {
 				mWalletClient.checkForPreAuthorization(this);
 			}
 			else {
-				// For state purposes, act like we checked it (and we're just not pre-authed) 
+				// For state purposes, act like we checked it (and we're just not pre-authed)
 				mCheckedPreAuth = true;
 			}
 

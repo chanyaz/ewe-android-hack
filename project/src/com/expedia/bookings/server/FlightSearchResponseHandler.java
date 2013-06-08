@@ -27,7 +27,7 @@ import com.mobiata.flightlib.data.Waypoint;
 
 /**
  * An E3 flight search response parser.
- * 
+ *
  * While no longer used for flight search responses per se, parts of it are still used
  * for parsing other aspects which are repeated across the app (like flight trips).
  */

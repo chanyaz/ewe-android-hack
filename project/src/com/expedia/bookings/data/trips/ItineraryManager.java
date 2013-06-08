@@ -160,10 +160,10 @@ public class ItineraryManager implements JSONable {
 	 * Get a TripComponent object from a flightHistoryId
 	 * This is useful for push notifications which provide us with a flightHistoryId as
 	 * the only identifier
-	 * 
+	 *
 	 * Note: We are only searching the mItinCardDatas collection, so only itins displayed
 	 * in the itin list will be searched
-	 * 
+	 *
 	 * @param fhid - flightHistoryId from flightstats
 	 * @return TripComponent containing the flight with the matching historyId or null
 	 */
@@ -196,10 +196,10 @@ public class ItineraryManager implements JSONable {
 	 * Get a ItinCardData object from a flightHistoryId
 	 * This is useful for push notifications which provide us with a flightHistoryId as
 	 * the only identifier
-	 * 
+	 *
 	 * Note: We are only searching the mItinCardDatas collection, so only itins displayed
 	 * in the itin list will be searched
-	 * 
+	 *
 	 * @param fhid - flightHistoryId from flightstats
 	 * @return ItinCardData containing the flight with the matching historyId or null
 	 */
@@ -237,10 +237,10 @@ public class ItineraryManager implements JSONable {
 
 	/**
 	 * Get every Flight instance represented in our Itineraries
-	 * 
+	 *
 	 * Note: We are only searching the mItinCardDatas collection, so only itins displayed
 	 * in the itin list will be searched
-	 * 
+	 *
 	 * @return a list of Flight instances
 	 */
 	public List<Flight> getAllItinFlights() {
@@ -1327,7 +1327,7 @@ public class ItineraryManager implements JSONable {
 
 		//NOTE: If this is the first time we are registering for push notifications, regId will likely be empty
 		//we need to wait for a gcm callback before we will get a regid, so we just skip for now and wait for the next sync
-		//at which time we should have a valid id (assuming network is up and running) 
+		//at which time we should have a valid id (assuming network is up and running)
 		String regId = GCMRegistrationKeeper.getInstance(mContext).getRegistrationId(mContext);
 		if (!TextUtils.isEmpty(regId)) {
 			ExpediaServices services = new ExpediaServices(mContext);

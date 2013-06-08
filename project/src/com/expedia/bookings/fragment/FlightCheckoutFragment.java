@@ -761,7 +761,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 		// If we don't currently have traveler data, and the wallet gives us sufficient data, use it
 		// NOTE: At the moment we are *guaranteed* not to get sufficient data, but there's no reason
-		// not to hope someday we will get it! 
+		// not to hope someday we will get it!
 		Traveler traveler = WalletUtils.addWalletAsTraveler(getActivity(), maskedWallet);
 		BookingInfoUtils.insertTravelerDataIfNotFilled(getActivity(), traveler, LineOfBusiness.FLIGHTS);
 
@@ -784,7 +784,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		mWalletButton.setVisibility(showWalletButton ? View.VISIBLE : View.GONE);
 		mWalletButton.setEnabled(!isWalletLoading);
 
-		// Enable buttons if we're either not showing the wallet button or we're not loading a masked wallet 
+		// Enable buttons if we're either not showing the wallet button or we're not loading a masked wallet
 		boolean enableButtons = !showWalletButton || !isWalletLoading;
 		mAccountButton.setEnabled(enableButtons);
 		mPaymentButton.setEnabled(enableButtons);

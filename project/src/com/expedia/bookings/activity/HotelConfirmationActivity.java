@@ -112,7 +112,7 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity {
 	// Error handling
 	//
 	// Sometimes we can succeed in the booking, but there is some error
-	// that still happened (that is minor).  Inform the user  
+	// that still happened (that is minor).  Inform the user
 
 	public void showSucceededWithErrorsDialog() {
 		FragmentManager fm = getSupportFragmentManager();

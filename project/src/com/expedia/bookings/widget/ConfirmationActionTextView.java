@@ -12,7 +12,7 @@ import com.expedia.bookings.R;
 /**
  * This is a version of TextView that adds a checkmark when it is
  * clicked on.
- * 
+ *
  * Used on the Confirmation screen.
  */
 public class ConfirmationActionTextView extends TextView {

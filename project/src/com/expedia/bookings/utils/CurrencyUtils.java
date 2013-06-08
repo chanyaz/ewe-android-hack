@@ -154,9 +154,9 @@ public class CurrencyUtils {
 
 	/**
 	 * Need to display a card type name? Use this method.
-	 * 
+	 *
 	 * CreditCardType.MASTERCARD -> Master Card
-	 * 
+	 *
 	 * @param context
 	 * @param cardType
 	 * @return Human readable representation of cardType

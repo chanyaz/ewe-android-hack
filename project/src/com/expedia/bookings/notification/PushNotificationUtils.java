@@ -46,16 +46,16 @@ public class PushNotificationUtils {
 	private static HashMap<String, String> sPayloadMap = new HashMap<String, String>();
 
 	//The server will splode if we make simultanious calls using the same regId,
-	//so we create objects to synchronize with (usually this will have one entry) 
+	//so we create objects to synchronize with (usually this will have one entry)
 	private static final HashMap<String, Object> sPushLocks = new HashMap<String, Object>();
 
 	/**
 	 * This provides a unique object for a given registration id that can be locked on to ensure
 	 * we dont hit the server with multiple registration at the same time for the same regId
-	 * 
+	 *
 	 * The api does not handle more than one request for a given regId at the same time and will splode
 	 * if we try.
-	 * 
+	 *
 	 * @param regId
 	 * @return
 	 */
@@ -72,7 +72,7 @@ public class PushNotificationUtils {
 	 * (and save the api a bunch of traffic, as our flight list will typically not change)
 	 * We dont persist these payloads on disk because the api doesnt care if we send the same thing twice
 	 * we just want to reduce our network usage and reduce server load
-	 * 
+	 *
 	 * @param regId
 	 * @param payload
 	 * @return true if we should send this payload, false if the payload is invalid or already sent
@@ -179,7 +179,7 @@ public class PushNotificationUtils {
 	/**
 	 * We want to build the uniqueId such that it includes only word characters and isn't too long.
 	 * This function strips out all of the non word characters and chops it down to length == 1024 if needed.
-	 * 
+	 *
 	 * @param uniqueId
 	 * @return
 	 */
@@ -267,7 +267,7 @@ public class PushNotificationUtils {
 	/**
 	 * Given the key provided by the push notification, we return
 	 * the localized string it represents
-	 * 
+	 *
 	 * @param locKey
 	 * @return - the loc string or null
 	 */
@@ -374,7 +374,7 @@ public class PushNotificationUtils {
 	/**
 	 * We allow concurrent un-registrations (which should never really happen, but better safe than sorry)
 	 * thus we build unique download keys based on registrationId
-	 *  
+	 *
 	 * @param regId
 	 * @return
 	 */
@@ -384,9 +384,9 @@ public class PushNotificationUtils {
 
 	/**
 	 * This is a helper method that essentially just sends an empty flight list to the api
-	 * (in the background) and thereby unregisters all of the current push notifications for 
+	 * (in the background) and thereby unregisters all of the current push notifications for
 	 * the supplied regId
-	 * 
+	 *
 	 * @param context
 	 * @param regId
 	 */
@@ -421,7 +421,7 @@ public class PushNotificationUtils {
 	 * Helper for unRegistering flights for a particular regId.
 	 * This does the unRegistration and only logs result. Basically useful if you just want to clear
 	 * the current registrations, but the registration id has not changed.
-	 *  
+	 *
 	 * @param context
 	 * @param regId
 	 */
@@ -437,10 +437,10 @@ public class PushNotificationUtils {
 
 	/**
 	 * Generate a checksum of our JSONpayload.
-	 * 
+	 *
 	 * This was written to build a hash string of our payload which we can keep in memory to
 	 * prevent us from sending the same payload to the push server twice.
-	 * 
+	 *
 	 * @param payload - The payload
 	 * @return A hash of the argument
 	 */
@@ -455,7 +455,7 @@ public class PushNotificationUtils {
 
 	/**
 	 * Hash a string
-	 * 
+	 *
 	 * @param strToHash
 	 * @return hashed String or null if the input was bad.
 	 */

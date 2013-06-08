@@ -1208,7 +1208,7 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 
 		MaskedWallet maskedWallet = Db.getMaskedWallet();
 
-		// Add the current traveler from the wallet, if it is full of data and we have none at the moment 
+		// Add the current traveler from the wallet, if it is full of data and we have none at the moment
 		Traveler traveler = WalletUtils.addWalletAsTraveler(getActivity(), maskedWallet);
 		BookingInfoUtils.insertTravelerDataIfNotFilled(getActivity(), traveler, LineOfBusiness.HOTELS);
 
@@ -1231,7 +1231,7 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 		mWalletButton.setVisibility(showWalletButton ? View.VISIBLE : View.GONE);
 		mWalletButton.setEnabled(!isWalletLoading);
 
-		// Enable buttons if we're either not showing the wallet button or we're not loading a masked wallet 
+		// Enable buttons if we're either not showing the wallet button or we're not loading a masked wallet
 		boolean enableButtons = !showWalletButton || !isWalletLoading;
 		mAccountButton.setEnabled(enableButtons);
 		mTravelerButton.setEnabled(enableButtons);

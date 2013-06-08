@@ -31,7 +31,7 @@ import com.mobiata.flightlib.data.Waypoint;
 
 /**
  * A streaming flight search results parser.
- * 
+ *
  * To avoid memory issues, use this!
  */
 public class StreamingFlightSearchResponseHandler implements ResponseHandler<FlightSearchResponse> {

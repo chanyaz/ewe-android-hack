@@ -10,7 +10,7 @@ import com.mobiata.android.bitmaps.TwoLevelImageCache;
 
 /**
  * Manages images retrieved from Expedia's database.
- * 
+ *
  * Implementation note: currently, the way that Expedia images are sized is
  * based on the size of the device, not the desired display size of the image.
  * Once they fix that, we should stop defaulting to using the full-size

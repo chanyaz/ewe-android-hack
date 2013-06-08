@@ -162,7 +162,7 @@ public class FlightTrip implements JSONable {
 	}
 
 	/**
-	 * This method calculates the card fee based upon looking at the ValidPayments (and their associated fees) and also 
+	 * This method calculates the card fee based upon looking at the ValidPayments (and their associated fees) and also
 	 * the selected card from the given BillingInfo.
 	 * @param billingInfo
 	 * @return cardFee as Money or null if no card fee
@@ -187,7 +187,7 @@ public class FlightTrip implements JSONable {
 
 	/**
 	 * Is the supplied card type valid for this FlightTrip?
-	 * 
+	 *
 	 * @param creditCardType
 	 * @return true if this FlightTrip supports the card type, false otherswise.
 	 */
@@ -811,7 +811,7 @@ public class FlightTrip implements JSONable {
 
 	/**
 	 * Backwards compatible (aka old) version of the FlightTrip parser.
-	 * 
+	 *
 	 * Can slowly be phased out.
 	 */
 	public boolean fromJsonV1(JSONObject obj, Map<String, FlightLeg> legMap) {

@@ -6,11 +6,11 @@ import android.widget.FrameLayout;
 
 /**
  * This is a version of FrameLayout that only lays itself out once.
- * 
+ *
  * The advantage here is that you can use animations for its children using
  * setLeft(), setRight(), setTop() and setBottom() without worrying about
  * a layout pass midway through (which causes these values to be reset).
- * 
+ *
  * Obviously, it is a very bad idea to use this in a context where the
  * FrameLayout would need to change its layout.
  */

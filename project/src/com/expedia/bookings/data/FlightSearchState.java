@@ -11,7 +11,7 @@ import com.mobiata.android.json.JSONable;
 
 /**
  * Represents the different parts of the results flow.
- * 
+ *
  * We keep this separate so that we can quickly save it
  * to disk, without having to save the rest of the flight
  * search data.

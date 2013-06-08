@@ -312,7 +312,7 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 
 	@Override
 	protected void onMaskedWalletChanged(MaskedWallet maskedWallet) {
-		// Add the current traveler from the wallet, if it is full of data and we have none at the moment 
+		// Add the current traveler from the wallet, if it is full of data and we have none at the moment
 		Traveler traveler = WalletUtils.addWalletAsTraveler(getActivity(), maskedWallet);
 		BookingInfoUtils.insertTravelerDataIfNotFilled(getActivity(), traveler, LineOfBusiness.HOTELS);
 

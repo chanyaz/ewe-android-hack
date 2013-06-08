@@ -133,7 +133,7 @@ public class Notification extends Model implements JSONable {
 	 * Create a new com.expedia.bookings.notification.Notification object. If two
 	 * notification objects share the same uniqueId, only the later one will be
 	 * displayed.
-	 * 
+	 *
 	 * @param uniqueId - UniqueId to key the notification on
 	 * @param itinId - Id of the Itin to open when clicked.
 	 * @param triggerTimeMillis - when to display notification

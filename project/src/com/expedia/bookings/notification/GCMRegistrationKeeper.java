@@ -24,7 +24,7 @@ import com.mobiata.android.util.IoUtils;
  * event, and that makes us look bad. Thus we have a persistant list of registration ids
  * and we make sure to keep them around until we have SUCCESSFULLY told the server
  * to remove our old registration ids.
- * 
+ *
  */
 public class GCMRegistrationKeeper implements JSONable {
 
@@ -40,7 +40,7 @@ public class GCMRegistrationKeeper implements JSONable {
 	/**
 	 * Get the instance of our GCMRegistrationKeeper, initializing it
 	 * if it didn't previously exist.
-	 * 
+	 *
 	 * @param context
 	 * @return
 	 */
@@ -66,7 +66,7 @@ public class GCMRegistrationKeeper implements JSONable {
 	/**
 	 * Set the GCM registrationId to be used throughout the app.
 	 * Do the appropriate clean up of the old registrationId if need be.
-	 * 
+	 *
 	 * @param context
 	 * @param regId
 	 */
@@ -158,7 +158,7 @@ public class GCMRegistrationKeeper implements JSONable {
 	/**
 	 * Write the contents of our instance to disk, so if the GCM regId changes
 	 * we can unregister our old registrationId even if the app has been restarted.
-	 * 
+	 *
 	 * @param context
 	 */
 	private synchronized void writeToDisk(Context context) {
@@ -183,7 +183,7 @@ public class GCMRegistrationKeeper implements JSONable {
 	 * This is used as a callback for when we get a success message back from the api
 	 * after attempting to unregister. This indicates that we have successfully unregistered
 	 * the provided regId
-	 * 
+	 *
 	 * @param context
 	 * @param regId
 	 */

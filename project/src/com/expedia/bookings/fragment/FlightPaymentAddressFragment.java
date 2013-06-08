@@ -64,7 +64,7 @@ public class FlightPaymentAddressFragment extends Fragment implements Validatabl
 				Db.getWorkingBillingInfoManager().attemptWorkingBillingInfoSave(getActivity(), false);
 			}
 		});
-		
+
 		mSectionLocation.addInvalidCharacterListener(new InvalidCharacterListener() {
 			@Override
 			public void onInvalidCharacterEntered(CharSequence text, Mode mode) {

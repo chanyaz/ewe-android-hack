@@ -22,7 +22,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 
 	private String mDownloadKey;
 
-	// Sometimes we want to display dialogs but can't yet; in that case, defer until onResume() 
+	// Sometimes we want to display dialogs but can't yet; in that case, defer until onResume()
 	private boolean mCanModifyFragmentStack;
 
 	private boolean mDoBookingOnResume;

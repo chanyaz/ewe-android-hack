@@ -562,7 +562,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 					}
 				}
 
-				//AdX we just want to track when the user goes to the page. 
+				//AdX we just want to track when the user goes to the page.
 				if (!mItinListTracked) {
 					mItinListTracked = true;
 					AdTracker.trackViewItinList();
