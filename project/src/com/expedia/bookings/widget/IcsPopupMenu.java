@@ -17,8 +17,11 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.view.View;
 
+import com.actionbarsherlock.internal.view.View_HasStateListenerSupport;
+import com.actionbarsherlock.internal.view.View_OnAttachStateChangeListener;
 import com.actionbarsherlock.internal.view.menu.MenuBuilder;
 import com.actionbarsherlock.internal.view.menu.MenuPopupHelper;
 import com.actionbarsherlock.internal.view.menu.MenuPresenter;
@@ -55,8 +58,8 @@ public class IcsPopupMenu extends AbsPopupMenu implements MenuBuilder.Callback, 
 		mContext = context;
 		mMenu = new MenuBuilder(context);
 		mMenu.setCallback(this);
-		mAnchor = anchor;
-		mPopup = new MenuPopupHelper(context, mMenu, anchor);
+		mAnchor = new HasStateListenerSupportWrapperView(anchor);
+		mPopup = new MenuPopupHelper(context, mMenu, mAnchor);
 		mPopup.setCallback(this);
 	}
 
@@ -169,5 +172,49 @@ public class IcsPopupMenu extends AbsPopupMenu implements MenuBuilder.Callback, 
 	 * @hide
 	 */
 	public void onMenuModeChange(MenuBuilder menu) {
+	}
+
+	class HasStateListenerSupportWrapperView extends View implements View_HasStateListenerSupport {
+		private View mView;
+
+		public HasStateListenerSupportWrapperView(View view) {
+			super(view.getContext());
+			mView = view;
+			layout();
+		}
+
+		@Override
+		public void addOnAttachStateChangeListener(View_OnAttachStateChangeListener listener) {
+		}
+
+		@Override
+		public void removeOnAttachStateChangeListener(View_OnAttachStateChangeListener listener) {
+		}
+
+		private void layout() {
+			final Rect rect = new Rect();
+			mView.getDrawingRect(rect);
+			layout(0, 0, mView.getRight(), mView.getBottom());
+		}
+
+        @Override
+        public View getRootView() {
+            return mView.getRootView();
+        }
+
+        @Override
+		public void getLocationInWindow(int[] location) {
+			mView.getLocationInWindow(location);
+		}
+
+		@Override
+		public void getLocationOnScreen(int[] location) {
+			mView.getLocationOnScreen(location);
+		}
+
+		@Override
+		public void getWindowVisibleDisplayFrame(Rect outRect) {
+			mView.getWindowVisibleDisplayFrame(outRect);
+		}
 	}
 }
