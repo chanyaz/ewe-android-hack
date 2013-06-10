@@ -14,6 +14,7 @@ import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AbsPopupMenu;
 import com.expedia.bookings.widget.PopupMenu;
+import com.mobiata.android.Log;
 
 public class ItinButtonCard<T extends ItinCardData> extends LinearLayout implements
 		AbsPopupMenu.OnMenuItemClickListener {
@@ -91,11 +92,11 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 	}
 
 	private void hide() {
-		Toast.makeText(getContext(), "Hiding for this trip", Toast.LENGTH_SHORT).show();
+		Log.d("Hiding for this trip");
 	}
 
 	private void hideForever() {
-		Toast.makeText(getContext(), "Hiding for all trips", Toast.LENGTH_SHORT).show();
+        Log.d("Hiding for all trips");
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
