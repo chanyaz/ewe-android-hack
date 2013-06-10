@@ -33,10 +33,15 @@ public class CouponCodeWidget {
 
 	private boolean mCollapsed = true;
 	private boolean mTextEmpty = true;
-	private boolean mApplyClicked = false;
 	private boolean mProgressShowing = false;
 	private boolean mUseNewTotal = false;
 	private boolean mError = false;
+
+	// This variable represents when the user has clicked "apply" and
+	// then not edited the coupon afterwards; the application may or
+	// may not have been successful in the end, but if someone else
+	// changes the text we should clear existing coupons.
+	private boolean mTriedToApplyCoupon = false;
 
 	private CouponCodeAppliedListener mListener;
 	private View mFieldAboveCouponCode;
@@ -48,7 +53,7 @@ public class CouponCodeWidget {
 
 	private static final String KEY_COLLAPSED = "KEY_COUPON_COLLAPSED";
 	private static final String KEY_TEXT_EMPTY = "KEY_COUPON_TEXT_EMPTY";
-	private static final String KEY_APPLY_CLICKED = "KEY_COUPON_APPLY_CLICKED";
+	private static final String KEY_TRIED_TO_APPLY_COUPON = "KEY_TRIED_TO_APPLY_COUPON";
 	private static final String KEY_USE_NEW_TOTAL = "KEY_COUPON_USE_NEW_TOTAL";
 	private static final String KEY_PROGRESS_SHOWING = "KEY_COUPON_PROGRESS_SHOWING";
 	private static final String KEY_ERROR = "KEY_COUPON_ERROR";
@@ -77,7 +82,7 @@ public class CouponCodeWidget {
 		mApply.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mApplyClicked = true;
+				mTriedToApplyCoupon = true;
 				mProgressShowing = true;
 				update();
 			}
@@ -98,8 +103,8 @@ public class CouponCodeWidget {
 		@Override
 		public void afterTextChanged(Editable s) {
 			mApply.setEnabled(!(mTextEmpty = TextUtils.isEmpty(s)));
-			if (mApplyClicked) {
-				mApplyClicked = false;
+			if (mTriedToApplyCoupon) {
+				mTriedToApplyCoupon = false;
 				mUseNewTotal = false;
 				mProgressShowing = false;
 				mError = false;
@@ -167,7 +172,7 @@ public class CouponCodeWidget {
 		}
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (mApplyClicked) {
+		if (mTriedToApplyCoupon) {
 			if (mProgressShowing) {
 				mProgressBar.setVisibility(View.VISIBLE);
 				mApply.setVisibility(View.GONE);
@@ -202,7 +207,7 @@ public class CouponCodeWidget {
 		if (outState != null) {
 			outState.putBoolean(KEY_COLLAPSED, mCollapsed);
 			outState.putBoolean(KEY_TEXT_EMPTY, mTextEmpty);
-			outState.putBoolean(KEY_APPLY_CLICKED, mApplyClicked);
+			outState.putBoolean(KEY_TRIED_TO_APPLY_COUPON, mTriedToApplyCoupon);
 			outState.putBoolean(KEY_USE_NEW_TOTAL, mUseNewTotal);
 			outState.putBoolean(KEY_PROGRESS_SHOWING, mProgressShowing);
 			outState.putBoolean(KEY_ERROR, mError);
@@ -213,7 +218,7 @@ public class CouponCodeWidget {
 		if (inState != null) {
 			mCollapsed = inState.getBoolean(KEY_COLLAPSED, true);
 			mTextEmpty = inState.getBoolean(KEY_TEXT_EMPTY, true);
-			mApplyClicked = inState.getBoolean(KEY_APPLY_CLICKED, false);
+			mTriedToApplyCoupon = inState.getBoolean(KEY_TRIED_TO_APPLY_COUPON, false);
 			mUseNewTotal = inState.getBoolean(KEY_USE_NEW_TOTAL, false);
 			mProgressShowing = inState.getBoolean(KEY_PROGRESS_SHOWING, false);
 			mError = inState.getBoolean(KEY_ERROR, false);
