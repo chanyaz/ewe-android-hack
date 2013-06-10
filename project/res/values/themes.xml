@@ -179,7 +179,7 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
-    <style name="LaunchTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar">
+    <style name="LaunchTheme" parent="@style/Theme.Sherlock">
         <item name="logo">@drawable/ic_ab_expedia_logo</item>
         <item name="android:logo">@drawable/ic_ab_expedia_logo</item>
         <item name="actionBarStyle">@style/LaunchActionBar</item>
@@ -187,6 +187,10 @@
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
         <item name="dropDownListViewStyle">@style/LaunchSpinner</item>
         <item name="android:dropDownListViewStyle">@style/LaunchSpinner</item>
+
+        <!-- PopupMenu -->
+        <item name="dropDownListViewStyle">@style/Widget.Sherlock.Light.ListView.DropDown</item>
+        <item name="android:dropDownListViewStyle">@style/Widget.Sherlock.Light.ListView.DropDown</item>
     </style>
 
     <style name="LaunchSpinner" parent="Widget.Sherlock.ListView.DropDown">

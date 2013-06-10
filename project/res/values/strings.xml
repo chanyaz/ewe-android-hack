@@ -262,6 +262,13 @@
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">COPY %1$s</string>
 
+    <!-- Itin Buttons -->
+    <!-- Popup menu -->
+    <!-- Menu label: Hide this itin button for this trip -->
+    <string name="itin_button_hide">Hide</string>
+    <!-- Menu label: Never show this type of itin button again -->
+    <string name="itin_button_hide_forever">Hide Forever</string>
+
     <!-- Hotel attach -->
     <!-- Button label to search for a hotel in the flight destination city. %1$s is the city, e.g. "Washington, DC" -->
     <string name="add_hotel_TEMPLATE">Add a hotel in %1$s</string>

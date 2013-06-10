@@ -22,87 +22,13 @@
             android:layout_height="56dp"
             android:layout_weight="1"/>
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/itin_divider_color"/>
-
         <ImageView
             android:id="@+id/dismiss_image_view"
             android:layout_width="48dp"
             android:layout_height="match_parent"
             android:background="@drawable/list_selector_holo_dark"
-            android:src="@drawable/ic_local_expert_close"
+            android:src="@drawable/abs__ic_menu_moreoverflow_holo_dark"
             android:scaleType="centerInside"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/dismiss_action_layout"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:orientation="horizontal"
-        android:background="@drawable/btn_hotel_attach"
-        android:gravity="center"
-        android:visibility="gone">
-
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/dismiss_trip_text_view"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:background="@drawable/list_selector_holo_dark"
-            android:gravity="center"
-            android:textColor="@color/itin_white_text"
-            android:textSize="16dp"
-            android:text="Hide this trip"/>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@color/itin_divider_color"/>
-
-        <LinearLayout
-            android:id="@+id/dismiss_action_layout"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/dismiss_all_text_view"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:background="@drawable/list_selector_holo_dark"
-                android:gravity="center"
-                android:textColor="@color/itin_white_text"
-                android:textSize="16dp"
-                android:text="Hide forever"/>
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="12dp"
-                android:layout_marginTop="12dp"
-                android:background="@color/itin_divider_color"/>
-
-            <ImageView
-                android:id="@+id/cancel_dismiss_image_view"
-                android:layout_width="48dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/list_selector_holo_dark"
-                android:src="@drawable/ic_local_expert_cancel_dismiss"
-                android:scaleType="centerInside"/>
-        </LinearLayout>
 
     </LinearLayout>
 
