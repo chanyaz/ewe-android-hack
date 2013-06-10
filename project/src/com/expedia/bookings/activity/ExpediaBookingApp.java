@@ -17,12 +17,14 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider;
 import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.WalletPromoResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.WalletUtils;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.TwoLevelImageCache;
@@ -170,6 +172,30 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		TwoLevelImageCache.init(this, maxCacheSize);
 
 		startupTimer.addSplit("TwoLevelImageCache init");
+
+		// Kick off thread to determine if the Google Wallet promo is still available
+		(new Thread(new Runnable() {
+			@Override
+			public void run() {
+				boolean walletPromoEnabled = SettingUtils.get(getApplicationContext(),
+						WalletUtils.SETTING_SHOW_WALLET_COUPON, false);
+
+				ExpediaServices services = new ExpediaServices(getApplicationContext());
+				WalletPromoResponse response = services.googleWalletPromotionEnabled();
+
+				if (walletPromoEnabled != response.isEnabled()) {
+					Log.i("Google Wallet promo went from \"" + walletPromoEnabled + "\" to \"" + response.isEnabled()
+							+ "\"");
+					SettingUtils.save(getApplicationContext(), WalletUtils.SETTING_SHOW_WALLET_COUPON,
+							response.isEnabled());
+				}
+				else {
+					Log.d("Google Wallet promo enabled: " + walletPromoEnabled);
+				}
+			}
+		})).start();
+
+		startupTimer.addSplit("Google Wallet promo thread creation");
 
 		startupTimer.dumpToLog();
 	}

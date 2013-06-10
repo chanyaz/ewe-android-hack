@@ -100,6 +100,8 @@ import com.expedia.bookings.data.Traveler.AssistanceType;
 import com.expedia.bookings.data.Traveler.Gender;
 import com.expedia.bookings.data.TravelerCommitResponse;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.WalletPromoResponse;
+import com.expedia.bookings.data.WalletPromoResponseHandler;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripDetailsResponse;
@@ -906,6 +908,13 @@ public class ExpediaServices implements DownloadListener {
 	public SamsungWalletResponse getSamsungWalletTicketId(String itineraryId) {
 		return doE3Request("api/common/samsungwalletmock/" + itineraryId, null, new SamsungWalletResponseHandler(
 				mContext), 0);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Google Wallet coupon promotion
+
+	public WalletPromoResponse googleWalletPromotionEnabled() {
+		return doE3Request("static/mobile/walletcheck", null, new WalletPromoResponseHandler(), 0);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

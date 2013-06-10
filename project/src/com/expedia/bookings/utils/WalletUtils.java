@@ -54,6 +54,8 @@ public class WalletUtils {
 	public static final int F_SHIPPING_ADDRESS_REQUIRED = 2;
 	public static final int F_USE_MINIMAL_BILLING_ADDRESS = 4;
 
+	public static final String SETTING_SHOW_WALLET_COUPON = "com.expedia.bookings.wallet.coupon.2013.enabled";
+
 	private static final DecimalFormat MONEY_FORMAT = new DecimalFormat("0.00");
 
 	// Force the separator to be '.', since that's the format that Google Wallet requires
@@ -85,6 +87,10 @@ public class WalletUtils {
 	 */
 	public static boolean offerGoogleWallet(Money total) {
 		return total.getAmount().compareTo(new BigDecimal(MAX_TRANSACTION_CHARGE)) < 0;
+	}
+
+	public static boolean offerGoogleWalletCoupon(Context context) {
+		return SettingUtils.get(context, SETTING_SHOW_WALLET_COUPON, false);
 	}
 
 	public static MaskedWalletRequest buildMaskedWalletRequest(Context context, Money total, int flags) {
