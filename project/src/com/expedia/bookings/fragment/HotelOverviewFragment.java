@@ -1249,6 +1249,10 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mStoredCreditCard.setEnabled(enableButtons);
 		mCreditCardSectionButton.setEnabled(enableButtons);
 		mCouponCodeEditText.setEnabled(enableButtons);
+
+		// If we're using wallet and the promo code, hide the coupon layout
+		mCouponCodeLayout.setVisibility(mBillingInfo.isUsingGoogleWallet()
+				&& WalletUtils.offerGoogleWalletCoupon(getActivity()) ? View.GONE : View.VISIBLE);
 	}
 
 	// Coupons

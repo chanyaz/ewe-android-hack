@@ -188,6 +188,10 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 		return mStoredCard != null;
 	}
 
+	public boolean isUsingGoogleWallet() {
+		return mStoredCard != null && mStoredCard.isGoogleWallet();
+	}
+
 	public void setSaveCardToExpediaAccount(boolean save) {
 		mSaveCardToExpediaAccount = save;
 	}
