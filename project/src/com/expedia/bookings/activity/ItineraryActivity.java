@@ -49,6 +49,7 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 	private boolean mTwoPaneMode;
 
 	private String mSelectedItinCardId;
+	private String mJumpToItinId;
 
 	private boolean mAnimatingToItem;
 	private boolean mItemHasDetails;
@@ -140,10 +141,9 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 			getSupportFragmentManager().beginTransaction().hide(mItinCardFragment).commit();
 		}
 
-		String jumpToItinId = getIntent().getStringExtra(ARG_JUMP_TO_ITIN_ID);
-		if (!TextUtils.isEmpty(jumpToItinId)) {
-			mItinListFragment.showItinCard(jumpToItinId, true);
-			showPopupWindow(jumpToItinId, true);
+		mJumpToItinId = getIntent().getStringExtra(ARG_JUMP_TO_ITIN_ID);
+		if (!TextUtils.isEmpty(mJumpToItinId)) {
+			mItinListFragment.showItinCard(mJumpToItinId, true);
 		}
 
 		mItinListFragment.enableLoadItins();
@@ -374,7 +374,16 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 	@Override
 	public void onMapLayout() {
 		if (mTwoPaneMode) {
-			ItinCardData data = mItinListFragment.getSelectedItinCardData();
+			ItinCardData data;
+			if (mJumpToItinId != null) {
+				data = ItineraryManager.getInstance().getItinCardDataFromItinId(mJumpToItinId);
+				// Consume mJumpToItinId now.
+				mJumpToItinId = null;
+			}
+			else {
+				data = mItinListFragment.getSelectedItinCardData();
+			}
+
 			if (data != null) {
 				showPopupWindow(data, false);
 			}
