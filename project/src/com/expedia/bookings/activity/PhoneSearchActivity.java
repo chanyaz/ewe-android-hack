@@ -1120,6 +1120,11 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			supportInvalidateOptionsMenu();
 		}
 
+		// VSC related menu
+		if (ExpediaBookingApp.IS_VSC && DebugMenu.onOptionsItemSelected(this, item)) {
+			return true;
+		}
+
 		return super.onOptionsItemSelected(item);
 	}
 
