@@ -445,7 +445,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	private void addLocalExpertData() {
 		// Nothing to do if there are no itineraries
 		int len = mItinCardDatas.size();
-		if (len == 0) {
+		if (len == 0 || mSummaryCardPosition < 0) {
 			return;
 		}
 
