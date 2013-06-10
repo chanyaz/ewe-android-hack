@@ -20,7 +20,6 @@ import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.fragment.WalletFragment;
 import com.google.android.gms.wallet.Address;
 import com.google.android.gms.wallet.Cart;
 import com.google.android.gms.wallet.FullWallet;
@@ -41,6 +40,12 @@ import com.mobiata.android.util.SettingUtils;
 public class WalletUtils {
 
 	public static final String TAG = "GoogleWallet";
+
+	/**
+	 * The upper limit on transactions from Google Wallet.  If the charge exceeds this,
+	 * then we should not show any Google Wallet options at all.
+	 */
+	public static final int MAX_TRANSACTION_CHARGE = 1800;
 
 	public static final String EXTRA_MASKED_WALLET = "EXTRA_MASKED_WALLET";
 	public static final String EXTRA_FULL_WALLET = "EXTRA_FULL_WALLET";
@@ -79,7 +84,7 @@ public class WalletUtils {
 	 * In some cases we can't offer google wallet (e.g., it goes over the transaction limit).
 	 */
 	public static boolean offerGoogleWallet(Money total) {
-		return total.getAmount().compareTo(new BigDecimal(WalletFragment.MAX_TRANSACTION_CHARGE)) < 0;
+		return total.getAmount().compareTo(new BigDecimal(MAX_TRANSACTION_CHARGE)) < 0;
 	}
 
 	public static MaskedWalletRequest buildMaskedWalletRequest(Context context, Money total, int flags) {
@@ -317,7 +322,7 @@ public class WalletUtils {
 		walletRequestBuilder.setGoogleTransactionId(googleWalletTransactionId);
 
 		String currency = "USD";
-		String price = Integer.toString(WalletFragment.MAX_TRANSACTION_CHARGE);
+		String price = Integer.toString(MAX_TRANSACTION_CHARGE);
 
 		Cart.Builder cartBuilder = Cart.newBuilder();
 		cartBuilder.setCurrencyCode(currency);

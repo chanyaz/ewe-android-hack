@@ -44,12 +44,6 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 		OnPreAuthorizationDeterminedListener, OnMaskedWalletLoadedListener, OnFullWalletLoadedListener {
 
 	/**
-	 * The upper limit on transactions from Google Wallet.  If the charge exceeds this,
-	 * then we should not show any Google Wallet options at all.
-	 */
-	public static final int MAX_TRANSACTION_CHARGE = 1800;
-
-	/**
 	 * Request code used when attempting to resolve issues with connecting to Google Play Services.
 	 * Only use this request code when calling {@link ConnectionResult#startResolutionForResult(
 	 * android.app.Activity, int)}.
