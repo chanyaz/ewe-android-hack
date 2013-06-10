@@ -98,6 +98,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.LayoutUtils;
@@ -169,6 +170,8 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private static final int DIALOG_LOCATION_SUGGESTIONS = 0;
 	private static final int DIALOG_CLIENT_DEPRECATED = 1;
 	private static final int DIALOG_ENABLE_LOCATIONS = 2;
+
+	private static final int REQUEST_SETTINGS = 1;
 
 	public static final long MINIMUM_TIME_AGO = 1000 * 60 * 15; // 15 minutes ago
 
@@ -825,6 +828,18 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		outState.putAll(saveActivityState());
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		// We have a settings menu for VSC app only. And is shown only for debug builds.
+		if (requestCode == REQUEST_SETTINGS
+				&& resultCode == ExpediaBookingPreferenceActivity.RESULT_CHANGED_PREFS) {
+			Db.clearHotelSearch();
+			Db.resetSearchParams();
+		}
+	}
+
 	//----------------------------------
 	// DIALOGS
 	//----------------------------------
@@ -916,9 +931,10 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_search, menu);
 
-		// #1169. Add "About" menu item if VSC build.
+		// #1169. Add "About/Info" menu and debug API status menu item if VSC build.
 		if (ExpediaBookingApp.IS_VSC) {
-			getSupportMenuInflater().inflate(R.menu.menu_launch, menu);
+			getSupportMenuInflater().inflate(R.menu.menu_launch_vsc, menu);
+			DebugMenu.onCreateOptionsMenu(this, menu);
 		}
 
 		boolean ret = super.onCreateOptionsMenu(menu);
@@ -985,36 +1001,14 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		menu.findItem(R.id.menu_select_search_map).setShowAsActionFlags(menuFlags);
 
 		// #1169. VSC app related menu arrangement.
-		// We need to only show an "About" menu item.
-		if (ExpediaBookingApp.IS_VSC) {
+		// We need to only show an "About/Info" menu item. Show settings only for debug build for testing purpose.
+		if (ExpediaBookingApp.IS_VSC && AndroidUtils.isRelease(this)) {
+				MenuItem settingsBtn = menu.findItem(R.id.settings);
+				if (settingsBtn != null) {
+					settingsBtn.setVisible(false);
+				}
 
-			boolean loginBtnEnabled = false;
-			boolean logoutBtnEnabled = false;
-
-			loginBtnEnabled = !User.isLoggedIn(this);
-			logoutBtnEnabled = User.isLoggedIn(this);
-
-			MenuItem addItinBtn = menu.findItem(R.id.add_itinerary);
-			if (addItinBtn != null) {
-				addItinBtn.setVisible(false);
-				addItinBtn.setEnabled(false);
-			}
-
-			MenuItem settingsBtn = menu.findItem(R.id.settings);
-			if (settingsBtn != null) {
-				settingsBtn.setVisible(false);
-				settingsBtn.setEnabled(false);
-			}
-
-			MenuItem logOutBtn = menu.findItem(R.id.ab_log_out);
-			if (logOutBtn != null) {
-				logOutBtn.setVisible(logoutBtnEnabled);
-				logOutBtn.setEnabled(logoutBtnEnabled);
-			}
-
-			// Rename "Info" to "About"
-			MenuItem aboutBtn = menu.findItem(R.id.about);
-			aboutBtn.setTitle(R.string.About);
+			DebugMenu.onPrepareOptionsMenu(this, menu);
 		}
 
 		return super.onPrepareOptionsMenu(menu);
@@ -1107,13 +1101,13 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			startActivity(aboutIntent);
 			break;
 
-		// VSC "Log Out" menu item.
-		// TODO: Learn more about the VSC login flow and check other dependencies.
-		case R.id.ab_log_out:
-			if (User.isLoggedIn(this)) {
-				User.signOut(this);
-			}
-			break;
+		// VSC "Settings" menu item.
+		// Currently we show this only for Debug build.
+		case R.id.settings: {
+			Intent intent = new Intent(this, ExpediaBookingPreferenceActivity.class);
+			startActivityForResult(intent, REQUEST_SETTINGS);
+			return true;
+		}
 
 		}
 
