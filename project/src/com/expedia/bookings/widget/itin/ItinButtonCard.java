@@ -5,12 +5,18 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.AbsPopupMenu;
+import com.expedia.bookings.widget.PopupMenu;
 
-public class ItinButtonCard<T extends ItinCardData> extends LinearLayout {
+public class ItinButtonCard<T extends ItinCardData> extends LinearLayout implements
+		AbsPopupMenu.OnMenuItemClickListener {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -21,14 +27,8 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout {
 	// Views
 
 	private View mButtonActionLayout;
-	private View mDismissActionLayout;
-
 	private ViewGroup mItinButtonLayout;
-
 	private View mDismissImageView;
-	private View mCancelDismissImageView;
-	private View mDismissTripTextView;
-	private View mDismissAllTextView;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -73,38 +73,48 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout {
 		inflate(context, R.layout.widget_itin_button_card, this);
 
 		mButtonActionLayout = Ui.findView(this, R.id.button_action_layout);
-		mDismissActionLayout = Ui.findView(this, R.id.dismiss_action_layout);
 		mItinButtonLayout = Ui.findView(this, R.id.itin_button_layout);
 		mDismissImageView = Ui.findView(this, R.id.dismiss_image_view);
-		mCancelDismissImageView = Ui.findView(this, R.id.cancel_dismiss_image_view);
-		mDismissTripTextView = Ui.findView(this, R.id.dismiss_trip_text_view);
-		mDismissAllTextView = Ui.findView(this, R.id.dismiss_all_text_view);
 
 		mButtonActionLayout.setOnClickListener(mOnClickListener);
 		mDismissImageView.setOnClickListener(mOnClickListener);
-		mCancelDismissImageView.setOnClickListener(mOnClickListener);
-		mDismissTripTextView.setOnClickListener(mOnClickListener);
-		mDismissAllTextView.setOnClickListener(mOnClickListener);
 	}
 
-	private void showDismissLayout() {
-		// TODO: animation
-		mButtonActionLayout.setVisibility(View.GONE);
-		mDismissActionLayout.setVisibility(View.VISIBLE);
+	private void showHidePopup() {
+		PopupMenu popup = new PopupMenu(getContext(), mDismissImageView);
+		popup.setOnMenuItemClickListener(this);
+
+		MenuInflater inflater = popup.getMenuInflater();
+		inflater.inflate(R.menu.menu_itin_button, popup.getMenu());
+
+		popup.show();
 	}
 
-	private void showButtonLayout() {
-		// TODO: animation
-		mButtonActionLayout.setVisibility(View.VISIBLE);
-		mDismissActionLayout.setVisibility(View.GONE);
+	private void hide() {
+		Toast.makeText(getContext(), "Hiding for this trip", Toast.LENGTH_SHORT).show();
 	}
 
-	private void dismissTrip() {
-
+	private void hideForever() {
+		Toast.makeText(getContext(), "Hiding for all trips", Toast.LENGTH_SHORT).show();
 	}
 
-	private void dismissAll() {
+	//////////////////////////////////////////////////////////////////////////////////////
+	// IMPLEMENTATIONS
+	//////////////////////////////////////////////////////////////////////////////////////
 
+	@Override
+	public boolean onMenuItemClick(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.itin_button_hide: {
+			hide();
+			return true;
+		}
+		case R.id.itin_button_hide_forever: {
+			hideForever();
+			return true;
+		}
+		}
+		return false;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -122,19 +132,7 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout {
 				break;
 			}
 			case R.id.dismiss_image_view: {
-				showDismissLayout();
-				break;
-			}
-			case R.id.cancel_dismiss_image_view: {
-				showButtonLayout();
-				break;
-			}
-			case R.id.dismiss_trip_text_view: {
-				dismissTrip();
-				break;
-			}
-			case R.id.dismiss_all_text_view: {
-				dismissAll();
+				showHidePopup();
 				break;
 			}
 			}
