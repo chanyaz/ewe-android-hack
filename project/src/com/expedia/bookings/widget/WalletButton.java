@@ -7,12 +7,14 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.utils.WalletUtils;
 import com.mobiata.android.util.Ui;
 
 public class WalletButton extends RelativeLayout {
 
 	private View mButton;
 	private ProgressBar mProgressBar;
+	private View mPromo;
 
 	public WalletButton(Context context) {
 		super(context);
@@ -32,6 +34,11 @@ public class WalletButton extends RelativeLayout {
 
 		mButton = Ui.findView(this, R.id.wallet_button);
 		mProgressBar = Ui.findView(this, R.id.wallet_progress_bar);
+		mPromo = Ui.findView(this, R.id.wallet_promo);
+
+		// Determine if we should show the promo here (it won't change mid-execution)
+		int visibility = WalletUtils.offerGoogleWalletCoupon(getContext()) ? View.VISIBLE : View.GONE;
+		mPromo.setVisibility(visibility);
 	}
 
 	@Override

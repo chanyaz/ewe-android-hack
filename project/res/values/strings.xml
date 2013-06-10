@@ -2223,6 +2223,8 @@
     <string name="spending_limit_exceeded">You have exceeded your Google Wallet spending limit</string>
     <!-- Content description for "buy with wallet" button -->
     <string name="wallet_buy_with_google_wallet">Buy with Google wallet</string>
+    <!-- Message for Google wallet coupon promotion -->
+    <string name="wallet_promo_offer">Get <b>10% off</b> with Google Wallet!</string>
 
     <!-- Samsung Wallet -->
     <!-- Label to use when the ticket already exists in the wallet -->
