@@ -19,7 +19,6 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.dialog.ThrobberDialog;
-import com.expedia.bookings.model.FlightPaymentFlowState;
 import com.expedia.bookings.section.SectionFlightTrip;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.Ui;
@@ -80,14 +79,7 @@ public class FlightTripPriceFragment extends Fragment {
 
 	public void bind() {
 		mTrip = Db.getFlightSearch().getSelectedFlightTrip();
-		FlightPaymentFlowState state = FlightPaymentFlowState.getInstance(getActivity());
-
-		if (state.hasAValidCardSelected(Db.getBillingInfo()) && mTrip.showFareWithCardFee()) {
-			mTripSection.bindWithCardFee(mTrip, Db.getBillingInfo());
-		}
-		else {
-			mTripSection.bindWithoutCardFee(mTrip);
-		}
+		mTripSection.bind(getActivity(), mTrip, Db.getBillingInfo());
 	}
 
 	@Override
