@@ -565,7 +565,8 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 		boolean paymentCCValid = hasStoredCard ? hasStoredCard : state.hasValidCardInfo(mBillingInfo);
 		boolean travelerValid = validateTravelers();
 
-		mShowSlideToWidget = travelerValid && paymentAddressValid && paymentCCValid && mIsDoneLoadingPriceChange;
+		mShowSlideToWidget = travelerValid && paymentAddressValid && paymentCCValid && mIsDoneLoadingPriceChange
+				&& !BackgroundDownloader.getInstance().isDownloading(KEY_APPLY_COUPON);
 		if (isInCheckout() && mShowSlideToWidget) {
 			showPurchaseViews();
 		}
@@ -1267,6 +1268,8 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 		}
 
 		bd.startDownload(KEY_APPLY_COUPON, mCouponDownload, mCouponCallback);
+
+		updateViewVisibilities();
 	}
 
 	private final Download<CreateTripResponse> mCouponDownload = new Download<CreateTripResponse>() {
@@ -1284,6 +1287,11 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 	private final OnDownloadComplete<CreateTripResponse> mCouponCallback = new OnDownloadComplete<CreateTripResponse>() {
 		@Override
 		public void onDownload(CreateTripResponse response) {
+			// Don't execute if we were killed before finishing
+			if (!isAdded()) {
+				return;
+			}
+
 			mCouponCodeWidget.setLoading(false);
 
 			if (response == null) {
@@ -1303,13 +1311,12 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 
 				mCouponCodeWidget.onApplyCoupon(response.getNewRate());
 
-				if (isAdded()) {
-					refreshData();
-				}
-
 				// TODO: enable coupon tracking for 3.2
 				//				OmnitureTracking.trackHotelCouponApplied(mContext, response.getNewRate());
 			}
+
+			// Regardless of what happened, let's refresh the page
+			refreshData();
 		}
 	};
 
