@@ -84,6 +84,10 @@
     <string name="preference_force_fs_db_update">preference_force_fs_db_update</string>
     <string name="preference_push_notification_gcm_id">preference_push_notification_gcm_id</string>
 
+    <!-- Setting keys -->
+    <string name="setting_hide_hotel_attach">setting_hide_hotel_attach</string>
+    <string name="setting_hide_local_expert">setting_hide_local_expert</string>
+
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>
     <string name="preference_flight_fake_obfees_default">0</string>

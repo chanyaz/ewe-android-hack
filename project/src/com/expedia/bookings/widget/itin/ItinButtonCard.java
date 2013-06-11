@@ -10,16 +10,21 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItinCardData;
+import com.expedia.bookings.data.trips.ItinCardDataHotelAttach;
+import com.expedia.bookings.data.trips.ItinCardDataLocalExpert;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AbsPopupMenu;
 import com.expedia.bookings.widget.PopupMenu;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.SettingUtils;
 
 public class ItinButtonCard<T extends ItinCardData> extends LinearLayout implements
 		AbsPopupMenu.OnMenuItemClickListener {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
 	//////////////////////////////////////////////////////////////////////////////////////
+
+	private Class<? extends ItinCardData> mItinCardDataType;
 
 	private ItinButtonContentGenerator mItinContentGenerator;
 	private OnClickListener mItinButtonOnClickListener;
@@ -49,6 +54,8 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	public void bind(T itinCardData) {
+		mItinCardDataType = itinCardData.getClass();
+
 		// Create content generator
 		mItinContentGenerator = (ItinButtonContentGenerator) ItinContentGenerator.createGenerator(getContext(),
 				itinCardData);
@@ -95,7 +102,12 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 	}
 
 	private void hideForever() {
-		Log.d("Hiding for all trips");
+		if (mItinCardDataType.equals(ItinCardDataHotelAttach.class)) {
+			SettingUtils.save(getContext(), R.string.setting_hide_hotel_attach, true);
+		}
+		else if (mItinCardDataType.equals(ItinCardDataLocalExpert.class)) {
+			SettingUtils.save(getContext(), R.string.setting_hide_local_expert, true);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
