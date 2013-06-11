@@ -22,8 +22,8 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.fragment.BookingOverviewFragment;
-import com.expedia.bookings.fragment.BookingOverviewFragment.BookingOverviewFragmentListener;
+import com.expedia.bookings.fragment.HotelOverviewFragment;
+import com.expedia.bookings.fragment.HotelOverviewFragment.BookingOverviewFragmentListener;
 import com.expedia.bookings.fragment.LoginFragment.LogInListener;
 import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -31,7 +31,7 @@ import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.ViewUtils;
 
-public class BookingOverviewActivity extends SherlockFragmentActivity implements BookingOverviewFragmentListener,
+public class HotelOverviewActivity extends SherlockFragmentActivity implements BookingOverviewFragmentListener,
 		LogInListener, ISlideToListener {
 
 	public static final String STATE_TAG_LOADED_DB_INFO = "STATE_TAG_LOADED_DB_INFO";
@@ -39,7 +39,7 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 	//We only want to load from disk once: when the activity is first started
 	private boolean mLoadedDbInfo = false;
 
-	private BookingOverviewFragment mBookingOverviewFragment;
+	private HotelOverviewFragment mBookingOverviewFragment;
 
 	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
@@ -75,7 +75,7 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 
 		setContentView(R.layout.activity_booking_overview);
 
-		mBookingOverviewFragment = (BookingOverviewFragment) getSupportFragmentManager().findFragmentById(
+		mBookingOverviewFragment = (HotelOverviewFragment) getSupportFragmentManager().findFragmentById(
 				R.id.booking_overview_fragment);
 	}
 

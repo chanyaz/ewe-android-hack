@@ -3,4 +3,4 @@
     android:id="@+id/booking_overview_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    class="com.expedia.bookings.fragment.BookingOverviewFragment" />
+    class="com.expedia.bookings.fragment.HotelOverviewFragment" />

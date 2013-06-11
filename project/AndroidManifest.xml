@@ -138,7 +138,7 @@
             android:name="com.expedia.bookings.activity.RoomsAndRatesListActivity"
             android:theme="@style/Theme.Phone" />
         <activity
-            android:name="com.expedia.bookings.activity.BookingOverviewActivity"
+            android:name="com.expedia.bookings.activity.HotelOverviewActivity"
             android:theme="@style/Theme.Phone.Dark"
             android:windowSoftInputMode="adjustPan" />
         <activity

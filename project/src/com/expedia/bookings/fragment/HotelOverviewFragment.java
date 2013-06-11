@@ -80,7 +80,7 @@ import com.mobiata.android.util.Ui;
 import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.view.ViewHelper;
 
-public class BookingOverviewFragment extends LoadWalletFragment implements AccountButtonClickListener,
+public class HotelOverviewFragment extends LoadWalletFragment implements AccountButtonClickListener,
 		CouponCodeWidgetListener {
 
 	public interface BookingOverviewFragmentListener {
@@ -146,7 +146,7 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 
 		if (!(activity instanceof BookingOverviewFragmentListener)) {
 			throw new RuntimeException(
-					"BookingOverviewFragment Activity must implement BookingOverviewFragmentListener");
+					"HotelOverviewFragment Activity must implement BookingOverviewFragmentListener");
 		}
 
 		mBookingOverviewFragmentListener = (BookingOverviewFragmentListener) activity;

@@ -180,7 +180,7 @@ public class RoomsAndRatesFragmentActivity extends SherlockFragmentActivity impl
 
 	@Override
 	public void onEnterBookingInfoClick() {
-		Intent intent = new Intent(this, BookingOverviewActivity.class);
+		Intent intent = new Intent(this, HotelOverviewActivity.class);
 		startActivity(intent);
 	}
 }

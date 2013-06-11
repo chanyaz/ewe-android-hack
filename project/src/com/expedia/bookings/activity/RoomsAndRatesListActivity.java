@@ -253,7 +253,7 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
 		Db.getHotelSearch().getAvailability(selectedId).setSelectedRate(rate);
 
-		Intent intent = new Intent(this, BookingOverviewActivity.class);
+		Intent intent = new Intent(this, HotelOverviewActivity.class);
 		startActivity(intent);
 	}
 
