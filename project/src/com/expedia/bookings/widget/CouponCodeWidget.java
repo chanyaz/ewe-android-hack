@@ -31,16 +31,10 @@ public class CouponCodeWidget {
 	private TextView mNewTotal;
 
 	private boolean mCollapsed = true;
-	private boolean mTextEmpty = true;
 	private boolean mProgressShowing = false;
 	private boolean mUseNewTotal = false;
-	private boolean mError = false;
-
-	// This variable represents when the user has clicked "apply" and
-	// then not edited the coupon afterwards; the application may or
-	// may not have been successful in the end, but if someone else
-	// changes the text we should clear existing coupons.
-	private boolean mTriedToApplyCoupon = false;
+	
+	private int mErrorResId = 0;
 
 	private CouponCodeWidgetListener mListener;
 	private View mFieldAboveCouponCode;
@@ -50,7 +44,6 @@ public class CouponCodeWidget {
 
 	private static final String KEY_COLLAPSED = "KEY_COUPON_COLLAPSED";
 	private static final String KEY_TEXT_EMPTY = "KEY_COUPON_TEXT_EMPTY";
-	private static final String KEY_TRIED_TO_APPLY_COUPON = "KEY_TRIED_TO_APPLY_COUPON";
 	private static final String KEY_USE_NEW_TOTAL = "KEY_COUPON_USE_NEW_TOTAL";
 	private static final String KEY_PROGRESS_SHOWING = "KEY_COUPON_PROGRESS_SHOWING";
 	private static final String KEY_ERROR = "KEY_COUPON_ERROR";
@@ -79,13 +72,12 @@ public class CouponCodeWidget {
 		mApply.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mTriedToApplyCoupon = true;
 				mListener.onApplyClicked();
 			}
 		});
 	}
 
-	private final TextWatcher couponWatcher = new TextWatcher() {
+	private final TextWatcher mCouponWatcher = new TextWatcher() {
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
 			// Do nothing
@@ -98,7 +90,7 @@ public class CouponCodeWidget {
 
 		@Override
 		public void afterTextChanged(Editable s) {
-			mApply.setEnabled(!(mTextEmpty = TextUtils.isEmpty(s)));
+			mApply.setEnabled(!TextUtils.isEmpty(s));
 
 			mListener.onCouponCodeChanged(s.toString());
 		}
@@ -146,26 +138,25 @@ public class CouponCodeWidget {
 			}
 		}
 
-		if (mError) {
+		if (mErrorResId != 0) {
 			mProgressBar.setVisibility(View.GONE);
 			mApply.setVisibility(View.GONE);
 			mNewTotal.setVisibility(View.VISIBLE);
-			mNewTotal.setText(mContext.getString(R.string.coupon_error));
-			return;
+			mNewTotal.setText(mErrorResId);
 		}
+		else if (mProgressShowing) {
+			mProgressBar.setVisibility(View.VISIBLE);
+			mApply.setVisibility(View.GONE);
+			mNewTotal.setVisibility(View.GONE);
+		}
+		else if (mUseNewTotal) {
+			mProgressBar.setVisibility(View.GONE);
+			mApply.setVisibility(View.GONE);
+			mNewTotal.setVisibility(View.VISIBLE);
 
-		if (mTriedToApplyCoupon) {
-			if (mProgressShowing) {
-				mProgressBar.setVisibility(View.VISIBLE);
-				mApply.setVisibility(View.GONE);
-				mNewTotal.setVisibility(View.GONE);
-			}
-			else if (mUseNewTotal) {
-				mProgressBar.setVisibility(View.GONE);
-				mApply.setVisibility(View.GONE);
-				mNewTotal.setVisibility(View.VISIBLE);
-				setNewTotal();
-			}
+			CreateTripResponse response = Db.getCreateTripResponse();
+			Money m = response.getNewRate().getDisplayTotalPrice();
+			mNewTotal.setText(mContext.getString(R.string.new_total) + "\n" + m.getFormattedMoney());
 		}
 		else {
 			mProgressBar.setVisibility(View.GONE);
@@ -177,29 +168,27 @@ public class CouponCodeWidget {
 	public void saveInstanceState(Bundle outState) {
 		if (outState != null) {
 			outState.putBoolean(KEY_COLLAPSED, mCollapsed);
-			outState.putBoolean(KEY_TEXT_EMPTY, mTextEmpty);
-			outState.putBoolean(KEY_TRIED_TO_APPLY_COUPON, mTriedToApplyCoupon);
+			outState.putBoolean(KEY_TEXT_EMPTY, TextUtils.isEmpty(mCouponCode.getText()));
 			outState.putBoolean(KEY_USE_NEW_TOTAL, mUseNewTotal);
 			outState.putBoolean(KEY_PROGRESS_SHOWING, mProgressShowing);
-			outState.putBoolean(KEY_ERROR, mError);
+			outState.putInt(KEY_ERROR, mErrorResId);
 		}
 	}
 
 	public void restoreInstanceState(Bundle inState) {
 		if (inState != null) {
 			mCollapsed = inState.getBoolean(KEY_COLLAPSED, true);
-			mTextEmpty = inState.getBoolean(KEY_TEXT_EMPTY, true);
-			mTriedToApplyCoupon = inState.getBoolean(KEY_TRIED_TO_APPLY_COUPON, false);
 			mUseNewTotal = inState.getBoolean(KEY_USE_NEW_TOTAL, false);
 			mProgressShowing = inState.getBoolean(KEY_PROGRESS_SHOWING, false);
-			mError = inState.getBoolean(KEY_ERROR, false);
-			mApply.setEnabled(!mTextEmpty);
+			mErrorResId = inState.getInt(KEY_ERROR, 0);
+
+			mApply.setEnabled(!inState.getBoolean(KEY_TEXT_EMPTY, true));
 		}
 		update();
 	}
 
 	public void startTextWatcher() {
-		mCouponCode.addTextChangedListener(couponWatcher);
+		mCouponCode.addTextChangedListener(mCouponWatcher);
 	}
 
 	public void setListener(CouponCodeWidgetListener listener) {
@@ -216,22 +205,13 @@ public class CouponCodeWidget {
 		mFieldBelowCouponCodeId = id;
 	}
 
-	private void setNewTotal() {
-		CreateTripResponse response = Db.getCreateTripResponse();
-		if (response != null) {
-			Money m = response.getNewRate().getDisplayTotalPrice();
-			mNewTotal.setText(mContext.getString(R.string.new_total) + "\n" + m.getFormattedMoney());
-		}
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// Fragment control
 
 	public void resetState() {
-		mTriedToApplyCoupon = false;
 		mUseNewTotal = false;
 		mProgressShowing = false;
-		mError = false;
+		mErrorResId = 0;
 		update();
 	}
 
@@ -242,14 +222,11 @@ public class CouponCodeWidget {
 
 	public void onApplyCoupon(Rate newRate) {
 		mUseNewTotal = true;
-		setNewTotal();
 		update();
 	}
 
 	public void onApplyCouponError(List<ServerError> errors) {
-		mError = true;
-
-		int errorResId = R.string.coupon_error;
+		mErrorResId = R.string.coupon_error;
 		if (errors != null) {
 			boolean isExpired = false;
 			boolean isInvalid = false;
@@ -266,14 +243,14 @@ public class CouponCodeWidget {
 			}
 
 			if (isInvalid) {
-				errorResId = R.string.invalid_coupon;
+				mErrorResId = R.string.invalid_coupon;
 			}
 			else if (isExpired) {
-				errorResId = R.string.expired_coupon;
+				mErrorResId = R.string.expired_coupon;
 			}
 		}
 
-		mNewTotal.setText(errorResId);
+		update();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
