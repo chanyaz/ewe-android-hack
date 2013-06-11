@@ -239,6 +239,7 @@ public class FlightRulesFragment extends SherlockFragment {
 
 	private void populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(final Rule rule, TextView textView) {
 		if (rule != null) {
+			textView.setVisibility(View.VISIBLE);
 			textView.setText(getDummyHtmlLink(rule));
 			textView.setOnClickListener(new View.OnClickListener() {
 				@Override
