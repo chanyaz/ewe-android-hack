@@ -451,7 +451,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 	private void addLocalExpertData() {
 		// Is Local Expert turned off?
-		if (SettingUtils.get(mContext, R.string.setting_hide_hotel_attach, false)) {
+		if (SettingUtils.get(mContext, R.string.setting_hide_local_expert, false)) {
 			return;
 		}
 
