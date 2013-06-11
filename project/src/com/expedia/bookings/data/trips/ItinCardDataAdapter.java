@@ -9,12 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.widget.ItinCard;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 import com.expedia.bookings.widget.itin.ItinButtonCard;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
+import com.mobiata.android.util.SettingUtils;
 
 public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickListener {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -392,6 +394,11 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	}
 
 	private void addHotelAttachData() {
+		// Is Hotel Attach turned off?
+		if (SettingUtils.get(mContext, R.string.setting_hide_hotel_attach, false)) {
+			return;
+		}
+
 		// Nothing to do if there are no itineraries
 		int len = mItinCardDatas.size();
 		if (len == 0) {
@@ -443,6 +450,11 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	}
 
 	private void addLocalExpertData() {
+		// Is Local Expert turned off?
+		if (SettingUtils.get(mContext, R.string.setting_hide_hotel_attach, false)) {
+			return;
+		}
+
 		// Nothing to do if there are no itineraries
 		int len = mItinCardDatas.size();
 		if (len == 0 || mSummaryCardPosition < 0) {
