@@ -5,6 +5,7 @@ import java.util.Calendar;
 import android.content.Context;
 import android.content.res.Resources;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -41,7 +42,13 @@ public class FlightSegmentSection extends LinearLayout {
 		String duration = DateTimeUtils.formatDuration(r, flight.getTripTime());
 		String cabin = r.getString(attrs.getCabinCode().getResId());
 
-		mDetailsTextView.setText(Html.fromHtml(r.getString(R.string.flight_details_TEMPLATE, duration, cabin,
-				attrs.getBookingCode(), flight.mAircraftType)));
+		if (TextUtils.isEmpty(flight.mAircraftType)) {
+			mDetailsTextView.setText(Html.fromHtml(r.getString(R.string.flight_details_no_plane_info_TEMPLATE,
+					duration, cabin, attrs.getBookingCode())));
+		}
+		else {
+			mDetailsTextView.setText(Html.fromHtml(r.getString(R.string.flight_details_TEMPLATE, duration, cabin,
+					attrs.getBookingCode(), flight.mAircraftType)));
+		}
 	}
 }
