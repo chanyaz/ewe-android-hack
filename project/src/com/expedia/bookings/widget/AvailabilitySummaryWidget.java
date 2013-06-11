@@ -15,9 +15,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.BedType;
 import com.expedia.bookings.data.BedType.BedTypeId;
+import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.utils.StrUtils;

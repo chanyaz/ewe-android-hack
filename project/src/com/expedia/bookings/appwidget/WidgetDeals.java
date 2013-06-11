@@ -11,9 +11,9 @@ import org.json.JSONObject;
 
 import android.content.Context;
 
-import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
+import com.expedia.bookings.data.Property;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;

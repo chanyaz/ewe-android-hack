@@ -7,10 +7,10 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.HotelSearchParams;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Item;
 import com.google.analytics.tracking.android.Transaction;

@@ -6,9 +6,9 @@ import org.json.JSONObject;
 import android.content.Context;
 
 import com.expedia.bookings.data.HotelProductResponse;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.JsonResponseHandler;

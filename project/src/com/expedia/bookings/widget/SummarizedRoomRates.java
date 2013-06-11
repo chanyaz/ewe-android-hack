@@ -9,9 +9,9 @@ import java.util.Set;
 
 import android.util.Pair;
 
-import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.BedType;
 import com.expedia.bookings.data.BedType.BedTypeId;
+import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Rate;
 
 public class SummarizedRoomRates {

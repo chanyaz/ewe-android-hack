@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.widget.MapImageView;
 import com.mobiata.android.util.Ui;
 

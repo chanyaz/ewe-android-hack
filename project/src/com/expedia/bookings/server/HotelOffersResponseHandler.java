@@ -15,8 +15,9 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Date;
+import com.expedia.bookings.data.HotelOffersResponse;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Money;
@@ -25,7 +26,6 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.RateRules;
-import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.mobiata.android.FormatUtils;

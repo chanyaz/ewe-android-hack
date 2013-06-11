@@ -10,8 +10,8 @@ import org.json.JSONObject;
 import android.text.TextUtils;
 
 import com.mobiata.android.Log;
-import com.mobiata.android.json.JSONable;
 import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.json.JSONable;
 
 public class HotelAvailability implements JSONable {
 	private HotelOffersResponse mHotelOffersResponse;

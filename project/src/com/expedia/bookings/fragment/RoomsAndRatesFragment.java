@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.RoomsAndRatesFragmentActivity;
-import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.tracking.OmnitureTracking;
