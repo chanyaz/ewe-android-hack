@@ -36,6 +36,7 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 	private TextView mWalletTextView;
 	private com.expedia.bookings.widget.TextView mLccFeeTextView;
 	private View mLccDivider;
+	private View mCardNotSupportedImageView;
 
 	private StoredCreditCard mStoredCard;
 	private FlightTrip mFlightTrip;
@@ -69,6 +70,7 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 		mWalletTextView = Ui.findView(this, R.id.google_wallet_text_view);
 		mLccFeeTextView = Ui.findView(this, R.id.card_fee_icon);
 		mLccDivider = Ui.findView(this, R.id.card_fee_divider);
+		mCardNotSupportedImageView = Ui.findView(this, R.id.card_not_supported_icon);
 
 		// Set a few attributes that widget_stored_credit_card desires
 		setOrientation(LinearLayout.HORIZONTAL);
@@ -102,6 +104,23 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 
 		if (secondaryTextColorResId != 0) {
 			mSecondaryTextColor = getResources().getColorStateList(secondaryTextColorResId);
+		}
+	}
+
+	public void bindCardNotSupportedLcc() {
+		if (mContext instanceof FragmentActivity) {
+			final FragmentActivity fa = (FragmentActivity) mContext;
+			mLccDivider.setVisibility(View.VISIBLE);
+			mCardNotSupportedImageView.setVisibility(View.VISIBLE);
+			mCardNotSupportedImageView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					String type = mStoredCard.getType().toString();
+					String text = mContext.getString(R.string.airline_card_not_supported_TEMPLATE, type);
+					SimpleSupportDialogFragment.newInstance(null, text).show(fa.getSupportFragmentManager(),
+							"cardNotSupported");
+				}
+			});
 		}
 	}
 
@@ -176,23 +195,31 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 
 			// LCC fee warning
 			if (mContext instanceof FragmentActivity && mFlightTrip != null) {
-				final FragmentActivity fa = (FragmentActivity) mContext;
 				final CreditCardType type = mStoredCard.getType();
-				Money cardFee = mFlightTrip.getCardFee(type);
+				if (!mFlightTrip.isCardTypeSupported(type)) {
+					Resources res = getResources();
+					mIconView.setImageResource(R.drawable.ic_lcc_no_card_payment_selection);
+					mDescriptionView.setTextColor(res.getColor(R.color.flight_card_invalid_cc_type_text_color));
+				}
+				else {
+					final FragmentActivity fa = (FragmentActivity) mContext;
+					Money cardFee = mFlightTrip.getCardFee(type);
 
-				if (cardFee != null) {
-					final String feeText = cardFee.getFormattedMoney();
-					mLccFeeTextView.setVisibility(View.VISIBLE);
-					mLccDivider.setVisibility(View.VISIBLE);
-					mLccFeeTextView.setText(feeText);
-					mLccFeeTextView.setOnClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							String text = mContext.getString(R.string.airline_card_fee_select_TEMPLATE, feeText, type);
-							SimpleSupportDialogFragment.newInstance(null, text).show(fa.getSupportFragmentManager(),
-									"lccDialog");
-						}
-					});
+					if (cardFee != null) {
+						final String feeText = cardFee.getFormattedMoney();
+						mLccFeeTextView.setVisibility(View.VISIBLE);
+						mLccDivider.setVisibility(View.VISIBLE);
+						mLccFeeTextView.setText(feeText);
+						mLccFeeTextView.setOnClickListener(new OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								String text = mContext.getString(R.string.airline_card_fee_select_TEMPLATE, feeText,
+										type);
+								SimpleSupportDialogFragment.newInstance(null, text).show(
+										fa.getSupportFragmentManager(), "lccDialog");
+							}
+						});
+					}
 				}
 			}
 

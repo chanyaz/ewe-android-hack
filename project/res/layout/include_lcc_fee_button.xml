@@ -25,4 +25,13 @@
         android:visibility="gone"
         mobiata:textStyle="bold" />
 
+    <ImageView
+        android:id="@+id/card_not_supported_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/ic_lcc_exclamation_payment_entry"
+        android:visibility="gone" />
+
 </merge>

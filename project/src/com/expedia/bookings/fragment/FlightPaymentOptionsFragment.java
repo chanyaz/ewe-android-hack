@@ -124,7 +124,6 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 		mNewCreditCardBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
 				if (mListener != null) {
 					Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(new BillingInfo());
 					mListener.setMode(YoYoMode.YOYO);
@@ -196,19 +195,26 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 				card.bind(storedCard, trip);
 				card.setPadding(0, paymentOptionPadding, 0, paymentOptionPadding);
 				card.setBackgroundResource(R.drawable.bg_payment_method_row);
-				card.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						if (storedCard.isGoogleWallet()) {
-							changeMaskedWallet();
-						}
-						else {
-							onStoredCardSelected(storedCard);
 
-							OmnitureTracking.trackLinkFlightCheckoutPaymentSelectExisting(getActivity());
+				if (trip.isCardTypeSupported(card.getStoredCreditCard().getType())) {
+					card.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							if (storedCard.isGoogleWallet()) {
+								changeMaskedWallet();
+							}
+							else {
+								onStoredCardSelected(storedCard);
+
+								OmnitureTracking.trackLinkFlightCheckoutPaymentSelectExisting(getActivity());
+							}
 						}
-					}
-				});
+					});
+				}
+				else {
+					card.setEnabled(false);
+					card.bindCardNotSupportedLcc();
+				}
 
 				//Add dividers
 				if (!firstCard) {

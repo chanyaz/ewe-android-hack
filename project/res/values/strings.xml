@@ -713,8 +713,10 @@
     <string name="price_changed_from_TEMPLATE">Price changed from %1$s</string>
     <!-- Message shown to user when the airline is charging a fee to use their credit card brand e.g. This airline charges a fee of $5 (included in the total) to use this card. -->
     <string name="airline_card_fee_TEMPLATE">This airline charges a fee of &lt;b&gt;%1$s&lt;/b&gt; (included in the total) to use this card.</string>
-    <!-- Message shown to user explaining an airline fee is being charged to use their credit card brand, e.g. "The airline charges a fee of $8.50 to use VISA." -->
+    <!-- Message shown to user explaining an airline fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The airline charges a fee of $8.50 to use VISA." -->
     <string name="airline_card_fee_select_TEMPLATE">The airline charges a fee of %1$s to use %2$s.</string>
+    <!-- Message shown to user when they can't use their credit card to book with the airline, %1$s is the credit card brand. e.g. "The airline does not support VISA." -->
+    <string name="airline_card_not_supported_TEMPLATE">The airline does not support %1$s.</string>
 
     <!-- Checkout Activity -->
     <!-- Expedia Account label -->
