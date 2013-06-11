@@ -35,6 +35,7 @@
             mobiata:toolTipEndTopTextTemplate="@string/calendar_tooltip_hotel_top_text_date_range_and_nights_TEMPLATE"
             mobiata:toolTipStartBottomText="@string/calendar_tooltip_hotel_bottom_select_checkout_date"
             mobiata:toolTipTailDrawable="@drawable/calendar_tooltip_tail"
+            mobiata:toolTipDurationPlural="@plurals/length_of_stay"
             mobiata:toolTipTailMarginMin="8dp"
             mobiata:toolTipTextColor="#FFFFFF" />
     </LinearLayout>
