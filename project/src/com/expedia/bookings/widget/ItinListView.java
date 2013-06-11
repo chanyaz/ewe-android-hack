@@ -664,6 +664,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		if (mSimpleMode) {
 			setSelectedCardId(mAdapter.getItem(position).getId());
 			mAdapter.notifyDataSetChanged();
+			if (position < getFirstVisiblePosition() || position > getLastVisiblePosition()) {
+				setSelectionFromTop(position, 0);
+			}
 
 			return;
 		}
