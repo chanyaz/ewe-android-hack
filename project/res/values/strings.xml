@@ -598,9 +598,9 @@
     <string name="calendar_tooltip_hotel_bottom_select_checkout_date">Select Checkout Date</string>
     <!-- Calendar tooltip hotels bottom line after two dates are selected TEMPLATE arg1=start date string, arg2=end date string, arg3=number of nights e.g. "May 26 - May 28 (2 nights)" -->
     <string name="calendar_tooltip_hotel_top_text_date_range_and_nights_TEMPLATE">%1$s - %2$s (%3$s nights)</string>
-    <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15  -->
+    <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_TEMPLATE">%1$s - %2$s</string>
-     <!-- Calendar instruction text hotels date range template with nights. %1$s = Formatted start date, %2$s = formatted end date, %3$s = formatted nights string. E.g. May 12 - May 15 (3 nights)  -->
+    <!-- Calendar instruction text hotels date range template with nights. %1$s = Formatted start date, %2$s = formatted end date, %3$s = formatted nights string. E.g. May 12 - May 15 (3 nights) -->
     <string name="calendar_instructions_date_range_with_nights_TEMPLATE">%1$s - %2$s (%3$s)</string>
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <string name="calendar_instructions_hotels_no_dates_selected">Select Check-in Date</string>
@@ -1729,6 +1729,10 @@
     <string name="coupon_error">Coupon Error</string>
 
     <!-- Sharing bookings via email -->
+    <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
+    <string name="share_subject_dash_template">%1$s - %2$s</string>
+    <!-- The title of the share subject line -->
+    <string name="share_subject_title">Expedia Itinerary</string>
     <!-- Subject property name template. -->
     <string name="share_subject_template">Expedia Itinerary - </string>
     <!-- Subject dates template. 1$ and 2$ are the ` ranges (e.g., 3/21 - 3/24) -->

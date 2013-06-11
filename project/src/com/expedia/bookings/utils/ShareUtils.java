@@ -430,15 +430,14 @@ public class ShareUtils {
 			sb.append(mContext.getString(R.string.share_subject_template_dates, dateStart, dateEnd));
 		}
 
-//		if (sb.length() == 0) {
-//			String template = mContext.getString(R.string.share_subject_dash_template);
-//			String title = mContext.getString(R.string.share_subject_title);
-//			return String.format(template, title, sb.toString());
-//		}
-//		else {
-//			return mContext.getString(R.string.share_subject_title);
-//		}
-		return "74";
+		if (sb.length() == 0) {
+			String template = mContext.getString(R.string.share_subject_dash_template);
+			String title = mContext.getString(R.string.share_subject_title);
+			return String.format(template, title, sb.toString());
+		}
+		else {
+			return mContext.getString(R.string.share_subject_title);
+		}
 	}
 
 	public String getHotelConfirmationShareText(SearchParams searchParams, Property property,
