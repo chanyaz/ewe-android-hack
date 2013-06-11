@@ -64,8 +64,6 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 	private BillingInfo mBillingInfo;
 
-	private BillingInfoListener mCardFeeListener;
-
 	private ArrayList<SectionTravelerInfo> mTravelerSections = new ArrayList<SectionTravelerInfo>();
 	private List<View> mAddTravelerSections = new ArrayList<View>();
 
@@ -220,10 +218,6 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		super.onSaveInstanceState(outState);
 
 		outState.putBoolean(INSTANCE_REFRESHED_USER, mRefreshedUser);
-	}
-
-	public void setCardFeeListener(BillingInfoListener listener) {
-		mCardFeeListener = listener;
 	}
 
 	/**
@@ -602,9 +596,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 					mBillingInfo.setStoredCard(scc);
 
 					Db.getFlightSearch().getSelectedFlightTrip().setShowFareWithCardFee(true);
-					if (mCardFeeListener != null) {
-						mCardFeeListener.onBillingInfoChange();
-					}
+					mListener.onBillingInfoChange();
 				}
 			}
 		}
@@ -678,9 +670,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		if (Db.getBillingInfo().hasStoredCard()) {
 			Db.getFlightSearch().getSelectedFlightTrip().setShowFareWithCardFee(false);
 		}
-		if (mCardFeeListener != null) {
-			mCardFeeListener.onBillingInfoChange();
-		}
+		mListener.onBillingInfoChange();
 	}
 
 	public void onLoginCompleted() {
@@ -806,10 +796,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		public void checkoutInformationIsValid();
 
 		public void checkoutInformationIsNotValid();
-	}
 
-	public interface BillingInfoListener {
 		public void onBillingInfoChange();
 	}
-
 }

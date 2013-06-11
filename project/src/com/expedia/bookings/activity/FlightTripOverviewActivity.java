@@ -38,7 +38,6 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.ConfirmLogoutDialogFragment.DoLogoutListener;
 import com.expedia.bookings.fragment.FlightCheckoutFragment;
-import com.expedia.bookings.fragment.FlightCheckoutFragment.BillingInfoListener;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment.DisplayMode;
@@ -61,8 +60,7 @@ import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
 public class FlightTripOverviewActivity extends SherlockFragmentActivity implements LogInListener,
-		CheckoutInformationListener, RetryErrorDialogFragmentListener, ISlideToListener, DoLogoutListener,
-		BillingInfoListener {
+		CheckoutInformationListener, RetryErrorDialogFragmentListener, ISlideToListener, DoLogoutListener {
 
 	public static final String TAG_OVERVIEW_FRAG = "TAG_OVERVIEW_FRAG";
 	public static final String TAG_CHECKOUT_FRAG = "TAG_CHECKOUT_FRAG";
@@ -217,11 +215,6 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		else if (mBottomBarMode == BottomBarMode.SLIDE_TO_PURCHASE) {
 			addSlideToCheckoutFragment();
 		}
-
-		// Make sure to re-attach the listener in the event of a re-creation
-		if (mCheckoutFragment != null) {
-			mCheckoutFragment.setCardFeeListener(this);
-		}
 	}
 
 	@Override
@@ -296,7 +289,6 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			mCheckoutFragment = Ui.findSupportFragment(this, TAG_CHECKOUT_FRAG);
 			if (mCheckoutFragment == null) {
 				mCheckoutFragment = FlightCheckoutFragment.newInstance();
-				mCheckoutFragment.setCardFeeListener(this);
 			}
 			else if (refreshCheckoutData) {
 				//Incase we only now finished loading cached data...
@@ -903,6 +895,13 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		}
 	}
 
+	@Override
+	public void onBillingInfoChange() {
+		if (Ui.isAdded(mPriceBottomFragment)) {
+			mPriceBottomFragment.bind();
+		}
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// showRetryErrorDialog
 
@@ -971,15 +970,5 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	@Override
 	public void doLogout() {
 		mCheckoutFragment.doLogout();
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// BillingInfoListener
-
-	@Override
-	public void onBillingInfoChange() {
-		if (Ui.isAdded(mPriceBottomFragment)) {
-			mPriceBottomFragment.bind();
-		}
 	}
 }
