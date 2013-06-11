@@ -67,9 +67,9 @@ public class Db {
 	// the returned results
 	private HotelSearch mHotelSearch = new HotelSearch();
 
-	// The filter applied to HotelSearchResponse.  Note that this Filter can cause a memory leak;
-	// One has to be sure to change the listeners on the Filter whenever appropriate.
-	private Filter mFilter = new Filter();
+	// The filter applied to HotelSearchResponse.  Note that this HotelFilter can cause a memory leak;
+	// One has to be sure to change the listeners on the HotelFilter whenever appropriate.
+	private HotelFilter mFilter = new HotelFilter();
 
 	// The billing info.  Make sure to properly clear this out when requested
 	private BillingInfo mBillingInfo;
@@ -170,11 +170,11 @@ public class Db {
 		sDb.mFilter.reset();
 	}
 
-	public static void setFilter(Filter filter) {
+	public static void setFilter(HotelFilter filter) {
 		sDb.mFilter = filter;
 	}
 
-	public static Filter getFilter() {
+	public static HotelFilter getFilter() {
 		return sDb.mFilter;
 	}
 
@@ -856,7 +856,7 @@ public class Db {
 			JSONObject obj = new JSONObject(IoUtils.readStringFromFile(TEST_DATA_FILE, context));
 
 			sDb.mHotelSearch = getJsonable(obj, "hotelSearch", HotelSearch.class, sDb.mHotelSearch);
-			sDb.mFilter = getJsonable(obj, "filter", Filter.class, sDb.mFilter);
+			sDb.mFilter = getJsonable(obj, "filter", HotelFilter.class, sDb.mFilter);
 			sDb.mBillingInfo = getJsonable(obj, "billingInfo", BillingInfo.class, sDb.mBillingInfo);
 			sDb.mBookingResponse = getJsonable(obj, "bookingResponse", BookingResponse.class, sDb.mBookingResponse);
 			sDb.mFlightSearch = getJsonable(obj, "flightSearch", FlightSearch.class, sDb.mFlightSearch);

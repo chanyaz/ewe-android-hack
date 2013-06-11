@@ -39,7 +39,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Destination;
 import com.expedia.bookings.data.ExpediaImage;
 import com.expedia.bookings.data.ExpediaImageManager;
-import com.expedia.bookings.data.Filter;
+import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelDestination;
 import com.expedia.bookings.data.LaunchFlightData;
@@ -409,7 +409,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 				// Extract relevant data here
 				LaunchHotelData launchHotelData = new LaunchHotelData();
-				List<Property> properties = searchResponse.getFilteredAndSortedProperties(Filter.Sort.DEALS,
+				List<Property> properties = searchResponse.getFilteredAndSortedProperties(HotelFilter.Sort.DEALS,
 						NUM_HOTEL_PROPERTIES);
 				launchHotelData.setProperties(properties);
 				launchHotelData.setDistanceUnit(searchResponse.getFilter().getDistanceUnit());

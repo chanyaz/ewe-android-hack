@@ -102,7 +102,7 @@ public class FlightSearch implements JSONable {
 		final FlightTripLeg[] selectedLegs = getSelectedLegs();
 		final int legCount = selectedLegs.length;
 
-		// Filter out invalid trips
+		// HotelFilter out invalid trips
 		for (int a = 0; a < tripCount; a++) {
 			FlightTrip trip = trips.get(a);
 
@@ -253,12 +253,12 @@ public class FlightSearch implements JSONable {
 			if (mTrips == null) {
 				mTrips = FlightSearch.this.getTrips(mLegPosition);
 
-				// Filter results (if user called for it)
+				// HotelFilter results (if user called for it)
 				FlightFilter filter = getFilter(mLegPosition);
 
-				// TODO: Filter based on departure/arrival specs
+				// TODO: HotelFilter based on departure/arrival specs
 
-				// Filter out preferred airlines
+				// HotelFilter out preferred airlines
 				// TODO: Is the preferred airline operating?  Marketing?  Currently assumes operating.
 				if (filter.hasPreferredAirlines()) {
 					Set<String> preferredAirlines = filter.getPreferredAirlines();

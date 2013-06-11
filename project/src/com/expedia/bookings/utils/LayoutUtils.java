@@ -35,8 +35,8 @@ import com.actionbarsherlock.internal.ResourcesCompat;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Distance.DistanceUnit;
-import com.expedia.bookings.data.Filter;
-import com.expedia.bookings.data.Filter.SearchRadius;
+import com.expedia.bookings.data.HotelFilter;
+import com.expedia.bookings.data.HotelFilter.SearchRadius;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Property.Amenity;
 import com.expedia.bookings.data.Rate;
@@ -89,7 +89,7 @@ public class LayoutUtils {
 		return drawable;
 	}
 
-	public static void configureRadiusFilterLabels(Context context, ViewGroup radiusFilterGroup, Filter filter) {
+	public static void configureRadiusFilterLabels(Context context, ViewGroup radiusFilterGroup, HotelFilter filter) {
 		// The radius filter buttons depend on whether the user's locale leans
 		// towards miles or kilometers.  For now, we just use US == miles,
 		// everything else == kilometers (pending a better way to determine this).

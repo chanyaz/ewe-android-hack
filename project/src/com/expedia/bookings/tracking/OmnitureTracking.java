@@ -32,9 +32,9 @@ import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
-import com.expedia.bookings.data.Filter;
-import com.expedia.bookings.data.Filter.PriceRange;
-import com.expedia.bookings.data.Filter.SearchRadius;
+import com.expedia.bookings.data.HotelFilter;
+import com.expedia.bookings.data.HotelFilter.PriceRange;
+import com.expedia.bookings.data.HotelFilter.SearchRadius;
 import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
@@ -141,7 +141,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAppHotelsSearch(Context context, HotelSearchParams searchParams, HotelSearchParams oldSearchParams,
-			Filter filter, Filter oldFilter, HotelSearchResponse searchResponse) {
+			HotelFilter filter, HotelFilter oldFilter, HotelSearchResponse searchResponse) {
 		String refinements = getHotelSearchRefinements(searchParams, oldSearchParams, filter, oldFilter);
 		internalTrackHotelsSearch(context, searchParams, searchResponse, refinements);
 	}
@@ -224,23 +224,23 @@ public class OmnitureTracking {
 	 *
 	 */
 	private static String getHotelSearchRefinements(HotelSearchParams searchParams, HotelSearchParams oldSearchParams,
-			Filter filter, Filter oldFilter) {
+			HotelFilter filter, HotelFilter oldFilter) {
 		if (oldFilter != null && oldSearchParams != null) {
 			List<String> refinements = new ArrayList<String>();
 
 			// Sort change
 			if (oldFilter.getSort() != filter.getSort()) {
-				Filter.Sort sort = filter.getSort();
-				if (sort == Filter.Sort.POPULAR) {
+				HotelFilter.Sort sort = filter.getSort();
+				if (sort == HotelFilter.Sort.POPULAR) {
 					refinements.add("App.Hotels.Search.Sort.Popular");
 				}
-				else if (sort == Filter.Sort.PRICE) {
+				else if (sort == HotelFilter.Sort.PRICE) {
 					refinements.add("App.Hotels.Search.Sort.Price");
 				}
-				else if (sort == Filter.Sort.DISTANCE) {
+				else if (sort == HotelFilter.Sort.DISTANCE) {
 					refinements.add("App.Hotels.Search.Sort.Distance");
 				}
-				else if (sort == Filter.Sort.RATING) {
+				else if (sort == HotelFilter.Sort.RATING) {
 					refinements.add("App.Hotels.Search.Sort.Rating");
 				}
 			}
@@ -566,7 +566,7 @@ public class OmnitureTracking {
 	public static void trackLinkHotelRefineSearchRadius(Context context, SearchRadius searchRadius) {
 		String link = HOTELS_SEARCH_REFINE_SEARCH_RADIUS;
 
-		if (searchRadius != Filter.SearchRadius.ALL) {
+		if (searchRadius != HotelFilter.SearchRadius.ALL) {
 			final DistanceUnit distanceUnit = DistanceUnit.getDefaultDistanceUnit();
 			final String unitString = distanceUnit.equals(DistanceUnit.MILES) ? "mi" : "km";
 

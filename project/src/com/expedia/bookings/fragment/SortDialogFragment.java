@@ -13,7 +13,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Filter.Sort;
+import com.expedia.bookings.data.HotelFilter.Sort;
 
 /**
  * This is a temporary Fragment designed for testing sorting with the tablet version of the app.

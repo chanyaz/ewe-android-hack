@@ -636,7 +636,7 @@ public abstract class AdapterView<T extends Adapter> extends ViewGroup {
     }
 
     /**
-     * Indicates whether this view is in filter mode. Filter mode can for instance
+     * Indicates whether this view is in filter mode. HotelFilter mode can for instance
      * be enabled by a user when typing on the keyboard.
      *
      * @return True if the view is in filter mode, false otherwise.

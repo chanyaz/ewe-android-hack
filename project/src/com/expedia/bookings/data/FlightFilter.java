@@ -6,7 +6,7 @@ import java.util.Set;
 import android.database.DataSetObservable;
 import android.database.DataSetObserver;
 
-//TODO: Filter based on departure/arrival specs
+//TODO: HotelFilter based on departure/arrival specs
 public class FlightFilter {
 
 	public static enum Sort {

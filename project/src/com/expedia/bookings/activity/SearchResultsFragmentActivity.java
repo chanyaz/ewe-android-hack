@@ -44,10 +44,10 @@ import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.Filter;
-import com.expedia.bookings.data.Filter.OnFilterChangedListener;
-import com.expedia.bookings.data.Filter.SearchRadius;
-import com.expedia.bookings.data.Filter.Sort;
+import com.expedia.bookings.data.HotelFilter;
+import com.expedia.bookings.data.HotelFilter.OnFilterChangedListener;
+import com.expedia.bookings.data.HotelFilter.SearchRadius;
+import com.expedia.bookings.data.HotelFilter.Sort;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
@@ -821,7 +821,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		mPartialSearch = null;
 
 		// Reset the filter
-		Filter filter = Db.getFilter();
+		HotelFilter filter = Db.getFilter();
 		filter.reset();
 		filter.setOnDataListener(null);
 
@@ -1441,7 +1441,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 
 	public void onSearchResultsChanged() {
 		HotelSearchParams lastSearchParams = null;
-		Filter lastFilter = null;
+		HotelFilter lastFilter = null;
 
 		try {
 			if (mLastSearchParamsJson != null) {
@@ -1449,14 +1449,14 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 			}
 
 			if (mLastFilterJson != null) {
-				lastFilter = new Filter(new JSONObject(mLastFilterJson));
+				lastFilter = new HotelFilter(new JSONObject(mLastFilterJson));
 			}
 		}
 		catch (JSONException e) {
 			Log.w("Could not restore last search params/filter for tracking", e);
 		}
 
-		Filter filter = Db.getFilter();
+		HotelFilter filter = Db.getFilter();
 
 		// Update the last filter/search params we used to track refinements
 		mLastSearchParamsJson = Db.getHotelSearch().getSearchParams().toJson().toString();
@@ -1496,7 +1496,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 
 	@Override
 	public void onSortChanged(Sort newSort) {
-		Filter filter = Db.getFilter();
+		HotelFilter filter = Db.getFilter();
 		filter.setSort(newSort);
 		filter.notifyFilterChanged();
 	}

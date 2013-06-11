@@ -78,11 +78,11 @@ import com.expedia.bookings.content.AutocompleteProvider;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.Filter;
-import com.expedia.bookings.data.Filter.OnFilterChangedListener;
-import com.expedia.bookings.data.Filter.PriceRange;
-import com.expedia.bookings.data.Filter.SearchRadius;
-import com.expedia.bookings.data.Filter.Sort;
+import com.expedia.bookings.data.HotelFilter;
+import com.expedia.bookings.data.HotelFilter.OnFilterChangedListener;
+import com.expedia.bookings.data.HotelFilter.PriceRange;
+import com.expedia.bookings.data.HotelFilter.SearchRadius;
+import com.expedia.bookings.data.HotelFilter.Sort;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -260,7 +260,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private ArrayList<Address> mAddresses;
 	private HotelSearchParams mOldSearchParams;
 	private HotelSearchParams mEditedSearchParams;
-	private Filter mOldFilter;
+	private HotelFilter mOldFilter;
 	public boolean mStartSearchOnResume;
 	private long mLastSearchTime = -1;
 	private boolean mIsWidgetNotificationShowing;
@@ -363,9 +363,9 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			if (searchResponse != null && searchResponse.getPropertiesCount() > 0 && !searchResponse.hasErrors()) {
 				Db.getHotelSearch().setSearchResponse(searchResponse);
 
-				Filter filter = Db.getFilter();
+				HotelFilter filter = Db.getFilter();
 
-				// Filter reset is already called, hence reset appropriate searchRadius
+				// HotelFilter reset is already called, hence reset appropriate searchRadius
 				SearchType searchType = Db.getHotelSearch().getSearchParams().getSearchType();
 				switch (searchType) {
 				case CITY:
@@ -571,7 +571,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			if (filterJson != null) {
 				try {
 					JSONObject obj = new JSONObject(filterJson);
-					Db.setFilter(new Filter(obj));
+					Db.setFilter(new HotelFilter(obj));
 				}
 				catch (JSONException e) {
 					Log.e("Failed to load saved filter.");
@@ -1381,8 +1381,8 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private void buildFilter() {
 		Log.d("Building up filter from current view settings...");
 
-		Filter filter = Db.getFilter();
-		Filter currentFilter = filter.copy();
+		HotelFilter filter = Db.getFilter();
+		HotelFilter currentFilter = filter.copy();
 
 		// Distance
 		switch (mRadiusCheckedId) {
@@ -1477,9 +1477,9 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		 * when the radio buttons are being setup as it causes wasted cycles notifying all listeners
 		 */
 		if (currentFilter == null || !filter.equals(currentFilter) && mIsActivityResumed) {
-			Log.d("Filter has changed, notifying listeners.");
+			Log.d("HotelFilter has changed, notifying listeners.");
 			if (currentFilter == null) {
-				Log.d("Filter diff: Current filter == null");
+				Log.d("HotelFilter diff: Current filter == null");
 			}
 			else {
 				filter.diff(currentFilter);
@@ -1811,7 +1811,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 					.getJSONable(savedInstanceState, INSTANCE_OLD_SEARCH_PARAMS, HotelSearchParams.class);
 			mEditedSearchParams = JSONUtils.getJSONable(savedInstanceState, INSTANCE_EDITED_SEARCH_PARAMS,
 					HotelSearchParams.class);
-			mOldFilter = JSONUtils.getJSONable(savedInstanceState, INSTANCE_OLD_FILTER, Filter.class);
+			mOldFilter = JSONUtils.getJSONable(savedInstanceState, INSTANCE_OLD_FILTER, HotelFilter.class);
 		}
 	}
 
@@ -2513,7 +2513,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
-			Filter filter = Db.getFilter();
+			HotelFilter filter = Db.getFilter();
 			filter.setHotelName(s.toString());
 			filter.notifyFilterChanged();
 		}
@@ -2823,7 +2823,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 	private void onSearchResultsChanged() {
 		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
-		Filter filter = Db.getFilter();
+		HotelFilter filter = Db.getFilter();
 		HotelSearchResponse searchResponse = Db.getHotelSearch().getSearchResponse();
 
 		// Update the last filter/search params we used to track refinements
@@ -2850,7 +2850,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		OmnitureTracking.trackSimpleEvent(this, pageName, null, "Shopper", null);
 	}
 
-	// Filter tracking
+	// HotelFilter tracking
 
 	private void onFilterClosed() {
 		OmnitureTracking.trackLinkHotelRefineName(this, mFilterHotelNameEditText.getText().toString());

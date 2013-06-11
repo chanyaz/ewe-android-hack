@@ -11,10 +11,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.expedia.bookings.data.Distance.DistanceUnit;
-import com.expedia.bookings.data.Filter.OnFilterChangedListener;
-import com.expedia.bookings.data.Filter.PriceRange;
-import com.expedia.bookings.data.Filter.SearchRadius;
-import com.expedia.bookings.data.Filter.Sort;
+import com.expedia.bookings.data.HotelFilter.OnFilterChangedListener;
+import com.expedia.bookings.data.HotelFilter.PriceRange;
+import com.expedia.bookings.data.HotelFilter.SearchRadius;
+import com.expedia.bookings.data.HotelFilter.Sort;
 import com.expedia.bookings.data.Rate.UserPriceType;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.mobiata.android.Log;
@@ -33,7 +33,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	private List<Location> mLocations;
 
 	public HotelSearchResponse() {
-		mPriceTiers = new HashMap<Filter.PriceRange, PriceTier>();
+		mPriceTiers = new HashMap<HotelFilter.PriceRange, PriceTier>();
 		mFilteredProperties = null;
 	}
 
@@ -106,7 +106,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	private Map<PriceRange, PriceTier> mPriceTiers;
 
 	// The filter that defines how properties are presented
-	private Filter mFilter;
+	private HotelFilter mFilter;
 
 	// Search latitude/longitude.  Used for banding results.
 	private double mSearchLatitude;
@@ -121,12 +121,12 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		mSearchLongitude = searchLon;
 	}
 
-	public void setFilter(Filter filter) {
+	public void setFilter(HotelFilter filter) {
 		mFilter = filter;
 		filter.setOnDataListener(this);
 	}
 
-	public Filter getFilter() {
+	public HotelFilter getFilter() {
 		return mFilter;
 	}
 
@@ -147,7 +147,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	}
 
 	/**
-	 * Get properties of a particular sort.  You should probably set a Filter before running this,
+	 * Get properties of a particular sort.  You should probably set a HotelFilter before running this,
 	 * but it'll create one on the fly if you're being lazy.
 	 */
 	public Property[] getFilteredAndSortedProperties() {
@@ -162,7 +162,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		// Check that we have a filter, if not create a new one
 		if (mFilter == null) {
 			Log.v("getFilteredAndSortedProperties() - no filter set, setting default one");
-			setFilter(new Filter());
+			setFilter(new HotelFilter());
 		}
 
 		// Check if we've done the custom POPULAR sort for MY_LOCATION
@@ -180,9 +180,9 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 				List<Property> propsRest = new ArrayList<Property>();
 
 				DistanceUnit distanceUnit = mFilter.getDistanceUnit();
-				double smallRadius = Filter.SearchRadius.SMALL.getRadius(distanceUnit);
-				double mediumRadius = Filter.SearchRadius.MEDIUM.getRadius(distanceUnit);
-				double farRadius = Filter.SearchRadius.LARGE.getRadius(distanceUnit);
+				double smallRadius = HotelFilter.SearchRadius.SMALL.getRadius(distanceUnit);
+				double mediumRadius = HotelFilter.SearchRadius.MEDIUM.getRadius(distanceUnit);
+				double farRadius = HotelFilter.SearchRadius.LARGE.getRadius(distanceUnit);
 
 				// Our math is based on miles to somewhere; if we're using km, then convert to miles
 				// before we do our calculations
@@ -248,7 +248,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 
 			List<Property> results = new ArrayList<Property>();
 
-			// Get all the current Filter options
+			// Get all the current HotelFilter options
 			SearchRadius searchRadius = mFilter.getSearchRadius();
 			DistanceUnit distanceUnit = mFilter.getDistanceUnit();
 			PriceRange priceRange = mFilter.getPriceRange();
@@ -271,7 +271,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 			}
 
 			for (Property property : mExpediaSortedProperties) {
-				// Filter search radius
+				// HotelFilter search radius
 				if (searchDistance != null) {
 					if (property.getDistanceFromUser() != null) {
 						Distance distanceFromUser = new Distance(property.getDistanceFromUser().getDistance(), property
@@ -283,12 +283,12 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 					}
 				}
 
-				// Filter price range
+				// HotelFilter price range
 				if (priceTier != null && !priceTier.containsProperty(property)) {
 					continue;
 				}
 
-				// Filter star rating
+				// HotelFilter star rating
 				if (minStarRating > property.getHotelRating()) {
 					continue;
 				}
@@ -353,7 +353,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	}
 
 	public List<Property> getFilteredAndSortedProperties(Sort sort, int count) {
-		mFilter = new Filter();
+		mFilter = new HotelFilter();
 		mFilter.setSort(sort);
 
 		Property[] properties = getFilteredAndSortedProperties();

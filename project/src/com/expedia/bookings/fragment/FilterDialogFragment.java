@@ -19,9 +19,9 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.Filter;
-import com.expedia.bookings.data.Filter.PriceRange;
-import com.expedia.bookings.data.Filter.SearchRadius;
+import com.expedia.bookings.data.HotelFilter;
+import com.expedia.bookings.data.HotelFilter.PriceRange;
+import com.expedia.bookings.data.HotelFilter.SearchRadius;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -60,7 +60,7 @@ public class FilterDialogFragment extends DialogFragment {
 		builder.setTitle(getTitle());
 
 		// Configure initial settings (based on the filter)
-		Filter filter = Db.getFilter();
+		HotelFilter filter = Db.getFilter();
 		mHotelNameEditText.setText(filter.getHotelName());
 
 		int checkId;
@@ -161,7 +161,7 @@ public class FilterDialogFragment extends DialogFragment {
 
 	private final TextWatcher mHotelNameTextWatcher = new TextWatcher() {
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
-			Filter filter = Db.getFilter();
+			HotelFilter filter = Db.getFilter();
 			filter.setHotelName(s.toString());
 			filter.notifyFilterChanged();
 		}
@@ -198,7 +198,7 @@ public class FilterDialogFragment extends DialogFragment {
 			}
 			}
 
-			Filter filter = Db.getFilter();
+			HotelFilter filter = Db.getFilter();
 			filter.setSearchRadius(searchRadius);
 			filter.notifyFilterChanged();
 
@@ -229,7 +229,7 @@ public class FilterDialogFragment extends DialogFragment {
 			}
 			}
 
-			Filter filter = Db.getFilter();
+			HotelFilter filter = Db.getFilter();
 			filter.setMinimumStarRating(minStarRating);
 			filter.notifyFilterChanged();
 
@@ -260,7 +260,7 @@ public class FilterDialogFragment extends DialogFragment {
 			}
 			}
 
-			Filter filter = Db.getFilter();
+			HotelFilter filter = Db.getFilter();
 			filter.setPriceRange(priceRange);
 			filter.notifyFilterChanged();
 

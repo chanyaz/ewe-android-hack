@@ -294,7 +294,7 @@ public class Property implements JSONable {
 	}
 
 	public boolean isHighlyRated() {
-		return getAverageExpediaRating() >= Filter.HIGH_USER_RATING;
+		return getAverageExpediaRating() >= HotelFilter.HIGH_USER_RATING;
 	}
 
 	public void setIsLowestRateMobileExclusive(boolean b) {

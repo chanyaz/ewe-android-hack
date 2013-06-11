@@ -158,7 +158,7 @@ public class NumberPicker extends LinearLayout {
 	private static final String PROPERTY_BUTTON_ALPHA = "alpha";
 
 	/**
-	 * The numbers accepted by the input text's {@link Filter}
+	 * The numbers accepted by the input text's {@link HotelFilter}
 	 */
 	private static final char[] DIGIT_CHARACTERS = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 
@@ -1727,7 +1727,7 @@ public class NumberPicker extends LinearLayout {
 	}
 
 	/**
-	 * Filter for accepting only valid indices or prefixes of the string
+	 * HotelFilter for accepting only valid indices or prefixes of the string
 	 * representation of valid indices.
 	 */
 	class InputTextFilter extends NumberKeyListener {

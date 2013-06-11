@@ -13,7 +13,7 @@ import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 
-public class Filter implements JSONable {
+public class HotelFilter implements JSONable {
 
 	// This is what is defined as a "highly rated" trip advisor rating.
 	public static final double HIGH_USER_RATING = 4.5;
@@ -75,15 +75,15 @@ public class Filter implements JSONable {
 	private String mHotelName;
 	private Sort mSort;
 
-	public Filter() {
-		mListeners = new HashSet<Filter.OnFilterChangedListener>();
+	public HotelFilter() {
+		mListeners = new HashSet<HotelFilter.OnFilterChangedListener>();
 
 		// Setup default filters
 		reset();
 	}
 
-	public Filter(JSONObject obj) {
-		mListeners = new HashSet<Filter.OnFilterChangedListener>();
+	public HotelFilter(JSONObject obj) {
+		mListeners = new HashSet<HotelFilter.OnFilterChangedListener>();
 
 		if (obj != null) {
 			fromJson(obj);
@@ -229,8 +229,8 @@ public class Filter implements JSONable {
 		public void onFilterChanged();
 	}
 
-	public Filter copy() {
-		Filter filter = new Filter();
+	public HotelFilter copy() {
+		HotelFilter filter = new HotelFilter();
 		filter.setDistanceUnit(mDistanceUnit);
 		filter.setPriceRange(mPriceRange);
 		filter.setSearchRadius(mSearchRadius);
@@ -270,11 +270,11 @@ public class Filter implements JSONable {
 
 	@Override
 	public boolean equals(Object o) {
-		if (o == null || !(o instanceof Filter)) {
+		if (o == null || !(o instanceof HotelFilter)) {
 			return false;
 		}
 
-		Filter other = (Filter) o;
+		HotelFilter other = (HotelFilter) o;
 
 		if (!TextUtils.equals(mHotelName, other.getHotelName())) {
 			// not equal
@@ -291,34 +291,34 @@ public class Filter implements JSONable {
 		return ret;
 	}
 
-	public void diff(Filter other) {
+	public void diff(HotelFilter other) {
 		if (other == null) {
-			Log.d("Filter diff: other == null");
+			Log.d("HotelFilter diff: other == null");
 			return;
 		}
 
 		if (!TextUtils.equals(mHotelName, other.getHotelName())) {
-			Log.d("Filter diff: Hotel Names: " + mHotelName + ", " + other.getHotelName());
+			Log.d("HotelFilter diff: Hotel Names: " + mHotelName + ", " + other.getHotelName());
 		}
 
 		if (mSearchRadius != other.getSearchRadius()) {
-			Log.d("Filter diff: Search Radius: " + mSearchRadius + ", " + other.getSearchRadius());
+			Log.d("HotelFilter diff: Search Radius: " + mSearchRadius + ", " + other.getSearchRadius());
 		}
 
 		if (mDistanceUnit != other.getDistanceUnit()) {
-			Log.d("Filter diff: Distance Units: " + mDistanceUnit + ", " + other.getDistanceUnit());
+			Log.d("HotelFilter diff: Distance Units: " + mDistanceUnit + ", " + other.getDistanceUnit());
 		}
 
 		if (mPriceRange != other.getPriceRange()) {
-			Log.d("Filter diff: Price Range: " + mPriceRange + ", " + other.getPriceRange());
+			Log.d("HotelFilter diff: Price Range: " + mPriceRange + ", " + other.getPriceRange());
 		}
 
 		if (mMinStarRating != other.getMinimumStarRating()) {
-			Log.d("Filter diff: Star Rating: " + mMinStarRating + ", " + other.getMinimumStarRating());
+			Log.d("HotelFilter diff: Star Rating: " + mMinStarRating + ", " + other.getMinimumStarRating());
 		}
 
 		if (mSort != other.getSort()) {
-			Log.d("Filter diff: Sort: " + mSort + ", " + other.getSort());
+			Log.d("HotelFilter diff: Sort: " + mSort + ", " + other.getSort());
 		}
 	}
 }
