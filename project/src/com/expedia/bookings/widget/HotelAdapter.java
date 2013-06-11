@@ -22,7 +22,7 @@ import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -47,7 +47,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	private Context mContext;
 	private LayoutInflater mInflater;
 
-	private SearchResponse mSearchResponse;
+	private HotelSearchResponse mSearchResponse;
 
 	private Property[] mCachedProperties;
 
@@ -70,13 +70,13 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		mUseCondensedRows = LayoutUtils.isScreenNarrow(context);
 	}
 
-	public HotelAdapter(Context context, SearchResponse searchResponse) {
+	public HotelAdapter(Context context, HotelSearchResponse searchResponse) {
 		this(context);
 
 		setSearchResponse(searchResponse);
 	}
 
-	public void setSearchResponse(SearchResponse searchResponse) {
+	public void setSearchResponse(HotelSearchResponse searchResponse) {
 		mSearchResponse = searchResponse;
 		rebuildCache();
 	}

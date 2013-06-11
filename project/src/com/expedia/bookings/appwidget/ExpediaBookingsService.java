@@ -34,7 +34,7 @@ import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.HotelSearchParams;
-import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.model.WidgetConfigurationState;
 import com.expedia.bookings.server.ExpediaServices;
@@ -101,17 +101,17 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	// WIDGET DATA DOWNLOADING BOOKKEEPING
 	//////////////////////////////////////////////////////////////////////////////////////////
 	private long mLastUpdatedTimeInMillis;
-	private final Download<SearchResponse> mSearchDownload = new Download<SearchResponse>() {
+	private final Download<HotelSearchResponse> mSearchDownload = new Download<HotelSearchResponse>() {
 		@Override
-		public SearchResponse doDownload() {
+		public HotelSearchResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(getApplicationContext());
 			mSearchDownloader.addDownloadListener(WIDGET_KEY_SEARCH, services);
 			return services.search(mWidgetDeals.getSearchParams(), 0);
 		}
 	};
-	private final OnDownloadComplete<SearchResponse> mSearchCallback = new OnDownloadComplete<SearchResponse>() {
+	private final OnDownloadComplete<HotelSearchResponse> mSearchCallback = new OnDownloadComplete<HotelSearchResponse>() {
 		@Override
-		public void onDownload(SearchResponse searchResponse) {
+		public void onDownload(HotelSearchResponse searchResponse) {
 			mLastUpdatedTimeInMillis = System.currentTimeMillis();
 			// schedule the next update
 			scheduleSearch();

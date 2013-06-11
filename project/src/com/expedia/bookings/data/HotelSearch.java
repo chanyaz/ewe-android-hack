@@ -16,7 +16,7 @@ import com.mobiata.android.json.JSONable;
 public class HotelSearch implements JSONable {
 
 	private HotelSearchParams mSearchParams;
-	private SearchResponse mSearchResponse;
+	private HotelSearchResponse mSearchResponse;
 	private String mSelectedPropertyId;
 
 	// Each map keyed off of propertyId
@@ -47,7 +47,7 @@ public class HotelSearch implements JSONable {
 		return mSearchParams;
 	}
 
-	public void setSearchResponse(SearchResponse response) {
+	public void setSearchResponse(HotelSearchResponse response) {
 		mSearchResponse = response;
 
 		mPropertyMap = new HashMap<String, Property>();
@@ -60,7 +60,7 @@ public class HotelSearch implements JSONable {
 		mReviewsResponses = new HashMap<String, ReviewsResponse>();
 	}
 
-	public SearchResponse getSearchResponse() {
+	public HotelSearchResponse getSearchResponse() {
 		return mSearchResponse;
 	}
 
@@ -175,7 +175,7 @@ public class HotelSearch implements JSONable {
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		setSearchParams(JSONUtils.getJSONable(obj, "searchParams", HotelSearchParams.class));
-		setSearchResponse(JSONUtils.getJSONable(obj, "searchResponse", SearchResponse.class));
+		setSearchResponse(JSONUtils.getJSONable(obj, "searchResponse", HotelSearchResponse.class));
 
 		String selectedPropertyId = obj.optString("selectedPropertyId");
 		if (!TextUtils.isEmpty(selectedPropertyId)) {

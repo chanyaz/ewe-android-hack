@@ -61,7 +61,7 @@ public class CreateTripResponse extends Response implements JSONable {
 			return obj;
 		}
 		catch (JSONException e) {
-			Log.e("Could not convert SearchResponse to JSON", e);
+			Log.e("Could not convert HotelSearchResponse to JSON", e);
 			return null;
 		}
 	}

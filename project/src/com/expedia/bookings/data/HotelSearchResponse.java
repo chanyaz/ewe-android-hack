@@ -22,7 +22,7 @@ import com.mobiata.android.MapUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
-public class SearchResponse extends Response implements OnFilterChangedListener, JSONable {
+public class HotelSearchResponse extends Response implements OnFilterChangedListener, JSONable {
 	private SearchType mSearchType;
 
 	// We keep both a list of properties (for ordering) and a map (for easy id lookup)
@@ -32,12 +32,12 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 	// the alternate results will go
 	private List<Location> mLocations;
 
-	public SearchResponse() {
+	public HotelSearchResponse() {
 		mPriceTiers = new HashMap<Filter.PriceRange, PriceTier>();
 		mFilteredProperties = null;
 	}
 
-	public SearchResponse(JSONObject obj) {
+	public HotelSearchResponse(JSONObject obj) {
 		this();
 		fromJson(obj);
 	}
@@ -728,7 +728,7 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 			return obj;
 		}
 		catch (JSONException e) {
-			Log.e("Could not convert SearchResponse to JSON", e);
+			Log.e("Could not convert HotelSearchResponse to JSON", e);
 			return null;
 		}
 	}
@@ -748,7 +748,7 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 			return true;
 		}
 		catch (JSONException e) {
-			Log.e("Could not create SearchResponse from JSON.", e);
+			Log.e("Could not create HotelSearchResponse from JSON.", e);
 			return false;
 		}
 	}

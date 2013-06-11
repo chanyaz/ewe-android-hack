@@ -88,7 +88,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
-import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.fragment.HotelListFragment;
 import com.expedia.bookings.fragment.HotelListFragment.HotelListFragmentListener;
@@ -310,9 +310,9 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		}
 	};
 
-	private final Download<SearchResponse> mSearchDownload = new Download<SearchResponse>() {
+	private final Download<HotelSearchResponse> mSearchDownload = new Download<HotelSearchResponse>() {
 		@Override
-		public SearchResponse doDownload() {
+		public HotelSearchResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(PhoneSearchActivity.this);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_SEARCH, services);
 			if (mEditedSearchParams != null) {
@@ -327,7 +327,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		@Override
 		public void onDownload(AvailabilityResponse results) {
 			Property property = results.getProperty();
-			SearchResponse searchResponse = new SearchResponse();
+			HotelSearchResponse searchResponse = new HotelSearchResponse();
 			List<Rate> rates = results.getRates();
 			if (property != null && rates != null) {
 				Rate lowestRate = null;
@@ -354,9 +354,9 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 	};
 
-	private final OnDownloadComplete<SearchResponse> mSearchCallback = new OnDownloadComplete<SearchResponse>() {
+	private final OnDownloadComplete<HotelSearchResponse> mSearchCallback = new OnDownloadComplete<HotelSearchResponse>() {
 		@Override
-		public void onDownload(SearchResponse searchResponse) {
+		public void onDownload(HotelSearchResponse searchResponse) {
 			// Clear the old listener so we don't end up with a memory leak
 			Db.getFilter().clearOnFilterChangedListeners();
 
@@ -419,10 +419,10 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		}
 	};
 
-	private final Download<SearchResponse> mLoadSavedResults = new Download<SearchResponse>() {
+	private final Download<HotelSearchResponse> mLoadSavedResults = new Download<HotelSearchResponse>() {
 		@Override
-		public SearchResponse doDownload() {
-			SearchResponse response = null;
+		public HotelSearchResponse doDownload() {
+			HotelSearchResponse response = null;
 			File savedSearchResults = getFileStreamPath(SEARCH_RESULTS_FILE);
 			if (savedSearchResults.exists()) {
 				if (savedSearchResults.lastModified() + SEARCH_EXPIRATION < Calendar.getInstance().getTimeInMillis()) {
@@ -432,7 +432,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 					try {
 						long start = System.currentTimeMillis();
 						JSONObject obj = new JSONObject(IoUtils.readStringFromFile(SEARCH_RESULTS_FILE, mContext));
-						response = new SearchResponse(obj);
+						response = new HotelSearchResponse(obj);
 						Log.i("Loaded current search results, time taken: " + (System.currentTimeMillis() - start)
 								+ " ms");
 					}
@@ -449,9 +449,9 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		}
 	};
 
-	private final OnDownloadComplete<SearchResponse> mLoadSavedResultsCallback = new OnDownloadComplete<SearchResponse>() {
+	private final OnDownloadComplete<HotelSearchResponse> mLoadSavedResultsCallback = new OnDownloadComplete<HotelSearchResponse>() {
 		@Override
-		public void onDownload(SearchResponse results) {
+		public void onDownload(HotelSearchResponse results) {
 			if (results == null) {
 				// This means the load didn't work; kick off a new search
 				startSearch();
@@ -529,7 +529,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		}
 
 		boolean toBroadcastSearchCompleted = false;
-		SearchResponse searchResponse = Db.getHotelSearch().getSearchResponse();
+		HotelSearchResponse searchResponse = Db.getHotelSearch().getSearchResponse();
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		mTag = prefs.getString("tag", getString(R.string.tag_hotel_list));
 
@@ -786,7 +786,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 			File savedSearchResults = getFileStreamPath(SEARCH_RESULTS_FILE);
 
-			SearchResponse searchResponse = Db.getHotelSearch().getSearchResponse();
+			HotelSearchResponse searchResponse = Db.getHotelSearch().getSearchResponse();
 
 			// Cancel any currently downloading searches
 			BackgroundDownloader downloader = BackgroundDownloader.getInstance();
@@ -1825,7 +1825,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		}
 	}
 
-	private void broadcastSearchCompleted(SearchResponse searchResponse) {
+	private void broadcastSearchCompleted(HotelSearchResponse searchResponse) {
 		Db.getHotelSearch().setSearchResponse(searchResponse);
 
 		if (Db.getHotelSearch().getSearchParams().getSearchType() != HotelSearchParams.SearchType.HOTEL) {
@@ -1867,7 +1867,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	}
 
 	private void simulateErrorResponse(String text) {
-		SearchResponse response = new SearchResponse();
+		HotelSearchResponse response = new HotelSearchResponse();
 		ServerError error = new ServerError();
 		error.setPresentationMessage(text);
 		error.setCode("SIMULATED");
@@ -1880,7 +1880,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	public void handleError() {
 		// Handling for particular errors
 		boolean handledError = false;
-		SearchResponse searchResponse = Db.getHotelSearch().getSearchResponse();
+		HotelSearchResponse searchResponse = Db.getHotelSearch().getSearchResponse();
 		if (searchResponse != null && searchResponse.hasErrors()) {
 			ServerError errorOne = searchResponse.getErrors().get(0);
 			if (errorOne.getCode().equals("01")) {
@@ -2824,7 +2824,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private void onSearchResultsChanged() {
 		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
 		Filter filter = Db.getFilter();
-		SearchResponse searchResponse = Db.getHotelSearch().getSearchResponse();
+		HotelSearchResponse searchResponse = Db.getHotelSearch().getSearchResponse();
 
 		// Update the last filter/search params we used to track refinements
 		mOldSearchParams = searchParams.copy();

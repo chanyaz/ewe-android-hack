@@ -18,7 +18,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.HotelSearchParams;
-import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.utils.StrUtils;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdate;
@@ -264,7 +264,7 @@ public class HotelMapFragment extends SupportMapFragment {
 		}
 	}
 
-	public void setSearchResponse(SearchResponse searchResponse) {
+	public void setSearchResponse(HotelSearchResponse searchResponse) {
 		if (searchResponse != null && searchResponse.getFilteredAndSortedProperties() != null) {
 			setProperties(Arrays.asList(searchResponse.getFilteredAndSortedProperties()));
 		}

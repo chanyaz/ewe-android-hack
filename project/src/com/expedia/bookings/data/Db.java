@@ -56,7 +56,7 @@ public class Db {
 	//////////////////////////////////////////////////////////////////////////
 	// Stored data
 
-	// Launch hotel data - extracted from a SearchResponse but cached as its own entity to keep data separate
+	// Launch hotel data - extracted from a HotelSearchResponse but cached as its own entity to keep data separate
 	private LaunchHotelData mLaunchHotelData;
 
 	private LaunchHotelFallbackData mLaunchHotelFallbackData;
@@ -67,7 +67,7 @@ public class Db {
 	// the returned results
 	private HotelSearch mHotelSearch = new HotelSearch();
 
-	// The filter applied to SearchResponse.  Note that this Filter can cause a memory leak;
+	// The filter applied to HotelSearchResponse.  Note that this Filter can cause a memory leak;
 	// One has to be sure to change the listeners on the Filter whenever appropriate.
 	private Filter mFilter = new Filter();
 

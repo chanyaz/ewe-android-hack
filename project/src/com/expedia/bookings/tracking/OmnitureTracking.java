@@ -44,7 +44,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.HotelSearchParams;
-import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -136,18 +136,18 @@ public class OmnitureTracking {
 	public static final String HOTELS_SEARCH_SORT_DEALS = "App.Hotels.Search.Sort.Deals";
 
 	public static void trackAppHotelsSearchWithoutRefinements(Context context, HotelSearchParams searchParams,
-			SearchResponse searchResponse) {
+			HotelSearchResponse searchResponse) {
 		internalTrackHotelsSearch(context, searchParams, searchResponse, null);
 	}
 
 	public static void trackAppHotelsSearch(Context context, HotelSearchParams searchParams, HotelSearchParams oldSearchParams,
-			Filter filter, Filter oldFilter, SearchResponse searchResponse) {
+			Filter filter, Filter oldFilter, HotelSearchResponse searchResponse) {
 		String refinements = getHotelSearchRefinements(searchParams, oldSearchParams, filter, oldFilter);
 		internalTrackHotelsSearch(context, searchParams, searchResponse, refinements);
 	}
 
 	private static void internalTrackHotelsSearch(Context context, HotelSearchParams searchParams,
-			SearchResponse searchResponse, String refinements) {
+			HotelSearchResponse searchResponse, String refinements) {
 		// Start actually tracking the search result change
 		Log.d(TAG, "Tracking \"App.Hotels.Search\" pageLoad...");
 

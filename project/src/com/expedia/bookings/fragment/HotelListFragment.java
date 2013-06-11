@@ -22,7 +22,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate.UserPriceType;
 import com.expedia.bookings.data.HotelSearchParams;
-import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.HotelAdapter;
@@ -261,7 +261,7 @@ public class HotelListFragment extends ListFragment {
 		updateHeaderDateRange();
 
 		// Update ListItem or show status
-		SearchResponse response = Db.getHotelSearch().getSearchResponse();
+		HotelSearchResponse response = Db.getHotelSearch().getSearchResponse();
 		if (response == null) {
 			updateStatus(true);
 		}
@@ -280,7 +280,7 @@ public class HotelListFragment extends ListFragment {
 
 	private void updateHeaderLawyerLabel() {
 		if (mLawyerLabelTextView != null) {
-			SearchResponse searchResponse = Db.getHotelSearch().getSearchResponse();
+			HotelSearchResponse searchResponse = Db.getHotelSearch().getSearchResponse();
 			boolean isTablet = ExpediaBookingApp.useTabletInterface(getActivity());
 			if (searchResponse != null && searchResponse.getUserPriceType() == UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES) {
 				if (isTablet) {
@@ -319,7 +319,7 @@ public class HotelListFragment extends ListFragment {
 	}
 
 	private void updateSearchResults() {
-		SearchResponse response = Db.getHotelSearch().getSearchResponse();
+		HotelSearchResponse response = Db.getHotelSearch().getSearchResponse();
 		mAdapter.setSearchResponse(response);
 
 		if (Db.getHotelSearch().getSelectedProperty() != null) {

@@ -47,7 +47,7 @@ import com.expedia.bookings.data.LaunchHotelData;
 import com.expedia.bookings.data.LaunchHotelFallbackData;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.HotelSearchParams;
-import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.data.Suggestion;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -380,18 +380,18 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		bd.startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
 	}
 
-	private final BackgroundDownloader.Download<SearchResponse> mSearchDownload = new BackgroundDownloader.Download<SearchResponse>() {
+	private final BackgroundDownloader.Download<HotelSearchResponse> mSearchDownload = new BackgroundDownloader.Download<HotelSearchResponse>() {
 		@Override
-		public SearchResponse doDownload() {
+		public HotelSearchResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_SEARCH, services);
 			return services.search(mSearchParams, 0);
 		}
 	};
 
-	private final BackgroundDownloader.OnDownloadComplete<SearchResponse> mSearchCallback = new BackgroundDownloader.OnDownloadComplete<SearchResponse>() {
+	private final BackgroundDownloader.OnDownloadComplete<HotelSearchResponse> mSearchCallback = new BackgroundDownloader.OnDownloadComplete<HotelSearchResponse>() {
 		@Override
-		public void onDownload(SearchResponse searchResponse) {
+		public void onDownload(HotelSearchResponse searchResponse) {
 			if (searchResponse != null) {
 				Log.d("Search complete: " + searchResponse.getPropertiesCount());
 			}
@@ -399,7 +399,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			// Response was good, we are going to use this stuff
 			if (searchResponse != null && searchResponse.getPropertiesCount() > 1 && !searchResponse.hasErrors()) {
 
-				// We only want to set the the search from Launch if there exists no SearchResponse data already (to avoid
+				// We only want to set the the search from Launch if there exists no HotelSearchResponse data already (to avoid
 				// sending the user through another network request when jumping to Hotels). If there already exists a
 				// Search response in the Db, do not flush it out.
 				if (isExpired() || Db.getHotelSearch().getSearchResponse() == null) {
@@ -707,7 +707,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 					Db.getHotelSearch().reset();
 
 					// Now that HotelSearch is cleared we need to tell it about the property
-					SearchResponse searchResponse = new SearchResponse();
+					HotelSearchResponse searchResponse = new HotelSearchResponse();
 					searchResponse.addProperty(property);
 					Db.getHotelSearch().setSearchResponse(searchResponse);
 				}

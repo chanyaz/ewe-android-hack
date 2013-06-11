@@ -13,7 +13,7 @@ import android.content.Context;
 
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.HotelSearchParams;
-import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.data.HotelSearchResponse;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -69,7 +69,7 @@ public class WidgetDeals implements JSONable {
 		mSearchParams = searchParams;
 	}
 
-	public void determineRelevantProperties(SearchResponse response) {
+	public void determineRelevantProperties(HotelSearchResponse response) {
 		long start = System.currentTimeMillis();
 		List<Property> relevantProperties = new ArrayList<Property>();
 

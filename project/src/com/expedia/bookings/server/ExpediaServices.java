@@ -86,7 +86,7 @@ import com.expedia.bookings.data.Scenario;
 import com.expedia.bookings.data.ScenarioResponse;
 import com.expedia.bookings.data.ScenarioSetResponse;
 import com.expedia.bookings.data.HotelSearchParams;
-import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.SignInResponse;
@@ -541,7 +541,7 @@ public class ExpediaServices implements DownloadListener {
 	//
 	// Documentation: http://www.expedia.com/static/mobile/APIConsole/
 
-	public SearchResponse search(HotelSearchParams params, int sortType) {
+	public HotelSearchResponse search(HotelSearchParams params, int sortType) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		if (getEndPoint(mContext) == EndPoint.MOCK_SERVER) {

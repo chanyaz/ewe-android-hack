@@ -23,7 +23,7 @@ import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
-import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
@@ -31,7 +31,7 @@ import com.mobiata.android.net.AndroidHttpClient;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
-public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
+public class SearchResponseHandler implements ResponseHandler<HotelSearchResponse> {
 	private Context mContext;
 
 	private int mNumNights = 1;
@@ -56,7 +56,7 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 	}
 
 	@Override
-	public SearchResponse handleResponse(HttpResponse response) throws ClientProtocolException, IOException {
+	public HotelSearchResponse handleResponse(HttpResponse response) throws ClientProtocolException, IOException {
 		if (response == null) {
 			return null;
 		}
@@ -68,14 +68,14 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 
 		Log.d("Starting to read streaming search response...");
 
-		SearchResponse searchResponse = readSearchResponse(parser);
+		HotelSearchResponse searchResponse = readSearchResponse(parser);
 
 		parser.close();
 
 		return searchResponse;
 	}
 
-	public SearchResponse readJsonStream(InputStream in) throws IOException {
+	public HotelSearchResponse readJsonStream(InputStream in) throws IOException {
 		if (in == null) {
 			return null;
 		}
@@ -83,17 +83,17 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 		JsonFactory factory = new JsonFactory();
 		JsonParser parser = factory.createJsonParser(in);
 
-		SearchResponse searchResponse = readSearchResponse(parser);
+		HotelSearchResponse searchResponse = readSearchResponse(parser);
 
 		parser.close();
 
 		return searchResponse;
 	}
 
-	private SearchResponse readSearchResponse(JsonParser parser) throws IOException {
+	private HotelSearchResponse readSearchResponse(JsonParser parser) throws IOException {
 		long start = System.currentTimeMillis();
 
-		SearchResponse searchResponse = new SearchResponse();
+		HotelSearchResponse searchResponse = new HotelSearchResponse();
 
 		if (parser.nextToken() != JsonToken.START_OBJECT) {
 			throw new IOException("Expected readSearchResponse() to start with an Object, started with "
@@ -129,7 +129,7 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 		return searchResponse;
 	}
 
-	private void readHotelSummary(JsonParser parser, SearchResponse searchResponse) throws IOException {
+	private void readHotelSummary(JsonParser parser, HotelSearchResponse searchResponse) throws IOException {
 		Property property = new Property();
 		property.setAvailable(true);
 
