@@ -40,7 +40,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.AvailabilityResponse;
+import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
@@ -979,9 +979,9 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		}
 	}
 
-	private final Download<AvailabilityResponse> mSearchHotelDownload = new Download<AvailabilityResponse>() {
+	private final Download<HotelOffersResponse> mSearchHotelDownload = new Download<HotelOffersResponse>() {
 		@Override
-		public AvailabilityResponse doDownload() {
+		public HotelOffersResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(SearchResultsFragmentActivity.this);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_HOTEL_SEARCH, services);
 
@@ -1000,9 +1000,9 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		}
 	};
 
-	private final OnDownloadComplete<AvailabilityResponse> mSearchHotelCallback = new OnDownloadComplete<AvailabilityResponse>() {
+	private final OnDownloadComplete<HotelOffersResponse> mSearchHotelCallback = new OnDownloadComplete<HotelOffersResponse>() {
 		@Override
-		public void onDownload(AvailabilityResponse results) {
+		public void onDownload(HotelOffersResponse results) {
 			Property property = results.getProperty();
 			HotelSearchResponse searchResponse = new HotelSearchResponse();
 			List<Rate> rates = results.getRates();
@@ -1146,7 +1146,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	private void startRoomsAndRatesDownload(Property property) {
 		// If we have the proper rates cached, don't bother downloading
 		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
-		AvailabilityResponse previousResponse = Db.getHotelSearch().getHotelOffersResponse(selectedId);
+		HotelOffersResponse previousResponse = Db.getHotelSearch().getHotelOffersResponse(selectedId);
 		if (previousResponse != null) {
 			return;
 		}
@@ -1167,8 +1167,8 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		return KEY_AVAILABILITY_SEARCH + "_" + p.getPropertyId();
 	}
 
-	private final Download<AvailabilityResponse> mRoomAvailabilityDownload = new Download<AvailabilityResponse>() {
-		public AvailabilityResponse doDownload() {
+	private final Download<HotelOffersResponse> mRoomAvailabilityDownload = new Download<HotelOffersResponse>() {
+		public HotelOffersResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
 			String key = getDownloadKey(Db.getHotelSearch().getSelectedProperty());
 			BackgroundDownloader.getInstance().addDownloadListener(key, services);
@@ -1177,8 +1177,8 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		}
 	};
 
-	private final OnDownloadComplete<AvailabilityResponse> mRoomAvailabilityCallback = new OnDownloadComplete<AvailabilityResponse>() {
-		public void onDownload(AvailabilityResponse availabilityResponse) {
+	private final OnDownloadComplete<HotelOffersResponse> mRoomAvailabilityCallback = new OnDownloadComplete<HotelOffersResponse>() {
+		public void onDownload(HotelOffersResponse availabilityResponse) {
 			if (availabilityResponse == null) {
 				notifyAvailabilityQueryError(getString(R.string.error_no_response_room_rates));
 				OmnitureTracking.trackErrorPage(mContext, "RatesListRequestFailed");

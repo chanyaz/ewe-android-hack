@@ -16,7 +16,7 @@ import com.mobiata.android.FormatUtils.Conjunction;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 
-public class AvailabilityResponse extends Response {
+public class HotelOffersResponse extends Response {
 	private List<Rate> mRates;
 
 	private Property mProperty;
@@ -119,7 +119,7 @@ public class AvailabilityResponse extends Response {
 			return obj;
 		}
 		catch (JSONException e) {
-			Log.e("Could not convert AvailabilityResponse object to JSON.", e);
+			Log.e("Could not convert HotelOffersResponse object to JSON.", e);
 			return null;
 		}
 	}

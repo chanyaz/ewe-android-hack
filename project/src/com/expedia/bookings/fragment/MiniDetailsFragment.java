@@ -10,7 +10,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.AvailabilityResponse;
+import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -94,7 +94,7 @@ public class MiniDetailsFragment extends Fragment implements AvailabilitySummary
 			mAvailabilitySummary.updateProperty(property);
 
 			String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
-			AvailabilityResponse availabilityResponse = Db.getHotelSearch().getHotelOffersResponse(selectedId);
+			HotelOffersResponse availabilityResponse = Db.getHotelSearch().getHotelOffersResponse(selectedId);
 
 			if (availabilityResponse != null) {
 				mAvailabilitySummary.showRates(availabilityResponse);
@@ -124,7 +124,7 @@ public class MiniDetailsFragment extends Fragment implements AvailabilitySummary
 
 	public void notifyAvailabilityQueryComplete() {
 		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
-		AvailabilityResponse response = Db.getHotelSearch().getHotelOffersResponse(selectedId);
+		HotelOffersResponse response = Db.getHotelSearch().getHotelOffersResponse(selectedId);
 		if (response != null) {
 			if (response.getRateCount() == 0) {
 				mAvailabilitySummary.showError(getString(R.string.error_no_hotel_rooms_available));

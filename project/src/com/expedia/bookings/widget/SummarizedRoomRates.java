@@ -9,7 +9,7 @@ import java.util.Set;
 
 import android.util.Pair;
 
-import com.expedia.bookings.data.AvailabilityResponse;
+import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.BedType;
 import com.expedia.bookings.data.BedType.BedTypeId;
 import com.expedia.bookings.data.Rate;
@@ -135,7 +135,7 @@ public class SummarizedRoomRates {
 		return mMinimumRateAvailable;
 	}
 
-	public void updateSummarizedRoomRates(AvailabilityResponse response) {
+	public void updateSummarizedRoomRates(HotelOffersResponse response) {
 		createBedTypeToMinRateMapping(response);
 		clusterByBedType();
 		summarizeRates();
@@ -145,7 +145,7 @@ public class SummarizedRoomRates {
 	 * This method creates a mapping from bed type to the minimum
 	 * rate available for that bed type
 	 */
-	private void createBedTypeToMinRateMapping(AvailabilityResponse response) {
+	private void createBedTypeToMinRateMapping(HotelOffersResponse response) {
 		mBedTypeToMinRateMap.clear();
 
 		if (response.getRates() == null) {

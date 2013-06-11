@@ -79,7 +79,7 @@ public class HotelSearch implements JSONable {
 	//////////////////////////////////////////////////////////////////////////
 	// Update data
 
-	public void updateFrom(AvailabilityResponse offersResponse) {
+	public void updateFrom(HotelOffersResponse offersResponse) {
 		if (offersResponse == null || offersResponse.getProperty() == null) {
 			return;
 		}
@@ -122,7 +122,7 @@ public class HotelSearch implements JSONable {
 		return null;
 	}
 
-	public AvailabilityResponse getHotelOffersResponse(String id) {
+	public HotelOffersResponse getHotelOffersResponse(String id) {
 		HotelAvailability availability = getAvailability(id);
 		if (availability == null) {
 			return null;
@@ -131,7 +131,7 @@ public class HotelSearch implements JSONable {
 	}
 
 	public SummarizedRoomRates getSummarizedRoomRates(String id) {
-		AvailabilityResponse response = getHotelOffersResponse(id);
+		HotelOffersResponse response = getHotelOffersResponse(id);
 		if (response == null) {
 			return null;
 		}

@@ -75,7 +75,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp.OnSearchParamsChangedInWidgetListener;
 import com.expedia.bookings.content.AutocompleteProvider;
-import com.expedia.bookings.data.AvailabilityResponse;
+import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Filter;
@@ -294,9 +294,9 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	// THREADS/CALLBACKS
 	//----------------------------------
 
-	private final Download<AvailabilityResponse> mSearchHotelDownload = new Download<AvailabilityResponse>() {
+	private final Download<HotelOffersResponse> mSearchHotelDownload = new Download<HotelOffersResponse>() {
 		@Override
-		public AvailabilityResponse doDownload() {
+		public HotelOffersResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(PhoneSearchActivity.this);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_HOTEL_SEARCH, services);
 			if (mEditedSearchParams != null) {
@@ -322,10 +322,10 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		}
 	};
 
-	private final OnDownloadComplete<AvailabilityResponse> mSearchHotelCallback = new OnDownloadComplete<AvailabilityResponse>() {
+	private final OnDownloadComplete<HotelOffersResponse> mSearchHotelCallback = new OnDownloadComplete<HotelOffersResponse>() {
 
 		@Override
-		public void onDownload(AvailabilityResponse results) {
+		public void onDownload(HotelOffersResponse results) {
 			Property property = results.getProperty();
 			HotelSearchResponse searchResponse = new HotelSearchResponse();
 			List<Rate> rates = results.getRates();

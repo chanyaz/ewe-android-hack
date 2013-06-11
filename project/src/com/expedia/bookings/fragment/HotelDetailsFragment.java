@@ -31,7 +31,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletUserReviewsListActivity;
-import com.expedia.bookings.data.AvailabilityResponse;
+import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelDescription;
@@ -350,7 +350,7 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 
 	public void notifyAvailabilityQueryComplete() {
 		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
-		AvailabilityResponse response = Db.getHotelSearch().getHotelOffersResponse(selectedId);
+		HotelOffersResponse response = Db.getHotelSearch().getHotelOffersResponse(selectedId);
 		if (response != null) {
 			if (response.getRateCount() > 0) {
 				mAvailabilityWidget.setButtonEnabled(true);
@@ -393,7 +393,7 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 		mAvailabilityWidget.updateProperty(property);
 
 		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
-		AvailabilityResponse availabilityResponse = Db.getHotelSearch().getHotelOffersResponse(selectedId);
+		HotelOffersResponse availabilityResponse = Db.getHotelSearch().getHotelOffersResponse(selectedId);
 		if (availabilityResponse != null && !availabilityResponse.hasErrors() && availabilityResponse.getRateCount() > 0) {
 			mAvailabilityWidget.setButtonEnabled(true);
 		}

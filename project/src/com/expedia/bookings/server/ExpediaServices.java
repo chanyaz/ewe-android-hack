@@ -55,7 +55,7 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AssociateUserToTripResponse;
-import com.expedia.bookings.data.AvailabilityResponse;
+import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
@@ -582,7 +582,7 @@ public class ExpediaServices implements DownloadListener {
 		return doE3Request("MobileHotel/Webapp/SearchResults", query, rh, 0);
 	}
 
-	public AvailabilityResponse availability(HotelSearchParams params, Property property) {
+	public HotelOffersResponse availability(HotelSearchParams params, Property property) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		addCommonParams(query);
@@ -594,7 +594,7 @@ public class ExpediaServices implements DownloadListener {
 		}
 
 		AvailabilityResponseHandler responseHandler = new AvailabilityResponseHandler(mContext, params, property);
-		AvailabilityResponse response = doE3Request("MobileHotel/Webapp/HotelOffers", query, responseHandler, 0);
+		HotelOffersResponse response = doE3Request("MobileHotel/Webapp/HotelOffers", query, responseHandler, 0);
 
 		int numTries = 1;
 		while (response != null && response.hasErrors()) {

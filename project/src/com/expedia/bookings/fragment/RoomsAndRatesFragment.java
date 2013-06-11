@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.RoomsAndRatesFragmentActivity;
-import com.expedia.bookings.data.AvailabilityResponse;
+import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
@@ -100,7 +100,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 
 	public void notifyAvailabilityLoaded() {
 		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
-		AvailabilityResponse response = Db.getHotelSearch().getHotelOffersResponse(selectedId);
+		HotelOffersResponse response = Db.getHotelSearch().getHotelOffersResponse(selectedId);
 
 		mProgressBar.setVisibility(View.GONE);
 
@@ -120,7 +120,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 		loadResponse(response);
 	}
 
-	private void loadResponse(AvailabilityResponse response) {
+	private void loadResponse(HotelOffersResponse response) {
 		if (response.hasErrors()) {
 			StringBuilder sb = new StringBuilder();
 			for (ServerError error : response.getErrors()) {

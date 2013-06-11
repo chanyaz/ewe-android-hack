@@ -16,7 +16,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.AvailabilityResponse;
+import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -228,18 +228,18 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 	//////////////////////////////////////////////////////////////////////////
 	// Downloading rooms & rates
 
-	private final Download<AvailabilityResponse> mDownload = new Download<AvailabilityResponse>() {
+	private final Download<HotelOffersResponse> mDownload = new Download<HotelOffersResponse>() {
 		@Override
-		public AvailabilityResponse doDownload() {
+		public HotelOffersResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(RoomsAndRatesListActivity.this);
 			BackgroundDownloader.getInstance().addDownloadListener(DOWNLOAD_KEY, services);
 			return services.availability(Db.getHotelSearch().getSearchParams(), Db.getHotelSearch().getSelectedProperty());
 		}
 	};
 
-	private final OnDownloadComplete<AvailabilityResponse> mCallback = new OnDownloadComplete<AvailabilityResponse>() {
+	private final OnDownloadComplete<HotelOffersResponse> mCallback = new OnDownloadComplete<HotelOffersResponse>() {
 		@Override
-		public void onDownload(AvailabilityResponse response) {
+		public void onDownload(HotelOffersResponse response) {
 			Db.getHotelSearch().updateFrom(response);
 			mRoomsAndRatesFragment.notifyAvailabilityLoaded();
 		}

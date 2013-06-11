@@ -21,7 +21,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.AvailabilityResponse;
+import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
@@ -196,7 +196,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 
 		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
-		AvailabilityResponse infoResponse = Db.getHotelSearch().getHotelOffersResponse(selectedId);
+		HotelOffersResponse infoResponse = Db.getHotelSearch().getHotelOffersResponse(selectedId);
 		if (infoResponse != null) {
 			// We may have been downloading the data here before getting it elsewhere, so cancel
 			// our own download once we have data
@@ -415,7 +415,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		initLandscapeGalleryLayout();
 	}
 
-	private void setupBookByPhoneButton(AvailabilityResponse response) {
+	private void setupBookByPhoneButton(HotelOffersResponse response) {
 		if (mBookByPhoneButton == null || response == null) {
 			return;
 		}
@@ -485,20 +485,20 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Async loading of ExpediaServices.availability
 
-	private final Download<AvailabilityResponse> mInfoDownload = new Download<AvailabilityResponse>() {
+	private final Download<HotelOffersResponse> mInfoDownload = new Download<HotelOffersResponse>() {
 		@Override
-		public AvailabilityResponse doDownload() {
+		public HotelOffersResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
 			return services.availability(Db.getHotelSearch().getSearchParams(), Db.getHotelSearch().getSelectedProperty());
 		}
 	};
 
-	private final OnDownloadComplete<AvailabilityResponse> mInfoCallback = new OnDownloadComplete<AvailabilityResponse>() {
+	private final OnDownloadComplete<HotelOffersResponse> mInfoCallback = new OnDownloadComplete<HotelOffersResponse>() {
 		@Override
-		public void onDownload(AvailabilityResponse response) {
+		public void onDownload(HotelOffersResponse response) {
 			// Check if we got a better response elsewhere before loading up this data
 			String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
-			AvailabilityResponse possibleBetterResponse = Db.getHotelSearch().getHotelOffersResponse(selectedId);
+			HotelOffersResponse possibleBetterResponse = Db.getHotelSearch().getHotelOffersResponse(selectedId);
 			if (possibleBetterResponse != null) {
 				response = possibleBetterResponse;
 			}

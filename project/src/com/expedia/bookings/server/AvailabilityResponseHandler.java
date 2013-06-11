@@ -15,7 +15,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.AvailabilityResponse;
+import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Media;
@@ -34,7 +34,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.net.JsonResponseHandler;
 
-public class AvailabilityResponseHandler extends JsonResponseHandler<AvailabilityResponse> {
+public class AvailabilityResponseHandler extends JsonResponseHandler<HotelOffersResponse> {
 
 	public static final String DOWNLOAD_KEY_PREFIX = "AVAILABILITY_RESPONSE_HANDLER";
 
@@ -49,8 +49,8 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 	}
 
 	@Override
-	public AvailabilityResponse handleJson(JSONObject response) {
-		AvailabilityResponse availResponse = new AvailabilityResponse();
+	public HotelOffersResponse handleJson(JSONObject response) {
+		HotelOffersResponse availResponse = new HotelOffersResponse();
 		try {
 			// Check for errors, return if found
 			availResponse.addErrors(ParserUtils.parseErrors(mContext, ApiMethod.HOTEL_OFFERS, response));

@@ -14,13 +14,13 @@ import com.mobiata.android.json.JSONable;
 import com.mobiata.android.json.JSONUtils;
 
 public class HotelAvailability implements JSONable {
-	private AvailabilityResponse mHotelOffersResponse;
+	private HotelOffersResponse mHotelOffersResponse;
 	private Rate mSelectedRate;
 
 	// Do not persist
 	private Map<String, Rate> mRateMap;
 
-	public void setHotelOffersResponse(AvailabilityResponse response) {
+	public void setHotelOffersResponse(HotelOffersResponse response) {
 		mHotelOffersResponse = response;
 
 		mRateMap = new HashMap<String, Rate>();
@@ -29,7 +29,7 @@ public class HotelAvailability implements JSONable {
 		}
 	}
 
-	public AvailabilityResponse getHotelOffersResponse() {
+	public HotelOffersResponse getHotelOffersResponse() {
 		return mHotelOffersResponse;
 	}
 
@@ -99,7 +99,7 @@ public class HotelAvailability implements JSONable {
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
-		setHotelOffersResponse(JSONUtils.getJSONable(obj, "hotelOffersResponse", AvailabilityResponse.class));
+		setHotelOffersResponse(JSONUtils.getJSONable(obj, "hotelOffersResponse", HotelOffersResponse.class));
 
 		String selectedRateId = obj.optString("selectedRateId", null);
 		if (!TextUtils.isEmpty(selectedRateId)) {

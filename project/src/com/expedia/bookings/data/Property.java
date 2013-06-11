@@ -345,7 +345,7 @@ public class Property implements JSONable {
 		mHighestPriceFromSurvey = highestPriceFromSurvey;
 	}
 
-	// Updates a Property from another Property (currently, one returned via an AvailabilityResponse)
+	// Updates a Property from another Property (currently, one returned via an HotelOffersResponse)
 	public void updateFrom(Property property) {
 		if (property.hasAmenitiesSet()) {
 			this.setAmenityMask(property.getAmenityMask());

@@ -15,7 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.AvailabilityResponse;
+import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.utils.LayoutUtils;
@@ -52,7 +52,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 
 	private StringBuilder mBuilder;
 
-	public RoomsAndRatesAdapter(Context context, AvailabilityResponse response) {
+	public RoomsAndRatesAdapter(Context context, HotelOffersResponse response) {
 		mContext = context;
 		mResources = context.getResources();
 
