@@ -29,7 +29,12 @@ public class FlightRulesFragment extends SherlockFragment {
 		CANCEL_CHANGE_INTRODUCTION_TEXT("CancelChangeIntroductionText"),
 		AIRLINE_LIABILITY_LIMITATIONS("AirlineLiabilityLimitations"),
 		ADDITIONAL_AIRLINE_FEES("AdditionalAirlineFees"),
-		CHANGE_PENALTY_TEXT("ChangePenaltyText");
+		CHANGE_PENALTY_TEXT("ChangePenaltyText"),
+		LCC_IMPORTANT_TEXT("flightRulesLCCImportantMessage"),
+		LCC_LITE_TEXT("flightRulesLCCServiceLiteMessage"),
+		LCC_EMAIL_TEXT("LccPartnerConfEmailsText"),
+		LCC_CHECKIN_TEXT("flightRulesLCCPrecheckinAdvice"),
+		;
 
 		private String mKey;
 
@@ -48,6 +53,10 @@ public class FlightRulesFragment extends SherlockFragment {
 	private TextView mCompletePenaltyRulesTextView;
 	private TextView mLiabilitiesLinkTextView;
 	private TextView mAdditionalFeesTextView;
+
+	private TextView mLccImportantTextView;
+	private TextView mLccCheckinTextView;
+	private TextView mLccLiteTextView;
 
 	public static FlightRulesFragment newInstance() {
 		return new FlightRulesFragment();
@@ -69,6 +78,10 @@ public class FlightRulesFragment extends SherlockFragment {
 		mLiabilitiesLinkTextView = Ui.findView(v, R.id.liabilities_link_text_view);
 		mAdditionalFeesTextView = Ui.findView(v, R.id.additional_fee_text_view);
 
+		mLccImportantTextView = Ui.findView(v, R.id.lcc_important_text_view);
+		mLccCheckinTextView = Ui.findView(v, R.id.lcc_checkin_text_view);
+		mLccLiteTextView = Ui.findView(v, R.id.lcc_lite_text_view);
+
 		if (mFlightTrip != null) {
 			populateHeaderRows(v);
 
@@ -79,6 +92,8 @@ public class FlightRulesFragment extends SherlockFragment {
 			populateLiabilitiesTextView();
 
 			populateAdditionalFeesTextView();
+
+			populateLccInfo();
 		}
 
 		return v;
@@ -209,6 +224,17 @@ public class FlightRulesFragment extends SherlockFragment {
 	private void populateLiabilitiesTextView() {
 		populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(
 				mFlightTrip.getRule(RulesKeys.AIRLINE_LIABILITY_LIMITATIONS.getKey()), mLiabilitiesLinkTextView);
+	}
+
+	private void populateLccInfo() {
+		populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(
+				mFlightTrip.getRule(RulesKeys.LCC_IMPORTANT_TEXT.getKey()), mLccImportantTextView);
+
+		populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(
+				mFlightTrip.getRule(RulesKeys.LCC_CHECKIN_TEXT.getKey()), mLccCheckinTextView);
+
+		populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(
+				mFlightTrip.getRule(RulesKeys.LCC_LITE_TEXT.getKey()), mLccLiteTextView);
 	}
 
 	private void populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(final Rule rule, TextView textView) {
