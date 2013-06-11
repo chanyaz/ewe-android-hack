@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
@@ -96,7 +95,7 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 	}
 
 	private void hideForever() {
-        Log.d("Hiding for all trips");
+		Log.d("Hiding for all trips");
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////

@@ -88,7 +88,6 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.HotelListFragment;
 import com.expedia.bookings.fragment.HotelListFragment.HotelListFragmentListener;
 import com.expedia.bookings.maps.HotelMapFragment;
@@ -1002,10 +1001,10 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		// #1169. VSC app related menu arrangement.
 		// We need to only show an "About/Info" menu item. Show settings only for debug build for testing purpose.
 		if (ExpediaBookingApp.IS_VSC && AndroidUtils.isRelease(this)) {
-				MenuItem settingsBtn = menu.findItem(R.id.settings);
-				if (settingsBtn != null) {
-					settingsBtn.setVisible(false);
-				}
+			MenuItem settingsBtn = menu.findItem(R.id.settings);
+			if (settingsBtn != null) {
+				settingsBtn.setVisible(false);
+			}
 
 			DebugMenu.onPrepareOptionsMenu(this, menu);
 		}
@@ -2648,26 +2647,25 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private void showClearSearchButton() {
 		mClearSearchButton.setVisibility(View.VISIBLE);
 		mClearSearchButton.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
+
 		// Adjust search edit text padding so the clear button doesn't overlap text
-		{
-			mSearchEditTextPaddingRight = mSearchEditText.getPaddingRight();
-			int left = mSearchEditText.getPaddingLeft();
-			int top = mSearchEditText.getPaddingTop();
-			int right = mSearchEditTextPaddingRight + mClearSearchButton.getMeasuredWidth();
-			int bottom = mSearchEditText.getPaddingBottom();
-			mSearchEditText.setPadding(left, top, right, bottom);
-		}
+		mSearchEditTextPaddingRight = mSearchEditText.getPaddingRight();
+		int left = mSearchEditText.getPaddingLeft();
+		int top = mSearchEditText.getPaddingTop();
+		int right = mSearchEditTextPaddingRight + mClearSearchButton.getMeasuredWidth();
+		int bottom = mSearchEditText.getPaddingBottom();
+		mSearchEditText.setPadding(left, top, right, bottom);
 	}
 
 	private void hideClearSeachButton() {
 		mClearSearchButton.setVisibility(View.GONE);
-		{
-			int left = mSearchEditText.getPaddingLeft();
-			int top = mSearchEditText.getPaddingTop();
-			int right = mSearchEditTextPaddingRight;
-			int bottom = mSearchEditText.getPaddingBottom();
-			mSearchEditText.setPadding(left, top, right, bottom);
-		}
+
+		int left = mSearchEditText.getPaddingLeft();
+		int top = mSearchEditText.getPaddingTop();
+		int right = mSearchEditTextPaddingRight;
+		int bottom = mSearchEditText.getPaddingBottom();
+		mSearchEditText.setPadding(left, top, right, bottom);
+
 		mSearchEditTextPaddingRight = -1;
 	}
 

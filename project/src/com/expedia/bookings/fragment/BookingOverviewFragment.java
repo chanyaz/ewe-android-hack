@@ -32,7 +32,6 @@ import com.expedia.bookings.activity.HotelPaymentOptionsActivity;
 import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
 import com.expedia.bookings.activity.LoginActivity;
-import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Db;

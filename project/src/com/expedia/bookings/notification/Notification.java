@@ -87,7 +87,7 @@ public class Notification extends Model implements JSONable {
 	/**
 	 * An array of valid resId's that can be used both for
 	 * get/setImageResId and get/setIconResId.
-	 * 
+	 *
 	 * Be careful when modifying this: only append to it and don't
 	 * reorder anything. We'll store the INDEX of the resid from this array
 	 * into the database. We won't store the resId's themselves because
@@ -99,7 +99,7 @@ public class Notification extends Model implements JSONable {
 		R.drawable.ic_stat_flight,
 		R.drawable.ic_stat_car,
 		R.drawable.ic_stat_hotel,
-		R.drawable.bg_itin_placeholder_flight
+		R.drawable.bg_itin_placeholder_flight,
 	};
 
 	@Column(name = "UniqueId")
