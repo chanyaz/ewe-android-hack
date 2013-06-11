@@ -1,9 +1,7 @@
 package com.expedia.bookings.utils;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 
-import com.expedia.bookings.R;
 import com.expedia.bookings.data.CreditCardType;
 
 public class CurrencyUtils {
@@ -149,41 +147,6 @@ public class CurrencyUtils {
 		}
 		else {
 			throw new RuntimeException("Attempting to parse an unknown credit card, name=" + type);
-		}
-	}
-
-	/**
-	 * Need to display a card type name? Use this method.
-	 *
-	 * CreditCardType.MASTERCARD -> Master Card
-	 *
-	 * @param context
-	 * @param cardType
-	 * @return Human readable representation of cardType
-	 */
-	@SuppressLint("DefaultLocale")
-	public static String getHumanReadableCardTypeName(Context context, CreditCardType cardType) {
-		switch (cardType) {
-		case AMERICAN_EXPRESS:
-			return context.getString(R.string.cc_american_express);
-		case CARTE_BLANCHE:
-			return context.getString(R.string.cc_carte_blanche);
-		case CHINA_UNION_PAY:
-			return context.getString(R.string.cc_china_union_pay);
-		case DINERS_CLUB:
-			return context.getString(R.string.cc_diners_club);
-		case DISCOVER:
-			return context.getString(R.string.cc_discover);
-		case JAPAN_CREDIT_BUREAU:
-			return context.getString(R.string.cc_japan_credit_bureau);
-		case MAESTRO:
-			return context.getString(R.string.cc_maestro);
-		case MASTERCARD:
-			return context.getString(R.string.cc_master_card);
-		case VISA:
-			return context.getString(R.string.cc_visa);
-		default:
-			return "";
 		}
 	}
 }
