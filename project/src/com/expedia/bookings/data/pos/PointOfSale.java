@@ -457,7 +457,7 @@ public class PointOfSale {
 			try {
 				int posId = Integer.parseInt(posSetting);
 				sCachedPOS = PointOfSaleId.getPointOfSaleFromId(posId);
-				Log.i("Cached POS: " + sCachedPOS);
+				Log.v("Cached POS: " + sCachedPOS);
 			}
 			catch (NumberFormatException e) {
 				// For backwards compatibility, we need to map from the old (which used the url) to the new
