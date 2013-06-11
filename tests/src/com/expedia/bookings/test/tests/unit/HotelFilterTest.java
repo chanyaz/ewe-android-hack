@@ -12,16 +12,16 @@ public class HotelHotelFilterTest extends TestCase {
 	}
 
 	public void testHotelHotelFilterBasicEquality() {
-		HotelFilter left = new Filter();
-		HotelFilter right = new Filter();
+		HotelFilter left = new HotelFilter();
+		HotelFilter right = new HotelFilter();
 
 		assertEquals(left, left);
 		assertEquals(left, right);
 	}
 
 	public void testHotelHotelFilterNameEquality() {
-		HotelFilter left = new Filter();
-		HotelFilter right = new Filter();
+		HotelFilter left = new HotelFilter();
+		HotelFilter right = new HotelFilter();
 
 		left.setHotelName("A");
 		assertNull(right.getHotelName());
@@ -38,8 +38,8 @@ public class HotelHotelFilterTest extends TestCase {
 	}
 
 	public void testHotelHotelFilterOtherEquality() {
-		HotelFilter left = new Filter();
-		HotelFilter right = new Filter();
+		HotelFilter left = new HotelFilter();
+		HotelFilter right = new HotelFilter();
 
 		// SearchRadius
 		left.setSearchRadius(HotelFilter.SearchRadius.SMALL);
