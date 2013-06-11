@@ -214,9 +214,7 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 		}
 		else {
 			String number = getNumber();
-			if (!TextUtils.isEmpty(number)) {
-				selectedCardType = CurrencyUtils.detectCreditCardBrand(number);
-			}
+			selectedCardType = CurrencyUtils.detectCreditCardBrand(number);
 		}
 		return selectedCardType;
 	}
