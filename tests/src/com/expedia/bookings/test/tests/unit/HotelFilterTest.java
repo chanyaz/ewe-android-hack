@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.HotelFilter;
 
-public class HotelHotelFilterTest extends TestCase {
+public class HotelFilterTest extends TestCase {
 
 	public void assertNotEquals(Object left, Object right) {
 		assertTrue(!(left.equals(right)));
@@ -37,7 +37,7 @@ public class HotelHotelFilterTest extends TestCase {
 		assertNotEquals(left, right);
 	}
 
-	public void testHotelHotelFilterOtherEquality() {
+	public void testHotelFilterOtherEquality() {
 		HotelFilter left = new HotelFilter();
 		HotelFilter right = new HotelFilter();
 
