@@ -66,7 +66,6 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 		// Get button detail view
 		View buttonView = mItinContentGenerator.getDetailsView(mItinButtonLayout);
 		if (buttonView != null) {
-			mItinButtonLayout.removeAllViews();
 			mItinButtonLayout.addView(buttonView);
 		}
 	}
