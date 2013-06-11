@@ -11,6 +11,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SearchParams;
+import com.mobiata.android.Log;
 import com.mobiata.android.text.format.Time;
 import com.mobiata.android.widget.CalendarDatePicker;
 
@@ -117,6 +118,28 @@ public class CalendarUtils {
 		}
 		else {
 			searchParams.setCheckInDate(startDate);
+			searchParams.setCheckOutDate(endDate);
+		}
+	}
+
+	public static void syncParamsFromDatePickerHybrid(SearchParams searchParams, CalendarDatePicker picker) {
+		if (picker.getSelectionMode() != CalendarDatePicker.SelectionMode.HYBRID) {
+			throw new UnsupportedOperationException("Can't use syncParamsFromDatePickerHybrid with picker of type "
+					+ picker.getSelectionMode());
+		}
+
+		if (picker.getStartTime() == null) {
+			searchParams.setCheckInDate((Date) null);
+		}
+		else {
+			Date startDate = new Date(picker.getStartYear(), picker.getStartMonth() + 1, picker.getStartDayOfMonth());
+			searchParams.setCheckInDate(startDate);
+		}
+		if (picker.getEndTime() == null) {
+			searchParams.setCheckOutDate((Date) null);
+		}
+		else {
+			Date endDate = new Date(picker.getEndYear(), picker.getEndMonth() + 1, picker.getEndDayOfMonth());
 			searchParams.setCheckOutDate(endDate);
 		}
 	}

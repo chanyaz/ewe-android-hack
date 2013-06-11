@@ -35,8 +35,7 @@ public class SearchParams implements JSONable {
 		CITY(false, false),
 		VISIBLE_MAP_AREA(false, false),
 		FREEFORM(false, false),
-		HOTEL(true, true),
-		;
+		HOTEL(true, true), ;
 
 		private boolean mShouldShowDistance;
 		private boolean mShouldShowExactLocation;
@@ -274,12 +273,37 @@ public class SearchParams implements JSONable {
 		}
 	}
 
+	public void ensureDatesSet() {
+		if (mCheckInDate == null || (mCheckInDate == null && mCheckOutDate == null)) {
+			setDefaultStay();
+		}
+		else if (mCheckOutDate == null) {
+			if (hasValidCheckInDate()) {
+				Calendar cal = getCheckInDate();
+				mCheckOutDate = new Date(new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
+						cal.get(Calendar.DAY_OF_MONTH) + 1));
+			}
+			else {
+				ensureValidCheckInDate();
+			}
+		}
+		else {
+			ensureValidCheckInDate();
+			if (mCheckInDate.after(mCheckOutDate)) {
+				Date tmpDate = mCheckInDate;
+				mCheckInDate = mCheckOutDate;
+				mCheckOutDate = tmpDate;
+			}
+		}
+	}
+
 	/**
 	 * Ensures that the check in date is not AFTER the check out date. Keeps the
 	 * duration of the stay the same.
 	 */
 	public void setCheckInDate(Date date) {
-		if (mCheckInDate != null && mCheckOutDate != null && (date.equals(mCheckOutDate) || date.after(mCheckOutDate))) {
+		if (date != null && mCheckInDate != null && mCheckOutDate != null
+				&& (date.equals(mCheckOutDate) || date.after(mCheckOutDate))) {
 			int stayDuration = getStayDuration();
 			Calendar checkout = (Calendar) date.getCalendar().clone();
 			checkout.add(Calendar.DAY_OF_MONTH, stayDuration);
@@ -293,11 +317,11 @@ public class SearchParams implements JSONable {
 	 * It is preferable to use the Date version of this method.
 	 */
 	public void setCheckInDate(Calendar cal) {
-		setCheckInDate(new Date(cal));
+		setCheckInDate(cal == null ? null : new Date(cal));
 	}
 
 	public Calendar getCheckInDate() {
-		return mCheckInDate.getCalendar();
+		return mCheckInDate == null ? null : mCheckInDate.getCalendar();
 	}
 
 	/**
@@ -305,7 +329,8 @@ public class SearchParams implements JSONable {
 	 * the duration of the stay the same.
 	 */
 	public void setCheckOutDate(Date date) {
-		if (mCheckInDate != null && mCheckOutDate != null && (date.equals(mCheckInDate) || date.before(mCheckInDate))) {
+		if (date != null && mCheckInDate != null && mCheckOutDate != null
+				&& (date.equals(mCheckInDate) || date.before(mCheckInDate))) {
 			int stayDuration = getStayDuration();
 			Calendar checkin = (Calendar) date.getCalendar().clone();
 			checkin.add(Calendar.DAY_OF_MONTH, -stayDuration);
@@ -319,7 +344,7 @@ public class SearchParams implements JSONable {
 	 * It is preferable to use the Date version of this method.
 	 */
 	public void setCheckOutDate(Calendar cal) {
-		setCheckOutDate(new Date(cal));
+		setCheckOutDate(cal == null ? null : new Date(cal));
 	}
 
 	/**
@@ -335,7 +360,7 @@ public class SearchParams implements JSONable {
 	}
 
 	public Calendar getCheckOutDate() {
-		return mCheckOutDate.getCalendar();
+		return mCheckOutDate == null ? null : mCheckOutDate.getCalendar();
 	}
 
 	public void setNumAdults(int numAdults) {
@@ -518,8 +543,10 @@ public class SearchParams implements JSONable {
 					&& this.mSearchLatitude == other.getSearchLatitude()
 					&& this.mSearchLongitude == other.getSearchLongitude()
 					&& this.mPropertyIds.equals(other.getPropertyIds())
-					&& this.mCheckInDate.equals(other.getCheckInDate())
-					&& this.mCheckOutDate.equals(other.getCheckOutDate()) && this.mNumAdults == other.getNumAdults()
+					&& ((mCheckInDate != null && other.getCheckInDate() != null && this.mCheckInDate.equals(other
+							.getCheckInDate())) || (mCheckInDate == null && other.getCheckInDate() == null))
+					&& ((mCheckOutDate != null && other.getCheckOutDate() != null && this.mCheckOutDate.equals(other
+							.getCheckOutDate())) || (mCheckOutDate == null && other.getCheckOutDate() == null))
 					&& (this.mChildren == null ? other.getChildren() == null : mChildren.equals(other.getChildren()));
 		}
 		return false;

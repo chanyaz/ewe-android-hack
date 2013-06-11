@@ -2,6 +2,7 @@ package com.expedia.bookings.activity;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -41,6 +42,7 @@ import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.text.format.Time;
 import android.view.KeyEvent;
 import android.view.Surface;
 import android.view.View;
@@ -169,6 +171,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private static final int DIALOG_LOCATION_SUGGESTIONS = 0;
 	private static final int DIALOG_CLIENT_DEPRECATED = 1;
 	private static final int DIALOG_ENABLE_LOCATIONS = 2;
+	private static final int DIALOG_INVALID_SEARCH_RANGE = 3;
 
 	private static final int REQUEST_SETTINGS = 1;
 
@@ -182,6 +185,8 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private static final String SEARCH_RESULTS_FILE = "savedsearch.dat";
 
 	private static final int ANIMATION_DIMMER_FADE_DURATION = 500;//ms
+
+	private static final int MAXIMUM_SEARCH_LENGTH_DAYS = 28;
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
@@ -267,6 +272,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private boolean mIsOptionsMenuCreated = false;
 	private boolean mIsSearchEditTextTextWatcherEnabled = false;
 	private boolean mGLProgressBarStarted = false;
+	private boolean mHasShownCalendar = false;
 
 	// This indicates to mSearchCallback that we just loaded saved search results,
 	// and as such should behave a bit differently than if we just did a new search.
@@ -354,9 +360,9 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			// Clear the old listener so we don't end up with a memory leak
 			Db.getFilter().clearOnFilterChangedListeners();
 
-			Db.getHotelSearch().setSearchResponse(searchResponse);
-
 			if (searchResponse != null && searchResponse.getPropertiesCount() > 0 && !searchResponse.hasErrors()) {
+				Db.getHotelSearch().setSearchResponse(searchResponse);
+
 				Filter filter = Db.getFilter();
 
 				// Filter reset is already called, hence reset appropriate searchRadius
@@ -548,7 +554,8 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 					toBroadcastSearchCompleted = true;
 				}
 
-				if (Db.getHotelSearch().getSearchParams() != null && Db.getHotelSearch().getSearchParams().getSearchType() != null) {
+				if (Db.getHotelSearch().getSearchParams() != null
+						&& Db.getHotelSearch().getSearchParams().getSearchType() != null) {
 					mShowDistance = Db.getHotelSearch().getSearchParams().getSearchType().shouldShowDistance();
 				}
 			}
@@ -671,11 +678,12 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			mProgressBar.reset();
 		}
 
-		if (Db.getHotelSearch().getSearchResponse() != null && Db.getHotelSearch().getSearchResponse().getPropertiesCount() == 0) {
+		if (Db.getHotelSearch().getSearchResponse() != null
+				&& Db.getHotelSearch().getSearchResponse().getPropertiesCount() == 0) {
 			simulateErrorResponse(LayoutUtils.noHotelsFoundMessage(mContext));
 		}
 
-		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.RANGE);
+		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.HYBRID);
 
 		// setDisplayType here because it could possibly add a TextWatcher before the view has restored causing the listener to fire
 		setDisplayType(mDisplayType, false);
@@ -914,6 +922,13 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				}
 			});
 			builder.setNegativeButton(android.R.string.cancel, null);
+			return builder.create();
+		}
+		case DIALOG_INVALID_SEARCH_RANGE:{
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle(R.string.search_error);
+			builder.setMessage(getString(R.string.hotel_search_range_error_TEMPLATE, MAXIMUM_SEARCH_LENGTH_DAYS));
+			builder.setPositiveButton(R.string.ok, null);
 			return builder.create();
 		}
 		}
@@ -1302,7 +1317,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		mProgressBarHider = findViewById(R.id.search_progress_hider);
 		mProgressBarDimmer = findViewById(R.id.search_progress_dimmer);
 
-		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.RANGE);
+		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.HYBRID);
 
 		mFilterLayout = getLayoutInflater().inflate(R.layout.popup_filter_options, null);
 		mFilterHotelNameEditText = (EditText) mFilterLayout.findViewById(R.id.filter_hotel_name_edit_text);
@@ -1497,7 +1512,57 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		return false;
 	}
 
+	private void updateCalendarInstructionText() {
+		SearchParams params = getCurrentSearchParams();
+		if (mDatesCalendarDatePicker != null) {
+			String dateRangeFormatStr = getString(R.string.calendar_instructions_date_range_TEMPLATE);
+			String dateRangeNightsFormatStr = getString(R.string.calendar_instructions_date_range_with_nights_TEMPLATE);
+			String dateFormatStr = "MMM dd";
+
+			SimpleDateFormat format = (SimpleDateFormat) SimpleDateFormat.getDateInstance();
+			format.applyPattern(dateFormatStr);
+
+			Calendar dateStart = params.getCheckInDate() == null ? null : params.getCheckInDate();
+			Calendar dateEnd = params.getCheckOutDate() == null ? null : params.getCheckOutDate();
+			boolean researchMode = mDatesCalendarDatePicker.getOneWayResearchMode();
+
+			if (dateStart != null && dateEnd != null) {
+				int nightCount = Time.getJulianDay(dateEnd.getTimeInMillis(), dateEnd.getTimeZone().getRawOffset())
+						- Time.getJulianDay(dateStart.getTimeInMillis(), dateStart.getTimeZone().getRawOffset());
+				String nightCountStr = getResources().getQuantityString(R.plurals.length_of_stay, nightCount,
+						nightCount);
+				mDatesCalendarDatePicker.setHeaderInstructionText(String.format(dateRangeNightsFormatStr,
+						format.format(dateStart.getTime()), format.format(dateEnd.getTime()), nightCountStr));
+			}
+			else if (dateStart != null && researchMode) {
+				mDatesCalendarDatePicker
+						.setHeaderInstructionText(getString(R.string.calendar_instructions_hotels_no_dates_selected));
+			}
+			else if (dateStart != null) {
+				mDatesCalendarDatePicker.setHeaderInstructionText(String.format(dateRangeFormatStr,
+						format.format(dateStart.getTime()), ""));
+			}
+			else {
+				mDatesCalendarDatePicker
+						.setHeaderInstructionText(getString(R.string.calendar_instructions_hotels_no_dates_selected));
+			}
+		}
+	}
+
+	private boolean checkSearchRange() {
+		if (getCurrentSearchParams() != null && getCurrentSearchParams().getStayDuration() > MAXIMUM_SEARCH_LENGTH_DAYS) {
+			showDialog(DIALOG_INVALID_SEARCH_RANGE);
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+
 	private void startSearch() {
+		if (!checkSearchRange()) {
+			return;
+		}
 		Log.i("Starting a new search...");
 		mActivityState = ActivityState.SEARCHING;
 
@@ -1695,6 +1760,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private static final String INSTANCE_SEARCH_TEXT_SELECTION_END = "INSTANCE_SEARCH_TEXT_SELECTION_END";
 	private static final String INSTANCE_DISPLAY_TYPE = "INSTANCE_DISPLAY_TYPE";
 	private static final String INSTANCE_ACTIVITY_STATE = "INSTANCE_ACTIVITY_STATE";
+	private static final String INSTANCE_HAS_SHOWN_CALENDAR = "INSTANCE_HAS_SHOWN_CALENDAR";
 
 	private Bundle saveActivityState() {
 		Bundle outState = new Bundle();
@@ -1717,6 +1783,8 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 		outState.putInt(INSTANCE_ACTIVITY_STATE, mActivityState.ordinal());
 
+		outState.putBoolean(INSTANCE_HAS_SHOWN_CALENDAR, mHasShownCalendar);
+
 		return outState;
 	}
 
@@ -1738,7 +1806,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			mAddresses = savedInstanceState.getParcelableArrayList(INSTANCE_ADDRESSES);
 			mDisplayType = DisplayType.values()[savedInstanceState.getInt(INSTANCE_DISPLAY_TYPE)];
 			mActivityState = ActivityState.values()[savedInstanceState.getInt(INSTANCE_ACTIVITY_STATE)];
-
+			mHasShownCalendar = savedInstanceState.getBoolean(INSTANCE_HAS_SHOWN_CALENDAR);
 			mOldSearchParams = JSONUtils
 					.getJSONable(savedInstanceState, INSTANCE_OLD_SEARCH_PARAMS, SearchParams.class);
 			mEditedSearchParams = JSONUtils.getJSONable(savedInstanceState, INSTANCE_EDITED_SEARCH_PARAMS,
@@ -1976,6 +2044,11 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		setSearchEditViews();
 		displayRefinementInfo();
 		setActionBarBookingInfoText();
+
+		if (mDisplayType == DisplayType.CALENDAR && !mHasShownCalendar) {
+			mDatesCalendarDatePicker.reset();
+			mHasShownCalendar = true;
+		}
 	}
 
 	private void switchResultsView() {
@@ -1985,7 +2058,8 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 		if (mTag.equals(getString(R.string.tag_hotel_list))) {
 			newFragmentTag = getString(R.string.tag_hotel_map);
-			OmnitureTracking.trackAppHotelsSearchWithoutRefinements(this, Db.getHotelSearch().getSearchParams(), Db.getHotelSearch().getSearchResponse());
+			OmnitureTracking.trackAppHotelsSearchWithoutRefinements(this, Db.getHotelSearch().getSearchParams(), Db
+					.getHotelSearch().getSearchResponse());
 		}
 		else {
 			newFragmentTag = getString(R.string.tag_hotel_list);
@@ -2234,6 +2308,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 	private void commitEditedSearchParams() {
 		if (mEditedSearchParams != null) {
+			mEditedSearchParams.ensureDatesSet();
 			Db.getHotelSearch().setSearchParams(mEditedSearchParams);
 			mEditedSearchParams = null;
 		}
@@ -2246,7 +2321,10 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private void setActionBarBookingInfoText() {
 		// If we are currently editing params render those values
 		SearchParams params = getCurrentSearchParams();
-		int startDay = params.getCheckInDate().get(Calendar.DAY_OF_MONTH);
+		int startDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+		if (params.getCheckInDate() != null) {
+			startDay = params.getCheckInDate().get(Calendar.DAY_OF_MONTH);
+		}
 		int numAdults = params.getNumAdults();
 		int numChildren = params.getNumChildren();
 
@@ -2301,12 +2379,16 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		mDatesCalendarDatePicker.setOnDateChangedListener(null);
 
 		Calendar checkIn = searchParams.getCheckInDate();
-		mDatesCalendarDatePicker.updateStartDate(checkIn.get(Calendar.YEAR), checkIn.get(Calendar.MONTH),
-				checkIn.get(Calendar.DAY_OF_MONTH));
+		if (checkIn != null) {
+			mDatesCalendarDatePicker.updateStartDate(checkIn.get(Calendar.YEAR), checkIn.get(Calendar.MONTH),
+					checkIn.get(Calendar.DAY_OF_MONTH));
+		}
 
 		Calendar checkOut = searchParams.getCheckOutDate();
-		mDatesCalendarDatePicker.updateEndDate(checkOut.get(Calendar.YEAR), checkOut.get(Calendar.MONTH),
-				checkOut.get(Calendar.DAY_OF_MONTH));
+		if (checkOut != null) {
+			mDatesCalendarDatePicker.updateEndDate(checkOut.get(Calendar.YEAR), checkOut.get(Calendar.MONTH),
+					checkOut.get(Calendar.DAY_OF_MONTH));
+		}
 
 		mDatesCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
 
@@ -2500,10 +2582,11 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		@Override
 		public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
 			if (mEditedSearchParams != null) {
-				CalendarUtils.syncParamsFromDatePicker(mEditedSearchParams, mDatesCalendarDatePicker);
+				CalendarUtils.syncParamsFromDatePickerHybrid(mEditedSearchParams, mDatesCalendarDatePicker);
 
 				displayRefinementInfo();
 				setActionBarBookingInfoText();
+				updateCalendarInstructionText();
 			}
 		}
 	};
