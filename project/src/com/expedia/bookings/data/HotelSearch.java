@@ -25,6 +25,10 @@ public class HotelSearch implements JSONable {
 	private Map<String, ReviewsStatisticsResponse> mReviewsStatisticsResponses;
 	private Map<String, ReviewsResponse> mReviewsResponses;
 
+	public HotelSearch() {
+		mSearchParams = new HotelSearchParams();
+	}
+
 	public void reset() {
 		resetSearchParams();
 		clearSelectedProperty();
