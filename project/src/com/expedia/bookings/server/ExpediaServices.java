@@ -546,7 +546,7 @@ public class ExpediaServices implements DownloadListener {
 
 		if (getEndPoint(mContext) == EndPoint.MOCK_SERVER) {
 			query.add(new BasicNameValuePair("city", "saved product"));
-			SearchResponseHandler rh = new SearchResponseHandler(mContext);
+			HotelSearchResponseHandler rh = new HotelSearchResponseHandler(mContext);
 			return doE3Request("MobileHotel/Webapp/SearchResults", query, rh, 0);
 		}
 
@@ -574,7 +574,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("pageIndex", "0"));
 		query.add(new BasicNameValuePair("filterUnavailable", "true"));
 
-		SearchResponseHandler rh = new SearchResponseHandler(mContext);
+		HotelSearchResponseHandler rh = new HotelSearchResponseHandler(mContext);
 		if (params.hasSearchLatLon()) {
 			rh.setLatLng(params.getSearchLatitude(), params.getSearchLongitude());
 		}

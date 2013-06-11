@@ -31,7 +31,7 @@ import com.mobiata.android.net.AndroidHttpClient;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
-public class SearchResponseHandler implements ResponseHandler<HotelSearchResponse> {
+public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchResponse> {
 	private Context mContext;
 
 	private int mNumNights = 1;
@@ -41,7 +41,7 @@ public class SearchResponseHandler implements ResponseHandler<HotelSearchRespons
 
 	private boolean mCachedIsRelease = false;
 
-	public SearchResponseHandler(Context context) {
+	public HotelSearchResponseHandler(Context context) {
 		mContext = context;
 		mCachedIsRelease = AndroidUtils.isRelease(mContext);
 	}
