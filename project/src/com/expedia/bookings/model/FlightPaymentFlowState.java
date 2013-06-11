@@ -51,6 +51,9 @@ public class FlightPaymentFlowState {
 	 * @return
 	 */
 	public boolean hasAValidCardSelected(BillingInfo billingInfo) {
+		if (billingInfo == null) {
+			return false;
+		}
 		if (billingInfo.hasStoredCard()) {
 			return true;
 		}

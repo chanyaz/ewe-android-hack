@@ -145,7 +145,7 @@ public class FlightTripPriceFragment extends Fragment {
 
 	public void bind() {
 		mTrip = Db.getFlightSearch().getSelectedFlightTrip();
-		mTripSection.bind(getActivity(), mTrip, Db.getBillingInfo());
+		mTripSection.bind(mTrip, Db.getBillingInfo());
 	}
 
 	//////////////////////////////////////////////////////////////////////////

@@ -8,8 +8,8 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.model.FlightPaymentFlowState;
 
 public class SectionFlightTrip extends LinearLayout implements ISection<FlightTrip> {
 	SectionFieldList<FlightTrip> mFields = new SectionFieldList<FlightTrip>();
@@ -63,17 +63,15 @@ public class SectionFlightTrip extends LinearLayout implements ISection<FlightTr
 
 	/**
 	 * A special bind method that is used to display the price with LCC fees.
-	 * @param context - used to inflate the FlightPaymentFlowState for validation
 	 * @param trip - the FlightTrip to bind the view to
-	 * @param billingInfo - the billingInfo which is used in conjunction with FlowState to validate
+	 * @param billingInfo - the billingInfo which is used in conjunction with FlowState to validate the card
 	 */
-	public void bind(Context context, FlightTrip trip, BillingInfo billingInfo) {
+	public void bind(FlightTrip trip, BillingInfo billingInfo) {
 		if (billingInfo == null) {
 			trip.setShowFareWithCardFee(false);
 		}
 		else {
-			FlightPaymentFlowState state = FlightPaymentFlowState.getInstance(context);
-			if (state.hasAValidCardSelected(billingInfo) && trip.showFareWithCardFee()) {
+			if (trip.showFareWithCardFee(mContext, Db.getBillingInfo())) {
 				mBillingInfo = billingInfo;
 			}
 		}
@@ -93,7 +91,7 @@ public class SectionFlightTrip extends LinearLayout implements ISection<FlightTr
 				text = "";
 			}
 			else {
-				if (mTrip.showFareWithCardFee()) {
+				if (mTrip.showFareWithCardFee(mContext, mBillingInfo)) {
 					text = data.getTotalFareWithCardFee(mBillingInfo).getFormattedMoney();
 				}
 				else {

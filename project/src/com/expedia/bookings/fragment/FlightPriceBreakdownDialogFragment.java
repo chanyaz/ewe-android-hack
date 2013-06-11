@@ -14,11 +14,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.model.FlightPaymentFlowState;
 import com.expedia.bookings.section.SectionFlightTrip;
 import com.expedia.bookings.utils.Ui;
 
@@ -53,6 +51,8 @@ public class FlightPriceBreakdownDialogFragment extends DialogFragment {
 		dialog.setCancelable(false);
 		dialog.setContentView(body);
 
+		// Per traveler price
+
 		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
 		LinearLayout travContainer = Ui.findView(body, R.id.traveler_price_container);
 		for (int i = 0; i < Db.getFlightSearch().getSearchParams().getNumAdults(); i++) {
@@ -67,6 +67,8 @@ public class FlightPriceBreakdownDialogFragment extends DialogFragment {
 			travTripLabel.setText(travLabel);
 		}
 
+		// OB fees
+
 		TextView fees = Ui.findView(body, R.id.display_fees);
 		if (trip.getFees() != null) {
 			fees.setText(trip.getFees().getFormattedMoney());
@@ -75,17 +77,14 @@ public class FlightPriceBreakdownDialogFragment extends DialogFragment {
 			fees.setText("");
 		}
 
-		FlightPaymentFlowState state = FlightPaymentFlowState.getInstance(getActivity());
-		BillingInfo billingInfo = Db.getBillingInfo();
-		boolean hasValidCard = state.hasAValidCardSelected(billingInfo);
-
+		// LCC card fee
 		View divider = Ui.findView(body, R.id.divider_card_fee);
 		ViewGroup cardFeeContainer = Ui.findView(body, R.id.container_card_fee);
 		TextView cardFees = Ui.findView(body, R.id.display_card_fees);
 
 		Money cardFee = trip.getCardFee(Db.getBillingInfo());
 
-		if (hasValidCard && trip.showFareWithCardFee() && cardFee != null) {
+		if (cardFee != null && trip.showFareWithCardFee(getActivity(), Db.getBillingInfo())) {
 			divider.setVisibility(View.VISIBLE);
 			cardFeeContainer.setVisibility(View.VISIBLE);
 			cardFees.setText(cardFee.getFormattedMoney());
@@ -95,10 +94,12 @@ public class FlightPriceBreakdownDialogFragment extends DialogFragment {
 			cardFeeContainer.setVisibility(View.GONE);
 		}
 
+		// Total price
+
 		TextView totalPriceBottom = Ui.findView(body, R.id.display_total_price_bottom);
 		if (trip.getTotalFare() != null) {
 			String text;
-			if (hasValidCard && trip.showFareWithCardFee()) {
+			if (trip.showFareWithCardFee(getActivity(), Db.getBillingInfo())) {
 				text = trip.getTotalFareWithCardFee(Db.getBillingInfo()).getFormattedMoney();
 			}
 			else {

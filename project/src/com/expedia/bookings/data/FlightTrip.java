@@ -15,8 +15,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.text.TextUtils;
 
+import com.expedia.bookings.model.FlightPaymentFlowState;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.flightlib.data.Flight;
@@ -213,8 +215,16 @@ public class FlightTrip implements JSONable {
 		return base;
 	}
 
-	public boolean showFareWithCardFee() {
-		return mShowFareWithCardFee;
+	/**
+	 * Whether or not we show total fare with the card fee has some mildly complicated logic. We explicitly set that
+	 * the fare should be shown with card fee based upon (a) the user has a valid card selected in the billingInfo and
+	 * (b) if the user has visited the "checkout" screen (which we store in mShowFareWithCardFee).
+	 * @param context - context required to inflate the FlowState and validate the credit card
+	 * @param billingInfo
+	 * @return
+	 */
+	public boolean showFareWithCardFee(Context context, BillingInfo billingInfo) {
+		return mShowFareWithCardFee && FlightPaymentFlowState.getInstance(context).hasAValidCardSelected(billingInfo);
 	}
 
 	public void setShowFareWithCardFee(boolean showFareWithCardFee) {
@@ -588,7 +598,7 @@ public class FlightTrip implements JSONable {
 	// Playing with others
 
 	public void updateFrom(FlightTrip other) {
-		// Things we do not update (since they shoud not change):
+		// Things we do not update (since they should not change):
 		// - Product key
 		// - Legs
 		// - Leg segment attributes
