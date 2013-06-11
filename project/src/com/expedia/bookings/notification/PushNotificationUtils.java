@@ -153,7 +153,7 @@ public class PushNotificationUtils {
 					Log.e("PushNotificationUtils.generateNotification Formatted message was null for locKey:" + locKey);
 				}
 				else {
-					String uniqueId = sanatizeUniqueId(fhid + "_" + formattedMessage);
+					String uniqueId = sanitizeUniqueId(fhid + "_" + formattedMessage);
 
 					Notification notification = new Notification(uniqueId, itinId, triggerTimeMillis);
 					notification.setItinId(itinId);
@@ -183,12 +183,12 @@ public class PushNotificationUtils {
 	 * @param uniqueId
 	 * @return
 	 */
-	private static String sanatizeUniqueId(String uniqueId) {
+	private static String sanitizeUniqueId(String uniqueId) {
 		String retStr = uniqueId.replaceAll("\\W", "");
 		if (retStr.length() > 1024) {
 			retStr = retStr.substring(0, 1024);
 		}
-		Log.d("PushNotificationUtils.sanatizeUniqueId input:" + uniqueId + " output:" + retStr);
+		Log.d("PushNotificationUtils.sanitizeUniqueId input:" + uniqueId + " output:" + retStr);
 		return retStr;
 	}
 
