@@ -26,7 +26,6 @@ import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListe
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.FocusViewRunnable;
 import com.expedia.bookings.utils.Ui;
 import com.nineoldandroids.animation.Animator;

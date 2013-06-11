@@ -8,7 +8,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.mobiata.android.FileCipher;
