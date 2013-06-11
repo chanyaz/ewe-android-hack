@@ -1,6 +1,7 @@
 package com.expedia.bookings.utils;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.expedia.bookings.data.CreditCardType;
 
@@ -48,12 +49,13 @@ public class CurrencyUtils {
 	 * @return the credit card brand if detected, null if not detected
 	 */
 	public static CreditCardType detectCreditCardBrand(String cardNumber) {
-		int numDigits = 0;
-		if (cardNumber != null) {
-			numDigits = cardNumber.length();
+		//If we dont have any input, we dont get any output
+		if (TextUtils.isEmpty(cardNumber)) {
+			return null;
 		}
 
 		// We don't start trying to detect cards until we have at least 13 digits
+		int numDigits = cardNumber.length();
 		if (numDigits < 13) {
 			return null;
 		}
