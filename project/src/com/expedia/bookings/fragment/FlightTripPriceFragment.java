@@ -79,10 +79,6 @@ public class FlightTripPriceFragment extends Fragment {
 	}
 
 	public void bind() {
-		bindPrice();
-	}
-
-	private void bindPrice() {
 		mTrip = Db.getFlightSearch().getSelectedFlightTrip();
 		FlightPaymentFlowState state = FlightPaymentFlowState.getInstance(getActivity());
 
@@ -138,7 +134,7 @@ public class FlightTripPriceFragment extends Fragment {
 
 		if (Db.getFlightSearch().getSelectedFlightTrip() != null) {
 			mTrip = Db.getFlightSearch().getSelectedFlightTrip();
-			bindPrice();
+			bind();
 		}
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
