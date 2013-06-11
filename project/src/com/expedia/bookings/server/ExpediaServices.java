@@ -20,8 +20,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.GZIPInputStream;
+
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -55,7 +58,6 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AssociateUserToTripResponse;
-import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
@@ -71,7 +73,10 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightStatsFlightResponse;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelProductResponse;
+import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
@@ -85,8 +90,6 @@ import com.expedia.bookings.data.SamsungWalletResponse;
 import com.expedia.bookings.data.Scenario;
 import com.expedia.bookings.data.ScenarioResponse;
 import com.expedia.bookings.data.ScenarioSetResponse;
-import com.expedia.bookings.data.HotelSearchParams;
-import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.SignInResponse;
@@ -109,6 +112,7 @@ import com.mobiata.android.BackgroundDownloader.DownloadListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.AndroidHttpClient;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
@@ -1393,6 +1397,27 @@ public class ExpediaServices implements DownloadListener {
 		TRUNK_STUBBED,
 	}
 
+	private static Map<EndPoint, String> sServerUrls = new HashMap<EndPoint, String>();
+
+	public static void initEndPoints(Context context, String assetPath) {
+		try {
+			InputStream is = context.getAssets().open(assetPath);
+			JSONObject data = new JSONObject(IoUtils.convertStreamToString(is));
+
+			sServerUrls.put(EndPoint.PRODUCTION, data.optString("production").replace('@', 's'));
+			sServerUrls.put(EndPoint.DEV, data.optString("stable").replace('@', 's'));
+			sServerUrls.put(EndPoint.INTEGRATION, data.optString("integration").replace('@', 's'));
+			sServerUrls.put(EndPoint.STABLE, data.optString("development").replace('@', 's'));
+			sServerUrls.put(EndPoint.PUBLIC_INTEGRATION, data.optString("publicIntegration").replace('@', 's'));
+			sServerUrls.put(EndPoint.TRUNK, data.optString("trunk").replace('@', 's'));
+			sServerUrls.put(EndPoint.TRUNK_STUBBED, data.optString("stubbed").replace('@', 's'));
+		}
+		catch (Exception e) {
+			// If the endpoints fail to load, then we should fail horribly
+			throw new RuntimeException(e);
+		}
+	}
+
 	/**
 	 * Returns the base E3 server url, based on dev settings
 	 * @param context
@@ -1400,76 +1425,26 @@ public class ExpediaServices implements DownloadListener {
 	 */
 	public String getE3EndpointUrl(int flags) {
 		EndPoint endPoint = getEndPoint(mContext);
-
-		StringBuilder builder = new StringBuilder();
-
-		builder.append(endPoint != EndPoint.PROXY && (flags & F_SECURE_REQUEST) != 0 ? "https://" : "http://");
-
 		String domain = PointOfSale.getPointOfSale().getUrl();
 
-		switch (endPoint) {
-		case PRODUCTION: {
-			builder.append("www.");
-			builder.append(domain);
-			builder.append("/");
-			break;
-		}
-		case INTEGRATION: {
-			builder.append("www");
-			for (String s : domain.split("\\.")) {
-				builder.append(s);
-			}
-			builder.append(".integration.sb.karmalab.net/");
-			break;
-		}
-		case STABLE: {
-			builder.append("www");
-			for (String s : domain.split("\\.")) {
-				builder.append(s);
-			}
-			builder.append(".stable.sb.karmalab.net/");
-			break;
-		}
-		case DEV: {
-			builder.append("www");
-			for (String s : domain.split("\\.")) {
-				builder.append(s);
-			}
-			builder.append(".chelwebestr37.bgb.karmalab.net/");
-			break;
-		}
-		case TRUNK: {
-			builder.append("wwwexpediacom.trunk.sb.karmalab.net/");
-			break;
-		}
-		case TRUNK_STUBBED: {
-			builder.append("wwwexpediacom.trunk-stubbed.sb.karmalab.net/");
-			break;
-		}
-		case PUBLIC_INTEGRATION: {
-			builder.append("70.42.224.37/");
-			break;
-		}
-		case PROXY: {
-			builder.append(SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
-					"localhost:3000"));
-			builder.append("/");
-			builder.append(domain);
-			builder.append("/");
-			break;
-		}
-		case MOCK_SERVER: {
-			builder.append(SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
-					"localhost:3000"));
-			builder.append("/");
-			builder.append(domain);
-			builder.append("/");
-			break;
-		}
-		}
+		String urlTemplate = sServerUrls.get(endPoint);
+		if (!TextUtils.isEmpty(urlTemplate)) {
+			String protocol = (flags & F_SECURE_REQUEST) != 0 ? "https" : "http";
 
-		String e3url = builder.toString();
-		return e3url;
+			// Use dot-less domain names for everything besides production
+			if (endPoint != EndPoint.PRODUCTION) {
+				domain = TextUtils.join("", domain.split("\\."));
+			}
+
+			return String.format(urlTemplate, protocol, domain);
+		}
+		else if (endPoint == EndPoint.PROXY || endPoint == EndPoint.MOCK_SERVER) {
+			return "http://" + SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
+					"localhost:3000") + "/" + domain + "/";
+		}
+		else {
+			throw new RuntimeException("Didn't know how to handle EndPoint: " + endPoint);
+		}
 	}
 
 	public static EndPoint getEndPoint(Context context) {

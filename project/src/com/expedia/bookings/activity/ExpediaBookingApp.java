@@ -19,6 +19,7 @@ import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
@@ -119,6 +120,11 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 		ExpediaImageManager.init(this);
 		startupTimer.addSplit("ExpediaImageManager Init");
+
+		String serverUrlPath = IS_VSC ? "ExpediaSharedData/VSCServerURLs.json"
+				: "ExpediaSharedData/ExpediaServerURLs.json";
+		ExpediaServices.initEndPoints(this, serverUrlPath);
+		startupTimer.addSplit("ExpediaServices endpoints init");
 
 		// We want to try to start loading data (but it may not be finished syncing before someone tries to use it).
 		ItineraryManager.getInstance().startSync(false);
