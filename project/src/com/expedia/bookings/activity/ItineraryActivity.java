@@ -46,7 +46,6 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 
 	private static final String ARG_JUMP_TO_ITIN_ID = "ARG_JUMP_TO_ITIN_ID";
 
-	private static final String STATE_SELECTED_ITIN_CARD_ID = "STATE_SELECTED_ITIN_CARD_ID";
 	private static final String STATE_JUMP_TO_ITIN_ID = "STATE_JUMP_TO_ITIN_ID";
 
 	private boolean mTwoPaneMode;
@@ -148,10 +147,6 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 			if (savedInstanceState.containsKey(STATE_JUMP_TO_ITIN_ID)) {
 				mJumpToItinId = savedInstanceState.getString(STATE_JUMP_TO_ITIN_ID);
 			}
-			else if (savedInstanceState.containsKey(STATE_SELECTED_ITIN_CARD_ID)) {
-				// Yes, we want this to be mJumpToItinId here.
-				mJumpToItinId = savedInstanceState.getString(STATE_SELECTED_ITIN_CARD_ID);
-			}
 		}
 		else {
 			mJumpToItinId = getIntent().getStringExtra(ARG_JUMP_TO_ITIN_ID);
@@ -201,8 +196,12 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 
-		outState.putString(STATE_SELECTED_ITIN_CARD_ID, mSelectedItinCardId);
-		outState.putString(STATE_JUMP_TO_ITIN_ID, mJumpToItinId);
+		if (mJumpToItinId != null) {
+			outState.putString(STATE_JUMP_TO_ITIN_ID, mJumpToItinId);
+		}
+		else if (mSelectedItinCardId != null) {
+			outState.putString(STATE_JUMP_TO_ITIN_ID, mSelectedItinCardId);
+		}
 
 		mFragmentSafe = false;
 	}
