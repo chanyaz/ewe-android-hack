@@ -2,6 +2,7 @@ package com.expedia.bookings.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -18,11 +19,14 @@ import com.mobiata.android.Log;
 // itin cards. It's being called from "share" actions on expanded notifications.
 public class StandaloneShareActivity extends FragmentActivity {
 
-	private static final String ARG_UNIQUE_ID = "ARG_UNIQUE_ID";
-
 	public static Intent createIntent(Context context, String uniqueId) {
 		Intent intent = new Intent(context, StandaloneShareActivity.class);
-		intent.putExtra(StandaloneShareActivity.ARG_UNIQUE_ID, uniqueId);
+
+		// Android OS needs a way to differentiate multiple intents to this same activity.
+		// http://developer.android.com/reference/android/content/Intent.html#filterEquals(android.content.Intent)
+		String uriString = "expedia://notification/share/" + uniqueId;
+		intent.setData(Uri.parse(uriString));
+
 		return intent;
 	}
 
@@ -30,7 +34,7 @@ public class StandaloneShareActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		String uniqueId = getIntent().getStringExtra(ARG_UNIQUE_ID);
+		String uniqueId = getIntent().getData().getLastPathSegment();
 		ItineraryManager manager = ItineraryManager.getInstance();
 		ItinCardData data = manager.getItinCardDataFromItinId(uniqueId);
 
