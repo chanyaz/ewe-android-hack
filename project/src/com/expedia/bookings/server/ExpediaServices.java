@@ -644,7 +644,8 @@ public class ExpediaServices implements DownloadListener {
 		return doE3Request("MobileHotel/Webapp/HotelProduct", query, responseHandler, 0);
 	}
 
-	public CreateTripResponse createTripWithCoupon(String couponCode, HotelSearchParams params, Property property, Rate rate) {
+	public CreateTripResponse createTripWithCoupon(String couponCode, HotelSearchParams params, Property property,
+			Rate rate) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		addCommonParams(query);
@@ -1159,7 +1160,9 @@ public class ExpediaServices implements DownloadListener {
 			Log.e("Failure to create StringEntity", e);
 		}
 
-		if (!SettingUtils.get(mContext, mContext.getString(R.string.preference_disable_push_registration), false)) {
+		if (AndroidUtils.isRelease(mContext)
+				|| !SettingUtils
+						.get(mContext, mContext.getString(R.string.preference_disable_push_registration), false)) {
 
 			synchronized (PushNotificationUtils.getLockObject(regId)) {
 				//We first check to see if we have already sent this payload for this regId
