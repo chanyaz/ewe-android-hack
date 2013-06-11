@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 
 public class SectionFlightTrip extends LinearLayout implements ISection<FlightTrip> {
@@ -64,18 +63,10 @@ public class SectionFlightTrip extends LinearLayout implements ISection<FlightTr
 	/**
 	 * A special bind method that is used to display the price with LCC fees.
 	 * @param trip - the FlightTrip to bind the view to
-	 * @param billingInfo - the billingInfo which is used in conjunction with FlowState to validate the card
+	 * @param billingInfo - the billingInfo which will be used in conjunction with FlowState to validate the card
 	 */
-	public void bind(FlightTrip trip, BillingInfo billingInfo) {
-		if (billingInfo == null) {
-			trip.setShowFareWithCardFee(false);
-		}
-		else {
-			if (trip.showFareWithCardFee(mContext, Db.getBillingInfo())) {
-				mBillingInfo = billingInfo;
-			}
-		}
-
+	public void bind(final FlightTrip trip, BillingInfo billingInfo) {
+		mBillingInfo = billingInfo;
 		bind(trip);
 	}
 
