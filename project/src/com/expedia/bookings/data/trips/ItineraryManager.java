@@ -1410,13 +1410,8 @@ public class ItineraryManager implements JSONable {
 			return;
 		}
 		for (TripComponent tc : components) {
-			List<ItinCardData> list = ItinCardDataFactory.generateCardData(tc);
-			if (list == null) {
-				continue;
-			}
-			for (ItinCardData data : list) {
-				Notification.deleteAll(mContext, data.getId());
-			}
+			String itinId = tc.getUniqueId();
+			Notification.deleteAll(mContext, itinId);
 		}
 	}
 
