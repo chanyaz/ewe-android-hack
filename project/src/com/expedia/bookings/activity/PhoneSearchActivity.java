@@ -2030,7 +2030,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		}
 		}
 
-		mDatesCalendarDatePicker.suppressTooltip(mDisplayType != DisplayType.CALENDAR);
+		mDatesCalendarDatePicker.setTooltipSuppressed(mDisplayType != DisplayType.CALENDAR);
 
 		if (mDisplayType == DisplayType.KEYBOARD) {
 			showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
