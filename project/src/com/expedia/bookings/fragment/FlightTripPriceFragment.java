@@ -1,6 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -43,10 +42,7 @@ public class FlightTripPriceFragment extends Fragment {
 	private View mFragmentContent;
 
 	public static FlightTripPriceFragment newInstance() {
-		FlightTripPriceFragment fragment = new FlightTripPriceFragment();
-		Bundle args = new Bundle();
-		fragment.setArguments(args);
-		return fragment;
+		return new FlightTripPriceFragment();
 	}
 
 	@Override
@@ -62,24 +58,6 @@ public class FlightTripPriceFragment extends Fragment {
 			mRequestedDetails = savedInstanceState.getBoolean(INSTANCE_REQUESTED_DETAILS, false);
 			mPriceChangeString = savedInstanceState.getString(INSTANCE_PRICE_CHANGE);
 		}
-	}
-
-	public void hidePriceChange() {
-		mPriceChangeString = null;
-		mPriceChangedTv.setText("");
-		mPriceChangeContainer.setVisibility(View.GONE);
-	}
-
-	public void showPriceChange() {
-		if (mTrip != null && mTrip.notifyPriceChanged() && !TextUtils.isEmpty(mPriceChangeString)) {
-			mPriceChangedTv.setText(mPriceChangeString);
-			mPriceChangeContainer.setVisibility(View.VISIBLE);
-		}
-	}
-
-	public void bind() {
-		mTrip = Db.getFlightSearch().getSelectedFlightTrip();
-		mTripSection.bind(getActivity(), mTrip, Db.getBillingInfo());
 	}
 
 	@Override
@@ -116,11 +94,6 @@ public class FlightTripPriceFragment extends Fragment {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-	}
-
-	@Override
 	public void onResume() {
 		super.onResume();
 
@@ -133,7 +106,6 @@ public class FlightTripPriceFragment extends Fragment {
 		if (bd.isDownloading(KEY_DETAILS)) {
 			bd.registerDownloadCallback(KEY_DETAILS, mFlightDetailsCallback);
 		}
-
 	}
 
 	@Override
@@ -153,6 +125,27 @@ public class FlightTripPriceFragment extends Fragment {
 		super.onSaveInstanceState(outState);
 		outState.putBoolean(INSTANCE_REQUESTED_DETAILS, mRequestedDetails);
 		outState.putString(INSTANCE_PRICE_CHANGE, mPriceChangeString);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Public methods
+
+	public void hidePriceChange() {
+		mPriceChangeString = null;
+		mPriceChangedTv.setText("");
+		mPriceChangeContainer.setVisibility(View.GONE);
+	}
+
+	public void showPriceChange() {
+		if (mTrip != null && mTrip.notifyPriceChanged() && !TextUtils.isEmpty(mPriceChangeString)) {
+			mPriceChangedTv.setText(mPriceChangeString);
+			mPriceChangeContainer.setVisibility(View.VISIBLE);
+		}
+	}
+
+	public void bind() {
+		mTrip = Db.getFlightSearch().getSelectedFlightTrip();
+		mTripSection.bind(getActivity(), mTrip, Db.getBillingInfo());
 	}
 
 	//////////////////////////////////////////////////////////////////////////
