@@ -34,7 +34,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.net.JsonResponseHandler;
 
-public class AvailabilityResponseHandler extends JsonResponseHandler<HotelOffersResponse> {
+public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersResponse> {
 
 	public static final String DOWNLOAD_KEY_PREFIX = "AVAILABILITY_RESPONSE_HANDLER";
 
@@ -42,7 +42,7 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<HotelOffers
 	private HotelSearchParams mSearchParams;
 	private Property mProperty;
 
-	public AvailabilityResponseHandler(Context context, HotelSearchParams searchParams, Property property) {
+	public HotelOffersResponseHandler(Context context, HotelSearchParams searchParams, Property property) {
 		mContext = context;
 		mSearchParams = searchParams;
 		mProperty = property;

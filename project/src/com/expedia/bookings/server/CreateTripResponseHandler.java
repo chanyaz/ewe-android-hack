@@ -53,7 +53,7 @@ public class CreateTripResponseHandler extends JsonResponseHandler<CreateTripRes
 			JSONObject newHotelResponse = response.getJSONObject("newHotelProductResponse");
 			int numberOfNights = newHotelResponse.getInt("numberOfNights");
 
-			AvailabilityResponseHandler availHandler = new AvailabilityResponseHandler(mContext, mSearchParams, mProperty);
+			HotelOffersResponseHandler availHandler = new HotelOffersResponseHandler(mContext, mSearchParams, mProperty);
 			Rate newRate = availHandler.parseJsonHotelOffer(newHotelResponse.getJSONObject("hotelRoomResponse"), numberOfNights, null);
 
 			createTripResponse.setNewRate(newRate);

@@ -593,7 +593,7 @@ public class ExpediaServices implements DownloadListener {
 			addHotelSearchParams(query, params);
 		}
 
-		AvailabilityResponseHandler responseHandler = new AvailabilityResponseHandler(mContext, params, property);
+		HotelOffersResponseHandler responseHandler = new HotelOffersResponseHandler(mContext, params, property);
 		HotelOffersResponse response = doE3Request("MobileHotel/Webapp/HotelOffers", query, responseHandler, 0);
 
 		int numTries = 1;

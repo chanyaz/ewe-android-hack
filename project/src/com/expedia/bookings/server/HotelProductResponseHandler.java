@@ -38,7 +38,7 @@ public class HotelProductResponseHandler extends JsonResponseHandler<HotelProduc
 			}
 
 			JSONObject jsonRate = response.getJSONObject("hotelRoomResponse");
-			AvailabilityResponseHandler availHandler = new AvailabilityResponseHandler(mContext, mSearchParams, mProperty);
+			HotelOffersResponseHandler availHandler = new HotelOffersResponseHandler(mContext, mSearchParams, mProperty);
 			Rate rate = availHandler.parseJsonHotelOffer(jsonRate, mSearchParams.getStayDuration(), null);
 			prodResponse.setRate(rate);
 		}
