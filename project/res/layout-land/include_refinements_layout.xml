@@ -24,7 +24,7 @@
             mobiata:drawGridLines="false"
             mobiata:popupBackground="@drawable/calendar_date_picker_popup"
             mobiata:stateCellDrawable="@drawable/calendar_date_picker_cell"
-            mobiata:toolTipBackground="@drawable/calendar_tooltip"
+            mobiata:toolTipBackground="@drawable/calendar_tooltip_background"
             mobiata:toolTipDateFormat="MMM dd"
             mobiata:toolTipEnabled="true"
             mobiata:toolTipEndBottomText="@string/calendar_tooltip_bottom_drag_to_modify"
