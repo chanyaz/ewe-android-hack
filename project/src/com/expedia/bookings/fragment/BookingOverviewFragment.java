@@ -34,6 +34,7 @@ import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
 import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CheckoutDataLoader;
+import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -61,6 +62,7 @@ import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.CouponCodeWidget;
+import com.expedia.bookings.widget.CouponCodeWidget.CouponCodeWidgetListener;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.HotelReceipt;
 import com.expedia.bookings.widget.LinearLayout;
@@ -78,7 +80,8 @@ import com.mobiata.android.util.Ui;
 import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.view.ViewHelper;
 
-public class BookingOverviewFragment extends LoadWalletFragment implements AccountButtonClickListener {
+public class BookingOverviewFragment extends LoadWalletFragment implements AccountButtonClickListener,
+		CouponCodeWidgetListener {
 
 	public interface BookingOverviewFragmentListener {
 		public void checkoutStarted();
@@ -95,6 +98,7 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
 	private static final String KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE = "KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE";
+	private static final String KEY_APPLY_COUPON = "KEY_CREATE_TRIP";
 
 	private boolean mInCheckout = false;
 	private BookingOverviewFragmentListener mBookingOverviewFragmentListener;
@@ -275,14 +279,7 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 			}
 		});
 
-		mCouponCodeWidget.setCouponCodeAppliedListener(new CouponCodeWidget.CouponCodeAppliedListener() {
-			@Override
-			public void couponCodeApplied() {
-				if (isAdded()) {
-					refreshData();
-				}
-			}
-		});
+		mCouponCodeWidget.setListener(this);
 
 		return view;
 	}
@@ -309,6 +306,10 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 		if (bd.isDownloading(KEY_REFRESH_USER)) {
 			bd.registerDownloadCallback(KEY_REFRESH_USER, mRefreshUserCallback);
 		}
+
+		if (bd.isDownloading(KEY_APPLY_COUPON)) {
+			bd.registerDownloadCallback(KEY_APPLY_COUPON, mCouponCallback);
+		}
 	}
 
 	@Override
@@ -319,10 +320,12 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 		if (getActivity().isFinishing()) {
 			bd.cancelDownload(KEY_REFRESH_USER);
 			bd.cancelDownload(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE);
+			bd.cancelDownload(KEY_APPLY_COUPON);
 		}
 		else {
 			bd.unregisterDownloadCallback(KEY_REFRESH_USER);
 			bd.unregisterDownloadCallback(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE);
+			bd.unregisterDownloadCallback(KEY_APPLY_COUPON);
 		}
 
 		if (Db.getTravelersAreDirty()) {
@@ -545,7 +548,8 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 		}
 		mSlideToPurchaseFragment.setTotalPriceString(mSlideToPurchasePriceString);
 
-		mHotelReceipt.bind(mIsDoneLoadingPriceChange, Db.getHotelSearch().getSelectedProperty(), Db.getHotelSearch().getSearchParams(),
+		mHotelReceipt.bind(mIsDoneLoadingPriceChange, Db.getHotelSearch().getSelectedProperty(), Db.getHotelSearch()
+				.getSearchParams(),
 				rate);
 	}
 
@@ -900,7 +904,8 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, services);
 			String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
 			Rate selectedRate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
-			return services.hotelProduct(Db.getHotelSearch().getSearchParams(), Db.getHotelSearch().getSelectedProperty(), selectedRate);
+			return services.hotelProduct(Db.getHotelSearch().getSearchParams(), Db.getHotelSearch()
+					.getSelectedProperty(), selectedRate);
 		}
 	};
 
@@ -1244,4 +1249,98 @@ public class BookingOverviewFragment extends LoadWalletFragment implements Accou
 		mCreditCardSectionButton.setEnabled(enableButtons);
 		mCouponCodeEditText.setEnabled(enableButtons);
 	}
+
+	// Coupons
+
+	private String mCouponCode;
+
+	public void applyCoupon() {
+		Log.i("Trying to apply coupon code: " + mCouponCode);
+
+		mCouponCodeWidget.setLoading(true);
+
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (bd.isDownloading(KEY_APPLY_COUPON)) {
+			Log.w("Somehow, we were already trying to apply a coupon when we tried to apply another one."
+					+ "  Cancelling previous coupon code attempt.");
+			bd.cancelDownload(KEY_APPLY_COUPON);
+		}
+
+		bd.startDownload(KEY_APPLY_COUPON, mCouponDownload, mCouponCallback);
+	}
+
+	private final Download<CreateTripResponse> mCouponDownload = new Download<CreateTripResponse>() {
+		@Override
+		public CreateTripResponse doDownload() {
+			ExpediaServices services = new ExpediaServices(getActivity());
+			BackgroundDownloader.getInstance().addDownloadListener(KEY_APPLY_COUPON, services);
+			String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+			Rate selectedRate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
+			return services.createTripWithCoupon(mCouponCode, Db.getHotelSearch().getSearchParams(), Db
+					.getHotelSearch().getSelectedProperty(), selectedRate);
+		}
+	};
+
+	private final OnDownloadComplete<CreateTripResponse> mCouponCallback = new OnDownloadComplete<CreateTripResponse>() {
+		@Override
+		public void onDownload(CreateTripResponse response) {
+			mCouponCodeWidget.setLoading(false);
+
+			if (response == null) {
+				Log.w("Failed to apply coupon code (null response): " + mCouponCode);
+
+				mCouponCodeWidget.onApplyCouponError(null);
+			}
+			else if (response.hasErrors()) {
+				Log.w("Failed to apply coupon code (server errors): " + mCouponCode);
+
+				mCouponCodeWidget.onApplyCouponError(response.getErrors());
+			}
+			else {
+				Log.i("Applied coupon code: " + mCouponCode);
+
+				Db.setCreateTripResponse(response);
+
+				mCouponCodeWidget.onApplyCoupon(response.getNewRate());
+
+				if (isAdded()) {
+					refreshData();
+				}
+
+				// TODO: enable coupon tracking for 3.2
+				//				OmnitureTracking.trackHotelCouponApplied(mContext, response.getNewRate());
+			}
+		}
+	};
+
+	// CouponCodeWidgetListener
+
+	@Override
+	public void onCouponCodeChanged(String couponCode) {
+		if (!TextUtils.equals(mCouponCode, couponCode)) {
+			mCouponCode = couponCode;
+
+			// Reset the coupon state
+			BackgroundDownloader bd = BackgroundDownloader.getInstance();
+			if (bd.isDownloading(KEY_APPLY_COUPON)) {
+				bd.cancelDownload(KEY_APPLY_COUPON);
+			}
+			else if (Db.getCreateTripResponse() != null) {
+				Db.setCreateTripResponse(null);
+
+				// TODO: enable coupon tracking for 3.2
+				//				OmnitureTracking.trackHotelCouponRemoved(mContext);
+			}
+
+			mCouponCodeWidget.resetState();
+
+			refreshData();
+		}
+	}
+
+	@Override
+	public void onApplyClicked() {
+		applyCoupon();
+	}
+
 }

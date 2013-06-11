@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget;
 
+import java.util.List;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
@@ -16,11 +18,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.BookingInfoUtils;
-import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.BackgroundDownloader.Download;
-import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 
 public class CouponCodeWidget {
 	private Context mContext;
@@ -44,13 +42,11 @@ public class CouponCodeWidget {
 	// changes the text we should clear existing coupons.
 	private boolean mTriedToApplyCoupon = false;
 
-	private CouponCodeAppliedListener mListener;
+	private CouponCodeWidgetListener mListener;
 	private View mFieldAboveCouponCode;
 	private View mFieldBelowCouponCode;
 	private int mFieldAboveCouponCodeId;
 	private int mFieldBelowCouponCodeId;
-
-	private static final String KEY_CREATE_TRIP = "KEY_CREATE_TRIP";
 
 	private static final String KEY_COLLAPSED = "KEY_COUPON_COLLAPSED";
 	private static final String KEY_TEXT_EMPTY = "KEY_COUPON_TEXT_EMPTY";
@@ -84,8 +80,7 @@ public class CouponCodeWidget {
 			@Override
 			public void onClick(View v) {
 				mTriedToApplyCoupon = true;
-				mProgressShowing = true;
-				update();
+				mListener.onApplyClicked();
 			}
 		});
 	}
@@ -104,21 +99,8 @@ public class CouponCodeWidget {
 		@Override
 		public void afterTextChanged(Editable s) {
 			mApply.setEnabled(!(mTextEmpty = TextUtils.isEmpty(s)));
-			if (mTriedToApplyCoupon) {
-				mTriedToApplyCoupon = false;
-				mUseNewTotal = false;
-				mProgressShowing = false;
-				mError = false;
-				Db.setCreateTripResponse(null);
-				update();
 
-				if (mListener != null) {
-					mListener.couponCodeApplied();
-				}
-
-				// TODO: enable coupon tracking for 3.2
-				//				OmnitureTracking.trackHotelCouponRemoved(mContext);
-			}
+			mListener.onCouponCodeChanged(s.toString());
 		}
 	};
 
@@ -172,19 +154,11 @@ public class CouponCodeWidget {
 			return;
 		}
 
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (mTriedToApplyCoupon) {
 			if (mProgressShowing) {
 				mProgressBar.setVisibility(View.VISIBLE);
 				mApply.setVisibility(View.GONE);
 				mNewTotal.setVisibility(View.GONE);
-
-				if (bd.isDownloading(KEY_CREATE_TRIP)) {
-					bd.registerDownloadCallback(KEY_CREATE_TRIP, mCouponCallback);
-				}
-				else {
-					bd.startDownload(KEY_CREATE_TRIP, mCouponDownload, mCouponCallback);
-				}
 			}
 			else if (mUseNewTotal) {
 				mProgressBar.setVisibility(View.GONE);
@@ -194,9 +168,6 @@ public class CouponCodeWidget {
 			}
 		}
 		else {
-			if (bd.isDownloading(KEY_CREATE_TRIP)) {
-				bd.cancelDownload(KEY_CREATE_TRIP);
-			}
 			mProgressBar.setVisibility(View.GONE);
 			mApply.setVisibility(View.VISIBLE);
 			mNewTotal.setVisibility(View.GONE);
@@ -204,7 +175,6 @@ public class CouponCodeWidget {
 	}
 
 	public void saveInstanceState(Bundle outState) {
-		BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_CREATE_TRIP, mCouponCallback);
 		if (outState != null) {
 			outState.putBoolean(KEY_COLLAPSED, mCollapsed);
 			outState.putBoolean(KEY_TEXT_EMPTY, mTextEmpty);
@@ -232,7 +202,7 @@ public class CouponCodeWidget {
 		mCouponCode.addTextChangedListener(couponWatcher);
 	}
 
-	public void setCouponCodeAppliedListener(CouponCodeAppliedListener listener) {
+	public void setListener(CouponCodeWidgetListener listener) {
 		mListener = listener;
 	}
 
@@ -246,70 +216,6 @@ public class CouponCodeWidget {
 		mFieldBelowCouponCodeId = id;
 	}
 
-	private final Download<CreateTripResponse> mCouponDownload = new Download<CreateTripResponse>() {
-		@Override
-		public CreateTripResponse doDownload() {
-			String code = mCouponCode.getText().toString();
-			ExpediaServices services = new ExpediaServices(mContext);
-			BackgroundDownloader.getInstance().addDownloadListener(KEY_CREATE_TRIP, services);
-			String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
-			Rate selectedRate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
-			return services.createTripWithCoupon(code, Db.getHotelSearch().getSearchParams(), Db.getHotelSearch().getSelectedProperty(),
-					selectedRate);
-		}
-	};
-
-	private final OnDownloadComplete<CreateTripResponse> mCouponCallback = new OnDownloadComplete<CreateTripResponse>() {
-		@Override
-		public void onDownload(CreateTripResponse response) {
-			mProgressShowing = false;
-			mProgressBar.setVisibility(View.GONE);
-			mNewTotal.setVisibility(View.VISIBLE);
-			if (response == null) {
-				mError = true;
-				mNewTotal.setText(mContext.getString(R.string.coupon_error));
-			}
-			else if (response.hasErrors()) {
-				mError = true;
-				boolean isExpired = false;
-				boolean isInvalid = false;
-				for (ServerError error : response.getErrors()) {
-					switch (error.getErrorCode()) {
-					case INVALID_INPUT_COUPON_CODE:
-						isExpired = true;
-						break;
-					case INVALID_INPUT:
-						isInvalid = true;
-						break;
-					case APPLY_COUPON_ERROR:
-						isInvalid = true;
-						break;
-					}
-				}
-				if (isInvalid) {
-					mNewTotal.setText(mContext.getString(R.string.invalid_coupon));
-				}
-				else if (isExpired) {
-					mNewTotal.setText(mContext.getString(R.string.expired_coupon));
-				}
-				else {
-					mNewTotal.setText(mContext.getString(R.string.coupon_error));
-				}
-			}
-			else {
-				mUseNewTotal = true;
-				Db.setCreateTripResponse(response);
-				setNewTotal();
-				if (mListener != null) {
-					mListener.couponCodeApplied();
-				}
-
-				// TODO: enable coupon tracking for 3.2
-				//				OmnitureTracking.trackHotelCouponApplied(mContext, response.getNewRate());
-			}
-		}
-	};
-
 	private void setNewTotal() {
 		CreateTripResponse response = Db.getCreateTripResponse();
 		if (response != null) {
@@ -318,7 +224,64 @@ public class CouponCodeWidget {
 		}
 	}
 
-	public interface CouponCodeAppliedListener {
-		public void couponCodeApplied();
+	//////////////////////////////////////////////////////////////////////////
+	// Fragment control
+
+	public void resetState() {
+		mTriedToApplyCoupon = false;
+		mUseNewTotal = false;
+		mProgressShowing = false;
+		mError = false;
+		update();
+	}
+
+	public void setLoading(boolean enabled) {
+		mProgressShowing = enabled;
+		update();
+	}
+
+	public void onApplyCoupon(Rate newRate) {
+		mUseNewTotal = true;
+		setNewTotal();
+		update();
+	}
+
+	public void onApplyCouponError(List<ServerError> errors) {
+		mError = true;
+
+		int errorResId = R.string.coupon_error;
+		if (errors != null) {
+			boolean isExpired = false;
+			boolean isInvalid = false;
+			for (ServerError error : errors) {
+				switch (error.getErrorCode()) {
+				case INVALID_INPUT_COUPON_CODE:
+					isExpired = true;
+					break;
+				case INVALID_INPUT:
+				case APPLY_COUPON_ERROR:
+					isInvalid = true;
+					break;
+				}
+			}
+
+			if (isInvalid) {
+				errorResId = R.string.invalid_coupon;
+			}
+			else if (isExpired) {
+				errorResId = R.string.expired_coupon;
+			}
+		}
+
+		mNewTotal.setText(errorResId);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Interface
+
+	public interface CouponCodeWidgetListener {
+		public void onCouponCodeChanged(String couponCode);
+
+		public void onApplyClicked();
 	}
 }
