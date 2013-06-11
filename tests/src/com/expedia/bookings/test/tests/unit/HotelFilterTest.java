@@ -3,25 +3,25 @@ package com.expedia.bookings.test.tests.unit;
 import junit.framework.TestCase;
 
 import com.expedia.bookings.data.Distance.DistanceUnit;
-import com.expedia.bookings.data.Filter;
+import com.expedia.bookings.data.HotelFilter;
 
-public class HotelFilterTest extends TestCase {
+public class HotelHotelFilterTest extends TestCase {
 
 	public void assertNotEquals(Object left, Object right) {
 		assertTrue(!(left.equals(right)));
 	}
 
-	public void testHotelFilterBasicEquality() {
-		Filter left = new Filter();
-		Filter right = new Filter();
+	public void testHotelHotelFilterBasicEquality() {
+		HotelFilter left = new Filter();
+		HotelFilter right = new Filter();
 
 		assertEquals(left, left);
 		assertEquals(left, right);
 	}
 
-	public void testHotelFilterNameEquality() {
-		Filter left = new Filter();
-		Filter right = new Filter();
+	public void testHotelHotelFilterNameEquality() {
+		HotelFilter left = new Filter();
+		HotelFilter right = new Filter();
 
 		left.setHotelName("A");
 		assertNull(right.getHotelName());
@@ -37,16 +37,16 @@ public class HotelFilterTest extends TestCase {
 		assertNotEquals(left, right);
 	}
 
-	public void testHotelFilterOtherEquality() {
-		Filter left = new Filter();
-		Filter right = new Filter();
+	public void testHotelHotelFilterOtherEquality() {
+		HotelFilter left = new Filter();
+		HotelFilter right = new Filter();
 
 		// SearchRadius
-		left.setSearchRadius(Filter.SearchRadius.SMALL);
-		right.setSearchRadius(Filter.SearchRadius.LARGE);
+		left.setSearchRadius(HotelFilter.SearchRadius.SMALL);
+		right.setSearchRadius(HotelFilter.SearchRadius.LARGE);
 		assertNotEquals(left, right);
 
-		right.setSearchRadius(Filter.SearchRadius.SMALL);
+		right.setSearchRadius(HotelFilter.SearchRadius.SMALL);
 		assertEquals(left, right);
 
 		// Distance Unit
