@@ -32,14 +32,21 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.SamsungWalletResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.NavUtils;
+import com.expedia.bookings.utils.SamsungWalletUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.widget.ItinHeaderImageView;
+import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.BackgroundDownloader.Download;
+import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.CalendarAPIUtils;
@@ -54,7 +61,10 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 
 	private static final float[] CARD_GRADIENT_POSITIONS = new float[] { 0f, .82f, 1f };
 
+	private static final String SAMSUNG_WALLET_DOWNLOAD_KEY = "SAMSUNG_WALLET_DOWNLOAD_KEY";
+
 	private ViewGroup mHotelCard;
+	private View mSamsungWalletButton;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -147,7 +157,48 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 			Ui.findView(v, R.id.calendar_divider).setVisibility(View.GONE);
 		}
 
+		if (SamsungWalletUtils.isAvailable(getActivity())) {
+			Log.d("SamsungWallet: is available, showing UI");
+			Ui.findView(v, R.id.samsung_divider).setVisibility(View.VISIBLE);
+			mSamsungWalletButton = Ui.findView(v, R.id.samsung_wallet_action_text_view);
+			mSamsungWalletButton.setVisibility(View.VISIBLE);
+		}
+
 		return v;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		if (SamsungWalletUtils.isAvailable(getActivity())) {
+			BackgroundDownloader bd = BackgroundDownloader.getInstance();
+			if (bd.isDownloading(SAMSUNG_WALLET_DOWNLOAD_KEY)) {
+				Log.d("SamsungWallet: is available, resuming download");
+				bd.registerDownloadCallback(SAMSUNG_WALLET_DOWNLOAD_KEY, mWalletCallback);
+			}
+			else if (Db.getSamsungWalletTicketId() != null) {
+				Log.d("SamsungWallet: is available, already have ticketId");
+				handleSamsungWalletTicketId(Db.getSamsungWalletTicketId());
+			}
+			else {
+				Log.d("SamsungWallet: is available, starting download");
+				bd.startDownload(SAMSUNG_WALLET_DOWNLOAD_KEY, mWalletDownload, mWalletCallback);
+			}
+		}
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (getActivity() != null && getActivity().isFinishing()) {
+			bd.cancelDownload(SAMSUNG_WALLET_DOWNLOAD_KEY);
+		}
+		else {
+			bd.unregisterDownloadCallback(SAMSUNG_WALLET_DOWNLOAD_KEY, mWalletCallback);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -282,4 +333,77 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 
 		return intent;
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Add to Samsung Wallet
+
+	private final Download<SamsungWalletResponse> mWalletDownload = new Download<SamsungWalletResponse>() {
+		@Override
+		public SamsungWalletResponse doDownload() {
+			ExpediaServices services = new ExpediaServices(getActivity());
+			return services.getSamsungWalletTicketId(getItinNumber());
+
+			// TEST: SamsungWalletResponse response = new SamsungWalletResponse();
+			// TEST: response.setTicketId("TEST");
+			// TEST: return response;
+		}
+	};
+
+	private final OnDownloadComplete<SamsungWalletResponse> mWalletCallback = new OnDownloadComplete<SamsungWalletResponse>() {
+		@Override
+		public void onDownload(SamsungWalletResponse response) {
+			if (response != null) {
+				Db.setSamsungWalletTicketId(response.getTicketId());
+				handleSamsungWalletTicketId(Db.getSamsungWalletTicketId());
+			}
+		}
+	};
+
+	private final View.OnClickListener mSamsungWalletClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			int result = (Integer) v.getTag();
+			Context context = getActivity();
+			if (context == null) {
+				return;
+			}
+
+			String ticketId = Db.getSamsungWalletTicketId();
+			Intent intent = null;
+			if (result == SamsungWalletUtils.RESULT_TICKET_EXISTS) {
+				Log.d("SamsungWallet: Starting view ticket activity");
+				intent = SamsungWalletUtils.viewTicketIntent(context, ticketId);
+			}
+			else if (result == SamsungWalletUtils.RESULT_TICKET_NOT_FOUND) {
+				Log.d("SamsungWallet: Starting download ticket activity");
+				intent = SamsungWalletUtils.downloadTicketIntent(context, ticketId);
+			}
+
+			if (intent != null) {
+				startActivity(intent);
+			}
+		}
+	};
+
+	private void handleSamsungWalletTicketId(String ticketId) {
+		// We have the samsung ticketId, now we need to check against the wallet
+		SamsungWalletUtils.Callback callback = new SamsungWalletUtils.Callback() {
+			@Override
+			public void onResult(int result) {
+				Log.d("SamsungWallet: Got result from checkTicket: " + result);
+				handleSamsungWalletResult(result);
+			}
+		};
+
+		SamsungWalletUtils.checkTicket(getActivity(), callback, ticketId);
+		// TEST: callback.onResult(SamsungWalletUtils.RESULT_TICKET_NOT_FOUND);
+	}
+
+	private void handleSamsungWalletResult(int result) {
+		Log.d("SamsungWallet: Handle samsung wallet result: " + result);
+		// Ready to let the user click the button
+		mSamsungWalletButton.setTag(result);
+		mSamsungWalletButton.setOnClickListener(mSamsungWalletClickListener);
+	}
+
 }

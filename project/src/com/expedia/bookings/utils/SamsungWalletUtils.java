@@ -52,11 +52,11 @@ public class SamsungWalletUtils {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			Log.d("SamsungWallet: Received intent from SamsungWallet:" + intent.toString());
+			Log.d("SamsungWallet: Received intent from SamsungWallet");
 			if (CHECK_TICKET_RESULT.equals(intent.getAction())) {
 				mCallback.onResult(Integer.parseInt(intent.getStringExtra("RESULT_CODE")));
-				context.unregisterReceiver(this);
 			}
+			context.unregisterReceiver(this);
 		}
 	}
 
