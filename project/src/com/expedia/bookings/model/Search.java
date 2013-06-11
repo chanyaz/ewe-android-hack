@@ -13,7 +13,7 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
-import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 
@@ -24,7 +24,7 @@ public class Search extends Model implements JSONable {
 		super();
 	}
 
-	public Search(SearchParams searchParams) {
+	public Search(HotelSearchParams searchParams) {
 		super();
 
 		if (searchParams.hasQuery()) {
@@ -95,7 +95,7 @@ public class Search extends Model implements JSONable {
 		return searches;
 	}
 
-	public static void add(Context context, SearchParams searchParams) {
+	public static void add(Context context, HotelSearchParams searchParams) {
 		if (TextUtils.isEmpty(searchParams.getQuery())) {
 			return;
 		}
@@ -104,7 +104,7 @@ public class Search extends Model implements JSONable {
 		new Search(searchParams).save();
 	}
 
-	public static void delete(Context context, SearchParams searchParams) {
+	public static void delete(Context context, HotelSearchParams searchParams) {
 		new Delete()
 				.from(Search.class)
 				.where("lower(FreeFormLocation) = ?", searchParams.getQuery().toLowerCase().trim())

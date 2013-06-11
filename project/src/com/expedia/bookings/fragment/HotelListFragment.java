@@ -21,7 +21,7 @@ import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate.UserPriceType;
-import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.LayoutUtils;
@@ -304,7 +304,7 @@ public class HotelListFragment extends ListFragment {
 	private void updateHeaderDateRange() {
 		// only update if view has been initialized
 		if (mSearchDateRangeText != null) {
-			SearchParams params = Db.getHotelSearch().getSearchParams();
+			HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 
 			Date today = new Date(Calendar.getInstance());
 			Date checkIn = new Date(params.getCheckInDate());

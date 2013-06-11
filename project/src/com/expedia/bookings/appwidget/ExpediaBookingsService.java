@@ -33,7 +33,7 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.model.WidgetConfigurationState;
@@ -336,14 +336,14 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			 * Get the last searched/downloaded time for the current location widgets
 			 * as well as the last searched location
 			 */
-			SearchParams searchParams = mWidgetDeals.getSearchParams();
+			HotelSearchParams searchParams = mWidgetDeals.getSearchParams();
 			if (searchParams != null) {
 				lastSearchedLocation.setLatitude(searchParams.getSearchLatitude());
 				lastSearchedLocation.setLongitude(searchParams.getSearchLongitude());
 				searchParams.setFromWidget();
 			}
 			else {
-				searchParams = new SearchParams();
+				searchParams = new HotelSearchParams();
 				searchParams.setFromWidget();
 				mWidgetDeals.setSearchParams(searchParams);
 			}
@@ -371,7 +371,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	@Override
 	public void onLocationChanged(Location location) {
 		Log.d("onLocationChanged(): " + location.toString());
-		mWidgetDeals.setSearchParams(new SearchParams());
+		mWidgetDeals.setSearchParams(new HotelSearchParams());
 		mWidgetDeals.getSearchParams().setSearchLatLon(location.getLatitude(), location.getLongitude());
 		mWidgetDeals.getSearchParams().setFromWidget();
 		startSearchDownloader();
@@ -670,7 +670,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		long minTime = Calendar.getInstance().getTimeInMillis() - PhoneSearchActivity.MINIMUM_TIME_AGO;
 		Location location = LocationServices.getLastBestLocation(getApplicationContext(), minTime);
 		if (location != null) {
-			mWidgetDeals.setSearchParams(new SearchParams());
+			mWidgetDeals.setSearchParams(new HotelSearchParams());
 			mWidgetDeals.getSearchParams().setSearchLatLon(location.getLatitude(), location.getLongitude());
 			mWidgetDeals.getSearchParams().setFromWidget();
 			startSearchDownloader();

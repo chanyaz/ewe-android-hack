@@ -19,7 +19,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.StrUtils;
 
@@ -159,7 +159,7 @@ public class HotelReceiptMini extends FrameLayout {
 		mMiniDetailsLayout.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fade_in));
 	}
 
-	public void updateData(Property selectedProperty, SearchParams searchParams, Rate selectedRate) {
+	public void updateData(Property selectedProperty, HotelSearchParams searchParams, Rate selectedRate) {
 		mRoomTypeTextView.setText(Html.fromHtml(selectedRate.getRoomDescription()));
 		mGuestsTextView.setText(StrUtils.formatGuests(getContext(), searchParams));
 

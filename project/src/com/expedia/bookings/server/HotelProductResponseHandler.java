@@ -8,7 +8,7 @@ import android.content.Context;
 import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.JsonResponseHandler;
@@ -16,11 +16,11 @@ import com.mobiata.android.net.JsonResponseHandler;
 public class HotelProductResponseHandler extends JsonResponseHandler<HotelProductResponse> {
 
 	private Context mContext;
-	private SearchParams mSearchParams;
+	private HotelSearchParams mSearchParams;
 	private Property mProperty;
 	private Rate mRate;
 
-	public HotelProductResponseHandler(Context context, SearchParams searchParams, Property property, Rate rate) {
+	public HotelProductResponseHandler(Context context, HotelSearchParams searchParams, Property property, Rate rate) {
 		mContext = context;
 		mSearchParams = searchParams;
 		mProperty = property;

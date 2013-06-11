@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.widget.MapImageView;
 import com.mobiata.android.util.Ui;
 
@@ -48,7 +48,7 @@ public class HotelDetailsMiniMapFragment extends Fragment {
 			}
 		});
 
-		SearchParams searchParams = Db.getHotelSearch().getSearchParams();
+		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
 		Property searchProperty = Db.getHotelSearch().getSelectedProperty();
 		if (searchParams != null && searchProperty != null) {
 			mStaticMapImageView.setCenterPoint(searchProperty.getLocation());

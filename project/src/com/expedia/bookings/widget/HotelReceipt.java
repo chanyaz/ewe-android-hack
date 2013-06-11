@@ -23,7 +23,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.HotelUtils;
@@ -122,7 +122,7 @@ public class HotelReceipt extends LinearLayout {
 		}
 	};
 
-	public void bind(boolean showMiniReceipt, Property property, SearchParams params, Rate rate) {
+	public void bind(boolean showMiniReceipt, Property property, HotelSearchParams params, Rate rate) {
 		Media media = HotelUtils.getRoomMedia(property, rate);
 		if (media != null) {
 			media.loadHighResImage(mHeaderImageView, null);
@@ -236,7 +236,7 @@ public class HotelReceipt extends LinearLayout {
 		}
 	}
 
-	private String getFormattedDateRange(SearchParams params) {
+	private String getFormattedDateRange(HotelSearchParams params) {
 		final Resources res = getContext().getResources();
 
 		CharSequence from = DateFormat.format("MM/dd", params.getCheckInDate());

@@ -10,7 +10,7 @@ import android.text.format.DateUtils;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.mobiata.android.Log;
 import com.mobiata.android.text.format.Time;
 import com.mobiata.android.widget.CalendarDatePicker;
@@ -92,7 +92,7 @@ public class CalendarUtils {
 		calendarDatePicker.setMaxDate(maxTime.year, maxTime.month, maxTime.monthDay);
 	}
 
-	public static void syncParamsFromDatePicker(SearchParams searchParams, CalendarDatePicker picker) {
+	public static void syncParamsFromDatePicker(HotelSearchParams searchParams, CalendarDatePicker picker) {
 		if (picker.getSelectionMode() != CalendarDatePicker.SelectionMode.RANGE) {
 			throw new UnsupportedOperationException("Can't use syncParamsFromDatePicker with picker of type "
 					+ picker.getSelectionMode());
@@ -106,7 +106,7 @@ public class CalendarUtils {
 
 		boolean bogus = startDate.before(nowDate);
 		if (bogus) {
-			// Reset the SearchParams and Calendar to default stay if we somehow got bogus values from picker
+			// Reset the HotelSearchParams and Calendar to default stay if we somehow got bogus values from picker
 			searchParams.setDefaultStay();
 			Calendar checkIn = searchParams.getCheckInDate();
 			Calendar checkOut = searchParams.getCheckOutDate();
@@ -122,7 +122,7 @@ public class CalendarUtils {
 		}
 	}
 
-	public static void syncParamsFromDatePickerHybrid(SearchParams searchParams, CalendarDatePicker picker) {
+	public static void syncParamsFromDatePickerHybrid(HotelSearchParams searchParams, CalendarDatePicker picker) {
 		if (picker.getSelectionMode() != CalendarDatePicker.SelectionMode.HYBRID) {
 			throw new UnsupportedOperationException("Can't use syncParamsFromDatePickerHybrid with picker of type "
 					+ picker.getSelectionMode());
@@ -148,17 +148,17 @@ public class CalendarUtils {
 	private static final int DATE_RANGE_BUFFER = 1000 * 60 * 60; // 1 hour
 
 	/**
-	 * Convenience method for formatting date range represented by a particular SearchParams.
+	 * Convenience method for formatting date range represented by a particular HotelSearchParams.
 	 *
 	 * @param context the context
 	 * @param searchParams the params to format
 	 * @return a numeric representation of the stay range (e.g., "10/31 - 11/04").
 	 */
-	public static String formatDateRange(Context context, SearchParams searchParams) {
+	public static String formatDateRange(Context context, HotelSearchParams searchParams) {
 		return formatDateRange(context, searchParams, DateUtils.FORMAT_NUMERIC_DATE);
 	}
 
-	public static String formatDateRange(Context context, SearchParams searchParams, int flags) {
+	public static String formatDateRange(Context context, HotelSearchParams searchParams, int flags) {
 		return DateUtils.formatDateRange(context, searchParams.getCheckInDate().getTimeInMillis(),
 				searchParams.getCheckOutDate().getTimeInMillis() + DATE_RANGE_BUFFER, flags | DateUtils.FORMAT_UTC);
 	}
@@ -166,7 +166,7 @@ public class CalendarUtils {
 	/**
 	 * Alternative formatter - instead of solely using the system formatter, it is more of "DATE to DATE"
 	 */
-	public static String formatDateRange2(Context context, SearchParams params, int flags) {
+	public static String formatDateRange2(Context context, HotelSearchParams params, int flags) {
 		CharSequence from = DateUtils.formatDateTime(context, params.getCheckInDate().getTimeInMillis(), flags
 				| DateUtils.FORMAT_UTC);
 		CharSequence to = DateUtils.formatDateTime(context, params.getCheckOutDate().getTimeInMillis(), flags
@@ -174,7 +174,7 @@ public class CalendarUtils {
 		return context.getString(R.string.date_range_TEMPLATE, from, to);
 	}
 
-	public static CharSequence getCalendarDatePickerTitle(Context context, SearchParams params) {
+	public static CharSequence getCalendarDatePickerTitle(Context context, HotelSearchParams params) {
 		int nights = params.getStayDuration();
 		if (nights <= 1) {
 			return Html.fromHtml(context.getString(R.string.drag_to_extend_your_stay));
@@ -185,7 +185,7 @@ public class CalendarUtils {
 	}
 
 	public static boolean isSearchDateTonight() {
-		SearchParams params = Db.getHotelSearch().getSearchParams();
+		HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 		com.expedia.bookings.data.Date today = new com.expedia.bookings.data.Date(Calendar.getInstance());
 		com.expedia.bookings.data.Date checkIn = new com.expedia.bookings.data.Date(params.getCheckInDate());
 		return params.getStayDuration() == 1 && today.equals(checkIn);

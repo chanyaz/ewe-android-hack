@@ -11,7 +11,7 @@ import android.content.Context;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.ServerError;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.JsonResponseHandler;
@@ -19,10 +19,10 @@ import com.mobiata.android.net.JsonResponseHandler;
 public class CreateTripResponseHandler extends JsonResponseHandler<CreateTripResponse> {
 
 	private Context mContext;
-	private SearchParams mSearchParams;
+	private HotelSearchParams mSearchParams;
 	private Property mProperty;
 
-	public CreateTripResponseHandler(Context context, SearchParams searchParams, Property property) {
+	public CreateTripResponseHandler(Context context, HotelSearchParams searchParams, Property property) {
 		mContext = context;
 		mSearchParams = searchParams;
 		mProperty = property;

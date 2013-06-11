@@ -35,8 +35,8 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Itinerary;
-import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.data.SearchParams.SearchType;
+import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -250,7 +250,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 
 	private void searchForHotels() {
 		//Where flights meets hotels
-		SearchParams sp = new SearchParams();
+		HotelSearchParams sp = new HotelSearchParams();
 		sp.setSearchType(SearchType.CITY);
 
 		// Assuming all the travelers are adults, we set the most adults we can

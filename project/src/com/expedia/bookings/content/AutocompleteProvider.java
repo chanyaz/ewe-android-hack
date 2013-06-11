@@ -22,8 +22,8 @@ import android.provider.BaseColumns;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.data.SearchParams.SearchType;
+import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.data.Suggestion;
 import com.expedia.bookings.model.Search;
@@ -127,14 +127,14 @@ public class AutocompleteProvider extends ContentProvider {
 		// Then suggest history
 		if (id <= 15) {
 			for (Search search : recentSearches) {
-				SearchParams p = new SearchParams();
+				HotelSearchParams p = new HotelSearchParams();
 				p.fillFromSearch(search);
 
 				final String freeformLocation = search.getQuery();
 				if (!suggestedLocations.contains(freeformLocation)) {
 					suggestedLocations.add(freeformLocation);
 					int autoSuggestIcon;
-					if (p.getSearchType() == SearchParams.SearchType.HOTEL) {
+					if (p.getSearchType() == HotelSearchParams.SearchType.HOTEL) {
 						autoSuggestIcon = R.drawable.ic_suggestion_hotel;
 					}
 					else {
@@ -156,7 +156,7 @@ public class AutocompleteProvider extends ContentProvider {
 
 		// Then suggest from array of random cool cities
 		if (id <= 15) {
-			for (SearchParams p : getStaticSuggestions(context)) {
+			for (HotelSearchParams p : getStaticSuggestions(context)) {
 				final String freeformLocation = p.getQuery();
 				if (!suggestedLocations.contains(freeformLocation)) {
 					suggestedLocations.add(freeformLocation);
@@ -195,10 +195,10 @@ public class AutocompleteProvider extends ContentProvider {
 		return null;
 	}
 
-	private static List<SearchParams> sStaticSuggestions;
+	private static List<HotelSearchParams> sStaticSuggestions;
 
 	// 13812: this is "synchronized" so we don't try to create sStaticSuggestions more than once
-	private synchronized static List<SearchParams> getStaticSuggestions(Context context) {
+	private synchronized static List<HotelSearchParams> getStaticSuggestions(Context context) {
 		if (sStaticSuggestions == null) {
 			Resources resources = context.getResources();
 			List<String> suggestions = Arrays.asList(resources.getStringArray(R.array.suggestions));
@@ -206,9 +206,9 @@ public class AutocompleteProvider extends ContentProvider {
 			List<String> latitudes = Arrays.asList(resources.getStringArray(R.array.suggestion_latitudes));
 			List<String> longitudes = Arrays.asList(resources.getStringArray(R.array.suggestion_longitudes));
 
-			sStaticSuggestions = new ArrayList<SearchParams>(suggestions.size());
+			sStaticSuggestions = new ArrayList<HotelSearchParams>(suggestions.size());
 			for (int i = 0; i < suggestions.size(); i++) {
-				SearchParams p = new SearchParams();
+				HotelSearchParams p = new HotelSearchParams();
 				p.setSearchType(SearchType.CITY);
 				p.setQuery(suggestions.get(i));
 				p.setRegionId(regionIds.get(i));

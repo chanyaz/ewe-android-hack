@@ -902,7 +902,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	// Access
 
 	/**
-	 * Returns the SearchParams represented by this screen.
+	 * Returns the HotelSearchParams represented by this screen.
 	 *
 	 * Warning: doing this deselects all current fields (as a matter of
 	 * making sure we have current data).  You are only expected to call

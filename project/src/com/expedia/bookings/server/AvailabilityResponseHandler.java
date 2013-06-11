@@ -25,7 +25,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.RateRules;
-import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.mobiata.android.FormatUtils;
@@ -39,10 +39,10 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 	public static final String DOWNLOAD_KEY_PREFIX = "AVAILABILITY_RESPONSE_HANDLER";
 
 	private Context mContext;
-	private SearchParams mSearchParams;
+	private HotelSearchParams mSearchParams;
 	private Property mProperty;
 
-	public AvailabilityResponseHandler(Context context, SearchParams searchParams, Property property) {
+	public AvailabilityResponseHandler(Context context, HotelSearchParams searchParams, Property property) {
 		mContext = context;
 		mSearchParams = searchParams;
 		mProperty = property;

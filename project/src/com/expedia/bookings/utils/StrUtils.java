@@ -14,7 +14,7 @@ import android.text.TextUtils;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Traveler;
 import com.mobiata.android.LocationServices;
 import com.mobiata.flightlib.data.Airport;
@@ -39,7 +39,7 @@ public class StrUtils {
 		return sb.toString();
 	}
 
-	public static String formatGuests(Context context, SearchParams searchParams) {
+	public static String formatGuests(Context context, HotelSearchParams searchParams) {
 		return formatGuests(context, searchParams.getNumAdults(), searchParams.getNumChildren());
 	}
 

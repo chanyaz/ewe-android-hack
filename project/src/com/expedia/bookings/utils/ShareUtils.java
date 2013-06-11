@@ -412,7 +412,7 @@ public class ShareUtils {
 		return builder.toString();
 	}
 
-	public String getHotelConfirmationShareSubject(SearchParams searchParams, Property property) {
+	public String getHotelConfirmationShareSubject(HotelSearchParams searchParams, Property property) {
 		DateFormat dateFormatter = new SimpleDateFormat("MM/dd");
 
 		Date checkIn = searchParams.getCheckInDate().getTime();
@@ -440,7 +440,7 @@ public class ShareUtils {
 		}
 	}
 
-	public String getHotelConfirmationShareText(SearchParams searchParams, Property property,
+	public String getHotelConfirmationShareText(HotelSearchParams searchParams, Property property,
 			BookingResponse bookingResponse, BillingInfo billingInfo, Rate rate, Rate discountRate) {
 
 		Resources res = mContext.getResources();

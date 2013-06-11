@@ -46,7 +46,7 @@ import com.expedia.bookings.data.LaunchFlightData;
 import com.expedia.bookings.data.LaunchHotelData;
 import com.expedia.bookings.data.LaunchHotelFallbackData;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.data.Suggestion;
@@ -112,7 +112,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 	private boolean mCleanOnStop = false;
 
-	private SearchParams mSearchParams;
+	private HotelSearchParams mSearchParams;
 
 	private long mLaunchDataTimestamp = -1;
 
@@ -372,7 +372,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	private void startHotelSearch(Location loc) {
 		Log.i("Start hotel search");
 
-		mSearchParams = new SearchParams();
+		mSearchParams = new HotelSearchParams();
 		mSearchParams.setSearchLatLon(loc.getLatitude(), loc.getLongitude());
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
@@ -713,7 +713,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				}
 
 				if (mSearchParams == null) {
-					mSearchParams = new SearchParams();
+					mSearchParams = new HotelSearchParams();
 				}
 
 				Db.getHotelSearch().setSearchParams(mSearchParams);
@@ -726,11 +726,11 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			else if (item instanceof HotelDestination) {
 				HotelDestination destination = (HotelDestination) item;
 
-				SearchParams searchParams = Db.getHotelSearch().getSearchParams();
+				HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
 
 				// where
 				searchParams.setQuery(destination.getPhoneSearchDisplayText());
-				searchParams.setSearchType(SearchParams.SearchType.CITY);
+				searchParams.setSearchType(HotelSearchParams.SearchType.CITY);
 				searchParams.setRegionId(destination.getRegionId());
 				searchParams.setSearchLatLon(destination.getLatitude(), destination.getLongitude());
 

@@ -23,7 +23,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
-import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
@@ -72,15 +72,15 @@ public class ReceiptWidget {
 		mRoomTypeWidget.restoreInstanceState(savedState);
 	}
 
-	public void updateData(Property property, SearchParams searchParams, Rate rate) {
+	public void updateData(Property property, HotelSearchParams searchParams, Rate rate) {
 		updateData(property, searchParams, rate, null, null, null);
 	}
 
-	public void updateData(Property property, SearchParams searchParams, Rate rate, Rate discountRate) {
+	public void updateData(Property property, HotelSearchParams searchParams, Rate rate, Rate discountRate) {
 		updateData(property, searchParams, rate, null, null, discountRate);
 	}
 
-	public void updateData(Property property, SearchParams searchParams, Rate rate, BookingResponse bookingResponse,
+	public void updateData(Property property, HotelSearchParams searchParams, Rate rate, BookingResponse bookingResponse,
 			BillingInfo billingInfo, Rate discountRate) {
 		reset();
 

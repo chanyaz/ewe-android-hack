@@ -33,7 +33,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 	private FlightSearchParamsFragment mSearchParamsFragment;
 
 	// Keeps track of whether we should update the search params fragment with
-	// the latest SearchParams on resume.  This is checked when the user leaves
+	// the latest HotelSearchParams on resume.  This is checked when the user leaves
 	// this activity and comes back later (e.g., did a search).
 	private boolean mUpdateOnResume = false;
 

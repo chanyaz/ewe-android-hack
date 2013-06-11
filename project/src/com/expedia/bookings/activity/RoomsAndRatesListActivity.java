@@ -20,7 +20,7 @@ import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.fragment.RoomsAndRatesFragment;
 import com.expedia.bookings.fragment.RoomsAndRatesFragment.RoomsAndRatesFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
@@ -91,7 +91,7 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 
 		// Format the header
 		Property property = Db.getHotelSearch().getSelectedProperty();
-		SearchParams searchParams = Db.getHotelSearch().getSearchParams();
+		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
 		ImageView thumbnailView = (ImageView) findViewById(R.id.thumbnail_image_view);
 		if (property.getThumbnail() != null) {
 			UrlBitmapDrawable.loadImageView(property.getThumbnail().getUrl(), thumbnailView, R.drawable.ic_image_placeholder);

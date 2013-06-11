@@ -43,7 +43,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.User;
@@ -135,18 +135,18 @@ public class OmnitureTracking {
 	public static final String HOTELS_SEARCH_SORT_RATING = "App.Hotels.Search.Sort.Rating";
 	public static final String HOTELS_SEARCH_SORT_DEALS = "App.Hotels.Search.Sort.Deals";
 
-	public static void trackAppHotelsSearchWithoutRefinements(Context context, SearchParams searchParams,
+	public static void trackAppHotelsSearchWithoutRefinements(Context context, HotelSearchParams searchParams,
 			SearchResponse searchResponse) {
 		internalTrackHotelsSearch(context, searchParams, searchResponse, null);
 	}
 
-	public static void trackAppHotelsSearch(Context context, SearchParams searchParams, SearchParams oldSearchParams,
+	public static void trackAppHotelsSearch(Context context, HotelSearchParams searchParams, HotelSearchParams oldSearchParams,
 			Filter filter, Filter oldFilter, SearchResponse searchResponse) {
 		String refinements = getHotelSearchRefinements(searchParams, oldSearchParams, filter, oldFilter);
 		internalTrackHotelsSearch(context, searchParams, searchResponse, refinements);
 	}
 
-	private static void internalTrackHotelsSearch(Context context, SearchParams searchParams,
+	private static void internalTrackHotelsSearch(Context context, HotelSearchParams searchParams,
 			SearchResponse searchResponse, String refinements) {
 		// Start actually tracking the search result change
 		Log.d(TAG, "Tracking \"App.Hotels.Search\" pageLoad...");
@@ -223,7 +223,7 @@ public class OmnitureTracking {
 	 * 	of refinements at once instead of flooding the system with a ton of different refinements
 	 *
 	 */
-	private static String getHotelSearchRefinements(SearchParams searchParams, SearchParams oldSearchParams,
+	private static String getHotelSearchRefinements(HotelSearchParams searchParams, HotelSearchParams oldSearchParams,
 			Filter filter, Filter oldFilter) {
 		if (oldFilter != null && oldSearchParams != null) {
 			List<String> refinements = new ArrayList<String>();
@@ -257,8 +257,8 @@ public class OmnitureTracking {
 			if (!searchParams.equals(oldSearchParams.getSearchType())) {
 				refinements.add("App.Hotels.Search.Refine.Location");
 			}
-			else if (searchParams.getSearchType() == SearchParams.SearchType.MY_LOCATION
-					|| searchParams.getSearchType() == SearchParams.SearchType.VISIBLE_MAP_AREA) {
+			else if (searchParams.getSearchType() == HotelSearchParams.SearchType.MY_LOCATION
+					|| searchParams.getSearchType() == HotelSearchParams.SearchType.VISIBLE_MAP_AREA) {
 				if (searchParams.getSearchLatitude() != oldSearchParams.getSearchLatitude()
 						|| searchParams.getSearchLongitude() != oldSearchParams.getSearchLongitude()) {
 					refinements.add("App.Hotels.Search.Refine.Location");
@@ -353,7 +353,7 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackAppHotelsCheckoutConfirmation(Context context, SearchParams searchParams,
+	public static void trackAppHotelsCheckoutConfirmation(Context context, HotelSearchParams searchParams,
 			Property property, BillingInfo billingInfo, Rate rate, BookingResponse response) {
 		Log.d(TAG, "Tracking \"App.Hotels.Checkout.Confirmation\" pageLoad");
 

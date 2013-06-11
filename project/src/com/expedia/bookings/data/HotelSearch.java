@@ -15,7 +15,7 @@ import com.mobiata.android.json.JSONable;
 
 public class HotelSearch implements JSONable {
 
-	private SearchParams mSearchParams;
+	private HotelSearchParams mSearchParams;
 	private SearchResponse mSearchResponse;
 	private String mSelectedPropertyId;
 
@@ -36,14 +36,14 @@ public class HotelSearch implements JSONable {
 	}
 
 	public void resetSearchParams() {
-		mSearchParams = new SearchParams();
+		mSearchParams = new HotelSearchParams();
 	}
 
-	public void setSearchParams(SearchParams params) {
+	public void setSearchParams(HotelSearchParams params) {
 		mSearchParams = params;
 	}
 
-	public SearchParams getSearchParams() {
+	public HotelSearchParams getSearchParams() {
 		return mSearchParams;
 	}
 
@@ -174,7 +174,7 @@ public class HotelSearch implements JSONable {
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
-		setSearchParams(JSONUtils.getJSONable(obj, "searchParams", SearchParams.class));
+		setSearchParams(JSONUtils.getJSONable(obj, "searchParams", HotelSearchParams.class));
 		setSearchResponse(JSONUtils.getJSONable(obj, "searchResponse", SearchResponse.class));
 
 		String selectedPropertyId = obj.optString("selectedPropertyId");

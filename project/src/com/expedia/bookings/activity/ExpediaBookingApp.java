@@ -16,7 +16,7 @@ import com.activeandroid.ActiveAndroid;
 import com.expedia.bookings.R;
 import com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider;
 import com.expedia.bookings.data.ExpediaImageManager;
-import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.tracking.AdTracker;
@@ -213,7 +213,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 	 *  being driven by user parameters set within the app
 	 */
 	public interface OnSearchParamsChangedInWidgetListener {
-		public void onSearchParamsChanged(SearchParams searchParams);
+		public void onSearchParamsChanged(HotelSearchParams searchParams);
 	};
 
 	private ArrayList<OnSearchParamsChangedInWidgetListener> mListeners;
@@ -232,7 +232,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		mListeners.remove(listener);
 	}
 
-	public void broadcastSearchParamsChangedInWidget(SearchParams searchParams) {
+	public void broadcastSearchParamsChangedInWidget(HotelSearchParams searchParams) {
 		if (mListeners != null) {
 			for (OnSearchParamsChangedInWidgetListener listener : mListeners) {
 				listener.onSearchParamsChanged(searchParams);

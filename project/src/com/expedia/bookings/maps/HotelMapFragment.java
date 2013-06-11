@@ -17,7 +17,7 @@ import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.utils.StrUtils;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -245,7 +245,7 @@ public class HotelMapFragment extends SupportMapFragment {
 	private void addExactLocation() {
 		if (Db.getHotelSearch().getSearchResponse() != null && Db.getHotelSearch().getSearchResponse().getSearchType() != null
 				&& Db.getHotelSearch().getSearchResponse().getSearchType().shouldShowExactLocation()) {
-			SearchParams params = Db.getHotelSearch().getSearchParams();
+			HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 			LatLng point = new LatLng(params.getSearchLatitude(), params.getSearchLongitude());
 
 			if (mExactLocationMarker == null) {
@@ -433,7 +433,7 @@ public class HotelMapFragment extends SupportMapFragment {
 	}
 
 	public void notifySearchLocationFound() {
-		SearchParams params = Db.getHotelSearch().getSearchParams();
+		HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 
 		LatLng loc = new LatLng(params.getSearchLatitude(), params.getSearchLongitude());
 
@@ -450,8 +450,8 @@ public class HotelMapFragment extends SupportMapFragment {
 	}
 
 	private void checkIfSearchIsCurrentLocation() {
-		SearchParams params = Db.getHotelSearch().getSearchParams();
-		boolean showCurrentLocation = params.getSearchType() == SearchParams.SearchType.MY_LOCATION;
+		HotelSearchParams params = Db.getHotelSearch().getSearchParams();
+		boolean showCurrentLocation = params.getSearchType() == HotelSearchParams.SearchType.MY_LOCATION;
 		if (mMap != null) {
 			mMap.setMyLocationEnabled(showCurrentLocation);
 		}

@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.OnDateChangedListener;
@@ -124,7 +124,7 @@ public class CalendarDialogFragment extends DialogFragment {
 		if (getShowsDialog()) {
 			mCalendarDatePicker.setOnDateChangedListener(new OnDateChangedListener() {
 				public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
-					SearchParams workingSearchParams = new SearchParams();
+					HotelSearchParams workingSearchParams = new HotelSearchParams();
 					CalendarUtils.syncParamsFromDatePicker(workingSearchParams, mCalendarDatePicker);
 					updateTitle(workingSearchParams);
 				}
@@ -155,11 +155,11 @@ public class CalendarDialogFragment extends DialogFragment {
 		}
 	}
 
-	private CharSequence getTitleText(SearchParams workingSearchParams) {
+	private CharSequence getTitleText(HotelSearchParams workingSearchParams) {
 		return CalendarUtils.getCalendarDatePickerTitle(getActivity(), workingSearchParams);
 	}
 
-	private void updateTitle(SearchParams workingSearchParams) {
+	private void updateTitle(HotelSearchParams workingSearchParams) {
 		getDialog().setTitle(getTitleText(workingSearchParams));
 	}
 

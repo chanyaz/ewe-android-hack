@@ -18,7 +18,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
-import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.gridlayout.GridLayout;
 import com.gridlayout.GridLayout.LayoutParams;
@@ -56,7 +56,7 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 
 		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
 		final Rate rate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
-		final SearchParams params = Db.getHotelSearch().getSearchParams();
+		final HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 
 		Builder leftBuilder = new Builder();
 		leftBuilder.setLeft();

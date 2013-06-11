@@ -8,7 +8,7 @@ import org.json.JSONObject;
 
 import android.util.Pair;
 
-import com.expedia.bookings.data.SearchParams.SearchType;
+import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.model.Search;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -132,7 +132,7 @@ public class Suggestion implements JSONable {
 	// Conversion to other types (Search, JSONable)
 
 	public Search toSearch() {
-		SearchParams searchParams = new SearchParams();
+		HotelSearchParams searchParams = new HotelSearchParams();
 		searchParams.setQuery(mDisplayName);
 		searchParams.setRegionId(mId);
 

@@ -3,7 +3,7 @@ package com.expedia.bookings.data.trips;
 import java.util.Calendar;
 
 import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.HotelSearchParams;
 
 public class ItinCardDataHotelAttach extends ItinCardData {
 	private FlightLeg mFirstLeg;
@@ -20,15 +20,15 @@ public class ItinCardDataHotelAttach extends ItinCardData {
 		return mFirstLeg;
 	}
 
-	public SearchParams getSearchParams() {
-		SearchParams searchParams = new SearchParams();
+	public HotelSearchParams getSearchParams() {
+		HotelSearchParams searchParams = new HotelSearchParams();
 
 		// Where
 		double latitude = mFirstLeg.getLastWaypoint().getAirport().getLatitude();
 		double longitude = mFirstLeg.getLastWaypoint().getAirport().getLongitude();
 
 		searchParams.setQuery(mFirstLeg.getLastWaypoint().getAirport().mCity);
-		searchParams.setSearchType(SearchParams.SearchType.CITY);
+		searchParams.setSearchType(HotelSearchParams.SearchType.CITY);
 		searchParams.setSearchLatLon(latitude, longitude);
 
 		// When

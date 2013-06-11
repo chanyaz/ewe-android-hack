@@ -26,7 +26,7 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.ReviewsStatisticsResponse;
-import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.fragment.HotelDetailsDescriptionFragment;
 import com.expedia.bookings.fragment.HotelDetailsIntroFragment;
 import com.expedia.bookings.fragment.HotelDetailsMiniGalleryFragment;
@@ -114,7 +114,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	 * @param property
 	 * @return
 	 */
-	public static Intent createIntent(Context context, int appWidgetId, SearchParams params, Property property) {
+	public static Intent createIntent(Context context, int appWidgetId, HotelSearchParams params, Property property) {
 		Intent intent = new Intent(context, HotelDetailsFragmentActivity.class);
 
 		intent.putExtra(OPENED_FROM_WIDGET, true);
@@ -159,7 +159,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		}
 
 		if (intent.hasExtra(Codes.SEARCH_PARAMS)) {
-			SearchParams params = JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS, SearchParams.class);
+			HotelSearchParams params = JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS, HotelSearchParams.class);
 			Db.getHotelSearch().setSearchParams(params);
 		}
 
@@ -407,8 +407,8 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 			// are "nearby" - if this ever changes, this needs to be updated.
 			if (intent.getBooleanExtra(OPENED_FROM_WIDGET, false)) {
 				OmnitureTracking.trackSimpleEvent(this, null, null, null, "App.Widget.Deal.Nearby");
-				mApp.broadcastSearchParamsChangedInWidget((SearchParams) JSONUtils.parseJSONableFromIntent(intent,
-						Codes.SEARCH_PARAMS, SearchParams.class));
+				mApp.broadcastSearchParamsChangedInWidget((HotelSearchParams) JSONUtils.parseJSONableFromIntent(intent,
+						Codes.SEARCH_PARAMS, HotelSearchParams.class));
 			}
 		}
 

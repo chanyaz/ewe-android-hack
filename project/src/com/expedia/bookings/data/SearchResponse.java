@@ -16,7 +16,7 @@ import com.expedia.bookings.data.Filter.PriceRange;
 import com.expedia.bookings.data.Filter.SearchRadius;
 import com.expedia.bookings.data.Filter.Sort;
 import com.expedia.bookings.data.Rate.UserPriceType;
-import com.expedia.bookings.data.SearchParams.SearchType;
+import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.json.JSONUtils;

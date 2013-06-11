@@ -56,8 +56,8 @@ import android.widget.TextView.OnEditorActionListener;
 import com.expedia.bookings.R;
 import com.expedia.bookings.content.AutocompleteProvider;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.data.SearchParams.SearchType;
+import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
@@ -105,7 +105,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 	// This is a copy of the last search params we used to update the Views.
 	// It is only used so that we don't needlessly keep updating Views; it
 	// should not be used for anything else.
-	private SearchParams mLastSearchParams = null;
+	private HotelSearchParams mLastSearchParams = null;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -286,7 +286,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 
 		// If the search params changed since last time we updated the views, update the views
 		if (!Db.getHotelSearch().getSearchParams().equals(mLastSearchParams)) {
-			Log.d("SearchParamsFragment: Detected change in SearchParams, updating views.");
+			Log.d("SearchParamsFragment: Detected change in HotelSearchParams, updating views.");
 			mHasFocusedSearchField = true;
 
 			updateViews();
@@ -329,7 +329,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 	// Views
 
 	public void updateViews() {
-		SearchParams params = Db.getHotelSearch().getSearchParams();
+		HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 
 		// Before we update views, make sure we have a valid checkin/checkout dates
 		params.ensureValidCheckInDate();
@@ -390,7 +390,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 
 		public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
 			if (!isHidden()) {
-				SearchParams searchParams = Db.getHotelSearch().getSearchParams();
+				HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
 				searchParams.setNumAdults(mAdultsNumberPicker.getValue());
 			}
 
@@ -403,7 +403,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 
 		public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
 			if (!isHidden()) {
-				SearchParams searchParams = Db.getHotelSearch().getSearchParams();
+				HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
 				List<Integer> children = searchParams.getChildren();
 				Activity activity = getActivity();
 				GuestsPickerUtils.resizeChildrenList(activity, children, mChildrenNumberPicker.getValue());
@@ -778,7 +778,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 			mHasFocusedSearchField = true;
 
 			String location = s.toString().trim();
-			SearchParams searchParams = Db.getHotelSearch().getSearchParams();
+			HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
 			if (location.length() == 0 || location.equals(getString(R.string.current_location))) {
 				searchParams.setSearchType(SearchType.MY_LOCATION);
 				startAutocomplete("");

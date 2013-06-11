@@ -12,7 +12,7 @@ import org.json.JSONObject;
 import android.content.Context;
 
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.SearchResponse;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -31,7 +31,7 @@ public class WidgetDeals implements JSONable {
 
 	private Context mContext;
 	private List<Property> mDeals;
-	private SearchParams mSearchParams;
+	private HotelSearchParams mSearchParams;
 
 	private int refreshCount = 0;
 
@@ -61,11 +61,11 @@ public class WidgetDeals implements JSONable {
 		return mDeals;
 	}
 
-	public SearchParams getSearchParams() {
+	public HotelSearchParams getSearchParams() {
 		return mSearchParams;
 	}
 
-	public void setSearchParams(SearchParams searchParams) {
+	public void setSearchParams(HotelSearchParams searchParams) {
 		mSearchParams = searchParams;
 	}
 
@@ -143,7 +143,7 @@ public class WidgetDeals implements JSONable {
 			return false;
 		}
 
-		mSearchParams = new SearchParams(obj.optJSONObject("searchParams"));
+		mSearchParams = new HotelSearchParams(obj.optJSONObject("searchParams"));
 		return true;
 	}
 

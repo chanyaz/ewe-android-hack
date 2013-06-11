@@ -10,7 +10,7 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Item;
 import com.google.analytics.tracking.android.Transaction;
@@ -57,7 +57,7 @@ public class AdTracker {
 
 	public static void trackHotelBooked() {
 		// Values
-		final SearchParams searchParams = Db.getHotelSearch().getSearchParams().copy();
+		final HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams().copy();
 		final Property property = Db.getHotelSearch().getSelectedProperty();
 		final String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
 		final Rate rate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
@@ -105,7 +105,7 @@ public class AdTracker {
 	}
 
 	public static void trackHotelSearch() {
-		SearchParams params = Db.getHotelSearch().getSearchParams();
+		HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 		if (params != null && !TextUtils.isEmpty(params.getRegionId())) {
 			AdX.trackHotelSearch(params.getRegionId());
 		}

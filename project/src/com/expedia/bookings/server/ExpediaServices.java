@@ -85,7 +85,7 @@ import com.expedia.bookings.data.SamsungWalletResponse;
 import com.expedia.bookings.data.Scenario;
 import com.expedia.bookings.data.ScenarioResponse;
 import com.expedia.bookings.data.ScenarioSetResponse;
-import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ErrorCode;
@@ -541,7 +541,7 @@ public class ExpediaServices implements DownloadListener {
 	//
 	// Documentation: http://www.expedia.com/static/mobile/APIConsole/
 
-	public SearchResponse search(SearchParams params, int sortType) {
+	public SearchResponse search(HotelSearchParams params, int sortType) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		if (getEndPoint(mContext) == EndPoint.MOCK_SERVER) {
@@ -582,7 +582,7 @@ public class ExpediaServices implements DownloadListener {
 		return doE3Request("MobileHotel/Webapp/SearchResults", query, rh, 0);
 	}
 
-	public AvailabilityResponse availability(SearchParams params, Property property) {
+	public AvailabilityResponse availability(HotelSearchParams params, Property property) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		addCommonParams(query);
@@ -629,7 +629,7 @@ public class ExpediaServices implements DownloadListener {
 		return response;
 	}
 
-	public HotelProductResponse hotelProduct(SearchParams params, Property property, Rate rate) {
+	public HotelProductResponse hotelProduct(HotelSearchParams params, Property property, Rate rate) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		// Adds sourceType
@@ -644,7 +644,7 @@ public class ExpediaServices implements DownloadListener {
 		return doE3Request("MobileHotel/Webapp/HotelProduct", query, responseHandler, 0);
 	}
 
-	public CreateTripResponse createTripWithCoupon(String couponCode, SearchParams params, Property property, Rate rate) {
+	public CreateTripResponse createTripWithCoupon(String couponCode, HotelSearchParams params, Property property, Rate rate) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		addCommonParams(query);
@@ -657,7 +657,7 @@ public class ExpediaServices implements DownloadListener {
 		return doE3Request("MobileHotel/Webapp/CreateTrip", query, responseHandler, F_SECURE_REQUEST);
 	}
 
-	public BookingResponse reservation(SearchParams params, Property property, Rate rate, BillingInfo billingInfo,
+	public BookingResponse reservation(HotelSearchParams params, Property property, Rate rate, BillingInfo billingInfo,
 			String tripId, String userId, Long tuid) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
@@ -719,7 +719,7 @@ public class ExpediaServices implements DownloadListener {
 		return doE3Request("MobileHotel/Webapp/Checkout", query, new BookingResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
-	private void addHotelSearchParams(List<BasicNameValuePair> query, SearchParams params) {
+	private void addHotelSearchParams(List<BasicNameValuePair> query, HotelSearchParams params) {
 		DateFormat df = new SimpleDateFormat(ISO_FORMAT);
 
 		// #13586: We need a second SimpleDateFormat because on 2.2 and below.  See
@@ -735,7 +735,7 @@ public class ExpediaServices implements DownloadListener {
 		addHotelGuestParamater(query, params);
 	}
 
-	private void addHotelGuestParamater(List<BasicNameValuePair> query, SearchParams params) {
+	private void addHotelGuestParamater(List<BasicNameValuePair> query, HotelSearchParams params) {
 		StringBuilder guests = new StringBuilder();
 		guests.append(params.getNumAdults());
 		List<Integer> children = params.getChildren();

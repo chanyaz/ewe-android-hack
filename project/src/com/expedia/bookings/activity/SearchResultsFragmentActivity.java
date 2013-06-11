@@ -53,8 +53,8 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ReviewsResponse;
-import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.data.SearchParams.SearchType;
+import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -521,7 +521,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 			mGuestsMenuItem.setActionView(mGuestsActionView);
 		}
 
-		SearchParams params = Db.getHotelSearch().getSearchParams();
+		HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 
 		if (mPartialSearch != null) {
 			mSearchView.setQuery(mPartialSearch, false);
@@ -765,7 +765,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// SearchParams management
+	// HotelSearchParams management
 
 	public void setMyLocationSearch() {
 		Log.d("Setting search to use 'my location'");
@@ -849,7 +849,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		}
 
 		// Determine search type, conduct search
-		SearchParams params = Db.getHotelSearch().getSearchParams();
+		HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 		switch (params.getSearchType()) {
 		case CITY:
 			if (params.hasEnoughToSearch()) {
@@ -1440,12 +1440,12 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	// Tracking
 
 	public void onSearchResultsChanged() {
-		SearchParams lastSearchParams = null;
+		HotelSearchParams lastSearchParams = null;
 		Filter lastFilter = null;
 
 		try {
 			if (mLastSearchParamsJson != null) {
-				lastSearchParams = new SearchParams(new JSONObject(mLastSearchParamsJson));
+				lastSearchParams = new HotelSearchParams(new JSONObject(mLastSearchParamsJson));
 			}
 
 			if (mLastFilterJson != null) {

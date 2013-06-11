@@ -86,8 +86,8 @@ import com.expedia.bookings.data.Filter.Sort;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.data.SearchParams.SearchType;
+import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.fragment.HotelListFragment;
@@ -258,8 +258,8 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private int mPriceCheckedId = 0;
 
 	private ArrayList<Address> mAddresses;
-	private SearchParams mOldSearchParams;
-	private SearchParams mEditedSearchParams;
+	private HotelSearchParams mOldSearchParams;
+	private HotelSearchParams mEditedSearchParams;
 	private Filter mOldFilter;
 	public boolean mStartSearchOnResume;
 	private long mLastSearchTime = -1;
@@ -345,7 +345,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				Db.getHotelSearch().setSelectedProperty(property);
 
 				// Forward to the hotel detail screen if the user searched by hotel name and selected one.
-				if (Db.getHotelSearch().getSearchParams().getSearchType() == SearchParams.SearchType.HOTEL) {
+				if (Db.getHotelSearch().getSearchParams().getSearchType() == HotelSearchParams.SearchType.HOTEL) {
 					startActivity(HotelDetailsFragmentActivity.createIntent(PhoneSearchActivity.this));
 				}
 			}
@@ -383,7 +383,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				searchResponse.setFilter(filter);
 				filter.addOnFilterChangedListener(PhoneSearchActivity.this);
 
-				SearchParams searchParams = Db.getHotelSearch().getSearchParams();
+				HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
 				searchResponse.setSearchType(searchParams.getSearchType());
 				searchResponse.setSearchLatLon(searchParams.getSearchLatitude(), searchParams.getSearchLongitude());
 
@@ -467,7 +467,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private OnSearchParamsChangedInWidgetListener mSearchParamsChangedListener = new OnSearchParamsChangedInWidgetListener() {
 
 		@Override
-		public void onSearchParamsChanged(SearchParams searchParams) {
+		public void onSearchParamsChanged(HotelSearchParams searchParams) {
 			Db.getHotelSearch().setSearchParams(searchParams);
 			if (searchParams != null) {
 				searchParams.ensureValidCheckInDate();
@@ -564,7 +564,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			}
 		}
 		else {
-			Db.getHotelSearch().setSearchParams(new SearchParams(prefs));
+			Db.getHotelSearch().setSearchParams(new HotelSearchParams(prefs));
 			String filterJson = prefs.getString("filter", null);
 			mShowDistance = prefs.getBoolean("showDistance", true);
 
@@ -614,7 +614,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setCustomView(mActionBarCustomView);
 
-		SearchParams searchParams = getCurrentSearchParams();
+		HotelSearchParams searchParams = getCurrentSearchParams();
 
 		mAdultsNumberPicker.setFormatter(mAdultsNumberPickerFormatter);
 		mAdultsNumberPicker.setMinValue(1);
@@ -706,7 +706,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			Db.getHotelSearch().getSearchParams().ensureValidCheckInDate();
 			startSearch();
 		}
-		// Check if the date in the SearchParams is outdated (i.e. if it's now after midnight)
+		// Check if the date in the HotelSearchParams is outdated (i.e. if it's now after midnight)
 		else if (!Db.getHotelSearch().getSearchParams().hasValidCheckInDate()) {
 			// Trigger a new search
 			Db.getHotelSearch().getSearchParams().ensureValidCheckInDate();
@@ -865,7 +865,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				public void onClick(DialogInterface dialog, int which) {
 					Address address = mAddresses.get(which);
 					String formattedAddress = StrUtils.removeUSAFromAddress(address);
-					SearchParams searchParams = getCurrentSearchParams();
+					HotelSearchParams searchParams = getCurrentSearchParams();
 					SearchType searchType = SearchUtils.isExactLocation(address) ? SearchType.ADDRESS : SearchType.CITY;
 
 					// The user found a better version of the search they ran,
@@ -1081,7 +1081,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 		// Search visible map area
 		case R.id.menu_select_search_map: {
-			SearchParams searchParams = getCurrentSearchParams();
+			HotelSearchParams searchParams = getCurrentSearchParams();
 			searchParams.clearQuery();
 
 			if (mHotelMapFragment != null) {
@@ -1513,7 +1513,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	}
 
 	private void updateCalendarInstructionText() {
-		SearchParams params = getCurrentSearchParams();
+		HotelSearchParams params = getCurrentSearchParams();
 		if (mDatesCalendarDatePicker != null) {
 			String dateRangeFormatStr = getString(R.string.calendar_instructions_date_range_TEMPLATE);
 			String dateRangeNightsFormatStr = getString(R.string.calendar_instructions_date_range_with_nights_TEMPLATE);
@@ -1629,7 +1629,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private void startGeocode() {
 		showLoading(true, R.string.progress_searching_hotels);
 
-		SearchParams searchParams = Db.getHotelSearch().getSearchParams();
+		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
 
 		if (searchParams.hasEnoughToSearch()) {
 			Log.d("User already has region id or lat/lng for freeform location, skipping geocoding.");
@@ -1679,7 +1679,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				else if (mAddresses.size() > 0) {
 					Address address = mAddresses.get(0);
 					String formattedAddress = StrUtils.removeUSAFromAddress(address);
-					SearchParams searchParams = Db.getHotelSearch().getSearchParams();
+					HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
 					SearchType searchType = SearchUtils.isExactLocation(address) ? SearchType.ADDRESS : SearchType.CITY;
 
 					// The user found a better version of the search they ran,
@@ -1808,9 +1808,9 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			mActivityState = ActivityState.values()[savedInstanceState.getInt(INSTANCE_ACTIVITY_STATE)];
 			mHasShownCalendar = savedInstanceState.getBoolean(INSTANCE_HAS_SHOWN_CALENDAR);
 			mOldSearchParams = JSONUtils
-					.getJSONable(savedInstanceState, INSTANCE_OLD_SEARCH_PARAMS, SearchParams.class);
+					.getJSONable(savedInstanceState, INSTANCE_OLD_SEARCH_PARAMS, HotelSearchParams.class);
 			mEditedSearchParams = JSONUtils.getJSONable(savedInstanceState, INSTANCE_EDITED_SEARCH_PARAMS,
-					SearchParams.class);
+					HotelSearchParams.class);
 			mOldFilter = JSONUtils.getJSONable(savedInstanceState, INSTANCE_OLD_FILTER, Filter.class);
 		}
 	}
@@ -1828,7 +1828,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private void broadcastSearchCompleted(SearchResponse searchResponse) {
 		Db.getHotelSearch().setSearchResponse(searchResponse);
 
-		if (Db.getHotelSearch().getSearchParams().getSearchType() != SearchParams.SearchType.HOTEL) {
+		if (Db.getHotelSearch().getSearchParams().getSearchType() != HotelSearchParams.SearchType.HOTEL) {
 			Db.getHotelSearch().clearSelectedProperty();
 		}
 
@@ -2296,7 +2296,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	// STORE/RESTORE SEARCH PARAMS
 	//----------------------------------
 
-	private SearchParams getCurrentSearchParams() {
+	private HotelSearchParams getCurrentSearchParams() {
 		// Determines if we are editing search params and returns those
 		if (mEditedSearchParams != null) {
 			return mEditedSearchParams;
@@ -2320,7 +2320,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 	private void setActionBarBookingInfoText() {
 		// If we are currently editing params render those values
-		SearchParams params = getCurrentSearchParams();
+		HotelSearchParams params = getCurrentSearchParams();
 		int startDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 		if (params.getCheckInDate() != null) {
 			startDay = params.getCheckInDate().get(Calendar.DAY_OF_MONTH);
@@ -2338,7 +2338,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			text = CalendarUtils.getCalendarDatePickerTitle(this, getCurrentSearchParams());
 		}
 		else if (mDisplayType == DisplayType.GUEST_PICKER) {
-			SearchParams searchParams = mEditedSearchParams;
+			HotelSearchParams searchParams = mEditedSearchParams;
 			final int numAdults = searchParams.getNumAdults();
 			final int numChildren = searchParams.getNumChildren();
 			text = StrUtils.formatGuests(this, numAdults, numChildren);
@@ -2364,7 +2364,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	}
 
 	private void setSearchEditViews() {
-		SearchParams searchParams = getCurrentSearchParams();
+		HotelSearchParams searchParams = getCurrentSearchParams();
 		if (searchParams.getSearchType() == SearchType.VISIBLE_MAP_AREA) {
 			stopLocation();
 		}
@@ -2395,7 +2395,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		mGuestsLayout.post(new Runnable() {
 			@Override
 			public void run() {
-				SearchParams searchParams = getCurrentSearchParams();
+				HotelSearchParams searchParams = getCurrentSearchParams();
 				int numAdults = searchParams.getNumAdults();
 				int numChildren = searchParams.getNumChildren();
 				mAdultsNumberPicker.setMinValue(numAdults);
@@ -2469,9 +2469,9 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			String str = s.toString();
 			int len = s.length();
 			boolean changed = false;
-			SearchParams searchParams = mEditedSearchParams;
+			HotelSearchParams searchParams = mEditedSearchParams;
 			if (searchParams == null || str.equals(searchParams.getQuery())) {
-				// SearchParams hasn't changed
+				// HotelSearchParams hasn't changed
 			}
 			else if (str.equals(getString(R.string.current_location)) || len == 0) {
 				changed |= searchParams.setSearchType(SearchType.MY_LOCATION);
@@ -2560,7 +2560,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			else {
 				if (mEditedSearchParams == null) {
 					SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(PhoneSearchActivity.this);
-					mEditedSearchParams = new SearchParams(prefs);
+					mEditedSearchParams = new HotelSearchParams(prefs);
 				}
 
 				Object o = AutocompleteProvider.extractSearchOrString(c);
@@ -2596,7 +2596,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		public void onValueChange(SimpleNumberPicker picker, int oldVal, int newVal) {
 			int numAdults = mAdultsNumberPicker.getValue();
 			int numChildren = mChildrenNumberPicker.getValue();
-			SearchParams searchParams = getCurrentSearchParams();
+			HotelSearchParams searchParams = getCurrentSearchParams();
 			searchParams.setNumAdults(numAdults);
 			GuestsPickerUtils.resizeChildrenList(PhoneSearchActivity.this, searchParams.getChildren(), numChildren);
 			GuestsPickerUtils.configureAndUpdateDisplayedValues(mContext, mAdultsNumberPicker, mChildrenNumberPicker);
@@ -2822,7 +2822,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	//////////////////////////////////////////////////////////////////////////////////////////
 
 	private void onSearchResultsChanged() {
-		SearchParams searchParams = Db.getHotelSearch().getSearchParams();
+		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
 		Filter filter = Db.getFilter();
 		SearchResponse searchResponse = Db.getHotelSearch().getSearchResponse();
 

@@ -24,7 +24,7 @@ import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.SettingUtils;
 
-public class SearchParams implements JSONable {
+public class HotelSearchParams implements JSONable {
 
 	private static final String SEARCH_PARAMS_KEY = "searchParams";
 
@@ -72,7 +72,7 @@ public class SearchParams implements JSONable {
 	// This might get filled as a result of an autosuggestion
 	private String mRegionId;
 
-	// This will get set if the SearchParams object was created from the widget
+	// This will get set if the HotelSearchParams object was created from the widget
 	private boolean mIsFromWidget;
 
 	/**
@@ -82,15 +82,15 @@ public class SearchParams implements JSONable {
 	 */
 	private String mUserQuery;
 
-	public SearchParams() {
+	public HotelSearchParams() {
 		init();
 	}
 
 	/**
-	 * Creates a new SearchParams object populated with the globally stored defaults from the passed SharedPreferences object.
+	 * Creates a new HotelSearchParams object populated with the globally stored defaults from the passed SharedPreferences object.
 	 * @param prefs
 	 */
-	public SearchParams(SharedPreferences prefs) {
+	public HotelSearchParams(SharedPreferences prefs) {
 		init();
 		String searchParamsJson = prefs.getString(SEARCH_PARAMS_KEY, null);
 		if (searchParamsJson != null) {
@@ -128,14 +128,14 @@ public class SearchParams implements JSONable {
 		mCheckOutDate = new Date(new GregorianCalendar(year, month, dayOfMonth + 1));
 	}
 
-	public SearchParams(JSONObject obj) {
+	public HotelSearchParams(JSONObject obj) {
 		if (obj != null) {
 			fromJson(obj);
 		}
 	}
 
-	public SearchParams copy() {
-		return new SearchParams(toJson());
+	public HotelSearchParams copy() {
+		return new HotelSearchParams(toJson());
 	}
 
 	public SearchType getSearchType() {
@@ -143,7 +143,7 @@ public class SearchParams implements JSONable {
 	}
 
 	/**
-	 * Sets the type of search for this SearchParams. Returns true if the type has changed.
+	 * Sets the type of search for this HotelSearchParams. Returns true if the type has changed.
 	 * @param searchType
 	 * @return
 	 */
@@ -157,7 +157,7 @@ public class SearchParams implements JSONable {
 	}
 
 	/**
-	 * Sets the location query for this SearchParams object. Also marks the (latitude, longitude)
+	 * Sets the location query for this HotelSearchParams object. Also marks the (latitude, longitude)
 	 * position as not up to date and clears the regionId. Returns false if the location passed was
 	 * the same as before.
 	 * @param query
@@ -204,7 +204,7 @@ public class SearchParams implements JSONable {
 	}
 
 	/**
-	 * Returns whether this SearchParams object has enough information to query E3.
+	 * Returns whether this HotelSearchParams object has enough information to query E3.
 	 * It has enough information if it:
 	 * 1. Has a regionId
 	 * -or-
@@ -531,11 +531,11 @@ public class SearchParams implements JSONable {
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof SearchParams) {
-			SearchParams other = (SearchParams) o;
+		if (o instanceof HotelSearchParams) {
+			HotelSearchParams other = (HotelSearchParams) o;
 
 			// Note that "equals" doesn't mean strictly equals.  In this situation, it means that
-			// the two SearchParams objects will result in the equivalent search results.  It does not
+			// the two HotelSearchParams objects will result in the equivalent search results.  It does not
 			// compare some state variables (such as lat/lon, which are retrieved from the freeform location
 
 			return this.getSearchType().equals(other.getSearchType())

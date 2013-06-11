@@ -297,7 +297,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			Db.setTravelers(travelers);
 		}
 
-		// If there are more numAdults from SearchParams, add empty Travelers to the Db to anticipate the addition of
+		// If there are more numAdults from HotelSearchParams, add empty Travelers to the Db to anticipate the addition of
 		// new Travelers in order for check out
 		final int numTravelers = travelers.size();
 		final int numAdults = Db.getFlightSearch().getSearchParams().getNumAdults();
@@ -307,7 +307,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			}
 		}
 
-		// If there are more Travelers than number of adults required by the SearchParams, remove the extra Travelers,
+		// If there are more Travelers than number of adults required by the HotelSearchParams, remove the extra Travelers,
 		// although, keep the first numAdults Travelers.
 		else if (numTravelers > numAdults) {
 			for (int i = numTravelers - 1; i >= numAdults; i--) {

@@ -31,7 +31,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
@@ -84,7 +84,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 			hotelImageView.setImageResource(R.drawable.bg_itin_placeholder);
 		}
 
-		SearchParams params = Db.getHotelSearch().getSearchParams();
+		HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 		int numGuests = params.getNumAdults() + params.getNumChildren();
 		String guests = getResources().getQuantityString(R.plurals.number_of_guests, numGuests, numGuests);
 		String duration = CalendarUtils.formatDateRange2(getActivity(), params, DateUtils.FORMAT_SHOW_DATE
@@ -209,7 +209,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		loc.setDestinationId(Db.getHotelSearch().getSelectedProperty().getLocation().toLongFormattedString());
 		flightSearchParams.setArrivalLocation(loc);
 
-		SearchParams params = Db.getHotelSearch().getSearchParams();
+		HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 		flightSearchParams.setDepartureDate(new Date(params.getCheckInDate()));
 		flightSearchParams.setReturnDate(new Date(params.getCheckOutDate()));
 
@@ -223,7 +223,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 	private void share() {
 		Context context = getActivity();
 
-		SearchParams searchParams = Db.getHotelSearch().getSearchParams();
+		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
 		Property property = Db.getHotelSearch().getSelectedProperty();
 		BookingResponse bookingResponse = Db.getBookingResponse();
 		BillingInfo billingInfo = Db.getBillingInfo();
