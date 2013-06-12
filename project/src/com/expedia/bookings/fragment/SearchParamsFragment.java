@@ -57,6 +57,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.content.AutocompleteProvider;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -233,7 +234,8 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 		startAutocomplete(Db.getHotelSearch().getSearchParams().getQuery());
 
 		// Configure the calendar
-		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker, CalendarDatePicker.SelectionMode.RANGE);
+		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker, CalendarDatePicker.SelectionMode.RANGE,
+				LineOfBusiness.HOTELS);
 
 		// Configure the number pickers
 		GuestsPickerUtils.updateNumberPickerRanges(mAdultsNumberPicker, mChildrenNumberPicker);
@@ -381,7 +383,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 
 	private final CalendarDatePicker.OnDateChangedListener mDatesDateChangedListener = new CalendarDatePicker.OnDateChangedListener() {
 		public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
-			CalendarUtils.syncParamsFromDatePicker(Db.getHotelSearch().getSearchParams(), mCalendarDatePicker);
+			CalendarUtils.syncParamsFromDatePickerRange(Db.getHotelSearch().getSearchParams(), mCalendarDatePicker);
 		}
 	};
 
@@ -560,7 +562,8 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 			mChildAgesLayout.setVisibility(View.VISIBLE);
 		}
 
-		GuestsPickerUtils.showOrHideChildAgeSpinners(getActivity(), Db.getHotelSearch().getSearchParams().getChildren(),
+		GuestsPickerUtils.showOrHideChildAgeSpinners(getActivity(),
+				Db.getHotelSearch().getSearchParams().getChildren(),
 				mChildAgesLayout, mChildAgeSelectedListener);
 
 		// This needs to be run after mChildAgesPopup layout (because of getHeight()).

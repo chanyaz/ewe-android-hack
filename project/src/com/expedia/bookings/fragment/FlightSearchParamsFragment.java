@@ -52,6 +52,7 @@ import com.expedia.bookings.animation.AnimationListenerAdapter;
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.Ui;
@@ -302,7 +303,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		});
 
 		// Initial calendar date picker variables
-		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker, CalendarDatePicker.SelectionMode.HYBRID);
+		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker, CalendarDatePicker.SelectionMode.HYBRID, LineOfBusiness.FLIGHTS);
 		mCalendarDatePicker.setOnDateChangedListener(this);
 
 		if (savedInstanceState != null) {
@@ -749,7 +750,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			Date departureDate = mSearchParams.getDepartureDate();
 			Date returnDate = mSearchParams.getReturnDate();
 
-			CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker, CalendarDatePicker.SelectionMode.HYBRID);
+			CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker, CalendarDatePicker.SelectionMode.HYBRID, LineOfBusiness.FLIGHTS);
 
 			if (departureDate != null) {
 				mCalendarDatePicker.updateStartDate(departureDate.getYear(), departureDate.getMonth() - 1,

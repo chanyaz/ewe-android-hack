@@ -11,6 +11,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.mobiata.android.text.format.Time;
 import com.mobiata.android.widget.CalendarDatePicker;
 
@@ -56,20 +57,27 @@ public class CalendarUtils {
 	}
 
 	/**
-	 * Configures the calendar date picker for Hotels
+	 * Configures the calendar date picker for the specified
+	 * line of business and mode
 	 *
 	 * @param calendarDatePicker
 	 * @param mode
 	 */
 	public static void configureCalendarDatePicker(CalendarDatePicker calendarDatePicker,
-			CalendarDatePicker.SelectionMode mode) {
+			CalendarDatePicker.SelectionMode mode, LineOfBusiness business) {
 		// Always set these variables
 		calendarDatePicker.setSelectionMode(mode);
-		if (mode == CalendarDatePicker.SelectionMode.RANGE) {
-			calendarDatePicker.setMaxRange(29);
-		}
-		else if (mode == CalendarDatePicker.SelectionMode.HYBRID) {
+		if (business == LineOfBusiness.FLIGHTS) {
 			calendarDatePicker.setMaxRange(330);
+		}
+		else if (business == LineOfBusiness.HOTELS) {
+			if (mode == CalendarDatePicker.SelectionMode.HYBRID) {
+				calendarDatePicker.setMinRange(2);
+				calendarDatePicker.setMaxRange(330);
+			}
+			else {
+				calendarDatePicker.setMaxRange(29);
+			}
 		}
 
 		// Reset the calendar's today cache
@@ -91,7 +99,7 @@ public class CalendarUtils {
 		calendarDatePicker.setMaxDate(maxTime.year, maxTime.month, maxTime.monthDay);
 	}
 
-	public static void syncParamsFromDatePicker(HotelSearchParams searchParams, CalendarDatePicker picker) {
+	public static void syncParamsFromDatePickerRange(HotelSearchParams searchParams, CalendarDatePicker picker) {
 		if (picker.getSelectionMode() != CalendarDatePicker.SelectionMode.RANGE) {
 			throw new UnsupportedOperationException("Can't use syncParamsFromDatePicker with picker of type "
 					+ picker.getSelectionMode());
