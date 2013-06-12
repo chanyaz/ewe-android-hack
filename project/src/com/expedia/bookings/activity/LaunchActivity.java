@@ -254,7 +254,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 		if (mLaunchFragment != null && requestCode == REQUEST_SETTINGS
 				&& resultCode == ExpediaBookingPreferenceActivity.RESULT_CHANGED_PREFS) {
 			mLaunchFragment.reset();
-			Db.getHotelSearch().reset();
+			Db.getHotelSearch().resetSearchData();
 		}
 	}
 

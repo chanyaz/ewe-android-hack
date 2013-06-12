@@ -174,7 +174,8 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		// If this is the first launch, clear the db
 		if (icicle == null) {
 			Db.resetFilter();
-			Db.getHotelSearch().reset();
+			Db.getHotelSearch().resetSearchData();
+			Db.getHotelSearch().resetSearchParams();
 		}
 		else {
 			mShowDistances = icicle.getBoolean(INSTANCE_SHOW_DISTANCES);
@@ -815,7 +816,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		Log.i("startSearch(): " + Db.getHotelSearch().getSearchParams().toJson().toString());
 
 		// Remove existing search results (and references to it)
-		Db.getHotelSearch().reset();
+		Db.getHotelSearch().resetSearchData();
 
 		// We no longer have a partial search, we have an actual search
 		mPartialSearch = null;
@@ -1089,7 +1090,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		}
 		bd.cancelDownload(KEY_REVIEWS);
 
-		Db.getHotelSearch().reset();
+		Db.getHotelSearch().resetSearchData();
 		Db.resetFilter();
 	}
 

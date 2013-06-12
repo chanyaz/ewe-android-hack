@@ -584,7 +584,8 @@ public class Db {
 	public static void clear() {
 		resetFilter();
 		resetBillingInfo();
-		getHotelSearch().reset();
+		getHotelSearch().resetSearchData();
+		getHotelSearch().resetSearchParams();
 
 		sDb.mBookingResponse = null;
 		sDb.mCreateTripResponse = null;

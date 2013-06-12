@@ -704,7 +704,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 				if (Db.getHotelSearch().getProperty(propertyId) == null) {
 					// H1041: Clear out the current search results
-					Db.getHotelSearch().reset();
+					Db.getHotelSearch().resetSearchData();
 
 					// Now that HotelSearch is cleared we need to tell it about the property
 					HotelSearchResponse searchResponse = new HotelSearchResponse();

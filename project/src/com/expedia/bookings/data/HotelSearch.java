@@ -29,8 +29,7 @@ public class HotelSearch implements JSONable {
 		mSearchParams = new HotelSearchParams();
 	}
 
-	public void reset() {
-		resetSearchParams();
+	public void resetSearchData() {
 		clearSelectedProperty();
 		mSearchResponse = null;
 		mPropertyMap = null;

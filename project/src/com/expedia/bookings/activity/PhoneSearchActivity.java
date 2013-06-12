@@ -843,7 +843,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		// We have a settings menu for VSC app only. And is shown only for debug builds.
 		if (requestCode == REQUEST_SETTINGS
 				&& resultCode == ExpediaBookingPreferenceActivity.RESULT_CHANGED_PREFS) {
-			Db.getHotelSearch().reset();
+			Db.getHotelSearch().resetSearchData();
 		}
 	}
 
@@ -1567,7 +1567,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		Log.i("Starting a new search...");
 		mActivityState = ActivityState.SEARCHING;
 
-		Db.getHotelSearch().reset();
+		Db.getHotelSearch().resetSearchData();
 
 		broadcastSearchStarted();
 
