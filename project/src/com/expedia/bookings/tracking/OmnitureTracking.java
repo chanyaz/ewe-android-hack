@@ -510,16 +510,6 @@ public class OmnitureTracking {
 		s.setProducts(products);
 	}
 
-	public static void trackViewOnMap(Context context) {
-		Log.d(TAG, "Tracking \"CKO.CP.ViewInMaps\" onClick");
-		trackSimpleEvent(context, null, null, "Shopper", "CKO.CP.ViewInMaps");
-	}
-
-	public static void trackNewSearch(Context context) {
-		Log.d(TAG, "Tracking \"new search\" onClick");
-		trackSimpleEvent(context, null, null, "Shopper", "CKO.CP.StartNewSearch");
-	}
-
 	public static void trackPageLoadHotelsRoomsRates(Context context) {
 		internalTrackPageLoadEventStandard(context, HOTELS_ROOMS_RATES, LineOfBusiness.HOTELS);
 	}
