@@ -175,7 +175,6 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		if (icicle == null) {
 			Db.resetFilter();
 			Db.getHotelSearch().resetSearchData();
-			Db.getHotelSearch().resetSearchParams();
 		}
 		else {
 			mShowDistances = icicle.getBoolean(INSTANCE_SHOW_DISTANCES);
