@@ -425,33 +425,40 @@ public class PointOfSale {
 
 		String posSetting = SettingUtils.get(context, context.getString(R.string.PointOfSaleKey), null);
 		if (posSetting == null) {
-			// Get the default POS.  This is rare, thus we can excuse this excessive code.
-			Locale locale = Locale.getDefault();
-			String country = locale.getCountry().toLowerCase();
-			String language = locale.getLanguage().toLowerCase();
+			// VSC default
+			if (ExpediaBookingApp.IS_VSC) {
+				sCachedPOS = PointOfSaleId.VSC;
+				savePos = true;
+			}
+			else {
+				// Get the default POS.  This is rare, thus we can excuse this excessive code.
+				Locale locale = Locale.getDefault();
+				String country = locale.getCountry().toLowerCase();
+				String language = locale.getLanguage().toLowerCase();
 
-			for (PointOfSale posInfo : sPointOfSale.values()) {
-				for (String defaultLocale : posInfo.mDefaultLocales) {
-					defaultLocale = defaultLocale.toLowerCase();
-					if (defaultLocale.endsWith(country) || defaultLocale.equals(language)) {
-						sCachedPOS = posInfo.mPointOfSale;
+				for (PointOfSale posInfo : sPointOfSale.values()) {
+					for (String defaultLocale : posInfo.mDefaultLocales) {
+						defaultLocale = defaultLocale.toLowerCase();
+						if (defaultLocale.endsWith(country) || defaultLocale.equals(language)) {
+							sCachedPOS = posInfo.mPointOfSale;
+							break;
+						}
+					}
+
+					if (sCachedPOS != null) {
 						break;
 					}
 				}
 
-				if (sCachedPOS != null) {
-					break;
+				// Default to UK POS if nothing matches the user's locale
+				if (sCachedPOS == null) {
+					sCachedPOS = PointOfSaleId.UNITED_KINGDOM;
 				}
+
+				savePos = true;
+
+				Log.i("No POS set yet, chose " + sCachedPOS + " based on current locale: " + locale.toString());
 			}
-
-			// Default to UK POS if nothing matches the user's locale
-			if (sCachedPOS == null) {
-				sCachedPOS = PointOfSaleId.UNITED_KINGDOM;
-			}
-
-			savePos = true;
-
-			Log.i("No POS set yet, chose " + sCachedPOS + " based on current locale: " + locale.toString());
 		}
 		else {
 			try {
@@ -583,7 +590,13 @@ public class PointOfSale {
 		sPointOfSale.clear();
 
 		try {
-			InputStream is = context.getAssets().open("ExpediaSharedData/ExpediaPointOfSaleConfig.json");
+			InputStream is;
+			if (ExpediaBookingApp.IS_VSC) {
+				is = context.getAssets().open("ExpediaSharedData/VSCPointOfSaleConfig.json");
+			}
+			else {
+				is = context.getAssets().open("ExpediaSharedData/ExpediaPointOfSaleConfig.json");
+			}
 			String data = IoUtils.convertStreamToString(is);
 			JSONObject posData = new JSONObject(data);
 			Iterator<String> keys = posData.keys();

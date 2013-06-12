@@ -33,7 +33,8 @@ public enum PointOfSaleId {
 	TAIWAN(27),
 	UNITED_KINGDOM(28),
 	UNITED_STATES(29),
-	VIETNAM(30);
+	VIETNAM(30),
+	VSC(31);
 
 	private int mId;
 
