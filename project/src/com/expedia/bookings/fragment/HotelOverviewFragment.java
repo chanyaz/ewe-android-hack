@@ -1311,8 +1311,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 				mCouponCodeWidget.onApplyCoupon(response.getNewRate());
 
-				// TODO: enable coupon tracking for 3.2
-				//				OmnitureTracking.trackHotelCouponApplied(mContext, response.getNewRate());
+				OmnitureTracking.trackHotelCouponApplied(getActivity(), mCouponCode);
 			}
 
 			// Regardless of what happened, let's refresh the page
@@ -1335,8 +1334,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			else if (Db.getCreateTripResponse() != null) {
 				Db.setCreateTripResponse(null);
 
-				// TODO: enable coupon tracking for 3.2
-				//				OmnitureTracking.trackHotelCouponRemoved(mContext);
+				OmnitureTracking.trackHotelCouponRemoved(getActivity());
 			}
 
 			mCouponCodeWidget.resetState();

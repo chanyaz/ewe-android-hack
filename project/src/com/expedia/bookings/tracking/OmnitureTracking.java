@@ -140,7 +140,8 @@ public class OmnitureTracking {
 		internalTrackHotelsSearch(context, searchParams, searchResponse, null);
 	}
 
-	public static void trackAppHotelsSearch(Context context, HotelSearchParams searchParams, HotelSearchParams oldSearchParams,
+	public static void trackAppHotelsSearch(Context context, HotelSearchParams searchParams,
+			HotelSearchParams oldSearchParams,
 			HotelFilter filter, HotelFilter oldFilter, HotelSearchResponse searchResponse) {
 		String refinements = getHotelSearchRefinements(searchParams, oldSearchParams, filter, oldFilter);
 		internalTrackHotelsSearch(context, searchParams, searchResponse, refinements);
@@ -640,14 +641,14 @@ public class OmnitureTracking {
 		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_PAYMENT_CID, LineOfBusiness.HOTELS);
 	}
 
-	public static void trackHotelCouponApplied(Context context, Rate rate) {
+	// Coupon tracking: https://mingle/projects/eb_ad_app/cards/1003
+
+	public static void trackHotelCouponApplied(Context context, String couponCode) {
 		Log.d(TAG, "Tracking \"" + HOTELS_COUPON_APPLIED + "\" click");
 		ADMS_Measurement s = getFreshTrackingObject(context);
 		addStandardFields(context, s);
 		s.setEvents("event21");
-		if (rate != null) {
-			s.setEvar(24, rate.getPromoDescription());
-		}
+		s.setEvar(24, couponCode);
 		s.trackLink(null, "o", HOTELS_COUPON_APPLIED, null, null);
 	}
 
