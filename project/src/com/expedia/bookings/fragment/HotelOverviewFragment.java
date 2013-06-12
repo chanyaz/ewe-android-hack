@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
@@ -49,6 +50,8 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.HotelPriceChangeDialog;
 import com.expedia.bookings.dialog.HotelRateBreakdownDialog;
 import com.expedia.bookings.dialog.TextViewDialog;
+import com.expedia.bookings.dialog.ThrobberDialog;
+import com.expedia.bookings.dialog.ThrobberDialog.CancelListener;
 import com.expedia.bookings.model.HotelPaymentFlowState;
 import com.expedia.bookings.model.HotelTravelerFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -83,7 +86,7 @@ import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.view.ViewHelper;
 
 public class HotelOverviewFragment extends LoadWalletFragment implements AccountButtonClickListener,
-		CouponCodeWidgetListener {
+		CouponCodeWidgetListener, CancelListener {
 
 	public interface BookingOverviewFragmentListener {
 		public void checkoutStarted();
@@ -126,6 +129,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	private String mCouponCode;
 	private boolean mWasUsingGoogleWallet;
+	private ThrobberDialog mWalletPromoThrobberDialog;
 
 	private CouponCodeWidget mCouponCodeWidget;
 	private View mCouponCodeLayout;
@@ -299,6 +303,11 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	public void onResume() {
 		super.onResume();
 
+		mWalletPromoThrobberDialog = Ui.findSupportFragment((FragmentActivity) getActivity(), ThrobberDialog.TAG);
+		if (mWalletPromoThrobberDialog != null && mWalletPromoThrobberDialog.isAdded()) {
+			mWalletPromoThrobberDialog.setCancelListener(this);
+		}
+
 		OmnitureTracking.trackPageLoadHotelsRateDetails(getActivity());
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
@@ -307,12 +316,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		// 1. We were using GWallet (with coupon), but are no longer using GWallet
 		// 2. We were not using GWallet, but now are doing so (and thus want to apply the GWallet code)
 		boolean isUsingGoogleWallet = Db.getBillingInfo().isUsingGoogleWallet();
-		if (mWasUsingGoogleWallet && !isUsingGoogleWallet
-				&& WalletUtils.getWalletCouponCode(getActivity()).equals(mCouponCode)) {
-			mCouponCode = null;
-			bd.cancelDownload(KEY_APPLY_COUPON);
-			Db.setCreateTripResponse(null);
-			mCouponCodeWidget.resetState();
+		if (mWasUsingGoogleWallet && !isUsingGoogleWallet && usingWalletPromoCoupon()) {
+			clearWalletPromoCoupon();
 		}
 		else if (!mWasUsingGoogleWallet && isUsingGoogleWallet) {
 			applyWalletCoupon();
@@ -1247,6 +1252,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	 * we want to override the current data with Google Wallet!
 	 */
 	protected void onMaskedWalletFullyLoaded(boolean fromPreauth) {
+		mWasUsingGoogleWallet = true;
+
 		populateTravelerData();
 
 		MaskedWallet maskedWallet = Db.getMaskedWallet();
@@ -1292,7 +1299,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		// If we're using wallet and the promo code, hide the coupon layout (unless we failed to
 		// apply the Google Wallet code).
 		boolean offeredPromo = WalletUtils.offerGoogleWalletCoupon(getActivity());
-		boolean codeIsPromo = WalletUtils.getWalletCouponCode(getActivity()).equals(mCouponCode);
+		boolean codeIsPromo = usingWalletPromoCoupon();
 		boolean applyingCoupon = BackgroundDownloader.getInstance().isDownloading(KEY_APPLY_COUPON);
 		boolean appliedCoupon = Db.getCreateTripResponse() != null;
 		mCouponCodeLayout.setVisibility(mBillingInfo.isUsingGoogleWallet()
@@ -1316,11 +1323,34 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		bd.startDownload(KEY_APPLY_COUPON, mCouponDownload, mCouponCallback);
 
 		updateViewVisibilities();
+
+		// Show a special spinner dialog for wallet
+		if (usingWalletPromoCoupon()) {
+			mFragmentModLock.runWhenSafe(new Runnable() {
+				@Override
+				public void run() {
+					mWalletPromoThrobberDialog = ThrobberDialog.newInstance(getString(R.string.wallet_promo_applying));
+					mWalletPromoThrobberDialog.setCancelListener(HotelOverviewFragment.this);
+					mWalletPromoThrobberDialog.show(getFragmentManager(), ThrobberDialog.TAG);
+				}
+			});
+		}
+	}
+
+	private boolean usingWalletPromoCoupon() {
+		return WalletUtils.getWalletCouponCode(getActivity()).equals(mCouponCode);
 	}
 
 	private void applyWalletCoupon() {
 		// If the user already has a coupon applied, clear it (and tell the user)
-		if (Db.getCreateTripResponse() != null) {
+		boolean hadCoupon = Db.getCreateTripResponse() != null;
+
+		onCouponCodeChanged(WalletUtils.getWalletCouponCode(getActivity()));
+
+		applyCoupon();
+
+		// Apply this later so that this dialog shows up on top of the progress one
+		if (hadCoupon) {
 			mFragmentModLock.runWhenSafe(new Runnable() {
 				@Override
 				public void run() {
@@ -1330,10 +1360,17 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				}
 			});
 		}
+	}
 
-		onCouponCodeChanged(WalletUtils.getWalletCouponCode(getActivity()));
+	private void clearWalletPromoCoupon() {
+		mCouponCode = null;
+		BackgroundDownloader.getInstance().cancelDownload(KEY_APPLY_COUPON);
+		Db.setCreateTripResponse(null);
+		mCouponCodeWidget.resetState();
 
-		applyCoupon();
+		if (mWalletPromoThrobberDialog != null) {
+			mWalletPromoThrobberDialog.dismiss();
+		}
 	}
 
 	private final Download<CreateTripResponse> mCouponDownload = new Download<CreateTripResponse>() {
@@ -1354,6 +1391,10 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			// Don't execute if we were killed before finishing
 			if (!isAdded()) {
 				return;
+			}
+
+			if (mWalletPromoThrobberDialog != null && mWalletPromoThrobberDialog.isAdded()) {
+				mWalletPromoThrobberDialog.dismiss();
 			}
 
 			mCouponCodeWidget.setLoading(false);
@@ -1389,7 +1430,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	private void handleWalletPromoErrorIfApplicable() {
 		// We're just detecting if the user is using the Google Wallet coupon code for this
-		if (WalletUtils.getWalletCouponCode(getActivity()).equals(mCouponCode)) {
+		if (usingWalletPromoCoupon()) {
 			mFragmentModLock.runWhenSafe(new Runnable() {
 				@Override
 				public void run() {
@@ -1431,6 +1472,15 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	@Override
 	public void onApplyClicked() {
 		applyCoupon();
+	}
+
+	// CancelListener (for wallet promo dialog)
+
+	@Override
+	public void onCancel() {
+		clearWalletPromoCoupon();
+
+		updateWalletViewVisibilities();
 	}
 
 }

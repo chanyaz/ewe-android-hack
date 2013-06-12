@@ -9,7 +9,8 @@ import android.support.v4.app.DialogFragment;
 import com.expedia.bookings.R;
 
 public class ThrobberDialog extends DialogFragment {
-	private CharSequence mMessage;
+
+	public static final String TAG = ThrobberDialog.class.getName();
 
 	private CancelListener mCancelListener;
 
