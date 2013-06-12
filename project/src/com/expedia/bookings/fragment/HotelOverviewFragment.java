@@ -1276,9 +1276,14 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mCreditCardSectionButton.setEnabled(enableButtons);
 		mCouponCodeEditText.setEnabled(enableButtons);
 
-		// If we're using wallet and the promo code, hide the coupon layout
+		// If we're using wallet and the promo code, hide the coupon layout (unless we failed to
+		// apply the Google Wallet code).
+		boolean offeredPromo = WalletUtils.offerGoogleWalletCoupon(getActivity());
+		boolean codeIsPromo = WalletUtils.WALLET_PROMO_COUPON_CODE.equals(mCouponCode);
+		boolean applyingCoupon = BackgroundDownloader.getInstance().isDownloading(KEY_APPLY_COUPON);
+		boolean appliedCoupon = Db.getCreateTripResponse() != null;
 		mCouponCodeLayout.setVisibility(mBillingInfo.isUsingGoogleWallet()
-				&& WalletUtils.offerGoogleWalletCoupon(getActivity()) ? View.GONE : View.VISIBLE);
+				&& offeredPromo && codeIsPromo && (applyingCoupon || appliedCoupon) ? View.GONE : View.VISIBLE);
 	}
 
 	// Coupons
@@ -1328,11 +1333,15 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				Log.w("Failed to apply coupon code (null response): " + mCouponCode);
 
 				mCouponCodeWidget.onApplyCouponError(null);
+
+				handleWalletPromoErrorIfApplicable();
 			}
 			else if (response.hasErrors()) {
 				Log.w("Failed to apply coupon code (server errors): " + mCouponCode);
 
 				mCouponCodeWidget.onApplyCouponError(response.getErrors());
+
+				handleWalletPromoErrorIfApplicable();
 			}
 			else {
 				Log.i("Applied coupon code: " + mCouponCode);
@@ -1348,6 +1357,23 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			refreshData();
 		}
 	};
+
+	private void handleWalletPromoErrorIfApplicable() {
+		// We're just detecting if the user is using the Google Wallet coupon code for this
+		if (WalletUtils.WALLET_PROMO_COUPON_CODE.equals(mCouponCode)) {
+			mFragmentModLock.runWhenSafe(new Runnable() {
+				@Override
+				public void run() {
+					SimpleDialogFragment df = SimpleDialogFragment.newInstance(null,
+							getString(R.string.error_wallet_promo_cannot_apply));
+					df.show(getFragmentManager(), "couponReplacedDialog");
+				}
+			});
+
+			// Reset the coupon code
+			mCouponCode = null;
+		}
+	}
 
 	// CouponCodeWidgetListener
 
