@@ -97,6 +97,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	private static final String INSTANCE_IN_CHECKOUT = "INSTANCE_IN_CHECKOUT";
 	private static final String INSTANCE_SHOW_SLIDE_TO_WIDGET = "INSTANCE_SHOW_SLIDE_TO_WIDGET";
 	private static final String INSTANCE_DONE_LOADING_PRICE_CHANGE = "INSTANCE_DONE_LOADING_PRICE_CHANGE";
+	private static final String INSTANCE_COUPON_CODE = "INSTANCE_COUPON_CODE";
+	private static final String INSTANCE_WAS_USING_GOOGLE_WALLET = "INSTANCE_WAS_USING_GOOGLE_WALLET";
 
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
 	private static final String KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE = "KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE";
@@ -121,6 +123,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	private ViewGroup mTravelerButton;
 	private ViewGroup mPaymentButton;
+
+	private String mCouponCode;
+	private boolean mWasUsingGoogleWallet;
 
 	private CouponCodeWidget mCouponCodeWidget;
 	private View mCouponCodeLayout;
@@ -165,6 +170,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			mInCheckout = savedInstanceState.getBoolean(INSTANCE_IN_CHECKOUT);
 			mShowSlideToWidget = savedInstanceState.getBoolean(INSTANCE_SHOW_SLIDE_TO_WIDGET);
 			mIsDoneLoadingPriceChange = savedInstanceState.getBoolean(INSTANCE_DONE_LOADING_PRICE_CHANGE);
+			mCouponCode = savedInstanceState.getString(INSTANCE_COUPON_CODE);
+			mWasUsingGoogleWallet = savedInstanceState.getBoolean(INSTANCE_WAS_USING_GOOGLE_WALLET);
 		}
 		else {
 			// Reset Google Wallet state each time we get here
@@ -294,11 +301,26 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 		OmnitureTracking.trackPageLoadHotelsRateDetails(getActivity());
 
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+
+		// When we resume, there is a possibility that:
+		// 1. We were using GWallet (with coupon), but are no longer using GWallet
+		// 2. We were not using GWallet, but now are doing so (and thus want to apply the GWallet code)
+		boolean isUsingGoogleWallet = Db.getBillingInfo().isUsingGoogleWallet();
+		if (mWasUsingGoogleWallet && !isUsingGoogleWallet
+				&& WalletUtils.getWalletCouponCode(getActivity()).equals(mCouponCode)) {
+			mCouponCode = null;
+			bd.cancelDownload(KEY_APPLY_COUPON);
+			Db.setCreateTripResponse(null);
+			mCouponCodeWidget.resetState();
+		}
+		else if (!mWasUsingGoogleWallet && isUsingGoogleWallet) {
+			applyWalletCoupon();
+		}
+
 		mCouponCodeWidget.startTextWatcher();
 
 		refreshData();
-
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 
 		if (bd.isDownloading(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE)) {
 			bd.registerDownloadCallback(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, mHotelProductCallback);
@@ -321,6 +343,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	@Override
 	public void onPause() {
 		super.onPause();
+
+		mWasUsingGoogleWallet = mBillingInfo.isUsingGoogleWallet();
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (getActivity().isFinishing()) {
@@ -351,6 +375,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		outState.putBoolean(INSTANCE_IN_CHECKOUT, mInCheckout);
 		outState.putBoolean(INSTANCE_SHOW_SLIDE_TO_WIDGET, mShowSlideToWidget);
 		outState.putBoolean(INSTANCE_DONE_LOADING_PRICE_CHANGE, mIsDoneLoadingPriceChange);
+		outState.putString(INSTANCE_COUPON_CODE, mCouponCode);
+		outState.putBoolean(INSTANCE_WAS_USING_GOOGLE_WALLET, mWasUsingGoogleWallet);
 
 		mHotelReceipt.saveInstanceState(outState);
 		mCouponCodeWidget.saveInstanceState(outState);
@@ -1237,20 +1263,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 		// Apply the mobile wallet coupon (if enabled)
 		if (WalletUtils.offerGoogleWalletCoupon(getActivity())) {
-			// If the user already 
-			if (Db.getCreateTripResponse() != null) {
-				mFragmentModLock.runWhenSafe(new Runnable() {
-					@Override
-					public void run() {
-						SimpleDialogFragment df = SimpleDialogFragment.newInstance(null,
-								getString(R.string.coupon_replaced_message));
-						df.show(getFragmentManager(), "couponReplacedDialog");
-					}
-				});
-			}
-
-			onCouponCodeChanged(WalletUtils.getWalletCouponCode(getActivity()));
-			applyCoupon();
+			applyWalletCoupon();
 		}
 
 		bindAll();
@@ -1288,8 +1301,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	// Coupons
 
-	private String mCouponCode;
-
 	public void applyCoupon() {
 		Log.i("Trying to apply coupon code: " + mCouponCode);
 
@@ -1305,6 +1316,24 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		bd.startDownload(KEY_APPLY_COUPON, mCouponDownload, mCouponCallback);
 
 		updateViewVisibilities();
+	}
+
+	private void applyWalletCoupon() {
+		// If the user already has a coupon applied, clear it (and tell the user)
+		if (Db.getCreateTripResponse() != null) {
+			mFragmentModLock.runWhenSafe(new Runnable() {
+				@Override
+				public void run() {
+					SimpleDialogFragment df = SimpleDialogFragment.newInstance(null,
+							getString(R.string.coupon_replaced_message));
+					df.show(getFragmentManager(), "couponReplacedDialog");
+				}
+			});
+		}
+
+		onCouponCodeChanged(WalletUtils.getWalletCouponCode(getActivity()));
+
+		applyCoupon();
 	}
 
 	private final Download<CreateTripResponse> mCouponDownload = new Download<CreateTripResponse>() {
