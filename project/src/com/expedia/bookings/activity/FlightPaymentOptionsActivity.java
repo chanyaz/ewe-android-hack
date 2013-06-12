@@ -14,7 +14,6 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.FlightPaymentAddressFragment;
@@ -29,7 +28,6 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.NavUtils;
-import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 
 public class FlightPaymentOptionsActivity extends SherlockFragmentActivity implements FlightPaymentYoYoListener {
@@ -410,14 +408,8 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 			}
 		}
 
-		String tripKey = Db.getFlightSearch().getSelectedFlightTrip().getProductKey();
-		FlightTrip trip = Db.getFlightSearch().getFlightTrip(tripKey);
-		String cityName = StrUtils.getWaypointCityOrCode(trip.getLeg(0).getLastWaypoint());
-		String yourTripToStr = String.format(getString(R.string.your_trip_to_TEMPLATE), cityName);
-
 		//Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
-		actionBar.setTitle(yourTripToStr);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 

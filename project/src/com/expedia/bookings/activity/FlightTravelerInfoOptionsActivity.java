@@ -21,7 +21,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity.YoYoMode;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.dialog.ThrobberDialog;
@@ -37,7 +36,6 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.NavUtils;
-import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 
@@ -322,14 +320,8 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 			displayOptions();
 		}
 
-		String tripKey = Db.getFlightSearch().getSelectedFlightTrip().getProductKey();
-		FlightTrip trip = Db.getFlightSearch().getFlightTrip(tripKey);
-		String cityName = StrUtils.getWaypointCityOrCode(trip.getLeg(0).getLastWaypoint());
-		String yourTripToStr = String.format(getString(R.string.your_trip_to_TEMPLATE), cityName);
-
 		//Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
-		actionBar.setTitle(yourTripToStr);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
