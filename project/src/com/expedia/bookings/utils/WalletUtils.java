@@ -47,6 +47,9 @@ public class WalletUtils {
 	 */
 	public static final int MAX_TRANSACTION_CHARGE = 1800;
 
+	// TODO: Temporarily, this is a code that works on public integration (but is NOT the final code)
+	public static final String WALLET_PROMO_COUPON_CODE = "hotelsapp2";
+
 	public static final String EXTRA_MASKED_WALLET = "EXTRA_MASKED_WALLET";
 	public static final String EXTRA_FULL_WALLET = "EXTRA_FULL_WALLET";
 

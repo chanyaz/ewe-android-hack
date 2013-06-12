@@ -58,6 +58,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.utils.FragmentModificationSafeLock;
 import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
@@ -74,6 +75,7 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
+import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.Ui;
@@ -139,6 +141,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	// This is needed when we call startCheckout before a layout occurs
 	// typically on rotation
 	private boolean mMaintainStartCheckoutPosition;
+
+	private FragmentModificationSafeLock mFragmentModLock = new FragmentModificationSafeLock();
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -310,6 +314,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		if (bd.isDownloading(KEY_APPLY_COUPON)) {
 			bd.registerDownloadCallback(KEY_APPLY_COUPON, mCouponCallback);
 		}
+
+		mFragmentModLock.setSafe(true);
 	}
 
 	@Override
@@ -348,6 +354,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 		mHotelReceipt.saveInstanceState(outState);
 		mCouponCodeWidget.saveInstanceState(outState);
+
+		mFragmentModLock.setSafe(false);
 	}
 
 	// Public methods
@@ -1225,6 +1233,24 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		// no existing credit card info entered
 		if (!fromPreauth || (TextUtils.isEmpty(mBillingInfo.getNumber()) && mBillingInfo.getStoredCard() == null)) {
 			WalletUtils.bindWalletToBillingInfo(maskedWallet, mBillingInfo);
+		}
+
+		// Apply the mobile wallet coupon (if enabled)
+		if (WalletUtils.offerGoogleWalletCoupon(getActivity())) {
+			// If the user already 
+			if (Db.getCreateTripResponse() != null) {
+				mFragmentModLock.runWhenSafe(new Runnable() {
+					@Override
+					public void run() {
+						SimpleDialogFragment df = SimpleDialogFragment.newInstance(null,
+								getString(R.string.coupon_replaced_message));
+						df.show(getFragmentManager(), "couponReplacedDialog");
+					}
+				});
+			}
+
+			onCouponCodeChanged(WalletUtils.WALLET_PROMO_COUPON_CODE);
+			applyCoupon();
 		}
 
 		bindAll();
