@@ -1405,9 +1405,9 @@ public class ExpediaServices implements DownloadListener {
 			JSONObject data = new JSONObject(IoUtils.convertStreamToString(is));
 
 			sServerUrls.put(EndPoint.PRODUCTION, data.optString("production").replace('@', 's'));
-			sServerUrls.put(EndPoint.DEV, data.optString("stable").replace('@', 's'));
+			sServerUrls.put(EndPoint.DEV, data.optString("development").replace('@', 's'));
 			sServerUrls.put(EndPoint.INTEGRATION, data.optString("integration").replace('@', 's'));
-			sServerUrls.put(EndPoint.STABLE, data.optString("development").replace('@', 's'));
+			sServerUrls.put(EndPoint.STABLE, data.optString("stable").replace('@', 's'));
 			sServerUrls.put(EndPoint.PUBLIC_INTEGRATION, data.optString("publicIntegration").replace('@', 's'));
 			sServerUrls.put(EndPoint.TRUNK, data.optString("trunk").replace('@', 's'));
 			sServerUrls.put(EndPoint.TRUNK_STUBBED, data.optString("stubbed").replace('@', 's'));
