@@ -1326,11 +1326,15 @@ public class ItineraryManager implements JSONable {
 
 	private PushNotificationRegistrationResponse registerForPushNotifications() {
 
+		Log.d("ItineraryManager.registerForPushNotifications");
+		
 		//NOTE: If this is the first time we are registering for push notifications, regId will likely be empty
 		//we need to wait for a gcm callback before we will get a regid, so we just skip for now and wait for the next sync
 		//at which time we should have a valid id (assuming network is up and running)
 		String regId = GCMRegistrationKeeper.getInstance(mContext).getRegistrationId(mContext);
+		Log.d("ItineraryManager.registerForPushNotifications regId:" + regId);
 		if (!TextUtils.isEmpty(regId)) {
+			Log.d("ItineraryManager.registerForPushNotifications regId:" + regId + " is not empty!");
 			ExpediaServices services = new ExpediaServices(mContext);
 
 			long userTuid = 0;

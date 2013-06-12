@@ -45,7 +45,9 @@ public class GCMRegistrationKeeper implements JSONable {
 	 * @return
 	 */
 	public static GCMRegistrationKeeper getInstance(Context context) {
+		Log.d("GCMRegistrationKeeper.getInstance called");
 		if (sInstance == null) {
+			Log.d("GCMRegistrationKeeper.getInstance called - instance was null, creating new instance.");
 			sInstance = new GCMRegistrationKeeper(context);
 		}
 		return sInstance;
@@ -56,11 +58,14 @@ public class GCMRegistrationKeeper implements JSONable {
 	 * @param context
 	 */
 	private GCMRegistrationKeeper(Context context) {
+		Log.d("GCMRegistrationKeeper constructor.");
 		//We load our old values from disk
 		loadFromDisk(context);
+		Log.d("GCMRegistrationKeeper constructor - loadFromDisk complete");
 
 		//We check with GCM, which will potentially give us a new id
 		loadFromGCM(context);
+		Log.d("GCMRegistrationKeeper constructor - loadFromGCM complete");
 	}
 
 	/**
@@ -96,6 +101,7 @@ public class GCMRegistrationKeeper implements JSONable {
 	 * @param context
 	 */
 	private void unRegisterAllExpiredIds(final Context context) {
+		Log.d("GCMRegistrationKeeper.unRegisterAllExpiredIds");
 		for (final String oldRegId : mExpiredRegistrationIds) {
 			PushNotificationUtils.unRegister(context, oldRegId,
 					new OnDownloadComplete<PushNotificationRegistrationResponse>() {
@@ -115,6 +121,7 @@ public class GCMRegistrationKeeper implements JSONable {
 	 * @return
 	 */
 	public String getRegistrationId(Context context) {
+		Log.d("GCMRegistrationKeeper.getRegistrationId returning:" + mActiveRegistrationId);
 		return mActiveRegistrationId;
 	}
 
@@ -123,6 +130,7 @@ public class GCMRegistrationKeeper implements JSONable {
 	 * @param context
 	 */
 	private synchronized void loadFromGCM(Context context) {
+		Log.d("GCMRegistrationKeeper.loadFromGCM");
 		Log.d("GCM GCMRegistrar.checkDevice(this);");
 		GCMRegistrar.checkDevice(context);
 		Log.d("GCM GCMRegistrar.checkManifest(this);");
@@ -143,6 +151,7 @@ public class GCMRegistrationKeeper implements JSONable {
 	 * @param context
 	 */
 	private synchronized void loadFromDisk(Context context) {
+		Log.d("GCMRegistrationKeeper.loadFromDisk");
 		File file = context.getFileStreamPath(FILE_NAME);
 		if (file.exists()) {
 			try {
@@ -162,6 +171,7 @@ public class GCMRegistrationKeeper implements JSONable {
 	 * @param context
 	 */
 	private synchronized void writeToDisk(Context context) {
+		Log.d("GCMRegistrationKeeper.writeToDisk");
 		try {
 			JSONObject fileContent = toJson();
 			if (fileContent != null) {
@@ -188,6 +198,7 @@ public class GCMRegistrationKeeper implements JSONable {
 	 * @param regId
 	 */
 	public void onRegistrationIdSuccessfullyUnregistered(Context context, String regId) {
+		Log.d("GCMRegistrationKeeper.onRegistrationIdSuccessfullyUnregistered regId:" + regId);
 		mExpiredRegistrationIds.remove(regId);
 		PushNotificationUtils.removePayloadFromMap(regId);
 		writeToDisk(context);
@@ -195,6 +206,7 @@ public class GCMRegistrationKeeper implements JSONable {
 
 	@Override
 	public JSONObject toJson() {
+		Log.d("GCMRegistrationKeeper.toJson");
 		try {
 			JSONObject obj = new JSONObject();
 			obj.put(JSON_ACTIVE_REGISTRATION_ID, mActiveRegistrationId);
@@ -213,6 +225,7 @@ public class GCMRegistrationKeeper implements JSONable {
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
+		Log.d("GCMRegistrationKeeper.fromJson");
 		try {
 			mActiveRegistrationId = obj.optString(JSON_ACTIVE_REGISTRATION_ID, mActiveRegistrationId);
 			if (obj.has(JSON_EXPIRED_REGISTRATION_LIST)) {
