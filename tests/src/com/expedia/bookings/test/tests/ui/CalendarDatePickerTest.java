@@ -9,6 +9,7 @@ import com.mobiata.android.text.format.Time;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.testutils.CalendarTouchUtils;
+import com.expedia.bookings.data.LineOfBusiness;
 
 import java.util.List;
 
@@ -378,7 +379,7 @@ public class CalendarDatePickerTest extends ActivityInstrumentationTestCase2<Cal
 				public void run() {
 					mCal.setSelectionMode(mode);
 					mCal.setAllowHybridDragging(allowHybridDragging);
-					CalendarUtils.configureCalendarDatePicker(mCal, mode);
+					CalendarUtils.configureCalendarDatePicker(mCal, mode, LineOfBusiness.HOTELS);
 				}
 			});
 		}
