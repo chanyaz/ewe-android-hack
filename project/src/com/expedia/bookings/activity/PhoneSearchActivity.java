@@ -2837,18 +2837,18 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	}
 
 	private void onOpenFilterPanel() {
-		OmnitureTracking.trackSimpleEvent(this, "App.Hotels.Search.Refine", null, "Shopper", null);
+		OmnitureTracking.trackSimpleEvent(this, "App.Hotels.Search.Refine", null, null);
 	}
 
 	private void onSwitchToMap() {
-		OmnitureTracking.trackSimpleEvent(this, "App.Hotels.Search.Map", null, "Shopper", null);
+		OmnitureTracking.trackSimpleEvent(this, "App.Hotels.Search.Map", null, null);
 	}
 
 	private void onGuestsChanged() {
 		final String pageName = "App.Hotels.Search.Refine.NumberTravelers."
 				+ (mAdultsNumberPicker.getValue() + mChildrenNumberPicker.getValue());
 
-		OmnitureTracking.trackSimpleEvent(this, pageName, null, "Shopper", null);
+		OmnitureTracking.trackSimpleEvent(this, pageName, null, null);
 	}
 
 	// HotelFilter tracking

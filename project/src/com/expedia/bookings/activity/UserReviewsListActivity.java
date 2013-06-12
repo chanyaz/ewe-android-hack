@@ -189,7 +189,7 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 			int numReviewsSeen = mViewedReviews.size();
 			Log.d("Tracking # of reviews seen: " + numReviewsSeen);
 			String referrerId = "App.Hotels.Reviews." + numReviewsSeen + "ReviewsViewed";
-			OmnitureTracking.trackSimpleEvent(this, null, null, "Shopper", referrerId);
+			OmnitureTracking.trackSimpleEvent(this, null, null, referrerId);
 
 			// cancel all downloads
 			mBackgroundDownloader.cancelDownload(REVIEWS_STATISTICS_DOWNLOAD);
@@ -372,7 +372,7 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 			referrerId = "App.Hotels.Reviews.Sort.Critical";
 		}
 		Log.d("Tracking \"App.Hotels.Reviews\" pageLoad");
-		OmnitureTracking.trackSimpleEvent(this, "App.Hotels.Reviews", null, "Shopper", referrerId);
+		OmnitureTracking.trackSimpleEvent(this, "App.Hotels.Reviews", null, referrerId);
 	}
 
 	@Override

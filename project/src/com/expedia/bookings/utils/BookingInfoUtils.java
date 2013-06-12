@@ -113,17 +113,17 @@ public class BookingInfoUtils {
 
 	public static void onCompletedSection(Context context, String sectionName) {
 		Log.d("Tracking \"" + sectionName + "\" onClick");
-		OmnitureTracking.trackSimpleEvent(context, null, null, "Shopper", sectionName);
+		OmnitureTracking.trackSimpleEvent(context, null, null, sectionName);
 	}
 
 	public static void onCountrySpinnerClick(Context context) {
 		Log.d("Tracking \"country spinner\" onClick");
-		OmnitureTracking.trackSimpleEvent(context, null, null, "Shopper", "CKO.BD.ChangeCountry");
+		OmnitureTracking.trackSimpleEvent(context, null, null, "CKO.BD.ChangeCountry");
 	}
 
 	public static void onClickSubmit(Context context) {
 		Log.d("Tracking \"submit\" onClick");
-		OmnitureTracking.trackSimpleEvent(context, null, null, "Shopper", "CKO.BD.Confirm");
+		OmnitureTracking.trackSimpleEvent(context, null, null, "CKO.BD.Confirm");
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////

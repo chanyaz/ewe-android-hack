@@ -406,7 +406,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 			// Track here if user opened app from widget.  Currently assumes that all widget searches
 			// are "nearby" - if this ever changes, this needs to be updated.
 			if (intent.getBooleanExtra(OPENED_FROM_WIDGET, false)) {
-				OmnitureTracking.trackSimpleEvent(this, null, null, null, "App.Widget.Deal.Nearby");
+				OmnitureTracking.trackSimpleEvent(this, null, null, "App.Widget.Deal.Nearby");
 				mApp.broadcastSearchParamsChangedInWidget((HotelSearchParams) JSONUtils.parseJSONableFromIntent(intent,
 						Codes.SEARCH_PARAMS, HotelSearchParams.class));
 			}

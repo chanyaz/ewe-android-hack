@@ -30,7 +30,7 @@ public class ExpediaBookingsWidgetProvider extends AppWidgetProvider {
 				PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
 
 		// Track that the widget has been installed
-		OmnitureTracking.trackSimpleEvent(context, null, null, null, "App.Widget.Install");
+		OmnitureTracking.trackSimpleEvent(context, null, null, "App.Widget.Install");
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class ExpediaBookingsWidgetProvider extends AppWidgetProvider {
 				PackageManager.COMPONENT_ENABLED_STATE_DEFAULT, PackageManager.DONT_KILL_APP);
 
 		// Track that the widget has been uninstalled
-		OmnitureTracking.trackSimpleEvent(context, null, null, null, "App.Widget.Remove");
+		OmnitureTracking.trackSimpleEvent(context, null, null, "App.Widget.Remove");
 	}
 
 	@Override

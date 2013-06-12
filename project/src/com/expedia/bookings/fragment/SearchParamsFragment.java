@@ -883,6 +883,6 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 		final String pageName = "App.Hotels.Search.Refine.NumberTravelers."
 				+ (mAdultsNumberPicker.getValue() + mChildrenNumberPicker.getValue());
 
-		OmnitureTracking.trackSimpleEvent(getActivity(), pageName, null, "Shopper", null);
+		OmnitureTracking.trackSimpleEvent(getActivity(), pageName, null, null);
 	}
 }

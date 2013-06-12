@@ -223,47 +223,47 @@ public class AboutUtils {
 
 	public void trackAboutActivityPageLoad() {
 		Log.d("Tracking \"App.Hotel.Support\" pageLoad");
-		OmnitureTracking.trackSimpleEvent(mActivity, "App.Hotel.Support", null, "Shopper", null);
+		OmnitureTracking.trackSimpleEvent(mActivity, "App.Hotel.Support", null, null);
 	}
 
 	public void trackCallSupport() {
 		Log.d("Tracking \"call support\" onClick");
-		OmnitureTracking.trackSimpleEvent(mActivity, null, "event35", null, "App.Info.CallSupport");
+		OmnitureTracking.trackSimpleEvent(mActivity, null, "event35", "App.Info.CallSupport");
 	}
 
 	public void trackEmailSupport() {
 		Log.d("Tracking \"email support\" onClick");
-		OmnitureTracking.trackSimpleEvent(mActivity, null, "event36", null, "App.Info.EmailSupport");
+		OmnitureTracking.trackSimpleEvent(mActivity, null, "event36", "App.Info.EmailSupport");
 	}
 
 	public void trackTellAFriend() {
 		Log.d("Tracking \"tell a friend\" onClick");
-		OmnitureTracking.trackSimpleEvent(mActivity, null, null, null, "App.Info.TellAFriend");
+		OmnitureTracking.trackSimpleEvent(mActivity, null, null, "App.Info.TellAFriend");
 	}
 
 	public void trackFlightTrackFreeLink() {
 		Log.d("Tracking \"flighttrackfree\" onClick");
-		OmnitureTracking.trackSimpleEvent(mActivity, null, null, null, "App.Link.FlightTrackFree");
+		OmnitureTracking.trackSimpleEvent(mActivity, null, null, "App.Link.FlightTrackFree");
 	}
 
 	public void trackFlightTrackLink() {
 		Log.d("Tracking \"flighttrack\" onClick");
-		OmnitureTracking.trackSimpleEvent(mActivity, null, null, null, "App.Link.FlightTrack");
+		OmnitureTracking.trackSimpleEvent(mActivity, null, null, "App.Link.FlightTrack");
 	}
 
 	public void trackFlightBoardLink() {
 		Log.d("Tracking \"flightboard\" onClick");
-		OmnitureTracking.trackSimpleEvent(mActivity, null, null, null, "App.Link.FlightBoard");
+		OmnitureTracking.trackSimpleEvent(mActivity, null, null, "App.Link.FlightBoard");
 	}
 
 	public void trackHiringLink() {
 		Log.d("Tracking \"hiring\" onClick");
-		OmnitureTracking.trackSimpleEvent(mActivity, null, null, null, "App.Link.Mobiata.Jobs");
+		OmnitureTracking.trackSimpleEvent(mActivity, null, null, "App.Link.Mobiata.Jobs");
 	}
 
 	public void trackFeedbackPageLoad() {
 		Log.d("Tracking \"App.Feedback\" pageLoad");
-		OmnitureTracking.trackSimpleEvent(mActivity, "App.Feedback", null, null, null);
+		OmnitureTracking.trackSimpleEvent(mActivity, "App.Feedback", null, null);
 	}
 
 	public void trackFeedbackSubmitted() {
@@ -271,6 +271,6 @@ public class AboutUtils {
 
 		// TODO: referrerId should display the # of stars the user gave us, however we cannot get
 		// that information from OpinionLab yet.
-		OmnitureTracking.trackSimpleEvent(mActivity, null, "event37", null, null);
+		OmnitureTracking.trackSimpleEvent(mActivity, null, "event37", null);
 	}
 }
