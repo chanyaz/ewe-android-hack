@@ -6,8 +6,6 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.text.TextUtils;
-
 import com.expedia.bookings.widget.SummarizedRoomRates;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -158,10 +156,7 @@ public class HotelSearch implements JSONable {
 			JSONObject obj = new JSONObject();
 			JSONUtils.putJSONable(obj, "searchParams", mSearchParams);
 			JSONUtils.putJSONable(obj, "searchResponse", mSearchResponse);
-			if (mSelectedPropertyId != null) {
-				String selectedId = mSelectedPropertyId;
-				obj.putOpt("selectedPropertyId", selectedId);
-			}
+			obj.putOpt("selectedPropertyId", mSelectedPropertyId);
 
 			JSONUtils.putJSONableStringMap(obj, "availabilityMap", mAvailabilityMap);
 			JSONUtils.putJSONableStringMap(obj, "reviewsStatisticsResponses", mReviewsStatisticsResponses);
@@ -180,15 +175,12 @@ public class HotelSearch implements JSONable {
 		setSearchParams(JSONUtils.getJSONable(obj, "searchParams", HotelSearchParams.class));
 		setSearchResponse(JSONUtils.getJSONable(obj, "searchResponse", HotelSearchResponse.class));
 
-		String selectedPropertyId = obj.optString("selectedPropertyId");
-		if (!TextUtils.isEmpty(selectedPropertyId)) {
-			setSelectedProperty(getProperty(selectedPropertyId));
-		}
+		mSelectedPropertyId = obj.optString("selectedPropertyId", null);
 
 		mAvailabilityMap = JSONUtils.getJSONableStringMap(obj, "availabilityMap", HotelAvailability.class, mAvailabilityMap);
 		mReviewsStatisticsResponses = JSONUtils.getJSONableStringMap(obj, "reviewsStatisticsResponses", ReviewsStatisticsResponse.class, mReviewsStatisticsResponses);
 		mReviewsResponses = JSONUtils.getJSONableStringMap(obj, "reviewsResponses", ReviewsResponse.class, mReviewsResponses);
 
-		return false;
+		return true;
 	}
 }
