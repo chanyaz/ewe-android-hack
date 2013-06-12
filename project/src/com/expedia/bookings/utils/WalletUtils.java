@@ -20,6 +20,8 @@ import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.server.ExpediaServices.EndPoint;
 import com.google.android.gms.wallet.Address;
 import com.google.android.gms.wallet.Cart;
 import com.google.android.gms.wallet.FullWallet;
@@ -46,9 +48,6 @@ public class WalletUtils {
 	 * then we should not show any Google Wallet options at all.
 	 */
 	public static final int MAX_TRANSACTION_CHARGE = 1800;
-
-	// TODO: Temporarily, this is a code that works on public integration (but is NOT the final code)
-	public static final String WALLET_PROMO_COUPON_CODE = "hotelsapp2";
 
 	public static final String EXTRA_MASKED_WALLET = "EXTRA_MASKED_WALLET";
 	public static final String EXTRA_FULL_WALLET = "EXTRA_FULL_WALLET";
@@ -94,6 +93,17 @@ public class WalletUtils {
 
 	public static boolean offerGoogleWalletCoupon(Context context) {
 		return SettingUtils.get(context, SETTING_SHOW_WALLET_COUPON, false);
+	}
+
+	public static String getWalletCouponCode(Context context) {
+		if (ExpediaServices.getEndPoint(context) == EndPoint.PRODUCTION) {
+			// This is the official coupon code for Wallet on Prod
+			return "MOBILEWALLET";
+		}
+		else {
+			// This code is known to give 10% off on integration; may not work on other environments 
+			return "hotelsapp2";
+		}
 	}
 
 	public static MaskedWalletRequest buildMaskedWalletRequest(Context context, Money total, int flags) {

@@ -1249,7 +1249,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				});
 			}
 
-			onCouponCodeChanged(WalletUtils.WALLET_PROMO_COUPON_CODE);
+			onCouponCodeChanged(WalletUtils.getWalletCouponCode(getActivity()));
 			applyCoupon();
 		}
 
@@ -1279,7 +1279,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		// If we're using wallet and the promo code, hide the coupon layout (unless we failed to
 		// apply the Google Wallet code).
 		boolean offeredPromo = WalletUtils.offerGoogleWalletCoupon(getActivity());
-		boolean codeIsPromo = WalletUtils.WALLET_PROMO_COUPON_CODE.equals(mCouponCode);
+		boolean codeIsPromo = WalletUtils.getWalletCouponCode(getActivity()).equals(mCouponCode);
 		boolean applyingCoupon = BackgroundDownloader.getInstance().isDownloading(KEY_APPLY_COUPON);
 		boolean appliedCoupon = Db.getCreateTripResponse() != null;
 		mCouponCodeLayout.setVisibility(mBillingInfo.isUsingGoogleWallet()
@@ -1360,7 +1360,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	private void handleWalletPromoErrorIfApplicable() {
 		// We're just detecting if the user is using the Google Wallet coupon code for this
-		if (WalletUtils.WALLET_PROMO_COUPON_CODE.equals(mCouponCode)) {
+		if (WalletUtils.getWalletCouponCode(getActivity()).equals(mCouponCode)) {
 			mFragmentModLock.runWhenSafe(new Runnable() {
 				@Override
 				public void run() {
