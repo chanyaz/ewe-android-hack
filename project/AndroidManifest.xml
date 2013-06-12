@@ -56,10 +56,10 @@
         <!-- ActiveAndroid -->
         <meta-data
             android:name="AA_DB_VERSION"
-            android:value="11" />
+            android:value="12" />
         <meta-data
             android:name="AA_MODELS"
-            android:value=".model.Search, .model.WidgetConfigurationState, .data.ExpediaImage, .notification.Notification" />
+            android:value=".model.Search, .model.DismissedItinButton, .model.WidgetConfigurationState, .data.ExpediaImage, .notification.Notification" />
 
         <!-- Google Maps -->
         <meta-data

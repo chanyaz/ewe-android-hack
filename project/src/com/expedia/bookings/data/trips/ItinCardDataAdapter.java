@@ -2,6 +2,7 @@ package com.expedia.bookings.data.trips;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -12,13 +13,16 @@ import android.widget.BaseAdapter;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.model.DismissedItinButton;
 import com.expedia.bookings.widget.ItinCard;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 import com.expedia.bookings.widget.itin.ItinButtonCard;
+import com.expedia.bookings.widget.itin.ItinButtonCard.ItinButtonType;
+import com.expedia.bookings.widget.itin.ItinButtonCard.OnHideListener;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.util.SettingUtils;
 
-public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickListener {
+public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickListener, OnHideListener {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE ENUMERATIONS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -106,7 +110,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			}
 			else {
 				card = new ItinButtonCard(mContext);
-				//card.setOnItinCardClickListener(this);
+				card.setOnHideListener(this);
 			}
 
 			card.bind(data);
@@ -405,10 +409,19 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			return;
 		}
 
+		// Get previously dismissed buttons
+		final List<String> dismissedTripIds = DismissedItinButton
+				.getDismissedTripIds(ItinButtonCard.ItinButtonType.HOTEL_ATTACH);
+
 		for (int i = 0; i < len; i++) {
 			ItinCardData data = mItinCardDatas.get(i);
 			Calendar start = data.getStartDate().getCalendar();
 			Calendar now = Calendar.getInstance(start.getTimeZone());
+
+			// Ignore dismissed buttons
+			if (dismissedTripIds.contains(data.getTripId())) {
+				continue;
+			}
 
 			// Ignore past itineraries
 			if (now.after(start) && now.get(Calendar.DAY_OF_YEAR) > start.get(Calendar.DAY_OF_YEAR)) {
@@ -461,15 +474,25 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			return;
 		}
 
+		// Get previously dismissed buttons
+		final List<String> dismissedTripIds = DismissedItinButton
+				.getDismissedTripIds(ItinButtonCard.ItinButtonType.LOCAL_EXPERT);
+
 		for (int i = mSummaryCardPosition; i < len; i++) {
 			ItinCardData data = mItinCardDatas.get(i);
-			if (data.getTripComponentType().equals(Type.HOTEL)) {
+			if (data.getTripComponentType().equals(Type.HOTEL) && !dismissedTripIds.contains(data.getTripId())) {
 				// TODO: Limit by date (2 days prior) and location (Orlando, Las Vegas, HI) when done developing feature.
 				mItinCardDatas.add(i + 1, new ItinCardDataLocalExpert(data.getTripComponent()));
 				return;
 			}
 		}
 	}
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// LISTENER IMPLEMENTATIONS
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	// ItinCard button click listener
 
 	@Override
 	public void onCloseButtonClicked() {
@@ -483,5 +506,42 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		if (mOnItinCardClickListener != null) {
 			mOnItinCardClickListener.onShareButtonClicked(generator);
 		}
+	}
+
+	// ItinButtonCard hide listener
+
+	@Override
+	public void onHide(String tripId, ItinButtonType itinButtonType) {
+		String cardTripId;
+		ItinButtonType cardItinButtonType;
+
+		int size = mItinCardDatas.size();
+		for (int i = 0; i < size; i++) {
+			final ItinCardData data = mItinCardDatas.get(i);
+			cardTripId = data.getTripId();
+			cardItinButtonType = ItinButtonType.fromClass(mItinCardDatas.get(i).getClass());
+			if (cardTripId.equals(tripId) && cardItinButtonType != null && cardItinButtonType.equals(itinButtonType)) {
+				mItinCardDatas.remove(i);
+				size--;
+			}
+		}
+
+		notifyDataSetChanged();
+	}
+
+	@Override
+	public void onHideAll(ItinButtonType itinButtonType) {
+		ItinButtonType cardItinButtonType;
+
+		int size = mItinCardDatas.size();
+		for (int i = 0; i < size; i++) {
+			cardItinButtonType = ItinButtonType.fromClass(mItinCardDatas.get(i).getClass());
+			if (cardItinButtonType != null && cardItinButtonType.equals(itinButtonType)) {
+				mItinCardDatas.remove(i);
+				size--;
+			}
+		}
+
+		notifyDataSetChanged();
 	}
 }

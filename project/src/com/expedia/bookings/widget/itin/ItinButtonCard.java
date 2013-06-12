@@ -12,22 +12,54 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataHotelAttach;
 import com.expedia.bookings.data.trips.ItinCardDataLocalExpert;
+import com.expedia.bookings.model.DismissedItinButton;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AbsPopupMenu;
 import com.expedia.bookings.widget.PopupMenu;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
 
 public class ItinButtonCard<T extends ItinCardData> extends LinearLayout implements
 		AbsPopupMenu.OnMenuItemClickListener {
 	//////////////////////////////////////////////////////////////////////////////////////
+	// PUBLIC INTERFACES
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	public interface OnHideListener {
+		public void onHide(String tripId, ItinButtonType itinButtonType);
+
+		public void onHideAll(ItinButtonType itinButtonType);
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// PUBLIC ENUMERATIONS
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	public enum ItinButtonType {
+		HOTEL_ATTACH,
+		LOCAL_EXPERT;
+
+		public static ItinButtonType fromClass(Class<? extends ItinCardData> clazz) {
+			if (clazz.equals(ItinCardDataHotelAttach.class)) {
+				return HOTEL_ATTACH;
+			}
+			else if (clazz.equals(ItinCardDataLocalExpert.class)) {
+				return LOCAL_EXPERT;
+			}
+
+			return null;
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	private Class<? extends ItinCardData> mItinCardDataType;
+	private String mTripId;
+	private ItinButtonType mItinButtonType;
 
 	private ItinButtonContentGenerator mItinContentGenerator;
 	private OnClickListener mItinButtonOnClickListener;
+	private OnHideListener mOnHideListener;
 
 	// Views
 
@@ -54,7 +86,8 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	public void bind(T itinCardData) {
-		mItinCardDataType = itinCardData.getClass();
+		mTripId = itinCardData.getTripComponent().getParentTrip().getTripId();
+		mItinButtonType = ItinButtonType.fromClass(itinCardData.getClass());
 
 		// Create content generator
 		mItinContentGenerator = (ItinButtonContentGenerator) ItinContentGenerator.createGenerator(getContext(),
@@ -68,6 +101,10 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 		if (buttonView != null) {
 			mItinButtonLayout.addView(buttonView);
 		}
+	}
+
+	public void setOnHideListener(OnHideListener onHideListener) {
+		mOnHideListener = onHideListener;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -97,15 +134,27 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 	}
 
 	private void hide() {
-		Log.d("Hiding for this trip");
+		DismissedItinButton.dismiss(mTripId, mItinButtonType);
+
+		if (mOnHideListener != null) {
+			mOnHideListener.onHide(mTripId, mItinButtonType);
+		}
 	}
 
 	private void hideForever() {
-		if (mItinCardDataType.equals(ItinCardDataHotelAttach.class)) {
+		switch (mItinButtonType) {
+		case HOTEL_ATTACH: {
 			SettingUtils.save(getContext(), R.string.setting_hide_hotel_attach, true);
+			break;
 		}
-		else if (mItinCardDataType.equals(ItinCardDataLocalExpert.class)) {
+		case LOCAL_EXPERT: {
 			SettingUtils.save(getContext(), R.string.setting_hide_local_expert, true);
+			break;
+		}
+		}
+
+		if (mOnHideListener != null) {
+			mOnHideListener.onHideAll(mItinButtonType);
 		}
 	}
 
