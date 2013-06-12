@@ -128,6 +128,9 @@ public class OmnitureTracking {
 	private static final String HOTELS_SEARCH_REFINE_SEARCH_RADIUS = "App.Hotels.Search.Refine.SearchRadius";
 	private static final String HOTELS_COUPON_APPLIED = "Coupon Applied";
 	private static final String HOTELS_COUPON_REMOVED = "Coupon Removed";
+	private static final String HOTELS_CONF_CROSSSELL_FLIGHTS = "CrossSell.Hotels.Flights";
+	private static final String HOTELS_CONF_ADD_TO_CALENDAR = "App.Hotels.Checkout.Confirmation.Add.Calendar";
+	private static final String HOTELS_CONF_SHARE_EMAIL = "App.Hotels.Checkout.Confirmation.Share.Mail";
 
 	public static final String HOTELS_SEARCH_SORT_POPULAR = "App.Hotels.Search.Sort.Popular";
 	public static final String HOTELS_SEARCH_SORT_PRICE = "App.Hotels.Search.Sort.Price";
@@ -660,6 +663,20 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", HOTELS_COUPON_REMOVED, null, null);
 	}
 
+	public static void trackHotelConfirmationFlightsXSell(Context context) {
+		ADMS_Measurement s = createTrackLinkEvent(context, HOTELS_CONF_CROSSSELL_FLIGHTS);
+		s.setEvar(12, HOTELS_CONF_CROSSSELL_FLIGHTS);
+		internalTrackLink(s);
+	}
+
+	public static void trackHotelConfirmationAddToCalendar(Context context) {
+		internalTrackLink(context, HOTELS_CONF_ADD_TO_CALENDAR);
+	}
+
+	public static void trackHotelConfirmationShareEmail(Context context) {
+		internalTrackLink(context, HOTELS_CONF_SHARE_EMAIL);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Flights Tracking
 	//
@@ -719,6 +736,9 @@ public class OmnitureTracking {
 	private static final String PREFIX_FLIGHT_SEARCH_ROUNDTRIP_IN_SORT = "App.Flight.Search.Roundtrip.In.Sort";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_IN_REFINE = "App.Flight.Search.Roundtrip.In.RefineSearch";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_IN_REMOVE_OUT = "App.Flight.Search.Roundtrip.In.RemoveOut";
+
+	private static final String FLIGHT_CONF_ADD_TO_CALENDAR = "App.Flights.Checkout.Confirmation.Add.Calendar";
+	private static final String FLIGHT_CONF_SHARE_EMAIL = "App.Flights.Checkout.Confirmation.Share.Mail";
 
 	public static void trackPageLoadFlightCheckoutConfirmation(Context context) {
 		Log.d(TAG, "Tracking \"" + FLIGHT_CHECKOUT_CONFIRMATION + "\" pageLoad");
@@ -1116,6 +1136,14 @@ public class OmnitureTracking {
 
 	public static void trackErrorPageLoadFlightSearchExpired(Context context) {
 		internalTrackPageLoadEventStandard(context, FLIGHT_ERROR_SEARCH_EXPIRED, LineOfBusiness.FLIGHTS);
+	}
+
+	public static void trackFlightConfirmationAddToCalendar(Context context) {
+		internalTrackLink(context, FLIGHT_CONF_ADD_TO_CALENDAR);
+	}
+
+	public static void trackFlightConfirmationShareEmail(Context context) {
+		internalTrackLink(context, FLIGHT_CONF_SHARE_EMAIL);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

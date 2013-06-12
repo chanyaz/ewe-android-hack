@@ -372,6 +372,8 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 		String body = shareUtils.getFlightShareEmail(trip, Db.getTravelers());
 
 		SocialUtils.email(getActivity(), subject, body);
+
+		OmnitureTracking.trackFlightConfirmationShareEmail(getActivity());
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -383,6 +385,8 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 			Intent intent = generateCalendarInsertIntent(trip.getLeg(a));
 			startActivity(intent);
 		}
+
+		OmnitureTracking.trackFlightConfirmationAddToCalendar(getActivity());
 	}
 
 	@SuppressLint("NewApi")

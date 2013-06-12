@@ -40,7 +40,6 @@ import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.widget.ItinHeaderImageView;
-import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.CalendarAPIUtils;
@@ -215,6 +214,8 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 
 		// Go to flights
 		NavUtils.goToFlights(getActivity(), true);
+
+		OmnitureTracking.trackHotelConfirmationFlightsXSell(getActivity());
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -238,9 +239,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 
 		SocialUtils.email(context, subject, body);
 
-		// Track the share
-		Log.d("Tracking \"CKO.CP.ShareBooking\" onClick");
-		OmnitureTracking.trackSimpleEvent(context, null, null, "Shopper", "CKO.CP.ShareBooking");
+		OmnitureTracking.trackHotelConfirmationShareEmail(getActivity());
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -250,10 +249,13 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		// Go in reverse order, so that "check in" is shown to the user first
 		startActivity(generateHotelCalendarIntent(false));
 		startActivity(generateHotelCalendarIntent(true));
+
+		OmnitureTracking.trackHotelConfirmationAddToCalendar(getActivity());
 	}
 
 	private Intent generateHotelCalendarIntent(boolean checkIn) {
-		Calendar cal = checkIn ? Db.getHotelSearch().getSearchParams().getCheckInDate() : Db.getHotelSearch().getSearchParams().getCheckOutDate();
+		Calendar cal = checkIn ? Db.getHotelSearch().getSearchParams().getCheckInDate() : Db.getHotelSearch()
+				.getSearchParams().getCheckOutDate();
 		Property property = Db.getHotelSearch().getSelectedProperty();
 		BookingResponse bookingResponse = Db.getBookingResponse();
 
