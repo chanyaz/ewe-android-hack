@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:textAppearance="?android:attr/textAppearanceLargePopupMenu"
+            android:textSize="18sp"
              />
 
         <TextView
@@ -50,7 +50,7 @@
             android:layout_alignLeft="@android:id/text1"
             android:layout_below="@android:id/text1"
             android:singleLine="true"
-            android:textAppearance="?android:attr/textAppearanceSmallPopupMenu"
+            android:textSize="14sp"
              />
     </TwoLineListItem>
 
