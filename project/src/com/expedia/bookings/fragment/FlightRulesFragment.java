@@ -33,8 +33,7 @@ public class FlightRulesFragment extends SherlockFragment {
 		LCC_IMPORTANT_TEXT("flightRulesLCCImportantMessage"),
 		LCC_LITE_TEXT("flightRulesLCCServiceLiteMessage"),
 		LCC_EMAIL_TEXT("LccPartnerConfEmailsText"),
-		LCC_CHECKIN_TEXT("flightRulesLCCPrecheckinAdvice"),
-		;
+		LCC_CHECKIN_TEXT("flightRulesLCCPrecheckinAdvice");
 
 		private String mKey;
 
@@ -45,7 +44,6 @@ public class FlightRulesFragment extends SherlockFragment {
 		public String getKey() {
 			return mKey;
 		}
-
 	}
 
 	private FlightTrip mFlightTrip;
@@ -54,13 +52,7 @@ public class FlightRulesFragment extends SherlockFragment {
 	private TextView mLiabilitiesLinkTextView;
 	private TextView mAdditionalFeesTextView;
 
-	private TextView mLccImportantTextView;
-	private TextView mLccCheckinTextView;
-	private TextView mLccLiteTextView;
-
-	public static FlightRulesFragment newInstance() {
-		return new FlightRulesFragment();
-	}
+	private TextView mLccTextView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -77,10 +69,7 @@ public class FlightRulesFragment extends SherlockFragment {
 		mCompletePenaltyRulesTextView = Ui.findView(v, R.id.complete_penalty_rules_link_text_view);
 		mLiabilitiesLinkTextView = Ui.findView(v, R.id.liabilities_link_text_view);
 		mAdditionalFeesTextView = Ui.findView(v, R.id.additional_fee_text_view);
-
-		mLccImportantTextView = Ui.findView(v, R.id.lcc_important_text_view);
-		mLccCheckinTextView = Ui.findView(v, R.id.lcc_checkin_text_view);
-		mLccLiteTextView = Ui.findView(v, R.id.lcc_lite_text_view);
+		mLccTextView = Ui.findView(v, R.id.lcc_text_view);
 
 		if (mFlightTrip != null) {
 			populateHeaderRows(v);
@@ -227,30 +216,14 @@ public class FlightRulesFragment extends SherlockFragment {
 	}
 
 	private void populateLccInfo() {
-		populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(
-				mFlightTrip.getRule(RulesKeys.LCC_IMPORTANT_TEXT.getKey()), mLccImportantTextView);
+		StringBuilder builder = new StringBuilder();
+		if (mFlightTrip.getRule(RulesKeys.LCC_IMPORTANT_TEXT.getKey()) != null) {
+			appendBodyWithRule(mFlightTrip.getRule(RulesKeys.LCC_IMPORTANT_TEXT.getKey()), builder);
+			appendBodyWithRule(mFlightTrip.getRule(RulesKeys.LCC_CHECKIN_TEXT.getKey()), builder);
+			appendBodyWithRule(mFlightTrip.getRule(RulesKeys.LCC_LITE_TEXT.getKey()), builder);
 
-		populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(
-				mFlightTrip.getRule(RulesKeys.LCC_CHECKIN_TEXT.getKey()), mLccCheckinTextView);
-
-		populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(
-				mFlightTrip.getRule(RulesKeys.LCC_LITE_TEXT.getKey()), mLccLiteTextView);
-	}
-
-	private void populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(final Rule rule, TextView textView) {
-		if (rule != null) {
-			textView.setVisibility(View.VISIBLE);
-			textView.setText(getDummyHtmlLink(rule));
-			textView.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
-					builder.setUrl(rule.getUrl());
-					builder.setTheme(R.style.FlightTheme);
-					builder.setTitle(R.string.legal_information);
-					startActivity(builder.getIntent());
-				}
-			});
+			mLccTextView.setText(Html.fromHtml(builder.toString()));
+			mLccTextView.setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -285,14 +258,20 @@ public class FlightRulesFragment extends SherlockFragment {
 		}
 	}
 
-	private void appendBodyWithRuleContainingUrl(Rule rule, StringBuilder builder) {
+	private void populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(final Rule rule, TextView textView) {
 		if (rule != null) {
-			builder.append("<a href=\"");
-			builder.append(rule.getUrl());
-			builder.append("\">");
-			builder.append(rule.getText());
-			builder.append("</a>");
-			builder.append("<br><br>");
+			textView.setVisibility(View.VISIBLE);
+			textView.setText(getDummyHtmlLink(rule));
+			textView.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
+					builder.setUrl(rule.getUrl());
+					builder.setTheme(R.style.FlightTheme);
+					builder.setTitle(R.string.legal_information);
+					startActivity(builder.getIntent());
+				}
+			});
 		}
 	}
 

@@ -121,7 +121,7 @@
             android:paddingTop="4dp" />
 
         <TextView
-            android:id="@+id/lcc_important_text_view"
+            android:id="@+id/lcc_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
@@ -129,23 +129,6 @@
             android:paddingTop="4dp"
             android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/lcc_checkin_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="4dp"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/lcc_lite_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="4dp"
-            android:visibility="gone" />
     </LinearLayout>
 
 </ScrollView>
