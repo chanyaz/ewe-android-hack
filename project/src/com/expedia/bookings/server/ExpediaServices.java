@@ -1173,7 +1173,7 @@ public class ExpediaServices implements DownloadListener {
 				if (PushNotificationUtils.sendPayloadCheck(regId, payload)) {
 					//If not we go ahead and do the request
 					PushNotificationRegistrationResponse response = doRequest(post, responseHandler, F_POST);
-					if (!response.getSuccess()) {
+					if (response == null || !response.getSuccess()) {
 						//If we failed to register, remove the payload from our map, so we dont prevent ourselves form trying again later.
 						PushNotificationUtils.removePayloadFromMap(regId);
 					}
