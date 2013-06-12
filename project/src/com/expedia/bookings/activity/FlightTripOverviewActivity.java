@@ -32,6 +32,7 @@ import com.expedia.bookings.animation.AnimatorListenerShort;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Traveler;
@@ -742,6 +743,11 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	}
 
 	private void setActionBarCheckoutMode() {
+		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
+		int numTravelers = params.getNumAdults() + params.getNumChildren();
+		String travelers = getResources().getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers,
+				numTravelers);
+
 		FlightTrip trip = Db.getFlightSearch().getFlightTrip(mTripKey);
 		String cityName = StrUtils.getWaypointCityOrCode(trip.getLeg(0).getLastWaypoint());
 		String yourTripToStr = String.format(getString(R.string.your_trip_to_TEMPLATE), cityName);
@@ -760,7 +766,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		TextView subtitleTextView = Ui.findView(customView, R.id.subtitle_text_view);
 
 		titleTextView.setText(yourTripToStr);
-		subtitleTextView.setText(dateRange);
+		subtitleTextView.setText(travelers + ", " + dateRange);
 
 		ActionBar actionBar = this.getSupportActionBar();
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP

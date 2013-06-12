@@ -777,9 +777,13 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		mTitleTextView.setText(getString(titleStrId, StrUtils.getLocationCityOrCode(location)));
 
 		// Configure subtitle based on which user the leg is selecting
+		int numTravelers = params.getNumAdults() + params.getNumChildren();
+		String travelers = getResources().getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers,
+				numTravelers);
 		Date date = (mLegPosition == 0) ? params.getDepartureDate() : params.getReturnDate();
-		mSubtitleTextView.setText(DateUtils.formatDateTime(mContext, date.getCalendar().getTimeInMillis(),
-				DateUtils.FORMAT_SHOW_DATE + DateUtils.FORMAT_SHOW_YEAR + DateUtils.FORMAT_SHOW_WEEKDAY));
+		mSubtitleTextView.setText(travelers + ", "
+				+ DateUtils.formatDateTime(mContext, date.getCalendar().getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE
+						+ DateUtils.FORMAT_SHOW_YEAR + DateUtils.FORMAT_SHOW_WEEKDAY));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
