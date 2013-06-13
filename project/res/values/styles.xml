@@ -619,7 +619,7 @@
     <style name="LegalInformationTextView.Blue">
         <item name="android:paddingBottom">4dp</item>
         <item name="android:paddingTop">8dp</item>
-        <item name="android:textColor">@color/legal_info_blue_divider</item>
+        <item name="android:textColor">@color/legal_info_blue</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -630,7 +630,7 @@
     </style>
 
     <style name="LegalInformationDivider.Blue">
-        <item name="android:background">#235285</item>
+        <item name="android:background">@color/legal_info_blue</item>
     </style>
 
     <style name="LegalInformationDivider.Grey">
