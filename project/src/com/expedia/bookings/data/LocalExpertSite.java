@@ -52,7 +52,7 @@ public class LocalExpertSite implements Parcelable {
 		switch (preset) {
 		case HAWAII:
 			siteBuilder.setCity(R.string.site_hawaii);
-			siteBuilder.setCityIcon(0); // TODO
+			siteBuilder.setCityIcon(R.drawable.ic_local_expert_hawaii);
 			siteBuilder.setPhoneNumber(""); // TODO
 
 			// Location-specific attractions
@@ -80,7 +80,7 @@ public class LocalExpertSite implements Parcelable {
 			break;
 		case LAS_VEGAS:
 			siteBuilder.setCity(R.string.site_las_vegas);
-			siteBuilder.setCityIcon(0); // TODO
+			siteBuilder.setCityIcon(R.drawable.ic_local_expert_vegas);
 			siteBuilder.setPhoneNumber(""); // TODO
 
 			// Location-specific attractions
@@ -101,7 +101,7 @@ public class LocalExpertSite implements Parcelable {
 			break;
 		case ORLANDO:
 			siteBuilder.setCity(R.string.site_orlando);
-			siteBuilder.setCityIcon(0); // TODO
+			siteBuilder.setCityIcon(R.drawable.ic_local_expert_orlando);
 			siteBuilder.setPhoneNumber(""); // TODO
 
 			// Location-specific attractions
