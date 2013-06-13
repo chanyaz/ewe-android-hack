@@ -110,8 +110,9 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 		// Copyright
 		CopyrightFragment copyrightFragment = Ui.findSupportFragment(this, TAG_COPYRIGHT);
 		if (copyrightFragment == null) {
-			copyrightFragment = CopyrightFragment.newInstance(getString(R.string.app_name),
-					getString(R.string.copyright));
+			copyrightFragment = CopyrightFragment.newInstance(getString(R.string.VSC_app_name),
+					getString(R.string.VSC_copyright), R.drawable.expedia_logo_white,
+					getString(R.string.app_vsc_info_url));
 			ft.add(R.id.section_copyright, copyrightFragment, TAG_COPYRIGHT);
 		}
 
