@@ -59,22 +59,22 @@ public class LocalExpertSite implements Parcelable {
 			siteBuilder.addAttraction((new LocalExpertAttraction.Builder(context))
 					.setFirstLine(R.string.attraction_beaches_first)
 					.setSecondLine(R.string.attraction_beaches_second)
-					.setIconSmall(0) // TODO
-					.setIconLarge(0) // TODO
+					.setIconSmall(R.drawable.ic_local_expert_beach_small)
+					.setIconLarge(R.drawable.ic_local_expert_beach_large)
 					.build());
 
 			siteBuilder.addAttraction((new LocalExpertAttraction.Builder(context))
 					.setFirstLine(R.string.attraction_helicopter_first)
 					.setSecondLine(R.string.attraction_helicopter_second)
-					.setIconSmall(0) // TODO
-					.setIconLarge(0) // TODO
+					.setIconSmall(R.drawable.ic_local_expert_helicopter_small)
+					.setIconLarge(R.drawable.ic_local_expert_helicopter_large)
 					.build());
 
 			siteBuilder.addAttraction((new LocalExpertAttraction.Builder(context))
 					.setFirstLine(R.string.attraction_scuba_first)
 					.setSecondLine(R.string.attraction_scuba_second)
-					.setIconSmall(0) // TODO
-					.setIconLarge(0) // TODO
+					.setIconSmall(R.drawable.ic_local_expert_scuba_small)
+					.setIconLarge(R.drawable.ic_local_expert_scuba_large)
 					.build());
 
 			break;
@@ -87,15 +87,15 @@ public class LocalExpertSite implements Parcelable {
 			siteBuilder.addAttraction((new LocalExpertAttraction.Builder(context))
 					.setFirstLine(R.string.attraction_casinos_first)
 					.setSecondLine(R.string.attraction_casinos_second)
-					.setIconSmall(0) // TODO
-					.setIconLarge(0) // TODO
+					.setIconSmall(R.drawable.ic_local_expert_slots_small)
+					.setIconLarge(R.drawable.ic_local_expert_slots_large)
 					.build());
 
 			siteBuilder.addAttraction((new LocalExpertAttraction.Builder(context))
 					.setFirstLine(R.string.attraction_ferrari_first)
 					.setSecondLine(R.string.attraction_ferrari_second)
-					.setIconSmall(0) // TODO
-					.setIconLarge(0) // TODO
+					.setIconSmall(R.drawable.ic_local_expert_car_small)
+					.setIconLarge(R.drawable.ic_local_expert_car_large)
 					.build());
 
 			break;
@@ -108,15 +108,15 @@ public class LocalExpertSite implements Parcelable {
 			siteBuilder.addAttraction((new LocalExpertAttraction.Builder(context))
 					.setFirstLine(R.string.attraction_creatures_first)
 					.setSecondLine(R.string.attraction_creatures_second)
-					.setIconSmall(0) // TODO
-					.setIconLarge(0) // TODO
+					.setIconSmall(R.drawable.ic_local_expert_whale_small)
+					.setIconLarge(R.drawable.ic_local_expert_whale_large)
 					.build());
 
 			siteBuilder.addAttraction((new LocalExpertAttraction.Builder(context))
 					.setFirstLine(R.string.attraction_theme_parks_first)
 					.setSecondLine(R.string.attraction_theme_parks_second)
-					.setIconSmall(0) // TODO
-					.setIconLarge(0) // TODO
+					.setIconSmall(R.drawable.ic_local_expert_ferris_small)
+					.setIconLarge(R.drawable.ic_local_expert_ferris_large)
 					.build());
 
 			break;
@@ -126,36 +126,36 @@ public class LocalExpertSite implements Parcelable {
 		siteBuilder.addAttraction((new LocalExpertAttraction.Builder(context))
 				.setFirstLine(R.string.attraction_family_first)
 				.setSecondLine(R.string.attraction_family_second)
-				.setIconSmall(0) // TODO
-				.setIconLarge(0) // TODO
+				.setIconSmall(R.drawable.ic_local_expert_family_small)
+				.setIconLarge(R.drawable.ic_local_expert_family_large)
 				.build());
 
 		siteBuilder.addAttraction((new LocalExpertAttraction.Builder(context))
 				.setFirstLine(R.string.attraction_food_first)
 				.setSecondLine(R.string.attraction_food_second)
-				.setIconSmall(0) // TODO
-				.setIconLarge(0) // TODO
+				.setIconSmall(R.drawable.ic_local_expert_food_small)
+				.setIconLarge(R.drawable.ic_local_expert_food_large)
 				.build());
 
 		siteBuilder.addAttraction((new LocalExpertAttraction.Builder(context))
 				.setFirstLine(R.string.attraction_entertainment_first)
 				.setSecondLine(R.string.attraction_entertainment_second)
-				.setIconSmall(0) // TODO
-				.setIconLarge(0) // TODO
+				.setIconSmall(R.drawable.ic_local_expert_mask_small)
+				.setIconLarge(R.drawable.ic_local_expert_mask_large)
 				.build());
 
 		siteBuilder.addAttraction((new LocalExpertAttraction.Builder(context))
 				.setFirstLine(R.string.attraction_music_first)
 				.setSecondLine(R.string.attraction_music_second)
-				.setIconSmall(0) // TODO
-				.setIconLarge(0) // TODO
+				.setIconSmall(R.drawable.ic_local_expert_music_small)
+				.setIconLarge(R.drawable.ic_local_expert_music_large)
 				.build());
 
 		siteBuilder.addAttraction((new LocalExpertAttraction.Builder(context))
 				.setFirstLine(R.string.attraction_vip_first)
 				.setSecondLine(R.string.attraction_vip_second)
-				.setIconSmall(0) // TODO
-				.setIconLarge(0) // TODO
+				.setIconSmall(R.drawable.ic_local_expert_vip_small)
+				.setIconLarge(R.drawable.ic_local_expert_vip_large)
 				.build());
 
 		return siteBuilder.build();
