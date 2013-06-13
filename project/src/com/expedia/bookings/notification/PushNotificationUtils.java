@@ -31,6 +31,7 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 
@@ -162,9 +163,19 @@ public class PushNotificationUtils {
 					notification.setIconResId(R.drawable.ic_stat_flight);
 					notification.setImageType(ImageType.NONE);
 
+					String destination = getDestinationStringFromLocArgs(locKey, locKeyArgs);
+					if (TextUtils.isEmpty(destination)) {
+						destination = StrUtils.getWaypointCityOrCode(leg.getLastWaypoint());
+					}
+					
 					String airline = leg.getAirlinesFormatted();
-					String destination = StrUtils.getWaypointCityOrCode(leg.getLastWaypoint());
-					String title = context.getString(R.string.x_flight_to_x_TEMPLATE, airline, destination);
+					String title;
+					if (AndroidUtils.getSdkVersion() >= 14) {
+						title = context.getString(R.string.x_flight_to_x_TEMPLATE, airline, destination);
+					}
+					else {
+						title = context.getString(R.string.your_flight_to_x_TEMPLATE, destination);
+					}
 					notification.setTitle(title);
 					notification.setBody(formattedMessage);
 					notification.setTicker(formattedMessage);
@@ -173,6 +184,46 @@ public class PushNotificationUtils {
 					notification.scheduleNotification(context);
 				}
 			}
+		}
+	}
+
+	/**
+	 * Given the locKey and the args, we try to get the destination string.
+	 * 
+	 * Basically most push notifications have a destination name in them, however
+	 * not all, and nothing is keyed, so we try do best effort. Return null if
+	 * not available.
+	 * 
+	 * @param locKey
+	 * @param locKeyArgs
+	 * @return
+	 */
+	private static String getDestinationStringFromLocArgs(String locKey, String[] locKeyArgs) {
+		int argNum = getDestinationArgNum(locKey);
+		if (argNum >= 0 && argNum < locKeyArgs.length) {
+			return locKeyArgs[argNum];
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Given the lockey, which argument index do we expect to contain a destination string.
+	 * A negative return value indicates that we dont expect a destination string in the args
+	 * 
+	 * @param locKey
+	 * @return loc argument index of destination string, or negative if no destination argument
+	 */
+	private static int getDestinationArgNum(String locKey) {
+		if (locKey == "S_Push_baggage_BAGGAGE") {
+			return -1;
+		}
+		else if (locKey == "S_Push_flight_from_CITY_to_CITY_cancelled") {
+			return 1;
+		}
+		else {
+			return 0;
 		}
 	}
 
@@ -287,68 +338,156 @@ public class PushNotificationUtils {
 	 */
 	private static void initLocStrMap() {
 		sLocStringMap = new HashMap<String, Integer>();
-		sLocStringMap.put("S_Push_flight_CITY_delayed_HOUR", R.string.S_Push_flight_CITY_delayed_HOUR);
-		sLocStringMap.put("S_Push_flight_CITY_delayed_HOURS", R.string.S_Push_flight_CITY_delayed_HOURS);
-		sLocStringMap.put("S_Push_flight_CITY_delayed_MINUTE", R.string.S_Push_flight_CITY_delayed_MINUTE);
-		sLocStringMap.put("S_Push_flight_CITY_delayed_MINUTES", R.string.S_Push_flight_CITY_delayed_MINUTES);
-		sLocStringMap.put("S_Push_flight_CITY_delayed_HOUR_MINUTE", R.string.S_Push_flight_CITY_delayed_HOUR_MINUTE);
-		sLocStringMap.put("S_Push_flight_CITY_delayed_HOUR_MINUTES", R.string.S_Push_flight_CITY_delayed_HOUR_MINUTES);
-		sLocStringMap.put("S_Push_flight_CITY_delayed_HOURS_MINUTE", R.string.S_Push_flight_CITY_delayed_HOURS_MINUTE);
-		sLocStringMap
-				.put("S_Push_flight_CITY_delayed_HOURS_MINUTES", R.string.S_Push_flight_CITY_delayed_HOURS_MINUTES);
-		sLocStringMap.put("S_Push_flight_CITY_early_MINUTE", R.string.S_Push_flight_CITY_early_MINUTE);
-		sLocStringMap.put("S_Push_flight_CITY_early_MINUTES", R.string.S_Push_flight_CITY_early_MINUTES);
-		sLocStringMap.put("S_Push_flight_CITY_early_HOUR", R.string.S_Push_flight_CITY_early_HOUR);
-		sLocStringMap.put("S_Push_flight_CITY_early_HOURS", R.string.S_Push_flight_CITY_early_HOURS);
-		sLocStringMap.put("S_Push_flight_CITY_early_HOUR_MINUTE", R.string.S_Push_flight_CITY_early_HOUR_MINUTE);
-		sLocStringMap.put("S_Push_flight_CITY_early_HOURS_MINUTE", R.string.S_Push_flight_CITY_early_HOURS_MINUTE);
-		sLocStringMap.put("S_Push_flight_CITY_early_HOUR_MINUTES", R.string.S_Push_flight_CITY_early_HOUR_MINUTES);
-		sLocStringMap.put("S_Push_flight_CITY_early_HOURS_MINUTES", R.string.S_Push_flight_CITY_early_HOURS_MINUTES);
-		sLocStringMap.put("S_Push_flight_CITY_delayed_MINUTE_gate_GATE",
-				R.string.S_Push_flight_CITY_delayed_MINUTE_gate_GATE);
-		sLocStringMap.put("S_Push_flight_CITY_delayed_MINUTES_gate_GATE",
-				R.string.S_Push_flight_CITY_delayed_MINUTES_gate_GATE);
-		sLocStringMap.put("S_Push_flight_CITY_delayed_HOUR_gate_GATE",
-				R.string.S_Push_flight_CITY_delayed_HOUR_gate_GATE);
-		sLocStringMap.put("S_Push_flight_CITY_delayed_HOURS_gate_GATE",
-				R.string.S_Push_flight_CITY_delayed_HOURS_gate_GATE);
-		sLocStringMap.put("S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE",
-				R.string.S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE);
-		sLocStringMap.put("S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE",
-				R.string.S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE);
-		sLocStringMap.put("S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE",
-				R.string.S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE);
-		sLocStringMap.put("S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE",
-				R.string.S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE);
-		sLocStringMap.put("S_Push_flight_CITY_early_MINUTE_gate_GATE",
-				R.string.S_Push_flight_CITY_early_MINUTE_gate_GATE);
-		sLocStringMap.put("S_Push_flight_CITY_early_MINUTES_gate_GATE",
-				R.string.S_Push_flight_CITY_early_MINUTES_gate_GATE);
-		sLocStringMap.put("S_Push_flight_CITY_early_HOUR_gate_GATE", R.string.S_Push_flight_CITY_early_HOUR_gate_GATE);
-		sLocStringMap
-				.put("S_Push_flight_CITY_early_HOURS_gate_GATE", R.string.S_Push_flight_CITY_early_HOURS_gate_GATE);
-		sLocStringMap.put("S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE",
-				R.string.S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE);
-		sLocStringMap.put("S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE",
-				R.string.S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE);
-		sLocStringMap.put("S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE",
-				R.string.S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE);
-		sLocStringMap.put("S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE",
-				R.string.S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE);
+		if (AndroidUtils.getSdkVersion() >= 14) {
+			//Newer phones allow us to wrap/expand notification text, so we can use longer string versions
+			sLocStringMap.put("S_Push_flight_CITY_delayed_HOUR", R.string.S_Push_flight_CITY_delayed_HOUR);
+			sLocStringMap.put("S_Push_flight_CITY_delayed_HOURS", R.string.S_Push_flight_CITY_delayed_HOURS);
+			sLocStringMap.put("S_Push_flight_CITY_delayed_MINUTE", R.string.S_Push_flight_CITY_delayed_MINUTE);
+			sLocStringMap.put("S_Push_flight_CITY_delayed_MINUTES", R.string.S_Push_flight_CITY_delayed_MINUTES);
+			sLocStringMap
+					.put("S_Push_flight_CITY_delayed_HOUR_MINUTE", R.string.S_Push_flight_CITY_delayed_HOUR_MINUTE);
+			sLocStringMap.put("S_Push_flight_CITY_delayed_HOUR_MINUTES",
+					R.string.S_Push_flight_CITY_delayed_HOUR_MINUTES);
+			sLocStringMap.put("S_Push_flight_CITY_delayed_HOURS_MINUTE",
+					R.string.S_Push_flight_CITY_delayed_HOURS_MINUTE);
+			sLocStringMap
+					.put("S_Push_flight_CITY_delayed_HOURS_MINUTES", R.string.S_Push_flight_CITY_delayed_HOURS_MINUTES);
+			sLocStringMap.put("S_Push_flight_CITY_early_MINUTE", R.string.S_Push_flight_CITY_early_MINUTE);
+			sLocStringMap.put("S_Push_flight_CITY_early_MINUTES", R.string.S_Push_flight_CITY_early_MINUTES);
+			sLocStringMap.put("S_Push_flight_CITY_early_HOUR", R.string.S_Push_flight_CITY_early_HOUR);
+			sLocStringMap.put("S_Push_flight_CITY_early_HOURS", R.string.S_Push_flight_CITY_early_HOURS);
+			sLocStringMap.put("S_Push_flight_CITY_early_HOUR_MINUTE", R.string.S_Push_flight_CITY_early_HOUR_MINUTE);
+			sLocStringMap.put("S_Push_flight_CITY_early_HOURS_MINUTE", R.string.S_Push_flight_CITY_early_HOURS_MINUTE);
+			sLocStringMap.put("S_Push_flight_CITY_early_HOUR_MINUTES", R.string.S_Push_flight_CITY_early_HOUR_MINUTES);
+			sLocStringMap
+					.put("S_Push_flight_CITY_early_HOURS_MINUTES", R.string.S_Push_flight_CITY_early_HOURS_MINUTES);
+			sLocStringMap.put("S_Push_flight_CITY_delayed_MINUTE_gate_GATE",
+					R.string.S_Push_flight_CITY_delayed_MINUTE_gate_GATE);
+			sLocStringMap.put("S_Push_flight_CITY_delayed_MINUTES_gate_GATE",
+					R.string.S_Push_flight_CITY_delayed_MINUTES_gate_GATE);
+			sLocStringMap.put("S_Push_flight_CITY_delayed_HOUR_gate_GATE",
+					R.string.S_Push_flight_CITY_delayed_HOUR_gate_GATE);
+			sLocStringMap.put("S_Push_flight_CITY_delayed_HOURS_gate_GATE",
+					R.string.S_Push_flight_CITY_delayed_HOURS_gate_GATE);
+			sLocStringMap.put("S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE",
+					R.string.S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE);
+			sLocStringMap.put("S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE",
+					R.string.S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE);
+			sLocStringMap.put("S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE",
+					R.string.S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE);
+			sLocStringMap.put("S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE",
+					R.string.S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE);
+			sLocStringMap.put("S_Push_flight_CITY_early_MINUTE_gate_GATE",
+					R.string.S_Push_flight_CITY_early_MINUTE_gate_GATE);
+			sLocStringMap.put("S_Push_flight_CITY_early_MINUTES_gate_GATE",
+					R.string.S_Push_flight_CITY_early_MINUTES_gate_GATE);
+			sLocStringMap.put("S_Push_flight_CITY_early_HOUR_gate_GATE",
+					R.string.S_Push_flight_CITY_early_HOUR_gate_GATE);
+			sLocStringMap
+					.put("S_Push_flight_CITY_early_HOURS_gate_GATE", R.string.S_Push_flight_CITY_early_HOURS_gate_GATE);
+			sLocStringMap.put("S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE",
+					R.string.S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE);
+			sLocStringMap.put("S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE",
+					R.string.S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE);
+			sLocStringMap.put("S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE",
+					R.string.S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE);
+			sLocStringMap.put("S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE",
+					R.string.S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE);
+			sLocStringMap.put("S_Push_flight_CITY_departs_in_HOUR", R.string.S_Push_flight_CITY_departs_in_HOUR);
+			sLocStringMap.put("S_Push_flight_CITY_departs_in_HOURS", R.string.S_Push_flight_CITY_departs_in_HOURS);
+			sLocStringMap.put("S_Push_flight_CITY_departs_in_HOURS_MINUTE",
+					R.string.S_Push_flight_CITY_departs_in_HOURS_MINUTE);
+			sLocStringMap.put("S_Push_flight_CITY_departs_in_HOURS_MINUTES",
+					R.string.S_Push_flight_CITY_departs_in_HOURS_MINUTES);
+			sLocStringMap.put("S_Push_flight_CITY_departs_in_HOUR_MINUTE",
+					R.string.S_Push_flight_CITY_departs_in_HOUR_MINUTE);
+			sLocStringMap.put("S_Push_flight_CITY_departs_in_HOUR_MINUTES",
+					R.string.S_Push_flight_CITY_departs_in_HOUR_MINUTES);
+			sLocStringMap.put("S_Push_flight_CITY_departs_in_MINUTES", R.string.S_Push_flight_CITY_departs_in_MINUTES);
+			sLocStringMap.put("S_Push_flight_CITY_gate_GATE", R.string.S_Push_flight_CITY_gate_GATE);
+		}
+		else {
+			//Older phones cant wrap notifications so we use shorter strings.
+			sLocStringMap.put("S_Push_flight_CITY_delayed_HOUR", R.string.S_Push_flight_CITY_delayed_HOUR_short);
+			sLocStringMap.put("S_Push_flight_CITY_delayed_HOURS", R.string.S_Push_flight_CITY_delayed_HOURS_short);
+			sLocStringMap.put("S_Push_flight_CITY_delayed_MINUTE", R.string.S_Push_flight_CITY_delayed_MINUTE_short);
+			sLocStringMap.put("S_Push_flight_CITY_delayed_MINUTES", R.string.S_Push_flight_CITY_delayed_MINUTES_short);
+			sLocStringMap
+					.put("S_Push_flight_CITY_delayed_HOUR_MINUTE",
+							R.string.S_Push_flight_CITY_delayed_HOUR_MINUTE_short);
+			sLocStringMap.put("S_Push_flight_CITY_delayed_HOUR_MINUTES",
+					R.string.S_Push_flight_CITY_delayed_HOUR_MINUTES_short);
+			sLocStringMap.put("S_Push_flight_CITY_delayed_HOURS_MINUTE",
+					R.string.S_Push_flight_CITY_delayed_HOURS_MINUTE_short);
+			sLocStringMap
+					.put("S_Push_flight_CITY_delayed_HOURS_MINUTES",
+							R.string.S_Push_flight_CITY_delayed_HOURS_MINUTES_short);
+			sLocStringMap.put("S_Push_flight_CITY_early_MINUTE", R.string.S_Push_flight_CITY_early_MINUTE_short);
+			sLocStringMap.put("S_Push_flight_CITY_early_MINUTES", R.string.S_Push_flight_CITY_early_MINUTES_short);
+			sLocStringMap.put("S_Push_flight_CITY_early_HOUR", R.string.S_Push_flight_CITY_early_HOUR_short);
+			sLocStringMap.put("S_Push_flight_CITY_early_HOURS", R.string.S_Push_flight_CITY_early_HOURS_short);
+			sLocStringMap.put("S_Push_flight_CITY_early_HOUR_MINUTE",
+					R.string.S_Push_flight_CITY_early_HOUR_MINUTE_short);
+			sLocStringMap.put("S_Push_flight_CITY_early_HOURS_MINUTE",
+					R.string.S_Push_flight_CITY_early_HOURS_MINUTE_short);
+			sLocStringMap.put("S_Push_flight_CITY_early_HOUR_MINUTES",
+					R.string.S_Push_flight_CITY_early_HOUR_MINUTES_short);
+			sLocStringMap
+					.put("S_Push_flight_CITY_early_HOURS_MINUTES",
+							R.string.S_Push_flight_CITY_early_HOURS_MINUTES_short);
+			sLocStringMap.put("S_Push_flight_CITY_delayed_MINUTE_gate_GATE",
+					R.string.S_Push_flight_CITY_delayed_MINUTE_gate_GATE_short);
+			sLocStringMap.put("S_Push_flight_CITY_delayed_MINUTES_gate_GATE",
+					R.string.S_Push_flight_CITY_delayed_MINUTES_gate_GATE_short);
+			sLocStringMap.put("S_Push_flight_CITY_delayed_HOUR_gate_GATE",
+					R.string.S_Push_flight_CITY_delayed_HOUR_gate_GATE_short);
+			sLocStringMap.put("S_Push_flight_CITY_delayed_HOURS_gate_GATE",
+					R.string.S_Push_flight_CITY_delayed_HOURS_gate_GATE_short);
+			sLocStringMap.put("S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE",
+					R.string.S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE_short);
+			sLocStringMap.put("S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE",
+					R.string.S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE_short);
+			sLocStringMap.put("S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE",
+					R.string.S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE_short);
+			sLocStringMap.put("S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE",
+					R.string.S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE_short);
+			sLocStringMap.put("S_Push_flight_CITY_early_MINUTE_gate_GATE",
+					R.string.S_Push_flight_CITY_early_MINUTE_gate_GATE_short);
+			sLocStringMap.put("S_Push_flight_CITY_early_MINUTES_gate_GATE",
+					R.string.S_Push_flight_CITY_early_MINUTES_gate_GATE_short);
+			sLocStringMap.put("S_Push_flight_CITY_early_HOUR_gate_GATE",
+					R.string.S_Push_flight_CITY_early_HOUR_gate_GATE_short);
+			sLocStringMap
+					.put("S_Push_flight_CITY_early_HOURS_gate_GATE",
+							R.string.S_Push_flight_CITY_early_HOURS_gate_GATE_short);
+			sLocStringMap.put("S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE",
+					R.string.S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE_short);
+			sLocStringMap.put("S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE",
+					R.string.S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE_short);
+			sLocStringMap.put("S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE",
+					R.string.S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE_short);
+			sLocStringMap.put("S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE",
+					R.string.S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE_short);
+
+			sLocStringMap.put("S_Push_flight_CITY_departs_in_HOUR", R.string.S_Push_flight_CITY_departs_in_HOUR_short);
+			sLocStringMap
+					.put("S_Push_flight_CITY_departs_in_HOURS", R.string.S_Push_flight_CITY_departs_in_HOURS_short);
+			sLocStringMap.put("S_Push_flight_CITY_departs_in_HOURS_MINUTE",
+					R.string.S_Push_flight_CITY_departs_in_HOURS_MINUTE_short);
+			sLocStringMap.put("S_Push_flight_CITY_departs_in_HOURS_MINUTES",
+					R.string.S_Push_flight_CITY_departs_in_HOURS_MINUTES_short);
+			sLocStringMap.put("S_Push_flight_CITY_departs_in_HOUR_MINUTE",
+					R.string.S_Push_flight_CITY_departs_in_HOUR_MINUTE_short);
+			sLocStringMap.put("S_Push_flight_CITY_departs_in_HOUR_MINUTES",
+					R.string.S_Push_flight_CITY_departs_in_HOUR_MINUTES_short);
+			sLocStringMap.put("S_Push_flight_CITY_departs_in_MINUTES",
+					R.string.S_Push_flight_CITY_departs_in_MINUTES_short);
+			sLocStringMap.put("S_Push_flight_CITY_gate_GATE", R.string.S_Push_flight_CITY_gate_GATE_short);
+		}
+
+		//These are the same for both versions...
 		sLocStringMap.put("S_Push_flight_from_CITY_to_CITY_cancelled",
 				R.string.S_Push_flight_from_CITY_to_CITY_cancelled);
-		sLocStringMap.put("S_Push_flight_CITY_departs_in_HOUR", R.string.S_Push_flight_CITY_departs_in_HOUR);
-		sLocStringMap.put("S_Push_flight_CITY_departs_in_HOURS", R.string.S_Push_flight_CITY_departs_in_HOURS);
-		sLocStringMap.put("S_Push_flight_CITY_departs_in_HOURS_MINUTE",
-				R.string.S_Push_flight_CITY_departs_in_HOURS_MINUTE);
-		sLocStringMap.put("S_Push_flight_CITY_departs_in_HOURS_MINUTES",
-				R.string.S_Push_flight_CITY_departs_in_HOURS_MINUTES);
-		sLocStringMap.put("S_Push_flight_CITY_departs_in_HOUR_MINUTE",
-				R.string.S_Push_flight_CITY_departs_in_HOUR_MINUTE);
-		sLocStringMap.put("S_Push_flight_CITY_departs_in_HOUR_MINUTES",
-				R.string.S_Push_flight_CITY_departs_in_HOUR_MINUTES);
-		sLocStringMap.put("S_Push_flight_CITY_departs_in_MINUTES", R.string.S_Push_flight_CITY_departs_in_MINUTES);
-		sLocStringMap.put("S_Push_flight_CITY_gate_GATE", R.string.S_Push_flight_CITY_gate_GATE);
 		sLocStringMap.put("S_Push_baggage_BAGGAGE", R.string.S_Push_baggage_BAGGAGE);
 	}
 
