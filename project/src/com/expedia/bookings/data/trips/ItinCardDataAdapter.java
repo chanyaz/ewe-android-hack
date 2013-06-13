@@ -478,13 +478,34 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		final List<String> dismissedTripIds = DismissedItinButton
 				.getDismissedTripIds(ItinButtonCard.ItinButtonType.LOCAL_EXPERT);
 
-		for (int i = mSummaryCardPosition; i < len; i++) {
-			ItinCardData data = mItinCardDatas.get(i);
-			if (data.getTripComponentType().equals(Type.HOTEL) && !dismissedTripIds.contains(data.getTripId())) {
-				// TODO: Limit by date (2 days prior) and location (Orlando, Las Vegas, HI) when done developing feature.
-				mItinCardDatas.add(i + 1, new ItinCardDataLocalExpert(data.getTripComponent()));
-				return;
+		ItinCardData data;
+		final int start = mSummaryCardPosition >= 0 ? mSummaryCardPosition : 0;
+		for (int i = start; i < len; i++) {
+			data = mItinCardDatas.get(i);
+
+			// Ignore dismissed trips
+			if (dismissedTripIds.contains(data.getTripId())) {
+				continue;
 			}
+
+			// Only attach to hotels
+			if (!data.getTripComponentType().equals(Type.HOTEL) || !(data instanceof ItinCardDataHotel)) {
+				continue;
+			}
+
+			// Is this a valid location?
+			if (!ItinCardDataLocalExpert.validLocation(((ItinCardDataHotel) data).getPropertyLocation())) {
+				continue;
+			}
+
+			// Are we presently in the trip?
+			if (!ItinCardDataLocalExpert.validDateTime(data.getStartDate(), data.getEndDate())) {
+				continue;
+			}
+
+			// TODO: Limit by date (2 days prior) and location (Orlando, Las Vegas, HI) when done developing feature.
+			mItinCardDatas.add(i + 1, new ItinCardDataLocalExpert(data.getTripComponent()));
+			return;
 		}
 	}
 
