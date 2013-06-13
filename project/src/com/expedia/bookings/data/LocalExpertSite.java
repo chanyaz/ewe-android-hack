@@ -8,6 +8,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
+import com.expedia.bookings.R;
+
 public class LocalExpertSite implements Parcelable {
 
 	private CharSequence mCity;
@@ -33,6 +35,130 @@ public class LocalExpertSite implements Parcelable {
 
 	public List<LocalExpertAttraction> getAttractions() {
 		return mAttractions;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Convenience builders for preset sites
+
+	public enum Preset {
+		HAWAII,
+		LAS_VEGAS,
+		ORLANDO,
+	}
+
+	public static LocalExpertSite buildPreset(Context context, Preset preset) {
+		LocalExpertSite.Builder siteBuilder = new LocalExpertSite.Builder(context);
+
+		switch (preset) {
+		case HAWAII:
+			siteBuilder.setCity(R.string.site_hawaii);
+			siteBuilder.setCityIcon(0); // TODO
+			siteBuilder.setPhoneNumber(""); // TODO
+
+			// Location-specific attractions
+			siteBuilder.addAttraction((new LocalExpertAttraction.Builder(context))
+					.setFirstLine(R.string.attraction_beaches_first)
+					.setSecondLine(R.string.attraction_beaches_second)
+					.setIconSmall(0) // TODO
+					.setIconLarge(0) // TODO
+					.build());
+
+			siteBuilder.addAttraction((new LocalExpertAttraction.Builder(context))
+					.setFirstLine(R.string.attraction_helicopter_first)
+					.setSecondLine(R.string.attraction_helicopter_second)
+					.setIconSmall(0) // TODO
+					.setIconLarge(0) // TODO
+					.build());
+
+			siteBuilder.addAttraction((new LocalExpertAttraction.Builder(context))
+					.setFirstLine(R.string.attraction_scuba_first)
+					.setSecondLine(R.string.attraction_scuba_second)
+					.setIconSmall(0) // TODO
+					.setIconLarge(0) // TODO
+					.build());
+
+			break;
+		case LAS_VEGAS:
+			siteBuilder.setCity(R.string.site_las_vegas);
+			siteBuilder.setCityIcon(0); // TODO
+			siteBuilder.setPhoneNumber(""); // TODO
+
+			// Location-specific attractions
+			siteBuilder.addAttraction((new LocalExpertAttraction.Builder(context))
+					.setFirstLine(R.string.attraction_casinos_first)
+					.setSecondLine(R.string.attraction_casinos_second)
+					.setIconSmall(0) // TODO
+					.setIconLarge(0) // TODO
+					.build());
+
+			siteBuilder.addAttraction((new LocalExpertAttraction.Builder(context))
+					.setFirstLine(R.string.attraction_ferrari_first)
+					.setSecondLine(R.string.attraction_ferrari_second)
+					.setIconSmall(0) // TODO
+					.setIconLarge(0) // TODO
+					.build());
+
+			break;
+		case ORLANDO:
+			siteBuilder.setCity(R.string.site_orlando);
+			siteBuilder.setCityIcon(0); // TODO
+			siteBuilder.setPhoneNumber(""); // TODO
+
+			// Location-specific attractions
+			siteBuilder.addAttraction((new LocalExpertAttraction.Builder(context))
+					.setFirstLine(R.string.attraction_creatures_first)
+					.setSecondLine(R.string.attraction_creatures_second)
+					.setIconSmall(0) // TODO
+					.setIconLarge(0) // TODO
+					.build());
+
+			siteBuilder.addAttraction((new LocalExpertAttraction.Builder(context))
+					.setFirstLine(R.string.attraction_theme_parks_first)
+					.setSecondLine(R.string.attraction_theme_parks_second)
+					.setIconSmall(0) // TODO
+					.setIconLarge(0) // TODO
+					.build());
+
+			break;
+		}
+
+		// Common attractions that are shown for all sites
+		siteBuilder.addAttraction((new LocalExpertAttraction.Builder(context))
+				.setFirstLine(R.string.attraction_family_first)
+				.setSecondLine(R.string.attraction_family_second)
+				.setIconSmall(0) // TODO
+				.setIconLarge(0) // TODO
+				.build());
+
+		siteBuilder.addAttraction((new LocalExpertAttraction.Builder(context))
+				.setFirstLine(R.string.attraction_food_first)
+				.setSecondLine(R.string.attraction_food_second)
+				.setIconSmall(0) // TODO
+				.setIconLarge(0) // TODO
+				.build());
+
+		siteBuilder.addAttraction((new LocalExpertAttraction.Builder(context))
+				.setFirstLine(R.string.attraction_entertainment_first)
+				.setSecondLine(R.string.attraction_entertainment_second)
+				.setIconSmall(0) // TODO
+				.setIconLarge(0) // TODO
+				.build());
+
+		siteBuilder.addAttraction((new LocalExpertAttraction.Builder(context))
+				.setFirstLine(R.string.attraction_music_first)
+				.setSecondLine(R.string.attraction_music_second)
+				.setIconSmall(0) // TODO
+				.setIconLarge(0) // TODO
+				.build());
+
+		siteBuilder.addAttraction((new LocalExpertAttraction.Builder(context))
+				.setFirstLine(R.string.attraction_vip_first)
+				.setSecondLine(R.string.attraction_vip_second)
+				.setIconSmall(0) // TODO
+				.setIconLarge(0) // TODO
+				.build());
+
+		return siteBuilder.build();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
