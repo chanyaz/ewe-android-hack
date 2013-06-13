@@ -21,10 +21,6 @@ import com.mobiata.android.util.ViewUtils;
 public class HotelRulesFragment extends SherlockFragment {
 	public static final String TAG = HotelRulesFragment.class.toString();
 
-	public static HotelRulesFragment newInstance() {
-		return new HotelRulesFragment();
-	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_hotel_rules, container, false);
@@ -38,8 +34,10 @@ public class HotelRulesFragment extends SherlockFragment {
 		if (rate != null) {
 			Policy cancellationPolicy = rate.getRateRules().getPolicy(Policy.TYPE_CANCEL);
 
-			TextView cancellationPolicyTextView = Ui.findView(view, R.id.cancellation_policy_text_view);
-			cancellationPolicyTextView.setText(Html.fromHtml(cancellationPolicy.getDescription()));
+			if (cancellationPolicy != null) {
+				TextView cancellationPolicyTextView = Ui.findView(view, R.id.cancellation_policy_text_view);
+				cancellationPolicyTextView.setText(Html.fromHtml(cancellationPolicy.getDescription()));
+			}
 		}
 
 		return view;
