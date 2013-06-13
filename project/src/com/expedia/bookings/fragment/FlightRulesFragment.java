@@ -76,11 +76,14 @@ public class FlightRulesFragment extends SherlockFragment {
 
 			populateBody(v);
 
-			populateCompletePenaltyRulesTextView();
+			populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(
+					mFlightTrip.getRule(RulesKeys.COMPLETE_PENALTY_RULES.getKey()), mCompletePenaltyRulesTextView);
 
-			populateLiabilitiesTextView();
+			populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(
+					mFlightTrip.getRule(RulesKeys.AIRLINE_LIABILITY_LIMITATIONS.getKey()), mLiabilitiesLinkTextView);
 
-			populateAdditionalFeesTextView();
+			populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(
+					mFlightTrip.getRule(RulesKeys.ADDITIONAL_AIRLINE_FEES.getKey()), mAdditionalFeesTextView);
 
 			populateLccInfo();
 		}
@@ -204,17 +207,6 @@ public class FlightRulesFragment extends SherlockFragment {
 		return rulesBodyBuilder.toString();
 	}
 
-	private void populateCompletePenaltyRulesTextView() {
-		populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(
-				mFlightTrip.getRule(RulesKeys.COMPLETE_PENALTY_RULES.getKey()), mCompletePenaltyRulesTextView);
-
-	}
-
-	private void populateLiabilitiesTextView() {
-		populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(
-				mFlightTrip.getRule(RulesKeys.AIRLINE_LIABILITY_LIMITATIONS.getKey()), mLiabilitiesLinkTextView);
-	}
-
 	private void populateLccInfo() {
 		StringBuilder builder = new StringBuilder();
 		if (mFlightTrip.getRule(RulesKeys.LCC_IMPORTANT_TEXT.getKey()) != null) {
@@ -225,11 +217,6 @@ public class FlightRulesFragment extends SherlockFragment {
 			mLccTextView.setText(Html.fromHtml(builder.toString()));
 			mLccTextView.setVisibility(View.VISIBLE);
 		}
-	}
-
-	private void populateAdditionalFeesTextView() {
-		populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(
-				mFlightTrip.getRule(RulesKeys.ADDITIONAL_AIRLINE_FEES.getKey()), mAdditionalFeesTextView);
 	}
 
 	private void appendBodyWithRule(Rule rule, StringBuilder builder) {
