@@ -7,10 +7,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.expedia.bookings.R;
 
+import com.expedia.bookings.data.LocalExpertSite;
+
 public class LocalExpertFragment extends Fragment {
 
-	public static LocalExpertFragment newInstance() {
-		return new LocalExpertFragment();
+	public static final String TAG = LocalExpertFragment.class.getName();
+
+	private static final String ARG_SITE = "ARG_SITE";
+
+	private LocalExpertSite mSite;
+
+	public static LocalExpertFragment newInstance(LocalExpertSite site) {
+		LocalExpertFragment fragment = new LocalExpertFragment();
+		Bundle args = new Bundle();
+		args.putParcelable(ARG_SITE, site);
+		fragment.setArguments(args);
+		return fragment;
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		mSite = getArguments().getParcelable(ARG_SITE);
 	}
 
 	@Override
