@@ -1,6 +1,7 @@
 package com.expedia.bookings.activity;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -28,6 +29,8 @@ import com.mobiata.android.dialog.MailChimpFailureDialogFragment;
 import com.mobiata.android.dialog.MailChimpSuccessDialogFragment;
 import com.mobiata.android.fragment.AboutSectionFragment;
 import com.mobiata.android.fragment.AboutSectionFragment.AboutSectionFragmentListener;
+import com.mobiata.android.fragment.AboutSectionFragment.Builder;
+import com.mobiata.android.fragment.AboutSectionFragment.RowDescriptor;
 import com.mobiata.android.fragment.CopyrightFragment;
 import com.mobiata.android.util.MailChimpUtils;
 import com.mobiata.android.util.MailChimpUtils.MailChimpResult;
@@ -54,6 +57,9 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 	private static final int ROW_ATOL_INFO = 7;
 	private static final int ROW_OPEN_SOURCE_LICENSES = 8;
 
+	private static final int ROW_VSC_VOYAGES = 9;
+	private final static String PKG_VSC_VOYAGES = "com.vsct.vsc.mobile.horaireetresa.android";
+
 	private AboutUtils mAboutUtils;
 
 	private boolean mWasStopped;
@@ -79,8 +85,10 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 			builder = new AboutSectionFragment.Builder(this);
 			builder.addRow(R.string.contact_expedia, ROW_CONTACT_EXPEDIA);
 			builder.addRow(R.string.app_support, ROW_APP_SUPPORT);
-			builder.addRow(R.string.app_feedback, ROW_APP_FEEDBACK);
-			builder.addRow(com.mobiata.android.R.string.WereHiring, ROW_WERE_HIRING);
+			if (!ExpediaBookingApp.IS_VSC) {
+				builder.addRow(R.string.app_feedback, ROW_APP_FEEDBACK);
+				builder.addRow(com.mobiata.android.R.string.WereHiring, ROW_WERE_HIRING);
+			}
 			contactUsFragment = builder.build();
 			ft.add(R.id.section_contact_us, contactUsFragment, TAG_CONTACT_US);
 		}
@@ -88,7 +96,12 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 		// Apps also by us
 		AboutSectionFragment alsoByFragment = Ui.findSupportFragment(this, TAG_ALSO_BY_US);
 		if (alsoByFragment == null) {
-			alsoByFragment = AboutSectionFragment.buildOtherAppsSection(this);
+			if (ExpediaBookingApp.IS_VSC) {
+				alsoByFragment = buildVSCOtherAppsSection(this);
+			}
+			else {
+				alsoByFragment = AboutSectionFragment.buildOtherAppsSection(this);
+			}
 			ft.add(R.id.section_also_by, alsoByFragment, TAG_ALSO_BY_US);
 		}
 
@@ -110,9 +123,19 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 		// Copyright
 		CopyrightFragment copyrightFragment = Ui.findSupportFragment(this, TAG_COPYRIGHT);
 		if (copyrightFragment == null) {
-			copyrightFragment = CopyrightFragment.newInstance(getString(R.string.app_name),
-					getString(R.string.copyright), R.drawable.expedia_logo_white,
-					getString(R.string.app_mobiata_info_url));
+			//1247. VSC related copyright fragment
+			// TODO: Get VSC logo from design. Currently using expedia_logo_white as a placeholder.
+			if (ExpediaBookingApp.IS_VSC) {
+				copyrightFragment = CopyrightFragment.newInstance(getString(R.string.VSC_app_name),
+						getString(R.string.VSC_copyright), R.drawable.expedia_logo_white,
+						getString(R.string.app_vsc_info_url));
+			}
+			else {
+				copyrightFragment = CopyrightFragment.newInstance(getString(R.string.app_name),
+						getString(R.string.copyright), R.drawable.mobiata,
+						getString(R.string.app_mobiata_info_url));
+			}
+
 			ft.add(R.id.section_copyright, copyrightFragment, TAG_COPYRIGHT);
 		}
 
@@ -132,6 +155,20 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 		if (savedInstanceState == null) {
 			mAboutUtils.trackAboutActivityPageLoad();
 		}
+	}
+
+	private AboutSectionFragment buildVSCOtherAppsSection(Context context) {
+		Builder builder = new Builder(context);
+		builder.setTitle(R.string.AlsoByVSC);
+
+		RowDescriptor app = new RowDescriptor();
+		app.title = context.getString(R.string.VSC_Voyages_SNF);
+		app.description = context.getString(R.string.VSC_Voyages_SNF_description);
+		app.clickId = ROW_VSC_VOYAGES;
+		app.drawableId = R.drawable.icon_android_market; // TODO: Get VSC Voyages icon
+		builder.addRow(app);
+
+		return builder.build();
 	}
 
 	@Override
@@ -293,6 +330,11 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 		}
 		case AboutSectionFragment.ROW_FLIGHT_BOARD: {
 			mAboutUtils.trackFlightBoardLink();
+			break;
+		}
+		case ROW_VSC_VOYAGES: {
+			String prefixGooglePlay = "market://details?id=";
+			SocialUtils.openSite(this, prefixGooglePlay + PKG_VSC_VOYAGES);
 			break;
 		}
 

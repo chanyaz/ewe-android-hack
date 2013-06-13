@@ -16,6 +16,7 @@ import android.content.Intent;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AboutWebViewActivity;
 import com.expedia.bookings.activity.AppFeedbackActivity;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.mobiata.android.Log;
@@ -177,7 +178,13 @@ public class AboutUtils {
 	}
 
 	public void openAppSupport() {
-		openWebsite(mActivity, "http://www.mobiata.com/support/expediahotels-android", false, true);
+		//1247. VSC App support link
+		if (ExpediaBookingApp.IS_VSC) {
+			openWebsite(mActivity, "http://voyages-sncf.mobi/aide-appli-2/aide-appli-hotel/aide.html", false, true);
+		}
+		else {
+			openWebsite(mActivity, "http://www.mobiata.com/support/expediahotels-android", false, true);
+		}
 	}
 
 	public void tellAFriend() {
