@@ -15,6 +15,7 @@ import com.expedia.bookings.data.Policy;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.HtmlUtils;
+import com.expedia.bookings.utils.WalletUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.util.ViewUtils;
 
@@ -37,6 +38,18 @@ public class HotelRulesFragment extends SherlockFragment {
 			if (cancellationPolicy != null) {
 				TextView cancellationPolicyTextView = Ui.findView(view, R.id.cancellation_policy_text_view);
 				cancellationPolicyTextView.setText(Html.fromHtml(cancellationPolicy.getDescription()));
+			}
+
+			// Show Google Wallet promo terms & condition if it's being offered
+			if (PointOfSale.getPointOfSale().supportsGoogleWallet()
+					&& WalletUtils.offerGoogleWallet(rate.getTotalAmountAfterTax())
+					&& WalletUtils.offerGoogleWalletCoupon(getActivity())) {
+				TextView header = Ui.findView(view, R.id.wallet_promo_header);
+				ViewUtils.setAllCaps(header);
+
+				header.setVisibility(View.VISIBLE);
+				Ui.findView(view, R.id.wallet_promo_divider).setVisibility(View.VISIBLE);
+				Ui.findView(view, R.id.wallet_promo_text).setVisibility(View.VISIBLE);
 			}
 		}
 

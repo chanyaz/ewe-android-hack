@@ -2235,6 +2235,10 @@
     <string name="wallet_promo_applying">Applying Google Wallet discount...</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
     <string name="error_wallet_promo_cannot_apply">We\'re sorry, but the Google Wallet discount cannot be applied to this booking.</string>
+    <!-- Title for Google Wallet promo terms & conditions -->
+    <string name="wallet_promo_tc_title">Google Wallet Coupon Terms &amp; Conditions</string>
+    <!-- Terms & conditions for Google Wallet promo -->
+    <string name="wallet_promo_tc_message">Coupon must be redeemed in the Expedia Android app for travel between June 17, 2013 and December 31, 2013. This offer is from Expedia.com and is valid for Expedia.com U.S. customers only.\n\nBookings are subject to availability at Expedia Rate hotels at the time of booking and all applicable terms and conditions. Coupon may not be used with other coupons, promotions or special offers. Coupon discount cannot be applied against taxes, supplier-charged fees, cancellation or change penalties, administrative fees or other miscellaneous charges, which are the sole responsibility of the customer. In the event that you change or cancel any part of your booking, the coupon will not apply to the changed travel schedule.\n\nTerms and conditions of this coupon are as written and cannot be changed by any representation of any unauthorized person, including employees of Expedia, Inc. Coupon is not transferable and is not redeemable for cash. Void where prohibited by law. Expedia, Inc. may revoke or change this offer at any time.</string>
 
     <!-- Samsung Wallet -->
     <!-- Label to use when the ticket already exists in the wallet -->
