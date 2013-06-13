@@ -139,8 +139,9 @@ public class WebViewActivity extends SherlockFragmentActivity implements WebView
 				// Some error checking: if not given a URL, display a toast and finish
 				if (TextUtils.isEmpty(url)) {
 					String t = getString(R.string.web_view_loading_error_TEMPLATE, getString(R.string.web_view_no_url));
-					Toast.makeText(this, t, 1000).show();
+					Toast.makeText(this, t, Toast.LENGTH_SHORT).show();
 					finish();
+					return;
 				}
 
 				mFragment = WebViewFragment.newInstance(url, enableLogin, injectExpediaCookies, allowMobileRedirects,
