@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
@@ -134,6 +135,14 @@ public class WebViewActivity extends SherlockFragmentActivity implements WebView
 			else {
 				String url = extras.getString(ARG_URL);
 				Log.v("WebView url: " + url);
+
+				// Some error checking: if not given a URL, display a toast and finish
+				if (TextUtils.isEmpty(url)) {
+					String t = getString(R.string.web_view_loading_error_TEMPLATE, getString(R.string.web_view_no_url));
+					Toast.makeText(this, t, 1000).show();
+					finish();
+				}
+
 				mFragment = WebViewFragment.newInstance(url, enableLogin, injectExpediaCookies, allowMobileRedirects,
 						name);
 			}
