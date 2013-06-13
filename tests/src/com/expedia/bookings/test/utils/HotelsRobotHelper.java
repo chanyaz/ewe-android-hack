@@ -793,35 +793,12 @@ public class HotelsRobotHelper {
 				delay(1);
 				screenshot("Confirmation Screen 2");
 				mSolo.scrollToTop();
+				mSolo.clickOnText(mRes.getString(R.string.button_done));
+				delay();
+				mSolo.clickOnText(mRes.getString(R.string.shop));
 			}
 			else {
 				enterLog(TAG, "Booking: Never got to confirmation screen.");
-			}
-			if (!mSolo.searchText(mRes.getString(R.string.total_cost), true)) {
-				delay();
-				mSolo.scrollToTop();
-				screenshot("Confirmation Screen 1");
-				mSolo.scrollDown();
-				screenshot("Confirmation Screen 2");
-				mSolo.clickOnActionBarItem(R.drawable.ic_action_bar_magnifying_glass);
-			}
-			else {
-				String new_search = mRes.getString(R.string.NEW_SEARCH);
-				String start_new_search = mRes.getString(R.string.start_new_search);
-
-				if (mSolo.searchText(start_new_search, true)) {
-					mSolo.clickOnText(start_new_search);
-				}
-				else if (mSolo.searchText(new_search, true)) {
-					mSolo.clickOnText(new_search);
-				}
-				else {
-					throw new Exception("No button found to return to launcher from booking confirmation!");
-				}
-
-				enterLog(TAG, "Booking: Going back to launcher.");
-				delay();
-				mSolo.goBack();
 			}
 		}
 	}
