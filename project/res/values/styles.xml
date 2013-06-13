@@ -601,6 +601,42 @@
         <item name="android:shadowDy">1</item>
     </style>
 
+    <style name="LegalInformationHeader">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="LegalInformationTextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">4dp</item>
+    </style>
+
+    <style name="LegalInformationTextView.Blue">
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:textColor">@color/legal_info_blue_divider</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="LegalInformationDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/one_px_hdpi_two_px_xhdpi</item>
+    </style>
+
+    <style name="LegalInformationDivider.Blue">
+        <item name="android:background">#235285</item>
+    </style>
+
+    <style name="LegalInformationDivider.Grey">
+        <item name="android:background">#D1D1D1</item>
+    </style>
+
     <style name="Widget.Spinner.Phone" parent="Widget.Sherlock.Light.Spinner.DropDown.ActionBar">
         <item name="android:background">@drawable/spinner_holo_light</item>
         <item name="android:minHeight">40dp</item>

@@ -11,124 +11,67 @@
 
         <TextView
             android:id="@+id/rules_and_restrictions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="@string/rules_and_restrictions"
-            android:textSize="18sp" />
+            style="@style/LegalInformationHeader"
+            android:text="@string/rules_and_restrictions" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#D1D1D1" />
+        <View style="@style/LegalInformationDivider.Grey" />
 
         <TextView
             android:id="@+id/terms_and_conditions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="@string/terms_and_conditions"
-            android:textSize="18sp" />
+            style="@style/LegalInformationHeader"
+            android:text="@string/terms_and_conditions" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#D1D1D1" />
+        <View style="@style/LegalInformationDivider.Grey" />
 
         <TextView
             android:id="@+id/terms_of_booking"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="@string/Terms_of_Booking"
-            android:textSize="18sp" />
+            style="@style/LegalInformationHeader"
+            android:text="@string/Terms_of_Booking" />
 
         <View
             android:id="@+id/terms_of_booking_divider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#D1D1D1" />
+            style="@style/LegalInformationDivider.Grey" />
 
         <TextView
             android:id="@+id/privacy_policy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="@string/privacy_policy"
-            android:textSize="18sp" />
+            style="@style/LegalInformationHeader"
+            android:text="@string/privacy_policy" />
 
         <View
             android:id="@+id/atol_information_divider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#D1D1D1" />
+            style="@style/LegalInformationDivider.Grey" />
 
         <TextView
             android:id="@+id/atol_information"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="@string/lawyer_label_atol_information"
-            android:textSize="18sp" />
+            style="@style/LegalInformationHeader"
+            android:text="@string/lawyer_label_atol_information" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="4dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="4dp"
-            android:text="@string/fare_information"
-            android:textColor="#235285"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            style="@style/LegalInformationTextView.Blue"
+            android:text="@string/fare_information" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#235285" />
+        <View style="@style/LegalInformationDivider.Blue" />
 
         <TextView
             android:id="@+id/flight_rules_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="4dp" />
+            style="@style/LegalInformationTextView" />
 
         <TextView
             android:id="@+id/complete_penalty_rules_link_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="4dp" />
+            style="@style/LegalInformationTextView" />
 
         <TextView
             android:id="@+id/liabilities_link_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="4dp" />
+            style="@style/LegalInformationTextView" />
 
         <TextView
             android:id="@+id/additional_fee_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="4dp" />
+            style="@style/LegalInformationTextView" />
 
         <TextView
             android:id="@+id/lcc_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="4dp"
+            style="@style/LegalInformationTextView"
             android:visibility="gone" />
-
     </LinearLayout>
 
 </ScrollView>
