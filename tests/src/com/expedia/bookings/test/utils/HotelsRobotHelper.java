@@ -391,12 +391,11 @@ public class HotelsRobotHelper {
 			landscape();
 			portrait();
 			delay();
+			mSolo.goBack();
 		}
 		catch (Error e) {
 			enterLog(TAG, "No reviews for hotel selected");
 		}
-
-		mSolo.goBack();
 	}
 
 	public void pressBookRoom() {
