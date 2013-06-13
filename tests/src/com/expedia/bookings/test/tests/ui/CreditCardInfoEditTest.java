@@ -119,13 +119,6 @@ public class CreditCardInfoEditTest extends ActivityInstrumentationTestCase2<Hot
 		Random rand = new Random();
 		int randomNumber;
 
-		//Click text to get to card number edit text
-		mSolo.clickOnText(mRes.getString(R.string.add_new_card));
-		mDriver.delay();
-		if (mSolo.searchText(mRes.getString(R.string.add_new_card))) {
-			mSolo.clickOnText(mRes.getString(R.string.add_new_card));
-		}
-
 		EditText creditCardEditText = (EditText) mSolo.getView(R.id.edit_creditcard_number);
 		String creditcardNumber;
 		ImageView imageHolder;
