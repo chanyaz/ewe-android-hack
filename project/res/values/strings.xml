@@ -279,12 +279,6 @@
 
     <!-- Itin Local Expert -->
     <string name="talk_to_local_expert">Talk to a Local Expert</string>
-	<!-- Template for the city title on Local Expert pages. %1$s is the name of the city-->
-	<string name="local_expert_title_TEMPLATE">Enjoy %1$s</string>
-	<!-- Description body for the Local Expert pages -->
-	<string name="local_expert_description">Your Local Expert concierge is just a call\naway for any in-trip planning needs.</string>
-	<!-- Text for the button on Local Expert pages, to call the concierge -->
-	<string name="local_expert_call_button_text">Give them a call</string>
 
     <!-- Local Expert Sites -->
     <!-- Name of Hawaii (for local expert) -->
@@ -293,6 +287,13 @@
     <string name="site_orlando">Orlando</string>
     <!-- Name of Las Vegas (for local expert) -->
     <string name="site_las_vegas">Las Vegas</string>
+
+	<!-- Template for the city title on Local Expert pages. %1$s is the name of the city-->
+	<string name="local_expert_title_TEMPLATE">Enjoy %1$s</string>
+	<!-- Description body for the Local Expert pages -->
+	<string name="local_expert_description">Your Local Expert concierge is just a call\naway for any in-trip planning needs.</string>
+	<!-- Text for the button on Local Expert pages, to call the concierge -->
+	<string name="local_expert_call_button_text">Give them a call</string>
 
     <!-- Local Expert attractions; these are all split into two lines (second line is bolded) -->
     <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
@@ -2418,10 +2419,10 @@
 
     <!--
     Shortened Push Notification Loc Strings
-    These are for older versions of android that can't wrap notification text. We shorten 
-    the strings by removing the city argument from the string. The city string gets displayed 
+    These are for older versions of android that can't wrap notification text. We shorten
+    the strings by removing the city argument from the string. The city string gets displayed
     in the notification title, so no harm done.
-    
+
     NOTE: We are removing the first arg, but we will still be passing it to the format string, so the argument range now
     must start at %2$s
     -->
