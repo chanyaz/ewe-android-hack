@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.database.DataSetObserver;
 import android.os.Build;
@@ -227,6 +228,7 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 
 	private static final float MAX_TRANSLATE_Y_DP = 300;
 
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public Animator createLegClickAnimator(boolean enter, FlightLeg flightLeg) {
 		View v = getView();
 		List<Animator> set = new ArrayList<Animator>();
@@ -327,6 +329,7 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 		return animSet;
 	}
 
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public Animator createLegSelectAnimator(boolean enter) {
 		View v = getView();
 		List<Animator> set = new ArrayList<Animator>();
@@ -393,37 +396,43 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 	// Used to find out where to animate to/from a card in the list
 	public Pair<Integer, Integer> getFlightCardTopAndBottom(FlightLeg flightLeg) {
 		if (flightLeg != null && mAdapter != null && mListView != null) {
-			int position = mAdapter.getPosition(flightLeg) + mListView.getHeaderViewsCount();
-			int firstPosition = mListView.getFirstVisiblePosition();
-			int lastPosition = mListView.getLastVisiblePosition();
+
+			FlightAdapter adapter = mAdapter;
+			ListView listView = mListView;
+
+			int position = adapter.getPosition(flightLeg) + listView.getHeaderViewsCount();
+			int firstPosition = listView.getFirstVisiblePosition();
+			int lastPosition = listView.getLastVisiblePosition();
 
 			if (position >= firstPosition && position <= lastPosition) {
-				View v = mListView.getChildAt(position - firstPosition);
+				View v = listView.getChildAt(position - firstPosition);
 				// F1302: Need to account for top padding in listview when calculating top/bottom
-				int paddingTop = mListView.getPaddingTop();
-				return new Pair<Integer, Integer>(v.getTop() - paddingTop, v.getBottom() - paddingTop);
+				int paddingTop = listView.getPaddingTop();
+				if (v != null) {
+					return new Pair<Integer, Integer>(v.getTop() - paddingTop, v.getBottom() - paddingTop);
+				}
 			}
 			else {
 				// Find the first visible card and use that as measurement
-				int headerCount = mListView.getHeaderViewsCount();
+				int headerCount = listView.getHeaderViewsCount();
 				int targetPosition = (firstPosition < headerCount) ? headerCount - firstPosition : 0;
-				View v = mListView.getChildAt(targetPosition);
-				int cardHeight = v.getHeight();
+				View v = listView.getChildAt(targetPosition);
+				int cardHeight = v != null ? v.getHeight() : 0;
 
 				// Return a set of top/bottom just above or just below the ListView
 				if (position < firstPosition) {
 					return new Pair<Integer, Integer>(-cardHeight, 0);
 				}
 				else {
-					int listViewHeight = mListView.getHeight();
+					int listViewHeight = listView.getHeight();
 					return new Pair<Integer, Integer>(listViewHeight, listViewHeight + cardHeight);
 				}
 			}
 		}
-		else {
-			//By default we return 0,0 which wont look great, but is valid
-			return new Pair<Integer, Integer>(0, 0);
-		}
+
+		//By default we return 0,0 which wont look great, but is valid
+		return new Pair<Integer, Integer>(0, 0);
+
 	}
 
 	public Pair<Integer, Integer> getSelectedFlightCardTopAndBottom() {
