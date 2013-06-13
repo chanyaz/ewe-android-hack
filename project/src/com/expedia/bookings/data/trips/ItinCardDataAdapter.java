@@ -2,6 +2,7 @@ package com.expedia.bookings.data.trips;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 
 import android.content.Context;
@@ -31,15 +32,9 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		PAST,
 		SUMMARY,
 		NORMAL,
-		DETAIL
+		DETAIL,
+		BUTTON
 	}
-
-	//////////////////////////////////////////////////////////////////////////////////////
-	// PRIVATE CONSTANTS
-	//////////////////////////////////////////////////////////////////////////////////////
-
-	private static final int TYPE_BUTTON_CARD = 0;
-	private static final int TYPE_ITINERARY_CARD = 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
@@ -101,9 +96,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	@Override
 	public synchronized View getView(final int position, View convertView, ViewGroup Parent) {
 		final ItinCardData data = getItem(position);
-		final int type = getItemViewType(position);
-
-		if (type == TYPE_BUTTON_CARD) {
+		if (isItemAButtonCard(position)) {
 			ItinButtonCard card;
 			if (convertView instanceof ItinButtonCard) {
 				card = (ItinButtonCard) convertView;
@@ -157,10 +150,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		boolean isSumCard = isItemASummaryCard(position);
 		boolean isDetailCard = isItemDetailCard(position);
 		boolean isButtonCard = isItemAButtonCard(position);
-		if (isButtonCard) {
-			return TYPE_BUTTON_CARD;
-		}
-		else if (isDetailCard) {
+		if (isDetailCard) {
 			retVal += (TripComponent.Type.values().length * 3);
 		}
 		else if (isInThePast) {
@@ -169,8 +159,9 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		else if (isSumCard && !mSimpleMode) {
 			retVal += (TripComponent.Type.values().length * 2);
 		}
-
-		retVal += TYPE_ITINERARY_CARD;
+		else if (isButtonCard) {
+			retVal += (TripComponent.Type.values().length * 4);
+		}
 
 		return retVal;
 	}
@@ -179,7 +170,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	public int getViewTypeCount() {
 		//the *3 is so we have one for each type and one for each type that is shaded and one for each type in summary mode
 		// the +1 is for the button card type
-		return TripComponent.Type.values().length * State.values().length + 1;
+		return TripComponent.Type.values().length * State.values().length;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -255,13 +246,13 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	private Type getItemViewCardType(int position) {
-		int typeOrd = getItemViewType(position) - TYPE_ITINERARY_CARD;
+		int typeOrd = getItemViewType(position);
 		typeOrd = typeOrd % TripComponent.Type.values().length;
 		return Type.values()[typeOrd];
 	}
 
 	private State getItemViewCardState(int position) {
-		int typeOrd = (getItemViewType(position) - TYPE_ITINERARY_CARD) / TripComponent.Type.values().length;
+		int typeOrd = getItemViewType(position) / TripComponent.Type.values().length;
 		switch (typeOrd) {
 		case 0:
 			return State.NORMAL;
@@ -271,6 +262,8 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			return State.SUMMARY;
 		case 3:
 			return State.DETAIL;
+		case 4:
+			return State.BUTTON;
 		default:
 			return State.NORMAL;
 		}
@@ -410,7 +403,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		}
 
 		// Get previously dismissed buttons
-		final List<String> dismissedTripIds = DismissedItinButton
+		final HashSet<String> dismissedTripIds = DismissedItinButton
 				.getDismissedTripIds(ItinButtonCard.ItinButtonType.HOTEL_ATTACH);
 
 		for (int i = 0; i < len; i++) {
@@ -475,7 +468,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		}
 
 		// Get previously dismissed buttons
-		final List<String> dismissedTripIds = DismissedItinButton
+		final HashSet<String> dismissedTripIds = DismissedItinButton
 				.getDismissedTripIds(ItinButtonCard.ItinButtonType.LOCAL_EXPERT);
 
 		ItinCardData data;
@@ -503,8 +496,8 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				continue;
 			}
 
-			// TODO: Limit by date (2 days prior) and location (Orlando, Las Vegas, HI) when done developing feature.
 			mItinCardDatas.add(i + 1, new ItinCardDataLocalExpert(data.getTripComponent()));
+
 			return;
 		}
 	}
@@ -533,36 +526,11 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 	@Override
 	public void onHide(String tripId, ItinButtonType itinButtonType) {
-		String cardTripId;
-		ItinButtonType cardItinButtonType;
-
-		int size = mItinCardDatas.size();
-		for (int i = 0; i < size; i++) {
-			final ItinCardData data = mItinCardDatas.get(i);
-			cardTripId = data.getTripId();
-			cardItinButtonType = ItinButtonType.fromClass(mItinCardDatas.get(i).getClass());
-			if (cardTripId.equals(tripId) && cardItinButtonType != null && cardItinButtonType.equals(itinButtonType)) {
-				mItinCardDatas.remove(i);
-				size--;
-			}
-		}
-
-		notifyDataSetChanged();
+		syncWithManager();
 	}
 
 	@Override
 	public void onHideAll(ItinButtonType itinButtonType) {
-		ItinButtonType cardItinButtonType;
-
-		int size = mItinCardDatas.size();
-		for (int i = 0; i < size; i++) {
-			cardItinButtonType = ItinButtonType.fromClass(mItinCardDatas.get(i).getClass());
-			if (cardItinButtonType != null && cardItinButtonType.equals(itinButtonType)) {
-				mItinCardDatas.remove(i);
-				size--;
-			}
-		}
-
-		notifyDataSetChanged();
+		syncWithManager();
 	}
 }

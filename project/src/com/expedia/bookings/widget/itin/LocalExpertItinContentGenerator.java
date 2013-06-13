@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItinCardDataLocalExpert;
+import com.expedia.bookings.data.trips.TripComponent.Type;
 
 public class LocalExpertItinContentGenerator extends ItinButtonContentGenerator<ItinCardDataLocalExpert> {
 	public LocalExpertItinContentGenerator(Context context, ItinCardDataLocalExpert itinCardData) {
@@ -13,10 +14,13 @@ public class LocalExpertItinContentGenerator extends ItinButtonContentGenerator<
 	}
 
 	@Override
-	public View getDetailsView(ViewGroup container) {
-		final View view = getLayoutInflater().inflate(R.layout.include_itin_button_local_expert, container, false);
+	public Type getType() {
+		return Type.HOTEL;
+	}
 
-		return view;
+	@Override
+	public View getDetailsView(ViewGroup container) {
+		return getLayoutInflater().inflate(R.layout.include_itin_button_local_expert, container, false);
 	}
 
 	@Override
@@ -24,7 +28,7 @@ public class LocalExpertItinContentGenerator extends ItinButtonContentGenerator<
 		return new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				//empty on purpose for now
+				// TODO: start Local Expert fragment
 			}
 		};
 	}

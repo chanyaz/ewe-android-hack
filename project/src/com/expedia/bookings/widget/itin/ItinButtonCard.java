@@ -86,6 +86,12 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	public void bind(T itinCardData) {
+		if (mItinContentGenerator != null && mItinContentGenerator.getType() != itinCardData.getTripComponentType()) {
+			throw new RuntimeException("Attempted to reuse an ItinCard for two different types of cards!"
+					+ "  Previously used " + mItinContentGenerator.getType() + ", reused with"
+					+ itinCardData.getTripComponentType());
+		}
+
 		mTripId = itinCardData.getTripComponent().getParentTrip().getTripId();
 		mItinButtonType = ItinButtonType.fromClass(itinCardData.getClass());
 

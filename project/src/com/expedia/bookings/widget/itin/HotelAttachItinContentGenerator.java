@@ -15,12 +15,18 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.trips.ItinCardDataHotelAttach;
+import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 
 public class HotelAttachItinContentGenerator extends ItinButtonContentGenerator<ItinCardDataHotelAttach> {
 	public HotelAttachItinContentGenerator(Context context, ItinCardDataHotelAttach itinCardData) {
 		super(context, itinCardData);
+	}
+
+	@Override
+	public Type getType() {
+		return Type.FLIGHT;
 	}
 
 	@Override

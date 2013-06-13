@@ -30,11 +30,6 @@ public abstract class ItinButtonContentGenerator<T extends ItinCardData> extends
 	}
 
 	@Override
-	public final TripComponent.Type getType() {
-		return null;
-	}
-
-	@Override
 	public final String getShareSubject() {
 		return null;
 	}

@@ -1,6 +1,7 @@
 package com.expedia.bookings.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import com.activeandroid.Model;
@@ -41,13 +42,13 @@ public class DismissedItinButton extends Model {
 		return dismissedItinButton;
 	}
 
-	public static List<String> getDismissedTripIds(ItinButtonType itinButtonType) {
+	public static HashSet<String> getDismissedTripIds(ItinButtonType itinButtonType) {
 		final List<DismissedItinButton> dismissedItinButtons = new Select()
 				.from(DismissedItinButton.class)
 				.where("ItinButtonType = ?", itinButtonType)
 				.execute();
 
-		final List<String> dismissedTripIds = new ArrayList<String>();
+		final HashSet<String> dismissedTripIds = new HashSet<String>();
 		for (DismissedItinButton dismissedItinButton : dismissedItinButtons) {
 			dismissedTripIds.add(dismissedItinButton.getTripId());
 		}
