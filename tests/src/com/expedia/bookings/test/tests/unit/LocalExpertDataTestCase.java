@@ -13,7 +13,6 @@ public class LocalExpertDataTestCase extends AndroidTestCase {
 		String secondLine = "second line";
 		int iconSmall = 1;
 		int iconLarge = 2;
-		boolean iconAboveText = true;
 
 		// Build the attraction
 		LocalExpertAttraction.Builder builder = new LocalExpertAttraction.Builder(getContext());
@@ -21,7 +20,6 @@ public class LocalExpertDataTestCase extends AndroidTestCase {
 		builder.setSecondLine(secondLine);
 		builder.setIconSmall(iconSmall);
 		builder.setIconLarge(iconLarge);
-		builder.setIconAboveText(iconAboveText);
 		LocalExpertAttraction attraction = builder.build();
 
 		// Check that it equals the previous data
@@ -29,7 +27,6 @@ public class LocalExpertDataTestCase extends AndroidTestCase {
 		assertEquals(secondLine, attraction.getSecondLine());
 		assertEquals(iconSmall, attraction.getIconSmall());
 		assertEquals(iconLarge, attraction.getIconLarge());
-		assertEquals(iconAboveText, attraction.isIconAboveText());
 
 		// Parcel/unparcel, make sure it is still equivalent
 		Parcel parcel = Parcel.obtain();
@@ -44,7 +41,6 @@ public class LocalExpertDataTestCase extends AndroidTestCase {
 		assertEquals(secondLine, attraction.getSecondLine());
 		assertEquals(iconSmall, attraction.getIconSmall());
 		assertEquals(iconLarge, attraction.getIconLarge());
-		assertEquals(iconAboveText, attraction.isIconAboveText());
 	}
 
 	public void testLocalExpertSite() {
@@ -63,7 +59,6 @@ public class LocalExpertDataTestCase extends AndroidTestCase {
 		builder.setSecondLine(secondLine);
 		builder.setIconSmall(iconSmall);
 		builder.setIconLarge(iconLarge);
-		builder.setIconAboveText(iconAboveText);
 		LocalExpertAttraction attraction = builder.build();
 
 		// Build the local expert site
@@ -83,7 +78,6 @@ public class LocalExpertDataTestCase extends AndroidTestCase {
 		assertEquals(secondLine, attraction.getSecondLine());
 		assertEquals(iconSmall, attraction.getIconSmall());
 		assertEquals(iconLarge, attraction.getIconLarge());
-		assertEquals(iconAboveText, attraction.isIconAboveText());
 
 		// Parcel/unparcel, make sure it is still equivalent
 		Parcel parcel = Parcel.obtain();
@@ -102,6 +96,5 @@ public class LocalExpertDataTestCase extends AndroidTestCase {
 		assertEquals(secondLine, attraction.getSecondLine());
 		assertEquals(iconSmall, attraction.getIconSmall());
 		assertEquals(iconLarge, attraction.getIconLarge());
-		assertEquals(iconAboveText, attraction.isIconAboveText());
 	}
 }
