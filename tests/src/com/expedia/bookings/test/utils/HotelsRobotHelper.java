@@ -794,7 +794,12 @@ public class HotelsRobotHelper {
 				mSolo.scrollToTop();
 				mSolo.clickOnText(mRes.getString(R.string.button_done));
 				delay();
-				mSolo.clickOnText(mRes.getString(R.string.shop));
+				try {
+					mSolo.clickOnText(mRes.getString(R.string.shop));
+				}
+				catch (Error e) {
+					Log.e(TAG, "No 'shop' able to be clicked. Likely on tablet", e);
+				}
 			}
 			else {
 				enterLog(TAG, "Booking: Never got to confirmation screen.");
