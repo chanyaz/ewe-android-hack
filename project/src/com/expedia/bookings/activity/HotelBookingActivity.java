@@ -181,7 +181,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		Intent intent = new Intent(mContext, HotelPaymentOptionsActivity.class);
 		intent.putExtra(HotelPaymentOptionsActivity.STATE_TAG_MODE,
 				HotelPaymentOptionsActivity.YoYoMode.YOYO.name());
-		if (Db.getBillingInfo() != null && Db.getBillingInfo().getStoredCard() != null) {
+		if (Db.getBillingInfo() != null && Db.getBillingInfo().hasStoredCard()) {
 			intent.putExtra(HotelPaymentOptionsActivity.STATE_TAG_DEST,
 					HotelPaymentOptionsActivity.YoYoPosition.OPTIONS.name());
 		}

@@ -425,7 +425,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		case DIALOG_CALLBACK_INVALID_CC:
 			//Go to CC number entry page
 			Intent gotoCCEntryIntent = new Intent(FlightBookingActivity.this, FlightPaymentOptionsActivity.class);
-			if (Db.getBillingInfo() != null && Db.getBillingInfo().getStoredCard() != null) {
+			if (Db.getBillingInfo() != null && Db.getBillingInfo().hasStoredCard()) {
 				gotoCCEntryIntent.putExtra(FlightPaymentOptionsActivity.INTENT_TAG_DEST, YoYoPosition.OPTIONS.name());
 			}
 			else {

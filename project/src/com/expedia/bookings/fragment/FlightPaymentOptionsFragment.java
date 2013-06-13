@@ -157,7 +157,7 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 		mSectionPartialCard.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard() == null) {
+				if (!Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard()) {
 					mListener.setMode(YoYoMode.YOYO);
 					mListener.moveForward();
 				}

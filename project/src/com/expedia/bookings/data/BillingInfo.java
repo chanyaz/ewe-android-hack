@@ -64,7 +64,7 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 			mNumber = base.getNumber();
 			mSecurityCode = base.getSecurityCode();
 			mExpirationDate = base.getExpirationDate();
-			if (base.getStoredCard() != null) {
+			if (base.hasStoredCard()) {
 				mStoredCard = new StoredCreditCard();
 				mStoredCard.fromJson(base.getStoredCard().toJson());
 			}

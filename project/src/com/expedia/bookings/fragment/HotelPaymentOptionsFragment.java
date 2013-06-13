@@ -143,14 +143,15 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 				final StoredCreditCard storedCard = cards.get(i);
 
 				//Skip this card if it is the selected card
-				if (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard() != null
+				if (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard()
 						&& Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard().getId()
 								.compareToIgnoreCase(storedCard.getId()) == 0) {
 					continue;
 				}
 
 				SectionStoredCreditCard card = new SectionStoredCreditCard(getActivity());
-				card.configure(R.drawable.ic_credit_card_white, android.R.color.white, R.color.hotels_cc_text_color_secondary);
+				card.configure(R.drawable.ic_credit_card_white, android.R.color.white,
+						R.color.hotels_cc_text_color_secondary);
 				card.bind(storedCard);
 				card.setPadding(0, paymentOptionPadding, 0, paymentOptionPadding);
 				card.setBackgroundResource(R.drawable.bg_payment_method_row);
@@ -227,7 +228,7 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 		//Set visibilities
 		boolean hasAccountCards = cards != null && cards.size() > 0;
 		int numAccountCards = cards == null ? 0 : cards.size();
-		boolean hasSelectedStoredCard = Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard() != null;
+		boolean hasSelectedStoredCard = Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard();
 
 		if (mValidationState == null) {
 			mValidationState = HotelPaymentFlowState.getInstance(getActivity());

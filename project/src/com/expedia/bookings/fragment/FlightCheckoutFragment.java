@@ -589,7 +589,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		if (User.isLoggedIn(getActivity())) {
 			// Populate Credit Card only if the user doesn't have any manually entered (or selected) data
 			if (Db.getUser().getStoredCreditCards() != null && Db.getUser().getStoredCreditCards().size() == 1
-					&& !hasSomeManuallyEnteredData(mBillingInfo) && mBillingInfo.getStoredCard() == null) {
+					&& !hasSomeManuallyEnteredData(mBillingInfo) && !mBillingInfo.hasStoredCard()) {
 				StoredCreditCard scc = Db.getUser().getStoredCreditCards().get(0);
 				// Make sure the card is supported by this flight trip before automatically selecting it
 				if (Db.getFlightSearch().getSelectedFlightTrip().isCardTypeSupported(scc.getType())) {
@@ -757,7 +757,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 		// Bind credit card data, but only if they explicitly clicked "buy with wallet" or they have
 		// no existing credit card info entered
-		if (!fromPreauth || (TextUtils.isEmpty(mBillingInfo.getNumber()) && mBillingInfo.getStoredCard() == null)) {
+		if (!fromPreauth || (TextUtils.isEmpty(mBillingInfo.getNumber()) && !mBillingInfo.hasStoredCard())) {
 			WalletUtils.bindWalletToBillingInfo(maskedWallet, mBillingInfo);
 		}
 
