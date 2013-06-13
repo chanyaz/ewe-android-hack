@@ -32,6 +32,7 @@ import com.mobiata.android.fragment.AboutSectionFragment.AboutSectionFragmentLis
 import com.mobiata.android.fragment.AboutSectionFragment.Builder;
 import com.mobiata.android.fragment.AboutSectionFragment.RowDescriptor;
 import com.mobiata.android.fragment.CopyrightFragment;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.MailChimpUtils;
 import com.mobiata.android.util.MailChimpUtils.MailChimpResult;
 
@@ -333,8 +334,7 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 			break;
 		}
 		case ROW_VSC_VOYAGES: {
-			String prefixGooglePlay = "market://details?id=";
-			SocialUtils.openSite(this, prefixGooglePlay + PKG_VSC_VOYAGES);
+			SocialUtils.openSite(this, AndroidUtils.getGooglePlayAppLink(PKG_VSC_VOYAGES));
 			break;
 		}
 
