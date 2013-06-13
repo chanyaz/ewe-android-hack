@@ -15,6 +15,7 @@ public class LocalExpertSite implements Parcelable {
 	private CharSequence mCity;
 	private int mCityIcon;
 	private CharSequence mPhoneNumber;
+	private int mBackground;
 	private List<LocalExpertAttraction> mAttractions = new ArrayList<LocalExpertAttraction>();
 
 	private LocalExpertSite() {
@@ -31,6 +32,10 @@ public class LocalExpertSite implements Parcelable {
 
 	public CharSequence getPhoneNumber() {
 		return mPhoneNumber;
+	}
+
+	public int getBackgroundResId() {
+		return mBackground;
 	}
 
 	public List<LocalExpertAttraction> getAttractions() {
@@ -54,6 +59,7 @@ public class LocalExpertSite implements Parcelable {
 			siteBuilder.setCity(R.string.site_hawaii);
 			siteBuilder.setCityIcon(R.drawable.ic_local_expert_hawaii);
 			siteBuilder.setPhoneNumber("1-888-353-8528");
+			siteBuilder.setBackground(R.drawable.bg_local_expert_hawaii);
 
 			// Location-specific attractions
 			siteBuilder.addAttraction((new LocalExpertAttraction.Builder(context))
@@ -82,6 +88,7 @@ public class LocalExpertSite implements Parcelable {
 			siteBuilder.setCity(R.string.site_las_vegas);
 			siteBuilder.setCityIcon(R.drawable.ic_local_expert_vegas);
 			siteBuilder.setPhoneNumber("1-888-353-8529");
+			siteBuilder.setBackground(R.drawable.bg_local_expert_las_vegas);
 
 			// Location-specific attractions
 			siteBuilder.addAttraction((new LocalExpertAttraction.Builder(context))
@@ -103,6 +110,7 @@ public class LocalExpertSite implements Parcelable {
 			siteBuilder.setCity(R.string.site_orlando);
 			siteBuilder.setCityIcon(R.drawable.ic_local_expert_orlando);
 			siteBuilder.setPhoneNumber("1-888-300-7352");
+			siteBuilder.setBackground(R.drawable.bg_local_expert_orlando);
 
 			// Location-specific attractions
 			siteBuilder.addAttraction((new LocalExpertAttraction.Builder(context))
@@ -201,6 +209,11 @@ public class LocalExpertSite implements Parcelable {
 			return this;
 		}
 
+		public Builder setBackground(int resId) {
+			mSite.mBackground = resId;
+			return this;
+		}
+
 		public Builder addAttraction(LocalExpertAttraction attraction) {
 			mSite.mAttractions.add(attraction);
 			return this;
@@ -214,6 +227,7 @@ public class LocalExpertSite implements Parcelable {
 		mCity = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(in);
 		mCityIcon = in.readInt();
 		mPhoneNumber = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(in);
+		mBackground = in.readInt();
 		in.readList(mAttractions, getClass().getClassLoader());
 	}
 
@@ -222,6 +236,7 @@ public class LocalExpertSite implements Parcelable {
 		TextUtils.writeToParcel(mCity, dest, flags);
 		dest.writeInt(mCityIcon);
 		TextUtils.writeToParcel(mPhoneNumber, dest, flags);
+		dest.writeInt(mBackground);
 		dest.writeList(mAttractions);
 	}
 

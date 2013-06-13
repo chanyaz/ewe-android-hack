@@ -47,11 +47,11 @@ public class LocalExpertDataTestCase extends AndroidTestCase {
 		String city = "San Francisco";
 		int cityIcon = 1;
 		String phoneNumber = "2222222222";
+		int background = 4;
 		String firstLine = "first line";
 		String secondLine = "second line";
 		int iconSmall = 1;
 		int iconLarge = 2;
-		boolean iconAboveText = true;
 
 		// Build the attraction
 		LocalExpertAttraction.Builder builder = new LocalExpertAttraction.Builder(getContext());
@@ -66,6 +66,7 @@ public class LocalExpertDataTestCase extends AndroidTestCase {
 		builder2.setCity(city);
 		builder2.setCityIcon(cityIcon);
 		builder2.setPhoneNumber(phoneNumber);
+		builder2.setBackground(background);
 		builder2.addAttraction(attraction);
 		LocalExpertSite site = builder2.build();
 
@@ -73,6 +74,7 @@ public class LocalExpertDataTestCase extends AndroidTestCase {
 		assertEquals(city, site.getCity());
 		assertEquals(cityIcon, site.getCityIcon());
 		assertEquals(phoneNumber, site.getPhoneNumber());
+		assertEquals(background, site.getBackgroundResId());
 		attraction = site.getAttractions().get(0);
 		assertEquals(firstLine, attraction.getFirstLine());
 		assertEquals(secondLine, attraction.getSecondLine());
@@ -91,6 +93,7 @@ public class LocalExpertDataTestCase extends AndroidTestCase {
 		assertEquals(city, site.getCity());
 		assertEquals(cityIcon, site.getCityIcon());
 		assertEquals(phoneNumber, site.getPhoneNumber());
+		assertEquals(background, site.getBackgroundResId());
 		attraction = site.getAttractions().get(0);
 		assertEquals(firstLine, attraction.getFirstLine());
 		assertEquals(secondLine, attraction.getSecondLine());
