@@ -228,12 +228,8 @@ public class FlightRulesFragment extends SherlockFragment {
 	}
 
 	private void populateAdditionalFeesTextView() {
-		// additional rules
-		final Rule additionalRules = mFlightTrip.getRule(RulesKeys.ADDITIONAL_AIRLINE_FEES.getKey());
-		// Sometimes additional rules are not included in the API, null check here
-		if (additionalRules != null) {
-			mAdditionalFeesTextView.setText(additionalRules.getText());
-		}
+		populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(
+				mFlightTrip.getRule(RulesKeys.ADDITIONAL_AIRLINE_FEES.getKey()), mAdditionalFeesTextView);
 	}
 
 	private void appendBodyWithRule(Rule rule, StringBuilder builder) {
