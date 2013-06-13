@@ -11,7 +11,6 @@ public class LocalExpertAttraction implements Parcelable {
 	private CharSequence mSecondLine;
 	private int mIconSmall;
 	private int mIconLarge;
-	private boolean mIconAboveText;
 
 	private LocalExpertAttraction() {
 		// Default constructor; use Builder
@@ -31,10 +30,6 @@ public class LocalExpertAttraction implements Parcelable {
 
 	public int getIconLarge() {
 		return mIconLarge;
-	}
-
-	public boolean isIconAboveText() {
-		return mIconAboveText;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -81,11 +76,6 @@ public class LocalExpertAttraction implements Parcelable {
 			mAttraction.mIconLarge = resId;
 			return this;
 		}
-
-		public Builder setIconAboveText(boolean iconAboveText) {
-			mAttraction.mIconAboveText = iconAboveText;
-			return this;
-		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -96,7 +86,6 @@ public class LocalExpertAttraction implements Parcelable {
 		mSecondLine = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(in);
 		mIconSmall = in.readInt();
 		mIconLarge = in.readInt();
-		mIconAboveText = in.readByte() == 1;
 	}
 
 	@Override
@@ -105,7 +94,6 @@ public class LocalExpertAttraction implements Parcelable {
 		TextUtils.writeToParcel(mSecondLine, dest, flags);
 		dest.writeInt(mIconSmall);
 		dest.writeInt(mIconLarge);
-		dest.writeByte((byte) (mIconAboveText ? 1 : 0));
 	}
 
 	@Override
