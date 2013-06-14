@@ -1035,10 +1035,12 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	};
 
 	private void loadSearchResponse(HotelSearchResponse response, boolean initialLoad) {
-		if (response == null || response.hasErrors()) {
+		if (response == null) {
 			Db.getHotelSearch().resetSearchData();
 		}
 		else {
+			// Even if there are errors we want to store them
+			// for when we reload the response (eg rotation)
 			Db.getHotelSearch().setSearchResponse(response);
 		}
 

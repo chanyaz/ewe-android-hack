@@ -52,8 +52,10 @@ public class HotelSearch implements JSONable {
 		mSearchResponse = response;
 
 		mPropertyMap = new HashMap<String, Property>();
-		for (Property property : response.getProperties()) {
-			mPropertyMap.put(property.getPropertyId(), property);
+		if (response != null && response.getProperties() != null) {
+			for (Property property : response.getProperties()) {
+				mPropertyMap.put(property.getPropertyId(), property);
+			}
 		}
 
 		mAvailabilityMap = new HashMap<String, HotelAvailability>();
