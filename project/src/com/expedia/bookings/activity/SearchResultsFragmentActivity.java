@@ -30,6 +30,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.SearchView.OnSuggestionListener;
@@ -193,7 +194,8 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		mFilterDialogFragment = Ui.findSupportFragment(this, getString(R.string.tag_filter_dialog));
 
 		// Need to set this BG from code so we can make it just repeat vertically
-		findViewById(R.id.search_results_list_shadow).setBackgroundDrawable(LayoutUtils.getDividerDrawable(this));
+		ImageView sideShadow = Ui.findView(this, R.id.search_results_list_shadow);
+		sideShadow.setImageDrawable(LayoutUtils.getDividerDrawable(this));
 
 		// Load initial data, if it already exists (aka, screen rotated)
 		if (Db.getHotelSearch().getSearchResponse() != null) {
