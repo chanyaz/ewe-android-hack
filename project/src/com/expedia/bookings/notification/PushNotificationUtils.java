@@ -217,9 +217,11 @@ public class PushNotificationUtils {
 	 */
 	private static int getDestinationArgNum(String locKey) {
 		if (locKey.equals("S_Push_baggage_BAGGAGE")) {
+			//No destination in args for this message
 			return -1;
 		}
 		else if (locKey.equals("S_Push_flight_from_CITY_to_CITY_cancelled")) {
+			//This one is like Fright from <arg1> to <arg2> is cancelled, we want destination so we go index 1
 			return 1;
 		}
 		else {
@@ -405,6 +407,8 @@ public class PushNotificationUtils {
 					R.string.S_Push_flight_CITY_departs_in_HOUR_MINUTES);
 			sLocStringMap.put("S_Push_flight_CITY_departs_in_MINUTES", R.string.S_Push_flight_CITY_departs_in_MINUTES);
 			sLocStringMap.put("S_Push_flight_CITY_gate_GATE", R.string.S_Push_flight_CITY_gate_GATE);
+			sLocStringMap.put("S_Push_flight_from_CITY_to_CITY_cancelled",
+					R.string.S_Push_flight_from_CITY_to_CITY_cancelled);
 		}
 		else {
 			//Older phones cant wrap notifications so we use shorter strings.
@@ -483,11 +487,12 @@ public class PushNotificationUtils {
 			sLocStringMap.put("S_Push_flight_CITY_departs_in_MINUTES",
 					R.string.S_Push_flight_CITY_departs_in_MINUTES_short);
 			sLocStringMap.put("S_Push_flight_CITY_gate_GATE", R.string.S_Push_flight_CITY_gate_GATE_short);
+			sLocStringMap.put("S_Push_flight_from_CITY_to_CITY_cancelled",
+					R.string.S_Push_flight_from_CITY_to_CITY_cancelled_short);
 		}
 
 		//These are the same for both versions...
-		sLocStringMap.put("S_Push_flight_from_CITY_to_CITY_cancelled",
-				R.string.S_Push_flight_from_CITY_to_CITY_cancelled);
+
 		sLocStringMap.put("S_Push_baggage_BAGGAGE", R.string.S_Push_baggage_BAGGAGE);
 	}
 

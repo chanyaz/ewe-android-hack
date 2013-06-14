@@ -2490,6 +2490,8 @@
     <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE_short">Departing %2$s hour %3$s minutes early from gate %4$s.</string>
     <!-- Your flight to _ is now departing _ hours _ minutes early from gate _  TEMPLATE (short version) -->
     <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE_short">Departing %2$s hours %3$s minutes early from gate %4$s.</string>
+    <!-- Your flight from _ to _ has been cancelled TEMPLATE (short version) -->
+    <string name="S_Push_flight_from_CITY_to_CITY_cancelled_short">Flight from %1$s is cancelled.</string>
     <!-- Your flight to _ departs in _ hour TEMPLATE (short version) -->
     <string name="S_Push_flight_CITY_departs_in_HOUR_short">Departs in %2$s hour.</string>
     <!-- Your flight to _ departs in _ hours TEMPLATE (short version) -->
