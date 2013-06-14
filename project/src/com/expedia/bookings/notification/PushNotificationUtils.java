@@ -167,7 +167,7 @@ public class PushNotificationUtils {
 					if (TextUtils.isEmpty(destination)) {
 						destination = StrUtils.getWaypointCityOrCode(leg.getLastWaypoint());
 					}
-					
+
 					String airline = leg.getAirlinesFormatted();
 					String title;
 					if (AndroidUtils.getSdkVersion() >= 14) {
@@ -216,10 +216,10 @@ public class PushNotificationUtils {
 	 * @return loc argument index of destination string, or negative if no destination argument
 	 */
 	private static int getDestinationArgNum(String locKey) {
-		if (locKey == "S_Push_baggage_BAGGAGE") {
+		if (locKey.equals("S_Push_baggage_BAGGAGE")) {
 			return -1;
 		}
-		else if (locKey == "S_Push_flight_from_CITY_to_CITY_cancelled") {
+		else if (locKey.equals("S_Push_flight_from_CITY_to_CITY_cancelled")) {
 			return 1;
 		}
 		else {
