@@ -187,6 +187,8 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 
 		setContentView(R.layout.activity_search_results_fragment);
 
+		getWindow().setBackgroundDrawable(null);
+
 		mHotelMapFragment = Ui.findSupportFragment(this, getString(R.string.tag_hotel_map));
 		mHotelListFragment = Ui.findSupportFragment(this, getString(R.string.tag_hotel_list));
 		mMiniDetailsFragment = Ui.findSupportFragment(this, getString(R.string.tag_mini_details));
@@ -692,7 +694,6 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 				ft.setCustomAnimations(R.anim.fragment_slide_left_enter, R.anim.fragment_slide_left_exit,
 						R.anim.fragment_slide_right_enter, R.anim.fragment_slide_right_exit);
 			}
-			ft.hide(fm.findFragmentByTag(getString(R.string.tag_hotel_map)));
 			ft.remove(fm.findFragmentByTag(getString(R.string.tag_mini_details)));
 			ft.add(R.id.fragment_details, mHotelDetailsFragment, getString(R.string.tag_details));
 			ft.addToBackStack(null);
