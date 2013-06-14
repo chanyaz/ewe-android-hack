@@ -89,7 +89,7 @@ public class AboutUtils {
 				actions.get(which).run();
 			}
 		});
-		builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				if (onDismiss != null) {
 					onDismiss.run();
@@ -119,7 +119,7 @@ public class AboutUtils {
 			builder = new AlertDialog.Builder(mActivity, R.style.LightDialog);
 		}
 		builder.setMessage(R.string.dialog_message_launch_expedia_mobile_site);
-		builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				if (onDismiss != null) {

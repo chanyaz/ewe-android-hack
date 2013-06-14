@@ -88,7 +88,7 @@ public class CalendarDialogFragment extends DialogFragment {
 				notifyDateChangedListener();
 			}
 		});
-		builder.setNegativeButton(android.R.string.cancel, null);
+		builder.setNegativeButton(R.string.cancel, null);
 
 		Dialog dialog = builder.create();
 		dialog.setCanceledOnTouchOutside(true);

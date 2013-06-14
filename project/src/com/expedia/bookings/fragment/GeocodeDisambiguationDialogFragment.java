@@ -57,7 +57,7 @@ public class GeocodeDisambiguationDialogFragment extends DialogFragment {
 				mListener.onLocationPicked(mAddresses.get(which));
 			}
 		});
-		builder.setNegativeButton(android.R.string.cancel, new Dialog.OnClickListener() {
+		builder.setNegativeButton(R.string.cancel, new Dialog.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				mListener.onGeocodeDisambiguationFailure();
 			}

@@ -884,7 +884,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 					notifySearchLocationFound();
 				}
 			});
-			builder.setNegativeButton(android.R.string.cancel, new Dialog.OnClickListener() {
+			builder.setNegativeButton(R.string.cancel, new Dialog.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
 					simulateErrorResponse(getString(R.string.NoGeocodingResults, getCurrentSearchParams().getQuery()));
@@ -907,7 +907,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 					SocialUtils.openSite(PhoneSearchActivity.this, error.getExtra("url"));
 				}
 			});
-			builder.setNegativeButton(android.R.string.cancel, null);
+			builder.setNegativeButton(R.string.cancel, null);
 			return builder.create();
 		}
 		case DIALOG_ENABLE_LOCATIONS: {
@@ -922,7 +922,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 					mStartSearchOnResume = true;
 				}
 			});
-			builder.setNegativeButton(android.R.string.cancel, null);
+			builder.setNegativeButton(R.string.cancel, null);
 			return builder.create();
 		}
 		case DIALOG_INVALID_SEARCH_RANGE:{

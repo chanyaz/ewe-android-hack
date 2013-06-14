@@ -89,7 +89,7 @@ public class GuestsDialogFragment extends DialogFragment {
 
 		// Setup button listeners
 		builder.setPositiveButton(R.string.search, mOkButtonClickListener);
-		builder.setNegativeButton(android.R.string.cancel, null);
+		builder.setNegativeButton(R.string.cancel, null);
 
 		AlertDialog dialog = builder.create();
 		dialog.setCanceledOnTouchOutside(true);

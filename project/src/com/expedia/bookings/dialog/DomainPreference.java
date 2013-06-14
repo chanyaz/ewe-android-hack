@@ -126,7 +126,7 @@ public class DomainPreference extends ListPreference {
 					Toast.makeText(mContext, R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show();
 				}
 			});
-			builder.setNegativeButton(android.R.string.cancel, new OnClickListener() {
+			builder.setNegativeButton(R.string.cancel, new OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					setSelectedOption(mPreviouslySelectedOption);
