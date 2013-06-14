@@ -1047,7 +1047,7 @@ public class HotelsRobotHelper {
 		delay();
 
 		//Select top flight in list.
-		mSolo.clickInList(2);
+		mSolo.clickInList(2, 2);
 
 		//Confirm flight selection
 		//and advance to booking
