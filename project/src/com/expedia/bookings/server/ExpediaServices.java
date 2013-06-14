@@ -1215,11 +1215,11 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("limit", Integer.toString(number)));
 		query.add(new BasicNameValuePair("offset", Integer.toString(pageNumber * number)));
 
-		query.add(new BasicNameValuePair("HotelFilter", "ProductId:" + property.getPropertyId()));
+		query.add(new BasicNameValuePair("Filter", "ProductId:" + property.getPropertyId()));
 
 		String localesString = PointOfSale.getFormattedLanguageCodes(languages);
 
-		query.add(new BasicNameValuePair("HotelFilter", "ContentLocale:" + localesString));
+		query.add(new BasicNameValuePair("Filter", "ContentLocale:" + localesString));
 
 		// emulate the expedia.com esktop website way of displaying reviews
 		switch (sort) {
@@ -1227,11 +1227,11 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("Sort", "SubmissionTime:desc"));
 			break;
 		case HIGHEST_RATING_FIRST:
-			query.add(new BasicNameValuePair("HotelFilter", "Rating:gte:3"));
+			query.add(new BasicNameValuePair("Filter", "Rating:gte:3"));
 			query.add(new BasicNameValuePair("Sort", "Rating:desc,SubmissionTime:desc"));
 			break;
 		case LOWEST_RATING_FIRST:
-			query.add(new BasicNameValuePair("HotelFilter", "Rating:lte:2"));
+			query.add(new BasicNameValuePair("Filter", "Rating:lte:2"));
 			query.add(new BasicNameValuePair("Sort", "Rating:asc,SubmissionTime:desc"));
 			break;
 		}
@@ -1253,12 +1253,12 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("passkey", BAZAAR_VOICE_API_TOKEN));
 		query.add(new BasicNameValuePair("limit", "1"));
 
-		query.add(new BasicNameValuePair("HotelFilter", "ProductId:" + property.getPropertyId()));
+		query.add(new BasicNameValuePair("Filter", "ProductId:" + property.getPropertyId()));
 
 		List<String> languages = Arrays.asList(PointOfSale.getPointOfSale().getReviewLanguages());
 		String localesString = PointOfSale.getFormattedLanguageCodes(languages);
 
-		query.add(new BasicNameValuePair("HotelFilter", "ContentLocale:" + localesString));
+		query.add(new BasicNameValuePair("Filter", "ContentLocale:" + localesString));
 
 		query.add(new BasicNameValuePair("FilteredStats", "Reviews"));
 
