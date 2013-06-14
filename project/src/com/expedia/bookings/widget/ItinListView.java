@@ -86,7 +86,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	private int mScrollState = SCROLL_STATE_IDLE;
 	private int mDetailPosition = -1;
-	private int mOriginalScrollY;
+	private int mOriginalViewTop;
 	private boolean mScrollToReleventOnDataSetChange;
 
 	private int mExpandedCardHeight;
@@ -196,15 +196,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 		registerDataSetObserver();
 		mAdapter.syncWithManager();
-	}
-
-	@Override
-	public void onWindowFocusChanged(boolean hasWindowFocus) {
-		final int scrollY = getScrollY();
-
-		super.onWindowFocusChanged(hasWindowFocus);
-
-		scrollTo(0, scrollY);
 	}
 
 	@Override
@@ -596,9 +587,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			return;
 		}
 
-		if (synchronizedHideDetails(animate)) {
-			mModeSwitchSemaphore.release();
-		}
+		synchronizedHideDetails(animate);
 	}
 
 	/**
@@ -609,6 +598,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	 */
 	private boolean synchronizedHideDetails(boolean animate) {
 		if (mDetailPosition < 0 || mDetailsCard == null) {
+			mModeSwitchSemaphore.release();
 			return true;
 		}
 
@@ -620,14 +610,23 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		removeFooterView(mFooterView);
 		mFooterView = null;
 
-		final int startY = getScrollY();
-		final int stopY = mOriginalScrollY;
+		Animator set = buildContractAnimatorSet();
+		set.addListener(mModeSwitchSemListener);
+		if (!animate) {
+			set.setDuration(0);
+		}
+		set.start();
+		return false;
+	}
 
+	private Animator buildContractAnimatorSet() {
 		ValueAnimator resizeAnimator = ResizeAnimator.buildResizeAnimator(mDetailsCard, mExpandedCardOriginalHeight);
 		resizeAnimator.addUpdateListener(new AnimatorUpdateListener() {
 			@Override
-			public void onAnimationUpdate(ValueAnimator arg0) {
-				scrollTo(0, (int) (((stopY - startY) * arg0.getAnimatedFraction()) + startY));
+			public void onAnimationUpdate(ValueAnimator animator) {
+				// We are animating the top offset of the detail card from 0 to mOriginalViewTop
+				int offset = (int) (mOriginalViewTop * animator.getAnimatedFraction());
+				setSelectionFromTop(mDetailPosition, offset);
 				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
 			}
 		});
@@ -637,10 +636,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		set.playTogether(resizeAnimator, detailCollapseAnim);
 
 		set.addListener(new AnimatorListenerShort() {
-
 			@Override
-			public void onAnimationEnd(Animator arg0) {
-				scrollTo(0, stopY);
+			public void onAnimationEnd(Animator animator) {
+				setSelectionFromTop(mDetailPosition, mOriginalViewTop);
 				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
 				mDetailsCard.getLayoutParams().height = mExpandedCardOriginalHeight;
 				mDetailsCard.requestLayout();
@@ -648,15 +646,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 				clearDetailView();
 				invalidateViews();
 			}
-
 		});
 
-		set.addListener(mModeSwitchSemListener);
-		if (!animate) {
-			set.setDuration(0);
-		}
-		set.start();
-		return false;
+		return set;
 	}
 
 	public void showDetails(String id, boolean animate) {
@@ -687,9 +679,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			return;
 		}
 
-		if (synchronizedShowDetails(position, animate)) {
-			mModeSwitchSemaphore.release();
-		}
+		synchronizedShowDetails(position, animate);
 	}
 
 	/**
@@ -704,6 +694,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		int lastViewPos = getCount() - 1;
 		int firstVisiblePos = getFirstVisiblePosition();
 		int lastVisiblePos = getLastVisiblePosition();
+		mExpandedCardHeight = Math.max(mExpandedCardHeight, getHeight());
 
 		// If position is somewhere offscreen, the view for this row won't have been created yet.
 		// In this case, we need to scroll to a visible position first, and _then_ expand it.
@@ -718,54 +709,20 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			return false;
 		}
 
-		View view = getFreshDetailView(position);
-		if (!(view instanceof ItinCard)) {
-			return true;
-		}
-
-		mDetailsCard = (ItinCard) view;
-		if (mDetailsCard == null || !mDetailsCard.hasDetails()) {
-			return true;
-		}
-
-		mDetailPosition = position;
-		mMode = MODE_DETAIL;
-		setSelectedCardId(mAdapter.getItem(position).getId());
-		if (mOnListModeChangedListener != null) {
-			mOnListModeChangedListener.onListModeChanged(mMode);
-		}
-
-		mExpandedCardHeight = Math.max(mExpandedCardHeight, getHeight());
-		mExpandedCardOriginalHeight = mDetailsCard.getHeight();
-		mOriginalScrollY = getScrollY();
-
-		final int startY = getScrollY();
-		final int stopY = mDetailsCard.getTop();
-
-		ValueAnimator resizeAnimator = ResizeAnimator.buildResizeAnimator(mDetailsCard, mExpandedCardHeight);
-		if (AndroidUtils.getSdkVersion() >= 11) {
-			resizeAnimator.addUpdateListener(new AnimatorUpdateListener() {
-				@Override
-				public void onAnimationUpdate(ValueAnimator arg0) {
-					scrollTo(0, (int) (((stopY - startY) * arg0.getAnimatedFraction()) + startY));
-					onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
-				}
-
-			});
-		}
-		else {
+		// On API < 11, we won't animate the scrolling. We'll just move there right away.
+		if (AndroidUtils.getSdkVersion() < 11) {
 			// If our expanding views are at the bottom of the list,
 			// we need to add a footer view to make room for the expanded view on 2.x.
-			setSelectionFromTop(mDetailPosition, 0);
+			setSelectionFromTop(position, 0);
 		}
 
 		// If we are not yet scrolled into position, or all rows are on screen, add our footer view.
-		if (firstVisiblePos != mDetailPosition || ((getCount() - 1) == (lastVisiblePos - firstVisiblePos))) {
+		if (firstVisiblePos != position || ((getCount() - 1) == (lastVisiblePos - firstVisiblePos))) {
 			if (mFooterView == null) {
 				mFooterView = new FooterView(getContext(), mExpandedCardHeight);
 				addFooterView(mFooterView);
 			}
-			if (firstVisiblePos != mDetailPosition && AndroidUtils.getSdkVersion() < 11) {
+			if (firstVisiblePos != position && AndroidUtils.getSdkVersion() < 11) {
 				//If we aren't scrolled to where we need to be, we continue calling showDetails until we are
 				postDelayed(new Runnable() {
 					public void run() {
@@ -786,29 +743,73 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			return false;
 		}
 
-		AnimatorSet set = new AnimatorSet();
-		AnimatorSet detailExpandAnim = mDetailsCard.expand(false);
-		set.playTogether(resizeAnimator, detailExpandAnim);
-		set.addListener(new AnimatorListenerShort() {
-			@Override
-			public void onAnimationStart(Animator arg0) {
-				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
-			}
+		View view = getFreshDetailView(position);
+		if (!(view instanceof ItinCard)) {
+			mModeSwitchSemaphore.release();
+			return true;
+		}
 
-			@Override
-			public void onAnimationEnd(Animator arg0) {
-				mDetailsCard.getLayoutParams().height = mExpandedCardHeight;
-				mDetailsCard.requestLayout();
-				trackOmnitureItinExpanded(mDetailsCard);
-			}
-		});
+		mDetailsCard = (ItinCard) view;
+		if (mDetailsCard == null || !mDetailsCard.hasDetails()) {
+			mModeSwitchSemaphore.release();
+			return true;
+		}
 
+		mMode = MODE_DETAIL;
+		mDetailPosition = position;
+		setSelectedCardId(mAdapter.getItem(position).getId());
+		if (mOnListModeChangedListener != null) {
+			mOnListModeChangedListener.onListModeChanged(mMode);
+		}
+
+		mExpandedCardOriginalHeight = mDetailsCard.getHeight();
+		mOriginalViewTop = mDetailsCard.getTop();
+
+		Animator set = buildExpandAnimatorSet();
 		set.addListener(mModeSwitchSemListener);
 		if (!animate) {
 			set.setDuration(0);
 		}
 		set.start();
 		return false;
+	}
+
+	private Animator buildExpandAnimatorSet() {
+		ValueAnimator resizeAnimator = ResizeAnimator.buildResizeAnimator(mDetailsCard, mExpandedCardHeight);
+		if (AndroidUtils.getSdkVersion() >= 11) {
+			resizeAnimator.addUpdateListener(new AnimatorUpdateListener() {
+				@Override
+				public void onAnimationUpdate(ValueAnimator animator) {
+					// We are animating the top offset of the detail card from mOriginalViewTop to 0
+					int offset = (int) (mOriginalViewTop * (1f - animator.getAnimatedFraction()));
+					setSelectionFromTop(mDetailPosition, offset);
+					onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
+				}
+
+			});
+		}
+
+		AnimatorSet expandAnimator = mDetailsCard.expand(false);
+
+		AnimatorSet set = new AnimatorSet();
+		set.playTogether(resizeAnimator, expandAnimator);
+		set.addListener(new AnimatorListenerShort() {
+			@Override
+			public void onAnimationStart(Animator animator) {
+				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
+			}
+
+			@Override
+			public void onAnimationEnd(Animator animator) {
+				setSelectionFromTop(mDetailPosition, 0);
+				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
+				mDetailsCard.getLayoutParams().height = mExpandedCardHeight;
+				mDetailsCard.requestLayout();
+				trackOmnitureItinExpanded(mDetailsCard);
+			}
+		});
+
+		return set;
 	}
 
 	private void registerDataSetObserver() {
@@ -900,8 +901,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-		final int count = getChildCount();
-		for (int i = 0; i < count; i++) {
+		for (int i = 0; i < visibleItemCount; i++) {
 			getChildAt(i).invalidate();
 		}
 
