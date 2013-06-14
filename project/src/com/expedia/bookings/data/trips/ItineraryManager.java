@@ -98,6 +98,8 @@ public class ItineraryManager implements JSONable {
 	 * single guest trip.
 	 */
 	public void addGuestTrip(String email, String tripNumber) {
+		Log.i(LOGGING_TAG, "Adding guest trip, email=" + email + " tripNum=" + tripNumber);
+
 		if (mTrips == null) {
 			Log.w(LOGGING_TAG, "ItineraryManager - Attempt to add guest trip, mTrips == null. Init");
 			mTrips = new HashMap<String, Trip>();
@@ -127,6 +129,8 @@ public class ItineraryManager implements JSONable {
 							+ tripNumber);
 		}
 		else {
+			Log.i(LOGGING_TAG, "Removing guest trip, tripNum=" + tripNumber);
+
 			mTrips.remove(tripNumber);
 
 			// Do not inform of removal if it was never valid (since we never informed of adding in the first place)
@@ -854,6 +858,8 @@ public class ItineraryManager implements JSONable {
 
 		if (trip == null) {
 			if (doSyncIfNotFound) {
+				Log.i(LOGGING_TAG, "Deep refreshing trip " + tripNumber + ", trying a full refresh just in case.");
+
 				// We'll try to refresh the user to find the trip
 				mSyncOpQueue.add(new Task(Operation.REFRESH_USER));
 
@@ -867,6 +873,8 @@ public class ItineraryManager implements JSONable {
 			}
 		}
 		else {
+			Log.i(LOGGING_TAG, "Deep refreshing trip " + tripNumber);
+
 			mSyncOpQueue.add(new Task(Operation.DEEP_REFRESH_TRIP, trip));
 		}
 
@@ -882,6 +890,8 @@ public class ItineraryManager implements JSONable {
 	}
 
 	public boolean startPushNotificationSync() {
+		Log.i(LOGGING_TAG, "Starting push notification sync");
+
 		mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
 		startSyncIfNotInProgress();
 		return true;
@@ -889,6 +899,8 @@ public class ItineraryManager implements JSONable {
 
 	private void startSyncIfNotInProgress() {
 		if (!isSyncing()) {
+			Log.i(LOGGING_TAG, "Starting a sync...");
+
 			mSyncTask = new SyncTask();
 			mSyncTask.execute();
 		}
@@ -1208,6 +1220,9 @@ public class ItineraryManager implements JSONable {
 						if (trip.isGuest() && trip.getLevelOfDetail() == LevelOfDetail.NONE) {
 							for (ServerError error : response.getErrors()) {
 								if (error.getErrorCode() == ServerError.ErrorCode.INVALID_INPUT) {
+									Log.w(LOGGING_TAG,
+											"Tried to load guest trip, but failed, so we're removing it.  Email="
+													+ trip.getGuestEmailAddress() + " tripNum=" + trip.getTripNumber());
 									mTrips.remove(trip.getTripNumber());
 								}
 							}
@@ -1224,6 +1239,9 @@ public class ItineraryManager implements JSONable {
 					Trip updatedTrip = response.getTrip();
 
 					if (BookingStatus.filterOut(updatedTrip.getBookingStatus())) {
+						Log.w(LOGGING_TAG, "Removing a trip because it's being filtered by booking status.  tripNum="
+								+ updatedTrip.getTripNumber() + " status=" + updatedTrip.getBookingStatus());
+
 						gatherAncillaryData = false;
 
 						Trip removeTrip = mTrips.remove(updatedTrip.getTripNumber());
