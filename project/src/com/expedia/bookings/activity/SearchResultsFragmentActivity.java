@@ -1032,7 +1032,12 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	};
 
 	private void loadSearchResponse(HotelSearchResponse response, boolean initialLoad) {
-		Db.getHotelSearch().setSearchResponse(response);
+		if (response == null || response.hasErrors()) {
+			Db.getHotelSearch().resetSearchData();
+		}
+		else {
+			Db.getHotelSearch().setSearchResponse(response);
+		}
 
 		if (response == null || response.getPropertiesCount() == 0) {
 			mHotelListFragment.updateStatus(LayoutUtils.noHotelsFoundMessage(mContext), false);
