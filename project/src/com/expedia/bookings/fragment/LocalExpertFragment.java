@@ -32,6 +32,9 @@ public class LocalExpertFragment extends Fragment {
 
 	private static final int MSG_ADVANCE = 0;
 
+	private static final int START_DELAY = 500;
+	private static final int ADVANCE_DELAY = 5000;
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -102,7 +105,7 @@ public class LocalExpertFragment extends Fragment {
 			@Override
 			public void onGlobalLayout() {
 				view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-				mHandler.sendMessageDelayed(Message.obtain(mHandler, MSG_ADVANCE), 500);
+				mHandler.sendMessageDelayed(Message.obtain(mHandler, MSG_ADVANCE), START_DELAY);
 			}
 		});
 
@@ -118,7 +121,7 @@ public class LocalExpertFragment extends Fragment {
 		mLargeAttractionBubbleView.setAttraction(attractions.get(++mCurrentAttractionIndex % size));
 		mSmallAttractionBubbleView.setAttraction(attractions.get(++mCurrentAttractionIndex % size));
 
-		mHandler.sendMessageDelayed(Message.obtain(mHandler, MSG_ADVANCE), 5000);
+		mHandler.sendMessageDelayed(Message.obtain(mHandler, MSG_ADVANCE), ADVANCE_DELAY);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
