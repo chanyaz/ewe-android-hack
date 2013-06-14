@@ -1238,9 +1238,22 @@ public class ItineraryManager implements JSONable {
 				else {
 					Trip updatedTrip = response.getTrip();
 
-					if (BookingStatus.filterOut(updatedTrip.getBookingStatus())) {
+					BookingStatus bookingStatus = updatedTrip.getBookingStatus();
+					if (bookingStatus == BookingStatus.SAVED && trip.getLevelOfDetail() == LevelOfDetail.NONE
+							&& trip.getLastCachedUpdateMillis() == 0) {
+						// Normally we'd filter this out; but there is a special case wherein a guest trip is
+						// still in a SAVED state right after booking (when we'd normally add it).  So we give
+						// any guest trip a one-refresh; if we see that it's already been tried once, we let it
+						// die a normal death
+						Log.w(LOGGING_TAG, "Would have removed guest trip, but it is SAVED and has never been updated.");
+
+						trip.markUpdated(false);
+
+						gatherAncillaryData = false;
+					}
+					else if (BookingStatus.filterOut(updatedTrip.getBookingStatus())) {
 						Log.w(LOGGING_TAG, "Removing a trip because it's being filtered by booking status.  tripNum="
-								+ updatedTrip.getTripNumber() + " status=" + updatedTrip.getBookingStatus());
+								+ updatedTrip.getTripNumber() + " status=" + bookingStatus);
 
 						gatherAncillaryData = false;
 
