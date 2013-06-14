@@ -418,10 +418,18 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 					}
 				}
 
-				if (tripExists) {
+				//get the new position of the expanded card.
+				mDetailPosition = mAdapter.getPosition(expandedCardId);
+
+				if (tripExists && mDetailPosition >= 0) {
 					mDetailsCard = (ItinCard) getFreshDetailView(mDetailPosition);
-					mDetailsCard.expand(false);
-					mDetailsCard.requestLayout();
+					if (mDetailsCard != null) {
+						mDetailsCard.expand(false);
+						mDetailsCard.requestLayout();
+					}
+					else {
+						hideDetails(true);
+					}
 				}
 				else {
 					hideDetails(true);
