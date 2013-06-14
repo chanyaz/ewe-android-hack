@@ -25,6 +25,10 @@ public class DateTime implements JSONable, Comparable<DateTime> {
 	// Cached for speed
 	private Calendar mCal;
 
+	public static DateTime newInstance(Calendar cal) {
+		return new DateTime(cal.getTimeInMillis(), cal.getTimeZone().getOffset(cal.getTimeInMillis()));
+	}
+
 	public DateTime() {
 		// Empty constructor for JSONable
 	}

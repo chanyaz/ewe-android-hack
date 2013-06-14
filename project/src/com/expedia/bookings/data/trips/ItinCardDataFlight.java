@@ -66,8 +66,7 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 	@Override
 	public DateTime getStartDate() {
 		if (mStartDate == null) {
-			Calendar cal = getFlightLeg().getFirstWaypoint().getMostRelevantDateTime();
-			mStartDate = new DateTime(cal.getTimeInMillis(), cal.getTimeZone().getOffset(cal.getTimeInMillis()));
+			mStartDate = DateTime.newInstance(getFlightLeg().getFirstWaypoint().getMostRelevantDateTime());
 		}
 		return mStartDate;
 	}
@@ -75,8 +74,7 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 	@Override
 	public DateTime getEndDate() {
 		if (mEndDate == null) {
-			Calendar cal = getFlightLeg().getLastWaypoint().getMostRelevantDateTime();
-			mEndDate = new DateTime(cal.getTimeInMillis(), cal.getTimeZone().getOffset(cal.getTimeInMillis()));
+			mEndDate = DateTime.newInstance(getFlightLeg().getLastWaypoint().getMostRelevantDateTime());
 		}
 		return mEndDate;
 	}
