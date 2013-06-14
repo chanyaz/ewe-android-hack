@@ -259,7 +259,8 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name="com.expedia.bookings.activity.LocalExpertActivity"
-            android:theme="@style/Theme" />
+            android:theme="@style/Theme"
+            android:screenOrientation="portrait"/>
 
         <!-- Testing -->
         <activity android:name=".test.activity.CalendarDatePickerTestActivity" />
