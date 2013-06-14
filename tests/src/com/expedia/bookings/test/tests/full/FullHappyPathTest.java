@@ -41,13 +41,6 @@ public class FullHappyPathTest extends ActivityInstrumentationTestCase2<SearchAc
 		mUser.setAirportsToRandomUSAirports();
 	}
 
-	void rotateFilter() {
-		mSolo.clickOnText(mRes.getString(R.string.filter));
-		mDriver.landscape();
-		mDriver.portrait();
-		mSolo.goBack();
-	}
-
 	////////////////////////////////////////////////////////////////
 	// Test Driver 
 
