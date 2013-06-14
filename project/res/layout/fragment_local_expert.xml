@@ -1,66 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-	<LinearLayout
-		android:id="@+id/description_layout"
-		android:background="#9933CC"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_alignParentBottom="true"
-		android:orientation="vertical"
-		android:gravity="center"
-		android:padding="16dp">
+    <ImageView
+        android:id="@+id/background_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"/>
 
-		<ImageView
-			android:id="@+id/close_image_view"
-			android:background="@drawable/list_selector_holo_dark"
-			android:layout_width="48dp"
-			android:layout_height="48dp"
-			android:layout_gravity="right"
-			android:clickable="true"
-			android:scaleType="centerInside"
-			android:src="@drawable/ic_local_expert_close"/>
+    <LinearLayout
+        android:id="@+id/description_layout"
+        android:background="#302B3C"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="16dp">
 
-		<com.expedia.bookings.widget.TextView
-			android:id="@+id/title_text_view"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:gravity="center"
-			android:textSize="32sp"
-			textAllCaps="true"/>
+        <ImageView
+            android:id="@+id/close_image_view"
+            android:background="@drawable/list_selector_holo_dark"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="right"
+            android:clickable="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_local_expert_close"/>
 
-		<com.expedia.bookings.widget.TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="16dp"
-			android:gravity="center"
-			android:text="@string/local_expert_description"
-			android:textSize="16sp"/>
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/title_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="32sp"
+            textAllCaps="true"/>
 
-		<Button
-			android:id="@+id/call_button"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="32dp"
-			android:text="@string/local_expert_call_button_text"
-			android:textSize="18sp"/>
+        <com.expedia.bookings.widget.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="@string/local_expert_description"
+            android:textSize="16sp"/>
 
-	</LinearLayout>
+        <Button
+            android:id="@+id/call_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/local_expert_call_button_text"
+            android:textSize="18sp"/>
 
-	<View
-		android:id="@+id/icon_anchor_view"
-		android:layout_width="0dp"
-		android:layout_height="36dp"
-		android:layout_alignTop="@+id/description_layout"
-		android:layout_centerHorizontal="true"/>
+    </LinearLayout>
 
-	<ImageView
-		android:id="@+id/icon_image_view"
-		android:background="#0099CC"
-		android:layout_width="72dp"
-		android:layout_height="72dp"
-		android:layout_alignBottom="@+id/icon_anchor_view"
-		android:layout_centerHorizontal="true"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/description_layout"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:orientation="horizontal"
+            android:gravity="right">
+
+            <com.expedia.bookings.widget.AttractionBubbleView
+                android:id="@+id/large_attraction_bubble_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:orientation="horizontal">
+
+            <com.expedia.bookings.widget.AttractionBubbleView
+                android:id="@+id/small_attraction_bubble_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/icon_anchor_view"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_alignTop="@+id/description_layout"
+        android:layout_centerHorizontal="true"/>
+
+    <ImageView
+        android:id="@+id/icon_image_view"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_alignBottom="@+id/icon_anchor_view"
+        android:layout_centerHorizontal="true"
+        android:scaleType="centerInside"/>
 </RelativeLayout>

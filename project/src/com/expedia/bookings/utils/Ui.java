@@ -3,6 +3,7 @@ package com.expedia.bookings.utils;
 import android.support.v4.app.CompatFragmentActivity;
 import android.support.v4.app.Fragment;
 import android.view.View;
+import android.view.View.MeasureSpec;
 
 /**
  * Adds compatibility library fragment support to Ui.
@@ -68,5 +69,46 @@ public class Ui extends com.mobiata.android.util.Ui {
 		if (view != null) {
 			view.setEnabled(enabled);
 		}
+	}
+
+	public static int[] measureRatio(int widthMeasureSpec, int heightMeasureSpec, double aspectRatio) {
+		int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+		int widthSize = widthMode == MeasureSpec.UNSPECIFIED ? Integer.MAX_VALUE : MeasureSpec
+				.getSize(widthMeasureSpec);
+		int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+		int heightSize = heightMode == MeasureSpec.UNSPECIFIED ? Integer.MAX_VALUE : MeasureSpec
+				.getSize(heightMeasureSpec);
+
+		int measuredWidth;
+		int measuredHeight;
+
+		if (heightMode == MeasureSpec.EXACTLY && widthMode == MeasureSpec.EXACTLY) {
+			measuredWidth = widthSize;
+			measuredHeight = heightSize;
+
+		}
+		else if (heightMode == MeasureSpec.EXACTLY) {
+			measuredWidth = (int) Math.min(widthSize, heightSize * aspectRatio);
+			measuredHeight = (int) (measuredWidth / aspectRatio);
+
+		}
+		else if (widthMode == MeasureSpec.EXACTLY) {
+			measuredHeight = (int) Math.min(heightSize, widthSize / aspectRatio);
+			measuredWidth = (int) (measuredHeight * aspectRatio);
+
+		}
+		else {
+			if (widthSize > heightSize * aspectRatio) {
+				measuredHeight = heightSize;
+				measuredWidth = (int) (measuredHeight * aspectRatio);
+			}
+			else {
+				measuredWidth = widthSize;
+				measuredHeight = (int) (measuredWidth / aspectRatio);
+			}
+
+		}
+
+		return new int[] { measuredWidth, measuredHeight };
 	}
 }

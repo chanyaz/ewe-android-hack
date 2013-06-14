@@ -3,7 +3,6 @@ package com.expedia.bookings.data.trips;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
-import java.util.List;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -496,7 +495,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				continue;
 			}
 
-			mItinCardDatas.add(i + 1, new ItinCardDataLocalExpert(data.getTripComponent()));
+			mItinCardDatas.add(i + 1, new ItinCardDataLocalExpert((TripHotel) data.getTripComponent()));
 
 			return;
 		}

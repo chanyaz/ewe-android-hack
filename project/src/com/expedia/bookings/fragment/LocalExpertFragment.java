@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LocalExpertSite;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.AttractionBubbleView;
 import com.mobiata.android.SocialUtils;
 
 public class LocalExpertFragment extends Fragment {
@@ -31,6 +32,9 @@ public class LocalExpertFragment extends Fragment {
 
 	// Views
 
+	private ImageView mBackgroundImageView;
+	private AttractionBubbleView mLargeAttractionBubbleView;
+	private AttractionBubbleView mSmallAttractionBubbleView;
 	private View mCloseView;
 	private ImageView mIconImageView;
 	private TextView mTitleTextView;
@@ -67,16 +71,21 @@ public class LocalExpertFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_local_expert, container, false);
 
+		mBackgroundImageView = Ui.findView(view, R.id.background_image_view);
+		mLargeAttractionBubbleView = Ui.findView(view, R.id.large_attraction_bubble_view);
+		mSmallAttractionBubbleView = Ui.findView(view, R.id.small_attraction_bubble_view);
 		mCloseView = Ui.findView(view, R.id.close_image_view);
 		mIconImageView = Ui.findView(view, R.id.icon_image_view);
 		mTitleTextView = Ui.findView(view, R.id.title_text_view);
 		mCallButton = Ui.findView(view, R.id.call_button);
 
 		// Set view values
-		if (mSite != null) {
-			mIconImageView.setImageResource(mSite.getCityIcon());
-			mTitleTextView.setText(getString(R.string.local_expert_title_TEMPLATE, mSite.getCity()));
-		}
+		mBackgroundImageView.setImageResource(mSite.getBackgroundResId());
+		mIconImageView.setImageResource(mSite.getCityIcon());
+		mTitleTextView.setText(getString(R.string.local_expert_title_TEMPLATE, mSite.getCity()));
+
+		mLargeAttractionBubbleView.setAttraction(mSite.getAttractions().get(0));
+		mSmallAttractionBubbleView.setAttraction(mSite.getAttractions().get(1));
 
 		// Set view listeners
 		mCloseView.setOnClickListener(mOnClickListener);
