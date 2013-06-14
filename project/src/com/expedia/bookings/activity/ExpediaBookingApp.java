@@ -182,12 +182,12 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 				ExpediaServices services = new ExpediaServices(getApplicationContext());
 				WalletPromoResponse response = services.googleWalletPromotionEnabled();
+				boolean isNowEnabled = response != null && response.isEnabled();
 
-				if (walletPromoEnabled != response.isEnabled()) {
-					Log.i("Google Wallet promo went from \"" + walletPromoEnabled + "\" to \"" + response.isEnabled()
-							+ "\"");
+				if (walletPromoEnabled != isNowEnabled) {
+					Log.i("Google Wallet promo went from \"" + walletPromoEnabled + "\" to \"" + isNowEnabled + "\"");
 					SettingUtils.save(getApplicationContext(), WalletUtils.SETTING_SHOW_WALLET_COUPON,
-							response.isEnabled());
+							isNowEnabled);
 				}
 				else {
 					Log.d("Google Wallet promo enabled: " + walletPromoEnabled);
