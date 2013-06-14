@@ -10,6 +10,9 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,6 +20,9 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LocalExpertAttraction;
 import com.expedia.bookings.utils.Ui;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorSet;
+import com.nineoldandroids.animation.ObjectAnimator;
 
 public class AttractionBubbleView extends LinearLayout {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -58,28 +64,31 @@ public class AttractionBubbleView extends LinearLayout {
 		init(context, attrs);
 	}
 
-	public void setAttraction(LocalExpertAttraction attraction) {
-		mFirstLineTextView.setText(attraction.getFirstLine());
-		mSecondLineTextView.setText(attraction.getSecondLine());
-		mIconImageView.setImageResource(attraction.getIconLarge());
-	}
+	public void setAttraction(final LocalExpertAttraction attraction) {
+		AnimatorSet close = getCloseAnimatorSet();
+		close.addListener(new Animator.AnimatorListener() {
+			@Override
+			public void onAnimationStart(Animator animator) {
+			}
 
-	private void init(Context context, AttributeSet attrs) {
-		setWillNotDraw(false);
-		setOrientation(VERTICAL);
-		setGravity(Gravity.CENTER);
+			@Override
+			public void onAnimationEnd(Animator animator) {
+				mFirstLineTextView.setText(attraction.getFirstLine());
+				mSecondLineTextView.setText(attraction.getSecondLine());
+				mIconImageView.setImageResource(attraction.getIconLarge());
 
-		mPaint.setColor(0xFFF2E2D4);
-		mPaint.setStyle(Style.FILL);
+				getOpenAnimatorSet().start();
+			}
 
-		mShadowPaint.setColor(Color.BLACK);
-		mShadowPaint.setStyle(Style.FILL);
+			@Override
+			public void onAnimationCancel(Animator animator) {
+			}
 
-		inflate(context, R.layout.widget_attraction_bubble, this);
-
-		mFirstLineTextView = Ui.findView(this, R.id.first_line_text_view);
-		mSecondLineTextView = Ui.findView(this, R.id.second_line_text_view);
-		mIconImageView = Ui.findView(this, R.id.attraction_icon_image_view);
+			@Override
+			public void onAnimationRepeat(Animator animator) {
+			}
+		});
+		close.start();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -120,4 +129,52 @@ public class AttractionBubbleView extends LinearLayout {
 		canvas.drawBitmap(mShadowBitmap, 0, 0, mShadowPaint);
 		canvas.drawCircle(mHalfWidth, mHalfWidth, mRadius, mPaint);
 	}
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// PRIVATE METHODS
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	private void init(Context context, AttributeSet attrs) {
+		setWillNotDraw(false);
+		setOrientation(VERTICAL);
+		setGravity(Gravity.CENTER);
+
+		mPaint.setColor(0xFFF2E2D4);
+		mPaint.setStyle(Style.FILL);
+
+		mShadowPaint.setColor(Color.BLACK);
+		mShadowPaint.setStyle(Style.FILL);
+
+		inflate(context, R.layout.widget_attraction_bubble, this);
+
+		mFirstLineTextView = Ui.findView(this, R.id.first_line_text_view);
+		mSecondLineTextView = Ui.findView(this, R.id.second_line_text_view);
+		mIconImageView = Ui.findView(this, R.id.attraction_icon_image_view);
+	}
+
+	private AnimatorSet getCloseAnimatorSet() {
+		Animator scaleX = ObjectAnimator.ofFloat(this, "scaleX", 1, 0);
+		Animator scaleY = ObjectAnimator.ofFloat(this, "scaleY", 1, 0);
+		Animator alpha = ObjectAnimator.ofFloat(this, "alpha", 1, 0);
+
+		AnimatorSet animatorSet = new AnimatorSet();
+		animatorSet.playTogether(scaleX, scaleY, alpha);
+		animatorSet.setInterpolator(new DecelerateInterpolator());
+		animatorSet.setDuration(250);
+
+		return animatorSet;
+	};
+
+	private AnimatorSet getOpenAnimatorSet() {
+		Animator scaleX = ObjectAnimator.ofFloat(this, "scaleX", 0, 1);
+		Animator scaleY = ObjectAnimator.ofFloat(this, "scaleY", 0, 1);
+		Animator alpha = ObjectAnimator.ofFloat(this, "alpha", 0, 1);
+
+		AnimatorSet animatorSet = new AnimatorSet();
+		animatorSet.playTogether(scaleX, scaleY, alpha);
+		animatorSet.setInterpolator(new OvershootInterpolator());
+		animatorSet.setDuration(300);
+
+		return animatorSet;
+	};
 }
