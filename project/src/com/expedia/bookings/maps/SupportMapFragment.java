@@ -54,7 +54,7 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 		view.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
-				if (view.getHeight() > 0) {
+				if (view.getHeight() > 0 && view.getWidth() > 0) {
 					view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 
 					onMapLayout();
