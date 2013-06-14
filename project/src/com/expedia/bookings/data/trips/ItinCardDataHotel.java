@@ -174,11 +174,7 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 
 	public String getRelevantPhone() {
 		if (hasProperty()) {
-			if (!TextUtils.isEmpty(mProperty.getTollFreePhone())) {
-				return mProperty.getTollFreePhone();
-			}
-
-			return mProperty.getLocalPhone();
+			return mProperty.getRelevantPhone();
 		}
 		return null;
 	}

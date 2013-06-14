@@ -7,6 +7,8 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.TextUtils;
+
 import com.expedia.bookings.R;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -210,6 +212,13 @@ public class Property implements JSONable {
 
 	public void setTollFreePhone(String tollFreePhone) {
 		mTollFreePhone = tollFreePhone;
+	}
+
+	public String getRelevantPhone() {
+		if (TextUtils.isEmpty(mTollFreePhone)) {
+			return mLocalPhone;
+		}
+		return mTollFreePhone;
 	}
 
 	public boolean isAvailable() {
