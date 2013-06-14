@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import android.os.Bundle;
@@ -33,7 +34,7 @@ public class LocalExpertFragment extends Fragment {
 	private static final int MSG_ADVANCE = 0;
 
 	private static final int START_DELAY = 500;
-	private static final int ADVANCE_DELAY = 5000;
+	private static final int ADVANCE_DELAY = 2500;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
@@ -41,7 +42,9 @@ public class LocalExpertFragment extends Fragment {
 
 	private LocalExpertSite mSite;
 
-	private int mCurrentAttractionIndex = 0;
+	private AdvanceHandler mHandler = new AdvanceHandler(this);
+	private int mAdvanceIndex = 0;
+	private boolean mAdvanceStarted;
 
 	// Views
 
@@ -112,14 +115,21 @@ public class LocalExpertFragment extends Fragment {
 		return view;
 	}
 
-	private void advanceAttractions() {
+	public void advanceAttractions() {
 		final List<LocalExpertAttraction> attractions = mSite.getAttractions();
 		final int size = attractions.size();
 
-		mCurrentAttractionIndex = mCurrentAttractionIndex % size;
-
-		mLargeAttractionBubbleView.setAttraction(attractions.get(++mCurrentAttractionIndex % size));
-		mSmallAttractionBubbleView.setAttraction(attractions.get(++mCurrentAttractionIndex % size));
+		if (!mAdvanceStarted) {
+			mAdvanceStarted = true;
+			mLargeAttractionBubbleView.setAttraction(attractions.get(++mAdvanceIndex % size));
+			mSmallAttractionBubbleView.setAttraction(attractions.get(++mAdvanceIndex % size));
+		}
+		else if (mAdvanceIndex % 2 == 0) {
+			mLargeAttractionBubbleView.setAttraction(attractions.get(++mAdvanceIndex % size));
+		}
+		else {
+			mSmallAttractionBubbleView.setAttraction(attractions.get(++mAdvanceIndex % size));
+		}
 
 		mHandler.sendMessageDelayed(Message.obtain(mHandler, MSG_ADVANCE), ADVANCE_DELAY);
 	}
@@ -144,14 +154,24 @@ public class LocalExpertFragment extends Fragment {
 		}
 	};
 
-	private final Handler mHandler = new Handler() {
+	private static final class AdvanceHandler extends Handler {
+		private final WeakReference<LocalExpertFragment> mLocalExpertFragment;
+
+		public AdvanceHandler(LocalExpertFragment fragment) {
+			mLocalExpertFragment = new WeakReference<LocalExpertFragment>(fragment);
+		}
+
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case MSG_ADVANCE: {
-				advanceAttractions();
+				LocalExpertFragment fragment = mLocalExpertFragment.get();
+				if (fragment != null) {
+					fragment.advanceAttractions();
+				}
 			}
 			}
 		}
-	};
+
+	}
 }
