@@ -44,7 +44,6 @@ public class LocalExpertFragment extends Fragment {
 
 	private AdvanceHandler mHandler = new AdvanceHandler(this);
 	private int mAdvanceIndex = 0;
-	private boolean mAdvanceStarted;
 
 	// Views
 
@@ -119,8 +118,7 @@ public class LocalExpertFragment extends Fragment {
 		final List<LocalExpertAttraction> attractions = mSite.getAttractions();
 		final int size = attractions.size();
 
-		if (!mAdvanceStarted) {
-			mAdvanceStarted = true;
+		if (mAdvanceIndex == 0) {
 			mLargeAttractionBubbleView.setAttraction(attractions.get(++mAdvanceIndex % size));
 			mSmallAttractionBubbleView.setAttraction(attractions.get(++mAdvanceIndex % size));
 		}
