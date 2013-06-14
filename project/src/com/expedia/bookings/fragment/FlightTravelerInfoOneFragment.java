@@ -19,7 +19,6 @@ import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
 import com.expedia.bookings.section.SectionTravelerInfo;
-
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FocusViewRunnable;
 import com.expedia.bookings.utils.Ui;
