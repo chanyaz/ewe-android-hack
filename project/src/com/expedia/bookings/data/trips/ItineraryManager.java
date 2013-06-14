@@ -58,6 +58,8 @@ public class ItineraryManager implements JSONable {
 
 	private static final long UPDATE_CUTOFF = 1000 * 60; // At most once a minute
 
+	private static final String LOGGING_TAG = "ItineraryManager";
+
 	private static final ItineraryManager sManager = new ItineraryManager();
 
 	private ItineraryManager() {
@@ -97,7 +99,7 @@ public class ItineraryManager implements JSONable {
 	 */
 	public void addGuestTrip(String email, String tripNumber) {
 		if (mTrips == null) {
-			Log.w("ItineraryManager - Attempt to add guest trip, mTrips == null. Init");
+			Log.w(LOGGING_TAG, "ItineraryManager - Attempt to add guest trip, mTrips == null. Init");
 			mTrips = new HashMap<String, Trip>();
 		}
 
@@ -117,11 +119,12 @@ public class ItineraryManager implements JSONable {
 		Trip trip = mTrips.get(tripNumber);
 
 		if (trip == null) {
-			Log.w("Tried to remove a guest tripNumber that doesn't exist: " + tripNumber);
+			Log.w(LOGGING_TAG, "Tried to remove a guest tripNumber that doesn't exist: " + tripNumber);
 		}
 		else if (!trip.isGuest()) {
-			Log.w("Tried to remove a non-guest trip, DENIED because only the ItinManager is allowed to do that: "
-					+ tripNumber);
+			Log.w(LOGGING_TAG,
+					"Tried to remove a non-guest trip, DENIED because only the ItinManager is allowed to do that: "
+							+ tripNumber);
 		}
 		else {
 			mTrips.remove(tripNumber);
@@ -181,7 +184,8 @@ public class ItineraryManager implements JSONable {
 						}
 					}
 					else {
-						Log.d("PushNotifications returning the first flight in the itin list. Check Settings");
+						Log.d(LOGGING_TAG,
+								"PushNotifications returning the first flight in the itin list. Check Settings");
 						return (TripFlight) fData.getTripComponent();
 					}
 				}
@@ -277,7 +281,7 @@ public class ItineraryManager implements JSONable {
 	}
 
 	private void doClearData() {
-		Log.i("Clearing all data from ItineraryManager...");
+		Log.i(LOGGING_TAG, "Clearing all data from ItineraryManager...");
 
 		// Delete the file, so it can't be reloaded later
 		File file = mContext.getFileStreamPath(MANAGER_PATH);
@@ -299,7 +303,8 @@ public class ItineraryManager implements JSONable {
 			return;
 		}
 
-		Log.d("Informing the removal of " + mTrips.size() + " trips due to clearing of ItineraryManager...");
+		Log.d(LOGGING_TAG, "Informing the removal of " + mTrips.size()
+				+ " trips due to clearing of ItineraryManager...");
 
 		for (Trip trip : mTrips.values()) {
 			onTripRemoved(trip);
@@ -335,11 +340,11 @@ public class ItineraryManager implements JSONable {
 
 		loadStartAndEndTimes();
 
-		Log.d("Initialized ItineraryManager in " + ((System.nanoTime() - start) / 1000000) + " ms");
+		Log.d(LOGGING_TAG, "Initialized ItineraryManager in " + ((System.nanoTime() - start) / 1000000) + " ms");
 	}
 
 	private void save() {
-		Log.i("Saving ItineraryManager data...");
+		Log.i(LOGGING_TAG, "Saving ItineraryManager data...");
 
 		saveStartAndEndTimes();
 
@@ -347,7 +352,7 @@ public class ItineraryManager implements JSONable {
 			IoUtils.writeStringToFile(MANAGER_PATH, toJson().toString(), mContext);
 		}
 		catch (IOException e) {
-			Log.w("Could not save ItineraryManager data", e);
+			Log.w(LOGGING_TAG, "Could not save ItineraryManager data", e);
 		}
 	}
 
@@ -358,10 +363,10 @@ public class ItineraryManager implements JSONable {
 				try {
 					JSONObject obj = new JSONObject(IoUtils.readStringFromFile(MANAGER_PATH, mContext));
 					fromJson(obj);
-					Log.i("Loaded " + mTrips.size() + " trips from disk.");
+					Log.i(LOGGING_TAG, "Loaded " + mTrips.size() + " trips from disk.");
 				}
 				catch (Exception e) {
-					Log.w("Could not load ItineraryManager data, starting from scratch again...", e);
+					Log.w(LOGGING_TAG, "Could not load ItineraryManager data, starting from scratch again...", e);
 					file.delete();
 				}
 			}
@@ -370,7 +375,7 @@ public class ItineraryManager implements JSONable {
 		if (mTrips == null) {
 			mTrips = new HashMap<String, Trip>();
 
-			Log.i("Starting a fresh set of itineraries.");
+			Log.i(LOGGING_TAG, "Starting a fresh set of itineraries.");
 		}
 	}
 
@@ -417,13 +422,13 @@ public class ItineraryManager implements JSONable {
 				IoUtils.writeStringToFile(MANAGER_START_END_TIMES_PATH, obj.toString(), mContext);
 			}
 			catch (Exception e) {
-				Log.w("Could not save start and end times", e);
+				Log.w(LOGGING_TAG, "Could not save start and end times", e);
 			}
 		}
 	}
 
 	private void loadStartAndEndTimes() {
-		Log.d("Loading start and end times...");
+		Log.d(LOGGING_TAG, "Loading start and end times...");
 
 		File file = mContext.getFileStreamPath(MANAGER_START_END_TIMES_PATH);
 		if (file.exists()) {
@@ -433,7 +438,7 @@ public class ItineraryManager implements JSONable {
 				mEndTimes = JSONUtils.getJSONableList(obj, "endTimes", DateTime.class);
 			}
 			catch (Exception e) {
-				Log.w("Could not load start times", e);
+				Log.w(LOGGING_TAG, "Could not load start times", e);
 				file.delete();
 			}
 		}
@@ -806,21 +811,22 @@ public class ItineraryManager implements JSONable {
 	 */
 	public boolean startSync(boolean forceRefresh) {
 		if (!forceRefresh && Calendar.getInstance().getTimeInMillis() < UPDATE_CUTOFF + mLastUpdateTime) {
-			Log.d("ItineraryManager sync started too soon since last one; ignoring.");
+			Log.d(LOGGING_TAG, "ItineraryManager sync started too soon since last one; ignoring.");
 			return false;
 		}
 		else if (mTrips != null && mTrips.size() == 0 && !User.isLoggedIn(mContext)) {
-			Log.d("ItineraryManager sync called, but there are no guest trips and the user is not logged in, so" +
-					" we're not starting a formal sync; but we will call onSyncFinished() with no results");
+			Log.d(LOGGING_TAG,
+					"ItineraryManager sync called, but there are no guest trips and the user is not logged in, so" +
+							" we're not starting a formal sync; but we will call onSyncFinished() with no results");
 			onSyncFinished(mTrips.values());
 			return false;
 		}
 		else if (isSyncing()) {
-			Log.d("Tried to start a sync while one is already in progress.");
+			Log.d(LOGGING_TAG, "Tried to start a sync while one is already in progress.");
 			return true;
 		}
 		else {
-			Log.i("Starting an ItineraryManager sync...");
+			Log.i(LOGGING_TAG, "Starting an ItineraryManager sync...");
 
 			// Add default sync operations
 			mSyncOpQueue.add(new Task(Operation.LOAD_FROM_DISK));
@@ -856,7 +862,7 @@ public class ItineraryManager implements JSONable {
 				mSyncOpQueue.add(new Task(Operation.DEEP_REFRESH_TRIP, tripNumber));
 			}
 			else {
-				Log.w("Tried to deep refresh a trip which doesn't exist.");
+				Log.w(LOGGING_TAG, "Tried to deep refresh a trip which doesn't exist.");
 				return false;
 			}
 		}
@@ -972,7 +978,7 @@ public class ItineraryManager implements JSONable {
 						trip = mTrips.get(nextTask.mTripNumber);
 
 						if (trip == null) {
-							Log.w("Could not deep refresh trip # " + nextTask.mTripNumber
+							Log.w(LOGGING_TAG, "Could not deep refresh trip # " + nextTask.mTripNumber
 									+ "; it was not loaded as a guest trip nor user trip");
 						}
 					}
@@ -1078,14 +1084,14 @@ public class ItineraryManager implements JSONable {
 		}
 
 		private void logStats() {
-			Log.d("Sync Finished; stats below.");
+			Log.d(LOGGING_TAG, "Sync Finished; stats below.");
 			for (Operation op : Operation.values()) {
-				Log.d(op.name() + ": " + mOpCount.get(op));
+				Log.d(LOGGING_TAG, op.name() + ": " + mOpCount.get(op));
 			}
 
-			Log.i("# Trips=" + mTrips.size() + "; # Added=" + mTripsAdded + "; # Removed=" + mTripsRemoved);
-			Log.i("# Refreshed=" + mTripsRefreshed + "; # Failed Refresh=" + mTripRefreshFailures);
-			Log.i("# Flights Updated=" + mFlightsUpdated);
+			Log.i(LOGGING_TAG, "# Trips=" + mTrips.size() + "; # Added=" + mTripsAdded + "; # Removed=" + mTripsRemoved);
+			Log.i(LOGGING_TAG, "# Refreshed=" + mTripsRefreshed + "; # Failed Refresh=" + mTripRefreshFailures);
+			Log.i(LOGGING_TAG, "# Flights Updated=" + mFlightsUpdated);
 		}
 
 		//////////////////////////////////////////////////////////////////////
@@ -1193,7 +1199,7 @@ public class ItineraryManager implements JSONable {
 
 				if (response == null || response.hasErrors()) {
 					if (response != null && response.hasErrors()) {
-						Log.w("Error updating trip " + trip.getTripNumber() + ": "
+						Log.w(LOGGING_TAG, "Error updating trip " + trip.getTripNumber() + ": "
 								+ response.gatherErrorMessage(mContext));
 
 						// If it's a guest trip, and we've never retrieved info on it, it may be invalid.
@@ -1249,7 +1255,7 @@ public class ItineraryManager implements JSONable {
 		// If the user is logged in, retrieve a listing of current trips for logged in user
 		private void refreshUserList() {
 			if (!User.isLoggedIn(mContext)) {
-				Log.d("User is not logged in, not refreshing user list.");
+				Log.d(LOGGING_TAG, "User is not logged in, not refreshing user list.");
 			}
 			else {
 				// We only want to get the first N cached details if it's been more than
@@ -1258,7 +1264,8 @@ public class ItineraryManager implements JSONable {
 				// (so that the summary call goes out quickly).
 				boolean getCachedDetails = Calendar.getInstance().getTimeInMillis() - REFRESH_TRIP_CUTOFF > mLastUpdateTime;
 
-				Log.d("User is logged in, refreshing the user list.  Using cached details call: " + getCachedDetails);
+				Log.d(LOGGING_TAG, "User is logged in, refreshing the user list.  Using cached details call: "
+						+ getCachedDetails);
 
 				TripResponse response = mServices.getTrips(getCachedDetails, 0);
 
@@ -1268,7 +1275,7 @@ public class ItineraryManager implements JSONable {
 
 				if (response == null || response.hasErrors()) {
 					if (response != null && response.hasErrors()) {
-						Log.w("Error updating trips: " + response.gatherErrorMessage(mContext));
+						Log.w(LOGGING_TAG, "Error updating trips: " + response.gatherErrorMessage(mContext));
 					}
 
 					publishProgress(new ProgressUpdate(SyncError.USER_LIST_REFRESH_FAILURE));
@@ -1322,7 +1329,7 @@ public class ItineraryManager implements JSONable {
 		// Add all trips to be updated, even ones that may not need to be refreshed
 		// (so we can see if any of the ancillary data needs to be refreshed).
 		private void gatherTrips() {
-			Log.i("Gathering " + mTrips.values().size() + " trips...");
+			Log.i(LOGGING_TAG, "Gathering " + mTrips.values().size() + " trips...");
 
 			for (Trip trip : mTrips.values()) {
 				mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP, trip));
@@ -1364,15 +1371,15 @@ public class ItineraryManager implements JSONable {
 
 	private PushNotificationRegistrationResponse registerForPushNotifications() {
 
-		Log.d("ItineraryManager.registerForPushNotifications");
+		Log.d(LOGGING_TAG, "ItineraryManager.registerForPushNotifications");
 
 		//NOTE: If this is the first time we are registering for push notifications, regId will likely be empty
 		//we need to wait for a gcm callback before we will get a regid, so we just skip for now and wait for the next sync
 		//at which time we should have a valid id (assuming network is up and running)
 		String regId = GCMRegistrationKeeper.getInstance(mContext).getRegistrationId(mContext);
-		Log.d("ItineraryManager.registerForPushNotifications regId:" + regId);
+		Log.d(LOGGING_TAG, "ItineraryManager.registerForPushNotifications regId:" + regId);
 		if (!TextUtils.isEmpty(regId)) {
-			Log.d("ItineraryManager.registerForPushNotifications regId:" + regId + " is not empty!");
+			Log.d(LOGGING_TAG, "ItineraryManager.registerForPushNotifications regId:" + regId + " is not empty!");
 			ExpediaServices services = new ExpediaServices(mContext);
 
 			long userTuid = 0;
@@ -1388,12 +1395,12 @@ public class ItineraryManager implements JSONable {
 			JSONObject payload = PushNotificationUtils.buildPushRegistrationPayload(regId, userTuid,
 					getAllItinFlights());
 
-			Log.d("registerForPushNotifications payload:" + payload.toString());
+			Log.d(LOGGING_TAG, "registerForPushNotifications payload:" + payload.toString());
 
 			PushNotificationRegistrationResponse resp = services.registerForPushNotifications(
 					new PushRegistrationResponseHandler(mContext), payload, regId);
 
-			Log.d("registerForPushNotifications response:" + (resp == null ? "null" : resp.getSuccess()));
+			Log.d(LOGGING_TAG, "registerForPushNotifications response:" + (resp == null ? "null" : resp.getSuccess()));
 			return resp;
 		}
 
