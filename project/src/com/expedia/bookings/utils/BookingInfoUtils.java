@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -33,7 +34,8 @@ public class BookingInfoUtils {
 			cards.add(WalletUtils.convertToStoredCreditCard(Db.getMaskedWallet()));
 		}
 
-		if (User.isLoggedIn(context) && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
+		// 1281. VSC doesn't support saving credit cards. Don't try to even add or populate cards.
+		if (User.isLoggedIn(context) && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null && !ExpediaBookingApp.IS_VSC) {
 			cards.addAll(Db.getUser().getStoredCreditCards());
 		}
 

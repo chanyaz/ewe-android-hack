@@ -29,6 +29,7 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity;
 import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
@@ -484,7 +485,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	}
 
 	private void populatePaymentDataFromUser() {
-		if (User.isLoggedIn(getActivity())) {
+		// 1281. VSC doesn't support saving credit cards. Don't try to populate cards either.
+		if (User.isLoggedIn(getActivity()) && !ExpediaBookingApp.IS_VSC) {
 			//Populate Credit Card only if the user doesn't have any manually entered (or selected) data
 			if (Db.getUser().getStoredCreditCards() != null && Db.getUser().getStoredCreditCards().size() == 1
 					&& !hasSomeManuallyEnteredData(mBillingInfo) && !mBillingInfo.hasStoredCard()) {

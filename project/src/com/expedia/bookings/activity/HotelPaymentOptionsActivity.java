@@ -138,7 +138,8 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 				break;
 			case CREDITCARD:
 				if (validate(mCCFragment)) {
-					if (User.isLoggedIn(this)) {
+					// 1281. VSC doesn't support saving credit cards.
+					if (User.isLoggedIn(this) && !ExpediaBookingApp.IS_VSC) {
 						displaySaveDialog();
 					}
 					else {
@@ -160,6 +161,7 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 			case CREDITCARD:
 				if (validate(mCCFragment)) {
 					if (User.isLoggedIn(this)
+							&& !ExpediaBookingApp.IS_VSC // 1281. VSC doesn't support saving credit cards.
 							&& !Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getSaveCardToExpediaAccount()
 							&& workingBillingInfoChanged()) {
 						displaySaveDialog();
@@ -297,7 +299,10 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 				displayCreditCard();
 				break;
 			case SAVE:
-				displaySaveDialog();
+				// 1281. VSC doesn't support saving credit cards.
+				if (!ExpediaBookingApp.IS_VSC) {
+					displaySaveDialog();
+				}
 				break;
 			default:
 				displayOptions();
