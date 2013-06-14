@@ -3,5 +3,6 @@
 
     <color name="user_review_separator">@android:color/transparent</color>
     <color name="row_background_fade_end">#ffffff</color>
+    <color name="bg_expedia_list">#f5f5f5</color>
 
 </resources>
