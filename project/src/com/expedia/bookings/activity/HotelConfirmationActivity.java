@@ -7,7 +7,9 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItineraryManager;
@@ -89,6 +91,17 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity {
 		if (mKillReceiver != null) {
 			mKillReceiver.onDestroy();
 		}
+	}
+
+	@Override
+	public void finish() {
+		// #953: Kick off deep refresh for newly booked hotel
+		BookingResponse response = Db.getBookingResponse();
+		if (response != null) {
+			ItineraryManager.getInstance().deepRefreshTrip(response.getItineraryId(), true);
+		}
+
+		super.finish();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

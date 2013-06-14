@@ -110,10 +110,7 @@ public class ItineraryManager implements JSONable {
 		mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
 		mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
 
-		if (!isSyncing()) {
-			mSyncTask = new SyncTask();
-			mSyncTask.execute();
-		}
+		startSyncIfNotInProgress();
 	}
 
 	public void removeGuestTrip(String tripNumber) {
@@ -734,13 +731,24 @@ public class ItineraryManager implements JSONable {
 
 		Trip mTrip;
 
+		String mTripNumber;
+
 		public Task(Operation op) {
-			this(op, null);
+			this(op, null, null);
 		}
 
 		public Task(Operation op, Trip trip) {
+			this(op, trip, null);
+		}
+
+		public Task(Operation op, String tripNumber) {
+			this(op, null, tripNumber);
+		}
+
+		public Task(Operation op, Trip trip, String tripNumber) {
 			mOp = op;
 			mTrip = trip;
+			mTripNumber = null;
 		}
 
 		@Override
@@ -823,8 +831,7 @@ public class ItineraryManager implements JSONable {
 			mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
 			mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
 
-			mSyncTask = new SyncTask();
-			mSyncTask.execute();
+			startSyncIfNotInProgress();
 
 			return true;
 		}
@@ -833,34 +840,52 @@ public class ItineraryManager implements JSONable {
 	private static final long DEEP_REFRESH_RATE_LIMIT = 1000 * 60 * 1;
 
 	public boolean deepRefreshTrip(Trip trip) {
-		trip = mTrips.get(trip.getTripNumber());
+		return deepRefreshTrip(trip.getTripNumber(), false);
+	}
+
+	public boolean deepRefreshTrip(String tripNumber, boolean doSyncIfNotFound) {
+		Trip trip = mTrips.get(tripNumber);
 
 		if (trip == null) {
-			Log.w("Tried to deep refresh a trip which doesn't exist.");
-			return false;
+			if (doSyncIfNotFound) {
+				// We'll try to refresh the user to find the trip
+				mSyncOpQueue.add(new Task(Operation.REFRESH_USER));
+
+				// Refresh the trip via tripNumber; does not guarantee it will be found
+				// by the time we get here (esp. if the user isn't logged in).
+				mSyncOpQueue.add(new Task(Operation.DEEP_REFRESH_TRIP, tripNumber));
+			}
+			else {
+				Log.w("Tried to deep refresh a trip which doesn't exist.");
+				return false;
+			}
 		}
 		else {
 			mSyncOpQueue.add(new Task(Operation.DEEP_REFRESH_TRIP, trip));
-			mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
-			mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
-			mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
-			mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
-
-			if (!isSyncing()) {
-				mSyncTask = new SyncTask();
-				mSyncTask.execute();
-			}
-			return true;
 		}
+
+		// We're set to sync; add the rest of the ops and go
+		mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
+		mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
+		mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
+		mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
+
+		startSyncIfNotInProgress();
+
+		return true;
 	}
 
 	public boolean startPushNotificationSync() {
 		mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
+		startSyncIfNotInProgress();
+		return true;
+	}
+
+	private void startSyncIfNotInProgress() {
 		if (!isSyncing()) {
 			mSyncTask = new SyncTask();
 			mSyncTask.execute();
 		}
-		return true;
 	}
 
 	public boolean isSyncing() {
@@ -941,7 +966,20 @@ public class ItineraryManager implements JSONable {
 					publishTripUpdate(nextTask.mTrip);
 					break;
 				case DEEP_REFRESH_TRIP:
-					refreshTrip(nextTask.mTrip, true);
+					Trip trip = nextTask.mTrip;
+					if (trip == null && !TextUtils.isEmpty(nextTask.mTripNumber)) {
+						// Try to retrieve a trip here
+						trip = mTrips.get(nextTask.mTripNumber);
+
+						if (trip == null) {
+							Log.w("Could not deep refresh trip # " + nextTask.mTripNumber
+									+ "; it was not loaded as a guest trip nor user trip");
+						}
+					}
+
+					if (trip != null) {
+						refreshTrip(nextTask.mTrip, true);
+					}
 					break;
 				case REFRESH_TRIP:
 					refreshTrip(nextTask.mTrip, false);
@@ -1327,7 +1365,7 @@ public class ItineraryManager implements JSONable {
 	private PushNotificationRegistrationResponse registerForPushNotifications() {
 
 		Log.d("ItineraryManager.registerForPushNotifications");
-		
+
 		//NOTE: If this is the first time we are registering for push notifications, regId will likely be empty
 		//we need to wait for a gcm callback before we will get a regid, so we just skip for now and wait for the next sync
 		//at which time we should have a valid id (assuming network is up and running)
