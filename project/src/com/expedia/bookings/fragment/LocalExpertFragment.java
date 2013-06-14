@@ -1,15 +1,21 @@
 package com.expedia.bookings.fragment;
 
+import java.util.List;
+
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.LocalExpertAttraction;
 import com.expedia.bookings.data.LocalExpertSite;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AttractionBubbleView;
@@ -24,11 +30,15 @@ public class LocalExpertFragment extends Fragment {
 
 	private static final String ARG_SITE = "ARG_SITE";
 
+	private static final int MSG_ADVANCE = 0;
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	private LocalExpertSite mSite;
+
+	private int mCurrentAttractionIndex = 0;
 
 	// Views
 
@@ -69,7 +79,7 @@ public class LocalExpertFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_local_expert, container, false);
+		final View view = inflater.inflate(R.layout.fragment_local_expert, container, false);
 
 		mBackgroundImageView = Ui.findView(view, R.id.background_image_view);
 		mLargeAttractionBubbleView = Ui.findView(view, R.id.large_attraction_bubble_view);
@@ -84,14 +94,31 @@ public class LocalExpertFragment extends Fragment {
 		mIconImageView.setImageResource(mSite.getCityIcon());
 		mTitleTextView.setText(getString(R.string.local_expert_title_TEMPLATE, mSite.getCity()));
 
-		mLargeAttractionBubbleView.setAttraction(mSite.getAttractions().get(0));
-		mSmallAttractionBubbleView.setAttraction(mSite.getAttractions().get(1));
-
 		// Set view listeners
 		mCloseView.setOnClickListener(mOnClickListener);
 		mCallButton.setOnClickListener(mOnClickListener);
 
+		view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+				mHandler.sendMessageDelayed(Message.obtain(mHandler, MSG_ADVANCE), 500);
+			}
+		});
+
 		return view;
+	}
+
+	private void advanceAttractions() {
+		final List<LocalExpertAttraction> attractions = mSite.getAttractions();
+		final int size = attractions.size();
+
+		mCurrentAttractionIndex = mCurrentAttractionIndex % size;
+
+		mLargeAttractionBubbleView.setAttraction(attractions.get(++mCurrentAttractionIndex % size));
+		mSmallAttractionBubbleView.setAttraction(attractions.get(++mCurrentAttractionIndex % size));
+
+		mHandler.sendMessageDelayed(Message.obtain(mHandler, MSG_ADVANCE), 5000);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -109,6 +136,17 @@ public class LocalExpertFragment extends Fragment {
 			case R.id.call_button: {
 				SocialUtils.call(getActivity(), mSite.getPhoneNumber().toString());
 				break;
+			}
+			}
+		}
+	};
+
+	private final Handler mHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case MSG_ADVANCE: {
+				advanceAttractions();
 			}
 			}
 		}

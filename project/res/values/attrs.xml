@@ -149,10 +149,18 @@
         <attr name="scrollMin" format="dimension" />
         <attr name="scrollMax" format="dimension" />
     </declare-styleable>
-    
+
     <!-- ItinListView -->
     <declare-styleable name="ItinListView">
         <attr name="pathViewWidth" format="dimension" />
         <attr name="pathViewColor" format="color" />
+    </declare-styleable>
+
+    <!-- AttractionBubbleView -->
+    <declare-styleable name="AttractionBubbleView">
+        <attr name="size">
+            <enum name="small" value="0" />
+            <enum name="large" value="1" />
+        </attr>
     </declare-styleable>
 </resources>
