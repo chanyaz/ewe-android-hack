@@ -1,16 +1,12 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BlurMaskFilter;
+import android.content.res.TypedArray;
+import android.graphics.*;
 import android.graphics.BlurMaskFilter.Blur;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.util.AttributeSet;
 import android.view.Gravity;
-import android.view.animation.BounceInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
@@ -23,8 +19,16 @@ import com.expedia.bookings.utils.Ui;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
+import com.nineoldandroids.view.ViewHelper;
 
 public class AttractionBubbleView extends LinearLayout {
+	//////////////////////////////////////////////////////////////////////////////////////
+	// PUBLIC CONSTANTS
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	public static final int SIZE_SMALL = 0;
+	public static final int SIZE_LARGE = 1;
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -34,6 +38,10 @@ public class AttractionBubbleView extends LinearLayout {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
 	//////////////////////////////////////////////////////////////////////////////////////
+
+	private LocalExpertAttraction mAttraction = null;
+
+	private int mSize = SIZE_LARGE;
 
 	private int mHalfWidth;
 	private int mRadius;
@@ -64,31 +72,64 @@ public class AttractionBubbleView extends LinearLayout {
 		init(context, attrs);
 	}
 
+	//////////////////////////////////////////////////////////////////////////////////////
+	// PUBLIC METHODS
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	public LocalExpertAttraction getAttraction() {
+		return mAttraction;
+	}
+
 	public void setAttraction(final LocalExpertAttraction attraction) {
-		AnimatorSet close = getCloseAnimatorSet();
-		close.addListener(new Animator.AnimatorListener() {
-			@Override
-			public void onAnimationStart(Animator animator) {
-			}
+		AnimatorSet animatorSet = null;
 
-			@Override
-			public void onAnimationEnd(Animator animator) {
-				mFirstLineTextView.setText(attraction.getFirstLine());
-				mSecondLineTextView.setText(attraction.getSecondLine());
-				mIconImageView.setImageResource(attraction.getIconLarge());
+		if (mAttraction != null) {
+			animatorSet = getCloseAnimatorSet();
+			if (attraction != null) {
+				animatorSet.addListener(new Animator.AnimatorListener() {
+					@Override
+					public void onAnimationStart(Animator animator) {
+					}
 
-				getOpenAnimatorSet().start();
-			}
+					@Override
+					public void onAnimationEnd(Animator animator) {
+						bind(attraction);
+						getOpenAnimatorSet().start();
+					}
 
-			@Override
-			public void onAnimationCancel(Animator animator) {
-			}
+					@Override
+					public void onAnimationCancel(Animator animator) {
+					}
 
-			@Override
-			public void onAnimationRepeat(Animator animator) {
+					@Override
+					public void onAnimationRepeat(Animator animator) {
+					}
+				});
 			}
-		});
-		close.start();
+		}
+		else if (attraction != null) {
+			bind(attraction);
+			animatorSet = getOpenAnimatorSet();
+		}
+		else {
+			animatorSet = getCloseAnimatorSet();
+			animatorSet.setDuration(0);
+		}
+
+		mAttraction = attraction;
+
+		if (animatorSet != null) {
+			animatorSet.start();
+		}
+	}
+
+	public int getSize() {
+		return mSize;
+	}
+
+	public void setSize(int size) {
+		mSize = size;
+		invalidate();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -147,9 +188,25 @@ public class AttractionBubbleView extends LinearLayout {
 
 		inflate(context, R.layout.widget_attraction_bubble, this);
 
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.AttractionBubbleView);
+		setSize(a.getInteger(R.styleable.AttractionBubbleView_size, mSize));
+		a.recycle();
+
 		mFirstLineTextView = Ui.findView(this, R.id.first_line_text_view);
 		mSecondLineTextView = Ui.findView(this, R.id.second_line_text_view);
 		mIconImageView = Ui.findView(this, R.id.attraction_icon_image_view);
+
+		setAttraction(mAttraction);
+	}
+
+	private void bind(LocalExpertAttraction attraction) {
+		if (attraction == null) {
+			return;
+		}
+
+		mFirstLineTextView.setText(attraction.getFirstLine());
+		mSecondLineTextView.setText(attraction.getSecondLine());
+		mIconImageView.setImageResource(mSize == SIZE_SMALL ? attraction.getIconSmall() : attraction.getIconLarge());
 	}
 
 	private AnimatorSet getCloseAnimatorSet() {
