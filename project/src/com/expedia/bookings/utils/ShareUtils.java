@@ -13,21 +13,12 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.CarVendor;
 import com.expedia.bookings.data.DateTime;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.Policy;
-import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardData;
@@ -430,169 +421,6 @@ public class ShareUtils {
 		builder.append(mContext.getString(R.string.share_template_long_ad, downloadUrl));
 
 		return builder.toString();
-	}
-
-	public String getHotelConfirmationShareSubject(HotelSearchParams searchParams, Property property) {
-		DateFormat dateFormatter = new SimpleDateFormat("MM/dd");
-
-		Date checkIn = searchParams.getCheckInDate().getTime();
-		Date checkOut = searchParams.getCheckOutDate().getTime();
-		String dateStart = dateFormatter.format(checkIn);
-		String dateEnd = dateFormatter.format(checkOut);
-
-		StringBuilder sb = new StringBuilder();
-		if (!TextUtils.isEmpty(property.getName())) {
-			sb.append(property.getName());
-			sb.append(" ");
-		}
-
-		if (!TextUtils.isEmpty(dateStart) && !TextUtils.isEmpty(dateEnd)) {
-			sb.append(mContext.getString(R.string.share_subject_template_dates, dateStart, dateEnd));
-		}
-
-		if (sb.length() == 0) {
-			String template = mContext.getString(R.string.share_subject_dash_template);
-			String title = mContext.getString(R.string.share_subject_title);
-			return String.format(template, title, sb.toString());
-		}
-		else {
-			return mContext.getString(R.string.share_subject_title);
-		}
-	}
-
-	public String getHotelConfirmationShareText(HotelSearchParams searchParams, Property property,
-			BookingResponse bookingResponse, BillingInfo billingInfo, Rate rate, Rate discountRate) {
-
-		Resources res = mContext.getResources();
-
-		DateFormat fullDateFormatter = android.text.format.DateFormat.getMediumDateFormat(mContext);
-		DateFormat dayFormatter = new SimpleDateFormat("EEE");
-
-		Date checkIn = searchParams.getCheckInDate().getTime();
-		Date checkOut = searchParams.getCheckOutDate().getTime();
-
-		// Create the body
-		StringBuilder body = new StringBuilder();
-		body.append(mContext.getString(R.string.share_body_start));
-		body.append("\n\n");
-
-		body.append(property.getName());
-		body.append("\n");
-		body.append(StrUtils.formatAddress(property.getLocation()));
-		body.append("\n\n");
-
-		if (!TextUtils.isEmpty(bookingResponse.getHotelConfNumber())) {
-			appendLabelValue(mContext, body, R.string.confirmation_number, bookingResponse.getHotelConfNumber());
-			body.append("\n");
-		}
-		appendLabelValue(mContext, body, R.string.itinerary_number, bookingResponse.getItineraryId());
-		body.append("\n\n");
-
-		String first;
-		String last;
-		Traveler traveler = Db.getUser() == null ? null : Db.getUser().getPrimaryTraveler();
-		if (traveler != null) {
-			first = traveler.getFirstName();
-			last = traveler.getLastName();
-		}
-		else {
-			first = billingInfo.getFirstName();
-			last = billingInfo.getLastName();
-		}
-		appendLabelValue(mContext, body, R.string.name, mContext.getString(R.string.name_template, first, last));
-
-		body.append("\n");
-		appendLabelValue(mContext, body, R.string.CheckIn,
-				dayFormatter.format(checkIn) + ", " + fullDateFormatter.format(checkIn));
-		body.append("\n");
-		appendLabelValue(mContext, body, R.string.CheckOut,
-				dayFormatter.format(checkOut) + ", " + fullDateFormatter.format(checkOut));
-		body.append("\n");
-		int numDays = searchParams.getStayDuration();
-		appendLabelValue(mContext, body, R.string.stay_duration,
-				res.getQuantityString(R.plurals.length_of_stay, numDays, numDays));
-		body.append("\n\n");
-
-		appendLabelValue(mContext, body, R.string.room_type, Html.fromHtml(rate.getRoomDescription()).toString());
-		body.append("\n");
-		appendLabelValue(mContext, body, R.string.bed_type, rate.getRatePlanName());
-		body.append("\n");
-		appendLabelValue(mContext, body, R.string.adults, searchParams.getNumAdults() + "");
-		body.append("\n");
-		appendLabelValue(mContext, body, R.string.children, searchParams.getNumChildren() + "");
-		body.append("\n\n");
-
-		if (rate.getRateBreakdownList() != null) {
-			for (RateBreakdown breakdown : rate.getRateBreakdownList()) {
-				Date date = breakdown.getDate().getCalendar().getTime();
-				String dateStr = dayFormatter.format(date) + ", " + fullDateFormatter.format(date);
-				Money amount = breakdown.getAmount();
-				if (amount.isZero()) {
-					appendLabelValue(body, mContext.getString(R.string.room_rate_template, dateStr),
-							mContext.getString(R.string.free));
-				}
-				else {
-					appendLabelValue(body, mContext.getString(R.string.room_rate_template, dateStr),
-							amount.getFormattedMoney());
-				}
-				body.append("\n");
-			}
-			body.append("\n\n");
-		}
-
-		if (rate.getTotalAmountBeforeTax() != null) {
-			appendLabelValue(mContext, body, R.string.subtotal, rate.getTotalAmountBeforeTax().getFormattedMoney());
-			body.append("\n");
-		}
-
-		Money totalSurcharge = new Money(rate.getTotalSurcharge());
-		Money extraGuestFee = rate.getExtraGuestFee();
-		if (extraGuestFee != null) {
-			appendLabelValue(mContext, body, R.string.extra_guest_charge, extraGuestFee.getFormattedMoney());
-			body.append("\n");
-			if (totalSurcharge != null) {
-				totalSurcharge = totalSurcharge.copy();
-				totalSurcharge.subtract(extraGuestFee);
-			}
-		}
-		if (totalSurcharge != null) {
-			if (totalSurcharge.isZero()) {
-				appendLabelValue(mContext, body, R.string.taxes_and_fees, mContext.getString(R.string.included));
-			}
-			else {
-				appendLabelValue(mContext, body, R.string.taxes_and_fees, totalSurcharge.getFormattedMoney());
-			}
-
-			body.append("\n");
-		}
-
-		if (discountRate != null) {
-			Money discount = new Money(discountRate.getTotalAmountAfterTax());
-			discount.subtract(rate.getTotalAmountAfterTax());
-			appendLabelValue(mContext, body, R.string.discount, discount.getFormattedMoney());
-			body.append("\n");
-			appendLabelValue(mContext, body, R.string.Total, discountRate.getTotalAmountAfterTax().getFormattedMoney());
-			body.append("\n");
-		}
-		else {
-			if (rate.getTotalAmountAfterTax() != null) {
-				body.append("\n");
-				appendLabelValue(mContext, body, R.string.Total, rate.getTotalAmountAfterTax().getFormattedMoney());
-			}
-		}
-
-		Policy cancellationPolicy = rate.getRateRules().getPolicy(Policy.TYPE_CANCEL);
-		if (cancellationPolicy != null) {
-			body.append("\n\n");
-			body.append(mContext.getString(R.string.cancellation_policy));
-			body.append("\n");
-			body.append(Html.fromHtml(cancellationPolicy.getDescription()));
-		}
-
-		body.append("\n\n");
-		body.append(ConfirmationUtils.determineContactText(mContext));
-
-		return body.toString();
 	}
 
 	// Cars

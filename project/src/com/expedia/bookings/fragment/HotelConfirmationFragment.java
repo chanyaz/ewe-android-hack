@@ -22,9 +22,9 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Date;
+import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -277,16 +277,14 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 
 		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
 		Property property = Db.getHotelSearch().getSelectedProperty();
-		BookingResponse bookingResponse = Db.getBookingResponse();
-		BillingInfo billingInfo = Db.getBillingInfo();
-		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
-		Rate rate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
-		Rate discountRate = Db.getCouponDiscountRate();
 
 		ShareUtils socialUtils = new ShareUtils(context);
-		String subject = socialUtils.getHotelConfirmationShareSubject(searchParams, property);
-		String body = socialUtils.getHotelConfirmationShareText(searchParams, property, bookingResponse, billingInfo,
-				rate, discountRate);
+		String city = property.getLocation().getCity();
+		DateTime checkIn = DateTime.newInstance(searchParams.getCheckInDate());
+		DateTime checkOut = DateTime.newInstance(searchParams.getCheckOutDate());
+		String subject = socialUtils.getHotelShareSubject(city, checkIn, checkOut);
+		String body = socialUtils.getHotelShareTextLong(property.getName(), property.getLocation()
+				.getStreetAddressString(), property.getRelevantPhone(), checkIn, checkOut, null);
 
 		SocialUtils.email(context, subject, body);
 

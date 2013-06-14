@@ -15,7 +15,6 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
-import com.expedia.bookings.utils.CalendarUtils;
 import com.google.android.gms.maps.model.LatLng;
 
 public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumberable {
@@ -94,11 +93,6 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 		return null;
 	}
 
-	public String getFormattedLengthOfStay(Context context) {
-		int nights = (int) CalendarUtils.getDaysBetween(getStartDate().getCalendar(), getEndDate().getCalendar());
-		return context.getResources().getQuantityString(R.plurals.length_of_stay, nights, nights);
-	}
-
 	public String getCheckInTime() {
 		return ((TripHotel) getTripComponent()).getCheckInTime();
 	}
@@ -113,22 +107,6 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 
 	public String getFormattedDetailsCheckOutDate(Context context) {
 		return getEndDate().formatTime(context, DETAIL_DATE_FLAGS);
-	}
-
-	public String getFormattedShortShareCheckInDate(Context context) {
-		return getStartDate().formatTime(context, SHARE_CHECK_IN_FLAGS);
-	}
-
-	public String getFormattedShortShareCheckOutDate(Context context) {
-		return getEndDate().formatTime(context, SHARE_CHECK_OUT_FLAGS);
-	}
-
-	public String getFormattedLongShareCheckInDate(Context context) {
-		return getStartDate().formatTime(context, LONG_SHARE_DATE_FLAGS);
-	}
-
-	public String getFormattedLongShareCheckOutDate(Context context) {
-		return getEndDate().formatTime(context, LONG_SHARE_DATE_FLAGS);
 	}
 
 	public String getFallbackCheckInTime(Context context) {
