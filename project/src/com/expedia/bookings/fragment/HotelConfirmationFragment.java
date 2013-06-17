@@ -178,8 +178,8 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 				Log.d("SamsungWallet: is available, resuming download");
 				bd.registerDownloadCallback(SAMSUNG_WALLET_DOWNLOAD_KEY, mWalletCallback);
 			}
-			else if (Db.getSamsungWalletTicketId() != null) {
-				Log.d("SamsungWallet: is available, already have ticketId");
+			else if (!TextUtils.isEmpty(Db.getSamsungWalletTicketId())) {
+				Log.d("SamsungWallet: is available, already have ticketId=" + Db.getSamsungWalletTicketId());
 				handleSamsungWalletTicketId(Db.getSamsungWalletTicketId());
 			}
 			else {
