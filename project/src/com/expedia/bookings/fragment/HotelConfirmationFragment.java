@@ -65,6 +65,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 	private static final String SAMSUNG_WALLET_DOWNLOAD_KEY = "SAMSUNG_WALLET_DOWNLOAD_KEY";
 
 	private ViewGroup mHotelCard;
+	private View mSamsungDivider;
 	private View mSamsungWalletButton;
 
 	@Override
@@ -160,9 +161,8 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 
 		if (SamsungWalletUtils.isAvailable(getActivity())) {
 			Log.d("SamsungWallet: is available, showing UI");
-			Ui.findView(v, R.id.samsung_divider).setVisibility(View.VISIBLE);
+			mSamsungDivider = Ui.findView(v, R.id.samsung_divider);
 			mSamsungWalletButton = Ui.findView(v, R.id.samsung_wallet_action_text_view);
-			mSamsungWalletButton.setVisibility(View.VISIBLE);
 		}
 
 		return v;
@@ -352,7 +352,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 	private final OnDownloadComplete<SamsungWalletResponse> mWalletCallback = new OnDownloadComplete<SamsungWalletResponse>() {
 		@Override
 		public void onDownload(SamsungWalletResponse response) {
-			if (response != null) {
+			if (response != null && response.isSuccess()) {
 				Db.setSamsungWalletTicketId(response.getTicketId());
 				handleSamsungWalletTicketId(Db.getSamsungWalletTicketId());
 			}
@@ -396,14 +396,19 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		};
 
 		SamsungWalletUtils.checkTicket(getActivity(), callback, ticketId);
-		// TEST: callback.onResult(SamsungWalletUtils.RESULT_TICKET_NOT_FOUND);
 	}
 
 	private void handleSamsungWalletResult(int result) {
 		Log.d("SamsungWallet: Handle samsung wallet result: " + result);
 		// Ready to let the user click the button
+		setSamsungWalletVisibility(View.VISIBLE);
 		mSamsungWalletButton.setTag(result);
 		mSamsungWalletButton.setOnClickListener(mSamsungWalletClickListener);
+	}
+
+	private void setSamsungWalletVisibility(int visibility) {
+		mSamsungDivider.setVisibility(visibility);
+		mSamsungWalletButton.setVisibility(visibility);
 	}
 
 }
