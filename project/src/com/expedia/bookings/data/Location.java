@@ -242,7 +242,8 @@ public class Location implements JSONable {
 	}
 
 	public String toLongFormattedString() {
-		if (TextUtils.isDigitsOnly(getStreetAddressString()) && TextUtils.isEmpty(toShortFormattedString())) {
+		String streetAddress = getStreetAddressString();
+		if (streetAddress != null && TextUtils.isDigitsOnly(streetAddress) && TextUtils.isEmpty(toShortFormattedString())) {
 			return null;
 		}
 
