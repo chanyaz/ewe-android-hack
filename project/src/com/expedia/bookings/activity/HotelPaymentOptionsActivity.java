@@ -299,10 +299,7 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 				displayCreditCard();
 				break;
 			case SAVE:
-				// 1281. VSC doesn't support saving credit cards.
-				if (!ExpediaBookingApp.IS_VSC) {
-					displaySaveDialog();
-				}
+				displaySaveDialog();
 				break;
 			default:
 				displayOptions();
