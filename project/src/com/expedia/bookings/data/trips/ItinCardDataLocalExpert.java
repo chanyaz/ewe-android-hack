@@ -82,7 +82,7 @@ public class ItinCardDataLocalExpert extends ItinCardData {
 		Calendar end = DateTimeUtils.roundCalendar(endDateTime.getCalendar());
 		Calendar now = DateTimeUtils.roundCalendar(Calendar.getInstance());
 
-		if (DateTimeUtils.compareDateTimes(start, now) <= VALID_MINUTES_BEFORE
+		if (DateTimeUtils.compareDateTimes(start, now) >= -VALID_MINUTES_BEFORE
 				&& DateTimeUtils.compareDateTimes(end, now) <= VALID_MINUTES_AFTER) {
 			return true;
 		}
