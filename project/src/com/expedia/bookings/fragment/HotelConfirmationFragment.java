@@ -42,6 +42,7 @@ import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.SamsungWalletUtils;
 import com.expedia.bookings.utils.ShareUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.ItinHeaderImageView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -279,12 +280,13 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		Property property = Db.getHotelSearch().getSelectedProperty();
 
 		ShareUtils socialUtils = new ShareUtils(context);
-		String city = property.getLocation().getCity();
 		DateTime checkIn = DateTime.newInstance(searchParams.getCheckInDate());
 		DateTime checkOut = DateTime.newInstance(searchParams.getCheckOutDate());
-		String subject = socialUtils.getHotelShareSubject(city, checkIn, checkOut);
-		String body = socialUtils.getHotelShareTextLong(property.getName(), property.getLocation()
-				.getStreetAddressString(), property.getRelevantPhone(), checkIn, checkOut, null);
+		String address = StrUtils.formatAddress(property.getLocation());
+		String phone = Db.getBookingResponse().getPhoneNumber();
+
+		String subject = socialUtils.getHotelShareSubject(property.getLocation().getCity(), checkIn, checkOut);
+		String body = socialUtils.getHotelShareTextLong(property.getName(), address, phone, checkIn, checkOut, null);
 
 		SocialUtils.email(context, subject, body);
 
