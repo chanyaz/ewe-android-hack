@@ -196,7 +196,7 @@ public class HotelGalleryActivity extends SherlockFragmentActivity {
 
 		@Override
 		public int getCount() {
-			return mGallery.getCount();
+			return mProperty.getMediaCount();
 		}
 	}
 
