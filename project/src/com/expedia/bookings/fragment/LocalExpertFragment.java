@@ -105,6 +105,22 @@ public class LocalExpertFragment extends Fragment {
 		mLargeAttractionBubbleView.setOnClickListener(mOnClickListener);
 		mSmallAttractionBubbleView.setOnClickListener(mOnClickListener);
 
+		// Button style
+		switch (mSite.getCityIcon()) {
+		case R.drawable.ic_local_expert_hawaii: {
+			mCallButton.setBackgroundResource(R.drawable.btn_call_local_expert_hawaii);
+			break;
+		}
+		case R.drawable.ic_local_expert_vegas: {
+			mCallButton.setBackgroundResource(R.drawable.btn_call_local_expert_las_vegas);
+			break;
+		}
+		case R.drawable.ic_local_expert_orlando: {
+			mCallButton.setBackgroundResource(R.drawable.btn_call_local_expert_orlando);
+			break;
+		}
+		}
+
 		view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
