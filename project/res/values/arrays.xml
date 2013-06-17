@@ -807,6 +807,7 @@
         <item>Mock Server</item>
         <item>Public Integration</item>
         <item>Trunk (Stubbed)</item>
+        <item>Custom Server</item>
     </string-array>
     <string-array name="section_strings_property_amenities" tools:ignore="MissingTranslation">
         <item>Property Amenities</item>

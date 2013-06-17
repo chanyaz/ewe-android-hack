@@ -1071,6 +1071,7 @@ public class ExpediaServices implements DownloadListener {
 		case TRUNK:
 		case PUBLIC_INTEGRATION:
 		case PROXY:
+		case CUSTOM_SERVER:
 			appId = context.getString(R.string.facebook_dev_app_id);
 			break;
 		case PRODUCTION:
@@ -1404,6 +1405,7 @@ public class ExpediaServices implements DownloadListener {
 		PUBLIC_INTEGRATION,
 		TRUNK,
 		TRUNK_STUBBED,
+		CUSTOM_SERVER,
 	}
 
 	private static Map<EndPoint, String> sServerUrls = new HashMap<EndPoint, String>();
@@ -1451,6 +1453,10 @@ public class ExpediaServices implements DownloadListener {
 			return "http://" + SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
 					"localhost:3000") + "/" + domain + "/";
 		}
+		else if (endPoint == EndPoint.CUSTOM_SERVER) {
+			return "http://" + SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
+					"localhost:3000") + "/";
+		}
 		else {
 			throw new RuntimeException("Didn't know how to handle EndPoint: " + endPoint);
 		}
@@ -1488,6 +1494,9 @@ public class ExpediaServices implements DownloadListener {
 		}
 		else if (which.equals("Trunk (Stubbed)")) {
 			return EndPoint.TRUNK_STUBBED;
+		}
+		else if (which.equals("Custom Server")) {
+			return EndPoint.CUSTOM_SERVER;
 		}
 		else {
 			return EndPoint.PRODUCTION;

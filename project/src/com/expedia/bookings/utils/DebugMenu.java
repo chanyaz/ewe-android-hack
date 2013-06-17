@@ -67,6 +67,8 @@ public class DebugMenu {
 			return "Server: Mock Server";
 		case TRUNK_STUBBED:
 			return "Server: Trunk (Stubbed)";
+		case CUSTOM_SERVER:
+			return "Server: Custom Server";
 		default:
 			return "Server: Unknown";
 		}
