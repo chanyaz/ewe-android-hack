@@ -183,7 +183,10 @@ public class CalendarUtils {
 
 	public static CharSequence getCalendarDatePickerTitle(Context context, HotelSearchParams params) {
 		int nights = params.getStayDuration();
-		if (nights <= 1) {
+		if (params.getCheckInDate() == null && params.getCheckOutDate() == null) {
+			return context.getResources().getString(R.string.calendar_instructions_hotels_no_dates_selected);
+		}
+		else if (nights <= 1) {
 			return Html.fromHtml(context.getString(R.string.drag_to_extend_your_stay));
 		}
 		else {
