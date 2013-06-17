@@ -21,7 +21,7 @@ public class HotelImageFragment extends Fragment {
 	public static HotelImageFragment newInstance(Media media) {
 		HotelImageFragment imageFragment = new HotelImageFragment();
 		Bundle args = new Bundle();
-		args.putString(MEDIA, media.toJson().toString());
+		JSONUtils.putJSONable(args, MEDIA, media);
 		imageFragment.setArguments(args);
 		return imageFragment;
 	}
