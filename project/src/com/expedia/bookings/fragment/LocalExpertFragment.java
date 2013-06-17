@@ -102,6 +102,8 @@ public class LocalExpertFragment extends Fragment {
 		// Set view listeners
 		mCloseView.setOnClickListener(mOnClickListener);
 		mCallButton.setOnClickListener(mOnClickListener);
+		mLargeAttractionBubbleView.setOnClickListener(mOnClickListener);
+		mSmallAttractionBubbleView.setOnClickListener(mOnClickListener);
 
 		view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override
@@ -115,10 +117,17 @@ public class LocalExpertFragment extends Fragment {
 	}
 
 	public void advanceAttractions() {
+		advanceAttractions(null);
+	}
+
+	public void advanceAttractions(AttractionBubbleView view) {
 		final List<LocalExpertAttraction> attractions = mSite.getAttractions();
 		final int size = attractions.size();
 
-		if (mAdvanceIndex == 0) {
+		if (view != null) {
+			view.setAttraction(attractions.get(++mAdvanceIndex % size));
+		}
+		else if (mAdvanceIndex == 0) {
 			mLargeAttractionBubbleView.setAttraction(attractions.get(++mAdvanceIndex % size));
 			mSmallAttractionBubbleView.setAttraction(attractions.get(++mAdvanceIndex % size));
 		}
@@ -129,6 +138,7 @@ public class LocalExpertFragment extends Fragment {
 			mSmallAttractionBubbleView.setAttraction(attractions.get(++mAdvanceIndex % size));
 		}
 
+		mHandler.removeMessages(MSG_ADVANCE);
 		mHandler.sendMessageDelayed(Message.obtain(mHandler, MSG_ADVANCE), ADVANCE_DELAY);
 	}
 
@@ -146,6 +156,11 @@ public class LocalExpertFragment extends Fragment {
 			}
 			case R.id.call_button: {
 				SocialUtils.call(getActivity(), mSite.getPhoneNumber().toString());
+				break;
+			}
+			case R.id.small_attraction_bubble_view:
+			case R.id.large_attraction_bubble_view: {
+				advanceAttractions((AttractionBubbleView) v);
 				break;
 			}
 			}
