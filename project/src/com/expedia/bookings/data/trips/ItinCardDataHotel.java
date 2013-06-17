@@ -166,6 +166,9 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 
 	public Intent getDirectionsIntent() {
 		final String address = mProperty.getLocation().toLongFormattedString();
+		if (TextUtils.isEmpty(address)) {
+			return null;
+		}
 		final Uri uri = Uri.parse("http://maps.google.com/maps?daddr=" + address);
 
 		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
