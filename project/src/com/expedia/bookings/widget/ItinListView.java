@@ -583,6 +583,10 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			return;
 		}
 
+		if (mMode == MODE_LIST) {
+			return;
+		}
+
 		if (!mModeSwitchSemaphore.tryAcquire()) {
 			return;
 		}
@@ -675,6 +679,10 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			return;
 		}
 
+		if (mMode == MODE_DETAIL) {
+			return;
+		}
+
 		if (!mModeSwitchSemaphore.tryAcquire()) {
 			return;
 		}
@@ -691,17 +699,30 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	 */
 	@SuppressLint("NewApi")
 	private boolean synchronizedShowDetails(final int position, final boolean animate) {
+		mMode = MODE_DETAIL;
+		mDetailPosition = position;
+		setSelectedCardId(mAdapter.getItem(position).getId());
+
 		int lastViewPos = getCount() - 1;
 		int firstVisiblePos = getFirstVisiblePosition();
 		int lastVisiblePos = getLastVisiblePosition();
 		mExpandedCardHeight = Math.max(mExpandedCardHeight, getHeight());
+
+		// If this ListView hasn't drawn any children at all yet, wait until it has.
+		if (getChildCount() == 0) {
+			post(new Runnable() {
+				public void run() {
+					synchronizedShowDetails(position, animate);
+				}
+			});
+			return false;
+		}
 
 		// If position is somewhere offscreen, the view for this row won't have been created yet.
 		// In this case, we need to scroll to a visible position first, and _then_ expand it.
 		if (position < firstVisiblePos || position > lastVisiblePos) {
 			setSelectionFromTop(position, 0);
 			post(new Runnable() {
-				@Override
 				public void run() {
 					synchronizedShowDetails(position, animate);
 				}
@@ -743,6 +764,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			return false;
 		}
 
+		// By this point, we've done all UI looping and waiting.
+		// Things beyond this point will only be executed once per call to showDetails().
+
 		View view = getFreshDetailView(position);
 		if (!(view instanceof ItinCard)) {
 			mModeSwitchSemaphore.release();
@@ -755,9 +779,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			return true;
 		}
 
-		mMode = MODE_DETAIL;
-		mDetailPosition = position;
-		setSelectedCardId(mAdapter.getItem(position).getId());
 		if (mOnListModeChangedListener != null) {
 			mOnListModeChangedListener.onListModeChanged(mMode);
 		}
@@ -939,7 +960,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	// INNER CLASS INSTANCES
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	private Runnable mSelectCardRunnable;
+	private boolean mObservationFlag = false;
 
 	private DataSetObserver mDataSetObserver = new DataSetObserver() {
 		@Override
@@ -954,35 +975,12 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 			// We want to immediately display the selected card if there is one (on the first time
 			// we get data)
-			//
-			// This code is kind of a nightmarish hack due to waiting on different events to occur.
-			// First it loops until the Adapter has populated the ListView.  Once that happens, we
-			// scroll the row into position (it won't work if it's not partially visible).  After that,
-			// we show the details (without animating).
-			if (!mSimpleMode && mSelectCardRunnable == null && !TextUtils.isEmpty(mSelectedCardId)) {
+			if (!mSimpleMode && !mObservationFlag && !TextUtils.isEmpty(mSelectedCardId)) {
 				final int position = mAdapter.getPosition(mSelectedCardId);
 				if (position != -1 && position != mDetailPosition) {
+					mObservationFlag = true;
 					Log.i("Attempting to show selected card id: " + mSelectedCardId);
-
-					// We need to wait until the view is actually populated; so we run a postqueue until it shows up
-					mSelectCardRunnable = new Runnable() {
-						@Override
-						public void run() {
-							if (getChildCount() > 0) {
-								ItinListView.this.setSelectionFromTop(position, 0);
-								post(new Runnable() {
-									@Override
-									public void run() {
-										showDetails(position, false);
-									}
-								});
-							}
-							else {
-								postDelayed(this, 25);
-							}
-						}
-					};
-					mSelectCardRunnable.run();
+					showDetails(position, false);
 				}
 			}
 
