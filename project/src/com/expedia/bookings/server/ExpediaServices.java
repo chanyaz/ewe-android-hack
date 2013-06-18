@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
-
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -61,11 +60,9 @@ import com.expedia.bookings.data.AssociateUserToTripResponse;
 import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
-import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.ExpediaImageManager.ImageType;
 import com.expedia.bookings.data.FacebookLinkResponse;
 import com.expedia.bookings.data.FlightCheckoutResponse;
@@ -436,14 +433,6 @@ public class ExpediaServices implements DownloadListener {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Images API
-
-	public BackgroundImageResponse getFlightsBackgroundImage(String destinationCode, int width, int height) {
-		return getExpediaImage(ImageType.DESTINATION, destinationCode, width, height);
-	}
-
-	public BackgroundImageResponse getCarsBackgroundImage(Car.Category category, Car.Type type, int width, int height) {
-		return getExpediaImage(ImageType.CAR, ExpediaImageManager.getImageCode(category, type), width, height);
-	}
 
 	public BackgroundImageResponse getExpediaImage(ImageType imageType, String imageCode, int width, int height) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
