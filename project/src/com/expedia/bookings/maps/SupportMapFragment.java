@@ -13,6 +13,7 @@ import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.mobiata.android.Log;
 
 /**
  * You can't do anything with maps (like animate cameras) until they
@@ -54,7 +55,14 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 		view.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
-				if (view.getHeight() > 0 && view.getWidth() > 0) {
+				final int width = view.getWidth();
+				final int height = view.getHeight();
+				Log.d("SupportMapFragment global layout height=" + height + " width=" + width);
+
+				// https://code.google.com/p/gmaps-api-issues/issues/detail?id=4773
+				// Someone commented saying that the map needs to be at least 200dp by 200dp
+				final int minSize = (int) (200 * getActivity().getResources().getDisplayMetrics().density);
+				if (height > minSize && width > minSize) {
 					view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 
 					onMapLayout();
