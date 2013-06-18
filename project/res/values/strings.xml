@@ -666,7 +666,7 @@
     <!-- Calendar tooltip bottom line after two dates are selected E.g. Drag End Dates to Modify -->
     <string name="calendar_tooltip_bottom_drag_to_modify">Drag End Dates to Modify</string>
     <!-- Calendar tooltip hotels bottom line after a single date is selected "Select Checkout Date" -->
-    <string name="calendar_tooltip_hotel_bottom_select_checkout_date">Select Checkout Date</string>
+    <string name="calendar_tooltip_hotel_bottom_select_checkout_date">Select Check-out Date</string>
     <!-- Calendar tooltip hotels bottom line after two dates are selected TEMPLATE arg1=start date string, arg2=end date string, arg3=number of nights e.g. "May 26 - May 28 (2 nights)" -->
     <string name="calendar_tooltip_hotel_top_text_date_range_and_nights_TEMPLATE">%1$s - %2$s (%3$s)</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
