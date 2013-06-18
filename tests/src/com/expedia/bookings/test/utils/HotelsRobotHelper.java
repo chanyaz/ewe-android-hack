@@ -795,10 +795,17 @@ public class HotelsRobotHelper {
 				mSolo.clickOnText(mRes.getString(R.string.button_done));
 				delay();
 				try {
-					mSolo.clickOnText(mRes.getString(R.string.shop));
+					String shop = mRes.getString(R.string.shop);
+					String uppercaseShop = mRes.getString(R.string.shop).toUpperCase();
+					if (mSolo.searchText(shop, true)) {
+						mSolo.clickOnText(shop);
+					}
+					else {
+						mSolo.clickOnText(uppercaseShop);
+					}
 				}
 				catch (Error e) {
-					Log.e(TAG, "No 'shop' able to be clicked. Likely on tablet", e);
+					Log.e(TAG, "No 'shop' or 'SHOP' able to be clicked. Likely on tablet", e);
 				}
 			}
 			else {
