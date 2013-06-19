@@ -91,27 +91,22 @@ public class HotelSearch implements JSONable {
 	}
 
 	/**
-	 * Returns the currently "active" rate which is determined by the presence of a CreateTripResponse (i.e. coupon
-	 * has been applied), which will store the discounted rate. If no CreateTrip call has been made, then the selected
-	 * rate is determined from the availability response.
-	 * @return
+	 * Helper method to grab the rate of the currently selected room, based solely on the availability (and not coupon)
+	 * @return the currently selected rate, selected from the rooms and rates screen
 	 */
-	public Rate getActiveRate() {
-		if (mCreateTripResponse == null) {
-			return getAvailability(mSelectedPropertyId).getSelectedRate();
-		}
-		return mCreateTripResponse.getNewRate();
+	public Rate getSelectedRate() {
+		return getAvailability(mSelectedPropertyId).getSelectedRate();
 	}
 
 	/**
-	 * Returns the amount discounted from the application of coupon code. returns null if no coupon applied.
-	 * @return
+	 * Helper method to grab the new rate from the CreateTripResponse
+	 * @return the new Rate from the application of a coupon, null if no coupon has been applied
 	 */
-	public Money getCouponDiscount() {
+	public Rate getCouponRate() {
 		if (mCreateTripResponse == null) {
 			return null;
 		}
-		return mCreateTripResponse.getNewRate().getTotalPriceAdjustments();
+		return mCreateTripResponse.getNewRate();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

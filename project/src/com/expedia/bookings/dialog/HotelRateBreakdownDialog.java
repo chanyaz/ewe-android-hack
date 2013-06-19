@@ -52,7 +52,8 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 			}
 		});
 
-		final Rate rate = Db.getHotelSearch().getActiveRate();
+		final Rate originalRate = Db.getHotelSearch().getSelectedRate();
+		final Rate couponRate = Db.getHotelSearch().getCouponRate();
 		final HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 
 		Builder leftBuilder = new Builder();
@@ -68,7 +69,7 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 
 		// Price before taxes and fees
 		rightBuilder.setHeavy();
-		rightBuilder.setText(rate.getNightlyRateTotal().getFormattedMoney());
+		rightBuilder.setText(originalRate.getNightlyRateTotal().getFormattedMoney());
 		rightBuilder.build();
 
 		// Room night breakdown
@@ -76,8 +77,8 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 		leftBuilder.setMarginLeft(17);
 		rightBuilder.setLight();
 		DateFormat breakdownFormat = android.text.format.DateFormat.getDateFormat(getActivity());
-		if (rate.getRateBreakdownList() != null) {
-			for (RateBreakdown breakdown : rate.getRateBreakdownList()) {
+		if (originalRate.getRateBreakdownList() != null) {
+			for (RateBreakdown breakdown : originalRate.getRateBreakdownList()) {
 				Date date = breakdown.getDate().getCalendar().getTime();
 				leftBuilder.setText(breakdownFormat.format(date));
 				leftBuilder.build();
@@ -99,36 +100,35 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 		rightBuilder.setMedium();
 
 		// Discount from the potential coupon applied
-		Money couponDiscount = Db.getHotelSearch().getCouponDiscount();
-		if (couponDiscount != null) {
+		if (couponRate != null) {
 			leftBuilder.setText(R.string.discount);
 			leftBuilder.build();
 
-			rightBuilder.setText(couponDiscount.getFormattedMoney());
+			rightBuilder.setText(couponRate.getTotalPriceAdjustments().getFormattedMoney());
 			rightBuilder.setTextColor(getResources().getColor(R.color.hotel_price_breakdown_discount_green));
 			rightBuilder.build();
 		}
 
 		// Taxes and fees
-		if (rate.getTotalSurcharge() != null) {
+		if (originalRate.getTotalSurcharge() != null) {
 			leftBuilder.setText(R.string.taxes_and_fees);
 			leftBuilder.build();
 
-			if (rate.getTotalSurcharge().isZero()) {
+			if (originalRate.getTotalSurcharge().isZero()) {
 				rightBuilder.setText(R.string.included);
 			}
 			else {
-				rightBuilder.setText(rate.getTotalSurcharge().getFormattedMoney());
+				rightBuilder.setText(originalRate.getTotalSurcharge().getFormattedMoney());
 			}
 			rightBuilder.build();
 		}
 
 		// Extra guest fees
-		if (rate.getExtraGuestFee() != null && !rate.getExtraGuestFee().isZero()) {
+		if (originalRate.getExtraGuestFee() != null && !originalRate.getExtraGuestFee().isZero()) {
 			leftBuilder.setText(R.string.extra_guest_charge);
 			leftBuilder.build();
 
-			rightBuilder.setText(rate.getExtraGuestFee().getFormattedMoney());
+			rightBuilder.setText(originalRate.getExtraGuestFee().getFormattedMoney());
 			rightBuilder.build();
 		}
 
@@ -138,13 +138,13 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 			leftBuilder.setText(R.string.total_due_today);
 			leftBuilder.build();
 
-			rightBuilder.setText(rate.getTotalAmountAfterTax().getFormattedMoney());
+			rightBuilder.setText(originalRate.getTotalAmountAfterTax().getFormattedMoney());
 			rightBuilder.build();
 
 			leftBuilder.setText(R.string.MandatoryFees);
 			leftBuilder.build();
 
-			rightBuilder.setText(rate.getTotalMandatoryFees().getFormattedMoney());
+			rightBuilder.setText(originalRate.getTotalMandatoryFees().getFormattedMoney());
 			rightBuilder.build();
 		}
 
@@ -153,7 +153,8 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 		leftBuilder.setText(R.string.total_price_label);
 		leftBuilder.build();
 
-		rightBuilder.setText(rate.getDisplayTotalPrice().getFormattedMoney());
+		Money total = couponRate == null ? originalRate.getDisplayTotalPrice() : couponRate.getDisplayTotalPrice();
+		rightBuilder.setText(total.getFormattedMoney());
 		rightBuilder.build();
 
 		// Reallocate the cells since we added children, forces a requestLayout
