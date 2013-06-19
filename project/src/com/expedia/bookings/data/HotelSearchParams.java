@@ -439,16 +439,8 @@ public class HotelSearchParams implements JSONable {
 		mSearchLatitude = obj.optDouble("latitude", 0);
 		mSearchLongitude = obj.optDouble("longitude", 0);
 
-		JSONObject checkinDate = obj.optJSONObject("checkinDate");
-		if (checkinDate != null) {
-			mCheckInDate = new Date();
-			mCheckInDate.fromJson(checkinDate);
-		}
-		JSONObject checkoutDate = obj.optJSONObject("checkoutDate");
-		if (checkoutDate != null) {
-			mCheckOutDate = new Date();
-			mCheckOutDate.fromJson(checkoutDate);
-		}
+		mCheckInDate = JSONUtils.getJSONable(obj, "checkinDate", Date.class);
+		mCheckOutDate = JSONUtils.getJSONable(obj, "checkoutDate", Date.class);
 
 		mNumAdults = obj.optInt("numAdults", 0);
 		mChildren = JSONUtils.getIntList(obj, "children");
@@ -496,12 +488,10 @@ public class HotelSearchParams implements JSONable {
 				obj.put("latitude", mSearchLatitude);
 				obj.put("longitude", mSearchLongitude);
 			}
-			if (mCheckInDate != null) {
-				obj.put("checkinDate", mCheckInDate.toJson());
-			}
-			if (mCheckOutDate != null) {
-				obj.put("checkoutDate", mCheckOutDate.toJson());
-			}
+
+			JSONUtils.putJSONable(obj, "checkinDate", mCheckInDate);
+			JSONUtils.putJSONable(obj, "checkoutDate", mCheckOutDate);
+
 			obj.put("numAdults", mNumAdults);
 			JSONUtils.putIntList(obj, "children", mChildren);
 
