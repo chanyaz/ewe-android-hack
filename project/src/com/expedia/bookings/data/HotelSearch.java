@@ -97,7 +97,7 @@ public class HotelSearch implements JSONable {
 	 * @return
 	 */
 	public Rate getActiveRate() {
-		if (mCreateTripResponse ==  null) {
+		if (mCreateTripResponse == null) {
 			return getAvailability(mSelectedPropertyId).getSelectedRate();
 		}
 		return mCreateTripResponse.getNewRate();
@@ -216,9 +216,12 @@ public class HotelSearch implements JSONable {
 		mSelectedPropertyId = obj.optString("selectedPropertyId", null);
 		mCreateTripResponse = JSONUtils.getJSONable(obj, "createTripResponse", CreateTripResponse.class);
 
-		mAvailabilityMap = JSONUtils.getJSONableStringMap(obj, "availabilityMap", HotelAvailability.class, mAvailabilityMap);
-		mReviewsStatisticsResponses = JSONUtils.getJSONableStringMap(obj, "reviewsStatisticsResponses", ReviewsStatisticsResponse.class, mReviewsStatisticsResponses);
-		mReviewsResponses = JSONUtils.getJSONableStringMap(obj, "reviewsResponses", ReviewsResponse.class, mReviewsResponses);
+		mAvailabilityMap = JSONUtils.getJSONableStringMap(obj, "availabilityMap", HotelAvailability.class,
+				mAvailabilityMap);
+		mReviewsStatisticsResponses = JSONUtils.getJSONableStringMap(obj, "reviewsStatisticsResponses",
+				ReviewsStatisticsResponse.class, mReviewsStatisticsResponses);
+		mReviewsResponses = JSONUtils.getJSONableStringMap(obj, "reviewsResponses", ReviewsResponse.class,
+				mReviewsResponses);
 
 		return true;
 	}
