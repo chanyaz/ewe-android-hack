@@ -53,8 +53,6 @@ public class CreateTripResponse extends Response implements JSONable {
 		}
 
 		try {
-			//obj.putOpt("success", mSuccess);
-			//JSONUtils.putJSONable(obj, "user", mUser);
 			obj.put("tripId", mTripId);
 			obj.put("userId", mUserId);
 			JSONUtils.putJSONable(obj, "newRate", mNewRate);
@@ -72,7 +70,7 @@ public class CreateTripResponse extends Response implements JSONable {
 
 		mTripId = obj.optString("tripId", null);
 		mUserId = obj.optString("userId", null);
-		mNewRate = (Rate) JSONUtils.getJSONable(obj, "newRate", Rate.class);
+		mNewRate = JSONUtils.getJSONable(obj, "newRate", Rate.class);
 		return true;
 	}
 }

@@ -503,9 +503,5 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 			AdTracker.trackHotelBooked();
 			launchConfirmationActivity();
 		}
-
-		if (Db.getCreateTripResponse() != null) {
-			Db.setCouponDiscountRate(Db.getCreateTripResponse().getNewRate());
-		}
 	}
 }

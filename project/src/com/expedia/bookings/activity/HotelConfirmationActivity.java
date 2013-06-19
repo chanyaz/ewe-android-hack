@@ -78,7 +78,6 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity {
 			Db.setBillingInfo(null);
 			Db.setBookingResponse(null);
 			Db.setCreateTripResponse(null);
-			Db.setCouponDiscountRate(null);
 		}
 
 		OmnitureTracking.onPause();
