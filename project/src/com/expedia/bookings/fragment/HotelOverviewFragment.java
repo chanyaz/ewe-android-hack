@@ -568,8 +568,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		Rate rate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
 
 		// Configure the total cost and (if necessary) total cost paid to Expedia
-		if (Db.getCreateTripResponse() != null) {
-			rate = Db.getCreateTripResponse().getNewRate();
+		if (Db.getHotelSearch().getCreateTripResponse() != null) {
+			rate = Db.getHotelSearch().getCreateTripResponse().getNewRate();
 		}
 
 		// Configure slide to purchase string
@@ -1302,7 +1302,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		boolean offeredPromo = WalletUtils.offerGoogleWalletCoupon(getActivity());
 		boolean codeIsPromo = usingWalletPromoCoupon();
 		boolean applyingCoupon = BackgroundDownloader.getInstance().isDownloading(KEY_APPLY_COUPON);
-		boolean appliedCoupon = Db.getCreateTripResponse() != null;
+		boolean appliedCoupon = Db.getHotelSearch().getCreateTripResponse() != null;
 		mCouponCodeLayout.setVisibility(mBillingInfo.isUsingGoogleWallet()
 				&& offeredPromo && codeIsPromo && (applyingCoupon || appliedCoupon) ? View.GONE : View.VISIBLE);
 	}
@@ -1344,7 +1344,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	private void applyWalletCoupon() {
 		// If the user already has a coupon applied, clear it (and tell the user)
-		boolean hadCoupon = Db.getCreateTripResponse() != null;
+		boolean hadCoupon = Db.getHotelSearch().getCreateTripResponse() != null;
 
 		onCouponCodeChanged(WalletUtils.getWalletCouponCode(getActivity()));
 
@@ -1366,7 +1366,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	private void clearWalletPromoCoupon() {
 		mCouponCode = null;
 		BackgroundDownloader.getInstance().cancelDownload(KEY_APPLY_COUPON);
-		Db.setCreateTripResponse(null);
+		Db.getHotelSearch().setCreateTripResponse(null);
 		mCouponCodeWidget.resetState();
 
 		if (mWalletPromoThrobberDialog != null) {
@@ -1417,7 +1417,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			else {
 				Log.i("Applied coupon code: " + mCouponCode);
 
-				Db.setCreateTripResponse(response);
+				Db.getHotelSearch().setCreateTripResponse(response);
 
 				mCouponCodeWidget.onApplyCoupon(response.getNewRate());
 
@@ -1458,8 +1458,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			if (bd.isDownloading(KEY_APPLY_COUPON)) {
 				bd.cancelDownload(KEY_APPLY_COUPON);
 			}
-			else if (Db.getCreateTripResponse() != null) {
-				Db.setCreateTripResponse(null);
+			else if (Db.getHotelSearch().getCreateTripResponse() != null) {
+				Db.getHotelSearch().setCreateTripResponse(null);
 
 				OmnitureTracking.trackHotelCouponRemoved(getActivity());
 			}

@@ -17,6 +17,9 @@ public class HotelSearch implements JSONable {
 	private HotelSearchResponse mSearchResponse;
 	private String mSelectedPropertyId;
 
+	// The result of a call to e3 for a coupon code discount
+	private CreateTripResponse mCreateTripResponse;
+
 	// Each map keyed off of propertyId
 	private Map<String, Property> mPropertyMap;
 	private Map<String, HotelAvailability> mAvailabilityMap;
@@ -65,6 +68,14 @@ public class HotelSearch implements JSONable {
 
 	public HotelSearchResponse getSearchResponse() {
 		return mSearchResponse;
+	}
+
+	public void setCreateTripResponse(CreateTripResponse createTripResponse) {
+		mCreateTripResponse = createTripResponse;
+	}
+
+	public CreateTripResponse getCreateTripResponse() {
+		return mCreateTripResponse;
 	}
 
 	public void clearSelectedProperty() {
@@ -159,6 +170,7 @@ public class HotelSearch implements JSONable {
 			JSONUtils.putJSONable(obj, "searchParams", mSearchParams);
 			JSONUtils.putJSONable(obj, "searchResponse", mSearchResponse);
 			obj.putOpt("selectedPropertyId", mSelectedPropertyId);
+			JSONUtils.putJSONable(obj, "createTripResponse", mCreateTripResponse);
 
 			JSONUtils.putJSONableStringMap(obj, "availabilityMap", mAvailabilityMap);
 			JSONUtils.putJSONableStringMap(obj, "reviewsStatisticsResponses", mReviewsStatisticsResponses);
@@ -178,6 +190,7 @@ public class HotelSearch implements JSONable {
 		setSearchResponse(JSONUtils.getJSONable(obj, "searchResponse", HotelSearchResponse.class));
 
 		mSelectedPropertyId = obj.optString("selectedPropertyId", null);
+		mCreateTripResponse = JSONUtils.getJSONable(obj, "createTripResponse", CreateTripResponse.class);
 
 		mAvailabilityMap = JSONUtils.getJSONableStringMap(obj, "availabilityMap", HotelAvailability.class, mAvailabilityMap);
 		mReviewsStatisticsResponses = JSONUtils.getJSONableStringMap(obj, "reviewsStatisticsResponses", ReviewsStatisticsResponse.class, mReviewsStatisticsResponses);

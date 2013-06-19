@@ -42,9 +42,9 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> {
 				String tripId = null;
 				Long tuid = null;
 
-				if (Db.getCreateTripResponse() != null) {
-					tripId = Db.getCreateTripResponse().getTripId();
-					userId = Db.getCreateTripResponse().getUserId();
+				if (Db.getHotelSearch().getCreateTripResponse() != null) {
+					tripId = Db.getHotelSearch().getCreateTripResponse().getTripId();
+					userId = Db.getHotelSearch().getCreateTripResponse().getUserId();
 				}
 
 				if (Db.getUser() != null) {
