@@ -241,7 +241,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 			mSpacerView.setVisibility(View.GONE);
 			mShadowImageView.setVisibility(View.GONE);
 		}
-		else if (inListMode()) {
+		else if (!isInDetailMode()) {
 			mSpacerView.setVisibility(View.VISIBLE);
 			mShadowImageView.setVisibility(View.VISIBLE);
 		}
@@ -299,16 +299,14 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		return mIsLoading;
 	}
 
-	public boolean inListMode() {
-		if (mItinListView != null) {
-			return mItinListView.getMode() == ItinListView.MODE_LIST;
-		}
-		return true;//We start out in list mode
+	public boolean isInDetailMode() {
+		// false when mItinListView == null because we start out in list mode
+		return mItinListView != null && mItinListView.isInDetailMode();
 	}
 
-	public void setListMode() {
+	public void hideDetails() {
 		if (mItinListView != null) {
-			mItinListView.setMode(ItinListView.MODE_LIST);
+			mItinListView.hideDetails(true);
 		}
 	}
 
@@ -399,7 +397,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 	private OnListModeChangedListener mOnListModeChangedListener = new OnListModeChangedListener() {
 		@Override
-		public void onListModeChanged(int mode) {
+		public void onListModeChanged(boolean isInDetailMode) {
 			// In some bad timing situations, it's possible for the listener to fire
 			// far after this Fragment is dead in the eyes of its Activity.  In that
 			// case, don't do the list mode change (as it requires being attached).
@@ -408,29 +406,25 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 				return;
 			}
 
-			if (mode == ItinListView.MODE_LIST) {
-				mSpacerView.post(new Runnable() {
-					@Override
-					public void run() {
-						getCollapseAnimatorSet().start();
-					}
-				});
-
-				if (activity instanceof OnListModeChangedListener) {
-					((OnListModeChangedListener) activity).onListModeChanged(mode);
-				}
-			}
-			else if (mode == ItinListView.MODE_DETAIL) {
+			if (isInDetailMode) {
 				mSpacerView.post(new Runnable() {
 					@Override
 					public void run() {
 						getExpandAnimatorSet().start();
 					}
 				});
-
-				if (activity instanceof OnListModeChangedListener) {
-					((OnListModeChangedListener) activity).onListModeChanged(mode);
-				}
+			}
+			else {
+				mSpacerView.post(new Runnable() {
+					@Override
+					public void run() {
+						getCollapseAnimatorSet().start();
+					}
+				});
+			}
+			
+			if (activity instanceof OnListModeChangedListener) {
+				((OnListModeChangedListener) activity).onListModeChanged(isInDetailMode);
 			}
 		}
 	};

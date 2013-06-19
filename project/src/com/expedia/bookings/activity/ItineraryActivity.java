@@ -212,18 +212,18 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 
 		if (requestCode == REQUEST_SETTINGS && resultCode == ExpediaBookingPreferenceActivity.RESULT_CHANGED_PREFS) {
 			// Just to be safe, hide the popup window (as the itin may have been removed)
-			mItinListFragment.setListMode();
+			mItinListFragment.hideDetails();
 			hidePopupWindow();
 		}
 	}
 
 	@Override
 	public void onBackPressed() {
-		if (!mItinListFragment.inListMode()) {
-			mItinListFragment.setListMode();
+		if (mItinListFragment.isInDetailMode()) {
+			mItinListFragment.hideDetails();
 		}
 		else if (mTwoPaneMode && mItinCardFragment.isVisible()) {
-			mItinListFragment.setListMode();
+			mItinListFragment.hideDetails();
 			hidePopupWindow();
 			mFallbackPatternView.setVisibility(View.GONE);
 		}
@@ -494,16 +494,16 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 	// OnListModeChanged
 
 	@Override
-	public void onListModeChanged(int mode) {
+	public void onListModeChanged(boolean isInDetailMode) {
 		if (mTwoPaneMode) {
 			return;
 		}
 
-		if (mode == ItinListView.MODE_LIST) {
-			getSupportActionBar().show();
-		}
-		else if (mode == ItinListView.MODE_DETAIL) {
+		if (isInDetailMode) {
 			getSupportActionBar().hide();
+		}
+		else {
+			getSupportActionBar().show();
 		}
 	}
 }

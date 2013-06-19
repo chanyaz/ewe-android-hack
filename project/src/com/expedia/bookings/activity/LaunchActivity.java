@@ -212,8 +212,8 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	@Override
 	public void onBackPressed() {
 		if (mViewPager.getCurrentItem() == PAGER_POS_ITIN) {
-			if (mItinListFragment != null && !mItinListFragment.inListMode()) {
-				mItinListFragment.setListMode();
+			if (mItinListFragment != null && mItinListFragment.isInDetailMode()) {
+				mItinListFragment.hideDetails();
 				return;
 			}
 
@@ -450,8 +450,8 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 			mViewPager.setCurrentItem(PAGER_POS_WATERFALL);
 			actionBar.setSelectedNavigationItem(mPagerPosition);
 
-			if (mItinListFragment != null) {
-				mItinListFragment.setListMode();
+			if (mItinListFragment != null && mItinListFragment.isInDetailMode()) {
+				mItinListFragment.hideDetails();
 			}
 
 			if (mLaunchFragment != null) {
@@ -569,17 +569,14 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	};
 
 	@Override
-	public void onListModeChanged(int mode) {
-		if (mode == ItinListView.MODE_LIST) {
-			mViewPager.setPageSwipingEnabled(true);
-			getSupportActionBar().show();
-		}
-		else if (mode == ItinListView.MODE_DETAIL) {
+	public void onListModeChanged(boolean isInDetailMode) {
+		if (isInDetailMode) {
 			mViewPager.setPageSwipingEnabled(false);
 			getSupportActionBar().hide();
 		}
 		else {
 			mViewPager.setPageSwipingEnabled(true);
+			getSupportActionBar().show();
 		}
 	}
 

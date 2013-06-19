@@ -47,7 +47,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	public interface OnListModeChangedListener {
-		public void onListModeChanged(int mode);
+		public void onListModeChanged(boolean isInDetailMode);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -61,8 +61,8 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	public static final int SCROLL_HEADER_HIDDEN = -9999;
 
-	public static final int MODE_LIST = 0;
-	public static final int MODE_DETAIL = 1;
+	private static final int MODE_LIST = 0;
+	private static final int MODE_DETAIL = 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
@@ -359,22 +359,8 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		mExpandedCardHeight = height;
 	}
 
-	public int getMode() {
-		return mMode;
-	}
-
-	public void setMode(int mode) {
-		switch (mode) {
-		case MODE_DETAIL: {
-			showDetails();
-			break;
-		}
-		case MODE_LIST:
-		default: {
-			hideDetails(true);
-			break;
-		}
-		}
+	public boolean isInDetailMode() {
+		return mMode == ItinListView.MODE_DETAIL;
 	}
 
 	public void setOnListModeChangedListener(OnListModeChangedListener onListModeChangedListener) {
@@ -608,7 +594,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 		mMode = MODE_LIST;
 		if (mOnListModeChangedListener != null) {
-			mOnListModeChangedListener.onListModeChanged(mMode);
+			mOnListModeChangedListener.onListModeChanged(isInDetailMode());
 		}
 
 		removeFooterView(mFooterView);
@@ -780,7 +766,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		}
 
 		if (mOnListModeChangedListener != null) {
-			mOnListModeChangedListener.onListModeChanged(mMode);
+			mOnListModeChangedListener.onListModeChanged(isInDetailMode());
 		}
 
 		mExpandedCardOriginalHeight = mDetailsCard.getHeight();
