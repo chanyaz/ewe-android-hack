@@ -10,8 +10,8 @@ import android.content.Context;
 
 import com.expedia.bookings.R;
 import com.mobiata.android.Log;
-import com.mobiata.android.MapUtils;
 import com.mobiata.android.json.JSONable;
+import com.mobiata.android.maps.MapUtils;
 
 public class Distance implements JSONable, Comparable<Distance> {
 
