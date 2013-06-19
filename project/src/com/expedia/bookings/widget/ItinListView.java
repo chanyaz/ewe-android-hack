@@ -216,7 +216,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 		//If we are in detail mode, pass all touches to the ItinCard
 
-		if (mMode == MODE_DETAIL) {
+		if (isInDetailMode()) {
 			if (mDetailsCard != null) {
 				boolean retVal = mDetailsCard.dispatchTouchEvent(event);
 				return retVal;
@@ -343,7 +343,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	@Override
 	public void onDraw(Canvas canvas) {
 		//Draw the path behind the views
-		if (mMode == MODE_LIST) {
+		if (!isInDetailMode()) {
 			drawPathView(canvas);
 		}
 
@@ -555,13 +555,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		mAdapter.setSelectedCardId(cardId);
 	}
 
-	private void clearDetailView() {
-		mDetailPosition = -1;
-		mDetailsCard = null;
-		mAdapter.setDetailPosition(-1);
-		setSelectedCardId(null);
-	}
-
 	public void hideDetails(boolean animate) {
 		if (mSimpleMode) {
 			setSelectedCardId(null);
@@ -569,7 +562,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			return;
 		}
 
-		if (mMode == MODE_LIST) {
+		if (!isInDetailMode()) {
 			return;
 		}
 
@@ -633,7 +626,10 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 				mDetailsCard.getLayoutParams().height = mExpandedCardOriginalHeight;
 				mDetailsCard.requestLayout();
 
-				clearDetailView();
+				mDetailPosition = -1;
+				mDetailsCard = null;
+				mAdapter.setDetailPosition(-1);
+				setSelectedCardId(null);
 				invalidateViews();
 			}
 		});
@@ -643,10 +639,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	public void showDetails(String id, boolean animate) {
 		showDetails(mAdapter.getPosition(id), animate);
-	}
-
-	private void showDetails() {
-		showDetails(mDetailPosition, true);
 	}
 
 	private void showDetails(final int position, final boolean animate) {
@@ -665,7 +657,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			return;
 		}
 
-		if (mMode == MODE_DETAIL) {
+		if (isInDetailMode()) {
 			return;
 		}
 
@@ -685,10 +677,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	 */
 	@SuppressLint("NewApi")
 	private boolean synchronizedShowDetails(final int position, final boolean animate) {
-		mMode = MODE_DETAIL;
-		mDetailPosition = position;
-		setSelectedCardId(mAdapter.getItem(position).getId());
-
 		int lastViewPos = getCount() - 1;
 		int firstVisiblePos = getFirstVisiblePosition();
 		int lastVisiblePos = getLastVisiblePosition();
@@ -765,6 +753,10 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			return true;
 		}
 
+		mMode = MODE_DETAIL;
+		mDetailPosition = position;
+		setSelectedCardId(mAdapter.getItem(position).getId());
+
 		if (mOnListModeChangedListener != null) {
 			mOnListModeChangedListener.onListModeChanged(isInDetailMode());
 		}
@@ -839,12 +831,12 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 					@SuppressLint("NewApi")
 					@Override
 					public void run() {
-						if (ItinListView.this != null && ItinListView.this.mMode == MODE_LIST) {
+						if (ItinListView.this != null && !isInDetailMode()) {
 							if (AndroidUtils.getSdkVersion() >= 11) {
-								ItinListView.this.smoothScrollToPositionFromTop(pos, 0);
+								smoothScrollToPositionFromTop(pos, 0);
 							}
 							else {
-								ItinListView.this.setSelectionFromTop(pos, 0);
+								setSelectionFromTop(pos, 0);
 							}
 						}
 					}
