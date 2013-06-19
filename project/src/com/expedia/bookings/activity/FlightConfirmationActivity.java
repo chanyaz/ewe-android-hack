@@ -91,7 +91,7 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 	@Override
 	public void finish() {
 		// #953: Kick off deep refresh for newly booked flight
-		final FlightSearch search = Db.getFlightSearch();
+		final FlightSearch search = Db.getFlightCheckout();
 		if (search != null) {
 			final String itinNum = search.getSelectedFlightTrip().getItineraryNumber();
 			String tripId = Db.getItinerary(itinNum).getItineraryNumber();
