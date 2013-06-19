@@ -27,6 +27,7 @@ import com.expedia.bookings.fragment.HotelOverviewFragment.BookingOverviewFragme
 import com.expedia.bookings.fragment.LoginFragment.LogInListener;
 import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.ViewUtils;
@@ -75,8 +76,7 @@ public class HotelOverviewActivity extends SherlockFragmentActivity implements B
 
 		setContentView(R.layout.activity_booking_overview);
 
-		mBookingOverviewFragment = (HotelOverviewFragment) getSupportFragmentManager().findFragmentById(
-				R.id.booking_overview_fragment);
+		mBookingOverviewFragment = Ui.findSupportFragment(this, R.id.booking_overview_fragment);
 	}
 
 	@Override
@@ -89,6 +89,10 @@ public class HotelOverviewActivity extends SherlockFragmentActivity implements B
 	protected void onPause() {
 		super.onPause();
 		OmnitureTracking.onPause();
+
+		if (isFinishing()) {
+			Db.getHotelSearch().setCreateTripResponse(null);
+		}
 	}
 
 	@Override

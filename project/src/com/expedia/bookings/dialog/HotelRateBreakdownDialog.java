@@ -26,8 +26,6 @@ import com.mobiata.android.util.Ui;
 
 public class HotelRateBreakdownDialog extends DialogFragment {
 
-	private static final String ARG_RATE = "ARG_RATE";
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,8 +52,7 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 			}
 		});
 
-		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
-		final Rate rate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
+		final Rate rate = Db.getHotelSearch().getActiveRate();
 		final HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 
 		Builder leftBuilder = new Builder();
@@ -101,6 +98,17 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 		leftBuilder.setMedium();
 		rightBuilder.setMedium();
 
+		// Discount from the potential coupon applied
+		Money couponDiscount = Db.getHotelSearch().getCouponDiscount();
+		if (couponDiscount != null) {
+			leftBuilder.setText(R.string.discount);
+			leftBuilder.build();
+
+			rightBuilder.setText(couponDiscount.getFormattedMoney());
+			rightBuilder.setTextColor(getResources().getColor(R.color.hotel_price_breakdown_discount_green));
+			rightBuilder.build();
+		}
+
 		// Taxes and fees
 		if (rate.getTotalSurcharge() != null) {
 			leftBuilder.setText(R.string.taxes_and_fees);
@@ -145,8 +153,7 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 		leftBuilder.setText(R.string.total_price_label);
 		leftBuilder.build();
 
-		Money displayedTotal = rate.getDisplayTotalPrice();
-		rightBuilder.setText(displayedTotal.getFormattedMoney());
+		rightBuilder.setText(rate.getDisplayTotalPrice().getFormattedMoney());
 		rightBuilder.build();
 
 		// Reallocate the cells since we added children, forces a requestLayout
@@ -164,6 +171,7 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 	private class Builder {
 		private int mLayout = R.layout.snippet_breakdown_light;
 		private CharSequence mText;
+		private int mColor = -1;
 		private boolean mIsLeft = true;
 		private int mMarginLeft = 0;
 
@@ -187,6 +195,10 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 			mText = text;
 		}
 
+		public void setTextColor(int color) {
+			mColor = color;
+		}
+
 		public void setQuantityText(int stringId, int quantity) {
 			final Resources res = getResources();
 			mText = res.getQuantityString(stringId, quantity, quantity);
@@ -208,6 +220,12 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 			TextView tv = (TextView) mInflater.inflate(mLayout, mGrid, false);
 			tv.setText(mText);
 
+			if (mColor != -1) {
+				tv.setTextColor(mColor);
+				// After applying a color (which is an exception), just reset the Builder color cache so as not to reuse
+				mColor = -1;
+			}
+
 			LayoutParams lp = (LayoutParams) tv.getLayoutParams();
 			lp.setGravity(mIsLeft ? Gravity.LEFT : Gravity.RIGHT);
 
@@ -223,6 +241,7 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 		public void reset() {
 			mLayout = R.layout.snippet_breakdown_light;
 			mText = null;
+			mColor = -1;
 			mIsLeft = true;
 			mMarginLeft = 0;
 		}
