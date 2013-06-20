@@ -1054,7 +1054,13 @@ public class HotelsRobotHelper {
 		delay();
 
 		//Select top flight in list.
-		mSolo.clickInList(2, 2);
+		try {
+			mSolo.clickInList(2, 2);
+		}
+		catch (AssertionFailedError e) {
+			Log.e(TAG, "On older phone, so we must try to click in listview differently", e);
+			mSolo.clickInList(2);
+		}
 
 		//Confirm flight selection
 		//and advance to booking
