@@ -372,7 +372,7 @@ public class PointOfSale {
 			Locale locale = Locale.getDefault();
 			String langCode = locale.getLanguage();
 			for (PointOfSaleLocale posLocale : mLocales) {
-				if (posLocale.mLanguageCode.equalsIgnoreCase(langCode)) {
+				if (posLocale.mLanguageCode.compareToIgnoreCase(langCode) != 0) {
 					return posLocale;
 				}
 			}
