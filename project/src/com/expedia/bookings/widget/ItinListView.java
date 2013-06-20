@@ -27,7 +27,6 @@ import com.expedia.bookings.animation.AnimatorListenerShort;
 import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
-import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 import com.expedia.bookings.widget.itin.ItinButtonCard;
@@ -372,47 +371,12 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	}
 
 	public void syncWithManager() {
-		if (mAdapter != null) {
-			// Grab the data of the expanded card before sync, otherwise there may be a disparity between the index of
-			// the expanded card and the data that exists in the adapter (think about if a trip gets removed or a new
-			// trip is added)
-			ItinCardData expandedCardData = null;
-			if (mDetailPosition != -1) {
-				expandedCardData = mAdapter.getItem(mDetailPosition);
-			}
-
-			mAdapter.syncWithManager();
-
-			if (expandedCardData != null) {
-				String expandedCardId = expandedCardData.getTripComponent().getUniqueId();
-
-				boolean tripExists = false;
-				for (ItinCardData updatedCard : ItineraryManager.getInstance().getItinCardData()) {
-					String updatedCardId = updatedCard.getTripComponent().getUniqueId();
-					if (expandedCardId.equals(updatedCardId)) {
-						tripExists = true;
-						break;
-					}
-				}
-
-				//get the new position of the expanded card.
-				mDetailPosition = mAdapter.getPosition(expandedCardId);
-
-				if (tripExists && mDetailPosition >= 0) {
-					mDetailsCard = (ItinCard) getFreshDetailView(mDetailPosition);
-					if (mDetailsCard != null) {
-						mDetailsCard.expand(false);
-						mDetailsCard.requestLayout();
-					}
-					else {
-						hideDetails(true);
-					}
-				}
-				else {
-					hideDetails(true);
-				}
-			}
+		if (mAdapter == null) {
+			return;
 		}
+
+		// This will trigger our DataSetObserver
+		mAdapter.syncWithManager();
 	}
 
 	/**
@@ -677,7 +641,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	 */
 	@SuppressLint("NewApi")
 	private boolean synchronizedShowDetails(final int position, final boolean animate) {
-		int lastViewPos = getCount() - 1;
 		int firstVisiblePos = getFirstVisiblePosition();
 		int lastVisiblePos = getLastVisiblePosition();
 		mExpandedCardHeight = Math.max(mExpandedCardHeight, getHeight());
@@ -692,44 +655,38 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			return false;
 		}
 
-		// If position is somewhere offscreen, the view for this row won't have been created yet.
-		// In this case, we need to scroll to a visible position first, and _then_ expand it.
-		if (position < firstVisiblePos || position > lastVisiblePos) {
+		// Should we pre-scroll this item right to the top instead of expanding it outwards?
+		// * On API < 11, we won't animate the scrolling. We'll just move there right away.
+		// * If the position is entirely offscreen, expanding won't work right.
+		// * If the view is already expanded, just to make sure, scroll it to the top.
+		//   This might be the case if the index of the detail item changes as a result
+		boolean preScroll = (AndroidUtils.getSdkVersion() < 11)
+				|| (position < firstVisiblePos || position > lastVisiblePos)
+				|| (mMode == MODE_DETAIL);
+
+		if (preScroll) {
 			setSelectionFromTop(position, 0);
-			post(new Runnable() {
+			postDelayed(new Runnable() {
 				public void run() {
 					synchronizedShowDetails(position, animate);
 				}
-			});
+			}, 25);
 			return false;
-		}
-
-		// On API < 11, we won't animate the scrolling. We'll just move there right away.
-		if (AndroidUtils.getSdkVersion() < 11) {
-			// If our expanding views are at the bottom of the list,
-			// we need to add a footer view to make room for the expanded view on 2.x.
-			setSelectionFromTop(position, 0);
 		}
 
 		// If we are not yet scrolled into position, or all rows are on screen, add our footer view.
 		if (firstVisiblePos != position || ((getCount() - 1) == (lastVisiblePos - firstVisiblePos))) {
+			// If our expanding views are at the bottom of the list,
+			// we need to add a footer view to make room for the expanded view.
+			// This might not be needed > 2.x.
 			if (mFooterView == null) {
 				mFooterView = new FooterView(getContext(), mExpandedCardHeight);
 				addFooterView(mFooterView);
 			}
-			if (firstVisiblePos != position && AndroidUtils.getSdkVersion() < 11) {
-				//If we aren't scrolled to where we need to be, we continue calling showDetails until we are
-				postDelayed(new Runnable() {
-					public void run() {
-						synchronizedShowDetails(position, animate);
-					}
-				}, 25);
-				return false;
-			}
 		}
 
 		//If we are scrolled down but our footer still hasn't drawn, we wait
-		if (lastVisiblePos == lastViewPos && mFooterView != null && !mFooterView.getHasDrawn()) {
+		if (mFooterView != null && !mFooterView.getHasDrawn()) {
 			postDelayed(new Runnable() {
 				public void run() {
 					synchronizedShowDetails(position, animate);
@@ -753,9 +710,16 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			return true;
 		}
 
-		mMode = MODE_DETAIL;
 		mDetailPosition = position;
 		setSelectedCardId(mAdapter.getItem(position).getId());
+
+		// This might be the case if we're being called from synchronizedOnDataSetChanged.
+		if (mMode == MODE_DETAIL) {
+			mModeSwitchSemaphore.release();
+			return true;
+		}
+
+		mMode = MODE_DETAIL;
 
 		if (mOnListModeChangedListener != null) {
 			mOnListModeChangedListener.onListModeChanged(isInDetailMode());
@@ -824,28 +788,28 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	 * @return the position scrolled to ( < 0 if invalid )
 	 */
 	private int scrollToMostRelevantCard() {
-		if (mAdapter != null) {
-			final int pos = mAdapter.getMostRelevantCardPosition();
-			if (pos >= 0) {
-				Runnable runner = new Runnable() {
-					@SuppressLint("NewApi")
-					@Override
-					public void run() {
-						if (ItinListView.this != null && !isInDetailMode()) {
-							if (AndroidUtils.getSdkVersion() >= 11) {
-								smoothScrollToPositionFromTop(pos, 0);
-							}
-							else {
-								setSelectionFromTop(pos, 0);
-							}
+		if (mAdapter == null) {
+			return -1;
+		}
+
+		final int pos = mAdapter.getMostRelevantCardPosition();
+		if (pos >= 0) {
+			post(new Runnable() {
+				@SuppressLint("NewApi")
+				@Override
+				public void run() {
+					if (ItinListView.this != null && !isInDetailMode()) {
+						if (AndroidUtils.getSdkVersion() >= 11) {
+							smoothScrollToPositionFromTop(pos, 0);
+						}
+						else {
+							setSelectionFromTop(pos, 0);
 						}
 					}
-				};
-				ItinListView.this.post(runner);
-			}
-			return pos;
+				}
+			});
 		}
-		return -1;
+		return pos;
 	}
 
 	private void trackOmnitureItinExpanded(ItinCard card) {
@@ -941,38 +905,60 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	private boolean mObservationFlag = false;
 
 	private DataSetObserver mDataSetObserver = new DataSetObserver() {
-		@Override
 		public void onChanged() {
-			if (mScrollToReleventOnDataSetChange || mLastItemCount <= 0) {
-				if (scrollToMostRelevantCard() >= 0) {
-					mScrollToReleventOnDataSetChange = false;
-				}
-			}
-
-			mLastItemCount = mAdapter.getCount();
-
-			// We want to immediately display the selected card if there is one (on the first time
-			// we get data)
-			if (!mSimpleMode && !mObservationFlag && !TextUtils.isEmpty(mSelectedCardId)) {
-				final int position = mAdapter.getPosition(mSelectedCardId);
-				if (position != -1 && position != mDetailPosition) {
-					mObservationFlag = true;
-					Log.i("Attempting to show selected card id: " + mSelectedCardId);
-					showDetails(position, false);
-				}
-			}
-
-			//We want our background line to be refreshed, but not until after the list draws, 250 will usually
-			//be the right amount of time to delay, this isn't a great solution, but the line is totally non-critical
-			Runnable lineUpdateRunner = new Runnable() {
-				@Override
-				public void run() {
-					onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
-				}
-			};
-			ItinListView.this.postDelayed(lineUpdateRunner, 250);
+			onDataSetChanged();
 		}
 	};
+
+	private void onDataSetChanged() {
+		if (!mModeSwitchSemaphore.tryAcquire()) {
+			postDelayed(new Runnable() {
+				public void run() {
+					onDataSetChanged();
+				}
+			}, 25);
+			return;
+		}
+
+		synchronizedOnDataSetChanged();
+	}
+
+	private void synchronizedOnDataSetChanged() {
+		int selectedPosition = mAdapter.getPosition(mSelectedCardId);
+
+		// If the expanded card is no longer in the dataset, clean things up.
+		if (selectedPosition == -1 && mDetailPosition != -1) {
+			synchronizedHideDetails(false);
+			return;
+		}
+
+		// If a card is expanded but at a different index, make sure it's still showing/expanded
+		else if (selectedPosition != -1 && mDetailPosition != -1) {
+			synchronizedShowDetails(selectedPosition, false);
+			return;
+		}
+
+		// Otherwise if we should scroll to the most relevant card, do that
+		if (mScrollToReleventOnDataSetChange || mLastItemCount <= 0) {
+			if (scrollToMostRelevantCard() >= 0) {
+				mScrollToReleventOnDataSetChange = false;
+			}
+		}
+
+		mLastItemCount = mAdapter.getCount();
+
+		// Draw the background line
+		// We want our background line to be refreshed, but not until after
+		// the list draws, 250 will usually be the right amount of time to delay.
+		// This isn't a great solution, but the line is totally non-critical.
+		postDelayed(new Runnable() {
+			public void run() {
+				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
+			}
+		}, 250);
+
+		mModeSwitchSemaphore.release();
+	}
 
 	private AnimatorListener mModeSwitchSemListener = new AnimatorListenerShort() {
 
