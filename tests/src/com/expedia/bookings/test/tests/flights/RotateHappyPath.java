@@ -50,7 +50,7 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 		Random offsetNumberGen = new Random();
 		int dateOffset = 5 + offsetNumberGen.nextInt(23);
 		try {
-			mDriver.flightsHappyPath(mUser.mDepartureAirport, mUser.mArrivalAirport, dateOffset, false);
+			mDriver.flightsHappyPath(mUser.mDepartureAirport, mUser.mArrivalAirport, 0, false);
 		}
 		catch (IntegrationFailureError e) {
 			fail(e.getMessage());
