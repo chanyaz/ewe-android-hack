@@ -47,8 +47,7 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 
 		//generate random offset from current date
 		//for flights booking
-		Random offsetNumberGen = new Random();
-		int dateOffset = 5 + offsetNumberGen.nextInt(23);
+		
 		try {
 			mDriver.flightsHappyPath(mUser.mDepartureAirport, mUser.mArrivalAirport, 0, false);
 		}
