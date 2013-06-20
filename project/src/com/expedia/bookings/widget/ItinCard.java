@@ -232,6 +232,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		boolean wasNull = mHeaderView == null;
 		mHeaderView = mItinContentGenerator.getTitleView(mHeaderView, mTitleContentLayout);
 		if (wasNull && mHeaderView != null) {
+			mTitleContentLayout.removeAllViews();
 			mTitleContentLayout.addView(mHeaderView);
 		}
 
@@ -264,6 +265,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		wasNull = mSummaryView == null;
 		mSummaryView = mItinContentGenerator.getSummaryView(mSummaryView, mSummaryLayout);
 		if (wasNull && mSummaryView != null) {
+			mSummaryLayout.removeAllViews();
 			mSummaryLayout.addView(mSummaryView);
 		}
 
