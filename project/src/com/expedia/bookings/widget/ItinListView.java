@@ -15,6 +15,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
@@ -95,7 +96,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	private Semaphore mModeSwitchSemaphore = new Semaphore(1);
 
 	private FooterView mFooterView;
-	private View mFooterVisibilityView;
 
 	// If true, there's a second pane which handles showing card details.  Don't expand cards when clicked.
 	private boolean mSimpleMode = false;
@@ -139,12 +139,11 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		mAdapter.setOnItinCardClickListener(this);
 		mAdapter.syncWithManager();
 
-		// We add a dummy footer view, if we dont do this before setAdapter future calls to addFooterView wont
-		// have their views accounted for when measuring
-		mFooterVisibilityView = new View(getContext());
-		AbsListView.LayoutParams spacerViewParams = new AbsListView.LayoutParams(LayoutParams.MATCH_PARENT, 1);
-		mFooterVisibilityView.setLayoutParams(spacerViewParams);
-		addFooterView(mFooterVisibilityView);
+		// We have a footer view taking up blank space presumably so that the last card
+		// in the list has room to expand smoothly. We'll increase its height upon showDetails()
+		// and decrease its height back to 0 upon hideDetails().
+		mFooterView = new FooterView(context);
+		addFooterView(mFooterView);
 
 		setAdapter(mAdapter);
 		setOnItemClickListener(null);
@@ -554,9 +553,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			mOnListModeChangedListener.onListModeChanged(isInDetailMode());
 		}
 
-		removeFooterView(mFooterView);
-		mFooterView = null;
-
 		Animator set = buildContractAnimatorSet();
 		set.addListener(mModeSwitchSemListener);
 		if (!animate) {
@@ -589,6 +585,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
 				mDetailsCard.getLayoutParams().height = mExpandedCardOriginalHeight;
 				mDetailsCard.requestLayout();
+				mFooterView.setHeight(0);
 
 				mDetailPosition = -1;
 				mDetailsCard = null;
@@ -644,6 +641,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		int firstVisiblePos = getFirstVisiblePosition();
 		int lastVisiblePos = getLastVisiblePosition();
 		mExpandedCardHeight = Math.max(mExpandedCardHeight, getHeight());
+		mFooterView.setHeight(mExpandedCardHeight);
 
 		// If this ListView hasn't drawn any children at all yet, wait until it has.
 		if (getChildCount() == 0) {
@@ -664,29 +662,8 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 				|| (position < firstVisiblePos || position > lastVisiblePos)
 				|| (mMode == MODE_DETAIL);
 
-		if (preScroll) {
+		if (preScroll && firstVisiblePos != position) {
 			setSelectionFromTop(position, 0);
-			postDelayed(new Runnable() {
-				public void run() {
-					synchronizedShowDetails(position, animate);
-				}
-			}, 25);
-			return false;
-		}
-
-		// If we are not yet scrolled into position, or all rows are on screen, add our footer view.
-		if (firstVisiblePos != position || ((getCount() - 1) == (lastVisiblePos - firstVisiblePos))) {
-			// If our expanding views are at the bottom of the list,
-			// we need to add a footer view to make room for the expanded view.
-			// This might not be needed > 2.x.
-			if (mFooterView == null) {
-				mFooterView = new FooterView(getContext(), mExpandedCardHeight);
-				addFooterView(mFooterView);
-			}
-		}
-
-		//If we are scrolled down but our footer still hasn't drawn, we wait
-		if (mFooterView != null && !mFooterView.getHasDrawn()) {
 			postDelayed(new Runnable() {
 				public void run() {
 					synchronizedShowDetails(position, animate);
@@ -978,15 +955,28 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	// INNER CLASSES
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	private class FooterView extends View {
+	private class FooterView extends FrameLayout {
 		private boolean mHasDrawn = false;
+		private View mStretchyView;
 
-		public FooterView(Context context, int height) {
+		public FooterView(Context context) {
 			super(context);
 			AbsListView.LayoutParams params = new AbsListView.LayoutParams(
-					LayoutParams.MATCH_PARENT, height);
+					LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 			setLayoutParams(params);
 			setFocusable(true);
+
+			mStretchyView = new View(context);
+			mStretchyView.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, 0));
+			addView(mStretchyView);
+		}
+
+		public void setHeight(int height) {
+			ViewGroup.LayoutParams params = mStretchyView.getLayoutParams();
+			params.height = height;
+			mStretchyView.setLayoutParams(params);
+			mHasDrawn = false;
+			requestLayout();
 		}
 
 		public boolean getHasDrawn() {
