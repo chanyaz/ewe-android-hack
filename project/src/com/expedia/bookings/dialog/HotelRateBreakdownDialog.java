@@ -104,7 +104,7 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 			leftBuilder.setText(R.string.discount);
 			leftBuilder.build();
 
-			rightBuilder.setText(couponRate.getTotalPriceAdjustments().getFormattedMoney());
+			rightBuilder.setText("(" + couponRate.getTotalPriceAdjustments().getFormattedMoney() + ")");
 			rightBuilder.setTextColor(getResources().getColor(R.color.hotel_price_breakdown_discount_green));
 			rightBuilder.build();
 		}
