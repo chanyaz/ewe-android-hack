@@ -62,6 +62,8 @@
     <string name="Check_in_available">Check-in disponibile</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">%1$s volo per %2$s</string>
+    <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
+    <string name="your_flight_to_x_TEMPLATE">Il tuo volo per %1$s</string>
     <!-- Notification title for hotel check-out notification -->
     <string name="Check_out_today">Check-out oggi</string>
     <!-- Notification title for car pick up -->
@@ -262,11 +264,86 @@
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">COPIA %1$s</string>
 
+    <!-- Itin Buttons -->
+    <!-- Popup menu -->
+    <!-- Menu label: Hide this itin button for this trip -->
+    <string name="itin_button_hide">Nascondi</string>
+    <!-- Menu label: Never show this type of itin button again -->
+    <string name="itin_button_hide_forever">Nascondi sempre</string>
+
     <!-- Hotel attach -->
     <!-- Button label to search for a hotel in the flight destination city. %1$s is the city, e.g. "Washington, DC" -->
     <string name="add_hotel_TEMPLATE">Aggiungi un hotel a %1$s</string>
     <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
     <string name="add_hotel_fallback">Aggiungi un hotel presso la tua destinazione</string>
+
+    <!-- Itin Local Expert -->
+    <string name="talk_to_local_expert">Contatta un esperto locale</string>
+
+    <!-- Local Expert Sites -->
+    <!-- Name of Hawaii (for local expert) -->
+    <string name="site_hawaii">Hawaii</string>
+    <!-- Name of Orlando, FL (for local expert) -->
+    <string name="site_orlando">Orlando</string>
+    <!-- Name of Las Vegas (for local expert) -->
+    <string name="site_las_vegas">Las Vegas</string>
+
+    <!-- Template for the city title on Local Expert pages. %1$s is the name of the city-->
+    <string name="local_expert_title_TEMPLATE">Scopri %1$s</string>
+    <!-- Description body for the Local Expert pages -->
+    <string name="local_expert_description">Basta una chiamata per contattare il servizio concierge offerto dal tuo esperto locale \nper tutte le tue esigenze di viaggio.</string>
+    <!-- Text for the button on Local Expert pages, to call the concierge -->
+    <string name="local_expert_call_button_text">Chiama</string>
+
+    <!-- Local Expert attractions; these are all split into two lines (second line is bolded) -->
+    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
+    <string name="attraction_creatures_first">Fantastiche</string>
+    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
+    <string name="attraction_creatures_second">creature</string>
+    <!-- First half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
+    <string name="attraction_theme_parks_first">Visita i migliori</string>
+    <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
+    <string name="attraction_theme_parks_second">parchi a tema</string>
+    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
+    <string name="attraction_beaches_first">Trova le migliori</string>
+    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
+    <string name="attraction_beaches_second">spiagge</string>
+    <!-- First half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
+    <string name="attraction_helicopter_first">Vola</string>
+    <!-- Second half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
+    <string name="attraction_helicopter_second">in elicottero</string>
+    <!-- First half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
+    <string name="attraction_scuba_first">Immergiti</string>
+    <!-- Second half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
+    <string name="attraction_scuba_second">e scopri il mondo subacqueo</string>
+    <!-- First half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
+    <string name="attraction_casinos_first">I più straordinari</string>
+    <!-- Second half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
+    <string name="attraction_casinos_second">casinò</string>
+    <!-- First half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
+    <string name="attraction_ferrari_first">Guida una</string>
+    <!-- Second half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
+    <string name="attraction_ferrari_second">Ferrari</string>
+    <!-- First half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
+    <string name="attraction_family_first">Attività per</string>
+    <!-- Second half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
+    <string name="attraction_family_second">famiglie</string>
+    <!-- First half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
+    <string name="attraction_food_first">Assaggia</string>
+    <!-- Second half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
+    <string name="attraction_food_second">i piatti più raffinati</string>
+    <!-- First half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
+    <string name="attraction_entertainment_first">Trova le migliori</string>
+    <!-- Second half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
+    <string name="attraction_entertainment_second">opportunità di intrattenimento</string>
+    <!-- First half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
+    <string name="attraction_music_first">Trova un concerto</string>
+    <!-- Second half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
+    <string name="attraction_music_second">nelle vicinanze</string>
+    <!-- First half of phrase about local expert VIP status attraction.  Full phrase: "Arrive with VIP Status" -->
+    <string name="attraction_vip_first">Arriva</string>
+    <!-- Second half of phrase about local expert VIP status attraction.  Full phrase: "Arrive with VIP Status" -->
+    <string name="attraction_vip_second">con uno status VIP</string>
 
     <!-- Car category -->
     <!-- Car category: mini -->
@@ -435,9 +512,9 @@
     <string name="share_template_subject_car">Il mio noleggio auto (%1$s – %2$s)</string>
     <!-- Car rental share subject (no dates) -->
     <string name="share_template_subject_car_no_dates">Il mio noleggio auto</string>
-    <!-- 1: vehicle type  -->
+    <!-- 1: vehicle type -->
     <string name="share_template_short_car_type">Ho noleggiato una vettura (%1$s)</string>
-    <!--1: pick up date 2: drop off date -->
+    <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_short_car_dates">dal %1$s al %2$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
     <string name="share_car_start_TEMPLATE">Ecco i dettagli del mio noleggio auto con %1$s.</string>
@@ -453,7 +530,6 @@
     <string name="share_car_pickup_location_section">Luogo di ritiro:</string>
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">Luogo di riconsegna:</string>
-
 
     <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">I miei dettagli %1$s</string>
@@ -542,6 +618,8 @@
     <string name="select_a_flight_back_to_TEMPLATE">Seleziona volo di ritorno per %1$s.</string>
     <!-- Error message template when loading a webpage fails -->
     <string name="web_view_loading_error_TEMPLATE">Errore durante il caricamento della pagina! Messaggio di errore: %1$s</string>
+    <!-- Error message when attempting to load a webpage and there is no url to load -->
+    <string name="web_view_no_url">Nessun URL di pagina Web da caricare.</string>
     <!-- Title for screen when in an invalid POS we can't search for yet -->
     <string name="taking_off_soon">Decollo imminente…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
@@ -581,6 +659,20 @@
     <string name="calendar_instructions_range_selected_TEMPLATE">Hai selezionato un viaggio di %1$d notte/i</string>
     <!-- Start date and end date sameday -->
     <string name="calendar_instructions_range_selected_same_day">Hai selezionato andata e ritorno in giornata</string>
+    <!-- Calendar tooltip bottom line after a single date is selected e.g. (Optional) Select Return Date -->
+    <string name="calendar_tooltip_bottom_select_return_date">(Facoltativo) Seleziona una data di ritorno</string>
+    <!-- Calendar tooltip bottom line after two dates are selected E.g. Drag End Dates to Modify -->
+    <string name="calendar_tooltip_bottom_drag_to_modify">Trascina le date di fine per modificare</string>
+    <!-- Calendar tooltip hotels bottom line after a single date is selected "Select Checkout Date" -->
+    <string name="calendar_tooltip_hotel_bottom_select_checkout_date">Seleziona la data di check-out</string>
+    <!-- Calendar tooltip hotels bottom line after two dates are selected TEMPLATE arg1=start date string, arg2=end date string, arg3=number of nights e.g. "May 26 - May 28 (2 nights)" -->
+    <string name="calendar_tooltip_hotel_top_text_date_range_and_nights_TEMPLATE">%1$s - %2$s (%3$s)</string>
+    <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
+    <string name="calendar_instructions_date_range_TEMPLATE">%1$s - %2$s</string>
+    <!-- Calendar instruction text hotels date range template with nights. %1$s = Formatted start date, %2$s = formatted end date, %3$s = formatted nights string. E.g. May 12 - May 15 (3 nights) -->
+    <string name="calendar_instructions_date_range_with_nights_TEMPLATE">%1$s - %2$s (%3$s)</string>
+    <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
+    <string name="calendar_instructions_hotels_no_dates_selected">Seleziona la data di check-in</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -604,8 +696,10 @@
     <string name="baggage_fee_info">Informazioni sulla franchigia bagagli</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
     <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; di scalo a %2$s</string>
-    <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class and %4$s is the plane.  For example: "4h 10m, Economy (K) on a Boeing 747." -->
+    <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class and %4$s is the plane.  For example: "4h 10m - Economy (K), Boeing 747." -->
     <string name="flight_details_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s), %4$s.</string>
+    <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class. For example: "4h 10m - Economy (K)" -->
+    <string name="flight_details_no_plane_info_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)</string>
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">Economy</string>
     <!-- Label for "premium coach" cabin code -->
@@ -692,9 +786,12 @@
     <string name="loading_flight_details">Verifica modifiche prezzo in corso…</string>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">Il prezzo è diverso da %1$s</string>
-    <!-- Message shown to user when the airline is charging a fee to use their credit card brand -->
-    <!-- e.g. This airline charges a $5 fee to book with the selected card, included in the total. -->
-    <string name="airline_card_fee_TEMPLATE">La compagnia aerea applica una commissione di &lt;b&gt;%1$s&lt;/b&gt; ai pagamenti effettuati con la carta selezionata. La commissione è inclusa nel prezzo totale.</string>
+    <!-- Message shown to user when the airline is charging a fee to use their credit card brand e.g. This airline charges a fee of $5 (included in the total) to use this card. -->
+    <string name="airline_card_fee_TEMPLATE">Questa compagnia aerea addebita una commissione di &lt;b&gt;%1$s&lt;/b&gt; (inclusa nel totale) per l\&apos;utilizzo di questa carta.</string>
+    <!-- Message shown to user explaining an airline fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The airline charges a fee of $8.50 to use VISA." -->
+    <string name="airline_card_fee_select_TEMPLATE">La compagnia aerea addebita una commissione di %1$s per l\&apos;utilizzo di %2$s.</string>
+    <!-- Message shown to user when they can't use their credit card to book with the airline, %1$s is the credit card brand. e.g. "The airline does not support VISA." -->
+    <string name="airline_card_not_supported_TEMPLATE">La compagnia aerea non supporta %1$s.</string>
 
     <!-- Checkout Activity -->
     <!-- Expedia Account label -->
@@ -993,9 +1090,9 @@
 
     <!-- Add to calendar (hotels) -->
     <!-- Title for calendar entry for when you check into a hotel -->
-    <string name="calendar_hotel_title_checkin_TEMPLATE">Check In: %s</string>
+    <string name="calendar_hotel_title_checkin_TEMPLATE">Check-in: %s</string>
     <!-- Title for calendar entry for when you check out of a hotel -->
-    <string name="calendar_hotel_title_checkout_TEMPLATE">Check Out: %s</string>
+    <string name="calendar_hotel_title_checkout_TEMPLATE">Check-out: %s</string>
 
     <!-- Flight Rules -->
     <!-- Legal information header -->
@@ -1187,6 +1284,10 @@
     <string name="mobile_exclusive">Esclusiva mobile</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="tonight_only">Solo per questa notte!</string>
+    <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
+    <string name="hotel_search_range_error_TEMPLATE">Siamo spiacenti, ma non siamo in grado di cercare soggiorni in hotel superiori a %1$s giorni.</string>
+    <!-- Search Error title text "Search Error" -->
+    <string name="search_error">Errore di ricerca</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -1697,8 +1798,12 @@
     <string name="coupon_error">Errore coupon</string>
 
     <!-- Sharing bookings via email -->
+    <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
+    <string name="share_subject_dash_template">%1$s - %2$s</string>
+    <!-- The title of the share subject line -->
+    <string name="share_subject_title">Itinerario Expedia</string>
     <!-- Subject property name template. -->
-    <string name="share_subject_template">Expedia Itinerary -</string>
+    <string name="share_subject_template">Itinerario Expedia -</string>
     <!-- Subject dates template. 1$ and 2$ are the ` ranges (e.g., 3/21 - 3/24) -->
     <string name="share_subject_template_dates">(%1$s - %2$s)</string>
     <!-- Preset at the top of the share body message -->
@@ -1777,6 +1882,12 @@
     <string name="open_source_software_licenses">Licenze del software open source</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">Questa applicazione si serve delle seguenti biblioteche open-source:</string>
+
+    <!-- App support WebView -->
+    <!-- menu -->
+    <string name="email_us">Scrivici un\&apos;e-mail</string>
+    <!-- Support email body -->
+    <string name="app_support_message_body">Ti risponderemo al più presto! Le informazioni in basso possono aiutarci ad assisterti:</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
@@ -2166,6 +2277,7 @@
     <string name="country_zm">Zambia</string>
     <string name="country_zw">Zimbabwe</string>
     <string name="country_ax">Isole Åland</string>
+    <string name="country_vs">VSC</string>
 
     <!-- Google Wallet -->
     <!-- The merchant name to display to the user for Google Wallet -->
@@ -2180,12 +2292,24 @@
     <string name="spending_limit_exceeded">Il tuo limite di spesa di Google Wallet è stato superato</string>
     <!-- Content description for "buy with wallet" button -->
     <string name="wallet_buy_with_google_wallet">Acquista con Google Wallet</string>
+    <!-- Message for Google wallet coupon promotion -->
+    <string name="wallet_promo_offer">Ricevi <b>uno sconto del 10%</b> con Google Wallet!</string>
+    <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
+    <string name="coupon_replaced_message">Può essere utilizzato solo un codice coupon per prenotazione. Abbiamo sostituito il tuo coupon precedente con uno sconto del 10% per aver utilizzato Google Wallet.</string>
+    <!-- Message shown while loading Wallet coupon -->
+    <string name="wallet_promo_applying">Stiamo applicando lo sconto di Google Wallet…</string>
+    <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
+    <string name="error_wallet_promo_cannot_apply">Siamo spiacenti, ma lo sconto di Google Wallet non può essere applicato a questa prenotazione.</string>
+    <!-- Title for Google Wallet promo terms & conditions -->
+    <string name="wallet_promo_tc_title">Termini e condizioni dei coupon di Google Wallet</string>
+    <!-- Terms & conditions for Google Wallet promo -->
+    <string name="wallet_promo_tc_message">I coupon devono essere utilizzati nell\&apos;app Android di Expedia per viaggi dal 17 giugno 2013 al 31 dicembre 2013. Questa offerte è proposta da Expedia.com ed è valida solo per il clienti di Expedia.com negli Stati Uniti.\n\nLe prenotazioni sono soggette a disponibilità presso gli hotel con tariffa Expedia al momento della prenotazione e a tutti i termini e le condizioni applicabili. I coupon non possono essere cumulati, né utilizzati con altri promozioni o offerte speciali. Lo sconto coupon non può essere applicato per tasse, commissioni addebitati dal fornitore, penali di cancellazione o modifica, spese amministrative e altri oneri che sono di esclusiva responsabilità del cliente. Nel caso in cui si modifichino o si annullino parti della prenotazione, il coupon non si applica al programma di viaggio modificato.\n\ni termini e le condizioni del presente coupon sono come descritte e non possono essere modificate da persone non autorizzate, tra cui i dipendenti di Expedia, Inc. Il coupon non è trasferibile né convertibile in denaro. Non valido laddove proibito dalla legge. Expedia, Inc. può revocare e modificare questa offerta in qualsiasi momento.</string>
 
     <!-- Samsung Wallet -->
     <!-- Label to use when the ticket already exists in the wallet -->
     <string name="view_in_samsung_wallet">Visualizza in Samsung Wallet</string>
     <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
-    <string name="add_to_samsung_wallet">Aggiungi a Samsung Wallet</string>
+    <string name="load_to_samsung_wallet">Carica su Samsung Wallet</string>
 
     <!-- Human readable credit card names -->
     <!-- American Express -->
@@ -2292,5 +2416,111 @@
     <string name="S_Push_flight_CITY_gate_GATE">Il tuo volo per %1$s parte dal gate %2$s.</string>
     <!-- Your bags will be at baggage claim _  TEMPLATE -->
     <string name="S_Push_baggage_BAGGAGE">I tuoi bagagli saranno disponibili al nastro %1$s.</string>
+
+    <!--
+    Shortened Push Notification Loc Strings
+    These are for older versions of android that can't wrap notification text. We shorten
+    the strings by removing the city argument from the string. The city string gets displayed
+    in the notification title, so no harm done.
+
+    NOTE: We are removing the first arg, but we will still be passing it to the format string, so the argument range now
+    must start at %2$s
+    -->
+    <!-- Your flight to _ delayed _ hour TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_short">Ritardo di %2$s ora.</string>
+    <!-- Your flight to _ delayed _ hours TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_short">Ritardo di %2$s ore.</string>
+    <!-- Your flight to _ delayed _ minute TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_MINUTE_short">Ritardo di %2$s minuto.</string>
+    <!-- Your flight to _ delayed _ minutes TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_MINUTES_short">Ritardo di %2$s minuti.</string>
+    <!-- Your flight to _ delayed _ hour _ minute TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_short">Ritardo di %2$s ora e %3$s minuto.</string>
+    <!-- Your flight to _ delayed _ hour _ minutes TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_short">Ritardo di %2$s ora e %3$s minuti.</string>
+    <!-- Your flight to _ delayed _ hours _ minute TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_short">Ritardo di %2$s ore e %3$s minuto.</string>
+    <!-- Your flight to _ delayed _ hours _ minutes TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_short">Ritardo di %2$s ore e %3$s minuti.</string>
+    <!-- Your flight to _ departs _ minute early TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_MINUTE_short">Parte con un anticipo di %2$s minuto.</string>
+    <!-- Your flight to _ departs _ minutes early  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_MINUTES_short">Parte con un anticipo di %2$s minuti.</string>
+    <!-- Your flight to _ departs _ hour early TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOUR_short">Parte con un anticipo di %2$s ora.</string>
+    <!-- Your flight to _ departs _ hours early TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOURS_short">Parte con un anticipo di %2$s ore.</string>
+    <!-- Your flight to _ departs _ hour _ minute early TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_short">Parte con un anticipo di %2$s ora e %3$s minuto.</string>
+    <!-- Your flight to _ departs _ hours _ minute early TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_short">Parte con un anticipo di %2$s ore e %3$s minuto.</string>
+    <!-- Your flight to _ departs _ hour _ minutes early TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_short">Parte con un anticipo di %2$s ora e %3$s minuti.</string>
+    <!-- Your flight to _ departs _ hours _ minutes early TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_short">Parte con un anticipo di %2$s ore e %3$s minuti.</string>
+    <!-- Your flight to _ is delayed _ minute and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE_short">Ritardo di %2$s minuto e partenza dal gate %3$s.</string>
+    <!-- Your flight to _ is delayed _ minutes and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE_short">Ritardo di %2$s minuti e partenza dal gate %3$s.</string>
+    <!-- Your flight to _ is delayed _ hour and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE_short">Ritardo di %2$s ora e partenza dal gate %3$s.</string>
+    <!-- Your flight to _ is delayed _ hours and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE_short">Ritardo di %2$s ore e partenza dal gate %3$s.</string>
+    <!-- Your flight to _ is delayed _ hour _ minute and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE_short">Ritardo di %2$s ora e %3$s minuto e partenza dal gate %4$s.</string>
+    <!-- Your flight to _ is delayed _ hours _ minute and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE_short">Ritardo di %2$s ore e %3$s minuto e partenza dal gate %4$s.</string>
+    <!-- Your flight ot _ is delayed _ hour _ minutes and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE_short">Ritardo di %2$s ora e %3$s minuti e partenza dal gate %4$s.</string>
+    <!-- Your flight to _ is delayed _ hours _ minutes and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE_short">Ritardo di %2$s ore e %3$s minuti e partenza dal gate %4$s.</string>
+    <!-- Your flight to _ is now departing _ minute early from gate _ TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE_short">Partenza in anticipo di %2$s minuto dal gate %3$s.</string>
+    <!-- Your flight to _ is now departing _ minutes early from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE_short">Partenza in anticipo di %2$s minuti dal gate %3$s.</string>
+    <!-- Your flight to _ is now departing _ hour early from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE_short">Partenza in anticipo di %2$s ora dal gate %3$s.</string>
+    <!-- Your flight to _ is now departing _ hours early from gate _ TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE_short">Partenza in anticipo di %2$s ore dal gate %3$s.</string>
+    <!-- Your flight to _ is now departing _ hour _ minute early from gate _ TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE_short">Partenza in anticipo di %2$s ora e %3$s minuto dal gate %4$s.</string>
+    <!-- Your flight to _ is now departing _ hours _ minute early from gate _ TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE_short">Partenza in anticipo di %2$s ore e %3$s minuto dal gate %4$s.</string>
+    <!-- Your flight to _ is now departing _ hour _ minutes early from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE_short">Partenza in anticipo di %2$s ora e %3$s minuti dal gate %4$s.</string>
+    <!-- Your flight to _ is now departing _ hours _ minutes early from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE_short">Partenza in anticipo di %2$s ore e %3$s minuti dal gate %4$s.</string>
+    <!-- Your flight from _ to _ has been cancelled TEMPLATE (short version) -->
+    <string name="S_Push_flight_from_CITY_to_CITY_cancelled_short">Il volo da %1$s è stato cancellato.</string>
+    <!-- Your flight to _ departs in _ hour TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR_short">Parte tra %2$s ora.</string>
+    <!-- Your flight to _ departs in _ hours TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS_short">Parte tra %2$s ore.</string>
+    <!-- Your flight to _ departs in _ hours _ minute TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE_short">Parte tra %2$s ore e %3$s minuto.</string>
+    <!-- Your flight to _ departs in _ hours _ minutes TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES_short">Parte tra %2$s ore e %3$s minuti.</string>
+    <!-- Your flight to _ departs in _ hour _ minute TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE_short">Parte tra %2$s ora e %3$s minuto.</string>
+    <!-- Your flight to _ departs in _ hour _ minutes TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES_short">Parte tra %2$s ora e %3$s minuti.</string>
+    <!-- Your flight to _ departs in _ minutes TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_departs_in_MINUTES_short">Parte tra %2$s minuti.</string>
+    <!-- Your flight to _ now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_gate_GATE_short">Parte dal gate %2$s.</string>
+
+    <!-- VSC Info Screen -->
+    <!-- Header for a list of apps also written by VSC -->
+    <string name="AlsoByVSC">Also by VSC</string>
+    <!-- Name of VSC Train app -->
+    <string name="VSC_Voyages_SNF">Voyages-SNCF</string>
+    <!-- Description for FT Free app -->
+    <string name="VSC_Voyages_SNF_description">Applicazione Voyages-sncf.com</string>
+    <!-- VSC Copyright information -->
+    <string name="VSC_copyright">© Copyright 2012-2013 Agence Voyages-SNCF, Inc.\nTutti i diritti riservati.</string>
+    <!-- VSC app name -->
+    <string name="VSC_app_name">VSC Hotels</string>
+    <!-- Link to open when VSC logo is clicked on -->
+    <string name="app_vsc_info_url">http://www.voyages-sncf.com/</string>
 
 </resources>
