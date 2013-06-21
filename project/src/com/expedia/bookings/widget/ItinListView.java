@@ -72,7 +72,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	private String mSelectedCardId;
 
-	private ItinCard mDetailsCard;
+	private ItinCard mDetailsCardView;
 
 	private OnItemClickListener mOnItemClickListener;
 	private OnScrollListener mOnScrollListener;
@@ -212,8 +212,8 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		//If we are in detail mode, pass all touches to the ItinCard
 
 		if (isInDetailMode()) {
-			if (mDetailsCard != null) {
-				boolean retVal = mDetailsCard.dispatchTouchEvent(event);
+			if (mDetailsCardView != null) {
+				boolean retVal = mDetailsCardView.dispatchTouchEvent(event);
 				return retVal;
 			}
 			else {
@@ -536,7 +536,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	 * @return
 	 */
 	private boolean synchronizedHideDetails(boolean animate) {
-		if (mDetailPosition < 0 || mDetailsCard == null) {
+		if (mDetailPosition < 0 || mDetailsCardView == null) {
 			mModeSwitchSemaphore.release();
 			return true;
 		}
@@ -556,33 +556,33 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	}
 
 	private Animator buildCollapseAnimatorSet() {
-		ValueAnimator resizeAnimator = ResizeAnimator.buildResizeAnimator(mDetailsCard,
-				mDetailsCard.getCollapsedHeight());
+		ValueAnimator resizeAnimator = ResizeAnimator.buildResizeAnimator(mDetailsCardView,
+				mDetailsCardView.getCollapsedHeight());
 		resizeAnimator.addUpdateListener(new AnimatorUpdateListener() {
 			@Override
 			public void onAnimationUpdate(ValueAnimator animator) {
 				// We are animating the top offset of the detail card from 0 to mOriginalViewTop
-				int offset = (int) (mDetailsCard.getCollapsedTop() * animator.getAnimatedFraction());
+				int offset = (int) (mDetailsCardView.getCollapsedTop() * animator.getAnimatedFraction());
 				setSelectionFromTop(mDetailPosition, offset);
 				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
 			}
 		});
 
-		AnimatorSet detailCollapseAnim = mDetailsCard.collapse(false);
+		AnimatorSet detailCollapseAnim = mDetailsCardView.collapse(false);
 		AnimatorSet set = new AnimatorSet();
 		set.playTogether(resizeAnimator, detailCollapseAnim);
 
 		set.addListener(new AnimatorListenerShort() {
 			@Override
 			public void onAnimationEnd(Animator animator) {
-				setSelectionFromTop(mDetailPosition, mDetailsCard.getCollapsedTop());
+				setSelectionFromTop(mDetailPosition, mDetailsCardView.getCollapsedTop());
 				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
-				mDetailsCard.getLayoutParams().height = mDetailsCard.getCollapsedHeight();
-				mDetailsCard.requestLayout();
+				mDetailsCardView.getLayoutParams().height = mDetailsCardView.getCollapsedHeight();
+				mDetailsCardView.requestLayout();
 				mFooterView.setHeight(0);
 
 				mDetailPosition = -1;
-				mDetailsCard = null;
+				mDetailsCardView = null;
 				mAdapter.setDetailPosition(-1);
 				setSelectedCardId(null);
 				invalidateViews();
@@ -674,8 +674,8 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			return true;
 		}
 
-		mDetailsCard = (ItinCard) view;
-		if (mDetailsCard == null || !mDetailsCard.hasDetails()) {
+		mDetailsCardView = (ItinCard) view;
+		if (mDetailsCardView == null || !mDetailsCardView.hasDetails()) {
 			mModeSwitchSemaphore.release();
 			return true;
 		}
@@ -705,13 +705,13 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	}
 
 	private Animator buildExpandAnimatorSet() {
-		ValueAnimator resizeAnimator = ResizeAnimator.buildResizeAnimator(mDetailsCard, getHeight());
+		ValueAnimator resizeAnimator = ResizeAnimator.buildResizeAnimator(mDetailsCardView, getHeight());
 		if (AndroidUtils.getSdkVersion() >= 11) {
 			resizeAnimator.addUpdateListener(new AnimatorUpdateListener() {
 				@Override
 				public void onAnimationUpdate(ValueAnimator animator) {
 					// We are animating the top offset of the detail card from mOriginalViewTop to 0
-					int offset = (int) (mDetailsCard.getCollapsedTop() * (1f - animator.getAnimatedFraction()));
+					int offset = (int) (mDetailsCardView.getCollapsedTop() * (1f - animator.getAnimatedFraction()));
 					setSelectionFromTop(mDetailPosition, offset);
 					onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
 				}
@@ -719,7 +719,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			});
 		}
 
-		AnimatorSet expandAnimator = mDetailsCard.expand(false);
+		AnimatorSet expandAnimator = mDetailsCardView.expand(false);
 
 		AnimatorSet set = new AnimatorSet();
 		set.playTogether(resizeAnimator, expandAnimator);
@@ -733,9 +733,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			public void onAnimationEnd(Animator animator) {
 				setSelectionFromTop(mDetailPosition, 0);
 				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
-				mDetailsCard.getLayoutParams().height = getHeight();
-				mDetailsCard.requestLayout();
-				trackOmnitureItinExpanded(mDetailsCard);
+				mDetailsCardView.getLayoutParams().height = getHeight();
+				mDetailsCardView.requestLayout();
+				trackOmnitureItinExpanded(mDetailsCardView);
 			}
 		});
 
