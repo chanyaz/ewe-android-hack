@@ -119,7 +119,9 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		Ui.findView(v, R.id.action_container).setBackgroundResource(R.drawable.bg_confirmation_mask_hotels);
 
 		PointOfSale pos = PointOfSale.getPointOfSale();
-		if (pos.showHotelCrossSell() && pos.supportsFlights()) {
+		// 1373: Need to hide cross sell until we can fix the poor search results
+		//if (pos.showHotelCrossSell() && pos.supportsFlights()) {
+		if (false) {
 			ViewUtils.setAllCaps((TextView) Ui.findView(v, R.id.get_there_text_view));
 
 			String city = property.getLocation().getCity();
