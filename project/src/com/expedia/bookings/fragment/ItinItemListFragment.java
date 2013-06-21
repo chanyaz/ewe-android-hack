@@ -140,14 +140,6 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		mItinListView.setOnListModeChangedListener(mOnListModeChangedListener);
 		mItinListView.setOnItinCardClickListener(mOnItinCardClickListener);
 		mItinListView.setOnItemClickListener(mOnItemClickListener);
-		mItinListView.post(new Runnable() {
-			@Override
-			public void run() {
-				if (getActivity() != null) {
-					mItinListView.setExpandedCardHeight(view.getHeight());
-				}
-			}
-		});
 
 		mLoginButton.setOnClickListener(new OnClickListener() {
 			@Override

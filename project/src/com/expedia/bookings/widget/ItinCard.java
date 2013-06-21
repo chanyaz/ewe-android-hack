@@ -62,6 +62,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	private ItinContentGenerator<? extends ItinCardData> mItinContentGenerator;
 
 	private DisplayState mDisplayState = DisplayState.COLLAPSED;
+	private int mCollapsedHeight;
+	private int mCollapsedTop;
+
 	private boolean mShowSummary;
 	private boolean mSelectCard;
 	private boolean mShadeCard;
@@ -174,6 +177,24 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * If the card is expanded, returns the original height of the collapsed card. May
+	 * return 0 if the card has not yet been expanded.
+	 * @return
+	 */
+	public int getCollapsedHeight() {
+		return mCollapsedHeight;
+	}
+
+	/**
+	 * If the card is expanded, returns the original getTop() of the collapsed card. May
+	 * return 0 if the card has not yet been expanded.
+	 * @return
+	 */
+	public int getCollapsedTop() {
+		return mCollapsedTop;
+	}
 
 	/**
 	 * Is the MotionEvent happening atop our Summary Buttons?
@@ -460,6 +481,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 	public AnimatorSet expand(boolean startAnimation) {
 		mDisplayState = DisplayState.EXPANDED;
+
+		mCollapsedHeight = getHeight();
+		mCollapsedTop = getTop();
 
 		inflateDetailsView();
 		updateClickable();
