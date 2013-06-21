@@ -6,6 +6,7 @@ import android.graphics.*;
 import android.graphics.BlurMaskFilter.Blur;
 import android.graphics.Paint.Style;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LocalExpertAttraction;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
@@ -151,6 +153,9 @@ public class AttractionBubbleView extends LinearLayout {
 			canvas.drawCircle(mHalfWidth, mHalfWidth + mShadowOffsetY, mRadius, mShadowPaint);
 		}
 
+		mFirstLineTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, h / 15);
+		mSecondLineTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, h / 6);
+
 		setPadding(0, 0, 0, h / 10);
 	}
 
@@ -195,6 +200,8 @@ public class AttractionBubbleView extends LinearLayout {
 		mFirstLineTextView = Ui.findView(this, R.id.first_line_text_view);
 		mSecondLineTextView = Ui.findView(this, R.id.second_line_text_view);
 		mIconImageView = Ui.findView(this, R.id.attraction_icon_image_view);
+
+		FontCache.setTypeface(mSecondLineTextView, FontCache.Font.BEBAS_NEUE);
 
 		setAttraction(mAttraction);
 	}

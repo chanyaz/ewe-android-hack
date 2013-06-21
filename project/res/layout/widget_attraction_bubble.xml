@@ -1,19 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.expedia.bookings.widget.TextView
+    <com.expedia.bookings.widget.AutoResizeTextView
         android:id="@+id/first_line_text_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:textColor="@color/local_expert_primary_text"
+        android:textSize="24dp"
+        app:textAllCaps="true"/>
 
-    <com.expedia.bookings.widget.TextView
+    <com.expedia.bookings.widget.AutoResizeTextView
         android:id="@+id/second_line_text_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:textColor="@color/local_expert_primary_text"
+        android:textSize="48dp"
+        app:textAllCaps="true"/>
 
     <ImageView
         android:id="@+id/attraction_icon_image_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"/>
 
 </merge>

@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LocalExpertAttraction;
 import com.expedia.bookings.data.LocalExpertSite;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AttractionBubbleView;
 import com.mobiata.android.SocialUtils;
@@ -98,6 +99,9 @@ public class LocalExpertFragment extends Fragment {
 		mBackgroundImageView.setImageResource(mSite.getBackgroundResId());
 		mIconImageView.setImageResource(mSite.getCityIcon());
 		mTitleTextView.setText(getString(R.string.local_expert_title_TEMPLATE, mSite.getCity()));
+
+		// Set fonts
+		FontCache.setTypeface(mTitleTextView, FontCache.Font.BEBAS_NEUE);
 
 		// Set view listeners
 		mCloseView.setOnClickListener(mOnClickListener);
