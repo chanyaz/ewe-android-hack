@@ -1175,7 +1175,7 @@
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">Hi,</string>
     <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_TEMPLATE">Here are the details of my flight from %1$s to %2$s.</string>
+    <string name="share_flight_one_way_TEMPLATE">Here are the details of my flight(s) from %1$s to %2$s.</string>
     <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_round_trip_TEMPLATE">Here are the details of my round-trip flight from %1$s to %2$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
