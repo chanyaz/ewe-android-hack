@@ -28,6 +28,7 @@
     <dimen name="itin_flight_segment_divider_padding">10dp</dimen>
     <dimen name="itin_simple_list_width">440dp</dimen>
     <dimen name="itin_map_marker_bottom_padding">12dp</dimen>
+    <dimen name="itin_list_action_bar_offset">56dp</dimen>
 
     <!-- Dialog title height -->
     <dimen name="alert_dialog_title_height">64dip</dimen>

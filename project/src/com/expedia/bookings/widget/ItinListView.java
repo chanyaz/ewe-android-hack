@@ -16,6 +16,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
@@ -558,15 +560,19 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	private Animator buildCollapseAnimatorSet() {
 		ValueAnimator resizeAnimator = ResizeAnimator.buildResizeAnimator(mDetailsCardView,
 				mDetailsCardView.getCollapsedHeight());
-		resizeAnimator.addUpdateListener(new AnimatorUpdateListener() {
-			@Override
-			public void onAnimationUpdate(ValueAnimator animator) {
-				// We are animating the top offset of the detail card from 0 to mOriginalViewTop
-				int offset = (int) (mDetailsCardView.getCollapsedTop() * animator.getAnimatedFraction());
-				setSelectionFromTop(mDetailPosition, offset);
-				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
-			}
-		});
+		if (AndroidUtils.getSdkVersion() >= 11) {
+			resizeAnimator.addUpdateListener(new AnimatorUpdateListener() {
+				@Override
+				public void onAnimationUpdate(ValueAnimator animator) {
+					// We are animating the top offset of the detail card from 0 to mOriginalViewTop
+					float fraction = animator.getAnimatedFraction();
+					int offset = (int) (mDetailsCardView.getCollapsedTop() * fraction);
+
+					setSelectionFromTop(mDetailPosition, offset);
+					onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
+				}
+			});
+		}
 
 		AnimatorSet detailCollapseAnim = mDetailsCardView.collapse(false);
 		AnimatorSet set = new AnimatorSet();
@@ -705,14 +711,19 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	}
 
 	private Animator buildExpandAnimatorSet() {
-		ValueAnimator resizeAnimator = ResizeAnimator.buildResizeAnimator(mDetailsCardView, getHeight());
+		final int itinListActionBarOffset = getResources().getDimensionPixelSize(R.dimen.itin_list_action_bar_offset);
+		final int expandedHeight = getHeight() + itinListActionBarOffset;
+		ValueAnimator resizeAnimator = ResizeAnimator.buildResizeAnimator(mDetailsCardView, expandedHeight);
 		if (AndroidUtils.getSdkVersion() >= 11) {
 			resizeAnimator.addUpdateListener(new AnimatorUpdateListener() {
 				@Override
 				public void onAnimationUpdate(ValueAnimator animator) {
+					float fraction = animator.getAnimatedFraction();
+
 					// We are animating the top offset of the detail card from mOriginalViewTop to 0
-					int offset = (int) (mDetailsCardView.getCollapsedTop() * (1f - animator.getAnimatedFraction()));
-					setSelectionFromTop(mDetailPosition, offset);
+					float offset = mDetailsCardView.getCollapsedTop() * (1f - fraction);
+
+					setSelectionFromTop(mDetailPosition, (int) offset);
 					onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
 				}
 
@@ -726,6 +737,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		set.addListener(new AnimatorListenerShort() {
 			@Override
 			public void onAnimationStart(Animator animator) {
+				setSelectionFromTop(mDetailPosition, mDetailsCardView.getCollapsedTop());
 				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
 			}
 
@@ -733,7 +745,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			public void onAnimationEnd(Animator animator) {
 				setSelectionFromTop(mDetailPosition, 0);
 				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
-				mDetailsCardView.getLayoutParams().height = getHeight();
+				mDetailsCardView.getLayoutParams().height = expandedHeight;
 				mDetailsCardView.requestLayout();
 				trackOmnitureItinExpanded(mDetailsCardView);
 			}

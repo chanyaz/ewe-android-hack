@@ -453,7 +453,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 		AnimatorSet animatorSet = new AnimatorSet();
 		animatorSet.playTogether(pagerSlideDown, shadowSlideDown);
-		animatorSet.setDuration(200);
+		animatorSet.setDuration(400);
 
 		return animatorSet;
 	}
@@ -468,7 +468,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 		AnimatorSet animatorSet = new AnimatorSet();
 		animatorSet.playTogether(pagerSlideUp, shadowSlideUp);
-		animatorSet.setDuration(200);
+		animatorSet.setDuration(400);
 
 		return animatorSet;
 	}

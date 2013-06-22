@@ -388,7 +388,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 		//Title
 		ValueAnimator titleResizeAnimator = ResizeAnimator.buildResizeAnimator(mTitleLayout, mTitleLayoutHeight, 0);
-		titleResizeAnimator.setDuration(300);
 		titleResizeAnimator.addListener(new AnimatorListenerShort() {
 			@Override
 			public void onAnimationEnd(Animator arg0) {
