@@ -7,3 +7,5 @@ gen/
 project/.DS_Store
 local.properties
 build.xml
+build/
+.gradle/
