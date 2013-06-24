@@ -3,6 +3,8 @@ package com.expedia.bookings.fragment;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,6 +24,7 @@ import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AttractionBubbleView;
 import com.mobiata.android.SocialUtils;
+import com.mobiata.android.util.AndroidUtils;
 
 public class LocalExpertFragment extends Fragment {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -126,9 +129,15 @@ public class LocalExpertFragment extends Fragment {
 		}
 
 		view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			@TargetApi(16)
 			@Override
 			public void onGlobalLayout() {
-				view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+				if (AndroidUtils.getSdkVersion() >= 16) {
+					view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+				}
+				else {
+					view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+				}
 				mHandler.sendMessageDelayed(Message.obtain(mHandler, MSG_ADVANCE), START_DELAY);
 			}
 		});

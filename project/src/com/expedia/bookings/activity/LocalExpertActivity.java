@@ -3,16 +3,17 @@ package com.expedia.bookings.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LocalExpertSite;
 import com.expedia.bookings.data.LocalExpertSite.Preset;
 import com.expedia.bookings.fragment.LocalExpertFragment;
 import com.expedia.bookings.utils.Ui;
 
-public class LocalExpertActivity extends SherlockFragmentActivity {
+// This specifically extends FragmentActivity instead of SherlockActivity, since there's no ActionBar here.
+public class LocalExpertActivity extends FragmentActivity {
 	public static final String EXTRA_LOCAL_EXPERT_SITE = "EXTRA_LOCAL_EXPERT_SITE";
 
 	private static final String FRAGMENT_LOCAL_EXPERT = "FRAGMENT_LOCAL_EXPERT";
