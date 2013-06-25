@@ -243,8 +243,15 @@ public class TripParser {
 
 		parseTripCommon(obj, hotel);
 
-		hotel.setStartDate(parseDateTime(obj.opt("checkInDate")));
-		hotel.setEndDate(parseDateTime(obj.opt("checkOutDate")));
+		if (obj.has("checkInDateTime") && obj.has("checkOutDateTime")) {
+			hotel.setStartDate(parseDateTime(obj.opt("checkInDateTime")));
+			hotel.setEndDate(parseDateTime(obj.opt("checkOutDateTime")));
+		}
+		else {
+			// Old version of code, kept because I'm not sure which servers support newer version yet
+			hotel.setStartDate(parseDateTime(obj.opt("checkInDate")));
+			hotel.setEndDate(parseDateTime(obj.opt("checkOutDate")));
+		}
 
 		Property property = new Property();
 		property.setPropertyId(obj.optString("hotelId"));
