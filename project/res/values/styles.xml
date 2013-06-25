@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" 
+    xmlns:mobiata="http://schemas.android.com/apk/res-auto">
 
     <!-- System -->
 
@@ -883,6 +884,16 @@
         <item name="android:minHeight">@dimen/alert_dialog_window_title_height</item>
         <item name="android:paddingLeft">16dip</item>
         <item name="android:paddingRight">16dip</item>
+    </style>
+
+    <style name="HotelPriceText">
+        <item name="android:textColor">@color/hotel_price_text_color</item>
+        <item name="android:textSize">@dimen/hotel_row_price_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="HotelPriceText.VSC">
+        <item name="android:textColor">@color/hotel_price_text_color_vsc</item>
     </style>
 
 </resources>

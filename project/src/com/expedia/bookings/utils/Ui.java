@@ -1,7 +1,10 @@
 package com.expedia.bookings.utils;
 
+import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.v4.app.CompatFragmentActivity;
 import android.support.v4.app.Fragment;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.View.MeasureSpec;
 
@@ -110,5 +113,39 @@ public class Ui extends com.mobiata.android.util.Ui {
 		}
 
 		return new int[] { measuredWidth, measuredHeight };
+	}
+
+	public static int obtainStyledColor(Context context, int defColor, int... attrs) {
+		if (attrs.length < 2) {
+			return defColor;
+		}
+
+		TypedArray a = obtainTypedArray(context, attrs);
+		int color = a.getColor(0, defColor);
+		a.recycle();
+
+		return color;
+	}
+
+	// Do not expose this method
+	private static TypedArray obtainTypedArray(Context context, int... attrs) {
+		int primaryId = 0;
+
+		// Fetch the first attr out of the Theme
+		TypedArray a = context.obtainStyledAttributes(new int[]{attrs[0]});
+		primaryId = a.getResourceId(0, 0);
+		a.recycle();
+
+		// Now that we have a style to chase, we will follow it
+		for (int i = 1; i < attrs.length - 1; i++) {
+			a = context.obtainStyledAttributes(primaryId, new int[]{attrs[i]});
+			primaryId = a.getResourceId(0, 0);
+			a.recycle();
+		}
+
+		// Fetch the last guy in the chain
+		a = context.obtainStyledAttributes(primaryId, new int[]{attrs[attrs.length - 1]});
+		// Don't recycle, caller will be responsible
+		return a;
 	}
 }
