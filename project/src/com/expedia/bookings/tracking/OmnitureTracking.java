@@ -42,6 +42,7 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.LocalExpertSite;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -1142,6 +1143,7 @@ public class OmnitureTracking {
 	private static final String ITIN_ACTIVITY_INFO = "App.Itinerary.Activity.Info.Additional";
 	private static final String ITIN_ACTIVITY_SHARE_PREFIX = "App.Itinerary.Activity.Share.";
 	private static final String ITIN_RELOAD_TEMPLATE = "App.Itinerary.%s.Info.Reload";
+	private static final String ITIN_LOCAL_EXPERT = "App.Itinerary.LocalExpert";
 
 	public static void trackItinEmpty(Context context) {
 		internalTrackPageLoadEventStandard(context, ITIN_EMPTY);
@@ -1327,6 +1329,19 @@ public class OmnitureTracking {
 
 	public static void trackItinActivityInfo(Context context) {
 		internalTrackLink(context, ITIN_ACTIVITY_INFO);
+	}
+
+	public static void trackLocalExpert(Context context, LocalExpertSite site) {
+		Log.d(TAG, "Tracking \"" + ITIN_LOCAL_EXPERT + "\" pageLoad");
+		ADMS_Measurement s = createTrackPageLoadEventBase(context, ITIN_LOCAL_EXPERT);
+
+		s.setEvents("event7");
+
+		String rfrrId = "App.Itinerary.LocalExpert." + site.getTrackingId();
+		s.setProp(16, rfrrId);
+		s.setEvar(28, rfrrId);
+
+		s.track();
 	}
 
 	private static void addEvent15And16Maybe(Context context, ADMS_Measurement s) {

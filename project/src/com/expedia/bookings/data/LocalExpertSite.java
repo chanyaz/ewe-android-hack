@@ -18,6 +18,9 @@ public class LocalExpertSite implements Parcelable {
 	private int mBackground;
 	private List<LocalExpertAttraction> mAttractions = new ArrayList<LocalExpertAttraction>();
 
+	// Used solely for omniture tracking purposes
+	private String mTrackingId;
+
 	private LocalExpertSite() {
 		// Default constructor; use Builder
 	}
@@ -42,6 +45,10 @@ public class LocalExpertSite implements Parcelable {
 		return mAttractions;
 	}
 
+	public String getTrackingId() {
+		return mTrackingId;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Convenience builders for preset sites
 
@@ -63,6 +70,8 @@ public class LocalExpertSite implements Parcelable {
 
 	public static LocalExpertSite buildDestination(Context context, Destination destination) {
 		LocalExpertSite.Builder siteBuilder = new LocalExpertSite.Builder(context);
+
+		siteBuilder.setTrackingId(destination.getTrackingId());
 
 		switch (destination) {
 		case HAWAII:
@@ -228,6 +237,11 @@ public class LocalExpertSite implements Parcelable {
 			mSite.mAttractions.add(attraction);
 			return this;
 		}
+
+		public Builder setTrackingId(String trackingId) {
+			mSite.mTrackingId = trackingId;
+			return this;
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -239,6 +253,7 @@ public class LocalExpertSite implements Parcelable {
 		mPhoneNumber = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(in);
 		mBackground = in.readInt();
 		in.readList(mAttractions, getClass().getClassLoader());
+		mTrackingId = in.readString();
 	}
 
 	@Override
@@ -248,6 +263,7 @@ public class LocalExpertSite implements Parcelable {
 		TextUtils.writeToParcel(mPhoneNumber, dest, flags);
 		dest.writeInt(mBackground);
 		dest.writeList(mAttractions);
+		dest.writeString(mTrackingId);
 	}
 
 	@Override
