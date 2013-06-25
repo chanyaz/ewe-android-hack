@@ -69,22 +69,20 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	private int mStandardTextColor;
 	private int mDefaultTextColor;
 
-	public HotelAdapter(Context context) {
-		init(context);
+	public HotelAdapter(Activity activity) {
+		init(activity);
 	}
 
-	public HotelAdapter(Context context, HotelSearchResponse searchResponse) {
-		this(context);
-		init(context);
+	public HotelAdapter(Activity activity, HotelSearchResponse searchResponse) {
+		this(activity);
 		setSearchResponse(searchResponse);
 	}
 
-	private void init(Context context) {
-		mContext = context;
-		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	private void init(final Activity activity) {
+		mContext = activity;
+		mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mUseCondensedRows = LayoutUtils.isScreenNarrow(mContext);
 
-		Activity activity = (Activity) mContext;
 		mDefaultTextColor = mContext.getResources().getColor(R.color.hotel_price_text_color);
 		mStandardTextColor = Ui.obtainThemeColor(activity, R.attr.hotelPriceStandardColor);
 		mSaleTextColor = Ui.obtainThemeColor(activity, R.attr.hotelPriceSaleColor);

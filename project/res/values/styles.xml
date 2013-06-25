@@ -886,9 +886,4 @@
         <item name="android:paddingRight">16dip</item>
     </style>
 
-    <style name="HotelPriceText">
-        <item name="android:textSize">@dimen/hotel_row_price_text_size</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
 </resources>
