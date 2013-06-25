@@ -899,8 +899,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	// INNER CLASS INSTANCES
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	private boolean mObservationFlag = false;
-
 	private DataSetObserver mDataSetObserver = new DataSetObserver() {
 		public void onChanged() {
 			onDataSetChanged();
