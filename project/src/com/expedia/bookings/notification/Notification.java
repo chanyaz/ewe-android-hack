@@ -273,7 +273,20 @@ public class Notification extends Model implements JSONable {
 		this.mImageValue = value;
 	}
 
-	public void setImage(ImageType type, int resId, String value) {
+	public void setImageCar(String url) {
+		setImage(ImageType.CAR, 0, url);
+	}
+
+	public void setImageDestination(int placeholderResId, String value) {
+		setImage(ImageType.DESTINATION, placeholderResId, value);
+	}
+
+	public void setImageUrls(List<String> urls) {
+		String imageUrl = urls.get(0);
+		setImage(ImageType.URL, 0, imageUrl);
+	}
+
+	private void setImage(ImageType type, int resId, String value) {
 		setImageType(type);
 		setImageResId(resId);
 		setImageValue(value);

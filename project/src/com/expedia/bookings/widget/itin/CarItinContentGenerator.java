@@ -310,6 +310,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 	// the day of pick-up or 2 hours prior to the drop-off time (if on the same day).
 	private Notification generatePickUpNotification() {
 		ItinCardDataCar data = getItinCardData();
+		Car car = data.getCar();
 
 		String itinId = data.getId();
 
@@ -326,8 +327,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		Notification notification = new Notification(itinId + "_pickup", itinId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.CAR_PICK_UP);
 		notification.setExpirationTimeMillis(expirationTimeMillis);
-		String carImageValue = ExpediaImageManager.getImageCode(data.getCar().getCategory(), data.getCar().getType());
-		notification.setImage(ImageType.CAR, 0, carImageValue);
+		notification.setImageCar(ExpediaImageManager.getImageCode(car.getCategory(), car.getType()));
 		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_CALL);
 		notification.setIconResId(R.drawable.ic_stat_car);
 
@@ -347,6 +347,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 	// car is due to be returned in two hours."
 	private Notification generateDropOffNotification() {
 		ItinCardDataCar data = getItinCardData();
+		Car car = data.getCar();
 
 		String itinId = data.getId();
 
@@ -361,8 +362,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		Notification notification = new Notification(itinId + "_dropoff", itinId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.CAR_DROP_OFF);
 		notification.setExpirationTimeMillis(expirationTimeMillis);
-		String carImageValue = ExpediaImageManager.getImageCode(data.getCar().getCategory(), data.getCar().getType());
-		notification.setImage(ImageType.CAR, 0, carImageValue);
+		notification.setImageCar(ExpediaImageManager.getImageCode(car.getCategory(), car.getType()));
 		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_CALL);
 		notification.setIconResId(R.drawable.ic_stat_car);
 
