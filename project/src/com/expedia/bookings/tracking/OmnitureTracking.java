@@ -1210,9 +1210,20 @@ public class OmnitureTracking {
 		}
 	}
 
-	public static void trackItin(Context context) {
+	public static void trackItin(Context context, String localExpertDests) {
 		Log.d(TAG, "Tracking \"" + ITIN + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(context, ITIN);
+
+		addEvent15And16Maybe(context, s);
+
+		if (!TextUtils.isEmpty(localExpertDests)) {
+			s.setEvents(s.getEvents() + ",event6");
+
+			String rfrrId = "App.Itinerary.LocalExpert." + localExpertDests;
+			s.setProp(16, rfrrId);
+			s.setEvar(28, rfrrId);
+		}
+
 		s.track();
 	}
 

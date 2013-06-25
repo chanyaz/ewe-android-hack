@@ -533,7 +533,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 			Context context = getActivity();
 			if (context != null) {
 				if (trips.size() > 0) {
-					OmnitureTracking.trackItin(getActivity());
+					OmnitureTracking.trackItin(getActivity(), mItinListView.getAdapter().getTrackingLocalExpertDestinations());
 				}
 				else {
 					if (trackEmpty) {

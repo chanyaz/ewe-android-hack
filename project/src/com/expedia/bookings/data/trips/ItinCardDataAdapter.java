@@ -3,6 +3,7 @@ package com.expedia.bookings.data.trips;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.Set;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -12,6 +13,7 @@ import android.widget.BaseAdapter;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.LocalExpertSite.Preset;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.model.DismissedItinButton;
 import com.expedia.bookings.widget.ItinCard;
@@ -499,6 +501,22 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 			return;
 		}
+	}
+
+	// Used only for Omniture tracking
+	//
+	// Returns a delimited list of the local expert destinations, or the empty string
+	// for none.
+	public String getTrackingLocalExpertDestinations() {
+		Set<String> dests = new HashSet<String>();
+		for (ItinCardData data : mItinCardDatas) {
+			if (data instanceof ItinCardDataLocalExpert) {
+				Preset preset = ((ItinCardDataLocalExpert) data).getSitePreset();
+				dests.add(preset.getTrackingId());
+			}
+		}
+
+		return TextUtils.join("|", dests);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////

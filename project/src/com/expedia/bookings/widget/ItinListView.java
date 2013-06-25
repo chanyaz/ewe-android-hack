@@ -24,6 +24,7 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.expedia.bookings.R;
@@ -159,6 +160,11 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	//////////////////////////////////////////////////////////////////////////////////////
 	// OVERRIDES
 	//////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public ItinCardDataAdapter getAdapter() {
+		return mAdapter;
+	}
 
 	@Override
 	public Parcelable onSaveInstanceState() {

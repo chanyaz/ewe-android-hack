@@ -46,9 +46,19 @@ public class LocalExpertSite implements Parcelable {
 	// Convenience builders for preset sites
 
 	public enum Preset {
-		HAWAII,
-		LAS_VEGAS,
-		ORLANDO,
+		HAWAII("Hawaii"),
+		LAS_VEGAS("LAS"),
+		ORLANDO("MCO");
+
+		private String mTrackingId;
+
+		private Preset(String trackingId) {
+			mTrackingId = trackingId;
+		}
+
+		public String getTrackingId() {
+			return mTrackingId;
+		}
 	}
 
 	public static LocalExpertSite buildPreset(Context context, Preset preset) {
