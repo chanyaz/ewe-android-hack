@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.LocalExpertActivity;
-import com.expedia.bookings.data.LocalExpertSite.Preset;
+import com.expedia.bookings.data.LocalExpertSite.Destination;
 import com.expedia.bookings.data.trips.ItinCardDataLocalExpert;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 
@@ -31,9 +31,9 @@ public class LocalExpertItinContentGenerator extends ItinButtonContentGenerator<
 			@Override
 			public void onClick(View v) {
 				final Context context = v.getContext();
-				final Preset preset = getItinCardData().getSitePreset();
+				final Destination destination = getItinCardData().getSiteDestination();
 
-				context.startActivity(LocalExpertActivity.createIntent(context, preset));
+				context.startActivity(LocalExpertActivity.createIntent(context, destination));
 			}
 		};
 	}

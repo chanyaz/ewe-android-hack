@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import com.expedia.bookings.data.DateTime;
-import com.expedia.bookings.data.LocalExpertSite.Preset;
+import com.expedia.bookings.data.LocalExpertSite.Destination;
 import com.expedia.bookings.data.Location;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 
@@ -39,7 +39,7 @@ public class ItinCardDataLocalExpert extends ItinCardData {
 		return false;
 	}
 
-	public Preset getSitePreset() {
+	public Destination getSiteDestination() {
 		Location location = ((TripHotel) getTripComponent()).getProperty().getLocation();
 		if (location == null) {
 			return null;
@@ -49,13 +49,13 @@ public class ItinCardDataLocalExpert extends ItinCardData {
 		final String state = location.getStateCode().toLowerCase();
 
 		if (state.equals(HAWAII)) {
-			return Preset.HAWAII;
+			return Destination.HAWAII;
 		}
 		else if (city.equals(LAS_VEGAS)) {
-			return Preset.LAS_VEGAS;
+			return Destination.LAS_VEGAS;
 		}
 		else if (city.equals(ORLANDO)) {
-			return Preset.ORLANDO;
+			return Destination.ORLANDO;
 		}
 
 		return null;

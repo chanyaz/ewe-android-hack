@@ -13,7 +13,7 @@ import android.widget.BaseAdapter;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.LocalExpertSite.Preset;
+import com.expedia.bookings.data.LocalExpertSite.Destination;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.model.DismissedItinButton;
 import com.expedia.bookings.widget.ItinCard;
@@ -511,8 +511,8 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		Set<String> dests = new HashSet<String>();
 		for (ItinCardData data : mItinCardDatas) {
 			if (data instanceof ItinCardDataLocalExpert) {
-				Preset preset = ((ItinCardDataLocalExpert) data).getSitePreset();
-				dests.add(preset.getTrackingId());
+				Destination destination = ((ItinCardDataLocalExpert) data).getSiteDestination();
+				dests.add(destination.getTrackingId());
 			}
 		}
 

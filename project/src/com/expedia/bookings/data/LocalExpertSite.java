@@ -45,14 +45,14 @@ public class LocalExpertSite implements Parcelable {
 	//////////////////////////////////////////////////////////////////////////
 	// Convenience builders for preset sites
 
-	public enum Preset {
+	public enum Destination {
 		HAWAII("Hawaii"),
 		LAS_VEGAS("LAS"),
 		ORLANDO("MCO");
 
 		private String mTrackingId;
 
-		private Preset(String trackingId) {
+		private Destination(String trackingId) {
 			mTrackingId = trackingId;
 		}
 
@@ -61,10 +61,10 @@ public class LocalExpertSite implements Parcelable {
 		}
 	}
 
-	public static LocalExpertSite buildPreset(Context context, Preset preset) {
+	public static LocalExpertSite buildDestination(Context context, Destination destination) {
 		LocalExpertSite.Builder siteBuilder = new LocalExpertSite.Builder(context);
 
-		switch (preset) {
+		switch (destination) {
 		case HAWAII:
 			siteBuilder.setCity(R.string.site_hawaii);
 			siteBuilder.setCityIcon(R.drawable.ic_local_expert_hawaii);
