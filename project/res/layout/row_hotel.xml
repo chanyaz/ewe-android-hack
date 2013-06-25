@@ -74,12 +74,13 @@
 
         <TextView
             android:id="@+id/price_text_view"
-            style="?attr/hotelPriceStandardStyle"
+            style="@style/HotelPriceText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:includeFontPadding="false" />
+            android:includeFontPadding="false"
+            android:textColor="?attr/hotelPriceStandardColor" />
 
         <TextView
             android:id="@+id/not_rated_text_view"

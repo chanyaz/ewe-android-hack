@@ -166,7 +166,7 @@
 
     <!-- VSC/EB attributes used for style switching in themes -->
     <!-- Hotel Search price styles -->
-    <attr name="hotelPriceStandardStyle" format="reference" />
-    <attr name="hotelPriceSaleStyle" format="reference" />
+    <attr name="hotelPriceStandardColor" format="reference|color" />
+    <attr name="hotelPriceSaleColor" format="reference|color" />
 
 </resources>

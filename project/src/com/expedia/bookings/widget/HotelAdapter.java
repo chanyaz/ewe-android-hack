@@ -3,6 +3,7 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Typeface;
@@ -69,24 +70,24 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	private int mDefaultTextColor;
 
 	public HotelAdapter(Context context) {
-		mContext = context;
-		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
 		init(context);
-		mUseCondensedRows = LayoutUtils.isScreenNarrow(context);
 	}
 
 	public HotelAdapter(Context context, HotelSearchResponse searchResponse) {
 		this(context);
-
 		init(context);
 		setSearchResponse(searchResponse);
 	}
 
 	private void init(Context context) {
+		mContext = context;
+		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mUseCondensedRows = LayoutUtils.isScreenNarrow(mContext);
+
+		Activity activity = (Activity) mContext;
 		mDefaultTextColor = mContext.getResources().getColor(R.color.hotel_price_text_color);
-		mStandardTextColor = Ui.obtainStyledColor(mContext, mDefaultTextColor, R.attr.hotelPriceStandardStyle, android.R.attr.textColor);
-		mSaleTextColor = Ui.obtainStyledColor(mContext, mDefaultTextColor, R.attr.hotelPriceSaleStyle, android.R.attr.textColor);
+		mStandardTextColor = Ui.obtainThemeColor(activity, R.attr.hotelPriceStandardColor);
+		mSaleTextColor = Ui.obtainThemeColor(activity, R.attr.hotelPriceSaleColor);
 	}
 
 	public void setSearchResponse(HotelSearchResponse searchResponse) {
