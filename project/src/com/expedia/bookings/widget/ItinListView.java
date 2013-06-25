@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.concurrent.Semaphore;
 
 import android.annotation.SuppressLint;
@@ -93,6 +95,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	private int mLastItemCount = 0;
 
 	private Semaphore mModeSwitchSemaphore = new Semaphore(1);
+	Queue<Runnable> mUiQueue = new LinkedList<Runnable>();
 
 	private FooterView mFooterView;
 
@@ -525,6 +528,11 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		}
 
 		if (!mModeSwitchSemaphore.tryAcquire()) {
+			mUiQueue.add(new Runnable() {
+				public void run() {
+					hideDetails(animate);
+				}
+			});
 			return;
 		}
 
@@ -539,7 +547,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	 */
 	private boolean synchronizedHideDetails(boolean animate) {
 		if (mDetailPosition < 0 || mDetailsCardView == null) {
-			mModeSwitchSemaphore.release();
+			releaseSemaphore();
 			return true;
 		}
 
@@ -624,6 +632,11 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		}
 
 		if (!mModeSwitchSemaphore.tryAcquire()) {
+			mUiQueue.add(new Runnable() {
+				public void run() {
+					showDetails(position, animate);
+				}
+			});
 			return;
 		}
 
@@ -674,13 +687,13 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 		View view = getFreshDetailView(position);
 		if (!(view instanceof ItinCard)) {
-			mModeSwitchSemaphore.release();
+			releaseSemaphore();
 			return true;
 		}
 
 		mDetailsCardView = (ItinCard) view;
 		if (mDetailsCardView == null || !mDetailsCardView.hasDetails()) {
-			mModeSwitchSemaphore.release();
+			releaseSemaphore();
 			return true;
 		}
 
@@ -689,7 +702,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 		// This might be the case if we're being called from synchronizedOnDataSetChanged.
 		if (mMode == MODE_DETAIL) {
-			mModeSwitchSemaphore.release();
+			releaseSemaphore();
 			return true;
 		}
 
@@ -890,11 +903,11 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	private void onDataSetChanged() {
 		if (!mModeSwitchSemaphore.tryAcquire()) {
-			postDelayed(new Runnable() {
+			mUiQueue.add(new Runnable() {
 				public void run() {
 					onDataSetChanged();
 				}
-			}, 25);
+			});
 			return;
 		}
 
@@ -935,22 +948,30 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			}
 		}, 250);
 
-		mModeSwitchSemaphore.release();
+		releaseSemaphore();
 	}
 
 	private AnimatorListener mModeSwitchSemListener = new AnimatorListenerShort() {
 
 		@Override
 		public void onAnimationCancel(Animator arg0) {
-			mModeSwitchSemaphore.release();
+			releaseSemaphore();
 		}
 
 		@Override
 		public void onAnimationEnd(Animator arg0) {
-			mModeSwitchSemaphore.release();
+			releaseSemaphore();
 		}
 
 	};
+
+	private void releaseSemaphore() {
+		mModeSwitchSemaphore.release();
+		if (!mUiQueue.isEmpty()) {
+			Runnable next = mUiQueue.poll();
+			next.run();
+		}
+	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// INNER CLASSES

@@ -245,19 +245,9 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 			return;
 		}
 
-		// We want to hideDetails if any are displayed, and then
-		// after that has settled, showDetails for this itin. Hence
-		// the nested post messiness.
-		mItinListView.post(new Runnable() {
-			public void run() {
-				mItinListView.hideDetails(false);
-				mItinListView.post(new Runnable() {
-					public void run() {
-						mItinListView.showDetails(id, animate);
-					}
-				});
-			}
-		});
+		// ItinListView will take care of executing these in order.
+		mItinListView.hideDetails(false);
+		mItinListView.showDetails(id, animate);
 
 		mJumpToItinId = null;
 	}
