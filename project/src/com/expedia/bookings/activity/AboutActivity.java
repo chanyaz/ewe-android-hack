@@ -126,11 +126,10 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 			CopyrightFragment.Builder copyBuilder = new CopyrightFragment.Builder((Context) this);
 
 			//1247. VSC related copyright fragment
-			// TODO: Get VSC logo from design. Currently using expedia_logo_white as a placeholder.
 			if (ExpediaBookingApp.IS_VSC) {
 				copyBuilder.setAppName(R.string.VSC_app_name);
 				copyBuilder.setCopyright(R.string.VSC_copyright);
-				copyBuilder.setLogo(R.drawable.expedia_logo_white);
+				copyBuilder.setLogo(R.drawable.ic_voyages_sncf);
 				copyBuilder.setLogoUrl(R.string.app_vsc_info_url);
 			}
 			else {
@@ -168,7 +167,7 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 		app.title = context.getString(R.string.VSC_Voyages_SNF);
 		app.description = context.getString(R.string.VSC_Voyages_SNF_description);
 		app.clickId = ROW_VSC_VOYAGES;
-		app.drawableId = R.drawable.icon_android_market; // TODO: Get VSC Voyages icon
+		app.drawableId = R.drawable.ic_vsc_train_app;
 		builder.addRow(app);
 
 		return builder.build();
