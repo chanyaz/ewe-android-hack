@@ -169,4 +169,7 @@
     <attr name="hotelPriceStandardColor" format="reference|color" />
     <attr name="hotelPriceSaleColor" format="reference|color" />
 
+    <!-- PhoneSearchActivity's actionbar padding required in VSC due to rainbow bar -->
+    <attr name="hotelSearchActionBarPadding" format="reference|dimension" />
+
 </resources>

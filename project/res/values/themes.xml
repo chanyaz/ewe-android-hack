@@ -158,11 +158,15 @@
         <!-- Custom attrs for Expedia/VSC switching -->
         <item name="hotelPriceStandardColor">@color/hotel_price_text_color</item>
         <item name="hotelPriceSaleColor">@color/hotel_price_sale_text_color</item>
+        <item name="hotelSearchActionBarPadding">0dp</item>
     </style>
 
     <style name="Theme.VSC" parent="@style/Theme.Expedia">
         <item name="hotelPriceStandardColor">@color/hotel_price_text_color_vsc</item>
         <item name="hotelPriceSaleColor">@color/hotel_price_sale_text_color_vsc</item>
+        <item name="actionBarStyle">@style/Dark.ActionBar.VSC</item>
+        <item name="android:actionBarStyle">@style/Dark.ActionBar.VSC</item>
+        <item name="hotelSearchActionBarPadding">5dp</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
