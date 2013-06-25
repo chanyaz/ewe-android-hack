@@ -1057,6 +1057,8 @@
     <string name="hotels_in_TEMPLATE">Hotels in %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">More Actions</string>
+    <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
+    <string name="actions">Actions</string>
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">Share via Email</string>
     <!-- Button label for adding a recently booked flight to the calendar -->

@@ -137,6 +137,9 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 			Ui.findView(v, R.id.get_there_text_view).setVisibility(View.GONE);
 			Ui.findView(v, R.id.get_there_text_divider).setVisibility(View.GONE);
 			Ui.findView(v, R.id.flights_action_text_view).setVisibility(View.GONE);
+
+			// #1391: If there are no additional actions above, then only show "actions" instead of "more actions"
+			Ui.setText(v, R.id.more_actions_text_view, R.string.actions);
 		}
 
 		ViewUtils.setAllCaps((TextView) Ui.findView(v, R.id.more_actions_text_view));
