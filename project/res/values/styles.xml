@@ -891,13 +891,8 @@
     </style>
 
     <style name="HotelPriceText">
-        <item name="android:textColor">@color/hotel_price_text_color</item>
         <item name="android:textSize">@dimen/hotel_row_price_text_size</item>
         <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="HotelPriceText.VSC">
-        <item name="android:textColor">@color/hotel_price_text_color_vsc</item>
     </style>
 
 </resources>
