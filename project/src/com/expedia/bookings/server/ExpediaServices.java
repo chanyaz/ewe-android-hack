@@ -540,7 +540,7 @@ public class ExpediaServices implements DownloadListener {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		if (getEndPoint(mContext) == EndPoint.MOCK_SERVER) {
-			query.add(new BasicNameValuePair("city", "saved product"));
+			query.add(new BasicNameValuePair("city", "saved_product"));
 			HotelSearchResponseHandler rh = new HotelSearchResponseHandler(mContext);
 			return doE3Request("MobileHotel/Webapp/SearchResults", query, rh, 0);
 		}
