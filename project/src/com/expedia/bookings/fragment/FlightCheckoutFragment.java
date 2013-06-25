@@ -159,6 +159,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		mAccountButton.setListener(this);
 
 		mWalletButton.setOnClickListener(mWalletButtonClickListener);
+		mWalletButton.setPromoVisible(false);
 
 		// rules and restrictions link stuff
 		TextView tv = Ui.findView(v, R.id.legal_blurb);

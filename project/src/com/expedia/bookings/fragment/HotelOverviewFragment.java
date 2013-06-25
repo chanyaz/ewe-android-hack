@@ -29,7 +29,6 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity;
 import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
@@ -296,6 +295,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		});
 
 		mCouponCodeWidget.setListener(this);
+
+		mWalletButton.setPromoVisible(true);
 
 		return view;
 	}
