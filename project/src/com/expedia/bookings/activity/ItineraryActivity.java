@@ -29,7 +29,6 @@ import com.expedia.bookings.fragment.ItineraryMapFragment.ItineraryMapFragmentLi
 import com.expedia.bookings.maps.SupportMapFragment.SupportMapFragmentListener;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -494,7 +493,7 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 	// OnListModeChanged
 
 	@Override
-	public void onListModeChanged(boolean isInDetailMode) {
+	public void onListModeChanged(boolean isInDetailMode, boolean animate) {
 		if (mTwoPaneMode) {
 			return;
 		}

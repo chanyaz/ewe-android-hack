@@ -389,7 +389,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 	private OnListModeChangedListener mOnListModeChangedListener = new OnListModeChangedListener() {
 		@Override
-		public void onListModeChanged(boolean isInDetailMode) {
+		public void onListModeChanged(boolean isInDetailMode, final boolean animate) {
 			// In some bad timing situations, it's possible for the listener to fire
 			// far after this Fragment is dead in the eyes of its Activity.  In that
 			// case, don't do the list mode change (as it requires being attached).
@@ -398,7 +398,10 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 				return;
 			}
 
-			if (isInDetailMode) {
+			if (!animate) {
+				mSpacerView.setVisibility(isInDetailMode ? View.GONE : View.VISIBLE);
+			}
+			else if (isInDetailMode) {
 				mSpacerView.post(new Runnable() {
 					@Override
 					public void run() {
@@ -414,9 +417,9 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 					}
 				});
 			}
-			
+
 			if (activity instanceof OnListModeChangedListener) {
-				((OnListModeChangedListener) activity).onListModeChanged(isInDetailMode);
+				((OnListModeChangedListener) activity).onListModeChanged(isInDetailMode, animate);
 			}
 		}
 	};

@@ -49,7 +49,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	public interface OnListModeChangedListener {
-		public void onListModeChanged(boolean isInDetailMode);
+		public void onListModeChanged(boolean isInDetailMode, boolean animated);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -513,7 +513,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		mAdapter.setSelectedCardId(cardId);
 	}
 
-	public void hideDetails(boolean animate) {
+	public void hideDetails(final boolean animate) {
 		if (mSimpleMode) {
 			setSelectedCardId(null);
 			mAdapter.notifyDataSetChanged();
@@ -545,14 +545,17 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 		mMode = MODE_LIST;
 		if (mOnListModeChangedListener != null) {
-			mOnListModeChangedListener.onListModeChanged(isInDetailMode());
+			mOnListModeChangedListener.onListModeChanged(isInDetailMode(), animate);
 		}
 
 		Animator set = buildCollapseAnimatorSet();
 		set.addListener(mModeSwitchSemListener);
+
+		// Even with "non-animated", let's animate just a little bit.
 		if (!animate) {
-			set.setDuration(0);
+			set.setDuration(25);
 		}
+
 		set.start();
 		return false;
 	}
@@ -698,14 +701,17 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		mMode = MODE_DETAIL;
 
 		if (mOnListModeChangedListener != null) {
-			mOnListModeChangedListener.onListModeChanged(isInDetailMode());
+			mOnListModeChangedListener.onListModeChanged(isInDetailMode(), animate);
 		}
 
 		Animator set = buildExpandAnimatorSet();
 		set.addListener(mModeSwitchSemListener);
+
+		// Even with "non-animated", let's still animate just a little bit.
 		if (!animate) {
-			set.setDuration(0);
+			set.setDuration(25);
 		}
+
 		set.start();
 		return false;
 	}
