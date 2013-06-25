@@ -563,19 +563,17 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	private Animator buildCollapseAnimatorSet() {
 		ValueAnimator resizeAnimator = ResizeAnimator.buildResizeAnimator(mDetailsCardView,
 				mDetailsCardView.getCollapsedHeight());
-		if (AndroidUtils.getSdkVersion() >= 11) {
-			resizeAnimator.addUpdateListener(new AnimatorUpdateListener() {
-				@Override
-				public void onAnimationUpdate(ValueAnimator animator) {
-					// We are animating the top offset of the detail card from 0 to mOriginalViewTop
-					float fraction = animator.getAnimatedFraction();
-					int offset = (int) (mDetailsCardView.getCollapsedTop() * fraction);
+		resizeAnimator.addUpdateListener(new AnimatorUpdateListener() {
+			@Override
+			public void onAnimationUpdate(ValueAnimator animator) {
+				// We are animating the top offset of the detail card from 0 to mOriginalViewTop
+				float fraction = animator.getAnimatedFraction();
+				int offset = (int) (mDetailsCardView.getCollapsedTop() * fraction);
 
-					setSelectionFromTop(mDetailPosition, offset);
-					onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
-				}
-			});
-		}
+				setSelectionFromTop(mDetailPosition, offset);
+				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
+			}
+		});
 
 		AnimatorSet detailCollapseAnim = mDetailsCardView.collapse(false);
 		AnimatorSet set = new AnimatorSet();
@@ -656,13 +654,10 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		}
 
 		// Should we pre-scroll this item right to the top instead of expanding it outwards?
-		// * On API < 11, we won't animate the scrolling. We'll just move there right away.
-		// * If the position is entirely offscreen, expanding won't work right.
 		// * If the view is already expanded, just to make sure, scroll it to the top.
-		//   This might be the case if the index of the detail item changes as a result
-		boolean preScroll = (AndroidUtils.getSdkVersion() < 11)
-				|| (position < firstVisiblePos || position > lastVisiblePos)
-				|| (mMode == MODE_DETAIL);
+		// * If the position is entirely offscreen, expanding won't work right.
+		boolean preScroll = (mMode == MODE_DETAIL) 
+				|| (position < firstVisiblePos || position > lastVisiblePos);
 
 		if (preScroll && firstVisiblePos != position) {
 			setSelectionFromTop(position, 0);
@@ -720,21 +715,19 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		final int itinListActionBarOffset = getResources().getDimensionPixelSize(R.dimen.itin_list_action_bar_offset);
 		final int expandedHeight = getHeight() + itinListActionBarOffset;
 		ValueAnimator resizeAnimator = ResizeAnimator.buildResizeAnimator(mDetailsCardView, expandedHeight);
-		if (AndroidUtils.getSdkVersion() >= 11) {
-			resizeAnimator.addUpdateListener(new AnimatorUpdateListener() {
-				@Override
-				public void onAnimationUpdate(ValueAnimator animator) {
-					float fraction = animator.getAnimatedFraction();
+		resizeAnimator.addUpdateListener(new AnimatorUpdateListener() {
+			@Override
+			public void onAnimationUpdate(ValueAnimator animator) {
+				float fraction = animator.getAnimatedFraction();
 
-					// We are animating the top offset of the detail card from mOriginalViewTop to 0
-					float offset = mDetailsCardView.getCollapsedTop() * (1f - fraction);
+				// We are animating the top offset of the detail card from mOriginalViewTop to 0
+				float offset = mDetailsCardView.getCollapsedTop() * (1f - fraction);
 
-					setSelectionFromTop(mDetailPosition, (int) offset);
-					onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
-				}
+				setSelectionFromTop(mDetailPosition, (int) offset);
+				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
+			}
 
-			});
-		}
+		});
 
 		AnimatorSet expandAnimator = mDetailsCardView.expand(false);
 
