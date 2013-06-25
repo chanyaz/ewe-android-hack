@@ -25,9 +25,12 @@ public class SamsungWalletUtils {
 	}
 
 	public static boolean isAvailable(Context context) {
-		//return AndroidUtils.isPackageInstalled(context, SAMSUNG_WALLET_PACKAGE_NAME);
-		// Turned off for 3.2
-		return false;
+		if (AndroidUtils.isRelease(context)) {
+			// Turned off for 3.2 releases
+			return false;
+		}
+
+		return AndroidUtils.isPackageInstalled(context, SAMSUNG_WALLET_PACKAGE_NAME);
 	}
 
 	public static Intent checkTicketIntent(Context context, String ticketId) {
