@@ -26,6 +26,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.text.StrikethroughTagHandler;
@@ -63,17 +64,29 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 	private boolean mUseCondensedRows;
 
+	private int mSaleTextColor;
+	private int mStandardTextColor;
+	private int mDefaultTextColor;
+
 	public HotelAdapter(Context context) {
 		mContext = context;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+		init(context);
 		mUseCondensedRows = LayoutUtils.isScreenNarrow(context);
 	}
 
 	public HotelAdapter(Context context, HotelSearchResponse searchResponse) {
 		this(context);
 
+		init(context);
 		setSearchResponse(searchResponse);
+	}
+
+	private void init(Context context) {
+		mDefaultTextColor = mContext.getResources().getColor(R.color.hotel_price_text_color);
+		mStandardTextColor = Ui.obtainStyledColor(mContext, mDefaultTextColor, R.attr.hotelPriceStandardStyle, android.R.attr.textColor);
+		mSaleTextColor = Ui.obtainStyledColor(mContext, mDefaultTextColor, R.attr.hotelPriceSaleStyle, android.R.attr.textColor);
 	}
 
 	public void setSearchResponse(HotelSearchResponse searchResponse) {
@@ -243,7 +256,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 				holder.strikethroughPrice.setVisibility(View.GONE);
 			}
 
-			holder.price.setTextColor(mContext.getResources().getColor(R.color.hotel_price_sale_text_color));
+			holder.price.setTextColor(mSaleTextColor);
 			holder.saleText.setVisibility(View.VISIBLE);
 			holder.saleImage.setVisibility(View.VISIBLE);
 			holder.saleText
@@ -258,11 +271,11 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 					new StrikethroughTagHandler()));
 			holder.saleText.setVisibility(View.GONE);
 			holder.saleImage.setVisibility(View.GONE);
-			holder.price.setTextColor(mContext.getResources().getColor(R.color.hotel_price_text_color));
+			holder.price.setTextColor(mStandardTextColor);
 		}
 		else {
 			holder.strikethroughPrice.setVisibility(View.GONE);
-			holder.price.setTextColor(mContext.getResources().getColor(R.color.hotel_price_text_color));
+			holder.price.setTextColor(mStandardTextColor);
 			holder.saleText.setVisibility(View.GONE);
 			holder.saleImage.setVisibility(View.GONE);
 		}
