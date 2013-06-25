@@ -2,6 +2,7 @@ package com.expedia.bookings.utils;
 
 import android.content.Context;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.BackgroundImageCache;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
@@ -11,6 +12,7 @@ import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.SettingUtils;
 
 public class ClearPrivateDataUtil {
 	public static void clear(Context context) {
@@ -61,6 +63,10 @@ public class ClearPrivateDataUtil {
 
 		ExpediaServices services = new ExpediaServices(context);
 		services.clearCookies();
+
+		// Clear settings
+		SettingUtils.remove(context, R.string.setting_hide_hotel_attach);
+		SettingUtils.remove(context, R.string.setting_hide_local_expert);
 
 		// Clear anything else out that might remain
 		Db.clear();
