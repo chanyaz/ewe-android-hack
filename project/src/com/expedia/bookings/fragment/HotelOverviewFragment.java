@@ -590,8 +590,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mSlideToPurchaseFragment.setTotalPriceString(mSlideToPurchasePriceString);
 
 		mHotelReceipt.bind(mIsDoneLoadingPriceChange, Db.getHotelSearch().getSelectedProperty(), Db.getHotelSearch()
-				.getSearchParams(),
-				rate);
+				.getSearchParams(), rate, appliedWalletPromoCoupon());
 	}
 
 	public void updateViewVisibilities() {
@@ -984,7 +983,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 					mIsDoneLoadingPriceChange = true;
 					mHotelReceipt.bind(mIsDoneLoadingPriceChange, Db.getHotelSearch().getSelectedProperty(),
-							Db.getHotelSearch().getSearchParams(), selectedRate);
+							Db.getHotelSearch().getSearchParams(), selectedRate, appliedWalletPromoCoupon());
 					updateViewVisibilities();
 				}
 				else {
@@ -1306,6 +1305,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		boolean appliedCoupon = Db.getHotelSearch().getCreateTripResponse() != null;
 		mCouponCodeLayout.setVisibility(mBillingInfo.isUsingGoogleWallet()
 				&& offeredPromo && codeIsPromo && (applyingCoupon || appliedCoupon) ? View.GONE : View.VISIBLE);
+
+		mHotelReceipt.bind(appliedWalletPromoCoupon());
 	}
 
 	// Coupons
@@ -1341,6 +1342,11 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	private boolean usingWalletPromoCoupon() {
 		return WalletUtils.getWalletCouponCode(getActivity()).equals(mCouponCode);
+	}
+
+	private boolean appliedWalletPromoCoupon() {
+		return mBillingInfo.isUsingGoogleWallet() && WalletUtils.offerGoogleWalletCoupon(getActivity())
+				&& usingWalletPromoCoupon() && Db.getHotelSearch().getCreateTripResponse() != null;
 	}
 
 	private void applyWalletCoupon() {

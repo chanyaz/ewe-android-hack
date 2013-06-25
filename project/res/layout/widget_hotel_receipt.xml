@@ -19,7 +19,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:padding="8dp" >
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/room_type_description_text_view"
@@ -106,11 +106,11 @@
                     android:id="@+id/date_range_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/nights_text"
                     android:layout_alignBaseline="@+id/nights_text"
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="6dp"
                     android:layout_marginRight="6dp"
+                    android:layout_toRightOf="@+id/nights_text"
                     android:gravity="left"
                     android:textColor="#7f7d7e"
                     android:textSize="12sp"
@@ -147,12 +147,25 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@+id/price_text"
-                    android:drawableRight="@drawable/ic_info_receipt"
                     android:drawablePadding="6dp"
+                    android:drawableRight="@drawable/ic_info_receipt"
                     android:text="@string/grand_total"
                     android:textColor="@color/hotel_mini_receipt_price_text"
                     android:textSize="12sp" />
 
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/wallet_promo_applied_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/grand_total_text"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="4dp"
+                    android:drawableLeft="@drawable/ic_google_wallet_discount"
+                    android:drawablePadding="8dp"
+                    android:text="@string/wallet_promo_in_use_message"
+                    android:textColor="#4581ed"
+                    android:textSize="14dp"
+                    android:visibility="gone" />
             </RelativeLayout>
 
             <LinearLayout
@@ -174,9 +187,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:text="@string/calculating_taxes_and_fees"
-                    android:textSize="14sp"
-                    android:textColor="@color/hotel_mini_receipt_text" />
-
+                    android:textColor="@color/hotel_mini_receipt_text"
+                    android:textSize="14sp" />
             </LinearLayout>
         </com.expedia.bookings.widget.FrameLayout>
     </LinearLayout>
