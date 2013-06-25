@@ -374,6 +374,13 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		else {
 			startSearch();
 		}
+
+		if (Db.getHotelSearch().getSelectedProperty() == null) {
+			if (mHotelListFragment != null && mHotelListFragment.isAdded()) {
+				mHotelListFragment.clearSelectedProperty();
+			}
+			hideDetails();
+		}
 	}
 
 	@Override

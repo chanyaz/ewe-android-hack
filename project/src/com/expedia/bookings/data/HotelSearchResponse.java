@@ -370,6 +370,11 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		clearCache();
 	}
 
+	public void removeProperty(Property property) {
+		mProperties.remove(property);
+		clearCache();
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////
 	/////// Clustering section
 

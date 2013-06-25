@@ -137,6 +137,19 @@ public class HotelSearch implements JSONable {
 		mReviewsResponses.put(id, response);
 	}
 
+	public void removeProperty(String id) {
+		if (id != null) {
+			Property property = getProperty(id);
+			mSearchResponse.removeProperty(property);
+
+			mPropertyMap.remove(id);
+			mAvailabilityMap.remove(id);
+			mReviewsStatisticsResponses.remove(id);
+			mReviewsResponses.remove(id);
+
+		}
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Get data
 
