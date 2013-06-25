@@ -506,6 +506,11 @@
         <item name="android:titleTextStyle">@style/ActionBarTitle</item>
     </style>
 
+    <style name="Dark.ActionBar.VSC" parent="Dark.ActionBar">
+        <item name="background">@drawable/bg_action_bar_vsc</item>
+        <item name="android:background">@drawable/bg_action_bar_vsc</item>
+    </style>
+
     <style name="ActionBarTabBar" parent="android:style/Widget">
         <item name="android:background">@color/actionbar_bg</item>
         <item name="android:divider">?attr/actionBarDivider</item>
