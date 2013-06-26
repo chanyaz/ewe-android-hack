@@ -290,12 +290,12 @@
     <!-- Name of Las Vegas (for local expert) -->
     <string name="site_las_vegas">Las Vegas</string>
 
-	<!-- Template for the city title on Local Expert pages. %1$s is the name of the city-->
-	<string name="local_expert_title_TEMPLATE">Enjoy %1$s</string>
-	<!-- Description body for the Local Expert pages -->
-	<string name="local_expert_description">Your Local Expert concierge is just a call\naway for any in-trip planning needs.</string>
-	<!-- Text for the button on Local Expert pages, to call the concierge -->
-	<string name="local_expert_call_button_text">Give them a call</string>
+    <!-- Template for the city title on Local Expert pages. %1$s is the name of the city -->
+    <string name="local_expert_title_TEMPLATE">Enjoy %1$s</string>
+    <!-- Description body for the Local Expert pages -->
+    <string name="local_expert_description">Your Local Expert concierge is just a call\naway for any in-trip planning needs.</string>
+    <!-- Text for the button on Local Expert pages, to call the concierge -->
+    <string name="local_expert_call_button_text">Give them a call</string>
 
     <!-- Local Expert attractions; these are all split into two lines (second line is bolded) -->
     <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
@@ -2528,7 +2528,7 @@
     <string name="VSC_app_name">VSC Hotels</string>
     <!-- Link to open when VSC logo is clicked on -->
     <string name="app_vsc_info_url">http://www.voyages-sncf.com/</string>
-    
+
     <!-- Content Description Labels -->
     <!-- Expedia Bookings Launch Screen -->
     <!-- Button to launch Expedia Hotels -->
@@ -2582,9 +2582,9 @@
     <string name="cd_filter_hotels_for_five_stars">Filter hotels for five stars</string>
     <string name="cd_filter_remove_hotel_star_filters">Remove hotel star filters</string>
     <!-- Hotel price filters -->
- 	<string name="cd_filter_for_low_range_hotel_prices">Filter for low-range hotel prices</string>
- 	<string name="cd_filter_for_mid_range_hotel_prices">Filter for mid-range hotel prices</string>
- 	<string name="cd_filter_for_high_range_hotel_prices">Filter for high-range hotel prices</string>
+    <string name="cd_filter_for_low_range_hotel_prices">Filter for low-range hotel prices</string>
+    <string name="cd_filter_for_mid_range_hotel_prices">Filter for mid-range hotel prices</string>
+    <string name="cd_filter_for_high_range_hotel_prices">Filter for high-range hotel prices</string>
     <string name="cd_filter_remove_hotel_price_filters">Remove hotel price filters</string>
     <string name="cd_filter_back_to_EB_launch_screen">Go back to Expedia Bookings launch screen</string>
     <!-- Hotel info screen -->
@@ -2626,31 +2626,31 @@
     <string name="cd_checkout_apply_coupon_button">Press to apply coupon</string>
     <string name="cd_checkout_slide_to_purchase">@string/slide_to_purchase</string>
     <!-- Log in screen -->
-	<string name="cd_log_in_email_edit_text">Enter Expedia account email address</string>
-	<string name="cd_log_in_password_edit_text">Enter Expedia account password</string>
-	<string name="cd_log_in_with_facebook">Log into Expedia with your Facebook account</string>
-	<!-- Traveler Information screen -->
-	<string name="cd_traveler_enter_new_traveler">Press to enter a new traveler</string>
-	<string name="cd_traveler_edit_traveler_information"></string>
-	<string name="cd_traveler_edit_passport_country">Edit traveler\'s passport country</string>
-	<!-- Traveler Information edit/entry screen -->
-	<string name="cd_traveler_first_name_edit_text">Enter first name</string>
-	<string name="cd_traveler_middle_name_edit_text">Enter middle name</string>
-	<string name="cd_traveler_last_name_edit_text">Enter last name</string>
-	<string name="cd_traveler_list_international_phone_codes">Press to select country calling codes</string>
-	<string name="cd_traveler_phone_number">Enter phone number</string>
-	<string name="cd_traveler_information_done">Done entering traveler information</string>
-	<!-- Extra traveler information - flights -->
-	<string name="cd_traveler_birthday_edit">Enter traveler\'s birthday</string>
-	<string name="cd_traveler_gender_edit">Enter traveler\'s gender</string>
-	<string name="cd_traveler_redress_number_edit_text">Enter redress number, if applicable</string>
-	<string name="cd_traveler_special_assistance_edit">Select type of special assistance traveler requires</string>
-	<string name="cd_traveler_seat_preference_edit">Select window type that the traveler prefers</string>
-	<!-- Credit Card Information -->
-	<string name="cd_card_info_card_number_edit_text">Enter credit card number</string>
-	<string name="cd_card_info_cardholder_name">Enter cardholder name</string>
-	<string name="cd_card_info_email_address">Enter cardholder email address</string>
-	
+    <string name="cd_log_in_email_edit_text">Enter Expedia account email address</string>
+    <string name="cd_log_in_password_edit_text">Enter Expedia account password</string>
+    <string name="cd_log_in_with_facebook">Log into Expedia with your Facebook account</string>
+    <!-- Traveler Information screen -->
+    <string name="cd_traveler_enter_new_traveler">Press to enter a new traveler</string>
+    <string name="cd_traveler_edit_traveler_information"></string>
+    <string name="cd_traveler_edit_passport_country">Edit traveler\'s passport country</string>
+    <!-- Traveler Information edit/entry screen -->
+    <string name="cd_traveler_first_name_edit_text">Enter first name</string>
+    <string name="cd_traveler_middle_name_edit_text">Enter middle name</string>
+    <string name="cd_traveler_last_name_edit_text">Enter last name</string>
+    <string name="cd_traveler_list_international_phone_codes">Press to select country calling codes</string>
+    <string name="cd_traveler_phone_number">Enter phone number</string>
+    <string name="cd_traveler_information_done">Done entering traveler information</string>
+    <!-- Extra traveler information - flights -->
+    <string name="cd_traveler_birthday_edit">Enter traveler\'s birthday</string>
+    <string name="cd_traveler_gender_edit">Enter traveler\'s gender</string>
+    <string name="cd_traveler_redress_number_edit_text">Enter redress number, if applicable</string>
+    <string name="cd_traveler_special_assistance_edit">Select type of special assistance traveler requires</string>
+    <string name="cd_traveler_seat_preference_edit">Select window type that the traveler prefers</string>
+    <!-- Credit Card Information -->
+    <string name="cd_card_info_card_number_edit_text">Enter credit card number</string>
+    <string name="cd_card_info_cardholder_name">Enter cardholder name</string>
+    <string name="cd_card_info_email_address">Enter cardholder email address</string>
+
     <!-- Common actionbar elements -->
     <string name="cd_go_back">Go back to previous screen</string>
 
