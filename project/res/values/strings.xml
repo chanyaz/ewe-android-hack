@@ -2711,7 +2711,7 @@
     <!-- Content description for action: Enter cardholder name -->
     <string name="cd_card_info_cardholder_name">Enter cardholder name</string>
     <!-- Content description for action: Enter cardholder's email address -->
-    <string name="cd_card_info_email_address">Enter cardholder's email address</string>
+    <string name="cd_card_info_email_address">Enter cardholder\'s email address</string>
     <!-- Common actionbar elements -->
     <!-- Content description for action: Press to go back to previous screen -->
     <string name="cd_go_back">Press to go back to previous screen</string>
