@@ -1,7 +1,5 @@
 package com.expedia.bookings.utils;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -262,37 +260,30 @@ public class ShareUtils {
 		String arrivalTzString = FormatUtils.formatTimeZone(leg.getLastWaypoint().getAirport(), arrivalDate,
 				MAX_TIMEZONE_LENGTH);
 
-		//The story contains format strings, but we don't want to bone our international customers
-		DateFormat dateFormat = SimpleDateFormat.getDateInstance(DateFormat.SHORT);
-		DateFormat timeFormat = SimpleDateFormat.getTimeInstance(DateFormat.MEDIUM);
-
-		if (PointOfSale.getPointOfSale().getThreeLetterCountryCode().equalsIgnoreCase("USA")) {
-			String dateFormatStr = "M/dd/yy";
-			String timeFormatStr = "h:mma";
-
-			((SimpleDateFormat) dateFormat).applyPattern(dateFormatStr);
-			((SimpleDateFormat) timeFormat).applyPattern(timeFormatStr);
-		}
-
-		String departureDateStr = dateFormat.format(departureDate);
-		String departureTimeStr = timeFormat.format(departureDate) + " " + departureTzString;
-		String departureDateTimeStr = departureTimeStr + " " + departureDateStr;
-
-		String arrivalDateStr = dateFormat.format(departureDate);
-		String arrivalTimeStr = timeFormat.format(arrivalDate) + " " + arrivalTzString;
-		String arrivalDateTimeStr = arrivalTimeStr + " " + arrivalDateStr;
-
 		//single day
 		if (leg.getDaySpan() == 0) {
 			String template = mContext.getString(R.string.share_template_short_flight_sameday);
 
+			String departureDateStr = DateUtils.formatDateTime(mContext, departureDate.getTime(),
+					DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_NUMERIC_DATE);
+			String departureTimeStr = DateUtils.formatDateTime(mContext, departureDate.getTime(),
+					DateUtils.FORMAT_SHOW_TIME) + " " + departureTzString;
+			String arrivalStr = DateUtils.formatDateTime(mContext, arrivalDate.getTime(), DateUtils.FORMAT_SHOW_TIME)
+					+ " " + arrivalTzString;
+
 			return String.format(template, airlineAndFlightNumber, destinationCity, departureDateStr,
-					originAirportCode,
-					departureTimeStr, destinationAirportCode, arrivalTimeStr, destinationGateTerminal);
+					originAirportCode, departureTimeStr, destinationAirportCode, arrivalStr, destinationGateTerminal);
 		}
 		//multi day
 		else {
 			String template = mContext.getString(R.string.share_template_short_flight_multiday);
+
+			int flags = DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR
+					| DateUtils.FORMAT_NUMERIC_DATE;
+			String departureDateTimeStr = DateUtils.formatDateTime(mContext, departureDate.getTime(), flags) + " "
+					+ departureTzString;
+			String arrivalDateTimeStr = DateUtils.formatDateTime(mContext, arrivalDate.getTime(), flags) + " "
+					+ arrivalTzString;
 
 			return String.format(template, airlineAndFlightNumber, destinationCity, originAirportCode,
 					departureDateTimeStr, destinationAirportCode, arrivalDateTimeStr, destinationGateTerminal);
