@@ -434,23 +434,31 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				continue;
 			}
 
+			// See if this flight is:
+			// 1. Has an ending Flight from the same Trip, arriving and departing from same airport
+			// 2. Has no hotels/flights in between now and the ending flight
 			for (int j = i + 1; j < len; j++) {
 				ItinCardData nextData = mItinCardDatas.get(j);
-				Calendar end = nextData.getStartDate().getCalendar();
+				Type nextType = nextData.getTripComponentType();
 
-				if ((nextData.getTripComponentType().equals(Type.HOTEL) || nextData.getTripComponentType().equals(
-						Type.FLIGHT)) && start.get(Calendar.DAY_OF_YEAR) == end.get(Calendar.DAY_OF_YEAR)) {
+				if (nextType == Type.HOTEL) {
 					break;
 				}
+				else if (nextType == Type.FLIGHT) {
+					if (data.getTripId().equals(nextData.getTripId()) && nextData instanceof ItinCardDataFlight) {
+						FlightLeg firstLeg = ((ItinCardDataFlight) data).getFlightLeg();
+						FlightLeg secondLeg = ((ItinCardDataFlight) nextData).getFlightLeg();
 
-				if (nextData.getTripComponentType().equals(Type.FLIGHT) && nextData instanceof ItinCardDataFlight) {
-					// Attach hotel
-					FlightLeg firstLeg = ((ItinCardDataFlight) data).getFlightLeg();
-					FlightLeg secondLeg = ((ItinCardDataFlight) nextData).getFlightLeg();
+						if (firstLeg.getLastWaypoint().mAirportCode.equals(secondLeg.getFirstWaypoint().mAirportCode)) {
+							// Attach hotel
+							mItinCardDatas.add(i + 1, new ItinCardDataHotelAttach(tripFlight, firstLeg, secondLeg));
 
-					mItinCardDatas.add(i + 1, new ItinCardDataHotelAttach(tripFlight, firstLeg, secondLeg));
+							return;
+						}
+					}
 
-					return;
+					// If we get to here, then this means it was a non-valid hotel attaching flight, so break
+					break;
 				}
 			}
 		}
