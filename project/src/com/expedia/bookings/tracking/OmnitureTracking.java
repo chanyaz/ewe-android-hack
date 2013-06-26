@@ -1344,6 +1344,13 @@ public class OmnitureTracking {
 		s.track();
 	}
 
+	public static void trackLocalExpertCall(Context context, LocalExpertSite site) {
+		ADMS_Measurement s = createTrackLinkEvent(context, "App.Itinerary.LocalExpert." + site.getTrackingId()
+				+ ".Call");
+		s.setEvents("event8");
+		internalTrackLink(s);
+	}
+
 	private static void addEvent15And16Maybe(Context context, ADMS_Measurement s) {
 		String event = "event15";
 		if (!NetUtils.isOnline(context)) {

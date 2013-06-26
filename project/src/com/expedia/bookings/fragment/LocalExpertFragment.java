@@ -187,6 +187,7 @@ public class LocalExpertFragment extends Fragment {
 			}
 			case R.id.call_button: {
 				SocialUtils.call(getActivity(), mSite.getPhoneNumber().toString());
+				OmnitureTracking.trackLocalExpertCall(getActivity(), mSite);
 				break;
 			}
 			case R.id.small_attraction_bubble_view:
