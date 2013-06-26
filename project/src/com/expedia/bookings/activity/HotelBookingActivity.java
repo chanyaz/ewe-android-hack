@@ -237,8 +237,14 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 
 		mCvvErrorModeEnabled = enabled;
 
+		int bgDefaultResID = R.drawable.bg_action_bar;
+		// #1415. VSC Adding rainbowBar
+		if (ExpediaBookingApp.IS_VSC) {
+			bgDefaultResID = R.drawable.bg_action_bar_vsc;
+		}
+
 		// Set header bg
-		int bgResId = (enabled) ? R.drawable.bg_flight_action_bar_top_red : R.drawable.bg_action_bar;
+		int bgResId = (enabled) ? R.drawable.bg_flight_action_bar_top_red : bgDefaultResID;
 
 		ActionBar ab = getSupportActionBar();
 		ab.setBackgroundDrawable(getResources().getDrawable(bgResId));
