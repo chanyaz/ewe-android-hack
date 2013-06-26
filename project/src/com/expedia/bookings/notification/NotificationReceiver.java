@@ -207,6 +207,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 			if (mUrls == null || mUrls.size() == 0) {
 				mBitmap = null;
 				display();
+				return;
 			}
 			String url = mUrls.remove(0);
 			TwoLevelImageCache.loadImage(url, mTwoLevelImageLoaded);
