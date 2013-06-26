@@ -205,6 +205,10 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		else {
 			bd.unregisterDownloadCallback(SAMSUNG_WALLET_DOWNLOAD_KEY, mWalletCallback);
 		}
+
+		if (getActivity() != null && getActivity().isFinishing()) {
+			Db.setSamsungWalletTicketId(null);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
