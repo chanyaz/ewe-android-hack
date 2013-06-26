@@ -1,7 +1,6 @@
 package com.expedia.bookings.activity;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -38,7 +37,6 @@ public class HotelGalleryActivity extends SherlockFragmentActivity {
 	private Property mProperty;
 	private Media mSelectedMedia;
 	private ViewPager mViewPager;
-	private Context mContext;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -50,8 +48,6 @@ public class HotelGalleryActivity extends SherlockFragmentActivity {
 			finish();
 			return;
 		}
-
-		mContext = this;
 
 		requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 		setContentView(R.layout.activity_hotel_gallery);
@@ -71,7 +67,7 @@ public class HotelGalleryActivity extends SherlockFragmentActivity {
 		mViewPager = (ViewPager) findViewById(R.id.big_image_pager);
 		mViewPager.setAdapter(pagerAdapter);
 
-		if (!ExpediaBookingApp.useTabletInterface(mContext)) {
+		if (!ExpediaBookingApp.useTabletInterface(this)) {
 			mViewPager.setPageMargin(10);
 		}
 
@@ -85,7 +81,7 @@ public class HotelGalleryActivity extends SherlockFragmentActivity {
 		mGallery.setCallbackDuringFling(false);
 		setGalleryVisibility();
 
-		if (ExpediaBookingApp.useTabletInterface(mContext)) {
+		if (ExpediaBookingApp.useTabletInterface(this)) {
 			ActionBar actionBar = getSupportActionBar();
 			actionBar.setTitle(Html.fromHtml(getString(R.string.gallery_title_template, mProperty.getName())));
 			actionBar.setDisplayHomeAsUpEnabled(true);
