@@ -370,6 +370,16 @@ public class PointOfSale {
 	private PointOfSaleLocale getPosLocale() {
 		if (mLocales.size() > 1) {
 			Locale locale = Locale.getDefault();
+
+			// First look for an exact match on the Locale, languageCode and countryCode
+			String localeString = locale.toString();
+			for (PointOfSaleLocale posLocale : mLocales) {
+				if (posLocale.mLocaleIdentifier.equalsIgnoreCase(localeString)) {
+					return posLocale;
+				}
+			}
+
+			// If there is no exact match on Locale, attempt to match on languageCode only
 			String langCode = locale.getLanguage();
 			for (PointOfSaleLocale posLocale : mLocales) {
 				if (posLocale.mLanguageCode.equalsIgnoreCase(langCode)) {
