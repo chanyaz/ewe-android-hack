@@ -214,7 +214,7 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 							@Override
 							public void onClick(View v) {
 								String text = mContext.getString(R.string.airline_card_fee_select_TEMPLATE, feeText,
-										type);
+										CreditCardType.getHumanReadableCardTypeName(mContext, type));
 								SimpleSupportDialogFragment.newInstance(null, text).show(
 										fa.getSupportFragmentManager(), "lccDialog");
 							}
