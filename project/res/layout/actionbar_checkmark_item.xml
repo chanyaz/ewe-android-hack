@@ -3,8 +3,8 @@
     style="@style/ActionBarMenu"
     android:layout_width="wrap_content"
     android:layout_height="fill_parent"
-    android:drawableLeft="@drawable/ic_menu_select_hotel"
+    android:drawableLeft="?attr/actionBarCheckMarkDrawable"
     android:background="@drawable/bg_actionbar_button"
     android:paddingRight="8dp"
     android:text="@string/select"
-    android:textColor="#ffeb8b" />
+    android:textColor="?attr/actionBarButtonTextColor" />

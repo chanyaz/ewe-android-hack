@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:layout_gravity="center_vertical"
-    android:drawableLeft="@drawable/ic_action_bar_checkout_arrow"
+    android:drawableLeft="?attr/actionBarCheckoutDrawable"
     android:focusable="true"
     android:gravity="center_vertical"
     android:minHeight="?attr/actionBarSize"
@@ -12,4 +12,4 @@
     android:paddingRight="@dimen/yoyo_navigation_padding_right"
     android:text="@string/checkout_btn"
     android:textAppearance="?attr/actionMenuTextAppearance"
-    android:textColor="@color/action_bar_text_yellow" />
+    android:textColor="?attr/actionBarButtonTextColor" />

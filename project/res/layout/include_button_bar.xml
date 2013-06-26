@@ -31,13 +31,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:background="@drawable/bg_actionbar_button"
-        android:drawableLeft="@drawable/ic_menu_select_hotel"
+        android:drawableLeft="?attr/actionBarCheckMarkDrawable"
         android:gravity="center_vertical"
         android:paddingBottom="6dp"
         android:paddingRight="6dp"
         android:paddingTop="6dp"
         android:text="@string/SEARCH"
-        android:textColor="#ffeb8b"
+        android:textColor="?attr/actionBarButtonTextColor"
         android:textSize="12dp"
         android:textStyle="bold" />
 
