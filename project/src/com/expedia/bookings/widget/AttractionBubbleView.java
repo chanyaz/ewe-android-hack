@@ -2,8 +2,12 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.BlurMaskFilter;
 import android.graphics.BlurMaskFilter.Blur;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -21,7 +25,6 @@ import com.expedia.bookings.utils.Ui;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
-import com.nineoldandroids.view.ViewHelper;
 
 public class AttractionBubbleView extends LinearLayout {
 	//////////////////////////////////////////////////////////////////////////////////////
