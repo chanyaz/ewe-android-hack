@@ -8,6 +8,7 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.model.DismissedItinButton;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.server.ExpediaServices;
@@ -64,9 +65,10 @@ public class ClearPrivateDataUtil {
 		ExpediaServices services = new ExpediaServices(context);
 		services.clearCookies();
 
-		// Clear settings
+		// Clear itin button dismissals
 		SettingUtils.remove(context, R.string.setting_hide_hotel_attach);
 		SettingUtils.remove(context, R.string.setting_hide_local_expert);
+		DismissedItinButton.clear();
 
 		// Clear anything else out that might remain
 		Db.clear();
