@@ -651,12 +651,20 @@ public class ShareUtils {
 			sb.append(mContext.getString(R.string.path_template, formatAirport(flight.mOrigin.getAirport()),
 					formatAirport(flight.mDestination.getAirport())));
 			sb.append("\n");
-			long start = DateTimeUtils.getTimeInLocalTimeZone(flight.mOrigin.getBestSearchDateTime()).getTime();
-			sb.append(DateUtils.formatDateTime(mContext, start, DateUtils.FORMAT_SHOW_DATE
+			Date start = DateTimeUtils.getTimeInLocalTimeZone(flight.mOrigin.getBestSearchDateTime());
+			sb.append(DateUtils.formatDateTime(mContext, start.getTime(), DateUtils.FORMAT_SHOW_DATE
 					| DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_WEEKDAY));
 			sb.append("\n");
-			long end = DateTimeUtils.getTimeInLocalTimeZone(flight.mDestination.getBestSearchDateTime()).getTime();
-			sb.append(DateUtils.formatDateRange(mContext, start, end, DateUtils.FORMAT_SHOW_TIME));
+			Date end = DateTimeUtils.getTimeInLocalTimeZone(flight.mDestination.getBestSearchDateTime());
+			String departureTzString = FormatUtils.formatTimeZone(flightLeg.getFirstWaypoint().getAirport(), start,
+					MAX_TIMEZONE_LENGTH);
+			String arrivalTzString = FormatUtils.formatTimeZone(flightLeg.getLastWaypoint().getAirport(), end,
+					MAX_TIMEZONE_LENGTH);
+			sb.append(DateUtils.formatDateTime(mContext, start.getTime(), DateUtils.FORMAT_SHOW_TIME) + " "
+					+ departureTzString);
+			sb.append(" - ");
+			sb.append(DateUtils.formatDateTime(mContext, end.getTime(), DateUtils.FORMAT_SHOW_TIME) + " "
+					+ arrivalTzString);
 			sb.append("\n");
 			sb.append(FormatUtils.formatFlightNumber(flight, mContext));
 
