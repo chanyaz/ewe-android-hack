@@ -1,14 +1,13 @@
 package com.expedia.bookings.data;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
-
 import com.expedia.bookings.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LocalExpertSite implements Parcelable {
 
@@ -176,13 +175,6 @@ public class LocalExpertSite implements Parcelable {
 				.setSecondLine(R.string.attraction_music_second)
 				.setIconSmall(R.drawable.ic_local_expert_music_small)
 				.setIconLarge(R.drawable.ic_local_expert_music_large)
-				.build());
-
-		siteBuilder.addAttraction((new LocalExpertAttraction.Builder(context))
-				.setFirstLine(R.string.attraction_vip_first)
-				.setSecondLine(R.string.attraction_vip_second)
-				.setIconSmall(R.drawable.ic_local_expert_vip_small)
-				.setIconLarge(R.drawable.ic_local_expert_vip_large)
 				.build());
 
 		return siteBuilder.build();
