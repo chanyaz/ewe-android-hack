@@ -43,6 +43,7 @@ import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.LocalExpertSite;
+import com.expedia.bookings.data.LocalExpertSite.Destination;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -1329,6 +1330,18 @@ public class OmnitureTracking {
 
 	public static void trackItinActivityInfo(Context context) {
 		internalTrackLink(context, ITIN_ACTIVITY_INFO);
+	}
+
+	public static void trackItinLocalExpertHide(Context context, Destination destination) {
+		internalTrackLink(context, "App.Itinerary.LocalExpert." + destination.getTrackingId() + ".Hide");
+	}
+
+	public static void trackItinLocalExpertHideForever(Context context, Destination destination) {
+		internalTrackLink(context, "App.Itinerary.LocalExpert." + destination.getTrackingId() + ".NeverShowAgain");
+	}
+
+	public static void trackItinLocalExpertHideCancel(Context context, Destination destination) {
+		internalTrackLink(context, "App.Itinerary.LocalExpert." + destination.getTrackingId() + ".Cancel");
 	}
 
 	public static void trackLocalExpert(Context context, LocalExpertSite site) {
