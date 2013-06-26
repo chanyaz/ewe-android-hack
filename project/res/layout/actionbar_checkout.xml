@@ -4,11 +4,11 @@
     android:layout_height="fill_parent"
     android:layout_gravity="center_vertical"
     android:background="@drawable/bg_actionbar_button"
-    android:drawableLeft="@drawable/ic_action_bar_checkout_arrow"
+    android:drawableLeft="?attr/actionBarCheckoutDrawable"
     android:gravity="center_vertical"
     android:paddingLeft="3dp"
     android:paddingRight="8dp"
     android:text="@string/menu_checkout"
-    android:textColor="#ffeb8b"
+    android:textColor="?attr/actionBarButtonTextColor"
     android:textSize="12dp"
     android:textStyle="bold" />

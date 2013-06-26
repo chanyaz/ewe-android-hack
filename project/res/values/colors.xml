@@ -34,6 +34,7 @@
     <color name="data_review_dark">#333333</color>
     <color name="data_review_grey">#676767</color>
     <color name="action_bar_text_yellow">#FEE36C</color>
+    <color name="action_bar_text_green">#7abb00</color>
     <color name="dialog_background_light">#F5F5F5</color>
     <color name="roboto_light">#fff3f3f3</color>
     <color name="flights_holo_blue_light">#ff33b5e5</color>
