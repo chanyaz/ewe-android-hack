@@ -62,7 +62,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	private ItinContentGenerator<? extends ItinCardData> mItinContentGenerator;
 
 	private DisplayState mDisplayState = DisplayState.COLLAPSED;
-	private int mCollapsedHeight;
 	private int mCollapsedTop;
 
 	private boolean mShowSummary;
@@ -70,6 +69,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	private boolean mShadeCard;
 
 	private int mTitleLayoutHeight;
+	private int mItinCardTopPadding;
+	private int mItinCardBottomPadding;
+	private int mItinSummarySectionHeight;
 	private int mActionButtonLayoutHeight;
 
 	private int mExpandedCardHeaderImageHeight;
@@ -123,6 +125,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 		final Resources res = getResources();
 		mTitleLayoutHeight = res.getDimensionPixelSize(R.dimen.itin_title_height);
+		mItinCardTopPadding = res.getDimensionPixelSize(R.dimen.itin_card_top_padding);
+		mItinCardBottomPadding = res.getDimensionPixelSize(R.dimen.itin_card_bottom_padding);
+		mItinSummarySectionHeight = res.getDimensionPixelSize(R.dimen.itin_summary_section_height);
 		mActionButtonLayoutHeight = res.getDimensionPixelSize(R.dimen.itin_action_button_height);
 		mExpandedCardHeaderImageHeight = res.getDimensionPixelSize(R.dimen.itin_card_expanded_image_height);
 		mMiniCardHeaderImageHeight = res.getDimensionPixelSize(R.dimen.itin_card_mini_image_height);
@@ -184,7 +189,20 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	 * @return
 	 */
 	public int getCollapsedHeight() {
-		return mCollapsedHeight;
+		int height = mShowSummary
+				? mExpandedCardHeaderImageHeight
+						+ mItinCardTopPadding
+						+ mItinCardBottomPadding
+						+ mItinSummarySectionHeight
+						+ mActionButtonLayoutHeight
+						+ 5 // why 5?
+
+				: mMiniCardHeaderImageHeight
+						+ mItinCardTopPadding
+						+ mItinCardBottomPadding
+						+ 5; // why 5?
+
+		return height;
 	}
 
 	/**
@@ -481,7 +499,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	public AnimatorSet expand(boolean startAnimation) {
 		mDisplayState = DisplayState.EXPANDED;
 
-		mCollapsedHeight = getHeight();
 		mCollapsedTop = getTop();
 
 		inflateDetailsView();

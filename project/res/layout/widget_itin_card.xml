@@ -14,7 +14,7 @@
         <View
             android:id="@+id/top_extra_padding_view"
             android:layout_width="match_parent"
-            android:layout_height="8dp" />
+            android:layout_height="@dimen/itin_card_top_padding" />
 
         <LinearLayout
             android:id="@+id/card_layout"
@@ -183,7 +183,7 @@
                     <LinearLayout
                         android:id="@+id/summary_section_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/itin_summary_section_height"
                         android:background="@drawable/list_selector_transparent"
                         android:gravity="center"
                         android:orientation="horizontal"
@@ -239,7 +239,7 @@
         <View
             android:id="@+id/bottom_extra_padding_view"
             android:layout_width="match_parent"
-            android:layout_height="8dp" />
+            android:layout_height="@dimen/itin_card_bottom_padding" />
     </LinearLayout>
 
     <!-- ###################################################################### -->
