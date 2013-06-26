@@ -1,7 +1,9 @@
 package com.expedia.bookings.notification;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -48,6 +50,7 @@ public class Notification extends Model implements JSONable {
 	 * RESOURCE = A resource must be specified in setImageResId.
 	 * URL = A url must be specified in setImageValue, and a placeholder image
 	 * must be specified in setImageResId.
+	 * URLS = A list of URLs. It will be stored as a JSONArray object.
 	 * DESTINATION = Corresponds to ExpediaImageManager.ImageType.DESTINATION. An
 	 * airport code must be specified in setImageValue, and a placeholder image must
 	 * be specified in setImageResId.
@@ -61,6 +64,7 @@ public class Notification extends Model implements JSONable {
 	public enum ImageType {
 		RESOURCE,
 		URL,
+		URLS,
 		DESTINATION,
 		CAR,
 		ACTIVITY,
@@ -282,8 +286,27 @@ public class Notification extends Model implements JSONable {
 	}
 
 	public void setImageUrls(List<String> urls) {
-		String imageUrl = urls.get(0);
-		setImage(ImageType.URL, 0, imageUrl);
+		JSONArray arr = new JSONArray();
+		for (String url : urls) {
+			arr.put(url);
+		}
+		setImage(ImageType.URLS, 0, arr.toString());
+	}
+
+	public List<String> getImageUrls() {
+		ArrayList<String> urls = new ArrayList<String>();
+
+		try {
+			JSONArray arr = new JSONArray(getImageValue());
+			for (int i = 0; i < arr.length(); i++) {
+				urls.add(arr.getString(i));
+			}
+		}
+		catch (JSONException e) {
+			return null;
+		}
+
+		return urls;
 	}
 
 	private void setImage(ImageType type, int resId, String value) {

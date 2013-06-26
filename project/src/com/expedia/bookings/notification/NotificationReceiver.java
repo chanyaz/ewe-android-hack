@@ -1,5 +1,8 @@
 package com.expedia.bookings.notification;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -123,6 +126,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 		private Notification mNotification;
 		private Context mContext;
 		private Bitmap mBitmap;
+		private List<String> mUrls;
 
 		public Notifier(Context context, Notification notification) {
 			mContext = context;
@@ -137,7 +141,13 @@ public class NotificationReceiver extends BroadcastReceiver {
 				display();
 				break;
 			case URL:
-				TwoLevelImageCache.loadImage(mNotification.getImageValue(), mTwoLevelImageLoaded);
+				mUrls = new ArrayList<String>(1);
+				mUrls.add(mNotification.getImageValue());
+				loadNextUrl();
+				break;
+			case URLS:
+				mUrls = mNotification.getImageUrls();
+				loadNextUrl();
 				break;
 			case DESTINATION:
 				BackgroundDownloader bd = BackgroundDownloader.getInstance();
@@ -193,12 +203,20 @@ public class NotificationReceiver extends BroadcastReceiver {
 			}
 		};
 
+		private void loadNextUrl() {
+			if (mUrls == null || mUrls.size() == 0) {
+				mBitmap = null;
+				display();
+			}
+			String url = mUrls.remove(0);
+			TwoLevelImageCache.loadImage(url, mTwoLevelImageLoaded);
+		}
+
 		// Callbacks for TwoLevelImageCache image loader
 		private OnImageLoaded mTwoLevelImageLoaded = new OnImageLoaded() {
 			@Override
 			public void onImageLoadFailed(String url) {
-				mBitmap = null;
-				display();
+				loadNextUrl();
 			}
 
 			@Override
