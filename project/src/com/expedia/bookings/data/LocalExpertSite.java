@@ -54,8 +54,8 @@ public class LocalExpertSite implements Parcelable {
 
 	public enum Destination {
 		HAWAII("Hawaii"),
-		LAS_VEGAS("LAS"),
-		ORLANDO("MCO");
+		LAS_VEGAS("LasVegas"),
+		ORLANDO("Orlando");
 
 		private String mTrackingId;
 
