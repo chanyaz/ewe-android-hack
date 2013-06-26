@@ -256,7 +256,7 @@ public class ExpediaServices implements DownloadListener {
 	// Expedia Suggest API
 	//
 	// Documentation:
-	// http://confluence/display/POS/Expedia+Suggest+%28Type+Ahead%29+API+Family
+	// https://confluence/display/POS/Expedia+Suggest+API+Family
 	//
 	// Examples (hotels):
 	// http://suggest.expedia.com/hint/es/v1/ac/en_US/bellagio?type=30
@@ -286,8 +286,8 @@ public class ExpediaServices implements DownloadListener {
 			responseHandler.setType(SuggestResponseHandler.Type.FLIGHTS);
 		}
 		else {
-			// 223 is regions(95 Default) + hotels(128)
-			params.add(new BasicNameValuePair("type", "223"));
+			// 255 is regions(95 Default) + hotels(128) + addresses(32)
+			params.add(new BasicNameValuePair("type", "255"));
 
 			responseHandler.setType(SuggestResponseHandler.Type.HOTELS);
 		}
