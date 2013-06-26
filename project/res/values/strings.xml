@@ -2528,5 +2528,130 @@
     <string name="VSC_app_name">VSC Hotels</string>
     <!-- Link to open when VSC logo is clicked on -->
     <string name="app_vsc_info_url">http://www.voyages-sncf.com/</string>
+    
+    <!-- Content Description Labels -->
+    <!-- Expedia Bookings Launch Screen -->
+    <!-- Button to launch Expedia Hotels -->
+    <string name="cd_launch_hotels">Launch Expedia Hotels</string>
+    <!-- Button to launch Expedia Flights -->
+    <string name="cd_launch_flights">Launch Expedia Flights</string>
+    <!-- Button to open menu list -->
+    <string name="cd_launch_open_menu_list">Open menu list</string>
+    <!-- Open Settings Menu -->
+    <string name="cd_launch_open_settings_menu">Open settings menu</string>
+    <!-- Open App Info Screen -->
+    <string name="cd_launch_open_eb_info_screen">Open Expedia Bookings information screen</string>
+    <!-- Launch screen "Shop" tab -->
+    <string name="cd_launch_abs_shop_tab">Shop for hotels and flights</string>
+    <!-- Launch screen "Trips" tab -->
+    <string name="cd_launch_abs_shop_tab">Look at your Expedia Trips</string>
+    <!-- Trips Screen -->
+    <!-- Log in for your trips (reference to existing string) -->
+    <string name="cd_trips_log_in_for_your_trips">@string/log_in_for_your_trips</string>
+    <!-- Enter Itinerary Number (reference to existing string) -->
+    <string name="cd_trips_enter_itinerary_number">@string/enter_itinerary_number</string>
+    <!-- Hotel Search Screen -->
+    <!-- Hotel Search Field (EditText) -->
+    <string name="cd_hotel_search_edittext">Hotel Search Field</string>
+    <!-- Open hotel booking dates calendar -->
+    <string name="cd_hotel_search_open_calendar">Open hotel booking calendar</string>
+    <!-- Press "Search" from hotel calendar fragment -->
+    <string name="cd_hotel_search_press_search_from_calendar">Press to search for hotels</string>
+    <!-- Open hotel guest picker -->
+    <string name="cd_hotel_search_open_guest_picker">Open hotel guest picker</string>
+    <!-- Press "Search" from hotel guest picker fragment -->
+    <string name="cd_hotel_search_press_search_from_guest_picker">Press to search for hotels</string>
+    <!-- Press to open hotel sort options -->
+    <string name="cd_hotel_search_open_sort_options">Open hotel sort options</string>
+    <!-- Switch to map view - hotels search -->
+    <string name="cd_hotel_search_switch_to_map_view">Switch to map view</string>
+    <!-- Switch to list view - hotels search -->
+    <string name="cd_hotel_search_switch_to_list_view">Switch to list view</string>
+    <!-- Hotel sort options -->
+    <string name="cd_sort_hotels_by_popularity">Sort hotels by popularity</string>
+    <string name="cd_sort_hotels_by_deals">Sort hotels by deals</string>
+    <string name="cd_sort_hotels_by_price">Sort hotels by price</string>
+    <string name="cd_sort_hotels_by_rating">Sort hotels by rating</string>
+    <!-- Press to open hotel filter options -->
+    <string name="cd_filter_open_hotel_filter_options">Open hotel filter options</string>
+    <!-- Hotel filter options -->
+    <string name="cd_filter_by_hotel_name">Hotel filter text field</string>
+    <!-- Hotel star filters -->
+    <string name="cd_filter_hotels_for_three_or_more_stars">Filter hotels for three or more stars</string>
+    <string name="cd_filter_hotels_for_four_or_more_stars">Filter hotels for four or more stars</string>
+    <string name="cd_filter_hotels_for_five_stars">Filter hotels for five stars</string>
+    <string name="cd_filter_remove_hotel_star_filters">Remove hotel star filters</string>
+    <!-- Hotel price filters -->
+ 	<string name="cd_filter_for_low_range_hotel_prices">Filter for low-range hotel prices</string>
+ 	<string name="cd_filter_for_mid_range_hotel_prices">Filter for mid-range hotel prices</string>
+ 	<string name="cd_filter_for_high_range_hotel_prices">Filter for high-range hotel prices</string>
+    <string name="cd_filter_remove_hotel_price_filters">Remove hotel price filters</string>
+    <string name="cd_filter_back_to_EB_launch_screen">Go back to Expedia Bookings launch screen</string>
+    <!-- Hotel info screen -->
+    <string name="cd_hotel_info_select_button">Select this hotel</string>
+    <string name="cd_hotel_info_go_to_hotel_reviews">Go to this hotel\'s reviews</string>
+    <string name="cd_hotel_info_press_book_now">Press to book this hotel now</string>
+    <string name="cd_hotel_info_press_book_by_phone">Press to book this hotel by phone</string>
+    <!-- Hotel review screen -->
+    <string name="cd_display_recent_reviews">Display recent reviews</string>
+    <string name="cd_display_favorable_reviews">Display favorable reviews</string>
+    <string name="cd_display_critical_reviews">Display critical reviews</string>
+    <!-- Flight Search -->
+    <string name="cd_flights_search_departure_edit_text">Edit departure airport</string>
+    <string name="cd_flights_search_arrival_edit_text">Edit arrival airport</string>
+    <string name="cd_flights_search_dates_edit">Edit departure and arrival dates</string>
+    <string name="cd_flights_search_number_of_travelers_edit">Edit number of travelers</string>
+    <!-- Flight Search Results -->
+    <string name="cd_flights_search_search_button">Press to return to flight search</string>
+    <string name="cd_flights_search_results_sort">Open flight sort options</string>
+    <!-- Flight Search Results - Flight Leg Selection -->
+    <string name="cd_flight_leg_cancel">Cancel your flight selection. Go back to flight search results</string>
+    <string name="cd_flight_leg_select_flight">Select this flight</string>
+    <string name="cd_flight_leg_baggage_fee_info">Go to baggage fee information</string>
+    <!-- Flight Search Results - Selection Overview -->
+    <string name="cd_flight_selection_cost_summary">Go to cost summary for your flight selections</string>
+    <!-- Hotel sort options -->
+    <string name="cd_sort_flights_by_price">Sort hotels by price</string>
+    <string name="cd_sort_flights_by_departs">Sort hotels by when it departs</string>
+    <string name="cd_sort_flights_by_arrives">Sort hotels by when it arrives</string>
+    <string name="cd_sort_flights_by_duration">Sort hotels by duration</string>
+    <!-- Checkout screen -->
+    <string name="cd_checkout"></string>
+    <string name="cd_checkout_log_in_with_expedia">Log in with Expedia Bookings Button</string>
+    <string name="cd_checkout_buy_with_google">Buy with Google</string>
+    <string name="cd_checkout_add_traveler">Add a traveler to this booking</string>
+    <string name="cd_checkout_select_payment">Select payment for this booking</string>
+    <string name="cd_checkout_enter_coupon">@string/coupon_code</string>
+    <string name="cd_checkout_coupon_code_entry_field">Coupon and promotion code entry field</string>
+    <string name="cd_checkout_apply_coupon_button">Press to apply coupon</string>
+    <string name="cd_checkout_slide_to_purchase">@string/slide_to_purchase</string>
+    <!-- Log in screen -->
+	<string name="cd_log_in_email_edit_text">Enter Expedia account email address</string>
+	<string name="cd_log_in_password_edit_text">Enter Expedia account password</string>
+	<string name="cd_log_in_with_facebook">Log into Expedia with your Facebook account</string>
+	<!-- Traveler Information screen -->
+	<string name="cd_traveler_enter_new_traveler">Press to enter a new traveler</string>
+	<string name="cd_traveler_edit_traveler_information"></string>
+	<string name="cd_traveler_edit_passport_country">Edit traveler\'s passport country</string>
+	<!-- Traveler Information edit/entry screen -->
+	<string name="cd_traveler_first_name_edit_text">Enter first name</string>
+	<string name="cd_traveler_middle_name_edit_text">Enter middle name</string>
+	<string name="cd_traveler_last_name_edit_text">Enter last name</string>
+	<string name="cd_traveler_list_international_phone_codes">Press to select country calling codes</string>
+	<string name="cd_traveler_phone_number">Enter phone number</string>
+	<string name="cd_traveler_information_done">Done entering traveler information</string>
+	<!-- Extra traveler information - flights -->
+	<string name="cd_traveler_birthday_edit">Enter traveler\'s birthday</string>
+	<string name="cd_traveler_gender_edit">Enter traveler\'s gender</string>
+	<string name="cd_traveler_redress_number_edit_text">Enter redress number, if applicable</string>
+	<string name="cd_traveler_special_assistance_edit">Select type of special assistance traveler requires</string>
+	<string name="cd_traveler_seat_preference_edit">Select window type that the traveler prefers</string>
+	<!-- Credit Card Information -->
+	<string name="cd_card_info_card_number_edit_text">Enter credit card number</string>
+	<string name="cd_card_info_cardholder_name">Enter cardholder name</string>
+	<string name="cd_card_info_email_address">Enter cardholder email address</string>
+	
+    <!-- Common actionbar elements -->
+    <string name="cd_go_back">Go back to previous screen</string>
 
 </resources>
