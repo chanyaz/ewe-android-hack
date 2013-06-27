@@ -549,6 +549,11 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	private final OnDownloadComplete<ReviewsStatisticsResponse> mReviewsCallback = new OnDownloadComplete<ReviewsStatisticsResponse>() {
 		@Override
 		public void onDownload(ReviewsStatisticsResponse response) {
+			if (Db.getHotelSearch().getSelectedProperty() == null) {
+				Log.d("Bailed saving review because property was removed");
+				return;
+			}
+
 			String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
 			Db.getHotelSearch().addReviewsStatisticsResponse(selectedId, response);
 
