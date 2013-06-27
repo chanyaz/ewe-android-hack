@@ -188,7 +188,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 	}
 
 	@Override
-	public View getDetailsView(ViewGroup container) {
+	public View getDetailsView(View convertView, ViewGroup container) {
 		final ItinCardDataCar itinCardData = getItinCardData();
 
 		View view = getLayoutInflater().inflate(R.layout.include_itin_card_details_car, container, false);

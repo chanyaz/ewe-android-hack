@@ -107,7 +107,7 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 		mItinButtonOnClickListener = mItinContentGenerator.getOnItemClickListener();
 
 		// Get button detail view
-		View buttonView = mItinContentGenerator.getDetailsView(mItinButtonLayout);
+		View buttonView = mItinContentGenerator.getDetailsView(null, mItinButtonLayout);
 		if (buttonView != null) {
 			mItinButtonLayout.removeAllViews();
 			mItinButtonLayout.addView(buttonView);

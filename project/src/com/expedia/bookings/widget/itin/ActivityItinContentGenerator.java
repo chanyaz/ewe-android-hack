@@ -134,7 +134,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 	}
 
 	@Override
-	public View getDetailsView(ViewGroup container) {
+	public View getDetailsView(View convertView, ViewGroup container) {
 		ItinCardDataActivity itinCardData = getItinCardData();
 
 		View view = getLayoutInflater().inflate(R.layout.include_itin_card_details_activity, container, false);

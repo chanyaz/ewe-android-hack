@@ -143,7 +143,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	public abstract View getSummaryView(View convertView, ViewGroup container);
 
-	public abstract View getDetailsView(ViewGroup container);
+	public abstract View getDetailsView(View convertView, ViewGroup container);
 
 	// Action buttons
 

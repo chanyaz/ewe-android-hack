@@ -329,7 +329,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	}
 
 	public void inflateDetailsView() {
-		View detailsView = mItinContentGenerator.getDetailsView(mDetailsLayout);
+		View detailsView = mItinContentGenerator.getDetailsView(null, mDetailsLayout);
 		if (detailsView != null) {
 			mDetailsLayout.removeAllViews();
 			mDetailsLayout.addView(detailsView);

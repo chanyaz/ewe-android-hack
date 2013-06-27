@@ -21,7 +21,7 @@ public class LocalExpertItinContentGenerator extends ItinButtonContentGenerator<
 	}
 
 	@Override
-	public View getDetailsView(ViewGroup container) {
+	public View getDetailsView(View convertView, ViewGroup container) {
 		return getLayoutInflater().inflate(R.layout.include_itin_button_local_expert, container, false);
 	}
 

@@ -117,7 +117,7 @@ public class FallbackItinContentGenerator extends ItinContentGenerator<ItinCardD
 	}
 
 	@Override
-	public View getDetailsView(ViewGroup container) {
+	public View getDetailsView(View convertView, ViewGroup container) {
 		return null;
 	}
 

@@ -30,7 +30,7 @@ public class HotelAttachItinContentGenerator extends ItinButtonContentGenerator<
 	}
 
 	@Override
-	public View getDetailsView(ViewGroup container) {
+	public View getDetailsView(View convertView, ViewGroup container) {
 		final View view = getLayoutInflater().inflate(R.layout.include_itin_button_hotel_attach, container, false);
 		final String buttonText;
 

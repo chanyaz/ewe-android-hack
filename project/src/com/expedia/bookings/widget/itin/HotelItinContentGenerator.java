@@ -191,7 +191,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		return view;
 	}
 
-	public View getDetailsView(ViewGroup container) {
+	public View getDetailsView(View convertView, ViewGroup container) {
 		final ItinCardDataHotel itinCardData = getItinCardData();
 
 		View view = getLayoutInflater().inflate(R.layout.include_itin_card_details_hotel, container, false);
