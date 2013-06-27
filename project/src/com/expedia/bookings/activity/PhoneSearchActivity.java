@@ -326,31 +326,42 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private final OnDownloadComplete<HotelOffersResponse> mSearchHotelCallback = new OnDownloadComplete<HotelOffersResponse>() {
 
 		@Override
-		public void onDownload(HotelOffersResponse results) {
-			Property property = results.getProperty();
-			HotelSearchResponse searchResponse = new HotelSearchResponse();
-			List<Rate> rates = results.getRates();
-			if (property != null && rates != null) {
-				Rate lowestRate = null;
-				for (Rate rate : rates) {
-					Money temp = rate.getDisplayRate();
-					if (lowestRate == null) {
-						lowestRate = rate;
+		public void onDownload(HotelOffersResponse offersResponse) {
+			if (offersResponse != null && offersResponse.isSuccess() && offersResponse.getProperty() != null) {
+				Property property = offersResponse.getProperty();
+				HotelSearchResponse searchResponse = new HotelSearchResponse();
+
+				List<Rate> rates = offersResponse.getRates();
+				if (rates != null) {
+					Rate lowestRate = null;
+					for (Rate rate : rates) {
+						Money temp = rate.getDisplayRate();
+						if (lowestRate == null) {
+							lowestRate = rate;
+						}
+						if (lowestRate.getDisplayRate().getAmount().compareTo(temp.getAmount()) > 0) {
+							lowestRate = rate;
+						}
 					}
-					if (lowestRate.getDisplayRate().getAmount().compareTo(temp.getAmount()) > 0) {
-						lowestRate = rate;
-					}
+					property.setLowestRate(lowestRate);
 				}
-				property.setLowestRate(lowestRate);
+
 				searchResponse.addProperty(property);
-				Db.getHotelSearch().setSelectedProperty(property);
 
 				// Forward to the hotel detail screen if the user searched by hotel name and selected one.
 				if (Db.getHotelSearch().getSearchParams().getSearchType() == HotelSearchParams.SearchType.HOTEL) {
 					startActivity(HotelDetailsFragmentActivity.createIntent(PhoneSearchActivity.this));
 				}
+				Db.getHotelSearch().setSearchResponse(searchResponse);
+				Db.getHotelSearch().updateFrom(offersResponse);
+				Db.getHotelSearch().setSelectedProperty(property);
+
+				loadSearchResponse(searchResponse);
 			}
-			mSearchCallback.onDownload(searchResponse);
+			else {
+				Log.e("PhoneSearchActivity mSearchHotelCallback: Problem downloading HotelOffersResponse");
+				simulateErrorResponse(R.string.error_server);
+			}
 		}
 
 	};
@@ -358,17 +369,21 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private final OnDownloadComplete<HotelSearchResponse> mSearchCallback = new OnDownloadComplete<HotelSearchResponse>() {
 		@Override
 		public void onDownload(HotelSearchResponse searchResponse) {
-			// Clear the old listener so we don't end up with a memory leak
-			Db.getFilter().clearOnFilterChangedListeners();
+			Db.getHotelSearch().setSearchResponse(searchResponse);
+			loadSearchResponse(searchResponse);
+		}
+	};
 
-			if (searchResponse != null && searchResponse.getPropertiesCount() > 0 && !searchResponse.hasErrors()) {
-				Db.getHotelSearch().setSearchResponse(searchResponse);
+	private void loadSearchResponse(HotelSearchResponse searchResponse) {
+		// Clear the old listener so we don't end up with a memory leak
+		Db.getFilter().clearOnFilterChangedListeners();
 
-				HotelFilter filter = Db.getFilter();
+		if (searchResponse != null && searchResponse.getPropertiesCount() > 0 && !searchResponse.hasErrors()) {
+			HotelFilter filter = Db.getFilter();
 
-				// HotelFilter reset is already called, hence reset appropriate searchRadius
-				SearchType searchType = Db.getHotelSearch().getSearchParams().getSearchType();
-				switch (searchType) {
+			// HotelFilter reset is already called, hence reset appropriate searchRadius
+			SearchType searchType = Db.getHotelSearch().getSearchParams().getSearchType();
+			switch (searchType) {
 				case CITY:
 				case ADDRESS:
 				case FREEFORM:
@@ -380,45 +395,44 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				case POI:
 					filter.setSearchRadius(SearchRadius.LARGE);
 					break;
-				}
-				searchResponse.setFilter(filter);
-				filter.addOnFilterChangedListener(PhoneSearchActivity.this);
-
-				HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
-				searchResponse.setSearchType(searchParams.getSearchType());
-				searchResponse.setSearchLatLon(searchParams.getSearchLatitude(), searchParams.getSearchLongitude());
-
-				if (!mLoadedSavedResults && searchResponse.getFilteredAndSortedProperties().length <= 10) {
-					Log.i("Initial search results had not many results, expanding search radius filter to show all.");
-					filter.setSearchRadius(SearchRadius.ALL);
-					mRadiusCheckedId = R.id.radius_all_button;
-					searchResponse.clearCache();
-				}
-
-				// #9773: Show distance sort initially, if user entered street address-level search params
-				if (mShowDistance) {
-					mSortOptionSelectedId = R.id.menu_select_sort_distance;
-					buildFilter();
-				}
-
-				broadcastSearchCompleted(searchResponse);
-
-				hideLoading();
-
-				mLastSearchTime = Calendar.getInstance().getTimeInMillis();
 			}
-			else if (searchResponse != null && searchResponse.getPropertiesCount() > 0
-					&& searchResponse.getLocations() != null && searchResponse.getLocations().size() > 0) {
-				showDialog(DIALOG_LOCATION_SUGGESTIONS);
+			searchResponse.setFilter(filter);
+			filter.addOnFilterChangedListener(PhoneSearchActivity.this);
+
+			HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
+			searchResponse.setSearchType(searchParams.getSearchType());
+			searchResponse.setSearchLatLon(searchParams.getSearchLatitude(), searchParams.getSearchLongitude());
+
+			if (!mLoadedSavedResults && searchResponse.getFilteredAndSortedProperties().length <= 10) {
+				Log.i("Initial search results had not many results, expanding search radius filter to show all.");
+				filter.setSearchRadius(SearchRadius.ALL);
+				mRadiusCheckedId = R.id.radius_all_button;
+				searchResponse.clearCache();
 			}
-			else if (searchResponse != null && searchResponse.getPropertiesCount() == 0 && !searchResponse.hasErrors()) {
-				simulateErrorResponse(LayoutUtils.noHotelsFoundMessage(mContext));
+
+			// #9773: Show distance sort initially, if user entered street address-level search params
+			if (mShowDistance) {
+				mSortOptionSelectedId = R.id.menu_select_sort_distance;
+				buildFilter();
 			}
-			else {
-				handleError();
-			}
+
+			broadcastSearchCompleted(searchResponse);
+
+			hideLoading();
+
+			mLastSearchTime = Calendar.getInstance().getTimeInMillis();
 		}
-	};
+		else if (searchResponse != null && searchResponse.getPropertiesCount() > 0
+				&& searchResponse.getLocations() != null && searchResponse.getLocations().size() > 0) {
+			showDialog(DIALOG_LOCATION_SUGGESTIONS);
+				}
+		else if (searchResponse != null && searchResponse.getPropertiesCount() == 0 && !searchResponse.hasErrors()) {
+			simulateErrorResponse(LayoutUtils.noHotelsFoundMessage(mContext));
+		}
+		else {
+			handleError();
+		}
+	}
 
 	private final Download<HotelSearchResponse> mLoadSavedResults = new Download<HotelSearchResponse>() {
 		@Override
@@ -1827,8 +1841,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	}
 
 	private void broadcastSearchCompleted(HotelSearchResponse searchResponse) {
-		Db.getHotelSearch().setSearchResponse(searchResponse);
-
 		if (Db.getHotelSearch().getSearchParams().getSearchType() != HotelSearchParams.SearchType.HOTEL) {
 			Db.getHotelSearch().clearSelectedProperty();
 		}
