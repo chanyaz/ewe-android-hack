@@ -51,7 +51,7 @@ public class FullHappyPathTest extends ActivityInstrumentationTestCase2<SearchAc
 		mDriver.launchHotels();
 		mDriver.browseRooms(4, mUser.mHotelSearchCity, true);
 		
-		mDriver.flightsHappyPath(mUser.mDepartureAirport, mUser.mArrivalAirport, 0, true, false);
+		mDriver.flightsHappyPath(mUser.mDepartureAirport, mUser.mArrivalAirport, 1, true, false);
 	}
 
 	@Override
