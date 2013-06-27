@@ -27,6 +27,7 @@ import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.ReviewsStatisticsResponse;
+import com.expedia.bookings.dialog.HotelSoldOutDialog;
 import com.expedia.bookings.fragment.HotelDetailsDescriptionFragment;
 import com.expedia.bookings.fragment.HotelDetailsIntroFragment;
 import com.expedia.bookings.fragment.HotelDetailsMiniGalleryFragment;
@@ -499,11 +500,19 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 			// Check if we got a better response elsewhere before loading up this data
 			String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
 			HotelOffersResponse possibleBetterResponse = Db.getHotelSearch().getHotelOffersResponse(selectedId);
+
 			if (possibleBetterResponse != null) {
 				response = possibleBetterResponse;
 			}
 			else {
 				Db.getHotelSearch().updateFrom(response);
+			}
+
+			if (Db.getHotelSearch().getAvailability(selectedId).getRateCount() == 0) {
+				Db.getHotelSearch().removeProperty(selectedId);
+				HotelSoldOutDialog dialog = HotelSoldOutDialog.newInstance();
+				dialog.setHotelSoldOut();
+				dialog.show(getSupportFragmentManager(), "soldOutDialog");
 			}
 
 			// Notify affected child fragments to refresh.
