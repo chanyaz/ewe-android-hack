@@ -31,6 +31,7 @@ public class HotelSearch implements JSONable {
 	}
 
 	public void resetSearchData() {
+		Log.d("HotelSearch: resetSearchData");
 		clearSelectedProperty();
 		mSearchResponse = null;
 		mPropertyMap = null;
@@ -40,6 +41,7 @@ public class HotelSearch implements JSONable {
 	}
 
 	public void resetSearchParams() {
+		Log.d("HotelSearch: resetSearchParams");
 		mSearchParams = new HotelSearchParams();
 	}
 
@@ -52,6 +54,7 @@ public class HotelSearch implements JSONable {
 	}
 
 	public void setSearchResponse(HotelSearchResponse response) {
+		Log.d("HotelSearch: setSearchResponse");
 		mSearchResponse = response;
 
 		mPropertyMap = new HashMap<String, Property>();
