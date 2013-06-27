@@ -38,16 +38,15 @@ public class HotelSoldOutDialog extends DialogFragment {
 
 		builder.setMessage(getString(messageId));
 
-		builder.setNeutralButton(com.mobiata.android.R.string.ok, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int whichButton) {
-				if (getActivity() != null) {
-					getActivity().finish();
-				}
-				dismiss();
-			}
-		});
+		builder.setNeutralButton(com.mobiata.android.R.string.ok, null);
 
 		return builder.create();
+	}
+
+	@Override
+	public void onDismiss(DialogInterface dialog) {
+		if (getActivity() != null) {
+			getActivity().finish();
+		}
 	}
 }
