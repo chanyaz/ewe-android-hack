@@ -612,7 +612,8 @@ public class HotelsRobotHelper {
 			String done = mRes.getString(R.string.done);
 			if (mSolo.searchText(done)) {
 				mSolo.clickOnText(done);
-			} else {
+			}
+			else {
 				String setButton = mRes.getString(R.string.btn_set);
 				mSolo.clickOnText(setButton);
 			}
@@ -630,12 +631,6 @@ public class HotelsRobotHelper {
 			mSolo.clickOnText(mRes.getString(R.string.no_thanks));
 		}
 
-		landscape();
-		portrait();
-
-		delay();
-
-		delay();
 	}
 
 	public void enterMissingInfo(boolean addNewCC) {
@@ -655,17 +650,13 @@ public class HotelsRobotHelper {
 		}
 
 		if (addNewCC) {
-			landscape();
-			portrait();
-			
+
 			mSolo.scrollToBottom();
-			
+
 			mSolo.clickOnView(mSolo.getView(R.id.payment_info_btn));
 			delay();
 			screenshot("Select payment");
 
-			landscape();
-			portrait();
 			delay();
 
 			mSolo.clickOnText(mSolo.getString(R.string.add_new_card));
@@ -673,8 +664,6 @@ public class HotelsRobotHelper {
 			screenshot("Add new card");
 			delay(1);
 
-			landscape();
-			portrait();
 			delay(5);
 			screenshot("Credit card info.");
 
@@ -707,6 +696,8 @@ public class HotelsRobotHelper {
 
 		//Press "Next" to continue
 		mSolo.clickOnText(mRes.getString(R.string.next));
+		landscape();
+		portrait();
 
 	}
 
@@ -739,6 +730,8 @@ public class HotelsRobotHelper {
 
 		// Do not save this card info
 		mSolo.clickOnText(mRes.getString(R.string.no_thanks));
+		landscape();
+		portrait();
 
 	}
 
