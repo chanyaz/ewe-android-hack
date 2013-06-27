@@ -13,20 +13,10 @@ public class HotelSoldOutDialog extends DialogFragment {
 
 	public static HotelSoldOutDialog newInstance() {
 		HotelSoldOutDialog frag = new HotelSoldOutDialog();
-		frag.setArguments(new Bundle());
-		return frag;
-	}
-
-	public void setRoomSoldOut() {
-		Bundle args = getArguments();
-		args.putInt(ARG_MESSAGE, R.string.error_room_is_now_sold_out);
-		setArguments(args);
-	}
-
-	public void setHotelSoldOut() {
-		Bundle args = getArguments();
+		Bundle args = new Bundle();
 		args.putInt(ARG_MESSAGE, R.string.error_hotel_is_now_sold_out);
-		setArguments(args);
+		frag.setArguments(args);
+		return frag;
 	}
 
 	@Override

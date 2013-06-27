@@ -114,7 +114,6 @@ public class RoomsAndRatesFragment extends ListFragment {
 			Db.getHotelSearch().removeProperty(selectedId);
 
 			HotelSoldOutDialog dialog = HotelSoldOutDialog.newInstance();
-			dialog.setHotelSoldOut();
 			dialog.show(getFragmentManager(), "soldOutDialog");
 
 			mEmptyTextView.setText(R.string.error_no_hotel_rooms_available);

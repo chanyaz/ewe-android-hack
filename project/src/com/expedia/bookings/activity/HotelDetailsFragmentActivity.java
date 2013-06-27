@@ -511,7 +511,6 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 			if (Db.getHotelSearch().getAvailability(selectedId).getRateCount() == 0) {
 				Db.getHotelSearch().removeProperty(selectedId);
 				HotelSoldOutDialog dialog = HotelSoldOutDialog.newInstance();
-				dialog.setHotelSoldOut();
 				dialog.show(getSupportFragmentManager(), "soldOutDialog");
 			}
 
