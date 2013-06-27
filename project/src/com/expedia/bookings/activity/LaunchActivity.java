@@ -48,7 +48,6 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.DisableableViewPager;
-import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.TwoLevelImageCache;
@@ -570,13 +569,24 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 
 	@Override
 	public void onListModeChanged(boolean isInDetailMode, boolean animate) {
+		mViewPager.setPageSwipingEnabled(isInDetailMode);
 		if (isInDetailMode) {
-			mViewPager.setPageSwipingEnabled(false);
-			getSupportActionBar().hide();
+			if (getSupportActionBar().isShowing()) {
+				getSupportActionBar().hide();
+			}
 		}
 		else {
-			mViewPager.setPageSwipingEnabled(true);
-			getSupportActionBar().show();
+			// The collapse animation takes 400ms, and the actionbar.show
+			// animation happens in 200ms, so make it use the last 200ms
+			// of the animation (and check to make sure there wasn't another
+			// mode change in between)
+			mViewPager.postDelayed(new Runnable() {
+				public void run() {
+					if (!mItinListFragment.isInDetailMode() && !getSupportActionBar().isShowing()) {
+						getSupportActionBar().show();
+					}
+				}
+			}, 200); // 400ms - 200ms
 		}
 	}
 
