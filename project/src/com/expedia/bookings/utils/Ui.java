@@ -3,6 +3,7 @@ package com.expedia.bookings.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.CompatFragmentActivity;
 import android.support.v4.app.Fragment;
 import android.util.TypedValue;
@@ -116,14 +117,27 @@ public class Ui extends com.mobiata.android.util.Ui {
 		return new int[] { measuredWidth, measuredHeight };
 	}
 
-	public static int obtainThemeColor(Activity activity, int attr) {
-		TypedArray a = activity.obtainStyledAttributes(new int[]{attr});
+	private static TypedArray obtainTypedArray(Activity activity, int attr) {
+		TypedArray a = activity.obtainStyledAttributes(new int[] { attr });
 		if (!a.hasValue(0)) {
 			throw new RuntimeException("Theme attribute not defined for attr=" + Integer.toHexString(attr));
 		}
+		return a;
+	}
+
+	public static int obtainThemeColor(Activity activity, int attr) {
+		TypedArray a = obtainTypedArray(activity, attr);
 		int color = a.getColor(0, 0);
 		a.recycle();
 
 		return color;
+	}
+
+	public static Drawable obtainThemeDrawable(Activity activity, int attr) {
+		TypedArray a = obtainTypedArray(activity, attr);
+		Drawable drawable = a.getDrawable(0);
+		a.recycle();
+
+		return drawable;
 	}
 }

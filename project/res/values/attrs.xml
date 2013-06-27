@@ -175,6 +175,7 @@
     <!-- ActionBar icon/logo in WebView/Preference/Info Activities -->
     <attr name="webViewPreferencesActionBarLogo" format="reference" />
 
+    <attr name="actionBarBackgroundDrawable" format="reference" />
     <!-- ActionBar checkmark drawable -->
     <attr name="actionBarCheckMarkDrawable" format="reference" />
     <!-- ActionBar Done/Search button color -->

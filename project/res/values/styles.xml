@@ -502,17 +502,12 @@
     </style>
 
     <style name="Dark.ActionBar" parent="Widget.Sherlock.ActionBar">
-        <item name="background">@drawable/bg_action_bar</item>
-        <item name="android:background">@drawable/bg_action_bar</item>
+        <item name="background">?attr/actionBarBackgroundDrawable</item>
+        <item name="android:background">?attr/actionBarBackgroundDrawable</item>
         <item name="backgroundSplit">@drawable/bg_action_bar_bottom</item>
         <item name="android:backgroundSplit">@drawable/bg_action_bar_bottom</item>
         <item name="titleTextStyle">@style/ActionBarTitle</item>
         <item name="android:titleTextStyle">@style/ActionBarTitle</item>
-    </style>
-
-    <style name="Dark.ActionBar.VSC" parent="Dark.ActionBar">
-        <item name="background">@drawable/bg_action_bar_vsc</item>
-        <item name="android:background">@drawable/bg_action_bar_vsc</item>
     </style>
 
     <style name="ActionBarTabBar" parent="android:style/Widget">

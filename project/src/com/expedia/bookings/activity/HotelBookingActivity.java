@@ -5,6 +5,7 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
@@ -237,17 +238,11 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 
 		mCvvErrorModeEnabled = enabled;
 
-		int bgDefaultResID = R.drawable.bg_action_bar;
-		// #1415. VSC Adding rainbowBar
-		if (ExpediaBookingApp.IS_VSC) {
-			bgDefaultResID = R.drawable.bg_action_bar_vsc;
-		}
-
-		// Set header bg
-		int bgResId = (enabled) ? R.drawable.bg_flight_action_bar_top_red : bgDefaultResID;
+		Drawable actionBarDrawable = (enabled) ? getResources().getDrawable(R.drawable.bg_flight_action_bar_top_red)
+				: Ui.obtainThemeDrawable(this, R.attr.actionBarBackgroundDrawable);
 
 		ActionBar ab = getSupportActionBar();
-		ab.setBackgroundDrawable(getResources().getDrawable(bgResId));
+		ab.setBackgroundDrawable(actionBarDrawable);
 
 		// Set the new title
 		int titleResId = (enabled) ? R.string.title_invalid_security_code : R.string.title_complete_booking;
