@@ -1208,15 +1208,6 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 				}
 				else {
 					Db.getHotelSearch().updateFrom(availabilityResponse);
-
-					Property availabilityProperty = availabilityResponse.getProperty();
-					String propertyId = availabilityProperty.getPropertyId();
-
-					Property searchProperty = Db.getHotelSearch().getProperty(propertyId);
-					if (searchProperty != null) {
-						searchProperty.updateFrom(availabilityProperty);
-					}
-
 					notifyAvailabilityQueryComplete();
 				}
 			}
