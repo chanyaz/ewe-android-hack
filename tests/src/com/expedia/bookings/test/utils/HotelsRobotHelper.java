@@ -969,7 +969,7 @@ public class HotelsRobotHelper {
 		delay();
 	}
 
-	public void flightsHappyPath(String departure, String arrival, int bookingDateOffset, boolean doHotelBooking)
+	public void flightsHappyPath(String departure, String arrival, int bookingDateOffset, boolean completeFlightBooking, boolean doHotelBooking)
 			throws Exception, IntegrationFailureError {
 
 		landscape();
@@ -1078,7 +1078,7 @@ public class HotelsRobotHelper {
 		mSolo.clickOnText(mRes.getString(R.string.checkout_btn));
 
 		//log in and do a booking
-		logInAndBook(true);
+		logInAndBook(completeFlightBooking);
 
 		//if hotel booking switch is true, do a hotel booking 
 		//in that city
