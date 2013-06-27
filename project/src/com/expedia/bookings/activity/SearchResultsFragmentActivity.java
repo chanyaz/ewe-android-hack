@@ -1029,9 +1029,11 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 				}
 				property.setLowestRate(lowestRate);
 				searchResponse.addProperty(property);
-				Db.getHotelSearch().setSelectedProperty(property);
 			}
-			mSearchCallback.onDownload(searchResponse);
+			Db.getHotelSearch().setSearchResponse(searchResponse);
+			Db.getHotelSearch().updateFrom(results);
+			Db.getHotelSearch().setSelectedProperty(property);
+			loadSearchResponse(searchResponse, true);
 		}
 	};
 
