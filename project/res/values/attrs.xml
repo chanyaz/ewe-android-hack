@@ -182,4 +182,6 @@
     <!-- ActionBar checkout arrow drawable -->
     <attr name="actionBarCheckoutDrawable" format="reference" />
 
+    <attr name="costSummaryHeaderTextColor" format="reference|color" />
+
 </resources>

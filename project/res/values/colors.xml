@@ -129,6 +129,8 @@
     <color name="confirmation_header_divider_hotel">#cccccc</color>
     <color name="confirmation_item_divider_flight">#5b646b</color>
     <color name="confirmation_item_divider_hotel">#616871</color>
+    <color name="cost_summary_header_text_color">#004582</color>
+    <color name="cost_summary_header_text_color_vsc">#7abb00</color>
 
     <!-- Hotels search hangtag/mapsearch colors -->
     <color name="hotel_list_progress_text_color">#555555</color>
