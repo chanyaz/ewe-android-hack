@@ -609,7 +609,13 @@ public class HotelsRobotHelper {
 		if (goThroughFlightsFlow) {
 
 			mSolo.clickOnView(birthDateTextButton);
-			mSolo.clickOnText(mRes.getString(R.string.done));
+			String done = mRes.getString(R.string.done);
+			if (mSolo.searchText(done)) {
+				mSolo.clickOnText(done);
+			} else {
+				String setButton = mRes.getString(R.string.btn_set);
+				mSolo.clickOnText(setButton);
+			}
 
 			landscape();
 			portrait();
