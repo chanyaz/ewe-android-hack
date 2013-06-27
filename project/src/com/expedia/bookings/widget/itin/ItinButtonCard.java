@@ -71,6 +71,9 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 	private ViewGroup mItinButtonLayout;
 	private View mDismissImageView;
 
+	// Views generated an ItinContentGenerator (that get reused)
+	private View mDetailsView;
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -107,10 +110,10 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 		mItinButtonOnClickListener = mItinContentGenerator.getOnItemClickListener();
 
 		// Get button detail view
-		View buttonView = mItinContentGenerator.getDetailsView(null, mItinButtonLayout);
-		if (buttonView != null) {
-			mItinButtonLayout.removeAllViews();
-			mItinButtonLayout.addView(buttonView);
+		boolean wasNull = mDetailsView == null;
+		mDetailsView = mItinContentGenerator.getDetailsView(mDetailsView, mItinButtonLayout);
+		if (wasNull && mDetailsView != null) {
+			mItinButtonLayout.addView(mDetailsView);
 		}
 
 		if (itinCardData instanceof ItinCardDataLocalExpert) {
