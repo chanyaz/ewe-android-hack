@@ -655,6 +655,11 @@ public class HotelsRobotHelper {
 		}
 
 		if (addNewCC) {
+			landscape();
+			portrait();
+			
+			mSolo.scrollToBottom();
+			
 			mSolo.clickOnView(mSolo.getView(R.id.payment_info_btn));
 			delay();
 			screenshot("Select payment");
