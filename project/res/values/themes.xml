@@ -326,4 +326,8 @@
         <item name="android:colorBackgroundCacheHint">@null</item>
     </style>
 
+    <style name="TerminalMapTheme" parent="@style/LaunchTheme">
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
 </resources>

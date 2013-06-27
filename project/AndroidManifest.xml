@@ -253,7 +253,7 @@
         <activity
             android:name="com.expedia.bookings.activity.TerminalMapActivity"
             android:label="@string/Terminal_Map"
-            android:theme="@style/LaunchTheme" />
+            android:theme="@style/TerminalMapTheme" />
         <activity
             android:name="com.expedia.bookings.activity.StandaloneShareActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />

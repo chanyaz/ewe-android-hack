@@ -47,7 +47,6 @@ public class TerminalMapActivity extends SherlockFragmentActivity implements OnN
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.setContentView(R.layout.activity_terminal_map);
 
 		// Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
@@ -95,7 +94,7 @@ public class TerminalMapActivity extends SherlockFragmentActivity implements OnN
 		if (mTerminalMap == null) {
 			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 			mTerminalMap = TerminalMapFragment.newInstance();
-			transaction.add(R.id.fragment_container, mTerminalMap, FRAG_TAG_TERMINAL_MAP);
+			transaction.add(android.R.id.content, mTerminalMap, FRAG_TAG_TERMINAL_MAP);
 			transaction.commit();
 		}
 	}
