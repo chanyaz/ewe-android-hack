@@ -115,7 +115,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 
 			HotelSoldOutDialog dialog = HotelSoldOutDialog.newInstance();
 			dialog.setHotelSoldOut();
-			dialog.show(getFragmentManager(), "priceChangeDialog");
+			dialog.show(getFragmentManager(), "soldOutDialog");
 
 			mEmptyTextView.setText(R.string.error_no_hotel_rooms_available);
 			mAdapter = null;
