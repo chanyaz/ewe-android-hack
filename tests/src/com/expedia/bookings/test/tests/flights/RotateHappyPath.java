@@ -43,7 +43,7 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 		mDriver.changeAPI("Production");
 
 		try {
-			mDriver.flightsHappyPath(mUser.mDepartureAirport, mUser.mArrivalAirport, 0, true, false);
+			mDriver.flightsHappyPath(mUser.mDepartureAirport, mUser.mArrivalAirport, 1, true, false);
 		}
 		catch (IntegrationFailureError e) {
 			fail(e.getMessage());
