@@ -1037,6 +1037,11 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 
 	private final OnDownloadComplete<HotelSearchResponse> mSearchCallback = new OnDownloadComplete<HotelSearchResponse>() {
 		public void onDownload(HotelSearchResponse response) {
+			if (response != null) {
+				// Even if there are errors we want to store them
+				// for when we reload the response (eg rotation)
+				Db.getHotelSearch().setSearchResponse(response);
+			}
 			loadSearchResponse(response, true);
 		}
 	};
@@ -1044,11 +1049,6 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	private void loadSearchResponse(HotelSearchResponse response, boolean initialLoad) {
 		if (response == null) {
 			Db.getHotelSearch().resetSearchData();
-		}
-		else {
-			// Even if there are errors we want to store them
-			// for when we reload the response (eg rotation)
-			Db.getHotelSearch().setSearchResponse(response);
 		}
 
 		if (response == null || response.getPropertiesCount() == 0) {
