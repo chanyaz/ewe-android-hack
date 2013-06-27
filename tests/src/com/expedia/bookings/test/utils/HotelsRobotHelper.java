@@ -580,32 +580,71 @@ public class HotelsRobotHelper {
 		delay(5);
 		screenshot("Adding new traveler");
 
+		mSolo.clickOnView(mSolo.getView(R.id.enter_info_manually_button));
+		delay();
 		mSolo.enterText((EditText)
 				mSolo.getCurrentActivity().findViewById(R.id.edit_first_name),
 				mUser.mFirstName);
+		delay(1);
 		mSolo.enterText((EditText)
 				mSolo.getCurrentActivity().findViewById(R.id.edit_last_name),
 				mUser.mLastName);
+		delay();
 		mSolo.enterText((EditText)
 				mSolo.getCurrentActivity().findViewById(R.id.edit_phone_number),
 				mUser.mPhoneNumber);
+
+		boolean goThroughFlightsFlow = false;
+		View birthDateTextButton = null;
+		try {
+			birthDateTextButton = mSolo.getView(R.id.edit_birth_date_text_btn);
+			if (birthDateTextButton.isShown()) {
+				goThroughFlightsFlow = true;
+			}
+		}
+		catch (Error e) {
+			Log.e(TAG, "Birthdate text button not here.", e);
+		}
+
+		if (goThroughFlightsFlow) {
+
+			mSolo.clickOnView(birthDateTextButton);
+			mSolo.clickOnText(mRes.getString(R.string.done));
+
+			landscape();
+			portrait();
+
+			mSolo.clickOnText(mRes.getString(R.string.next));
+
+		}
+
+		mSolo.clickOnText(mRes.getString(R.string.button_done));
+
+		if (mSolo.searchText(mRes.getString(R.string.save_traveler))) {
+			mSolo.clickOnText(mRes.getString(R.string.no_thanks));
+		}
 
 		landscape();
 		portrait();
 
 		delay();
-		mSolo.clickOnText(mRes.getString(R.string.button_done));
-		//mSolo.clickOnButton(1);
 
 		delay();
 	}
 
 	public void enterMissingInfo(boolean addNewCC) {
 		enterLog(TAG, "Booking: entering traveler info.");
-		String travelerInfo = mSolo.getString(R.string.enter_traveler_info);
 
-		if (mSolo.searchText(travelerInfo, true)) {
-			mSolo.clickOnText(travelerInfo);
+		String addTraveler = mSolo.getString(R.string.add_traveler);
+
+		if (mSolo.searchText(addTraveler, true)) {
+			try {
+				mSolo.clickOnView(mSolo.getView(R.id.traveler_info_btn));
+			}
+			catch (Error e) {
+				Log.e(TAG, "Failed to click view. Falling back to string: " + addTraveler);
+				mSolo.clickOnText(addTraveler);
+			}
 			enterNewTraveler();
 		}
 
@@ -969,7 +1008,8 @@ public class HotelsRobotHelper {
 		delay();
 	}
 
-	public void flightsHappyPath(String departure, String arrival, int bookingDateOffset, boolean completeFlightBooking, boolean doHotelBooking)
+	public void flightsHappyPath(String departure, String arrival, int bookingDateOffset,
+			boolean completeFlightBooking, boolean doHotelBooking)
 			throws Exception, IntegrationFailureError {
 
 		landscape();
