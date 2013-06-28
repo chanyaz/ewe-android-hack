@@ -25,6 +25,7 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -133,7 +134,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	private CouponCodeWidget mCouponCodeWidget;
 	private View mCouponCodeLayout;
-	private View mCouponCodeEditText;
+	private EditText mCouponCodeEditText;
 	private TextView mLegalInformationTextView;
 	private View mScrollSpacerView;
 
@@ -1372,6 +1373,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	private void clearWalletPromoCoupon() {
 		mCouponCode = null;
+		mCouponCodeEditText.setText("");
 		BackgroundDownloader.getInstance().cancelDownload(KEY_APPLY_COUPON);
 		Db.getHotelSearch().setCreateTripResponse(null);
 		mCouponCodeWidget.resetState();
