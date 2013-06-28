@@ -890,12 +890,10 @@ public class HotelsRobotHelper {
 			}
 			mSolo.scrollDown();
 		}
-		if (completeABooking) {
-			selectHotel(2);
-			pressBookRoom();
-			selectRoom(0);
-			logInAndBook(true, completeABooking);
-		}
+		selectHotel(2);
+		pressBookRoom();
+		selectRoom(0);
+		logInAndBook(true, completeABooking);
 
 	}
 
