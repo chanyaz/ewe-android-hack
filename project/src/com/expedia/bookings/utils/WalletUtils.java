@@ -92,7 +92,8 @@ public class WalletUtils {
 	}
 
 	public static boolean offerGoogleWalletCoupon(Context context) {
-		return SettingUtils.get(context, SETTING_SHOW_WALLET_COUPON, false);
+		return SettingUtils.get(context, SETTING_SHOW_WALLET_COUPON, false)
+				&& Db.getHotelSearch().getSelectedProperty().isMerchant();
 	}
 
 	public static String getWalletCouponCode(Context context) {
