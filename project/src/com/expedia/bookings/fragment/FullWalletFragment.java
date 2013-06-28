@@ -62,7 +62,13 @@ public abstract class FullWalletFragment extends WalletFragment {
 				NotifyTransactionStatusRequest.Builder notifyBuilder = NotifyTransactionStatusRequest.newBuilder();
 				notifyBuilder.setGoogleTransactionId(mFullWallet.getGoogleTransactionId());
 				notifyBuilder.setStatus(status);
-				mWalletClient.notifyTransactionStatus(notifyBuilder.build());
+
+				if (mWalletClient.isConnected()) {
+					mWalletClient.notifyTransactionStatus(notifyBuilder.build());
+				}
+				else {
+					Log.w("Somehow Google Wallet disconnected before we could notify them of transaction status!");
+				}
 			}
 		}
 	}
