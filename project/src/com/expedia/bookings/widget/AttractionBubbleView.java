@@ -58,6 +58,9 @@ public class AttractionBubbleView extends LinearLayout {
 
 	private Bitmap mShadowBitmap;
 
+	private float mFirstLineTextSize;
+	private float mSecondLineTextSize;
+
 	// Views
 
 	private TextView mFirstLineTextView;
@@ -97,6 +100,12 @@ public class AttractionBubbleView extends LinearLayout {
 					public void onAnimationEnd(Animator animator) {
 						bind(attraction);
 						getOpenAnimatorSet().start();
+						post(new Runnable() {
+							@Override
+							public void run() {
+								requestLayout();
+							}
+						});
 					}
 				});
 			}
@@ -145,10 +154,10 @@ public class AttractionBubbleView extends LinearLayout {
 			canvas.drawCircle(mHalfWidth, mHalfWidth + mShadowOffsetY, mRadius, mShadowPaint);
 		}
 
-		mFirstLineTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, h / 15);
-		mSecondLineTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, h / 6);
+		mFirstLineTextSize = h / 15;
+		mSecondLineTextSize = h / 6;
 
-		setPadding(0, 0, 0, h / 10);
+		setPadding(0, 0, 0, h / 20);
 	}
 
 	@Override
@@ -203,10 +212,12 @@ public class AttractionBubbleView extends LinearLayout {
 			return;
 		}
 
-		mIconImageView.setImageResource(mSize == SIZE_SMALL ? attraction.getIconSmall() : attraction.getIconLarge());
+		mFirstLineTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mFirstLineTextSize);
+		mSecondLineTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mSecondLineTextSize);
 
 		mFirstLineTextView.setText(attraction.getFirstLine());
 		mSecondLineTextView.setText(attraction.getSecondLine());
+		mIconImageView.setImageResource(mSize == SIZE_SMALL ? attraction.getIconSmall() : attraction.getIconLarge());
 	}
 
 	private AnimatorSet getCloseAnimatorSet() {
@@ -231,12 +242,6 @@ public class AttractionBubbleView extends LinearLayout {
 		animatorSet.playTogether(scaleX, scaleY, alpha);
 		animatorSet.setInterpolator(new OvershootInterpolator());
 		animatorSet.setDuration(300);
-		animatorSet.addListener(new AnimatorListenerShort() {
-			@Override
-			public void onAnimationEnd(Animator animator) {
-				requestLayout();
-			}
-		});
 
 		return animatorSet;
 	};
