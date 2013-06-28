@@ -165,6 +165,7 @@
         <item name="actionBarCheckoutDrawable">@drawable/ic_action_bar_checkout_arrow</item>
         <item name="costSummaryHeaderTextColor">@color/cost_summary_header_text_color</item>
         <item name="actionBarBackgroundDrawable">@drawable/bg_action_bar</item>
+        <item name="ratingBarUserReviewStyle">@style/RatingBar.UserReview.White</item>
     </style>
 
     <style name="Theme.VSC" parent="@style/Theme.Expedia">
@@ -177,6 +178,7 @@
         <item name="actionBarCheckoutDrawable">@drawable/ic_action_bar_checkout_arrow_green</item>
         <item name="costSummaryHeaderTextColor">@color/cost_summary_header_text_color_vsc</item>
         <item name="actionBarBackgroundDrawable">@drawable/bg_action_bar_vsc</item>
+        <item name="ratingBarUserReviewStyle">@style/RatingBar.UserReview.Orange</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
