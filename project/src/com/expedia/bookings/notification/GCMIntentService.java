@@ -141,6 +141,14 @@ public class GCMIntentService extends GCMBaseIntentService {
 					}
 				});
 			}
+			else {
+				Log.w("Generating push notification but unable to find parentTrip for fhid=" + fhid + " type=" + type
+						+ "component=" + component.toJson().toString());
+			}
+		}
+		else {
+			Log.w("Generating push notification, but can't find the tripComponent, thus no deepRefresh called fhid="
+					+ fhid + " type=" + type);
 		}
 
 		//After the refresh completes we should show the notification
