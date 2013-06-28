@@ -668,22 +668,10 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		if (textWithFocus != null && isAdded()) {
 			mFocusStealer.requestFocus();
 
-			hideKeyboard();
+			Ui.hideKeyboard(getActivity());
 		}
 
 		resetAirportEditTexts(true);
-	}
-
-	private void hideKeyboard() {
-		Activity activity = getActivity();
-		if (activity != null) {
-			View focusView = activity.getCurrentFocus();
-			if (focusView != null) {
-				InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
-						Context.INPUT_METHOD_SERVICE);
-				imm.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
-			}
-		}
 	}
 
 	private void clearDates() {
@@ -745,7 +733,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		}
 
 		if (enabled) {
-			hideKeyboard();
+			Ui.hideKeyboard(getActivity());
 
 			Date departureDate = mSearchParams.getDepartureDate();
 			Date returnDate = mSearchParams.getReturnDate();

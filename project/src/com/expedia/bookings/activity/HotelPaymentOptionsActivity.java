@@ -1,6 +1,5 @@
 package com.expedia.bookings.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -437,7 +436,7 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 
 	@Override
 	public void displayOptions() {
-		hideKeyboard();
+		Ui.hideKeyboard(this, InputMethodManager.HIDE_NOT_ALWAYS);
 
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		mOptionsFragment = Ui.findSupportFragment(this, OPTIONS_FRAGMENT_TAG);
@@ -503,14 +502,6 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 		}
 
 		return true;
-	}
-
-	private void hideKeyboard() {
-		if (this.getCurrentFocus() != null) {
-			//Oh silly stupid InputMethodManager...
-			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-		}
 	}
 
 }

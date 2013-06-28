@@ -107,6 +107,7 @@ import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.SearchUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.DisableableViewPager;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
 import com.expedia.bookings.widget.SimpleNumberPicker;
@@ -1917,23 +1918,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	}
 
 	//----------------------------------
-	// SHOW/HIDE SOFT KEYBOARD METHODS
-	//----------------------------------
-
-	void hideSoftKeyboard(TextView v) {
-		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-		imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-	}
-
-	private void showSoftKeyboard(View view, ResultReceiver resultReceiver) {
-		Configuration config = getResources().getConfiguration();
-		if (config.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {
-			InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-			imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT, resultReceiver);
-		}
-	}
-
-	//----------------------------------
 	// SHOW/HIDE VIEW METHODS
 	//----------------------------------
 
@@ -2046,11 +2030,11 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		mDatesCalendarDatePicker.setTooltipSuppressed(mDisplayType != DisplayType.CALENDAR);
 
 		if (mDisplayType == DisplayType.KEYBOARD) {
-			showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
+			Ui.showKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
 			addSearchTextWatcher();
 		}
 		else {
-			hideSoftKeyboard(mSearchEditText);
+			Ui.hideKeyboard(mSearchEditText);
 			removeSearchTextWatcher();
 		}
 
@@ -2726,10 +2710,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 			onFilterClosed();
 			setDisplayType(DisplayType.NONE);
-
-			//// Get rid of IME if it appeared for the filter
-			//InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			//imm.hideSoftInputFromWindow(mFilterHotelNameEditText.getWindowToken(), 0);
 		}
 	};
 
@@ -2796,9 +2776,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			}
 			else {
 				hideClearSeachButton();
-
-				TextView tv = (TextView) v;
-				hideSoftKeyboard(tv);
+				Ui.hideKeyboard(v);
 			}
 		}
 	};

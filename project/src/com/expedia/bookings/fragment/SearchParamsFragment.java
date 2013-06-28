@@ -44,7 +44,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
@@ -63,6 +62,7 @@ import com.expedia.bookings.model.Search;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.NumberPicker;
 import com.expedia.bookings.widget.NumberPicker.OnValueChangeListener;
 import com.mobiata.android.Log;
@@ -206,9 +206,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 					}
 				}
 				else {
-					InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
-							Context.INPUT_METHOD_SERVICE);
-					imm.hideSoftInputFromWindow(mLocationEditText.getWindowToken(), 0);
+					Ui.hideKeyboard(mLocationEditText);
 				}
 			}
 		});
@@ -680,9 +678,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 					mLocationEditText.clearFocus();
 
 					// Hide the IME
-					InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
-							Context.INPUT_METHOD_SERVICE);
-					imm.hideSoftInputFromWindow(mLocationEditText.getWindowToken(), 0);
+					Ui.hideKeyboard(mLocationEditText);
 				}
 			};
 		}

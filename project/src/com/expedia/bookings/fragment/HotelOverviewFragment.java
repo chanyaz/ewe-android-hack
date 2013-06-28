@@ -799,10 +799,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			public void run() {
 				mScrollView.scrollTo(0, mScrollViewListener.getScrollY());
 				mScrollView.smoothScrollTo(0, 0);
-				if (isAdded() && mCouponCodeEditText != null) {
-					InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
-							Context.INPUT_METHOD_SERVICE);
-					imm.hideSoftInputFromWindow(mCouponCodeEditText.getWindowToken(), 0);
+				if (isAdded()) {
+					Ui.hideKeyboard(mCouponCodeEditText);
 				}
 			}
 		});

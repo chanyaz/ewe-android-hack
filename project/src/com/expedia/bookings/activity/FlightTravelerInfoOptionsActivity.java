@@ -669,7 +669,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 
 	@Override
 	public void displayOptions() {
-		hideKeyboard();
+		Ui.hideKeyboard(this, InputMethodManager.HIDE_NOT_ALWAYS);
 
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		mOptionsFragment = Ui.findSupportFragment(this, OPTIONS_FRAGMENT_TAG);
@@ -833,14 +833,6 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 			ft.remove(dialog);
 		}
 		ft.commit();
-	}
-
-	private void hideKeyboard() {
-		if (this.getCurrentFocus() != null) {
-			//Oh silly stupid InputMethodManager...
-			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-		}
 	}
 
 }

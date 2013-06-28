@@ -2,7 +2,6 @@ package com.expedia.bookings.fragment;
 
 import java.util.Collection;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -14,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -170,14 +168,6 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 		return hasEmail && hasItin;
 	}
 
-	public void hideKeyboard() {
-		View focused = this.getActivity().getCurrentFocus();
-		if (focused instanceof EditText) {
-			InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.hideSoftInputFromWindow(focused.getWindowToken(), 0);
-		}
-	}
-
 	public void runExtenderOrFinish() {
 		if (mLoginExtender != null) {
 			mLoginExtenderRunning = true;
@@ -194,7 +184,7 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 			mFindItinBtn.setVisibility(View.GONE);
 			mEmailEdit.setEnabled(false);
 			mItinNumEdit.setEnabled(false);
-			hideKeyboard();
+			Ui.hideKeyboardIfEditText(getActivity());
 			mOuterContainer.setGravity(Gravity.TOP);
 			mExtenderContainer.setVisibility(View.VISIBLE);
 		}

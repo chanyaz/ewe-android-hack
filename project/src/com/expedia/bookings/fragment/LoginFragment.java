@@ -23,7 +23,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -533,9 +532,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 				}
 				if (actionId == EditorInfo.IME_ACTION_NEXT || actionId == EditorInfo.IME_ACTION_SEARCH ||
 						actionId == EditorInfo.IME_ACTION_GO || actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
-					InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(
-							Context.INPUT_METHOD_SERVICE);
-					imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+					Ui.hideKeyboard(getActivity());
 					return true;
 				}
 				else {
@@ -649,20 +646,12 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 			mSigninWithExpediaButtonContainer.setVisibility(View.GONE);
 			mFacebookButtonContainer.setVisibility(View.GONE);
 			mTitleSetter.setActionBarTitle(null);
-			hideKeyboard();
+			Ui.hideKeyboardIfEditText(getActivity());
 			mOuterContainer.setGravity(Gravity.CENTER);
 		}
 		else {
 			mOuterContainer.setGravity(Gravity.CENTER_HORIZONTAL);
 			setVisibilityState(mVisibilityState, animate);
-		}
-	}
-
-	public void hideKeyboard() {
-		View focused = this.getActivity().getCurrentFocus();
-		if (focused instanceof EditText) {
-			InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.hideSoftInputFromWindow(focused.getWindowToken(), 0);
 		}
 	}
 
