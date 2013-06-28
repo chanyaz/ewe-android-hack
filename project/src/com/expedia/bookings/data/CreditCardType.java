@@ -72,6 +72,8 @@ public enum CreditCardType {
 			return context.getString(R.string.cc_master_card);
 		case VISA:
 			return context.getString(R.string.cc_visa);
+		case GOOGLE_WALLET:
+			return context.getString(R.string.google_wallet);
 		default:
 			return "";
 		}
