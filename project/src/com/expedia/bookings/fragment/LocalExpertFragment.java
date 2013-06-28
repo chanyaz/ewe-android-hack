@@ -1,8 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.lang.ref.WeakReference;
-import java.util.List;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,7 +11,6 @@ import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LocalExpertAttraction;
 import com.expedia.bookings.data.LocalExpertSite;
@@ -22,7 +18,11 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AttractionBubbleView;
+import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
+
+import java.lang.ref.WeakReference;
+import java.util.List;
 
 public class LocalExpertFragment extends Fragment {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -78,6 +78,26 @@ public class LocalExpertFragment extends Fragment {
 		}
 	}
 
+	@Override
+	public void onPause() {
+		super.onPause();
+
+		mHandler.removeMessages(MSG_ADVANCE);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		getView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				getView().getViewTreeObserver().removeGlobalOnLayoutListener(this);
+				mHandler.sendMessageDelayed(Message.obtain(mHandler, MSG_ADVANCE), START_DELAY);
+			}
+		});
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// OVERRIDEN METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -126,14 +146,6 @@ public class LocalExpertFragment extends Fragment {
 		}
 		}
 
-		view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-			@Override
-			public void onGlobalLayout() {
-				view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-				mHandler.sendMessageDelayed(Message.obtain(mHandler, MSG_ADVANCE), START_DELAY);
-			}
-		});
-
 		OmnitureTracking.trackLocalExpert(getActivity(), mSite);
 
 		return view;
@@ -144,6 +156,8 @@ public class LocalExpertFragment extends Fragment {
 	}
 
 	public void advanceAttractions(AttractionBubbleView view) {
+		Log.i("Advancing attractions");
+
 		final List<LocalExpertAttraction> attractions = mSite.getAttractions();
 		final int size = attractions.size();
 

@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.animation.AnimatorListenerShort;
 import com.expedia.bookings.data.LocalExpertAttraction;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
@@ -91,23 +92,11 @@ public class AttractionBubbleView extends LinearLayout {
 		if (mAttraction != null) {
 			animatorSet = getCloseAnimatorSet();
 			if (attraction != null) {
-				animatorSet.addListener(new Animator.AnimatorListener() {
-					@Override
-					public void onAnimationStart(Animator animator) {
-					}
-
+				animatorSet.addListener(new AnimatorListenerShort() {
 					@Override
 					public void onAnimationEnd(Animator animator) {
 						bind(attraction);
 						getOpenAnimatorSet().start();
-					}
-
-					@Override
-					public void onAnimationCancel(Animator animator) {
-					}
-
-					@Override
-					public void onAnimationRepeat(Animator animator) {
 					}
 				});
 			}
@@ -214,9 +203,10 @@ public class AttractionBubbleView extends LinearLayout {
 			return;
 		}
 
+		mIconImageView.setImageResource(mSize == SIZE_SMALL ? attraction.getIconSmall() : attraction.getIconLarge());
+
 		mFirstLineTextView.setText(attraction.getFirstLine());
 		mSecondLineTextView.setText(attraction.getSecondLine());
-		mIconImageView.setImageResource(mSize == SIZE_SMALL ? attraction.getIconSmall() : attraction.getIconLarge());
 	}
 
 	private AnimatorSet getCloseAnimatorSet() {
@@ -241,22 +231,10 @@ public class AttractionBubbleView extends LinearLayout {
 		animatorSet.playTogether(scaleX, scaleY, alpha);
 		animatorSet.setInterpolator(new OvershootInterpolator());
 		animatorSet.setDuration(300);
-		animatorSet.addListener(new Animator.AnimatorListener() {
-			@Override
-			public void onAnimationStart(Animator animator) {
-			}
-
+		animatorSet.addListener(new AnimatorListenerShort() {
 			@Override
 			public void onAnimationEnd(Animator animator) {
 				requestLayout();
-			}
-
-			@Override
-			public void onAnimationCancel(Animator animator) {
-			}
-
-			@Override
-			public void onAnimationRepeat(Animator animator) {
 			}
 		});
 
