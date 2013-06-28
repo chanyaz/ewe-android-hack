@@ -56,6 +56,8 @@
     <string name="error_launch_connection">抱歉，我們無法連線。</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">行程</string>
+    <!-- Google play services unrecoverable error dialog message -->
+    <string name="google_play_services_unrecoverable_error">此應用程式需要 Google Play Services。請安裝最新版的 Google Play Services。</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
@@ -305,7 +307,7 @@
     <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
     <string name="attraction_theme_parks_second">主題公園</string>
     <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_first">最優美的</string>
+    <string name="attraction_beaches_first">最佳</string>
     <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
     <string name="attraction_beaches_second">海灘</string>
     <!-- First half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
@@ -697,7 +699,7 @@
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
     <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;中途停留，地點：%2$s</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class and %4$s is the plane.  For example: "4h 10m - Economy (K), Boeing 747." -->
-    <string name="flight_details_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)，%4$s。</string>
+    <string name="flight_details_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s) %4$s。</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class. For example: "4h 10m - Economy (K)" -->
     <string name="flight_details_no_plane_info_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)</string>
     <!-- Label for "coach" cabin code -->
@@ -1055,6 +1057,8 @@
     <string name="hotels_in_TEMPLATE">%s 酒店</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">其他指示</string>
+    <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
+    <string name="actions">選項</string>
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">經電郵分享</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
@@ -2294,6 +2298,8 @@
     <string name="wallet_buy_with_google_wallet">使用 Google 電子錢包購買</string>
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">使用 Google 電子錢包預訂可獲 <b>9 折</b>！</string>
+    <!-- Message informing users that they are saving money with the Google Wallet promo -->
+    <string name="wallet_promo_in_use_message">您因使用 Google 電子錢包而慳了 10%！</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
     <string name="coupon_replaced_message">每次預訂只可使用一張折扣券。我們已將您之前的折扣券換成使用 Google 電子錢包得到的 9 折優惠。</string>
     <!-- Message shown while loading Wallet coupon -->

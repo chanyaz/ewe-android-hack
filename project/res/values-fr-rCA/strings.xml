@@ -56,6 +56,8 @@
     <string name="error_launch_connection">Il nous est impossible d\&apos;établir la connexion.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Voyages</string>
+    <!-- Google play services unrecoverable error dialog message -->
+    <string name="google_play_services_unrecoverable_error">Cette application exige les services Google Play. Veuillez installer la plus récente version de Google Play Services.</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
@@ -83,7 +85,7 @@
     <!-- Itinerary -->
     <string name="itinerary">Itinéraire</string>
     <!-- Shop -->
-    <string name="shop">Magasiner</string>
+    <string name="shop">Accueil</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Chercher un itinéraire</string>
     <!-- Find Itinerary # -->
@@ -305,7 +307,7 @@
     <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
     <string name="attraction_theme_parks_second">parcs thématiques</string>
     <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_first">Trouvez les meilleures</string>
+    <string name="attraction_beaches_first">Trouvez les meilleurs</string>
     <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
     <string name="attraction_beaches_second">plages</string>
     <!-- First half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
@@ -1055,6 +1057,8 @@
     <string name="hotels_in_TEMPLATE">Hôtels à %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Autres actions</string>
+    <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
+    <string name="actions">Actions</string>
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">Partager par courriel</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
@@ -1173,7 +1177,7 @@
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">Bonjour,</string>
     <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_TEMPLATE">Voici les détails de mon vol de %1$s à %2$s.</string>
+    <string name="share_flight_one_way_TEMPLATE">Voici les détails de mon ou mes vols de %1$s à %2$s.</string>
     <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_round_trip_TEMPLATE">Voici les détails de mon vol aller-retour de %1$s à %2$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
@@ -2294,6 +2298,8 @@
     <string name="wallet_buy_with_google_wallet">Acheter avec Google wallet</string>
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">Obtenez une <b>réduction de 10 %</b> avec Google Wallet!</string>
+    <!-- Message informing users that they are saving money with the Google Wallet promo -->
+    <string name="wallet_promo_in_use_message">Vous avez économisé 10 % en utilisant Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
     <string name="coupon_replaced_message">Un seul bon de réduction peut être utilisé par réservation. Nous avons remplacé le bon précédent par une réduction de 10 % pour vous remercier d\&apos;utiliser Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->

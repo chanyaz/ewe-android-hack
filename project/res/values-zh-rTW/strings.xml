@@ -56,6 +56,8 @@
     <string name="error_launch_connection">很抱歉，我們無法建立連線。</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">旅行</string>
+    <!-- Google play services unrecoverable error dialog message -->
+    <string name="google_play_services_unrecoverable_error">此 App 需要 Google Play Services。請安裝最新版的 Google Play Services。</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
@@ -1054,7 +1056,9 @@
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">%s的飯店</string>
     <!-- Title for section helping users in other various ways -->
-    <string name="more_actions">更多功能</string>
+    <string name="more_actions">更多選項</string>
+    <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
+    <string name="actions">選項</string>
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">透過電子郵件分享</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
@@ -1578,7 +1582,7 @@
     <!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms -->
     <string name="common_value_add_template">所有客房都包含%s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
-    <string name="select_a_room_instruction">選取客房</string>
+    <string name="select_a_room_instruction">選擇客房</string>
     <!-- The text we use when the search date it tonight -->
     <string name="Tonight">今晚</string>
     <!-- The text we use when the search date it tonight -->
@@ -2291,9 +2295,11 @@
     <!-- Error if you've exceeded your overall Google Wallet spending limit -->
     <string name="spending_limit_exceeded">您已經超過 Google 電子錢包的消費額度</string>
     <!-- Content description for "buy with wallet" button -->
-    <string name="wallet_buy_with_google_wallet">使用 Google 電子錢包購買</string>
+    <string name="wallet_buy_with_google_wallet">使用 Google 電子錢包結帳</string>
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">使用 Google 電子錢包，享受<b> 9 折</b>優惠！</string>
+    <!-- Message informing users that they are saving money with the Google Wallet promo -->
+    <string name="wallet_promo_in_use_message">使用 Google 電子錢包讓您節省了 10%！</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
     <string name="coupon_replaced_message">每次預訂只能使用一張優惠券。我們已經將您先前的優惠券換成使用 Google 電子錢包的 9 折優惠。</string>
     <!-- Message shown while loading Wallet coupon -->

@@ -56,6 +56,8 @@
     <string name="error_launch_connection">Beklager, det er ikke mulig å koble til.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Reiser</string>
+    <!-- Google play services unrecoverable error dialog message -->
+    <string name="google_play_services_unrecoverable_error">Denne appen krever tjenester fra Google Play. Vennligst innstaller den siste versjonen av tjenester for Google Play.</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
@@ -291,7 +293,7 @@
     <!-- Template for the city title on Local Expert pages. %1$s is the name of the city-->
     <string name="local_expert_title_TEMPLATE">Opplev %1$s</string>
     <!-- Description body for the Local Expert pages -->
-    <string name="local_expert_description">Din Local Expert-concierge er få tastetrykk\nunna når du trenger hjelp med planleggingen.</string>
+    <string name="local_expert_description">Din Local Expert er kun en telefonsamtale \nunna hvis du skulle trenge hjelp til ferirplanlegging.</string>
     <!-- Text for the button on Local Expert pages, to call the concierge -->
     <string name="local_expert_call_button_text">Ring dem nå</string>
 
@@ -305,7 +307,7 @@
     <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
     <string name="attraction_theme_parks_second">fornøyelsesparkene</string>
     <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_first">Finn de beste</string>
+    <string name="attraction_beaches_first">Finn den beste</string>
     <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
     <string name="attraction_beaches_second">strendene</string>
     <!-- First half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
@@ -1055,6 +1057,8 @@
     <string name="hotels_in_TEMPLATE">Hoteller i %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Annet</string>
+    <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
+    <string name="actions">Handlinger</string>
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">Del via e-post</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
@@ -2294,6 +2298,8 @@
     <string name="wallet_buy_with_google_wallet">Kjøp med Google Wallet</string>
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">Få <b>10% rabatt</b> med Google Wallet!</string>
+    <!-- Message informing users that they are saving money with the Google Wallet promo -->
+    <string name="wallet_promo_in_use_message">Du sparte 10% ved å bruke Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
     <string name="coupon_replaced_message">Kun én kupong kan brukes per bestilling. Vi erstattet din forrige kupong med 10% rabatt som takk for at du bruker Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->
@@ -2443,71 +2449,71 @@
     <!-- Your flight to _ delayed _ hours _ minutes TEMPLATE (short version) -->
     <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_short">%2$s timer og %3$s minutter forsinket.</string>
     <!-- Your flight to _ departs _ minute early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTE_short">Avreise %2$s minutt tidligere.</string>
+    <string name="S_Push_flight_CITY_early_MINUTE_short">Avgang %2$s minutt før tiden.</string>
     <!-- Your flight to _ departs _ minutes early  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTES_short">Avreise %2$s minutter tidligere.</string>
+    <string name="S_Push_flight_CITY_early_MINUTES_short">Har avgang %2$s minutter før tiden.</string>
     <!-- Your flight to _ departs _ hour early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_short">Avreise %2$s time tidligere.</string>
+    <string name="S_Push_flight_CITY_early_HOUR_short">Har avgang %2$s time før tiden.</string>
     <!-- Your flight to _ departs _ hours early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_short">Avreise %2$s timer tidligere.</string>
+    <string name="S_Push_flight_CITY_early_HOURS_short">Har avgang %2$s timer før tiden.</string>
     <!-- Your flight to _ departs _ hour _ minute early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_short">Avreise %2$s time og %3$s minutt tidligere.</string>
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_short">Har avgang %2$s time og %3$s minutt før tiden.</string>
     <!-- Your flight to _ departs _ hours _ minute early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_short">Avreise %2$s timer og %3$s minutt tidligere.</string>
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_short">Har avgang %2$s timer og %3$s minutt før tiden.</string>
     <!-- Your flight to _ departs _ hour _ minutes early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_short">Avreise %2$s time og %3$s minutter tidligere.</string>
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_short">Har avgang %2$s time og %3$s minutter før tiden.</string>
     <!-- Your flight to _ departs _ hours _ minutes early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_short">Avreise %2$s timer og %3$s minutter tidligere.</string>
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_short">Har avgang %2$s timer og %3$s minutter før tiden.</string>
     <!-- Your flight to _ is delayed _ minute and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE_short">%2$s minutter forsinket. Avreise fra gate %3$s.</string>
+    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE_short">Forsinket i %2$s minutt og har nå avgang fra gate %3$s.</string>
     <!-- Your flight to _ is delayed _ minutes and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE_short">%2$s minutter forsinket. Avreise fra gate %3$s.</string>
+    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE_short">Forsinket i %2$s minutter og har nå avgang fra gate %3$s.</string>
     <!-- Your flight to _ is delayed _ hour and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE_short">%2$s time forsinket. Avreise fra gate %3$s.</string>
+    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE_short">Forsinket i %2$s timer og har nå avgang fra gate %3$s.</string>
     <!-- Your flight to _ is delayed _ hours and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE_short">%2$s timer forsinket. Avreise fra gate %3$s.</string>
+    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE_short">Forsinket i %2$s timer og har nå avgang fra gate %3$s.</string>
     <!-- Your flight to _ is delayed _ hour _ minute and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE_short">%2$s time og %3$s minutt forsinket. Avreise fra gate %4$s.</string>
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE_short">Forsinket i %2$s time og %3$s minutt og har nå avgang fra gate %4$s.</string>
     <!-- Your flight to _ is delayed _ hours _ minute and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE_short">%2$s timer og %3$s minutt forsinket. Avreise fra gate %4$s.</string>
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE_short">Forsinket i %2$s timer og %3$s minutt og har nå avgang fra gate %4$s.</string>
     <!-- Your flight ot _ is delayed _ hour _ minutes and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE_short">%2$s time og %3$s minutter forsinket. Avreise fra gate %4$s.</string>
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE_short">Forsinket i %2$s time og %3$s minutter og har nå avgang fra gate %4$s.</string>
     <!-- Your flight to _ is delayed _ hours _ minutes and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE_short">%2$s timer og %3$s minutter forsinket. Avreise fra gate %4$s.</string>
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE_short">Forsinket i %2$s timer og %3$s minutter og har nå avgang fra gate %4$s.</string>
     <!-- Your flight to _ is now departing _ minute early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE_short">Avreise %2$s minutt tidligere fra gate %3$s.</string>
+    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE_short">Har avgang %2$s minutt før tiden fra gate %3$s.</string>
     <!-- Your flight to _ is now departing _ minutes early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE_short">Avreise %2$s minutter tidligere fra gate %3$s.</string>
+    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE_short">Har avgang %2$s minutter før tiden fra gate %3$s.</string>
     <!-- Your flight to _ is now departing _ hour early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE_short">Avreise %2$s time tidligere fra gate %3$s.</string>
+    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE_short">Har avgang %2$s time før tiden fra gate %3$s.</string>
     <!-- Your flight to _ is now departing _ hours early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE_short">Avreise %2$s timer tidligere fra gate %3$s.</string>
+    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE_short">Har avgang %2$s timer før tiden fra gate %3$s.</string>
     <!-- Your flight to _ is now departing _ hour _ minute early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE_short">Avreise %2$s time og %3$s minutt tidligere fra gate %4$s.</string>
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE_short">Har avgang %2$s time og %3$s minutt før tiden fra gate %4$s.</string>
     <!-- Your flight to _ is now departing _ hours _ minute early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE_short">Avreise %2$s timer og %3$s minutt tidligere fra gate %4$s.</string>
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE_short">Har avgang %2$s timer og %3$s minutt før tiden fra gate %4$s.</string>
     <!-- Your flight to _ is now departing _ hour _ minutes early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE_short">Avreise %2$s time og %3$s minutter tidligere fra gate %4$s.</string>
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE_short">Har avgang %2$s time og %3$s minutter før tiden fra gate %4$s.</string>
     <!-- Your flight to _ is now departing _ hours _ minutes early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE_short">Avreise %2$s timer og %3$s minutter tidligere fra gate %4$s.</string>
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE_short">Har avgang %2$s timer og %3$s minutter før tiden fra gate %4$s.</string>
     <!-- Your flight from _ to _ has been cancelled TEMPLATE (short version) -->
     <string name="S_Push_flight_from_CITY_to_CITY_cancelled_short">Flyvningen fra %1$s er kansellert.</string>
     <!-- Your flight to _ departs in _ hour TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_short">Avreise om %2$s time.</string>
+    <string name="S_Push_flight_CITY_departs_in_HOUR_short">Har avgang om %2$s time.</string>
     <!-- Your flight to _ departs in _ hours TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_short">Avreise om %2$s timer.</string>
+    <string name="S_Push_flight_CITY_departs_in_HOURS_short">Har avgang om %2$s timer.</string>
     <!-- Your flight to _ departs in _ hours _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE_short">Avreise om %2$s timer og %3$s minutt.</string>
+    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE_short">Har avgang om %2$s timer og %3$s minutt.</string>
     <!-- Your flight to _ departs in _ hours _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES_short">Avreise om %2$s timer og %3$s minutter.</string>
+    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES_short">Har avgang om %2$s timer og %3$s minutter.</string>
     <!-- Your flight to _ departs in _ hour _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE_short">Avreise om %2$s time og %3$s minutt.</string>
+    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE_short">Har avgang om %2$s time og %3$s minutt.</string>
     <!-- Your flight to _ departs in _ hour _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES_short">Avreise om %2$s time og %3$s minutter.</string>
+    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES_short">Har avgang om %2$s time og %3$s minutter.</string>
     <!-- Your flight to _ departs in _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_MINUTES_short">Avreise om %2$s minutter.</string>
+    <string name="S_Push_flight_CITY_departs_in_MINUTES_short">Har avgang om %2$s minutter.</string>
     <!-- Your flight to _ now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_gate_GATE_short">Avreise fra gate %2$s.</string>
+    <string name="S_Push_flight_CITY_gate_GATE_short">Har avgang fra gate %2$s</string>
 
     <!-- VSC Info Screen -->
     <!-- Header for a list of apps also written by VSC -->

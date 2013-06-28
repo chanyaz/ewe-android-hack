@@ -56,6 +56,8 @@
     <string name="error_launch_connection">죄송합니다. 지금 연결할 수 없습니다.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">여행</string>
+    <!-- Google play services unrecoverable error dialog message -->
+    <string name="google_play_services_unrecoverable_error">이 앱을 사용하려면 Google Play 서비스가 필요합니다. 최신 버전의 Google Play 서비스를 설치해 주세요.</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
@@ -1052,9 +1054,11 @@
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">객실 예약하기</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
-    <string name="hotels_in_TEMPLATE">%s의 호텔</string>
+    <string name="hotels_in_TEMPLATE">%s 호텔</string>
     <!-- Title for section helping users in other various ways -->
-    <string name="more_actions">더 보기</string>
+    <string name="more_actions">고객 지원 더 보기</string>
+    <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
+    <string name="actions">고객 지원</string>
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">이메일로 공유하기</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
@@ -2294,6 +2298,8 @@
     <string name="wallet_buy_with_google_wallet">Google Wallet으로 구매</string>
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">Google Wallet으로 <b>10% 할인</b> 받으세요!</string>
+    <!-- Message informing users that they are saving money with the Google Wallet promo -->
+    <string name="wallet_promo_in_use_message">Google Wallet 사용으로 10% 할인되었습니다!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
     <string name="coupon_replaced_message">예약 1회당 한 개 쿠폰만 사용하실 수 있습니다. 따라서 이전의 쿠폰을 Google Wallet 사용에 대한 10% 할인 쿠폰으로 대체했습니다.</string>
     <!-- Message shown while loading Wallet coupon -->

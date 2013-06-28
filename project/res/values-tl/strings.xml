@@ -56,6 +56,8 @@
     <string name="error_launch_connection">Pasensiya na, hindi kami makakonekta.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Mga Biyahe</string>
+    <!-- Google play services unrecoverable error dialog message -->
+    <string name="google_play_services_unrecoverable_error">Ang app na ito ay nangangailangan ng Mga Serbisyo ng Google Play. Paki-install ang pinakabagong bersyon ng Mga Serbisyo ng Google Play.</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
@@ -289,7 +291,7 @@
     <string name="site_las_vegas">Las Vegas</string>
 
     <!-- Template for the city title on Local Expert pages. %1$s is the name of the city-->
-    <string name="local_expert_title_TEMPLATE">Magsaya %1$s</string>
+    <string name="local_expert_title_TEMPLATE">Magsaya sa %1$s</string>
     <!-- Description body for the Local Expert pages -->
     <string name="local_expert_description">Ang inyong Lokal na Ekspertong concierge ay maaaring tawagan\npara sa anumang mga pangangailangan sa pagpaplano ng biyahe.</string>
     <!-- Text for the button on Local Expert pages, to call the concierge -->
@@ -305,7 +307,7 @@
     <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
     <string name="attraction_theme_parks_second">theme park</string>
     <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_first">Makahanap ang pinakamagagandang</string>
+    <string name="attraction_beaches_first">Mahanap ang pinakamagagandang</string>
     <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
     <string name="attraction_beaches_second">beach</string>
     <!-- First half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
@@ -333,7 +335,7 @@
     <!-- Second half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
     <string name="attraction_food_second">pagkain</string>
     <!-- First half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
-    <string name="attraction_entertainment_first">Makahanap ang pinakamagagandang</string>
+    <string name="attraction_entertainment_first">Mahanap ang pinakamagagandang</string>
     <!-- Second half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
     <string name="attraction_entertainment_second">aliwan</string>
     <!-- First half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
@@ -664,7 +666,7 @@
     <!-- Calendar tooltip bottom line after two dates are selected E.g. Drag End Dates to Modify -->
     <string name="calendar_tooltip_bottom_drag_to_modify">I-drag ang mga Petsa ng Pagtatapos upang Baguhin</string>
     <!-- Calendar tooltip hotels bottom line after a single date is selected "Select Checkout Date" -->
-    <string name="calendar_tooltip_hotel_bottom_select_checkout_date">Pumili ng Petsa ng Pag-checkout</string>
+    <string name="calendar_tooltip_hotel_bottom_select_checkout_date">Pumili ng Petsa ng Pag-check-out</string>
     <!-- Calendar tooltip hotels bottom line after two dates are selected TEMPLATE arg1=start date string, arg2=end date string, arg3=number of nights e.g. "May 26 - May 28 (2 nights)" -->
     <string name="calendar_tooltip_hotel_top_text_date_range_and_nights_TEMPLATE">%1$s - %2$s (%3$s)</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
@@ -1055,6 +1057,8 @@
     <string name="hotels_in_TEMPLATE">Mga hotel sa %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Mga Iba Magagawa</string>
+    <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
+    <string name="actions">Mga Magagawa</string>
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">Ipamahagi sa pamamagitan ng Email</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
@@ -1173,7 +1177,7 @@
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">Kamusta,</string>
     <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_TEMPLATE">Narito ang mga detalye ng aking flight galing sa %1$s papuntang %2$s.</string>
+    <string name="share_flight_one_way_TEMPLATE">Narito ang mga detalye ng aking (mga) flight galing sa %1$s papuntang %2$s.</string>
     <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_round_trip_TEMPLATE">Narito ang mga detalye ng aking round-trip na flight galing sa %1$s papuntang %2$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
@@ -1291,7 +1295,7 @@
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
-        <item quantity="one">%d Kuwarto ang Natitira!</item>
+        <item quantity="one">%d (na) Kuwarto ang Natitira!</item>
         <item quantity="two">%d (na) Kuwarto ang Naiiwan</item>
         <item quantity="many">%d (na) Kuwarto ang Naiiwan</item>
         <item quantity="other">%d (na) Kuwarto ang Naiiwan</item>
@@ -1795,7 +1799,7 @@
     <!-- Label for when a user has entered a coupon which is expired -->
     <string name="expired_coupon">Nag-expire ang Kupon</string>
     <!-- Label for when a user has entered a coupon and the server fails -->
-    <string name="coupon_error">Error sa Kupon</string>
+    <string name="coupon_error">Error sa Coupon</string>
 
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
@@ -1887,7 +1891,7 @@
     <!-- menu -->
     <string name="email_us">Mag-email sa Amin</string>
     <!-- Support email body -->
-    <string name="app_support_message_body">Inaasahan namin ang pagtugon sa inyo! Nasa ibaba ang ilang impormasyon na maaaring magamit namin upang tulungan kayo:</string>
+    <string name="app_support_message_body">Inaasahan namin ang pagtugon sa inyo! Nasa ibaba ang ilang impormasyon na maaari naming magamit upang tulungan kayo:</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
@@ -2294,16 +2298,18 @@
     <string name="wallet_buy_with_google_wallet">Bumili gamit ang Google wallet</string>
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">Makakuha ng <b>10% diskwento</b> gamit ang Google Wallet!</string>
+    <!-- Message informing users that they are saving money with the Google Wallet promo -->
+    <string name="wallet_promo_in_use_message">Nakatipid ka ng 10% sa pamamagitan ng paggamit sa Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Isang kupon lang ang maaaring gamitin sa bawat pag-book Pinalitan namin ang inyong dating kupon ng 10% diskwento dahil sa paggamit ng Google Wallet.</string>
+    <string name="coupon_replaced_message">Isang coupon lang ang maaaring gamitin sa bawat pag-book. Pinalitan namin ang inyong dating coupon ng 10% diskwento dahil sa paggamit ng Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Inilalapat ang diskwento ng Google Wallet…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
     <string name="error_wallet_promo_cannot_apply">Humihingi kami ng paumanhin, ngunit ang diskwento ng Google Wallet ay hindi malalapat sa pag-book na ito.</string>
     <!-- Title for Google Wallet promo terms & conditions -->
-    <string name="wallet_promo_tc_title">Mga Tuntunin at Kundisyon ng Kupon ng Google Wallet</string>
+    <string name="wallet_promo_tc_title">Mga Tuntunin at Kundisyon ng Coupon ng Google Wallet</string>
     <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">Ang kupon ay dapat kunin sa Android app ng Expedia para sa biyahe sa pagitan ng Hunyo 17, 2013 at Disyembre 31, 2013. Ang alok na ito ay mula sa Expedia.com at may-bisa lang sa mga customer sa U.S. ng Expedia.com.\n\nAng mga pag-book ay nakadepende sa kung bakante ang mga hotel ng Expedia Rate sa panahon ng pag-book at sa lahat ng naaangkop na tuntunin at kundisyon. Hindi maaaring gamitin ang kupon kasama ng ibang mga kupon, promo o espesyal na alok. Ang diskwento ng kupon ay hindi maaaring ipambayad sa mga buwis, bayaring sinisingil ng supplier, multa sa pagkansela o pagbago, bayaring pang-administratibo o iba pang mga miscellaneous na singil, dahil sariling pananagutan ng customer ang mga ito. Kung sakaling baguhin o kanselahin ninyo ang anumang bahagi ng inyong pag-book, hindi malalapat ang kupon sa nabagong iskedyul ng biyahe.\n\nAng mga tuntunin at kundisyon ng kupon na ito ay ayon sa nasusulat at hindi maaaring mabago ng anumang pagpapakahulugan ng sinumang hindi awtorisadong tao, kasama na ang mga empleyado ng Expedia, Inc. Ang kupon ay hindi malilipat at hindi maipagpapalit para sa pera. Mapapawalang-bisa kung saan ipinagbabawal ng batas. Maaaring bawiin o baguhin ng Expedia, Inc. ang alok na ito anumang oras.</string>
+    <string name="wallet_promo_tc_message">Ang coupon ay dapat kunin sa Android app ng Expedia para sa biyahe sa pagitan ng Hunyo 17, 2013 at Disyembre 31, 2013. Ang alok na ito ay mula sa Expedia.com at may-bisa lang sa mga customer sa U.S. ng Expedia.com.\n\nAng mga pag-book ay nakadepende sa kung bakante ang mga hotel ng Expedia Rate sa panahon ng pag-book at sa lahat ng naaangkop na tuntunin at kundisyon. Hindi maaaring gamitin ang coupon kasama ng ibang mga coupon, promosyon o espesyal na alok. Ang diskwento ng coupon ay hindi maaaring ipambayad sa mga buwis, bayaring sinisingil ng supplier, multa sa pagkansela o pagbago, bayaring pang-administratibo o iba pang mga miscellaneous na singil, dahil sariling pananagutan ng customer ang mga ito. Kung sakaling baguhin o kanselahin ninyo ang anumang bahagi ng inyong pag-book, hindi malalapat ang coupon sa nabagong iskedyul ng biyahe.\n\nAng mga tuntunin at kundisyon ng coupon na ito ay ayon sa nasusulat at hindi maaaring mabago ng anumang pagpapakahulugan ng sinumang hindi awtorisadong tao, kasama na ang mga empleyado ng Expedia, Inc. Ang coupon ay hindi malilipat at hindi maipagpapalit para sa pera. Mapapawalang-bisa kung saan ipinagbabawal ng batas. Maaaring bawiin o baguhin ng Expedia, Inc. ang alok na ito anumang oras.</string>
 
     <!-- Samsung Wallet -->
     <!-- Label to use when the ticket already exists in the wallet -->
@@ -2427,83 +2433,83 @@
     must start at %2$s
     -->
     <!-- Your flight to _ delayed _ hour TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_short">Naantala nang %2$s oras.</string>
+    <string name="S_Push_flight_CITY_delayed_HOUR_short">Naantala nang %2$s (na) oras.</string>
     <!-- Your flight to _ delayed _ hours TEMPLATE (short version) -->
     <string name="S_Push_flight_CITY_delayed_HOURS_short">Naantala nang %2$s (na) oras.</string>
     <!-- Your flight to _ delayed _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE_short">Naantala nang %2$s minuto.</string>
+    <string name="S_Push_flight_CITY_delayed_MINUTE_short">Naantala nang %2$s (na) minuto.</string>
     <!-- Your flight to _ delayed _ minutes TEMPLATE (short version) -->
     <string name="S_Push_flight_CITY_delayed_MINUTES_short">Naantala nang %2$s (na) minuto.</string>
     <!-- Your flight to _ delayed _ hour _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_short">Naantala nang %2$s oras at %3$s minuto.</string>
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_short">Naantala nang %2$s (na) oras at %3$s (na) minuto.</string>
     <!-- Your flight to _ delayed _ hour _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_short">Naantala nang %2$s oras at %3$s (na) minuto.</string>
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_short">Naantala nang %2$s (na) oras at %3$s (na) minuto.</string>
     <!-- Your flight to _ delayed _ hours _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_short">Naantala nang %2$s (na) oras at %3$s minuto.</string>
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_short">Naantala nang %2$s (na) oras at %3$s (na) minuto.</string>
     <!-- Your flight to _ delayed _ hours _ minutes TEMPLATE (short version) -->
     <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_short">Naantala nang %2$s (na) oras at %3$s (na) minuto.</string>
     <!-- Your flight to _ departs _ minute early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTE_short">Aalis nang %2$s minuto nang mas maaga.</string>
+    <string name="S_Push_flight_CITY_early_MINUTE_short">Aalis nang %2$s (na) minuto nang mas maaga.</string>
     <!-- Your flight to _ departs _ minutes early  TEMPLATE (short version) -->
     <string name="S_Push_flight_CITY_early_MINUTES_short">Aalis nang %2$s (na) minuto nang mas maaga.</string>
     <!-- Your flight to _ departs _ hour early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_short">Aalis nang %2$s oras nang mas maaga.</string>
+    <string name="S_Push_flight_CITY_early_HOUR_short">Aalis nang %2$s (na) oras nang mas maaga.</string>
     <!-- Your flight to _ departs _ hours early TEMPLATE (short version) -->
     <string name="S_Push_flight_CITY_early_HOURS_short">Aalis nang %2$s (na) oras nang mas maaga.</string>
     <!-- Your flight to _ departs _ hour _ minute early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_short">Aalis nang %2$s oras at %3$s minuto nang mas maaga.</string>
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_short">Aalis nang %2$s (na) oras at %3$s (na) minuto nang mas maaga.</string>
     <!-- Your flight to _ departs _ hours _ minute early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_short">Aalis nang %2$s (na) oras at %3$s minuto nang mas maaga.</string>
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_short">Aalis nang %2$s (na) oras at %3$s (na) minuto nang mas maaga.</string>
     <!-- Your flight to _ departs _ hour _ minutes early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_short">Aalis nang %2$s oras at %3$s (na) minuto nang mas maaga.</string>
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_short">Aalis nang %2$s (na) oras at %3$s (na) minuto nang mas maaga.</string>
     <!-- Your flight to _ departs _ hours _ minutes early TEMPLATE (short version) -->
     <string name="S_Push_flight_CITY_early_HOURS_MINUTES_short">Aalis nang %2$s (na) oras at %3$s (na) minuto nang mas maaga.</string>
     <!-- Your flight to _ is delayed _ minute and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE_short">Naantala nang %2$s minuto at ngayon ay aalis na mula sa gate %3$s.</string>
+    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE_short">Naantala nang %2$s (na) minuto at ngayon ay aalis na mula sa gate %3$s.</string>
     <!-- Your flight to _ is delayed _ minutes and now departs from gate _  TEMPLATE (short version) -->
     <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE_short">Naantala nang %2$s (na) minuto at ngayon ay aalis na mula sa gate %3$s.</string>
     <!-- Your flight to _ is delayed _ hour and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE_short">Naantala nang %2$s oras at ngayon ay aalis na mula sa gate %3$s.</string>
+    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE_short">Naantala nang %2$s (na) oras at ngayon ay aalis na mula sa gate %3$s.</string>
     <!-- Your flight to _ is delayed _ hours and now departs from gate _  TEMPLATE (short version) -->
     <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE_short">Naantala nang %2$s (na) oras at ngayon ay aalis na mula sa gate %3$s.</string>
     <!-- Your flight to _ is delayed _ hour _ minute and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE_short">Naantala nang %2$s oras at %3$s minuto at ngayon ay aalis na mula sa gate %4$s.</string>
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE_short">Naantala nang %2$s (na) oras at %3$s (na) minuto at ngayon ay aalis na mula sa gate %4$s.</string>
     <!-- Your flight to _ is delayed _ hours _ minute and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE_short">Naantala nang %2$s (na) oras at %3$s minuto at ngayon ay aalis na mula sa gate %4$s.</string>
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE_short">Naantala nang %2$s (na) oras at %3$s (na) minuto at ngayon ay aalis na mula sa gate %4$s.</string>
     <!-- Your flight ot _ is delayed _ hour _ minutes and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE_short">Naantala nang %2$s oras at %3$s (na) minuto at ngayon ay aalis na mula sa gate %4$s.</string>
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE_short">Naantala nang %2$s (na) oras at %3$s (na) minuto at ngayon ay aalis na mula sa gate %4$s.</string>
     <!-- Your flight to _ is delayed _ hours _ minutes and now departs from gate _  TEMPLATE (short version) -->
     <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE_short">Naantala nang %2$s (na) oras at %3$s (na) minuto at ngayon ay aalis na mula sa gate %4$s.</string>
     <!-- Your flight to _ is now departing _ minute early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE_short">Aalis nang %2$s minuto nang mas maaga mula sa gate %3$s.</string>
+    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE_short">Aalis nang %2$s (na) minuto nang mas maaga mula sa gate %3$s.</string>
     <!-- Your flight to _ is now departing _ minutes early from gate _  TEMPLATE (short version) -->
     <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE_short">Aalis nang %2$s (na) minuto nang mas maaga mula sa gate %3$s.</string>
     <!-- Your flight to _ is now departing _ hour early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE_short">Aalis nang %2$s oras nang mas maaga mula sa gate %3$s.</string>
+    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE_short">Aalis nang %2$s (na) oras nang mas maaga mula sa gate %3$s.</string>
     <!-- Your flight to _ is now departing _ hours early from gate _ TEMPLATE (short version) -->
     <string name="S_Push_flight_CITY_early_HOURS_gate_GATE_short">Aalis nang %2$s (na) oras nang mas maaga mula sa gate %3$s.</string>
     <!-- Your flight to _ is now departing _ hour _ minute early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE_short">Aalis nang %2$s oras at %3$s minuto nang mas maaga mula sa gate %4$s.</string>
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE_short">Aalis nang %2$s (na) oras at %3$s minuto nang mas maaga mula sa gate %4$s.</string>
     <!-- Your flight to _ is now departing _ hours _ minute early from gate _ TEMPLATE (short version) -->
     <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE_short">Aalis nang %2$s (na) oras at %3$s minuto nang mas maaga mula sa gate %4$s.</string>
     <!-- Your flight to _ is now departing _ hour _ minutes early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE_short">Aalis nang %2$s oras at %3$s (na) minuto nang mas maaga mula sa gate %4$s.</string>
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE_short">Aalis nang %2$s (na) oras at %3$s (na) minuto nang mas maaga mula sa gate %4$s.</string>
     <!-- Your flight to _ is now departing _ hours _ minutes early from gate _  TEMPLATE (short version) -->
     <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE_short">Aalis nang %2$s (na) oras at %3$s (na) minuto nang mas maaga mula sa gate %4$s.</string>
     <!-- Your flight from _ to _ has been cancelled TEMPLATE (short version) -->
     <string name="S_Push_flight_from_CITY_to_CITY_cancelled_short">Ang flight mula sa %1$s ay nakansela.</string>
     <!-- Your flight to _ departs in _ hour TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_short">Aalis sa loob ng %2$s oras.</string>
+    <string name="S_Push_flight_CITY_departs_in_HOUR_short">Aalis sa loob ng %2$s (na) oras.</string>
     <!-- Your flight to _ departs in _ hours TEMPLATE (short version) -->
     <string name="S_Push_flight_CITY_departs_in_HOURS_short">Aalis sa loob ng %2$s (na) oras.</string>
     <!-- Your flight to _ departs in _ hours _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE_short">Aalis sa loob ng %2$s (na) oras at %3$s minuto.</string>
+    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE_short">Aalis sa loob ng %2$s (na) oras at %3$s (na) minuto.</string>
     <!-- Your flight to _ departs in _ hours _ minutes TEMPLATE (short version) -->
     <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES_short">Aalis sa loob ng %2$s (na) oras at %3$s (na) minuto.</string>
     <!-- Your flight to _ departs in _ hour _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE_short">Aalis sa loob ng %2$s oras at %3$s minuto.</string>
+    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE_short">Aalis sa loob ng %2$s (na) oras at %3$s (na) minuto.</string>
     <!-- Your flight to _ departs in _ hour _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES_short">Aalis sa loob ng %2$s oras at %3$s (na) minuto.</string>
+    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES_short">Aalis sa loob ng %2$s (na) oras at %3$s (na) minuto.</string>
     <!-- Your flight to _ departs in _ minutes TEMPLATE (short version) -->
     <string name="S_Push_flight_CITY_departs_in_MINUTES_short">Aalis sa loob ng %2$s (na) minuto.</string>
     <!-- Your flight to _ now departs from gate _  TEMPLATE (short version) -->

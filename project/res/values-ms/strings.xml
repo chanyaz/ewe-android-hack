@@ -56,6 +56,8 @@
     <string name="error_launch_connection">Malangnya, kita tidak dapat berhubung.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Perjalanan</string>
+    <!-- Google play services unrecoverable error dialog message -->
+    <string name="google_play_services_unrecoverable_error">Aplikasi ini memerlukan Google Play Services. Sila pasangkan versi terkini Google Play Services.</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
@@ -385,8 +387,8 @@
 
     <!-- Car types -->
     <string name="car_type_two_door">Kereta Dua Pintu</string>
-    <string name="car_type_three_door">Tiga Pintu Kereta</string>
-    <string name="car_type_four_door">Empat Pintu Kereta</string>
+    <string name="car_type_three_door">Kereta Tiga Pintu</string>
+    <string name="car_type_four_door">Kereta Empat Pintu</string>
     <string name="car_type_van">Van</string>
     <string name="car_type_wagon">Wagon</string>
     <string name="car_type_limousine">Limousin</string>
@@ -1055,6 +1057,8 @@
     <string name="hotels_in_TEMPLATE">Hotel di %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Tindakan Lanjutan</string>
+    <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
+    <string name="actions">Tindakan</string>
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">Kongsi melalui E-mel</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
@@ -1173,7 +1177,7 @@
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">Hai,</string>
     <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_TEMPLATE">Di sini adalah butiran penerbangan saya dari %1$s ke %2$s.</string>
+    <string name="share_flight_one_way_TEMPLATE">Ini adalah butiran penerbangan saya dari %1$s ke %2$s.</string>
     <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_round_trip_TEMPLATE">Di sini adalah butiran penerbangan pergi balik saya dari %1$s ke %2$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
@@ -2294,6 +2298,8 @@
     <string name="wallet_buy_with_google_wallet">Beli dengan Google wallet</string>
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">Dapatkan <b>diskaun 10%</b> dengan Google Wallet!</string>
+    <!-- Message informing users that they are saving money with the Google Wallet promo -->
+    <string name="wallet_promo_in_use_message">Anda telah menjimat 10% dengan menggunakan Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
     <string name="coupon_replaced_message">Hanya satu kupon boleh digunakan bagi setiap tempahan. Kami telah menggantikan kupon terdahulu anda dengan diskaun 10% kerana menggunakan Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->

@@ -56,6 +56,8 @@
     <string name="error_launch_connection">Maaf, kami tidak dapat menghubungkan.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Rencana</string>
+    <!-- Google play services unrecoverable error dialog message -->
+    <string name="google_play_services_unrecoverable_error">Aplikasi ini memerlukan Google Play Services. Harap instal versi terbaru Google Play Services.</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
@@ -384,9 +386,9 @@
     <string name="car_category_oversize">Mobil Ukuran Ekstra Besar</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">Mobil Dua Pintu</string>
-    <string name="car_type_three_door">Mobil Tiga Pintu</string>
-    <string name="car_type_four_door">Mobil Empat Pintu</string>
+    <string name="car_type_two_door">Dua Pintu Mobil</string>
+    <string name="car_type_three_door">Tiga Pintu Mobil</string>
+    <string name="car_type_four_door">Empat Pintu Mobil</string>
     <string name="car_type_van">Van</string>
     <string name="car_type_wagon">Wagon</string>
     <string name="car_type_limousine">Limosin</string>
@@ -1055,6 +1057,8 @@
     <string name="hotels_in_TEMPLATE">Hotel di %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Tindakan Lainnya</string>
+    <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
+    <string name="actions">Tindakan</string>
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">Bagikan via Email</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
@@ -2294,6 +2298,8 @@
     <string name="wallet_buy_with_google_wallet">Beli dengan Google wallet</string>
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">Dapatkan <b>diskon 10%</b> dengan Google Wallet!</string>
+    <!-- Message informing users that they are saving money with the Google Wallet promo -->
+    <string name="wallet_promo_in_use_message">Anda menghemat 10% dengan menggunakan Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
     <string name="coupon_replaced_message">Hanya satu kupon yang bisa digunakan untuk setiap pemesanan. Kami sudah mengganti kupon Anda sebelumnya dengan diskon 10% untuk penggunaan Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->

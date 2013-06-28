@@ -56,6 +56,8 @@
     <string name="error_launch_connection">Nous ne sommes pas en mesure de nous connecter.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Voyages</string>
+    <!-- Google play services unrecoverable error dialog message -->
+    <string name="google_play_services_unrecoverable_error">Cette app nécessite Google Play Services. Veuillez installer la dernière version de Google Play Services.</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
@@ -1055,6 +1057,8 @@
     <string name="hotels_in_TEMPLATE">Hôtels à %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Autres options</string>
+    <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
+    <string name="actions">Actions</string>
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">Partager par email</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
@@ -1173,7 +1177,7 @@
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">Bonjour,</string>
     <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_TEMPLATE">Voici les détails de mon vol de %1$s à %2$s.</string>
+    <string name="share_flight_one_way_TEMPLATE">Voici les détails de mon/mes vol(s) de %1$s à %2$s.</string>
     <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_round_trip_TEMPLATE">Voici les détails de mon vol aller-retour de %1$s à %2$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
@@ -2294,6 +2298,8 @@
     <string name="wallet_buy_with_google_wallet">Acheter avec Google Wallet</string>
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer"><b>10% de réduction</b> avec Google Wallet !</string>
+    <!-- Message informing users that they are saving money with the Google Wallet promo -->
+    <string name="wallet_promo_in_use_message">Vous avez économisé 10 % en utilisant Google Wallet !</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
     <string name="coupon_replaced_message">Un seul bon par réservation. Nous avons remplacé votre bon précédent avec la réduction de 10 % pour avoir utilisé Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->

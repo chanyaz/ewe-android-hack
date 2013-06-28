@@ -1288,8 +1288,8 @@
     <string name="mobile_exclusive">Mobile Exclusive</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="tonight_only">Tonight Only!</string>
-    <!-- Search range error message template. %1$s = max search length. e.g. "We’re sorry, but we are unable to search for hotel stays longer than 28 days." -->
-    <string name="hotel_search_range_error_TEMPLATE">We’re sorry, but we are unable to search for hotel stays longer than %1$s days.</string>
+    <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
+    <string name="hotel_search_range_error_TEMPLATE">We\&apos;re sorry, but we are unable to search for hotel stays longer than %1$s days.</string>
     <!-- Search Error title text "Search Error" -->
     <string name="search_error">Search Error</string>
 
@@ -1807,7 +1807,7 @@
     <!-- The title of the share subject line -->
     <string name="share_subject_title">Expedia Itinerary</string>
     <!-- Subject property name template. -->
-    <string name="share_subject_template">Expedia Itinerary - </string>
+    <string name="share_subject_template">Expedia Itinerary -</string>
     <!-- Subject dates template. 1$ and 2$ are the ` ranges (e.g., 3/21 - 3/24) -->
     <string name="share_subject_template_dates">(%1$s - %2$s)</string>
     <!-- Preset at the top of the share body message -->
@@ -2303,7 +2303,7 @@
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
     <string name="coupon_replaced_message">Only one coupon can be used per booking. We replaced your previous coupon with the 10% discount for using Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->
-    <string name="wallet_promo_applying">Applying Google Wallet discount...</string>
+    <string name="wallet_promo_applying">Applying Google Wallet discount…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
     <string name="error_wallet_promo_cannot_apply">We\'re sorry, but the Google Wallet discount cannot be applied to this booking.</string>
     <!-- Title for Google Wallet promo terms & conditions -->

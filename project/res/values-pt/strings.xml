@@ -56,6 +56,8 @@
     <string name="error_launch_connection">Não é possível conectar.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Viagens</string>
+    <!-- Google play services unrecoverable error dialog message -->
+    <string name="google_play_services_unrecoverable_error">Este aplicativo necessita dos serviços do Google Play. Instale a última versão dos serviços do Google Play.</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
@@ -664,7 +666,7 @@
     <!-- Calendar tooltip bottom line after two dates are selected E.g. Drag End Dates to Modify -->
     <string name="calendar_tooltip_bottom_drag_to_modify">Arraste para modificar o período selecionado</string>
     <!-- Calendar tooltip hotels bottom line after a single date is selected "Select Checkout Date" -->
-    <string name="calendar_tooltip_hotel_bottom_select_checkout_date">Selecione a data de check-out</string>
+    <string name="calendar_tooltip_hotel_bottom_select_checkout_date">Selecione a data do check-out</string>
     <!-- Calendar tooltip hotels bottom line after two dates are selected TEMPLATE arg1=start date string, arg2=end date string, arg3=number of nights e.g. "May 26 - May 28 (2 nights)" -->
     <string name="calendar_tooltip_hotel_top_text_date_range_and_nights_TEMPLATE">%1$s - %2$s (%3$s)</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
@@ -1055,6 +1057,8 @@
     <string name="hotels_in_TEMPLATE">Hotéis em %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Mais ações</string>
+    <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
+    <string name="actions">Ações</string>
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">Compartilhar via e-mail</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
@@ -1173,7 +1177,7 @@
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">Olá,</string>
     <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_TEMPLATE">Estes são os detalhes do meu voo de %1$s para %2$s.</string>
+    <string name="share_flight_one_way_TEMPLATE">Estes são os detalhes dos meus voos de %1$s para %2$s.</string>
     <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_round_trip_TEMPLATE">Estes são os detalhes do meu voo de ida e volta de %1$s para %2$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
@@ -1930,9 +1934,9 @@
     <plurals name="number_of_guests">
         <item quantity="zero">%d hóspede</item>
         <item quantity="one">%d hóspede</item>
-        <item quantity="two">%d hóspedes</item>
-        <item quantity="many">%d hóspedes</item>
-        <item quantity="other">%d hóspedes</item>
+        <item quantity="two">%d hóspede</item>
+        <item quantity="many">%d hóspede</item>
+        <item quantity="other">%d hóspede</item>
     </plurals>
     <!-- A number of guests (but not including the guest count). Capitalized -->
     <plurals name="number_of_guests_label">
@@ -1946,9 +1950,9 @@
     <plurals name="number_of_nights">
         <item quantity="zero">%d noite</item>
         <item quantity="one">%d Noite</item>
-        <item quantity="two">%d noites</item>
-        <item quantity="many">%d noites</item>
-        <item quantity="other">%d noites</item>
+        <item quantity="two">%d noite</item>
+        <item quantity="many">%d noite</item>
+        <item quantity="other">%d noite</item>
     </plurals>
     <!-- A number of days (as in rental duration), not including the actual number. Capitalized -->
     <plurals name="number_of_days_label">
@@ -2294,6 +2298,8 @@
     <string name="wallet_buy_with_google_wallet">Compre com o Google Wallet</string>
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">Receba <b>10% de desconto</b> com o Google Wallet!</string>
+    <!-- Message informing users that they are saving money with the Google Wallet promo -->
+    <string name="wallet_promo_in_use_message">Você recebeu um desconto de 10% usando o Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
     <string name="coupon_replaced_message">Pode ser usado somente um cupom por reserva. Substituímos seu cupom anterior por um desconto de 10% na utilização do Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->

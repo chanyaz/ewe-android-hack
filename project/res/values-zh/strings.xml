@@ -56,12 +56,14 @@
     <string name="error_launch_connection">很遗憾，我们无法建立连接。</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">旅行</string>
+    <!-- Google play services unrecoverable error dialog message -->
+    <string name="google_play_services_unrecoverable_error">此应用程序要求 Google Play 服务。请安装最新版 Google Play 服务。</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_in_available">可以办理登机</string>
     <!-- Content for flight Check In Local Notification -->
-    <string name="x_flight_to_x_TEMPLATE">%1$s 个航班飞往 %2$s</string>
+    <string name="x_flight_to_x_TEMPLATE">%1$s 航班飞往 %2$s</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
     <string name="your_flight_to_x_TEMPLATE">您飞往 %1$s 的航班</string>
     <!-- Notification title for hotel check-out notification -->
@@ -1055,6 +1057,8 @@
     <string name="hotels_in_TEMPLATE">%s的酒店</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">其他选择</string>
+    <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
+    <string name="actions">可选择的操作</string>
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">通过电子邮件分享</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
@@ -2294,6 +2298,8 @@
     <string name="wallet_buy_with_google_wallet">通过谷歌钱包购买</string>
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">使用谷歌钱包，额外再省 <b>10%</b>！</string>
+    <!-- Message informing users that they are saving money with the Google Wallet promo -->
+    <string name="wallet_promo_in_use_message">使用谷歌钱包为您省了 10%！</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
     <string name="coupon_replaced_message">每次预订只能使用一张优惠券。我们已经用您使用谷歌钱包获得的 9 折优惠券替换了之前的优惠券。</string>
     <!-- Message shown while loading Wallet coupon -->

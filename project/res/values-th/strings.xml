@@ -56,6 +56,8 @@
     <string name="error_launch_connection">ขออภัย ไม่สามารถเชื่อมต่อได้</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">การเดินทาง</string>
+    <!-- Google play services unrecoverable error dialog message -->
+    <string name="google_play_services_unrecoverable_error">แอพฯ นี้ต้องใช้ Google Play Services โปรดติดตั้ง Google Play Services เวอร์ชั่นล่าสุด</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
@@ -305,7 +307,7 @@
     <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
     <string name="attraction_theme_parks_second">สวนสนุก</string>
     <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_first">พักผ่อนบน</string>
+    <string name="attraction_beaches_first">ค้นหา</string>
     <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
     <string name="attraction_beaches_second">หาดทราย</string>
     <!-- First half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
@@ -590,7 +592,7 @@
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
     <string name="inbound_TEMPLATE">เที่ยวบินขาเข้าไปยัง %s</string>
     <!-- Error when we simple can't connect to E3 servers -->
-    <string name="error_server">ขออภัย เราไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์เอ็กซ์พีเดีย โปรดลองอีกครั้ง</string>
+    <string name="error_server">ขออภัย เราไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ Expedia โปรดลองอีกครั้ง</string>
     <!-- Sort by departure timelabel -->
     <string name="sort_description_departure">ออกเดินทาง</string>
     <!-- Sort by arrival time label -->
@@ -693,7 +695,7 @@
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
     <string name="fare_name_and_price_TEMPLATE">%1$s : %2$s</string>
     <!-- Button label for information about baggage fees -->
-    <string name="baggage_fee_info">ข้อมูลเกี่ยวกับค่าสัมภาระ</string>
+    <string name="baggage_fee_info">ข้อมูลค่าธรรมเนียมสัมภาระ</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
     <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s แวะพัก&lt;/b&gt; ที่ %2$s</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class and %4$s is the plane.  For example: "4h 10m - Economy (K), Boeing 747." -->
@@ -795,7 +797,7 @@
 
     <!-- Checkout Activity -->
     <!-- Expedia Account label -->
-    <string name="expedia_account">บัญชีเอ็กซ์พีเดีย</string>
+    <string name="expedia_account">บัญชี Expedia</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">ข้อมูลการจอง</string>
     <!-- Explicit acceptance of TOS -->
@@ -851,7 +853,7 @@
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">ภาษีและค่าธรรมเนียม</string>
     <!-- Expedia booking fee -->
-    <string name="expedia_booking_fee">ค่าธรรมเนียมการจองของเอ็กซ์พีเดีย</string>
+    <string name="expedia_booking_fee">ค่าธรรมเนียมการจองของ Expedia</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="airline_card_fee">ค่าธรรมเนียมบัตรของสายการบิน</string>
     <!-- Flight -->
@@ -1054,7 +1056,9 @@
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">โรงแรมใน %s</string>
     <!-- Title for section helping users in other various ways -->
-    <string name="more_actions">การดำเนินการเพิ่มเติม</string>
+    <string name="more_actions">ดำเนินการอื่นๆ</string>
+    <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
+    <string name="actions">ดำเนินการเพิ่มเติม</string>
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">แชร์ทางอีเมล</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
@@ -1086,7 +1090,7 @@
     <!-- Part of the description, showing a link to directions.  %s is the directions link, e.g. "Directions to airport: http://url-to-map-to-airport" -->
     <string name="calendar_flight_desc_directions_TEMPLATE">เส้นทางไปสนามบิน: %s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
-    <string name="calendar_flight_desc_support_TEMPLATE">ฝ่ายสนับสนุนลูกค้าเอ็กซ์พีเดีย: %s</string>
+    <string name="calendar_flight_desc_support_TEMPLATE">ฝ่ายบริการลูกค้าเอ็กซ์พีเดีย: %s</string>
 
     <!-- Add to calendar (hotels) -->
     <!-- Title for calendar entry for when you check into a hotel -->
@@ -1192,7 +1196,7 @@
     <string name="hint_search_location">ค้นหาตำแหน่ง</string>
     <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
     <string name="loading_suggestions">กำลังโหลดคำแนะนำ…</string>
-    <string name="app_name">เอ็กซ์พีเดีย</string>
+    <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
@@ -1679,7 +1683,7 @@
     <!-- Title for error dialog when booking fails -->
     <string name="error_booking_title">เกิดข้อผิดพลาด</string>
     <!-- Error message when we couldn't get a response -->
-    <string name="error_booking_null">ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ของเอ็กซ์พีเดีย โปรดตรวจสอบสัญญาณอินเทอร์เน็ต แล้วลองอีกครั้ง</string>
+    <string name="error_booking_null">ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ของ Expedia โปรดตรวจสอบสัญญาณอินเทอร์เน็ต แล้วลองอีกครั้ง</string>
     <!-- Error message when booking completed with errors -->
     <string name="error_booking_succeeded_with_errors">ระบบจองห้องให้คุณแล้ว แต่เกิดข้อผิดพลาดต่อไปนี้: %s</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
@@ -1709,7 +1713,7 @@
     <!-- ActionBar button for starting a new search -->
     <string name="NEW_SEARCH">ค้นหาใหม่</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template">หากคุณมีข้อสงสัยเกี่ยวกับการจอง โปรดโทรติดต่อเอ็กซ์พีเดียที่ %s</string>
+    <string name="contact_phone_template">หากมีคำถามเกี่ยวกับการจอง โปรดติดต่อเอ็กซ์พีเดียที่%s</string>
 
     <!-- Confirmation Fragment -->
     <!-- Label to share booking information after a booking confirmation -->
@@ -1731,7 +1735,7 @@
     <!-- Label for the total cost of the booking. -->
     <string name="Total">ทั้งหมด</string>
     <!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
-    <string name="PayToExpedia">จ่ายให้เอ็กซ์พีเดีย</string>
+    <string name="PayToExpedia">จ่ายให้ Expedia</string>
     <!-- Label for "check in" information. Used both as header for check in policies and for the date of check in. -->
     <string name="CheckIn">เช็คอิน</string>
     <!-- Label for "check out" information. Used both as header for check out policies and for the date of check out. -->
@@ -1775,7 +1779,7 @@
     <!-- Label for signin screen -->
     <string name="expedia_account">บัญชีเอ็กซ์พีเดีย</string>
     <!-- Label for loading user profile from expedia.com -->
-    <string name="loading_expedia_account">กำลังโหลดบัญชีเอ็กซ์พีเดีย</string>
+    <string name="loading_expedia_account">กำลังโหลดบัญชี Expedia</string>
     <!-- Label for password recovery -->
     <string name="forgot_your_password">ลืมรหัสผ่าน</string>
     <!-- Webview title for password recovery -->
@@ -1821,23 +1825,23 @@
 
     <!-- About activity -->
     <!-- Label for "contact Expedia" button in info page -->
-    <string name="contact_expedia">ติดต่อเอ็กซ์พีเดีย</string>
+    <string name="contact_expedia">ติดต่อ Expedia</string>
     <!-- Extra description for "contact Expedia" button, when space allows -->
     <string name="contact_expedia_description">พวกเราพร้อมบริการคุณตลอด 24 ชั่วโมง</string>
     <!-- Title for different ways to connect to Expedia -->
-    <string name="contact_expedia_via">ติดต่อเอ็กซ์พีเดียผ่าน</string>
+    <string name="contact_expedia_via">ติดต่อ Expedia ผ่าน</string>
     <!-- Contact Expedia via phone -->
     <string name="contact_expedia_phone">โทรศัพท์</string>
     <!-- Contact Expedia via email -->
     <string name="contact_expedia_email">อีเมล</string>
     <!-- Contact Expedia via email subject -->
-    <string name="contact_expedia_email_subject">ฝ่ายบริการลูกค้าเอ็กซ์พีเดีย</string>
+    <string name="contact_expedia_email_subject">ฝ่ายบริการลูกค้า Expedia</string>
     <!-- Contact Expedia via website -->
     <string name="contact_expedia_website">เว็บไซต์</string>
     <!-- Label for "Expedia website" button in info page -->
-    <string name="expedia_website">เว็บไซต์เอ็กซ์พีเดีย</string>
+    <string name="expedia_website">เว็บไซต์ Expedia</string>
     <!-- Extra description for "Expedia website" button, when space allows -->
-    <string name="expedia_website_description">ไปที่ Expedia.co.th หากต้องการจองเที่ยวบิน รถเช่า แพ็คเกจท่องเที่ยวอื่นๆ</string>
+    <string name="expedia_website_description">ไปที่ Expedia.com หากต้องการจองเที่ยวบิน รถเช่า แพ็คเกจท่องเที่ยวอื่นๆ</string>
     <!-- Extra description for "app feedback" button, when space allows -->
     <string name="app_feedback_description">โปรดแสดงความคิดเห็นของคุณเกี่ยวกับแอพ</string>
     <!-- Label for "app support" button in info page -->
@@ -1849,7 +1853,7 @@
     <!-- Section header for other apps by Mobiata -->
     <string name="travel_smart">เที่ยวแบบมือโปร</string>
     <!-- Subject line for "tell a friend" feature -->
-    <string name="tell_a_friend_subject">โรงแรมเอ็กซ์พีเดีย</string>
+    <string name="tell_a_friend_subject">โรงแรม Expedia</string>
     <!-- Message body for "tell a friend" feature -->
     <string name="tell_a_friend_body">สวัสดี \n\n คุณลองดาวน์โหลดแอพพลิเคชัน Expedia Hotels สำหรับ iPhone และ Android แล้วหรือยัง แอพฟรีนี้ช่วยให้คุณค้นหาและจองห้องโรงแรมกว่า 140,000 โรงแรมทั่วโลกได้ง่ายๆ ผ่านมือถือของคุณ\n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
@@ -1861,13 +1865,13 @@
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">ออกจากระบบและล้างข้อมูลแล้ว</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_logged_out_and_cleared_private_data">คุณออกจากระบบบัญชีเอ็กซ์พีเดีย และล้างข้อมูลการเงินและการติดต่อแล้ว</string>
+    <string name="dialog_message_logged_out_and_cleared_private_data">คุณออกจากระบบบัญชีของ Expedia และล้างข้อมูลการเงินและติดต่อแล้ว</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_cleared_private_data">ล้างข้อมูลส่วนตัวแล้ว</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_message_cleared_private_data">ลบข้อมูลรายชื่อและใบแจ้งหนี้ที่บันทึกไว้แล้ว</string>
     <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
-    <string name="dialog_message_launch_expedia_mobile_site">เปิดใช้เว็บไซต์สำหรับมือถือของเอ็กซ์พีเดีย?</string>
+    <string name="dialog_message_launch_expedia_mobile_site">เปิดใช้เว็บไซต์สำหรับมือถือของเอ็กซ์พีเดียหรือไม่</string>
     <!-- Action button label to Subscribe to our mailing list -->
     <string name="Subscribe">สมัครรับข่าวสาร</string>
     <!-- Action button label to follow on twitter -->
@@ -1969,7 +1973,7 @@
     <!-- Kilometers (used in distance template) -->
     <string name="unit_kilometers_full">กิโลเมตร</string>
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
-    <string name="distance_template">ห่งไป %1$s %2$s</string>
+    <string name="distance_template">%1$s %2$s ออกไป</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
 
@@ -1993,7 +1997,7 @@
     <!-- The hotel booking failed -->
     <string name="e3_error_checkout_booking_failed">ขออภัย ระบบไม่สามารถดำเนินการจองได้ โปรดลองใหม่อีกครั้ง</string>
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-    <string name="e3_error_checkout_booking_succeeded_with_errors">คุณจองโรงแรมเรียบร้อยแล้ว หากคุณต้องการหมายเลขแผนเดินทางทันที โปรดติดต่อฝ่ายบริการลูกค้าของเอ็กซ์พีเดีย</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors">คุณจองโรงแรมเรียบร้อยแล้ว หากคุณต้องการหมายเลขแผนการเดินทางทันที โปรดติดต่อฝ่ายบริการลูกค้าของ Expedia</string>
     <!-- The hotel room is no longer available -->
     <string name="e3_error_checkout_hotel_room_unavailable">ขออภัย ห้องพักที่คุณเลือกเต็มแล้ว</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
@@ -2018,7 +2022,7 @@
     <string name="e3_error_hotel_offers_hotel_offer_unavailable">ขออภัย โปรโมชั่นสำหรับห้องนี้หมดเวลาแล้ว แต่เรามีโปรโมชั่นอื่นๆ อีกมากมาย</string>
     <string name="e3_error_hotel_offers_hotel_room_unavailable">ขออภัย ห้องพักที่คุณเลือกเต็มแล้ว</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure">ขออภัย ระบบไม่สามารถไปที่เอ็กซ์พีเดียได้ โปรดลองใหม่อีกครั้ง</string>
+    <string name="e3_error_hotel_offers_hotel_service_failure">ขออภัย ระบบไม่สามารถไปที่ Expedia ได้ โปรดลองใหม่อีกครั้ง</string>
     <!-- There are no longer any rooms for the hotel offer -->
     <string name="e3_error_hotel_offers_invalid_input">ขออภัย โปรโมชั่นสำหรับห้องนี้หมดเวลาแล้ว แต่เรามีโปรโมชั่นอื่นๆ อีกมากมาย</string>
     <!-- There are no longer any rooms for the hotel offer -->
@@ -2294,6 +2298,8 @@
     <string name="wallet_buy_with_google_wallet">ซื้อด้วย Google Wallet</string>
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">รับส่วนลด <b>10%</b> จาก Google Wallet!</string>
+    <!-- Message informing users that they are saving money with the Google Wallet promo -->
+    <string name="wallet_promo_in_use_message">คุณประหยัดไป 10% จากการใช้ Google Wallet</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
     <string name="coupon_replaced_message">สามารถใช้คูปองได้เพียงหนึ่งใบต่อการจองเท่านั้น เราแทนที่คูปองก่อนหน้าของคุณด้วยส่วนลด 10% จากการใช้ Google Wallet</string>
     <!-- Message shown while loading Wallet coupon -->
@@ -2303,7 +2309,7 @@
     <!-- Title for Google Wallet promo terms & conditions -->
     <string name="wallet_promo_tc_title">ข้อตกลงและเงื่อนไขของคูปอง Google Wallet</string>
     <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">คูปองต้องแลกใช้ในแอพฯ Expedia สำหรับ Android สำหรับการเดินทางระหว่างวันที่ 17 มิถุนายน 2556 - 31 ธันวาคม 2556 ข้อเสนอนี้เป็นข้อเสนอจาก Expedia.co.th และใช้ได้กับลูกค้าของ Expedia.co.th เท่านั้น\n\nการจองมีข้อตกลงและเงื่อนไขและขึ้นอยู่กับความพร้อมให้บริการของโรงแรมราคาเอ็กซ์พีเดีย ณ เวลาที่ทำการจอง ไม่สามารถใช้คูปองร่วมกับโปรโมชั่น ส่วนลด หรือข้อเสนอพิเศษอื่นๆ ส่วนลดจากคูปองไม่สามารถนำมาใช้กับภาษี ค่าธรรมเนียมที่โรงแรมเรียกเก็บ ค่าปรับในการยกเลิกหรือเปลี่ยนแปลงการจอง ค่าธรรมเนียมการดำเนินการ หรือค่าใช้จ่ายจิปาถะอื่นๆ ซึ่งถือเป็นความรับผิดชอบของลูกค้าแต่เพียงผู้เดียว ในกรณีที่คุณเปลี่ยนแปลงหรือยกเลิกการจอง คูปองจะไม่สามารถใช้ได้กับแผนการเดินทางที่เปลี่ยนแปลง\n\nข้อตกลงและเงื่อนไขของคูปองนี้เป็นไปตามที่กำหนด และไม่สามารถเปลี่ยนแปลงได้โดยตัวแทนของผู้ที่ไม่ได้รับการมอบอำนาจ รวมถึงพนักงานของ Expedia, Inc. คูปองไม่สามารถโอนให้กันและไม่สามารถแลกเป็นเงินสดได้ เป็นโมฆะหากไม่ได้รับอนุญาตตามกฎหมาย Expedia, Inc. อาจยกเลิกหรือเปลี่ยนแปลงข้อเสนอนี้ได้ทุกเมื่อ</string>
+    <string name="wallet_promo_tc_message">คูปองต้องแลกใช้ในแอพฯ Expedia สำหรับ Android สำหรับการเดินทางระหว่างวันที่ 17 มิถุนายน 2556 - 31 ธันวาคม 2556 ข้อเสนอนี้เป็นข้อเสนอจาก Expedia.com และใช้ได้กับลูกค้าของ Expedia.com ในสหรัฐอเมริกาเท่านั้น\n\nการจองมีข้อตกลงและเงื่อนไขและขึ้นอยู่กับความพร้อมให้บริการของโรงแรมราคาเอ็กซ์พีเดีย ณ เวลาที่ทำการจอง ไม่สามารถใช้คูปองร่วมกับโปรโมชั่น ส่วนลด หรือข้อเสนอพิเศษอื่นๆ ส่วนลดจากคูปองไม่สามารถนำมาใช้กับภาษี ค่าธรรมเนียมที่โรงแรมเรียกเก็บ ค่าปรับในการยกเลิกหรือเปลี่ยนแปลงการจอง ค่าธรรมเนียมการดำเนินการ หรือค่าใช้จ่ายจิปาถะอื่นๆ ซึ่งถือเป็นความรับผิดชอบของลูกค้าแต่เพียงผู้เดียว ในกรณีที่คุณเปลี่ยนแปลงหรือยกเลิกการจอง คูปองจะไม่สามารถใช้ได้กับแผนการเดินทางที่เปลี่ยนแปลง\n\nข้อตกลงและเงื่อนไขของคูปองนี้เป็นไปตามที่กำหนด และไม่สามารถเปลี่ยนแปลงได้โดยตัวแทนของผู้ที่ไม่ได้รับการมอบอำนาจ รวมถึงพนักงานของ Expedia, Inc. คูปองไม่สามารถโอนให้กันและไม่สามารถแลกเป็นเงินสดได้ เป็นโมฆะหากไม่ได้รับอนุญาตตามกฎหมาย Expedia, Inc. อาจยกเลิกหรือเปลี่ยนแปลงข้อเสนอนี้ได้ทุกเมื่อ</string>
 
     <!-- Samsung Wallet -->
     <!-- Label to use when the ticket already exists in the wallet -->

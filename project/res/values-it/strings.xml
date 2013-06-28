@@ -56,6 +56,8 @@
     <string name="error_launch_connection">Purtroppo non è possibile effettuare la connessione.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Viaggi</string>
+    <!-- Google play services unrecoverable error dialog message -->
+    <string name="google_play_services_unrecoverable_error">Questa app richiede Google Play Services. Installa l\&apos;ultima versione di Google Play Services.</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
@@ -1055,6 +1057,8 @@
     <string name="hotels_in_TEMPLATE">Hotel a %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Altre operazioni</string>
+    <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
+    <string name="actions">Azioni</string>
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">Condividi via e-mail</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
@@ -1173,7 +1177,7 @@
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">Ciao,</string>
     <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_TEMPLATE">Ecco i dettagli del mio volo da %1$s a %2$s.</string>
+    <string name="share_flight_one_way_TEMPLATE">Ecco i dettagli dei miei voli da %1$s a %2$s.</string>
     <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_round_trip_TEMPLATE">Ecco i dettagli del mio volo andata e ritorno da %1$s a %2$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
@@ -1803,7 +1807,7 @@
     <!-- The title of the share subject line -->
     <string name="share_subject_title">Itinerario Expedia</string>
     <!-- Subject property name template. -->
-    <string name="share_subject_template">Itinerario Expedia -</string>
+    <string name="share_subject_template">Expedia Itinerary -</string>
     <!-- Subject dates template. 1$ and 2$ are the ` ranges (e.g., 3/21 - 3/24) -->
     <string name="share_subject_template_dates">(%1$s - %2$s)</string>
     <!-- Preset at the top of the share body message -->
@@ -2294,6 +2298,8 @@
     <string name="wallet_buy_with_google_wallet">Acquista con Google Wallet</string>
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">Ricevi <b>uno sconto del 10%</b> con Google Wallet!</string>
+    <!-- Message informing users that they are saving money with the Google Wallet promo -->
+    <string name="wallet_promo_in_use_message">Hai risparmiato il 10% utilizzando Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
     <string name="coupon_replaced_message">Può essere utilizzato solo un codice coupon per prenotazione. Abbiamo sostituito il tuo coupon precedente con uno sconto del 10% per aver utilizzato Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->

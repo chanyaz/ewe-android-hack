@@ -56,6 +56,8 @@
     <string name="error_launch_connection">Helaas, we kunnen geen verbinding maken</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Reizen</string>
+    <!-- Google play services unrecoverable error dialog message -->
+    <string name="google_play_services_unrecoverable_error">Deze app vereist Google Play Services. Installeer de laatste versie van Google Play Services.</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
@@ -664,7 +666,7 @@
     <!-- Calendar tooltip bottom line after two dates are selected E.g. Drag End Dates to Modify -->
     <string name="calendar_tooltip_bottom_drag_to_modify">Sleep de eindatums om te wijzigen</string>
     <!-- Calendar tooltip hotels bottom line after a single date is selected "Select Checkout Date" -->
-    <string name="calendar_tooltip_hotel_bottom_select_checkout_date">Kies de uitcheckdatum</string>
+    <string name="calendar_tooltip_hotel_bottom_select_checkout_date">Kies uitcheckdatum</string>
     <!-- Calendar tooltip hotels bottom line after two dates are selected TEMPLATE arg1=start date string, arg2=end date string, arg3=number of nights e.g. "May 26 - May 28 (2 nights)" -->
     <string name="calendar_tooltip_hotel_top_text_date_range_and_nights_TEMPLATE">%1$s - %2$s (%3$s)</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
@@ -1056,6 +1058,8 @@
     <string name="hotels_in_TEMPLATE">Hotels in %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Meer opties</string>
+    <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
+    <string name="actions">Acties</string>
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">Deel via e-mail</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
@@ -1174,7 +1178,7 @@
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">Hallo,</string>
     <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_TEMPLATE">Dit zijn de gegevens voor mijn vlucht van %1$s naar %2$s.</string>
+    <string name="share_flight_one_way_TEMPLATE">Dit zijn de gegevens voor mijn vlucht(en) van %1$s naar %2$s.</string>
     <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_round_trip_TEMPLATE">Dit zijn de gegevens voor mijn retourvlucht tussen %1$s en %2$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
@@ -2295,6 +2299,8 @@
     <string name="wallet_buy_with_google_wallet">Betalen met Google Wallet</string>
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">Profiteer van <b>10% korting</b> met Google Wallet!</string>
+    <!-- Message informing users that they are saving money with the Google Wallet promo -->
+    <string name="wallet_promo_in_use_message">Je hebt 10% bespaard met Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
     <string name="coupon_replaced_message">Max. 1 coupon per boeking. We hebben je vorige coupon vervangen door de 10% korting voor het gebruik van Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->

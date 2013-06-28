@@ -56,6 +56,8 @@
     <string name="error_launch_connection">残念ながら、接続できません。</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">予約確認</string>
+    <!-- Google play services unrecoverable error dialog message -->
+    <string name="google_play_services_unrecoverable_error">このアプリの使用には Google Play Services が必要です。最新版の Google Play Services をインストールしてください。</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
@@ -273,7 +275,7 @@
 
     <!-- Hotel attach -->
     <!-- Button label to search for a hotel in the flight destination city. %1$s is the city, e.g. "Washington, DC" -->
-    <string name="add_hotel_TEMPLATE">%1$sにホテルを追加</string>
+    <string name="add_hotel_TEMPLATE">%1$sのホテルを追加</string>
     <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
     <string name="add_hotel_fallback">目的地のホテルを追加</string>
 
@@ -282,7 +284,7 @@
 
     <!-- Local Expert Sites -->
     <!-- Name of Hawaii (for local expert) -->
-    <string name="site_hawaii">ハワイ</string>
+    <string name="site_hawaii">ハワイ州</string>
     <!-- Name of Orlando, FL (for local expert) -->
     <string name="site_orlando">オーランド</string>
     <!-- Name of Las Vegas (for local expert) -->
@@ -305,7 +307,7 @@
     <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
     <string name="attraction_theme_parks_second">テーマパークを見る</string>
     <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_first">最高のビーチを</string>
+    <string name="attraction_beaches_first">人気のエンターテイメントを</string>
     <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
     <string name="attraction_beaches_second">探す</string>
     <!-- First half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
@@ -1055,6 +1057,8 @@
     <string name="hotels_in_TEMPLATE">%s のホテル</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">その他のアクション</string>
+    <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
+    <string name="actions">アクション</string>
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">E メールでシェア</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
@@ -1803,7 +1807,7 @@
     <!-- The title of the share subject line -->
     <string name="share_subject_title">エクスペディアの旅程</string>
     <!-- Subject property name template. -->
-    <string name="share_subject_template">エクスペディアの旅程 -</string>
+    <string name="share_subject_template">Expedia の旅程 -</string>
     <!-- Subject dates template. 1$ and 2$ are the ` ranges (e.g., 3/21 - 3/24) -->
     <string name="share_subject_template_dates">(%1$s - %2$s)</string>
     <!-- Preset at the top of the share body message -->
@@ -2294,6 +2298,8 @@
     <string name="wallet_buy_with_google_wallet">Google ウォレット機能で購入する</string>
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">Google ウォレット機能で<b>10% オフ</b> !</string>
+    <!-- Message informing users that they are saving money with the Google Wallet promo -->
+    <string name="wallet_promo_in_use_message">Google ウォレット機能で 10% 割引になりました !</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
     <string name="coupon_replaced_message">1 回の予約で使用できるクーポンは 1 枚のみです。Google ウォレット機能で 10% 割引になる新しいクーポンをお届けします。</string>
     <!-- Message shown while loading Wallet coupon -->
