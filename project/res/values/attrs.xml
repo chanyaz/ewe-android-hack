@@ -185,4 +185,7 @@
 
     <attr name="costSummaryHeaderTextColor" format="reference|color" />
 
+    <!-- Ratingbar style in UserReviewsListActivity -->
+    <attr name="ratingBarUserReviewStyle" format="reference" />
+
 </resources>
