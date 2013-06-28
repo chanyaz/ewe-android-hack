@@ -8,6 +8,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
+        android:singleLine="true"
         android:textColor="@color/local_expert_primary_text"
         android:textSize="24dp"
         app:textAllCaps="true"/>
@@ -18,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
+        android:singleLine="true"
         android:textColor="@color/local_expert_primary_text"
         android:textSize="48dp"
         app:textAllCaps="true"/>
@@ -26,6 +28,6 @@
         android:id="@+id/attraction_icon_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="4dp"/>
 
 </merge>
