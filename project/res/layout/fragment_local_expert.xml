@@ -28,7 +28,7 @@
             android:background="@drawable/list_selector_holo_dark"
             android:clickable="true"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_local_expert_close" />
+            android:src="@drawable/btn_local_expert_close" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/title_text_view"
