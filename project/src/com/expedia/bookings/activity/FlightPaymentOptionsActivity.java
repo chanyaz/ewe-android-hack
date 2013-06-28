@@ -68,265 +68,6 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		public boolean attemptToLeave();
 	}
 
-	private void hideKeyboard() {
-		if (this.getCurrentFocus() != null) {
-			//Oh silly stupid InputMethodManager...
-			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-		}
-	}
-
-	public void displayOptions() {
-		hideKeyboard();
-
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		mOptionsFragment = Ui.findSupportFragment(this, OPTIONS_FRAGMENT_TAG);
-		if (mOptionsFragment == null) {
-			mOptionsFragment = FlightPaymentOptionsFragment.newInstance();
-		}
-		if (!mOptionsFragment.isAdded()) {
-			ft.replace(android.R.id.content, mOptionsFragment, OPTIONS_FRAGMENT_TAG);
-			ft.commit();
-		}
-
-		mPos = YoYoPosition.OPTIONS;
-		mMode = YoYoMode.NONE;
-		supportInvalidateOptionsMenu();
-	}
-
-	public void displayAddress() {
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		mAddressFragment = Ui.findSupportFragment(this, ADDRESS_FRAGMENT_TAG);
-		if (mAddressFragment == null) {
-			mAddressFragment = FlightPaymentAddressFragment.newInstance();
-		}
-		if (!mAddressFragment.isAdded()) {
-			ft.replace(android.R.id.content, mAddressFragment, ADDRESS_FRAGMENT_TAG);
-			ft.commit();
-		}
-		mPos = YoYoPosition.ADDRESS;
-		supportInvalidateOptionsMenu();
-	}
-
-	public void displayCreditCard() {
-		mPos = YoYoPosition.CREDITCARD;
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		mCCFragment = Ui.findSupportFragment(this, CREDIT_CARD_FRAGMENT_TAG);
-		if (mCCFragment == null) {
-			mCCFragment = FlightPaymentCreditCardFragment.newInstance();
-		}
-		if (!mCCFragment.isAdded()) {
-			ft.replace(android.R.id.content, mCCFragment, CREDIT_CARD_FRAGMENT_TAG);
-			ft.commit();
-		}
-		supportInvalidateOptionsMenu();
-	}
-
-	public void displaySaveDialog() {
-		mBeforeSaveDialogPos = mPos;
-		mPos = YoYoPosition.SAVE;
-		supportInvalidateOptionsMenu();
-		DialogFragment newFragment = FlightPaymentSaveDialogFragment.newInstance();
-		newFragment.show(getSupportFragmentManager(), SAVE_FRAGMENT_TAG);
-
-	}
-
-	private void closeSaveDialog() {
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		Fragment dialog = getSupportFragmentManager().findFragmentByTag(SAVE_FRAGMENT_TAG);
-		if (dialog != null) {
-			ft.remove(dialog);
-		}
-		ft.commit();
-	}
-
-	public void displayCheckout() {
-		Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
-		Db.getWorkingBillingInfoManager().clearWorkingBillingInfo(this);
-
-		Intent gotoCheckoutOverviewIntent = new Intent(FlightPaymentOptionsActivity.this,
-				FlightTripOverviewActivity.class);
-		gotoCheckoutOverviewIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		startActivity(gotoCheckoutOverviewIntent);
-	}
-
-	private boolean workingBillingInfoChanged() {
-		if (Db.getWorkingBillingInfoManager().getBaseBillingInfo() != null) {
-			return Db.getWorkingBillingInfoManager().getWorkingBillingInfo()
-					.compareTo(Db.getWorkingBillingInfoManager().getBaseBillingInfo()) != 0;
-		}
-		return false;
-	}
-
-	public void moveForward() {
-		if (mMode.equals(YoYoMode.YOYO)) {
-			switch (mPos) {
-			case OPTIONS:
-				if (PointOfSale.getPointOfSale().requiresBillingAddressFlights()) {
-					displayAddress();
-				}
-				else {
-					displayCreditCard();
-				}
-				break;
-			case ADDRESS:
-				if (validate(mAddressFragment)) {
-					displayCreditCard();
-				}
-				break;
-			case CREDITCARD:
-				if (validate(mCCFragment)) {
-					Db.getFlightSearch().getSelectedFlightTrip().setShowFareWithCardFee(true);
-					if (User.isLoggedIn(this)) {
-						displaySaveDialog();
-					}
-					else {
-						displayCheckout();
-					}
-				}
-				break;
-			case SAVE:
-				displayCheckout();
-				OmnitureTracking.trackPageLoadFlightCheckoutPaymentEditSave(getApplicationContext());
-				break;
-			default:
-				Ui.showToast(this, "FAIL");
-				break;
-			}
-		}
-		else if (mMode.equals(YoYoMode.EDIT)) {
-			switch (mPos) {
-			case ADDRESS:
-				if (validate(mAddressFragment)) {
-					if (User.isLoggedIn(this)
-							&& !Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getSaveCardToExpediaAccount()
-							&& workingBillingInfoChanged()) {
-						displaySaveDialog();
-					}
-					else {
-						Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
-								Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
-						displayOptions();
-					}
-				}
-				break;
-			case CREDITCARD:
-				if (validate(mCCFragment)) {
-					Db.getFlightSearch().getSelectedFlightTrip().setShowFareWithCardFee(true);
-					if (User.isLoggedIn(this)
-							&& !Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getSaveCardToExpediaAccount()
-							&& workingBillingInfoChanged()) {
-						displaySaveDialog();
-					}
-					else {
-						Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
-								Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
-						displayOptions();
-					}
-				}
-				break;
-			case SAVE:
-				Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
-						Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
-				displayOptions();
-				break;
-			case OPTIONS:
-			default:
-				Ui.showToast(this, "FAIL");
-				break;
-			}
-		}
-		else if (mMode.equals(YoYoMode.NONE)) {
-			displayCheckout();
-		}
-	}
-
-	public void setMode(YoYoMode mode) {
-		mMode = mode;
-	}
-
-	public boolean moveBackwards() {
-		if (mMode.equals(YoYoMode.YOYO)) {
-			switch (mPos) {
-			case OPTIONS:
-				displayCheckout();
-				break;
-			case ADDRESS:
-				//If we are backing up we want to restore the base billing info...
-				if (Db.getWorkingBillingInfoManager().getBaseBillingInfo() != null) {
-					Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
-							Db.getWorkingBillingInfoManager().getBaseBillingInfo());
-				}
-				displayOptions();
-				break;
-			case CREDITCARD:
-				if (PointOfSale.getPointOfSale().requiresBillingAddressFlights()) {
-					displayAddress();
-				}
-				else {
-					displayOptions();
-				}
-
-				break;
-			case SAVE:
-				closeSaveDialog();
-				displayCreditCard();
-				break;
-			default:
-				Ui.showToast(this, "FAIL");
-				return false;
-			}
-		}
-		else if (mMode.equals(YoYoMode.EDIT)) {
-			switch (mPos) {
-			case ADDRESS:
-			case CREDITCARD:
-				//If we are backing up we want to restore the base billing info...
-				if (Db.getWorkingBillingInfoManager().getBaseBillingInfo() != null) {
-					Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
-							Db.getWorkingBillingInfoManager().getBaseBillingInfo());
-				}
-				displayOptions();
-				break;
-			case SAVE:
-				//Back on save means cancel
-				if (mBeforeSaveDialogPos != null) {
-					switch (mBeforeSaveDialogPos) {
-					case ADDRESS:
-						displayAddress();
-						break;
-					case CREDITCARD:
-						displayCreditCard();
-						break;
-					default:
-						displayOptions();
-					}
-				}
-				else {
-					displayOptions();
-				}
-				break;
-			case OPTIONS:
-			default:
-				Ui.showToast(this, "FAIL");
-				return false;
-			}
-		}
-		else if (mMode.equals(YoYoMode.NONE)) {
-			displayCheckout();
-		}
-		return true;
-	}
-
-	public boolean validate(Validatable validatable) {
-		if (validatable == null) {
-			return false;
-		}
-		else {
-			return validatable.attemptToLeave();
-		}
-	}
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -414,6 +155,13 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 	}
 
 	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		mMode = YoYoMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
+		mPos = YoYoPosition.valueOf(savedInstanceState.getString(STATE_TAG_DEST));
+		super.onRestoreInstanceState(savedInstanceState);
+	}
+
+	@Override
 	protected void onResume() {
 		super.onResume();
 		OmnitureTracking.onResume(this);
@@ -430,6 +178,33 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 
 		OmnitureTracking.onPause();
 	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		outState.putString(STATE_TAG_MODE, mMode.name());
+		outState.putString(STATE_TAG_DEST, mPos.name());
+		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (!moveBackwards()) {
+			super.onBackPressed();
+		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (WalletFragment.isRequestCodeFromWalletFragment(requestCode)) {
+			mOptionsFragment.onActivityResult(requestCode, resultCode, data);
+		}
+		else {
+			super.onActivityResult(requestCode, resultCode, data);
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// ActionBar/Menu
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -466,40 +241,21 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		return super.onPrepareOptionsMenu(menu);
 	}
 
-	public boolean canOnlySelectNewCard() {
-		// Does the user have cards they could select?
-		if (BookingInfoUtils.getStoredCreditCards(this).size() > 0) {
-			return false;
-		}
-
-		//Has the user manually entered data already?
-		FlightPaymentFlowState validationState = FlightPaymentFlowState.getInstance(this);
-		boolean addressValid = validationState.hasValidBillingAddress(Db.getWorkingBillingInfoManager()
-				.getWorkingBillingInfo());
-		boolean cardValid = validationState
-				.hasValidCardInfo(Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
-		if (addressValid || cardValid) {
-			return false;
-		}
-
-		return true;
-	}
-
-	public void setShowNextButton(boolean showNext) {
+	private void setShowNextButton(boolean showNext) {
 		if (mMenuNext != null) {
 			mMenuNext.setEnabled(showNext);
 			mMenuNext.setVisible(showNext);
 		}
 	}
 
-	public void setShowDoneButton(boolean showDone) {
+	private void setShowDoneButton(boolean showDone) {
 		if (mMenuDone != null) {
 			mMenuDone.setEnabled(showDone);
 			mMenuDone.setVisible(showDone);
 		}
 	}
 
-	public void displayActionItemBasedOnState() {
+	private void displayActionItemBasedOnState() {
 		if (mMode == null) {
 			return;
 		}
@@ -544,7 +300,7 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		}
 	}
 
-	public void displayActionBarTitleBasedOnState() {
+	private void displayActionBarTitleBasedOnState() {
 		ActionBar actionBar = this.getSupportActionBar();
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP
 				| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
@@ -573,34 +329,297 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 
 	}
 
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// YoYo listener
+
 	@Override
-	public void onBackPressed() {
-		if (!moveBackwards()) {
-			super.onBackPressed();
+	public void moveForward() {
+		if (mMode.equals(YoYoMode.YOYO)) {
+			switch (mPos) {
+			case OPTIONS:
+				if (PointOfSale.getPointOfSale().requiresBillingAddressFlights()) {
+					displayAddress();
+				}
+				else {
+					displayCreditCard();
+				}
+				break;
+			case ADDRESS:
+				if (validate(mAddressFragment)) {
+					displayCreditCard();
+				}
+				break;
+			case CREDITCARD:
+				if (validate(mCCFragment)) {
+					Db.getFlightSearch().getSelectedFlightTrip().setShowFareWithCardFee(true);
+					if (User.isLoggedIn(this)) {
+						displaySaveDialog();
+					}
+					else {
+						displayCheckout();
+					}
+				}
+				break;
+			case SAVE:
+				displayCheckout();
+				OmnitureTracking.trackPageLoadFlightCheckoutPaymentEditSave(getApplicationContext());
+				break;
+			default:
+				Ui.showToast(this, "FAIL");
+				break;
+			}
+		}
+		else if (mMode.equals(YoYoMode.EDIT)) {
+			switch (mPos) {
+			case ADDRESS:
+				if (validate(mAddressFragment)) {
+					if (User.isLoggedIn(this)
+							&& !Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getSaveCardToExpediaAccount()
+							&& workingBillingInfoChanged()) {
+						displaySaveDialog();
+					}
+					else {
+						Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
+								Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+						displayOptions();
+					}
+				}
+				break;
+			case CREDITCARD:
+				if (validate(mCCFragment)) {
+					Db.getFlightSearch().getSelectedFlightTrip().setShowFareWithCardFee(true);
+					if (User.isLoggedIn(this)
+							&& !Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getSaveCardToExpediaAccount()
+							&& workingBillingInfoChanged()) {
+						displaySaveDialog();
+					}
+					else {
+						Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
+								Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+						displayOptions();
+					}
+				}
+				break;
+			case SAVE:
+				Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
+						Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+				displayOptions();
+				break;
+			case OPTIONS:
+			default:
+				Ui.showToast(this, "FAIL");
+				break;
+			}
+		}
+		else if (mMode.equals(YoYoMode.NONE)) {
+			displayCheckout();
 		}
 	}
 
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		outState.putString(STATE_TAG_MODE, mMode.name());
-		outState.putString(STATE_TAG_DEST, mPos.name());
-		super.onSaveInstanceState(outState);
-	}
+	// moveForward helper methods
 
-	@Override
-	public void onRestoreInstanceState(Bundle savedInstanceState) {
-		mMode = YoYoMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
-		mPos = YoYoPosition.valueOf(savedInstanceState.getString(STATE_TAG_DEST));
-		super.onRestoreInstanceState(savedInstanceState);
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (WalletFragment.isRequestCodeFromWalletFragment(requestCode)) {
-			mOptionsFragment.onActivityResult(requestCode, resultCode, data);
+	private boolean validate(Validatable validatable) {
+		if (validatable == null) {
+			return false;
 		}
 		else {
-			super.onActivityResult(requestCode, resultCode, data);
+			return validatable.attemptToLeave();
 		}
 	}
+
+	private boolean workingBillingInfoChanged() {
+		if (Db.getWorkingBillingInfoManager().getBaseBillingInfo() != null) {
+			return Db.getWorkingBillingInfoManager().getWorkingBillingInfo()
+					.compareTo(Db.getWorkingBillingInfoManager().getBaseBillingInfo()) != 0;
+		}
+		return false;
+	}
+
+	@Override
+	public void setMode(YoYoMode mode) {
+		mMode = mode;
+	}
+
+	@Override
+	public boolean moveBackwards() {
+		if (mMode.equals(YoYoMode.YOYO)) {
+			switch (mPos) {
+			case OPTIONS:
+				displayCheckout();
+				break;
+			case ADDRESS:
+				//If we are backing up we want to restore the base billing info...
+				if (Db.getWorkingBillingInfoManager().getBaseBillingInfo() != null) {
+					Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
+							Db.getWorkingBillingInfoManager().getBaseBillingInfo());
+				}
+				displayOptions();
+				break;
+			case CREDITCARD:
+				if (PointOfSale.getPointOfSale().requiresBillingAddressFlights()) {
+					displayAddress();
+				}
+				else {
+					displayOptions();
+				}
+
+				break;
+			case SAVE:
+				closeSaveDialog();
+				displayCreditCard();
+				break;
+			default:
+				Ui.showToast(this, "FAIL");
+				return false;
+			}
+		}
+		else if (mMode.equals(YoYoMode.EDIT)) {
+			switch (mPos) {
+			case ADDRESS:
+			case CREDITCARD:
+				//If we are backing up we want to restore the base billing info...
+				if (Db.getWorkingBillingInfoManager().getBaseBillingInfo() != null) {
+					Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
+							Db.getWorkingBillingInfoManager().getBaseBillingInfo());
+				}
+				displayOptions();
+				break;
+			case SAVE:
+				//Back on save means cancel
+				if (mBeforeSaveDialogPos != null) {
+					switch (mBeforeSaveDialogPos) {
+					case ADDRESS:
+						displayAddress();
+						break;
+					case CREDITCARD:
+						displayCreditCard();
+						break;
+					default:
+						displayOptions();
+					}
+				}
+				else {
+					displayOptions();
+				}
+				break;
+			case OPTIONS:
+			default:
+				Ui.showToast(this, "FAIL");
+				return false;
+			}
+		}
+		else if (mMode.equals(YoYoMode.NONE)) {
+			displayCheckout();
+		}
+		return true;
+	}
+
+	@Override
+	public void displayOptions() {
+		hideKeyboard();
+
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		mOptionsFragment = Ui.findSupportFragment(this, OPTIONS_FRAGMENT_TAG);
+		if (mOptionsFragment == null) {
+			mOptionsFragment = FlightPaymentOptionsFragment.newInstance();
+		}
+		if (!mOptionsFragment.isAdded()) {
+			ft.replace(android.R.id.content, mOptionsFragment, OPTIONS_FRAGMENT_TAG);
+			ft.commit();
+		}
+
+		mPos = YoYoPosition.OPTIONS;
+		mMode = YoYoMode.NONE;
+		supportInvalidateOptionsMenu();
+	}
+
+	@Override
+	public void displayAddress() {
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		mAddressFragment = Ui.findSupportFragment(this, ADDRESS_FRAGMENT_TAG);
+		if (mAddressFragment == null) {
+			mAddressFragment = FlightPaymentAddressFragment.newInstance();
+		}
+		if (!mAddressFragment.isAdded()) {
+			ft.replace(android.R.id.content, mAddressFragment, ADDRESS_FRAGMENT_TAG);
+			ft.commit();
+		}
+		mPos = YoYoPosition.ADDRESS;
+		supportInvalidateOptionsMenu();
+	}
+
+	@Override
+	public void displayCreditCard() {
+		mPos = YoYoPosition.CREDITCARD;
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		mCCFragment = Ui.findSupportFragment(this, CREDIT_CARD_FRAGMENT_TAG);
+		if (mCCFragment == null) {
+			mCCFragment = FlightPaymentCreditCardFragment.newInstance();
+		}
+		if (!mCCFragment.isAdded()) {
+			ft.replace(android.R.id.content, mCCFragment, CREDIT_CARD_FRAGMENT_TAG);
+			ft.commit();
+		}
+		supportInvalidateOptionsMenu();
+	}
+
+	@Override
+	public void displaySaveDialog() {
+		mBeforeSaveDialogPos = mPos;
+		mPos = YoYoPosition.SAVE;
+		supportInvalidateOptionsMenu();
+		DialogFragment newFragment = FlightPaymentSaveDialogFragment.newInstance();
+		newFragment.show(getSupportFragmentManager(), SAVE_FRAGMENT_TAG);
+
+	}
+
+	@Override
+	public void displayCheckout() {
+		Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
+		Db.getWorkingBillingInfoManager().clearWorkingBillingInfo(this);
+
+		Intent gotoCheckoutOverviewIntent = new Intent(FlightPaymentOptionsActivity.this,
+				FlightTripOverviewActivity.class);
+		gotoCheckoutOverviewIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(gotoCheckoutOverviewIntent);
+	}
+
+	// Private helper methods
+
+	private boolean canOnlySelectNewCard() {
+		// Does the user have cards they could select?
+		if (BookingInfoUtils.getStoredCreditCards(this).size() > 0) {
+			return false;
+		}
+
+		//Has the user manually entered data already?
+		FlightPaymentFlowState validationState = FlightPaymentFlowState.getInstance(this);
+		boolean addressValid = validationState.hasValidBillingAddress(Db.getWorkingBillingInfoManager()
+				.getWorkingBillingInfo());
+		boolean cardValid = validationState
+				.hasValidCardInfo(Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+		if (addressValid || cardValid) {
+			return false;
+		}
+
+		return true;
+	}
+
+	private void closeSaveDialog() {
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		Fragment dialog = getSupportFragmentManager().findFragmentByTag(SAVE_FRAGMENT_TAG);
+		if (dialog != null) {
+			ft.remove(dialog);
+		}
+		ft.commit();
+	}
+
+	private void hideKeyboard() {
+		if (this.getCurrentFocus() != null) {
+			//Oh silly stupid InputMethodManager...
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+		}
+	}
+
 }

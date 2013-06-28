@@ -33,11 +33,10 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.util.ViewUtils;
 
 public class HotelTravelerInfoOptionsFragment extends Fragment {
-	private static final String TRAVELER_DETAILS_DOWNLOAD = "TRAVELER_DETAILS_DOWNLOAD";
 
+	private static final String TRAVELER_DETAILS_DOWNLOAD = "TRAVELER_DETAILS_DOWNLOAD";
 	private static final String DIALOG_LOADING_TRAVELER = "DIALOG_LOADING_TRAVELER";
 
-	View mOverviewBtn;
 	View mEnterManuallyBtn;
 
 	TextView mEditTravelerLabel;
@@ -55,16 +54,19 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 	TravelerInfoYoYoListener mListener;
 
 	public static HotelTravelerInfoOptionsFragment newInstance() {
-		HotelTravelerInfoOptionsFragment fragment = new HotelTravelerInfoOptionsFragment();
-		Bundle args = new Bundle();
-		fragment.setArguments(args);
-		return fragment;
+		return new HotelTravelerInfoOptionsFragment();
 	}
 
 	@Override
-	public void onStart() {
-		super.onStart();
-		OmnitureTracking.trackPageLoadHotelsTravelerSelect(getActivity());
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		if (!(activity instanceof TravelerInfoYoYoListener)) {
+			throw new RuntimeException(
+					"HotelTravelerInfoOptiosnFragment activity must implement TravelerInfoYoYoListener!");
+		}
+
+		mListener = (TravelerInfoYoYoListener) activity;
 	}
 
 	@Override
@@ -164,26 +166,9 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-
-		if (!(activity instanceof TravelerInfoYoYoListener)) {
-			throw new RuntimeException(
-					"HotelTravelerInfoOptiosnFragment activity must implement TravelerInfoYoYoListener!");
-		}
-
-		mListener = (TravelerInfoYoYoListener) activity;
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		if (getActivity().isFinishing()) {
-			BackgroundDownloader.getInstance().cancelDownload(TRAVELER_DETAILS_DOWNLOAD);
-		}
-		else {
-			BackgroundDownloader.getInstance().unregisterDownloadCallback(TRAVELER_DETAILS_DOWNLOAD);
-		}
+	public void onStart() {
+		super.onStart();
+		OmnitureTracking.trackPageLoadHotelsTravelerSelect(getActivity());
 	}
 
 	@Override
@@ -199,8 +184,14 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 	}
 
 	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
+	public void onPause() {
+		super.onPause();
+		if (getActivity().isFinishing()) {
+			BackgroundDownloader.getInstance().cancelDownload(TRAVELER_DETAILS_DOWNLOAD);
+		}
+		else {
+			BackgroundDownloader.getInstance().unregisterDownloadCallback(TRAVELER_DETAILS_DOWNLOAD);
+		}
 	}
 
 	public void refreshCurrentTraveler() {

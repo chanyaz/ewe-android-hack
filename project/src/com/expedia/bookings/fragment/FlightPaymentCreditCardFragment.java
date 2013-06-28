@@ -46,17 +46,13 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 	private boolean mCardMessageShowing = false;
 
 	public static FlightPaymentCreditCardFragment newInstance() {
-		FlightPaymentCreditCardFragment fragment = new FlightPaymentCreditCardFragment();
-		Bundle args = new Bundle();
-		//TODO:Set args here..
-		fragment.setArguments(args);
-		return fragment;
+		return new FlightPaymentCreditCardFragment();
 	}
 
 	@Override
-	public void onStart() {
-		super.onStart();
-		OmnitureTracking.trackPageLoadFlightCheckoutPaymentEditCard(getActivity());
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mAttemptToLeaveMade = false;
 	}
 
 	@Override
@@ -133,9 +129,9 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		mAttemptToLeaveMade = false;
+	public void onStart() {
+		super.onStart();
+		OmnitureTracking.trackPageLoadFlightCheckoutPaymentEditCard(getActivity());
 	}
 
 	@Override
@@ -158,12 +154,6 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 				cardHolderName.setText(Db.getUser().getPrimaryTraveler().getFullName());
 			}
 		}
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-
 	}
 
 	@Override

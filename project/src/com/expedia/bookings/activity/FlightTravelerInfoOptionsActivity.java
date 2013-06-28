@@ -1,11 +1,6 @@
 package com.expedia.bookings.activity;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -30,6 +25,7 @@ import com.expedia.bookings.fragment.FlightTravelerInfoOptionsFragment.TravelerI
 import com.expedia.bookings.fragment.FlightTravelerInfoThreeFragment;
 import com.expedia.bookings.fragment.FlightTravelerInfoTwoFragment;
 import com.expedia.bookings.fragment.FlightTravelerSaveDialogFragment;
+import com.expedia.bookings.fragment.OverwriteExistingTravelerDialogFragment;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.model.WorkingTravelerManager.ITravelerUpdateListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -40,6 +36,7 @@ import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 
 public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity implements TravelerInfoYoYoListener {
+
 	public static final String OPTIONS_FRAGMENT_TAG = "OPTIONS_FRAGMENT_TAG";
 	public static final String ONE_FRAGMENT_TAG = "ONE_FRAGMENT_TAG";
 	public static final String TWO_FRAGMENT_TAG = "TWO_FRAGMENT_TAG";
@@ -83,161 +80,6 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 
 	public interface Validatable {
 		public boolean validate();
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_yoyo, menu);
-		mMenuNext = ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_next);
-		mMenuDone = ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_done);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			return moveBackwards();
-		case R.id.menu_next:
-		case R.id.menu_done:
-			moveForward();
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
-
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		if (menu != null) {
-			mMenuNext = menu.findItem(R.id.menu_next);
-			mMenuDone = menu.findItem(R.id.menu_done);
-
-			displayActionBarTitleBasedOnState();
-			displayActionItemBasedOnState();
-
-		}
-
-		return super.onPrepareOptionsMenu(menu);
-	}
-
-	public void setShowNextButton(boolean showNext) {
-		if (mMenuNext != null) {
-			mMenuNext.setEnabled(showNext);
-			mMenuNext.setVisible(showNext);
-		}
-	}
-
-	public void setShowDoneButton(boolean showDone) {
-		if (mMenuDone != null) {
-			mMenuDone.setEnabled(showDone);
-			mMenuDone.setVisible(showDone);
-		}
-	}
-
-	public void displayActionItemBasedOnState() {
-		if (mMode == null) {
-			return;
-		}
-		else if (mPos != null && mMode.equals(YoYoMode.YOYO)) {
-			switch (mPos) {
-			case ONE:
-				setShowNextButton(true);
-				setShowDoneButton(false);
-				break;
-			case TWO:
-				if (Db.getFlightSearch().getSelectedFlightTrip().isInternational()) {
-					setShowNextButton(true);
-					setShowDoneButton(false);
-				}
-				else {
-					setShowNextButton(false);
-					setShowDoneButton(true);
-				}
-				break;
-			case THREE:
-				setShowNextButton(false);
-				setShowDoneButton(true);
-				break;
-			case OPTIONS:
-				setShowNextButton(false);
-				setShowDoneButton(false);
-				break;
-			case SAVE:
-			case OVERWRITE_TRAVELER:
-			case SAVING:
-			default:
-				setShowNextButton(false);
-				setShowDoneButton(true);
-			}
-		}
-		else if (mMode.equals(YoYoMode.EDIT)) {
-			if (mPos.compareTo(YoYoPosition.OPTIONS) == 0) {
-				setShowNextButton(false);
-				setShowDoneButton(false);
-			}
-			else {
-				setShowNextButton(false);
-				setShowDoneButton(true);
-			}
-		}
-		else if (mMode.equals(YoYoMode.NONE)) {
-			setShowNextButton(false);
-			setShowDoneButton(false);
-		}
-	}
-
-	public void displayActionBarTitleBasedOnState() {
-		ActionBar actionBar = this.getSupportActionBar();
-		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP
-				| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
-		String titleStr = getString(R.string.traveler_information);
-		if (mPos != null) {
-			switch (mPos) {
-			case THREE:
-				titleStr = getString(R.string.passport);
-				break;
-			case ONE:
-			case TWO:
-			case SAVE:
-			case OVERWRITE_TRAVELER:
-			case SAVING:
-			case OPTIONS:
-			default:
-				titleStr = getString(R.string.traveler_information);
-			}
-		}
-		actionBar.setTitle(titleStr);
-	}
-
-	@Override
-	public void onBackPressed() {
-		if (!moveBackwards()) {
-			super.onBackPressed();
-		}
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		outState.putString(STATE_TAG_MODE, mMode.name());
-		outState.putString(STATE_TAG_DEST, mPos.name());
-		outState.putString(STATE_TAG_START_FIRST_NAME, mStartFirstName);
-		outState.putString(STATE_TAG_START_LAST_NAME, mStartLastName);
-		outState.putBoolean(STATE_TAG_SKIP_OVERVIEW, mSkipBackStackOverview);
-		super.onSaveInstanceState(outState);
-	}
-
-	@Override
-	public void onRestoreInstanceState(Bundle savedInstanceState) {
-		mMode = YoYoMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
-		mPos = YoYoPosition.valueOf(savedInstanceState.getString(STATE_TAG_DEST));
-		mStartFirstName = savedInstanceState.getString(STATE_TAG_START_FIRST_NAME) != null ? savedInstanceState
-				.getString(STATE_TAG_START_FIRST_NAME) : "";
-		mStartLastName = savedInstanceState.getString(STATE_TAG_START_LAST_NAME) != null ? savedInstanceState
-				.getString(STATE_TAG_START_LAST_NAME) : "";
-		mSkipBackStackOverview = savedInstanceState.getBoolean(STATE_TAG_SKIP_OVERVIEW);
-
-		super.onRestoreInstanceState(savedInstanceState);
 	}
 
 	@Override
@@ -325,20 +167,17 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
-	public boolean canOnlySelectNewTraveler() {
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		mMode = YoYoMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
+		mPos = YoYoPosition.valueOf(savedInstanceState.getString(STATE_TAG_DEST));
+		mStartFirstName = savedInstanceState.getString(STATE_TAG_START_FIRST_NAME) != null ? savedInstanceState
+				.getString(STATE_TAG_START_FIRST_NAME) : "";
+		mStartLastName = savedInstanceState.getString(STATE_TAG_START_LAST_NAME) != null ? savedInstanceState
+				.getString(STATE_TAG_START_LAST_NAME) : "";
+		mSkipBackStackOverview = savedInstanceState.getBoolean(STATE_TAG_SKIP_OVERVIEW);
 
-		//Is the user logged in and has associated travelers?
-		if (BookingInfoUtils.getAlternativeTravelers(this).size() > 0) {
-			return false;
-		}
-
-		//Does the current traveler have a name entered?
-		Traveler currentTraveler = Db.getTravelers().get(mTravelerIndex);
-		if (currentTraveler.hasName()) {
-			return false;
-		}
-
-		return true;
+		super.onRestoreInstanceState(savedInstanceState);
 	}
 
 	@Override
@@ -365,6 +204,23 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 	}
 
 	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		outState.putString(STATE_TAG_MODE, mMode.name());
+		outState.putString(STATE_TAG_DEST, mPos.name());
+		outState.putString(STATE_TAG_START_FIRST_NAME, mStartFirstName);
+		outState.putString(STATE_TAG_START_LAST_NAME, mStartLastName);
+		outState.putBoolean(STATE_TAG_SKIP_OVERVIEW, mSkipBackStackOverview);
+		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (!moveBackwards()) {
+			super.onBackPressed();
+		}
+	}
+
+	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
 		if (mOneFragment != null) {
 			mOneFragment.onInteraction();
@@ -373,39 +229,136 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		return super.dispatchTouchEvent(ev);
 	}
 
-	public boolean validate(Validatable validatable) {
-		if (validatable == null) {
-			return false;
-		}
-		else {
-			return validatable.validate();
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// ActionBar/Menu
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.menu_yoyo, menu);
+		mMenuNext = ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_next);
+		mMenuDone = ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_done);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			return moveBackwards();
+		case R.id.menu_next:
+		case R.id.menu_done:
+			moveForward();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
 		}
 	}
 
-	private boolean workingTravelerNameChanged() {
-		if (Db.getWorkingTravelerManager().getBaseTraveler() != null) {
-			Traveler working = Db.getWorkingTravelerManager().getWorkingTraveler();
-			if (mStartFirstName.trim().compareTo(working.getFirstName().trim()) == 0
-					&& mStartLastName.trim().compareTo(working.getLastName().trim()) == 0) {
-				return false;
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		if (menu != null) {
+			mMenuNext = menu.findItem(R.id.menu_next);
+			mMenuDone = menu.findItem(R.id.menu_done);
+
+			displayActionBarTitleBasedOnState();
+			displayActionItemBasedOnState();
+
+		}
+
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+	private void displayActionItemBasedOnState() {
+		if (mMode == null) {
+			return;
+		}
+		else if (mPos != null && mMode.equals(YoYoMode.YOYO)) {
+			switch (mPos) {
+			case ONE:
+				setShowNextButton(true);
+				setShowDoneButton(false);
+				break;
+			case TWO:
+				if (Db.getFlightSearch().getSelectedFlightTrip().isInternational()) {
+					setShowNextButton(true);
+					setShowDoneButton(false);
+				}
+				else {
+					setShowNextButton(false);
+					setShowDoneButton(true);
+				}
+				break;
+			case THREE:
+				setShowNextButton(false);
+				setShowDoneButton(true);
+				break;
+			case OPTIONS:
+				setShowNextButton(false);
+				setShowDoneButton(false);
+				break;
+			case SAVE:
+			case OVERWRITE_TRAVELER:
+			case SAVING:
+			default:
+				setShowNextButton(false);
+				setShowDoneButton(true);
+			}
+		}
+		else if (mMode.equals(YoYoMode.EDIT)) {
+			if (mPos.compareTo(YoYoPosition.OPTIONS) == 0) {
+				setShowNextButton(false);
+				setShowDoneButton(false);
 			}
 			else {
-				return true;
+				setShowNextButton(false);
+				setShowDoneButton(true);
 			}
 		}
-		return false;
-	}
-
-	private boolean workingTravelerDiffersFromBase() {
-		if (Db.getWorkingTravelerManager().getBaseTraveler() != null) {
-			return Db.getWorkingTravelerManager().getWorkingTraveler()
-					.compareTo(Db.getWorkingTravelerManager().getBaseTraveler()) != 0;
+		else if (mMode.equals(YoYoMode.NONE)) {
+			setShowNextButton(false);
+			setShowDoneButton(false);
 		}
-		return false;
 	}
 
-	//////////////////////////////////////////
-	////
+	private void setShowNextButton(boolean showNext) {
+		if (mMenuNext != null) {
+			mMenuNext.setEnabled(showNext);
+			mMenuNext.setVisible(showNext);
+		}
+	}
+
+	private void setShowDoneButton(boolean showDone) {
+		if (mMenuDone != null) {
+			mMenuDone.setEnabled(showDone);
+			mMenuDone.setVisible(showDone);
+		}
+	}
+
+	private void displayActionBarTitleBasedOnState() {
+		ActionBar actionBar = this.getSupportActionBar();
+		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP
+				| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
+		String titleStr = getString(R.string.traveler_information);
+		if (mPos != null) {
+			switch (mPos) {
+			case THREE:
+				titleStr = getString(R.string.passport);
+				break;
+			case ONE:
+			case TWO:
+			case SAVE:
+			case OVERWRITE_TRAVELER:
+			case SAVING:
+			case OPTIONS:
+			default:
+				titleStr = getString(R.string.traveler_information);
+			}
+		}
+		actionBar.setTitle(titleStr);
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// YoYo listener
 
 	@Override
 	public void moveForward() {
@@ -556,7 +509,40 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 
 	}
 
-	public boolean workingTravelerRequiresOverwritePrompt() {
+	// moveForward helper methods
+
+	private boolean validate(Validatable validatable) {
+		if (validatable == null) {
+			return false;
+		}
+		else {
+			return validatable.validate();
+		}
+	}
+
+	private boolean workingTravelerNameChanged() {
+		if (Db.getWorkingTravelerManager().getBaseTraveler() != null) {
+			Traveler working = Db.getWorkingTravelerManager().getWorkingTraveler();
+			if (mStartFirstName.trim().compareTo(working.getFirstName().trim()) == 0
+					&& mStartLastName.trim().compareTo(working.getLastName().trim()) == 0) {
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean workingTravelerDiffersFromBase() {
+		if (Db.getWorkingTravelerManager().getBaseTraveler() != null) {
+			return Db.getWorkingTravelerManager().getWorkingTraveler()
+					.compareTo(Db.getWorkingTravelerManager().getBaseTraveler()) != 0;
+		}
+		return false;
+	}
+
+	private boolean workingTravelerRequiresOverwritePrompt() {
 		boolean travelerAlreadyExistsOnAccount = false;
 		Traveler workingTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
 		if (workingTraveler.getSaveTravelerToExpediaAccount() && User.isLoggedIn(mContext)
@@ -758,37 +744,6 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		newFragment.show(getSupportFragmentManager(), SAVE_FRAGMENT_TAG);
 	}
 
-	private void closeSaveDialog() {
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		Fragment dialog = getSupportFragmentManager().findFragmentByTag(SAVE_FRAGMENT_TAG);
-		if (dialog != null) {
-			ft.remove(dialog);
-		}
-		ft.commit();
-	}
-
-	private void displaySavingDialog() {
-		mPos = YoYoPosition.SAVING;
-		ThrobberDialog df = ThrobberDialog.newInstance(getString(R.string.saving_traveler));
-		df.setCancelable(false);
-		df.show(this.getSupportFragmentManager(), DIALOG_SAVING_TRAVELER);
-	}
-
-	private void displayOverwriteDialog() {
-		mPos = YoYoPosition.OVERWRITE_TRAVELER;
-		OverwriteExistingTravelerDialogFragment df = OverwriteExistingTravelerDialogFragment.newInstance();
-		df.show(this.getSupportFragmentManager(), OverwriteExistingTravelerDialogFragment.TAG);
-	}
-
-	private void closeOverwriteDialog() {
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		Fragment dialog = getSupportFragmentManager().findFragmentByTag(OverwriteExistingTravelerDialogFragment.TAG);
-		if (dialog != null) {
-			ft.remove(dialog);
-		}
-		ft.commit();
-	}
-
 	@Override
 	public void displayCheckout() {
 		//First we commit our traveler stuff...
@@ -832,6 +787,54 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		}
 	}
 
+	// Private helper methods
+
+	private boolean canOnlySelectNewTraveler() {
+		//Is the user logged in and has associated travelers?
+		if (BookingInfoUtils.getAlternativeTravelers(this).size() > 0) {
+			return false;
+		}
+
+		//Does the current traveler have a name entered?
+		Traveler currentTraveler = Db.getTravelers().get(mTravelerIndex);
+		if (currentTraveler.hasName()) {
+			return false;
+		}
+
+		return true;
+	}
+
+	private void closeSaveDialog() {
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		Fragment dialog = getSupportFragmentManager().findFragmentByTag(SAVE_FRAGMENT_TAG);
+		if (dialog != null) {
+			ft.remove(dialog);
+		}
+		ft.commit();
+	}
+
+	private void displaySavingDialog() {
+		mPos = YoYoPosition.SAVING;
+		ThrobberDialog df = ThrobberDialog.newInstance(getString(R.string.saving_traveler));
+		df.setCancelable(false);
+		df.show(this.getSupportFragmentManager(), DIALOG_SAVING_TRAVELER);
+	}
+
+	private void displayOverwriteDialog() {
+		mPos = YoYoPosition.OVERWRITE_TRAVELER;
+		OverwriteExistingTravelerDialogFragment df = OverwriteExistingTravelerDialogFragment.newInstance();
+		df.show(this.getSupportFragmentManager(), OverwriteExistingTravelerDialogFragment.TAG);
+	}
+
+	private void closeOverwriteDialog() {
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		Fragment dialog = getSupportFragmentManager().findFragmentByTag(OverwriteExistingTravelerDialogFragment.TAG);
+		if (dialog != null) {
+			ft.remove(dialog);
+		}
+		ft.commit();
+	}
+
 	private void hideKeyboard() {
 		if (this.getCurrentFocus() != null) {
 			//Oh silly stupid InputMethodManager...
@@ -840,81 +843,4 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		}
 	}
 
-	public static class OverwriteExistingTravelerDialogFragment extends DialogFragment {
-
-		public static final String TAG = OverwriteExistingTravelerDialogFragment.class.getName();
-
-		TravelerInfoYoYoListener mListener;
-
-		public static OverwriteExistingTravelerDialogFragment newInstance() {
-			OverwriteExistingTravelerDialogFragment frag = new OverwriteExistingTravelerDialogFragment();
-			Bundle args = new Bundle();
-			frag.setArguments(args);
-			return frag;
-		}
-
-		@Override
-		public void onCreate(Bundle savedInstanceState) {
-			super.onCreate(savedInstanceState);
-			setCancelable(false);
-		}
-
-		@Override
-		public Dialog onCreateDialog(Bundle savedInstanceState) {
-			String workingTravelerName = Db.getWorkingTravelerManager().getWorkingTraveler().getFirstName() + " "
-					+ Db.getWorkingTravelerManager().getWorkingTraveler().getLastName();
-
-			AlertDialog dialog = new AlertDialog.Builder(getActivity())
-					.setCancelable(false)
-					.setTitle(R.string.cant_save_traveler)
-					.setMessage(
-							String.format(getString(R.string.you_already_have_traveler_TEMPLATE), workingTravelerName))
-					.setPositiveButton(R.string.overwrite, new OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							//We want to overwrite, so we go through, find the traveler with the same name and steal his/her tuid
-							if (User.isLoggedIn(getActivity()) && Db.getUser() != null
-									&& Db.getUser().getAssociatedTravelers() != null) {
-								for (Traveler trav : Db.getUser().getAssociatedTravelers()) {
-									if (Db.getWorkingTravelerManager().getWorkingTraveler().compareNameTo(trav) == 0) {
-										//We find the traveler with the same name, and steal his tuid
-										Db.getWorkingTravelerManager().getWorkingTraveler().setTuid(trav.getTuid());
-									}
-								}
-							}
-							mListener.moveForward();
-						}
-
-					})
-					.setNegativeButton(R.string.dont_save, new OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							Db.getWorkingTravelerManager().getWorkingTraveler().setSaveTravelerToExpediaAccount(false);
-							mListener.moveForward();
-						}
-					}).create();
-			dialog.setCanceledOnTouchOutside(false);
-			return dialog;
-		}
-
-		@Override
-		public void onAttach(Activity activity) {
-			super.onAttach(activity);
-
-			if (!(activity instanceof TravelerInfoYoYoListener)) {
-				throw new RuntimeException(
-						"OverwriteExistingTravelerDialogFragment activity must implement TravelerInfoYoYoListener!");
-			}
-
-			mListener = (TravelerInfoYoYoListener) activity;
-		}
-
-		@Override
-		public void onCancel(DialogInterface dialog) {
-			super.onCancel(dialog);
-			if (mListener != null) {
-				mListener.moveBackwards();
-			}
-		}
-	}
 }

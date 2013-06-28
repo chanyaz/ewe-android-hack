@@ -23,9 +23,9 @@ import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 
 public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity implements TravelerInfoYoYoListener {
+
 	public static final String OPTIONS_FRAGMENT_TAG = "OPTIONS_FRAGMENT_TAG";
 	public static final String ONE_FRAGMENT_TAG = "ONE_FRAGMENT_TAG";
-	public static final String SAVE_FRAGMENT_TAG = "SAVE_FRAGMENT_TAG";
 
 	public static final String STATE_TAG_MODE = "STATE_TAG_MODE";
 	public static final String STATE_TAG_DEST = "STATE_TAG_DEST";
@@ -53,115 +53,6 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 
 	public interface Validatable {
 		public boolean validate();
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_yoyo, menu);
-		mMenuDone = ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_done);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home: {
-			return moveBackwards();
-		}
-		case R.id.menu_done:
-			moveForward();
-			return true;
-		}
-
-		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		if (menu != null) {
-			mMenuDone = menu.findItem(R.id.menu_done);
-
-			displayActionBarTitleBasedOnState();
-			displayActionItemBasedOnState();
-
-		}
-
-		return super.onPrepareOptionsMenu(menu);
-	}
-
-	public void setShowDoneButton(boolean showDone) {
-		if (mMenuDone != null) {
-			mMenuDone.setEnabled(showDone);
-			mMenuDone.setVisible(showDone);
-		}
-	}
-
-	public void displayActionItemBasedOnState() {
-		if (mMode == null) {
-			return;
-		}
-		else if (mPos != null && mMode.equals(YoYoMode.YOYO)) {
-			switch (mPos) {
-			case ONE:
-			default:
-				setShowDoneButton(true);
-			}
-		}
-		else if (mMode.equals(YoYoMode.EDIT)) {
-			if (mPos.compareTo(YoYoPosition.OPTIONS) == 0) {
-				setShowDoneButton(true);
-			}
-			else {
-				setShowDoneButton(true);
-			}
-		}
-		else if (mMode.equals(YoYoMode.NONE)) {
-			setShowDoneButton(false);
-		}
-	}
-
-	public void displayActionBarTitleBasedOnState() {
-		ActionBar actionBar = this.getSupportActionBar();
-		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP
-				| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
-		String titleStr = getString(R.string.traveler_information);
-		if (mPos != null) {
-			switch (mPos) {
-			case ONE:
-			case OPTIONS:
-			default:
-				titleStr = getString(R.string.traveler_information);
-			}
-		}
-		actionBar.setTitle(titleStr);
-	}
-
-	@Override
-	public void onBackPressed() {
-		if (!moveBackwards()) {
-			super.onBackPressed();
-		}
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		outState.putString(STATE_TAG_MODE, mMode.name());
-		outState.putString(STATE_TAG_DEST, mPos.name());
-		outState.putString(STATE_TAG_START_FIRST_NAME, mStartFirstName);
-		outState.putString(STATE_TAG_START_LAST_NAME, mStartLastName);
-		super.onSaveInstanceState(outState);
-	}
-
-	@Override
-	public void onRestoreInstanceState(Bundle savedInstanceState) {
-		mMode = YoYoMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
-		mPos = YoYoPosition.valueOf(savedInstanceState.getString(STATE_TAG_DEST));
-		mStartFirstName = savedInstanceState.getString(STATE_TAG_START_FIRST_NAME) != null ? savedInstanceState
-				.getString(STATE_TAG_START_FIRST_NAME) : "";
-		mStartLastName = savedInstanceState.getString(STATE_TAG_START_LAST_NAME) != null ? savedInstanceState
-				.getString(STATE_TAG_START_LAST_NAME) : "";
-
-		super.onRestoreInstanceState(savedInstanceState);
 	}
 
 	@Override
@@ -213,6 +104,18 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 	}
 
 	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		mMode = YoYoMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
+		mPos = YoYoPosition.valueOf(savedInstanceState.getString(STATE_TAG_DEST));
+		mStartFirstName = savedInstanceState.getString(STATE_TAG_START_FIRST_NAME) != null ? savedInstanceState
+				.getString(STATE_TAG_START_FIRST_NAME) : "";
+		mStartLastName = savedInstanceState.getString(STATE_TAG_START_LAST_NAME) != null ? savedInstanceState
+				.getString(STATE_TAG_START_LAST_NAME) : "";
+
+		super.onRestoreInstanceState(savedInstanceState);
+	}
+
+	@Override
 	protected void onResume() {
 		super.onResume();
 		OmnitureTracking.onResume(this);
@@ -224,6 +127,106 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 		OmnitureTracking.onPause();
 	}
 
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		outState.putString(STATE_TAG_MODE, mMode.name());
+		outState.putString(STATE_TAG_DEST, mPos.name());
+		outState.putString(STATE_TAG_START_FIRST_NAME, mStartFirstName);
+		outState.putString(STATE_TAG_START_LAST_NAME, mStartLastName);
+		super.onSaveInstanceState(outState);
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// ActionBar/Menu
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.menu_yoyo, menu);
+		mMenuDone = ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_done);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home: {
+			return moveBackwards();
+		}
+		case R.id.menu_done:
+			moveForward();
+			return true;
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		if (menu != null) {
+			mMenuDone = menu.findItem(R.id.menu_done);
+
+			displayActionBarTitleBasedOnState();
+			displayActionItemBasedOnState();
+
+		}
+
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (!moveBackwards()) {
+			super.onBackPressed();
+		}
+	}
+
+	public void setShowDoneButton(boolean showDone) {
+		if (mMenuDone != null) {
+			mMenuDone.setEnabled(showDone);
+			mMenuDone.setVisible(showDone);
+		}
+	}
+
+	public void displayActionItemBasedOnState() {
+		if (mMode == null) {
+			return;
+		}
+		else if (mPos != null && mMode.equals(YoYoMode.YOYO)) {
+			switch (mPos) {
+			case ONE:
+			default:
+				setShowDoneButton(true);
+			}
+		}
+		else if (mMode.equals(YoYoMode.EDIT)) {
+			if (mPos.compareTo(YoYoPosition.OPTIONS) == 0) {
+				setShowDoneButton(true);
+			}
+			else {
+				setShowDoneButton(true);
+			}
+		}
+		else if (mMode.equals(YoYoMode.NONE)) {
+			setShowDoneButton(false);
+		}
+	}
+
+	public void displayActionBarTitleBasedOnState() {
+		ActionBar actionBar = this.getSupportActionBar();
+		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP
+				| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
+		String titleStr = getString(R.string.traveler_information);
+		if (mPos != null) {
+			switch (mPos) {
+			case ONE:
+			case OPTIONS:
+			default:
+				titleStr = getString(R.string.traveler_information);
+			}
+		}
+		actionBar.setTitle(titleStr);
+	}
+
 	public boolean validate(Validatable validatable) {
 		if (validatable == null) {
 			return false;
@@ -233,8 +236,8 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 		}
 	}
 
-	//////////////////////////////////////////
-	////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// YoYo listener
 
 	@Override
 	public void moveForward() {

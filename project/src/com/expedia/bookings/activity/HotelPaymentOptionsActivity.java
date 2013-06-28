@@ -28,6 +28,7 @@ import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.Ui;
 
 public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implements HotelPaymentYoYoListener {
+
 	public static final String OPTIONS_FRAGMENT_TAG = "OPTIONS_FRAGMENT_TAG";
 	public static final String CREDIT_CARD_FRAGMENT_TAG = "CREDIT_CARD_FRAGMENT_TAG";
 	public static final String SAVE_FRAGMENT_TAG = "SAVE_FRAGMENT_TAG";
@@ -57,209 +58,6 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 
 	public interface Validatable {
 		public boolean attemptToLeave();
-	}
-
-	private void hideKeyboard() {
-		if (this.getCurrentFocus() != null) {
-			//Oh silly stupid InputMethodManager...
-			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-		}
-	}
-
-	public void displayOptions() {
-		hideKeyboard();
-
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		mOptionsFragment = Ui.findSupportFragment(this, OPTIONS_FRAGMENT_TAG);
-		if (mOptionsFragment == null) {
-			mOptionsFragment = HotelPaymentOptionsFragment.newInstance();
-		}
-		if (!mOptionsFragment.isAdded()) {
-			ft.replace(android.R.id.content, mOptionsFragment, OPTIONS_FRAGMENT_TAG);
-			ft.commit();
-		}
-
-		mPos = YoYoPosition.OPTIONS;
-		mMode = YoYoMode.NONE;
-		supportInvalidateOptionsMenu();
-	}
-
-	public void displayCreditCard() {
-		mPos = YoYoPosition.CREDITCARD;
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		mCCFragment = Ui.findSupportFragment(this, CREDIT_CARD_FRAGMENT_TAG);
-		if (mCCFragment == null) {
-			mCCFragment = HotelPaymentCreditCardFragment.newInstance();
-		}
-		if (!mCCFragment.isAdded()) {
-			ft.replace(android.R.id.content, mCCFragment, CREDIT_CARD_FRAGMENT_TAG);
-			ft.commit();
-		}
-		supportInvalidateOptionsMenu();
-	}
-
-	public void displaySaveDialog() {
-		mBeforeSaveDialogPos = mPos;
-		mPos = YoYoPosition.SAVE;
-		supportInvalidateOptionsMenu();
-		DialogFragment newFragment = HotelPaymentSaveDialogFragment.newInstance();
-		newFragment.show(getSupportFragmentManager(), SAVE_FRAGMENT_TAG);
-	}
-
-	private void closeSaveDialog() {
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		Fragment dialog = getSupportFragmentManager().findFragmentByTag(SAVE_FRAGMENT_TAG);
-		if (dialog != null) {
-			ft.remove(dialog);
-		}
-		ft.commit();
-	}
-
-	public void displayCheckout() {
-		Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
-		Db.getWorkingBillingInfoManager().clearWorkingBillingInfo(this);
-		finish();
-	}
-
-	private boolean workingBillingInfoChanged() {
-		if (Db.getWorkingBillingInfoManager().getBaseBillingInfo() != null) {
-			return Db.getWorkingBillingInfoManager().getWorkingBillingInfo()
-					.compareTo(Db.getWorkingBillingInfoManager().getBaseBillingInfo()) != 0;
-		}
-		return false;
-	}
-
-	public void moveForward() {
-		if (mMode.equals(YoYoMode.YOYO)) {
-			switch (mPos) {
-			case OPTIONS:
-				displayCreditCard();
-				break;
-			case CREDITCARD:
-				if (validate(mCCFragment)) {
-					// 1281. VSC doesn't support saving credit cards.
-					if (User.isLoggedIn(this) && !ExpediaBookingApp.IS_VSC) {
-						displaySaveDialog();
-					}
-					else {
-						displayCheckout();
-					}
-				}
-				break;
-			case SAVE:
-				displayCheckout();
-				OmnitureTracking.trackPageLoadHotelsCheckoutPaymentEditSave(getApplicationContext());
-				break;
-			default:
-				Ui.showToast(this, "FAIL");
-				break;
-			}
-		}
-		else if (mMode.equals(YoYoMode.EDIT)) {
-			switch (mPos) {
-			case CREDITCARD:
-				if (validate(mCCFragment)) {
-					if (User.isLoggedIn(this)
-							&& !ExpediaBookingApp.IS_VSC // 1281. VSC doesn't support saving credit cards.
-							&& !Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getSaveCardToExpediaAccount()
-							&& workingBillingInfoChanged()) {
-						displaySaveDialog();
-					}
-					else {
-						Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
-								Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
-						displayOptions();
-					}
-				}
-				break;
-			case SAVE:
-				Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
-						Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
-				displayOptions();
-				break;
-			case OPTIONS:
-			default:
-				Ui.showToast(this, "FAIL");
-				break;
-			}
-		}
-		else if (mMode.equals(YoYoMode.NONE)) {
-			displayCheckout();
-		}
-	}
-
-	public void setMode(YoYoMode mode) {
-		mMode = mode;
-	}
-
-	public boolean moveBackwards() {
-		if (mMode.equals(YoYoMode.YOYO)) {
-			switch (mPos) {
-			case OPTIONS:
-				displayCheckout();
-				break;
-			case CREDITCARD:
-				//If we are backing up we want to restore the base billing info...
-				if (Db.getWorkingBillingInfoManager().getBaseBillingInfo() != null) {
-					Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
-							Db.getWorkingBillingInfoManager().getBaseBillingInfo());
-				}
-				displayOptions();
-				break;
-			case SAVE:
-				closeSaveDialog();
-				displayCreditCard();
-				break;
-			default:
-				Ui.showToast(this, "FAIL");
-				return false;
-			}
-		}
-		else if (mMode.equals(YoYoMode.EDIT)) {
-			switch (mPos) {
-			case CREDITCARD:
-				//If we are backing up we want to restore the base billing info...
-				if (Db.getWorkingBillingInfoManager().getBaseBillingInfo() != null) {
-					Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
-							Db.getWorkingBillingInfoManager().getBaseBillingInfo());
-				}
-				displayOptions();
-				break;
-			case SAVE:
-				//Back on save means cancel
-				if (mBeforeSaveDialogPos != null) {
-					switch (mBeforeSaveDialogPos) {
-					case CREDITCARD:
-						displayCreditCard();
-						break;
-					default:
-						displayOptions();
-					}
-				}
-				else {
-					displayOptions();
-				}
-				break;
-			case OPTIONS:
-			default:
-				Ui.showToast(this, "FAIL");
-				return false;
-			}
-		}
-		else if (mMode.equals(YoYoMode.NONE)) {
-			displayCheckout();
-		}
-		return true;
-	}
-
-	public boolean validate(Validatable validatable) {
-		if (validatable == null) {
-			return false;
-		}
-		else {
-			return validatable.attemptToLeave();
-		}
 	}
 
 	@Override
@@ -321,6 +119,13 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 	}
 
 	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		mMode = YoYoMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
+		mPos = YoYoPosition.valueOf(savedInstanceState.getString(STATE_TAG_DEST));
+		super.onRestoreInstanceState(savedInstanceState);
+	}
+
+	@Override
 	protected void onResume() {
 		super.onResume();
 		OmnitureTracking.onResume(this);
@@ -331,6 +136,33 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 		super.onPause();
 		OmnitureTracking.onPause();
 	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		outState.putString(STATE_TAG_MODE, mMode.name());
+		outState.putString(STATE_TAG_DEST, mPos.name());
+		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (WalletFragment.isRequestCodeFromWalletFragment(requestCode)) {
+			mOptionsFragment.onActivityResult(requestCode, resultCode, data);
+		}
+		else {
+			super.onActivityResult(requestCode, resultCode, data);
+		}
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (!moveBackwards()) {
+			super.onBackPressed();
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// ActionBar/Menu
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -367,39 +199,21 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 		return super.onPrepareOptionsMenu(menu);
 	}
 
-	public boolean canOnlySelectNewCard() {
-		// Does the user have cards they could select?
-		if (BookingInfoUtils.getStoredCreditCards(this).size() > 0) {
-			return false;
-		}
-
-		//Has the user manually entered data already?
-		HotelPaymentFlowState validationState = HotelPaymentFlowState.getInstance(this);
-		boolean addressValid = validationState.hasValidBillingAddress(Db.getWorkingBillingInfoManager()
-				.getWorkingBillingInfo());
-		boolean cardValid = validationState.hasValidCardInfo(Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
-		if (addressValid && cardValid) {
-			return false;
-		}
-
-		return true;
-	}
-
-	public void setShowNextButton(boolean showNext) {
+	private void setShowNextButton(boolean showNext) {
 		if (mMenuNext != null) {
 			mMenuNext.setEnabled(showNext);
 			mMenuNext.setVisible(showNext);
 		}
 	}
 
-	public void setShowDoneButton(boolean showDone) {
+	private void setShowDoneButton(boolean showDone) {
 		if (mMenuDone != null) {
 			mMenuDone.setEnabled(showDone);
 			mMenuDone.setVisible(showDone);
 		}
 	}
 
-	public void displayActionItemBasedOnState() {
+	private void displayActionItemBasedOnState() {
 		if (mMode == null) {
 			return;
 		}
@@ -440,7 +254,7 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 		}
 	}
 
-	public void displayActionBarTitleBasedOnState() {
+	private void displayActionBarTitleBasedOnState() {
 		ActionBar actionBar = this.getSupportActionBar();
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP
 				| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
@@ -464,34 +278,239 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 		}
 	}
 
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// YoYo listener
+
 	@Override
-	public void onBackPressed() {
-		if (!moveBackwards()) {
-			super.onBackPressed();
+	public void moveForward() {
+		if (mMode.equals(YoYoMode.YOYO)) {
+			switch (mPos) {
+			case OPTIONS:
+				displayCreditCard();
+				break;
+			case CREDITCARD:
+				if (validate(mCCFragment)) {
+					// 1281. VSC doesn't support saving credit cards.
+					if (User.isLoggedIn(this) && !ExpediaBookingApp.IS_VSC) {
+						displaySaveDialog();
+					}
+					else {
+						displayCheckout();
+					}
+				}
+				break;
+			case SAVE:
+				displayCheckout();
+				OmnitureTracking.trackPageLoadHotelsCheckoutPaymentEditSave(getApplicationContext());
+				break;
+			default:
+				Ui.showToast(this, "FAIL");
+				break;
+			}
+		}
+		else if (mMode.equals(YoYoMode.EDIT)) {
+			switch (mPos) {
+			case CREDITCARD:
+				if (validate(mCCFragment)) {
+					if (User.isLoggedIn(this)
+							&& !ExpediaBookingApp.IS_VSC // 1281. VSC doesn't support saving credit cards.
+							&& !Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getSaveCardToExpediaAccount()
+							&& workingBillingInfoChanged()) {
+						displaySaveDialog();
+					}
+					else {
+						Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
+								Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+						displayOptions();
+					}
+				}
+				break;
+			case SAVE:
+				Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
+						Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+				displayOptions();
+				break;
+			case OPTIONS:
+			default:
+				Ui.showToast(this, "FAIL");
+				break;
+			}
+		}
+		else if (mMode.equals(YoYoMode.NONE)) {
+			displayCheckout();
 		}
 	}
 
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		outState.putString(STATE_TAG_MODE, mMode.name());
-		outState.putString(STATE_TAG_DEST, mPos.name());
-		super.onSaveInstanceState(outState);
-	}
+	// moveForward helper methods
 
-	@Override
-	public void onRestoreInstanceState(Bundle savedInstanceState) {
-		mMode = YoYoMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
-		mPos = YoYoPosition.valueOf(savedInstanceState.getString(STATE_TAG_DEST));
-		super.onRestoreInstanceState(savedInstanceState);
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (WalletFragment.isRequestCodeFromWalletFragment(requestCode)) {
-			mOptionsFragment.onActivityResult(requestCode, resultCode, data);
+	private boolean validate(Validatable validatable) {
+		if (validatable == null) {
+			return false;
 		}
 		else {
-			super.onActivityResult(requestCode, resultCode, data);
+			return validatable.attemptToLeave();
 		}
 	}
+
+	private boolean workingBillingInfoChanged() {
+		if (Db.getWorkingBillingInfoManager().getBaseBillingInfo() != null) {
+			return Db.getWorkingBillingInfoManager().getWorkingBillingInfo()
+					.compareTo(Db.getWorkingBillingInfoManager().getBaseBillingInfo()) != 0;
+		}
+		return false;
+	}
+
+	@Override
+	public void setMode(YoYoMode mode) {
+		mMode = mode;
+	}
+
+	@Override
+	public boolean moveBackwards() {
+		if (mMode.equals(YoYoMode.YOYO)) {
+			switch (mPos) {
+			case OPTIONS:
+				displayCheckout();
+				break;
+			case CREDITCARD:
+				//If we are backing up we want to restore the base billing info...
+				if (Db.getWorkingBillingInfoManager().getBaseBillingInfo() != null) {
+					Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
+							Db.getWorkingBillingInfoManager().getBaseBillingInfo());
+				}
+				displayOptions();
+				break;
+			case SAVE:
+				closeSaveDialog();
+				displayCreditCard();
+				break;
+			default:
+				Ui.showToast(this, "FAIL");
+				return false;
+			}
+		}
+		else if (mMode.equals(YoYoMode.EDIT)) {
+			switch (mPos) {
+			case CREDITCARD:
+				//If we are backing up we want to restore the base billing info...
+				if (Db.getWorkingBillingInfoManager().getBaseBillingInfo() != null) {
+					Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
+							Db.getWorkingBillingInfoManager().getBaseBillingInfo());
+				}
+				displayOptions();
+				break;
+			case SAVE:
+				//Back on save means cancel
+				if (mBeforeSaveDialogPos != null) {
+					switch (mBeforeSaveDialogPos) {
+					case CREDITCARD:
+						displayCreditCard();
+						break;
+					default:
+						displayOptions();
+					}
+				}
+				else {
+					displayOptions();
+				}
+				break;
+			case OPTIONS:
+			default:
+				Ui.showToast(this, "FAIL");
+				return false;
+			}
+		}
+		else if (mMode.equals(YoYoMode.NONE)) {
+			displayCheckout();
+		}
+		return true;
+	}
+
+	private void closeSaveDialog() {
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		Fragment dialog = getSupportFragmentManager().findFragmentByTag(SAVE_FRAGMENT_TAG);
+		if (dialog != null) {
+			ft.remove(dialog);
+		}
+		ft.commit();
+	}
+
+	@Override
+	public void displayOptions() {
+		hideKeyboard();
+
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		mOptionsFragment = Ui.findSupportFragment(this, OPTIONS_FRAGMENT_TAG);
+		if (mOptionsFragment == null) {
+			mOptionsFragment = HotelPaymentOptionsFragment.newInstance();
+		}
+		if (!mOptionsFragment.isAdded()) {
+			ft.replace(android.R.id.content, mOptionsFragment, OPTIONS_FRAGMENT_TAG);
+			ft.commit();
+		}
+
+		mPos = YoYoPosition.OPTIONS;
+		mMode = YoYoMode.NONE;
+		supportInvalidateOptionsMenu();
+	}
+
+	@Override
+	public void displayCreditCard() {
+		mPos = YoYoPosition.CREDITCARD;
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		mCCFragment = Ui.findSupportFragment(this, CREDIT_CARD_FRAGMENT_TAG);
+		if (mCCFragment == null) {
+			mCCFragment = HotelPaymentCreditCardFragment.newInstance();
+		}
+		if (!mCCFragment.isAdded()) {
+			ft.replace(android.R.id.content, mCCFragment, CREDIT_CARD_FRAGMENT_TAG);
+			ft.commit();
+		}
+		supportInvalidateOptionsMenu();
+	}
+
+	@Override
+	public void displaySaveDialog() {
+		mBeforeSaveDialogPos = mPos;
+		mPos = YoYoPosition.SAVE;
+		supportInvalidateOptionsMenu();
+		DialogFragment newFragment = HotelPaymentSaveDialogFragment.newInstance();
+		newFragment.show(getSupportFragmentManager(), SAVE_FRAGMENT_TAG);
+	}
+
+	@Override
+	public void displayCheckout() {
+		Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
+		Db.getWorkingBillingInfoManager().clearWorkingBillingInfo(this);
+		finish();
+	}
+
+	// Private helper methods
+
+	private boolean canOnlySelectNewCard() {
+		// Does the user have cards they could select?
+		if (BookingInfoUtils.getStoredCreditCards(this).size() > 0) {
+			return false;
+		}
+
+		//Has the user manually entered data already?
+		HotelPaymentFlowState validationState = HotelPaymentFlowState.getInstance(this);
+		boolean addressValid = validationState.hasValidBillingAddress(Db.getWorkingBillingInfoManager()
+				.getWorkingBillingInfo());
+		boolean cardValid = validationState.hasValidCardInfo(Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+		if (addressValid && cardValid) {
+			return false;
+		}
+
+		return true;
+	}
+
+	private void hideKeyboard() {
+		if (this.getCurrentFocus() != null) {
+			//Oh silly stupid InputMethodManager...
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+		}
+	}
+
 }

@@ -38,10 +38,8 @@ import com.mobiata.android.util.ViewUtils;
 public class FlightTravelerInfoOptionsFragment extends Fragment {
 
 	private static final String TRAVELER_DETAILS_DOWNLOAD = "TRAVELER_DETAILS_DOWNLOAD";
-
 	private static final String DIALOG_LOADING_TRAVELER = "DIALOG_LOADING_TRAVELER";
 
-	View mOverviewBtn;
 	View mEnterManuallyBtn;
 	View mInternationalDivider;
 
@@ -64,16 +62,19 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 	TravelerInfoYoYoListener mListener;
 
 	public static FlightTravelerInfoOptionsFragment newInstance() {
-		FlightTravelerInfoOptionsFragment fragment = new FlightTravelerInfoOptionsFragment();
-		Bundle args = new Bundle();
-		fragment.setArguments(args);
-		return fragment;
+		return new FlightTravelerInfoOptionsFragment();
 	}
 
 	@Override
-	public void onStart() {
-		super.onStart();
-		OmnitureTracking.trackPageLoadFlightTravelerSelect(getActivity());
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		if (!(activity instanceof TravelerInfoYoYoListener)) {
+			throw new RuntimeException(
+					"FlightTravelerInfoOptiosnFragment activity must implement TravelerInfoYoYoListener!");
+		}
+
+		mListener = (TravelerInfoYoYoListener) activity;
 	}
 
 	@Override
@@ -183,6 +184,55 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		return v;
 	}
 
+	@Override
+	public void onStart() {
+		super.onStart();
+		OmnitureTracking.trackPageLoadFlightTravelerSelect(getActivity());
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		refreshCurrentTraveler();
+
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (bd.isDownloading(TRAVELER_DETAILS_DOWNLOAD)) {
+			bd.registerDownloadCallback(TRAVELER_DETAILS_DOWNLOAD, mTravelerDetailsCallback);
+		}
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		if (getActivity().isFinishing()) {
+			BackgroundDownloader.getInstance().cancelDownload(TRAVELER_DETAILS_DOWNLOAD);
+		}
+		else {
+			BackgroundDownloader.getInstance().unregisterDownloadCallback(TRAVELER_DETAILS_DOWNLOAD);
+		}
+	}
+
+	public interface TravelerInfoYoYoListener {
+		public void moveForward();
+
+		public void setMode(YoYoMode mode);
+
+		public boolean moveBackwards();
+
+		public void displayOptions();
+
+		public void displayTravelerEntryOne();
+
+		public void displayTravelerEntryTwo();
+
+		public void displayTravelerEntryThree();
+
+		public void displaySaveDialog();
+
+		public void displayCheckout();
+	}
+
 	private void toggleTravelerSection(final SectionTravelerInfo section, boolean enable) {
 		ImageView pic = Ui.findView(section, R.id.display_picture);
 
@@ -235,47 +285,36 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		}
 	}
 
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-
-		if (!(activity instanceof TravelerInfoYoYoListener)) {
-			throw new RuntimeException(
-					"FlightTravelerInfoOptiosnFragment activity must implement TravelerInfoYoYoListener!");
-		}
-
-		mListener = (TravelerInfoYoYoListener) activity;
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		if (getActivity().isFinishing()) {
-			BackgroundDownloader.getInstance().cancelDownload(TRAVELER_DETAILS_DOWNLOAD);
-		}
-		else {
-			BackgroundDownloader.getInstance().unregisterDownloadCallback(TRAVELER_DETAILS_DOWNLOAD);
-		}
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-
-		refreshCurrentTraveler();
-
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(TRAVELER_DETAILS_DOWNLOAD)) {
-			bd.registerDownloadCallback(TRAVELER_DETAILS_DOWNLOAD, mTravelerDetailsCallback);
+	private void onTravelerDetailsReceived(Traveler traveler) {
+		if (traveler != null) {
+			Db.getWorkingTravelerManager().shiftWorkingTraveler(traveler);
+			mCurrentTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
+			mCurrentTraveler.setSaveTravelerToExpediaAccount(!mCurrentTraveler.fromGoogleWallet());//We default account travelers to save, unless the user alters the name
+			TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
+			if (state.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler)) {
+				boolean flightIsInternational = Db.getFlightSearch().getSelectedFlightTrip().isInternational();
+				if (!flightIsInternational) {
+					mListener.displayCheckout();
+				}
+				else {
+					//Because we know we have valid domestic flight, we only need to check the third screen
+					if (state.hasValidTravelerPartThree(mCurrentTraveler)) {
+						mListener.displayCheckout();
+					}
+					else {
+						mListener.setMode(YoYoMode.YOYO);
+						mListener.displayTravelerEntryThree();
+					}
+				}
+			}
+			else {
+				mListener.setMode(YoYoMode.YOYO);
+				mListener.displayTravelerEntryOne();
+			}
 		}
 	}
 
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-	}
-
-	public void refreshCurrentTraveler() {
+	private void refreshCurrentTraveler() {
 		TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
 		boolean international = Db.getFlightSearch().getSelectedFlightTrip().isInternational();
 		boolean validDomesticTraveler = (state != null)
@@ -311,26 +350,6 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		mTravelerPrefs.bind(mCurrentTraveler);
 		mTravelerPassportCountry.bind(mCurrentTraveler);
 		mPartialTraveler.bind(mCurrentTraveler);
-	}
-
-	public interface TravelerInfoYoYoListener {
-		public void moveForward();
-
-		public void setMode(YoYoMode mode);
-
-		public boolean moveBackwards();
-
-		public void displayOptions();
-
-		public void displayTravelerEntryOne();
-
-		public void displayTravelerEntryTwo();
-
-		public void displayTravelerEntryThree();
-
-		public void displaySaveDialog();
-
-		public void displayCheckout();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -370,32 +389,4 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		}
 	};
 
-	private void onTravelerDetailsReceived(Traveler traveler) {
-		if (traveler != null) {
-			Db.getWorkingTravelerManager().shiftWorkingTraveler(traveler);
-			mCurrentTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
-			mCurrentTraveler.setSaveTravelerToExpediaAccount(!mCurrentTraveler.fromGoogleWallet());//We default account travelers to save, unless the user alters the name
-			TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
-			if (state.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler)) {
-				boolean flightIsInternational = Db.getFlightSearch().getSelectedFlightTrip().isInternational();
-				if (!flightIsInternational) {
-					mListener.displayCheckout();
-				}
-				else {
-					//Because we know we have valid domestic flight, we only need to check the third screen
-					if (state.hasValidTravelerPartThree(mCurrentTraveler)) {
-						mListener.displayCheckout();
-					}
-					else {
-						mListener.setMode(YoYoMode.YOYO);
-						mListener.displayTravelerEntryThree();
-					}
-				}
-			}
-			else {
-				mListener.setMode(YoYoMode.YOYO);
-				mListener.displayTravelerEntryOne();
-			}
-		}
-	}
 }

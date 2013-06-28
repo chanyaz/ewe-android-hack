@@ -26,22 +26,17 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 
 	Traveler mTraveler;
 	SectionTravelerInfo mSectionTravelerInfo;
-	int mTravelerIndex = -1;
 
 	boolean mAttemptToLeaveMade = false;
 
 	public static HotelTravelerInfoOneFragment newInstance() {
-		HotelTravelerInfoOneFragment fragment = new HotelTravelerInfoOneFragment();
-		Bundle args = new Bundle();
-		//TODO:Set args here..
-		fragment.setArguments(args);
-		return fragment;
+		return new HotelTravelerInfoOneFragment();
 	}
 
 	@Override
-	public void onStart() {
-		super.onStart();
-		OmnitureTracking.trackPageLoadHotelsTravelerEditInfo(getActivity());
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mAttemptToLeaveMade = false;
 	}
 
 	@Override
@@ -73,9 +68,9 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		mAttemptToLeaveMade = false;
+	public void onStart() {
+		super.onStart();
+		OmnitureTracking.trackPageLoadHotelsTravelerEditInfo(getActivity());
 	}
 
 	@Override
@@ -95,16 +90,6 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 		if (focused != null && focused instanceof EditText) {
 			FocusViewRunnable.focusView(this, focused);
 		}
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
 	}
 
 	@Override

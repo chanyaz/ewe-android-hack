@@ -36,22 +36,13 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 	boolean mAttemptToLeaveMade = false;
 
 	public static HotelPaymentCreditCardFragment newInstance() {
-		HotelPaymentCreditCardFragment fragment = new HotelPaymentCreditCardFragment();
-		Bundle args = new Bundle();
-		//TODO:Set args here..
-		fragment.setArguments(args);
-		return fragment;
+		return new HotelPaymentCreditCardFragment();
 	}
 
 	@Override
-	public void onStart() {
-		super.onStart();
-		OmnitureTracking.trackPageLoadHotelsCheckoutPaymentEditCard(getActivity());
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mAttemptToLeaveMade = false;
 	}
 
 	@Override
@@ -106,9 +97,9 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		mAttemptToLeaveMade = false;
+	public void onStart() {
+		super.onStart();
+		OmnitureTracking.trackPageLoadHotelsCheckoutPaymentEditCard(getActivity());
 	}
 
 	@Override
@@ -127,24 +118,9 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 	}
 
 	@Override
-	public void onPause() {
-		super.onPause();
-	}
-
-	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putBoolean(STATE_TAG_ATTEMPTED_LEAVE, mAttemptToLeaveMade);
-	}
-
-	@Override
-	public boolean attemptToLeave() {
-		mAttemptToLeaveMade = true;
-		return hasValidInput();
-	}
-
-	public void bindAll() {
-		mSectionBillingInfo.bind(mBillingInfo);
 	}
 
 	/**
@@ -152,9 +128,16 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 	 * account for the different combinations. SectionLocation is null when it is not required based on the POS, which
 	 * ultimately means that the location validation is successful (as it does not exist, heh).
 	 */
-	private boolean hasValidInput() {
+	@Override
+	public boolean attemptToLeave() {
+		mAttemptToLeaveMade = true;
 		boolean hasValidCreditCard = mSectionBillingInfo != null ? mSectionBillingInfo.hasValidInput() : false;
 		boolean hasValidPaymentLocation = mSectionLocation != null ? mSectionLocation.hasValidInput() : true;
 		return hasValidCreditCard && hasValidPaymentLocation;
 	}
+
+	public void bindAll() {
+		mSectionBillingInfo.bind(mBillingInfo);
+	}
+
 }
