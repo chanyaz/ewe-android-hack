@@ -422,7 +422,7 @@ public class HotelSearchParams implements JSONable {
 	}
 
 	public boolean hasRegionId() {
-		return mRegionId != null;
+		return mRegionId != null && !mRegionId.equals("0");
 	}
 
 	public void setFromWidget() {
