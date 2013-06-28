@@ -835,7 +835,12 @@ public class HotelsRobotHelper {
 				delay(1);
 				screenshot("Confirmation Screen 2");
 				mSolo.scrollToTop();
-				mSolo.clickOnText(mRes.getString(R.string.button_done));
+				try {
+					mSolo.clickOnText(mRes.getString(R.string.button_done));
+				}
+				catch (Error e) {
+					Log.e(TAG, "Can't press 'done' on confirmation screen.", e);
+				}
 				delay();
 				try {
 					String shop = mRes.getString(R.string.shop);
