@@ -241,6 +241,24 @@ public class AttractionBubbleView extends LinearLayout {
 		animatorSet.playTogether(scaleX, scaleY, alpha);
 		animatorSet.setInterpolator(new OvershootInterpolator());
 		animatorSet.setDuration(300);
+		animatorSet.addListener(new Animator.AnimatorListener() {
+			@Override
+			public void onAnimationStart(Animator animator) {
+			}
+
+			@Override
+			public void onAnimationEnd(Animator animator) {
+				requestLayout();
+			}
+
+			@Override
+			public void onAnimationCancel(Animator animator) {
+			}
+
+			@Override
+			public void onAnimationRepeat(Animator animator) {
+			}
+		});
 
 		return animatorSet;
 	};
