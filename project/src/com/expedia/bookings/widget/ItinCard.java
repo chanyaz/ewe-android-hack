@@ -24,6 +24,7 @@ import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
+import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
@@ -269,9 +270,15 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 		// Title
 		boolean wasNull = mHeaderView == null;
+		if (wasNull && mTitleContentLayout.getChildCount() > 0) {
+			Log.w("Somehow we were trying to re-add the title View even though we had a View to recycle; component type="
+					+ itinCardData.getTripComponentType() + " id=" + itinCardData.getId() + " itinCardId=" + toString());
+			mHeaderView = mTitleContentLayout.getChildAt(0);
+			wasNull = false;
+		}
+
 		mHeaderView = mItinContentGenerator.getTitleView(mHeaderView, mTitleContentLayout);
 		if (wasNull && mHeaderView != null) {
-			mTitleContentLayout.removeAllViews();
 			mTitleContentLayout.addView(mHeaderView);
 		}
 
@@ -302,9 +309,15 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 		// Summary text
 		wasNull = mSummaryView == null;
+		if (wasNull && mSummaryLayout.getChildCount() > 0) {
+			Log.w("Somehow we were trying to re-add the summary View even though we had a View to recycle; component type="
+					+ itinCardData.getTripComponentType() + " id=" + itinCardData.getId() + " itinCardId=" + toString());
+			mSummaryView = mSummaryLayout.getChildAt(0);
+			wasNull = false;
+		}
+
 		mSummaryView = mItinContentGenerator.getSummaryView(mSummaryView, mSummaryLayout);
 		if (wasNull && mSummaryView != null) {
-			mSummaryLayout.removeAllViews();
 			mSummaryLayout.addView(mSummaryView);
 		}
 
