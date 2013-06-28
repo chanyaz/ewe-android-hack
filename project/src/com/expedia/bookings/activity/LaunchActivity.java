@@ -569,7 +569,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 
 	@Override
 	public void onListModeChanged(boolean isInDetailMode, boolean animate) {
-		mViewPager.setPageSwipingEnabled(isInDetailMode);
+		mViewPager.setPageSwipingEnabled(!isInDetailMode);
 		if (isInDetailMode) {
 			if (getSupportActionBar().isShowing()) {
 				getSupportActionBar().hide();
