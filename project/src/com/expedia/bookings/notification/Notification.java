@@ -211,7 +211,8 @@ public class Notification extends Model implements JSONable {
 	}
 
 	public int getIconResId() {
-		return unmarshallResId(mIconId);
+		int resId = unmarshallResId(mIconId);
+		return resId == 0 ? R.drawable.ic_stat_expedia : resId;
 	}
 
 	public void setIconResId(int iconResId) {
@@ -262,7 +263,8 @@ public class Notification extends Model implements JSONable {
 	}
 
 	public int getImageResId() {
-		return unmarshallResId(mImageId);
+		int resId = unmarshallResId(mImageId);
+		return resId == 0 ? R.drawable.bg_itin_placeholder : resId;
 	}
 
 	public void setImageResId(int imageResId) {
@@ -512,7 +514,11 @@ public class Notification extends Model implements JSONable {
 	//////////////////////////////////////////////////////////////////////////
 	// Helpers
 
-	// Find the index of resId in sResIdMap
+	/**
+	 * Finds the index of resId in sResIdMap.
+	 * @param resId
+	 * @return index in sResIdMap
+	 */
 	private static int marshallResId(int resId) {
 		for (int i = 0; i < sResIdMap.length; i++) {
 			if (sResIdMap[i] == resId) {
@@ -523,10 +529,15 @@ public class Notification extends Model implements JSONable {
 		return 0;
 	}
 
-	// Return the resId, given its index in sResIdMap
+	/**
+	 * Returns the resId, given its index in sResIdMap.
+	 * In case of out of bounds, returns 0.
+	 * @param index
+	 * @return resId, or 0
+	 */
 	private static int unmarshallResId(int index) {
 		if (index < 0 || index > sResIdMap.length) {
-			return R.drawable.ic_stat_expedia;
+			return 0;
 		}
 		return sResIdMap[index];
 	}
