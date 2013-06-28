@@ -1126,7 +1126,7 @@ public class HotelsRobotHelper {
 		mSolo.clickOnText(mRes.getString(R.string.checkout_btn));
 
 		//log in and do a booking
-		logInAndBook(true, true);
+		logInAndBook(true, completeFlightBooking);
 
 		//if hotel booking switch is true, do a hotel booking 
 		//in that city
