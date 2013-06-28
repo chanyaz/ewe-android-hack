@@ -123,9 +123,8 @@
 
         <ImageView
             android:id="@+id/calendar_shadow"
-            android:layout_width="@dimen/standard_content_width"
+            style="@style/MarginPoint"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:scaleType="fitXY"
             android:src="@drawable/calendar_shadow" />
 
@@ -133,9 +132,8 @@
 
         <com.mobiata.android.widget.CalendarDatePicker
             android:id="@+id/calendar_date_picker"
-            android:layout_width="@dimen/standard_content_width"
+            style="@style/MarginPoint"
             android:layout_height="0dp"
-            android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             mobiata:allowHybridDragging="true"
             mobiata:calendarHeaderBackground="@color/calendar_header"

@@ -6,9 +6,8 @@
 
     <LinearLayout
         android:id="@+id/outer_container"
-        android:layout_width="@dimen/standard_content_width"
+        style="@style/MarginPoint"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:background="#28000000"
         android:gravity="center_horizontal"
         android:orientation="vertical"

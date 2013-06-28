@@ -40,10 +40,9 @@
 
                 <LinearLayout
                     android:id="@+id/trip_checkout_container"
-                    android:layout_width="@dimen/standard_content_width"
+                    style="@style/MarginPoint"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
                     android:orientation="vertical"
                     android:visibility="visible" />
 

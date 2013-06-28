@@ -13,10 +13,9 @@
 
     <RelativeLayout
         android:id="@+id/flight_legs_container"
-        android:layout_width="@dimen/standard_content_width"
+        style="@style/MarginPoint"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:orientation="vertical" >

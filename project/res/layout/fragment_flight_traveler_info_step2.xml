@@ -6,9 +6,8 @@
     android:fillViewport="true" >
 
     <FrameLayout
-        android:layout_width="@dimen/standard_content_width"
+        style="@style/MarginPoint"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:background="@color/flight_checkout_opaque_white"
         android:padding="8dp" >
 

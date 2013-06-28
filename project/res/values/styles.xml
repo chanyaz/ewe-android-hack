@@ -911,4 +911,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="MarginPoint">
+        <item name="android:layout_width">match_parent</item>
+    </style>
 </resources>
