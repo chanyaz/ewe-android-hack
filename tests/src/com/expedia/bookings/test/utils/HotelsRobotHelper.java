@@ -862,14 +862,15 @@ public class HotelsRobotHelper {
 		}
 	}
 
-	public void logInAndBook(boolean addNewCC) throws Exception {
+	public void logInAndBook(boolean addNewCC, boolean completeBooking) throws Exception {
 		bookingScreenShots();
 
 		logIn();
 		delay(1);
 		enterMissingInfo(addNewCC);
-
-		confirmAndBook(false);
+		if (completeBooking) {
+			confirmAndBook(false);
+		}
 
 	}
 
@@ -893,7 +894,7 @@ public class HotelsRobotHelper {
 			selectHotel(2);
 			pressBookRoom();
 			selectRoom(0);
-			logInAndBook(true);
+			logInAndBook(true, completeABooking);
 		}
 
 	}
@@ -1127,7 +1128,7 @@ public class HotelsRobotHelper {
 		mSolo.clickOnText(mRes.getString(R.string.checkout_btn));
 
 		//log in and do a booking
-		logInAndBook(completeFlightBooking);
+		logInAndBook(true, true);
 
 		//if hotel booking switch is true, do a hotel booking 
 		//in that city
