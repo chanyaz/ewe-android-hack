@@ -125,15 +125,12 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 			card.setCardSelected(mSimpleMode && data.getId().equals(mSelectedCardId));
 			card.setCardShaded(state == State.PAST);
-			card.bind(data);
-			card.setShowSummary(state == State.SUMMARY);
-
-			if (state == State.SUMMARY) {
-				card.updateSummaryVisibility();
-			}
+			card.setShowSummary(isItemASummaryCard(position));
 
 			card.setShowExtraTopPadding(position == 0);
 			card.setShowExtraBottomPadding(position == getCount() - 1);
+
+			card.bind(data);
 
 			return card;
 		}

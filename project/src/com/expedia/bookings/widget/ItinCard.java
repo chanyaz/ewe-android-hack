@@ -356,6 +356,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	public void setShowSummary(boolean showSummary) {
 		if (mShowSummary != showSummary) {
 			mShowSummary = showSummary;
+			updateSummaryVisibility();
 			updateHeaderImageHeight();
 		}
 	}
