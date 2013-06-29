@@ -192,4 +192,9 @@
     <attr name="calendarDatePickerCellDrawable" format="reference" />
     <attr name="calendarDatePickerPopupDrawable" format="reference" />
 
+    <!-- Hotel promo pricing related styling -->
+    <attr name="hotelListingSaleDrawable" format="reference" />
+    <attr name="hotelDetailSaleRibbonDrawable" format="reference" />
+    <attr name="roomsRatesSaleRibbonDrawable" format="reference" />
+
 </resources>
