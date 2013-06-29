@@ -607,8 +607,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	private void finishCollapse() {
 		setSelectionFromTop(mDetailPosition, mDetailsCardView.getCollapsedTop());
 		onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
-		mDetailsCardView.getLayoutParams().height = mDetailsCardView.getCollapsedHeight();
-		mDetailsCardView.requestLayout();
+		ResizeAnimator.setHeight(mDetailsCardView, mDetailsCardView.getCollapsedHeight());
 
 		mDetailPosition = -1;
 		mDetailsCardView = null;
@@ -781,8 +780,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	private void finishExpand(int expandedHeight) {
 		setSelectionFromTop(mDetailPosition, 0);
-		mDetailsCardView.getLayoutParams().height = expandedHeight;
-		mDetailsCardView.requestLayout();
+		ResizeAnimator.setHeight(mDetailsCardView, expandedHeight);
 		onScroll(ItinListView.this, mDetailPosition, getChildCount(), mAdapter.getCount());
 		trackOmnitureItinExpanded(mDetailsCardView);
 	}
