@@ -166,6 +166,8 @@
         <item name="costSummaryHeaderTextColor">@color/cost_summary_header_text_color</item>
         <item name="actionBarBackgroundDrawable">@drawable/bg_action_bar</item>
         <item name="ratingBarUserReviewStyle">@style/RatingBar.UserReview.White</item>
+        <item name="calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
+        <item name="calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
     </style>
 
     <style name="Theme.VSC" parent="@style/Theme.Expedia">
@@ -179,6 +181,8 @@
         <item name="costSummaryHeaderTextColor">@color/cost_summary_header_text_color_vsc</item>
         <item name="actionBarBackgroundDrawable">@drawable/bg_action_bar_vsc</item>
         <item name="ratingBarUserReviewStyle">@style/RatingBar.UserReview.Orange</item>
+        <item name="calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_vsc</item>
+        <item name="calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_orange</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
