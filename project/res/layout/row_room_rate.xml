@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:background="@drawable/rooms_rates_ribbon"
+        android:background="?attr/roomsRatesSaleRibbonDrawable"
         android:gravity="left|center_vertical"
         android:includeFontPadding="false"
         android:paddingLeft="15dp"
