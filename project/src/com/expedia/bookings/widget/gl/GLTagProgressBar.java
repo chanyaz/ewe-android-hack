@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget.gl;
 
+import java.lang.ref.WeakReference;
+
 import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 
 import com.expedia.bookings.widget.gl.GLTagProgressBarRenderer.OnDrawStartedListener;
+import com.mobiata.android.Log;
 
 public class GLTagProgressBar extends GLSurfaceView implements OnTouchListener {
 	//////////////////////////////////////////////////////////////////////////////////
@@ -103,10 +106,12 @@ public class GLTagProgressBar extends GLSurfaceView implements OnTouchListener {
 
 	public void setSensorManagerRegistration(boolean registered) {
 		if (registered) {
-			mSensorListenerProxy = new SensorListenerProxy();
+			Log.d("GLTagProgressBar SensorListenerProxy registered");
+			mSensorListenerProxy = new SensorListenerProxy(mRenderer, mOrientation);
 			mSensorManager.registerListener(mSensorListenerProxy, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 		}
 		else {
+			Log.d("GLTagProgressBar SensorListenerProxy unregistered");
 			mSensorManager.unregisterListener(mSensorListenerProxy);
 			mSensorListenerProxy = null;
 			reset();
@@ -124,7 +129,14 @@ public class GLTagProgressBar extends GLSurfaceView implements OnTouchListener {
 	 * http://code.google.com/p/android/issues/detail?id=15170
 	 */
 
-	private class SensorListenerProxy implements SensorEventListener {
+	private static class SensorListenerProxy implements SensorEventListener {
+		private WeakReference<GLTagProgressBarRenderer> mTarget;
+		private final int mOrientation;
+
+		public SensorListenerProxy(GLTagProgressBarRenderer renderer, int orientation) {
+			mTarget = new WeakReference<GLTagProgressBarRenderer>(renderer);
+			mOrientation = orientation;
+		}
 
 		@Override
 		public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -132,13 +144,14 @@ public class GLTagProgressBar extends GLSurfaceView implements OnTouchListener {
 
 		@Override
 		public void onSensorChanged(SensorEvent event) {
-			if (mRenderer == null) {
+			GLTagProgressBarRenderer renderer = mTarget.get();
+			if (renderer == null) {
+				Log.d("SensorListenerProxy renderer no longer exists. Either not unregistered or leaked.");
 				return;
 			}
 
 			final float[] acceleration = event.values.clone();
-			final int orientation = ((Activity) mContext).getWindowManager().getDefaultDisplay().getOrientation();
-			switch (orientation) {
+			switch (mOrientation) {
 				case Surface.ROTATION_90: {
 					acceleration[0] = -event.values[1];
 					acceleration[1] = event.values[0];
@@ -156,7 +169,7 @@ public class GLTagProgressBar extends GLSurfaceView implements OnTouchListener {
 				}
 			}
 
-			mRenderer.setAcceleration(acceleration[0] * -1, acceleration[1] * -1, acceleration[2] * -1);
+			renderer.setAcceleration(acceleration[0] * -1, acceleration[1] * -1, acceleration[2] * -1);
 		}
 
 	}

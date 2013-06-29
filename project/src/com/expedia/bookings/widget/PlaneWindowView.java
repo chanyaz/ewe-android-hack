@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget;
 
+import java.lang.ref.WeakReference;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -514,7 +516,7 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 				if (rendering) {
 					if (!mIsGrounded) {
 						Sensor accelerometer = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-						mSensorListenerProxy = new SensorListenerProxy();
+						mSensorListenerProxy = new SensorListenerProxy(mThread);
 						sm.registerListener(mSensorListenerProxy, accelerometer, SensorManager.SENSOR_DELAY_UI);
 					}
 
@@ -778,7 +780,12 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 	 * http://code.google.com/p/android/issues/detail?id=15170
 	 */
 
-	private class SensorListenerProxy implements SensorEventListener {
+	private static class SensorListenerProxy implements SensorEventListener {
+		private WeakReference<PlaneThread> mTarget;
+
+		public SensorListenerProxy(PlaneThread thread) {
+			mTarget = new WeakReference<PlaneThread>(thread);
+		}
 
 		@Override
 		public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -787,9 +794,10 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 
 		@Override
 		public void onSensorChanged(SensorEvent event) {
-			if (mThread != null) {
+			PlaneThread thread = mTarget.get();
+			if (thread != null) {
 				float sensorX = 0;
-				switch (mThread.mDisplayRotation) {
+				switch (thread.mDisplayRotation) {
 				case Surface.ROTATION_0:
 					sensorX = event.values[0];
 					break;
@@ -804,8 +812,11 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 					break;
 				}
 
-				mThread.mSensorX = sensorX / SensorManager.GRAVITY_EARTH;
-				mThread.mSensorZ = -event.values[2] / SensorManager.GRAVITY_EARTH;
+				thread.mSensorX = sensorX / SensorManager.GRAVITY_EARTH;
+				thread.mSensorZ = -event.values[2] / SensorManager.GRAVITY_EARTH;
+			}
+			else {
+				Log.d("PlaneWindowView SensorListenerProxy PlaneThread was null. Either forgot to unregister or leaked");
 			}
 		}
 	}
