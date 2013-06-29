@@ -188,4 +188,8 @@
     <!-- Ratingbar style in UserReviewsListActivity -->
     <attr name="ratingBarUserReviewStyle" format="reference" />
 
+    <!-- Hotel calendar related styling -->
+    <attr name="calendarDatePickerCellDrawable" format="reference" />
+    <attr name="calendarDatePickerPopupDrawable" format="reference" />
+
 </resources>
