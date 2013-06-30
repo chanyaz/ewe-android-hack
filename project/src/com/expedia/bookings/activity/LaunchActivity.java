@@ -95,8 +95,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 		// Even though we don't use the url directly anywhere, Android OS needs a way
 		// to differentiate multiple intents to this same activity.
 		// http://developer.android.com/reference/android/content/Intent.html#filterEquals(android.content.Intent)
-		String uriString = "expedia://notification/launch/" + notification.getUniqueId();
-		intent.setData(Uri.parse(uriString));
+		intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
 
 		return intent;
 	}
