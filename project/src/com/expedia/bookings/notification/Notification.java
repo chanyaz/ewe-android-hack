@@ -536,7 +536,7 @@ public class Notification extends Model implements JSONable {
 	 * @return resId, or 0
 	 */
 	private static int unmarshallResId(int index) {
-		if (index < 0 || index > sResIdMap.length) {
+		if (index < 0 || index >= sResIdMap.length) {
 			return 0;
 		}
 		return sResIdMap[index];
