@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.mobiata.android.widget.SegmentedControlGroup
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.mobiata.android.widget.SegmentedControlGroup xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mobiata="http://schemas.android.com/apk/res-auto"
     android:id="@+id/price_filter_button_group"
     style="@style/Widget.SegmentedControlGroup.DarkFilterControls"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="horizontal"
-    android:gravity="center" >
+    android:gravity="center"
+    android:orientation="horizontal" >
 
     <RadioButton
         android:id="@+id/price_cheap_button"
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="1"
+        android:contentDescription="@string/cd_filter_for_low_range_hotel_prices"
         android:text="@string/filter_price_cheap"
         android:textStyle="bold" />
 
@@ -22,6 +22,7 @@
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="1"
+        android:contentDescription="@string/cd_filter_for_mid_range_hotel_prices"
         android:text="@string/filter_price_moderate"
         android:textStyle="bold" />
 
@@ -30,6 +31,7 @@
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="1"
+        android:contentDescription="@string/cd_filter_for_high_range_hotel_prices"
         android:text="@string/filter_price_expensive"
         android:textStyle="bold" />
 
@@ -39,6 +41,7 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:checked="true"
+        android:contentDescription="@string/cd_filter_remove_hotel_price_filters"
         android:text="@string/all"
         android:textStyle="bold" />
 

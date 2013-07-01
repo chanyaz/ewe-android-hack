@@ -79,6 +79,7 @@
                         android:id="@+id/traveler_info_btn"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
+                        android:contentDescription="@string/cd_checkout_add_traveler"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:visibility="visible" >
@@ -129,6 +130,7 @@
                         android:id="@+id/payment_info_btn"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
+                        android:contentDescription="@string/cd_checkout_select_payment"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:visibility="visible" >
