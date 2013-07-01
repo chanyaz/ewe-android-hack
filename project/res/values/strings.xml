@@ -2554,6 +2554,8 @@
     <string name="cd_trips_log_in_for_your_trips">@string/log_in_for_your_trips</string>
     <!-- Content description for action: Enter Itinerary Number (reference to existing string) -->
     <string name="cd_trips_enter_itinerary_number">@string/enter_itinerary_number</string>
+    <!-- Content description for action: Press to refresh trips list -->
+    <string name="cd_trips_refresh_trips_list">Press to refresh trips list</string>
     <!-- Hotel Search Screen -->
     <!-- Content description for action: Enter text into Hotel Search Field -->
     <string name="cd_hotel_search_edittext">Enter text into hotel search Field</string>
