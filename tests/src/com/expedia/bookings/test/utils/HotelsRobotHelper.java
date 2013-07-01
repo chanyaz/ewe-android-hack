@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.jayway.android.robotium.solo.Solo;
@@ -827,6 +828,12 @@ public class HotelsRobotHelper {
 			if (screenLoaded) {
 				enterLog(TAG, "Booking: Should be on confirmation screen now.");
 				delay();
+
+				// Get and log itinerary number
+				TextView itineraryTextView = (TextView) mSolo.getView(R.id.itinerary_text_view);
+				String itineraryNumber = (String) itineraryTextView.getText();
+				Log.d(TAG, "Robotium: Itinerary number is " + itineraryNumber);
+
 				screenshot("Confirmation Screen 1");
 				landscape();
 				delay(1);
