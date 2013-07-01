@@ -196,34 +196,20 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		// Add Items
 		mItinCardDatasSync.addAll(mItinManager.getItinCardData());
 
-		// Do some calculations on the data
-		Pair<Integer, Integer> summaryCardPositions = organizeData(mItinCardDatasSync);
-
 		// Add hotel attach cards
-		final boolean addedHotelAttach = addHotelAttachData(mItinCardDatasSync);
+		addHotelAttachData(mItinCardDatasSync);
 
 		// Add local expert cards
-		final boolean addedLocalExpert = addLocalExpertData(mItinCardDatasSync, summaryCardPositions.first);
+		addLocalExpertData(mItinCardDatasSync);
+
+		// Do some calculations on the data
+		Pair<Integer, Integer> summaryCardPositions = organizeData(mItinCardDatasSync);
 
 		// Add to actual data
 		mItinCardDatas.clear();
 		mItinCardDatas.addAll(mItinCardDatasSync);
 		mSummaryCardPosition = summaryCardPositions.first;
 		mAltSummaryCardPosition = summaryCardPositions.second;
-
-		// If we added to the itin list by adding a HA item, bump the summary
-		// card positions, but only if they are set (greater than -1)
-		if (addedHotelAttach) {
-			mSummaryCardPosition += mSummaryCardPosition < 0 ? 0 : 1;
-			mAltSummaryCardPosition += mAltSummaryCardPosition < 0 ? 0 : 1;
-		}
-
-		// If we added to the itin list by adding a LE item, bump the summary
-		// card positions, but only if they are set (greater than -1)
-		if (addedLocalExpert) {
-			mSummaryCardPosition += mSummaryCardPosition < 0 ? 0 : 1;
-			mAltSummaryCardPosition += mAltSummaryCardPosition < 0 ? 0 : 1;
-		}
 
 		//Notify listeners
 		notifyDataSetChanged();
@@ -418,16 +404,16 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		return new Pair<Integer, Integer>(summaryCardPosition, altSummaryCardPosition);
 	}
 
-	private boolean addHotelAttachData(List<ItinCardData> itinCardDatas) {
+	private void addHotelAttachData(List<ItinCardData> itinCardDatas) {
 		// Is Hotel Attach turned off?
 		if (SettingUtils.get(mContext, R.string.setting_hide_hotel_attach, false)) {
-			return false;
+			return;
 		}
 
 		// Nothing to do if there are no itineraries
 		int len = itinCardDatas.size();
 		if (len == 0) {
-			return false;
+			return;
 		}
 
 		// Get previously dismissed buttons
@@ -480,7 +466,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 							// Add HA button
 							itinCardDatas.add(i + 1, new ItinCardDataHotelAttach(tripFlight, firstLeg, secondLeg));
 
-							return true;
+							return;
 						}
 					}
 
@@ -489,20 +475,18 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				}
 			}
 		}
-
-		return false;
 	}
 
-	private boolean addLocalExpertData(List<ItinCardData> itinCardDatas, int summaryCardPosition) {
+	private void addLocalExpertData(List<ItinCardData> itinCardDatas) {
 		// Is Local Expert turned off?
 		if (SettingUtils.get(mContext, R.string.setting_hide_local_expert, false)) {
-			return false;
+			return;
 		}
 
 		// Nothing to do if there are no itineraries
 		int len = itinCardDatas.size();
-		if (len == 0 || summaryCardPosition < 0) {
-			return false;
+		if (len == 0) {
+			return;
 		}
 
 		// Get previously dismissed buttons
@@ -536,10 +520,8 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			// Add LE button
 			itinCardDatas.add(i + 1, new ItinCardDataLocalExpert((TripHotel) data.getTripComponent()));
 
-			return true;
+			return;
 		}
-
-		return false;
 	}
 
 	// Used only for Omniture tracking
