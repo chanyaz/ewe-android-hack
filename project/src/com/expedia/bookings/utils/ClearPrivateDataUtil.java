@@ -13,6 +13,7 @@ import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.Log;
+import com.mobiata.android.bitmaps.TwoLevelImageCache;
 import com.mobiata.android.util.SettingUtils;
 
 public class ClearPrivateDataUtil {
@@ -69,6 +70,9 @@ public class ClearPrivateDataUtil {
 		SettingUtils.remove(context, R.string.setting_hide_hotel_attach);
 		SettingUtils.remove(context, R.string.setting_hide_local_expert);
 		DismissedItinButton.clear();
+
+		// Clear image cache, why not
+		TwoLevelImageCache.clearMemoryCache();
 
 		// Clear anything else out that might remain
 		Db.clear();
