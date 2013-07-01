@@ -228,7 +228,18 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 			}
 
 			LayoutParams lp = (LayoutParams) tv.getLayoutParams();
-			lp.setGravity(mIsLeft ? Gravity.LEFT : Gravity.RIGHT);
+
+			if (mIsLeft) {
+				lp.width = 0;
+				lp.setGravity(Gravity.FILL_HORIZONTAL);
+			}
+			else {
+				// #1401: This is a quick hack to get the rate breakdown dialog working; without
+				// a well-defined width for the price, the whole thing goes out of whack.  We
+				// should be redoing this entire dialog in #1445 later though.
+				lp.width = Math.round(getResources().getDisplayMetrics().density * 108);
+				tv.setGravity(Gravity.RIGHT);
+			}
 
 			if (mMarginLeft != 0) {
 				lp.leftMargin = mMarginLeft;
