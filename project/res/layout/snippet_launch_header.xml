@@ -12,7 +12,8 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@drawable/bg_launch_link_tile_header" >
+        android:background="@drawable/bg_launch_link_tile_header"
+        android:contentDescription="@string/cd_launch_hotels" >
 
         <ImageView
             android:id="@+id/big_hotel_icon"
@@ -59,7 +60,8 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@drawable/bg_launch_link_tile_header" >
+        android:background="@drawable/bg_launch_link_tile_header"
+        android:contentDescription="@string/cd_launch_flights" >
 
         <ImageView
             android:id="@+id/big_flights_icon"
