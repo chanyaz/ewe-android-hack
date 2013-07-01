@@ -782,6 +782,7 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 
 	private static class SensorListenerProxy implements SensorEventListener {
 		private WeakReference<PlaneThread> mTarget;
+		private boolean mLostTarget = false; // Just so there isn't infinite logging
 
 		public SensorListenerProxy(PlaneThread thread) {
 			mTarget = new WeakReference<PlaneThread>(thread);
@@ -816,7 +817,10 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 				thread.mSensorZ = -event.values[2] / SensorManager.GRAVITY_EARTH;
 			}
 			else {
-				Log.d("PlaneWindowView SensorListenerProxy PlaneThread was null. Either forgot to unregister or leaked");
+				if (!mLostTarget) {
+					Log.d("PlaneWindowView SensorListenerProxy PlaneThread was null. Either forgot to unregister or leaked");
+					mLostTarget = true;
+				}
 			}
 		}
 	}
