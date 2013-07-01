@@ -8,4 +8,7 @@
 	<dimen name="cvv_keypad_text_size">28dp</dimen>
 	<dimen name="cvv_keypad_book_text_size">18dp</dimen>
 
+    <!-- LocalExpert -->
+    <dimen name="attraction_bubble_start_text_size">48dp</dimen>
+
 </resources>

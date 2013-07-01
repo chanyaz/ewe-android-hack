@@ -157,6 +157,10 @@ public class AttractionBubbleView extends LinearLayout {
 		mFirstLineTextSize = h / 15;
 		mSecondLineTextSize = h / 6;
 
+		final int textViewPadding = w / 10;
+		mFirstLineTextView.setPadding(textViewPadding, 0, textViewPadding, 0);
+		mSecondLineTextView.setPadding(textViewPadding, 0, textViewPadding, 0);
+
 		setPadding(0, 0, 0, h / 20);
 	}
 

@@ -6,24 +6,20 @@
         android:id="@+id/first_line_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"
         android:gravity="center"
         android:singleLine="true"
         android:textColor="@color/local_expert_primary_text"
-        android:textSize="24dp"
+        android:textSize="@dimen/attraction_bubble_start_text_size"
         app:textAllCaps="true"/>
 
     <com.expedia.bookings.widget.AutoResizeTextView
         android:id="@+id/second_line_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         android:gravity="center"
         android:singleLine="true"
         android:textColor="@color/local_expert_primary_text"
-        android:textSize="48dp"
+        android:textSize="@dimen/attraction_bubble_start_text_size"
         app:textAllCaps="true"/>
 
     <ImageView
