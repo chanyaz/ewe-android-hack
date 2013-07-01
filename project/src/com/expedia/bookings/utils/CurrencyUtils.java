@@ -147,6 +147,12 @@ public class CurrencyUtils {
 		else if (type.equals("Visa") || type.equals("Visa Electron")) {
 			return CreditCardType.VISA;
 		}
+		else if (type.equals("CarteBleue")) {
+			return CreditCardType.CARTE_BLEUE;
+		}
+		else if (type.equals("CarteSi")) {
+			return CreditCardType.CARTA_SI;
+		}
 		else {
 			throw new RuntimeException("Attempting to parse an unknown credit card, name=" + type);
 		}

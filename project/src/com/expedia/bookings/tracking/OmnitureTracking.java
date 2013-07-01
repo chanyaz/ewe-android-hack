@@ -2069,6 +2069,10 @@ public class OmnitureTracking {
 				return "Visa";
 			case GOOGLE_WALLET:
 				return "GoogleWallet";
+			case CARTE_BLEUE:
+				return "CarteBleue";
+			case CARTA_SI:
+				return "CartaSi";
 			}
 		}
 

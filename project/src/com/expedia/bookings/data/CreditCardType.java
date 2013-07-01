@@ -20,7 +20,9 @@ public enum CreditCardType {
 	MAESTRO("TO"),
 	MASTERCARD("CA"),
 	VISA("VI"),
-	GOOGLE_WALLET("GOOG");
+	GOOGLE_WALLET("GOOG"),
+	CARTE_BLEUE("R"),
+	CARTA_SI("T");
 
 	private String mCode;
 
@@ -74,8 +76,13 @@ public enum CreditCardType {
 			return context.getString(R.string.cc_visa);
 		case GOOGLE_WALLET:
 			return context.getString(R.string.google_wallet);
+		case CARTE_BLEUE:
+			return context.getString(R.string.cc_carte_bleue);
+		case CARTA_SI:
+			return context.getString(R.string.cc_carta_si);
 		default:
-			return "";
+			// If all else fails, just return the enum
+			return cardType.toString();
 		}
 	}
 }
