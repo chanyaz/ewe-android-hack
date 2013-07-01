@@ -694,7 +694,7 @@ public class ExpediaServices implements DownloadListener {
 				JSONObject json = null;
 				try {
 					json = new JSONObject(simulatedResponse);
-					Thread.sleep(20000);
+					Thread.sleep(5000);
 				}
 				catch (JSONException e) {
 					e.printStackTrace();
