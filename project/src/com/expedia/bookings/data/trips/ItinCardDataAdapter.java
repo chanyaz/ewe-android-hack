@@ -203,7 +203,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		addLocalExpertData(mItinCardDatasSync);
 
 		// Do some calculations on the data
-		Pair<Integer, Integer> summaryCardPositions = organizeData(mItinCardDatasSync);
+		Pair<Integer, Integer> summaryCardPositions = calculateSummaryCardPositions(mItinCardDatasSync);
 
 		// Add to actual data
 		mItinCardDatas.clear();
@@ -312,7 +312,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	}
 
 	// Assumes the list is sorted ahead of time
-	private Pair<Integer, Integer> organizeData(List<ItinCardData> mItinCardDatas) {
+	private Pair<Integer, Integer> calculateSummaryCardPositions(List<ItinCardData> mItinCardDatas) {
 		// Reset calculated data
 		int summaryCardPosition = -1;
 		int altSummaryCardPosition = -1;
