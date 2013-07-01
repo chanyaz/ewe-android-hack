@@ -70,8 +70,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	private boolean mShadeCard;
 
 	private int mTitleLayoutHeight;
-	private int mItinCardTopPadding;
-	private int mItinCardBottomPadding;
+	private int mItinCardExtraTopPadding;
+	private int mItinCardExtraBottomPadding;
 	private int mItinSummarySectionHeight;
 	private int mActionButtonLayoutHeight;
 
@@ -126,8 +126,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 		final Resources res = getResources();
 		mTitleLayoutHeight = res.getDimensionPixelSize(R.dimen.itin_title_height);
-		mItinCardTopPadding = res.getDimensionPixelSize(R.dimen.itin_card_top_padding);
-		mItinCardBottomPadding = res.getDimensionPixelSize(R.dimen.itin_card_bottom_padding);
+		mItinCardExtraTopPadding = res.getDimensionPixelSize(R.dimen.itin_card_extra_top_padding);
+		mItinCardExtraBottomPadding = res.getDimensionPixelSize(R.dimen.itin_card_extra_bottom_padding);
 		mItinSummarySectionHeight = res.getDimensionPixelSize(R.dimen.itin_summary_section_height);
 		mActionButtonLayoutHeight = res.getDimensionPixelSize(R.dimen.itin_action_button_height);
 		mExpandedCardHeaderImageHeight = res.getDimensionPixelSize(R.dimen.itin_card_expanded_image_height);
@@ -185,23 +185,16 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * If the card is expanded, returns the original height of the collapsed card. May
-	 * return 0 if the card has not yet been expanded.
+	 * Returns the collapsed height of this card, even if the card is expanded.
 	 * @return
 	 */
 	public int getCollapsedHeight() {
-		int height = mShowSummary
-				? mExpandedCardHeaderImageHeight
-						+ mItinCardTopPadding
-						+ mItinCardBottomPadding
-						+ mItinSummarySectionHeight
-						+ mActionButtonLayoutHeight
-						+ 5 // why 5?
+		int height = getResources().getDimensionPixelSize(mShowSummary
+				? R.dimen.itin_card_summary_collapsed_height
+				: R.dimen.itin_card_collapsed_height);
 
-				: mMiniCardHeaderImageHeight
-						+ mItinCardTopPadding
-						+ mItinCardBottomPadding
-						+ 5; // why 5?
+		height += (mTopExtraPaddingView.getVisibility() == VISIBLE ? mItinCardExtraTopPadding : 0)
+				+ (mBottomExtraPaddingView.getVisibility() == VISIBLE ? mItinCardExtraBottomPadding : 0);
 
 		return height;
 	}

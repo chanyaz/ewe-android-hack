@@ -14,7 +14,7 @@
         <View
             android:id="@+id/top_extra_padding_view"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/itin_card_top_padding" />
+            android:layout_height="@dimen/itin_card_extra_top_padding" />
 
         <LinearLayout
             android:id="@+id/card_layout"
@@ -67,7 +67,9 @@
                     android:layout_height="48dp"
                     android:layout_marginRight="3dp"
                     android:background="@drawable/list_selector_holo_dark"
-                    android:padding="8dp"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
                     android:paddingTop="7dp"
                     android:src="@drawable/ic_action_share" />
             </LinearLayout>
@@ -239,7 +241,7 @@
         <View
             android:id="@+id/bottom_extra_padding_view"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/itin_card_bottom_padding" />
+            android:layout_height="@dimen/itin_card_extra_bottom_padding" />
     </LinearLayout>
 
     <!-- ###################################################################### -->
