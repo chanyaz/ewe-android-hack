@@ -22,7 +22,8 @@ public enum CreditCardType {
 	VISA("VI"),
 	GOOGLE_WALLET("GOOG"),
 	CARTE_BLEUE("R"),
-	CARTA_SI("T");
+	CARTA_SI("T"),
+	UNKNOWN("?");
 
 	private String mCode;
 
@@ -33,17 +34,17 @@ public enum CreditCardType {
 	public String getCode() {
 		return mCode;
 	}
-	
+
 	/**
 	 * Get human readable name of the card type. e.g. "Master Card"
 	 * 
 	 * @param context
 	 * @return
 	 */
-	public String getHumanReadableName(Context context){
+	public String getHumanReadableName(Context context) {
 		return CreditCardType.getHumanReadableCardTypeName(context, this);
 	}
-	
+
 	/**
 	 * Need to display a card type name? Use this method.
 	 *

@@ -2073,6 +2073,8 @@ public class OmnitureTracking {
 				return "CarteBleue";
 			case CARTA_SI:
 				return "CartaSi";
+			case UNKNOWN:
+				return "Unknown";
 			}
 		}
 
