@@ -3,10 +3,12 @@ package com.expedia.bookings.data.trips;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -45,9 +47,13 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	private ItineraryManager mItinManager;
 	private int mSummaryCardPosition;
 	private int mAltSummaryCardPosition;
-	private ArrayList<ItinCardData> mItinCardDatas;
+	private List<ItinCardData> mItinCardDatas;
 	private int mDetailPosition = -1;
 	private String mSelectedCardId;
+
+	// This is used when we are syncing with the manager; that way we don't ever make
+	// the adapter's data and the ListView's data go out of sync.
+	private List<ItinCardData> mItinCardDatasSync;
 
 	private boolean mSimpleMode = false;
 
@@ -61,6 +67,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		mContext = context;
 		mItinManager = ItineraryManager.getInstance();
 		mItinCardDatas = new ArrayList<ItinCardData>();
+		mItinCardDatasSync = new ArrayList<ItinCardData>();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -187,21 +194,29 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	 * Sync the adapter data with the ItineraryManager
 	 */
 	public synchronized void syncWithManager() {
-		// Add Items (we add to a new list so we can change the list if need be internally)
-		mItinCardDatas.clear();
-		mItinCardDatas.addAll(mItinManager.getItinCardData());
+		// Add Items
+		mItinCardDatasSync.addAll(mItinManager.getItinCardData());
 
 		// Do some calculations on the data
-		organizeData();
+		Pair<Integer, Integer> summaryCardPositions = organizeData(mItinCardDatasSync);
 
 		// Add hotel attach cards
-		addHotelAttachData();
+		addHotelAttachData(mItinCardDatasSync);
 
 		// Add local expert cards
-		addLocalExpertData();
+		addLocalExpertData(mItinCardDatasSync);
+
+		// Add to actual data
+		mItinCardDatas.clear();
+		mItinCardDatas.addAll(mItinCardDatasSync);
+		mSummaryCardPosition = summaryCardPositions.first;
+		mAltSummaryCardPosition = summaryCardPositions.second;
 
 		//Notify listeners
 		notifyDataSetChanged();
+
+		// Reset state before next sync
+		mItinCardDatasSync.clear();
 	}
 
 	public void setSimpleMode(boolean enabled) {
@@ -298,15 +313,15 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	}
 
 	// Assumes the list is sorted ahead of time
-	private void organizeData() {
+	private Pair<Integer, Integer> organizeData(List<ItinCardData> mItinCardDatas) {
 		// Reset calculated data
-		mSummaryCardPosition = -1;
-		mAltSummaryCardPosition = -1;
+		int summaryCardPosition = -1;
+		int altSummaryCardPosition = -1;
 
 		// Nothing to do if there are no itineraries
 		int len = mItinCardDatas.size();
 		if (len == 0) {
-			return;
+			return new Pair<Integer, Integer>(summaryCardPosition, altSummaryCardPosition);
 		}
 
 		// Calculate the summary (and possibly alternate) positions
@@ -345,7 +360,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			}
 
 			if (setAsSummaryCard) {
-				mSummaryCardPosition = a;
+				summaryCardPosition = a;
 				summaryCardData = data;
 			}
 
@@ -365,16 +380,16 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			Calendar startDate = summaryCardData.getStartDate().getCalendar();
 			if (firstInProgressCard.getEndDate().getCalendar().before(startDate)
 					&& nowMillis < startDate.getTimeInMillis() - threeHours) {
-				mSummaryCardPosition = firstInProgressCardPos;
+				summaryCardPosition = firstInProgressCardPos;
 				summaryCardData = firstInProgressCard;
 			}
 
 			// See if we have an alt summary card we want
-			if (mSummaryCardPosition + 1 < len) {
-				ItinCardData possibleAlt = mItinCardDatas.get(mSummaryCardPosition + 1);
+			if (summaryCardPosition + 1 < len) {
+				ItinCardData possibleAlt = mItinCardDatas.get(summaryCardPosition + 1);
 				long startMillis = possibleAlt.getStartDate().getCalendar().getTimeInMillis();
 				if (possibleAlt.hasDetailData() && nowMillis > startMillis - threeHours) {
-					mAltSummaryCardPosition = mSummaryCardPosition + 1;
+					altSummaryCardPosition = summaryCardPosition + 1;
 				}
 			}
 		}
@@ -383,19 +398,21 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			ItinCardData lastCard = mItinCardDatas.get(len - 1);
 			if (lastCard.hasDetailData()
 					&& lastCard.getEndDate().getCalendar().getTimeInMillis() > now.getTimeInMillis()) {
-				mSummaryCardPosition = len - 1;
+				summaryCardPosition = len - 1;
 			}
 		}
+
+		return new Pair<Integer, Integer>(summaryCardPosition, altSummaryCardPosition);
 	}
 
-	private void addHotelAttachData() {
+	private void addHotelAttachData(List<ItinCardData> itinCardDatas) {
 		// Is Hotel Attach turned off?
 		if (SettingUtils.get(mContext, R.string.setting_hide_hotel_attach, false)) {
 			return;
 		}
 
 		// Nothing to do if there are no itineraries
-		int len = mItinCardDatas.size();
+		int len = itinCardDatas.size();
 		if (len == 0) {
 			return;
 		}
@@ -405,7 +422,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				.getDismissedTripIds(ItinButtonCard.ItinButtonType.HOTEL_ATTACH);
 
 		for (int i = 0; i < len; i++) {
-			ItinCardData data = mItinCardDatas.get(i);
+			ItinCardData data = itinCardDatas.get(i);
 			Calendar start = data.getStartDate().getCalendar();
 			Calendar now = Calendar.getInstance(start.getTimeZone());
 
@@ -435,7 +452,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			// 1. Has an ending Flight from the same Trip, arriving and departing from same airport
 			// 2. Has no hotels/flights in between now and the ending flight
 			for (int j = i + 1; j < len; j++) {
-				ItinCardData nextData = mItinCardDatas.get(j);
+				ItinCardData nextData = itinCardDatas.get(j);
 				Type nextType = nextData.getTripComponentType();
 
 				if (nextType == Type.HOTEL) {
@@ -448,7 +465,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 						if (firstLeg.getLastWaypoint().mAirportCode.equals(secondLeg.getFirstWaypoint().mAirportCode)) {
 							// Attach hotel
-							mItinCardDatas.add(i + 1, new ItinCardDataHotelAttach(tripFlight, firstLeg, secondLeg));
+							itinCardDatas.add(i + 1, new ItinCardDataHotelAttach(tripFlight, firstLeg, secondLeg));
 
 							return;
 						}
@@ -461,14 +478,14 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		}
 	}
 
-	private void addLocalExpertData() {
+	private void addLocalExpertData(List<ItinCardData> itinCardDatas) {
 		// Is Local Expert turned off?
 		if (SettingUtils.get(mContext, R.string.setting_hide_local_expert, false)) {
 			return;
 		}
 
 		// Nothing to do if there are no itineraries
-		int len = mItinCardDatas.size();
+		int len = itinCardDatas.size();
 		if (len == 0 || mSummaryCardPosition < 0) {
 			return;
 		}
@@ -480,7 +497,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		ItinCardData data;
 		final int start = mSummaryCardPosition >= 0 ? mSummaryCardPosition : 0;
 		for (int i = start; i < len; i++) {
-			data = mItinCardDatas.get(i);
+			data = itinCardDatas.get(i);
 
 			// Ignore dismissed trips
 			if (dismissedTripIds.contains(data.getTripId())) {
@@ -502,7 +519,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				continue;
 			}
 
-			mItinCardDatas.add(i + 1, new ItinCardDataLocalExpert((TripHotel) data.getTripComponent()));
+			itinCardDatas.add(i + 1, new ItinCardDataLocalExpert((TripHotel) data.getTripComponent()));
 
 			return;
 		}
