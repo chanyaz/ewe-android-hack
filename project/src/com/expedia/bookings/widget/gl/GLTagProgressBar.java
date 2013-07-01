@@ -118,14 +118,24 @@ public class GLTagProgressBar extends GLSurfaceView implements OnTouchListener {
 
 	public void registerSensorListener(boolean registered) {
 		if (registered) {
-			Log.d("GLTagProgressBar SensorListenerProxy registered");
-			mSensorListenerProxy = new SensorListenerProxy(mRenderer, mOrientation);
-			mSensorManager.registerListener(mSensorListenerProxy, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+			Log.v("GLTagProgressBar SensorListenerProxy registered");
+			if (mSensorListenerProxy == null) {
+				mSensorListenerProxy = new SensorListenerProxy(mRenderer, mOrientation);
+				mSensorManager.registerListener(mSensorListenerProxy, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+			}
+			else {
+				Log.v("GLTagProgressBar: Double register detected, ignored");
+			}
 		}
 		else {
-			Log.d("GLTagProgressBar SensorListenerProxy unregistered");
-			mSensorManager.unregisterListener(mSensorListenerProxy);
-			mSensorListenerProxy = null;
+			Log.v("GLTagProgressBar SensorListenerProxy unregistered");
+			if (mSensorListenerProxy != null) {
+				mSensorManager.unregisterListener(mSensorListenerProxy);
+				mSensorListenerProxy = null;
+			}
+			else {
+				Log.v("GLTagProgressBar: Double unregister detected, ignored");
+			}
 			reset();
 		}
 	}
