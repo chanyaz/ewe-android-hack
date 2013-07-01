@@ -91,6 +91,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	public static Intent createIntent(Context context, Notification notification) {
 		Intent intent = new Intent(context, LaunchActivity.class);
 		intent.putExtra(ARG_JUMP_TO_NOTIFICATION, notification.toJson().toString());
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
 		// Even though we don't use the url directly anywhere, Android OS needs a way
 		// to differentiate multiple intents to this same activity.
