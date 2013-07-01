@@ -1,18 +1,11 @@
 package com.expedia.bookings.data.trips;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.LocalExpertSite.Destination;
@@ -25,6 +18,12 @@ import com.expedia.bookings.widget.itin.ItinButtonCard.ItinButtonType;
 import com.expedia.bookings.widget.itin.ItinButtonCard.OnHideListener;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.util.SettingUtils;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickListener, OnHideListener {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -201,16 +200,30 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		Pair<Integer, Integer> summaryCardPositions = organizeData(mItinCardDatasSync);
 
 		// Add hotel attach cards
-		addHotelAttachData(mItinCardDatasSync);
+		final boolean addedHotelAttach = addHotelAttachData(mItinCardDatasSync);
 
 		// Add local expert cards
-		addLocalExpertData(mItinCardDatasSync);
+		final boolean addedLocalExpert = addLocalExpertData(mItinCardDatasSync);
 
 		// Add to actual data
 		mItinCardDatas.clear();
 		mItinCardDatas.addAll(mItinCardDatasSync);
 		mSummaryCardPosition = summaryCardPositions.first;
 		mAltSummaryCardPosition = summaryCardPositions.second;
+
+		// If we added to the itin list by adding a HA item, bump the summary
+		// card positions, but only if they are set (greater than -1)
+		if (addedHotelAttach) {
+			mSummaryCardPosition += mSummaryCardPosition < 0 ? 0 : 1;
+			mAltSummaryCardPosition += mAltSummaryCardPosition < 0 ? 0 : 1;
+		}
+
+		// If we added to the itin list by adding a LE item, bump the summary
+		// card positions, but only if they are set (greater than -1)
+		if (addedLocalExpert) {
+			mSummaryCardPosition += mSummaryCardPosition < 0 ? 0 : 1;
+			mAltSummaryCardPosition += mAltSummaryCardPosition < 0 ? 0 : 1;
+		}
 
 		//Notify listeners
 		notifyDataSetChanged();
@@ -405,16 +418,16 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		return new Pair<Integer, Integer>(summaryCardPosition, altSummaryCardPosition);
 	}
 
-	private void addHotelAttachData(List<ItinCardData> itinCardDatas) {
+	private boolean addHotelAttachData(List<ItinCardData> itinCardDatas) {
 		// Is Hotel Attach turned off?
 		if (SettingUtils.get(mContext, R.string.setting_hide_hotel_attach, false)) {
-			return;
+			return false;
 		}
 
 		// Nothing to do if there are no itineraries
 		int len = itinCardDatas.size();
 		if (len == 0) {
-			return;
+			return false;
 		}
 
 		// Get previously dismissed buttons
@@ -464,10 +477,10 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 						FlightLeg secondLeg = ((ItinCardDataFlight) nextData).getFlightLeg();
 
 						if (firstLeg.getLastWaypoint().mAirportCode.equals(secondLeg.getFirstWaypoint().mAirportCode)) {
-							// Attach hotel
+							// Add HA button
 							itinCardDatas.add(i + 1, new ItinCardDataHotelAttach(tripFlight, firstLeg, secondLeg));
 
-							return;
+							return true;
 						}
 					}
 
@@ -476,18 +489,20 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				}
 			}
 		}
+
+		return false;
 	}
 
-	private void addLocalExpertData(List<ItinCardData> itinCardDatas) {
+	private boolean addLocalExpertData(List<ItinCardData> itinCardDatas) {
 		// Is Local Expert turned off?
 		if (SettingUtils.get(mContext, R.string.setting_hide_local_expert, false)) {
-			return;
+			return false;
 		}
 
 		// Nothing to do if there are no itineraries
 		int len = itinCardDatas.size();
 		if (len == 0 || mSummaryCardPosition < 0) {
-			return;
+			return false;
 		}
 
 		// Get previously dismissed buttons
@@ -495,8 +510,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				.getDismissedTripIds(ItinButtonCard.ItinButtonType.LOCAL_EXPERT);
 
 		ItinCardData data;
-		final int start = mSummaryCardPosition >= 0 ? mSummaryCardPosition : 0;
-		for (int i = start; i < len; i++) {
+		for (int i = 0; i < len; i++) {
 			data = itinCardDatas.get(i);
 
 			// Ignore dismissed trips
@@ -519,10 +533,13 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				continue;
 			}
 
+			// Add LE button
 			itinCardDatas.add(i + 1, new ItinCardDataLocalExpert((TripHotel) data.getTripComponent()));
 
-			return;
+			return true;
 		}
+
+		return false;
 	}
 
 	// Used only for Omniture tracking
