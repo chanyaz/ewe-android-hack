@@ -13,6 +13,8 @@ import android.os.Looper;
 
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncAdapter;
+import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
+import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent;
 import com.google.android.gcm.GCMBaseIntentService;
@@ -125,34 +127,60 @@ public class GCMIntentService extends GCMBaseIntentService {
 		}
 	}
 
-	private void generateNotification(int fhid, String locKey, String[] locArgs, String type) {
+	private void generateNotification(final int fhid, final String locKey, final String[] locArgs, final String type) {
 		//We should find the flight in itin manager (using fhid) and do a deep refresh. and to find the correct uniqueid for the itin in question
 		TripComponent component = ItineraryManager.getInstance().getTripComponentFromFlightHistoryId(fhid);
 		if (component != null) {
 
 			//ItineraryManager.startSync needs to happen on the UI thread, hence the Handler magic
-			final Trip trip = component.getParentTrip();
-			if (trip != null) {
+			final Trip notificationTrip = component.getParentTrip();
+			if (notificationTrip != null) {
 				Handler handler = new Handler(Looper.getMainLooper());
 				handler.post(new Runnable() {
 					@Override
 					public void run() {
-						ItineraryManager.getInstance().deepRefreshTrip(trip);
+						ItineraryManager.getInstance().addSyncListener(new ItinerarySyncAdapter() {
+							@Override
+							public void onTripUpdated(Trip trip) {
+								//After the refresh completes we should show the notification
+								if (notificationTrip.equals(trip)) {
+									Log.d("GCM: Our deep refreshing trip has updated, so we can now generate the actual notification");
+									PushNotificationUtils.generateNotification(GCMIntentService.this, fhid, locKey,
+											locArgs, type);
+									ItineraryManager.getInstance().removeSyncListener(this);
+								}
+							}
+
+							@Override
+							public void onTripUpdateFailed(Trip trip) {
+								//We failed to refresh, so lets try again (but if the trip doesnt exist then we break the chain).
+								if (notificationTrip.equals(trip)) {
+									Log.d("GCM: Our deep refreshing trip has failed to update, so we are attempting to refresh it again...");
+									if (!ItineraryManager.getInstance().deepRefreshTrip(notificationTrip)) {
+										Log.d("GCM: Our deep refreshing trip has failed to update, and apparently the trip in question doesn't exist, so we are giving up.");
+										ItineraryManager.getInstance().removeSyncListener(this);
+									}
+								}
+							}
+						});
+
+						ItineraryManager.getInstance().deepRefreshTrip(notificationTrip.getTripNumber(), true);
+						Log.d("GCM: Started deep refresh, waiting for sync completion...");
 					}
 				});
 			}
 			else {
-				Log.w("Generating push notification but unable to find parentTrip for fhid=" + fhid + " type=" + type
+				Log.w("GCM: Generating push notification but unable to find parentTrip for fhid=" + fhid + " type=" + type
 						+ "component=" + component.toJson().toString());
+				PushNotificationUtils.generateNotification(GCMIntentService.this, fhid, locKey, locArgs, type);
 			}
 		}
 		else {
-			Log.w("Generating push notification, but can't find the tripComponent, thus no deepRefresh called fhid="
+			Log.w("GCM: Generating push notification, but can't find the tripComponent, thus no deepRefresh called fhid="
 					+ fhid + " type=" + type);
+			PushNotificationUtils.generateNotification(GCMIntentService.this, fhid, locKey, locArgs, type);
 		}
 
-		//After the refresh completes we should show the notification
-		PushNotificationUtils.generateNotification(this, fhid, locKey, locArgs, type);
 	}
 
 }
