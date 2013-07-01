@@ -50,13 +50,13 @@ public class GLTagProgressBar extends GLSurfaceView implements OnTouchListener {
 	@Override
 	public void onPause() {
 		super.onPause();
-		setSensorManagerRegistration(false);
+		registerSensorListener(false);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		setSensorManagerRegistration(true);
+		registerSensorListener(true);
 	}
 
 	@Override
@@ -73,13 +73,13 @@ public class GLTagProgressBar extends GLSurfaceView implements OnTouchListener {
 	@Override
 	protected void onAttachedToWindow() {
 		super.onAttachedToWindow();
-		setSensorManagerRegistration(getVisibility() == View.VISIBLE);
+		registerSensorListener(getVisibility() == View.VISIBLE);
 	}
 
 	@Override
 	protected void onDetachedFromWindow() {
 		mRenderer.shutdown();
-		setSensorManagerRegistration(false);
+		registerSensorListener(false);
 
 		super.onDetachedFromWindow();
 	}
@@ -95,28 +95,28 @@ public class GLTagProgressBar extends GLSurfaceView implements OnTouchListener {
 			mRenderer.resume();
 		}
 
-		setSensorManagerRegistration(visibility == View.VISIBLE);
+		registerSensorListener(visibility == View.VISIBLE);
 	}
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
 		super.surfaceChanged(holder, format, w, h);
-		setSensorManagerRegistration(getVisibility() == View.VISIBLE);
+		registerSensorListener(getVisibility() == View.VISIBLE);
 	}
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		super.surfaceCreated(holder);
-		setSensorManagerRegistration(getVisibility() == View.VISIBLE);
+		registerSensorListener(getVisibility() == View.VISIBLE);
 	}
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		super.surfaceDestroyed(holder);
-		setSensorManagerRegistration(false);
+		registerSensorListener(false);
 	}
 
-	public void setSensorManagerRegistration(boolean registered) {
+	public void registerSensorListener(boolean registered) {
 		if (registered) {
 			Log.d("GLTagProgressBar SensorListenerProxy registered");
 			mSensorListenerProxy = new SensorListenerProxy(mRenderer, mOrientation);
