@@ -132,6 +132,7 @@ public class GLTagProgressBar extends GLSurfaceView implements OnTouchListener {
 	private static class SensorListenerProxy implements SensorEventListener {
 		private WeakReference<GLTagProgressBarRenderer> mTarget;
 		private final int mOrientation;
+		private boolean mLostTarget = false; // Just so there isn't infinite logging
 
 		public SensorListenerProxy(GLTagProgressBarRenderer renderer, int orientation) {
 			mTarget = new WeakReference<GLTagProgressBarRenderer>(renderer);
@@ -146,7 +147,10 @@ public class GLTagProgressBar extends GLSurfaceView implements OnTouchListener {
 		public void onSensorChanged(SensorEvent event) {
 			GLTagProgressBarRenderer renderer = mTarget.get();
 			if (renderer == null) {
-				Log.d("SensorListenerProxy renderer no longer exists. Either not unregistered or leaked.");
+				if (!mLostTarget) {
+					Log.d("SensorListenerProxy renderer no longer exists. Either not unregistered or leaked.");
+					mLostTarget = true;
+				}
 				return;
 			}
 
