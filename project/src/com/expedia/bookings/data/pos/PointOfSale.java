@@ -121,6 +121,9 @@ public class PointOfSale {
 	// Whether or not to block domestic flight searches before flight/search is called
 	private boolean mBlockDomesticFlightSearches;
 
+	// Whether or not to allow LocalExpert to be shown
+	private boolean mSupportsLocalExpert;
+
 	/**
 	 * There can be multiple different locales for a given POS.
 	 *
@@ -251,6 +254,10 @@ public class PointOfSale {
 
 	public boolean supportsGoogleWallet() {
 		return mSupportsGoogleWallet;
+	}
+
+	public boolean supportsLocalExpert() {
+		return mSupportsLocalExpert;
 	}
 
 	public boolean showAtolInfo() {
@@ -664,6 +671,7 @@ public class PointOfSale {
 		pos.mSupportsGoogleWallet = data.optBoolean("googleWalletEnabled");
 		pos.mShowHotelCrossSell = !data.optBoolean("hideHotelCrossSell", false);
 		pos.mBlockDomesticFlightSearches = data.optBoolean("blockDomesticFlightSearches", false);
+		pos.mSupportsLocalExpert = data.optBoolean("localExpertEnabled", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");
