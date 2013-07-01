@@ -48,6 +48,18 @@ public class GLTagProgressBar extends GLSurfaceView implements OnTouchListener {
 	// Overrides
 
 	@Override
+	public void onPause() {
+		super.onPause();
+		setSensorManagerRegistration(false);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		setSensorManagerRegistration(true);
+	}
+
+	@Override
 	public boolean onTouch(View view, MotionEvent event) {
 		if (mRenderer == null) {
 			return true;
