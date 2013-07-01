@@ -93,8 +93,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	private ViewGroup mDetailsLayout;
 	private ItinActionsSection mActionButtonLayout;
 
-	private ImageView mItinTypeImageView;
-	private ImageView mFixedItinTypeImageView;
+	private AlphaImageView mItinTypeImageView;
+	private AlphaImageView mFixedItinTypeImageView;
 
 	private ScrollView mScrollView;
 	private ParallaxContainer mHeaderImageContainer;
@@ -330,11 +330,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 		//Shade
 		if (mShadeCard) {
-			float shadeAlpha = 0.5f;
 			mHeaderShadeView.setVisibility(View.VISIBLE);
-			if (mDisplayState.equals(DisplayState.COLLAPSED) && mItinTypeImageView.getVisibility() == View.VISIBLE) {
-				ViewHelper.setAlpha(mItinTypeImageView, shadeAlpha);
-			}
+			mItinTypeImageView.setDrawAlpha(128);
+			mFixedItinTypeImageView.setDrawAlpha(128);
 		}
 		else {
 			mHeaderShadeView.setVisibility(View.GONE);

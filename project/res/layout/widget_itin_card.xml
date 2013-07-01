@@ -151,7 +151,7 @@
                                 app:textStyle="light" />
                         </LinearLayout>
 
-                        <ImageView
+                        <com.expedia.bookings.widget.AlphaImageView
                             android:id="@+id/fixed_itin_type_image_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -246,7 +246,7 @@
     <!-- FLOATING TYPE IMAGEVIEW -->
     <!-- ###################################################################### -->
 
-    <ImageView
+    <com.expedia.bookings.widget.AlphaImageView
         android:id="@+id/itin_type_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
