@@ -203,7 +203,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		final boolean addedHotelAttach = addHotelAttachData(mItinCardDatasSync);
 
 		// Add local expert cards
-		final boolean addedLocalExpert = addLocalExpertData(mItinCardDatasSync);
+		final boolean addedLocalExpert = addLocalExpertData(mItinCardDatasSync, summaryCardPositions.first);
 
 		// Add to actual data
 		mItinCardDatas.clear();
@@ -493,7 +493,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		return false;
 	}
 
-	private boolean addLocalExpertData(List<ItinCardData> itinCardDatas) {
+	private boolean addLocalExpertData(List<ItinCardData> itinCardDatas, int summaryCardPosition) {
 		// Is Local Expert turned off?
 		if (SettingUtils.get(mContext, R.string.setting_hide_local_expert, false)) {
 			return false;
@@ -501,7 +501,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 		// Nothing to do if there are no itineraries
 		int len = itinCardDatas.size();
-		if (len == 0 || mSummaryCardPosition < 0) {
+		if (len == 0 || summaryCardPosition < 0) {
 			return false;
 		}
 
