@@ -116,7 +116,7 @@ public class GLTagProgressBar extends GLSurfaceView implements OnTouchListener {
 		registerSensorListener(false);
 	}
 
-	public void registerSensorListener(boolean registered) {
+	private void registerSensorListener(boolean registered) {
 		if (registered) {
 			Log.v("GLTagProgressBar SensorListenerProxy registered");
 			if (mSensorListenerProxy == null) {
