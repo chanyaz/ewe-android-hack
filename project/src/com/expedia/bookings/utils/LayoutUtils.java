@@ -1,10 +1,5 @@
 package com.expedia.bookings.utils;
 
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.util.Calendar;
-import java.util.TimeZone;
-
 import android.annotation.TargetApi;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
@@ -29,7 +24,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
-
 import com.actionbarsherlock.internal.ActionBarSherlockCompat;
 import com.actionbarsherlock.internal.ResourcesCompat;
 import com.expedia.bookings.R;
@@ -42,6 +36,11 @@ import com.expedia.bookings.data.Property.Amenity;
 import com.expedia.bookings.data.Rate;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
+
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 public class LayoutUtils {
 
@@ -292,6 +291,27 @@ public class LayoutUtils {
 
 	private static final int[] STYLEABLE_ACTION_BAR_SIZE = new int[] { android.R.attr.actionBarSize };
 
+	public static int getActionBarSize(Context context) {
+		TypedArray a = context.obtainStyledAttributes(null, R.styleable.SherlockActionBar, R.attr.actionBarStyle, 0);
+		int heightRes = a.getResourceId(R.styleable.SherlockActionBar_height, 0);
+		a.recycle();
+
+		int actionBarHeight = 0;
+		if (heightRes != 0) {
+			actionBarHeight = (int) Math.round(context.getResources().getDimension(heightRes));
+		}
+		else {
+			// Getting here indicates that we're not using ABS for the action bar;
+			// get the height directly.  Use attributes (as height may not be set
+			// yet on the action bar, depending on timing - F911).
+			a = context.obtainStyledAttributes(null, STYLEABLE_ACTION_BAR_SIZE);
+			actionBarHeight = a.getDimensionPixelSize(0, 0);
+			a.recycle();
+		}
+
+		return actionBarHeight;
+	}
+
 	/**
 	 * Adjusts the top and bottom padding of a View based on its Activity and state.
 	 *
@@ -300,8 +320,8 @@ public class LayoutUtils {
 	 * If you're doing it dynamically then you're on your own (but I can't see any use
 	 * for a *more* dynamic version of this method at the moment).
 	 *
-	 * @param activity the Activity who made have overlay
-	 * @param rootView the root view to add padding to
+	 * @param activity     the Activity who made have overlay
+	 * @param rootView     the root view to add padding to
 	 * @param hasMenuItems there appears to be no easy way to tell if the menu actually has any items,
 	 *        so we use this variable to determine whether or not to adjust for bottom padding
 	 */
