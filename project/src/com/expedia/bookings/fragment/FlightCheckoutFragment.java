@@ -227,6 +227,13 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		outState.putBoolean(INSTANCE_REFRESHED_USER, mRefreshedUser);
 	}
 
+	@Override
+	public void onDetach() {
+		super.onDetach();
+
+		mListener = null; // Just in case Wallet is leaking
+	}
+
 	/**
 	 * We refresh the billingInfo from Db and bind all the views.
 	 * This is what happens to initally set the state on resume, so if data changes are made after resume is called

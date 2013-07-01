@@ -392,6 +392,13 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mFragmentModLock.setSafe(false);
 	}
 
+	@Override
+	public void onDetach() {
+		super.onDetach();
+
+		mBookingOverviewFragmentListener = null; // Just in case Wallet is leaking
+	}
+
 	// Public methods
 
 	public void refreshData() {

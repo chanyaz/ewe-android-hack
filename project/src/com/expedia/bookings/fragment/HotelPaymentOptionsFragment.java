@@ -213,6 +213,13 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 		super.onSaveInstanceState(outState);
 	}
 
+	@Override
+	public void onDetach() {
+		super.onDetach();
+
+		mListener = null; // Just in case Wallet is leaking
+	}
+
 	public void updateVisibilities() {
 		List<StoredCreditCard> cards = BookingInfoUtils.getStoredCreditCards(getActivity());
 
