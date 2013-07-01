@@ -660,6 +660,10 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	@Override
 	protected void onPause() {
 		super.onPause();
+
+		((ExpediaBookingApp) getApplicationContext())
+				.unregisterSearchParamsChangedInWidgetListener(mSearchParamsChangedListener);
+
 		mIsActivityResumed = false;
 
 		mProgressBar.onPause();
@@ -787,9 +791,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		}
 
 		mWasOnDestroyCalled = true;
-
-		((ExpediaBookingApp) getApplicationContext())
-				.unregisterSearchParamsChangedInWidgetListener(mSearchParamsChangedListener);
 
 		if (mActionMode != null) {
 			mActionMode.finish();
