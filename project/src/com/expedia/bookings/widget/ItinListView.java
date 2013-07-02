@@ -19,6 +19,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
@@ -502,14 +503,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		int start = getFirstVisiblePosition();
 		View view = getChildAt(position - start);
 		if (view != null) {
-			if (AndroidUtils.getSdkVersion() < 11) {
-				//This could use some more investigation and possibly a more all around solution
-				// 2.x needs this because otherwise all of the listview rows use the same view and they all expand which bones our animation
-				// 4.x breaks from this because the adapter decides that it should call measure mid animation - the last details card was collapsed
-				//	   after we used it, so it thinks that the height of the thing should be non-expanded height our animation gets boned
-				mAdapter.setDetailPosition(position);
-			}
-
 			return mAdapter.getView(position, view, this);
 		}
 		return null;
@@ -652,7 +645,28 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			return;
 		}
 
-		synchronizedShowDetails(position, animate);
+		if (AndroidUtils.getSdkVersion() <= 11 && mAdapter.getDetailPosition() != position) {
+			//So this is the hacky magic to get jumping to a particular card working on 2.x
+			//We set the DetailPosition in the adapter which changes the result of getItemViewType for that view
+			//We then invalidate the list, which forces us to ask the adapter for new views.
+			//After this is ready to draw the new stuff, we should have the views we need, so we go ahead and tell the thing
+			//to expand for real.
+			getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+				@Override
+				public boolean onPreDraw() {
+					getViewTreeObserver().removeOnPreDrawListener(this);
+					showDetails(position, animate);
+					return true;
+				}
+			});
+			mAdapter.setDetailPosition(position);
+			mAdapter.notifyDataSetChanged();
+			invalidate();
+			releaseSemaphore();
+		}
+		else {
+			synchronizedShowDetails(position, animate);
+		}
 	}
 
 	/**
@@ -914,6 +928,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	};
 
 	private void onDataSetChanged() {
+
 		if (!mModeSwitchSemaphore.tryAcquire()) {
 			mUiQueue.add(new Runnable() {
 				public void run() {
