@@ -1,5 +1,9 @@
 package com.expedia.bookings.widget;
 
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.concurrent.Semaphore;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -20,6 +24,7 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.animation.AnimatorListenerShort;
@@ -38,10 +43,6 @@ import com.nineoldandroids.animation.Animator.AnimatorListener;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
-
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.concurrent.Semaphore;
 
 @SuppressWarnings("rawtypes")
 public class ItinListView extends ListView implements OnItemClickListener, OnScrollListener, OnItinCardClickListener {
@@ -563,7 +564,19 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 		if (animate) {
 			Animator set = buildCollapseAnimatorSet();
-			set.addListener(mModeSwitchSemListener);
+			set.addListener(new AnimatorListenerShort() {
+				@Override
+				public void onAnimationCancel(Animator arg0) {
+					finishCollapse();
+					releaseSemaphore();
+				}
+
+				@Override
+				public void onAnimationEnd(Animator arg0) {
+					finishCollapse();
+					releaseSemaphore();
+				}
+			});
 			set.start();
 		}
 		else {
@@ -576,10 +589,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	}
 
 	private Animator buildCollapseAnimatorSet() {
-		ValueAnimator resizeAnimator = ResizeAnimator.buildResizeAnimator(mDetailsCardView,
-				mDetailsCardView.getCollapsedHeight());
+		int collapsedHeight = mDetailsCardView.getCollapsedHeight();
+		ValueAnimator resizeAnimator = ResizeAnimator.buildResizeAnimator(mDetailsCardView, collapsedHeight);
 		resizeAnimator.addUpdateListener(new AnimatorUpdateListener() {
-			@Override
 			public void onAnimationUpdate(ValueAnimator animator) {
 				// We are animating the top offset of the detail card from 0 to mOriginalViewTop
 				float fraction = animator.getAnimatedFraction();
@@ -590,16 +602,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			}
 		});
 
-		AnimatorSet detailCollapseAnim = mDetailsCardView.collapse(true);
+		AnimatorSet collapseAnimator = mDetailsCardView.collapse(true);
 		AnimatorSet set = new AnimatorSet();
-		set.playTogether(resizeAnimator, detailCollapseAnim);
-
-		set.addListener(new AnimatorListenerShort() {
-			public void onAnimationEnd(Animator animator) {
-				finishCollapse();
-			}
-		});
-
+		set.playTogether(resizeAnimator, collapseAnimator);
 		return set;
 	}
 
@@ -723,13 +728,25 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			mOnListModeChangedListener.onListModeChanged(isInDetailMode(), animate);
 		}
 
+		final int expandedHeight = getHeight() + LayoutUtils.getActionBarSize(getContext());
 		if (animate) {
-			Animator set = buildExpandAnimatorSet();
-			set.addListener(mModeSwitchSemListener);
+			Animator set = buildExpandAnimatorSet(expandedHeight);
+			set.addListener(new AnimatorListenerShort() {
+				@Override
+				public void onAnimationCancel(Animator arg0) {
+					finishExpand(expandedHeight);
+					releaseSemaphore();
+				}
+
+				@Override
+				public void onAnimationEnd(Animator arg0) {
+					finishExpand(expandedHeight);
+					releaseSemaphore();
+				}
+			});
 			set.start();
 		}
 		else {
-			final int expandedHeight = getHeight() + LayoutUtils.getActionBarSize(getContext());
 			finishExpand(expandedHeight);
 			mDetailsCardView.expand(false);
 			releaseSemaphore();
@@ -737,40 +754,22 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		return false;
 	}
 
-	private Animator buildExpandAnimatorSet() {
-		final int expandedHeight = getHeight() + LayoutUtils.getActionBarSize(getContext());
+	private Animator buildExpandAnimatorSet(int expandedHeight) {
 		ValueAnimator resizeAnimator = ResizeAnimator.buildResizeAnimator(mDetailsCardView, expandedHeight);
 		resizeAnimator.addUpdateListener(new AnimatorUpdateListener() {
-			@Override
 			public void onAnimationUpdate(ValueAnimator animator) {
-				float fraction = animator.getAnimatedFraction();
-
 				// We are animating the top offset of the detail card from mOriginalViewTop to 0
+				float fraction = animator.getAnimatedFraction();
 				float offset = mDetailsCardView.getCollapsedTop() * (1f - fraction);
 
 				setSelectionFromTop(mDetailPosition, (int) offset);
 				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
 			}
-
 		});
 
 		AnimatorSet expandAnimator = mDetailsCardView.expand(true);
-
 		AnimatorSet set = new AnimatorSet();
 		set.playTogether(resizeAnimator, expandAnimator);
-		set.addListener(new AnimatorListenerShort() {
-			@Override
-			public void onAnimationStart(Animator animator) {
-				setSelectionFromTop(mDetailPosition, mDetailsCardView.getCollapsedTop());
-				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
-			}
-
-			@Override
-			public void onAnimationEnd(Animator animator) {
-				finishExpand(expandedHeight);
-			}
-		});
-
 		return set;
 	}
 
@@ -961,20 +960,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 		releaseSemaphore();
 	}
-
-	private AnimatorListener mModeSwitchSemListener = new AnimatorListenerShort() {
-
-		@Override
-		public void onAnimationCancel(Animator arg0) {
-			releaseSemaphore();
-		}
-
-		@Override
-		public void onAnimationEnd(Animator arg0) {
-			releaseSemaphore();
-		}
-
-	};
 
 	private void releaseSemaphore() {
 		mModeSwitchSemaphore.release();
