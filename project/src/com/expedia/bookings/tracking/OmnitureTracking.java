@@ -1849,11 +1849,11 @@ public class OmnitureTracking {
 		boolean usingTabletInterface = (ExpediaBookingApp.useTabletInterface(context));
 		if (AndroidUtils.isRelease(context)) {
 			id = (usingTabletInterface) ? "expedia1tabletandroid" : "expedia1androidcom";
-			id += ",expediaglobalapp";
+			id += ",expedia7androidapp";
 		}
 		else {
 			id = (usingTabletInterface) ? "expedia1tabletandroiddev" : "expedia1androidcomdev";
-			id += ",expediaglobalappdev";
+			id += ",expedia7androidappdev";
 		}
 		return id;
 	}
