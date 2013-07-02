@@ -24,7 +24,6 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -63,6 +62,7 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
@@ -82,7 +82,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
-import com.mobiata.android.util.Ui;
 import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.view.ViewHelper;
 
@@ -715,11 +714,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 					mScrollView.requestLayout();
 					if (mMaintainStartCheckoutPosition) {
 						// Now we have to wire this up so we can scroll the page after a layout occurs
-						mScrollView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-							@Override
-							public void onGlobalLayout() {
+						Ui.runOnNextLayout(mScrollView, new Runnable() {
+							public void run() {
 								scrollToCheckout(false);
-								mScrollView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 							}
 						});
 					}

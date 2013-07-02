@@ -303,7 +303,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		});
 
 		// Initial calendar date picker variables
-		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker, CalendarDatePicker.SelectionMode.HYBRID, LineOfBusiness.FLIGHTS);
+		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker, CalendarDatePicker.SelectionMode.HYBRID,
+				LineOfBusiness.FLIGHTS);
 		mCalendarDatePicker.setOnDateChangedListener(this);
 
 		if (savedInstanceState != null) {
@@ -738,7 +739,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			Date departureDate = mSearchParams.getDepartureDate();
 			Date returnDate = mSearchParams.getReturnDate();
 
-			CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker, CalendarDatePicker.SelectionMode.HYBRID, LineOfBusiness.FLIGHTS);
+			CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker, CalendarDatePicker.SelectionMode.HYBRID,
+					LineOfBusiness.FLIGHTS);
 
 			if (departureDate != null) {
 				mCalendarDatePicker.updateStartDate(departureDate.getYear(), departureDate.getMonth() - 1,
@@ -782,12 +784,10 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 				fixCalendarHeight();
 			}
 			else {
-				mCalendarContainer.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-					@Override
-					public void onGlobalLayout() {
+				Ui.runOnNextLayout(mCalendarContainer, new Runnable() {
+					public void run() {
 						fixCalendarHeight();
 						mCalendarContainer.requestLayout();
-						mCalendarContainer.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 					}
 				});
 			}

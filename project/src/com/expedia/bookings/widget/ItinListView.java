@@ -19,7 +19,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
-import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
@@ -34,13 +33,13 @@ import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 import com.expedia.bookings.widget.itin.ItinButtonCard;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.Animator.AnimatorListener;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
@@ -682,12 +681,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 		// If this ListView hasn't drawn any children at all yet, wait until it has.
 		if (getChildCount() == 0) {
-			getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-				public void onGlobalLayout() {
-					if (getChildCount() != 0) {
-						getViewTreeObserver().removeGlobalOnLayoutListener(this);
-						synchronizedShowDetails(position, animate);
-					}
+			Ui.runOnNextLayout(this, new Runnable() {
+				public void run() {
+					synchronizedShowDetails(position, animate);
 				}
 			});
 			return;
@@ -715,9 +711,8 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 		if (preScroll && firstVisiblePos != position) {
 			setSelectionFromTop(position, 0);
-			getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-				public void onGlobalLayout() {
-					getViewTreeObserver().removeGlobalOnLayoutListener(this);
+			Ui.runOnNextLayout(this, new Runnable() {
+				public void run() {
 					synchronizedShowDetails(position, animate);
 				}
 			});
@@ -976,9 +971,8 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	private void releaseSemaphore() {
 		mModeSwitchSemaphore.release();
-		getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-			public void onGlobalLayout() {
-				getViewTreeObserver().removeGlobalOnLayoutListener(this);
+		Ui.runOnNextLayout(this, new Runnable() {
+			public void run() {
 				if (!mUiQueue.isEmpty()) {
 					mUiQueue.poll().run();
 				}
