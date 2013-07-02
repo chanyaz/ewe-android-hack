@@ -542,10 +542,10 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	 * @param animate
 	 * @return
 	 */
-	private boolean synchronizedHideDetails(boolean animate) {
+	private void synchronizedHideDetails(boolean animate) {
 		if (mDetailPosition < 0 || mDetailsCardView == null) {
 			releaseSemaphore();
-			return true;
+			return;
 		}
 
 		mFooterView.setHeight(0);
@@ -577,8 +577,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			finishCollapse();
 			releaseSemaphore();
 		}
-
-		return false;
 	}
 
 	private Animator buildCollapseAnimatorSet() {
@@ -645,28 +643,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			return;
 		}
 
-		if (AndroidUtils.getSdkVersion() <= 11 && mAdapter.getDetailPosition() != position) {
-			//So this is the hacky magic to get jumping to a particular card working on 2.x
-			//We set the DetailPosition in the adapter which changes the result of getItemViewType for that view
-			//We then invalidate the list, which forces us to ask the adapter for new views.
-			//After this is ready to draw the new stuff, we should have the views we need, so we go ahead and tell the thing
-			//to expand for real.
-			getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
-				@Override
-				public boolean onPreDraw() {
-					getViewTreeObserver().removeOnPreDrawListener(this);
-					showDetails(position, animate);
-					return true;
-				}
-			});
-			mAdapter.setDetailPosition(position);
-			mAdapter.notifyDataSetChanged();
-			invalidate();
-			releaseSemaphore();
-		}
-		else {
-			synchronizedShowDetails(position, animate);
-		}
+		synchronizedShowDetails(position, animate);
 	}
 
 	/**
@@ -677,9 +654,31 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	 * @return
 	 */
 	@SuppressLint("NewApi")
-	private boolean synchronizedShowDetails(final int position, final boolean animate) {
+	private void synchronizedShowDetails(final int position, final boolean animate) {
 		int firstVisiblePos = getFirstVisiblePosition();
 		int lastVisiblePos = getLastVisiblePosition();
+
+		//So this is the hacky magic to get jumping to a particular card working on 2.x
+		//We set the DetailPosition in the adapter which changes the result of getItemViewType for that view
+		//We then invalidate the list, which forces us to ask the adapter for new views.
+		//After this is ready to draw the new stuff, we should have the views we need, so we go ahead and tell the thing
+		//to expand for real.
+		if (AndroidUtils.getSdkVersion() < 11 && mAdapter.getDetailPosition() != position) {
+			mUiQueue.add(new Runnable() {
+				public void run() {
+					showDetails(position, animate);
+				}
+			});
+			mAdapter.setDetailPosition(position);
+
+			// This ends up triggering onDataSetChanged(), which eventually takes
+			// the next runnable off the UiQueue (the one we just added).
+			mAdapter.notifyDataSetChanged();
+
+			invalidate();
+			releaseSemaphore();
+			return;
+		}
 
 		// If this ListView hasn't drawn any children at all yet, wait until it has.
 		if (getChildCount() == 0) {
@@ -691,7 +690,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 					}
 				}
 			});
-			return false;
+			return;
 		}
 
 		if (mFooterView.getHeight() != getHeight() || mFooterView.getHasDrawn()) {
@@ -722,7 +721,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 					synchronizedShowDetails(position, animate);
 				}
 			});
-			return false;
+			return;
 		}
 
 		// By this point, we've done all UI looping and waiting.
@@ -731,7 +730,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		mDetailsCardView = (ItinCard) getFreshDetailView(position);
 		if (mDetailsCardView == null || !mDetailsCardView.hasDetails()) {
 			releaseSemaphore();
-			return true;
+			return;
 		}
 
 		mDetailPosition = position;
@@ -765,7 +764,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			mDetailsCardView.expand(false);
 			releaseSemaphore();
 		}
-		return false;
 	}
 
 	private Animator buildExpandAnimatorSet(int expandedHeight) {
@@ -978,15 +976,14 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	private void releaseSemaphore() {
 		mModeSwitchSemaphore.release();
-		if (!mUiQueue.isEmpty()) {
-			getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-				public void onGlobalLayout() {
-					getViewTreeObserver().removeGlobalOnLayoutListener(this);
-					Runnable next = mUiQueue.poll();
-					next.run();
+		getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+			public void onGlobalLayout() {
+				getViewTreeObserver().removeGlobalOnLayoutListener(this);
+				if (!mUiQueue.isEmpty()) {
+					mUiQueue.poll().run();
 				}
-			});
-		}
+			}
+		});
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
