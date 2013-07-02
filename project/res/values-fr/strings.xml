@@ -1716,7 +1716,7 @@
 
     <!-- About activity -->
     <!-- Label for "contact Expedia" button in info page -->
-    <string name="contact_expedia">Contacter Expedia</string>
+    <string name="contact_expedia">Contactez-nous</string>
     <!-- Extra description for "contact Expedia" button, when space allows -->
     <string name="contact_expedia_description">Nous sommes à votre disposition !</string>
     <!-- Title for different ways to connect to Expedia -->
