@@ -1113,7 +1113,7 @@
     <!-- Label for picking guests for hotel booking -->
     <string name="who_is_going">&lt;b&gt;Combien&lt;/b&gt; de personnes ?</string>
     <!-- Child age dialog button -->
-    <string name="button_done">Terminé</string>
+    <string name="button_done">Valider</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">Sélectionner l\&apos;âge de l\&apos;enfant</item>
