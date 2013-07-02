@@ -159,8 +159,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	// OVERRIDES
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	@Override
-	public ItinCardDataAdapter getAdapter() {
+	public ItinCardDataAdapter getItinCardDataAdapter() {
 		return mAdapter;
 	}
 
