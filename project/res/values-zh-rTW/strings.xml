@@ -280,7 +280,7 @@
     <string name="add_hotel_fallback">加訂目的地的飯店</string>
 
     <!-- Itin Local Expert -->
-    <string name="talk_to_local_expert">與本地專家交談</string>
+    <string name="talk_to_local_expert">與 Local Expert 交談</string>
 
     <!-- Local Expert Sites -->
     <!-- Name of Hawaii (for local expert) -->
@@ -293,7 +293,7 @@
     <!-- Template for the city title on Local Expert pages. %1$s is the name of the city-->
     <string name="local_expert_title_TEMPLATE">享受%1$s</string>
     <!-- Description body for the Local Expert pages -->
-    <string name="local_expert_description">只要一通電話，\n您的本地專家將很樂意為您規劃旅遊行程</string>
+    <string name="local_expert_description">只要一通電話，\n您的 Local Expert 將很樂意為您規劃旅遊行程</string>
     <!-- Text for the button on Local Expert pages, to call the concierge -->
     <string name="local_expert_call_button_text">現在就來電！</string>
 

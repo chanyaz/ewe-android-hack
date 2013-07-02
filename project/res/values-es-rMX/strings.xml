@@ -280,7 +280,7 @@
     <string name="add_hotel_fallback">Agregar un hotel a tu destino</string>
 
     <!-- Itin Local Expert -->
-    <string name="talk_to_local_expert">Hablar con un experto local</string>
+    <string name="talk_to_local_expert">Hablar con un Local Expert</string>
 
     <!-- Local Expert Sites -->
     <!-- Name of Hawaii (for local expert) -->
@@ -293,7 +293,7 @@
     <!-- Template for the city title on Local Expert pages. %1$s is the name of the city-->
     <string name="local_expert_title_TEMPLATE">Disfruta de %1$s</string>
     <!-- Description body for the Local Expert pages -->
-    <string name="local_expert_description">Tu Concierge experto en el destino está a tan solo una llamada \n de distancia para cualquier necesidad que tengas durante tu viaje.</string>
+    <string name="local_expert_description">Tu Concierge Local Expert está a tan solo una llamada \n de distancia para cualquier necesidad que tengas durante tu viaje.</string>
     <!-- Text for the button on Local Expert pages, to call the concierge -->
     <string name="local_expert_call_button_text">Llámalos</string>
 
