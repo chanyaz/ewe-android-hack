@@ -1,22 +1,14 @@
 package com.expedia.bookings.data.trips;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.LocalExpertSite.Destination;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.model.DismissedItinButton;
 import com.expedia.bookings.widget.ItinCard;
@@ -26,6 +18,12 @@ import com.expedia.bookings.widget.itin.ItinButtonCard.ItinButtonType;
 import com.expedia.bookings.widget.itin.ItinButtonCard.OnHideListener;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.util.SettingUtils;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickListener, OnHideListener {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -480,9 +478,8 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	}
 
 	private void addLocalExpertData(List<ItinCardData> itinCardDatas) {
-		// Can we show local expert?
-		if (PointOfSale.getPointOfSale().supportsLocalExpert()
-				&& SettingUtils.get(mContext, R.string.setting_hide_local_expert, false)) {
+		// Is Local Expert turned off?
+		if (SettingUtils.get(mContext, R.string.setting_hide_local_expert, false)) {
 			return;
 		}
 
