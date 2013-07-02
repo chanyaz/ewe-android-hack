@@ -1215,7 +1215,7 @@
     <!-- Sort by deals label -->
     <string name="sort_description_deals">Promos</string>
     <!-- Sort by user rating label -->
-    <string name="sort_description_rating">Note clients</string>
+    <string name="sort_description_rating">Avis</string>
 
     <!-- Filter option for "show all" -->
     <string name="all">Tout</string>
