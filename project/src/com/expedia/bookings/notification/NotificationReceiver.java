@@ -229,8 +229,14 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 			@Override
 			public void onImageLoaded(String url, Bitmap bitmap) {
-				// #1457 - We make a copy so that the TwoLevelImageCache can't recycle it from underneath us
-				mBitmap = bitmap.copy(bitmap.getConfig(), false);
+				try {
+					// #1457 - We make a copy so that the TwoLevelImageCache can't recycle it from underneath us
+					mBitmap = bitmap.copy(bitmap.getConfig(), false);
+				}
+				catch (OutOfMemoryError e) {
+					// Gracefully handle out of memory here by just not displaying a big picture. NBD
+					mBitmap = null;
+				}
 				display();
 			}
 		};
