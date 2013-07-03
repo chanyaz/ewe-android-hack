@@ -1,13 +1,21 @@
 package com.expedia.bookings.data;
 
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
-import com.expedia.bookings.R;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.expedia.bookings.R;
+import com.mobiata.android.util.IoUtils;
 
 public class LocalExpertSite implements Parcelable {
 
@@ -49,6 +57,40 @@ public class LocalExpertSite implements Parcelable {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Data loaded on init
+
+	private static Map<Destination, String> sPhoneNumbers = new HashMap<Destination, String>();
+
+	public static void init(Context context) {
+		try {
+			InputStream is = context.getAssets().open("ExpediaSharedData/LocalExpertConfig.json");
+			String data = IoUtils.convertStreamToString(is);
+			JSONObject leData = new JSONObject(data);
+			JSONArray locations = leData.optJSONArray("locations");
+			for (int a = 0; a < locations.length(); a++) {
+				JSONObject location = locations.optJSONObject(a);
+
+				String name = location.optString("name");
+				Destination destination = null;
+				if (name.equals("Hawaii")) {
+					destination = Destination.HAWAII;
+				}
+				else if (name.equals("Las Vegas")) {
+					destination = Destination.LAS_VEGAS;
+				}
+				else if (name.equals("Orlando")) {
+					destination = Destination.ORLANDO;
+				}
+
+				sPhoneNumbers.put(destination, location.optString("phoneNumber"));
+			}
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// Convenience builders for preset sites
 
 	public enum Destination {
@@ -71,12 +113,12 @@ public class LocalExpertSite implements Parcelable {
 		LocalExpertSite.Builder siteBuilder = new LocalExpertSite.Builder(context);
 
 		siteBuilder.setTrackingId(destination.getTrackingId());
+		siteBuilder.setPhoneNumber(sPhoneNumbers.get(destination));
 
 		switch (destination) {
 		case HAWAII:
 			siteBuilder.setCity(R.string.site_hawaii);
 			siteBuilder.setCityIcon(R.drawable.ic_local_expert_hawaii);
-			siteBuilder.setPhoneNumber("1-888-353-8528");
 			siteBuilder.setBackground(R.drawable.bg_local_expert_hawaii);
 
 			// Location-specific attractions
@@ -105,7 +147,6 @@ public class LocalExpertSite implements Parcelable {
 		case LAS_VEGAS:
 			siteBuilder.setCity(R.string.site_las_vegas);
 			siteBuilder.setCityIcon(R.drawable.ic_local_expert_vegas);
-			siteBuilder.setPhoneNumber("1-888-353-8529");
 			siteBuilder.setBackground(R.drawable.bg_local_expert_las_vegas);
 
 			// Location-specific attractions
@@ -127,7 +168,6 @@ public class LocalExpertSite implements Parcelable {
 		case ORLANDO:
 			siteBuilder.setCity(R.string.site_orlando);
 			siteBuilder.setCityIcon(R.drawable.ic_local_expert_orlando);
-			siteBuilder.setPhoneNumber("1-888-300-7352");
 			siteBuilder.setBackground(R.drawable.bg_local_expert_orlando);
 
 			// Location-specific attractions
