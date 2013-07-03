@@ -137,7 +137,7 @@
                     android:layout_toRightOf="@+id/date_range_text"
                     android:gravity="right"
                     android:maxLines="1"
-                    android:textColor="@color/hotel_mini_receipt_price_text"
+                    android:textColor="?attr/hotelPriceStandardColor"
                     android:textSize="22sp"
                     app:textStyle="bold" />
 
