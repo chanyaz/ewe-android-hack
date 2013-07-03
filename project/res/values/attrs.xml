@@ -197,4 +197,7 @@
     <attr name="hotelDetailSaleRibbonDrawable" format="reference" />
     <attr name="roomsRatesSaleRibbonDrawable" format="reference" />
 
+    <!-- Hotel listing user review rating style -->
+    <attr name="hotelListingUserRatingStyle" format="reference" />
+
 </resources>
