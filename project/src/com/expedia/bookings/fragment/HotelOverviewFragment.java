@@ -986,7 +986,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 					mIsDoneLoadingPriceChange = true;
 					mHotelReceipt.bind(mIsDoneLoadingPriceChange, Db.getHotelSearch().getSelectedProperty(),
-							Db.getHotelSearch().getSearchParams(), selectedRate, appliedWalletPromoCoupon());
+							Db.getHotelSearch().getSearchParams(), newRate, appliedWalletPromoCoupon());
 					updateViewVisibilities();
 				}
 				else {
