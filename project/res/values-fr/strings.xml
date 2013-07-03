@@ -1736,7 +1736,7 @@
     <!-- Extra description for "app feedback" button, when space allows -->
     <string name="app_feedback_description">Dites-nous ce que vous pensez de notre app !</string>
     <!-- Label for "app support" button in info page -->
-    <string name="app_support">Assistance pour l\&apos;app</string>
+    <string name="app_support">Aide</string>
     <!-- Extra description for "app support" button, when space allows -->
     <string name="app_support_description">Écrivez-nous et nous vous répondrons dans les plus brefs délais.</string>
     <!-- Extra description for "tell a friend" button, when space allows -->
