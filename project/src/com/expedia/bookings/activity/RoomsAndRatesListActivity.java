@@ -24,6 +24,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.fragment.RoomsAndRatesFragment;
 import com.expedia.bookings.fragment.RoomsAndRatesFragment.RoomsAndRatesFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.DebugMenu;
@@ -36,8 +37,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
 public class RoomsAndRatesListActivity extends SherlockFragmentActivity implements RoomsAndRatesFragmentListener {
-
-	private static final String DOWNLOAD_KEY = "com.expedia.booking.details.offer.full";
 
 	private static final long RESUME_TIMEOUT = 1000 * 60 * 20; // 20 minutes
 
@@ -152,12 +151,13 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 		}
 		else {
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();
-			if (bd.isDownloading(DOWNLOAD_KEY)) {
+			if (bd.isDownloading(CrossContextHelper.KEY_INFO_DOWNLOAD)) {
 				mRoomsAndRatesFragment.showProgress();
-				bd.registerDownloadCallback(DOWNLOAD_KEY, mCallback);
+				bd.registerDownloadCallback(CrossContextHelper.KEY_INFO_DOWNLOAD, mCallback);
 			}
 			else {
-				bd.startDownload(DOWNLOAD_KEY, mDownload, mCallback);
+				bd.startDownload(CrossContextHelper.KEY_INFO_DOWNLOAD,
+						CrossContextHelper.getHotelOffersDownload(this, CrossContextHelper.KEY_INFO_DOWNLOAD), mCallback);
 			}
 		}
 
@@ -182,10 +182,10 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 		super.onPause();
 
 		if (!isFinishing()) {
-			BackgroundDownloader.getInstance().unregisterDownloadCallback(DOWNLOAD_KEY);
+			BackgroundDownloader.getInstance().unregisterDownloadCallback(CrossContextHelper.KEY_INFO_DOWNLOAD);
 		}
 		else {
-			BackgroundDownloader.getInstance().cancelDownload(DOWNLOAD_KEY);
+			BackgroundDownloader.getInstance().cancelDownload(CrossContextHelper.KEY_INFO_DOWNLOAD);
 		}
 
 		OmnitureTracking.onPause();
@@ -227,15 +227,6 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 
 	//////////////////////////////////////////////////////////////////////////
 	// Downloading rooms & rates
-
-	private final Download<HotelOffersResponse> mDownload = new Download<HotelOffersResponse>() {
-		@Override
-		public HotelOffersResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(RoomsAndRatesListActivity.this);
-			BackgroundDownloader.getInstance().addDownloadListener(DOWNLOAD_KEY, services);
-			return services.availability(Db.getHotelSearch().getSearchParams(), Db.getHotelSearch().getSelectedProperty());
-		}
-	};
 
 	private final OnDownloadComplete<HotelOffersResponse> mCallback = new OnDownloadComplete<HotelOffersResponse>() {
 		@Override
