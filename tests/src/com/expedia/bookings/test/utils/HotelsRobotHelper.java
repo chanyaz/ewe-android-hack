@@ -263,8 +263,18 @@ public class HotelsRobotHelper {
 			//might break stuff
 		enterLog(TAG, "After clicking search button");
 
-		mSolo.waitForActivity("ExpediaBookingApp"); // Add another wait if this causes instability
-		enterLog(TAG, "Location searched for and results loaded!");
+		String activityString = "ExpediaBookingApp";
+		int count = 0;
+		while (count < 5 && !mSolo.waitForActivity(activityString)) {
+			delay(5);
+			count++;
+		}
+		if (mSolo.waitForActivity(activityString)) {
+			enterLog(TAG, "Location searched for and results loaded!");
+		}
+		else {
+			Log.e(TAG, "Robotium: Never got hotel search results.");
+		}
 
 		delay();
 		hotelListScreenshots();
@@ -855,8 +865,16 @@ public class HotelsRobotHelper {
 					if (mSolo.searchText(shop, true)) {
 						mSolo.clickOnText(shop);
 					}
-					else {
+					else if (mSolo.searchText(uppercaseShop, true)) {
 						mSolo.clickOnText(uppercaseShop);
+					}
+					else if (mSolo.searchText("SHOP", true)) {
+						mSolo.clickOnText("SHOP");
+						Log.d(TAG, "Something wrong with loc. Clicking 'SHOP'");
+					}
+					else {
+						mSolo.clickOnText("Shop");
+						Log.d(TAG, "Something wrong with loc. Clicking 'Shop'");
 					}
 				}
 				catch (Error e) {
