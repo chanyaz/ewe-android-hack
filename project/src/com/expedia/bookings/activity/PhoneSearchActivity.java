@@ -2044,7 +2044,10 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		setActionBarBookingInfoText();
 
 		if (mDisplayType == DisplayType.CALENDAR && !mHasShownCalendar) {
-			mDatesCalendarDatePicker.reset();
+			//Instead of displaying the default stay, show an empty calendar
+			if(Db.getHotelSearch().getSearchParams().isDefaultStay()){
+					mDatesCalendarDatePicker.reset();
+			}
 			mHasShownCalendar = true;
 		}
 	}
