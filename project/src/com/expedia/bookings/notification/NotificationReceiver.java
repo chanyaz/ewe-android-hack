@@ -235,6 +235,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 				}
 				catch (OutOfMemoryError e) {
 					// Gracefully handle out of memory here by just not displaying a big picture. NBD
+					Log.w("Ran out of memory downloading a notification bitmap", e);
 					mBitmap = null;
 				}
 				display();
