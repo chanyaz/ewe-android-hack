@@ -32,7 +32,6 @@ import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 import com.expedia.bookings.widget.itin.ItinButtonCard;
@@ -99,6 +98,8 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	private FooterView mFooterView;
 
+	private int mExpandedHeight = 0;
+
 	// If true, there's a second pane which handles showing card details.  Don't expand cards when clicked.
 	private boolean mSimpleMode = false;
 
@@ -154,6 +155,12 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		mPathViewPaint = new Paint();
 		mPathViewPaint.setColor(mPathColor);
 		mPathViewPaint.setStrokeWidth(mPathWidth);
+	}
+
+	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		super.onSizeChanged(w, h, oldw, oldh);
+		mExpandedHeight = Math.max(h, oldh);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -736,26 +743,25 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			mOnListModeChangedListener.onListModeChanged(isInDetailMode(), animate);
 		}
 
-		final int expandedHeight = getHeight() + LayoutUtils.getActionBarSize(getContext());
 		if (animate) {
-			Animator set = buildExpandAnimatorSet(expandedHeight);
+			Animator set = buildExpandAnimatorSet(mExpandedHeight);
 			set.addListener(new AnimatorListenerShort() {
 				@Override
 				public void onAnimationCancel(Animator arg0) {
-					finishExpand(expandedHeight);
+					finishExpand(mExpandedHeight);
 					releaseSemaphore();
 				}
 
 				@Override
 				public void onAnimationEnd(Animator arg0) {
-					finishExpand(expandedHeight);
+					finishExpand(mExpandedHeight);
 					releaseSemaphore();
 				}
 			});
 			set.start();
 		}
 		else {
-			finishExpand(expandedHeight);
+			finishExpand(mExpandedHeight);
 			mDetailsCardView.expand(false);
 			releaseSemaphore();
 		}
