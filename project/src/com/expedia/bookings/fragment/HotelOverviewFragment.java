@@ -24,7 +24,6 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -43,6 +42,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
@@ -972,8 +972,21 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 						String val = SettingUtils.get(getActivity(),
 								getString(R.string.preference_fake_price_change),
 								getString(R.string.preference_fake_price_change_default));
+						BigDecimal bigDecVal = new BigDecimal(val);
 
-						newRate.getDisplayTotalPrice().add(new BigDecimal(val));
+						//Update total price
+						newRate.getDisplayTotalPrice().add(bigDecVal);
+
+						//Update all nights total and per/night totals
+						newRate.getNightlyRateTotal().add(bigDecVal);
+						if (newRate.getRateBreakdownList() != null) {
+							BigDecimal perNightChange = bigDecVal.divide(new BigDecimal(newRate
+									.getRateBreakdownList().size()));
+							for (RateBreakdown breakdown : newRate.getRateBreakdownList()) {
+								breakdown.getAmount().add(perNightChange);
+							}
+						}
+
 					}
 
 					int priceChange = selectedRate.compareForPriceChange(newRate);
