@@ -1322,8 +1322,14 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		boolean codeIsPromo = usingWalletPromoCoupon();
 		boolean applyingCoupon = BackgroundDownloader.getInstance().isDownloading(KEY_APPLY_COUPON);
 		boolean appliedCoupon = Db.getHotelSearch().getCreateTripResponse() != null;
-		mCouponCodeLayout.setVisibility(mBillingInfo.isUsingGoogleWallet()
-				&& offeredPromo && codeIsPromo && (applyingCoupon || appliedCoupon) ? View.GONE : View.VISIBLE);
+		if (Db.getHotelSearch().getSelectedProperty().isMerchant()) {
+			mCouponCodeLayout.setVisibility(mBillingInfo.isUsingGoogleWallet()
+					&& offeredPromo && codeIsPromo && (applyingCoupon || appliedCoupon) ? View.GONE : View.VISIBLE);
+		}
+		else {
+			// Always hide for non-merchants
+			mCouponCodeLayout.setVisibility(View.GONE);
+		}
 
 		mHotelReceipt.bind(appliedWalletPromoCoupon());
 	}
