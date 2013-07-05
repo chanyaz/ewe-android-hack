@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 
     <PreferenceCategory android:title="Development" >
+
         <ListPreference
             android:entries="@array/api_names"
             android:entryValues="@array/api_names"
@@ -28,18 +29,20 @@
             android:summary="Log sent/received cookies in logcat.  Very verbose, so usually you want it off."
             android:title="Enable Cookie Logging" />
 
-        <EditTextPreference
-            android:defaultValue="@string/preference_fake_price_change_default"
-            android:inputType="numberDecimal|numberSigned"
-            android:key="@string/preference_fake_price_change"
-            android:summary="Fake a price change during checkout (e.g., 10.25 for a $10.25 price change)"
-            android:title="Fake Hotel and Flight Price Change" />
-        <EditTextPreference
-            android:defaultValue="@string/preference_flight_fake_obfees_default"
-            android:inputType="numberDecimal|numberSigned"
-            android:key="@string/preference_flight_fake_obfees"
-            android:summary="Fake some online booking fees.  Positive numbers only."
-            android:title="Fake Flight ObFees" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/preference_google_wallet_cvv_challenge"
+            android:summary="Tries to create a CVV challenge upon checkout using Google Wallet.  Not guaranteed."
+            android:title="Google Wallet CVV Challenge" />
+
+        <Preference
+            android:key="@string/preference_force_fs_db_update"
+            android:summary="If you think the internal FS.db is out of date"
+            android:title="Force FlightStats DB Update" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Hotels" >
 
         <com.expedia.bookings.widget.CheckBoxPreference
             app:id="@id/preference_spoof_booking_checkbox"
@@ -52,12 +55,61 @@
             android:summary="Only return non-merchant hotels for testing"
             android:title="Filter Merchant Hotels" />
 
+        <EditTextPreference
+            android:defaultValue="@string/preference_fake_price_change_default"
+            android:inputType="numberDecimal|numberSigned"
+            android:key="@string/preference_fake_hotel_price_change"
+            android:summary="Fake a price change during checkout (e.g., 10.25 for a $10.25 price change)"
+            android:title="Fake Hotel Price Change" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Flights" >
+
         <com.expedia.bookings.widget.CheckBoxPreference
             app:id="@id/preference_suppress_flight_booking_checkbox"
             android:defaultValue="true"
             android:key="@string/preference_suppress_bookings"
             android:summary="Do flight bookings, but suppress any actual booking from going through"
             android:title="Suppress Flight Bookings" />
+
+        <EditTextPreference
+            android:defaultValue="@string/preference_fake_price_change_default"
+            android:inputType="numberDecimal|numberSigned"
+            android:key="@string/preference_fake_flight_price_change"
+            android:summary="Fake a price change during checkout (e.g., 10.25 for a $10.25 price change)"
+            android:title="Fake Flight Price Change" />
+
+        <EditTextPreference
+            android:defaultValue="@string/preference_flight_fake_obfees_default"
+            android:inputType="numberDecimal|numberSigned"
+            android:key="@string/preference_flight_fake_obfees"
+            android:summary="Fake some online booking fees.  Positive numbers only."
+            android:title="Fake Flight ObFees" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Push" >
+
+        <com.expedia.bookings.widget.GCMIdDialogPreference
+            android:key="@string/preference_push_notification_gcm_id"
+            android:title="GCM Info" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/preference_disable_push_registration"
+            android:summary="Dont tell the server about your itin flights."
+            android:title="Disable push registrations." />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/preference_push_notification_any_flight"
+            android:summary="If we get a push notification for a flight, but can&apos;t find that flight locally, then just use any other available flight"
+            android:title="Push notifications use local flight." />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Location" >
 
         <EditTextPreference
             android:defaultValue=""
@@ -70,30 +122,7 @@
             android:key="@string/preference_force_new_location"
             android:summary="Force launcher to fetch new location. Does not work if fake location set, remove fake location to force fetch."
             android:title="Force Location Fetch" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="@string/preference_google_wallet_cvv_challenge"
-            android:summary="Tries to create a CVV challenge upon checkout using Google Wallet.  Not guaranteed."
-            android:title="Google Wallet CVV Challenge" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="@string/preference_disable_push_registration"
-            android:summary="Dont tell the server about your itin flights."
-            android:title="Disable push registrations." />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="@string/preference_push_notification_any_flight"
-            android:summary="If we get a push notification for a flight, but can&apos;t find that flight locally, then just use any other available flight"
-            android:title="Push notifications use local flight." />
 
-        <Preference
-            android:key="@string/preference_force_fs_db_update"
-            android:summary="If you think the internal FS.db is out of date"
-            android:title="Force FlightStats DB Update" />
-
-        <com.expedia.bookings.widget.GCMIdDialogPreference
-            android:key="@string/preference_push_notification_gcm_id"
-            android:title="GCM Info" />
     </PreferenceCategory>
 
 </PreferenceScreen>

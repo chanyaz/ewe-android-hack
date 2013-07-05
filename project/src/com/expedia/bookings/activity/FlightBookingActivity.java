@@ -302,7 +302,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 			// This is sort of a second price change, to help figure out testing when we have obfees and a price change...
 			if (!AndroidUtils.isRelease(this)) {
 				String val = SettingUtils.get(this,
-						getString(R.string.preference_fake_price_change),
+						getString(R.string.preference_fake_flight_price_change),
 						getString(R.string.preference_fake_price_change_default));
 				currentOffer.getTotalFare().add(new BigDecimal(val));
 				newOffer.getTotalFare().add(new BigDecimal(val));
@@ -550,7 +550,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 	private BigDecimal getFakePriceChangeAmount() {
 		String amount = SettingUtils.get(mContext,
-				getString(R.string.preference_fake_price_change),
+				getString(R.string.preference_fake_flight_price_change),
 				getString(R.string.preference_fake_price_change_default));
 		return new BigDecimal(amount);
 	}

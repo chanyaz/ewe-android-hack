@@ -970,7 +970,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				if (TextUtils.equals(selectedRate.getRateKey(), response.getOriginalProductKey())) {
 					if (!AndroidUtils.isRelease(getActivity())) {
 						String val = SettingUtils.get(getActivity(),
-								getString(R.string.preference_fake_price_change),
+								getString(R.string.preference_fake_hotel_price_change),
 								getString(R.string.preference_fake_price_change_default));
 						BigDecimal bigDecVal = new BigDecimal(val);
 
