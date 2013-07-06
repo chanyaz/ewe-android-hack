@@ -32,7 +32,7 @@ public class NavigationDropdownAdapter extends BaseAdapter {
 	}
 
 	public NavigationDropdownAdapter(Context context, NoOpButton noopbtn) {
-		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mInflater = LayoutInflater.from(context);
 		mContext = context;
 		mNoOpBtn = noopbtn;
 		initData(context);

@@ -191,7 +191,7 @@ public class LayoutUtils {
 
 	private static void addAmenity(Context context, ViewGroup amenitiesTable, Amenity amenity, int iconResourceId) {
 
-		LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater layoutInflater = LayoutInflater.from(context);
 		TextView amenityTextView = (TextView) layoutInflater.inflate(R.layout.snippet_amenity, amenitiesTable, false);
 
 		String amenityStr = context.getString(amenity.getStrId());

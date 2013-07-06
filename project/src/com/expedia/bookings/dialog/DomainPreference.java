@@ -157,7 +157,7 @@ public class DomainPreference extends ListPreference {
 		private int mSelected = 0;
 
 		public DomainAdapter(Context context) {
-			mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			mInflater = LayoutInflater.from(context);
 		}
 
 		public void setDomains(CharSequence[] names, CharSequence[] values) {

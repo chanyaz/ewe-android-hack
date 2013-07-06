@@ -760,7 +760,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 				DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_ABBREV_WEEKDAY
 						| DateUtils.FORMAT_ABBREV_MONTH);
 
-		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = LayoutInflater.from(this);
 		View customView = inflater.inflate(R.layout.action_bar_flight_results, null);
 		TextView titleTextView = Ui.findView(customView, R.id.title_text_view);
 		TextView subtitleTextView = Ui.findView(customView, R.id.subtitle_text_view);

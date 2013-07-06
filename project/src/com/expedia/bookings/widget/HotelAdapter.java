@@ -80,7 +80,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 	private void init(final Activity activity) {
 		mContext = activity;
-		mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mInflater = LayoutInflater.from(mContext);
 		mUseCondensedRows = LayoutUtils.isScreenNarrow(mContext);
 
 		mDefaultTextColor = mContext.getResources().getColor(R.color.hotel_price_text_color);

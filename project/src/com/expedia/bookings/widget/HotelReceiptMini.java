@@ -61,7 +61,7 @@ public class HotelReceiptMini extends FrameLayout {
 	public HotelReceiptMini(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 
-		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mInflater = LayoutInflater.from(context);
 		mInflater.inflate(R.layout.widget_hotel_receipt_mini, this);
 
 		mTotalCostLayout = (View) findViewById(R.id.total_cost_layout);

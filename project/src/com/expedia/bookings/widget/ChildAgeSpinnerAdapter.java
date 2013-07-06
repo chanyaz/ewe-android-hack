@@ -18,7 +18,7 @@ public class ChildAgeSpinnerAdapter extends BaseAdapter {
 	private Resources mResources;
 
 	public ChildAgeSpinnerAdapter(Context context) {
-		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mInflater = LayoutInflater.from(context);
 		mResources = context.getResources();
 	}
 

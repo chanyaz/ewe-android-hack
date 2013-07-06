@@ -44,7 +44,7 @@ public class FilterDialogFragment extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		Builder builder = new AlertDialog.Builder(getActivity());
 
-		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = LayoutInflater.from(getActivity());
 		View view = inflater.inflate(R.layout.fragment_dialog_filter, null);
 		builder.setView(view);
 

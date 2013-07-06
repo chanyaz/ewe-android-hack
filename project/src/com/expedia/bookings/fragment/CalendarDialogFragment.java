@@ -75,7 +75,7 @@ public class CalendarDialogFragment extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		Builder builder = new AlertDialog.Builder(getActivity());
 
-		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = LayoutInflater.from(getActivity());
 		View view = createView(inflater, null, savedInstanceState);
 		builder.setView(view);
 

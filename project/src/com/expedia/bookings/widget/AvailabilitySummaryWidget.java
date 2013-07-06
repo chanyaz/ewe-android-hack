@@ -79,7 +79,7 @@ public class AvailabilitySummaryWidget implements OnLayoutChangeListener {
 		if (mRatesContainer != null) {
 			// Pre-generate the rate rows, if we have a place to put them
 			mRateRows = new ArrayList<AvailabilitySummaryWidget.RateRow>();
-			LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			LayoutInflater inflater = LayoutInflater.from(mContext);
 			for (int a = 0; a < mMaxRateRows; a++) {
 				View row = inflater.inflate(R.layout.snippet_availability_summary_row, mRatesContainer, false);
 				mRateRows.add(new RateRow(row));

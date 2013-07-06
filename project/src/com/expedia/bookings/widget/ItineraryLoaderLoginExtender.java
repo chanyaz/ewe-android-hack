@@ -68,7 +68,7 @@ public class ItineraryLoaderLoginExtender implements LoginExtender, ItinerarySyn
 		mContext = context;
 		extenderContainer.removeAllViews();
 
-		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = LayoutInflater.from(mContext);
 		mView = inflater.inflate(R.layout.snippet_itin_progress_message_retry, null);
 		mProgress = Ui.findView(mView, R.id.itinerary_loading_progress);
 		mErrorContainer = Ui.findView(mView, R.id.error_container);

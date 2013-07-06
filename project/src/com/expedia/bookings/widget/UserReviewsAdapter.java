@@ -41,7 +41,7 @@ public class UserReviewsAdapter extends BaseAdapter {
 
 	public UserReviewsAdapter(Context context, ListView listView) {
 		mContext = context;
-		mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mInflater = LayoutInflater.from(mContext);
 		mListView = listView;
 		mAddDivider = false;
 	}

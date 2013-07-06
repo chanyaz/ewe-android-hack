@@ -55,7 +55,7 @@ public class SimpleNumberPicker extends LinearLayout {
 	}
 
 	private void init() {
-		LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = LayoutInflater.from(getContext());
 		inflater.inflate(R.layout.simple_number_picker, this, true);
 
 		setOrientation(LinearLayout.VERTICAL);

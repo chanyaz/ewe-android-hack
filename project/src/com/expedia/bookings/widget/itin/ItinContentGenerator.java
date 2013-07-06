@@ -73,7 +73,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	}
 
 	protected LayoutInflater getLayoutInflater() {
-		return (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		return LayoutInflater.from(mContext);
 	}
 
 	// Convenience method

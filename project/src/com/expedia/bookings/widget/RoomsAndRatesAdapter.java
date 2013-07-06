@@ -56,7 +56,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		mContext = context;
 		mResources = context.getResources();
 
-		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mInflater = LayoutInflater.from(context);
 
 		mProperty = response.getProperty();
 		mRates = response.getRates();

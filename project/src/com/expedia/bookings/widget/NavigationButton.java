@@ -102,7 +102,7 @@ public class NavigationButton extends LinearLayout {
 		setOrientation(LinearLayout.HORIZONTAL);
 		setGravity(Gravity.CENTER_VERTICAL);
 
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = LayoutInflater.from(context);
 		inflater.inflate(R.layout.widget_image_dropdown, this);
 
 		mContext = context;
@@ -182,7 +182,7 @@ public class NavigationButton extends LinearLayout {
 
 	public void setCustomView(int resId) {
 		mSideViews.removeAllViews();
-		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = LayoutInflater.from(mContext);
 		inflater.inflate(resId, mSideViews);
 	}
 

@@ -62,7 +62,7 @@ public class GuestsDialogFragment extends DialogFragment {
 		Builder builder = new AlertDialog.Builder(getActivity());
 
 		// Inflate the main content
-		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = LayoutInflater.from(getActivity());
 		View parent = inflater.inflate(R.layout.fragment_dialog_guests, null);
 		mAdultsNumberPicker = (SimpleNumberPicker) parent.findViewById(R.id.adults_number_picker);
 		mChildrenNumberPicker = (SimpleNumberPicker) parent.findViewById(R.id.children_number_picker);

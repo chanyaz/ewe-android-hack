@@ -62,7 +62,7 @@ public class UserToTripAssocLoginExtender implements LoginExtender {
 
 		extenderContainer.removeAllViews();
 
-		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = LayoutInflater.from(mContext);
 		mView = inflater.inflate(R.layout.snippet_assoc_user_to_trip_loading, null);
 		extenderContainer.addView(mView);
 

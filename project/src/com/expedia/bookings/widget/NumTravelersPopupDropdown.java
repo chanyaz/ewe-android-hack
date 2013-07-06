@@ -23,7 +23,7 @@ public class NumTravelersPopupDropdown {
 
 	public static PopupWindow newInstance(Context context) {
 		NumTravelersAdapter adapter = new NumTravelersAdapter(context);
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = LayoutInflater.from(context);
 		LinearLayout numAdultsContent = (LinearLayout) inflater.inflate(R.layout.snippet_nav_dropdown, null);
 		ListView lv = Ui.findView(numAdultsContent, R.id.nav_dropdown_list);
 		lv.setAdapter(adapter);
@@ -48,7 +48,7 @@ public class NumTravelersPopupDropdown {
 
 		public NumTravelersAdapter(Context context) {
 			mContext = context;
-			mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			mInflater = LayoutInflater.from(context);
 			init();
 		}
 

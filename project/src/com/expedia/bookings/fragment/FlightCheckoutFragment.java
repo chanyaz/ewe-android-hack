@@ -329,7 +329,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		mTravelerSections.clear();
 		mAddTravelerSections.clear();
 
-		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = LayoutInflater.from(getActivity());
 		final int numAdults = Db.getFlightSearch().getSearchParams().getNumAdults();
 		List<Traveler> travelers = Db.getTravelers();
 

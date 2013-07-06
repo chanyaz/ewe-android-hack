@@ -22,7 +22,7 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 	public LaunchFlightAdapter(Context context) {
 		super(context, R.layout.row_launch_tile_flight);
 		mContext = context;
-		mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mInflater = LayoutInflater.from(mContext);
 
 		// Add enough blank items so that we can show blank tiles before loading
 		int numTiles = getNumTiles();

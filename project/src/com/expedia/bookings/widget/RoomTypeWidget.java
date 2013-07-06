@@ -32,7 +32,7 @@ public class RoomTypeWidget {
 		mIsExpandable = isExpandable;
 
 		// Inflate the view
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = LayoutInflater.from(context);
 		View roomTypeRow = mRoomTypeRow = inflater.inflate(R.layout.snippet_room_type_widget, null);
 
 		// Cache the views
