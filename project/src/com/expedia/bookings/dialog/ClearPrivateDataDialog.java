@@ -1,0 +1,60 @@
+package com.expedia.bookings.dialog;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.data.User;
+import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference.ClearPrivateDataListener;
+import com.expedia.bookings.utils.ClearPrivateDataUtil;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.widget.Toast;
+
+public class ClearPrivateDataDialog extends DialogFragment {
+
+	private ClearPrivateDataListener mClearPrivateDataListener;
+
+	@Override
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+		builder.setTitle(R.string.dialog_clear_private_data_title);
+		if (User.isLoggedIn(getActivity())) {
+			builder.setMessage(R.string.dialog_log_out_and_clear_private_data_msg);
+		}
+		else {
+			builder.setMessage(R.string.dialog_clear_private_data_msg);
+		}
+		builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+
+				boolean signedIn = User.isLoggedIn(getActivity());
+				ClearPrivateDataUtil.clear(getActivity());
+
+				if (mClearPrivateDataListener != null) {
+					mClearPrivateDataListener.onClearPrivateData(signedIn);
+				}
+				else {
+					Toast.makeText(getActivity(), R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show();
+				}
+			}
+		});
+		builder.setNegativeButton(R.string.cancel, new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dismiss();
+			}
+		});
+
+		return builder.create();
+	}
+	
+	public void setClearPrivateDataListener(ClearPrivateDataListener clearPrivateDataListener) {
+		mClearPrivateDataListener = clearPrivateDataListener;
+	}
+
+}

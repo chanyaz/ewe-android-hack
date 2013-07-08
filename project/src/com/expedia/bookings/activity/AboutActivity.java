@@ -15,6 +15,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.dialog.ClearPrivateDataDialog;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.HtmlUtils;
@@ -60,6 +61,8 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 	private static final int ROW_VSC_VOYAGES = 9;
 	private final static String PKG_VSC_VOYAGES = "com.vsct.vsc.mobile.horaireetresa.android";
 
+	private static final int ROW_VSC_PRIVATE_DATA = 10;
+
 	private AboutUtils mAboutUtils;
 
 	private boolean mWasStopped;
@@ -88,6 +91,10 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 			if (!ExpediaBookingApp.IS_VSC) {
 				builder.addRow(R.string.app_feedback, ROW_APP_FEEDBACK);
 				builder.addRow(com.mobiata.android.R.string.WereHiring, ROW_WERE_HIRING);
+			}
+			// 1170. VSC Add clear private data in info/about screen
+			else {
+				builder.addRow(R.string.clear_private_data, ROW_VSC_PRIVATE_DATA);
 			}
 			contactUsFragment = builder.build();
 			ft.add(R.id.section_contact_us, contactUsFragment, TAG_CONTACT_US);
@@ -336,6 +343,13 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 		}
 		case ROW_VSC_VOYAGES: {
 			SocialUtils.openSite(this, AndroidUtils.getGooglePlayAppLink(PKG_VSC_VOYAGES));
+			break;
+		}
+		// 1170. VSC Add clear private data in info/about screen
+		case ROW_VSC_PRIVATE_DATA: {
+			ClearPrivateDataDialog dialog = new ClearPrivateDataDialog();
+			dialog.show(getSupportFragmentManager(), "clearPrivateDataDialog");
+			handled = true;
 			break;
 		}
 
