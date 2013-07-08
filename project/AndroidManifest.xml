@@ -56,7 +56,7 @@
         <!-- ActiveAndroid -->
         <meta-data
             android:name="AA_DB_VERSION"
-            android:value="12" />
+            android:value="13" />
         <meta-data
             android:name="AA_MODELS"
             android:value=".model.Search, .model.DismissedItinButton, .model.WidgetConfigurationState, .data.ExpediaImage, .notification.Notification" />
