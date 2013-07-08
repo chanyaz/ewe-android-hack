@@ -1,0 +1,8 @@
+include ':lib:FacebookSdk:facebook'
+include ':lib:svg-android:svgandroid'
+include ':lib:ActionBarSherlock:actionbarsherlock'
+include ':project'
+include ':lib:OpinionLab'
+include ':lib:google-play-services'
+include ':lib:FlightLib'
+include ':lib:Utils'
