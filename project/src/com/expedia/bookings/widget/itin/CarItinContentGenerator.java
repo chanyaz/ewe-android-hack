@@ -22,7 +22,6 @@ import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.graphics.DestinationBitmapDrawable;
 import com.expedia.bookings.notification.Notification;
-import com.expedia.bookings.notification.Notification.ImageType;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;

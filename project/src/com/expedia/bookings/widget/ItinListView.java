@@ -1,5 +1,9 @@
 package com.expedia.bookings.widget;
 
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.concurrent.Semaphore;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -20,6 +24,7 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.animation.AnimatorListenerShort;
@@ -38,10 +43,6 @@ import com.nineoldandroids.animation.Animator.AnimatorListener;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
-
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.concurrent.Semaphore;
 
 @SuppressWarnings("rawtypes")
 public class ItinListView extends ListView implements OnItemClickListener, OnScrollListener, OnItinCardClickListener {

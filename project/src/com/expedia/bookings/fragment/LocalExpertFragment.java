@@ -1,5 +1,8 @@
 package com.expedia.bookings.fragment;
 
+import java.lang.ref.WeakReference;
+import java.util.List;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,6 +14,7 @@ import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LocalExpertAttraction;
 import com.expedia.bookings.data.LocalExpertSite;
@@ -20,9 +24,6 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AttractionBubbleView;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
-
-import java.lang.ref.WeakReference;
-import java.util.List;
 
 public class LocalExpertFragment extends Fragment {
 	//////////////////////////////////////////////////////////////////////////////////////

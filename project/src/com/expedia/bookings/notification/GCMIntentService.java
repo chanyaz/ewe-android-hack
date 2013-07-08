@@ -13,8 +13,6 @@ import android.os.Looper;
 
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncAdapter;
-import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
-import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent;
 import com.google.android.gcm.GCMBaseIntentService;

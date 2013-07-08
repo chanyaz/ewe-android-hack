@@ -16,7 +16,7 @@ public class WalletButton extends RelativeLayout {
 	private ProgressBar mProgressBar;
 	private View mPromo;
 
-	// Allow promo portion to be disabled completely (since we only show it on hotels) 
+	// Allow promo portion to be disabled completely (since we only show it on hotels)
 	private boolean mPromoVisible;
 
 	public WalletButton(Context context) {

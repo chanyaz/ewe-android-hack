@@ -189,11 +189,11 @@ public class PushNotificationUtils {
 
 	/**
 	 * Given the locKey and the args, we try to get the destination string.
-	 * 
+	 *
 	 * Basically most push notifications have a destination name in them, however
 	 * not all, and nothing is keyed, so we try do best effort. Return null if
 	 * not available.
-	 * 
+	 *
 	 * @param locKey
 	 * @param locKeyArgs
 	 * @return
@@ -211,7 +211,7 @@ public class PushNotificationUtils {
 	/**
 	 * Given the lockey, which argument index do we expect to contain a destination string.
 	 * A negative return value indicates that we dont expect a destination string in the args
-	 * 
+	 *
 	 * @param locKey
 	 * @return loc argument index of destination string, or negative if no destination argument
 	 */

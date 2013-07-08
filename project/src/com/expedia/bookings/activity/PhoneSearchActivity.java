@@ -385,17 +385,17 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			// HotelFilter reset is already called, hence reset appropriate searchRadius
 			SearchType searchType = Db.getHotelSearch().getSearchParams().getSearchType();
 			switch (searchType) {
-				case CITY:
-				case ADDRESS:
-				case FREEFORM:
-				case HOTEL:
-				case VISIBLE_MAP_AREA:
-					filter.setSearchRadius(SearchRadius.ALL);
-					break;
-				case MY_LOCATION:
-				case POI:
-					filter.setSearchRadius(SearchRadius.LARGE);
-					break;
+			case CITY:
+			case ADDRESS:
+			case FREEFORM:
+			case HOTEL:
+			case VISIBLE_MAP_AREA:
+				filter.setSearchRadius(SearchRadius.ALL);
+				break;
+			case MY_LOCATION:
+			case POI:
+				filter.setSearchRadius(SearchRadius.LARGE);
+				break;
 			}
 			searchResponse.setFilter(filter);
 			filter.addOnFilterChangedListener(PhoneSearchActivity.this);
@@ -426,7 +426,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		else if (searchResponse != null && searchResponse.getPropertiesCount() > 0
 				&& searchResponse.getLocations() != null && searchResponse.getLocations().size() > 0) {
 			showDialog(DIALOG_LOCATION_SUGGESTIONS);
-				}
+		}
 		else if (searchResponse != null && searchResponse.getPropertiesCount() == 0 && !searchResponse.hasErrors()) {
 			simulateErrorResponse(LayoutUtils.noHotelsFoundMessage(mContext));
 		}
@@ -941,7 +941,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			builder.setNegativeButton(R.string.cancel, null);
 			return builder.create();
 		}
-		case DIALOG_INVALID_SEARCH_RANGE:{
+		case DIALOG_INVALID_SEARCH_RANGE: {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle(R.string.search_error);
 			builder.setMessage(getString(R.string.hotel_search_range_error_TEMPLATE, MAXIMUM_SEARCH_LENGTH_DAYS));

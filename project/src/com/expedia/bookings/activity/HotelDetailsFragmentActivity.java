@@ -35,8 +35,8 @@ import com.expedia.bookings.fragment.HotelDetailsMiniGalleryFragment.HotelMiniGa
 import com.expedia.bookings.fragment.HotelDetailsMiniMapFragment;
 import com.expedia.bookings.fragment.HotelDetailsMiniMapFragment.HotelMiniMapFragmentListener;
 import com.expedia.bookings.fragment.HotelDetailsPricePromoFragment;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.CrossContextHelper;
+import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.HotelDetailsScrollView;

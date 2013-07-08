@@ -37,7 +37,7 @@ public enum CreditCardType {
 
 	/**
 	 * Get human readable name of the card type. e.g. "Master Card"
-	 * 
+	 *
 	 * @param context
 	 * @return
 	 */

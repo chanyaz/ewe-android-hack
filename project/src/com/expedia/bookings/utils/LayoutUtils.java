@@ -1,5 +1,10 @@
 package com.expedia.bookings.utils;
 
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.util.Calendar;
+import java.util.TimeZone;
+
 import android.annotation.TargetApi;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
@@ -24,6 +29,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+
 import com.actionbarsherlock.internal.ActionBarSherlockCompat;
 import com.actionbarsherlock.internal.ResourcesCompat;
 import com.expedia.bookings.R;
@@ -36,11 +42,6 @@ import com.expedia.bookings.data.Property.Amenity;
 import com.expedia.bookings.data.Rate;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
-
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.util.Calendar;
-import java.util.TimeZone;
 
 public class LayoutUtils {
 

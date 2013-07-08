@@ -1,11 +1,18 @@
 package com.expedia.bookings.data.trips;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.LocalExpertSite.Destination;
@@ -18,12 +25,6 @@ import com.expedia.bookings.widget.itin.ItinButtonCard.ItinButtonType;
 import com.expedia.bookings.widget.itin.ItinButtonCard.OnHideListener;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.util.SettingUtils;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickListener, OnHideListener {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -312,13 +313,13 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	}
 
 	// Assumes the list is sorted ahead of time
-	private Pair<Integer, Integer> calculateSummaryCardPositions(List<ItinCardData> mItinCardDatas) {
+	private Pair<Integer, Integer> calculateSummaryCardPositions(List<ItinCardData> itinCardDatas) {
 		// Reset calculated data
 		int summaryCardPosition = -1;
 		int altSummaryCardPosition = -1;
 
 		// Nothing to do if there are no itineraries
-		int len = mItinCardDatas.size();
+		int len = itinCardDatas.size();
 		if (len == 0) {
 			return new Pair<Integer, Integer>(summaryCardPosition, altSummaryCardPosition);
 		}
@@ -333,7 +334,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		for (int a = 0; a < len; a++) {
 			boolean setAsSummaryCard = false;
 
-			ItinCardData data = mItinCardDatas.get(a);
+			ItinCardData data = itinCardDatas.get(a);
 			Calendar startCal = data.getStartDate().getCalendar();
 
 			if (!data.hasDetailData()) {
@@ -385,7 +386,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 			// See if we have an alt summary card we want
 			if (summaryCardPosition + 1 < len) {
-				ItinCardData possibleAlt = mItinCardDatas.get(summaryCardPosition + 1);
+				ItinCardData possibleAlt = itinCardDatas.get(summaryCardPosition + 1);
 				long startMillis = possibleAlt.getStartDate().getCalendar().getTimeInMillis();
 				if (possibleAlt.hasDetailData() && nowMillis > startMillis - threeHours) {
 					altSummaryCardPosition = summaryCardPosition + 1;
@@ -394,7 +395,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		}
 		else {
 			// Check if last card hasn't ended; if so, make it the main summary card
-			ItinCardData lastCard = mItinCardDatas.get(len - 1);
+			ItinCardData lastCard = itinCardDatas.get(len - 1);
 			if (lastCard.hasDetailData()
 					&& lastCard.getEndDate().getCalendar().getTimeInMillis() > now.getTimeInMillis()) {
 				summaryCardPosition = len - 1;
