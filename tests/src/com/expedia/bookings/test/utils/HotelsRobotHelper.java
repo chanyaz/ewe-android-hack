@@ -715,6 +715,10 @@ public class HotelsRobotHelper {
 	public void inputCCBillingInfo() {
 		enterLog(TAG, "Booking: entering billing credit card information.");
 
+		landscape();
+		delay(1);
+		portrait();
+
 		// Enter Credit Card Number
 		mSolo.enterText((EditText) mSolo.getView(R.id.edit_creditcard_number),
 				mUser.mCreditCardNumber);
@@ -741,9 +745,6 @@ public class HotelsRobotHelper {
 
 		// Do not save this card info
 		mSolo.clickOnText(mRes.getString(R.string.no_thanks));
-		landscape();
-		portrait();
-
 	}
 
 	public void confirmAndBook(boolean assertPostCCVPopUp) throws Exception {
@@ -763,8 +764,6 @@ public class HotelsRobotHelper {
 			enterLog(TAG, "There is no 'I accept' button on this POS");
 		}
 
-		landscape();
-		portrait();
 		delay();
 		mSolo.scrollToBottom();
 
