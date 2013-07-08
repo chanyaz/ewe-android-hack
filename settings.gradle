@@ -1,7 +1,11 @@
+// Main app
+include ':project'
+
+// libraries, order does not matter
+// Order matters in the dependencies block of individual projects
 include ':lib:FacebookSdk:facebook'
 include ':lib:svg-android:svgandroid'
 include ':lib:ActionBarSherlock:actionbarsherlock'
-include ':project'
 include ':lib:OpinionLab'
 include ':lib:google-play-services'
 include ':lib:FlightLib'

@@ -35,5 +35,11 @@ android {
         }
 
         instrumentTest.setRoot('tests')
+
+        signingConfigs {
+            debug {
+                storeFile file("../common/debug.keystore")
+            }
+        }
     }
 }
