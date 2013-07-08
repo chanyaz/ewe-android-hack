@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -385,6 +387,13 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		Activity activity = getActivity();
 		if (activity != null) {
 			if (User.isLoggedIn(activity) && Db.getUser() != null) {
+				
+				//THIS IS THE PART WHERE WE TELL THE ACCOUNT MANAGER ABOUT STUFF...
+				AccountManager manager = AccountManager.get(activity);
+				final Account account = new Account(Db.getUser().getPrimaryTraveler().getEmail(), getString(R.string.expedia_account_type_identifier));
+				manager.addAccountExplicitly(account, "TOKEN! HA! WHAT TOKEN!?", null);
+				
+				
 				activity.setResult(Activity.RESULT_OK);
 			}
 			else {

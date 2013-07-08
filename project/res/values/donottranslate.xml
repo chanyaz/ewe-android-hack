@@ -35,6 +35,9 @@
     <!-- Email addresses -->
     <string name="email_expedia_support">support@expedia.com</string>
     <string name="email_app_support">Expedia-Android@mobiata.com</string>
+    
+    <!-- Account Manager -->
+    <string name="expedia_account_type_identifier">Expedia</string>
 
     <!-- Fragment tags -->
     <string name="tag_search_params">SEARCH_PARAMS</string>
