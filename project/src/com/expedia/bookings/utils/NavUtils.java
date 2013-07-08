@@ -1,14 +1,11 @@
 package com.expedia.bookings.utils;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.support.v4.content.LocalBroadcastManager;
-
 import com.expedia.bookings.activity.ActivityKillReceiver;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.FlightSearchActivity;
@@ -19,17 +16,25 @@ import com.expedia.bookings.activity.ItineraryActivity;
 import com.expedia.bookings.activity.LaunchActivity;
 import com.expedia.bookings.activity.PhoneSearchActivity;
 import com.expedia.bookings.activity.SearchFragmentActivity;
+import com.expedia.bookings.activity.SweepstakesActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.HotelBookingFragment;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 
+import java.util.List;
+
 /**
  * Utilities for navigating the app (between Activities)
  *
  */
 public class NavUtils {
+
+	public static void goToSweepstakes(Context context) {
+		Intent intent = new Intent(context, SweepstakesActivity.class);
+        context.startActivity(intent);
+	}
 
 	public static void goToLaunchScreen(Context context) {
 		goToLaunchScreen(context, false);
@@ -110,6 +115,10 @@ public class NavUtils {
 		Intent intent = new Intent(context, FlightSearchResultsActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		context.startActivity(intent);
+	}
+
+	public static boolean showSweepstakes(Context context) {
+		return true;
 	}
 
 	/**

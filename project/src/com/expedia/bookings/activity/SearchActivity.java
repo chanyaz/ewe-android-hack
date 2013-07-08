@@ -52,7 +52,10 @@ public class SearchActivity extends Activity {
 			NavUtils.goToVSC(this);
 		}
 		else {
-			if (NavUtils.skipLaunchScreenAndStartEHTablet(this)) {
+			if(NavUtils.showSweepstakes(this)) {
+				NavUtils.goToSweepstakes(this);
+			}
+			else if (NavUtils.skipLaunchScreenAndStartEHTablet(this)) {
 				// Note: 2.0 will not support launch screen nor Flights on tablet ergo send user to EH tablet
 			}
 			else {

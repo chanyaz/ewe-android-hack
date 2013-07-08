@@ -81,6 +81,16 @@
     <!-- Notification text for activity start -->
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Your %s ticket can be redeemed starting tomorrow.</string>
 
+    <!-- Sweepstakes -->
+    <string name="sweepstakes_enter_title">Trip a day giveaway!</string>
+    <string name="sweepstakes_enter_subtitle">Win a $1200 travel\nvoucher from Expedia!</string>
+    <string name="sweepstakes_enter_text">Just sign in with an Expedia account\nor Connect with Facebook to enter.</string>
+    <string name="sweepstakes_no_thanks">No thanks</string>
+    <string name="sweepstakes_enter">Enter</string>
+    <string name="sweepstakes_terms">By entering I agree to the Terms and Conditions</string>
+    <string name="sweepstakes_confirmation_title">Thanks for entering!</string>
+    <string name="sweepstakes_confirmation_text">Be on the lookout! Winners will\nbe notified via email.</string>
+
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerary</string>

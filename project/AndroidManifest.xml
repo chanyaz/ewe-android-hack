@@ -90,6 +90,10 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="com.expedia.bookings.activity.SweepstakesActivity"
+            android:theme="@style/Theme.Phone"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name="com.expedia.bookings.activity.PhoneSearchActivity"
             android:theme="@style/Theme.Phone"
             android:uiOptions="splitActionBarWhenNarrow"
