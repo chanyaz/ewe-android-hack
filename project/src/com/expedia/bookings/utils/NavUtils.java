@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.support.v4.content.LocalBroadcastManager;
+
+import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ActivityKillReceiver;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.FlightSearchActivity;
@@ -22,6 +24,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.HotelBookingFragment;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.SettingUtils;
 
 import java.util.List;
 
@@ -33,7 +36,7 @@ public class NavUtils {
 
 	public static void goToSweepstakes(Context context) {
 		Intent intent = new Intent(context, SweepstakesActivity.class);
-        context.startActivity(intent);
+		context.startActivity(intent);
 	}
 
 	public static void goToLaunchScreen(Context context) {
@@ -118,7 +121,7 @@ public class NavUtils {
 	}
 
 	public static boolean showSweepstakes(Context context) {
-		return true;
+		return !SettingUtils.contains(context, R.string.setting_hide_sweepstakes);
 	}
 
 	/**

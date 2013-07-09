@@ -125,7 +125,7 @@
                 android:textSize="18dp"/>
 
         <Button
-                android:id="@+id/enter_button"
+                android:id="@+id/done_button"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:text="@string/done"

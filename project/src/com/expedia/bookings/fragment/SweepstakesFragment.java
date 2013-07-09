@@ -7,10 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.LoginActivity;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
+import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TextView;
+import com.mobiata.android.util.SettingUtils;
 
 public class SweepstakesFragment extends Fragment {
 	@Override
@@ -27,19 +32,53 @@ public class SweepstakesFragment extends Fragment {
 		return view;
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		bind();
+	}
+
+	public void bind() {
+		boolean showEntryLayout = !SettingUtils.get(getActivity(), R.string.setting_hide_sweepstakes, false);
+		Ui.findView(getView(), R.id.entry_layout).setVisibility(showEntryLayout ? View.VISIBLE : View.GONE);
+		Ui.findView(getView(), R.id.confirmation_layout).setVisibility(showEntryLayout ? View.GONE : View.VISIBLE);
+	}
+
+	public void enterSweepstakes() {
+		if (Db.getUser() == null) {
+			startActivityForResult(LoginActivity.createIntent(getActivity(), LineOfBusiness.ITIN, null), 0);
+			return;
+		}
+
+		// TODO: Omniture sweepstakes entry
+
+		// Save setting to hide sweepstakes
+		SettingUtils.save(getActivity(), R.string.setting_hide_sweepstakes, true);
+
+		// Update views
+		bind();
+	}
+
+	private void finish() {
+		NavUtils.goToLaunchScreen(getActivity());
+		getActivity().finish();
+	}
+
 	private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.no_thanks_button: {
-                getActivity().finish();
+				SettingUtils.save(getActivity(), R.string.setting_hide_sweepstakes, true);
+				finish();
 				break;
 			}
 			case R.id.enter_button: {
+				enterSweepstakes();
 				break;
 			}
 			case R.id.done_button: {
-                getActivity().finish();
+				finish();
 				break;
 			}
 			}
