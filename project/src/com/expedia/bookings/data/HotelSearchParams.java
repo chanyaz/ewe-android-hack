@@ -61,7 +61,6 @@ public class HotelSearchParams implements JSONable {
 	private Date mCheckOutDate;
 	private int mNumAdults;
 	private List<Integer> mChildren;
-	private Set<String> mPropertyIds;
 
 	// These may be out of sync with freeform location; make sure to sync before
 	// using.
@@ -116,7 +115,6 @@ public class HotelSearchParams implements JSONable {
 
 		// Setup default number of results
 		mQuery = null;
-		mPropertyIds = new HashSet<String>();
 	}
 
 	public void setDefaultStay() {
@@ -242,22 +240,6 @@ public class HotelSearchParams implements JSONable {
 		if (search.hasLatLng()) {
 			setSearchLatLon(search.getLatitude(), search.getLongitude());
 		}
-	}
-
-	public void addPropertyId(String propertyId) {
-		mPropertyIds.add(propertyId);
-	}
-
-	public Set<String> getPropertyIds() {
-		return mPropertyIds;
-	}
-
-	public boolean hasPropertyIds() {
-		return mPropertyIds != null && mPropertyIds.size() > 0;
-	}
-
-	public void clearPropertyIds() {
-		mPropertyIds.clear();
 	}
 
 	public boolean hasValidCheckInDate() {
@@ -462,20 +444,6 @@ public class HotelSearchParams implements JSONable {
 
 		mUserQuery = obj.optString("userFreeformLocation", null);
 
-		try {
-			mPropertyIds = new HashSet<String>();
-
-			JSONArray arr;
-			arr = obj.getJSONArray("propertyIds");
-			for (int i = 0; i < arr.length(); i++) {
-				mPropertyIds.add(arr.getString(i));
-			}
-		}
-		catch (JSONException e) {
-			Log.w("Could not read search params JSON.", e);
-			return false;
-		}
-
 		return true;
 	}
 
@@ -498,12 +466,6 @@ public class HotelSearchParams implements JSONable {
 			if (mSearchType != null) {
 				obj.put("searchType", mSearchType);
 			}
-
-			JSONArray propertyIds = new JSONArray();
-			for (String propertyId : mPropertyIds) {
-				propertyIds.put(propertyId);
-			}
-			obj.put("propertyIds", propertyIds);
 
 			obj.put("regionId", mRegionId);
 
@@ -532,7 +494,6 @@ public class HotelSearchParams implements JSONable {
 					&& (mQuery != null ? mQuery.equals(other.getQuery()) : true) // mFreeformLocation may be null
 					&& this.mSearchLatitude == other.getSearchLatitude()
 					&& this.mSearchLongitude == other.getSearchLongitude()
-					&& this.mPropertyIds.equals(other.getPropertyIds())
 					&& ((mCheckInDate != null && other.getCheckInDate() != null && this.mCheckInDate.equals(other
 							.getCheckInDate())) || (mCheckInDate == null && other.getCheckInDate() == null))
 					&& ((mCheckOutDate != null && other.getCheckOutDate() != null && this.mCheckOutDate.equals(other
