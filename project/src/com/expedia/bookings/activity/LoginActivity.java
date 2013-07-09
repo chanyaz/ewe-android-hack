@@ -21,6 +21,7 @@ import com.expedia.bookings.utils.Ui;
 
 public class LoginActivity extends SherlockFragmentActivity implements TitleSettable {
 
+	public static final String ARG_BUNDLE = "ARG_BUNDLE";
 	public static final String ARG_PATH_MODE = "ARG_PATH_MODE";
 	public static final String ARG_LOGIN_FRAGMENT_EXTENDER = "ARG_LOGIN_FRAGMENT_EXTENDER";
 
@@ -35,13 +36,21 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 	private LineOfBusiness mLob = LineOfBusiness.HOTELS;
 	private LoginExtender mLoginExtender;
 
-	public static Intent createIntent(Context context, LineOfBusiness pathMode, LoginExtender extender) {
+	public static Intent createIntent(Context context, Bundle bundle) {
 		Intent loginIntent = new Intent(context, LoginActivity.class);
-		loginIntent.putExtra(LoginActivity.ARG_PATH_MODE, pathMode.name());
-		if (extender != null) {
-			loginIntent.putExtra(ARG_LOGIN_FRAGMENT_EXTENDER, extender);
+		if (bundle != null) {
+			loginIntent.putExtra(ARG_BUNDLE, bundle);
 		}
 		return loginIntent;
+	}
+
+	public static Bundle createArgumentsBundle(LineOfBusiness pathMode, LoginExtender extender) {
+		Bundle bundle = new Bundle();
+		bundle.putString(LoginActivity.ARG_PATH_MODE, pathMode.name());
+//		if (extender != null) {
+//			bundle.putParcelable(ARG_LOGIN_FRAGMENT_EXTENDER, extender);
+//		}
+		return bundle;
 	}
 
 	/** Called when the activity is first created. */
@@ -56,11 +65,14 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 
 		// Set up theming stuff
 		Intent intent = getIntent();
-		if (intent.hasExtra(ARG_PATH_MODE)) {
-			mLob = LineOfBusiness.valueOf(intent.getStringExtra(ARG_PATH_MODE));
-		}
-		if (intent.hasExtra(ARG_LOGIN_FRAGMENT_EXTENDER)) {
-			mLoginExtender = intent.getParcelableExtra(ARG_LOGIN_FRAGMENT_EXTENDER);
+		if (intent.hasExtra(ARG_BUNDLE)) {
+			Bundle args = intent.getBundleExtra(ARG_BUNDLE);
+			if (args.containsKey(ARG_PATH_MODE)) {
+				mLob = LineOfBusiness.valueOf(args.getString(ARG_PATH_MODE));
+			}
+			if (args.containsKey(ARG_LOGIN_FRAGMENT_EXTENDER)) {
+				mLoginExtender = args.getParcelable(ARG_LOGIN_FRAGMENT_EXTENDER);
+			}
 		}
 
 		if (savedInstanceState != null) {

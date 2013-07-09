@@ -1,36 +1,54 @@
 package com.expedia.bookings.account;
 
+import com.expedia.bookings.activity.LoginActivity;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.SignInResponse;
+import com.expedia.bookings.data.User;
+import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.AdTracker;
+
 import android.accounts.AbstractAccountAuthenticator;
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorResponse;
+import android.accounts.AccountManager;
 import android.accounts.NetworkErrorException;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 
+/**
+ * ExpediaAccountAuthenticator - for using the AccountManager with expedia accounts.
+ * 
+ * Account name:expedia account email address
+ * Token: Primary Traveler uuid
+ */
 public class ExpediaAccountAuthenticator extends AbstractAccountAuthenticator {
+
+	private Context mContext;
 
 	public ExpediaAccountAuthenticator(Context context) {
 		super(context);
+		mContext = context;
 	}
 
 	@Override
-	public Bundle addAccount(AccountAuthenticatorResponse response, String accountType, String authTokenType, String[] requiredFeatures, Bundle options)
+	public Bundle addAccount(AccountAuthenticatorResponse response, String accountType, String authTokenType,
+			String[] requiredFeatures, Bundle options)
 			throws NetworkErrorException {
-		
-		final Bundle result;
-		
 
-		result = new Bundle();
-		
-
-		return result;
-
+		final Intent intent = LoginActivity.createIntent(mContext, options);
+		intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
+		final Bundle bundle = new Bundle();
+		bundle.putParcelable(AccountManager.KEY_INTENT, intent);
+		return bundle;
 	}
 
 	@Override
 	public Bundle confirmCredentials(AccountAuthenticatorResponse response, Account account, Bundle options)
 			throws NetworkErrorException {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub	
 		return null;
 	}
 
@@ -41,10 +59,51 @@ public class ExpediaAccountAuthenticator extends AbstractAccountAuthenticator {
 	}
 
 	@Override
-	public Bundle getAuthToken(AccountAuthenticatorResponse response, Account account, String authTokenType, Bundle options)
+	public Bundle getAuthToken(AccountAuthenticatorResponse response, Account account, String authTokenType,
+			Bundle options)
 			throws NetworkErrorException {
-		// TODO Auto-generated method stub
-		return null;
+
+		Bundle result = new Bundle();
+		String tuidStr = null;
+		if (User.isLoggedIn(mContext) && Db.getUser() != null && !TextUtils.isEmpty(Db.getUser().getTuidString())) {
+			//We are already logged in and things look ok, lets get us that tuid
+			tuidStr = Db.getUser().getTuidString();
+		}
+		else if (User.isLoggedIn(mContext)) {
+			//Try to log in with stored stuff
+			ExpediaServices services = new ExpediaServices(mContext);
+
+			SignInResponse signInResponse = services.signIn(ExpediaServices.F_FLIGHTS | ExpediaServices.F_HOTELS);
+			if (signInResponse != null && !signInResponse.hasErrors()) {
+				User user = signInResponse.getUser();
+				Db.setUser(user);
+				AdTracker.trackLogin();
+				user.save(mContext);
+				tuidStr = user.getTuidString();
+			}
+		}
+		else {
+			//Send the user to the login activity
+			final Intent intent = LoginActivity.createIntent(mContext, options);
+			intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
+			final Bundle bundle = new Bundle();
+			bundle.putParcelable(AccountManager.KEY_INTENT, intent);
+			return bundle;
+		}
+
+		if (TextUtils.isEmpty(tuidStr)) {
+			//Error //KEY_ERROR_CODE and KEY_ERROR_MESSAGE to indicate an error
+			result.putInt(AccountManager.KEY_ERROR_CODE, 1);
+			result.putString(AccountManager.KEY_ERROR_MESSAGE, "Could not get user information.");
+		}
+		else {
+			//success //KEY_ACCOUNT_NAME, KEY_ACCOUNT_TYPE, and KEY_AUTHTOKEN
+			result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
+			result.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type);
+			result.putString(AccountManager.KEY_AUTHTOKEN, tuidStr);
+		}
+
+		return result;
 	}
 
 	@Override
@@ -61,7 +120,8 @@ public class ExpediaAccountAuthenticator extends AbstractAccountAuthenticator {
 	}
 
 	@Override
-	public Bundle updateCredentials(AccountAuthenticatorResponse response, Account account, String authTokenType, Bundle options)
+	public Bundle updateCredentials(AccountAuthenticatorResponse response, Account account, String authTokenType,
+			Bundle options)
 			throws NetworkErrorException {
 		// TODO Auto-generated method stub
 		return null;

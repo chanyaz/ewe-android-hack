@@ -16,6 +16,7 @@
 
     <!-- Account Manager -->
     <uses-permission android:name="android.permission.ACCOUNT_MANAGER" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
 
     <!-- For Google Wallet -->

@@ -7,9 +7,13 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.Context;
+import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.server.ExpediaServices;
@@ -87,6 +91,14 @@ public class User implements JSONable {
 		return false;
 	}
 
+	public String getTuidString() {
+		if (this.getPrimaryTraveler() != null && this.getPrimaryTraveler().getTuid() != null
+				&& this.getPrimaryTraveler().getTuid() >= 0) {
+			return "" + this.getPrimaryTraveler().getTuid();
+		}
+		return null;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Logging in/out
 
@@ -99,12 +111,32 @@ public class User implements JSONable {
 		// Backwards compatible method for checking logged in state
 		isLoggedIn |= context.getFileStreamPath(IS_USER_LOGGED_IN_FILE).exists();
 
+		// We only count ourselves as logged in if the AccountManager is aware of it
+		String accountType = context.getString(R.string.expedia_account_type_identifier);
+		String tokenType = context.getString(R.string.expedia_account_token_type_tuid_identifier);
+		AccountManager manager = AccountManager.get(context);
+		Account[] accounts = manager.getAccountsByType(accountType);
+		if (accounts != null && accounts.length >= 1) {
+			String token = manager.peekAuthToken(accounts[0], tokenType);
+			isLoggedIn &= !TextUtils.isEmpty(token);
+		}
+		else {
+			isLoggedIn = false;
+		}
+
 		return isLoggedIn;
 	}
 
 	public static void signOut(Context context) {
 		// Delete User
 		delete(context);
+
+		//AccountManager
+		if (Db.getUser() != null) {
+			String accountType = context.getString(R.string.expedia_account_type_identifier);
+			AccountManager manager = AccountManager.get(context);
+			manager.invalidateAuthToken(accountType, Db.getUser().getTuidString());
+		}
 
 		// Clear User from Db
 		Db.setUser(null);
@@ -121,6 +153,32 @@ public class User implements JSONable {
 
 		//Delete all Notifications
 		Notification.deleteAll(context);
+
+	}
+
+	public static void signIn(android.app.Activity context, Bundle options) {
+		AccountManager manager = AccountManager.get(context);
+		String accountType = context.getString(R.string.expedia_account_type_identifier);
+		String tokenType = context.getString(R.string.expedia_account_token_type_tuid_identifier);
+		Account[] accounts = manager.getAccountsByType(accountType);
+		Account activeAccount = null;
+		if (accounts == null || accounts.length == 0) {
+			Log.d("Accounts == null or length == 0");
+			manager.addAccount(accountType, tokenType, null, options, context, null, null);
+		}
+		else if (accounts != null && accounts.length == 1) {
+			activeAccount = accounts[0];
+		}
+		else {
+			for (int i = 0; i < accounts.length; i++) {
+				Log.d("Account[" + i + "] name:" + accounts[i].name + " type:" + accounts[i].type);
+			}
+			Log.d("Choosing account[0]");
+			activeAccount = accounts[0];
+		}
+		if (activeAccount != null) {
+			manager.getAuthToken(activeAccount, accountType, null, context, null, null);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

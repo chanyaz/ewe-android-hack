@@ -386,14 +386,18 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 	private void finishParentWithResult() {
 		Activity activity = getActivity();
 		if (activity != null) {
-			if (User.isLoggedIn(activity) && Db.getUser() != null) {
-				
+			if (Db.getUser() != null) {
+
 				//THIS IS THE PART WHERE WE TELL THE ACCOUNT MANAGER ABOUT STUFF...
+				String accountType = getString(R.string.expedia_account_type_identifier);
+				String tokenType = getString(R.string.expedia_account_token_type_tuid_identifier);
 				AccountManager manager = AccountManager.get(activity);
-				final Account account = new Account(Db.getUser().getPrimaryTraveler().getEmail(), getString(R.string.expedia_account_type_identifier));
-				manager.addAccountExplicitly(account, "TOKEN! HA! WHAT TOKEN!?", null);
-				
-				
+
+				final Account account = new Account(Db.getUser().getPrimaryTraveler().getEmail(), accountType);
+
+				manager.addAccountExplicitly(account, Db.getUser().getTuidString(), null);
+				manager.setAuthToken(account, tokenType, Db.getUser().getTuidString());
+
 				activity.setResult(Activity.RESULT_OK);
 			}
 			else {

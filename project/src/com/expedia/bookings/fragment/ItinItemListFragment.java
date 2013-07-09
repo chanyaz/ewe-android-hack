@@ -303,9 +303,8 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	}
 
 	public synchronized void startLoginActivity() {
-		Intent intent = LoginActivity.createIntent(getActivity(), LineOfBusiness.ITIN,
-				new ItineraryLoaderLoginExtender());
-		startActivity(intent);
+		Bundle args = LoginActivity.createArgumentsBundle(LineOfBusiness.ITIN, new ItineraryLoaderLoginExtender());
+		User.signIn(getActivity(), args);
 	}
 
 	private void updateLoginState() {
