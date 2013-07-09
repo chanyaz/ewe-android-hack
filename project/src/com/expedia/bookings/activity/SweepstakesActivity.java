@@ -2,24 +2,21 @@ package com.expedia.bookings.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.fragment.SweepstakesFragment;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 
-public class SweepstakesActivity extends SherlockFragmentActivity {
+public class SweepstakesActivity extends FragmentActivity {
 	private SweepstakesFragment mSweepstakesFragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sweepstakes);
-
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		mSweepstakesFragment = Ui.findSupportFragment(this, R.id.sweepstakes_fragment);
 	}
@@ -29,17 +26,6 @@ public class SweepstakesActivity extends SherlockFragmentActivity {
 		super.onBackPressed();
 		NavUtils.goToLaunchScreen(this);
 		finish();
-	}
-
-	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home: {
-			onBackPressed();
-			return true;
-		}
-		}
-		return super.onMenuItemSelected(featureId, item);
 	}
 
 	@Override

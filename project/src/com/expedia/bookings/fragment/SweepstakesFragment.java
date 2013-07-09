@@ -40,8 +40,12 @@ public class SweepstakesFragment extends Fragment {
 
 	public void bind() {
 		boolean showEntryLayout = !SettingUtils.get(getActivity(), R.string.setting_hide_sweepstakes, false);
+
 		Ui.findView(getView(), R.id.entry_layout).setVisibility(showEntryLayout ? View.VISIBLE : View.GONE);
 		Ui.findView(getView(), R.id.confirmation_layout).setVisibility(showEntryLayout ? View.GONE : View.VISIBLE);
+
+		Ui.setImageResource(getView(), R.id.background_image_view, showEntryLayout ? R.drawable.bg_sweepstakes_entry
+				: R.drawable.bg_sweepstakes_confirmation);
 	}
 
 	public void enterSweepstakes() {

@@ -91,7 +91,7 @@
         </activity>
         <activity
             android:name="com.expedia.bookings.activity.SweepstakesActivity"
-            android:theme="@style/Theme.Phone"
+            android:theme="@style/Theme.Phone.NoActionBar"
             android:screenOrientation="portrait"/>
         <activity
             android:name="com.expedia.bookings.activity.PhoneSearchActivity"

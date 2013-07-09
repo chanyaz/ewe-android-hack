@@ -21,6 +21,7 @@ import com.expedia.bookings.activity.SearchFragmentActivity;
 import com.expedia.bookings.activity.SweepstakesActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.fragment.HotelBookingFragment;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
@@ -121,7 +122,8 @@ public class NavUtils {
 	}
 
 	public static boolean showSweepstakes(Context context) {
-		return !SettingUtils.contains(context, R.string.setting_hide_sweepstakes);
+		return PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.UNITED_STATES)
+				&& !SettingUtils.contains(context, R.string.setting_hide_sweepstakes);
 	}
 
 	/**
