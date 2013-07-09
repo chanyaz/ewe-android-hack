@@ -268,39 +268,32 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 
 	@Override
 	public boolean onAboutRowClicked(int id) {
-		boolean handled = false;
 		switch (id) {
 		case ROW_CONTACT_EXPEDIA: {
 			showDialog(DIALOG_CONTACT_EXPEDIA);
-			handled = true;
-			break;
+			return true;
 		}
 		case ROW_APP_SUPPORT: {
 			mAboutUtils.openAppSupport();
-			handled = true;
-			break;
+			return true;
 		}
 		case ROW_APP_FEEDBACK: {
 			mAboutUtils.openAppFeedback();
-			handled = true;
-			break;
+			return true;
 		}
 		case ROW_WERE_HIRING: {
 			mAboutUtils.openCareers();
-			handled = true;
-			break;
+			return true;
 		}
 
 		// Legal section
 		case ROW_TERMS_AND_CONDITIONS: {
 			mAboutUtils.openTermsAndConditions();
-			handled = true;
-			break;
+			return true;
 		}
 		case ROW_PRIVACY_POLICY: {
 			mAboutUtils.openPrivacyPolicy();
-			handled = true;
-			break;
+			return true;
 		}
 		case ROW_ATOL_INFO: {
 			WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(this);
@@ -311,8 +304,7 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 
 			startActivity(builder.getIntent());
 
-			handled = true;
-			break;
+			return true;
 		}
 		case ROW_OPEN_SOURCE_LICENSES: {
 			WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(this);
@@ -324,39 +316,36 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 
 			startActivity(builder.getIntent());
 
-			handled = true;
-			break;
+			return true;
 		}
 
 		// Track app row clicks - return false, because we want the default behaviour
 		case AboutSectionFragment.ROW_FLIGHT_TRACK_FREE: {
 			mAboutUtils.trackFlightTrackFreeLink();
-			break;
+			return false;
 		}
 		case AboutSectionFragment.ROW_FLIGHT_TRACK: {
 			mAboutUtils.trackFlightTrackLink();
-			break;
+			return false;
 		}
 		case AboutSectionFragment.ROW_FLIGHT_BOARD: {
 			mAboutUtils.trackFlightBoardLink();
-			break;
+			return false;
 		}
+
 		case ROW_VSC_VOYAGES: {
 			SocialUtils.openSite(this, AndroidUtils.getGooglePlayAppLink(PKG_VSC_VOYAGES));
-			break;
+			return true;
 		}
 		// 1170. VSC Add clear private data in info/about screen
 		case ROW_VSC_PRIVATE_DATA: {
 			ClearPrivateDataDialog dialog = new ClearPrivateDataDialog();
 			dialog.show(getSupportFragmentManager(), "clearPrivateDataDialog");
-			handled = true;
-			break;
+			return true;
+		}
 		}
 
-		default:
-			handled = false;
-		}
-		return handled;
+		return false;
 	}
 
 	private final OnDownloadComplete<MailChimpResult> mMailChimpCallback = new OnDownloadComplete<MailChimpResult>() {
