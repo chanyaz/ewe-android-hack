@@ -10,6 +10,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.NavUtils;
@@ -29,6 +30,8 @@ public class SweepstakesFragment extends Fragment {
 		Ui.setOnClickListener(view, R.id.enter_button, mOnClickListener);
 		Ui.setOnClickListener(view, R.id.done_button, mOnClickListener);
 
+		OmnitureTracking.trackSweepstakesEntry(getActivity());
+
 		return view;
 	}
 
@@ -46,6 +49,10 @@ public class SweepstakesFragment extends Fragment {
 
 		Ui.setImageResource(getView(), R.id.background_image_view, showEntryLayout ? R.drawable.bg_sweepstakes_entry
 				: R.drawable.bg_sweepstakes_confirmation);
+
+		if (!showEntryLayout) {
+			OmnitureTracking.trackSweepstakesConfirmation(getActivity(), Db.getUser());
+		}
 	}
 
 	public void enterSweepstakes() {

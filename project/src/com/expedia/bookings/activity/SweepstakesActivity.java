@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.fragment.SweepstakesFragment;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 
@@ -35,6 +36,7 @@ public class SweepstakesActivity extends FragmentActivity {
 		// If they are logged in...
 		// Save setting to hide sweepstakes
 		if (Db.getUser() != null) {
+            OmnitureTracking.trackSweepstakesLogin(this);
 			mSweepstakesFragment.enterSweepstakes();
 		}
 	}

@@ -1,20 +1,5 @@
 package com.expedia.bookings.tracking;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.lang.reflect.Field;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -62,6 +47,21 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.lang.reflect.Field;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 /**
  *
@@ -1110,6 +1110,35 @@ public class OmnitureTracking {
 
 	public static void trackFlightConfirmationShareEmail(Context context) {
 		internalTrackLink(context, FLIGHT_CONF_SHARE_EMAIL);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Sweepstakes Tracking
+	//
+	// Spec: https://confluence/display/Omniture/Trip+a+Day+Giveaway
+	//
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private static final String SWEEPSTAKES_ENTRY = "App.Contest.TADG.Step1";
+	private static final String SWEEPSTAKES_LOGIN = "App.Contest.TADG.Step2";
+	private static final String SWEEPSTAKES_CONFIRMATION = "App.Contest.TADG.Step3";
+
+	public static void trackSweepstakesEntry(Context context) {
+		internalTrackPageLoadEventStandard(context, SWEEPSTAKES_ENTRY);
+	}
+
+	public static void trackSweepstakesLogin(Context context) {
+		internalTrackPageLoadEventStandard(context, SWEEPSTAKES_LOGIN);
+	}
+
+	public static void trackSweepstakesConfirmation(Context context, User user) {
+		ADMS_Measurement s = createTrackPageLoadEventBase(context, SWEEPSTAKES_ENTRY);
+
+		String tuid = String.valueOf(user.getPrimaryTraveler().getTuid());
+		s.setProp(13, tuid);
+		s.setEvents("event26,event10:" + tuid);
+        s.setEvar(55, "");
+		s.track();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
