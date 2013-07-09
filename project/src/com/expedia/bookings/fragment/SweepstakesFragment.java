@@ -2,12 +2,14 @@ package com.expedia.bookings.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.LoginActivity;
+import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -29,6 +31,9 @@ public class SweepstakesFragment extends Fragment {
 		Ui.setOnClickListener(view, R.id.no_thanks_button, mOnClickListener);
 		Ui.setOnClickListener(view, R.id.enter_button, mOnClickListener);
 		Ui.setOnClickListener(view, R.id.done_button, mOnClickListener);
+		Ui.setOnClickListener(view, R.id.terms_text_view, mOnClickListener);
+
+		Ui.setText(view, R.id.terms_text_view, Html.fromHtml(getActivity().getString(R.string.sweepstakes_terms)));
 
 		OmnitureTracking.trackSweepstakesEntry(getActivity());
 
@@ -90,6 +95,12 @@ public class SweepstakesFragment extends Fragment {
 			}
 			case R.id.done_button: {
 				finish();
+				break;
+			}
+			case R.id.terms_text_view: {
+                WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
+                builder.setUrl("http://www.expedia.com/p/info-terms/terms?pageid=8092");
+                startActivity(builder.getIntent());
 				break;
 			}
 			}
