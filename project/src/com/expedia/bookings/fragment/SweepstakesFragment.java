@@ -54,10 +54,6 @@ public class SweepstakesFragment extends Fragment {
 
 		Ui.setImageResource(getView(), R.id.background_image_view, showEntryLayout ? R.drawable.bg_sweepstakes_entry
 				: R.drawable.bg_sweepstakes_confirmation);
-
-		if (!showEntryLayout) {
-			OmnitureTracking.trackSweepstakesConfirmation(getActivity(), Db.getUser());
-		}
 	}
 
 	public void enterSweepstakes() {
@@ -66,7 +62,8 @@ public class SweepstakesFragment extends Fragment {
 			return;
 		}
 
-		// TODO: Omniture sweepstakes entry
+		// Send sweepstakes entry
+		OmnitureTracking.trackSweepstakesConfirmation(getActivity(), Db.getUser());
 
 		// Save setting to hide sweepstakes
 		SettingUtils.save(getActivity(), R.string.setting_hide_sweepstakes, true);
@@ -98,9 +95,9 @@ public class SweepstakesFragment extends Fragment {
 				break;
 			}
 			case R.id.terms_text_view: {
-                WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
-                builder.setUrl("http://www.expedia.com/p/info-terms/terms?pageid=8092");
-                startActivity(builder.getIntent());
+				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
+				builder.setUrl("http://www.expedia.com/p/info-terms/terms?pageid=8092");
+				startActivity(builder.getIntent());
 				break;
 			}
 			}
