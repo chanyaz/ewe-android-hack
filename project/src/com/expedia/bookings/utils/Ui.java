@@ -43,6 +43,16 @@ public class Ui extends com.mobiata.android.util.Ui {
 		return (T) activity.getSupportFragmentManager().findFragmentById(id);
 	}
 
+	@SuppressWarnings("unchecked")
+	public static <T extends Fragment> T findSupportFragment(Fragment fragment, String tag) {
+		return (T) fragment.getFragmentManager().findFragmentByTag(tag);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T extends Fragment> T findSupportFragment(Fragment fragment, int id) {
+		return (T) fragment.getFragmentManager().findFragmentById(id);
+	}
+
 	/**
 	 * Even more convenient method for adding a single Fragment.
 	 *

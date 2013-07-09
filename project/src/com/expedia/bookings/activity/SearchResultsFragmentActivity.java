@@ -17,7 +17,6 @@ import android.content.res.Resources;
 import android.graphics.Rect;
 import android.location.Address;
 import android.location.Location;
-import android.location.LocationProvider;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -61,6 +60,8 @@ import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.fragment.CalendarDialogFragment;
 import com.expedia.bookings.fragment.CalendarDialogFragment.CalendarDialogFragmentListener;
 import com.expedia.bookings.fragment.FilterDialogFragment;
+import com.expedia.bookings.fragment.FusedLocationProviderFragment;
+import com.expedia.bookings.fragment.FusedLocationProviderFragment.Listener;
 import com.expedia.bookings.fragment.GeocodeDisambiguationDialogFragment;
 import com.expedia.bookings.fragment.GeocodeDisambiguationDialogFragment.GeocodeDisambiguationDialogFragmentListener;
 import com.expedia.bookings.fragment.GuestsDialogFragment;
@@ -95,8 +96,6 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
-import com.mobiata.android.location.LocationFinder;
-import com.mobiata.android.location.MobiataLocationFinder;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 
@@ -157,6 +156,9 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	private HotelDetailsFragment mHotelDetailsFragment;
 	private FilterDialogFragment mFilterDialogFragment;
 
+	// Invisible Fragment that handles FusedLocationProvider
+	private FusedLocationProviderFragment mLocationFragment;
+
 	// For doing manual updates
 	private HockeyPuck mHockeyPuck;
 
@@ -194,6 +196,8 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		mMiniDetailsFragment = Ui.findSupportFragment(this, getString(R.string.tag_mini_details));
 		mHotelDetailsFragment = Ui.findSupportFragment(this, getString(R.string.tag_details));
 		mFilterDialogFragment = Ui.findSupportFragment(this, getString(R.string.tag_filter_dialog));
+
+		mLocationFragment = FusedLocationProviderFragment.getInstance(this);
 
 		// Need to set this BG from code so we can make it just repeat vertically
 		ImageView sideShadow = Ui.findView(this, R.id.search_results_list_shadow);
@@ -892,14 +896,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 			Log.w("VISIBLE_MAP_AREA searches not yet supported!");
 			break;
 		case MY_LOCATION:
-			long minTime = Calendar.getInstance().getTimeInMillis() - PhoneSearchActivity.MINIMUM_TIME_AGO;
-			Location location = LocationServices.getLastBestLocation(this, minTime);
-			if (location != null) {
-				onMyLocationFound(location);
-			}
-			else {
-				findLocation();
-			}
+			findLocation();
 			break;
 		}
 	}
@@ -1120,47 +1117,25 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	//////////////////////////////////////////////////////////////////////////
 	// Location
 
-	private MobiataLocationFinder mLocationFinder;
-
 	private void findLocation() {
 		mHotelListFragment.updateStatus(getString(R.string.progress_finding_location), true);
 
-		if (mLocationFinder == null) {
-			mLocationFinder = new MobiataLocationFinder(mContext);
-			mLocationFinder.setListener(new LocationFinder.LocationFinderListener() {
-				@Override
-				public void onLocationFound(Location location) {
-					onMyLocationFound(location);
-				}
+		mLocationFragment.find(new Listener() {
+			@Override
+			public void onFound(Location currentLocation) {
+				onMyLocationFound(currentLocation);
+			}
 
-				@Override
-				public void onLocationServicesDisabled() {
-					simulateSearchErrorResponse(R.string.ProviderDisabled);
-					// TODO: Show user dialog to go to enable location services
-				}
-
-				@Override
-				public void onLocationFindFailed() {
-					simulateSearchErrorResponse(R.string.ProviderTemporarilyUnavailable);
-				}
-
-				@Override
-				public void onStatusChanged(int status) {
-					if (status == LocationProvider.OUT_OF_SERVICE) {
-						simulateSearchErrorResponse(R.string.ProviderOutOfService);
-					}
-					else if (status == LocationProvider.TEMPORARILY_UNAVAILABLE) {
-						simulateSearchErrorResponse(R.string.ProviderTemporarilyUnavailable);
-					}
-				}
-			});
-		}
-		mLocationFinder.find();
+			@Override
+			public void onError(Location lastKnownLocation) {
+				simulateSearchErrorResponse(R.string.ProviderTemporarilyUnavailable);
+			}
+		});
 	}
 
 	private void stopLocation() {
-		if (mLocationFinder != null) {
-			mLocationFinder.stop();
+		if (mLocationFragment != null) {
+			mLocationFragment.stop();
 		}
 	}
 

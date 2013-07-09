@@ -26,7 +26,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Location;
-import android.location.LocationProvider;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -92,6 +91,8 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.fragment.FusedLocationProviderFragment;
+import com.expedia.bookings.fragment.FusedLocationProviderFragment.Listener;
 import com.expedia.bookings.fragment.HotelListFragment;
 import com.expedia.bookings.fragment.HotelListFragment.HotelListFragmentListener;
 import com.expedia.bookings.maps.HotelMapFragment;
@@ -122,7 +123,6 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.json.JSONUtils;
-import com.mobiata.android.location.LocationFinder;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.NetUtils;
@@ -177,8 +177,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private static final int DIALOG_INVALID_SEARCH_RANGE = 3;
 
 	private static final int REQUEST_SETTINGS = 1;
-
-	public static final long MINIMUM_TIME_AGO = 15 * DateUtils.MINUTE_IN_MILLIS;
 
 	// Used in onNewIntent(), if the calling Activity wants the SearchActivity to start fresh
 	private static final String EXTRA_NEW_SEARCH = "EXTRA_NEW_SEARCH";
@@ -292,6 +290,9 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 	// Determine if we're just doing a config change vs. finishing
 	private boolean mConfigChange = false;
+
+	// Invisible Fragment that handles FusedLocationProvider
+	private FusedLocationProviderFragment mLocationFragment;
 
 	//----------------------------------
 	// THREADS/CALLBACKS
@@ -530,6 +531,8 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		mKillReceiver.onCreate();
 
 		mContext = this;
+
+		mLocationFragment = FusedLocationProviderFragment.getInstance(this);
 
 		mListAndMapViewPagerAdapter = new ListAndMapViewPagerAdapter();
 
@@ -1200,10 +1203,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	// LOCATION METHODS
 	//----------------------------------
 
-	private LocationFinder mLocationFinder;
-
 	private void findLocation() {
-
 		if (!NetUtils.isOnline(mContext)) {
 			simulateErrorResponse(R.string.error_no_internet);
 			return;
@@ -1212,45 +1212,23 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			showLoading(true, R.string.progress_finding_location);
 		}
 
-		if (mLocationFinder == null) {
-			mLocationFinder = LocationFinder.getInstance(mContext);
-			mLocationFinder.setListener(new LocationFinder.LocationFinderListener() {
-				@Override
-				public void onLocationFound(Location location) {
-					PhoneSearchActivity.this.onLocationFound(location);
-				}
+		mLocationFragment.find(new Listener() {
+			@Override
+			public void onFound(Location currentLocation) {
+				PhoneSearchActivity.this.onLocationFound(currentLocation);
+			}
 
-				@Override
-				public void onLocationServicesDisabled() {
-					Log.w("Could not find a location provider, informing user of error...");
-					showLoading(false, R.string.ProviderDisabled);
-					showDialog(DIALOG_ENABLE_LOCATIONS);
-				}
-
-				@Override
-				public void onLocationFindFailed() {
-					simulateErrorResponse(R.string.ProviderDisabled);
-					OmnitureTracking.trackErrorPage(mContext, "LocationServicesNotAvailable");
-
-				}
-
-				@Override
-				public void onStatusChanged(int status) {
-					if (status == LocationProvider.OUT_OF_SERVICE) {
-						simulateErrorResponse(R.string.ProviderOutOfService);
-					}
-					else if (status == LocationProvider.TEMPORARILY_UNAVAILABLE) {
-						simulateErrorResponse(R.string.ProviderTemporarilyUnavailable);
-					}
-				}
-			});
-		}
-		mLocationFinder.find();
+			@Override
+			public void onError(Location lastKnownLocation) {
+				simulateErrorResponse(R.string.ProviderDisabled);
+				OmnitureTracking.trackErrorPage(mContext, "LocationServicesNotAvailable");
+			}
+		});
 	}
 
 	private void stopLocation() {
-		if (mLocationFinder != null) {
-			mLocationFinder.stop();
+		if (mLocationFragment != null) {
+			mLocationFragment.stop();
 		}
 	}
 
@@ -1592,12 +1570,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		case MY_LOCATION:
 			// Use faked location first
 			Location location = ExpediaDebugUtil.getFakeLocation(mContext);
-
-			// See if we have a good enough location stored
-			if (location == null) {
-				long minTime = Calendar.getInstance().getTimeInMillis() - MINIMUM_TIME_AGO;
-				location = LocationServices.getLastBestLocation(this, minTime);
-			}
 
 			if (location != null) {
 				onLocationFound(location);

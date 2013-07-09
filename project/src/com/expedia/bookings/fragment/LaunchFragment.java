@@ -52,6 +52,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.data.Suggestion;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.fragment.FusedLocationProviderFragment.Listener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
@@ -65,10 +66,7 @@ import com.expedia.bookings.widget.LaunchStreamListView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
-import com.mobiata.android.location.LocationFinder;
-import com.mobiata.android.location.MobiataLocationFinder;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
@@ -82,7 +80,6 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	public static final String KEY_HOTEL_DESTINATIONS = "LAUNCH_SCREEN_HOTEL_DESTINATIONS";
 
 	private static final long MINIMUM_TIME_AGO = 15 * DateUtils.MINUTE_IN_MILLIS; // 15 minutes ago
-	private static final long LOCATION_FINDER_TIMEOUT = 5 * DateUtils.SECOND_IN_MILLIS; // 5 seconds
 	private static final int NUM_HOTEL_PROPERTIES = 20;
 	private static final int NUM_FLIGHT_DESTINATIONS = 5;
 
@@ -117,6 +114,9 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 	private long mLaunchDataTimestamp = -1;
 
+	// Invisible Fragment that handles FusedLocationProvider
+	private FusedLocationProviderFragment mLocationFragment;
+
 	public static LaunchFragment newInstance() {
 		return new LaunchFragment();
 	}
@@ -128,6 +128,8 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		if (activity instanceof LaunchFragmentListener) {
 			((LaunchFragmentListener) activity).onLaunchFragmentAttached(this);
 		}
+
+		mLocationFragment = FusedLocationProviderFragment.getInstance(this);
 	}
 
 	@Override
@@ -272,12 +274,6 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				Location location = ExpediaDebugUtil.getFakeLocation(getActivity());
 				Context context = getActivity();
 
-				// Attempt to find last best Location from OS cache
-				if (location == null) {
-					long minTime = Calendar.getInstance().getTimeInMillis() - MINIMUM_TIME_AGO;
-					location = LocationServices.getLastBestLocation(context, minTime);
-				}
-
 				// force location fetch by setting location null. use fake location if it exists, though.
 				if (!AndroidUtils.isRelease(context)) {
 					if (SettingUtils.get(context, getString(R.string.preference_force_new_location), false)) {
@@ -325,8 +321,6 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 	// Location finder
 
-	private MobiataLocationFinder mLocationFinder;
-
 	private void findLocation() {
 
 		if (!NetUtils.isOnline(getActivity())) {
@@ -334,37 +328,23 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			return;
 		}
 
-		if (mLocationFinder == null) {
-			mLocationFinder = new MobiataLocationFinder(getActivity());
-			mLocationFinder.setListener(new LocationFinder.LocationFinderListener() {
-				@Override
-				public void onLocationFound(Location location) {
-					startHotelSearch(location);
-				}
+		mLocationFragment.find(new Listener() {
 
-				@Override
-				public void onLocationServicesDisabled() {
-					useHotelFallback();
-				}
+			@Override
+			public void onFound(Location currentLocation) {
+				startHotelSearch(currentLocation);
+			}
 
-				@Override
-				public void onLocationFindFailed() {
-					useHotelFallback();
-				}
-
-				@Override
-				public void onStatusChanged(int status) {
-					// do nothing
-				}
-			});
-			mLocationFinder.setTimeout(LOCATION_FINDER_TIMEOUT);
-		}
-		mLocationFinder.find();
+			@Override
+			public void onError(Location lastKnownLocation) {
+				useHotelFallback();
+			}
+		});
 	}
 
 	private void stopLocation() {
-		if (mLocationFinder != null) {
-			mLocationFinder.stop();
+		if (mLocationFragment != null) {
+			mLocationFragment.stop();
 		}
 	}
 
