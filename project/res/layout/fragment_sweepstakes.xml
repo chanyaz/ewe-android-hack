@@ -41,6 +41,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowColor="#FFFFFF"
+                android:shadowRadius="1"
                 android:gravity="center"
                 android:text="@string/sweepstakes_enter_title"
                 android:textColor="@color/widget_text_color"
@@ -57,6 +61,10 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:gravity="center"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowColor="#FFFFFF"
+                android:shadowRadius="0.5"
                 android:text="@string/sweepstakes_enter_subtitle"
                 android:textColor="@color/widget_text_color"
                 android:textSize="24dp"
@@ -68,6 +76,10 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:gravity="center"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowColor="#FFFFFF"
+                android:shadowRadius="0.5"
                 android:text="@string/sweepstakes_enter_text"
                 android:textColor="@color/widget_text_color"
                 android:textSize="18dp"/>
@@ -76,7 +88,10 @@
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_margin="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="16dp"
                 android:layout_height="48dp">
 
             <Button
@@ -84,6 +99,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@drawable/btn_sweepstakes_no_thanks"
                     android:text="@string/sweepstakes_no_thanks"/>
 
             <Button
@@ -101,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="24dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:gravity="center"
@@ -126,6 +142,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:gravity="center"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowColor="#FFFFFF"
+                android:shadowRadius="1"
                 android:text="@string/sweepstakes_confirmation_title"
                 android:textColor="@color/widget_text_color"
                 android:textSize="48dp"
@@ -136,6 +156,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:gravity="center"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowColor="#FFFFFF"
+                android:shadowRadius="0.5"
                 android:text="@string/sweepstakes_confirmation_text"
                 android:textColor="@color/widget_text_color"
                 android:textSize="18dp"/>
@@ -144,8 +168,9 @@
                 android:id="@+id/done_button"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:text="@string/done"
-                style="@style/Widget.Button.Yellow"/>
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/btn_signin"
+                android:text="@string/done"/>
 
     </LinearLayout>
 </LinearLayout>
