@@ -12,9 +12,13 @@
         <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
     </style>
 
-    <style name="Theme.Tablet" parent="@style/Theme.Sherlock.Light">
+    <style name="Theme.Tablet" parent="Theme.Expedia">
+        <item name="actionMenuTextColor">#505966</item>
         <item name="android:actionMenuTextColor">#505966</item>
+
         <item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
+
+        <item name="actionBarStyle">@style/Light.ActionBar</item>
         <item name="android:actionBarStyle">@style/Light.ActionBar</item>
 
         <!-- NumberPicker styles -->
@@ -249,7 +253,7 @@
     </style>
 
     <!-- Temporary theme for flights -->
-    <style name="FlightTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar">
+    <style name="FlightTheme" parent="Theme.Expedia">
         <item name="airPickerBackground">@android:color/white</item>
         <item name="airPickerHeaderBackground">@android:color/white</item>
         <item name="airPickerTextColor">@android:color/black</item>
