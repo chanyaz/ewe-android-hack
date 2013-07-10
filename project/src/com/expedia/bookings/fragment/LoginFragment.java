@@ -1034,7 +1034,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 			}
 			else {
 				User user = response.getUser();
-                user.setIsFacebookUser(loginWithFacebook);
+				user.setIsFacebookUser(loginWithFacebook);
 				Db.setUser(user);
 				AdTracker.trackLogin();
 				user.save(getActivity());
@@ -1216,7 +1216,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 			}
 			else {
 				User user = response.getUser();
-                user.setIsFacebookUser(loginWithFacebook);
+				user.setIsFacebookUser(loginWithFacebook);
 				Db.setUser(user);
 				AdTracker.trackLogin();
 				user.save(getActivity());
