@@ -210,6 +210,9 @@
 
     <!-- HotelReceipt -->
     <dimen name="hotel_rate_breakdown_cell_margin">8dp</dimen>
+    
+    <!-- Breakdown dialog -->
+    <dimen name="breakdown_margin">10dp</dimen>
 
     <!-- -1px == match_parent forall screen sizes -->
     <!-- This is overridden for tablets in landscape -->
