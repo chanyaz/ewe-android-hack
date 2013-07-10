@@ -98,7 +98,7 @@
         <item name="android:textAppearance">@style/TextAppearance.Phone.Dark</item>
     </style>
 
-    <style name="Widget.TextView.CVVPrompt">
+    <style name="Widget.TextView.CVVPromptBase">
         <item name="android:layout_centerHorizontal">true</item>
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">end</item>
@@ -113,6 +113,10 @@
         <item name="android:textSize">15dp</item>
         <item name="maxTextSize">15dp</item>
         <item name="minTextSize">13dp</item>
+    </style>
+
+    <style name="Widget.TextView.CVVPrompt" parent="Widget.TextView.CVVPromptBase">
+        <item name="android:layout_below">@+id/cvv_text_view</item>
     </style>
 
     <style name="TextAppearance" parent="@android:style/TextAppearance" />
@@ -913,5 +917,45 @@
 
     <style name="MarginPoint">
         <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="CvvScreenCreditCard">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_above">@+id/center</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_marginRight">41dp</item>
+        <item name="android:layout_marginTop">40dp</item>
+    </style>
+
+    <style name="CvvScreenInput">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_below">@+id/center</item>
+        <item name="android:layout_margin">24dp</item>
+    </style>
+
+    <style name="CvvScreenCreditCardSignature">
+        <item name="android:layout_alignBottom">@+id/credit_card_signature_bg_view</item>
+        <item name="android:layout_alignRight">@+id/credit_card_signature_bg_view</item>
+        <item name="android:layout_alignTop">@+id/credit_card_signature_bg_view</item>
+        <item name="android:layout_marginLeft">-32dp</item>
+        <item name="android:layout_marginRight">132dp</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:ellipsize">start</item>
+        <item name="android:gravity">center_vertical|right</item>
+    </style>
+
+    <style name="CvvScreenCreditCardSignatureBackground" />
+
+    <style name="CvvScreenCreditCardSignatureSection">
+        <item name="android:background">@drawable/bg_credit_card_back</item>
+    </style>
+
+    <style name="CvvScreenCvvInput">
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_marginTop">110dp</item>
     </style>
 </resources>
