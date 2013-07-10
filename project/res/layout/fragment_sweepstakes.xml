@@ -36,13 +36,14 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_sweepstakes">
 
-        <com.expedia.bookings.widget.TextView
+        <com.expedia.bookings.widget.AutoResizeTextView
                 android:id="@+id/enter_title_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
                 android:layout_marginRight="24dp"
                 android:layout_marginTop="24dp"
+                android:maxLines="1"
                 android:shadowDx="0"
                 android:shadowDy="1"
                 android:shadowColor="#FFFFFF"
@@ -60,13 +61,14 @@
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/sweepstakes_divider"/>
 
-        <com.expedia.bookings.widget.TextView
+        <com.expedia.bookings.widget.AutoResizeTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
                 android:layout_marginRight="24dp"
                 android:layout_marginBottom="8dp"
                 android:gravity="center"
+                android:maxLines="2"
                 android:shadowDx="0"
                 android:shadowDy="1"
                 android:shadowColor="#FFFFFF"
@@ -76,12 +78,13 @@
                 android:textSize="24dp"
                 android:textStyle="bold"/>
 
-        <com.expedia.bookings.widget.TextView
+        <com.expedia.bookings.widget.AutoResizeTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
                 android:layout_marginRight="24dp"
                 android:gravity="center"
+                android:maxLines="2"
                 android:shadowDx="0"
                 android:shadowDy="1"
                 android:shadowColor="#FFFFFF"
@@ -126,7 +129,7 @@
 
         </LinearLayout>
 
-        <com.expedia.bookings.widget.TextView
+        <com.expedia.bookings.widget.AutoResizeTextView
                 android:id="@+id/terms_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -136,6 +139,7 @@
                 android:layout_marginLeft="24dp"
                 android:layout_marginRight="24dp"
                 android:gravity="center"
+                android:maxLines="2"
                 android:textColor="#3f3d37"
                 android:textSize="12dp"/>
 
@@ -151,12 +155,13 @@
             android:padding="24dp"
             android:visibility="gone">
 
-        <com.expedia.bookings.widget.TextView
+        <com.expedia.bookings.widget.AutoResizeTextView
                 android:id="@+id/confirmation_title_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:gravity="center"
+                android:maxLines="1"
                 android:shadowDx="0"
                 android:shadowDy="1"
                 android:shadowColor="#FFFFFF"
@@ -166,11 +171,12 @@
                 android:textSize="48dp"
                 app:textAllCaps="true"/>
 
-        <com.expedia.bookings.widget.TextView
+        <com.expedia.bookings.widget.AutoResizeTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:gravity="center"
+                android:maxLines="2"
                 android:shadowDx="0"
                 android:shadowDy="1"
                 android:shadowColor="#FFFFFF"
