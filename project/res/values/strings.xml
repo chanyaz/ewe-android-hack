@@ -93,7 +93,7 @@
     <!-- Button to enter the sweepstakes -->
     <string name="sweepstakes_enter">Enter</string>
     <!-- Terms and conditions text for the sweepstakes -->
-    <string name="sweepstakes_terms">By entering I agree to the &lt;font color="#216092"&gt;Terms and Conditions&lt;/font&gt;</string>
+    <string name="sweepstakes_terms">By entering I agree to the &lt;font color="#216092"&gt;Terms and Conditions&lt;/font&gt;.&lt;br /&gt;No purchase necessary. See full &lt;font color="#216092"&gt;Rules&lt;/font&gt; for details.</string>
     <!-- Confirmation title after user enters the sweepstakes -->
     <string name="sweepstakes_confirmation_title">Thanks for entering!</string>
     <!-- Confirmation text after user enters the sweepstakes, saying the user will be notified if they win -->
