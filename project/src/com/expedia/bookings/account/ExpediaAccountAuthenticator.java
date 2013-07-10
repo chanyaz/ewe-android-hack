@@ -2,7 +2,6 @@ package com.expedia.bookings.account;
 
 import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.server.ExpediaServices;

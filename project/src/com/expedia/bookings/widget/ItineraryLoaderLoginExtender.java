@@ -19,7 +19,6 @@ import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.fragment.LoginExtender;
 import com.expedia.bookings.fragment.LoginExtenderListener;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 public class ItineraryLoaderLoginExtender extends LoginExtender implements ItinerarySyncListener {
@@ -42,7 +41,6 @@ public class ItineraryLoaderLoginExtender extends LoginExtender implements Itine
 
 	@Override
 	public void onLoginComplete(Context context, LoginExtenderListener listener, ViewGroup extenderContainer) {
-		Log.d("JOE: ItineraryLoaderLoginExtender.onLoginComplete");
 		mListener = listener;
 		mContext = context;
 		extenderContainer.removeAllViews();

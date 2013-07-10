@@ -7,6 +7,9 @@
     <!-- Animation durations -->
     <integer name="sort_filter_animation_duration">250</integer>
 
+    <!-- Account sync time in seconds (60s * 30s = 1800s = 30 minutes) -->
+    <integer name="account_sync_interval">1800</integer>
+
     <!-- weights -->
     <integer name="animation_duration">300</integer>
     <integer name="left_list_pane_weight">3</integer>

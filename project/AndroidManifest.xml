@@ -18,6 +18,9 @@
     <uses-permission android:name="android.permission.ACCOUNT_MANAGER" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_SYNC_STATS" />
 
     <!-- For Google Wallet -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -389,6 +392,20 @@
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/expedia_authenticator" />
         </service>
+        <service android:name=".account.AccountSyncService" >
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/account_sync_adapter" />
+        </service>
+
+        <provider
+            android:name="com.expedia.bookings.account.AccountSyncContentProvider"
+            android:authorities="@string/expedia_account_sync_adapter_content_authority"
+            android:exported="false" />
     </application>
 
 </manifest>

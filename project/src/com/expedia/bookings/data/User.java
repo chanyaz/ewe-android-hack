@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -134,7 +135,14 @@ public class User implements JSONable {
 		//AccountManager
 		if (Db.getUser() != null) {
 			String accountType = context.getString(R.string.expedia_account_type_identifier);
+			String contentAuthority = context.getString(R.string.expedia_account_sync_adapter_content_authority);
 			AccountManager manager = AccountManager.get(context);
+			Account[] accounts = manager.getAccountsByType(accountType);
+			if (accounts.length > 0) {
+				Account account = accounts[0];
+				ContentResolver.removePeriodicSync(account, contentAuthority, new Bundle());
+				manager.removeAccount(account, null, null);
+			}
 			manager.invalidateAuthToken(accountType, Db.getUser().getTuidString());
 		}
 
