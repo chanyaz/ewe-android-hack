@@ -163,21 +163,17 @@ public class User implements JSONable {
 		Account[] accounts = manager.getAccountsByType(accountType);
 		Account activeAccount = null;
 		if (accounts == null || accounts.length == 0) {
-			Log.d("Accounts == null or length == 0");
 			manager.addAccount(accountType, tokenType, null, options, context, null, null);
 		}
 		else if (accounts != null && accounts.length == 1) {
 			activeAccount = accounts[0];
 		}
 		else {
-			for (int i = 0; i < accounts.length; i++) {
-				Log.d("Account[" + i + "] name:" + accounts[i].name + " type:" + accounts[i].type);
-			}
-			Log.d("Choosing account[0]");
+			//TODO: If we have more than one account, something is probably wrong.
 			activeAccount = accounts[0];
 		}
 		if (activeAccount != null) {
-			manager.getAuthToken(activeAccount, accountType, null, context, null, null);
+			manager.getAuthToken(activeAccount, accountType, options, context, null, null);
 		}
 	}
 
