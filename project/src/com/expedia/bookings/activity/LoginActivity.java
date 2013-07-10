@@ -36,6 +36,15 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 	private LineOfBusiness mLob = LineOfBusiness.HOTELS;
 	private LoginExtender mLoginExtender;
 
+	
+	/**
+	 * Please don't use this. SRSLY. If you want to sign into expedia,
+	 * please use User.signIn(contex, bundle).
+	 * 
+	 * @param context
+	 * @param bundle
+	 * @return
+	 */
 	public static Intent createIntent(Context context, Bundle bundle) {
 		Intent loginIntent = new Intent(context, LoginActivity.class);
 		if (bundle != null) {
@@ -44,6 +53,15 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 		return loginIntent;
 	}
 
+	
+	/**
+	 * This generates the arguments bundle for LoginActivity.
+	 * The Bundle generated is suitable for passing into User.signIn(context,BUNDLE)
+	 * 
+	 * @param pathMode
+	 * @param extender
+	 * @return
+	 */
 	public static Bundle createArgumentsBundle(LineOfBusiness pathMode, LoginExtender extender) {
 		Bundle bundle = new Bundle();
 		bundle.putString(LoginActivity.ARG_PATH_MODE, pathMode.name());

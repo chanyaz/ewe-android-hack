@@ -361,6 +361,11 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		}
 	}
 
+	/**
+	 * This method is important. This is the method that adds the account to AccountManager
+	 * and sets up syncing. If we log in and this doesn't get called, User.isLoggedIn() will
+	 * still return false, and no data will sync. 
+	 */
 	private void updateAccountManager() {
 		if (Db.getUser() != null) {
 			//Add the account to the account manager
@@ -568,7 +573,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 
 		mLinkPassword.addTextChangedListener(new TextWatcher() {
 			@Override
-			public void afterTextChanged(Editable arg0) {
+			public void afterTextChanged(Editable arg0) { 
 				if (arg0.length() > 0) {
 					mLinkAccountsBtn.setEnabled(true);
 				}

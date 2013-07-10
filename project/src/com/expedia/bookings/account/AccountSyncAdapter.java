@@ -15,6 +15,9 @@ import android.content.SyncResult;
 import android.os.Build;
 import android.os.Bundle;
 
+/**
+ * This is the sync adapter we use to update our User.
+ */
 public class AccountSyncAdapter extends AbstractThreadedSyncAdapter {
 
 	public AccountSyncAdapter(Context context, boolean autoInitialize) {

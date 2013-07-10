@@ -20,7 +20,17 @@ import android.text.TextUtils;
 /**
  * ExpediaAccountAuthenticator - for using the AccountManager with expedia accounts.
  * 
- * Account name:expedia account email address
+ * NOTE: This AccountAuthenticator is in some ways breaking its contract based on the token returned.
+ * Typically a AccountAuthenticator would return a valid signin token that can be used to authenticate with a service.
+ * We are returning the Tuid of our logged in User, which can in no way be used to log into expedia. Why?
+ * I'LL TELL YOU WHY! We do this because the only true  "token" that we have are the cookies themselves, which
+ * are often manipulated by expedia's services (also, which cookies do we use as a token? Non-logged-in users have cookies too, etc...). 
+ * More importantly, we do not want our Authenticator to become a cookie broker. The cookies are such that any sort of manipulation of them
+ * is likely to introduce insanity bugs, so the idea of getting cookies (and storing them) anywhere other than from
+ * the web requests themselves seems too dangerous. Hence our Tuid approach which can be used to at least verify 
+ * the token against that of the logged in user.
+ * 
+ * Account name: expedia account email address
  * Token: Primary Traveler uuid
  */
 public class ExpediaAccountAuthenticator extends AbstractAccountAuthenticator {
@@ -57,6 +67,13 @@ public class ExpediaAccountAuthenticator extends AbstractAccountAuthenticator {
 		return null;
 	}
 
+	/**
+	 * See top of ExpediaAccountAuthenticator.java (this file) for detailed explaination of our token.
+	 * 
+	 * @param options - This is an argument bundle that will be passed to the LoginActivity
+	 * @return Token = Expedia Account TUID - Not an actual authentication token.
+	 * 
+	 */
 	@Override
 	public Bundle getAuthToken(AccountAuthenticatorResponse response, Account account, String authTokenType,
 			Bundle options)
