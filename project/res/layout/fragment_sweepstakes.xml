@@ -40,7 +40,9 @@
                 android:id="@+id/enter_title_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="24dp"
                 android:shadowDx="0"
                 android:shadowDy="1"
                 android:shadowColor="#FFFFFF"
@@ -54,12 +56,16 @@
         <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/sweepstakes_divider"/>
 
         <com.expedia.bookings.widget.TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:shadowDx="0"
                 android:shadowDy="1"
@@ -73,8 +79,8 @@
         <com.expedia.bookings.widget.TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
                 android:gravity="center"
                 android:shadowDx="0"
                 android:shadowDy="1"
@@ -88,27 +94,35 @@
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:layout_marginLeft="24dp"
                 android:layout_marginRight="24dp"
-                android:layout_marginTop="16dp"
-                android:layout_height="48dp">
+                android:layout_marginTop="16dp">
 
             <Button
                     android:id="@+id/no_thanks_button"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
                     android:layout_weight="1"
+                    android:layout_marginRight="2dp"
                     android:background="@drawable/btn_sweepstakes_no_thanks"
-                    android:text="@string/sweepstakes_no_thanks"/>
+                    android:text="@string/sweepstakes_no_thanks"
+                    android:textSize="18dp"
+                    style="@style/Widget.Button.Yellow"/>
 
             <Button
                     android:id="@+id/enter_button"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
                     android:layout_weight="1"
+                    android:layout_marginLeft="2dp"
                     android:background="@drawable/btn_signin"
-                    android:text="@string/sweepstakes_enter"/>
+                    android:text="@string/sweepstakes_enter"
+                    android:textSize="18dp"
+                    style="@style/Widget.Button.Yellow"/>
 
         </LinearLayout>
 
@@ -119,8 +133,8 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:layout_marginBottom="24dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
                 android:gravity="center"
                 android:textColor="#3f3d37"
                 android:textSize="12dp"/>
@@ -134,14 +148,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_sweepstakes"
-            android:padding="16dp"
+            android:padding="24dp"
             android:visibility="gone">
 
         <com.expedia.bookings.widget.TextView
                 android:id="@+id/confirmation_title_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:shadowDx="0"
                 android:shadowDy="1"
@@ -168,10 +182,13 @@
         <Button
                 android:id="@+id/done_button"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/btn_signin"
-                android:text="@string/done"/>
+                android:text="@string/done"
+                android:textSize="18dp"
+                style="@style/Widget.Button.Yellow"/>
 
     </LinearLayout>
 </LinearLayout>
