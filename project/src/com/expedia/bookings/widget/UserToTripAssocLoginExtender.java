@@ -1,8 +1,7 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
-import android.os.Parcel;
-import android.os.Parcelable;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +17,10 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 
-public class UserToTripAssocLoginExtender implements LoginExtender {
+public class UserToTripAssocLoginExtender extends LoginExtender {
 
 	private static final String NET_ASSOCIATE_USER_TO_TRIP = "NET_ASSOCIATE_USER_TO_TRIP";
+	private static final String STATE_TRIP_ID = "STATE_TRIP_ID";
 
 	private View mView;
 	private LoginExtenderListener mListener;
@@ -28,32 +28,13 @@ public class UserToTripAssocLoginExtender implements LoginExtender {
 	private String mTripId;
 
 	public UserToTripAssocLoginExtender(String tripId) {
+		super(null);
 		mTripId = tripId;
 	}
 
-	private UserToTripAssocLoginExtender(Parcel in) {
-		mTripId = in.readString();
+	public UserToTripAssocLoginExtender(Bundle state) {
+		super(state);
 	}
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(mTripId);
-	}
-
-	public static final Parcelable.Creator<UserToTripAssocLoginExtender> CREATOR = new Parcelable.Creator<UserToTripAssocLoginExtender>() {
-		public UserToTripAssocLoginExtender createFromParcel(Parcel in) {
-			return new UserToTripAssocLoginExtender(in);
-		}
-
-		public UserToTripAssocLoginExtender[] newArray(int size) {
-			return new UserToTripAssocLoginExtender[size];
-		}
-	};
 
 	@Override
 	public void onLoginComplete(Context context, LoginExtenderListener listener, ViewGroup extenderContainer) {
@@ -114,5 +95,22 @@ public class UserToTripAssocLoginExtender implements LoginExtender {
 			}
 		}
 	};
+
+	@Override
+	public LoginExtenderType getExtenderType() {
+		return LoginExtenderType.USER_TO_TRIP_ASSOC;
+	}
+
+	@Override
+	protected Bundle getStateBundle() {
+		Bundle bundle = new Bundle();
+		bundle.putString(STATE_TRIP_ID, mTripId);
+		return null;
+	}
+
+	@Override
+	protected void restoreStateFromBundle(Bundle state) {
+		mTripId = state.getString(STATE_TRIP_ID);
+	}
 
 }

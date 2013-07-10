@@ -3,8 +3,7 @@ package com.expedia.bookings.widget;
 import java.util.Collection;
 
 import android.content.Context;
-import android.os.Parcel;
-import android.os.Parcelable;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,9 +19,10 @@ import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.fragment.LoginExtender;
 import com.expedia.bookings.fragment.LoginExtenderListener;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
-public class ItineraryLoaderLoginExtender implements LoginExtender, ItinerarySyncListener {
+public class ItineraryLoaderLoginExtender extends LoginExtender implements ItinerarySyncListener {
 
 	private View mView;
 	private ProgressBar mProgress;
@@ -33,37 +33,16 @@ public class ItineraryLoaderLoginExtender implements LoginExtender, ItinerarySyn
 	private Context mContext;
 
 	public ItineraryLoaderLoginExtender() {
-
+		super(null);
 	}
 
-	private ItineraryLoaderLoginExtender(Parcel in) {
-
+	public ItineraryLoaderLoginExtender(Bundle state) {
+		super(state);
 	}
-
-	@Override
-	public int describeContents() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public static final Parcelable.Creator<ItineraryLoaderLoginExtender> CREATOR = new Parcelable.Creator<ItineraryLoaderLoginExtender>() {
-		public ItineraryLoaderLoginExtender createFromParcel(Parcel in) {
-			return new ItineraryLoaderLoginExtender(in);
-		}
-
-		public ItineraryLoaderLoginExtender[] newArray(int size) {
-			return new ItineraryLoaderLoginExtender[size];
-		}
-	};
 
 	@Override
 	public void onLoginComplete(Context context, LoginExtenderListener listener, ViewGroup extenderContainer) {
+		Log.d("JOE: ItineraryLoaderLoginExtender.onLoginComplete");
 		mListener = listener;
 		mContext = context;
 		extenderContainer.removeAllViews();
@@ -162,6 +141,22 @@ public class ItineraryLoaderLoginExtender implements LoginExtender, ItinerarySyn
 			mListener.loginExtenderWorkComplete(ItineraryLoaderLoginExtender.this);
 		}
 		ItineraryManager.getInstance().removeSyncListener(this);
+	}
+
+	@Override
+	public LoginExtenderType getExtenderType() {
+		return LoginExtenderType.ITINERARY_LOADER;
+	}
+
+	@Override
+	protected Bundle getStateBundle() {
+		//No real state
+		return new Bundle();
+	}
+
+	@Override
+	protected void restoreStateFromBundle(Bundle state) {
+		//No real state
 	}
 
 }

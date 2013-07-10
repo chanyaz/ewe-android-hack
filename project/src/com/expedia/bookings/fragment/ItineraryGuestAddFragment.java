@@ -51,7 +51,7 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 		ItineraryGuestAddFragment frag = new ItineraryGuestAddFragment();
 		Bundle args = new Bundle();
 		if (extender != null) {
-			args.putParcelable(ARG_LOGIN_EXTENDER, extender);
+			args.putBundle(STATE_LOGIN_EXTENDER, extender.buildStateBundle());
 		}
 		frag.setArguments(args);
 		return frag;
@@ -69,7 +69,7 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 		if (savedInstanceState != null) {
 			mLoginExtenderRunning = savedInstanceState.getBoolean(STATE_LOGIN_EXTENDER_RUNNING, false);
 			if (savedInstanceState.containsKey(STATE_LOGIN_EXTENDER)) {
-				mLoginExtender = savedInstanceState.getParcelable(STATE_LOGIN_EXTENDER);
+				mLoginExtender = LoginExtender.buildLoginExtenderFromState(savedInstanceState.getBundle(STATE_LOGIN_EXTENDER));
 			}
 			if (savedInstanceState.containsKey(STATE_STATUS_TEXT)) {
 				mStatusText = savedInstanceState.getString(STATE_STATUS_TEXT);
@@ -131,7 +131,7 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 		super.onSaveInstanceState(outState);
 		outState.putBoolean(STATE_LOGIN_EXTENDER_RUNNING, mLoginExtenderRunning);
 		if (mLoginExtender != null) {
-			outState.putParcelable(STATE_LOGIN_EXTENDER, mLoginExtender);
+			outState.putBundle(STATE_LOGIN_EXTENDER, mLoginExtender.buildStateBundle());
 		}
 		if (mStatusText != null) {
 			outState.putString(STATE_STATUS_TEXT, mStatusText);

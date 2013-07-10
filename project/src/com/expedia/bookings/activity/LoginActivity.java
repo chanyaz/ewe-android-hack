@@ -47,9 +47,9 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 	public static Bundle createArgumentsBundle(LineOfBusiness pathMode, LoginExtender extender) {
 		Bundle bundle = new Bundle();
 		bundle.putString(LoginActivity.ARG_PATH_MODE, pathMode.name());
-//		if (extender != null) {
-//			bundle.putParcelable(ARG_LOGIN_FRAGMENT_EXTENDER, extender);
-//		}
+		if (extender != null) {
+			bundle.putBundle(ARG_LOGIN_FRAGMENT_EXTENDER, extender.buildStateBundle());
+		}
 		return bundle;
 	}
 
@@ -71,7 +71,7 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 				mLob = LineOfBusiness.valueOf(args.getString(ARG_PATH_MODE));
 			}
 			if (args.containsKey(ARG_LOGIN_FRAGMENT_EXTENDER)) {
-				mLoginExtender = args.getParcelable(ARG_LOGIN_FRAGMENT_EXTENDER);
+				mLoginExtender = LoginExtender.buildLoginExtenderFromState(args.getBundle(ARG_LOGIN_FRAGMENT_EXTENDER));
 			}
 		}
 

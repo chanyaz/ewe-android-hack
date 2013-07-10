@@ -171,7 +171,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		LoginFragment frag = new LoginFragment();
 		Bundle args = new Bundle();
 		args.putString(ARG_PATH_MODE, mode.name());
-		args.putParcelable(ARG_EXTENDER_OBJECT, extender);
+		args.putBundle(ARG_EXTENDER_OBJECT, extender.buildStateBundle());
 		frag.setArguments(args);
 		return frag;
 	}
@@ -184,7 +184,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 			mLob = LineOfBusiness.valueOf(this.getArguments().getString(ARG_PATH_MODE));
 		}
 		if (this.getArguments() != null && this.getArguments().containsKey(ARG_EXTENDER_OBJECT)) {
-			mLoginExtender = this.getArguments().getParcelable(ARG_EXTENDER_OBJECT);
+			mLoginExtender = LoginExtender.buildLoginExtenderFromState(getArguments().getBundle(ARG_EXTENDER_OBJECT));
 			//We now control this from saved state...
 			this.getArguments().remove(ARG_EXTENDER_OBJECT);
 		}
@@ -259,7 +259,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 			outState.putString(STATE_PATH_MODE, mLob.name());
 		}
 		if (mLoginExtender != null) {
-			outState.putParcelable(STATE_LOGIN_EXTENDER, mLoginExtender);
+			outState.putBundle(STATE_LOGIN_EXTENDER, mLoginExtender.buildStateBundle());
 		}
 
 		outState.putBoolean(STATE_IS_LOADING, mIsLoading);
@@ -351,11 +351,24 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 	}
 
 	private void loginWorkComplete() {
+		updateAccountManager();
 		if (mLoginExtender != null) {
 			doLoginExtenderWork();
 		}
 		else {
 			finishParentWithResult();
+		}
+	}
+
+	private void updateAccountManager() {
+		//THIS IS THE PART WHERE WE TELL THE ACCOUNT MANAGER ABOUT STUFF...
+		if (Db.getUser() != null) {
+			String accountType = getString(R.string.expedia_account_type_identifier);
+			String tokenType = getString(R.string.expedia_account_token_type_tuid_identifier);
+			AccountManager manager = AccountManager.get(getActivity());
+			final Account account = new Account(Db.getUser().getPrimaryTraveler().getEmail(), accountType);
+			manager.addAccountExplicitly(account, Db.getUser().getTuidString(), null);
+			manager.setAuthToken(account, tokenType, Db.getUser().getTuidString());
 		}
 	}
 
@@ -386,18 +399,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 	private void finishParentWithResult() {
 		Activity activity = getActivity();
 		if (activity != null) {
-			if (Db.getUser() != null) {
-
-				//THIS IS THE PART WHERE WE TELL THE ACCOUNT MANAGER ABOUT STUFF...
-				String accountType = getString(R.string.expedia_account_type_identifier);
-				String tokenType = getString(R.string.expedia_account_token_type_tuid_identifier);
-				AccountManager manager = AccountManager.get(activity);
-
-				final Account account = new Account(Db.getUser().getPrimaryTraveler().getEmail(), accountType);
-
-				manager.addAccountExplicitly(account, Db.getUser().getTuidString(), null);
-				manager.setAuthToken(account, tokenType, Db.getUser().getTuidString());
-
+			if (User.isLoggedIn(activity) && Db.getUser() != null) {
 				activity.setResult(Activity.RESULT_OK);
 			}
 			else {
@@ -431,7 +433,8 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 				mLoadingText = savedInstanceState.getString(STATE_LOADING_TEXT);
 			}
 			if (savedInstanceState.containsKey(STATE_LOGIN_EXTENDER)) {
-				mLoginExtender = savedInstanceState.getParcelable(STATE_LOGIN_EXTENDER);
+				mLoginExtender = LoginExtender.buildLoginExtenderFromState(savedInstanceState
+						.getBundle(STATE_LOGIN_EXTENDER));
 			}
 
 			mEmptyUsername = savedInstanceState.getBoolean(STATE_EMPTY_EXP_USERNAME, true);
@@ -1050,6 +1053,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 				Db.setUser(user);
 				AdTracker.trackLogin();
 				user.save(getActivity());
+
 				loginWorkComplete();
 
 				OmnitureTracking.trackLoginSuccess(getActivity(), mLob, loginWithFacebook, user.isRewardsUser());
