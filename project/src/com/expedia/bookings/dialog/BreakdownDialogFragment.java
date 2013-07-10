@@ -1,8 +1,11 @@
 package com.expedia.bookings.dialog;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -16,6 +19,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.HotelSearch;
+import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.RateBreakdown;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.mobiata.android.util.Ui;
 
@@ -110,6 +119,144 @@ public class BreakdownDialogFragment extends DialogFragment {
 		}
 
 		return itemView;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Convenience buildres
+
+	public static BreakdownDialogFragment buildHotelRateBreakdownDialog(Context context, HotelSearch search) {
+		Resources res = context.getResources();
+		HotelSearchParams params = search.getSearchParams();
+		Rate originalRate = search.getSelectedRate();
+		Rate couponRate = search.getCouponRate();
+
+		Builder builder = new Builder();
+
+		builder.setTitle(context.getString(R.string.cost_summary));
+		builder.setTitleDivider(R.drawable.dialog_breakdown_stripe);
+
+		// Breakdown summary
+		int numNights = params.getStayDuration();
+		builder.addLineItem((new LineItemBuilder())
+				.setItemLeft((new ItemBuilder())
+						.setText(res.getQuantityString(R.plurals.number_of_nights, numNights, numNights))
+						.setTextAppearance(R.style.TextAppearance_Breakdown_Heavy)
+						.build())
+				.setItemRight((new ItemBuilder())
+						.setText(originalRate.getNightlyRateTotal().getFormattedMoney())
+						.setTextAppearance(R.style.TextAppearance_Breakdown_Heavy)
+						.build())
+				.build());
+
+		// Breakdown of each night
+		DateFormat breakdownFormat = android.text.format.DateFormat.getDateFormat(context);
+		if (originalRate.getRateBreakdownList() != null) {
+			for (RateBreakdown breakdown : originalRate.getRateBreakdownList()) {
+				String date = breakdownFormat.format(breakdown.getDate().getCalendar().getTime());
+				Money amount = breakdown.getAmount();
+				CharSequence amountStr = (amount.isZero()) ? context.getString(R.string.free) :
+						amount.getFormattedMoney();
+
+				builder.addLineItem((new LineItemBuilder())
+						.indent()
+						.setItemLeft((new ItemBuilder())
+								.setText(date)
+								.setTextAppearance(R.style.TextAppearance_Breakdown_Light_Gray)
+								.build())
+						.setItemRight((new ItemBuilder())
+								.setText(amountStr)
+								.setTextAppearance(R.style.TextAppearance_Breakdown_Light_Gray)
+								.build())
+						.build());
+			}
+		}
+
+		// Discount
+		if (couponRate != null) {
+			builder.addLineItem((new LineItemBuilder())
+					.setItemLeft((new ItemBuilder())
+							.setText(context.getString(R.string.discount))
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
+							.build())
+					.setItemRight((new ItemBuilder())
+							.setText("(" + couponRate.getTotalPriceAdjustments().getFormattedMoney() + ")")
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium_Green)
+							.build())
+					.build());
+		}
+
+		// Taxes & Fees
+		if (originalRate.getTotalSurcharge() != null) {
+			String surcharge = (originalRate.getTotalSurcharge().isZero()) ? context.getString(R.string.included)
+					: originalRate.getTotalSurcharge().getFormattedMoney();
+
+			builder.addLineItem((new LineItemBuilder())
+					.setItemLeft((new ItemBuilder())
+							.setText(context.getString(R.string.taxes_and_fees))
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
+							.build())
+					.setItemRight((new ItemBuilder())
+							.setText(surcharge)
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
+							.build())
+					.build());
+		}
+
+		// Extra guest fees
+		if (originalRate.getExtraGuestFee() != null && !originalRate.getExtraGuestFee().isZero()) {
+			builder.addLineItem((new LineItemBuilder())
+					.setItemLeft((new ItemBuilder())
+							.setText(context.getString(R.string.extra_guest_charge))
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
+							.build())
+					.setItemRight((new ItemBuilder())
+							.setText(originalRate.getExtraGuestFee().getFormattedMoney())
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
+							.build())
+					.build());
+		}
+
+		builder.addDivider();
+
+		// Mandatory fees
+		if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
+			builder.addLineItem((new LineItemBuilder())
+					.setItemLeft((new ItemBuilder())
+							.setText(context.getString(R.string.total_due_today))
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
+							.build())
+					.setItemRight((new ItemBuilder())
+							.setText(originalRate.getTotalAmountAfterTax().getFormattedMoney())
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
+							.build())
+					.build());
+
+			builder.addLineItem((new LineItemBuilder())
+					.setItemLeft((new ItemBuilder())
+							.setText(context.getString(R.string.MandatoryFees))
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
+							.build())
+					.setItemRight((new ItemBuilder())
+							.setText(originalRate.getTotalMandatoryFees().getFormattedMoney())
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
+							.build())
+					.build());
+		}
+
+		// Total
+		Money total = couponRate == null ? originalRate.getDisplayTotalPrice() : couponRate.getDisplayTotalPrice();
+		builder.addLineItem((new LineItemBuilder())
+				.setItemLeft((new ItemBuilder())
+						.setText(context.getString(R.string.total_price_label))
+						.setTextAppearance(R.style.TextAppearance_Breakdown_Heavy)
+						.build())
+				.setItemRight((new ItemBuilder())
+						.setText(total.getFormattedMoney())
+						.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
+						.build())
+				.build());
+
+		return builder.build();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

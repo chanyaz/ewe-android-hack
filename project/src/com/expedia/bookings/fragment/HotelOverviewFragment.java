@@ -48,8 +48,8 @@ import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.dialog.BreakdownDialogFragment;
 import com.expedia.bookings.dialog.HotelPriceChangeDialog;
-import com.expedia.bookings.dialog.HotelRateBreakdownDialog;
 import com.expedia.bookings.dialog.TextViewDialog;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.dialog.ThrobberDialog.CancelListener;
@@ -1082,8 +1082,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	private View.OnClickListener mRateBreakdownClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			HotelRateBreakdownDialog dialogFrag = new HotelRateBreakdownDialog();
-			dialogFrag.show(getFragmentManager(), HotelRateBreakdownDialog.class.toString());
+			BreakdownDialogFragment dialogFrag = BreakdownDialogFragment.buildHotelRateBreakdownDialog(getActivity(),
+					Db.getHotelSearch());
+			dialogFrag.show(getFragmentManager(), BreakdownDialogFragment.TAG);
 		}
 	};
 
