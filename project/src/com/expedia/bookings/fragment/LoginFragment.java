@@ -1,9 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Semaphore;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -61,6 +57,10 @@ import com.nineoldandroids.animation.Animator.AnimatorListener;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 import com.nineoldandroids.view.animation.AnimatorProxy;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Semaphore;
 
 /**
  * This fragment is for logging into expedia accounts via the standard method AND facebook connect.
@@ -1034,6 +1034,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 			}
 			else {
 				User user = response.getUser();
+                user.setIsFacebookUser(loginWithFacebook);
 				Db.setUser(user);
 				AdTracker.trackLogin();
 				user.save(getActivity());
@@ -1215,6 +1216,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 			}
 			else {
 				User user = response.getUser();
+                user.setIsFacebookUser(loginWithFacebook);
 				Db.setUser(user);
 				AdTracker.trackLogin();
 				user.save(getActivity());

@@ -1,12 +1,5 @@
 package com.expedia.bookings.data;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.text.TextUtils;
 
@@ -18,6 +11,13 @@ import com.mobiata.android.FileCipher;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class User implements JSONable {
 
@@ -37,6 +37,8 @@ public class User implements JSONable {
 	private List<Traveler> mAssociatedTravelers = new ArrayList<Traveler>();
 
 	private List<StoredCreditCard> mStoredCreditCards = new ArrayList<StoredCreditCard>();
+
+	private boolean mIsFacebookUser;
 
 	private static final String[] ADDRESS_LINE_KEYS = new String[] { "firstAddressLine", "secondAddressLine" };
 
@@ -78,6 +80,14 @@ public class User implements JSONable {
 
 	public List<Traveler> getAssociatedTravelers() {
 		return mAssociatedTravelers;
+	}
+
+	public boolean isFacebookUser() {
+		return mIsFacebookUser;
+	}
+
+	public void setIsFacebookUser(boolean isFacebookUser) {
+		mIsFacebookUser = isFacebookUser;
 	}
 
 	public boolean isRewardsUser() {
@@ -204,6 +214,7 @@ public class User implements JSONable {
 
 		try {
 			obj.put("version", VERSION);
+			obj.put("isFacebookUser", mIsFacebookUser);
 			JSONUtils.putJSONable(obj, "primaryTraveler", mPrimaryTraveler);
 			JSONUtils.putJSONableList(obj, "storedCreditCards", mStoredCreditCards);
 			JSONUtils.putJSONableList(obj, "associatedTravelers", mAssociatedTravelers);
@@ -268,6 +279,8 @@ public class User implements JSONable {
 		mStoredCreditCards = JSONUtils.getJSONableList(obj, "storedCreditCards", StoredCreditCard.class);
 
 		mAssociatedTravelers = JSONUtils.getJSONableList(obj, "associatedTravelers", Traveler.class);
+
+		mIsFacebookUser = obj.optBoolean("isFacebookUser");
 
 		return true;
 	}

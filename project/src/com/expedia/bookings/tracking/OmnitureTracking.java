@@ -1132,12 +1132,25 @@ public class OmnitureTracking {
 	}
 
 	public static void trackSweepstakesConfirmation(Context context, User user) {
-		ADMS_Measurement s = createTrackPageLoadEventBase(context, SWEEPSTAKES_ENTRY);
+		ADMS_Measurement s = createTrackPageLoadEventBase(context, SWEEPSTAKES_CONFIRMATION);
 
 		String tuid = String.valueOf(user.getPrimaryTraveler().getTuid());
+		String var55;
+
+		if (user.isFacebookUser()) {
+			var55 = "Facebook";
+		}
+		else {
+			var55 = "Registered";
+		}
+
+		if (user.isRewardsUser()) {
+			var55 += " Rewards";
+		}
+
 		s.setProp(13, tuid);
 		s.setEvents("event26,event10:" + tuid);
-        s.setEvar(55, "");
+		s.setEvar(55, var55);
 		s.track();
 	}
 
