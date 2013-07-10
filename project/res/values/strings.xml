@@ -81,6 +81,24 @@
     <!-- Notification text for activity start -->
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Your %s ticket can be redeemed starting tomorrow.</string>
 
+    <!-- Sweepstakes -->
+    <!-- Title of the sweepstakes -->
+    <string name="sweepstakes_enter_title">Trip a day giveaway!</string>
+    <!-- Subtitle of the sweepstakes describing what the price is -->
+    <string name="sweepstakes_enter_subtitle">Win a $1200 travel\nvoucher from Expedia!</string>
+    <!-- Text describing how to enter the sweepstakes -->
+    <string name="sweepstakes_enter_text">Just sign in with an Expedia account\nor Connect with Facebook to enter.</string>
+    <!-- Button declining to enter the sweepstakes -->
+    <string name="sweepstakes_no_thanks">No thanks</string>
+    <!-- Button to enter the sweepstakes -->
+    <string name="sweepstakes_enter">Enter</string>
+    <!-- Terms and conditions text for the sweepstakes -->
+    <string name="sweepstakes_terms">By entering I agree to the &lt;font color="#216092"&gt;Terms and Conditions&lt;/font&gt;.&lt;br /&gt;No purchase necessary. See full &lt;font color="#216092"&gt;Rules&lt;/font&gt; for details.</string>
+    <!-- Confirmation title after user enters the sweepstakes -->
+    <string name="sweepstakes_confirmation_title">Thanks for entering!</string>
+    <!-- Confirmation text after user enters the sweepstakes, saying the user will be notified if they win -->
+    <string name="sweepstakes_confirmation_text">Be on the lookout! Winners will\nbe notified via email.</string>
+
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerary</string>
