@@ -62,7 +62,7 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 		View view = inflater.inflate(R.layout.fragment_itinerary_add_guest_itin, container, false);
 
 		if (getArguments().containsKey(ARG_LOGIN_EXTENDER)) {
-			mLoginExtender = getArguments().getParcelable(ARG_LOGIN_EXTENDER);
+			mLoginExtender = LoginExtender.buildLoginExtenderFromState(getArguments().getBundle(ARG_LOGIN_EXTENDER));
 			getArguments().remove(ARG_LOGIN_EXTENDER);
 		}
 
