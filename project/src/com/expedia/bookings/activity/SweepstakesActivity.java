@@ -35,8 +35,8 @@ public class SweepstakesActivity extends FragmentActivity {
 
 		// If they are logged in...
 		// Save setting to hide sweepstakes
-		if (Db.getUser() != null) {
-            OmnitureTracking.trackSweepstakesLogin(this);
+		if (Db.getUser() != null && Db.getUser().isLoggedIn(this)) {
+			OmnitureTracking.trackSweepstakesLogin(this);
 			mSweepstakesFragment.enterSweepstakes();
 		}
 	}
