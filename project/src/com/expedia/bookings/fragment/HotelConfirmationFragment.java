@@ -419,9 +419,13 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 	private void handleSamsungWalletResult(int result) {
 		Log.d("SamsungWallet: Handle samsung wallet result: " + result);
 		// Ready to let the user click the button
-		setSamsungWalletVisibility(View.VISIBLE);
-		mSamsungWalletButton.setTag(result);
-		mSamsungWalletButton.setOnClickListener(mSamsungWalletClickListener);
+		if (result == SamsungWalletUtils.RESULT_TICKET_EXISTS ||
+			result == SamsungWalletUtils.RESULT_TICKET_NOT_FOUND) {
+
+			setSamsungWalletVisibility(View.VISIBLE);
+			mSamsungWalletButton.setTag(result);
+			mSamsungWalletButton.setOnClickListener(mSamsungWalletClickListener);
+		}
 	}
 
 	private void showDownloadSamsungWalletButton() {
