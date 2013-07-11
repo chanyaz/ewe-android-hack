@@ -24,6 +24,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	// Expedia
 	private Long mTuid = 0L;
 	private String mLoyaltyMembershipNumber;
+	private String mLoyaltyMembershipName;
+	private boolean mIsLoyaltyMembershipActive = true;
 
 	// General
 	private String mFirstName;
@@ -113,10 +115,23 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	}
 
 	public String getLoyaltyMembershipNumber() {
-		if (TextUtils.isEmpty(mLoyaltyMembershipNumber)) {
+		if (!mIsLoyaltyMembershipActive || TextUtils.isEmpty(mLoyaltyMembershipNumber)) {
 			return null;
 		}
 		return mLoyaltyMembershipNumber;
+	}
+
+	public boolean getIsLoyaltyMembershipActive() {
+		return mIsLoyaltyMembershipActive;
+	}
+
+	public String getLoyaltyMembershipName() {
+		return mLoyaltyMembershipName;
+	}
+
+	public boolean getIsElitePlusMember() {
+		return mIsLoyaltyMembershipActive && !TextUtils.isEmpty(mLoyaltyMembershipName)
+				&& mLoyaltyMembershipName.equalsIgnoreCase("Elite Plus");
 	}
 
 	public String getFirstName() {
@@ -323,6 +338,14 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mLoyaltyMembershipNumber = loyaltyMembershipNumber;
 	}
 
+	public void setLoyaltyMembershipActive(boolean active) {
+		mIsLoyaltyMembershipActive = active;
+	}
+
+	public void setLoyaltyMembershipName(String loyaltyMembershipName) {
+		mLoyaltyMembershipName = loyaltyMembershipName;
+	}
+
 	public void setFirstName(String firstName) {
 		mFirstName = firstName;
 	}
@@ -475,6 +498,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		try {
 			obj.putOpt("tuid", mTuid);
 			obj.putOpt("loyaltyMembershipNumber", mLoyaltyMembershipNumber);
+			obj.putOpt("loyaltyMemebershipActive", mIsLoyaltyMembershipActive);
+			obj.putOpt("loyaltyMemebershipName", mLoyaltyMembershipName);
 
 			obj.putOpt("firstName", mFirstName);
 			obj.putOpt("middleName", mMiddleName);
@@ -516,6 +541,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	public boolean fromJson(JSONObject obj) {
 		mTuid = obj.optLong("tuid");
 		mLoyaltyMembershipNumber = obj.optString("loyaltyMembershipNumber", null);
+		mIsLoyaltyMembershipActive = obj.optBoolean("loyaltyMemebershipActive", false);
+		mLoyaltyMembershipName = obj.optString("loyaltyMemebershipName", null);
 
 		mFirstName = obj.optString("firstName", null);
 		mMiddleName = obj.optString("middleName", null);

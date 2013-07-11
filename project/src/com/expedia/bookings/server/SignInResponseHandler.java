@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.TextUtils;
 
@@ -35,6 +36,7 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 
 	private Context mContext;
 
+	@SuppressLint("SimpleDateFormat")
 	private static final DateFormat BIRTH_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
 	public SignInResponseHandler(Context context) {
@@ -187,6 +189,8 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 		traveler.setMiddleName(obj.optString("middleName", null));
 		traveler.setLastName(obj.optString("lastName", null));
 		traveler.setLoyaltyMembershipNumber(obj.optString("loyaltyMembershipNumber", null));
+		traveler.setLoyaltyMembershipActive(obj.optBoolean("loyaltyMemebershipActive", false));
+		traveler.setLoyaltyMembershipName(obj.optString("loyaltyMemebershipName", null));
 		return traveler;
 	}
 }
