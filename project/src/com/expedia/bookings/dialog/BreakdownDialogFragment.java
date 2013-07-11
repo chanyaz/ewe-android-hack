@@ -145,11 +145,11 @@ public class BreakdownDialogFragment extends DialogFragment {
 		builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
 						.setText(res.getQuantityString(R.plurals.number_of_nights, numNights, numNights))
-						.setTextAppearance(R.style.TextAppearance_Breakdown_Heavy)
+						.setTextAppearance(R.style.TextAppearance_Breakdown_Medium_Bold)
 						.build())
 				.setItemRight((new ItemBuilder())
 						.setText(originalRate.getNightlyRateTotal().getFormattedMoney())
-						.setTextAppearance(R.style.TextAppearance_Breakdown_Heavy)
+						.setTextAppearance(R.style.TextAppearance_Breakdown_Medium_Bold)
 						.build())
 				.build());
 
@@ -166,11 +166,11 @@ public class BreakdownDialogFragment extends DialogFragment {
 						.indent()
 						.setItemLeft((new ItemBuilder())
 								.setText(date)
-								.setTextAppearance(R.style.TextAppearance_Breakdown_Light_Gray)
+								.setTextAppearance(R.style.TextAppearance_Breakdown_Light)
 								.build())
 						.setItemRight((new ItemBuilder())
 								.setText(amountStr)
-								.setTextAppearance(R.style.TextAppearance_Breakdown_Light_Gray)
+								.setTextAppearance(R.style.TextAppearance_Breakdown_Light)
 								.build())
 						.build());
 			}
@@ -253,11 +253,11 @@ public class BreakdownDialogFragment extends DialogFragment {
 		builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
 						.setText(context.getString(R.string.total_price_label))
-						.setTextAppearance(R.style.TextAppearance_Breakdown_Heavy)
+						.setTextAppearance(R.style.TextAppearance_Breakdown_Heavy_Bold)
 						.build())
 				.setItemRight((new ItemBuilder())
 						.setText(total.getFormattedMoney())
-						.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
+						.setTextAppearance(R.style.TextAppearance_Breakdown_Heavy)
 						.build())
 				.build());
 
@@ -280,11 +280,11 @@ public class BreakdownDialogFragment extends DialogFragment {
 			builder.addLineItem((new LineItemBuilder())
 					.setItemLeft((new ItemBuilder())
 							.setText(context.getString(R.string.traveler_num_and_category_TEMPLATE, i + 1))
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Flight_Medium_Bold)
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium_Bold)
 							.build())
 					.setItemRight((new ItemBuilder())
 							.setText(trip.getTotalFare().getFormattedMoneyPerTraveler())
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Flight_Medium_Bold)
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium_Bold)
 							.build())
 					.build());
 
@@ -292,11 +292,11 @@ public class BreakdownDialogFragment extends DialogFragment {
 					.setTopPaddingEnabled(false)
 					.setItemLeft((new ItemBuilder())
 							.setText(context.getString(R.string.flight))
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Flight_Medium)
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 							.build())
 					.setItemRight((new ItemBuilder())
 							.setText(trip.getBaseFare().getFormattedMoneyPerTraveler())
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Flight_Medium)
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 							.build())
 					.build());
 
@@ -304,11 +304,11 @@ public class BreakdownDialogFragment extends DialogFragment {
 					.setTopPaddingEnabled(false)
 					.setItemLeft((new ItemBuilder())
 							.setText(context.getString(R.string.taxes_and_airline_fees))
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Flight_Medium)
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 							.build())
 					.setItemRight((new ItemBuilder())
 							.setText(trip.getTaxes().getFormattedMoneyPerTraveler())
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Flight_Medium)
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 							.build())
 					.build());
 
@@ -321,11 +321,11 @@ public class BreakdownDialogFragment extends DialogFragment {
 			builder.addLineItem((new LineItemBuilder())
 					.setItemLeft((new ItemBuilder())
 							.setText(context.getString(R.string.airline_card_fee))
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Flight_Medium)
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 							.build())
 					.setItemRight((new ItemBuilder())
 							.setText(cardFee.getFormattedMoney())
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Flight_Medium)
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 							.build())
 					.build());
 
@@ -337,11 +337,11 @@ public class BreakdownDialogFragment extends DialogFragment {
 			builder.addLineItem((new LineItemBuilder())
 					.setItemLeft((new ItemBuilder())
 							.setText(context.getString(R.string.expedia_booking_fee))
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Flight_Medium)
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 							.build())
 					.setItemRight((new ItemBuilder())
 							.setText(trip.getFees().getFormattedMoney())
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Flight_Medium)
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 							.build())
 					.build());
 
@@ -361,11 +361,11 @@ public class BreakdownDialogFragment extends DialogFragment {
 			builder.addLineItem((new LineItemBuilder())
 					.setItemLeft((new ItemBuilder())
 							.setText(context.getString(R.string.total_price_label))
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Flight_Heavy_Bold)
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Heavy_Bold)
 							.build())
 					.setItemRight((new ItemBuilder())
 							.setText(text)
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Flight_Heavy)
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Heavy)
 							.build())
 					.build());
 		}

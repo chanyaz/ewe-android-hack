@@ -896,15 +896,16 @@
     </style>
 
     <style name="TextAppearance.Breakdown.Light">
-        <item name="android:textSize">14sp</item>
-    </style>
-
-    <style name="TextAppearance.Breakdown.Light.Gray">
+        <item name="android:textSize">16sp</item>
         <item name="android:textColor">#FF8a8a8a</item>
     </style>
 
     <style name="TextAppearance.Breakdown.Medium">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextAppearance.Breakdown.Medium.Bold">
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TextAppearance.Breakdown.Medium.Green">
@@ -912,25 +913,10 @@
     </style>
 
     <style name="TextAppearance.Breakdown.Heavy">
-        <item name="android:textSize">18sp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="TextAppearance.Breakdown.Flight" />
-
-    <style name="TextAppearance.Breakdown.Flight.Medium">
-        <item name="android:textSize">18sp</item>
-    </style>
-
-    <style name="TextAppearance.Breakdown.Flight.Medium.Bold">
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="TextAppearance.Breakdown.Flight.Heavy">
         <item name="android:textSize">22sp</item>
     </style>
 
-    <style name="TextAppearance.Breakdown.Flight.Heavy.Bold">
+    <style name="TextAppearance.Breakdown.Heavy.Bold">
         <item name="android:textStyle">bold</item>
     </style>
 
