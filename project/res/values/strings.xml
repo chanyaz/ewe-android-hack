@@ -108,8 +108,6 @@
     <string name="find_itinerary">Find Itinerary</string>
     <!-- Find Itinerary # -->
     <string name="find_itinerary_pound">Find Itinerary #</string>
-    <!-- Itinerary Number -->
-    <string name="itinerary_number">Itinerary Number</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">Expedia Itinerary #</string>
     <!-- No upcoming trips -->
@@ -955,8 +953,6 @@
     <string name="save_billing_info_message">Save this payment method under your Expedia account to speed up future purchases?</string>
     <!-- save -->
     <string name="save">Save</string>
-    <!-- dont save -->
-    <string name="dont_save">Don\'t Save</string>
 
     <!-- Save traveler dialog -->
     <!-- save traveler -->
@@ -1703,8 +1699,6 @@
     <string name="booking_information_dialog_title">Complete Your Booking</string>
 
     <!-- Confirmation activity -->
-    <!-- Title for confirmation screen -->
-    <string name="booking_complete">Booking Complete</string>
     <!-- Friendly message at the top of the receipt -->
     <string name="Enjoy_your_stay">Enjoy your stay.</string>
     <!-- Format for a first/last name -->
