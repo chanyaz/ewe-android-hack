@@ -66,7 +66,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 
 	private ViewGroup mHotelCard;
 	private View mSamsungDivider;
-	private View mSamsungWalletButton;
+	private TextView mSamsungWalletButton;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -164,11 +164,8 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 			Ui.findView(v, R.id.calendar_divider).setVisibility(View.GONE);
 		}
 
-		if (SamsungWalletUtils.isAvailable(getActivity())) {
-			Log.d("SamsungWallet: is available, showing UI");
-			mSamsungDivider = Ui.findView(v, R.id.samsung_divider);
-			mSamsungWalletButton = Ui.findView(v, R.id.samsung_wallet_action_text_view);
-		}
+		mSamsungDivider = Ui.findView(v, R.id.samsung_divider);
+		mSamsungWalletButton = Ui.findView(v, R.id.samsung_wallet_action_text_view);
 
 		return v;
 	}
@@ -177,7 +174,8 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 	public void onResume() {
 		super.onResume();
 
-		if (SamsungWalletUtils.isAvailable(getActivity())) {
+		if (SamsungWalletUtils.isSamsungWalletAvailable(getActivity())) {
+			Log.d("SamsungWallet: onResume samsung wallet was found");
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();
 			if (bd.isDownloading(SAMSUNG_WALLET_DOWNLOAD_KEY)) {
 				Log.d("SamsungWallet: is available, resuming download");
@@ -191,6 +189,10 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 				Log.d("SamsungWallet: is available, starting download");
 				bd.startDownload(SAMSUNG_WALLET_DOWNLOAD_KEY, mWalletDownload, mWalletCallback);
 			}
+		}
+		else if (SamsungWalletUtils.isSamsungAvailable(getActivity())) {
+			Log.d("SamsungWallet: onResume show Download Samsung Wallet button");
+			showDownloadSamsungWalletButton();
 		}
 	}
 
@@ -394,6 +396,13 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		}
 	};
 
+	private final View.OnClickListener mDownloadSamsungWalletClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			SocialUtils.openSite(getActivity(), SamsungWalletUtils.SAMSUNG_WALLET_DOWNLOAD_URL);
+		}
+	};
+
 	private void handleSamsungWalletTicketId(String ticketId) {
 		// We have the samsung ticketId, now we need to check against the wallet
 		SamsungWalletUtils.Callback callback = new SamsungWalletUtils.Callback() {
@@ -413,6 +422,12 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		setSamsungWalletVisibility(View.VISIBLE);
 		mSamsungWalletButton.setTag(result);
 		mSamsungWalletButton.setOnClickListener(mSamsungWalletClickListener);
+	}
+
+	private void showDownloadSamsungWalletButton() {
+		setSamsungWalletVisibility(View.VISIBLE);
+		mSamsungWalletButton.setText(getString(R.string.download_samsung_wallet));
+		mSamsungWalletButton.setOnClickListener(mDownloadSamsungWalletClickListener);
 	}
 
 	private void setSamsungWalletVisibility(int visibility) {

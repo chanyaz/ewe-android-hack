@@ -10,7 +10,9 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 
 public class SamsungWalletUtils {
-	public static final String SAMSUNG_WALLET_PACKAGE_NAME = "com.sec.android.app.samsungapps";
+	public static final String SAMSUNG_APPS_PACKAGE_NAME = "com.sec.android.app.samsungapps";
+	public static final String SAMSUNG_WALLET_PACKAGE_NAME = "com.sec.android.wallet";
+	public static final String SAMSUNG_WALLET_DOWNLOAD_URL = "http://www.samsungapps.com/appquery/appDetail.as?appId=com.sec.android.wallet";
 
 	public static final String CHECK_TICKET_RESULT = "com.sample.partners.action.CHECK_TICKET_RESULT";
 
@@ -24,12 +26,11 @@ public class SamsungWalletUtils {
 		public void onResult(int result);
 	}
 
-	public static boolean isAvailable(Context context) {
-		if (AndroidUtils.isRelease(context)) {
-			// Turned off for 3.2 releases
-			return false;
-		}
+	public static boolean isSamsungAvailable(Context context) {
+		return AndroidUtils.isPackageInstalled(context, SAMSUNG_APPS_PACKAGE_NAME);
+	}
 
+	public static boolean isSamsungWalletAvailable(Context context) {
 		return AndroidUtils.isPackageInstalled(context, SAMSUNG_WALLET_PACKAGE_NAME);
 	}
 
