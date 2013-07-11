@@ -18,6 +18,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.HotelTextSection;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Money;
@@ -70,6 +71,19 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 			property.setPropertyId(response.optString("hotelId", null));
 			property.setTelephoneSalesNumber(response.optString("telesalesNumber", null));
 			property.setIsDesktopOverrideNumber(response.optBoolean("deskTopOverrideNumber", true));
+
+			// Parse text sections
+			JSONArray overviewTextArr = response.optJSONArray("hotelOverviewText");
+			if (overviewTextArr != null) {
+				for (int a = 0; a < overviewTextArr.length(); a++) {
+					property.addOverviewText(parseHotelTextSection(overviewTextArr.optJSONObject(a)));
+				}
+			}
+			property.setAmenitiesText(parseHotelTextSection(response.optJSONObject("hotelAmenitiesText")));
+			property.setPoliciesText(parseHotelTextSection(response.optJSONObject("hotelPoliciesText")));
+			property.setFeesText(parseHotelTextSection(response.optJSONObject("hotelFeesText")));
+			property.setMandatoryFeesText(parseHotelTextSection(response.optJSONObject("hotelMandatoryFeesText")));
+			property.setRenovationText(parseHotelTextSection(response.optJSONObject("hotelRenovationText")));
 
 			Location location = new Location();
 			location.setLatitude(response.optDouble("latitude", 0));
@@ -290,6 +304,16 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 		}
 
 		return availResponse;
+	}
+
+	private HotelTextSection parseHotelTextSection(JSONObject obj) {
+		if (obj == null) {
+			return null;
+		}
+
+		String name = obj.optString("name");
+		String content = obj.optString("content");
+		return new HotelTextSection(name, content);
 	}
 
 	public Rate parseJsonHotelOffer(JSONObject jsonRate, int numberOfNights, Policy checkInPolicy)
