@@ -79,6 +79,14 @@ public class Property implements JSONable {
 	private String mLocalPhone;
 	private String mTollFreePhone;
 
+	// Text about the hotel
+	private List<HotelTextSection> mOverviewText;
+	private HotelTextSection mAmenitiesText;
+	private HotelTextSection mPoliciesText;
+	private HotelTextSection mFeesText;
+	private HotelTextSection mMandatoryFeesText;
+	private HotelTextSection mRenovationText;
+
 	// These change based on when the user requests data
 	private boolean mAvailable;
 	private Distance mDistanceFromUser;
@@ -219,6 +227,57 @@ public class Property implements JSONable {
 			return mLocalPhone;
 		}
 		return mTollFreePhone;
+	}
+
+	public List<HotelTextSection> getOverviewText() {
+		return mOverviewText;
+	}
+
+	public void addOverviewText(HotelTextSection overviewText) {
+		if (mOverviewText == null) {
+			mOverviewText = new ArrayList<HotelTextSection>();
+		}
+		mOverviewText.add(overviewText);
+	}
+
+	public HotelTextSection getAmenitiesText() {
+		return mAmenitiesText;
+	}
+
+	public void setAmenitiesText(HotelTextSection amenitiesText) {
+		mAmenitiesText = amenitiesText;
+	}
+
+	public HotelTextSection getPoliciesText() {
+		return mPoliciesText;
+	}
+
+	public void setPoliciesText(HotelTextSection policiesText) {
+		mPoliciesText = policiesText;
+	}
+
+	public HotelTextSection getFeesText() {
+		return mFeesText;
+	}
+
+	public void setFeesText(HotelTextSection feesText) {
+		mFeesText = feesText;
+	}
+
+	public HotelTextSection getMandatoryFeesText() {
+		return mMandatoryFeesText;
+	}
+
+	public void setMandatoryFeesText(HotelTextSection mandatoryFeesText) {
+		mMandatoryFeesText = mandatoryFeesText;
+	}
+
+	public HotelTextSection getRenovationText() {
+		return mRenovationText;
+	}
+
+	public void setRenovationText(HotelTextSection renovationText) {
+		mRenovationText = renovationText;
 	}
 
 	public boolean isAvailable() {
@@ -368,6 +427,14 @@ public class Property implements JSONable {
 		if (property.getMediaList() != null) {
 			this.setMediaList(property.getMediaList());
 		}
+
+		// Just assume that the hotel offers will have better data than we have here
+		mOverviewText = property.mOverviewText;
+		mAmenitiesText = property.mAmenitiesText;
+		mPoliciesText = property.mPoliciesText;
+		mFeesText = property.mFeesText;
+		mMandatoryFeesText = property.mMandatoryFeesText;
+		mRenovationText = property.mRenovationText;
 	}
 
 	public JSONObject toJson() {
@@ -381,6 +448,12 @@ public class Property implements JSONable {
 			JSONUtils.putJSONableList(obj, "media", mMedia);
 			obj.putOpt("localPhone", mLocalPhone);
 			obj.putOpt("tollFreePhone", mTollFreePhone);
+			JSONUtils.putJSONableList(obj, "overviewText", mOverviewText);
+			JSONUtils.putJSONable(obj, "amenitiesText", mAmenitiesText);
+			JSONUtils.putJSONable(obj, "policiesText", mPoliciesText);
+			JSONUtils.putJSONable(obj, "feesText", mFeesText);
+			JSONUtils.putJSONable(obj, "mandatoryFeesText", mMandatoryFeesText);
+			JSONUtils.putJSONable(obj, "renovationText", mRenovationText);
 			obj.putOpt("available", mAvailable);
 			JSONUtils.putJSONable(obj, "distanceFromUser", mDistanceFromUser);
 			obj.putOpt("roomsLeft", mRoomsLeftAtThisRate);
@@ -415,6 +488,12 @@ public class Property implements JSONable {
 		mMedia = JSONUtils.getJSONableList(obj, "media", Media.class);
 		mLocalPhone = obj.optString("localPhone", null);
 		mTollFreePhone = obj.optString("tollFreePhone", null);
+		mOverviewText = JSONUtils.getJSONableList(obj, "overviewText", HotelTextSection.class);
+		mAmenitiesText = JSONUtils.getJSONable(obj, "amenitiesText", HotelTextSection.class);
+		mPoliciesText = JSONUtils.getJSONable(obj, "policiesText", HotelTextSection.class);
+		mFeesText = JSONUtils.getJSONable(obj, "feesText", HotelTextSection.class);
+		mMandatoryFeesText = JSONUtils.getJSONable(obj, "mandatoryFeesText", HotelTextSection.class);
+		mRenovationText = JSONUtils.getJSONable(obj, "renovationText", HotelTextSection.class);
 		mAvailable = obj.optBoolean("available", false);
 		mDistanceFromUser = JSONUtils.getJSONable(obj, "distanceFromUser", Distance.class);
 		mRoomsLeftAtThisRate = obj.optInt("roomsLeft", 0);
