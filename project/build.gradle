@@ -23,6 +23,16 @@ android {
     compileSdkVersion 17
     buildToolsVersion "17.0.0"
 
+    productFlavors {
+        EBad {
+            buildConfig "public static final boolean IS_VSC = false;"
+        }
+
+        VSC {
+            buildConfig "public static final boolean IS_VSC = true;"
+        }
+    }
+
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -36,10 +46,15 @@ android {
 
         instrumentTest.setRoot('tests')
 
+        VSC.res.srcDirs 'res_vsc'
+
         signingConfigs {
             debug {
                 storeFile file("../common/debug.keystore")
             }
         }
     }
+
+
+
 }
