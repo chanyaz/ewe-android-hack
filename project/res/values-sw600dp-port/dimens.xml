@@ -8,6 +8,8 @@
     <dimen name="child_ages_layout_width">280dp</dimen>
 
     <!-- Itin cards -->
+    <dimen name="itin_card_collapsed_height">154.5dp</dimen>
+    <dimen name="itin_card_summary_collapsed_height">355.5dp</dimen>
     <dimen name="itin_list_view_width">450dp</dimen>
     <dimen name="itin_card_expanded_image_height">240dp</dimen>
     <dimen name="itin_card_mini_image_height">136dp</dimen>

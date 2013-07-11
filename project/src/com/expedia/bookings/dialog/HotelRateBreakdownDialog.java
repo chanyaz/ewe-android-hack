@@ -26,8 +26,6 @@ import com.mobiata.android.util.Ui;
 
 public class HotelRateBreakdownDialog extends DialogFragment {
 
-	private static final String ARG_RATE = "ARG_RATE";
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,8 +52,8 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 			}
 		});
 
-		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
-		final Rate rate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
+		final Rate originalRate = Db.getHotelSearch().getSelectedRate();
+		final Rate couponRate = Db.getHotelSearch().getCouponRate();
 		final HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 
 		Builder leftBuilder = new Builder();
@@ -71,7 +69,7 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 
 		// Price before taxes and fees
 		rightBuilder.setHeavy();
-		rightBuilder.setText(rate.getNightlyRateTotal().getFormattedMoney());
+		rightBuilder.setText(originalRate.getNightlyRateTotal().getFormattedMoney());
 		rightBuilder.build();
 
 		// Room night breakdown
@@ -79,8 +77,8 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 		leftBuilder.setMarginLeft(17);
 		rightBuilder.setLight();
 		DateFormat breakdownFormat = android.text.format.DateFormat.getDateFormat(getActivity());
-		if (rate.getRateBreakdownList() != null) {
-			for (RateBreakdown breakdown : rate.getRateBreakdownList()) {
+		if (originalRate.getRateBreakdownList() != null) {
+			for (RateBreakdown breakdown : originalRate.getRateBreakdownList()) {
 				Date date = breakdown.getDate().getCalendar().getTime();
 				leftBuilder.setText(breakdownFormat.format(date));
 				leftBuilder.build();
@@ -101,26 +99,36 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 		leftBuilder.setMedium();
 		rightBuilder.setMedium();
 
+		// Discount from the potential coupon applied
+		if (couponRate != null) {
+			leftBuilder.setText(R.string.discount);
+			leftBuilder.build();
+
+			rightBuilder.setText("(" + couponRate.getTotalPriceAdjustments().getFormattedMoney() + ")");
+			rightBuilder.setTextColor(getResources().getColor(R.color.hotel_price_breakdown_discount_green));
+			rightBuilder.build();
+		}
+
 		// Taxes and fees
-		if (rate.getTotalSurcharge() != null) {
+		if (originalRate.getTotalSurcharge() != null) {
 			leftBuilder.setText(R.string.taxes_and_fees);
 			leftBuilder.build();
 
-			if (rate.getTotalSurcharge().isZero()) {
+			if (originalRate.getTotalSurcharge().isZero()) {
 				rightBuilder.setText(R.string.included);
 			}
 			else {
-				rightBuilder.setText(rate.getTotalSurcharge().getFormattedMoney());
+				rightBuilder.setText(originalRate.getTotalSurcharge().getFormattedMoney());
 			}
 			rightBuilder.build();
 		}
 
 		// Extra guest fees
-		if (rate.getExtraGuestFee() != null && !rate.getExtraGuestFee().isZero()) {
+		if (originalRate.getExtraGuestFee() != null && !originalRate.getExtraGuestFee().isZero()) {
 			leftBuilder.setText(R.string.extra_guest_charge);
 			leftBuilder.build();
 
-			rightBuilder.setText(rate.getExtraGuestFee().getFormattedMoney());
+			rightBuilder.setText(originalRate.getExtraGuestFee().getFormattedMoney());
 			rightBuilder.build();
 		}
 
@@ -130,13 +138,13 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 			leftBuilder.setText(R.string.total_due_today);
 			leftBuilder.build();
 
-			rightBuilder.setText(rate.getTotalAmountAfterTax().getFormattedMoney());
+			rightBuilder.setText(originalRate.getTotalAmountAfterTax().getFormattedMoney());
 			rightBuilder.build();
 
 			leftBuilder.setText(R.string.MandatoryFees);
 			leftBuilder.build();
 
-			rightBuilder.setText(rate.getTotalMandatoryFees().getFormattedMoney());
+			rightBuilder.setText(originalRate.getTotalMandatoryFees().getFormattedMoney());
 			rightBuilder.build();
 		}
 
@@ -145,8 +153,8 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 		leftBuilder.setText(R.string.total_price_label);
 		leftBuilder.build();
 
-		Money displayedTotal = rate.getDisplayTotalPrice();
-		rightBuilder.setText(displayedTotal.getFormattedMoney());
+		Money total = couponRate == null ? originalRate.getDisplayTotalPrice() : couponRate.getDisplayTotalPrice();
+		rightBuilder.setText(total.getFormattedMoney());
 		rightBuilder.build();
 
 		// Reallocate the cells since we added children, forces a requestLayout
@@ -164,6 +172,7 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 	private class Builder {
 		private int mLayout = R.layout.snippet_breakdown_light;
 		private CharSequence mText;
+		private int mColor = -1;
 		private boolean mIsLeft = true;
 		private int mMarginLeft = 0;
 
@@ -187,6 +196,10 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 			mText = text;
 		}
 
+		public void setTextColor(int color) {
+			mColor = color;
+		}
+
 		public void setQuantityText(int stringId, int quantity) {
 			final Resources res = getResources();
 			mText = res.getQuantityString(stringId, quantity, quantity);
@@ -208,8 +221,25 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 			TextView tv = (TextView) mInflater.inflate(mLayout, mGrid, false);
 			tv.setText(mText);
 
+			if (mColor != -1) {
+				tv.setTextColor(mColor);
+				// After applying a color (which is an exception), just reset the Builder color cache so as not to reuse
+				mColor = -1;
+			}
+
 			LayoutParams lp = (LayoutParams) tv.getLayoutParams();
-			lp.setGravity(mIsLeft ? Gravity.LEFT : Gravity.RIGHT);
+
+			if (mIsLeft) {
+				lp.width = 0;
+				lp.setGravity(Gravity.FILL_HORIZONTAL);
+			}
+			else {
+				// #1401: This is a quick hack to get the rate breakdown dialog working; without
+				// a well-defined width for the price, the whole thing goes out of whack.  We
+				// should be redoing this entire dialog in #1445 later though.
+				lp.width = Math.round(getResources().getDisplayMetrics().density * 108);
+				tv.setGravity(Gravity.RIGHT);
+			}
 
 			if (mMarginLeft != 0) {
 				lp.leftMargin = mMarginLeft;
@@ -223,6 +253,7 @@ public class HotelRateBreakdownDialog extends DialogFragment {
 		public void reset() {
 			mLayout = R.layout.snippet_breakdown_light;
 			mText = null;
+			mColor = -1;
 			mIsLeft = true;
 			mMarginLeft = 0;
 		}

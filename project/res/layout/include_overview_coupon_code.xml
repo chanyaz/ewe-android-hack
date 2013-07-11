@@ -11,6 +11,7 @@
         android:id="@+id/coupon_code_collapsed_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/cd_checkout_enter_coupon"
         android:drawablePadding="5dp"
         android:drawableRight="@drawable/ic_expand_coupon_dark"
         android:padding="8dp"
@@ -33,9 +34,9 @@
             android:imeOptions="flagNoExtractUi"
             android:inputType="textFilter"
             android:singleLine="true"
-            mobiata:useClearFieldDrawable="true"
             mobiata:clearFieldDrawable="@drawable/ic_clear_edittext_dark"
-            mobiata:touchAreaPadding="25dp" />
+            mobiata:touchAreaPadding="25dp"
+            mobiata:useClearFieldDrawable="true" />
 
         <LinearLayout
             android:layout_width="@dimen/coupon_code_right_width"
@@ -47,6 +48,7 @@
                 style="@style/Widget.Button.Phone"
                 android:layout_width="match_parent"
                 android:layout_height="48dip"
+                android:contentDescription="@string/cd_checkout_apply_coupon_button"
                 android:text="@string/apply"
                 mobiata:maxTextSize="14dp" />
 

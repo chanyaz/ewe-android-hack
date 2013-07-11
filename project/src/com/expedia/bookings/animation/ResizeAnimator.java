@@ -18,18 +18,28 @@ public class ResizeAnimator {
 	}
 
 	public static ValueAnimator buildResizeAnimator(final View view, int startHeight, int endHeight) {
-		view.setVisibility(View.VISIBLE);
-
 		ValueAnimator anim = ValueAnimator.ofInt(startHeight, endHeight);
 		anim.addUpdateListener(new AnimatorUpdateListener() {
 			@Override
 			public void onAnimationUpdate(ValueAnimator arg0) {
-				view.getLayoutParams().height = (Integer) arg0.getAnimatedValue();
-				view.requestLayout();
+				setHeight(view, (Integer) arg0.getAnimatedValue());
 			}
 		});
 
 		anim.setDuration(400);
 		return anim;
+	}
+
+	/**
+	 * Adjust the height of a view, and make it visible if needed.
+	 * @param view
+	 * @param height
+	 */
+	public static void setHeight(View view, int height) {
+		if (view.getVisibility() != View.VISIBLE) {
+			view.setVisibility(View.VISIBLE);
+		}
+		view.getLayoutParams().height = height;
+		view.requestLayout();
 	}
 }

@@ -72,7 +72,7 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 		mDriver.delay();
 
 		mDriver.bookingScreenShots();
-		mDriver.logInAndBook(true);
+		mDriver.logInAndBook(true, true);
 		mDriver.captureInfoScreen();
 	}
 

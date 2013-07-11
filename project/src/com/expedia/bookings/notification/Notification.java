@@ -1,7 +1,9 @@
 package com.expedia.bookings.notification;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -48,6 +50,7 @@ public class Notification extends Model implements JSONable {
 	 * RESOURCE = A resource must be specified in setImageResId.
 	 * URL = A url must be specified in setImageValue, and a placeholder image
 	 * must be specified in setImageResId.
+	 * URLS = A list of URLs. It will be stored as a JSONArray object.
 	 * DESTINATION = Corresponds to ExpediaImageManager.ImageType.DESTINATION. An
 	 * airport code must be specified in setImageValue, and a placeholder image must
 	 * be specified in setImageResId.
@@ -61,6 +64,7 @@ public class Notification extends Model implements JSONable {
 	public enum ImageType {
 		RESOURCE,
 		URL,
+		URLS,
 		DESTINATION,
 		CAR,
 		ACTIVITY,
@@ -207,7 +211,8 @@ public class Notification extends Model implements JSONable {
 	}
 
 	public int getIconResId() {
-		return unmarshallResId(mIconId);
+		int resId = unmarshallResId(mIconId);
+		return resId == 0 ? R.drawable.ic_stat_expedia : resId;
 	}
 
 	public void setIconResId(int iconResId) {
@@ -258,7 +263,8 @@ public class Notification extends Model implements JSONable {
 	}
 
 	public int getImageResId() {
-		return unmarshallResId(mImageId);
+		int resId = unmarshallResId(mImageId);
+		return resId == 0 ? R.drawable.bg_itin_placeholder : resId;
 	}
 
 	public void setImageResId(int imageResId) {
@@ -273,7 +279,39 @@ public class Notification extends Model implements JSONable {
 		this.mImageValue = value;
 	}
 
-	public void setImage(ImageType type, int resId, String value) {
+	public void setImageCar(String url) {
+		setImage(ImageType.CAR, 0, url);
+	}
+
+	public void setImageDestination(int placeholderResId, String value) {
+		setImage(ImageType.DESTINATION, placeholderResId, value);
+	}
+
+	public void setImageUrls(List<String> urls) {
+		JSONArray arr = new JSONArray();
+		for (String url : urls) {
+			arr.put(url);
+		}
+		setImage(ImageType.URLS, 0, arr.toString());
+	}
+
+	public List<String> getImageUrls() {
+		ArrayList<String> urls = new ArrayList<String>();
+
+		try {
+			JSONArray arr = new JSONArray(getImageValue());
+			for (int i = 0; i < arr.length(); i++) {
+				urls.add(arr.getString(i));
+			}
+		}
+		catch (JSONException e) {
+			return null;
+		}
+
+		return urls;
+	}
+
+	private void setImage(ImageType type, int resId, String value) {
 		setImageType(type);
 		setImageResId(resId);
 		setImageValue(value);
@@ -476,7 +514,11 @@ public class Notification extends Model implements JSONable {
 	//////////////////////////////////////////////////////////////////////////
 	// Helpers
 
-	// Find the index of resId in sResIdMap
+	/**
+	 * Finds the index of resId in sResIdMap.
+	 * @param resId
+	 * @return index in sResIdMap
+	 */
 	private static int marshallResId(int resId) {
 		for (int i = 0; i < sResIdMap.length; i++) {
 			if (sResIdMap[i] == resId) {
@@ -487,10 +529,15 @@ public class Notification extends Model implements JSONable {
 		return 0;
 	}
 
-	// Return the resId, given its index in sResIdMap
+	/**
+	 * Returns the resId, given its index in sResIdMap.
+	 * In case of out of bounds, returns 0.
+	 * @param index
+	 * @return resId, or 0
+	 */
 	private static int unmarshallResId(int index) {
-		if (index < 0 || index > sResIdMap.length) {
-			return R.drawable.ic_stat_expedia;
+		if (index < 0 || index >= sResIdMap.length) {
+			return 0;
 		}
 		return sResIdMap[index];
 	}

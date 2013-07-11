@@ -530,7 +530,7 @@ public class NumberPicker extends LinearLayout {
 		setWillNotDraw(false);
 		setSelectorWheelState(SELECTOR_WHEEL_STATE_NONE);
 
-		LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = LayoutInflater.from(getContext());
 		inflater.inflate(customLayout, this, true);
 
 		OnClickListener onClickListener = new OnClickListener() {

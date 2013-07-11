@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget.gl;
 
+import java.lang.ref.WeakReference;
+
 import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 
 import com.expedia.bookings.widget.gl.GLTagProgressBarRenderer.OnDrawStartedListener;
+import com.mobiata.android.Log;
 
 public class GLTagProgressBar extends GLSurfaceView implements OnTouchListener {
 	//////////////////////////////////////////////////////////////////////////////////
@@ -45,6 +48,18 @@ public class GLTagProgressBar extends GLSurfaceView implements OnTouchListener {
 	// Overrides
 
 	@Override
+	public void onPause() {
+		super.onPause();
+		registerSensorListener(false);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		registerSensorListener(true);
+	}
+
+	@Override
 	public boolean onTouch(View view, MotionEvent event) {
 		if (mRenderer == null) {
 			return true;
@@ -58,13 +73,13 @@ public class GLTagProgressBar extends GLSurfaceView implements OnTouchListener {
 	@Override
 	protected void onAttachedToWindow() {
 		super.onAttachedToWindow();
-		setSensorManagerRegistration(getVisibility() == View.VISIBLE);
+		registerSensorListener(getVisibility() == View.VISIBLE);
 	}
 
 	@Override
 	protected void onDetachedFromWindow() {
 		mRenderer.shutdown();
-		setSensorManagerRegistration(false);
+		registerSensorListener(false);
 
 		super.onDetachedFromWindow();
 	}
@@ -80,35 +95,47 @@ public class GLTagProgressBar extends GLSurfaceView implements OnTouchListener {
 			mRenderer.resume();
 		}
 
-		setSensorManagerRegistration(visibility == View.VISIBLE);
+		registerSensorListener(visibility == View.VISIBLE);
 	}
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
 		super.surfaceChanged(holder, format, w, h);
-		setSensorManagerRegistration(getVisibility() == View.VISIBLE);
+		registerSensorListener(getVisibility() == View.VISIBLE);
 	}
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		super.surfaceCreated(holder);
-		setSensorManagerRegistration(getVisibility() == View.VISIBLE);
+		registerSensorListener(getVisibility() == View.VISIBLE);
 	}
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		super.surfaceDestroyed(holder);
-		setSensorManagerRegistration(false);
+		registerSensorListener(false);
 	}
 
-	public void setSensorManagerRegistration(boolean registered) {
+	private void registerSensorListener(boolean registered) {
 		if (registered) {
-			mSensorListenerProxy = new SensorListenerProxy();
-			mSensorManager.registerListener(mSensorListenerProxy, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+			Log.v("GLTagProgressBar SensorListenerProxy registered");
+			if (mSensorListenerProxy == null) {
+				mSensorListenerProxy = new SensorListenerProxy(mRenderer, mOrientation);
+				mSensorManager.registerListener(mSensorListenerProxy, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+			}
+			else {
+				Log.v("GLTagProgressBar: Double register detected, ignored");
+			}
 		}
 		else {
-			mSensorManager.unregisterListener(mSensorListenerProxy);
-			mSensorListenerProxy = null;
+			Log.v("GLTagProgressBar SensorListenerProxy unregistered");
+			if (mSensorListenerProxy != null) {
+				mSensorManager.unregisterListener(mSensorListenerProxy);
+				mSensorListenerProxy = null;
+			}
+			else {
+				Log.v("GLTagProgressBar: Double unregister detected, ignored");
+			}
 			reset();
 		}
 	}
@@ -124,7 +151,15 @@ public class GLTagProgressBar extends GLSurfaceView implements OnTouchListener {
 	 * http://code.google.com/p/android/issues/detail?id=15170
 	 */
 
-	private class SensorListenerProxy implements SensorEventListener {
+	private static class SensorListenerProxy implements SensorEventListener {
+		private WeakReference<GLTagProgressBarRenderer> mTarget;
+		private final int mOrientation;
+		private boolean mLostTarget = false; // Just so there isn't infinite logging
+
+		public SensorListenerProxy(GLTagProgressBarRenderer renderer, int orientation) {
+			mTarget = new WeakReference<GLTagProgressBarRenderer>(renderer);
+			mOrientation = orientation;
+		}
 
 		@Override
 		public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -132,13 +167,17 @@ public class GLTagProgressBar extends GLSurfaceView implements OnTouchListener {
 
 		@Override
 		public void onSensorChanged(SensorEvent event) {
-			if (mRenderer == null) {
+			GLTagProgressBarRenderer renderer = mTarget.get();
+			if (renderer == null) {
+				if (!mLostTarget) {
+					Log.d("SensorListenerProxy renderer no longer exists. Either not unregistered or leaked.");
+					mLostTarget = true;
+				}
 				return;
 			}
 
 			final float[] acceleration = event.values.clone();
-			final int orientation = ((Activity) mContext).getWindowManager().getDefaultDisplay().getOrientation();
-			switch (orientation) {
+			switch (mOrientation) {
 				case Surface.ROTATION_90: {
 					acceleration[0] = -event.values[1];
 					acceleration[1] = event.values[0];
@@ -156,7 +195,7 @@ public class GLTagProgressBar extends GLSurfaceView implements OnTouchListener {
 				}
 			}
 
-			mRenderer.setAcceleration(acceleration[0] * -1, acceleration[1] * -1, acceleration[2] * -1);
+			renderer.setAcceleration(acceleration[0] * -1, acceleration[1] * -1, acceleration[2] * -1);
 		}
 
 	}

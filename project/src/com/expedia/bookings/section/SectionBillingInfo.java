@@ -403,7 +403,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 					field.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View v) {
-							String text = mContext.getString(R.string.airline_card_fee_select_TEMPLATE, feeText, type);
+							String card = CreditCardType.getHumanReadableCardTypeName(mContext, type);
+							String text = mContext.getString(R.string.airline_card_fee_select_TEMPLATE, feeText, card);
 							SimpleSupportDialogFragment.newInstance(null, text).show(fa.getSupportFragmentManager(),
 									"lccDialog");
 						}

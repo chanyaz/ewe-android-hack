@@ -78,6 +78,8 @@ public class HotelReceipt extends LinearLayout {
 	private TextView mPriceTextView;
 	private TextView mGrandTotalTextView;
 
+	private TextView mWalletPromoAppliedTextView;
+
 	@Override
 	public void onFinishInflate() {
 		super.onFinishInflate();
@@ -102,6 +104,8 @@ public class HotelReceipt extends LinearLayout {
 		mGuestsTextView = Ui.findView(this, R.id.guests_text);
 		mPriceTextView = Ui.findView(this, R.id.price_text);
 		mGrandTotalTextView = Ui.findView(this, R.id.grand_total_text);
+
+		mWalletPromoAppliedTextView = Ui.findView(this, R.id.wallet_promo_applied_text_view);
 	}
 
 	@Override
@@ -122,7 +126,8 @@ public class HotelReceipt extends LinearLayout {
 		}
 	};
 
-	public void bind(boolean showMiniReceipt, Property property, HotelSearchParams params, Rate rate) {
+	public void bind(boolean showMiniReceipt, Property property, HotelSearchParams params, Rate rate,
+			boolean usingGoogleWalletCoupon) {
 		Media media = HotelUtils.getRoomMedia(property, rate);
 		if (media != null) {
 			media.loadHighResImage(mHeaderImageView, null);
@@ -234,6 +239,12 @@ public class HotelReceipt extends LinearLayout {
 
 			mMiniReceipt.setOnClickListener(null);
 		}
+
+		bind(usingGoogleWalletCoupon);
+	}
+
+	public void bind(boolean usingGoogleWalletCoupon) {
+		mWalletPromoAppliedTextView.setVisibility(usingGoogleWalletCoupon ? View.VISIBLE : View.GONE);
 	}
 
 	private String getFormattedDateRange(HotelSearchParams params) {

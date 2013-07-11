@@ -6,6 +6,7 @@ import java.util.List;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.expedia.bookings.widget.itin.ItinButtonCard.ItinButtonType;
 
@@ -53,5 +54,9 @@ public class DismissedItinButton extends Model {
 		}
 
 		return dismissedTripIds;
+	}
+
+	public static void clear() {
+		new Delete().from(DismissedItinButton.class).execute();
 	}
 }

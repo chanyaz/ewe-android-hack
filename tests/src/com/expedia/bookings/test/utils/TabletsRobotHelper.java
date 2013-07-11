@@ -206,7 +206,7 @@ public class TabletsRobotHelper extends HotelsRobotHelper {
 		delay();
 
 		try {
-			logInAndBook(true);
+			logInAndBook(true, true);
 		}
 		catch (Exception e) {
 			Log.e(TAG, "Failed while logging in/booking.", e);

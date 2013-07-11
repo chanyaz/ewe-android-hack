@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
-
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -61,11 +60,9 @@ import com.expedia.bookings.data.AssociateUserToTripResponse;
 import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
-import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.ExpediaImageManager.ImageType;
 import com.expedia.bookings.data.FacebookLinkResponse;
 import com.expedia.bookings.data.FlightCheckoutResponse;
@@ -259,7 +256,7 @@ public class ExpediaServices implements DownloadListener {
 	// Expedia Suggest API
 	//
 	// Documentation:
-	// http://confluence/display/POS/Expedia+Suggest+%28Type+Ahead%29+API+Family
+	// https://confluence/display/POS/Expedia+Suggest+API+Family
 	//
 	// Examples (hotels):
 	// http://suggest.expedia.com/hint/es/v1/ac/en_US/bellagio?type=30
@@ -289,8 +286,8 @@ public class ExpediaServices implements DownloadListener {
 			responseHandler.setType(SuggestResponseHandler.Type.FLIGHTS);
 		}
 		else {
-			// 223 is regions(95 Default) + hotels(128)
-			params.add(new BasicNameValuePair("type", "223"));
+			// 255 is regions(95 Default) + hotels(128) + addresses(32)
+			params.add(new BasicNameValuePair("type", "255"));
 
 			responseHandler.setType(SuggestResponseHandler.Type.HOTELS);
 		}
@@ -437,14 +434,6 @@ public class ExpediaServices implements DownloadListener {
 	//////////////////////////////////////////////////////////////////////////
 	// Images API
 
-	public BackgroundImageResponse getFlightsBackgroundImage(String destinationCode, int width, int height) {
-		return getExpediaImage(ImageType.DESTINATION, destinationCode, width, height);
-	}
-
-	public BackgroundImageResponse getCarsBackgroundImage(Car.Category category, Car.Type type, int width, int height) {
-		return getExpediaImage(ImageType.CAR, ExpediaImageManager.getImageCode(category, type), width, height);
-	}
-
 	public BackgroundImageResponse getExpediaImage(ImageType imageType, String imageCode, int width, int height) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
@@ -551,7 +540,7 @@ public class ExpediaServices implements DownloadListener {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		if (getEndPoint(mContext) == EndPoint.MOCK_SERVER) {
-			query.add(new BasicNameValuePair("city", "saved product"));
+			query.add(new BasicNameValuePair("city", "saved_product"));
 			HotelSearchResponseHandler rh = new HotelSearchResponseHandler(mContext);
 			return doE3Request("MobileHotel/Webapp/SearchResults", query, rh, 0);
 		}
@@ -705,7 +694,7 @@ public class ExpediaServices implements DownloadListener {
 				JSONObject json = null;
 				try {
 					json = new JSONObject(simulatedResponse);
-					Thread.sleep(20000);
+					Thread.sleep(5000);
 				}
 				catch (JSONException e) {
 					e.printStackTrace();
@@ -1454,7 +1443,8 @@ public class ExpediaServices implements DownloadListener {
 					"localhost:3000") + "/" + domain + "/";
 		}
 		else if (endPoint == EndPoint.CUSTOM_SERVER) {
-			return "http://" + SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
+			String protocol = (flags & F_SECURE_REQUEST) != 0 ? "https" : "http";
+			return protocol + "://" + SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
 					"localhost:3000") + "/";
 		}
 		else {

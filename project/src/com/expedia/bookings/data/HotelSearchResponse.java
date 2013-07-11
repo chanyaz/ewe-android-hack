@@ -18,9 +18,9 @@ import com.expedia.bookings.data.HotelFilter.Sort;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.Rate.UserPriceType;
 import com.mobiata.android.Log;
-import com.mobiata.android.MapUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
+import com.mobiata.android.maps.MapUtils;
 
 public class HotelSearchResponse extends Response implements OnFilterChangedListener, JSONable {
 	private SearchType mSearchType;
@@ -367,6 +367,11 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	}
 
 	public void onFilterChanged() {
+		clearCache();
+	}
+
+	public void removeProperty(Property property) {
+		mProperties.remove(property);
 		clearCache();
 	}
 

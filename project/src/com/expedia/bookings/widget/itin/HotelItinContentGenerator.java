@@ -191,7 +191,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		return view;
 	}
 
-	public View getDetailsView(ViewGroup container) {
+	public View getDetailsView(View convertView, ViewGroup container) {
 		final ItinCardDataHotel itinCardData = getItinCardData();
 
 		View view = getLayoutInflater().inflate(R.layout.include_itin_card_details_hotel, container, false);
@@ -338,8 +338,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		String body = data.getPropertyName();
 		notification.setBody(body);
 
-		String imageUrl = data.getHeaderImageUrls().get(0);
-		notification.setImage(Notification.ImageType.URL, 0, imageUrl);
+		notification.setImageUrls(data.getHeaderImageUrls());
 
 		return notification;
 	}
@@ -378,9 +377,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		String body = data.getPropertyName();
 		notification.setBody(body);
 
-		String imageUrl = data.getHeaderImageUrls().get(0);
-		data.getPropertyInfoSiteUrl();
-		notification.setImage(Notification.ImageType.URL, 0, imageUrl);
+		notification.setImageUrls(data.getHeaderImageUrls());
 
 		return notification;
 	}

@@ -31,3 +31,6 @@
 [submodule "lib/svg-android"]
 	path = lib/svg-android
 	url = git@team.mobiata.com:Android/svg-android.git
+[submodule "lib/Jars"]
+	path = lib/Jars
+	url = git@team.mobiata.com:Android/Jars

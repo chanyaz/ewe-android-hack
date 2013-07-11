@@ -2,10 +2,15 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.BlurMaskFilter;
 import android.graphics.BlurMaskFilter.Blur;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
@@ -14,12 +19,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.animation.AnimatorListenerShort;
 import com.expedia.bookings.data.LocalExpertAttraction;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
-import com.nineoldandroids.view.ViewHelper;
 
 public class AttractionBubbleView extends LinearLayout {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -51,6 +57,9 @@ public class AttractionBubbleView extends LinearLayout {
 	private Paint mShadowPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
 	private Bitmap mShadowBitmap;
+
+	private float mFirstLineTextSize;
+	private float mSecondLineTextSize;
 
 	// Views
 
@@ -86,23 +95,17 @@ public class AttractionBubbleView extends LinearLayout {
 		if (mAttraction != null) {
 			animatorSet = getCloseAnimatorSet();
 			if (attraction != null) {
-				animatorSet.addListener(new Animator.AnimatorListener() {
-					@Override
-					public void onAnimationStart(Animator animator) {
-					}
-
+				animatorSet.addListener(new AnimatorListenerShort() {
 					@Override
 					public void onAnimationEnd(Animator animator) {
 						bind(attraction);
 						getOpenAnimatorSet().start();
-					}
-
-					@Override
-					public void onAnimationCancel(Animator animator) {
-					}
-
-					@Override
-					public void onAnimationRepeat(Animator animator) {
+						post(new Runnable() {
+							@Override
+							public void run() {
+								requestLayout();
+							}
+						});
 					}
 				});
 			}
@@ -151,7 +154,14 @@ public class AttractionBubbleView extends LinearLayout {
 			canvas.drawCircle(mHalfWidth, mHalfWidth + mShadowOffsetY, mRadius, mShadowPaint);
 		}
 
-		setPadding(0, 0, 0, h / 10);
+		mFirstLineTextSize = h / 15;
+		mSecondLineTextSize = h / 6;
+
+		final int textViewPadding = w / 10;
+		mFirstLineTextView.setPadding(textViewPadding, 0, textViewPadding, 0);
+		mSecondLineTextView.setPadding(textViewPadding, 0, textViewPadding, 0);
+
+		setPadding(0, 0, 0, h / 20);
 	}
 
 	@Override
@@ -196,6 +206,8 @@ public class AttractionBubbleView extends LinearLayout {
 		mSecondLineTextView = Ui.findView(this, R.id.second_line_text_view);
 		mIconImageView = Ui.findView(this, R.id.attraction_icon_image_view);
 
+		FontCache.setTypeface(mSecondLineTextView, FontCache.Font.BEBAS_NEUE);
+
 		setAttraction(mAttraction);
 	}
 
@@ -203,6 +215,9 @@ public class AttractionBubbleView extends LinearLayout {
 		if (attraction == null) {
 			return;
 		}
+
+		mFirstLineTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mFirstLineTextSize);
+		mSecondLineTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mSecondLineTextSize);
 
 		mFirstLineTextView.setText(attraction.getFirstLine());
 		mSecondLineTextView.setText(attraction.getSecondLine());

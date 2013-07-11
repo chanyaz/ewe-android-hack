@@ -43,7 +43,7 @@ public class FlightsScreenshotSweep extends
 			mDriver.setScreenshotCount(0);
 			mDriver.changePOS(mDriver.mLocaleUtils.FLIGHTS_LOCALES[i]);
 			mDriver.setSpoofBookings();
-			mDriver.flightsHappyPath("LAX", "SEA", 1, false);
+			mDriver.flightsHappyPath("LAX", "SEA", 1, true, false);
 		}
 	}
 	

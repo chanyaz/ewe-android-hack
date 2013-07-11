@@ -92,7 +92,8 @@ public class WalletUtils {
 	}
 
 	public static boolean offerGoogleWalletCoupon(Context context) {
-		return SettingUtils.get(context, SETTING_SHOW_WALLET_COUPON, false);
+		return SettingUtils.get(context, SETTING_SHOW_WALLET_COUPON, false)
+				&& Db.getHotelSearch().getSelectedProperty().isMerchant();
 	}
 
 	public static String getWalletCouponCode(Context context) {
@@ -101,7 +102,7 @@ public class WalletUtils {
 			return "MOBILEWALLET";
 		}
 		else {
-			// This code is known to give 10% off on integration; may not work on other environments 
+			// This code is known to give 10% off on integration; may not work on other environments
 			return "hotelsapp2";
 		}
 	}

@@ -1522,7 +1522,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 				LayoutParams.FILL_PARENT);
 
 		public ImageAdapter(Context context, List<Media> media) {
-			mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			mInflater = LayoutInflater.from(context);
 			mMedia = media;
 		}
 

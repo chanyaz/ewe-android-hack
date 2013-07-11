@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.jayway.android.robotium.solo.Solo;
@@ -262,8 +263,18 @@ public class HotelsRobotHelper {
 			//might break stuff
 		enterLog(TAG, "After clicking search button");
 
-		mSolo.waitForActivity("ExpediaBookingApp"); // Add another wait if this causes instability
-		enterLog(TAG, "Location searched for and results loaded!");
+		String activityString = "ExpediaBookingApp";
+		int count = 0;
+		while (count < 5 && !mSolo.waitForActivity(activityString)) {
+			delay(5);
+			count++;
+		}
+		if (mSolo.waitForActivity(activityString)) {
+			enterLog(TAG, "Location searched for and results loaded!");
+		}
+		else {
+			Log.e(TAG, "Robotium: Never got hotel search results.");
+		}
 
 		delay();
 		hotelListScreenshots();
@@ -580,42 +591,83 @@ public class HotelsRobotHelper {
 		delay(5);
 		screenshot("Adding new traveler");
 
+		mSolo.clickOnView(mSolo.getView(R.id.enter_info_manually_button));
+		delay();
 		mSolo.enterText((EditText)
 				mSolo.getCurrentActivity().findViewById(R.id.edit_first_name),
 				mUser.mFirstName);
+		delay(1);
 		mSolo.enterText((EditText)
 				mSolo.getCurrentActivity().findViewById(R.id.edit_last_name),
 				mUser.mLastName);
+		delay();
 		mSolo.enterText((EditText)
 				mSolo.getCurrentActivity().findViewById(R.id.edit_phone_number),
 				mUser.mPhoneNumber);
 
-		landscape();
-		portrait();
+		boolean goThroughFlightsFlow = false;
+		View birthDateTextButton = null;
+		try {
+			birthDateTextButton = mSolo.getView(R.id.edit_birth_date_text_btn);
+			if (birthDateTextButton.isShown()) {
+				goThroughFlightsFlow = true;
+			}
+		}
+		catch (Error e) {
+			Log.e(TAG, "Birthdate text button not here.", e);
+		}
 
-		delay();
+		if (goThroughFlightsFlow) {
+
+			mSolo.clickOnView(birthDateTextButton);
+			String done = mRes.getString(R.string.done);
+			if (mSolo.searchText(done)) {
+				mSolo.clickOnText(done);
+			}
+			else {
+				String setButton = mRes.getString(R.string.btn_set);
+				mSolo.clickOnText(setButton);
+			}
+
+			landscape();
+			portrait();
+
+			mSolo.clickOnText(mRes.getString(R.string.next));
+
+		}
+
 		mSolo.clickOnText(mRes.getString(R.string.button_done));
-		//mSolo.clickOnButton(1);
 
-		delay();
+		if (mSolo.searchText(mRes.getString(R.string.save_traveler))) {
+			mSolo.clickOnText(mRes.getString(R.string.no_thanks));
+		}
+
 	}
 
 	public void enterMissingInfo(boolean addNewCC) {
 		enterLog(TAG, "Booking: entering traveler info.");
-		String travelerInfo = mSolo.getString(R.string.enter_traveler_info);
 
-		if (mSolo.searchText(travelerInfo, true)) {
-			mSolo.clickOnText(travelerInfo);
+		String addTraveler = mSolo.getString(R.string.add_traveler);
+
+		if (mSolo.searchText(addTraveler, true)) {
+			try {
+				mSolo.clickOnView(mSolo.getView(R.id.traveler_info_btn));
+			}
+			catch (Error e) {
+				Log.e(TAG, "Failed to click view. Falling back to string: " + addTraveler);
+				mSolo.clickOnText(addTraveler);
+			}
 			enterNewTraveler();
 		}
 
 		if (addNewCC) {
+
+			mSolo.scrollToBottom();
+
 			mSolo.clickOnView(mSolo.getView(R.id.payment_info_btn));
 			delay();
 			screenshot("Select payment");
 
-			landscape();
-			portrait();
 			delay();
 
 			mSolo.clickOnText(mSolo.getString(R.string.add_new_card));
@@ -623,8 +675,6 @@ public class HotelsRobotHelper {
 			screenshot("Add new card");
 			delay(1);
 
-			landscape();
-			portrait();
 			delay(5);
 			screenshot("Credit card info.");
 
@@ -657,11 +707,17 @@ public class HotelsRobotHelper {
 
 		//Press "Next" to continue
 		mSolo.clickOnText(mRes.getString(R.string.next));
+		landscape();
+		portrait();
 
 	}
 
 	public void inputCCBillingInfo() {
 		enterLog(TAG, "Booking: entering billing credit card information.");
+
+		landscape();
+		delay(1);
+		portrait();
 
 		// Enter Credit Card Number
 		mSolo.enterText((EditText) mSolo.getView(R.id.edit_creditcard_number),
@@ -689,7 +745,6 @@ public class HotelsRobotHelper {
 
 		// Do not save this card info
 		mSolo.clickOnText(mRes.getString(R.string.no_thanks));
-
 	}
 
 	public void confirmAndBook(boolean assertPostCCVPopUp) throws Exception {
@@ -709,8 +764,6 @@ public class HotelsRobotHelper {
 			enterLog(TAG, "There is no 'I accept' button on this POS");
 		}
 
-		landscape();
-		portrait();
 		delay();
 		mSolo.scrollToBottom();
 
@@ -784,6 +837,12 @@ public class HotelsRobotHelper {
 			if (screenLoaded) {
 				enterLog(TAG, "Booking: Should be on confirmation screen now.");
 				delay();
+
+				// Get and log itinerary number
+				TextView itineraryTextView = (TextView) mSolo.getView(R.id.itinerary_text_view);
+				String itineraryNumber = (String) itineraryTextView.getText();
+				Log.d(TAG, "Robotium: Itinerary number is " + itineraryNumber);
+
 				screenshot("Confirmation Screen 1");
 				landscape();
 				delay(1);
@@ -792,7 +851,12 @@ public class HotelsRobotHelper {
 				delay(1);
 				screenshot("Confirmation Screen 2");
 				mSolo.scrollToTop();
-				mSolo.clickOnText(mRes.getString(R.string.button_done));
+				try {
+					mSolo.clickOnText(mRes.getString(R.string.button_done));
+				}
+				catch (Error e) {
+					Log.e(TAG, "Can't press 'done' on confirmation screen.", e);
+				}
 				delay();
 				try {
 					String shop = mRes.getString(R.string.shop);
@@ -800,8 +864,16 @@ public class HotelsRobotHelper {
 					if (mSolo.searchText(shop, true)) {
 						mSolo.clickOnText(shop);
 					}
-					else {
+					else if (mSolo.searchText(uppercaseShop, true)) {
 						mSolo.clickOnText(uppercaseShop);
+					}
+					else if (mSolo.searchText("SHOP", true)) {
+						mSolo.clickOnText("SHOP");
+						Log.d(TAG, "Something wrong with loc. Clicking 'SHOP'");
+					}
+					else {
+						mSolo.clickOnText("Shop");
+						Log.d(TAG, "Something wrong with loc. Clicking 'Shop'");
 					}
 				}
 				catch (Error e) {
@@ -814,14 +886,15 @@ public class HotelsRobotHelper {
 		}
 	}
 
-	public void logInAndBook(boolean addNewCC) throws Exception {
+	public void logInAndBook(boolean addNewCC, boolean completeBooking) throws Exception {
 		bookingScreenShots();
 
 		logIn();
 		delay(1);
 		enterMissingInfo(addNewCC);
-
-		confirmAndBook(false);
+		if (completeBooking) {
+			confirmAndBook(false);
+		}
 
 	}
 
@@ -841,12 +914,10 @@ public class HotelsRobotHelper {
 			}
 			mSolo.scrollDown();
 		}
-		if (completeABooking) {
-			selectHotel(2);
-			pressBookRoom();
-			selectRoom(0);
-			logInAndBook(true);
-		}
+		selectHotel(2);
+		pressBookRoom();
+		selectRoom(0);
+		logInAndBook(true, completeABooking);
 
 	}
 
@@ -969,7 +1040,8 @@ public class HotelsRobotHelper {
 		delay();
 	}
 
-	public void flightsHappyPath(String departure, String arrival, int bookingDateOffset, boolean doHotelBooking)
+	public void flightsHappyPath(String departure, String arrival, int bookingDateOffset,
+			boolean completeFlightBooking, boolean doHotelBooking)
 			throws Exception, IntegrationFailureError {
 
 		landscape();
@@ -1054,7 +1126,13 @@ public class HotelsRobotHelper {
 		delay();
 
 		//Select top flight in list.
-		mSolo.clickInList(2, 2);
+		try {
+			mSolo.clickInList(2, 2);
+		}
+		catch (AssertionFailedError e) {
+			Log.e(TAG, "On older phone, so we must try to click in listview differently", e);
+			mSolo.clickInList(2);
+		}
 
 		//Confirm flight selection
 		//and advance to booking
@@ -1072,7 +1150,7 @@ public class HotelsRobotHelper {
 		mSolo.clickOnText(mRes.getString(R.string.checkout_btn));
 
 		//log in and do a booking
-		logInAndBook(true);
+		logInAndBook(true, completeFlightBooking);
 
 		//if hotel booking switch is true, do a hotel booking 
 		//in that city

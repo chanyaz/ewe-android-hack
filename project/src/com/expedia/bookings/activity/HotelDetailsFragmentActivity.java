@@ -27,6 +27,7 @@ import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.ReviewsStatisticsResponse;
+import com.expedia.bookings.dialog.HotelSoldOutDialog;
 import com.expedia.bookings.fragment.HotelDetailsDescriptionFragment;
 import com.expedia.bookings.fragment.HotelDetailsIntroFragment;
 import com.expedia.bookings.fragment.HotelDetailsMiniGalleryFragment;
@@ -34,6 +35,7 @@ import com.expedia.bookings.fragment.HotelDetailsMiniGalleryFragment.HotelMiniGa
 import com.expedia.bookings.fragment.HotelDetailsMiniMapFragment;
 import com.expedia.bookings.fragment.HotelDetailsMiniMapFragment.HotelMiniMapFragmentListener;
 import com.expedia.bookings.fragment.HotelDetailsPricePromoFragment;
+import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
@@ -68,7 +70,6 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	// Flag set in the intent if this activity was opened from the widget
 	public static final String OPENED_FROM_WIDGET = "OPENED_FROM_WIDGET";
 
-	private static final String INFO_DOWNLOAD_KEY = HotelDetailsFragmentActivity.class.getName() + ".info";
 	private static final String REVIEWS_DOWNLOAD_KEY = HotelDetailsFragmentActivity.class.getName() + ".reviews";
 
 	private static final long RESUME_TIMEOUT = 1000 * 60 * 20; // 20 minutes
@@ -200,17 +201,18 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		if (infoResponse != null) {
 			// We may have been downloading the data here before getting it elsewhere, so cancel
 			// our own download once we have data
-			bd.cancelDownload(INFO_DOWNLOAD_KEY);
+			bd.cancelDownload(CrossContextHelper.KEY_INFO_DOWNLOAD);
 
 			// Load the data
 			mInfoCallback.onDownload(infoResponse);
 		}
 		else {
-			if (bd.isDownloading(INFO_DOWNLOAD_KEY)) {
-				bd.registerDownloadCallback(INFO_DOWNLOAD_KEY, mInfoCallback);
+			if (bd.isDownloading(CrossContextHelper.KEY_INFO_DOWNLOAD)) {
+				bd.registerDownloadCallback(CrossContextHelper.KEY_INFO_DOWNLOAD, mInfoCallback);
 			}
 			else {
-				bd.startDownload(INFO_DOWNLOAD_KEY, mInfoDownload, mInfoCallback);
+				bd.startDownload(CrossContextHelper.KEY_INFO_DOWNLOAD,
+						CrossContextHelper.getHotelOffersDownload(this, CrossContextHelper.KEY_INFO_DOWNLOAD), mInfoCallback);
 			}
 		}
 
@@ -253,11 +255,11 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (isFinishing()) {
-			bd.cancelDownload(INFO_DOWNLOAD_KEY);
+			bd.cancelDownload(CrossContextHelper.KEY_INFO_DOWNLOAD);
 			bd.cancelDownload(REVIEWS_DOWNLOAD_KEY);
 		}
 		else {
-			bd.unregisterDownloadCallback(INFO_DOWNLOAD_KEY);
+			bd.unregisterDownloadCallback(CrossContextHelper.KEY_INFO_DOWNLOAD);
 			bd.unregisterDownloadCallback(REVIEWS_DOWNLOAD_KEY);
 		}
 
@@ -485,25 +487,24 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Async loading of ExpediaServices.availability
 
-	private final Download<HotelOffersResponse> mInfoDownload = new Download<HotelOffersResponse>() {
-		@Override
-		public HotelOffersResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(mContext);
-			return services.availability(Db.getHotelSearch().getSearchParams(), Db.getHotelSearch().getSelectedProperty());
-		}
-	};
-
 	private final OnDownloadComplete<HotelOffersResponse> mInfoCallback = new OnDownloadComplete<HotelOffersResponse>() {
 		@Override
 		public void onDownload(HotelOffersResponse response) {
 			// Check if we got a better response elsewhere before loading up this data
 			String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
 			HotelOffersResponse possibleBetterResponse = Db.getHotelSearch().getHotelOffersResponse(selectedId);
+
 			if (possibleBetterResponse != null) {
 				response = possibleBetterResponse;
 			}
 			else {
 				Db.getHotelSearch().updateFrom(response);
+			}
+
+			if (Db.getHotelSearch().getAvailability(selectedId).getRateCount() == 0) {
+				Db.getHotelSearch().removeProperty(selectedId);
+				HotelSoldOutDialog dialog = HotelSoldOutDialog.newInstance();
+				dialog.show(getSupportFragmentManager(), "soldOutDialog");
 			}
 
 			// Notify affected child fragments to refresh.
@@ -540,6 +541,11 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	private final OnDownloadComplete<ReviewsStatisticsResponse> mReviewsCallback = new OnDownloadComplete<ReviewsStatisticsResponse>() {
 		@Override
 		public void onDownload(ReviewsStatisticsResponse response) {
+			if (Db.getHotelSearch().getSelectedProperty() == null) {
+				Log.d("Bailed saving review because property was removed");
+				return;
+			}
+
 			String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
 			Db.getHotelSearch().addReviewsStatisticsResponse(selectedId, response);
 

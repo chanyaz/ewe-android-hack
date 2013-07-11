@@ -35,6 +35,11 @@
     <!-- Email addresses -->
     <string name="email_expedia_support">support@expedia.com</string>
     <string name="email_app_support">Expedia-Android@mobiata.com</string>
+    
+    <!-- Account Manager -->
+    <string name="expedia_account_type_identifier">com.expedia.bookings</string>
+    <string name="expedia_account_token_type_tuid_identifier">expedia.tuid</string>
+    <string name="expedia_account_sync_adapter_content_authority">expedia.contentauthority</string>
 
     <!-- Fragment tags -->
     <string name="tag_search_params">SEARCH_PARAMS</string>
@@ -68,7 +73,8 @@
     <string name="preference_which_api_to_use_key">which_api</string>
     <string name="preference_proxy_server_address">proxy_server_address</string>
     <string name="preference_stubconfig_page">preference_stubconfig_page</string>
-    <string name="preference_fake_price_change">fake_price_change</string>
+    <string name="preference_fake_hotel_price_change">fake_hotel_price_change</string>
+    <string name="preference_fake_flight_price_change">fake_flight_price_change</string>
     <string name="preference_flight_fake_obfees">flight_fake_obfees</string>
     <string name="preference_spoof_bookings">spoof_bookings</string>
     <string name="preference_filter_merchant_properties">filter_merchant_properties</string>

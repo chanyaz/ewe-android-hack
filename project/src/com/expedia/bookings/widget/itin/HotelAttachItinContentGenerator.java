@@ -30,8 +30,11 @@ public class HotelAttachItinContentGenerator extends ItinButtonContentGenerator<
 	}
 
 	@Override
-	public View getDetailsView(ViewGroup container) {
-		final View view = getLayoutInflater().inflate(R.layout.include_itin_button_hotel_attach, container, false);
+	public View getDetailsView(View convertView, ViewGroup container) {
+		if (convertView == null) {
+			convertView = getLayoutInflater().inflate(R.layout.include_itin_button_hotel_attach, container, false);
+		}
+
 		final String buttonText;
 
 		FlightLeg flightLeg = getItinCardData().getFlightLeg();
@@ -46,9 +49,9 @@ public class HotelAttachItinContentGenerator extends ItinButtonContentGenerator<
 			buttonText = getContext().getString(R.string.add_hotel_fallback);
 		}
 
-		Ui.setText(view, R.id.action_text_view, buttonText);
+		Ui.setText(convertView, R.id.action_text_view, buttonText);
 
-		return view;
+		return convertView;
 	}
 
 	@Override

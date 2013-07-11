@@ -92,7 +92,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		mProgressFragment = Ui.findSupportFragment(this, BookingInProgressDialogFragment.TAG);
 		mBookingFragment = Ui.findSupportFragment(this, HotelBookingFragment.TAG);
 
-		if (savedInstanceState == null) {
+		if (mBookingFragment == null) {
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
 			mBookingFragment = new HotelBookingFragment();
@@ -503,10 +503,6 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		else {
 			AdTracker.trackHotelBooked();
 			launchConfirmationActivity();
-		}
-
-		if (Db.getCreateTripResponse() != null) {
-			Db.setCouponDiscountRate(Db.getCreateTripResponse().getNewRate());
 		}
 	}
 }

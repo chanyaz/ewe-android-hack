@@ -48,6 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/num_travelers_container"
+                android:contentDescription="@string/hint_select_departure"
                 android:drawableLeft="@drawable/ic_field_date"
                 android:drawablePadding="8dp"
                 android:ellipsize="end"
@@ -66,6 +67,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="8dp"
                 android:layout_toLeftOf="@id/num_travelers_container"
+                android:contentDescription="@string/cd_flights_clear_selected_dates"
                 android:paddingTop="1dp"
                 android:scaleType="center"
                 android:src="@drawable/ic_clear_edittext"
@@ -83,6 +85,7 @@
                     android:layout_height="fill_parent"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/ab_spinner"
+                    android:contentDescription="@string/cd_flights_search_number_of_travelers_edit"
                     android:padding="0dp"
                     android:src="@drawable/ic_traveler_picker" />
 

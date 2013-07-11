@@ -48,7 +48,6 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.DisableableViewPager;
-import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.TwoLevelImageCache;
@@ -92,12 +91,12 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	public static Intent createIntent(Context context, Notification notification) {
 		Intent intent = new Intent(context, LaunchActivity.class);
 		intent.putExtra(ARG_JUMP_TO_NOTIFICATION, notification.toJson().toString());
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
 		// Even though we don't use the url directly anywhere, Android OS needs a way
 		// to differentiate multiple intents to this same activity.
 		// http://developer.android.com/reference/android/content/Intent.html#filterEquals(android.content.Intent)
-		String uriString = "expedia://notification/launch/" + notification.getUniqueId();
-		intent.setData(Uri.parse(uriString));
+		intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
 
 		return intent;
 	}
@@ -212,8 +211,8 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	@Override
 	public void onBackPressed() {
 		if (mViewPager.getCurrentItem() == PAGER_POS_ITIN) {
-			if (mItinListFragment != null && !mItinListFragment.inListMode()) {
-				mItinListFragment.setListMode();
+			if (mItinListFragment != null && mItinListFragment.isInDetailMode()) {
+				mItinListFragment.hideDetails();
 				return;
 			}
 
@@ -450,8 +449,8 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 			mViewPager.setCurrentItem(PAGER_POS_WATERFALL);
 			actionBar.setSelectedNavigationItem(mPagerPosition);
 
-			if (mItinListFragment != null) {
-				mItinListFragment.setListMode();
+			if (mItinListFragment != null && mItinListFragment.isInDetailMode()) {
+				mItinListFragment.hideDetails();
 			}
 
 			if (mLaunchFragment != null) {
@@ -569,17 +568,25 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	};
 
 	@Override
-	public void onListModeChanged(int mode) {
-		if (mode == ItinListView.MODE_LIST) {
-			mViewPager.setPageSwipingEnabled(true);
-			getSupportActionBar().show();
-		}
-		else if (mode == ItinListView.MODE_DETAIL) {
-			mViewPager.setPageSwipingEnabled(false);
-			getSupportActionBar().hide();
+	public void onListModeChanged(boolean isInDetailMode, boolean animate) {
+		mViewPager.setPageSwipingEnabled(!isInDetailMode);
+		if (isInDetailMode) {
+			if (getSupportActionBar().isShowing()) {
+				getSupportActionBar().hide();
+			}
 		}
 		else {
-			mViewPager.setPageSwipingEnabled(true);
+			// The collapse animation takes 400ms, and the actionbar.show
+			// animation happens in 200ms, so make it use the last 200ms
+			// of the animation (and check to make sure there wasn't another
+			// mode change in between)
+			mViewPager.postDelayed(new Runnable() {
+				public void run() {
+					if (!mItinListFragment.isInDetailMode() && !getSupportActionBar().isShowing()) {
+						getSupportActionBar().show();
+					}
+				}
+			}, 200); // 400ms - 200ms
 		}
 	}
 

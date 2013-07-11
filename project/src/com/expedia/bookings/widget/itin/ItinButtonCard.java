@@ -9,17 +9,20 @@ import android.widget.LinearLayout;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.LocalExpertSite.Destination;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataHotelAttach;
 import com.expedia.bookings.data.trips.ItinCardDataLocalExpert;
 import com.expedia.bookings.model.DismissedItinButton;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AbsPopupMenu;
+import com.expedia.bookings.widget.AbsPopupMenu.OnDismissListener;
 import com.expedia.bookings.widget.PopupMenu;
 import com.mobiata.android.util.SettingUtils;
 
 public class ItinButtonCard<T extends ItinCardData> extends LinearLayout implements
-		AbsPopupMenu.OnMenuItemClickListener {
+		AbsPopupMenu.OnMenuItemClickListener, OnDismissListener {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC INTERFACES
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -56,6 +59,7 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 
 	private String mTripId;
 	private ItinButtonType mItinButtonType;
+	private Destination mDestination; // Just for Omniture
 
 	private ItinButtonContentGenerator mItinContentGenerator;
 	private OnClickListener mItinButtonOnClickListener;
@@ -66,6 +70,9 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 	private View mButtonActionLayout;
 	private ViewGroup mItinButtonLayout;
 	private View mDismissImageView;
+
+	// Views generated an ItinContentGenerator (that get reused)
+	private View mDetailsView;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -103,9 +110,14 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 		mItinButtonOnClickListener = mItinContentGenerator.getOnItemClickListener();
 
 		// Get button detail view
-		View buttonView = mItinContentGenerator.getDetailsView(mItinButtonLayout);
-		if (buttonView != null) {
-			mItinButtonLayout.addView(buttonView);
+		boolean wasNull = mDetailsView == null;
+		mDetailsView = mItinContentGenerator.getDetailsView(mDetailsView, mItinButtonLayout);
+		if (wasNull && mDetailsView != null) {
+			mItinButtonLayout.addView(mDetailsView);
+		}
+
+		if (itinCardData instanceof ItinCardDataLocalExpert) {
+			mDestination = ((ItinCardDataLocalExpert) itinCardData).getSiteDestination();
 		}
 	}
 
@@ -132,6 +144,7 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 	private void showHidePopup() {
 		PopupMenu popup = new PopupMenu(getContext(), mDismissImageView);
 		popup.setOnMenuItemClickListener(this);
+		popup.setOnDismissListener(this);
 
 		MenuInflater inflater = popup.getMenuInflater();
 		inflater.inflate(R.menu.menu_itin_button, popup.getMenu());
@@ -144,6 +157,11 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 
 		if (mOnHideListener != null) {
 			mOnHideListener.onHide(mTripId, mItinButtonType);
+		}
+
+		if (mDestination != null) {
+			OmnitureTracking.trackItinLocalExpertHide(getContext(), mDestination);
+			mDestination = null; // Null out, so we don't detect a cancel as well
 		}
 	}
 
@@ -161,6 +179,11 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 
 		if (mOnHideListener != null) {
 			mOnHideListener.onHideAll(mItinButtonType);
+		}
+
+		if (mDestination != null) {
+			OmnitureTracking.trackItinLocalExpertHideForever(getContext(), mDestination);
+			mDestination = null; // Null out, so we don't detect a cancel as well
 		}
 	}
 
@@ -181,6 +204,13 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 		}
 		}
 		return false;
+	}
+
+	@Override
+	public void onDismiss(AbsPopupMenu menu) {
+		if (mDestination != null) {
+			OmnitureTracking.trackItinLocalExpertHideCancel(getContext(), mDestination);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////

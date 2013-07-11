@@ -3,7 +3,7 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">สวัสดี &lt;b&gt;%1$s&lt;/b&gt; เราพบบัญชี Expedia ของคุณ! โปรดป้อนรหัสผ่าน Expedia ของคุณด้านล่างเพื่อลิงก์บัญชี Facebook และ Expedia ของคุณ</string>
+    <string name="facebook_weve_found_your_account">สวัสดี &lt;b&gt;%1$s&lt;/b&gt; เราพบบัญชีเอ็กซ์พีเดียของคุณ! โปรดป้อนรหัสผ่านเอ็กซ์พีเดียของคุณด้านล่างเพื่อลิงก์บัญชี Facebook และเอ็กซ์พีเดียของคุณ</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">สวัสดี &lt;b&gt;%1$s&lt;/b&gt; เราโหลดข้อมูล Facebook ของคุณแล้ว</string>
     <!-- Log in with facebook (button text) -->
@@ -19,7 +19,7 @@
     <!-- Login failed try again -->
     <string name="login_failed_try_again">เข้าระบบไม่สำเร็จ โปรดป้อนรหัสผ่านของคุณใหม่แล้วลองอีกครั้ง</string>
     <!-- Facebook connect expedia password hint -->
-    <string name="expedia_password_hint">รหัสผ่าน Expedia</string>
+    <string name="expedia_password_hint">รหัสผ่านเอ็กซ์พีเดีย</string>
     <!-- Link accounts -->
     <string name="link_accounts">ลิงก์บัญชี</string>
     <!-- Failure to update the user -->
@@ -29,7 +29,7 @@
     <!-- Log In -->
     <string name="Log_In">เข้าระบบ</string>
     <!-- Log in with Expedia -->
-    <string name="Log_in_with_Expedia">เข้าสู่ระบบด้วย Expedia</string>
+    <string name="Log_in_with_Expedia">เข้าสู่ระบบด้วยเอ็กซ์พีเดีย</string>
     <!-- or -->
     <string name="or">หรือ</string>
 
@@ -56,12 +56,16 @@
     <string name="error_launch_connection">ขออภัย ไม่สามารถเชื่อมต่อได้</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">การเดินทาง</string>
+    <!-- Google play services unrecoverable error dialog message -->
+    <string name="google_play_services_unrecoverable_error">แอพฯ นี้ต้องใช้ Google Play Services โปรดติดตั้ง Google Play Services เวอร์ชั่นล่าสุด</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_in_available">มีบริการเช็คอิน</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">เที่ยวบิน %1$s ไปยัง %2$s</string>
+    <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
+    <string name="your_flight_to_x_TEMPLATE">เที่ยวบินไปยัง %1$s</string>
     <!-- Notification title for hotel check-out notification -->
     <string name="Check_out_today">เช็คเอาท์วันนี้</string>
     <!-- Notification title for car pick up -->
@@ -75,7 +79,7 @@
     <!-- Notification title for activity start -->
     <string name="Activity_starting_soon">กิจกรรมจะเริ่มเร็วๆ นี้</string>
     <!-- Notification text for activity start -->
-    <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">คุณสามารถแลกรับตั๋ว %s ได้ตั้งแต่พรุ่งนี้เป็นต้นไป</string>
+    <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">คุณสามารถแลกตั๋ว %s ได้ตั้งแต่พรุ่งนี้เป็นต้นไป</string>
 
     <!-- Itineraries -->
     <!-- Itinerary -->
@@ -89,7 +93,7 @@
     <!-- Itinerary Number -->
     <string name="itinerary_number">หมายเลขแผนเดินทาง</string>
     <!-- Expedia Itinerary -->
-    <string name="expedia_itinerary">หมายเลขแผนเดินทาง Expedia:</string>
+    <string name="expedia_itinerary">หมายเลขแผนเดินทางเอ็กซ์พีเดีย:</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">ไม่มีการเดินทางเร็วๆ นี้</string>
     <!-- Enter itinerary number -->
@@ -262,11 +266,86 @@
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">คัดลอก %1$s</string>
 
+    <!-- Itin Buttons -->
+    <!-- Popup menu -->
+    <!-- Menu label: Hide this itin button for this trip -->
+    <string name="itin_button_hide">ซ่อน</string>
+    <!-- Menu label: Never show this type of itin button again -->
+    <string name="itin_button_hide_forever">ซ่อนตลอดไป</string>
+
     <!-- Hotel attach -->
     <!-- Button label to search for a hotel in the flight destination city. %1$s is the city, e.g. "Washington, DC" -->
     <string name="add_hotel_TEMPLATE">เพิ่มโรงแรมใน%1$s</string>
     <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
     <string name="add_hotel_fallback">เพิ่มโรงแรมที่จุดหมายปลายทางของคุณ</string>
+
+    <!-- Itin Local Expert -->
+    <string name="talk_to_local_expert">คุยกับ Local Expert</string>
+
+    <!-- Local Expert Sites -->
+    <!-- Name of Hawaii (for local expert) -->
+    <string name="site_hawaii">ฮาวาย</string>
+    <!-- Name of Orlando, FL (for local expert) -->
+    <string name="site_orlando">ออร์แลนโด</string>
+    <!-- Name of Las Vegas (for local expert) -->
+    <string name="site_las_vegas">ลาสเวกัส</string>
+
+    <!-- Template for the city title on Local Expert pages. %1$s is the name of the city-->
+    <string name="local_expert_title_TEMPLATE">ขอให้สนุกใน%1$s</string>
+    <!-- Description body for the Local Expert pages -->
+    <string name="local_expert_description">เจ้าหน้าที่ Local Expert \nพร้อมให้ความช่วยเหลือในการวางแผนทริปของคุณ</string>
+    <!-- Text for the button on Local Expert pages, to call the concierge -->
+    <string name="local_expert_call_button_text">โทรหาพวกเขา</string>
+
+    <!-- Local Expert attractions; these are all split into two lines (second line is bolded) -->
+    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
+    <string name="attraction_creatures_first">ตื่นตากับ</string>
+    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
+    <string name="attraction_creatures_second">สัตว์นานาชนิด</string>
+    <!-- First half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
+    <string name="attraction_theme_parks_first">เที่ยวชม</string>
+    <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
+    <string name="attraction_theme_parks_second">สวนสนุก</string>
+    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
+    <string name="attraction_beaches_first">ค้นหา</string>
+    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
+    <string name="attraction_beaches_second">หาดทราย</string>
+    <!-- First half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
+    <string name="attraction_helicopter_first">นั่ง</string>
+    <!-- Second half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
+    <string name="attraction_helicopter_second">เฮลิคอปเตอร์</string>
+    <!-- First half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
+    <string name="attraction_scuba_first">ดำดิ่ง</string>
+    <!-- Second half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
+    <string name="attraction_scuba_second">ท่องโลกใต้ทะเล</string>
+    <!-- First half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
+    <string name="attraction_casinos_first">เสี่ยงโชคใน</string>
+    <!-- Second half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
+    <string name="attraction_casinos_second">คาสิโน</string>
+    <!-- First half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
+    <string name="attraction_ferrari_first">ขับ</string>
+    <!-- Second half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
+    <string name="attraction_ferrari_second">เฟอร์รารี</string>
+    <!-- First half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
+    <string name="attraction_family_first">กิจกรรมสำหรับ</string>
+    <!-- Second half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
+    <string name="attraction_family_second">ครอบครัว</string>
+    <!-- First half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
+    <string name="attraction_food_first">ลิ้มลอง</string>
+    <!-- Second half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
+    <string name="attraction_food_second">อาหารอร่อย</string>
+    <!-- First half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
+    <string name="attraction_entertainment_first">ค้นหา</string>
+    <!-- Second half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
+    <string name="attraction_entertainment_second">ความบันเทิงชั้นยอด</string>
+    <!-- First half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
+    <string name="attraction_music_first">ตามหา</string>
+    <!-- Second half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
+    <string name="attraction_music_second">วงดนตรีเจ๋งๆ</string>
+    <!-- First half of phrase about local expert VIP status attraction.  Full phrase: "Arrive with VIP Status" -->
+    <string name="attraction_vip_first">เดินทาง</string>
+    <!-- Second half of phrase about local expert VIP status attraction.  Full phrase: "Arrive with VIP Status" -->
+    <string name="attraction_vip_second">แบบวีไอพี</string>
 
     <!-- Car category -->
     <!-- Car category: mini -->
@@ -401,7 +480,7 @@
     <!-- Action Buttons -->
     <string name="itin_action_directions">เส้นทาง</string>
     <string name="itin_action_call_hotel">โทรหาโรงแรม</string>
-    <string name="itin_action_redeem">แลกรับ</string>
+    <string name="itin_action_redeem">แลก</string>
     <string name="itin_action_support">ทีมงานบริการ</string>
     <string name="itin_action_share">แชร์</string>
 
@@ -424,7 +503,7 @@
     <!-- Link to more information about the hotel -->
     <string name="share_template_long_hotel_5_more_info">ข้อมูลเพิ่มเติม\n%s</string>
     <!-- App download link -->
-    <string name="share_template_long_ad">จองโรงแรม เที่ยวบิน ดูและแบ่งปันแผนเดินทางของคุณ ดาวน์โหลดแอพฯ ฟรีสำหรับมือถือจาก Expedia วันนี้\n%s</string>
+    <string name="share_template_long_ad">จองโรงแรม เที่ยวบิน ดูและแบ่งปันแผนเดินทางของคุณ ดาวน์โหลดแอพฯ ฟรีสำหรับมือถือจากเอ็กซ์พีเดียวันนี้\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">เที่ยวบินของฉันไปยัง %1$s ใน %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
@@ -435,9 +514,9 @@
     <string name="share_template_subject_car">รถเช่าของฉัน (%1$s - %2$s)</string>
     <!-- Car rental share subject (no dates) -->
     <string name="share_template_subject_car_no_dates">รถเช่าของฉัน</string>
-    <!-- 1: vehicle type  -->
+    <!-- 1: vehicle type -->
     <string name="share_template_short_car_type">ฉันเช่า %1$s</string>
-    <!--1: pick up date 2: drop off date -->
+    <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_short_car_dates">ตั้งแต่ %1$s - %2$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
     <string name="share_car_start_TEMPLATE">รายละเอียดการเช่า %1$s</string>
@@ -453,7 +532,6 @@
     <string name="share_car_pickup_location_section">สถานที่รับรถ:</string>
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">สถานที่ส่งคืนรถ:</string>
-
 
     <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">รายละเอียด %1$s ของฉัน</string>
@@ -484,7 +562,7 @@
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
-    <string name="Expedia_Flights">เที่ยวบิน Expedia</string>
+    <string name="Expedia_Flights">เที่ยวบินเอ็กซ์พีเดีย</string>
     <!-- Label for Flight Confirmation activity in task manager -->
     <string name="Flights_Confirmation">การยืนยันเที่ยวบิน</string>
     <!-- Label for flight search part of app -->
@@ -542,6 +620,8 @@
     <string name="select_a_flight_back_to_TEMPLATE">เลือกเที่ยวบินกลับไปยัง %1$s</string>
     <!-- Error message template when loading a webpage fails -->
     <string name="web_view_loading_error_TEMPLATE">เกิดข้อผิดพลาดในการโหลดเพจ! ข้อความแสดงข้อผิดพลาด: %1$s</string>
+    <!-- Error message when attempting to load a webpage and there is no url to load -->
+    <string name="web_view_no_url">ไม่มี URL ให้โหลด</string>
     <!-- Title for screen when in an invalid POS we can't search for yet -->
     <string name="taking_off_soon">เครื่องกำลังจะออกในอีกไม่ช้า…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
@@ -581,6 +661,20 @@
     <string name="calendar_instructions_range_selected_TEMPLATE">เลือกการเดินทางที่มีการค้างคืน %1$d คืน</string>
     <!-- Start date and end date sameday -->
     <string name="calendar_instructions_range_selected_same_day">เลือกการเดินทางที่สิ้นสุดในวันเดียว</string>
+    <!-- Calendar tooltip bottom line after a single date is selected e.g. (Optional) Select Return Date -->
+    <string name="calendar_tooltip_bottom_select_return_date">(ไม่บังคับ) เลือกวันเดินทางกลับ</string>
+    <!-- Calendar tooltip bottom line after two dates are selected E.g. Drag End Dates to Modify -->
+    <string name="calendar_tooltip_bottom_drag_to_modify">ลากเพื่อเปลี่ยนวัน</string>
+    <!-- Calendar tooltip hotels bottom line after a single date is selected "Select Checkout Date" -->
+    <string name="calendar_tooltip_hotel_bottom_select_checkout_date">เลือกวันเช็คเอาท์</string>
+    <!-- Calendar tooltip hotels bottom line after two dates are selected TEMPLATE arg1=start date string, arg2=end date string, arg3=number of nights e.g. "May 26 - May 28 (2 nights)" -->
+    <string name="calendar_tooltip_hotel_top_text_date_range_and_nights_TEMPLATE">%1$s - %2$s (%3$s)</string>
+    <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
+    <string name="calendar_instructions_date_range_TEMPLATE">%1$s - %2$s</string>
+    <!-- Calendar instruction text hotels date range template with nights. %1$s = Formatted start date, %2$s = formatted end date, %3$s = formatted nights string. E.g. May 12 - May 15 (3 nights) -->
+    <string name="calendar_instructions_date_range_with_nights_TEMPLATE">%1$s - %2$s (%3$s)</string>
+    <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
+    <string name="calendar_instructions_hotels_no_dates_selected">เลือกวันเช็คอิน</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -601,11 +695,13 @@
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
     <string name="fare_name_and_price_TEMPLATE">%1$s : %2$s</string>
     <!-- Button label for information about baggage fees -->
-    <string name="baggage_fee_info">ข้อมูลเกี่ยวกับค่าสัมภาระ</string>
+    <string name="baggage_fee_info">ข้อมูลค่าธรรมเนียมสัมภาระ</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
     <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s แวะพัก&lt;/b&gt; ที่ %2$s</string>
-    <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class and %4$s is the plane.  For example: "4h 10m, Economy (K) on a Boeing 747." -->
+    <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class and %4$s is the plane.  For example: "4h 10m - Economy (K), Boeing 747." -->
     <string name="flight_details_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s), %4$s</string>
+    <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class. For example: "4h 10m - Economy (K)" -->
+    <string name="flight_details_no_plane_info_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)</string>
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">ชั้นประหยัด</string>
     <!-- Label for "premium coach" cabin code -->
@@ -692,9 +788,12 @@
     <string name="loading_flight_details">กำลังตรวจสอบการเปลี่ยนแปลงราคา…</string>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">ราคาเปลี่ยนจาก %1$s</string>
-    <!-- Message shown to user when the airline is charging a fee to use their credit card brand -->
-    <!-- e.g. This airline charges a $5 fee to book with the selected card, included in the total. -->
-    <string name="airline_card_fee_TEMPLATE">สายการบินเรียกเก็บค่าธรรมเนียม &lt;b&gt;%1$s&lt;/b&gt; สำหรับการจองด้วยบัตรที่คุณเลือก ซึ่งรวมอยู่ในยอดรวมแล้ว</string>
+    <!-- Message shown to user when the airline is charging a fee to use their credit card brand e.g. This airline charges a fee of $5 (included in the total) to use this card. -->
+    <string name="airline_card_fee_TEMPLATE">สายการบินนี้คิดค่าธรรมเนียม&lt;b&gt;%1$s&lt;/b&gt; (รวมในยอดรวมแล้ว) สำหรับการใช้บัตรเครดิตนี้</string>
+    <!-- Message shown to user explaining an airline fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The airline charges a fee of $8.50 to use VISA." -->
+    <string name="airline_card_fee_select_TEMPLATE">สายการบินคิดค่าธรรมเนียม %1$s สำหรับการใช้บัตรเครดิต %2$s</string>
+    <!-- Message shown to user when they can't use their credit card to book with the airline, %1$s is the credit card brand. e.g. "The airline does not support VISA." -->
+    <string name="airline_card_not_supported_TEMPLATE">สายการบินไม่รับ %1$s</string>
 
     <!-- Checkout Activity -->
     <!-- Expedia Account label -->
@@ -837,7 +936,7 @@
     <!-- save billing info -->
     <string name="save_billing_info">บันทึกที่อยู่สำหรับใบแจ้งหนี้</string>
     <!-- save billing info message -->
-    <string name="save_billing_info_message">บันทึกวิธีการชำระเงินนี้ไว้ในบัญชี Expedia ของคุณเพื่อชำระเงินครั้งถัดไปได้รวดเร็วขึ้นหรือไม่</string>
+    <string name="save_billing_info_message">บันทึกวิธีการชำระเงินนี้ไว้ในบัญชีเอ็กซ์พีเดียของคุณเพื่อชำระเงินครั้งถัดไปได้รวดเร็วขึ้นหรือไม่</string>
     <!-- save -->
     <string name="save">บันทึก</string>
     <!-- dont save -->
@@ -847,7 +946,7 @@
     <!-- save traveler -->
     <string name="save_traveler">บันทึกผู้เดินทาง</string>
     <!-- Save traveler name Template -->
-    <string name="save_traveler_message_TEMPLATE">บันทึกข้อมูลของ %1$s ไว้ในบัญชี Expedia ของคุณเพื่อชำระเงินครั้งถัดไปได้รวดเร็วขึ้นหรือไม่</string>
+    <string name="save_traveler_message_TEMPLATE">บันทึกข้อมูลของ %1$s ไว้ในบัญชีเอ็กซ์พีเดียของคุณเพื่อชำระเงินครั้งถัดไปได้รวดเร็วขึ้นหรือไม่</string>
     <!-- no thanks -->
     <string name="no_thanks">ไม่ ขอบคุณ</string>
 
@@ -957,7 +1056,9 @@
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">โรงแรมใน %s</string>
     <!-- Title for section helping users in other various ways -->
-    <string name="more_actions">การดำเนินการเพิ่มเติม</string>
+    <string name="more_actions">ดำเนินการอื่นๆ</string>
+    <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
+    <string name="actions">ดำเนินการเพิ่มเติม</string>
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">แชร์ทางอีเมล</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
@@ -965,7 +1066,7 @@
     <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
     <string name="add_to_flighttrack">ติดตามด้วย FlightTrack</string>
     <!-- Button label for calling expedia customer support -->
-    <string name="call_expedia_customer_support">โทรติดต่อฝ่ายสนับสนุนลูกค้า Expedia</string>
+    <string name="call_expedia_customer_support">โทรติดต่อฝ่ายสนับสนุนลูกค้าเอ็กซ์พีเดีย</string>
     <!-- Add Insurance label -->
     <string name="add_insurance">เพิ่มประกันภัย</string>
     <!-- Insurance -->
@@ -985,11 +1086,11 @@
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
     <string name="calendar_flight_location_TEMPLATE">%1$s, %2$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_flight_desc_itinerary_TEMPLATE">หมายเลขแผนเดินทาง Expedia: %s</string>
+    <string name="calendar_flight_desc_itinerary_TEMPLATE">หมายเลขแผนเดินทางเอ็กซ์พีเดีย: %s</string>
     <!-- Part of the description, showing a link to directions.  %s is the directions link, e.g. "Directions to airport: http://url-to-map-to-airport" -->
     <string name="calendar_flight_desc_directions_TEMPLATE">เส้นทางไปสนามบิน: %s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
-    <string name="calendar_flight_desc_support_TEMPLATE">ฝ่ายสนับสนุนลูกค้า Expedia: %s</string>
+    <string name="calendar_flight_desc_support_TEMPLATE">ฝ่ายบริการลูกค้าเอ็กซ์พีเดีย: %s</string>
 
     <!-- Add to calendar (hotels) -->
     <!-- Title for calendar entry for when you check into a hotel -->
@@ -1041,7 +1142,7 @@
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
     <string name="error_flight_unhandled">ขออภัย เราไม่สามารถดำเนินการกับคำสั่งซื้อของคุณได้ในตอนนี้ โปรดลองใหม่อีกครั้ง</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE">ขออภัย เราไม่สามารถดำเนินการกับคำสั่งซื้อของคุณได้ในตอนนี้ โปรดลองใหม่อีกครั้ง หรือโทรไปที่ฝ่ายบริการลูกค้าของ Expedia และแจ้งหมายเลขแผนเดินทางนี้: %s</string>
+    <string name="error_flight_unhandled_TEMPLATE">ขออภัย เราไม่สามารถดำเนินการกับคำสั่งซื้อของคุณได้ในตอนนี้ โปรดลองใหม่อีกครั้ง หรือโทรไปที่ฝ่ายบริการลูกค้าของเอ็กซ์พีเดีย และแจ้งหมายเลขแผนเดินทางนี้: %s</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
     <string name="error_flight_no_longer_available">ขออภัย เที่ยวบินของคุณไม่มีให้บริการแล้ว</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
@@ -1187,6 +1288,10 @@
     <string name="mobile_exclusive">สิทธิเฉพาะมือถือ</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="tonight_only">คืนนี้เท่านั้น</string>
+    <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
+    <string name="hotel_search_range_error_TEMPLATE">ขออภัย เราไม่สามารถค้นหาการจองห้องพักเกิน %1$s คืนได้</string>
+    <!-- Search Error title text "Search Error" -->
+    <string name="search_error">ค้นหาผิดพลาด</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -1608,7 +1713,7 @@
     <!-- ActionBar button for starting a new search -->
     <string name="NEW_SEARCH">ค้นหาใหม่</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template">หากคุณมีข้อสงสัยเกี่ยวกับการจอง โปรดโทรติดต่อ Expedia ที่ %s</string>
+    <string name="contact_phone_template">หากมีคำถามเกี่ยวกับการจอง โปรดติดต่อเอ็กซ์พีเดียที่%s</string>
 
     <!-- Confirmation Fragment -->
     <!-- Label to share booking information after a booking confirmation -->
@@ -1662,7 +1767,7 @@
     <!-- Message that tells user they failed to log in -->
     <string name="login_failed">โปรดเข้าระบบอีกครั้ง</string>
     <!-- Label for logout confirmation -->
-    <string name="logout_confirmation">คุณต้องการออกจากบัญชี Expedia ของคุณหรือไม่</string>
+    <string name="logout_confirmation">คุณต้องการออกจากบัญชีเอ็กซ์พีเดียหรือไม่</string>
     <!-- Label for login widget additional text -->
     <string name="log_in_for_faster_booking">เข้าระบบเพื่อการจองที่รวดเร็วขึ้น</string>
     <!-- Label for account status -->
@@ -1672,7 +1777,7 @@
     <!-- Label for account name -->
     <string name="logged_in_as">เข้าระบบของ</string>
     <!-- Label for signin screen -->
-    <string name="expedia_account">บัญชี Expedia</string>
+    <string name="expedia_account">บัญชีเอ็กซ์พีเดีย</string>
     <!-- Label for loading user profile from expedia.com -->
     <string name="loading_expedia_account">กำลังโหลดบัญชี Expedia</string>
     <!-- Label for password recovery -->
@@ -1697,8 +1802,12 @@
     <string name="coupon_error">คูปองผิด</string>
 
     <!-- Sharing bookings via email -->
+    <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
+    <string name="share_subject_dash_template">%1$s - %2$s</string>
+    <!-- The title of the share subject line -->
+    <string name="share_subject_title">แผนเดินทางเอ็กซ์พีเดีย</string>
     <!-- Subject property name template. -->
-    <string name="share_subject_template">แผนเดินทาง Expedia -</string>
+    <string name="share_subject_template">แผนเดินทางเอ็กซ์พีเดีย -</string>
     <!-- Subject dates template. 1$ and 2$ are the ` ranges (e.g., 3/21 - 3/24) -->
     <string name="share_subject_template_dates">(%1$s - %2$s)</string>
     <!-- Preset at the top of the share body message -->
@@ -1762,7 +1871,7 @@
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_message_cleared_private_data">ลบข้อมูลรายชื่อและใบแจ้งหนี้ที่บันทึกไว้แล้ว</string>
     <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
-    <string name="dialog_message_launch_expedia_mobile_site">เปิดใช้เว็บไซต์สำหรับมือถือของ Expedia?</string>
+    <string name="dialog_message_launch_expedia_mobile_site">เปิดใช้เว็บไซต์สำหรับมือถือของเอ็กซ์พีเดียหรือไม่</string>
     <!-- Action button label to Subscribe to our mailing list -->
     <string name="Subscribe">สมัครรับข่าวสาร</string>
     <!-- Action button label to follow on twitter -->
@@ -1777,6 +1886,12 @@
     <string name="open_source_software_licenses">ใบอนุญาตซอฟต์แวร์โอเพนซอร์ซ</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">แอพฯ นี้ใช้งานไลบรารีโอเพนซอร์สดังนี้:</string>
+
+    <!-- App support WebView -->
+    <!-- menu -->
+    <string name="email_us">อีเมลหาเรา</string>
+    <!-- Support email body -->
+    <string name="app_support_message_body">เราพร้อมตอบคำถามของคุณ ด้านล่างเป็นข้อมูลที่อาจช่วยเราให้ความช่วยเหลือคุณ:</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
@@ -1882,7 +1997,7 @@
     <!-- The hotel booking failed -->
     <string name="e3_error_checkout_booking_failed">ขออภัย ระบบไม่สามารถดำเนินการจองได้ โปรดลองใหม่อีกครั้ง</string>
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-    <string name="e3_error_checkout_booking_succeeded_with_errors">คุณจองโรงแรมเรียบร้อยแล้ว หากคุณต้องการหมายเลขแผนเดินทางทันที โปรดติดต่อฝ่ายบริการลูกค้าของ Expedia</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors">คุณจองโรงแรมเรียบร้อยแล้ว หากคุณต้องการหมายเลขแผนการเดินทางทันที โปรดติดต่อฝ่ายบริการลูกค้าของ Expedia</string>
     <!-- The hotel room is no longer available -->
     <string name="e3_error_checkout_hotel_room_unavailable">ขออภัย ห้องพักที่คุณเลือกเต็มแล้ว</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
@@ -2166,6 +2281,7 @@
     <string name="country_zm">แซมเบีย</string>
     <string name="country_zw">ซิมบับเว</string>
     <string name="country_ax">หมู่เกาะโอลันด์</string>
+    <string name="country_vs">VSC</string>
 
     <!-- Google Wallet -->
     <!-- The merchant name to display to the user for Google Wallet -->
@@ -2180,12 +2296,26 @@
     <string name="spending_limit_exceeded">คุณมียอดใช้จ่ายเกินวงเงิน Google Wallet ของคุณ</string>
     <!-- Content description for "buy with wallet" button -->
     <string name="wallet_buy_with_google_wallet">ซื้อด้วย Google Wallet</string>
+    <!-- Message for Google wallet coupon promotion -->
+    <string name="wallet_promo_offer">รับส่วนลด <b>10%</b> จาก Google Wallet!</string>
+    <!-- Message informing users that they are saving money with the Google Wallet promo -->
+    <string name="wallet_promo_in_use_message">คุณประหยัดไป 10% จากการใช้ Google Wallet</string>
+    <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
+    <string name="coupon_replaced_message">สามารถใช้คูปองได้เพียงหนึ่งใบต่อการจองเท่านั้น เราแทนที่คูปองก่อนหน้าของคุณด้วยส่วนลด 10% จากการใช้ Google Wallet</string>
+    <!-- Message shown while loading Wallet coupon -->
+    <string name="wallet_promo_applying">ใช้ส่วนลด Google Wallet…</string>
+    <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
+    <string name="error_wallet_promo_cannot_apply">ขออภัย ไม่สามารถใช้ส่วนลดจาก Google Wallet กับการจองนี้ได้</string>
+    <!-- Title for Google Wallet promo terms & conditions -->
+    <string name="wallet_promo_tc_title">ข้อตกลงและเงื่อนไขของคูปอง Google Wallet</string>
+    <!-- Terms & conditions for Google Wallet promo -->
+    <string name="wallet_promo_tc_message">คูปองต้องแลกใช้ในแอพฯ Expedia สำหรับ Android สำหรับการเดินทางระหว่างวันที่ 17 มิถุนายน 2556 - 31 ธันวาคม 2556 ข้อเสนอนี้เป็นข้อเสนอจาก Expedia.com และใช้ได้กับลูกค้าของ Expedia.com ในสหรัฐอเมริกาเท่านั้น\n\nการจองมีข้อตกลงและเงื่อนไขและขึ้นอยู่กับความพร้อมให้บริการของโรงแรมราคาเอ็กซ์พีเดีย ณ เวลาที่ทำการจอง ไม่สามารถใช้คูปองร่วมกับโปรโมชั่น ส่วนลด หรือข้อเสนอพิเศษอื่นๆ ส่วนลดจากคูปองไม่สามารถนำมาใช้กับภาษี ค่าธรรมเนียมที่โรงแรมเรียกเก็บ ค่าปรับในการยกเลิกหรือเปลี่ยนแปลงการจอง ค่าธรรมเนียมการดำเนินการ หรือค่าใช้จ่ายจิปาถะอื่นๆ ซึ่งถือเป็นความรับผิดชอบของลูกค้าแต่เพียงผู้เดียว ในกรณีที่คุณเปลี่ยนแปลงหรือยกเลิกการจอง คูปองจะไม่สามารถใช้ได้กับแผนการเดินทางที่เปลี่ยนแปลง\n\nข้อตกลงและเงื่อนไขของคูปองนี้เป็นไปตามที่กำหนด และไม่สามารถเปลี่ยนแปลงได้โดยตัวแทนของผู้ที่ไม่ได้รับการมอบอำนาจ รวมถึงพนักงานของ Expedia, Inc. คูปองไม่สามารถโอนให้กันและไม่สามารถแลกเป็นเงินสดได้ เป็นโมฆะหากไม่ได้รับอนุญาตตามกฎหมาย Expedia, Inc. อาจยกเลิกหรือเปลี่ยนแปลงข้อเสนอนี้ได้ทุกเมื่อ</string>
 
     <!-- Samsung Wallet -->
     <!-- Label to use when the ticket already exists in the wallet -->
     <string name="view_in_samsung_wallet">ดูใน Samsung Wallet</string>
     <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
-    <string name="add_to_samsung_wallet">เพิ่มลงใน Samsung Wallet</string>
+    <string name="load_to_samsung_wallet">โหลดลงใน Samsung Wallet</string>
 
     <!-- Human readable credit card names -->
     <!-- American Express -->
@@ -2292,5 +2422,111 @@
     <string name="S_Push_flight_CITY_gate_GATE">ขณะนี้เที่ยวบินไปยัง %1$s ของคุณกำลังออกจากประตู %2$s</string>
     <!-- Your bags will be at baggage claim _  TEMPLATE -->
     <string name="S_Push_baggage_BAGGAGE">กระเป๋าของคุณจะอยู่บริเวณจุดรับกระเป๋า %1$s</string>
+
+    <!--
+    Shortened Push Notification Loc Strings
+    These are for older versions of android that can't wrap notification text. We shorten
+    the strings by removing the city argument from the string. The city string gets displayed
+    in the notification title, so no harm done.
+
+    NOTE: We are removing the first arg, but we will still be passing it to the format string, so the argument range now
+    must start at %2$s
+    -->
+    <!-- Your flight to _ delayed _ hour TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_short">ล่าช้า %2$s ชั่วโมง</string>
+    <!-- Your flight to _ delayed _ hours TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_short">ล่าช้า %2$s ชั่วโมง</string>
+    <!-- Your flight to _ delayed _ minute TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_MINUTE_short">ล่าช้า %2$s นาที</string>
+    <!-- Your flight to _ delayed _ minutes TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_MINUTES_short">ล่าช้า %2$s นาที</string>
+    <!-- Your flight to _ delayed _ hour _ minute TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_short">ล่าช้า %2$s ชั่วโมง %3$s นาที</string>
+    <!-- Your flight to _ delayed _ hour _ minutes TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_short">ล่าช้า %2$s ชั่วโมง %3$s นาที</string>
+    <!-- Your flight to _ delayed _ hours _ minute TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_short">ล่าช้า %2$s ชั่วโมง %3$s นาที</string>
+    <!-- Your flight to _ delayed _ hours _ minutes TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_short">ล่าช้า %2$s ชั่วโมง %3$s นาที</string>
+    <!-- Your flight to _ departs _ minute early TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_MINUTE_short">ออกเดินทางก่อนกำหนด %2$s นาที</string>
+    <!-- Your flight to _ departs _ minutes early  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_MINUTES_short">ออกเดินทางก่อนกำหนด %2$s นาที</string>
+    <!-- Your flight to _ departs _ hour early TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOUR_short">ออกเดินทางก่อนกำหนด %2$s ชั่วโมง</string>
+    <!-- Your flight to _ departs _ hours early TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOURS_short">ออกเดินทางก่อนกำหนด %2$s ชั่วโมง</string>
+    <!-- Your flight to _ departs _ hour _ minute early TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_short">ออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที</string>
+    <!-- Your flight to _ departs _ hours _ minute early TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_short">ออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที</string>
+    <!-- Your flight to _ departs _ hour _ minutes early TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_short">ออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที</string>
+    <!-- Your flight to _ departs _ hours _ minutes early TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_short">ออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที</string>
+    <!-- Your flight to _ is delayed _ minute and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE_short">ล่าช้า %2$s นาที ขณะนี้กำลังออกจากประตู %3$s</string>
+    <!-- Your flight to _ is delayed _ minutes and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE_short">ล่าช้า %2$s นาที ขณะนี้กำลังออกจากประตู %3$s</string>
+    <!-- Your flight to _ is delayed _ hour and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE_short">ล่าช้า %2$s ชั่วโมง ขณะนี้กำลังออกจากประตู %3$s</string>
+    <!-- Your flight to _ is delayed _ hours and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE_short">ล่าช้า %2$s ชั่วโมง ขณะนี้กำลังออกจากประตู %3$s</string>
+    <!-- Your flight to _ is delayed _ hour _ minute and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE_short">ล่าช้า %2$s ชั่วโมง %3$s นาที ขณะนี้กำลังออกจากประตู %4$s</string>
+    <!-- Your flight to _ is delayed _ hours _ minute and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE_short">ล่าช้า %2$s ชั่วโมง %3$s นาที ขณะนี้กำลังออกจากประตู %4$s</string>
+    <!-- Your flight ot _ is delayed _ hour _ minutes and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE_short">ล่าช้า %2$s ชั่วโมง %3$s นาที ขณะนี้กำลังออกจากประตู %4$s</string>
+    <!-- Your flight to _ is delayed _ hours _ minutes and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE_short">ล่าช้า %2$s ชั่วโมง %3$s นาที ขณะนี้กำลังออกจากประตู %4$s</string>
+    <!-- Your flight to _ is now departing _ minute early from gate _ TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE_short">ออกเดินทางก่อนกำหนด %2$s นาทีจากประตู %3$s</string>
+    <!-- Your flight to _ is now departing _ minutes early from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE_short">ออกเดินทางก่อนกำหนด %2$s นาทีจากประตู %3$s</string>
+    <!-- Your flight to _ is now departing _ hour early from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE_short">ออกเดินทางก่อนกำหนด %2$s ชั่วโมงจากประตู %3$s</string>
+    <!-- Your flight to _ is now departing _ hours early from gate _ TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE_short">ออกเดินทางก่อนกำหนด %2$s ชั่วโมงจากประตู %3$s</string>
+    <!-- Your flight to _ is now departing _ hour _ minute early from gate _ TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE_short">ออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาทีจากประตู %4$s</string>
+    <!-- Your flight to _ is now departing _ hours _ minute early from gate _ TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE_short">ออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาทีจากประตู %4$s</string>
+    <!-- Your flight to _ is now departing _ hour _ minutes early from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE_short">ออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาทีจากประตู %4$s</string>
+    <!-- Your flight to _ is now departing _ hours _ minutes early from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE_short">ออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาทีจากประตู %4$s</string>
+    <!-- Your flight from _ to _ has been cancelled TEMPLATE (short version) -->
+    <string name="S_Push_flight_from_CITY_to_CITY_cancelled_short">เที่ยวบินจาก %1$s ยกเลิก</string>
+    <!-- Your flight to _ departs in _ hour TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR_short">ออกเดินทางภายใน %2$s ชั่วโมง</string>
+    <!-- Your flight to _ departs in _ hours TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS_short">ออกเดินทางภายใน %2$s ชั่วโมง</string>
+    <!-- Your flight to _ departs in _ hours _ minute TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE_short">ออกเดินทางภายใน %2$s ชั่วโมง %3$s นาที</string>
+    <!-- Your flight to _ departs in _ hours _ minutes TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES_short">ออกเดินทางภายใน %2$s ชั่วโมง %3$s นาที</string>
+    <!-- Your flight to _ departs in _ hour _ minute TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE_short">ออกเดินทางภายใน %2$s ชั่วโมง %3$s นาที</string>
+    <!-- Your flight to _ departs in _ hour _ minutes TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES_short">ออกเดินทางภายใน %2$s ชั่วโมง %3$s นาที</string>
+    <!-- Your flight to _ departs in _ minutes TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_departs_in_MINUTES_short">ออกเดินทางภายใน %2$s นาที</string>
+    <!-- Your flight to _ now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_gate_GATE_short">ออกเดินทางจากประตู %2$s</string>
+
+    <!-- VSC Info Screen -->
+    <!-- Header for a list of apps also written by VSC -->
+    <string name="AlsoByVSC">แอพฯ อื่นๆ โดย VSC</string>
+    <!-- Name of VSC Train app -->
+    <string name="VSC_Voyages_SNF">Voyages-SNCF</string>
+    <!-- Description for FT Free app -->
+    <string name="VSC_Voyages_SNF_description">แอพ Voyages-sncf.com</string>
+    <!-- VSC Copyright information -->
+    <string name="VSC_copyright">© Copyright 2012-2013 Agence Voyages-SNCF, Inc.\nสงวนลิขสิทธิ์</string>
+    <!-- VSC app name -->
+    <string name="VSC_app_name">VSC Hotels</string>
+    <!-- Link to open when VSC logo is clicked on -->
+    <string name="app_vsc_info_url">http://www.voyages-sncf.com/</string>
 
 </resources>

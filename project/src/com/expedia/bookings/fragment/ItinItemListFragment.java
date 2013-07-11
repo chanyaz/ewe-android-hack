@@ -78,6 +78,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	private boolean mShowError = false;
 	private boolean mAllowLoadItins = false;
 
+	private boolean mCurrentSyncHasErrors = false;
 	private boolean mIsLoading = false;
 	private String mJumpToItinId = null;
 
@@ -140,14 +141,6 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		mItinListView.setOnListModeChangedListener(mOnListModeChangedListener);
 		mItinListView.setOnItinCardClickListener(mOnItinCardClickListener);
 		mItinListView.setOnItemClickListener(mOnItemClickListener);
-		mItinListView.post(new Runnable() {
-			@Override
-			public void run() {
-				if (getActivity() != null) {
-					mItinListView.setExpandedCardHeight(view.getHeight());
-				}
-			}
-		});
 
 		mLoginButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -241,7 +234,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 			mSpacerView.setVisibility(View.GONE);
 			mShadowImageView.setVisibility(View.GONE);
 		}
-		else if (inListMode()) {
+		else if (!isInDetailMode()) {
 			mSpacerView.setVisibility(View.VISIBLE);
 			mShadowImageView.setVisibility(View.VISIBLE);
 		}
@@ -253,19 +246,9 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 			return;
 		}
 
-		// We want to hideDetails if any are displayed, and then
-		// after that has settled, showDetails for this itin. Hence
-		// the nested post messiness.
-		mItinListView.post(new Runnable() {
-			public void run() {
-				mItinListView.hideDetails(false);
-				mItinListView.post(new Runnable() {
-					public void run() {
-						mItinListView.showDetails(id, animate);
-					}
-				});
-			}
-		});
+		// ItinListView will take care of executing these in order.
+		mItinListView.hideDetails(false);
+		mItinListView.showDetails(id, animate);
 
 		mJumpToItinId = null;
 	}
@@ -299,16 +282,14 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		return mIsLoading;
 	}
 
-	public boolean inListMode() {
-		if (mItinListView != null) {
-			return mItinListView.getMode() == ItinListView.MODE_LIST;
-		}
-		return true;//We start out in list mode
+	public boolean isInDetailMode() {
+		// false when mItinListView == null because we start out in list mode
+		return mItinListView != null && mItinListView.isInDetailMode();
 	}
 
-	public void setListMode() {
+	public void hideDetails() {
 		if (mItinListView != null) {
-			mItinListView.setMode(ItinListView.MODE_LIST);
+			mItinListView.hideDetails(true);
 		}
 	}
 
@@ -323,9 +304,8 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	}
 
 	public synchronized void startLoginActivity() {
-		Intent intent = LoginActivity.createIntent(getActivity(), LineOfBusiness.ITIN,
-				new ItineraryLoaderLoginExtender());
-		startActivity(intent);
+		Bundle args = LoginActivity.createArgumentsBundle(LineOfBusiness.ITIN, new ItineraryLoaderLoginExtender());
+		User.signIn(getActivity(), args);
 	}
 
 	private void updateLoginState() {
@@ -399,7 +379,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 	private OnListModeChangedListener mOnListModeChangedListener = new OnListModeChangedListener() {
 		@Override
-		public void onListModeChanged(int mode) {
+		public void onListModeChanged(boolean isInDetailMode, final boolean animate) {
 			// In some bad timing situations, it's possible for the listener to fire
 			// far after this Fragment is dead in the eyes of its Activity.  In that
 			// case, don't do the list mode change (as it requires being attached).
@@ -408,29 +388,28 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 				return;
 			}
 
-			if (mode == ItinListView.MODE_LIST) {
-				mSpacerView.post(new Runnable() {
-					@Override
-					public void run() {
-						getCollapseAnimatorSet().start();
-					}
-				});
-
-				if (activity instanceof OnListModeChangedListener) {
-					((OnListModeChangedListener) activity).onListModeChanged(mode);
-				}
+			if (!animate) {
+				mSpacerView.setVisibility(isInDetailMode ? View.GONE : View.VISIBLE);
 			}
-			else if (mode == ItinListView.MODE_DETAIL) {
+			else if (isInDetailMode) {
 				mSpacerView.post(new Runnable() {
 					@Override
 					public void run() {
 						getExpandAnimatorSet().start();
 					}
 				});
+			}
+			else {
+				mSpacerView.post(new Runnable() {
+					@Override
+					public void run() {
+						getCollapseAnimatorSet().start();
+					}
+				});
+			}
 
-				if (activity instanceof OnListModeChangedListener) {
-					((OnListModeChangedListener) activity).onListModeChanged(mode);
-				}
+			if (activity instanceof OnListModeChangedListener) {
+				((OnListModeChangedListener) activity).onListModeChanged(isInDetailMode, animate);
 			}
 		}
 	};
@@ -467,7 +446,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 		AnimatorSet animatorSet = new AnimatorSet();
 		animatorSet.playTogether(pagerSlideDown, shadowSlideDown);
-		animatorSet.setDuration(200);
+		animatorSet.setDuration(400);
 
 		return animatorSet;
 	}
@@ -482,7 +461,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 		AnimatorSet animatorSet = new AnimatorSet();
 		animatorSet.playTogether(pagerSlideUp, shadowSlideUp);
-		animatorSet.setDuration(200);
+		animatorSet.setDuration(400);
 
 		return animatorSet;
 	}
@@ -525,22 +504,25 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 	@Override
 	public void onSyncFailure(SyncError error) {
-		setIsLoading(false);
-		setErrorMessage(R.string.itinerary_fetch_error, User.isLoggedIn(getActivity()));
+		mCurrentSyncHasErrors = true;
 	}
 
 	@Override
 	public void onSyncFinished(Collection<Trip> trips) {
 		setIsLoading(false);
-		setErrorMessage(null, false);
-
 		mItinListView.syncWithManager();
-
-		trackItins(false);
-
-		if (mJumpToItinId != null) {
-			showItinCard(mJumpToItinId, true);
+		if (mCurrentSyncHasErrors && (trips == null || trips.size() == 0)) {
+			setErrorMessage(R.string.itinerary_fetch_error, true);
 		}
+		else {
+			setErrorMessage(null, false);
+			trackItins(false);
+
+			if (mJumpToItinId != null) {
+				showItinCard(mJumpToItinId, true);
+			}
+		}
+		mCurrentSyncHasErrors = false;
 	}
 
 	public void resetTrackingState() {
@@ -554,7 +536,8 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 			Context context = getActivity();
 			if (context != null) {
 				if (trips.size() > 0) {
-					OmnitureTracking.trackItin(getActivity());
+					OmnitureTracking.trackItin(getActivity(), mItinListView.getItinCardDataAdapter()
+							.getTrackingLocalExpertDestinations());
 				}
 				else {
 					if (trackEmpty) {

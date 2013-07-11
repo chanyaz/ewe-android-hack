@@ -27,7 +27,6 @@ public class FlightTravelerInfoOneFragment extends Fragment implements Validatab
 
 	Traveler mTraveler;
 	SectionTravelerInfo mSectionTravelerInfo;
-	int mTravelerIndex = -1;
 
 	// EB48: This warning has this behavior:
 	// 1. Always shown whenever the user enters the screen.
@@ -37,16 +36,13 @@ public class FlightTravelerInfoOneFragment extends Fragment implements Validatab
 	boolean mAttemptToLeaveMade = false;
 
 	public static FlightTravelerInfoOneFragment newInstance() {
-		FlightTravelerInfoOneFragment fragment = new FlightTravelerInfoOneFragment();
-		Bundle args = new Bundle();
-		fragment.setArguments(args);
-		return fragment;
+		return new FlightTravelerInfoOneFragment();
 	}
 
 	@Override
-	public void onStart() {
-		super.onStart();
-		OmnitureTracking.trackPageLoadFlightTravelerEditInfo(getActivity());
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mAttemptToLeaveMade = false;
 	}
 
 	@Override
@@ -82,9 +78,9 @@ public class FlightTravelerInfoOneFragment extends Fragment implements Validatab
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		mAttemptToLeaveMade = false;
+	public void onStart() {
+		super.onStart();
+		OmnitureTracking.trackPageLoadFlightTravelerEditInfo(getActivity());
 	}
 
 	@Override

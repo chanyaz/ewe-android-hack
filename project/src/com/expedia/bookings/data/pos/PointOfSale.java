@@ -368,11 +368,25 @@ public class PointOfSale {
 
 	// Returns the correct POSLocale based on the user's current locale
 	private PointOfSaleLocale getPosLocale() {
+		Locale locale = Locale.getDefault();
+		String localeString = locale.toString();
+
+		Log.d("PointOfSale: getPosLocale, device locale=" + localeString);
+
 		if (mLocales.size() > 1) {
-			Locale locale = Locale.getDefault();
+			// First look for an exact match on the Locale, languageCode and countryCode
+			for (PointOfSaleLocale posLocale : mLocales) {
+				if (posLocale.mLocaleIdentifier.equalsIgnoreCase(localeString)) {
+					Log.d("PointOfSale: Selecting POSLocale by locale, locale=" + posLocale.mLocaleIdentifier);
+					return posLocale;
+				}
+			}
+
+			// If there is no exact match on Locale, attempt to match on languageCode only
 			String langCode = locale.getLanguage();
 			for (PointOfSaleLocale posLocale : mLocales) {
 				if (posLocale.mLanguageCode.equalsIgnoreCase(langCode)) {
+					Log.d("PointOfSale: Selecting POSLocale by langCode, locale=" + posLocale.mLocaleIdentifier);
 					return posLocale;
 				}
 			}
@@ -380,7 +394,9 @@ public class PointOfSale {
 
 		// In the case that we can't find the right locale (or there
 		// is only one locale),  default to the first locale.
-		return mLocales.get(0);
+		PointOfSaleLocale posLocale = mLocales.get(0);
+		Log.d("PointOfSale: Selecting default POSLocale locale=" + posLocale.mLocaleIdentifier);
+		return posLocale;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

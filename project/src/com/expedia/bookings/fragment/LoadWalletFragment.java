@@ -156,6 +156,8 @@ public abstract class LoadWalletFragment extends WalletFragment {
 
 			Db.clearGoogleWallet();
 			WalletUtils.unbindAllWalletDataFromBillingInfo(Db.getBillingInfo());
+
+			mLoadedMaskedWallet = false;
 		}
 	}
 

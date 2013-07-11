@@ -20,22 +20,17 @@ public class FlightTravelerInfoTwoFragment extends Fragment implements Validatab
 
 	Traveler mTraveler;
 	SectionTravelerInfo mSectionTravelerInfo;
-	int mTravelerIndex = -1;
 
 	boolean mAttemptToLeaveMade = false;
 
 	public static FlightTravelerInfoTwoFragment newInstance() {
-		FlightTravelerInfoTwoFragment fragment = new FlightTravelerInfoTwoFragment();
-		Bundle args = new Bundle();
-		//TODO:Set args here..
-		fragment.setArguments(args);
-		return fragment;
+		return new FlightTravelerInfoTwoFragment();
 	}
 
 	@Override
-	public void onStart() {
-		super.onStart();
-		OmnitureTracking.trackPageLoadFlightTravelerEditDetails(getActivity());
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mAttemptToLeaveMade = false;
 	}
 
 	@Override
@@ -67,9 +62,9 @@ public class FlightTravelerInfoTwoFragment extends Fragment implements Validatab
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		mAttemptToLeaveMade = false;
+	public void onStart() {
+		super.onStart();
+		OmnitureTracking.trackPageLoadFlightTravelerEditDetails(getActivity());
 	}
 
 	@Override
@@ -77,16 +72,6 @@ public class FlightTravelerInfoTwoFragment extends Fragment implements Validatab
 		super.onResume();
 		mTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
 		mSectionTravelerInfo.bind(mTraveler);
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
 	}
 
 	@Override

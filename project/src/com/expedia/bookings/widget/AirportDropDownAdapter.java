@@ -140,7 +140,7 @@ public class AirportDropDownAdapter extends CursorAdapter {
 
 	@Override
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = LayoutInflater.from(context);
 		View v = inflater.inflate(R.layout.simple_dropdown_item_2line, parent, false);
 
 		ViewHolder vh = new ViewHolder();

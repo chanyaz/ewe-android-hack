@@ -15,12 +15,12 @@
     <TextView
         android:id="@+id/flights_action_text_view"
         style="@style/Confirmation.Action"
+        android:layout_marginBottom="16dp"
         android:drawableLeft="@drawable/ic_plane" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/more_actions_text_view"
         style="@style/Confirmation.Header"
-        android:layout_marginTop="16dp"
         android:text="@string/more_actions"
         app:textStyle="light" />
 

@@ -16,6 +16,9 @@ public class WalletButton extends RelativeLayout {
 	private ProgressBar mProgressBar;
 	private View mPromo;
 
+	// Allow promo portion to be disabled completely (since we only show it on hotels)
+	private boolean mPromoVisible;
+
 	public WalletButton(Context context) {
 		super(context);
 	}
@@ -36,9 +39,7 @@ public class WalletButton extends RelativeLayout {
 		mProgressBar = Ui.findView(this, R.id.wallet_progress_bar);
 		mPromo = Ui.findView(this, R.id.wallet_promo);
 
-		// Determine if we should show the promo here (it won't change mid-execution)
-		int visibility = WalletUtils.offerGoogleWalletCoupon(getContext()) ? View.VISIBLE : View.GONE;
-		mPromo.setVisibility(visibility);
+		updatePromoVisibility();
 	}
 
 	@Override
@@ -54,5 +55,18 @@ public class WalletButton extends RelativeLayout {
 
 		// If the button is disabled, automatically show the progress bar; otherwise, hide it
 		mProgressBar.setVisibility(enabled ? View.GONE : View.VISIBLE);
+	}
+
+	public void setPromoVisible(boolean visible) {
+		mPromoVisible = visible;
+
+		updatePromoVisibility();
+	}
+
+	private void updatePromoVisibility() {
+		if (mPromo != null) {
+			mPromo.setVisibility(mPromoVisible && WalletUtils.offerGoogleWalletCoupon(getContext()) ? View.VISIBLE
+					: View.GONE);
+		}
 	}
 }

@@ -53,17 +53,19 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 	HotelPaymentYoYoListener mListener;
 
 	public static HotelPaymentOptionsFragment newInstance() {
-		HotelPaymentOptionsFragment fragment = new HotelPaymentOptionsFragment();
-		Bundle args = new Bundle();
-		//TODO:Set args here..
-		fragment.setArguments(args);
-		return fragment;
+		return new HotelPaymentOptionsFragment();
 	}
 
 	@Override
-	public void onStart() {
-		super.onStart();
-		OmnitureTracking.trackPageLoadHotelsCheckoutPaymentSelect(getActivity());
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		if (!(activity instanceof HotelPaymentYoYoListener)) {
+			throw new RuntimeException(HotelPaymentOptionsFragment.class.getSimpleName() + " activity must implement "
+					+ HotelPaymentYoYoListener.class.getSimpleName());
+		}
+
+		mListener = (HotelPaymentYoYoListener) activity;
 	}
 
 	@Override
@@ -190,20 +192,9 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-
-		if (!(activity instanceof HotelPaymentYoYoListener)) {
-			throw new RuntimeException(HotelPaymentOptionsFragment.class.getSimpleName() + " activity must implement "
-					+ HotelPaymentYoYoListener.class.getSimpleName());
-		}
-
-		mListener = (HotelPaymentYoYoListener) activity;
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
+	public void onStart() {
+		super.onStart();
+		OmnitureTracking.trackPageLoadHotelsCheckoutPaymentSelect(getActivity());
 	}
 
 	@Override
@@ -220,6 +211,13 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+
+		mListener = null; // Just in case Wallet is leaking
 	}
 
 	public void updateVisibilities() {

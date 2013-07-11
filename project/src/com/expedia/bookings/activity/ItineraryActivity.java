@@ -29,7 +29,6 @@ import com.expedia.bookings.fragment.ItineraryMapFragment.ItineraryMapFragmentLi
 import com.expedia.bookings.maps.SupportMapFragment.SupportMapFragmentListener;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -87,8 +86,7 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 		// Even though we don't use the url directly anywhere, Android OS needs a way
 		// to differentiate multiple intents to this same activity.
 		// http://developer.android.com/reference/android/content/Intent.html#filterEquals(android.content.Intent)
-		String uriString = "expedia://notification/itinerary/" + jumpToItinId;
-		intent.setData(Uri.parse(uriString));
+		intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
 
 		return intent;
 	}
@@ -212,18 +210,18 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 
 		if (requestCode == REQUEST_SETTINGS && resultCode == ExpediaBookingPreferenceActivity.RESULT_CHANGED_PREFS) {
 			// Just to be safe, hide the popup window (as the itin may have been removed)
-			mItinListFragment.setListMode();
+			mItinListFragment.hideDetails();
 			hidePopupWindow();
 		}
 	}
 
 	@Override
 	public void onBackPressed() {
-		if (!mItinListFragment.inListMode()) {
-			mItinListFragment.setListMode();
+		if (mItinListFragment.isInDetailMode()) {
+			mItinListFragment.hideDetails();
 		}
 		else if (mTwoPaneMode && mItinCardFragment.isVisible()) {
-			mItinListFragment.setListMode();
+			mItinListFragment.hideDetails();
 			hidePopupWindow();
 			mFallbackPatternView.setVisibility(View.GONE);
 		}
@@ -494,16 +492,16 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 	// OnListModeChanged
 
 	@Override
-	public void onListModeChanged(int mode) {
+	public void onListModeChanged(boolean isInDetailMode, boolean animate) {
 		if (mTwoPaneMode) {
 			return;
 		}
 
-		if (mode == ItinListView.MODE_LIST) {
-			getSupportActionBar().show();
-		}
-		else if (mode == ItinListView.MODE_DETAIL) {
+		if (isInDetailMode) {
 			getSupportActionBar().hide();
+		}
+		else {
+			getSupportActionBar().show();
 		}
 	}
 }

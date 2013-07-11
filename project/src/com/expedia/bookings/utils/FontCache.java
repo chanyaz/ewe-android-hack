@@ -24,7 +24,8 @@ public class FontCache {
 		ROBOTO_MEDIUM("fonts/Roboto-Medium.ttf"),
 		ROBOTO_BOLD("fonts/Roboto-Bold.ttf"),
 		ROBOTO_REGULAR("fonts/Roboto-Regular.ttf"),
-		SIGNERICA_FAT("fonts/Signerica_Fat.ttf");
+		SIGNERICA_FAT("fonts/Signerica_Fat.ttf"),
+		BEBAS_NEUE("fonts/BebasNeue.otf");
 
 		private String mPath;
 

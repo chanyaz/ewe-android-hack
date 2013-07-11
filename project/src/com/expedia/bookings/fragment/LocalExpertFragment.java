@@ -18,8 +18,11 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LocalExpertAttraction;
 import com.expedia.bookings.data.LocalExpertSite;
+import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AttractionBubbleView;
+import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 
 public class LocalExpertFragment extends Fragment {
@@ -76,6 +79,26 @@ public class LocalExpertFragment extends Fragment {
 		}
 	}
 
+	@Override
+	public void onPause() {
+		super.onPause();
+
+		mHandler.removeMessages(MSG_ADVANCE);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		getView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				getView().getViewTreeObserver().removeGlobalOnLayoutListener(this);
+				mHandler.sendMessageDelayed(Message.obtain(mHandler, MSG_ADVANCE), START_DELAY);
+			}
+		});
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// OVERRIDEN METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -99,6 +122,9 @@ public class LocalExpertFragment extends Fragment {
 		mIconImageView.setImageResource(mSite.getCityIcon());
 		mTitleTextView.setText(getString(R.string.local_expert_title_TEMPLATE, mSite.getCity()));
 
+		// Set fonts
+		FontCache.setTypeface(mTitleTextView, FontCache.Font.BEBAS_NEUE);
+
 		// Set view listeners
 		mCloseView.setOnClickListener(mOnClickListener);
 		mCallButton.setOnClickListener(mOnClickListener);
@@ -121,13 +147,7 @@ public class LocalExpertFragment extends Fragment {
 		}
 		}
 
-		view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-			@Override
-			public void onGlobalLayout() {
-				view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-				mHandler.sendMessageDelayed(Message.obtain(mHandler, MSG_ADVANCE), START_DELAY);
-			}
-		});
+		OmnitureTracking.trackLocalExpert(getActivity(), mSite);
 
 		return view;
 	}
@@ -137,6 +157,8 @@ public class LocalExpertFragment extends Fragment {
 	}
 
 	public void advanceAttractions(AttractionBubbleView view) {
+		Log.i("Advancing attractions");
+
 		final List<LocalExpertAttraction> attractions = mSite.getAttractions();
 		final int size = attractions.size();
 
@@ -172,6 +194,7 @@ public class LocalExpertFragment extends Fragment {
 			}
 			case R.id.call_button: {
 				SocialUtils.call(getActivity(), mSite.getPhoneNumber().toString());
+				OmnitureTracking.trackLocalExpertCall(getActivity(), mSite);
 				break;
 			}
 			case R.id.small_attraction_bubble_view:

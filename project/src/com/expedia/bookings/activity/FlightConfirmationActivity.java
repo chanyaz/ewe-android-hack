@@ -9,6 +9,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItineraryManager;
@@ -91,9 +92,9 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 	@Override
 	public void finish() {
 		// #953: Kick off deep refresh for newly booked flight
-		final FlightSearch search = Db.getFlightSearch();
-		if (search != null) {
-			final String itinNum = search.getSelectedFlightTrip().getItineraryNumber();
+		final FlightCheckoutResponse response = Db.getFlightCheckout();
+		if (response != null) {
+			final String itinNum = Db.getFlightSearch().getSelectedFlightTrip().getItineraryNumber();
 			String tripId = Db.getItinerary(itinNum).getItineraryNumber();
 			ItineraryManager.getInstance().deepRefreshTrip(tripId, true);
 		}

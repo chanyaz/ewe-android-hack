@@ -28,6 +28,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:contentDescription="@string/cd_display_recent_reviews"
                 android:text="@string/user_review_sort_button_recent" />
 
             <RadioButton
@@ -35,6 +36,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:contentDescription="@string/cd_display_favorable_reviews"
                 android:text="@string/user_review_sort_button_favorable" />
 
             <RadioButton
@@ -42,6 +44,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:contentDescription="@string/cd_display_critical_reviews"
                 android:text="@string/user_review_sort_button_critical" />
         </com.mobiata.android.widget.SegmentedControlGroup>
 

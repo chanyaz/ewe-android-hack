@@ -153,7 +153,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	}
 
 	@Override
-	public View getDetailsView(ViewGroup container) {
+	public View getDetailsView(View convertView, ViewGroup container) {
 		View view = getLayoutInflater().inflate(R.layout.include_itin_card_details_flight, container, false);
 
 		ItinCardDataFlight data = getItinCardData();
@@ -549,13 +549,14 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		notification.setTitle(getContext().getString(R.string.Check_in_available));
 
 		String airline = leg.getAirlinesFormatted();
-		String destination = StrUtils.getWaypointCityOrCode(leg.getLastWaypoint());
+		Waypoint lastWaypoint = leg.getLastWaypoint();
+		String destination = StrUtils.getWaypointCityOrCode(lastWaypoint);
+		String destinationCode = lastWaypoint.mAirportCode;
+
 		String body = getContext().getString(R.string.x_flight_to_x_TEMPLATE, airline, destination);
 		notification.setBody(body);
 
-		String destinationCode = leg.getLastWaypoint().mAirportCode;
-		notification.setImage(Notification.ImageType.DESTINATION, R.drawable.bg_itin_placeholder_flight,
-				destinationCode);
+		notification.setImageDestination(R.drawable.bg_itin_placeholder_flight, destinationCode);
 
 		return notification;
 	}

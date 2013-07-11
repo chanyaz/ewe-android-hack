@@ -1,7 +1,5 @@
 package com.expedia.bookings.test.tests.flights;
 
-import java.util.Random;
-
 import ErrorsAndExceptions.IntegrationFailureError;
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
@@ -27,7 +25,6 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 	protected void setUp() throws Exception {
 		super.setUp();
 		mSolo = new Solo(getInstrumentation(), getActivity());
-		//Log.configureLogging("ExpediaBookings", true);
 		mUser = new HotelsUserData();
 		mRes = getActivity().getBaseContext().getResources();
 		mMetric = mRes.getDisplayMetrics();
@@ -45,12 +42,8 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 		mDriver.setSpoofBookings();
 		mDriver.changeAPI("Production");
 
-		//generate random offset from current date
-		//for flights booking
-		Random offsetNumberGen = new Random();
-		int dateOffset = 5 + offsetNumberGen.nextInt(23);
 		try {
-			mDriver.flightsHappyPath(mUser.mDepartureAirport, mUser.mArrivalAirport, dateOffset, false);
+			mDriver.flightsHappyPath(mUser.mDepartureAirport, mUser.mArrivalAirport, 1, true, false);
 		}
 		catch (IntegrationFailureError e) {
 			fail(e.getMessage());

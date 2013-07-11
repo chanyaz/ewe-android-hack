@@ -14,7 +14,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/cd_flight_selection_cost_summary" >
 
         <TextView
             android:id="@+id/total_price_label"

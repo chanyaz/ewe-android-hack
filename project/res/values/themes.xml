@@ -12,9 +12,13 @@
         <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
     </style>
 
-    <style name="Theme.Tablet" parent="@style/Theme.Sherlock.Light">
+    <style name="Theme.Tablet" parent="Theme.Expedia">
+        <item name="actionMenuTextColor">#505966</item>
         <item name="android:actionMenuTextColor">#505966</item>
+
         <item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
+
+        <item name="actionBarStyle">@style/Light.ActionBar</item>
         <item name="android:actionBarStyle">@style/Light.ActionBar</item>
 
         <!-- NumberPicker styles -->
@@ -171,6 +175,7 @@
         <item name="hotelListingSaleDrawable">@drawable/bg_hotel_cell_sale</item>
         <item name="hotelDetailSaleRibbonDrawable">@drawable/bg_sale_ribbon</item>
         <item name="roomsRatesSaleRibbonDrawable">@drawable/rooms_rates_ribbon</item>
+        <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.Yellow</item>
     </style>
 
     <style name="Theme.VSC" parent="@style/Theme.Expedia">
@@ -189,6 +194,7 @@
         <item name="hotelListingSaleDrawable">@drawable/bg_hotel_cell_sale_vsc</item>
         <item name="hotelDetailSaleRibbonDrawable">@drawable/bg_sale_ribbon_vsc</item>
         <item name="roomsRatesSaleRibbonDrawable">@drawable/rooms_rates_ribbon_vsc</item>
+        <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.Orange</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
@@ -223,17 +229,10 @@
         <item name="actionBarStyle">@style/LaunchActionBar</item>
         <item name="android:actionBarStyle">@style/LaunchActionBar</item>
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
-        <item name="dropDownListViewStyle">@style/LaunchSpinner</item>
-        <item name="android:dropDownListViewStyle">@style/LaunchSpinner</item>
 
         <!-- PopupMenu -->
         <item name="dropDownListViewStyle">@style/Widget.Sherlock.Light.ListView.DropDown</item>
         <item name="android:dropDownListViewStyle">@style/Widget.Sherlock.Light.ListView.DropDown</item>
-    </style>
-
-    <style name="LaunchSpinner" parent="Widget.Sherlock.ListView.DropDown">
-        <item name="android:divider">#999999</item>
-    	<item name="android:dividerHeight">1dp</item>
     </style>
 
     <style name="ItineraryTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar">
@@ -254,7 +253,7 @@
     </style>
 
     <!-- Temporary theme for flights -->
-    <style name="FlightTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar">
+    <style name="FlightTheme" parent="Theme.Expedia">
         <item name="airPickerBackground">@android:color/white</item>
         <item name="airPickerHeaderBackground">@android:color/white</item>
         <item name="airPickerTextColor">@android:color/black</item>
@@ -364,4 +363,7 @@
         <item name="android:colorBackgroundCacheHint">@null</item>
     </style>
 
+    <style name="TerminalMapTheme" parent="@style/LaunchTheme">
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
 </resources>

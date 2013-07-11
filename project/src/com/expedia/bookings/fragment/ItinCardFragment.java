@@ -76,7 +76,7 @@ public class ItinCardFragment extends Fragment {
 			mItinSummaryContainer.removeAllViews();
 			mItinSummaryContainer.addView(summaryView);
 
-			View detailView = generator.getDetailsView(mItinDetailsContainer);
+			View detailView = generator.getDetailsView(null, mItinDetailsContainer);
 			mItinDetailsContainer.removeAllViews();
 			mItinDetailsContainer.addView(detailView);
 

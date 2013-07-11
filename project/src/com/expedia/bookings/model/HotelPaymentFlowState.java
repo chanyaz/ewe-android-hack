@@ -15,7 +15,7 @@ public class HotelPaymentFlowState {
 	SectionBillingInfo mSectionBillingInfo;
 
 	private HotelPaymentFlowState(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = LayoutInflater.from(context);
 
 		mSectionLocation = (SectionLocation) inflater.inflate(R.layout.section_hotel_edit_address, null);
 		mSectionBillingInfo = (SectionBillingInfo) inflater.inflate(R.layout.section_edit_creditcard, null);

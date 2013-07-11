@@ -20,7 +20,10 @@ public enum CreditCardType {
 	MAESTRO("TO"),
 	MASTERCARD("CA"),
 	VISA("VI"),
-	GOOGLE_WALLET("GOOG");
+	GOOGLE_WALLET("GOOG"),
+	CARTE_BLEUE("R"),
+	CARTA_SI("T"),
+	UNKNOWN("?");
 
 	private String mCode;
 
@@ -31,17 +34,17 @@ public enum CreditCardType {
 	public String getCode() {
 		return mCode;
 	}
-	
+
 	/**
 	 * Get human readable name of the card type. e.g. "Master Card"
-	 * 
+	 *
 	 * @param context
 	 * @return
 	 */
-	public String getHumanReadableName(Context context){
+	public String getHumanReadableName(Context context) {
 		return CreditCardType.getHumanReadableCardTypeName(context, this);
 	}
-	
+
 	/**
 	 * Need to display a card type name? Use this method.
 	 *
@@ -72,8 +75,15 @@ public enum CreditCardType {
 			return context.getString(R.string.cc_master_card);
 		case VISA:
 			return context.getString(R.string.cc_visa);
+		case GOOGLE_WALLET:
+			return context.getString(R.string.google_wallet);
+		case CARTE_BLEUE:
+			return context.getString(R.string.cc_carte_bleue);
+		case CARTA_SI:
+			return context.getString(R.string.cc_carta_si);
 		default:
-			return "";
+			// If all else fails, just return the enum
+			return cardType.toString();
 		}
 	}
 }

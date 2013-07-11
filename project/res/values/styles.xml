@@ -301,6 +301,7 @@
         <item name="android:minHeight">48dp</item>
         <item name="android:maxHeight">48dp</item>
         <item name="android:textColor">@color/itin_white_text</item>
+        <item name="android:textSize">18dp</item>
         <item name="android:shadowColor">#a5000000</item>
         <item name="android:shadowRadius">0.1</item>
         <item name="android:shadowDx">0</item>

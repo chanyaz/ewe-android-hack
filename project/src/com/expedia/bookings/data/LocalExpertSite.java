@@ -1,7 +1,13 @@
 package com.expedia.bookings.data;
 
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.Parcel;
@@ -9,6 +15,7 @@ import android.os.Parcelable;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
+import com.mobiata.android.util.IoUtils;
 
 public class LocalExpertSite implements Parcelable {
 
@@ -17,6 +24,9 @@ public class LocalExpertSite implements Parcelable {
 	private CharSequence mPhoneNumber;
 	private int mBackground;
 	private List<LocalExpertAttraction> mAttractions = new ArrayList<LocalExpertAttraction>();
+
+	// Used solely for omniture tracking purposes
+	private String mTrackingId;
 
 	private LocalExpertSite() {
 		// Default constructor; use Builder
@@ -42,23 +52,73 @@ public class LocalExpertSite implements Parcelable {
 		return mAttractions;
 	}
 
+	public String getTrackingId() {
+		return mTrackingId;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Data loaded on init
+
+	private static Map<Destination, String> sPhoneNumbers = new HashMap<Destination, String>();
+
+	public static void init(Context context) {
+		try {
+			InputStream is = context.getAssets().open("ExpediaSharedData/LocalExpertConfig.json");
+			String data = IoUtils.convertStreamToString(is);
+			JSONObject leData = new JSONObject(data);
+			JSONArray locations = leData.optJSONArray("locations");
+			for (int a = 0; a < locations.length(); a++) {
+				JSONObject location = locations.optJSONObject(a);
+
+				String name = location.optString("name");
+				Destination destination = null;
+				if (name.equals("Hawaii")) {
+					destination = Destination.HAWAII;
+				}
+				else if (name.equals("Las Vegas")) {
+					destination = Destination.LAS_VEGAS;
+				}
+				else if (name.equals("Orlando")) {
+					destination = Destination.ORLANDO;
+				}
+
+				sPhoneNumbers.put(destination, location.optString("phoneNumber"));
+			}
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Convenience builders for preset sites
 
-	public enum Preset {
-		HAWAII,
-		LAS_VEGAS,
-		ORLANDO,
+	public enum Destination {
+		HAWAII("Hawaii"),
+		LAS_VEGAS("LasVegas"),
+		ORLANDO("Orlando");
+
+		private String mTrackingId;
+
+		private Destination(String trackingId) {
+			mTrackingId = trackingId;
+		}
+
+		public String getTrackingId() {
+			return mTrackingId;
+		}
 	}
 
-	public static LocalExpertSite buildPreset(Context context, Preset preset) {
+	public static LocalExpertSite buildDestination(Context context, Destination destination) {
 		LocalExpertSite.Builder siteBuilder = new LocalExpertSite.Builder(context);
 
-		switch (preset) {
+		siteBuilder.setTrackingId(destination.getTrackingId());
+		siteBuilder.setPhoneNumber(sPhoneNumbers.get(destination));
+
+		switch (destination) {
 		case HAWAII:
 			siteBuilder.setCity(R.string.site_hawaii);
 			siteBuilder.setCityIcon(R.drawable.ic_local_expert_hawaii);
-			siteBuilder.setPhoneNumber("1-888-353-8528");
 			siteBuilder.setBackground(R.drawable.bg_local_expert_hawaii);
 
 			// Location-specific attractions
@@ -87,7 +147,6 @@ public class LocalExpertSite implements Parcelable {
 		case LAS_VEGAS:
 			siteBuilder.setCity(R.string.site_las_vegas);
 			siteBuilder.setCityIcon(R.drawable.ic_local_expert_vegas);
-			siteBuilder.setPhoneNumber("1-888-353-8529");
 			siteBuilder.setBackground(R.drawable.bg_local_expert_las_vegas);
 
 			// Location-specific attractions
@@ -109,7 +168,6 @@ public class LocalExpertSite implements Parcelable {
 		case ORLANDO:
 			siteBuilder.setCity(R.string.site_orlando);
 			siteBuilder.setCityIcon(R.drawable.ic_local_expert_orlando);
-			siteBuilder.setPhoneNumber("1-888-300-7352");
 			siteBuilder.setBackground(R.drawable.bg_local_expert_orlando);
 
 			// Location-specific attractions
@@ -157,13 +215,6 @@ public class LocalExpertSite implements Parcelable {
 				.setSecondLine(R.string.attraction_music_second)
 				.setIconSmall(R.drawable.ic_local_expert_music_small)
 				.setIconLarge(R.drawable.ic_local_expert_music_large)
-				.build());
-
-		siteBuilder.addAttraction((new LocalExpertAttraction.Builder(context))
-				.setFirstLine(R.string.attraction_vip_first)
-				.setSecondLine(R.string.attraction_vip_second)
-				.setIconSmall(R.drawable.ic_local_expert_vip_small)
-				.setIconLarge(R.drawable.ic_local_expert_vip_large)
 				.build());
 
 		return siteBuilder.build();
@@ -218,6 +269,11 @@ public class LocalExpertSite implements Parcelable {
 			mSite.mAttractions.add(attraction);
 			return this;
 		}
+
+		public Builder setTrackingId(String trackingId) {
+			mSite.mTrackingId = trackingId;
+			return this;
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -229,6 +285,7 @@ public class LocalExpertSite implements Parcelable {
 		mPhoneNumber = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(in);
 		mBackground = in.readInt();
 		in.readList(mAttractions, getClass().getClassLoader());
+		mTrackingId = in.readString();
 	}
 
 	@Override
@@ -238,6 +295,7 @@ public class LocalExpertSite implements Parcelable {
 		TextUtils.writeToParcel(mPhoneNumber, dest, flags);
 		dest.writeInt(mBackground);
 		dest.writeList(mAttractions);
+		dest.writeString(mTrackingId);
 	}
 
 	@Override

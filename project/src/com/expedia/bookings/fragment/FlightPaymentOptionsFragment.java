@@ -257,6 +257,13 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 		mSectionPartialCard.bind(billingInfo, trip);
 	}
 
+	@Override
+	public void onDetach() {
+		super.onDetach();
+
+		mListener = null; // Just in case Wallet is leaking
+	}
+
 	public void updateVisibilities() {
 		List<StoredCreditCard> cards = BookingInfoUtils.getStoredCreditCards(getActivity());
 

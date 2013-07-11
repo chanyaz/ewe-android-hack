@@ -154,7 +154,7 @@ public class CouponCodeWidget {
 			mApply.setVisibility(View.GONE);
 			mNewTotal.setVisibility(View.VISIBLE);
 
-			CreateTripResponse response = Db.getCreateTripResponse();
+			CreateTripResponse response = Db.getHotelSearch().getCreateTripResponse();
 			Money m = response.getNewRate().getDisplayTotalPrice();
 			mNewTotal.setText(mContext.getString(R.string.new_total) + "\n" + m.getFormattedMoney());
 		}

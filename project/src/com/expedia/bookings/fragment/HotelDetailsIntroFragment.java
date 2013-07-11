@@ -50,10 +50,12 @@ public class HotelDetailsIntroFragment extends Fragment {
 	}
 
 	private void populateViews(View view) {
-		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
-		ReviewsStatisticsResponse statsResponse = Db.getHotelSearch().getReviewsStatisticsResponse(selectedId);
-		populateBannerSection(view, Db.getHotelSearch().getSelectedProperty(), statsResponse);
-		populateIntroParagraph(view, Db.getHotelSearch().getSelectedProperty());
+		if (Db.getHotelSearch().getSelectedProperty() != null) {
+			String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+			ReviewsStatisticsResponse statsResponse = Db.getHotelSearch().getReviewsStatisticsResponse(selectedId);
+			populateBannerSection(view, Db.getHotelSearch().getSelectedProperty(), statsResponse);
+			populateIntroParagraph(view, Db.getHotelSearch().getSelectedProperty());
+		}
 	}
 
 	// Reviews

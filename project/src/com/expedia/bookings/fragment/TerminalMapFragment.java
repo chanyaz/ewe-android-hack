@@ -55,6 +55,7 @@ public class TerminalMapFragment extends SherlockFragment {
 				mSvgView.setSVG(mMapSvg);
 				mCurrentMap = JSONUtils.getJSONable(savedInstanceState, STATE_AIRPORT_MAP, AirportMap.class);
 				mMapLoaded = true;
+				setIsLoading(false);
 			}
 		}
 

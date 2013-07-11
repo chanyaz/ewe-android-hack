@@ -113,7 +113,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_payment_method_row"
-            android:drawableLeft="@drawable/ic_add_credit_card"
+            android:drawableLeft="@drawable/ic_credit_card_add_light"
             android:drawablePadding="4dp"
             android:gravity="center_vertical"
             android:paddingBottom="@dimen/payment_option_vertical_padding"

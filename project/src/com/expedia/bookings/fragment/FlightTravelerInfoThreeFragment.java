@@ -24,17 +24,13 @@ public class FlightTravelerInfoThreeFragment extends Fragment implements Validat
 	boolean mAttemptToLeaveMade = false;
 
 	public static FlightTravelerInfoThreeFragment newInstance() {
-		FlightTravelerInfoThreeFragment fragment = new FlightTravelerInfoThreeFragment();
-		Bundle args = new Bundle();
-		//TODO:Set args here..
-		fragment.setArguments(args);
-		return fragment;
+		return new FlightTravelerInfoThreeFragment();
 	}
 
 	@Override
-	public void onStart() {
-		super.onStart();
-		OmnitureTracking.trackPageLoadFlightTravelerEditPassport(getActivity());
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mAttemptToLeaveMade = false;
 	}
 
 	@Override
@@ -58,9 +54,9 @@ public class FlightTravelerInfoThreeFragment extends Fragment implements Validat
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		mAttemptToLeaveMade = false;
+	public void onStart() {
+		super.onStart();
+		OmnitureTracking.trackPageLoadFlightTravelerEditPassport(getActivity());
 	}
 
 	@Override
@@ -68,16 +64,6 @@ public class FlightTravelerInfoThreeFragment extends Fragment implements Validat
 		super.onResume();
 		mTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
 		mSectionTravelerInfo.bind(mTraveler);
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
 	}
 
 	@Override

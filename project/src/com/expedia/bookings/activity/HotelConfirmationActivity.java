@@ -9,7 +9,6 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItineraryManager;
@@ -18,6 +17,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.mobiata.android.Log;
+import com.mobiata.android.bitmaps.TwoLevelImageCache;
 
 public class HotelConfirmationActivity extends SherlockFragmentActivity {
 
@@ -75,10 +75,20 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity {
 		super.onPause();
 
 		if (isFinishing()) {
+			// #953: Kick off deep refresh for newly booked hotel
+			BookingResponse response = Db.getBookingResponse();
+			if (response != null) {
+				ItineraryManager.getInstance().deepRefreshTrip(response.getItineraryId(), true);
+			}
+
+			// Clear out data
 			Db.setBillingInfo(null);
 			Db.setBookingResponse(null);
-			Db.setCreateTripResponse(null);
-			Db.setCouponDiscountRate(null);
+			Db.getHotelSearch().setCreateTripResponse(null);
+			Db.getHotelSearch().resetSearchData();
+
+			// Clear the cache just to be safe
+			TwoLevelImageCache.clearMemoryCache();
 		}
 
 		OmnitureTracking.onPause();
@@ -91,17 +101,6 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity {
 		if (mKillReceiver != null) {
 			mKillReceiver.onDestroy();
 		}
-	}
-
-	@Override
-	public void finish() {
-		// #953: Kick off deep refresh for newly booked hotel
-		BookingResponse response = Db.getBookingResponse();
-		if (response != null) {
-			ItineraryManager.getInstance().deepRefreshTrip(response.getItineraryId(), true);
-		}
-
-		super.finish();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

@@ -55,7 +55,8 @@
             <Spinner
                 android:id="@+id/edit_country_spinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/cd_card_info_billing_address_country" />
         </LinearLayout>
 
         <LinearLayout

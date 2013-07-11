@@ -937,14 +937,18 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.hotels_button:
-				NavUtils.goToHotels(getActivity());
-
-				OmnitureTracking.trackLinkLaunchScreenToHotels(getActivity());
+				if (!mLaunchingActivity) {
+					mLaunchingActivity = true;
+					NavUtils.goToHotels(getActivity());
+					OmnitureTracking.trackLinkLaunchScreenToHotels(getActivity());
+				}
 				break;
 			case R.id.flights_button:
-				NavUtils.goToFlights(getActivity());
-
-				OmnitureTracking.trackLinkLaunchScreenToFlights(getActivity());
+				if (!mLaunchingActivity) {
+					mLaunchingActivity = true;
+					NavUtils.goToFlights(getActivity());
+					OmnitureTracking.trackLinkLaunchScreenToFlights(getActivity());
+				}
 				break;
 			}
 

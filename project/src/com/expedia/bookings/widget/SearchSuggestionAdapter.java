@@ -19,7 +19,7 @@ public class SearchSuggestionAdapter extends CursorAdapter {
 
 	public SearchSuggestionAdapter(Context context) {
 		super(context, null, 0);
-		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mInflater = LayoutInflater.from(context);
 		mCurrentLocationString = context.getResources().getString(R.string.current_location);
 	}
 

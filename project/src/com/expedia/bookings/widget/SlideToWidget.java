@@ -68,7 +68,7 @@ public class SlideToWidget extends RelativeLayout {
 	}
 
 	private void init(Context context, AttributeSet attr) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = LayoutInflater.from(context);
 		View widget = inflater.inflate(R.layout.widget_slide_to, this);
 
 		mContainer = this;

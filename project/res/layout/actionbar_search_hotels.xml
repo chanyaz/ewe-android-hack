@@ -12,6 +12,7 @@
         android:layout_toLeftOf="@+id/calendar_button_container"
         android:autoText="false"
         android:background="@drawable/edit_text_holo_dark"
+        android:contentDescription="@string/cd_hotel_search_edittext"
         android:dropDownHorizontalOffset="-38dp"
         android:dropDownWidth="fill_parent"
         android:imeOptions="actionSearch|flagNoExtractUi|flagNoFullscreen"
@@ -28,8 +29,8 @@
         android:layout_height="fill_parent"
         android:layout_alignRight="@id/search_edit_text"
         android:layout_centerVertical="true"
-        android:paddingRight="8dp"
         android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:src="@drawable/ic_clear_edittext_dark"
         android:visibility="gone" />
 
@@ -37,7 +38,8 @@
         android:id="@+id/guests_button_container"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_alignParentRight="true" >
+        android:layout_alignParentRight="true"
+        android:contentDescription="@string/cd_hotel_search_open_guest_picker" >
 
         <ImageButton
             android:id="@+id/guests_button"
@@ -68,7 +70,8 @@
         android:id="@+id/calendar_button_container"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_toLeftOf="@id/guests_button_container" >
+        android:layout_toLeftOf="@id/guests_button_container"
+        android:contentDescription="cd_hotel_search_open_calendar" >
 
         <ImageButton
             android:id="@+id/dates_button"
@@ -94,4 +97,5 @@
             android:textSize="11dp"
             android:textStyle="bold" />
     </RelativeLayout>
+
 </RelativeLayout>

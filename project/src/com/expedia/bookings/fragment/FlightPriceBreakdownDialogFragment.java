@@ -2,7 +2,6 @@ package com.expedia.bookings.fragment;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.Service;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -43,7 +42,7 @@ public class FlightPriceBreakdownDialogFragment extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Service.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = LayoutInflater.from(getActivity());
 
 		View body = inflater.inflate(R.layout.fragment_dialog_trip_price_breakdown, null);
 		Dialog dialog = new Dialog(getActivity(), R.style.ExpediaLoginDialog);

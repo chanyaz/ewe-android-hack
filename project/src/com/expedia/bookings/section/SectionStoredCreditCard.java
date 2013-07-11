@@ -115,7 +115,7 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 			mCardNotSupportedImageView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					String type = mStoredCard.getType().toString();
+					String type = mStoredCard.getType().getHumanReadableName(mContext);
 					String text = mContext.getString(R.string.airline_card_not_supported_TEMPLATE, type);
 					SimpleSupportDialogFragment.newInstance(null, text).show(fa.getSupportFragmentManager(),
 							"cardNotSupported");
@@ -214,7 +214,7 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 							@Override
 							public void onClick(View v) {
 								String text = mContext.getString(R.string.airline_card_fee_select_TEMPLATE, feeText,
-										type);
+										CreditCardType.getHumanReadableCardTypeName(mContext, type));
 								SimpleSupportDialogFragment.newInstance(null, text).show(
 										fa.getSupportFragmentManager(), "lccDialog");
 							}

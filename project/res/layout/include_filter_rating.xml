@@ -13,6 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="1"
+        android:contentDescription="@string/cd_filter_hotels_for_three_or_more_stars"
         android:drawableBottom="@drawable/btn_filter_rating_dark_low"
         android:drawablePadding="-6dp"
         android:text="@string/filter_stars_three"
@@ -23,6 +24,7 @@
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="1"
+        android:contentDescription="@string/cd_filter_hotels_for_four_or_more_stars"
         android:drawableBottom="@drawable/btn_filter_rating_dark_medium"
         android:drawablePadding="-6dp"
         android:text="@string/filter_stars_four"
@@ -33,6 +35,7 @@
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="1"
+        android:contentDescription="@string/cd_filter_hotels_for_five_stars"
         android:drawableBottom="@drawable/btn_filter_rating_dark_high"
         android:drawablePadding="-6dp"
         android:text="@string/filter_stars_five"
@@ -44,6 +47,7 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:checked="true"
+        android:contentDescription="@string/cd_filter_remove_hotel_star_filters"
         android:text="@string/all"
         android:textStyle="bold" />
 

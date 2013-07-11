@@ -14,7 +14,7 @@
         <View
             android:id="@+id/top_extra_padding_view"
             android:layout_width="match_parent"
-            android:layout_height="8dp" />
+            android:layout_height="@dimen/itin_card_extra_top_padding" />
 
         <LinearLayout
             android:id="@+id/card_layout"
@@ -67,7 +67,9 @@
                     android:layout_height="48dp"
                     android:layout_marginRight="3dp"
                     android:background="@drawable/list_selector_holo_dark"
-                    android:padding="8dp"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
                     android:paddingTop="7dp"
                     android:src="@drawable/ic_action_share" />
             </LinearLayout>
@@ -151,7 +153,7 @@
                                 app:textStyle="light" />
                         </LinearLayout>
 
-                        <ImageView
+                        <com.expedia.bookings.widget.AlphaImageView
                             android:id="@+id/fixed_itin_type_image_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -183,7 +185,7 @@
                     <LinearLayout
                         android:id="@+id/summary_section_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/itin_summary_section_height"
                         android:background="@drawable/list_selector_transparent"
                         android:gravity="center"
                         android:orientation="horizontal"
@@ -239,14 +241,14 @@
         <View
             android:id="@+id/bottom_extra_padding_view"
             android:layout_width="match_parent"
-            android:layout_height="8dp" />
+            android:layout_height="@dimen/itin_card_extra_bottom_padding" />
     </LinearLayout>
 
     <!-- ###################################################################### -->
     <!-- FLOATING TYPE IMAGEVIEW -->
     <!-- ###################################################################### -->
 
-    <ImageView
+    <com.expedia.bookings.widget.AlphaImageView
         android:id="@+id/itin_type_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

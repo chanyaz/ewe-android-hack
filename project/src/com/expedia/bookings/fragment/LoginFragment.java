@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -23,7 +26,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -170,7 +172,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		LoginFragment frag = new LoginFragment();
 		Bundle args = new Bundle();
 		args.putString(ARG_PATH_MODE, mode.name());
-		args.putParcelable(ARG_EXTENDER_OBJECT, extender);
+		args.putBundle(ARG_EXTENDER_OBJECT, extender.buildStateBundle());
 		frag.setArguments(args);
 		return frag;
 	}
@@ -183,7 +185,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 			mLob = LineOfBusiness.valueOf(this.getArguments().getString(ARG_PATH_MODE));
 		}
 		if (this.getArguments() != null && this.getArguments().containsKey(ARG_EXTENDER_OBJECT)) {
-			mLoginExtender = this.getArguments().getParcelable(ARG_EXTENDER_OBJECT);
+			mLoginExtender = LoginExtender.buildLoginExtenderFromState(getArguments().getBundle(ARG_EXTENDER_OBJECT));
 			//We now control this from saved state...
 			this.getArguments().remove(ARG_EXTENDER_OBJECT);
 		}
@@ -258,7 +260,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 			outState.putString(STATE_PATH_MODE, mLob.name());
 		}
 		if (mLoginExtender != null) {
-			outState.putParcelable(STATE_LOGIN_EXTENDER, mLoginExtender);
+			outState.putBundle(STATE_LOGIN_EXTENDER, mLoginExtender.buildStateBundle());
 		}
 
 		outState.putBoolean(STATE_IS_LOADING, mIsLoading);
@@ -350,11 +352,36 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 	}
 
 	private void loginWorkComplete() {
+		updateAccountManager();
 		if (mLoginExtender != null) {
 			doLoginExtenderWork();
 		}
 		else {
 			finishParentWithResult();
+		}
+	}
+
+	/**
+	 * This method is important. This is the method that adds the account to AccountManager
+	 * and sets up syncing. If we log in and this doesn't get called, User.isLoggedIn() will
+	 * still return false, and no data will sync. 
+	 */
+	private void updateAccountManager() {
+		if (Db.getUser() != null) {
+			//Add the account to the account manager
+			String accountType = getString(R.string.expedia_account_type_identifier);
+			String tokenType = getString(R.string.expedia_account_token_type_tuid_identifier);
+			AccountManager manager = AccountManager.get(getActivity());
+			final Account account = new Account(Db.getUser().getPrimaryTraveler().getEmail(), accountType);
+			manager.addAccountExplicitly(account, Db.getUser().getTuidString(), null);
+			manager.setAuthToken(account, tokenType, Db.getUser().getTuidString());
+
+			//Start syncing data!
+			String contentAuthority = getString(R.string.expedia_account_sync_adapter_content_authority);
+			int syncInterval = this.getResources().getInteger(R.integer.account_sync_interval);
+			ContentResolver.setIsSyncable(account, contentAuthority, 1);
+			ContentResolver.setSyncAutomatically(account, contentAuthority, true);
+			ContentResolver.addPeriodicSync(account, contentAuthority, new Bundle(), syncInterval);
 		}
 	}
 
@@ -419,7 +446,8 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 				mLoadingText = savedInstanceState.getString(STATE_LOADING_TEXT);
 			}
 			if (savedInstanceState.containsKey(STATE_LOGIN_EXTENDER)) {
-				mLoginExtender = savedInstanceState.getParcelable(STATE_LOGIN_EXTENDER);
+				mLoginExtender = LoginExtender.buildLoginExtenderFromState(savedInstanceState
+						.getBundle(STATE_LOGIN_EXTENDER));
 			}
 
 			mEmptyUsername = savedInstanceState.getBoolean(STATE_EMPTY_EXP_USERNAME, true);
@@ -533,9 +561,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 				}
 				if (actionId == EditorInfo.IME_ACTION_NEXT || actionId == EditorInfo.IME_ACTION_SEARCH ||
 						actionId == EditorInfo.IME_ACTION_GO || actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
-					InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(
-							Context.INPUT_METHOD_SERVICE);
-					imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+					Ui.hideKeyboard(getActivity());
 					return true;
 				}
 				else {
@@ -547,7 +573,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 
 		mLinkPassword.addTextChangedListener(new TextWatcher() {
 			@Override
-			public void afterTextChanged(Editable arg0) {
+			public void afterTextChanged(Editable arg0) { 
 				if (arg0.length() > 0) {
 					mLinkAccountsBtn.setEnabled(true);
 				}
@@ -649,20 +675,12 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 			mSigninWithExpediaButtonContainer.setVisibility(View.GONE);
 			mFacebookButtonContainer.setVisibility(View.GONE);
 			mTitleSetter.setActionBarTitle(null);
-			hideKeyboard();
+			Ui.hideKeyboardIfEditText(getActivity());
 			mOuterContainer.setGravity(Gravity.CENTER);
 		}
 		else {
 			mOuterContainer.setGravity(Gravity.CENTER_HORIZONTAL);
 			setVisibilityState(mVisibilityState, animate);
-		}
-	}
-
-	public void hideKeyboard() {
-		View focused = this.getActivity().getCurrentFocus();
-		if (focused instanceof EditText) {
-			InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.hideSoftInputFromWindow(focused.getWindowToken(), 0);
 		}
 	}
 
@@ -1048,6 +1066,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 				Db.setUser(user);
 				AdTracker.trackLogin();
 				user.save(getActivity());
+
 				loginWorkComplete();
 
 				OmnitureTracking.trackLoginSuccess(getActivity(), mLob, loginWithFacebook, user.isRewardsUser());

@@ -3,8 +3,7 @@ package com.expedia.bookings.widget;
 import java.util.Collection;
 
 import android.content.Context;
-import android.os.Parcel;
-import android.os.Parcelable;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,7 +21,7 @@ import com.expedia.bookings.fragment.LoginExtender;
 import com.expedia.bookings.fragment.LoginExtenderListener;
 import com.mobiata.android.util.Ui;
 
-public class ItineraryLoaderLoginExtender implements LoginExtender, ItinerarySyncListener {
+public class ItineraryLoaderLoginExtender extends LoginExtender implements ItinerarySyncListener {
 
 	private View mView;
 	private ProgressBar mProgress;
@@ -32,35 +31,15 @@ public class ItineraryLoaderLoginExtender implements LoginExtender, ItinerarySyn
 	private LoginExtenderListener mListener;
 	private Context mContext;
 
+	private boolean mCurrentSyncHasErrors = false;
+
 	public ItineraryLoaderLoginExtender() {
-
+		super(null);
 	}
 
-	private ItineraryLoaderLoginExtender(Parcel in) {
-
+	public ItineraryLoaderLoginExtender(Bundle state) {
+		super(state);
 	}
-
-	@Override
-	public int describeContents() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public static final Parcelable.Creator<ItineraryLoaderLoginExtender> CREATOR = new Parcelable.Creator<ItineraryLoaderLoginExtender>() {
-		public ItineraryLoaderLoginExtender createFromParcel(Parcel in) {
-			return new ItineraryLoaderLoginExtender(in);
-		}
-
-		public ItineraryLoaderLoginExtender[] newArray(int size) {
-			return new ItineraryLoaderLoginExtender[size];
-		}
-	};
 
 	@Override
 	public void onLoginComplete(Context context, LoginExtenderListener listener, ViewGroup extenderContainer) {
@@ -68,7 +47,7 @@ public class ItineraryLoaderLoginExtender implements LoginExtender, ItinerarySyn
 		mContext = context;
 		extenderContainer.removeAllViews();
 
-		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = LayoutInflater.from(mContext);
 		mView = inflater.inflate(R.layout.snippet_itin_progress_message_retry, null);
 		mProgress = Ui.findView(mView, R.id.itinerary_loading_progress);
 		mErrorContainer = Ui.findView(mView, R.id.error_container);
@@ -145,23 +124,47 @@ public class ItineraryLoaderLoginExtender implements LoginExtender, ItinerarySyn
 
 	@Override
 	public void onSyncFailure(final SyncError error) {
-		Runnable runner = new Runnable() {
-			@Override
-			public void run() {
-				mProgress.setVisibility(View.GONE);
-				mErrorContainer.setVisibility(View.VISIBLE);
-				mErrorMessage.setText(R.string.itinerary_fetch_error);
-			}
-		};
-		mView.post(runner);
+		mCurrentSyncHasErrors = true;
+
 	}
 
 	@Override
 	public void onSyncFinished(Collection<Trip> trips) {
-		if (mListener != null) {
-			mListener.loginExtenderWorkComplete(ItineraryLoaderLoginExtender.this);
+		if (mCurrentSyncHasErrors && (trips == null || trips.size() == 0)) {
+			Runnable runner = new Runnable() {
+				@Override
+				public void run() {
+					mProgress.setVisibility(View.GONE);
+					mErrorContainer.setVisibility(View.VISIBLE);
+					mErrorMessage.setText(R.string.itinerary_fetch_error);
+				}
+			};
+			mView.post(runner);
 		}
-		ItineraryManager.getInstance().removeSyncListener(this);
+		else {
+			if (mListener != null) {
+				mListener.loginExtenderWorkComplete(ItineraryLoaderLoginExtender.this);
+			}
+			ItineraryManager.getInstance().removeSyncListener(this);
+		}
+
+		mCurrentSyncHasErrors = false;
+	}
+
+	@Override
+	public LoginExtenderType getExtenderType() {
+		return LoginExtenderType.ITINERARY_LOADER;
+	}
+
+	@Override
+	protected Bundle getStateBundle() {
+		//No real state
+		return new Bundle();
+	}
+
+	@Override
+	protected void restoreStateFromBundle(Bundle state) {
+		//No real state
 	}
 
 }

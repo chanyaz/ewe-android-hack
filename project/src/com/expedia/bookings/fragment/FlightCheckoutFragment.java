@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -23,7 +22,9 @@ import com.expedia.bookings.activity.FlightTravelerInfoOptionsActivity;
 import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
@@ -104,6 +105,10 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		// #1363: Disable Google Wallet if not a valid payment type
+		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+		mGoogleWalletDisabled = !trip.isCardTypeSupported(CreditCardType.GOOGLE_WALLET);
+
 		if (savedInstanceState != null) {
 			mRefreshedUser = savedInstanceState.getBoolean(INSTANCE_REFRESHED_USER);
 		}
@@ -159,6 +164,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		mAccountButton.setListener(this);
 
 		mWalletButton.setOnClickListener(mWalletButtonClickListener);
+		mWalletButton.setPromoVisible(false);
 
 		// rules and restrictions link stuff
 		TextView tv = Ui.findView(v, R.id.legal_blurb);
@@ -218,6 +224,13 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		super.onSaveInstanceState(outState);
 
 		outState.putBoolean(INSTANCE_REFRESHED_USER, mRefreshedUser);
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+
+		mListener = null; // Just in case Wallet is leaking
 	}
 
 	/**
@@ -315,7 +328,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		mTravelerSections.clear();
 		mAddTravelerSections.clear();
 
-		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = LayoutInflater.from(getActivity());
 		final int numAdults = Db.getFlightSearch().getSearchParams().getNumAdults();
 		List<Traveler> travelers = Db.getTravelers();
 
@@ -614,9 +627,9 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	@Override
 	public void accountLoginClicked() {
 		String tripId = Db.getItinerary(Db.getFlightSearch().getSelectedFlightTrip().getItineraryNumber()).getTripId();
-		Intent loginIntent = LoginActivity.createIntent(getActivity(), LineOfBusiness.FLIGHTS,
-				new UserToTripAssocLoginExtender(tripId));
-		startActivity(loginIntent);
+		Bundle args = LoginActivity.createArgumentsBundle(LineOfBusiness.FLIGHTS, new UserToTripAssocLoginExtender(
+				tripId));
+		User.signIn(getActivity(), args);
 
 		OmnitureTracking.trackPageLoadFlightLogin(getActivity());
 	}

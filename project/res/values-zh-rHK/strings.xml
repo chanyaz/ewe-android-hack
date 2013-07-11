@@ -56,12 +56,16 @@
     <string name="error_launch_connection">抱歉，我們無法連線。</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">行程</string>
+    <!-- Google play services unrecoverable error dialog message -->
+    <string name="google_play_services_unrecoverable_error">此應用程式需要 Google Play Services。請安裝最新版的 Google Play Services。</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_in_available">可辦理登機手續</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">有 %1$s 個航班前往 %2$s</string>
+    <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
+    <string name="your_flight_to_x_TEMPLATE">您前往%1$s的航班</string>
     <!-- Notification title for hotel check-out notification -->
     <string name="Check_out_today">請於今日退房</string>
     <!-- Notification title for car pick up -->
@@ -262,11 +266,86 @@
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">複製 %1$s</string>
 
+    <!-- Itin Buttons -->
+    <!-- Popup menu -->
+    <!-- Menu label: Hide this itin button for this trip -->
+    <string name="itin_button_hide">隱藏</string>
+    <!-- Menu label: Never show this type of itin button again -->
+    <string name="itin_button_hide_forever">永遠隱藏</string>
+
     <!-- Hotel attach -->
     <!-- Button label to search for a hotel in the flight destination city. %1$s is the city, e.g. "Washington, DC" -->
     <string name="add_hotel_TEMPLATE">新增 %1$s 的酒店</string>
     <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
     <string name="add_hotel_fallback">新增你所選目的地的酒店</string>
+
+    <!-- Itin Local Expert -->
+    <string name="talk_to_local_expert">向 Local Expert 查詢</string>
+
+    <!-- Local Expert Sites -->
+    <!-- Name of Hawaii (for local expert) -->
+    <string name="site_hawaii">夏威夷</string>
+    <!-- Name of Orlando, FL (for local expert) -->
+    <string name="site_orlando">奧蘭多</string>
+    <!-- Name of Las Vegas (for local expert) -->
+    <string name="site_las_vegas">拉斯維加斯</string>
+
+    <!-- Template for the city title on Local Expert pages. %1$s is the name of the city-->
+    <string name="local_expert_title_TEMPLATE">暢遊%1$s</string>
+    <!-- Description body for the Local Expert pages -->
+    <string name="local_expert_description">您可於旅途上致電\nLocal Expert 查詢任何的計劃資料。</string>
+    <!-- Text for the button on Local Expert pages, to call the concierge -->
+    <string name="local_expert_call_button_text">致電他們</string>
+
+    <!-- Local Expert attractions; these are all split into two lines (second line is bolded) -->
+    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
+    <string name="attraction_creatures_first">奇妙的</string>
+    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
+    <string name="attraction_creatures_second">動物</string>
+    <!-- First half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
+    <string name="attraction_theme_parks_first">最有趣的</string>
+    <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
+    <string name="attraction_theme_parks_second">主題公園</string>
+    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
+    <string name="attraction_beaches_first">最佳</string>
+    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
+    <string name="attraction_beaches_second">海灘</string>
+    <!-- First half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
+    <string name="attraction_helicopter_first">乘搭</string>
+    <!-- Second half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
+    <string name="attraction_helicopter_second">直昇機</string>
+    <!-- First half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
+    <string name="attraction_scuba_first">一起</string>
+    <!-- Second half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
+    <string name="attraction_scuba_second">潛入水底</string>
+    <!-- First half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
+    <string name="attraction_casinos_first">世界級的</string>
+    <!-- Second half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
+    <string name="attraction_casinos_second">賭場</string>
+    <!-- First half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
+    <string name="attraction_ferrari_first">駕駛</string>
+    <!-- Second half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
+    <string name="attraction_ferrari_second">法拉利</string>
+    <!-- First half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
+    <string name="attraction_family_first">適合一家大小的</string>
+    <!-- Second half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
+    <string name="attraction_family_second">活動</string>
+    <!-- First half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
+    <string name="attraction_food_first">享受</string>
+    <!-- Second half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
+    <string name="attraction_food_second">美食</string>
+    <!-- First half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
+    <string name="attraction_entertainment_first">最佳</string>
+    <!-- Second half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
+    <string name="attraction_entertainment_second">娛樂</string>
+    <!-- First half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
+    <string name="attraction_music_first">追尋當地</string>
+    <!-- Second half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
+    <string name="attraction_music_second">音樂</string>
+    <!-- First half of phrase about local expert VIP status attraction.  Full phrase: "Arrive with VIP Status" -->
+    <string name="attraction_vip_first">尊享</string>
+    <!-- Second half of phrase about local expert VIP status attraction.  Full phrase: "Arrive with VIP Status" -->
+    <string name="attraction_vip_second">VIP 身分</string>
 
     <!-- Car category -->
     <!-- Car category: mini -->
@@ -307,9 +386,9 @@
     <string name="car_category_oversize">特大型車</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">雙門汽車</string>
-    <string name="car_type_three_door">三門汽車</string>
-    <string name="car_type_four_door">四門汽車</string>
+    <string name="car_type_two_door">雙門 汽車</string>
+    <string name="car_type_three_door">三門 汽車</string>
+    <string name="car_type_four_door">四門 汽車</string>
     <string name="car_type_van">客貨車</string>
     <string name="car_type_wagon">休旅車</string>
     <string name="car_type_limousine">房車</string>
@@ -435,9 +514,9 @@
     <string name="share_template_subject_car">我的租車資料 (%1$s – %2$s)</string>
     <!-- Car rental share subject (no dates) -->
     <string name="share_template_subject_car_no_dates">我的租車資料</string>
-    <!-- 1: vehicle type  -->
+    <!-- 1: vehicle type -->
     <string name="share_template_short_car_type">我租了一部%1$s，</string>
-    <!--1: pick up date 2: drop off date -->
+    <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_short_car_dates">日期：%1$s – %2$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
     <string name="share_car_start_TEMPLATE">以下是我的 %1$s 租車資料。</string>
@@ -454,7 +533,6 @@
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">還車地點：</string>
 
-
     <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">我的%1$s活動資料</string>
     <!-- activity message subject when the title is unknown -->
@@ -470,7 +548,7 @@
     <!-- label for activity 1: valid date -->
     <string name="share_template_long_activity_valid">有效日期：%1$s</string>
     <!-- label for activity 1: expiration date -->
-    <string name="share_template_long_activity_expires">到期日：%1$s</string>
+    <string name="share_template_long_activity_expires">到期日 %1$s</string>
     <!-- label for activity 1: list of guests -->
     <string name="share_template_long_activity_guests">房客\n%1$s</string>
 
@@ -542,6 +620,8 @@
     <string name="select_a_flight_back_to_TEMPLATE">選擇返回 %1$s 的航班</string>
     <!-- Error message template when loading a webpage fails -->
     <string name="web_view_loading_error_TEMPLATE">頁面載入錯誤！錯誤訊息：%1$s</string>
+    <!-- Error message when attempting to load a webpage and there is no url to load -->
+    <string name="web_view_no_url">沒有可載入的網頁 URL。</string>
     <!-- Title for screen when in an invalid POS we can't search for yet -->
     <string name="taking_off_soon">快將推出…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
@@ -581,6 +661,20 @@
     <string name="calendar_instructions_range_selected_TEMPLATE">已選取 %1$d 晚行程。</string>
     <!-- Start date and end date sameday -->
     <string name="calendar_instructions_range_selected_same_day">已選取同日來回。</string>
+    <!-- Calendar tooltip bottom line after a single date is selected e.g. (Optional) Select Return Date -->
+    <string name="calendar_tooltip_bottom_select_return_date">(選填) 選擇回程日期</string>
+    <!-- Calendar tooltip bottom line after two dates are selected E.g. Drag End Dates to Modify -->
+    <string name="calendar_tooltip_bottom_drag_to_modify">拖曳結束日期來更改</string>
+    <!-- Calendar tooltip hotels bottom line after a single date is selected "Select Checkout Date" -->
+    <string name="calendar_tooltip_hotel_bottom_select_checkout_date">選擇退房日期</string>
+    <!-- Calendar tooltip hotels bottom line after two dates are selected TEMPLATE arg1=start date string, arg2=end date string, arg3=number of nights e.g. "May 26 - May 28 (2 nights)" -->
+    <string name="calendar_tooltip_hotel_top_text_date_range_and_nights_TEMPLATE">%1$s - %2$s (%3$s)</string>
+    <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
+    <string name="calendar_instructions_date_range_TEMPLATE">%1$s - %2$s</string>
+    <!-- Calendar instruction text hotels date range template with nights. %1$s = Formatted start date, %2$s = formatted end date, %3$s = formatted nights string. E.g. May 12 - May 15 (3 nights) -->
+    <string name="calendar_instructions_date_range_with_nights_TEMPLATE">%1$s - %2$s (%3$s)</string>
+    <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
+    <string name="calendar_instructions_hotels_no_dates_selected">選擇入住日期</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -603,9 +697,11 @@
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">行李費詳情</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
-    <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;中途停留 ，地點：%2$s</string>
-    <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class and %4$s is the plane.  For example: "4h 10m, Economy (K) on a Boeing 747." -->
-    <string name="flight_details_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s), %4$s.</string>
+    <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;中途停留，地點：%2$s</string>
+    <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class and %4$s is the plane.  For example: "4h 10m - Economy (K), Boeing 747." -->
+    <string name="flight_details_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s) %4$s。</string>
+    <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class. For example: "4h 10m - Economy (K)" -->
+    <string name="flight_details_no_plane_info_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)</string>
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">經濟客位</string>
     <!-- Label for "premium coach" cabin code -->
@@ -692,9 +788,12 @@
     <string name="loading_flight_details">正在檢查價格變動…</string>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">變更前價格：%1$s</string>
-    <!-- Message shown to user when the airline is charging a fee to use their credit card brand -->
-    <!-- e.g. This airline charges a $5 fee to book with the selected card, included in the total. -->
-    <string name="airline_card_fee_TEMPLATE">如果使用所選信用卡預訂，此航空公司會收取 &lt;b&gt;%1$s&lt;/b&gt; 的費用，且此費用包含在總價中。</string>
+    <!-- Message shown to user when the airline is charging a fee to use their credit card brand e.g. This airline charges a fee of $5 (included in the total) to use this card. -->
+    <string name="airline_card_fee_TEMPLATE">此航空公司就使用此卡收取 &lt;b&gt;%1$s&lt;/b&gt; 的費用 (已包括於總金額)。</string>
+    <!-- Message shown to user explaining an airline fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The airline charges a fee of $8.50 to use VISA." -->
+    <string name="airline_card_fee_select_TEMPLATE">此航空公司就使用 %1$s 收取 %2$s 的費用。</string>
+    <!-- Message shown to user when they can't use their credit card to book with the airline, %1$s is the credit card brand. e.g. "The airline does not support VISA." -->
+    <string name="airline_card_not_supported_TEMPLATE">此航空公司不接受 %1$s。</string>
 
     <!-- Checkout Activity -->
     <!-- Expedia Account label -->
@@ -958,6 +1057,8 @@
     <string name="hotels_in_TEMPLATE">%s 酒店</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">其他指示</string>
+    <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
+    <string name="actions">選項</string>
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">經電郵分享</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
@@ -1187,6 +1288,10 @@
     <string name="mobile_exclusive">只供流動裝置使用</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="tonight_only">只限今晚！</string>
+    <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
+    <string name="hotel_search_range_error_TEMPLATE">很抱歉，我們無法搜尋超過 %1$s 日的酒店住宿。</string>
+    <!-- Search Error title text "Search Error" -->
+    <string name="search_error">搜尋錯誤</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -1697,6 +1802,10 @@
     <string name="coupon_error">折扣劵錯誤</string>
 
     <!-- Sharing bookings via email -->
+    <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
+    <string name="share_subject_dash_template">%1$s - %2$s</string>
+    <!-- The title of the share subject line -->
+    <string name="share_subject_title">Expedia 行程</string>
     <!-- Subject property name template. -->
     <string name="share_subject_template">Expedia 行程 -</string>
     <!-- Subject dates template. 1$ and 2$ are the ` ranges (e.g., 3/21 - 3/24) -->
@@ -1777,6 +1886,12 @@
     <string name="open_source_software_licenses">開放原碼軟件授權</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">此應用程式使用以下開放源碼程式庫：</string>
+
+    <!-- App support WebView -->
+    <!-- menu -->
+    <string name="email_us">以電郵聯絡我們</string>
+    <!-- Support email body -->
+    <string name="app_support_message_body">我們很樂意給您回覆。下列資料有助我們向您提供協助：</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
@@ -2166,6 +2281,7 @@
     <string name="country_zm">贊比亞</string>
     <string name="country_zw">津巴布韋</string>
     <string name="country_ax">亞蘭群島</string>
+    <string name="country_vs">VSC</string>
 
     <!-- Google Wallet -->
     <!-- The merchant name to display to the user for Google Wallet -->
@@ -2180,12 +2296,26 @@
     <string name="spending_limit_exceeded">已超過 Google 電子錢包的消費限額</string>
     <!-- Content description for "buy with wallet" button -->
     <string name="wallet_buy_with_google_wallet">使用 Google 電子錢包購買</string>
+    <!-- Message for Google wallet coupon promotion -->
+    <string name="wallet_promo_offer">使用 Google 電子錢包預訂可獲 <b>9 折</b>！</string>
+    <!-- Message informing users that they are saving money with the Google Wallet promo -->
+    <string name="wallet_promo_in_use_message">您因使用 Google 電子錢包而慳了 10%！</string>
+    <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
+    <string name="coupon_replaced_message">每次預訂只可使用一張折扣券。我們已將您之前的折扣券換成使用 Google 電子錢包得到的 9 折優惠。</string>
+    <!-- Message shown while loading Wallet coupon -->
+    <string name="wallet_promo_applying">正在使用 Google 電子錢包折扣…</string>
+    <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
+    <string name="error_wallet_promo_cannot_apply">很抱歉，此預訂無法使用 Google 電子錢包折扣。</string>
+    <!-- Title for Google Wallet promo terms & conditions -->
+    <string name="wallet_promo_tc_title">Google 電子錢包折扣券條款及細則</string>
+    <!-- Terms & conditions for Google Wallet promo -->
+    <string name="wallet_promo_tc_message">折扣券必須於 Expedia Android 應用程式內使用，適用旅遊日期為 2013 年 6 月 17 日至 2013 年 12 月 31 日。此優惠由 Expedia.com 提供並只適用於 Expedia.com 美國客戶。\n\n預訂須視乎當時 Expedia 價格酒店的客房供應而定，並須遵守所有適用條款及細則。折扣券不可與其他折扣券、推廣或特別優惠一同使用。折扣券不可用作扣減稅項、供應商收費、取消或更改手續費、行政費或其他雜費，客戶須自行承擔上述費用。預訂的任何部分一經更改或取消，折扣券將不可用於已更改的行程。\n\n此折扣券的條款及細則經已列明，其不可由任何未經授權人士 (包括 Expedia, Inc. 的僱員) 以任何方式修改。折扣券不可轉移且不可兌換現金。受法律禁止地區無效。Expedia, Inc. 可隨時取消或更改此優惠。</string>
 
     <!-- Samsung Wallet -->
     <!-- Label to use when the ticket already exists in the wallet -->
     <string name="view_in_samsung_wallet">於三星電子錢包查看</string>
     <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
-    <string name="add_to_samsung_wallet">加入三星電子錢包</string>
+    <string name="load_to_samsung_wallet">載入三星電子錢包</string>
 
     <!-- Human readable credit card names -->
     <!-- American Express -->
@@ -2292,5 +2422,111 @@
     <string name="S_Push_flight_CITY_gate_GATE">你前往%1$s的班機的登機閘口現為 %2$s。</string>
     <!-- Your bags will be at baggage claim _  TEMPLATE -->
     <string name="S_Push_baggage_BAGGAGE">請於行李領取處 %1$s 領取你的行李。</string>
+
+    <!--
+    Shortened Push Notification Loc Strings
+    These are for older versions of android that can't wrap notification text. We shorten
+    the strings by removing the city argument from the string. The city string gets displayed
+    in the notification title, so no harm done.
+
+    NOTE: We are removing the first arg, but we will still be passing it to the format string, so the argument range now
+    must start at %2$s
+    -->
+    <!-- Your flight to _ delayed _ hour TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_short">延遲 %2$s 小時。</string>
+    <!-- Your flight to _ delayed _ hours TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_short">延遲 %2$s 小時。</string>
+    <!-- Your flight to _ delayed _ minute TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_MINUTE_short">延遲 %2$s 分鐘。</string>
+    <!-- Your flight to _ delayed _ minutes TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_MINUTES_short">延遲 %2$s 分鐘。</string>
+    <!-- Your flight to _ delayed _ hour _ minute TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_short">延遲 %2$s 小時 %3$s 分鐘。</string>
+    <!-- Your flight to _ delayed _ hour _ minutes TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_short">延遲 %2$s 小時 %3$s 分鐘。</string>
+    <!-- Your flight to _ delayed _ hours _ minute TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_short">延遲 %2$s 小時 %3$s 分鐘。</string>
+    <!-- Your flight to _ delayed _ hours _ minutes TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_short">延遲 %2$s 小時 %3$s 分鐘。</string>
+    <!-- Your flight to _ departs _ minute early TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_MINUTE_short">提早 %2$s 分鐘起飛。</string>
+    <!-- Your flight to _ departs _ minutes early  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_MINUTES_short">提早 %2$s 分鐘起飛。</string>
+    <!-- Your flight to _ departs _ hour early TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOUR_short">提早 %2$s 小時起飛。</string>
+    <!-- Your flight to _ departs _ hours early TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOURS_short">提早 %2$s 小時起飛。</string>
+    <!-- Your flight to _ departs _ hour _ minute early TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_short">提早 %2$s 小時 %3$s 分鐘起飛。</string>
+    <!-- Your flight to _ departs _ hours _ minute early TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_short">提早 %2$s 小時 %3$s 分鐘起飛。</string>
+    <!-- Your flight to _ departs _ hour _ minutes early TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_short">提早 %2$s 小時 %3$s 分鐘起飛。</string>
+    <!-- Your flight to _ departs _ hours _ minutes early TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_short">提早 %2$s 小時 %3$s 分鐘起飛。</string>
+    <!-- Your flight to _ is delayed _ minute and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE_short">延遲 %2$s 分鐘，登機閘口現為 %3$s。</string>
+    <!-- Your flight to _ is delayed _ minutes and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE_short">延遲 %2$s 分鐘，登機閘口現為 %3$s。</string>
+    <!-- Your flight to _ is delayed _ hour and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE_short">延遲 %2$s 小時，登機閘口現為 %3$s。</string>
+    <!-- Your flight to _ is delayed _ hours and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE_short">延遲 %2$s 小時，登機閘口現為 %3$s。</string>
+    <!-- Your flight to _ is delayed _ hour _ minute and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE_short">延遲 %2$s 小時 %3$s 分鐘，登機閘口現為 %4$s。</string>
+    <!-- Your flight to _ is delayed _ hours _ minute and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE_short">延遲 %2$s 小時 %3$s 分鐘，登機閘口現為 %4$s。</string>
+    <!-- Your flight ot _ is delayed _ hour _ minutes and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE_short">延遲 %2$s 小時 %3$s 分鐘，登機閘口現為 %4$s。</string>
+    <!-- Your flight to _ is delayed _ hours _ minutes and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE_short">延遲 %2$s 小時 %3$s 分鐘，登機閘口現為 %4$s。</string>
+    <!-- Your flight to _ is now departing _ minute early from gate _ TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE_short">提早 %2$s 分鐘起飛，登機閘口為 %3$s。</string>
+    <!-- Your flight to _ is now departing _ minutes early from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE_short">提早 %2$s 分鐘起飛，登機閘口為 %3$s。</string>
+    <!-- Your flight to _ is now departing _ hour early from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE_short">提早 %2$s 小時起飛，登機閘口為 %3$s。</string>
+    <!-- Your flight to _ is now departing _ hours early from gate _ TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE_short">提早 %2$s 小時起飛，登機閘口為 %3$s。</string>
+    <!-- Your flight to _ is now departing _ hour _ minute early from gate _ TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE_short">提早 %2$s 小時 %3$s 分鐘起飛，登機閘口為 %4$s。</string>
+    <!-- Your flight to _ is now departing _ hours _ minute early from gate _ TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE_short">提早 %2$s 小時 %3$s 分鐘起飛，登機閘口為 %4$s。</string>
+    <!-- Your flight to _ is now departing _ hour _ minutes early from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE_short">提早 %2$s 小時 %3$s 分鐘起飛，登機閘口為 %4$s。</string>
+    <!-- Your flight to _ is now departing _ hours _ minutes early from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE_short">提早 %2$s 小時 %3$s 分鐘起飛，登機閘口為 %4$s。</string>
+    <!-- Your flight from _ to _ has been cancelled TEMPLATE (short version) -->
+    <string name="S_Push_flight_from_CITY_to_CITY_cancelled_short">來自%1$s的班機已取消。</string>
+    <!-- Your flight to _ departs in _ hour TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR_short">將於 %2$s 小時內起飛。</string>
+    <!-- Your flight to _ departs in _ hours TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS_short">將於 %2$s 小時內起飛。</string>
+    <!-- Your flight to _ departs in _ hours _ minute TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE_short">將於 %2$s 小時 %3$s 分鐘內起飛。</string>
+    <!-- Your flight to _ departs in _ hours _ minutes TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES_short">將於 %2$s 小時 %3$s 分鐘內起飛。</string>
+    <!-- Your flight to _ departs in _ hour _ minute TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE_short">將於 %2$s 小時 %3$s 分鐘內起飛。</string>
+    <!-- Your flight to _ departs in _ hour _ minutes TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES_short">將於 %2$s 小時 %3$s 分鐘內起飛。</string>
+    <!-- Your flight to _ departs in _ minutes TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_departs_in_MINUTES_short">將於 %2$s 分鐘內起飛。</string>
+    <!-- Your flight to _ now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_gate_GATE_short">登機閘口為 %2$s。</string>
+
+    <!-- VSC Info Screen -->
+    <!-- Header for a list of apps also written by VSC -->
+    <string name="AlsoByVSC">VSC 的其他應用程式</string>
+    <!-- Name of VSC Train app -->
+    <string name="VSC_Voyages_SNF">Voyages-SNCF</string>
+    <!-- Description for FT Free app -->
+    <string name="VSC_Voyages_SNF_description">Voyages-sncf.com 應用程式</string>
+    <!-- VSC Copyright information -->
+    <string name="VSC_copyright">© Copyright 2012-2013 Agence Voyages-SNCF, Inc. \n版權所有。</string>
+    <!-- VSC app name -->
+    <string name="VSC_app_name">VSC Hotels</string>
+    <!-- Link to open when VSC logo is clicked on -->
+    <string name="app_vsc_info_url">http://www.voyages-sncf.com/</string>
 
 </resources>

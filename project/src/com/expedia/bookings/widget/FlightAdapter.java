@@ -33,7 +33,7 @@ public class FlightAdapter extends BaseAdapter {
 	private int mLegPosition;
 
 	public FlightAdapter(Context context, Bundle savedInstanceState) {
-		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mInflater = LayoutInflater.from(context);
 	}
 
 	public void setFlightTripQuery(FlightTripQuery query) {

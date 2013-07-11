@@ -34,7 +34,7 @@ import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 public class ReceiptWidget {
 
 	private Context mContext;
-	private LayoutInflater mInflator;
+	private LayoutInflater mInflater;
 
 	// Cached views
 	private ImageView mThumbnailImageView;
@@ -51,7 +51,7 @@ public class ReceiptWidget {
 
 	public ReceiptWidget(Context context, View rootView, boolean isRoomTypeExpandable) {
 		mContext = context;
-		mInflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mInflater = LayoutInflater.from(context);
 
 		mThumbnailImageView = (ImageView) rootView.findViewById(R.id.thumbnail_image_view);
 		mNameTextView = (TextView) rootView.findViewById(R.id.name_text_view);
@@ -235,7 +235,7 @@ public class ReceiptWidget {
 			return null;
 		}
 
-		View detailRow = mInflator.inflate(layoutResId, parent, false);
+		View detailRow = mInflater.inflate(layoutResId, parent, false);
 		TextView labelView = (TextView) detailRow.findViewById(R.id.label_text_view);
 		labelView.setText(label);
 		TextView valueView = (TextView) detailRow.findViewById(R.id.value_text_view);

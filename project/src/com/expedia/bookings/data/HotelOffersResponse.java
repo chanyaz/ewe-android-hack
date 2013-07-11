@@ -23,10 +23,11 @@ public class HotelOffersResponse extends Response {
 
 	private SummarizedRoomRates mSummarizedRoomRates;
 
+	public HotelOffersResponse() {
+		mRates = new ArrayList<Rate>();
+	}
+
 	public void addRate(Rate rate) {
-		if (mRates == null) {
-			mRates = new ArrayList<Rate>();
-		}
 		mRates.add(rate);
 	}
 
@@ -41,16 +42,10 @@ public class HotelOffersResponse extends Response {
 	}
 
 	public int getRateCount() {
-		if (mRates == null) {
-			return 0;
-		}
 		return mRates.size();
 	}
 
 	public Rate getRate(int index) {
-		if (mRates == null) {
-			return null;
-		}
 		return mRates.get(index);
 	}
 

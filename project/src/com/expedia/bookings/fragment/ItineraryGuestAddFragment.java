@@ -2,7 +2,6 @@ package com.expedia.bookings.fragment;
 
 import java.util.Collection;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -14,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -53,7 +51,7 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 		ItineraryGuestAddFragment frag = new ItineraryGuestAddFragment();
 		Bundle args = new Bundle();
 		if (extender != null) {
-			args.putParcelable(ARG_LOGIN_EXTENDER, extender);
+			args.putBundle(STATE_LOGIN_EXTENDER, extender.buildStateBundle());
 		}
 		frag.setArguments(args);
 		return frag;
@@ -64,14 +62,14 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 		View view = inflater.inflate(R.layout.fragment_itinerary_add_guest_itin, container, false);
 
 		if (getArguments().containsKey(ARG_LOGIN_EXTENDER)) {
-			mLoginExtender = getArguments().getParcelable(ARG_LOGIN_EXTENDER);
+			mLoginExtender = LoginExtender.buildLoginExtenderFromState(getArguments().getBundle(ARG_LOGIN_EXTENDER));
 			getArguments().remove(ARG_LOGIN_EXTENDER);
 		}
 
 		if (savedInstanceState != null) {
 			mLoginExtenderRunning = savedInstanceState.getBoolean(STATE_LOGIN_EXTENDER_RUNNING, false);
 			if (savedInstanceState.containsKey(STATE_LOGIN_EXTENDER)) {
-				mLoginExtender = savedInstanceState.getParcelable(STATE_LOGIN_EXTENDER);
+				mLoginExtender = LoginExtender.buildLoginExtenderFromState(savedInstanceState.getBundle(STATE_LOGIN_EXTENDER));
 			}
 			if (savedInstanceState.containsKey(STATE_STATUS_TEXT)) {
 				mStatusText = savedInstanceState.getString(STATE_STATUS_TEXT);
@@ -133,7 +131,7 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 		super.onSaveInstanceState(outState);
 		outState.putBoolean(STATE_LOGIN_EXTENDER_RUNNING, mLoginExtenderRunning);
 		if (mLoginExtender != null) {
-			outState.putParcelable(STATE_LOGIN_EXTENDER, mLoginExtender);
+			outState.putBundle(STATE_LOGIN_EXTENDER, mLoginExtender.buildStateBundle());
 		}
 		if (mStatusText != null) {
 			outState.putString(STATE_STATUS_TEXT, mStatusText);
@@ -170,14 +168,6 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 		return hasEmail && hasItin;
 	}
 
-	public void hideKeyboard() {
-		View focused = this.getActivity().getCurrentFocus();
-		if (focused instanceof EditText) {
-			InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.hideSoftInputFromWindow(focused.getWindowToken(), 0);
-		}
-	}
-
 	public void runExtenderOrFinish() {
 		if (mLoginExtender != null) {
 			mLoginExtenderRunning = true;
@@ -194,7 +184,7 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 			mFindItinBtn.setVisibility(View.GONE);
 			mEmailEdit.setEnabled(false);
 			mItinNumEdit.setEnabled(false);
-			hideKeyboard();
+			Ui.hideKeyboardIfEditText(getActivity());
 			mOuterContainer.setGravity(Gravity.TOP);
 			mExtenderContainer.setVisibility(View.VISIBLE);
 		}

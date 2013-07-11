@@ -299,7 +299,7 @@ public class Property implements JSONable {
 
 	// Only valid for Expedia
 	public boolean isMerchant() {
-		return mSupplierType != null && (mSupplierType.equals("E") || mSupplierType.equals("MERCHANT"));
+		return TextUtils.equals(mSupplierType, "E") || TextUtils.equals(mSupplierType, "MERCHANT");
 	}
 
 	public boolean isHighlyRated() {

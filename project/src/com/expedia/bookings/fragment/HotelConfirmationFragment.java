@@ -119,7 +119,9 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		Ui.findView(v, R.id.action_container).setBackgroundResource(R.drawable.bg_confirmation_mask_hotels);
 
 		PointOfSale pos = PointOfSale.getPointOfSale();
-		if (pos.showHotelCrossSell() && pos.supportsFlights()) {
+		// 1373: Need to hide cross sell until we can fix the poor search results
+		//if (pos.showHotelCrossSell() && pos.supportsFlights()) {
+		if (false) {
 			ViewUtils.setAllCaps((TextView) Ui.findView(v, R.id.get_there_text_view));
 
 			String city = property.getLocation().getCity();
@@ -135,6 +137,9 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 			Ui.findView(v, R.id.get_there_text_view).setVisibility(View.GONE);
 			Ui.findView(v, R.id.get_there_text_divider).setVisibility(View.GONE);
 			Ui.findView(v, R.id.flights_action_text_view).setVisibility(View.GONE);
+
+			// #1391: If there are no additional actions above, then only show "actions" instead of "more actions"
+			Ui.setText(v, R.id.more_actions_text_view, R.string.actions);
 		}
 
 		ViewUtils.setAllCaps((TextView) Ui.findView(v, R.id.more_actions_text_view));
@@ -199,6 +204,10 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		}
 		else {
 			bd.unregisterDownloadCallback(SAMSUNG_WALLET_DOWNLOAD_KEY, mWalletCallback);
+		}
+
+		if (getActivity() != null && getActivity().isFinishing()) {
+			Db.setSamsungWalletTicketId(null);
 		}
 	}
 

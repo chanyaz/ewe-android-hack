@@ -22,7 +22,7 @@ public class HotelTravelerFlowState {
 	private HotelTravelerFlowState(Context context) {
 		mContext = context;
 
-		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = LayoutInflater.from(mContext);
 		mTravelerInfoOne = (SectionTravelerInfo) inflater.inflate(R.layout.section_hotel_edit_traveler_pt1, null);
 	}
 

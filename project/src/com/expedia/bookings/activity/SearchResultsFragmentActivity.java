@@ -374,6 +374,13 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		else {
 			startSearch();
 		}
+
+		if (Db.getHotelSearch().getSelectedProperty() == null) {
+			if (mHotelListFragment != null && mHotelListFragment.isAdded()) {
+				mHotelListFragment.clearSelectedProperty();
+			}
+			hideDetails();
+		}
 	}
 
 	@Override
@@ -1022,14 +1029,21 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 				}
 				property.setLowestRate(lowestRate);
 				searchResponse.addProperty(property);
-				Db.getHotelSearch().setSelectedProperty(property);
 			}
-			mSearchCallback.onDownload(searchResponse);
+			Db.getHotelSearch().setSearchResponse(searchResponse);
+			Db.getHotelSearch().updateFrom(results);
+			Db.getHotelSearch().setSelectedProperty(property);
+			loadSearchResponse(searchResponse, true);
 		}
 	};
 
 	private final OnDownloadComplete<HotelSearchResponse> mSearchCallback = new OnDownloadComplete<HotelSearchResponse>() {
 		public void onDownload(HotelSearchResponse response) {
+			if (response != null) {
+				// Even if there are errors we want to store them
+				// for when we reload the response (eg rotation)
+				Db.getHotelSearch().setSearchResponse(response);
+			}
 			loadSearchResponse(response, true);
 		}
 	};
@@ -1037,11 +1051,6 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	private void loadSearchResponse(HotelSearchResponse response, boolean initialLoad) {
 		if (response == null) {
 			Db.getHotelSearch().resetSearchData();
-		}
-		else {
-			// Even if there are errors we want to store them
-			// for when we reload the response (eg rotation)
-			Db.getHotelSearch().setSearchResponse(response);
 		}
 
 		if (response == null || response.getPropertiesCount() == 0) {
@@ -1201,15 +1210,6 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 				}
 				else {
 					Db.getHotelSearch().updateFrom(availabilityResponse);
-
-					Property availabilityProperty = availabilityResponse.getProperty();
-					String propertyId = availabilityProperty.getPropertyId();
-
-					Property searchProperty = Db.getHotelSearch().getProperty(propertyId);
-					if (searchProperty != null) {
-						searchProperty.updateFrom(availabilityProperty);
-					}
-
 					notifyAvailabilityQueryComplete();
 				}
 			}

@@ -17,6 +17,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider;
 import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.LocalExpertSite;
 import com.expedia.bookings.data.WalletPromoResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
@@ -122,6 +123,9 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 		ExpediaImageManager.init(this);
 		startupTimer.addSplit("ExpediaImageManager Init");
+
+		LocalExpertSite.init(this);
+		startupTimer.addSplit("LocalExpertSite Init");
 
 		String serverUrlPath = IS_VSC ? "ExpediaSharedData/VSCServerURLs.json"
 				: "ExpediaSharedData/ExpediaServerURLs.json";

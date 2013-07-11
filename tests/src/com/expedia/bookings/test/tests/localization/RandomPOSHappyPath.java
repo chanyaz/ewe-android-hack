@@ -107,7 +107,7 @@ public class RandomPOSHappyPath extends
 				mDriver.delay();
 
 				//Go through the log in and booking processes
-				mDriver.logInAndBook(true);
+				mDriver.logInAndBook(true, true);
 				mDriver.mLocaleUtils.setLocale(testingLocale);
 				mDriver.delay(5);
 			}

@@ -56,12 +56,16 @@
     <string name="error_launch_connection">Pasensiya na, hindi kami makakonekta.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Mga Biyahe</string>
+    <!-- Google play services unrecoverable error dialog message -->
+    <string name="google_play_services_unrecoverable_error">Ang app na ito ay nangangailangan ng Mga Serbisyo ng Google Play. Paki-install ang pinakabagong bersyon ng Mga Serbisyo ng Google Play.</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_in_available">Available ang pag-check in</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">%1$s flight papunta sa %2$s</string>
+    <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
+    <string name="your_flight_to_x_TEMPLATE">Ang inyong flight papunta sa %1$s</string>
     <!-- Notification title for hotel check-out notification -->
     <string name="Check_out_today">Mag-check out ngayon</string>
     <!-- Notification title for car pick up -->
@@ -262,11 +266,86 @@
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">KOPYAHIN %1$s</string>
 
+    <!-- Itin Buttons -->
+    <!-- Popup menu -->
+    <!-- Menu label: Hide this itin button for this trip -->
+    <string name="itin_button_hide">Itago</string>
+    <!-- Menu label: Never show this type of itin button again -->
+    <string name="itin_button_hide_forever">Huwag Nang Ipakita Muli</string>
+
     <!-- Hotel attach -->
     <!-- Button label to search for a hotel in the flight destination city. %1$s is the city, e.g. "Washington, DC" -->
     <string name="add_hotel_TEMPLATE">Magdagdag ng hotel sa %1$s</string>
     <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
     <string name="add_hotel_fallback">Magdagdag ng hotel sa iyong destinasyon</string>
+
+    <!-- Itin Local Expert -->
+    <string name="talk_to_local_expert">Makipag-usap sa isang Local Expert</string>
+
+    <!-- Local Expert Sites -->
+    <!-- Name of Hawaii (for local expert) -->
+    <string name="site_hawaii">Hawaii</string>
+    <!-- Name of Orlando, FL (for local expert) -->
+    <string name="site_orlando">Orlando</string>
+    <!-- Name of Las Vegas (for local expert) -->
+    <string name="site_las_vegas">Las Vegas</string>
+
+    <!-- Template for the city title on Local Expert pages. %1$s is the name of the city-->
+    <string name="local_expert_title_TEMPLATE">Magsaya sa %1$s</string>
+    <!-- Description body for the Local Expert pages -->
+    <string name="local_expert_description">Ang inyong Local Expert concierge ay maaaring tawagan\npara sa anumang mga pangangailangan sa pagpaplano ng biyahe.</string>
+    <!-- Text for the button on Local Expert pages, to call the concierge -->
+    <string name="local_expert_call_button_text">Tawagan sila</string>
+
+    <!-- Local Expert attractions; these are all split into two lines (second line is bolded) -->
+    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
+    <string name="attraction_creatures_first">Kahanga-hangang</string>
+    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
+    <string name="attraction_creatures_second">mga nilalang</string>
+    <!-- First half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
+    <string name="attraction_theme_parks_first">Makita ang pinakamagagandang</string>
+    <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
+    <string name="attraction_theme_parks_second">theme park</string>
+    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
+    <string name="attraction_beaches_first">Mahanap ang pinakamagagandang</string>
+    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
+    <string name="attraction_beaches_second">beach</string>
+    <!-- First half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
+    <string name="attraction_helicopter_first">Sumakay sa</string>
+    <!-- Second half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
+    <string name="attraction_helicopter_second">helicopter</string>
+    <!-- First half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
+    <string name="attraction_scuba_first">Tumalon at</string>
+    <!-- Second half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
+    <string name="attraction_scuba_second">mag-scuba dive</string>
+    <!-- First half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
+    <string name="attraction_casinos_first">World class na</string>
+    <!-- Second half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
+    <string name="attraction_casinos_second">mga casino</string>
+    <!-- First half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
+    <string name="attraction_ferrari_first">Magmaneho ng</string>
+    <!-- Second half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
+    <string name="attraction_ferrari_second">ferrari</string>
+    <!-- First half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
+    <string name="attraction_family_first">Mga aktibidad para sa</string>
+    <!-- Second half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
+    <string name="attraction_family_second">mga pamilya</string>
+    <!-- First half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
+    <string name="attraction_food_first">Tikman ang masasarap na</string>
+    <!-- Second half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
+    <string name="attraction_food_second">pagkain</string>
+    <!-- First half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
+    <string name="attraction_entertainment_first">Mahanap ang pinakamagagandang</string>
+    <!-- Second half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
+    <string name="attraction_entertainment_second">aliwan</string>
+    <!-- First half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
+    <string name="attraction_music_first">Matuklasan ang lokal na</string>
+    <!-- Second half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
+    <string name="attraction_music_second">musika</string>
+    <!-- First half of phrase about local expert VIP status attraction.  Full phrase: "Arrive with VIP Status" -->
+    <string name="attraction_vip_first">Dumating nang may</string>
+    <!-- Second half of phrase about local expert VIP status attraction.  Full phrase: "Arrive with VIP Status" -->
+    <string name="attraction_vip_second">VIP status</string>
 
     <!-- Car category -->
     <!-- Car category: mini -->
@@ -307,9 +386,9 @@
     <string name="car_category_oversize">Oversize Car</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">Two Door na Kotse</string>
-    <string name="car_type_three_door">Three Door na Kotse</string>
-    <string name="car_type_four_door">Four Door na Kotse</string>
+    <string name="car_type_two_door">Two Door Kotse</string>
+    <string name="car_type_three_door">Three Door Kotse</string>
+    <string name="car_type_four_door">Four Door Kotse</string>
     <string name="car_type_van">Van</string>
     <string name="car_type_wagon">Wagon</string>
     <string name="car_type_limousine">Limousine</string>
@@ -434,10 +513,10 @@
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Aking pag-arkila ng kotse (%1$s – %2$s)</string>
     <!-- Car rental share subject (no dates) -->
-    <string name="share_template_subject_car_no_dates">Aking pag-arkila ng sasakyan</string>
-    <!-- 1: vehicle type  -->
+    <string name="share_template_subject_car_no_dates">Ang aking pag-arkila ng sasakyan</string>
+    <!-- 1: vehicle type -->
     <string name="share_template_short_car_type">Nag-arkila ako ng %1$s</string>
-    <!--1: pick up date 2: drop off date -->
+    <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_short_car_dates">mula sa %1$s – %2$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
     <string name="share_car_start_TEMPLATE">Narito ang mga detalye ng aking %1$s pag-arkila ng kotse.</string>
@@ -453,7 +532,6 @@
     <string name="share_car_pickup_location_section">Lokasyon ng Pagsundo:</string>
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">Lokasyon ng Paghatid:</string>
-
 
     <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">Mga Detalye ng Aking %1$s</string>
@@ -542,6 +620,8 @@
     <string name="select_a_flight_back_to_TEMPLATE">Pumili ng flight pabalik sa %1$s</string>
     <!-- Error message template when loading a webpage fails -->
     <string name="web_view_loading_error_TEMPLATE">May error sa pag-load ng pahina! Mensahe sa Error: %1$s</string>
+    <!-- Error message when attempting to load a webpage and there is no url to load -->
+    <string name="web_view_no_url">Walang url ng webpage na ilo-load.</string>
     <!-- Title for screen when in an invalid POS we can't search for yet -->
     <string name="taking_off_soon">Malapit Nang Umalis…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
@@ -581,6 +661,20 @@
     <string name="calendar_instructions_range_selected_TEMPLATE">%1$d na biyahe sa gabi ang pinili.</string>
     <!-- Start date and end date sameday -->
     <string name="calendar_instructions_range_selected_same_day">Magkaparehong araw ng biyahe ang napili.</string>
+    <!-- Calendar tooltip bottom line after a single date is selected e.g. (Optional) Select Return Date -->
+    <string name="calendar_tooltip_bottom_select_return_date">(Opsyonal) Pumili ng Petsa ng Pagbalik</string>
+    <!-- Calendar tooltip bottom line after two dates are selected E.g. Drag End Dates to Modify -->
+    <string name="calendar_tooltip_bottom_drag_to_modify">I-drag ang mga Petsa ng Pagtatapos upang Baguhin</string>
+    <!-- Calendar tooltip hotels bottom line after a single date is selected "Select Checkout Date" -->
+    <string name="calendar_tooltip_hotel_bottom_select_checkout_date">Pumili ng Petsa ng Pag-check-out</string>
+    <!-- Calendar tooltip hotels bottom line after two dates are selected TEMPLATE arg1=start date string, arg2=end date string, arg3=number of nights e.g. "May 26 - May 28 (2 nights)" -->
+    <string name="calendar_tooltip_hotel_top_text_date_range_and_nights_TEMPLATE">%1$s - %2$s (%3$s)</string>
+    <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
+    <string name="calendar_instructions_date_range_TEMPLATE">%1$s - %2$s</string>
+    <!-- Calendar instruction text hotels date range template with nights. %1$s = Formatted start date, %2$s = formatted end date, %3$s = formatted nights string. E.g. May 12 - May 15 (3 nights) -->
+    <string name="calendar_instructions_date_range_with_nights_TEMPLATE">%1$s - %2$s (%3$s)</string>
+    <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
+    <string name="calendar_instructions_hotels_no_dates_selected">Pumili ng Petsa ng Pag-check-in</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -604,8 +698,10 @@
     <string name="baggage_fee_info">IMPORMASYON TUNGKOL SA BAYARIN SA BAGAHE</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
     <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s layover&lt;/b&gt; sa %2$s</string>
-    <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class and %4$s is the plane.  For example: "4h 10m, Economy (K) on a Boeing 747." -->
+    <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class and %4$s is the plane.  For example: "4h 10m - Economy (K), Boeing 747." -->
     <string name="flight_details_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s), %4$s.</string>
+    <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class. For example: "4h 10m - Economy (K)" -->
+    <string name="flight_details_no_plane_info_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)</string>
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">Economy</string>
     <!-- Label for "premium coach" cabin code -->
@@ -692,9 +788,12 @@
     <string name="loading_flight_details">Tinitingnan kung may pagbabago sa presyo</string>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">Nagbago ang presyo mula %1$s</string>
-    <!-- Message shown to user when the airline is charging a fee to use their credit card brand -->
-    <!-- e.g. This airline charges a $5 fee to book with the selected card, included in the total. -->
-    <string name="airline_card_fee_TEMPLATE">Naniningil ang airline na ito ng &lt;b&gt;%1$s&lt;/b&gt; na bayarin para sa pagpapa-book gamit ang napiling card, na kasama na sa kabuuan.</string>
+    <!-- Message shown to user when the airline is charging a fee to use their credit card brand e.g. This airline charges a fee of $5 (included in the total) to use this card. -->
+    <string name="airline_card_fee_TEMPLATE">Ang airline na ito ay naniningil ng bayarin na &lt;b&gt;%1$s&lt;/b&gt; (kasama sa kabuuan) upang magamit ang card na ito.</string>
+    <!-- Message shown to user explaining an airline fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The airline charges a fee of $8.50 to use VISA." -->
+    <string name="airline_card_fee_select_TEMPLATE">Ang airline na ito ay naniningil ng bayarin na %1$s upang magamit ang %2$s.</string>
+    <!-- Message shown to user when they can't use their credit card to book with the airline, %1$s is the credit card brand. e.g. "The airline does not support VISA." -->
+    <string name="airline_card_not_supported_TEMPLATE">Hindi sinusuportahan ng airline ang %1$s.</string>
 
     <!-- Checkout Activity -->
     <!-- Expedia Account label -->
@@ -958,6 +1057,8 @@
     <string name="hotels_in_TEMPLATE">Mga hotel sa %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Mga Iba Magagawa</string>
+    <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
+    <string name="actions">Mga Magagawa</string>
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">Ipamahagi sa pamamagitan ng Email</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
@@ -1076,7 +1177,7 @@
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">Kamusta,</string>
     <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_TEMPLATE">Narito ang mga detalye ng aking flight galing sa %1$s papuntang %2$s.</string>
+    <string name="share_flight_one_way_TEMPLATE">Narito ang mga detalye ng aking (mga) flight galing sa %1$s papuntang %2$s.</string>
     <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_round_trip_TEMPLATE">Narito ang mga detalye ng aking round-trip na flight galing sa %1$s papuntang %2$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
@@ -1187,10 +1288,14 @@
     <string name="mobile_exclusive">Eksklusibo sa Mobile</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="tonight_only">Ngayong Gabi Lamang!</string>
+    <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
+    <string name="hotel_search_range_error_TEMPLATE">Humihingi kami ng paumanhin, ngunit hindi kami nakahanap ng mga pananatili sa hotel na mas mahaba kaysa sa %1$s (na) araw.</string>
+    <!-- Search Error title text "Search Error" -->
+    <string name="search_error">Error sa Paghahanap</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
-        <item quantity="one">%d (na) Kuwarto ang Naiiwan!</item>
+        <item quantity="one">%d (na) Kuwarto ang Natitira!</item>
         <item quantity="two">%d (na) Kuwarto ang Naiiwan</item>
         <item quantity="many">%d (na) Kuwarto ang Naiiwan</item>
         <item quantity="other">%d (na) Kuwarto ang Naiiwan</item>
@@ -1694,9 +1799,13 @@
     <!-- Label for when a user has entered a coupon which is expired -->
     <string name="expired_coupon">Nag-expire ang Kupon</string>
     <!-- Label for when a user has entered a coupon and the server fails -->
-    <string name="coupon_error">Error sa Kupon</string>
+    <string name="coupon_error">Error sa Coupon</string>
 
     <!-- Sharing bookings via email -->
+    <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
+    <string name="share_subject_dash_template">%1$s - %2$s</string>
+    <!-- The title of the share subject line -->
+    <string name="share_subject_title">Itinerary sa Expedia</string>
     <!-- Subject property name template. -->
     <string name="share_subject_template">Itinerary sa Expedia -</string>
     <!-- Subject dates template. 1$ and 2$ are the ` ranges (e.g., 3/21 - 3/24) -->
@@ -1777,6 +1886,12 @@
     <string name="open_source_software_licenses">Mga Open Source Software License</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">Ginagamit ng app na ito ang mga sumusunod na open-source library:</string>
+
+    <!-- App support WebView -->
+    <!-- menu -->
+    <string name="email_us">Mag-email sa Amin</string>
+    <!-- Support email body -->
+    <string name="app_support_message_body">Inaasahan namin ang pagtugon sa inyo! Nasa ibaba ang ilang impormasyon na maaari naming magamit upang tulungan kayo:</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
@@ -2166,6 +2281,7 @@
     <string name="country_zm">Zambia</string>
     <string name="country_zw">Zimbabwe</string>
     <string name="country_ax">Åland Islands</string>
+    <string name="country_vs">VSC</string>
 
     <!-- Google Wallet -->
     <!-- The merchant name to display to the user for Google Wallet -->
@@ -2180,12 +2296,26 @@
     <string name="spending_limit_exceeded">Lumagpas na kayo sa inyong limitasyon sa paggastos sa Google Wallet</string>
     <!-- Content description for "buy with wallet" button -->
     <string name="wallet_buy_with_google_wallet">Bumili gamit ang Google wallet</string>
+    <!-- Message for Google wallet coupon promotion -->
+    <string name="wallet_promo_offer">Makakuha ng <b>10% diskwento</b> gamit ang Google Wallet!</string>
+    <!-- Message informing users that they are saving money with the Google Wallet promo -->
+    <string name="wallet_promo_in_use_message">Nakatipid ka ng 10% sa pamamagitan ng paggamit sa Google Wallet!</string>
+    <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
+    <string name="coupon_replaced_message">Isang coupon lang ang maaaring gamitin sa bawat pag-book. Pinalitan namin ang inyong dating coupon ng 10% diskwento dahil sa paggamit ng Google Wallet.</string>
+    <!-- Message shown while loading Wallet coupon -->
+    <string name="wallet_promo_applying">Inilalapat ang diskwento ng Google Wallet…</string>
+    <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
+    <string name="error_wallet_promo_cannot_apply">Humihingi kami ng paumanhin, ngunit ang diskwento ng Google Wallet ay hindi malalapat sa pag-book na ito.</string>
+    <!-- Title for Google Wallet promo terms & conditions -->
+    <string name="wallet_promo_tc_title">Mga Tuntunin at Kundisyon ng Coupon ng Google Wallet</string>
+    <!-- Terms & conditions for Google Wallet promo -->
+    <string name="wallet_promo_tc_message">Ang coupon ay dapat kunin sa Android app ng Expedia para sa biyahe sa pagitan ng Hunyo 17, 2013 at Disyembre 31, 2013. Ang alok na ito ay mula sa Expedia.com at may-bisa lang sa mga customer sa U.S. ng Expedia.com.\n\nAng mga pag-book ay nakadepende sa kung bakante ang mga hotel ng Expedia Rate sa panahon ng pag-book at sa lahat ng naaangkop na tuntunin at kundisyon. Hindi maaaring gamitin ang coupon kasama ng ibang mga coupon, promosyon o espesyal na alok. Ang diskwento ng coupon ay hindi maaaring ipambayad sa mga buwis, bayaring sinisingil ng supplier, multa sa pagkansela o pagbago, bayaring pang-administratibo o iba pang mga miscellaneous na singil, dahil sariling pananagutan ng customer ang mga ito. Kung sakaling baguhin o kanselahin ninyo ang anumang bahagi ng inyong pag-book, hindi malalapat ang coupon sa nabagong iskedyul ng biyahe.\n\nAng mga tuntunin at kundisyon ng coupon na ito ay ayon sa nasusulat at hindi maaaring mabago ng anumang pagpapakahulugan ng sinumang hindi awtorisadong tao, kasama na ang mga empleyado ng Expedia, Inc. Ang coupon ay hindi malilipat at hindi maipagpapalit para sa pera. Mapapawalang-bisa kung saan ipinagbabawal ng batas. Maaaring bawiin o baguhin ng Expedia, Inc. ang alok na ito anumang oras.</string>
 
     <!-- Samsung Wallet -->
     <!-- Label to use when the ticket already exists in the wallet -->
     <string name="view_in_samsung_wallet">Tingnan sa Samsung Wallet</string>
     <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
-    <string name="add_to_samsung_wallet">Idagdag sa Samsung Wallet</string>
+    <string name="load_to_samsung_wallet">I-load sa Samsung Wallet</string>
 
     <!-- Human readable credit card names -->
     <!-- American Express -->
@@ -2292,5 +2422,111 @@
     <string name="S_Push_flight_CITY_gate_GATE">Ang inyong flight patungong %1$s ay aalis na mula sa gate %2$s.</string>
     <!-- Your bags will be at baggage claim _  TEMPLATE -->
     <string name="S_Push_baggage_BAGGAGE">Ang inyong mga bagahe ay makukuha sa baggage claim %1$s.</string>
+
+    <!--
+    Shortened Push Notification Loc Strings
+    These are for older versions of android that can't wrap notification text. We shorten
+    the strings by removing the city argument from the string. The city string gets displayed
+    in the notification title, so no harm done.
+
+    NOTE: We are removing the first arg, but we will still be passing it to the format string, so the argument range now
+    must start at %2$s
+    -->
+    <!-- Your flight to _ delayed _ hour TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_short">Naantala nang %2$s (na) oras.</string>
+    <!-- Your flight to _ delayed _ hours TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_short">Naantala nang %2$s (na) oras.</string>
+    <!-- Your flight to _ delayed _ minute TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_MINUTE_short">Naantala nang %2$s (na) minuto.</string>
+    <!-- Your flight to _ delayed _ minutes TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_MINUTES_short">Naantala nang %2$s (na) minuto.</string>
+    <!-- Your flight to _ delayed _ hour _ minute TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_short">Naantala nang %2$s (na) oras at %3$s (na) minuto.</string>
+    <!-- Your flight to _ delayed _ hour _ minutes TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_short">Naantala nang %2$s (na) oras at %3$s (na) minuto.</string>
+    <!-- Your flight to _ delayed _ hours _ minute TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_short">Naantala nang %2$s (na) oras at %3$s (na) minuto.</string>
+    <!-- Your flight to _ delayed _ hours _ minutes TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_short">Naantala nang %2$s (na) oras at %3$s (na) minuto.</string>
+    <!-- Your flight to _ departs _ minute early TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_MINUTE_short">Aalis nang %2$s (na) minuto nang mas maaga.</string>
+    <!-- Your flight to _ departs _ minutes early  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_MINUTES_short">Aalis nang %2$s (na) minuto nang mas maaga.</string>
+    <!-- Your flight to _ departs _ hour early TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOUR_short">Aalis nang %2$s (na) oras nang mas maaga.</string>
+    <!-- Your flight to _ departs _ hours early TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOURS_short">Aalis nang %2$s (na) oras nang mas maaga.</string>
+    <!-- Your flight to _ departs _ hour _ minute early TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_short">Aalis nang %2$s (na) oras at %3$s (na) minuto nang mas maaga.</string>
+    <!-- Your flight to _ departs _ hours _ minute early TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_short">Aalis nang %2$s (na) oras at %3$s (na) minuto nang mas maaga.</string>
+    <!-- Your flight to _ departs _ hour _ minutes early TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_short">Aalis nang %2$s (na) oras at %3$s (na) minuto nang mas maaga.</string>
+    <!-- Your flight to _ departs _ hours _ minutes early TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_short">Aalis nang %2$s (na) oras at %3$s (na) minuto nang mas maaga.</string>
+    <!-- Your flight to _ is delayed _ minute and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE_short">Naantala nang %2$s (na) minuto at ngayon ay aalis na mula sa gate %3$s.</string>
+    <!-- Your flight to _ is delayed _ minutes and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE_short">Naantala nang %2$s (na) minuto at ngayon ay aalis na mula sa gate %3$s.</string>
+    <!-- Your flight to _ is delayed _ hour and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE_short">Naantala nang %2$s (na) oras at ngayon ay aalis na mula sa gate %3$s.</string>
+    <!-- Your flight to _ is delayed _ hours and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE_short">Naantala nang %2$s (na) oras at ngayon ay aalis na mula sa gate %3$s.</string>
+    <!-- Your flight to _ is delayed _ hour _ minute and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE_short">Naantala nang %2$s (na) oras at %3$s (na) minuto at ngayon ay aalis na mula sa gate %4$s.</string>
+    <!-- Your flight to _ is delayed _ hours _ minute and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE_short">Naantala nang %2$s (na) oras at %3$s (na) minuto at ngayon ay aalis na mula sa gate %4$s.</string>
+    <!-- Your flight ot _ is delayed _ hour _ minutes and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE_short">Naantala nang %2$s (na) oras at %3$s (na) minuto at ngayon ay aalis na mula sa gate %4$s.</string>
+    <!-- Your flight to _ is delayed _ hours _ minutes and now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE_short">Naantala nang %2$s (na) oras at %3$s (na) minuto at ngayon ay aalis na mula sa gate %4$s.</string>
+    <!-- Your flight to _ is now departing _ minute early from gate _ TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE_short">Aalis nang %2$s (na) minuto nang mas maaga mula sa gate %3$s.</string>
+    <!-- Your flight to _ is now departing _ minutes early from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE_short">Aalis nang %2$s (na) minuto nang mas maaga mula sa gate %3$s.</string>
+    <!-- Your flight to _ is now departing _ hour early from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE_short">Aalis nang %2$s (na) oras nang mas maaga mula sa gate %3$s.</string>
+    <!-- Your flight to _ is now departing _ hours early from gate _ TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE_short">Aalis nang %2$s (na) oras nang mas maaga mula sa gate %3$s.</string>
+    <!-- Your flight to _ is now departing _ hour _ minute early from gate _ TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE_short">Aalis nang %2$s (na) oras at %3$s minuto nang mas maaga mula sa gate %4$s.</string>
+    <!-- Your flight to _ is now departing _ hours _ minute early from gate _ TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE_short">Aalis nang %2$s (na) oras at %3$s minuto nang mas maaga mula sa gate %4$s.</string>
+    <!-- Your flight to _ is now departing _ hour _ minutes early from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE_short">Aalis nang %2$s (na) oras at %3$s (na) minuto nang mas maaga mula sa gate %4$s.</string>
+    <!-- Your flight to _ is now departing _ hours _ minutes early from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE_short">Aalis nang %2$s (na) oras at %3$s (na) minuto nang mas maaga mula sa gate %4$s.</string>
+    <!-- Your flight from _ to _ has been cancelled TEMPLATE (short version) -->
+    <string name="S_Push_flight_from_CITY_to_CITY_cancelled_short">Ang flight mula sa %1$s ay nakansela.</string>
+    <!-- Your flight to _ departs in _ hour TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR_short">Aalis sa loob ng %2$s (na) oras.</string>
+    <!-- Your flight to _ departs in _ hours TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS_short">Aalis sa loob ng %2$s (na) oras.</string>
+    <!-- Your flight to _ departs in _ hours _ minute TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE_short">Aalis sa loob ng %2$s (na) oras at %3$s (na) minuto.</string>
+    <!-- Your flight to _ departs in _ hours _ minutes TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES_short">Aalis sa loob ng %2$s (na) oras at %3$s (na) minuto.</string>
+    <!-- Your flight to _ departs in _ hour _ minute TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE_short">Aalis sa loob ng %2$s (na) oras at %3$s (na) minuto.</string>
+    <!-- Your flight to _ departs in _ hour _ minutes TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES_short">Aalis sa loob ng %2$s (na) oras at %3$s (na) minuto.</string>
+    <!-- Your flight to _ departs in _ minutes TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_departs_in_MINUTES_short">Aalis sa loob ng %2$s (na) minuto.</string>
+    <!-- Your flight to _ now departs from gate _  TEMPLATE (short version) -->
+    <string name="S_Push_flight_CITY_gate_GATE_short">Aalis mula sa gate %2$s.</string>
+
+    <!-- VSC Info Screen -->
+    <!-- Header for a list of apps also written by VSC -->
+    <string name="AlsoByVSC">Sa pamamagitan din ng VSC</string>
+    <!-- Name of VSC Train app -->
+    <string name="VSC_Voyages_SNF">Voyages-SNCF</string>
+    <!-- Description for FT Free app -->
+    <string name="VSC_Voyages_SNF_description">Application sa Voyages-sncf.com</string>
+    <!-- VSC Copyright information -->
+    <string name="VSC_copyright">© Copyright 2012-2013 Agence Voyages-SNCF, Inc.\nNakalaan ang lahat ng karapatan.</string>
+    <!-- VSC app name -->
+    <string name="VSC_app_name">Mga VSC Hotel</string>
+    <!-- Link to open when VSC logo is clicked on -->
+    <string name="app_vsc_info_url">http://www.voyages-sncf.com/</string>
 
 </resources>

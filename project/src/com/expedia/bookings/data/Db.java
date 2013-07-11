@@ -127,10 +127,6 @@ public class Db {
 	//Info about the current backgroundImage
 	private BackgroundImageResponse mBackgroundImageInfo;
 
-	// The result of a call to e3 for a coupon code discount
-	private CreateTripResponse mCreateTripResponse;
-	private Rate mCouponDiscountRate;
-
 	// To store the samsung ticketId we get from the server
 	// Do not persist!
 	private String mSamsungWalletTicketId;
@@ -551,22 +547,6 @@ public class Db {
 		return sDb.mWorkingBillingInfoManager;
 	}
 
-	public static void setCreateTripResponse(CreateTripResponse response) {
-		sDb.mCreateTripResponse = response;
-	}
-
-	public static CreateTripResponse getCreateTripResponse() {
-		return sDb.mCreateTripResponse;
-	}
-
-	public static void setCouponDiscountRate(Rate couponDiscountRate) {
-		sDb.mCouponDiscountRate = couponDiscountRate;
-	}
-
-	public static Rate getCouponDiscountRate() {
-		return sDb.mCouponDiscountRate;
-	}
-
 	public static void clearGoogleWallet() {
 		sDb.mMaskedWallet = null;
 		sDb.mGoogleWalletTraveler = null;
@@ -588,8 +568,6 @@ public class Db {
 		getHotelSearch().resetSearchParams();
 
 		sDb.mBookingResponse = null;
-		sDb.mCreateTripResponse = null;
-		sDb.mCouponDiscountRate = null;
 		sDb.mUser = null;
 		sDb.mBackgroundImageCache = null;
 		sDb.mLaunchHotelData = null;
@@ -830,8 +808,6 @@ public class Db {
 			putMap(obj, "itineraries", sDb.mItineraries);
 			putJsonable(obj, "user", sDb.mUser);
 			putList(obj, "travelers", sDb.mTravelers);
-			putJsonable(obj, "createTripResponse", sDb.mCreateTripResponse);
-			putJsonable(obj, "couponDiscountRate", sDb.mCouponDiscountRate);
 			putJsonable(obj, "backgroundImageInfo", sDb.mBackgroundImageInfo);
 
 			IoUtils.writeStringToFile(TEST_DATA_FILE, obj.toString(), context);
@@ -865,9 +841,6 @@ public class Db {
 			sDb.mItineraries = getMap(obj, "itineraries", Itinerary.class, sDb.mItineraries);
 			sDb.mUser = getJsonable(obj, "user", User.class, sDb.mUser);
 			sDb.mTravelers = getList(obj, "travelers", Traveler.class, sDb.mTravelers);
-			sDb.mCreateTripResponse = getJsonable(obj, "createTripResponse", CreateTripResponse.class,
-					sDb.mCreateTripResponse);
-			sDb.mCouponDiscountRate = getJsonable(obj, "couponDiscountRate", Rate.class, sDb.mCouponDiscountRate);
 			sDb.mBackgroundImageInfo = getJsonable(obj, "backgroundImageInfo", BackgroundImageResponse.class,
 					sDb.mBackgroundImageInfo);
 		}
@@ -899,8 +872,7 @@ public class Db {
 		return JSONUtils.getJSONableStringMap(obj, key, c, defaultVal);
 	}
 
-	private static void putList(JSONObject obj, String key, List<? extends JSONable> arrlist)
-			throws JSONException {
+	private static void putList(JSONObject obj, String key, List<? extends JSONable> arrlist) throws JSONException {
 		JSONUtils.putJSONableList(obj, key, arrlist);
 	}
 

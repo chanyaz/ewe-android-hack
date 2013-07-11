@@ -61,7 +61,6 @@ public class HotelSearchParams implements JSONable {
 	private Date mCheckOutDate;
 	private int mNumAdults;
 	private List<Integer> mChildren;
-	private Set<String> mPropertyIds;
 
 	// These may be out of sync with freeform location; make sure to sync before
 	// using.
@@ -116,7 +115,6 @@ public class HotelSearchParams implements JSONable {
 
 		// Setup default number of results
 		mQuery = null;
-		mPropertyIds = new HashSet<String>();
 	}
 
 	public void setDefaultStay() {
@@ -242,22 +240,6 @@ public class HotelSearchParams implements JSONable {
 		if (search.hasLatLng()) {
 			setSearchLatLon(search.getLatitude(), search.getLongitude());
 		}
-	}
-
-	public void addPropertyId(String propertyId) {
-		mPropertyIds.add(propertyId);
-	}
-
-	public Set<String> getPropertyIds() {
-		return mPropertyIds;
-	}
-
-	public boolean hasPropertyIds() {
-		return mPropertyIds != null && mPropertyIds.size() > 0;
-	}
-
-	public void clearPropertyIds() {
-		mPropertyIds.clear();
 	}
 
 	public boolean hasValidCheckInDate() {
@@ -422,7 +404,7 @@ public class HotelSearchParams implements JSONable {
 	}
 
 	public boolean hasRegionId() {
-		return mRegionId != null;
+		return mRegionId != null && !mRegionId.equals("0");
 	}
 
 	public void setFromWidget() {
@@ -439,16 +421,8 @@ public class HotelSearchParams implements JSONable {
 		mSearchLatitude = obj.optDouble("latitude", 0);
 		mSearchLongitude = obj.optDouble("longitude", 0);
 
-		JSONObject checkinDate = obj.optJSONObject("checkinDate");
-		if (checkinDate != null) {
-			mCheckInDate = new Date();
-			mCheckInDate.fromJson(checkinDate);
-		}
-		JSONObject checkoutDate = obj.optJSONObject("checkoutDate");
-		if (checkoutDate != null) {
-			mCheckOutDate = new Date();
-			mCheckOutDate.fromJson(checkoutDate);
-		}
+		mCheckInDate = JSONUtils.getJSONable(obj, "checkinDate", Date.class);
+		mCheckOutDate = JSONUtils.getJSONable(obj, "checkoutDate", Date.class);
 
 		mNumAdults = obj.optInt("numAdults", 0);
 		mChildren = JSONUtils.getIntList(obj, "children");
@@ -470,20 +444,6 @@ public class HotelSearchParams implements JSONable {
 
 		mUserQuery = obj.optString("userFreeformLocation", null);
 
-		try {
-			mPropertyIds = new HashSet<String>();
-
-			JSONArray arr;
-			arr = obj.getJSONArray("propertyIds");
-			for (int i = 0; i < arr.length(); i++) {
-				mPropertyIds.add(arr.getString(i));
-			}
-		}
-		catch (JSONException e) {
-			Log.w("Could not read search params JSON.", e);
-			return false;
-		}
-
 		return true;
 	}
 
@@ -496,24 +456,16 @@ public class HotelSearchParams implements JSONable {
 				obj.put("latitude", mSearchLatitude);
 				obj.put("longitude", mSearchLongitude);
 			}
-			if (mCheckInDate != null) {
-				obj.put("checkinDate", mCheckInDate.toJson());
-			}
-			if (mCheckOutDate != null) {
-				obj.put("checkoutDate", mCheckOutDate.toJson());
-			}
+
+			JSONUtils.putJSONable(obj, "checkinDate", mCheckInDate);
+			JSONUtils.putJSONable(obj, "checkoutDate", mCheckOutDate);
+
 			obj.put("numAdults", mNumAdults);
 			JSONUtils.putIntList(obj, "children", mChildren);
 
 			if (mSearchType != null) {
 				obj.put("searchType", mSearchType);
 			}
-
-			JSONArray propertyIds = new JSONArray();
-			for (String propertyId : mPropertyIds) {
-				propertyIds.put(propertyId);
-			}
-			obj.put("propertyIds", propertyIds);
 
 			obj.put("regionId", mRegionId);
 
@@ -542,7 +494,6 @@ public class HotelSearchParams implements JSONable {
 					&& (mQuery != null ? mQuery.equals(other.getQuery()) : true) // mFreeformLocation may be null
 					&& this.mSearchLatitude == other.getSearchLatitude()
 					&& this.mSearchLongitude == other.getSearchLongitude()
-					&& this.mPropertyIds.equals(other.getPropertyIds())
 					&& ((mCheckInDate != null && other.getCheckInDate() != null && this.mCheckInDate.equals(other
 							.getCheckInDate())) || (mCheckInDate == null && other.getCheckInDate() == null))
 					&& ((mCheckOutDate != null && other.getCheckOutDate() != null && this.mCheckOutDate.equals(other
