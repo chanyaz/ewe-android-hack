@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelDescription;
-import com.expedia.bookings.data.HotelDescription.DescriptionSection;
+import com.expedia.bookings.data.HotelTextSection;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.mobiata.android.Log;
@@ -105,20 +105,20 @@ public class HotelDetailsDescriptionFragment extends Fragment {
 		HotelDescription.SectionStrings.initSectionStrings(getActivity());
 		HotelDescription hotelDescription = new HotelDescription(getActivity());
 		hotelDescription.parseDescription(unparsedDescriptionText);
-		List<DescriptionSection> sections = hotelDescription.getSections();
+		List<HotelTextSection> sections = hotelDescription.getSections();
 
 		if (sections != null && sections.size() > 1) {
 			LayoutInflater inflater = getActivity().getLayoutInflater();
 			for (int i = 1; i < sections.size(); i++) {
-				DescriptionSection section = sections.get(i);
+				HotelTextSection section = sections.get(i);
 				View sectionContainer = inflater.inflate(R.layout.include_hotel_description_section,
 						allSectionsContainer, false);
 
 				TextView titleText = Ui.findView(sectionContainer, R.id.title_text);
 				TextView bodyText = Ui.findView(sectionContainer, R.id.body_text);
 				titleText.setVisibility(View.VISIBLE);
-				titleText.setText(section.title);
-				bodyText.setText(Html.fromHtml(section.description));
+				titleText.setText(section.getName());
+				bodyText.setText(Html.fromHtml(section.getContent()));
 				allSectionsContainer.addView(sectionContainer);
 			}
 		}

@@ -11,17 +11,8 @@ import com.expedia.bookings.R;
 
 public class HotelDescription {
 
-	private ArrayList<DescriptionSection> mSections = new ArrayList<DescriptionSection>();
+	private ArrayList<HotelTextSection> mSections = new ArrayList<HotelTextSection>();
 	private Context mContext;
-	public static class DescriptionSection {
-		public String title;
-		public String description;
-
-		public DescriptionSection(String descriptionTitle, String body) {
-			this.title = new String(descriptionTitle);
-			this.description = new String(body);
-		}
-	}
 
 	public static class SectionStrings {
 		private static HashSet<String> sPropertyAmenitiesStrings;
@@ -68,12 +59,12 @@ public class HotelDescription {
 		final String justBullet = mContext.getString(R.string.bullet_point) + " ";
 
 		// Reset sections
-		mSections = new ArrayList<DescriptionSection>();
+		mSections = new ArrayList<HotelTextSection>();
 
-		DescriptionSection firstSection = null;
-		DescriptionSection amenitiesSection = null;
-		DescriptionSection policiesSection = null;
-		DescriptionSection feesSection = null;
+		HotelTextSection firstSection = null;
+		HotelTextSection amenitiesSection = null;
+		HotelTextSection policiesSection = null;
+		HotelTextSection feesSection = null;
 
 		StringBuilder str = new StringBuilder(2048);
 		String tag;
@@ -126,16 +117,16 @@ public class HotelDescription {
 				if (tag.equals("strong")) {
 					if (sectionString != null && str.length() > 0) {
 						if (firstSection == null) {
-							firstSection = new DescriptionSection(sectionString, str.toString().trim());
+							firstSection = new HotelTextSection(sectionString, str.toString().trim());
 						}
 						else if (SectionStrings.isValidPropertyAmenitiesString(sectionString)) {
-							amenitiesSection = new DescriptionSection(sectionString, str.toString().trim());
+							amenitiesSection = new HotelTextSection(sectionString, str.toString().trim());
 						}
 						else if (SectionStrings.isValidPoliciesString(sectionString)) {
-							policiesSection = new DescriptionSection(sectionString, str.toString().trim());
+							policiesSection = new HotelTextSection(sectionString, str.toString().trim());
 						}
 						else if (SectionStrings.isValidFeesString(sectionString)) {
-							feesSection = new DescriptionSection(sectionString, str.toString().trim());
+							feesSection = new HotelTextSection(sectionString, str.toString().trim());
 						}
 
 						str = str.delete(0, str.length());
@@ -186,16 +177,16 @@ public class HotelDescription {
 
 		if (sectionString != null && str.length() > 0) {
 			if (firstSection == null) {
-				firstSection = new DescriptionSection(sectionString, str.toString().trim());
+				firstSection = new HotelTextSection(sectionString, str.toString().trim());
 			}
 			else if (SectionStrings.isValidPropertyAmenitiesString(sectionString)) {
-				amenitiesSection = new DescriptionSection(sectionString, str.toString().trim());
+				amenitiesSection = new HotelTextSection(sectionString, str.toString().trim());
 			}
 			else if (SectionStrings.isValidPoliciesString(sectionString)) {
-				policiesSection = new DescriptionSection(sectionString, str.toString().trim());
+				policiesSection = new HotelTextSection(sectionString, str.toString().trim());
 			}
 			else if (SectionStrings.isValidFeesString(sectionString)) {
-				feesSection = new DescriptionSection(sectionString, str.toString().trim());
+				feesSection = new HotelTextSection(sectionString, str.toString().trim());
 			}
 		}
 
@@ -213,7 +204,7 @@ public class HotelDescription {
 		}
 	}
 
-	public List<DescriptionSection> getSections() {
+	public List<HotelTextSection> getSections() {
 		return mSections;
 	}
 

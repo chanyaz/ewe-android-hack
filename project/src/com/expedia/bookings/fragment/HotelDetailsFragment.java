@@ -34,8 +34,8 @@ import com.expedia.bookings.activity.TabletUserReviewsListActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelDescription;
-import com.expedia.bookings.data.HotelDescription.DescriptionSection;
 import com.expedia.bookings.data.HotelOffersResponse;
+import com.expedia.bookings.data.HotelTextSection;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Review;
@@ -547,7 +547,7 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 		for (int i = 0; sectionCount > 0; i++) {
 
 			for (int j = 0; j < numHotelDescriptionsPerRow && sectionCount > 0; j++) {
-				DescriptionSection section = hotelDescription.getSections().get(i * numHotelDescriptionsPerRow + j);
+				HotelTextSection section = hotelDescription.getSections().get(i * numHotelDescriptionsPerRow + j);
 				ViewGroup descriptionSection = (ViewGroup) mInflater.inflate(
 						R.layout.snippet_hotel_description_section, null);
 
@@ -559,10 +559,10 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 
 				TextView descriptionTitle = (TextView) descriptionSection
 						.findViewById(R.id.title_description_text_view);
-				descriptionTitle.setText(section.title);
+				descriptionTitle.setText(section.getName());
 
 				TextView descriptionBody = (TextView) descriptionSection.findViewById(R.id.body_description_text_view);
-				descriptionBody.setText(Html.fromHtml(section.description));
+				descriptionBody.setText(Html.fromHtml(section.getContent()));
 
 				columns.get(i % columns.size()).addView(descriptionSection);
 

@@ -18,7 +18,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.UserReviewsListActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelDescription;
-import com.expedia.bookings.data.HotelDescription.DescriptionSection;
+import com.expedia.bookings.data.HotelTextSection;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.ReviewsStatisticsResponse;
 import com.mobiata.android.util.AndroidUtils;
@@ -183,15 +183,15 @@ public class HotelDetailsIntroFragment extends Fragment {
 		HotelDescription hotelDescription = new HotelDescription(getActivity());
 
 		hotelDescription.parseDescription(unparsedDescriptionText);
-		List<DescriptionSection> sections = hotelDescription.getSections();
+		List<HotelTextSection> sections = hotelDescription.getSections();
 
 		final TextView titleView = Ui.findView(view, R.id.title_text);
 		final TextView bodyView = Ui.findView(view, R.id.body_text);
 
 		CharSequence title, body;
 		if (sections != null && sections.size() >= 1) {
-			title = Html.fromHtml(sections.get(0).title);
-			body = Html.fromHtml(sections.get(0).description);
+			title = Html.fromHtml(sections.get(0).getName());
+			body = Html.fromHtml(sections.get(0).getContent());
 		}
 		else {
 			title = Html.fromHtml("");
