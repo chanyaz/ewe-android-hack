@@ -27,7 +27,7 @@
             android:id="@+id/layout_i_accept"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/cd_checkout_slide_to_purchase"
+            android:contentDescription="@string/slide_to_purchase"
             android:orientation="horizontal" >
 
             <ImageView
