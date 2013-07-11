@@ -78,6 +78,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	private boolean mShowError = false;
 	private boolean mAllowLoadItins = false;
 
+	private boolean mCurrentSyncHasErrors = false;
 	private boolean mIsLoading = false;
 	private String mJumpToItinId = null;
 
@@ -503,22 +504,25 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 	@Override
 	public void onSyncFailure(SyncError error) {
-		setIsLoading(false);
-		setErrorMessage(R.string.itinerary_fetch_error, User.isLoggedIn(getActivity()));
+		mCurrentSyncHasErrors = true;
 	}
 
 	@Override
 	public void onSyncFinished(Collection<Trip> trips) {
 		setIsLoading(false);
-		setErrorMessage(null, false);
-
 		mItinListView.syncWithManager();
-
-		trackItins(false);
-
-		if (mJumpToItinId != null) {
-			showItinCard(mJumpToItinId, true);
+		if (mCurrentSyncHasErrors && (trips == null || trips.size() == 0)) {
+			setErrorMessage(R.string.itinerary_fetch_error, true);
 		}
+		else {
+			setErrorMessage(null, false);
+			trackItins(false);
+
+			if (mJumpToItinId != null) {
+				showItinCard(mJumpToItinId, true);
+			}
+		}
+		mCurrentSyncHasErrors = false;
 	}
 
 	public void resetTrackingState() {

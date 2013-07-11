@@ -31,6 +31,8 @@ public class ItineraryLoaderLoginExtender extends LoginExtender implements Itine
 	private LoginExtenderListener mListener;
 	private Context mContext;
 
+	private boolean mCurrentSyncHasErrors = false;
+
 	public ItineraryLoaderLoginExtender() {
 		super(null);
 	}
@@ -122,23 +124,31 @@ public class ItineraryLoaderLoginExtender extends LoginExtender implements Itine
 
 	@Override
 	public void onSyncFailure(final SyncError error) {
-		Runnable runner = new Runnable() {
-			@Override
-			public void run() {
-				mProgress.setVisibility(View.GONE);
-				mErrorContainer.setVisibility(View.VISIBLE);
-				mErrorMessage.setText(R.string.itinerary_fetch_error);
-			}
-		};
-		mView.post(runner);
+		mCurrentSyncHasErrors = true;
+
 	}
 
 	@Override
 	public void onSyncFinished(Collection<Trip> trips) {
-		if (mListener != null) {
-			mListener.loginExtenderWorkComplete(ItineraryLoaderLoginExtender.this);
+		if (mCurrentSyncHasErrors && (trips == null || trips.size() == 0)) {
+			Runnable runner = new Runnable() {
+				@Override
+				public void run() {
+					mProgress.setVisibility(View.GONE);
+					mErrorContainer.setVisibility(View.VISIBLE);
+					mErrorMessage.setText(R.string.itinerary_fetch_error);
+				}
+			};
+			mView.post(runner);
 		}
-		ItineraryManager.getInstance().removeSyncListener(this);
+		else {
+			if (mListener != null) {
+				mListener.loginExtenderWorkComplete(ItineraryLoaderLoginExtender.this);
+			}
+			ItineraryManager.getInstance().removeSyncListener(this);
+		}
+
+		mCurrentSyncHasErrors = false;
 	}
 
 	@Override
