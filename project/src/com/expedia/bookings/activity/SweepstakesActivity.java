@@ -8,7 +8,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.fragment.SweepstakesFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 
 public class SweepstakesActivity extends FragmentActivity {
@@ -25,7 +24,6 @@ public class SweepstakesActivity extends FragmentActivity {
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		NavUtils.goToLaunchScreen(this);
 		finish();
 	}
 

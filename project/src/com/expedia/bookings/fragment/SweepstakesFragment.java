@@ -15,7 +15,6 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
-import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.util.SettingUtils;
@@ -72,18 +71,13 @@ public class SweepstakesFragment extends Fragment {
 		bind();
 	}
 
-	private void finish() {
-		NavUtils.goToLaunchScreen(getActivity());
-		getActivity().finish();
-	}
-
 	private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.no_thanks_button: {
 				SettingUtils.save(getActivity(), R.string.setting_hide_sweepstakes, true);
-				finish();
+				getActivity().finish();
 				break;
 			}
 			case R.id.enter_button: {
@@ -91,12 +85,12 @@ public class SweepstakesFragment extends Fragment {
 				break;
 			}
 			case R.id.done_button: {
-				finish();
+				getActivity().finish();
 				break;
 			}
 			case R.id.terms_text_view: {
 				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
-				builder.setUrl("http://www.expedia.com/p/info-terms/terms?pageid=8092");
+				builder.setUrl("http://expedia.com/tripadayrules");
 				startActivity(builder.getIntent());
 				break;
 			}

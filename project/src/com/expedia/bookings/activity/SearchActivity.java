@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.expedia.bookings.data.SweepstakesResponse;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -52,10 +53,7 @@ public class SearchActivity extends Activity {
 			NavUtils.goToVSC(this);
 		}
 		else {
-			if(NavUtils.showSweepstakes(this)) {
-				NavUtils.goToSweepstakes(this);
-			}
-			else if (NavUtils.skipLaunchScreenAndStartEHTablet(this)) {
+			if (NavUtils.skipLaunchScreenAndStartEHTablet(this)) {
 				// Note: 2.0 will not support launch screen nor Flights on tablet ergo send user to EH tablet
 			}
 			else {
@@ -72,6 +70,11 @@ public class SearchActivity extends Activity {
 				// On default, go to launch screen
 				NavUtils.goToLaunchScreen(this, forceShowWaterfall);
 			}
+		}
+
+		// Check for sweepstakes promotion
+		if (NavUtils.showSweepstakes(this)) {
+			new Thread(new SweepstakesTask(this)).start();
 		}
 
 		// Finish this Activity after routing
@@ -96,5 +99,23 @@ public class SearchActivity extends Activity {
 	 */
 	private void facebookInstallTracking() {
 		com.facebook.Settings.publishInstallAsync(this, ExpediaServices.getFacebookAppId(this));
+	}
+
+	private static class SweepstakesTask implements Runnable {
+		private Context mContext;
+
+		public SweepstakesTask(Context context) {
+			mContext = context.getApplicationContext();
+		}
+
+		@Override
+		public void run() {
+			ExpediaServices expediaServices = new ExpediaServices(mContext);
+			SweepstakesResponse response = expediaServices.getSweepstakesResponse();
+
+			if (response != null && response.getSweepstakesPromotionEnabled()) {
+				NavUtils.goToSweepstakes(mContext);
+			}
+		}
 	}
 }

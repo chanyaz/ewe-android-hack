@@ -1,5 +1,7 @@
 package com.expedia.bookings.utils;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -27,8 +29,6 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
 
-import java.util.List;
-
 /**
  * Utilities for navigating the app (between Activities)
  *
@@ -37,6 +37,7 @@ public class NavUtils {
 
 	public static void goToSweepstakes(Context context) {
 		Intent intent = new Intent(context, SweepstakesActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		context.startActivity(intent);
 	}
 

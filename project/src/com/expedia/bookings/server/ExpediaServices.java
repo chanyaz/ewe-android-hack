@@ -92,6 +92,7 @@ import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.SuggestResponse;
+import com.expedia.bookings.data.SweepstakesResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.AssistanceType;
 import com.expedia.bookings.data.Traveler.Gender;
@@ -313,6 +314,12 @@ public class ExpediaServices implements DownloadListener {
 		else {
 			return 3;
 		}
+	}
+
+	// Sweepstakes
+
+	public SweepstakesResponse getSweepstakesResponse() {
+		return doE3Request("static/mobile/sweepstakes", null, new SweepstakesResponseHandler(), 0);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1444,8 +1451,9 @@ public class ExpediaServices implements DownloadListener {
 		}
 		else if (endPoint == EndPoint.CUSTOM_SERVER) {
 			String protocol = (flags & F_SECURE_REQUEST) != 0 ? "https" : "http";
-			return protocol + "://" + SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
-					"localhost:3000") + "/";
+			return protocol + "://"
+					+ SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
+							"localhost:3000") + "/";
 		}
 		else {
 			throw new RuntimeException("Didn't know how to handle EndPoint: " + endPoint);
