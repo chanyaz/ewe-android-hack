@@ -7,6 +7,7 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
@@ -278,6 +279,49 @@ public class Property implements JSONable {
 
 	public void setRenovationText(HotelTextSection renovationText) {
 		mRenovationText = renovationText;
+	}
+
+	public List<HotelTextSection> getAllHotelText() {
+		List<HotelTextSection> sections = new ArrayList<HotelTextSection>();
+
+		if (mOverviewText != null) {
+			sections.addAll(mOverviewText);
+		}
+
+		addTextSection(sections, mAmenitiesText);
+		addTextSection(sections, mPoliciesText);
+		addTextSection(sections, mFeesText);
+		addTextSection(sections, mMandatoryFeesText);
+		addTextSection(sections, mRenovationText);
+
+		return sections;
+	}
+
+	private void addTextSection(List<HotelTextSection> sections, HotelTextSection section) {
+		if (section != null) {
+			sections.add(section);
+		}
+	}
+
+	/**
+	 * This is a backwards-compatible method of getting all the hotel text.  It
+	 * falls back to the old method if the new method is unavailable.
+	 * 
+	 * TODO: Delete this once hotel text sections are standard in all APIs
+	 */
+	public List<HotelTextSection> getAllHotelText(Context context) {
+		List<HotelTextSection> sections = getAllHotelText();
+
+		if (sections.size() == 0) {
+			// Fallback to the old method of parsing the description
+			// TODO: Remove once hotel text is in production
+			HotelDescription.SectionStrings.initSectionStrings(context);
+			HotelDescription hotelDescription = new HotelDescription(context);
+			hotelDescription.parseDescription(mDescriptionText);
+			sections = hotelDescription.getSections();
+		}
+
+		return sections;
 	}
 
 	public boolean isAvailable() {

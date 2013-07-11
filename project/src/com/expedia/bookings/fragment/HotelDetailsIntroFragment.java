@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.UserReviewsListActivity;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.HotelDescription;
 import com.expedia.bookings.data.HotelTextSection;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.ReviewsStatisticsResponse;
@@ -177,13 +176,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 			return;
 		}
 
-		String unparsedDescriptionText = property.getDescriptionText();
-
-		HotelDescription.SectionStrings.initSectionStrings(getActivity());
-		HotelDescription hotelDescription = new HotelDescription(getActivity());
-
-		hotelDescription.parseDescription(unparsedDescriptionText);
-		List<HotelTextSection> sections = hotelDescription.getSections();
+		List<HotelTextSection> sections = property.getAllHotelText(getActivity());
 
 		final TextView titleView = Ui.findView(view, R.id.title_text);
 		final TextView bodyView = Ui.findView(view, R.id.body_text);
@@ -195,7 +188,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 		}
 		else {
 			title = Html.fromHtml("");
-			body = Html.fromHtml(unparsedDescriptionText);
+			body = Html.fromHtml(property.getDescriptionText());
 		}
 
 		// Add "read more" button if the intro paragraph is too long

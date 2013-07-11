@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
@@ -33,7 +34,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletUserReviewsListActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.HotelDescription;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelTextSection;
 import com.expedia.bookings.data.Property;
@@ -533,21 +533,16 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 			mHotelDescriptionContainer.addView(column);
 		}
 
-		HotelDescription.SectionStrings.initSectionStrings(getActivity());
-		HotelDescription hotelDescription = new HotelDescription(getActivity());
+		List<HotelTextSection> sections = property.getAllHotelText(getActivity());
 
-		if (property.hasDescriptionText()) {
-			hotelDescription.parseDescription(property.getDescriptionText());
-		}
-
-		int sectionCount = hotelDescription.getSections().size();
+		int sectionCount = sections.size();
 		int tenDp = (int) FloatMath.ceil(getResources().getDisplayMetrics().density * 10);
 		int fiveDp = (int) FloatMath.ceil(getResources().getDisplayMetrics().density * 5);
 		int numHotelDescriptionsPerRow = getResources().getInteger(R.integer.num_hotel_description_sections_per_row);
 		for (int i = 0; sectionCount > 0; i++) {
 
 			for (int j = 0; j < numHotelDescriptionsPerRow && sectionCount > 0; j++) {
-				HotelTextSection section = hotelDescription.getSections().get(i * numHotelDescriptionsPerRow + j);
+				HotelTextSection section = sections.get(i * numHotelDescriptionsPerRow + j);
 				ViewGroup descriptionSection = (ViewGroup) mInflater.inflate(
 						R.layout.snippet_hotel_description_section, null);
 

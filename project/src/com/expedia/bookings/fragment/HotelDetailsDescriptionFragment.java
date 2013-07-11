@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.HotelDescription;
 import com.expedia.bookings.data.HotelTextSection;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.utils.LayoutUtils;
@@ -101,11 +100,7 @@ public class HotelDetailsDescriptionFragment extends Fragment {
 		LinearLayout allSectionsContainer = Ui.findView(view, R.id.description_details_sections_container);
 		allSectionsContainer.removeAllViews();
 
-		String unparsedDescriptionText = property.getDescriptionText();
-		HotelDescription.SectionStrings.initSectionStrings(getActivity());
-		HotelDescription hotelDescription = new HotelDescription(getActivity());
-		hotelDescription.parseDescription(unparsedDescriptionText);
-		List<HotelTextSection> sections = hotelDescription.getSections();
+		List<HotelTextSection> sections = property.getAllHotelText(getActivity());
 
 		if (sections != null && sections.size() > 1) {
 			LayoutInflater inflater = getActivity().getLayoutInflater();
