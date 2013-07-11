@@ -382,7 +382,7 @@
         </receiver>
 
         <!-- Account Manager -->
-        <service android:name=".account.ExpediaAuthenticatationService" >
+        <service android:name="com.expedia.bookings.account.ExpediaAuthenticatationService" >
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
@@ -391,7 +391,7 @@
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/expedia_authenticator" />
         </service>
-        <service android:name=".account.AccountSyncService" >
+        <service android:name="com.expedia.bookings.account.AccountSyncService" >
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
             </intent-filter>
