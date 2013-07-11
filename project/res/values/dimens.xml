@@ -208,9 +208,6 @@
     <!-- SearchParamsFragment -->
     <dimen name="child_ages_layout_width">500dp</dimen>
 
-    <!-- HotelReceipt -->
-    <dimen name="hotel_rate_breakdown_cell_margin">8dp</dimen>
-    
     <!-- Breakdown dialog -->
     <dimen name="breakdown_margin">10dp</dimen>
 
