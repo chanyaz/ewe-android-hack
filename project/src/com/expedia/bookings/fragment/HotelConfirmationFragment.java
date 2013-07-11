@@ -425,6 +425,13 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 			setSamsungWalletVisibility(View.VISIBLE);
 			mSamsungWalletButton.setTag(result);
 			mSamsungWalletButton.setOnClickListener(mSamsungWalletClickListener);
+
+			if (result == SamsungWalletUtils.RESULT_TICKET_EXISTS) {
+				mSamsungWalletButton.setText(getString(R.string.view_in_samsung_wallet));
+			}
+			else if (result == SamsungWalletUtils.RESULT_TICKET_NOT_FOUND) {
+				mSamsungWalletButton.setText(getString(R.string.load_to_samsung_wallet));
+			}
 		}
 	}
 
