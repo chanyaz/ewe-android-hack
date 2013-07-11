@@ -17,6 +17,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.dialog.BreakdownDialogFragment;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.section.SectionFlightTrip;
 import com.expedia.bookings.server.ExpediaServices;
@@ -27,7 +28,6 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 
 public class FlightTripPriceFragment extends Fragment {
 
-	private static final String TAG_PRICE_BREAKDOWN_DIALOG = "TAG_PRICE_BREAKDOWN_DIALOG";
 	private static final String INSTANCE_REQUESTED_DETAILS = "INSTANCE_REQUESTED_DETAILS";
 	private static final String KEY_DETAILS = "KEY_DETAILS";
 	private static final String INSTANCE_PRICE_CHANGE = "INSTANCE_PRICE_CHANGE";
@@ -85,8 +85,9 @@ public class FlightTripPriceFragment extends Fragment {
 		priceSection.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				DialogFragment newFragment = FlightPriceBreakdownDialogFragment.newInstance();
-				newFragment.show(getFragmentManager(), TAG_PRICE_BREAKDOWN_DIALOG);
+				BreakdownDialogFragment dialog = BreakdownDialogFragment.buildHotelRateBreakdownDialog(getActivity(),
+						Db.getFlightSearch(), Db.getBillingInfo());
+				dialog.show(getFragmentManager(), BreakdownDialogFragment.TAG);
 			}
 		});
 

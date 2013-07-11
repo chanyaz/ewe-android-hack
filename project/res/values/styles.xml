@@ -916,4 +916,22 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="TextAppearance.Breakdown.Flight" />
+
+    <style name="TextAppearance.Breakdown.Flight.Medium">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextAppearance.Breakdown.Flight.Medium.Bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Breakdown.Flight.Heavy">
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="TextAppearance.Breakdown.Flight.Heavy.Bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

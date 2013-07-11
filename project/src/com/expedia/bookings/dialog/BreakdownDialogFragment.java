@@ -19,6 +19,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.FlightSearch;
+import com.expedia.bookings.data.FlightSearchParams;
+import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Money;
@@ -132,6 +136,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 
 		Builder builder = new Builder();
 
+		// Title
 		builder.setTitle(context.getString(R.string.cost_summary));
 		builder.setTitleDivider(R.drawable.dialog_breakdown_stripe);
 
@@ -255,6 +260,115 @@ public class BreakdownDialogFragment extends DialogFragment {
 						.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 						.build())
 				.build());
+
+		return builder.build();
+	}
+
+	public static BreakdownDialogFragment buildHotelRateBreakdownDialog(Context context, FlightSearch search,
+			BillingInfo billingInfo) {
+		FlightSearchParams params = search.getSearchParams();
+		FlightTrip trip = search.getSelectedFlightTrip();
+
+		Builder builder = new Builder();
+
+		// Title
+		builder.setTitle(context.getString(R.string.cost_summary));
+		builder.setTitleDivider(R.drawable.border_horizontal_expedia_striped);
+
+		// Per traveler price
+		for (int i = 0; i < params.getNumAdults(); i++) {
+			builder.addLineItem((new LineItemBuilder())
+					.setItemLeft((new ItemBuilder())
+							.setText(context.getString(R.string.traveler_num_and_category_TEMPLATE, i + 1))
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Flight_Medium_Bold)
+							.build())
+					.setItemRight((new ItemBuilder())
+							.setText(trip.getTotalFare().getFormattedMoneyPerTraveler())
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Flight_Medium_Bold)
+							.build())
+					.build());
+
+			builder.addLineItem((new LineItemBuilder())
+					.setTopPaddingEnabled(false)
+					.setItemLeft((new ItemBuilder())
+							.setText(context.getString(R.string.flight))
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Flight_Medium)
+							.build())
+					.setItemRight((new ItemBuilder())
+							.setText(trip.getBaseFare().getFormattedMoneyPerTraveler())
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Flight_Medium)
+							.build())
+					.build());
+
+			builder.addLineItem((new LineItemBuilder())
+					.setTopPaddingEnabled(false)
+					.setItemLeft((new ItemBuilder())
+							.setText(context.getString(R.string.taxes_and_airline_fees))
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Flight_Medium)
+							.build())
+					.setItemRight((new ItemBuilder())
+							.setText(trip.getTaxes().getFormattedMoneyPerTraveler())
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Flight_Medium)
+							.build())
+					.build());
+
+			builder.addDivider();
+		}
+
+		// LCC card fee
+		Money cardFee = trip.getCardFee(billingInfo);
+		if (cardFee != null && trip.showFareWithCardFee(context, billingInfo)) {
+			builder.addLineItem((new LineItemBuilder())
+					.setItemLeft((new ItemBuilder())
+							.setText(context.getString(R.string.airline_card_fee))
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Flight_Medium)
+							.build())
+					.setItemRight((new ItemBuilder())
+							.setText(cardFee.getFormattedMoney())
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Flight_Medium)
+							.build())
+					.build());
+
+			builder.addDivider();
+		}
+
+		// OB fees
+		if (trip.getFees() != null) {
+			builder.addLineItem((new LineItemBuilder())
+					.setItemLeft((new ItemBuilder())
+							.setText(context.getString(R.string.expedia_booking_fee))
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Flight_Medium)
+							.build())
+					.setItemRight((new ItemBuilder())
+							.setText(trip.getFees().getFormattedMoney())
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Flight_Medium)
+							.build())
+					.build());
+
+			builder.addDivider();
+		}
+
+		// Total price
+		if (trip.getTotalFare() != null) {
+			String text;
+			if (trip.showFareWithCardFee(context, billingInfo)) {
+				text = trip.getTotalFareWithCardFee(billingInfo).getFormattedMoney();
+			}
+			else {
+				text = trip.getTotalFare().getFormattedMoney();
+			}
+
+			builder.addLineItem((new LineItemBuilder())
+					.setItemLeft((new ItemBuilder())
+							.setText(context.getString(R.string.total_price_label))
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Flight_Heavy_Bold)
+							.build())
+					.setItemRight((new ItemBuilder())
+							.setText(text)
+							.setTextAppearance(R.style.TextAppearance_Breakdown_Flight_Heavy)
+							.build())
+					.build());
+		}
 
 		return builder.build();
 	}
