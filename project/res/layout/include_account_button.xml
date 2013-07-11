@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.widget.AccountButton xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mobiata="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -109,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_dark" />
 
-            <TextView
+            <com.mobiata.android.widget.AutoResizeTextView
                 android:id="@+id/account_bottom_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -127,7 +128,7 @@
     <LinearLayout
         android:id="@+id/account_rewards_container"
         style="@style/BookingSection"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_checkout_information_rewards_tab"
         android:gravity="center"
@@ -136,7 +137,7 @@
 
         <TextView
             android:id="@+id/account_rewards_textview"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:gravity="center"

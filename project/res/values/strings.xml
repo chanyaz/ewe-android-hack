@@ -838,6 +838,8 @@
     <string name="log_out">Log Out</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">You\'ll earn %1$s points for this trip!</string>
+    <!-- You'll earn bonus points for this booking -->
+    <string name="youll_earn_bonus_points_for_this_booking">You\'ll earn bonus points for this booking</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
     <string name="calculating_taxes_and_fees">Calculating Taxes and Fees…</string>
     <!-- Label to show next to the total price on the checkout receipt -->
@@ -1788,6 +1790,8 @@
     <string name="log_in_for_faster_booking">Log in for faster booking</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_rewards">Enrolled in Expedia Rewards\u2122</string>
+    <!-- Label for account status -->
+    <string name="enrolled_in_expedia_elite_plus_rewards">Enrolled in Expedia Elite Plus Rewards\u2122</string>
     <!-- Loading rewards points message -->
     <string name="loading_your_rewards_points">Loading your rewards points…</string>
     <!-- Label for account name -->
