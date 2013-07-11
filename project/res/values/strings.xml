@@ -2334,6 +2334,8 @@
     <string name="view_in_samsung_wallet">View in Samsung Wallet</string>
     <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
     <string name="load_to_samsung_wallet">Load to Samsung Wallet</string>
+    <!-- Label to use when the user does not have the Samsung Wallet app installed -->
+    <string name="download_samsung_wallet">Download Samsung Wallet</string>
 
     <!-- Human readable credit card names -->
     <!-- American Express -->
