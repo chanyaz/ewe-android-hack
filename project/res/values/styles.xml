@@ -131,13 +131,6 @@
         <item name="android:fadingEdgeLength">50dip</item>
     </style>
 
-    <style name="TextAppearance" />
-
-    <style name="TextAppearance.Small">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@android:color/secondary_text_dark</item>
-    </style>
-
     <style name="TextAppearance.Large" />
 
     <style name="TextAppearance.Large.Inverse" />
@@ -858,8 +851,6 @@
     </style>
 
     <!-- TEXT APPEARANCE -->
-
-    <style name="TextAppearance" />
 
     <style name="TextAppearance.Holo" />
 
