@@ -113,7 +113,7 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 				int len = media.size();
 				boolean hasMore = true;
 				Context context = getActivity();
-				while (loaded < MAX_IMAGES_LOADED && hasMore) {
+				while (getActivity() != null && loaded < MAX_IMAGES_LOADED && hasMore) {
 					hasMore = false;
 					if (left > 0) {
 						left--;
