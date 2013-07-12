@@ -25,7 +25,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	private Long mTuid = 0L;
 	private String mLoyaltyMembershipNumber;
 	private String mLoyaltyMembershipName;
-	private boolean mIsLoyaltyMembershipActive = true;
+	private boolean mIsLoyaltyMembershipActive = false;
 
 	// General
 	private String mFirstName;
