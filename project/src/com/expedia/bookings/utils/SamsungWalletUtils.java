@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
+import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -27,11 +29,23 @@ public class SamsungWalletUtils {
 	}
 
 	public static boolean isSamsungAvailable(Context context) {
-		return AndroidUtils.isPackageInstalled(context, SAMSUNG_APPS_PACKAGE_NAME);
+		if (PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.UNITED_STATES) {
+			return AndroidUtils.isPackageInstalled(context, SAMSUNG_APPS_PACKAGE_NAME);
+		}
+		else {
+			// Disable for non-US POS
+			return false;
+		}
 	}
 
 	public static boolean isSamsungWalletAvailable(Context context) {
-		return AndroidUtils.isPackageInstalled(context, SAMSUNG_WALLET_PACKAGE_NAME);
+		if (PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.UNITED_STATES) {
+			return AndroidUtils.isPackageInstalled(context, SAMSUNG_WALLET_PACKAGE_NAME);
+		}
+		else {
+			// Disable for non-US POS
+			return false;
+		}
 	}
 
 	public static Intent checkTicketIntent(Context context, String ticketId) {
