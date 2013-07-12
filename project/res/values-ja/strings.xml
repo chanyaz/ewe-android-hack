@@ -90,8 +90,6 @@
     <string name="find_itinerary">旅程を検索する</string>
     <!-- Find Itinerary # -->
     <string name="find_itinerary_pound">旅程番号を検索する</string>
-    <!-- Itinerary Number -->
-    <string name="itinerary_number">旅程番号</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">エクスペディアの旅程番号</string>
     <!-- No upcoming trips -->
@@ -796,8 +794,6 @@
     <string name="airline_card_not_supported_TEMPLATE">この航空会社では、%1$sはお使いいただけません。</string>
 
     <!-- Checkout Activity -->
-    <!-- Expedia Account label -->
-    <string name="expedia_account">Expedia アカウント</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">お支払い情報</string>
     <!-- Explicit acceptance of TOS -->
@@ -917,8 +913,6 @@
     <string name="expiration_date">有効期限</string>
     <!-- Set expiration date button -->
     <string name="btn_set">設定</string>
-    <!-- Security code label -->
-    <string name="security_code">セキュリティコード</string>
 
     <!-- Section edit billing address -->
     <!-- Address line 1 hint -->
@@ -939,8 +933,6 @@
     <string name="save_billing_info_message">このお支払い方法をお客様のエクスペディア アカウントに保存しますか ? 保存すると、次回ご購入時に便利です。</string>
     <!-- save -->
     <string name="save">保存</string>
-    <!-- dont save -->
-    <string name="dont_save">保存しない</string>
 
     <!-- Save traveler dialog -->
     <!-- save traveler -->
@@ -1007,8 +999,6 @@
     <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;希望の座席 : &lt;/font&gt;%1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">旅行者情報を読み込んでいます…</string>
-    <!-- Traveler Information -->
-    <string name="traveler_information">旅行者情報</string>
     <!-- Passport -->
     <string name="passport">パスポート</string>
     <!-- Current traveler - <firstname> <lastname> -->
@@ -1189,13 +1179,6 @@
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">現地出発日 : </string>
 
-    <!-- Search Fragment -->
-    <!-- Initial hint for the search location field - invites the user to enter information here -->
-    <string name="enter_search_location">検索ロケーションを入力…</string>
-    <!-- Hint for "search location" field -->
-    <string name="hint_search_location">ロケーションを検索</string>
-    <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-    <string name="loading_suggestions">提案を読み込み中…</string>
     <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
@@ -1696,8 +1679,6 @@
     <string name="booking_information_dialog_title">予約を完了</string>
 
     <!-- Confirmation activity -->
-    <!-- Title for confirmation screen -->
-    <string name="booking_complete">予約が完了しました</string>
     <!-- Friendly message at the top of the receipt -->
     <string name="Enjoy_your_stay">素敵なご滞在を。</string>
     <!-- Format for a first/last name -->

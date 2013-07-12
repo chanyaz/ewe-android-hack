@@ -90,8 +90,6 @@
     <string name="find_itinerary">Trouver un voyage</string>
     <!-- Find Itinerary # -->
     <string name="find_itinerary_pound">Trouver le voyage n°</string>
-    <!-- Itinerary Number -->
-    <string name="itinerary_number">Numéro de voyage</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">N° de voyage Expedia</string>
     <!-- No upcoming trips -->
@@ -796,8 +794,6 @@
     <string name="airline_card_not_supported_TEMPLATE">Cette compagnie n\&apos;accepte pas les paiements avec %1$s.</string>
 
     <!-- Checkout Activity -->
-    <!-- Expedia Account label -->
-    <string name="expedia_account">Compte Expedia</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">Informations de paiement</string>
     <!-- Explicit acceptance of TOS -->
@@ -917,8 +913,6 @@
     <string name="expiration_date">Date d\&apos;expiration</string>
     <!-- Set expiration date button -->
     <string name="btn_set">Configurer</string>
-    <!-- Security code label -->
-    <string name="security_code">Code de sécurité</string>
 
     <!-- Section edit billing address -->
     <!-- Address line 1 hint -->
@@ -939,8 +933,6 @@
     <string name="save_billing_info_message">Enregistrer ce mode de paiement dans votre compte Expedia pour réserver plus rapidement dans le futur ?</string>
     <!-- save -->
     <string name="save">Enregistrer</string>
-    <!-- dont save -->
-    <string name="dont_save">Ne pas enregistrer</string>
 
     <!-- Save traveler dialog -->
     <!-- save traveler -->
@@ -1007,8 +999,6 @@
     <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;Préférence siège côté &lt;/font&gt;%1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Chargement des informations sur le voyageur…</string>
-    <!-- Traveler Information -->
-    <string name="traveler_information">Informations sur le voyageur</string>
     <!-- Passport -->
     <string name="passport">Passeport</string>
     <!-- Current traveler - <firstname> <lastname> -->
@@ -1189,13 +1179,6 @@
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">Retour :</string>
 
-    <!-- Search Fragment -->
-    <!-- Initial hint for the search location field - invites the user to enter information here -->
-    <string name="enter_search_location">Saisir votre destination…</string>
-    <!-- Hint for "search location" field -->
-    <string name="hint_search_location">Recherche destination</string>
-    <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-    <string name="loading_suggestions">Chargement des suggestions…</string>
     <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
@@ -1696,8 +1679,6 @@
     <string name="booking_information_dialog_title">Compléter la réservation</string>
 
     <!-- Confirmation activity -->
-    <!-- Title for confirmation screen -->
-    <string name="booking_complete">Réservation complétée</string>
     <!-- Friendly message at the top of the receipt -->
     <string name="Enjoy_your_stay">Bon voyage !</string>
     <!-- Format for a first/last name -->

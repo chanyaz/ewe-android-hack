@@ -90,8 +90,6 @@
     <string name="find_itinerary">일정 찾기</string>
     <!-- Find Itinerary # -->
     <string name="find_itinerary_pound">일정 번호 찾기</string>
-    <!-- Itinerary Number -->
-    <string name="itinerary_number">일정 번호</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">Expedia 일정 번호</string>
     <!-- No upcoming trips -->
@@ -796,8 +794,6 @@
     <string name="airline_card_not_supported_TEMPLATE">이 항공사는 %1$s 결제를 지원하지 않습니다.</string>
 
     <!-- Checkout Activity -->
-    <!-- Expedia Account label -->
-    <string name="expedia_account">Expedia 계정</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">예약 정보</string>
     <!-- Explicit acceptance of TOS -->
@@ -917,8 +913,6 @@
     <string name="expiration_date">만료일</string>
     <!-- Set expiration date button -->
     <string name="btn_set">설정</string>
-    <!-- Security code label -->
-    <string name="security_code">CVC 번호</string>
 
     <!-- Section edit billing address -->
     <!-- Address line 1 hint -->
@@ -939,8 +933,6 @@
     <string name="save_billing_info_message">앞으로 더욱 간편한 구매를 위해 고객님의 Expedia 계정에 이 결제 방법을 저장하시겠습니까?</string>
     <!-- save -->
     <string name="save">저장</string>
-    <!-- dont save -->
-    <string name="dont_save">저장 안 함</string>
 
     <!-- Save traveler dialog -->
     <!-- save traveler -->
@@ -1007,8 +999,6 @@
     <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;&lt;/font&gt;%1$s 좌석 선호</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">여행객 정보 로드 중…</string>
-    <!-- Traveler Information -->
-    <string name="traveler_information">여행객 정보</string>
     <!-- Passport -->
     <string name="passport">여권</string>
     <!-- Current traveler - <firstname> <lastname> -->
@@ -1189,13 +1179,6 @@
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">귀국편:</string>
 
-    <!-- Search Fragment -->
-    <!-- Initial hint for the search location field - invites the user to enter information here -->
-    <string name="enter_search_location">검색 위치 입력…</string>
-    <!-- Hint for "search location" field -->
-    <string name="hint_search_location">위치 검색</string>
-    <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-    <string name="loading_suggestions">제안 항목 로드 중…</string>
     <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
@@ -1696,8 +1679,6 @@
     <string name="booking_information_dialog_title">예약 완료</string>
 
     <!-- Confirmation activity -->
-    <!-- Title for confirmation screen -->
-    <string name="booking_complete">예약 완료</string>
     <!-- Friendly message at the top of the receipt -->
     <string name="Enjoy_your_stay">즐거운 여행되세요!</string>
     <!-- Format for a first/last name -->

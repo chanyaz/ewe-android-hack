@@ -90,8 +90,6 @@
     <string name="find_itinerary">Cari Rencana Perjalanan</string>
     <!-- Find Itinerary # -->
     <string name="find_itinerary_pound">Cari No. Rencana Perjalanan</string>
-    <!-- Itinerary Number -->
-    <string name="itinerary_number">Nomor Rencana Perjalanan</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">No. Rencana Perjalanan Expedia</string>
     <!-- No upcoming trips -->
@@ -796,8 +794,6 @@
     <string name="airline_card_not_supported_TEMPLATE">Maskapai ini tidak menerima %1$s.</string>
 
     <!-- Checkout Activity -->
-    <!-- Expedia Account label -->
-    <string name="expedia_account">Akun Expedia</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">Informasi Pembayaran</string>
     <!-- Explicit acceptance of TOS -->
@@ -917,8 +913,6 @@
     <string name="expiration_date">Tanggal Kedaluwarsa</string>
     <!-- Set expiration date button -->
     <string name="btn_set">Tetapkan</string>
-    <!-- Security code label -->
-    <string name="security_code">Kode Keamanan</string>
 
     <!-- Section edit billing address -->
     <!-- Address line 1 hint -->
@@ -939,8 +933,6 @@
     <string name="save_billing_info_message">Simpan metode pembayaran ini ke akun Expedia Anda untuk mempercepat proses pembelian di masa mendatang?</string>
     <!-- save -->
     <string name="save">Simpan</string>
-    <!-- dont save -->
-    <string name="dont_save">Jangan Simpan</string>
 
     <!-- Save traveler dialog -->
     <!-- save traveler -->
@@ -1007,8 +999,6 @@
     <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;Lebih Memilih Tempat Duduk &lt;/font&gt;%1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Memuat informasi pelancong…</string>
-    <!-- Traveler Information -->
-    <string name="traveler_information">Informasi Pelancong</string>
     <!-- Passport -->
     <string name="passport">Paspor</string>
     <!-- Current traveler - <firstname> <lastname> -->
@@ -1189,13 +1179,6 @@
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">Kembali:</string>
 
-    <!-- Search Fragment -->
-    <!-- Initial hint for the search location field - invites the user to enter information here -->
-    <string name="enter_search_location">Masukkan lokasi pencarian…</string>
-    <!-- Hint for "search location" field -->
-    <string name="hint_search_location">Lokasi Pencarian</string>
-    <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-    <string name="loading_suggestions">Memuat saran…</string>
     <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
@@ -1696,8 +1679,6 @@
     <string name="booking_information_dialog_title">Selesaikan Pemesanan Anda</string>
 
     <!-- Confirmation activity -->
-    <!-- Title for confirmation screen -->
-    <string name="booking_complete">Pemesanan Selesai</string>
     <!-- Friendly message at the top of the receipt -->
     <string name="Enjoy_your_stay">Selamat menginap.</string>
     <!-- Format for a first/last name -->

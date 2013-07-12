@@ -90,8 +90,6 @@
     <string name="find_itinerary">Hanapin ang Itinerary</string>
     <!-- Find Itinerary # -->
     <string name="find_itinerary_pound">Hanapin ang # ng Itinerary</string>
-    <!-- Itinerary Number -->
-    <string name="itinerary_number">Numero ng Itinerary</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">Expedia Itinerary #</string>
     <!-- No upcoming trips -->
@@ -796,8 +794,6 @@
     <string name="airline_card_not_supported_TEMPLATE">Hindi sinusuportahan ng airline ang %1$s.</string>
 
     <!-- Checkout Activity -->
-    <!-- Expedia Account label -->
-    <string name="expedia_account">Expedia Account</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">Impormasyon sa Pag-checkout</string>
     <!-- Explicit acceptance of TOS -->
@@ -917,8 +913,6 @@
     <string name="expiration_date">Petsa ng Pag-expire</string>
     <!-- Set expiration date button -->
     <string name="btn_set">Itakda</string>
-    <!-- Security code label -->
-    <string name="security_code">Code ng Seguridad</string>
 
     <!-- Section edit billing address -->
     <!-- Address line 1 hint -->
@@ -939,8 +933,6 @@
     <string name="save_billing_info_message">Ise-save ba ang paraan ng pagbayad na ito sa ilalim ng inyong account sa Expedia para sa mas mabilis na pagbayad sa hinaharap?</string>
     <!-- save -->
     <string name="save">I-save</string>
-    <!-- dont save -->
-    <string name="dont_save">Huwag I-save</string>
 
     <!-- Save traveler dialog -->
     <!-- save traveler -->
@@ -1007,8 +999,6 @@
     <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;Mas Gugustuhin ang Upuang &lt;/font&gt; %1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Nilo-load ang impo ng manlalakbay…</string>
-    <!-- Traveler Information -->
-    <string name="traveler_information">Impormasyon ng Magbibiyahe</string>
     <!-- Passport -->
     <string name="passport">Pasaporte</string>
     <!-- Current traveler - <firstname> <lastname> -->
@@ -1189,13 +1179,6 @@
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">Balik:</string>
 
-    <!-- Search Fragment -->
-    <!-- Initial hint for the search location field - invites the user to enter information here -->
-    <string name="enter_search_location">Ilagay ang paghahanapang lokasyon…</string>
-    <!-- Hint for "search location" field -->
-    <string name="hint_search_location">Maghanap ng Lokasyon</string>
-    <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-    <string name="loading_suggestions">Naglo-load ng mga mungkahi…</string>
     <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
@@ -1696,8 +1679,6 @@
     <string name="booking_information_dialog_title">Kumpletuhin ang Inyong Booking</string>
 
     <!-- Confirmation activity -->
-    <!-- Title for confirmation screen -->
-    <string name="booking_complete">Kumpleto na ang Booking</string>
     <!-- Friendly message at the top of the receipt -->
     <string name="Enjoy_your_stay">Sana ay mag-enjoy sa inyong pananatili!</string>
     <!-- Format for a first/last name -->

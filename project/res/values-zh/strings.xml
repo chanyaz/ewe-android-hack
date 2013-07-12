@@ -90,8 +90,6 @@
     <string name="find_itinerary">查找行程</string>
     <!-- Find Itinerary # -->
     <string name="find_itinerary_pound">查找行程编号</string>
-    <!-- Itinerary Number -->
-    <string name="itinerary_number">行程编号</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">Expedia 行程编号</string>
     <!-- No upcoming trips -->
@@ -796,8 +794,6 @@
     <string name="airline_card_not_supported_TEMPLATE">该航空公司不接受 %1$s。</string>
 
     <!-- Checkout Activity -->
-    <!-- Expedia Account label -->
-    <string name="expedia_account">Expedia 帐户</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">付款信息</string>
     <!-- Explicit acceptance of TOS -->
@@ -917,8 +913,6 @@
     <string name="expiration_date">到期日期</string>
     <!-- Set expiration date button -->
     <string name="btn_set">设置</string>
-    <!-- Security code label -->
-    <string name="security_code">安全验证码</string>
 
     <!-- Section edit billing address -->
     <!-- Address line 1 hint -->
@@ -939,8 +933,6 @@
     <string name="save_billing_info_message">是否将此付款方式保存到您的 Expedia 帐户，以方便将来预订？</string>
     <!-- save -->
     <string name="save">保存</string>
-    <!-- dont save -->
-    <string name="dont_save">不保存</string>
 
     <!-- Save traveler dialog -->
     <!-- save traveler -->
@@ -1007,8 +999,6 @@
     <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;偏好&lt;/font&gt;%1$s的座位</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">正在加载旅客信息…</string>
-    <!-- Traveler Information -->
-    <string name="traveler_information">旅客信息</string>
     <!-- Passport -->
     <string name="passport">护照</string>
     <!-- Current traveler - <firstname> <lastname> -->
@@ -1189,13 +1179,6 @@
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">返程：</string>
 
-    <!-- Search Fragment -->
-    <!-- Initial hint for the search location field - invites the user to enter information here -->
-    <string name="enter_search_location">输入搜索位置…</string>
-    <!-- Hint for "search location" field -->
-    <string name="hint_search_location">搜索位置</string>
-    <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-    <string name="loading_suggestions">正在加载建议…</string>
     <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
@@ -1696,8 +1679,6 @@
     <string name="booking_information_dialog_title">完成您的预订</string>
 
     <!-- Confirmation activity -->
-    <!-- Title for confirmation screen -->
-    <string name="booking_complete">预订完成</string>
     <!-- Friendly message at the top of the receipt -->
     <string name="Enjoy_your_stay">享受您的旅行时光。</string>
     <!-- Format for a first/last name -->

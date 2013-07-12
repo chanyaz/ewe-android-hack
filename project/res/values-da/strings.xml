@@ -90,8 +90,6 @@
     <string name="find_itinerary">Find rejseplan</string>
     <!-- Find Itinerary # -->
     <string name="find_itinerary_pound">Find rejseplansnummer</string>
-    <!-- Itinerary Number -->
-    <string name="itinerary_number">Rejseplansnummer</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">Expedia-rejseplansnummer</string>
     <!-- No upcoming trips -->
@@ -796,8 +794,6 @@
     <string name="airline_card_not_supported_TEMPLATE">Flyselskabet accepterer ikke %1$s.</string>
 
     <!-- Checkout Activity -->
-    <!-- Expedia Account label -->
-    <string name="expedia_account">Expedia-konto</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">Betalingsoplysninger</string>
     <!-- Explicit acceptance of TOS -->
@@ -917,8 +913,6 @@
     <string name="expiration_date">Udløbsdato</string>
     <!-- Set expiration date button -->
     <string name="btn_set">Indstil</string>
-    <!-- Security code label -->
-    <string name="security_code">Sikkerhedskode</string>
 
     <!-- Section edit billing address -->
     <!-- Address line 1 hint -->
@@ -939,8 +933,6 @@
     <string name="save_billing_info_message">Vil du gemme denne betalingsmetode på din Expedia-konto, så det bliver hurtigere at reservere i fremtiden?</string>
     <!-- save -->
     <string name="save">Gem</string>
-    <!-- dont save -->
-    <string name="dont_save">Gem ikke</string>
 
     <!-- Save traveler dialog -->
     <!-- save traveler -->
@@ -1007,8 +999,6 @@
     <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;Foretrukket sæde: &lt;/font&gt;%1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Henter oplysninger om rejsende…</string>
-    <!-- Traveler Information -->
-    <string name="traveler_information">Oplysninger om rejsende</string>
     <!-- Passport -->
     <string name="passport">Pas</string>
     <!-- Current traveler - <firstname> <lastname> -->
@@ -1189,13 +1179,6 @@
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">Returrejse:</string>
 
-    <!-- Search Fragment -->
-    <!-- Initial hint for the search location field - invites the user to enter information here -->
-    <string name="enter_search_location">Indtast søgeområde…</string>
-    <!-- Hint for "search location" field -->
-    <string name="hint_search_location">Søg efter placering</string>
-    <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-    <string name="loading_suggestions">Indlæser forslag…</string>
     <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
@@ -1696,8 +1679,6 @@
     <string name="booking_information_dialog_title">Fuldfør din reservation</string>
 
     <!-- Confirmation activity -->
-    <!-- Title for confirmation screen -->
-    <string name="booking_complete">Reservation gennemført</string>
     <!-- Friendly message at the top of the receipt -->
     <string name="Enjoy_your_stay">Nyd dit ophold.</string>
     <!-- Format for a first/last name -->
