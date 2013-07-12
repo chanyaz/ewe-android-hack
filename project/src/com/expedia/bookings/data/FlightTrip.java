@@ -187,7 +187,7 @@ public class FlightTrip implements JSONable {
 	}
 
 	public Money getCardFee(CreditCardType creditCardType) {
-		if (creditCardType != null) {
+		if (creditCardType != null && mValidPayments != null) {
 			for (ValidPayment payment : mValidPayments) {
 				if (payment.getCreditCardType() == creditCardType) {
 					return payment.getFee();
@@ -204,7 +204,7 @@ public class FlightTrip implements JSONable {
 	 * @return true if this FlightTrip supports the card type, false otherswise.
 	 */
 	public boolean isCardTypeSupported(CreditCardType creditCardType) {
-		if (creditCardType != null) {
+		if (creditCardType != null && mValidPayments != null) {
 			for (ValidPayment payment : mValidPayments) {
 				if (payment.getCreditCardType() == creditCardType) {
 					return true;
