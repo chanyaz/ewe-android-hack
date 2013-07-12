@@ -177,6 +177,9 @@
         <item name="roomsRatesSaleRibbonDrawable">@drawable/rooms_rates_ribbon</item>
         <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.Yellow</item>
         <item name="hotelListingSortPriceDrawable">@drawable/ic_sort_price</item>
+        <item name="hotelListingFilterPriceCheapString">@string/filter_price_cheap</item>
+        <item name="hotelListingFilterPriceModerateString">@string/filter_price_moderate</item>
+        <item name="hotelListingFilterPriceExpensiveString">@string/filter_price_expensive</item>
     </style>
 
     <style name="Theme.VSC" parent="@style/Theme.Expedia">
@@ -197,6 +200,9 @@
         <item name="roomsRatesSaleRibbonDrawable">@drawable/rooms_rates_ribbon_vsc</item>
         <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.Orange</item>
         <item name="hotelListingSortPriceDrawable">@drawable/ic_sort_euro</item>
+        <item name="hotelListingFilterPriceCheapString">@string/filter_price_cheap_euro</item>
+        <item name="hotelListingFilterPriceModerateString">@string/filter_price_moderate_euro</item>
+        <item name="hotelListingFilterPriceExpensiveString">@string/filter_price_expensive_euro</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->

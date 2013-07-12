@@ -14,7 +14,7 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:contentDescription="@string/cd_filter_for_low_range_hotel_prices"
-        android:text="@string/filter_price_cheap"
+        android:text="?attr/hotelListingFilterPriceCheapString"
         android:textStyle="bold" />
 
     <RadioButton
@@ -23,7 +23,7 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:contentDescription="@string/cd_filter_for_mid_range_hotel_prices"
-        android:text="@string/filter_price_moderate"
+        android:text="?attr/hotelListingFilterPriceModerateString"
         android:textStyle="bold" />
 
     <RadioButton
@@ -32,7 +32,7 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:contentDescription="@string/cd_filter_for_high_range_hotel_prices"
-        android:text="@string/filter_price_expensive"
+        android:text="?attr/hotelListingFilterPriceExpensiveString"
         android:textStyle="bold" />
 
     <RadioButton
