@@ -54,10 +54,6 @@ public class HotelDescription {
 	 * FIXME: May have out-of-bounds exceptions with the indexOf operations.
 	 */
 	public void parseDescription(String html) {
-		// See MOHotelDescription.m
-		final String bullet = "<br/>" + mContext.getString(R.string.bullet_point) + " ";
-		final String justBullet = mContext.getString(R.string.bullet_point) + " ";
-
 		// Reset sections
 		mSections = new ArrayList<HotelTextSection>();
 
@@ -89,29 +85,12 @@ public class HotelDescription {
 				continue; // drop the tag, it is empty
 			}
 
-			switch(tag.charAt(0)) {
+			switch (tag.charAt(0)) {
 			case 'l': // li
-				if ('i' == tag.charAt(1) && tag.length() == 2) {
-					if (! html.substring(i).startsWith("<ul>")) {
-						if (str.length() > 0) {
-							str.append(bullet);
-						}
-						else {
-							str.append(justBullet);
-						}
-					}
-				}
+				str.append("<li>");
 				break;
 			case 'u': // ul
-				if ('l' == tag.charAt(1) && tag.length() == 2) {
-					if (html.substring(i).startsWith("</ul>")) {
-						// Skip this noise
-						i += 5;
-					}
-					else if (str.length() > 0) {
-						str.append("<br/>");
-					}
-				}
+				str.append("<ul>");
 				break;
 			case 's': // strong
 				if (tag.equals("strong")) {
@@ -164,9 +143,10 @@ public class HotelDescription {
 				break;
 			case '/':
 				if (tag.equals("/ul")) {
-					if ('l' == tag.charAt(2) && tag.length() == 3) {
-						str.append("<br/>");
-					}
+					str.append("</ul>");
+				}
+				else if (tag.equals("/li")) {
+					str.append("</li>");
 				}
 				break;
 			default:

@@ -113,7 +113,7 @@ public class HotelDetailsDescriptionFragment extends Fragment {
 				TextView bodyText = Ui.findView(sectionContainer, R.id.body_text);
 				titleText.setVisibility(View.VISIBLE);
 				titleText.setText(section.getName());
-				bodyText.setText(Html.fromHtml(section.getContent()));
+				bodyText.setText(Html.fromHtml(section.getContentFormatted(getActivity())));
 				allSectionsContainer.addView(sectionContainer);
 			}
 		}
