@@ -17,6 +17,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AboutWebViewActivity;
 import com.expedia.bookings.activity.AppFeedbackActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.mobiata.android.Log;
@@ -151,7 +152,7 @@ public class AboutUtils {
 
 	public void contactViaPhone() {
 		trackCallSupport();
-		SocialUtils.call(mActivity, PointOfSale.getPointOfSale().getSupportPhoneNumber());
+		SocialUtils.call(mActivity, PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser()));
 	}
 
 	public void contactViaWeb() {

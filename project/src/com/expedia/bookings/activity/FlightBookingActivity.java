@@ -467,7 +467,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 	@Override
 	public void onCallCustomerSupport() {
-		SocialUtils.call(this, PointOfSale.getPointOfSale().getSupportPhoneNumber());
+		SocialUtils.call(this, PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser()));
 	}
 
 	@Override

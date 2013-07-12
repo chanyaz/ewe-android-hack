@@ -29,6 +29,7 @@ import android.text.style.UnderlineSpan;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.IoUtils;
@@ -75,6 +76,9 @@ public class PointOfSale {
 
 	// The POS's contact phone number
 	private String mSupportPhoneNumber;
+
+	// The POS's elite plus contact phone number (currently only available in USA POS)
+	private String mSupportPhoneNumberElitePlus;
 
 	// The POS's support email address
 	private String mSupportEmail;
@@ -198,6 +202,27 @@ public class PointOfSale {
 
 	public String getSupportPhoneNumber() {
 		return mSupportPhoneNumber;
+	}
+
+	public String getSupportPhoneNumberElitePlus() {
+		return mSupportPhoneNumberElitePlus;
+	}
+
+	/**
+	 * If the user is an elite plus member, we return the elite plus number (if available)
+	 * otherwise if the user is null, or a normal user, return  the regular support number
+	 * 
+	 * @param usr - The current logged in user, or null.
+	 * @return
+	 */
+	public String getSupportPhoneNumberBestForUser(User usr) {
+		if (usr != null && usr.getPrimaryTraveler() != null && usr.getPrimaryTraveler().getIsElitePlusMember()
+				&& !TextUtils.isEmpty(getSupportPhoneNumberElitePlus())) {
+			return getSupportPhoneNumberElitePlus();
+		}
+		else {
+			return getSupportPhoneNumber();
+		}
 	}
 
 	public String getSupportEmail() {
@@ -650,6 +675,7 @@ public class PointOfSale {
 
 		// Support
 		pos.mSupportPhoneNumber = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumber");
+		pos.mSupportPhoneNumberElitePlus = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberElite");
 		pos.mSupportEmail = data.optString("supportEmail");
 
 		// POS config

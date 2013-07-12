@@ -27,6 +27,8 @@ import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.ReviewsStatisticsResponse;
+import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.HotelSoldOutDialog;
 import com.expedia.bookings.fragment.HotelDetailsDescriptionFragment;
 import com.expedia.bookings.fragment.HotelDetailsIntroFragment;
@@ -160,7 +162,8 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		}
 
 		if (intent.hasExtra(Codes.SEARCH_PARAMS)) {
-			HotelSearchParams params = JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS, HotelSearchParams.class);
+			HotelSearchParams params = JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS,
+					HotelSearchParams.class);
 			Db.getHotelSearch().setSearchParams(params);
 		}
 
@@ -212,7 +215,8 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 			}
 			else {
 				bd.startDownload(CrossContextHelper.KEY_INFO_DOWNLOAD,
-						CrossContextHelper.getHotelOffersDownload(this, CrossContextHelper.KEY_INFO_DOWNLOAD), mInfoCallback);
+						CrossContextHelper.getHotelOffersDownload(this, CrossContextHelper.KEY_INFO_DOWNLOAD),
+						mInfoCallback);
 			}
 		}
 
@@ -429,7 +433,14 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 			mBookByPhoneButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					SocialUtils.call(HotelDetailsFragmentActivity.this, property.getTelephoneSalesNumber());
+					if (User.isLoggedIn(mContext) && Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
+							&& Db.getUser().getPrimaryTraveler().getIsElitePlusMember()) {
+						SocialUtils.call(HotelDetailsFragmentActivity.this, PointOfSale.getPointOfSale()
+								.getSupportPhoneNumberElitePlus());
+					}
+					else {
+						SocialUtils.call(HotelDetailsFragmentActivity.this, property.getTelephoneSalesNumber());
+					}
 				}
 			});
 			mBookByPhoneButton.setVisibility(View.VISIBLE);
