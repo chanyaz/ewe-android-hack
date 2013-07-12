@@ -71,6 +71,11 @@ public class TabletUserReviewsListActivity extends FragmentActivity implements U
 			return;
 		}
 
+		// Make sure to cancel previous stats downloads that might be lying around from a previous instance
+		if (savedInstanceState == null) {
+			mBackgroundDownloader.cancelDownload(REVIEWS_STATISTICS_DOWNLOAD);
+		}
+
 		mRootView = findViewById(R.id.user_reviews_view);
 		mDetector = new GestureDetector(this, new CloseGestureDetector());
 
