@@ -427,10 +427,10 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 			mSamsungWalletButton.setOnClickListener(mSamsungWalletClickListener);
 
 			if (result == SamsungWalletUtils.RESULT_TICKET_EXISTS) {
-				mSamsungWalletButton.setText(getString(R.string.view_in_samsung_wallet));
+				mSamsungWalletButton.setText(R.string.view_in_samsung_wallet);
 			}
 			else if (result == SamsungWalletUtils.RESULT_TICKET_NOT_FOUND) {
-				mSamsungWalletButton.setText(getString(R.string.load_to_samsung_wallet));
+				mSamsungWalletButton.setText(R.string.load_to_samsung_wallet);
 			}
 		}
 	}
