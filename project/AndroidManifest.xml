@@ -331,11 +331,11 @@
         <!-- Search stuff -->
         <provider
             android:name="com.expedia.bookings.content.AutocompleteProvider"
-            android:authorities="com.expedia.booking.autocomplete"
+            android:authorities="@string/autocomplete_provider_authority"
             android:exported="false" />
         <provider
             android:name="com.expedia.bookings.content.AirportAutocompleteProvider"
-            android:authorities="com.expedia.booking.autocomplete.air"
+            android:authorities="@string/airport_autocomplete_provider_authority"
             android:exported="false" />
 
         <!-- Boot stuff -->

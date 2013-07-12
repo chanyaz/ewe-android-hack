@@ -39,7 +39,13 @@
     <!-- Account Manager -->
     <string name="expedia_account_type_identifier">com.expedia.bookings</string>
     <string name="expedia_account_token_type_tuid_identifier">expedia.tuid</string>
-    <string name="expedia_account_sync_adapter_content_authority">expedia.contentauthority</string>
+
+
+    <!-- AndroidManifest <provider> authority declaration -->
+    <string name="autocomplete_provider_authority">com.expedia.booking.autocomplete</string>
+    <string name="airport_autocomplete_provider_authority">com.expedia.booking.autocomplete.air</string>
+    <string name="expedia_account_sync_adapter_content_authority">com.expedia.booking.accountsync</string>
+
 
     <!-- Fragment tags -->
     <string name="tag_search_params">SEARCH_PARAMS</string>
