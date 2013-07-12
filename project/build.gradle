@@ -30,6 +30,7 @@ android {
 
         VSC {
             buildConfig "public static final boolean IS_VSC = true;"
+            packageName "com.expedia.bookings.vsc"
         }
     }
 
