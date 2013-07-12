@@ -200,4 +200,6 @@
     <!-- Hotel listing user review rating style -->
     <attr name="hotelListingUserRatingStyle" format="reference" />
 
+    <!-- Hotel listing Sort by price icon -->
+    <attr name="hotelListingSortPriceDrawable" format="reference" />
 </resources>
