@@ -209,6 +209,8 @@
 
     <!-- Breakdown dialog -->
     <dimen name="breakdown_margin">10dp</dimen>
+    <dimen name="breakdown_indentation">17dp</dimen>
+    <dimen name="breakdown_text_margin">8dp</dimen>
 
     <!-- -1px == match_parent forall screen sizes -->
     <!-- This is overridden for tablets in landscape -->

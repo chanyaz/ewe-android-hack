@@ -53,7 +53,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 
 		mParams = getArguments().getParcelable(ARG_PARAMS);
 
-		mIndentPixels = (int) Math.round(17 * getResources().getDisplayMetrics().density);
+		mIndentPixels = getResources().getDimensionPixelSize(R.dimen.breakdown_indentation);
 
 		// TODO - proper style
 		setStyle(DialogFragment.STYLE_NO_TITLE, R.style.ExpediaLoginDialog);
@@ -119,7 +119,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 			LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) itemView.getLayoutParams();
 			params.width = 0;
 			params.weight = 1;
-			params.rightMargin = (int) Math.round(8 * getResources().getDisplayMetrics().density);
+			params.rightMargin = getResources().getDimensionPixelSize(R.dimen.breakdown_text_margin);
 		}
 
 		return itemView;
