@@ -544,7 +544,7 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 				// Reject the touch if it doesn't touch the shade area (+/- slop)
 				float eventX = event.getX();
 				float eventY = event.getY();
-				if (eventX < mShadeDst.left - mEdgeSlop || eventX > mShadeDst.right + mEdgeSlop
+				if (mShadeDst == null || eventX < mShadeDst.left - mEdgeSlop || eventX > mShadeDst.right + mEdgeSlop
 						|| eventY < mShadeDst.top - mEdgeSlop || eventY > mShadeDst.bottom + mEdgeSlop) {
 					return false;
 				}
