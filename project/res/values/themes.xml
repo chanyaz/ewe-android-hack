@@ -176,6 +176,7 @@
         <item name="hotelDetailSaleRibbonDrawable">@drawable/bg_sale_ribbon</item>
         <item name="roomsRatesSaleRibbonDrawable">@drawable/rooms_rates_ribbon</item>
         <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.Yellow</item>
+        <item name="hotelListingSortPriceDrawable">@drawable/ic_sort_price</item>
     </style>
 
     <style name="Theme.VSC" parent="@style/Theme.Expedia">
@@ -195,6 +196,7 @@
         <item name="hotelDetailSaleRibbonDrawable">@drawable/bg_sale_ribbon_vsc</item>
         <item name="roomsRatesSaleRibbonDrawable">@drawable/rooms_rates_ribbon_vsc</item>
         <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.Orange</item>
+        <item name="hotelListingSortPriceDrawable">@drawable/ic_sort_euro</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
