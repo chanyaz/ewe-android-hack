@@ -39,6 +39,7 @@ public class BrowsingTest extends ActivityInstrumentationTestCase2<SearchActivit
 		mUser.setHotelCityToRandomUSCity();
 		mDriver.setAllowScreenshots(false);
 		mDriver.setAllowOrientationChange(false);
+		mDriver.ignoreSweepstakesActivity();
 		mDriver.changePOS(mDriver.mLocaleUtils.AMERICAN_LOCALES[5]);
 		mDriver.setSpoofBookings();
 		mDriver.launchHotels();
