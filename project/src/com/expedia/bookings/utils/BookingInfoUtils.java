@@ -34,8 +34,7 @@ public class BookingInfoUtils {
 			cards.add(WalletUtils.convertToStoredCreditCard(Db.getMaskedWallet()));
 		}
 
-		// 1281. VSC doesn't support saving credit cards. Don't try to even add or populate cards.
-		if (User.isLoggedIn(context) && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null && !ExpediaBookingApp.IS_VSC) {
+		if (User.isLoggedIn(context) && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
 			cards.addAll(Db.getUser().getStoredCreditCards());
 		}
 
