@@ -37,7 +37,6 @@ public class StressTest extends ActivityInstrumentationTestCase2<SearchActivity>
 	public void testMethod() throws Exception {
 		mDriver.setAllowScreenshots(false);
 		mDriver.setAllowOrientationChange(false);
-		mDriver.ignoreSweepstakesActivity();
 		mDriver.delay();
 		mDriver.changePOS(mDriver.mLocaleUtils.AMERICAN_LOCALES[5]);
 		mDriver.setSpoofBookings();

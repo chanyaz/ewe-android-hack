@@ -36,7 +36,6 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 	}
 
 	public void testMethod() throws Exception {
-		mDriver.ignoreSweepstakesActivity();
 		mUser.setAirportsToRandomUSAirports();
 		mSolo.clickOnScreen(50, 50);
 		mDriver.changePOS(mDriver.mLocaleUtils.FLIGHTS_LOCALES[2]);

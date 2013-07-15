@@ -40,7 +40,6 @@ public class IntegrationHappyPath extends ActivityInstrumentationTestCase2<Searc
 	// It runs pulling from the Production API
 	
 	public void testMethod() throws Exception {
-		mDriver.ignoreSweepstakesActivity();
 		mUser.setHotelCityToRandomUSCity();
 		mDriver.setAllowScreenshots(false);
 		mDriver.setAllowOrientationChange(false);

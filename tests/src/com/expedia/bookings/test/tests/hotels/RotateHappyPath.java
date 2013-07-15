@@ -50,7 +50,6 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 		mDriver.setAllowOrientationChange(true); //sets Driver to do the rotates
 		mDriver.setAllowScreenshots(false); //no screenshots.
 		mSolo.clickOnScreen(50, 50);
-		mDriver.ignoreSweepstakesActivity();
 		mDriver.setSpoofBookings();
 		mDriver.clearPrivateData();
 		mDriver.delay(2);

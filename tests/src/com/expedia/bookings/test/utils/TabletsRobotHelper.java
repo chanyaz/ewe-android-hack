@@ -56,7 +56,6 @@ public class TabletsRobotHelper extends HotelsRobotHelper {
 
 		mSolo.scrollDown();
 		ArrayList<View> a = mSolo.getCurrentViews();
-		Log.v("!!!", "!!! " + a.size());
 		for (int i = 0; i < a.size(); i++) {
 			Log.v("!!!", "!!! " + a.toString());
 			if (spoofBookingsDone && suppressFlightsDone) {
@@ -109,7 +108,7 @@ public class TabletsRobotHelper extends HotelsRobotHelper {
 		catch (Error e) {
 			enterLog(TAG,
 					"Error when trying to press to search for hotels. " +
-							"Keyboard may be displayed, so trying to close it.");
+					"Keyboard may be displayed, so trying to close it.");
 			mSolo.goBack();
 			delay(1);
 			mSolo.clickOnView(searchForHotelsBtn);
@@ -190,7 +189,6 @@ public class TabletsRobotHelper extends HotelsRobotHelper {
 	}
 
 	public void runHotelHappyPath() {
-		ignoreSweepstakesActivity();
 		delay(5);
 		setSpoofBookings();
 		selectLocation(mUser.mHotelSearchCity);

@@ -45,7 +45,6 @@ public class FullHappyPathTest extends ActivityInstrumentationTestCase2<SearchAc
 	// Test Driver 
 
 	public void testMethod() throws Exception {
-		mDriver.ignoreSweepstakesActivity();
 		mDriver.setSpoofBookings();
 		mDriver.clearPrivateData();
 		
