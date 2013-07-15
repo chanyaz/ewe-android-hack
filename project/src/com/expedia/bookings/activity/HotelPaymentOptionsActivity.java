@@ -12,6 +12,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.HotelPaymentCreditCardFragment;
@@ -490,11 +491,11 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 			return false;
 		}
 
-		//Has the user manually entered data already?
+		// Has the user manually entered data already?
 		HotelPaymentFlowState validationState = HotelPaymentFlowState.getInstance(this);
-		boolean addressValid = validationState.hasValidBillingAddress(Db.getWorkingBillingInfoManager()
-				.getWorkingBillingInfo());
-		boolean cardValid = validationState.hasValidCardInfo(Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+		BillingInfo billingInfo = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
+		boolean addressValid = validationState.hasValidBillingAddress(billingInfo);
+		boolean cardValid = validationState.hasValidCardInfo(billingInfo);
 		if (addressValid && cardValid) {
 			return false;
 		}
