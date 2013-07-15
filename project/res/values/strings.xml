@@ -1212,7 +1212,7 @@
     <string name="hint_search_location">Search Location</string>
     <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
     <string name="loading_suggestions">Loading suggestions…</string>
-    <string name="app_name">Expedia</string>
+    <string name="app_name">Hotel Voyages-sncf</string>
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
