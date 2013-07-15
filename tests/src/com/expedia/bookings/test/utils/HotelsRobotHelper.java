@@ -1148,7 +1148,7 @@ public class HotelsRobotHelper {
 
 	public void ignoreSweepstakesActivity() {
 		String sweepstakesTitle = mRes.getString(R.string.sweepstakes_enter_title);
-		if (mSolo.searchText(sweepstakesTitle)) {
+		if (mSolo.searchText(sweepstakesTitle, 1, false, true)) {
 			Log.d(TAG, "Ignoring sweepstakes activity");
 			mSolo.clickOnText(mRes.getString(R.string.sweepstakes_no_thanks));
 		}
