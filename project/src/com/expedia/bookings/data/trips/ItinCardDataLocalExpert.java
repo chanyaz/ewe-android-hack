@@ -35,6 +35,11 @@ public class ItinCardDataLocalExpert extends ItinCardData {
 	}
 
 	@Override
+	public boolean hasSummaryData() {
+		return false;
+	}
+
+	@Override
 	public boolean hasDetailData() {
 		return false;
 	}

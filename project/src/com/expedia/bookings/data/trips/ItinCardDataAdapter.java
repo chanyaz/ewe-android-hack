@@ -338,11 +338,12 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			boolean setAsSummaryCard = false;
 
 			ItinCardData data = mItinCardDatas.get(a);
-			Calendar startCal = data.getStartDate().getCalendar();
-
-			if (!data.hasDetailData()) {
+ 
+			if (!isValidForSummary(data)) {
 				continue;
 			}
+
+			Calendar startCal = data.getStartDate().getCalendar();
 
 			if (data instanceof ItinCardDataFlight && ((ItinCardDataFlight) data).isEnRoute()) {
 				setAsSummaryCard = true;
@@ -390,9 +391,12 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			// See if we have an alt summary card we want
 			if (summaryCardPosition + 1 < len) {
 				ItinCardData possibleAlt = mItinCardDatas.get(summaryCardPosition + 1);
-				long startMillis = possibleAlt.getStartDate().getCalendar().getTimeInMillis();
-				if (possibleAlt.hasDetailData() && nowMillis > startMillis - threeHours) {
-					altSummaryCardPosition = summaryCardPosition + 1;
+
+				if (isValidForSummary(possibleAlt)) {
+					long startMillis = possibleAlt.getStartDate().getCalendar().getTimeInMillis();
+					if (possibleAlt.hasDetailData() && nowMillis > startMillis - threeHours) {
+						altSummaryCardPosition = summaryCardPosition + 1;
+					}
 				}
 			}
 		}
@@ -406,6 +410,10 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		}
 
 		return new Pair<Integer, Integer>(summaryCardPosition, altSummaryCardPosition);
+	}
+
+	private boolean isValidForSummary(ItinCardData data) {
+		return data.hasSummaryData() && data.hasDetailData() && data.getStartDate() != null;
 	}
 
 	private void addHotelAttachData(List<ItinCardData> itinCardDatas) {
