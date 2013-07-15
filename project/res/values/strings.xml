@@ -87,9 +87,9 @@
     <!-- Subtitle of the sweepstakes describing what the price is -->
     <string name="sweepstakes_enter_subtitle">Your chance to win a\n$1,200 trip from Expedia!</string>
     <!-- Text describing how to enter the sweepstakes -->
-    <string name="sweepstakes_enter_text">Just sign in with an Expedia account\nor Connect with Facebook to enter.</string>
+    <string name="sweepstakes_enter_text">Just log in with an Expedia account\nor connect with Facebook to enter.</string>
     <!-- Button declining to enter the sweepstakes -->
-    <string name="sweepstakes_no_thanks">No thanks</string>
+    <string name="sweepstakes_no_thanks">No Thanks</string>
     <!-- Button to enter the sweepstakes -->
     <string name="sweepstakes_enter">Enter</string>
     <!-- Terms and conditions text for the sweepstakes -->
