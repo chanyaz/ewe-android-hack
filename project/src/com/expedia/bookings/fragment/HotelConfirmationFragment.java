@@ -383,10 +383,12 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 			Intent intent = null;
 			if (result == SamsungWalletUtils.RESULT_TICKET_EXISTS) {
 				Log.d("SamsungWallet: Starting view ticket activity");
+				OmnitureTracking.trackSamsungWalletViewClicked(getActivity());
 				intent = SamsungWalletUtils.viewTicketIntent(context, ticketId);
 			}
 			else if (result == SamsungWalletUtils.RESULT_TICKET_NOT_FOUND) {
 				Log.d("SamsungWallet: Starting download ticket activity");
+				OmnitureTracking.trackSamsungWalletLoadClicked(getActivity());
 				intent = SamsungWalletUtils.downloadTicketIntent(context, ticketId);
 			}
 
@@ -399,6 +401,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 	private final View.OnClickListener mDownloadSamsungWalletClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
+			OmnitureTracking.trackSamsungWalletDownloadClicked(getActivity());
 			SocialUtils.openSite(getActivity(), SamsungWalletUtils.SAMSUNG_WALLET_DOWNLOAD_URL);
 		}
 	};
@@ -427,15 +430,18 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 			mSamsungWalletButton.setOnClickListener(mSamsungWalletClickListener);
 
 			if (result == SamsungWalletUtils.RESULT_TICKET_EXISTS) {
+				OmnitureTracking.trackSamsungWalletViewShown(getActivity());
 				mSamsungWalletButton.setText(R.string.view_in_samsung_wallet);
 			}
 			else if (result == SamsungWalletUtils.RESULT_TICKET_NOT_FOUND) {
+				OmnitureTracking.trackSamsungWalletLoadShown(getActivity());
 				mSamsungWalletButton.setText(R.string.load_to_samsung_wallet);
 			}
 		}
 	}
 
 	private void showDownloadSamsungWalletButton() {
+		OmnitureTracking.trackSamsungWalletDownloadShown(getActivity());
 		setSamsungWalletVisibility(View.VISIBLE);
 		mSamsungWalletButton.setText(getString(R.string.download_samsung_wallet));
 		mSamsungWalletButton.setOnClickListener(mDownloadSamsungWalletClickListener);
