@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.inputmethod.InputMethodManager;
@@ -15,6 +16,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.fragment.HotelTravelerInfoOneFragment;
 import com.expedia.bookings.fragment.HotelTravelerInfoOptionsFragment;
 import com.expedia.bookings.fragment.HotelTravelerInfoOptionsFragment.TravelerInfoYoYoListener;
+import com.expedia.bookings.model.HotelPaymentFlowState;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
@@ -34,6 +36,7 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 	private HotelTravelerInfoOptionsFragment mOptionsFragment;
 	private HotelTravelerInfoOneFragment mOneFragment;
 
+	private MenuItem mMenuNext;
 	private MenuItem mMenuDone;
 
 	private YoYoMode mMode = YoYoMode.NONE;
@@ -135,12 +138,20 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 		super.onSaveInstanceState(outState);
 	}
 
+	@Override
+	public void onBackPressed() {
+		if (!moveBackwards()) {
+			super.onBackPressed();
+		}
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// ActionBar/Menu
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_yoyo, menu);
+		mMenuNext = ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_next);
 		mMenuDone = ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_done);
 		return true;
 	}
@@ -151,6 +162,7 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 		case android.R.id.home: {
 			return moveBackwards();
 		}
+		case R.id.menu_next:
 		case R.id.menu_done:
 			moveForward();
 			return true;
@@ -162,6 +174,7 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (menu != null) {
+			mMenuNext = menu.findItem(R.id.menu_next);
 			mMenuDone = menu.findItem(R.id.menu_done);
 
 			displayActionBarTitleBasedOnState();
@@ -172,29 +185,35 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 		return super.onPrepareOptionsMenu(menu);
 	}
 
-	@Override
-	public void onBackPressed() {
-		if (!moveBackwards()) {
-			super.onBackPressed();
-		}
-	}
-
-	public void setShowDoneButton(boolean showDone) {
+	private void setShowDoneButton(boolean showDone) {
 		if (mMenuDone != null) {
 			mMenuDone.setEnabled(showDone);
 			mMenuDone.setVisible(showDone);
 		}
 	}
 
-	public void displayActionItemBasedOnState() {
+	private void setShowNextButton(boolean showNext) {
+		if (mMenuNext != null) {
+			mMenuNext.setEnabled(showNext);
+			mMenuNext.setVisible(showNext);
+		}
+	}
+
+	private void displayActionItemBasedOnState() {
 		if (mMode == null) {
 			return;
 		}
 		else if (mPos != null && mMode.equals(YoYoMode.YOYO)) {
 			switch (mPos) {
 			case ONE:
-			default:
-				setShowDoneButton(true);
+				if (gotoPaymentEntry()) {
+					setShowDoneButton(false);
+					setShowNextButton(true);
+				}
+				else {
+					setShowDoneButton(true);
+					setShowNextButton(false);
+				}
 			}
 		}
 		else if (mMode.equals(YoYoMode.EDIT)) {
@@ -210,7 +229,7 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 		}
 	}
 
-	public void displayActionBarTitleBasedOnState() {
+	private void displayActionBarTitleBasedOnState() {
 		ActionBar actionBar = this.getSupportActionBar();
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP
 				| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
@@ -226,7 +245,7 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 		actionBar.setTitle(titleStr);
 	}
 
-	public boolean validate(Validatable validatable) {
+	private boolean validate(Validatable validatable) {
 		if (validatable == null) {
 			return false;
 		}
@@ -248,7 +267,14 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 			}
 			case ONE: {
 				if (validate(mOneFragment)) {
-					displayCheckout();
+					if (gotoPaymentEntry()) {
+						commitTraveler();
+						startActivity(new Intent(this, HotelPaymentOptionsActivity.class));
+						finish();
+					}
+					else {
+						displayCheckout();
+					}
 				}
 				break;
 			}
@@ -362,10 +388,20 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 
 	@Override
 	public void displayCheckout() {
-		//First we commit our traveler stuff...
+		commitTraveler();
+		finish();
+	}
+
+	// Private helper methods
+
+	private boolean gotoPaymentEntry() {
+		HotelPaymentFlowState paymentState = HotelPaymentFlowState.getInstance(this);
+		return !paymentState.hasAValidCardSelected(Db.getBillingInfo());
+	}
+
+	private void commitTraveler() {
 		Db.getWorkingTravelerManager().commitWorkingTravelerToDB(mTravelerIndex, this);
 		Db.getWorkingTravelerManager().clearWorkingTraveler(this);
-		finish();
 	}
 
 }
