@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.SweepstakesActivity;
 import com.jayway.android.robotium.solo.Solo;
 import com.mobiata.testutils.CalendarTouchUtils;
 
@@ -1043,7 +1044,6 @@ public class HotelsRobotHelper {
 	public void flightsHappyPath(String departure, String arrival, int bookingDateOffset,
 			boolean completeFlightBooking, boolean doHotelBooking)
 			throws Exception, IntegrationFailureError {
-
 		landscape();
 		portrait();
 		delay();
@@ -1161,6 +1161,13 @@ public class HotelsRobotHelper {
 		else {
 			mSolo.goBack();
 		}
+	}
 
+	public void ignoreSweepstakesActivity() {
+		String sweepstakesTitle = mRes.getString(R.string.sweepstakes_enter_title);
+		if (mSolo.searchText(sweepstakesTitle)) {
+			Log.d(TAG, "Ignoring sweepstakes activity");
+			mSolo.clickOnText(mRes.getString(R.string.sweepstakes_no_thanks));
+		}
 	}
 }
