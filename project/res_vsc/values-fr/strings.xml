@@ -1179,7 +1179,7 @@
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">Retour :</string>
 
-    <string name="app_name">Expedia</string>
+    <string name="app_name">Hotel Voyages-sncf</string>
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
