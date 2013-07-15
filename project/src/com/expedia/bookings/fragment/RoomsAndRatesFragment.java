@@ -3,8 +3,10 @@ package com.expedia.bookings.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -12,12 +14,15 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.RoomsAndRatesFragmentActivity;
+import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelOffersResponse;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.dialog.HotelSoldOutDialog;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.HtmlUtils;
 import com.expedia.bookings.widget.RoomsAndRatesAdapter;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
@@ -36,6 +41,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 	private ProgressBar mProgressBar;
 	private TextView mEmptyTextView;
 	private TextView mFooterTextView;
+	private ViewGroup mNoticeContainer;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -53,6 +59,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 		View view = inflater.inflate(R.layout.fragment_availability_list, container, false);
 		mProgressBar = Ui.findView(view, R.id.progress_bar);
 		mEmptyTextView = Ui.findView(view, R.id.empty_text_view);
+		mNoticeContainer = Ui.findView(view, R.id.hotel_notice_container);
 
 		// Setup the ListView
 		View footer = inflater.inflate(R.layout.footer_rooms_and_rates, null);
@@ -155,6 +162,50 @@ public class RoomsAndRatesFragment extends ListFragment {
 		else {
 			mAdapter.setSelectedPosition(getPositionOfRate(selectedRate));
 		}
+
+		//Resort fee stuff...
+		Rate resortFeeRate = selectedRate;
+		if (resortFeeRate == null) {
+			resortFeeRate = (Rate) mAdapter.getItem(0);
+		}
+
+		Money mandatoryFees = resortFeeRate == null ? null : resortFeeRate.getTotalMandatoryFees();
+		if (mandatoryFees != null && !mandatoryFees.isZero()) {
+			//Show mandatory fees.
+			mNoticeContainer.removeAllViews();
+			LayoutInflater inflater = this.getLayoutInflater(null);
+			View mandatoryFeeView = inflater.inflate(R.layout.include_rooms_and_rates_resort_fees_notice,
+					mNoticeContainer);
+			TextView feeAmountTv = Ui.findView(mandatoryFeeView, R.id.resort_fees_price);
+			feeAmountTv.setText(mandatoryFees.getFormattedMoney());
+			mNoticeContainer.setVisibility(View.VISIBLE);
+
+			final String resortFeesText;
+			if (response != null && response.getProperty() != null
+					&& response.getProperty().getMandatoryFeesText() != null
+					&& !TextUtils.isEmpty(response.getProperty().getMandatoryFeesText().getContent())) {
+				resortFeesText = response.getProperty().getMandatoryFeesText().getContent();
+			}
+			else {
+				//TODO: Remove this string...
+				resortFeesText = "TODO: WAIT FOR API TO RETURN hotelMandatoryFeesText OR USE TRUNK WHICH SHOULD HAVE THAT CHANGE, BUT IS FREQUENTLY DOWN";
+			}
+
+			mandatoryFeeView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
+					String html = HtmlUtils.wrapInHeadAndBody(resortFeesText);
+					builder.setHtmlData(html);
+					startActivity(builder.getIntent());
+				}
+			});
+		}
+		else {
+			mNoticeContainer.removeAllViews();
+			mNoticeContainer.setVisibility(View.GONE);
+		}
+
 		setListAdapter(mAdapter);
 
 		// Disable highlighting if we're on phone UI
@@ -176,6 +227,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 
 	public interface RoomsAndRatesFragmentListener {
 		public void onRateSelected(Rate rate);
+
 		public void noRatesAvailable();
 	}
 }

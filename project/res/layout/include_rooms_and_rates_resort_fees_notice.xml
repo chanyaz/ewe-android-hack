@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#E9A600" />
+
+    <LinearLayout
+        android:id="@+id/resort_fees_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="6dp" >
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/resort_fees_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0"
+            android:background="@drawable/btn_login_hotels_normal"
+            android:gravity="center_vertical"
+            android:paddingBottom="0dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="0dp"
+            android:textColor="#CFCFCF"
+            app:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/resort_fees_message_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/resort_fees_top_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/resort_fee"
+                android:textColor="#39404B"
+                android:textSize="16dp"
+                app:textStyle="bold" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/resort_fees_bottom_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fee_not_included_in_total"
+                android:textColor="#39404B"
+                android:textSize="14dp"
+                app:textStyle="normal" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/resort_fees_chevron"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0"
+            android:src="@drawable/btn_reviews_chevron" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#898989" />
+
+</merge>

@@ -1596,6 +1596,10 @@
     <string name="Tonight">Tonight</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Free Cancellation</string>
+    <!-- Resort Fee -->
+    <string name="resort_fee">Resort Fee</string>
+    <!-- This fee is not included in the total -->
+    <string name="fee_not_included_in_total">This fee is not included in the total</string>
 
     <!-- Gallery -->
     <!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
