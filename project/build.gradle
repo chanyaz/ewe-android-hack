@@ -34,6 +34,16 @@ android {
         }
     }
 
+    buildTypes {
+        alpha.initWith(buildTypes.debug)
+        alpha {
+            packageNameSuffix ".alpha"
+
+            runProguard true
+            proguardFile 'proguard.cfg'
+        }
+    }
+
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
