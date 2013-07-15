@@ -29,23 +29,13 @@ public class SamsungWalletUtils {
 	}
 
 	public static boolean isSamsungAvailable(Context context) {
-		if (PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.UNITED_STATES) {
-			return AndroidUtils.isPackageInstalled(context, SAMSUNG_APPS_PACKAGE_NAME);
-		}
-		else {
-			// Disable for non-US POS
-			return false;
-		}
+		return PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.UNITED_STATES
+				&& AndroidUtils.isPackageInstalled(context, SAMSUNG_APPS_PACKAGE_NAME);
 	}
 
 	public static boolean isSamsungWalletAvailable(Context context) {
-		if (PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.UNITED_STATES) {
-			return AndroidUtils.isPackageInstalled(context, SAMSUNG_WALLET_PACKAGE_NAME);
-		}
-		else {
-			// Disable for non-US POS
-			return false;
-		}
+		return PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.UNITED_STATES
+				&& AndroidUtils.isPackageInstalled(context, SAMSUNG_WALLET_PACKAGE_NAME);
 	}
 
 	public static Intent checkTicketIntent(Context context, String ticketId) {
