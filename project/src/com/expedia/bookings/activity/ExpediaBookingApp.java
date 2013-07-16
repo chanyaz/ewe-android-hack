@@ -3,11 +3,13 @@ package com.expedia.bookings.activity;
 import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -72,6 +74,16 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		}
 
 		startupTimer.addSplit("FS.db Init");
+
+		if (IS_VSC) {
+			Locale locale = new Locale("fr", "FR");
+			Configuration myConfig = new Configuration();
+			Locale.setDefault(locale);
+
+			myConfig.locale = locale;
+			getBaseContext().getResources().updateConfiguration(myConfig, getResources().getDisplayMetrics());
+			startupTimer.addSplit("VSC force fr locale");
+		}
 
 		try {
 			final ApplicationInfo ai = this.getPackageManager().getApplicationInfo(this.getPackageName(),
@@ -274,5 +286,28 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 				listener.onSearchParamsChanged(searchParams);
 			}
 		}
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		if (IS_VSC) {
+			Locale locale = new Locale("fr", "FR");
+			if (!newConfig.locale.equals(locale)) {
+				Log.d("HERE forcing fr locale");
+				Configuration myConfig = new Configuration(newConfig);
+				Locale.setDefault(locale);
+
+				myConfig.locale = locale;
+				getBaseContext().getResources().updateConfiguration(myConfig, getResources().getDisplayMetrics());
+				super.onConfigurationChanged(myConfig);
+
+				// Send broadcast so that LocaleChangeReciever can re-create activities
+				Intent intent = new Intent(LocaleChangeReceiver.ACTION_LOCALE_CHANGED);
+				sendBroadcast(intent);
+				return;
+			}
+		}
+
+		super.onConfigurationChanged(newConfig);
 	}
 }

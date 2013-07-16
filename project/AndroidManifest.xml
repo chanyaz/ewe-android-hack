@@ -341,7 +341,7 @@
         <!-- Boot stuff -->
         <receiver android:name="com.expedia.bookings.activity.LocaleChangeReceiver" >
             <intent-filter>
-                <action android:name="android.intent.action.LOCALE_CHANGED" />
+                <action android:name="com.expedia.booking.action.locale_changed" />
             </intent-filter>
         </receiver>
 
