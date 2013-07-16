@@ -66,8 +66,7 @@ public class BookingInfoFragment extends Fragment {
 		String contactText = ConfirmationUtils.determineContactText(getActivity());
 		ConfirmationUtils.configureContactView(getActivity(), contactView, contactText);
 
-		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
-		Rate selectedRate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
+		Rate selectedRate = Db.getHotelSearch().getSelectedRate();
 		if (selectedRate != null) {
 			updateReceipt();
 			updateRoomDescription(view);
@@ -134,8 +133,7 @@ public class BookingInfoFragment extends Fragment {
 			return;
 		}
 
-		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
-		Rate rate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
+		Rate rate = Db.getHotelSearch().getSelectedRate();
 		TextView roomTypeDescriptionTitleTextView = (TextView) view.findViewById(R.id.room_type_description_title_view);
 		roomTypeDescriptionTitleTextView.setText(rate.getRatePlanName());
 
@@ -144,8 +142,7 @@ public class BookingInfoFragment extends Fragment {
 	}
 
 	private void updateReceipt() {
-		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
-		Rate selectedRate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
+		Rate selectedRate = Db.getHotelSearch().getSelectedRate();
 		mReceiptWidget.updateData(Db.getHotelSearch().getSelectedProperty(), Db.getHotelSearch().getSearchParams(), selectedRate);
 	}
 
@@ -156,8 +153,7 @@ public class BookingInfoFragment extends Fragment {
 		mCompleteBookingInfoButton.setEnabled(true);
 		updateReceipt();
 		updateRoomDescription(getView());
-		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
-		Rate selectedRate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
+		Rate selectedRate = Db.getHotelSearch().getSelectedRate();
 		ConfirmationUtils.determineCancellationPolicy(selectedRate, getView());
 	}
 

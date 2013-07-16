@@ -84,8 +84,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		Property property = Db.getHotelSearch().getSelectedProperty();
 		ItinHeaderImageView hotelImageView = Ui.findView(v, R.id.hotel_image_view);
 		hotelImageView.setGradient(CARD_GRADIENT_COLORS, CARD_GRADIENT_POSITIONS);
-		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
-		Rate selectedRate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
+		Rate selectedRate = Db.getHotelSearch().getSelectedRate();
 		Media media = HotelUtils.getRoomMedia(property, selectedRate);
 		if (media != null) {
 			UrlBitmapDrawable.loadImageView(media.getHighResUrls(), hotelImageView,

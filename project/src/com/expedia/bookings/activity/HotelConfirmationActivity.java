@@ -53,8 +53,7 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity {
 			}
 
 			// Track page load
-			String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
-			Rate selectedRate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
+			Rate selectedRate = Db.getHotelSearch().getSelectedRate();
 			OmnitureTracking.trackAppHotelsCheckoutConfirmation(this, Db.getHotelSearch().getSearchParams(),
 					Db.getHotelSearch().getSelectedProperty(), Db.getBillingInfo(),
 					selectedRate, Db.getBookingResponse());

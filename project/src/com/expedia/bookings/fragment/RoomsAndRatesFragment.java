@@ -140,8 +140,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 
 		mAdapter = new RoomsAndRatesAdapter(getActivity(), response);
 
-		final String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
-		final Rate selectedRate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
+		final Rate selectedRate = Db.getHotelSearch().getSelectedRate();
 		if (selectedRate == null || getPositionOfRate(selectedRate) == -1) {
 			mAdapter.setSelectedPosition(0);
 			if (mListener instanceof RoomsAndRatesFragmentActivity) {

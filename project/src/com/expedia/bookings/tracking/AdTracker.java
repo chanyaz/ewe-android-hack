@@ -59,8 +59,7 @@ public class AdTracker {
 		// Values
 		final HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams().copy();
 		final Property property = Db.getHotelSearch().getSelectedProperty();
-		final String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
-		final Rate rate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
+		final Rate rate = Db.getHotelSearch().getSelectedRate();
 
 		final String propertyId = property.getPropertyId();
 		final String propertyName = property.getName();
@@ -91,8 +90,7 @@ public class AdTracker {
 	}
 
 	public static void trackHotelCheckoutStarted() {
-		final String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
-		final Rate rate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
+		final Rate rate = Db.getHotelSearch().getSelectedRate();
 		final Money totalPrice = rate.getTotalAmountAfterTax();
 		AdX.trackHotelCheckoutStarted(totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
 	}

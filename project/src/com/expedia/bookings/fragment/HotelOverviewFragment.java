@@ -573,8 +573,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	public void updateViews() {
 		mLegalInformationTextView.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement());
 
-		final String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
-		Rate rate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
+		Rate rate = Db.getHotelSearch().getSelectedRate();
 
 		// Configure the total cost and (if necessary) total cost paid to Expedia
 		if (Db.getHotelSearch().getCreateTripResponse() != null) {
@@ -971,8 +970,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		public HotelProductResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, services);
-			String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
-			Rate selectedRate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
+			Rate selectedRate = Db.getHotelSearch().getSelectedRate();
 			return services.hotelProduct(Db.getHotelSearch().getSearchParams(), Db.getHotelSearch()
 					.getSelectedProperty(), selectedRate);
 		}
@@ -986,7 +984,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			}
 			else {
 				final String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
-				Rate selectedRate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
+				Rate selectedRate = Db.getHotelSearch().getSelectedRate();
 				Rate newRate = response.getRate();
 
 				if (TextUtils.equals(selectedRate.getRateKey(), response.getOriginalProductKey())) {
@@ -1279,8 +1277,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	@Override
 	protected Money getEstimatedTotal() {
-		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
-		Rate selectedRate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
+		Rate selectedRate = Db.getHotelSearch().getSelectedRate();
 		return selectedRate.getTotalAmountAfterTax();
 	}
 
@@ -1435,8 +1432,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		public CreateTripResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_APPLY_COUPON, services);
-			String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
-			Rate selectedRate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
+			Rate selectedRate = Db.getHotelSearch().getSelectedRate();
 			return services.createTripWithCoupon(mCouponCode, Db.getHotelSearch().getSearchParams(), Db
 					.getHotelSearch().getSelectedProperty(), selectedRate);
 		}

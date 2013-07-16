@@ -53,8 +53,7 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> {
 					tuid = Db.getUser().getPrimaryTraveler().getTuid();
 				}
 
-				String selectedId = search.getSelectedProperty().getPropertyId();
-				Rate selectedRate = search.getAvailability(selectedId).getSelectedRate();
+				Rate selectedRate = search.getSelectedRate();
 				BookingResponse response = services.reservation(search.getSearchParams(), search.getSelectedProperty(),
 						selectedRate, Db.getBillingInfo(), tripId, userId, tuid);
 
@@ -77,8 +76,7 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> {
 		HotelSearch search = Db.getHotelSearch();
 
 		Property property = search.getSelectedProperty();
-		String selectedId = search.getSelectedProperty().getPropertyId();
-		Rate rate = search.getAvailability(selectedId).getSelectedRate();
+		Rate rate = search.getSelectedRate();
 		Money totalBeforeTax = rate.getTotalAmountBeforeTax();
 		Money surcharges = rate.getTotalSurcharge();
 		Money totalAfterTax = rate.getTotalAmountAfterTax();
