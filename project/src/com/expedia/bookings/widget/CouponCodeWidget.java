@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -18,7 +19,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.utils.BookingInfoUtils;
 
 public class CouponCodeWidget {
 	private Context mContext;
@@ -33,7 +33,7 @@ public class CouponCodeWidget {
 	private boolean mCollapsed = true;
 	private boolean mProgressShowing = false;
 	private boolean mUseNewTotal = false;
-	
+
 	private int mErrorResId = 0;
 
 	private CouponCodeWidgetListener mListener;
@@ -64,7 +64,7 @@ public class CouponCodeWidget {
 				mCollapsed = false;
 				update();
 				mCouponCode.clearFocus();
-				BookingInfoUtils.focusAndOpenKeyboard(mContext, mCouponCode);
+				focusAndOpenKeyboard(mContext, mCouponCode);
 			}
 		});
 
@@ -251,6 +251,12 @@ public class CouponCodeWidget {
 		}
 
 		update();
+	}
+
+	private static void focusAndOpenKeyboard(Context context, View view) {
+		view.requestFocus();
+		InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.showSoftInput(view, 0);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

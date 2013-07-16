@@ -5,11 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -18,14 +15,8 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.model.HotelTravelerFlowState;
 import com.expedia.bookings.model.TravelerFlowState;
-import com.expedia.bookings.tracking.OmnitureTracking;
-import com.mobiata.android.Log;
 
 public class BookingInfoUtils {
-
-	public static final int DIALOG_BOOKING_PROGRESS = 1;
-	public static final int DIALOG_BOOKING_NULL = 2;
-	public static final int DIALOG_BOOKING_ERROR = 3;
 
 	public static List<StoredCreditCard> getStoredCreditCards(Context context) {
 		List<StoredCreditCard> cards = new ArrayList<StoredCreditCard>();
@@ -106,61 +97,8 @@ public class BookingInfoUtils {
 		}
 	}
 
-	public static void focusAndOpenKeyboard(Context context, View view) {
-		view.requestFocus();
-		InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-		imm.showSoftInput(view, 0);
-	}
-
-	public static void onCompletedSection(Context context, String sectionName) {
-		Log.d("Tracking \"" + sectionName + "\" onClick");
-		OmnitureTracking.trackSimpleEvent(context, null, null, sectionName);
-	}
-
-	public static void onCountrySpinnerClick(Context context) {
-		Log.d("Tracking \"country spinner\" onClick");
-		OmnitureTracking.trackSimpleEvent(context, null, null, "CKO.BD.ChangeCountry");
-	}
-
-	public static void onClickSubmit(Context context) {
-		Log.d("Tracking \"submit\" onClick");
-		OmnitureTracking.trackSimpleEvent(context, null, null, "CKO.BD.Confirm");
-	}
-
 	//////////////////////////////////////////////////////////////////////////////////
 	// More static data (that just takes up a lot of space, so at bottom)
-
-	// Where to find security info on each card
-	@SuppressWarnings("serial")
-	public static final HashMap<CreditCardType, Integer> CREDIT_CARD_SECURITY_LOCATION = new HashMap<CreditCardType, Integer>() {
-		{
-			put(CreditCardType.AMERICAN_EXPRESS, R.string.security_code_tip_front);
-			put(CreditCardType.CARTE_BLANCHE, R.string.security_code_tip_back);
-			put(CreditCardType.CHINA_UNION_PAY, R.string.security_code_tip_back);
-			put(CreditCardType.DINERS_CLUB, R.string.security_code_tip_back);
-			put(CreditCardType.DISCOVER, R.string.security_code_tip_back);
-			put(CreditCardType.JAPAN_CREDIT_BUREAU, R.string.security_code_tip_back);
-			put(CreditCardType.MAESTRO, R.string.security_code_tip_back);
-			put(CreditCardType.MASTERCARD, R.string.security_code_tip_back);
-			put(CreditCardType.VISA, R.string.security_code_tip_back);
-		}
-	};
-
-	// Which icon to use with which credit card
-	@SuppressWarnings("serial")
-	public static final HashMap<CreditCardType, Integer> CREDIT_CARD_ICONS = new HashMap<CreditCardType, Integer>() {
-		{
-			put(CreditCardType.AMERICAN_EXPRESS, R.drawable.ic_cc_amex);
-			put(CreditCardType.CARTE_BLANCHE, R.drawable.ic_cc_carte_blanche);
-			put(CreditCardType.CHINA_UNION_PAY, R.drawable.ic_cc_china_union_pay);
-			put(CreditCardType.DINERS_CLUB, R.drawable.ic_cc_diners_club);
-			put(CreditCardType.DISCOVER, R.drawable.ic_cc_discover);
-			put(CreditCardType.JAPAN_CREDIT_BUREAU, R.drawable.ic_cc_jcb);
-			put(CreditCardType.MAESTRO, R.drawable.ic_cc_maestro);
-			put(CreditCardType.MASTERCARD, R.drawable.ic_cc_mastercard);
-			put(CreditCardType.VISA, R.drawable.ic_cc_visa);
-		}
-	};
 
 	// Which icon to use with which credit card
 	@SuppressWarnings("serial")
@@ -207,22 +145,6 @@ public class BookingInfoUtils {
 			put(CreditCardType.MAESTRO, R.drawable.ic_maestro_white);
 			put(CreditCardType.MASTERCARD, R.drawable.ic_master_card_white);
 			put(CreditCardType.VISA, R.drawable.ic_visa_white);
-		}
-	};
-
-	// Which icon to use with which credit card
-	@SuppressWarnings("serial")
-	public static final HashMap<CreditCardType, Integer> CREDIT_CARD_CVV_ICONS = new HashMap<CreditCardType, Integer>() {
-		{
-			put(CreditCardType.AMERICAN_EXPRESS, R.drawable.ic_amex_grey_cvv);
-			put(CreditCardType.CARTE_BLANCHE, R.drawable.ic_carte_blanche_grey_cvv);
-			put(CreditCardType.CHINA_UNION_PAY, R.drawable.ic_union_pay_grey_cvv);
-			put(CreditCardType.DINERS_CLUB, R.drawable.ic_diners_club_grey_cvv);
-			put(CreditCardType.DISCOVER, R.drawable.ic_discover_grey_cvv);
-			put(CreditCardType.JAPAN_CREDIT_BUREAU, R.drawable.ic_jcb_grey_cvv);
-			put(CreditCardType.MAESTRO, R.drawable.ic_maestro_grey_cvv);
-			put(CreditCardType.MASTERCARD, R.drawable.ic_master_card_grey_cvv);
-			put(CreditCardType.VISA, R.drawable.ic_visa_grey_cvv);
 		}
 	};
 
