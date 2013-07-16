@@ -7,6 +7,7 @@ import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.WalletUtils;
 import com.google.android.gms.wallet.Cart;
@@ -76,21 +77,41 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> {
 		HotelSearch search = Db.getHotelSearch();
 
 		Property property = search.getSelectedProperty();
-		Rate rate = search.getBookingRate();
-		Money totalBeforeTax = rate.getTotalAmountBeforeTax();
-		Money surcharges = rate.getTotalSurcharge();
-		Money totalAfterTax = rate.getTotalAmountAfterTax();
+		Rate originalRate = search.getSelectedRate();
+		Rate couponRate = search.getCouponRate();
+		Money total = couponRate == null ? originalRate.getDisplayTotalPrice() : couponRate.getDisplayTotalPrice();
 
 		FullWalletRequest.Builder walletRequestBuilder = FullWalletRequest.newBuilder();
 		walletRequestBuilder.setGoogleTransactionId(getGoogleWalletTransactionId());
 
 		Cart.Builder cartBuilder = Cart.newBuilder();
-		cartBuilder.setCurrencyCode(totalAfterTax.getCurrency());
-		cartBuilder.setTotalPrice(WalletUtils.formatAmount(totalAfterTax));
 
-		cartBuilder.addLineItem(WalletUtils.createLineItem(totalBeforeTax, property.getName(), LineItem.Role.REGULAR));
-		cartBuilder.addLineItem(WalletUtils.createLineItem(surcharges, getString(R.string.taxes_and_fees),
-				LineItem.Role.TAX));
+		// Total
+		cartBuilder.setCurrencyCode(total.getCurrency());
+		cartBuilder.setTotalPrice(WalletUtils.formatAmount(total));
+
+		// Base rate
+		cartBuilder.addLineItem(WalletUtils.createLineItem(originalRate.getNightlyRateTotal(), property.getName(),
+				LineItem.Role.REGULAR));
+
+		// Discount
+		if (couponRate != null) {
+			Money discount = new Money(couponRate.getTotalPriceAdjustments());
+			discount.negate();
+			cartBuilder.addLineItem(WalletUtils.createLineItem(discount, property.getName(), LineItem.Role.REGULAR));
+		}
+
+		// Taxes & Fees
+		if (originalRate.getTotalSurcharge() != null && !originalRate.getTotalSurcharge().isZero()) {
+			cartBuilder.addLineItem(WalletUtils.createLineItem(originalRate.getTotalSurcharge(),
+					getString(R.string.taxes_and_fees), LineItem.Role.TAX));
+		}
+
+		// Extra guest fees
+		if (originalRate.getExtraGuestFee() != null && !originalRate.getExtraGuestFee().isZero()) {
+			cartBuilder.addLineItem(WalletUtils.createLineItem(originalRate.getExtraGuestFee(),
+					getString(R.string.extra_guest_charge), LineItem.Role.TAX));
+		}
 
 		walletRequestBuilder.setCart(cartBuilder.build());
 		return walletRequestBuilder.build();
