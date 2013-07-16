@@ -4,8 +4,8 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#E9A600" />
+        android:layout_height="4dp"
+        android:background="@drawable/renovation_stripes" />
 
     <LinearLayout
         android:id="@+id/construction_container"
@@ -19,7 +19,7 @@
             android:id="@+id/construction_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_suitcase_baggage_fee_blue" />
+            android:src="@drawable/ic_renovation" />
 
         <LinearLayout
             android:id="@+id/construction_message_container"
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="0"
-            android:src="@drawable/btn_reviews_chevron" />
+            android:src="@drawable/ic_renovation_resort_chevron" />
     </LinearLayout>
 
     <View

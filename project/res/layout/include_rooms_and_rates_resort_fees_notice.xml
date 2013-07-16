@@ -5,7 +5,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="#E9A600" />
+        android:background="@drawable/bg_resort_yellow_bar" />
 
     <LinearLayout
         android:id="@+id/resort_fees_container"
@@ -21,14 +21,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="0"
-            android:background="@drawable/btn_login_hotels_normal"
+            android:background="@drawable/bg_resort_fee_price"
             android:gravity="center_vertical"
             android:paddingBottom="0dp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:paddingTop="0dp"
-            android:textColor="#CFCFCF"
-            app:textStyle="bold" />
+            android:textColor="#CBCFD3"
+            android:textSize="13sp"
+            app:textStyle="normal" />
 
         <LinearLayout
             android:id="@+id/resort_fees_message_container"
@@ -56,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="0"
-            android:src="@drawable/btn_reviews_chevron" />
+            android:src="@drawable/ic_renovation_resort_chevron" />
     </LinearLayout>
 
     <View

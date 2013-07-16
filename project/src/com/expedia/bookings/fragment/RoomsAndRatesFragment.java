@@ -167,9 +167,10 @@ public class RoomsAndRatesFragment extends ListFragment {
 
 		//Display notices if applicable
 		mNoticeContainer.removeAllViews();
-		boolean isNoticeDisplayed = displayRenovationNotice(response)
-				|| displayResortFeesNotice(response, selectedRate);
-		mNoticeContainer.setVisibility(isNoticeDisplayed ? View.VISIBLE : View.GONE);
+		boolean renovationNoticeDisplayed = displayRenovationNotice(response);
+		boolean resortFeesNoticeDisplayed = displayResortFeesNotice(response, selectedRate);
+		mNoticeContainer.setVisibility(renovationNoticeDisplayed || resortFeesNoticeDisplayed ? View.VISIBLE
+				: View.GONE);
 
 		// Disable highlighting if we're on phone UI
 		mAdapter.highlightSelectedPosition(AndroidUtils.isHoneycombTablet(getActivity()));
@@ -196,7 +197,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 		if (response != null && response.getProperty() != null
 				&& response.getProperty().getRenovationText() != null
 				&& !TextUtils.isEmpty(response.getProperty().getRenovationText().getContent())) {
-			constructionText = response.getProperty().getMandatoryFeesText().getContent();
+			constructionText = response.getProperty().getRenovationText().getContent();
 
 			LayoutInflater inflater = this.getLayoutInflater(null);
 			View consructionView = inflater.inflate(R.layout.include_rooms_and_rates_construction_notice,
@@ -205,10 +206,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 			consructionView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
-					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
-					String html = HtmlUtils.wrapInHeadAndBody(constructionText);
-					builder.setHtmlData(html);
-					startActivity(builder.getIntent());
+					openWebViewWithText(constructionText);
 				}
 			});
 			return true;
@@ -246,15 +244,19 @@ public class RoomsAndRatesFragment extends ListFragment {
 			mandatoryFeeView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
-					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
-					String html = HtmlUtils.wrapInHeadAndBody(resortFeesText);
-					builder.setHtmlData(html);
-					startActivity(builder.getIntent());
+					openWebViewWithText(resortFeesText);
 				}
 			});
 			return true;
 		}
 		return false;
+	}
+
+	private void openWebViewWithText(String text) {
+		WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
+		String html = HtmlUtils.wrapInHeadAndBody(text);
+		builder.setHtmlData(html);
+		startActivity(builder.getIntent());
 	}
 
 	//////////////////////////////////////////////////////////////////////////
