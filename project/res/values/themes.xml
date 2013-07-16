@@ -372,12 +372,4 @@
         <item name="android:windowBackground">@android:color/white</item>
     </style>
 
-    <style name="WebViewRoomsAndRatesNoticeTheme" parent="@android:style/Theme.Dialog">
-<!--         <item name="android:windowBackground">@android:color/transparent</item> -->
-<!--         <item name="android:windowIsFloating">true</item> -->
-<!--         <item name="android:windowActionModeOverlay">true</item> -->
-<!--         <item name="android:windowCloseOnTouchOutside">true</item> -->
-<!--         <item name="android:colorBackgroundCacheHint">@null</item> -->
-    </style>
-
 </resources>
