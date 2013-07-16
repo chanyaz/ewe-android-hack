@@ -468,7 +468,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		return false;
 	}
 
-	private boolean validateTravelers() {
+	private boolean hasValidTravelers() {
 		boolean allTravelersValid = true;
 		if (Db.getTravelers() == null || Db.getTravelers().size() <= 0) {
 			allTravelersValid = false;
@@ -611,7 +611,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		boolean hasStoredCard = mBillingInfo.hasStoredCard();
 		boolean paymentAddressValid = hasStoredCard ? hasStoredCard : state.hasValidBillingAddress(mBillingInfo);
 		boolean paymentCCValid = hasStoredCard ? hasStoredCard : state.hasValidCardInfo(mBillingInfo);
-		boolean travelerValid = validateTravelers();
+		boolean travelerValid = hasValidTravelers();
 
 		mShowSlideToWidget = travelerValid && paymentAddressValid && paymentCCValid && mIsDoneLoadingPriceChange
 				&& !BackgroundDownloader.getInstance().isDownloading(KEY_APPLY_COUPON);
