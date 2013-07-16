@@ -26,6 +26,7 @@ import android.view.Surface;
 import android.view.View;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 
 @SuppressWarnings("unused")
@@ -166,10 +167,10 @@ public class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		mCropWorkspace = new int[4];
 		sBitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
 
-		mTagSprite = new GLSprite(R.drawable.gl_progress_tag);
-		mRingFillSprite = new GLSprite(R.drawable.gl_progress_ring_fill);
-		mKnobSprite = new GLSprite(R.drawable.gl_progress_knob);
-		mKnobBgSprite = new GLSprite(R.drawable.gl_progress_knob_bg);
+		mTagSprite = new GLSprite(Ui.obtainThemeDrawableID((Activity)mContext, R.attr.hangTagProgressDrawable));
+		mRingFillSprite = new GLSprite(Ui.obtainThemeDrawableID((Activity)mContext, R.attr.hangTagProgressRingFillDrawable));
+		mKnobSprite = new GLSprite(Ui.obtainThemeDrawableID((Activity)mContext, R.attr.hangTagKnobDrawable));
+		mKnobBgSprite = new GLSprite(Ui.obtainThemeDrawableID((Activity)mContext, R.attr.hangTagKnobBackgroundDrawable));
 
 		// Setup sprites
 		mSprites = new GLSprite[4];

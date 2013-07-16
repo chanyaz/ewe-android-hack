@@ -138,4 +138,12 @@ public class Ui extends com.mobiata.android.util.Ui {
 
 		return drawable;
 	}
+
+	public static int obtainThemeDrawableID(Activity activity, int attr) {
+		TypedArray a = obtainTypedArray(activity, attr);
+		int drawableID = a.getResourceId(0, -1);
+		a.recycle();
+
+		return drawableID;
+	}
 }
