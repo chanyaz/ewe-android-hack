@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -33,8 +34,8 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 	public static final String CREDIT_CARD_FRAGMENT_TAG = "CREDIT_CARD_FRAGMENT_TAG";
 	public static final String SAVE_FRAGMENT_TAG = "SAVE_FRAGMENT_TAG";
 
-	public static final String STATE_TAG_MODE = "STATE_TAG_MODE";
-	public static final String STATE_TAG_DEST = "STATE_TAG_DEST";
+	private static final String STATE_TAG_MODE = "STATE_TAG_MODE";
+	private static final String STATE_TAG_DEST = "STATE_TAG_DEST";
 
 	private HotelPaymentOptionsFragment mOptionsFragment;
 	private HotelPaymentCreditCardFragment mCCFragment;
@@ -58,6 +59,20 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 
 	public interface Validatable {
 		public boolean attemptToLeave();
+	}
+
+	public static Intent gotoOptionsIntent(Context context) {
+		Intent intent = new Intent(context, HotelPaymentOptionsActivity.class);
+		intent.putExtra(STATE_TAG_MODE, YoYoMode.YOYO.name());
+		intent.putExtra(STATE_TAG_DEST, YoYoPosition.OPTIONS.name());
+		return intent;
+	}
+
+	public static Intent gotoCreditCardEntryIntent(Context context) {
+		Intent intent = new Intent(context, HotelPaymentOptionsActivity.class);
+		intent.putExtra(STATE_TAG_MODE, YoYoMode.YOYO.name());
+		intent.putExtra(STATE_TAG_DEST, YoYoPosition.CREDITCARD.name());
+		return intent;
 	}
 
 	@Override

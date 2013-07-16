@@ -179,16 +179,12 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	}
 
 	private void launchHotelPaymentCreditCardFragment() {
-		Intent intent = new Intent(mContext, HotelPaymentOptionsActivity.class);
-		intent.putExtra(HotelPaymentOptionsActivity.STATE_TAG_MODE,
-				HotelPaymentOptionsActivity.YoYoMode.YOYO.name());
+		Intent intent;
 		if (Db.getBillingInfo() != null && Db.getBillingInfo().hasStoredCard()) {
-			intent.putExtra(HotelPaymentOptionsActivity.STATE_TAG_DEST,
-					HotelPaymentOptionsActivity.YoYoPosition.OPTIONS.name());
+			intent = HotelPaymentOptionsActivity.gotoOptionsIntent(mContext);
 		}
 		else {
-			intent.putExtra(HotelPaymentOptionsActivity.STATE_TAG_DEST,
-					HotelPaymentOptionsActivity.YoYoPosition.CREDITCARD.name());
+			intent = HotelPaymentOptionsActivity.gotoCreditCardEntryIntent(mContext);
 		}
 
 		Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(Db.getBillingInfo());
