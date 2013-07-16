@@ -41,21 +41,13 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/resort_fees_top_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/resort_fee"
-                android:textColor="#39404B"
-                android:textSize="16dp"
-                app:textStyle="bold" />
+                style="@style/TextAppearance.RoomsAndRatesNoticeTop"
+                android:text="@string/resort_fee" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/resort_fees_bottom_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/fee_not_included_in_total"
-                android:textColor="#39404B"
-                android:textSize="14dp"
-                app:textStyle="normal" />
+                style="@style/TextAppearance.RoomsAndRatesNoticeBottom"
+                android:text="@string/fee_not_included_in_total" />
         </LinearLayout>
 
         <ImageView
