@@ -207,6 +207,7 @@
         <item name="hangTagProgressRingFillDrawable">@drawable/gl_progress_ring_fill_vsc</item>
         <item name="hangTagKnobDrawable">@drawable/gl_progress_knob_vsc</item>
         <item name="hangTagKnobBackgroundDrawable">@drawable/gl_progress_knob_bg_vsc</item>
+        <item name="HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder_vsc</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->

@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Media;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
 public class ImageAdapter extends BaseAdapter {
@@ -60,7 +62,7 @@ public class ImageAdapter extends BaseAdapter {
 			imageView = (ImageView) convertView.findViewById(R.id.image);
 		}
 
-		UrlBitmapDrawable.loadImageView(mMedia.get(position).getUrl(), imageView, R.drawable.ic_row_thumb_placeholder);
+		UrlBitmapDrawable.loadImageView(mMedia.get(position).getUrl(), imageView, Ui.obtainThemeDrawableID((Activity)mContext, R.attr.HotelRowThumbPlaceHolderDrawable));
 
 		return convertView;
 	}

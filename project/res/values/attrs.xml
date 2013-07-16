@@ -213,4 +213,7 @@
     <attr name="hangTagProgressRingFillDrawable" format="reference" />
     <attr name="hangTagKnobDrawable" format="reference" />
     <attr name="hangTagKnobBackgroundDrawable" format="reference" />
+
+    <!-- Hotel Listing row thumbnail placeholder -->
+    <attr name="HotelRowThumbPlaceHolderDrawable" format="reference" />
 </resources>

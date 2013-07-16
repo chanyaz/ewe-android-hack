@@ -177,6 +177,7 @@
         <item name="hangTagProgressRingFillDrawable">@drawable/gl_progress_ring_fill</item>
         <item name="hangTagKnobDrawable">@drawable/gl_progress_knob</item>
         <item name="hangTagKnobBackgroundDrawable">@drawable/gl_progress_knob_bg</item>
+        <item name="HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder</item>
     </style>
 
     <style name="Theme.VSC" parent="@style/Theme.Expedia">
