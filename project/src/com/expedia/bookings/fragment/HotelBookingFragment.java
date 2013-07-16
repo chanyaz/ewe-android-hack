@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -38,24 +39,24 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> {
 			@Override
 			public BookingResponse doDownload() {
 				ExpediaServices services = new ExpediaServices(getActivity());
+				HotelSearch search = Db.getHotelSearch();
 				String userId = null;
 				String tripId = null;
 				Long tuid = null;
 
-				if (Db.getHotelSearch().getCreateTripResponse() != null) {
-					tripId = Db.getHotelSearch().getCreateTripResponse().getTripId();
-					userId = Db.getHotelSearch().getCreateTripResponse().getUserId();
+				if (search.getCreateTripResponse() != null) {
+					tripId = search.getCreateTripResponse().getTripId();
+					userId = search.getCreateTripResponse().getUserId();
 				}
 
 				if (Db.getUser() != null) {
 					tuid = Db.getUser().getPrimaryTraveler().getTuid();
 				}
 
-				String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
-				Rate selectedRate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
-				BookingResponse response = services.reservation(Db.getHotelSearch().getSearchParams(),
-						Db.getHotelSearch().getSelectedProperty(), selectedRate,
-						Db.getBillingInfo(), tripId, userId, tuid);
+				String selectedId = search.getSelectedProperty().getPropertyId();
+				Rate selectedRate = search.getAvailability(selectedId).getSelectedRate();
+				BookingResponse response = services.reservation(search.getSearchParams(), search.getSelectedProperty(),
+						selectedRate, Db.getBillingInfo(), tripId, userId, tuid);
 
 				notifyWalletTransactionStatus(response);
 
@@ -73,9 +74,11 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> {
 
 	@Override
 	protected FullWalletRequest getFullWalletRequest() {
-		Property property = Db.getHotelSearch().getSelectedProperty();
-		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
-		Rate rate = Db.getHotelSearch().getAvailability(selectedId).getSelectedRate();
+		HotelSearch search = Db.getHotelSearch();
+
+		Property property = search.getSelectedProperty();
+		String selectedId = search.getSelectedProperty().getPropertyId();
+		Rate rate = search.getAvailability(selectedId).getSelectedRate();
 		Money totalBeforeTax = rate.getTotalAmountBeforeTax();
 		Money surcharges = rate.getTotalSurcharge();
 		Money totalAfterTax = rate.getTotalAmountAfterTax();
