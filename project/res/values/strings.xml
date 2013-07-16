@@ -1600,6 +1600,10 @@
     <string name="resort_fee">Resort Fee</string>
     <!-- This fee is not included in the total -->
     <string name="fee_not_included_in_total">This fee is not included in the total</string>
+    <!-- Renovation Notice -->
+    <string name="renovation_notice">Renovation Notice</string>
+    <!-- This property is undergoing renovations -->
+    <string name="property_undergoing_renovations">This property is undergoing renovations</string>
 
     <!-- Gallery -->
     <!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->

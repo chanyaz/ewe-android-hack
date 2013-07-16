@@ -8,30 +8,21 @@
         android:background="#E9A600" />
 
     <LinearLayout
-        android:id="@+id/resort_fees_container"
+        android:id="@+id/construction_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="6dp" >
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/resort_fees_price"
+        <ImageView
+            android:id="@+id/construction_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="0"
-            android:background="@drawable/btn_login_hotels_normal"
-            android:gravity="center_vertical"
-            android:paddingBottom="0dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingTop="0dp"
-            android:textColor="#CFCFCF"
-            app:textStyle="bold" />
+            android:src="@drawable/ic_suitcase_baggage_fee_blue" />
 
         <LinearLayout
-            android:id="@+id/resort_fees_message_container"
+            android:id="@+id/construction_message_container"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -40,18 +31,18 @@
             android:orientation="vertical" >
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/resort_fees_top_text"
+                android:id="@+id/construction_top_text"
                 style="@style/TextAppearance.RoomsAndRatesNoticeTop"
-                android:text="@string/resort_fee" />
+                android:text="@string/renovation_notice" />
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/resort_fees_bottom_text"
+                android:id="@+id/construction_bottom_text"
                 style="@style/TextAppearance.RoomsAndRatesNoticeBottom"
-                android:text="@string/fee_not_included_in_total" />
+                android:text="@string/property_undergoing_renovations" />
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/resort_fees_chevron"
+            android:id="@+id/construction_chevron"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

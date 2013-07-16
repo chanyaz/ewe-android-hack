@@ -163,50 +163,13 @@ public class RoomsAndRatesFragment extends ListFragment {
 			mAdapter.setSelectedPosition(getPositionOfRate(selectedRate));
 		}
 
-		//Resort fee stuff...
-		Rate resortFeeRate = selectedRate;
-		if (resortFeeRate == null) {
-			resortFeeRate = (Rate) mAdapter.getItem(0);
-		}
-
-		Money mandatoryFees = resortFeeRate == null ? null : resortFeeRate.getTotalMandatoryFees();
-		if (mandatoryFees != null && !mandatoryFees.isZero()) {
-			//Show mandatory fees.
-			mNoticeContainer.removeAllViews();
-			LayoutInflater inflater = this.getLayoutInflater(null);
-			View mandatoryFeeView = inflater.inflate(R.layout.include_rooms_and_rates_resort_fees_notice,
-					mNoticeContainer);
-			TextView feeAmountTv = Ui.findView(mandatoryFeeView, R.id.resort_fees_price);
-			feeAmountTv.setText(mandatoryFees.getFormattedMoney());
-			mNoticeContainer.setVisibility(View.VISIBLE);
-
-			final String resortFeesText;
-			if (response != null && response.getProperty() != null
-					&& response.getProperty().getMandatoryFeesText() != null
-					&& !TextUtils.isEmpty(response.getProperty().getMandatoryFeesText().getContent())) {
-				resortFeesText = response.getProperty().getMandatoryFeesText().getContent();
-			}
-			else {
-				//TODO: Remove this string...
-				resortFeesText = "TODO: WAIT FOR API TO RETURN hotelMandatoryFeesText OR USE TRUNK WHICH SHOULD HAVE THAT CHANGE, BUT IS FREQUENTLY DOWN";
-			}
-
-			mandatoryFeeView.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View arg0) {
-					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
-					String html = HtmlUtils.wrapInHeadAndBody(resortFeesText);
-					builder.setHtmlData(html);
-					startActivity(builder.getIntent());
-				}
-			});
-		}
-		else {
-			mNoticeContainer.removeAllViews();
-			mNoticeContainer.setVisibility(View.GONE);
-		}
-
 		setListAdapter(mAdapter);
+
+		//Display notices if applicable
+		mNoticeContainer.removeAllViews();
+		boolean isNoticeDisplayed = displayRenovationNotice(response)
+				|| displayResortFeesNotice(response, selectedRate);
+		mNoticeContainer.setVisibility(isNoticeDisplayed ? View.VISIBLE : View.GONE);
 
 		// Disable highlighting if we're on phone UI
 		mAdapter.highlightSelectedPosition(AndroidUtils.isHoneycombTablet(getActivity()));
@@ -220,6 +183,78 @@ public class RoomsAndRatesFragment extends ListFragment {
 		if (mAdapter.getCount() == 0) {
 			OmnitureTracking.trackErrorPage(getActivity(), "HotelHasNoRoomsAvailable");
 		}
+	}
+
+	/**
+	 * If the response contains a renovation notice, we should display it to the user
+	 * 
+	 * @param response
+	 * @return
+	 */
+	private boolean displayRenovationNotice(HotelOffersResponse response) {
+		final String constructionText;
+		if (response != null && response.getProperty() != null
+				&& response.getProperty().getRenovationText() != null
+				&& !TextUtils.isEmpty(response.getProperty().getRenovationText().getContent())) {
+			constructionText = response.getProperty().getMandatoryFeesText().getContent();
+
+			LayoutInflater inflater = this.getLayoutInflater(null);
+			View consructionView = inflater.inflate(R.layout.include_rooms_and_rates_construction_notice,
+					mNoticeContainer);
+
+			consructionView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
+					String html = HtmlUtils.wrapInHeadAndBody(constructionText);
+					builder.setHtmlData(html);
+					startActivity(builder.getIntent());
+				}
+			});
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * If the response or selectedRate contian mandatory fees, we should display a notice to the user.
+	 * 
+	 * @param response
+	 * @param selectedRate
+	 * @return
+	 */
+	private boolean displayResortFeesNotice(HotelOffersResponse response, Rate selectedRate) {
+		Rate resortFeeRate = selectedRate;
+		if (resortFeeRate == null) {
+			resortFeeRate = (Rate) mAdapter.getItem(0);
+		}
+		Money mandatoryFees = resortFeeRate == null ? null : resortFeeRate.getTotalMandatoryFees();
+		boolean hasMandatoryFees = mandatoryFees != null && !mandatoryFees.isZero();
+		boolean hasResortFeesMessage = response != null && response.getProperty() != null
+				&& response.getProperty().getMandatoryFeesText() != null
+				&& !TextUtils.isEmpty(response.getProperty().getMandatoryFeesText().getContent());
+
+		if (hasMandatoryFees && hasResortFeesMessage) {
+			LayoutInflater inflater = this.getLayoutInflater(null);
+			View mandatoryFeeView = inflater.inflate(R.layout.include_rooms_and_rates_resort_fees_notice,
+					mNoticeContainer);
+			TextView feeAmountTv = Ui.findView(mandatoryFeeView, R.id.resort_fees_price);
+			feeAmountTv.setText(mandatoryFees.getFormattedMoney());
+			mNoticeContainer.setVisibility(View.VISIBLE);
+
+			final String resortFeesText = response.getProperty().getMandatoryFeesText().getContent();
+			mandatoryFeeView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
+					String html = HtmlUtils.wrapInHeadAndBody(resortFeesText);
+					builder.setHtmlData(html);
+					startActivity(builder.getIntent());
+				}
+			});
+			return true;
+		}
+		return false;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
