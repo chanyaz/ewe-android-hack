@@ -165,7 +165,7 @@ public class TabletUserReviewsListActivity extends FragmentActivity implements U
 					showReviewsUnavailableError();
 				}
 				else {
-					String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+					String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 					Db.getHotelSearch().addReviewsStatisticsResponse(selectedId, response);
 
 					// use the stats

@@ -1164,7 +1164,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 
 	private void startRoomsAndRatesDownload(Property property) {
 		// If we have the proper rates cached, don't bother downloading
-		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 		HotelOffersResponse previousResponse = Db.getHotelSearch().getHotelOffersResponse(selectedId);
 		if (previousResponse != null) {
 			return;
@@ -1221,7 +1221,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 
 	private void startReviewsDownload() {
 		// Don't download the reviews if we already have them
-		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 		if (Db.getHotelSearch().getReviewsResponse(selectedId) != null) {
 			return;
 		}
@@ -1250,7 +1250,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	private final OnDownloadComplete<ReviewsResponse> mReviewsCallback = new OnDownloadComplete<ReviewsResponse>() {
 		@Override
 		public void onDownload(ReviewsResponse reviewResponse) {
-			String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+			String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 			Db.getHotelSearch().addReviewsResponse(selectedId, reviewResponse);
 
 			if (reviewResponse == null || reviewResponse.hasErrors()) {
@@ -1491,7 +1491,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 
 	public void bookRoom(Rate rate, boolean specificRateClicked) {
 		Intent intent = new Intent(this, RoomsAndRatesFragmentActivity.class);
-		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 		Db.getHotelSearch().getAvailability(selectedId).setSelectedRate(rate);
 
 		if (specificRateClicked) {
@@ -1566,7 +1566,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 
 	@Override
 	public void onBookNowClicked() {
-		String propertyId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		String propertyId = Db.getHotelSearch().getSelectedPropertyId();
 		SummarizedRoomRates summarizedRoomRates = Db.getHotelSearch().getSummarizedRoomRates(propertyId);
 		bookRoom(summarizedRoomRates.getStartingRate(), false);
 	}
@@ -1583,7 +1583,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 
 	@Override
 	public void onPromotionClicked() {
-		String propertyId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		String propertyId = Db.getHotelSearch().getSelectedPropertyId();
 		SummarizedRoomRates summarizedRoomRates = Db.getHotelSearch().getSummarizedRoomRates(propertyId);
 
 		if (summarizedRoomRates != null) {

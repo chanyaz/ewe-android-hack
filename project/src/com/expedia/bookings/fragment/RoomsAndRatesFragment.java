@@ -100,7 +100,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 	}
 
 	public void notifyAvailabilityLoaded() {
-		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 		HotelOffersResponse response = Db.getHotelSearch().getHotelOffersResponse(selectedId);
 
 		mProgressBar.setVisibility(View.GONE);

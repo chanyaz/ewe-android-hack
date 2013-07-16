@@ -227,7 +227,7 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 					showReviewsUnavailableError();
 				}
 				else {
-					String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+					String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 					Db.getHotelSearch().addReviewsStatisticsResponse(selectedId, response);
 
 					// use the stats
@@ -255,7 +255,7 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 		TextView titleTextView = (TextView) titleView.findViewById(R.id.title);
 		RatingBar ratingBar = (RatingBar) titleView.findViewById(R.id.user_rating);
 
-		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 		ReviewsStatisticsResponse stats = Db.getHotelSearch().getReviewsStatisticsResponse(selectedId);
 		if (stats == null) {
 			if (ratingBar != null) {

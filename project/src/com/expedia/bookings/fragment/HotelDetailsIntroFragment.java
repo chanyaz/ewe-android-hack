@@ -50,7 +50,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 
 	private void populateViews(View view) {
 		if (Db.getHotelSearch().getSelectedProperty() != null) {
-			String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+			String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 			ReviewsStatisticsResponse statsResponse = Db.getHotelSearch().getReviewsStatisticsResponse(selectedId);
 			populateBannerSection(view, Db.getHotelSearch().getSelectedProperty(), statsResponse);
 			populateIntroParagraph(view, Db.getHotelSearch().getSelectedProperty());

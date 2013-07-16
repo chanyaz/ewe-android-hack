@@ -164,7 +164,7 @@ public class RoomsAndRatesFragmentActivity extends SherlockFragmentActivity impl
 
 	@Override
 	public void onRateSelected(Rate rate) {
-		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 		Db.getHotelSearch().getAvailability(selectedId).setSelectedRate(rate);
 
 		mBookingInfoFragment.notifyRateSelected();

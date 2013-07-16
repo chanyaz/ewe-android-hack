@@ -143,7 +143,7 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 			return;
 		}
 
-		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 		if (Db.getHotelSearch().getHotelOffersResponse(selectedId) != null) {
 			mRoomsAndRatesFragment.notifyAvailabilityLoaded();
 		}
@@ -239,7 +239,7 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 
 	@Override
 	public void onRateSelected(Rate rate) {
-		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 		Db.getHotelSearch().getAvailability(selectedId).setSelectedRate(rate);
 
 		Intent intent = new Intent(this, HotelOverviewActivity.class);

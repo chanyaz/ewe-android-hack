@@ -93,6 +93,10 @@ public class HotelSearch implements JSONable {
 		return getProperty(mSelectedPropertyId);
 	}
 
+	public String getSelectedPropertyId() {
+		return mSelectedPropertyId;
+	}
+
 	/**
 	 * Helper method to grab the rate of the currently selected room, based solely on the availability (and not coupon)
 	 * @return the currently selected rate, selected from the rooms and rates screen

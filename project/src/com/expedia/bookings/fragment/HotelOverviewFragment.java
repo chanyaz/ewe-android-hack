@@ -983,7 +983,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				handleHotelProductError(response);
 			}
 			else {
-				final String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+				final String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 				Rate selectedRate = Db.getHotelSearch().getSelectedRate();
 				Rate newRate = response.getRate();
 
@@ -1039,7 +1039,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			for (ServerError error : response.getErrors()) {
 				if (error.getErrorCode() == ServerError.ErrorCode.HOTEL_ROOM_UNAVAILABLE) {
 					isUnavailable = true;
-					String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+					String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 					Db.getHotelSearch().getAvailability(selectedId).removeRate(response.getOriginalProductKey());
 				}
 			}

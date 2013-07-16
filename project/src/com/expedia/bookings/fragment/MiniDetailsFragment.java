@@ -93,7 +93,7 @@ public class MiniDetailsFragment extends Fragment implements AvailabilitySummary
 
 			mAvailabilitySummary.updateProperty(property);
 
-			String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+			String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 			HotelOffersResponse availabilityResponse = Db.getHotelSearch().getHotelOffersResponse(selectedId);
 
 			if (availabilityResponse != null) {
@@ -123,7 +123,7 @@ public class MiniDetailsFragment extends Fragment implements AvailabilitySummary
 	}
 
 	public void notifyAvailabilityQueryComplete() {
-		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 		HotelOffersResponse response = Db.getHotelSearch().getHotelOffersResponse(selectedId);
 		if (response != null) {
 			if (response.getRateCount() == 0) {

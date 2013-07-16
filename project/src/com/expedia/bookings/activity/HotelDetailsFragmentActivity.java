@@ -199,7 +199,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 
-		String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+		String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 		HotelOffersResponse infoResponse = Db.getHotelSearch().getHotelOffersResponse(selectedId);
 		if (infoResponse != null) {
 			// We may have been downloading the data here before getting it elsewhere, so cancel
@@ -502,7 +502,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		@Override
 		public void onDownload(HotelOffersResponse response) {
 			// Check if we got a better response elsewhere before loading up this data
-			String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+			String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 			HotelOffersResponse possibleBetterResponse = Db.getHotelSearch().getHotelOffersResponse(selectedId);
 
 			if (possibleBetterResponse != null) {
@@ -557,7 +557,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 				return;
 			}
 
-			String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
+			String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 			Db.getHotelSearch().addReviewsStatisticsResponse(selectedId, response);
 
 			// Notify affected child fragments to refresh.
