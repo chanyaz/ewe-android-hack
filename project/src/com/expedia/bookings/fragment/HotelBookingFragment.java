@@ -88,21 +88,12 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> {
 		cartBuilder.setCurrencyCode(totalAfterTax.getCurrency());
 		cartBuilder.setTotalPrice(WalletUtils.formatAmount(totalAfterTax));
 
-		LineItem.Builder beforeTaxBuilder = LineItem.newBuilder();
-		beforeTaxBuilder.setCurrencyCode(totalBeforeTax.getCurrency());
-		beforeTaxBuilder.setDescription(property.getName());
-		beforeTaxBuilder.setRole(LineItem.Role.REGULAR);
-		beforeTaxBuilder.setTotalPrice(WalletUtils.formatAmount(totalBeforeTax));
-		cartBuilder.addLineItem(beforeTaxBuilder.build());
-
-		LineItem.Builder taxesBuilder = LineItem.newBuilder();
-		taxesBuilder.setCurrencyCode(surcharges.getCurrency());
-		taxesBuilder.setDescription(getString(R.string.taxes_and_fees));
-		taxesBuilder.setRole(LineItem.Role.TAX);
-		taxesBuilder.setTotalPrice(WalletUtils.formatAmount(surcharges));
-		cartBuilder.addLineItem(taxesBuilder.build());
+		cartBuilder.addLineItem(WalletUtils.createLineItem(totalBeforeTax, property.getName(), LineItem.Role.REGULAR));
+		cartBuilder.addLineItem(WalletUtils.createLineItem(surcharges, getString(R.string.taxes_and_fees),
+				LineItem.Role.TAX));
 
 		walletRequestBuilder.setCart(cartBuilder.build());
 		return walletRequestBuilder.build();
 	}
+
 }

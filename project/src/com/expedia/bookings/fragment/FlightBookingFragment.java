@@ -77,20 +77,12 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 		cartBuilder.setCurrencyCode(totalAfterTax.getCurrency());
 		cartBuilder.setTotalPrice(WalletUtils.formatAmount(totalAfterTax));
 
-		LineItem.Builder beforeTaxBuilder = LineItem.newBuilder();
-		beforeTaxBuilder.setCurrencyCode(totalBeforeTax.getCurrency());
-		beforeTaxBuilder.setDescription(getString(R.string.path_template, firstLeg.getFirstWaypoint().mAirportCode,
-				firstLeg.getLastWaypoint().mAirportCode));
-		beforeTaxBuilder.setRole(LineItem.Role.REGULAR);
-		beforeTaxBuilder.setTotalPrice(WalletUtils.formatAmount(totalBeforeTax));
-		cartBuilder.addLineItem(beforeTaxBuilder.build());
+		cartBuilder.addLineItem(WalletUtils.createLineItem(
+				totalBeforeTax, getString(R.string.path_template, firstLeg.getFirstWaypoint().mAirportCode,
+						firstLeg.getLastWaypoint().mAirportCode), LineItem.Role.REGULAR));
 
-		LineItem.Builder taxesBuilder = LineItem.newBuilder();
-		taxesBuilder.setCurrencyCode(surcharges.getCurrency());
-		taxesBuilder.setDescription(getString(R.string.taxes_and_fees));
-		taxesBuilder.setRole(LineItem.Role.TAX);
-		taxesBuilder.setTotalPrice(WalletUtils.formatAmount(surcharges));
-		cartBuilder.addLineItem(taxesBuilder.build());
+		cartBuilder.addLineItem(WalletUtils.createLineItem(surcharges, getString(R.string.taxes_and_fees),
+				LineItem.Role.TAX));
 
 		walletRequestBuilder.setCart(cartBuilder.build());
 		return walletRequestBuilder.build();

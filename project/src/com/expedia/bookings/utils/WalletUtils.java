@@ -466,4 +466,13 @@ public class WalletUtils {
 			break;
 		}
 	}
+
+	public static LineItem createLineItem(Money money, String description, int role) {
+		return (LineItem.newBuilder())
+				.setCurrencyCode(money.getCurrency())
+				.setDescription(description)
+				.setRole(LineItem.Role.REGULAR)
+				.setTotalPrice(WalletUtils.formatAmount(money))
+				.build();
+	}
 }
