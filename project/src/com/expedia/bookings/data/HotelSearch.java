@@ -116,6 +116,22 @@ public class HotelSearch implements JSONable {
 		return mCreateTripResponse.getNewRate();
 	}
 
+	/**
+	 * Returns the rate that we expect to book with, which will either be
+	 * the coupon rate (if a coupon is applied) or the selected rate.
+	 * 
+	 * This should be the preferred method for retrieving the current rate,
+	 * unless you are specifically trying to get the original or coupon
+	 * rate.
+	 */
+	public Rate getBookingRate() {
+		Rate rate = getCouponRate();
+		if (rate == null) {
+			rate = getSelectedRate();
+		}
+		return rate;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Update data
 

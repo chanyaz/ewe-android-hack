@@ -1277,7 +1277,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	@Override
 	protected Money getEstimatedTotal() {
-		Rate selectedRate = Db.getHotelSearch().getSelectedRate();
+		Rate selectedRate = Db.getHotelSearch().getBookingRate();
 		return selectedRate.getTotalAmountAfterTax();
 	}
 

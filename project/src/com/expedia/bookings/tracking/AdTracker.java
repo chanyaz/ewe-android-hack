@@ -59,7 +59,7 @@ public class AdTracker {
 		// Values
 		final HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams().copy();
 		final Property property = Db.getHotelSearch().getSelectedProperty();
-		final Rate rate = Db.getHotelSearch().getSelectedRate();
+		final Rate rate = Db.getHotelSearch().getBookingRate();
 
 		final String propertyId = property.getPropertyId();
 		final String propertyName = property.getName();
