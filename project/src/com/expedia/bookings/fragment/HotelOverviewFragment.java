@@ -577,7 +577,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 		// Configure the total cost and (if necessary) total cost paid to Expedia
 		if (Db.getHotelSearch().getCreateTripResponse() != null) {
-			rate = Db.getHotelSearch().getCreateTripResponse().getNewRate();
+			rate = Db.getHotelSearch().getCouponRate();
 		}
 
 		// Configure slide to purchase string
@@ -1471,7 +1471,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 				Db.getHotelSearch().setCreateTripResponse(response);
 
-				mCouponCodeWidget.onApplyCoupon(response.getNewRate());
+				mCouponCodeWidget.onApplyCoupon(Db.getHotelSearch().getCouponRate());
 
 				OmnitureTracking.trackHotelCouponApplied(getActivity(), mCouponCode);
 			}
