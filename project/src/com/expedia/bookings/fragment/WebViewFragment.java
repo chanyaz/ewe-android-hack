@@ -7,10 +7,16 @@ import java.util.Comparator;
 import org.apache.http.cookie.Cookie;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.net.http.SslError;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +37,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 
 @SuppressLint("SetJavaScriptEnabled")
-public class WebViewFragment extends Fragment {
+public class WebViewFragment extends DialogFragment {
 
 	public enum TrackingName {
 		BaggageFeeOneWay,
@@ -46,6 +52,10 @@ public class WebViewFragment extends Fragment {
 	private static final String ARG_ENABLE_LOGIN = "ARG_ENABLE_LOGIN";
 	private static final String ARG_LOAD_EXPEDIA_COOKIES = "ARG_LOAD_EXPEDIA_COOKIES";
 	private static final String ARG_ALLOW_MOBILE_REDIRECTS = "ARG_ALLOW_MOBILE_REDIRECTS";
+
+	private static final String ARG_DIALOG_MODE = "ARG_DIALOG_MODE";
+	private static final String ARG_DIALOG_TITLE = "ARG_DIALOG_TITLE";
+	private static final String ARG_DIALOG_BUTTON_TEXT = "ARG_DIALOG_BUTTON_TEXT";
 
 	private static final String ARG_TRACKING_NAME = "ARG_TRACKING_NAME";
 
@@ -92,6 +102,30 @@ public class WebViewFragment extends Fragment {
 		return frag;
 	}
 
+	public static WebViewFragment newDialogInstance(String url, boolean enableSignIn, boolean loadCookies,
+			boolean allowUseableNetRedirects, String name, String title, String dismissButtonText) {
+		WebViewFragment frag = newInstance(url, enableSignIn, loadCookies, allowUseableNetRedirects, name);
+
+		frag.setArguments(addDialogArgs(frag.getArguments(), title, dismissButtonText));
+
+		return frag;
+	}
+
+	public static WebViewFragment newDialogInstance(String htmlData, String title, String dismissButtonText) {
+		WebViewFragment frag = newInstance(htmlData);
+
+		frag.setArguments(addDialogArgs(frag.getArguments(), title, dismissButtonText));
+
+		return frag;
+	}
+
+	private static Bundle addDialogArgs(Bundle inputArgs, String title, String dismissButtonText) {
+		inputArgs.putBoolean(ARG_DIALOG_MODE, true);
+		inputArgs.putString(ARG_DIALOG_TITLE, title);
+		inputArgs.putString(ARG_DIALOG_BUTTON_TEXT, dismissButtonText);
+		return inputArgs;
+	}
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -118,9 +152,46 @@ public class WebViewFragment extends Fragment {
 		mAllowUseableNetRedirects = args.getBoolean(ARG_ALLOW_MOBILE_REDIRECTS, true);
 	}
 
-	@SuppressLint("NewApi")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		if (!getArguments().getBoolean(ARG_DIALOG_MODE)) {
+			return generateView(inflater, container, savedInstanceState);
+		}
+		else {
+			//If we are in dialog mode, we need to pretend like we aren't overrideing onCreateView
+			return super.onCreateView(inflater, container, savedInstanceState);
+		}
+	}
+
+	@Override
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		if (getArguments().getBoolean(ARG_DIALOG_MODE)) {
+			LayoutInflater inflater = getActivity().getLayoutInflater();
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			if (getArguments().containsKey(ARG_DIALOG_TITLE)
+					&& !TextUtils.isEmpty(getArguments().getString(ARG_DIALOG_TITLE))) {
+				builder.setTitle(getArguments().getString(ARG_DIALOG_TITLE));
+			}
+			if (getArguments().containsKey(ARG_DIALOG_BUTTON_TEXT)
+					&& !TextUtils.isEmpty(getArguments().getString(ARG_DIALOG_BUTTON_TEXT))) {
+				builder.setNeutralButton(getArguments().getString(ARG_DIALOG_BUTTON_TEXT), new OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int arg1) {
+						dialog.dismiss();
+					}
+				});
+			}
+			builder.setView(generateView(inflater, null, savedInstanceState));
+			return builder.create();
+		}
+		else {
+			//If we are NOT in dialog mode, we need to pretend like we aren't overrideing onCreateDialog
+			return super.onCreateDialog(savedInstanceState);
+		}
+	}
+
+	@SuppressLint("NewApi")
+	private View generateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mFrame = new FrameLayout(getActivity());
 		if (mWebView == null) {
 			mWebView = new WebView(getActivity());
@@ -173,7 +244,9 @@ public class WebViewFragment extends Fragment {
 				public void onPageFinished(WebView webview, String url) {
 					//Stop progress spinner
 					mWebViewLoaded = true;
-					mListener.setLoading(false);
+					if (mListener != null) {
+						mListener.setLoading(false);
+					}
 
 					if (!enableSignIn) {
 						// Insert javascript to remove the signin button
@@ -186,6 +259,30 @@ public class WebViewFragment extends Fragment {
 					webview.loadUrl("javascript:(function() { " +
 							"document.getElementById('SmartBanner').style.display='none'; " +
 							"})()");
+
+					//If we are showing the fragment as a dialog, we need to request layout after the page renders, otherwise the dialog
+					//doesnt measure correctly.
+					if (getArguments().getBoolean(ARG_DIALOG_MODE)) {
+						webview.postDelayed(new Runnable() {
+							private long mPostLoopStartTime = 0;
+
+							@Override
+							public void run() {
+								if (mPostLoopStartTime == 0) {
+									mPostLoopStartTime = System.currentTimeMillis();
+								}
+								else if (System.currentTimeMillis() - mPostLoopStartTime > 5000) {
+									//We dont want this loop to go on forever.
+									return;
+								}
+
+								if (isVisible() && mWebView != null && mWebView.getHeight() <= 0) {
+									mWebView.requestLayout();
+									mWebView.postDelayed(this, 50);
+								}
+							}
+						}, 50);
+					}
 				}
 
 				@Override
@@ -208,7 +305,9 @@ public class WebViewFragment extends Fragment {
 		}
 
 		if (!mWebViewLoaded) {
-			mListener.setLoading(true);
+			if (mListener != null) {
+				mListener.setLoading(true);
+			}
 			if (!TextUtils.isEmpty(mHtmlData)) {
 				//Using .loadData() sometimes fails with unescaped html. loadDataWithBaseUrl() doesnt
 				mWebView.loadDataWithBaseURL(null, mHtmlData, "text/html", "UTF-8", null);
@@ -218,7 +317,9 @@ public class WebViewFragment extends Fragment {
 			}
 		}
 		else {
-			mListener.setLoading(false);
+			if (mListener != null) {
+				mListener.setLoading(false);
+			}
 		}
 
 		return mFrame;
@@ -262,6 +363,7 @@ public class WebViewFragment extends Fragment {
 
 		if (mFrame != null && mWebView != null) {
 			mFrame.addView(mWebView);
+			Log.d("JOE: mFrame.addView");
 		}
 	}
 
@@ -270,10 +372,11 @@ public class WebViewFragment extends Fragment {
 		super.onAttach(activity);
 
 		if (!(activity instanceof WebViewFragmentListener)) {
-			throw new RuntimeException("WebView Activity must implement WebViewFragmentListener!");
+			Log.d("WebView did not attach to an implementation of WebViewFragmentListener");
 		}
-
-		mListener = (WebViewFragmentListener) activity;
+		else {
+			mListener = (WebViewFragmentListener) activity;
+		}
 	}
 
 	@Override
@@ -283,6 +386,16 @@ public class WebViewFragment extends Fragment {
 			out.putBoolean(INSTANCE_LOADED, this.mWebViewLoaded);
 			mWebView.saveState(out);
 		}
+	}
+
+	@Override
+	public void onDestroyView()
+	{
+		//This is a workaround for a rotation bug: http://code.google.com/p/android/issues/detail?id=17423
+		if (getDialog() != null && getRetainInstance()) {
+			getDialog().setDismissMessage(null);
+		}
+		super.onDestroyView();
 	}
 
 	private void loadCookies() {
