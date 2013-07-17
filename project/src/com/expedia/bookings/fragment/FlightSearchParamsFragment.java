@@ -19,7 +19,6 @@ import android.text.format.Time;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewStub;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
@@ -40,6 +39,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
@@ -55,6 +55,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AirportDropDownAdapter;
@@ -94,6 +95,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	private ViewGroup mAirportsContainer;
 	private AutoCompleteTextView mDepartureAirportEditText;
 	private AutoCompleteTextView mArrivalAirportEditText;
+	private Spinner mDepartureAirportSpinner;
+	private Spinner mArrivalAirportSpinner;
 	private TextView mDatesTextView;
 	private View mClearDatesButton;
 	private ViewGroup mCalendarContainer;
@@ -169,7 +172,9 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		View v = inflater.inflate(R.layout.fragment_flight_search_params, container, false);
 
 		// We want to use one of two airport pickers depending on our POS; inflate the correct one
-		Ui.inflateViewStub(v, R.id.stub_flight_search_airports);
+		int airportStubId = PointOfSale.getPointOfSale().displayFlightDropDownRoutes() ? R.id.stub_flight_search_airports_spinner
+				: R.id.stub_flight_search_airports;
+		Ui.inflateViewStub(v, airportStubId);
 
 		// Cache views
 		mFocusStealer = Ui.findView(v, R.id.focus_stealer);
@@ -178,6 +183,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		mAirportsContainer = Ui.findView(v, R.id.airports_container);
 		mDepartureAirportEditText = Ui.findView(v, R.id.departure_airport_edit_text);
 		mArrivalAirportEditText = Ui.findView(v, R.id.arrival_airport_edit_text);
+		mDepartureAirportSpinner = Ui.findView(v, R.id.departure_airport_spinner);
+		mArrivalAirportSpinner = Ui.findView(v, R.id.arrival_airport_spinner);
 		mDatesTextView = Ui.findView(v, R.id.dates_button);
 		mCalendarContainer = Ui.findView(v, R.id.calendar_container);
 		mCalendarShadow = Ui.findView(v, R.id.calendar_shadow);
@@ -206,71 +213,75 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			lp.addRule(RelativeLayout.BELOW, R.id.header);
 		}
 
-		mAirportAdapter = new AirportDropDownAdapter(getActivity());
+		// Configuration for airport edit texts
+		if (isUsingEditTexts()) {
+			mAirportAdapter = new AirportDropDownAdapter(getActivity());
 
-		InputFilter[] filters = new InputFilter[] { this };
-		mDepartureAirportEditText.setFilters(filters);
-		mDepartureAirportEditText.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				mItemClicked = true;
+			InputFilter[] filters = new InputFilter[] { this };
+			mDepartureAirportEditText.setFilters(filters);
+			mDepartureAirportEditText.setOnItemClickListener(new OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					mItemClicked = true;
 
-				Location location = mAirportAdapter.getLocation(position);
-				if (location != null) {
-					mSearchParams.setDepartureLocation(location);
-					mAirportAdapter.onAirportSelected(location);
-				}
-				updateAirportText(mDepartureAirportEditText, mSearchParams.getDepartureLocation());
+					Location location = mAirportAdapter.getLocation(position);
+					if (location != null) {
+						mSearchParams.setDepartureLocation(location);
+						mAirportAdapter.onAirportSelected(location);
+					}
+					updateAirportText(mDepartureAirportEditText, mSearchParams.getDepartureLocation());
 
-				onDepartureInputComplete();
-			}
-		});
-
-		mDepartureAirportEditText.setOnEditorActionListener(new OnEditorActionListener() {
-			@Override
-			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-				if (actionId == EditorInfo.IME_ACTION_NEXT) {
 					onDepartureInputComplete();
-					return true;
 				}
+			});
 
-				return false;
-			}
-		});
+			mDepartureAirportEditText.setOnEditorActionListener(new OnEditorActionListener() {
+				@Override
+				public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+					if (actionId == EditorInfo.IME_ACTION_NEXT) {
+						onDepartureInputComplete();
+						return true;
+					}
 
-		mArrivalAirportEditText.setFilters(filters);
-		mArrivalAirportEditText.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				mItemClicked = true;
-
-				Location location = mAirportAdapter.getLocation(position);
-				if (location != null) {
-					mSearchParams.setArrivalLocation(location);
-					mAirportAdapter.onAirportSelected(location);
+					return false;
 				}
-				updateAirportText(mArrivalAirportEditText, mSearchParams.getArrivalLocation());
+			});
 
-				onArrivalInputComplete();
-			}
-		});
+			mArrivalAirportEditText.setFilters(filters);
+			mArrivalAirportEditText.setOnItemClickListener(new OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					mItemClicked = true;
 
-		mArrivalAirportEditText.setOnEditorActionListener(new OnEditorActionListener() {
-			@Override
-			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-				if (actionId == EditorInfo.IME_ACTION_NEXT || actionId == EditorInfo.IME_ACTION_DONE) {
+					Location location = mAirportAdapter.getLocation(position);
+					if (location != null) {
+						mSearchParams.setArrivalLocation(location);
+						mAirportAdapter.onAirportSelected(location);
+					}
+					updateAirportText(mArrivalAirportEditText, mSearchParams.getArrivalLocation());
+
 					onArrivalInputComplete();
-					return true;
 				}
+			});
 
-				return false;
-			}
-		});
+			mArrivalAirportEditText.setOnEditorActionListener(new OnEditorActionListener() {
+				@Override
+				public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+					if (actionId == EditorInfo.IME_ACTION_NEXT || actionId == EditorInfo.IME_ACTION_DONE) {
+						onArrivalInputComplete();
+						return true;
+					}
 
-		mArrivalAirportEditText.setImeOptions(mIsLandscape ? EditorInfo.IME_ACTION_DONE : EditorInfo.IME_ACTION_NEXT);
+					return false;
+				}
+			});
 
-		// Always initially reset the airport texts (otherwise they start overlapping)
-		resetAirportEditTexts(false);
+			mArrivalAirportEditText.setImeOptions(mIsLandscape ? EditorInfo.IME_ACTION_DONE
+					: EditorInfo.IME_ACTION_NEXT);
+
+			// Always initially reset the airport texts (otherwise they start overlapping)
+			resetAirportEditTexts(false);
+		}
 
 		if (savedInstanceState == null) {
 			// Fill in the initial departure/arrival airports if we are just launching
@@ -351,36 +362,38 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	public void onResume() {
 		super.onResume();
 
-		// Don't set the focus change listener until now, so that we can properly
-		// restore the state of the views.  Same with the adapter (so it doesn't
-		// constantly fire queries when nothing has changed).
-		mDepartureAirportEditText.setOnFocusChangeListener(mAirportFocusChangeListener);
-		mArrivalAirportEditText.setOnFocusChangeListener(mAirportFocusChangeListener);
+		if (isUsingEditTexts()) {
+			// Don't set the focus change listener until now, so that we can properly
+			// restore the state of the views.  Same with the adapter (so it doesn't
+			// constantly fire queries when nothing has changed).
+			mDepartureAirportEditText.setOnFocusChangeListener(mAirportFocusChangeListener);
+			mArrivalAirportEditText.setOnFocusChangeListener(mAirportFocusChangeListener);
 
-		if (mFirstRun && Db.getFlightSearch().getSearchParams().getDepartureLocation() == null) {
-			mDepartureAirportEditText.requestFocus();
+			if (mFirstRun && Db.getFlightSearch().getSearchParams().getDepartureLocation() == null) {
+				mDepartureAirportEditText.requestFocus();
 
-			// Dumb hack to get IME to show.  Without delaying this doesn't work (for some dumb reason)
-			mDepartureAirportEditText.postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					// With weird timing issues, we can end up running this when we're not attached
-					Context context = getActivity();
-					if (context == null) {
-						return;
+				// Dumb hack to get IME to show.  Without delaying this doesn't work (for some dumb reason)
+				mDepartureAirportEditText.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						// With weird timing issues, we can end up running this when we're not attached
+						Context context = getActivity();
+						if (context == null) {
+							return;
+						}
+
+						InputMethodManager imm = (InputMethodManager) context
+								.getSystemService(Context.INPUT_METHOD_SERVICE);
+						imm.showSoftInput(mDepartureAirportEditText, 0);
 					}
-
-					InputMethodManager imm = (InputMethodManager) context
-							.getSystemService(Context.INPUT_METHOD_SERVICE);
-					imm.showSoftInput(mDepartureAirportEditText, 0);
-				}
-			}, 250);
-		}
-		else if (mDepartureAirportEditText.isFocused()) {
-			expandAirportEditText(mDepartureAirportEditText, false);
-		}
-		else if (mArrivalAirportEditText.isFocused()) {
-			expandAirportEditText(mArrivalAirportEditText, false);
+				}, 250);
+			}
+			else if (mDepartureAirportEditText.isFocused()) {
+				expandAirportEditText(mDepartureAirportEditText, false);
+			}
+			else if (mArrivalAirportEditText.isFocused()) {
+				expandAirportEditText(mArrivalAirportEditText, false);
+			}
 		}
 	}
 
@@ -388,11 +401,13 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	public void onPause() {
 		super.onPause();
 
-		// Clear adapter so we don't fire off unnecessary requests to it
-		// during a configuration change
-		mFirstAdapterLocation = mAirportAdapter.getLocation(0);
-		mDepartureAirportEditText.setAdapter((AirportDropDownAdapter) null);
-		mArrivalAirportEditText.setAdapter((AirportDropDownAdapter) null);
+		if (isUsingEditTexts()) {
+			// Clear adapter so we don't fire off unnecessary requests to it
+			// during a configuration change
+			mFirstAdapterLocation = mAirportAdapter.getLocation(0);
+			mDepartureAirportEditText.setAdapter((AirportDropDownAdapter) null);
+			mArrivalAirportEditText.setAdapter((AirportDropDownAdapter) null);
+		}
 	}
 
 	@Override
@@ -434,6 +449,10 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 	//////////////////////////////////////////////////////////////////////////
 	// View control
+
+	private boolean isUsingEditTexts() {
+		return mDepartureAirportEditText != null && mArrivalAirportEditText != null;
+	}
 
 	private OnFocusChangeListener mAirportFocusChangeListener = new OnFocusChangeListener() {
 		@Override
@@ -506,8 +525,13 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	};
 
 	private void updateAirportText() {
-		updateAirportText(mDepartureAirportEditText, mSearchParams.getDepartureLocation());
-		updateAirportText(mArrivalAirportEditText, mSearchParams.getArrivalLocation());
+		if (isUsingEditTexts()) {
+			updateAirportText(mDepartureAirportEditText, mSearchParams.getDepartureLocation());
+			updateAirportText(mArrivalAirportEditText, mSearchParams.getArrivalLocation());
+		}
+		else {
+			// TODO: Update spinner text
+		}
 	}
 
 	private void updateAirportText(TextView textView, Location location) {
@@ -661,22 +685,24 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	}
 
 	private void clearEditTextFocus() {
-		EditText textWithFocus = null;
+		if (isUsingEditTexts()) {
+			EditText textWithFocus = null;
 
-		if (mDepartureAirportEditText.hasFocus()) {
-			textWithFocus = mDepartureAirportEditText;
+			if (mDepartureAirportEditText.hasFocus()) {
+				textWithFocus = mDepartureAirportEditText;
+			}
+			else if (mArrivalAirportEditText.hasFocus()) {
+				textWithFocus = mArrivalAirportEditText;
+			}
+
+			if (textWithFocus != null && isAdded()) {
+				mFocusStealer.requestFocus();
+
+				Ui.hideKeyboard(getActivity());
+			}
+
+			resetAirportEditTexts(true);
 		}
-		else if (mArrivalAirportEditText.hasFocus()) {
-			textWithFocus = mArrivalAirportEditText;
-		}
-
-		if (textWithFocus != null && isAdded()) {
-			mFocusStealer.requestFocus();
-
-			Ui.hideKeyboard(getActivity());
-		}
-
-		resetAirportEditTexts(true);
 	}
 
 	private void clearDates() {

@@ -43,6 +43,13 @@
             android:layout_marginBottom="@dimen/flight_search_space_between_rows"
             android:layout="@layout/include_flight_search_airports" />
 
+        <ViewStub
+            android:id="@+id/stub_flight_search_airports_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/flight_search_space_between_rows"
+            android:layout="@layout/include_flight_search_airports_spinner" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
