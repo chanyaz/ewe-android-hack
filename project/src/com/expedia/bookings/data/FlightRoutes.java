@@ -1,5 +1,7 @@
 package com.expedia.bookings.data;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -32,7 +34,25 @@ public class FlightRoutes implements JSONable {
 		mRoutes.put(origin, destinations);
 	}
 
-	// TODO: Write getters that make sense
+	public Airport getAirport(String airportCode) {
+		return mAirports.get(airportCode);
+	}
+
+	public Collection<Airport> getOrigins() {
+		return getAirports(mRoutes.keySet());
+	}
+
+	public Collection<Airport> getDestinations(String origin) {
+		return getAirports(mRoutes.get(origin));
+	}
+
+	public Collection<Airport> getAirports(Collection<String> airportCodes) {
+		Collection<Airport> airports = new ArrayList<Airport>();
+		for (String airportCode : airportCodes) {
+			airports.add(mAirports.get(airportCode));
+		}
+		return airports;
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable interface
