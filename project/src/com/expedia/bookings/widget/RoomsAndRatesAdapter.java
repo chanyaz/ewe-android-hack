@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -226,7 +227,8 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 
 		// If there are < ROOMS_LEFT_CUTOFF rooms left, show a warning to the user
 		// however non-refundable trumps this text
-		if (shouldShowRoomsLeft(rate) && !shouldShowNonRefundable(rate)) {
+		// 1400. VSC - remove urgency messages throughout the app
+		if (shouldShowRoomsLeft(rate) && !shouldShowNonRefundable(rate) &&!ExpediaBookingApp.IS_VSC) {
 			int numRoomsLeft = rate.getNumRoomsLeft();
 			addBedRow(mResources.getQuantityString(R.plurals.number_of_rooms_left, numRoomsLeft, numRoomsLeft));
 		}

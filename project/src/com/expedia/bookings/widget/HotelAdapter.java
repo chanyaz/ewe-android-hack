@@ -19,6 +19,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Money;
@@ -280,22 +281,27 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		}
 
 		int roomsLeft = property.getRoomsLeftAtThisRate();
-		if (property.isLowestRateTonightOnly()) {
-			holder.urgency.setText(mContext.getString(R.string.tonight_only));
-			holder.urgency.setVisibility(View.VISIBLE);
-		}
-		else if (property.isLowestRateMobileExclusive()) {
-			holder.urgency.setText(mContext.getString(R.string.mobile_exclusive));
-			holder.urgency.setVisibility(View.VISIBLE);
-		}
-		else if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF) {
-			holder.urgency.setText(mContext.getResources().getQuantityString(R.plurals.num_rooms_left, roomsLeft,
-					roomsLeft));
-			holder.urgency.setVisibility(View.VISIBLE);
+		// 1400. VSC - remove urgency messages throughout the app
+		if (ExpediaBookingApp.IS_VSC) {
+			holder.urgency.setVisibility(View.GONE);
 		}
 		else {
-			holder.urgency.setVisibility(View.GONE);
-
+			if (property.isLowestRateTonightOnly()) {
+				holder.urgency.setText(mContext.getString(R.string.tonight_only));
+				holder.urgency.setVisibility(View.VISIBLE);
+			}
+			else if (property.isLowestRateMobileExclusive()) {
+				holder.urgency.setText(mContext.getString(R.string.mobile_exclusive));
+				holder.urgency.setVisibility(View.VISIBLE);
+			}
+			else if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF) {
+				holder.urgency.setText(mContext.getResources().getQuantityString(R.plurals.num_rooms_left, roomsLeft,
+						roomsLeft));
+				holder.urgency.setVisibility(View.VISIBLE);
+			}
+			else {
+				holder.urgency.setVisibility(View.GONE);
+			}
 		}
 
 		holder.price.setTextSize(mPriceTextSize);
