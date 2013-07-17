@@ -113,6 +113,10 @@ public class Property implements JSONable {
 	private int mTotalRecommendations;
 	private double mAverageExpediaRating;
 
+	// Convienent itin data
+	private String mItinRoomType;
+	private String mItinBedType;
+
 	public String getName() {
 		return mName;
 	}
@@ -147,6 +151,22 @@ public class Property implements JSONable {
 
 	public boolean hasDescriptionText() {
 		return this.mDescriptionText != null && this.mDescriptionText.length() > 0;
+	}
+
+	public void setItinBedType(String bedType) {
+		mItinBedType = bedType;
+	}
+
+	public String getItinBedType() {
+		return mItinBedType;
+	}
+
+	public void setItinRoomType(String roomType) {
+		mItinRoomType = roomType;
+	}
+
+	public String getItinRoomType() {
+		return mItinRoomType;
 	}
 
 	public Media getThumbnail() {
@@ -514,6 +534,8 @@ public class Property implements JSONable {
 			obj.putOpt("isDesktopOverrideNumber", mIsDesktopOverrideNumber);
 			JSONUtils.putJSONable(obj, "highestPriceFromSurvey", mHighestPriceFromSurvey);
 			JSONUtils.putJSONable(obj, "lowestRate", mLowestRate);
+			obj.putOpt("itinBedType", mItinBedType);
+			obj.putOpt("itinRoomType", mItinRoomType);
 
 			return obj;
 		}
@@ -554,6 +576,8 @@ public class Property implements JSONable {
 		mTelephoneSalesNumber = obj.optString("telephoneSalesNumber", null);
 		mIsDesktopOverrideNumber = obj.optBoolean("isDesktopOverrideNumber", true);
 		mHighestPriceFromSurvey = JSONUtils.getJSONable(obj, "highestPriceFromSurvey", Money.class);
+		mItinRoomType = obj.optString("itinRoomType", null);
+		mItinBedType = obj.optString("itinBedType", null);
 
 		return true;
 	}

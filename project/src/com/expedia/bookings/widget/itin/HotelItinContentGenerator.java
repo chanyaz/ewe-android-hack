@@ -205,6 +205,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		TextView addressTextView = Ui.findView(view, R.id.address_text_view);
 		TextView phoneNumberTextView = Ui.findView(view, R.id.phone_number_text_view);
 		TextView roomTypeTextView = Ui.findView(view, R.id.room_type_text_view);
+		TextView bedTypeTextView = Ui.findView(view, R.id.bed_type_text_view);
 		ViewGroup commonItinDataContainer = Ui.findView(view, R.id.itin_shared_info_container);
 
 		// Bind
@@ -223,7 +224,8 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		}
 
 		addressTextView.setText(itinCardData.getAddressString());
-		roomTypeTextView.setText(itinCardData.getRoomDescription());
+		roomTypeTextView.setText(itinCardData.getRoomType());
+		bedTypeTextView.setText(itinCardData.getBedType());
 
 		phoneNumberTextView.setText(itinCardData.getRelevantPhone());
 		phoneNumberTextView.setOnClickListener(new OnClickListener() {

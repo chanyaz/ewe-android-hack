@@ -303,7 +303,7 @@ public class TripParser {
 					hotel.addConfirmationNumber(conf);
 				}
 
-				//property.setDescriptionText(room.optString("roomRatePlanDescription"));
+				property.setItinRoomType(room.optString("roomRatePlanDescription"));
 
 				JSONObject roomPreferences = room.optJSONObject("roomPreferences");
 				JSONObject otherOccupantInfo = roomPreferences.optJSONObject("otherOccupantInfo");
@@ -311,7 +311,7 @@ public class TripParser {
 				guests += otherOccupantInfo.optInt("childAndInfantCount");
 
 				JSONObject occupantSelectedRoomOptions = roomPreferences.optJSONObject("occupantSelectedRoomOptions");
-				property.setDescriptionText(occupantSelectedRoomOptions.optString("bedTypeName"));
+				property.setItinBedType(occupantSelectedRoomOptions.optString("bedTypeName"));
 			}
 		}
 
