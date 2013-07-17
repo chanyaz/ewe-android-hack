@@ -277,7 +277,7 @@
     <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
     <string name="add_hotel_fallback">เพิ่มโรงแรมที่จุดหมายปลายทางของคุณ</string>
 
-    <!-- Itin Local Expert -->
+    <!-- Itin Local Expert.  Do not translate the "Local Expert" part because it is the title of a product. -->
     <string name="talk_to_local_expert">คุยกับ Local Expert</string>
 
     <!-- Local Expert Sites -->
@@ -288,9 +288,9 @@
     <!-- Name of Las Vegas (for local expert) -->
     <string name="site_las_vegas">ลาสเวกัส</string>
 
-    <!-- Template for the city title on Local Expert pages. %1$s is the name of the city-->
+    <!-- Template for the city title on Local Expert pages. %1$s is the name of the city -->
     <string name="local_expert_title_TEMPLATE">ขอให้สนุกใน%1$s</string>
-    <!-- Description body for the Local Expert pages -->
+    <!-- Description body for the Local Expert pages.    Do not translate the "Local Expert" part because it is the title of a product. -->
     <string name="local_expert_description">เจ้าหน้าที่ Local Expert \nพร้อมให้ความช่วยเหลือในการวางแผนทริปของคุณ</string>
     <!-- Text for the button on Local Expert pages, to call the concierge -->
     <string name="local_expert_call_button_text">โทรหาพวกเขา</string>
@@ -305,7 +305,7 @@
     <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
     <string name="attraction_theme_parks_second">สวนสนุก</string>
     <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_first">ค้นหา</string>
+    <string name="attraction_beaches_first">ชิลบน</string>
     <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
     <string name="attraction_beaches_second">หาดทราย</string>
     <!-- First half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
@@ -590,7 +590,7 @@
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
     <string name="inbound_TEMPLATE">เที่ยวบินขาเข้าไปยัง %s</string>
     <!-- Error when we simple can't connect to E3 servers -->
-    <string name="error_server">ขออภัย เราไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ Expedia โปรดลองอีกครั้ง</string>
+    <string name="error_server">ขออภัย เราไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์เอ็กซ์พีเดีย โปรดลองอีกครั้ง</string>
     <!-- Sort by departure timelabel -->
     <string name="sort_description_departure">ออกเดินทาง</string>
     <!-- Sort by arrival time label -->
@@ -693,7 +693,7 @@
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
     <string name="fare_name_and_price_TEMPLATE">%1$s : %2$s</string>
     <!-- Button label for information about baggage fees -->
-    <string name="baggage_fee_info">ข้อมูลค่าธรรมเนียมสัมภาระ</string>
+    <string name="baggage_fee_info">ข้อมูลเกี่ยวกับค่าสัมภาระ</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
     <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s แวะพัก&lt;/b&gt; ที่ %2$s</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class and %4$s is the plane.  For example: "4h 10m - Economy (K), Boeing 747." -->
@@ -849,7 +849,7 @@
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">ภาษีและค่าธรรมเนียม</string>
     <!-- Expedia booking fee -->
-    <string name="expedia_booking_fee">ค่าธรรมเนียมการจองของ Expedia</string>
+    <string name="expedia_booking_fee">ค่าธรรมเนียมการจองของเอ็กซ์พีเดีย</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="airline_card_fee">ค่าธรรมเนียมบัตรของสายการบิน</string>
     <!-- Flight -->
@@ -974,7 +974,7 @@
     <!-- Passport country / origin heading -->
     <string name="passport_country_origin">ประเทศ / ต้นทางที่ทำพาสปอร์ต</string>
     <!-- Redress number hint -->
-    <string name="only_if_applicable">หมายเลขชดเชย (หากมี)</string>
+    <string name="only_if_applicable">หมายเลข Redress (หากมี)</string>
     <!-- Saving traveler info spinner dialog -->
     <string name="saving_traveler">กำลังบันทึกข้อมูลของผู้เดินทางไว้ในบัญชีของคุณ…</string>
 
@@ -1272,7 +1272,7 @@
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="tonight_only">คืนนี้เท่านั้น</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
-    <string name="hotel_search_range_error_TEMPLATE">ขออภัย เราไม่สามารถค้นหาการจองห้องพักเกิน %1$s คืนได้</string>
+    <string name="hotel_search_range_error_TEMPLATE">ขออภัย เราไม่สามารถค้นหาการจองห้องพักเกิน %1$s คืน</string>
     <!-- Search Error title text "Search Error" -->
     <string name="search_error">ค้นหาผิดพลาด</string>
 
@@ -1322,7 +1322,7 @@
     <!-- Filter option template for filtering hotels by distance in miles.  (E.g., "5 mi"). -->
     <string name="filter_distance_miles_template">%s ไมล์</string>
     <!-- Filter option template for filtering hotels by distance in kilometers.  (E.g., "7.5 km"). -->
-    <string name="filter_distance_kilometers_template">%s กม.</string>
+    <string name="filter_distance_kilometers_template">%s ก.ม.</string>
 
     <!-- Progress messages -->
     <!-- Message displayed when app is trying to find where it is (via network/GPS) -->
@@ -1360,7 +1360,7 @@
     <!-- The label for abbreviated price per night - "$120/nt", for example -->
     <string name="per_nt">/คืน</string>
     <!-- Label shown when a hotel has no user ratings -->
-    <string name="not_rated">ไม่มีคะแนนมาตรฐาน</string>
+    <string name="not_rated">ยังไม่มีคะแนน</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
     <string name="percent_off_template">ลด %2.0f%%</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
@@ -1479,7 +1479,7 @@
 
     <!-- User Reviews list strings -->
     <!-- Loading text prompt -->
-    <string name="user_review_loading_text">กำลังโหลดความคิดเห็นของผู้เข้าพัก…</string>
+    <string name="user_review_loading_text">กำลังโหลดรีวิวจากผู้เข้าพัก…</string>
     <!-- Header for reviews of the non-native language -->
     <string name="user_review_other_languages_title">เปลี่ยนภาษา</string>
     <!-- The text for the sort button, recent -->
@@ -1489,9 +1489,9 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_critical">เชิงลบ</string>
     <!-- Loading more reviews -->
-    <string name="user_review_loading_more_reviews">กำลังโหลดความคิดเห็นเพิ่มเติม…</string>
+    <string name="user_review_loading_more_reviews">กำลังโหลดรีวิวเพิ่มเติม…</string>
     <!-- Read more of the review -->
-    <string name="user_review_read_more">ศึกษาข้อมูลเพิ่มเติม</string>
+    <string name="user_review_read_more">อ่านเพิ่มเติม</string>
     <!--
          User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
         1$ represents the number of guests that recommend this hotel
@@ -1499,14 +1499,14 @@
     -->
     <string name="user_review_recommendation_tag_text">ผู้เข้าพัก &lt;b&gt;%1$d&lt;/b&gt; รายจากทั้งหมด &lt;b&gt;%2$d&lt;/b&gt; รายแนะนำโรงแรมนี้</string>
     <!-- Special case for 0 reviews -->
-    <string name="no_reviews">ไม่มีความคิดเห็น</string>
+    <string name="no_reviews">ไม่มีรีวิว</string>
     <!-- A number of reviews -->
     <plurals name="number_of_reviews">
-        <item quantity="zero">ไม่มีความคิดเห็น</item>
-        <item quantity="one">%dความคิดเห็น</item>
-        <item quantity="two">%dความคิดเห็น</item>
-        <item quantity="many">%d ความคิดเห็น</item>
-        <item quantity="other">%d ความคิดเห็น</item>
+        <item quantity="zero">ไม่มีรีวิว</item>
+        <item quantity="one">%d รีวิว</item>
+        <item quantity="two">%d รีวิว</item>
+        <item quantity="many">%d รีวิว</item>
+        <item quantity="other">%d รีวิว</item>
     </plurals>
     <!--
          User review name and place review signature eg (John from San Diego, CA)
@@ -1515,11 +1515,11 @@
     -->
     <string name="user_review_name_and_location_signature">%1$s จาก %2$s</string>
     <!-- User review no critical reviews -->
-    <string name="user_review_no_critical_reviews">ไม่มีความคิดเห็นเชิงลบสำหรับโรงแรมนี้</string>
+    <string name="user_review_no_critical_reviews">ไม่มีรีวิวเชิงลบสำหรับโรงแรมนี้</string>
     <!-- User review no favorable reviews -->
-    <string name="user_review_no_favorable_reviews">ไม่มีความคิดเห็นเชิงบวกสำหรับโรงแรมนี้</string>
+    <string name="user_review_no_favorable_reviews">ไม่มีรีวิวเชิงบวกสำหรับโรงแรมนี้</string>
     <!-- User review no recent reviews -->
-    <string name="user_review_no_recent_reviews">ไม่มีความคิดเห็นใหม่สำหรับโรงแรมนี้</string>
+    <string name="user_review_no_recent_reviews">ไม่มีรีวิวใหม่สำหรับโรงแรมนี้</string>
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">ขออภัย ระบบแสดงความคิดเห็นขัดข้อง</string>
 
@@ -1561,9 +1561,9 @@
     <!-- Label for free nights -->
     <string name="free">ฟรี!</string>
     <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
-    <string name="value_add_template">มี%s</string>
+    <string name="value_add_template">รวม%s</string>
     <!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms -->
-    <string name="common_value_add_template">ห้องทั้งหมดมี%s</string>
+    <string name="common_value_add_template">ห้องทั้งหมดรวม%s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
     <string name="select_a_room_instruction">เลือกห้อง</string>
     <!-- The text we use when the search date it tonight -->
@@ -1716,7 +1716,7 @@
     <!-- Label for the total cost of the booking. -->
     <string name="Total">ทั้งหมด</string>
     <!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
-    <string name="PayToExpedia">จ่ายให้ Expedia</string>
+    <string name="PayToExpedia">จ่ายให้เอ็กซ์พีเดีย</string>
     <!-- Label for "check in" information. Used both as header for check in policies and for the date of check in. -->
     <string name="CheckIn">เช็คอิน</string>
     <!-- Label for "check out" information. Used both as header for check out policies and for the date of check out. -->
@@ -1728,7 +1728,7 @@
     <!-- Policy displayed to user when an immediate charge is required -->
     <string name="PolicyImmediateChargeRequired">ระบบจะทำการตัดเงินผ่านบัตรเครดิตเป็นจำนวนเงินทั้งหมดที่ระบุไว้ในใบยืนยันการจองทันที</string>
     <!-- Policy displayed to user when the room is non-refundable -->
-    <string name="PolicyNonRefundable">เรามีราคาถูกสุดพิเศษสำหรับโรงแรมนี้ แต่ว่า ราคานี้จะเป็นราคาที่เมื่อจองแล้ว ไม่สามารถขอคืนเงินได้ คุณจะไม่ได้เงินคืน หากคุณต้องการยกเลิก</string>
+    <string name="PolicyNonRefundable">เรามีราคาถูกสุดพิเศษสำหรับโรงแรมนี้ แต่ราคานี้เป็นราคาที่ไม่สามารถขอคืนเงินได้ คุณจะไม่ได้เงินคืน หากคุณต้องการยกเลิก</string>
     <!-- Policy displayed to user when a deposit is required -->
     <string name="PolicyDepositRequired">ระบบจะตัดบัตรเครดิตของคุณเป็นเงินมัดจำสำหรับการจองนี้ โรงแรมจะตัดบัตรเครดิตคุณทันที เมื่อคุณทำการจอง</string>
     <!-- Policy displayed to user when a guarantee is required -->
@@ -1760,7 +1760,7 @@
     <!-- Label for signin screen -->
     <string name="expedia_account">บัญชีเอ็กซ์พีเดีย</string>
     <!-- Label for loading user profile from expedia.com -->
-    <string name="loading_expedia_account">กำลังโหลดบัญชี Expedia</string>
+    <string name="loading_expedia_account">กำลังโหลดบัญชีเอ็กซ์พีเดีย</string>
     <!-- Label for password recovery -->
     <string name="forgot_your_password">ลืมรหัสผ่าน</string>
     <!-- Webview title for password recovery -->
@@ -1806,23 +1806,23 @@
 
     <!-- About activity -->
     <!-- Label for "contact Expedia" button in info page -->
-    <string name="contact_expedia">ติดต่อ Expedia</string>
+    <string name="contact_expedia">ติดต่อเอ็กซ์พีเดีย</string>
     <!-- Extra description for "contact Expedia" button, when space allows -->
     <string name="contact_expedia_description">พวกเราพร้อมบริการคุณตลอด 24 ชั่วโมง</string>
     <!-- Title for different ways to connect to Expedia -->
-    <string name="contact_expedia_via">ติดต่อ Expedia ผ่าน</string>
+    <string name="contact_expedia_via">ติดต่อเอ็กซ์พีเดียผ่าน</string>
     <!-- Contact Expedia via phone -->
     <string name="contact_expedia_phone">โทรศัพท์</string>
     <!-- Contact Expedia via email -->
     <string name="contact_expedia_email">อีเมล</string>
     <!-- Contact Expedia via email subject -->
-    <string name="contact_expedia_email_subject">ฝ่ายบริการลูกค้า Expedia</string>
+    <string name="contact_expedia_email_subject">ฝ่ายบริการลูกค้าเอ็กซ์พีเดีย</string>
     <!-- Contact Expedia via website -->
     <string name="contact_expedia_website">เว็บไซต์</string>
     <!-- Label for "Expedia website" button in info page -->
-    <string name="expedia_website">เว็บไซต์ Expedia</string>
+    <string name="expedia_website">เว็บไซต์เอ็กซ์พีเดีย</string>
     <!-- Extra description for "Expedia website" button, when space allows -->
-    <string name="expedia_website_description">ไปที่ Expedia.com หากต้องการจองเที่ยวบิน รถเช่า แพ็คเกจท่องเที่ยวอื่นๆ</string>
+    <string name="expedia_website_description">ไปที่ Expedia.co.th หากต้องการจองเที่ยวบิน รถเช่า แพ็คเกจท่องเที่ยวอื่นๆ</string>
     <!-- Extra description for "app feedback" button, when space allows -->
     <string name="app_feedback_description">โปรดแสดงความคิดเห็นของคุณเกี่ยวกับแอพ</string>
     <!-- Label for "app support" button in info page -->
@@ -1834,7 +1834,7 @@
     <!-- Section header for other apps by Mobiata -->
     <string name="travel_smart">เที่ยวแบบมือโปร</string>
     <!-- Subject line for "tell a friend" feature -->
-    <string name="tell_a_friend_subject">โรงแรม Expedia</string>
+    <string name="tell_a_friend_subject">โรงแรมเอ็กซ์พีเดีย</string>
     <!-- Message body for "tell a friend" feature -->
     <string name="tell_a_friend_body">สวัสดี \n\n คุณลองดาวน์โหลดแอพพลิเคชัน Expedia Hotels สำหรับ iPhone และ Android แล้วหรือยัง แอพฟรีนี้ช่วยให้คุณค้นหาและจองห้องโรงแรมกว่า 140,000 โรงแรมทั่วโลกได้ง่ายๆ ผ่านมือถือของคุณ\n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
@@ -1846,7 +1846,7 @@
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">ออกจากระบบและล้างข้อมูลแล้ว</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_logged_out_and_cleared_private_data">คุณออกจากระบบบัญชีของ Expedia และล้างข้อมูลการเงินและติดต่อแล้ว</string>
+    <string name="dialog_message_logged_out_and_cleared_private_data">คุณออกจากระบบบัญชีของเอ็กซ์พีเดียและล้างข้อมูลการเงินและติดต่อแล้ว</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_cleared_private_data">ล้างข้อมูลส่วนตัวแล้ว</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -2003,7 +2003,7 @@
     <string name="e3_error_hotel_offers_hotel_offer_unavailable">ขออภัย โปรโมชั่นสำหรับห้องนี้หมดเวลาแล้ว แต่เรามีโปรโมชั่นอื่นๆ อีกมากมาย</string>
     <string name="e3_error_hotel_offers_hotel_room_unavailable">ขออภัย ห้องพักที่คุณเลือกเต็มแล้ว</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure">ขออภัย ระบบไม่สามารถไปที่ Expedia ได้ โปรดลองใหม่อีกครั้ง</string>
+    <string name="e3_error_hotel_offers_hotel_service_failure">ขออภัย ระบบไม่สามารถไปที่เอ็กซ์พีเดียได้ โปรดลองใหม่อีกครั้ง</string>
     <!-- There are no longer any rooms for the hotel offer -->
     <string name="e3_error_hotel_offers_invalid_input">ขออภัย โปรโมชั่นสำหรับห้องนี้หมดเวลาแล้ว แต่เรามีโปรโมชั่นอื่นๆ อีกมากมาย</string>
     <!-- There are no longer any rooms for the hotel offer -->
@@ -2317,6 +2317,10 @@
     <string name="cc_master_card">Master Card</string>
     <!-- Visa -->
     <string name="cc_visa">Visa</string>
+    <!-- Carte Bleue -->
+    <string name="cc_carte_bleue">Carte Bleue</string>
+    <!-- Carta Si -->
+    <string name="cc_carta_si">Carta Si</string>
 
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
@@ -2509,5 +2513,213 @@
     <string name="VSC_app_name">VSC Hotels</string>
     <!-- Link to open when VSC logo is clicked on -->
     <string name="app_vsc_info_url">http://www.voyages-sncf.com/</string>
+
+    <!-- Content Description Labels -->
+    <!-- Expedia Bookings Launch Screen -->
+    <!-- Content description for action: Press button to launch Expedia Hotels -->
+    <string name="cd_launch_hotels">เปิดการจองโรงแรม</string>
+    <!-- Content description for action: Press button to launch Expedia Flights -->
+    <string name="cd_launch_flights">เปิดการจองเที่ยวบิน</string>
+    <!-- Content description for action: Press button to open menu list -->
+    <string name="cd_launch_open_menu_list">เปิดเมนู</string>
+    <!-- Content description for action: Open Settings Menu -->
+    <string name="cd_launch_open_settings_menu">เปิดการตั้งค่า</string>
+    <!-- Content description for action: Open App Info Screen -->
+    <string name="cd_launch_open_eb_info_screen">เปิดหน้าจอข้อมูลการจองเอ็กซ์พีเดีย</string>
+    <!-- Trips Screen -->
+    <!-- Content description for action: Log in for your trips (reference to existing string) -->
+    <string name="cd_trips_log_in_for_your_trips">@string/log_in_for_your_trips</string>
+    <!-- Content description for action: Enter Itinerary Number (reference to existing string) -->
+    <string name="cd_trips_enter_itinerary_number">@string/enter_itinerary_number</string>
+    <!-- Content description for action: Press to refresh trips list -->
+    <string name="cd_trips_refresh_trips_list">กดเพื่อรีเฟรชรายการการเดินทาง</string>
+    <!-- Hotel Search Screen -->
+    <!-- Content description for action: Enter text into Hotel Search Field -->
+    <string name="cd_hotel_search_edittext">ป้อนข้อมูลลงในช่องค้นหาโรงแรม</string>
+    <!-- Content description for action: Open hotel booking dates calendar -->
+    <string name="cd_hotel_search_open_calendar">เปิดปฏิทินการจองโรงแรม</string>
+    <!-- Content description for action: Press "Search" from hotel calendar fragment -->
+    <string name="cd_hotel_search_press_search_from_calendar">กดเพื่อค้นหาโรงแรม</string>
+    <!-- Content description for action: Open hotel guest picker -->
+    <string name="cd_hotel_search_open_guest_picker">เปิดตัวเลือกผู้เข้าพัก</string>
+    <!-- Content description for action: Press "Search" from hotel guest picker fragment -->
+    <string name="cd_hotel_search_press_search_from_guest_picker">กดเพื่อค้นหาโรงแรม</string>
+    <!-- Content description for action: Press to open hotel sort options -->
+    <string name="cd_hotel_search_open_sort_options">เปิดการค้นหาโรงแรมแบบแบ่งประเภท</string>
+    <!-- Content description for action: Switch to map view - hotels search -->
+    <string name="cd_hotel_search_switch_to_map_view">สลับเป็นมุมมองแบบแผนที่</string>
+    <!-- Content description for action: Switch to list view - hotels search -->
+    <string name="cd_hotel_search_switch_to_list_view">สลับเป็นมุมมองแบบรายการ</string>
+    <!-- Hotel sort options -->
+    <!-- Content description for action: Press to sort hotels by popularity -->
+    <string name="cd_sort_hotels_by_popularity">จัดเรียงโรงแรมตามความนิยม</string>
+    <!-- Content description for action: Press to sort hotels by deals -->
+    <string name="cd_sort_hotels_by_deals">จัดเรียงโรงแรมตามข้อเสนอ</string>
+    <!-- Content description for action: Press to sort hotels by price -->
+    <string name="cd_sort_hotels_by_price">จัดเรียงโรงแรมตามราคา</string>
+    <!-- Content description for action: Press to sort hotels by rating -->
+    <string name="cd_sort_hotels_by_rating">จัดเรียงโรงแรมตามการให้คะแนน</string>
+    <!-- Content description for action: Press to open hotel filter options -->
+    <string name="cd_filter_open_hotel_filter_options">เปิดตัวเลือกจำกัดการค้นหาโรงแรม</string>
+    <!-- Hotel filter options -->
+    <!-- Content description for action: Entering text into hotel filter text field -->
+    <string name="cd_filter_by_hotel_name">ป้อนข้อมูลลงในช่องจำกัดผลการค้นหา</string>
+    <!-- Hotel star filters -->
+    <!-- Content description for action: Press to filter for hotels hotels with three or more stars -->
+    <string name="cd_filter_hotels_for_three_or_more_stars">กดเพื่อค้นหาโรงแรมสามดาวขึ้นไป</string>
+    <!-- Content description for action: Press to filter for hotels hotels with four or more stars -->
+    <string name="cd_filter_hotels_for_four_or_more_stars">กดเพื่อค้นหาโรงแรมสี่ดาวขึ้นไป</string>
+    <!-- Content description for action: Press to filter for hotels with five stars -->
+    <string name="cd_filter_hotels_for_five_stars">กดเพื่อค้นหาโรงแรมห้าดาวขึ้นไป</string>
+    <!-- Content description for action: Press to remove hotel star filters -->
+    <string name="cd_filter_remove_hotel_star_filters">กดเพื่อยกเลิกการค้นหาโรงแรมด้วยระดับดาว</string>
+    <!-- Hotel distance filters -->
+    <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
+    <string name="cd_filter_for_nearest_hotels">กดเพื่อค้นหาโรงแรมที่อยู่ใกล้ตำแหน่งปัจจุบันของคุณที่สุด</string>
+    <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
+    <string name="cd_filter_for_further_distanced_hotels">กดเพื่อค้นหาโรงแรมที่อยู่ไม่ไกลจากตำแหน่งปัจจุบันของคุณนัก</string>
+    <!-- Content description for action: Press to filter for hotels within largest radius from your search location -->
+    <string name="cd_filter_for_furthest_distanced_hotels">กดเพื่อค้นหาโรงแรมที่อยู่ห่างจากตำแหน่งปัจจุบันของคุณ</string>
+    <!-- Content description for action: Press to clear all distance filters for hotel search -->
+    <string name="cd_filter_remove_distance_filter">กดเพื่อยกเลิกการค้นหาโรงแรมด้วยระยะทาง</string>
+    <!-- Hotel price filters -->
+    <!-- Content description for action: Press to filter for low-range hotel prices -->
+    <string name="cd_filter_for_low_range_hotel_prices">กดเพื่อค้นหาโรงแรมราคาถูก</string>
+    <!-- Content description for action: Press to filter for mid-range hotel prices -->
+    <string name="cd_filter_for_mid_range_hotel_prices">กดเพื่อค้นหาโรงแรมราคาปานกลาง</string>
+    <!-- Content description for action: Press to filter for high-range hotel prices -->
+    <string name="cd_filter_for_high_range_hotel_prices">กดเพื่อค้นหาโรงแรมราคาสูง</string>
+    <!-- Content description for action: Press to remove hotel price filters -->
+    <string name="cd_filter_remove_hotel_price_filters">ยกเลิกการค้นหาโรงแรมด้วยราคา</string>
+    <!-- Hotel info screen -->
+    <!-- Content description for action: Press to select this hotel -->
+    <string name="cd_hotel_info_select_button">กดเพื่อเลือกโรงแรมนี้</string>
+    <!-- Content description for action: Press to go to this hotel's reviews -->
+    <string name="cd_hotel_info_go_to_hotel_reviews">กดเพื่อดูรีวิวของโรงแรมนี้</string>
+    <!-- Content description for action: Press to book this hotel now -->
+    <string name="cd_hotel_info_press_book_now">กดเพื่อจองโรงแรมนี้</string>
+    <!-- Content description for action: Press to book this hotel by phone -->
+    <string name="cd_hotel_info_press_book_by_phone">กดเพื่อจองโรงแรมนี้ทางโทรศัพท์</string>
+    <!-- Hotel review screen -->
+    <!-- Content description for action: Press to display recent reviews -->
+    <string name="cd_display_recent_reviews">กดเพื่อแสดงรีวิวล่าสุด</string>
+    <!-- Content description for action: Press to display favorable reviews -->
+    <string name="cd_display_favorable_reviews">กดเพื่อแสดงรีวิวเชิงบวก</string>
+    <!-- Content description for action: Press to display critical reviews -->
+    <string name="cd_display_critical_reviews">กดเพื่อแสดงรีวิวเชิงลบ</string>
+    <!-- Flight Search -->
+    <!-- Content description for action: Edit departure airport -->
+    <string name="cd_flights_search_departure_edit_text">แก้ไขสนามบินต้นทาง</string>
+    <!-- Content description for action: Edit arrival airport -->
+    <string name="cd_flights_search_arrival_edit_text">แก้ไขสนามบินปลายทาง</string>
+    <!-- Content description for action: Press to edit departure and arrival dates -->
+    <string name="cd_flights_search_dates_edit">กดเพื่อแก้ไขวันที่ออกเดินทางและวันที่เดินทางกลับ</string>
+    <!-- Content description for action: Press to clear selected dates -->
+    <string name="cd_flights_clear_selected_dates">กดเพื่อล้างวันที่เลือกทั้งหมด</string>
+    <!-- Content description for action: Press to edit number of travelers -->
+    <string name="cd_flights_search_number_of_travelers_edit">กดเพื่อแก้ไขจำนวนผู้เดินทาง</string>
+    <!-- Flight Search Results -->
+    <!-- Content description for action: Press to return to flight search -->
+    <string name="cd_flights_search_search_button">กดเพื่อกลับไปยังการค้นหาเที่ยวบิน</string>
+    <!-- Content description for action: Press to open flight sort options -->
+    <string name="cd_flights_search_results_sort">กดเพื่อเปิดตัวเลือกจำกัดการค้นหาเที่ยวบิน</string>
+    <!-- Flight sort options -->
+    <!-- Content description for action: Press to sort flights by price -->
+    <string name="cd_sort_flights_by_price">กดเพื่อค้นหาเที่ยวบินตามราคา</string>
+    <!-- Content description for action: Press to sort flights by when they depart -->
+    <string name="cd_sort_flights_by_departs">กดเพื่อค้นหาเที่ยวบินตามเวลาออกเดินทาง</string>
+    <!-- Content description for action: Press to sort flights by when they arrive -->
+    <string name="cd_sort_flights_by_arrives">กดเพื่อค้นหาเที่ยวบินตามเวลาเดินทางถึงจุดหมาย</string>
+    <!-- Content description for action: Press to sort flights by their durations -->
+    <string name="cd_sort_flights_by_duration">กดเพื่อค้นหาเที่ยวบินตามระยะเวลาบิน</string>
+    <!-- Flight Search Results - Flight Leg Selection -->
+    <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
+    <string name="cd_flight_leg_cancel">ยกเลิกตัวเลือกทั้งหมดและกลับไปยังผลการค้นหาเที่ยวบิน</string>
+    <!-- Content description for action: Press to select this flight -->
+    <string name="cd_flight_leg_select_flight">กดเพื่อเลือกเที่ยวบินนี้</string>
+    <!-- Content description for action: Press to go to baggage fee information -->
+    <string name="cd_flight_leg_baggage_fee_info">กดเพื่อไปยังข้อมูลค่าธรรมเนียมสัมภาระ</string>
+    <!-- Flight Search Results - Selection Overview -->
+    <!-- Content description for action: Press to go to cost summary for your flight selections -->
+    <string name="cd_flight_selection_cost_summary">ไปยังสรุปข้อมูลราคาเที่ยวบินที่คุณเลือก</string>
+    <!-- Checkout screen -->
+    <!-- Content description for action: Press to begin checkout -->
+    <string name="cd_checkout">กดเพื่อเริ่มทำการจอง</string>
+    <!-- Content description for action: Press to log in with your Expedia account -->
+    <string name="cd_checkout_log_in_with_expedia">กดเพื่อเข้าสู่ระบบเอ็กซ์พีเดีย</string>
+    <!-- Content description for action: Press to make this purchase with Google Wallet -->
+    <string name="cd_checkout_buy_with_google">กดเพื่อซื้อโดย Google Wallet</string>
+    <!-- Content description for action: Press to add a traveler to this booking -->
+    <string name="cd_checkout_add_traveler">กดเพื่อเพิ่มผู้เดินทางลงในการจองนี้</string>
+    <!-- Content description for action: Press to select payment for this booking -->
+    <string name="cd_checkout_select_payment">กดเพื่อเลือกวิธีการชำระเงินสำหรับการจองนี้</string>
+    <!-- Content description for action: Press to enter a coupon or promotional code -->
+    <string name="cd_checkout_enter_coupon">กดเพื่อใส่รหัสคูปองหรือรหัสส่วนลด</string>
+    <!-- Content description for action: Enter coupon or promotional code into text field -->
+    <string name="cd_checkout_coupon_code_entry_field">ป้อนรหัสคูปองหรือรหัสส่วนลด</string>
+    <!-- Content description for action: Press to apply coupon -->
+    <string name="cd_checkout_apply_coupon_button">กดเพื่อใช้คูปอง</string>
+    <!-- Content description for action: Slide to purchase -->
+    <string name="cd_checkout_slide_to_purchase">@string/slide_to_purchase</string>
+    <!-- Log in screen -->
+    <!-- Content description for action: Enter Expedia account email address -->
+    <string name="cd_log_in_email_edit_text">ป้อนอีเมลของบัญชีเอ็กซ์พีเดีย</string>
+    <!-- Content description for action: Enter Expedia account password -->
+    <string name="cd_log_in_password_edit_text">ป้อนรหัสผ่านเอ็กซ์พีเดีย</string>
+    <!-- Content description for action: Press to log into Expedia with your Facebook account -->
+    <string name="cd_log_in_with_facebook">กดเพื่อเข้าสู่ระบบเอ็กซ์พีเดียด้วยบัญชี Facebook</string>
+    <!-- Traveler Information screen -->
+    <!-- Content description for action: Press to enter a new traveler -->
+    <string name="cd_traveler_enter_new_traveler">กดเพื่อเพิ่มผู้เดินทางคนใหม่</string>
+    <!-- Content description for action: Press to edit traveler information -->
+    <string name="cd_traveler_edit_traveler_information">กดเพื่อแก้ไขข้อมูลผู้เดินทาง</string>
+    <!-- Content description for action: Press to edit traveler's passport country -->
+    <string name="cd_traveler_edit_passport_country">แก้ไขข้อมูลหนังสือเดินทาง</string>
+    <!-- Traveler Information edit/entry screen -->
+    <!-- Content description for action: Enter first name -->
+    <string name="cd_traveler_first_name_edit_text">ป้อนชื่อ</string>
+    <!-- Content description for action: Enter middle name -->
+    <string name="cd_traveler_middle_name_edit_text">ป้อนชื่อกลาง</string>
+    <!-- Content description for action: Enter last name -->
+    <string name="cd_traveler_last_name_edit_text">ป้อนนามสกุล</string>
+    <!-- Content description for action: Press to select country calling codes -->
+    <string name="cd_traveler_list_international_phone_codes">กดเพื่อเลือกรหัสประเทศ</string>
+    <!-- Content description for action: Enter phone number -->
+    <string name="cd_traveler_phone_number">ป้อนหมายเลขโทรศัพท์</string>
+    <!-- Content description for action: Press to finish entering traveler information -->
+    <string name="cd_traveler_information_done">กดเพื่อป้อนข้อมูลผู้เดินทางให้เสร็จสมบูรณ์</string>
+    <!-- Extra traveler information - flights -->
+    <!-- Content description for action: Press to select traveler's birthday -->
+    <string name="cd_traveler_birthday_edit">กดเพื่อเลือกวันเกิดของผู้เดินทาง</string>
+    <!-- Content description for action: Press to select traveler's gender -->
+    <string name="cd_traveler_gender_edit">กดเพื่อเลือกเพศของผู้เดินทาง</string>
+    <!-- Content description for action: Enter redress number, if applicable -->
+    <string name="cd_traveler_redress_number_edit_text">ป้อนหมายเลข Redress หากมี</string>
+    <!-- Content description for action: Press to select type of special assistance traveler requires -->
+    <string name="cd_traveler_special_assistance_edit">เลือกประเภทความช่วยเหลือพิเศษที่ต้องการ</string>
+    <!-- Content description for action: Press to select window type that the traveler prefers -->
+    <string name="cd_traveler_seat_preference_edit">เลือกที่นั่งที่ต้องการ</string>
+    <!-- Credit Card Information -->
+    <!-- Content description for action: Enter credit card number -->
+    <string name="cd_card_info_card_number_edit_text">ป้อนหมายเลขบัตรเครดิต</string>
+    <!-- Content description for action: Enter cardholder name -->
+    <string name="cd_card_info_cardholder_name">ป้อนชื่อผู้ถือบัตร</string>
+    <!-- Content description for action: Enter cardholder's email address -->
+    <string name="cd_card_info_email_address">ป้อนอีเมลของผู้ถือบัตร</string>
+    <!-- Content description for action: Enter billing address - line 1 -->
+    <string name="cd_card_info_billing_address_line_1">ป้อนที่อยู่สำหรับเรียกเก็บเงิน - บรรทัดที่ 1</string>
+    <!-- Content description for action: Enter billing address - line 2 -->
+    <string name="cd_card_info_billing_address_line_2">ป้อนที่อยู่สำหรับเรียกเก็บเงิน - บรรทัดที่ 2</string>
+    <!-- Content description for action: Enter billing address city -->
+    <string name="cd_card_info_billing_address_city">ป้อนเมือง</string>
+    <!-- Content description for action: Enter billing address state -->
+    <string name="cd_card_info_billing_address_state">ป้อนรัฐ</string>
+    <!-- Content description for action: Enter billing address postal code -->
+    <string name="cd_card_info_billing_address_postal_code">ป้อนรหัสไปรษณีย์</string>
+    <!-- Content description for action: Select billing address country -->
+    <string name="cd_card_info_billing_address_country">เลือกประเทศ</string>
+    <!-- Common actionbar elements -->
+    <!-- Content description for action: Press to go back to previous screen -->
+    <string name="cd_go_back">กดเพื่อกลับไปยังเพจก่อนหน้า</string>
 
 </resources>

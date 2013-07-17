@@ -277,7 +277,7 @@
     <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
     <string name="add_hotel_fallback">Ajouter un hôtel à votre destination</string>
 
-    <!-- Itin Local Expert -->
+    <!-- Itin Local Expert.  Do not translate the "Local Expert" part because it is the title of a product. -->
     <string name="talk_to_local_expert">Parler à un Local Expert</string>
 
     <!-- Local Expert Sites -->
@@ -288,9 +288,9 @@
     <!-- Name of Las Vegas (for local expert) -->
     <string name="site_las_vegas">Las Vegas</string>
 
-    <!-- Template for the city title on Local Expert pages. %1$s is the name of the city-->
+    <!-- Template for the city title on Local Expert pages. %1$s is the name of the city -->
     <string name="local_expert_title_TEMPLATE">Profitez de %1$s</string>
-    <!-- Description body for the Local Expert pages -->
+    <!-- Description body for the Local Expert pages.    Do not translate the "Local Expert" part because it is the title of a product. -->
     <string name="local_expert_description">Votre concierge Local Expert est au bout du fil\npour tous vos besoins de planification en voyage.</string>
     <!-- Text for the button on Local Expert pages, to call the concierge -->
     <string name="local_expert_call_button_text">Appelez-le</string>
@@ -2317,6 +2317,10 @@
     <string name="cc_master_card">Master Card</string>
     <!-- Visa -->
     <string name="cc_visa">Visa</string>
+    <!-- Carte Bleue -->
+    <string name="cc_carte_bleue">Carte Bleue</string>
+    <!-- Carta Si -->
+    <string name="cc_carta_si">Carta Si</string>
 
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
@@ -2509,5 +2513,213 @@
     <string name="VSC_app_name">Hôtels VSC</string>
     <!-- Link to open when VSC logo is clicked on -->
     <string name="app_vsc_info_url">http://www.voyages-sncf.com/</string>
+
+    <!-- Content Description Labels -->
+    <!-- Expedia Bookings Launch Screen -->
+    <!-- Content description for action: Press button to launch Expedia Hotels -->
+    <string name="cd_launch_hotels">Lancez Hôtels Expedia</string>
+    <!-- Content description for action: Press button to launch Expedia Flights -->
+    <string name="cd_launch_flights">Lancez Vols Expedia</string>
+    <!-- Content description for action: Press button to open menu list -->
+    <string name="cd_launch_open_menu_list">Ouvrez la liste de menus</string>
+    <!-- Content description for action: Open Settings Menu -->
+    <string name="cd_launch_open_settings_menu">Ouvrez le menu des paramètres</string>
+    <!-- Content description for action: Open App Info Screen -->
+    <string name="cd_launch_open_eb_info_screen">Ouvrez l\&apos;écran d\&apos;information Réservations Expedia</string>
+    <!-- Trips Screen -->
+    <!-- Content description for action: Log in for your trips (reference to existing string) -->
+    <string name="cd_trips_log_in_for_your_trips">@string/log_in_for_your_trips</string>
+    <!-- Content description for action: Enter Itinerary Number (reference to existing string) -->
+    <string name="cd_trips_enter_itinerary_number">@string/enter_itinerary_number</string>
+    <!-- Content description for action: Press to refresh trips list -->
+    <string name="cd_trips_refresh_trips_list">Appuyez pour actualiser la liste des voyages</string>
+    <!-- Hotel Search Screen -->
+    <!-- Content description for action: Enter text into Hotel Search Field -->
+    <string name="cd_hotel_search_edittext">Entrez du texte dans le champ Rechercher un hôtel</string>
+    <!-- Content description for action: Open hotel booking dates calendar -->
+    <string name="cd_hotel_search_open_calendar">Ouvrez le calendrier de réservation d\&apos;hôtel</string>
+    <!-- Content description for action: Press "Search" from hotel calendar fragment -->
+    <string name="cd_hotel_search_press_search_from_calendar">Appuyez pour rechercher des hôtels</string>
+    <!-- Content description for action: Open hotel guest picker -->
+    <string name="cd_hotel_search_open_guest_picker">Ouvrez le sélecteur de client de l\&apos;hôtel</string>
+    <!-- Content description for action: Press "Search" from hotel guest picker fragment -->
+    <string name="cd_hotel_search_press_search_from_guest_picker">Appuyez pour rechercher des hôtels</string>
+    <!-- Content description for action: Press to open hotel sort options -->
+    <string name="cd_hotel_search_open_sort_options">Ouvrez les options de tri des hôtels</string>
+    <!-- Content description for action: Switch to map view - hotels search -->
+    <string name="cd_hotel_search_switch_to_map_view">Passez à l\&apos;affichage de carte</string>
+    <!-- Content description for action: Switch to list view - hotels search -->
+    <string name="cd_hotel_search_switch_to_list_view">Passez à l\&apos;affichage de liste</string>
+    <!-- Hotel sort options -->
+    <!-- Content description for action: Press to sort hotels by popularity -->
+    <string name="cd_sort_hotels_by_popularity">Triez les hôtels par popularité</string>
+    <!-- Content description for action: Press to sort hotels by deals -->
+    <string name="cd_sort_hotels_by_deals">Triez les hôtels par aubaine</string>
+    <!-- Content description for action: Press to sort hotels by price -->
+    <string name="cd_sort_hotels_by_price">Triez les hôtels par tarif</string>
+    <!-- Content description for action: Press to sort hotels by rating -->
+    <string name="cd_sort_hotels_by_rating">Triez les hôtels par évaluation</string>
+    <!-- Content description for action: Press to open hotel filter options -->
+    <string name="cd_filter_open_hotel_filter_options">Ouvrez les options de filtre des hôtels</string>
+    <!-- Hotel filter options -->
+    <!-- Content description for action: Entering text into hotel filter text field -->
+    <string name="cd_filter_by_hotel_name">Entrez du texte dans le champ Filtre des hôtels</string>
+    <!-- Hotel star filters -->
+    <!-- Content description for action: Press to filter for hotels hotels with three or more stars -->
+    <string name="cd_filter_hotels_for_three_or_more_stars">Appuyez pour filtrer les hôtels trois étoiles ou plus</string>
+    <!-- Content description for action: Press to filter for hotels hotels with four or more stars -->
+    <string name="cd_filter_hotels_for_four_or_more_stars">Appuyez pour filtrer les hôtels quatre étoiles ou plus</string>
+    <!-- Content description for action: Press to filter for hotels with five stars -->
+    <string name="cd_filter_hotels_for_five_stars">Appuyez pour filtrer les hôtels cinq étoiles</string>
+    <!-- Content description for action: Press to remove hotel star filters -->
+    <string name="cd_filter_remove_hotel_star_filters">Appuyez pour effacer les filtres sur le nombre d\&apos;étoiles</string>
+    <!-- Hotel distance filters -->
+    <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
+    <string name="cd_filter_for_nearest_hotels">Appuyez pour filtrer les hôtels à proximité dans un court rayon de votre lieu de recherche</string>
+    <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
+    <string name="cd_filter_for_further_distanced_hotels">Appuyez pour filtrer les hôtels dans un rayon à distance moyenne de votre lieu de recherche</string>
+    <!-- Content description for action: Press to filter for hotels within largest radius from your search location -->
+    <string name="cd_filter_for_furthest_distanced_hotels">Appuyez pour filtrer les hôtels dans le rayon le plus éloigné de votre lieu de recherche</string>
+    <!-- Content description for action: Press to clear all distance filters for hotel search -->
+    <string name="cd_filter_remove_distance_filter">Appuyez pour effacer tous les filtres de distance de recherche des hôtels</string>
+    <!-- Hotel price filters -->
+    <!-- Content description for action: Press to filter for low-range hotel prices -->
+    <string name="cd_filter_for_low_range_hotel_prices">Appuyez pour filtrer les tarifs d\&apos;hôtel les plus bas</string>
+    <!-- Content description for action: Press to filter for mid-range hotel prices -->
+    <string name="cd_filter_for_mid_range_hotel_prices">Appuyez pour filtrer les tarifs d\&apos;hôtel de milieu de gamme</string>
+    <!-- Content description for action: Press to filter for high-range hotel prices -->
+    <string name="cd_filter_for_high_range_hotel_prices">Appuyez pour filtrer les tarifs d\&apos;hôtel les plus élevés</string>
+    <!-- Content description for action: Press to remove hotel price filters -->
+    <string name="cd_filter_remove_hotel_price_filters">Effacez les filtres sur le tarif des hôtels</string>
+    <!-- Hotel info screen -->
+    <!-- Content description for action: Press to select this hotel -->
+    <string name="cd_hotel_info_select_button">Appuyez pour sélectionner cet hôtel</string>
+    <!-- Content description for action: Press to go to this hotel's reviews -->
+    <string name="cd_hotel_info_go_to_hotel_reviews">Appuyez pour aller aux évaluations de cet hôtel</string>
+    <!-- Content description for action: Press to book this hotel now -->
+    <string name="cd_hotel_info_press_book_now">Appuyez pour réserver cet hôtel maintenant</string>
+    <!-- Content description for action: Press to book this hotel by phone -->
+    <string name="cd_hotel_info_press_book_by_phone">Appuyez pour réserver cet hôtel par téléphone</string>
+    <!-- Hotel review screen -->
+    <!-- Content description for action: Press to display recent reviews -->
+    <string name="cd_display_recent_reviews">Appuyez pour afficher les évaluations récentes</string>
+    <!-- Content description for action: Press to display favorable reviews -->
+    <string name="cd_display_favorable_reviews">Appuyez pour afficher les évaluations favorables</string>
+    <!-- Content description for action: Press to display critical reviews -->
+    <string name="cd_display_critical_reviews">Appuyez pour afficher les évaluations défavorables</string>
+    <!-- Flight Search -->
+    <!-- Content description for action: Edit departure airport -->
+    <string name="cd_flights_search_departure_edit_text">Modifiez l\&apos;aéroport de départ</string>
+    <!-- Content description for action: Edit arrival airport -->
+    <string name="cd_flights_search_arrival_edit_text">Modifiez l\&apos;aéroport d\&apos;arrivée</string>
+    <!-- Content description for action: Press to edit departure and arrival dates -->
+    <string name="cd_flights_search_dates_edit">Appuyez pour modifier les dates de départ et d\&apos;arrivée</string>
+    <!-- Content description for action: Press to clear selected dates -->
+    <string name="cd_flights_clear_selected_dates">Appuyez pour effacer les dates sélectionnées</string>
+    <!-- Content description for action: Press to edit number of travelers -->
+    <string name="cd_flights_search_number_of_travelers_edit">Appuyez pour modifier le nombre de voyageurs</string>
+    <!-- Flight Search Results -->
+    <!-- Content description for action: Press to return to flight search -->
+    <string name="cd_flights_search_search_button">Appuyez pour revenir à la recherche de vol</string>
+    <!-- Content description for action: Press to open flight sort options -->
+    <string name="cd_flights_search_results_sort">Appuyez pour ouvrir les options de tri des vols</string>
+    <!-- Flight sort options -->
+    <!-- Content description for action: Press to sort flights by price -->
+    <string name="cd_sort_flights_by_price">Appuyez pour trier les vols par tarif</string>
+    <!-- Content description for action: Press to sort flights by when they depart -->
+    <string name="cd_sort_flights_by_departs">Appuyez pour trier les vols par moment du départ</string>
+    <!-- Content description for action: Press to sort flights by when they arrive -->
+    <string name="cd_sort_flights_by_arrives">Appuyez pour trier les vols par moment d\&apos;arrivée</string>
+    <!-- Content description for action: Press to sort flights by their durations -->
+    <string name="cd_sort_flights_by_duration">Appuyez pour trier les vols par durée</string>
+    <!-- Flight Search Results - Flight Leg Selection -->
+    <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
+    <string name="cd_flight_leg_cancel">Annulez votre sélection de vol et revenez aux résultats de recherche de vol</string>
+    <!-- Content description for action: Press to select this flight -->
+    <string name="cd_flight_leg_select_flight">Appuyez pour sélectionner ce vol</string>
+    <!-- Content description for action: Press to go to baggage fee information -->
+    <string name="cd_flight_leg_baggage_fee_info">Appuyez pour aller à l\&apos;information sur les frais de bagage</string>
+    <!-- Flight Search Results - Selection Overview -->
+    <!-- Content description for action: Press to go to cost summary for your flight selections -->
+    <string name="cd_flight_selection_cost_summary">Allez au sommaire du coût pour vos sélections de vol</string>
+    <!-- Checkout screen -->
+    <!-- Content description for action: Press to begin checkout -->
+    <string name="cd_checkout">Appuyez pour passer à la sortie</string>
+    <!-- Content description for action: Press to log in with your Expedia account -->
+    <string name="cd_checkout_log_in_with_expedia">Appuyez pour ouvrir une session à votre compte Expedia</string>
+    <!-- Content description for action: Press to make this purchase with Google Wallet -->
+    <string name="cd_checkout_buy_with_google">Appuyez pour faire cet achat avec Google Wallet</string>
+    <!-- Content description for action: Press to add a traveler to this booking -->
+    <string name="cd_checkout_add_traveler">Appuyez pour ajouter un voyageur à cette réservation</string>
+    <!-- Content description for action: Press to select payment for this booking -->
+    <string name="cd_checkout_select_payment">Appuyez pour sélectionner le paiement pour cette réservation</string>
+    <!-- Content description for action: Press to enter a coupon or promotional code -->
+    <string name="cd_checkout_enter_coupon">Appuyez pour entrer un code de bon de réduction ou un code promotionnel</string>
+    <!-- Content description for action: Enter coupon or promotional code into text field -->
+    <string name="cd_checkout_coupon_code_entry_field">Entrez un code de bon de réduction ou code promotionnel dans le champ de texte</string>
+    <!-- Content description for action: Press to apply coupon -->
+    <string name="cd_checkout_apply_coupon_button">Appuyez pour appliquer le bon de réduction</string>
+    <!-- Content description for action: Slide to purchase -->
+    <string name="cd_checkout_slide_to_purchase">@string/slide_to_purchase</string>
+    <!-- Log in screen -->
+    <!-- Content description for action: Enter Expedia account email address -->
+    <string name="cd_log_in_email_edit_text">Entrez l\&apos;adresse courriel du compte Expedia</string>
+    <!-- Content description for action: Enter Expedia account password -->
+    <string name="cd_log_in_password_edit_text">Entrez le mot de passe du compte Expedia</string>
+    <!-- Content description for action: Press to log into Expedia with your Facebook account -->
+    <string name="cd_log_in_with_facebook">Appuyez pour ouvrir une session sur Expedia avec votre compte Facebook</string>
+    <!-- Traveler Information screen -->
+    <!-- Content description for action: Press to enter a new traveler -->
+    <string name="cd_traveler_enter_new_traveler">Appuyez pour entrer un nouveau voyageur</string>
+    <!-- Content description for action: Press to edit traveler information -->
+    <string name="cd_traveler_edit_traveler_information">Appuyez pour modifier l\&apos;information du voyageur</string>
+    <!-- Content description for action: Press to edit traveler's passport country -->
+    <string name="cd_traveler_edit_passport_country">Modifiez le pays émetteur du passeport du voyageur</string>
+    <!-- Traveler Information edit/entry screen -->
+    <!-- Content description for action: Enter first name -->
+    <string name="cd_traveler_first_name_edit_text">Entrez le prénom</string>
+    <!-- Content description for action: Enter middle name -->
+    <string name="cd_traveler_middle_name_edit_text">Entrez le deuxième prénom</string>
+    <!-- Content description for action: Enter last name -->
+    <string name="cd_traveler_last_name_edit_text">Entrez le nom</string>
+    <!-- Content description for action: Press to select country calling codes -->
+    <string name="cd_traveler_list_international_phone_codes">Appuyez pour sélectionner les codes d\&apos;appel des pays</string>
+    <!-- Content description for action: Enter phone number -->
+    <string name="cd_traveler_phone_number">Entrez le numéro de téléphone</string>
+    <!-- Content description for action: Press to finish entering traveler information -->
+    <string name="cd_traveler_information_done">Appuyez pour terminer l\&apos;entrée de l\&apos;information du voyageur</string>
+    <!-- Extra traveler information - flights -->
+    <!-- Content description for action: Press to select traveler's birthday -->
+    <string name="cd_traveler_birthday_edit">Appuyez pour sélectionner la date de naissance du voyageur</string>
+    <!-- Content description for action: Press to select traveler's gender -->
+    <string name="cd_traveler_gender_edit">Appuyez pour sélectionner le sexe du voyageur</string>
+    <!-- Content description for action: Enter redress number, if applicable -->
+    <string name="cd_traveler_redress_number_edit_text">Entrez le numéro de recours, le cas échéant</string>
+    <!-- Content description for action: Press to select type of special assistance traveler requires -->
+    <string name="cd_traveler_special_assistance_edit">Sélectionnez le type d\&apos;aide spéciale dont le voyageur a besoin</string>
+    <!-- Content description for action: Press to select window type that the traveler prefers -->
+    <string name="cd_traveler_seat_preference_edit">Sélectionnez pour choisir le type de siège préféré du voyageur</string>
+    <!-- Credit Card Information -->
+    <!-- Content description for action: Enter credit card number -->
+    <string name="cd_card_info_card_number_edit_text">Entrez le numéro de carte de crédit</string>
+    <!-- Content description for action: Enter cardholder name -->
+    <string name="cd_card_info_cardholder_name">Entrez le nom du titulaire de la carte</string>
+    <!-- Content description for action: Enter cardholder's email address -->
+    <string name="cd_card_info_email_address">Entrez l\&apos;adresse courriel du titulaire de la carte</string>
+    <!-- Content description for action: Enter billing address - line 1 -->
+    <string name="cd_card_info_billing_address_line_1">Entrez l\&apos;adresse de facturation - ligne 1</string>
+    <!-- Content description for action: Enter billing address - line 2 -->
+    <string name="cd_card_info_billing_address_line_2">Entrez l\&apos;adresse de facturation - ligne 2</string>
+    <!-- Content description for action: Enter billing address city -->
+    <string name="cd_card_info_billing_address_city">Entrez la ville de l\&apos;adresse de facturation</string>
+    <!-- Content description for action: Enter billing address state -->
+    <string name="cd_card_info_billing_address_state">Entrez l\&apos;État/la province de l\&apos;adresse de facturation</string>
+    <!-- Content description for action: Enter billing address postal code -->
+    <string name="cd_card_info_billing_address_postal_code">Entrez le code postal de l\&apos;adresse de facturation</string>
+    <!-- Content description for action: Select billing address country -->
+    <string name="cd_card_info_billing_address_country">Sélectionnez le pays de l\&apos;adresse de facturation</string>
+    <!-- Common actionbar elements -->
+    <!-- Content description for action: Press to go back to previous screen -->
+    <string name="cd_go_back">Appuyez pour revenir à l\&apos;écran précédent</string>
 
 </resources>

@@ -63,7 +63,7 @@
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_in_available">可以办理登机</string>
     <!-- Content for flight Check In Local Notification -->
-    <string name="x_flight_to_x_TEMPLATE">%1$s 航班飞往 %2$s</string>
+    <string name="x_flight_to_x_TEMPLATE">%1$s 个航班飞往 %2$s</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
     <string name="your_flight_to_x_TEMPLATE">您飞往 %1$s 的航班</string>
     <!-- Notification title for hotel check-out notification -->
@@ -277,8 +277,8 @@
     <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
     <string name="add_hotel_fallback">添加您的目的地的酒店</string>
 
-    <!-- Itin Local Expert -->
-    <string name="talk_to_local_expert">与 Local Expert 专家通话</string>
+    <!-- Itin Local Expert.  Do not translate the "Local Expert" part because it is the title of a product. -->
+    <string name="talk_to_local_expert">与本地服务专家通话</string>
 
     <!-- Local Expert Sites -->
     <!-- Name of Hawaii (for local expert) -->
@@ -288,10 +288,10 @@
     <!-- Name of Las Vegas (for local expert) -->
     <string name="site_las_vegas">拉斯维加斯</string>
 
-    <!-- Template for the city title on Local Expert pages. %1$s is the name of the city-->
+    <!-- Template for the city title on Local Expert pages. %1$s is the name of the city -->
     <string name="local_expert_title_TEMPLATE">享受 %1$s 之旅</string>
-    <!-- Description body for the Local Expert pages -->
-    <string name="local_expert_description">致电您的 Local Expert 专家，他们可帮助您\n轻松应对旅行中遇到的各种问题。</string>
+    <!-- Description body for the Local Expert pages.    Do not translate the "Local Expert" part because it is the title of a product. -->
+    <string name="local_expert_description">致电您的本地服务专家，他们可帮助您\n轻松应对旅行中遇到的各种问题。</string>
     <!-- Text for the button on Local Expert pages, to call the concierge -->
     <string name="local_expert_call_button_text">现在致电</string>
 
@@ -2317,6 +2317,10 @@
     <string name="cc_master_card">Master Card</string>
     <!-- Visa -->
     <string name="cc_visa">Visa</string>
+    <!-- Carte Bleue -->
+    <string name="cc_carte_bleue">Carte Bleue</string>
+    <!-- Carta Si -->
+    <string name="cc_carta_si">Carta Si</string>
 
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
@@ -2509,5 +2513,213 @@
     <string name="VSC_app_name">VSC Hotels</string>
     <!-- Link to open when VSC logo is clicked on -->
     <string name="app_vsc_info_url">http://www.voyages-sncf.com/</string>
+
+    <!-- Content Description Labels -->
+    <!-- Expedia Bookings Launch Screen -->
+    <!-- Content description for action: Press button to launch Expedia Hotels -->
+    <string name="cd_launch_hotels">打开 Expedia 酒店页面</string>
+    <!-- Content description for action: Press button to launch Expedia Flights -->
+    <string name="cd_launch_flights">打开 Expedia 航班页面</string>
+    <!-- Content description for action: Press button to open menu list -->
+    <string name="cd_launch_open_menu_list">打开菜单列表</string>
+    <!-- Content description for action: Open Settings Menu -->
+    <string name="cd_launch_open_settings_menu">打开设置菜单</string>
+    <!-- Content description for action: Open App Info Screen -->
+    <string name="cd_launch_open_eb_info_screen">打开 Expedia 预订信息界面</string>
+    <!-- Trips Screen -->
+    <!-- Content description for action: Log in for your trips (reference to existing string) -->
+    <string name="cd_trips_log_in_for_your_trips">@string/log_in_for_your_trips</string>
+    <!-- Content description for action: Enter Itinerary Number (reference to existing string) -->
+    <string name="cd_trips_enter_itinerary_number">@string/enter_itinerary_number</string>
+    <!-- Content description for action: Press to refresh trips list -->
+    <string name="cd_trips_refresh_trips_list">按这里可以刷新行程列表</string>
+    <!-- Hotel Search Screen -->
+    <!-- Content description for action: Enter text into Hotel Search Field -->
+    <string name="cd_hotel_search_edittext">请在酒店搜索栏中输入搜索内容</string>
+    <!-- Content description for action: Open hotel booking dates calendar -->
+    <string name="cd_hotel_search_open_calendar">打开酒店预订日历</string>
+    <!-- Content description for action: Press "Search" from hotel calendar fragment -->
+    <string name="cd_hotel_search_press_search_from_calendar">按这里可以搜索酒店</string>
+    <!-- Content description for action: Open hotel guest picker -->
+    <string name="cd_hotel_search_open_guest_picker">打开酒店住客选择列表</string>
+    <!-- Content description for action: Press "Search" from hotel guest picker fragment -->
+    <string name="cd_hotel_search_press_search_from_guest_picker">按这里可以搜索酒店</string>
+    <!-- Content description for action: Press to open hotel sort options -->
+    <string name="cd_hotel_search_open_sort_options">打开酒店排序选项</string>
+    <!-- Content description for action: Switch to map view - hotels search -->
+    <string name="cd_hotel_search_switch_to_map_view">在地图上显示</string>
+    <!-- Content description for action: Switch to list view - hotels search -->
+    <string name="cd_hotel_search_switch_to_list_view">以列表形式显示</string>
+    <!-- Hotel sort options -->
+    <!-- Content description for action: Press to sort hotels by popularity -->
+    <string name="cd_sort_hotels_by_popularity">按喜爱程度排序</string>
+    <!-- Content description for action: Press to sort hotels by deals -->
+    <string name="cd_sort_hotels_by_deals">按优惠幅度排序</string>
+    <!-- Content description for action: Press to sort hotels by price -->
+    <string name="cd_sort_hotels_by_price">按价格排序</string>
+    <!-- Content description for action: Press to sort hotels by rating -->
+    <string name="cd_sort_hotels_by_rating">按评分排序</string>
+    <!-- Content description for action: Press to open hotel filter options -->
+    <string name="cd_filter_open_hotel_filter_options">打开酒店筛选选项</string>
+    <!-- Hotel filter options -->
+    <!-- Content description for action: Entering text into hotel filter text field -->
+    <string name="cd_filter_by_hotel_name">请在酒店筛选框中输入筛选条件</string>
+    <!-- Hotel star filters -->
+    <!-- Content description for action: Press to filter for hotels hotels with three or more stars -->
+    <string name="cd_filter_hotels_for_three_or_more_stars">按这里可以筛选 3 星或 3 星以上的酒店</string>
+    <!-- Content description for action: Press to filter for hotels hotels with four or more stars -->
+    <string name="cd_filter_hotels_for_four_or_more_stars">按这里可以筛选 4 星或 4 星以上的酒店</string>
+    <!-- Content description for action: Press to filter for hotels with five stars -->
+    <string name="cd_filter_hotels_for_five_stars">按这里可以筛选 5 星酒店</string>
+    <!-- Content description for action: Press to remove hotel star filters -->
+    <string name="cd_filter_remove_hotel_star_filters">按这里可删除酒店星级筛选条件</string>
+    <!-- Hotel distance filters -->
+    <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
+    <string name="cd_filter_for_nearest_hotels">按这里课筛选您搜索位置周边距离最近的酒店</string>
+    <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
+    <string name="cd_filter_for_further_distanced_hotels">按这里课筛选您搜索位置周边距离比较近的酒店</string>
+    <!-- Content description for action: Press to filter for hotels within largest radius from your search location -->
+    <string name="cd_filter_for_furthest_distanced_hotels">按这里课筛选您搜索位置周边距离不太远的酒店</string>
+    <!-- Content description for action: Press to clear all distance filters for hotel search -->
+    <string name="cd_filter_remove_distance_filter">按这里可清楚酒店搜索使用的所有距离筛选条件</string>
+    <!-- Hotel price filters -->
+    <!-- Content description for action: Press to filter for low-range hotel prices -->
+    <string name="cd_filter_for_low_range_hotel_prices">按这里可筛选实惠的酒店</string>
+    <!-- Content description for action: Press to filter for mid-range hotel prices -->
+    <string name="cd_filter_for_mid_range_hotel_prices">按这里可筛选中档酒店</string>
+    <!-- Content description for action: Press to filter for high-range hotel prices -->
+    <string name="cd_filter_for_high_range_hotel_prices">按这里可筛选高档酒店</string>
+    <!-- Content description for action: Press to remove hotel price filters -->
+    <string name="cd_filter_remove_hotel_price_filters">删除酒店价格筛选条件</string>
+    <!-- Hotel info screen -->
+    <!-- Content description for action: Press to select this hotel -->
+    <string name="cd_hotel_info_select_button">按这里可选择该酒店</string>
+    <!-- Content description for action: Press to go to this hotel's reviews -->
+    <string name="cd_hotel_info_go_to_hotel_reviews">按这里可查看该酒店的点评</string>
+    <!-- Content description for action: Press to book this hotel now -->
+    <string name="cd_hotel_info_press_book_now">按此按钮即可马上预订酒店</string>
+    <!-- Content description for action: Press to book this hotel by phone -->
+    <string name="cd_hotel_info_press_book_by_phone">按此按钮可通过电话预订酒店</string>
+    <!-- Hotel review screen -->
+    <!-- Content description for action: Press to display recent reviews -->
+    <string name="cd_display_recent_reviews">按这里可显示最近的点评</string>
+    <!-- Content description for action: Press to display favorable reviews -->
+    <string name="cd_display_favorable_reviews">按这里可显示正面的评价</string>
+    <!-- Content description for action: Press to display critical reviews -->
+    <string name="cd_display_critical_reviews">按这里可显示负面的评价</string>
+    <!-- Flight Search -->
+    <!-- Content description for action: Edit departure airport -->
+    <string name="cd_flights_search_departure_edit_text">编辑出发机场</string>
+    <!-- Content description for action: Edit arrival airport -->
+    <string name="cd_flights_search_arrival_edit_text">编辑到达机场</string>
+    <!-- Content description for action: Press to edit departure and arrival dates -->
+    <string name="cd_flights_search_dates_edit">按这里可编辑出发和到达日期</string>
+    <!-- Content description for action: Press to clear selected dates -->
+    <string name="cd_flights_clear_selected_dates">按这里可清除选中的日期</string>
+    <!-- Content description for action: Press to edit number of travelers -->
+    <string name="cd_flights_search_number_of_travelers_edit">按这里可编辑旅客数量</string>
+    <!-- Flight Search Results -->
+    <!-- Content description for action: Press to return to flight search -->
+    <string name="cd_flights_search_search_button">按这里可返回航班搜索界面</string>
+    <!-- Content description for action: Press to open flight sort options -->
+    <string name="cd_flights_search_results_sort">按这里可打开航班排序选项</string>
+    <!-- Flight sort options -->
+    <!-- Content description for action: Press to sort flights by price -->
+    <string name="cd_sort_flights_by_price">按这里可根据价格排序</string>
+    <!-- Content description for action: Press to sort flights by when they depart -->
+    <string name="cd_sort_flights_by_departs">按这里可根据起飞时间排序</string>
+    <!-- Content description for action: Press to sort flights by when they arrive -->
+    <string name="cd_sort_flights_by_arrives">按这里可根据到达时间排序</string>
+    <!-- Content description for action: Press to sort flights by their durations -->
+    <string name="cd_sort_flights_by_duration">按这里可根据飞行时间排序</string>
+    <!-- Flight Search Results - Flight Leg Selection -->
+    <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
+    <string name="cd_flight_leg_cancel">取消选定的航班，返回航班搜索结果</string>
+    <!-- Content description for action: Press to select this flight -->
+    <string name="cd_flight_leg_select_flight">按这里可选择该航班</string>
+    <!-- Content description for action: Press to go to baggage fee information -->
+    <string name="cd_flight_leg_baggage_fee_info">按这里查看行李收费信息</string>
+    <!-- Flight Search Results - Selection Overview -->
+    <!-- Content description for action: Press to go to cost summary for your flight selections -->
+    <string name="cd_flight_selection_cost_summary">按这里查看选定航班的费用摘要</string>
+    <!-- Checkout screen -->
+    <!-- Content description for action: Press to begin checkout -->
+    <string name="cd_checkout">按这里，开始付款</string>
+    <!-- Content description for action: Press to log in with your Expedia account -->
+    <string name="cd_checkout_log_in_with_expedia">按这里，登录您的 Expedia 帐户</string>
+    <!-- Content description for action: Press to make this purchase with Google Wallet -->
+    <string name="cd_checkout_buy_with_google">按这里可使用谷歌钱包付款</string>
+    <!-- Content description for action: Press to add a traveler to this booking -->
+    <string name="cd_checkout_add_traveler">按这里可为此次预订添加旅客</string>
+    <!-- Content description for action: Press to select payment for this booking -->
+    <string name="cd_checkout_select_payment">按这里可选择为此次预订付款</string>
+    <!-- Content description for action: Press to enter a coupon or promotional code -->
+    <string name="cd_checkout_enter_coupon">按这里可输入折扣券或促销代码</string>
+    <!-- Content description for action: Enter coupon or promotional code into text field -->
+    <string name="cd_checkout_coupon_code_entry_field">在文本框中输入折扣券或促销代码</string>
+    <!-- Content description for action: Press to apply coupon -->
+    <string name="cd_checkout_apply_coupon_button">按这里可使用折扣券</string>
+    <!-- Content description for action: Slide to purchase -->
+    <string name="cd_checkout_slide_to_purchase">@string/slide_to_purchase</string>
+    <!-- Log in screen -->
+    <!-- Content description for action: Enter Expedia account email address -->
+    <string name="cd_log_in_email_edit_text">输入 Expedia 帐户的电子邮件地址</string>
+    <!-- Content description for action: Enter Expedia account password -->
+    <string name="cd_log_in_password_edit_text">输入 Expedia 帐户密码</string>
+    <!-- Content description for action: Press to log into Expedia with your Facebook account -->
+    <string name="cd_log_in_with_facebook">按这里可使用 Facebook 帐户登录 Expedia</string>
+    <!-- Traveler Information screen -->
+    <!-- Content description for action: Press to enter a new traveler -->
+    <string name="cd_traveler_enter_new_traveler">按这里可输入新旅客的信息</string>
+    <!-- Content description for action: Press to edit traveler information -->
+    <string name="cd_traveler_edit_traveler_information">按这里可编辑旅客信息</string>
+    <!-- Content description for action: Press to edit traveler's passport country -->
+    <string name="cd_traveler_edit_passport_country">编辑旅客护照上显示的国家</string>
+    <!-- Traveler Information edit/entry screen -->
+    <!-- Content description for action: Enter first name -->
+    <string name="cd_traveler_first_name_edit_text">输入名字</string>
+    <!-- Content description for action: Enter middle name -->
+    <string name="cd_traveler_middle_name_edit_text">输入中间名</string>
+    <!-- Content description for action: Enter last name -->
+    <string name="cd_traveler_last_name_edit_text">输入姓氏</string>
+    <!-- Content description for action: Press to select country calling codes -->
+    <string name="cd_traveler_list_international_phone_codes">按这里可选择长途电话国家/地区代码</string>
+    <!-- Content description for action: Enter phone number -->
+    <string name="cd_traveler_phone_number">输入电话号码</string>
+    <!-- Content description for action: Press to finish entering traveler information -->
+    <string name="cd_traveler_information_done">按这里，完成输入旅客信息的操作</string>
+    <!-- Extra traveler information - flights -->
+    <!-- Content description for action: Press to select traveler's birthday -->
+    <string name="cd_traveler_birthday_edit">按这里可选择旅客出生日期</string>
+    <!-- Content description for action: Press to select traveler's gender -->
+    <string name="cd_traveler_gender_edit">按这里可选择旅客性吧</string>
+    <!-- Content description for action: Enter redress number, if applicable -->
+    <string name="cd_traveler_redress_number_edit_text">如果有，请输入 Redress Number。</string>
+    <!-- Content description for action: Press to select type of special assistance traveler requires -->
+    <string name="cd_traveler_special_assistance_edit">选择旅客所需特殊照顾的种类</string>
+    <!-- Content description for action: Press to select window type that the traveler prefers -->
+    <string name="cd_traveler_seat_preference_edit">选择旅客喜欢的座位类型</string>
+    <!-- Credit Card Information -->
+    <!-- Content description for action: Enter credit card number -->
+    <string name="cd_card_info_card_number_edit_text">输入信用卡号码</string>
+    <!-- Content description for action: Enter cardholder name -->
+    <string name="cd_card_info_cardholder_name">输入持卡人姓名</string>
+    <!-- Content description for action: Enter cardholder's email address -->
+    <string name="cd_card_info_email_address">输入持卡人电子邮件地址</string>
+    <!-- Content description for action: Enter billing address - line 1 -->
+    <string name="cd_card_info_billing_address_line_1">输入帐单地址 - 第 1 行</string>
+    <!-- Content description for action: Enter billing address - line 2 -->
+    <string name="cd_card_info_billing_address_line_2">输入帐单地址 - 第 2 行</string>
+    <!-- Content description for action: Enter billing address city -->
+    <string name="cd_card_info_billing_address_city">输入帐单地址所在城市</string>
+    <!-- Content description for action: Enter billing address state -->
+    <string name="cd_card_info_billing_address_state">输入帐单地址所在省/市/自治区</string>
+    <!-- Content description for action: Enter billing address postal code -->
+    <string name="cd_card_info_billing_address_postal_code">输入帐单地址的邮编</string>
+    <!-- Content description for action: Select billing address country -->
+    <string name="cd_card_info_billing_address_country">选择帐单地址所在国家/地区</string>
+    <!-- Common actionbar elements -->
+    <!-- Content description for action: Press to go back to previous screen -->
+    <string name="cd_go_back">按这里返回上个界面</string>
 
 </resources>

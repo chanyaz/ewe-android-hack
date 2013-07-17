@@ -192,11 +192,11 @@
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="from_airport_TEMPLATE">&lt;b&gt;%1$s ～&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint that also includes time of departure; first parameter is the airport code, second parameter is the localized time (e.g. 13:45) -->
-    <string name="from_airport_time_TEMPLATE">&lt;b&gt;%1$sから&lt;/b&gt;%2$sに到着</string>
+    <string name="from_airport_time_TEMPLATE">&lt;b&gt;%1$sから&lt;/b&gt;%2$sに出発</string>
     <!-- Itin flight summary second line for arrival waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight arrives/d -->
-    <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;%1$s に到着&lt;/b&gt; - %2$s</string>
+    <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;%1$sに到着&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
-    <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;%1$s から出発&lt;/b&gt; - %2$s</string>
+    <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;%1$sから出発&lt;/b&gt; - %2$s</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">%1$s からログアウトすると、このアカウントに関連付けられている旅程項目が全て削除されます。ログアウトしてもよろしいですか ?</string>
     <!-- Directions -->
@@ -277,7 +277,7 @@
     <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
     <string name="add_hotel_fallback">目的地のホテルを追加</string>
 
-    <!-- Itin Local Expert -->
+    <!-- Itin Local Expert.  Do not translate the "Local Expert" part because it is the title of a product. -->
     <string name="talk_to_local_expert">Local Expert に相談する</string>
 
     <!-- Local Expert Sites -->
@@ -288,9 +288,9 @@
     <!-- Name of Las Vegas (for local expert) -->
     <string name="site_las_vegas">ラスベガス</string>
 
-    <!-- Template for the city title on Local Expert pages. %1$s is the name of the city-->
+    <!-- Template for the city title on Local Expert pages. %1$s is the name of the city -->
     <string name="local_expert_title_TEMPLATE">%1$sを満喫</string>
-    <!-- Description body for the Local Expert pages -->
+    <!-- Description body for the Local Expert pages.    Do not translate the "Local Expert" part because it is the title of a product. -->
     <string name="local_expert_description">旅行中のご相談は、お気軽に\nLocal Expert コンシェルジュにお問い合わせください</string>
     <!-- Text for the button on Local Expert pages, to call the concierge -->
     <string name="local_expert_call_button_text">コンシェルジュに電話する</string>
@@ -1272,7 +1272,7 @@
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="tonight_only">本日限定 !</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
-    <string name="hotel_search_range_error_TEMPLATE">申し訳ございませんが、%1$s 日以上の滞在は検索できません。</string>
+    <string name="hotel_search_range_error_TEMPLATE">申し訳ありませんが、%1$s 日以上の滞在は検索できません。</string>
     <!-- Search Error title text "Search Error" -->
     <string name="search_error">検索エラー</string>
 
@@ -2317,6 +2317,10 @@
     <string name="cc_master_card">Master Card</string>
     <!-- Visa -->
     <string name="cc_visa">VISA</string>
+    <!-- Carte Bleue -->
+    <string name="cc_carte_bleue">Carte Bleue</string>
+    <!-- Carta Si -->
+    <string name="cc_carta_si">Carta Si</string>
 
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
@@ -2509,5 +2513,213 @@
     <string name="VSC_app_name">VSC Hotels</string>
     <!-- Link to open when VSC logo is clicked on -->
     <string name="app_vsc_info_url">http://www.voyages-sncf.com/</string>
+
+    <!-- Content Description Labels -->
+    <!-- Expedia Bookings Launch Screen -->
+    <!-- Content description for action: Press button to launch Expedia Hotels -->
+    <string name="cd_launch_hotels">エクスペディア ホテル予約アプリを起動</string>
+    <!-- Content description for action: Press button to launch Expedia Flights -->
+    <string name="cd_launch_flights">エクスペディア フライト予約アプリを起動</string>
+    <!-- Content description for action: Press button to open menu list -->
+    <string name="cd_launch_open_menu_list">メニューリストを開く</string>
+    <!-- Content description for action: Open Settings Menu -->
+    <string name="cd_launch_open_settings_menu">設定メニューを開く</string>
+    <!-- Content description for action: Open App Info Screen -->
+    <string name="cd_launch_open_eb_info_screen">エクスペディア予約情報画面を開く</string>
+    <!-- Trips Screen -->
+    <!-- Content description for action: Log in for your trips (reference to existing string) -->
+    <string name="cd_trips_log_in_for_your_trips">@string/log_in_for_your_trips</string>
+    <!-- Content description for action: Enter Itinerary Number (reference to existing string) -->
+    <string name="cd_trips_enter_itinerary_number">@string/enter_itinerary_number</string>
+    <!-- Content description for action: Press to refresh trips list -->
+    <string name="cd_trips_refresh_trips_list">タップして旅程リストを更新</string>
+    <!-- Hotel Search Screen -->
+    <!-- Content description for action: Enter text into Hotel Search Field -->
+    <string name="cd_hotel_search_edittext">ホテル検索フィールドに入力</string>
+    <!-- Content description for action: Open hotel booking dates calendar -->
+    <string name="cd_hotel_search_open_calendar">ホテル予約カレンダーを開く</string>
+    <!-- Content description for action: Press "Search" from hotel calendar fragment -->
+    <string name="cd_hotel_search_press_search_from_calendar">タップしてホテルを検索</string>
+    <!-- Content description for action: Open hotel guest picker -->
+    <string name="cd_hotel_search_open_guest_picker">宿泊者の選択肢を開く</string>
+    <!-- Content description for action: Press "Search" from hotel guest picker fragment -->
+    <string name="cd_hotel_search_press_search_from_guest_picker">タップしてホテルを検索</string>
+    <!-- Content description for action: Press to open hotel sort options -->
+    <string name="cd_hotel_search_open_sort_options">ホテル並べ替えオプションを開く</string>
+    <!-- Content description for action: Switch to map view - hotels search -->
+    <string name="cd_hotel_search_switch_to_map_view">マップ ビューに切り替え</string>
+    <!-- Content description for action: Switch to list view - hotels search -->
+    <string name="cd_hotel_search_switch_to_list_view">リスト ビューに切り替え</string>
+    <!-- Hotel sort options -->
+    <!-- Content description for action: Press to sort hotels by popularity -->
+    <string name="cd_sort_hotels_by_popularity">人気でホテルを並べ替え</string>
+    <!-- Content description for action: Press to sort hotels by deals -->
+    <string name="cd_sort_hotels_by_deals">プロモーションでホテルを並べ替え</string>
+    <!-- Content description for action: Press to sort hotels by price -->
+    <string name="cd_sort_hotels_by_price">価格でホテルを並べ替え</string>
+    <!-- Content description for action: Press to sort hotels by rating -->
+    <string name="cd_sort_hotels_by_rating">評価でホテルを並べ替え</string>
+    <!-- Content description for action: Press to open hotel filter options -->
+    <string name="cd_filter_open_hotel_filter_options">ホテル絞り込みオプションを開く</string>
+    <!-- Hotel filter options -->
+    <!-- Content description for action: Entering text into hotel filter text field -->
+    <string name="cd_filter_by_hotel_name">ホテル絞り込みフィールドに入力</string>
+    <!-- Hotel star filters -->
+    <!-- Content description for action: Press to filter for hotels hotels with three or more stars -->
+    <string name="cd_filter_hotels_for_three_or_more_stars">タップして 3 つ星以上のホテルを絞り込む</string>
+    <!-- Content description for action: Press to filter for hotels hotels with four or more stars -->
+    <string name="cd_filter_hotels_for_four_or_more_stars">タップして 4 つ星以上のホテルを絞り込む</string>
+    <!-- Content description for action: Press to filter for hotels with five stars -->
+    <string name="cd_filter_hotels_for_five_stars">タップして 5 つ星以上のホテルを絞り込む</string>
+    <!-- Content description for action: Press to remove hotel star filters -->
+    <string name="cd_filter_remove_hotel_star_filters">タップしてホテルの星評価絞り込みを外す</string>
+    <!-- Hotel distance filters -->
+    <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
+    <string name="cd_filter_for_nearest_hotels">タップして検索地から最も半径距離の短いホテルを絞り込む</string>
+    <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
+    <string name="cd_filter_for_further_distanced_hotels">タップして検索地から中間距離のホテルを絞り込む</string>
+    <!-- Content description for action: Press to filter for hotels within largest radius from your search location -->
+    <string name="cd_filter_for_furthest_distanced_hotels">タップして検索地から最も半径距離の長いホテルを絞り込む</string>
+    <!-- Content description for action: Press to clear all distance filters for hotel search -->
+    <string name="cd_filter_remove_distance_filter">タップしてホテル検索条件から距離絞り込みをクリア</string>
+    <!-- Hotel price filters -->
+    <!-- Content description for action: Press to filter for low-range hotel prices -->
+    <string name="cd_filter_for_low_range_hotel_prices">タップして低価格のホテルを絞り込む</string>
+    <!-- Content description for action: Press to filter for mid-range hotel prices -->
+    <string name="cd_filter_for_mid_range_hotel_prices">タップして中価格のホテルを絞り込む</string>
+    <!-- Content description for action: Press to filter for high-range hotel prices -->
+    <string name="cd_filter_for_high_range_hotel_prices">タップして高価格のホテルを絞り込む</string>
+    <!-- Content description for action: Press to remove hotel price filters -->
+    <string name="cd_filter_remove_hotel_price_filters">ホテルの価格絞り込みを外す</string>
+    <!-- Hotel info screen -->
+    <!-- Content description for action: Press to select this hotel -->
+    <string name="cd_hotel_info_select_button">タップしてこのホテルを選択</string>
+    <!-- Content description for action: Press to go to this hotel's reviews -->
+    <string name="cd_hotel_info_go_to_hotel_reviews">タップしてこのホテルのレビューを表示</string>
+    <!-- Content description for action: Press to book this hotel now -->
+    <string name="cd_hotel_info_press_book_now">タップしてこのホテルを今すぐ予約</string>
+    <!-- Content description for action: Press to book this hotel by phone -->
+    <string name="cd_hotel_info_press_book_by_phone">タップしてこのホテルを電話で予約</string>
+    <!-- Hotel review screen -->
+    <!-- Content description for action: Press to display recent reviews -->
+    <string name="cd_display_recent_reviews">タップして最近のレビューを表示</string>
+    <!-- Content description for action: Press to display favorable reviews -->
+    <string name="cd_display_favorable_reviews">タップしてポジティブなレビューを表示</string>
+    <!-- Content description for action: Press to display critical reviews -->
+    <string name="cd_display_critical_reviews">タップしてネガティブなレビューを表示</string>
+    <!-- Flight Search -->
+    <!-- Content description for action: Edit departure airport -->
+    <string name="cd_flights_search_departure_edit_text">出発空港を編集</string>
+    <!-- Content description for action: Edit arrival airport -->
+    <string name="cd_flights_search_arrival_edit_text">到着空港を編集</string>
+    <!-- Content description for action: Press to edit departure and arrival dates -->
+    <string name="cd_flights_search_dates_edit">タップして出発および到着日を編集</string>
+    <!-- Content description for action: Press to clear selected dates -->
+    <string name="cd_flights_clear_selected_dates">タップして選択した日付をクリア</string>
+    <!-- Content description for action: Press to edit number of travelers -->
+    <string name="cd_flights_search_number_of_travelers_edit">タップして旅行者の数を編集</string>
+    <!-- Flight Search Results -->
+    <!-- Content description for action: Press to return to flight search -->
+    <string name="cd_flights_search_search_button">タップしてフライト検索に戻る</string>
+    <!-- Content description for action: Press to open flight sort options -->
+    <string name="cd_flights_search_results_sort">タップしてフライト並べ替えオプションを開く</string>
+    <!-- Flight sort options -->
+    <!-- Content description for action: Press to sort flights by price -->
+    <string name="cd_sort_flights_by_price">タップして価格でフライトを並べ替え</string>
+    <!-- Content description for action: Press to sort flights by when they depart -->
+    <string name="cd_sort_flights_by_departs">タップして出発時間でフライトを並べ替え</string>
+    <!-- Content description for action: Press to sort flights by when they arrive -->
+    <string name="cd_sort_flights_by_arrives">タップして到着時間でフライトを並べ替え</string>
+    <!-- Content description for action: Press to sort flights by their durations -->
+    <string name="cd_sort_flights_by_duration">タップして飛行時間でフライトを並べ替え</string>
+    <!-- Flight Search Results - Flight Leg Selection -->
+    <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
+    <string name="cd_flight_leg_cancel">フライト選択をキャンセルして、フライト検索結果に戻る</string>
+    <!-- Content description for action: Press to select this flight -->
+    <string name="cd_flight_leg_select_flight">タップしてこのフライトを選択</string>
+    <!-- Content description for action: Press to go to baggage fee information -->
+    <string name="cd_flight_leg_baggage_fee_info">タップして手荷物料金情報を表示</string>
+    <!-- Flight Search Results - Selection Overview -->
+    <!-- Content description for action: Press to go to cost summary for your flight selections -->
+    <string name="cd_flight_selection_cost_summary">コスト サマリーにアクセスしてフライト選択を表示</string>
+    <!-- Checkout screen -->
+    <!-- Content description for action: Press to begin checkout -->
+    <string name="cd_checkout">タップして購入手続き</string>
+    <!-- Content description for action: Press to log in with your Expedia account -->
+    <string name="cd_checkout_log_in_with_expedia">タップしてエクスペディア アカウントにログイン</string>
+    <!-- Content description for action: Press to make this purchase with Google Wallet -->
+    <string name="cd_checkout_buy_with_google">タップして Google ウォレットを使って購入</string>
+    <!-- Content description for action: Press to add a traveler to this booking -->
+    <string name="cd_checkout_add_traveler">タップしてこの予約に旅行者を追加</string>
+    <!-- Content description for action: Press to select payment for this booking -->
+    <string name="cd_checkout_select_payment">タップしてこの予約の支払い方法を選択</string>
+    <!-- Content description for action: Press to enter a coupon or promotional code -->
+    <string name="cd_checkout_enter_coupon">タップしてクーポンあるいはプロモーション コードを入力</string>
+    <!-- Content description for action: Enter coupon or promotional code into text field -->
+    <string name="cd_checkout_coupon_code_entry_field">テキスト フィールドにクーポンあるいはプロモーション コードを入力</string>
+    <!-- Content description for action: Press to apply coupon -->
+    <string name="cd_checkout_apply_coupon_button">タップしてクーポンを適用</string>
+    <!-- Content description for action: Slide to purchase -->
+    <string name="cd_checkout_slide_to_purchase">@string/slide_to_purchase</string>
+    <!-- Log in screen -->
+    <!-- Content description for action: Enter Expedia account email address -->
+    <string name="cd_log_in_email_edit_text">エクスペディア アカウントの電子メールアドレスを入力</string>
+    <!-- Content description for action: Enter Expedia account password -->
+    <string name="cd_log_in_password_edit_text">エクスペディア アカウントのパスワードを入力</string>
+    <!-- Content description for action: Press to log into Expedia with your Facebook account -->
+    <string name="cd_log_in_with_facebook">タップして Facebook アカウントを使ってエクスペディアにログイン</string>
+    <!-- Traveler Information screen -->
+    <!-- Content description for action: Press to enter a new traveler -->
+    <string name="cd_traveler_enter_new_traveler">タップして新しい旅行者を入力</string>
+    <!-- Content description for action: Press to edit traveler information -->
+    <string name="cd_traveler_edit_traveler_information">タップして旅行者情報を編集</string>
+    <!-- Content description for action: Press to edit traveler's passport country -->
+    <string name="cd_traveler_edit_passport_country">旅行者のパスポートの発行国を編集</string>
+    <!-- Traveler Information edit/entry screen -->
+    <!-- Content description for action: Enter first name -->
+    <string name="cd_traveler_first_name_edit_text">名を入力</string>
+    <!-- Content description for action: Enter middle name -->
+    <string name="cd_traveler_middle_name_edit_text">ミドルネームを入力</string>
+    <!-- Content description for action: Enter last name -->
+    <string name="cd_traveler_last_name_edit_text">姓を入力</string>
+    <!-- Content description for action: Press to select country calling codes -->
+    <string name="cd_traveler_list_international_phone_codes">タップして国番号を選択</string>
+    <!-- Content description for action: Enter phone number -->
+    <string name="cd_traveler_phone_number">電話番号を入力</string>
+    <!-- Content description for action: Press to finish entering traveler information -->
+    <string name="cd_traveler_information_done">タップして旅行者情報の入力を終了</string>
+    <!-- Extra traveler information - flights -->
+    <!-- Content description for action: Press to select traveler's birthday -->
+    <string name="cd_traveler_birthday_edit">タップして旅行者の誕生日を選択</string>
+    <!-- Content description for action: Press to select traveler's gender -->
+    <string name="cd_traveler_gender_edit">タップして旅行者の性別を選択</string>
+    <!-- Content description for action: Enter redress number, if applicable -->
+    <string name="cd_traveler_redress_number_edit_text">リドレスナンバーを入力 (該当する場合)</string>
+    <!-- Content description for action: Press to select type of special assistance traveler requires -->
+    <string name="cd_traveler_special_assistance_edit">スペシャル サポートを必要とする場合はサポートタイプを選択</string>
+    <!-- Content description for action: Press to select window type that the traveler prefers -->
+    <string name="cd_traveler_seat_preference_edit">希望の座席タイプを選択</string>
+    <!-- Credit Card Information -->
+    <!-- Content description for action: Enter credit card number -->
+    <string name="cd_card_info_card_number_edit_text">クレジットカード番号を入力</string>
+    <!-- Content description for action: Enter cardholder name -->
+    <string name="cd_card_info_cardholder_name">カードの名義人名を入力</string>
+    <!-- Content description for action: Enter cardholder's email address -->
+    <string name="cd_card_info_email_address">カード名義人の電子メールアドレスを入力</string>
+    <!-- Content description for action: Enter billing address - line 1 -->
+    <string name="cd_card_info_billing_address_line_1">クレジットカード登録住所の町村・番地を入力</string>
+    <!-- Content description for action: Enter billing address - line 2 -->
+    <string name="cd_card_info_billing_address_line_2">クレジットカード登録住所のアパート名等 (オプション) を入力</string>
+    <!-- Content description for action: Enter billing address city -->
+    <string name="cd_card_info_billing_address_city">クレジットカード登録住所の都市名を入力</string>
+    <!-- Content description for action: Enter billing address state -->
+    <string name="cd_card_info_billing_address_state">クレジットカード登録住所の都道府県を入力</string>
+    <!-- Content description for action: Enter billing address postal code -->
+    <string name="cd_card_info_billing_address_postal_code">クレジットカード登録住所の郵便番号を入力</string>
+    <!-- Content description for action: Select billing address country -->
+    <string name="cd_card_info_billing_address_country">クレジットカード登録住所の国名を入力</string>
+    <!-- Common actionbar elements -->
+    <!-- Content description for action: Press to go back to previous screen -->
+    <string name="cd_go_back">タップして前の画面に戻る</string>
 
 </resources>

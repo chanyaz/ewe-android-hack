@@ -3,9 +3,9 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">&lt;b&gt;%1$s&lt;/b&gt;, nous avons trouvé votre compte Expedia ! Veuillez saisir votre mot de passe Expedia ci-dessous afin de lier vos comptes Facebook et Expedia.</string>
+    <string name="facebook_weve_found_your_account">&lt;b&gt;%1$s&lt;/b&gt;, nous avons trouvé votre compte Expedia ! Veuillez saisir votre mot de passe Expedia ci-dessous afin de lier vos comptes Facebook et Expedia.</string>
     <!-- Weve fetched your facebook info -->
-    <string name="facebook_weve_fetched_your_info">&lt;b&gt;%1$s&lt;/b&gt;, nous avons chargé vos informations Facebook !</string>
+    <string name="facebook_weve_fetched_your_info">&lt;b&gt;%1$s&lt;/b&gt;, nous avons chargé vos informations Facebook !</string>
     <!-- Log in with facebook (button text) -->
     <string name="Log_in_with_Facebook">Se connecter avec Facebook</string>
     <!-- fetching information from Facebook -->
@@ -277,7 +277,7 @@
     <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
     <string name="add_hotel_fallback">Ajouter un hôtel dans votre destination</string>
 
-    <!-- Itin Local Expert -->
+    <!-- Itin Local Expert.  Do not translate the "Local Expert" part because it is the title of a product. -->
     <string name="talk_to_local_expert">Parlez avec un Local Expert</string>
 
     <!-- Local Expert Sites -->
@@ -288,10 +288,10 @@
     <!-- Name of Las Vegas (for local expert) -->
     <string name="site_las_vegas">Las Vegas</string>
 
-    <!-- Template for the city title on Local Expert pages. %1$s is the name of the city-->
+    <!-- Template for the city title on Local Expert pages. %1$s is the name of the city -->
     <string name="local_expert_title_TEMPLATE">Bon voyage à %1$s</string>
-    <!-- Description body for the Local Expert pages -->
-    <string name="local_expert_description">Besoin d\&apos;aide pour votre voyage ?\nAppelez notre Local Expert !</string>
+    <!-- Description body for the Local Expert pages.    Do not translate the "Local Expert" part because it is the title of a product. -->
+    <string name="local_expert_description">Besoin d\&apos;aide pour votre voyage ?\nAppelez notre Local Expert !</string>
     <!-- Text for the button on Local Expert pages, to call the concierge -->
     <string name="local_expert_call_button_text">Appelez-nous</string>
 
@@ -501,13 +501,13 @@
     <!-- Link to more information about the hotel -->
     <string name="share_template_long_hotel_5_more_info">Plus d\&apos;infos\n%s</string>
     <!-- App download link -->
-    <string name="share_template_long_ad">Réservez des hôtels et des billets d\&apos;avion. Consultez et partagez vos voyages. Téléchargez l\&apos;appli gratuite Expedia !\n%s</string>
+    <string name="share_template_long_ad">Réservez des hôtels et des billets d\&apos;avion. Consultez et partagez vos voyages. Téléchargez l\&apos;appli gratuite Expedia !\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Mon vol vers %1$s le %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">Le %3$s, je prends l\&apos;avion (%1$s) pour aller à %2$s !\nDépart de %4$s à %5$s\nArrivée à %6$s à %7$s, %8$s</string>
+    <string name="share_template_short_flight_sameday">Le %3$s, je prends l\&apos;avion (%1$s) pour aller à %2$s !\nDépart de %4$s à %5$s\nArrivée à %6$s à %7$s, %8$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">Je prends l\&apos;avion (%1$s) pour aller à %2$s !\nDépart de %3$s à %4$s\nArrivée à %5$s à %6$s, %7$s</string>
+    <string name="share_template_short_flight_multiday">Je prends l\&apos;avion (%1$s) pour aller à %2$s !\nDépart de %3$s à %4$s\nArrivée à %5$s à %6$s, %7$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Ma location de voiture (du %1$s au %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -540,7 +540,7 @@
     <!-- activity valid date -->
     <string name="share_template_short_activity_valid">Valable à partir du : %1$s</string>
     <!-- activity expiration date -->
-    <string name="share_template_short_activity_expires">Valable jusqu\&apos;au : %1$s</string>
+    <string name="share_template_short_activity_expires">Valable jusqu\&apos;au : %1$s</string>
     <!-- message for activity message for 1: title -->
     <string name="share_template_long_activity_title">Bonjour,\n\nVoici les détails de mon activité (%1$s)</string>
     <!-- label for activity 1: valid date -->
@@ -684,7 +684,7 @@
     <!-- Book now info label, when there are only a few seats left.  %1$s is the number of seats, %2$s is the price - e.g., "3 left at $500" -->
     <plurals name="urgency_book_TEMPLATE">
         <item quantity="zero">Il reste %1$s places à &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="one">Il reste %1$s places à &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="one">Il reste %1$s place à &lt;b&gt;%2$s&lt;/b&gt;</item>
         <item quantity="two">Il reste %1$s places à &lt;b&gt;%2$s&lt;/b&gt;</item>
         <item quantity="few">Il reste %1$s places à &lt;b&gt;%2$s&lt;/b&gt;</item>
         <item quantity="many">Il reste %1$s places à &lt;b&gt;%2$s&lt;/b&gt;</item>
@@ -817,7 +817,7 @@
     <!-- Log out -->
     <string name="log_out">Se déconnecter</string>
     <!-- You'll earn points for this trip -->
-    <string name="youll_earn_points_TEMPLATE">Vous gagnerez %1$s points avec ce voyage !</string>
+    <string name="youll_earn_points_TEMPLATE">Vous gagnerez %1$s points avec ce voyage !</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
     <string name="calculating_taxes_and_fees">Calcul des taxes et des frais…</string>
     <!-- Label to show next to the total price on the checkout receipt -->
@@ -825,7 +825,7 @@
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_raised_the_total_price_TEMPLATE">Désolés, l\&apos;hôtel vient d\&apos;augmenter le prix total du séjour de %1$s à %2$s.</string>
     <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_lowered_the_total_price_TEMPLATE">Bonnes nouvelles ! Le prix de votre séjour est passé de %1$s à %2$s.</string>
+    <string name="the_hotel_lowered_the_total_price_TEMPLATE">Bonne nouvelle ! Le prix de votre séjour est passé de %1$s à %2$s.</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">Terminé</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
@@ -872,7 +872,7 @@
     <string name="name_must_match_warning">Si le nom du voyageur ne correspond pas à celui sur la pièce d\&apos;identité, l\&apos;embarquement pourrait être refusé.</string>
 
     <!-- Special Assistance label template -->
-    <string name="special_assistance_label_TEMPLATE">Assistance spéciale : %1$s</string>
+    <string name="special_assistance_label_TEMPLATE">Assistance spéciale : %1$s</string>
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <!-- Born on -->
@@ -938,7 +938,7 @@
     <!-- save traveler -->
     <string name="save_traveler">Enregistrer le voyageur</string>
     <!-- Save traveler name Template -->
-    <string name="save_traveler_message_TEMPLATE">Enregistrer les informations sur %1$s dans votre compte Expedia pour réserver plus rapidement dans le futur ?</string>
+    <string name="save_traveler_message_TEMPLATE">Enregistrer les informations sur %1$s dans votre compte Expedia pour réserver plus rapidement dans le futur ?</string>
     <!-- no thanks -->
     <string name="no_thanks">Non, merci</string>
 
@@ -974,7 +974,7 @@
     <!-- Passport country / origin heading -->
     <string name="passport_country_origin">Pays/origine du passeport</string>
     <!-- Redress number hint -->
-    <string name="only_if_applicable">N° réparation (le cas échéant)</string>
+    <string name="only_if_applicable">N° de rectification (le cas échéant)</string>
     <!-- Saving traveler info spinner dialog -->
     <string name="saving_traveler">Sauvegarde des informations sur le voyageur dans votre compte…</string>
 
@@ -1006,7 +1006,7 @@
 
     <!-- Seat types -->
     <!-- Window seating preference -->
-    <string name="window">Fenêtre</string>
+    <string name="window">Hublot</string>
     <!-- Aisle seating preference -->
     <string name="aisle">Couloir</string>
     <!-- Any -->
@@ -1038,7 +1038,7 @@
     <!-- Title for flight confirmation page -->
     <string name="booking_complete">Réservation complétée</string>
     <!-- Message telling you where you've booked a flight.  %s is the city name, e.g. "You're going to Venice!" -->
-    <string name="yay_going_somewhere_TEMPLATE">Vous allez à %s !</string>
+    <string name="yay_going_somewhere_TEMPLATE">Vous allez à %s !</string>
     <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
     <string name="itinerary_confirmation_TEMPLATE">Voyage n° %s envoyé à</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
@@ -1076,11 +1076,11 @@
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
     <string name="calendar_flight_location_TEMPLATE">%1$s, %2$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_flight_desc_itinerary_TEMPLATE">N° de voyage Expedia : %s</string>
+    <string name="calendar_flight_desc_itinerary_TEMPLATE">N° de voyage Expedia : %s</string>
     <!-- Part of the description, showing a link to directions.  %s is the directions link, e.g. "Directions to airport: http://url-to-map-to-airport" -->
     <string name="calendar_flight_desc_directions_TEMPLATE">Pour rejoindre l\&apos;aéroport : %s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
-    <string name="calendar_flight_desc_support_TEMPLATE">Assistance clientèle Expedia : %s</string>
+    <string name="calendar_flight_desc_support_TEMPLATE">Assistance clientèle Expedia : %s</string>
 
     <!-- Add to calendar (hotels) -->
     <!-- Title for calendar entry for when you check into a hotel -->
@@ -1114,15 +1114,15 @@
     <!-- Button label for calling -->
     <string name="call_support">Assistance</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_increased">La compagnie aérienne vient d\&apos;augmenter le prix de %1$s. Acceptez-vous de payer le nouveau total de %2$s ?</string>
+    <string name="error_flight_price_increased">La compagnie aérienne vient d\&apos;augmenter le prix de %1$s. Acceptez-vous de payer le nouveau total de %2$s ?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_decreased">Nous venons de trouver les vols que vous avez demandés pour %1$s de moins. Souhaitez-vous payer le nouveau total de %2$s ?</string>
+    <string name="error_flight_price_decreased">Nous venons de trouver les vols que vous avez demandés pour %1$s de moins. Souhaitez-vous payer le nouveau total de %2$s ?</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
-    <string name="error_flight_added_processing_fee">La compagnie aérienne applique des frais de réservation de %1$s. Acceptez-vous de payer le nouveau total de %2$s ?</string>
+    <string name="error_flight_added_processing_fee">La compagnie aérienne applique des frais de réservation de %1$s. Acceptez-vous de payer le nouveau total de %2$s ?</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
-    <string name="error_flight_price_increased_with_fee">La compagnie aérienne applique des frais de réservation %1$s et le prix de votre billet a augmenté de %2$s. Acceptez-vous de payer le nouveau total de %3$s ?</string>
+    <string name="error_flight_price_increased_with_fee">La compagnie aérienne applique des frais de réservation %1$s et le prix de votre billet a augmenté de %2$s. Acceptez-vous de payer le nouveau total de %3$s ?</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
-    <string name="error_flight_price_decreased_with_fee">La compagnie aérienne applique des frais de réservation de %1$s, mais nous venons de trouver votre vol à %2$s de moins. Acceptez-vous de payer le nouveau total de %3$s ?</string>
+    <string name="error_flight_price_decreased_with_fee">La compagnie aérienne applique des frais de réservation de %1$s, mais nous venons de trouver votre vol à %2$s de moins. Acceptez-vous de payer le nouveau total de %3$s ?</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">Le numéro de carte de paiement que vous avez saisi est invalide. Veuillez réessayer.</string>
     <!-- Error shown to user if their credit card has expired -->
@@ -1132,7 +1132,7 @@
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
     <string name="error_flight_unhandled">Désolés, nous ne sommes pas en mesure de traiter votre demande pour le moment. Veuillez réessayer.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE">Désolés, nous ne sommes pas en mesure de traiter votre demande pour le moment. Veuillez réessayer ou appeler l\&apos;assistance clientèle d\&apos;Expedia et communiquer le numéro de voyage suivant : %s</string>
+    <string name="error_flight_unhandled_TEMPLATE">Désolés, nous ne sommes pas en mesure de traiter votre demande pour le moment. Veuillez réessayer ou appeler l\&apos;assistance clientèle d\&apos;Expedia et communiquer le numéro de voyage suivant : %s</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
     <string name="error_flight_no_longer_available">Désolés, votre vol n\&apos;est plus disponible.</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
@@ -1272,7 +1272,7 @@
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="tonight_only">Aujourd\&apos;hui uniquement !</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
-    <string name="hotel_search_range_error_TEMPLATE">Désolés. Nous ne sommes pas en mesure de rechercher des hôtels pour des séjours de plus de %1$s jours.</string>
+    <string name="hotel_search_range_error_TEMPLATE">Désolés, nous ne sommes pas en mesure de rechercher des hôtels pour des séjours de plus de %1$s jours.</string>
     <!-- Search Error title text "Search Error" -->
     <string name="search_error">Erreur de recherche</string>
 
@@ -1295,13 +1295,13 @@
 
     <!-- Sort descriptions, e.g. Sorted by "description" -->
     <!-- Sort by distance label -->
-    <string name="sort_description_distance">Distance</string>
+    <string name="sort_description_distance">Proximité</string>
     <!-- Sort by popularity label -->
     <string name="sort_description_popular">Popularité</string>
     <!-- Sort by price label -->
     <string name="sort_description_price">Prix</string>
     <!-- Sort by deals label -->
-    <string name="sort_description_deals">Promos</string>
+    <string name="sort_description_deals">Offres</string>
     <!-- Sort by user rating label -->
     <string name="sort_description_rating">Note clients</string>
 
@@ -1521,7 +1521,7 @@
     <!-- User review no recent reviews -->
     <string name="user_review_no_recent_reviews">Aucun avis récent sur cet hôtel</string>
     <!-- User reviews server/parsing error -->
-    <string name="user_review_unavailable">Les avis ne sont temporairement pas disponibles</string>
+    <string name="user_review_unavailable">Les avis sont temporairement indisponibles</string>
 
     <!-- Room and rates list -->
     <!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
@@ -1792,7 +1792,7 @@
     <!-- Subject dates template. 1$ and 2$ are the ` ranges (e.g., 3/21 - 3/24) -->
     <string name="share_subject_template_dates">(%1$s - %2$s)</string>
     <!-- Preset at the top of the share body message -->
-    <string name="share_body_start">Ci-après les informations de ma réservation d\&apos;hôtel :</string>
+    <string name="share_body_start">Ci-après les informations de ma réservation d\&apos;hôtel :</string>
     <!-- Name of user -->
     <string name="name">Nom</string>
     <!-- Number of adults label -->
@@ -1836,7 +1836,7 @@
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hôtels</string>
     <!-- Message body for "tell a friend" feature -->
-    <string name="tell_a_friend_body">Bonjour,\n\nViens découvrir Expedia Hôtels pour iPhone et téléphones Android. Cette application est gratuite et te permettra de rechercher et de réserver plus de 140 000 hôtels dans le monde entier. C\&apos;est le moyen le plus simple de réserver un hôtel avec ton téléphone !\n\nhttp://www.expedia.com/app</string>
+    <string name="tell_a_friend_body">Bonjour,\n\nVenez découvrir Expedia Hôtels pour iPhone et téléphones Android. Cette application est gratuite et vous permettra de rechercher et de réserver plus de 140 000 hôtels dans le monde entier. C\&apos;est le moyen le plus simple de réserver un hôtel avec votre téléphone !\n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Conditions d\&apos;utilisation</string>
     <!-- Label for link to privacy policy -->
@@ -1886,7 +1886,7 @@
     <!-- Hint to type in email address -->
     <string name="email_address">Adresse email</string>
     <!-- Hint to type in comments -->
-    <string name="feedback_hint">En quoi pouvons-nous améliorer ?</string>
+    <string name="feedback_hint">Qu\&apos;est-ce que nous pourrions améliorer ?</string>
 
     <!-- Preferences -->
     <!-- Category name for general preferences -->
@@ -2117,7 +2117,7 @@
     <string name="country_is">Islande</string>
     <string name="country_in">Inde</string>
     <string name="country_id">Indonésie</string>
-    <string name="country_ir">Iran, République islamique de</string>
+    <string name="country_ir">Iran</string>
     <string name="country_iq">Iraq</string>
     <string name="country_ie">Irlande</string>
     <string name="country_im">Île de Man</string>
@@ -2252,7 +2252,7 @@
     <string name="country_uy">Uruguay</string>
     <string name="country_uz">Ouzbékistan</string>
     <string name="country_vu">Vanuatu</string>
-    <string name="country_ve">Venezuela, République bolivienne de</string>
+    <string name="country_ve">Venezuela</string>
     <string name="country_vn">Vietnam</string>
     <string name="country_vg">Îles Vierges britanniques</string>
     <string name="country_vi">Îles Vierges des États-Unis</string>
@@ -2282,7 +2282,7 @@
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
     <string name="wallet_promo_in_use_message">Vous avez économisé 10 % en utilisant Google Wallet !</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Un seul bon par réservation. Nous avons remplacé votre bon précédent avec la réduction de 10 % pour avoir utilisé Google Wallet.</string>
+    <string name="coupon_replaced_message">Un seul bon par réservation. Nous avons remplacé votre bon précédent par la réduction de 10 % pour avoir utilisé Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Application de la réduction Google Wallet…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
@@ -2317,6 +2317,10 @@
     <string name="cc_master_card">MasterCard</string>
     <!-- Visa -->
     <string name="cc_visa">Visa</string>
+    <!-- Carte Bleue -->
+    <string name="cc_carte_bleue">Carte Bleue</string>
+    <!-- Carta Si -->
+    <string name="cc_carta_si">Carta Si</string>
 
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
@@ -2509,5 +2513,213 @@
     <string name="VSC_app_name">VSC Hotels</string>
     <!-- Link to open when VSC logo is clicked on -->
     <string name="app_vsc_info_url">http://www.voyages-sncf.com/</string>
+
+    <!-- Content Description Labels -->
+    <!-- Expedia Bookings Launch Screen -->
+    <!-- Content description for action: Press button to launch Expedia Hotels -->
+    <string name="cd_launch_hotels">Rechercher des hôtels</string>
+    <!-- Content description for action: Press button to launch Expedia Flights -->
+    <string name="cd_launch_flights">Rechercher des vols</string>
+    <!-- Content description for action: Press button to open menu list -->
+    <string name="cd_launch_open_menu_list">Ouvrir le menu</string>
+    <!-- Content description for action: Open Settings Menu -->
+    <string name="cd_launch_open_settings_menu">Ouvrir les paramètres</string>
+    <!-- Content description for action: Open App Info Screen -->
+    <string name="cd_launch_open_eb_info_screen">Ouvrir la page de vos réservations Expedia</string>
+    <!-- Trips Screen -->
+    <!-- Content description for action: Log in for your trips (reference to existing string) -->
+    <string name="cd_trips_log_in_for_your_trips">@string/log_in_for_your_trips</string>
+    <!-- Content description for action: Enter Itinerary Number (reference to existing string) -->
+    <string name="cd_trips_enter_itinerary_number">@string/enter_itinerary_number</string>
+    <!-- Content description for action: Press to refresh trips list -->
+    <string name="cd_trips_refresh_trips_list">Appuyez pour rafraîchir la liste des voyages</string>
+    <!-- Hotel Search Screen -->
+    <!-- Content description for action: Enter text into Hotel Search Field -->
+    <string name="cd_hotel_search_edittext">Écrivez dans le champ de recherche d\&apos;hôtels</string>
+    <!-- Content description for action: Open hotel booking dates calendar -->
+    <string name="cd_hotel_search_open_calendar">Ouvrir le calendrier de vos réservations d\&apos;hôtels</string>
+    <!-- Content description for action: Press "Search" from hotel calendar fragment -->
+    <string name="cd_hotel_search_press_search_from_calendar">Appuyez pour rechercher des hôtels</string>
+    <!-- Content description for action: Open hotel guest picker -->
+    <string name="cd_hotel_search_open_guest_picker">Ouvrir la sélection des clients</string>
+    <!-- Content description for action: Press "Search" from hotel guest picker fragment -->
+    <string name="cd_hotel_search_press_search_from_guest_picker">Appuyez pour rechercher des hôtels</string>
+    <!-- Content description for action: Press to open hotel sort options -->
+    <string name="cd_hotel_search_open_sort_options">Ouvrir les options de tri des hôtels</string>
+    <!-- Content description for action: Switch to map view - hotels search -->
+    <string name="cd_hotel_search_switch_to_map_view">Afficher la carte</string>
+    <!-- Content description for action: Switch to list view - hotels search -->
+    <string name="cd_hotel_search_switch_to_list_view">Afficher la liste</string>
+    <!-- Hotel sort options -->
+    <!-- Content description for action: Press to sort hotels by popularity -->
+    <string name="cd_sort_hotels_by_popularity">Classer par popularité</string>
+    <!-- Content description for action: Press to sort hotels by deals -->
+    <string name="cd_sort_hotels_by_deals">Classer par offre</string>
+    <!-- Content description for action: Press to sort hotels by price -->
+    <string name="cd_sort_hotels_by_price">Classer par prix</string>
+    <!-- Content description for action: Press to sort hotels by rating -->
+    <string name="cd_sort_hotels_by_rating">Classer par note</string>
+    <!-- Content description for action: Press to open hotel filter options -->
+    <string name="cd_filter_open_hotel_filter_options">Ouvrir les options de filtrage</string>
+    <!-- Hotel filter options -->
+    <!-- Content description for action: Entering text into hotel filter text field -->
+    <string name="cd_filter_by_hotel_name">Écrivez dans le champ de filtrage des hôtels</string>
+    <!-- Hotel star filters -->
+    <!-- Content description for action: Press to filter for hotels hotels with three or more stars -->
+    <string name="cd_filter_hotels_for_three_or_more_stars">Appuyez pour afficher les hôtels 3 étoiles et plus</string>
+    <!-- Content description for action: Press to filter for hotels hotels with four or more stars -->
+    <string name="cd_filter_hotels_for_four_or_more_stars">Appuyez pour afficher les hôtels 4 étoiles et plus</string>
+    <!-- Content description for action: Press to filter for hotels with five stars -->
+    <string name="cd_filter_hotels_for_five_stars">Appuyez pour afficher les hôtels 5 étoiles</string>
+    <!-- Content description for action: Press to remove hotel star filters -->
+    <string name="cd_filter_remove_hotel_star_filters">Appuyez pour arrêter le filtrage par étoiles</string>
+    <!-- Hotel distance filters -->
+    <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
+    <string name="cd_filter_for_nearest_hotels">Appuyez pour afficher les hôtels les plus proches de votre emplacement</string>
+    <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
+    <string name="cd_filter_for_further_distanced_hotels">Appuyez pour afficher des hôtels à mi-distance de votre emplacement</string>
+    <!-- Content description for action: Press to filter for hotels within largest radius from your search location -->
+    <string name="cd_filter_for_furthest_distanced_hotels">Appuyez pour afficher des hôtels plus éloignés de votre emplacement</string>
+    <!-- Content description for action: Press to clear all distance filters for hotel search -->
+    <string name="cd_filter_remove_distance_filter">Appuyez pour supprimer tous les filtres de proximité</string>
+    <!-- Hotel price filters -->
+    <!-- Content description for action: Press to filter for low-range hotel prices -->
+    <string name="cd_filter_for_low_range_hotel_prices">Appuyez pour afficher les tarifs les plus bas</string>
+    <!-- Content description for action: Press to filter for mid-range hotel prices -->
+    <string name="cd_filter_for_mid_range_hotel_prices">Appuyez pour afficher les tarifs médians</string>
+    <!-- Content description for action: Press to filter for high-range hotel prices -->
+    <string name="cd_filter_for_high_range_hotel_prices">Appuyez pour afficher les tarifs les plus élevés</string>
+    <!-- Content description for action: Press to remove hotel price filters -->
+    <string name="cd_filter_remove_hotel_price_filters">Arrêter le filtrage par prix</string>
+    <!-- Hotel info screen -->
+    <!-- Content description for action: Press to select this hotel -->
+    <string name="cd_hotel_info_select_button">Appuyez pour sélectionner cet hôtel</string>
+    <!-- Content description for action: Press to go to this hotel's reviews -->
+    <string name="cd_hotel_info_go_to_hotel_reviews">Appuyez pour consulter les avis sur cet hôtel</string>
+    <!-- Content description for action: Press to book this hotel now -->
+    <string name="cd_hotel_info_press_book_now">Appuyez pour réserver cet hôtel maintenant</string>
+    <!-- Content description for action: Press to book this hotel by phone -->
+    <string name="cd_hotel_info_press_book_by_phone">Appuyez pour réserver cet hôtel par téléphone</string>
+    <!-- Hotel review screen -->
+    <!-- Content description for action: Press to display recent reviews -->
+    <string name="cd_display_recent_reviews">Appuyez pour afficher les avis récents</string>
+    <!-- Content description for action: Press to display favorable reviews -->
+    <string name="cd_display_favorable_reviews">Appuyez pour afficher les avis positifs</string>
+    <!-- Content description for action: Press to display critical reviews -->
+    <string name="cd_display_critical_reviews">Appuyez pour afficher les avis négatifs</string>
+    <!-- Flight Search -->
+    <!-- Content description for action: Edit departure airport -->
+    <string name="cd_flights_search_departure_edit_text">Modifier l\&apos;aéroport de départ</string>
+    <!-- Content description for action: Edit arrival airport -->
+    <string name="cd_flights_search_arrival_edit_text">Modifier l\&apos;aéroport d\&apos;arrivée</string>
+    <!-- Content description for action: Press to edit departure and arrival dates -->
+    <string name="cd_flights_search_dates_edit">Appuyez pour modifier les dates de départ et d\&apos;arrivée</string>
+    <!-- Content description for action: Press to clear selected dates -->
+    <string name="cd_flights_clear_selected_dates">Appuyez pour effacer les dates sélectionnées</string>
+    <!-- Content description for action: Press to edit number of travelers -->
+    <string name="cd_flights_search_number_of_travelers_edit">Appuyez pour modifier le nombre de voyageurs</string>
+    <!-- Flight Search Results -->
+    <!-- Content description for action: Press to return to flight search -->
+    <string name="cd_flights_search_search_button">Appuyez pour retourner à la recherche de vols</string>
+    <!-- Content description for action: Press to open flight sort options -->
+    <string name="cd_flights_search_results_sort">Appuyez pour afficher les options de filtrage des vols</string>
+    <!-- Flight sort options -->
+    <!-- Content description for action: Press to sort flights by price -->
+    <string name="cd_sort_flights_by_price">Appuyez pour filtrer les vols par tarif</string>
+    <!-- Content description for action: Press to sort flights by when they depart -->
+    <string name="cd_sort_flights_by_departs">Appuyez pour filtrer les vols par horaire de décollage</string>
+    <!-- Content description for action: Press to sort flights by when they arrive -->
+    <string name="cd_sort_flights_by_arrives">Appuyez pour filtrer les vols par horaire d\&apos;atterrissage</string>
+    <!-- Content description for action: Press to sort flights by their durations -->
+    <string name="cd_sort_flights_by_duration">Appuyez pour filtrer par durée de vol</string>
+    <!-- Flight Search Results - Flight Leg Selection -->
+    <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
+    <string name="cd_flight_leg_cancel">Annulez votre sélection de vol et retournez à la page de résultats</string>
+    <!-- Content description for action: Press to select this flight -->
+    <string name="cd_flight_leg_select_flight">Appuyez pour sélectionner ce vol</string>
+    <!-- Content description for action: Press to go to baggage fee information -->
+    <string name="cd_flight_leg_baggage_fee_info">Appuyez pour afficher les frais de bagages</string>
+    <!-- Flight Search Results - Selection Overview -->
+    <!-- Content description for action: Press to go to cost summary for your flight selections -->
+    <string name="cd_flight_selection_cost_summary">Affichez les tarifs des vols sélectionnés</string>
+    <!-- Checkout screen -->
+    <!-- Content description for action: Press to begin checkout -->
+    <string name="cd_checkout">Appuyez pour passer au paiement</string>
+    <!-- Content description for action: Press to log in with your Expedia account -->
+    <string name="cd_checkout_log_in_with_expedia">Appuyez pour vous connecter à votre compte Expedia</string>
+    <!-- Content description for action: Press to make this purchase with Google Wallet -->
+    <string name="cd_checkout_buy_with_google">Appuyez pour régler cet achat avec Google Wallet</string>
+    <!-- Content description for action: Press to add a traveler to this booking -->
+    <string name="cd_checkout_add_traveler">Appuyez pour ajouter un voyageur à cette réservation</string>
+    <!-- Content description for action: Press to select payment for this booking -->
+    <string name="cd_checkout_select_payment">Appuyez pour sélectionner le mode de paiement pour cette réservation</string>
+    <!-- Content description for action: Press to enter a coupon or promotional code -->
+    <string name="cd_checkout_enter_coupon">Appuyez pour entrer un code promotionnel</string>
+    <!-- Content description for action: Enter coupon or promotional code into text field -->
+    <string name="cd_checkout_coupon_code_entry_field">Entrez le code promotionnel dans le champ indiqué</string>
+    <!-- Content description for action: Press to apply coupon -->
+    <string name="cd_checkout_apply_coupon_button">Appuyez pour valider le code promotionnel</string>
+    <!-- Content description for action: Slide to purchase -->
+    <string name="cd_checkout_slide_to_purchase">@string/slide_to_purchase</string>
+    <!-- Log in screen -->
+    <!-- Content description for action: Enter Expedia account email address -->
+    <string name="cd_log_in_email_edit_text">Entrez l\&apos;adresse e-mail rattachée à votre compte Expedia</string>
+    <!-- Content description for action: Enter Expedia account password -->
+    <string name="cd_log_in_password_edit_text">Entrez le mot de passe de votre compte Expedia</string>
+    <!-- Content description for action: Press to log into Expedia with your Facebook account -->
+    <string name="cd_log_in_with_facebook">Appuyez pour vous connecter à Expedia avec votre compte Facebook</string>
+    <!-- Traveler Information screen -->
+    <!-- Content description for action: Press to enter a new traveler -->
+    <string name="cd_traveler_enter_new_traveler">Appuyez pour ajouter un voyageur</string>
+    <!-- Content description for action: Press to edit traveler information -->
+    <string name="cd_traveler_edit_traveler_information">Appuyez pour modifier les informations du voyageur</string>
+    <!-- Content description for action: Press to edit traveler's passport country -->
+    <string name="cd_traveler_edit_passport_country">Modifier le pays émetteur du passeport du voyageur</string>
+    <!-- Traveler Information edit/entry screen -->
+    <!-- Content description for action: Enter first name -->
+    <string name="cd_traveler_first_name_edit_text">Indiquez le prénom</string>
+    <!-- Content description for action: Enter middle name -->
+    <string name="cd_traveler_middle_name_edit_text">Indiquez le deuxième prénom</string>
+    <!-- Content description for action: Enter last name -->
+    <string name="cd_traveler_last_name_edit_text">Indiquez le nom de famille</string>
+    <!-- Content description for action: Press to select country calling codes -->
+    <string name="cd_traveler_list_international_phone_codes">Appuyez pour sélectionner l\&apos;indicatif du pays</string>
+    <!-- Content description for action: Enter phone number -->
+    <string name="cd_traveler_phone_number">Indiquez le numéro de téléphone</string>
+    <!-- Content description for action: Press to finish entering traveler information -->
+    <string name="cd_traveler_information_done">Appuyez pour valider les informations du voyageur</string>
+    <!-- Extra traveler information - flights -->
+    <!-- Content description for action: Press to select traveler's birthday -->
+    <string name="cd_traveler_birthday_edit">Appuyez pour sélectionner la date de naissance du voyageur</string>
+    <!-- Content description for action: Press to select traveler's gender -->
+    <string name="cd_traveler_gender_edit">Appuyez pour sélectionner le sexe du voyageur</string>
+    <!-- Content description for action: Enter redress number, if applicable -->
+    <string name="cd_traveler_redress_number_edit_text">Indiquez votre numéro de rectification, si applicable</string>
+    <!-- Content description for action: Press to select type of special assistance traveler requires -->
+    <string name="cd_traveler_special_assistance_edit">Sélectionnez les assistances spéciales requises par le voyageur</string>
+    <!-- Content description for action: Press to select window type that the traveler prefers -->
+    <string name="cd_traveler_seat_preference_edit">Sélectionnez la préférence de siège pour le voyageur</string>
+    <!-- Credit Card Information -->
+    <!-- Content description for action: Enter credit card number -->
+    <string name="cd_card_info_card_number_edit_text">Indiquez votre numéro de carte de paiement</string>
+    <!-- Content description for action: Enter cardholder name -->
+    <string name="cd_card_info_cardholder_name">Indiquez le nom du titulaire de la carte</string>
+    <!-- Content description for action: Enter cardholder's email address -->
+    <string name="cd_card_info_email_address">Indiquez l\&apos;adresse e-mail du titulaire de la carte</string>
+    <!-- Content description for action: Enter billing address - line 1 -->
+    <string name="cd_card_info_billing_address_line_1">Indiquez l\&apos;adresse de facturation - 1re ligne</string>
+    <!-- Content description for action: Enter billing address - line 2 -->
+    <string name="cd_card_info_billing_address_line_2">Indiquez l\&apos;adresse de facturation - 2ème ligne</string>
+    <!-- Content description for action: Enter billing address city -->
+    <string name="cd_card_info_billing_address_city">Indiquez la ville (adresse de facturation)</string>
+    <!-- Content description for action: Enter billing address state -->
+    <string name="cd_card_info_billing_address_state">Indiquez l\&apos;État (adresse de facturation)</string>
+    <!-- Content description for action: Enter billing address postal code -->
+    <string name="cd_card_info_billing_address_postal_code">Indiquez le code postal (adresse de facturation)</string>
+    <!-- Content description for action: Select billing address country -->
+    <string name="cd_card_info_billing_address_country">Indiquez le pays (adresse de facturation)</string>
+    <!-- Common actionbar elements -->
+    <!-- Content description for action: Press to go back to previous screen -->
+    <string name="cd_go_back">Appuyez pour retourner à l\&apos;écran précédent</string>
 
 </resources>

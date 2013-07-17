@@ -277,7 +277,7 @@
     <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
     <string name="add_hotel_fallback">Tambahkan hotel di destinasi Anda</string>
 
-    <!-- Itin Local Expert -->
+    <!-- Itin Local Expert.  Do not translate the "Local Expert" part because it is the title of a product. -->
     <string name="talk_to_local_expert">Bicarakan dengan Local Expert</string>
 
     <!-- Local Expert Sites -->
@@ -288,9 +288,9 @@
     <!-- Name of Las Vegas (for local expert) -->
     <string name="site_las_vegas">Las Vegas</string>
 
-    <!-- Template for the city title on Local Expert pages. %1$s is the name of the city-->
+    <!-- Template for the city title on Local Expert pages. %1$s is the name of the city -->
     <string name="local_expert_title_TEMPLATE">Nikmati %1$s</string>
-    <!-- Description body for the Local Expert pages -->
+    <!-- Description body for the Local Expert pages.    Do not translate the "Local Expert" part because it is the title of a product. -->
     <string name="local_expert_description">Local Expert Concierge Anda bisa dihubungi kapan saja melalui telepon\nuntuk membantu kebutuhan perjalanan Anda.</string>
     <!-- Text for the button on Local Expert pages, to call the concierge -->
     <string name="local_expert_call_button_text">Telepon sekarang</string>
@@ -397,7 +397,7 @@
     <string name="car_type_pickup_regular_cab">Mobil Pickup Reguler</string>
     <string name="car_type_open_air_all_terrain">Terbuka Semua Medan</string>
     <string name="car_type_special">Khusus</string>
-    <string name="car_type_commercial_van_truck">Van/Truk Komersil</string>
+    <string name="car_type_commercial_van_truck">Van/Truk Komersial</string>
     <string name="car_type_pickup_extended_cab">Mobil Pickup Panjang</string>
     <string name="car_type_special_offer_car">Mobil Penawaran Khusus</string>
     <string name="car_type_coupe">Coupe</string>
@@ -1272,7 +1272,7 @@
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="tonight_only">Hanya Malam Ini!</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
-    <string name="hotel_search_range_error_TEMPLATE">Maaf, kami tidak bisa mencari kamar hotel untuk menginap lebih dari %1$s hari.</string>
+    <string name="hotel_search_range_error_TEMPLATE">Maaf, kami tidak bisa mencari hotel untuk menginap lebih dari %1$s hari.</string>
     <!-- Search Error title text "Search Error" -->
     <string name="search_error">Kesalahan Pencarian</string>
 
@@ -1736,7 +1736,7 @@
     <!-- Expedia merchant hotel policies -->
     <string name="PolicyExpediaMerchant">Dengan melanjutkan proses reservasi ini, Anda berarti menyetujui semua syarat dan ketentuan, yang mencakup Kebijakan Pembatalan dan semua syarat dan ketentuan yang tercantum dalam Perjanjian Pengguna.\n\nAnda setuju untuk membayar biaya reservasi Anda. Jika Anda tidak membayar tagihan ini dan biaya ditagihkan melalui jasa agen penagihan, pengacara, atau melalui prosedur hukum lainnya, Anda menyetujui untuk membayar semua biaya atau pengeluaran yang wajar, termasuk biaya pengacara dan pengadilan, yang dikeluarkan terkait dengan upaya penagihan tersebut.</string>
     <!-- Expedia agent hotel policies -->
-    <string name="PolicyExpediaAgent">Anda memesan properti non-diskon. Semua tarif ditampilkan per malam dan tiap kamar untuk digunakan oleh dua orang kecuali ditentukan lain. Pelajari deskripsi kamar dan aturan tarif secara saksama untuk memastikan kamar yang Anda pilih dapat mengakomodasi seluruh tamu. Beberapa tarif memerlukan identifikasi khusus. Tidak termasuk biaya pemesanan kami, pajak, dan biaya tambahan lainnya yang dikenakan oleh hotel. Setiap tambahan orang dewasa atau anak di luar jumlah tamu yang ditentukan untuk kamar tersebut dapat dikenai biaya tambahan berdasarkan pertimbangan hotel.\n\nPermintaan untuk lebih dari 2 orang, atau lebih dari yang ditentukan oleh tarif yang Anda pilih, akan dikirim ke hotel tapi tidak dijamin. Jika diterima, pemesanan ini akan dikenai biaya tambahan berdasarkan kebijaksanaan hotel.</string>
+    <string name="PolicyExpediaAgent">Anda memesan properti non-diskon. Semua tarif ditampilkan per malam dan tiap kamar untuk digunakan oleh dua orang kecuali ditentukan lain. Baca deskripsi kamar dan aturan tarif secara saksama untuk memastikan kamar yang Anda pilih dapat mengakomodasi seluruh tamu. Beberapa tarif memerlukan identifikasi khusus. Tidak termasuk biaya pemesanan kami, pajak, dan biaya tambahan lainnya yang dikenakan oleh hotel. Setiap tambahan orang dewasa atau anak di luar jumlah tamu yang ditentukan untuk kamar tersebut dapat dikenai biaya tambahan berdasarkan pertimbangan hotel.\n\nPermintaan untuk lebih dari 2 orang, atau lebih dari yang ditentukan oleh tarif yang Anda pilih, akan dikirim ke hotel tapi tidak dijamin. Jika diterima, pemesanan ini akan dikenai biaya tambahan berdasarkan kebijaksanaan hotel.</string>
 
     <!-- Expedia Accounts -->
     <!-- Label for menu item to log into account -->
@@ -2317,6 +2317,10 @@
     <string name="cc_master_card">Master Card</string>
     <!-- Visa -->
     <string name="cc_visa">Visa</string>
+    <!-- Carte Bleue -->
+    <string name="cc_carte_bleue">Carte Bleue</string>
+    <!-- Carta Si -->
+    <string name="cc_carta_si">Carta Si</string>
 
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
@@ -2509,5 +2513,213 @@
     <string name="VSC_app_name">VSC Hotels</string>
     <!-- Link to open when VSC logo is clicked on -->
     <string name="app_vsc_info_url">http://www.voyages-sncf.com/</string>
+
+    <!-- Content Description Labels -->
+    <!-- Expedia Bookings Launch Screen -->
+    <!-- Content description for action: Press button to launch Expedia Hotels -->
+    <string name="cd_launch_hotels">Buka Expedia Hotels</string>
+    <!-- Content description for action: Press button to launch Expedia Flights -->
+    <string name="cd_launch_flights">Buka Expedia Flights</string>
+    <!-- Content description for action: Press button to open menu list -->
+    <string name="cd_launch_open_menu_list">Buka daftar menu</string>
+    <!-- Content description for action: Open Settings Menu -->
+    <string name="cd_launch_open_settings_menu">Buka menu pengaturan</string>
+    <!-- Content description for action: Open App Info Screen -->
+    <string name="cd_launch_open_eb_info_screen">Buka layar informasi Pemesanan Expedia</string>
+    <!-- Trips Screen -->
+    <!-- Content description for action: Log in for your trips (reference to existing string) -->
+    <string name="cd_trips_log_in_for_your_trips">@string/log_in_for_your_trips</string>
+    <!-- Content description for action: Enter Itinerary Number (reference to existing string) -->
+    <string name="cd_trips_enter_itinerary_number">@string/enter_itinerary_number</string>
+    <!-- Content description for action: Press to refresh trips list -->
+    <string name="cd_trips_refresh_trips_list">Tekan untuk memperbarui daftar perjalanan</string>
+    <!-- Hotel Search Screen -->
+    <!-- Content description for action: Enter text into Hotel Search Field -->
+    <string name="cd_hotel_search_edittext">Masukkan teks ke bidang pencarian hotel</string>
+    <!-- Content description for action: Open hotel booking dates calendar -->
+    <string name="cd_hotel_search_open_calendar">Buka kalender pemesanan hotel</string>
+    <!-- Content description for action: Press "Search" from hotel calendar fragment -->
+    <string name="cd_hotel_search_press_search_from_calendar">Tekan untuk mencari hotel</string>
+    <!-- Content description for action: Open hotel guest picker -->
+    <string name="cd_hotel_search_open_guest_picker">Buka pilihan tamu hotel</string>
+    <!-- Content description for action: Press "Search" from hotel guest picker fragment -->
+    <string name="cd_hotel_search_press_search_from_guest_picker">Tekan untuk mencari hotel</string>
+    <!-- Content description for action: Press to open hotel sort options -->
+    <string name="cd_hotel_search_open_sort_options">Buka opsi pengurutan hotel</string>
+    <!-- Content description for action: Switch to map view - hotels search -->
+    <string name="cd_hotel_search_switch_to_map_view">Ganti ke tampilan peta</string>
+    <!-- Content description for action: Switch to list view - hotels search -->
+    <string name="cd_hotel_search_switch_to_list_view">Ganti ke tampilan daftar</string>
+    <!-- Hotel sort options -->
+    <!-- Content description for action: Press to sort hotels by popularity -->
+    <string name="cd_sort_hotels_by_popularity">Urutkan menurut popularitas</string>
+    <!-- Content description for action: Press to sort hotels by deals -->
+    <string name="cd_sort_hotels_by_deals">Urutkan menurut penawaran</string>
+    <!-- Content description for action: Press to sort hotels by price -->
+    <string name="cd_sort_hotels_by_price">Urutkan menurut harga</string>
+    <!-- Content description for action: Press to sort hotels by rating -->
+    <string name="cd_sort_hotels_by_rating">Urutkan menurut peringkat</string>
+    <!-- Content description for action: Press to open hotel filter options -->
+    <string name="cd_filter_open_hotel_filter_options">Buka opsi filter hotel</string>
+    <!-- Hotel filter options -->
+    <!-- Content description for action: Entering text into hotel filter text field -->
+    <string name="cd_filter_by_hotel_name">Masukkan teks ke bidang teks filter hotel</string>
+    <!-- Hotel star filters -->
+    <!-- Content description for action: Press to filter for hotels hotels with three or more stars -->
+    <string name="cd_filter_hotels_for_three_or_more_stars">Tekan untuk memfilter hotel dengan bintang tiga atau lebih</string>
+    <!-- Content description for action: Press to filter for hotels hotels with four or more stars -->
+    <string name="cd_filter_hotels_for_four_or_more_stars">Tekan untuk memfilter hotel dengan bintang empat atau lebih</string>
+    <!-- Content description for action: Press to filter for hotels with five stars -->
+    <string name="cd_filter_hotels_for_five_stars">Tekan untuk memfilter hotel bintang lima</string>
+    <!-- Content description for action: Press to remove hotel star filters -->
+    <string name="cd_filter_remove_hotel_star_filters">Tekan untuk menghapus filter bintang hotel</string>
+    <!-- Hotel distance filters -->
+    <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
+    <string name="cd_filter_for_nearest_hotels">Tekan untuk memfilter hotel dengan jarak terdekat dari lokasi pencarian Anda</string>
+    <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
+    <string name="cd_filter_for_further_distanced_hotels">Tekan untuk memfilter hotel dengan jarak sedang dari lokasi pencarian Anda</string>
+    <!-- Content description for action: Press to filter for hotels within largest radius from your search location -->
+    <string name="cd_filter_for_furthest_distanced_hotels">Tekan untuk memfilter hotel dengan jarak terjauh dari lokasi pencarian Anda</string>
+    <!-- Content description for action: Press to clear all distance filters for hotel search -->
+    <string name="cd_filter_remove_distance_filter">Tekan untuk menghapus semua filter jarak pada pencarian hotel</string>
+    <!-- Hotel price filters -->
+    <!-- Content description for action: Press to filter for low-range hotel prices -->
+    <string name="cd_filter_for_low_range_hotel_prices">Tekan untuk memfilter hotel dengan harga rendah</string>
+    <!-- Content description for action: Press to filter for mid-range hotel prices -->
+    <string name="cd_filter_for_mid_range_hotel_prices">Tekan untuk memfilter hotel dengan harga menengah</string>
+    <!-- Content description for action: Press to filter for high-range hotel prices -->
+    <string name="cd_filter_for_high_range_hotel_prices">Tekan untuk memfilter hotel dengan harga yang tinggi</string>
+    <!-- Content description for action: Press to remove hotel price filters -->
+    <string name="cd_filter_remove_hotel_price_filters">Hapus filter harga hotel</string>
+    <!-- Hotel info screen -->
+    <!-- Content description for action: Press to select this hotel -->
+    <string name="cd_hotel_info_select_button">Tekan untuk memilih hotel ini</string>
+    <!-- Content description for action: Press to go to this hotel's reviews -->
+    <string name="cd_hotel_info_go_to_hotel_reviews">Tekan untuk melihat ulasan hotel ini</string>
+    <!-- Content description for action: Press to book this hotel now -->
+    <string name="cd_hotel_info_press_book_now">Tekan untuk memesan hotel ini sekarang</string>
+    <!-- Content description for action: Press to book this hotel by phone -->
+    <string name="cd_hotel_info_press_book_by_phone">Tekan untuk memesan hotel ini melalui telepon</string>
+    <!-- Hotel review screen -->
+    <!-- Content description for action: Press to display recent reviews -->
+    <string name="cd_display_recent_reviews">Tekan untuk menampilkan ulasan terbaru</string>
+    <!-- Content description for action: Press to display favorable reviews -->
+    <string name="cd_display_favorable_reviews">Tekan untuk menampilkan ulasan positif</string>
+    <!-- Content description for action: Press to display critical reviews -->
+    <string name="cd_display_critical_reviews">Tekan untuk menampilkan ulasan kritis</string>
+    <!-- Flight Search -->
+    <!-- Content description for action: Edit departure airport -->
+    <string name="cd_flights_search_departure_edit_text">Edit bandara keberangkatan</string>
+    <!-- Content description for action: Edit arrival airport -->
+    <string name="cd_flights_search_arrival_edit_text">Edit bandara kedatangan</string>
+    <!-- Content description for action: Press to edit departure and arrival dates -->
+    <string name="cd_flights_search_dates_edit">Tekan untuk mengedit tanggal keberangkatan dan kedatangan</string>
+    <!-- Content description for action: Press to clear selected dates -->
+    <string name="cd_flights_clear_selected_dates">Tekan untuk menghapus tanggal yang dipilih</string>
+    <!-- Content description for action: Press to edit number of travelers -->
+    <string name="cd_flights_search_number_of_travelers_edit">Tekan untuk mengedit jumlah pelancong</string>
+    <!-- Flight Search Results -->
+    <!-- Content description for action: Press to return to flight search -->
+    <string name="cd_flights_search_search_button">Tekan untuk kembali ke pencarian penerbangan</string>
+    <!-- Content description for action: Press to open flight sort options -->
+    <string name="cd_flights_search_results_sort">Tekan untuk membuka opsi pengurutan penerbangan</string>
+    <!-- Flight sort options -->
+    <!-- Content description for action: Press to sort flights by price -->
+    <string name="cd_sort_flights_by_price">Tekan untuk mengurutkan penerbangan menurut harga</string>
+    <!-- Content description for action: Press to sort flights by when they depart -->
+    <string name="cd_sort_flights_by_departs">Tekan untuk mengurutkan penerbangan menurut waktu berangkat</string>
+    <!-- Content description for action: Press to sort flights by when they arrive -->
+    <string name="cd_sort_flights_by_arrives">Tekan untuk mengurutkan penerbangan menurut waktu tiba</string>
+    <!-- Content description for action: Press to sort flights by their durations -->
+    <string name="cd_sort_flights_by_duration">Tekan untuk mengurutkan penerbangan menurut durasi</string>
+    <!-- Flight Search Results - Flight Leg Selection -->
+    <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
+    <string name="cd_flight_leg_cancel">Batalkan pilihan penerbangan dan kembali ke hasil pencarian</string>
+    <!-- Content description for action: Press to select this flight -->
+    <string name="cd_flight_leg_select_flight">Tekan untuk memilih penerbangan ini</string>
+    <!-- Content description for action: Press to go to baggage fee information -->
+    <string name="cd_flight_leg_baggage_fee_info">Tekan untuk melihat informasi biaya bagasi</string>
+    <!-- Flight Search Results - Selection Overview -->
+    <!-- Content description for action: Press to go to cost summary for your flight selections -->
+    <string name="cd_flight_selection_cost_summary">Masuk ke ringkasan biaya pilihan penerbangan Anda</string>
+    <!-- Checkout screen -->
+    <!-- Content description for action: Press to begin checkout -->
+    <string name="cd_checkout">Tekan untuk memulai proses pembayaran</string>
+    <!-- Content description for action: Press to log in with your Expedia account -->
+    <string name="cd_checkout_log_in_with_expedia">Tekan untuk masuk ke akun Expedia Anda</string>
+    <!-- Content description for action: Press to make this purchase with Google Wallet -->
+    <string name="cd_checkout_buy_with_google">Tekan untuk melakukan pembelian dengan Google Wallet</string>
+    <!-- Content description for action: Press to add a traveler to this booking -->
+    <string name="cd_checkout_add_traveler">Tekan untuk menambahkan pelancong ke pemesanan ini</string>
+    <!-- Content description for action: Press to select payment for this booking -->
+    <string name="cd_checkout_select_payment">Tekan untuk memilih pembayaran untuk pemesanan ini</string>
+    <!-- Content description for action: Press to enter a coupon or promotional code -->
+    <string name="cd_checkout_enter_coupon">Tekan untuk memasukkan kode kupon atau promo</string>
+    <!-- Content description for action: Enter coupon or promotional code into text field -->
+    <string name="cd_checkout_coupon_code_entry_field">Masukan kode kupon atau promo ke bidang teks</string>
+    <!-- Content description for action: Press to apply coupon -->
+    <string name="cd_checkout_apply_coupon_button">Tekan untuk menggunakan kupon</string>
+    <!-- Content description for action: Slide to purchase -->
+    <string name="cd_checkout_slide_to_purchase">@string/slide_to_purchase</string>
+    <!-- Log in screen -->
+    <!-- Content description for action: Enter Expedia account email address -->
+    <string name="cd_log_in_email_edit_text">Masukkan alamat email akun Expedia</string>
+    <!-- Content description for action: Enter Expedia account password -->
+    <string name="cd_log_in_password_edit_text">Masukkan kata sandi akun Expedia</string>
+    <!-- Content description for action: Press to log into Expedia with your Facebook account -->
+    <string name="cd_log_in_with_facebook">Tekan untuk masuk ke Expedia dengan akun Facebook Anda</string>
+    <!-- Traveler Information screen -->
+    <!-- Content description for action: Press to enter a new traveler -->
+    <string name="cd_traveler_enter_new_traveler">Tekan untuk memasukkan pelancong baru</string>
+    <!-- Content description for action: Press to edit traveler information -->
+    <string name="cd_traveler_edit_traveler_information">Tekan untuk mengedit informasi pelancong</string>
+    <!-- Content description for action: Press to edit traveler's passport country -->
+    <string name="cd_traveler_edit_passport_country">Edit negara paspor pelancong</string>
+    <!-- Traveler Information edit/entry screen -->
+    <!-- Content description for action: Enter first name -->
+    <string name="cd_traveler_first_name_edit_text">Masukkan nama depan</string>
+    <!-- Content description for action: Enter middle name -->
+    <string name="cd_traveler_middle_name_edit_text">Masukkan nama tengah</string>
+    <!-- Content description for action: Enter last name -->
+    <string name="cd_traveler_last_name_edit_text">Masukkan nama belakang</string>
+    <!-- Content description for action: Press to select country calling codes -->
+    <string name="cd_traveler_list_international_phone_codes">Tekan untuk memilih kode negara</string>
+    <!-- Content description for action: Enter phone number -->
+    <string name="cd_traveler_phone_number">Masukkan nomor telepon</string>
+    <!-- Content description for action: Press to finish entering traveler information -->
+    <string name="cd_traveler_information_done">Tekan untuk menyelesaikan pengisian informasi pelancong</string>
+    <!-- Extra traveler information - flights -->
+    <!-- Content description for action: Press to select traveler's birthday -->
+    <string name="cd_traveler_birthday_edit">Tekan untuk memilih tanggal lahir pelancong</string>
+    <!-- Content description for action: Press to select traveler's gender -->
+    <string name="cd_traveler_gender_edit">Tekan untuk memilih jenis kelamin pelancong</string>
+    <!-- Content description for action: Enter redress number, if applicable -->
+    <string name="cd_traveler_redress_number_edit_text">Masukkan alamat redress, jika ada</string>
+    <!-- Content description for action: Press to select type of special assistance traveler requires -->
+    <string name="cd_traveler_special_assistance_edit">Pilih jenis bantuan khusus yang diperlukan pelancong</string>
+    <!-- Content description for action: Press to select window type that the traveler prefers -->
+    <string name="cd_traveler_seat_preference_edit">Pilih jenis jendela yang diinginkan pelancong</string>
+    <!-- Credit Card Information -->
+    <!-- Content description for action: Enter credit card number -->
+    <string name="cd_card_info_card_number_edit_text">Masukkan nomor kartu kredit</string>
+    <!-- Content description for action: Enter cardholder name -->
+    <string name="cd_card_info_cardholder_name">Masukkan nama pemegang kartu</string>
+    <!-- Content description for action: Enter cardholder's email address -->
+    <string name="cd_card_info_email_address">Masukkan alamat email pemegang kartu</string>
+    <!-- Content description for action: Enter billing address - line 1 -->
+    <string name="cd_card_info_billing_address_line_1">Masukkan alamat penagihan - baris 1</string>
+    <!-- Content description for action: Enter billing address - line 2 -->
+    <string name="cd_card_info_billing_address_line_2">Masukkan alamat penagihan - baris 2</string>
+    <!-- Content description for action: Enter billing address city -->
+    <string name="cd_card_info_billing_address_city">Masukkan kota alamat penagihan</string>
+    <!-- Content description for action: Enter billing address state -->
+    <string name="cd_card_info_billing_address_state">Masukkan provinsi alamat penagihan</string>
+    <!-- Content description for action: Enter billing address postal code -->
+    <string name="cd_card_info_billing_address_postal_code">Masukkan kode pos alamat penagihan</string>
+    <!-- Content description for action: Select billing address country -->
+    <string name="cd_card_info_billing_address_country">Masukkan negara alamat penagihan</string>
+    <!-- Common actionbar elements -->
+    <!-- Content description for action: Press to go back to previous screen -->
+    <string name="cd_go_back">Tekan untuk kembali ke layar sebelumnya</string>
 
 </resources>
