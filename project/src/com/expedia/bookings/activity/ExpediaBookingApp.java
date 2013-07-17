@@ -77,7 +77,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 		if (IS_VSC) {
 			Locale locale = new Locale("fr", "FR");
-			Configuration myConfig = new Configuration();
+			Configuration myConfig = new Configuration(getResources().getConfiguration());
 			Locale.setDefault(locale);
 
 			myConfig.locale = locale;
@@ -293,7 +293,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		if (IS_VSC) {
 			Locale locale = new Locale("fr", "FR");
 			if (!newConfig.locale.equals(locale)) {
-				Log.d("HERE forcing fr locale");
+				Log.d("VSC: Forcing fr locale");
 				Configuration myConfig = new Configuration(newConfig);
 				Locale.setDefault(locale);
 
