@@ -181,7 +181,7 @@ public class AboutUtils {
 	public void openAppSupport() {
 		//1247. VSC App support link
 		if (ExpediaBookingApp.IS_VSC) {
-			openWebsite(mActivity, "http://voyages-sncf.mobi/aide-appli-2/aide-appli-hotel/aide.html", false, true);
+			openWebsite(mActivity, "http://voyages-sncf.mobi/aide-appli-2/aide-appli-hotel/aide.html", false, false);
 		}
 		else {
 			openWebsite(mActivity, "http://www.mobiata.com/support/expediahotels-android", false, true);
