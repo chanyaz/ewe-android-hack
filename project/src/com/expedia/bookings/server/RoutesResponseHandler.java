@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 
+import com.expedia.bookings.data.FlightRoutes;
 import com.expedia.bookings.data.RoutesResponse;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
@@ -36,6 +37,8 @@ public class RoutesResponseHandler extends JsonResponseHandler<RoutesResponse> {
 				return routesResponse;
 			}
 
+			FlightRoutes routes = new FlightRoutes();
+
 			// Parse airports
 			JSONArray airportsJson = response.optJSONArray("airports");
 			int len = airportsJson.length();
@@ -45,7 +48,7 @@ public class RoutesResponseHandler extends JsonResponseHandler<RoutesResponse> {
 				airport.mAirportCode = airportJson.optString("airportCode");
 				airport.mName = airportJson.optString("name");
 				airport.mCountryCode = airportJson.optString("country"); // Note: this is using a somewhat overloaded var name
-				routesResponse.addAirport(airport);
+				routes.addAirport(airport);
 			}
 
 			// Parse routes
@@ -55,8 +58,10 @@ public class RoutesResponseHandler extends JsonResponseHandler<RoutesResponse> {
 				JSONObject routeJson = routesJson.optJSONObject(a);
 				String origin = routeJson.optString("origin");
 				List<String> destinations = JSONUtils.getStringList(routeJson, "destinations");
-				routesResponse.addRoutes(origin, destinations);
+				routes.addRoutes(origin, destinations);
 			}
+
+			routesResponse.setFlightRoutes(routes);
 		}
 		catch (JSONException e) {
 			Log.e("Could not parse routes response", e);
