@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -138,7 +139,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 
 		// Title
 		builder.setTitle(context.getString(R.string.cost_summary));
-		builder.setTitleDivider(R.drawable.dialog_breakdown_stripe);
+		builder.setTitleDivider(com.expedia.bookings.utils.Ui.obtainThemeDrawableID((Activity)context, R.attr.costSummaryDialogStripeDrawable));
 
 		// Breakdown summary
 		int numNights = params.getStayDuration();

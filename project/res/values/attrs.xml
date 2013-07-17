@@ -216,4 +216,7 @@
 
     <!-- Hotel Listing row thumbnail placeholder -->
     <attr name="HotelRowThumbPlaceHolderDrawable" format="reference" />
+
+    <!-- Cost Summary Breakdown Dialog Stripe -->
+    <attr name="costSummaryDialogStripeDrawable" format="reference" />
 </resources>
