@@ -19,7 +19,7 @@ public class LocaleChangeReceiver extends BroadcastReceiver {
 
 		if (ACTION_LOCALE_CHANGED.equals(intent.getAction()) && ExpediaBookingApp.IS_VSC) {
 			Log.i("VSC Locale Changed, restart app to reload resources");
-			NavUtils.goToLaunchScreen(context);
+			NavUtils.goToVSC(context);
 		}
 	}
 }
