@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.RoomsAndRatesFragmentActivity;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
@@ -27,7 +28,7 @@ import com.expedia.bookings.widget.RoomsAndRatesAdapter;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 
-public class RoomsAndRatesFragment extends ListFragment {
+public class RoomsAndRatesFragment extends ListFragment{
 
 	public static RoomsAndRatesFragment newInstance() {
 		RoomsAndRatesFragment fragment = new RoomsAndRatesFragment();
@@ -206,7 +207,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 			consructionView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
-					openWebViewWithText(constructionText);
+					openWebViewWithText(getString(R.string.renovation_notice),constructionText);
 				}
 			});
 			return true;
@@ -244,7 +245,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 			mandatoryFeeView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
-					openWebViewWithText(resortFeesText);
+					openWebViewWithText(getString(R.string.resort_fee), resortFeesText);
 				}
 			});
 			return true;
@@ -252,11 +253,17 @@ public class RoomsAndRatesFragment extends ListFragment {
 		return false;
 	}
 
-	private void openWebViewWithText(String text) {
-		WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
-		String html = HtmlUtils.wrapInHeadAndBody(text);
-		builder.setHtmlData(html);
-		startActivity(builder.getIntent());
+	private void openWebViewWithText(String title, String text) {
+		if (ExpediaBookingApp.useTabletInterface(getActivity())) {
+			WebViewFragment frag = WebViewFragment.newDialogInstance(text, title, getString(R.string.ok));
+			frag.show(getFragmentManager(), WebViewFragment.TAG);
+		}
+		else {
+			WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
+			String html = HtmlUtils.wrapInHeadAndBody(text);
+			builder.setHtmlData(html);
+			startActivity(builder.getIntent());
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
