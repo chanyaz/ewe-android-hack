@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
+
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -83,6 +84,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.ReviewsStatisticsResponse;
+import com.expedia.bookings.data.RoutesResponse;
 import com.expedia.bookings.data.SamsungWalletResponse;
 import com.expedia.bookings.data.Scenario;
 import com.expedia.bookings.data.ScenarioResponse;
@@ -313,6 +315,17 @@ public class ExpediaServices implements DownloadListener {
 		else {
 			return 3;
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Airport Dropdown Suggest
+
+	public RoutesResponse flightRoutes() {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		addCommonParams(query);
+
+		return doFlightsRequest("api/flight/airportDropDown", query, new RoutesResponseHandler(mContext), 0);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
