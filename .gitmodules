@@ -34,3 +34,6 @@
 [submodule "lib/Jars"]
 	path = lib/Jars
 	url = git@team.mobiata.com:Android/Jars
+[submodule "lib/ExpediaTests"]
+	path = lib/ExpediaTests
+	url = git@team.mobiata.com:Android/ExpediaTests.git
