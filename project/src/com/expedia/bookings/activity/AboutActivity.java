@@ -270,7 +270,13 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 	public boolean onAboutRowClicked(int id) {
 		switch (id) {
 		case ROW_CONTACT_EXPEDIA: {
-			showDialog(DIALOG_CONTACT_EXPEDIA);
+			// 1245. VSC Show app support url
+			if (ExpediaBookingApp.IS_VSC) {
+				mAboutUtils.openAppSupport();
+			}
+			else {
+				showDialog(DIALOG_CONTACT_EXPEDIA);
+			}
 			return true;
 		}
 		case ROW_APP_SUPPORT: {
