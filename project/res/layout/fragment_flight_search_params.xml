@@ -36,7 +36,12 @@
         android:paddingRight="8dp"
         android:paddingTop="@dimen/flight_search_header_padding_top" >
 
-        <include layout="@layout/include_flight_search_airports" />
+        <ViewStub
+            android:id="@+id/stub_flight_search_airports"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/flight_search_space_between_rows"
+            android:layout="@layout/include_flight_search_airports" />
 
         <RelativeLayout
             android:layout_width="match_parent"

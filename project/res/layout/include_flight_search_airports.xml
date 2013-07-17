@@ -3,7 +3,6 @@
     android:id="@+id/airports_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/flight_search_space_between_rows"
     android:orientation="horizontal"
     android:weightSum="2" >
 

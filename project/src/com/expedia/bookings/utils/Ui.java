@@ -7,11 +7,30 @@ import android.support.v4.app.CompatFragmentActivity;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.View.MeasureSpec;
+import android.view.ViewStub;
 
 /**
  * Adds compatibility library fragment support to Ui.
  */
 public class Ui extends com.mobiata.android.util.Ui {
+
+	@SuppressWarnings("unchecked")
+	public static <T extends View> T inflateViewStub(Activity activity, int id) {
+		ViewStub stub = findView(activity, id);
+		if (stub != null) {
+			return (T) stub.inflate();
+		}
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T extends View> T inflateViewStub(View view, int id) {
+		ViewStub stub = findView(view, id);
+		if (stub != null) {
+			return (T) stub.inflate();
+		}
+		return null;
+	}
 
 	@SuppressWarnings("unchecked")
 	public static <T extends Fragment> T findSupportFragment(CompatFragmentActivity activity, String tag) {

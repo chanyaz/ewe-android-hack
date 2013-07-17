@@ -19,6 +19,7 @@ import android.text.format.Time;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewStub;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
@@ -166,6 +167,9 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_flight_search_params, container, false);
+
+		// We want to use one of two airport pickers depending on our POS; inflate the correct one
+		Ui.inflateViewStub(v, R.id.stub_flight_search_airports);
 
 		// Cache views
 		mFocusStealer = Ui.findView(v, R.id.focus_stealer);
