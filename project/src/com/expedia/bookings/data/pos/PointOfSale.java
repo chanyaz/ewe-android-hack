@@ -110,6 +110,9 @@ public class PointOfSale {
 	// Whether or not to let users access flights on this POS
 	private boolean mSupportsFlights;
 
+	// Whether or not to use downloaded routes (for AirAsia) or not
+	private boolean mDisplayFlightDropDownRoutes;
+
 	// Whether or not to let users checkout using Google Wallet
 	private boolean mSupportsGoogleWallet;
 
@@ -272,6 +275,10 @@ public class PointOfSale {
 
 	public boolean supportsFlights() {
 		return mSupportsFlights;
+	}
+
+	public boolean displayFlightDropDownRoutes() {
+		return mDisplayFlightDropDownRoutes;
 	}
 
 	public boolean supportsGoogleWallet() {
@@ -687,6 +694,7 @@ public class PointOfSale {
 		pos.mShowLastNameFirst = data.optBoolean("shouldShowLastNameFirst");
 		pos.mHideMiddleName = data.optBoolean("shouldHideMiddleName");
 		pos.mSupportsFlights = data.optBoolean("flightsEnabled");
+		pos.mDisplayFlightDropDownRoutes = data.optBoolean("shouldDisplayFlightDropDownList");
 		pos.mSupportsGoogleWallet = data.optBoolean("googleWalletEnabled");
 		pos.mShowHotelCrossSell = !data.optBoolean("hideHotelCrossSell", false);
 		pos.mBlockDomesticFlightSearches = data.optBoolean("blockDomesticFlightSearches", false);
