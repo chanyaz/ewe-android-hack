@@ -16,7 +16,7 @@ public class IntegrationHappyPath extends ActivityInstrumentationTestCase2<Searc
 	}
 
 	private Solo mSolo;
-	private static final String TAG = "RotateHappyPath";
+	private static final String TAG = "Flights Integration Happy Path";
 	private Resources mRes;
 	DisplayMetrics mMetric;
 	private HotelsRobotHelper mDriver;
@@ -41,15 +41,19 @@ public class IntegrationHappyPath extends ActivityInstrumentationTestCase2<Searc
 	// It runs pulling from the Integration API
 
 	public void testMethod() throws Exception {
-		mSolo.clickOnScreen(50, 50);
-		mDriver.changePOS(mDriver.mLocaleUtils.FLIGHTS_LOCALES[2]);
-		mDriver.changeAPI("Integration");
-
 		try {
+			mSolo.clickOnScreen(50, 50);
+			mDriver.changePOS(mDriver.mLocaleUtils.FLIGHTS_LOCALES[2]);
+			mDriver.changeAPI("Integration");
 			mDriver.flightsHappyPath(mUser.mDepartureAirport, mUser.mArrivalAirport, 1, false, false);
 		}
-		catch (IntegrationFailureError e) {
-			fail(e.getMessage());
+		catch (Exception e) {
+			mDriver.takeScreenshotUponFailure(e, TAG);
+			throw e;
+		}
+		catch (Error e) {
+			mDriver.takeScreenshotUponFailure(e, TAG);
+			throw e;
 		}
 	}
 

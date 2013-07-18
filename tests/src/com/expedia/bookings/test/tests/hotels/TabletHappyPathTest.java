@@ -17,7 +17,7 @@ public class TabletHappyPathTest extends ActivityInstrumentationTestCase2<Search
 	}
 
 	private Solo mSolo;
-	private static final String TAG = "TabletHappyPath";
+	private static final String TAG = "Hotels Tablet Happy Path Test";
 	private Resources mRes;
 	DisplayMetrics mMetric;
 	private TabletsRobotHelper mDriver;
@@ -40,8 +40,18 @@ public class TabletHappyPathTest extends ActivityInstrumentationTestCase2<Search
 		mUser.setHotelCityToRandomUSCity();
 	}
 
-	public void testMethod() {
-		mDriver.runHotelHappyPath();
+	public void testMethod() throws Exception {
+		try {
+			mDriver.runHotelHappyPath();
+		}
+		catch (Exception e) {
+			mDriver.takeScreenshotUponFailure(e, TAG);
+			throw e;
+		}
+		catch (Error e) {
+			mDriver.takeScreenshotUponFailure(e, TAG);
+			throw e;
+		}
 	}
 
 	@Override

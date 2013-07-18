@@ -15,7 +15,7 @@ public class ProductionHappyPath extends ActivityInstrumentationTestCase2<Search
 		super("com.expedia.bookings", SearchActivity.class);
 	}
 
-	private static final String TAG = "SearchTest";
+	private static final String TAG = "Hotels Production Happy Path";
 
 	private Solo mSolo;
 
@@ -38,20 +38,30 @@ public class ProductionHappyPath extends ActivityInstrumentationTestCase2<Search
 	// This test goes through a prototypical hotel booking
 	// UI flow, up to finally checking out.
 	// It runs pulling from the Production API
-	
+
 	public void testMethod() throws Exception {
-		mUser.setHotelCityToRandomUSCity();
-		mDriver.setAllowScreenshots(false);
-		mDriver.setAllowOrientationChange(false);
-		
-		mDriver.changePOS(mDriver.mLocaleUtils.AMERICAN_LOCALES[5]);
-		mDriver.changeAPI("Production");
-		mDriver.clearPrivateData();
-		mDriver.setSpoofBookings();
-		
-		mDriver.launchHotels();
-		mDriver.delay();
-		mDriver.browseRooms(4, mUser.mHotelSearchCity, false);
+		try {
+			mUser.setHotelCityToRandomUSCity();
+			mDriver.setAllowScreenshots(false);
+			mDriver.setAllowOrientationChange(false);
+
+			mDriver.changePOS(mDriver.mLocaleUtils.AMERICAN_LOCALES[5]);
+			mDriver.changeAPI("Production");
+			mDriver.clearPrivateData();
+			mDriver.setSpoofBookings();
+
+			mDriver.launchHotels();
+			mDriver.delay();
+			mDriver.browseRooms(4, mUser.mHotelSearchCity, false);
+		}
+		catch (Error e) {
+			mDriver.takeScreenshotUponFailure(e, TAG);
+			throw e;
+		}
+		catch (Exception e) {
+			mDriver.takeScreenshotUponFailure(e, TAG);
+			throw e;
+		}
 
 	}
 

@@ -16,7 +16,7 @@ public class ProductionHappyPath extends ActivityInstrumentationTestCase2<Search
 	}
 
 	private Solo mSolo;
-	private static final String TAG = "RotateHappyPath";
+	private static final String TAG = "Flights Production Happy Path";
 	private Resources mRes;
 	DisplayMetrics mMetric;
 	private HotelsRobotHelper mDriver;
@@ -39,7 +39,7 @@ public class ProductionHappyPath extends ActivityInstrumentationTestCase2<Search
 	// This test goes through a prototypical flight booking
 	// UI flow, up to finally checking out.
 	// It runs pulling from the Production API
-	
+
 	public void testMethod() throws Exception {
 		mSolo.clickOnScreen(50, 50);
 		mDriver.changePOS(mDriver.mLocaleUtils.FLIGHTS_LOCALES[2]);
@@ -49,8 +49,13 @@ public class ProductionHappyPath extends ActivityInstrumentationTestCase2<Search
 		try {
 			mDriver.flightsHappyPath(mUser.mDepartureAirport, mUser.mArrivalAirport, 1, false, false);
 		}
-		catch (IntegrationFailureError e) {
-			fail(e.getMessage());
+		catch (Error e) {
+			mDriver.takeScreenshotUponFailure(e, TAG);
+			throw e;
+		}
+		catch (Exception e) {
+			mDriver.takeScreenshotUponFailure(e, TAG);
+			throw e;
 		}
 	}
 

@@ -15,7 +15,7 @@ public class BrowsingTest extends ActivityInstrumentationTestCase2<SearchActivit
 		super("com.expedia.bookings", SearchActivity.class);
 	}
 
-	private static final String TAG = "SearchTest";
+	private static final String TAG = "Hotels Browsing Test";
 
 	private Solo mSolo;
 
@@ -36,15 +36,24 @@ public class BrowsingTest extends ActivityInstrumentationTestCase2<SearchActivit
 	}
 
 	public void testMethod() throws Exception {
-		mUser.setHotelCityToRandomUSCity();
-		mDriver.setAllowScreenshots(false);
-		mDriver.setAllowOrientationChange(false);
-		mDriver.changePOS(mDriver.mLocaleUtils.AMERICAN_LOCALES[5]);
-		mDriver.setSpoofBookings();
-		mDriver.launchHotels();
-		mDriver.delay();
-		mDriver.browseRooms(12, mUser.mHotelSearchCity, true);
-
+		try {
+			mUser.setHotelCityToRandomUSCity();
+			mDriver.setAllowScreenshots(false);
+			mDriver.setAllowOrientationChange(false);
+			mDriver.changePOS(mDriver.mLocaleUtils.AMERICAN_LOCALES[5]);
+			mDriver.setSpoofBookings();
+			mDriver.launchHotels();
+			mDriver.delay();
+			mDriver.browseRooms(12, mUser.mHotelSearchCity, true);
+		}
+		catch (Exception e) {
+			mDriver.takeScreenshotUponFailure(e, TAG);
+			throw e;
+		}
+		catch (Error e) {
+			mDriver.takeScreenshotUponFailure(e, TAG);
+			throw e;
+		}
 	}
 
 	@Override

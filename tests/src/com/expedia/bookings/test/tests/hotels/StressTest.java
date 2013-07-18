@@ -14,7 +14,7 @@ public class StressTest extends ActivityInstrumentationTestCase2<SearchActivity>
 		super("com.expedia.bookings", SearchActivity.class);
 	}
 
-	private static final String TAG = "StressTest";
+	private static final String TAG = "Hotels Stress Test";
 
 	private Solo mSolo;
 
@@ -35,14 +35,24 @@ public class StressTest extends ActivityInstrumentationTestCase2<SearchActivity>
 	}
 
 	public void testMethod() throws Exception {
-		mDriver.setAllowScreenshots(false);
-		mDriver.setAllowOrientationChange(false);
-		mDriver.delay();
-		mDriver.changePOS(mDriver.mLocaleUtils.AMERICAN_LOCALES[5]);
-		mDriver.setSpoofBookings();
-		mDriver.launchHotels();
-		mDriver.delay();
-		mDriver.browseRooms(NUMBER_OF_HOTELS, "New York City", false);
+		try {
+			mDriver.setAllowScreenshots(false);
+			mDriver.setAllowOrientationChange(false);
+			mDriver.delay();
+			mDriver.changePOS(mDriver.mLocaleUtils.AMERICAN_LOCALES[5]);
+			mDriver.setSpoofBookings();
+			mDriver.launchHotels();
+			mDriver.delay();
+			mDriver.browseRooms(NUMBER_OF_HOTELS, "New York City", false);
+		}
+		catch (Exception e) {
+			mDriver.takeScreenshotUponFailure(e, TAG);
+			throw e;
+		}
+		catch (Error e) {
+			mDriver.takeScreenshotUponFailure(e, TAG);
+			throw e;
+		}
 
 	}
 
