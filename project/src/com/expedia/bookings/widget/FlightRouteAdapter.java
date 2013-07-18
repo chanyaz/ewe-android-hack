@@ -164,7 +164,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 			for (Location recent : mRecentSearches.getList()) {
 				Airport airport = mRoutes.getAirport(recent.getDestinationId());
-				if (airport != null) {
+				if (airport != null && airports.contains(airport)) {
 					mRows.add(new AirportRow(airport));
 				}
 			}
