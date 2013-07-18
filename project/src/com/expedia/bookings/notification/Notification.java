@@ -288,11 +288,13 @@ public class Notification extends Model implements JSONable {
 	}
 
 	public void setImageUrls(List<String> urls) {
-		JSONArray arr = new JSONArray();
-		for (String url : urls) {
-			arr.put(url);
+		if (urls != null && urls.size() > 0) {
+			JSONArray arr = new JSONArray();
+			for (String url : urls) {
+				arr.put(url);
+			}
+			setImage(ImageType.URLS, 0, arr.toString());
 		}
-		setImage(ImageType.URLS, 0, arr.toString());
 	}
 
 	public List<String> getImageUrls() {
