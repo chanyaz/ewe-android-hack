@@ -23,6 +23,7 @@ import com.expedia.bookings.data.LocalExpertSite;
 import com.expedia.bookings.data.WalletPromoResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -212,6 +213,12 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		})).start();
 
 		startupTimer.addSplit("Google Wallet promo thread creation");
+
+		// If the current POS needs flight routes, update our data
+		if (PointOfSale.getPointOfSale().displayFlightDropDownRoutes()) {
+			CrossContextHelper.updateFlightRoutesData(getApplicationContext());
+			startupTimer.addSplit("Flight routes download started");
+		}
 
 		startupTimer.dumpToLog();
 	}

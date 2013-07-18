@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 
+import com.expedia.bookings.utils.Ui;
+
 /**
  * Simple fragment that allows callbacks when the button is pressed.
  */
@@ -39,12 +41,7 @@ public class SimpleCallbackDialogFragment extends DialogFragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (activity instanceof SimpleCallbackDialogFragmentListener) {
-			mListener = (SimpleCallbackDialogFragmentListener) activity;
-		}
-		else {
-			throw new RuntimeException("SimpleCallbackDialogFragment Activity must implement listener!");
-		}
+		mListener = Ui.findFragmentListener(this, SimpleCallbackDialogFragmentListener.class);
 	}
 
 	@Override

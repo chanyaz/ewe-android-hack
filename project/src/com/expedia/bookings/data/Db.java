@@ -86,6 +86,9 @@ public class Db {
 	// The currently logged in User profile
 	private User mUser;
 
+	// Stores routes for AirAsia POSes
+	private FlightRoutes mFlightRoutes;
+
 	// Flight search object - represents both the parameters and
 	// the returned results
 	private FlightSearch mFlightSearch = new FlightSearch();
@@ -245,6 +248,14 @@ public class Db {
 
 	public static String getSamsungWalletTicketId() {
 		return sDb.mSamsungWalletTicketId;
+	}
+
+	public static void setFlightRoutes(FlightRoutes routes) {
+		sDb.mFlightRoutes = routes;
+	}
+
+	public static FlightRoutes getFlightRoutes() {
+		return sDb.mFlightRoutes;
 	}
 
 	/**
@@ -573,6 +584,7 @@ public class Db {
 		sDb.mLaunchHotelData = null;
 		sDb.mLaunchHotelFallbackData = null;
 		sDb.mLaunchFlightData = null;
+		sDb.mFlightRoutes = null;
 
 		sDb.mFlightSearch.reset();
 		sDb.mTravelers.clear();

@@ -31,6 +31,7 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.Distance.DistanceUnit;
+import com.expedia.bookings.server.CrossContextHelper;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.ResourceUtils;
@@ -554,10 +555,15 @@ public class PointOfSale {
 		Log.d("Old POS id: " + sCachedPOS);
 
 		// Update the cache
-		getPointOfSale(context);
+		PointOfSale pos = getPointOfSale(context);
 
 		// clear all data
 		Db.clear();
+
+		// Download new flight route data for new POS (if applicable)
+		if (pos.displayFlightDropDownRoutes()) {
+			CrossContextHelper.updateFlightRoutesData(context.getApplicationContext());
+		}
 
 		// Notify app of POS change
 		Intent intent = new Intent(ACTION_POS_CHANGED);

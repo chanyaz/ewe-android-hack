@@ -55,11 +55,18 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.RoutesResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
+import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AirportDropDownAdapter;
 import com.expedia.bookings.widget.NumTravelersPopupDropdown;
+import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.app.SimpleProgressDialogFragment;
+import com.mobiata.android.app.SimpleProgressDialogFragment.SimpleProgressDialogFragmentListener;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.OnDateChangedListener;
@@ -69,9 +76,11 @@ import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
-public class FlightSearchParamsFragment extends Fragment implements OnDateChangedListener, InputFilter {
+public class FlightSearchParamsFragment extends Fragment implements OnDateChangedListener, InputFilter,
+		SimpleProgressDialogFragmentListener, SimpleCallbackDialogFragmentListener {
 
 	public static final String TAG = FlightSearchParamsFragment.class.toString();
+	private static final String TAG_PROGRESS = TAG + ".DIALOG_PROGRESS";
 
 	private static final String ARG_INITIAL_PARAMS = "ARG_INITIAL_PARAMS";
 	private static final String ARG_DIM_BACKGROUND = "ARG_DIM_BACKGROUND";
@@ -79,6 +88,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	private static final String INSTANCE_SHOW_CALENDAR = "INSTANCE_SHOW_CALENDAR";
 	private static final String INSTANCE_PARAMS = "INSTANCE_PARAMS";
 	private static final String INSTANCE_FIRST_LOCATION = "INSTANCE_FIRST_LOCATION";
+
+	private static final int ROUTES_FAILURE_CALLBACK_ID = 1;
 
 	// Controls the ratio of how large a selected EditText should take up
 	// 1 == takes up the full size, 0 == takes up 50%.
@@ -88,6 +99,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			| DateUtils.FORMAT_NO_YEAR;
 
 	private FlightSearchParamsFragmentListener mListener;
+
+	private SimpleProgressDialogFragment mProgressDialog;
 
 	private View mFocusStealer;
 	private View mDimmerView;
@@ -151,6 +164,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		mIsLandscape = getResources().getBoolean(R.bool.landscape);
 		mIsTablet = ExpediaBookingApp.useTabletInterface(getActivity());
 		mFirstRun = savedInstanceState == null;
+
+		mProgressDialog = (SimpleProgressDialogFragment) getChildFragmentManager().findFragmentByTag(TAG_PROGRESS);
 	}
 
 	@Override
@@ -395,11 +410,37 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 				expandAirportEditText(mArrivalAirportEditText, false);
 			}
 		}
+
+		if (PointOfSale.getPointOfSale().displayFlightDropDownRoutes()) {
+			if (Db.getFlightRoutes() != null) {
+				onRoutesLoaded();
+			}
+			else {
+				BackgroundDownloader bd = BackgroundDownloader.getInstance();
+
+				if (!bd.isDownloading(CrossContextHelper.KEY_FLIGHT_ROUTES_DOWNLOAD)) {
+					// Try to load the data one more time
+					CrossContextHelper.updateFlightRoutesData(getActivity());
+				}
+
+				if (mProgressDialog == null || !mProgressDialog.isAdded()) {
+					mProgressDialog = SimpleProgressDialogFragment
+							.newInstance(getString(R.string.loading_air_asia_routes));
+					mProgressDialog.show(getChildFragmentManager(), TAG_PROGRESS);
+				}
+
+				// Attach a callback of our own
+				bd.registerDownloadCallback(CrossContextHelper.KEY_FLIGHT_ROUTES_DOWNLOAD, mRoutesCallback);
+			}
+		}
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
+
+		BackgroundDownloader.getInstance().unregisterDownloadCallback(CrossContextHelper.KEY_FLIGHT_ROUTES_DOWNLOAD,
+				mRoutesCallback);
 
 		if (isUsingEditTexts()) {
 			// Clear adapter so we don't fire off unnecessary requests to it
@@ -951,6 +992,37 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// AirAsia routes stuff
+
+	private OnDownloadComplete<RoutesResponse> mRoutesCallback = new OnDownloadComplete<RoutesResponse>() {
+		@Override
+		public void onDownload(RoutesResponse results) {
+			if (results == null || results.hasErrors()) {
+				// Throw up an error dialog that routes the user back to the start
+				SimpleCallbackDialogFragment df = SimpleCallbackDialogFragment.newInstance(null,
+						getString(R.string.error_could_not_load_air_asia), getString(R.string.ok),
+						ROUTES_FAILURE_CALLBACK_ID);
+				df.show(getChildFragmentManager(), "error");
+			}
+			else {
+				// Show the results!
+				onRoutesLoaded();
+			}
+
+			// Dismiss the dialog
+			mProgressDialog.dismissAllowingStateLoss();
+		}
+	};
+
+	private void onRoutesLoaded() {
+		Ui.showToast(getActivity(), "Loaded routes data!");
+	}
+
+	private void onRoutesLoadFailed() {
+		getActivity().finish();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// OnDateChangedListener
 
 	@Override
@@ -1032,6 +1104,27 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		}
 
 		return null;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// SimpleProgressDialogFragmentListener
+
+	@Override
+	public void onCancel() {
+		onRoutesLoadFailed();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// SimpleCallbackDialogFragmentListener
+
+	@Override
+	public void onSimpleDialogClick(int callbackId) {
+		onRoutesLoadFailed();
+	}
+
+	@Override
+	public void onSimpleDialogCancel(int callbackId) {
+		onRoutesLoadFailed();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
