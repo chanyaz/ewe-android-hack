@@ -684,7 +684,7 @@ public class HotelsRobotHelper {
 
 			delay();
 
-			mSolo.clickOnText(mSolo.getString(R.string.add_new_card));
+			mSolo.clickOnText(mSolo.getString(R.string.add_new_card), 1, true);
 			delay(1);
 			screenshot("Add new card");
 			delay(1);
