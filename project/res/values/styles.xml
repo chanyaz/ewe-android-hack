@@ -606,6 +606,15 @@
         <item name="android:hint">@string/hint_arrival_airport</item>
     </style>
 
+    <style name="FlightAirportSpinnerText">
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">16dp</item>
+    </style>
+
     <style name="FlightDetailsText">
         <item name="android:textColor">@color/roboto_light</item>
         <item name="android:textSize">16dp</item>

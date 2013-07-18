@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightRoutes;
@@ -204,10 +205,25 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 		@Override
 		public View getView(View convertView, ViewGroup parent) {
+			TextView textView;
+			if (convertView == null) {
+				textView = (TextView) LayoutInflater.from(mContext)
+						.inflate(getAirportLayoutResId(), parent, false);
+			}
+			else {
+				textView = (TextView) convertView;
+			}
+
+			textView.setHint(mIsOrigin ? R.string.hint_departure_airport : R.string.hint_arrival_airport);
+
+			return textView;
+		}
+
+		@Override
+		public View getDropDownView(View convertView, ViewGroup parent) {
 			// TODO: Implement actual view here
-			android.widget.TextView textView = (android.widget.TextView) LayoutInflater.from(mContext).inflate(
-					android.R.layout.simple_list_item_1,
-					parent, false);
+			TextView textView = (TextView) LayoutInflater.from(mContext).inflate(
+					android.R.layout.simple_list_item_1, parent, false);
 
 			if (mIsOrigin) {
 				textView.setText(R.string.hint_departure_airport);
@@ -217,11 +233,6 @@ public class FlightRouteAdapter extends BaseAdapter {
 			}
 
 			return textView;
-		}
-
-		@Override
-		public View getDropDownView(View convertView, ViewGroup parent) {
-			return getView(convertView, parent);
 		}
 
 		@Override
@@ -240,17 +251,17 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 		@Override
 		public View getView(View convertView, ViewGroup parent) {
-			// TODO: Implement actual view here
-			android.widget.TextView textView = (android.widget.TextView) LayoutInflater.from(mContext).inflate(
-					android.R.layout.simple_list_item_1,
-					parent, false);
-			textView.setText(mCountry);
-			return textView;
+			// This row is not selectable, so this should never happen
+			return null;
 		}
 
 		@Override
 		public View getDropDownView(View convertView, ViewGroup parent) {
-			return getView(convertView, parent);
+			// TODO: Implement actual view here
+			TextView textView = (TextView) LayoutInflater.from(mContext).inflate(
+					android.R.layout.simple_list_item_1, parent, false);
+			textView.setText(mCountry);
+			return textView;
 		}
 
 		@Override
@@ -264,17 +275,16 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 		@Override
 		public View getView(View convertView, ViewGroup parent) {
-			// TODO: Implement actual view here
-			android.widget.TextView textView = (android.widget.TextView) LayoutInflater.from(mContext).inflate(
-					android.R.layout.simple_list_item_1,
-					parent, false);
-			textView.setText(R.string.recently_used);
-			return textView;
+			// This row is not selectable, so this should never happen
+			return null;
 		}
 
 		@Override
 		public View getDropDownView(View convertView, ViewGroup parent) {
-			return getView(convertView, parent);
+			TextView textView = (TextView) LayoutInflater.from(mContext).inflate(
+					android.R.layout.simple_list_item_1, parent, false);
+			textView.setText(R.string.recently_used);
+			return textView;
 		}
 
 		@Override
@@ -293,17 +303,28 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 		@Override
 		public View getView(View convertView, ViewGroup parent) {
-			// TODO: Implement actual view here
-			android.widget.TextView textView = (android.widget.TextView) LayoutInflater.from(mContext).inflate(
-					android.R.layout.simple_list_item_1,
-					parent, false);
+			TextView textView;
+			if (convertView == null) {
+				textView = (TextView) LayoutInflater.from(mContext)
+						.inflate(getAirportLayoutResId(), parent, false);
+			}
+			else {
+				textView = (TextView) convertView;
+			}
+
 			textView.setText(mAirport.mName);
+
 			return textView;
 		}
 
 		@Override
 		public View getDropDownView(View convertView, ViewGroup parent) {
-			return getView(convertView, parent);
+			// TODO: Implement actual view here
+			TextView textView = (TextView) LayoutInflater.from(mContext).inflate(
+					android.R.layout.simple_list_item_1,
+					parent, false);
+			textView.setText(mAirport.mName);
+			return textView;
 		}
 
 		@Override
@@ -316,4 +337,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 		}
 	}
 
+	private int getAirportLayoutResId() {
+		return mIsOrigin ? R.layout.spinner_airport_row_departure : R.layout.spinner_airport_row_arrival;
+	}
 }
