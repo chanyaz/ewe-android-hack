@@ -196,7 +196,7 @@ public class FlightTripPriceFragment extends Fragment {
 				mTrip.updateFrom(results.getOffer());
 				mTripSection.bind(mTrip); // rebind to update price
 
-				Db.kickOffBackgroundSave(getActivity());
+				Db.kickOffBackgroundFlightSearchSave(getActivity());
 
 				if (mTrip.notifyPriceChanged()) {
 					String priceChangeTemplate = getResources().getString(R.string.price_changed_from_TEMPLATE);

@@ -110,7 +110,7 @@ public class PriceChangeDialogFragment extends DialogFragment {
 			public void onClick(DialogInterface dialog, int which) {
 				// Update our flight trip info
 				Db.getFlightSearch().getSelectedFlightTrip().updateFrom(newOffer);
-				Db.kickOffBackgroundSave(getActivity());
+				Db.kickOffBackgroundFlightSearchSave(getActivity());
 
 				mListener.onAcceptPriceChange();
 			}

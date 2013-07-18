@@ -482,7 +482,7 @@ public class Db {
 		}
 	}
 
-	public static void kickOffBackgroundSave(final Context context) {
+	public static void kickOffBackgroundFlightSearchSave(final Context context) {
 		// Kick off a search to cache results to disk, in case app is killed
 		(new Thread(new Runnable() {
 			@Override

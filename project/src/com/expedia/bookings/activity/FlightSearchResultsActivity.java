@@ -801,7 +801,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		// #445: Need to reset the search results before starting a new one
 		Db.getFlightSearch().setSearchResponse(null);
 		mLegPosition = 0;
-		Db.kickOffBackgroundSave(this);
+		Db.kickOffBackgroundFlightSearchSave(this);
 		deleteSearchState();
 
 		showLoadingFragment();
@@ -908,7 +908,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			search.setSearchResponse(response);
 			Db.addAirlineNames(response.getAirlineNames());
 
-			Db.kickOffBackgroundSave(mContext);
+			Db.kickOffBackgroundFlightSearchSave(mContext);
 
 			// We may need the bg fragment, depending on what we need to show next
 			if (mBgFragment == null) {
