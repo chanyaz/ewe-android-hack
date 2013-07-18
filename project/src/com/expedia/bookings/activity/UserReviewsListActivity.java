@@ -7,6 +7,7 @@ import java.util.Set;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
@@ -265,14 +266,15 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 		}
 
 		if (titleTextView != null) {
-			String title = getResources().getQuantityString(R.plurals.number_of_reviews,
-					stats.getTotalReviewCount(), stats.getTotalReviewCount());
+			Resources res = getResources();
+
+			int count = stats.getTotalReviewCount();
+			String title = res.getQuantityString(R.plurals.number_of_reviews, count, count);
 			titleTextView.setText(title);
 		}
 
 		if (ratingBar != null) {
-			float rating = stats.getAverageOverallRating();
-			ratingBar.setRating(rating);
+			ratingBar.setRating(stats.getAverageOverallRating());
 			ratingBar.setVisibility(View.VISIBLE);
 		}
 	}

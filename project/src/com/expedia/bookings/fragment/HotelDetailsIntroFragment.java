@@ -85,11 +85,11 @@ public class HotelDetailsIntroFragment extends Fragment {
 
 		// Reviews
 		int numReviews = statistics.getTotalReviewCount();
-		float percentRecommend = numReviews == 0 ? 0f : statistics.getRecommendedCount() * 100f / numReviews;
-		float userRating = (float) statistics.getAverageOverallRating();
+		float percentRecommend = statistics.getPercentRecommended();
+		float userRating = statistics.getAverageOverallRating();
 
 		String reviewsText = numReviews == 0
-				? reviewsText = resources.getString(R.string.no_reviews)
+				? resources.getString(R.string.no_reviews)
 				: resources.getQuantityString(R.plurals.number_of_reviews, numReviews, numReviews);
 		if (!reviewsTextView.getText().equals(reviewsText)) {
 			reviewsTextView.setText(reviewsText);

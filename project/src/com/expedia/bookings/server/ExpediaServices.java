@@ -17,11 +17,11 @@ import java.security.cert.X509Certificate;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
@@ -1204,6 +1204,45 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// User Reviews API
+	//
+	// API Console: http://reviews-ewetest-int-264551643.us-east-1.elb.amazonaws.com/static/index.html
+
+	private static final String REVIEWS_BASE_URL = "http://reviews-web-eweprod-a-lb-109857973.us-east-1.elb.amazonaws.com/reviews/v1/";
+
+	private enum ReviewRequestType {
+		SUMMARY,
+		REVIEWS;
+	}
+
+	public ReviewsStatisticsResponse reviewsStatistics(Property property) {
+		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
+		params.add(new BasicNameValuePair("_type", "json"));
+		params.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
+
+		return doReviewsRequest(getReviewsUrl(ReviewRequestType.SUMMARY, property), params,
+				new ReviewsStatisticsResponseHandler());
+	}
+
+	private static String getReviewsUrl(ReviewRequestType requestType, Property property) {
+		String url = REVIEWS_BASE_URL;
+
+		String locale = PointOfSale.getPointOfSale().getLocaleIdentifier();
+		if (requestType == ReviewRequestType.SUMMARY) {
+			url += "search/summary/";
+		}
+		else if (requestType == ReviewRequestType.REVIEWS) {
+			url += "retrieve/getReviewsForHotelId/";
+			url += property.getPropertyId();
+			url += "/";
+		}
+
+		url += locale;
+
+		return url;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// BazaarVoice (Reviews) API
 
 	public ReviewsResponse reviews(Property property, ReviewSort sort, int pageNumber, List<String> languages) {
@@ -1245,32 +1284,6 @@ public class ExpediaServices implements DownloadListener {
 		return doBazaarRequest(query, new ReviewsResponseHandler(mContext));
 	}
 
-	/*
-	 * Method for retrieving reviews statistics. Historically, the number of reviews AND number of recommended
-	 * reviews returned by Expedia on the property is outdated and malformed. Correct for this by grabbing these
-	 * numbers from the BV aPI using the "Stats" param
-	 */
-	public ReviewsStatisticsResponse reviewsStatistics(Property property) {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-
-		query.add(new BasicNameValuePair("apiversion", BAZAAR_VOICE_API_VERSION));
-		query.add(new BasicNameValuePair("passkey", BAZAAR_VOICE_API_TOKEN));
-		query.add(new BasicNameValuePair("limit", "1"));
-
-		query.add(new BasicNameValuePair("Filter", "ProductId:" + property.getPropertyId()));
-
-		List<String> languages = Arrays.asList(PointOfSale.getPointOfSale().getReviewLanguages());
-		String localesString = PointOfSale.getFormattedLanguageCodes(languages);
-
-		query.add(new BasicNameValuePair("Filter", "ContentLocale:" + localesString));
-
-		query.add(new BasicNameValuePair("FilteredStats", "Reviews"));
-
-		query.add(new BasicNameValuePair("Include", "Products"));
-
-		return doBazaarRequest(query, new ReviewsStatisticsResponseHandler(mContext));
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// Request code
 
@@ -1309,6 +1322,15 @@ public class ExpediaServices implements DownloadListener {
 		HttpGet get = NetUtils.createHttpGet(BAZAAR_VOICE_BASE_URL, params);
 
 		Log.d("Bazaar reviews request:  " + get.getURI().toString());
+
+		return doRequest(get, responseHandler, 0);
+	}
+
+	private <T extends Response> T doReviewsRequest(String url, List<BasicNameValuePair> params,
+			ResponseHandler<T> responseHandler) {
+		HttpGet get = NetUtils.createHttpGet(url, params);
+
+		Log.d("User reviews request: " + get.getURI().toString());
 
 		return doRequest(get, responseHandler, 0);
 	}

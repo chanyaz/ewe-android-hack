@@ -1,59 +1,35 @@
 package com.expedia.bookings.server;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
-
 import com.expedia.bookings.data.ReviewsStatisticsResponse;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.JsonResponseHandler;
 
 public class ReviewsStatisticsResponseHandler extends JsonResponseHandler<ReviewsStatisticsResponse> {
 
-	public ReviewsStatisticsResponseHandler(Context context) {
-	}
-
 	@Override
 	public ReviewsStatisticsResponse handleJson(JSONObject response) {
-		ReviewsStatisticsResponse reviewsStatisticsResponse = new ReviewsStatisticsResponse();
+		ReviewsStatisticsResponse statisticsResponse = new ReviewsStatisticsResponse();
 
 		try {
-			if (response.getBoolean("HasErrors")) {
-				ServerError error = new ServerError(ApiMethod.BAZAAR_REVIEWS);
-				reviewsStatisticsResponse.addError(error);
-				return reviewsStatisticsResponse;
-			}
+			JSONObject collectionJson = response.getJSONObject("reviewSummaryCollection");
+			JSONArray summaryJsonArray = collectionJson.getJSONArray("reviewSummary");
+			JSONObject summaryJson = summaryJsonArray.getJSONObject(0);
 
-			if (response.getInt("TotalResults") == 0) {
-				reviewsStatisticsResponse.setAverageOverallRating(0);
-				reviewsStatisticsResponse.setRecommendedCount(0);
-				reviewsStatisticsResponse.setTotalReviewCount(0);
-				return reviewsStatisticsResponse;
-			}
-
-			JSONObject products = response.getJSONObject("Includes").getJSONObject("Products");
-
-			String key = (String) products.keys().next();
-
-			JSONObject stats = products.getJSONObject(key).getJSONObject("FilteredReviewStatistics");
-
-			reviewsStatisticsResponse.setRecommendedCount(stats.getInt("RecommendedCount"));
-			reviewsStatisticsResponse.setTotalReviewCount(stats.getInt("TotalReviewCount"));
-			reviewsStatisticsResponse.setAverageOverallRating(Float.valueOf(stats.getString("AverageOverallRating"))
-					.floatValue());
-
+			statisticsResponse.setTotalReviewCount(summaryJson.getInt("totalReviewCnt"));
+			statisticsResponse.setAverageOverallRating(summaryJson.getDouble("avgOverallRating"));
+			statisticsResponse.setPercentRecommended(summaryJson.getDouble("recommendedPercent"));
 		}
 		catch (JSONException e) {
-			Log.d("Could not parse JSON reviews statistics response.", e);
-			ServerError error = new ServerError(ApiMethod.BAZAAR_REVIEWS);
-			reviewsStatisticsResponse.addError(error);
-			return reviewsStatisticsResponse;
+			Log.e("Unable to parse reviews statistics", e);
+			ServerError error = new ServerError(ServerError.ApiMethod.USER_REVIEWS);
+			statisticsResponse.addError(error);
 		}
-
-		return reviewsStatisticsResponse;
+		return statisticsResponse;
 	}
 
 }

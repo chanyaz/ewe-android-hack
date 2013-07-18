@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.text.Html;
@@ -60,8 +61,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 	private static final String INSTANCE_ATTEMPTED_DOWNLOAD = "INSTANCE_ATTEMPTED_DOWNLOAD";
 	private static final String INSTANCE_HAS_REVIEWS = "INSTANCE_HAS_REVIEWS";
-	private static final String INSTANCE_RECOMMENDED_REVIEW_COUNT = "INSTANCE_RECOMMENDED_REVIEW_COUNT";
-	private static final String INSTANCE_TOTAL_REVIEW_COUNT = "INSTANCE_TOTAL_REVIEW_COUNT";
 	private static final String INSTANCE_STATUS_RES_ID = "INSTANCE_STATUS_RES_ID";
 	private static final String INSTANCE_LANGUAGE_LIST_META = "INSTANCE_LANGUAGE_LIST_META";
 
@@ -90,9 +89,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	private Property mProperty;
 	private LinkedList<ReviewLanguageSet> mMetaLanguageList;
 	private List<ReviewWrapper> mUserReviews;
-
-	private int mRecommendedReviewCount;
-	private int mTotalReviewCount;
 
 	private boolean mAttemptedDownload = false;
 	private int mStatusResId;
@@ -218,14 +214,9 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 			String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 			ReviewsStatisticsResponse statsResponse = Db.getHotelSearch().getReviewsStatisticsResponse(selectedId);
 			if (reincarnatedReviews && statsResponse != null) {
-				mRecommendedReviewCount = savedInstanceState.getInt(INSTANCE_RECOMMENDED_REVIEW_COUNT);
-				mTotalReviewCount = savedInstanceState.getInt(INSTANCE_TOTAL_REVIEW_COUNT);
-
 				populateListHeader();
 
-				String propertyId = mProperty.getPropertyId();
-
-				mUserReviews = mUserReviewsUtils.getReviews(propertyId, mReviewSort);
+				mUserReviews = mUserReviewsUtils.getReviews(mProperty.getPropertyId(), mReviewSort);
 				if (mUserReviews != null) {
 					mUserReviewsAdapter.setUserReviews(mUserReviews);
 				}
@@ -268,9 +259,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		}
 		outState.putBoolean(INSTANCE_HAS_REVIEWS, hasReviews);
 
-		outState.putInt(INSTANCE_RECOMMENDED_REVIEW_COUNT, mRecommendedReviewCount);
-		outState.putInt(INSTANCE_TOTAL_REVIEW_COUNT, mTotalReviewCount);
-
 		// pack/bounce the meta language list
 		ArrayList<String> jsonStringArray = new ArrayList<String>();
 		for (ReviewLanguageSet meta : mMetaLanguageList) {
@@ -286,8 +274,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	public void populateListHeader() {
 		String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 		ReviewsStatisticsResponse stats = Db.getHotelSearch().getReviewsStatisticsResponse(selectedId);
-		mRecommendedReviewCount = stats.getRecommendedCount();
-		mTotalReviewCount = stats.getTotalReviewCount();
 
 		if (mHeaderView == null) {
 			return;
@@ -295,25 +281,23 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 		TextView recommendText = Ui.findView(mHeaderView, R.id.user_reviews_recommendation_tag);
 
-		String text = String.format(getString(R.string.user_review_recommendation_tag_text), mRecommendedReviewCount,
-				mTotalReviewCount);
+		int numRec = stats.getTotalRecommended();
+		int numTotal = stats.getTotalReviewCount();
+		float percentRecommend = stats.getPercentRecommended();
+		String text = getString(R.string.user_review_recommendation_tag_text, numRec, numTotal);
 		CharSequence styledText = Html.fromHtml(text);
 
-		if (mTotalReviewCount > 0) {
-			if ((float) mRecommendedReviewCount / mTotalReviewCount >= 0.5f) {
-				recommendText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_good_rating, 0, 0, 0);
-			}
-			else {
-				recommendText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_bad_rating, 0, 0, 0);
-			}
+		if (numTotal > 0) {
+			int drawableResId = percentRecommend >= 50.0f ? R.drawable.ic_good_rating : R.drawable.ic_bad_rating;
+			recommendText.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0, 0);
 			recommendText.setText(styledText);
 		}
 
 		// In landscape mode, "19 reviews" and user rating bar are also present in this view
 		TextView numReviews = Ui.findView(mHeaderView, R.id.num_reviews);
 		if (numReviews != null) {
-			String title = getResources().getQuantityString(R.plurals.number_of_reviews,
-					stats.getTotalReviewCount(), stats.getTotalReviewCount());
+			Resources res = getResources();
+			String title = res.getQuantityString(R.plurals.number_of_reviews, numTotal, numTotal);
 			numReviews.setText(title);
 		}
 		RatingBar userRating = Ui.findView(mHeaderView, R.id.user_rating);

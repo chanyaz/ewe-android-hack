@@ -103,7 +103,7 @@ public class ReviewsResponseHandler extends JsonResponseHandler<ReviewsResponse>
 		}
 		catch (JSONException e) {
 			Log.d("Could not parse JSON reviews response.", e);
-			ServerError error = new ServerError(ApiMethod.BAZAAR_REVIEWS);
+			ServerError error = new ServerError(ApiMethod.USER_REVIEWS);
 			reviewsResponse.addError(error);
 			return reviewsResponse;
 		}
