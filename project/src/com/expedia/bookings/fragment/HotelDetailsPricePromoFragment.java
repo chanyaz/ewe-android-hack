@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -36,6 +37,7 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 
 	private void populateViews(View view) {
 		populatePricePromoBar(view, Db.getHotelSearch().getSelectedProperty());
+		populateVipIcon(view, Db.getHotelSearch().getSelectedProperty());
 	}
 
 	private void populatePricePromoBar(View view, Property property) {
@@ -86,5 +88,12 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 		rateTextView.setText(StrUtils.formatHotelPrice(rate.getDisplayRate()));
 		view.findViewById(R.id.per_nt_text_view).setVisibility(
 				rate.getUserPriceType() != UserPriceType.PER_NIGHT_RATE_NO_TAXES ? View.GONE : View.VISIBLE);
+	}
+
+	public void populateVipIcon(View root, Property property) {
+		if (property.isElitePlusHotel()) {
+			View vipIcon = Ui.findView(root, R.id.vip_image_view);
+			vipIcon.setVisibility(View.VISIBLE);
+		}
 	}
 }

@@ -104,6 +104,7 @@ public class Property implements JSONable {
 	private String mInfoSiteUrl;
 	private String mTelephoneSalesNumber;
 	private boolean mIsDesktopOverrideNumber;
+	private boolean mIsElitePlusHotel;
 
 	// Hotel rating ranges from 0-5, in .5 intervals
 	private double mHotelRating;
@@ -469,6 +470,15 @@ public class Property implements JSONable {
 		mIsDesktopOverrideNumber = isDesktopOverride;
 	}
 
+	public boolean isElitePlusHotel() {
+		//return mIsElitePlusHotel;
+		return true;
+	}
+
+	public void setIsElitePlusHotel(boolean isElitePlus) {
+		mIsElitePlusHotel = isElitePlus;
+	}
+
 	public Money getHighestPriceFromSurvey() {
 		return mHighestPriceFromSurvey;
 	}
@@ -532,6 +542,7 @@ public class Property implements JSONable {
 			obj.putOpt("infoSiteUrl", mInfoSiteUrl);
 			obj.putOpt("telephoneSalesNumber", mTelephoneSalesNumber);
 			obj.putOpt("isDesktopOverrideNumber", mIsDesktopOverrideNumber);
+			obj.putOpt("isElitePlusHotel", mIsElitePlusHotel);
 			JSONUtils.putJSONable(obj, "highestPriceFromSurvey", mHighestPriceFromSurvey);
 			JSONUtils.putJSONable(obj, "lowestRate", mLowestRate);
 			obj.putOpt("itinBedType", mItinBedType);
@@ -575,6 +586,7 @@ public class Property implements JSONable {
 		mInfoSiteUrl = obj.optString("infoSiteUrl", null);
 		mTelephoneSalesNumber = obj.optString("telephoneSalesNumber", null);
 		mIsDesktopOverrideNumber = obj.optBoolean("isDesktopOverrideNumber", true);
+		mIsElitePlusHotel = obj.optBoolean("isElitePlusHotel", false);
 		mHighestPriceFromSurvey = JSONUtils.getJSONable(obj, "highestPriceFromSurvey", Money.class);
 		mItinRoomType = obj.optString("itinRoomType", null);
 		mItinBedType = obj.optString("itinBedType", null);

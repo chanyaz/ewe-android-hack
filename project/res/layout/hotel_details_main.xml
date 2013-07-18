@@ -17,12 +17,11 @@
             android:layout_height="wrap_content"
             android:background="#262626" />
 
-        <LinearLayout
+        <FrameLayout
             android:id="@+id/hotel_details_price_promo_fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/price_promo_banner_height"
-            android:layout_marginTop="@dimen/hotel_details_intro_offset"
-            android:background="#80000000" />
+            android:layout_height="@dimen/promo_banner_height"
+            android:layout_marginTop="@dimen/hotel_details_intro_offset" />
 
         <LinearLayout
             android:id="@+id/hotel_details_intro_fragment_container"
