@@ -109,13 +109,12 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		return mRows.get(position).getView(position, convertView, parent);
+		return mRows.get(position).getView(convertView, parent);
 	}
 
 	@Override
 	public View getDropDownView(int position, View convertView, ViewGroup parent) {
-		// TODO: Customize drop down view
-		return super.getDropDownView(position, convertView, parent);
+		return mRows.get(position).getDropDownView(convertView, parent);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -194,7 +193,9 @@ public class FlightRouteAdapter extends BaseAdapter {
 	}
 
 	private interface Row {
-		public View getView(int position, View convertView, ViewGroup parent);
+		public View getView(View convertView, ViewGroup parent);
+
+		public View getDropDownView(View convertView, ViewGroup parent);
 
 		public RowType getViewType();
 	}
@@ -202,7 +203,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 	private class HintRow implements Row {
 
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
+		public View getView(View convertView, ViewGroup parent) {
 			// TODO: Implement actual view here
 			android.widget.TextView textView = (android.widget.TextView) LayoutInflater.from(mContext).inflate(
 					android.R.layout.simple_list_item_1,
@@ -216,6 +217,11 @@ public class FlightRouteAdapter extends BaseAdapter {
 			}
 
 			return textView;
+		}
+
+		@Override
+		public View getDropDownView(View convertView, ViewGroup parent) {
+			return getView(convertView, parent);
 		}
 
 		@Override
@@ -233,13 +239,18 @@ public class FlightRouteAdapter extends BaseAdapter {
 		}
 
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
+		public View getView(View convertView, ViewGroup parent) {
 			// TODO: Implement actual view here
 			android.widget.TextView textView = (android.widget.TextView) LayoutInflater.from(mContext).inflate(
 					android.R.layout.simple_list_item_1,
 					parent, false);
 			textView.setText(mCountry);
 			return textView;
+		}
+
+		@Override
+		public View getDropDownView(View convertView, ViewGroup parent) {
+			return getView(convertView, parent);
 		}
 
 		@Override
@@ -252,13 +263,18 @@ public class FlightRouteAdapter extends BaseAdapter {
 	private class RecentRow implements Row {
 
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
+		public View getView(View convertView, ViewGroup parent) {
 			// TODO: Implement actual view here
 			android.widget.TextView textView = (android.widget.TextView) LayoutInflater.from(mContext).inflate(
 					android.R.layout.simple_list_item_1,
 					parent, false);
 			textView.setText(R.string.recently_used);
 			return textView;
+		}
+
+		@Override
+		public View getDropDownView(View convertView, ViewGroup parent) {
+			return getView(convertView, parent);
 		}
 
 		@Override
@@ -276,13 +292,18 @@ public class FlightRouteAdapter extends BaseAdapter {
 		}
 
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
+		public View getView(View convertView, ViewGroup parent) {
 			// TODO: Implement actual view here
 			android.widget.TextView textView = (android.widget.TextView) LayoutInflater.from(mContext).inflate(
 					android.R.layout.simple_list_item_1,
 					parent, false);
 			textView.setText(mAirport.mName);
 			return textView;
+		}
+
+		@Override
+		public View getDropDownView(View convertView, ViewGroup parent) {
+			return getView(convertView, parent);
 		}
 
 		@Override
