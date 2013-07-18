@@ -254,7 +254,7 @@ public class HotelsRobotHelper {
 		enterLog(TAG, "Post-clearing of EditText");
 		delay(1);
 		enterLog(TAG, "Before typing location into location EditText");
-		mSolo.typeText(0, location);
+		mSolo.typeText(0, location + '\n');
 		enterLog(TAG, "After typing location into location EditText");
 		delay(3);
 		enterLog(TAG, "Before initiating location ");
@@ -277,13 +277,13 @@ public class HotelsRobotHelper {
 			//might break stuff
 		enterLog(TAG, "After clicking search button");
 
-		String activityString = "ExpediaBookingApp";
+		String searchingForHotels = mRes.getString(R.string.progress_searching_hotels);
 		int count = 0;
-		while (count < 5 && !mSolo.waitForActivity(activityString)) {
+		while (count < 5 && mSolo.searchText(searchingForHotels, 1, false, true)) {
 			delay(5);
 			count++;
 		}
-		if (mSolo.waitForActivity(activityString)) {
+		if (!mSolo.searchText(searchingForHotels, 1, false, true)) {
 			enterLog(TAG, "Location searched for and results loaded!");
 		}
 		else {
