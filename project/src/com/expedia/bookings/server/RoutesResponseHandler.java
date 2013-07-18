@@ -61,6 +61,8 @@ public class RoutesResponseHandler extends JsonResponseHandler<RoutesResponse> {
 				routes.addRoutes(origin, destinations);
 			}
 
+			routes.markCreationTime();
+
 			routesResponse.setFlightRoutes(routes);
 		}
 		catch (JSONException e) {

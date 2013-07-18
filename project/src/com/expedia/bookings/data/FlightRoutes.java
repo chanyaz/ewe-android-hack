@@ -1,6 +1,7 @@
 package com.expedia.bookings.data;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,6 +11,7 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.expedia.bookings.utils.CalendarUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.flightlib.data.Airport;
@@ -22,9 +24,13 @@ import com.mobiata.flightlib.data.Airport;
  */
 public class FlightRoutes implements JSONable {
 
+	private static final long STALE_TIMEOUT = 1000 * 60 * 60 * 24; // 1 day
+
 	private Map<String, Airport> mAirports = new HashMap<String, Airport>();
 
 	private Map<String, List<String>> mRoutes = new HashMap<String, List<String>>();
+
+	private long mTimestamp;
 
 	public void addAirport(Airport airport) {
 		mAirports.put(airport.mAirportCode, airport);
@@ -54,6 +60,14 @@ public class FlightRoutes implements JSONable {
 		return airports;
 	}
 
+	public void markCreationTime() {
+		mTimestamp = Calendar.getInstance().getTimeInMillis();
+	}
+
+	public boolean isExpired() {
+		return CalendarUtils.isExpired(mTimestamp, STALE_TIMEOUT);
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable interface
 
@@ -67,6 +81,7 @@ public class FlightRoutes implements JSONable {
 				JSONUtils.putStringList(routes, origin, mRoutes.get(origin));
 			}
 			obj.put("routes", routes);
+			obj.put("timestamp", mTimestamp);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -89,6 +104,8 @@ public class FlightRoutes implements JSONable {
 			String origin = it.next();
 			addRoutes(origin, JSONUtils.getStringList(routes, origin));
 		}
+
+		mTimestamp = obj.optLong("timestamp");
 
 		return true;
 	}

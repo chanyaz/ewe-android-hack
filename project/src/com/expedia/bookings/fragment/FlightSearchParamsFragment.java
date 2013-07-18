@@ -420,7 +420,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 				if (!bd.isDownloading(CrossContextHelper.KEY_FLIGHT_ROUTES_DOWNLOAD)) {
 					// Try to load the data one more time
-					CrossContextHelper.updateFlightRoutesData(getActivity());
+					CrossContextHelper.updateFlightRoutesData(getActivity(), false);
 				}
 
 				if (mProgressDialog == null || !mProgressDialog.isAdded()) {

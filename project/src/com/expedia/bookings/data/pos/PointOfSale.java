@@ -562,7 +562,10 @@ public class PointOfSale {
 
 		// Download new flight route data for new POS (if applicable)
 		if (pos.displayFlightDropDownRoutes()) {
-			CrossContextHelper.updateFlightRoutesData(context.getApplicationContext());
+			CrossContextHelper.updateFlightRoutesData(context.getApplicationContext(), true);
+		}
+		else {
+			Db.deleteCachedFlightRoutes(context);
 		}
 
 		// Notify app of POS change

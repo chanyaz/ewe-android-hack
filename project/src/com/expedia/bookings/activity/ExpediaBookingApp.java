@@ -216,7 +216,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 		// If the current POS needs flight routes, update our data
 		if (PointOfSale.getPointOfSale().displayFlightDropDownRoutes()) {
-			CrossContextHelper.updateFlightRoutesData(getApplicationContext());
+			CrossContextHelper.updateFlightRoutesData(getApplicationContext(), false);
 			startupTimer.addSplit("Flight routes download started");
 		}
 

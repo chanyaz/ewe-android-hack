@@ -8,6 +8,16 @@ import com.mobiata.android.json.JSONUtils;
 public class RoutesResponse extends Response {
 
 	private FlightRoutes mFlightRoutes;
+	private boolean mLoadedFromDisk;
+
+	public RoutesResponse() {
+		// Default constructor
+	}
+
+	public RoutesResponse(FlightRoutes routes) {
+		mFlightRoutes = routes;
+		mLoadedFromDisk = true;
+	}
 
 	public void setFlightRoutes(FlightRoutes routes) {
 		mFlightRoutes = routes;
@@ -15,6 +25,10 @@ public class RoutesResponse extends Response {
 
 	public FlightRoutes getFlightRoutes() {
 		return mFlightRoutes;
+	}
+
+	public boolean wasLoadedFromDisk() {
+		return mLoadedFromDisk;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

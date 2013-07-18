@@ -627,6 +627,78 @@ public class Db {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Saving/loading flight route data
+
+	private static final String SAVED_FLIGHT_ROUTES_DATA_FILE = "flight-routes.db";
+
+	public static void kickOffBackgroundFlightRouteSave(final Context context) {
+		// Kick off a search to cache results to disk, in case app is killed
+		(new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Process.setThreadPriority(Process.THREAD_PRIORITY_LOWEST);
+				Db.saveFlightRouteCache(context);
+			}
+		})).start();
+	}
+
+	public static boolean saveFlightRouteCache(Context context) {
+		synchronized (sDb) {
+			Log.d("Saving flight route cache...");
+
+			try {
+				long start = System.currentTimeMillis();
+				JSONObject obj = new JSONObject();
+				JSONUtils.putJSONable(obj, "flightRoutes", sDb.mFlightRoutes);
+				String json = obj.toString();
+				IoUtils.writeStringToFile(SAVED_FLIGHT_ROUTES_DATA_FILE, json, context);
+				Log.d("Saved cached flight routes in " + (System.currentTimeMillis() - start) + " ms");
+				return true;
+			}
+			catch (Exception e) {
+				// It's not a severe issue if this all fails
+				Log.w("Failed to save flight route data", e);
+				return false;
+			}
+		}
+	}
+
+	public static boolean loadCachedFlightRoutes(Context context) {
+		Log.d("Trying to load cached flight routes...");
+
+		File file = context.getFileStreamPath(SAVED_FLIGHT_ROUTES_DATA_FILE);
+		if (!file.exists()) {
+			Log.d("There is no cached flight routes to load!");
+			return false;
+		}
+
+		try {
+			long start = System.currentTimeMillis();
+			JSONObject obj = new JSONObject(IoUtils.readStringFromFile(SAVED_FLIGHT_ROUTES_DATA_FILE, context));
+			sDb.mFlightRoutes = JSONUtils.getJSONable(obj, "flightRoutes", FlightRoutes.class);
+			Log.d("Loaded cached flight routes in " + (System.currentTimeMillis() - start) + " ms");
+			return true;
+		}
+		catch (Exception e) {
+			Log.w("Could not load cached flight routes", e);
+			return false;
+		}
+	}
+
+	public static boolean deleteCachedFlightRoutes(Context context) {
+		sDb.mFlightRoutes = null;
+
+		File file = context.getFileStreamPath(SAVED_FLIGHT_ROUTES_DATA_FILE);
+		if (!file.exists()) {
+			return true;
+		}
+		else {
+			Log.i("Deleting cached flight routes.");
+			return file.delete();
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// Saving/loading traveler data
 
 	private static final String SAVED_TRAVELER_DATA_FILE = "travelers.db";
