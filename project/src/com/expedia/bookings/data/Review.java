@@ -10,7 +10,7 @@ public class Review {
 	private Time mSubmissionDate;
 	private String mReviewerName;
 	private String mReviewerLocation;
-	private ReviewRating mRating;
+	private int mOverallSatisfaction;
 
 	public String getReviewId() {
 		return mReviewId;
@@ -68,11 +68,12 @@ public class Review {
 		this.mReviewerLocation = reviewerLocation;
 	}
 
-	public ReviewRating getRating() {
-		return mRating;
+	public int getOverallSatisfaction() {
+		return mOverallSatisfaction;
 	}
 
-	public void setRating(ReviewRating rating) {
-		this.mRating = rating;
+	public void setOverrallSatisfaction(int overallSatisfaction) {
+		mOverallSatisfaction = overallSatisfaction;
 	}
+
 }

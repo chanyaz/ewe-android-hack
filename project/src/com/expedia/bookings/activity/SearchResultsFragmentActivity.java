@@ -1242,7 +1242,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 
 			List<String> languages = Arrays.asList(PointOfSale.getPointOfSale().getReviewLanguages());
 
-			return services.reviews(Db.getHotelSearch().getSelectedProperty(), ReviewSort.NEWEST_REVIEW_FIRST, 0, languages,
+			return services.reviews(Db.getHotelSearch().getSelectedProperty(), ReviewSort.NEWEST_REVIEW_FIRST, 0,
 					MAX_SUMMARIZED_REVIEWS);
 		}
 	};

@@ -131,10 +131,6 @@ public class ExpediaServices implements DownloadListener {
 	private static final String FS_FLEX_APP_KEY = "6cf6ac9c083a45e93c6a290bf0cd442e";
 	private static final String FS_FLEX_BASE_URI = "https://api.flightstats.com/flex";
 
-	private static final String BAZAAR_VOICE_BASE_URL = "http://reviews.expedia.com/data/reviews.json";
-	private static final String BAZAAR_VOICE_API_TOKEN = "tq2es494c5r0o2443tc4byu2q";
-	private static final String BAZAAR_VOICE_API_VERSION = "5.1";
-
 	private static final String EXPEDIA_SUGGEST_BASE_URL = "http://suggest.expedia.com/hint/es/v2/ac/";
 
 	public static final int REVIEWS_PER_PAGE = 25;
@@ -1206,13 +1202,45 @@ public class ExpediaServices implements DownloadListener {
 	//////////////////////////////////////////////////////////////////////////
 	// User Reviews API
 	//
-	// API Console: http://reviews-ewetest-int-264551643.us-east-1.elb.amazonaws.com/static/index.html
+	// API Console: http://reviews-web-eweprod-a-lb-109857973.us-east-1.elb.amazonaws.com/static/index.html
 
 	private static final String REVIEWS_BASE_URL = "http://reviews-web-eweprod-a-lb-109857973.us-east-1.elb.amazonaws.com/reviews/v1/";
 
 	private enum ReviewRequestType {
 		SUMMARY,
 		REVIEWS;
+	}
+
+	public ReviewsResponse reviews(Property property, ReviewSort sort, int pageNumber) {
+		return reviews(property, sort, pageNumber, REVIEWS_PER_PAGE);
+	}
+
+	public ReviewsResponse reviews(Property property, ReviewSort sort, int pageNumber, int numReviewsPerPage) {
+		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
+		params.add(new BasicNameValuePair("_type", "json"));
+
+		String sortValue;
+		switch (sort) {
+		case NEWEST_REVIEW_FIRST:
+			sortValue = "DATEDESC";
+			break;
+		case HIGHEST_RATING_FIRST:
+			sortValue = "RATINGDESC";
+
+			break;
+		case LOWEST_RATING_FIRST:
+		default:
+			sortValue = "RATINGASC";
+			break;
+
+		}
+		params.add(new BasicNameValuePair("sortBy", sortValue));
+
+		params.add(new BasicNameValuePair("start", Integer.toString(pageNumber * numReviewsPerPage)));
+		params.add(new BasicNameValuePair("items", Integer.toString(numReviewsPerPage)));
+
+		return doReviewsRequest(getReviewsUrl(ReviewRequestType.REVIEWS, property), params,
+				new ReviewsResponseHandler());
 	}
 
 	public ReviewsStatisticsResponse reviewsStatistics(Property property) {
@@ -1240,48 +1268,6 @@ public class ExpediaServices implements DownloadListener {
 		url += locale;
 
 		return url;
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// BazaarVoice (Reviews) API
-
-	public ReviewsResponse reviews(Property property, ReviewSort sort, int pageNumber, List<String> languages) {
-		return reviews(property, sort, pageNumber, languages, REVIEWS_PER_PAGE);
-	}
-
-	public ReviewsResponse reviews(Property property, ReviewSort sort, int pageNumber, List<String> languages,
-			int number) {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-
-		query.add(new BasicNameValuePair("apiversion", BAZAAR_VOICE_API_VERSION));
-		query.add(new BasicNameValuePair("passkey", BAZAAR_VOICE_API_TOKEN));
-		query.add(new BasicNameValuePair("limit", Integer.toString(number)));
-		query.add(new BasicNameValuePair("offset", Integer.toString(pageNumber * number)));
-
-		query.add(new BasicNameValuePair("Filter", "ProductId:" + property.getPropertyId()));
-
-		String localesString = PointOfSale.getFormattedLanguageCodes(languages);
-
-		query.add(new BasicNameValuePair("Filter", "ContentLocale:" + localesString));
-
-		// emulate the expedia.com esktop website way of displaying reviews
-		switch (sort) {
-		case NEWEST_REVIEW_FIRST:
-			query.add(new BasicNameValuePair("Sort", "SubmissionTime:desc"));
-			break;
-		case HIGHEST_RATING_FIRST:
-			query.add(new BasicNameValuePair("Filter", "Rating:gte:3"));
-			query.add(new BasicNameValuePair("Sort", "Rating:desc,SubmissionTime:desc"));
-			break;
-		case LOWEST_RATING_FIRST:
-			query.add(new BasicNameValuePair("Filter", "Rating:lte:2"));
-			query.add(new BasicNameValuePair("Sort", "Rating:asc,SubmissionTime:desc"));
-			break;
-		}
-
-		query.add(new BasicNameValuePair("include", "products"));
-
-		return doBazaarRequest(query, new ReviewsResponseHandler(mContext));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1316,14 +1302,6 @@ public class ExpediaServices implements DownloadListener {
 		HttpRequestBase base = NetUtils.createHttpGet(baseUrl, params);
 
 		return doRequest(base, responseHandler, F_IGNORE_COOKIES);
-	}
-
-	private <T extends Response> T doBazaarRequest(List<BasicNameValuePair> params, ResponseHandler<T> responseHandler) {
-		HttpGet get = NetUtils.createHttpGet(BAZAAR_VOICE_BASE_URL, params);
-
-		Log.d("Bazaar reviews request:  " + get.getURI().toString());
-
-		return doRequest(get, responseHandler, 0);
 	}
 
 	private <T extends Response> T doReviewsRequest(String url, List<BasicNameValuePair> params,

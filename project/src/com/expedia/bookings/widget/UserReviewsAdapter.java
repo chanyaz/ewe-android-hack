@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.text.TextUtils;
 import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.ReviewRating;
 import com.expedia.bookings.fragment.UserReviewsFragment.ReviewWrapper;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
@@ -182,11 +182,7 @@ public class UserReviewsAdapter extends BaseAdapter {
 		});
 
 		viewHolder.title.setText(userReviewLoaded.mReview.getTitle());
-
-		ReviewRating rating = userReviewLoaded.mReview.getRating();
-		if (rating != null) {
-			viewHolder.ratingBar.setRating((float) rating.getOverallSatisfaction());
-		}
+		viewHolder.ratingBar.setRating(userReviewLoaded.mReview.getOverallSatisfaction());
 
 		if (userReviewLoaded.mIsDisplayingFull) {
 			setupFullReviewDisplay(viewHolder);
@@ -204,15 +200,17 @@ public class UserReviewsAdapter extends BaseAdapter {
 		String nameAndLocationText = "";
 		String name = userReviewLoaded.mReview.getReviewerName();
 		String location = userReviewLoaded.mReview.getReviewerLocation();
+		boolean hasName = !TextUtils.isEmpty(name);
+		boolean hasLocation = !TextUtils.isEmpty(location);
 
-		if (name != null && location != null) {
+		if (hasName && hasLocation) {
 			nameAndLocationText = String.format(mContext.getString(R.string.user_review_name_and_location_signature),
 					name, location);
 		}
-		else if (name == null && location != null) {
+		else if (!hasName && hasLocation) {
 			nameAndLocationText = location;
 		}
-		else if (name != null && location == null) {
+		else if (hasName && !hasLocation) {
 			nameAndLocationText = name;
 		}
 

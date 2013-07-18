@@ -449,7 +449,7 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 					reviewTitle.setText(review.getTitle());
 
 					RatingBar reviewRating = (RatingBar) reviewSection.findViewById(R.id.user_review_rating);
-					reviewRating.setRating((float) review.getRating().getOverallSatisfaction());
+					reviewRating.setRating(review.getOverallSatisfaction());
 
 					final TextView reviewBody = (TextView) reviewSection.findViewById(R.id.review_body);
 					reviewBody.setLines(2);

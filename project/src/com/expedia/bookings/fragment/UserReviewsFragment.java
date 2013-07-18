@@ -339,7 +339,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 			int pageNumber = rls.mPageNumber;
 			List<String> langs = rls.mLanguageCodes;
 
-			return mExpediaServices.reviews(mProperty, mReviewSort, pageNumber, langs);
+			return mExpediaServices.reviews(mProperty, mReviewSort, pageNumber);
 		}
 	};
 
@@ -630,7 +630,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 		@Override
 		public boolean fromJson(JSONObject obj) {
-			mLanguageCodes = (List<String>) JSONUtils.getStringList(obj, JSONABLE_LANGUAGE_CODES);
+			mLanguageCodes = JSONUtils.getStringList(obj, JSONABLE_LANGUAGE_CODES);
 
 			mTotalCount = obj.optInt(JSONABLE_TOTAL_COUNT);
 			mPageNumber = obj.optInt(JSONABLE_PAGE_NUMBER);
