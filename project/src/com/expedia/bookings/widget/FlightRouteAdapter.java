@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightRoutes;
 import com.mobiata.flightlib.data.Airport;
 
@@ -23,11 +24,14 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 	private List<Row> mRows = new ArrayList<FlightRouteAdapter.Row>();
 
+	private boolean mIsOrigin;
+
 	private String mOrigin;
 
-	public FlightRouteAdapter(Context context, FlightRoutes routes) {
+	public FlightRouteAdapter(Context context, FlightRoutes routes, boolean isOrigin) {
 		mContext = context;
 		mRoutes = routes;
+		mIsOrigin = isOrigin;
 		generateRows();
 	}
 
@@ -105,6 +109,8 @@ public class FlightRouteAdapter extends BaseAdapter {
 		});
 
 		// Add rows to data set 
+		mRows.add(new HintRow());
+
 		String currCountry = null;
 		for (Airport airport : airports) {
 			// Add header row if the country changes
@@ -122,6 +128,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 	// Internal classes
 
 	private enum RowType {
+		HINT,
 		COUNTRY,
 		AIRPORT
 	}
@@ -130,6 +137,32 @@ public class FlightRouteAdapter extends BaseAdapter {
 		public View getView(int position, View convertView, ViewGroup parent);
 
 		public int getViewType();
+	}
+
+	private class HintRow implements Row {
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			// TODO: Implement actual view here
+			android.widget.TextView textView = (android.widget.TextView) LayoutInflater.from(mContext).inflate(
+					android.R.layout.simple_list_item_1,
+					parent, false);
+
+			if (mIsOrigin) {
+				textView.setText(R.string.hint_departure_airport);
+			}
+			else {
+				textView.setText(R.string.hint_arrival_airport);
+			}
+
+			return textView;
+		}
+
+		@Override
+		public int getViewType() {
+			return RowType.HINT.ordinal();
+		}
+
 	}
 
 	private class CountryRow implements Row {
@@ -142,8 +175,9 @@ public class FlightRouteAdapter extends BaseAdapter {
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			// TODO: Implement actual view here
-			TextView textView = (TextView) LayoutInflater.from(mContext).inflate(android.R.layout.simple_list_item_1,
-					parent);
+			android.widget.TextView textView = (android.widget.TextView) LayoutInflater.from(mContext).inflate(
+					android.R.layout.simple_list_item_1,
+					parent, false);
 			textView.setText(mCountry);
 			return textView;
 		}
@@ -165,8 +199,9 @@ public class FlightRouteAdapter extends BaseAdapter {
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			// TODO: Implement actual view here
-			TextView textView = (TextView) LayoutInflater.from(mContext).inflate(android.R.layout.simple_list_item_1,
-					parent);
+			android.widget.TextView textView = (android.widget.TextView) LayoutInflater.from(mContext).inflate(
+					android.R.layout.simple_list_item_1,
+					parent, false);
 			textView.setText(mAirport.mName);
 			return textView;
 		}
