@@ -14,11 +14,15 @@ import android.widget.BaseAdapter;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightRoutes;
+import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.RecentList;
 import com.mobiata.flightlib.data.Airport;
 
 public class FlightRouteAdapter extends BaseAdapter {
 
 	private Context mContext;
+
+	private RecentList<Location> mRecentSearches;
 
 	private FlightRoutes mRoutes;
 
@@ -28,8 +32,10 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 	private String mOrigin;
 
-	public FlightRouteAdapter(Context context, FlightRoutes routes, boolean isOrigin) {
+	public FlightRouteAdapter(Context context, FlightRoutes routes, RecentList<Location> recentSearches,
+			boolean isOrigin) {
 		mContext = context;
+		mRecentSearches = recentSearches;
 		mRoutes = routes;
 		mIsOrigin = isOrigin;
 		generateRows();
@@ -37,6 +43,9 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 	public void setOrigin(String origin) {
 		mOrigin = origin;
+	}
+
+	public void onDataSetChanged() {
 		generateRows();
 		notifyDataSetChanged();
 	}
@@ -149,6 +158,18 @@ public class FlightRouteAdapter extends BaseAdapter {
 		// Add rows to data set 
 		mRows.add(new HintRow());
 
+		// Add recents
+		if (!mRecentSearches.isEmpty()) {
+			mRows.add(new RecentRow());
+
+			for (Location recent : mRecentSearches.getList()) {
+				Airport airport = mRoutes.getAirport(recent.getDestinationId());
+				if (airport != null) {
+					mRows.add(new AirportRow(airport));
+				}
+			}
+		}
+
 		String currCountry = null;
 		for (Airport airport : airports) {
 			// Add header row if the country changes
@@ -168,6 +189,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 	private enum RowType {
 		HINT,
 		COUNTRY,
+		RECENT,
 		AIRPORT
 	}
 
@@ -227,6 +249,25 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 	}
 
+	private class RecentRow implements Row {
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			// TODO: Implement actual view here
+			android.widget.TextView textView = (android.widget.TextView) LayoutInflater.from(mContext).inflate(
+					android.R.layout.simple_list_item_1,
+					parent, false);
+			textView.setText(R.string.recently_used);
+			return textView;
+		}
+
+		@Override
+		public RowType getViewType() {
+			return RowType.RECENT;
+		}
+
+	}
+
 	private class AirportRow implements Row {
 		private Airport mAirport;
 
@@ -253,4 +294,5 @@ public class FlightRouteAdapter extends BaseAdapter {
 			return mAirport;
 		}
 	}
+
 }

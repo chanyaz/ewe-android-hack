@@ -56,6 +56,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.RecentList;
 import com.expedia.bookings.data.RoutesResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
@@ -93,6 +94,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	private static final String INSTANCE_FIRST_LOCATION = "INSTANCE_FIRST_LOCATION";
 
 	private static final int ROUTES_FAILURE_CALLBACK_ID = 1;
+
+	public static final int MAX_RECENTS = 10;
 
 	// Controls the ratio of how large a selected EditText should take up
 	// 1 == takes up the full size, 0 == takes up 50%.
@@ -1045,8 +1048,11 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	}
 
 	private void onRoutesLoaded() {
-		mDepartureRouteAdapter = new FlightRouteAdapter(getActivity(), Db.getFlightRoutes(), true);
-		mArrivalRouteAdapter = new FlightRouteAdapter(getActivity(), Db.getFlightRoutes(), false);
+		mRecentRouteSearches = new RecentList<Location>(Location.class, getActivity(), RECENT_ROUTES_AIRPORTS_FILE,
+				MAX_RECENTS);
+
+		mDepartureRouteAdapter = new FlightRouteAdapter(getActivity(), Db.getFlightRoutes(), mRecentRouteSearches, true);
+		mArrivalRouteAdapter = new FlightRouteAdapter(getActivity(), Db.getFlightRoutes(), mRecentRouteSearches, false);
 
 		mDepartureAirportSpinner.setAdapter(mDepartureRouteAdapter);
 		mArrivalAirportSpinner.setAdapter(mArrivalRouteAdapter);
@@ -1060,6 +1066,32 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 	private void onRoutesLoadFailed() {
 		getActivity().finish();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// AirAsia recents
+
+	// We keep a separate (but equal) recents list for routes-based searches
+	// because it's slightly different (e.g., no description)
+	private static final String RECENT_ROUTES_AIRPORTS_FILE = "recent-airports-routes-list.dat";
+
+	private RecentList<Location> mRecentRouteSearches;
+
+	public void onAirportSelected(Location location) {
+		// Don't save if it's a completely custom code and we don't have any info on it
+		mRecentRouteSearches.addItem(location);
+
+		// Update the datasets for the new recents
+		mDepartureRouteAdapter.onDataSetChanged();
+		mArrivalRouteAdapter.onDataSetChanged();
+
+		// Save
+		(new Thread(new Runnable() {
+			@Override
+			public void run() {
+				mRecentRouteSearches.saveList(getActivity(), RECENT_ROUTES_AIRPORTS_FILE);
+			}
+		})).start();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1185,12 +1217,14 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			Airport airport = mDepartureRouteAdapter.getAirport(position);
 
 			if (airport != null) {
-				mSearchParams.setDepartureLocation(airportToLocation(airport));
+				Location location = airportToLocation(airport);
+				mSearchParams.setDepartureLocation(location);
 				mArrivalRouteAdapter.setOrigin(airport.mAirportCode);
+				onAirportSelected(location);
 
 				// If arrival route adapter already had a destination, remove it if no longer valid
-				Location location = mSearchParams.getArrivalLocation();
-				if (location != null && mArrivalRouteAdapter.getPosition(location.getDestinationId()) == 0) {
+				Location arrLocation = mSearchParams.getArrivalLocation();
+				if (arrLocation != null && mArrivalRouteAdapter.getPosition(arrLocation.getDestinationId()) == 0) {
 					mSearchParams.setArrivalLocation(null);
 				}
 
@@ -1202,7 +1236,9 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		else {
 			Airport airport = mArrivalRouteAdapter.getAirport(position);
 			if (airport != null) {
-				mSearchParams.setArrivalLocation(airportToLocation(airport));
+				Location location = airportToLocation(airport);
+				mSearchParams.setArrivalLocation(location);
+				onAirportSelected(location);
 			}
 		}
 
