@@ -724,7 +724,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 			query = "";
 		}
 
-		Uri suggestUri = AutocompleteProvider.generateSearchUri(query, 5);
+		Uri suggestUri = AutocompleteProvider.generateSearchUri(getActivity().getApplicationContext(), query, 5);
 
 		return new CursorLoader(getActivity(), suggestUri, AutocompleteProvider.COLUMNS, null, null, "");
 	}

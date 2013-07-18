@@ -44,10 +44,10 @@ public class AutocompleteProvider extends ContentProvider {
 	public static final int COLUMN_JSON_INDEX = 3;
 	public static final int COLUMN_ICON_INDEX = 4;
 
-	public static Uri generateSearchUri(String query, int limit) {
+	public static Uri generateSearchUri(Context context, String query, int limit) {
 		Uri.Builder builder = new Uri.Builder();
 		builder.scheme("content");
-		builder.authority("com.expedia.booking.autocomplete");
+		builder.authority(context.getResources().getString(R.string.autocomplete_provider_authority));
 		builder.appendPath("search_suggest_query");
 		if (query != null) {
 			builder.appendPath(query);

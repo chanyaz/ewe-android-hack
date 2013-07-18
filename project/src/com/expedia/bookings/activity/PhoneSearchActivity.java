@@ -2488,7 +2488,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		// We only have one Loader, so we don't care about the ID.
-		Uri uri = AutocompleteProvider.generateSearchUri(getCurrentSearchParams().getQuery(), 50);
+		Uri uri = AutocompleteProvider.generateSearchUri(this, getCurrentSearchParams().getQuery(), 50);
 		return new CursorLoader(this, uri, AutocompleteProvider.COLUMNS, null, null, "");
 	}
 
