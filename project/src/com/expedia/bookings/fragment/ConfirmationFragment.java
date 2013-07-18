@@ -8,6 +8,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.android.SocialUtils;
@@ -34,12 +35,18 @@ public abstract class ConfirmationFragment extends Fragment {
 		ViewGroup actionContainer = Ui.findView(v, R.id.custom_actions_container);
 		inflater.inflate(getActionsLayoutId(), actionContainer, true);
 
-		Ui.setOnClickListener(v, R.id.call_action_text_view, new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				SocialUtils.call(getActivity(), PointOfSale.getPointOfSale().getSupportPhoneNumber());
-			}
-		});
+		// 1370. VSC Hide the Call to Customer support option
+		if (ExpediaBookingApp.IS_VSC) {
+			Ui.findView(v, R.id.call_action_text_view).setVisibility(View.GONE);
+		}
+		else {
+			Ui.setOnClickListener(v, R.id.call_action_text_view, new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					SocialUtils.call(getActivity(), PointOfSale.getPointOfSale().getSupportPhoneNumber());
+				}
+			});
+		}
 
 		return v;
 	}
