@@ -16,6 +16,18 @@ import com.mobiata.android.text.format.Time;
 import com.mobiata.android.widget.CalendarDatePicker;
 
 public class CalendarUtils {
+
+	/**
+	 * Checks if a timestamp has expired, given a particular cutoff
+	 * 
+	 * Returns false if somehow the timestamp is in front of now (which should be impossible)
+	 * or the timestamp is more than "cutoff" away
+	 */
+	public static boolean isExpired(long timestamp, long cutoff) {
+		long now = Calendar.getInstance().getTimeInMillis();
+		return now < timestamp || timestamp + cutoff < now;
+	}
+
 	/**
 	 * This ACCURATELY calculates the difference (in days) between two Calendars.
 	 *
