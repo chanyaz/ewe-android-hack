@@ -3,6 +3,7 @@ package com.expedia.bookings.test.tests.hotels;
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.utils.HotelsRobotHelper;
@@ -15,7 +16,7 @@ public class IntegrationHappyPath extends ActivityInstrumentationTestCase2<Searc
 		super("com.expedia.bookings", SearchActivity.class);
 	}
 
-	private static final String TAG = "SearchTest";
+	private static final String TAG = "Hotels Integration Happy Path";
 
 	private Solo mSolo;
 
@@ -38,20 +39,29 @@ public class IntegrationHappyPath extends ActivityInstrumentationTestCase2<Searc
 	// This test goes through a prototypical hotel booking
 	// UI flow, through check out.
 	// It runs pulling from the Production API
-	
-	public void testMethod() throws Exception {
-		mUser.setHotelCityToRandomUSCity();
-		mDriver.setAllowScreenshots(false);
-		mDriver.setAllowOrientationChange(false);
-		
-		mDriver.changePOS(mDriver.mLocaleUtils.AMERICAN_LOCALES[5]);
-		mDriver.changeAPI("Integration");
-		mDriver.clearPrivateData();
-		
-		mDriver.launchHotels();
-		mDriver.delay();
-		mDriver.browseRooms(4, mUser.mHotelSearchCity, true);
 
+	public void testMethod() throws Exception {
+		try {
+			mUser.setHotelCityToRandomUSCity();
+			mDriver.setAllowScreenshots(false);
+			mDriver.setAllowOrientationChange(false);
+
+			mDriver.changePOS(mDriver.mLocaleUtils.AMERICAN_LOCALES[5]);
+			mDriver.changeAPI("Integration");
+			mDriver.clearPrivateData();
+
+			mDriver.launchHotels();
+			mDriver.delay();
+			mDriver.browseRooms(4, mUser.mHotelSearchCity, true);
+		}
+		catch (Error e) {
+			mDriver.takeScreenshotUponFailure(e, TAG);
+			throw e;
+		}
+		catch (Exception e) {
+			mDriver.takeScreenshotUponFailure(e, TAG);
+			throw e;
+		}
 	}
 
 	@Override
