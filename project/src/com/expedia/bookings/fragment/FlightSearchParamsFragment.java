@@ -62,6 +62,7 @@ import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AirportDropDownAdapter;
+import com.expedia.bookings.widget.FlightRouteAdapter;
 import com.expedia.bookings.widget.NumTravelersPopupDropdown;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -122,6 +123,9 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	private FlightSearchParams mSearchParams;
 
 	private AirportDropDownAdapter mAirportAdapter;
+
+	private FlightRouteAdapter mDepartureRouteAdapter;
+	private FlightRouteAdapter mArrivalRouteAdapter;
 
 	// Animator for calendar
 	private Animation mCalendarAnimation;
@@ -410,8 +414,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 				expandAirportEditText(mArrivalAirportEditText, false);
 			}
 		}
-
-		if (PointOfSale.getPointOfSale().displayFlightDropDownRoutes()) {
+		else if (PointOfSale.getPointOfSale().displayFlightDropDownRoutes()) {
 			if (Db.getFlightRoutes() != null) {
 				onRoutesLoaded();
 			}
@@ -1015,7 +1018,14 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	};
 
 	private void onRoutesLoaded() {
-		Ui.showToast(getActivity(), "Loaded routes data!");
+		mDepartureRouteAdapter = new FlightRouteAdapter(getActivity(), Db.getFlightRoutes(), true);
+		mArrivalRouteAdapter = new FlightRouteAdapter(getActivity(), Db.getFlightRoutes(), false);
+
+		mDepartureAirportSpinner.setAdapter(mDepartureRouteAdapter);
+		mArrivalAirportSpinner.setAdapter(mArrivalRouteAdapter);
+
+		// Sync the current params with what 
+		updateAirportText();
 	}
 
 	private void onRoutesLoadFailed() {
