@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,9 @@ public class FlightRoutes implements JSONable {
 
 	private Map<String, List<String>> mRoutes = new HashMap<String, List<String>>();
 
+	// Cached in memory, don't save
+	private List<String> mAllDestinations = new ArrayList<String>();
+
 	private long mTimestamp;
 
 	public void addAirport(Airport airport) {
@@ -50,6 +54,14 @@ public class FlightRoutes implements JSONable {
 
 	public Collection<Airport> getDestinations(String origin) {
 		return getAirports(mRoutes.get(origin));
+	}
+
+	public Collection<Airport> getAllDestinations() {
+		Collection<Airport> destinations = new HashSet<Airport>();
+		for (String origin : mRoutes.keySet()) {
+			destinations.addAll(getDestinations(origin));
+		}
+		return destinations;
 	}
 
 	public Collection<Airport> getAirports(Collection<String> airportCodes) {

@@ -32,6 +32,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -71,6 +72,7 @@ import com.mobiata.android.app.SimpleProgressDialogFragment.SimpleProgressDialog
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.OnDateChangedListener;
+import com.mobiata.flightlib.data.Airport;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.AnimatorSet;
@@ -78,7 +80,7 @@ import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
 public class FlightSearchParamsFragment extends Fragment implements OnDateChangedListener, InputFilter,
-		SimpleProgressDialogFragmentListener, SimpleCallbackDialogFragmentListener {
+		SimpleProgressDialogFragmentListener, SimpleCallbackDialogFragmentListener, OnItemSelectedListener {
 
 	public static final String TAG = FlightSearchParamsFragment.class.toString();
 	private static final String TAG_PROGRESS = TAG + ".DIALOG_PROGRESS";
@@ -143,6 +145,9 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 	// So we can tell if we are running this fragment for the very first time
 	private boolean mFirstRun;
+
+	// Workaround for spinner selection listener
+	private boolean mJustSetSpinnerInCode;
 
 	public static FlightSearchParamsFragment newInstance(FlightSearchParams initialParams, boolean dimBackground) {
 		FlightSearchParamsFragment fragment = new FlightSearchParamsFragment();
@@ -574,7 +579,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			updateAirportText(mArrivalAirportEditText, mSearchParams.getArrivalLocation());
 		}
 		else {
-			// TODO: Update spinner text
+			updateAirportSpinner(mDepartureAirportSpinner, mSearchParams.getDepartureLocation());
+			updateAirportSpinner(mArrivalAirportSpinner, mSearchParams.getArrivalLocation());
 		}
 	}
 
@@ -845,10 +851,13 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		}
 		else {
 			mDatesTextView.setBackgroundResource(R.drawable.textfield_default_holo_light);
-			mDepartureAirportEditText.setFocusableInTouchMode(true);
-			mDepartureAirportEditText.setFocusable(true);
-			mArrivalAirportEditText.setFocusableInTouchMode(true);
-			mArrivalAirportEditText.setFocusable(true);
+
+			if (isUsingEditTexts()) {
+				mDepartureAirportEditText.setFocusableInTouchMode(true);
+				mDepartureAirportEditText.setFocusable(true);
+				mArrivalAirportEditText.setFocusableInTouchMode(true);
+				mArrivalAirportEditText.setFocusable(true);
+			}
 		}
 
 		if (enabled && !mIsLandscape) {
@@ -1017,12 +1026,33 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		}
 	};
 
+	private void updateAirportSpinner(Spinner spinner, Location location) {
+		int position = 0;
+		if (location != null) {
+			FlightRouteAdapter adapter = (FlightRouteAdapter) spinner.getAdapter();
+			if (adapter != null) {
+				String airportCode = location.getDestinationId();
+				if (!TextUtils.isEmpty(airportCode)) {
+					position = adapter.getPosition(airportCode);
+				}
+			}
+		}
+
+		if (spinner.getSelectedItemPosition() != position) {
+			spinner.setSelection(position);
+			mJustSetSpinnerInCode = true;
+		}
+	}
+
 	private void onRoutesLoaded() {
 		mDepartureRouteAdapter = new FlightRouteAdapter(getActivity(), Db.getFlightRoutes(), true);
 		mArrivalRouteAdapter = new FlightRouteAdapter(getActivity(), Db.getFlightRoutes(), false);
 
 		mDepartureAirportSpinner.setAdapter(mDepartureRouteAdapter);
 		mArrivalAirportSpinner.setAdapter(mArrivalRouteAdapter);
+
+		mDepartureAirportSpinner.setOnItemSelectedListener(this);
+		mArrivalAirportSpinner.setOnItemSelectedListener(this);
 
 		// Sync the current params with what 
 		updateAirportText();
@@ -1138,6 +1168,60 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// OnItemSelectedListener
+	//
+	// For Spinners
+
+	@Override
+	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+		// Workaround: otherwise it's impossible to tell if the spinner was changed by me in code,
+		// or by the user selecting a new airport.
+		if (mJustSetSpinnerInCode) {
+			mJustSetSpinnerInCode = false;
+			return;
+		}
+
+		if (parent == mDepartureAirportSpinner) {
+			Airport airport = mDepartureRouteAdapter.getAirport(position);
+
+			if (airport != null) {
+				mSearchParams.setDepartureLocation(airportToLocation(airport));
+				mArrivalRouteAdapter.setOrigin(airport.mAirportCode);
+
+				// If arrival route adapter already had a destination, remove it if no longer valid
+				Location location = mSearchParams.getArrivalLocation();
+				if (location != null && mArrivalRouteAdapter.getPosition(location.getDestinationId()) == 0) {
+					mSearchParams.setArrivalLocation(null);
+				}
+
+				// Regardless of what happened, update the texts - the location of the destination
+				// may have changed in the spinner
+				updateAirportText();
+			}
+		}
+		else {
+			Airport airport = mArrivalRouteAdapter.getAirport(position);
+			if (airport != null) {
+				mSearchParams.setArrivalLocation(airportToLocation(airport));
+			}
+		}
+
+		updateListener();
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> parent) {
+		// No need to do anything
+	}
+
+	private Location airportToLocation(Airport airport) {
+		Location location = new Location();
+		location.setDestinationId(airport.mAirportCode);
+		location.setCity(airport.mCity);
+		return location;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// Interface
 
 	private void updateListener() {
@@ -1147,4 +1231,5 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	public interface FlightSearchParamsFragmentListener {
 		public void onParamsChanged();
 	}
+
 }

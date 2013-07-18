@@ -61,6 +61,28 @@ public class FlightRouteAdapter extends BaseAdapter {
 		return mRows.get(position);
 	}
 
+	public Airport getAirport(int position) {
+		Row row = mRows.get(position);
+
+		if (row.getViewType() == RowType.AIRPORT) {
+			return ((AirportRow) row).getAirport();
+		}
+
+		return null;
+	}
+
+	public int getPosition(String airportCode) {
+		for (int a = 0; a < mRows.size(); a++) {
+			Row row = mRows.get(a);
+			if (row.getViewType() == RowType.AIRPORT
+					&& ((AirportRow) row).getAirport().mAirportCode.equals(airportCode)) {
+				return a;
+			}
+		}
+
+		return 0;
+	}
+
 	@Override
 	public long getItemId(int position) {
 		return position;
@@ -95,11 +117,17 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 		// Get our airports
 		List<Airport> airports = new ArrayList<Airport>();
-		if (TextUtils.isEmpty(mOrigin)) {
+
+		if (mIsOrigin) {
 			airports.addAll(mRoutes.getOrigins());
 		}
 		else {
-			airports.addAll(mRoutes.getDestinations(mOrigin));
+			if (TextUtils.isEmpty(mOrigin)) {
+				airports.addAll(mRoutes.getAllDestinations());
+			}
+			else {
+				airports.addAll(mRoutes.getDestinations(mOrigin));
+			}
 		}
 
 		// Sort
@@ -219,6 +247,10 @@ public class FlightRouteAdapter extends BaseAdapter {
 		@Override
 		public RowType getViewType() {
 			return RowType.AIRPORT;
+		}
+
+		public Airport getAirport() {
+			return mAirport;
 		}
 	}
 }
