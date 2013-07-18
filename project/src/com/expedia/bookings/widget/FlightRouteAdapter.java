@@ -43,7 +43,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 	@Override
 	public int getItemViewType(int position) {
-		return mRows.get(position).getViewType();
+		return mRows.get(position).getViewType().ordinal();
 	}
 
 	@Override
@@ -57,13 +57,23 @@ public class FlightRouteAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public Object getItem(int position) {
+	public Row getItem(int position) {
 		return mRows.get(position);
 	}
 
 	@Override
 	public long getItemId(int position) {
 		return position;
+	}
+
+	@Override
+	public boolean areAllItemsEnabled() {
+		return false;
+	}
+
+	@Override
+	public boolean isEnabled(int position) {
+		return getItem(position).getViewType() == RowType.AIRPORT;
 	}
 
 	@Override
@@ -136,7 +146,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 	private interface Row {
 		public View getView(int position, View convertView, ViewGroup parent);
 
-		public int getViewType();
+		public RowType getViewType();
 	}
 
 	private class HintRow implements Row {
@@ -159,8 +169,8 @@ public class FlightRouteAdapter extends BaseAdapter {
 		}
 
 		@Override
-		public int getViewType() {
-			return RowType.HINT.ordinal();
+		public RowType getViewType() {
+			return RowType.HINT;
 		}
 
 	}
@@ -183,8 +193,8 @@ public class FlightRouteAdapter extends BaseAdapter {
 		}
 
 		@Override
-		public int getViewType() {
-			return RowType.COUNTRY.ordinal();
+		public RowType getViewType() {
+			return RowType.COUNTRY;
 		}
 
 	}
@@ -207,8 +217,8 @@ public class FlightRouteAdapter extends BaseAdapter {
 		}
 
 		@Override
-		public int getViewType() {
-			return RowType.AIRPORT.ordinal();
+		public RowType getViewType() {
+			return RowType.AIRPORT;
 		}
 	}
 }
