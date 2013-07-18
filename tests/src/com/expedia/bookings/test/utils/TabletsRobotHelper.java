@@ -41,16 +41,9 @@ public class TabletsRobotHelper extends HotelsRobotHelper {
 		boolean suppressFlightsDone = false;
 
 		screenshot("Tablet - main screen");
-
-		mSolo.pressMenuItem(2);
-		delay(5);
-
-		//Robotium handles different OS versions' menus in different ways
-		String settings = mRes.getString(R.string.Settings);
-		if (mSolo.searchText(settings, true)) {
-			mSolo.clickOnText(settings);
-			delay(1);
-		}
+		
+		mSolo.sendKey(Solo.MENU);
+		mSolo.clickOnText(mRes.getString(R.string.Settings));
 
 		screenshot("Tablet - settings");
 
