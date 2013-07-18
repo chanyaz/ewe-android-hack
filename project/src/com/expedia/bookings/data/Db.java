@@ -177,16 +177,6 @@ public class Db {
 		return sDb.mFilter;
 	}
 
-	public static boolean loadBillingInfo(Context context) {
-		if (sDb.mBillingInfo == null) {
-			sDb.mBillingInfo = new BillingInfo();
-			return sDb.mBillingInfo.load(context);
-		}
-		else {
-			return true;
-		}
-	}
-
 	public static BillingInfo resetBillingInfo() {
 		sDb.mBillingInfo = new BillingInfo();
 		return sDb.mBillingInfo;
@@ -206,12 +196,6 @@ public class Db {
 
 	public static boolean hasBillingInfo() {
 		return sDb.mBillingInfo != null;
-	}
-
-	public static void deleteBillingInfo(Context context) {
-		if (sDb.mBillingInfo != null) {
-			sDb.mBillingInfo.delete(context);
-		}
 	}
 
 	public static void setMaskedWallet(MaskedWallet maskedWallet) {
@@ -422,128 +406,6 @@ public class Db {
 		sDb.mBackgroundImageInfo = info;
 	}
 
-	////////
-	// Save the BillingInfo object...
-	///////
-	public static void kickOffBackgroundBillingInfoSave(final Context context) {
-		(new Thread(new Runnable() {
-			@Override
-			public void run() {
-				Process.setThreadPriority(Process.THREAD_PRIORITY_LOWEST);
-				if (Db.getBillingInfo() != null && context != null) {
-					BillingInfo tempBi = new BillingInfo(Db.getBillingInfo());
-					tempBi.save(context);
-				}
-			}
-		})).start();
-	}
-
-	////////
-	// Saving and loading traveler data.
-	///////
-
-	private static final String SAVED_TRAVELER_DATA_FILE = "travelers.db";
-	private static final String SAVED_TRAVELERS_TAG = "SAVED_TRAVELERS_TAG";
-
-	public static void kickOffBackgroundTravelerSave(final Context context) {
-		(new Thread(new Runnable() {
-			@Override
-			public void run() {
-				Process.setThreadPriority(Process.THREAD_PRIORITY_LOWEST);
-				Db.saveTravelers(context);
-			}
-		})).start();
-	}
-
-	public static boolean deleteTravelers(Context context) {
-		File file = context.getFileStreamPath(SAVED_TRAVELER_DATA_FILE);
-		if (!file.exists()) {
-			return true;
-		}
-		else {
-			return file.delete();
-		}
-	}
-
-	public static boolean saveTravelers(Context context) {
-		synchronized (sDb) {
-			Log.d("Saving traveler data cache...");
-			long start = System.currentTimeMillis();
-			try {
-				JSONObject obj = new JSONObject();
-
-				List<Traveler> travelersList = new ArrayList<Traveler>(Db.getTravelers());
-
-				// There is only ever going to be a single Google Wallet traveler;
-				// if the user has edited *anything*, then save it (and make it a non-
-				// GWallet user)
-				Traveler gwTraveler = Db.getGoogleWalletTraveler();
-				if (gwTraveler != null) {
-					Iterator<Traveler> travelers = travelersList.iterator();
-					while (travelers.hasNext()) {
-						Traveler traveler = travelers.next();
-						if (traveler.fromGoogleWallet()) {
-							if (traveler.compareTo(gwTraveler) == 0) {
-								travelers.remove();
-							}
-							else {
-								traveler.setFromGoogleWallet(false);
-							}
-
-							break;
-						}
-					}
-				}
-
-				JSONUtils.putJSONableList(obj, SAVED_TRAVELERS_TAG, travelersList);
-
-				String json = obj.toString();
-				IoUtils.writeStringToFile(SAVED_TRAVELER_DATA_FILE, json, context);
-
-				Log.d("Saved traveler data cache in " + (System.currentTimeMillis() - start)
-						+ " ms.  Size of data cache: "
-						+ json.length() + " chars");
-
-				Db.setTravelersAreDirty(false);
-				return true;
-			}
-			catch (Exception e) {
-				// It's not a severe issue if this all fails - just
-				Log.w("Failed to save traveler data", e);
-				return false;
-			}
-			catch (OutOfMemoryError err) {
-				Log.e("Ran out of memory trying to save traveler data cache", err);
-				throw new RuntimeException(err);
-			}
-		}
-	}
-
-	public static boolean loadTravelers(Context context) {
-		long start = System.currentTimeMillis();
-
-		File file = context.getFileStreamPath(SAVED_TRAVELER_DATA_FILE);
-		if (!file.exists()) {
-			return false;
-		}
-
-		try {
-			JSONObject obj = new JSONObject(IoUtils.readStringFromFile(SAVED_TRAVELER_DATA_FILE, context));
-			if (obj.has(SAVED_TRAVELERS_TAG)) {
-				List<Traveler> travelers = JSONUtils.getJSONableList(obj, SAVED_TRAVELERS_TAG, Traveler.class);
-				Db.setTravelers(travelers);
-			}
-
-			Log.d("Loaded cached traveler data in " + (System.currentTimeMillis() - start) + " ms");
-
-			return true;
-		}
-		catch (Exception e) {
-			Log.e("Exception loading traveler data", e);
-			return false;
-		}
-	}
-
 	public static WorkingTravelerManager getWorkingTravelerManager() {
 		if (sDb.mWorkingTravelerManager == null) {
 			sDb.mWorkingTravelerManager = new WorkingTravelerManager();
@@ -591,7 +453,7 @@ public class Db {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// Saving/loading data
+	// Saving/loading flight data
 
 	private static final String SAVED_FLIGHT_DATA_FILE = "flights-data.db";
 	private static final String SAVED_AIRLINE_DATA_FILE = "airlines-data.db";
@@ -618,6 +480,18 @@ public class Db {
 				Log.w("Could not restore flight search params from disk", e);
 			}
 		}
+	}
+
+	public static void kickOffBackgroundSave(final Context context) {
+		// Kick off a search to cache results to disk, in case app is killed
+		(new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Process.setThreadPriority(Process.THREAD_PRIORITY_LOWEST);
+				Db.saveFlightDataCache(context);
+				Db.saveAirlineDataCache(context);
+			}
+		})).start();
 	}
 
 	/**
@@ -752,16 +626,141 @@ public class Db {
 		}
 	}
 
-	public static void kickOffBackgroundSave(final Context context) {
-		// Kick off a search to cache results to disk, in case app is killed
+	//////////////////////////////////////////////////////////////////////////
+	// Saving/loading traveler data
+
+	private static final String SAVED_TRAVELER_DATA_FILE = "travelers.db";
+	private static final String SAVED_TRAVELERS_TAG = "SAVED_TRAVELERS_TAG";
+
+	public static void kickOffBackgroundTravelerSave(final Context context) {
 		(new Thread(new Runnable() {
 			@Override
 			public void run() {
 				Process.setThreadPriority(Process.THREAD_PRIORITY_LOWEST);
-				Db.saveFlightDataCache(context);
-				Db.saveAirlineDataCache(context);
+				Db.saveTravelers(context);
 			}
 		})).start();
+	}
+
+	public static boolean saveTravelers(Context context) {
+		synchronized (sDb) {
+			Log.d("Saving traveler data cache...");
+			long start = System.currentTimeMillis();
+			try {
+				JSONObject obj = new JSONObject();
+
+				List<Traveler> travelersList = new ArrayList<Traveler>(Db.getTravelers());
+
+				// There is only ever going to be a single Google Wallet traveler;
+				// if the user has edited *anything*, then save it (and make it a non-
+				// GWallet user)
+				Traveler gwTraveler = Db.getGoogleWalletTraveler();
+				if (gwTraveler != null) {
+					Iterator<Traveler> travelers = travelersList.iterator();
+					while (travelers.hasNext()) {
+						Traveler traveler = travelers.next();
+						if (traveler.fromGoogleWallet()) {
+							if (traveler.compareTo(gwTraveler) == 0) {
+								travelers.remove();
+							}
+							else {
+								traveler.setFromGoogleWallet(false);
+							}
+
+							break;
+						}
+					}
+				}
+
+				JSONUtils.putJSONableList(obj, SAVED_TRAVELERS_TAG, travelersList);
+
+				String json = obj.toString();
+				IoUtils.writeStringToFile(SAVED_TRAVELER_DATA_FILE, json, context);
+
+				Log.d("Saved traveler data cache in " + (System.currentTimeMillis() - start)
+						+ " ms.  Size of data cache: "
+						+ json.length() + " chars");
+
+				Db.setTravelersAreDirty(false);
+				return true;
+			}
+			catch (Exception e) {
+				// It's not a severe issue if this all fails - just
+				Log.w("Failed to save traveler data", e);
+				return false;
+			}
+			catch (OutOfMemoryError err) {
+				Log.e("Ran out of memory trying to save traveler data cache", err);
+				throw new RuntimeException(err);
+			}
+		}
+	}
+
+	public static boolean loadTravelers(Context context) {
+		long start = System.currentTimeMillis();
+
+		File file = context.getFileStreamPath(SAVED_TRAVELER_DATA_FILE);
+		if (!file.exists()) {
+			return false;
+		}
+
+		try {
+			JSONObject obj = new JSONObject(IoUtils.readStringFromFile(SAVED_TRAVELER_DATA_FILE, context));
+			if (obj.has(SAVED_TRAVELERS_TAG)) {
+				List<Traveler> travelers = JSONUtils.getJSONableList(obj, SAVED_TRAVELERS_TAG, Traveler.class);
+				Db.setTravelers(travelers);
+			}
+
+			Log.d("Loaded cached traveler data in " + (System.currentTimeMillis() - start) + " ms");
+
+			return true;
+		}
+		catch (Exception e) {
+			Log.e("Exception loading traveler data", e);
+			return false;
+		}
+	}
+
+	public static boolean deleteTravelers(Context context) {
+		File file = context.getFileStreamPath(SAVED_TRAVELER_DATA_FILE);
+		if (!file.exists()) {
+			return true;
+		}
+		else {
+			return file.delete();
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Saving/loading the BillingInfo object
+
+	public static void kickOffBackgroundBillingInfoSave(final Context context) {
+		(new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Process.setThreadPriority(Process.THREAD_PRIORITY_LOWEST);
+				if (Db.getBillingInfo() != null && context != null) {
+					BillingInfo tempBi = new BillingInfo(Db.getBillingInfo());
+					tempBi.save(context);
+				}
+			}
+		})).start();
+	}
+
+	public static boolean loadBillingInfo(Context context) {
+		if (sDb.mBillingInfo == null) {
+			sDb.mBillingInfo = new BillingInfo();
+			return sDb.mBillingInfo.load(context);
+		}
+		else {
+			return true;
+		}
+	}
+
+	public static void deleteBillingInfo(Context context) {
+		if (sDb.mBillingInfo != null) {
+			sDb.mBillingInfo.delete(context);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
