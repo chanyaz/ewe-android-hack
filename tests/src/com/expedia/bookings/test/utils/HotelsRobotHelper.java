@@ -107,6 +107,20 @@ public class HotelsRobotHelper {
 		}
 	}
 
+	// Log failure upon catching Throwable, and create and store screenshot
+	// Maintain mAllowScreenshots state from before screenshot is taken
+	public void takeScreenshotUponFailure(Throwable e, String testName) {
+		Log.e(TAG, "Taking screenshot due to " + e.getClass().getName(), e);
+		final boolean currentSSPermission = mAllowScreenshots;
+		if (!currentSSPermission) {
+			mAllowScreenshots = true;
+		}
+		screenshot(testName + "-FAILURE");
+		if (!currentSSPermission) {
+			mAllowScreenshots = false;
+		}
+	}
+
 	public void landscape() {
 		if (mAllowOrientationChange) {
 			delay(2);
