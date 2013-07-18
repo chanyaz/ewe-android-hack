@@ -534,7 +534,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		mSearchSuggestionAdapter = new SearchSuggestionAdapter(this);
 		mSearchEditText.setAdapter(mSearchSuggestionAdapter);
 
-		boolean localeChanged = SettingUtils.get(this, LocaleChangeReceiver.KEY_LOCALE_CHANGED, false);
 		boolean startNewSearch = getIntent().getBooleanExtra(EXTRA_NEW_SEARCH, false);
 
 		if (startNewSearch) {
@@ -558,7 +557,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			startSearch();
 			getIntent().removeExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS);
 		}
-		else if (!localeChanged) {
+		else {
 			restoreActivityState(savedInstanceState);
 
 			if (searchResponse != null) {
@@ -574,40 +573,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 						&& Db.getHotelSearch().getSearchParams().getSearchType() != null) {
 					mShowDistance = Db.getHotelSearch().getSearchParams().getSearchType().shouldShowDistance();
 				}
-			}
-			else {
-				startSearch();
-			}
-		}
-		else {
-			Db.getHotelSearch().setSearchParams(new HotelSearchParams(prefs));
-			String filterJson = prefs.getString("filter", null);
-			mShowDistance = prefs.getBoolean("showDistance", true);
-
-			if (filterJson != null) {
-				try {
-					JSONObject obj = new JSONObject(filterJson);
-					Db.setFilter(new HotelFilter(obj));
-				}
-				catch (JSONException e) {
-					Log.e("Failed to load saved filter.");
-				}
-			}
-			else {
-				Db.resetFilter();
-			}
-
-			boolean versionGood = false;
-			if (AndroidUtils.getAppCodeFromFilePath(SEARCH_RESULTS_VERSION_FILE, mContext) >= AndroidUtils.APP_CODE_E3) {
-				versionGood = true;
-			}
-
-			// Attempt to load saved search results; if we fail, start a new search
-			if (!localeChanged && versionGood && !startNewSearch) {
-				BackgroundDownloader.getInstance().startDownload(KEY_LOADING_PREVIOUS, mLoadSavedResults,
-						mLoadSavedResultsCallback);
-				broadcastSearchStarted();
-				showLoading(true, R.string.loading_previous);
 			}
 			else {
 				startSearch();
@@ -649,11 +614,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		// elements have been setup
 		if (toBroadcastSearchCompleted) {
 			broadcastSearchCompleted(searchResponse);
-		}
-
-		if (localeChanged) {
-			// Mark that we've read the change
-			SettingUtils.save(this, LocaleChangeReceiver.KEY_LOCALE_CHANGED, false);
 		}
 	}
 

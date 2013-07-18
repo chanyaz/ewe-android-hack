@@ -7,23 +7,23 @@ import android.content.Intent;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.utils.NavUtils;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.SettingUtils;
 
 public class LocaleChangeReceiver extends BroadcastReceiver {
 	public static final String ACTION_LOCALE_CHANGED = "com.expedia.bookings.locale_changed";
-	public static final String KEY_LOCALE_CHANGED = "com.expedia.bookings.locale_changed";
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		Log.i("Locale changed!");
-		SettingUtils.save(context, KEY_LOCALE_CHANGED, true);
 
 		// Clear out saved flight route data
 		Db.deleteCachedFlightRoutes(context);
 
-		if (ACTION_LOCALE_CHANGED.equals(intent.getAction()) && ExpediaBookingApp.IS_VSC) {
-			Log.i("VSC Locale Changed, restart app to reload resources");
+		// Reset the app every time if the locale changes - we don't want to deal with it
+		if (ExpediaBookingApp.IS_VSC) {
 			NavUtils.goToVSC(context);
+		}
+		else {
+			NavUtils.goToLaunchScreen(context);
 		}
 	}
 }
