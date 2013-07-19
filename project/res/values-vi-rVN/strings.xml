@@ -81,6 +81,24 @@
     <!-- Notification text for activity start -->
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Quý vị đã có thể đổi vé %s để sử dụng từ ngày mai.</string>
 
+    <!-- Sweepstakes -->
+    <!-- Title of the sweepstakes -->
+    <string name="sweepstakes_enter_title">Trip-a-day giveaway!</string>
+    <!-- Subtitle of the sweepstakes describing what the price is -->
+    <string name="sweepstakes_enter_subtitle">Cơ hội nhận thưởng chuyến đi trị giá\n1.200$ từ Expedia!</string>
+    <!-- Text describing how to enter the sweepstakes -->
+    <string name="sweepstakes_enter_text">Chỉ cần đăng nhập bằng tài khoản Expedia \nhoặc kết nối bằng tài khoản Facebook để tham gia.</string>
+    <!-- Button declining to enter the sweepstakes -->
+    <string name="sweepstakes_no_thanks">Không, cảm ơn</string>
+    <!-- Button to enter the sweepstakes -->
+    <string name="sweepstakes_enter">Tham gia</string>
+    <!-- Terms and conditions text for the sweepstakes -->
+    <string name="sweepstakes_terms">Tham gia cũng đồng nghĩa tôi chấp nhận các &lt;font color="#216092"&gt;Điều khoản và Điều kiện&lt;/font&gt;.&lt;br /&gt;Không cần đặt bất kỳ sản phẩm nào. Xem toàn bộ &lt;font color="#216092"&gt;Quy tắc&lt;/font&gt; để biết thêm chi tiết.</string>
+    <!-- Confirmation title after user enters the sweepstakes -->
+    <string name="sweepstakes_confirmation_title">Cám ơn quý vị đã tham gia!</string>
+    <!-- Confirmation text after user enters the sweepstakes, saying the user will be notified if they win -->
+    <string name="sweepstakes_confirmation_text">Hãy chờ đón! Người thắng giải\nsẽ được thông báo qua email.</string>
+
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Lịch trình</string>
@@ -818,6 +836,8 @@
     <string name="log_out">Thoát</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Quý vị sẽ nhận %1$s điểm cho chuyến đi này!</string>
+    <!-- You'll earn bonus points for this booking -->
+    <string name="youll_earn_bonus_points_for_this_booking">Quý vị sẽ nhận điểm thưởng với lần đặt này</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
     <string name="calculating_taxes_and_fees">Đang tình thuế và phí…</string>
     <!-- Label to show next to the total price on the checkout receipt -->
@@ -1313,6 +1333,12 @@
     <string name="filter_price_moderate">$$</string>
     <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
     <string name="filter_price_expensive">$$$</string>
+    <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_cheap_euro">€</string>
+    <!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_moderate_euro">€€</string>
+    <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_expensive_euro">€€€</string>
     <!-- Filter option for "show 3 star hotels or better."  (Should remain abbreviated) -->
     <string name="filter_stars_three">3+</string>
     <!-- Filter option for "show 4 star hotels or better."  (Should remain abbreviated) -->
@@ -1570,6 +1596,14 @@
     <string name="Tonight">Tối nay</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Hủy miễn phí</string>
+    <!-- Resort Fee -->
+    <string name="resort_fee">Phí nghỉ dưỡng</string>
+    <!-- This fee is not included in the total -->
+    <string name="fee_not_included_in_total">Chưa bao gồm phí này trong tổng giá</string>
+    <!-- Renovation Notice -->
+    <string name="renovation_notice">Thông báo nâng cấp</string>
+    <!-- This property is undergoing renovations -->
+    <string name="property_undergoing_renovations">Khách sạn này đang trong giai đoạn nâng cấp</string>
 
     <!-- Gallery -->
     <!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
@@ -1753,6 +1787,8 @@
     <string name="log_in_for_faster_booking">Đăng nhập để đặt nhanh hơn</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_rewards">Tham gia Expedia Rewards\u2122</string>
+    <!-- Label for account status -->
+    <string name="enrolled_in_expedia_elite_plus_rewards">Thành viên Elite Plus</string>
     <!-- Loading rewards points message -->
     <string name="loading_your_rewards_points">Đang tải điểm thưởng của quý vị…</string>
     <!-- Label for account name -->
@@ -2297,6 +2333,8 @@
     <string name="view_in_samsung_wallet">Xem trong Samsung Wallet</string>
     <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
     <string name="load_to_samsung_wallet">Thêm vào Samsung Wallet</string>
+    <!-- Label to use when the user does not have the Samsung Wallet app installed -->
+    <string name="download_samsung_wallet">Tải Samsung Wallet</string>
 
     <!-- Human readable credit card names -->
     <!-- American Express -->
@@ -2527,10 +2565,6 @@
     <!-- Content description for action: Open App Info Screen -->
     <string name="cd_launch_open_eb_info_screen">Mở màn hình thông tin Đặt cùng Expedia</string>
     <!-- Trips Screen -->
-    <!-- Content description for action: Log in for your trips (reference to existing string) -->
-    <string name="cd_trips_log_in_for_your_trips">@string/log_in_for_your_trips</string>
-    <!-- Content description for action: Enter Itinerary Number (reference to existing string) -->
-    <string name="cd_trips_enter_itinerary_number">@string/enter_itinerary_number</string>
     <!-- Content description for action: Press to refresh trips list -->
     <string name="cd_trips_refresh_trips_list">Bấm để tải lại danh sách chuyến đi</string>
     <!-- Hotel Search Screen -->
@@ -2659,8 +2693,6 @@
     <string name="cd_checkout_coupon_code_entry_field">Nhập mã coupon hoặc khuyến mãi vào trường chữ</string>
     <!-- Content description for action: Press to apply coupon -->
     <string name="cd_checkout_apply_coupon_button">Bấm để áp dụng coupon</string>
-    <!-- Content description for action: Slide to purchase -->
-    <string name="cd_checkout_slide_to_purchase">@string/slide_to_purchase</string>
     <!-- Log in screen -->
     <!-- Content description for action: Enter Expedia account email address -->
     <string name="cd_log_in_email_edit_text">Nhập địa chỉ email tài khoản Expedia</string>
@@ -2698,7 +2730,7 @@
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
     <string name="cd_traveler_special_assistance_edit">Chọn loại hỗ trợ đặc biệt theo nhu cầu của khách</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
-    <string name="cd_traveler_seat_preference_edit">Chọn loại chỗ ngồi mong muốn</string>
+    <string name="cd_traveler_seat_preference_edit">Vui lòng chọn loại chỗ ngồi mong muốn</string>
     <!-- Credit Card Information -->
     <!-- Content description for action: Enter credit card number -->
     <string name="cd_card_info_card_number_edit_text">Nhập số thẻ tín dụng</string>

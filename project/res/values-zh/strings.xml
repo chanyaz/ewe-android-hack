@@ -81,6 +81,24 @@
     <!-- Notification text for activity start -->
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">从明天起，您可以兑换 %s 票。</string>
 
+    <!-- Sweepstakes -->
+    <!-- Title of the sweepstakes -->
+    <string name="sweepstakes_enter_title">轻松一日游！</string>
+    <!-- Subtitle of the sweepstakes describing what the price is -->
+    <string name="sweepstakes_enter_subtitle">您有机会赢得 Expedia \n赠送的 $1,200 旅游基金！</string>
+    <!-- Text describing how to enter the sweepstakes -->
+    <string name="sweepstakes_enter_text">登录 Expedia 帐户或者\n联接 Facebook，即可参加抽奖。</string>
+    <!-- Button declining to enter the sweepstakes -->
+    <string name="sweepstakes_no_thanks">不，谢谢</string>
+    <!-- Button to enter the sweepstakes -->
+    <string name="sweepstakes_enter">参加活动</string>
+    <!-- Terms and conditions text for the sweepstakes -->
+    <string name="sweepstakes_terms">参加活动即表明，我同意相关&lt;font color="#216092"&gt;条款和条件&lt;/font&gt;。&lt;br /&gt;无需预订任何旅游产品。有关详细信息，请参阅&lt;font color="#216092"&gt;活动规则&lt;/font&gt;全文。</string>
+    <!-- Confirmation title after user enters the sweepstakes -->
+    <string name="sweepstakes_confirmation_title">感谢您的参与！</string>
+    <!-- Confirmation text after user enters the sweepstakes, saying the user will be notified if they win -->
+    <string name="sweepstakes_confirmation_text">随时关注最新动向！我们将通过电子邮件\n通知中奖用户。</string>
+
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">行程</string>
@@ -818,6 +836,8 @@
     <string name="log_out">退出</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">此次旅行将累积 %1$s 分！</string>
+    <!-- You'll earn bonus points for this booking -->
+    <string name="youll_earn_bonus_points_for_this_booking">此次预订可以累积奖励积分！</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
     <string name="calculating_taxes_and_fees">正在计算税费…</string>
     <!-- Label to show next to the total price on the checkout receipt -->
@@ -1313,6 +1333,12 @@
     <string name="filter_price_moderate">$$</string>
     <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
     <string name="filter_price_expensive">$$$</string>
+    <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_cheap_euro">€</string>
+    <!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_moderate_euro">€€</string>
+    <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_expensive_euro">€€€</string>
     <!-- Filter option for "show 3 star hotels or better."  (Should remain abbreviated) -->
     <string name="filter_stars_three">3+</string>
     <!-- Filter option for "show 4 star hotels or better."  (Should remain abbreviated) -->
@@ -1570,6 +1596,14 @@
     <string name="Tonight">今晚</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">免费取消预订</string>
+    <!-- Resort Fee -->
+    <string name="resort_fee">度假设施费</string>
+    <!-- This fee is not included in the total -->
+    <string name="fee_not_included_in_total">总价不含此项费用。</string>
+    <!-- Renovation Notice -->
+    <string name="renovation_notice">装修通知</string>
+    <!-- This property is undergoing renovations -->
+    <string name="property_undergoing_renovations">此酒店正在进行装修。</string>
 
     <!-- Gallery -->
     <!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
@@ -1753,6 +1787,8 @@
     <string name="log_in_for_faster_booking">登录后可加快预订速度</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_rewards">参加 Expedia 奖励计划\u2122</string>
+    <!-- Label for account status -->
+    <string name="enrolled_in_expedia_elite_plus_rewards">Elite Plus 会员</string>
     <!-- Loading rewards points message -->
     <string name="loading_your_rewards_points">正在加载您的奖励晚数…</string>
     <!-- Label for account name -->
@@ -2297,6 +2333,8 @@
     <string name="view_in_samsung_wallet">在三星钱包中查看</string>
     <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
     <string name="load_to_samsung_wallet">加载到三星钱包</string>
+    <!-- Label to use when the user does not have the Samsung Wallet app installed -->
+    <string name="download_samsung_wallet">下载 Samsung Wallet</string>
 
     <!-- Human readable credit card names -->
     <!-- American Express -->
@@ -2527,10 +2565,6 @@
     <!-- Content description for action: Open App Info Screen -->
     <string name="cd_launch_open_eb_info_screen">打开 Expedia 预订信息界面</string>
     <!-- Trips Screen -->
-    <!-- Content description for action: Log in for your trips (reference to existing string) -->
-    <string name="cd_trips_log_in_for_your_trips">@string/log_in_for_your_trips</string>
-    <!-- Content description for action: Enter Itinerary Number (reference to existing string) -->
-    <string name="cd_trips_enter_itinerary_number">@string/enter_itinerary_number</string>
     <!-- Content description for action: Press to refresh trips list -->
     <string name="cd_trips_refresh_trips_list">按这里可以刷新行程列表</string>
     <!-- Hotel Search Screen -->
@@ -2575,11 +2609,11 @@
     <string name="cd_filter_remove_hotel_star_filters">按这里可删除酒店星级筛选条件</string>
     <!-- Hotel distance filters -->
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
-    <string name="cd_filter_for_nearest_hotels">按这里课筛选您搜索位置周边距离最近的酒店</string>
+    <string name="cd_filter_for_nearest_hotels">按这里可筛选您搜索位置周边距离最近的酒店</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
-    <string name="cd_filter_for_further_distanced_hotels">按这里课筛选您搜索位置周边距离比较近的酒店</string>
+    <string name="cd_filter_for_further_distanced_hotels">按这里可筛选您搜索位置周边距离比较近的酒店</string>
     <!-- Content description for action: Press to filter for hotels within largest radius from your search location -->
-    <string name="cd_filter_for_furthest_distanced_hotels">按这里课筛选您搜索位置周边距离不太远的酒店</string>
+    <string name="cd_filter_for_furthest_distanced_hotels">按这里可筛选您搜索位置周边距离不太远的酒店</string>
     <!-- Content description for action: Press to clear all distance filters for hotel search -->
     <string name="cd_filter_remove_distance_filter">按这里可清楚酒店搜索使用的所有距离筛选条件</string>
     <!-- Hotel price filters -->
@@ -2659,8 +2693,6 @@
     <string name="cd_checkout_coupon_code_entry_field">在文本框中输入折扣券或促销代码</string>
     <!-- Content description for action: Press to apply coupon -->
     <string name="cd_checkout_apply_coupon_button">按这里可使用折扣券</string>
-    <!-- Content description for action: Slide to purchase -->
-    <string name="cd_checkout_slide_to_purchase">@string/slide_to_purchase</string>
     <!-- Log in screen -->
     <!-- Content description for action: Enter Expedia account email address -->
     <string name="cd_log_in_email_edit_text">输入 Expedia 帐户的电子邮件地址</string>
@@ -2692,7 +2724,7 @@
     <!-- Content description for action: Press to select traveler's birthday -->
     <string name="cd_traveler_birthday_edit">按这里可选择旅客出生日期</string>
     <!-- Content description for action: Press to select traveler's gender -->
-    <string name="cd_traveler_gender_edit">按这里可选择旅客性吧</string>
+    <string name="cd_traveler_gender_edit">按这里可选择旅客性别</string>
     <!-- Content description for action: Enter redress number, if applicable -->
     <string name="cd_traveler_redress_number_edit_text">如果有，请输入 Redress Number。</string>
     <!-- Content description for action: Press to select type of special assistance traveler requires -->

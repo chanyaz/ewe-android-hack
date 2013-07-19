@@ -81,6 +81,24 @@
     <!-- Notification text for activity start -->
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Sua entrada para %s pode ser trocada a partir de amanhã.</string>
 
+    <!-- Sweepstakes -->
+    <!-- Title of the sweepstakes -->
+    <string name="sweepstakes_enter_title">Trip-a-day giveaway!</string>
+    <!-- Subtitle of the sweepstakes describing what the price is -->
+    <string name="sweepstakes_enter_subtitle">Sua chance de ganhar uma viagem de\nUS$ 1.200 da Expedia!</string>
+    <!-- Text describing how to enter the sweepstakes -->
+    <string name="sweepstakes_enter_text">Basta se conectar com uma conta da Expedia\nou se conectar com o Facebook para se inscrever.</string>
+    <!-- Button declining to enter the sweepstakes -->
+    <string name="sweepstakes_no_thanks">Não</string>
+    <!-- Button to enter the sweepstakes -->
+    <string name="sweepstakes_enter">Inscrever-se</string>
+    <!-- Terms and conditions text for the sweepstakes -->
+    <string name="sweepstakes_terms">Ao me inscrever, aceito todos os &lt;font color="#216092"&gt;Termos e condições&lt;/font&gt;.&lt;br /&gt;Sem necessidade de compras. Veja todas as &lt;font color="#216092"&gt;Regras&lt;/font&gt; para mais informações.</string>
+    <!-- Confirmation title after user enters the sweepstakes -->
+    <string name="sweepstakes_confirmation_title">Agradecemos sua inscrição!</string>
+    <!-- Confirmation text after user enters the sweepstakes, saying the user will be notified if they win -->
+    <string name="sweepstakes_confirmation_text">Fique atento! Os vencedores serão\nnotificados via e-mail.</string>
+
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerário</string>
@@ -305,7 +323,7 @@
     <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
     <string name="attraction_theme_parks_second">parques temáticos</string>
     <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_first">Encontre as melhores opções de</string>
+    <string name="attraction_beaches_first">Encontre as melhores</string>
     <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
     <string name="attraction_beaches_second">praias</string>
     <!-- First half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
@@ -333,7 +351,7 @@
     <!-- Second half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
     <string name="attraction_food_second">comida</string>
     <!-- First half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
-    <string name="attraction_entertainment_first">Encontre as melhores opções de</string>
+    <string name="attraction_entertainment_first">Encontre as melhores</string>
     <!-- Second half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
     <string name="attraction_entertainment_second">entretenimento</string>
     <!-- First half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
@@ -818,6 +836,8 @@
     <string name="log_out">Desconectar</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Você ganhará %1$s pontos com esta viagem!</string>
+    <!-- You'll earn bonus points for this booking -->
+    <string name="youll_earn_bonus_points_for_this_booking">Você ganhará pontos com esta reserva</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
     <string name="calculating_taxes_and_fees">Calculando impostos e taxas…</string>
     <!-- Label to show next to the total price on the checkout receipt -->
@@ -1313,6 +1333,12 @@
     <string name="filter_price_moderate">$$</string>
     <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
     <string name="filter_price_expensive">$$$</string>
+    <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_cheap_euro">€</string>
+    <!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_moderate_euro">€€</string>
+    <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_expensive_euro">€€€</string>
     <!-- Filter option for "show 3 star hotels or better."  (Should remain abbreviated) -->
     <string name="filter_stars_three">3+</string>
     <!-- Filter option for "show 4 star hotels or better."  (Should remain abbreviated) -->
@@ -1570,6 +1596,14 @@
     <string name="Tonight">Hoje</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Cancelamento grátis</string>
+    <!-- Resort Fee -->
+    <string name="resort_fee">Taxa de resort</string>
+    <!-- This fee is not included in the total -->
+    <string name="fee_not_included_in_total">Esta taxa não está incluída no total</string>
+    <!-- Renovation Notice -->
+    <string name="renovation_notice">Aviso de reforma</string>
+    <!-- This property is undergoing renovations -->
+    <string name="property_undergoing_renovations">Este estabelecimento está passando por reformas</string>
 
     <!-- Gallery -->
     <!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
@@ -1753,6 +1787,8 @@
     <string name="log_in_for_faster_booking">Conecte-se para reservas mais rápidas</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_rewards">Inscrito no Expedia Rewards\u2122</string>
+    <!-- Label for account status -->
+    <string name="enrolled_in_expedia_elite_plus_rewards">Associado Elite Plus</string>
     <!-- Loading rewards points message -->
     <string name="loading_your_rewards_points">Carregando seus pontos do Expedia Rewards…</string>
     <!-- Label for account name -->
@@ -2297,6 +2333,8 @@
     <string name="view_in_samsung_wallet">Ver no Samsung Wallet</string>
     <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
     <string name="load_to_samsung_wallet">Carregar para o Samsung Wallet</string>
+    <!-- Label to use when the user does not have the Samsung Wallet app installed -->
+    <string name="download_samsung_wallet">Baixar o Samsung Wallet</string>
 
     <!-- Human readable credit card names -->
     <!-- American Express -->
@@ -2527,21 +2565,17 @@
     <!-- Content description for action: Open App Info Screen -->
     <string name="cd_launch_open_eb_info_screen">Abrir a tela de informações sobre as reservas da Expedia</string>
     <!-- Trips Screen -->
-    <!-- Content description for action: Log in for your trips (reference to existing string) -->
-    <string name="cd_trips_log_in_for_your_trips">@string/log_in_for_your_trips</string>
-    <!-- Content description for action: Enter Itinerary Number (reference to existing string) -->
-    <string name="cd_trips_enter_itinerary_number">@string/enter_itinerary_number</string>
     <!-- Content description for action: Press to refresh trips list -->
     <string name="cd_trips_refresh_trips_list">Pressione para atualizar a lista de viagens</string>
     <!-- Hotel Search Screen -->
     <!-- Content description for action: Enter text into Hotel Search Field -->
     <string name="cd_hotel_search_edittext">Inserir o texto no campo de pesquisa de hotéis</string>
     <!-- Content description for action: Open hotel booking dates calendar -->
-    <string name="cd_hotel_search_open_calendar">Abrir o calendário de reservas de hotel</string>
+    <string name="cd_hotel_search_open_calendar">Abrir o calendário de reservas de hotéis</string>
     <!-- Content description for action: Press "Search" from hotel calendar fragment -->
     <string name="cd_hotel_search_press_search_from_calendar">Pressione para procurar hotéis</string>
     <!-- Content description for action: Open hotel guest picker -->
-    <string name="cd_hotel_search_open_guest_picker">Abrir o seletor de hóspedes de hotel</string>
+    <string name="cd_hotel_search_open_guest_picker">Abrir o seletor de hóspedes de hotéis</string>
     <!-- Content description for action: Press "Search" from hotel guest picker fragment -->
     <string name="cd_hotel_search_press_search_from_guest_picker">Pressione para procurar hotéis</string>
     <!-- Content description for action: Press to open hotel sort options -->
@@ -2631,7 +2665,7 @@
     <!-- Content description for action: Press to sort flights by when they arrive -->
     <string name="cd_sort_flights_by_arrives">Pressione para ordenar os voos pelo horário de chegada</string>
     <!-- Content description for action: Press to sort flights by their durations -->
-    <string name="cd_sort_flights_by_duration">Pressione para ordenar os voos por período de duração</string>
+    <string name="cd_sort_flights_by_duration">Pressione para ordenar os voos pelo período de duração</string>
     <!-- Flight Search Results - Flight Leg Selection -->
     <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
     <string name="cd_flight_leg_cancel">Cancelar sua seleção de voo e voltar para os resultados de pesquisa</string>
@@ -2659,15 +2693,13 @@
     <string name="cd_checkout_coupon_code_entry_field">Inserir o código promocional ou de cupom no campo de texto</string>
     <!-- Content description for action: Press to apply coupon -->
     <string name="cd_checkout_apply_coupon_button">Pressione para aplicar o cupom</string>
-    <!-- Content description for action: Slide to purchase -->
-    <string name="cd_checkout_slide_to_purchase">@string/slide_to_purchase</string>
     <!-- Log in screen -->
     <!-- Content description for action: Enter Expedia account email address -->
     <string name="cd_log_in_email_edit_text">Inserir o endereço de e-mail da conta da Expedia</string>
     <!-- Content description for action: Enter Expedia account password -->
     <string name="cd_log_in_password_edit_text">Inserir a senha da conta da Expedia</string>
     <!-- Content description for action: Press to log into Expedia with your Facebook account -->
-    <string name="cd_log_in_with_facebook">Pressione para se conectar com sua conta do Facebook</string>
+    <string name="cd_log_in_with_facebook">Pressione para se conectar à Expedia com sua conta do Facebook</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
     <string name="cd_traveler_enter_new_traveler">Pressione para inserir um novo viajante</string>
@@ -2698,7 +2730,7 @@
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
     <string name="cd_traveler_special_assistance_edit">Selecionar o tipo de assistência especial solicitada pelo viajante</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
-    <string name="cd_traveler_seat_preference_edit">Selecionar o tipo de janela que o viajante prefere</string>
+    <string name="cd_traveler_seat_preference_edit">Selecionar o tipo de janela solicitado pelo viajante</string>
     <!-- Credit Card Information -->
     <!-- Content description for action: Enter credit card number -->
     <string name="cd_card_info_card_number_edit_text">Inserir o número do cartão de crédito</string>
@@ -2720,6 +2752,6 @@
     <string name="cd_card_info_billing_address_country">Inserir o país do endereço para cobrança</string>
     <!-- Common actionbar elements -->
     <!-- Content description for action: Press to go back to previous screen -->
-    <string name="cd_go_back">Pressione para volta à tela anterior</string>
+    <string name="cd_go_back">Pressione para voltar à tela anterior</string>
 
 </resources>

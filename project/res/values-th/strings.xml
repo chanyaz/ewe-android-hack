@@ -81,6 +81,24 @@
     <!-- Notification text for activity start -->
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">คุณสามารถแลกตั๋ว %s ได้ตั้งแต่พรุ่งนี้เป็นต้นไป</string>
 
+    <!-- Sweepstakes -->
+    <!-- Title of the sweepstakes -->
+    <string name="sweepstakes_enter_title">แจกฟรีวันละทริป!</string>
+    <!-- Subtitle of the sweepstakes describing what the price is -->
+    <string name="sweepstakes_enter_subtitle">โอกาสที่คุณจะชนะรางวัล\nทริปฟรีมูลค่า $1,200 จาก Expedia!</string>
+    <!-- Text describing how to enter the sweepstakes -->
+    <string name="sweepstakes_enter_text">เพียงเข้าสู่ระบบด้วยบัญชี Expedia \nหรือเชื่อมต่อด้วย Facebook เพื่อเข้าร่วม</string>
+    <!-- Button declining to enter the sweepstakes -->
+    <string name="sweepstakes_no_thanks">ไม่ ขอบคุณ</string>
+    <!-- Button to enter the sweepstakes -->
+    <string name="sweepstakes_enter">เข้าร่วม</string>
+    <!-- Terms and conditions text for the sweepstakes -->
+    <string name="sweepstakes_terms">การเข้าร่วมจะเป็นการแสดงว่าฉันยอมรับ&lt;font color="#216092"&gt;ข้อตกลงและเงื่อนไข&lt;/font&gt;&lt;br /&gt;ไม่ต้องมีการซื้อใดๆ ดู&lt;font color="#216092"&gt;กฎ&lt;/font&gt;ฉบับเต็มเพื่ออ่านรายละเอียด</string>
+    <!-- Confirmation title after user enters the sweepstakes -->
+    <string name="sweepstakes_confirmation_title">ขอบคุณที่เข้าร่วม!</string>
+    <!-- Confirmation text after user enters the sweepstakes, saying the user will be notified if they win -->
+    <string name="sweepstakes_confirmation_text">จับตามองไว้! ผู้ชนะจะได้รับ\nการแจ้งทางอีเมล</string>
+
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">แผนเดินทาง</string>
@@ -278,7 +296,7 @@
     <string name="add_hotel_fallback">เพิ่มโรงแรมที่จุดหมายปลายทางของคุณ</string>
 
     <!-- Itin Local Expert.  Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="talk_to_local_expert">คุยกับ Local Expert</string>
+    <string name="talk_to_local_expert">คุยกับ LocalExpert</string>
 
     <!-- Local Expert Sites -->
     <!-- Name of Hawaii (for local expert) -->
@@ -291,7 +309,7 @@
     <!-- Template for the city title on Local Expert pages. %1$s is the name of the city -->
     <string name="local_expert_title_TEMPLATE">ขอให้สนุกใน%1$s</string>
     <!-- Description body for the Local Expert pages.    Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="local_expert_description">เจ้าหน้าที่ Local Expert \nพร้อมให้ความช่วยเหลือในการวางแผนทริปของคุณ</string>
+    <string name="local_expert_description">เจ้าหน้าที่ LocalExpert \nพร้อมให้ความช่วยเหลือในการวางแผนทริปของคุณ</string>
     <!-- Text for the button on Local Expert pages, to call the concierge -->
     <string name="local_expert_call_button_text">โทรหาพวกเขา</string>
 
@@ -305,7 +323,7 @@
     <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
     <string name="attraction_theme_parks_second">สวนสนุก</string>
     <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_first">ชิลบน</string>
+    <string name="attraction_beaches_first">ค้นหา</string>
     <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
     <string name="attraction_beaches_second">หาดทราย</string>
     <!-- First half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
@@ -590,7 +608,7 @@
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
     <string name="inbound_TEMPLATE">เที่ยวบินขาเข้าไปยัง %s</string>
     <!-- Error when we simple can't connect to E3 servers -->
-    <string name="error_server">ขออภัย เราไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์เอ็กซ์พีเดีย โปรดลองอีกครั้ง</string>
+    <string name="error_server">ขออภัย เราไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ Expedia โปรดลองอีกครั้ง</string>
     <!-- Sort by departure timelabel -->
     <string name="sort_description_departure">ออกเดินทาง</string>
     <!-- Sort by arrival time label -->
@@ -818,6 +836,8 @@
     <string name="log_out">ออกจากระบบ</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">คุณจะได้รับ %1$s คะแนนจากทริปนี้!</string>
+    <!-- You'll earn bonus points for this booking -->
+    <string name="youll_earn_bonus_points_for_this_booking">คุณจะได้รับ คะแนนจากการจองนี้!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
     <string name="calculating_taxes_and_fees">กำลังคำนวณภาษีและค่าธรรมเนียม…</string>
     <!-- Label to show next to the total price on the checkout receipt -->
@@ -849,7 +869,7 @@
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">ภาษีและค่าธรรมเนียม</string>
     <!-- Expedia booking fee -->
-    <string name="expedia_booking_fee">ค่าธรรมเนียมการจองของเอ็กซ์พีเดีย</string>
+    <string name="expedia_booking_fee">ค่าธรรมเนียมการจองของ Expedia</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="airline_card_fee">ค่าธรรมเนียมบัตรของสายการบิน</string>
     <!-- Flight -->
@@ -1313,6 +1333,12 @@
     <string name="filter_price_moderate">$$</string>
     <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
     <string name="filter_price_expensive">$$$</string>
+    <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_cheap_euro">€</string>
+    <!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_moderate_euro">€€</string>
+    <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_expensive_euro">€€€</string>
     <!-- Filter option for "show 3 star hotels or better."  (Should remain abbreviated) -->
     <string name="filter_stars_three">3+</string>
     <!-- Filter option for "show 4 star hotels or better."  (Should remain abbreviated) -->
@@ -1570,6 +1596,14 @@
     <string name="Tonight">คืนนี้</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">ยกเลิกฟรี</string>
+    <!-- Resort Fee -->
+    <string name="resort_fee">ค่าธรรมเนียมรีสอร์ท</string>
+    <!-- This fee is not included in the total -->
+    <string name="fee_not_included_in_total">ค่าธรรมเนียมนี้ไม่รวมอยู่ในยอดรวม</string>
+    <!-- Renovation Notice -->
+    <string name="renovation_notice">ประกาศการปรับปรุงพื้นที่</string>
+    <!-- This property is undergoing renovations -->
+    <string name="property_undergoing_renovations">โรงแรมนี้อยู่ในระหว่างการปรับปรุงพื้นที่</string>
 
     <!-- Gallery -->
     <!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
@@ -1716,7 +1750,7 @@
     <!-- Label for the total cost of the booking. -->
     <string name="Total">ทั้งหมด</string>
     <!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
-    <string name="PayToExpedia">จ่ายให้เอ็กซ์พีเดีย</string>
+    <string name="PayToExpedia">จ่ายให้ Expedia</string>
     <!-- Label for "check in" information. Used both as header for check in policies and for the date of check in. -->
     <string name="CheckIn">เช็คอิน</string>
     <!-- Label for "check out" information. Used both as header for check out policies and for the date of check out. -->
@@ -1753,14 +1787,16 @@
     <string name="log_in_for_faster_booking">เข้าระบบเพื่อการจองที่รวดเร็วขึ้น</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_rewards">ลงชื่อร่วมโปรแกรม Expedia Rewards\u2122</string>
+    <!-- Label for account status -->
+    <string name="enrolled_in_expedia_elite_plus_rewards">สมาชิก Elite Plus</string>
     <!-- Loading rewards points message -->
     <string name="loading_your_rewards_points">กำลังโหลดคะแนนของคุณ…</string>
     <!-- Label for account name -->
     <string name="logged_in_as">เข้าระบบของ</string>
     <!-- Label for signin screen -->
-    <string name="expedia_account">บัญชีเอ็กซ์พีเดีย</string>
+    <string name="expedia_account">บัญชี Expedia</string>
     <!-- Label for loading user profile from expedia.com -->
-    <string name="loading_expedia_account">กำลังโหลดบัญชีเอ็กซ์พีเดีย</string>
+    <string name="loading_expedia_account">กำลังโหลดบัญชี Expedia</string>
     <!-- Label for password recovery -->
     <string name="forgot_your_password">ลืมรหัสผ่าน</string>
     <!-- Webview title for password recovery -->
@@ -1806,23 +1842,23 @@
 
     <!-- About activity -->
     <!-- Label for "contact Expedia" button in info page -->
-    <string name="contact_expedia">ติดต่อเอ็กซ์พีเดีย</string>
+    <string name="contact_expedia">ติดต่อ Expedia</string>
     <!-- Extra description for "contact Expedia" button, when space allows -->
     <string name="contact_expedia_description">พวกเราพร้อมบริการคุณตลอด 24 ชั่วโมง</string>
     <!-- Title for different ways to connect to Expedia -->
-    <string name="contact_expedia_via">ติดต่อเอ็กซ์พีเดียผ่าน</string>
+    <string name="contact_expedia_via">ติดต่อ Expedia ผ่าน</string>
     <!-- Contact Expedia via phone -->
     <string name="contact_expedia_phone">โทรศัพท์</string>
     <!-- Contact Expedia via email -->
     <string name="contact_expedia_email">อีเมล</string>
     <!-- Contact Expedia via email subject -->
-    <string name="contact_expedia_email_subject">ฝ่ายบริการลูกค้าเอ็กซ์พีเดีย</string>
+    <string name="contact_expedia_email_subject">ฝ่ายบริการลูกค้า Expedia</string>
     <!-- Contact Expedia via website -->
     <string name="contact_expedia_website">เว็บไซต์</string>
     <!-- Label for "Expedia website" button in info page -->
-    <string name="expedia_website">เว็บไซต์เอ็กซ์พีเดีย</string>
+    <string name="expedia_website">เว็บไซต์ Expedia</string>
     <!-- Extra description for "Expedia website" button, when space allows -->
-    <string name="expedia_website_description">ไปที่ Expedia.co.th หากต้องการจองเที่ยวบิน รถเช่า แพ็คเกจท่องเที่ยวอื่นๆ</string>
+    <string name="expedia_website_description">ไปที่ Expedia.com หากต้องการจองเที่ยวบิน รถเช่า แพ็คเกจท่องเที่ยวอื่นๆ</string>
     <!-- Extra description for "app feedback" button, when space allows -->
     <string name="app_feedback_description">โปรดแสดงความคิดเห็นของคุณเกี่ยวกับแอพ</string>
     <!-- Label for "app support" button in info page -->
@@ -1834,7 +1870,7 @@
     <!-- Section header for other apps by Mobiata -->
     <string name="travel_smart">เที่ยวแบบมือโปร</string>
     <!-- Subject line for "tell a friend" feature -->
-    <string name="tell_a_friend_subject">โรงแรมเอ็กซ์พีเดีย</string>
+    <string name="tell_a_friend_subject">โรงแรม Expedia</string>
     <!-- Message body for "tell a friend" feature -->
     <string name="tell_a_friend_body">สวัสดี \n\n คุณลองดาวน์โหลดแอพพลิเคชัน Expedia Hotels สำหรับ iPhone และ Android แล้วหรือยัง แอพฟรีนี้ช่วยให้คุณค้นหาและจองห้องโรงแรมกว่า 140,000 โรงแรมทั่วโลกได้ง่ายๆ ผ่านมือถือของคุณ\n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
@@ -1846,13 +1882,13 @@
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">ออกจากระบบและล้างข้อมูลแล้ว</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_logged_out_and_cleared_private_data">คุณออกจากระบบบัญชีของเอ็กซ์พีเดียและล้างข้อมูลการเงินและติดต่อแล้ว</string>
+    <string name="dialog_message_logged_out_and_cleared_private_data">คุณออกจากระบบบัญชีของ Expedia และล้างข้อมูลการเงินและติดต่อแล้ว</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_cleared_private_data">ล้างข้อมูลส่วนตัวแล้ว</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_message_cleared_private_data">ลบข้อมูลรายชื่อและใบแจ้งหนี้ที่บันทึกไว้แล้ว</string>
     <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
-    <string name="dialog_message_launch_expedia_mobile_site">เปิดใช้เว็บไซต์สำหรับมือถือของเอ็กซ์พีเดียหรือไม่</string>
+    <string name="dialog_message_launch_expedia_mobile_site">เปิดใช้เว็บไซต์สำหรับมือถือของ Expedia หรือไม่</string>
     <!-- Action button label to Subscribe to our mailing list -->
     <string name="Subscribe">สมัครรับข่าวสาร</string>
     <!-- Action button label to follow on twitter -->
@@ -2003,7 +2039,7 @@
     <string name="e3_error_hotel_offers_hotel_offer_unavailable">ขออภัย โปรโมชั่นสำหรับห้องนี้หมดเวลาแล้ว แต่เรามีโปรโมชั่นอื่นๆ อีกมากมาย</string>
     <string name="e3_error_hotel_offers_hotel_room_unavailable">ขออภัย ห้องพักที่คุณเลือกเต็มแล้ว</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure">ขออภัย ระบบไม่สามารถไปที่เอ็กซ์พีเดียได้ โปรดลองใหม่อีกครั้ง</string>
+    <string name="e3_error_hotel_offers_hotel_service_failure">ขออภัย ระบบไม่สามารถไปที่ Expedia ได้ โปรดลองใหม่อีกครั้ง</string>
     <!-- There are no longer any rooms for the hotel offer -->
     <string name="e3_error_hotel_offers_invalid_input">ขออภัย โปรโมชั่นสำหรับห้องนี้หมดเวลาแล้ว แต่เรามีโปรโมชั่นอื่นๆ อีกมากมาย</string>
     <!-- There are no longer any rooms for the hotel offer -->
@@ -2297,6 +2333,8 @@
     <string name="view_in_samsung_wallet">ดูใน Samsung Wallet</string>
     <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
     <string name="load_to_samsung_wallet">โหลดลงใน Samsung Wallet</string>
+    <!-- Label to use when the user does not have the Samsung Wallet app installed -->
+    <string name="download_samsung_wallet">ดาวน์โหลด Samsung Wallet</string>
 
     <!-- Human readable credit card names -->
     <!-- American Express -->
@@ -2527,10 +2565,6 @@
     <!-- Content description for action: Open App Info Screen -->
     <string name="cd_launch_open_eb_info_screen">เปิดหน้าจอข้อมูลการจองเอ็กซ์พีเดีย</string>
     <!-- Trips Screen -->
-    <!-- Content description for action: Log in for your trips (reference to existing string) -->
-    <string name="cd_trips_log_in_for_your_trips">@string/log_in_for_your_trips</string>
-    <!-- Content description for action: Enter Itinerary Number (reference to existing string) -->
-    <string name="cd_trips_enter_itinerary_number">@string/enter_itinerary_number</string>
     <!-- Content description for action: Press to refresh trips list -->
     <string name="cd_trips_refresh_trips_list">กดเพื่อรีเฟรชรายการการเดินทาง</string>
     <!-- Hotel Search Screen -->
@@ -2659,8 +2693,6 @@
     <string name="cd_checkout_coupon_code_entry_field">ป้อนรหัสคูปองหรือรหัสส่วนลด</string>
     <!-- Content description for action: Press to apply coupon -->
     <string name="cd_checkout_apply_coupon_button">กดเพื่อใช้คูปอง</string>
-    <!-- Content description for action: Slide to purchase -->
-    <string name="cd_checkout_slide_to_purchase">@string/slide_to_purchase</string>
     <!-- Log in screen -->
     <!-- Content description for action: Enter Expedia account email address -->
     <string name="cd_log_in_email_edit_text">ป้อนอีเมลของบัญชีเอ็กซ์พีเดีย</string>
@@ -2698,7 +2730,7 @@
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
     <string name="cd_traveler_special_assistance_edit">เลือกประเภทความช่วยเหลือพิเศษที่ต้องการ</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
-    <string name="cd_traveler_seat_preference_edit">เลือกที่นั่งที่ต้องการ</string>
+    <string name="cd_traveler_seat_preference_edit">เลือกประเภทที่นั่งที่ผู้เดินทางต้องการ</string>
     <!-- Credit Card Information -->
     <!-- Content description for action: Enter credit card number -->
     <string name="cd_card_info_card_number_edit_text">ป้อนหมายเลขบัตรเครดิต</string>

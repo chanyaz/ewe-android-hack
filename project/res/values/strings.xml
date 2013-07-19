@@ -673,7 +673,7 @@
         <item quantity="other">%1$d Adults</item>
     </plurals>
     <!-- Message shown when loading AirAsia flight routes -->
-    <string name="loading_air_asia_routes">Loading AirAsia routes...</string>
+    <string name="loading_air_asia_routes">Loading AirAsia routes…</string>
     <!-- Message shown when we could not load the AirAsia flight routes -->
     <string name="error_could_not_load_air_asia">Could not load AirAsia routes</string>
 

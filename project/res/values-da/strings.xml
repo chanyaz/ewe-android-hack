@@ -81,6 +81,24 @@
     <!-- Notification text for activity start -->
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Din billet til %s kan indløses fra i morgen.</string>
 
+    <!-- Sweepstakes -->
+    <!-- Title of the sweepstakes -->
+    <string name="sweepstakes_enter_title">Trip-a-day giveaway!</string>
+    <!-- Subtitle of the sweepstakes describing what the price is -->
+    <string name="sweepstakes_enter_subtitle">Nu har du chancen for at vinde\nen rejse til $1200 med Expedia!</string>
+    <!-- Text describing how to enter the sweepstakes -->
+    <string name="sweepstakes_enter_text">Du skal bare logge på med en Expedia-konto\neller forbinde med Facebook for at deltage.</string>
+    <!-- Button declining to enter the sweepstakes -->
+    <string name="sweepstakes_no_thanks">Nej tak</string>
+    <!-- Button to enter the sweepstakes -->
+    <string name="sweepstakes_enter">Deltag</string>
+    <!-- Terms and conditions text for the sweepstakes -->
+    <string name="sweepstakes_terms">Ved at deltage accepterer jeg&lt;font color="#216092"&gt;vilkår og betingelser&lt;/font&gt;.&lt;br /&gt;Ikke købsbetinget. Se alle &lt;font color="#216092"&gt;regler&lt;/font&gt; for flere oplysninger.</string>
+    <!-- Confirmation title after user enters the sweepstakes -->
+    <string name="sweepstakes_confirmation_title">Tak, fordi du har tilmeldt dig!</string>
+    <!-- Confirmation text after user enters the sweepstakes, saying the user will be notified if they win -->
+    <string name="sweepstakes_confirmation_text">Hold øje med din indbakke! Vinderne vil få\nbesked via e-mail.</string>
+
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Rejseplan</string>
@@ -90,8 +108,6 @@
     <string name="find_itinerary">Find rejseplan</string>
     <!-- Find Itinerary # -->
     <string name="find_itinerary_pound">Find rejseplansnummer</string>
-    <!-- Itinerary Number -->
-    <string name="itinerary_number">Rejseplansnummer</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">Expedia-rejseplansnummer</string>
     <!-- No upcoming trips -->
@@ -386,9 +402,9 @@
     <string name="car_category_oversize">Ekstra stor bil</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">To døre Bil</string>
-    <string name="car_type_three_door">Tre døre Bil</string>
-    <string name="car_type_four_door">Fire døre Bil</string>
+    <string name="car_type_two_door">Bil med to døre</string>
+    <string name="car_type_three_door">Bil med tre døre</string>
+    <string name="car_type_four_door">Bil med fire døre</string>
     <string name="car_type_van">Varevogn</string>
     <string name="car_type_wagon">vogn</string>
     <string name="car_type_limousine">Limousine</string>
@@ -820,6 +836,8 @@
     <string name="log_out">Log af</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Du vil optjene %1$s point for denne rejse!</string>
+    <!-- You'll earn bonus points for this booking -->
+    <string name="youll_earn_bonus_points_for_this_booking">Du optjener bonuspoint for denne reservation!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
     <string name="calculating_taxes_and_fees">Beregner skatter og afgifter…</string>
     <!-- Label to show next to the total price on the checkout receipt -->
@@ -1315,6 +1333,12 @@
     <string name="filter_price_moderate">$$</string>
     <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
     <string name="filter_price_expensive">$$$</string>
+    <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_cheap_euro">€</string>
+    <!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_moderate_euro">€€</string>
+    <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_expensive_euro">€€€</string>
     <!-- Filter option for "show 3 star hotels or better."  (Should remain abbreviated) -->
     <string name="filter_stars_three">3+</string>
     <!-- Filter option for "show 4 star hotels or better."  (Should remain abbreviated) -->
@@ -1572,6 +1596,14 @@
     <string name="Tonight">I aften</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Gratis afbestilling</string>
+    <!-- Resort Fee -->
+    <string name="resort_fee">Resortgebyr</string>
+    <!-- This fee is not included in the total -->
+    <string name="fee_not_included_in_total">Dette gebyr er ikke inkluderet i det samlede beløb</string>
+    <!-- Renovation Notice -->
+    <string name="renovation_notice">Renoveringsmeddelelse</string>
+    <!-- This property is undergoing renovations -->
+    <string name="property_undergoing_renovations">Denne ejendom bliver renoveret i øjeblikket</string>
 
     <!-- Gallery -->
     <!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
@@ -1689,6 +1721,8 @@
     <string name="reservation_summary">Reservationsoversigt</string>
     <!-- Confirmation number label -->
     <string name="confirmation_number">Bekræftelsesnummer</string>
+    <!-- Itinerary number label -->
+    <string name="itinerary_number">Rejseplansnummer</string>
     <!-- Confirmation email label -->
     <string name="confirmation_email">Bekræftelsesmail</string>
     <!-- ActionBar button for starting a new search -->
@@ -1753,6 +1787,8 @@
     <string name="log_in_for_faster_booking">Log på for hurtigere reservation.</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_rewards">Tilmeldt Expedia Rewards\u2122</string>
+    <!-- Label for account status -->
+    <string name="enrolled_in_expedia_elite_plus_rewards">Elite Plus-medlem</string>
     <!-- Loading rewards points message -->
     <string name="loading_your_rewards_points">Henter dine Rewards-point…</string>
     <!-- Label for account name -->
@@ -2297,6 +2333,8 @@
     <string name="view_in_samsung_wallet">Vis i Samsung Wallet</string>
     <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
     <string name="load_to_samsung_wallet">Indlæs i Samsung Wallet</string>
+    <!-- Label to use when the user does not have the Samsung Wallet app installed -->
+    <string name="download_samsung_wallet">Download Samsung Wallet</string>
 
     <!-- Human readable credit card names -->
     <!-- American Express -->
@@ -2527,10 +2565,6 @@
     <!-- Content description for action: Open App Info Screen -->
     <string name="cd_launch_open_eb_info_screen">Åben informationsoversigt for Expedia-reservationer</string>
     <!-- Trips Screen -->
-    <!-- Content description for action: Log in for your trips (reference to existing string) -->
-    <string name="cd_trips_log_in_for_your_trips">@string/log_in_for_your_trips</string>
-    <!-- Content description for action: Enter Itinerary Number (reference to existing string) -->
-    <string name="cd_trips_enter_itinerary_number">@string/enter_itinerary_number</string>
     <!-- Content description for action: Press to refresh trips list -->
     <string name="cd_trips_refresh_trips_list">Tryk for at opdatere rejselisten</string>
     <!-- Hotel Search Screen -->
@@ -2659,8 +2693,6 @@
     <string name="cd_checkout_coupon_code_entry_field">Indtast kupon- eller kampagnekode i tekstfeltet</string>
     <!-- Content description for action: Press to apply coupon -->
     <string name="cd_checkout_apply_coupon_button">Tryk for at anvende kupon</string>
-    <!-- Content description for action: Slide to purchase -->
-    <string name="cd_checkout_slide_to_purchase">@string/slide_to_purchase</string>
     <!-- Log in screen -->
     <!-- Content description for action: Enter Expedia account email address -->
     <string name="cd_log_in_email_edit_text">Indtast e-mailadresse for Expedia-konto</string>
@@ -2698,7 +2730,7 @@
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
     <string name="cd_traveler_special_assistance_edit">Vælg den type særlig assistance, den rejsende har brug for</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
-    <string name="cd_traveler_seat_preference_edit">Vælg den rejsendes foretrukne sædetype</string>
+    <string name="cd_traveler_seat_preference_edit">Vælg den rejsendes foretrukne pladstype</string>
     <!-- Credit Card Information -->
     <!-- Content description for action: Enter credit card number -->
     <string name="cd_card_info_card_number_edit_text">Indtast kreditkortnummer</string>

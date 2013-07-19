@@ -81,6 +81,24 @@
     <!-- Notification text for activity start -->
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Il tuo biglietto per %s potrà essere riscattato a partire da domani.</string>
 
+    <!-- Sweepstakes -->
+    <!-- Title of the sweepstakes -->
+    <string name="sweepstakes_enter_title">Trip-a-day giveaway!</string>
+    <!-- Subtitle of the sweepstakes describing what the price is -->
+    <string name="sweepstakes_enter_subtitle">La tua occasione di vincere un viaggio del valore di \n$1,200 da Expedia!</string>
+    <!-- Text describing how to enter the sweepstakes -->
+    <string name="sweepstakes_enter_text">Accedi con un account Expedia \no con Facebook.</string>
+    <!-- Button declining to enter the sweepstakes -->
+    <string name="sweepstakes_no_thanks">No, grazie</string>
+    <!-- Button to enter the sweepstakes -->
+    <string name="sweepstakes_enter">Inserisci</string>
+    <!-- Terms and conditions text for the sweepstakes -->
+    <string name="sweepstakes_terms">Aderendo all\&apos;iniziativa accetto i &lt;font color="#216092"&gt;Termini e le condizioni&lt;/font&gt;.&lt;br /&gt;Non è necessario acquistare. Per maggiori dettagli, consulta i &lt;font color="#216092"&gt;regolamenti&lt;/font&gt;.</string>
+    <!-- Confirmation title after user enters the sweepstakes -->
+    <string name="sweepstakes_confirmation_title">Grazie per aver partecipato!</string>
+    <!-- Confirmation text after user enters the sweepstakes, saying the user will be notified if they win -->
+    <string name="sweepstakes_confirmation_text">Controlla la tua casella di posta! I vincitori riceveranno \nuna notifica via e-mail.</string>
+
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerario</string>
@@ -384,9 +402,9 @@
     <string name="car_category_oversize">Vettura extralarge</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">Due porte Auto</string>
-    <string name="car_type_three_door">Tre porte Auto</string>
-    <string name="car_type_four_door">Quattro porte Auto</string>
+    <string name="car_type_two_door">Due porte</string>
+    <string name="car_type_three_door">Tre porte</string>
+    <string name="car_type_four_door">Quattro porte</string>
     <string name="car_type_van">Van</string>
     <string name="car_type_wagon">Wagon</string>
     <string name="car_type_limousine">Limousine</string>
@@ -818,6 +836,8 @@
     <string name="log_out">Disconnessione da</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Per questo viaggio riceverai %1$s crediti!</string>
+    <!-- You'll earn bonus points for this booking -->
+    <string name="youll_earn_bonus_points_for_this_booking">Per questo viaggio riceverai crediti bonus!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
     <string name="calculating_taxes_and_fees">Stiamo calcolando tasse e commissioni…</string>
     <!-- Label to show next to the total price on the checkout receipt -->
@@ -1313,6 +1333,12 @@
     <string name="filter_price_moderate">€€</string>
     <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
     <string name="filter_price_expensive">€€€</string>
+    <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_cheap_euro">€</string>
+    <!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_moderate_euro">€€</string>
+    <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_expensive_euro">€€€</string>
     <!-- Filter option for "show 3 star hotels or better."  (Should remain abbreviated) -->
     <string name="filter_stars_three">3+</string>
     <!-- Filter option for "show 4 star hotels or better."  (Should remain abbreviated) -->
@@ -1570,6 +1596,14 @@
     <string name="Tonight">Questa notte</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Cancellazione gratuita</string>
+    <!-- Resort Fee -->
+    <string name="resort_fee">Tariffa resort</string>
+    <!-- This fee is not included in the total -->
+    <string name="fee_not_included_in_total">Questa tariffa non è inclusa nel totale</string>
+    <!-- Renovation Notice -->
+    <string name="renovation_notice">Avviso di restauri</string>
+    <!-- This property is undergoing renovations -->
+    <string name="property_undergoing_renovations">Questa struttura è in fase di restauro.</string>
 
     <!-- Gallery -->
     <!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
@@ -1753,6 +1787,8 @@
     <string name="log_in_for_faster_booking">Per prenotare più velocemente, effettua il login</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_rewards">Iscritto a Expedia Rewards\u2122</string>
+    <!-- Label for account status -->
+    <string name="enrolled_in_expedia_elite_plus_rewards">Iscritto Elite Plus</string>
     <!-- Loading rewards points message -->
     <string name="loading_your_rewards_points">Caricamento dei punti Expedia Rewards…</string>
     <!-- Label for account name -->
@@ -2297,6 +2333,8 @@
     <string name="view_in_samsung_wallet">Visualizza in Samsung Wallet</string>
     <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
     <string name="load_to_samsung_wallet">Carica su Samsung Wallet</string>
+    <!-- Label to use when the user does not have the Samsung Wallet app installed -->
+    <string name="download_samsung_wallet">Scarica Samsung Wallet</string>
 
     <!-- Human readable credit card names -->
     <!-- American Express -->
@@ -2527,10 +2565,6 @@
     <!-- Content description for action: Open App Info Screen -->
     <string name="cd_launch_open_eb_info_screen">Apri la schermata della informazioni sulle prenotazioni Expedia</string>
     <!-- Trips Screen -->
-    <!-- Content description for action: Log in for your trips (reference to existing string) -->
-    <string name="cd_trips_log_in_for_your_trips">@string/log_in_for_your_trips</string>
-    <!-- Content description for action: Enter Itinerary Number (reference to existing string) -->
-    <string name="cd_trips_enter_itinerary_number">@string/enter_itinerary_number</string>
     <!-- Content description for action: Press to refresh trips list -->
     <string name="cd_trips_refresh_trips_list">Premi per aggiornare l\&apos;elenco dei viaggi</string>
     <!-- Hotel Search Screen -->
@@ -2659,8 +2693,6 @@
     <string name="cd_checkout_coupon_code_entry_field">Inserisci un coupon o un codice promozionale nel campo di testo</string>
     <!-- Content description for action: Press to apply coupon -->
     <string name="cd_checkout_apply_coupon_button">Premi per applicare un coupon</string>
-    <!-- Content description for action: Slide to purchase -->
-    <string name="cd_checkout_slide_to_purchase">@string/slide_to_purchase</string>
     <!-- Log in screen -->
     <!-- Content description for action: Enter Expedia account email address -->
     <string name="cd_log_in_email_edit_text">Inserisci l\&apos;indirizzo e-mail dell\&apos;account Expedia</string>
@@ -2698,7 +2730,7 @@
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
     <string name="cd_traveler_special_assistance_edit">Seleziona il tipo di requisiti per assistenza speciale</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
-    <string name="cd_traveler_seat_preference_edit">Seleziona per scegliere il tipo di posto preferito dal viaggiatore</string>
+    <string name="cd_traveler_seat_preference_edit">Seleziona il tipo di posto preferito dal viaggiatore</string>
     <!-- Credit Card Information -->
     <!-- Content description for action: Enter credit card number -->
     <string name="cd_card_info_card_number_edit_text">Inserisci il numero della carta di credito</string>

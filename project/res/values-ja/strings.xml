@@ -53,7 +53,7 @@
     <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;&lt;font color="#b2b2b2"&gt;に滞在&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
-    <string name="error_launch_connection">残念ながら、接続できません。</string>
+    <string name="error_launch_connection">接続できません。</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">予約確認</string>
     <!-- Google play services unrecoverable error dialog message -->
@@ -80,6 +80,24 @@
     <string name="Activity_starting_soon">アクティビティーがまもなく開始します</string>
     <!-- Notification text for activity start -->
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">%sのチケットは明日から使用できます。</string>
+
+    <!-- Sweepstakes -->
+    <!-- Title of the sweepstakes -->
+    <string name="sweepstakes_enter_title">Trip-a-day プレゼント !</string>
+    <!-- Subtitle of the sweepstakes describing what the price is -->
+    <string name="sweepstakes_enter_subtitle">エクスペディアから $1,200 相当の旅を\n抽選でプレゼント !</string>
+    <!-- Text describing how to enter the sweepstakes -->
+    <string name="sweepstakes_enter_text">エクスペディア アカウント、\nまたは Facebook コネクトでログインするだけで参加できます。</string>
+    <!-- Button declining to enter the sweepstakes -->
+    <string name="sweepstakes_no_thanks">いいえ</string>
+    <!-- Button to enter the sweepstakes -->
+    <string name="sweepstakes_enter">参加する</string>
+    <!-- Terms and conditions text for the sweepstakes -->
+    <string name="sweepstakes_terms">&lt;font color="#216092"&gt;利用規約&lt;/font&gt;に同意の上、参加します。&lt;br /&gt;購入は不要です。詳細は、&lt;font color="#216092"&gt;規則&lt;/font&gt;全文をご確認ください。</string>
+    <!-- Confirmation title after user enters the sweepstakes -->
+    <string name="sweepstakes_confirmation_title">ご参加ありがとうございます !</string>
+    <!-- Confirmation text after user enters the sweepstakes, saying the user will be notified if they win -->
+    <string name="sweepstakes_confirmation_text">当選結果発表をお楽しみに ! 当選された方には\n電子メールでお知らせいたします。</string>
 
     <!-- Itineraries -->
     <!-- Itinerary -->
@@ -194,9 +212,9 @@
     <!-- Itin flight summary second line for departure waypoint that also includes time of departure; first parameter is the airport code, second parameter is the localized time (e.g. 13:45) -->
     <string name="from_airport_time_TEMPLATE">&lt;b&gt;%1$sから&lt;/b&gt;%2$sに出発</string>
     <!-- Itin flight summary second line for arrival waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight arrives/d -->
-    <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;%1$sに到着&lt;/b&gt; - %2$s</string>
+    <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;%1$s に到着&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
-    <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;%1$sから出発&lt;/b&gt; - %2$s</string>
+    <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;%1$s から出発&lt;/b&gt; - %2$s</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">%1$s からログアウトすると、このアカウントに関連付けられている旅程項目が全て削除されます。ログアウトしてもよろしいですか ?</string>
     <!-- Directions -->
@@ -818,6 +836,8 @@
     <string name="log_out">ログアウト</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">今回の旅行で %1$s ポイント取得します !</string>
+    <!-- You'll earn bonus points for this booking -->
+    <string name="youll_earn_bonus_points_for_this_booking">今回のご予約で、ボーナス ポイントを取得します !</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
     <string name="calculating_taxes_and_fees">税金とサービス料を計算中…</string>
     <!-- Label to show next to the total price on the checkout receipt -->
@@ -1313,6 +1333,12 @@
     <string name="filter_price_moderate">$$</string>
     <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
     <string name="filter_price_expensive">$$$</string>
+    <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_cheap_euro">€</string>
+    <!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_moderate_euro">€€</string>
+    <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_expensive_euro">€€€</string>
     <!-- Filter option for "show 3 star hotels or better."  (Should remain abbreviated) -->
     <string name="filter_stars_three">3+</string>
     <!-- Filter option for "show 4 star hotels or better."  (Should remain abbreviated) -->
@@ -1570,6 +1596,14 @@
     <string name="Tonight">今夜</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">無料キャンセル</string>
+    <!-- Resort Fee -->
+    <string name="resort_fee">リゾート料金</string>
+    <!-- This fee is not included in the total -->
+    <string name="fee_not_included_in_total">この料金は合計には含まれていません</string>
+    <!-- Renovation Notice -->
+    <string name="renovation_notice">改装工事のお知らせ</string>
+    <!-- This property is undergoing renovations -->
+    <string name="property_undergoing_renovations">この施設では、改装工事が行われています</string>
 
     <!-- Gallery -->
     <!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
@@ -1753,6 +1787,8 @@
     <string name="log_in_for_faster_booking">ログインして簡単予約</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_rewards">Expedia Rewards\u2122 に参加</string>
+    <!-- Label for account status -->
+    <string name="enrolled_in_expedia_elite_plus_rewards">Elite Plus メンバー</string>
     <!-- Loading rewards points message -->
     <string name="loading_your_rewards_points">リワード ポイントをロード中…</string>
     <!-- Label for account name -->
@@ -2294,9 +2330,11 @@
 
     <!-- Samsung Wallet -->
     <!-- Label to use when the ticket already exists in the wallet -->
-    <string name="view_in_samsung_wallet">サムスン ウォレット機能を表示する</string>
+    <string name="view_in_samsung_wallet">Samsung Wallet で見る</string>
     <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
-    <string name="load_to_samsung_wallet">サムスン ウォレット機能ロードする</string>
+    <string name="load_to_samsung_wallet">Samsung Wallet にロードする</string>
+    <!-- Label to use when the user does not have the Samsung Wallet app installed -->
+    <string name="download_samsung_wallet">Samsung Wallet をダウンロードする</string>
 
     <!-- Human readable credit card names -->
     <!-- American Express -->
@@ -2527,10 +2565,6 @@
     <!-- Content description for action: Open App Info Screen -->
     <string name="cd_launch_open_eb_info_screen">エクスペディア予約情報画面を開く</string>
     <!-- Trips Screen -->
-    <!-- Content description for action: Log in for your trips (reference to existing string) -->
-    <string name="cd_trips_log_in_for_your_trips">@string/log_in_for_your_trips</string>
-    <!-- Content description for action: Enter Itinerary Number (reference to existing string) -->
-    <string name="cd_trips_enter_itinerary_number">@string/enter_itinerary_number</string>
     <!-- Content description for action: Press to refresh trips list -->
     <string name="cd_trips_refresh_trips_list">タップして旅程リストを更新</string>
     <!-- Hotel Search Screen -->
@@ -2659,8 +2693,6 @@
     <string name="cd_checkout_coupon_code_entry_field">テキスト フィールドにクーポンあるいはプロモーション コードを入力</string>
     <!-- Content description for action: Press to apply coupon -->
     <string name="cd_checkout_apply_coupon_button">タップしてクーポンを適用</string>
-    <!-- Content description for action: Slide to purchase -->
-    <string name="cd_checkout_slide_to_purchase">@string/slide_to_purchase</string>
     <!-- Log in screen -->
     <!-- Content description for action: Enter Expedia account email address -->
     <string name="cd_log_in_email_edit_text">エクスペディア アカウントの電子メールアドレスを入力</string>
@@ -2698,7 +2730,7 @@
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
     <string name="cd_traveler_special_assistance_edit">スペシャル サポートを必要とする場合はサポートタイプを選択</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
-    <string name="cd_traveler_seat_preference_edit">希望の座席タイプを選択</string>
+    <string name="cd_traveler_seat_preference_edit">希望する座席を選択</string>
     <!-- Credit Card Information -->
     <!-- Content description for action: Enter credit card number -->
     <string name="cd_card_info_card_number_edit_text">クレジットカード番号を入力</string>

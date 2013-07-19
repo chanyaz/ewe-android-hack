@@ -81,6 +81,24 @@
     <!-- Notification text for activity start -->
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">明天可以開始兌換%s的票。</string>
 
+    <!-- Sweepstakes -->
+    <!-- Title of the sweepstakes -->
+    <string name="sweepstakes_enter_title">Trip-a-day giveaway!</string>
+    <!-- Subtitle of the sweepstakes describing what the price is -->
+    <string name="sweepstakes_enter_subtitle">您有機會獲得價值 $1,200　元的\nExpedia 假期！</string>
+    <!-- Text describing how to enter the sweepstakes -->
+    <string name="sweepstakes_enter_text">只要登入 Expedia 帳戶\n或使用 Facebook 帳戶登入就可以參加抽獎。</string>
+    <!-- Button declining to enter the sweepstakes -->
+    <string name="sweepstakes_no_thanks">不用了，謝謝。</string>
+    <!-- Button to enter the sweepstakes -->
+    <string name="sweepstakes_enter">參加活動</string>
+    <!-- Terms and conditions text for the sweepstakes -->
+    <string name="sweepstakes_terms">參加活動即表示我同意&lt;font color="#216092"&gt;條款和條件&lt;/font&gt;。&lt;br /&gt;不用預訂或購買任何行程。活動詳情請參閱&lt;font color="#216092"&gt;完整活動規則&lt;/font&gt;。</string>
+    <!-- Confirmation title after user enters the sweepstakes -->
+    <string name="sweepstakes_confirmation_title">感謝您參加活動</string>
+    <!-- Confirmation text after user enters the sweepstakes, saying the user will be notified if they win -->
+    <string name="sweepstakes_confirmation_text">請留意您的電子郵件信箱！\n得獎者會收到電子郵件通知。</string>
+
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">行程</string>
@@ -817,7 +835,9 @@
     <!-- Log out -->
     <string name="log_out">登出</string>
     <!-- You'll earn points for this trip -->
-    <string name="youll_earn_points_TEMPLATE">此趟旅程您將會獲得 %1$s 點！</string>
+    <string name="youll_earn_points_TEMPLATE">此趟旅程您將可獲得 %1$s 點！</string>
+    <!-- You'll earn bonus points for this booking -->
+    <string name="youll_earn_bonus_points_for_this_booking">此次預訂您將可獲得額外獎勵點數！</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
     <string name="calculating_taxes_and_fees">正在計算稅金和其他費用…</string>
     <!-- Label to show next to the total price on the checkout receipt -->
@@ -1313,6 +1333,12 @@
     <string name="filter_price_moderate">$$</string>
     <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
     <string name="filter_price_expensive">$$$</string>
+    <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_cheap_euro">€</string>
+    <!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_moderate_euro">€€</string>
+    <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_expensive_euro">€€€</string>
     <!-- Filter option for "show 3 star hotels or better."  (Should remain abbreviated) -->
     <string name="filter_stars_three">3+</string>
     <!-- Filter option for "show 4 star hotels or better."  (Should remain abbreviated) -->
@@ -1570,6 +1596,14 @@
     <string name="Tonight">今晚</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">免費取消</string>
+    <!-- Resort Fee -->
+    <string name="resort_fee">渡假村費用</string>
+    <!-- This fee is not included in the total -->
+    <string name="fee_not_included_in_total">此費用不含在總價中</string>
+    <!-- Renovation Notice -->
+    <string name="renovation_notice">內部整修通知</string>
+    <!-- This property is undergoing renovations -->
+    <string name="property_undergoing_renovations">此飯店正在進行內部整修１</string>
 
     <!-- Gallery -->
     <!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
@@ -1753,6 +1787,8 @@
     <string name="log_in_for_faster_booking">登入以加快預訂速度</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_rewards">已登記加入 Expedia Rewards\u2122</string>
+    <!-- Label for account status -->
+    <string name="enrolled_in_expedia_elite_plus_rewards">Elite Plus 會員</string>
     <!-- Loading rewards points message -->
     <string name="loading_your_rewards_points">正在載入您的獎勵積分…</string>
     <!-- Label for account name -->
@@ -2297,6 +2333,8 @@
     <string name="view_in_samsung_wallet">在 Samsung 電子錢包中檢視</string>
     <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
     <string name="load_to_samsung_wallet">載入 Samsung 電子錢包中</string>
+    <!-- Label to use when the user does not have the Samsung Wallet app installed -->
+    <string name="download_samsung_wallet">下載 Samsung 電子錢包</string>
 
     <!-- Human readable credit card names -->
     <!-- American Express -->
@@ -2527,10 +2565,6 @@
     <!-- Content description for action: Open App Info Screen -->
     <string name="cd_launch_open_eb_info_screen">開啟 Expedia 預訂資訊畫面</string>
     <!-- Trips Screen -->
-    <!-- Content description for action: Log in for your trips (reference to existing string) -->
-    <string name="cd_trips_log_in_for_your_trips">@string/log_in_for_your_trips</string>
-    <!-- Content description for action: Enter Itinerary Number (reference to existing string) -->
-    <string name="cd_trips_enter_itinerary_number">@string/enter_itinerary_number</string>
     <!-- Content description for action: Press to refresh trips list -->
     <string name="cd_trips_refresh_trips_list">按下以重新整理行程清單</string>
     <!-- Hotel Search Screen -->
@@ -2659,8 +2693,6 @@
     <string name="cd_checkout_coupon_code_entry_field">請在文字欄位輸入優惠或折扣代碼</string>
     <!-- Content description for action: Press to apply coupon -->
     <string name="cd_checkout_apply_coupon_button">按下以套用優惠</string>
-    <!-- Content description for action: Slide to purchase -->
-    <string name="cd_checkout_slide_to_purchase">@string/slide_to_purchase</string>
     <!-- Log in screen -->
     <!-- Content description for action: Enter Expedia account email address -->
     <string name="cd_log_in_email_edit_text">請輸入 Expedia 帳戶的電子郵件地址</string>
@@ -2696,9 +2728,9 @@
     <!-- Content description for action: Enter redress number, if applicable -->
     <string name="cd_traveler_redress_number_edit_text">請輸入申訴號碼 (若有的話)</string>
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
-    <string name="cd_traveler_special_assistance_edit">選擇旅客需要的特殊服務</string>
+    <string name="cd_traveler_special_assistance_edit">請選擇旅客需要的特殊服務</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
-    <string name="cd_traveler_seat_preference_edit">選擇旅客喜好的座位類型</string>
+    <string name="cd_traveler_seat_preference_edit">請選擇旅客偏好的座位類型</string>
     <!-- Credit Card Information -->
     <!-- Content description for action: Enter credit card number -->
     <string name="cd_card_info_card_number_edit_text">請輸入信用卡號碼</string>
