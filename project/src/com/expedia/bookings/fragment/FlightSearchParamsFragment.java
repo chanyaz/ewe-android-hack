@@ -97,7 +97,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 	private static final int ROUTES_FAILURE_CALLBACK_ID = 1;
 
-	public static final int MAX_RECENTS = 10;
+	public static final int MAX_RECENTS = 3;
 
 	// Controls the ratio of how large a selected EditText should take up
 	// 1 == takes up the full size, 0 == takes up 50%.
