@@ -183,10 +183,12 @@
     </style>
 
     <style name="Theme.VSC" parent="@style/Theme.Expedia">
+        <item name="android:logo">@drawable/ic_logo_vsc</item>
+        <item name="logo">@drawable/ic_logo_vsc</item>
         <item name="hotelPriceStandardColor">@color/hotel_price_text_color_vsc</item>
         <item name="hotelPriceSaleColor">@color/hotel_price_sale_text_color_vsc</item>
         <item name="hotelSearchActionBarPadding">5dp</item>
-        <item name="webViewPreferencesActionBarLogo">@drawable/ic_logo_hotels</item>
+        <item name="webViewPreferencesActionBarLogo">@drawable/ic_logo_vsc</item>
         <item name="actionBarCheckMarkDrawable">@drawable/ic_action_bar_checkmark_green</item>
         <item name="actionBarButtonTextColor">@color/action_bar_text_green</item>
         <item name="actionBarCheckoutDrawable">@drawable/ic_action_bar_checkout_arrow_green</item>
