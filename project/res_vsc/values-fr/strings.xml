@@ -739,7 +739,7 @@
     <!-- Select Payment -->
     <string name="select_payment">Choisir le paiement</string>
     <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">Choisir le paiement</string>
+    <string name="select_payment_sentence_case">Saisir ma carte bancaire</string>
     <!-- Add new card -->
     <string name="add_new_card">Ajouter une nouvelle carte</string>
     <!-- Overview button -->
@@ -797,7 +797,7 @@
 
     <!-- Checkout Activity -->
     <!-- Checkout Information label -->
-    <string name="checkout_information">Informations de paiement</string>
+    <string name="checkout_information">Réservez maintenant</string>
     <!-- Explicit acceptance of TOS -->
     <string name="Do_you_accept">Acceptez-vous toutes les conditions indiquées ci-dessus ?</string>
     <!-- I Accept button label -->
@@ -861,13 +861,13 @@
 
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
-    <string name="Add_Traveler">Ajouter un voyageur</string>
+    <string name="Add_Traveler">Saisir mes coordonnées</string>
     <!-- Label for "Add Payment" in task manager -->
     <string name="Add_Payment">Ajouter un mode de paiement</string>
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Informations sur le voyageur</string>
     <!-- Add traveler -->
-    <string name="add_traveler">Ajouter un voyageur</string>
+    <string name="add_traveler">Saisir mes coordonnées</string>
     <!-- Add traveler number template -->
     <string name="add_traveler_number_TEMPLATE">Ajouter le voyageur %1$s</string>
     <!-- Warning shown to users when they enter their name -->
