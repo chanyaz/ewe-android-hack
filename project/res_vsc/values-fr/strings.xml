@@ -30,6 +30,8 @@
     <string name="Log_In">Se connecter</string>
     <!-- Log in with Expedia -->
     <string name="Log_in_with_Expedia">Se connecter avec Expedia</string>
+    <!-- Log in with VSC -->
+    <string name="Log_in_with_VSC">Se connecter avec VSC</string>
     <!-- or -->
     <string name="or">ou</string>
 
@@ -1759,6 +1761,8 @@
     <string name="logged_in_as">Vous êtes connecté en tant que</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">Compte Expedia</string>
+    <!-- Label for signin screen -->
+    <string name="vsc_account">Compte VSC</string>
     <!-- Label for loading user profile from expedia.com -->
     <string name="loading_expedia_account">Chargement compte Expedia…</string>
     <!-- Label for password recovery -->

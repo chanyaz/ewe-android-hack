@@ -179,6 +179,9 @@
         <item name="hangTagKnobBackgroundDrawable">@drawable/gl_progress_knob_bg</item>
         <item name="HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder</item>
         <item name="costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
+        <item name="loginWithExpediaButtonDrawable">@drawable/btn_signin</item>
+        <item name="loginWithExpediaButtonText">@string/Log_in_with_Expedia</item>
+        <item name="loginWithExpediaTitleText">@string/expedia_account</item>
     </style>
 
     <style name="Theme.VSC" parent="@style/Theme.Expedia">

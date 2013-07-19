@@ -209,6 +209,9 @@
         <item name="hangTagKnobBackgroundDrawable">@drawable/gl_progress_knob_bg_vsc</item>
         <item name="HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder_vsc</item>
         <item name="costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_vsc</item>
+        <item name="loginWithExpediaButtonDrawable">@drawable/btn_signin_vsc</item>
+        <item name="loginWithExpediaButtonText">@string/Log_in_with_VSC</item>
+        <item name="loginWithExpediaTitleText">@string/vsc_account</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
