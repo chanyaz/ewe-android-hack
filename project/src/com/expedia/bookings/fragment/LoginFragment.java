@@ -50,6 +50,8 @@ import com.expedia.bookings.utils.FocusViewRunnable;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.AccountButton;
+import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
@@ -83,7 +85,7 @@ import com.nineoldandroids.view.animation.AnimatorProxy;
  * ---- If associating fails we let them try again, however since our api response is mostly worthless we sort of just get stuck here.
  *
  */
-public class LoginFragment extends Fragment implements LoginExtenderListener {
+public class LoginFragment extends Fragment implements LoginExtenderListener, AccountButtonClickListener {
 	private static final String ARG_PATH_MODE = "ARG_PATH_MODE";
 	private static final String ARG_EXTENDER_OBJECT = "ARG_EXTENDER_OBJECT";
 
@@ -105,6 +107,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 	private static final String STATE_EMPTY_EXP_PASSWORD = "STATE_EMPTY_EXP_PASSWORD";
 	private static final String STATE_DO_LOGIN_EXTENDER_WORK = "STATE_DO_LOGIN_EXTENDER_WORK";
 	private static final String STATE_LOGIN_EXTENDER = "STATE_LOGIN_EXTENDER";
+	private static final String STATE_EXPECTING_FB_CLOSE = "STATE_EXPECTING_FB_CLOSE";
 
 	private static final String DIALOG_LOADING = "DIALOG_LOADING";
 
@@ -128,10 +131,13 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 	private TextView mForgotYourPasswordTv;
 	private Button mLinkAccountsBtn;
 	private Button mCancelLinkAccountsBtn;
+	private View mLoginStatusDivider;
 
 	private EditText mExpediaUserName;
 	private EditText mExpediaPassword;
 	private EditText mLinkPassword;
+
+	private AccountButton mAccountButton;
 
 	private ThrobberDialog mLoadingFragment;
 
@@ -152,12 +158,13 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 	private boolean mDoLoginExtenderWork = false;
 	private VisibilityState mVisibilityState = VisibilityState.EXPEDIA_WTIH_FB_BUTTON;
 	private LineOfBusiness mLob = LineOfBusiness.HOTELS;
+	private boolean mFacebookExpectingClose = false;//If we are logging out
 
 	// Boolean for OmnitureTracking related purposes. false means user logged in manually
 	private boolean loginWithFacebook = false;
 
 	private enum VisibilityState {
-		FACEBOOK_LINK, EXPEDIA_WTIH_FB_BUTTON, EXPEDIA_WITH_EXPEDIA_BUTTON
+		FACEBOOK_LINK, EXPEDIA_WTIH_FB_BUTTON, EXPEDIA_WITH_EXPEDIA_BUTTON, LOGGED_IN
 	}
 
 	public static LoginFragment newInstance(LineOfBusiness mode) {
@@ -199,6 +206,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		mLoginExtenderContainer = Ui.findView(v, R.id.login_extension_container);
 
 		mStatusMessageTv = Ui.findView(v, R.id.login_status_textview);
+		mLoginStatusDivider = Ui.findView(v, R.id.login_status_divider);
 		mLogInWithFacebookBtn = Ui.findView(v, R.id.log_in_with_facebook_btn);
 		mSignInWithExpediaBtn = Ui.findView(v, R.id.log_in_with_expedia_btn);
 		mForgotYourPasswordTv = Ui.findView(v, R.id.forgot_your_password_link);
@@ -207,6 +215,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		mExpediaUserName = Ui.findView(v, R.id.username_edit_text);
 		mExpediaPassword = Ui.findView(v, R.id.password_edit_text);
 		mLinkPassword = Ui.findView(v, R.id.link_password_edit_text);
+		mAccountButton = Ui.findView(v, R.id.account_button_root);
 
 		FontCache.setTypeface(mStatusMessageTv, Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(mLogInWithFacebookBtn, Font.ROBOTO_REGULAR);
@@ -221,7 +230,9 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 
 		loadSavedState(savedInstanceState);
 
-		if (mStatusText == null || mStatusText.equalsIgnoreCase(getString(Ui.obtainThemeResID(getActivity(), R.attr.loginWithExpediaTitleText)))) {
+		if (mStatusText == null
+				|| mStatusText.equalsIgnoreCase(getString(Ui.obtainThemeResID(getActivity(),
+						R.attr.loginWithExpediaTitleText)))) {
 			setStatusText(Ui.obtainThemeResID(getActivity(), R.attr.loginWithExpediaTitleText), true);
 		}
 		else if (mStatusText != null) {
@@ -229,6 +240,20 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		}
 
 		initOnClicks();
+
+		if (User.isLoggedIn(getActivity())) {
+			if (Db.getUser() == null) {
+				Db.loadUser(getActivity());
+			}
+
+			if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
+					&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
+				//We have a user (either from memory, or loaded from disk)
+				mAccountButton.bind(false, true, Db.getUser(), true);
+				mVisibilityState = VisibilityState.LOGGED_IN;
+			}
+		}
+
 		setVisibilityState(mVisibilityState, false);
 
 		return v;
@@ -261,6 +286,9 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		}
 		if (mLoginExtender != null) {
 			outState.putBundle(STATE_LOGIN_EXTENDER, mLoginExtender.buildStateBundle());
+		}
+		if (mFacebookExpectingClose) {
+			outState.putBoolean(STATE_EXPECTING_FB_CLOSE, mFacebookExpectingClose);
 		}
 
 		outState.putBoolean(STATE_IS_LOADING, mIsLoading);
@@ -449,6 +477,10 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 				mLoginExtender = LoginExtender.buildLoginExtenderFromState(savedInstanceState
 						.getBundle(STATE_LOGIN_EXTENDER));
 			}
+			if (savedInstanceState.containsKey(STATE_EXPECTING_FB_CLOSE) && Session.getActiveSession() != null
+					&& Session.getActiveSession().isOpened()) {
+				mFacebookExpectingClose = savedInstanceState.getBoolean(STATE_EXPECTING_FB_CLOSE);
+			}
 
 			mEmptyUsername = savedInstanceState.getBoolean(STATE_EMPTY_EXP_USERNAME, true);
 			mEmptyPassword = savedInstanceState.getBoolean(STATE_EMPTY_EXP_PASSWORD, true);
@@ -573,7 +605,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 
 		mLinkPassword.addTextChangedListener(new TextWatcher() {
 			@Override
-			public void afterTextChanged(Editable arg0) { 
+			public void afterTextChanged(Editable arg0) {
 				if (arg0.length() > 0) {
 					mLinkAccountsBtn.setEnabled(true);
 				}
@@ -624,6 +656,8 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 				setStatusText(Ui.obtainThemeResID(getActivity(), R.attr.loginWithExpediaTitleText), true);
 			}
 		});
+
+		mAccountButton.setListener(this);
 	}
 
 	private void updateButtonState() {
@@ -633,35 +667,58 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		else {
 			mLinkAccountsBtn.setEnabled(false);
 		}
+
+		if (User.isLoggedIn(getActivity())) {
+			mAccountButton.bind(false, true, Db.getUser(), true);
+		}
+		else {
+			mAccountButton.bind(false, false, null, true);
+		}
 	}
 
 	private void setVisibilityState(VisibilityState state, boolean animate) {
 		mVisibilityState = state;
 		switch (mVisibilityState) {
+		case LOGGED_IN:
+			setStatusTextVisibility(View.GONE);
+			mExpediaSigninContainer.setVisibility(View.GONE);
+			mOrFacebookContainer.setVisibility(View.GONE);
+			mSigninWithExpediaButtonContainer.setVisibility(View.GONE);
+			mFacebookSigninContainer.setVisibility(View.GONE);
+			mFacebookButtonContainer.setVisibility(View.GONE);
+			mAccountButton.setVisibility(View.VISIBLE);
+			mTitleSetter.setActionBarTitle(getResources().getString(R.string.already_logged_in));
+			break;
 		case FACEBOOK_LINK:
+			setStatusTextVisibility(View.VISIBLE);
 			mExpediaSigninContainer.setVisibility(View.GONE);
 			mOrFacebookContainer.setVisibility(View.GONE);
 			mSigninWithExpediaButtonContainer.setVisibility(View.GONE);
 			mFacebookSigninContainer.setVisibility(View.VISIBLE);
 			mFacebookButtonContainer.setVisibility(View.VISIBLE);
+			mAccountButton.setVisibility(View.GONE);
 			mTitleSetter.setActionBarTitle(getResources().getString(R.string.link_accounts));
 			break;
 		case EXPEDIA_WITH_EXPEDIA_BUTTON:
+			setStatusTextVisibility(View.VISIBLE);
 			mExpediaSigninContainer.setVisibility(View.VISIBLE);
 			mOrFacebookContainer.setVisibility(View.VISIBLE);
 			mSigninWithExpediaButtonContainer.setVisibility(View.VISIBLE);
 			mFacebookSigninContainer.setVisibility(View.GONE);
 			mFacebookButtonContainer.setVisibility(View.GONE);
+			mAccountButton.setVisibility(View.GONE);
 			mTitleSetter.setActionBarTitle(getResources().getString(R.string.Log_In));
 			toggleLoginButtons(false, animate);
 			break;
 		case EXPEDIA_WTIH_FB_BUTTON:
 		default:
+			setStatusTextVisibility(View.VISIBLE);
 			mExpediaSigninContainer.setVisibility(View.VISIBLE);
 			mOrFacebookContainer.setVisibility(View.VISIBLE);
 			mSigninWithExpediaButtonContainer.setVisibility(View.VISIBLE);
 			mFacebookSigninContainer.setVisibility(View.GONE);
 			mFacebookButtonContainer.setVisibility(View.GONE);
+			mAccountButton.setVisibility(View.GONE);
 			mTitleSetter.setActionBarTitle(getResources().getString(R.string.Log_In));
 			toggleLoginButtons(true, animate);
 			break;
@@ -772,6 +829,11 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 			String str = String.format(getString(R.string.facebook_weve_fetched_your_info), name);
 			setStatusText(str, false);
 		}
+	}
+
+	protected void setStatusTextVisibility(int visibility) {
+		mStatusMessageTv.setVisibility(visibility);
+		mLoginStatusDivider.setVisibility(visibility);
 	}
 
 	protected void setStatusText(final String text, final boolean isHeading) {
@@ -1024,6 +1086,23 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		else {
 			AnimatorProxy.wrap(v).setRotationX(rotationX);
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// AccountButtonClickListener
+
+	@Override
+	public void accountLoginClicked() {
+		// We never show the account button if we are logged out, so login clicked should never be called.
+		throw new RuntimeException(
+				"The AccountButton in LoginFragment has fired accountLoginClicked, which should never happen.");
+	}
+
+	@Override
+	public void accountLogoutClicked() {
+		mFacebookExpectingClose = true;
+		User.signOut(getActivity());
+		setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON, false);
 	}
 
 	//////////////////////////////////
@@ -1279,7 +1358,11 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 	 */
 	public void handleFacebookResponse(Session session, SessionState state, Exception exception) {
 		Log.d("FB: handleFacebookResponse", exception);
-		if (session == null || state == null || exception != null || state.equals(SessionState.CLOSED)
+		if (mFacebookExpectingClose && state != null && state.isClosed()) {
+			mFacebookExpectingClose = false;
+		}
+		else if (session == null || state == null || exception != null
+				|| state.equals(SessionState.CLOSED)
 				|| state.equals(SessionState.CLOSED_LOGIN_FAILED)) {
 			setStatusText(R.string.unable_to_log_into_facebook, false);
 			goBack();
@@ -1290,6 +1373,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		else {
 			Log.d("FB: handleFacebookResponse - else");
 		}
+
 	}
 
 	/**

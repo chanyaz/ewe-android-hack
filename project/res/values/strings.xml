@@ -34,6 +34,8 @@
     <string name="Log_in_with_VSC">Log in with VSC</string>
     <!-- or -->
     <string name="or">or</string>
+    <!-- Already logged in -->
+    <string name="already_logged_in">Already logged in</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Home -->

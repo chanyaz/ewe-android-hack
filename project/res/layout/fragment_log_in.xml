@@ -29,6 +29,7 @@
             android:textSize="@dimen/login_header_text_size" />
 
         <View
+            android:id="@+id/login_status_divider"
             android:layout_width="match_parent"
             android:layout_height="@dimen/login_divider_height"
             android:background="#5CFFFFFF" />
@@ -194,6 +195,19 @@
                 android:gravity="center"
                 android:text="@string/cancel" />
         </LinearLayout>
+
+        <!-- If we are already logged in we show the logout button -->
+
+        <include
+            android:id="@+id/account_button_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="5dp"
+            layout="@layout/include_account_button"
+            android:visibility="gone" />
+
+        <!-- Login extender container -->
 
         <LinearLayout
             android:id="@+id/login_extension_container"
