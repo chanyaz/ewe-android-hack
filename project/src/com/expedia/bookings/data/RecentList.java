@@ -43,7 +43,7 @@ public class RecentList<E extends JSONable> {
 
 		mMaxItems = maxItems;
 
-		loadList(context, filename);
+		loadList(context, filename, true);
 	}
 
 	public void setMaxItems(int maxItems) {
@@ -99,7 +99,7 @@ public class RecentList<E extends JSONable> {
 		}
 	}
 
-	public void loadList(Context context, String filename) {
+	public void loadList(Context context, String filename, boolean useCurrentMaxItems) {
 		mList.clear();
 
 		// Check that the file exists - if it does not, just start
@@ -114,8 +114,15 @@ public class RecentList<E extends JSONable> {
 			String str = IoUtils.readStringFromFile(filename, context);
 			JSONObject obj = new JSONObject(str);
 
-			mMaxItems = obj.optInt("maxItems");
+			if (!useCurrentMaxItems) {
+				mMaxItems = obj.optInt("maxItems");
+			}
+
 			mList = JSONUtils.getJSONableList(obj, "list", mClass);
+
+			if (mList.size() > mMaxItems) {
+				mList = mList.subList(0, mMaxItems);
+			}
 		}
 		catch (Exception e) {
 			Log.e("Could not save recent search list: " + e);
