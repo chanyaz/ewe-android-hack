@@ -1346,7 +1346,7 @@
     <!-- Message displayed when the hotel room is sold out -->
     <string name="error_room_is_now_sold_out">Désolés. Cette chambre n\&apos;est plus disponible sur notre app.</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
-    <string name="error_hotel_is_now_sold_out">Désolés. Cet hôtel n\&apos;est plus disponible sur notre app.</string>
+    <string name="error_hotel_is_now_sold_out">Désolés. Cet hôtel n\&apos;est plus disponible. Veuillez en sélectionner un autre.</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
