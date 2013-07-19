@@ -17,9 +17,11 @@ import android.content.res.Configuration;
 import com.activeandroid.ActiveAndroid;
 import com.expedia.bookings.R;
 import com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LocalExpertSite;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.WalletPromoResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
@@ -41,6 +43,7 @@ import com.nullwire.trace.ExceptionHandler;
 
 public class ExpediaBookingApp extends Application implements UncaughtExceptionHandler {
 	private static final String PREF_FIRST_LAUNCH = "PREF_FIRST_LAUNCH";
+	private static final String PREF_UPGRADED_TO_ACCOUNT_MANAGER = "PREF_UPGRADED_TO_ACCOUNT_MANAGER";//For logged in backward compatibility with AccountManager
 
 	private static final int MIN_IMAGE_CACHE_SIZE = (1024 * 1024 * 6); // 6 MB
 	public static final boolean IS_VSC = AndroidUtils.getBuildConfigValue("IS_VSC"); // Check to see if this is a VSC app build
@@ -144,6 +147,20 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 				: "ExpediaSharedData/ExpediaServerURLs.json";
 		ExpediaServices.initEndPoints(this, serverUrlPath);
 		startupTimer.addSplit("ExpediaServices endpoints init");
+
+		// If we are upgrading from a pre-AccountManager version, update account manager to include our logged in user.
+		if (!SettingUtils.get(this, PREF_UPGRADED_TO_ACCOUNT_MANAGER, false)) {
+			if (User.isLoggedInOnDisk(this) && !User.isLoggedInToAccountManager(this)) {
+				if (Db.getUser() == null) {
+					Db.loadUser(this);
+				}
+				if (Db.getUser() != null) {
+					User.addUserToAccountManager(this, Db.getUser());
+				}
+			}
+			SettingUtils.save(this, PREF_UPGRADED_TO_ACCOUNT_MANAGER, true);
+			startupTimer.addSplit("User upgraded to use AccountManager");
+		}
 
 		// We want to try to start loading data (but it may not be finished syncing before someone tries to use it).
 		ItineraryManager.getInstance().startSync(false);
