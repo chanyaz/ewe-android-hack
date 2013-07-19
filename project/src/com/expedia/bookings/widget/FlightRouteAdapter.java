@@ -165,13 +165,19 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 		// Add recents
 		if (!mRecentSearches.isEmpty()) {
-			mRows.add(new RecentRow());
+			boolean addedRecent = false;
 
 			for (Location recent : mRecentSearches.getList()) {
 				Airport airport = mRoutes.getAirport(recent.getDestinationId());
 				if (airport != null && airports.contains(airport)) {
 					mRows.add(new AirportRow(airport));
+					addedRecent = true;
 				}
+			}
+
+			// Only add recent row if we've had any valid recents to show
+			if (addedRecent) {
+				mRows.add(1, new RecentRow());
 			}
 		}
 
