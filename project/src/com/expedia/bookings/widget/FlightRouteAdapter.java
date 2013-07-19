@@ -39,12 +39,16 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 	private FlightRouteAdapterListener mListener;
 
+	private int mDropDownRowPaddingLeft;
+
 	public FlightRouteAdapter(Context context, FlightRoutes routes, RecentList<Location> recentSearches,
 			boolean isOrigin) {
 		mContext = context;
 		mRecentSearches = recentSearches;
 		mRoutes = routes;
 		mIsOrigin = isOrigin;
+		mDropDownRowPaddingLeft = context.getResources().getDimensionPixelSize(
+				R.dimen.flight_search_airport_padding_left);
 		generateRows();
 	}
 
@@ -129,10 +133,9 @@ public class FlightRouteAdapter extends BaseAdapter {
 			mListener.onSpinnerClicked();
 		}
 
-		// TODO: convertView doesn't work properly in getDropDownView(), because
-		// it assumes there's only one View type (for some dumb reason).  For now
-		// we just don't use it, but in the future we should try some solutions
-		// of our own.
+		// Note: convertView doesn't work properly in getDropDownView(), because
+		// it assumes there's only one View type (for some dumb reason).  So we
+		// use a single row that we modify visibility on so we can get some reuse.
 		return mRows.get(position).getDropDownView(position, convertView, parent);
 	}
 
@@ -251,8 +254,16 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 		@Override
 		public View getDropDownView(int position, View convertView, ViewGroup parent) {
-			// We don't want this row to actually show in the spinner, so make it 0-sized 
-			return new View(mContext);
+			convertView = useDropDownConvertView(convertView, parent);
+			DropDownViewHolder holder = (DropDownViewHolder) convertView.getTag();
+
+			// Make everything invisible
+			holder.mAirportLocationTextView.setVisibility(View.GONE);
+			holder.mAirportDetailsTextView.setVisibility(View.GONE);
+			holder.mHeaderTextView.setVisibility(View.GONE);
+			setDropDownRowBackground(holder, 0);
+
+			return convertView;
 		}
 
 		@Override
@@ -277,11 +288,19 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 		@Override
 		public View getDropDownView(int position, View convertView, ViewGroup parent) {
-			TextView textView = (TextView) LayoutInflater.from(mContext).inflate(
-					R.layout.spinner_airport_dropdown_header, parent, false);
-			textView.setText(mText);
-			ViewUtils.setAllCaps(textView);
-			return textView;
+			convertView = useDropDownConvertView(convertView, parent);
+			DropDownViewHolder holder = (DropDownViewHolder) convertView.getTag();
+
+			// Configure visibility for airport style
+			holder.mAirportLocationTextView.setVisibility(View.GONE);
+			holder.mAirportDetailsTextView.setVisibility(View.GONE);
+			holder.mHeaderTextView.setVisibility(View.VISIBLE);
+
+			setDropDownRowBackground(holder, R.drawable.bg_textview_divider_large);
+
+			holder.mHeaderTextView.setText(mText);
+
+			return convertView;
 		}
 
 		@Override
@@ -317,22 +336,27 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 		@Override
 		public View getDropDownView(int position, View convertView, ViewGroup parent) {
-			View view = LayoutInflater.from(mContext).inflate(
-					R.layout.spinner_airport_dropdown_airport, parent, false);
+			convertView = useDropDownConvertView(convertView, parent);
+			DropDownViewHolder holder = (DropDownViewHolder) convertView.getTag();
 
-			TextView tv1 = Ui.findView(view, android.R.id.text1);
-			TextView tv2 = Ui.findView(view, android.R.id.text2);
-
-			tv1.setText(mAirport.mName + ", " + mAirport.mCountryCode);
-			Airport fullAirport = FlightStatsDbUtils.getAirport(mAirport.mAirportCode);
-			tv2.setText(mAirport.mAirportCode + " - " + fullAirport.mName);
+			// Configure visibility for airport style
+			holder.mAirportLocationTextView.setVisibility(View.VISIBLE);
+			holder.mAirportDetailsTextView.setVisibility(View.VISIBLE);
+			holder.mHeaderTextView.setVisibility(View.GONE);
 
 			// Disable the divider if this is the last row before a country
 			if (mRows.size() == position + 1 || mRows.get(position + 1).getViewType() == RowType.HEADER) {
-				view.setBackgroundDrawable(null);
+				setDropDownRowBackground(holder, 0);
+			}
+			else {
+				setDropDownRowBackground(holder, R.drawable.bg_textview_divider_small);
 			}
 
-			return view;
+			holder.mAirportLocationTextView.setText(mAirport.mName + ", " + mAirport.mCountryCode);
+			Airport fullAirport = FlightStatsDbUtils.getAirport(mAirport.mAirportCode);
+			holder.mAirportDetailsTextView.setText(mAirport.mAirportCode + " - " + fullAirport.mName);
+
+			return convertView;
 		}
 
 		@Override
@@ -343,6 +367,37 @@ public class FlightRouteAdapter extends BaseAdapter {
 		public Airport getAirport() {
 			return mAirport;
 		}
+	}
+
+	private View useDropDownConvertView(View convertView, ViewGroup parent) {
+		if (convertView == null) {
+			convertView = LayoutInflater.from(mContext)
+					.inflate(R.layout.spinner_airport_dropdown_row, parent, false);
+
+			DropDownViewHolder holder = new DropDownViewHolder();
+			holder.mContainer = convertView;
+			holder.mAirportLocationTextView = Ui.findView(convertView, R.id.airport_location_text_view);
+			holder.mAirportDetailsTextView = Ui.findView(convertView, R.id.airport_details_text_view);
+			holder.mHeaderTextView = Ui.findView(convertView, R.id.header_text_view);
+
+			ViewUtils.setAllCaps(holder.mHeaderTextView);
+
+			convertView.setTag(holder);
+		}
+
+		return convertView;
+	}
+
+	private void setDropDownRowBackground(DropDownViewHolder holder, int bgResId) {
+		holder.mContainer.setBackgroundResource(bgResId);
+		holder.mContainer.setPadding(mDropDownRowPaddingLeft, 0, 0, 0);
+	}
+
+	private static class DropDownViewHolder {
+		View mContainer;
+		TextView mAirportLocationTextView;
+		TextView mAirportDetailsTextView;
+		TextView mHeaderTextView;
 	}
 
 	private int getAirportLayoutResId() {
