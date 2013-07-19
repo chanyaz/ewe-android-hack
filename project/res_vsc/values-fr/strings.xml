@@ -1664,7 +1664,7 @@
     <!-- Error if user agreement needs to be checked but is not -->
     <string name="error_no_user_agreement">Vous devez accepter les conditions pour pouvoir réserver</string>
     <!-- Message to display to user while booking is in progress -->
-    <string name="booking_loading">Réservation en cours…</string>
+    <string name="booking_loading">Paiement en cours…</string>
     <!-- Title for error dialog when booking fails -->
     <string name="error_booking_title">Erreur</string>
     <!-- Error message when we couldn't get a response -->
