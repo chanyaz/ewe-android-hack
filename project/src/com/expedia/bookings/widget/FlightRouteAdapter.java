@@ -17,6 +17,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightRoutes;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.RecentList;
+import com.mobiata.android.util.ViewUtils;
 import com.mobiata.flightlib.data.Airport;
 
 public class FlightRouteAdapter extends BaseAdapter {
@@ -276,8 +277,8 @@ public class FlightRouteAdapter extends BaseAdapter {
 		@Override
 		public View getDropDownView(View convertView, ViewGroup parent) {
 			TextView textView = (TextView) LayoutInflater.from(mContext).inflate(
-					android.R.layout.simple_list_item_1, parent, false);
-			textView.setText(R.string.recently_used);
+					R.layout.spinner_airport_dropdown_row_recents, parent, false);
+			ViewUtils.setAllCaps(textView);
 			return textView;
 		}
 

@@ -676,6 +676,8 @@
     <string name="loading_air_asia_routes">Loading AirAsia routes…</string>
     <!-- Message shown when we could not load the AirAsia flight routes -->
     <string name="error_could_not_load_air_asia">Could not load AirAsia routes</string>
+    <!-- Header row for airports that were used recently for a search -->
+    <string name="recent">Recent</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
