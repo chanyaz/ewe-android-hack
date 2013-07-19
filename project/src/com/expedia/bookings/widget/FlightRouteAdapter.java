@@ -120,7 +120,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 		// it assumes there's only one View type (for some dumb reason).  For now
 		// we just don't use it, but in the future we should try some solutions
 		// of our own.
-		return mRows.get(position).getDropDownView(convertView, parent);
+		return mRows.get(position).getDropDownView(position, convertView, parent);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -201,7 +201,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 	private interface Row {
 		public View getView(View convertView, ViewGroup parent);
 
-		public View getDropDownView(View convertView, ViewGroup parent);
+		public View getDropDownView(int position, View convertView, ViewGroup parent);
 
 		public RowType getViewType();
 	}
@@ -225,7 +225,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 		}
 
 		@Override
-		public View getDropDownView(View convertView, ViewGroup parent) {
+		public View getDropDownView(int position, View convertView, ViewGroup parent) {
 			// We don't want this row to actually show in the spinner, so make it 0-sized 
 			return new View(mContext);
 		}
@@ -251,7 +251,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 		}
 
 		@Override
-		public View getDropDownView(View convertView, ViewGroup parent) {
+		public View getDropDownView(int position, View convertView, ViewGroup parent) {
 			TextView textView = (TextView) LayoutInflater.from(mContext).inflate(
 					R.layout.spinner_airport_dropdown_row_country, parent, false);
 			textView.setText(mCountry);
@@ -275,7 +275,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 		}
 
 		@Override
-		public View getDropDownView(View convertView, ViewGroup parent) {
+		public View getDropDownView(int position, View convertView, ViewGroup parent) {
 			TextView textView = (TextView) LayoutInflater.from(mContext).inflate(
 					R.layout.spinner_airport_dropdown_row_recents, parent, false);
 			ViewUtils.setAllCaps(textView);
@@ -313,12 +313,16 @@ public class FlightRouteAdapter extends BaseAdapter {
 		}
 
 		@Override
-		public View getDropDownView(View convertView, ViewGroup parent) {
-			// TODO: Implement actual view here
+		public View getDropDownView(int position, View convertView, ViewGroup parent) {
 			TextView textView = (TextView) LayoutInflater.from(mContext).inflate(
-					android.R.layout.simple_list_item_1,
-					parent, false);
+					R.layout.spinner_airport_dropdown_row_airport, parent, false);
 			textView.setText(mAirport.mName);
+
+			// Disable the divider if this is the last row before a country
+			if (mRows.size() == position + 1 || mRows.get(position + 1).getViewType() == RowType.COUNTRY) {
+				textView.setBackground(null);
+			}
+
 			return textView;
 		}
 
