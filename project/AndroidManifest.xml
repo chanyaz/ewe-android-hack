@@ -405,6 +405,13 @@
             android:name="com.expedia.bookings.account.AccountSyncContentProvider"
             android:authorities="@string/expedia_account_sync_adapter_content_authority"
             android:exported="false" />
+
+        <receiver android:name="com.expedia.bookings.account.AccountsChangedBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="android.accounts.LOGIN_ACCOUNTS_CHANGED" >
+                </action>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
