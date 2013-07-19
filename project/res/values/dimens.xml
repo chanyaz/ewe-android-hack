@@ -51,6 +51,7 @@
     <dimen name="flight_search_header_padding_bottom">14dp</dimen>
     <dimen name="flight_search_space_between_rows">6dp</dimen>
     <dimen name="flight_search_calendar_height">300dp</dimen>
+    <dimen name="flight_search_dropdown_width_padding">48dp</dimen>
 
     <!-- Plane window view dimens -->
     <!-- These must always be linked -->
