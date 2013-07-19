@@ -373,7 +373,7 @@ public class HotelsRobotHelper {
 	}
 
 	public void selectHotel(int hotelIndex) throws Exception {
-		enterLog(TAG, "Picking hotel at index " + hotelIndex);
+		enterLog(TAG, "Picking hotel at list index " + hotelIndex);
 
 		landscape();
 		portrait();
@@ -383,14 +383,12 @@ public class HotelsRobotHelper {
 		delay();
 		delay();
 
-		enterLog(TAG, "Hotel Details have loaded!");
+		TextView hotelNameView = (TextView) mSolo.getView(R.id.hotel_name_text_view);
+		enterLog(TAG, "Hotel Details have loaded for hotel: " + hotelNameView.getText());
 		screenshot("Hotel Details Screen");
 
 		mSolo.scrollDown();
 		screenshot("Hotel Details 2");
-
-		mSolo.scrollDown();
-		screenshot("Hotel Details 3");
 
 		mSolo.scrollToBottom();
 		screenshot("Bottom of Hotel Details");
@@ -419,12 +417,12 @@ public class HotelsRobotHelper {
 			mSolo.goBack();
 		}
 		catch (Error e) {
-			enterLog(TAG, "No reviews for hotel selected");
+			enterLog(TAG, "No reviews available for hotel selected");
 		}
 	}
 
 	public void pressBookRoom() {
-
+		enterLog(TAG, "Clicking to booking currently selected room");
 		mSolo.clickOnButton(0);
 		//Wait for rooms and rates to appear!
 		Boolean didItLoad = mSolo.waitForActivity("RoomsAndRatesListActivity", 20000);
@@ -442,7 +440,7 @@ public class HotelsRobotHelper {
 	// Rooms & Rates Screens methods
 
 	public void selectRoom(int roomIndex) throws Exception {
-		enterLog(TAG, "About to select room at index " + roomIndex);
+		enterLog(TAG, "About to select room from rooms and rates index " + roomIndex);
 		delay();
 		landscape();
 		portrait();
@@ -453,7 +451,7 @@ public class HotelsRobotHelper {
 		}
 		//select new hotel if current hotel as no rooms
 		catch (Error noRoomsListed) {
-			enterLog(TAG, "No rooms at this hotel. Going to a new one.");
+			enterLog(TAG, "No rooms at this hotel. Going to a new hotel.");
 			mSolo.goBack();
 			delay();
 			mSolo.goBack();
@@ -607,14 +605,17 @@ public class HotelsRobotHelper {
 
 		mSolo.clickOnView(mSolo.getView(R.id.enter_info_manually_button));
 		delay();
+		enterLog(TAG, "Entering traveler's first name:" + mUser.mFirstName);
 		mSolo.enterText((EditText)
 				mSolo.getCurrentActivity().findViewById(R.id.edit_first_name),
 				mUser.mFirstName);
 		delay(1);
+		enterLog(TAG, "Entering traveler's last name:" + mUser.mLastName);
 		mSolo.enterText((EditText)
 				mSolo.getCurrentActivity().findViewById(R.id.edit_last_name),
 				mUser.mLastName);
 		delay();
+		enterLog(TAG, "Entering traveler's phone number: " + mUser.mPhoneNumber);
 		mSolo.enterText((EditText)
 				mSolo.getCurrentActivity().findViewById(R.id.edit_phone_number),
 				mUser.mPhoneNumber);
@@ -665,10 +666,11 @@ public class HotelsRobotHelper {
 
 		if (mSolo.searchText(addTraveler, true)) {
 			try {
+				enterLog(TAG, "Clicking on traveler info button to add new traveler");
 				mSolo.clickOnView(mSolo.getView(R.id.traveler_info_btn));
 			}
 			catch (Error e) {
-				Log.e(TAG, "Failed to click view. Falling back to string: " + addTraveler);
+				enterLog(TAG, "Failed to click traveler info button. Now trying to click on string: " + addTraveler);
 				mSolo.clickOnText(addTraveler);
 			}
 			enterNewTraveler();
@@ -679,19 +681,18 @@ public class HotelsRobotHelper {
 			mSolo.scrollToBottom();
 
 			try {
+				enterLog(TAG, "Clicking payment info button to go to payment selection screen");
 				mSolo.clickOnView(mSolo.getView(R.id.payment_info_btn));
 				delay();
 				screenshot("Select payment");
 				delay();
 			}
 			catch (Error e) {
-				Log.e(TAG, "Payment info button not present. Trying to move on without it.");
+				enterLog(TAG, "Payment info button not present. Trying to move on without it.");
 			}
 
+			enterLog(TAG, "Pressing button to add new card");
 			mSolo.clickOnText(mSolo.getString(R.string.add_new_card), 1, true);
-			delay(1);
-			screenshot("Add new card");
-			delay(1);
 
 			delay(5);
 			screenshot("Credit card info.");
@@ -707,18 +708,22 @@ public class HotelsRobotHelper {
 	public void inputBillingAddress() {
 		enterLog(TAG, "Booking: entering billing address.");
 
+		enterLog(TAG, "Adding billing address, first line: " + mUser.mAddressLine1);
 		//Enter billing street address
 		mSolo.enterText((EditText) mSolo.getView(R.id.edit_address_line_one),
 				mUser.mAddressLine1);
 
+		enterLog(TAG, "Adding billing address, city: " + mUser.mCityName);
 		//Enter billing address city
 		mSolo.enterText((EditText) mSolo.getView(R.id.edit_address_city),
 				mUser.mCityName);
 
+		enterLog(TAG, "Adding billing address, first line: " + mUser.mStateCode);
 		//Enter billing address state
 		mSolo.enterText((EditText) mSolo.getView(R.id.edit_address_state),
 				mUser.mStateCode);
 
+		enterLog(TAG, "Adding billing address, first line: " + mUser.mZIPCode);
 		//Enter billing address postal code
 		mSolo.enterText((EditText) mSolo.getView(R.id.edit_address_postal_code),
 				mUser.mZIPCode);
@@ -737,10 +742,13 @@ public class HotelsRobotHelper {
 		delay(1);
 		portrait();
 
+		enterLog(TAG, "Adding credit card info, card number: " + mUser.mCreditCardNumber);
 		// Enter Credit Card Number
 		mSolo.enterText((EditText) mSolo.getView(R.id.edit_creditcard_number),
 				mUser.mCreditCardNumber);
 
+		enterLog(TAG, "Adding credit card info, card number: "
+				+ mUser.mFirstName + " " + mUser.mLastName);
 		// Enter Cardholder's name
 		mSolo.typeText((EditText) mSolo.getView(R.id.edit_name_on_card),
 				mUser.mFirstName + " " + mUser.mLastName);
@@ -749,14 +757,18 @@ public class HotelsRobotHelper {
 		try {
 			mSolo.typeText((EditText) mSolo.getView(R.id.edit_address_postal_code),
 					mUser.mZIPCode);
+			enterLog(TAG, "Adding credit card postal code: " + mUser.mZIPCode);
 		}
 		catch (Error e) {
 			enterLog(TAG, "No postal code edit text found.");
 		}
 
+		enterLog(TAG, "Picking arbitrary expiration date for credit card");
 		// Pick generic date
 		mSolo.clickOnText(mRes.getString(R.string.expiration_date));
 		mSolo.clickOnButton(1);
+
+		enterLog(TAG, "Pressing 'Done' button to exit CC entry and choosing to not save card info to account");
 
 		// Press done to enter this data
 		mSolo.clickOnText(mRes.getString(R.string.button_done));
@@ -828,7 +840,6 @@ public class HotelsRobotHelper {
 		// If booking error appears, either throw exception
 		// or try to enter CVV again.
 		if (mSolo.searchText("Sorry, we don't seem to be able", true)) {
-
 			//If asserting post-cvv entry popup, assert that
 			// leaving pop up takes you back to CC entry view
 			if (assertPostCCVPopUp) {
@@ -840,6 +851,7 @@ public class HotelsRobotHelper {
 				}
 			}
 			//If can't complete the suppressed booking, go back to the launcher.
+			enterLog(TAG, "Couldn't complete booking. Going back to the launch screen.");
 			mSolo.clickOnButton(0);
 			mSolo.goBack();
 			mSolo.goBack();
