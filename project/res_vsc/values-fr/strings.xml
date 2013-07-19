@@ -914,7 +914,7 @@
     <!-- Expiration date label -->
     <string name="expiration_date">Date d\&apos;expiration</string>
     <!-- Set expiration date button -->
-    <string name="btn_set">Configurer</string>
+    <string name="btn_set">Valider</string>
 
     <!-- Section edit billing address -->
     <!-- Address line 1 hint -->
