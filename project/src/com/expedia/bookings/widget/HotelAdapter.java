@@ -330,11 +330,11 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		boolean imageSet = false;
 		if (holder.thumbnail != null && !mIsMeasuring && property.getThumbnail() != null) {
 			String url = property.getThumbnail().getUrl();
-			UrlBitmapDrawable.loadImageView(url, holder.thumbnail, Ui.obtainThemeDrawableID((Activity)mContext, R.attr.HotelRowThumbPlaceHolderDrawable));
+			UrlBitmapDrawable.loadImageView(url, holder.thumbnail, Ui.obtainThemeResID((Activity)mContext, R.attr.HotelRowThumbPlaceHolderDrawable));
 			imageSet = true;
 		}
 		if (holder.thumbnail != null && !imageSet) {
-			holder.thumbnail.setImageResource(Ui.obtainThemeDrawableID((Activity)mContext, R.attr.HotelRowThumbPlaceHolderDrawable));
+			holder.thumbnail.setImageResource(Ui.obtainThemeResID((Activity)mContext, R.attr.HotelRowThumbPlaceHolderDrawable));
 		}
 
 		// Set the background based on whether the row is selected or not

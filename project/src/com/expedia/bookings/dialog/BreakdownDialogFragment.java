@@ -139,7 +139,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 
 		// Title
 		builder.setTitle(context.getString(R.string.cost_summary));
-		builder.setTitleDivider(com.expedia.bookings.utils.Ui.obtainThemeDrawableID((Activity)context, R.attr.costSummaryDialogStripeDrawable));
+		builder.setTitleDivider(com.expedia.bookings.utils.Ui.obtainThemeResID((Activity)context, R.attr.costSummaryDialogStripeDrawable));
 
 		// Breakdown summary
 		int numNights = params.getStayDuration();

@@ -221,8 +221,8 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 
 		loadSavedState(savedInstanceState);
 
-		if (mStatusText == null || mStatusText.equalsIgnoreCase(getString(Ui.obtainThemeDrawableID(getActivity(), R.attr.loginWithExpediaTitleText)))) {
-			setStatusText(Ui.obtainThemeDrawableID(getActivity(), R.attr.loginWithExpediaTitleText), true);
+		if (mStatusText == null || mStatusText.equalsIgnoreCase(getString(Ui.obtainThemeResID(getActivity(), R.attr.loginWithExpediaTitleText)))) {
+			setStatusText(Ui.obtainThemeResID(getActivity(), R.attr.loginWithExpediaTitleText), true);
 		}
 		else if (mStatusText != null) {
 			setStatusText(mStatusText, false);
@@ -621,7 +621,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 					setVisibilityState(VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON, false);
 				}
 
-				setStatusText(Ui.obtainThemeDrawableID(getActivity(), R.attr.loginWithExpediaTitleText), true);
+				setStatusText(Ui.obtainThemeResID(getActivity(), R.attr.loginWithExpediaTitleText), true);
 			}
 		});
 	}
@@ -705,7 +705,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 
 		switch (mVisibilityState) {
 		case FACEBOOK_LINK:
-			this.setStatusText(Ui.obtainThemeDrawableID(getActivity(), R.attr.loginWithExpediaTitleText), true);
+			this.setStatusText(Ui.obtainThemeResID(getActivity(), R.attr.loginWithExpediaTitleText), true);
 			if (TextUtils.isEmpty(mExpediaUserName.getText())) {
 				setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON, false);
 			}
