@@ -956,7 +956,7 @@
 
     <!-- Section edit traveler -->
     <!-- Traveler Information -->
-    <string name="traveler_information">Informations sur le voyageur</string>
+    <string name="traveler_information">Mes coordonnées</string>
     <!-- First name label -->
     <string name="first_name">Prénom</string>
     <!-- Middle name label -->
@@ -988,11 +988,11 @@
 
     <!-- Traveler options activity -->
     <!-- Select a traveler -->
-    <string name="select_a_traveler">Choisir un voyageur</string>
+    <string name="select_a_traveler">Profil voyageur</string>
     <!-- Select a different traveler -->
     <string name="select_a_different_traveler">Choisir un autre voyageur</string>
     <!-- Enter a new traveler -->
-    <string name="enter_new_traveler">Ajouter un autre voyageur</string>
+    <string name="enter_new_traveler">Saisir mes coordonnées</string>
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">Modifier les informations sur le voyageur</string>
     <!-- prefers seat template -->
