@@ -381,10 +381,12 @@ public class HotelsRobotHelper {
 		mSolo.clickInList(hotelIndex);
 		mSolo.waitForActivity("HotelDetailsFragmentActivity");
 		delay();
-		delay();
 
-		TextView hotelNameView = (TextView) mSolo.getView(R.id.hotel_name_text_view);
-		enterLog(TAG, "Hotel Details have loaded for hotel: " + hotelNameView.getText());
+		TextView titleView = (TextView) mSolo.getView(R.id.title);
+		String hotelName = (String) titleView.getText();
+
+		enterLog(TAG,
+				"Hotel Details have loaded for hotel: " + hotelName);
 		screenshot("Hotel Details Screen");
 
 		mSolo.scrollDown();
