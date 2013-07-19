@@ -17,8 +17,10 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightRoutes;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.RecentList;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.ViewUtils;
 import com.mobiata.flightlib.data.Airport;
+import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 public class FlightRouteAdapter extends BaseAdapter {
 
@@ -337,16 +339,22 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 		@Override
 		public View getDropDownView(int position, View convertView, ViewGroup parent) {
-			TextView textView = (TextView) LayoutInflater.from(mContext).inflate(
+			View view = LayoutInflater.from(mContext).inflate(
 					R.layout.spinner_airport_dropdown_row_airport, parent, false);
-			textView.setText(mAirport.mName);
+
+			TextView tv1 = Ui.findView(view, android.R.id.text1);
+			TextView tv2 = Ui.findView(view, android.R.id.text2);
+
+			tv1.setText(mAirport.mName + ", " + mAirport.mCountryCode);
+			Airport fullAirport = FlightStatsDbUtils.getAirport(mAirport.mAirportCode);
+			tv2.setText(mAirport.mAirportCode + " - " + fullAirport.mName);
 
 			// Disable the divider if this is the last row before a country
 			if (mRows.size() == position + 1 || mRows.get(position + 1).getViewType() == RowType.COUNTRY) {
-				textView.setBackground(null);
+				view.setBackground(null);
 			}
 
-			return textView;
+			return view;
 		}
 
 		@Override
