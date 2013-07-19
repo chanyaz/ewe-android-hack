@@ -37,5 +37,8 @@ for i in $path/values*/strings.xml ; do
 
     # check for too many spaces
     grep $options ">.*[^.!]  " $i
+
+    # check for duplicate strings
+    grep 'string name="[a-zA-Z_]*"' $i | sed 's/^.*string name="\([a-zA-Z_]*\)".*$/\1/' | uniq -d
 done
 
