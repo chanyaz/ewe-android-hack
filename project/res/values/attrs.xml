@@ -224,4 +224,6 @@
     <attr name="loginWithExpediaButtonDrawable" format="reference" />
     <attr name="loginWithExpediaButtonText" format="reference|string" />
     <attr name="loginWithExpediaTitleText" format="reference|string" />
+
+    <attr name="hotelDetailPlaceHolderDrawable" format="reference" />
 </resources>
