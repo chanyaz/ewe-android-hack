@@ -353,7 +353,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 			// Disable the divider if this is the last row before a country
 			if (mRows.size() == position + 1 || mRows.get(position + 1).getViewType() == RowType.COUNTRY) {
-				view.setBackground(null);
+				view.setBackgroundDrawable(null);
 			}
 
 			return view;
