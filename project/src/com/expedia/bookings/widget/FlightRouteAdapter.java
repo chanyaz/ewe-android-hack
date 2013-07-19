@@ -115,6 +115,10 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 	@Override
 	public View getDropDownView(int position, View convertView, ViewGroup parent) {
+		// TODO: convertView doesn't work properly in getDropDownView(), because
+		// it assumes there's only one View type (for some dumb reason).  For now
+		// we just don't use it, but in the future we should try some solutions
+		// of our own.
 		return mRows.get(position).getDropDownView(convertView, parent);
 	}
 
@@ -221,18 +225,8 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 		@Override
 		public View getDropDownView(View convertView, ViewGroup parent) {
-			// TODO: Implement actual view here
-			TextView textView = (TextView) LayoutInflater.from(mContext).inflate(
-					android.R.layout.simple_list_item_1, parent, false);
-
-			if (mIsOrigin) {
-				textView.setText(R.string.hint_departure_airport);
-			}
-			else {
-				textView.setText(R.string.hint_arrival_airport);
-			}
-
-			return textView;
+			// We don't want this row to actually show in the spinner, so make it 0-sized 
+			return new View(mContext);
 		}
 
 		@Override
