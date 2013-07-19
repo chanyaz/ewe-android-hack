@@ -1,12 +1,5 @@
 package com.expedia.bookings.data;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.text.TextUtils;
 
@@ -14,6 +7,13 @@ import com.expedia.bookings.R;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 public class Property implements JSONable {
 
@@ -244,10 +244,10 @@ public class Property implements JSONable {
 	}
 
 	public String getRelevantPhone() {
-		if (TextUtils.isEmpty(mTollFreePhone)) {
-			return mLocalPhone;
+		if (TextUtils.isEmpty(mLocalPhone)) {
+			return mTollFreePhone;
 		}
-		return mTollFreePhone;
+		return mLocalPhone;
 	}
 
 	public List<HotelTextSection> getOverviewText() {
