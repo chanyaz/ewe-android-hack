@@ -98,6 +98,7 @@
     <!-- ROOM TYPE -->
 
     <com.expedia.bookings.widget.TextView
+        android:id="@+id/room_type_header_text_view"
         style="@style/TextView.Itin.SectionHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -115,6 +116,7 @@
         android:gravity="center_vertical" />
 
     <com.expedia.bookings.widget.TextView
+        android:id="@+id/bed_type_header_text_view"
         style="@style/TextView.Itin.SectionHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

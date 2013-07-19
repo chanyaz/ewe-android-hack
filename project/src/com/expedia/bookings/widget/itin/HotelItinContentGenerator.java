@@ -208,7 +208,9 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		TextView localPhoneNumberTextView = Ui.findView(view, R.id.local_phone_number_text_view);
 		TextView tollFreePhoneNumberHeaderTextView = Ui.findView(view, R.id.toll_free_phone_number_header_text_view);
 		TextView tollFreePhoneNumberTextView = Ui.findView(view, R.id.toll_free_phone_number_text_view);
+		TextView roomTypeHeaderTextView = Ui.findView(view, R.id.room_type_header_text_view);
 		TextView roomTypeTextView = Ui.findView(view, R.id.room_type_text_view);
+		TextView bedTypeHeaderTextView = Ui.findView(view, R.id.bed_type_header_text_view);
 		TextView bedTypeTextView = Ui.findView(view, R.id.bed_type_text_view);
 		ViewGroup commonItinDataContainer = Ui.findView(view, R.id.itin_shared_info_container);
 
@@ -228,8 +230,22 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		}
 
 		addressTextView.setText(itinCardData.getAddressString());
-		roomTypeTextView.setText(itinCardData.getRoomType());
-		bedTypeTextView.setText(itinCardData.getBedType());
+
+		if (!TextUtils.isEmpty(itinCardData.getRoomType())) {
+			roomTypeTextView.setText(itinCardData.getRoomType());
+		}
+		else {
+			roomTypeHeaderTextView.setVisibility(View.GONE);
+			roomTypeTextView.setVisibility(View.GONE);
+		}
+
+		if (!TextUtils.isEmpty(itinCardData.getBedType())) {
+			bedTypeTextView.setText(itinCardData.getBedType());
+		}
+		else {
+			bedTypeHeaderTextView.setVisibility(View.GONE);
+			bedTypeTextView.setVisibility(View.GONE);
+		}
 
 		// Local phone
 		boolean hasLocalPhone = !TextUtils.isEmpty(itinCardData.getLocalPhone());
