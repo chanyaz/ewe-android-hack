@@ -1239,6 +1239,9 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 				Location location = airportToLocation(airport);
 				mSearchParams.setArrivalLocation(location);
 				onAirportSelected(location);
+
+				// Update the texts - the location of the departure airport may have changed in the spinner
+				updateAirportText();
 			}
 		}
 
