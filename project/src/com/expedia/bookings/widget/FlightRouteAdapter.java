@@ -190,7 +190,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 			// Only add recent row if we've had any valid recents to show
 			if (addedRecent) {
-				mRows.add(1, new RecentRow());
+				mRows.add(1, new HeaderRow(mContext.getString(R.string.recent)));
 			}
 		}
 
@@ -199,7 +199,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 			// Add header row if the country changes
 			if (currCountry == null || !currCountry.equals(airport.mCountryCode)) {
 				currCountry = airport.mCountryCode;
-				mRows.add(new CountryRow(currCountry));
+				mRows.add(new HeaderRow(currCountry));
 			}
 
 			// Add the airport
@@ -219,8 +219,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 	private enum RowType {
 		HINT,
-		COUNTRY,
-		RECENT,
+		HEADER,
 		AIRPORT
 	}
 
@@ -263,11 +262,11 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 	}
 
-	private class CountryRow implements Row {
-		private String mCountry;
+	private class HeaderRow implements Row {
+		private String mText;
 
-		public CountryRow(String country) {
-			mCountry = country;
+		public HeaderRow(String country) {
+			mText = country;
 		}
 
 		@Override
@@ -279,38 +278,15 @@ public class FlightRouteAdapter extends BaseAdapter {
 		@Override
 		public View getDropDownView(int position, View convertView, ViewGroup parent) {
 			TextView textView = (TextView) LayoutInflater.from(mContext).inflate(
-					R.layout.spinner_airport_dropdown_row_country, parent, false);
-			textView.setText(mCountry);
+					R.layout.spinner_airport_dropdown_header, parent, false);
+			textView.setText(mText);
 			ViewUtils.setAllCaps(textView);
 			return textView;
 		}
 
 		@Override
 		public RowType getViewType() {
-			return RowType.COUNTRY;
-		}
-
-	}
-
-	private class RecentRow implements Row {
-
-		@Override
-		public View getView(View convertView, ViewGroup parent) {
-			// This row is not selectable, so this should never happen
-			return null;
-		}
-
-		@Override
-		public View getDropDownView(int position, View convertView, ViewGroup parent) {
-			TextView textView = (TextView) LayoutInflater.from(mContext).inflate(
-					R.layout.spinner_airport_dropdown_row_recents, parent, false);
-			ViewUtils.setAllCaps(textView);
-			return textView;
-		}
-
-		@Override
-		public RowType getViewType() {
-			return RowType.RECENT;
+			return RowType.HEADER;
 		}
 
 	}
@@ -342,7 +318,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 		@Override
 		public View getDropDownView(int position, View convertView, ViewGroup parent) {
 			View view = LayoutInflater.from(mContext).inflate(
-					R.layout.spinner_airport_dropdown_row_airport, parent, false);
+					R.layout.spinner_airport_dropdown_airport, parent, false);
 
 			TextView tv1 = Ui.findView(view, android.R.id.text1);
 			TextView tv2 = Ui.findView(view, android.R.id.text2);
@@ -352,7 +328,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 			tv2.setText(mAirport.mAirportCode + " - " + fullAirport.mName);
 
 			// Disable the divider if this is the last row before a country
-			if (mRows.size() == position + 1 || mRows.get(position + 1).getViewType() == RowType.COUNTRY) {
+			if (mRows.size() == position + 1 || mRows.get(position + 1).getViewType() == RowType.HEADER) {
 				view.setBackgroundDrawable(null);
 			}
 
