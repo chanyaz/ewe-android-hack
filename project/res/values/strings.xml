@@ -678,6 +678,8 @@
     <string name="error_could_not_load_air_asia">Could not load AirAsia routes</string>
     <!-- Header row for airports that were used recently for a search -->
     <string name="recent">Recent</string>
+    <!-- Display for selected airport dropdown.  %1$s is the airport code, %2$s is the city, e.g. "(MSP) Minneapolis" -->
+    <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
@@ -1209,7 +1211,6 @@
     <string name="share_flight_section_outbound">Outbound:</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">Return:</string>
-
     <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->

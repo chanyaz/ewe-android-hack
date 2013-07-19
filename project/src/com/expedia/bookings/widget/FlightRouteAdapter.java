@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import android.content.Context;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -332,7 +333,8 @@ public class FlightRouteAdapter extends BaseAdapter {
 				textView = (TextView) convertView;
 			}
 
-			textView.setText(mAirport.mName);
+			textView.setText(Html.fromHtml(mContext.getString(R.string.dropdown_airport_selection,
+					mAirport.mAirportCode, mAirport.mName)));
 
 			return textView;
 		}
