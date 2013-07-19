@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:singleLine="true"
-        android:textColor="@android:color/white"
+        android:textColor="@color/spinner_airport"
         android:textSize="14dp" />
 
     <TextView
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:singleLine="true"
-        android:textColor="#777777"
+        android:textColor="@color/spinner_airport_details"
         android:textSize="14dp" />
 
 </LinearLayout>
