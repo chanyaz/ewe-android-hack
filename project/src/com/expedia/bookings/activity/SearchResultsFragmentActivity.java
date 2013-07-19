@@ -1,7 +1,6 @@
 package com.expedia.bookings.activity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
@@ -58,7 +57,6 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.CalendarDialogFragment;
 import com.expedia.bookings.fragment.CalendarDialogFragment.CalendarDialogFragmentListener;
 import com.expedia.bookings.fragment.FilterDialogFragment;
@@ -1239,9 +1237,6 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		public ReviewsResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_REVIEWS, services);
-
-			List<String> languages = Arrays.asList(PointOfSale.getPointOfSale().getReviewLanguages());
-
 			return services.reviews(Db.getHotelSearch().getSelectedProperty(), ReviewSort.NEWEST_REVIEW_FIRST, 0,
 					MAX_SUMMARIZED_REVIEWS);
 		}

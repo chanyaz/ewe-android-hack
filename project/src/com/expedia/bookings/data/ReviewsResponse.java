@@ -4,30 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReviewsResponse extends Response {
-	private int mIndex;
 
+	private int mNumReviewsInResponse;
 	private List<Review> mReviews;
-
-	private int mTotalCount;
 
 	public ReviewsResponse() {
 		mReviews = new ArrayList<Review>();
 	}
 
-	public void setIndex(int index) {
-		mIndex = index;
+	public void setNumReviewsInResponse(int num) {
+		mNumReviewsInResponse = num;
 	}
 
-	public void setTotalCount(int totalCount) {
-		mTotalCount = totalCount;
-	}
-
-	public int getTotalCount() {
-		return mTotalCount;
-	}
-
-	public int getIndex() {
-		return mIndex;
+	public int getNumReviewsInResponse() {
+		return mNumReviewsInResponse;
 	}
 
 	public void addReview(Review review) {

@@ -24,9 +24,8 @@ public class ReviewsResponseHandler extends JsonResponseHandler<ReviewsResponse>
 		try {
 			JSONObject reviewDetailsJson = response.getJSONObject("reviewDetails");
 
-			int totalNumReviews = reviewDetailsJson.getJSONObject("reviewSummaryCollection")
-					.getJSONArray("reviewSummary").getJSONObject(0).getInt("totalReviewCnt");
-			reviewsResponse.setTotalCount(totalNumReviews);
+			int numReviews = reviewDetailsJson.getInt("numberOfReviewsInThisPage");
+			reviewsResponse.setNumReviewsInResponse(numReviews);
 
 			JSONArray reviewsJsonArray = reviewDetailsJson.getJSONObject("reviewCollection").getJSONArray("review");
 			int len = reviewsJsonArray.length();

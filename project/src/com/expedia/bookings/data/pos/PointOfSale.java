@@ -63,9 +63,6 @@ public class PointOfSale {
 	// List of locales associated with this POS
 	private List<PointOfSaleLocale> mLocales = new ArrayList<PointOfSaleLocale>();
 
-	// Maps the current language --> list of languages for reviews
-	private Map<String, String[]> mReviewLocales = new HashMap<String, String[]>();
-
 	// The base URL of the POS
 	private String mUrl;
 
@@ -291,15 +288,6 @@ public class PointOfSale {
 		return mPointOfSale == PointOfSaleId.UNITED_KINGDOM;
 	}
 
-	public String[] getReviewLanguages() {
-		Locale locale = Locale.getDefault();
-		String langCode = locale.getLanguage();
-		if (mReviewLocales.containsKey(langCode)) {
-			return mReviewLocales.get(langCode);
-		}
-		return mReviewLocales.get("*");
-	}
-
 	public String getLocaleIdentifier() {
 		return getPosLocale().mLocaleIdentifier;
 	}
@@ -451,9 +439,6 @@ public class PointOfSale {
 		// Load all data; in the future we may want to load only the POS requested, to save startup time
 		loadPointOfSaleInfo(context);
 
-		// Load review map
-		loadReviewLanguageLocaleMap(context);
-
 		// Load supported Expedia suggest locales
 		loadExpediaSuggestSupportedLanguages(context);
 
@@ -594,31 +579,6 @@ public class PointOfSale {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// Review language locale mappings
-
-	// This maps a language ("de") to its multiple review locales ("de,de_AT,de_DE").
-	private static Map<String, String[]> mReviewLanguageMap = new HashMap<String, String[]>();
-
-	public static String getFormattedLanguageCodes(List<String> codes) {
-		StringBuilder sb = new StringBuilder();
-		boolean first = true;
-		for (String code : codes) {
-			for (String locale : mReviewLanguageMap.get(code)) {
-				if (first) {
-					first = false;
-				}
-				else {
-					sb.append(",");
-				}
-
-				sb.append(locale);
-			}
-		}
-
-		return sb.toString();
-	}
-
-	//////////////////////////////////////////////////////////////////////////
 	// Expedia suggest supported locales
 
 	private static Set<String> sExpediaSuggestSupportedLocales = new HashSet<String>();
@@ -714,15 +674,6 @@ public class PointOfSale {
 			pos.mLocales.add(parseLocale(supportedLocales.optJSONObject(a)));
 		}
 
-		// Parse review locales
-		JSONObject reviewLocales = data.optJSONObject("reviewLocales");
-		Iterator<String> reviewLanguages = reviewLocales.keys();
-		while (reviewLanguages.hasNext()) {
-			String reviewLanguage = reviewLanguages.next();
-			JSONArray reviewArr = reviewLocales.optJSONArray(reviewLanguage);
-			pos.mReviewLocales.put(reviewLanguage, stringJsonArrayToArray(reviewArr));
-		}
-
 		JSONArray mappedLocales = data.optJSONArray("automaticallyMappedLocales");
 		pos.mDefaultLocales = stringJsonArrayToArray(mappedLocales);
 
@@ -809,26 +760,6 @@ public class PointOfSale {
 		}
 
 		return locale;
-	}
-
-	@SuppressWarnings("unchecked")
-	private static void loadReviewLanguageLocaleMap(Context context) {
-		mReviewLanguageMap.clear();
-
-		try {
-			InputStream is = context.getAssets().open("ExpediaSharedData/ExpediaReviewLanguageLocaleMap.json");
-			String data = IoUtils.convertStreamToString(is);
-			JSONObject langData = new JSONObject(data);
-			Iterator<String> keys = langData.keys();
-			while (keys.hasNext()) {
-				String language = keys.next();
-				mReviewLanguageMap.put(language, stringJsonArrayToArray(langData.optJSONArray(language)));
-			}
-		}
-		catch (Exception e) {
-			// If this data fails to load, then we should fail horribly
-			throw new RuntimeException(e);
-		}
 	}
 
 	private static void loadExpediaSuggestSupportedLanguages(Context context) {

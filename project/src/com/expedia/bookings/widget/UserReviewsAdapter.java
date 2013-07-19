@@ -93,7 +93,7 @@ public class UserReviewsAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		final ReviewWrapper userReviewLoaded = (ReviewWrapper) getItem(position);
+		final ReviewWrapper userReviewLoaded = getItem(position);
 		int type = getItemViewType(position);
 
 		if (type == TYPE_REVIEW) {

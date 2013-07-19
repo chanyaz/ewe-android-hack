@@ -22,19 +22,20 @@ public class UserReviewsUtils {
 		return UserReviewsUtilsHolder.INSTANCE;
 	}
 
-	public void addReviews(String propertyId, ReviewSort sort, List<ReviewWrapper> reviews) {
-		String key = propertyId + "_" + sort.toString();
-		mReviewsMap.put(key, reviews);
+	public void putReviews(String propertyId, ReviewSort sort, List<ReviewWrapper> reviews) {
+		mReviewsMap.put(getKey(propertyId, sort), reviews);
 	}
 
 	public List<ReviewWrapper> getReviews(String propertyId, ReviewSort sort) {
-		String key = propertyId + "_" + sort.toString();
-
-		return mReviewsMap.get(key);
+		return mReviewsMap.get(getKey(propertyId, sort));
 	}
 
 	public void clearCache() {
 		mReviewsMap.clear();
+	}
+
+	private static String getKey(String propertyId, ReviewSort sort) {
+		return propertyId + "_" + sort.name();
 	}
 
 }
