@@ -678,11 +678,15 @@ public class HotelsRobotHelper {
 
 			mSolo.scrollToBottom();
 
-			mSolo.clickOnView(mSolo.getView(R.id.payment_info_btn));
-			delay();
-			screenshot("Select payment");
-
-			delay();
+			try {
+				mSolo.clickOnView(mSolo.getView(R.id.payment_info_btn));
+				delay();
+				screenshot("Select payment");
+				delay();
+			}
+			catch (Error e) {
+				Log.e(TAG, "Payment info button not present. Trying to move on without it.");
+			}
 
 			mSolo.clickOnText(mSolo.getString(R.string.add_new_card), 1, true);
 			delay(1);
