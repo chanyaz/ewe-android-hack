@@ -1248,7 +1248,7 @@
     <!-- Hint for filtering results by hotel name -->
     <string name="filter_hotel_name_hint">Filtrer par nom d\&apos;hôtel</string>
     <!-- Label indicating that there are no results matching their current filter -->
-    <string name="no_filter_results">Aucun hôtel disponible sur notre app.</string>
+    <string name="no_filter_results">Aucun hôtel disponible selon vos critères de voyage. Nous vous invitons à les modifier.</string>
     <!-- Label indicating that geolocation failed -->
     <string name="geolocation_failed">Impossible de déterminer la position de recherche.</string>
     <!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
