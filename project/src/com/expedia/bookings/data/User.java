@@ -161,18 +161,7 @@ public class User implements JSONable {
 		delete(context);
 
 		//AccountManager
-		if (Db.getUser() != null) {
-			String accountType = context.getString(R.string.expedia_account_type_identifier);
-			String contentAuthority = context.getString(R.string.expedia_account_sync_adapter_content_authority);
-			AccountManager manager = AccountManager.get(context);
-			Account[] accounts = manager.getAccountsByType(accountType);
-			if (accounts.length > 0) {
-				Account account = accounts[0];
-				ContentResolver.removePeriodicSync(account, contentAuthority, new Bundle());
-				manager.removeAccount(account, null, null);
-			}
-			manager.invalidateAuthToken(accountType, Db.getUser().getTuidString());
-		}
+		User.removeUserFromAccountManager(context, Db.getUser());
 
 		// Clear User from Db
 		Db.setUser(null);
@@ -217,6 +206,56 @@ public class User implements JSONable {
 		}
 		if (activeAccount != null) {
 			manager.getAuthToken(activeAccount, accountType, options, context, null, null);
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Add remove user to account manager.
+
+	/**
+	 * This will remove the Expedia account from AccountManager, and will invalidate the token
+	 * for the supplied user.
+	 * 
+	 * @param context
+	 */
+	private static void removeUserFromAccountManager(Context context, User usr) {
+		if (context != null) {
+			String accountType = context.getString(R.string.expedia_account_type_identifier);
+			String contentAuthority = context.getString(R.string.expedia_account_sync_adapter_content_authority);
+			AccountManager manager = AccountManager.get(context);
+			Account[] accounts = manager.getAccountsByType(accountType);
+			if (accounts.length > 0) {
+				Account account = accounts[0];
+				ContentResolver.removePeriodicSync(account, contentAuthority, new Bundle());
+				manager.removeAccount(account, null, null);
+			}
+			if (usr != null) {
+				manager.invalidateAuthToken(accountType, usr.getTuidString());
+			}
+		}
+	}
+
+	/**
+	 * This method is important. This is the method that adds the account to AccountManager
+	 * and sets up syncing. If we log in and this doesn't get called, User.isLoggedIn() will
+	 * still return false, and no data will sync. 
+	 */
+	public static void addUserToAccountManager(Context context, User usr) {
+		if (context != null && usr != null) {
+			//Add the account to the account manager
+			String accountType = context.getString(R.string.expedia_account_type_identifier);
+			String tokenType = context.getString(R.string.expedia_account_token_type_tuid_identifier);
+			AccountManager manager = AccountManager.get(context);
+			final Account account = new Account(usr.getPrimaryTraveler().getEmail(), accountType);
+			manager.addAccountExplicitly(account, usr.getTuidString(), null);
+			manager.setAuthToken(account, tokenType, usr.getTuidString());
+
+			//Start syncing data!
+			String contentAuthority = context.getString(R.string.expedia_account_sync_adapter_content_authority);
+			int syncInterval = context.getResources().getInteger(R.integer.account_sync_interval);
+			ContentResolver.setIsSyncable(account, contentAuthority, 1);
+			ContentResolver.setSyncAutomatically(account, contentAuthority, true);
+			ContentResolver.addPeriodicSync(account, contentAuthority, new Bundle(), syncInterval);
 		}
 	}
 

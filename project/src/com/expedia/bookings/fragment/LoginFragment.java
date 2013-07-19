@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -380,36 +377,12 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 	}
 
 	private void loginWorkComplete() {
-		updateAccountManager();
+		User.addUserToAccountManager(getActivity(), Db.getUser());
 		if (mLoginExtender != null) {
 			doLoginExtenderWork();
 		}
 		else {
 			finishParentWithResult();
-		}
-	}
-
-	/**
-	 * This method is important. This is the method that adds the account to AccountManager
-	 * and sets up syncing. If we log in and this doesn't get called, User.isLoggedIn() will
-	 * still return false, and no data will sync. 
-	 */
-	private void updateAccountManager() {
-		if (Db.getUser() != null) {
-			//Add the account to the account manager
-			String accountType = getString(R.string.expedia_account_type_identifier);
-			String tokenType = getString(R.string.expedia_account_token_type_tuid_identifier);
-			AccountManager manager = AccountManager.get(getActivity());
-			final Account account = new Account(Db.getUser().getPrimaryTraveler().getEmail(), accountType);
-			manager.addAccountExplicitly(account, Db.getUser().getTuidString(), null);
-			manager.setAuthToken(account, tokenType, Db.getUser().getTuidString());
-
-			//Start syncing data!
-			String contentAuthority = getString(R.string.expedia_account_sync_adapter_content_authority);
-			int syncInterval = this.getResources().getInteger(R.integer.account_sync_interval);
-			ContentResolver.setIsSyncable(account, contentAuthority, 1);
-			ContentResolver.setSyncAutomatically(account, contentAuthority, true);
-			ContentResolver.addPeriodicSync(account, contentAuthority, new Bundle(), syncInterval);
 		}
 	}
 
