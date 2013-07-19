@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="2.5dp"
         android:layout_weight="1"
-        android:popupBackground="@drawable/bg_autocomplete" />
+        android:popupBackground="@drawable/bg_autocomplete"
+        android:prompt="@string/prompt_departure_airport" />
 
     <Spinner
         android:id="@+id/arrival_airport_spinner"
@@ -22,6 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="2.5dp"
         android:layout_weight="1"
-        android:popupBackground="@drawable/bg_autocomplete" />
+        android:popupBackground="@drawable/bg_autocomplete"
+        android:prompt="@string/prompt_arrival_airport" />
 
 </LinearLayout>
