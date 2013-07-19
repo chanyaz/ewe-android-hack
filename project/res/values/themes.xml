@@ -287,7 +287,7 @@
         <item name="android:editTextStyle">@style/Widget.EditText.Phone</item>
         <item name="android:spinnerStyle">@style/Widget.Spinner.Phone.Flights</item>
         <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoComplete</item>
-        <item name="android:dropDownListViewStyle">@style/FlightAirportSpinner</item>
+        <item name="android:dropDownListViewStyle">@style/FlightAirportSpinner.Implementation</item>
 
         <!-- Only do this for ABS - newer versions will use latest holo radio button anyways -->
         <item name="actionBarWidgetTheme">@style/FlightActionBarWidgetTheme</item>
