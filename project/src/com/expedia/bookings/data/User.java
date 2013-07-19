@@ -103,7 +103,27 @@ public class User implements JSONable {
 	//////////////////////////////////////////////////////////////////////////
 	// Logging in/out
 
+	/**
+	 * Do we have a currently logged in user?
+	 * @param context
+	 * @return true if a user is logged in, false otherwise.
+	 */
 	public static boolean isLoggedIn(Context context) {
+		if (isLoggedInOnDisk(context)) {
+			return isLoggedInToAccountManager(context);
+		}
+		return false;
+	}
+
+	/**
+	 * Does the app think we are logged in (regardless of AccountManager state)?
+	 * 
+	 * NOTE: This is not for general use, please use User.isLoggedIn();
+	 * 
+	 * @param context
+	 * @return
+	 */
+	public static boolean isLoggedInOnDisk(Context context) {
 		boolean isLoggedIn = false;
 
 		// Existence of the saved info indicates being logged in
@@ -112,19 +132,27 @@ public class User implements JSONable {
 		// Backwards compatible method for checking logged in state
 		isLoggedIn |= context.getFileStreamPath(IS_USER_LOGGED_IN_FILE).exists();
 
-		// We only count ourselves as logged in if the AccountManager is aware of it
+		return isLoggedIn;
+	}
+
+	/**
+	 * Does the account manager think we are logged in (regardless of App state)?
+	 * 
+	 * NOTE: This is not for general use, please use User.isLoggedIn();
+	 * 
+	 * @param context
+	 * @return
+	 */
+	public static boolean isLoggedInToAccountManager(Context context) {
+		boolean isLoggedIn = false;
 		String accountType = context.getString(R.string.expedia_account_type_identifier);
 		String tokenType = context.getString(R.string.expedia_account_token_type_tuid_identifier);
 		AccountManager manager = AccountManager.get(context);
 		Account[] accounts = manager.getAccountsByType(accountType);
 		if (accounts != null && accounts.length >= 1) {
 			String token = manager.peekAuthToken(accounts[0], tokenType);
-			isLoggedIn &= !TextUtils.isEmpty(token);
+			isLoggedIn = !TextUtils.isEmpty(token);
 		}
-		else {
-			isLoggedIn = false;
-		}
-
 		return isLoggedIn;
 	}
 
