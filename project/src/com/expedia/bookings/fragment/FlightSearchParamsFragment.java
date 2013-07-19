@@ -65,6 +65,7 @@ import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AirportDropDownAdapter;
 import com.expedia.bookings.widget.FlightRouteAdapter;
+import com.expedia.bookings.widget.FlightRouteAdapter.FlightRouteAdapterListener;
 import com.expedia.bookings.widget.NumTravelersPopupDropdown;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -81,7 +82,8 @@ import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
 public class FlightSearchParamsFragment extends Fragment implements OnDateChangedListener, InputFilter,
-		SimpleProgressDialogFragmentListener, SimpleCallbackDialogFragmentListener, OnItemSelectedListener {
+		SimpleProgressDialogFragmentListener, SimpleCallbackDialogFragmentListener, OnItemSelectedListener,
+		FlightRouteAdapterListener {
 
 	public static final String TAG = FlightSearchParamsFragment.class.toString();
 	private static final String TAG_PROGRESS = TAG + ".DIALOG_PROGRESS";
@@ -1060,6 +1062,9 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		mDepartureAirportSpinner.setOnItemSelectedListener(this);
 		mArrivalAirportSpinner.setOnItemSelectedListener(this);
 
+		mDepartureRouteAdapter.setListener(this);
+		mArrivalRouteAdapter.setListener(this);
+
 		// Sync the current params with what 
 		updateAirportText();
 	}
@@ -1197,6 +1202,14 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	@Override
 	public void onSimpleDialogCancel(int callbackId) {
 		onRoutesLoadFailed();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// FlightRouteAdapterListener
+
+	@Override
+	public void onSpinnerClicked() {
+		toggleCalendarDatePicker(false, true);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

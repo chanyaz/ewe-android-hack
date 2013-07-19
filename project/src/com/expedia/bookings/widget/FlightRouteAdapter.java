@@ -34,6 +34,8 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 	private String mOrigin;
 
+	private FlightRouteAdapterListener mListener;
+
 	public FlightRouteAdapter(Context context, FlightRoutes routes, RecentList<Location> recentSearches,
 			boolean isOrigin) {
 		mContext = context;
@@ -41,6 +43,10 @@ public class FlightRouteAdapter extends BaseAdapter {
 		mRoutes = routes;
 		mIsOrigin = isOrigin;
 		generateRows();
+	}
+
+	public void setListener(FlightRouteAdapterListener listener) {
+		mListener = listener;
 	}
 
 	public void setOrigin(String origin) {
@@ -116,6 +122,10 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 	@Override
 	public View getDropDownView(int position, View convertView, ViewGroup parent) {
+		if (mListener != null) {
+			mListener.onSpinnerClicked();
+		}
+
 		// TODO: convertView doesn't work properly in getDropDownView(), because
 		// it assumes there's only one View type (for some dumb reason).  For now
 		// we just don't use it, but in the future we should try some solutions
@@ -192,6 +202,13 @@ public class FlightRouteAdapter extends BaseAdapter {
 			// Add the airport
 			mRows.add(new AirportRow(airport));
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Listener
+
+	public interface FlightRouteAdapterListener {
+		public void onSpinnerClicked();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
