@@ -275,6 +275,9 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 				}
 				property.setHighestPriceFromSurvey(ParserUtils.createMoney(parser.getText(), currencyCode));
 			}
+			else if (name.equals("isVipAccess")) {
+				property.setIsVipAccess(parser.getValueAsBoolean());
+			}
 			else {
 				parser.skipChildren();
 			}

@@ -304,7 +304,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 				holder.urgency.setVisibility(View.GONE);
 			}
 
-			if (property.isElitePlusHotel()) {
+			if (property.isVipAccess()) {
 				holder.vip.setVisibility(View.VISIBLE);
 			}
 		}
