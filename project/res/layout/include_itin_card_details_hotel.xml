@@ -49,19 +49,43 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp" />
 
-    <!-- PHONE -->
+    <!-- LOCAL PHONE -->
 
     <com.expedia.bookings.widget.TextView
+        android:id="@+id/local_phone_number_header_text_view"
         style="@style/TextView.Itin.SectionHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="2dp"
-        android:text="@string/itin_card_details_phone" />
+        android:text="@string/itin_card_details_local_phone" />
 
     <com.expedia.bookings.widget.TextView
-        android:id="@+id/phone_number_text_view"
+        android:id="@+id/local_phone_number_text_view"
+        style="@style/TextView.Itin.SectionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/list_selector_holo_dark"
+        android:padding="8dp" />
+
+    <!-- TOLL FREE PHONE -->
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/toll_free_phone_number_header_text_view"
+        style="@style/TextView.Itin.SectionHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="2dp"
+        android:text="@string/itin_card_details_toll_free_phone" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/toll_free_phone_number_text_view"
         style="@style/TextView.Itin.SectionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -1,12 +1,9 @@
 package com.expedia.bookings.widget.itin;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -29,6 +26,10 @@ import com.expedia.bookings.widget.LocationMapImageView;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.flightlib.utils.DateTimeUtils;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardDataHotel> {
 
@@ -203,7 +204,10 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		InfoTripletView infoTriplet = Ui.findView(view, R.id.info_triplet);
 		LocationMapImageView staticMapImageView = Ui.findView(view, R.id.mini_map);
 		TextView addressTextView = Ui.findView(view, R.id.address_text_view);
-		TextView phoneNumberTextView = Ui.findView(view, R.id.phone_number_text_view);
+		TextView localPhoneNumberHeaderTextView = Ui.findView(view, R.id.local_phone_number_header_text_view);
+		TextView localPhoneNumberTextView = Ui.findView(view, R.id.local_phone_number_text_view);
+		TextView tollFreePhoneNumberHeaderTextView = Ui.findView(view, R.id.toll_free_phone_number_header_text_view);
+		TextView tollFreePhoneNumberTextView = Ui.findView(view, R.id.toll_free_phone_number_text_view);
 		TextView roomTypeTextView = Ui.findView(view, R.id.room_type_text_view);
 		TextView bedTypeTextView = Ui.findView(view, R.id.bed_type_text_view);
 		ViewGroup commonItinDataContainer = Ui.findView(view, R.id.itin_shared_info_container);
@@ -227,13 +231,35 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		roomTypeTextView.setText(itinCardData.getRoomType());
 		bedTypeTextView.setText(itinCardData.getBedType());
 
-		phoneNumberTextView.setText(itinCardData.getRelevantPhone());
-		phoneNumberTextView.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				SocialUtils.call(getContext(), itinCardData.getRelevantPhone());
-			}
-		});
+		// Local phone
+		boolean hasLocalPhone = !TextUtils.isEmpty(itinCardData.getLocalPhone());
+		localPhoneNumberHeaderTextView.setVisibility(hasLocalPhone ? View.VISIBLE : View.GONE);
+		localPhoneNumberTextView.setVisibility(hasLocalPhone ? View.VISIBLE : View.GONE);
+
+		if (hasLocalPhone) {
+			localPhoneNumberTextView.setText(itinCardData.getLocalPhone());
+			localPhoneNumberTextView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					SocialUtils.call(getContext(), itinCardData.getLocalPhone());
+				}
+			});
+		}
+
+		// Toll free phone
+		boolean hasTollFreePhone = !TextUtils.isEmpty(itinCardData.getTollFreePhone());
+		tollFreePhoneNumberHeaderTextView.setVisibility(hasTollFreePhone ? View.VISIBLE : View.GONE);
+		tollFreePhoneNumberTextView.setVisibility(hasTollFreePhone ? View.VISIBLE : View.GONE);
+
+		if (hasTollFreePhone) {
+			tollFreePhoneNumberTextView.setText(itinCardData.getTollFreePhone());
+			tollFreePhoneNumberTextView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					SocialUtils.call(getContext(), itinCardData.getTollFreePhone());
+				}
+			});
+		}
 
 		//Add shared data
 		addSharedGuiElements(commonItinDataContainer);
