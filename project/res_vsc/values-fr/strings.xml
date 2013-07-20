@@ -1038,7 +1038,7 @@
 
     <!-- Flight confirmation page -->
     <!-- Title for flight confirmation page -->
-    <string name="booking_complete">Réservation complétée</string>
+    <string name="booking_complete">Confirmation</string>
     <!-- Message telling you where you've booked a flight.  %s is the city name, e.g. "You're going to Venice!" -->
     <string name="yay_going_somewhere_TEMPLATE">Vous allez à %s !</string>
     <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
@@ -1050,7 +1050,7 @@
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Autres options</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
-    <string name="actions">Actions</string>
+    <string name="actions">Pour vous accompagner</string>
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">Partager par email</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
@@ -1200,6 +1200,8 @@
     <string name="who_is_going">&lt;b&gt;Combien&lt;/b&gt; de personnes ?</string>
     <!-- Child age dialog button -->
     <string name="button_done">Terminé</string>
+    <!-- Done button text in hotel Confirmation screen for VSC -->
+    <string name="button_done_vsc_confirmation">Continuer</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">Sélectionner l\&apos;âge de l\&apos;enfant</item>

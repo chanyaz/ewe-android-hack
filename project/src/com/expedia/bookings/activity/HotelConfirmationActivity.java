@@ -2,6 +2,7 @@ package com.expedia.bookings.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -109,6 +110,13 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_confirmation, menu);
 		ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_done);
+
+		// 1615. VSC Asking for a different translation text for FR
+		if (ExpediaBookingApp.IS_VSC) {
+			TextView actionButton = (TextView) menu.findItem(R.id.menu_done).getActionView();
+			actionButton.setText(R.string.button_done_vsc_confirmation);
+		}
+
 		return super.onCreateOptionsMenu(menu);
 	}
 
