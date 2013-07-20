@@ -6,9 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.android.SocialUtils;
@@ -35,18 +37,29 @@ public abstract class ConfirmationFragment extends Fragment {
 		ViewGroup actionContainer = Ui.findView(v, R.id.custom_actions_container);
 		inflater.inflate(getActionsLayoutId(), actionContainer, true);
 
-		// 1370. VSC Hide the Call to Customer support option
+		// 1617. VSC Contact URL
 		if (ExpediaBookingApp.IS_VSC) {
-			Ui.findView(v, R.id.call_action_text_view).setVisibility(View.GONE);
+			TextView actionTextView = Ui.findView(v, R.id.call_action_text_view);
+			actionTextView.setText(R.string.vsc_customer_support);
 		}
-		else {
-			Ui.setOnClickListener(v, R.id.call_action_text_view, new OnClickListener() {
-				@Override
-				public void onClick(View v) {
+
+		Ui.setOnClickListener(v, R.id.call_action_text_view, new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// 1617. VSC Contact URL
+				if (ExpediaBookingApp.IS_VSC) {
+					WebViewActivity.IntentBuilder webBuilder = new WebViewActivity.IntentBuilder(getActivity());
+					webBuilder.setUrl("http://voyages-sncf.mobi/aide-appli-2/aide-appli-hotel/pagecontactandroid.html");
+					webBuilder.setTheme(R.style.Theme_Phone);
+					webBuilder.setTitle(R.string.vsc_customer_support);
+					getActivity().startActivity(webBuilder.getIntent());
+				}
+				else {
 					SocialUtils.call(getActivity(), PointOfSale.getPointOfSale().getSupportPhoneNumber());
 				}
-			});
-		}
+
+			}
+		});
 
 		return v;
 	}

@@ -226,4 +226,7 @@
     <attr name="loginWithExpediaTitleText" format="reference|string" />
 
     <attr name="hotelDetailPlaceHolderDrawable" format="reference" />
+
+    <!-- Hotel Confirmation, Customer support option style -->
+    <attr name="hotelConfirmationCallActionStyle" format="reference" />
 </resources>

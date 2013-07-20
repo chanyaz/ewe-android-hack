@@ -40,15 +40,7 @@
 
     <TextView
         android:id="@+id/call_action_text_view"
-        style="@style/Confirmation.Action"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="4dp"
-        android:drawableLeft="@drawable/ic_phone"
-        android:drawablePadding="5dp"
-        android:text="@string/call_expedia_customer_support"
-        android:textSize="14dp"
-        android:textStyle="bold" />
+        style="?attr/hotelConfirmationCallActionStyle"
+        android:text="@string/call_expedia_customer_support"/>
 
 </LinearLayout>

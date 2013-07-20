@@ -1059,6 +1059,8 @@
     <string name="add_to_flighttrack">Suivre votre vol avec FlightTrack</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_expedia_customer_support">Appeler l\&apos;assistance clientèle Expedia</string>
+    <!-- Button label for VSC support webpage link -->
+    <string name="vsc_customer_support">Nous contacter</string>
     <!-- Add Insurance label -->
     <string name="add_insurance">Ajouter une assurance</string>
     <!-- Insurance -->

@@ -183,6 +183,7 @@
         <item name="loginWithExpediaButtonText">@string/Log_in_with_Expedia</item>
         <item name="loginWithExpediaTitleText">@string/expedia_account</item>
         <item name="hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg</item>
+        <item name="hotelConfirmationCallActionStyle">@style/Confirmation.Action.Hotel.Expedia</item>
     </style>
 
     <style name="Theme.VSC" parent="@style/Theme.Expedia">

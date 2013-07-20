@@ -215,6 +215,7 @@
         <item name="loginWithExpediaButtonText">@string/Log_in_with_VSC</item>
         <item name="loginWithExpediaTitleText">@string/vsc_account</item>
         <item name="hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg_vsc</item>
+        <item name="hotelConfirmationCallActionStyle">@style/Confirmation.Action.Hotel.VSC</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
