@@ -8,6 +8,8 @@
     <!-- Weve found your user account -->
     <!-- Log in with VSC -->
     <string name="Log_in_with_VSC">Se connecter avec VSC</string>
+    <!-- Login failed try again -->
+    <string name="login_failed_try_again">Echec de connexion. Un compte spécifique pour la réservation d’hôtel est nécessaire.</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
