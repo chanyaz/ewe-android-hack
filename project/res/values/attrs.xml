@@ -232,4 +232,7 @@
 
     <attr name="hotelCheckoutLogoutLogoDrawable" format="reference" />
     <attr name="hotelCheckoutLoginLogoDrawable" format="reference" />
+
+    <!-- HotelCheckout CVV, Book button -->
+    <attr name="cvvBookButtonKeypadDrawable" format="reference" />
 </resources>

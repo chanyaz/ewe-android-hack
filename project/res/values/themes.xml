@@ -186,6 +186,7 @@
         <item name="hotelConfirmationCallActionStyle">@style/Confirmation.Action.Hotel.Expedia</item>
         <item name="hotelCheckoutLogoutLogoDrawable">@drawable/ic_expedia_logo</item>
         <item name="hotelCheckoutLoginLogoDrawable">@drawable/ic_log_in</item>
+        <item name="cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
     </style>
 
     <style name="Theme.VSC" parent="@style/Theme.Expedia">
