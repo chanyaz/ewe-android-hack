@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FacebookLinkResponse;
@@ -159,6 +160,8 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 
 	// Boolean for OmnitureTracking related purposes. false means user logged in manually
 	private boolean loginWithFacebook = false;
+
+	private String forgotPwdLink;
 
 	private enum VisibilityState {
 		FACEBOOK_LINK, EXPEDIA_WTIH_FB_BUTTON, EXPEDIA_WITH_EXPEDIA_BUTTON, LOGGED_IN
@@ -488,8 +491,16 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 			}
 		});
 
+		//1607. VSC Update forgot pwd link.
+		if (ExpediaBookingApp.IS_VSC) {
+			forgotPwdLink = "http://%s/pub/agent.dll?qscr=apwd";
+		}
+		else {
+			forgotPwdLink = "http://www.%s/pub/agent.dll?qscr=apwd";
+		}
+
 		mForgotYourPasswordTv.setText(Html.fromHtml(String.format(
-				"<a href=\"http://www.%s/pub/agent.dll?qscr=apwd\">%s</a>",
+				"<a href=\"" + forgotPwdLink + "\">%s</a>",
 				PointOfSale.getPointOfSale().getUrl(), getString(R.string.forgot_your_password))));
 		mForgotYourPasswordTv.setOnClickListener(new OnClickListener() {
 			@Override
@@ -504,7 +515,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 
 				// Open link in the app's webview instead of default browser.
 				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(context);
-				builder.setUrl(String.format("http://www.%s/pub/agent.dll?qscr=apwd",
+				builder.setUrl(String.format(forgotPwdLink,
 						PointOfSale.getPointOfSale().getUrl()));
 				builder.setInjectExpediaCookies(true);
 				builder.setTheme(R.style.ItineraryTheme);
