@@ -102,6 +102,10 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity {
 		if (mKillReceiver != null) {
 			mKillReceiver.onDestroy();
 		}
+
+		if (isFinishing()) {
+			Db.getHotelSearch().resetSearchData();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
