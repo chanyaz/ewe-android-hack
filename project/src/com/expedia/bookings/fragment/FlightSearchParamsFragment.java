@@ -1074,7 +1074,14 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		mDepartureRouteAdapter.setListener(this);
 		mArrivalRouteAdapter.setListener(this);
 
-		// Sync the current params with what 
+		// #1626: Keep the arrival list properly filtered (if there's an origin selected)
+		Location depLoc = mSearchParams.getDepartureLocation();
+		if (mArrivalRouteAdapter != null && depLoc != null) {
+			mArrivalRouteAdapter.setOrigin(depLoc.getDestinationId());
+			mArrivalRouteAdapter.onDataSetChanged();
+		}
+
+		// Sync the current params with the spinners
 		updateAirportText();
 	}
 
