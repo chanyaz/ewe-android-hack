@@ -25,6 +25,13 @@ android {
     compileSdkVersion 17
     buildToolsVersion "17.0.0"
 
+    defaultConfig {
+        versionCode 21
+        versionName "3.1"
+        minSdkVersion 8
+        targetSdkVersion 17
+    }
+
     productFlavors {
         EBad {
             buildConfig "public static final boolean IS_VSC = false;"
@@ -33,6 +40,8 @@ android {
         VSC {
             buildConfig "public static final boolean IS_VSC = true;"
             packageName "com.expedia.bookings.vsc"
+            versionCode 1
+            versionName "1.0"
         }
     }
 
