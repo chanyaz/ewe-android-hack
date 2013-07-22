@@ -16,7 +16,6 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -28,17 +27,12 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.ReviewsStatisticsResponse;
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.fragment.UserReviewsFragment;
 import com.expedia.bookings.fragment.UserReviewsFragment.UserReviewsFragmentListener;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserReviewsUtils;
 import com.expedia.bookings.widget.UserReviewsFragmentPagerAdapter;
-import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.BackgroundDownloader.Download;
-import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.ViewUtils;
 
@@ -48,18 +42,12 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 	private static final long RESUME_TIMEOUT = 1000 * 60 * 20; // 20 minutes
 	private long mLastResumeTime = -1;
 
-	// Download keys
-	private static final String REVIEWS_STATISTICS_DOWNLOAD = UserReviewsListActivity.class.getName() + ".stats";
-
 	// Instance variable names
 	private static final String INSTANCE_VIEWED_REVIEWS = "INSTANCE_VIEWED_REVIEWS";
 
 	// Fragments and Views
 	private ViewPager mViewPager;
 	private UserReviewsFragmentPagerAdapter mPagerAdapter;
-
-	// Network classes
-	private BackgroundDownloader mBackgroundDownloader = BackgroundDownloader.getInstance();
 
 	private Set<String> mViewedReviews;
 
@@ -89,6 +77,7 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 
 		initializePager(savedInstanceState);
 		initializeActionBar();
+		populateReviewsStats();
 	}
 
 	@Override
@@ -98,16 +87,6 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 		if (checkFinishConditionsAndFinish()) {
 			return;
 		}
-
-		if (mBackgroundDownloader.isDownloading(REVIEWS_STATISTICS_DOWNLOAD)) {
-			mBackgroundDownloader.registerDownloadCallback(REVIEWS_STATISTICS_DOWNLOAD,
-					mReviewStatisticsDownloadCallback);
-		}
-		else {
-			mBackgroundDownloader.startDownload(REVIEWS_STATISTICS_DOWNLOAD, mReviewStatisticsDownload,
-					mReviewStatisticsDownloadCallback);
-		}
-
 		OmnitureTracking.onResume(this);
 	}
 
@@ -170,8 +149,6 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 	@Override
 	protected void onPause() {
 		super.onPause();
-		mBackgroundDownloader.unregisterDownloadCallback(REVIEWS_STATISTICS_DOWNLOAD);
-
 		OmnitureTracking.onPause();
 	}
 
@@ -193,7 +170,6 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 			OmnitureTracking.trackSimpleEvent(this, null, null, referrerId);
 
 			// cancel all downloads
-			mBackgroundDownloader.cancelDownload(REVIEWS_STATISTICS_DOWNLOAD);
 			mPagerAdapter.cancelDownloads();
 		}
 	}
@@ -208,46 +184,7 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 		mPagerAdapter.onSaveInstanceState(getSupportFragmentManager(), outState);
 	}
 
-	private final Download<ReviewsStatisticsResponse> mReviewStatisticsDownload = new Download<ReviewsStatisticsResponse>() {
-		@Override
-		public ReviewsStatisticsResponse doDownload() {
-			ExpediaServices expediaServices = new ExpediaServices(UserReviewsListActivity.this);
-			mBackgroundDownloader.addDownloadListener(REVIEWS_STATISTICS_DOWNLOAD, expediaServices);
-			return expediaServices.reviewsStatistics(Db.getHotelSearch().getSelectedProperty());
-		}
-	};
-
-	private final OnDownloadComplete<ReviewsStatisticsResponse> mReviewStatisticsDownloadCallback = new OnDownloadComplete<ReviewsStatisticsResponse>() {
-		@Override
-		public void onDownload(ReviewsStatisticsResponse response) {
-			if (response == null) {
-				showReviewsUnavailableError();
-			}
-			else {
-				if (response.hasErrors()) {
-					showReviewsUnavailableError();
-				}
-				else {
-					String selectedId = Db.getHotelSearch().getSelectedPropertyId();
-					Db.getHotelSearch().addReviewsStatisticsResponse(selectedId, response);
-
-					// use the stats
-					populateReviewsStats();
-				}
-			}
-		}
-	};
-
-	/**
-	 * Call this method once the review statistics call has been successfully completed.
-	 *
-	 * Note, if it is ever the case that E3 fixes the review count to accurately reflect the actual total,
-	 * this method could included as part of the initial onCreate setup, no extra network call required
-	 */
 	private void populateReviewsStats() {
-
-		mPagerAdapter.populateReviewsStats();
-
 		View titleView = getSupportActionBar().getCustomView();
 		if (titleView == null) {
 			return;
@@ -256,41 +193,19 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 		TextView titleTextView = (TextView) titleView.findViewById(R.id.title);
 		RatingBar ratingBar = (RatingBar) titleView.findViewById(R.id.user_rating);
 
-		String selectedId = Db.getHotelSearch().getSelectedPropertyId();
-		ReviewsStatisticsResponse stats = Db.getHotelSearch().getReviewsStatisticsResponse(selectedId);
-		if (stats == null) {
-			if (ratingBar != null) {
-				ratingBar.setVisibility(View.GONE);
-			}
-			return;
-		}
+		Property property = Db.getHotelSearch().getSelectedProperty();
 
 		if (titleTextView != null) {
 			Resources res = getResources();
 
-			int count = stats.getTotalReviewCount();
+			int count = property.getTotalReviews();
 			String title = res.getQuantityString(R.plurals.number_of_reviews, count, count);
 			titleTextView.setText(title);
 		}
 
 		if (ratingBar != null) {
-			ratingBar.setRating(stats.getAverageOverallRating());
+			ratingBar.setRating((float) property.getAverageExpediaRating());
 			ratingBar.setVisibility(View.VISIBLE);
-		}
-	}
-
-	private void showReviewsUnavailableError() {
-		TextView emptyTextView = Ui.findView(this, R.id.empty_text_view);
-
-		if (emptyTextView != null) {
-			String text = getResources().getString(R.string.user_review_unavailable);
-			emptyTextView.setText(text);
-		}
-
-		ProgressBar progressBar = Ui.findView(this, R.id.progress_bar);
-
-		if (progressBar != null) {
-			progressBar.setVisibility(View.GONE);
 		}
 	}
 

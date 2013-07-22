@@ -23,7 +23,6 @@ public class HotelSearch implements JSONable {
 	// Each map keyed off of propertyId
 	private Map<String, Property> mPropertyMap;
 	private Map<String, HotelAvailability> mAvailabilityMap;
-	private Map<String, ReviewsStatisticsResponse> mReviewsStatisticsResponses;
 	private Map<String, ReviewsResponse> mReviewsResponses;
 
 	public HotelSearch() {
@@ -36,7 +35,6 @@ public class HotelSearch implements JSONable {
 		mSearchResponse = null;
 		mPropertyMap = null;
 		mAvailabilityMap = null;
-		mReviewsStatisticsResponses = null;
 		mReviewsResponses = null;
 	}
 
@@ -65,7 +63,6 @@ public class HotelSearch implements JSONable {
 		}
 
 		mAvailabilityMap = new HashMap<String, HotelAvailability>();
-		mReviewsStatisticsResponses = new HashMap<String, ReviewsStatisticsResponse>();
 		mReviewsResponses = new HashMap<String, ReviewsResponse>();
 	}
 
@@ -152,10 +149,6 @@ public class HotelSearch implements JSONable {
 		availability.setHotelOffersResponse(offersResponse);
 	}
 
-	public void addReviewsStatisticsResponse(String id, ReviewsStatisticsResponse response) {
-		mReviewsStatisticsResponses.put(id, response);
-	}
-
 	public void addReviewsResponse(String id, ReviewsResponse response) {
 		mReviewsResponses.put(id, response);
 	}
@@ -167,7 +160,6 @@ public class HotelSearch implements JSONable {
 
 			mPropertyMap.remove(id);
 			mAvailabilityMap.remove(id);
-			mReviewsStatisticsResponses.remove(id);
 			mReviewsResponses.remove(id);
 
 		}
@@ -207,10 +199,6 @@ public class HotelSearch implements JSONable {
 		return response.getSummarizedRoomRates();
 	}
 
-	public ReviewsStatisticsResponse getReviewsStatisticsResponse(String id) {
-		return mReviewsStatisticsResponses.get(id);
-	}
-
 	public ReviewsResponse getReviewsResponse(String id) {
 		return mReviewsResponses.get(id);
 	}
@@ -228,7 +216,6 @@ public class HotelSearch implements JSONable {
 			JSONUtils.putJSONable(obj, "createTripResponse", mCreateTripResponse);
 
 			JSONUtils.putJSONableStringMap(obj, "availabilityMap", mAvailabilityMap);
-			JSONUtils.putJSONableStringMap(obj, "reviewsStatisticsResponses", mReviewsStatisticsResponses);
 			JSONUtils.putJSONableStringMap(obj, "reviewsResponses", mReviewsResponses);
 
 			return obj;
@@ -249,8 +236,6 @@ public class HotelSearch implements JSONable {
 
 		mAvailabilityMap = JSONUtils.getJSONableStringMap(obj, "availabilityMap", HotelAvailability.class,
 				mAvailabilityMap);
-		mReviewsStatisticsResponses = JSONUtils.getJSONableStringMap(obj, "reviewsStatisticsResponses",
-				ReviewsStatisticsResponse.class, mReviewsStatisticsResponses);
 		mReviewsResponses = JSONUtils.getJSONableStringMap(obj, "reviewsResponses", ReviewsResponse.class,
 				mReviewsResponses);
 

@@ -20,7 +20,6 @@ import com.expedia.bookings.activity.UserReviewsListActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelTextSection;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.ReviewsStatisticsResponse;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.AnimatorSet;
@@ -50,20 +49,15 @@ public class HotelDetailsIntroFragment extends Fragment {
 	}
 
 	private void populateViews(View view) {
-		if (Db.getHotelSearch().getSelectedProperty() != null) {
-			String selectedId = Db.getHotelSearch().getSelectedPropertyId();
-			ReviewsStatisticsResponse statsResponse = Db.getHotelSearch().getReviewsStatisticsResponse(selectedId);
-			populateBannerSection(view, Db.getHotelSearch().getSelectedProperty(), statsResponse);
-			populateIntroParagraph(view, Db.getHotelSearch().getSelectedProperty());
+		Property property = Db.getHotelSearch().getSelectedProperty();
+		if (property != null) {
+			populateBannerSection(view, property);
+			populateIntroParagraph(view, property);
 		}
 	}
 
 	// Reviews
-	private void populateBannerSection(View view, Property property, ReviewsStatisticsResponse statistics) {
-		if (property == null || statistics == null) {
-			return;
-		}
-
+	private void populateBannerSection(View view, Property property) {
 		Resources resources = getResources();
 		View reviewsSummaryLayout = Ui.findView(view, R.id.reviews_summary_layout);
 		View reviewsLayout = Ui.findView(view, R.id.user_review_layout);
@@ -72,21 +66,14 @@ public class HotelDetailsIntroFragment extends Fragment {
 		TextView bannerTextView = Ui.findView(view, R.id.banner_message_text_view);
 		RatingBar userRatingBar = Ui.findView(view, R.id.user_rating_bar);
 
-		if (statistics == null) {
-			reviewsLayout.setVisibility(View.INVISIBLE);
-			bannerTextView.setVisibility(View.INVISIBLE);
-			verticalSep.setVisibility(View.INVISIBLE);
-			return;
-		}
-
 		reviewsLayout.setVisibility(View.VISIBLE);
 		bannerTextView.setVisibility(View.VISIBLE);
 		verticalSep.setVisibility(View.VISIBLE);
 
 		// Reviews
-		int numReviews = statistics.getTotalReviewCount();
-		float percentRecommend = statistics.getPercentRecommended();
-		float userRating = statistics.getAverageOverallRating();
+		int numReviews = property.getTotalReviews();
+		float percentRecommend = property.getPercentRecommended();
+		float userRating = (float) property.getAverageExpediaRating();
 
 		String reviewsText = numReviews == 0
 				? resources.getString(R.string.no_reviews)
@@ -174,10 +161,6 @@ public class HotelDetailsIntroFragment extends Fragment {
 	}
 
 	private void populateIntroParagraph(View view, Property property) {
-		if (property == null) {
-			return;
-		}
-
 		List<HotelTextSection> sections = property.getAllHotelText(getActivity());
 
 		final TextView titleView = Ui.findView(view, R.id.title_text);

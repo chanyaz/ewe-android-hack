@@ -393,6 +393,10 @@ public class Property implements JSONable {
 		return mTotalRecommendations;
 	}
 
+	public int getPercentRecommended() {
+		return Math.round(((float) mTotalRecommendations) / mTotalReviews * 100);
+	}
+
 	public void setAverageExpediaRating(double averageExpediaRating) {
 		mAverageExpediaRating = averageExpediaRating;
 	}

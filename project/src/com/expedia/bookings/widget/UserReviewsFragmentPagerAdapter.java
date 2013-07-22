@@ -69,16 +69,6 @@ public class UserReviewsFragmentPagerAdapter extends FragmentPagerAdapter {
 		return TABS.length;
 	}
 
-	// populate the list header for all three fragments
-	public void populateReviewsStats() {
-		for (UserReviewsFragment f : mFragments) {
-			if (f != null) {
-				f.populateListHeader();
-			}
-		}
-		mFragments.get(0).attemptReviewsDownload();
-	}
-
 	public void cancelDownloads() {
 		for (UserReviewsFragment f : mFragments) {
 			if (f != null) {

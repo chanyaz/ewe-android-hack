@@ -21,7 +21,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
@@ -84,7 +83,6 @@ import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ReviewsResponse;
-import com.expedia.bookings.data.ReviewsStatisticsResponse;
 import com.expedia.bookings.data.RoutesResponse;
 import com.expedia.bookings.data.SamsungWalletResponse;
 import com.expedia.bookings.data.Scenario;
@@ -1196,11 +1194,6 @@ public class ExpediaServices implements DownloadListener {
 
 	private static final String REVIEWS_BASE_URL = "http://reviews-web-eweprod-a-lb-109857973.us-east-1.elb.amazonaws.com/reviews/v1/";
 
-	private enum ReviewRequestType {
-		SUMMARY,
-		REVIEWS;
-	}
-
 	public ReviewsResponse reviews(Property property, ReviewSort sort, int pageNumber) {
 		return reviews(property, sort, pageNumber, REVIEWS_PER_PAGE);
 	}
@@ -1229,32 +1222,16 @@ public class ExpediaServices implements DownloadListener {
 		params.add(new BasicNameValuePair("start", Integer.toString(pageNumber * numReviewsPerPage)));
 		params.add(new BasicNameValuePair("items", Integer.toString(numReviewsPerPage)));
 
-		return doReviewsRequest(getReviewsUrl(ReviewRequestType.REVIEWS, property), params,
-				new ReviewsResponseHandler());
+		return doReviewsRequest(getReviewsUrl(property), params, new ReviewsResponseHandler());
 	}
 
-	public ReviewsStatisticsResponse reviewsStatistics(Property property) {
-		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
-		params.add(new BasicNameValuePair("_type", "json"));
-		params.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
-
-		return doReviewsRequest(getReviewsUrl(ReviewRequestType.SUMMARY, property), params,
-				new ReviewsStatisticsResponseHandler());
-	}
-
-	private static String getReviewsUrl(ReviewRequestType requestType, Property property) {
-		String url = REVIEWS_BASE_URL;
-
+	private static String getReviewsUrl(Property property) {
 		String locale = PointOfSale.getPointOfSale().getLocaleIdentifier();
-		if (requestType == ReviewRequestType.SUMMARY) {
-			url += "search/summary/";
-		}
-		else if (requestType == ReviewRequestType.REVIEWS) {
-			url += "retrieve/getReviewsForHotelId/";
-			url += property.getPropertyId();
-			url += "/";
-		}
 
+		String url = REVIEWS_BASE_URL;
+		url += "retrieve/getReviewsForHotelId/";
+		url += property.getPropertyId();
+		url += "/";
 		url += locale;
 
 		return url;

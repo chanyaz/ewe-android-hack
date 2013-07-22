@@ -26,7 +26,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.ReviewsStatisticsResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.HotelSoldOutDialog;
@@ -39,12 +38,10 @@ import com.expedia.bookings.fragment.HotelDetailsMiniMapFragment;
 import com.expedia.bookings.fragment.HotelDetailsMiniMapFragment.HotelMiniMapFragmentListener;
 import com.expedia.bookings.fragment.HotelDetailsPricePromoFragment;
 import com.expedia.bookings.server.CrossContextHelper;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.HotelDetailsScrollView;
 import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
@@ -72,8 +69,6 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 
 	// Flag set in the intent if this activity was opened from the widget
 	public static final String OPENED_FROM_WIDGET = "OPENED_FROM_WIDGET";
-
-	private static final String REVIEWS_DOWNLOAD_KEY = HotelDetailsFragmentActivity.class.getName() + ".reviews";
 
 	private static final long RESUME_TIMEOUT = 1000 * 60 * 20; // 20 minutes
 
@@ -221,24 +216,6 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 			}
 		}
 
-		ReviewsStatisticsResponse reviewsResponse = Db.getHotelSearch().getReviewsStatisticsResponse(selectedId);
-		if (reviewsResponse != null) {
-			// We may have been downloading the data here before getting it elsewhere, so cancel
-			// our own download once we have data
-			bd.cancelDownload(REVIEWS_DOWNLOAD_KEY);
-
-			// Load the data
-			mReviewsCallback.onDownload(reviewsResponse);
-		}
-		else {
-			if (bd.isDownloading(REVIEWS_DOWNLOAD_KEY)) {
-				bd.registerDownloadCallback(REVIEWS_DOWNLOAD_KEY, mReviewsCallback);
-			}
-			else {
-				bd.startDownload(REVIEWS_DOWNLOAD_KEY, mReviewsDownload, mReviewsCallback);
-			}
-		}
-
 		OmnitureTracking.onResume(this);
 	}
 
@@ -261,11 +238,9 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (isFinishing()) {
 			bd.cancelDownload(CrossContextHelper.KEY_INFO_DOWNLOAD);
-			bd.cancelDownload(REVIEWS_DOWNLOAD_KEY);
 		}
 		else {
 			bd.unregisterDownloadCallback(CrossContextHelper.KEY_INFO_DOWNLOAD);
-			bd.unregisterDownloadCallback(REVIEWS_DOWNLOAD_KEY);
 		}
 
 		OmnitureTracking.onPause();
@@ -541,36 +516,6 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 
 			if (mBookByPhoneButton != null) {
 				setupBookByPhoneButton(response);
-			}
-		}
-	};
-
-	//////////////////////////////////////////////////////////////////////////////////////////
-	// Async loading of ExpediaServices.reviewsStatistics
-
-	private final Download<ReviewsStatisticsResponse> mReviewsDownload = new Download<ReviewsStatisticsResponse>() {
-		@Override
-		public ReviewsStatisticsResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(mContext);
-			return services.reviewsStatistics(Db.getHotelSearch().getSelectedProperty());
-		}
-	};
-
-	private final OnDownloadComplete<ReviewsStatisticsResponse> mReviewsCallback = new OnDownloadComplete<ReviewsStatisticsResponse>() {
-		@Override
-		public void onDownload(ReviewsStatisticsResponse response) {
-			if (Db.getHotelSearch().getSelectedProperty() == null) {
-				Log.d("Bailed saving review because property was removed");
-				return;
-			}
-
-			String selectedId = Db.getHotelSearch().getSelectedPropertyId();
-			Db.getHotelSearch().addReviewsStatisticsResponse(selectedId, response);
-
-			// Notify affected child fragments to refresh.
-
-			if (mIntroFragment != null) {
-				mIntroFragment.populateViews();
 			}
 		}
 	};

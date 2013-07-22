@@ -13,33 +13,23 @@ import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.ReviewsStatisticsResponse;
 import com.expedia.bookings.fragment.UserReviewsFragment;
 import com.expedia.bookings.fragment.UserReviewsFragment.UserReviewsFragmentListener;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserReviewsUtils;
 import com.expedia.bookings.widget.UserReviewsFragmentPagerAdapter;
-import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.BackgroundDownloader.Download;
-import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.widget.SegmentedControlGroup;
 
 public class TabletUserReviewsListActivity extends FragmentActivity implements UserReviewsFragmentListener,
 		OnPageChangeListener, OnCheckedChangeListener {
-
-	// Download keys
-	private static final String REVIEWS_STATISTICS_DOWNLOAD = TabletUserReviewsListActivity.class.getName() + ".stats";
 
 	// Instance variable names
 	private static final String INSTANCE_VIEWED_REVIEWS = "INSTANCE_VIEWED_REVIEWS";
@@ -50,9 +40,6 @@ public class TabletUserReviewsListActivity extends FragmentActivity implements U
 
 	// Tabs
 	private SegmentedControlGroup mSortGroup;
-
-	// Network classes
-	private BackgroundDownloader mBackgroundDownloader = BackgroundDownloader.getInstance();
 
 	private Set<String> mViewedReviews;
 
@@ -69,11 +56,6 @@ public class TabletUserReviewsListActivity extends FragmentActivity implements U
 			Log.i("Detected expired DB, finishing activity.");
 			finish();
 			return;
-		}
-
-		// Make sure to cancel previous stats downloads that might be lying around from a previous instance
-		if (savedInstanceState == null) {
-			mBackgroundDownloader.cancelDownload(REVIEWS_STATISTICS_DOWNLOAD);
 		}
 
 		mRootView = findViewById(R.id.user_reviews_view);
@@ -95,24 +77,12 @@ public class TabletUserReviewsListActivity extends FragmentActivity implements U
 	@Override
 	protected void onResume() {
 		super.onResume();
-
-		if (mBackgroundDownloader.isDownloading(REVIEWS_STATISTICS_DOWNLOAD)) {
-			mBackgroundDownloader.registerDownloadCallback(REVIEWS_STATISTICS_DOWNLOAD,
-					mReviewStatisticsDownloadCallback);
-		}
-		else {
-			mBackgroundDownloader.startDownload(REVIEWS_STATISTICS_DOWNLOAD, mReviewStatisticsDownload,
-					mReviewStatisticsDownloadCallback);
-		}
-
 		OmnitureTracking.onResume(this);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		mBackgroundDownloader.unregisterDownloadCallback(REVIEWS_STATISTICS_DOWNLOAD);
-
 		OmnitureTracking.onPause();
 	}
 
@@ -130,7 +100,6 @@ public class TabletUserReviewsListActivity extends FragmentActivity implements U
 			OmnitureTracking.trackSimpleEvent(this, null, null, referrerId);
 
 			// cancel all downloads
-			mBackgroundDownloader.cancelDownload(REVIEWS_STATISTICS_DOWNLOAD);
 			mPagerAdapter.cancelDownloads();
 		}
 	}
@@ -143,51 +112,6 @@ public class TabletUserReviewsListActivity extends FragmentActivity implements U
 		outState.putStringArrayList(INSTANCE_VIEWED_REVIEWS, viewedReviews);
 
 		mPagerAdapter.onSaveInstanceState(getSupportFragmentManager(), outState);
-	}
-
-	private final Download<ReviewsStatisticsResponse> mReviewStatisticsDownload = new Download<ReviewsStatisticsResponse>() {
-		@Override
-		public ReviewsStatisticsResponse doDownload() {
-			ExpediaServices expediaServices = new ExpediaServices(TabletUserReviewsListActivity.this);
-			mBackgroundDownloader.addDownloadListener(REVIEWS_STATISTICS_DOWNLOAD, expediaServices);
-			return expediaServices.reviewsStatistics(Db.getHotelSearch().getSelectedProperty());
-		}
-	};
-
-	private final OnDownloadComplete<ReviewsStatisticsResponse> mReviewStatisticsDownloadCallback = new OnDownloadComplete<ReviewsStatisticsResponse>() {
-		@Override
-		public void onDownload(ReviewsStatisticsResponse response) {
-			if (response == null) {
-				showReviewsUnavailableError();
-			}
-			else {
-				if (response.hasErrors()) {
-					showReviewsUnavailableError();
-				}
-				else {
-					String selectedId = Db.getHotelSearch().getSelectedPropertyId();
-					Db.getHotelSearch().addReviewsStatisticsResponse(selectedId, response);
-
-					// use the stats
-					mPagerAdapter.populateReviewsStats();
-				}
-			}
-		}
-	};
-
-	private void showReviewsUnavailableError() {
-		TextView emptyTextView = Ui.findView(this, R.id.empty_text_view);
-
-		if (emptyTextView != null) {
-			String text = getResources().getString(R.string.user_review_unavailable);
-			emptyTextView.setText(text);
-		}
-
-		ProgressBar progressBar = Ui.findView(this, R.id.progress_bar);
-
-		if (progressBar != null) {
-			progressBar.setVisibility(View.GONE);
-		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

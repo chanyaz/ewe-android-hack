@@ -25,7 +25,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Review;
 import com.expedia.bookings.data.ReviewsResponse;
-import com.expedia.bookings.data.ReviewsStatisticsResponse;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.ExpediaServices.ReviewSort;
 import com.expedia.bookings.utils.UserReviewsUtils;
@@ -33,7 +32,6 @@ import com.expedia.bookings.widget.UserReviewsAdapter;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.Ui;
 
@@ -107,7 +105,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		mProperty = Db.getHotelSearch().getSelectedProperty();
 		mReviewSort = ReviewSort.valueOf(getArguments().getString(ARGUMENT_SORT_STRING));
 		mReviewsDownloadKey = REVIEWS_DOWNLOAD_KEY_PREFIX + mReviewSort.name();
-
 		mScrollListenerSet = false;
 	}
 
@@ -118,6 +115,8 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		if (mHeaderView == null) {
 			mHeaderView = inflater.inflate(R.layout.header_user_reviews_list, null, false);
 		}
+
+		populateListHeader();
 
 		return view;
 	}
@@ -137,11 +136,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 			mNumReviewsDownloaded = savedInstanceState.getInt(INSTANCE_NUM_DOWNLOADED);
 			mAttemptedDownload = savedInstanceState.getBoolean(INSTANCE_ATTEMPTED_DOWNLOAD, false);
 			boolean reincarnatedReviews = savedInstanceState.getBoolean(INSTANCE_HAS_REVIEWS, false);
-			String selectedId = Db.getHotelSearch().getSelectedPropertyId();
-			ReviewsStatisticsResponse statsResponse = Db.getHotelSearch().getReviewsStatisticsResponse(selectedId);
-			if (reincarnatedReviews && statsResponse != null) {
-				populateListHeader();
-
+			if (reincarnatedReviews) {
 				mUserReviews = mUserReviewsUtils.getReviews(mProperty.getPropertyId(), mReviewSort);
 				if (mUserReviews != null) {
 					mUserReviewsAdapter.setUserReviews(mUserReviews);
@@ -168,6 +163,11 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		if (mBackgroundDownloader.isDownloading(mReviewsDownloadKey)) {
 			mBackgroundDownloader.registerDownloadCallback(mReviewsDownloadKey, mUserReviewDownloadCallback);
 		}
+
+		// This kicks off the chain of downloads on first launch
+		if (!mAttemptedDownload && mReviewSort == ReviewSort.NEWEST_REVIEW_FIRST) {
+			startReviewsDownload();
+		}
 	}
 
 	@Override
@@ -187,48 +187,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 		outState.putInt(INSTANCE_PAGE_NUMBER, mPageNumber);
 		outState.putInt(INSTANCE_NUM_DOWNLOADED, mNumReviewsDownloaded);
-	}
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Public Methods
-
-	public void populateListHeader() {
-		String selectedId = Db.getHotelSearch().getSelectedPropertyId();
-		ReviewsStatisticsResponse stats = Db.getHotelSearch().getReviewsStatisticsResponse(selectedId);
-
-		if (mHeaderView == null) {
-			return;
-		}
-
-		TextView recommendText = Ui.findView(mHeaderView, R.id.user_reviews_recommendation_tag);
-
-		int numRec = stats.getTotalRecommended();
-		int numTotal = stats.getTotalReviewCount();
-		float percentRecommend = stats.getPercentRecommended();
-		String text = getString(R.string.user_review_recommendation_tag_text, numRec, numTotal);
-		CharSequence styledText = Html.fromHtml(text);
-
-		if (numTotal > 0) {
-			int drawableResId = percentRecommend >= 50.0f ? R.drawable.ic_good_rating : R.drawable.ic_bad_rating;
-			recommendText.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0, 0);
-			recommendText.setText(styledText);
-		}
-
-		// In landscape mode, "19 reviews" and user rating bar are also present in this view
-		TextView numReviews = Ui.findView(mHeaderView, R.id.num_reviews);
-		if (numReviews != null) {
-			Resources res = getResources();
-			String title = res.getQuantityString(R.plurals.number_of_reviews, numTotal, numTotal);
-			numReviews.setText(title);
-		}
-		RatingBar userRating = Ui.findView(mHeaderView, R.id.user_rating);
-		if (userRating != null) {
-			float rating = stats.getAverageOverallRating();
-			userRating.setRating(rating);
-			userRating.setVisibility(View.VISIBLE);
-
-		}
-
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -284,11 +242,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		}
 	};
 
-	private void showReviewsUnavailableMessage() {
-		removeLoadingFooter();
-		updateEmptyMessage(R.string.user_review_unavailable);
-	}
-
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// ScrollListener
 
@@ -323,10 +276,57 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		// We don't care about the scrollState changing right now
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Special row types
+	private boolean hasMoreReviews() {
+		return mNumReviewsDownloaded < Db.getHotelSearch().getSelectedProperty().getTotalReviews();
+	}
 
-	public void addLoadingFooter() {
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Views
+
+	private void populateListHeader() {
+		if (mHeaderView == null) {
+			return;
+		}
+
+		Property property = Db.getHotelSearch().getSelectedProperty();
+
+		TextView recommendText = Ui.findView(mHeaderView, R.id.user_reviews_recommendation_tag);
+
+		int numRec = property.getTotalRecommendations();
+		int numTotal = property.getTotalReviews();
+		float percentRecommend = property.getPercentRecommended();
+		String text = getString(R.string.user_review_recommendation_tag_text, numRec, numTotal);
+		CharSequence styledText = Html.fromHtml(text);
+
+		if (numTotal > 0) {
+			int drawableResId = percentRecommend >= 50.0f ? R.drawable.ic_good_rating : R.drawable.ic_bad_rating;
+			recommendText.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0, 0);
+			recommendText.setText(styledText);
+		}
+
+		// In landscape mode, "19 reviews" and user rating bar are also present in this view
+		TextView numReviews = Ui.findView(mHeaderView, R.id.num_reviews);
+		if (numReviews != null) {
+			Resources res = getResources();
+			String title = res.getQuantityString(R.plurals.number_of_reviews, numTotal, numTotal);
+			numReviews.setText(title);
+		}
+		RatingBar userRating = Ui.findView(mHeaderView, R.id.user_rating);
+		if (userRating != null) {
+			float rating = (float) property.getAverageExpediaRating();
+			userRating.setRating(rating);
+			userRating.setVisibility(View.VISIBLE);
+
+		}
+
+	}
+
+	private void showReviewsUnavailableMessage() {
+		removeLoadingFooter();
+		updateEmptyMessage(R.string.user_review_unavailable);
+	}
+
+	private void addLoadingFooter() {
 		ReviewWrapper rw = new ReviewWrapper();
 		rw.mIsLoadingFooter = true;
 
@@ -338,7 +338,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		mUserReviewsAdapter.setUserReviews(mUserReviews);
 	}
 
-	public void removeLoadingFooter() {
+	private void removeLoadingFooter() {
 		if (mUserReviews != null) {
 			int size = mUserReviews.size();
 			int pos = size - 1;
@@ -373,14 +373,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 			emptyTextView.setText(emptyText);
 		}
-	}
-
-	private boolean hasMoreReviews() {
-		String propertyId = mProperty.getPropertyId();
-		ReviewsStatisticsResponse stats = Db.getHotelSearch().getReviewsStatisticsResponse(propertyId);
-		int numTotal = stats.getTotalReviewCount();
-		Log.d("User reviews request: numDownload " + mNumReviewsDownloaded + " numTotal " + numTotal);
-		return mNumReviewsDownloaded < numTotal;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
