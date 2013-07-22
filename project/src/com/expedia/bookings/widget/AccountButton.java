@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.text.Html;
@@ -107,7 +108,7 @@ public class AccountButton extends LinearLayout {
 		Resources res = getResources();
 		mLoginContainer.setBackgroundResource(isFlights ? R.drawable.btn_login_flights : R.drawable.btn_login_hotels);
 		mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(isFlights ? R.drawable.ic_expedia_logo
-				: R.drawable.ic_log_in, 0, 0, 0);
+				: Ui.obtainThemeResID((Activity)mContext, R.attr.hotelCheckoutLoginLogoDrawable), 0, 0, 0);
 		mLoginTextView.setTextColor(isFlights ? res.getColor(R.color.login_text_flight) : res
 				.getColor(R.color.login_text_hotels));
 		mLogoutContainer.setBackgroundResource(isFlights ? R.drawable.bg_checkout_logged_in
@@ -115,7 +116,7 @@ public class AccountButton extends LinearLayout {
 
 		//Reset some defaults if we are not an elitePlusMember (but are logged in)
 		if (isLoggedIn && !isElitePlusMember) {
-			mExpediaLogo.setImageResource(R.drawable.ic_expedia_logo);
+			mExpediaLogo.setImageResource(Ui.obtainThemeResID((Activity)mContext, R.attr.hotelCheckoutLogoutLogoDrawable));
 			mRewardsContainer.setBackgroundResource(R.drawable.bg_checkout_information_rewards_tab);
 		}
 
