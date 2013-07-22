@@ -16,6 +16,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.format.DateUtils;
 import android.text.format.Time;
+import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -198,10 +199,18 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		boolean displayFlightDropDownRoutes = PointOfSale.getPointOfSale().displayFlightDropDownRoutes();
+
+		// If we're using the airport dropdowns, we need a different theme for the dropdown listview style
+		if (displayFlightDropDownRoutes) {
+			Context newContext = new ContextThemeWrapper(getActivity(), R.style.FlightTheme_DropDownSearch);
+			inflater = LayoutInflater.from(newContext);
+		}
+
 		View v = inflater.inflate(R.layout.fragment_flight_search_params, container, false);
 
 		// We want to use one of two airport pickers depending on our POS; inflate the correct one
-		int airportStubId = PointOfSale.getPointOfSale().displayFlightDropDownRoutes() ? R.id.stub_flight_search_airports_spinner
+		int airportStubId = displayFlightDropDownRoutes ? R.id.stub_flight_search_airports_spinner
 				: R.id.stub_flight_search_airports;
 		Ui.inflateViewStub(v, airportStubId);
 
