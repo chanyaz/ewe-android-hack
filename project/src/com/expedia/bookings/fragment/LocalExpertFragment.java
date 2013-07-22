@@ -90,13 +90,15 @@ public class LocalExpertFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 
-		getView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-			@Override
-			public void onGlobalLayout() {
-				getView().getViewTreeObserver().removeGlobalOnLayoutListener(this);
-				mHandler.sendMessageDelayed(Message.obtain(mHandler, MSG_ADVANCE), START_DELAY);
-			}
-		});
+		if (!getResources().getBoolean(R.bool.ldpi)) {
+			getView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+				@Override
+				public void onGlobalLayout() {
+					getView().getViewTreeObserver().removeGlobalOnLayoutListener(this);
+					mHandler.sendMessageDelayed(Message.obtain(mHandler, MSG_ADVANCE), START_DELAY);
+				}
+			});
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////

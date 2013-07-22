@@ -22,6 +22,9 @@
     <integer name="login_or_lines_weight">1</integer>
     <integer name="login_or_spacers_weight">1</integer>
 
+    <!-- visibilities -->
+    <integer name="attraction_bubble_visibility">0</integer>
+
     <!-- Country codes -->
     <integer name="country_phone_code_af">93</integer>
     <integer name="country_phone_code_al">355</integer>

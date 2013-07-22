@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/background_image_view"
@@ -18,7 +18,7 @@
         android:background="@drawable/bg_local_expert"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="16dp" >
+        android:padding="16dp">
 
         <ImageView
             android:id="@+id/close_image_view"
@@ -30,20 +30,22 @@
             android:scaleType="centerInside"
             android:src="@drawable/btn_local_expert_close" />
 
-        <com.expedia.bookings.widget.TextView
+        <com.expedia.bookings.widget.AutoResizeTextView
             android:id="@+id/title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="1"
             android:gravity="center"
             android:textColor="@color/itin_white_text"
             android:textSize="48sp"
             android:textStyle="normal"
             app:textAllCaps="true" />
 
-        <com.expedia.bookings.widget.TextView
+        <com.expedia.bookings.widget.AutoResizeTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:maxLines="2"
             android:gravity="center"
             android:text="@string/local_expert_description"
             android:textColor="@color/itin_white_text"
@@ -66,13 +68,14 @@
         android:layout_above="@+id/description_layout"
         android:layout_alignParentTop="true"
         android:orientation="horizontal"
-        android:padding="16dp" >
+        android:padding="16dp"
+        android:visibility="@integer/attraction_bubble_visibility">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="5"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <View
                 android:layout_width="match_parent"
@@ -95,7 +98,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="4"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <View
                 android:layout_width="match_parent"
