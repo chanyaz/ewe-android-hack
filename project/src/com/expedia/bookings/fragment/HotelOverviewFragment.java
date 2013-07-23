@@ -581,19 +581,18 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		}
 
 		// Configure slide to purchase string
+		int chargeTypeMessageId = 0;
 		if (!Db.getHotelSearch().getSelectedProperty().isMerchant()) {
 			mCouponCodeLayout.setVisibility(View.GONE);
-			mSlideToPurchasePriceString = getString(R.string.collected_by_the_hotel_TEMPLATE,
-					rate.getTotalPriceWithMandatoryFees().getFormattedMoney());
+			chargeTypeMessageId = R.string.collected_by_the_hotel_TEMPLATE;
 		}
 		else if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
-			mSlideToPurchasePriceString = getString(R.string.Amount_to_be_paid_now_TEMPLATE,
-					rate.getTotalAmountAfterTax().getFormattedMoney());
+			chargeTypeMessageId = R.string.Amount_to_be_paid_now_TEMPLATE;
 		}
 		else {
-			mSlideToPurchasePriceString = getString(R.string.your_card_will_be_charged_TEMPLATE,
-					rate.getTotalAmountAfterTax().getFormattedMoney());
+			chargeTypeMessageId = R.string.your_card_will_be_charged_TEMPLATE;
 		}
+		mSlideToPurchasePriceString = getString(chargeTypeMessageId, rate.getDisplayTotalPrice().getFormattedMoney());
 		mSlideToPurchaseFragment.setTotalPriceString(mSlideToPurchasePriceString);
 
 		mHotelReceipt.bind(mIsDoneLoadingPriceChange, Db.getHotelSearch().getSelectedProperty(), Db.getHotelSearch()
