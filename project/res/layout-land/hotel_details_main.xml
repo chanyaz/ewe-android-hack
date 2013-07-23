@@ -68,7 +68,7 @@
                         android:id="@+id/book_now_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/btn_signin"
+                        android:background="?attr/loginBookNowButtonDrawable"
                         android:text="@string/book_now"
                         android:textSize="18sp" />
 

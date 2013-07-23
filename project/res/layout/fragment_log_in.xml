@@ -126,7 +126,7 @@
                 <Button
                     android:id="@+id/log_in_with_expedia_btn"
                     style="@style/LoginFormButton"
-                    android:background="?attr/loginWithExpediaButtonDrawable"
+                    android:background="?attr/loginBookNowButtonDrawable"
                     android:contentDescription="@string/cd_checkout_log_in_with_expedia"
                     android:gravity="center"
                     android:text="?attr/loginWithExpediaButtonText"

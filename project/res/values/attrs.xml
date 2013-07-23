@@ -221,7 +221,8 @@
     <attr name="costSummaryDialogStripeDrawable" format="reference" />
 
     <!-- Log in with Expedia/VSC screen -->
-    <attr name="loginWithExpediaButtonDrawable" format="reference" />
+    <!-- This drawable is used in hotel detail for Book Now button as well -->
+    <attr name="loginBookNowButtonDrawable" format="reference" />
     <attr name="loginWithExpediaButtonText" format="reference|string" />
     <attr name="loginWithExpediaTitleText" format="reference|string" />
 
