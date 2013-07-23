@@ -30,6 +30,7 @@ import com.expedia.bookings.data.ReviewsStatisticsResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.HotelSoldOutDialog;
+import com.expedia.bookings.dialog.HotelUnreachableDialog;
 import com.expedia.bookings.fragment.HotelDetailsDescriptionFragment;
 import com.expedia.bookings.fragment.HotelDetailsIntroFragment;
 import com.expedia.bookings.fragment.HotelDetailsMiniGalleryFragment;
@@ -510,6 +511,12 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 			}
 			else {
 				Db.getHotelSearch().updateFrom(response);
+			}
+
+			if (response == null) {
+				HotelUnreachableDialog dialog = HotelUnreachableDialog.newInstance();
+				dialog.show(getSupportFragmentManager(), "unreachableDialog");
+				return;
 			}
 
 			if (Db.getHotelSearch().getAvailability(selectedId).getRateCount() == 0) {
