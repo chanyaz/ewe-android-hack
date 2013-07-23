@@ -66,7 +66,13 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 	@Override
 	public DateTime getStartDate() {
 		if (mStartDate == null) {
-			mStartDate = DateTime.newInstance(getFlightLeg().getFirstWaypoint().getMostRelevantDateTime());
+			Calendar startCal = getStartCalFromFlightLeg();
+			if (startCal != null) {
+				mStartDate = DateTime.newInstance(startCal);
+			}
+			else {
+				return super.getStartDate();
+			}
 		}
 		return mStartDate;
 	}
@@ -74,7 +80,13 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 	@Override
 	public DateTime getEndDate() {
 		if (mEndDate == null) {
-			mEndDate = DateTime.newInstance(getFlightLeg().getLastWaypoint().getMostRelevantDateTime());
+			Calendar endCal = getEndCalFromFlightLeg();
+			if (endCal != null) {
+				mEndDate = DateTime.newInstance(endCal);
+			}
+			else {
+				return super.getEndDate();
+			}
 		}
 		return mEndDate;
 	}
@@ -119,10 +131,30 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 
 	// Don't trust FlightStats' stats.  Just go off of start/end time.
 	public boolean isEnRoute() {
-		FlightLeg leg = getFlightLeg();
-
 		Calendar now = Calendar.getInstance();
-		return now.after(leg.getFirstWaypoint().getMostRelevantDateTime())
-				&& now.before(leg.getLastWaypoint().getMostRelevantDateTime());
+		Calendar start = getStartCalFromFlightLeg();
+		Calendar end = getEndCalFromFlightLeg();
+		if (start != null && end != null) {
+			return now.after(start) && now.before(end);
+		}
+		else {
+			return false;
+		}
+	}
+
+	private Calendar getStartCalFromFlightLeg() {
+		FlightLeg leg = getFlightLeg();
+		if (leg != null && leg.getFirstWaypoint() != null) {
+			return leg.getFirstWaypoint().getMostRelevantDateTime();
+		}
+		return null;
+	}
+
+	private Calendar getEndCalFromFlightLeg() {
+		FlightLeg leg = getFlightLeg();
+		if (leg != null && leg.getLastWaypoint() != null) {
+			return leg.getLastWaypoint().getMostRelevantDateTime();
+		}
+		return null;
 	}
 }
