@@ -95,6 +95,10 @@
     <!-- Label for "app support" button in info page -->
     <string name="app_support">Aide</string>
 
+    <!-- Menu strings -->
+    <!-- Label for "info about this app" menu item. -->
+    <string name="Info">Informations</string>
+
     <!-- VSC Info Screen -->
     <!-- Header for a list of apps also written by VSC -->
     <string name="AlsoByVSC">Pour vous accompagner</string>
