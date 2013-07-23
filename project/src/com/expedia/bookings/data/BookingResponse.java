@@ -12,6 +12,7 @@ public class BookingResponse extends Response implements JSONable {
 
 	// For Expedia
 	private String mItineraryId;
+	private String mOrderNumber;
 
 	private String mPhoneNumber;
 
@@ -45,6 +46,14 @@ public class BookingResponse extends Response implements JSONable {
 		this.mItineraryId = itineraryId;
 	}
 
+	public String getOrderNumber() {
+		return mOrderNumber;
+	}
+
+	public void setOrderNumber(String orderNumber) {
+		mOrderNumber = orderNumber;
+	}
+
 	public void setPhoneNumber(String number) {
 		mPhoneNumber = number;
 	}
@@ -59,6 +68,7 @@ public class BookingResponse extends Response implements JSONable {
 			JSONObject obj = super.toJson();
 			obj.putOpt("hotelConfNumber", mHotelConfNumber);
 			obj.putOpt("itineraryId", mItineraryId);
+			obj.putOpt("orderNumber", mOrderNumber);
 			obj.putOpt("phoneNumber", mPhoneNumber);
 			return obj;
 		}
@@ -73,6 +83,7 @@ public class BookingResponse extends Response implements JSONable {
 		super.fromJson(obj);
 		mHotelConfNumber = obj.optString("hotelConfNumber", null);
 		mItineraryId = obj.optString("itineraryId", null);
+		mOrderNumber = obj.optString("orderNumber", null);
 		mPhoneNumber = obj.optString("phoneNumber", null);
 		return true;
 	}

@@ -377,7 +377,7 @@ public class OmnitureTracking {
 		// Unique confirmation id
 		// 14103: Remove timestamp from the purchaseID variable
 		s.setProp(15, response.getItineraryId());
-		s.setPurchaseID(response.getItineraryId());
+		s.setPurchaseID("onum" + response.getOrderNumber());
 
 		if (billingInfo != null) {
 			Location location = billingInfo.getLocation();

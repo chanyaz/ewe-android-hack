@@ -28,6 +28,7 @@ public class BookingResponseHandler extends JsonResponseHandler<BookingResponse>
 			if (bookingResponse.isSuccess() || bookingResponse.succeededWithErrors()) {
 				bookingResponse.setHotelConfNumber(response.optString("hotelConfirmationNumber", null));
 				bookingResponse.setItineraryId(response.optString("itineraryNumber", null));
+				bookingResponse.setOrderNumber(response.optString("orderNumber", null));
 				bookingResponse.setPhoneNumber(response.optString("hotelNumber", null));
 			}
 		}
