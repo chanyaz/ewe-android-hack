@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
+import java.util.Locale;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -125,7 +126,12 @@ public class LocalExpertFragment extends Fragment {
 		mTitleTextView.setText(getString(R.string.local_expert_title_TEMPLATE, mSite.getCity()));
 
 		// Set fonts
-		FontCache.setTypeface(mTitleTextView, FontCache.Font.BEBAS_NEUE);
+		if ("vn".equals(Locale.getDefault().getCountry().toLowerCase())) {
+			FontCache.setTypeface(mTitleTextView, FontCache.Font.ROBOTO_LIGHT);
+		}
+		else {
+			FontCache.setTypeface(mTitleTextView, FontCache.Font.BEBAS_NEUE);
+		}
 
 		// Set view listeners
 		mCloseView.setOnClickListener(mOnClickListener);

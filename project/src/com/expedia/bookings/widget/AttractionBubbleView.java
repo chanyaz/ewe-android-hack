@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget;
 
+import java.util.Locale;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -206,7 +208,12 @@ public class AttractionBubbleView extends LinearLayout {
 		mSecondLineTextView = Ui.findView(this, R.id.second_line_text_view);
 		mIconImageView = Ui.findView(this, R.id.attraction_icon_image_view);
 
-		FontCache.setTypeface(mSecondLineTextView, FontCache.Font.BEBAS_NEUE);
+		if ("vn".equals(Locale.getDefault().getCountry().toLowerCase())) {
+			FontCache.setTypeface(mSecondLineTextView, FontCache.Font.ROBOTO_LIGHT);
+		}
+		else {
+			FontCache.setTypeface(mSecondLineTextView, FontCache.Font.BEBAS_NEUE);
+		}
 
 		setAttraction(mAttraction);
 	}
