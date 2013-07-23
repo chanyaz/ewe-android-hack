@@ -342,6 +342,15 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 				frag.show(getSupportFragmentManager(), "expiredCcDialog");
 				return;
 			}
+			// 1643: Handle an odd API response. This is probably due to the transition
+			// to being anble to handle booking tickets for minors. We shouldn't need this in the future.
+			else if ("mainFlightPassenger.birthDate".equals(field)) {
+				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
+						getString(R.string.error_booking_with_minor), getString(android.R.string.ok),
+						DIALOG_CALLBACK_MINOR);
+				frag.show(getSupportFragmentManager(), "cannotBookWithMinorDialog");
+				return;
+			}
 
 			break;
 		case TRIP_ALREADY_BOOKED:
