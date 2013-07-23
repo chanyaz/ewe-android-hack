@@ -2,6 +2,7 @@ package com.expedia.bookings.account;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.trips.ItineraryManager;
 import com.mobiata.android.Log;
 
 import android.accounts.Account;
@@ -27,6 +28,8 @@ public class AccountsChangedBroadcastReceiver extends BroadcastReceiver {
 			if (accounts == null || accounts.length == 0) {
 				Log.d("AccountsChangedBroadcastReceiver signing out user.");
 				User.signOut(context);
+				//We start a sync, so that any listeners will get notified of syncfinish.
+				ItineraryManager.getInstance().startSync(true);
 			}
 		}
 	}
