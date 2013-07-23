@@ -28,7 +28,7 @@ import com.expedia.bookings.widget.RoomsAndRatesAdapter;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 
-public class RoomsAndRatesFragment extends ListFragment{
+public class RoomsAndRatesFragment extends ListFragment {
 
 	public static RoomsAndRatesFragment newInstance() {
 		RoomsAndRatesFragment fragment = new RoomsAndRatesFragment();
@@ -203,11 +203,12 @@ public class RoomsAndRatesFragment extends ListFragment{
 			LayoutInflater inflater = this.getLayoutInflater(null);
 			View consructionView = inflater.inflate(R.layout.include_rooms_and_rates_construction_notice,
 					mNoticeContainer);
+			ViewGroup constructionContainer = Ui.findView(consructionView, R.id.construction_container);
 
-			consructionView.setOnClickListener(new OnClickListener() {
+			constructionContainer.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
-					openWebViewWithText(getString(R.string.renovation_notice),constructionText);
+					openWebViewWithText(getString(R.string.renovation_notice), constructionText);
 				}
 			});
 			return true;
@@ -237,12 +238,12 @@ public class RoomsAndRatesFragment extends ListFragment{
 			LayoutInflater inflater = this.getLayoutInflater(null);
 			View mandatoryFeeView = inflater.inflate(R.layout.include_rooms_and_rates_resort_fees_notice,
 					mNoticeContainer);
+			ViewGroup feesContainer = Ui.findView(mandatoryFeeView, R.id.resort_fees_container);
 			TextView feeAmountTv = Ui.findView(mandatoryFeeView, R.id.resort_fees_price);
 			feeAmountTv.setText(mandatoryFees.getFormattedMoney());
-			mNoticeContainer.setVisibility(View.VISIBLE);
 
 			final String resortFeesText = response.getProperty().getMandatoryFeesText().getContent();
-			mandatoryFeeView.setOnClickListener(new OnClickListener() {
+			feesContainer.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
 					openWebViewWithText(getString(R.string.resort_fee), resortFeesText);
