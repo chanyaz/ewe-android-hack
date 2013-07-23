@@ -57,6 +57,7 @@ import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.AssociateUserToTripResponse;
 import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.BillingInfo;
@@ -1176,9 +1177,9 @@ public class ExpediaServices implements DownloadListener {
 			Log.e("Failure to create StringEntity", e);
 		}
 
-		if (AndroidUtils.isRelease(mContext)
+		if (!ExpediaBookingApp.IS_VSC && (AndroidUtils.isRelease(mContext)
 				|| !SettingUtils
-						.get(mContext, mContext.getString(R.string.preference_disable_push_registration), false)) {
+				.get(mContext, mContext.getString(R.string.preference_disable_push_registration), false))) {
 
 			synchronized (PushNotificationUtils.getLockObject(regId)) {
 				//We first check to see if we have already sent this payload for this regId
@@ -1457,8 +1458,9 @@ public class ExpediaServices implements DownloadListener {
 		}
 		else if (endPoint == EndPoint.CUSTOM_SERVER) {
 			String protocol = (flags & F_SECURE_REQUEST) != 0 ? "https" : "http";
-			return protocol + "://" + SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
-					"localhost:3000") + "/";
+			return protocol + "://"
+					+ SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
+							"localhost:3000") + "/";
 		}
 		else {
 			throw new RuntimeException("Didn't know how to handle EndPoint: " + endPoint);

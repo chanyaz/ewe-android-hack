@@ -320,14 +320,9 @@ public class ItineraryManager implements JSONable {
 		mTrips.clear();
 
 		// As we have no trips, we unregister all of our push notifications
-		// Note: flavored builds with gradle are sort of broken wrt GCM. additionally, VSC never
-		// registers for push notifications, so we will just prevent VSC build from crashing here
-		// due to incorrect packageName by not calling this code on VSC builds
-		if (!ExpediaBookingApp.IS_VSC) {
-			PushNotificationUtils.unRegister(mContext,
-					GCMRegistrationKeeper.getInstance(mContext).getRegistrationId(mContext));
-			PushNotificationUtils.clearPayloadMap();
-		}
+		PushNotificationUtils.unRegister(mContext,
+				GCMRegistrationKeeper.getInstance(mContext).getRegistrationId(mContext));
+		PushNotificationUtils.clearPayloadMap();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

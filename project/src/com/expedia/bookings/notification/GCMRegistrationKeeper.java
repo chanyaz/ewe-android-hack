@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.google.android.gcm.GCMRegistrar;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -59,13 +60,19 @@ public class GCMRegistrationKeeper implements JSONable {
 	 */
 	private GCMRegistrationKeeper(Context context) {
 		Log.d("GCMRegistrationKeeper constructor.");
-		//We load our old values from disk
-		loadFromDisk(context);
-		Log.d("GCMRegistrationKeeper constructor - loadFromDisk complete");
+		if (ExpediaBookingApp.IS_VSC) {
+			//VSC doesnt support Push, so we never want to do anything involving GCM or GCM registraitonIds
+			Log.d("GCMRegistrationKeeper constructor - do nothing because this is VSC");
+		}
+		else {
+			//We load our old values from disk
+			loadFromDisk(context);
+			Log.d("GCMRegistrationKeeper constructor - loadFromDisk complete");
 
-		//We check with GCM, which will potentially give us a new id
-		loadFromGCM(context);
-		Log.d("GCMRegistrationKeeper constructor - loadFromGCM complete");
+			//We check with GCM, which will potentially give us a new id
+			loadFromGCM(context);
+			Log.d("GCMRegistrationKeeper constructor - loadFromGCM complete");
+		}
 	}
 
 	/**

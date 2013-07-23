@@ -51,7 +51,7 @@ public class GCMIdDialogPreference extends DialogPreference {
 		builder.setTitle("GCM Info");
 
 		if (TextUtils.isEmpty(gcmId) || !User.isLoggedIn(context)) {
-			builder.setMessage("GCM ID NOT CURRENTLY AVAILABLE! Make sure you are logged in, and wait a little a while.");
+			builder.setMessage("GCM ID NOT CURRENTLY AVAILABLE! Make sure you are logged in, and wait a little a while (and ensure this isn't a VSC build).");
 
 		}
 		else {
