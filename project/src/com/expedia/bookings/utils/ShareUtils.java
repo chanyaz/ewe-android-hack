@@ -695,11 +695,12 @@ public class ShareUtils {
 		}
 		else if (waypoint.hasTerminal()) {
 			//terminal only
-			return res.getString(R.string.terminal_but_no_gate_TEMPLATE, waypoint.getTerminal());
+			return FlightUtils.getTerminalName(mContext, waypoint);
 		}
 		else {
 			//We have gate and terminal info
-			return res.getString(R.string.generic_terminal_TEMPLATE, waypoint.getTerminal(), waypoint.getGate());
+			String terminalName = FlightUtils.getTerminalName(mContext, waypoint);
+			return res.getString(R.string.generic_terminal_TEMPLATE, terminalName, waypoint.getGate());
 		}
 	}
 }
