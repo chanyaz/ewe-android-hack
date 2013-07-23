@@ -871,8 +871,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	@Override
 	public void accountLoginClicked() {
 		Bundle args = LoginActivity.createArgumentsBundle(LineOfBusiness.HOTELS, null);
-		Intent loginIntent = LoginActivity.createIntent(getActivity(), args);
-		startActivity(loginIntent);
+		User.signIn(getActivity(), args);
 		OmnitureTracking.trackPageLoadHotelsLogin(getActivity());
 	}
 
