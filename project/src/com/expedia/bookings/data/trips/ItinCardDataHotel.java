@@ -191,9 +191,7 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 			return null;
 		}
 		final Uri uri = Uri.parse("http://maps.google.com/maps?daddr=" + address);
-
 		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-		intent.setComponent(new ComponentName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity"));
 
 		return intent;
 	}

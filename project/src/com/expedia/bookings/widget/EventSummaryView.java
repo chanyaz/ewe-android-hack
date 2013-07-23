@@ -62,11 +62,6 @@ public class EventSummaryView extends LinearLayout {
 				final Uri uri = Uri.parse("http://maps.google.com/maps?" + param + "=" + location.toLongFormattedString());
 				final Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
 
-				if (directions) {
-					intent.setComponent(new ComponentName("com.google.android.apps.maps",
-							"com.google.android.maps.MapsActivity"));
-				}
-
 				getContext().startActivity(intent);
 			}
 		});

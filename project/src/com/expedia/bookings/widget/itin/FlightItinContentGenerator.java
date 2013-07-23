@@ -572,8 +572,6 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		Uri airportUri = Uri.parse(uriStr);
 		Intent intent = new Intent(Intent.ACTION_VIEW, airportUri);
 
-		intent.setComponent(new ComponentName("com.google.android.apps.maps",
-				"com.google.android.maps.MapsActivity"));
 		return intent;
 	}
 

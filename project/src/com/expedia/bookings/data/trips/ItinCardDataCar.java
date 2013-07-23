@@ -194,7 +194,6 @@ public class ItinCardDataCar extends ItinCardData implements ConfirmationNumbera
 	private Intent createDirectionsIntent(Location location) {
 		final Uri uri = Uri.parse("http://maps.google.com/maps?daddr=" + location.toLongFormattedString());
 		final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-		intent.setComponent(new ComponentName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity"));
 
 		return intent;
 	}
