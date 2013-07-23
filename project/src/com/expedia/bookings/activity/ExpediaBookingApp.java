@@ -159,8 +159,8 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 				}
 			}
 			SettingUtils.save(this, PREF_UPGRADED_TO_ACCOUNT_MANAGER, true);
-			startupTimer.addSplit("User upgraded to use AccountManager");
 		}
+		startupTimer.addSplit("User upgraded to use AccountManager (if needed)");
 
 		// We want to try to start loading data (but it may not be finished syncing before someone tries to use it).
 		ItineraryManager.getInstance().startSync(false);
