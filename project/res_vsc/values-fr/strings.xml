@@ -80,6 +80,8 @@
     <string name="error_hotel_is_now_sold_out">Désolés. Cet hôtel n\&apos;est plus disponible. Veuillez en sélectionner un autre.</string>
 
     <!-- Booking info -->
+    <!-- Title for dialog confirming the clearing of private data -->
+    <string name="dialog_clear_private_data_title">Effacer les données personnelles?</string>
     <!-- Message to display to user while booking is in progress -->
     <string name="booking_loading">Paiement en cours…</string>
 
