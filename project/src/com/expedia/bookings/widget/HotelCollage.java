@@ -29,6 +29,7 @@ public class HotelCollage {
 	private ArrayList<ImageView> mPropertyImageViews;
 	private List<Media> mPropertyMediaList;
 	private TextView mPromoDescriptionTextView;
+	private ImageView mVipImageView;
 
 	private OnCollageImageClickedListener mListener;
 
@@ -44,6 +45,8 @@ public class HotelCollage {
 		addViewToListIfExists(R.id.property_image_view_2, view);
 		addViewToListIfExists(R.id.property_image_view_3, view);
 		addViewToListIfExists(R.id.property_image_view_4, view);
+
+		mVipImageView = (ImageView) view.findViewById(R.id.vip_image_view);
 
 		mPromoDescriptionTextView = (TextView) view.findViewById(R.id.promo_description_text_view);
 		mPromoDescriptionTextView.setOnClickListener(new OnClickListener() {
@@ -105,6 +108,10 @@ public class HotelCollage {
 		// Start the cascade of loading images
 		if (property.getMediaCount() > 0) {
 			startLoadingImages();
+		}
+
+		if (mVipImageView != null) {
+			mVipImageView.setVisibility(property.isVipAccess() ? View.VISIBLE : View.GONE);
 		}
 	}
 
