@@ -277,7 +277,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 				else if (data instanceof ItinCardDataCar) {
 					intent = mNotification.getNotificationType() == NotificationType.CAR_DROP_OFF
 							? ((ItinCardDataCar) data).getDropOffDirectionsIntent()
-							: ((ItinCardDataCar) data).getPikcupDirectionsIntent();
+							: ((ItinCardDataCar) data).getPickupDirectionsIntent();
 				}
 
 				if (intent != null) {

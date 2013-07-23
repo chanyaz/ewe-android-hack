@@ -179,7 +179,7 @@ public class ItinCardDataCar extends ItinCardData implements ConfirmationNumbera
 		return mCar.getConfNumber();
 	}
 
-	public Intent getPikcupDirectionsIntent() {
+	public Intent getPickupDirectionsIntent() {
 		return createDirectionsIntent(getPickUpLocation());
 	}
 
