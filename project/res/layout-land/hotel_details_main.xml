@@ -14,8 +14,7 @@
         android:id="@+id/hotel_details_price_promo_fragment_container"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="#80000000" />
+        android:layout_gravity="bottom" />
 
     <LinearLayout
         android:layout_width="match_parent"
