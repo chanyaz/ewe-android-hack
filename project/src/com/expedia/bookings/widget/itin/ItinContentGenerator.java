@@ -23,6 +23,8 @@ import android.widget.Toast;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.DateTime;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Insurance;
 import com.expedia.bookings.data.trips.Insurance.InsuranceLineOfBusiness;
@@ -218,6 +220,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	 * Currently supported shared elemenets (in this order)
 	 * - Confirmation Code (selectable)
 	 * - Itinerary number
+	 * - Elite Plus support phone number
 	 * - Booking Info (additional information link)
 	 * - Insurance
 	 *
@@ -228,10 +231,12 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	protected void addSharedGuiElements(ViewGroup container) {
 		boolean addedConfNumber = addConfirmationNumber(container);
 		boolean addedItinNumber = addItineraryNumber(container);
+		boolean addedElitePlusNumber = addElitePlusNumber(container);
 		boolean addedBookingInfo = addBookingInfo(container);
 		boolean addedInsurance = addInsurance(container);
 		Log.d("ITIN: ItinCard.addSharedGuiElements - addedConfNumber:" + addedConfNumber + " addedItinNumber:"
-				+ addedItinNumber + " addedBookingInfo:" + addedBookingInfo + " addedInsurance:" + addedInsurance);
+				+ addedItinNumber + " addedElitePlusNumber:" + addedElitePlusNumber + " addedBookingInfo:"
+				+ addedBookingInfo + " addedInsurance:" + addedInsurance);
 	}
 
 	protected boolean addConfirmationNumber(ViewGroup container) {
@@ -264,20 +269,34 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		return false;
 	}
 
+	protected boolean addElitePlusNumber(ViewGroup container) {
+		Log.d("ITIN: addElitePlusNumber");
+		if (hasElitePlusNumber()) {
+			final String elitePlusNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberElitePlus();
+			View view = getItinDetailItem(R.string.elite_plus_customer_support, elitePlusNumber, false,
+					new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							SocialUtils.call(getContext(), elitePlusNumber);
+						}
+					});
+			if (view != null) {
+				Log.d("ITIN: addElitePlusNumber to container");
+				container.addView(view);
+				return true;
+			}
+		}
+		return false;
+	}
+
 	protected View getClickToCopyItinDetailItem(int headerResId, final String text, final boolean isConfNumber) {
 		return getClickToCopyItinDetailItem(getResources().getString(headerResId), text, isConfNumber);
 	}
 
 	protected View getClickToCopyItinDetailItem(String label, final String text,
 			final boolean isConfNumber) {
-		View item = getLayoutInflater().inflate(R.layout.snippet_itin_detail_item_generic, null);
-		TextView headingTv = Ui.findView(item, R.id.item_label);
-		TextView textTv = Ui.findView(item, R.id.item_text);
 
-		headingTv.setText(label);
-		textTv.setText(text);
-
-		item.setOnClickListener(new OnClickListener() {
+		return getItinDetailItem(label, text, isConfNumber, new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				ClipboardUtils.setText(getContext(), text);
@@ -287,6 +306,23 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 				}
 			}
 		});
+	}
+
+	protected View getItinDetailItem(int headerResId, final String text, final boolean isConfNumber,
+			OnClickListener onClickListener) {
+		return getItinDetailItem(getResources().getString(headerResId), text, isConfNumber, onClickListener);
+	}
+
+	protected View getItinDetailItem(String label, final String text, final boolean isConfNumber,
+			OnClickListener onClickListener) {
+		View item = getLayoutInflater().inflate(R.layout.snippet_itin_detail_item_generic, null);
+		TextView headingTv = Ui.findView(item, R.id.item_label);
+		TextView textTv = Ui.findView(item, R.id.item_text);
+
+		headingTv.setText(label);
+		textTv.setText(text);
+
+		item.setOnClickListener(onClickListener);
 		return item;
 	}
 
@@ -423,6 +459,15 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 			hasItinNum = !TextUtils.isEmpty(this.getItinCardData().getTripComponent().getParentTrip().getTripNumber());
 		}
 		return hasItinNum;
+	}
+
+	protected boolean hasElitePlusNumber() {
+		boolean hasElitePlusNum = false;
+		if (User.isLoggedIn(mContext) && Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
+				&& Db.getUser().getPrimaryTraveler().getIsElitePlusMember()) {
+			hasElitePlusNum = !TextUtils.isEmpty(PointOfSale.getPointOfSale(mContext).getSupportPhoneNumberElitePlus());
+		}
+		return hasElitePlusNum;
 	}
 
 	protected boolean hasConfirmationNumber() {
