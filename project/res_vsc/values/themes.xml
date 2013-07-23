@@ -219,6 +219,7 @@
         <item name="hotelCheckoutLogoutLogoDrawable">@drawable/ic_vsc_logo</item>
         <item name="hotelCheckoutLoginLogoDrawable">@drawable/ic_log_in_vsc</item>
         <item name="cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_vsc</item>
+        <item name="hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_vsc_white_logo_small</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->

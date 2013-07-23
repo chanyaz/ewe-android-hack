@@ -187,6 +187,7 @@
         <item name="hotelCheckoutLogoutLogoDrawable">@drawable/ic_expedia_logo</item>
         <item name="hotelCheckoutLoginLogoDrawable">@drawable/ic_log_in</item>
         <item name="cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
+        <item name="hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_expedia_white_logo_small</item>
     </style>
 
     <style name="Theme.VSC" parent="@style/Theme.Expedia">

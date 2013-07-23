@@ -11,7 +11,7 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginRight="16dp"
-        android:src="@drawable/ic_expedia_white_logo_small" />
+        android:src="?attr/hotelPrimaryTravelerInfoLogoDrawable" />
 
     <TextView
         android:id="@+id/display_full_name"
