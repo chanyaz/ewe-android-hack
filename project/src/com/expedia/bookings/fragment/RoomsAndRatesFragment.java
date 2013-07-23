@@ -201,9 +201,9 @@ public class RoomsAndRatesFragment extends ListFragment {
 			constructionText = response.getProperty().getRenovationText().getContent();
 
 			LayoutInflater inflater = this.getLayoutInflater(null);
-			View consructionView = inflater.inflate(R.layout.include_rooms_and_rates_construction_notice,
+			View constructionView = inflater.inflate(R.layout.include_rooms_and_rates_construction_notice,
 					mNoticeContainer);
-			ViewGroup constructionContainer = Ui.findView(consructionView, R.id.construction_container);
+			ViewGroup constructionContainer = Ui.findView(constructionView, R.id.construction_container);
 
 			constructionContainer.setOnClickListener(new OnClickListener() {
 				@Override
