@@ -201,8 +201,7 @@ public class User implements JSONable {
 			activeAccount = accounts[0];
 		}
 		else {
-			//TODO: If we have more than one account, something is probably wrong.
-			activeAccount = accounts[0];
+			throw new RuntimeException("There should never be more than one expedia user in AccountManager!");
 		}
 		if (activeAccount != null) {
 			manager.getAuthToken(activeAccount, accountType, options, context, null, null);
