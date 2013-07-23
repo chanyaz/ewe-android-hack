@@ -91,6 +91,10 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 	}
 
 	public void populateVipIcon(View root, Property property) {
+		if (property == null) {
+			return;
+		}
+
 		if (property.isVipAccess()) {
 			View vipIcon = Ui.findView(root, R.id.vip_image_view);
 			vipIcon.setVisibility(View.VISIBLE);
