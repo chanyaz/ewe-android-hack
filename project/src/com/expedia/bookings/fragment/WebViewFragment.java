@@ -7,14 +7,12 @@ import java.util.Comparator;
 import org.apache.http.cookie.Cookie;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.net.http.SslError;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
@@ -363,7 +361,6 @@ public class WebViewFragment extends DialogFragment {
 
 		if (mFrame != null && mWebView != null) {
 			mFrame.addView(mWebView);
-			Log.d("JOE: mFrame.addView");
 		}
 	}
 
