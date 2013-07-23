@@ -45,8 +45,6 @@ public class AccountSyncAdapter extends AbstractThreadedSyncAdapter {
 				user.save(context);
 				Db.setUser(user);
 				Log.d("AccountSyncAdapter.onPerformSync has completed successfully, updating the User object in Db.");
-
-				//TODO: Do we want to update already selected travelers? Probably not.. but maybe?
 			}
 		}
 
