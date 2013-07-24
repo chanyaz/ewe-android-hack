@@ -20,6 +20,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -139,7 +140,7 @@ public class HotelMapFragment extends SupportMapFragment {
 
 		// Load graphics
 		mPin = BitmapDescriptorFactory.fromResource(R.drawable.map_pin_normal);
-		mPinSale = BitmapDescriptorFactory.fromResource(R.drawable.map_pin_sale);
+		mPinSale = BitmapDescriptorFactory.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.hotelListMapMarkerSaleDrawable));
 
 		onRestoreSavedInstanceState(savedInstanceState);
 		runReadyActions();
