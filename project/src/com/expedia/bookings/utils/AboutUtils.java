@@ -178,6 +178,10 @@ public class AboutUtils {
 		trackFeedbackPageLoad();
 	}
 
+	public void openContactUsVSC() {
+		openWebsite(mActivity, "http://voyages-sncf.mobi/aide-appli-2/aide-appli-hotel/pagecontactandroid.html", false, false);
+	}
+
 	public void openAppSupport() {
 		//1247. VSC App support link
 		if (ExpediaBookingApp.IS_VSC) {

@@ -272,7 +272,7 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 		case ROW_CONTACT_EXPEDIA: {
 			// 1245. VSC Show app support url
 			if (ExpediaBookingApp.IS_VSC) {
-				mAboutUtils.openAppSupport();
+				mAboutUtils.openContactUsVSC();
 			}
 			else {
 				showDialog(DIALOG_CONTACT_EXPEDIA);
