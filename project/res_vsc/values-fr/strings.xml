@@ -37,6 +37,10 @@
     <!-- Set expiration date button -->
     <string name="btn_set">Valider</string>
 
+    <!-- Save payment info dialog -->
+    <!-- save billing info message -->
+    <string name="save_billing_info_message">Enregistrer ce mode de paiement dans votre compte VSC pour réserver plus rapidement dans le futur ?</string>
+
     <!-- Section edit traveler -->
     <!-- Traveler Information -->
     <string name="traveler_information">Mes coordonnées</string>
