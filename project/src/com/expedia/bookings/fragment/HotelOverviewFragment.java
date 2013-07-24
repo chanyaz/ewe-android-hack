@@ -346,6 +346,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		}
 
 		mFragmentModLock.setSafe(true);
+
+		//We disable this for sign in, but when the user comes back it should be enabled.
+		mAccountButton.setEnabled(true);
 	}
 
 	@Override
@@ -869,30 +872,39 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	@Override
 	public void accountLoginClicked() {
-		Bundle args = LoginActivity.createArgumentsBundle(LineOfBusiness.HOTELS, null);
-		User.signIn(getActivity(), args);
-		OmnitureTracking.trackPageLoadHotelsLogin(getActivity());
+		if (mAccountButton.isEnabled()) {
+			mAccountButton.setEnabled(false);//We open a new activity and reenable accountButton in onResume
+			Bundle args = LoginActivity.createArgumentsBundle(LineOfBusiness.HOTELS, null);
+			User.signIn(getActivity(), args);
+			OmnitureTracking.trackPageLoadHotelsLogin(getActivity());
+		}
 	}
 
 	@Override
 	public void accountLogoutClicked() {
-		// Stop refreshing user (if we're currently doing so)
-		BackgroundDownloader.getInstance().cancelDownload(KEY_REFRESH_USER);
-		mRefreshedUser = false;
+		if (mAccountButton.isEnabled()) {
+			mAccountButton.setEnabled(false);
 
-		// Sign out user
-		User.signOutAsync(getActivity());
+			// Stop refreshing user (if we're currently doing so)
+			BackgroundDownloader.getInstance().cancelDownload(KEY_REFRESH_USER);
+			mRefreshedUser = false;
 
-		// Update UI
-		mAccountButton.bind(false, false, null);
+			// Sign out user
+			User.signOutAsync(getActivity());
 
-		//After logout this will clear stored cards
-		populatePaymentDataFromUser();
-		populateTravelerDataFromUser();
+			// Update UI
+			mAccountButton.bind(false, false, null);
 
-		bindAll();
-		updateViews();
-		updateViewVisibilities();
+			//After logout this will clear stored cards
+			populatePaymentDataFromUser();
+			populateTravelerDataFromUser();
+
+			bindAll();
+			updateViews();
+			updateViewVisibilities();
+
+			mAccountButton.setEnabled(true);
+		}
 	}
 
 	public void onLoginCompleted() {
