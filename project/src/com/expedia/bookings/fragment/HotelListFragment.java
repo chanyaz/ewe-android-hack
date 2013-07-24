@@ -178,6 +178,12 @@ public class HotelListFragment extends ListFragment {
 		}
 	}
 
+	public void showPlaceholder() {
+		if (mSearchProgressBar != null) {
+			mSearchProgressBar.setVisibility(View.VISIBLE);
+		}
+	}
+
 	public void hidePlaceholder() {
 		if (mSearchProgressBar != null) {
 			mSearchProgressBar.setVisibility(View.GONE);
@@ -269,7 +275,6 @@ public class HotelListFragment extends ListFragment {
 			updateStatus(false);
 		}
 		else {
-			hidePlaceholder();
 			updateSearchResults();
 		}
 
@@ -329,16 +334,19 @@ public class HotelListFragment extends ListFragment {
 		}
 
 		if (response.getPropertiesCount() == 0) {
+			showPlaceholder();
 			setHeaderVisibility(View.GONE);
 			mSearchProgressBar.setText(LayoutUtils.noHotelsFoundMessage(getActivity()));
 			mSearchProgressBar.setShowProgress(false);
 		}
 		else if (mAdapter.getCount() == 0) {
+			showPlaceholder();
 			setHeaderVisibility(View.GONE);
 			mSearchProgressBar.setText(R.string.no_filter_results);
 			mSearchProgressBar.setShowProgress(false);
 		}
 		else {
+			hidePlaceholder();
 			setHeaderVisibility(View.VISIBLE);
 			updateHeaderLawyerLabel();
 		}
