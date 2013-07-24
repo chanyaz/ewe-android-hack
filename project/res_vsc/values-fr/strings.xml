@@ -26,6 +26,10 @@
     <!-- Done menu item -->
     <string name="menu_done">Valider</string>
 
+    <!-- Section edit traveler -->
+    <!-- Traveler Information -->
+    <string name="traveler_information">Mes coordonnées</string>
+
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
     <string name="Add_Traveler">Saisir mes coordonnées</string>
@@ -44,6 +48,8 @@
     <!-- Traveler options activity -->
     <!-- Select a traveler -->
     <string name="select_a_traveler">Profil voyageur</string>
+    <!-- Select a different traveler -->
+    <string name="select_a_different_traveler">Coordonées des autres voyageurs</string>
     <!-- Enter a new traveler -->
     <string name="enter_new_traveler">Saisir mes coordonnées</string>
 
