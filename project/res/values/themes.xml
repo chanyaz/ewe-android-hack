@@ -63,7 +63,7 @@
     </style>
 
     <!-- From ABS, Light dialog window -->
-    <style name="Theme.Light.Dialog" parent="android:Theme.Light">
+    <style name="Theme.Light.Dialog" parent="@style/Theme.Sherlock.Light">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowTitleStyle">@style/DialogWindowTitle.Light</item>
         <item name="android:windowBackground">@drawable/dialog_full_holo_light</item>
