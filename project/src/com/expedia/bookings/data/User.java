@@ -23,6 +23,7 @@ import com.mobiata.android.FileCipher;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
+import com.mobiata.android.util.TimingLogger;
 
 public class User implements JSONable {
 
@@ -37,6 +38,9 @@ public class User implements JSONable {
 	// Kind of pointless when this is just stored as a static field, but at least protects
 	// against someone getting the plaintext file but not the app itself.
 	static final String PASSWORD = "M2MBDdEjbFTXTgNynBY2uvMPcUd8g3k9";
+
+	//The lock used to synchronize the cleanup operation
+	private static Object sSignOutCleanupLock = new Object();
 
 	private Traveler mPrimaryTraveler;
 	private List<Traveler> mAssociatedTravelers = new ArrayList<Traveler>();
@@ -156,29 +160,108 @@ public class User implements JSONable {
 		return isLoggedIn;
 	}
 
+	/**
+	 * Log out the current user and clean up user related state 
+	 * 
+	 * @param context
+	 */
 	public static void signOut(Context context) {
-		// Delete User
+		TimingLogger logger = new TimingLogger("ExpediaBookings", "User.signOut");
+
+		//Do the actual sign out
+		performSignOutCriticalActions(context);
+		logger.addSplit("performSignOutCriticalActions");
+
+		//perform the rest of the clean up.
+		performSignOutCleanupActions(context);
+		logger.addSplit("performSignOutCleanupActions");
+
+		logger.dumpToLog();
+	}
+
+	/**
+	 * Log out the current user and clean up user related state. 
+	 * 
+	 * After this method returns User.isLoggedIn will return false,
+	 * however cleanup happens in a background thread and may still
+	 * be working.
+	 * 
+	 * @param context
+	 */
+	public static void signOutAsync(final Context context) {
+		TimingLogger logger = new TimingLogger("ExpediaBookings", "User.signOut");
+
+		//Do the actual sign out
+		performSignOutCriticalActions(context);
+		logger.addSplit("performSignOutCriticalActions");
+
+		//perform the rest of the clean up (in a background thread)
+		Runnable cleanupRunnable = new Runnable() {
+			@Override
+			public void run() {
+				performSignOutCleanupActions(context);
+			}
+		};
+		Thread cleanupThread = new Thread(cleanupRunnable);
+		cleanupThread.start();
+		logger.addSplit("performSignOutCleanupActions thread initialized and started");
+
+		logger.dumpToLog();
+	}
+
+	/**
+	 * Clear all User state that indicates the user is in some way logged in.
+	 * 
+	 * @param context
+	 */
+	private static void performSignOutCriticalActions(Context context) {
+		TimingLogger logger = new TimingLogger("ExpediaBookings", "User.performCriticalSignOutActions");
+
+		// Delete User (after this point User.isSignedIn will return false)
 		delete(context);
+		logger.addSplit("delete()");
 
 		//AccountManager
 		User.removeUserFromAccountManager(context, Db.getUser());
+		logger.addSplit("removeUserFromAccountManager()");
 
 		// Clear User from Db
 		Db.setUser(null);
+		logger.addSplit("Db.setUser(null)");
 
 		//Remove the login cookies
 		ExpediaServices.removeUserLoginCookies(context);
+		logger.addSplit("ExpediaServices.removeUserLoginCookies(context)");
 
 		//Facebook log out
 		if (Session.getActiveSession() != null) {
 			Session.getActiveSession().closeAndClearTokenInformation();
 		}
+		logger.addSplit("Facebook Session Closed");
 
-		ItineraryManager.getInstance().clear();
+		logger.dumpToLog();
+	}
 
-		//Delete all Notifications
-		Notification.deleteAll(context);
+	/**
+	 * Clear all (global) data that depends on the User being logged in.
+	 * 
+	 * @param context
+	 */
+	private static void performSignOutCleanupActions(Context context) {
+		TimingLogger logger = new TimingLogger("ExpediaBookings", "User.performSignOutCleanupActions");
+		// NOTE: Synchronization could be improved here. We are relying on the sign in flow taking longer than it takes to call this method.
+		synchronized (sSignOutCleanupLock) {
+			logger.addSplit("sSignOutCleanupLock aquired");
 
+			//Itinerary Manager
+			ItineraryManager.getInstance().clear();
+			logger.addSplit("ItineraryManager.getInstance().clear();");
+
+			//Delete all Notifications
+			Notification.deleteAll(context);
+			logger.addSplit("Notification.deleteAll(context);");
+		}
+		logger.dumpToLog();
 	}
 
 	/**
