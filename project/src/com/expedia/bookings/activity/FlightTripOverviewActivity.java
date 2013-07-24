@@ -144,8 +144,10 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		mBackToOverviewArea = Ui.findView(this, R.id.back_to_overview_area);
 
 		if (savedInstanceState != null) {
-			mLoadedDbInfo = savedInstanceState.getBoolean(STATE_TAG_LOADED_DB_INFO, false);
+			mLoadedDbInfo = savedInstanceState.getBoolean(STATE_TAG_LOADED_DB_INFO, false) && Db.hasBillingInfo();
 		}
+		//We load things from disk in the background
+		loadCachedData(false);
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_MODE)) {
 			mDisplayMode = DisplayMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
@@ -170,9 +172,6 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		mTripKey = Db.getFlightSearch().getSelectedFlightTrip().getProductKey();
 
 		addOverviewFragment();
-
-		//We load things from disk in the background
-		loadCachedData(false);
 
 		AdTracker.trackFlightCheckoutStarted();
 	}
@@ -276,7 +275,6 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 				public void onCheckoutDataLoaded(boolean wasSuccessful) {
 					mLoadedDbInfo = wasSuccessful;
 				}
-
 			};
 			CheckoutDataLoader.getInstance().loadCheckoutData(this, true, true, listener, wait);
 		}

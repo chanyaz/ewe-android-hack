@@ -7,6 +7,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.mobiata.android.Log;
+import com.mobiata.android.util.TimingLogger;
 
 /**
  * A singleton class for loading checkout data from disk ( in the background )
@@ -153,16 +154,17 @@ public class CheckoutDataLoader {
 	private boolean loadCachedData(Context context, boolean loadBillingInfo, boolean loadTravelers) {
 		boolean semGot = false;
 		try {
+			TimingLogger timer = new TimingLogger("ExpediaBookings", "CheckoutDataLoader.loadCachedData");
 			if (mLoadCachedDataSem.tryAcquire()) {
 				semGot = true;
+				timer.addSplit("Semeaphore aquired");
 
 				if (loadBillingInfo) {
 					Db.loadBillingInfo(context);
 					BillingInfo billingInfo = Db.getBillingInfo();
 
-					//Load billing info (only if we don't have a valid card already)
-					if (billingInfo == null || TextUtils.isEmpty(billingInfo.getNumber())) {
-						billingInfo.load(context);
+					//Ensure stored card is valid
+					if (TextUtils.isEmpty(billingInfo.getNumber())) {
 						StoredCreditCard stored = billingInfo.getStoredCard();
 						if (stored != null) {
 							if (User.isLoggedIn(context)) {
@@ -188,6 +190,7 @@ public class CheckoutDataLoader {
 							}
 						}
 					}
+					timer.addSplit("BillingInfo loaded.");
 				}
 
 				if (loadTravelers) {
@@ -231,13 +234,17 @@ public class CheckoutDataLoader {
 							}
 						}
 					}
+					timer.addSplit("Travelers loaded.");
 				}
+				timer.addSplit("Loading complete");
 			}
 			else {
 				//We wait for the semaphore
 				mLoadCachedDataSem.acquire();
 				semGot = true;
+				timer.addSplit("Finished waiting for other thread.");
 			}
+			timer.dumpToLog();
 			return true;
 		}
 		catch (Exception ex) {

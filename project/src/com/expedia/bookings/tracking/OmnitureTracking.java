@@ -1851,7 +1851,7 @@ public class OmnitureTracking {
 		// If the email is still null, check against the BillingInfo in Db which is populated from manual forms
 		if (TextUtils.isEmpty(email)) {
 			if (Db.loadBillingInfo(context)) {
-				if (Db.getBillingInfo() != null) {
+				if (Db.hasBillingInfo()) {
 					email = Db.getBillingInfo().getEmail();
 				}
 			}

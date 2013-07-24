@@ -21,6 +21,7 @@ import com.expedia.bookings.activity.FlightRulesActivity;
 import com.expedia.bookings.activity.FlightTravelerInfoOptionsActivity;
 import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
@@ -133,8 +134,10 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			mRefreshedUser = savedInstanceState.getBoolean(INSTANCE_REFRESHED_USER);
 		}
 
-		//If we had data on disk, it should already be loaded at this point
-		Db.loadBillingInfo(getActivity());
+		//The parent activity uses CheckoutDataLoader to load billingInfo, we wait for it to finish.
+		if (CheckoutDataLoader.getInstance().isLoading()) {
+			CheckoutDataLoader.getInstance().waitForCurrentThreadToFinish();
+		}
 		mBillingInfo = Db.getBillingInfo();
 
 		if (mBillingInfo.getLocation() == null) {

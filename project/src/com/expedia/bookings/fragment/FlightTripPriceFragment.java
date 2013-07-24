@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
@@ -145,6 +146,10 @@ public class FlightTripPriceFragment extends Fragment {
 	}
 
 	public void bind() {
+		//The parent activity uses CheckoutDataLoader to load billingInfo, we wait for it to finish.
+		if (CheckoutDataLoader.getInstance().isLoading()) {
+			CheckoutDataLoader.getInstance().waitForCurrentThreadToFinish();
+		}
 		mTrip = Db.getFlightSearch().getSelectedFlightTrip();
 		mTripSection.bind(mTrip, Db.getBillingInfo());
 	}
