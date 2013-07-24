@@ -43,6 +43,15 @@
         android:text="@string/add_to_calendar" />
 
     <View
+        android:id="@+id/vsc_app_divider"
+        style="@style/Confirmation.Divider.Action.Hotel"
+        android:visibility="gone" />
+
+    <include
+        layout="@layout/vsc_train_confirmation_row"
+        android:visibility="gone" />
+
+    <View
         android:id="@+id/samsung_divider"
         style="@style/Confirmation.Divider.Action.Hotel"
         android:visibility="gone" />
