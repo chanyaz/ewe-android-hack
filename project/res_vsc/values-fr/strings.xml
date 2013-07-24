@@ -26,10 +26,6 @@
     <!-- Done menu item -->
     <string name="menu_done">Valider</string>
 
-    <!-- Section edit traveler -->
-    <!-- Traveler Information -->
-    <string name="traveler_information">Mes coordonnées</string>
-
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
     <string name="Add_Traveler">Saisir mes coordonnées</string>
