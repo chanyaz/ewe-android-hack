@@ -210,7 +210,7 @@
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="from_airport_TEMPLATE">&lt;b&gt;%1$s ～&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint that also includes time of departure; first parameter is the airport code, second parameter is the localized time (e.g. 13:45) -->
-    <string name="from_airport_time_TEMPLATE">&lt;b&gt;%1$sから&lt;/b&gt;%2$sに出発</string>
+    <string name="from_airport_time_TEMPLATE">&lt;b&gt;%1$sを&lt;/b&gt;%2$sに出発</string>
     <!-- Itin flight summary second line for arrival waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight arrives/d -->
     <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;%1$s に到着&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
