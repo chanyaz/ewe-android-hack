@@ -73,8 +73,12 @@ public class SimpleNumberPicker extends LinearLayout {
 		mDecrementButton.setOnClickListener(mOnClickListener);
 
 		// Fade the top and bottom TextViews for effect
-		mTextLower.setTextColor(mTextLower.getTextColors().withAlpha(64));
-		mTextHigher.setTextColor(mTextHigher.getTextColors().withAlpha(64));
+		if (mTextLower != null) {
+			mTextLower.setTextColor(mTextLower.getTextColors().withAlpha(64));
+		}
+		if (mTextHigher != null) {
+			mTextHigher.setTextColor(mTextHigher.getTextColors().withAlpha(64));
+		}
 	}
 
 	public int getValue() {
@@ -172,8 +176,10 @@ public class SimpleNumberPicker extends LinearLayout {
 			text = "";
 			enabled = false;
 		}
-		mTextLower.setText(text);
-		mTextLower.setEnabled(enabled);
+		if (mTextLower != null) {
+			mTextLower.setText(text);
+			mTextLower.setEnabled(enabled);
+		}
 		mDecrementButton.setEnabled(enabled);
 
 		if (mFormatter != null) {
@@ -196,8 +202,10 @@ public class SimpleNumberPicker extends LinearLayout {
 			text = "";
 			enabled = false;
 		}
-		mTextHigher.setText(text);
-		mTextHigher.setEnabled(enabled);
+		if (mTextHigher != null) {
+			mTextHigher.setText(text);
+			mTextHigher.setEnabled(enabled);
+		}
 		mIncrementButton.setEnabled(enabled);
 
 		// disable appropriate button if at end of range
