@@ -276,6 +276,7 @@
             android:theme="@style/Theme.Phone" />
 
         <!-- HockeyApp -->
+        <meta-data android:name="buildNumber" android:value="0" />
         <activity android:name="net.hockeyapp.android.UpdateActivity" />
 
         <service

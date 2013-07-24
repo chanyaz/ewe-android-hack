@@ -80,7 +80,7 @@ android {
 }
 
 
-// Set the AndroidManifest versionCode as the Jenkins BUILD_NUMBER for all alpha builds
+// Set the HockeyApp buildNumber meta-data as the Jenkins BUILD_NUMBER for all alpha builds
 android.applicationVariants.each { variant ->
     if (variant.buildType.name == 'alpha') {
         variant.processManifest.dependsOn {
@@ -88,11 +88,11 @@ android.applicationVariants.each { variant ->
             // This if-check only exists so you can run alpha builds locally
             if (!jenkinsBuildNumber.isEmpty() && jenkinsBuildNumber != "null") {
                 def manifestFile = file("AndroidManifest.xml")
-                def pattern = Pattern.compile("versionCode=\"(\\d+)\"")
+                def pattern = Pattern.compile("android:name=\"buildNumber\"\\s*android:value=\"(\\d+)\"")
                 def manifestText = manifestFile.getText()
                 def matcher = pattern.matcher(manifestText)
                 matcher.find()
-                def manifestContent = matcher.replaceAll("versionCode=\"" + jenkinsBuildNumber + "\"")
+                def manifestContent = matcher.replaceAll("android:name=\"buildNumber\" android:value=\"" + jenkinsBuildNumber + "\"")
                 manifestFile.write(manifestContent)
             }
         }
