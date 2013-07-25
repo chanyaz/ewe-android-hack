@@ -1,10 +1,5 @@
 package com.expedia.bookings.dialog;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.data.User;
-import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference.ClearPrivateDataListener;
-import com.expedia.bookings.utils.ClearPrivateDataUtil;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -12,6 +7,11 @@ import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.widget.Toast;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.data.User;
+import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference.ClearPrivateDataListener;
+import com.expedia.bookings.utils.ClearPrivateDataUtil;
 
 public class ClearPrivateDataDialog extends DialogFragment {
 
@@ -52,7 +52,7 @@ public class ClearPrivateDataDialog extends DialogFragment {
 
 		return builder.create();
 	}
-	
+
 	public void setClearPrivateDataListener(ClearPrivateDataListener clearPrivateDataListener) {
 		mClearPrivateDataListener = clearPrivateDataListener;
 	}

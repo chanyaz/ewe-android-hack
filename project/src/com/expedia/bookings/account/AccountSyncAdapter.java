@@ -1,11 +1,5 @@
 package com.expedia.bookings.account;
 
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.SignInResponse;
-import com.expedia.bookings.data.User;
-import com.expedia.bookings.server.ExpediaServices;
-import com.mobiata.android.Log;
-
 import android.accounts.Account;
 import android.annotation.TargetApi;
 import android.content.AbstractThreadedSyncAdapter;
@@ -14,6 +8,12 @@ import android.content.Context;
 import android.content.SyncResult;
 import android.os.Build;
 import android.os.Bundle;
+
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.SignInResponse;
+import com.expedia.bookings.data.User;
+import com.expedia.bookings.server.ExpediaServices;
+import com.mobiata.android.Log;
 
 /**
  * This is the sync adapter we use to update our User.

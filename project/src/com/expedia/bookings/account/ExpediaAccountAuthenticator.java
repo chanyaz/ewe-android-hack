@@ -1,12 +1,5 @@
 package com.expedia.bookings.account;
 
-import com.expedia.bookings.activity.LoginActivity;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.SignInResponse;
-import com.expedia.bookings.data.User;
-import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.tracking.AdTracker;
-
 import android.accounts.AbstractAccountAuthenticator;
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorResponse;
@@ -17,6 +10,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.expedia.bookings.activity.LoginActivity;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.SignInResponse;
+import com.expedia.bookings.data.User;
+import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.AdTracker;
+
 /**
  * ExpediaAccountAuthenticator - for using the AccountManager with expedia accounts.
  * 
@@ -24,10 +24,10 @@ import android.text.TextUtils;
  * Typically a AccountAuthenticator would return a valid signin token that can be used to authenticate with a service.
  * We are returning the Tuid of our logged in User, which can in no way be used to log into expedia. Why?
  * I'LL TELL YOU WHY! We do this because the only true  "token" that we have are the cookies themselves, which
- * are often manipulated by expedia's services (also, which cookies do we use as a token? Non-logged-in users have cookies too, etc...). 
+ * are often manipulated by expedia's services (also, which cookies do we use as a token? Non-logged-in users have cookies too, etc...).
  * More importantly, we do not want our Authenticator to become a cookie broker. The cookies are such that any sort of manipulation of them
  * is likely to introduce insanity bugs, so the idea of getting cookies (and storing them) anywhere other than from
- * the web requests themselves seems too dangerous. Hence our Tuid approach which can be used to at least verify 
+ * the web requests themselves seems too dangerous. Hence our Tuid approach which can be used to at least verify
  * the token against that of the logged in user.
  * 
  * Account name: expedia account email address

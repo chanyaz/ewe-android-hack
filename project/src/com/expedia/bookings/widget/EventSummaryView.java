@@ -1,6 +1,5 @@
 package com.expedia.bookings.widget;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;

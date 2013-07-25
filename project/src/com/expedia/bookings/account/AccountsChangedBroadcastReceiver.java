@@ -1,18 +1,18 @@
 package com.expedia.bookings.account;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.trips.ItineraryManager;
-import com.mobiata.android.Log;
-
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.expedia.bookings.R;
+import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.trips.ItineraryManager;
+import com.mobiata.android.Log;
+
 /**
- * This receiver listens for LOGIN_ACCOUNTS_CHANGED_ACTION broadcast, 
+ * This receiver listens for LOGIN_ACCOUNTS_CHANGED_ACTION broadcast,
  * and ensures that if there are no Expedia accounts, that our user is
  * logged out.
  */

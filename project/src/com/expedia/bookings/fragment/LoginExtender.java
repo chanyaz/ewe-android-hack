@@ -1,11 +1,11 @@
 package com.expedia.bookings.fragment;
 
-import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
-import com.expedia.bookings.widget.UserToTripAssocLoginExtender;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.view.ViewGroup;
+
+import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
+import com.expedia.bookings.widget.UserToTripAssocLoginExtender;
 
 /**
  * This interface is for classes that want to do something after login. It was developed for itin so we can wait for itins on the login screen.

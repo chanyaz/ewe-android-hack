@@ -7,7 +7,6 @@ import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.WalletUtils;
 import com.google.android.gms.wallet.Cart;

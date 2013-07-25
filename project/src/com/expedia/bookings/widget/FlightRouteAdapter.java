@@ -176,7 +176,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 			}
 		});
 
-		// Add rows to data set 
+		// Add rows to data set
 		mRows.add(new HintRow());
 
 		// Add recents

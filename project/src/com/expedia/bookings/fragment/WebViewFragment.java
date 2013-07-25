@@ -386,8 +386,7 @@ public class WebViewFragment extends DialogFragment {
 	}
 
 	@Override
-	public void onDestroyView()
-	{
+	public void onDestroyView() {
 		//This is a workaround for a rotation bug: http://code.google.com/p/android/issues/detail?id=17423
 		if (getDialog() != null && getRetainInstance()) {
 			getDialog().setDismissMessage(null);

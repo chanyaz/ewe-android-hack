@@ -1,5 +1,9 @@
 package com.expedia.bookings.widget.itin;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -26,10 +30,6 @@ import com.expedia.bookings.widget.LocationMapImageView;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.flightlib.utils.DateTimeUtils;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardDataHotel> {
 

@@ -3,7 +3,6 @@ package com.expedia.bookings.data.trips;
 import java.util.List;
 import java.util.Set;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;

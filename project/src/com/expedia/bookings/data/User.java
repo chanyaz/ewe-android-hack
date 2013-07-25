@@ -161,7 +161,7 @@ public class User implements JSONable {
 	}
 
 	/**
-	 * Log out the current user and clean up user related state 
+	 * Log out the current user and clean up user related state
 	 * 
 	 * @param context
 	 */
@@ -180,7 +180,7 @@ public class User implements JSONable {
 	}
 
 	/**
-	 * Log out the current user and clean up user related state. 
+	 * Log out the current user and clean up user related state.
 	 * 
 	 * After this method returns User.isLoggedIn will return false,
 	 * however cleanup happens in a background thread and may still
@@ -320,7 +320,7 @@ public class User implements JSONable {
 	/**
 	 * This method is important. This is the method that adds the account to AccountManager
 	 * and sets up syncing. If we log in and this doesn't get called, User.isLoggedIn() will
-	 * still return false, and no data will sync. 
+	 * still return false, and no data will sync.
 	 */
 	public static void addUserToAccountManager(Context context, User usr) {
 		if (context != null && usr != null) {
