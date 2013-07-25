@@ -309,9 +309,11 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		Sort sort = mFilter.getSort();
 		switch (sort) {
 		case PRICE:
+			Log.v("Sorting based on price");
 			Arrays.sort(filteredProperties, Property.PRICE_COMPARATOR);
 			break;
 		case DEALS:
+			Log.v("Sorting based on deals");
 			if (mSearchType == SearchType.MY_LOCATION) {
 				Arrays.sort(filteredProperties, Property.DISTANCE_COMPARATOR);
 			}
@@ -338,14 +340,17 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 			}
 			break;
 		case RATING:
+			Log.v("Sorting based on rating");
 			Arrays.sort(filteredProperties, Property.RATING_COMPARATOR);
 			break;
 		case DISTANCE:
+			Log.v("Sorting based on distance");
 			Arrays.sort(filteredProperties, Property.DISTANCE_COMPARATOR);
 			break;
 		case POPULAR:
 		default:
 			// The default sort is POPULAR, which requires no special sorting
+			Log.v("Sorting based on popularity (default)");
 			break;
 		}
 

@@ -1065,7 +1065,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 			else {
 				response.setFilter(Db.getFilter());
 
-				if (initialLoad) {
+				if (initialLoad && mShowDistances) {
 					onSortChanged(Sort.DISTANCE);
 				}
 
