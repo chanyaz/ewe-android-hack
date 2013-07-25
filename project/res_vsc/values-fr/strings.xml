@@ -61,6 +61,8 @@
     <!-- Button label for VSC support webpage link -->
     <string name="vsc_customer_support">Nous contacter</string>
 
+    <string name="error_flight_unhandled">Désolé, nous ne sommes pas en mesure de traiter votre demande pour le moment. Veuillez réessayer.</string>
+
     <!-- Credit card input section -->
     <string name="book">Payer</string>
     <string name="app_name">Hotel Voyages-sncf</string>
