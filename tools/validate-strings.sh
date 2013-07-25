@@ -30,6 +30,9 @@ for i in $path/values*/strings.xml ; do
     # check for bunk apos
     grep $options "’" $i
 
+    # check for unescaped percent
+    grep $options 'string name="[a-zA-Z_]*".*[^%]% ' $i
+
     # check for unescaped html tags
     #grep $options "<a " $i
     #grep $options "<a>" $i
