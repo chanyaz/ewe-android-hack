@@ -83,12 +83,10 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 		if (!ExpediaBookingApp.useTabletInterface(this)) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		}
 
-			// #1106: Don't continue to load onCreate() as
-			// we're just about to recreate the activity
-			if (!getResources().getBoolean(R.bool.portrait)) {
-				return;
-			}
+		if (shouldBail()) {
+			return;
 		}
 
 		mKillReceiver = new ActivityKillReceiver(this);
@@ -152,12 +150,21 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	@Override
 	protected void onStart() {
 		super.onStart();
+
+		if (shouldBail()) {
+			return;
+		}
+
 		OmnitureTracking.trackPageLoadFlightCheckoutPaymentCid(this);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		if (shouldBail()) {
+			return;
+		}
 
 		setCvvErrorMode(mCvvErrorModeEnabled);
 
@@ -175,12 +182,20 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	protected void onPause() {
 		super.onPause();
 
+		if (shouldBail()) {
+			return;
+		}
+
 		OmnitureTracking.onPause();
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+
+		if (shouldBail()) {
+			return;
+		}
 
 		if (mKillReceiver != null) {
 			mKillReceiver.onDestroy();
@@ -211,6 +226,12 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 		// Destroy the activity backstack
 		NavUtils.sendKillActivityBroadcast(this);
+	}
+
+	private boolean shouldBail() {
+		// #1106: Don't continue to load any part of the
+		// activity as we're just about to recreate it
+		return !ExpediaBookingApp.useTabletInterface(this) && !getResources().getBoolean(R.bool.portrait);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
