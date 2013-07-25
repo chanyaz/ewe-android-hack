@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity.Validatable;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
@@ -48,6 +49,12 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_hotel_payment_creditcard, container, false);
+
+		// 1600. VSC Hide zipCode Field from CCEntry Screen
+		if (ExpediaBookingApp.IS_VSC) {
+			View view = Ui.findView(v, R.id.section_location_address);
+			view.setVisibility(View.INVISIBLE);
+		}
 
 		mAttemptToLeaveMade = savedInstanceState != null ? savedInstanceState.getBoolean(STATE_TAG_ATTEMPTED_LEAVE,
 				false) : false;
