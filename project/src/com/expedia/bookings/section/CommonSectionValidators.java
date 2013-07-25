@@ -120,4 +120,19 @@ public class CommonSectionValidators {
 			}
 		}
 	};
+
+	public static final Validator<EditText> SUPPORTED_CHARACTER_VALIDATOR_NAMES = new Validator<EditText>() {
+
+		@Override
+		public int validate(EditText obj) {
+			if (obj == null) {
+				return ValidationError.ERROR_DATA_MISSING;
+			}
+			else {
+				return InvalidCharacterHelper.getSupportedCharacterPattern(Mode.NAME).matcher(obj.getText()).matches() ? ValidationError.NO_ERROR
+						: ValidationError.ERROR_DATA_INVALID;
+			}
+		}
+	};
+
 }

@@ -578,7 +578,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		@Override
 		protected Validator<EditText> getValidator() {
 			MultiValidator<EditText> nameValidators = new MultiValidator<EditText>();
-			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_ASCII);
+			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_NAMES);
 			nameValidators.addValidator(CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET);
 			return nameValidators;
 		}
@@ -623,7 +623,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		@Override
 		protected Validator<EditText> getValidator() {
 			MultiValidator<EditText> nameValidators = new MultiValidator<EditText>();
-			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_ASCII);
+			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_NAMES);
 			nameValidators.addValidator(CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET);
 			return nameValidators;
 		}
@@ -663,7 +663,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		@Override
 		protected Validator<EditText> getValidator() {
 			MultiValidator<EditText> nameValidators = new MultiValidator<EditText>();
-			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_ASCII);
+			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_NAMES);
 			nameValidators.addValidator(CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET);
 			return nameValidators;
 		}
