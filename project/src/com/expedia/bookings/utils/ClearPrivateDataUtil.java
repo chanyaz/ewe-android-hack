@@ -12,6 +12,7 @@ import com.expedia.bookings.model.DismissedItinButton;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.widget.AirportDropDownAdapter;
 import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.TwoLevelImageCache;
 import com.mobiata.android.util.SettingUtils;
@@ -73,6 +74,9 @@ public class ClearPrivateDataUtil {
 
 		// Clear image cache, why not
 		TwoLevelImageCache.clearMemoryCache();
+
+		// Clear airport dropdown suggestions
+		AirportDropDownAdapter.clearRecentAirports(context);
 
 		// Clear anything else out that might remain
 		Db.clear();
