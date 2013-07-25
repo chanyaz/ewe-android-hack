@@ -147,8 +147,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		if (intent.getBooleanExtra(OPENED_FROM_WIDGET, false)) {
 			com.expedia.bookings.utils.NavUtils.sendKillActivityBroadcast(mContext);
 
-			Property property = (Property) JSONUtils.parseJSONableFromIntent(getIntent(), Codes.PROPERTY,
-					Property.class);
+			Property property = JSONUtils.getJSONable(getIntent(), Codes.PROPERTY, Property.class);
 			if (property != null) {
 				Db.getHotelSearch().setSelectedProperty(property);
 			}
@@ -389,8 +388,8 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 			// are "nearby" - if this ever changes, this needs to be updated.
 			if (intent.getBooleanExtra(OPENED_FROM_WIDGET, false)) {
 				OmnitureTracking.trackSimpleEvent(this, null, null, "App.Widget.Deal.Nearby");
-				mApp.broadcastSearchParamsChangedInWidget((HotelSearchParams) JSONUtils.parseJSONableFromIntent(intent,
-						Codes.SEARCH_PARAMS, HotelSearchParams.class));
+				mApp.broadcastSearchParamsChangedInWidget(JSONUtils.getJSONable(intent, Codes.SEARCH_PARAMS,
+						HotelSearchParams.class));
 			}
 		}
 

@@ -79,6 +79,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.ExpediaServices.ReviewSort;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.LayoutUtils;
@@ -363,7 +364,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 			if (bd.isDownloading(KEY_REVIEWS)) {
 				bd.registerDownloadCallback(KEY_REVIEWS, mReviewsCallback);
 			}
-			if (mLastSearchTime != -1 && mLastSearchTime + SEARCH_EXPIRATION < Calendar.getInstance().getTimeInMillis()) {
+			if (mLastSearchTime != -1 && CalendarUtils.isExpired(mLastSearchTime, SEARCH_EXPIRATION)) {
 				Log.d("onResume(): There are cached search results, but they expired.  Starting a new search instead.");
 				Db.getHotelSearch().getSearchParams().ensureValidCheckInDate();
 				startSearch();
