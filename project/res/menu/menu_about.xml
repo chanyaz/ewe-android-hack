@@ -4,18 +4,18 @@
     <item
         android:id="@+id/about_subscribe"
         android:icon="@drawable/ic_menu_subscribe"
-        android:showAsAction="always|withText"
+        android:showAsAction="ifRoom|withText"
         android:title="@string/Subscribe"/>
 
     <item
         android:id="@+id/about_follow"
         android:icon="@drawable/ic_menu_twitter"
-        android:showAsAction="always|withText"
+        android:showAsAction="ifRoom|withText"
         android:title="@string/Follow"/>
 
     <item
         android:id="@+id/about_like"
         android:icon="@drawable/ic_menu_facebook"
-        android:showAsAction="always|withText"
+        android:showAsAction="ifRoom|withText"
         android:title="@string/Like"/>
 </menu>

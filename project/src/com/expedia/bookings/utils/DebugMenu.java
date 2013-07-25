@@ -48,29 +48,7 @@ public class DebugMenu {
 	}
 
 	private static String getStatus(Context context) {
-		switch (ExpediaServices.getEndPoint(context)) {
-		case PRODUCTION:
-			return "Server: Production";
-		case DEV:
-			return "Server: Dev";
-		case PROXY:
-			return "Server: Proxy";
-		case INTEGRATION:
-			return "Server: Integration";
-		case STABLE:
-			return "Server: Stable";
-		case TRUNK:
-			return "Server: Trunk";
-		case PUBLIC_INTEGRATION:
-			return "Server: Public Integration";
-		case MOCK_SERVER:
-			return "Server: Mock Server";
-		case TRUNK_STUBBED:
-			return "Server: Trunk (Stubbed)";
-		case CUSTOM_SERVER:
-			return "Server: Custom Server";
-		default:
-			return "Server: Unknown";
-		}
+		String endpoint = ExpediaServices.getEndPoint(context).toString();
+		return context.getString(R.string.connected_server, endpoint);
 	}
 }

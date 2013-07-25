@@ -2,6 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Generic strings/characters we use in various places that don't need translation -->
     <string name="forward_slash">/</string>
+    <string name="connected_server">Server: %s</string>
 
     <!-- Names of the open source libraries we use -->
     <!-- The translators should not translate these proper names and when they came back from loc they didn't touch them anyways -->

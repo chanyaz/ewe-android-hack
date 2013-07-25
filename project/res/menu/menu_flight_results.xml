@@ -35,6 +35,7 @@
     <item
         android:id="@+id/menu_search"
         android:actionLayout="@layout/header_search_btn2"
-        android:showAsAction="always"/>
+        android:showAsAction="always"
+        android:title="@string/search" />
 
 </menu>
