@@ -40,7 +40,7 @@
         android:background="#5000"
         android:gravity="center"
         android:padding="16dp"
-        android:text="WARNING: Setting a scenario clears all data."
+        android:text="@string/warning_setting_a_scenario_clears_all_data"
         android:textSize="16dp" />
 
 </LinearLayout>

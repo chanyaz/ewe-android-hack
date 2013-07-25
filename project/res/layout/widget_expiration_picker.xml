@@ -43,7 +43,7 @@
         android:layout_height="match_parent"
         android:layout_weight="0"
         android:gravity="center"
-        android:text="/"
+        android:text="@string/forward_slash"
         android:textSize="14dp" />
 
     <LinearLayout

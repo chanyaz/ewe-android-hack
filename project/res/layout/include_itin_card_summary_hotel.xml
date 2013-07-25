@@ -8,7 +8,6 @@
     android:gravity="left|center"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:text="Check-in after 3:00 PM"
     android:textColor="@color/itin_white_text"
     android:textSize="16dp"
     app:minTextSize="10dp"
