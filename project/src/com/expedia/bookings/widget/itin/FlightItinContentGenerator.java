@@ -54,6 +54,7 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightMapImageView;
 import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Delay;
 import com.mobiata.flightlib.data.Flight;
@@ -553,7 +554,14 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		String destination = StrUtils.getWaypointCityOrCode(lastWaypoint);
 		String destinationCode = lastWaypoint.mAirportCode;
 
-		String body = getContext().getString(R.string.x_flight_to_x_TEMPLATE, airline, destination);
+		String body;
+		if (AndroidUtils.getSdkVersion() >= 14 && !TextUtils.isEmpty(airline)) {
+			body = context.getString(R.string.x_flight_to_x_TEMPLATE, airline, destination);
+		}
+		else {
+			body = context.getString(R.string.your_flight_to_x_TEMPLATE, destination);
+		}
+
 		notification.setBody(body);
 
 		notification.setImageDestination(R.drawable.bg_itin_placeholder_flight, destinationCode);
