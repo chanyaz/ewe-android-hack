@@ -19,6 +19,16 @@ public class HotelSoldOutDialog extends DialogFragment {
 		return frag;
 	}
 
+	public void setMessage(int stringId) {
+		Bundle args = getArguments();
+		if (args == null) {
+			args = new Bundle();
+		}
+
+		args.putInt(ARG_MESSAGE, stringId);
+		setArguments(args);
+	}
+
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		Bundle args = getArguments();

@@ -49,7 +49,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.HotelPriceChangeDialog;
 import com.expedia.bookings.dialog.HotelRateBreakdownDialog;
-import com.expedia.bookings.dialog.TextViewDialog;
+import com.expedia.bookings.dialog.HotelSoldOutDialog;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.dialog.ThrobberDialog.CancelListener;
 import com.expedia.bookings.model.HotelPaymentFlowState;
@@ -95,6 +95,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	}
 
 	public static final String TAG_SLIDE_TO_PURCHASE_FRAG = "TAG_SLIDE_TO_PURCHASE_FRAG";
+	public static final String HOTEL_OFFER_ERROR_DIALOG = "HOTEL_OFFER_ERROR_DIALOG";
 
 	private static final String INSTANCE_REFRESHED_USER = "INSTANCE_REFRESHED_USER";
 	private static final String INSTANCE_IN_CHECKOUT = "INSTANCE_IN_CHECKOUT";
@@ -314,26 +315,29 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 
-		// When we resume, there is a possibility that:
-		// 1. We were using GWallet (with coupon), but are no longer using GWallet
-		// 2. We were not using GWallet, but now are doing so (and thus want to apply the GWallet code)
-		boolean isUsingGoogleWallet = Db.getBillingInfo().isUsingGoogleWallet();
-		if (mWasUsingGoogleWallet && !isUsingGoogleWallet && usingWalletPromoCoupon()) {
-			clearWalletPromoCoupon();
-		}
-		else if (!mWasUsingGoogleWallet && isUsingGoogleWallet) {
-			applyWalletCoupon();
-		}
+		HotelSoldOutDialog errorDialog = (HotelSoldOutDialog) getFragmentManager().findFragmentByTag(HOTEL_OFFER_ERROR_DIALOG);
+		if (errorDialog == null) {
+			// When we resume, there is a possibility that:
+			// 1. We were using GWallet (with coupon), but are no longer using GWallet
+			// 2. We were not using GWallet, but now are doing so (and thus want to apply the GWallet code)
+			boolean isUsingGoogleWallet = Db.getBillingInfo().isUsingGoogleWallet();
+			if (mWasUsingGoogleWallet && !isUsingGoogleWallet && usingWalletPromoCoupon()) {
+				clearWalletPromoCoupon();
+			}
+			else if (!mWasUsingGoogleWallet && isUsingGoogleWallet) {
+				applyWalletCoupon();
+			}
 
-		mCouponCodeWidget.startTextWatcher();
+			mCouponCodeWidget.startTextWatcher();
 
-		refreshData();
+			refreshData();
 
-		if (bd.isDownloading(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE)) {
-			bd.registerDownloadCallback(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, mHotelProductCallback);
-		}
-		else if (!mIsDoneLoadingPriceChange) {
-			bd.startDownload(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, mHotelProductDownload, mHotelProductCallback);
+			if (bd.isDownloading(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE)) {
+				bd.registerDownloadCallback(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, mHotelProductCallback);
+			}
+			else if (!mIsDoneLoadingPriceChange) {
+				bd.startDownload(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, mHotelProductDownload, mHotelProductCallback);
+			}
 		}
 
 		if (bd.isDownloading(KEY_REFRESH_USER)) {
@@ -996,32 +1000,20 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	};
 
 	private void handleHotelProductError(HotelProductResponse response) {
-		TextViewDialog dialog = new TextViewDialog();
-		boolean isUnavailable = false;
-		if (response != null) {
+		HotelSoldOutDialog dialog = HotelSoldOutDialog.newInstance();
+		int messageId = R.string.e3_error_hotel_offers_hotel_service_failure;
+		if (response != null && response.getErrors() != null) {
 			for (ServerError error : response.getErrors()) {
 				if (error.getErrorCode() == ServerError.ErrorCode.HOTEL_ROOM_UNAVAILABLE) {
-					isUnavailable = true;
+					messageId = R.string.e3_error_hotel_offers_hotel_room_unavailable;
 					String selectedId = Db.getHotelSearch().getSelectedProperty().getPropertyId();
 					Db.getHotelSearch().getAvailability(selectedId).removeRate(response.getOriginalProductKey());
 				}
 			}
 		}
 
-		if (isUnavailable) {
-			dialog.setMessage(R.string.e3_error_hotel_offers_hotel_room_unavailable);
-		}
-		else {
-			dialog.setMessage(R.string.e3_error_hotel_offers_hotel_service_failure);
-		}
-
-		dialog.setOnDismissListener(new TextViewDialog.OnDismissListener() {
-			@Override
-			public void onDismissed() {
-				getActivity().finish();
-			}
-		});
-		dialog.show(getFragmentManager(), "hotelOfferErrorDialog");
+		dialog.setMessage(messageId);
+		dialog.show(getFragmentManager(), HOTEL_OFFER_ERROR_DIALOG);
 	}
 
 	// Listeners
