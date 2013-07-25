@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- State code hint -->
-    <string name="hint_state_code">Prov.</string>
+    <string name="address_state_hint">Prov.</string>
     <!-- Zip code hint -->
-    <string name="PostalCode">Postal Code</string>
-
-    <!-- Advertisement for the app the user just used -->
-    <string name="share_flight_shill_app">Book flights and hotels from anywhere with Expedia\'s beautiful mobile app!  http://www.expedia.ca/app</string>
+    <string name="address_postal_code_hint">Postal Code</string>
 </resources>
