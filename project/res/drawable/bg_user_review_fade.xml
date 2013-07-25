@@ -3,9 +3,9 @@
 
     <gradient
         android:angle="270"
-        android:centerColor="#00ffffff"
+        android:centerColor="@color/row_background_fade"
         android:centerY=".5"
-        android:endColor="@color/row_background_fade_end"
-        android:startColor="#00ffffff" />
+        android:endColor="@color/row_background_review"
+        android:startColor="@color/row_background_fade" />
 
 </shape>
