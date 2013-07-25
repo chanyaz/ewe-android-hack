@@ -48,6 +48,9 @@ public class CreditCardSection extends LinearLayout {
 			case CARTE_BLANCHE:
 				resId = R.drawable.ic_carte_blanche_grey_cvv;
 				break;
+			case CARTE_BLEUE:
+				resId = R.drawable.ic_carte_bleue_grey_cvv;
+				break;
 			case CHINA_UNION_PAY:
 				resId = R.drawable.ic_union_pay_grey_cvv;
 				break;

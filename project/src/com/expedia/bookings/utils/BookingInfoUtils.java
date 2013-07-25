@@ -106,6 +106,7 @@ public class BookingInfoUtils {
 		{
 			put(CreditCardType.AMERICAN_EXPRESS, R.drawable.ic_amex_grey);
 			put(CreditCardType.CARTE_BLANCHE, R.drawable.ic_carte_blanche_grey);
+			put(CreditCardType.CARTE_BLEUE, R.drawable.ic_carte_bleue_grey);
 			put(CreditCardType.CHINA_UNION_PAY, R.drawable.ic_union_pay_grey);
 			put(CreditCardType.DINERS_CLUB, R.drawable.ic_diners_club_grey);
 			put(CreditCardType.DISCOVER, R.drawable.ic_discover_grey);
@@ -122,6 +123,7 @@ public class BookingInfoUtils {
 		{
 			put(CreditCardType.AMERICAN_EXPRESS, R.drawable.ic_amex_black);
 			put(CreditCardType.CARTE_BLANCHE, R.drawable.ic_carte_blanche_black);
+			put(CreditCardType.CARTE_BLEUE, R.drawable.ic_carte_bleue_black);
 			put(CreditCardType.CHINA_UNION_PAY, R.drawable.ic_union_pay_black);
 			put(CreditCardType.DINERS_CLUB, R.drawable.ic_diners_club_black);
 			put(CreditCardType.DISCOVER, R.drawable.ic_discover_black);
@@ -138,6 +140,7 @@ public class BookingInfoUtils {
 		{
 			put(CreditCardType.AMERICAN_EXPRESS, R.drawable.ic_amex_white);
 			put(CreditCardType.CARTE_BLANCHE, R.drawable.ic_carte_blanche_white);
+			put(CreditCardType.CARTE_BLEUE, R.drawable.ic_carte_bleue_white);
 			put(CreditCardType.CHINA_UNION_PAY, R.drawable.ic_union_pay_white);
 			put(CreditCardType.DINERS_CLUB, R.drawable.ic_diners_club_white);
 			put(CreditCardType.DISCOVER, R.drawable.ic_discover_white);
