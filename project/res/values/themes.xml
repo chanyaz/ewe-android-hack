@@ -87,9 +87,11 @@
         <item name="windowContentOverlay">@null</item>
     </style>
 
+    <!-- This is basically only used for TabletUserReviewsListActivity -->
     <style name="Theme.Light.Fullscreen.Panel" parent="@style/Theme.Light.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.Yellow</item>
     </style>
 
     <style name="Theme.Tablet.Preferences" parent="@style/Theme.Light.Dialog">
