@@ -21,6 +21,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
+import com.expedia.bookings.animation.AnimatorListenerShort;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelOffersResponse;
@@ -49,7 +50,6 @@ import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.Animator.AnimatorListener;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.animation.AnimatorProxy;
@@ -82,6 +82,9 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	private HotelDetailsDescriptionFragment mDescriptionFragment;
 	private TextView mBookNowButton;
 	private TextView mBookByPhoneButton;
+
+	// In case you try to toggle too quickly
+	private AnimatorSet mGalleryToggleAnimator;
 
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
@@ -560,30 +563,33 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		final int windowWidth = getWindow().getDecorView().getWidth();
 		final float rightSideWidth = windowWidth * .55f;
 
+		if (mGalleryToggleAnimator != null && mGalleryToggleAnimator.isRunning()) {
+			mGalleryToggleAnimator.cancel();
+		}
 		if (!isGalleryFullscreen) {
 			ObjectAnimator anim1 = ObjectAnimator.ofFloat(detailsFragment, "translationX", windowWidth);
 			ObjectAnimator anim2 = ObjectAnimator.ofFloat(galleryFragment, "translationX", 0f);
 			ObjectAnimator anim3 = ObjectAnimator.ofFloat(pricePromoLayout, "translationX", -rightSideWidth, 0f);
-			AnimatorSet animatorSet = new AnimatorSet();
-			animatorSet.play(anim1).with(anim2).with(anim3);
-			animatorSet.start();
-			ViewGroup.LayoutParams lp = pricePromoFragment.getLayoutParams();
-			lp.width = windowWidth;
-			pricePromoFragment.setLayoutParams(lp);
+			mGalleryToggleAnimator = new AnimatorSet();
+			mGalleryToggleAnimator.play(anim1).with(anim2).with(anim3);
+			mGalleryToggleAnimator.addListener(new AnimatorListenerShort() {
+				@TargetApi(11)
+				@Override
+				public void onAnimationStart(Animator arg0) {
+					ViewGroup.LayoutParams lp = pricePromoFragment.getLayoutParams();
+					lp.width = windowWidth;
+					pricePromoFragment.setLayoutParams(lp);
+				}
+			});
+			mGalleryToggleAnimator.start();
 		}
 		else {
 			ObjectAnimator anim1 = ObjectAnimator.ofFloat(detailsFragment, "translationX", 0f);
 			ObjectAnimator anim2 = ObjectAnimator.ofFloat(galleryFragment, "translationX", -rightSideWidth / 2f);
 			ObjectAnimator anim3 = ObjectAnimator.ofFloat(pricePromoLayout, "translationX", -rightSideWidth);
-			AnimatorSet animatorSet = new AnimatorSet();
-			animatorSet.play(anim1).with(anim2).with(anim3);
-			animatorSet.addListener(new AnimatorListener() {
-
-				@Override
-				public void onAnimationCancel(Animator arg0) {
-					// Intentionally left blank
-				}
-
+			mGalleryToggleAnimator = new AnimatorSet();
+			mGalleryToggleAnimator.play(anim1).with(anim2).with(anim3);
+			mGalleryToggleAnimator.addListener(new AnimatorListenerShort() {
 				@TargetApi(11)
 				@Override
 				public void onAnimationEnd(Animator arg0) {
@@ -597,18 +603,8 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 						AnimatorProxy.wrap(pricePromoLayout).setTranslationX(0f);
 					}
 				}
-
-				@Override
-				public void onAnimationRepeat(Animator arg0) {
-					// Intentionally left blank
-				}
-
-				@Override
-				public void onAnimationStart(Animator arg0) {
-					// Intentionally left blank
-				}
 			});
-			animatorSet.start();
+			mGalleryToggleAnimator.start();
 		}
 
 		isGalleryFullscreen = !isGalleryFullscreen;
