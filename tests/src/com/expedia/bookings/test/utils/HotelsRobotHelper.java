@@ -382,19 +382,32 @@ public class HotelsRobotHelper {
 		mSolo.waitForActivity("HotelDetailsFragmentActivity");
 		delay();
 
-		TextView titleView = (TextView) mSolo.getView(R.id.title);
-		String hotelName = (String) titleView.getText();
+		String hotelSoldOut = mRes.getString(R.string.error_hotel_is_now_sold_out);
 
-		enterLog(TAG,
-				"Hotel Details have loaded for hotel: " + hotelName);
-		screenshot("Hotel Details Screen");
+		if (mSolo.searchText(hotelSoldOut, true)) {
+			mSolo.clickOnButton(0);
+			if (hotelIndex < 4) {
+				selectHotel(hotelIndex + 1);
+			}
+			else {
+				mSolo.scrollDown();
+				selectHotel(0);
+			}
+		}
+		else {
+			TextView titleView = (TextView) mSolo.getView(R.id.title);
+			String hotelName = (String) titleView.getText();
 
-		mSolo.scrollDown();
-		screenshot("Hotel Details 2");
+			enterLog(TAG,
+					"Hotel Details have loaded for hotel: " + hotelName);
+			screenshot("Hotel Details Screen");
 
-		mSolo.scrollToBottom();
-		screenshot("Bottom of Hotel Details");
+			mSolo.scrollDown();
+			screenshot("Hotel Details 2");
 
+			mSolo.scrollToBottom();
+			screenshot("Bottom of Hotel Details");
+		}
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -466,7 +479,27 @@ public class HotelsRobotHelper {
 		delay();
 
 		mSolo.waitForActivity("ExpediaBookingActivity");
+		handleRoomSoldOut();
 		enterLog(TAG, "On Booking Screen.");
+	}
+
+	public void handleRoomSoldOut() {
+		String soldOutMessage = mRes.getString(R.string.e3_error_checkout_hotel_room_unavailable);
+		if (mSolo.searchText(soldOutMessage, true)) {
+			//Should only be one button
+			mSolo.clickOnButton(0);
+		}
+		//check to see if on rooms & rates
+		String selectARoom = mRes.getString(R.string.select_a_room_instruction);
+		if (mSolo.searchText(selectARoom, true)) {
+			try {
+				selectRoom(0);
+			}
+			catch (Exception e) {
+				Log.e(TAG, "Could not select new room.", e);
+			}
+		}
+
 	}
 
 	////////////////////////////////////////////////////////////////
