@@ -196,7 +196,7 @@ public class WebViewFragment extends DialogFragment {
 
 			mWebView.getSettings().setJavaScriptEnabled(true);
 			mWebView.getSettings().setLoadWithOverviewMode(true);
-			mWebView.getSettings().setUseWideViewPort(true);
+			mWebView.getSettings().setUseWideViewPort(!getArguments().getBoolean(ARG_DIALOG_MODE));
 			mWebView.getSettings().setBuiltInZoomControls(true);
 
 			// To allow Usablenet redirects to view mobile version of site, we leave the user agent string as be. The

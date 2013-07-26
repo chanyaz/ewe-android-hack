@@ -255,16 +255,17 @@ public class RoomsAndRatesFragment extends ListFragment {
 	}
 
 	private void openWebViewWithText(String title, String text) {
+		String html;
 		if (ExpediaBookingApp.useTabletInterface(getActivity())) {
-			WebViewFragment frag = WebViewFragment.newDialogInstance(text, title, getString(R.string.ok));
-			frag.show(getFragmentManager(), WebViewFragment.TAG);
+			html = HtmlUtils.wrapInHeadAndBodyWithStandardTabletMargins(text);
 		}
 		else {
-			WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
-			String html = HtmlUtils.wrapInHeadAndBody(text);
-			builder.setHtmlData(html);
-			startActivity(builder.getIntent());
+			html = HtmlUtils.wrapInHeadAndBody(text);
 		}
+
+		WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
+		builder.setHtmlData(html);
+		startActivity(builder.getIntent());
 	}
 
 	//////////////////////////////////////////////////////////////////////////

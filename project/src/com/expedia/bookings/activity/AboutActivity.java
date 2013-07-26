@@ -119,7 +119,7 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 			builder.setTitle(R.string.legal_information);
 			builder.addRow(R.string.info_label_privacy_policy, ROW_PRIVACY_POLICY);
 			builder.addRow(R.string.info_label_terms_conditions, ROW_TERMS_AND_CONDITIONS);
-			if (PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.UNITED_KINGDOM)) {
+			if (PointOfSale.getPointOfSale().showAtolInfo()) {
 				builder.addRow(R.string.lawyer_label_atol_information, ROW_ATOL_INFO);
 			}
 			builder.addRow(R.string.open_source_software_licenses, ROW_OPEN_SOURCE_LICENSES);
@@ -305,7 +305,13 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 			WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(this);
 
 			String message = getString(R.string.lawyer_label_atol_long_message);
-			String html = HtmlUtils.wrapInHeadAndBody(message);
+			String html;
+			if (ExpediaBookingApp.useTabletInterface(this)) {
+				html = HtmlUtils.wrapInHeadAndBodyWithStandardTabletMargins(message);
+			}
+			else {
+				html = HtmlUtils.wrapInHeadAndBody(message);
+			}
 			builder.setHtmlData(html);
 
 			startActivity(builder.getIntent());
