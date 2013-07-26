@@ -109,7 +109,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		mProgressFragment = Ui.findSupportFragment(this, BookingInProgressDialogFragment.TAG);
 		mBookingFragment = Ui.findSupportFragment(this, FlightBookingFragment.TAG);
 
-		if (savedInstanceState == null) {
+		if (savedInstanceState == null || mBookingFragment == null) {
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
 			mBookingFragment = new FlightBookingFragment();
