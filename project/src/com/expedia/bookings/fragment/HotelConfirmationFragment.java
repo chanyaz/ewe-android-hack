@@ -105,7 +105,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		// Setup a dropping animation with the hotel card.  Only animate on versions of Android
 		// that will allow us to make the animation nice and smooth.
 		mHotelCard = Ui.findView(v, R.id.hotel_card);
-		if (savedInstanceState == null && Build.VERSION.SDK_INT >= 12) {
+		if (savedInstanceState == null && Build.VERSION.SDK_INT >= 14) {
 			mHotelCard.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 				@Override
 				public boolean onPreDraw() {
