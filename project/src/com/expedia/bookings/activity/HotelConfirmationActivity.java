@@ -126,6 +126,7 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity {
 		case R.id.menu_done:
 			//1370. VSC After hotel confirmation redirect back to HotelListing since VSC doesnt support Itins
 			if (ExpediaBookingApp.IS_VSC) {
+				Db.getHotelSearch().resetSearchParams();
 				NavUtils.goToVSC(this);
 			}
 			else {
