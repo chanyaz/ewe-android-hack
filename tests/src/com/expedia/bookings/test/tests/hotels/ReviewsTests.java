@@ -44,11 +44,11 @@ public class ReviewsTests extends ActivityInstrumentationTestCase2<SearchActivit
 	}
 
 	public void testNumberOfReviews() throws Exception {
-		View user_rating_text_view;
+		View userRatingTextView;
 		TextView reviewsTitleView;
 		String reviewsTitleString;
 		String reviewsScreenNumber;
-		
+
 		TextView detailsReviewTextView;
 		String detailsReviewString;
 		String hotelDetailsNumber;
@@ -56,15 +56,15 @@ public class ReviewsTests extends ActivityInstrumentationTestCase2<SearchActivit
 		String hotelSoldOut = mRes.getString(R.string.error_hotel_is_now_sold_out);
 		mDriver.launchHotels();
 		mDriver.selectLocation(mUser.mHotelSearchCity);
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 1; i++) {
 			for (int j = 2; j <= 4; j++) {
 				mSolo.clickInList(j);
 				mDriver.delay(5);
 				//Go back to search list if hotel sold out
 				if (!mSolo.searchText(hotelSoldOut, 1, false, true)) {
-					user_rating_text_view =
+					userRatingTextView =
 							mSolo.getCurrentActivity().findViewById(R.id.user_rating_text_view);
-					mSolo.clickOnView(user_rating_text_view);
+					mSolo.clickOnView(userRatingTextView);
 					mDriver.delay();
 
 					// Go to Reviews screen for hotel and get the review count
@@ -93,6 +93,36 @@ public class ReviewsTests extends ActivityInstrumentationTestCase2<SearchActivit
 			}
 			mSolo.scrollDown();
 		}
+		mSolo.goBack();
+		mSolo.goBack();
+	}
+
+	public void testSelectButton() throws Exception {
+		String selectARoom = mRes.getString(R.string.select_a_room_instruction);
+		mDriver.launchHotels();
+		mDriver.selectLocation(mUser.mHotelSearchCity);
+		mSolo.clickInList(2);
+		mDriver.delay();
+
+		View userRatingTextView =
+				mSolo.getCurrentActivity().findViewById(R.id.user_rating_text_view);
+		if (userRatingTextView != null) {
+			mSolo.clickOnView(userRatingTextView);
+		}
+		else {
+			mDriver.delay();
+			mSolo.clickOnView(userRatingTextView);
+		}
+		mSolo.clickOnText(mRes.getString(R.string.select));
+		mDriver.delay();
+		if (!mSolo.searchText(selectARoom, 1, false, true)) {
+			mDriver.enterLog(TAG, "Couldn't find 'Select A Room' string");
+			fail();
+		}
+		mSolo.goBack();
+		mSolo.goBack();
+		mSolo.goBack();
+		mSolo.goBack();
 	}
 
 	private void verifyReviewsActionBarContentsExist() {
@@ -118,5 +148,13 @@ public class ReviewsTests extends ActivityInstrumentationTestCase2<SearchActivit
 			mDriver.enterLog(TAG, "Couldn't find 'Select' string");
 			fail();
 		}
+	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		//Robotium will finish all the activities that have been opened
+		mDriver.enterLog(TAG, "tearing down...");
+
+		mSolo.finishOpenedActivities();
 	}
 }
