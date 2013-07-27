@@ -6,10 +6,13 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
+    <string name="facebook_weve_found_your_account">&lt;b&gt;%1$s&lt;/b&gt;, nous avons trouvé votre compte VSC ! Veuillez saisir votre mot de passe VSC ci-dessous afin de lier vos comptes Facebook et VSC.</string>
     <!-- Log in with VSC -->
     <string name="Log_in_with_VSC">Se connecter avec VSC</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Echec de connexion. Un compte spécifique pour la réservation d’hôtel est nécessaire.</string>
+    <!-- Facebook connect expedia password hint -->
+    <string name="expedia_password_hint">Mot de passe VSC</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -40,6 +43,10 @@
     <!-- Save payment info dialog -->
     <!-- save billing info message -->
     <string name="save_billing_info_message">Enregistrer ce mode de paiement dans votre compte VSC pour réserver plus rapidement dans le futur ?</string>
+
+    <!-- Save traveler dialog -->
+    <!-- Save traveler name Template -->
+    <string name="save_traveler_message_TEMPLATE">Enregistrer les informations sur %1$s dans votre compte VSC pour réserver plus rapidement dans le futur ?</string>
 
     <!-- Section edit traveler -->
     <!-- Traveler Information -->
@@ -92,9 +99,28 @@
     <string name="dialog_clear_private_data_title">Effacer les données personnelles?</string>
     <!-- Message to display to user while booking is in progress -->
     <string name="booking_loading">Paiement en cours…</string>
+    <!-- Error message when we couldn't get a response -->
+    <string name="error_booking_null">Impossible de se connecter aux serveurs VSC.  Veuillez vérifier votre connexion et réessayer plus tard.</string>
+
+    <!-- Confirmation activity -->
+    <!-- Contact info for a country with a known support line where %s represents the phone number -->
+    <string name="contact_phone_template">Si vous avez des questions au sujet de votre réservation, veuillez contacter VSC au %s.</string>
+
+    <!-- Rate template strings -->
+    <!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
+    <string name="PayToExpedia">Montant dû à VSC</string>
 
     <!-- Label for signin screen -->
     <string name="vsc_account">Compte VSC</string>
+
+    <!-- Label for loading user profile from expedia.com -->
+    <string name="loading_expedia_account">Chargement compte VSC…</string>
+
+    <!-- Sharing bookings via email -->
+    <!-- The title of the share subject line -->
+    <string name="share_subject_title">Voyage VSC</string>
+    <!-- Subject property name template. -->
+    <string name="share_subject_template">Numéro de voyage VSC -</string>
 
     <!-- About activity -->
     <!-- Label for "contact Expedia" button in info page -->
