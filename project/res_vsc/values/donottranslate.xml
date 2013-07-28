@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Facebook -->
+    <!-- Production Facebook app id -->
+    <string name="facebook_app_id">482332651854403</string>
+
     <!-- ContentProvider authority overrides -->
     <string name="autocomplete_provider_authority">com.expedia.booking.vsc.autocomplete</string>
     <string name="airport_autocomplete_provider_authority">com.expedia.booking.vsc.autocomplete.air</string>
