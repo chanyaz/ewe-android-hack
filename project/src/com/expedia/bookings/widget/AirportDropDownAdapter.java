@@ -13,6 +13,7 @@ import android.database.MatrixCursor;
 import android.net.Uri;
 import android.support.v4.widget.CursorAdapter;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,7 @@ public class AirportDropDownAdapter extends CursorAdapter {
 	public static final String RECENT_AIRPORTS_FILE = "recent-airports-list.dat";
 
 	// Minimum time ago that we will use location stats
-	private static final long MINIMUM_TIME_AGO = 1000 * 60 * 60; // 1 hour
+	private static final long MINIMUM_TIME_AGO = DateUtils.HOUR_IN_MILLIS;
 
 	// Maximum # of nearby airports to report
 	private static final int MAX_NEARBY = 2;

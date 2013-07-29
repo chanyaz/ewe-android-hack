@@ -12,6 +12,8 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.format.DateUtils;
+
 import com.expedia.bookings.utils.CalendarUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -25,7 +27,7 @@ import com.mobiata.flightlib.data.Airport;
  */
 public class FlightRoutes implements JSONable {
 
-	private static final long STALE_TIMEOUT = 1000 * 60 * 60 * 24; // 1 day
+	private static final long STALE_TIMEOUT = DateUtils.DAY_IN_MILLIS;
 
 	private Map<String, Airport> mAirports = new HashMap<String, Airport>();
 

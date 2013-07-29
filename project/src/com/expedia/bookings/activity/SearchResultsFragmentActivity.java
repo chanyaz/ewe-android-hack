@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.format.DateUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -128,7 +129,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 
 	private static final int REQUEST_CODE_SETTINGS = 1;
 
-	private static final long SEARCH_EXPIRATION = 1000 * 60 * 60; // 1 hour
+	private static final long SEARCH_EXPIRATION = DateUtils.HOUR_IN_MILLIS;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Member vars
@@ -270,7 +271,8 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 			@Override
 			public boolean onQueryTextChange(String newText) {
 				if (newText == null || newText.equals(getString(R.string.current_location))
-						|| Db.getHotelSearch().getSearchParams() == null || newText.equals(Db.getHotelSearch().getSearchParams().getQuery())) {
+						|| Db.getHotelSearch().getSearchParams() == null
+						|| newText.equals(Db.getHotelSearch().getSearchParams().getQuery())) {
 					mPartialSearch = null;
 				}
 				else {
@@ -732,7 +734,8 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	private void showGuestsDialog() {
 		FragmentManager fm = getSupportFragmentManager();
 		if (fm.findFragmentByTag(getString(R.string.tag_guests_dialog)) == null) {
-			DialogFragment newFragment = GuestsDialogFragment.newInstance(Db.getHotelSearch().getSearchParams().getNumAdults(),
+			DialogFragment newFragment = GuestsDialogFragment.newInstance(
+					Db.getHotelSearch().getSearchParams().getNumAdults(),
 					Db.getHotelSearch().getSearchParams().getChildren());
 			newFragment.show(fm, getString(R.string.tag_guests_dialog));
 		}
@@ -741,7 +744,8 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	private void showCalendarDialog() {
 		FragmentManager fm = getSupportFragmentManager();
 		if (fm.findFragmentByTag(getString(R.string.tag_calendar_dialog)) == null) {
-			DialogFragment newFragment = CalendarDialogFragment.newInstance(Db.getHotelSearch().getSearchParams().getCheckInDate(),
+			DialogFragment newFragment = CalendarDialogFragment.newInstance(
+					Db.getHotelSearch().getSearchParams().getCheckInDate(),
 					Db.getHotelSearch().getSearchParams().getCheckOutDate());
 			newFragment.show(getSupportFragmentManager(), getString(R.string.tag_calendar_dialog));
 		}
@@ -1191,7 +1195,9 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 			String key = getDownloadKey(Db.getHotelSearch().getSelectedProperty());
 			BackgroundDownloader.getInstance().addDownloadListener(key, services);
 
-			return services.availability(Db.getHotelSearch().getSearchParams(), Db.getHotelSearch().getSelectedProperty());
+			return services.availability(
+					Db.getHotelSearch().getSearchParams(),
+					Db.getHotelSearch().getSelectedProperty());
 		}
 	};
 
@@ -1468,7 +1474,11 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		mLastSearchParamsJson = Db.getHotelSearch().getSearchParams().toJson().toString();
 		mLastFilterJson = filter.toJson().toString();
 
-		OmnitureTracking.trackAppHotelsSearch(this, Db.getHotelSearch().getSearchParams(), lastSearchParams, filter, lastFilter,
+		OmnitureTracking.trackAppHotelsSearch(this,
+				Db.getHotelSearch().getSearchParams(),
+				lastSearchParams,
+				filter,
+				lastFilter,
 				Db.getHotelSearch().getSearchResponse());
 		AdTracker.trackHotelSearch();
 	}

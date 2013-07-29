@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -39,7 +40,7 @@ import com.mobiata.android.util.ViewUtils;
 public class UserReviewsListActivity extends SherlockFragmentActivity implements UserReviewsFragmentListener,
 		TabListener, OnPageChangeListener {
 
-	private static final long RESUME_TIMEOUT = 1000 * 60 * 20; // 20 minutes
+	private static final long RESUME_TIMEOUT = 20 * DateUtils.MINUTE_IN_MILLIS;
 	private long mLastResumeTime = -1;
 
 	// Instance variable names

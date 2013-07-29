@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.text.format.DateUtils;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -55,14 +56,14 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	//////////////////////////////////////////////////////////////////////////////////////////
 
 	// Widget config related constants
-	private final static long UPDATE_INTERVAL = 1000 * 60 * 60; // 1 hour
-	public final static long ROTATE_INTERVAL = 1000 * 5; // Every 5 seconds
-	public final static long INCREASED_ROTATE_INTERVAL = 1000 * 30; // Every 30 seconds
+	private final static long UPDATE_INTERVAL = DateUtils.HOUR_IN_MILLIS;
+	public final static long ROTATE_INTERVAL = 5 * DateUtils.SECOND_IN_MILLIS; // Every 5 seconds
+	public final static long INCREASED_ROTATE_INTERVAL = 30 * DateUtils.SECOND_IN_MILLIS; // Every 30 seconds
 
 	// maintain a bounded cache for the thumbnails to prevent OOM errors
 	private static final int MIN_DISTANCE_BEFORE_UPDATE = 5 * 1000; // 5 km
-	private static final int MIN_TIME_BETWEEN_CHECKS_IN_MILLIS = 1000 * 60 * 15; // 15 minutes
-	private static final int TIME_THRESHOLD_FOR_DISTANCE_TRAVELLED = 1000 * 60 * 10; // 10 minutes
+	private static final long MIN_TIME_BETWEEN_CHECKS_IN_MILLIS = 15 * DateUtils.MINUTE_IN_MILLIS; // 15 minutes
+	private static final long TIME_THRESHOLD_FOR_DISTANCE_TRAVELLED = 10 * DateUtils.MINUTE_IN_MILLIS; // 10 minutes
 
 	private static final int POST_NO_CONNECTIVITY_MSG_PAUSE = 1000;
 

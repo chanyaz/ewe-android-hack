@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.text.format.DateUtils;
 
 import com.activeandroid.ActiveAndroid;
 import com.expedia.bookings.R;
@@ -68,7 +69,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 		try {
 			if (!isRelease) {
-				FlightStatsDbUtils.setUpgradeCutoff(1000 * 60 * 60 * 24); // 1 day cutoff for upgrading FS.db
+				FlightStatsDbUtils.setUpgradeCutoff(DateUtils.DAY_IN_MILLIS); // 1 day cutoff for upgrading FS.db
 			}
 
 			FlightStatsDbUtils.createDatabaseIfNotExists(this);

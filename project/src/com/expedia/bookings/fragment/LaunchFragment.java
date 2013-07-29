@@ -20,6 +20,7 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,8 +81,8 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	public static final String KEY_FLIGHT_DESTINATIONS = "LAUNCH_SCREEN_FLIGHT_DESTINATIONS";
 	public static final String KEY_HOTEL_DESTINATIONS = "LAUNCH_SCREEN_HOTEL_DESTINATIONS";
 
-	private static final long MINIMUM_TIME_AGO = 1000 * 60 * 15; // 15 minutes ago
-	private static final long LOCATION_FINDER_TIMEOUT = 1000 * 5; // 5 seconds
+	private static final long MINIMUM_TIME_AGO = 15 * DateUtils.MINUTE_IN_MILLIS; // 15 minutes ago
+	private static final long LOCATION_FINDER_TIMEOUT = 5 * DateUtils.SECOND_IN_MILLIS; // 5 seconds
 	private static final int NUM_HOTEL_PROPERTIES = 20;
 	private static final int NUM_FLIGHT_DESTINATIONS = 5;
 

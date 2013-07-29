@@ -227,7 +227,8 @@ public class ItinCardDataCar extends ItinCardData implements ConfirmationNumbera
 		int dropOffDayOfyear = dropOffCal.get(Calendar.DAY_OF_YEAR);
 		int dayOfYear = now.get(Calendar.DAY_OF_YEAR);
 		boolean sameDayRental = pickUpDayOfYear == dropOffDayOfyear;
-		boolean isFourHoursBeforeDropOff = now.getTimeInMillis() > dropOffCal.getTimeInMillis() - (1000 * 60 * 60 * 4);
+		boolean isFourHoursBeforeDropOff = now.getTimeInMillis()
+				> dropOffCal.getTimeInMillis() - (4 * DateUtils.HOUR_IN_MILLIS);
 
 		return now.before(pickUpCal) || (!sameDayRental && dayOfYear == pickUpDayOfYear)
 				|| (sameDayRental && !isFourHoursBeforeDropOff);

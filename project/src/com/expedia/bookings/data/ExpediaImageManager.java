@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import android.content.Context;
+import android.text.format.DateUtils;
 
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.bitmaps.TwoLevelImageCache;
@@ -54,7 +55,7 @@ public class ExpediaImageManager {
 	//////////////////////////////////////////////////////////////////////////
 	// Retrieval
 
-	private static final long EXPIRATION = 1000 * 60 * 60 * 24; // 24 hours
+	private static final long EXPIRATION = DateUtils.DAY_IN_MILLIS;
 
 	// Fast, in-memory cache (so we don't always have to go to disk)
 	private Map<String, ExpediaImage> mCachedImageUrls = new ConcurrentHashMap<String, ExpediaImage>();

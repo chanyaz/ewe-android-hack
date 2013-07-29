@@ -2,6 +2,7 @@ package com.expedia.bookings.tracking;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 
 import com.AdX.tag.AdXConnect;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -119,7 +120,7 @@ public class AdX {
 				// Was told by the AdX guys to just hold off for a bit before
 				// calling getAdXReferral()
 				try {
-					Thread.sleep(15 * 1000); // 15 seconds
+					Thread.sleep(15 * DateUtils.SECOND_IN_MILLIS);
 				}
 				catch (Exception e) {
 					// Should not ever happen

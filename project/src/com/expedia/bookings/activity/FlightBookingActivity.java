@@ -11,6 +11,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.format.DateUtils;
 import android.widget.ImageView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -522,7 +523,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 						Calendar departureCal = firstLeg.getFirstWaypoint().getMostRelevantDateTime();
 						Calendar cal = GregorianCalendar.getInstance();
 						long diff = departureCal.getTimeInMillis() - cal.getTimeInMillis();
-						days = Math.round(diff / (1000 * 60 * 60 * 24));
+						days = Math.round(diff / DateUtils.DAY_IN_MILLIS);
 						if (days < 0) {
 							days = 0;
 						}

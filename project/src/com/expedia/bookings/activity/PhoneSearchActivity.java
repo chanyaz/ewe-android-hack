@@ -42,6 +42,7 @@ import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.text.format.DateUtils;
 import android.text.format.Time;
 import android.view.KeyEvent;
 import android.view.Surface;
@@ -177,12 +178,12 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 	private static final int REQUEST_SETTINGS = 1;
 
-	public static final long MINIMUM_TIME_AGO = 1000 * 60 * 15; // 15 minutes ago
+	public static final long MINIMUM_TIME_AGO = 15 * DateUtils.MINUTE_IN_MILLIS;
 
 	// Used in onNewIntent(), if the calling Activity wants the SearchActivity to start fresh
 	private static final String EXTRA_NEW_SEARCH = "EXTRA_NEW_SEARCH";
 
-	public static final long SEARCH_EXPIRATION = 1000 * 60 * 60; // 1 hour
+	public static final long SEARCH_EXPIRATION = DateUtils.HOUR_IN_MILLIS;
 	private static final String SEARCH_RESULTS_VERSION_FILE = "savedsearch-version.dat";
 	private static final String SEARCH_RESULTS_FILE = "savedsearch.dat";
 

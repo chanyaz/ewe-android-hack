@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -36,7 +37,7 @@ import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
 public class RoomsAndRatesListActivity extends SherlockFragmentActivity implements RoomsAndRatesFragmentListener {
 
-	private static final long RESUME_TIMEOUT = 1000 * 60 * 20; // 20 minutes
+	private static final long RESUME_TIMEOUT = 20 * DateUtils.MINUTE_IN_MILLIS;
 
 	private RoomsAndRatesFragment mRoomsAndRatesFragment;
 
@@ -91,7 +92,8 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
 		ImageView thumbnailView = (ImageView) findViewById(R.id.thumbnail_image_view);
 		if (property.getThumbnail() != null) {
-			UrlBitmapDrawable.loadImageView(property.getThumbnail().getUrl(), thumbnailView, R.drawable.ic_image_placeholder);
+			UrlBitmapDrawable.loadImageView(property.getThumbnail().getUrl(), thumbnailView,
+					R.drawable.ic_image_placeholder);
 		}
 		else {
 			thumbnailView.setVisibility(View.GONE);
@@ -155,7 +157,8 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 			}
 			else {
 				bd.startDownload(CrossContextHelper.KEY_INFO_DOWNLOAD,
-						CrossContextHelper.getHotelOffersDownload(this, CrossContextHelper.KEY_INFO_DOWNLOAD), mCallback);
+						CrossContextHelper.getHotelOffersDownload(this, CrossContextHelper.KEY_INFO_DOWNLOAD),
+						mCallback);
 			}
 		}
 

@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.text.format.DateUtils;
 
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
@@ -40,7 +41,7 @@ public class WidgetDeals implements JSONable {
 	public static final String WIDGET_DEALS_VERSION_FILE = "widgetDeals-version.dat";
 	public static final String WIDGET_DEALS_FILE = "widgetDeals.dat";
 	private static final int MAX_DEALS = 5;
-	public static final long WIDGET_DEALS_EXPIRATION = 1000 * 60 * 60; // 1 hour
+	public static final long WIDGET_DEALS_EXPIRATION = DateUtils.HOUR_IN_MILLIS;
 
 	public static final int WIDGET_DEALS_RESTORED = 0;
 	public static final int NO_WIDGET_FILE_EXISTS = -1;

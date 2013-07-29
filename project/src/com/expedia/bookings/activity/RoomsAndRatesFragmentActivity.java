@@ -5,6 +5,7 @@ import java.util.Calendar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -33,7 +34,7 @@ public class RoomsAndRatesFragmentActivity extends SherlockFragmentActivity impl
 
 	public static final String EXTRA_SPECIFIC_RATE = "EXTRA_SPECIFIC_RATE";
 
-	private static final long RESUME_TIMEOUT = 1000 * 60 * 20; // 20 minutes
+	private static final long RESUME_TIMEOUT = 20 * DateUtils.MINUTE_IN_MILLIS;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Member vars

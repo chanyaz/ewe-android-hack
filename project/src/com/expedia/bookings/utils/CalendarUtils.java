@@ -164,7 +164,7 @@ public class CalendarUtils {
 	}
 
 	// #9770: Add an hour of buffer so that the date range is always > the number of days
-	private static final int DATE_RANGE_BUFFER = 1000 * 60 * 60; // 1 hour
+	private static final long DATE_RANGE_BUFFER = DateUtils.HOUR_IN_MILLIS;
 
 	/**
 	 * Convenience method for formatting date range represented by a particular HotelSearchParams.

@@ -8,6 +8,7 @@ import java.util.Set;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
@@ -371,7 +372,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		}
 
 		if (summaryCardData != null) {
-			long threeHours = 1000 * 60 * 60 * 3;
+			long threeHours = 3 * DateUtils.HOUR_IN_MILLIS;
 
 			// If:
 			// 1. The current summary card starts after the first in-progress card ends

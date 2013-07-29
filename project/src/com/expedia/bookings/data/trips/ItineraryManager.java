@@ -56,7 +56,7 @@ import com.mobiata.flightlib.data.Flight;
 // In addition, make sure to call startSync() before manipulating data.
 public class ItineraryManager implements JSONable {
 
-	private static final long UPDATE_CUTOFF = 1000 * 60; // At most once a minute
+	private static final long UPDATE_CUTOFF = DateUtils.MINUTE_IN_MILLIS; // At most once a minute
 
 	private static final String LOGGING_TAG = "ItineraryManager";
 
@@ -801,7 +801,7 @@ public class ItineraryManager implements JSONable {
 
 	private SyncTask mSyncTask;
 
-	private static final long REFRESH_TRIP_CUTOFF = 1000 * 60 * 15; // 15 minutes
+	private static final long REFRESH_TRIP_CUTOFF = 15 * DateUtils.MINUTE_IN_MILLIS;
 
 	private static final long MINUTE = DateUtils.MINUTE_IN_MILLIS;
 	private static final long HOUR = DateUtils.HOUR_IN_MILLIS;
@@ -847,7 +847,7 @@ public class ItineraryManager implements JSONable {
 		}
 	}
 
-	private static final long DEEP_REFRESH_RATE_LIMIT = 1000 * 60 * 1;
+	private static final long DEEP_REFRESH_RATE_LIMIT = DateUtils.MINUTE_IN_MILLIS;
 
 	public boolean deepRefreshTrip(Trip trip) {
 		return deepRefreshTrip(trip.getTripNumber(), false);

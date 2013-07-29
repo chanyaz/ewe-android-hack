@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -70,7 +71,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	// Flag set in the intent if this activity was opened from the widget
 	public static final String OPENED_FROM_WIDGET = "OPENED_FROM_WIDGET";
 
-	private static final long RESUME_TIMEOUT = 1000 * 60 * 20; // 20 minutes
+	private static final long RESUME_TIMEOUT = 20 * DateUtils.MINUTE_IN_MILLIS;
 
 	private Context mContext;
 	private ExpediaBookingApp mApp;
