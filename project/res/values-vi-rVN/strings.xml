@@ -30,8 +30,12 @@
     <string name="Log_In">Đăng nhập</string>
     <!-- Log in with Expedia -->
     <string name="Log_in_with_Expedia">Đăng nhập Expedia</string>
+    <!-- Log in with VSC -->
+    <string name="Log_in_with_VSC">Đăng nhập bằng VSC</string>
     <!-- or -->
     <string name="or">hoặc</string>
+    <!-- Already logged in -->
+    <string name="already_logged_in">Đã đăng nhập</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Home -->
@@ -110,6 +114,8 @@
     <string name="find_itinerary_pound">Tìm số lịch trình</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">Số lịch trình Expedia</string>
+    <!-- Elite plus customer support -->
+    <string name="elite_plus_customer_support">Hỗ trợ khách hàng Elite Plus</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Không có chuyến đi nào sắp đến.</string>
     <!-- Enter itinerary number -->
@@ -186,11 +192,11 @@
     <!-- Booking info label -->
     <string name="booking_info">Thông tin đặt chỗ</string>
     <!-- Itin flight generic terminal and gate template -->
-    <string name="generic_terminal_TEMPLATE">Nhà ga %1$s, Cổng %2$s</string>
+    <string name="generic_terminal_TEMPLATE">Ga %1$s, Cổng %2$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">Ga đến %1$s, Cổng %2$s</string>
+    <string name="arrival_terminal_TEMPLATE">Đến Ga %1$s, Cổng %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="departure_terminal_TEMPLATE">Ga khởi hành %1$s, Cổng %2$s</string>
+    <string name="departure_terminal_TEMPLATE">Khởi hành Ga %1$s, Cổng %2$s</string>
     <!-- To be determined abbrev. -->
     <string name="to_be_determined_abbrev">Chờ xác định</string>
     <!-- Itin flight gate only template -->
@@ -199,12 +205,14 @@
     <string name="arrive_gate_number_only_TEMPLATE">Cổng đến %1$s</string>
     <!-- Itin flight depart gate only template -->
     <string name="depart_gate_number_only_TEMPLATE">Cổng khởi hành %1$s</string>
+    <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
+    <string name="Terminal_X_TEMPLATE">Ga %1$s</string>
+    <!-- Special case for name of International Terminal -->
+    <string name="International_Terminal">Ga Quốc tế</string>
     <!-- Itin flight terminal only template -->
-    <string name="terminal_but_no_gate_TEMPLATE">Nhà ga %1$s</string>
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Đến Ga %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">Ga đến %1$s</string>
-    <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">Ga khởi hành %1$s</string>
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Khởi hành Ga %1$s</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="at_airport_TEMPLATE">&lt;b&gt;Tại %1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
@@ -459,8 +467,9 @@
     <string name="itin_card_details_check_in">Nhận phòng</string>
     <string name="itin_card_details_check_out">Trả phòng</string>
     <string name="itin_card_details_address">Địa chỉ</string>
-    <string name="itin_card_details_phone">Điện thoại</string>
+    <string name="itin_card_details_local_phone">Số điện thoại địa phương</string>
     <string name="itin_card_details_room_type">Loại phòng</string>
+    <string name="itin_card_details_bed_type">Loại giường</string>
     <string name="toast_copied_to_clipboard">Chép vào clipboard.</string>
     <string name="itin_card_details_reload">Đang tải lại thông tin</string>
     <string name="itin_card_details_reload_activity">Đang tải lại thông tin Hoạt động</string>
@@ -511,7 +520,7 @@
     <!-- 1: Hotel name, 2: Formatted length of stay -->
     <string name="share_template_long_hotel_1_greeting">Xin chào,\n\nTôi nghỉ tại %1$s trong %2$s.</string>
     <!-- 1: Check in date, 2: Check out date -->
-    <string name="share_template_long_hotel_2_checkin_checkout">Nhận phòng%1$s \nTrả phòng%2$s</string>
+    <string name="share_template_long_hotel_2_checkin_checkout">Nhận phòng %1$s\nTrả phòng %2$s</string>
     <!-- 1: Hotel name, 2: Hotel street address -->
     <string name="share_template_long_hotel_3_address">%1$s\n%2$s</string>
     <!-- Hotel phone number -->
@@ -667,6 +676,18 @@
         <item quantity="many">%1$d người lớn</item>
         <item quantity="other">%1$d người lớn</item>
     </plurals>
+    <!-- Message shown when loading AirAsia flight routes -->
+    <string name="loading_air_asia_routes">Đang tải các tuyến bay của AirAsia…</string>
+    <!-- Message shown when we could not load the AirAsia flight routes -->
+    <string name="error_could_not_load_air_asia">Không tải được tuyến bay của AirAsia</string>
+    <!-- Header row for airports that were used recently for a search -->
+    <string name="recent">Gần đây</string>
+    <!-- Display for selected airport dropdown.  %1$s is the airport code, %2$s is the city, e.g. "(MSP) Minneapolis" -->
+    <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
+    <!-- Prompt for spinner dialog when selecting departure airport -->
+    <string name="prompt_departure_airport">Chọn sân bay khởi hành</string>
+    <!-- Prompt for spinner dialog when selecting arrival airport -->
+    <string name="prompt_arrival_airport">Chọn sân bay đến</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
@@ -1077,6 +1098,8 @@
     <string name="add_to_flighttrack">Theo dõi bằng FlightTrack</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_expedia_customer_support">Gọi bộ phận Dịch vụ Khách hàng Expedia</string>
+    <!-- Button label for VSC support webpage link -->
+    <string name="vsc_customer_support">Liên hệ với chúng tôi</string>
     <!-- Add Insurance label -->
     <string name="add_insurance">Bổ sung bảo hiểm</string>
     <!-- Insurance -->
@@ -1198,7 +1221,6 @@
     <string name="share_flight_section_outbound">Chuyến bay đi:</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">Trở về:</string>
-
     <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
@@ -1218,6 +1240,8 @@
     <string name="who_is_going">&lt;b&gt;Ai&lt;/b&gt; thực hiện chuyến đi?</string>
     <!-- Child age dialog button -->
     <string name="button_done">Hoàn tất</string>
+    <!-- Done button text in hotel Confirmation screen for VSC -->
+    <string name="button_done_vsc_confirmation">Hoàn tất</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">Chọn tuổi trẻ</item>
@@ -1795,6 +1819,8 @@
     <string name="logged_in_as">Đăng nhập bằng</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">Tài khoản Expedia</string>
+    <!-- Label for signin screen -->
+    <string name="vsc_account">Tài khoản VSC</string>
     <!-- Label for loading user profile from expedia.com -->
     <string name="loading_expedia_account">Đang tải tài khoản Expedia</string>
     <!-- Label for password recovery -->
@@ -2555,9 +2581,9 @@
     <!-- Content Description Labels -->
     <!-- Expedia Bookings Launch Screen -->
     <!-- Content description for action: Press button to launch Expedia Hotels -->
-    <string name="cd_launch_hotels">Mở trang Khách sạn Expedia</string>
+    <string name="cd_launch_hotels">Mở Expedia Hotels</string>
     <!-- Content description for action: Press button to launch Expedia Flights -->
-    <string name="cd_launch_flights">Mở trang Chuyến bay Expedia</string>
+    <string name="cd_launch_flights">Mở Expedia Flights</string>
     <!-- Content description for action: Press button to open menu list -->
     <string name="cd_launch_open_menu_list">Mở danh sách menu</string>
     <!-- Content description for action: Open Settings Menu -->

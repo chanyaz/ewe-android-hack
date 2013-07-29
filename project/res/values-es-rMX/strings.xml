@@ -30,8 +30,12 @@
     <string name="Log_In">Iniciar sesión</string>
     <!-- Log in with Expedia -->
     <string name="Log_in_with_Expedia">Inicia sesión con Expedia</string>
+    <!-- Log in with VSC -->
+    <string name="Log_in_with_VSC">Inicia sesión con VSC</string>
     <!-- or -->
     <string name="or">o</string>
+    <!-- Already logged in -->
+    <string name="already_logged_in">Ya se inició la sesión</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Home -->
@@ -110,6 +114,8 @@
     <string name="find_itinerary_pound">Buscar un no. de itinerario</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">No. de itinerario de Expedia:</string>
+    <!-- Elite plus customer support -->
+    <string name="elite_plus_customer_support">Servicio a clientes Elite Plus</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">No hay viajes próximos</string>
     <!-- Enter itinerary number -->
@@ -186,25 +192,27 @@
     <!-- Booking info label -->
     <string name="booking_info">Información de reservación</string>
     <!-- Itin flight generic terminal and gate template -->
-    <string name="generic_terminal_TEMPLATE">Terminal %1$s, puerta%2$s</string>
+    <string name="generic_terminal_TEMPLATE">Terminal %1$s, Puerta %2$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">Terminal de llegada %1$s, puerta%2$s</string>
+    <string name="arrival_terminal_TEMPLATE">Llega a la Terminal %1$s, puerta %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="departure_terminal_TEMPLATE">Terminal de salida %1$s, puerta%2$s</string>
+    <string name="departure_terminal_TEMPLATE">Sale de la Terminal %1$s, puerta %2$s</string>
     <!-- To be determined abbrev. -->
     <string name="to_be_determined_abbrev">A definir</string>
     <!-- Itin flight gate only template -->
-    <string name="gate_number_only_TEMPLATE">Puerta%1$s</string>
+    <string name="gate_number_only_TEMPLATE">Puerta %1$s</string>
     <!-- Itin flight arrive gate only template -->
-    <string name="arrive_gate_number_only_TEMPLATE">Puerta de llegada%1$s</string>
+    <string name="arrive_gate_number_only_TEMPLATE">Puerta de llegada %1$s</string>
     <!-- Itin flight depart gate only template -->
-    <string name="depart_gate_number_only_TEMPLATE">Puerta de salida%1$s</string>
+    <string name="depart_gate_number_only_TEMPLATE">Puerta de salida %1$s</string>
+    <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
+    <string name="Terminal_X_TEMPLATE">Terminal %1$s</string>
+    <!-- Special case for name of International Terminal -->
+    <string name="International_Terminal">Terminal internacional</string>
     <!-- Itin flight terminal only template -->
-    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s</string>
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Llega a la Terminal %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">Llega a la terminal %1$s</string>
-    <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">Sale de la terminal %1$s</string>
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Sale de la Terminal %1$s</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="at_airport_TEMPLATE">&lt;b&gt; en %1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
@@ -459,8 +467,9 @@
     <string name="itin_card_details_check_in">Check-in</string>
     <string name="itin_card_details_check_out">Check-out</string>
     <string name="itin_card_details_address">Dirección</string>
-    <string name="itin_card_details_phone">Teléfono</string>
+    <string name="itin_card_details_local_phone">Teléfono local</string>
     <string name="itin_card_details_room_type">Tipo de habitación</string>
+    <string name="itin_card_details_bed_type">Tipo de cama</string>
     <string name="toast_copied_to_clipboard">Se copió al porta papeles</string>
     <string name="itin_card_details_reload">Cargar de nuevo la información</string>
     <string name="itin_card_details_reload_activity">Cargar de nuevo la información de la actividad</string>
@@ -667,6 +676,18 @@
         <item quantity="many">%1$d adultos</item>
         <item quantity="other">%1$d adultos</item>
     </plurals>
+    <!-- Message shown when loading AirAsia flight routes -->
+    <string name="loading_air_asia_routes">Se están cargando las rutas de AirAsia…</string>
+    <!-- Message shown when we could not load the AirAsia flight routes -->
+    <string name="error_could_not_load_air_asia">No fue posible cargar las rutas de AirAsia</string>
+    <!-- Header row for airports that were used recently for a search -->
+    <string name="recent">Recientes</string>
+    <!-- Display for selected airport dropdown.  %1$s is the airport code, %2$s is the city, e.g. "(MSP) Minneapolis" -->
+    <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
+    <!-- Prompt for spinner dialog when selecting departure airport -->
+    <string name="prompt_departure_airport">Seleccionar el aeropuerto de salida</string>
+    <!-- Prompt for spinner dialog when selecting arrival airport -->
+    <string name="prompt_arrival_airport">Seleccionar el aeropuerto de llegada</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
@@ -701,12 +722,12 @@
     <string name="book_now_price_TEMPLATE">Reserva ahora por &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label, when there are only a few seats left.  %1$s is the number of seats, %2$s is the price - e.g., "3 left at $500" -->
     <plurals name="urgency_book_TEMPLATE">
-        <item quantity="zero">Quedan%1$s en &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="one">Quedan%1$s en &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="two">Quedan%1$s en &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="few">Quedan%1$s en &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="many">Quedan%1$s en &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="other">Quedan%1$s en &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="zero">Quedan %1$s en &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="one">Quedan %1$s en &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="two">Quedan %1$s en &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="few">Quedan %1$s en &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="many">Quedan %1$s en &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="other">Quedan %1$s en &lt;b&gt;%2$s&lt;/b&gt;</item>
     </plurals>
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
     <string name="fare_name_and_price_TEMPLATE">%1$s : %2$s</string>
@@ -737,7 +758,7 @@
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">Aplican cargos por equipaje de mano</string>
     <!-- A message for a flight that does not include baggage fees in the fare total -->
-    <string name="checked_baggage_not_included">El equipaje registrado no está incluido</string>
+    <string name="checked_baggage_not_included">El equipaje documentado no está incluido</string>
     <!-- Payment and baggage fees may apply -->
     <string name="payment_and_baggage_fees_may_apply">Es posible que apliquen cargos por pago</string>
     <!-- Additional Flight fare fees -->
@@ -1077,6 +1098,8 @@
     <string name="add_to_flighttrack">Rastrea el vuelo con Flight Track</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_expedia_customer_support">Llama al Servicio de atención a clientes de Expedia</string>
+    <!-- Button label for VSC support webpage link -->
+    <string name="vsc_customer_support">Comunícate con nosotros</string>
     <!-- Add Insurance label -->
     <string name="add_insurance">Agregar seguro</string>
     <!-- Insurance -->
@@ -1198,7 +1221,6 @@
     <string name="share_flight_section_outbound">Viaje de ida:</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">Viaje de regreso: </string>
-
     <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
@@ -1218,6 +1240,8 @@
     <string name="who_is_going">&lt;b&gt;¿Quién&lt;/b&gt; viaja?</string>
     <!-- Child age dialog button -->
     <string name="button_done">Listo</string>
+    <!-- Done button text in hotel Confirmation screen for VSC -->
+    <string name="button_done_vsc_confirmation">Listo</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">Selecciona la edad del niño</item>
@@ -1720,9 +1744,9 @@
     <!-- Reservation summary label -->
     <string name="reservation_summary">Resumen de la reservación</string>
     <!-- Confirmation number label -->
-    <string name="confirmation_number">N.° de confirmación</string>
+    <string name="confirmation_number">No. de confirmación</string>
     <!-- Itinerary number label -->
-    <string name="itinerary_number">N.° de itinerario</string>
+    <string name="itinerary_number">No. de itinerario</string>
     <!-- Confirmation email label -->
     <string name="confirmation_email">Correo electrónico de confirmación</string>
     <!-- ActionBar button for starting a new search -->
@@ -1795,6 +1819,8 @@
     <string name="logged_in_as">Haz iniciado sesión como</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">Cuenta de Expedia</string>
+    <!-- Label for signin screen -->
+    <string name="vsc_account">Cuenta de VSC</string>
     <!-- Label for loading user profile from expedia.com -->
     <string name="loading_expedia_account">Cargando la cuenta de Expedia</string>
     <!-- Label for password recovery -->

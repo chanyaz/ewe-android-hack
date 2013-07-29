@@ -29,9 +29,13 @@
     <!-- Log In -->
     <string name="Log_In">登录</string>
     <!-- Log in with Expedia -->
-    <string name="Log_in_with_Expedia">登录 Expedia</string>
+    <string name="Log_in_with_Expedia">使用 Expedia 帐户登录</string>
+    <!-- Log in with VSC -->
+    <string name="Log_in_with_VSC">使用 VSC 帐户登录</string>
     <!-- or -->
     <string name="or">或</string>
+    <!-- Already logged in -->
+    <string name="already_logged_in">已经登录</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Home -->
@@ -110,6 +114,8 @@
     <string name="find_itinerary_pound">查找行程编号</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">Expedia 行程编号</string>
+    <!-- Elite plus customer support -->
+    <string name="elite_plus_customer_support">Elite Plus 客户支持</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">近期无旅行计划。</string>
     <!-- Enter itinerary number -->
@@ -186,11 +192,11 @@
     <!-- Booking info label -->
     <string name="booking_info">预订信息</string>
     <!-- Itin flight generic terminal and gate template -->
-    <string name="generic_terminal_TEMPLATE">航站楼 %1$s，登机口 %2$s</string>
+    <string name="generic_terminal_TEMPLATE">%1$s航站楼；登机口：%2$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">到达航站楼 %1$s，登机口 %2$s</string>
+    <string name="arrival_terminal_TEMPLATE">到达航站楼：%1$s；登机口：%2$s</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="departure_terminal_TEMPLATE">出港航站楼 %1$s，登机口 %2$s</string>
+    <string name="departure_terminal_TEMPLATE">出发航站楼：%1$s；登机口：%2$s</string>
     <!-- To be determined abbrev. -->
     <string name="to_be_determined_abbrev">待定</string>
     <!-- Itin flight gate only template -->
@@ -199,12 +205,14 @@
     <string name="arrive_gate_number_only_TEMPLATE">到达登机口 %1$s</string>
     <!-- Itin flight depart gate only template -->
     <string name="depart_gate_number_only_TEMPLATE">出发登机口 %1$s</string>
+    <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
+    <string name="Terminal_X_TEMPLATE">航站楼%1$s</string>
+    <!-- Special case for name of International Terminal -->
+    <string name="International_Terminal">国际航站楼</string>
     <!-- Itin flight terminal only template -->
-    <string name="terminal_but_no_gate_TEMPLATE">航站楼%1$s</string>
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">到达航站楼：%1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">到达航站楼 %1$s</string>
-    <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">出港航站楼 %1$s</string>
+    <string name="depart_terminal_but_no_gate_TEMPLATE">出发航站楼：%1$s</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="at_airport_TEMPLATE">&lt;b&gt;抵达 %1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
@@ -459,8 +467,9 @@
     <string name="itin_card_details_check_in">入住</string>
     <string name="itin_card_details_check_out">退房</string>
     <string name="itin_card_details_address">地址</string>
-    <string name="itin_card_details_phone">电话</string>
+    <string name="itin_card_details_local_phone">当地电话</string>
     <string name="itin_card_details_room_type">客房类型</string>
+    <string name="itin_card_details_bed_type">床铺类型</string>
     <string name="toast_copied_to_clipboard">已复制到剪切板。</string>
     <string name="itin_card_details_reload">重新加载信息</string>
     <string name="itin_card_details_reload_activity">重新加载活动信息</string>
@@ -667,6 +676,18 @@
         <item quantity="many">%1$d 位成人</item>
         <item quantity="other">%1$d 位成人</item>
     </plurals>
+    <!-- Message shown when loading AirAsia flight routes -->
+    <string name="loading_air_asia_routes">正在加载亚航航线…</string>
+    <!-- Message shown when we could not load the AirAsia flight routes -->
+    <string name="error_could_not_load_air_asia">无法加载亚航航线</string>
+    <!-- Header row for airports that were used recently for a search -->
+    <string name="recent">最近</string>
+    <!-- Display for selected airport dropdown.  %1$s is the airport code, %2$s is the city, e.g. "(MSP) Minneapolis" -->
+    <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
+    <!-- Prompt for spinner dialog when selecting departure airport -->
+    <string name="prompt_departure_airport">选择出发机场</string>
+    <!-- Prompt for spinner dialog when selecting arrival airport -->
+    <string name="prompt_arrival_airport">选择到达机场</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
@@ -1077,6 +1098,8 @@
     <string name="add_to_flighttrack">使用 FlightTrack 跟踪航班</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_expedia_customer_support">致电 Expedia 客户支持部门</string>
+    <!-- Button label for VSC support webpage link -->
+    <string name="vsc_customer_support">联系我们</string>
     <!-- Add Insurance label -->
     <string name="add_insurance">添加保险</string>
     <!-- Insurance -->
@@ -1198,7 +1221,6 @@
     <string name="share_flight_section_outbound">出发：</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">返程：</string>
-
     <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
@@ -1218,6 +1240,8 @@
     <string name="who_is_going">&lt;b&gt;有谁&lt;/b&gt;一同旅行？</string>
     <!-- Child age dialog button -->
     <string name="button_done">完成</string>
+    <!-- Done button text in hotel Confirmation screen for VSC -->
+    <string name="button_done_vsc_confirmation">完成</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">选择儿童年龄</item>
@@ -1795,6 +1819,8 @@
     <string name="logged_in_as">登录身份</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">Expedia 帐户</string>
+    <!-- Label for signin screen -->
+    <string name="vsc_account">VSC 帐户</string>
     <!-- Label for loading user profile from expedia.com -->
     <string name="loading_expedia_account">正在加载 Expedia 帐户</string>
     <!-- Label for password recovery -->

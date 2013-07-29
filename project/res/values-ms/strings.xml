@@ -30,8 +30,12 @@
     <string name="Log_In">Log Masuk</string>
     <!-- Log in with Expedia -->
     <string name="Log_in_with_Expedia">Log masuk dengan Expedia</string>
+    <!-- Log in with VSC -->
+    <string name="Log_in_with_VSC">Log masuk dengan VSC</string>
     <!-- or -->
     <string name="or">atau</string>
+    <!-- Already logged in -->
+    <string name="already_logged_in">Sudah pun log masuk</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Home -->
@@ -47,7 +51,7 @@
     <!-- Label for launch screen hotel button secondary text -->
     <string name="launch_hotel_secondary_text">Dapatkan bilik.</string>
     <!-- Label for launch screen flight button secondary text -->
-    <string name="launch_flight_secondary_text">Pergi bercuti.</string>
+    <string name="launch_flight_secondary_text">Pergilah bercuti.</string>
     <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
     <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;Terbang ke&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
@@ -110,6 +114,8 @@
     <string name="find_itinerary_pound">Cari # Jadual Perjalanan</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary"># Jadual Perjlnan Expedia</string>
+    <!-- Elite plus customer support -->
+    <string name="elite_plus_customer_support">Sokongan Pelanggan Elite Plus</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Tiada perjalanan akan datang.</string>
     <!-- Enter itinerary number -->
@@ -199,8 +205,10 @@
     <string name="arrive_gate_number_only_TEMPLATE">Tiba Pintu %1$s</string>
     <!-- Itin flight depart gate only template -->
     <string name="depart_gate_number_only_TEMPLATE">Berlepas Pintu %1$s</string>
-    <!-- Itin flight terminal only template -->
-    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s</string>
+    <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
+    <string name="Terminal_X_TEMPLATE">Terminal %1$s</string>
+    <!-- Special case for name of International Terminal -->
+    <string name="International_Terminal">Terminal Antarabangsa</string>
     <!-- Itin flight terminal only template -->
     <string name="arrive_terminal_but_no_gate_TEMPLATE">Tiba Terminal %1$s</string>
     <!-- Itin flight terminal only template -->
@@ -355,7 +363,7 @@
     <!-- Second half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
     <string name="attraction_entertainment_second">hiburan terbaik</string>
     <!-- First half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
-    <string name="attraction_music_first">Dapatkan</string>
+    <string name="attraction_music_first">Cari</string>
     <!-- Second half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
     <string name="attraction_music_second">muzik tempatan</string>
     <!-- First half of phrase about local expert VIP status attraction.  Full phrase: "Arrive with VIP Status" -->
@@ -459,8 +467,9 @@
     <string name="itin_card_details_check_in">Daftar Masuk</string>
     <string name="itin_card_details_check_out">Daftar Keluar</string>
     <string name="itin_card_details_address">Alamat</string>
-    <string name="itin_card_details_phone">Telefon</string>
+    <string name="itin_card_details_local_phone">Telefon Tempatan</string>
     <string name="itin_card_details_room_type">Jenis Bilik</string>
+    <string name="itin_card_details_bed_type">Jenis Katil</string>
     <string name="toast_copied_to_clipboard">Disalinkan pada papan keratan.</string>
     <string name="itin_card_details_reload">Muat Semula Makl</string>
     <string name="itin_card_details_reload_activity">Muat Semula Makl Aktiviti</string>
@@ -629,7 +638,7 @@
     <!-- Title of a message shown to user explaining functionality that is not yet implemented but will be shortly -->
     <string name="india_domestic_flights_not_available_title">Akan Datang Tidak Lama Lagi!</string>
     <!-- Message shown to user when they attempt a flight search against the India point of sale that is domestic (which we don't support yet) -->
-    <string name="india_domestic_flights_not_available_body">Kami bekerja keras untuk menambah penerbangan domestik dalam versi yang akan datang.</string>
+    <string name="india_domestic_flights_not_available_body">Kami gigih berusaha untuk menambah penerbangan domestik dalam versi yang akan datang.</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">Pilih penerbangan ke %1$s</string>
     <!-- Select a flight back to (city name) -->
@@ -667,6 +676,18 @@
         <item quantity="many">%1$d Dewasa</item>
         <item quantity="other">%1$d Dewasa</item>
     </plurals>
+    <!-- Message shown when loading AirAsia flight routes -->
+    <string name="loading_air_asia_routes">Memuatkan laluan AirAsia</string>
+    <!-- Message shown when we could not load the AirAsia flight routes -->
+    <string name="error_could_not_load_air_asia">Tidak dapat memuatkan laluan AirAsia</string>
+    <!-- Header row for airports that were used recently for a search -->
+    <string name="recent">Terbaru</string>
+    <!-- Display for selected airport dropdown.  %1$s is the airport code, %2$s is the city, e.g. "(MSP) Minneapolis" -->
+    <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
+    <!-- Prompt for spinner dialog when selecting departure airport -->
+    <string name="prompt_departure_airport">Pilih lapangan terbang berlepas</string>
+    <!-- Prompt for spinner dialog when selecting arrival airport -->
+    <string name="prompt_arrival_airport">Pilih lapangan terbang ketibaan</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
@@ -823,7 +844,7 @@
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Kad anda akan dicaj %1$s</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">Amaun untuk dibayar sekarang %1$s</string>
+    <string name="Amount_to_be_paid_now_TEMPLATE">Jumlah utk dibyr skrg %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">Utk dikutip oleh hotel: %1$s</string>
     <!-- Checkout menu item -->
@@ -1077,6 +1098,8 @@
     <string name="add_to_flighttrack">Jejaki dengan FlightTrack</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_expedia_customer_support">Hubungi Skngn Pelanggan Expedia</string>
+    <!-- Button label for VSC support webpage link -->
+    <string name="vsc_customer_support">Hubungi Kami</string>
     <!-- Add Insurance label -->
     <string name="add_insurance">Tambah Insurans</string>
     <!-- Insurance -->
@@ -1191,14 +1214,13 @@
     <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_round_trip_TEMPLATE">Di sini adalah butiran penerbangan pergi balik saya dari %1$s ke %2$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
-    <string name="share_flight_itinerary_TEMPLATE"># Jadual Perjalanan: %s</string>
+    <string name="share_flight_itinerary_TEMPLATE">No. Jadual Perjalanan: %s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
     <string name="share_travelers_section">Pengembara:</string>
     <!-- Header for the outbound flight details section of the share flight email -->
     <string name="share_flight_section_outbound">Keluar:</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">Kembali:</string>
-
     <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
@@ -1218,6 +1240,8 @@
     <string name="who_is_going">&lt;b&gt;Siapakah&lt;/b&gt; yang akan pergi?</string>
     <!-- Child age dialog button -->
     <string name="button_done">Selesai</string>
+    <!-- Done button text in hotel Confirmation screen for VSC -->
+    <string name="button_done_vsc_confirmation">Selesai</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">Pilih umur kanak-kanak</item>
@@ -1441,7 +1465,7 @@
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>
-    <string name="x_percent_guests_recommend">%2.0f%% drpd tetamu mengesyorkan hotel ini.</string>
+    <string name="x_percent_guests_recommend">%2.0f%% tetamu mengesyorkan hotel ini.</string>
 
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->
@@ -1795,6 +1819,8 @@
     <string name="logged_in_as">Sudah log masuk sebagai</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">Akaun Expedia</string>
+    <!-- Label for signin screen -->
+    <string name="vsc_account">Akaun VSC</string>
     <!-- Label for loading user profile from expedia.com -->
     <string name="loading_expedia_account">Memuatkan Akaun Expedia</string>
     <!-- Label for password recovery -->
@@ -2470,7 +2496,7 @@
     <!-- Your flight to _ delayed _ hours _ minute TEMPLATE (short version) -->
     <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_short">Lewat selama %2$s jam %3$s minit.</string>
     <!-- Your flight to _ delayed _ hours _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_short">Lewat selama %2$s hours %3$s minutes.</string>
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_short">Lewat selama %2$s jam %3$s minit.</string>
     <!-- Your flight to _ departs _ minute early TEMPLATE (short version) -->
     <string name="S_Push_flight_CITY_early_MINUTE_short">Berlepas %2$s minit lebih awal.</string>
     <!-- Your flight to _ departs _ minutes early  TEMPLATE (short version) -->
@@ -2566,7 +2592,7 @@
     <string name="cd_launch_open_eb_info_screen">Buka skrin maklumat Tempahan Expedia</string>
     <!-- Trips Screen -->
     <!-- Content description for action: Press to refresh trips list -->
-    <string name="cd_trips_refresh_trips_list">Tekan untuk menmuatkan semula senarai perjalanan</string>
+    <string name="cd_trips_refresh_trips_list">Tekan untuk memuatkan semula senarai perjalanan</string>
     <!-- Hotel Search Screen -->
     <!-- Content description for action: Enter text into Hotel Search Field -->
     <string name="cd_hotel_search_edittext">Masukkan teks ke dalam Bidang carian hotel</string>
@@ -2581,7 +2607,7 @@
     <!-- Content description for action: Press to open hotel sort options -->
     <string name="cd_hotel_search_open_sort_options">Buka pilihan susun hotel</string>
     <!-- Content description for action: Switch to map view - hotels search -->
-    <string name="cd_hotel_search_switch_to_map_view">Tukar kepada paparan pata</string>
+    <string name="cd_hotel_search_switch_to_map_view">Tukar kepada paparan peta</string>
     <!-- Content description for action: Switch to list view - hotels search -->
     <string name="cd_hotel_search_switch_to_list_view">Tukar kepada paparan senarai</string>
     <!-- Hotel sort options -->
@@ -2600,9 +2626,9 @@
     <string name="cd_filter_by_hotel_name">Masukkan teks ke dalam bidang teks tapisan hotel</string>
     <!-- Hotel star filters -->
     <!-- Content description for action: Press to filter for hotels hotels with three or more stars -->
-    <string name="cd_filter_hotels_for_three_or_more_stars">Tekan untuk tapisan hotel dengan tiga atau lebih bintang</string>
+    <string name="cd_filter_hotels_for_three_or_more_stars">Tekan untuk menapis hotel dengan tiga atau lebih bintang</string>
     <!-- Content description for action: Press to filter for hotels hotels with four or more stars -->
-    <string name="cd_filter_hotels_for_four_or_more_stars">Tekan untuk tapisan hotel dengan empat atau lebih bintang</string>
+    <string name="cd_filter_hotels_for_four_or_more_stars">Tekan untuk menapis hotel dengan empat atau lebih bintang</string>
     <!-- Content description for action: Press to filter for hotels with five stars -->
     <string name="cd_filter_hotels_for_five_stars">Tekan untuk menapis hotel dengan lima bintang</string>
     <!-- Content description for action: Press to remove hotel star filters -->
@@ -2638,9 +2664,9 @@
     <!-- Content description for action: Press to display recent reviews -->
     <string name="cd_display_recent_reviews">Tekan untuk memaparkan ulasan terkini</string>
     <!-- Content description for action: Press to display favorable reviews -->
-    <string name="cd_display_favorable_reviews">Tekan untuk mamaparkan ulasan menyokong</string>
+    <string name="cd_display_favorable_reviews">Tekan untuk memaparkan ulasan menyokong</string>
     <!-- Content description for action: Press to display critical reviews -->
-    <string name="cd_display_critical_reviews">Tekan untuk mamaparkan ulasan kritikal</string>
+    <string name="cd_display_critical_reviews">Tekan untuk memaparkan ulasan kritikal</string>
     <!-- Flight Search -->
     <!-- Content description for action: Edit departure airport -->
     <string name="cd_flights_search_departure_edit_text">Edit lapangan terbang berlepas</string>
@@ -2686,7 +2712,7 @@
     <!-- Content description for action: Press to add a traveler to this booking -->
     <string name="cd_checkout_add_traveler">Tekan untuk menambahkan pengembara kepada tempahan ini</string>
     <!-- Content description for action: Press to select payment for this booking -->
-    <string name="cd_checkout_select_payment">Tekan untuk memilih pembayaran bagi tempahan</string>
+    <string name="cd_checkout_select_payment">Tekan untuk memilih pembayaran bagi tempahan ini</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="cd_checkout_enter_coupon">Tekan untuk memasukkan kod kupon atau promosi</string>
     <!-- Content description for action: Enter coupon or promotional code into text field -->

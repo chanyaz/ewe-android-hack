@@ -30,8 +30,12 @@
     <string name="Log_In">เข้าระบบ</string>
     <!-- Log in with Expedia -->
     <string name="Log_in_with_Expedia">เข้าสู่ระบบด้วยเอ็กซ์พีเดีย</string>
+    <!-- Log in with VSC -->
+    <string name="Log_in_with_VSC">เข้าสู่ระบบด้วย VSC</string>
     <!-- or -->
     <string name="or">หรือ</string>
+    <!-- Already logged in -->
+    <string name="already_logged_in">เข้าสู่ระบบแล้ว</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Home -->
@@ -101,23 +105,25 @@
 
     <!-- Itineraries -->
     <!-- Itinerary -->
-    <string name="itinerary">แผนเดินทาง</string>
+    <string name="itinerary">แผนการเดินทาง</string>
     <!-- Shop -->
     <string name="shop">ช้อป</string>
     <!-- Find Itinerary -->
-    <string name="find_itinerary">ค้นหาแผนเดินทาง</string>
+    <string name="find_itinerary">ค้นหาแผนการเดินทาง</string>
     <!-- Find Itinerary # -->
-    <string name="find_itinerary_pound">ค้นหาแผนเดินทาง #</string>
+    <string name="find_itinerary_pound">ค้นหาแผนการเดินทาง #</string>
     <!-- Expedia Itinerary -->
-    <string name="expedia_itinerary">หมายเลขแผนเดินทางเอ็กซ์พีเดีย:</string>
+    <string name="expedia_itinerary">หมายเลขแผนการเดินทางเอ็กซ์พีเดีย:</string>
+    <!-- Elite plus customer support -->
+    <string name="elite_plus_customer_support">ฝ่ายบริการลูกค้า Elite Plus</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">ไม่มีการเดินทางเร็วๆ นี้</string>
     <!-- Enter itinerary number -->
-    <string name="enter_itinerary_number">ป้อนหมายเลขแผนเดินทาง</string>
+    <string name="enter_itinerary_number">ป้อนหมายเลขแผนการเดินทาง</string>
     <!-- Fetching your itinerary -->
-    <string name="fetching_your_itinerary">กำลังเรียกแผนเดินทางของคุณ…</string>
+    <string name="fetching_your_itinerary">กำลังเรียกแผนการเดินทางของคุณ…</string>
     <!-- Error fetching itinerary -->
-    <string name="itinerary_fetch_error">มีข้อผิดพลาดในการเรียกแผนเดินทาง</string>
+    <string name="itinerary_fetch_error">มีข้อผิดพลาดในการเรียกแผนการเดินทาง</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;ล็อกอิน&lt;/b&gt; เพือเข้าสู่ทริปของคุณ</string>
     <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
@@ -168,9 +174,9 @@
     <!-- Activity information -->
     <string name="activity_information">ข้อมูลกิจกรรม</string>
     <!-- Depart (TZ) template -->
-    <string name="depart_tz_TEMPLATE">ออกจาก %1$s</string>
+    <string name="depart_tz_TEMPLATE">ขาออก %1$s</string>
     <!-- Arrive (TZ) template -->
-    <string name="arrive_tz_TEMPLATE">ไปยัง %1$s</string>
+    <string name="arrive_tz_TEMPLATE">ขาเข้า %1$s</string>
     <!-- Flight Confirmation code label -->
     <string name="flight_confirmation_code_label">รหัสยืนยันเที่ยวบิน</string>
     <!-- Flight Carrier confirmation code label template -->
@@ -186,11 +192,11 @@
     <!-- Booking info label -->
     <string name="booking_info">ข้อมูลการจอง</string>
     <!-- Itin flight generic terminal and gate template -->
-    <string name="generic_terminal_TEMPLATE">อาคารผู้โดยสาร %1$s ประตู %2$s</string>
+    <string name="generic_terminal_TEMPLATE">%1$s, ประตู %2$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">อาคารผู้โดยสารขาเข้า %1$s ประตู %2$s</string>
+    <string name="arrival_terminal_TEMPLATE">ขาเข้า %1$s, ประตู %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="departure_terminal_TEMPLATE">อาคารผู้โดยสารขาออก %1$s ประตู %2$s</string>
+    <string name="departure_terminal_TEMPLATE">ขาออก %1$s, ประตู %2$s</string>
     <!-- To be determined abbrev. -->
     <string name="to_be_determined_abbrev">TBD</string>
     <!-- Itin flight gate only template -->
@@ -199,12 +205,14 @@
     <string name="arrive_gate_number_only_TEMPLATE">ประตูผู้โดยสารขาเข้า %1$s</string>
     <!-- Itin flight depart gate only template -->
     <string name="depart_gate_number_only_TEMPLATE">ประตูผู้โดยสารขาออก %1$s</string>
+    <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
+    <string name="Terminal_X_TEMPLATE">อาคารผู้โดยสาร %1$s</string>
+    <!-- Special case for name of International Terminal -->
+    <string name="International_Terminal">อาคารผู้โดยสารระหว่างประเทศ</string>
     <!-- Itin flight terminal only template -->
-    <string name="terminal_but_no_gate_TEMPLATE">อาคารผู้โดยสาร %1$s</string>
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">ขาเข้า %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">อาคารผู้โดยสารขาเข้า %1$s</string>
-    <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">อาคารผู้โดยสารขาออก %1$s</string>
+    <string name="depart_terminal_but_no_gate_TEMPLATE">ขาออก %1$s</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="at_airport_TEMPLATE">&lt;b&gt;ที่ %1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
@@ -216,7 +224,7 @@
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
     <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;จาก %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin logout confirmation message -->
-    <string name="itin_logout_confirmation_message_TEMPLATE">การออกจากระบบ %1$s จะเป็นการลบข้อมูลแผนเดินทางที่เกี่ยวข้องกับบัญชีนี้ แน่ใจว่าต้องการออกจากระบบ?</string>
+    <string name="itin_logout_confirmation_message_TEMPLATE">การออกจากระบบ %1$s จะเป็นการลบข้อมูลแผนการเดินทางที่เกี่ยวข้องกับบัญชีนี้ แน่ใจว่าต้องการออกจากระบบ?</string>
     <!-- Directions -->
     <string name="directions">เส้นทาง</string>
     <!-- Terminal Map -->
@@ -459,8 +467,9 @@
     <string name="itin_card_details_check_in">เช็คอิน</string>
     <string name="itin_card_details_check_out">เช็คเอาท์</string>
     <string name="itin_card_details_address">ที่อยู่</string>
-    <string name="itin_card_details_phone">โทรศัพท์</string>
+    <string name="itin_card_details_local_phone">โทรศัพท์ในประเทศ</string>
     <string name="itin_card_details_room_type">ประเภทห้อง</string>
+    <string name="itin_card_details_bed_type">ประเภทเตียง</string>
     <string name="toast_copied_to_clipboard">คัดลอกไปยังคลิปบอร์ด</string>
     <string name="itin_card_details_reload">โหลดข้อมูลใหม่</string>
     <string name="itin_card_details_reload_activity">โหลดข้อมูลกิจกรรมใหม่</string>
@@ -519,7 +528,7 @@
     <!-- Link to more information about the hotel -->
     <string name="share_template_long_hotel_5_more_info">ข้อมูลเพิ่มเติม\n%s</string>
     <!-- App download link -->
-    <string name="share_template_long_ad">จองโรงแรม เที่ยวบิน ดูและแบ่งปันแผนเดินทางของคุณ ดาวน์โหลดแอพฯ ฟรีสำหรับมือถือจากเอ็กซ์พีเดียวันนี้\n%s</string>
+    <string name="share_template_long_ad">จองโรงแรม เที่ยวบิน ดูและแบ่งปันแผนการเดินทางของคุณ ดาวน์โหลดแอพฯ ฟรีสำหรับมือถือจากเอ็กซ์พีเดียวันนี้\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">เที่ยวบินของฉันไปยัง %1$s ใน %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
@@ -667,6 +676,18 @@
         <item quantity="many">ผู้ใหญ่ %1$d</item>
         <item quantity="other">ผู้ใหญ่ %1$d</item>
     </plurals>
+    <!-- Message shown when loading AirAsia flight routes -->
+    <string name="loading_air_asia_routes">กำลังโหลดเส้นทางของ AirAsia…</string>
+    <!-- Message shown when we could not load the AirAsia flight routes -->
+    <string name="error_could_not_load_air_asia">ไม่สามารถโหลดเส้นทางของ AirAsia</string>
+    <!-- Header row for airports that were used recently for a search -->
+    <string name="recent">ล่าสุด</string>
+    <!-- Display for selected airport dropdown.  %1$s is the airport code, %2$s is the city, e.g. "(MSP) Minneapolis" -->
+    <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
+    <!-- Prompt for spinner dialog when selecting departure airport -->
+    <string name="prompt_departure_airport">เลือกสนามบินขาออก</string>
+    <!-- Prompt for spinner dialog when selecting arrival airport -->
+    <string name="prompt_arrival_airport">เลือกสนามบินขาเข้า</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
@@ -1077,6 +1098,8 @@
     <string name="add_to_flighttrack">ติดตามด้วย FlightTrack</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_expedia_customer_support">โทรติดต่อฝ่ายสนับสนุนลูกค้าเอ็กซ์พีเดีย</string>
+    <!-- Button label for VSC support webpage link -->
+    <string name="vsc_customer_support">ติดต่อเรา</string>
     <!-- Add Insurance label -->
     <string name="add_insurance">เพิ่มประกันภัย</string>
     <!-- Insurance -->
@@ -1096,7 +1119,7 @@
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
     <string name="calendar_flight_location_TEMPLATE">%1$s, %2$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_flight_desc_itinerary_TEMPLATE">หมายเลขแผนเดินทางเอ็กซ์พีเดีย: %s</string>
+    <string name="calendar_flight_desc_itinerary_TEMPLATE">หมายเลขแผนการเดินทางเอ็กซ์พีเดีย: %s</string>
     <!-- Part of the description, showing a link to directions.  %s is the directions link, e.g. "Directions to airport: http://url-to-map-to-airport" -->
     <string name="calendar_flight_desc_directions_TEMPLATE">เส้นทางไปสนามบิน: %s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
@@ -1152,7 +1175,7 @@
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
     <string name="error_flight_unhandled">ขออภัย เราไม่สามารถดำเนินการกับคำสั่งซื้อของคุณได้ในตอนนี้ โปรดลองใหม่อีกครั้ง</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE">ขออภัย เราไม่สามารถดำเนินการกับคำสั่งซื้อของคุณได้ในตอนนี้ โปรดลองใหม่อีกครั้ง หรือโทรไปที่ฝ่ายบริการลูกค้าของเอ็กซ์พีเดีย และแจ้งหมายเลขแผนเดินทางนี้: %s</string>
+    <string name="error_flight_unhandled_TEMPLATE">ขออภัย เราไม่สามารถดำเนินการกับคำสั่งซื้อของคุณได้ในตอนนี้ โปรดลองใหม่อีกครั้ง หรือโทรไปที่ฝ่ายบริการลูกค้าของเอ็กซ์พีเดีย และแจ้งหมายเลขแผนการเดินทางนี้: %s</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
     <string name="error_flight_no_longer_available">ขออภัย เที่ยวบินของคุณไม่มีให้บริการแล้ว</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
@@ -1191,14 +1214,13 @@
     <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_round_trip_TEMPLATE">นี่คือรายละเอียดเที่ยวบินไป-กลับจาก %1$s ไปยัง %2$s</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
-    <string name="share_flight_itinerary_TEMPLATE">หมายเลขแผนเดินทาง: %s</string>
+    <string name="share_flight_itinerary_TEMPLATE">หมายเลขแผนการเดินทาง: %s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
     <string name="share_travelers_section">ผู้เดินทาง:</string>
     <!-- Header for the outbound flight details section of the share flight email -->
     <string name="share_flight_section_outbound">ขาออก:</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">กลับ:</string>
-
     <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
@@ -1218,6 +1240,8 @@
     <string name="who_is_going">&lt;b&gt;ใคร&lt;/b&gt;จะไปบ้าง</string>
     <!-- Child age dialog button -->
     <string name="button_done">เสร็จ</string>
+    <!-- Done button text in hotel Confirmation screen for VSC -->
+    <string name="button_done_vsc_confirmation">เสร็จ</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">โปรดระบุอายุเด็ก</item>
@@ -1722,7 +1746,7 @@
     <!-- Confirmation number label -->
     <string name="confirmation_number">รหัสการยืนยัน</string>
     <!-- Itinerary number label -->
-    <string name="itinerary_number">หมายเลขแผนเดินทาง</string>
+    <string name="itinerary_number">หมายเลขแผนการเดินทาง</string>
     <!-- Confirmation email label -->
     <string name="confirmation_email">อีเมลยืนยัน</string>
     <!-- ActionBar button for starting a new search -->
@@ -1795,6 +1819,8 @@
     <string name="logged_in_as">เข้าระบบของ</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">บัญชี Expedia</string>
+    <!-- Label for signin screen -->
+    <string name="vsc_account">บัญชี VSC</string>
     <!-- Label for loading user profile from expedia.com -->
     <string name="loading_expedia_account">กำลังโหลดบัญชี Expedia</string>
     <!-- Label for password recovery -->
@@ -1822,9 +1848,9 @@
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
     <string name="share_subject_dash_template">%1$s - %2$s</string>
     <!-- The title of the share subject line -->
-    <string name="share_subject_title">แผนเดินทางเอ็กซ์พีเดีย</string>
+    <string name="share_subject_title">แผนการเดินทางเอ็กซ์พีเดีย</string>
     <!-- Subject property name template. -->
-    <string name="share_subject_template">แผนเดินทางเอ็กซ์พีเดีย -</string>
+    <string name="share_subject_template">แผนการเดินทางเอ็กซ์พีเดีย -</string>
     <!-- Subject dates template. 1$ and 2$ are the ` ranges (e.g., 3/21 - 3/24) -->
     <string name="share_subject_template_dates">(%1$s - %2$s)</string>
     <!-- Preset at the top of the share body message -->

@@ -30,8 +30,12 @@
     <string name="Log_In">Aanmelden</string>
     <!-- Log in with Expedia -->
     <string name="Log_in_with_Expedia">Aanmelden bij Expedia</string>
+    <!-- Log in with VSC -->
+    <string name="Log_in_with_VSC">Aanmelden met VSC</string>
     <!-- or -->
     <string name="or">of</string>
+    <!-- Already logged in -->
+    <string name="already_logged_in">Al aangemeld</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Home -->
@@ -110,6 +114,8 @@
     <string name="find_itinerary_pound">Reisplannr. zoeken</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">Expedia reisplannr.</string>
+    <!-- Elite plus customer support -->
+    <string name="elite_plus_customer_support">Elite Plus klantenservice</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Geen toekomstige reizen</string>
     <!-- Enter itinerary number -->
@@ -188,9 +194,9 @@
     <!-- Itin flight generic terminal and gate template -->
     <string name="generic_terminal_TEMPLATE">Terminal %1$s, Gate %2$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">Aankomstterminal %1$s, Gate %2$s</string>
+    <string name="arrival_terminal_TEMPLATE">Aankomst op terminal %1$s, Gate %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="departure_terminal_TEMPLATE">Vertrekterminal %1$s, Gate %2$s</string>
+    <string name="departure_terminal_TEMPLATE">Vertrek vanaf terminal %1$s, Gate %2$s</string>
     <!-- To be determined abbrev. -->
     <string name="to_be_determined_abbrev">TBD</string>
     <!-- Itin flight gate only template -->
@@ -199,12 +205,14 @@
     <string name="arrive_gate_number_only_TEMPLATE">Aankomst Gate %1$s</string>
     <!-- Itin flight depart gate only template -->
     <string name="depart_gate_number_only_TEMPLATE">Vertrek Gate %1$s</string>
+    <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
+    <string name="Terminal_X_TEMPLATE">Terminal %1$s</string>
+    <!-- Special case for name of International Terminal -->
+    <string name="International_Terminal">Internationale terminal</string>
     <!-- Itin flight terminal only template -->
-    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s</string>
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Aankomst op terminal %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">Aankomst Terminal %1$s</string>
-    <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">Vertrek Terminal %1$s</string>
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Vertrek vanaf terminal %1$s</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="at_airport_TEMPLATE">&lt;b&gt;Op %1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
@@ -459,8 +467,9 @@
     <string name="itin_card_details_check_in">Inchecken</string>
     <string name="itin_card_details_check_out">Uitchecken</string>
     <string name="itin_card_details_address">Adres</string>
-    <string name="itin_card_details_phone">Telefoon</string>
+    <string name="itin_card_details_local_phone">Lokaal telefoonnr.</string>
     <string name="itin_card_details_room_type">Kamertype</string>
+    <string name="itin_card_details_bed_type">Bedtype</string>
     <string name="toast_copied_to_clipboard">Gekopieerd naar het klembord.</string>
     <string name="itin_card_details_reload">Informatie opnieuw laden</string>
     <string name="itin_card_details_reload_activity">Activiteiteninfo opnieuw laden</string>
@@ -667,6 +676,18 @@
         <item quantity="many">%1$d volwassenen</item>
         <item quantity="other">%1$d volwassenen</item>
     </plurals>
+    <!-- Message shown when loading AirAsia flight routes -->
+    <string name="loading_air_asia_routes">Laden van AirAsia-routes …</string>
+    <!-- Message shown when we could not load the AirAsia flight routes -->
+    <string name="error_could_not_load_air_asia">Kon AirAsia-routes niet laden</string>
+    <!-- Header row for airports that were used recently for a search -->
+    <string name="recent">Recent</string>
+    <!-- Display for selected airport dropdown.  %1$s is the airport code, %2$s is the city, e.g. "(MSP) Minneapolis" -->
+    <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
+    <!-- Prompt for spinner dialog when selecting departure airport -->
+    <string name="prompt_departure_airport">Kies luchthaven van vertrek</string>
+    <!-- Prompt for spinner dialog when selecting arrival airport -->
+    <string name="prompt_arrival_airport">Kies luchthaven van aankomst</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
@@ -1078,6 +1099,8 @@
     <string name="add_to_flighttrack">Volg met FlightTrack</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_expedia_customer_support">Bel de Expedia klantenservice</string>
+    <!-- Button label for VSC support webpage link -->
+    <string name="vsc_customer_support">Neem contact met ons op</string>
     <!-- Add Insurance label -->
     <string name="add_insurance">Verzekering toevoegen</string>
     <!-- Insurance -->
@@ -1199,7 +1222,6 @@
     <string name="share_flight_section_outbound">Heenreis:</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">Terugreis:</string>
-
     <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
@@ -1219,6 +1241,8 @@
     <string name="who_is_going">&lt;b&gt;Wie&lt;/b&gt; reist er mee?</string>
     <!-- Child age dialog button -->
     <string name="button_done">Gereed</string>
+    <!-- Done button text in hotel Confirmation screen for VSC -->
+    <string name="button_done_vsc_confirmation">Gereed</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">Selecteer de leeftijd van kind</item>
@@ -1796,8 +1820,10 @@
     <string name="logged_in_as">Aangemeld als</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">Expedia account</string>
+    <!-- Label for signin screen -->
+    <string name="vsc_account">VSC-account</string>
     <!-- Label for loading user profile from expedia.com -->
-    <string name="loading_expedia_account">Bezig met laden van Expedia account</string>
+    <string name="loading_expedia_account">Bezig met laden van Expedia-account</string>
     <!-- Label for password recovery -->
     <string name="forgot_your_password">Je wachtwoord vergeten?</string>
     <!-- Webview title for password recovery -->

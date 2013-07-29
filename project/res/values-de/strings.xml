@@ -30,8 +30,12 @@
     <string name="Log_In">Anmelden</string>
     <!-- Log in with Expedia -->
     <string name="Log_in_with_Expedia">Bei Expedia anmelden</string>
+    <!-- Log in with VSC -->
+    <string name="Log_in_with_VSC">Über VSC anmelden</string>
     <!-- or -->
     <string name="or">oder</string>
+    <!-- Already logged in -->
+    <string name="already_logged_in">Schon angemeldet</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Home -->
@@ -110,6 +114,8 @@
     <string name="find_itinerary_pound">Reiseplannr. suchen:</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">Expedia-Reiseplannr.</string>
+    <!-- Elite plus customer support -->
+    <string name="elite_plus_customer_support">Elite-Plus-Kundenservice</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Es stehen keine Reisen bevor.</string>
     <!-- Enter itinerary number -->
@@ -199,8 +205,10 @@
     <string name="arrive_gate_number_only_TEMPLATE">Ankunftsterminal %1$s</string>
     <!-- Itin flight depart gate only template -->
     <string name="depart_gate_number_only_TEMPLATE">Abflugterminal %1$s</string>
-    <!-- Itin flight terminal only template -->
-    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s</string>
+    <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
+    <string name="Terminal_X_TEMPLATE">Terminal %1$s</string>
+    <!-- Special case for name of International Terminal -->
+    <string name="International_Terminal">Int. Terminal</string>
     <!-- Itin flight terminal only template -->
     <string name="arrive_terminal_but_no_gate_TEMPLATE">Ankunftsterminal %1$s</string>
     <!-- Itin flight terminal only template -->
@@ -296,7 +304,7 @@
     <string name="add_hotel_fallback">Hotel am Reiseziel hinzufügen</string>
 
     <!-- Itin Local Expert.  Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="talk_to_local_expert">Sprechen Sie mit einem Local Expert</string>
+    <string name="talk_to_local_expert">Local Expert anrufen</string>
 
     <!-- Local Expert Sites -->
     <!-- Name of Hawaii (for local expert) -->
@@ -459,8 +467,9 @@
     <string name="itin_card_details_check_in">Check-in</string>
     <string name="itin_card_details_check_out">Check-out</string>
     <string name="itin_card_details_address">Adresse</string>
-    <string name="itin_card_details_phone">Telefon</string>
+    <string name="itin_card_details_local_phone">Festnetznummer</string>
     <string name="itin_card_details_room_type">Zimmertyp</string>
+    <string name="itin_card_details_bed_type">Bettentyp</string>
     <string name="toast_copied_to_clipboard">In die Zwischenablage kopiert</string>
     <string name="itin_card_details_reload">Infos neu laden</string>
     <string name="itin_card_details_reload_activity">Aktivitätsinfos erneut laden</string>
@@ -667,6 +676,18 @@
         <item quantity="many">%1$d Erwachsene</item>
         <item quantity="other">%1$d Erwachsene</item>
     </plurals>
+    <!-- Message shown when loading AirAsia flight routes -->
+    <string name="loading_air_asia_routes">AirAsia-Strecken werden geladen</string>
+    <!-- Message shown when we could not load the AirAsia flight routes -->
+    <string name="error_could_not_load_air_asia">AirAsia-Strecken konnten nicht geladen werden</string>
+    <!-- Header row for airports that were used recently for a search -->
+    <string name="recent">Neu</string>
+    <!-- Display for selected airport dropdown.  %1$s is the airport code, %2$s is the city, e.g. "(MSP) Minneapolis" -->
+    <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
+    <!-- Prompt for spinner dialog when selecting departure airport -->
+    <string name="prompt_departure_airport">Abflughafen auswählen</string>
+    <!-- Prompt for spinner dialog when selecting arrival airport -->
+    <string name="prompt_arrival_airport">Ankunftsflughafen auswählen</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
@@ -1077,6 +1098,8 @@
     <string name="add_to_flighttrack">Mit FlightTrack verfolgen</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_expedia_customer_support">Expedia-Kundenservice anrufen</string>
+    <!-- Button label for VSC support webpage link -->
+    <string name="vsc_customer_support">Kontakt</string>
     <!-- Add Insurance label -->
     <string name="add_insurance">Reiseschutz hinzufügen</string>
     <!-- Insurance -->
@@ -1199,7 +1222,6 @@
     <string name="share_flight_section_outbound">Hinflug:</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">Rückflug:</string>
-
     <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
@@ -1219,6 +1241,8 @@
     <string name="who_is_going">&lt;b&gt;Wer&lt;/b&gt; verreist?</string>
     <!-- Child age dialog button -->
     <string name="button_done">Fertig</string>
+    <!-- Done button text in hotel Confirmation screen for VSC -->
+    <string name="button_done_vsc_confirmation">Fertig</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">Geben Sie das Alter des Kindes an</item>
@@ -1783,19 +1807,21 @@
     <!-- Message that tells user they failed to log in -->
     <string name="login_failed">Bitte erneut anmelden</string>
     <!-- Label for logout confirmation -->
-    <string name="logout_confirmation">Möchten Sie sich wirklich von Ihrem Expedia Konto abmelden?</string>
+    <string name="logout_confirmation">Möchten Sie sich wirklich von Ihrem Expedia-Konto abmelden?</string>
     <!-- Label for login widget additional text -->
     <string name="log_in_for_faster_booking">Melden Sie sich an, um schneller zu buchen</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_rewards">Registriert für Expedia Rewards\u2122</string>
     <!-- Label for account status -->
-    <string name="enrolled_in_expedia_elite_plus_rewards">Elite Plus-Mitglied</string>
+    <string name="enrolled_in_expedia_elite_plus_rewards">Elite-Plus-Mitglied</string>
     <!-- Loading rewards points message -->
     <string name="loading_your_rewards_points">Ihre Rewards-Punkte werden geladen…</string>
     <!-- Label for account name -->
     <string name="logged_in_as">Angemeldet als</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">Expedia-Konto</string>
+    <!-- Label for signin screen -->
+    <string name="vsc_account">VSC-Konto</string>
     <!-- Label for loading user profile from expedia.com -->
     <string name="loading_expedia_account">Expedia-Konto wird geladen</string>
     <!-- Label for password recovery -->

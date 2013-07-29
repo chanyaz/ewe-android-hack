@@ -30,8 +30,12 @@
     <string name="Log_In">ログイン</string>
     <!-- Log in with Expedia -->
     <string name="Log_in_with_Expedia">エクスペディアでログイン</string>
+    <!-- Log in with VSC -->
+    <string name="Log_in_with_VSC">VSC でログイン</string>
     <!-- or -->
     <string name="or">又は</string>
+    <!-- Already logged in -->
+    <string name="already_logged_in">すでにログイン済みです</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Home -->
@@ -51,7 +55,7 @@
     <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
     <string name="launch_flight_tile_prompt">&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;&lt;font color="#b2b2b2"&gt;航空券&lt;/font&gt;</string>
     <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
-    <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;&lt;font color="#b2b2b2"&gt;に滞在&lt;/font&gt;</string>
+    <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;&lt;font color="#b2b2b2"&gt;ホテル&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">接続できません。</string>
     <!-- Menu option for going to see your trips/itineraries -->
@@ -110,6 +114,8 @@
     <string name="find_itinerary_pound">旅程番号を検索する</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">エクスペディアの旅程番号</string>
+    <!-- Elite plus customer support -->
+    <string name="elite_plus_customer_support">Elite Plus カスタマーサポート</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">予約された旅行はありません。</string>
     <!-- Enter itinerary number -->
@@ -186,11 +192,11 @@
     <!-- Booking info label -->
     <string name="booking_info">予約情報</string>
     <!-- Itin flight generic terminal and gate template -->
-    <string name="generic_terminal_TEMPLATE">ターミナル %1$s、 ゲート %2$s</string>
+    <string name="generic_terminal_TEMPLATE">ターミナル %1$s、ゲート%2$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">ターミナル %1$s、ゲート %2$s に到着</string>
+    <string name="arrival_terminal_TEMPLATE">ターミナル %1$s、ゲート%2$s に到着</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="departure_terminal_TEMPLATE">ターミナル %1$s、ゲート %2$s から出発</string>
+    <string name="departure_terminal_TEMPLATE">ターミナル %1$s、ゲート%2$s から出発</string>
     <!-- To be determined abbrev. -->
     <string name="to_be_determined_abbrev">TBD</string>
     <!-- Itin flight gate only template -->
@@ -199,18 +205,20 @@
     <string name="arrive_gate_number_only_TEMPLATE">ゲート %1$s に到着</string>
     <!-- Itin flight depart gate only template -->
     <string name="depart_gate_number_only_TEMPLATE">ゲート %1$s から出発</string>
+    <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
+    <string name="Terminal_X_TEMPLATE">ターミナル%1$s</string>
+    <!-- Special case for name of International Terminal -->
+    <string name="International_Terminal">国際ターミナル</string>
     <!-- Itin flight terminal only template -->
-    <string name="terminal_but_no_gate_TEMPLATE">ターミナル%1$s</string>
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">ターミナル %1$s に到着</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">ターミナルに到着%1$s</string>
-    <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">ターミナルから出発%1$s</string>
+    <string name="depart_terminal_but_no_gate_TEMPLATE">ターミナル %1$s から出発</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="at_airport_TEMPLATE">&lt;b&gt;%1$sに到着&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="from_airport_TEMPLATE">&lt;b&gt;%1$s ～&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint that also includes time of departure; first parameter is the airport code, second parameter is the localized time (e.g. 13:45) -->
-    <string name="from_airport_time_TEMPLATE">&lt;b&gt;%1$sを&lt;/b&gt;%2$sに出発</string>
+    <string name="from_airport_time_TEMPLATE">&lt;b&gt;%1$sから&lt;/b&gt;%2$sに出発</string>
     <!-- Itin flight summary second line for arrival waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight arrives/d -->
     <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;%1$s に到着&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
@@ -459,8 +467,9 @@
     <string name="itin_card_details_check_in">チェックイン</string>
     <string name="itin_card_details_check_out">チェックアウト</string>
     <string name="itin_card_details_address">住所</string>
-    <string name="itin_card_details_phone">電話</string>
+    <string name="itin_card_details_local_phone">現地の電話番号</string>
     <string name="itin_card_details_room_type">部屋タイプ</string>
+    <string name="itin_card_details_bed_type">ベッドタイプ</string>
     <string name="toast_copied_to_clipboard">クリップボードにコピーしました。</string>
     <string name="itin_card_details_reload">情報をリロード</string>
     <string name="itin_card_details_reload_activity">アクティビティ情報をリロード</string>
@@ -667,6 +676,18 @@
         <item quantity="many">大人 %1$d 名</item>
         <item quantity="other">大人 %1$d 名</item>
     </plurals>
+    <!-- Message shown when loading AirAsia flight routes -->
+    <string name="loading_air_asia_routes">AirAsia ルートをローディング中…</string>
+    <!-- Message shown when we could not load the AirAsia flight routes -->
+    <string name="error_could_not_load_air_asia">AirAsia ルートをローディングできませんでした</string>
+    <!-- Header row for airports that were used recently for a search -->
+    <string name="recent">最近</string>
+    <!-- Display for selected airport dropdown.  %1$s is the airport code, %2$s is the city, e.g. "(MSP) Minneapolis" -->
+    <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
+    <!-- Prompt for spinner dialog when selecting departure airport -->
+    <string name="prompt_departure_airport">出発空港を選択</string>
+    <!-- Prompt for spinner dialog when selecting arrival airport -->
+    <string name="prompt_arrival_airport">到着空港を選択</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
@@ -1077,6 +1098,8 @@
     <string name="add_to_flighttrack">FlightTrack で追跡する</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_expedia_customer_support">エクスペディア カスタマー サポートに電話する</string>
+    <!-- Button label for VSC support webpage link -->
+    <string name="vsc_customer_support">お問い合わせ</string>
     <!-- Add Insurance label -->
     <string name="add_insurance">保険を追加する</string>
     <!-- Insurance -->
@@ -1198,7 +1221,6 @@
     <string name="share_flight_section_outbound">往路 : </string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">現地出発日 : </string>
-
     <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
@@ -1218,6 +1240,8 @@
     <string name="who_is_going">&lt;b&gt;同行者&lt;/b&gt;</string>
     <!-- Child age dialog button -->
     <string name="button_done">完了</string>
+    <!-- Done button text in hotel Confirmation screen for VSC -->
+    <string name="button_done_vsc_confirmation">完了</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">お子様の年齢を選択する</item>
@@ -1795,6 +1819,8 @@
     <string name="logged_in_as">ログイン済み</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">Expedia アカウント</string>
+    <!-- Label for signin screen -->
+    <string name="vsc_account">VSC アカウント</string>
     <!-- Label for loading user profile from expedia.com -->
     <string name="loading_expedia_account">エクスペディア アカウントを読み込み中</string>
     <!-- Label for password recovery -->
@@ -1824,7 +1850,7 @@
     <!-- The title of the share subject line -->
     <string name="share_subject_title">エクスペディアの旅程</string>
     <!-- Subject property name template. -->
-    <string name="share_subject_template">Expedia の旅程 -</string>
+    <string name="share_subject_template">エクスペディアの旅程 -</string>
     <!-- Subject dates template. 1$ and 2$ are the ` ranges (e.g., 3/21 - 3/24) -->
     <string name="share_subject_template_dates">(%1$s - %2$s)</string>
     <!-- Preset at the top of the share body message -->

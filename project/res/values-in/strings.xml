@@ -30,8 +30,12 @@
     <string name="Log_In">Masuk</string>
     <!-- Log in with Expedia -->
     <string name="Log_in_with_Expedia">Masuk dengan akun Expedia</string>
+    <!-- Log in with VSC -->
+    <string name="Log_in_with_VSC">Masuk dengan VSC</string>
     <!-- or -->
     <string name="or">atau</string>
+    <!-- Already logged in -->
+    <string name="already_logged_in">Sudah masuk</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Home -->
@@ -110,6 +114,8 @@
     <string name="find_itinerary_pound">Cari No. Rencana Perjalanan</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">No. Rencana Perjalanan Expedia</string>
+    <!-- Elite plus customer support -->
+    <string name="elite_plus_customer_support">Layanan Pelanggan Elite Plus</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Tidak ada perjalanan akan datang.</string>
     <!-- Enter itinerary number -->
@@ -188,9 +194,9 @@
     <!-- Itin flight generic terminal and gate template -->
     <string name="generic_terminal_TEMPLATE">Terminal %1$s, Gate %2$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">Terminal Kedatangan %1$s, Gate %2$s</string>
+    <string name="arrival_terminal_TEMPLATE">Tiba di Terminal %1$s, Gate %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="departure_terminal_TEMPLATE">Terminal Keberangkatan %1$s, Gate %2$s</string>
+    <string name="departure_terminal_TEMPLATE">Berangkat dari Terminal %1$s, Gate %2$s</string>
     <!-- To be determined abbrev. -->
     <string name="to_be_determined_abbrev">Belum Ditentukan</string>
     <!-- Itin flight gate only template -->
@@ -199,12 +205,14 @@
     <string name="arrive_gate_number_only_TEMPLATE">Tiba di Gate %1$s</string>
     <!-- Itin flight depart gate only template -->
     <string name="depart_gate_number_only_TEMPLATE">Berangkat dari Gate %1$s</string>
+    <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
+    <string name="Terminal_X_TEMPLATE">Terminal %1$s</string>
+    <!-- Special case for name of International Terminal -->
+    <string name="International_Terminal">Terminal Internasional</string>
     <!-- Itin flight terminal only template -->
-    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s</string>
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Tiba di Terminal %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">Terminal Kedatangan %1$s</string>
-    <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">Terminal Keberangkatan %1$s</string>
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Berangkat dari Terminal %1$s</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="at_airport_TEMPLATE">&lt;b&gt;Di %1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
@@ -459,8 +467,9 @@
     <string name="itin_card_details_check_in">Check-In</string>
     <string name="itin_card_details_check_out">Check-Out</string>
     <string name="itin_card_details_address">Alamat</string>
-    <string name="itin_card_details_phone">Telepon</string>
+    <string name="itin_card_details_local_phone">Telepon Lokal</string>
     <string name="itin_card_details_room_type">Jenis Kamar</string>
+    <string name="itin_card_details_bed_type">Jenis Tempat Tidur</string>
     <string name="toast_copied_to_clipboard">Disalin ke clipboard.</string>
     <string name="itin_card_details_reload">Muat Ulang Informasi</string>
     <string name="itin_card_details_reload_activity">Muat Ulang Info Aktivitas</string>
@@ -667,6 +676,18 @@
         <item quantity="many">%1$d Dewasa</item>
         <item quantity="other">%1$d Dewasa</item>
     </plurals>
+    <!-- Message shown when loading AirAsia flight routes -->
+    <string name="loading_air_asia_routes">Memuat rute AirAsia…</string>
+    <!-- Message shown when we could not load the AirAsia flight routes -->
+    <string name="error_could_not_load_air_asia">Tidak bisa memuat rute AirAsia</string>
+    <!-- Header row for airports that were used recently for a search -->
+    <string name="recent">Terbaru</string>
+    <!-- Display for selected airport dropdown.  %1$s is the airport code, %2$s is the city, e.g. "(MSP) Minneapolis" -->
+    <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
+    <!-- Prompt for spinner dialog when selecting departure airport -->
+    <string name="prompt_departure_airport">Pilih bandara keberangkatan</string>
+    <!-- Prompt for spinner dialog when selecting arrival airport -->
+    <string name="prompt_arrival_airport">Pilih bandara kedatangan</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
@@ -1077,6 +1098,8 @@
     <string name="add_to_flighttrack">Lacak dengan FlightTrack</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_expedia_customer_support">Telepon Layanan Pelanggan Expedia</string>
+    <!-- Button label for VSC support webpage link -->
+    <string name="vsc_customer_support">Hubungi Kami</string>
     <!-- Add Insurance label -->
     <string name="add_insurance">Tambah Asuransi</string>
     <!-- Insurance -->
@@ -1198,7 +1221,6 @@
     <string name="share_flight_section_outbound">Keluar:</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">Kembali:</string>
-
     <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
@@ -1218,6 +1240,8 @@
     <string name="who_is_going">&lt;b&gt;Siapa&lt;/b&gt; saja yang akan pergi?</string>
     <!-- Child age dialog button -->
     <string name="button_done">Selesai</string>
+    <!-- Done button text in hotel Confirmation screen for VSC -->
+    <string name="button_done_vsc_confirmation">Selesai</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">Pilih umur anak</item>
@@ -1795,6 +1819,8 @@
     <string name="logged_in_as">Masuk sebagai</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">Akun Expedia</string>
+    <!-- Label for signin screen -->
+    <string name="vsc_account">Akun VSC</string>
     <!-- Label for loading user profile from expedia.com -->
     <string name="loading_expedia_account">Memuat Akun Expedia</string>
     <!-- Label for password recovery -->

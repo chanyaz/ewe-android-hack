@@ -30,8 +30,12 @@
     <string name="Log_In">Logga in</string>
     <!-- Log in with Expedia -->
     <string name="Log_in_with_Expedia">Logga in med Expedia</string>
+    <!-- Log in with VSC -->
+    <string name="Log_in_with_VSC">Logga in med VSC</string>
     <!-- or -->
     <string name="or">eller</string>
+    <!-- Already logged in -->
+    <string name="already_logged_in">Redan inloggad</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Home -->
@@ -110,6 +114,8 @@
     <string name="find_itinerary_pound">Hitta resplan #</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">Expedias resplansnummer</string>
+    <!-- Elite plus customer support -->
+    <string name="elite_plus_customer_support">Elite Plus kundsupport</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Inga kommande resor.</string>
     <!-- Enter itinerary number -->
@@ -188,9 +194,9 @@
     <!-- Itin flight generic terminal and gate template -->
     <string name="generic_terminal_TEMPLATE">Terminal %1$s, Gate %2$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">Avgångsterminal %1$s, Gate %2$s</string>
+    <string name="arrival_terminal_TEMPLATE">Ankommer Terminal %1$s, Gate %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="departure_terminal_TEMPLATE">Avgångsterminal %1$s, Gate %2$s</string>
+    <string name="departure_terminal_TEMPLATE">Avgår Terminal %1$s, Gate %2$s</string>
     <!-- To be determined abbrev. -->
     <string name="to_be_determined_abbrev">TBD</string>
     <!-- Itin flight gate only template -->
@@ -199,12 +205,14 @@
     <string name="arrive_gate_number_only_TEMPLATE">Ankomstgate %1$s</string>
     <!-- Itin flight depart gate only template -->
     <string name="depart_gate_number_only_TEMPLATE">Avgångsgate %1$s</string>
+    <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
+    <string name="Terminal_X_TEMPLATE">Terminal %1$s</string>
+    <!-- Special case for name of International Terminal -->
+    <string name="International_Terminal">Internationell terminal</string>
     <!-- Itin flight terminal only template -->
-    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s</string>
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Ankommer Terminal %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">Ankomstterminal %1$s</string>
-    <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">Avgångsterminal %1$s</string>
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Avgår Terminal %1$s</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="at_airport_TEMPLATE">&lt;b&gt; %1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
@@ -459,8 +467,9 @@
     <string name="itin_card_details_check_in">Incheckning</string>
     <string name="itin_card_details_check_out">Utcheckning</string>
     <string name="itin_card_details_address">Adress</string>
-    <string name="itin_card_details_phone">Telefon</string>
+    <string name="itin_card_details_local_phone">Lokal telefon</string>
     <string name="itin_card_details_room_type">Rumstyp</string>
+    <string name="itin_card_details_bed_type">Sängtyp</string>
     <string name="toast_copied_to_clipboard">Kopierat till clipboard.</string>
     <string name="itin_card_details_reload">Ladda om information</string>
     <string name="itin_card_details_reload_activity">Ladda om aktivitetsinfo</string>
@@ -667,6 +676,18 @@
         <item quantity="many">%1$d vuxna</item>
         <item quantity="other">%1$d vuxna</item>
     </plurals>
+    <!-- Message shown when loading AirAsia flight routes -->
+    <string name="loading_air_asia_routes">Hämtar AirAsias rutter…</string>
+    <!-- Message shown when we could not load the AirAsia flight routes -->
+    <string name="error_could_not_load_air_asia">Kunde inte hämta AirAsias rutter</string>
+    <!-- Header row for airports that were used recently for a search -->
+    <string name="recent">Nya</string>
+    <!-- Display for selected airport dropdown.  %1$s is the airport code, %2$s is the city, e.g. "(MSP) Minneapolis" -->
+    <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
+    <!-- Prompt for spinner dialog when selecting departure airport -->
+    <string name="prompt_departure_airport">Välj avgångsflygplats</string>
+    <!-- Prompt for spinner dialog when selecting arrival airport -->
+    <string name="prompt_arrival_airport">Välj ankomstflygplats</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
@@ -1077,6 +1098,8 @@
     <string name="add_to_flighttrack">Följ med FlightTrack</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_expedia_customer_support">Ring Expedias kundtjänst</string>
+    <!-- Button label for VSC support webpage link -->
+    <string name="vsc_customer_support">Kontakta oss</string>
     <!-- Add Insurance label -->
     <string name="add_insurance">Lägg till försäkring</string>
     <!-- Insurance -->
@@ -1198,7 +1221,6 @@
     <string name="share_flight_section_outbound">Avresa:</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">Återresa: </string>
-
     <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
@@ -1218,6 +1240,8 @@
     <string name="who_is_going">&lt;b&gt;Vem&lt;/b&gt; ska resa?</string>
     <!-- Child age dialog button -->
     <string name="button_done">Klar</string>
+    <!-- Done button text in hotel Confirmation screen for VSC -->
+    <string name="button_done_vsc_confirmation">Klar</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">Ange barns ålder</item>
@@ -1795,6 +1819,8 @@
     <string name="logged_in_as">Inloggad som</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">Expediakonto</string>
+    <!-- Label for signin screen -->
+    <string name="vsc_account">VSC-konto</string>
     <!-- Label for loading user profile from expedia.com -->
     <string name="loading_expedia_account">Laddar Expediakonto</string>
     <!-- Label for password recovery -->

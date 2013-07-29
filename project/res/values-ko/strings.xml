@@ -30,8 +30,12 @@
     <string name="Log_In">로그인</string>
     <!-- Log in with Expedia -->
     <string name="Log_in_with_Expedia">Expedia로 로그인</string>
+    <!-- Log in with VSC -->
+    <string name="Log_in_with_VSC">VSC로 로그인</string>
     <!-- or -->
     <string name="or">또는</string>
+    <!-- Already logged in -->
+    <string name="already_logged_in">이미 로그인 상태입니다.</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Home -->
@@ -110,6 +114,8 @@
     <string name="find_itinerary_pound">일정 번호 찾기</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">Expedia 일정 번호</string>
+    <!-- Elite plus customer support -->
+    <string name="elite_plus_customer_support">Elite Plus 고객 지원</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">예정된 여행이 없습니다.</string>
     <!-- Enter itinerary number -->
@@ -199,8 +205,10 @@
     <string name="arrive_gate_number_only_TEMPLATE">게이트 %1$s 도착</string>
     <!-- Itin flight depart gate only template -->
     <string name="depart_gate_number_only_TEMPLATE">게이트 %1$s 출발</string>
-    <!-- Itin flight terminal only template -->
-    <string name="terminal_but_no_gate_TEMPLATE">터미널 %1$s</string>
+    <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
+    <string name="Terminal_X_TEMPLATE">터미널 %1$s</string>
+    <!-- Special case for name of International Terminal -->
+    <string name="International_Terminal">국제선 터미널</string>
     <!-- Itin flight terminal only template -->
     <string name="arrive_terminal_but_no_gate_TEMPLATE">터미널 %1$s 도착</string>
     <!-- Itin flight terminal only template -->
@@ -459,8 +467,9 @@
     <string name="itin_card_details_check_in">체크인</string>
     <string name="itin_card_details_check_out">체크아웃</string>
     <string name="itin_card_details_address">주소</string>
-    <string name="itin_card_details_phone">전화</string>
+    <string name="itin_card_details_local_phone">현지 전화</string>
     <string name="itin_card_details_room_type">객실 유형</string>
+    <string name="itin_card_details_bed_type">침대 유형</string>
     <string name="toast_copied_to_clipboard">클립보드에 복사되었습니다.</string>
     <string name="itin_card_details_reload">정보 다시 로드하기</string>
     <string name="itin_card_details_reload_activity">즐길거리 정보 다시 로드하기</string>
@@ -667,6 +676,18 @@
         <item quantity="many">어른 %1$d명</item>
         <item quantity="other">어른 %1$d명</item>
     </plurals>
+    <!-- Message shown when loading AirAsia flight routes -->
+    <string name="loading_air_asia_routes">AirAsia 비행 경로 로딩 중…</string>
+    <!-- Message shown when we could not load the AirAsia flight routes -->
+    <string name="error_could_not_load_air_asia">AirAsia 비행 경로를 가져올 수 없습니다.</string>
+    <!-- Header row for airports that were used recently for a search -->
+    <string name="recent">최근</string>
+    <!-- Display for selected airport dropdown.  %1$s is the airport code, %2$s is the city, e.g. "(MSP) Minneapolis" -->
+    <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
+    <!-- Prompt for spinner dialog when selecting departure airport -->
+    <string name="prompt_departure_airport">출발 공항을 선택하세요.</string>
+    <!-- Prompt for spinner dialog when selecting arrival airport -->
+    <string name="prompt_arrival_airport">도착 공항을 선택하세요.</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
@@ -1077,6 +1098,8 @@
     <string name="add_to_flighttrack">FlightTrack으로 항공편 정보 확인</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_expedia_customer_support">Expedia 고객 지원에 연락</string>
+    <!-- Button label for VSC support webpage link -->
+    <string name="vsc_customer_support">문의</string>
     <!-- Add Insurance label -->
     <string name="add_insurance">보험 추가</string>
     <!-- Insurance -->
@@ -1198,7 +1221,6 @@
     <string name="share_flight_section_outbound">출국편:</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">귀국편:</string>
-
     <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
@@ -1218,6 +1240,8 @@
     <string name="who_is_going">&lt;b&gt;어느 분&lt;/b&gt;이 가세요?</string>
     <!-- Child age dialog button -->
     <string name="button_done">완료</string>
+    <!-- Done button text in hotel Confirmation screen for VSC -->
+    <string name="button_done_vsc_confirmation">완료</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">아동 나이 선택</item>
@@ -1795,6 +1819,8 @@
     <string name="logged_in_as">로그인된 고객님:</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">Expedia 계정</string>
+    <!-- Label for signin screen -->
+    <string name="vsc_account">VSC 계정</string>
     <!-- Label for loading user profile from expedia.com -->
     <string name="loading_expedia_account">Expedia 계정 로드 중</string>
     <!-- Label for password recovery -->
@@ -1992,7 +2018,7 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s 거리</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s%2$s</string>
+    <string name="distance_template_short">%1$s %2$s</string>
 
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->

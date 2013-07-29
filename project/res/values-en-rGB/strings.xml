@@ -30,8 +30,12 @@
     <string name="Log_In">Log In</string>
     <!-- Log in with Expedia -->
     <string name="Log_in_with_Expedia">Log in with Expedia</string>
+    <!-- Log in with VSC -->
+    <string name="Log_in_with_VSC">Log in with VSC</string>
     <!-- or -->
     <string name="or">or</string>
+    <!-- Already logged in -->
+    <string name="already_logged_in">Already logged in</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Home -->
@@ -110,6 +114,8 @@
     <string name="find_itinerary_pound">Find Itinerary #</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">Expedia Itinerary #</string>
+    <!-- Elite plus customer support -->
+    <string name="elite_plus_customer_support">Elite Plus Customer Support</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">No upcoming trips.</string>
     <!-- Enter itinerary number -->
@@ -186,11 +192,11 @@
     <!-- Booking info label -->
     <string name="booking_info">Booking Info</string>
     <!-- Itin flight generic terminal and gate template -->
-    <string name="generic_terminal_TEMPLATE">Terminal %1$s, Gate %2$s</string>
+    <string name="generic_terminal_TEMPLATE">%1$s, Gate %2$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">Arrive Terminal %1$s, Gate %2$s</string>
+    <string name="arrival_terminal_TEMPLATE">Arrive %1$s, Gate %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="departure_terminal_TEMPLATE">Depart Terminal %1$s, Gate %2$s</string>
+    <string name="departure_terminal_TEMPLATE">Depart %1$s, Gate %2$s</string>
     <!-- To be determined abbrev. -->
     <string name="to_be_determined_abbrev">TBD</string>
     <!-- Itin flight gate only template -->
@@ -199,12 +205,14 @@
     <string name="arrive_gate_number_only_TEMPLATE">Arrive Gate %1$s</string>
     <!-- Itin flight depart gate only template -->
     <string name="depart_gate_number_only_TEMPLATE">Depart Gate %1$s</string>
+    <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
+    <string name="Terminal_X_TEMPLATE">Terminal %1$s</string>
+    <!-- Special case for name of International Terminal -->
+    <string name="International_Terminal">International Terminal</string>
     <!-- Itin flight terminal only template -->
-    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s</string>
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Arrive %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">Arrive Terminal %1$s</string>
-    <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">Depart Terminal %1$s</string>
+    <string name="depart_terminal_but_no_gate_TEMPLATE">%1$s</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="at_airport_TEMPLATE">&lt;b&gt;At %1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
@@ -459,8 +467,9 @@
     <string name="itin_card_details_check_in">Check In</string>
     <string name="itin_card_details_check_out">Check Out</string>
     <string name="itin_card_details_address">Address</string>
-    <string name="itin_card_details_phone">Phone</string>
+    <string name="itin_card_details_local_phone">Local Phone</string>
     <string name="itin_card_details_room_type">Room Type</string>
+    <string name="itin_card_details_bed_type">Bed Type</string>
     <string name="toast_copied_to_clipboard">Copied to the clipboard.</string>
     <string name="itin_card_details_reload">Reload Information</string>
     <string name="itin_card_details_reload_activity">Reload Activity Info</string>
@@ -667,6 +676,18 @@
         <item quantity="many">%1$d Adults</item>
         <item quantity="other">%1$d Adults</item>
     </plurals>
+    <!-- Message shown when loading AirAsia flight routes -->
+    <string name="loading_air_asia_routes">Loading AirAsia routes…</string>
+    <!-- Message shown when we could not load the AirAsia flight routes -->
+    <string name="error_could_not_load_air_asia">Could not load AirAsia routes</string>
+    <!-- Header row for airports that were used recently for a search -->
+    <string name="recent">Recent</string>
+    <!-- Display for selected airport dropdown.  %1$s is the airport code, %2$s is the city, e.g. "(MSP) Minneapolis" -->
+    <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
+    <!-- Prompt for spinner dialog when selecting departure airport -->
+    <string name="prompt_departure_airport">Select departure airport</string>
+    <!-- Prompt for spinner dialog when selecting arrival airport -->
+    <string name="prompt_arrival_airport">Select arrival airport</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
@@ -1077,6 +1098,8 @@
     <string name="add_to_flighttrack">Track with FlightTrack</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_expedia_customer_support">Call Expedia Customer Support</string>
+    <!-- Button label for VSC support webpage link -->
+    <string name="vsc_customer_support">Contact Us</string>
     <!-- Add Insurance label -->
     <string name="add_insurance">Add Insurance</string>
     <!-- Insurance -->
@@ -1198,7 +1221,6 @@
     <string name="share_flight_section_outbound">Outbound:</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">Return: </string>
-
     <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
@@ -1218,6 +1240,8 @@
     <string name="who_is_going">&lt;b&gt;Who&lt;/b&gt; is going?</string>
     <!-- Child age dialog button -->
     <string name="button_done">Done</string>
+    <!-- Done button text in hotel Confirmation screen for VSC -->
+    <string name="button_done_vsc_confirmation">Done</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">Select child\&apos;s age</item>
@@ -1795,6 +1819,8 @@
     <string name="logged_in_as">Logged in as</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">Expedia Account</string>
+    <!-- Label for signin screen -->
+    <string name="vsc_account">VSC Account</string>
     <!-- Label for loading user profile from expedia.com -->
     <string name="loading_expedia_account">Loading Expedia Account</string>
     <!-- Label for password recovery -->
