@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,10 +51,14 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_hotel_payment_creditcard, container, false);
 
-		// 1600. VSC Hide zipCode Field from CCEntry Screen
 		if (ExpediaBookingApp.IS_VSC) {
+			// 1600. VSC Hide zipCode Field from CCEntry Screen
 			View view = Ui.findView(v, R.id.section_location_address);
 			view.setVisibility(View.INVISIBLE);
+
+			// 1601. VSC Disable predictive text input for "Name on card" field in CCEntry Screen
+			EditText nameOnCard = (EditText)Ui.findView(v, R.id.edit_name_on_card);
+			nameOnCard.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
 		}
 
 		mAttemptToLeaveMade = savedInstanceState != null ? savedInstanceState.getBoolean(STATE_TAG_ATTEMPTED_LEAVE,
