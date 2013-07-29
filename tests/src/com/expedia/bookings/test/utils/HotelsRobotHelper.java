@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.UserReviewsListActivity;
 import com.jayway.android.robotium.solo.Solo;
 import com.mobiata.testutils.CalendarTouchUtils;
 
@@ -429,7 +430,9 @@ public class HotelsRobotHelper {
 			landscape();
 			portrait();
 			delay();
-			mSolo.goBack();
+			if (mSolo.getCurrentActivity() instanceof UserReviewsListActivity) {
+				mSolo.goBack();
+			}
 		}
 		catch (Error e) {
 			enterLog(TAG, "No reviews available for hotel selected");
