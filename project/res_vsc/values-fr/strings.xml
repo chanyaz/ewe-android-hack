@@ -74,6 +74,9 @@
     <string name="book">Payer</string>
     <string name="app_name">Hotel Voyages-sncf</string>
 
+    <!-- Message displayed when search comes up with zero results -->
+    <string name="no_hotels_availiable">Aucun hôtel disponible selon vos critères de voyage.</string>
+
     <!-- Search Fragment -->
     <!-- Child age dialog button -->
     <string name="button_done">Valider</string>
