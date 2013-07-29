@@ -7,8 +7,7 @@
 
     <!-- MapsV2 -->
     <string name="mapsv2_dev_key">AIzaSyCZNVLp91ji40dYH242asW4YT1oTVYG41s</string>
-    <!-- Using the same debug key for building the hockeyApp, else GoogleMaps spits out an authentication error. -->
-    <string name="mapsv2_ha_key">@string/mapsv2_dev_key</string>
+    <string name="mapsv2_ha_key">AIzaSyDZVuVKxNe3gQNUKZyeqpHrxUupQ0wXUlQ</string>
     <string name="mapsv2_prod_key">AIzaSyBoKFnHe78X_UlZhYbEeSB6SECfoorSPAs</string>
 
     <!-- ContentProvider authority overrides -->
