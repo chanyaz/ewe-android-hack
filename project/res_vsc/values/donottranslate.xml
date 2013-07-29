@@ -5,6 +5,10 @@
     <!-- Production Facebook app id -->
     <string name="facebook_app_id">482332651854403</string>
 
+    <!-- MapsV2 -->
+    <string name="mapsv2_dev_key">AIzaSyCZNVLp91ji40dYH242asW4YT1oTVYG41s</string>
+    <string name="mapsv2_prod_key">AIzaSyBoKFnHe78X_UlZhYbEeSB6SECfoorSPAs</string>
+
     <!-- ContentProvider authority overrides -->
     <string name="autocomplete_provider_authority">com.expedia.booking.vsc.autocomplete</string>
     <string name="airport_autocomplete_provider_authority">com.expedia.booking.vsc.autocomplete.air</string>
