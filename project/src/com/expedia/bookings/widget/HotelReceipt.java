@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.annotation.TargetApi;
@@ -248,10 +249,12 @@ public class HotelReceipt extends LinearLayout {
 	}
 
 	private String getFormattedDateRange(HotelSearchParams params) {
-		final Resources res = getContext().getResources();
+		//A little hacky: use the DateFormat to set the date order and set dividers, then just remove the year.
+		String yearlessShortPattern = ((SimpleDateFormat) SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT))
+				.toPattern().replaceAll("\\W?[Yy]+\\W?", "");
 
-		CharSequence from = DateFormat.format("MM/dd", params.getCheckInDate());
-		CharSequence to = DateFormat.format("MM/dd", params.getCheckOutDate());
+		CharSequence from = DateFormat.format(yearlessShortPattern, params.getCheckInDate());
+		CharSequence to = DateFormat.format(yearlessShortPattern, params.getCheckOutDate());
 		String rangeString = getContext().getString(R.string.date_range_TEMPLATE, from, to);
 		return "(" + rangeString + ")";
 
