@@ -68,7 +68,17 @@ android {
 
         instrumentTest.setRoot('tests')
 
-        VSC.res.srcDirs 'res_vsc'
+        release {
+            res.srcDirs 'res_release'
+        }
+
+        alpha {
+            res.srcDirs 'res_alpha'
+        }
+
+        VSC {
+            res.srcDirs 'res_vsc'
+        }
 
         signingConfigs {
             debug {
