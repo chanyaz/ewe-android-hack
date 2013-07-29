@@ -56,7 +56,10 @@ public class ReviewsTests extends ActivityInstrumentationTestCase2<SearchActivit
 		String hotelSoldOut = mRes.getString(R.string.error_hotel_is_now_sold_out);
 		mDriver.launchHotels();
 		mDriver.selectLocation(mUser.mHotelSearchCity);
-		for (int i = 0; i < 1; i++) {
+
+		//Number of times to scroll down the results list for another set of hotels
+		int numberOfHotelSets = 4;
+		for (int i = 0; i < numberOfHotelSets; i++) {
 			for (int j = 2; j <= 4; j++) {
 				mSolo.clickInList(j);
 				mDriver.delay(5);
