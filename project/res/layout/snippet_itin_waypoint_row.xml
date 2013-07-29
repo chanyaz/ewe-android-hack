@@ -45,6 +45,14 @@
             android:textColor="@color/itin_offwhite_text"
             android:textSize="15sp"
             app:textStyle="light" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/baggage_claim_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/itin_offwhite_text"
+            android:textSize="15sp"
+            app:textStyle="light" />
     </LinearLayout>
 
     <View

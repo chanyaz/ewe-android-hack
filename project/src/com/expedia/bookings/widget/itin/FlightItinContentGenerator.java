@@ -1,10 +1,5 @@
 package com.expedia.bookings.widget.itin;
 
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -61,6 +56,11 @@ import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
+
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDataFlight> {
 
@@ -217,13 +217,12 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 				boolean isLastSegment = (j == leg.getSegmentCount() - 1);
 
 				if (isFirstSegment) {
-					flightLegContainer
-							.addView(getWayPointView(segment.mOrigin, null, WaypointType.DEPARTURE));
+					flightLegContainer.addView(getWayPointView(segment.mOrigin, null, WaypointType.DEPARTURE, null));
 					flightLegContainer.addView(getHorizontalDividerView(divPadding));
 				}
 				else {
 					flightLegContainer.addView(getWayPointView(prevSegment.mDestination, segment.mOrigin,
-							WaypointType.LAYOVER));
+							WaypointType.LAYOVER, null));
 					flightLegContainer.addView(getHorizontalDividerView(divPadding));
 				}
 
@@ -231,7 +230,8 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 				flightLegContainer.addView(getHorizontalDividerView(divPadding));
 
 				if (isLastSegment) {
-					flightLegContainer.addView(getWayPointView(segment.mDestination, null, WaypointType.ARRIVAL));
+					flightLegContainer.addView(getWayPointView(segment.mDestination, null, WaypointType.ARRIVAL,
+							segment.mBaggageClaim));
 				}
 
 				prevSegment = segment;
@@ -591,10 +591,12 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		DEPARTURE, ARRIVAL, LAYOVER
 	}
 
-	private View getWayPointView(final Waypoint primaryWaypoint, Waypoint secondaryWaypoint, WaypointType type) {
+	private View getWayPointView(final Waypoint primaryWaypoint, Waypoint secondaryWaypoint, WaypointType type,
+			String baggageClaim) {
 		View v = getLayoutInflater().inflate(R.layout.snippet_itin_waypoint_row, null);
 		TextView firstRowText = Ui.findView(v, R.id.layover_terminal_gate_one);
 		TextView secondRowText = Ui.findView(v, R.id.layover_terminal_gate_two);
+		TextView baggageClaimTextView = Ui.findView(v, R.id.baggage_claim_text_view);
 		View terminalMapDirectionsBtn = Ui.findView(v, R.id.terminal_map_or_directions_btn);
 
 		Resources res = getResources();
@@ -697,6 +699,9 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 				firstRowText.setVisibility(View.GONE);
 			}
 		}
+
+		baggageClaimTextView.setVisibility(!TextUtils.isEmpty(baggageClaim) ? View.VISIBLE : View.GONE);
+		baggageClaimTextView.setText(getContext().getString(R.string.Baggage_Claim_X_TEMPLATE, baggageClaim));
 
 		terminalMapDirectionsBtn.setOnClickListener(new OnClickListener() {
 			@Override
