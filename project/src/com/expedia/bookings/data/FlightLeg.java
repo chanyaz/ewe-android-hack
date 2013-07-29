@@ -8,6 +8,8 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.TextUtils;
+
 import com.expedia.bookings.utils.CalendarUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -148,7 +150,10 @@ public class FlightLeg implements JSONable {
 				sb.append(", ");
 			}
 
-			sb.append(Db.getAirline(airlineCode).mAirlineName);
+			String airlineName = Db.getAirline(airlineCode).mAirlineName;
+			if (!TextUtils.isEmpty(airlineName)) {
+				sb.append(airlineName);
+			}
 		}
 		return sb.toString();
 	}
