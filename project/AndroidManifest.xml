@@ -72,7 +72,7 @@
         <!-- Google Maps -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="@string/mapsv2_dev_key" />
+            android:value="@string/mapsv2_key" />
 
         <!-- Ad-X -->
         <meta-data

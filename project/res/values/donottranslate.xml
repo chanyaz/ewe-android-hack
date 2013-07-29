@@ -25,9 +25,19 @@
     <string name="gcm_sender_id">895052546820</string>
 
     <!-- MapsV2 -->
-    <string name="mapsv2_dev_key">AIzaSyCcUFcOBytf5_4zQCVisZeZ1Vw1PHuVI24</string>
-    <string name="mapsv2_ha_key">AIzaSyDBpxfQT-N3CLCtDsfbvJRvWc0RFMIIbAA</string>
-    <string name="mapsv2_prod_key">AIzaSyDyJFDB5IjNcq47xmyRgmGc8BGutqdZnI4</string>
+    <!-- Main redirection -->
+    <string name="mapsv2_key">@string/mapsv2_dev_key</string>
+    <!-- Second level of indirection so we can override for buildVariants such as VSC -->
+    <string name="mapsv2_dev_key">@string/mapsv2_ebad_dev_key</string>
+    <string name="mapsv2_ha_key">@string/mapsv2_ha_key</string>
+    <string name="mapsv2_prod_key">@string/mapsv2_prod_key</string>
+    <!-- Concrete EBad maps v2 keys -->
+    <string name="mapsv2_ebad_dev_key">AIzaSyCcUFcOBytf5_4zQCVisZeZ1Vw1PHuVI24</string>
+    <string name="mapsv2_ebad_ha_key">AIzaSyDBpxfQT-N3CLCtDsfbvJRvWc0RFMIIbAA</string>
+    <string name="mapsv2_ebad_prod_key">AIzaSyDyJFDB5IjNcq47xmyRgmGc8BGutqdZnI4</string>
+
+    <!-- MapsV2 key error messages -->
+    <string name="error_mapsv2_release_key">You are not using the release maps key for a release build. Edit AndroidManifest.xml or the build system is broken.</string>
 
     <!-- Lawyer label for the confirmation screen on the US POS, expects a phone number -->
     <string name="lawyer_label_expedia_rewards_TEMPLATE">To ensure you receive your confirmation email, please add \&quot;no_reply@expedia.com\&quot; to your address book or email whitelist. If you have an Expedia Rewards account your points will automatically post after your stay. Please note that it may take up to 30 days for your points to appear. If you have questions about your reservation, please call Expedia.com at %s.</string>
