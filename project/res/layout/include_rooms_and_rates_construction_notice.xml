@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="0"
-            android:src="@drawable/ic_renovation_resort_chevron" />
+            android:src="@drawable/ic_renovation_resort_info" />
     </LinearLayout>
 
     <View
