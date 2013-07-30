@@ -59,6 +59,7 @@ public class RandomPOSHappyPath extends
 		try {
 			//Limit to two POSs at a time.
 			for (int i = 0; i < 2; i++) {
+				mDriver.ignoreSweepstakesActivity();
 				mDriver.setAllowScreenshots(true);
 				//change device locale and set variable
 				Locale testingLocale = mDriver.mLocaleUtils.selectNextLocaleFromInternalList(LOCALE_LIST_LOCATION);

@@ -68,12 +68,10 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 
 		if (!ExpediaBookingApp.useTabletInterface(this)) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		}
 
-			// #1106: Don't continue to load onCreate() as
-			// we're just about to recreate the activity
-			if (!getResources().getBoolean(R.bool.portrait)) {
-				return;
-			}
+		if (shouldBail()) {
+			return;
 		}
 
 		mKillReceiver = new ActivityKillReceiver(this);
@@ -118,12 +116,21 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	@Override
 	protected void onStart() {
 		super.onStart();
+
+		if (shouldBail()) {
+			return;
+		}
+
 		OmnitureTracking.trackPageLoadHotelsCheckoutPaymentCid(this);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		if (shouldBail()) {
+			return;
+		}
 
 		setCvvErrorMode(mCvvErrorModeEnabled);
 
@@ -134,6 +141,10 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 
+		if (shouldBail()) {
+			return;
+		}
+
 		outState.putBoolean(STATE_CVV_ERROR_MODE, mCvvErrorModeEnabled);
 	}
 
@@ -141,12 +152,21 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	protected void onPause() {
 		super.onPause();
 
+		if (shouldBail()) {
+			return;
+		}
+
+
 		OmnitureTracking.onPause();
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+
+		if (shouldBail()) {
+			return;
+		}
 
 		if (mKillReceiver != null) {
 			mKillReceiver.onDestroy();
@@ -208,6 +228,12 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		Db.getWorkingTravelerManager().setAttemptToLoadFromDisk(false);
 
 		startActivity(intent);
+	}
+
+	private boolean shouldBail() {
+		// #1106: Don't continue to load any part of the
+		// activity as we're just about to recreate it
+		return !ExpediaBookingApp.useTabletInterface(this) && !getResources().getBoolean(R.bool.portrait);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

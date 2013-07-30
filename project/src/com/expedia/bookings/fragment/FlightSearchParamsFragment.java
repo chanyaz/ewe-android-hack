@@ -881,12 +881,10 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 				fixCalendarHeight();
 			}
 			else {
-				mCalendarContainer.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-					@Override
-					public void onGlobalLayout() {
+				Ui.runOnNextLayout(mCalendarContainer, new Runnable() {
+					public void run() {
 						fixCalendarHeight();
 						mCalendarContainer.requestLayout();
-						mCalendarContainer.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 					}
 				});
 			}

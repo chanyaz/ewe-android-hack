@@ -499,6 +499,11 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				Pair<String, String> displayName = firstSuggestion.splitDisplayNameForFlights();
 				String destId = firstSuggestion.getAirportLocationCode();
 
+				// #1535: If the suggest data is bad for some reason, don't show this destination
+				if (displayName == null) {
+					continue;
+				}
+
 				// Now try to get metadata
 
 				// Before using services, check if this download has been cancelled

@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.expedia.bookings"
-    android:versionCode="21"
-    android:versionName="3.1" >
+    android:versionCode="24"
+    android:versionName="3.2.2" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -64,7 +64,7 @@
         <!-- ActiveAndroid -->
         <meta-data
             android:name="AA_DB_VERSION"
-            android:value="12" />
+            android:value="13" />
         <meta-data
             android:name="AA_MODELS"
             android:value=".model.Search, .model.DismissedItinButton, .model.WidgetConfigurationState, .data.ExpediaImage, .notification.Notification" />
@@ -97,6 +97,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.expedia.bookings.activity.SweepstakesActivity"
+            android:theme="@style/Theme.Phone.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.expedia.bookings.activity.PhoneSearchActivity"
             android:theme="@style/Theme.Phone"

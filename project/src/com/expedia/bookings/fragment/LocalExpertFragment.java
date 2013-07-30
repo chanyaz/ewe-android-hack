@@ -11,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -91,11 +90,9 @@ public class LocalExpertFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 
-		if (!getResources().getBoolean(R.bool.ldpi)) {
-			getView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-				@Override
-				public void onGlobalLayout() {
-					getView().getViewTreeObserver().removeGlobalOnLayoutListener(this);
+		if (!getResources().getBoolean(R.bool.ldpi)) {	
+			Ui.runOnNextLayout(this, new Runnable() {
+				public void run() {
 					mHandler.sendMessageDelayed(Message.obtain(mHandler, MSG_ADVANCE), START_DELAY);
 				}
 			});

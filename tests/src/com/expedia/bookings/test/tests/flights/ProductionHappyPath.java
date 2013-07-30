@@ -42,6 +42,7 @@ public class ProductionHappyPath extends ActivityInstrumentationTestCase2<Search
 
 	public void testMethod() throws Exception {
 		mSolo.clickOnScreen(50, 50);
+		mDriver.ignoreSweepstakesActivity();
 		mDriver.changePOS(mDriver.mLocaleUtils.FLIGHTS_LOCALES[2]);
 		mDriver.setSpoofBookings();
 		mDriver.changeAPI("Production");

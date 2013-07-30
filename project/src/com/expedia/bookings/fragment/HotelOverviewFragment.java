@@ -20,7 +20,6 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
@@ -50,9 +49,10 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.BreakdownDialogFragment;
 import com.expedia.bookings.dialog.HotelPriceChangeDialog;
-import com.expedia.bookings.dialog.TextViewDialog;
+import com.expedia.bookings.dialog.HotelSoldOutDialog;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.dialog.ThrobberDialog.CancelListener;
+import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
 import com.expedia.bookings.model.HotelPaymentFlowState;
 import com.expedia.bookings.model.HotelTravelerFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -63,6 +63,7 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
@@ -82,12 +83,11 @@ import com.mobiata.android.Log;
 import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
-import com.mobiata.android.util.Ui;
 import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.view.ViewHelper;
 
 public class HotelOverviewFragment extends LoadWalletFragment implements AccountButtonClickListener,
-		CouponCodeWidgetListener, CancelListener {
+		CouponCodeWidgetListener, CancelListener, SimpleCallbackDialogFragmentListener {
 
 	public interface BookingOverviewFragmentListener {
 		public void checkoutStarted();
@@ -96,6 +96,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	}
 
 	public static final String TAG_SLIDE_TO_PURCHASE_FRAG = "TAG_SLIDE_TO_PURCHASE_FRAG";
+	public static final String HOTEL_OFFER_ERROR_DIALOG = "HOTEL_OFFER_ERROR_DIALOG";
 
 	private static final String INSTANCE_REFRESHED_USER = "INSTANCE_REFRESHED_USER";
 	private static final String INSTANCE_IN_CHECKOUT = "INSTANCE_IN_CHECKOUT";
@@ -107,6 +108,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
 	private static final String KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE = "KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE";
 	private static final String KEY_APPLY_COUPON = "KEY_CREATE_TRIP";
+
+	private static final int CALLBACK_WALLET_PROMO_APPLY_ERROR = 1;
 
 	private boolean mInCheckout = false;
 	private BookingOverviewFragmentListener mBookingOverviewFragmentListener;
@@ -315,26 +318,29 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 
-		// When we resume, there is a possibility that:
-		// 1. We were using GWallet (with coupon), but are no longer using GWallet
-		// 2. We were not using GWallet, but now are doing so (and thus want to apply the GWallet code)
-		boolean isUsingGoogleWallet = Db.getBillingInfo().isUsingGoogleWallet();
-		if (mWasUsingGoogleWallet && !isUsingGoogleWallet && usingWalletPromoCoupon()) {
-			clearWalletPromoCoupon();
-		}
-		else if (!mWasUsingGoogleWallet && isUsingGoogleWallet) {
-			applyWalletCoupon();
-		}
+		HotelSoldOutDialog errorDialog = (HotelSoldOutDialog) getFragmentManager().findFragmentByTag(HOTEL_OFFER_ERROR_DIALOG);
+		if (errorDialog == null) {
+			// When we resume, there is a possibility that:
+			// 1. We were using GWallet (with coupon), but are no longer using GWallet
+			// 2. We were not using GWallet, but now are doing so (and thus want to apply the GWallet code)
+			boolean isUsingGoogleWallet = Db.getBillingInfo().isUsingGoogleWallet();
+			if (mWasUsingGoogleWallet && !isUsingGoogleWallet && usingWalletPromoCoupon()) {
+				clearWalletPromoCoupon();
+			}
+			else if (!mWasUsingGoogleWallet && isUsingGoogleWallet) {
+				applyWalletCoupon();
+			}
 
-		mCouponCodeWidget.startTextWatcher();
+			mCouponCodeWidget.startTextWatcher();
 
-		refreshData();
+			refreshData();
 
-		if (bd.isDownloading(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE)) {
-			bd.registerDownloadCallback(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, mHotelProductCallback);
-		}
-		else if (!mIsDoneLoadingPriceChange) {
-			bd.startDownload(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, mHotelProductDownload, mHotelProductCallback);
+			if (bd.isDownloading(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE)) {
+				bd.registerDownloadCallback(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, mHotelProductCallback);
+			}
+			else if (!mIsDoneLoadingPriceChange) {
+				bd.startDownload(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, mHotelProductDownload, mHotelProductCallback);
+			}
 		}
 
 		if (bd.isDownloading(KEY_REFRESH_USER)) {
@@ -716,11 +722,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 					mScrollView.requestLayout();
 					if (mMaintainStartCheckoutPosition) {
 						// Now we have to wire this up so we can scroll the page after a layout occurs
-						mScrollView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-							@Override
-							public void onGlobalLayout() {
+						Ui.runOnNextLayout(mScrollView, new Runnable() {
+							public void run() {
 								scrollToCheckout(false);
-								mScrollView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 							}
 						});
 					}
@@ -1032,7 +1036,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 					mIsDoneLoadingPriceChange = true;
 					mHotelReceipt.bind(mIsDoneLoadingPriceChange, Db.getHotelSearch().getSelectedProperty(),
-							Db.getHotelSearch().getSearchParams(), selectedRate, appliedWalletPromoCoupon());
+							Db.getHotelSearch().getSearchParams(), newRate, appliedWalletPromoCoupon());
 					updateViewVisibilities();
 				}
 				else {
@@ -1043,32 +1047,20 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	};
 
 	private void handleHotelProductError(HotelProductResponse response) {
-		TextViewDialog dialog = new TextViewDialog();
-		boolean isUnavailable = false;
-		if (response != null) {
+		HotelSoldOutDialog dialog = HotelSoldOutDialog.newInstance();
+		int messageId = R.string.e3_error_hotel_offers_hotel_service_failure;
+		if (response != null && response.getErrors() != null) {
 			for (ServerError error : response.getErrors()) {
 				if (error.getErrorCode() == ServerError.ErrorCode.HOTEL_ROOM_UNAVAILABLE) {
-					isUnavailable = true;
 					String selectedId = Db.getHotelSearch().getSelectedPropertyId();
+					messageId = R.string.e3_error_hotel_offers_hotel_room_unavailable;
 					Db.getHotelSearch().getAvailability(selectedId).removeRate(response.getOriginalProductKey());
 				}
 			}
 		}
 
-		if (isUnavailable) {
-			dialog.setMessage(R.string.e3_error_hotel_offers_hotel_room_unavailable);
-		}
-		else {
-			dialog.setMessage(R.string.e3_error_hotel_offers_hotel_service_failure);
-		}
-
-		dialog.setOnDismissListener(new TextViewDialog.OnDismissListener() {
-			@Override
-			public void onDismissed() {
-				getActivity().finish();
-			}
-		});
-		dialog.show(getFragmentManager(), "hotelOfferErrorDialog");
+		dialog.setMessage(messageId);
+		dialog.show(getFragmentManager(), HOTEL_OFFER_ERROR_DIALOG);
 	}
 
 	// Listeners
@@ -1497,8 +1489,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			mFragmentModLock.runWhenSafe(new Runnable() {
 				@Override
 				public void run() {
-					SimpleDialogFragment df = SimpleDialogFragment.newInstance(null,
-							getString(R.string.error_wallet_promo_cannot_apply));
+					SimpleCallbackDialogFragment df = SimpleCallbackDialogFragment.newInstance(null,
+							getString(R.string.error_wallet_promo_cannot_apply), getString(R.string.ok),
+							CALLBACK_WALLET_PROMO_APPLY_ERROR);
 					df.show(getFragmentManager(), "couponReplacedDialog");
 				}
 			});
@@ -1544,6 +1537,22 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		clearWalletPromoCoupon();
 
 		updateWalletViewVisibilities();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// SimpleCallbackDialogFragmentListener
+
+	@Override
+	public void onSimpleDialogClick(int callbackId) {
+		onSimpleDialogCancel(callbackId);
+	}
+
+	@Override
+	public void onSimpleDialogCancel(int callbackId) {
+		// #1687: Make sure to update view visibilities, as the slide-to-purchase may still have a state change yet
+		if (callbackId == CALLBACK_WALLET_PROMO_APPLY_ERROR) {
+			updateViewVisibilities();
+		}
 	}
 
 }

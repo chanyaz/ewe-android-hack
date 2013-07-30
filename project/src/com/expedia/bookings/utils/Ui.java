@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewStub;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
 /**
  * Adds compatibility library fragment support to Ui.
@@ -132,6 +133,31 @@ public class Ui extends com.mobiata.android.util.Ui {
 		}
 
 		return new int[] { measuredWidth, measuredHeight };
+	}
+
+	/**
+	 * Run code once, on the next layout pass of the given View. This implements the
+	 * OnGlobalLayoutListener without having to worry about too much boilerplate.
+	 * @param View
+	 * @param Runnable
+	 */
+	public static void runOnNextLayout(final View view, final Runnable runnable) {
+		view.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+			public void onGlobalLayout() {
+				view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+				runnable.run();
+			}
+		});
+	}
+
+	/**
+	 * Run code once, on the next layout pass of the fragment's getView(). This implements
+	 * the OnGlobalLayoutListener without having to worry about too much boilerplate.
+	 * @param Support Fragment
+	 * @param Runnable
+	 */
+	public static void runOnNextLayout(Fragment fragment, Runnable runnable) {
+		runOnNextLayout(fragment.getView(), runnable);
 	}
 
 	private static TypedArray obtainTypedArray(Activity activity, int attr) {

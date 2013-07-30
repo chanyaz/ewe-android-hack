@@ -170,6 +170,23 @@ public class ParserUtils {
 
 			return errors;
 		}
+		else if (response.has("responseCode") && TextUtils.equals("Failure", response.getString("responseCode"))) {
+			List<ServerError> errors = new ArrayList<ServerError>();
+			if (response.has("errorMessages")) {
+				JSONArray arr = response.getJSONArray("errorMessages");
+				for (int a = 0; a < arr.length(); a++) {
+					String msg = arr.getString(a);
+					ServerError error = new ServerError(apiMethod);
+					error.setMessage(msg);
+					errors.add(error);
+				}
+			}
+			else {
+				errors.add(new ServerError(apiMethod));
+			}
+
+			return errors;
+		}
 
 		return null;
 	}

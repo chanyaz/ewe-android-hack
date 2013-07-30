@@ -143,22 +143,23 @@ public class GCMIntentService extends GCMBaseIntentService {
 								//After the refresh completes we should show the notification
 								if (notificationTrip.equals(trip)) {
 									Log.d("GCM: Our deep refreshing trip has updated, so we can now generate the actual notification");
-									PushNotificationUtils.generateNotification(GCMIntentService.this, fhid, locKey,
-											locArgs, type);
-									ItineraryManager.getInstance().removeSyncListener(this);
+									notify(trip);
 								}
 							}
 
 							@Override
 							public void onTripUpdateFailed(Trip trip) {
-								//We failed to refresh, so lets try again (but if the trip doesnt exist then we break the chain).
+								// We failed to refresh, which is sad, but there's nothing we can do
 								if (notificationTrip.equals(trip)) {
-									Log.d("GCM: Our deep refreshing trip has failed to update, so we are attempting to refresh it again...");
-									if (!ItineraryManager.getInstance().deepRefreshTrip(notificationTrip)) {
-										Log.d("GCM: Our deep refreshing trip has failed to update, and apparently the trip in question doesn't exist, so we are giving up.");
-										ItineraryManager.getInstance().removeSyncListener(this);
-									}
+									Log.d("GCM: Our deep refreshing trip has failed to update so we are giving up and notifying with old data");
+									notify(trip);
 								}
+							}
+
+							private void notify(Trip trip) {
+								PushNotificationUtils.generateNotification(GCMIntentService.this, fhid, locKey,
+										locArgs, type);
+								ItineraryManager.getInstance().removeSyncListener(this);
 							}
 						});
 

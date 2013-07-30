@@ -47,6 +47,8 @@ public class User implements JSONable {
 
 	private List<StoredCreditCard> mStoredCreditCards = new ArrayList<StoredCreditCard>();
 
+	private boolean mIsFacebookUser;
+
 	private static final String[] ADDRESS_LINE_KEYS = new String[] { "firstAddressLine", "secondAddressLine" };
 
 	public User() {
@@ -87,6 +89,14 @@ public class User implements JSONable {
 
 	public List<Traveler> getAssociatedTravelers() {
 		return mAssociatedTravelers;
+	}
+
+	public boolean isFacebookUser() {
+		return mIsFacebookUser;
+	}
+
+	public void setIsFacebookUser(boolean isFacebookUser) {
+		mIsFacebookUser = isFacebookUser;
 	}
 
 	public boolean isRewardsUser() {
@@ -422,6 +432,7 @@ public class User implements JSONable {
 
 		try {
 			obj.put("version", VERSION);
+			obj.put("isFacebookUser", mIsFacebookUser);
 			JSONUtils.putJSONable(obj, "primaryTraveler", mPrimaryTraveler);
 			JSONUtils.putJSONableList(obj, "storedCreditCards", mStoredCreditCards);
 			JSONUtils.putJSONableList(obj, "associatedTravelers", mAssociatedTravelers);
@@ -486,6 +497,8 @@ public class User implements JSONable {
 		mStoredCreditCards = JSONUtils.getJSONableList(obj, "storedCreditCards", StoredCreditCard.class);
 
 		mAssociatedTravelers = JSONUtils.getJSONableList(obj, "associatedTravelers", Traveler.class);
+
+		mIsFacebookUser = obj.optBoolean("isFacebookUser");
 
 		return true;
 	}

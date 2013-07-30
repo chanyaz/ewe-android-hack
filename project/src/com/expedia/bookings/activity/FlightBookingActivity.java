@@ -84,12 +84,10 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 		if (!ExpediaBookingApp.useTabletInterface(this)) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		}
 
-			// #1106: Don't continue to load onCreate() as
-			// we're just about to recreate the activity
-			if (!getResources().getBoolean(R.bool.portrait)) {
-				return;
-			}
+		if (shouldBail()) {
+			return;
 		}
 
 		mKillReceiver = new ActivityKillReceiver(this);
@@ -112,7 +110,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		mProgressFragment = Ui.findSupportFragment(this, BookingInProgressDialogFragment.TAG);
 		mBookingFragment = Ui.findSupportFragment(this, FlightBookingFragment.TAG);
 
-		if (savedInstanceState == null) {
+		if (savedInstanceState == null || mBookingFragment == null) {
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
 			mBookingFragment = new FlightBookingFragment();
@@ -153,12 +151,21 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	@Override
 	protected void onStart() {
 		super.onStart();
+
+		if (shouldBail()) {
+			return;
+		}
+
 		OmnitureTracking.trackPageLoadFlightCheckoutPaymentCid(this);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		if (shouldBail()) {
+			return;
+		}
 
 		setCvvErrorMode(mCvvErrorModeEnabled);
 
@@ -176,12 +183,20 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	protected void onPause() {
 		super.onPause();
 
+		if (shouldBail()) {
+			return;
+		}
+
 		OmnitureTracking.onPause();
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+
+		if (shouldBail()) {
+			return;
+		}
 
 		if (mKillReceiver != null) {
 			mKillReceiver.onDestroy();
@@ -212,6 +227,12 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 		// Destroy the activity backstack
 		NavUtils.sendKillActivityBroadcast(this);
+	}
+
+	private boolean shouldBail() {
+		// #1106: Don't continue to load any part of the
+		// activity as we're just about to recreate it
+		return !ExpediaBookingApp.useTabletInterface(this) && !getResources().getBoolean(R.bool.portrait);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -341,6 +362,15 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 						getString(R.string.error_expired_payment), getString(android.R.string.ok),
 						DIALOG_CALLBACK_EXPIRED_CC);
 				frag.show(getSupportFragmentManager(), "expiredCcDialog");
+				return;
+			}
+			// 1643: Handle an odd API response. This is probably due to the transition
+			// to being anble to handle booking tickets for minors. We shouldn't need this in the future.
+			else if ("mainFlightPassenger.birthDate".equals(field)) {
+				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
+						getString(R.string.error_booking_with_minor), getString(android.R.string.ok),
+						DIALOG_CALLBACK_MINOR);
+				frag.show(getSupportFragmentManager(), "cannotBookWithMinorDialog");
 				return;
 			}
 

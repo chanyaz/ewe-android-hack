@@ -31,11 +31,11 @@ import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.FlightAdapter;
-import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.AnimatorSet;
@@ -175,11 +175,8 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 					query.getMaxTime());
 		}
 
-		v.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-			@Override
-			public void onGlobalLayout() {
-				v.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-
+		Ui.runOnNextLayout(v, new Runnable() {
+			public void run() {
 				mListener.onFlightListLayout(FlightListFragment.this);
 			}
 		});

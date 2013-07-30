@@ -86,6 +86,7 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity {
 			Db.setBookingResponse(null);
 			Db.getHotelSearch().setCreateTripResponse(null);
 			Db.getHotelSearch().resetSearchData();
+			Db.getHotelSearch().resetSearchParams();
 
 			// Clear the cache just to be safe
 			TwoLevelImageCache.clearMemoryCache();
@@ -100,6 +101,10 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity {
 
 		if (mKillReceiver != null) {
 			mKillReceiver.onDestroy();
+		}
+
+		if (isFinishing()) {
+			Db.getHotelSearch().resetSearchData();
 		}
 	}
 

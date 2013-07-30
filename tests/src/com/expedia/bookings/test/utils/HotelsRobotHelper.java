@@ -1111,7 +1111,6 @@ public class HotelsRobotHelper {
 	public void flightsHappyPath(String departure, String arrival, int bookingDateOffset,
 			boolean completeFlightBooking, boolean doHotelBooking)
 			throws Exception, IntegrationFailureError {
-
 		landscape();
 		portrait();
 		delay();
@@ -1229,6 +1228,13 @@ public class HotelsRobotHelper {
 		else {
 			mSolo.goBack();
 		}
+	}
 
+	public void ignoreSweepstakesActivity() {
+		String sweepstakesTitle = mRes.getString(R.string.sweepstakes_enter_title);
+		if (mSolo.searchText(sweepstakesTitle, 1, false, true)) {
+			Log.d(TAG, "Ignoring sweepstakes activity");
+			mSolo.clickOnText(mRes.getString(R.string.sweepstakes_no_thanks));
+		}
 	}
 }

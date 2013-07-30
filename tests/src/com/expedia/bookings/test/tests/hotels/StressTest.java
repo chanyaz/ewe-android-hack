@@ -38,6 +38,7 @@ public class StressTest extends ActivityInstrumentationTestCase2<SearchActivity>
 		try {
 			mDriver.setAllowScreenshots(false);
 			mDriver.setAllowOrientationChange(false);
+			mDriver.ignoreSweepstakesActivity();
 			mDriver.delay();
 			mDriver.changePOS(mDriver.mLocaleUtils.AMERICAN_LOCALES[5]);
 			mDriver.setSpoofBookings();
@@ -53,7 +54,6 @@ public class StressTest extends ActivityInstrumentationTestCase2<SearchActivity>
 			mDriver.takeScreenshotUponFailure(e, TAG);
 			throw e;
 		}
-
 	}
 
 	protected void tearDown() throws Exception {

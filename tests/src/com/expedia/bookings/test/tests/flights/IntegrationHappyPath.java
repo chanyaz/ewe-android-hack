@@ -43,6 +43,7 @@ public class IntegrationHappyPath extends ActivityInstrumentationTestCase2<Searc
 	public void testMethod() throws Exception {
 		try {
 			mSolo.clickOnScreen(50, 50);
+			mDriver.ignoreSweepstakesActivity();
 			mDriver.changePOS(mDriver.mLocaleUtils.FLIGHTS_LOCALES[2]);
 			mDriver.changeAPI("Integration");
 			mDriver.flightsHappyPath(mUser.mDepartureAirport, mUser.mArrivalAirport, 1, false, false);

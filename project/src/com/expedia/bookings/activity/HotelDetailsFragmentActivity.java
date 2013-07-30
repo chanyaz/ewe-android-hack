@@ -170,6 +170,15 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 			return;
 		}
 
+		// #1463: If this is the first time we're launching, clear any background downloads.  This can happen if
+		// you run by this screen before the download finishes and complete a booking (so onPause() never runs
+		// with a finish parameter).
+		if (savedInstanceState == null) {
+			BackgroundDownloader bd = BackgroundDownloader.getInstance();
+			bd.cancelDownload(INFO_DOWNLOAD_KEY);
+			bd.cancelDownload(REVIEWS_DOWNLOAD_KEY);
+		}
+
 		setupHotelActivity(savedInstanceState);
 
 		// Note: the ordering here matters. We want to register the kill receiver after the KILL_ACTIVITY broadcast is

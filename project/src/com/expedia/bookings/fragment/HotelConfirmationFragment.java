@@ -66,7 +66,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 
 	private ViewGroup mHotelCard;
 	private View mSamsungDivider;
-	private View mSamsungWalletButton;
+	private TextView mSamsungWalletButton;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -104,7 +104,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		// Setup a dropping animation with the hotel card.  Only animate on versions of Android
 		// that will allow us to make the animation nice and smooth.
 		mHotelCard = Ui.findView(v, R.id.hotel_card);
-		if (savedInstanceState == null && Build.VERSION.SDK_INT >= 12) {
+		if (savedInstanceState == null && Build.VERSION.SDK_INT >= 14) {
 			mHotelCard.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 				@Override
 				public boolean onPreDraw() {
@@ -164,11 +164,8 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 			Ui.findView(v, R.id.calendar_divider).setVisibility(View.GONE);
 		}
 
-		if (SamsungWalletUtils.isAvailable(getActivity())) {
-			Log.d("SamsungWallet: is available, showing UI");
-			mSamsungDivider = Ui.findView(v, R.id.samsung_divider);
-			mSamsungWalletButton = Ui.findView(v, R.id.samsung_wallet_action_text_view);
-		}
+		mSamsungDivider = Ui.findView(v, R.id.samsung_divider);
+		mSamsungWalletButton = Ui.findView(v, R.id.samsung_wallet_action_text_view);
 
 		return v;
 	}
@@ -177,7 +174,8 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 	public void onResume() {
 		super.onResume();
 
-		if (SamsungWalletUtils.isAvailable(getActivity())) {
+		if (SamsungWalletUtils.isSamsungWalletAvailable(getActivity())) {
+			Log.d("SamsungWallet: onResume samsung wallet was found");
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();
 			if (bd.isDownloading(SAMSUNG_WALLET_DOWNLOAD_KEY)) {
 				Log.d("SamsungWallet: is available, resuming download");
@@ -191,6 +189,10 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 				Log.d("SamsungWallet: is available, starting download");
 				bd.startDownload(SAMSUNG_WALLET_DOWNLOAD_KEY, mWalletDownload, mWalletCallback);
 			}
+		}
+		else if (SamsungWalletUtils.isSamsungAvailable(getActivity())) {
+			Log.d("SamsungWallet: onResume show Download Samsung Wallet button");
+			showDownloadSamsungWalletButton();
 		}
 	}
 
@@ -381,16 +383,26 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 			Intent intent = null;
 			if (result == SamsungWalletUtils.RESULT_TICKET_EXISTS) {
 				Log.d("SamsungWallet: Starting view ticket activity");
+				OmnitureTracking.trackSamsungWalletViewClicked(getActivity());
 				intent = SamsungWalletUtils.viewTicketIntent(context, ticketId);
 			}
 			else if (result == SamsungWalletUtils.RESULT_TICKET_NOT_FOUND) {
 				Log.d("SamsungWallet: Starting download ticket activity");
+				OmnitureTracking.trackSamsungWalletLoadClicked(getActivity());
 				intent = SamsungWalletUtils.downloadTicketIntent(context, ticketId);
 			}
 
 			if (intent != null) {
 				startActivity(intent);
 			}
+		}
+	};
+
+	private final View.OnClickListener mDownloadSamsungWalletClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			OmnitureTracking.trackSamsungWalletDownloadClicked(getActivity());
+			SocialUtils.openSite(getActivity(), SamsungWalletUtils.SAMSUNG_WALLET_DOWNLOAD_URL);
 		}
 	};
 
@@ -410,9 +422,29 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 	private void handleSamsungWalletResult(int result) {
 		Log.d("SamsungWallet: Handle samsung wallet result: " + result);
 		// Ready to let the user click the button
+		if (result == SamsungWalletUtils.RESULT_TICKET_EXISTS ||
+			result == SamsungWalletUtils.RESULT_TICKET_NOT_FOUND) {
+
+			setSamsungWalletVisibility(View.VISIBLE);
+			mSamsungWalletButton.setTag(result);
+			mSamsungWalletButton.setOnClickListener(mSamsungWalletClickListener);
+
+			if (result == SamsungWalletUtils.RESULT_TICKET_EXISTS) {
+				OmnitureTracking.trackSamsungWalletViewShown(getActivity());
+				mSamsungWalletButton.setText(R.string.view_in_samsung_wallet);
+			}
+			else if (result == SamsungWalletUtils.RESULT_TICKET_NOT_FOUND) {
+				OmnitureTracking.trackSamsungWalletLoadShown(getActivity());
+				mSamsungWalletButton.setText(R.string.load_to_samsung_wallet);
+			}
+		}
+	}
+
+	private void showDownloadSamsungWalletButton() {
+		OmnitureTracking.trackSamsungWalletDownloadShown(getActivity());
 		setSamsungWalletVisibility(View.VISIBLE);
-		mSamsungWalletButton.setTag(result);
-		mSamsungWalletButton.setOnClickListener(mSamsungWalletClickListener);
+		mSamsungWalletButton.setText(getString(R.string.download_samsung_wallet));
+		mSamsungWalletButton.setOnClickListener(mDownloadSamsungWalletClickListener);
 	}
 
 	private void setSamsungWalletVisibility(int visibility) {

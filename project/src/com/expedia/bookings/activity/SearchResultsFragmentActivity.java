@@ -1111,7 +1111,9 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		}
 		bd.cancelDownload(KEY_REVIEWS);
 
-		Db.getHotelSearch().resetSearchData();
+		if (Db.getBookingResponse() == null) {
+			Db.getHotelSearch().resetSearchData();
+		}
 		Db.resetFilter();
 	}
 

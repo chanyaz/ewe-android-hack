@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.expedia.bookings.data.SweepstakesResponse;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -71,6 +72,11 @@ public class SearchActivity extends Activity {
 			}
 		}
 
+		// Check for sweepstakes promotion
+		if (NavUtils.showSweepstakes(this)) {
+			new Thread(new SweepstakesTask(this)).start();
+		}
+
 		// Finish this Activity after routing
 		finish();
 	}
@@ -93,5 +99,23 @@ public class SearchActivity extends Activity {
 	 */
 	private void facebookInstallTracking() {
 		com.facebook.Settings.publishInstallAsync(this, ExpediaServices.getFacebookAppId(this));
+	}
+
+	private static class SweepstakesTask implements Runnable {
+		private Context mContext;
+
+		public SweepstakesTask(Context context) {
+			mContext = context.getApplicationContext();
+		}
+
+		@Override
+		public void run() {
+			ExpediaServices expediaServices = new ExpediaServices(mContext);
+			SweepstakesResponse response = expediaServices.getSweepstakesResponse();
+
+			if (response != null && response.getSweepstakesPromotionEnabled()) {
+				NavUtils.goToSweepstakes(mContext);
+			}
+		}
 	}
 }

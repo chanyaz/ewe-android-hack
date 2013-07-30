@@ -348,15 +348,21 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 					property.setLowestRate(lowestRate);
 				}
 
-				searchResponse.addProperty(property);
+				// #1550: Don't try to show the hotel if it has no rates
+				if (property.getLowestRate() != null) {
+					searchResponse.addProperty(property);
 
-				// Forward to the hotel detail screen if the user searched by hotel name and selected one.
-				if (Db.getHotelSearch().getSearchParams().getSearchType() == HotelSearchParams.SearchType.HOTEL) {
-					startActivity(HotelDetailsFragmentActivity.createIntent(PhoneSearchActivity.this));
+					// Forward to the hotel detail screen if the user searched by hotel name and selected one.
+					if (Db.getHotelSearch().getSearchParams().getSearchType() == HotelSearchParams.SearchType.HOTEL) {
+						startActivity(HotelDetailsFragmentActivity.createIntent(PhoneSearchActivity.this));
+					}
+					Db.getHotelSearch().setSearchResponse(searchResponse);
+					Db.getHotelSearch().updateFrom(offersResponse);
+					Db.getHotelSearch().setSelectedProperty(property);
 				}
-				Db.getHotelSearch().setSearchResponse(searchResponse);
-				Db.getHotelSearch().updateFrom(offersResponse);
-				Db.getHotelSearch().setSelectedProperty(property);
+				else {
+					Db.getHotelSearch().setSearchResponse(searchResponse);
+				}
 
 				loadSearchResponse(searchResponse);
 			}
@@ -2005,7 +2011,10 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		setActionBarBookingInfoText();
 
 		if (mDisplayType == DisplayType.CALENDAR && !mHasShownCalendar) {
-			mDatesCalendarDatePicker.reset();
+			//Instead of displaying the default stay, show an empty calendar
+			if(Db.getHotelSearch().getSearchParams().isDefaultStay()){
+					mDatesCalendarDatePicker.reset();
+			}
 			mHasShownCalendar = true;
 		}
 	}

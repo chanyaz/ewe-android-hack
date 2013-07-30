@@ -134,6 +134,13 @@ public class NotificationReceiver extends BroadcastReceiver {
 		}
 
 		public void start() {
+			// Disable any image downloading if this device doesn't show bitmaps in notifications anyway
+			if (AndroidUtils.getSdkVersion() < 16) {
+				mBitmap = null;
+				display();
+				return;
+			}
+
 			Notification.ImageType imageType = mNotification.getImageType();
 			switch (imageType) {
 			case RESOURCE:
@@ -222,8 +229,15 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 			@Override
 			public void onImageLoaded(String url, Bitmap bitmap) {
-				// #1457 - We make a copy so that the TwoLevelImageCache can't recycle it from underneath us
-				mBitmap = bitmap.copy(bitmap.getConfig(), false);
+				try {
+					// #1457 - We make a copy so that the TwoLevelImageCache can't recycle it from underneath us
+					mBitmap = bitmap.copy(bitmap.getConfig(), false);
+				}
+				catch (OutOfMemoryError e) {
+					// Gracefully handle out of memory here by just not displaying a big picture. NBD
+					Log.w("Ran out of memory downloading a notification bitmap", e);
+					mBitmap = null;
+				}
 				display();
 			}
 		};

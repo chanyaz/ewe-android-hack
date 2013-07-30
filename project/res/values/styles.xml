@@ -898,6 +898,7 @@
         <item name="android:minHeight">@dimen/alert_dialog_window_title_height</item>
         <item name="android:paddingLeft">16dip</item>
         <item name="android:paddingRight">16dip</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <!-- Text appearances for breakdown dialogs -->

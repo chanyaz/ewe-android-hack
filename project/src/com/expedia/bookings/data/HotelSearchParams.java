@@ -115,12 +115,29 @@ public class HotelSearchParams implements JSONable {
 	}
 
 	public void setDefaultStay() {
+		mCheckInDate = getDefaultCheckInDate();
+		mCheckOutDate = getDefaultCheckOutDate();
+	}
+
+	public boolean isDefaultStay() {
+		return mCheckInDate != null && mCheckInDate.equals(getDefaultCheckInDate()) && mCheckOutDate != null
+				&& mCheckOutDate.equals(getDefaultCheckOutDate());
+	}
+
+	private Date getDefaultCheckInDate() {
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
 		int month = cal.get(Calendar.MONTH);
 		int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-		mCheckInDate = new Date(new GregorianCalendar(year, month, dayOfMonth));
-		mCheckOutDate = new Date(new GregorianCalendar(year, month, dayOfMonth + 1));
+		return new Date(new GregorianCalendar(year, month, dayOfMonth));
+	}
+
+	private Date getDefaultCheckOutDate() {
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH);
+		int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+		return new Date(new GregorianCalendar(year, month, dayOfMonth + 1));
 	}
 
 	public HotelSearchParams(JSONObject obj) {

@@ -69,7 +69,7 @@
     </style>
 
     <!-- From ABS, Light dialog window -->
-    <style name="Theme.Light.Dialog" parent="android:Theme.Light">
+    <style name="Theme.Light.Dialog" parent="@style/Theme.Sherlock.Light">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowTitleStyle">@style/DialogWindowTitle.Light</item>
         <item name="android:windowBackground">@drawable/dialog_full_holo_light</item>
@@ -222,6 +222,13 @@
 
     <!-- Inherit EB or VSC theme based on desired project -->
     <style name="Theme.Phone" parent="@style/Theme.Expedia" />
+
+    <style name="Theme.Phone.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 
     <style name="Theme.Phone.WebView">
         <item name="android:logo">?attr/webViewPreferencesActionBarLogo</item>

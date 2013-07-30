@@ -93,6 +93,7 @@ import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.SuggestResponse;
+import com.expedia.bookings.data.SweepstakesResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.AssistanceType;
 import com.expedia.bookings.data.Traveler.Gender;
@@ -300,6 +301,12 @@ public class ExpediaServices implements DownloadListener {
 		else {
 			return 3;
 		}
+	}
+
+	// Sweepstakes
+
+	public SweepstakesResponse getSweepstakesResponse() {
+		return doE3Request("static/mobile/sweepstakes", null, new SweepstakesResponseHandler(), 0);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

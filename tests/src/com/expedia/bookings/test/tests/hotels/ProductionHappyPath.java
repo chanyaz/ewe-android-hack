@@ -45,6 +45,7 @@ public class ProductionHappyPath extends ActivityInstrumentationTestCase2<Search
 			mDriver.setAllowScreenshots(false);
 			mDriver.setAllowOrientationChange(false);
 
+			mDriver.ignoreSweepstakesActivity();
 			mDriver.changePOS(mDriver.mLocaleUtils.AMERICAN_LOCALES[5]);
 			mDriver.changeAPI("Production");
 			mDriver.clearPrivateData();
@@ -62,7 +63,6 @@ public class ProductionHappyPath extends ActivityInstrumentationTestCase2<Search
 			mDriver.takeScreenshotUponFailure(e, TAG);
 			throw e;
 		}
-
 	}
 
 	@Override

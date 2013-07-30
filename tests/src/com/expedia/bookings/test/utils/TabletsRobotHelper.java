@@ -50,6 +50,7 @@ public class TabletsRobotHelper extends HotelsRobotHelper {
 		delay(1);
 		mSolo.scrollDown();
 		ArrayList<View> a = mSolo.getCurrentViews();
+		Log.v("!!!", "!!! " + a.size());
 		for (int i = 0; i < a.size(); i++) {
 			Log.v("!!!", "!!! " + a.toString());
 			if (spoofBookingsDone && suppressFlightsDone) {
@@ -183,6 +184,7 @@ public class TabletsRobotHelper extends HotelsRobotHelper {
 	}
 
 	public void runHotelHappyPath() {
+		ignoreSweepstakesActivity();
 		delay(5);
 		setSpoofBookings();
 		selectLocation(mUser.mHotelSearchCity);

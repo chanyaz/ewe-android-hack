@@ -49,7 +49,13 @@ public class ItinCardDataHotelAttach extends ItinCardData {
 	}
 
 	@Override
+	public boolean hasSummaryData() {
+		return false;
+	}
+
+	@Override
 	public boolean hasDetailData() {
 		return false;
 	}
+
 }
