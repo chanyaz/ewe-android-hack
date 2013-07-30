@@ -1,5 +1,3 @@
-import java.util.regex.Pattern
-
 def isServerBuild
 def jenkinsBuildNumber = "$System.env.BUILD_NUMBER"
 if (!jenkinsBuildNumber.isEmpty() && jenkinsBuildNumber != "null") {
