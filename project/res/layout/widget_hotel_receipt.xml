@@ -11,7 +11,7 @@
         android:layout_width="fill_parent"
         android:layout_height="@dimen/hotel_checkout_overview_image_height"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_image_placeholder"
+        android:src="?attr/hotelImagePlaceHolderDrawable"
         app:radiusTL="2dp"
         app:radiusTR="2dp" />
 

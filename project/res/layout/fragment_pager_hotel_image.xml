@@ -25,7 +25,7 @@
         android:background="@drawable/bg_gallery_photo_normal"
         android:padding="0dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_image_placeholder"
+        android:src="?attr/hotelImagePlaceHolderDrawable"
         android:visibility="gone" />
 
 </LinearLayout>
