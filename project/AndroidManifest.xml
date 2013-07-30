@@ -280,7 +280,7 @@
         <!-- HockeyApp -->
         <meta-data
             android:name="buildNumber"
-            android:value="0" />
+            android:value="@integer/hockey_app_build_number" />
 
         <activity android:name="net.hockeyapp.android.UpdateActivity" />
 
