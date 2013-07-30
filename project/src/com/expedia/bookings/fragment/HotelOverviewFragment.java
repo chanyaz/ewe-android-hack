@@ -20,7 +20,6 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
@@ -52,6 +51,7 @@ import com.expedia.bookings.dialog.HotelRateBreakdownDialog;
 import com.expedia.bookings.dialog.HotelSoldOutDialog;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.dialog.ThrobberDialog.CancelListener;
+import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
 import com.expedia.bookings.model.HotelPaymentFlowState;
 import com.expedia.bookings.model.HotelTravelerFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -86,7 +86,7 @@ import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.view.ViewHelper;
 
 public class HotelOverviewFragment extends LoadWalletFragment implements AccountButtonClickListener,
-		CouponCodeWidgetListener, CancelListener {
+		CouponCodeWidgetListener, CancelListener, SimpleCallbackDialogFragmentListener {
 
 	public interface BookingOverviewFragmentListener {
 		public void checkoutStarted();
@@ -107,6 +107,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
 	private static final String KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE = "KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE";
 	private static final String KEY_APPLY_COUPON = "KEY_CREATE_TRIP";
+
+	private static final int CALLBACK_WALLET_PROMO_APPLY_ERROR = 1;
 
 	private boolean mInCheckout = false;
 	private BookingOverviewFragmentListener mBookingOverviewFragmentListener;
@@ -1443,8 +1445,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			mFragmentModLock.runWhenSafe(new Runnable() {
 				@Override
 				public void run() {
-					SimpleDialogFragment df = SimpleDialogFragment.newInstance(null,
-							getString(R.string.error_wallet_promo_cannot_apply));
+					SimpleCallbackDialogFragment df = SimpleCallbackDialogFragment.newInstance(null,
+							getString(R.string.error_wallet_promo_cannot_apply), getString(R.string.ok),
+							CALLBACK_WALLET_PROMO_APPLY_ERROR);
 					df.show(getFragmentManager(), "couponReplacedDialog");
 				}
 			});
@@ -1490,6 +1493,22 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		clearWalletPromoCoupon();
 
 		updateWalletViewVisibilities();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// SimpleCallbackDialogFragmentListener
+
+	@Override
+	public void onSimpleDialogClick(int callbackId) {
+		onSimpleDialogCancel(callbackId);
+	}
+
+	@Override
+	public void onSimpleDialogCancel(int callbackId) {
+		// #1687: Make sure to update view visibilities, as the slide-to-purchase may still have a state change yet
+		if (callbackId == CALLBACK_WALLET_PROMO_APPLY_ERROR) {
+			updateViewVisibilities();
+		}
 	}
 
 }

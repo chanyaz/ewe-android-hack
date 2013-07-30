@@ -25,6 +25,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.HotelOverviewFragment;
 import com.expedia.bookings.fragment.HotelOverviewFragment.BookingOverviewFragmentListener;
 import com.expedia.bookings.fragment.LoginFragment.LogInListener;
+import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
 import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
@@ -33,7 +34,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.ViewUtils;
 
 public class HotelOverviewActivity extends SherlockFragmentActivity implements BookingOverviewFragmentListener,
-		LogInListener, ISlideToListener {
+		LogInListener, ISlideToListener, SimpleCallbackDialogFragmentListener {
 
 	public static final String STATE_TAG_LOADED_DB_INFO = "STATE_TAG_LOADED_DB_INFO";
 
@@ -291,5 +292,22 @@ public class HotelOverviewActivity extends SherlockFragmentActivity implements B
 
 	@Override
 	public void onSlideAbort() {
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// SimpleCallbackDialogFragmentListener
+	//
+	// Note: If you're on anything but the 3.2.2 branch this can be removed;
+	// it's only here while SimpleCallbackDialogFragment has no easy way of
+	// listening from a child Fragment.
+
+	@Override
+	public void onSimpleDialogClick(int callbackId) {
+		mBookingOverviewFragment.onSimpleDialogClick(callbackId);
+	}
+
+	@Override
+	public void onSimpleDialogCancel(int callbackId) {
+		mBookingOverviewFragment.onSimpleDialogCancel(callbackId);
 	}
 }
