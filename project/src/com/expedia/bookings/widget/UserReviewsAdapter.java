@@ -6,6 +6,7 @@ import java.util.List;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -216,11 +217,8 @@ public class UserReviewsAdapter extends BaseAdapter {
 
 		viewHolder.nameAndLocation.setText(nameAndLocationText);
 
-		// This code ensure that the date is displayed according to the current locale
 		Time date = userReviewLoaded.mReview.getSubmissionDate();
-		Date submissionDate = new Date(date.year - 1900, date.month, date.monthDay); //Y2K is going to end the world! (years since 1900)
-		java.text.DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(mContext);
-		String submissionDateText = dateFormat.format(submissionDate);
+		String submissionDateText = DateUtils.formatDateTime(mContext, date.toMillis(true), DateUtils.FORMAT_NUMERIC_DATE);
 		viewHolder.submissionDate.setText(submissionDateText);
 
 	}
