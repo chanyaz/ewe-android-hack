@@ -7,4 +7,8 @@
     <string name="expedia_account_sync_adapter_content_authority">com.expedia.booking.vsc.accountsync</string>
     <string name="expedia_account_type_identifier">com.expedia.bookings.vsc</string>
 
+    <!-- Override these references to use vsc map keys -->
+    <string name="mapsv2_dev_key">@string/mapsv2_vsc_dev_key</string>
+    <string name="mapsv2_ha_key">@string/mapsv2_vsc_ha_key</string>
+    <string name="mapsv2_prod_key">@string/mapsv2_vsc_prod_key</string>
 </resources>

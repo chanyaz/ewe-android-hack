@@ -29,12 +29,16 @@
     <string name="mapsv2_key">@string/mapsv2_dev_key</string>
     <!-- Second level of indirection so we can override for buildVariants such as VSC -->
     <string name="mapsv2_dev_key">@string/mapsv2_ebad_dev_key</string>
-    <string name="mapsv2_ha_key">@string/mapsv2_ha_key</string>
-    <string name="mapsv2_prod_key">@string/mapsv2_prod_key</string>
+    <string name="mapsv2_ha_key">@string/mapsv2_ebad_ha_key</string>
+    <string name="mapsv2_prod_key">@string/mapsv2_ebad_prod_key</string>
     <!-- Concrete EBad maps v2 keys -->
     <string name="mapsv2_ebad_dev_key">AIzaSyCcUFcOBytf5_4zQCVisZeZ1Vw1PHuVI24</string>
     <string name="mapsv2_ebad_ha_key">AIzaSyDBpxfQT-N3CLCtDsfbvJRvWc0RFMIIbAA</string>
     <string name="mapsv2_ebad_prod_key">AIzaSyDyJFDB5IjNcq47xmyRgmGc8BGutqdZnI4</string>
+    <!-- Concrete VSC maps v2 keys -->
+    <string name="mapsv2_vsc_dev_key">AIzaSyCZNVLp91ji40dYH242asW4YT1oTVYG41s</string>
+    <string name="mapsv2_vsc_ha_key">AIzaSyDZVuVKxNe3gQNUKZyeqpHrxUupQ0wXUlQ</string>
+    <string name="mapsv2_vsc_prod_key">AIzaSyBoKFnHe78X_UlZhYbEeSB6SECfoorSPAs</string>
 
     <!-- MapsV2 key error messages -->
     <string name="error_mapsv2_release_key">You are not using the release maps key for a release build. Edit AndroidManifest.xml or the build system is broken.</string>
