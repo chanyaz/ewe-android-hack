@@ -103,7 +103,7 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 		ActionBar actionBar = this.getSupportActionBar();
 		switch (mLob) {
 		case HOTELS:
-			actionBar.setIcon(R.drawable.ic_logo_hotels);
+			actionBar.setIcon(Ui.obtainThemeResID(this, R.attr.webViewPreferencesActionBarLogo));
 			actionBar.setDisplayUseLogoEnabled(false);
 			break;
 		case FLIGHTS:

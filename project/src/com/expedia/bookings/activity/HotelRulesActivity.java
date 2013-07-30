@@ -6,6 +6,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.Ui;
 
 public class HotelRulesActivity extends SherlockFragmentActivity {
 	@Override
@@ -15,7 +16,7 @@ public class HotelRulesActivity extends SherlockFragmentActivity {
 		setTitle(R.string.legal_information);
 		setContentView(R.layout.activity_hotel_rules);
 
-		getSupportActionBar().setLogo(R.drawable.ic_logo_hotels);
+		getSupportActionBar().setLogo(Ui.obtainThemeResID(this, R.attr.webViewPreferencesActionBarLogo));
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_action_bar));
 	}
