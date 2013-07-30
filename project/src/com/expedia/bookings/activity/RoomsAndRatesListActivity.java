@@ -91,7 +91,8 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
 		ImageView thumbnailView = (ImageView) findViewById(R.id.thumbnail_image_view);
 		if (property.getThumbnail() != null) {
-			UrlBitmapDrawable.loadImageView(property.getThumbnail().getUrl(), thumbnailView, R.drawable.ic_image_placeholder);
+			UrlBitmapDrawable.loadImageView(property.getThumbnail().getUrl(), thumbnailView,
+					Ui.obtainThemeResID(this, R.attr.hotelImagePlaceHolderDrawable));
 		}
 		else {
 			thumbnailView.setVisibility(View.GONE);

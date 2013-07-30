@@ -24,7 +24,7 @@
         android:adjustViewBounds="true"
         android:cropToPadding="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_image_placeholder"
+        android:src="?attr/hotelImagePlaceHolderDrawable"
         android:visibility="gone" />
 
 </FrameLayout>

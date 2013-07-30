@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Html;
@@ -26,6 +27,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
 // Support class for receipt layouts
@@ -89,7 +91,7 @@ public class ReceiptWidget {
 		// Configuring the header at the top
 		if (property.getThumbnail() != null) {
 			UrlBitmapDrawable.loadImageView(property.getThumbnail().getUrl(), mThumbnailImageView,
-					R.drawable.ic_image_placeholder);
+					Ui.obtainThemeResID((Activity)mContext, R.attr.hotelImagePlaceHolderDrawable));
 			mThumbnailImageView.setVisibility(View.VISIBLE);
 		}
 		else {
