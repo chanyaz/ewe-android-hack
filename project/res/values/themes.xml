@@ -191,6 +191,7 @@
         <item name="cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
         <item name="hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_expedia_white_logo_small</item>
         <item name="hotelListMapMarkerSaleDrawable">@drawable/map_pin_sale</item>
+        <item name="ccCheckoutHologramDrawable">@drawable/ic_credit_card_hologram</item>
     </style>
 
     <style name="Theme.VSC" parent="@style/Theme.Expedia">
