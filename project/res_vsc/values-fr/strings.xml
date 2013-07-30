@@ -94,7 +94,7 @@
 
     <!-- Progress messages -->
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
-    <string name="error_hotel_is_now_sold_out">Désolés. Cet hôtel n\&apos;est plus disponible. Veuillez en sélectionner un autre.</string>
+    <string name="error_hotel_is_now_sold_out">Désolé, cet hôtel n\&apos;est plus disponible. Veuillez en sélectionner un autre.</string>
 
     <!-- Booking info -->
     <!-- Title for dialog confirming the clearing of private data -->
@@ -151,15 +151,10 @@
     <string name="error_server">Désolé, la connexion aux serveurs VSC a échoué. Veuillez réessayer plus tard.</string>
     <!-- Expedia booking fee -->
     <string name="expedia_booking_fee">Frais de réservation VSC</string>
-    <!-- Error message when we couldn't get a response -->
-    <string name="error_booking_null">Impossible de se connecter aux serveurs VSC.  Veuillez vérifier votre connexion et réessayer plus tard.</string>
-    <!-- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template">Si vous avez des questions au sujet de votre réservation, veuillez contacter VSC au %s.</string>
-    <!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
-    <string name="PayToExpedia">Montant dû à VSC</string>
-    <!-- Label for loading user profile from expedia.com -->
-    <string name="loading_expedia_account">Chargement compte VSC…</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
     <string name="e3_error_hotel_offers_hotel_service_failure">Désolés, nous n\&apos;avons pas pu vous connecter à VSC. Veuillez réessayer.</string>
+
+    <!-- Message displayed when the hotel room is sold out -->
+    <string name="error_room_is_now_sold_out">Désolé, cette chambre n\&apos;est plus disponible sur notre app.</string>
 
 </resources>
