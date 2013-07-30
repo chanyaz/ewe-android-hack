@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import android.annotation.TargetApi;
@@ -17,6 +18,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.fragment.UserReviewsFragment.ReviewWrapper;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
@@ -217,7 +219,17 @@ public class UserReviewsAdapter extends BaseAdapter {
 		viewHolder.nameAndLocation.setText(nameAndLocationText);
 
 		Time date = userReviewLoaded.mReview.getSubmissionDate();
-		String submissionDateText = DateUtils.formatDateTime(mContext, date.toMillis(true), DateUtils.FORMAT_NUMERIC_DATE);
+		String submissionDateText;
+
+		//1608. VSC - Apparently since we are forcing FR locale the dateUtils is not formatting appropriately.
+		//Ugly hack to ensure European date format.
+		if (ExpediaBookingApp.IS_VSC) {
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			submissionDateText = dateFormat.format(date.toMillis(true));
+		}
+		else {
+			submissionDateText = DateUtils.formatDateTime(mContext, date.toMillis(true), DateUtils.FORMAT_NUMERIC_DATE);
+		}
 		viewHolder.submissionDate.setText(submissionDateText);
 
 	}
