@@ -303,13 +303,25 @@ public class ShareUtils {
 
 		body.append("\n\n");
 
+		int shareTemplateResId;
 		if (!moreThanOneLeg) {
-			body.append(mContext.getString(R.string.share_flight_one_way_TEMPLATE, originCity, destinationCity));
+			if (numTravelers > 1) {
+				shareTemplateResId = R.string.share_flight_one_way_multiple_travelers_TEMPLATE;
+			}
+			else {
+				shareTemplateResId = R.string.share_flight_one_way_TEMPLATE;
+			}
 		}
 		else {
 			// Assume round trip for now
-			body.append(mContext.getString(R.string.share_flight_round_trip_TEMPLATE, originCity, destinationCity));
+			if (numTravelers > 1) {
+				shareTemplateResId = R.string.share_flight_round_trip_multiple_travelers_TEMPLATE;
+			}
+			else {
+				shareTemplateResId = R.string.share_flight_round_trip_TEMPLATE;
+			}
 		}
+		body.append(mContext.getString(shareTemplateResId, originCity, destinationCity));
 
 		body.append("\n\n");
 
