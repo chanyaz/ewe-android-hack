@@ -1,5 +1,13 @@
 import java.util.regex.Pattern
 
+def isServerBuild
+def jenkinsBuildNumber = "$System.env.BUILD_NUMBER"
+if (!jenkinsBuildNumber.isEmpty() && jenkinsBuildNumber != "null") {
+    isServerBuild = true
+} else {
+    isServerBuild = false
+}
+
 buildscript {
     repositories {
         mavenCentral()
@@ -94,9 +102,7 @@ android {
 android.applicationVariants.each { variant ->
     if (variant.buildType.name == 'alpha') {
         variant.processManifest.dependsOn {
-            def jenkinsBuildNumber = "$System.env.BUILD_NUMBER"
-            // This if-check only exists so you can run alpha builds locally
-            if (!jenkinsBuildNumber.isEmpty() && jenkinsBuildNumber != "null") {
+            if (isServerBuild) {
                 def hockeyFile = file("res_alpha/values/hockey_integers.xml")
                 def fileContents = """\
 <?xml version="1.0" encoding="utf-8"?>
