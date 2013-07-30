@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Hockey App Build Number for jenkins -->
-    <integer name="hockey_app_build_number">0</integer>
-
     <!-- Auto complete settings -->
     <integer name="suggest_min_query_length">3</integer>
 

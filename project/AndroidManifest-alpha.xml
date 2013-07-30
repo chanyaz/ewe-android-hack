@@ -1,0 +1,14 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.expedia.bookings" >
+
+    <uses-permission android:name="android.permission.READ_LOGS" />
+
+    <application>
+
+        <!-- HockeyApp -->
+        <meta-data android:name="buildNumber" android:value="0" />
+
+        <activity android:name="net.hockeyapp.android.UpdateActivity" />
+    </application>
+
+</manifest>

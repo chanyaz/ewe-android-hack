@@ -281,13 +281,6 @@
             android:name="com.expedia.bookings.activity.StubConfigActivity"
             android:theme="@style/Theme.Phone" />
 
-        <!-- HockeyApp -->
-        <meta-data
-            android:name="buildNumber"
-            android:value="@integer/hockey_app_build_number" />
-
-        <activity android:name="net.hockeyapp.android.UpdateActivity" />
-
         <service
             android:name="com.expedia.bookings.appwidget.ExpediaBookingsService"
             android:exported="false" >
