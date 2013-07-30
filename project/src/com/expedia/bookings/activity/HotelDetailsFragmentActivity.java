@@ -175,8 +175,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		// with a finish parameter).
 		if (savedInstanceState == null) {
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();
-			bd.cancelDownload(INFO_DOWNLOAD_KEY);
-			bd.cancelDownload(REVIEWS_DOWNLOAD_KEY);
+			bd.cancelDownload(CrossContextHelper.KEY_INFO_DOWNLOAD);
 		}
 
 		setupHotelActivity(savedInstanceState);

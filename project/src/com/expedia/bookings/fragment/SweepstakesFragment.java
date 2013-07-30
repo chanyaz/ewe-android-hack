@@ -57,7 +57,8 @@ public class SweepstakesFragment extends Fragment {
 
 	public void enterSweepstakes() {
 		if (Db.getUser() == null || !Db.getUser().isLoggedIn(getActivity())) {
-			startActivityForResult(LoginActivity.createIntent(getActivity(), LineOfBusiness.ITIN, null), 0);
+			Bundle args = LoginActivity.createArgumentsBundle(LineOfBusiness.ITIN, null);
+			startActivityForResult(LoginActivity.createIntent(getActivity(), args), 0);
 			return;
 		}
 
