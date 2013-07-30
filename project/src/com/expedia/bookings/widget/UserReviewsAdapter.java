@@ -1,6 +1,5 @@
 package com.expedia.bookings.widget;
 
-import java.util.Date;
 import java.util.List;
 
 import android.annotation.TargetApi;

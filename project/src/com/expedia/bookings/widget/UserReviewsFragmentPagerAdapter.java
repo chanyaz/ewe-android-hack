@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.Property;
 import com.expedia.bookings.fragment.UserReviewsFragment;
 import com.expedia.bookings.server.ExpediaServices.ReviewSort;
 
