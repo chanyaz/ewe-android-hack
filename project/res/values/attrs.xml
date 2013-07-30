@@ -241,4 +241,6 @@
     <attr name="hotelPrimaryTravelerInfoLogoDrawable" format="reference" />
 
     <attr name="hotelListMapMarkerSaleDrawable" format="reference" />
+
+    <attr name="ccCheckoutHologramDrawable" format="reference" />
 </resources>

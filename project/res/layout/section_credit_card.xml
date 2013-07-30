@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:scaleType="center"
-            android:src="@drawable/ic_credit_card_hologram" />
+            android:src="?attr/ccCheckoutHologramDrawable" />
 
         <View
             android:id="@+id/credit_card_signature_bg_view"
