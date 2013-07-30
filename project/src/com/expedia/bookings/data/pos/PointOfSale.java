@@ -126,6 +126,9 @@ public class PointOfSale {
 	// Whether or not to block domestic flight searches before flight/search is called
 	private boolean mBlockDomesticFlightSearches;
 
+	// Does this pos not allow debit cards for flights?
+	private boolean mDoesNotAcceptDebitCardsFlights;
+
 	/**
 	 * There can be multiple different locales for a given POS.
 	 *
@@ -340,6 +343,10 @@ public class PointOfSale {
 
 	public boolean blockDomesticFlightSearch() {
 		return mBlockDomesticFlightSearches;
+	}
+
+	public boolean doesNotAcceptDebitCardsForFlights() {
+		return mDoesNotAcceptDebitCardsFlights;
 	}
 
 	/**
@@ -667,6 +674,7 @@ public class PointOfSale {
 		pos.mSupportsGoogleWallet = data.optBoolean("googleWalletEnabled");
 		pos.mShowHotelCrossSell = !data.optBoolean("hideHotelCrossSell", false);
 		pos.mBlockDomesticFlightSearches = data.optBoolean("blockDomesticFlightSearches", false);
+		pos.mDoesNotAcceptDebitCardsFlights = data.optBoolean("doesNotAcceptDebitCards:flights", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");

@@ -41,6 +41,7 @@
     <color name="flights_traveler_disabled_grey">#ffa5a5a5</color>
     <color name="flight_card_airline_fee_warning">#577494</color>
     <color name="flight_card_unsupported_warning">#BA4D4D</color>
+    <color name="flight_card_no_debit_warning">#A33B3B</color>
     <color name="flight_card_warning_text">#F0F0F0</color>
     <color name="flight_card_invalid_cc_type_text_color">#B4B4B4</color>
     <color name="flight_card_lcc_fee_text_color">#787878</color>

@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -20,6 +21,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
@@ -60,6 +62,7 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 		View v = inflater.inflate(R.layout.fragment_flight_payment_creditcard, container, false);
 
 		mCreditCardMessageTv = Ui.findView(v, R.id.card_message);
+		hideCardMessageOrDisplayDefault(true);
 
 		mAttemptToLeaveMade = savedInstanceState != null ? savedInstanceState.getBoolean(STATE_TAG_ATTEMPTED_LEAVE,
 				false) : false;
@@ -109,11 +112,11 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 						toggleCardMessage(true, true);
 					}
 					else {
-						toggleCardMessage(false, true);
+						hideCardMessageOrDisplayDefault(true);
 					}
 				}
 				else {
-					toggleCardMessage(false, true);
+					hideCardMessageOrDisplayDefault(true);
 				}
 			}
 		});
@@ -172,11 +175,21 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 		mSectionCreditCard.bind(mBillingInfo);
 	}
 
+	/**
+	 * Set the message that displays above the virtual keyboard.
+	 * @param message
+	 * @param backgroundColor
+	 */
 	private void updateCardMessage(String message, int backgroundColor) {
 		mCreditCardMessageTv.setBackgroundColor(backgroundColor);
 		mCreditCardMessageTv.setText(Html.fromHtml(message));
 	}
 
+	/**
+	 * Toggle the message that displays above the virtual keyboard.
+	 * @param show
+	 * @param animate
+	 */
 	private void toggleCardMessage(final boolean show, final boolean animate) {
 		if (!animate) {
 			if (mLastCardMessageAnimator != null && mLastCardMessageAnimator.isRunning()) {
@@ -234,6 +247,24 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 					mCardMessageShowing = show;
 				}
 			}
+		}
+	}
+
+	/**
+	 * Hide the card message OR display a default message.
+	 * Some POSes have messages like "Dont use debit cards" that need to display all the time.
+	 * 
+	 * @param animate
+	 */
+	private void hideCardMessageOrDisplayDefault(boolean animate) {
+		if (PointOfSale.getPointOfSale(getActivity()).doesNotAcceptDebitCardsForFlights()) {
+			Resources res = FlightPaymentCreditCardFragment.this.getResources();
+			updateCardMessage(res.getString(R.string.debit_cards_not_accepted),
+					res.getColor(R.color.flight_card_no_debit_warning));
+			toggleCardMessage(true, animate);
+		}
+		else {
+			toggleCardMessage(false, animate);
 		}
 	}
 }

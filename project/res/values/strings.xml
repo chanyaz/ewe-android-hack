@@ -799,6 +799,8 @@
     <string name="airline_does_not_accept_cardtype_TEMPLATE">Airline does not accept %1$s</string>
     <!-- "Airline Fee Information" -->
     <string name="airline_fee_information">Airline Fee Information</string>
+    <!-- Debit cards not supported message -->
+    <string name="debit_cards_not_accepted">Debit cards are not accepted.</string>
 
     <!-- Trip Overview Activity -->
     <!-- Label for Overview activity in task manager -->
