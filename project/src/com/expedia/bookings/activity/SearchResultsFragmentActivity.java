@@ -832,26 +832,15 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		Log.i("startSearch(): " + Db.getHotelSearch().getSearchParams().toJson().toString());
 
 		// Remove existing search results (and references to it)
-		Db.getHotelSearch().resetSearchData();
+		// And cancel all downloads
+		clearSearch();
 
 		// We no longer have a partial search, we have an actual search
 		mPartialSearch = null;
 
-		// Reset the filter
-		HotelFilter filter = Db.getFilter();
-		filter.reset();
-		filter.setOnDataListener(null);
-
 		mHotelListFragment.updateStatus(getString(R.string.loading_hotels), true);
 
 		notifySearchStarted();
-
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-
-		// Cancel existing downloads
-		bd.cancelDownload(KEY_SEARCH);
-		bd.cancelDownload(KEY_GEOCODE);
-		bd.cancelDownload(KEY_HOTEL_SEARCH);
 
 		// Reset the views
 		hideDetails();
