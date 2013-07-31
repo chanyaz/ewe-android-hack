@@ -246,7 +246,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 			feesContainer.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
-					openWebViewWithText(getString(R.string.resort_fee), resortFeesText);
+					openWebViewWithText(getString(R.string.additional_fees), resortFeesText);
 				}
 			});
 			return true;
