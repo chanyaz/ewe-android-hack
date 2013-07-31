@@ -24,7 +24,9 @@
         <!-- HockeyApp -->
         <meta-data android:name="buildNumber" android:value="0" />
 
-        <activity android:name="net.hockeyapp.android.UpdateActivity" />
+        <activity
+            android:name="net.hockeyapp.android.UpdateActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
