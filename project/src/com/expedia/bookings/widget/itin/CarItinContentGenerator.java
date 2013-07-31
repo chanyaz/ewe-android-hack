@@ -25,6 +25,7 @@ import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.EventSummaryView;
@@ -263,7 +264,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 					public void onClick(View v) {
 						final Intent intent = getItinCardData().getRelevantDirectionsIntent();
 						if (intent != null) {
-							getContext().startActivity(intent);
+							NavUtils.startActivitySafe(getContext(), intent);
 
 							OmnitureTracking.trackItinCarDirections(getContext());
 						}

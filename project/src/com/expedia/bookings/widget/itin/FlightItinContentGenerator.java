@@ -48,6 +48,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -454,7 +455,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 					public void onClick(View v) {
 						Airport airport = getItinCardData().getFlightLeg().getFirstWaypoint().getAirport();
 						Intent intent = getAirportDirectionsIntent(airport);
-						getContext().startActivity(intent);
+						NavUtils.startActivitySafe(getContext(), intent);
 					}
 				});
 	}
@@ -889,7 +890,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 				public void onClick(DialogInterface dialog, int which) {
 					if (finalOptions[which].equals(directions)) {
 						Intent intent = getAirportDirectionsIntent(mAirport);
-						getActivity().startActivity(intent);
+						NavUtils.startActivitySafe(getActivity(), intent);
 						TerminalMapsOrDirectionsDialogFragment.this.dismissAllowingStateLoss();
 
 						OmnitureTracking.trackItinFlightDirections(getActivity());

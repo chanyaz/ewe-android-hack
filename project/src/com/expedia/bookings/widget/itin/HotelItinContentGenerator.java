@@ -23,6 +23,7 @@ import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.ClipboardUtils;
+import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.InfoTripletView;
@@ -291,7 +292,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 					public void onClick(View v) {
 						final Intent intent = getItinCardData().getDirectionsIntent();
 						if (intent != null) {
-							getContext().startActivity(intent);
+							NavUtils.startActivitySafe(getContext(), intent);
 							OmnitureTracking.trackItinHotelDirections(getContext());
 						}
 					}

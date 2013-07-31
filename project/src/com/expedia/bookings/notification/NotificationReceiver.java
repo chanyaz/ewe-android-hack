@@ -33,6 +33,7 @@ import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.notification.Notification.StatusType;
+import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.widget.itin.FlightItinContentGenerator;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -294,7 +295,8 @@ public class NotificationReceiver extends BroadcastReceiver {
 							: ((ItinCardDataCar) data).getPickupDirectionsIntent();
 				}
 
-				if (intent != null) {
+				// #1689: Ensure we have an activity that can handle the intent
+				if (intent != null && NavUtils.canHandleIntent(mContext, intent)) {
 					PendingIntent directionsPendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
 					String directions = mContext.getString(R.string.itin_action_directions);
 					builder = builder.addAction(R.drawable.ic_direction, directions, directionsPendingIntent);
@@ -332,8 +334,12 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 				if (phoneNumber != null) {
 					Intent intent = SocialUtils.getCallIntent(mContext, phoneNumber);
-					PendingIntent callPendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
-					builder = builder.addAction(R.drawable.ic_phone, label, callPendingIntent);
+
+					// #1689: Ensure we have an activity that can handle the intent
+					if (NavUtils.canHandleIntent(mContext, intent)) {
+						PendingIntent callPendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
+						builder = builder.addAction(R.drawable.ic_phone, label, callPendingIntent);
+					}
 				}
 			}
 
