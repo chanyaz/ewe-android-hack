@@ -41,6 +41,7 @@ public class HotelsRobotHelper {
 	//which is set to the qa-ehcc@mobiata.com account's info
 	public HotelsRobotHelper(Solo solo, Resources res) {
 		this(solo, res, new HotelsUserData());
+		enterLog(TAG, "******************** START TEST ********************");
 	}
 
 	//Constructor for user created book user container
