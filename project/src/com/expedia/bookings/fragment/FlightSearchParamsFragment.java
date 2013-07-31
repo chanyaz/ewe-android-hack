@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import java.io.File;
 import java.util.Calendar;
 
 import android.annotation.SuppressLint;
@@ -24,7 +25,6 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -1111,6 +1111,17 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 				mRecentRouteSearches.saveList(getActivity(), RECENT_ROUTES_AIRPORTS_FILE);
 			}
 		})).start();
+	}
+
+	/*
+	 * This should only be called outside of when the Fragment is being shown, so we don't
+	 * have to handle clearing the recents in memory.
+	 */
+	public static void clearRecentAirAsiaAirports(Context context) {
+		File recents = context.getFileStreamPath(RECENT_ROUTES_AIRPORTS_FILE);
+		if (recents != null && recents.exists()) {
+			recents.delete();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
