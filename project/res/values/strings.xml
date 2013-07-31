@@ -800,7 +800,7 @@
     <!-- "Airline Fee Information" -->
     <string name="airline_fee_information">Airline Fee Information</string>
     <!-- Debit cards not supported message -->
-    <string name="debit_cards_not_accepted">Debit cards are not accepted.</string>
+    <string name="debit_cards_not_accepted">No debit cards are accepted.</string>
 
     <!-- Trip Overview Activity -->
     <!-- Label for Overview activity in task manager -->
