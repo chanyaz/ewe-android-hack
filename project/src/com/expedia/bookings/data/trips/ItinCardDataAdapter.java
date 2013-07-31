@@ -339,7 +339,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		for (int a = 0; a < len; a++) {
 			boolean setAsSummaryCard = false;
 
-			ItinCardData data = mItinCardDatas.get(a);
+			ItinCardData data = itinCardDatas.get(a);
  
 			if (!isValidForSummary(data)) {
 				continue;
@@ -392,7 +392,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 			// See if we have an alt summary card we want
 			if (summaryCardPosition + 1 < len) {
-				ItinCardData possibleAlt = mItinCardDatas.get(summaryCardPosition + 1);
+				ItinCardData possibleAlt = itinCardDatas.get(summaryCardPosition + 1);
 
 				if (isValidForSummary(possibleAlt)) {
 					long startMillis = possibleAlt.getStartDate().getCalendar().getTimeInMillis();
