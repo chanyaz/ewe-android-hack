@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.support.v4.content.LocalBroadcastManager;
+import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ActivityKillReceiver;
@@ -34,6 +35,22 @@ import com.mobiata.android.util.SettingUtils;
  *
  */
 public class NavUtils {
+
+	public static boolean canHandleIntent(Context context, Intent intent) {
+		return intent.resolveActivity(context.getPackageManager()) != null;
+	}
+
+	public static boolean startActivitySafe(Context context, Intent intent) {
+		if (canHandleIntent(context, intent)) {
+			context.startActivity(intent);
+			return true;
+		}
+		else {
+			// Future thought: Should we be showing a toast at all and let app handle it?  
+			Toast.makeText(context, R.string.app_not_available, Toast.LENGTH_LONG).show();
+			return false;
+		}
+	}
 
 	public static void goToSweepstakes(Context context) {
 		Intent intent = new Intent(context, SweepstakesActivity.class);
