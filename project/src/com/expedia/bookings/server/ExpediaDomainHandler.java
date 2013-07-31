@@ -25,8 +25,11 @@ public class ExpediaDomainHandler extends BasicDomainHandler {
 		if (AndroidUtils.isRelease(mContext)) {
 			// We only care about validating domains for releases so we can
 			// keep using the mock proxy
-			String domain = cookie.getDomain();
-			if (!domain.endsWith(PointOfSale.getPointOfSale().getUrl())) {
+			/* 1697. VSC. Get rid of the 1st period in domain to check with the POS_Url
+			Since for VSC url="agence.voyages-sncf.com", domain=".voyages-sncf.com"
+			and for EBad url="expedia.com", domain=".expedia.com" */
+			String domain = cookie.getDomain().substring(1);
+			if (!PointOfSale.getPointOfSale().getUrl().endsWith(domain)) {
 				String message = "Domain attribute \"" +
 					domain +
 					"\" not the current point of sale for cookie: " + cookie.toString();
