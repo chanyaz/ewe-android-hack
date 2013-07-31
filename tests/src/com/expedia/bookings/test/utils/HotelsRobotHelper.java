@@ -235,6 +235,22 @@ public class HotelsRobotHelper {
 		mSolo.goBack();
 	}
 
+	public void setUpMockServer(String serverIP) {
+		// Open settings
+		mSolo.sendKey(Solo.MENU);
+		mSolo.clickOnText(mRes.getString(R.string.Settings));
+		// Select Mock Server as API
+		mSolo.clickOnText("Select API");
+		mSolo.clickOnText("Mock Server");
+		// Set Proxy Address
+		mSolo.clickOnText("Server/Proxy Address");
+		EditText editProxyAddress = mSolo.getEditText(0);
+		mSolo.clearEditText(editProxyAddress);
+		mSolo.enterText(editProxyAddress, serverIP + ":3000");
+		mSolo.clickOnText(mRes.getString(R.string.ok));
+		mSolo.goBack();
+	}
+
 	////////////////////////////////////////////////////////////////
 	// Search Screen Methods
 
