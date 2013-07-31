@@ -347,9 +347,8 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			else if (departure.before(now) && (flight.mFlightHistoryId != -1)) {
 				//flight in progress AND we have FS data, show arrival info
 				int delay = getDelayForWaypoint(flight.getArrivalWaypoint());
-				// Explicitly adding a minute in milliseconds to avoid showing '0 minutes' strings. Defect# 758
-				CharSequence timeSpanString = DateUtils.getRelativeTimeSpanString((arrival.getTimeInMillis()
-						+ DateUtils.MINUTE_IN_MILLIS - 1), now.getTimeInMillis(), DateUtils.MINUTE_IN_MILLIS, 0);
+				CharSequence timeSpanString = generateRelativeTimeSpanString(getContext(), arrival.getTimeInMillis(),
+						now.getTimeInMillis());
 
 				if (delay > 0) {
 					vh.mTopLine.setText(res.getString(R.string.flight_arrives_late_TEMPLATE, timeSpanString));
@@ -388,9 +387,8 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			else {
 				//Less than 72 hours in the future and has FS data
 				int delay = getDelayForWaypoint(flight.mOrigin);
-				// Explicitly adding a minute in milliseconds to avoid showing '0 minutes' strings. Defect# 758
-				CharSequence timeSpanString = DateUtils.getRelativeTimeSpanString((departure.getTimeInMillis()
-						+ DateUtils.MINUTE_IN_MILLIS - 1), now.getTimeInMillis(), DateUtils.MINUTE_IN_MILLIS, 0);
+				CharSequence timeSpanString = generateRelativeTimeSpanString(getContext(), departure.getTimeInMillis(),
+						now.getTimeInMillis());
 
 				if (delay > 0) {
 					vh.mTopLine.setText(res.getString(R.string.flight_departs_late_TEMPLATE, timeSpanString));
@@ -444,6 +442,27 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		}
 
 		return convertView;
+	}
+
+	private CharSequence generateRelativeTimeSpanString(Context context, long timeInMs, long now) {
+		long absDiff = Math.abs(now - timeInMs);
+		int hours = (int) Math.floor(absDiff / (double) DateUtils.HOUR_IN_MILLIS);
+		//If the time is between 1 and 24 hours we want to show both Hours and Minutes, which isn't supported by getRelativeTimeSpanString()
+		if (hours < 24 && hours >= 1) {
+			int minutes = (int) ((absDiff / (double) DateUtils.MINUTE_IN_MILLIS) % 60);
+			boolean timeBefore = timeInMs < now;
+			int templateResId = timeBefore ? R.string.hours_minutes_past_TEMPLATE
+					: R.string.hours_minutes_future_TEMPLATE;
+			Resources res = context.getResources();
+			String hourStr = res.getQuantityString(R.plurals.hours_from_now, hours, hours);
+			String minStr = res.getQuantityString(R.plurals.minutes_from_now, minutes, minutes);
+			return res.getString(templateResId, hourStr, minStr);
+		}
+		else {
+			// Explicitly adding a minute in milliseconds to avoid showing '0 minutes' strings. Defect# 758
+			return DateUtils.getRelativeTimeSpanString((timeInMs + DateUtils.MINUTE_IN_MILLIS - 1), now,
+					DateUtils.MINUTE_IN_MILLIS, 0);
+		}
 	}
 
 	@SuppressLint("DefaultLocale")
