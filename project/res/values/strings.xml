@@ -1547,9 +1547,9 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">Recent</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_favorable">Highest</string>
+    <string name="user_review_sort_button_favorable">Favorable</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_critical">Lowest</string>
+    <string name="user_review_sort_button_critical">Critical</string>
     <!-- Loading more reviews -->
     <string name="user_review_loading_more_reviews">Loading more reviews…</string>
     <!-- Read more of the review -->
