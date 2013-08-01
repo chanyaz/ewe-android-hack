@@ -175,6 +175,9 @@
     <!-- ActionBar icon/logo in WebView/Preference/Info Activities -->
     <attr name="webViewPreferencesActionBarLogo" format="reference" />
 
+    <!-- ActionBar icon/logo in HotelRulesActivities -->
+    <attr name="hotelwebViewActionBarLogo" format="reference" />
+
     <attr name="actionBarBackgroundDrawable" format="reference" />
     <!-- ActionBar checkmark drawable -->
     <attr name="actionBarCheckMarkDrawable" format="reference" />

@@ -193,6 +193,7 @@
         <item name="hotelListMapMarkerSaleDrawable">@drawable/map_pin_sale</item>
         <item name="ccCheckoutHologramDrawable">@drawable/ic_credit_card_hologram</item>
         <item name="hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder</item>
+        <item name="hotelwebViewActionBarLogo">@drawable/ic_logo_hotels</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
@@ -294,16 +295,16 @@
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Flights</item>
     </style>
 
-    <style name="HotelWebViewTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar">
+    <style name="HotelWebViewTheme" parent="Theme.Phone">
         <item name="android:actionBarStyle">@style/HotelWebViewActionBar</item>
         <item name="actionBarStyle">@style/HotelWebViewActionBar</item>
     </style>
 
     <style name="HotelWebViewActionBar" parent="Widget.Sherlock.ActionBar">
-        <item name="android:background">@drawable/bg_action_bar</item>
-        <item name="background">@drawable/bg_action_bar</item>
-        <item name="android:logo">@drawable/ic_logo_hotels</item>
-        <item name="logo">@drawable/ic_logo_hotels</item>
+        <item name="android:background">?attr/actionBarBackgroundDrawable</item>
+        <item name="background">?attr/actionBarBackgroundDrawable</item>
+        <item name="android:logo">?attr/hotelwebViewActionBarLogo</item>
+        <item name="logo">?attr/hotelwebViewActionBarLogo</item>
         <item name="titleTextStyle">@style/FlightActionBarTextAppearance</item>
         <item name="android:titleTextStyle">@style/FlightActionBarTextAppearance</item>
         <item name="homeAsUpIndicator">@drawable/ic_action_bar_back_arrow</item>
