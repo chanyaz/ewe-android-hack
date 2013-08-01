@@ -43,6 +43,7 @@ public class MockDataTests extends ActivityInstrumentationTestCase2<SearchActivi
 	// Verify that hotel room with raised price shows proper error message
 	public void testHotelRateUp() throws Exception {
 		mDriver.launchHotels();
+		mDriver.selectLocation("New York, NY");
 		mDriver.waitForStringToBeGone(R.string.progress_searching_hotels);
 		mSolo.clickOnText("rateup");
 		mSolo.clickOnButton(0);
@@ -60,6 +61,7 @@ public class MockDataTests extends ActivityInstrumentationTestCase2<SearchActivi
 	// Verify that hotel room with lowered price shows proper error message
 	public void testHotelRateDown() throws Exception {
 		mDriver.launchHotels();
+		mDriver.selectLocation("New York, NY");
 		mDriver.waitForStringToBeGone(R.string.progress_searching_hotels);
 		mSolo.clickOnText("ratedown");
 		mSolo.clickOnButton(0);
@@ -77,6 +79,7 @@ public class MockDataTests extends ActivityInstrumentationTestCase2<SearchActivi
 	// Verify sold out room shows correct error message
 	public void testRoomNoLongerAvailable() throws Exception {
 		mDriver.launchHotels();
+		mDriver.selectLocation("New York, NY");
 		mDriver.waitForStringToBeGone(R.string.progress_searching_hotels);
 		mSolo.clickOnText("no_rooms");
 		mSolo.clickOnButton(0);
@@ -97,6 +100,7 @@ public class MockDataTests extends ActivityInstrumentationTestCase2<SearchActivi
 	// then verify that the hotel is sold out
 	public void testRoomsAndRatesNoMoreRooms() throws Exception {
 		mDriver.launchHotels();
+		mDriver.selectLocation("New York, NY");
 		mDriver.waitForStringToBeGone(R.string.progress_searching_hotels);
 		mSolo.clickOnText("multi_room_unavailable");
 		mSolo.clickOnButton(0);
