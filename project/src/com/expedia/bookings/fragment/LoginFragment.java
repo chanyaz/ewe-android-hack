@@ -161,8 +161,6 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 	// Boolean for OmnitureTracking related purposes. false means user logged in manually
 	private boolean loginWithFacebook = false;
 
-	private String forgotPwdLink;
-
 	private enum VisibilityState {
 		FACEBOOK_LINK, EXPEDIA_WTIH_FB_BUTTON, EXPEDIA_WITH_EXPEDIA_BUTTON, LOGGED_IN
 	}
@@ -492,12 +490,8 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 		});
 
 		//1607. VSC Update forgot pwd link.
-		if (ExpediaBookingApp.IS_VSC) {
-			forgotPwdLink = "http://%s/pub/agent.dll?qscr=apwd";
-		}
-		else {
-			forgotPwdLink = "http://www.%s/pub/agent.dll?qscr=apwd";
-		}
+		final String forgotPwdLink = ExpediaBookingApp.IS_VSC ? "http://%s/pub/agent.dll?qscr=apwd"
+				: "http://www.%s/pub/agent.dll?qscr=apwd";
 
 		mForgotYourPasswordTv.setText(Html.fromHtml(String.format(
 				"<a href=\"" + forgotPwdLink + "\">%s</a>",
