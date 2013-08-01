@@ -31,7 +31,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.LayoutUtils;
-import com.mobiata.android.util.Ui;
+import com.expedia.bookings.utils.Ui;
 
 /**
  * Generalized class which displays a breakdown of some sort - i.e., line items.
@@ -139,7 +139,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 
 		// Title
 		builder.setTitle(context.getString(R.string.cost_summary));
-		builder.setTitleDivider(com.expedia.bookings.utils.Ui.obtainThemeResID((Activity)context, R.attr.costSummaryDialogStripeDrawable));
+		builder.setTitleDivider(Ui.obtainThemeResID((Activity)context, R.attr.costSummaryDialogStripeDrawable));
 
 		// Breakdown summary
 		int numNights = params.getStayDuration();
