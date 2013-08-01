@@ -668,7 +668,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		Log.i("Starting search");
 
 		// See if we have a good enough location stored
-		long minTime = Calendar.getInstance().getTimeInMillis() - 15 * DateUtils.MINUTE_IN_MILLIS;
+		long minTime = Calendar.getInstance().getTimeInMillis() - PhoneSearchActivity.MINIMUM_TIME_AGO;
 		Location location = LocationServices.getLastBestLocation(getApplicationContext(), minTime);
 		if (location != null) {
 			mWidgetDeals.setSearchParams(new HotelSearchParams());

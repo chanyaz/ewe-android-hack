@@ -9,7 +9,6 @@ import java.util.Map;
 import android.app.Activity;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import com.expedia.bookings.R;
@@ -18,7 +17,6 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncAdapter;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.maps.SupportMapFragment;
-import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
@@ -30,6 +28,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.mobiata.android.LocationServices;
 import com.mobiata.flightlib.maps.MapAnimationUtils;
 
 public class ItineraryMapFragment extends SupportMapFragment implements OnMyLocationChangeListener {
@@ -55,9 +54,6 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 	private float mUsableWidth;
 	private float mHorizCenterPercent;
 
-	// Invisible Fragment that handles FusedLocationProvider
-	private FusedLocationProviderFragment mLocationFragment;
-
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -67,8 +63,6 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 		}
 
 		mListener = (ItineraryMapFragmentListener) activity;
-
-		mLocationFragment = FusedLocationProviderFragment.getInstance(this);
 
 		ItineraryManager.getInstance().addSyncListener(mItinerarySyncAdapter);
 	}
@@ -197,7 +191,7 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 			// Start animating to America regardless of what's going on
 			showBounds(getAmericaBounds(), animate);
 
-			if (mLocationFragment.isLocationEnabled()) {
+			if (LocationServices.areProvidersEnabled(getActivity())) {
 				map.setMyLocationEnabled(true);
 			}
 			else {
