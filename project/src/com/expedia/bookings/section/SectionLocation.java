@@ -454,8 +454,8 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 
 		Validator<EditText> mPostalCodeCharacterCountValidator = new Validator<EditText>() {
 
-			//Allow anything between 5 and 15 characters OR blank
-			Pattern mPattern = Pattern.compile("^(.{5,15})?$");
+			//Allow anything between 1 and 15 characters OR blank (this should match the api)
+			Pattern mPattern = Pattern.compile("^(.{1,15})?$");
 
 			@Override
 			public int validate(EditText obj) {
