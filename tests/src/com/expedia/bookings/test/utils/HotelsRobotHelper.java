@@ -266,7 +266,7 @@ public class HotelsRobotHelper {
 		EditText editProxyAddress = mSolo.getEditText(0);
 		mSolo.clearEditText(editProxyAddress);
 		mSolo.enterText(editProxyAddress, serverIP + ":3000");
-		mSolo.clickOnText(mRes.getString(R.string.ok));
+		mSolo.clickOnText(mRes.getString(R.string.ok).toUpperCase());
 		mSolo.goBack();
 	}
 
