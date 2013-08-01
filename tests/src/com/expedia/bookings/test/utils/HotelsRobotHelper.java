@@ -1087,7 +1087,7 @@ public class HotelsRobotHelper {
 			enterLog(TAG, "Not at the launch screen. Trying to go back.");
 			mSolo.goBack();
 			delay();
-			mSolo.clickOnMenuItem(mRes.getString(R.string.About));
+			mSolo.clickOnMenuItem(mRes.getString(R.string.Info));
 		}
 		landscape();
 		portrait();
