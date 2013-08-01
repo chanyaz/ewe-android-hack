@@ -63,8 +63,8 @@ public abstract class ConfirmationFragment extends Fragment {
 
 			TextView rowTitleView = Ui.findView(v, R.id.row_title);
 			rowTitleView.setText(R.string.VSC_Voyages_SNF);
-			TextView description_view = Ui.findView(v, R.id.row_description);
-			description_view.setText(R.string.VSC_Voyages_SNF_description);
+			TextView descriptionView = Ui.findView(v, R.id.row_description);
+			descriptionView.setText(R.string.VSC_Voyages_SNF_description);
 			ImageView imageView = Ui.findView(v, R.id.image);
 			imageView.setImageResource(R.drawable.ic_vsc_train_app);
 		}
