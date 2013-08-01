@@ -28,7 +28,10 @@ public class ExpediaDomainHandler extends BasicDomainHandler {
 			/* 1697. VSC. Get rid of the 1st period in domain to check with the POS_Url
 			Since for VSC url="agence.voyages-sncf.com", domain=".voyages-sncf.com"
 			and for EBad url="expedia.com", domain=".expedia.com" */
-			String domain = cookie.getDomain().substring(1);
+			String domain = cookie.getDomain();
+			if (domain.toCharArray()[0] == '.') {
+				domain = domain.substring(1);
+			}
 			if (!PointOfSale.getPointOfSale().getUrl().endsWith(domain)) {
 				String message = "Domain attribute \"" +
 					domain +
