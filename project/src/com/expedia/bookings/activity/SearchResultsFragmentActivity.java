@@ -830,6 +830,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		// Remove existing search results (and references to it)
 		// And cancel all downloads
 		clearSearch();
+		Db.getFilter().setOnDataListener(null);
 
 		// We no longer have a partial search, we have an actual search
 		mPartialSearch = null;
