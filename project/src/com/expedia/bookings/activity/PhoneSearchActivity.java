@@ -1219,7 +1219,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			}
 
 			@Override
-			public void onError(Location lastKnownLocation) {
+			public void onError() {
 				simulateErrorResponse(R.string.ProviderDisabled);
 				OmnitureTracking.trackErrorPage(mContext, "LocationServicesNotAvailable");
 			}

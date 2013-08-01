@@ -336,7 +336,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			}
 
 			@Override
-			public void onError(Location lastKnownLocation) {
+			public void onError() {
 				useHotelFallback();
 			}
 		});

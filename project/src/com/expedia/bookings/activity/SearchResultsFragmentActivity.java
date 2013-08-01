@@ -1117,7 +1117,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 			}
 
 			@Override
-			public void onError(Location lastKnownLocation) {
+			public void onError() {
 				simulateSearchErrorResponse(R.string.ProviderTemporarilyUnavailable);
 			}
 		});

@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 
-import com.expedia.bookings.R;
 import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
@@ -46,9 +45,7 @@ public class FusedLocationProviderFragment extends Fragment implements Connectio
 	// Global variable to hold the current location
 	private Location mCurrentLocation;
 
-	private boolean mIsConnected = false;
-
-	private Queue<Listener> mListeners;
+	private Queue<Listener> mListeners = new LinkedList<Listener>();
 
 	//////////////////////////////////////////////////////////////////////////
 	// Static methods
@@ -90,7 +87,6 @@ public class FusedLocationProviderFragment extends Fragment implements Connectio
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		mListeners = new LinkedList<Listener>();
 		mLocationClient = new LocationClient(getActivity(), this, this);
 	}
 
@@ -122,14 +118,12 @@ public class FusedLocationProviderFragment extends Fragment implements Connectio
 	@Override
 	public void onConnected(Bundle connectionHint) {
 		Log.d(TAG, "onConnected(" + connectionHint + ")");
-		mIsConnected = true;
 		deliverLocation();
 	}
 
 	@Override
 	public void onDisconnected() {
 		Log.d(TAG, "onDisconnected()");
-		mIsConnected = false;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -154,10 +148,18 @@ public class FusedLocationProviderFragment extends Fragment implements Connectio
 	}
 
 	private synchronized void deliverLocation() {
-		if (mIsConnected) {
-			mCurrentLocation = mLocationClient.getLastLocation();
-			while (mIsConnected && !mListeners.isEmpty()) {
-				Log.d(TAG, "deliverLocation");
+		if (mLocationClient == null || !mLocationClient.isConnected()) {
+			return;
+		}
+
+		mCurrentLocation = mLocationClient.getLastLocation();
+		while (!mListeners.isEmpty()) {
+			if (mCurrentLocation == null) {
+				Log.d(TAG, "location error");
+				mListeners.poll().onError();
+			}
+			else {
+				Log.d(TAG, "location found");
 				mListeners.poll().onFound(mCurrentLocation);
 			}
 		}
@@ -174,7 +176,7 @@ public class FusedLocationProviderFragment extends Fragment implements Connectio
 	public static abstract class Listener {
 		public abstract void onFound(Location currentLocation);
 
-		public void onError(Location lastKnownLocation) {
+		public void onError() {
 		}
 	}
 }
