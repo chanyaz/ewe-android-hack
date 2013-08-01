@@ -231,8 +231,8 @@
 
     <attr name="hotelDetailPlaceHolderDrawable" format="reference" />
 
-    <!-- Hotel Confirmation, Customer support option style -->
-    <attr name="hotelConfirmationCallActionStyle" format="reference" />
+    <!-- Hotel Confirmation, Customer support option drawable -->
+    <attr name="hotelConfirmationCallActionDrawable" format="reference" />
 
     <attr name="hotelCheckoutLogoutLogoDrawable" format="reference" />
     <attr name="hotelCheckoutLoginLogoDrawable" format="reference" />
