@@ -150,6 +150,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 	private String mFbUserName;
 	private String mStatusText;//Text next to expedia icon
 	private String mLoadingText;//Loading spinner text
+	private String mStatusTextContent; //Text cached when loaded
 	private boolean mIsLoading = false;
 	private boolean mEmptyUsername = true;
 	private boolean mEmptyPassword = true;
@@ -228,10 +229,10 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 
 		loadSavedState(savedInstanceState);
 
+		mStatusTextContent = getString(Ui.obtainThemeResID(getActivity(), R.attr.loginWithExpediaTitleText));
 		if (mStatusText == null
-				|| mStatusText.equalsIgnoreCase(getString(Ui.obtainThemeResID(getActivity(),
-						R.attr.loginWithExpediaTitleText)))) {
-			setStatusText(Ui.obtainThemeResID(getActivity(), R.attr.loginWithExpediaTitleText), true);
+				|| mStatusText.equalsIgnoreCase(mStatusTextContent)) {
+			setStatusText(mStatusTextContent, true);
 		}
 		else if (mStatusText != null) {
 			setStatusText(mStatusText, false);
@@ -631,7 +632,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 					setVisibilityState(VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON, false);
 				}
 
-				setStatusText(Ui.obtainThemeResID(getActivity(), R.attr.loginWithExpediaTitleText), true);
+				setStatusText(mStatusTextContent, true);
 			}
 		});
 
@@ -740,7 +741,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 
 		switch (mVisibilityState) {
 		case FACEBOOK_LINK:
-			this.setStatusText(Ui.obtainThemeResID(getActivity(), R.attr.loginWithExpediaTitleText), true);
+			this.setStatusText(mStatusTextContent, true);
 			if (TextUtils.isEmpty(mExpediaUserName.getText())) {
 				setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON, false);
 			}
