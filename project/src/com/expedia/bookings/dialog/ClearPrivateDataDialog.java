@@ -15,8 +15,6 @@ import com.expedia.bookings.utils.ClearPrivateDataUtil;
 
 public class ClearPrivateDataDialog extends DialogFragment {
 
-	private ClearPrivateDataListener mClearPrivateDataListener;
-
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 
@@ -34,13 +32,7 @@ public class ClearPrivateDataDialog extends DialogFragment {
 
 				boolean signedIn = User.isLoggedIn(getActivity());
 				ClearPrivateDataUtil.clear(getActivity());
-
-				if (mClearPrivateDataListener != null) {
-					mClearPrivateDataListener.onClearPrivateData(signedIn);
-				}
-				else {
-					Toast.makeText(getActivity(), R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show();
-				}
+				Toast.makeText(getActivity(), R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show();
 			}
 		});
 		builder.setNegativeButton(R.string.cancel, new OnClickListener() {
@@ -51,10 +43,6 @@ public class ClearPrivateDataDialog extends DialogFragment {
 		});
 
 		return builder.create();
-	}
-
-	public void setClearPrivateDataListener(ClearPrivateDataListener clearPrivateDataListener) {
-		mClearPrivateDataListener = clearPrivateDataListener;
 	}
 
 }
