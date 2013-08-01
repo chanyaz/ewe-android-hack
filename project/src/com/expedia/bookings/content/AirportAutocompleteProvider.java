@@ -5,6 +5,7 @@ import java.net.URLDecoder;
 import android.app.SearchManager;
 import android.content.ContentProvider;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
@@ -38,8 +39,6 @@ public class AirportAutocompleteProvider extends ContentProvider {
 	public static final int COL_SUGGEST_COLUMN_ICON_1 = 4;
 	public static final int COL_SUGGEST_COLUMN_COUNTRY_CODE = 5;
 
-	public static final Uri CONTENT_FILTER_URI = Uri.parse("content://com.expedia.booking.autocomplete.air");
-
 	private ExpediaServices mServices;
 
 	@Override
@@ -71,6 +70,11 @@ public class AirportAutocompleteProvider extends ContentProvider {
 		}
 
 		return cursor;
+	}
+
+	public static Uri getContentFilterUri(Context context) {
+		String url = "content://" + context.getString(R.string.airport_autocomplete_provider_authority);
+		return Uri.parse(url);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

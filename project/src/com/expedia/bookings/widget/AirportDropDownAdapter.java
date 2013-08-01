@@ -110,7 +110,7 @@ public class AirportDropDownAdapter extends CursorAdapter {
 		}
 		else {
 			Uri uri = Uri.withAppendedPath(
-					AirportAutocompleteProvider.CONTENT_FILTER_URI,
+					AirportAutocompleteProvider.getContentFilterUri(mContext),
 					Uri.encode(constraint.toString()));
 
 			return mContent.query(uri, null, null, null, null);
