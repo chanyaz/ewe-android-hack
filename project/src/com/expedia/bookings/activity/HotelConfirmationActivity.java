@@ -47,7 +47,9 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity {
 			}
 
 			// Add guest itin to itin manager
-			if (Db.getBookingResponse() != null && Db.getBillingInfo() != null && !User.isLoggedIn(this)) {
+			if (Db.getBookingResponse() != null && Db.getBillingInfo() != null && !User.isLoggedIn(this)
+					//1712. VSC Disable Itins for VSC
+					&& !ExpediaBookingApp.IS_VSC) {
 				String email = Db.getBillingInfo().getEmail();
 				String tripId = Db.getBookingResponse().getItineraryId();
 				ItineraryManager.getInstance().addGuestTrip(email, tripId);
@@ -77,7 +79,8 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity {
 		if (isFinishing()) {
 			// #953: Kick off deep refresh for newly booked hotel
 			BookingResponse response = Db.getBookingResponse();
-			if (response != null) {
+			//1712. VSC Disable Itins for VSC
+			if (response != null && !ExpediaBookingApp.IS_VSC) {
 				ItineraryManager.getInstance().deepRefreshTrip(response.getItineraryId(), true);
 			}
 

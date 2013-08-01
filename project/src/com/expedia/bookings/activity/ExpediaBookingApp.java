@@ -159,7 +159,10 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		startupTimer.addSplit("User upgraded to use AccountManager (if needed)");
 
 		// We want to try to start loading data (but it may not be finished syncing before someone tries to use it).
-		ItineraryManager.getInstance().startSync(false);
+		//1712. VSC Disable Itins for VSC
+		if (!ExpediaBookingApp.IS_VSC) {
+			ItineraryManager.getInstance().startSync(false);
+		}
 
 		if (!SettingUtils.get(this, PREF_FIRST_LAUNCH, false)) {
 			SettingUtils.save(this, PREF_FIRST_LAUNCH, true);
