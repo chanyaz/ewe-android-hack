@@ -139,6 +139,24 @@ public class HotelsRobotHelper {
 		}
 	}
 
+	public void waitForStringToBeGone(int id, int timeoutMax) throws Exception {
+		int string_id = id;
+		int count_max = timeoutMax;
+		int count = 0;
+		String target = mRes.getString(string_id);
+		while (mSolo.searchText(target, 1, false, true) && count < count_max) {
+			delay(1);
+			count++;
+		}
+		if (mSolo.searchText(mRes.getString(string_id), 1, false, true)) {
+			throw new Exception("String never went away: " + target);
+		}
+	}
+
+	public void waitForStringToBeGone(int id) throws Exception {
+		waitForStringToBeGone(id, 20);
+	}
+
 	////////////////////////////////////////////////////////////////
 	// Changing Settings
 
