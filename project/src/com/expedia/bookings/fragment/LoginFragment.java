@@ -513,7 +513,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 				builder.setUrl(String.format(forgotPwdLink,
 						PointOfSale.getPointOfSale().getUrl()));
 				builder.setInjectExpediaCookies(true);
-				builder.setTheme(R.style.ItineraryTheme);
+				builder.setTheme(R.style.HotelWebViewTheme);
 				builder.setTitle(getString(R.string.title_forgot_password));
 				startActivity(builder.getIntent());
 			}
