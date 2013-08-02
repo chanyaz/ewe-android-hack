@@ -216,12 +216,12 @@ public abstract class LoadWalletFragment extends WalletFragment {
 			mWalletClient.loadMaskedWallet(buildMaskedWalletRequest(), this);
 			break;
 		case WalletConstants.ERROR_CODE_SPENDING_LIMIT_EXCEEDED:
-			mGoogleWalletDisabled = true;
+			disableGoogleWallet();
 			Toast.makeText(getActivity(), getString(R.string.spending_limit_exceeded), Toast.LENGTH_LONG).show();
 			break;
 		default:
 			// Unrecoverable error
-			mGoogleWalletDisabled = true;
+			disableGoogleWallet();
 			displayGoogleWalletUnavailableToast();
 			break;
 		}
@@ -237,7 +237,7 @@ public abstract class LoadWalletFragment extends WalletFragment {
 
 		// Check that we're not going to go over the transaction limit; if we are, shut it all down
 		if (!WalletUtils.offerGoogleWallet(getEstimatedTotal())) {
-			mGoogleWalletDisabled = true;
+			disableGoogleWallet();
 		}
 
 		// Don't re-request the masked wallet if we already have it

@@ -91,6 +91,16 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 	// to be uninterrupted for.
 	protected ProgressDialog mProgressDialog;
 
+	/**
+	 * Disable Google Wallet functionality.
+	 * 
+	 * You can *only* disable Google Wallet; you cannot re-enable it later.  We've
+	 * had too many problems where one accidentally does this.
+	 */
+	public void disableGoogleWallet() {
+		mGoogleWalletDisabled = true;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
 
@@ -98,8 +108,10 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// Before we do *anything*, check if Google Wallet has been disabled
-		mGoogleWalletDisabled = !PointOfSale.getPointOfSale().supportsGoogleWallet();
+		// Before we do *anything*, check if Google Wallet has been disabled on the POS
+		if (!PointOfSale.getPointOfSale().supportsGoogleWallet()) {
+			disableGoogleWallet();
+		}
 
 		// Set up a wallet client
 		Context context = getActivity();
@@ -156,7 +168,7 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 	protected void handleUnrecoverableGoogleWalletError(int errorCode) {
 		WalletUtils.logError(errorCode);
 
-		mGoogleWalletDisabled = true;
+		disableGoogleWallet();
 	}
 
 	protected void displayGoogleWalletUnavailableToast() {

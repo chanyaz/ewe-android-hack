@@ -187,7 +187,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		}
 
 		// #1715: Disable Google Wallet on non-merchant hotels
-		mGoogleWalletDisabled = !Db.getHotelSearch().getSelectedProperty().isMerchant();
+		if (!Db.getHotelSearch().getSelectedProperty().isMerchant()) {
+			disableGoogleWallet();
+		}
 
 		AdTracker.trackHotelCheckoutStarted();
 	}
