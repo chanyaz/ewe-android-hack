@@ -415,29 +415,15 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			}
 
 			if (summaryWaypoint != null) {
-				boolean hasGate = summaryWaypoint.hasGate();
-				boolean hasTerminal = summaryWaypoint.hasTerminal();
-				if (hasGate && hasTerminal) {
-					String terminalName = FlightUtils.getTerminalName(getContext(), summaryWaypoint);
-					vh.mBottomLine.setText(Html.fromHtml(res.getString(bottomLineTextId,
-							summaryWaypoint.mAirportCode,
-							res.getString(R.string.generic_terminal_TEMPLATE, terminalName,
-									summaryWaypoint.getGate()))));
-				}
-				else if (hasTerminal) {
-					String terminalName = FlightUtils.getTerminalName(getContext(), summaryWaypoint);
-					vh.mBottomLine.setText(Html.fromHtml(res.getString(bottomLineTextId,
-							summaryWaypoint.mAirportCode, terminalName)));
-				}
-				else if (hasGate) {
-					vh.mBottomLine.setText(Html.fromHtml(res.getString(bottomLineTextId,
-							summaryWaypoint.mAirportCode,
-							res.getString(R.string.gate_number_only_TEMPLATE, summaryWaypoint.getGate()))));
+				String bottomLineHtml;
+				if (!summaryWaypoint.hasGate() && !summaryWaypoint.hasTerminal()) {
+					bottomLineHtml = res.getString(bottomLineFallbackId, summaryWaypoint.mAirportCode);
 				}
 				else {
-					vh.mBottomLine
-							.setText(Html.fromHtml(res.getString(bottomLineFallbackId, summaryWaypoint.mAirportCode)));
+					String terminalGate = FlightUtils.getTerminalGateString(getContext(), summaryWaypoint);
+					bottomLineHtml = res.getString(bottomLineTextId, terminalGate);
 				}
+				vh.mBottomLine.setText(Html.fromHtml(bottomLineHtml));
 			}
 		}
 
@@ -655,30 +641,38 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 			String primaryText = null;
 			if (primaryWaypointHasAll) {
-				String terminalName = FlightUtils.getTerminalName(getContext(), primaryWaypoint);
-				primaryText = res.getString(R.string.arrival_terminal_TEMPLATE, terminalName,
-						primaryWaypoint.getGate());
+				primaryText = primaryWaypoint.isInternationalTerminal()
+						? res.getString(R.string.Arrive_International_Terminal_Gate_X_TEMPLATE,
+								primaryWaypoint.getGate())
+						: res.getString(R.string.Arrive_Terminal_X_Gate_Y_TEMPLATE,
+								primaryWaypoint.getTerminal(),
+								primaryWaypoint.getGate());
 			}
 			else if (primaryWaypointHasTerm) {
-				String terminalName = FlightUtils.getTerminalName(getContext(), primaryWaypoint);
-				primaryText = res.getString(R.string.arrive_terminal_but_no_gate_TEMPLATE, terminalName);
+				primaryText = primaryWaypoint.isInternationalTerminal()
+						? res.getString(R.string.Arrive_International_Terminal)
+						: res.getString(R.string.Arrive_Terminal_X_TEMPLATE, primaryWaypoint.getTerminal());
 			}
 			else if (primaryWaypointHasGate) {
-				primaryText = res.getString(R.string.arrive_gate_number_only_TEMPLATE, primaryWaypoint.getGate());
+				primaryText = res.getString(R.string.Arrive_Gate_X_TEMPLATE, primaryWaypoint.getGate());
 			}
 
 			String secondaryText = null;
 			if (secondaryWaypointHasAll) {
-				String terminalName = FlightUtils.getTerminalName(getContext(), secondaryWaypoint);
-				secondaryText = res.getString(R.string.departure_terminal_TEMPLATE, terminalName,
-						secondaryWaypoint.getGate());
+				secondaryText = secondaryWaypoint.isInternationalTerminal()
+						? res.getString(R.string.Depart_International_Terminal_Gate_X_TEMPLATE,
+								secondaryWaypoint.getGate())
+						: res.getString(R.string.Depart_Terminal_X_Gate_Y_TEMPLATE,
+								secondaryWaypoint.getTerminal(),
+								secondaryWaypoint.getGate());
 			}
 			else if (secondaryWaypointHasTerm) {
-				String terminalName = FlightUtils.getTerminalName(getContext(), secondaryWaypoint);
-				secondaryText = res.getString(R.string.depart_terminal_but_no_gate_TEMPLATE, terminalName);
+				secondaryText = secondaryWaypoint.isInternationalTerminal()
+						? res.getString(R.string.Depart_International_Terminal)
+						: res.getString(R.string.Depart_Terminal_X_TEMPLATE, secondaryWaypoint.getTerminal());
 			}
 			else if (secondaryWaypointHasGate) {
-				secondaryText = res.getString(R.string.depart_gate_number_only_TEMPLATE, secondaryWaypoint.getGate());
+				secondaryText = res.getString(R.string.Depart_Gate_X_TEMPLATE, secondaryWaypoint.getGate());
 			}
 
 			if (primaryText != null) {
@@ -698,25 +692,11 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		}
 		else {
 			secondRowText.setVisibility(View.GONE);
-
-			String primaryText = null;
-			if (primaryWaypointHasAll) {
-				String terminalName = FlightUtils.getTerminalName(getContext(), primaryWaypoint);
-				primaryText = res.getString(R.string.generic_terminal_TEMPLATE, terminalName,
-						primaryWaypoint.getGate());
-			}
-			else if (primaryWaypointHasTerm) {
-				primaryText = FlightUtils.getTerminalName(getContext(), primaryWaypoint);
-			}
-			else if (primaryWaypointHasGate) {
-				primaryText = res.getString(R.string.gate_number_only_TEMPLATE, primaryWaypoint.getGate());
-			}
-
-			if (primaryText != null) {
-				firstRowText.setText(primaryText);
+			if (!primaryWaypointHasTerm && !primaryWaypointHasGate) {
+				firstRowText.setVisibility(View.GONE);
 			}
 			else {
-				firstRowText.setVisibility(View.GONE);
+				firstRowText.setText(FlightUtils.getTerminalGateString(getContext(), primaryWaypoint));
 			}
 		}
 

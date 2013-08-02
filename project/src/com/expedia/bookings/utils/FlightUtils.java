@@ -1,6 +1,7 @@
 package com.expedia.bookings.utils;
 
 import android.content.Context;
+import android.content.res.Resources;
 
 import com.expedia.bookings.R;
 import com.mobiata.flightlib.data.Waypoint;
@@ -8,16 +9,30 @@ import com.mobiata.flightlib.data.Waypoint;
 public class FlightUtils {
 
 	/**
-	 * Returns the full name of the terminal for the passed waypoint. Normally this will
-	 * be something like "Terminal A" or "Terminal 5" but in the case of airports with an
-	 * international terminal, it could return "International Terminal". All localized,
-	 * of course.
+	 * Returns the best Terminal/Gate string available, depending on the waypoint.
+	 * If the gate and terminal are both known, something like "Terminal X, Gate Y",
+	 * otherwise something less specific. If neither is known, "Gate TBD".
 	 */
-	public static String getTerminalName(Context context, Waypoint waypoint) {
-		String terminal = waypoint.getTerminal();
-		if (waypoint.getAirport().mHasInternationalTerminalI && terminal.equals("I")) {
-			return context.getString(R.string.International_Terminal);
+	public static String getTerminalGateString(Context context, Waypoint waypoint) {
+		Resources res = context.getResources();
+		if (waypoint.hasGate() && waypoint.hasTerminal()) {
+			return waypoint.isInternationalTerminal()
+					? res.getString(R.string.International_Terminal_Gate_X_TEMPLATE, waypoint.getGate())
+					: res.getString(R.string.Terminal_X_Gate_Y_TEMPLATE, waypoint.getTerminal(), waypoint.getGate());
 		}
-		return context.getString(R.string.Terminal_X_TEMPLATE, terminal);
+		else if (waypoint.hasGate()) {
+			//gate only
+			return res.getString(R.string.Gate_X_TEMPLATE, waypoint.getGate());
+		}
+		else if (waypoint.hasTerminal()) {
+			//terminal only
+			return waypoint.isInternationalTerminal()
+					? res.getString(R.string.International_Terminal)
+					: res.getString(R.string.Terminal_X_TEMPLATE, waypoint.getTerminal());
+		}
+		else {
+			//no gate or terminal info
+			return res.getString(R.string.Gate_To_Be_Determined_abbrev);
+		}
 	}
 }

@@ -247,7 +247,7 @@ public class ShareUtils {
 		String destinationCity = leg.getLastWaypoint().getAirport().mCity;
 		String destinationAirportCode = leg.getLastWaypoint().getAirport().mAirportCode;
 		String originAirportCode = leg.getFirstWaypoint().getAirport().mAirportCode;
-		String destinationGateTerminal = getTerminalGateString(leg.getLastWaypoint());
+		String destinationGateTerminal = FlightUtils.getTerminalGateString(mContext, leg.getLastWaypoint());
 
 		Calendar departureCal = leg.getFirstWaypoint().getBestSearchDateTime();
 		Calendar arrivalCal = leg.getLastWaypoint().getBestSearchDateTime();
@@ -692,27 +692,6 @@ public class ShareUtils {
 		}
 		else {
 			return airport.mAirportCode;
-		}
-	}
-
-	private String getTerminalGateString(Waypoint waypoint) {
-		Resources res = mContext.getResources();
-		if (!waypoint.hasGate() && !waypoint.hasTerminal()) {
-			//no gate or terminal info
-			return res.getString(R.string.gate_number_only_TEMPLATE, res.getString(R.string.to_be_determined_abbrev));
-		}
-		else if (waypoint.hasGate()) {
-			//gate only
-			return res.getString(R.string.gate_number_only_TEMPLATE, waypoint.getGate());
-		}
-		else if (waypoint.hasTerminal()) {
-			//terminal only
-			return FlightUtils.getTerminalName(mContext, waypoint);
-		}
-		else {
-			//We have gate and terminal info
-			String terminalName = FlightUtils.getTerminalName(mContext, waypoint);
-			return res.getString(R.string.generic_terminal_TEMPLATE, terminalName, waypoint.getGate());
 		}
 	}
 }
