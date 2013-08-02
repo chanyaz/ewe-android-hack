@@ -79,7 +79,7 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 	protected boolean mHandleFullWalletWhenReady = false;
 
 	// If Google Wallet is entirely unavailable (for some reason)
-	protected boolean mGoogleWalletDisabled = false;
+	private boolean mGoogleWalletDisabled = false;
 
 	// Cached connection result
 	protected ConnectionResult mConnectionResult;
@@ -91,6 +91,9 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 	// to be uninterrupted for.
 	protected ProgressDialog mProgressDialog;
 
+	//////////////////////////////////////////////////////////////////////////
+	// Activation
+
 	/**
 	 * Disable Google Wallet functionality.
 	 * 
@@ -99,6 +102,12 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 	 */
 	public void disableGoogleWallet() {
 		mGoogleWalletDisabled = true;
+	}
+
+	// TODO: Invert this logic when we're not on a point release, so we're not saying
+	// "isDisabled" and instead say "isEnabled".
+	public boolean isGoogleWalletDisabled() {
+		return mGoogleWalletDisabled;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

@@ -66,7 +66,7 @@ public abstract class LoadWalletFragment extends WalletFragment {
 	 * Call this when the user wants to buy with Google Wallet (e.g., presses the button)
 	 */
 	protected void buyWithGoogleWallet() {
-		if (mGoogleWalletDisabled) {
+		if (isGoogleWalletDisabled()) {
 			updateWalletViewVisibilities();
 			displayGoogleWalletUnavailableToast();
 		}
@@ -94,7 +94,7 @@ public abstract class LoadWalletFragment extends WalletFragment {
 	protected boolean showWalletButton() {
 		StoredCreditCard scc = Db.getBillingInfo().getStoredCard();
 		boolean storedCardIsGoogleWallet = scc != null && scc.isGoogleWallet();
-		return !mGoogleWalletDisabled && !storedCardIsGoogleWallet;
+		return !isGoogleWalletDisabled() && !storedCardIsGoogleWallet;
 	}
 
 	/**
@@ -109,7 +109,7 @@ public abstract class LoadWalletFragment extends WalletFragment {
 	protected boolean isWalletLoading() {
 		MaskedWallet maskedWallet = Db.getMaskedWallet();
 
-		return !mGoogleWalletDisabled
+		return !isGoogleWalletDisabled()
 				&& maskedWallet == null
 				&& (!mWalletClient.isConnected()
 						|| !mCheckedPreAuth
@@ -241,7 +241,7 @@ public abstract class LoadWalletFragment extends WalletFragment {
 		}
 
 		// Don't re-request the masked wallet if we already have it
-		if (!mGoogleWalletDisabled && Db.getMaskedWallet() == null) {
+		if (!isGoogleWalletDisabled() && Db.getMaskedWallet() == null) {
 			if (mCheckPreAuth) {
 				mWalletClient.checkForPreAuthorization(this);
 			}
