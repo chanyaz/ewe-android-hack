@@ -309,8 +309,10 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		}
 	}
 
+	private Locale mOldLocale;
+
 	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
+	public void onConfigurationChanged(final Configuration newConfig) {
 		if (IS_VSC) {
 			Locale locale = new Locale("fr", "FR");
 			if (!newConfig.locale.equals(locale)) {
@@ -327,6 +329,13 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 				sendBroadcast(intent);
 				return;
 			}
+		}
+
+		if (mOldLocale == null || !mOldLocale.equals(newConfig.locale)) {
+			mOldLocale = newConfig.locale;
+			// Locale changed
+			Intent intent = new Intent(LocaleChangeReceiver.ACTION_LOCALE_CHANGED);
+			sendBroadcast(intent);
 		}
 
 		super.onConfigurationChanged(newConfig);

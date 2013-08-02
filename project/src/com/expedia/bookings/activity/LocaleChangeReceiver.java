@@ -9,7 +9,7 @@ import com.expedia.bookings.utils.NavUtils;
 import com.mobiata.android.Log;
 
 public class LocaleChangeReceiver extends BroadcastReceiver {
-	public static final String ACTION_LOCALE_CHANGED = "com.expedia.bookings.locale_changed";
+	public static final String ACTION_LOCALE_CHANGED = "com.expedia.bookings.action.locale_changed";
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
