@@ -207,6 +207,8 @@
     <string name="depart_gate_number_only_TEMPLATE">게이트 %1$s 출발</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
     <string name="Terminal_X_TEMPLATE">터미널 %1$s</string>
+    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
+    <string name="Baggage_Claim_X_TEMPLATE">수하물 찾는 곳 %1$s</string>
     <!-- Special case for name of International Terminal -->
     <string name="International_Terminal">국제선 터미널</string>
     <!-- Itin flight terminal only template -->
@@ -797,6 +799,8 @@
     <string name="airline_does_not_accept_cardtype_TEMPLATE">항공사에서 %1$s 결제를 지원하지 않습니다.</string>
     <!-- "Airline Fee Information" -->
     <string name="airline_fee_information">카드 결제 수수료 정보</string>
+    <!-- Debit cards not supported message -->
+    <string name="debit_cards_not_accepted">직불카드로는 결제하실 수 없습니다.</string>
 
     <!-- Trip Overview Activity -->
     <!-- Label for Overview activity in task manager -->
@@ -925,7 +929,7 @@
 
     <!-- Section edit contact -->
     <!-- name on card hint -->
-    <string name="name_on_card_hint">카드상 이름</string>
+    <string name="name_on_card_hint">카드상의 이름</string>
     <!-- email hint -->
     <string name="email_address_hint">이메일 주소</string>
     <!-- phone number hint -->
@@ -1209,10 +1213,14 @@
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">안녕하세요,</string>
-    <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
+    <!-- One-way flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_one_way_TEMPLATE">%1$s에서 출발하여 %2$s에 도착하는 제 항공편 정보를 아래와 같이 알려드릴게요.</string>
-    <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
+    <!-- Round trip flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_round_trip_TEMPLATE">%1$s에서 출발하여 %2$s에 도착하는 제 왕복 항공편 정보를 아래와 같이 알려드릴게요.</string>
+    <!-- One-way flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">%1$s에서 출발하여 %2$s에 도착하는 저희 항공편 정보를 아래와 같이 알려드릴게요.</string>
+    <!-- Round trip flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">%1$s에서 출발하여 %2$s에 도착하는 저희 왕복 항공편 정보를 아래와 같이 알려드릴게요.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">일정 번호: %s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
@@ -1535,9 +1543,9 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">최근</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_favorable">긍정적</string>
+    <string name="user_review_sort_button_favorable">최고</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_critical">비판적</string>
+    <string name="user_review_sort_button_critical">최저</string>
     <!-- Loading more reviews -->
     <string name="user_review_loading_more_reviews">더 많은 이용 후기 로드 중…</string>
     <!-- Read more of the review -->
@@ -1564,12 +1572,6 @@
         2$ is the place they are from
     -->
     <string name="user_review_name_and_location_signature">%1$s 님, %2$s</string>
-    <!-- User review no critical reviews -->
-    <string name="user_review_no_critical_reviews">이 호텔에 대해 비판적인 이용 후기가 없습니다.</string>
-    <!-- User review no favorable reviews -->
-    <string name="user_review_no_favorable_reviews">이 호텔에 대해 긍정적인 이용 후기가 없습니다.</string>
-    <!-- User review no recent reviews -->
-    <string name="user_review_no_recent_reviews">이 호텔에 대한 최근 이용 후기가 없습니다.</string>
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">이용 후기를 일시적으로 이용하실 수 없습니다.</string>
 
@@ -2340,11 +2342,11 @@
     <!-- Content description for "buy with wallet" button -->
     <string name="wallet_buy_with_google_wallet">Google Wallet으로 구매</string>
     <!-- Message for Google wallet coupon promotion -->
-    <string name="wallet_promo_offer">Google Wallet으로 <b>10% 할인</b> 받으세요!</string>
+    <string name="wallet_promo_offer">Google Wallet으로 <b>10% 할인</b>받으세요!</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">Google Wallet 사용으로 10% 할인되었습니다!</string>
+    <string name="wallet_promo_in_use_message">Google Wallet 사용으로 10%% 할인되었습니다!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">예약 1회당 한 개 쿠폰만 사용하실 수 있습니다. 따라서 이전의 쿠폰을 Google Wallet 사용에 대한 10% 할인 쿠폰으로 대체했습니다.</string>
+    <string name="coupon_replaced_message">예약 1회당 한 개 쿠폰만 사용하실 수 있습니다. 고객님의 이전 쿠폰을 Google Wallet 사용에 대한 10%% 할인 쿠폰으로 대체했습니다.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Google Wallet 할인 적용 중…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->

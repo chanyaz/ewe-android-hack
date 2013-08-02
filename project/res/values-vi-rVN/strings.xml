@@ -206,7 +206,9 @@
     <!-- Itin flight depart gate only template -->
     <string name="depart_gate_number_only_TEMPLATE">Cổng khởi hành %1$s</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
-    <string name="Terminal_X_TEMPLATE">Ga %1$s</string>
+    <string name="Terminal_X_TEMPLATE">Nhà ga %1$s</string>
+    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
+    <string name="Baggage_Claim_X_TEMPLATE">Băng chuyền hành lý %1$s</string>
     <!-- Special case for name of International Terminal -->
     <string name="International_Terminal">Ga Quốc tế</string>
     <!-- Itin flight terminal only template -->
@@ -797,6 +799,8 @@
     <string name="airline_does_not_accept_cardtype_TEMPLATE">Hãng hàng không không chấp nhận thanh toán bằng %1$s</string>
     <!-- "Airline Fee Information" -->
     <string name="airline_fee_information">Thông tin phí hãng hàng không</string>
+    <!-- Debit cards not supported message -->
+    <string name="debit_cards_not_accepted">Không chấp nhận thẻ ghi nợ.</string>
 
     <!-- Trip Overview Activity -->
     <!-- Label for Overview activity in task manager -->
@@ -1209,10 +1213,14 @@
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">Xin chào,</string>
-    <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
+    <!-- One-way flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_one_way_TEMPLATE">Đây là chi tiết chuyến bay từ %1$s đến %2$s của tôi.</string>
-    <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
+    <!-- Round trip flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_round_trip_TEMPLATE">Đây là chi tiết chuyến bay khứ hồi từ %1$s đến %2$s của tôi.</string>
+    <!-- One-way flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">Đây là thông tin về chuyến bay từ %1$s đến %2$s của chúng tôi.</string>
+    <!-- Round trip flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">Đây là thông tin về chuyến bay khứ hồi từ %1$s đến %2$s của chúng tôi.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">Số lịch trình: %s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
@@ -1535,9 +1543,9 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">Gần đây</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_favorable">Tích cực</string>
+    <string name="user_review_sort_button_favorable">Cao nhất</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_critical">Tiêu cực</string>
+    <string name="user_review_sort_button_critical">Thấp nhất</string>
     <!-- Loading more reviews -->
     <string name="user_review_loading_more_reviews">Đang tải thêm nhận xét khác…</string>
     <!-- Read more of the review -->
@@ -1564,12 +1572,6 @@
         2$ is the place they are from
     -->
     <string name="user_review_name_and_location_signature">%1$s từ %2$s</string>
-    <!-- User review no critical reviews -->
-    <string name="user_review_no_critical_reviews">Không có nhận xét tiêu cực về khách sạn này.</string>
-    <!-- User review no favorable reviews -->
-    <string name="user_review_no_favorable_reviews">Không có nhận xét tích cực về khách sạn này.</string>
-    <!-- User review no recent reviews -->
-    <string name="user_review_no_recent_reviews">Gần đây không có nhận xét nào về khách sạn này.</string>
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">Phần nhận xét tạm thời không hoạt động</string>
 
@@ -2342,9 +2344,9 @@
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">Nhận ưu đãi <b>giảm giá 10%</b> với Google Wallet!</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">Tiết kiệm 10% khi sử dụng Google Wallet!</string>
+    <string name="wallet_promo_in_use_message">Tiết kiệm 10%% khi sử dụng Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Chỉ sử dụng được 1 coupon mỗi lần đặt. Chúng tôi đã đổi coupon trước của quý vị bằng ưu đãi giảm 10% khi sử dụng Google Wallet.</string>
+    <string name="coupon_replaced_message">Chỉ sử dụng được 1 coupon mỗi lần đặt. Chúng tôi đã thay thế coupon trước của quý vị bằng việc giảm giá 10%% do sử dụng Google Wallet!</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Áp dụng giảm giá với Google Wallet…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->

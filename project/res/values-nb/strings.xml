@@ -207,6 +207,8 @@
     <string name="depart_gate_number_only_TEMPLATE">Avreisegate %1$s</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
     <string name="Terminal_X_TEMPLATE">Terminal %1$s</string>
+    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
+    <string name="Baggage_Claim_X_TEMPLATE">Bagasjeområdet %1$s</string>
     <!-- Special case for name of International Terminal -->
     <string name="International_Terminal">Internasjonal terminal</string>
     <!-- Itin flight terminal only template -->
@@ -797,6 +799,8 @@
     <string name="airline_does_not_accept_cardtype_TEMPLATE">Flyselskapet godtar ikke %1$s</string>
     <!-- "Airline Fee Information" -->
     <string name="airline_fee_information">Informasjon om flyselskapets avgifter</string>
+    <!-- Debit cards not supported message -->
+    <string name="debit_cards_not_accepted">Debetkort godtas ikke.</string>
 
     <!-- Trip Overview Activity -->
     <!-- Label for Overview activity in task manager -->
@@ -1209,10 +1213,14 @@
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">Hei</string>
-    <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
+    <!-- One-way flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_one_way_TEMPLATE">Her er informasjonen for flyvningen min fra %1$s til %2$s.</string>
-    <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
+    <!-- Round trip flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_round_trip_TEMPLATE">Her er informasjonen for tur-retur-flyvningen min fra %1$s til %2$s.</string>
+    <!-- One-way flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">Her er informasjonen om din flyvning/dine flyvninger fra %1$s til %2$s.</string>
+    <!-- Round trip flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">Her er informasjon om din tur-retur flyvning fra %1$s til %2$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">Reiserutenummer: %s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
@@ -1535,11 +1543,11 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">Nylige</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_favorable">Positive</string>
+    <string name="user_review_sort_button_favorable">Høyest</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_critical">Negative</string>
+    <string name="user_review_sort_button_critical">Lavest</string>
     <!-- Loading more reviews -->
-    <string name="user_review_loading_more_reviews">Laster inn flere anmeldelser…</string>
+    <string name="user_review_loading_more_reviews">Henter flere anmeldelser…</string>
     <!-- Read more of the review -->
     <string name="user_review_read_more">Les mer</string>
     <!--
@@ -1564,12 +1572,6 @@
         2$ is the place they are from
     -->
     <string name="user_review_name_and_location_signature">%1$s fra %2$s</string>
-    <!-- User review no critical reviews -->
-    <string name="user_review_no_critical_reviews">Det finnes ingen negative anmeldelser av dette hotellet</string>
-    <!-- User review no favorable reviews -->
-    <string name="user_review_no_favorable_reviews">Det finnes ingen positive anmeldelser av dette hotellet</string>
-    <!-- User review no recent reviews -->
-    <string name="user_review_no_recent_reviews">Det finnes ingen nylige anmeldelser av dette hotellet</string>
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">Anmeldelser er utilgjengelige for øyeblikket</string>
 
@@ -2342,9 +2344,9 @@
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">Få <b>10% rabatt</b> med Google Wallet!</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">Du sparte 10% ved å bruke Google Wallet!</string>
+    <string name="wallet_promo_in_use_message">Du har spart 10%% ved å bruke Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Kun én kupong kan brukes per bestilling. Vi erstattet din forrige kupong med 10% rabatt som takk for at du bruker Google Wallet.</string>
+    <string name="coupon_replaced_message">Kun én kupong kan brukes per bestilling. Vi erstattet din forrige kupong med en rabatt på 10%% for å bruke Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Løser inn din Google Wallet-rabatt…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->

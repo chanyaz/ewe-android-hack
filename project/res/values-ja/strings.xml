@@ -77,7 +77,7 @@
     <!-- Notification text for car pick up -->
     <string name="You_can_now_pick_up_your_car">レンタカーをピックアップできます。</string>
     <!-- Notification title for car drop off -->
-    <string name="Car_Drop_Off_X_TEMPLATE">レンタカーを返却 – %s</string>
+    <string name="Car_Drop_Off_X_TEMPLATE">レンタカーの返却 – %s</string>
     <!-- Notification text for car drop off -->
     <string name="Your_rental_is_due_returned">お使いのレンタカーを 2 時間以内に返却してください。</string>
     <!-- Notification title for activity start -->
@@ -207,8 +207,10 @@
     <string name="depart_gate_number_only_TEMPLATE">ゲート %1$s から出発</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
     <string name="Terminal_X_TEMPLATE">ターミナル%1$s</string>
+    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
+    <string name="Baggage_Claim_X_TEMPLATE">手荷物受取所%1$s</string>
     <!-- Special case for name of International Terminal -->
-    <string name="International_Terminal">国際ターミナル</string>
+    <string name="International_Terminal">国際線ターミナル</string>
     <!-- Itin flight terminal only template -->
     <string name="arrive_terminal_but_no_gate_TEMPLATE">ターミナル %1$s に到着</string>
     <!-- Itin flight terminal only template -->
@@ -677,9 +679,9 @@
         <item quantity="other">大人 %1$d 名</item>
     </plurals>
     <!-- Message shown when loading AirAsia flight routes -->
-    <string name="loading_air_asia_routes">AirAsia ルートをローディング中…</string>
+    <string name="loading_air_asia_routes">AirAsia ルートを読み込み中…</string>
     <!-- Message shown when we could not load the AirAsia flight routes -->
-    <string name="error_could_not_load_air_asia">AirAsia ルートをローディングできませんでした</string>
+    <string name="error_could_not_load_air_asia">AirAsia ルートを読み込めませんでした</string>
     <!-- Header row for airports that were used recently for a search -->
     <string name="recent">最近</string>
     <!-- Display for selected airport dropdown.  %1$s is the airport code, %2$s is the city, e.g. "(MSP) Minneapolis" -->
@@ -701,7 +703,7 @@
     <!-- Calendar tooltip bottom line after a single date is selected e.g. (Optional) Select Return Date -->
     <string name="calendar_tooltip_bottom_select_return_date">(オプション) 現地出発日を選択</string>
     <!-- Calendar tooltip bottom line after two dates are selected E.g. Drag End Dates to Modify -->
-    <string name="calendar_tooltip_bottom_drag_to_modify">ドラッグして現地出発日を変更</string>
+    <string name="calendar_tooltip_bottom_drag_to_modify">現地出発日を変更するには日付をドラッグ</string>
     <!-- Calendar tooltip hotels bottom line after a single date is selected "Select Checkout Date" -->
     <string name="calendar_tooltip_hotel_bottom_select_checkout_date">チェックアウト日を選択</string>
     <!-- Calendar tooltip hotels bottom line after two dates are selected TEMPLATE arg1=start date string, arg2=end date string, arg3=number of nights e.g. "May 26 - May 28 (2 nights)" -->
@@ -797,6 +799,8 @@
     <string name="airline_does_not_accept_cardtype_TEMPLATE">この航空会社では、%1$s のカードはご利用いただけません。</string>
     <!-- "Airline Fee Information" -->
     <string name="airline_fee_information">航空会社の手数料詳細</string>
+    <!-- Debit cards not supported message -->
+    <string name="debit_cards_not_accepted">デビットカードはご利用いただけません。</string>
 
     <!-- Trip Overview Activity -->
     <!-- Label for Overview activity in task manager -->
@@ -886,7 +890,7 @@
 
     <!-- Cost breakdown dialog -->
     <!-- Cost Summary -->
-    <string name="cost_summary">コスト サマリー</string>
+    <string name="cost_summary">料金の概要</string>
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">税金 &amp; サービス料</string>
     <!-- Expedia booking fee -->
@@ -900,15 +904,15 @@
 
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
-    <string name="Add_Traveler">旅行者を追加</string>
+    <string name="Add_Traveler">旅行者情報を入力</string>
     <!-- Label for "Add Payment" in task manager -->
     <string name="Add_Payment">お支払い情報を追加</string>
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">旅行者情報</string>
     <!-- Add traveler -->
-    <string name="add_traveler">旅行者を追加</string>
+    <string name="add_traveler">旅行者情報を入力</string>
     <!-- Add traveler number template -->
-    <string name="add_traveler_number_TEMPLATE">旅行者を追加 %1$s</string>
+    <string name="add_traveler_number_TEMPLATE">旅行者 %1$s の情報を入力</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">旅行者名がパスポートなど写真付きの公的証明書に記載された名前と一致しない場合は搭乗できません。</string>
 
@@ -1015,7 +1019,7 @@
     <!-- Passport country / origin heading -->
     <string name="passport_country_origin">パスポートの発行国 / 出身国</string>
     <!-- Redress number hint -->
-    <string name="only_if_applicable">リドレス No. (任意)</string>
+    <string name="only_if_applicable">リドレス No. (不明な場合は空欄)</string>
     <!-- Saving traveler info spinner dialog -->
     <string name="saving_traveler">お客様のアカウントに旅行者情報を保存中…</string>
 
@@ -1031,7 +1035,7 @@
     <!-- Select a different traveler -->
     <string name="select_a_different_traveler">別の旅行者を選択</string>
     <!-- Enter a new traveler -->
-    <string name="enter_new_traveler">新しい旅行者を入力</string>
+    <string name="enter_new_traveler">旅行者情報を入力</string>
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">旅行者情報を変更</string>
     <!-- prefers seat template -->
@@ -1209,10 +1213,14 @@
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">こんにちは。</string>
-    <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
+    <!-- One-way flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_one_way_TEMPLATE">%1$sから%2$sへのフライトの詳細です。</string>
-    <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
+    <!-- Round trip flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_round_trip_TEMPLATE">%1$sから%2$sへの往復フライトの詳細です。</string>
+    <!-- One-way flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">%1$sから%2$sへのフライトの詳細です。</string>
+    <!-- Round trip flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">%1$sから%2$sへの往復フライトの詳細です。</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">旅程番号 : %s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
@@ -1235,7 +1243,7 @@
     <!-- Label for picking search location -->
     <string name="where_are_you_going">&lt;b&gt;滞在先&lt;/b&gt;</string>
     <!-- Label for picking checkin/checkout dates -->
-    <string name="drag_to_extend_your_stay">&lt;b&gt;ドラッグして&lt;/b&gt;滞在期間を延長</string>
+    <string name="drag_to_extend_your_stay">滞在期間を延長するには日付を&lt;b&gt;ドラッグ&lt;/b&gt;</string>
     <!-- Label for picking guests for hotel booking -->
     <string name="who_is_going">&lt;b&gt;同行者&lt;/b&gt;</string>
     <!-- Child age dialog button -->
@@ -1535,9 +1543,9 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">最近</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_favorable">ポジティブ</string>
+    <string name="user_review_sort_button_favorable">高評価</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_critical">ネガティブ</string>
+    <string name="user_review_sort_button_critical">低評価</string>
     <!-- Loading more reviews -->
     <string name="user_review_loading_more_reviews">さらにレビューを読み込んでいます…</string>
     <!-- Read more of the review -->
@@ -1564,12 +1572,6 @@
         2$ is the place they are from
     -->
     <string name="user_review_name_and_location_signature">%1$s ～ %2$s</string>
-    <!-- User review no critical reviews -->
-    <string name="user_review_no_critical_reviews">このホテルのネガティブなレビューはまだありません</string>
-    <!-- User review no favorable reviews -->
-    <string name="user_review_no_favorable_reviews">このホテルのポジティブなレビューはまだありません</string>
-    <!-- User review no recent reviews -->
-    <string name="user_review_no_recent_reviews">このホテルの最近のレビューはありません</string>
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">レビューは現在ご覧いただけません</string>
 
@@ -2342,9 +2344,9 @@
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">Google ウォレット機能で<b>10% オフ</b> !</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">Google ウォレット機能で 10% 割引になりました !</string>
+    <string name="wallet_promo_in_use_message">Google ウォレット機能で 10%% 割引になりました !</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">1 回の予約で使用できるクーポンは 1 枚のみです。Google ウォレット機能で 10% 割引になる新しいクーポンをお届けします。</string>
+    <string name="coupon_replaced_message">1 回の予約で使用できるクーポンは 1 枚のみです。Google ウォレット機能で 10%% 割引になる新しいクーポンをお届けします。</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Google ウォレット割引を適用する…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
@@ -2701,7 +2703,7 @@
     <string name="cd_flight_leg_baggage_fee_info">タップして手荷物料金情報を表示</string>
     <!-- Flight Search Results - Selection Overview -->
     <!-- Content description for action: Press to go to cost summary for your flight selections -->
-    <string name="cd_flight_selection_cost_summary">コスト サマリーにアクセスしてフライト選択を表示</string>
+    <string name="cd_flight_selection_cost_summary">料金の概要にアクセスしてフライト選択を表示</string>
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
     <string name="cd_checkout">タップして購入手続き</string>
@@ -2752,7 +2754,7 @@
     <!-- Content description for action: Press to select traveler's gender -->
     <string name="cd_traveler_gender_edit">タップして旅行者の性別を選択</string>
     <!-- Content description for action: Enter redress number, if applicable -->
-    <string name="cd_traveler_redress_number_edit_text">リドレスナンバーを入力 (該当する場合)</string>
+    <string name="cd_traveler_redress_number_edit_text">リドレスナンバーを入力 (不明な場合は空欄)</string>
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
     <string name="cd_traveler_special_assistance_edit">スペシャル サポートを必要とする場合はサポートタイプを選択</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->

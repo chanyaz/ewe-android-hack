@@ -192,11 +192,11 @@
     <!-- Booking info label -->
     <string name="booking_info">預訂資料</string>
     <!-- Itin flight generic terminal and gate template -->
-    <string name="generic_terminal_TEMPLATE">%1$s，閘口：%2$s</string>
+    <string name="generic_terminal_TEMPLATE">客運大樓：%1$s，閘口：%2$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">抵達：%1$s，閘口：%2$s</string>
+    <string name="arrival_terminal_TEMPLATE">抵達客運大樓：%1$s，閘口：%2$s</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="departure_terminal_TEMPLATE">登機：%1$s，閘口：%2$s</string>
+    <string name="departure_terminal_TEMPLATE">登機客運大樓：%1$s，閘口：%2$s</string>
     <!-- To be determined abbrev. -->
     <string name="to_be_determined_abbrev">尚未公佈</string>
     <!-- Itin flight gate only template -->
@@ -207,12 +207,14 @@
     <string name="depart_gate_number_only_TEMPLATE">登機閘口：%1$s</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
     <string name="Terminal_X_TEMPLATE">客運大樓：%1$s</string>
+    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
+    <string name="Baggage_Claim_X_TEMPLATE">行李領取處：%1$s</string>
     <!-- Special case for name of International Terminal -->
     <string name="International_Terminal">國際客運大樓</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">抵達：%1$s</string>
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">抵達客運大樓：%1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">登機：%1$s</string>
+    <string name="depart_terminal_but_no_gate_TEMPLATE">登機客運大樓：%1$s</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="at_airport_TEMPLATE">&lt;b&gt;抵達：%1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
@@ -436,7 +438,7 @@
     <!-- Itin card details -->
     <string name="itin_card_details_active">有效</string>
     <string name="itin_card_details_expires">到期日</string>
-    <string name="itin_card_details_guests">房客</string>
+    <string name="itin_card_details_guests">旅客</string>
     <string name="itin_card_details_details">其他資料</string>
     <string name="itin_card_details_pick_up">取車</string>
     <string name="itin_card_details_drop_off">還車</string>
@@ -575,7 +577,7 @@
     <!-- label for activity 1: expiration date -->
     <string name="share_template_long_activity_expires">到期日 %1$s</string>
     <!-- label for activity 1: list of guests -->
-    <string name="share_template_long_activity_guests">房客\n%1$s</string>
+    <string name="share_template_long_activity_guests">旅客\n%1$s</string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
@@ -797,6 +799,8 @@
     <string name="airline_does_not_accept_cardtype_TEMPLATE">航空公司不接受使用 %1$s</string>
     <!-- "Airline Fee Information" -->
     <string name="airline_fee_information">航空公司收費資訊</string>
+    <!-- Debit cards not supported message -->
+    <string name="debit_cards_not_accepted">不接受扣帳卡</string>
 
     <!-- Trip Overview Activity -->
     <!-- Label for Overview activity in task manager -->
@@ -1209,10 +1213,14 @@
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">你好！</string>
-    <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
+    <!-- One-way flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_one_way_TEMPLATE">以下是我從%1$s到%2$s的航班資料。</string>
-    <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
+    <!-- Round trip flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_round_trip_TEMPLATE">以下是我從%1$s到%2$s的來回航班資料。</string>
+    <!-- One-way flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">以下是我們從%1$s到%2$s的航班資料。</string>
+    <!-- Round trip flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">以下是我們從%1$s到%2$s的來回航班資料。</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">行程編號：%s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
@@ -1535,9 +1543,9 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">近期</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_favorable">稱讚</string>
+    <string name="user_review_sort_button_favorable">最高</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_critical">批評</string>
+    <string name="user_review_sort_button_critical">最低</string>
     <!-- Loading more reviews -->
     <string name="user_review_loading_more_reviews">正載入更多評語…</string>
     <!-- Read more of the review -->
@@ -1564,12 +1572,6 @@
         2$ is the place they are from
     -->
     <string name="user_review_name_and_location_signature">%1$s，%2$s</string>
-    <!-- User review no critical reviews -->
-    <string name="user_review_no_critical_reviews">這間酒店沒有任何批評的評價</string>
-    <!-- User review no favorable reviews -->
-    <string name="user_review_no_favorable_reviews">這間酒店沒有任何稱讚的評價</string>
-    <!-- User review no recent reviews -->
-    <string name="user_review_no_recent_reviews">這間酒店沒有任何近期的評價</string>
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">暫時無法提供評價</string>
 
@@ -1764,7 +1766,7 @@
 
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
-    <string name="GuestsLabel">房客</string>
+    <string name="GuestsLabel">旅客</string>
     <!-- Label for the taxes and fees for a hotel room booking. -->
     <string name="taxes_and_fees">稅項及其他費用</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
@@ -1960,7 +1962,7 @@
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">%d 位成人</item>
-        <item quantity="one">%d成人</item>
+        <item quantity="one">%d 位成人</item>
         <item quantity="two">%d 位成人</item>
         <item quantity="many">%d 位成人</item>
         <item quantity="other">%d 位成人</item>
@@ -1975,19 +1977,19 @@
     </plurals>
     <!-- A number of guests. Capitalized -->
     <plurals name="number_of_guests">
-        <item quantity="zero">%d 位房客</item>
-        <item quantity="one">%d 位房客</item>
-        <item quantity="two">%d 位房客</item>
-        <item quantity="many">%d 位房客</item>
-        <item quantity="other">%d 名房客</item>
+        <item quantity="zero">%d 位旅客</item>
+        <item quantity="one">%d 位旅客</item>
+        <item quantity="two">%d 位旅客</item>
+        <item quantity="many">%d 位旅客</item>
+        <item quantity="other">%d 位旅客</item>
     </plurals>
     <!-- A number of guests (but not including the guest count). Capitalized -->
     <plurals name="number_of_guests_label">
-        <item quantity="zero">房客</item>
-        <item quantity="one">房客</item>
-        <item quantity="two">房客</item>
-        <item quantity="many">房客</item>
-        <item quantity="other">房客</item>
+        <item quantity="zero">旅客</item>
+        <item quantity="one">旅客</item>
+        <item quantity="two">旅客</item>
+        <item quantity="many">旅客</item>
+        <item quantity="other">旅客</item>
     </plurals>
     <!-- A number of nights (as in stay duration).  Capitalized -->
     <plurals name="number_of_nights">
@@ -2342,7 +2344,7 @@
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">使用 Google 電子錢包預訂可獲 <b>9 折</b>！</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">您因使用 Google 電子錢包而慳了 10%！</string>
+    <string name="wallet_promo_in_use_message">您因使用 Google 電子錢包而慳了 10%%！</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
     <string name="coupon_replaced_message">每次預訂只可使用一張折扣券。我們已將您之前的折扣券換成使用 Google 電子錢包得到的 9 折優惠。</string>
     <!-- Message shown while loading Wallet coupon -->

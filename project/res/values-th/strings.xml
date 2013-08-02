@@ -91,7 +91,7 @@
     <!-- Subtitle of the sweepstakes describing what the price is -->
     <string name="sweepstakes_enter_subtitle">โอกาสที่คุณจะชนะรางวัล\nทริปฟรีมูลค่า $1,200 จาก Expedia!</string>
     <!-- Text describing how to enter the sweepstakes -->
-    <string name="sweepstakes_enter_text">เพียงเข้าสู่ระบบด้วยบัญชี Expedia \nหรือเชื่อมต่อด้วย Facebook เพื่อเข้าร่วม</string>
+    <string name="sweepstakes_enter_text">เข้าร่วมได้ง่ายๆ เพียงเข้าสู่ระบบด้วยบัญชีเอ็กซ์พีเดีย \nหรือเชื่อมต่อด้วย Facebook</string>
     <!-- Button declining to enter the sweepstakes -->
     <string name="sweepstakes_no_thanks">ไม่ ขอบคุณ</string>
     <!-- Button to enter the sweepstakes -->
@@ -111,9 +111,9 @@
     <!-- Find Itinerary -->
     <string name="find_itinerary">ค้นหาแผนการเดินทาง</string>
     <!-- Find Itinerary # -->
-    <string name="find_itinerary_pound">ค้นหาแผนการเดินทาง #</string>
+    <string name="find_itinerary_pound">ค้นหาแผนการเดินทาง</string>
     <!-- Expedia Itinerary -->
-    <string name="expedia_itinerary">หมายเลขแผนการเดินทางเอ็กซ์พีเดีย:</string>
+    <string name="expedia_itinerary">หมายเลขแผนเดินทางเอ็กซ์พีเดีย:</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">ฝ่ายบริการลูกค้า Elite Plus</string>
     <!-- No upcoming trips -->
@@ -174,9 +174,9 @@
     <!-- Activity information -->
     <string name="activity_information">ข้อมูลกิจกรรม</string>
     <!-- Depart (TZ) template -->
-    <string name="depart_tz_TEMPLATE">ขาออก %1$s</string>
+    <string name="depart_tz_TEMPLATE">ขาออก (%1$s)</string>
     <!-- Arrive (TZ) template -->
-    <string name="arrive_tz_TEMPLATE">ขาเข้า %1$s</string>
+    <string name="arrive_tz_TEMPLATE">ขาเข้า (%1$s)</string>
     <!-- Flight Confirmation code label -->
     <string name="flight_confirmation_code_label">รหัสยืนยันเที่ยวบิน</string>
     <!-- Flight Carrier confirmation code label template -->
@@ -194,9 +194,9 @@
     <!-- Itin flight generic terminal and gate template -->
     <string name="generic_terminal_TEMPLATE">%1$s, ประตู %2$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">ขาเข้า %1$s, ประตู %2$s</string>
+    <string name="arrival_terminal_TEMPLATE">เดินทางถึง %1$s, ประตู %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="departure_terminal_TEMPLATE">ขาออก %1$s, ประตู %2$s</string>
+    <string name="departure_terminal_TEMPLATE">ออกจาก %1$s, ประตู %2$s</string>
     <!-- To be determined abbrev. -->
     <string name="to_be_determined_abbrev">TBD</string>
     <!-- Itin flight gate only template -->
@@ -207,12 +207,14 @@
     <string name="depart_gate_number_only_TEMPLATE">ประตูผู้โดยสารขาออก %1$s</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
     <string name="Terminal_X_TEMPLATE">อาคารผู้โดยสาร %1$s</string>
+    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
+    <string name="Baggage_Claim_X_TEMPLATE">รับกระเป๋า %1$s</string>
     <!-- Special case for name of International Terminal -->
     <string name="International_Terminal">อาคารผู้โดยสารระหว่างประเทศ</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">ขาเข้า %1$s</string>
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">เดินทางถึง %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">ขาออก %1$s</string>
+    <string name="depart_terminal_but_no_gate_TEMPLATE">ออกจาก %1$s</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="at_airport_TEMPLATE">&lt;b&gt;ที่ %1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
@@ -797,6 +799,8 @@
     <string name="airline_does_not_accept_cardtype_TEMPLATE">สายการบินไม่รับ %1$s</string>
     <!-- "Airline Fee Information" -->
     <string name="airline_fee_information">ข้อมูลค่าธรรมเนียมสายการบิน</string>
+    <!-- Debit cards not supported message -->
+    <string name="debit_cards_not_accepted">ไม่รับบัตรเดบิต</string>
 
     <!-- Trip Overview Activity -->
     <!-- Label for Overview activity in task manager -->
@@ -1209,10 +1213,14 @@
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">สวัสดี</string>
-    <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
+    <!-- One-way flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_one_way_TEMPLATE">นี่คือรายละเอียดเที่ยวบินจาก %1$s ไปยัง %2$s</string>
-    <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
+    <!-- Round trip flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_round_trip_TEMPLATE">นี่คือรายละเอียดเที่ยวบินไป-กลับจาก %1$s ไปยัง %2$s</string>
+    <!-- One-way flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">นี่คือรายละเอียดเที่ยวบินจาก %1$s ไปยัง %2$s</string>
+    <!-- Round trip flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">นี่คือรายละเอียดเที่ยวบินไป-กลับจาก %1$s ไปยัง %2$s</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">หมายเลขแผนการเดินทาง: %s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
@@ -1535,9 +1543,9 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">ล่าสุด</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_favorable">เชิงบวก</string>
+    <string name="user_review_sort_button_favorable">สูงสุด</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_critical">เชิงลบ</string>
+    <string name="user_review_sort_button_critical">ต่ำสุด</string>
     <!-- Loading more reviews -->
     <string name="user_review_loading_more_reviews">กำลังโหลดรีวิวเพิ่มเติม…</string>
     <!-- Read more of the review -->
@@ -1564,12 +1572,6 @@
         2$ is the place they are from
     -->
     <string name="user_review_name_and_location_signature">%1$s จาก %2$s</string>
-    <!-- User review no critical reviews -->
-    <string name="user_review_no_critical_reviews">ไม่มีรีวิวเชิงลบสำหรับโรงแรมนี้</string>
-    <!-- User review no favorable reviews -->
-    <string name="user_review_no_favorable_reviews">ไม่มีรีวิวเชิงบวกสำหรับโรงแรมนี้</string>
-    <!-- User review no recent reviews -->
-    <string name="user_review_no_recent_reviews">ไม่มีรีวิวใหม่สำหรับโรงแรมนี้</string>
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">ขออภัย ระบบแสดงความคิดเห็นขัดข้อง</string>
 
@@ -2342,9 +2344,9 @@
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">รับส่วนลด <b>10%</b> จาก Google Wallet!</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">คุณประหยัดไป 10% จากการใช้ Google Wallet</string>
+    <string name="wallet_promo_in_use_message">คุณประหยัดไป 10%% จากการใช้ Google Wallet</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">สามารถใช้คูปองได้เพียงหนึ่งใบต่อการจองเท่านั้น เราแทนที่คูปองก่อนหน้าของคุณด้วยส่วนลด 10% จากการใช้ Google Wallet</string>
+    <string name="coupon_replaced_message">สามารถใช้คูปองได้เพียงหนึ่งใบต่อการจองเท่านั้น เราแทนที่คูปองก่อนหน้าของคุณด้วยส่วนลด 10%% จากการใช้ Google Wallet</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">ใช้ส่วนลด Google Wallet…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->

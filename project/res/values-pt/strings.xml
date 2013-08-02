@@ -207,6 +207,8 @@
     <string name="depart_gate_number_only_TEMPLATE">Portão de Partida %1$s</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
     <string name="Terminal_X_TEMPLATE">Terminal %1$s</string>
+    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
+    <string name="Baggage_Claim_X_TEMPLATE">Coleta de bagagem %1$s</string>
     <!-- Special case for name of International Terminal -->
     <string name="International_Terminal">Terminal Internacional</string>
     <!-- Itin flight terminal only template -->
@@ -797,6 +799,8 @@
     <string name="airline_does_not_accept_cardtype_TEMPLATE">A companhia aérea não aceita %1$s</string>
     <!-- "Airline Fee Information" -->
     <string name="airline_fee_information">Informações sobre taxas da companhia aérea</string>
+    <!-- Debit cards not supported message -->
+    <string name="debit_cards_not_accepted">Não são aceitos cartões de débito</string>
 
     <!-- Trip Overview Activity -->
     <!-- Label for Overview activity in task manager -->
@@ -1209,10 +1213,14 @@
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">Olá,</string>
-    <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
+    <!-- One-way flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_one_way_TEMPLATE">Estes são os detalhes dos meus voos de %1$s para %2$s.</string>
-    <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
+    <!-- Round trip flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_round_trip_TEMPLATE">Estes são os detalhes do meu voo de ida e volta de %1$s para %2$s.</string>
+    <!-- One-way flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">Estes são os detalhes dos nossos voos de %1$s para %2$s.</string>
+    <!-- Round trip flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">Estes são os detalhes do nosso voo de ida e volta de %1$s para %2$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">No. do itinerário: %s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
@@ -1535,9 +1543,9 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">Recente</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_favorable">Favorável</string>
+    <string name="user_review_sort_button_favorable">Mais elevada</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_critical">Crítico</string>
+    <string name="user_review_sort_button_critical">Mais baixa</string>
     <!-- Loading more reviews -->
     <string name="user_review_loading_more_reviews">Carregando mais avaliações…</string>
     <!-- Read more of the review -->
@@ -1564,12 +1572,6 @@
         2$ is the place they are from
     -->
     <string name="user_review_name_and_location_signature">%1$s de %2$s</string>
-    <!-- User review no critical reviews -->
-    <string name="user_review_no_critical_reviews">Não há avaliações críticas para este hotel</string>
-    <!-- User review no favorable reviews -->
-    <string name="user_review_no_favorable_reviews">Não há avaliações favoráveis para este hotel</string>
-    <!-- User review no recent reviews -->
-    <string name="user_review_no_recent_reviews">Não há avaliações recentes para este hotel</string>
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">As avaliações não estão disponíveis no momento</string>
 
@@ -2342,9 +2344,9 @@
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">Receba <b>10% de desconto</b> com o Google Wallet!</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">Você recebeu um desconto de 10% usando o Google Wallet!</string>
+    <string name="wallet_promo_in_use_message">Você recebeu um desconto de 10%% usando o Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Pode ser usado somente um cupom por reserva. Substituímos seu cupom anterior por um desconto de 10% na utilização do Google Wallet.</string>
+    <string name="coupon_replaced_message">Pode ser usado somente um cupom por reserva. Substituímos seu cupom anterior por um desconto de 10%% na utilização do Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Aplicando o desconto do Google Wallet…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->

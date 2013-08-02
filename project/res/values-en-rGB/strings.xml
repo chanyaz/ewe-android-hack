@@ -57,7 +57,7 @@
     <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Stay in&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
-    <string name="error_launch_connection">Unfortunately, we can\&apos;t connect.</string>
+    <string name="error_launch_connection">Unfortunately, we can\'t connect.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Trips</string>
     <!-- Google play services unrecoverable error dialog message -->
@@ -207,6 +207,8 @@
     <string name="depart_gate_number_only_TEMPLATE">Depart Gate %1$s</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
     <string name="Terminal_X_TEMPLATE">Terminal %1$s</string>
+    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
+    <string name="Baggage_Claim_X_TEMPLATE">Baggage Claim %1$s</string>
     <!-- Special case for name of International Terminal -->
     <string name="International_Terminal">International Terminal</string>
     <!-- Itin flight terminal only template -->
@@ -797,6 +799,8 @@
     <string name="airline_does_not_accept_cardtype_TEMPLATE">Airline does not accept %1$s</string>
     <!-- "Airline Fee Information" -->
     <string name="airline_fee_information">Airline Fee Information</string>
+    <!-- Debit cards not supported message -->
+    <string name="debit_cards_not_accepted">Debit cards are not accepted.</string>
 
     <!-- Trip Overview Activity -->
     <!-- Label for Overview activity in task manager -->
@@ -1209,10 +1213,14 @@
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">Hi,</string>
-    <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
+    <!-- One-way flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_one_way_TEMPLATE">Here are the details of my flight(s) from %1$s to %2$s.</string>
-    <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
+    <!-- Round trip flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_round_trip_TEMPLATE">Here are the details of my round-trip flight from %1$s to %2$s.</string>
+    <!-- One-way flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">Here are the details of our flight(s) from %1$s to %2$s.</string>
+    <!-- Round trip flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">Here are the details of our round-trip flight from %1$s to %2$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">Itinerary #: %s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
@@ -1535,9 +1543,9 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">Recent</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_favorable">Favourable</string>
+    <string name="user_review_sort_button_favorable">Highest</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_critical">Critical</string>
+    <string name="user_review_sort_button_critical">Lowest</string>
     <!-- Loading more reviews -->
     <string name="user_review_loading_more_reviews">Loading more reviews…</string>
     <!-- Read more of the review -->
@@ -1564,12 +1572,6 @@
         2$ is the place they are from
     -->
     <string name="user_review_name_and_location_signature">%1$s from %2$s</string>
-    <!-- User review no critical reviews -->
-    <string name="user_review_no_critical_reviews">There are no critical reviews for this hotel</string>
-    <!-- User review no favorable reviews -->
-    <string name="user_review_no_favorable_reviews">There are no favourable reviews for this hotel</string>
-    <!-- User review no recent reviews -->
-    <string name="user_review_no_recent_reviews">There are no recent reviews for this hotel</string>
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">Reviews are temporarily unavailable</string>
 
@@ -2342,9 +2344,9 @@
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">Get <b>10% off</b> with Google Wallet</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">You saved 10% by using Google Wallet!</string>
+    <string name="wallet_promo_in_use_message">You saved 10%% by using Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Only one coupon can be used per booking. We replaced your previous coupon with the 10% discount for using Google Wallet.</string>
+    <string name="coupon_replaced_message">Only one coupon can be used per booking. We replaced your previous coupon with the 10%% discount for using Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Applying Google Wallet discount…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->

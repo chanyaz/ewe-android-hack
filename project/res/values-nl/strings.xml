@@ -207,6 +207,8 @@
     <string name="depart_gate_number_only_TEMPLATE">Vertrek Gate %1$s</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
     <string name="Terminal_X_TEMPLATE">Terminal %1$s</string>
+    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
+    <string name="Baggage_Claim_X_TEMPLATE">Bagageband %1$s</string>
     <!-- Special case for name of International Terminal -->
     <string name="International_Terminal">Internationale terminal</string>
     <!-- Itin flight terminal only template -->
@@ -797,6 +799,8 @@
     <string name="airline_does_not_accept_cardtype_TEMPLATE">Airline aanvaardt geen %1$s</string>
     <!-- "Airline Fee Information" -->
     <string name="airline_fee_information">Info over airlinetoeslag</string>
+    <!-- Debit cards not supported message -->
+    <string name="debit_cards_not_accepted">Betaalpassen worden niet aanvaard.</string>
 
     <!-- Trip Overview Activity -->
     <!-- Label for Overview activity in task manager -->
@@ -1210,10 +1214,14 @@
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">Hallo,</string>
-    <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
+    <!-- One-way flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_one_way_TEMPLATE">Dit zijn de gegevens voor mijn vlucht(en) van %1$s naar %2$s.</string>
-    <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
+    <!-- Round trip flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_round_trip_TEMPLATE">Dit zijn de gegevens voor mijn retourvlucht tussen %1$s en %2$s.</string>
+    <!-- One-way flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">Dit zijn onze vluchtgegevens van %1$s naar %2$s.</string>
+    <!-- Round trip flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">Dit zijn onze retourvluchtgegevens van %1$s naar %2$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">Reisplannr.: %s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
@@ -1565,12 +1573,6 @@
         2$ is the place they are from
     -->
     <string name="user_review_name_and_location_signature">%1$s uit %2$s</string>
-    <!-- User review no critical reviews -->
-    <string name="user_review_no_critical_reviews">Er zijn geen negatieve beoordelingen voor dit hotel</string>
-    <!-- User review no favorable reviews -->
-    <string name="user_review_no_favorable_reviews">Er zijn geen negatieve beoordelingen voor dit hotel</string>
-    <!-- User review no recent reviews -->
-    <string name="user_review_no_recent_reviews">Er zijn geen recente beoordelingen voor dit hotel</string>
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">De beoordelingen zijn voorlopig niet beschikbaar</string>
 
@@ -1628,7 +1630,7 @@
     <!-- Renovation Notice -->
     <string name="renovation_notice">Renovatiewerken</string>
     <!-- This property is undergoing renovations -->
-    <string name="property_undergoing_renovations">Deze accommodatie voert momenteel renovatiewerken uit</string>
+    <string name="property_undergoing_renovations">Deze accommodatie voert renovatiewerken uit</string>
 
     <!-- Gallery -->
     <!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
@@ -2343,9 +2345,9 @@
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">Profiteer van <b>10% korting</b> met Google Wallet!</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">Je hebt 10% bespaard met Google Wallet!</string>
+    <string name="wallet_promo_in_use_message">Je hebt 10%% bespaard met Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Max. 1 coupon per boeking. We hebben je vorige coupon vervangen door de 10% korting voor het gebruik van Google Wallet.</string>
+    <string name="coupon_replaced_message">Max. 1 coupon per boeking. We hebben je vorige coupon vervangen door de 10%% korting voor het gebruik van Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Google Wallet-korting wordt toegepast…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->

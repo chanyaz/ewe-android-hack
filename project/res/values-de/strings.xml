@@ -207,6 +207,8 @@
     <string name="depart_gate_number_only_TEMPLATE">Abflugterminal %1$s</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
     <string name="Terminal_X_TEMPLATE">Terminal %1$s</string>
+    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
+    <string name="Baggage_Claim_X_TEMPLATE">Gepäckausgabe %1$s</string>
     <!-- Special case for name of International Terminal -->
     <string name="International_Terminal">Int. Terminal</string>
     <!-- Itin flight terminal only template -->
@@ -797,6 +799,8 @@
     <string name="airline_does_not_accept_cardtype_TEMPLATE">Die Fluglinie akzeptiere keine %1$s</string>
     <!-- "Airline Fee Information" -->
     <string name="airline_fee_information">Infos zur Flugliniengebühr</string>
+    <!-- Debit cards not supported message -->
+    <string name="debit_cards_not_accepted">Debitkarten werden nicht akzeptiert.</string>
 
     <!-- Trip Overview Activity -->
     <!-- Label for Overview activity in task manager -->
@@ -1210,10 +1214,14 @@
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">Hallo!</string>
-    <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_TEMPLATE">Hallo! Hier sind die Details für meinen Flug/meine Flüge von %1$s nach %2$s.</string>
-    <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_round_trip_TEMPLATE">Hallo! Hier sind die Details für meinen Hin- und Rückflug von %1$s nach %2$s.</string>
+    <!-- One-way flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_one_way_TEMPLATE">Hier sind die Details für meinen Flug/meine Flüge von %1$s nach %2$s.</string>
+    <!-- Round trip flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_round_trip_TEMPLATE">Hier sind die Details für meinen Hin- und Rückflug von %1$s nach %2$s.</string>
+    <!-- One-way flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">Hier sind die Details für unseren Flug/unsere Flüge von %1$s nach %2$s.</string>
+    <!-- Round trip flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">Hier sind die Details für unseren Hin- und Rückflug von %1$s nach %2$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">Reiseplannr.: %s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
@@ -1413,9 +1421,9 @@
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Ohne Bewertung</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
-    <string name="percent_off_template">%2.0f %% Rabatt</string>
+    <string name="percent_off_template">%2.0f%% Rabatt</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
-    <string name="percent_minus_template">-%2.0f %%</string>
+    <string name="percent_minus_template">-%2.0f%%</string>
 
     <!-- Filter results action bar label -->
     <string name="filter_results">Ergebnisse filtern</string>
@@ -1434,7 +1442,7 @@
     <!-- Default Loading message for widget -->
     <string name="loading_hotels">Hotels werden geladen…</string>
     <!-- Template for sale element in widget. The parameter is for the sale % -->
-    <string name="widget_savings_template">%2.0f %% sparen</string>
+    <string name="widget_savings_template">%2.0f%% sparen</string>
     <!-- Indicator to user to tap the widget to cause it to refresh -->
     <string name="refresh_widget">Aktualisieren</string>
     <!-- Error string for widget when internet connection is unavailable -->
@@ -1536,9 +1544,9 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">Neu</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_favorable">Positiv</string>
+    <string name="user_review_sort_button_favorable">Am besten</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_critical">Kritisch</string>
+    <string name="user_review_sort_button_critical">Am schlechtesten</string>
     <!-- Loading more reviews -->
     <string name="user_review_loading_more_reviews">Weitere Bewertungen werden geladen…</string>
     <!-- Read more of the review -->
@@ -1565,12 +1573,6 @@
         2$ is the place they are from
     -->
     <string name="user_review_name_and_location_signature">%1$s aus %2$s</string>
-    <!-- User review no critical reviews -->
-    <string name="user_review_no_critical_reviews">Zu diesem Hotel wurden keine kritischen Bewertungen abgegeben.</string>
-    <!-- User review no favorable reviews -->
-    <string name="user_review_no_favorable_reviews">Zu diesem Hotel wurden keine positiven Bewertungen abgegeben.</string>
-    <!-- User review no recent reviews -->
-    <string name="user_review_no_recent_reviews">Zu diesem Hotel wurden keine neuen Bewertungen abgegeben.</string>
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">Bewertungen sind zurzeit nicht verfügbar</string>
 
@@ -2341,11 +2343,11 @@
     <!-- Content description for "buy with wallet" button -->
     <string name="wallet_buy_with_google_wallet">Zahlen Sie mit Google Wallet</string>
     <!-- Message for Google wallet coupon promotion -->
-    <string name="wallet_promo_offer">Erhalten Sie <b>10% Rabatt</b> mit Google Wallet!</string>
+    <string name="wallet_promo_offer">Sichern Sie sich <b>10%% Rabatt</b> mit Google Wallet!</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">Durch das Verwenden von Google Wallet haben Sie 10% gespart.</string>
+    <string name="wallet_promo_in_use_message">Durch das Verwenden von Google Wallet haben Sie 10%% gespart.</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Nur ein Gutschein pro Buchung. Wir haben Ihren alten Gutschein durch den 10%-Rabatt-Gutschein für Google Wallet ersetzt.</string>
+    <string name="coupon_replaced_message">Nur ein Gutschein pro Buchung. Wir haben Ihren alten Gutschein durch den 10%%-Rabatt-Gutschein für Google Wallet ersetzt.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Google-Wallet-Gutschein wird eingelöst…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->

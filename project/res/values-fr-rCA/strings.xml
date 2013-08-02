@@ -207,6 +207,8 @@
     <string name="depart_gate_number_only_TEMPLATE">Porte de départ %1$s</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
     <string name="Terminal_X_TEMPLATE">Aérogare %1$s</string>
+    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
+    <string name="Baggage_Claim_X_TEMPLATE">Récupération des bagages %1$s</string>
     <!-- Special case for name of International Terminal -->
     <string name="International_Terminal">Aérogare international</string>
     <!-- Itin flight terminal only template -->
@@ -797,6 +799,8 @@
     <string name="airline_does_not_accept_cardtype_TEMPLATE">La compagnie aérienne n\&apos;accepte pas %1$s</string>
     <!-- "Airline Fee Information" -->
     <string name="airline_fee_information">Information sur les frais de la compagnie aérienne</string>
+    <!-- Debit cards not supported message -->
+    <string name="debit_cards_not_accepted">Les cartes de débit ne sont pas acceptées.</string>
 
     <!-- Trip Overview Activity -->
     <!-- Label for Overview activity in task manager -->
@@ -1033,7 +1037,7 @@
     <!-- Enter a new traveler -->
     <string name="enter_new_traveler">Entrer un nouveau voyageur</string>
     <!-- Edit current traveler details -->
-    <string name="edit_current_traveler">Modifier l\&apos;information voyageur</string>
+    <string name="edit_current_traveler">Modifier les renseignements du voyageur</string>
     <!-- prefers seat template -->
     <string name="prefers_seat_TEMPLATE">Préfère siège %1$s</string>
     <!-- prefers seat template -->
@@ -1209,10 +1213,14 @@
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">Bonjour,</string>
-    <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
+    <!-- One-way flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_one_way_TEMPLATE">Voici les détails de mon ou mes vols de %1$s à %2$s.</string>
-    <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
+    <!-- Round trip flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_round_trip_TEMPLATE">Voici les détails de mon vol aller-retour de %1$s à %2$s.</string>
+    <!-- One-way flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">Voici les détails de nos vols de %1$s à %2$s.</string>
+    <!-- Round trip flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">Voici les détails de nos vols aller-retour de %1$s à %2$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">Nº d\&apos;itinéraire : %s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
@@ -1535,9 +1543,9 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">Récents</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_favorable">Favorables</string>
+    <string name="user_review_sort_button_favorable">Plus haut</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_critical">Défavorables</string>
+    <string name="user_review_sort_button_critical">Plus bas</string>
     <!-- Loading more reviews -->
     <string name="user_review_loading_more_reviews">Chargement d\&apos;autres évaluations…</string>
     <!-- Read more of the review -->
@@ -1564,12 +1572,6 @@
         2$ is the place they are from
     -->
     <string name="user_review_name_and_location_signature">%1$s de %2$s</string>
-    <!-- User review no critical reviews -->
-    <string name="user_review_no_critical_reviews">Il n\&apos;y a aucune évaluation défavorable sur cet hôtel.</string>
-    <!-- User review no favorable reviews -->
-    <string name="user_review_no_favorable_reviews">Il n\&apos;y a aucune évaluation favorable sur cet hôtel.</string>
-    <!-- User review no recent reviews -->
-    <string name="user_review_no_recent_reviews">Il n\&apos;y a aucune évaluation récente de cet hôtel.</string>
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">Les évaluations sont temporairement non disponibles.</string>
 
@@ -1585,7 +1587,7 @@
     <!-- Loading message for rooms & rates -->
     <string name="room_rates_loading">Recherche de chambres disponibles…</string>
     <!-- Error message (no response) for not being able to download room and rates information -->
-    <string name="error_no_response_room_rates">Impossible de charger l\&apos;information sur les chambres et les tarifs.  Veuillez vérifier votre connexion et réessayer.</string>
+    <string name="error_no_response_room_rates">Impossible de charger les renseignements sur les chambres et les tarifs.  Veuillez vérifier votre connexion et réessayer.</string>
     <!-- Rate price displayed "per night" -->
     <string name="rate_per_night">par nuit</string>
     <!-- Rate price displayed "average per night" -->
@@ -1602,9 +1604,9 @@
     <plurals name="number_of_rooms_left">
         <item quantity="zero">Aucune chambre disponible!</item>
         <item quantity="one">Plus que 1 chambre!</item>
-        <item quantity="two">Plus que %d chambres!</item>
-        <item quantity="many">Plus que %d chambres!</item>
-        <item quantity="other">Plus que %d chambres!</item>
+        <item quantity="two">Plus que %d chambres!</item>
+        <item quantity="many">Plus que %d chambres!</item>
+        <item quantity="other">Plus que %d chambres!</item>
     </plurals>
     <!-- The text we use to message that the room in non-refundable -->
     <string name="non_refundable">Non remboursable</string>
@@ -1686,7 +1688,7 @@
     <!-- Rules & restrictions section header -->
     <string name="rules_restrictions">Règles et restrictions</string>
     <!-- Disclaimer about how to earn expedia points -->
-    <string name="disclaimer_expedia_points">Si vous avez un compte Expedia Rewards, veuillez réserver en utilisant la même adresse courriel et vos points seront enregistrés automatiquement après votre séjour. Veuillez noter que l\&apos;enregistrement de vos points peut prendre jusqu\&apos;à 30 jours.</string>
+    <string name="disclaimer_expedia_points">Si vous avez un compte Expedia Rewards, veuillez réserver en utilisant la même adresse courriel et vos points seront enregistrés automatiquement après votre séjour. Veuillez noter que l\&apos;enregistrement de vos points peut prendre jusqu\&apos;à 30 jour.</string>
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">Confirmer et réserver</string>
     <!-- Label for clearing private data -->
@@ -1694,9 +1696,9 @@
     <!-- Title for dialog confirming the clearing of private data -->
     <string name="dialog_clear_private_data_title">Effacer les données confidentielles?</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_clear_private_data_msg">Cette action effacera l\&apos;information personnelle et de facturation.</string>
+    <string name="dialog_clear_private_data_msg">Cette action effacera les renseignements personnels et de facturation.</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_log_out_and_clear_private_data_msg">Cette action fermera votre session et supprimera toute l\&apos;information de facturation et les coordonnées enregistrées.</string>
+    <string name="dialog_log_out_and_clear_private_data_msg">Cette action fermera votre session et supprimera tous les renseignements de facturation et les coordonnées enregistrés.</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">Données confidentielles effacées</string>
     <!-- Error message if field was required but not entered -->
@@ -1756,7 +1758,7 @@
 
     <!-- Confirmation Fragment -->
     <!-- Label to share booking information after a booking confirmation -->
-    <string name="share_booking_info">Partager l\&apos;information de réservation</string>
+    <string name="share_booking_info">Partager les renseignements de réservation</string>
     <!-- Label to start a new search from a confirmation screen -->
     <string name="start_new_search">Lancer une nouvelle recherche</string>
     <!-- Label to view hotel in google maps to get directions from a confirmation screen -->
@@ -1790,7 +1792,7 @@
     <!-- Policy displayed to user when a deposit is required -->
     <string name="PolicyDepositRequired">Un acompte sera imputé à votre carte de crédit pour votre réservation. L\&apos;hôtel portera la somme directement à votre carte de crédit au moment de la réservation.</string>
     <!-- Policy displayed to user when a guarantee is required -->
-    <string name="PolicyGuaranteeRequired">Nous avons besoin d\&apos;information sur votre carte de crédit pour garantir la réservation. Aucune somme ne sera portée à votre carte de crédit avant votre arrivée à l\&apos;hôtel ou avant la date limite d\&apos;annulation.</string>
+    <string name="PolicyGuaranteeRequired">Nous avons besoin des renseignements relatifs à votre carte de crédit pour garantir la réservation. Aucune somme ne sera portée à votre carte de crédit avant votre arrivée à l\&apos;hôtel ou avant la date limite d\&apos;annulation.</string>
     <!-- Expedia merchant hotel policies -->
     <string name="PolicyExpediaMerchant">En effectuant cette réservation, vous acceptez toutes les conditions, ce qui inclut la politique d\&apos;annulation et les conditions contenues dans l\&apos;entente d\&apos;utilisateur.\n\nVous consentez à payer le coût de votre réservation. Si vous ne réglez pas cette dette et qu\&apos;elle est recouvrée par une agence de recouvrement ou dans une action en justice, vous acceptez de payer tous les dépens ou honoraires raisonnables, y compris les honoraires d\&apos;avocat et les frais juridiques engagés pour de telles mesures de recouvrement.</string>
     <!-- Expedia agent hotel policies -->
@@ -1820,7 +1822,7 @@
     <!-- Label for signin screen -->
     <string name="expedia_account">Compte Expedia</string>
     <!-- Label for signin screen -->
-    <string name="vsc_account">Compte VSC</string>
+    <string name="vsc_account">Compte VSC</string>
     <!-- Label for loading user profile from expedia.com -->
     <string name="loading_expedia_account">Chargement du compte Expedia</string>
     <!-- Label for password recovery -->
@@ -1898,7 +1900,7 @@
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hotels</string>
     <!-- Message body for "tell a friend" feature -->
-    <string name="tell_a_friend_body">Bonjour,\n\nJetez un coup d\&apos;œil à l\&apos;app Expedia Hotels pour téléphones iPhone et Android. Elle est gratuite et vous permet de chercher et de réserver des chambres dans plus de 140 000 hôtels dans le monde. C\&apos;est la façon la plus simple de réserver une chambre à partir de votre téléphone.\n\nhttp://www.expedia.com/app</string>
+    <string name="tell_a_friend_body">Bonjour,\n\nJetez un coup d\&apos;œil à l\&apos;application Expedia Hotels pour téléphones iPhone et Andoid. Elle est gratuite et vous permet de chercher et de réserver des chambres dans plus de 140 000 hôtels dans le monde. C\&apos;est la façon la plus simple de réserver une chambre à partir de votre téléphone.\n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Conditions générales</string>
     <!-- Label for link to privacy policy -->
@@ -1908,11 +1910,11 @@
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">Session fermée et données effacées</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_logged_out_and_cleared_private_data">Votre session au compte Expedia a été fermée et toute l\&apos;information de facturation et les coordonnées ont été supprimées.</string>
+    <string name="dialog_message_logged_out_and_cleared_private_data">Votre session au compte Expedia a été fermée et tous les renseignements de facturation et coordonnées ont été supprimés.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_cleared_private_data">Données confidentielles effacées</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_cleared_private_data">Toute l\&apos;information personnelle et de facturation sera supprimée.</string>
+    <string name="dialog_message_cleared_private_data">Tous les renseignements personnels et de facturation seront supprimés.</string>
     <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
     <string name="dialog_message_launch_expedia_mobile_site">Lancer le site Web Expedia mobile?</string>
     <!-- Action button label to Subscribe to our mailing list -->
@@ -2342,9 +2344,9 @@
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">Obtenez une <b>réduction de 10 %</b> avec Google Wallet!</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">Vous avez économisé 10 % en utilisant Google Wallet!</string>
+    <string name="wallet_promo_in_use_message">Vous avez économisé 10 %% en utilisant Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Un seul bon de réduction peut être utilisé par réservation. Nous avons remplacé le bon précédent par une réduction de 10 % pour vous remercier d\&apos;utiliser Google Wallet.</string>
+    <string name="coupon_replaced_message">Un seul bon de réduction peut être utilisé par réservation. Nous avons remplacé le bon précédent par une réduction de 10 %% pour vous remercier d\&apos;utiliser Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Application de la réduction Google Wallet…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->

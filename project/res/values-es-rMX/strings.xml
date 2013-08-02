@@ -3,7 +3,7 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">Hola &lt;b&gt;%1$s&lt;/b&gt;: ¡parece que encontramos tu cuenta de Expedia! Ingresa tu contraseña de Expedia a continuación para vincular tus cuentas de Facebook y Expedia.</string>
+    <string name="facebook_weve_found_your_account">Hola &lt;b&gt;%1$s&lt;/b&gt;: ¡parece ser que encontramos tu cuenta de Expedia! Ingresa tu contraseña de Expedia a continuación para vincular tus cuentas de Facebook y Expedia.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">&lt;b&gt;%1$s&lt;/b&gt;: ¡ya cargamos tu información de Facebook!</string>
     <!-- Log in with facebook (button text) -->
@@ -207,6 +207,8 @@
     <string name="depart_gate_number_only_TEMPLATE">Puerta de salida %1$s</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
     <string name="Terminal_X_TEMPLATE">Terminal %1$s</string>
+    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
+    <string name="Baggage_Claim_X_TEMPLATE">Entrega de equipaje %1$s</string>
     <!-- Special case for name of International Terminal -->
     <string name="International_Terminal">Terminal internacional</string>
     <!-- Itin flight terminal only template -->
@@ -797,6 +799,8 @@
     <string name="airline_does_not_accept_cardtype_TEMPLATE">La línea aérea no acepta %1$s</string>
     <!-- "Airline Fee Information" -->
     <string name="airline_fee_information">Información sobre los cargos de la línea aérea</string>
+    <!-- Debit cards not supported message -->
+    <string name="debit_cards_not_accepted">Las tarjetas de débito no se aceptan.</string>
 
     <!-- Trip Overview Activity -->
     <!-- Label for Overview activity in task manager -->
@@ -1209,10 +1213,14 @@
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">Hola:</string>
-    <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
+    <!-- One-way flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_one_way_TEMPLATE">Aquí están los detalles de mi(s) vuelo(s) de %1$s a %2$s.</string>
-    <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
+    <!-- Round trip flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_round_trip_TEMPLATE">Aquí están los detalles de mi vuelo en viaje redondo de %1$s a %2$s.</string>
+    <!-- One-way flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">Aquí están los detalles de nuestro(s) vuelo(s) de %1$s a %2$s.</string>
+    <!-- Round trip flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">Aquí están los detalles de nuestro vuelo en viaje redondo de %1$s a %2$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">No. de itinerario: %s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
@@ -1535,9 +1543,9 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">Recientes</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_favorable">Favorables</string>
+    <string name="user_review_sort_button_favorable">El mayor número</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_critical">En contra</string>
+    <string name="user_review_sort_button_critical">El menor número</string>
     <!-- Loading more reviews -->
     <string name="user_review_loading_more_reviews">Cargando más comentarios…</string>
     <!-- Read more of the review -->
@@ -1564,12 +1572,6 @@
         2$ is the place they are from
     -->
     <string name="user_review_name_and_location_signature">%1$sde %2$s</string>
-    <!-- User review no critical reviews -->
-    <string name="user_review_no_critical_reviews">No hay comentarios recientes sobre este hotel</string>
-    <!-- User review no favorable reviews -->
-    <string name="user_review_no_favorable_reviews">No hay comentarios favorables sobre este hotel</string>
-    <!-- User review no recent reviews -->
-    <string name="user_review_no_recent_reviews">No hay comentarios recientes sobre este hotel</string>
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">Los comentarios no están disponibles temporalmente</string>
 
@@ -2342,9 +2344,9 @@
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">¡Obtén un <b>10% de descuento</b> con Google Wallet!</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">¡Ahorraste 10% por utilizar Google Wallet!</string>
+    <string name="wallet_promo_in_use_message">¡Ahorraste 10%% por utilizar Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Solo se puede utilizar un cupón por reservación. Remplazamos tu cupón previo con el 10% de descuento por utilizar Google Wallet.</string>
+    <string name="coupon_replaced_message">Solo se puede utilizar un cupón por reservación. Remplazamos tu cupón previo con el 10%% de descuento por utilizar Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Se está aplicando el descuento Google Wallet…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->

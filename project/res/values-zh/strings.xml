@@ -207,6 +207,8 @@
     <string name="depart_gate_number_only_TEMPLATE">出发登机口 %1$s</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
     <string name="Terminal_X_TEMPLATE">航站楼%1$s</string>
+    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
+    <string name="Baggage_Claim_X_TEMPLATE">行李提取 %1$s</string>
     <!-- Special case for name of International Terminal -->
     <string name="International_Terminal">国际航站楼</string>
     <!-- Itin flight terminal only template -->
@@ -410,9 +412,9 @@
     <string name="car_category_oversize">特大型车</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">两个门 轿车</string>
-    <string name="car_type_three_door">三个门 轿车</string>
-    <string name="car_type_four_door">四个门 轿车</string>
+    <string name="car_type_two_door">两个门轿车</string>
+    <string name="car_type_three_door">三个门轿车</string>
+    <string name="car_type_four_door">四个门轿车</string>
     <string name="car_type_van">箱型车</string>
     <string name="car_type_wagon">旅行车</string>
     <string name="car_type_limousine">豪华轿车</string>
@@ -797,6 +799,8 @@
     <string name="airline_does_not_accept_cardtype_TEMPLATE">该航空公司不接受 %1$s</string>
     <!-- "Airline Fee Information" -->
     <string name="airline_fee_information">航空公司收费信息</string>
+    <!-- Debit cards not supported message -->
+    <string name="debit_cards_not_accepted">不接受借记卡。</string>
 
     <!-- Trip Overview Activity -->
     <!-- Label for Overview activity in task manager -->
@@ -1209,10 +1213,14 @@
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">嗨，</string>
-    <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
+    <!-- One-way flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_one_way_TEMPLATE">这是我%1$s至%2$s的航班的详细信息。</string>
-    <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
+    <!-- Round trip flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_round_trip_TEMPLATE">这是我%1$s至%2$s的往返航班的详细信息。</string>
+    <!-- One-way flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">这是我们从%1$s飞往%2$s的航班详细信息。</string>
+    <!-- Round trip flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">这是我们从%1$s飞往%2$s的往返航班详细信息。</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">行程编号：%s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
@@ -1535,9 +1543,9 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">最近</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_favorable">赞</string>
+    <string name="user_review_sort_button_favorable">最高</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_critical">贬</string>
+    <string name="user_review_sort_button_critical">最低</string>
     <!-- Loading more reviews -->
     <string name="user_review_loading_more_reviews">正在加载更多点评…</string>
     <!-- Read more of the review -->
@@ -1564,12 +1572,6 @@
         2$ is the place they are from
     -->
     <string name="user_review_name_and_location_signature">%1$s来自%2$s</string>
-    <!-- User review no critical reviews -->
-    <string name="user_review_no_critical_reviews">没有对此酒店的恶评</string>
-    <!-- User review no favorable reviews -->
-    <string name="user_review_no_favorable_reviews">没有对此酒店的好评</string>
-    <!-- User review no recent reviews -->
-    <string name="user_review_no_recent_reviews">最近没有对此酒店的点评</string>
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">暂时无法提供点评</string>
 
@@ -2342,9 +2344,9 @@
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">使用谷歌钱包，额外再省 <b>10%</b>！</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">使用谷歌钱包为您省了 10%！</string>
+    <string name="wallet_promo_in_use_message">使用谷歌钱包为您省了 10%%！</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">每次预订只能使用一张优惠券。我们已经用您使用谷歌钱包获得的 9 折优惠券替换了之前的优惠券。</string>
+    <string name="coupon_replaced_message">每次预订只能使用一张优惠券。我们已经用您使用谷歌钱包获得的 10%% 折扣优惠券替换了之前的优惠券。</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">正在计算谷歌钱包折扣…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
