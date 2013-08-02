@@ -56,7 +56,7 @@
     <!-- Select a traveler -->
     <string name="select_a_traveler">Profil voyageur</string>
     <!-- Select a different traveler -->
-    <string name="select_a_different_traveler">Coordonées des autres voyageurs</string>
+    <string name="select_a_different_traveler">Coordonnées des autres voyageurs</string>
     <!-- Enter a new traveler -->
     <string name="enter_new_traveler">Saisir mes coordonnées</string>
 
