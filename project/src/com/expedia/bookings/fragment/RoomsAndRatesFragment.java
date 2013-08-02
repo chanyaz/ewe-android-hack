@@ -265,6 +265,8 @@ public class RoomsAndRatesFragment extends ListFragment {
 
 		WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 		builder.setHtmlData(html);
+		builder.setTitle(title);
+		builder.setTheme(R.style.Theme_Phone_WebView_WithTitle);
 		startActivity(builder.getIntent());
 	}
 

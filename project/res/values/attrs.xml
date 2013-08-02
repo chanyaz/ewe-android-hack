@@ -175,6 +175,8 @@
     <!-- ActionBar icon/logo in WebView/Preference/Info Activities -->
     <attr name="webViewPreferencesActionBarLogo" format="reference" />
 
+    <!-- ActionBar icon/logo in WebView that also sets a title -->
+    <attr name="webViewPreferencesActionBarLogoWithTitle" format="reference" />
     <attr name="actionBarBackgroundDrawable" format="reference" />
     <!-- ActionBar checkmark drawable -->
     <attr name="actionBarCheckMarkDrawable" format="reference" />
@@ -182,7 +184,6 @@
     <attr name="actionBarButtonTextColor" format="reference|color" />
     <!-- ActionBar checkout arrow drawable -->
     <attr name="actionBarCheckoutDrawable" format="reference" />
-
     <attr name="costSummaryHeaderTextColor" format="reference|color" />
 
     <!-- Ratingbar style in UserReviewsListActivity -->
@@ -203,7 +204,7 @@
     <!-- Hotel listing Sort by price icon -->
     <attr name="hotelListingSortPriceDrawable" format="reference" />
 
-    <!-- Hotel listing Filter price strings-->
+    <!-- Hotel listing Filter price strings -->
     <attr name="hotelListingFilterPriceCheapString" format="reference|string" />
     <attr name="hotelListingFilterPriceModerateString" format="reference|string" />
     <attr name="hotelListingFilterPriceExpensiveString" format="reference|string" />
@@ -225,12 +226,10 @@
     <attr name="loginBookNowButtonDrawable" format="reference" />
     <attr name="loginWithExpediaButtonText" format="reference|string" />
     <attr name="loginWithExpediaTitleText" format="reference|string" />
-
     <attr name="hotelDetailPlaceHolderDrawable" format="reference" />
 
     <!-- Hotel Confirmation, Customer support option style -->
     <attr name="hotelConfirmationCallActionStyle" format="reference" />
-
     <attr name="hotelCheckoutLogoutLogoDrawable" format="reference" />
     <attr name="hotelCheckoutLoginLogoDrawable" format="reference" />
 
@@ -239,11 +238,10 @@
 
     <!-- HotelCheckout Traveler Info screen after logged in, Logo to the left of the primary traveler -->
     <attr name="hotelPrimaryTravelerInfoLogoDrawable" format="reference" />
-
     <attr name="hotelListMapMarkerSaleDrawable" format="reference" />
-
     <attr name="ccCheckoutHologramDrawable" format="reference" />
 
     <!-- Placeholder image used in hotelReciept, Rooms&RatesListActivity -->
     <attr name="hotelImagePlaceHolderDrawable" format="reference" />
+
 </resources>
