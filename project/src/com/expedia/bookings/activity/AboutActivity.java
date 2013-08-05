@@ -50,7 +50,6 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 
 	private static final int ROW_CONTACT_EXPEDIA = 1;
 	private static final int ROW_APP_SUPPORT = 2;
-	private static final int ROW_APP_FEEDBACK = 3;
 	private static final int ROW_WERE_HIRING = 4;
 	private static final int ROW_PRIVACY_POLICY = 5;
 	private static final int ROW_TERMS_AND_CONDITIONS = 6;
@@ -88,7 +87,6 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 			builder.addRow(R.string.contact_expedia, ROW_CONTACT_EXPEDIA);
 			builder.addRow(R.string.app_support, ROW_APP_SUPPORT);
 			if (!ExpediaBookingApp.IS_VSC) {
-				builder.addRow(R.string.app_feedback, ROW_APP_FEEDBACK);
 				builder.addRow(com.mobiata.android.R.string.WereHiring, ROW_WERE_HIRING);
 			}
 			// 1170. VSC Add clear private data in info/about screen
@@ -280,10 +278,6 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 		}
 		case ROW_APP_SUPPORT: {
 			mAboutUtils.openAppSupport();
-			return true;
-		}
-		case ROW_APP_FEEDBACK: {
-			mAboutUtils.openAppFeedback();
 			return true;
 		}
 		case ROW_WERE_HIRING: {
