@@ -2,4 +2,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- MapsV2 -->
     <string name="mapsv2_key">@string/mapsv2_prod_key</string>
+
+    <!-- Content provider authority overrides -->
+    <string name="authority_autocomplete_hotel">@string/authority_release_autocomplete_hotel</string>
+    <string name="authority_autocomplete_airport">@string/authority_release_autocomplete_airport</string>
+    <string name="authority_account_sync">@string/authority_release_account_sync</string>
 </resources>

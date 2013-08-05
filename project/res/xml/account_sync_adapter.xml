@@ -1,7 +1,7 @@
 <sync-adapter xmlns:android="http://schemas.android.com/apk/res/android"
     android:accountType="@string/expedia_account_type_identifier"
     android:allowParallelSyncs="false"
-    android:contentAuthority="@string/expedia_account_sync_adapter_content_authority"
+    android:contentAuthority="@string/authority_account_sync"
     android:isAlwaysSyncable="true"
     android:supportsUploading="false"
     android:userVisible="true" />

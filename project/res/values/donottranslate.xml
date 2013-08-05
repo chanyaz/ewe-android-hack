@@ -61,10 +61,43 @@
     <string name="expedia_account_type_identifier">com.expedia.bookings</string>
     <string name="expedia_account_token_type_tuid_identifier">expedia.tuid</string>
 
-    <!-- AndroidManifest <provider> authority declaration -->
-    <string name="autocomplete_provider_authority">com.expedia.booking.autocomplete</string>
-    <string name="airport_autocomplete_provider_authority">com.expedia.booking.autocomplete.air</string>
-    <string name="expedia_account_sync_adapter_content_authority">com.expedia.booking.accountsync</string>
+    <!-- AndroidManifest <provider> authority declaration. Swap them at the builtVariant level -->
+    <string name="authority_autocomplete_hotel">@string/authority_debug_autocomplete_hotel</string>
+    <string name="authority_autocomplete_airport">@string/authority_debug_autocomplete_airport</string>
+    <string name="authority_account_sync">@string/authority_debug_account_sync</string>
+
+    <!-- Intermediate indirection of content provider authorities. Swap them at the productFlavor level -->
+    <string name="authority_debug_autocomplete_hotel">@string/authority_ebad_debug_autocomplete_hotel</string>
+    <string name="authority_alpha_autocomplete_hotel">@string/authority_ebad_alpha_autocomplete_hotel</string>
+    <string name="authority_release_autocomplete_hotel">@string/authority_ebad_release_autocomplete_hotel</string>
+    <string name="authority_debug_autocomplete_airport">@string/authority_ebad_debug_autocomplete_airport</string>
+    <string name="authority_alpha_autocomplete_airport">@string/authority_ebad_alpha_autocomplete_airport</string>
+    <string name="authority_release_autocomplete_airport">@string/authority_ebad_release_autocomplete_airport</string>
+    <string name="authority_debug_account_sync">@string/authority_ebad_debug_account_sync</string>
+    <string name="authority_alpha_account_sync">@string/authority_ebad_alpha_account_sync</string>
+    <string name="authority_release_account_sync">@string/authority_ebad_release_account_sync</string>
+
+    <!-- Concrete EBad content provider authorities -->
+    <string name="authority_ebad_debug_autocomplete_hotel">com.expedia.booking.autocomplete.hotel</string>
+    <string name="authority_ebad_alpha_autocomplete_hotel">com.expedia.booking.alpha.autocomplete.hotel</string>
+    <string name="authority_ebad_release_autocomplete_hotel">@string/authority_ebad_debug_autocomplete_hotel</string>
+    <string name="authority_ebad_debug_autocomplete_airport">com.expedia.booking.autocomplete.airport</string>
+    <string name="authority_ebad_alpha_autocomplete_airport">com.expedia.booking.alpha.autocomplete.airport</string>
+    <string name="authority_ebad_release_autocomplete_airport">@string/authority_ebad_debug_autocomplete_airport</string>
+    <string name="authority_ebad_debug_account_sync">com.expedia.booking.autocomplete.airport</string>
+    <string name="authority_ebad_alpha_account_sync">com.expedia.booking.alpha.autocomplete.airport</string>
+    <string name="authority_ebad_release_account_sync">@string/authority_ebad_debug_account_sync</string>
+
+    <!-- Concrete VSC content provider authorities -->
+    <string name="authority_vsc_debug_autocomplete_hotel">com.expedia.booking.vsc.autocomplete.hotel</string>
+    <string name="authority_vsc_alpha_autocomplete_hotel">com.expedia.booking.vsc.alpha.autocomplete.hotel</string>
+    <string name="authority_vsc_release_autocomplete_hotel">@string/authority_vsc_debug_autocomplete_hotel</string>
+    <string name="authority_vsc_debug_autocomplete_airport">com.expedia.booking.vsc.autocomplete.airport</string>
+    <string name="authority_vsc_alpha_autocomplete_airport">com.expedia.booking.vsc.alpha.autocomplete.airport</string>
+    <string name="authority_vsc_release_autocomplete_airport">@string/authority_vsc_debug_autocomplete_airport</string>
+    <string name="authority_vsc_debug_account_sync">com.expedia.booking.vsc.autocomplete.airport</string>
+    <string name="authority_vsc_alpha_account_sync">com.expedia.booking.vsc.alpha.autocomplete.airport</string>
+    <string name="authority_vsc_release_account_sync">@string/authority_vsc_debug_account_sync</string>
 
     <!-- Fragment tags -->
     <string name="tag_search_params">SEARCH_PARAMS</string>

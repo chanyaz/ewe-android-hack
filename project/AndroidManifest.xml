@@ -334,11 +334,11 @@
         <!-- Search stuff -->
         <provider
             android:name="com.expedia.bookings.content.AutocompleteProvider"
-            android:authorities="@string/autocomplete_provider_authority"
+            android:authorities="@string/authority_autocomplete_hotel"
             android:exported="false" />
         <provider
             android:name="com.expedia.bookings.content.AirportAutocompleteProvider"
-            android:authorities="@string/airport_autocomplete_provider_authority"
+            android:authorities="@string/authority_autocomplete_airport"
             android:exported="false" />
 
         <!-- Boot stuff -->
@@ -408,7 +408,7 @@
 
         <provider
             android:name="com.expedia.bookings.account.AccountSyncContentProvider"
-            android:authorities="@string/expedia_account_sync_adapter_content_authority"
+            android:authorities="@string/authority_account_sync"
             android:exported="false" />
 
         <receiver android:name="com.expedia.bookings.account.AccountsChangedBroadcastReceiver" >

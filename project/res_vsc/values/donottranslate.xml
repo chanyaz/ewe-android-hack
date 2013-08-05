@@ -2,13 +2,21 @@
 <resources>
 
     <!-- ContentProvider authority overrides -->
-    <string name="autocomplete_provider_authority">com.expedia.booking.vsc.autocomplete</string>
-    <string name="airport_autocomplete_provider_authority">com.expedia.booking.vsc.autocomplete.air</string>
-    <string name="expedia_account_sync_adapter_content_authority">com.expedia.booking.vsc.accountsync</string>
+    <string name="authority_debug_autocomplete_hotel">@string/authority_vsc_debug_autocomplete_hotel</string>
+    <string name="authority_alpha_autocomplete_hotel">@string/authority_vsc_alpha_autocomplete_hotel</string>
+    <string name="authority_release_autocomplete_hotel">@string/authority_vsc_release_autocomplete_hotel</string>
+    <string name="authority_debug_autocomplete_airport">@string/authority_vsc_debug_autocomplete_airport</string>
+    <string name="authority_alpha_autocomplete_airport">@string/authority_vsc_alpha_autocomplete_airport</string>
+    <string name="authority_release_autocomplete_airport">@string/authority_vsc_release_autocomplete_airport</string>
+    <string name="authority_debug_account_sync">@string/authority_vsc_debug_account_sync</string>
+    <string name="authority_alpha_account_sync">@string/authority_vsc_alpha_account_sync</string>
+    <string name="authority_release_account_sync">@string/authority_vsc_release_account_sync</string>
+
     <string name="expedia_account_type_identifier">com.expedia.bookings.vsc</string>
 
     <!-- Override these references to use vsc map keys -->
     <string name="mapsv2_dev_key">@string/mapsv2_vsc_dev_key</string>
     <string name="mapsv2_ha_key">@string/mapsv2_vsc_ha_key</string>
     <string name="mapsv2_prod_key">@string/mapsv2_vsc_prod_key</string>
+
 </resources>

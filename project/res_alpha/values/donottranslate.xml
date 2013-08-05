@@ -5,9 +5,8 @@
     <!-- MapsV2 -->
     <string name="mapsv2_key">@string/mapsv2_ha_key</string>
 
-    <!-- ContentProvider authority overrides -->
-    <string name="autocomplete_provider_authority">com.expedia.booking.alpha.autocomplete</string>
-    <string name="airport_autocomplete_provider_authority">com.expedia.booking.alpha.autocomplete.air</string>
-    <string name="expedia_account_sync_adapter_content_authority">com.expedia.booking.alpha.accountsync</string>
-    <string name="expedia_account_type_identifier">com.expedia.bookings.alpha</string>
+    <!-- Content provider authority overrides -->
+    <string name="authority_autocomplete_hotel">@string/authority_alpha_autocomplete_hotel</string>
+    <string name="authority_autocomplete_airport">@string/authority_alpha_autocomplete_airport</string>
+    <string name="authority_account_sync">@string/authority_alpha_account_sync</string>
 </resources>

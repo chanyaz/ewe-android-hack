@@ -73,7 +73,7 @@ public class AirportAutocompleteProvider extends ContentProvider {
 	}
 
 	public static Uri getContentFilterUri(Context context) {
-		String url = "content://" + context.getString(R.string.airport_autocomplete_provider_authority);
+		String url = "content://" + context.getString(R.string.authority_autocomplete_airport);
 		return Uri.parse(url);
 	}
 

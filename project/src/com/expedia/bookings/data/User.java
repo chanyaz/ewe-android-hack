@@ -313,7 +313,7 @@ public class User implements JSONable {
 	private static void removeUserFromAccountManager(Context context, User usr) {
 		if (context != null) {
 			String accountType = context.getString(R.string.expedia_account_type_identifier);
-			String contentAuthority = context.getString(R.string.expedia_account_sync_adapter_content_authority);
+			String contentAuthority = context.getString(R.string.authority_account_sync);
 			AccountManager manager = AccountManager.get(context);
 			Account[] accounts = manager.getAccountsByType(accountType);
 			if (accounts.length > 0) {
@@ -343,7 +343,7 @@ public class User implements JSONable {
 			manager.setAuthToken(account, tokenType, usr.getTuidString());
 
 			//Start syncing data!
-			String contentAuthority = context.getString(R.string.expedia_account_sync_adapter_content_authority);
+			String contentAuthority = context.getString(R.string.authority_account_sync);
 			int syncInterval = context.getResources().getInteger(R.integer.account_sync_interval);
 			ContentResolver.setIsSyncable(account, contentAuthority, 1);
 			ContentResolver.setSyncAutomatically(account, contentAuthority, true);

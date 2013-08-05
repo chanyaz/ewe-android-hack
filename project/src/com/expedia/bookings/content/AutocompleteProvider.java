@@ -47,7 +47,7 @@ public class AutocompleteProvider extends ContentProvider {
 	public static Uri generateSearchUri(Context context, String query, int limit) {
 		Uri.Builder builder = new Uri.Builder();
 		builder.scheme("content");
-		builder.authority(context.getResources().getString(R.string.autocomplete_provider_authority));
+		builder.authority(context.getResources().getString(R.string.authority_autocomplete_hotel));
 		builder.appendPath("search_suggest_query");
 		if (query != null) {
 			builder.appendPath(query);
