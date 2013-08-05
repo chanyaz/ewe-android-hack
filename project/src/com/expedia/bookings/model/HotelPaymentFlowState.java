@@ -52,9 +52,4 @@ public class HotelPaymentFlowState {
 		bind(billingInfo);
 		return mSectionBillingInfo.hasValidInput();
 	}
-
-	public boolean hasAValidCardSelected(BillingInfo bi) {
-		return bi.hasStoredCard() || hasValidCardInfo(bi) && hasValidBillingAddress(bi);
-	}
-
 }
