@@ -924,32 +924,10 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		populateTravelerData();
 		populatePaymentDataFromUser();
 		populateTravelerDataFromUser();
-		increaseConversion();
 
 		bindAll();
 		updateViews();
 		updateViewVisibilities();
-	}
-
-	// 131 - automatically send user to traveler or payment entry screens when applicable
-	private void increaseConversion() {
-		if (User.isLoggedIn(getActivity())) {
-			Context context = getActivity();
-			User user = Db.getUser();
-			HotelPaymentFlowState paymentFlowState = HotelPaymentFlowState.getInstance(context);
-
-			if (!hasValidTravelers()) {
-				startActivity(new Intent(getActivity(), HotelTravelerInfoOptionsActivity.class));
-			}
-			else if (!paymentFlowState.hasAValidCardSelected(mBillingInfo)) {
-				if (user.hasStoredCreditCards() && user.getStoredCreditCards().size() > 1) {
-					startActivity(HotelPaymentOptionsActivity.gotoOptionsIntent(context));
-				}
-				else {
-					startActivity(HotelPaymentOptionsActivity.gotoCreditCardEntryIntent(context));
-				}
-			}
-		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
