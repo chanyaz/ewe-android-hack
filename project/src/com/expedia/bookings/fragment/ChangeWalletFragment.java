@@ -23,7 +23,7 @@ public abstract class ChangeWalletFragment extends WalletFragment {
 	// Useful methods
 
 	public void changeMaskedWallet() {
-		if (isGoogleWalletDisabled()) {
+		if (!isGoogleWalletEnabled()) {
 			displayGoogleWalletUnavailableToast();
 		}
 		else if (mConnectionResult != null) {

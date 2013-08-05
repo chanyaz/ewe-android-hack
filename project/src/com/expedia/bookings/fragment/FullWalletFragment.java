@@ -39,7 +39,7 @@ public abstract class FullWalletFragment extends WalletFragment {
 
 	// Call this when you are sure that you want to book via Google Wallet
 	protected void confirmBookingWithGoogleWallet() {
-		if (isGoogleWalletDisabled()) {
+		if (!isGoogleWalletEnabled()) {
 			displayGoogleWalletUnavailableToast();
 			handleUnrecoverableGoogleWalletError(WalletConstants.ERROR_CODE_UNKNOWN);
 		}

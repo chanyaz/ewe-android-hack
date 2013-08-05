@@ -1,6 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -66,7 +65,7 @@ public abstract class LoadWalletFragment extends WalletFragment {
 	 * Call this when the user wants to buy with Google Wallet (e.g., presses the button)
 	 */
 	protected void buyWithGoogleWallet() {
-		if (isGoogleWalletDisabled()) {
+		if (!isGoogleWalletEnabled()) {
 			updateWalletViewVisibilities();
 			displayGoogleWalletUnavailableToast();
 		}
@@ -94,7 +93,7 @@ public abstract class LoadWalletFragment extends WalletFragment {
 	protected boolean showWalletButton() {
 		StoredCreditCard scc = Db.getBillingInfo().getStoredCard();
 		boolean storedCardIsGoogleWallet = scc != null && scc.isGoogleWallet();
-		return !isGoogleWalletDisabled() && !storedCardIsGoogleWallet;
+		return isGoogleWalletEnabled() && !storedCardIsGoogleWallet;
 	}
 
 	/**
@@ -109,7 +108,7 @@ public abstract class LoadWalletFragment extends WalletFragment {
 	protected boolean isWalletLoading() {
 		MaskedWallet maskedWallet = Db.getMaskedWallet();
 
-		return !isGoogleWalletDisabled()
+		return isGoogleWalletEnabled()
 				&& maskedWallet == null
 				&& (!mWalletClient.isConnected()
 						|| !mCheckedPreAuth
@@ -241,7 +240,7 @@ public abstract class LoadWalletFragment extends WalletFragment {
 		}
 
 		// Don't re-request the masked wallet if we already have it
-		if (!isGoogleWalletDisabled() && Db.getMaskedWallet() == null) {
+		if (isGoogleWalletEnabled() && Db.getMaskedWallet() == null) {
 			if (mCheckPreAuth) {
 				mWalletClient.checkForPreAuthorization(this);
 			}
