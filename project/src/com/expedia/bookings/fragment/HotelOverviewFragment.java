@@ -924,7 +924,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		populateTravelerData();
 		populatePaymentDataFromUser();
 		populateTravelerDataFromUser();
-		launchACheckoutDataEntryActivityIfApplicable();
+		increaseConversion();
 
 		bindAll();
 		updateViews();
@@ -932,9 +932,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	}
 
 	// 131 - automatically send user to traveler or payment entry screens when applicable
-	private void launchACheckoutDataEntryActivityIfApplicable() {
-		Context context = getActivity();
-		if (User.isLoggedIn(context)) {
+	private void increaseConversion() {
+		if (User.isLoggedIn(getActivity())) {
+			Context context = getActivity();
 			User user = Db.getUser();
 			HotelPaymentFlowState paymentFlowState = HotelPaymentFlowState.getInstance(context);
 

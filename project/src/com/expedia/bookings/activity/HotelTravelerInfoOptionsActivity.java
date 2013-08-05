@@ -206,7 +206,7 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 		else if (mPos != null && mMode.equals(YoYoMode.YOYO)) {
 			switch (mPos) {
 			case ONE:
-				if (shouldGotoPaymentEntry()) {
+				if (gotoPaymentEntry()) {
 					setShowDoneButton(false);
 					setShowNextButton(true);
 				}
@@ -267,7 +267,7 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 			}
 			case ONE: {
 				if (validate(mOneFragment)) {
-					if (shouldGotoPaymentEntry()) {
+					if (gotoPaymentEntry()) {
 						commitTraveler();
 						startActivity(new Intent(this, HotelPaymentOptionsActivity.class));
 						finish();
@@ -394,7 +394,7 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 
 	// Private helper methods
 
-	private boolean shouldGotoPaymentEntry() {
+	private boolean gotoPaymentEntry() {
 		HotelPaymentFlowState paymentState = HotelPaymentFlowState.getInstance(this);
 		return !paymentState.hasAValidCardSelected(Db.getBillingInfo());
 	}
