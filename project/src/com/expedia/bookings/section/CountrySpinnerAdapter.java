@@ -1,5 +1,8 @@
 package com.expedia.bookings.section;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.widget.ArrayAdapter;
@@ -35,7 +38,6 @@ public class CountrySpinnerAdapter extends ArrayAdapter<String> {
 		init(context, displayType, dropdownresource);
 	}
 
-
 	private void init(Context context, CountryDisplayType displayType, int dropDownResId) {
 		mContext = context;
 		setDropDownViewResource(dropDownResId);
@@ -58,6 +60,8 @@ public class CountrySpinnerAdapter extends ArrayAdapter<String> {
 			mCountries[i] = new CountryNameData(countryNames[i], twoLetterCountryCodes[i], threeLetterCountryCodes[i]);
 		}
 
+		CountryNameDataComparator comparator = new CountryNameDataComparator(displayType);
+		Arrays.sort(mCountries, comparator);
 	}
 
 	@Override
@@ -117,6 +121,21 @@ public class CountrySpinnerAdapter extends ArrayAdapter<String> {
 
 			}
 		}
+	}
+
+	private class CountryNameDataComparator implements Comparator<CountryNameData> {
+
+		private CountryDisplayType mDisplayType;
+
+		public CountryNameDataComparator(CountryDisplayType displayType) {
+			mDisplayType = displayType;
+		}
+
+		@Override
+		public int compare(CountryNameData one, CountryNameData two) {
+			return one.getValue(mDisplayType).compareTo(two.getValue(mDisplayType));
+		}
+
 	}
 
 	public int getDefaultLocalePosition() {
