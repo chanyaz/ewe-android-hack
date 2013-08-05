@@ -257,9 +257,16 @@ public class HotelSearchParams implements JSONable {
 	}
 
 	public boolean hasValidCheckInDate() {
+		Calendar checkIn = getCheckInDate();
+
+		// #1562 - Check for null
+		if (checkIn == null) {
+			return false;
+		}
+
 		Calendar now = Calendar.getInstance();
-		return getCheckInDate().get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)
-				|| now.before(getCheckInDate());
+		return checkIn.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)
+				|| now.before(checkIn);
 	}
 
 	public void ensureValidCheckInDate() {
