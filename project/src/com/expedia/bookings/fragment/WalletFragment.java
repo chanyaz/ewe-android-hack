@@ -71,6 +71,8 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 	 */
 	public static final int REQUEST_CODE_RESOLVE_CHANGE_MASKED_WALLET = 1003;
 
+	private static final String INSTANCE_GOOGLE_WALLET_ENABLED = "INSTANCE_GOOGLE_WALLET_ENABLED";
+
 	protected WalletClient mWalletClient;
 
 	// Whether the user tried to do an action that requires a masked wallet (i.e.: loadMaskedWallet)
@@ -115,8 +117,9 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// Before we do *anything*, check if Google Wallet has been disabled on the POS
-		if (!PointOfSale.getPointOfSale().supportsGoogleWallet()) {
+		// Before we do *anything*, check if Google Wallet has been disabled on the POS or in a previous instance
+		if (!PointOfSale.getPointOfSale().supportsGoogleWallet() || (savedInstanceState != null
+				&& !savedInstanceState.getBoolean(INSTANCE_GOOGLE_WALLET_ENABLED, true))) {
 			disableGoogleWallet();
 		}
 
@@ -149,6 +152,13 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 
 		// Connect to Google Play Services
 		mWalletClient.connect();
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		outState.putBoolean(INSTANCE_GOOGLE_WALLET_ENABLED, mGoogleWalletEnabled);
 	}
 
 	@Override
