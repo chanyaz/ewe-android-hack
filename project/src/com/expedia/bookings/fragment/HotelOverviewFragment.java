@@ -40,6 +40,7 @@ import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.ServerError;
@@ -184,6 +185,11 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		else {
 			// Reset Google Wallet state each time we get here
 			Db.clearGoogleWallet();
+		}
+
+		// #1715: Disable Google Wallet on non-merchant hotels
+		if (!Db.getHotelSearch().getSelectedProperty().isMerchant()) {
+			disableGoogleWallet();
 		}
 
 		AdTracker.trackHotelCheckoutStarted();

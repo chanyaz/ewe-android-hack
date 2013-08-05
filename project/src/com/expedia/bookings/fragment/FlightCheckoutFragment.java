@@ -109,9 +109,8 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		// #1363: Disable Google Wallet if not a valid payment type
 		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
 
-		// 1677: Don't turn it back on if it is already off.
-		if (!mGoogleWalletDisabled) {
-			mGoogleWalletDisabled = !trip.isCardTypeSupported(CreditCardType.GOOGLE_WALLET);
+		if (!trip.isCardTypeSupported(CreditCardType.GOOGLE_WALLET)) {
+			disableGoogleWallet();
 		}
 
 		if (savedInstanceState != null) {
