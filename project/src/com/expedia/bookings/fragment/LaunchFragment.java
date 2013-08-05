@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -7,6 +8,9 @@ import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Random;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -68,6 +72,7 @@ import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.Ui;
@@ -528,37 +533,34 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 	// Hotels fallback
 
-	private final static List<HotelDestination> HOTEL_DESTINATION_FALLBACK_LIST = new ArrayList<HotelDestination>() {
-		{
-			add(new HotelDestination().setLaunchTileText("Dubai").setImgUrl(
-					"http://media.expedia.com/hotels/1000000/530000/527500/527497/527497_66_y.jpg"));
-			add(new HotelDestination().setLaunchTileText("Miami").setImgUrl(
-					"http://media.expedia.com/hotels/2000000/1200000/1190600/1190549/1190549_45_y.jpg"));
-			add(new HotelDestination().setLaunchTileText("Las Vegas").setImgUrl(
-					"http://media.expedia.com/hotels/1000000/20000/16000/15930/15930_147_y.jpg"));
-			add(new HotelDestination().setLaunchTileText("San Francisco").setImgUrl(
-					"http://media.expedia.com/hotels/1000000/30000/22200/22148/22148_34_y.jpg"));
-			add(new HotelDestination().setLaunchTileText("Seattle").setImgUrl(
-					"http://media.expedia.com/hotels/1000000/550000/546500/546475/546475_84_y.jpg"));
-			add(new HotelDestination().setLaunchTileText("Honolulu").setImgUrl(
-					"http://media.expedia.com/hotels/1000000/40000/34500/34498/34498_111_y.jpg"));
-			add(new HotelDestination().setLaunchTileText("New York").setImgUrl(
-					"http://media.expedia.com/hotels/4000000/3490000/3481700/3481640/3481640_39_y.jpg"));
-			add(new HotelDestination().setLaunchTileText("Maldives").setImgUrl(
-					"http://media.expedia.com/hotels/2000000/1780000/1775600/1775548/1775548_63_y.jpg"));
-			add(new HotelDestination().setLaunchTileText("Paris").setImgUrl(
-					"http://media.expedia.com/hotels/1000000/30000/23100/23034/23034_175_y.jpg"));
-			add(new HotelDestination().setLaunchTileText("Boston").setImgUrl(
-					"http://media.expedia.com/hotels/1000000/10000/400/395/395_36_y.jpg"));
+	private List<HotelDestination> loadFallbackDestinations() {
+		List<HotelDestination> destinations = new ArrayList<HotelDestination>();
+		try {
+			InputStream is = getActivity().getAssets().open("ExpediaSharedData/ExpediaHotelFallbackLocations.json");
+			String data = IoUtils.convertStreamToString(is);
+			JSONArray locationArr = new JSONArray(data);
+			int len = locationArr.length();
+			for (int a = 0; a < len; a++) {
+				JSONObject locationObj = locationArr.getJSONObject(a);
+				HotelDestination destination = new HotelDestination();
+				destination.setLaunchTileText(locationObj.getString("destination"));
+				destination.setImgUrl(locationObj.getString("imageURL"));
+				destinations.add(destination);
+			}
 		}
-	};
+		catch (Exception e) {
+			// If this data fails to load, then we should fail horribly
+			throw new RuntimeException(e);
+		}
+		return destinations;
+	}
 
 	private Download<List<HotelDestination>> mHotelsFallbackDownload = new Download<List<HotelDestination>>() {
 		@Override
 		public List<HotelDestination> doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_HOTEL_DESTINATIONS, services);
-			List<HotelDestination> destinations = HOTEL_DESTINATION_FALLBACK_LIST;
+			List<HotelDestination> destinations = loadFallbackDestinations();
 
 			for (HotelDestination hotel : destinations) {
 				// Before using services, check if this download has been cancelled
