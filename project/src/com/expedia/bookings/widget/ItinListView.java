@@ -620,6 +620,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		showDetails(mAdapter.getPosition(id), animate);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void showDetails(final int position, final boolean animate) {
 		// Invalid index
 		if (position < 0 || position >= mAdapter.getCount()) {
@@ -637,7 +638,17 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		}
 
 		if (isInDetailMode()) {
-			return;
+			//If we are calling showDetails on the card that is already expanded, we just rebind and call it a day.
+			//Note that this is important because if we are showing a loading indicator, this will clear it.
+			if (mDetailsCardView != null && mDetailPosition == position && getSelectedItinCard() != null) {
+				mDetailsCardView.rebindExpandedCard(getSelectedItinCard());
+				return;
+			}
+			//Otherwise, we are showing a different card (or the same card at a different position) 
+			//so we hide the current details card and then expand the card we are actually interested in.
+			else {
+				hideDetails(false);
+			}
 		}
 
 		if (!mModeSwitchSemaphore.tryAcquire()) {

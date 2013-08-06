@@ -332,6 +332,27 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		}
 	}
 
+	/**
+	 * This method re-binds the ItinCard with the provided data, under the assumption that
+	 * the card is already expanded, and the views need updating.
+	 * 
+	 * @param itinCardData - new data to bind
+	 * @throws RuntimeException if this card was not already in EXPANDED mode
+	 */
+	public void rebindExpandedCard(final T itinCardData) {
+		if (itinCardData != null) {
+			if (mDisplayState == DisplayState.EXPANDED) {
+				bind(itinCardData);
+				inflateDetailsView();
+				updateClickable();
+				finishExpand();
+			}
+			else {
+				throw new RuntimeException("Calling rebindExpandedCard may only be called on already expanded cards!");
+			}
+		}
+	}
+
 	public void inflateDetailsView() {
 		View detailsView = mItinContentGenerator.getDetailsView(null, mDetailsLayout);
 		if (detailsView != null) {
