@@ -421,7 +421,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 				}
 				else {
 					String terminalGate = FlightUtils.getTerminalGateString(getContext(), summaryWaypoint);
-					bottomLineHtml = res.getString(bottomLineTextId, terminalGate);
+					bottomLineHtml = res.getString(bottomLineTextId, summaryWaypoint.mAirportCode, terminalGate);
 				}
 				vh.mBottomLine.setText(Html.fromHtml(bottomLineHtml));
 			}
