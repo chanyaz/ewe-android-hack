@@ -101,6 +101,23 @@
             </intent-filter>
         </activity>
 
+        <!-- Deep link routing activity -->
+
+        <activity
+            android:name="com.expedia.bookings.activity.DeepLinkRouterActivity"
+            android:theme="@android:style/Theme.NoDisplay" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="expda" />
+                <data android:host="home" />
+                <data android:host="hotelSearch" />
+            </intent-filter>
+        </activity>
+
         <!-- Launcher activities -->
 
         <activity
