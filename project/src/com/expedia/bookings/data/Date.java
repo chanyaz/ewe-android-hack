@@ -6,6 +6,8 @@ import java.util.GregorianCalendar;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.format.Time;
+
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 
@@ -31,6 +33,10 @@ public class Date implements JSONable, Comparable<Object> {
 
 	public Date(Calendar cal) {
 		fromCalendar(cal);
+	}
+
+	public Date(Time time) {
+		fromTime(time);
 	}
 
 	public int getYear() {
@@ -77,6 +83,12 @@ public class Date implements JSONable, Comparable<Object> {
 		mYear = cal.get(Calendar.YEAR);
 		mMonth = cal.get(Calendar.MONTH) + 1;
 		mDayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+	}
+
+	public void fromTime(Time time) {
+		mYear = time.year;
+		mMonth = time.month + 1;
+		mDayOfMonth = time.monthDay;
 	}
 
 	public Date clone() {
