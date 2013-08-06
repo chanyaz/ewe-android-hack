@@ -107,7 +107,9 @@ public class MockDataTests extends ActivityInstrumentationTestCase2<SearchActivi
 		mSolo.clickOnButton(0);
 		mDriver.waitForStringToBeGone(R.string.room_rates_loading);
 		ListView lv = (ListView) mSolo.getView(android.R.id.list);
-		int upperBound = lv.getChildCount();
+
+		//number of rooms is the list's child count - 1, for the header
+		int upperBound = lv.getCount() - 1;
 		mDriver.enterLog(TAG, "Upper bounds: " + upperBound);
 		String ok;
 		for (int i = 0; i < upperBound; i++) {
