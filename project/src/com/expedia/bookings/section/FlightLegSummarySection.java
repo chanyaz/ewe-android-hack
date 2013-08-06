@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
@@ -83,12 +84,21 @@ public class FlightLegSummarySection extends RelativeLayout {
 		bind(trip, leg, null, null, false);
 	}
 
+	public void bind(FlightTrip trip, FlightLeg leg, BillingInfo billingInfo) {
+		bind(trip, leg, null, null, false, billingInfo);
+	}
+
 	public void bind(FlightTrip trip, final FlightLeg leg, Calendar minTime, Calendar maxTime) {
 		bind(trip, leg, minTime, maxTime, false);
 	}
 
 	public void bind(FlightTrip trip, final FlightLeg leg, Calendar minTime, Calendar maxTime,
 			boolean isIndividualFlight) {
+		bind(trip, leg, minTime, maxTime, isIndividualFlight, null);
+	}
+
+	public void bind(FlightTrip trip, final FlightLeg leg, Calendar minTime, Calendar maxTime,
+			boolean isIndividualFlight, BillingInfo billingInfo) {
 		Context context = getContext();
 
 		// Don't lie to me!
@@ -165,7 +175,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 
 		if (mPriceTextView != null) {
 			if (trip != null && trip.hasPricing()) {
-				mPriceTextView.setText(trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
+				mPriceTextView.setText(trip.getTotalFareWithCardFee(billingInfo).getFormattedMoney(Money.F_NO_DECIMAL));
 			}
 			else {
 				mPriceTextView.setVisibility(View.GONE);

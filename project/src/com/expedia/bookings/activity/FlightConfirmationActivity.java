@@ -7,7 +7,6 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightSearch;
@@ -41,8 +40,6 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 		mKillReceiver.onCreate();
 
 		if (savedInstanceState == null) {
-			clearImportantBillingInfo(Db.getBillingInfo());
-
 			// Get data
 			final FlightSearch search = Db.getFlightSearch();
 			final String itinNum = search.getSelectedFlightTrip().getItineraryNumber();
@@ -123,12 +120,4 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// Clear some billing information
-
-	private void clearImportantBillingInfo(BillingInfo bi) {
-		bi.setNumber(null);
-		bi.setSecurityCode(null);
-		bi.setSaveCardToExpediaAccount(false);
-	}
 }

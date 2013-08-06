@@ -88,7 +88,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 		FlightLeg frontmostLeg = trip.getLeg(0);
 		FlightLegSummarySection card = (FlightLegSummarySection) inflater.inflate(R.layout.section_flight_leg_summary,
 				cardContainer, false);
-		card.bind(trip, frontmostLeg);
+		card.bind(trip, frontmostLeg, Db.getBillingInfo());
 		LayoutUtils.setBackgroundResource(card, R.drawable.bg_flight_conf_row);
 		card.measure(MeasureSpec.makeMeasureSpec(LayoutParams.MATCH_PARENT, MeasureSpec.EXACTLY),
 				MeasureSpec.makeMeasureSpec(LayoutParams.WRAP_CONTENT, MeasureSpec.EXACTLY));
