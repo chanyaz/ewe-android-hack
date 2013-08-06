@@ -183,7 +183,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 			topMargin = res.getDimensionPixelSize(R.dimen.flight_leg_day_textview_margin_top_no_overlap);
 			mMultiDayTextView.setVisibility(View.VISIBLE);
 			String daySpanStr = sDaySpanFormatter.format(daySpan);
-			mMultiDayTextView.setText(getResources().getQuantityString(R.plurals.day_span, daySpan, daySpanStr));
+			mMultiDayTextView.setText(res.getQuantityString(R.plurals.day_span, daySpan, daySpanStr));
 		}
 		else {
 			topMargin = res.getDimensionPixelSize(R.dimen.flight_leg_day_textview_margin_top);
@@ -192,16 +192,6 @@ public class FlightLegSummarySection extends RelativeLayout {
 		lp.setMargins(0, topMargin, rightMargin, 0);
 
 		mFlightTripView.setUp(leg, minTime, maxTime);
-	}
-
-	// Makes the card invisible - good for laying cards on top of each other
-	public void makeInvisible() {
-		mAirlineTextView.setVisibility(View.INVISIBLE);
-		mPriceTextView.setVisibility(View.INVISIBLE);
-		mDepartureTimeTextView.setVisibility(View.INVISIBLE);
-		mArrivalTimeTextView.setVisibility(View.INVISIBLE);
-		mMultiDayTextView.setVisibility(View.INVISIBLE);
-		mFlightTripView.setVisibility(View.INVISIBLE);
 	}
 
 	private String formatTime(Calendar cal) {
