@@ -42,7 +42,7 @@
 
     <!-- Save payment info dialog -->
     <!-- save billing info message -->
-    <string name="save_billing_info_message">Enregistrer ce mode de paiement dans votre compte VSC pour réserver plus rapidement dans le futur ?</string>
+    <string name="save_billing_info_message">Enregistrer ce mode de paiement dans votre compte hôtel Voyages-sncf pour réserver plus rapidement dans le futur?</string>
 
     <!-- Save traveler dialog -->
     <!-- Save traveler name Template -->
