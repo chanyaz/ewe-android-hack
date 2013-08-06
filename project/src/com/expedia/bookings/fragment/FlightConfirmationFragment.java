@@ -25,11 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.activity.PhoneSearchActivity;
-import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.activity.WebViewActivity;
-import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
@@ -324,26 +320,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 			sp.setSearchLatLonUpToDate();
 		}
 
-		//Update the Db object to have our search params (which will be used by hotels search)
-		Db.getHotelSearch().setSearchParams(sp);
-
-		// Launch hotel search
-		if (ExpediaBookingApp.useTabletInterface(getActivity())) {
-			//Goto tablet search, which automatically looks for search params in Db.
-			Intent searchHotelsIntent = new Intent(getActivity(), SearchResultsFragmentActivity.class);
-			startActivity(searchHotelsIntent);
-		}
-		else {
-			//Goto phone search (and pass flag telling it to use the search params in Db).
-			Intent searchHotelsIntent = new Intent(getActivity(), PhoneSearchActivity.class);
-			searchHotelsIntent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
-			startActivity(searchHotelsIntent);
-		}
-
-		// Finish this activity when navigating in-app to hotels search. The rest of the backstack should already be
-		// cleared when launching this activity to account for hitting back from this Activity so the KILL_ACTIVITY
-		// broadcast does not need to be sent.
-		getActivity().finish();
+		NavUtils.goToHotels(getActivity(), sp);
 
 		OmnitureTracking.trackCrossSellFlightToHotel(getActivity());
 	}

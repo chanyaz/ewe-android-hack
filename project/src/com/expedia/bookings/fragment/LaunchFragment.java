@@ -38,8 +38,6 @@ import android.widget.ImageView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightUnsupportedPOSActivity;
 import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
-import com.expedia.bookings.activity.PhoneSearchActivity;
-import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Destination;
 import com.expedia.bookings.data.ExpediaImage;
@@ -735,9 +733,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				searchParams.setChildren(null);
 
 				// Launch hotel search
-				Intent intent = new Intent(getActivity(), PhoneSearchActivity.class);
-				intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
-				startActivity(intent);
+				NavUtils.goToHotels(getActivity(), searchParams);
 			}
 		}
 	};

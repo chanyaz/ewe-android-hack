@@ -22,8 +22,11 @@ import com.expedia.bookings.activity.ItineraryActivity;
 import com.expedia.bookings.activity.LaunchActivity;
 import com.expedia.bookings.activity.PhoneSearchActivity;
 import com.expedia.bookings.activity.SearchFragmentActivity;
+import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.activity.SweepstakesActivity;
+import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.fragment.HotelBookingFragment;
@@ -93,22 +96,37 @@ public class NavUtils {
 	}
 
 	public static void goToHotels(Context context) {
+		goToHotels(context, null);
+	}
+
+	public static void goToHotels(Context context, HotelSearchParams params) {
 		sendKillActivityBroadcast(context);
 
+		Intent intent = new Intent();
 		Class<? extends Activity> routingTarget;
+
+		// Update the Db object to have our search params (which will be used by hotels search)
+
+		if (params != null) {
+			Db.getHotelSearch().setSearchParams(params);
+
+			// Only used by phone search currently, but won't harm to put on tablet as well
+			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
+		}
 
 		// 13820: Check if a booking is in process at this moment (in case BookingInfoActivity died)
 		if (BackgroundDownloader.getInstance().isDownloading(HotelBookingFragment.BOOKING_DOWNLOAD_KEY)) {
 			routingTarget = HotelBookingActivity.class;
 		}
-
-		// Send user to EH phone by default
+		else if (ExpediaBookingApp.useTabletInterface(context)) {
+			routingTarget = SearchResultsFragmentActivity.class;
+		}
 		else {
 			routingTarget = PhoneSearchActivity.class;
 		}
 
 		// Launch activity based on routing selection
-		Intent intent = new Intent(context, routingTarget);
+		intent.setClass(context, routingTarget);
 		context.startActivity(intent);
 	}
 
