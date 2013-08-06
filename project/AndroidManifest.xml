@@ -87,6 +87,9 @@
 
         <!-- Make sure activity uses full path, i.e. com.expedia.bookings.activity.* -->
 
+
+        <!-- Our main launcher activity -->
+
         <activity
             android:name="com.expedia.bookings.activity.SearchActivity"
             android:theme="@android:style/Theme.NoDisplay" >
@@ -97,10 +100,44 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Launcher activities -->
+
+        <activity
+            android:name="com.expedia.bookings.activity.LaunchActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/LaunchTheme" />
         <activity
             android:name="com.expedia.bookings.activity.SweepstakesActivity"
-            android:theme="@style/Theme.Phone.NoActionBar"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Phone.NoActionBar" />
+
+        <!-- Itineraries -->
+
+        <activity
+            android:name="com.expedia.bookings.activity.ItineraryActivity"
+            android:label="@string/trips"
+            android:launchMode="singleTop"
+            android:theme="@style/ItineraryTheme" />
+        <activity
+            android:name="com.expedia.bookings.activity.ItineraryGuestAddActivity"
+            android:theme="@style/LoginTheme"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name="com.expedia.bookings.activity.TerminalMapActivity"
+            android:label="@string/Terminal_Map"
+            android:theme="@style/TerminalMapTheme" />
+        <activity
+            android:name="com.expedia.bookings.activity.StandaloneShareActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.expedia.bookings.activity.LocalExpertActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme" />
+
+        <!-- Hotels activities -->
+
         <activity
             android:name="com.expedia.bookings.activity.PhoneSearchActivity"
             android:theme="@style/Theme.Phone"
@@ -172,6 +209,48 @@
         <activity
             android:name="com.expedia.bookings.activity.HotelBookingActivity"
             android:theme="@style/Theme.Phone.Dark" />
+
+        <!-- Flights activities -->
+
+        <activity
+            android:name="com.expedia.bookings.activity.FlightSearchActivity"
+            android:label="@string/Expedia_Flights"
+            android:theme="@style/FlightTheme"
+            android:windowSoftInputMode="stateUnchanged" />
+        <activity
+            android:name="com.expedia.bookings.activity.FlightSearchResultsActivity"
+            android:theme="@style/FlightTheme.OverlayMode"
+            android:uiOptions="splitActionBarWhenNarrow" />
+        <activity
+            android:name="com.expedia.bookings.activity.FlightUnsupportedPOSActivity"
+            android:theme="@style/FlightTheme" />
+        <activity
+            android:name="com.expedia.bookings.activity.FlightSearchOverlayActivity"
+            android:theme="@style/FlightTheme.Transparent"
+            android:windowSoftInputMode="stateUnchanged" />
+        <activity
+            android:name="com.expedia.bookings.activity.FlightTripOverviewActivity"
+            android:label="@string/Overview"
+            android:theme="@style/FlightTheme.Transparent" />
+        <activity
+            android:name="com.expedia.bookings.activity.FlightBookingActivity"
+            android:theme="@style/FlightTheme" />
+        <activity
+            android:name="com.expedia.bookings.activity.FlightPaymentOptionsActivity"
+            android:theme="@style/FlightTheme.CheckoutForms" />
+        <activity
+            android:name="com.expedia.bookings.activity.FlightTravelerInfoOptionsActivity"
+            android:theme="@style/FlightTheme.CheckoutForms" />
+        <activity
+            android:name="com.expedia.bookings.activity.FlightRulesActivity"
+            android:theme="@style/FlightTheme" />
+        <activity
+            android:name="com.expedia.bookings.activity.FlightConfirmationActivity"
+            android:label="@string/booking_complete"
+            android:theme="@style/FlightTheme" />
+
+        <!-- About/Preferences activities -->
+
         <activity
             android:name="com.expedia.bookings.activity.AboutActivity"
             android:theme="@style/Theme.Phone.WebView" />
@@ -187,99 +266,39 @@
             android:windowSoftInputMode="adjustResize" />
         <activity android:name="com.opinionlab.oo.sdk.android.CommentCardActivity" />
 
-        <!-- Expedia Flights -->
-
-        <activity
-            android:name="com.expedia.bookings.activity.LaunchActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/LaunchTheme" >
-        </activity>
-        <activity
-            android:name="com.expedia.bookings.activity.FlightSearchActivity"
-            android:label="@string/Expedia_Flights"
-            android:theme="@style/FlightTheme"
-            android:windowSoftInputMode="stateUnchanged" >
-        </activity>
-        <activity
-            android:name="com.expedia.bookings.activity.FlightSearchResultsActivity"
-            android:theme="@style/FlightTheme.OverlayMode"
-            android:uiOptions="splitActionBarWhenNarrow" />
-        <activity
-            android:name="com.expedia.bookings.activity.FlightUnsupportedPOSActivity"
-            android:theme="@style/FlightTheme" />
-        <activity
-            android:name="com.expedia.bookings.activity.FlightSearchOverlayActivity"
-            android:theme="@style/FlightTheme.Transparent"
-            android:windowSoftInputMode="stateUnchanged" />
-        <activity
-            android:name="com.expedia.bookings.activity.FlightTripOverviewActivity"
-            android:label="@string/Overview"
-            android:theme="@style/FlightTheme.Transparent" >
-        </activity>
-        <activity
-            android:name="com.expedia.bookings.activity.FlightBookingActivity"
-            android:theme="@style/FlightTheme" />
-        <activity
-            android:name="com.expedia.bookings.activity.FlightPaymentOptionsActivity"
-            android:theme="@style/FlightTheme.CheckoutForms" >
-        </activity>
-        <activity
-            android:name="com.expedia.bookings.activity.FlightTravelerInfoOptionsActivity"
-            android:theme="@style/FlightTheme.CheckoutForms" >
-        </activity>
-        <activity
-            android:name="com.expedia.bookings.activity.FlightRulesActivity"
-            android:theme="@style/FlightTheme" >
-        </activity>
-        <activity
-            android:name="com.expedia.bookings.activity.FlightConfirmationActivity"
-            android:label="@string/booking_complete"
-            android:theme="@style/FlightTheme" />
-
-        <!-- Login/Facebook -->
+        <!-- Login/Facebook activities -->
         <activity
             android:name="com.expedia.bookings.activity.LoginActivity"
             android:launchMode="singleTop"
             android:theme="@style/LoginTheme"
-            android:windowSoftInputMode="adjustPan" >
-        </activity>
+            android:windowSoftInputMode="adjustPan" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name="com.facebook.LoginActivity" >
-        </activity>
+        <activity android:name="com.facebook.LoginActivity" />
 
-        <!-- Itineraries -->
-        <activity
-            android:name="com.expedia.bookings.activity.ItineraryActivity"
-            android:label="@string/trips"
-            android:launchMode="singleTop"
-            android:theme="@style/ItineraryTheme" />
-        <activity
-            android:name="com.expedia.bookings.activity.ItineraryGuestAddActivity"
-            android:theme="@style/LoginTheme"
-            android:windowSoftInputMode="adjustPan" >
-        </activity>
-        <activity
-            android:name="com.expedia.bookings.activity.TerminalMapActivity"
-            android:label="@string/Terminal_Map"
-            android:theme="@style/TerminalMapTheme" />
-        <activity
-            android:name="com.expedia.bookings.activity.StandaloneShareActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity
-            android:name="com.expedia.bookings.activity.LocalExpertActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme" />
+        <!-- Testing activities -->
 
-        <!-- Testing -->
         <activity android:name=".test.activity.CalendarDatePickerTestActivity" />
         <activity
             android:name="com.expedia.bookings.activity.StubConfigActivity"
             android:theme="@style/Theme.Phone" />
+
+        <!-- Widget components -->
+
+        <receiver
+            android:name="com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider"
+            android:enabled="@bool/widgetEnabled" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/eb_appwidget_info" />
+        </receiver>
 
         <service
             android:name="com.expedia.bookings.appwidget.ExpediaBookingsService"
@@ -295,26 +314,15 @@
             </intent-filter>
         </service>
 
-        <!-- Widget stuff -->
-        <receiver
-            android:name="com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider"
-            android:enabled="@bool/widgetEnabled" >
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/eb_appwidget_info" />
-        </receiver>
-
         <!-- Notifications -->
+
         <receiver
             android:name="com.expedia.bookings.notification.NotificationReceiver"
             android:exported="false" >
         </receiver>
 
         <!-- Push Notifications -->
+
         <service android:name="com.expedia.bookings.notification.GCMIntentService" />
 
         <receiver
@@ -331,7 +339,8 @@
             </intent-filter>
         </receiver>
 
-        <!-- Search stuff -->
+        <!-- Search autocomplete components -->
+
         <provider
             android:name="com.expedia.bookings.content.AutocompleteProvider"
             android:authorities="@string/authority_autocomplete_hotel"
@@ -341,7 +350,8 @@
             android:authorities="@string/authority_autocomplete_airport"
             android:exported="false" />
 
-        <!-- Boot stuff -->
+        <!-- Locale change receiver -->
+
         <receiver
             android:name="com.expedia.bookings.activity.LocaleChangeReceiver"
             android:exported="false" >
@@ -387,6 +397,7 @@
         </receiver>
 
         <!-- Account Manager -->
+
         <service android:name="com.expedia.bookings.account.ExpediaAuthenticatationService" >
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
