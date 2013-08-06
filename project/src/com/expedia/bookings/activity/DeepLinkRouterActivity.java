@@ -27,6 +27,9 @@ public class DeepLinkRouterActivity extends Activity {
 		if (host.equals("home")) {
 			NavUtils.goToLaunchScreen(this, true);
 		}
+		else if (host.equals("showTrips") || host.equals("trips")) {
+			NavUtils.goToItin(this);
+		}
 		else {
 			Ui.showToast(this, "Cannot yet handle data: " + data);
 		}

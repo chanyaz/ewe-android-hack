@@ -114,6 +114,8 @@
 
                 <data android:scheme="expda" />
                 <data android:host="home" />
+                <data android:host="trips" />
+                <data android:host="showTrips" />
                 <data android:host="hotelSearch" />
             </intent-filter>
         </activity>
