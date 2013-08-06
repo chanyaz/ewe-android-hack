@@ -1483,6 +1483,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 			SimpleDateFormat format = (SimpleDateFormat) SimpleDateFormat.getDateInstance();
 			format.applyPattern(dateFormatStr);
+			format.setTimeZone(CalendarUtils.getFormatTimeZone());
 
 			Calendar dateStart = params.getCheckInDate() == null ? null : params.getCheckInDate();
 			Calendar dateEnd = params.getCheckOutDate() == null ? null : params.getCheckOutDate();
