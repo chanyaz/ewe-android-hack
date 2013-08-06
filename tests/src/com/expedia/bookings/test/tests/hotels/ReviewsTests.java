@@ -53,6 +53,8 @@ public class ReviewsTests extends ActivityInstrumentationTestCase2<SearchActivit
 		String detailsReviewString;
 		String hotelDetailsNumber;
 
+		mDriver.ignoreSweepstakesActivity();
+
 		String hotelSoldOut = mRes.getString(R.string.error_hotel_is_now_sold_out);
 		mDriver.launchHotels();
 		mDriver.selectLocation(mUser.mHotelSearchCity);
@@ -101,6 +103,8 @@ public class ReviewsTests extends ActivityInstrumentationTestCase2<SearchActivit
 	}
 
 	public void testSelectButton() throws Exception {
+		mDriver.ignoreSweepstakesActivity();
+
 		String selectARoom = mRes.getString(R.string.select_a_room_instruction);
 		mDriver.launchHotels();
 		mDriver.selectLocation(mUser.mHotelSearchCity);
