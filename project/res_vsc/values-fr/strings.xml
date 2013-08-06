@@ -157,4 +157,7 @@
     <!-- Message displayed when the hotel room is sold out -->
     <string name="error_room_is_now_sold_out">Désolé, cette chambre n\&apos;est plus disponible sur notre app.</string>
 
+    <!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
+    <string name="e3_error_checkout_payment_failed">Désolé, nous n\&apos;avons pas pu traiter votre paiement. Veuillez vérifier que les informations que vous avez saisies sont correctes.</string>
+
 </resources>
