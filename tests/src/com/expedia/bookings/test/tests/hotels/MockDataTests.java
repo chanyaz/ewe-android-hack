@@ -36,6 +36,7 @@ public class MockDataTests extends ActivityInstrumentationTestCase2<SearchActivi
 		mMetric = mRes.getDisplayMetrics();
 		mDriver = new HotelsRobotHelper(mSolo, mRes);
 		mUser = new HotelsUserData();
+		mDriver.ignoreSweepstakesActivity();
 		mDriver.setUpMockServer(SERVER_IP);
 		mDriver.clearPrivateData();
 	}
