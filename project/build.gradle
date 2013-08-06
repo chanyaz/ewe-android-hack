@@ -91,7 +91,7 @@ android {
 
 
 // Set the HockeyApp buildNumber meta-data as the Jenkins BUILD_NUMBER for all alpha builds
-android.applicationVariants.each { variant ->
+android.applicationVariants.all { variant ->
     if (variant.buildType.name == 'alpha') {
         variant.processManifest.dependsOn {
             def jenkinsBuildNumber = "$System.env.BUILD_NUMBER"
