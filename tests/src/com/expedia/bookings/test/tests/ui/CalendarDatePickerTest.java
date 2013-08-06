@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.tests.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
 import com.expedia.bookings.test.activity.CalendarDatePickerTestActivity;
@@ -22,7 +23,7 @@ public class CalendarDatePickerTest extends ActivityInstrumentationTestCase2<Cal
 	private Activity mActivity;
 
 	public CalendarDatePickerTest() {
-		super(CalendarDatePickerTestActivity.class);
+		super("com.expedia.bookings", CalendarDatePickerTestActivity.class);
 	}
 
 	@Override
@@ -90,17 +91,17 @@ public class CalendarDatePickerTest extends ActivityInstrumentationTestCase2<Cal
 		assertNull(mCal.getEndTime());
 	}
 
-	public void testCanSelectOneDayInPast() {
+	public void testCannotSelectOneDayInPast() {
 		setCalendarMode(CalendarDatePicker.SelectionMode.HYBRID, true);
 
-		Time past = CalendarTouchUtils.getDay(-1);
+		Time today = CalendarTouchUtils.getDay(0);
 
-		if (!CalendarTouchUtils.clickOnDay(mSolo, mCal, past)) {
+		if (!CalendarTouchUtils.clickOnDay(mSolo, mCal, today)) {
 			CalendarTouchUtils.clickPrevMonth(mSolo, mCal);
-			CalendarTouchUtils.clickOnDay(mSolo, mCal, past);
+			CalendarTouchUtils.clickOnDay(mSolo, mCal, today);
 		}
 
-		assertEquals(past, mCal.getStartTime());
+		assertEquals(today, mCal.getStartTime());
 	}
 
 	public void testCannotSelectFifteenDaysInPast() {
@@ -173,18 +174,6 @@ public class CalendarDatePickerTest extends ActivityInstrumentationTestCase2<Cal
 		assertFalse(mCal.getDayRange().contains(two));
 	}
 
-	public void testSameDayRoundtrip() {
-		setCalendarMode(CalendarDatePicker.SelectionMode.HYBRID, true);
-
-		Time two = CalendarTouchUtils.getDay(2);
-
-		CalendarTouchUtils.clickOnDay(mSolo, mCal, two);
-		CalendarTouchUtils.clickOnDay(mSolo, mCal, two);
-
-		assertEquals(two, mCal.getStartTime());
-		assertEquals(two, mCal.getEndTime());
-	}
-
 	public void testHybridDragModeAllowsDrag() {
 		setCalendarMode(CalendarDatePicker.SelectionMode.HYBRID, true);
 
@@ -198,27 +187,6 @@ public class CalendarDatePickerTest extends ActivityInstrumentationTestCase2<Cal
 
 		assertEquals(one, mCal.getStartTime());
 		assertEquals(four, mCal.getEndTime());
-	}
-
-	public void testHybridDragModeAllowsDragToSameDayRoundtrip() {
-		setCalendarMode(CalendarDatePicker.SelectionMode.HYBRID, true);
-
-		Time one = CalendarTouchUtils.getDay(1);
-		Time three = CalendarTouchUtils.getDay(3);
-
-		CalendarTouchUtils.clickOnDay(mSolo, mCal, one);
-		CalendarTouchUtils.clickOnDay(mSolo, mCal, three);
-
-		assertEquals(one, mCal.getStartTime());
-		assertEquals(three, mCal.getEndTime());
-
-		Time two = CalendarTouchUtils.getDay(2);
-
-		CalendarTouchUtils.dragOnCalendar(mSolo, mCal, three, two);
-		CalendarTouchUtils.dragOnCalendar(mSolo, mCal, one, two);
-
-		assertEquals(two, mCal.getStartTime());
-		assertEquals(two, mCal.getEndTime());
 	}
 
 	public void testSelectStartAndEndThenTapStartAgainNullsEndDateNoDragMode() {
@@ -342,8 +310,8 @@ public class CalendarDatePickerTest extends ActivityInstrumentationTestCase2<Cal
 
 		CalendarTouchUtils.dragOnCalendar(mSolo, mCal, one, negOne);
 
-		assertEquals(negOne, mCal.getStartTime());
-		assertEquals(zero, mCal.getEndTime());
+		assertEquals(zero, mCal.getStartTime());
+		assertEquals(one, mCal.getEndTime());
 	}
 
 	public void testDragStartAndEndDates() {
@@ -357,7 +325,7 @@ public class CalendarDatePickerTest extends ActivityInstrumentationTestCase2<Cal
 		CalendarTouchUtils.dragOnCalendar(mSolo, mCal, zero, negOne);
 		CalendarTouchUtils.dragOnCalendar(mSolo, mCal, one, two);
 
-		assertEquals(negOne, mCal.getStartTime());
+		assertEquals(zero, mCal.getStartTime());
 		assertEquals(two, mCal.getEndTime());
 	}
 
