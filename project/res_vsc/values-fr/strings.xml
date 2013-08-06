@@ -8,7 +8,7 @@
     <!-- Weve found your user account -->
     <string name="facebook_weve_found_your_account">&lt;b&gt;%1$s&lt;/b&gt;, nous avons trouvé votre compte VSC ! Veuillez saisir votre mot de passe VSC ci-dessous afin de lier vos comptes Facebook et VSC.</string>
     <!-- Log in with VSC -->
-    <string name="Log_in_with_VSC">Se connecter avec VSC</string>
+    <string name="Log_in_with_VSC">Se connecter</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Echec de connexion. Un compte spécifique pour la réservation d’hôtel est nécessaire.</string>
     <!-- Facebook connect expedia password hint -->
