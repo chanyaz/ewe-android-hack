@@ -8,12 +8,12 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.utils.NavUtils;
 import com.mobiata.android.Log;
 
-public class LocaleChangeReceiver extends BroadcastReceiver {
+public class VSCLocaleChangeReceiver extends BroadcastReceiver {
+	public static final String ACTION_LOCALE_CHANGED = "com.expedia.bookings.action.vsc_locale_changed";
+
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		Log.i("LocaleChangeReceiver: Locale changed!");
-
-		// Clear out saved flight route data
-		Db.deleteCachedFlightRoutes(context);
+		Log.i("VSCLocaleChangeReceiver: Locale changed!");
+		// TODO: restart app
 	}
 }

@@ -4,7 +4,6 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -71,11 +70,6 @@ public class NavUtils {
 
 		if (forceShowWaterfall) {
 			intent.putExtra(LaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
-		}
-
-		if (context instanceof ContextWrapper) {
-			int flags = Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK;
-			intent.setFlags(flags);
 		}
 
 		sendKillActivityBroadcast(context);
@@ -292,12 +286,6 @@ public class NavUtils {
 		routingTarget = PhoneSearchActivity.class;
 
 		Intent intent = new Intent(context, routingTarget);
-
-		if (context instanceof ContextWrapper) {
-			int flags = Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK;
-			intent.setFlags(flags);
-		}
-
 		context.startActivity(intent);
 	}
 }

@@ -314,27 +314,26 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 	@Override
 	public void onConfigurationChanged(final Configuration newConfig) {
 		if (IS_VSC) {
-			Locale locale = new Locale("fr", "FR");
-			if (!newConfig.locale.equals(locale)) {
-				Log.d("VSC: Forcing fr locale");
-				Configuration myConfig = new Configuration(newConfig);
-				Locale.setDefault(locale);
-
-				myConfig.locale = locale;
-				getBaseContext().getResources().updateConfiguration(myConfig, getResources().getDisplayMetrics());
-				super.onConfigurationChanged(myConfig);
-
-				// Send broadcast so that LocaleChangeReciever can re-create activities
-				Intent intent = new Intent(LocaleChangeReceiver.ACTION_LOCALE_CHANGED);
-				sendBroadcast(intent);
-				return;
-			}
+			handleVscConfigurationChanged(newConfig);
 		}
+		else {
+			// Default behaviour, we want to ignore this completely
+			super.onConfigurationChanged(newConfig);
+		}
+	}
 
-		if (mOldLocale == null || !mOldLocale.equals(newConfig.locale)) {
-			mOldLocale = newConfig.locale;
-			// Locale changed
-			Intent intent = new Intent(LocaleChangeReceiver.ACTION_LOCALE_CHANGED);
+	private void handleVscConfigurationChanged(final Configuration newConfig) {
+		Locale locale = new Locale("fr", "FR");
+		if (!newConfig.locale.equals(locale)) {
+			Log.d("VSC: Forcing fr locale");
+			Configuration myConfig = new Configuration(newConfig);
+			Locale.setDefault(locale);
+
+			myConfig.locale = locale;
+			getBaseContext().getResources().updateConfiguration(myConfig, getResources().getDisplayMetrics());
+
+			// Send broadcast so that we can re-create activities
+			Intent intent = new Intent(VSCLocaleChangeReceiver.ACTION_LOCALE_CHANGED);
 			sendBroadcast(intent);
 		}
 
