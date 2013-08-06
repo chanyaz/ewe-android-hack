@@ -86,6 +86,7 @@ android {
         }
 
         VSC {
+            manifest.srcFile 'AndroidManifest-vsc.xml'
             res.srcDirs 'res_vsc'
         }
 
