@@ -6,6 +6,7 @@ import java.util.GregorianCalendar;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.expedia.bookings.utils.CalendarUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 
@@ -69,6 +70,7 @@ public class Date implements JSONable, Comparable<Object> {
 	public Calendar getCalendar() {
 		if (mCal == null) {
 			mCal = new GregorianCalendar(mYear, mMonth - 1, mDayOfMonth);
+			mCal.setTimeZone(CalendarUtils.getFormatTimeZone());
 		}
 		return mCal;
 	}
