@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -144,7 +145,7 @@ public class FlightSearchParams implements JSONable {
 		return false;
 	}
 
-	public void setDepartureDate(Date departureDate) {
+	public void setDepartureDate(LocalDate departureDate) {
 		mQueryLegs.get(0).setDepartureDate(departureDate);
 	}
 
@@ -152,7 +153,7 @@ public class FlightSearchParams implements JSONable {
 		return mQueryLegs.get(0).getDepartureDate();
 	}
 
-	public void setReturnDate(Date returnDate) {
+	public void setReturnDate(LocalDate returnDate) {
 		if (returnDate != null) {
 			ensureRoundTripData();
 			mQueryLegs.get(1).setDepartureDate(returnDate);

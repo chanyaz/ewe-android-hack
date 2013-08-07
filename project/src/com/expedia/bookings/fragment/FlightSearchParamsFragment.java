@@ -3,6 +3,8 @@ package com.expedia.bookings.fragment;
 import java.io.File;
 import java.util.Calendar;
 
+import org.joda.time.LocalDate;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -1130,7 +1132,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	@Override
 	public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
 		if (mCalendarDatePicker.getStartTime() != null) {
-			mSearchParams.setDepartureDate(new Date(mCalendarDatePicker.getStartYear(),
+			mSearchParams.setDepartureDate(new LocalDate(mCalendarDatePicker.getStartYear(),
 					mCalendarDatePicker.getStartMonth() + 1, mCalendarDatePicker.getStartDayOfMonth()));
 		}
 		else {
@@ -1138,7 +1140,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		}
 
 		if (mCalendarDatePicker.getEndTime() != null) {
-			mSearchParams.setReturnDate(new Date(mCalendarDatePicker.getEndYear(),
+			mSearchParams.setReturnDate(new LocalDate(mCalendarDatePicker.getEndYear(),
 					mCalendarDatePicker.getEndMonth() + 1, mCalendarDatePicker.getEndDayOfMonth()));
 		}
 		else {

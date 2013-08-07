@@ -22,8 +22,8 @@ public class FlightSearchLeg implements JSONable {
 		return mDepartureDate != null ? new Date(mDepartureDate) : null;
 	}
 
-	public void setDepartureDate(Date departureDate) {
-		mDepartureDate = Date.toLocalDate(departureDate);
+	public void setDepartureDate(LocalDate departureDate) {
+		mDepartureDate = departureDate;
 	}
 
 	public Location getDepartureLocation() {

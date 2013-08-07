@@ -23,7 +23,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BookingResponse;
-import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
@@ -272,8 +271,8 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		flightSearchParams.setArrivalLocation(loc);
 
 		HotelSearchParams params = Db.getHotelSearch().getSearchParams();
-		flightSearchParams.setDepartureDate(new Date(params.getCheckInDate()));
-		flightSearchParams.setReturnDate(new Date(params.getCheckOutDate()));
+		flightSearchParams.setDepartureDate(params.getCheckInDate());
+		flightSearchParams.setReturnDate(params.getCheckOutDate());
 
 		// Go to flights
 		NavUtils.goToFlights(getActivity(), true);
