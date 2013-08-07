@@ -49,7 +49,8 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 	private static final String TAG_MAILCHIMP_FAILURE_DIALOG = "TAG_MAILCHIMP_FAILURE_DIALOG";
 
 	private static final int ROW_CONTACT_EXPEDIA = 1;
-	private static final int ROW_APP_SUPPORT = 2;
+	private static final int ROW_EXPEDIA_WEBSITE = 2;
+	private static final int ROW_APP_SUPPORT = 3;
 	private static final int ROW_WERE_HIRING = 4;
 	private static final int ROW_PRIVACY_POLICY = 5;
 	private static final int ROW_TERMS_AND_CONDITIONS = 6;
@@ -85,6 +86,7 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 		if (contactUsFragment == null) {
 			builder = new AboutSectionFragment.Builder(this);
 			builder.addRow(R.string.contact_expedia, ROW_CONTACT_EXPEDIA);
+			builder.addRow(R.string.expedia_website, ROW_EXPEDIA_WEBSITE);
 			builder.addRow(R.string.app_support, ROW_APP_SUPPORT);
 			if (!ExpediaBookingApp.IS_VSC) {
 				builder.addRow(com.mobiata.android.R.string.WereHiring, ROW_WERE_HIRING);
@@ -274,6 +276,10 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 			else {
 				showDialog(DIALOG_CONTACT_EXPEDIA);
 			}
+			return true;
+		}
+		case ROW_EXPEDIA_WEBSITE: {
+			mAboutUtils.openExpediaWebsite();
 			return true;
 		}
 		case ROW_APP_SUPPORT: {

@@ -166,7 +166,7 @@ public class AboutUtils {
 	}
 
 	public void openExpediaWebsite() {
-		openWebsite(mActivity, PointOfSale.getPointOfSale().getWebsiteUrl(), false);
+		openWebsite(mActivity, PointOfSale.getPointOfSale().getWebsiteUrl(), true);
 	}
 
 	public void openAppFeedback() {
