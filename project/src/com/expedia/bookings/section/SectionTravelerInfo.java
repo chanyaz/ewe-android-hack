@@ -1,9 +1,10 @@
 package com.expedia.bookings.section;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import org.joda.time.LocalDate;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -32,13 +33,13 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Phone;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.CountrySpinnerAdapter.CountryDisplayType;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TelephoneSpinner;
 import com.expedia.bookings.widget.TelephoneSpinnerAdapter;
@@ -295,11 +296,10 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			R.id.display_born_on) {
 		@Override
 		public void onHasFieldAndData(TextView field, Traveler data) {
-
 			if (data.getBirthDate() != null) {
 				String formatStr = mContext.getString(R.string.born_on_TEMPLATE);
-				DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
-				String bdayStr = df.format(data.getBirthDateInMillis());//DateFormat.MEDIUM
+				String bdayStr = JodaUtils.formatLocalDate(mContext, data.getBirthDate(),
+						JodaUtils.FLAGS_MEDIUM_DATE_FORMAT);
 				String bornStr = String.format(formatStr, bdayStr);
 				field.setText(bornStr);
 			}
@@ -505,10 +505,10 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		private static final String MONTH_TAG = "MONTH_TAG";
 		private static final String YEAR_TAG = "YEAR_TAG";
 
-		public static DatePickerFragment newInstance(Date cal, OnDateSetListener listener) {
+		public static DatePickerFragment newInstance(LocalDate cal, OnDateSetListener listener) {
 			DatePickerFragment frag = new DatePickerFragment();
 			frag.setOnDateSetListener(listener);
-			frag.setDate(cal.getDayOfMonth(), cal.getMonth() - 1, cal.getYear());
+			frag.setDate(cal.getDayOfMonth(), cal.getMonthOfYear() - 1, cal.getYear());
 			Bundle args = new Bundle();
 			frag.setArguments(args);
 			return frag;
@@ -653,7 +653,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				field.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						Date date = new Date(1970, 1, 1);
+						LocalDate date = new LocalDate(1970, 1, 1);
 						if (hasBoundData()) {
 							if (getData().getBirthDate() != null) {
 								date = getData().getBirthDate();
@@ -685,14 +685,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 			monthOfYear++;//DatePicker uses calendars...
 			if (hasBoundData()) {
-				Date date = getData().getBirthDate();
-				if (date == null) {
-					date = new Date(year, monthOfYear, dayOfMonth);
-				}
-				else {
-					date.setDate(year, monthOfYear, dayOfMonth);
-				}
-				getData().setBirthDate(date);
+				getData().setBirthDate(new LocalDate(year, monthOfYear, dayOfMonth));
 			}
 			refreshText();
 			onChange(SectionTravelerInfo.this);
@@ -713,12 +706,11 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 		@Override
 		protected void onHasFieldAndData(TextView field, Traveler data) {
-
 			String btnTxt = "";
 			if (data.getBirthDate() != null) {
 				String formatStr = mContext.getString(R.string.born_on_colored_TEMPLATE);
-				DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
-				String bdayStr = df.format(data.getBirthDateInMillis());//DateFormat.MEDIUM
+				String bdayStr = JodaUtils.formatLocalDate(mContext, data.getBirthDate(),
+						JodaUtils.FLAGS_MEDIUM_DATE_FORMAT);
 				btnTxt = String.format(formatStr, bdayStr);
 			}
 			field.setText(Html.fromHtml(btnTxt));
@@ -731,9 +723,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				int retVal = ValidationError.NO_ERROR;
 				if (hasBoundData()) {
 					if (getData().getBirthDate() != null) {
-						long birthDate = getData().getBirthDateInMillis();
-						long now = Calendar.getInstance().getTimeInMillis();
-						if (birthDate > now) {
+						LocalDate birthDate = getData().getBirthDate();
+						if (birthDate.isAfter(LocalDate.now())) {
 							retVal = ValidationError.ERROR_DATA_INVALID;
 						}
 						else {

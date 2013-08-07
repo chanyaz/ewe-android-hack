@@ -124,8 +124,6 @@ import com.mobiata.flightlib.data.FlightCode;
 @SuppressLint("SimpleDateFormat")
 public class ExpediaServices implements DownloadListener {
 
-	private static final String ISO_FORMAT = "yyyy-MM-dd";
-
 	// please note that these keys are specific to EB (for tracking purposes)
 	// if you need FLEX API keys for another app, please obtain your own
 	private static final String FS_FLEX_APP_ID = "db824f8c";
@@ -986,13 +984,13 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	private void addFlightTraveler(List<BasicNameValuePair> query, Traveler traveler, String prefix) {
-		SimpleDateFormat isoDateFormatter = new SimpleDateFormat(ISO_FORMAT);
+		DateTimeFormatter dtf = ISODateTimeFormat.date();
 		query.add(new BasicNameValuePair(prefix + "firstName", traveler.getFirstName()));
 		if (!TextUtils.isEmpty(traveler.getMiddleName())) {
 			query.add(new BasicNameValuePair(prefix + "middleName", traveler.getMiddleName()));
 		}
 		query.add(new BasicNameValuePair(prefix + "lastName", traveler.getLastName()));
-		query.add(new BasicNameValuePair(prefix + "birthDate", isoDateFormatter.format(traveler.getBirthDateInMillis())));
+		query.add(new BasicNameValuePair(prefix + "birthDate", dtf.print(traveler.getBirthDate())));
 		query.add(new BasicNameValuePair(prefix + "gender", (traveler.getGender() == Gender.MALE) ? "MALE" : "FEMALE"));
 
 		String assistanceOption;

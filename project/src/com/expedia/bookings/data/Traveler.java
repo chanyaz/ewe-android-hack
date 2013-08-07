@@ -3,6 +3,7 @@ package com.expedia.bookings.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,6 +13,7 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.UserPreference.Category;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -41,7 +43,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	// Flights
 	private Gender mGender;
-	private Date mBirthDate;
+	private LocalDate mBirthDate;
 	private String mRedressNumber;
 	private List<String> mPassportCountries;
 	private SeatPreference mSeatPreference = SeatPreference.WINDOW;
@@ -216,7 +218,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		return mGender;
 	}
 
-	public Date getBirthDate() {
+	public LocalDate getBirthDate() {
 		return mBirthDate;
 	}
 
@@ -389,7 +391,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mGender = gender;
 	}
 
-	public void setBirthDate(Date date) {
+	public void setBirthDate(LocalDate date) {
 		mBirthDate = date;
 	}
 
@@ -483,11 +485,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		return getOrCreatePrimaryPhoneNumber().getCountryCode();
 	}
 
-	// Quick way to get birth date in milliseconds (good for formatting)
-	public long getBirthDateInMillis() {
-		return mBirthDate.getCalendar().getTimeInMillis();
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
@@ -512,7 +509,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			obj.putOpt("isSmokingPreferred", mIsSmokingPreferred);
 
 			JSONUtils.putEnum(obj, "gender", mGender);
-			JSONUtils.putJSONable(obj, "birthDate", mBirthDate);
+			JodaUtils.putLocalDateInJson(obj, "birthLocalDate", mBirthDate);
 			obj.putOpt("redressNumber", mRedressNumber);
 			JSONUtils.putStringList(obj, "passportCountries", mPassportCountries);
 			if (mSeatPreference.equals(SeatPreference.ANY) || mSeatPreference.equals(SeatPreference.UNASSIGNED)) {
@@ -555,7 +552,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mIsSmokingPreferred = obj.optBoolean("isSmokingPreferred");
 
 		mGender = JSONUtils.getEnum(obj, "gender", Gender.class);
-		mBirthDate = JSONUtils.getJSONable(obj, "birthDate", Date.class);
+		mBirthDate = JodaUtils.getLocalDateFromJsonBackCompat(obj, "birthLocalDate", "birthDate");
 		mRedressNumber = obj.optString("redressNumber");
 		mPassportCountries = JSONUtils.getStringList(obj, "passportCountries");
 		mSeatPreference = JSONUtils.getEnum(obj, "seatPreference", SeatPreference.class);
@@ -687,7 +684,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		}
 
 		// Birth date
-		diff = compareJsonable(getBirthDate(), another.getBirthDate());
+		diff = getBirthDate().compareTo(another.getBirthDate());
 		if (diff != 0) {
 			return diff;
 		}

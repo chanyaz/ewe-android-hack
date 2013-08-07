@@ -1,21 +1,16 @@
 package com.expedia.bookings.server;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Phone;
 import com.expedia.bookings.data.ServerError;
@@ -35,9 +30,6 @@ import com.mobiata.android.net.JsonResponseHandler;
 public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 
 	private Context mContext;
-
-	@SuppressLint("SimpleDateFormat")
-	private static final DateFormat BIRTH_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
 	public SignInResponseHandler(Context context) {
 		mContext = context;
@@ -125,16 +117,7 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 
 					String dateOfBirth = tsaDetails.optString("dateOfBirth", null);
 					if (dateOfBirth != null) {
-						try {
-							Calendar cal = Calendar.getInstance();
-							cal.setTime(BIRTH_DATE_FORMAT.parse(dateOfBirth));
-							traveler.setBirthDate(new Date(cal));
-						}
-						catch (ParseException e) {
-							// Blow up if we get an unrecognized date of birth
-							// (We want to know if this format is correct)
-							throw new RuntimeException(e);
-						}
+						traveler.setBirthDate(LocalDate.parse(dateOfBirth));
 					}
 
 					traveler.setRedressNumber(tsaDetails.optString("redressNumber", null));
