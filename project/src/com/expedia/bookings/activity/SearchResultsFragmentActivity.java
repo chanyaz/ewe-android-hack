@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import org.joda.time.LocalDate;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,7 +42,6 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
-import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.HotelFilter.OnFilterChangedListener;
@@ -811,7 +811,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		invalidateOptionsMenu();
 	}
 
-	public void setDates(Date checkIn, Date checkOut) {
+	public void setDates(LocalDate checkIn, LocalDate checkOut) {
 		Log.d("Setting dates: " + checkIn + " to " + checkOut);
 
 		Db.getHotelSearch().getSearchParams().setCheckInDate(checkIn);
@@ -1489,7 +1489,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	// CalendarDialogFragmentListener
 
 	@Override
-	public void onChangeDates(Date start, Date end) {
+	public void onChangeDates(LocalDate start, LocalDate end) {
 		setDates(start, end);
 		startSearch();
 	}

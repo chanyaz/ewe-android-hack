@@ -291,23 +291,22 @@ public class HotelSearchParams implements JSONable {
 	 * Ensures that the check in date is not AFTER the check out date. Keeps the
 	 * duration of the stay the same.
 	 */
-	public void setCheckInDate(Date date) {
+	public void setCheckInDate(LocalDate date) {
 		if (date != null && mCheckInDate != null && mCheckOutDate != null
-				&& (date.equals(mCheckOutDate) || date.after(mCheckOutDate))) {
+				&& JodaUtils.isAfterOrEquals(date, mCheckOutDate)) {
 			int stayDuration = getStayDuration();
-			Calendar checkout = (Calendar) date.getCalendar().clone();
-			checkout.add(Calendar.DAY_OF_MONTH, stayDuration);
-			mCheckOutDate = new Date(checkout).toLocalDate();
+			mCheckOutDate = date.plusDays(stayDuration);
 		}
 
-		mCheckInDate = Date.toLocalDate(date);
+		mCheckInDate = date;
 	}
 
 	/**
-	 * It is preferable to use the Date version of this method.
+	 * It is preferable to use the LocalDate version of this method.
 	 */
+	@Deprecated
 	public void setCheckInDate(Calendar cal) {
-		setCheckInDate(cal == null ? null : new Date(cal));
+		setCheckInDate(cal == null ? null : LocalDate.fromCalendarFields(cal));
 	}
 
 	public Calendar getCheckInDate() {
@@ -318,23 +317,22 @@ public class HotelSearchParams implements JSONable {
 	 * Ensures that the check out date is not BEFORE the check in date. Keeps
 	 * the duration of the stay the same.
 	 */
-	public void setCheckOutDate(Date date) {
+	public void setCheckOutDate(LocalDate date) {
 		if (date != null && mCheckInDate != null && mCheckOutDate != null
-				&& (date.equals(mCheckInDate) || date.before(mCheckInDate))) {
+				&& JodaUtils.isBeforeOrEquals(date, mCheckInDate)) {
 			int stayDuration = getStayDuration();
-			Calendar checkin = (Calendar) date.getCalendar().clone();
-			checkin.add(Calendar.DAY_OF_MONTH, -stayDuration);
-			mCheckInDate = new Date(checkin).toLocalDate();
+			mCheckInDate = date.minusDays(stayDuration);
 		}
 
-		mCheckOutDate = Date.toLocalDate(date);
+		mCheckOutDate = date;
 	}
 
 	/**
-	 * It is preferable to use the Date version of this method.
+	 * It is preferable to use the LocalDate version of this method.
 	 */
+	@Deprecated
 	public void setCheckOutDate(Calendar cal) {
-		setCheckOutDate(cal == null ? null : new Date(cal));
+		setCheckOutDate(cal == null ? null : LocalDate.fromCalendarFields(cal));
 	}
 
 	/**

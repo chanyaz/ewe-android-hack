@@ -2,6 +2,8 @@ package com.expedia.bookings.fragment;
 
 import java.util.Calendar;
 
+import org.joda.time.LocalDate;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -15,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -167,15 +168,15 @@ public class CalendarDialogFragment extends DialogFragment {
 	// Listener
 
 	private void notifyDateChangedListener() {
-		Date start = new Date(mCalendarDatePicker.getStartYear(), mCalendarDatePicker
+		LocalDate start = new LocalDate(mCalendarDatePicker.getStartYear(), mCalendarDatePicker
 				.getStartMonth() + 1, mCalendarDatePicker.getStartDayOfMonth());
-		Date end = new Date(mCalendarDatePicker.getEndYear(), mCalendarDatePicker
+		LocalDate end = new LocalDate(mCalendarDatePicker.getEndYear(), mCalendarDatePicker
 				.getEndMonth() + 1, mCalendarDatePicker.getEndDayOfMonth());
 
 		mListener.onChangeDates(start, end);
 	}
 
 	public interface CalendarDialogFragmentListener {
-		public void onChangeDates(Date start, Date end);
+		public void onChangeDates(LocalDate start, LocalDate end);
 	}
 }

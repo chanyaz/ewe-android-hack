@@ -5,15 +5,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import org.joda.time.LocalDate;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.format.Time;
 import android.util.TimeFormatException;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.utils.GuestsPickerUtils;
@@ -95,10 +95,8 @@ public class DeepLinkRouterActivity extends Activity {
 			if (queryData.contains("checkInDate")) {
 				String checkInDateStr = data.getQueryParameter("checkInDate");
 				try {
-					Time time = new Time();
-					time.parse3339(checkInDateStr);
-					Date date = new Date(time);
-					params.setCheckInDate(new Date(time));
+					LocalDate date = LocalDate.parse(checkInDateStr);
+					params.setCheckInDate(date);
 					Log.d(TAG, "Set hotel check in date: " + date);
 				}
 				catch (TimeFormatException e) {
@@ -109,9 +107,7 @@ public class DeepLinkRouterActivity extends Activity {
 			if (queryData.contains("checkOutDate")) {
 				String checkOutDateStr = data.getQueryParameter("checkOutDate");
 				try {
-					Time time = new Time();
-					time.parse3339(checkOutDateStr);
-					Date date = new Date(time);
+					LocalDate date = LocalDate.parse(checkOutDateStr);
 					params.setCheckOutDate(date);
 					Log.d(TAG, "Set hotel check out date: " + date);
 				}

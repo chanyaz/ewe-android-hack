@@ -3,12 +3,13 @@ package com.expedia.bookings.utils;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import org.joda.time.LocalDate;
+
 import android.content.Context;
 import android.text.Html;
 import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -116,14 +117,14 @@ public class CalendarUtils {
 			throw new UnsupportedOperationException("Can't use syncParamsFromDatePicker with picker of type "
 					+ picker.getSelectionMode());
 		}
-		Date startDate = new Date(picker.getStartYear(), picker.getStartMonth() + 1, picker.getStartDayOfMonth());
-		Date endDate = new Date(picker.getEndYear(), picker.getEndMonth() + 1, picker.getEndDayOfMonth());
+		LocalDate startDate = new LocalDate(picker.getStartYear(), picker.getStartMonth() + 1,
+				picker.getStartDayOfMonth());
+		LocalDate endDate = new LocalDate(picker.getEndYear(), picker.getEndMonth() + 1, picker.getEndDayOfMonth());
 
 		// Ensure the dates from the picker are valid before using them
-		Date nowDate = new Date();
-		nowDate.fromCalendar(Calendar.getInstance());
+		LocalDate nowDate = LocalDate.now();
 
-		boolean bogus = startDate.before(nowDate);
+		boolean bogus = startDate.isBefore(nowDate);
 		if (bogus) {
 			// Reset the HotelSearchParams and Calendar to default stay if we somehow got bogus values from picker
 			searchParams.setDefaultStay();
@@ -148,17 +149,18 @@ public class CalendarUtils {
 		}
 
 		if (picker.getStartTime() == null) {
-			searchParams.setCheckInDate((Date) null);
+			searchParams.setCheckInDate((LocalDate) null);
 		}
 		else {
-			Date startDate = new Date(picker.getStartYear(), picker.getStartMonth() + 1, picker.getStartDayOfMonth());
+			LocalDate startDate = new LocalDate(picker.getStartYear(), picker.getStartMonth() + 1,
+					picker.getStartDayOfMonth());
 			searchParams.setCheckInDate(startDate);
 		}
 		if (picker.getEndTime() == null) {
-			searchParams.setCheckOutDate((Date) null);
+			searchParams.setCheckOutDate((LocalDate) null);
 		}
 		else {
-			Date endDate = new Date(picker.getEndYear(), picker.getEndMonth() + 1, picker.getEndDayOfMonth());
+			LocalDate endDate = new LocalDate(picker.getEndYear(), picker.getEndMonth() + 1, picker.getEndDayOfMonth());
 			searchParams.setCheckOutDate(endDate);
 		}
 	}
