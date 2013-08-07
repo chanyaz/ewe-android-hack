@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.joda.time.LocalDate;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -38,7 +39,6 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BackgroundImageCache;
 import com.expedia.bookings.data.BackgroundImageResponse;
-import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.ExpediaImage;
 import com.expedia.bookings.data.ExpediaImageManager;
@@ -74,6 +74,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.AnimUtils;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -780,10 +781,10 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		int numTravelers = params.getNumAdults() + params.getNumChildren();
 		String travelers = getResources().getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers,
 				numTravelers);
-		Date date = (mLegPosition == 0) ? params.getDepartureDate() : params.getReturnDate();
+		LocalDate date = (mLegPosition == 0) ? params.getDepartureDate() : params.getReturnDate();
 		mSubtitleTextView.setText(travelers + ", "
-				+ DateUtils.formatDateTime(mContext, date.getCalendar().getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE
-						+ DateUtils.FORMAT_SHOW_YEAR + DateUtils.FORMAT_SHOW_WEEKDAY));
+				+ JodaUtils.formatLocalDate(mContext, date, DateUtils.FORMAT_SHOW_DATE + DateUtils.FORMAT_SHOW_YEAR
+						+ DateUtils.FORMAT_SHOW_WEEKDAY));
 	}
 
 	//////////////////////////////////////////////////////////////////////////

@@ -1,8 +1,8 @@
 package com.expedia.bookings.fragment;
 
 import java.io.File;
-import java.util.Calendar;
 
+import org.joda.time.Days;
 import org.joda.time.LocalDate;
 
 import android.annotation.SuppressLint;
@@ -18,7 +18,6 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.format.DateUtils;
-import android.text.format.Time;
 import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -54,7 +53,6 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.animation.AnimationListenerAdapter;
-import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -65,6 +63,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AirportDropDownAdapter;
 import com.expedia.bookings.widget.FlightRouteAdapter;
@@ -787,15 +786,12 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 	private void updateCalendarInstructionText() {
 		if (mCalendarDatePicker != null) {
-			Calendar dateStart = mSearchParams.getDepartureDate() == null ? null : mSearchParams.getDepartureDate()
-					.getCalendar();
-			Calendar dateEnd = mSearchParams.getReturnDate() == null ? null : mSearchParams.getReturnDate()
-					.getCalendar();
+			LocalDate dateStart = mSearchParams.getDepartureDate();
+			LocalDate dateEnd = mSearchParams.getReturnDate();
 			boolean researchMode = mCalendarDatePicker.getOneWayResearchMode();
 
 			if (dateStart != null && dateEnd != null) {
-				int nightCount = Time.getJulianDay(dateEnd.getTimeInMillis(), dateEnd.getTimeZone().getRawOffset())
-						- Time.getJulianDay(dateStart.getTimeInMillis(), dateStart.getTimeZone().getRawOffset());
+				int nightCount = Days.daysBetween(dateStart, dateEnd).getDays();
 				String nightsStr;
 				if (nightCount == 0) {
 					nightsStr = getString(R.string.calendar_instructions_range_selected_same_day);
@@ -832,20 +828,14 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		if (enabled) {
 			Ui.hideKeyboard(getActivity());
 
-			Date departureDate = mSearchParams.getDepartureDate();
-			Date returnDate = mSearchParams.getReturnDate();
+			LocalDate departureDate = mSearchParams.getDepartureDate();
+			LocalDate returnDate = mSearchParams.getReturnDate();
 
 			CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker, CalendarDatePicker.SelectionMode.HYBRID,
 					LineOfBusiness.FLIGHTS);
 
-			if (departureDate != null) {
-				mCalendarDatePicker.updateStartDate(departureDate.getYear(), departureDate.getMonth() - 1,
-						departureDate.getDayOfMonth());
-			}
-			if (returnDate != null) {
-				mCalendarDatePicker.updateEndDate(returnDate.getYear(), returnDate.getMonth() - 1,
-						returnDate.getDayOfMonth());
-			}
+			CalendarUtils.updateCalendarPickerStartDate(mCalendarDatePicker, departureDate);
+			CalendarUtils.updateCalendarPickerEndDate(mCalendarDatePicker, returnDate);
 
 			if (returnDate == null) {
 				mCalendarDatePicker.setOneWayResearchMode(true);
@@ -939,14 +929,12 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	private void updateCalendarText() {
 		CharSequence start = null;
 		if (mSearchParams.getDepartureDate() != null) {
-			start = DateUtils.formatDateTime(getActivity(), mSearchParams.getDepartureDate().getCalendar()
-					.getTimeInMillis(), DATE_FORMAT_FLAGS);
+			start = JodaUtils.formatLocalDate(getActivity(), mSearchParams.getDepartureDate(), DATE_FORMAT_FLAGS);
 		}
 
 		CharSequence end = null;
 		if (mSearchParams.getReturnDate() != null) {
-			end = DateUtils.formatDateTime(getActivity(),
-					mSearchParams.getReturnDate().getCalendar().getTimeInMillis(), DATE_FORMAT_FLAGS);
+			end = JodaUtils.formatLocalDate(getActivity(), mSearchParams.getReturnDate(), DATE_FORMAT_FLAGS);
 		}
 
 		if (start == null && end == null) {

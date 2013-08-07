@@ -1,7 +1,6 @@
 package com.expedia.bookings.data;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.joda.time.LocalDate;
@@ -95,10 +94,8 @@ public class FlightSearchParams implements JSONable {
 	 * @return
 	 */
 	public void ensureValidDates() {
-		Date start = getDepartureDate();
-		Date now = new Date(Calendar.getInstance());
-
-		if (start == null || start.getCalendar().before(now.getCalendar())) {
+		LocalDate start = getDepartureDate();
+		if (start == null || start.isBefore(LocalDate.now())) {
 			Log.i("Search dates are invalid, resetting.");
 			setDepartureDate(null);
 			setReturnDate(null);
@@ -149,7 +146,7 @@ public class FlightSearchParams implements JSONable {
 		mQueryLegs.get(0).setDepartureDate(departureDate);
 	}
 
-	public Date getDepartureDate() {
+	public LocalDate getDepartureDate() {
 		return mQueryLegs.get(0).getDepartureDate();
 	}
 
@@ -166,7 +163,7 @@ public class FlightSearchParams implements JSONable {
 		}
 	}
 
-	public Date getReturnDate() {
+	public LocalDate getReturnDate() {
 		if (isRoundTrip()) {
 			return mQueryLegs.get(1).getDepartureDate();
 		}

@@ -337,14 +337,12 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("departureAirport", params.getDepartureLocation().getDestinationId()));
 		query.add(new BasicNameValuePair("arrivalAirport", params.getArrivalLocation().getDestinationId()));
 
-		DateFormat df = new SimpleDateFormat(ISO_FORMAT);
+		DateTimeFormatter dtf = ISODateTimeFormat.date();
 
-		com.expedia.bookings.data.Date depDate = params.getDepartureDate();
-		query.add(new BasicNameValuePair("departureDate", df.format(depDate.getCalendar().getTime())));
+		query.add(new BasicNameValuePair("departureDate", dtf.print(params.getDepartureDate())));
 
 		if (params.isRoundTrip()) {
-			Date retDate = params.getReturnDate().getCalendar().getTime();
-			query.add(new BasicNameValuePair("returnDate", df.format(retDate)));
+			query.add(new BasicNameValuePair("returnDate", dtf.print(params.getReturnDate())));
 		}
 
 		query.add(new BasicNameValuePair("numberOfAdultTravelers", Integer.toString(params.getNumAdults())));

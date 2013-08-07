@@ -59,8 +59,8 @@ import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
-import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
+import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
@@ -736,11 +736,11 @@ public class OmnitureTracking {
 		eVar30 += dest;
 		eVar30 += ":";
 
-		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
-		eVar30 += df.format(searchParams.getDepartureDate().getCalendar().getTime());
+		DateTimeFormatter dtf = ISODateTimeFormat.basicDate();
+		eVar30 += dtf.print(searchParams.getDepartureDate());
 		if (searchParams.isRoundTrip()) {
 			eVar30 += "-";
-			eVar30 += df.format(searchParams.getReturnDate().getCalendar().getTime());
+			eVar30 += dtf.print(searchParams.getReturnDate());
 		}
 
 		eVar30 += ":N";
@@ -892,19 +892,18 @@ public class OmnitureTracking {
 		s.setEvar(4, dest);
 		s.setProp(4, dest);
 
-		// day computation date, TODO test this stuff
-		final Calendar departureDate = searchParams.getDepartureDate().getCalendar();
-		final Calendar returnDate = searchParams.getReturnDate() == null ? null : searchParams.getReturnDate()
-				.getCalendar();
-		final Calendar now = Calendar.getInstance();
+		// day computation date
+		LocalDate departureDate = searchParams.getDepartureDate();
+		LocalDate returnDate = searchParams.getReturnDate();
+		LocalDate now = LocalDate.now();
 
 		// num days between current day (now) and flight departure date
-		String numDaysOut = Long.toString(CalendarUtils.getDaysBetween(now, departureDate));
+		String numDaysOut = Integer.toString(JodaUtils.daysBetween(now, departureDate));
 		s.setEvar(5, numDaysOut);
 		s.setProp(5, numDaysOut);
 
 		// num days between departure and return dates
-		String numDays = Long.toString(CalendarUtils.getDaysBetween(departureDate, returnDate));
+		String numDays = Integer.toString(JodaUtils.daysBetween(departureDate, returnDate));
 		s.setEvar(6, numDays);
 		s.setProp(6, numDays);
 
@@ -946,11 +945,11 @@ public class OmnitureTracking {
 		s.setProp(4, dest);
 
 		// day computation date
-		final Calendar departureDate = searchParams.getDepartureDate().getCalendar();
-		final Calendar now = Calendar.getInstance();
+		LocalDate departureDate = searchParams.getDepartureDate();
+		LocalDate now = LocalDate.now();
 
 		// num days between current day (now) and flight departure date
-		String daysOut = Long.toString(CalendarUtils.getDaysBetween(now, departureDate));
+		String daysOut = Integer.toString(JodaUtils.daysBetween(now, departureDate));
 		s.setEvar(5, daysOut);
 		s.setProp(5, daysOut);
 
