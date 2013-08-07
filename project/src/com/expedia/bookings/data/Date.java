@@ -44,6 +44,12 @@ public class Date implements JSONable, Comparable<Object> {
 	public Date(Time time) {
 		fromTime(time);
 	}
+	
+	public Date(LocalDate date) {
+		mYear = date.getYear();
+		mMonth = date.getMonthOfYear();
+		mDayOfMonth = date.getDayOfMonth();
+	}
 
 	public int getYear() {
 		return mYear;
@@ -194,9 +200,6 @@ public class Date implements JSONable, Comparable<Object> {
 
 	public static LocalDate getLocalDateFromJSON(JSONObject obj, String key) {
 		Date date = JSONUtils.getJSONable(obj, key, Date.class);
-		if (date != null) {
-			return date.toLocalDate();
-		}
-		return null;
+		return toLocalDate(date);
 	}
 }

@@ -3,6 +3,8 @@ package com.expedia.bookings.data;
 import java.util.Calendar;
 import java.util.SimpleTimeZone;
 
+import org.joda.time.DateTimeZone;
+import org.joda.time.LocalDate;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,6 +29,10 @@ public class DateTime implements JSONable, Comparable<DateTime> {
 
 	public static DateTime newInstance(Calendar cal) {
 		return new DateTime(cal.getTimeInMillis(), cal.getTimeZone().getOffset(cal.getTimeInMillis()));
+	}
+
+	public static DateTime fromLocalDate(LocalDate date) {
+		return new DateTime(date.toDateTimeAtStartOfDay(DateTimeZone.UTC).getMillis(), 0);
 	}
 
 	public DateTime() {
