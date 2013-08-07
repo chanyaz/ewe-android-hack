@@ -1,14 +1,16 @@
 package com.expedia.bookings.data;
 
+import org.joda.time.LocalDate;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
 public class FlightSearchLeg implements JSONable {
 
-	private Date mDepartureDate;
+	private LocalDate mDepartureDate;
 
 	private Location mDepartureLocation;
 	private Location mArrivalLocation;
@@ -17,11 +19,11 @@ public class FlightSearchLeg implements JSONable {
 	}
 
 	public Date getDepartureDate() {
-		return mDepartureDate;
+		return mDepartureDate != null ? new Date(mDepartureDate) : null;
 	}
 
 	public void setDepartureDate(Date departureDate) {
-		mDepartureDate = departureDate;
+		mDepartureDate = Date.toLocalDate(departureDate);
 	}
 
 	public Location getDepartureLocation() {
@@ -65,7 +67,7 @@ public class FlightSearchLeg implements JSONable {
 	public JSONObject toJson() {
 		try {
 			JSONObject obj = new JSONObject();
-			JSONUtils.putJSONable(obj, "departureDate", mDepartureDate);
+			JodaUtils.putLocalDateInJson(obj, "departureLocalDate", mDepartureDate);
 			JSONUtils.putJSONable(obj, "departureLocation", mDepartureLocation);
 			JSONUtils.putJSONable(obj, "arrivalLocation", mArrivalLocation);
 			return obj;
@@ -77,7 +79,7 @@ public class FlightSearchLeg implements JSONable {
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
-		mDepartureDate = JSONUtils.getJSONable(obj, "departureDate", Date.class);
+		mDepartureDate = JodaUtils.getLocalDateFromJsonBackCompat(obj, "departureLocalDate", "departureDate");
 		mDepartureLocation = JSONUtils.getJSONable(obj, "departureLocation", Location.class);
 		mArrivalLocation = JSONUtils.getJSONable(obj, "arrivalLocation", Location.class);
 		return true;
