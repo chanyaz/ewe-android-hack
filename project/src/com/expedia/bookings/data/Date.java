@@ -10,7 +10,6 @@ import org.json.JSONObject;
 import android.text.format.Time;
 
 import com.mobiata.android.Log;
-import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
 // Important note: month is 1-indexed here (to match every other field in existence).
@@ -44,7 +43,7 @@ public class Date implements JSONable, Comparable<Object> {
 	public Date(Time time) {
 		fromTime(time);
 	}
-	
+
 	public Date(LocalDate date) {
 		mYear = date.getYear();
 		mMonth = date.getMonthOfYear();
@@ -187,19 +186,10 @@ public class Date implements JSONable, Comparable<Object> {
 	//////////////////////////////////////////////////////////////////////////
 	// LocalDate compatibility
 
-	public LocalDate toLocalDate() {
-		return new LocalDate(mYear, mMonth, mDayOfMonth);
-	}
-	
 	public static LocalDate toLocalDate(Date date) {
 		if (date != null) {
-			return date.toLocalDate();
+			return new LocalDate(date.mYear, date.mMonth, date.mDayOfMonth);
 		}
 		return null;
-	}
-
-	public static LocalDate getLocalDateFromJSON(JSONObject obj, String key) {
-		Date date = JSONUtils.getJSONable(obj, key, Date.class);
-		return toLocalDate(date);
 	}
 }

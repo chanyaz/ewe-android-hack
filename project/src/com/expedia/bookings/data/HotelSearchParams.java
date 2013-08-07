@@ -1,7 +1,6 @@
 package com.expedia.bookings.data;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.joda.time.Days;
@@ -411,21 +410,8 @@ public class HotelSearchParams implements JSONable {
 		mSearchLatitude = obj.optDouble("latitude", 0);
 		mSearchLongitude = obj.optDouble("longitude", 0);
 
-		if (obj.has("checkinDate")) {
-			// Backwards compatibility
-			mCheckInDate = Date.getLocalDateFromJSON(obj, "checkinDate");
-		}
-		else if (obj.has("checkInLocalDate")) {
-			mCheckInDate = LocalDate.parse(obj.optString("checkInLocalDate"));
-		}
-
-		if (obj.has("checkoutDate")) {
-			// Backwards compatibility
-			mCheckOutDate = Date.getLocalDateFromJSON(obj, "checkoutDate");
-		}
-		else if (obj.has("checkOutLocalDate")) {
-			mCheckOutDate = LocalDate.parse(obj.optString("checkOutLocalDate"));
-		}
+		mCheckInDate = JodaUtils.getLocalDateFromJsonBackCompat(obj, "checkInLocalDate", "checkinDate");
+		mCheckOutDate = JodaUtils.getLocalDateFromJsonBackCompat(obj, "checkOutLocalDate", "checkoutDate");
 
 		mNumAdults = obj.optInt("numAdults", 0);
 		mChildren = JSONUtils.getIntList(obj, "children");
@@ -460,13 +446,8 @@ public class HotelSearchParams implements JSONable {
 				obj.put("longitude", mSearchLongitude);
 			}
 
-			if (mCheckInDate != null) {
-				obj.put("checkInLocalDate", mCheckInDate.toString());
-			}
-
-			if (mCheckOutDate != null) {
-				obj.put("checkOutLocalDate", mCheckOutDate.toString());
-			}
+			JodaUtils.putLocalDateInJson(obj, "checkInLocalDate", mCheckInDate);
+			JodaUtils.putLocalDateInJson(obj, "checkOutLocalDate", mCheckOutDate);
 
 			obj.put("numAdults", mNumAdults);
 			JSONUtils.putIntList(obj, "children", mChildren);
