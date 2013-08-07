@@ -21,6 +21,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
@@ -112,6 +113,14 @@ public class HotelCollage {
 
 		if (mVipImageView != null) {
 			mVipImageView.setVisibility(property.isVipAccess() ? View.VISIBLE : View.GONE);
+			if (property.isVipAccess()) {
+				mVipImageView.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						mListener.onVipAccessClicked();
+					}
+				});
+			}
 		}
 	}
 
@@ -130,6 +139,8 @@ public class HotelCollage {
 
 	public interface OnCollageImageClickedListener {
 		public void onImageClicked(Media media);
+
+		public void onVipAccessClicked();
 
 		public void onPromotionClicked();
 	}

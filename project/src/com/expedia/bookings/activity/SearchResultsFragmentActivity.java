@@ -95,6 +95,7 @@ import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
+import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
@@ -1552,6 +1553,14 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		if (Db.getHotelSearch().getSelectedProperty().getMediaCount() > 0) {
 			startHotelGalleryActivity(media);
 		}
+	}
+
+	@Override
+	public void onVipAccessClicked() {
+		String title = getString(R.string.vip_access);
+		String message = getString(R.string.vip_access_message);
+		SimpleDialogFragment df = SimpleDialogFragment.newInstance(title, message);
+		df.show(getSupportFragmentManager(), "vipAccess");
 	}
 
 	@Override
