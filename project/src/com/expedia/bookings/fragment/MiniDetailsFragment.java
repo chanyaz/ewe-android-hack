@@ -18,7 +18,6 @@ import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.AvailabilitySummaryWidget;
 import com.expedia.bookings.widget.AvailabilitySummaryWidget.AvailabilitySummaryListener;
 import com.expedia.bookings.widget.HotelCollage;
-import com.expedia.bookings.widget.HotelCollage.OnCollageImageClickedListener;
 
 public class MiniDetailsFragment extends Fragment implements AvailabilitySummaryListener {
 
@@ -45,9 +44,6 @@ public class MiniDetailsFragment extends Fragment implements AvailabilitySummary
 
 		if (!(activity instanceof MiniDetailsFragmentListener)) {
 			throw new RuntimeException("MiniDetailsFragment Activity must implement MiniDetailsFragmentListener!");
-		}
-		else if (!(activity instanceof OnCollageImageClickedListener)) {
-			throw new RuntimeException("MiniDetailsFragment Activity must implement OnCollageImageClickedListener!");
 		}
 
 		mListener = (MiniDetailsFragmentListener) activity;
