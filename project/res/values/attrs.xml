@@ -196,6 +196,8 @@
     <attr name="calendarDatePickerPopupDrawable" format="reference" />
     <attr name="calendarDatePickerDateFormat" format="reference|string" />
 
+    <attr name="hotelCancellationPolicyDateFormat" format="reference|string" />
+
     <!-- Hotel promo pricing related styling -->
     <attr name="hotelListingSaleDrawable" format="reference" />
     <attr name="hotelDetailSaleRibbonDrawable" format="reference" />

@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Build;
@@ -171,7 +172,10 @@ public class HotelReceipt extends LinearLayout {
 		if (rate.shouldShowFreeCancellation()) {
 			Date window = rate.getFreeCancellationWindowDate();
 			if (window != null) {
-				CharSequence formattedDate = DateFormat.format("ha, MMM dd", window);
+				Context context = getContext();
+				String format = context.getString(Ui.obtainThemeResID((Activity) context, R.attr.hotelCancellationPolicyDateFormat));
+
+				CharSequence formattedDate = DateFormat.format(format, window);
 				String formattedString = getContext()
 						.getString(R.string.free_cancellation_date_TEMPLATE, formattedDate);
 				addExtraRow(Html.fromHtml(formattedString));

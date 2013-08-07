@@ -18,5 +18,6 @@
 
     <!-- CalendarDatePicker DateFormat -->
     <string name="calendar_date_picker_date_format_vsc">dd MMM</string>
+    <string name="hotel_receipt_cancellation_policy_date_format_vsc">"h:mm, MMM dd"</string>
 
 </resources>

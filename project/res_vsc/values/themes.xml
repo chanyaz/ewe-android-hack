@@ -17,6 +17,7 @@
         <item name="calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_vsc</item>
         <item name="calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_orange</item>
         <item name="calendarDatePickerDateFormat">@string/calendar_date_picker_date_format_vsc</item>
+        <item name="hotelCancellationPolicyDateFormat">@string/hotel_receipt_cancellation_policy_date_format_vsc</item>
         <item name="hotelListingSaleDrawable">@drawable/bg_hotel_cell_sale_vsc</item>
         <item name="hotelDetailSaleRibbonDrawable">@drawable/bg_sale_ribbon_vsc</item>
         <item name="roomsRatesSaleRibbonDrawable">@drawable/rooms_rates_ribbon_vsc</item>
