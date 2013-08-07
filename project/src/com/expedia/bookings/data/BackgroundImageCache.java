@@ -314,7 +314,7 @@ public class BackgroundImageCache {
 		Bitmap shrunk = Bitmap.createScaledBitmap(bmapToBlur, w, h, false);
 
 		//Blur and darken it
-		if (AndroidUtils.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+		if (AndroidUtils.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN_MR1 && !AndroidUtils.isGenymotion()) {
 			return stackBlurAndDarkenRenderscript(shrunk, context);
 		}
 		else {
