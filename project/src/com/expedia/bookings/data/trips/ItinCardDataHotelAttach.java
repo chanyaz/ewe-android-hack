@@ -2,6 +2,8 @@ package com.expedia.bookings.data.trips;
 
 import java.util.Calendar;
 
+import org.joda.time.LocalDate;
+
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.HotelSearchParams;
 
@@ -37,9 +39,10 @@ public class ItinCardDataHotelAttach extends ItinCardData {
 		Calendar max = (Calendar) checkIn.clone();
 
 		max.add(Calendar.DAY_OF_YEAR, 28);
+		checkOut = checkOut.after(max) ? max : checkOut;
 
-		searchParams.setCheckInDate(checkIn);
-		searchParams.setCheckOutDate(checkOut.after(max) ? max : checkOut);
+		searchParams.setCheckInDate(LocalDate.fromCalendarFields(checkIn));
+		searchParams.setCheckOutDate(LocalDate.fromCalendarFields(checkOut));
 
 		// Who
 		searchParams.setNumAdults(1);

@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
+
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
 import android.content.Intent;
@@ -265,7 +267,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 		checkinNormalized.set(Calendar.DATE, checkinDate.get(Calendar.DATE));
 		checkinNormalized.set(Calendar.MONTH, checkinDate.get(Calendar.MONTH));
 		checkinNormalized.set(Calendar.YEAR, checkinDate.get(Calendar.YEAR));
-		sp.setCheckInDate(checkinNormalized);
+		sp.setCheckInDate(LocalDate.fromCalendarFields(checkinNormalized));
 
 		if (legCount > 1) {
 			//Round trip
@@ -282,10 +284,10 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 
 			// f934 do not kick off a hotel search for a more than 28 day stay
 			if (checkoutDate.after(checkoutDateCeiling)) {
-				sp.setCheckOutDate(checkoutDateCeiling);
+				sp.setCheckOutDate(LocalDate.fromCalendarFields(checkoutDateCeiling));
 			}
 			else {
-				sp.setCheckOutDate(checkoutDate);
+				sp.setCheckOutDate(LocalDate.fromCalendarFields(checkoutDate));
 			}
 		}
 		else {
@@ -293,7 +295,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 			Calendar checkoutDate = Calendar.getInstance();
 			checkoutDate.setTime(checkinNormalized.getTime());
 			checkoutDate.add(Calendar.DAY_OF_MONTH, 1);
-			sp.setCheckOutDate(checkoutDate);
+			sp.setCheckOutDate(LocalDate.fromCalendarFields(checkoutDate));
 		}
 
 		String cityStr = firstLeg.getLastWaypoint().getAirport().mCity;

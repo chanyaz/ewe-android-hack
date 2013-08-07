@@ -301,14 +301,6 @@ public class HotelSearchParams implements JSONable {
 		mCheckInDate = date;
 	}
 
-	/**
-	 * It is preferable to use the LocalDate version of this method.
-	 */
-	@Deprecated
-	public void setCheckInDate(Calendar cal) {
-		setCheckInDate(cal == null ? null : LocalDate.fromCalendarFields(cal));
-	}
-
 	public Calendar getCheckInDate() {
 		return mCheckInDate == null ? null : mCheckInDate.toDateTimeAtStartOfDay().toGregorianCalendar();
 	}
@@ -325,14 +317,6 @@ public class HotelSearchParams implements JSONable {
 		}
 
 		mCheckOutDate = date;
-	}
-
-	/**
-	 * It is preferable to use the LocalDate version of this method.
-	 */
-	@Deprecated
-	public void setCheckOutDate(Calendar cal) {
-		setCheckOutDate(cal == null ? null : LocalDate.fromCalendarFields(cal));
 	}
 
 	/**
