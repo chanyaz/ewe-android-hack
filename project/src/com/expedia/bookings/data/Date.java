@@ -17,7 +17,6 @@ import com.mobiata.android.json.JSONable;
 /**
  * Use the LocalDate class if possible.
  */
-@Deprecated
 public class Date implements JSONable, Comparable<Object> {
 	private int mYear;
 	private int mMonth;
@@ -26,24 +25,29 @@ public class Date implements JSONable, Comparable<Object> {
 	// Cached data
 	private Calendar mCal;
 
+	@Deprecated
 	public Date() {
 		// Default constructor
 	}
 
+	@Deprecated
 	public Date(int year, int month, int dayOfMonth) {
 		mYear = year;
 		mMonth = month;
 		mDayOfMonth = dayOfMonth;
 	}
 
+	@Deprecated
 	public Date(Calendar cal) {
 		fromCalendar(cal);
 	}
 
+	@Deprecated
 	public Date(Time time) {
 		fromTime(time);
 	}
 
+	@Deprecated
 	public Date(LocalDate date) {
 		mYear = date.getYear();
 		mMonth = date.getMonthOfYear();
@@ -102,6 +106,7 @@ public class Date implements JSONable, Comparable<Object> {
 		mDayOfMonth = time.monthDay;
 	}
 
+	@Deprecated
 	public Date clone() {
 		return new Date(mYear, mMonth, mDayOfMonth);
 	}
@@ -156,6 +161,7 @@ public class Date implements JSONable, Comparable<Object> {
 		return compareTo(o) == 0;
 	}
 
+	@Deprecated
 	public JSONObject toJson() {
 		try {
 			JSONObject obj = new JSONObject();
@@ -170,6 +176,7 @@ public class Date implements JSONable, Comparable<Object> {
 		}
 	}
 
+	@Deprecated
 	public boolean fromJson(JSONObject obj) {
 		mDayOfMonth = obj.optInt("dayOfMonth");
 		mMonth = obj.optInt("month");
