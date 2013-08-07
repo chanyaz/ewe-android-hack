@@ -142,6 +142,9 @@ public class PointOfSale {
 		// The url leading to the support part of the website
 		private String mSupportUrl;
 
+		// A locale specific phone number, takes precedence over the POS supportNumber
+		private String mSupportNumber;
+
 		// The url for please to be downloading this app
 		private String mAppInfoUrl;
 
@@ -204,8 +207,16 @@ public class PointOfSale {
 		}
 	}
 
+	/**
+	 * If there is a locale-specific support number, use that over the generic POS support number.
+	 * @return
+	 */
 	public String getSupportPhoneNumber() {
-		return mSupportPhoneNumber;
+		String number = getPosLocale().mSupportNumber;
+		if (TextUtils.isEmpty(number)) {
+			number = mSupportPhoneNumber;
+		}
+		return number;
 	}
 
 	public String getSupportPhoneNumberElitePlus() {
@@ -746,6 +757,7 @@ public class PointOfSale {
 
 		// Various URLs
 		locale.mSupportUrl = data.optString("supportURL", null);
+		locale.mSupportNumber = data.optString("localeSpecificSupportPhoneNumber", null);
 		locale.mAppInfoUrl = data.optString("appInfoURL", null);
 		locale.mWebsiteUrl = data.optString("contactURL", null);
 		locale.mInsuranceUrl = data.optString("insuranceURL", null);
