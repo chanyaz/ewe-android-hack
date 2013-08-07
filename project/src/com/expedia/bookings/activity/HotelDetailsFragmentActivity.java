@@ -498,7 +498,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 				Db.getHotelSearch().updateFrom(response);
 			}
 
-			if (response == null) {
+			if (response == null || response.hasErrors()) {
 				HotelErrorDialog dialog = HotelErrorDialog.newInstance();
 				dialog.setMessage(R.string.e3_error_hotel_offers_hotel_service_failure);
 				dialog.show(getSupportFragmentManager(), "unreachableDialog");
