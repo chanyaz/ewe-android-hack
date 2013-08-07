@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.MotionEvent;
 import android.view.View;
@@ -57,6 +58,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.fragment.CalendarDialogFragment;
 import com.expedia.bookings.fragment.CalendarDialogFragment.CalendarDialogFragmentListener;
 import com.expedia.bookings.fragment.FilterDialogFragment;
@@ -1177,9 +1179,18 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 			}
 			else {
 				if (availabilityResponse.hasErrors()) {
-					notifyAvailabilityQueryError(availabilityResponse.getErrors().get(0)
-							.getPresentableMessage(mContext));
-					OmnitureTracking.trackErrorPage(mContext, "RatesListRequestFailed");
+					if (availabilityResponse.getErrors().get(0).getErrorCode() == ServerError.ErrorCode.HOTEL_ROOM_UNAVAILABLE) {
+						String propertyId = Db.getHotelSearch().getSelectedPropertyId();
+						notifyAvailabilityQueryRemoveHotel(propertyId);
+					}
+					else {
+						notifyAvailabilityQueryError(availabilityResponse.getErrors().get(0)
+								.getPresentableMessage(mContext));
+						OmnitureTracking.trackErrorPage(mContext, "RatesListRequestFailed");
+					}
+				}
+				else if (availabilityResponse.getRateCount() == 0) {
+					notifyAvailabilityQueryRemoveHotel(availabilityResponse.getProperty().getPropertyId());
 				}
 				else {
 					Db.getHotelSearch().updateFrom(availabilityResponse);
@@ -1396,6 +1407,26 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		if (mHotelDetailsFragment != null && mHotelDetailsFragment.isAdded()) {
 			mHotelDetailsFragment.notifyAvailabilityQueryError(errMsg);
 		}
+	}
+
+	private void notifyAvailabilityQueryRemoveHotel(String propertyId) {
+		if (mHotelMapFragment != null && mHotelMapFragment.isAdded()) {
+			mHotelMapFragment.hideBallon(Db.getHotelSearch().getProperty(propertyId));
+		}
+		Db.getHotelSearch().removeProperty(propertyId);
+		if (TextUtils.equals(propertyId, Db.getHotelSearch().getSelectedPropertyId())) {
+			Db.getHotelSearch().clearSelectedProperty();
+		}
+		hideDetails();
+		if (mHotelListFragment != null && mHotelListFragment.isAdded()) {
+			mHotelListFragment.clearSelectedProperty();
+		}
+		notifySearchComplete();
+
+		HotelErrorDialog dialog = HotelErrorDialog.newInstance();
+		dialog.setMessage(R.string.error_hotel_is_now_sold_out);
+		dialog.shouldFinishActivity(false);
+		dialog.show(getSupportFragmentManager(), "soldOutDialog");
 	}
 
 	private void notifyReviewsQueryStarted() {

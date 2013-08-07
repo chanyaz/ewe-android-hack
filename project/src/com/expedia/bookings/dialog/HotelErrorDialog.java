@@ -9,7 +9,10 @@ import android.support.v4.app.DialogFragment;
 import com.expedia.bookings.R;
 
 public class HotelErrorDialog extends DialogFragment {
+	private static final String ARG_SHOULD_FINISH_ACTIVITY = "ARG_SHOULD_FINISH_ACTIVITY";
 	private static final String ARG_MESSAGE = "ARG_MESSAGE";
+
+	private boolean mShouldFinishActivity;
 
 	public static HotelErrorDialog newInstance() {
 		HotelErrorDialog frag = new HotelErrorDialog();
@@ -24,10 +27,17 @@ public class HotelErrorDialog extends DialogFragment {
 		setArguments(args);
 	}
 
+	public void shouldFinishActivity(boolean shouldFinish) {
+		Bundle args = getArguments();
+		args.putBoolean(ARG_SHOULD_FINISH_ACTIVITY, shouldFinish);
+		setArguments(args);
+	}
+
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		Bundle args = getArguments();
 		int messageId = args.getInt(ARG_MESSAGE, R.string.error_hotel_is_now_sold_out);
+		mShouldFinishActivity = args.getBoolean(ARG_SHOULD_FINISH_ACTIVITY, true);
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
@@ -40,7 +50,7 @@ public class HotelErrorDialog extends DialogFragment {
 
 	@Override
 	public void onDismiss(DialogInterface dialog) {
-		if (getActivity() != null) {
+		if (mShouldFinishActivity && getActivity() != null) {
 			getActivity().finish();
 		}
 	}

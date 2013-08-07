@@ -391,6 +391,11 @@ public class HotelMapFragment extends SupportMapFragment {
 		marker.showInfoWindow();
 	}
 
+	public void hideBallon(Property property) {
+		Marker marker = mPropertiesToMarkers.get(property);
+		marker.hideInfoWindow();
+	}
+
 	/**
 	 * Shows all properties visible on the map.
 	 *
