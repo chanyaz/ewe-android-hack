@@ -1486,6 +1486,10 @@
     <string name="see_all_reviews">See All Reviews</string>
     <!-- Label for button that brings users to the room selection page -->
     <string name="select_room">Select Room</string>
+    <!-- Title for VIP Access message -->
+    <string name="vip_access">VIP Access</string>
+    <!-- Message that explains the meaning of VIP Access -->
+    <string name="vip_access_message">At VIP Access hotels, Expedia Elite Plus members receive free room upgrades and other perks upon availability at check-in.</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>

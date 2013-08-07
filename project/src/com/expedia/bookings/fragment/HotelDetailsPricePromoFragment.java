@@ -14,6 +14,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Rate.UserPriceType;
 import com.expedia.bookings.utils.StrUtils;
+import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.android.util.Ui;
 
@@ -97,6 +98,15 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 		if (property.isVipAccess()) {
 			View vipIcon = Ui.findView(root, R.id.vip_image_view);
 			vipIcon.setVisibility(View.VISIBLE);
+			vipIcon.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					String title = getString(R.string.vip_access);
+					String message = getString(R.string.vip_access_message);
+					SimpleDialogFragment df = SimpleDialogFragment.newInstance(title, message);
+					df.show(getFragmentManager(), "vipAccess");
+				}
+			});
 		}
 	}
 }
