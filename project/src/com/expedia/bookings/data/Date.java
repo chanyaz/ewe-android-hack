@@ -3,16 +3,22 @@ package com.expedia.bookings.data;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import org.joda.time.LocalDate;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.text.format.Time;
 
 import com.mobiata.android.Log;
+import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
 // Important note: month is 1-indexed here (to match every other field in existence).
 // This means that conversion to/from Calendar requires a few +/- 1s.
+/**
+ * Use the LocalDate class if possible.
+ */
+@Deprecated
 public class Date implements JSONable, Comparable<Object> {
 	private int mYear;
 	private int mMonth;
@@ -170,5 +176,27 @@ public class Date implements JSONable, Comparable<Object> {
 	@Override
 	public String toString() {
 		return toJson().toString();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// LocalDate compatibility
+
+	public LocalDate toLocalDate() {
+		return new LocalDate(mYear, mMonth, mDayOfMonth);
+	}
+	
+	public static LocalDate toLocalDate(Date date) {
+		if (date != null) {
+			return date.toLocalDate();
+		}
+		return null;
+	}
+
+	public static LocalDate getLocalDateFromJSON(JSONObject obj, String key) {
+		Date date = JSONUtils.getJSONable(obj, key, Date.class);
+		if (date != null) {
+			return date.toLocalDate();
+		}
+		return null;
 	}
 }
