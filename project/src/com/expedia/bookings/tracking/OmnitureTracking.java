@@ -1,5 +1,25 @@
 package com.expedia.bookings.tracking;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.lang.reflect.Field;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+import org.joda.time.Days;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -47,21 +67,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.lang.reflect.Field;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 /**
  *
@@ -192,11 +197,12 @@ public class OmnitureTracking {
 		s.setProp(4, region);
 
 		// Check in/check out date
-		String days5 = CalendarUtils.getDaysBetween(Calendar.getInstance(), searchParams.getCheckInDate()) + "";
+		String days5 = Integer.toString(Days.daysBetween(LocalDate.now(), searchParams.getCheckInDate()).getDays());
 		s.setEvar(5, days5);
 		s.setProp(5, days5);
 
-		String days6 = CalendarUtils.getDaysBetween(searchParams.getCheckInDate(), searchParams.getCheckOutDate()) + "";
+		String days6 = Integer.toString(Days.daysBetween(searchParams.getCheckInDate(), searchParams.getCheckInDate())
+				.getDays());
 		s.setEvar(6, days6);
 		s.setProp(6, days6);
 
@@ -369,9 +375,9 @@ public class OmnitureTracking {
 		}
 
 		// Product details
-		DateFormat df = new SimpleDateFormat("yyyyMMdd");
-		String checkIn = df.format(searchParams.getCheckInDate().getTime());
-		String checkOut = df.format(searchParams.getCheckOutDate().getTime());
+		DateTimeFormatter dtf = ISODateTimeFormat.basicDate();
+		String checkIn = dtf.print(searchParams.getCheckInDate());
+		String checkOut = dtf.print(searchParams.getCheckOutDate());
 		s.setEvar(30, "Hotel:" + checkIn + "-" + checkOut + ":N");
 
 		// Unique confirmation id
@@ -1147,7 +1153,6 @@ public class OmnitureTracking {
 	private static void internalTrackSamsungWallet(Context context, String which) {
 		internalTrackLink(context, SAMSUNG_WALLET + "." + which);
 	}
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Sweepstakes Tracking

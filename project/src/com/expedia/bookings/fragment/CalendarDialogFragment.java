@@ -37,15 +37,15 @@ public class CalendarDialogFragment extends DialogFragment {
 
 	private CalendarDialogFragmentListener mListener;
 
-	public static CalendarDialogFragment newInstance(Calendar startDate, Calendar endDate) {
+	public static CalendarDialogFragment newInstance(LocalDate startDate, LocalDate endDate) {
 		CalendarDialogFragment dialog = new CalendarDialogFragment();
 		Bundle args = new Bundle();
-		args.putInt(KEY_START_YEAR, startDate.get(Calendar.YEAR));
-		args.putInt(KEY_START_MONTH, startDate.get(Calendar.MONTH));
-		args.putInt(KEY_START_DAY_OF_MONTH, startDate.get(Calendar.DAY_OF_MONTH));
-		args.putInt(KEY_END_YEAR, endDate.get(Calendar.YEAR));
-		args.putInt(KEY_END_MONTH, endDate.get(Calendar.MONTH));
-		args.putInt(KEY_END_DAY_OF_MONTH, endDate.get(Calendar.DAY_OF_MONTH));
+		args.putInt(KEY_START_YEAR, startDate.getYear());
+		args.putInt(KEY_START_MONTH, startDate.getMonthOfYear() - 1);
+		args.putInt(KEY_START_DAY_OF_MONTH, startDate.getDayOfMonth());
+		args.putInt(KEY_END_YEAR, endDate.getYear());
+		args.putInt(KEY_END_MONTH, endDate.getMonthOfYear() - 1);
+		args.putInt(KEY_END_DAY_OF_MONTH, endDate.getDayOfMonth());
 		dialog.setArguments(args);
 		return dialog;
 	}

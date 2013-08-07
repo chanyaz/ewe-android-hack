@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.joda.time.LocalDate;
+
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -246,7 +248,8 @@ public class ReceiptWidget {
 		return detailRow;
 	}
 
-	private String formatCheckInOutDate(Calendar cal) {
+	private String formatCheckInOutDate(LocalDate date) {
+		Calendar cal = date.toDateTimeAtStartOfDay().toGregorianCalendar();
 		DateFormat medDf = android.text.format.DateFormat.getMediumDateFormat(mContext);
 		return DateUtils.getDayOfWeekString(cal.get(Calendar.DAY_OF_WEEK), DateUtils.LENGTH_MEDIUM) + ", "
 				+ medDf.format(cal.getTime());

@@ -45,6 +45,8 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -721,17 +723,9 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	private void addHotelSearchParams(List<BasicNameValuePair> query, HotelSearchParams params) {
-		DateFormat df = new SimpleDateFormat(ISO_FORMAT);
-
-		// #13586: We need a second SimpleDateFormat because on 2.2 and below.  See
-		// ticket for more info (bug is complex).
-		//
-		// Update: having removed the timezone portion, no longer sure if this is necessary;
-		// but I sure don't want to break anything.
-		DateFormat df2 = new SimpleDateFormat(ISO_FORMAT);
-
-		query.add(new BasicNameValuePair("checkInDate", df.format(params.getCheckInDate().getTime())));
-		query.add(new BasicNameValuePair("checkOutDate", df2.format(params.getCheckOutDate().getTime())));
+		DateTimeFormatter dtf = ISODateTimeFormat.date();
+		query.add(new BasicNameValuePair("checkInDate", dtf.print(params.getCheckInDate())));
+		query.add(new BasicNameValuePair("checkOutDate", dtf.print(params.getCheckOutDate())));
 
 		addHotelGuestParamater(query, params);
 	}

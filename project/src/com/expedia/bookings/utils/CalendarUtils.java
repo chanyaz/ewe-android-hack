@@ -128,13 +128,9 @@ public class CalendarUtils {
 		if (bogus) {
 			// Reset the HotelSearchParams and Calendar to default stay if we somehow got bogus values from picker
 			searchParams.setDefaultStay();
-			Calendar checkIn = searchParams.getCheckInDate();
-			Calendar checkOut = searchParams.getCheckOutDate();
 
-			picker.updateStartDate(checkIn.get(Calendar.YEAR), checkIn.get(Calendar.MONTH),
-					checkIn.get(Calendar.DAY_OF_MONTH));
-			picker.updateEndDate(checkOut.get(Calendar.YEAR), checkOut.get(Calendar.MONTH),
-					checkOut.get(Calendar.DAY_OF_MONTH));
+			updateCalendarPickerStartDate(picker, searchParams.getCheckInDate());
+			updateCalendarPickerEndDate(picker, searchParams.getCheckOutDate());
 		}
 		else {
 			searchParams.setCheckInDate(startDate);
@@ -165,6 +161,18 @@ public class CalendarUtils {
 		}
 	}
 
+	public static void updateCalendarPickerStartDate(CalendarDatePicker picker, LocalDate date) {
+		if (date != null) {
+			picker.updateStartDate(date.getYear(), date.getMonthOfYear() - 1, date.getDayOfMonth());
+		}
+	}
+
+	public static void updateCalendarPickerEndDate(CalendarDatePicker picker, LocalDate date) {
+		if (date != null) {
+			picker.updateStartDate(date.getYear(), date.getMonthOfYear() - 1, date.getDayOfMonth());
+		}
+	}
+
 	// #9770: Add an hour of buffer so that the date range is always > the number of days
 	private static final long DATE_RANGE_BUFFER = DateUtils.HOUR_IN_MILLIS;
 
@@ -180,18 +188,18 @@ public class CalendarUtils {
 	}
 
 	public static String formatDateRange(Context context, HotelSearchParams searchParams, int flags) {
-		return DateUtils.formatDateRange(context, searchParams.getCheckInDate().getTimeInMillis(),
-				searchParams.getCheckOutDate().getTimeInMillis() + DATE_RANGE_BUFFER, flags | DateUtils.FORMAT_UTC);
+		return DateUtils.formatDateRange(context, searchParams.getCheckInDate().toDateTimeAtStartOfDay().getMillis(),
+				searchParams.getCheckOutDate().toDateTimeAtStartOfDay().getMillis() + DATE_RANGE_BUFFER, flags);
 	}
 
 	/**
 	 * Alternative formatter - instead of solely using the system formatter, it is more of "DATE to DATE"
 	 */
 	public static String formatDateRange2(Context context, HotelSearchParams params, int flags) {
-		CharSequence from = DateUtils.formatDateTime(context, params.getCheckInDate().getTimeInMillis(), flags
-				| DateUtils.FORMAT_UTC);
-		CharSequence to = DateUtils.formatDateTime(context, params.getCheckOutDate().getTimeInMillis(), flags
-				| DateUtils.FORMAT_UTC);
+		CharSequence from = DateUtils.formatDateTime(context, params.getCheckInDate().toDateTimeAtStartOfDay()
+				.getMillis(), flags);
+		CharSequence to = DateUtils.formatDateTime(context, params.getCheckOutDate().toDateTimeAtStartOfDay()
+				.getMillis(), flags);
 		return context.getString(R.string.date_range_TEMPLATE, from, to);
 	}
 

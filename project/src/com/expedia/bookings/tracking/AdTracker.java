@@ -1,10 +1,7 @@
 package com.expedia.bookings.tracking;
 
-import java.util.Date;
-
 import android.content.Context;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
@@ -70,8 +67,6 @@ public class AdTracker {
 		final Double totalPrice = rate.getTotalAmountAfterTax().getAmount().doubleValue();
 		final Double totalTax = rate.getTaxesAndFeesPerRoom() != null ? rate.getTaxesAndFeesPerRoom().getAmount()
 				.doubleValue() : 0;
-		final Integer daysRemaining = (int) ((searchParams.getCheckInDate().getTime().getTime()
-				- new Date().getTime()) / DateUtils.DAY_IN_MILLIS);
 
 		// Google Analytics
 		Transaction transaction = new Transaction.Builder(currency, (long) (totalPrice * 1000000))

@@ -3,6 +3,9 @@ package com.expedia.bookings.widget;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Resources;
@@ -252,12 +255,11 @@ public class HotelReceipt extends LinearLayout {
 		//A little hacky: use the DateFormat to set the date order and set dividers, then just remove the year.
 		String yearlessShortPattern = ((SimpleDateFormat) SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT))
 				.toPattern().replaceAll("\\W?[Yy]+\\W?", "");
-
-		CharSequence from = DateFormat.format(yearlessShortPattern, params.getCheckInDate());
-		CharSequence to = DateFormat.format(yearlessShortPattern, params.getCheckOutDate());
+		DateTimeFormatter dtf = DateTimeFormat.forPattern(yearlessShortPattern);
+		CharSequence from = dtf.print(params.getCheckInDate());
+		CharSequence to = dtf.print(params.getCheckOutDate());
 		String rangeString = getContext().getString(R.string.date_range_TEMPLATE, from, to);
 		return "(" + rangeString + ")";
-
 	}
 
 	private void addExtraRow(int stringId) {

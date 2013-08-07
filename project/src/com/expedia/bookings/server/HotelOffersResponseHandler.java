@@ -4,9 +4,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -403,13 +403,13 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 
 		JSONArray nightlyRates = chargeableRateInfo.optJSONArray("nightlyRatesPerRoom");
 		for (int b = 0; b < nightlyRates.length(); b++) {
-			Calendar cal = (Calendar) mSearchParams.getCheckInDate().clone();
-			cal.add(Calendar.DAY_OF_YEAR, b);
+			LocalDate checkInDate = mSearchParams.getCheckInDate();
+			LocalDate night = checkInDate.plusDays(b);
 
 			JSONObject nightlyRate = nightlyRates.getJSONObject(b);
 			RateBreakdown rateBreakdown = new RateBreakdown();
 			rateBreakdown.setAmount(ParserUtils.createMoney(nightlyRate.getString("rate"), currencyCode));
-			rateBreakdown.setDate(new Date(cal));
+			rateBreakdown.setDate(new Date(night));
 
 			rate.addRateBreakdown(rateBreakdown);
 		}

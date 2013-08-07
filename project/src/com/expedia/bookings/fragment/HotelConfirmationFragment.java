@@ -1,6 +1,6 @@
 package com.expedia.bookings.fragment;
 
-import java.util.Calendar;
+import org.joda.time.LocalDate;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -291,8 +291,8 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		Property property = Db.getHotelSearch().getSelectedProperty();
 
 		ShareUtils socialUtils = new ShareUtils(context);
-		DateTime checkIn = DateTime.newInstance(searchParams.getCheckInDate());
-		DateTime checkOut = DateTime.newInstance(searchParams.getCheckOutDate());
+		DateTime checkIn = DateTime.fromLocalDate(searchParams.getCheckInDate());
+		DateTime checkOut = DateTime.fromLocalDate(searchParams.getCheckOutDate());
 		String address = StrUtils.formatAddress(property.getLocation());
 		String phone = Db.getBookingResponse().getPhoneNumber();
 
@@ -316,7 +316,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 	}
 
 	private Intent generateHotelCalendarIntent(boolean checkIn) {
-		Calendar cal = checkIn ? Db.getHotelSearch().getSearchParams().getCheckInDate() : Db.getHotelSearch()
+		LocalDate date = checkIn ? Db.getHotelSearch().getSearchParams().getCheckInDate() : Db.getHotelSearch()
 				.getSearchParams().getCheckOutDate();
 		Property property = Db.getHotelSearch().getSelectedProperty();
 		BookingResponse bookingResponse = Db.getBookingResponse();
@@ -328,7 +328,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		intent.setData(Events.CONTENT_URI);
 
 		intent.putExtra(Events.TITLE, getString(titleResId, property.getName()));
-		intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, cal.getTimeInMillis());
+		intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, date.toDateTimeAtStartOfDay().getMillis());
 		intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true);
 		intent.putExtra(Events.EVENT_LOCATION, property.getLocation().toLongFormattedString());
 

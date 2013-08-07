@@ -2,11 +2,13 @@ package com.expedia.bookings.activity;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -42,7 +44,6 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.format.DateUtils;
-import android.text.format.Time;
 import android.view.KeyEvent;
 import android.view.Surface;
 import android.view.View;
@@ -1479,22 +1480,18 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		if (mDatesCalendarDatePicker != null) {
 			String dateRangeFormatStr = getString(R.string.calendar_instructions_date_range_TEMPLATE);
 			String dateRangeNightsFormatStr = getString(R.string.calendar_instructions_date_range_with_nights_TEMPLATE);
-			String dateFormatStr = "MMM dd";
+			DateTimeFormatter format = DateTimeFormat.forPattern("MMM dd");
 
-			SimpleDateFormat format = (SimpleDateFormat) SimpleDateFormat.getDateInstance();
-			format.applyPattern(dateFormatStr);
-
-			Calendar dateStart = params.getCheckInDate() == null ? null : params.getCheckInDate();
-			Calendar dateEnd = params.getCheckOutDate() == null ? null : params.getCheckOutDate();
+			LocalDate dateStart = params.getCheckInDate();
+			LocalDate dateEnd = params.getCheckOutDate();
 			boolean researchMode = mDatesCalendarDatePicker.getOneWayResearchMode();
 
 			if (dateStart != null && dateEnd != null) {
-				int nightCount = Time.getJulianDay(dateEnd.getTimeInMillis(), dateEnd.getTimeZone().getRawOffset())
-						- Time.getJulianDay(dateStart.getTimeInMillis(), dateStart.getTimeZone().getRawOffset());
+				int nightCount = params.getStayDuration();
 				String nightCountStr = getResources().getQuantityString(R.plurals.length_of_stay, nightCount,
 						nightCount);
 				mDatesCalendarDatePicker.setHeaderInstructionText(String.format(dateRangeNightsFormatStr,
-						format.format(dateStart.getTime()), format.format(dateEnd.getTime()), nightCountStr));
+						format.print(dateStart), format.print(dateEnd), nightCountStr));
 			}
 			else if (dateStart != null && researchMode) {
 				mDatesCalendarDatePicker
@@ -1502,7 +1499,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			}
 			else if (dateStart != null) {
 				mDatesCalendarDatePicker.setHeaderInstructionText(String.format(dateRangeFormatStr,
-						format.format(dateStart.getTime()), ""));
+						format.print(dateStart), ""));
 			}
 			else {
 				mDatesCalendarDatePicker
@@ -2261,10 +2258,8 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private void setActionBarBookingInfoText() {
 		// If we are currently editing params render those values
 		HotelSearchParams params = getCurrentSearchParams();
-		int startDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-		if (params.getCheckInDate() != null) {
-			startDay = params.getCheckInDate().get(Calendar.DAY_OF_MONTH);
-		}
+		LocalDate checkInDate = params.getCheckInDate();
+		int startDay = checkInDate != null ? checkInDate.getDayOfMonth() : LocalDate.now().getDayOfMonth();
 		int numAdults = params.getNumAdults();
 		int numChildren = params.getNumChildren();
 
@@ -2318,17 +2313,8 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		// while we manually update the start/end dates
 		mDatesCalendarDatePicker.setOnDateChangedListener(null);
 
-		Calendar checkIn = searchParams.getCheckInDate();
-		if (checkIn != null) {
-			mDatesCalendarDatePicker.updateStartDate(checkIn.get(Calendar.YEAR), checkIn.get(Calendar.MONTH),
-					checkIn.get(Calendar.DAY_OF_MONTH));
-		}
-
-		Calendar checkOut = searchParams.getCheckOutDate();
-		if (checkOut != null) {
-			mDatesCalendarDatePicker.updateEndDate(checkOut.get(Calendar.YEAR), checkOut.get(Calendar.MONTH),
-					checkOut.get(Calendar.DAY_OF_MONTH));
-		}
+		CalendarUtils.updateCalendarPickerStartDate(mDatesCalendarDatePicker, searchParams.getCheckInDate());
+		CalendarUtils.updateCalendarPickerEndDate(mDatesCalendarDatePicker, searchParams.getCheckOutDate());
 
 		mDatesCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
 

@@ -345,12 +345,8 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 		// while we manually update the start/end dates
 		mCalendarDatePicker.setOnDateChangedListener(null);
 
-		Calendar start = params.getCheckInDate();
-		Calendar end = params.getCheckOutDate();
-		mCalendarDatePicker.updateStartDate(start.get(Calendar.YEAR), start.get(Calendar.MONTH),
-				start.get(Calendar.DAY_OF_MONTH));
-		mCalendarDatePicker.updateEndDate(end.get(Calendar.YEAR), end.get(Calendar.MONTH),
-				end.get(Calendar.DAY_OF_MONTH));
+		CalendarUtils.updateCalendarPickerStartDate(mCalendarDatePicker, params.getCheckInDate());
+		CalendarUtils.updateCalendarPickerEndDate(mCalendarDatePicker, params.getCheckOutDate());
 
 		mCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
 

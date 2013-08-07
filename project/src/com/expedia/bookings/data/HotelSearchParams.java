@@ -301,8 +301,8 @@ public class HotelSearchParams implements JSONable {
 		mCheckInDate = date;
 	}
 
-	public Calendar getCheckInDate() {
-		return mCheckInDate == null ? null : mCheckInDate.toDateTimeAtStartOfDay().toGregorianCalendar();
+	public LocalDate getCheckInDate() {
+		return mCheckInDate;
 	}
 
 	/**
@@ -331,8 +331,8 @@ public class HotelSearchParams implements JSONable {
 		return Days.daysBetween(mCheckInDate, mCheckOutDate).getDays();
 	}
 
-	public Calendar getCheckOutDate() {
-		return mCheckOutDate == null ? null : mCheckOutDate.toDateTimeAtStartOfDay().toGregorianCalendar();
+	public LocalDate getCheckOutDate() {
+		return mCheckOutDate;
 	}
 
 	public void setNumAdults(int numAdults) {
