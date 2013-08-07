@@ -1,15 +1,17 @@
 package com.expedia.bookings.data;
 
+import org.joda.time.LocalDate;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
 public class RateBreakdown implements JSONable {
 	private Money mAmount;
-	private Date mDate;
+	private LocalDate mDate;
 
 	public Money getAmount() {
 		return mAmount;
@@ -19,11 +21,11 @@ public class RateBreakdown implements JSONable {
 		this.mAmount = amount;
 	}
 
-	public Date getDate() {
+	public LocalDate getDate() {
 		return mDate;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(LocalDate date) {
 		this.mDate = date;
 	}
 
@@ -31,7 +33,7 @@ public class RateBreakdown implements JSONable {
 		try {
 			JSONObject obj = new JSONObject();
 			JSONUtils.putJSONable(obj, "amount", mAmount);
-			JSONUtils.putJSONable(obj, "date", mDate);
+			JodaUtils.putLocalDateInJson(obj, "localDate", mDate);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -42,7 +44,7 @@ public class RateBreakdown implements JSONable {
 
 	public boolean fromJson(JSONObject obj) {
 		mAmount = (Money) JSONUtils.getJSONable(obj, "amount", Money.class);
-		mDate = (Date) JSONUtils.getJSONable(obj, "date", Date.class);
+		mDate = JodaUtils.getLocalDateFromJsonBackCompat(obj, "localDate", "date");
 
 		return true;
 	}

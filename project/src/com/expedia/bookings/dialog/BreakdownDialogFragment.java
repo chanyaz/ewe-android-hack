@@ -1,6 +1,5 @@
 package com.expedia.bookings.dialog;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +29,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.mobiata.android.util.Ui;
 
@@ -155,10 +155,9 @@ public class BreakdownDialogFragment extends DialogFragment {
 				.build());
 
 		// Breakdown of each night
-		DateFormat breakdownFormat = android.text.format.DateFormat.getDateFormat(context);
 		if (originalRate.getRateBreakdownList() != null) {
 			for (RateBreakdown breakdown : originalRate.getRateBreakdownList()) {
-				String date = breakdownFormat.format(breakdown.getDate().getCalendar().getTime());
+				String date = JodaUtils.formatLocalDate(context, breakdown.getDate(), JodaUtils.FLAGS_DATE_FORMAT);
 				Money amount = breakdown.getAmount();
 				CharSequence amountStr = (amount.isZero()) ? context.getString(R.string.free) :
 						amount.getFormattedMoney();

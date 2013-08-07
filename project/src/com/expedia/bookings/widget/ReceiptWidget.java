@@ -2,7 +2,6 @@ package com.expedia.bookings.widget;
 
 import java.text.DateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 import org.joda.time.LocalDate;
 
@@ -28,6 +27,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
@@ -134,11 +134,11 @@ public class ReceiptWidget {
 		addSpace(mDetailsLayout, 8);
 
 		// Rate breakdown list.  Only works with merchant hotels now.
-		DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(mContext);
 		if (rate.getRateBreakdownList() != null) {
 			for (RateBreakdown breakdown : rate.getRateBreakdownList()) {
-				Date date = breakdown.getDate().getCalendar().getTime();
-				String label = mContext.getString(R.string.room_rate_template, dateFormat.format(date));
+				LocalDate date = breakdown.getDate();
+				String label = mContext.getString(R.string.room_rate_template,
+						JodaUtils.formatLocalDate(mContext, date, JodaUtils.FLAGS_DATE_FORMAT));
 				Money amount = breakdown.getAmount();
 				if (amount.isZero()) {
 					addRateRow(mDetailsLayout, label, mContext.getString(R.string.free));

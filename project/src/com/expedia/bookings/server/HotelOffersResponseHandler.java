@@ -15,7 +15,6 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelTextSection;
@@ -409,7 +408,7 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 			JSONObject nightlyRate = nightlyRates.getJSONObject(b);
 			RateBreakdown rateBreakdown = new RateBreakdown();
 			rateBreakdown.setAmount(ParserUtils.createMoney(nightlyRate.getString("rate"), currencyCode));
-			rateBreakdown.setDate(new Date(night));
+			rateBreakdown.setDate(night);
 
 			rate.addRateBreakdown(rateBreakdown);
 		}
