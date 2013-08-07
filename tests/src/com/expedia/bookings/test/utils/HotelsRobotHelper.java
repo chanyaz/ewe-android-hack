@@ -290,7 +290,7 @@ public class HotelsRobotHelper {
 		enterLog(TAG, "Post-clearing of EditText");
 		delay(1);
 		enterLog(TAG, "Before typing location into location EditText");
-		mSolo.typeText(0, location + '\n');
+		mSolo.typeText(0, location + ' ');
 		enterLog(TAG, "After typing location into location EditText");
 		delay(3);
 		enterLog(TAG, "Before initiating location ");
