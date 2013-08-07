@@ -327,7 +327,7 @@ public class HotelSearchParams implements JSONable {
 			return 0;
 		}
 
-		return Days.daysBetween(mCheckInDate, mCheckOutDate).getDays();
+		return JodaUtils.daysBetween(mCheckInDate, mCheckOutDate);
 	}
 
 	public LocalDate getCheckOutDate() {

@@ -197,12 +197,12 @@ public class OmnitureTracking {
 		s.setProp(4, region);
 
 		// Check in/check out date
-		String days5 = Integer.toString(Days.daysBetween(LocalDate.now(), searchParams.getCheckInDate()).getDays());
+		String days5 = Integer.toString(JodaUtils.daysBetween(LocalDate.now(), searchParams.getCheckInDate()));
 		s.setEvar(5, days5);
 		s.setProp(5, days5);
 
-		String days6 = Integer.toString(Days.daysBetween(searchParams.getCheckInDate(), searchParams.getCheckInDate())
-				.getDays());
+		String days6 = Integer.toString(JodaUtils.daysBetween(searchParams.getCheckInDate(),
+				searchParams.getCheckInDate()));
 		s.setEvar(6, days6);
 		s.setProp(6, days6);
 

@@ -791,7 +791,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			boolean researchMode = mCalendarDatePicker.getOneWayResearchMode();
 
 			if (dateStart != null && dateEnd != null) {
-				int nightCount = Days.daysBetween(dateStart, dateEnd).getDays();
+				int nightCount = JodaUtils.daysBetween(dateStart, dateEnd);
 				String nightsStr;
 				if (nightCount == 0) {
 					nightsStr = getString(R.string.calendar_instructions_range_selected_same_day);
