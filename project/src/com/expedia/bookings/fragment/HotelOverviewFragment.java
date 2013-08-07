@@ -49,8 +49,8 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.BreakdownDialogFragment;
+import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.dialog.HotelPriceChangeDialog;
-import com.expedia.bookings.dialog.HotelSoldOutDialog;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.dialog.ThrobberDialog.CancelListener;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
@@ -324,7 +324,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 
-		HotelSoldOutDialog errorDialog = (HotelSoldOutDialog) getFragmentManager().findFragmentByTag(HOTEL_OFFER_ERROR_DIALOG);
+		HotelErrorDialog errorDialog = (HotelErrorDialog) getFragmentManager().findFragmentByTag(HOTEL_OFFER_ERROR_DIALOG);
 		if (errorDialog == null) {
 			// When we resume, there is a possibility that:
 			// 1. We were using GWallet (with coupon), but are no longer using GWallet
@@ -1031,7 +1031,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	};
 
 	private void handleHotelProductError(HotelProductResponse response) {
-		HotelSoldOutDialog dialog = HotelSoldOutDialog.newInstance();
+		HotelErrorDialog dialog = HotelErrorDialog.newInstance();
 		int messageId = R.string.e3_error_hotel_offers_hotel_service_failure;
 		if (response != null && response.getErrors() != null) {
 			for (ServerError error : response.getErrors()) {

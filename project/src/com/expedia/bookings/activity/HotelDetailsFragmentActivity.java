@@ -30,8 +30,7 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.dialog.HotelSoldOutDialog;
-import com.expedia.bookings.dialog.HotelUnreachableDialog;
+import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.fragment.HotelDetailsDescriptionFragment;
 import com.expedia.bookings.fragment.HotelDetailsIntroFragment;
 import com.expedia.bookings.fragment.HotelDetailsMiniGalleryFragment;
@@ -500,14 +499,16 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 			}
 
 			if (response == null) {
-				HotelUnreachableDialog dialog = HotelUnreachableDialog.newInstance();
+				HotelErrorDialog dialog = HotelErrorDialog.newInstance();
+				dialog.setMessage(R.string.e3_error_hotel_offers_hotel_service_failure);
 				dialog.show(getSupportFragmentManager(), "unreachableDialog");
 				return;
 			}
 
 			if (Db.getHotelSearch().getAvailability(selectedId).getRateCount() == 0) {
 				Db.getHotelSearch().removeProperty(selectedId);
-				HotelSoldOutDialog dialog = HotelSoldOutDialog.newInstance();
+				HotelErrorDialog dialog = HotelErrorDialog.newInstance();
+				dialog.setMessage(R.string.error_hotel_is_now_sold_out);
 				dialog.show(getSupportFragmentManager(), "soldOutDialog");
 			}
 

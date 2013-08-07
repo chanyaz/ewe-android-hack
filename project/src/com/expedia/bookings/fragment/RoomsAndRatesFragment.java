@@ -21,7 +21,7 @@ import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.dialog.HotelSoldOutDialog;
+import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.HtmlUtils;
 import com.expedia.bookings.widget.RoomsAndRatesAdapter;
@@ -121,7 +121,8 @@ public class RoomsAndRatesFragment extends ListFragment {
 		else if (response.getRateCount() == 0) {
 			Db.getHotelSearch().removeProperty(selectedId);
 
-			HotelSoldOutDialog dialog = HotelSoldOutDialog.newInstance();
+			HotelErrorDialog dialog = HotelErrorDialog.newInstance();
+			dialog.setMessage(R.string.error_hotel_is_now_sold_out);
 			dialog.show(getFragmentManager(), "soldOutDialog");
 
 			mEmptyTextView.setText(R.string.error_no_hotel_rooms_available);

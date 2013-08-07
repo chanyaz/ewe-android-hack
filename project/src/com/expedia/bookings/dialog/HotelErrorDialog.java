@@ -8,23 +8,18 @@ import android.support.v4.app.DialogFragment;
 
 import com.expedia.bookings.R;
 
-public class HotelSoldOutDialog extends DialogFragment {
-	private static String ARG_MESSAGE = "ARG_MESSAGE";
+public class HotelErrorDialog extends DialogFragment {
+	private static final String ARG_MESSAGE = "ARG_MESSAGE";
 
-	public static HotelSoldOutDialog newInstance() {
-		HotelSoldOutDialog frag = new HotelSoldOutDialog();
+	public static HotelErrorDialog newInstance() {
+		HotelErrorDialog frag = new HotelErrorDialog();
 		Bundle args = new Bundle();
-		args.putInt(ARG_MESSAGE, R.string.error_hotel_is_now_sold_out);
 		frag.setArguments(args);
 		return frag;
 	}
 
 	public void setMessage(int stringId) {
 		Bundle args = getArguments();
-		if (args == null) {
-			args = new Bundle();
-		}
-
 		args.putInt(ARG_MESSAGE, stringId);
 		setArguments(args);
 	}
