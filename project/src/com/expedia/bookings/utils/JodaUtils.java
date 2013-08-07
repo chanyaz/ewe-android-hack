@@ -18,6 +18,28 @@ import com.mobiata.android.json.JSONUtils;
 
 public class JodaUtils {
 
+	/**
+	 * This is the equivalent of android.text.format.getDateFormat(), when used in DateUtils
+	 */
+	public static final int FLAGS_DATE_FORMAT = DateUtils.FORMAT_NUMERIC_DATE;
+
+	/**
+	 * This is the equivalent of android.text.format.getLongDateFormat(), when used in DateUtils
+	 */
+	public static final int FLAGS_LONG_DATE_FORMAT = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_WEEKDAY
+			| DateUtils.FORMAT_SHOW_YEAR;
+
+	/**
+	 * This is the equivalent of android.text.format.getMediumDateFormat(), when used in DateUtils
+	 */
+	public static final int FLAGS_MEDIUM_DATE_FORMAT = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH |
+			DateUtils.FORMAT_SHOW_YEAR;
+
+	/**
+	 * This is the equivalent of android.text.format.getTimeFormat(), when used in DateUtils
+	 */
+	public static final int FLAGS_TIME_FORMAT = DateUtils.FORMAT_SHOW_TIME;
+
 	public static boolean isAfterOrEquals(AbstractPartial first, AbstractPartial second) {
 		return first.isAfter(second) || first.isEqual(second);
 	}
@@ -25,7 +47,7 @@ public class JodaUtils {
 	public static boolean isBeforeOrEquals(AbstractPartial first, AbstractPartial second) {
 		return first.isBefore(second) || first.isEqual(second);
 	}
-	
+
 	public static int daysBetween(ReadablePartial start, ReadablePartial end) {
 		return Days.daysBetween(start, end).getDays();
 	}
