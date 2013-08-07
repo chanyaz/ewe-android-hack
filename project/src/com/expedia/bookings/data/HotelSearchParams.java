@@ -2,9 +2,10 @@ package com.expedia.bookings.data;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.joda.time.Days;
+import org.joda.time.LocalDate;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,7 +16,7 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.model.Search;
-import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -54,8 +55,8 @@ public class HotelSearchParams implements JSONable {
 	private SearchType mSearchType = SearchType.MY_LOCATION;
 
 	private String mQuery;
-	private Date mCheckInDate;
-	private Date mCheckOutDate;
+	private LocalDate mCheckInDate;
+	private LocalDate mCheckOutDate;
 	private int mNumAdults;
 	private List<Integer> mChildren;
 
@@ -124,20 +125,12 @@ public class HotelSearchParams implements JSONable {
 				&& mCheckOutDate.equals(getDefaultCheckOutDate());
 	}
 
-	private Date getDefaultCheckInDate() {
-		Calendar cal = Calendar.getInstance();
-		int year = cal.get(Calendar.YEAR);
-		int month = cal.get(Calendar.MONTH);
-		int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-		return new Date(new GregorianCalendar(year, month, dayOfMonth));
+	private LocalDate getDefaultCheckInDate() {
+		return new LocalDate();
 	}
 
-	private Date getDefaultCheckOutDate() {
-		Calendar cal = Calendar.getInstance();
-		int year = cal.get(Calendar.YEAR);
-		int month = cal.get(Calendar.MONTH);
-		int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-		return new Date(new GregorianCalendar(year, month, dayOfMonth + 1));
+	private LocalDate getDefaultCheckOutDate() {
+		return new LocalDate().plusDays(1);
 	}
 
 	public HotelSearchParams(JSONObject obj) {
@@ -257,16 +250,12 @@ public class HotelSearchParams implements JSONable {
 	}
 
 	public boolean hasValidCheckInDate() {
-		Calendar checkIn = getCheckInDate();
-
 		// #1562 - Check for null
-		if (checkIn == null) {
+		if (mCheckInDate == null) {
 			return false;
 		}
 
-		Calendar now = Calendar.getInstance();
-		return checkIn.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)
-				|| now.before(checkIn);
+		return JodaUtils.isBeforeOrEquals(LocalDate.now(), mCheckInDate);
 	}
 
 	public void ensureValidCheckInDate() {
@@ -282,9 +271,7 @@ public class HotelSearchParams implements JSONable {
 		}
 		else if (mCheckOutDate == null) {
 			if (hasValidCheckInDate()) {
-				Calendar cal = getCheckInDate();
-				mCheckOutDate = new Date(new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
-						cal.get(Calendar.DAY_OF_MONTH) + 1));
+				mCheckOutDate = mCheckInDate.plusDays(1);
 			}
 			else {
 				ensureValidCheckInDate();
@@ -292,8 +279,8 @@ public class HotelSearchParams implements JSONable {
 		}
 		else {
 			ensureValidCheckInDate();
-			if (mCheckInDate.after(mCheckOutDate)) {
-				Date tmpDate = mCheckInDate;
+			if (mCheckInDate.isAfter(mCheckOutDate)) {
+				LocalDate tmpDate = mCheckInDate;
 				mCheckInDate = mCheckOutDate;
 				mCheckOutDate = tmpDate;
 			}
@@ -310,10 +297,10 @@ public class HotelSearchParams implements JSONable {
 			int stayDuration = getStayDuration();
 			Calendar checkout = (Calendar) date.getCalendar().clone();
 			checkout.add(Calendar.DAY_OF_MONTH, stayDuration);
-			mCheckOutDate = new Date(checkout);
+			mCheckOutDate = new Date(checkout).toLocalDate();
 		}
 
-		mCheckInDate = date;
+		mCheckInDate = Date.toLocalDate(date);
 	}
 
 	/**
@@ -324,7 +311,7 @@ public class HotelSearchParams implements JSONable {
 	}
 
 	public Calendar getCheckInDate() {
-		return mCheckInDate == null ? null : mCheckInDate.getCalendar();
+		return mCheckInDate == null ? null : mCheckInDate.toDateTimeAtStartOfDay().toGregorianCalendar();
 	}
 
 	/**
@@ -337,10 +324,10 @@ public class HotelSearchParams implements JSONable {
 			int stayDuration = getStayDuration();
 			Calendar checkin = (Calendar) date.getCalendar().clone();
 			checkin.add(Calendar.DAY_OF_MONTH, -stayDuration);
-			mCheckInDate = new Date(checkin);
+			mCheckInDate = new Date(checkin).toLocalDate();
 		}
 
-		mCheckOutDate = date;
+		mCheckOutDate = Date.toLocalDate(date);
 	}
 
 	/**
@@ -359,11 +346,11 @@ public class HotelSearchParams implements JSONable {
 			return 0;
 		}
 
-		return (int) CalendarUtils.getDaysBetween(mCheckInDate.getCalendar(), mCheckOutDate.getCalendar());
+		return Days.daysBetween(mCheckInDate, mCheckOutDate).getDays();
 	}
 
 	public Calendar getCheckOutDate() {
-		return mCheckOutDate == null ? null : mCheckOutDate.getCalendar();
+		return mCheckOutDate == null ? null : mCheckOutDate.toDateTimeAtStartOfDay().toGregorianCalendar();
 	}
 
 	public void setNumAdults(int numAdults) {
@@ -442,8 +429,21 @@ public class HotelSearchParams implements JSONable {
 		mSearchLatitude = obj.optDouble("latitude", 0);
 		mSearchLongitude = obj.optDouble("longitude", 0);
 
-		mCheckInDate = JSONUtils.getJSONable(obj, "checkinDate", Date.class);
-		mCheckOutDate = JSONUtils.getJSONable(obj, "checkoutDate", Date.class);
+		if (obj.has("checkinDate")) {
+			// Backwards compatibility
+			mCheckInDate = Date.getLocalDateFromJSON(obj, "checkinDate");
+		}
+		else if (obj.has("checkInLocalDate")) {
+			mCheckInDate = LocalDate.parse(obj.optString("checkInLocalDate"));
+		}
+
+		if (obj.has("checkoutDate")) {
+			// Backwards compatibility
+			mCheckOutDate = Date.getLocalDateFromJSON(obj, "checkoutDate");
+		}
+		else if (obj.has("checkOutLocalDate")) {
+			mCheckOutDate = LocalDate.parse(obj.optString("checkOutLocalDate"));
+		}
 
 		mNumAdults = obj.optInt("numAdults", 0);
 		mChildren = JSONUtils.getIntList(obj, "children");
@@ -478,8 +478,13 @@ public class HotelSearchParams implements JSONable {
 				obj.put("longitude", mSearchLongitude);
 			}
 
-			JSONUtils.putJSONable(obj, "checkinDate", mCheckInDate);
-			JSONUtils.putJSONable(obj, "checkoutDate", mCheckOutDate);
+			if (mCheckInDate != null) {
+				obj.put("checkInLocalDate", mCheckInDate.toString());
+			}
+
+			if (mCheckOutDate != null) {
+				obj.put("checkOutLocalDate", mCheckOutDate.toString());
+			}
 
 			obj.put("numAdults", mNumAdults);
 			JSONUtils.putIntList(obj, "children", mChildren);
