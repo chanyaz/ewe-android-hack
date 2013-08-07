@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity;
 import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
@@ -268,6 +270,12 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		}
 		else {
 			mAccountButton.bind(false, false, null);
+		}
+
+		//1753. VSC Default to all caps character.
+		if (ExpediaBookingApp.IS_VSC) {
+			mCouponCodeEditText.setInputType(InputType.TYPE_TEXT_VARIATION_FILTER
+					| InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
 		}
 
 		// restore
