@@ -360,7 +360,8 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 		assertEquals(air1, params.getDepartureLocation().getDestinationId());
 		assertEquals(air2, params.getArrivalLocation().getDestinationId());
 		if (assertDate) {
-			assertEquals(expectedDay, new Time(params.getDepartureDate().getCalendar()));
+			assertEquals(expectedDay,
+					new Time(params.getDepartureDate().toDateTimeAtStartOfDay().toGregorianCalendar()));
 		}
 	}
 

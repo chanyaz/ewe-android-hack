@@ -4,7 +4,8 @@ import java.util.LinkedList;
 
 import junit.framework.TestCase;
 
-import com.expedia.bookings.data.Date;
+import org.joda.time.LocalDate;
+
 import com.expedia.bookings.data.FlightSearchLeg;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.Location;
@@ -68,8 +69,8 @@ public class FlightSearchParamsTest extends TestCase {
 	public void testSetReturnDateTriggersRoundTripMode() {
 		FlightSearchParams searchParams = new FlightSearchParams();
 
-		searchParams.setDepartureDate(new Date());
-		searchParams.setReturnDate(new Date());
+		searchParams.setDepartureDate(new LocalDate());
+		searchParams.setReturnDate(new LocalDate());
 
 		assertTrue(searchParams.isRoundTrip());
 	}
@@ -95,15 +96,15 @@ public class FlightSearchParamsTest extends TestCase {
 		searchParams.setDepartureLocation(location1);
 		searchParams.setArrivalLocation(location2);
 
-		searchParams.setDepartureDate(new Date());
-		searchParams.setReturnDate(new Date());
+		searchParams.setDepartureDate(new LocalDate());
+		searchParams.setReturnDate(new LocalDate());
 
 		assertEquals(airport1, searchParams.getQueryLeg(1).getArrivalLocation().getDestinationId());
 		assertEquals(airport2, searchParams.getQueryLeg(1).getDepartureLocation().getDestinationId());
 	}
 
 	public void testDepartureDate() {
-		Date date = new Date();
+		LocalDate date = new LocalDate();
 		FlightSearchParams searchParams = new FlightSearchParams();
 		searchParams.setDepartureDate(date);
 

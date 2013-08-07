@@ -2,7 +2,8 @@ package com.expedia.bookings.test.tests.unit;
 
 import junit.framework.TestCase;
 
-import com.expedia.bookings.data.Date;
+import org.joda.time.LocalDate;
+
 import com.expedia.bookings.data.FlightSearchLeg;
 import com.expedia.bookings.data.Location;
 
@@ -31,7 +32,7 @@ public class FlightSearchLegTest extends TestCase {
 	public void testDepartureDate() {
 		FlightSearchLeg leg = new FlightSearchLeg();
 
-		Date expectedDate = new Date();
+		LocalDate expectedDate = new LocalDate();
 		leg.setDepartureDate(expectedDate);
 
 		assertEquals(expectedDate, leg.getDepartureDate());
