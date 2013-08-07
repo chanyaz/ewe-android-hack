@@ -414,8 +414,12 @@ public class ShareUtils {
 		}
 
 		//1683. VSC Don't show Android App crossSell text and link.
+		//1754. VSC Show the requested text which doesn't contain link to app.
 		if (!ExpediaBookingApp.IS_VSC) {
 			builder.append(mContext.getString(R.string.share_template_long_ad, downloadUrl));
+		}
+		else {
+			builder.append(mContext.getString(R.string.share_template_long_ad));
 		}
 
 		return builder.toString();

@@ -160,4 +160,9 @@
     <!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
     <string name="e3_error_checkout_payment_failed">Désolé, nous n\&apos;avons pas pu traiter votre paiement. Veuillez vérifier que les informations que vous avez saisies sont correctes.</string>
 
+    <!-- 1: Hotel name, 2: Formatted length of stay -->
+    <string name="share_template_long_hotel_1_greeting">Merci d’avoir choisi l’application Hôtel Voyages-sncf! Votre réservation est confirmée : %1$s, pendant %2$s.</string>
+    <!-- App download link -->
+    <string name="share_template_long_ad">A bientôt sur notre application. Voyages-sncf vous souhaite un bon voyage.</string>
+
 </resources>
