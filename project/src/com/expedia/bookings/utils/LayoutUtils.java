@@ -35,6 +35,7 @@ import com.actionbarsherlock.internal.ResourcesCompat;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Distance.DistanceUnit;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.HotelFilter.SearchRadius;
 import com.expedia.bookings.data.Property;
@@ -243,7 +244,7 @@ public class LayoutUtils {
 
 	public static String noHotelsFoundMessage(Context context) {
 		StringBuilder sb = new StringBuilder();
-		if (CalendarUtils.isSearchDateTonight()) {
+		if (CalendarUtils.isSearchDateTonight(Db.getHotelSearch().getSearchParams())) {
 			sb.append(context.getResources().getString(R.string.no_hotels_availiable_tonight));
 		}
 		else {

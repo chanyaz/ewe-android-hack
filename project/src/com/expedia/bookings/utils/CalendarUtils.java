@@ -216,10 +216,9 @@ public class CalendarUtils {
 		}
 	}
 
-	public static boolean isSearchDateTonight() {
-		HotelSearchParams params = Db.getHotelSearch().getSearchParams();
-		com.expedia.bookings.data.Date today = new com.expedia.bookings.data.Date(Calendar.getInstance());
-		com.expedia.bookings.data.Date checkIn = new com.expedia.bookings.data.Date(params.getCheckInDate());
-		return params.getStayDuration() == 1 && today.equals(checkIn);
+	public static boolean isSearchDateTonight(HotelSearchParams params) {
+		LocalDate now = LocalDate.now();
+		LocalDate checkIn = params.getCheckInDate();
+		return params.getStayDuration() == 1 && now.equals(checkIn);
 	}
 }

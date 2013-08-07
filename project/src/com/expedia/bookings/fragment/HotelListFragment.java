@@ -1,7 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.Calendar;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -17,7 +15,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
@@ -311,9 +308,7 @@ public class HotelListFragment extends ListFragment {
 		if (mSearchDateRangeText != null) {
 			HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 
-			Date today = new Date(Calendar.getInstance());
-			Date checkIn = new Date(params.getCheckInDate());
-			if (params.getStayDuration() == 1 && today.equals(checkIn)) {
+			if (CalendarUtils.isSearchDateTonight(params)) {
 				mSearchDateRangeText.setText(getString(R.string.Tonight));
 			}
 			else {
