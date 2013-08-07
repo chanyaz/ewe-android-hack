@@ -167,6 +167,7 @@
         <item name="ratingBarUserReviewStyle">@style/RatingBar.UserReview.White</item>
         <item name="calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
         <item name="calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
+        <item name="calendarDatePickerDateFormat">@string/calendar_date_picker_date_format</item>
         <item name="hotelListingSaleDrawable">@drawable/bg_hotel_cell_sale</item>
         <item name="hotelDetailSaleRibbonDrawable">@drawable/bg_sale_ribbon</item>
         <item name="roomsRatesSaleRibbonDrawable">@drawable/rooms_rates_ribbon</item>

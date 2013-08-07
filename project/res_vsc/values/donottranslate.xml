@@ -15,4 +15,8 @@
     <string name="mapsv2_dev_key">@string/mapsv2_vsc_dev_key</string>
     <string name="mapsv2_ha_key">@string/mapsv2_vsc_ha_key</string>
     <string name="mapsv2_prod_key">@string/mapsv2_vsc_prod_key</string>
+
+    <!-- CalendarDatePicker DateFormat -->
+    <string name="calendar_date_picker_date_format_vsc">dd MMM</string>
+
 </resources>

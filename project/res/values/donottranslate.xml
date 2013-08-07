@@ -40,6 +40,9 @@
     <string name="mapsv2_vsc_ha_key">AIzaSyDZVuVKxNe3gQNUKZyeqpHrxUupQ0wXUlQ</string>
     <string name="mapsv2_vsc_prod_key">AIzaSyBoKFnHe78X_UlZhYbEeSB6SECfoorSPAs</string>
 
+    <!-- CalendarDatePicker DateFormat -->
+    <string name="calendar_date_picker_date_format">MMM dd</string>
+
     <!-- MapsV2 key error messages -->
     <string name="error_mapsv2_release_key">You are not using the release maps key for a release build. Edit AndroidManifest.xml or the build system is broken.</string>
 

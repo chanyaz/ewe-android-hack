@@ -194,6 +194,7 @@
     <!-- Hotel calendar related styling -->
     <attr name="calendarDatePickerCellDrawable" format="reference" />
     <attr name="calendarDatePickerPopupDrawable" format="reference" />
+    <attr name="calendarDatePickerDateFormat" format="reference|string" />
 
     <!-- Hotel promo pricing related styling -->
     <attr name="hotelListingSaleDrawable" format="reference" />

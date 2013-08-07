@@ -1494,7 +1494,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		if (mDatesCalendarDatePicker != null) {
 			String dateRangeFormatStr = getString(R.string.calendar_instructions_date_range_TEMPLATE);
 			String dateRangeNightsFormatStr = getString(R.string.calendar_instructions_date_range_with_nights_TEMPLATE);
-			String dateFormatStr = "MMM dd";
+			String dateFormatStr = getString(Ui.obtainThemeResID(this, R.attr.calendarDatePickerDateFormat));
 
 			SimpleDateFormat format = (SimpleDateFormat) SimpleDateFormat.getDateInstance();
 			format.applyPattern(dateFormatStr);

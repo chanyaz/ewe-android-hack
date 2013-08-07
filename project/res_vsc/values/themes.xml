@@ -16,6 +16,7 @@
         <item name="ratingBarUserReviewStyle">@style/RatingBar.UserReview.Orange</item>
         <item name="calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_vsc</item>
         <item name="calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_orange</item>
+        <item name="calendarDatePickerDateFormat">@string/calendar_date_picker_date_format_vsc</item>
         <item name="hotelListingSaleDrawable">@drawable/bg_hotel_cell_sale_vsc</item>
         <item name="hotelDetailSaleRibbonDrawable">@drawable/bg_sale_ribbon_vsc</item>
         <item name="roomsRatesSaleRibbonDrawable">@drawable/rooms_rates_ribbon_vsc</item>
@@ -43,6 +44,7 @@
         <item name="ccCheckoutHologramDrawable">@drawable/ic_credit_card_hologram_vsc</item>
         <item name="hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder_vsc</item>
         <item name="hotelwebViewActionBarLogo">@drawable/ic_logo_vsc</item>
+
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
