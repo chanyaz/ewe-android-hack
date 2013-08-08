@@ -6,6 +6,7 @@ import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import org.joda.time.ReadablePartial;
 import org.joda.time.base.AbstractPartial;
+import org.joda.time.tz.FixedDateTimeZone;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,6 +18,12 @@ import com.expedia.bookings.data.Date;
 import com.mobiata.android.json.JSONUtils;
 
 public class JodaUtils {
+
+	public static DateTime fromMillisAndOffset(long millisFromEpoch, int tzOffsetMillis) {
+		// TODO: Calculate proper ID if necessary (aka +/- HH:mm)
+		return new org.joda.time.DateTime(millisFromEpoch, new FixedDateTimeZone("TZ"
+				+ Integer.toString(tzOffsetMillis), null, tzOffsetMillis, tzOffsetMillis));
+	}
 
 	public static boolean isAfterOrEquals(AbstractPartial first, AbstractPartial second) {
 		return first.isAfter(second) || first.isEqual(second);
@@ -80,6 +87,25 @@ public class JodaUtils {
 		}
 		else if (obj.has(localDateKey)) {
 			return LocalDate.parse(obj.optString(localDateKey));
+		}
+
+		return null;
+	}
+
+	public static void putDateTimeInJson(JSONObject obj, String key, DateTime dateTime) throws JSONException {
+		if (obj != null && !TextUtils.isEmpty(key) && dateTime != null) {
+			obj.put(key, dateTime.toString());
+		}
+	}
+
+	public static DateTime getDateTimeFromJsonBackCompat(JSONObject obj, String dateTimeKey, String oldDateTimeKey) {
+		if (obj.has(oldDateTimeKey)) {
+			com.expedia.bookings.data.DateTime dateTime = JSONUtils.getJSONable(obj, oldDateTimeKey,
+					com.expedia.bookings.data.DateTime.class);
+			return com.expedia.bookings.data.DateTime.toJodaDateTime(dateTime);
+		}
+		else if (obj.has(dateTimeKey)) {
+			return DateTime.parse(obj.optString(dateTimeKey));
 		}
 
 		return null;

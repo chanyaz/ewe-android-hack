@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.text.format.DateUtils;
 
+import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.json.JSONable;
 
 /**
@@ -33,6 +34,13 @@ public class DateTime implements JSONable, Comparable<DateTime> {
 
 	public static DateTime fromLocalDate(LocalDate date) {
 		return new DateTime(date.toDateTimeAtStartOfDay(DateTimeZone.UTC).getMillis(), 0);
+	}
+
+	public static DateTime fromJodaDateTime(org.joda.time.DateTime dateTime) {
+		if (dateTime != null) {
+			return new DateTime(dateTime.getMillis(), dateTime.getZone().getStandardOffset(0));
+		}
+		return null;
 	}
 
 	public DateTime() {
@@ -146,5 +154,16 @@ public class DateTime implements JSONable, Comparable<DateTime> {
 
 		return mMillisFromEpoch == other.mMillisFromEpoch
 				&& mTzOffsetMillis == other.mTzOffsetMillis;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// DateTime compatibility
+
+	public static org.joda.time.DateTime toJodaDateTime(DateTime dateTime) {
+		if (dateTime != null) {
+			return JodaUtils.fromMillisAndOffset(dateTime.mMillisFromEpoch, dateTime.mTzOffsetMillis);
+		}
+
+		return null;
 	}
 }
