@@ -28,6 +28,7 @@ public class DateTime implements JSONable, Comparable<DateTime> {
 	// Cached for speed
 	private Calendar mCal;
 
+	@Deprecated
 	public static DateTime newInstance(Calendar cal) {
 		return new DateTime(cal.getTimeInMillis(), cal.getTimeZone().getOffset(cal.getTimeInMillis()));
 	}
@@ -43,10 +44,12 @@ public class DateTime implements JSONable, Comparable<DateTime> {
 		return null;
 	}
 
+	@Deprecated
 	public DateTime() {
 		// Empty constructor for JSONable
 	}
 
+	@Deprecated
 	public DateTime(long millisFromEpoch, int tzOffsetMillis) {
 		mMillisFromEpoch = millisFromEpoch;
 		mTzOffsetMillis = tzOffsetMillis;
