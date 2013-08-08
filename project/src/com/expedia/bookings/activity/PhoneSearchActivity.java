@@ -1288,7 +1288,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		mRatingButtonGroup = (SegmentedControlGroup) mFilterLayout.findViewById(R.id.rating_filter_button_group);
 		mPriceButtonGroup = (SegmentedControlGroup) mFilterLayout.findViewById(R.id.price_filter_button_group);
 
-		mFilterHotelNameEditText.setOnEditorActionListener(mEditorActionLisenter);
+		mFilterHotelNameEditText.setOnEditorActionListener(mFilterEditorActionLisenter);
 
 		// Special case for HTC keyboards, which seem to ignore the android:inputType="textFilter|textNoSuggestions" xml flag
 		mSearchEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
@@ -2418,7 +2418,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		}
 	};
 
-	private final OnEditorActionListener mEditorActionLisenter = new OnEditorActionListener() {
+	private final OnEditorActionListener mFilterEditorActionLisenter = new OnEditorActionListener() {
 		@Override
 		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 			if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_SEARCH) {
