@@ -46,7 +46,7 @@
         <item name="ccCheckoutHologramDrawable">@drawable/ic_credit_card_hologram_vsc</item>
         <item name="hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder_vsc</item>
         <item name="hotelwebViewActionBarLogo">@drawable/ic_logo_vsc</item>
-
+		<item name="cvvEntryExplainationText">@string/cvv_explaination_vsc</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->

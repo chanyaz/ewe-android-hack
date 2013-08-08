@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
@@ -107,7 +108,14 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 		String personName = args.getString(ARG_PERSON_NAME);
 		String cardName = args.getString(ARG_CARD_NAME);
 		CreditCardType cardType = JSONUtils.getEnum(args, ARG_CARD_TYPE, CreditCardType.class);
-		mCVVSection.setExplanationText(Html.fromHtml(getString(R.string.cvv_code_TEMPLATE, cardName)));
+		//1752. VSC Change cvv explaination text
+		if (ExpediaBookingApp.IS_VSC) {
+			mCVVSection.setExplanationText(getString(Ui
+					.obtainThemeResID(getActivity(), R.attr.cvvEntryExplainationText)));
+		}
+		else {
+			mCVVSection.setExplanationText(Html.fromHtml(getString(R.string.cvv_code_TEMPLATE, cardName)));
+		}
 		mCreditCardSection.bind(personName, cardType);
 
 		// Configure vars that drive this fragment

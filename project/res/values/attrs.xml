@@ -254,4 +254,7 @@
 
     <!-- Placeholder image used in hotelReciept, Rooms&RatesListActivity -->
     <attr name="hotelImagePlaceHolderDrawable" format="reference" />
+
+    <!-- Text defined separately for VSC, in the CVV entry screen -->
+    <attr name="cvvEntryExplainationText" format="reference|string" />
 </resources>
