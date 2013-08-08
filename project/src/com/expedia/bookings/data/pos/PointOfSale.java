@@ -140,7 +140,7 @@ public class PointOfSale {
 		private String mLocaleIdentifier;
 
 		// The url leading to the support part of the website
-		private String mSupportUrl;
+		private String mAppSupportUrl;
 
 		// A locale specific phone number, takes precedence over the POS supportNumber
 		private String mSupportNumber;
@@ -306,8 +306,8 @@ public class PointOfSale {
 		return getPosLocale().mLocaleIdentifier;
 	}
 
-	public String getSupportUrl() {
-		return getPosLocale().mSupportUrl;
+	public String getAppSupportUrl() {
+		return getPosLocale().mAppSupportUrl;
 	}
 
 	public String getAppInfoUrl() {
@@ -756,10 +756,10 @@ public class PointOfSale {
 		locale.mLocaleIdentifier = data.optString("localeIdentifier", null);
 
 		// Various URLs
-		locale.mSupportUrl = data.optString("supportURL", null);
+		locale.mAppSupportUrl = data.optString("appSupportURL", null);
 		locale.mSupportNumber = data.optString("localeSpecificSupportPhoneNumber", null);
 		locale.mAppInfoUrl = data.optString("appInfoURL", null);
-		locale.mWebsiteUrl = data.optString("contactURL", null);
+		locale.mWebsiteUrl = data.optString("websiteURL", null);
 		locale.mInsuranceUrl = data.optString("insuranceURL", null);
 		locale.mBestPriceGuaranteePolicyUrl = data.optString("bestPriceGuaranteePolicyURL", null);
 

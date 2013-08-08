@@ -156,7 +156,7 @@ public class AboutUtils {
 	}
 
 	public void contactViaWeb() {
-		openWebsite(mActivity, PointOfSale.getPointOfSale().getSupportUrl(), false);
+		openWebsite(mActivity, PointOfSale.getPointOfSale().getAppSupportUrl(), false);
 	}
 
 	public void contactViaEmail() {
@@ -188,7 +188,7 @@ public class AboutUtils {
 			openWebsite(mActivity, "http://voyages-sncf.mobi/aide-appli-2/aide-appli-hotel/aide.html", false, false);
 		}
 		else {
-			openWebsite(mActivity, "http://www.mobiata.com/support/expediahotels-android", false, true);
+			openWebsite(mActivity, "http://www.mobiata.com/support/expedia-android", false, true);
 		}
 	}
 
