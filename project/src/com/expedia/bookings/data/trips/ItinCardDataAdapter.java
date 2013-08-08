@@ -224,6 +224,20 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		mItinCardDatasSync.clear();
 	}
 
+	/**
+	 * Empty the Adapter and fire notifyDataSetChanged(). This does not remove any underlying data from ItineraryManager.
+	 * 
+	 * This method allows the adapter to be emptied without waiting for an ItineraryManager.sync operation to complete.
+	 * It is useful for logging out a user, where we want the UI to reflect the user being logged out, but maybe itins have
+	 * not all been cleared yet.
+	 */
+	public synchronized void clearAdapter() {
+		mItinCardDatas.clear();
+
+		//Notify listeners
+		notifyDataSetChanged();
+	}
+
 	public void setSimpleMode(boolean enabled) {
 		mSimpleMode = enabled;
 	}
@@ -340,7 +354,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			boolean setAsSummaryCard = false;
 
 			ItinCardData data = itinCardDatas.get(a);
- 
+
 			if (!isValidForSummary(data)) {
 				continue;
 			}

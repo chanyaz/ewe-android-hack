@@ -1,11 +1,14 @@
 package com.expedia.bookings.fragment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.widget.ProgressBar;
 
 import com.expedia.bookings.R;
 
@@ -26,6 +29,7 @@ public class ConfirmLogoutDialogFragment extends DialogFragment {
 		Bundle args = new Bundle();
 		args.putString(ARG_MESSAGE, message);
 		instance.setArguments(args);
+		instance.setCancelable(false);
 		return instance;
 	}
 
@@ -54,13 +58,13 @@ public class ConfirmLogoutDialogFragment extends DialogFragment {
 		}
 
 		builder.setMessage(messageText);
+		builder.setCancelable(false);
 		builder.setPositiveButton(R.string.log_out, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				if (mListener != null) {
 					mListener.doLogout();
 				}
-				dismiss();
 			}
 		});
 		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -69,6 +73,8 @@ public class ConfirmLogoutDialogFragment extends DialogFragment {
 				dismiss();
 			}
 		});
-		return builder.create();
+		Dialog dialog = builder.create();
+		dialog.setCanceledOnTouchOutside(false);
+		return dialog;
 	}
 }

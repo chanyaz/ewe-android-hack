@@ -26,6 +26,7 @@ import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.User.SignOutCompleteListener;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
@@ -352,23 +353,29 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 	@Override
 	public void doLogout() {
+
+		setErrorMessage(null, false);
+
 		// Note: On 2.x, the user can logout from the expanded details view, be sure to collapse the view so when we
 		// re-populate the ListView with data, it does not think there is something expanded.
 		if (mItinListView != null) {
 			mItinListView.hideDetails(false);
+
+			//Make it invisible so nobody clicks anything
+			mItinListView.getItinCardDataAdapter().clearAdapter();
 		}
 
 		// Sign out user
-		User.signOut(getActivity());
+		User.signOutAsync(getActivity(), new SignOutCompleteListener() {
+			@Override
+			public void onSignOutComplete() {
+				syncItinManager(true, false);
+			}
+		});
 
-		// Update UI
 		updateLoginState();
 
-		setErrorMessage(null, false);
-
 		invalidateOptionsMenu();
-
-		syncItinManager(true, false);
 	}
 
 	public void onLoginCompleted() {

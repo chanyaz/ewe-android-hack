@@ -324,7 +324,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 
-		HotelErrorDialog errorDialog = (HotelErrorDialog) getFragmentManager().findFragmentByTag(HOTEL_OFFER_ERROR_DIALOG);
+		HotelErrorDialog errorDialog = (HotelErrorDialog) getFragmentManager().findFragmentByTag(
+				HOTEL_OFFER_ERROR_DIALOG);
 		if (errorDialog == null) {
 			// When we resume, there is a possibility that:
 			// 1. We were using GWallet (with coupon), but are no longer using GWallet
@@ -576,7 +577,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			}
 			else {
 				//We thought the user was logged in, but the user appears to not contain the data we need, get rid of the user
-				User.signOutAsync(getActivity());
+				User.signOutAsync(getActivity(), null);
 				mAccountButton.bind(false, false, null, false);
 			}
 		}
@@ -900,7 +901,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			mRefreshedUser = false;
 
 			// Sign out user
-			User.signOutAsync(getActivity());
+			User.signOutAsync(getActivity(), null);
 
 			// Update UI
 			mAccountButton.bind(false, false, null);

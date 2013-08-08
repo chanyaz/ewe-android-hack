@@ -11,6 +11,7 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 
@@ -196,24 +197,34 @@ public class User implements JSONable {
 	 * however cleanup happens in a background thread and may still
 	 * be working.
 	 * 
+	 * SignOutCompleteListener will fire on completion on the UI thread.
+	 * 
 	 * @param context
 	 */
-	public static void signOutAsync(final Context context) {
+	public static void signOutAsync(final Context context, final SignOutCompleteListener listener) {
 		TimingLogger logger = new TimingLogger("ExpediaBookings", "User.signOut");
 
 		//Do the actual sign out
 		performSignOutCriticalActions(context);
 		logger.addSplit("performSignOutCriticalActions");
 
-		//perform the rest of the clean up (in a background thread)
-		Runnable cleanupRunnable = new Runnable() {
+		AsyncTask<Object, Object, Object> cleanUpTask = new AsyncTask<Object, Object, Object>() {
+
 			@Override
-			public void run() {
+			protected Object doInBackground(Object... arg0) {
 				performSignOutCleanupActions(context);
+				return null;
 			}
+
+			@Override
+			protected void onPostExecute(Object object) {
+				if (listener != null) {
+					listener.onSignOutComplete();
+				}
+			}
+
 		};
-		Thread cleanupThread = new Thread(cleanupRunnable);
-		cleanupThread.start();
+		cleanUpTask.execute();
 		logger.addSplit("performSignOutCleanupActions thread initialized and started");
 
 		logger.dumpToLog();
@@ -512,5 +523,12 @@ public class User implements JSONable {
 		catch (JSONException e) {
 			return obj.toString();
 		}
+	}
+
+	/**
+	 * An interface for notifying us when the SignOutAsync task is complete.
+	 */
+	public interface SignOutCompleteListener {
+		public void onSignOutComplete();
 	}
 }
