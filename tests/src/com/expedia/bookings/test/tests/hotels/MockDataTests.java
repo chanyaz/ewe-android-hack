@@ -27,6 +27,7 @@ public class MockDataTests extends ActivityInstrumentationTestCase2<SearchActivi
 	private HotelsUserData mUser;
 
 	//SF-slave-android-3 is perpetually running E3MockServer at this IP
+	private static final String SERVER_NAME = "Mock Server";
 	private static final String SERVER_IP = "172.17.249.246";
 
 	protected void setUp() throws Exception {
@@ -37,7 +38,7 @@ public class MockDataTests extends ActivityInstrumentationTestCase2<SearchActivi
 		mDriver = new HotelsRobotHelper(mSolo, mRes);
 		mUser = new HotelsUserData();
 		mDriver.ignoreSweepstakesActivity();
-		mDriver.setUpMockServer(SERVER_IP);
+		mDriver.setUpMockServer(SERVER_NAME, SERVER_IP);
 		mDriver.clearPrivateData();
 	}
 

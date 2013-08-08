@@ -254,7 +254,7 @@ public class HotelsRobotHelper {
 		mSolo.goBack();
 	}
 
-	public void setUpMockServer(String serverIP) {
+	public void setUpMockServer(String serverName, String serverIP) {
 		// Open settings
 		mSolo.sendKey(Solo.MENU);
 		mSolo.clickOnText(mRes.getString(R.string.Settings));
