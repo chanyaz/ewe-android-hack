@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.text.TextUtils;
 
-import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -133,20 +134,20 @@ public class Trip implements JSONable, Comparable<Trip> {
 		mDetailsUrl = url;
 	}
 
-	public DateTime getStartDate() {
-		return mStartDate;
+	public com.expedia.bookings.data.DateTime getStartDate() {
+		return com.expedia.bookings.data.DateTime.fromJodaDateTime(mStartDate);
 	}
 
-	public void setStartDate(DateTime startDate) {
-		mStartDate = startDate;
+	public void setStartDate(com.expedia.bookings.data.DateTime startDate) {
+		mStartDate = com.expedia.bookings.data.DateTime.toJodaDateTime(startDate);
 	}
 
-	public DateTime getEndDate() {
-		return mEndDate;
+	public com.expedia.bookings.data.DateTime getEndDate() {
+		return com.expedia.bookings.data.DateTime.fromJodaDateTime(mEndDate);
 	}
 
-	public void setEndDate(DateTime endDate) {
-		mEndDate = endDate;
+	public void setEndDate(com.expedia.bookings.data.DateTime endDate) {
+		mEndDate = com.expedia.bookings.data.DateTime.toJodaDateTime(endDate);
 	}
 
 	public BookingStatus getBookingStatus() {
@@ -307,8 +308,8 @@ public class Trip implements JSONable, Comparable<Trip> {
 
 			JSONUtils.putJSONable(obj, "customerSupport", mCustomerSupport);
 
-			JSONUtils.putJSONable(obj, "startDate", mStartDate);
-			JSONUtils.putJSONable(obj, "endDate", mEndDate);
+			JodaUtils.putDateTimeInJson(obj, "startDateTime", mStartDate);
+			JodaUtils.putDateTimeInJson(obj, "endDateTime", mEndDate);
 
 			JSONUtils.putEnum(obj, "bookingStatus", mBookingStatus);
 			JSONUtils.putEnum(obj, "timePeriod", mTimePeriod);
@@ -341,8 +342,8 @@ public class Trip implements JSONable, Comparable<Trip> {
 
 		mCustomerSupport = JSONUtils.getJSONable(obj, "customerSupport", CustomerSupport.class);
 
-		mStartDate = JSONUtils.getJSONable(obj, "startDate", DateTime.class);
-		mEndDate = JSONUtils.getJSONable(obj, "endDate", DateTime.class);
+		mStartDate = JodaUtils.getDateTimeFromJsonBackCompat(obj, "startDateTime", "startDate");
+		mEndDate = JodaUtils.getDateTimeFromJsonBackCompat(obj, "endDateTime", "endDate");
 
 		mBookingStatus = JSONUtils.getEnum(obj, "bookingStatus", BookingStatus.class);
 		mTimePeriod = JSONUtils.getEnum(obj, "timePeriod", TimePeriod.class);
