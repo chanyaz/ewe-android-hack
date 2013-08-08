@@ -65,7 +65,7 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 	}
 
 	@Override
-	public com.expedia.bookings.data.DateTime getStartDate() {
+	public DateTime getStartDate() {
 		if (mStartDate == null) {
 			Calendar startCal = getStartCalFromFlightLeg();
 			if (startCal != null) {
@@ -76,11 +76,11 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 			}
 		}
 
-		return com.expedia.bookings.data.DateTime.fromJodaDateTime(mStartDate);
+		return mStartDate;
 	}
 
 	@Override
-	public com.expedia.bookings.data.DateTime getEndDate() {
+	public DateTime getEndDate() {
 		if (mEndDate == null) {
 			Calendar endCal = getEndCalFromFlightLeg();
 			if (endCal != null) {
@@ -91,7 +91,7 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 			}
 		}
 
-		return com.expedia.bookings.data.DateTime.fromJodaDateTime(mEndDate);
+		return mEndDate;
 	}
 
 	@Override

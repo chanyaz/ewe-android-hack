@@ -1,8 +1,9 @@
 package com.expedia.bookings.data.trips;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.joda.time.DateTime;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,10 +16,9 @@ import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.Car.Category;
 import com.expedia.bookings.data.Car.Type;
 import com.expedia.bookings.data.CarVendor;
-import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
-import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.JodaUtils;
 import com.google.android.gms.maps.model.LatLng;
 
 public class ItinCardDataCar extends ItinCardData implements ConfirmationNumberable {
@@ -113,32 +113,34 @@ public class ItinCardDataCar extends ItinCardData implements ConfirmationNumbera
 	}
 
 	public String getFormattedPickUpTime(Context context) {
-		return getPickUpDate().formatTime(context, TIME_FLAGS) + " " + getPickUpDate().formatTimeZone();
+		return JodaUtils.formatDateTime(context, getPickUpDate(), TIME_FLAGS) + " "
+				+ JodaUtils.formatTimeZone(getPickUpDate());
 	}
 
 	public String getFormattedDropOffTime(Context context) {
-		return getDropOffDate().formatTime(context, TIME_FLAGS) + " " + getDropOffDate().formatTimeZone();
+		return JodaUtils.formatDateTime(context, getDropOffDate(), TIME_FLAGS) + " "
+				+ JodaUtils.formatTimeZone(getDropOffDate());
 	}
 
 	public String getFormattedShortPickUpDate(Context context) {
-		return getPickUpDate().formatTime(context, SHORT_DATE_FLAGS);
+		return JodaUtils.formatDateTime(context, getPickUpDate(), SHORT_DATE_FLAGS);
 	}
 
 	public String getFormattedShortDropOffDate(Context context) {
-		return getDropOffDate().formatTime(context, SHORT_DATE_FLAGS);
+		return JodaUtils.formatDateTime(context, getDropOffDate(), SHORT_DATE_FLAGS);
 	}
 
 	public String getFormattedLongPickUpDate(Context context) {
-		return getPickUpDate().formatTime(context, LONG_DATE_FLAGS);
+		return JodaUtils.formatDateTime(context, getPickUpDate(), LONG_DATE_FLAGS);
 	}
 
 	public String getFormattedLongDropOffDate(Context context) {
-		return getDropOffDate().formatTime(context, LONG_DATE_FLAGS);
+		return JodaUtils.formatDateTime(context, getDropOffDate(), LONG_DATE_FLAGS);
 	}
 
 	public int getDays() {
 		Trip trip = getTripComponent().getParentTrip();
-		return (int) CalendarUtils.getDaysBetween(trip.getStartDate().getCalendar(), trip.getEndDate().getCalendar());
+		return JodaUtils.daysBetween(trip.getStartDate(), trip.getEndDate());
 	}
 
 	public int getInclusiveDays() {
@@ -218,19 +220,19 @@ public class ItinCardDataCar extends ItinCardData implements ConfirmationNumbera
 	 * @return true if we want to focus on the pickup time, false for drop off
 	 */
 	public boolean showPickUp() {
-		Calendar pickUpCal = getPickUpDate().getCalendar();
-		Calendar dropOffCal = getDropOffDate().getCalendar();
-		Calendar now = Calendar.getInstance(pickUpCal.getTimeZone());
+		DateTime pickUpDate = getPickUpDate();
+		DateTime dropOffDate = getDropOffDate();
+		DateTime now = DateTime.now(pickUpDate.getZone());
 
 		// This should work as long as they're not renting a car for a year (not possible I believe)
-		int pickUpDayOfYear = pickUpCal.get(Calendar.DAY_OF_YEAR);
-		int dropOffDayOfyear = dropOffCal.get(Calendar.DAY_OF_YEAR);
-		int dayOfYear = now.get(Calendar.DAY_OF_YEAR);
+		int pickUpDayOfYear = pickUpDate.getDayOfYear();
+		int dropOffDayOfyear = dropOffDate.getDayOfYear();
+		int dayOfYear = now.getDayOfYear();
 		boolean sameDayRental = pickUpDayOfYear == dropOffDayOfyear;
-		boolean isFourHoursBeforeDropOff = now.getTimeInMillis()
-				> dropOffCal.getTimeInMillis() - (4 * DateUtils.HOUR_IN_MILLIS);
+		boolean isFourHoursBeforeDropOff = now.getMillis()
+				> dropOffDate.getMillis() - (4 * DateUtils.HOUR_IN_MILLIS);
 
-		return now.before(pickUpCal) || (!sameDayRental && dayOfYear == pickUpDayOfYear)
+		return now.isBefore(pickUpDate) || (!sameDayRental && dayOfYear == pickUpDayOfYear)
 				|| (sameDayRental && !isFourHoursBeforeDropOff);
 	}
 

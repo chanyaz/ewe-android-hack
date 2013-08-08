@@ -1,10 +1,11 @@
 package com.expedia.bookings.data.trips;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.joda.time.DateTime;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -307,13 +308,13 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			return false;
 		}
 
-		Calendar endCal = data.getEndDate().getCalendar();
-		int endYear = endCal.get(Calendar.YEAR);
-		int endDay = endCal.get(Calendar.DAY_OF_YEAR);
+		DateTime endDate = data.getEndDate();
+		int endYear = endDate.getYear();
+		int endDay = endDate.getDayOfYear();
 
-		Calendar now = Calendar.getInstance();
-		int thisYear = now.get(Calendar.YEAR);
-		int thisDay = now.get(Calendar.DAY_OF_YEAR);
+		DateTime now = DateTime.now();
+		int thisYear = now.getYear();
+		int thisDay = now.getDayOfYear();
 
 		return (endYear == thisYear && endDay < thisDay) || endYear < thisYear;
 	}
@@ -347,9 +348,9 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		ItinCardData summaryCardData = null;
 		ItinCardData firstInProgressCard = null;
 		int firstInProgressCardPos = -1;
-		Calendar now = Calendar.getInstance();
-		long nowMillis = now.getTimeInMillis();
-		int today = now.get(Calendar.DAY_OF_YEAR);
+		DateTime now = DateTime.now();
+		long nowMillis = now.getMillis();
+		int today = now.getDayOfYear();
 		for (int a = 0; a < len; a++) {
 			boolean setAsSummaryCard = false;
 
@@ -359,15 +360,15 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				continue;
 			}
 
-			Calendar startCal = data.getStartDate().getCalendar();
+			DateTime startDate = data.getStartDate();
 
 			if (data instanceof ItinCardDataFlight && ((ItinCardDataFlight) data).isEnRoute()) {
 				setAsSummaryCard = true;
 			}
 			else if (data instanceof ItinCardDataHotel
-					&& startCal.get(Calendar.DAY_OF_YEAR) == today) {
+					&& startDate.getDayOfYear() == today) {
 				if (summaryCardData instanceof ItinCardDataCar) {
-					if (summaryCardData.getStartDate().getCalendar().before(now)) {
+					if (summaryCardData.getStartDate().isBefore(now)) {
 						setAsSummaryCard = true;
 					}
 				}
@@ -375,7 +376,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 					setAsSummaryCard = true;
 				}
 			}
-			else if (startCal.after(now) && summaryCardData == null) {
+			else if (startDate.isAfter(now) && summaryCardData == null) {
 				setAsSummaryCard = true;
 			}
 
@@ -384,7 +385,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				summaryCardData = data;
 			}
 
-			if (firstInProgressCard == null && data.getEndDate().getCalendar().after(now)) {
+			if (firstInProgressCard == null && data.getEndDate().isAfter(now)) {
 				firstInProgressCardPos = a;
 				firstInProgressCard = data;
 			}
@@ -397,9 +398,9 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			// 1. The current summary card starts after the first in-progress card ends
 			// 2. The current summary card is not happening in the next 3 hours
 			// Use the first in-progress card as summary instead
-			Calendar startDate = summaryCardData.getStartDate().getCalendar();
-			if (firstInProgressCard.getEndDate().getCalendar().before(startDate)
-					&& nowMillis < startDate.getTimeInMillis() - threeHours) {
+			DateTime startDate = summaryCardData.getStartDate();
+			if (firstInProgressCard.getEndDate().isBefore(startDate)
+					&& nowMillis < startDate.getMillis() - threeHours) {
 				summaryCardPosition = firstInProgressCardPos;
 				summaryCardData = firstInProgressCard;
 			}
@@ -409,7 +410,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				ItinCardData possibleAlt = itinCardDatas.get(summaryCardPosition + 1);
 
 				if (isValidForSummary(possibleAlt)) {
-					long startMillis = possibleAlt.getStartDate().getCalendar().getTimeInMillis();
+					long startMillis = possibleAlt.getStartDate().getMillis();
 					if (possibleAlt.hasDetailData() && nowMillis > startMillis - threeHours) {
 						altSummaryCardPosition = summaryCardPosition + 1;
 					}
@@ -419,8 +420,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		else {
 			// Check if last card hasn't ended; if so, make it the main summary card
 			ItinCardData lastCard = itinCardDatas.get(len - 1);
-			if (lastCard.hasDetailData()
-					&& lastCard.getEndDate().getCalendar().getTimeInMillis() > now.getTimeInMillis()) {
+			if (lastCard.hasDetailData() && lastCard.getEndDate().isAfter(now)) {
 				summaryCardPosition = len - 1;
 			}
 		}
@@ -450,8 +450,8 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 		for (int i = 0; i < len; i++) {
 			ItinCardData data = itinCardDatas.get(i);
-			Calendar start = data.getStartDate().getCalendar();
-			Calendar now = Calendar.getInstance(start.getTimeZone());
+			DateTime start = data.getStartDate();
+			DateTime now = DateTime.now(start.getZone());
 
 			// Ignore dismissed buttons
 			if (dismissedTripIds.contains(data.getTripId())) {
@@ -459,7 +459,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			}
 
 			// Ignore past itineraries
-			if (now.after(start) && now.get(Calendar.DAY_OF_YEAR) > start.get(Calendar.DAY_OF_YEAR)) {
+			if (now.isAfter(start) && now.getDayOfYear() > start.getDayOfYear()) {
 				continue;
 			}
 

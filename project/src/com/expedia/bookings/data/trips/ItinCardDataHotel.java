@@ -14,6 +14,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
+import com.expedia.bookings.utils.JodaUtils;
 import com.google.android.gms.maps.model.LatLng;
 
 public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumberable {
@@ -97,7 +98,7 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 	}
 
 	public String getFormattedDetailsCheckInDate(Context context) {
-		return getStartDate().formatTime(context, DETAIL_DATE_FLAGS);
+		return JodaUtils.formatDateTime(context, getStartDate(), DETAIL_DATE_FLAGS);
 	}
 
 	public String getCheckOutTime() {
@@ -105,18 +106,18 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 	}
 
 	public String getFormattedDetailsCheckOutDate(Context context) {
-		return getEndDate().formatTime(context, DETAIL_DATE_FLAGS);
+		return JodaUtils.formatDateTime(context, getEndDate(), DETAIL_DATE_FLAGS);
 	}
 
 	public String getFallbackCheckInTime(Context context) {
 		return TextUtils.isEmpty(getCheckInTime())
-				? getStartDate().formatTime(context, DateUtils.FORMAT_SHOW_TIME)
+				? JodaUtils.formatDateTime(context, getStartDate(), DateUtils.FORMAT_SHOW_TIME)
 				: getCheckInTime();
 	}
 
 	public String getFallbackCheckOutTime(Context context) {
 		return TextUtils.isEmpty(getCheckOutTime())
-				? getEndDate().formatTime(context, DateUtils.FORMAT_SHOW_TIME)
+				? JodaUtils.formatDateTime(context, getEndDate(), DateUtils.FORMAT_SHOW_TIME)
 				: getCheckOutTime();
 	}
 

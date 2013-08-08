@@ -110,8 +110,8 @@ public class Car implements JSONable {
 		mPrice = price;
 	}
 
-	public com.expedia.bookings.data.DateTime getPickUpDateTime() {
-		return com.expedia.bookings.data.DateTime.fromJodaDateTime(mPickUpDateTime);
+	public DateTime getPickUpDateTime() {
+		return mPickUpDateTime;
 	}
 
 	public void setPickUpDateTime(DateTime pickUpDateTime) {
@@ -126,8 +126,8 @@ public class Car implements JSONable {
 		mPickUpLocation = pickUpLocation;
 	}
 
-	public com.expedia.bookings.data.DateTime getDropOffDateTime() {
-		return com.expedia.bookings.data.DateTime.fromJodaDateTime(mDropOffDateTime);
+	public DateTime getDropOffDateTime() {
+		return mDropOffDateTime;
 	}
 
 	public void setDropOffDateTime(DateTime dropOffDateTime) {

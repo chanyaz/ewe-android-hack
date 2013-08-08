@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -24,7 +26,7 @@ import com.expedia.bookings.graphics.DestinationBitmapDrawable;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.Ui;
@@ -118,13 +120,13 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		}
 
 		ItinCardDataCar data = getItinCardData();
-		Calendar start = data.getPickUpDate().getCalendar();
-		Calendar end = data.getDropOffDate().getCalendar();
-		Calendar now = Calendar.getInstance(start.getTimeZone());
+		DateTime pickUpDate = data.getPickUpDate();
+		DateTime dropOffDate = data.getDropOffDate();
+		DateTime now = DateTime.now(pickUpDate.getZone());
 
-		final boolean beforeStart = now.before(start);
-		final long daysBetweenStart = CalendarUtils.getDaysBetween(now, start);
-		final long daysBetweenEnd = CalendarUtils.getDaysBetween(now, end);
+		final boolean beforeStart = now.isBefore(pickUpDate);
+		final long daysBetweenStart = JodaUtils.daysBetween(now, pickUpDate);
+		final long daysBetweenEnd = JodaUtils.daysBetween(now, dropOffDate);
 
 		// Pick up in 3 days
 		if (beforeStart && daysBetweenStart == 3) {
@@ -142,14 +144,14 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		else if (beforeStart && daysBetweenStart == 0) {
 			view.setText(getContext().getString(
 					R.string.itin_card_details_pick_up_TEMPLATE,
-					getItinCardData().getPickUpDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME)));
+					JodaUtils.formatDateTime(getContext(), pickUpDate, DateUtils.FORMAT_SHOW_TIME)));
 		}
 		// Pick up May 14
 		else if (beforeStart) {
 			view.setText(getContext().getString(
 					R.string.itin_card_details_pick_up_day_TEMPLATE,
-					getItinCardData().getPickUpDate().formatTime(getContext(),
-							DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR)));
+					JodaUtils.formatDateTime(getContext(), pickUpDate, DateUtils.FORMAT_SHOW_DATE
+							| DateUtils.FORMAT_NO_YEAR)));
 		}
 		// Drop off in 3 days
 		else if (!beforeStart && daysBetweenEnd == 3) {
@@ -167,21 +169,21 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		else if (!beforeStart && daysBetweenEnd == 0) {
 			view.setText(getContext().getString(
 					R.string.itin_card_details_drop_off_TEMPLATE,
-					getItinCardData().getDropOffDate().formatTime(getContext(), DateUtils.FORMAT_SHOW_TIME)));
+					JodaUtils.formatDateTime(getContext(), dropOffDate, DateUtils.FORMAT_SHOW_TIME)));
 		}
 		// Drop off May 18
-		else if (now.before(end)) {
+		else if (now.isBefore(dropOffDate)) {
 			view.setText(getContext().getString(
 					R.string.itin_card_details_drop_off_day_TEMPLATE,
-					getItinCardData().getDropOffDate().formatTime(getContext(),
-							DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR)));
+					JodaUtils.formatDateTime(getContext(), dropOffDate, DateUtils.FORMAT_SHOW_DATE
+							| DateUtils.FORMAT_NO_YEAR)));
 		}
 		// Dropped off May 18
 		else {
 			view.setText(getContext().getString(
 					R.string.itin_card_details_dropped_off_TEMPLATE,
-					getItinCardData().getDropOffDate().formatTime(getContext(),
-							DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR)));
+					JodaUtils.formatDateTime(getContext(), dropOffDate, DateUtils.FORMAT_SHOW_DATE
+							| DateUtils.FORMAT_NO_YEAR)));
 		}
 
 		return view;
@@ -314,9 +316,9 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 
 		String itinId = data.getId();
 
-		long triggerTimeMillis = data.getPickUpDate().getMillisFromEpoch();
+		long triggerTimeMillis = data.getPickUpDate().getMillis();
 
-		Calendar expiration = (Calendar) data.getPickUpDate().getCalendar().clone();
+		Calendar expiration = data.getPickUpDate().toGregorianCalendar();
 		expiration.set(Calendar.MINUTE, 59);
 		expiration.set(Calendar.MILLISECOND, 0);
 		expiration.set(Calendar.HOUR_OF_DAY, 23);
@@ -353,7 +355,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 
 		long triggerTimeMillis = calculateDropOffNotificationMillis();
 
-		Calendar expiration = (Calendar) data.getDropOffDate().getCalendar().clone();
+		Calendar expiration = data.getDropOffDate().toGregorianCalendar();
 		expiration.set(Calendar.MINUTE, 59);
 		expiration.set(Calendar.MILLISECOND, 0);
 		expiration.set(Calendar.HOUR_OF_DAY, 23);
@@ -378,7 +380,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 
 	private long calculateDropOffNotificationMillis() {
 		ItinCardDataCar data = getItinCardData();
-		long triggerTimeMillis = data.getDropOffDate().getMillisFromEpoch();
+		long triggerTimeMillis = data.getDropOffDate().getMillis();
 		triggerTimeMillis -= 2 * DateUtils.HOUR_IN_MILLIS;
 		return triggerTimeMillis;
 	}

@@ -134,16 +134,16 @@ public class Trip implements JSONable, Comparable<Trip> {
 		mDetailsUrl = url;
 	}
 
-	public com.expedia.bookings.data.DateTime getStartDate() {
-		return com.expedia.bookings.data.DateTime.fromJodaDateTime(mStartDate);
+	public DateTime getStartDate() {
+		return mStartDate;
 	}
 
 	public void setStartDate(DateTime startDate) {
 		mStartDate = startDate;
 	}
 
-	public com.expedia.bookings.data.DateTime getEndDate() {
-		return com.expedia.bookings.data.DateTime.fromJodaDateTime(mEndDate);
+	public DateTime getEndDate() {
+		return mEndDate;
 	}
 
 	public void setEndDate(DateTime endDate) {

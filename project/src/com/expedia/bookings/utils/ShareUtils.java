@@ -4,6 +4,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.text.Html;
@@ -13,7 +16,6 @@ import android.text.format.DateUtils;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.CarVendor;
-import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
@@ -28,7 +30,6 @@ import com.expedia.bookings.data.trips.TripFlight;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Layover;
-import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
 
@@ -137,8 +138,8 @@ public class ShareUtils {
 	}
 
 	public String getHotelShareSubject(ItinCardDataHotel itinCardData) {
-		return getHotelShareSubject(itinCardData.getPropertyCity(), itinCardData.getStartDate(),
-				itinCardData.getEndDate());
+		return getHotelShareSubject(itinCardData.getPropertyCity(), itinCardData.getStartDate().toLocalDate(),
+				itinCardData.getEndDate().toLocalDate());
 	}
 
 	public String getCarShareSubject(ItinCardDataCar itinCardData) {
@@ -201,7 +202,8 @@ public class ShareUtils {
 		DateTime endDate = itinCardData.getEndDate();
 		String detailsUrl = itinCardData.getDetailsUrl();
 
-		return getHotelShareTextLong(hotelName, address, phone, startDate, endDate, detailsUrl);
+		return getHotelShareTextLong(hotelName, address, phone, startDate.toLocalDate(), endDate.toLocalDate(),
+				detailsUrl);
 	}
 
 	public String getCarShareTextLong(ItinCardDataCar itinCardData) {
@@ -371,30 +373,30 @@ public class ShareUtils {
 
 	// Hotels
 
-	public String getHotelShareSubject(String city, DateTime startDate, DateTime endDate) {
+	public String getHotelShareSubject(String city, LocalDate startDate, LocalDate endDate) {
 		String template = mContext.getString(R.string.share_template_subject_hotel);
-		String checkIn = startDate.formatTime(mContext, SHARE_CHECK_IN_FLAGS);
-		String checkOut = endDate.formatTime(mContext, SHARE_CHECK_IN_FLAGS);
+		String checkIn = JodaUtils.formatLocalDate(mContext, startDate, SHARE_CHECK_IN_FLAGS);
+		String checkOut = JodaUtils.formatLocalDate(mContext, endDate, SHARE_CHECK_IN_FLAGS);
 
 		return String.format(template, city, checkIn, checkOut);
 	}
 
 	public String getHotelShareTextShort(String hotelName, DateTime startDate, DateTime endDate, String detailsUrl) {
 		String template = mContext.getString(R.string.share_template_short_hotel);
-		String checkIn = startDate.formatTime(mContext, SHARE_CHECK_IN_FLAGS);
-		String checkOut = endDate.formatTime(mContext, SHARE_CHECK_OUT_FLAGS);
+		String checkIn = JodaUtils.formatDateTime(mContext, startDate, SHARE_CHECK_IN_FLAGS);
+		String checkOut = JodaUtils.formatDateTime(mContext, endDate, SHARE_CHECK_IN_FLAGS);
 
 		return String.format(template, hotelName, checkIn, checkOut, detailsUrl);
 	}
 
-	public String getHotelShareTextLong(String hotelName, String address, String phone, DateTime startDate,
-			DateTime endDate, String detailsUrl) {
+	public String getHotelShareTextLong(String hotelName, String address, String phone, LocalDate startDate,
+			LocalDate endDate, String detailsUrl) {
 
-		String checkIn = startDate.formatTime(mContext, LONG_SHARE_DATE_FLAGS);
-		String checkOut = endDate.formatTime(mContext, LONG_SHARE_DATE_FLAGS);
+		String checkIn = JodaUtils.formatLocalDate(mContext, startDate, LONG_SHARE_DATE_FLAGS);
+		String checkOut = JodaUtils.formatLocalDate(mContext, endDate, LONG_SHARE_DATE_FLAGS);
 		String downloadUrl = PointOfSale.getPointOfSale().getAppInfoUrl();
 
-		int nights = (int) CalendarUtils.getDaysBetween(startDate.getCalendar(), endDate.getCalendar());
+		int nights = JodaUtils.daysBetween(startDate, endDate);
 		String lengthOfStay = mContext.getResources().getQuantityString(R.plurals.length_of_stay, nights, nights);
 
 		StringBuilder builder = new StringBuilder();
@@ -431,8 +433,8 @@ public class ShareUtils {
 	public String getCarShareSubject(DateTime pickUpDateTime, DateTime dropOffDateTime) {
 		String subject;
 		if (pickUpDateTime != null && dropOffDateTime != null) {
-			String pickUpDate = pickUpDateTime.formatTime(mContext, SHORT_DATE_FLAGS);
-			String dropOffDate = dropOffDateTime.formatTime(mContext, SHORT_DATE_FLAGS);
+			String pickUpDate = JodaUtils.formatDateTime(mContext, pickUpDateTime, SHORT_DATE_FLAGS);
+			String dropOffDate = JodaUtils.formatDateTime(mContext, dropOffDateTime, SHORT_DATE_FLAGS);
 
 			subject = mContext.getString(R.string.share_template_subject_car, pickUpDate, dropOffDate);
 		}
@@ -447,8 +449,8 @@ public class ShareUtils {
 			String vendorName, String vendorAddress) {
 
 		String category = mContext.getString(carCategory.getCategoryResId());
-		String pickUpDate = pickUpDateTime.formatTime(mContext, SHORT_DATE_FLAGS);
-		String dropOffDate = dropOffDateTime.formatTime(mContext, SHORT_DATE_FLAGS);
+		String pickUpDate = JodaUtils.formatDateTime(mContext, pickUpDateTime, SHORT_DATE_FLAGS);
+		String dropOffDate = JodaUtils.formatDateTime(mContext, dropOffDateTime, SHORT_DATE_FLAGS);
 
 		StringBuilder sb = new StringBuilder();
 
@@ -493,16 +495,17 @@ public class ShareUtils {
 		}
 
 		if (pickUpDateTime != null) {
-			String pickUpDate = pickUpDateTime.formatTime(mContext, SHORT_DATE_FLAGS);
-			String pickUpTime = pickUpDateTime.formatTime(mContext, TIME_FLAGS) + " " + pickUpDateTime.formatTimeZone();
+			String pickUpDate = JodaUtils.formatDateTime(mContext, pickUpDateTime, SHORT_DATE_FLAGS);
+			String pickUpTime = JodaUtils.formatDateTime(mContext, pickUpDateTime, TIME_FLAGS) + " "
+					+ JodaUtils.formatTimeZone(pickUpDateTime);
 			sb.append(mContext.getString(R.string.share_car_pickup_TEMPLATE, pickUpDate, pickUpTime));
 			sb.append("\n");
 		}
 
 		if (dropOffDateTime != null) {
-			String dropOffDate = dropOffDateTime.formatTime(mContext, SHORT_DATE_FLAGS);
-			String dropOffTime = dropOffDateTime.formatTime(mContext, TIME_FLAGS) + " "
-					+ dropOffDateTime.formatTimeZone();
+			String dropOffDate = JodaUtils.formatDateTime(mContext, dropOffDateTime, SHORT_DATE_FLAGS);
+			String dropOffTime = JodaUtils.formatDateTime(mContext, dropOffDateTime, TIME_FLAGS) + " "
+					+ JodaUtils.formatTimeZone(dropOffDateTime);
 			sb.append(mContext.getString(R.string.share_car_dropoff_TEMPLATE, dropOffDate, dropOffTime));
 			sb.append("\n\n");
 		}
@@ -571,8 +574,8 @@ public class ShareUtils {
 	}
 
 	public String getActivityShareTextShort(String title, DateTime validDateTime, DateTime expirationDateTime) {
-		String validDate = validDateTime.formatTime(mContext, SHARE_DATE_FLAGS);
-		String expirationDate = expirationDateTime.formatTime(mContext, SHARE_DATE_FLAGS);
+		String validDate = JodaUtils.formatDateTime(mContext, validDateTime, SHARE_DATE_FLAGS);
+		String expirationDate = JodaUtils.formatDateTime(mContext, expirationDateTime, SHARE_DATE_FLAGS);
 
 		StringBuilder sb = new StringBuilder();
 
@@ -596,8 +599,8 @@ public class ShareUtils {
 	public String getActivityShareTextLong(String title, DateTime validDateTime, DateTime expirationDateTime,
 			List<Traveler> travelers) {
 
-		String validDate = validDateTime.formatTime(mContext, SHARE_DATE_FLAGS);
-		String expirationDate = expirationDateTime.formatTime(mContext, SHARE_DATE_FLAGS);
+		String validDate = JodaUtils.formatDateTime(mContext, validDateTime, SHARE_DATE_FLAGS);
+		String expirationDate = JodaUtils.formatDateTime(mContext, expirationDateTime, SHARE_DATE_FLAGS);
 		String downloadUrl = PointOfSale.getPointOfSale().getAppInfoUrl();
 
 		StringBuilder sb = new StringBuilder();

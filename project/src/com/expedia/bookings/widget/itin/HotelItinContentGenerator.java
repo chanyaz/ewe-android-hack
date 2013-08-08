@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -21,8 +23,8 @@ import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.ClipboardUtils;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.Ui;
@@ -135,13 +137,13 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		}
 
 		ItinCardDataHotel data = getItinCardData();
-		Calendar start = data.getStartDate().getCalendar();
-		Calendar end = data.getEndDate().getCalendar();
-		Calendar now = Calendar.getInstance(start.getTimeZone());
+		DateTime startDate = data.getStartDate();
+		DateTime endDate = data.getEndDate();
+		DateTime now = DateTime.now(startDate.getZone());
 
-		final boolean beforeStart = now.before(start);
-		final long daysBetweenStart = CalendarUtils.getDaysBetween(now, start);
-		final long daysBetweenEnd = CalendarUtils.getDaysBetween(now, end);
+		final boolean beforeStart = now.isBefore(startDate);
+		final long daysBetweenStart = JodaUtils.daysBetween(now, startDate);
+		final long daysBetweenEnd = JodaUtils.daysBetween(now, endDate);
 
 		// Check in - 3 days
 		if (beforeStart && daysBetweenStart == 3) {
@@ -183,7 +185,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 					data.getFallbackCheckOutTime(getContext())));
 		}
 		// Check out May 18
-		else if (now.before(end)) {
+		else if (now.isBefore(endDate)) {
 			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_day_TEMPLATE,
 					data.getFormattedDetailsCheckOutDate(getContext())));
 		}
@@ -361,7 +363,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		String itinId = data.getId();
 
-		Calendar trigger = (Calendar) data.getStartDate().getCalendar().clone();
+		Calendar trigger = data.getStartDate().toGregorianCalendar();
 		trigger.set(Calendar.MINUTE, 0);
 		trigger.set(Calendar.MILLISECOND, 0);
 		trigger.set(Calendar.HOUR_OF_DAY, 10);
@@ -400,7 +402,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		String itinId = data.getId();
 
-		Calendar trigger = (Calendar) data.getEndDate().getCalendar().clone();
+		Calendar trigger = data.getEndDate().toGregorianCalendar();
 		trigger.set(Calendar.MINUTE, 0);
 		trigger.set(Calendar.MILLISECOND, 0);
 		trigger.set(Calendar.HOUR_OF_DAY, 7);

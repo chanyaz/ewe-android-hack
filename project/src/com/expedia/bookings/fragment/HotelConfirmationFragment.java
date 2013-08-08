@@ -23,7 +23,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BookingResponse;
-import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -290,8 +289,8 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		Property property = Db.getHotelSearch().getSelectedProperty();
 
 		ShareUtils socialUtils = new ShareUtils(context);
-		DateTime checkIn = DateTime.fromLocalDate(searchParams.getCheckInDate());
-		DateTime checkOut = DateTime.fromLocalDate(searchParams.getCheckOutDate());
+		LocalDate checkIn = searchParams.getCheckInDate();
+		LocalDate checkOut = searchParams.getCheckOutDate();
 		String address = StrUtils.formatAddress(property.getLocation());
 		String phone = Db.getBookingResponse().getPhoneNumber();
 

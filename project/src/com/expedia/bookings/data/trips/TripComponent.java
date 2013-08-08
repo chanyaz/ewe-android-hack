@@ -58,7 +58,7 @@ public class TripComponent implements JSONable {
 		return mUniqueId;
 	}
 
-	public com.expedia.bookings.data.DateTime getStartDate() {
+	public DateTime getStartDate() {
 		// If we have no start date, fallback to parent start date
 		if (mStartDate == null) {
 			Trip parent = getParentTrip();
@@ -67,14 +67,14 @@ public class TripComponent implements JSONable {
 			}
 		}
 
-		return com.expedia.bookings.data.DateTime.fromJodaDateTime(mStartDate);
+		return mStartDate;
 	}
 
 	public void setStartDate(DateTime startDate) {
 		mStartDate = startDate;
 	}
 
-	public com.expedia.bookings.data.DateTime getEndDate() {
+	public DateTime getEndDate() {
 		// If we have no end date, fallback to overall parent end date
 		if (mEndDate == null) {
 			Trip parent = getParentTrip();
@@ -83,7 +83,7 @@ public class TripComponent implements JSONable {
 			}
 		}
 
-		return com.expedia.bookings.data.DateTime.fromJodaDateTime(mEndDate);
+		return mEndDate;
 	}
 
 	public void setEndDate(DateTime endDate) {

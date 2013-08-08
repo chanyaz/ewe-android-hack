@@ -1,6 +1,7 @@
 package com.expedia.bookings.data.trips;
 
-import com.expedia.bookings.data.DateTime;
+import org.joda.time.DateTime;
+
 import com.google.android.gms.maps.model.LatLng;
 
 /**

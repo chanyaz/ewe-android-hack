@@ -399,8 +399,8 @@ public class ItineraryManager implements JSONable {
 		mStartTimes.clear();
 		mEndTimes.clear();
 		for (Trip trip : mTrips.values()) {
-			DateTime startDate = trip.getStartDate();
-			DateTime endDate = trip.getEndDate();
+			DateTime startDate = DateTime.fromJodaDateTime(trip.getStartDate());
+			DateTime endDate = DateTime.fromJodaDateTime(trip.getEndDate());
 			if (startDate != null) {
 				mStartTimes.add(startDate);
 				if (endDate != null) {
@@ -473,8 +473,8 @@ public class ItineraryManager implements JSONable {
 						List<ItinCardData> items = ItinCardDataFactory.generateCardData(comp);
 						if (items != null) {
 							for (ItinCardData item : items) {
-								if (item.getEndDate() != null && item.getEndDate().getCalendar() != null
-										&& item.getEndDate().getCalendar().compareTo(pastCutoffCal) >= 0) {
+								DateTime endDate = DateTime.fromJodaDateTime(item.getEndDate());
+								if (endDate != null && endDate.getCalendar().compareTo(pastCutoffCal) >= 0) {
 									mItinCardDatas.add(item);
 								}
 							}
@@ -531,7 +531,7 @@ public class ItineraryManager implements JSONable {
 	};
 
 	private long getStartMillisUtc(ItinCardData data) {
-		DateTime date = data.getStartDate();
+		DateTime date = DateTime.fromJodaDateTime(data.getStartDate());
 		if (date == null) {
 			return 0;
 		}

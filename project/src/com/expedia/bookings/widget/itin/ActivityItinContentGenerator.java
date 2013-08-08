@@ -267,7 +267,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 
 		String itinId = data.getId();
 
-		Calendar trigger = (Calendar) data.getValidDate().getCalendar().clone();
+		Calendar trigger = data.getValidDate().toGregorianCalendar();
 		trigger.add(Calendar.DAY_OF_MONTH, -1);
 		trigger.set(Calendar.MINUTE, 0);
 		trigger.set(Calendar.MILLISECOND, 0);

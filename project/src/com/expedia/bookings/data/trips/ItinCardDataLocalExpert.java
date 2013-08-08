@@ -1,13 +1,14 @@
 package com.expedia.bookings.data.trips;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
-import com.expedia.bookings.data.DateTime;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+
 import com.expedia.bookings.data.LocalExpertSite.Destination;
 import com.expedia.bookings.data.Location;
-import com.mobiata.flightlib.utils.DateTimeUtils;
+import com.expedia.bookings.utils.JodaUtils;
 
 public class ItinCardDataLocalExpert extends ItinCardData {
 	private static final int VALID_MINUTES_BEFORE = 60 * 24 * 2; // 2 days
@@ -83,15 +84,9 @@ public class ItinCardDataLocalExpert extends ItinCardData {
 	}
 
 	public static boolean validDateTime(DateTime startDateTime, DateTime endDateTime) {
-		Calendar start = DateTimeUtils.roundCalendar(startDateTime.getCalendar());
-		Calendar end = DateTimeUtils.roundCalendar(endDateTime.getCalendar());
-		Calendar now = DateTimeUtils.roundCalendar(Calendar.getInstance());
-
-		if (DateTimeUtils.compareDateTimes(start, now) >= -VALID_MINUTES_BEFORE
-				&& DateTimeUtils.compareDateTimes(end, now) <= VALID_MINUTES_AFTER) {
-			return true;
-		}
-
-		return false;
+		LocalDate startDate = startDateTime.toLocalDate();
+		LocalDate endDate = startDateTime.toLocalDate();
+		LocalDate now = LocalDate.now();
+		return JodaUtils.daysBetween(now, startDate) <= 2 && JodaUtils.isBeforeOrEquals(now, endDate);
 	}
 }

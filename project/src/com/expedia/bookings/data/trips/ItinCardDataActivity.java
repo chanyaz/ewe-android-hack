@@ -2,6 +2,8 @@ package com.expedia.bookings.data.trips;
 
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -10,10 +12,10 @@ import android.text.format.DateUtils;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Activity;
-import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.utils.JodaUtils;
 
 public class ItinCardDataActivity extends ItinCardData {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -61,23 +63,23 @@ public class ItinCardDataActivity extends ItinCardData {
 	}
 
 	public String getFormattedShareValidDate(Context context) {
-		return getValidDate().formatTime(context, SHARE_DATE_FLAGS);
+		return JodaUtils.formatDateTime(context, getValidDate(), SHARE_DATE_FLAGS);
 	}
 
 	public String getFormattedShareExpiresDate(Context context) {
-		return getExpirationDate().formatTime(context, SHARE_DATE_FLAGS);
+		return JodaUtils.formatDateTime(context, getExpirationDate(), SHARE_DATE_FLAGS);
 	}
 
 	public String getLongFormattedValidDate(Context context) {
-		return getValidDate().formatTime(context, DETAIL_LONG_DATE_FLAGS);
+		return JodaUtils.formatDateTime(context, getValidDate(), DETAIL_LONG_DATE_FLAGS);
 	}
 
 	public String getFormattedValidDate(Context context) {
-		return getValidDate().formatTime(context, DETAIL_SHORT_DATE_FLAGS);
+		return JodaUtils.formatDateTime(context, getValidDate(), DETAIL_SHORT_DATE_FLAGS);
 	}
 
 	public String getFormattedExpirationDate(Context context) {
-		return getExpirationDate().formatTime(context, DETAIL_SHORT_DATE_FLAGS);
+		return JodaUtils.formatDateTime(context, getExpirationDate(), DETAIL_SHORT_DATE_FLAGS);
 	}
 
 	public int getGuestCount() {

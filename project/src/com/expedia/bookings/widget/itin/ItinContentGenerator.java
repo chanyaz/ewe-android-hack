@@ -3,6 +3,8 @@ package com.expedia.bookings.widget.itin;
 import java.util.List;
 import java.util.Locale;
 
+import org.joda.time.DateTime;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.text.Html;
@@ -22,7 +24,6 @@ import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
-import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -43,6 +44,7 @@ import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClipboardUtils;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.LinearLayout;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
@@ -503,7 +505,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	 */
 	private CharSequence getRelativeStartDate() {
 		DateTime dateTime = getItinCardData().getStartDate();
-		long time = dateTime.getMillisFromEpoch();
+		long time = dateTime.getMillis();
 		long now = System.currentTimeMillis();
 		long duration = time - now;
 
@@ -546,7 +548,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		// Fall back to the date, we want "MMM d" ("Mar 15")
 		else {
 			int flags = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_MONTH;
-			ret = dateTime.formatTime(getContext(), flags);
+			ret = JodaUtils.formatDateTime(getContext(), dateTime, flags);
 		}
 
 		// Capitalize the first letter
