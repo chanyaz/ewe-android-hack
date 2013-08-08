@@ -31,7 +31,7 @@ public class AdX {
 
 	private static void connect(String pos, boolean launchedAgain) {
 		if (!mConnected) {
-			AdXConnect.getAdXConnectInstance(mContext, launchedAgain, mLogLevel, pos);
+			AdXConnect.getAdXConnectInstance(mContext, launchedAgain, mLogLevel, pos, Installation.id(mContext));
 			mConnected = true;
 		}
 	}
