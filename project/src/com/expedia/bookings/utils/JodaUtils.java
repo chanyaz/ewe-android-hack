@@ -18,6 +18,21 @@ import com.mobiata.android.json.JSONUtils;
 
 public class JodaUtils {
 
+	public static boolean isAfterOrEquals(AbstractPartial first, AbstractPartial second) {
+		return first.isAfter(second) || first.isEqual(second);
+	}
+
+	public static boolean isBeforeOrEquals(AbstractPartial first, AbstractPartial second) {
+		return first.isBefore(second) || first.isEqual(second);
+	}
+
+	public static int daysBetween(ReadablePartial start, ReadablePartial end) {
+		return Days.daysBetween(start, end).getDays();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Formatting
+
 	/**
 	 * This is the equivalent of android.text.format.getDateFormat(), when used in DateUtils
 	 */
@@ -40,18 +55,6 @@ public class JodaUtils {
 	 */
 	public static final int FLAGS_TIME_FORMAT = DateUtils.FORMAT_SHOW_TIME;
 
-	public static boolean isAfterOrEquals(AbstractPartial first, AbstractPartial second) {
-		return first.isAfter(second) || first.isEqual(second);
-	}
-
-	public static boolean isBeforeOrEquals(AbstractPartial first, AbstractPartial second) {
-		return first.isBefore(second) || first.isEqual(second);
-	}
-
-	public static int daysBetween(ReadablePartial start, ReadablePartial end) {
-		return Days.daysBetween(start, end).getDays();
-	}
-
 	public static String formatLocalDate(Context context, LocalDate localDate, int flags) {
 		return formatDateTime(context, localDate.toDateTimeAtStartOfDay(), flags);
 	}
@@ -61,17 +64,13 @@ public class JodaUtils {
 		return DateUtils.formatDateTime(context, utcDateTime.getMillis(), flags | DateUtils.FORMAT_UTC);
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// JSON
+
 	public static void putLocalDateInJson(JSONObject obj, String key, LocalDate localDate) throws JSONException {
 		if (obj != null && !TextUtils.isEmpty(key) && localDate != null) {
 			obj.put(key, localDate.toString());
 		}
-	}
-
-	public static LocalDate getLocalDateFromJson(JSONObject obj, String key) {
-		if (obj != null && obj.has(key)) {
-			return LocalDate.parse(obj.optString(key));
-		}
-		return null;
 	}
 
 	public static LocalDate getLocalDateFromJsonBackCompat(JSONObject obj, String localDateKey, String oldDateKey) {
