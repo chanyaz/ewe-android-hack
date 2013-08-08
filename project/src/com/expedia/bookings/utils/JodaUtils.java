@@ -10,7 +10,6 @@ import org.joda.time.LocalDate;
 import org.joda.time.ReadableInstant;
 import org.joda.time.ReadablePartial;
 import org.joda.time.base.AbstractPartial;
-import org.joda.time.tz.FixedDateTimeZone;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,8 +24,7 @@ import com.mobiata.android.json.JSONUtils;
 public class JodaUtils {
 
 	public static DateTime fromMillisAndOffset(long millisFromEpoch, int tzOffsetMillis) {
-		return new org.joda.time.DateTime(millisFromEpoch, new FixedDateTimeZone(formatTimeZone(tzOffsetMillis),
-				null, tzOffsetMillis, tzOffsetMillis));
+		return new org.joda.time.DateTime(millisFromEpoch, DateTimeZone.forOffsetMillis(tzOffsetMillis));
 	}
 
 	public static boolean isAfterOrEquals(AbstractPartial first, AbstractPartial second) {
