@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.utils.NavUtils;
 import com.mobiata.android.Log;
 
 public class LocaleChangeReceiver extends BroadcastReceiver {

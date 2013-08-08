@@ -2,7 +2,6 @@ package com.expedia.bookings.fragment;
 
 import java.io.File;
 
-import org.joda.time.Days;
 import org.joda.time.LocalDate;
 
 import android.annotation.SuppressLint;

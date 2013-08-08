@@ -90,7 +90,7 @@ public class LocalExpertFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 
-		if (!getResources().getBoolean(R.bool.ldpi)) {	
+		if (!getResources().getBoolean(R.bool.ldpi)) {
 			Ui.runOnNextLayout(this, new Runnable() {
 				public void run() {
 					mHandler.sendMessageDelayed(Message.obtain(mHandler, MSG_ADVANCE), START_DELAY);

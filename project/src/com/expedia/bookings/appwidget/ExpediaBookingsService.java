@@ -28,7 +28,6 @@ import android.widget.RemoteViews;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
-import com.expedia.bookings.activity.PhoneSearchActivity;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Distance.DistanceUnit;

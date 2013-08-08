@@ -21,7 +21,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 

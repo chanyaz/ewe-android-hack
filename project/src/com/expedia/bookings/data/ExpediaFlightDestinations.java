@@ -15,7 +15,7 @@ import com.mobiata.android.util.IoUtils;
 /**
  * This is a class for reading/parsing/and returning lists of flight destinations (for the launch screen) based on PointOfSale.
  * 
- * The data for this comes from our shared data 
+ * The data for this comes from our shared data
  */
 public class ExpediaFlightDestinations {
 

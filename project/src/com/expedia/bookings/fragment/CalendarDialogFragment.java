@@ -1,7 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.Calendar;
-
 import org.joda.time.LocalDate;
 
 import android.app.Activity;

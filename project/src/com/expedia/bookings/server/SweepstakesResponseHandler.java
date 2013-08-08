@@ -1,9 +1,9 @@
 package com.expedia.bookings.server;
 
+import org.json.JSONObject;
+
 import com.expedia.bookings.data.SweepstakesResponse;
 import com.mobiata.android.net.JsonResponseHandler;
-
-import org.json.JSONObject;
 
 public class SweepstakesResponseHandler extends JsonResponseHandler<SweepstakesResponse> {
 	@Override

@@ -644,7 +644,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 				mDetailsCardView.rebindExpandedCard(getSelectedItinCard());
 				return;
 			}
-			//Otherwise, we are showing a different card (or the same card at a different position) 
+			//Otherwise, we are showing a different card (or the same card at a different position)
 			//so we hide the current details card and then expand the card we are actually interested in.
 			else {
 				hideDetails(false);

@@ -49,7 +49,7 @@ public class NavUtils {
 			return true;
 		}
 		else {
-			// Future thought: Should we be showing a toast at all and let app handle it?  
+			// Future thought: Should we be showing a toast at all and let app handle it?
 			Toast.makeText(context, R.string.app_not_available, Toast.LENGTH_LONG).show();
 			return false;
 		}

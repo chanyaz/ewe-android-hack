@@ -1981,8 +1981,8 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 		if (mDisplayType == DisplayType.CALENDAR && !mHasShownCalendar) {
 			//Instead of displaying the default stay, show an empty calendar
-			if(Db.getHotelSearch().getSearchParams().isDefaultStay()){
-					mDatesCalendarDatePicker.reset();
+			if (Db.getHotelSearch().getSearchParams().isDefaultStay()) {
+				mDatesCalendarDatePicker.reset();
 			}
 			mHasShownCalendar = true;
 		}
