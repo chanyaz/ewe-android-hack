@@ -1,8 +1,6 @@
 package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.joda.time.LocalDate;
@@ -38,7 +36,6 @@ import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.NavUtils;
@@ -52,7 +49,6 @@ import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.utils.AddFlightsIntentUtils;
-import com.mobiata.flightlib.utils.DateTimeUtils;
 
 // We can assume that if this fragment loaded we successfully booked, so most
 // data we need to grab is available.
@@ -229,23 +225,6 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 	//////////////////////////////////////////////////////////////////////////
 	// Search for hotels
 
-	private Calendar waypointTimeToHotelTime(Calendar in) {
-		Date localTzTime = DateTimeUtils.getTimeInLocalTimeZone(in);
-		Calendar tCal = Calendar.getInstance();
-		tCal.setTime(localTzTime);
-		Calendar retCal = Calendar.getInstance();
-		retCal.set(tCal.get(Calendar.YEAR), tCal.get(Calendar.MONTH), tCal.get(Calendar.DAY_OF_MONTH));
-		return retCal;
-	}
-
-	// If we are comparing days between by using Calendar.after and before, must set hours/minutes/seconds to zero
-	private void normalizeForQuickTimeComparison(Calendar cal) {
-		cal.set(Calendar.HOUR_OF_DAY, 0);
-		cal.set(Calendar.MINUTE, 0);
-		cal.set(Calendar.SECOND, 0);
-		cal.set(Calendar.MILLISECOND, 0);
-	}
-
 	private void searchForHotels() {
 		//Where flights meets hotels
 		HotelSearchParams sp = new HotelSearchParams();
@@ -257,45 +236,24 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 
 		int legCount = Db.getFlightSearch().getSelectedFlightTrip().getLegCount();
 		FlightLeg firstLeg = Db.getFlightSearch().getSelectedFlightTrip().getLeg(0);
-		Calendar checkinDate = firstLeg.getLastWaypoint().getMostRelevantDateTime();
-
-		// h637 we set the TimeZone to UTC in anticipation of it being called later on in the flow. Originally, the
-		// TimeZone was not being set on construction and then set to UTC after day, month, year were set which in turn
-		// caused the Calendar DATE field to be incremented one day forward when accessed via get(FIELD)
-		Calendar checkinNormalized = Calendar.getInstance();
-		checkinNormalized.setTimeZone(CalendarUtils.getFormatTimeZone());
-		checkinNormalized.set(Calendar.DATE, checkinDate.get(Calendar.DATE));
-		checkinNormalized.set(Calendar.MONTH, checkinDate.get(Calendar.MONTH));
-		checkinNormalized.set(Calendar.YEAR, checkinDate.get(Calendar.YEAR));
-		sp.setCheckInDate(LocalDate.fromCalendarFields(checkinNormalized));
+		LocalDate checkInDate = LocalDate.fromCalendarFields(firstLeg.getLastWaypoint().getMostRelevantDateTime());
+		sp.setCheckInDate(checkInDate);
 
 		if (legCount > 1) {
 			//Round trip
-			FlightLeg lastLeg = Db.getFlightSearch().getSelectedFlightTrip()
-					.getLeg(Db.getFlightSearch().getSelectedFlightTrip().getLegCount() - 1);
-			Calendar checkoutDate = waypointTimeToHotelTime(lastLeg.getFirstWaypoint().getMostRelevantDateTime());
-			// Note: waypointTimeToHotelTime returns a copy of the time from Db, so we can modify it here
-			normalizeForQuickTimeComparison(checkoutDate);
+			FlightTrip flightTrip = Db.getFlightSearch().getSelectedFlightTrip();
+			FlightLeg lastLeg = flightTrip.getLeg(flightTrip.getLegCount() - 1);
 
-			Calendar checkoutDateCeiling = Calendar.getInstance();
-			checkoutDateCeiling.setTime(checkinDate.getTime());
-			checkoutDateCeiling.add(Calendar.DAY_OF_MONTH, 28);
-			normalizeForQuickTimeComparison(checkoutDateCeiling);
+			LocalDate checkOutDate = LocalDate.fromCalendarFields(lastLeg.getFirstWaypoint().getMostRelevantDateTime());
 
-			// f934 do not kick off a hotel search for a more than 28 day stay
-			if (checkoutDate.after(checkoutDateCeiling)) {
-				sp.setCheckOutDate(LocalDate.fromCalendarFields(checkoutDateCeiling));
-			}
-			else {
-				sp.setCheckOutDate(LocalDate.fromCalendarFields(checkoutDate));
-			}
+			LocalDate maxCheckOutDate = checkInDate.plusDays(28);
+			checkOutDate = checkOutDate.isAfter(maxCheckOutDate) ? maxCheckOutDate : checkOutDate;
+
+			sp.setCheckOutDate(checkOutDate);
 		}
 		else {
 			//One way trip
-			Calendar checkoutDate = Calendar.getInstance();
-			checkoutDate.setTime(checkinNormalized.getTime());
-			checkoutDate.add(Calendar.DAY_OF_MONTH, 1);
-			sp.setCheckOutDate(LocalDate.fromCalendarFields(checkoutDate));
+			sp.setCheckOutDate(checkInDate.plusDays(1));
 		}
 
 		String cityStr = firstLeg.getLastWaypoint().getAirport().mCity;

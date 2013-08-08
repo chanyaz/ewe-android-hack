@@ -1,7 +1,5 @@
 package com.expedia.bookings.data.trips;
 
-import java.util.Calendar;
-
 import org.joda.time.LocalDate;
 
 import com.expedia.bookings.data.FlightLeg;
@@ -34,15 +32,14 @@ public class ItinCardDataHotelAttach extends ItinCardData {
 		searchParams.setSearchLatLon(latitude, longitude);
 
 		// When
-		Calendar checkIn = mFirstLeg.getLastWaypoint().getBestSearchDateTime();
-		Calendar checkOut = mNextLeg.getFirstWaypoint().getBestSearchDateTime();
-		Calendar max = (Calendar) checkIn.clone();
+		LocalDate checkInDate = LocalDate.fromCalendarFields(mFirstLeg.getLastWaypoint().getBestSearchDateTime());
+		LocalDate checkOutDate = LocalDate.fromCalendarFields(mNextLeg.getFirstWaypoint().getBestSearchDateTime());
 
-		max.add(Calendar.DAY_OF_YEAR, 28);
-		checkOut = checkOut.after(max) ? max : checkOut;
+		LocalDate maxCheckOutDate = checkInDate.plusDays(28);
+		checkOutDate = checkOutDate.isAfter(maxCheckOutDate) ? maxCheckOutDate : checkOutDate;
 
-		searchParams.setCheckInDate(LocalDate.fromCalendarFields(checkIn));
-		searchParams.setCheckOutDate(LocalDate.fromCalendarFields(checkOut));
+		searchParams.setCheckInDate(checkInDate);
+		searchParams.setCheckOutDate(checkOutDate);
 
 		// Who
 		searchParams.setNumAdults(1);
