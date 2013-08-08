@@ -512,6 +512,9 @@ public class Property implements JSONable {
 		mFeesText = property.mFeesText;
 		mMandatoryFeesText = property.mMandatoryFeesText;
 		mRenovationText = property.mRenovationText;
+
+		// Only switch on with an update
+		mIsVipAccess |= property.isVipAccess();
 	}
 
 	public JSONObject toJson() {
