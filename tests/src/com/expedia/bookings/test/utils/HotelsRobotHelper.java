@@ -260,7 +260,7 @@ public class HotelsRobotHelper {
 		mSolo.clickOnText(mRes.getString(R.string.Settings));
 		// Select Mock Server as API
 		mSolo.clickOnText("Select API");
-		mSolo.clickOnText("Mock Server");
+		mSolo.clickOnText(serverName);
 		// Set Proxy Address
 		mSolo.clickOnText("Server/Proxy Address");
 		EditText editProxyAddress = mSolo.getEditText(0);
