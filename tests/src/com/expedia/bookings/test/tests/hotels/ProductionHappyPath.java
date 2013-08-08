@@ -47,7 +47,7 @@ public class ProductionHappyPath extends ActivityInstrumentationTestCase2<Search
 
 			mDriver.ignoreSweepstakesActivity();
 			mDriver.changePOS(mDriver.mLocaleUtils.AMERICAN_LOCALES[5]);
-			mDriver.changeAPI("Production");
+			mDriver.setUpMockServer("Proxy", "172.17.249.23");
 			mDriver.clearPrivateData();
 			mDriver.setSpoofBookings();
 
