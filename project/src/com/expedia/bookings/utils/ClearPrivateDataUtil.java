@@ -1,6 +1,8 @@
 package com.expedia.bookings.utils;
 
 import android.content.Context;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BackgroundImageCache;
@@ -65,8 +67,12 @@ public class ClearPrivateDataUtil {
 			//Don't care
 		}
 
+		// Cookies
 		ExpediaServices services = new ExpediaServices(context);
 		services.clearCookies();
+
+		CookieSyncManager.createInstance(context);
+		CookieManager.getInstance().removeAllCookie();
 
 		// Clear itin button dismissals
 		SettingUtils.remove(context, R.string.setting_hide_hotel_attach);
