@@ -18,6 +18,8 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.TimeZone;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,7 +30,6 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
@@ -42,6 +43,7 @@ import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.PushRegistrationResponseHandler;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -399,8 +401,8 @@ public class ItineraryManager implements JSONable {
 		mStartTimes.clear();
 		mEndTimes.clear();
 		for (Trip trip : mTrips.values()) {
-			DateTime startDate = DateTime.fromJodaDateTime(trip.getStartDate());
-			DateTime endDate = DateTime.fromJodaDateTime(trip.getEndDate());
+			DateTime startDate = trip.getStartDate();
+			DateTime endDate = trip.getEndDate();
 			if (startDate != null) {
 				mStartTimes.add(startDate);
 				if (endDate != null) {
@@ -408,7 +410,7 @@ public class ItineraryManager implements JSONable {
 				}
 				else {
 					//We want a valid date object even if it is bunk
-					DateTime fakeEnd = new DateTime(0, 0);
+					DateTime fakeEnd = new DateTime(0);
 					mEndTimes.add(fakeEnd);
 				}
 			}
@@ -421,8 +423,8 @@ public class ItineraryManager implements JSONable {
 			try {
 				// Save to disk
 				JSONObject obj = new JSONObject();
-				JSONUtils.putJSONableList(obj, "startTimes", mStartTimes);
-				JSONUtils.putJSONableList(obj, "endTimes", mEndTimes);
+				JodaUtils.putDateTimeListInJson(obj, "startDateTimes", mStartTimes);
+				JodaUtils.putDateTimeListInJson(obj, "endDateTimes", mEndTimes);
 				IoUtils.writeStringToFile(MANAGER_START_END_TIMES_PATH, obj.toString(), mContext);
 			}
 			catch (Exception e) {
@@ -438,8 +440,8 @@ public class ItineraryManager implements JSONable {
 		if (file.exists()) {
 			try {
 				JSONObject obj = new JSONObject(IoUtils.readStringFromFile(MANAGER_START_END_TIMES_PATH, mContext));
-				mStartTimes = JSONUtils.getJSONableList(obj, "startTimes", DateTime.class);
-				mEndTimes = JSONUtils.getJSONableList(obj, "endTimes", DateTime.class);
+				mStartTimes = JodaUtils.getDateTimeListFromJsonBackCompat(obj, "startDateTimes", "startTimes");
+				mEndTimes = JodaUtils.getDateTimeListFromJsonBackCompat(obj, "endDateTimes", "endTimes");
 			}
 			catch (Exception e) {
 				Log.w(LOGGING_TAG, "Could not load start times", e);
@@ -473,8 +475,8 @@ public class ItineraryManager implements JSONable {
 						List<ItinCardData> items = ItinCardDataFactory.generateCardData(comp);
 						if (items != null) {
 							for (ItinCardData item : items) {
-								DateTime endDate = DateTime.fromJodaDateTime(item.getEndDate());
-								if (endDate != null && endDate.getCalendar().compareTo(pastCutoffCal) >= 0) {
+								DateTime endDate = item.getEndDate();
+								if (endDate != null && endDate.toGregorianCalendar().compareTo(pastCutoffCal) >= 0) {
 									mItinCardDatas.add(item);
 								}
 							}
@@ -531,11 +533,11 @@ public class ItineraryManager implements JSONable {
 	};
 
 	private long getStartMillisUtc(ItinCardData data) {
-		DateTime date = DateTime.fromJodaDateTime(data.getStartDate());
+		DateTime date = data.getStartDate();
 		if (date == null) {
 			return 0;
 		}
-		return date.getMillisFromEpoch() + date.getTzOffsetMillis();
+		return date.withZoneRetainFields(DateTimeZone.UTC).getMillis();
 	}
 
 	@SuppressLint("SimpleDateFormat")

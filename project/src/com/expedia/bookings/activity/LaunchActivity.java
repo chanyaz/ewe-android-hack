@@ -2,9 +2,9 @@ package com.expedia.bookings.activity;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Calendar;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -30,7 +30,6 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
-import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItinCardData;
@@ -53,7 +52,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.TwoLevelImageCache;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.flightlib.utils.DateTimeUtils;
 
 public class LaunchActivity extends SherlockFragmentActivity implements OnListModeChangedListener,
 		ItinItemListFragmentListener, LaunchFragmentListener, DoLogoutListener {
@@ -389,15 +387,12 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 		List<DateTime> startTimes = manager.getStartTimes();
 		List<DateTime> endTimes = manager.getEndTimes();
 		if (startTimes != null && endTimes != null && startTimes.size() == endTimes.size()) {
-			Calendar now = Calendar.getInstance();
-			Calendar oneWeek = Calendar.getInstance();
-			oneWeek.add(Calendar.DATE, 7);
+			DateTime now = DateTime.now();
+			DateTime oneWeekFromNow = now.plusWeeks(1);
 			for (int i = 0; i < startTimes.size(); i++) {
 				DateTime start = startTimes.get(i);
 				DateTime end = endTimes.get(i);
-				if (DateTimeUtils.getTimeInCurrentTimeZone(now).getTime() < end.getMillisFromEpoch()
-						&& DateTimeUtils.getTimeInCurrentTimeZone(oneWeek).getTime() > start
-								.getMillisFromEpoch()) {
+				if (now.isBefore(end) && oneWeekFromNow.isAfter(start)) {
 					return true;
 				}
 			}

@@ -1,5 +1,8 @@
 package com.expedia.bookings.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
@@ -8,6 +11,7 @@ import org.joda.time.ReadableInstant;
 import org.joda.time.ReadablePartial;
 import org.joda.time.base.AbstractPartial;
 import org.joda.time.tz.FixedDateTimeZone;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -130,6 +134,41 @@ public class JodaUtils {
 		}
 		else if (obj.has(dateTimeKey)) {
 			return DateTime.parse(obj.optString(dateTimeKey));
+		}
+
+		return null;
+	}
+
+	public static void putDateTimeListInJson(JSONObject obj, String key, List<DateTime> dateTimes) throws JSONException {
+		if (obj != null && !TextUtils.isEmpty(key) && dateTimes != null) {
+			JSONArray arr = new JSONArray();
+			for (DateTime dateTime : dateTimes) {
+				arr.put(dateTime.toString());
+			}
+			obj.put(key, arr);
+		}
+	}
+
+	public static List<DateTime> getDateTimeListFromJsonBackCompat(JSONObject obj, String listKey, String oldListKey) {
+		if (obj.has(oldListKey)) {
+			List<com.expedia.bookings.data.DateTime> oldDateTimes = JSONUtils.getJSONableList(obj, oldListKey,
+					com.expedia.bookings.data.DateTime.class);
+			if (oldDateTimes != null) {
+				List<DateTime> dateTimes = new ArrayList<DateTime>();
+				for (com.expedia.bookings.data.DateTime oldDateTime : oldDateTimes) {
+					dateTimes.add(com.expedia.bookings.data.DateTime.toJodaDateTime(oldDateTime));
+				}
+				return dateTimes;
+			}
+		}
+		else if (obj.has(listKey)) {
+			JSONArray arr = obj.optJSONArray(listKey);
+			List<DateTime> dateTimes = new ArrayList<DateTime>();
+			int len = arr.length();
+			for (int a = 0; a < len; a++) {
+				dateTimes.add(DateTime.parse(arr.optString(a)));
+			}
+			return dateTimes;
 		}
 
 		return null;
