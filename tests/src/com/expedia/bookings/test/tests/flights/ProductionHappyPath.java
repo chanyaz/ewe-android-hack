@@ -41,7 +41,6 @@ public class ProductionHappyPath extends ActivityInstrumentationTestCase2<Search
 	// It runs pulling from the Production API
 
 	public void testMethod() throws Exception {
-		mSolo.clickOnScreen(50, 50);
 		mDriver.ignoreSweepstakesActivity();
 		
 		mDriver.setUpMockServer("Proxy", "172.17.249.23");
