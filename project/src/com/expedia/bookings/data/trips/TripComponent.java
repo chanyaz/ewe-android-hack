@@ -70,8 +70,8 @@ public class TripComponent implements JSONable {
 		return com.expedia.bookings.data.DateTime.fromJodaDateTime(mStartDate);
 	}
 
-	public void setStartDate(com.expedia.bookings.data.DateTime startDate) {
-		mStartDate = com.expedia.bookings.data.DateTime.toJodaDateTime(startDate);
+	public void setStartDate(DateTime startDate) {
+		mStartDate = startDate;
 	}
 
 	public com.expedia.bookings.data.DateTime getEndDate() {
@@ -86,8 +86,8 @@ public class TripComponent implements JSONable {
 		return com.expedia.bookings.data.DateTime.fromJodaDateTime(mEndDate);
 	}
 
-	public void setEndDate(com.expedia.bookings.data.DateTime endDate) {
-		mEndDate = com.expedia.bookings.data.DateTime.toJodaDateTime(endDate);
+	public void setEndDate(DateTime endDate) {
+		mEndDate = endDate;
 	}
 
 	public BookingStatus getBookingStatus() {

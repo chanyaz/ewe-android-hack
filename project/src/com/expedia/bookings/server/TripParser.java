@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -18,7 +19,6 @@ import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.Car.Category;
 import com.expedia.bookings.data.Car.Type;
 import com.expedia.bookings.data.CarVendor;
-import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.FlightLeg;
@@ -41,6 +41,7 @@ import com.expedia.bookings.data.trips.TripCruise;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.data.trips.TripPackage;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.Flight;
@@ -159,7 +160,9 @@ public class TripParser {
 		}
 		else if (obj instanceof JSONObject) {
 			JSONObject json = (JSONObject) obj;
-			return new DateTime(json.optLong("epochSeconds") * 1000, json.optInt("timeZoneOffsetSeconds") * 1000);
+			long millisFromEpoch = json.optLong("epochSeconds") * 1000;
+			int tzOffsetMillis = json.optInt("timeZoneOffsetSeconds") * 1000;
+			return JodaUtils.fromMillisAndOffset(millisFromEpoch, tzOffsetMillis);
 		}
 		else if (obj instanceof String) {
 			// TODO: DELETE ONCE OBSELETE
@@ -178,7 +181,7 @@ public class TripParser {
 						offset *= -1;
 					}
 
-					return new DateTime(date.getTime(), offset * 1000);
+					return JodaUtils.fromMillisAndOffset(date.getTime(), offset * 1000);
 				}
 				catch (ParseException e) {
 					// Ignore
@@ -761,7 +764,7 @@ public class TripParser {
 			if (timeJson != null) {
 				DateTime time = parseDateTime(timeJson);
 				waypoint.addDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_SCHEDULED,
-						time.getMillisFromEpoch(), time.getTzOffsetMillis());
+						time.getMillis(), time.getZone().getStandardOffset(0));
 			}
 
 			return waypoint;
