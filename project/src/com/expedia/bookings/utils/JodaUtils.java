@@ -4,6 +4,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
+import org.joda.time.ReadableInstant;
 import org.joda.time.ReadablePartial;
 import org.joda.time.base.AbstractPartial;
 import org.joda.time.tz.FixedDateTimeZone;
@@ -20,9 +21,8 @@ import com.mobiata.android.json.JSONUtils;
 public class JodaUtils {
 
 	public static DateTime fromMillisAndOffset(long millisFromEpoch, int tzOffsetMillis) {
-		// TODO: Calculate proper ID if necessary (aka +/- HH:mm)
-		return new org.joda.time.DateTime(millisFromEpoch, new FixedDateTimeZone("TZ"
-				+ Integer.toString(tzOffsetMillis), null, tzOffsetMillis, tzOffsetMillis));
+		return new org.joda.time.DateTime(millisFromEpoch, new FixedDateTimeZone(formatTimeZone(tzOffsetMillis),
+				null, tzOffsetMillis, tzOffsetMillis));
 	}
 
 	public static boolean isAfterOrEquals(AbstractPartial first, AbstractPartial second) {
@@ -35,6 +35,30 @@ public class JodaUtils {
 
 	public static int daysBetween(ReadablePartial start, ReadablePartial end) {
 		return Days.daysBetween(start, end).getDays();
+	}
+
+	public static int daysBetween(ReadableInstant start, ReadableInstant end) {
+		return Days.daysBetween(start, end).getDays();
+	}
+
+	public static String formatTimeZone(DateTime dateTime) {
+		return formatTimeZone(dateTime.getZone().getOffset(dateTime));
+	}
+
+	public static String formatTimeZone(int tzOffsetMillis) {
+		int offsetSeconds = tzOffsetMillis / 1000;
+		int offsetMinutes = Math.abs(offsetSeconds / 60);
+		int offsetHours = offsetMinutes / 60;
+		offsetMinutes -= (offsetHours * 60);
+		String timeZoneString = "GMT";
+		if (offsetHours > 0 || offsetMinutes > 0) {
+			timeZoneString += ((offsetSeconds > 0) ? "+" : "-") + offsetHours;
+			if (offsetMinutes > 0) {
+				timeZoneString += ":" + ((offsetMinutes < 10) ? "0" : "") + offsetMinutes;
+			}
+		}
+
+		return timeZoneString;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
