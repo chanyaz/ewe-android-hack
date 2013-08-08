@@ -1,9 +1,11 @@
 package com.expedia.bookings.data;
 
+import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
@@ -108,12 +110,12 @@ public class Car implements JSONable {
 		mPrice = price;
 	}
 
-	public DateTime getPickUpDateTime() {
-		return mPickUpDateTime;
+	public com.expedia.bookings.data.DateTime getPickUpDateTime() {
+		return com.expedia.bookings.data.DateTime.fromJodaDateTime(mPickUpDateTime);
 	}
 
-	public void setPickUpDateTime(DateTime pickUpDateTime) {
-		mPickUpDateTime = pickUpDateTime;
+	public void setPickUpDateTime(com.expedia.bookings.data.DateTime pickUpDateTime) {
+		mPickUpDateTime = com.expedia.bookings.data.DateTime.toJodaDateTime(pickUpDateTime);
 	}
 
 	public Location getPickUpLocation() {
@@ -124,12 +126,12 @@ public class Car implements JSONable {
 		mPickUpLocation = pickUpLocation;
 	}
 
-	public DateTime getDropOffDateTime() {
-		return mDropOffDateTime;
+	public com.expedia.bookings.data.DateTime getDropOffDateTime() {
+		return com.expedia.bookings.data.DateTime.fromJodaDateTime(mDropOffDateTime);
 	}
 
-	public void setDropOffDateTime(DateTime dropOffDateTime) {
-		mDropOffDateTime = dropOffDateTime;
+	public void setDropOffDateTime(com.expedia.bookings.data.DateTime dropOffDateTime) {
+		mDropOffDateTime = com.expedia.bookings.data.DateTime.toJodaDateTime(dropOffDateTime);
 	}
 
 	public Location getDropOffLocation() {
@@ -185,9 +187,9 @@ public class Car implements JSONable {
 			obj.putOpt("confNumber", mConfNumber);
 
 			JSONUtils.putJSONable(obj, "price", mPrice);
-			JSONUtils.putJSONable(obj, "pickupDateTime", mPickUpDateTime);
+			JodaUtils.putDateTimeInJson(obj, "pickupJodaDateTime", mPickUpDateTime);
 			JSONUtils.putJSONable(obj, "pickupLocation", mPickUpLocation);
-			JSONUtils.putJSONable(obj, "dropoffDateTime", mDropOffDateTime);
+			JodaUtils.putDateTimeInJson(obj, "dropoffJodaDateTime", mDropOffDateTime);
 			JSONUtils.putJSONable(obj, "dropoffLocation", mDropOffLocation);
 
 			JSONUtils.putJSONable(obj, "vendor", mVendor);
@@ -211,9 +213,9 @@ public class Car implements JSONable {
 		mConfNumber = obj.optString("confNumber", null);
 
 		mPrice = JSONUtils.getJSONable(obj, "price", Money.class);
-		mPickUpDateTime = JSONUtils.getJSONable(obj, "pickupDateTime", DateTime.class);
+		mPickUpDateTime = JodaUtils.getDateTimeFromJsonBackCompat(obj, "pickupJodaDateTime", "pickupDateTime");
 		mPickUpLocation = JSONUtils.getJSONable(obj, "pickupLocation", Location.class);
-		mDropOffDateTime = JSONUtils.getJSONable(obj, "dropoffDateTime", DateTime.class);
+		mPickUpDateTime = JodaUtils.getDateTimeFromJsonBackCompat(obj, "dropoffJodaDateTime", "dropoffDateTime");
 		mDropOffLocation = JSONUtils.getJSONable(obj, "dropoffLocation", Location.class);
 
 		mVendor = JSONUtils.getJSONable(obj, "vendor", CarVendor.class);
