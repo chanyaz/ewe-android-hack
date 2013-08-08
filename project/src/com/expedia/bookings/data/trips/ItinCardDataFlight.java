@@ -3,10 +3,11 @@ package com.expedia.bookings.data.trips;
 import java.util.Calendar;
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
 import com.google.android.gms.maps.model.LatLng;
@@ -64,31 +65,33 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 	}
 
 	@Override
-	public DateTime getStartDate() {
+	public com.expedia.bookings.data.DateTime getStartDate() {
 		if (mStartDate == null) {
 			Calendar startCal = getStartCalFromFlightLeg();
 			if (startCal != null) {
-				mStartDate = DateTime.newInstance(startCal);
+				mStartDate = new DateTime(startCal);
 			}
 			else {
 				return super.getStartDate();
 			}
 		}
-		return mStartDate;
+
+		return com.expedia.bookings.data.DateTime.fromJodaDateTime(mStartDate);
 	}
 
 	@Override
-	public DateTime getEndDate() {
+	public com.expedia.bookings.data.DateTime getEndDate() {
 		if (mEndDate == null) {
 			Calendar endCal = getEndCalFromFlightLeg();
 			if (endCal != null) {
-				mEndDate = DateTime.newInstance(endCal);
+				mEndDate = new DateTime(endCal);
 			}
 			else {
 				return super.getEndDate();
 			}
 		}
-		return mEndDate;
+
+		return com.expedia.bookings.data.DateTime.fromJodaDateTime(mEndDate);
 	}
 
 	@Override
