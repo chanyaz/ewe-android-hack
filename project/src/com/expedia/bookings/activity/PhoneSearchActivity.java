@@ -2593,7 +2593,9 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				return true;
 			}
 			else {
-				return false;
+				// Just use what the user typed
+				startSearch();
+				return true;
 			}
 		}
 	};
