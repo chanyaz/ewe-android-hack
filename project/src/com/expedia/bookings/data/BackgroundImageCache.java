@@ -333,14 +333,13 @@ public class BackgroundImageCache {
 	public Bitmap stackBlurAndDarkenRenderscript(Bitmap bitmap, Context context) {
 		TimingLogger tictoc = new TimingLogger("STACK_BLUR_AND_DARKEN", "RENDERSCRIPT");
 
-		tictoc.addSplit("Begin CreateBitmap");
 		Bitmap outputBmap = Bitmap.createBitmap(bitmap);
+		tictoc.addSplit("Create output bitmap");
 
-		tictoc.addSplit("Init Renderscript stuff");
 		RenderScript mRs = RenderScript.create(context);
-
 		Allocation blurInputAllocation = Allocation.createFromBitmap(mRs, bitmap);
 		Allocation blurOutputAllocation = Allocation.createFromBitmap(mRs, outputBmap);
+		tictoc.addSplit("Create allocations");
 
 		ScriptIntrinsicBlur blur = ScriptIntrinsicBlur.create(mRs, Element.U8_4(mRs));
 		blur.setRadius(STACK_BLUR_RADIUS);
@@ -364,14 +363,13 @@ public class BackgroundImageCache {
 
 		blur.setInput(blurInputAllocation);
 		scriptGroup.setOutput(darkenId, blurOutputAllocation);
+		tictoc.addSplit("Renderscript initialization");
 
-		tictoc.addSplit("Do Blur");
 		scriptGroup.execute();
+		tictoc.addSplit("Actual Blurring");
 
-		tictoc.addSplit("Begin Copy to outputBmap");
 		blurOutputAllocation.copyTo(outputBmap);
-
-		tictoc.addSplit("Done");
+		tictoc.addSplit("Copy to outputBmap");
 		tictoc.dumpToLog();
 
 		return outputBmap;
@@ -380,7 +378,6 @@ public class BackgroundImageCache {
 	//This does require some memory...
 	public Bitmap stackBlurAndDarken(Bitmap bitmap) {
 		TimingLogger tictoc = new TimingLogger("STACK_BLUR_AND_DARKEN", "JAVA");
-		tictoc.addSplit("Begin Blur");
 		if (bitmap == null) {
 			return null;
 		}
@@ -419,6 +416,8 @@ public class BackgroundImageCache {
 		int r1 = radius + 1;
 		int routsum, goutsum, boutsum;
 		int rinsum, ginsum, binsum;
+
+		tictoc.addSplit("Variable setup");
 
 		for (y = 0; y < h; y++) {
 			rinsum = ginsum = binsum = routsum = goutsum = boutsum = rsum = gsum = bsum = 0;
@@ -574,21 +573,21 @@ public class BackgroundImageCache {
 				yi += w;
 			}
 		}
+		tictoc.addSplit("Blur");
 
 		//Darken each pixel. (this should be the equivalent of adding a black .35 opacity mask)
-		tictoc.addSplit("Begin Darken");
 		double maskValue = DARKEN_MULTIPLIER;
 		for (int d = 0; d < pix.length; d++) {
 			pix[d] = Color.rgb((int) (Color.red(pix[d]) * maskValue), (int) (Color.green(pix[d]) * maskValue),
 					(int) (Color.blue(pix[d]) * maskValue));
 		}
+		tictoc.addSplit("Darken");
 
-		tictoc.addSplit("Begin Copy to new bitmap");
 		Bitmap newbitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
 		newbitmap.setPixels(pix, 0, w, 0, 0, w, h);
-
-		tictoc.addSplit("Done");
+		tictoc.addSplit("Copy to output bitmap");
 		tictoc.dumpToLog();
+
 		return newbitmap;
 	}
 
