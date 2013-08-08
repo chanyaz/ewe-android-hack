@@ -28,6 +28,7 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
@@ -958,6 +959,11 @@ public class ItineraryManager implements JSONable {
 
 		@Override
 		protected Collection<Trip> doInBackground(Void... params) {
+			//1712. VSC Disable Itins for VSC
+			if (ExpediaBookingApp.IS_VSC) {
+				mTrips = new HashMap<String, Trip>();
+				return null;
+			}
 			while (!mSyncOpQueue.isEmpty()) {
 				Task nextTask = mSyncOpQueue.remove();
 				Operation op = nextTask.mOp;
