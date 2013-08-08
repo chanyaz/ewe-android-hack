@@ -52,6 +52,28 @@
             android:singleLine="true"
             android:text="@string/Short_message"
             android:textAppearance="@style/TextAppearance.Small" />
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/flighttrack_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_action_bar_button"
+            android:drawableTop="@drawable/ic_share_flighttrack"
+            android:paddingBottom="24dp"
+            android:paddingTop="16dp"
+            android:singleLine="true"
+            android:text="@string/FlightTrackTitle"
+            android:textAppearance="@style/TextAppearance.Small"
+            android:visibility="gone" />
+
     </LinearLayout>
 
 </LinearLayout>
