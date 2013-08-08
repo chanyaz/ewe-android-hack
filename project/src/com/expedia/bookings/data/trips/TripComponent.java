@@ -1,9 +1,10 @@
 package com.expedia.bookings.data.trips;
 
+import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.expedia.bookings.data.DateTime;
+import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
@@ -57,7 +58,7 @@ public class TripComponent implements JSONable {
 		return mUniqueId;
 	}
 
-	public DateTime getStartDate() {
+	public com.expedia.bookings.data.DateTime getStartDate() {
 		// If we have no start date, fallback to parent start date
 		if (mStartDate == null) {
 			Trip parent = getParentTrip();
@@ -66,14 +67,14 @@ public class TripComponent implements JSONable {
 			}
 		}
 
-		return mStartDate;
+		return com.expedia.bookings.data.DateTime.fromJodaDateTime(mStartDate);
 	}
 
-	public void setStartDate(DateTime startDate) {
-		mStartDate = startDate;
+	public void setStartDate(com.expedia.bookings.data.DateTime startDate) {
+		mStartDate = com.expedia.bookings.data.DateTime.toJodaDateTime(startDate);
 	}
 
-	public DateTime getEndDate() {
+	public com.expedia.bookings.data.DateTime getEndDate() {
 		// If we have no end date, fallback to overall parent end date
 		if (mEndDate == null) {
 			Trip parent = getParentTrip();
@@ -82,11 +83,11 @@ public class TripComponent implements JSONable {
 			}
 		}
 
-		return mEndDate;
+		return com.expedia.bookings.data.DateTime.fromJodaDateTime(mEndDate);
 	}
 
-	public void setEndDate(DateTime endDate) {
-		mEndDate = endDate;
+	public void setEndDate(com.expedia.bookings.data.DateTime endDate) {
+		mEndDate = com.expedia.bookings.data.DateTime.toJodaDateTime(endDate);
 	}
 
 	public BookingStatus getBookingStatus() {
@@ -133,8 +134,8 @@ public class TripComponent implements JSONable {
 
 			obj.putOpt("uniqueId", mUniqueId);
 
-			JSONUtils.putJSONable(obj, "startDate", mStartDate);
-			JSONUtils.putJSONable(obj, "endDate", mEndDate);
+			JodaUtils.putDateTimeInJson(obj, "startDateTime", mStartDate);
+			JodaUtils.putDateTimeInJson(obj, "endDateTime", mEndDate);
 
 			JSONUtils.putEnum(obj, "bookingStatus", mBookingStatus);
 
@@ -151,8 +152,8 @@ public class TripComponent implements JSONable {
 
 		mUniqueId = obj.optString("uniqueId", null);
 
-		mStartDate = JSONUtils.getJSONable(obj, "startDate", DateTime.class);
-		mEndDate = JSONUtils.getJSONable(obj, "endDate", DateTime.class);
+		mStartDate = JodaUtils.getDateTimeFromJsonBackCompat(obj, "startDateTime", "startDate");
+		mEndDate = JodaUtils.getDateTimeFromJsonBackCompat(obj, "endDateTime", "endDate");
 
 		mBookingStatus = JSONUtils.getEnum(obj, "bookingStatus", BookingStatus.class);
 
