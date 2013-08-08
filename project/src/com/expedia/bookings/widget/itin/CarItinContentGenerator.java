@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.MutableDateTime;
 
 import android.content.Context;
 import android.content.Intent;
@@ -318,13 +320,12 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 
 		long triggerTimeMillis = data.getPickUpDate().getMillis();
 
-		Calendar expiration = data.getPickUpDate().toGregorianCalendar();
-		expiration.set(Calendar.MINUTE, 59);
-		expiration.set(Calendar.MILLISECOND, 0);
-		expiration.set(Calendar.HOUR_OF_DAY, 23);
-		long expirationTimeMillis = Math.min(
-				DateTimeUtils.getTimeInLocalTimeZone(expiration).getTime(),
-				calculateDropOffNotificationMillis());
+		MutableDateTime expiration = data.getPickUpDate().toMutableDateTime();
+		expiration.setZoneRetainFields(DateTimeZone.getDefault());
+		expiration.setRounding(expiration.getChronology().minuteOfHour());
+		expiration.setHourOfDay(23);
+		expiration.setMinuteOfHour(59);
+		long expirationTimeMillis = Math.min(expiration.getMillis(), calculateDropOffNotificationMillis());
 
 		Notification notification = new Notification(itinId + "_pickup", itinId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.CAR_PICK_UP);

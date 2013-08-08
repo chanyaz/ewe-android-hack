@@ -1,8 +1,5 @@
 package com.expedia.bookings.widget;
 
-import java.text.DateFormat;
-import java.util.Calendar;
-
 import org.joda.time.LocalDate;
 
 import android.app.Activity;
@@ -249,10 +246,8 @@ public class ReceiptWidget {
 	}
 
 	private String formatCheckInOutDate(LocalDate date) {
-		Calendar cal = date.toDateTimeAtStartOfDay().toGregorianCalendar();
-		DateFormat medDf = android.text.format.DateFormat.getMediumDateFormat(mContext);
-		return DateUtils.getDayOfWeekString(cal.get(Calendar.DAY_OF_WEEK), DateUtils.LENGTH_MEDIUM) + ", "
-				+ medDf.format(cal.getTime());
+		return JodaUtils.formatLocalDate(mContext, date, JodaUtils.FLAGS_MEDIUM_DATE_FORMAT
+				| DateUtils.FORMAT_SHOW_WEEKDAY);
 	}
 
 	public void addSpace(ViewGroup parent, int spaceInDp) {

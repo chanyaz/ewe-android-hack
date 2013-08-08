@@ -466,8 +466,7 @@ public class ItineraryManager implements JSONable {
 		synchronized (mItinCardDatas) {
 			mItinCardDatas.clear();
 
-			Calendar pastCutoffCal = Calendar.getInstance();
-			pastCutoffCal.add(Calendar.HOUR_OF_DAY, -CUTOFF_HOURS);
+			DateTime pastCutOffDateTime = DateTime.now().minusHours(CUTOFF_HOURS);
 			for (Trip trip : mTrips.values()) {
 				if (trip.getTripComponents() != null) {
 					List<TripComponent> components = trip.getTripComponents(true);
@@ -476,7 +475,7 @@ public class ItineraryManager implements JSONable {
 						if (items != null) {
 							for (ItinCardData item : items) {
 								DateTime endDate = item.getEndDate();
-								if (endDate != null && endDate.toGregorianCalendar().compareTo(pastCutoffCal) >= 0) {
+								if (endDate != null && endDate.isAfter(pastCutOffDateTime)) {
 									mItinCardDatas.add(item);
 								}
 							}

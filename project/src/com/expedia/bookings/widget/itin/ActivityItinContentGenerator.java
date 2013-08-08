@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.MutableDateTime;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -267,16 +271,16 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 
 		String itinId = data.getId();
 
-		Calendar trigger = data.getValidDate().toGregorianCalendar();
-		trigger.add(Calendar.DAY_OF_MONTH, -1);
-		trigger.set(Calendar.MINUTE, 0);
-		trigger.set(Calendar.MILLISECOND, 0);
-		trigger.set(Calendar.HOUR_OF_DAY, 12);
-		long triggerTimeMillis = DateTimeUtils.getTimeInLocalTimeZone(trigger).getTime();
+		MutableDateTime trigger = data.getValidDate().toMutableDateTime();
+		trigger.setZoneRetainFields(DateTimeZone.getDefault());
+		trigger.setRounding(trigger.getChronology().minuteOfHour());
+		trigger.addDays(-1);
+		trigger.setHourOfDay(12);
+		long triggerTimeMillis = trigger.getMillis();
 
-		trigger.set(Calendar.HOUR_OF_DAY, 23);
-		trigger.set(Calendar.MINUTE, 59);
-		long expirationTimeMillis = DateTimeUtils.getTimeInLocalTimeZone(trigger).getTime();
+		trigger.setHourOfDay(23);
+		trigger.setMinuteOfHour(59);
+		long expirationTimeMillis = trigger.getMillis();
 
 		Notification notification = new Notification(itinId, itinId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.ACTIVITY_START);
