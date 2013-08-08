@@ -40,6 +40,7 @@ import com.expedia.bookings.activity.FlightUnsupportedPOSActivity;
 import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Destination;
+import com.expedia.bookings.data.ExpediaFlightDestinations;
 import com.expedia.bookings.data.ExpediaImage;
 import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.FlightSearchParams;
@@ -419,19 +420,6 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 	// Flight destination search
 
-	private final static String[] DESTINATION_IDS = new String[] {
-		"SEA",
-		"SFO",
-		"LON",
-		"PAR",
-		"LAS",
-		"NYC",
-		"YYZ",
-		"HKG",
-		"MIA",
-		"BKK",
-	};
-
 	private Download<List<Destination>> mFlightsDownload = new Download<List<Destination>>() {
 		@Override
 		public List<Destination> doDownload() {
@@ -444,8 +432,18 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			int width = Math.round(size.x / 2);
 			int height = Math.round(getResources().getDimension(R.dimen.launch_tile_height_flight));
 
+			//Get flight destination list for the current POS
+			PointOfSale pos = PointOfSale.getPointOfSale(getActivity());
+			ExpediaFlightDestinations expediaFlightDestinations = new ExpediaFlightDestinations(getActivity());
+			List<String> destinationIds;
+			if (expediaFlightDestinations.usesDefaultDestinationList(pos)) {
+				destinationIds = Arrays.asList(expediaFlightDestinations.getDestinations(pos));
+			}
+			else {
+				//For POSs with their own destination lists, we just get the first NUM_FLIGHT_DESTINATIONS, as they are ordered by popularity
+				destinationIds = Arrays.asList(expediaFlightDestinations.getDestinations(pos, NUM_FLIGHT_DESTINATIONS));
+			}
 			// Randomly shuffle destinations
-			List<String> destinationIds = Arrays.asList(DESTINATION_IDS);
 			Collections.shuffle(destinationIds);
 
 			// Collection up to NUM_FLIGHT_DESTINATIONS destinations
