@@ -10,6 +10,8 @@ import org.joda.time.LocalDate;
 import org.joda.time.ReadableInstant;
 import org.joda.time.ReadablePartial;
 import org.joda.time.base.AbstractPartial;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -95,6 +97,21 @@ public class JodaUtils {
 	public static String formatDateTime(Context context, DateTime dateTime, int flags) {
 		DateTime utcDateTime = dateTime.withZoneRetainFields(DateTimeZone.UTC);
 		return DateUtils.formatDateTime(context, utcDateTime.getMillis(), flags | DateUtils.FORMAT_UTC);
+	}
+
+	/**
+	 * Note: you should first check ISODateTimeFormat for the correct format
+	 * before using this.  Also, if you need to repeatedly format anything,
+	 * create your own local formatter first.
+	 */
+	public static String format(ReadableInstant instant, String pattern) {
+		DateTimeFormatter fmt = DateTimeFormat.forPattern(pattern);
+		return fmt.print(instant);
+	}
+
+	public static String format(ReadablePartial partial, String pattern) {
+		DateTimeFormatter fmt = DateTimeFormat.forPattern(pattern);
+		return fmt.print(partial);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
