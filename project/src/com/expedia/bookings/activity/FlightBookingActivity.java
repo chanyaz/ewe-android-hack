@@ -1,9 +1,9 @@
 package com.expedia.bookings.activity;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
+
+import org.joda.time.DateTime;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +11,6 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
-import android.text.format.DateUtils;
 import android.widget.ImageView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -43,6 +42,7 @@ import com.expedia.bookings.fragment.UnhandledErrorDialogFragment.UnhandledError
 import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
@@ -550,10 +550,9 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 					int days = 0;
 					if (trip.getLegCount() > 0) {
 						FlightLeg firstLeg = Db.getFlightSearch().getSelectedFlightTrip().getLeg(0);
-						Calendar departureCal = firstLeg.getFirstWaypoint().getMostRelevantDateTime();
-						Calendar cal = GregorianCalendar.getInstance();
-						long diff = departureCal.getTimeInMillis() - cal.getTimeInMillis();
-						days = Math.round(diff / DateUtils.DAY_IN_MILLIS);
+						DateTime departureCal = new DateTime(firstLeg.getFirstWaypoint().getMostRelevantDateTime());
+						DateTime now = DateTime.now();
+						days = JodaUtils.daysBetween(departureCal, now);
 						if (days < 0) {
 							days = 0;
 						}
