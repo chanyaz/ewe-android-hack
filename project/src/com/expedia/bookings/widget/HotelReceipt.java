@@ -1,8 +1,8 @@
 package com.expedia.bookings.widget;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
+import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -14,7 +14,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextUtils.TruncateAt;
-import android.text.format.DateFormat;
+import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +31,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.HotelUtils;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;
@@ -172,9 +173,10 @@ public class HotelReceipt extends LinearLayout {
 		}
 
 		if (rate.shouldShowFreeCancellation()) {
-			Date window = rate.getFreeCancellationWindowDate();
+			DateTime window = rate.getFreeCancellationWindowDate();
 			if (window != null) {
-				CharSequence formattedDate = DateFormat.format("ha, MMM dd", window);
+				CharSequence formattedDate = JodaUtils.formatDateTime(getContext(), window, DateUtils.FORMAT_SHOW_TIME
+						| DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH);
 				String formattedString = getContext()
 						.getString(R.string.free_cancellation_date_TEMPLATE, formattedDate);
 				addExtraRow(Html.fromHtml(formattedString));

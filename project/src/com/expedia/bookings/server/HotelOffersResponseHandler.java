@@ -1,12 +1,14 @@
 package com.expedia.bookings.server;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.IllegalFieldValueException;
 import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,7 +29,6 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.RateRules;
 import com.expedia.bookings.data.ServerError.ApiMethod;
-import com.expedia.bookings.utils.CalendarUtils;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.FormatUtils.Conjunction;
 import com.mobiata.android.Log;
@@ -343,14 +344,13 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 
 		rate.setHasFreeCancellation(jsonRate.optBoolean("hasFreeCancellation", false));
 		if (jsonRate.has("freeCancellationWindowDate")) {
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-			df.setTimeZone(CalendarUtils.getFormatTimeZone());
+			DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm");
 			try {
-				java.util.Date date = df.parse(jsonRate.getString("freeCancellationWindowDate"));
-				rate.setFreeCancellationWindowDate(date);
+				DateTime dateTime = dtf.parseDateTime(jsonRate.getString("freeCancellationWindowDate"));
+				rate.setFreeCancellationWindowDate(dateTime.withZoneRetainFields(DateTimeZone.UTC));
 			}
-			catch (ParseException e) {
-				Log.d("Failed to parse freeCancellationWindowDate", e);
+			catch (IllegalFieldValueException e) {
+				Log.w("Could not parse free cancellation window date", e);
 			}
 		}
 		rate.setNonRefundable(jsonRate.optBoolean("nonRefundable", false));

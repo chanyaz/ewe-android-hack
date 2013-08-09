@@ -1,17 +1,18 @@
 package com.expedia.bookings.data;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BedType.BedTypeId;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -72,7 +73,7 @@ public class Rate implements JSONable {
 	private int mNumRoomsLeft;
 	private List<String> mValueAdds = new ArrayList<String>();
 	private boolean mHasFreeCancellation = false;
-	private Date mFreeCancellationWindowDate;
+	private DateTime mFreeCancellationWindowDate;
 	private boolean mNonRefundable = false;
 
 	private Set<BedType> mBedTypes;
@@ -86,7 +87,6 @@ public class Rate implements JSONable {
 	// These are computed rates, based on the user's current locale.  They should
 	// not be saved, but instead computed on demand (since locale can change).
 	private Money mMandatoryFeesBaseRate = null;
-	private Money mMandatoryFeesRate = null;
 
 	public String getRatePlanCode() {
 		return mRatePlanCode;
@@ -101,7 +101,7 @@ public class Rate implements JSONable {
 	}
 
 	public String getFormattedBedNames() {
-		ArrayList<String> bedNames = new ArrayList();
+		ArrayList<String> bedNames = new ArrayList<String>();
 
 		for (BedType bed : mBedTypes) {
 			bedNames.add(bed.getBedTypeDescription());
@@ -460,11 +460,11 @@ public class Rate implements JSONable {
 		return mHasFreeCancellation;
 	}
 
-	public void setFreeCancellationWindowDate(Date date) {
+	public void setFreeCancellationWindowDate(DateTime date) {
 		mFreeCancellationWindowDate = date;
 	}
 
-	public Date getFreeCancellationWindowDate() {
+	public DateTime getFreeCancellationWindowDate() {
 		return mFreeCancellationWindowDate;
 	}
 
@@ -585,7 +585,7 @@ public class Rate implements JSONable {
 			obj.putOpt("numRoomsLeft", mNumRoomsLeft);
 			obj.putOpt("hasFreeCancellation", mHasFreeCancellation);
 			if (mFreeCancellationWindowDate != null) {
-				obj.putOpt("freeCancellationWindowDate", mFreeCancellationWindowDate.getTime());
+				JodaUtils.putDateTimeInJson(obj, "freeCancellationWindowDateTime", mFreeCancellationWindowDate);
 			}
 			obj.putOpt("nonRefundable", mNonRefundable);
 			JSONUtils.putStringList(obj, "valueAdds", mValueAdds);
@@ -612,7 +612,11 @@ public class Rate implements JSONable {
 		mRateChange = obj.optBoolean("rateChange", false);
 		mHasFreeCancellation = obj.optBoolean("hasFreeCancellation", false);
 		if (obj.has("freeCancellationWindowDate")) {
-			mFreeCancellationWindowDate = new Date(obj.optLong("freeCancellationWindowDate"));
+			mFreeCancellationWindowDate = new DateTime(obj.optLong("freeCancellationWindowDate"));
+		}
+		else if (obj.has("freeCancellationWindowDateTime")) {
+			mFreeCancellationWindowDate = JodaUtils.getDateTimeFromJsonBackCompat(obj,
+					"freeCancellationWindowDateTime", null);
 		}
 		mNonRefundable = obj.optBoolean("nonRefundable", false);
 

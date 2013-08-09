@@ -1,7 +1,6 @@
 package com.expedia.bookings.utils;
 
 import java.util.Calendar;
-import java.util.TimeZone;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -27,14 +26,6 @@ public class CalendarUtils {
 	public static boolean isExpired(long timestamp, long cutoff) {
 		long now = DateTime.now().getMillis();
 		return now < timestamp || timestamp + cutoff < now;
-	}
-
-	public static TimeZone getFormatTimeZone() {
-		TimeZone tz = TimeZone.getTimeZone("UTC");
-		if (tz == null) {
-			return TimeZone.getDefault();
-		}
-		return tz;
 	}
 
 	/**
