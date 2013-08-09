@@ -10,11 +10,12 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
@@ -1866,10 +1867,6 @@ public class OmnitureTracking {
 	}
 
 	private static void addStandardFields(Context context, ADMS_Measurement s) {
-		// Information gathering (before we run in and start setting variables)
-		Calendar now = Calendar.getInstance();
-		Date gmt = new Date(now.getTimeInMillis() - now.getTimeZone().getOffset(now.getTimeInMillis()));
-
 		// Add debugging flag if not release
 		if (!AndroidUtils.isRelease(context) || DebugUtils.isLogEnablerInstalled(context)) {
 			s.setDebugLogging(true);
@@ -1905,7 +1902,7 @@ public class OmnitureTracking {
 		}
 
 		// GMT timestamp
-		s.setProp(32, gmt.getTime() + "");
+		s.setProp(32, Long.toString(DateTime.now(DateTimeZone.UTC).getMillis()));
 
 		// Device carrier network info - format is "android|<carrier>|<network>"
 		TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
