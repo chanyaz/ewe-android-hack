@@ -1,7 +1,5 @@
 package com.expedia.bookings.utils;
 
-import java.util.Calendar;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
@@ -56,9 +54,8 @@ public class CalendarUtils {
 		calendarDatePicker.resetTodayCache();
 
 		// Set the min calendar date
-		Calendar today = Calendar.getInstance();
-		calendarDatePicker.setMinDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH),
-				today.get(Calendar.DAY_OF_MONTH));
+		LocalDate today = LocalDate.now();
+		calendarDatePicker.setMinDate(today.getYear(), today.getMonthOfYear() - 1, today.getDayOfMonth());
 
 		// Reset the calendar's today cache
 		calendarDatePicker.resetTodayCache();
@@ -155,10 +152,8 @@ public class CalendarUtils {
 	 * Alternative formatter - instead of solely using the system formatter, it is more of "DATE to DATE"
 	 */
 	public static String formatDateRange2(Context context, HotelSearchParams params, int flags) {
-		CharSequence from = DateUtils.formatDateTime(context, params.getCheckInDate().toDateTimeAtStartOfDay()
-				.getMillis(), flags);
-		CharSequence to = DateUtils.formatDateTime(context, params.getCheckOutDate().toDateTimeAtStartOfDay()
-				.getMillis(), flags);
+		CharSequence from = JodaUtils.formatLocalDate(context, params.getCheckInDate(), flags);
+		CharSequence to = JodaUtils.formatLocalDate(context, params.getCheckOutDate(), flags);
 		return context.getString(R.string.date_range_TEMPLATE, from, to);
 	}
 
