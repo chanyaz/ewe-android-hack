@@ -679,7 +679,8 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			simulateErrorResponse(LayoutUtils.noHotelsFoundMessage(mContext));
 		}
 
-		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.HYBRID, LineOfBusiness.HOTELS);
+		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.HYBRID,
+				LineOfBusiness.HOTELS);
 
 		// setDisplayType here because it could possibly add a TextWatcher before the view has restored causing the listener to fire
 		setDisplayType(mDisplayType, false);
@@ -1284,7 +1285,8 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		mProgressBarHider = findViewById(R.id.search_progress_hider);
 		mProgressBarDimmer = findViewById(R.id.search_progress_dimmer);
 
-		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker,CalendarDatePicker.SelectionMode.HYBRID, LineOfBusiness.HOTELS);
+		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.HYBRID,
+				LineOfBusiness.HOTELS);
 
 		mFilterLayout = getLayoutInflater().inflate(R.layout.popup_filter_options, null);
 		mFilterHotelNameEditText = (EditText) mFilterLayout.findViewById(R.id.filter_hotel_name_edit_text);
