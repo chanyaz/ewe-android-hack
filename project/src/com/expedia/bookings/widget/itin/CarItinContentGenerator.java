@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget.itin;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -37,7 +36,6 @@ import com.expedia.bookings.widget.InfoTripletView;
 import com.expedia.bookings.widget.LocationMapImageView;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
-import com.mobiata.flightlib.utils.DateTimeUtils;
 
 public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCar> {
 
@@ -356,11 +354,12 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 
 		long triggerTimeMillis = calculateDropOffNotificationMillis();
 
-		Calendar expiration = data.getDropOffDate().toGregorianCalendar();
-		expiration.set(Calendar.MINUTE, 59);
-		expiration.set(Calendar.MILLISECOND, 0);
-		expiration.set(Calendar.HOUR_OF_DAY, 23);
-		long expirationTimeMillis = DateTimeUtils.getTimeInLocalTimeZone(expiration).getTime();
+		MutableDateTime expiration = data.getDropOffDate().toMutableDateTime();
+		expiration.setZoneRetainFields(DateTimeZone.getDefault());
+		expiration.setRounding(expiration.getChronology().minuteOfHour());
+		expiration.setHourOfDay(23);
+		expiration.setMinuteOfHour(59);
+		long expirationTimeMillis = expiration.getMillis();
 
 		Notification notification = new Notification(itinId + "_dropoff", itinId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.CAR_DROP_OFF);
@@ -380,10 +379,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 	}
 
 	private long calculateDropOffNotificationMillis() {
-		ItinCardDataCar data = getItinCardData();
-		long triggerTimeMillis = data.getDropOffDate().getMillis();
-		triggerTimeMillis -= 2 * DateUtils.HOUR_IN_MILLIS;
-		return triggerTimeMillis;
+		return getItinCardData().getDropOffDate().minusHours(2).getMillis();
 	}
 
 }

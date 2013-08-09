@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget.itin;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -34,7 +33,6 @@ import com.expedia.bookings.widget.InfoTripletView;
 import com.expedia.bookings.widget.LocationMapImageView;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
-import com.mobiata.flightlib.utils.DateTimeUtils;
 
 public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardDataHotel> {
 
@@ -404,15 +402,15 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		String itinId = data.getId();
 
-		Calendar trigger = data.getEndDate().toGregorianCalendar();
-		trigger.set(Calendar.MINUTE, 0);
-		trigger.set(Calendar.MILLISECOND, 0);
-		trigger.set(Calendar.HOUR_OF_DAY, 7);
-		long triggerTimeMillis = DateTimeUtils.getTimeInLocalTimeZone(trigger).getTime();
+		MutableDateTime trigger = data.getEndDate().toMutableDateTime();
+		trigger.setZoneRetainFields(DateTimeZone.getDefault());
+		trigger.setRounding(trigger.getChronology().minuteOfHour());
+		trigger.setHourOfDay(7);
+		long triggerTimeMillis = trigger.getMillis();
 
-		trigger.set(Calendar.HOUR_OF_DAY, 23);
-		trigger.set(Calendar.MINUTE, 59);
-		long expirationTimeMillis = DateTimeUtils.getTimeInLocalTimeZone(trigger).getTime();
+		trigger.setHourOfDay(23);
+		trigger.setMinuteOfHour(59);
+		long expirationTimeMillis = trigger.getMillis();
 
 		Notification notification = new Notification(itinId + "_checkout", itinId, triggerTimeMillis);
 		notification.setNotificationType(NotificationType.HOTEL_CHECK_OUT);
