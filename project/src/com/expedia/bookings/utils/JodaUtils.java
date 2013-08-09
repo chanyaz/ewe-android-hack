@@ -17,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
@@ -117,6 +118,19 @@ public class JodaUtils {
 
 	//////////////////////////////////////////////////////////////////////////
 	// JSON
+
+	public static void putDateTime(Bundle bundle, String key, DateTime dateTime) {
+		if (bundle != null && !TextUtils.isEmpty(key) && dateTime != null) {
+			bundle.putString(key, dateTime.toString());
+		}
+	}
+
+	public static DateTime getDateTime(Bundle bundle, String key) {
+		if (bundle != null && bundle.containsKey(key)) {
+			return DateTime.parse(bundle.getString(key));
+		}
+		return null;
+	}
 
 	public static void putLocalDateInJson(JSONObject obj, String key, LocalDate localDate) throws JSONException {
 		if (obj != null && !TextUtils.isEmpty(key) && localDate != null) {
