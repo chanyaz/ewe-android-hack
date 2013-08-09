@@ -1,8 +1,6 @@
 package com.expedia.bookings.section;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -19,6 +17,7 @@ import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -588,16 +587,11 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				//old versions of onDateChanged call updateTitle (which we don't have access to)
 				public void customUpdateTitle(int year, int month, int day) {
 					//e.g. Tue, Apr 4, 1978
-					String format = "E, MMM dd, yyyy";
-					SimpleDateFormat df = new SimpleDateFormat(format);
-					java.util.Date d = new java.util.Date();
-					Calendar cal = Calendar.getInstance();
-					cal.set(year, month, day);
-					d.setTime(cal.getTimeInMillis());
-					if (d != null) {
-						String formattedDate = df.format(d);
-						setTitle(formattedDate);
-					}
+					LocalDate localDate = new LocalDate(year, month + 1, day);
+					String formattedDate = JodaUtils.formatLocalDate(getContext(), localDate, DateUtils.FORMAT_SHOW_DATE
+							| DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_WEEKDAY
+							| DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_ABBREV_MONTH);
+					setTitle(formattedDate);
 				}
 			};
 
