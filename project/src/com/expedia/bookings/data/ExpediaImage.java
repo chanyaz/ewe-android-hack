@@ -47,7 +47,7 @@ public class ExpediaImage extends Model {
 	}
 
 	public void setBackgroundImageResponse(BackgroundImageResponse response) {
-		mTimestamp = response.getTimestamp();
+		mTimestamp = response.getTimestamp().getMillis();
 		mUrl = response.getImageUrl();
 		mCacheKey = response.getCacheKey();
 	}

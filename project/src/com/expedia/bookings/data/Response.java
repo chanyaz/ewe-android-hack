@@ -1,16 +1,17 @@
 package com.expedia.bookings.data;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.TreeSet;
 
+import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -20,7 +21,7 @@ public class Response implements JSONable {
 
 	// Represents roughly when the response was created.  Should be used as a
 	// general guideline, but not an exact figure.
-	private long mTimestamp = Calendar.getInstance().getTimeInMillis();
+	private DateTime mTimestamp = DateTime.now();
 
 	public boolean isSuccess() {
 		return !hasErrors();
@@ -82,7 +83,7 @@ public class Response implements JSONable {
 		return builder.substring(0, builder.length() - 1);
 	}
 
-	public long getTimestamp() {
+	public DateTime getTimestamp() {
 		return mTimestamp;
 	}
 
@@ -94,7 +95,7 @@ public class Response implements JSONable {
 		try {
 			JSONObject obj = new JSONObject();
 			JSONUtils.putJSONableList(obj, "errors", mErrors);
-			obj.putOpt("timestamp", mTimestamp);
+			JodaUtils.putDateTimeInJson(obj, "timestampV2", mTimestamp);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -106,7 +107,12 @@ public class Response implements JSONable {
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		mErrors = JSONUtils.getJSONableList(obj, "errors", ServerError.class);
-		mTimestamp = obj.optLong("timestamp");
+		if (obj.has("timestamp")) {
+			mTimestamp = new DateTime(obj.optLong("timestamp"));
+		}
+		else {
+			mTimestamp = JodaUtils.getDateTimeFromJsonBackCompat(obj, "timestampV2", null);
+		}
 		return true;
 	}
 }
