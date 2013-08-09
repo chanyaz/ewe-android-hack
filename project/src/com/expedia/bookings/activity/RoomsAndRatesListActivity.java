@@ -1,6 +1,6 @@
 package com.expedia.bookings.activity;
 
-import java.util.Calendar;
+import org.joda.time.DateTime;
 
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +28,7 @@ import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.DebugMenu;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
@@ -44,7 +45,7 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
 
-	private long mLastResumeTime = -1;
+	private DateTime mLastResumeTime;
 
 	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
@@ -217,11 +218,11 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 		}
 
 		// #14135, set a 1 hour timeout on this screen
-		if (mLastResumeTime != -1 && mLastResumeTime + RESUME_TIMEOUT < Calendar.getInstance().getTimeInMillis()) {
+		if (JodaUtils.isExpired(mLastResumeTime, RESUME_TIMEOUT)) {
 			finish();
 			return true;
 		}
-		mLastResumeTime = Calendar.getInstance().getTimeInMillis();
+		mLastResumeTime = DateTime.now();
 
 		return false;
 	}

@@ -1,9 +1,10 @@
 package com.expedia.bookings.activity;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.joda.time.DateTime;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
@@ -32,6 +33,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.fragment.UserReviewsFragment;
 import com.expedia.bookings.fragment.UserReviewsFragment.UserReviewsFragmentListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.UserReviewsUtils;
 import com.expedia.bookings.widget.UserReviewsFragmentPagerAdapter;
 import com.mobiata.android.Log;
@@ -41,7 +43,7 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 		TabListener, OnPageChangeListener {
 
 	private static final long RESUME_TIMEOUT = 20 * DateUtils.MINUTE_IN_MILLIS;
-	private long mLastResumeTime = -1;
+	private DateTime mLastResumeTime;
 
 	// Instance variable names
 	private static final String INSTANCE_VIEWED_REVIEWS = "INSTANCE_VIEWED_REVIEWS";
@@ -100,11 +102,11 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 		}
 
 		// #14135, set a 1 hour timeout on this screen
-		if (mLastResumeTime != -1 && mLastResumeTime + RESUME_TIMEOUT < Calendar.getInstance().getTimeInMillis()) {
+		if (JodaUtils.isExpired(mLastResumeTime, RESUME_TIMEOUT)) {
 			finish();
 			return true;
 		}
-		mLastResumeTime = Calendar.getInstance().getTimeInMillis();
+		mLastResumeTime = DateTime.now();
 
 		return false;
 	}

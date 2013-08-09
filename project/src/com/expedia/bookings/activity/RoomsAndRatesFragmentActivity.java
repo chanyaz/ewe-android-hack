@@ -1,8 +1,7 @@
 package com.expedia.bookings.activity;
 
-import java.util.Calendar;
+import org.joda.time.DateTime;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateUtils;
@@ -20,6 +19,7 @@ import com.expedia.bookings.fragment.RoomsAndRatesFragment;
 import com.expedia.bookings.fragment.RoomsAndRatesFragment.RoomsAndRatesFragmentListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
@@ -39,12 +39,10 @@ public class RoomsAndRatesFragmentActivity extends SherlockFragmentActivity impl
 	//////////////////////////////////////////////////////////////////////////
 	// Member vars
 
-	private Context mContext;
-
 	private RoomsAndRatesFragment mRoomsAndRatesFragment;
 	private BookingInfoFragment mBookingInfoFragment;
 
-	private long mLastResumeTime = -1;
+	private DateTime mLastResumeTime;
 
 	private ActivityKillReceiver mKillReciever;
 
@@ -61,8 +59,6 @@ public class RoomsAndRatesFragmentActivity extends SherlockFragmentActivity impl
 			finish();
 			return;
 		}
-
-		mContext = this;
 
 		setContentView(R.layout.activity_booking_fragment);
 
@@ -102,11 +98,11 @@ public class RoomsAndRatesFragmentActivity extends SherlockFragmentActivity impl
 		super.onResume();
 
 		// #14135, set a 1 hour timeout on this screen
-		if (mLastResumeTime != -1 && mLastResumeTime + RESUME_TIMEOUT < Calendar.getInstance().getTimeInMillis()) {
+		if (JodaUtils.isExpired(mLastResumeTime, RESUME_TIMEOUT)) {
 			finish();
 			return;
 		}
-		mLastResumeTime = Calendar.getInstance().getTimeInMillis();
+		mLastResumeTime = DateTime.now();
 
 		mRoomsAndRatesFragment.notifyAvailabilityLoaded();
 
