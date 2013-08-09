@@ -10,7 +10,6 @@ import android.content.res.Resources;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
-import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -505,14 +504,16 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	 */
 	private CharSequence getRelativeStartDate() {
 		DateTime dateTime = getItinCardData().getStartDate();
+		DateTime today = DateTime.now();
 		long time = dateTime.getMillis();
-		long now = System.currentTimeMillis();
+		long now = today.getMillis();
 		long duration = time - now;
+		int daysBetween = JodaUtils.daysBetween(today, dateTime);
 
 		CharSequence ret = null;
 
 		// For cards that happened yesterday, we want "Yesterday"
-		if (time < now && getNumberOfDaysPassed(now, time) == 1) {
+		if (time < now && daysBetween == -1) {
 			ret = getContext().getString(R.string.yesterday);
 		}
 
@@ -535,14 +536,13 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		}
 
 		// For cards coming up tomorrow, we want "Tomorrow"
-		else if (time > now && getNumberOfDaysPassed(now, time) == 1) {
+		else if (time > now && daysBetween == 1) {
 			ret = getContext().getString(R.string.tomorrow);
 		}
 
 		// For cards coming up greater than 24 hours but in 3 days or less want "XX Days"
-		else if (time > now && getNumberOfDaysPassed(now, time) <= 3) {
-			int days = (int) (getNumberOfDaysPassed(time, now));
-			ret = getResources().getQuantityString(R.plurals.days_from_now, days, days);
+		else if (time > now && daysBetween <= 3) {
+			ret = getResources().getQuantityString(R.plurals.days_from_now, daysBetween, daysBetween);
 		}
 
 		// Fall back to the date, we want "MMM d" ("Mar 15")
@@ -559,23 +559,4 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		return ret;
 	}
 
-	/**
-	  * Returns the number of days passed between two dates. From DateUtils.java
-	  *
-	  * @param date1 first date
-	  * @param date2 second date
-	  * @return number of days passed between to (SIC) dates
-	  */
-	private synchronized static long getNumberOfDaysPassed(long date1, long date2) {
-		if (sThenTime == null) {
-			sThenTime = new Time();
-		}
-		sThenTime.set(date1);
-		int day1 = Time.getJulianDay(date1, sThenTime.gmtoff);
-		sThenTime.set(date2);
-		int day2 = Time.getJulianDay(date2, sThenTime.gmtoff);
-		return Math.abs(day2 - day1);
-	}
-
-	private static Time sThenTime;
 }
