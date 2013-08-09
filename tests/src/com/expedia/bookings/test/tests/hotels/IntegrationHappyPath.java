@@ -50,6 +50,7 @@ public class IntegrationHappyPath extends ActivityInstrumentationTestCase2<Searc
 			mDriver.changePOS(mDriver.mLocaleUtils.AMERICAN_LOCALES[5]);
 			mDriver.changeAPI("Integration");
 			mDriver.clearPrivateData();
+			mDriver.setSpoofBookings();
 
 			mDriver.launchHotels();
 			mDriver.delay();

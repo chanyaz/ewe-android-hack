@@ -46,6 +46,7 @@ public class IntegrationHappyPath extends ActivityInstrumentationTestCase2<Searc
 			mDriver.ignoreSweepstakesActivity();
 			mDriver.changePOS(mDriver.mLocaleUtils.FLIGHTS_LOCALES[2]);
 			mDriver.changeAPI("Integration");
+			mDriver.setSpoofBookings();
 			mDriver.flightsHappyPath(mUser.mDepartureAirport, mUser.mArrivalAirport, 1, false, false);
 		}
 		catch (Exception e) {
