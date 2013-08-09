@@ -1,8 +1,8 @@
 package com.expedia.bookings.section;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -837,9 +837,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 			ExpirationPicker exprPickerView = Ui.findView(view, R.id.expiration_date_picker);
 
-			Calendar now = Calendar.getInstance();
-			exprPickerView.setMinYear(now.get(Calendar.YEAR));
-			exprPickerView.setMaxYear(now.get(Calendar.YEAR) + 25);
+			DateTime now = DateTime.now();
+			exprPickerView.setMinYear(now.getYear());
+			exprPickerView.setMaxYear(now.plusYears(25).getYear());
 			exprPickerView.setMonth(mMonth);
 			exprPickerView.setYear(mYear);
 
