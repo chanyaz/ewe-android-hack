@@ -3,11 +3,11 @@ package com.expedia.bookings.fragment;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -61,6 +61,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.widget.AirportDropDownAdapter;
 import com.expedia.bookings.widget.LaunchFlightAdapter;
@@ -116,7 +117,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 	private HotelSearchParams mSearchParams;
 
-	private long mLaunchDataTimestamp = -1;
+	private DateTime mLaunchDataTimestamp;
 
 	// Invisible Fragment that handles FusedLocationProvider
 	private FusedLocationProviderFragment mLocationFragment;
@@ -241,8 +242,8 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		mHotelsStreamListView.savePosition();
 		mFlightsStreamListView.savePosition();
 
-		if (mLaunchDataTimestamp == -1) {
-			mLaunchDataTimestamp = Calendar.getInstance().getTimeInMillis();
+		if (mLaunchDataTimestamp == null) {
+			mLaunchDataTimestamp = DateTime.now();
 		}
 
 		cleanUpOnStop();
@@ -314,13 +315,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	}
 
 	private boolean isExpired() {
-		if (mLaunchDataTimestamp != -1
-				&& mLaunchDataTimestamp + MINIMUM_TIME_AGO < Calendar.getInstance().getTimeInMillis()) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return JodaUtils.isExpired(mLaunchDataTimestamp, MINIMUM_TIME_AGO);
 	}
 
 	// Location finder
@@ -401,7 +396,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				Db.setLaunchHotelData(launchHotelData);
 				Db.setLaunchHotelFallbackData(null);
 
-				mLaunchDataTimestamp = Calendar.getInstance().getTimeInMillis();
+				mLaunchDataTimestamp = DateTime.now();
 				onHotelDataRetrieved();
 			}
 
