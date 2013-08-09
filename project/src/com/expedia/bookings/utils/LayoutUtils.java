@@ -235,13 +235,6 @@ public class LayoutUtils {
 		amenitiesTable.addView(amenityTextView);
 	}
 
-	public static String formatCheckInOutDate(Context context, Calendar cal) {
-		DateFormat medDf = android.text.format.DateFormat.getMediumDateFormat(context);
-		medDf.setTimeZone(TimeZone.getTimeZone("UTC"));
-		return DateUtils.getDayOfWeekString(cal.get(Calendar.DAY_OF_WEEK), DateUtils.LENGTH_MEDIUM) + ", "
-				+ medDf.format(cal.getTime());
-	}
-
 	public static String noHotelsFoundMessage(Context context) {
 		StringBuilder sb = new StringBuilder();
 		if (CalendarUtils.isSearchDateTonight(Db.getHotelSearch().getSearchParams())) {
