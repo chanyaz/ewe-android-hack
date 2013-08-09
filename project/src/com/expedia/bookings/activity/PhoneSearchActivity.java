@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -106,6 +107,7 @@ import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.GuestsPickerUtils;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.SearchUtils;
@@ -264,7 +266,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private HotelSearchParams mEditedSearchParams;
 	private HotelFilter mOldFilter;
 	public boolean mStartSearchOnResume;
-	private long mLastSearchTime = -1;
+	private DateTime mLastSearchTime;
 	private boolean mIsWidgetNotificationShowing;
 	private boolean mWasOnDestroyCalled = false;
 
@@ -430,7 +432,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 			hideLoading();
 
-			mLastSearchTime = Calendar.getInstance().getTimeInMillis();
+			mLastSearchTime = DateTime.now();
 		}
 		else if (searchResponse != null && searchResponse.getPropertiesCount() > 0
 				&& searchResponse.getLocations() != null && searchResponse.getLocations().size() > 0) {
@@ -450,7 +452,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			HotelSearchResponse response = null;
 			File savedSearchResults = getFileStreamPath(SEARCH_RESULTS_FILE);
 			if (savedSearchResults.exists()) {
-				if (savedSearchResults.lastModified() + SEARCH_EXPIRATION < Calendar.getInstance().getTimeInMillis()) {
+				if (CalendarUtils.isExpired(savedSearchResults.lastModified(), SEARCH_EXPIRATION)) {
 					Log.d("There are saved search results, but they expired.  Starting a new search instead.");
 				}
 				else {
@@ -691,8 +693,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			mStartSearchOnResume = false;
 		}
 		// Check if the last search results are expired
-		else if (mLastSearchTime != -1
-				&& mLastSearchTime + SEARCH_EXPIRATION < Calendar.getInstance().getTimeInMillis()) {
+		else if (JodaUtils.isExpired(mLastSearchTime, SEARCH_EXPIRATION)) {
 			Log.d("onResume(): There are cached search results, but they expired.  Starting a new search instead.");
 			Db.getHotelSearch().getSearchParams().ensureValidCheckInDate();
 			startSearch();
@@ -1720,7 +1721,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		outState.putString(INSTANCE_TAG, mTag);
 		outState.putBoolean(INSTANCE_SHOW_DISTANCES, mShowDistance);
 		outState.putBoolean(INSTANCE_START_SEARCH_ON_RESUME, mStartSearchOnResume);
-		outState.putLong(INSTANCE_LAST_SEARCH_TIME, mLastSearchTime);
+		JodaUtils.putDateTime(outState, INSTANCE_LAST_SEARCH_TIME, mLastSearchTime);
 		outState.putBoolean(INSTANCE_IS_WIDGET_NOTIFICATION_SHOWING, mIsWidgetNotificationShowing);
 		outState.putInt(INSTANCE_SEARCH_TEXT_SELECTION_START, mSearchTextSelectionStart);
 		outState.putInt(INSTANCE_SEARCH_TEXT_SELECTION_END, mSearchTextSelectionEnd);
@@ -1751,7 +1752,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			}
 			mShowDistance = savedInstanceState.getBoolean(INSTANCE_SHOW_DISTANCES, false);
 			mStartSearchOnResume = savedInstanceState.getBoolean(INSTANCE_START_SEARCH_ON_RESUME, false);
-			mLastSearchTime = savedInstanceState.getLong(INSTANCE_LAST_SEARCH_TIME);
+			mLastSearchTime = JodaUtils.getDateTime(savedInstanceState, INSTANCE_LAST_SEARCH_TIME);
 			mIsWidgetNotificationShowing = savedInstanceState
 					.getBoolean(INSTANCE_IS_WIDGET_NOTIFICATION_SHOWING, false);
 			mSearchTextSelectionStart = savedInstanceState.getInt(INSTANCE_SEARCH_TEXT_SELECTION_START);

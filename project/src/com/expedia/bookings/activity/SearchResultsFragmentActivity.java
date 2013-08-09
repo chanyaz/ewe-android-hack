@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -86,6 +87,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.GuestsPickerUtils;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.SearchUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -144,7 +146,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	private ArrayList<String> mDownloadKeys = new ArrayList<String>();
 
 	// So we can detect if these search results are stale
-	private long mLastSearchTime;
+	private DateTime mLastSearchTime;
 
 	// Used for tracking purposes only
 	private String mLastSearchParamsJson;
@@ -184,7 +186,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		}
 		else {
 			mShowDistances = icicle.getBoolean(INSTANCE_SHOW_DISTANCES);
-			mLastSearchTime = icicle.getLong(INSTANCE_LAST_SEARCH_TIME, -1);
+			mLastSearchTime = JodaUtils.getDateTime(icicle, INSTANCE_LAST_SEARCH_TIME);
 			mLastSearchParamsJson = icicle.getString(INSTANCE_LAST_SEARCH_PARAMS);
 			mLastFilterJson = icicle.getString(INSTANCE_LAST_FILTER);
 			mPartialSearch = icicle.getString(INSTANCE_PARTIAL_SEARCH);
@@ -373,7 +375,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 			if (bd.isDownloading(KEY_REVIEWS)) {
 				bd.registerDownloadCallback(KEY_REVIEWS, mReviewsCallback);
 			}
-			if (mLastSearchTime != -1 && CalendarUtils.isExpired(mLastSearchTime, SEARCH_EXPIRATION)) {
+			if (JodaUtils.isExpired(mLastSearchTime, SEARCH_EXPIRATION)) {
 				Log.d("onResume(): There are cached search results, but they expired.  Starting a new search instead.");
 				Db.getHotelSearch().getSearchParams().ensureValidCheckInDate();
 				startSearch();
@@ -395,7 +397,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putBoolean(INSTANCE_SHOW_DISTANCES, mShowDistances);
-		outState.putLong(INSTANCE_LAST_SEARCH_TIME, mLastSearchTime);
+		JodaUtils.putDateTime(outState, INSTANCE_LAST_SEARCH_TIME, mLastSearchTime);
 		outState.putString(INSTANCE_LAST_SEARCH_PARAMS, mLastSearchParamsJson);
 		outState.putString(INSTANCE_LAST_FILTER, mLastFilterJson);
 		outState.putString(INSTANCE_PARTIAL_SEARCH, mPartialSearch);
@@ -1070,7 +1072,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 				}
 
 				notifySearchComplete();
-				mLastSearchTime = Calendar.getInstance().getTimeInMillis();
+				mLastSearchTime = DateTime.now();
 			}
 		}
 
