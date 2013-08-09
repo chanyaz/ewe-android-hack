@@ -293,6 +293,11 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 					continue;
 				}
 
+				// HotelFilter VIP Access
+				if (mFilter.isVipAccessOnly() && !property.isVipAccess()) {
+					continue;
+				}
+
 				if (namePattern != null && !namePattern.matcher(property.getName()).find()) {
 					continue;
 				}

@@ -129,6 +129,9 @@ public class PointOfSale {
 	// Does this pos not allow debit cards for flights?
 	private boolean mDoesNotAcceptDebitCardsFlights;
 
+	// Does this POS have the VIP Access program?
+	private boolean mSupportsVipAccess;
+
 	/**
 	 * There can be multiple different locales for a given POS.
 	 *
@@ -358,6 +361,10 @@ public class PointOfSale {
 
 	public boolean doesNotAcceptDebitCardsForFlights() {
 		return mDoesNotAcceptDebitCardsFlights;
+	}
+
+	public boolean supportsVipAccess() {
+		return mSupportsVipAccess;
 	}
 
 	/**
@@ -686,6 +693,7 @@ public class PointOfSale {
 		pos.mShowHotelCrossSell = !data.optBoolean("hideHotelCrossSell", false);
 		pos.mBlockDomesticFlightSearches = data.optBoolean("blockDomesticFlightSearches", false);
 		pos.mDoesNotAcceptDebitCardsFlights = data.optBoolean("doesNotAcceptDebitCards:flights", false);
+		pos.mSupportsVipAccess = data.optBoolean("supportsVipAccess", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");

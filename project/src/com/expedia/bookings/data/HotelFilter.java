@@ -74,6 +74,7 @@ public class HotelFilter implements JSONable {
 	private double mMinStarRating;
 	private String mHotelName;
 	private Sort mSort;
+	private boolean mVipAccessOnly;
 
 	public HotelFilter() {
 		mListeners = new HashSet<HotelFilter.OnFilterChangedListener>();
@@ -183,6 +184,14 @@ public class HotelFilter implements JSONable {
 		return mSort;
 	}
 
+	public void setVipAccessOnly(boolean vipAccessOnly) {
+		mVipAccessOnly = vipAccessOnly;
+	}
+
+	public boolean isVipAccessOnly() {
+		return mVipAccessOnly;
+	}
+
 	public void setOnDataListener(OnFilterChangedListener listener) {
 		Log.v("Set OnFilterChangedListener (data): " + listener);
 		mDataListener = listener;
@@ -237,6 +246,7 @@ public class HotelFilter implements JSONable {
 		filter.setMinimumStarRating(mMinStarRating);
 		filter.setHotelName(mHotelName);
 		filter.setSort(mSort);
+		filter.setVipAccessOnly(mVipAccessOnly);
 		return filter;
 	}
 
@@ -250,6 +260,7 @@ public class HotelFilter implements JSONable {
 			obj.put("minStarRating", mMinStarRating);
 			obj.put("hotelName", mHotelName);
 			obj.put("sort", mSort.toString());
+			obj.put("vipAccess", mVipAccessOnly);
 		}
 		catch (JSONException e) {
 			Log.w("Could not write filter JSON.", e);
@@ -265,6 +276,7 @@ public class HotelFilter implements JSONable {
 		mMinStarRating = obj.optDouble("minStarRating", 0);
 		mHotelName = obj.optString("hotelName", null);
 		mSort = Sort.valueOf(obj.optString("sort", Sort.POPULAR.toString()));
+		mVipAccessOnly = obj.optBoolean("vipAccess", false);
 		return true;
 	}
 
@@ -288,6 +300,7 @@ public class HotelFilter implements JSONable {
 		ret &= mPriceRange == other.getPriceRange();
 		ret &= mMinStarRating == other.getMinimumStarRating();
 		ret &= mSort == other.getSort();
+		ret &= mVipAccessOnly == other.isVipAccessOnly();
 		return ret;
 	}
 
@@ -319,6 +332,10 @@ public class HotelFilter implements JSONable {
 
 		if (mSort != other.getSort()) {
 			Log.d("HotelFilter diff: Sort: " + mSort + ", " + other.getSort());
+		}
+
+		if (mVipAccessOnly != other.isVipAccessOnly()) {
+			Log.d("HotelFilter diff: Vip Access: " + mVipAccessOnly + ", " + other.isVipAccessOnly());
 		}
 	}
 }

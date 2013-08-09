@@ -1490,6 +1490,8 @@
     <string name="vip_access">VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">At VIP Access hotels, Expedia Elite Plus members receive free room upgrades and other perks upon availability at check-in.</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="filter_vip_access">Only VIP Access hotels</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>

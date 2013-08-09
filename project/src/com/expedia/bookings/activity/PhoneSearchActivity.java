@@ -93,6 +93,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.FusedLocationProviderFragment;
 import com.expedia.bookings.fragment.FusedLocationProviderFragment.Listener;
 import com.expedia.bookings.fragment.HotelListFragment;
@@ -214,6 +215,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private SegmentedControlGroup mRadiusButtonGroup;
 	private SegmentedControlGroup mRatingButtonGroup;
 	private SegmentedControlGroup mPriceButtonGroup;
+	private View mVipAccessFilterButton;
 	private TextView mDatesTextView;
 	private TextView mGuestsTextView;
 	private TextView mRefinementInfoTextView;
@@ -260,6 +262,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private int mRadiusCheckedId = 0;
 	private int mRatingCheckedId = 0;
 	private int mPriceCheckedId = 0;
+	private boolean mFilterVipAccess = false;
 
 	private ArrayList<Address> mAddresses;
 	private HotelSearchParams mOldSearchParams;
@@ -1288,6 +1291,11 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		mRadiusButtonGroup = (SegmentedControlGroup) mFilterLayout.findViewById(R.id.radius_filter_button_group);
 		mRatingButtonGroup = (SegmentedControlGroup) mFilterLayout.findViewById(R.id.rating_filter_button_group);
 		mPriceButtonGroup = (SegmentedControlGroup) mFilterLayout.findViewById(R.id.price_filter_button_group);
+		mVipAccessFilterButton = Ui.findView(mFilterLayout, R.id.filter_vip_access);
+		if (PointOfSale.getPointOfSale().supportsVipAccess()) {
+			mVipAccessFilterButton.setVisibility(View.VISIBLE);
+			mVipAccessFilterButton.setOnClickListener(mVipAccessClickListener);
+		}
 
 		mFilterHotelNameEditText.setOnEditorActionListener(mFilterEditorActionLisenter);
 
@@ -1434,6 +1442,9 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			break;
 		}
 		}
+
+		// VIP Access
+		filter.setVipAccessOnly(mFilterVipAccess);
 
 		/*
 		 * Don't notify listeners of the filter having changed when the activity is either not
@@ -2575,6 +2586,15 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				break;
 			}
 			}
+		}
+	};
+
+	private final View.OnClickListener mVipAccessClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			mFilterVipAccess = !mFilterVipAccess;
+			mVipAccessFilterButton.setSelected(mFilterVipAccess);
+			buildFilter();
 		}
 	};
 

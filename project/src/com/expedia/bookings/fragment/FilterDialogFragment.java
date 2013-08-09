@@ -23,8 +23,10 @@ import com.expedia.bookings.data.HotelFilter.PriceRange;
 import com.expedia.bookings.data.HotelFilter.SearchRadius;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.widget.SegmentedControlGroup;
 
@@ -34,6 +36,9 @@ public class FilterDialogFragment extends DialogFragment {
 	private SegmentedControlGroup mRadiusButtonGroup;
 	private SegmentedControlGroup mRatingButtonGroup;
 	private SegmentedControlGroup mPriceButtonGroup;
+	private View mVipAccessButton;
+
+	private boolean mVipAccessOnly = false;
 
 	public static FilterDialogFragment newInstance() {
 		return new FilterDialogFragment();
@@ -51,6 +56,10 @@ public class FilterDialogFragment extends DialogFragment {
 		mRadiusButtonGroup = (SegmentedControlGroup) view.findViewById(R.id.radius_filter_button_group);
 		mRatingButtonGroup = (SegmentedControlGroup) view.findViewById(R.id.rating_filter_button_group);
 		mPriceButtonGroup = (SegmentedControlGroup) view.findViewById(R.id.price_filter_button_group);
+		mVipAccessButton = Ui.findView(view, R.id.filter_vip_access);
+		if (PointOfSale.getPointOfSale().supportsVipAccess()) {
+			mVipAccessButton.setVisibility(View.VISIBLE);
+		}
 
 		// Configure labels
 		LayoutUtils.configureRadiusFilterLabels(getActivity(), mRadiusButtonGroup, Db.getFilter());
@@ -123,11 +132,15 @@ public class FilterDialogFragment extends DialogFragment {
 		}
 		mPriceButtonGroup.check(checkId);
 
+		mVipAccessOnly = filter.isVipAccessOnly();
+		mVipAccessButton.setSelected(mVipAccessOnly);
+
 		// Configure functionality of each filter control
 		mHotelNameEditText.addTextChangedListener(mHotelNameTextWatcher);
 		mRadiusButtonGroup.setOnCheckedChangeListener(mRadiusCheckedChangeListener);
 		mRatingButtonGroup.setOnCheckedChangeListener(mStarRatingCheckedChangeListener);
 		mPriceButtonGroup.setOnCheckedChangeListener(mPriceCheckedChangeListener);
+		mVipAccessButton.setOnClickListener(mVipAccessClickListener);
 
 		// Add an "okay" button, even though it does nothing beside dismiss the dialog
 		builder.setPositiveButton(android.R.string.ok, null);
@@ -264,6 +277,18 @@ public class FilterDialogFragment extends DialogFragment {
 			filter.notifyFilterChanged();
 
 			onPriceFilterChanged();
+		}
+	};
+
+	private final View.OnClickListener mVipAccessClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			mVipAccessOnly = !mVipAccessOnly;
+			mVipAccessButton.setSelected(mVipAccessOnly);
+
+			HotelFilter filter = Db.getFilter();
+			filter.setVipAccessOnly(mVipAccessOnly);
+			filter.notifyFilterChanged();
 		}
 	};
 
