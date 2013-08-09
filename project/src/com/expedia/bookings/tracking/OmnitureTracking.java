@@ -6,11 +6,8 @@ import java.io.Writer;
 import java.lang.reflect.Field;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -1686,14 +1683,12 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	private static final DateFormat FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
-
 	public static void trackAppInstallCustom(Context context) {
 		Log.d(TAG, "Tracking \"App Install\" pageLoad");
 
 		ADMS_Measurement s = getFreshTrackingObject(context);
 
-		sMarketingDate = FORMATTER.format(new Date());
+		sMarketingDate = ISODateTimeFormat.date().print(DateTime.now());
 		SettingUtils.save(context, context.getString(R.string.preference_marketing_date), sMarketingDate);
 
 		s.setEvar(10, sMarketingDate);
