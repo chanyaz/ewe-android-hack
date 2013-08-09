@@ -2075,6 +2075,8 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			mRatingCheckedId = R.id.rating_all_button;
 		}
 
+		mFilterVipAccess = Db.getFilter().isVipAccessOnly();
+
 		LayoutUtils.configureRadiusFilterLabels(this, mRadiusButtonGroup, Db.getFilter());
 
 		mRadiusButtonGroup.setOnCheckedChangeListener(null);
@@ -2084,6 +2086,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		mRadiusButtonGroup.check(mRadiusCheckedId);
 		mRatingButtonGroup.check(mRatingCheckedId);
 		mPriceButtonGroup.check(mPriceCheckedId);
+		mVipAccessFilterButton.setSelected(mFilterVipAccess);
 
 		mRadiusButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mRatingButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
