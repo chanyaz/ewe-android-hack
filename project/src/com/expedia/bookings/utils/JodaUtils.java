@@ -37,6 +37,23 @@ public class JodaUtils {
 		return first.isBefore(second) || first.isEqual(second);
 	}
 
+	/**
+	 * Checks if a timestamp has expired, given a particular cutoff
+	 * 
+	 * Returns true if:
+	 * - timestamp is null (therefore it must be expired)
+	 * - "Now" is before the timestamp (which should be impossible, since the timestamp should at least be == now)
+	 * - The end of the valid range (timestamp + cutoff) is still before now.
+	 */
+	public static boolean isExpired(DateTime timestamp, long cutoff) {
+		if (timestamp == null) {
+			return true;
+		}
+
+		DateTime now = DateTime.now();
+		return now.isBefore(timestamp) || timestamp.plusMillis((int) cutoff).isBefore(now);
+	}
+
 	public static int daysBetween(ReadablePartial start, ReadablePartial end) {
 		return Days.daysBetween(start, end).getDays();
 	}
