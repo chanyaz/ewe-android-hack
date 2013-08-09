@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import android.annotation.SuppressLint;
@@ -604,7 +605,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 			if (AndroidUtils.getSdkVersion() >= 11) {
 				//We set a max date for new apis, if we are stuck with an old api, they will be allowed to choose any date, but validation will fail
-				dialog.getDatePicker().setMaxDate(Calendar.getInstance().getTimeInMillis());
+				dialog.getDatePicker().setMaxDate(DateTime.now().getMillis());
 			}
 
 			return dialog;

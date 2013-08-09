@@ -1,9 +1,10 @@
 package com.expedia.bookings.widget;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.joda.time.DateTime;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -77,7 +78,7 @@ public class AirportDropDownAdapter extends CursorAdapter {
 			MatrixCursor cursor = new MatrixCursor(AirportAutocompleteProvider.COLUMNS);
 
 			// Add nearby airports if we know the user's recent location
-			long minTime = Calendar.getInstance().getTimeInMillis() - MINIMUM_TIME_AGO;
+			long minTime = DateTime.now().getMillis() - MINIMUM_TIME_AGO;
 			android.location.Location loc = LocationServices.getLastBestLocation(mContext, minTime);
 			if (mShowNearbyAirports && loc != null) {
 				List<Airport> airports = FlightStatsDbUtils.getNearestAirports(loc.getLatitude(), loc.getLongitude(),

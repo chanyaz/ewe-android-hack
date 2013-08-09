@@ -3,6 +3,7 @@ package com.expedia.bookings.utils;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import android.content.Context;
@@ -24,7 +25,7 @@ public class CalendarUtils {
 	 * or the timestamp is more than "cutoff" away
 	 */
 	public static boolean isExpired(long timestamp, long cutoff) {
-		long now = Calendar.getInstance().getTimeInMillis();
+		long now = DateTime.now().getMillis();
 		return now < timestamp || timestamp + cutoff < now;
 	}
 

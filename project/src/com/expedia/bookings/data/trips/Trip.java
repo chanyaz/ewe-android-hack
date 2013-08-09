@@ -1,7 +1,6 @@
 package com.expedia.bookings.data.trips;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -262,7 +261,7 @@ public class Trip implements JSONable, Comparable<Trip> {
 	}
 
 	public void markUpdated(boolean isFullUpdate) {
-		long updateTime = Calendar.getInstance().getTimeInMillis();
+		long updateTime = DateTime.now().getMillis();
 
 		// A full update also counts as a cached update (since it has
 		// more data)

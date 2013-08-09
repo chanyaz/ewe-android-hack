@@ -119,7 +119,7 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 
 	@Override
 	public LatLng getLocation() {
-		long now = Calendar.getInstance().getTimeInMillis();
+		long now = DateTime.now().getMillis();
 		Flight flight = getMostRelevantFlightSegment();
 		Waypoint waypoint = flight.mOrigin.getMostRelevantDateTime().getTimeInMillis() > now ? flight.mOrigin
 				: flight.getArrivalWaypoint();

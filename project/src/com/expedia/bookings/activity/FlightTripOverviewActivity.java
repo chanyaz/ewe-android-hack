@@ -1,8 +1,9 @@
 package com.expedia.bookings.activity;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.Semaphore;
+
+import org.joda.time.DateTime;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -532,7 +533,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 				int action = arg1.getActionMasked();
 				switch (action) {
 				case MotionEvent.ACTION_DOWN:
-					mStartTime = Calendar.getInstance().getTimeInMillis();
+					mStartTime = DateTime.now().getMillis();
 					mStartPosY = arg1.getY();
 					mBackToOverviewArea.getParent().requestDisallowInterceptTouchEvent(true);
 					retVal = true;
@@ -546,7 +547,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 					mLastPosY = arg1.getY();
 					break;
 				case MotionEvent.ACTION_UP:
-					if (Calendar.getInstance().getTimeInMillis() - mStartTime < 100) {
+					if (DateTime.now().getMillis() - mStartTime < 100) {
 						FlightTripOverviewActivity.this.gotoOverviewMode(true);
 					}
 					else {

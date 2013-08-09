@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -75,7 +76,7 @@ public class FlightRoutes implements JSONable {
 	}
 
 	public void markCreationTime() {
-		mTimestamp = Calendar.getInstance().getTimeInMillis();
+		mTimestamp = DateTime.now().getMillis();
 	}
 
 	public boolean isExpired() {

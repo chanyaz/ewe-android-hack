@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -686,7 +685,7 @@ public class ItineraryManager implements JSONable {
 		// either the user was logged in (but had no trips) or there are guest trips
 		// present.
 		if (User.isLoggedIn(mContext) || (trips != null && trips.size() > 0)) {
-			mLastUpdateTime = Calendar.getInstance().getTimeInMillis();
+			mLastUpdateTime = DateTime.now().getMillis();
 		}
 	}
 
@@ -815,7 +814,7 @@ public class ItineraryManager implements JSONable {
 	 * @return true if the sync started or is in progress, false if it never started
 	 */
 	public boolean startSync(boolean forceRefresh) {
-		if (!forceRefresh && Calendar.getInstance().getTimeInMillis() < UPDATE_CUTOFF + mLastUpdateTime) {
+		if (!forceRefresh && DateTime.now().getMillis() < UPDATE_CUTOFF + mLastUpdateTime) {
 			Log.d(LOGGING_TAG, "ItineraryManager sync started too soon since last one; ignoring.");
 			return false;
 		}
@@ -1111,7 +1110,7 @@ public class ItineraryManager implements JSONable {
 		// Operations
 
 		private void updateFlightStatuses(Trip trip) {
-			long now = Calendar.getInstance().getTimeInMillis();
+			long now = DateTime.now().getMillis();
 
 			for (TripComponent tripComponent : trip.getTripComponents(true)) {
 				if (tripComponent.getType() == Type.FLIGHT) {
@@ -1200,7 +1199,7 @@ public class ItineraryManager implements JSONable {
 			boolean gatherAncillaryData = true;
 
 			// Only update if we are outside the cutoff
-			long now = Calendar.getInstance().getTimeInMillis();
+			long now = DateTime.now().getMillis();
 			if (now - REFRESH_TRIP_CUTOFF > trip.getLastCachedUpdateMillis() || deepRefresh) {
 				// Limit the user to one deep refresh per DEEP_REFRESH_RATE_LIMIT. Use cache refresh if user attempts to
 				// deep refresh within the limit.
@@ -1294,7 +1293,7 @@ public class ItineraryManager implements JSONable {
 				// REFRESH_TRIP_CUTOFF since the last refresh.  If we've refreshed more
 				// recently, then we only want to update individual trips as is necessary
 				// (so that the summary call goes out quickly).
-				boolean getCachedDetails = Calendar.getInstance().getTimeInMillis() - REFRESH_TRIP_CUTOFF > mLastUpdateTime;
+				boolean getCachedDetails = DateTime.now().getMillis() - REFRESH_TRIP_CUTOFF > mLastUpdateTime;
 
 				Log.d(LOGGING_TAG, "User is logged in, refreshing the user list.  Using cached details call: "
 						+ getCachedDetails);
