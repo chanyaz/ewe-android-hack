@@ -14,11 +14,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +42,7 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
+import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.json.JSONException;
@@ -108,6 +106,7 @@ import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripDetailsResponse;
 import com.expedia.bookings.data.trips.TripResponse;
 import com.expedia.bookings.notification.PushNotificationUtils;
+import com.expedia.bookings.utils.JodaUtils;
 import com.facebook.Session;
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
@@ -965,17 +964,14 @@ public class ExpediaServices implements DownloadListener {
 
 			query.add(new BasicNameValuePair("creditCardNumber", billingInfo.getNumber()));
 
-			Date expDate = billingInfo.getExpirationDate().getTime();
+			LocalDate expDate = billingInfo.getExpirationDate();
 
-			DateFormat expFormatter = new SimpleDateFormat("MMyy");
-			query.add(new BasicNameValuePair("expirationDate", expFormatter.format(expDate)));
+			query.add(new BasicNameValuePair("expirationDate", JodaUtils.format(expDate, "MMyy")));
 
 			// This is an alternative way of representing expiration date, used for Flights.
 			// Doesn't hurt to include both methods
-			query.add(new BasicNameValuePair("expirationDateYear", android.text.format.DateFormat.format("yyyy",
-					expDate).toString()));
-			query.add(new BasicNameValuePair("expirationDateMonth", android.text.format.DateFormat
-					.format("MM", expDate).toString()));
+			query.add(new BasicNameValuePair("expirationDateYear", JodaUtils.format(expDate, "yyyy")));
+			query.add(new BasicNameValuePair("expirationDateMonth", JodaUtils.format(expDate, "MM")));
 		}
 		else {
 			query.add(new BasicNameValuePair("storedCreditCardId", billingInfo.getStoredCard().getId()));

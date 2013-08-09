@@ -4,8 +4,9 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Arrays;
-import java.util.GregorianCalendar;
 import java.util.List;
+
+import org.joda.time.LocalDate;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -150,8 +151,7 @@ public class WalletUtils {
 		ProxyCard proxyCard = wallet.getProxyCard();
 		billingInfo.setNumber(proxyCard.getPan());
 		billingInfo.setSecurityCode(proxyCard.getCvn());
-		billingInfo.setExpirationDate(new GregorianCalendar(proxyCard.getExpirationYear(), proxyCard
-				.getExpirationMonth() - 1, 1));
+		billingInfo.setExpirationDate(new LocalDate(proxyCard.getExpirationYear(), proxyCard.getExpirationMonth(), 1));
 		billingInfo.setNameOnCard(wallet.getBillingAddress().getName());
 	}
 

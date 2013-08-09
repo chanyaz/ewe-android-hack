@@ -1,10 +1,11 @@
 package com.expedia.bookings.section;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
+
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -53,8 +54,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<SectionChangeListener>();
 	SectionFieldList<BillingInfo> mFields = new SectionFieldList<BillingInfo>();
 
-	//TODO:Don't hardcode this format string.
-	DateFormat mExpirationFormater = new SimpleDateFormat("MM/yy");
+	private final static DateTimeFormatter MONTHYEAR_FORMATTER = DateTimeFormat.forPattern("MM/yy");
 
 	Context mContext;
 
@@ -243,7 +243,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		@Override
 		public void onHasFieldAndData(TextView field, BillingInfo data) {
 			if (data.getExpirationDate() != null) {
-				String exprStr = mExpirationFormater.format(data.getExpirationDate().getTime());
+				String exprStr = MONTHYEAR_FORMATTER.print(data.getExpirationDate());
 				field.setText(exprStr);
 			}
 			else {
@@ -375,7 +375,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		@Override
 		public void onHasFieldAndData(TextView field, BillingInfo data) {
 			if (data.getExpirationDate() != null && data.getBrandName() != null) {
-				String exprStr = mExpirationFormater.format(data.getExpirationDate().getTime());
+				String exprStr = MONTHYEAR_FORMATTER.print(data.getExpirationDate());
 				String brandName = data.getBrandName().replace("_", " ");
 				String formatStr = mContext.getString(R.string.brand_expiring_TEMPLATE);
 				String formatted = String.format(formatStr, brandName, exprStr);
@@ -774,10 +774,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			public void onExpirationSet(int month, int year);
 		}
 
-		public static ExpirationPickerFragment newInstance(Calendar cal, OnSetExpirationListener listener) {
+		public static ExpirationPickerFragment newInstance(LocalDate expDate, OnSetExpirationListener listener) {
 			ExpirationPickerFragment frag = new ExpirationPickerFragment();
 			frag.setOnSetExpirationListener(listener);
-			frag.setDate(cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR));
+			frag.setDate(expDate.getMonthOfYear(), expDate.getYear());
 			Bundle args = new Bundle();
 			frag.setArguments(args);
 			return frag;
@@ -899,8 +899,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				final OnSetExpirationListener listener = new OnSetExpirationListener() {
 					@Override
 					public void onExpirationSet(int month, int year) {
-						Calendar expr = GregorianCalendar.getInstance();
-						expr.set(year, month - 1, 1);
+						LocalDate expr = new LocalDate(year, month, 1);
 						if (hasBoundData()) {
 							getData().setExpirationDate(expr);
 							refreshText();
@@ -919,16 +918,16 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				field.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						Calendar c = Calendar.getInstance();
+						LocalDate expDate = new LocalDate();
 						if (hasBoundData()) {
 							if (getData().getExpirationDate() != null) {
-								c = getData().getExpirationDate();
+								expDate = getData().getExpirationDate();
 							}
 						}
 
 						ExpirationPickerFragment datePickerFragment = Ui.findSupportFragment(fa, TAG_EXPR_DATE_PICKER);
 						if (datePickerFragment == null) {
-							datePickerFragment = ExpirationPickerFragment.newInstance(c, listener);
+							datePickerFragment = ExpirationPickerFragment.newInstance(expDate, listener);
 						}
 						datePickerFragment.show(fa.getSupportFragmentManager(), TAG_EXPR_DATE_PICKER);
 					}
@@ -966,8 +965,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			String btnTxt = "";
 			if (data.getExpirationDate() != null) {
 				String formatStr = mContext.getString(R.string.expires_colored_TEMPLATE);
-				DateFormat df = new SimpleDateFormat("MM/yy");
-				String bdayStr = df.format(data.getExpirationDate().getTime());
+				String bdayStr = MONTHYEAR_FORMATTER.print(data.getExpirationDate());
 				btnTxt = String.format(formatStr, bdayStr);
 			}
 			field.setText(Html.fromHtml(btnTxt));
@@ -980,10 +978,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				int retVal = ValidationError.NO_ERROR;
 				if (hasBoundData()) {
 					if (getData().getExpirationDate() != null) {
-						Calendar cal = getData().getExpirationDate();
-						Calendar lastMonth = Calendar.getInstance();
-						lastMonth.add(Calendar.MONTH, -1);
-						if (cal.getTimeInMillis() < lastMonth.getTimeInMillis()) {
+						LocalDate expDate = getData().getExpirationDate();
+						LocalDate lastMonth = LocalDate.now().minusMonths(1);
+						if (expDate.isBefore(lastMonth)) {
 							retVal = ValidationError.ERROR_DATA_INVALID;
 						}
 						else {

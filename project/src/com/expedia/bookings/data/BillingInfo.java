@@ -1,9 +1,8 @@
 package com.expedia.bookings.data;
 
 import java.io.File;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
+import org.joda.time.LocalDate;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,7 +34,7 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 	private String mBrandCode;
 	private String mNumber;
 	private String mSecurityCode;
-	private Calendar mExpirationDate;
+	private LocalDate mExpirationDate;
 	private StoredCreditCard mStoredCard;
 	private boolean mSaveCardToExpediaAccount = false;
 
@@ -160,11 +159,11 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 		this.mSecurityCode = securityCode;
 	}
 
-	public Calendar getExpirationDate() {
+	public LocalDate getExpirationDate() {
 		return mExpirationDate;
 	}
 
-	public void setExpirationDate(Calendar expirationDate) {
+	public void setExpirationDate(LocalDate expirationDate) {
 		this.mExpirationDate = expirationDate;
 	}
 
@@ -346,8 +345,7 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 			obj.putOpt("storeCreditCardInUserProfile", mSaveCardToExpediaAccount);
 
 			if (mExpirationDate != null) {
-				obj.putOpt("expMonth", mExpirationDate.get(Calendar.MONTH));
-				obj.putOpt("expYear", mExpirationDate.get(Calendar.YEAR));
+				obj.putOpt("expirationDate", mExpirationDate.toString());
 			}
 
 			return obj;
@@ -380,7 +378,10 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 		if (obj.has("expMonth") && obj.has("expYear")) {
 			int expMonth = obj.optInt("expMonth");
 			int expYear = obj.optInt("expYear");
-			mExpirationDate = new GregorianCalendar(expYear, expMonth, 1);
+			mExpirationDate = new LocalDate(expYear, expMonth + 1, 1);
+		}
+		else if (obj.has("expirationDate")) {
+			mExpirationDate = LocalDate.parse(obj.optString("expirationDate"));
 		}
 
 		return true;
