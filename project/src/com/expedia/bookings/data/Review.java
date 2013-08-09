@@ -1,13 +1,13 @@
 package com.expedia.bookings.data;
 
-import com.mobiata.android.text.format.Time;
+import org.joda.time.DateTime;
 
 public class Review {
 	private String mReviewId;
 	private String mTitle;
 	private String mBody;
 	private boolean mRecommended;
-	private Time mSubmissionDate;
+	private DateTime mSubmissionDate;
 	private String mReviewerName;
 	private String mReviewerLocation;
 	private int mOverallSatisfaction;
@@ -44,11 +44,11 @@ public class Review {
 		this.mRecommended = recommended;
 	}
 
-	public Time getSubmissionDate() {
+	public DateTime getSubmissionDate() {
 		return mSubmissionDate;
 	}
 
-	public void setSubmissionDate(Time submissionDate) {
+	public void setSubmissionDate(DateTime submissionDate) {
 		this.mSubmissionDate = submissionDate;
 	}
 

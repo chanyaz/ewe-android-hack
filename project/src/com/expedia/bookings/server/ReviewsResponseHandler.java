@@ -1,5 +1,6 @@
 package com.expedia.bookings.server;
 
+import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,7 +14,6 @@ import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.net.JsonResponseHandler;
-import com.mobiata.android.text.format.Time;
 
 public class ReviewsResponseHandler extends JsonResponseHandler<ReviewsResponse> {
 
@@ -45,10 +45,8 @@ public class ReviewsResponseHandler extends JsonResponseHandler<ReviewsResponse>
 				review.setRecommended(reviewJson.optBoolean("recommended"));
 				review.setOverrallSatisfaction(reviewJson.optInt("ratingOverall"));
 
-				Time submissionDate = new Time();
 				String submissionDateStr = reviewJson.getString("reviewSubmissionTime");
-				submissionDate.parse3339(submissionDateStr);
-				review.setSubmissionDate(submissionDate);
+				review.setSubmissionDate(DateTime.parse(submissionDateStr));
 
 				review.setReviewerName(JSONUtils.optNormalizedString(reviewJson, "userDisplayName", ""));
 				review.setReviewerLocation(JSONUtils.optNormalizedString(reviewJson, "userLocation", ""));
