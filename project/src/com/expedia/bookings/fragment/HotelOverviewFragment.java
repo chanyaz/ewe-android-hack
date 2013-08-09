@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.LocalDate;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -1473,10 +1475,15 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			mFragmentModLock.runWhenSafe(new Runnable() {
 				@Override
 				public void run() {
+					// #1722: If the user tried to book a hotel outside of 2013,
+					// then state that as the reason for failure
+					LocalDate checkOutDate = Db.getHotelSearch().getSearchParams().getCheckOutDate();
+					int errorStrId = checkOutDate.getYear() >= 2014 ? R.string.wallet_promo_expired
+							: R.string.error_wallet_promo_cannot_apply;
 					SimpleCallbackDialogFragment df = SimpleCallbackDialogFragment.newInstance(null,
-							getString(R.string.error_wallet_promo_cannot_apply), getString(R.string.ok),
+							getString(errorStrId), getString(R.string.ok),
 							CALLBACK_WALLET_PROMO_APPLY_ERROR);
-					df.show(getFragmentManager(), "couponReplacedDialog");
+					df.show(getFragmentManager(), "couponWalletPromoErrorDialog");
 				}
 			});
 
