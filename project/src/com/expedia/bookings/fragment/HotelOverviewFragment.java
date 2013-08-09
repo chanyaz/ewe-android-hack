@@ -1500,11 +1500,13 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			mCouponCode = couponCode;
 
 			// Reset the coupon state
+			boolean rebindViews = false;
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();
 			if (bd.isDownloading(KEY_APPLY_COUPON)) {
 				bd.cancelDownload(KEY_APPLY_COUPON);
 			}
 			else if (Db.getHotelSearch().getCreateTripResponse() != null) {
+				rebindViews = true;
 				Db.getHotelSearch().setCreateTripResponse(null);
 
 				OmnitureTracking.trackHotelCouponRemoved(getActivity());
@@ -1512,7 +1514,12 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 			mCouponCodeWidget.resetState();
 
-			refreshData();
+			// Note: onCouponCodeChanged gets invoked every time the CouponCode EditText changes.
+			// We only want to redraw the receipt when a coupon code has been applied or been
+			// removed, otherwise the receipt flashes on every character that is entered. 1502
+			if (rebindViews) {
+				refreshData();
+			}
 		}
 	}
 
