@@ -63,23 +63,7 @@ public class JodaUtils {
 	}
 
 	public static String formatTimeZone(DateTime dateTime) {
-		return formatTimeZone(dateTime.getZone().getOffset(dateTime));
-	}
-
-	public static String formatTimeZone(int tzOffsetMillis) {
-		int offsetSeconds = tzOffsetMillis / 1000;
-		int offsetMinutes = Math.abs(offsetSeconds / 60);
-		int offsetHours = offsetMinutes / 60;
-		offsetMinutes -= (offsetHours * 60);
-		String timeZoneString = "GMT";
-		if (offsetHours > 0 || offsetMinutes > 0) {
-			timeZoneString += ((offsetSeconds > 0) ? "+" : "-") + offsetHours;
-			if (offsetMinutes > 0) {
-				timeZoneString += ":" + ((offsetMinutes < 10) ? "0" : "") + offsetMinutes;
-			}
-		}
-
-		return timeZoneString;
+		return dateTime.getZone().getShortName(dateTime.getMillis());
 	}
 
 	//////////////////////////////////////////////////////////////////////////
