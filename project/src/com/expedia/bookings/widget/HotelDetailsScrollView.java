@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.widget.AlphaImageView;
 import com.mobiata.android.util.AndroidUtils;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.animation.ValueAnimator;
@@ -27,6 +28,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 	ViewGroup mMapContainer;
 	View mGalleryContainer;
 	HotelDetailsGallery mGallery;
+	AlphaImageView mVipAccessIcon;
 
 	private int mGalleryHeight = 0;
 	private int mInitialScrollTop = 0;
@@ -79,6 +81,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
 
+		initVipAccessIcon();
 		initGallery(h);
 		initMap();
 	}
@@ -118,10 +121,30 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 		mMapContainer = (ViewGroup) findViewById(R.id.hotel_details_map_fragment_container);
 	}
 
+	private void initVipAccessIcon() {
+		if (mVipAccessIcon == null) {
+			mVipAccessIcon = (AlphaImageView) findViewById(R.id.vip_image_view);
+		}
+	}
+
 	@Override
 	protected void onScrollChanged(int l, int t, int oldl, int oldt) {
 		super.onScrollChanged(l, t, oldl, oldt);
 		doCounterscroll();
+
+		if (mVipAccessIcon != null) {
+			int alpha = 255;
+			int totalHeight = mGalleryHeight - mIntroOffset;
+			if (t < 0) {
+				// Clamp it in case of overscroll
+				alpha = 0;
+			}
+			else if (t < totalHeight) {
+				float percentage = t / ((float) (totalHeight));
+				alpha = (int) (percentage * 255.0f);
+			}
+			mVipAccessIcon.setDrawAlpha(alpha);
+		}
 	}
 
 	@Override

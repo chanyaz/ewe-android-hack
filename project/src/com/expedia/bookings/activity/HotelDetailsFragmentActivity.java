@@ -42,6 +42,7 @@ import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.AlphaImageView;
 import com.expedia.bookings.widget.HotelDetailsScrollView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -571,6 +572,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		final View galleryFragment = findViewById(R.id.hotel_details_mini_gallery_fragment_container);
 		final View pricePromoFragment = findViewById(R.id.hotel_details_price_promo_fragment_container);
 		final View pricePromoLayout = findViewById(R.id.price_and_promo_layout);
+		final AlphaImageView vipAccessIcon = (AlphaImageView) findViewById(R.id.vip_image_view);
 		final int windowWidth = getWindow().getDecorView().getWidth();
 		final float rightSideWidth = windowWidth * .55f;
 
@@ -578,11 +580,14 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 			mGalleryToggleAnimator.cancel();
 		}
 		if (!isGalleryFullscreen) {
-			ObjectAnimator anim1 = ObjectAnimator.ofFloat(detailsFragment, "translationX", windowWidth);
-			ObjectAnimator anim2 = ObjectAnimator.ofFloat(galleryFragment, "translationX", 0f);
-			ObjectAnimator anim3 = ObjectAnimator.ofFloat(pricePromoLayout, "translationX", -rightSideWidth, 0f);
 			mGalleryToggleAnimator = new AnimatorSet();
-			mGalleryToggleAnimator.play(anim1).with(anim2).with(anim3);
+			mGalleryToggleAnimator.playTogether(
+				ObjectAnimator.ofFloat(detailsFragment, "translationX", windowWidth),
+				ObjectAnimator.ofFloat(galleryFragment, "translationX", 0.0f),
+				ObjectAnimator.ofFloat(pricePromoLayout, "translationX", -rightSideWidth, 0.0f),
+				ObjectAnimator.ofFloat(vipAccessIcon, "translationX", -rightSideWidth, 0.0f),
+				ObjectAnimator.ofInt(vipAccessIcon, "drawAlpha", 255, 0)
+			);
 			mGalleryToggleAnimator.addListener(new AnimatorListenerShort() {
 				@TargetApi(11)
 				@Override
@@ -595,11 +600,14 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 			mGalleryToggleAnimator.start();
 		}
 		else {
-			ObjectAnimator anim1 = ObjectAnimator.ofFloat(detailsFragment, "translationX", 0f);
-			ObjectAnimator anim2 = ObjectAnimator.ofFloat(galleryFragment, "translationX", -rightSideWidth / 2f);
-			ObjectAnimator anim3 = ObjectAnimator.ofFloat(pricePromoLayout, "translationX", -rightSideWidth);
 			mGalleryToggleAnimator = new AnimatorSet();
-			mGalleryToggleAnimator.play(anim1).with(anim2).with(anim3);
+			mGalleryToggleAnimator.playTogether(
+				ObjectAnimator.ofFloat(detailsFragment, "translationX", 0.0f),
+				ObjectAnimator.ofFloat(galleryFragment, "translationX", -rightSideWidth / 2.0f),
+				ObjectAnimator.ofFloat(pricePromoLayout, "translationX", -rightSideWidth),
+				ObjectAnimator.ofFloat(vipAccessIcon, "translationX", -rightSideWidth),
+				ObjectAnimator.ofInt(vipAccessIcon, "drawAlpha", 0, 255)
+			);
 			mGalleryToggleAnimator.addListener(new AnimatorListenerShort() {
 				@TargetApi(11)
 				@Override
@@ -607,11 +615,14 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 					ViewGroup.LayoutParams lp = pricePromoFragment.getLayoutParams();
 					lp.width = (int) (windowWidth * .45f) + 1;
 					pricePromoFragment.setLayoutParams(lp);
+
 					if (AndroidUtils.getSdkVersion() >= 11) {
 						pricePromoLayout.setTranslationX(0f);
+						vipAccessIcon.setTranslationX(0f);
 					}
 					else {
 						AnimatorProxy.wrap(pricePromoLayout).setTranslationX(0f);
+						AnimatorProxy.wrap(vipAccessIcon).setTranslationX(0f);
 					}
 				}
 			});
