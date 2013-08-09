@@ -1,16 +1,17 @@
 package com.expedia.bookings.data;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.LinkedHashSet;
 import java.util.List;
 
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.text.TextUtils;
 
-import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.android.maps.MapUtils;
@@ -76,9 +77,10 @@ public class FlightLeg implements JSONable {
 
 	// Returns the duration in milliseconds
 	public long getDuration() {
-		Calendar start = mSegments.get(0).mOrigin.getMostRelevantDateTime();
-		Calendar end = mSegments.get(mSegments.size() - 1).mDestination.getMostRelevantDateTime();
-		return end.getTimeInMillis() - start.getTimeInMillis();
+		DateTime start = new DateTime(getFirstWaypoint().getMostRelevantDateTime());
+		DateTime end = new DateTime(getLastWaypoint().getMostRelevantDateTime());
+		Duration duration = new Duration(start, end);
+		return duration.getMillis();
 	}
 
 	public int getDistanceInMiles() {
@@ -111,9 +113,9 @@ public class FlightLeg implements JSONable {
 	// are on the same day, then the span is 0.  Otherwise, it's 1+.  (This is used
 	// for detecting multi-day flights.)
 	public int getDaySpan() {
-		Calendar start = mSegments.get(0).mOrigin.getMostRelevantDateTime();
-		Calendar end = mSegments.get(mSegments.size() - 1).mDestination.getMostRelevantDateTime();
-		return (int) CalendarUtils.getDaysBetween(start, end);
+		DateTime start = new DateTime(getFirstWaypoint().getMostRelevantDateTime());
+		DateTime end = new DateTime(getLastWaypoint().getMostRelevantDateTime());
+		return JodaUtils.daysBetween(start, end);
 	}
 
 	// Returns all operating airlines for the flights in this leg
