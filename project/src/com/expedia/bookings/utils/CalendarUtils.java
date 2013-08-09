@@ -168,7 +168,7 @@ public class CalendarUtils {
 
 	public static void updateCalendarPickerEndDate(CalendarDatePicker picker, LocalDate date) {
 		if (date != null) {
-			picker.updateStartDate(date.getYear(), date.getMonthOfYear() - 1, date.getDayOfMonth());
+			picker.updateEndDate(date.getYear(), date.getMonthOfYear() - 1, date.getDayOfMonth());
 		}
 	}
 
