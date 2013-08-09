@@ -42,13 +42,15 @@ public class JodaUtils {
 	 * Checks if a timestamp has expired, given a particular cutoff
 	 * 
 	 * Returns true if:
-	 * - timestamp is null (therefore it must be expired)
 	 * - "Now" is before the timestamp (which should be impossible, since the timestamp should at least be == now)
 	 * - The end of the valid range (timestamp + cutoff) is still before now.
+	 * 
+	 * Returns false if:
+	 * - Timestamp is null (this means it's not even valid yet for testing)
 	 */
 	public static boolean isExpired(DateTime timestamp, long cutoff) {
 		if (timestamp == null) {
-			return true;
+			return false;
 		}
 
 		DateTime now = DateTime.now();
