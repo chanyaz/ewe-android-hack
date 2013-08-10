@@ -13,6 +13,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Rate.UserPriceType;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.text.StrikethroughTagHandler;
@@ -95,7 +96,7 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 			return;
 		}
 
-		if (property.isVipAccess()) {
+		if (PointOfSale.getPointOfSale().supportsVipAccess() && property.isVipAccess()) {
 			View vipIcon = Ui.findView(root, R.id.vip_image_view);
 			vipIcon.setVisibility(View.VISIBLE);
 			vipIcon.setOnClickListener(new View.OnClickListener() {

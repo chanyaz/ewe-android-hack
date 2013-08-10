@@ -21,6 +21,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
@@ -110,7 +111,7 @@ public class HotelCollage {
 			startLoadingImages();
 		}
 
-		if (mVipImageView != null) {
+		if (PointOfSale.getPointOfSale().supportsVipAccess() && mVipImageView != null) {
 			mVipImageView.setVisibility(property.isVipAccess() ? View.VISIBLE : View.GONE);
 			if (property.isVipAccess()) {
 				mVipImageView.setOnClickListener(new OnClickListener() {
