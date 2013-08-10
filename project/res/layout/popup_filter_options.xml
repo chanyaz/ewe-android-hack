@@ -53,13 +53,13 @@
             android:id="@+id/price_filter_button_group"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/popup_filter_row_height"
-            android:layout_marginBottom="8dp"
             layout="@layout/include_filter_price" />
 
         <Button
             android:id="@+id/filter_vip_access"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:background="@drawable/dark_toggle"
             android:text="@string/filter_vip_access"
             android:textStyle="bold"
