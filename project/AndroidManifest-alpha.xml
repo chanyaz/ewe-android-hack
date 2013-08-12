@@ -5,10 +5,7 @@
 
 
     <!-- Permissions: For EBad Alpha builds -->
-    <permission
-        android:name="com.expedia.bookings.alpha.permission.MAPS_RECEIVE"
-        android:protectionLevel="signature" />
-    <uses-permission android:name="com.expedia.bookings.alpha.permission.MAPS_RECEIVE" />
+
     <!-- For Push Notifications (GCM) -->
     <permission
         android:name="com.expedia.bookings.alpha.permission.C2D_MESSAGE"
@@ -17,10 +14,7 @@
 
 
     <!-- Permissions: For VSC Alpha builds -->
-    <permission
-        android:name="com.expedia.bookings.vsc.alpha.permission.MAPS_RECEIVE"
-        android:protectionLevel="signature" />
-    <uses-permission android:name="com.expedia.bookings.vsc.alpha.permission.MAPS_RECEIVE" />
+
     <!-- For Push Notifications (GCM) -->
     <permission
         android:name="com.expedia.bookings.vsc.alpha.permission.C2D_MESSAGE"
