@@ -337,10 +337,8 @@ public class HotelListFragment extends ListFragment {
 		else if (mAdapter.getCount() == 0) {
 			showPlaceholder();
 			setHeaderVisibility(View.GONE);
-			if (mSearchProgressBar != null) {
-				mSearchProgressBar.setText(R.string.no_filter_results);
-				mSearchProgressBar.setShowProgress(false);
-			}
+			mSearchProgressBar.setText(R.string.no_filter_results);
+			mSearchProgressBar.setShowProgress(false);
 		}
 		else {
 			hidePlaceholder();
