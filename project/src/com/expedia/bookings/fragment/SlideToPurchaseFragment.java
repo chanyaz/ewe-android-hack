@@ -87,9 +87,7 @@ public class SlideToPurchaseFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		if (mSlider != null) {
-			mSlider.resetSlider();
-		}
+		resetSlider();
 	}
 
 	@Override
@@ -133,6 +131,12 @@ public class SlideToPurchaseFragment extends Fragment {
 		// Slide To Purchase
 		TextView price = Ui.findView(v, R.id.purchase_total_text_view);
 		price.setText(mTotalPriceString);
+	}
+
+	public void resetSlider() {
+		if (mSlider != null) {
+			mSlider.resetSlider();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

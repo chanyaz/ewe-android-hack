@@ -21,13 +21,13 @@ import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.HotelOverviewFragment;
 import com.expedia.bookings.fragment.HotelOverviewFragment.BookingOverviewFragmentListener;
 import com.expedia.bookings.fragment.LoginFragment.LogInListener;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
 import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
 import com.mobiata.android.Log;
@@ -261,32 +261,34 @@ public class HotelOverviewActivity extends SherlockFragmentActivity implements B
 
 	@Override
 	public void onSlideAllTheWay() {
+		//Ensure the correct (and valid) email address makes it to billing info
+		String checkoutEmail = BookingInfoUtils.getCheckoutEmail(this);
+		if (!TextUtils.isEmpty(checkoutEmail)) {
+			Db.getBillingInfo().setEmail(checkoutEmail);
+		}
+		else {
+			//We tried to fix the email address, but failed. Do something drastic (this should very very very rarely happen)
+			Db.getBillingInfo().setEmail(null);
+			if (mBookingOverviewFragment != null) {
+				mBookingOverviewFragment.resetSlider();
+			}
+			Ui.showToast(this, R.string.please_enter_a_valid_email_address);
+			mBookingOverviewFragment.startCheckout(false, false);//This will update all of our views (and re-validate everything).
+			return;
+		}
+
+		//Ensure required billing info is migrated from our primary traveler
 		BillingInfo billingInfo = Db.getBillingInfo();
-
-		billingInfo.save(this);
-
-		// TODO: Does the code below need to run?  I'm really unsure.  Someone should look into it at some point.
-
-		//TODO: This block shouldn't happen. Currently the mocks pair phone number with travelers, but the BillingInfo object contains phone info.
-		//We need to wait on API updates to either A) set phone number as a billing phone number or B) take a bunch of per traveler phone numbers
 		Traveler traveler = Db.getTravelers().get(0);
 		billingInfo.setFirstName(traveler.getFirstName());
 		billingInfo.setLastName(traveler.getLastName());
 		billingInfo.setTelephone(traveler.getPhoneNumber());
 		billingInfo.setTelephoneCountryCode(traveler.getPhoneCountryCode());
 
-		//TODO: This also shouldn't happen, we should expect billingInfo to have a valid email address at this point...
-		if (TextUtils.isEmpty(billingInfo.getEmail()) || (User.isLoggedIn(this) && Db.getUser() != null
-				&& Db.getUser().getPrimaryTraveler() != null
-				&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail()) && Db.getUser()
-				.getPrimaryTraveler().getEmail().compareToIgnoreCase(billingInfo.getEmail()) != 0)) {
-			String email = traveler.getEmail();
-			if (TextUtils.isEmpty(email)) {
-				email = Db.getUser().getPrimaryTraveler().getEmail();
-			}
-			billingInfo.setEmail(email);
-		}
+		//Save it!
+		billingInfo.save(this);
 
+		//Seal the deal
 		startActivity(new Intent(this, HotelBookingActivity.class));
 	}
 

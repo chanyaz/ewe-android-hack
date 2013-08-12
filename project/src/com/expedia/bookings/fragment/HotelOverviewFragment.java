@@ -766,6 +766,12 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		startCheckout(true, true);
 	}
 
+	public void resetSlider() {
+		if (mSlideToPurchaseFragment != null) {
+			mSlideToPurchaseFragment.resetSlider();
+		}
+	}
+
 	private void scrollToCheckout(final boolean animate) {
 		mScrollView.post(new Runnable() {
 			@Override

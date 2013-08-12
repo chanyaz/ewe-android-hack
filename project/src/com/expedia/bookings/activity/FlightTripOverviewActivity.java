@@ -36,7 +36,6 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.ConfirmLogoutDialogFragment.DoLogoutListener;
 import com.expedia.bookings.fragment.FlightCheckoutFragment;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
@@ -50,6 +49,7 @@ import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
+import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -930,36 +930,32 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	@Override
 	public void onSlideAllTheWay() {
 
-		//Ensure proper email address
-		if (User.isLoggedIn(this) && !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
-			//This should always be a valid email because it is the account email
-			Db.getBillingInfo().setEmail(Db.getUser().getPrimaryTraveler().getEmail());
+		//Ensure the correct (and valid) email address makes it to billing info
+		String checkoutEmail = BookingInfoUtils.getCheckoutEmail(this);
+		if (!TextUtils.isEmpty(checkoutEmail)) {
+			Db.getBillingInfo().setEmail(checkoutEmail);
+		}
+		else {
+			//We tried to fix the email address, but failed. Do something drastic (this should very very very rarely happen)
+			Db.getBillingInfo().setEmail(null);
+			if (mSlideToPurchaseFragment != null) {
+				mSlideToPurchaseFragment.resetSlider();
+			}
+			Ui.showToast(this, R.string.please_enter_a_valid_email_address);
+			gotoCheckoutMode(false);//This will update all of our views (and re-validate everything).
+			return;
 		}
 
-		// The below code may be totally unnecessary.  It's just being kept because *someone* wanted it to run
-
-		//TODO: This block shouldn't happen. Currently the mocks pair phone number with travelers, but the BillingInfo object contains phone info.
-		//We need to wait on API updates to either A) set phone number as a billing phone number or B) take a bunch of per traveler phone numbers
+		//Currently the gui has us setting phone info on traveler information entry screens, copy that business to BillingInfo
 		BillingInfo billingInfo = Db.getBillingInfo();
 		Traveler traveler = Db.getTravelers().get(0);
 		billingInfo.setTelephone(traveler.getPhoneNumber());
 		billingInfo.setTelephoneCountryCode(traveler.getPhoneCountryCode());
 
-		//TODO: This also shouldn't happen, we should expect billingInfo to have a valid email address at this point...
-		if (TextUtils.isEmpty(billingInfo.getEmail())
-				|| (User.isLoggedIn(this) && Db.getUser() != null
-						&& Db.getUser().getPrimaryTraveler() != null
-						&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail()) && Db.getUser()
-						.getPrimaryTraveler().getEmail().compareToIgnoreCase(billingInfo.getEmail()) != 0)) {
-			String email = traveler.getEmail();
-			if (TextUtils.isEmpty(email)) {
-				email = Db.getUser().getPrimaryTraveler().getEmail();
-			}
-			billingInfo.setEmail(email);
-		}
-
+		//Save it!
 		Db.getBillingInfo().save(this);
 
+		//Seal the deal
 		Intent intent = new Intent(this, FlightBookingActivity.class);
 		startActivity(intent);
 	}

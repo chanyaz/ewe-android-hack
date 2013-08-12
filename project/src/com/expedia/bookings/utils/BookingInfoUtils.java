@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.CreditCardType;
@@ -15,6 +16,8 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.model.HotelTravelerFlowState;
 import com.expedia.bookings.model.TravelerFlowState;
+import com.expedia.bookings.section.CommonSectionValidators;
+import com.mobiata.android.Log;
 
 public class BookingInfoUtils {
 
@@ -95,6 +98,59 @@ public class BookingInfoUtils {
 				Db.getTravelers().set(0, traveler);
 			}
 		}
+	}
+
+	/**
+	 * This looks through our various static data and tries to determine the email address to use at checkout.
+	 * 
+	 * Order of checks:  User, GoogleWallet, BillingInfo
+	 * 
+	 * @param context
+	 * @return email address to use for checkout or null if no valid email addresses were found
+	 */
+	public static String getCheckoutEmail(Context context) {
+		Log.d("getCheckoutEmail");
+
+		//Get User email...
+		if (User.isLoggedIn(context)) {
+			if (Db.getUser() == null) {
+				Db.loadUser(context);
+			}
+			if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
+					&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
+				String email = Db.getUser().getPrimaryTraveler().getEmail();
+				if (email.matches(CommonSectionValidators.STRICT_EMAIL_VALIDATION_REGEX)) {
+					Log.d("getCheckoutEmail - returning Db.getUser().getPrimaryTraveler().getEmail():" + email);
+					return email;
+				}
+			}
+		}
+
+		//Get google wallet email...
+		Traveler googTrav = Db.getGoogleWalletTraveler();
+		if (googTrav != null && !TextUtils.isEmpty(googTrav.getEmail())) {
+			String email = googTrav.getEmail();
+			if (email.matches(CommonSectionValidators.STRICT_EMAIL_VALIDATION_REGEX)) {
+				Log.d("getCheckoutEmail - returning Db.getGoogleWalletTraveler().getEmail():" + email);
+				return email;
+			}
+		}
+
+		//Get BillingInfo email...
+		if (!Db.hasBillingInfo()) {
+			Db.loadBillingInfo(context);
+		}
+		if (Db.hasBillingInfo()) {
+			if (!TextUtils.isEmpty(Db.getBillingInfo().getEmail())) {
+				String email = Db.getBillingInfo().getEmail();
+				if (email.matches(CommonSectionValidators.STRICT_EMAIL_VALIDATION_REGEX)) {
+					Log.d("getCheckoutEmail - returning Db.getBillingInfo().getEmail():" + email);
+					return email;
+				}
+			}
+		}
+
+		return null;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
