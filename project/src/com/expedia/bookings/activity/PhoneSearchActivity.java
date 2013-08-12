@@ -558,7 +558,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			getIntent().removeExtra(EXTRA_NEW_SEARCH);
 		}
 
-		boolean toBroadcastSearchCompleted = false;
 		HotelSearchResponse searchResponse = Db.getHotelSearch().getSearchResponse();
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		mTag = prefs.getString("tag", getString(R.string.tag_hotel_list));
@@ -581,7 +580,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				}
 				else {
 					searchResponse.setFilter(Db.getFilter());
-					toBroadcastSearchCompleted = true;
 				}
 
 				if (Db.getHotelSearch().getSearchParams() != null
@@ -624,12 +622,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 		showFragment(mTag);
 		setShowDistance(mShowDistance);
-
-		// 9028:t only broadcast search completed once all
-		// elements have been setup
-		if (toBroadcastSearchCompleted) {
-			broadcastSearchCompleted();
-		}
 	}
 
 	@Override
