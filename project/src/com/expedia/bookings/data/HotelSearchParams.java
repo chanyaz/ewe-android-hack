@@ -16,6 +16,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -420,12 +421,8 @@ public class HotelSearchParams implements JSONable {
 		// Where //
 		hotelParams.setSearchType(HotelSearchParams.SearchType.CITY);
 
-		String cityStr = firstLeg.getLastWaypoint().getAirport().mCity;
-		if (TextUtils.isEmpty(cityStr)) {
-			cityStr = firstLeg.getLastWaypoint().mAirportCode;
-		}
-
 		// Because we are adding a lat/lon parameter, it doesn't matter too much if our query isn't perfect
+		String cityStr = StrUtils.getWaypointCityOrCode(firstLeg.getLastWaypoint());
 		hotelParams.setUserQuery(cityStr);
 		hotelParams.setQuery(cityStr);
 
