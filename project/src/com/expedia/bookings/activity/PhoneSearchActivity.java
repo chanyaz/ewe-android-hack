@@ -3,7 +3,6 @@ package com.expedia.bookings.activity;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -431,7 +430,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				buildFilter();
 			}
 
-			broadcastSearchCompleted(searchResponse);
+			broadcastSearchCompleted();
 
 			hideLoading();
 
@@ -629,7 +628,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		// 9028:t only broadcast search completed once all
 		// elements have been setup
 		if (toBroadcastSearchCompleted) {
-			broadcastSearchCompleted(searchResponse);
+			broadcastSearchCompleted();
 		}
 	}
 
@@ -1792,7 +1791,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		}
 	}
 
-	private void broadcastSearchCompleted(HotelSearchResponse searchResponse) {
+	private void broadcastSearchCompleted() {
 		if (Db.getHotelSearch().getSearchParams().getSearchType() != HotelSearchParams.SearchType.HOTEL) {
 			Db.getHotelSearch().clearSelectedProperty();
 		}
