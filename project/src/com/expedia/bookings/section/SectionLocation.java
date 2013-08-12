@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Build;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -28,7 +30,6 @@ import com.expedia.bookings.section.CountrySpinnerAdapter.CountryDisplayType;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
 import com.expedia.bookings.utils.BookingInfoUtils;
-import com.mobiata.android.Log;
 import com.mobiata.android.validation.MultiValidator;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
@@ -499,18 +500,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		@Override
 		public void bindData(Location location) {
 			super.bindData(location);
-
-			if (this.hasBoundField()) {
-				//If we set the country to USA (or we dont select a country, but POS is USA) use the number keyboard
-				if (location.getCountryCode() != null
-						&& location.getCountryCode().equalsIgnoreCase("USA")
-						|| (!mEditCountrySpinner.hasBoundField() && PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.UNITED_STATES)) {
-					this.getField().setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_NORMAL);
-				}
-				else {
-					this.getField().setInputType(InputType.TYPE_CLASS_TEXT);
-				}
-			}
+			updatePostalCodeInput();
 		}
 
 		@Override
@@ -540,6 +530,25 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			retArr.add(mValidPostalCode);
 			return retArr;
 		}
+
+		@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+		private void updatePostalCodeInput() {
+			if (this.hasBoundField()) {
+				Location location = this.getData();
+				//If we set the country to USA (or we dont select a country, but POS is USA) use the number keyboard and set hint to use zip code (instead of postal code)
+				if ((location != null && location.getCountryCode() != null
+						&& location.getCountryCode().equalsIgnoreCase("USA"))
+						|| (!mEditCountrySpinner.hasBoundField() && PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.UNITED_STATES)) {
+					this.getField().setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_NORMAL);
+					this.getField().setHint(R.string.address_postal_code_hint_US);
+				}
+				else {
+					this.getField().setInputType(InputType.TYPE_CLASS_TEXT);
+					this.getField().setHint(R.string.address_postal_code_hint);
+				}
+			}
+		}
+
 	};
 
 	/**
@@ -596,7 +605,6 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 						getData()
 								.setCountryCode(countryAdapter.getItemValue(position, CountryDisplayType.THREE_LETTER));
 						updateCountryDependantValidation();
-						updatePostalCodeFormat();
 						rebindCountryDependantFields();
 					}
 
@@ -622,21 +630,6 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			// Force the State/Province section to update its validator
 			mEditAddressState.onChange(null);
 
-		}
-
-		protected void updatePostalCodeFormat() {
-			if (getData() != null && mEditAddressPostalCode != null) {
-				if (mEditAddressPostalCode.hasBoundField()) {
-					Log.i("CountryCode:" + getData().getCountryCode());
-					if (!TextUtils.isEmpty(getData().getCountryCode())
-							&& getData().getCountryCode().equalsIgnoreCase("USA")) {
-						mEditAddressPostalCode.getField().setInputType(InputType.TYPE_CLASS_PHONE);
-					}
-					else {
-						mEditAddressPostalCode.getField().setInputType(InputType.TYPE_CLASS_TEXT);
-					}
-				}
-			}
 		}
 
 		@Override

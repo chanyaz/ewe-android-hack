@@ -983,7 +983,9 @@
     <!-- Address state hint -->
     <string name="address_state_hint">State</string>
     <!-- Postal Code hint -->
-    <string name="address_postal_code_hint">Zip</string>
+    <string name="address_postal_code_hint">Postal Code</string>
+    <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
+    <string name="address_postal_code_hint_US">Zip</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
