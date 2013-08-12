@@ -41,9 +41,7 @@ import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.animation.PropertyValuesHolder;
-import com.nineoldandroids.view.animation.AnimatorProxy;
 
 public class FlightDetailsFragment extends Fragment {
 
@@ -304,9 +302,6 @@ public class FlightDetailsFragment extends Fragment {
 		// overhead of HW layers).  It is an experiment right now which are complex enough.
 		final List<View> hwLayerViews = new ArrayList<View>();
 
-		// NineOldAndroids + PropertyValuesHolder don't get along
-		boolean usingProxyAnimators = AnimatorProxy.NEEDS_PROXY;
-
 		int center = (top + bottom) / 2;
 		int height = bottom - top;
 
@@ -324,12 +319,7 @@ public class FlightDetailsFragment extends Fragment {
 				values[1] = translation;
 			}
 
-			if (usingProxyAnimators) {
-				set.add(ObjectAnimator.ofFloat(child, "translationY", values));
-			}
-			else {
-				pvhTranslation = PropertyValuesHolder.ofFloat("translationY", values);
-			}
+			pvhTranslation = PropertyValuesHolder.ofFloat("translationY", values);
 
 			// Scale the flight cards a bit, so they look like they are growing out of/into a row
 			if (child instanceof FlightSegmentSection) {
@@ -343,22 +333,11 @@ public class FlightDetailsFragment extends Fragment {
 					values[1] = change;
 				}
 
-				if (usingProxyAnimators) {
-					set.add(ObjectAnimator.ofFloat(child, "scaleY", values));
-					set.add(AnimUtils.createFadeAnimator(child, enter));
-				}
-				else {
-					pvhScale = PropertyValuesHolder.ofFloat("scaleY", values);
-					set.add(ObjectAnimator.ofPropertyValuesHolder(child, pvhAlpha, pvhTranslation, pvhScale));
-				}
+				pvhScale = PropertyValuesHolder.ofFloat("scaleY", values);
+				set.add(AnimUtils.ofPropertyValuesHolder(child, pvhAlpha, pvhTranslation, pvhScale));
 			}
 			else {
-				if (usingProxyAnimators) {
-					set.add(AnimUtils.createFadeAnimator(child, enter));
-				}
-				else {
-					set.add(ObjectAnimator.ofPropertyValuesHolder(child, pvhAlpha, pvhTranslation));
-				}
+				set.add(AnimUtils.ofPropertyValuesHolder(child, pvhAlpha, pvhTranslation));
 			}
 
 			hwLayerViews.add(child);
@@ -373,14 +352,9 @@ public class FlightDetailsFragment extends Fragment {
 			values[0] = 0;
 			values[1] = -mInfoBar.getHeight();
 		}
-		if (usingProxyAnimators) {
-			set.add(ObjectAnimator.ofFloat(mInfoBar, "translationY", values));
-			set.add(AnimUtils.createFadeAnimator(mInfoBar, enter));
-		}
-		else {
-			pvhTranslation = PropertyValuesHolder.ofFloat("translationY", values);
-			set.add(ObjectAnimator.ofPropertyValuesHolder(mInfoBar, pvhAlpha, pvhTranslation));
-		}
+		pvhTranslation = PropertyValuesHolder.ofFloat("translationY", values);
+		set.add(AnimUtils.ofPropertyValuesHolder(mInfoBar, pvhAlpha, pvhTranslation));
+
 		hwLayerViews.add(mInfoBar);
 
 		// Animate the baggage fee (if it's not in the scroll view)
@@ -394,14 +368,9 @@ public class FlightDetailsFragment extends Fragment {
 				values[1] = mFeesContainer.getHeight();
 			}
 
-			if (usingProxyAnimators) {
-				set.add(ObjectAnimator.ofFloat(mFeesContainer, "translationY", values));
-				set.add(AnimUtils.createFadeAnimator(mFeesContainer, enter));
-			}
-			else {
-				pvhTranslation = PropertyValuesHolder.ofFloat("translationY", values);
-				set.add(ObjectAnimator.ofPropertyValuesHolder(mFeesContainer, pvhAlpha, pvhTranslation));
-			}
+			pvhTranslation = PropertyValuesHolder.ofFloat("translationY", values);
+			set.add(AnimUtils.ofPropertyValuesHolder(mFeesContainer, pvhAlpha, pvhTranslation));
+
 			hwLayerViews.add(mFeesContainer);
 		}
 

@@ -10,6 +10,7 @@ import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.animation.PropertyValuesHolder;
 import com.nineoldandroids.animation.ValueAnimator;
+import com.nineoldandroids.view.animation.AnimatorProxy;
 
 public class AnimUtils {
 
@@ -36,6 +37,20 @@ public class AnimUtils {
 			}
 			return sFadeExitPvh;
 		}
+	}
+
+	/**
+	 * Backwards-compatible method for creating a PropertyValuesHolder ObjectAnimator.
+	 * 
+	 * Without wrapping the View first, you can't use PropertyValuesHolder with
+	 * NineOldAndroid's back-compat methods.
+	 */
+	public static ObjectAnimator ofPropertyValuesHolder(Object target, PropertyValuesHolder... values) {
+		if (AnimatorProxy.NEEDS_PROXY && target instanceof View && !(target instanceof AnimatorProxy)) {
+			target = AnimatorProxy.wrap((View) target);
+		}
+
+		return ObjectAnimator.ofPropertyValuesHolder(target, values);
 	}
 
 	public static AnimatorSet playTogether(Collection<Animator> items) {
