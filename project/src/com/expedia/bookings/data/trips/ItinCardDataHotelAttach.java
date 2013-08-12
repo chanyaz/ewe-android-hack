@@ -1,7 +1,5 @@
 package com.expedia.bookings.data.trips;
 
-import org.joda.time.LocalDate;
-
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.HotelSearchParams;
 
@@ -21,31 +19,7 @@ public class ItinCardDataHotelAttach extends ItinCardData {
 	}
 
 	public HotelSearchParams getSearchParams() {
-		HotelSearchParams searchParams = new HotelSearchParams();
-
-		// Where
-		double latitude = mFirstLeg.getLastWaypoint().getAirport().getLatitude();
-		double longitude = mFirstLeg.getLastWaypoint().getAirport().getLongitude();
-
-		searchParams.setQuery(mFirstLeg.getLastWaypoint().getAirport().mCity);
-		searchParams.setSearchType(HotelSearchParams.SearchType.CITY);
-		searchParams.setSearchLatLon(latitude, longitude);
-
-		// When
-		LocalDate checkInDate = LocalDate.fromCalendarFields(mFirstLeg.getLastWaypoint().getBestSearchDateTime());
-		LocalDate checkOutDate = LocalDate.fromCalendarFields(mNextLeg.getFirstWaypoint().getBestSearchDateTime());
-
-		LocalDate maxCheckOutDate = checkInDate.plusDays(28);
-		checkOutDate = checkOutDate.isAfter(maxCheckOutDate) ? maxCheckOutDate : checkOutDate;
-
-		searchParams.setCheckInDate(checkInDate);
-		searchParams.setCheckOutDate(checkOutDate);
-
-		// Who
-		searchParams.setNumAdults(1);
-		searchParams.setChildren(null);
-
-		return searchParams;
+		return HotelSearchParams.fromFlightParams(mFirstLeg, mNextLeg, null);
 	}
 
 	@Override

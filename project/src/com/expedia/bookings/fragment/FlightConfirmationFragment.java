@@ -3,8 +3,6 @@ package com.expedia.bookings.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.time.LocalDate;
-
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
 import android.content.Intent;
@@ -31,12 +29,10 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelSearchParams;
-import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.ShareUtils;
@@ -226,59 +222,11 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 	// Search for hotels
 
 	private void searchForHotels() {
-		//Where flights meets hotels
-		HotelSearchParams sp = new HotelSearchParams();
-		sp.setSearchType(SearchType.CITY);
-
-		// Assuming all the travelers are adults, we set the most adults we can
-		sp.setNumAdults(Math.min(GuestsPickerUtils.getMaxAdults(0), Db.getFlightSearch().getSearchParams()
-				.getNumAdults()));
-
-		int legCount = Db.getFlightSearch().getSelectedFlightTrip().getLegCount();
-		FlightLeg firstLeg = Db.getFlightSearch().getSelectedFlightTrip().getLeg(0);
-		LocalDate checkInDate = LocalDate.fromCalendarFields(firstLeg.getLastWaypoint().getMostRelevantDateTime());
-		sp.setCheckInDate(checkInDate);
-
-		if (legCount > 1) {
-			//Round trip
-			FlightTrip flightTrip = Db.getFlightSearch().getSelectedFlightTrip();
-			FlightLeg lastLeg = flightTrip.getLeg(flightTrip.getLegCount() - 1);
-
-			LocalDate checkOutDate = LocalDate.fromCalendarFields(lastLeg.getFirstWaypoint().getMostRelevantDateTime());
-
-			LocalDate maxCheckOutDate = checkInDate.plusDays(28);
-			checkOutDate = checkOutDate.isAfter(maxCheckOutDate) ? maxCheckOutDate : checkOutDate;
-
-			sp.setCheckOutDate(checkOutDate);
-		}
-		else {
-			//One way trip
-			sp.setCheckOutDate(checkInDate.plusDays(1));
-		}
-
-		String cityStr = firstLeg.getLastWaypoint().getAirport().mCity;
-		if (TextUtils.isEmpty(cityStr)) {
-			cityStr = firstLeg.getLastWaypoint().mAirportCode;
-		}
-
-		//Because we are adding a lat/lon parameter, it doesn't matter too much if our query isn't perfect
-		sp.setUserQuery(cityStr);
-		sp.setQuery(cityStr);
-
-		double lat = firstLeg.getLastWaypoint().getAirport().getLatE6() / 1E6;
-		double lon = firstLeg.getLastWaypoint().getAirport().getLonE6() / 1E6;
-
-		if (lat == 0 && lon == 0) {
-			//We try the origin of the last segment - this isn't great, but in the case of a bus ride, it might be about all we have
-			lat = firstLeg.getSegment(firstLeg.getSegmentCount() - 1).mOrigin.getAirport().getLatE6() / 1E6;
-			lon = firstLeg.getSegment(firstLeg.getSegmentCount() - 1).mOrigin.getAirport().getLonE6() / 1E6;
-		}
-
-		//These should only be zero in rare cases, at which time we just use our cityStr
-		if (lat != 0 || lon != 0) {
-			sp.setSearchLatLon(lat, lon);
-			sp.setSearchLatLonUpToDate();
-		}
+		FlightSearch search = Db.getFlightSearch();
+		FlightTrip trip = search.getSelectedFlightTrip();
+		FlightLeg firstLeg = trip.getLeg(0);
+		FlightLeg secondLeg = trip.getLegCount() > 1 ? trip.getLeg(1) : null;
+		HotelSearchParams sp = HotelSearchParams.fromFlightParams(firstLeg, secondLeg, search.getSearchParams());
 
 		NavUtils.goToHotels(getActivity(), sp);
 

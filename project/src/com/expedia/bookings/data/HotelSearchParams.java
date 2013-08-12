@@ -14,6 +14,7 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.model.Search;
+import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -401,6 +402,79 @@ public class HotelSearchParams implements JSONable {
 
 	public boolean isFromWidget() {
 		return mIsFromWidget;
+	}
+
+	/**
+	 * Creates a HotelSearchParams which can be used to search for hotels
+	 * related to a flights search.
+	 * 
+	 * @param firstLeg the first leg of the trip; required
+	 * @param secondLeg the second leg of a trip (if round trip); optional
+	 * @param flightParams the query parameters for the flights; optional
+	 * @return a HotelSearchParams for those flight parameters
+	 */
+	public static HotelSearchParams fromFlightParams(FlightLeg firstLeg, FlightLeg secondLeg,
+			FlightSearchParams flightParams) {
+		HotelSearchParams hotelParams = new HotelSearchParams();
+
+		// Where //
+		hotelParams.setSearchType(HotelSearchParams.SearchType.CITY);
+
+		String cityStr = firstLeg.getLastWaypoint().getAirport().mCity;
+		if (TextUtils.isEmpty(cityStr)) {
+			cityStr = firstLeg.getLastWaypoint().mAirportCode;
+		}
+
+		// Because we are adding a lat/lon parameter, it doesn't matter too much if our query isn't perfect
+		hotelParams.setUserQuery(cityStr);
+		hotelParams.setQuery(cityStr);
+
+		double latitude = firstLeg.getLastWaypoint().getAirport().getLatitude();
+		double longitude = firstLeg.getLastWaypoint().getAirport().getLongitude();
+
+		if (latitude == 0 && longitude == 0) {
+			// We try the origin of the last segment - this isn't great,
+			// but in the case of a bus ride, it might be about all we have
+			latitude = firstLeg.getSegment(firstLeg.getSegmentCount() - 1).mOrigin.getAirport().getLatitude();
+			longitude = firstLeg.getSegment(firstLeg.getSegmentCount() - 1).mOrigin.getAirport().getLongitude();
+		}
+
+		// These should only be zero in rare cases, at which time we just use our cityStr
+		if (latitude != 0 || longitude != 0) {
+			hotelParams.setSearchLatLon(latitude, longitude);
+		}
+
+		// When //
+		LocalDate checkInDate = LocalDate.fromCalendarFields(firstLeg.getLastWaypoint().getBestSearchDateTime());
+		hotelParams.setCheckInDate(checkInDate);
+
+		if (secondLeg == null) {
+			// 1-way flight
+			hotelParams.setCheckOutDate(checkInDate.plusDays(1));
+		}
+		else {
+			// Round-trip flight
+			LocalDate checkOutDate = LocalDate.fromCalendarFields(secondLeg.getFirstWaypoint()
+					.getMostRelevantDateTime());
+
+			// Make sure the stay is no longer than 28 days
+			LocalDate maxCheckOutDate = checkInDate.plusDays(28);
+			checkOutDate = checkOutDate.isAfter(maxCheckOutDate) ? maxCheckOutDate : checkOutDate;
+
+			hotelParams.setCheckOutDate(checkOutDate);
+		}
+
+		// Who //
+		hotelParams.setChildren(null);
+		if (flightParams != null) {
+			hotelParams.setNumAdults(Math.min(GuestsPickerUtils.getMaxAdults(0),
+					Db.getFlightSearch().getSearchParams().getNumAdults()));
+		}
+		else {
+			hotelParams.setNumAdults(1);
+		}
+
+		return hotelParams;
 	}
 
 	public boolean fromJson(JSONObject obj) {
