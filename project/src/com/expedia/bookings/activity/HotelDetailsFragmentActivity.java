@@ -26,7 +26,9 @@ import com.expedia.bookings.animation.AnimatorListenerShort;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelOffersResponse;
+import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -154,7 +156,14 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 
 			Property property = JSONUtils.getJSONable(getIntent(), Codes.PROPERTY, Property.class);
 			if (property != null) {
-				Db.getHotelSearch().setSelectedProperty(property);
+				// #1496: We need to create a fake SearchResponse and stuff this Property into it, based on
+				// how things are architected now
+				HotelSearch search = Db.getHotelSearch();
+				search.resetSearchData();
+				HotelSearchResponse searchResponse = new HotelSearchResponse();
+				searchResponse.addProperty(property);
+				search.setSearchResponse(searchResponse);
+				search.setSelectedProperty(property);
 			}
 			else {
 				// It means we came back from the reviews activity and Db.getSelectedProperty is already valid
