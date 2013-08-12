@@ -376,7 +376,7 @@ public class ShareUtils {
 	public String getHotelShareSubject(String city, LocalDate startDate, LocalDate endDate) {
 		String template = mContext.getString(R.string.share_template_subject_hotel);
 		String checkIn = JodaUtils.formatLocalDate(mContext, startDate, SHARE_CHECK_IN_FLAGS);
-		String checkOut = JodaUtils.formatLocalDate(mContext, endDate, SHARE_CHECK_IN_FLAGS);
+		String checkOut = JodaUtils.formatLocalDate(mContext, endDate, SHARE_CHECK_OUT_FLAGS);
 
 		return String.format(template, city, checkIn, checkOut);
 	}
@@ -384,7 +384,7 @@ public class ShareUtils {
 	public String getHotelShareTextShort(String hotelName, DateTime startDate, DateTime endDate, String detailsUrl) {
 		String template = mContext.getString(R.string.share_template_short_hotel);
 		String checkIn = JodaUtils.formatDateTime(mContext, startDate, SHARE_CHECK_IN_FLAGS);
-		String checkOut = JodaUtils.formatDateTime(mContext, endDate, SHARE_CHECK_IN_FLAGS);
+		String checkOut = JodaUtils.formatDateTime(mContext, endDate, SHARE_CHECK_OUT_FLAGS);
 
 		return String.format(template, hotelName, checkIn, checkOut, detailsUrl);
 	}
