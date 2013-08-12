@@ -101,6 +101,7 @@ public class HotelFilter implements JSONable {
 		mMinStarRating = 0;
 		mHotelName = null;
 		mSort = Sort.POPULAR;
+		mVipAccessOnly = false;
 	}
 
 	/**
