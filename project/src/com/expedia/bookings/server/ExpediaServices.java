@@ -123,6 +123,12 @@ import com.mobiata.flightlib.data.FlightCode;
 @SuppressLint("SimpleDateFormat")
 public class ExpediaServices implements DownloadListener {
 
+	/**
+	 * Tag reserved for request URLs (or params).  Often times we're only
+	 * interested in the exact request being sent to the server.
+	 */
+	private static final String TAG_REQUEST = "EBRequest";
+
 	// please note that these keys are specific to EB (for tracking purposes)
 	// if you need FLEX API keys for another app, please obtain your own
 	private static final String FS_FLEX_APP_ID = "db824f8c";
@@ -283,7 +289,7 @@ public class ExpediaServices implements DownloadListener {
 		get.addHeader("Accept", "application/json");
 
 		// Some logging before passing the request along^M
-		Log.d("Autosuggest request: " + url + "?" + NetUtils.getParamsForLogging(params));
+		Log.d(TAG_REQUEST, "Autosuggest request: " + url + "?" + NetUtils.getParamsForLogging(params));
 
 		return doRequest(get, responseHandler, 0);
 	}
@@ -690,7 +696,7 @@ public class ExpediaServices implements DownloadListener {
 			if (spoofBookings) {
 				// Show a log of what URL would have been called had this not been spoofed
 				String serverUrl = getE3EndpointUrl(F_SECURE_REQUEST) + "Checkout";
-				Log.d("Request (spoofed): " + serverUrl + "?" + NetUtils.getParamsForLogging(query));
+				Log.d(TAG_REQUEST, "Request (spoofed): " + serverUrl + "?" + NetUtils.getParamsForLogging(query));
 
 				String simulatedResponse = "{\"warnings\":[],\"cancellationPolicy\":\" \",\"nonLocalizedhotelName\":\"Hotel Deadbeef\",\"hotelName\":\"Hotel Deadbeef\",\"localizedHotelName\":\"Hotel Deadbeef\",\"hotelAddress\":\"250 W 43rd St\",\"hotelPostalCode\":\"10036\",\"hotelStateProvinceCode\":\"NY\",\"hotelCountryCode\":\"USA\",\"hotelCity\":\"New York\",\"hotelPhone\":\"1-212-944-6000\",\"hotelLongitude\":\"-73.98791\",\"hotelLatitude\":\"40.75731\",\"nightCount\":\"1\",\"maxGuestCount\":\"2\",\"checkInInstructions\":\"\",\"roomDescription\":\" Single/double\",\"checkInDate\":\"2013-06-05\",\"checkInDateForTracking\":\"6/5/2013\",\"checkOutDate\":\"2013-06-06\",\"pricePerDayBreakdown\":\"true\",\"averageDailyHotelPrice\":\"132.93\",\"taxes\":\"20.14\",\"fees\":\"13.85\",\"averageBaseRate\":\"98.94\",\"totalPrice\":\"132.93\",\"currencyCode\":\"USD\",\"nightlyRates\":[{\"promo\":\"false\",\"baseRate\":\"98.94\",\"rate\":\"98.94\"}],\"supplierType\":\"MERCHANT\",\"confirmationPending\":\"false\",\"itineraryNumber\":\"12345678901\",\"travelRecordLocator\":\"11890585\",\"numberOfRoomsBooked\":\"1\",\"nonRefundable\":\"false\",\"email\":\"qa-ehcc@mobiata.com\",\"guestFullName\":\"JexperCC MobiataTestaverde\",\"guestPhone\":{\"number\":\"9992222\",\"areaCode\":\"919\",\"category\":\"PRIMARY\",\"countryCode\":\"1\"},\"tripId\":\"deadbeef-feed-cede-bead-f00f00f00f00\",\"isMerchant\":true,\"isGDS\":false,\"isOpaque\":false,\"hotelInventoryTypeName\":\"MERCHANT\"}";
 				JSONObject json = null;
@@ -863,7 +869,7 @@ public class ExpediaServices implements DownloadListener {
 			List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 			addFlightTraveler(query, traveler, "");
 			addCommonParams(query);
-			Log.i("update-travler body:" + NetUtils.getParamsForLogging(query));
+			Log.i(TAG_REQUEST, "update-travler body:" + NetUtils.getParamsForLogging(query));
 			return doFlightsRequest("api/user/update-traveler", query, new TravelerCommitResponseHandler(mContext,
 					traveler), F_SECURE_REQUEST);
 		}
@@ -1252,7 +1258,7 @@ public class ExpediaServices implements DownloadListener {
 		}
 
 		// Some logging before passing the request along
-		Log.d("Request: " + serverUrl + "?" + NetUtils.getParamsForLogging(params));
+		Log.d(TAG_REQUEST, "Request: " + serverUrl + "?" + NetUtils.getParamsForLogging(params));
 
 		return doRequest(base, responseHandler, flags);
 	}
@@ -1268,7 +1274,7 @@ public class ExpediaServices implements DownloadListener {
 			ResponseHandler<T> responseHandler) {
 		HttpGet get = NetUtils.createHttpGet(url, params);
 
-		Log.d("User reviews request: " + get.getURI().toString());
+		Log.d(TAG_REQUEST, "User reviews request: " + get.getURI().toString());
 
 		return doRequest(get, responseHandler, 0);
 	}
@@ -1518,7 +1524,7 @@ public class ExpediaServices implements DownloadListener {
 
 	public ScenarioSetResponse setScenario(Scenario config) {
 		String serverUrl = getE3EndpointUrl(0) + config.getUrl();
-		Log.d("Hitting scenario: " + serverUrl);
+		Log.d(TAG_REQUEST, "Hitting scenario: " + serverUrl);
 		HttpGet get = new HttpGet(serverUrl);
 		return doRequest(get, new ScenarioSetResponseHandler(), 0);
 	}
