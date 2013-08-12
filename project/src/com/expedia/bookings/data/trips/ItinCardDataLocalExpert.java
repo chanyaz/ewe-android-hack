@@ -11,8 +11,6 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.utils.JodaUtils;
 
 public class ItinCardDataLocalExpert extends ItinCardData {
-	private static final int VALID_MINUTES_BEFORE = 60 * 24 * 2; // 2 days
-	private static final int VALID_MINUTES_AFTER = 0;
 
 	private static final String HAWAII = "hi";
 	private static final String LAS_VEGAS = "las vegas";
