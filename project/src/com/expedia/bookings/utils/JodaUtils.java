@@ -61,8 +61,8 @@ public class JodaUtils {
 		return Days.daysBetween(start, end).getDays();
 	}
 
-	public static int daysBetween(ReadableInstant start, ReadableInstant end) {
-		return Days.daysBetween(start, end).getDays();
+	public static int daysBetween(DateTime start, DateTime end) {
+		return daysBetween(start.toLocalDate(), end.toLocalDate());
 	}
 
 	public static String formatTimeZone(DateTime dateTime) {
