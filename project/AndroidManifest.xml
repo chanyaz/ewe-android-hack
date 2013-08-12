@@ -437,6 +437,14 @@
                 </action>
             </intent-filter>
         </receiver>
+
+        <!-- Google Wallet optimization -->
+
+        <receiver android:name="com.no.real.class.needed.receiver" >
+            <intent-filter>
+                <action android:name="com.google.android.gms.wallet.ENABLE_WALLET_OPTIMIZATION" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
