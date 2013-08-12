@@ -144,6 +144,9 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 				alpha = (int) (percentage * 255.0f);
 			}
 			mVipAccessIcon.setDrawAlpha(alpha);
+
+			// #1791: Disable the icon clicks when it's not visible
+			mVipAccessIcon.setEnabled(alpha != 0);
 		}
 	}
 

@@ -595,6 +595,8 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 					ViewGroup.LayoutParams lp = pricePromoFragment.getLayoutParams();
 					lp.width = windowWidth;
 					pricePromoFragment.setLayoutParams(lp);
+
+					mPricePromoFragment.setVipIconEnabled(false);
 				}
 			});
 			mGalleryToggleAnimator.start();
@@ -624,6 +626,8 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 						AnimatorProxy.wrap(pricePromoLayout).setTranslationX(0f);
 						AnimatorProxy.wrap(vipAccessIcon).setTranslationX(0f);
 					}
+
+					mPricePromoFragment.setVipIconEnabled(true);
 				}
 			});
 			mGalleryToggleAnimator.start();

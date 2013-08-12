@@ -21,6 +21,8 @@ import com.mobiata.android.util.Ui;
 
 public class HotelDetailsPricePromoFragment extends Fragment {
 
+	private View mVipIcon;
+
 	public static HotelDetailsPricePromoFragment newInstance() {
 		return new HotelDetailsPricePromoFragment();
 	}
@@ -97,9 +99,9 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 		}
 
 		if (PointOfSale.getPointOfSale().supportsVipAccess() && property.isVipAccess()) {
-			View vipIcon = Ui.findView(root, R.id.vip_image_view);
-			vipIcon.setVisibility(View.VISIBLE);
-			vipIcon.setOnClickListener(new View.OnClickListener() {
+			mVipIcon = Ui.findView(root, R.id.vip_image_view);
+			mVipIcon.setVisibility(View.VISIBLE);
+			mVipIcon.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					String title = getString(R.string.vip_access);
@@ -108,6 +110,12 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 					df.show(getFragmentManager(), "vipAccess");
 				}
 			});
+		}
+	}
+
+	public void setVipIconEnabled(boolean enabled) {
+		if (mVipIcon != null) {
+			mVipIcon.setEnabled(enabled);
 		}
 	}
 }
