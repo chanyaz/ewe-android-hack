@@ -274,10 +274,6 @@
             android:name="com.expedia.bookings.activity.TabletPreferenceActivity"
             android:excludeFromRecents="true"
             android:theme="@style/Theme.Tablet.Preferences" />
-        <activity
-            android:name="com.expedia.bookings.activity.AppFeedbackActivity"
-            android:windowSoftInputMode="adjustResize" />
-        <activity android:name="com.opinionlab.oo.sdk.android.CommentCardActivity" />
 
         <!-- Login/Facebook activities -->
         <activity

@@ -15,7 +15,6 @@ import android.content.Intent;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AboutWebViewActivity;
-import com.expedia.bookings.activity.AppFeedbackActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -23,7 +22,6 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
-import com.opinionlab.oo.sdk.android.CommentCardActivity;
 
 // Methods that tie together TabletAboutActivity and AboutActivity
 public class AboutUtils {
@@ -167,15 +165,6 @@ public class AboutUtils {
 
 	public void openExpediaWebsite() {
 		openWebsite(mActivity, PointOfSale.getPointOfSale().getWebsiteUrl(), true);
-	}
-
-	public void openAppFeedback() {
-		Intent intent = new Intent(mActivity, AppFeedbackActivity.class);
-		intent.putExtra(CommentCardActivity.EXTRA_REFERRAL_URL, "http://expediahotelandroid.expedia.com/"
-				+ AndroidUtils.getAppVersion(mActivity));
-		mActivity.startActivityForResult(intent, REQUEST_CODE_FEEDBACK);
-
-		trackFeedbackPageLoad();
 	}
 
 	public void openContactUsVSC() {

@@ -24,7 +24,6 @@ dependencies {
     compile project(':lib:FacebookSdk:facebook')
     compile project(':lib:FlightLib')
     compile project(':lib:google-play-services')
-    compile project(':lib:OpinionLab')
     compile project(':lib:svg-android:svgandroid')
     compile project(':lib:Utils')
 }

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<comment_card>
-    <commentCardId>30168</commentCardId>
-    <complianceMode>true</complianceMode>
-    <showCommentQuestion>true</showCommentQuestion>
-    <showEmailQuestion>true</showEmailQuestion>
-    <showRatingQuestion>true</showRatingQuestion>
-    <requireRating>false</requireRating>
-</comment_card>
