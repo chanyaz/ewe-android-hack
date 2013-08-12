@@ -207,6 +207,10 @@ public class StrUtils {
 		if (!TextUtils.isEmpty(airport.mCity)) {
 			sb.append(airport.mCity);
 		}
+		else {
+			sb.append(airport.mAirportCode);
+		}
+
 		if (!TextUtils.isEmpty(airport.mCountryCode)) {
 			String countryCode = airport.mCountryCode;
 			if (countryCode.equals("US") && !TextUtils.isEmpty(airport.mStateCode)) {
