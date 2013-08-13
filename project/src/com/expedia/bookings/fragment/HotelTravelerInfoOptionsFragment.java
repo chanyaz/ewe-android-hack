@@ -22,6 +22,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.dialog.ThrobberDialog;
+import com.expedia.bookings.model.HotelTravelerFlowState;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -266,7 +267,14 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 			Db.getWorkingTravelerManager().shiftWorkingTraveler(traveler);
 			mCurrentTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
 			mCurrentTraveler.setSaveTravelerToExpediaAccount(!traveler.fromGoogleWallet());//We default account travelers to save, unless the user alters the name
-			mListener.displayCheckout();
+			HotelTravelerFlowState state = HotelTravelerFlowState.getInstance(getActivity());
+			if (state.hasValidTraveler(mCurrentTraveler)) {
+				mListener.displayCheckout();
+			}
+			else {
+				mListener.setMode(YoYoMode.YOYO);
+				mListener.displayTravelerEntryOne();
+			}
 		}
 	}
 }
