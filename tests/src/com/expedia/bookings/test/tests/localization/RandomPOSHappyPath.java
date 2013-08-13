@@ -59,56 +59,23 @@ public class RandomPOSHappyPath extends
 		try {
 			//Limit to two POSs at a time.
 			for (int i = 0; i < 2; i++) {
-				mDriver.ignoreSweepstakesActivity();
 				mDriver.setAllowScreenshots(true);
+				mDriver.setAllowOrientationChange(false);
 				//change device locale and set variable
 				Locale testingLocale = mDriver.mLocaleUtils.selectNextLocaleFromInternalList(LOCALE_LIST_LOCATION);
 				mDriver.enterLog(TAG, "Starting sweep of " + testingLocale.toString());
 
-				mDriver.changeAPI("Production");
+				mDriver.ignoreSweepstakesActivity();
+				mUser.setHotelCityToRandomUSCity();
 
-				//Reset screenshot file name to start with index 1
-				mDriver.setScreenshotCount(1);
-
-				mDriver.changePOS(testingLocale);
+				mDriver.changePOS(mDriver.mLocaleUtils.AMERICAN_LOCALES[5]);
+				mDriver.changeAPI("Integration");
+				mDriver.clearPrivateData();
 				mDriver.setSpoofBookings();
 
 				mDriver.launchHotels();
-
-				//If the app is on a hotel confirmation screen, "NEW SEARCH"
-				//will be on that screen. Click it to get back to hotel search
-				if (mSolo.searchText(mRes.getString(R.string.NEW_SEARCH))) {
-					mSolo.clickOnText(mRes.getString(R.string.NEW_SEARCH));
-				}
-				// Open calendar and guest picker fragments
 				mDriver.delay();
-				mDriver.pressCalendar();
-				mDriver.pressGuestPicker();
-
-				//Enter and select San Francisco as destination
-				mDriver.selectLocation(mUser.mHotelSearchCity);
-
-				//Open sort dialog for hotels search
-				mDriver.pressSort();
-
-				//Filter fragment for generic string 
-				mDriver.filterFor("a");
-
-				//Select second hotel in list
-				mDriver.selectHotel(2);
-				mDriver.delay();
-
-				// From hotel info screen
-				// Check reviews and come back,
-				// Press to book room, and select 
-				// first room in list
-				mDriver.checkReviews();
-				mDriver.pressBookRoom();
-				mDriver.selectRoom(0);
-				mDriver.delay();
-
-				//Go through the log in and booking processes
-				mDriver.logInAndBook(true, true);
+				mDriver.browseRooms(1, mUser.mHotelSearchCity, true);
 				mDriver.mLocaleUtils.setLocale(testingLocale);
 				mDriver.delay(5);
 			}
