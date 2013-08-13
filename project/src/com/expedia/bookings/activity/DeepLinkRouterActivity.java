@@ -16,6 +16,7 @@ import android.util.TimeFormatException;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
+import com.expedia.bookings.tracking.AdX;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.mobiata.android.Log;
@@ -40,6 +41,8 @@ public class DeepLinkRouterActivity extends Activity {
 		Uri data = intent.getData();
 		String host = data.getHost();
 		Set<String> queryData = data.getQueryParameterNames();
+
+		AdX.trackDeepLinkLaunch(data);
 
 		if (host.equals("home")) {
 			Log.i(TAG, "Launching home screen from deep link!");

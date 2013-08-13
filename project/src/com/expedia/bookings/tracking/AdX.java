@@ -1,6 +1,7 @@
 package com.expedia.bookings.tracking;
 
 import android.content.Context;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
@@ -53,6 +54,16 @@ public class AdX {
 			connect(pos, true);
 			AdXConnect.getAdXConnectEventInstance(mContext, "Launch", "", "");
 			Log.i("AdX launch event PointOfSale=" + pos);
+		}
+	}
+
+	public static void trackDeepLinkLaunch(Uri data) {
+		if (mEnabled) {
+			String adxid = data.getQueryParameter("ADXID");
+			if (adxid != null && adxid.length() > 0) {
+				AdXConnect.getAdXConnectEventInstance(mContext, "DeepLinkLaunch", adxid, "");
+				Log.i("AdX deep link launch, Ad-X ID=" + adxid);
+			}
 		}
 	}
 
