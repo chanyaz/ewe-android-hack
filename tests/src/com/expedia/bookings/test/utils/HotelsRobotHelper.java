@@ -1270,7 +1270,12 @@ public class HotelsRobotHelper {
 		if (mSolo.searchText(sweepstakesTitle, 1, false, true)) {
 			screenshot("Sweepstakes view");
 			Log.d(TAG, "Ignoring sweepstakes activity");
+			try {
 			mSolo.clickOnText(mRes.getString(R.string.sweepstakes_no_thanks));
+			} catch (Error e) {
+				//Default to the English "No Thanks"
+				mSolo.clickOnText("No Thanks");
+			}
 		}
 	}
 }
