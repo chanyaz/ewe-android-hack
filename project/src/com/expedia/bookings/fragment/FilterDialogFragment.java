@@ -38,8 +38,6 @@ public class FilterDialogFragment extends DialogFragment {
 	private SegmentedControlGroup mPriceButtonGroup;
 	private View mVipAccessButton;
 
-	private boolean mVipAccessOnly = false;
-
 	public static FilterDialogFragment newInstance() {
 		return new FilterDialogFragment();
 	}
@@ -132,8 +130,7 @@ public class FilterDialogFragment extends DialogFragment {
 		}
 		mPriceButtonGroup.check(checkId);
 
-		mVipAccessOnly = filter.isVipAccessOnly();
-		mVipAccessButton.setSelected(mVipAccessOnly);
+		mVipAccessButton.setSelected(filter.isVipAccessOnly());
 
 		// Configure functionality of each filter control
 		mHotelNameEditText.addTextChangedListener(mHotelNameTextWatcher);
@@ -283,11 +280,11 @@ public class FilterDialogFragment extends DialogFragment {
 	private final View.OnClickListener mVipAccessClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			mVipAccessOnly = !mVipAccessOnly;
-			mVipAccessButton.setSelected(mVipAccessOnly);
+			boolean vipAccessOnly = !mVipAccessButton.isSelected();
+			mVipAccessButton.setSelected(vipAccessOnly);
 
 			HotelFilter filter = Db.getFilter();
-			filter.setVipAccessOnly(mVipAccessOnly);
+			filter.setVipAccessOnly(vipAccessOnly);
 			filter.notifyFilterChanged();
 		}
 	};

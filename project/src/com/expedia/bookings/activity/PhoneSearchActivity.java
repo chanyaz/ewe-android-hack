@@ -261,7 +261,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private int mRadiusCheckedId = 0;
 	private int mRatingCheckedId = 0;
 	private int mPriceCheckedId = 0;
-	private boolean mFilterVipAccess = false;
 
 	private ArrayList<Address> mAddresses;
 	private HotelSearchParams mOldSearchParams;
@@ -1437,7 +1436,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		}
 
 		// VIP Access
-		filter.setVipAccessOnly(mFilterVipAccess);
+		filter.setVipAccessOnly(mVipAccessFilterButton.isSelected());
 
 		/*
 		 * Don't notify listeners of the filter having changed when the activity is either not
@@ -2066,8 +2065,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			mRatingCheckedId = R.id.rating_all_button;
 		}
 
-		mFilterVipAccess = Db.getFilter().isVipAccessOnly();
-
 		LayoutUtils.configureRadiusFilterLabels(this, mRadiusButtonGroup, Db.getFilter());
 
 		mRadiusButtonGroup.setOnCheckedChangeListener(null);
@@ -2077,7 +2074,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		mRadiusButtonGroup.check(mRadiusCheckedId);
 		mRatingButtonGroup.check(mRatingCheckedId);
 		mPriceButtonGroup.check(mPriceCheckedId);
-		mVipAccessFilterButton.setSelected(mFilterVipAccess);
+		mVipAccessFilterButton.setSelected(Db.getFilter().isVipAccessOnly());
 
 		mRadiusButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mRatingButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
@@ -2588,8 +2585,8 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private final View.OnClickListener mVipAccessClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			mFilterVipAccess = !mFilterVipAccess;
-			mVipAccessFilterButton.setSelected(mFilterVipAccess);
+			boolean vipAccessEnabled = !mVipAccessFilterButton.isSelected();
+			mVipAccessFilterButton.setSelected(vipAccessEnabled);
 			buildFilter();
 		}
 	};
