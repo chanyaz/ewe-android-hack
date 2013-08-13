@@ -40,7 +40,6 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
-import com.nullwire.trace.ExceptionHandler;
 
 public class ExpediaBookingApp extends Application implements UncaughtExceptionHandler {
 	private static final String PREF_FIRST_LAUNCH = "PREF_FIRST_LAUNCH";
@@ -115,11 +114,6 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		Thread.setDefaultUncaughtExceptionHandler(this);
 
 		startupTimer.addSplit("Omniture Init");
-
-		// Setup our personal logging for crashes
-		if (isRelease && !isLogEnablerInstalled) {
-			ExceptionHandler.register(this, "http://www.mobiata.com/appsupport/ftandroid/trace.php");
-		}
 
 		// Initialize some parts of the code that require a Context
 		PointOfSale.init(this);
