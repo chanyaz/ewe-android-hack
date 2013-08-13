@@ -130,6 +130,7 @@ public class OmnitureTracking {
 	private static final String HOTELS_SEARCH_REFINE_NAME = "App.Hotels.Search.Refine.Name";
 	private static final String HOTELS_SEARCH_REFINE_PRICE_RANGE = "App.Hotels.Search.Refine.PriceRange";
 	private static final String HOTELS_SEARCH_REFINE_SEARCH_RADIUS = "App.Hotels.Search.Refine.SearchRadius";
+	private static final String HOTELS_SEARCH_REFINE_VIP = "App.Hotels.Search.Refine.VIPAccess";
 	private static final String HOTELS_COUPON_APPLIED = "Coupon Applied";
 	private static final String HOTELS_COUPON_REMOVED = "Coupon Removed";
 	private static final String HOTELS_CONF_CROSSSELL_FLIGHTS = "CrossSell.Hotels.Flights";
@@ -563,6 +564,11 @@ public class OmnitureTracking {
 	public static void trackLinkHotelRefineRating(Context context, String rating) {
 		String link = HOTELS_SEARCH_REFINE + "." + rating;
 		internalTrackLink(context, link);
+	}
+
+	public static void trackLinkHotelRefineVip(Context context, boolean enabled) {
+		String pageName = enabled ? HOTELS_SEARCH_REFINE_VIP + ".On" : HOTELS_SEARCH_REFINE_VIP + ".Off";
+		internalTrackLink(context, pageName);
 	}
 
 	public static void trackLinkHotelSort(Context context, String pageName) {

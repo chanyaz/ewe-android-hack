@@ -2588,6 +2588,8 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			boolean vipAccessEnabled = !mVipAccessFilterButton.isSelected();
 			mVipAccessFilterButton.setSelected(vipAccessEnabled);
 			buildFilter();
+
+			OmnitureTracking.trackLinkHotelRefineVip(mContext, vipAccessEnabled);
 		}
 	};
 

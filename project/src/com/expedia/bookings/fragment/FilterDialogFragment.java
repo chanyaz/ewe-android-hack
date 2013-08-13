@@ -286,6 +286,8 @@ public class FilterDialogFragment extends DialogFragment {
 			HotelFilter filter = Db.getFilter();
 			filter.setVipAccessOnly(vipAccessOnly);
 			filter.notifyFilterChanged();
+
+			OmnitureTracking.trackLinkHotelRefineVip(getActivity(), vipAccessOnly);
 		}
 	};
 
