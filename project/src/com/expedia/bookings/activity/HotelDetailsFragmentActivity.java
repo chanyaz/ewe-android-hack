@@ -259,6 +259,11 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (isFinishing()) {
 			bd.cancelDownload(CrossContextHelper.KEY_INFO_DOWNLOAD);
+
+			// Don't keep widget HotelSearch in Db after leaving, otherwise it will stick around. 1811
+			if (getIntent().getBooleanExtra(OPENED_FROM_WIDGET, false)) {
+				Db.getHotelSearch().resetSearchData();
+			}
 		}
 		else {
 			bd.unregisterDownloadCallback(CrossContextHelper.KEY_INFO_DOWNLOAD);
