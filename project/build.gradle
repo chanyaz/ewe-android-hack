@@ -19,7 +19,15 @@ buildscript {
 apply plugin: 'android'
 
 dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')
+    compile files(
+        'libs/activeandroid-20130607.jar',
+        'libs/admsAppLibrary-3.0.5.jar',
+        'libs/adxtag2.4.5exp.jar',
+        'libs/gcm.jar',
+        'libs/jackson-core-asl-1.8.0.jar',
+        'libs/joda-time-2.2.jar',
+        'libs/libGoogleAnalyticsV2.jar',
+    )
     compile project(':lib:ActionBarSherlock:actionbarsherlock')
     compile project(':lib:FacebookSdk:facebook')
     compile project(':lib:FlightLib')
