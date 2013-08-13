@@ -138,14 +138,10 @@ public class WalletUtils {
 		// have some half-filled BillingInfo in addition to a stored credit card
 		billingInfo.setLocation(null);
 		billingInfo.setNumber(null);
-		billingInfo.setEmail(null);
 	}
 
 	public static void bindWalletToBillingInfo(FullWallet wallet, BillingInfo billingInfo) {
 		Log.d(TAG, "Binding FULL wallet data to billing info...");
-
-		billingInfo.setEmail(wallet.getEmail());
-
 		billingInfo.setLocation(convertAddressToLocation(wallet.getBillingAddress()));
 
 		ProxyCard proxyCard = wallet.getProxyCard();
@@ -160,7 +156,6 @@ public class WalletUtils {
 	public static void unbindFullWalletDataFromBillingInfo(BillingInfo billingInfo) {
 		Log.d(TAG, "Unbinding full wallet data from billing info...");
 
-		billingInfo.setEmail(null);
 		billingInfo.setNumber(null);
 		billingInfo.setSecurityCode(null);
 		billingInfo.setLocation(null);

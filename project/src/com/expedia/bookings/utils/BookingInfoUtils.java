@@ -17,6 +17,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.model.HotelTravelerFlowState;
 import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.section.CommonSectionValidators;
+import com.google.android.gms.wallet.MaskedWallet;
 import com.mobiata.android.Log;
 
 public class BookingInfoUtils {
@@ -110,6 +111,10 @@ public class BookingInfoUtils {
 	 */
 	public static String getCheckoutEmail(Context context) {
 		Log.d("getCheckoutEmail");
+		//Ensure we have billingInfo (this is called getCheckoutEmail after all, so we should have checkout information)
+		if (!Db.hasBillingInfo()) {
+			Db.loadBillingInfo(context);
+		}
 
 		//Get User email...
 		if (User.isLoggedIn(context)) {
@@ -127,19 +132,20 @@ public class BookingInfoUtils {
 		}
 
 		//Get google wallet email...
-		Traveler googTrav = Db.getGoogleWalletTraveler();
-		if (googTrav != null && !TextUtils.isEmpty(googTrav.getEmail())) {
-			String email = googTrav.getEmail();
-			if (email.matches(CommonSectionValidators.STRICT_EMAIL_VALIDATION_REGEX)) {
-				Log.d("getCheckoutEmail - returning Db.getGoogleWalletTraveler().getEmail():" + email);
-				return email;
+		if (Db.hasBillingInfo()) {
+			if (Db.getBillingInfo().getStoredCard() != null && Db.getBillingInfo().getStoredCard().isGoogleWallet()) {
+				MaskedWallet wallet = Db.getMaskedWallet();
+				if (wallet != null && !TextUtils.isEmpty(wallet.getEmail())) {
+					String email = wallet.getEmail();
+					if (email.matches(CommonSectionValidators.STRICT_EMAIL_VALIDATION_REGEX)) {
+						Log.d("getCheckoutEmail - returning Db.getMaskedWallet().getEmail():" + email);
+						return email;
+					}
+				}
 			}
 		}
 
 		//Get BillingInfo email...
-		if (!Db.hasBillingInfo()) {
-			Db.loadBillingInfo(context);
-		}
 		if (Db.hasBillingInfo()) {
 			if (!TextUtils.isEmpty(Db.getBillingInfo().getEmail())) {
 				String email = Db.getBillingInfo().getEmail();

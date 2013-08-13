@@ -14,7 +14,6 @@ import com.expedia.bookings.activity.HotelPaymentOptionsActivity.Validatable;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
@@ -60,10 +59,6 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 				false) : false;
 
 		mBillingInfo = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
-
-		if (User.isLoggedIn(getActivity())) {
-			mBillingInfo.setEmail(Db.getUser().getPrimaryTraveler().getEmail());
-		}
 
 		SectionChangeListener sectionListener = new SectionChangeListener() {
 			@Override
