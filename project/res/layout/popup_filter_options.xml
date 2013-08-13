@@ -60,7 +60,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@drawable/dark_toggle"
+            android:background="@drawable/toggle_dark"
             android:text="@string/filter_vip_access"
             android:textStyle="bold"
             android:textColor="@color/actionbar_text"
