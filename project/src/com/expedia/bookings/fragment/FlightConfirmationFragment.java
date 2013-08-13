@@ -250,10 +250,11 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 
 	private void share() {
 		FlightSearch search = Db.getFlightSearch();
-		FlightTrip trip = search.getSelectedFlightTrip();
-
+		FlightTrip trip = search.getSelectedFlightTrip();		
+		
+		int travelerCount = Db.getTravelers() == null ? 1 : Db.getTravelers().size();
 		ShareUtils shareUtils = new ShareUtils(getActivity());
-		String subject = shareUtils.getFlightShareSubject(trip);
+		String subject = shareUtils.getFlightShareSubject(trip, travelerCount);
 		String body = shareUtils.getFlightShareEmail(trip, Db.getTravelers());
 
 		SocialUtils.email(getActivity(), subject, body);

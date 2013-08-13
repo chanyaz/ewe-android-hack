@@ -78,7 +78,7 @@ public class ShareUtils {
 
 	public String getShareSubject(ItinCardData itinCardData) {
 		if (itinCardData instanceof ItinCardDataFlight) {
-			return getFlightShareSubject(((ItinCardDataFlight) itinCardData).getFlightLeg());
+			return getFlightShareSubject((ItinCardDataFlight) itinCardData);
 		}
 		else if (itinCardData instanceof ItinCardDataHotel) {
 			return getHotelShareSubject((ItinCardDataHotel) itinCardData);
@@ -129,12 +129,21 @@ public class ShareUtils {
 
 	// SHARE SUBJECT
 
-	public String getFlightShareSubject(FlightTrip trip) {
-		return getFlightShareSubject(trip.getLeg(0), trip.getLeg(trip.getLegCount() - 1));
+	public String getFlightShareSubject(ItinCardDataFlight itinCardData) {
+		int travelerCount = 1;//default
+		TripFlight tripFlight = (TripFlight) itinCardData.getTripComponent();
+		if (tripFlight != null && tripFlight.getTravelers() != null) {
+			travelerCount = tripFlight.getTravelers().size();
+		}
+		return getFlightShareSubject(itinCardData.getFlightLeg(), travelerCount);
 	}
 
-	public String getFlightShareSubject(FlightLeg leg) {
-		return getFlightShareSubject(leg, leg);
+	public String getFlightShareSubject(FlightTrip trip, int travelerCount) {
+		return getFlightShareSubject(trip.getLeg(0), trip.getLeg(trip.getLegCount() - 1), travelerCount);
+	}
+
+	public String getFlightShareSubject(FlightLeg leg, int travelerCount) {
+		return getFlightShareSubject(leg, leg, travelerCount);
 	}
 
 	public String getHotelShareSubject(ItinCardDataHotel itinCardData) {
@@ -226,7 +235,7 @@ public class ShareUtils {
 
 	// Flights
 
-	public String getFlightShareSubject(FlightLeg firstLeg, FlightLeg lastLeg) {
+	public String getFlightShareSubject(FlightLeg firstLeg, FlightLeg lastLeg, int travelerCount) {
 		String destinationCity = StrUtils.getWaypointCityOrCode(firstLeg.getLastWaypoint());
 
 		long start = DateTimeUtils.getTimeInLocalTimeZone(firstLeg.getFirstWaypoint().getMostRelevantDateTime())
@@ -236,7 +245,12 @@ public class ShareUtils {
 		String dateRange = DateUtils.formatDateRange(mContext, start, end, DateUtils.FORMAT_NUMERIC_DATE
 				| DateUtils.FORMAT_SHOW_DATE);
 
-		return mContext.getString(R.string.share_template_subject_flight, destinationCity, dateRange);
+		int emailSubjectResId = R.string.share_template_subject_flight;
+		if (travelerCount > 1) {
+			emailSubjectResId = R.string.share_template_subject_flight_multiple_travelers;
+		}
+
+		return mContext.getString(emailSubjectResId, destinationCity, dateRange);
 	}
 
 	public String getFlightShareTextShort(FlightLeg leg) {

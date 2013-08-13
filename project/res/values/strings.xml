@@ -547,6 +547,8 @@
     <string name="share_template_long_ad">Book hotels, flights and view &amp; share your itineraries. Download the free Expedia mobile app today.\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">My flight to %1$s on %2$s</string>
+    <!-- Email subject line for multiple travelers 1: city 2: date string -->
+    <string name="share_template_subject_flight_multiple_travelers">Our flight to %1$s on %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
     <string name="share_template_short_flight_sameday">I\&apos;m on flight %1$s to %2$s on %3$s.\nDeparts %4$s at %5$s\nArrives %6$s at %7$s, %8$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
