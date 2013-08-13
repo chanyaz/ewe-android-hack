@@ -11,37 +11,37 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 
 public class AdX {
-	private static Context mContext;
-	private static boolean mEnabled;
-	private static boolean mConnected;
-	private static int mLogLevel;
+	private static Context sAppContext;
+	private static boolean sEnabled;
+	private static boolean sConnected;
+	private static int sLogLevel;
 
 	public static void initialize(Context context, boolean enabled) {
-		mConnected = false;
-		mContext = context;
-		mEnabled = enabled;
-		if (AndroidUtils.isRelease(mContext)) {
-			mLogLevel = 0;
+		sConnected = false;
+		sAppContext = context.getApplicationContext();
+		sEnabled = enabled;
+		if (AndroidUtils.isRelease(sAppContext)) {
+			sLogLevel = 0;
 		}
 		else {
-			mLogLevel = 5;
+			sLogLevel = 5;
 		}
 
 		Log.i("AdX tracking initialized (enabled: " + String.valueOf(enabled) + ")");
 	}
 
 	private static void connect(String pos, boolean launchedAgain) {
-		if (!mConnected) {
-			AdXConnect.getAdXConnectInstance(mContext, launchedAgain, mLogLevel, pos, Installation.id(mContext));
-			mConnected = true;
+		if (!sConnected) {
+			AdXConnect.getAdXConnectInstance(sAppContext, launchedAgain, sLogLevel, pos, Installation.id(sAppContext));
+			sConnected = true;
 		}
 	}
 
 	public static void trackFirstLaunch() {
-		if (mEnabled) {
-			String pos = PointOfSale.getPointOfSale(mContext).getTwoLetterCountryCode();
+		if (sEnabled) {
+			String pos = PointOfSale.getPointOfSale(sAppContext).getTwoLetterCountryCode();
 			connect(pos, false);
-			AdXConnect.getAdXConnectEventInstance(mContext, "FirstLaunch", "", "");
+			AdXConnect.getAdXConnectEventInstance(sAppContext, "FirstLaunch", "", "");
 			Log.i("AdX first launch event PointOfSale=" + pos);
 
 			reportReferralToOmniture();
@@ -49,76 +49,76 @@ public class AdX {
 	}
 
 	public static void trackLaunch() {
-		if (mEnabled) {
-			String pos = PointOfSale.getPointOfSale(mContext).getTwoLetterCountryCode();
+		if (sEnabled) {
+			String pos = PointOfSale.getPointOfSale(sAppContext).getTwoLetterCountryCode();
 			connect(pos, true);
-			AdXConnect.getAdXConnectEventInstance(mContext, "Launch", "", "");
+			AdXConnect.getAdXConnectEventInstance(sAppContext, "Launch", "", "");
 			Log.i("AdX launch event PointOfSale=" + pos);
 		}
 	}
 
 	public static void trackDeepLinkLaunch(Uri data) {
-		if (mEnabled) {
+		if (sEnabled) {
 			String adxid = data.getQueryParameter("ADXID");
 			if (adxid != null && adxid.length() > 0) {
-				AdXConnect.getAdXConnectEventInstance(mContext, "DeepLinkLaunch", adxid, "");
+				AdXConnect.getAdXConnectEventInstance(sAppContext, "DeepLinkLaunch", adxid, "");
 				Log.i("AdX deep link launch, Ad-X ID=" + adxid);
 			}
 		}
 	}
 
 	public static void trackLogin() {
-		if (mEnabled) {
-			AdXConnect.getAdXConnectEventInstance(mContext, "Login", "", "");
+		if (sEnabled) {
+			AdXConnect.getAdXConnectEventInstance(sAppContext, "Login", "", "");
 			Log.i("AdX login event");
 		}
 	}
 
 	public static void trackViewItinList() {
-		if (mEnabled) {
-			AdXConnect.getAdXConnectEventInstance(mContext, "Itinerary", "", "");
+		if (sEnabled) {
+			AdXConnect.getAdXConnectEventInstance(sAppContext, "Itinerary", "", "");
 			Log.i("AdX Itinerary event");
 		}
 	}
 
 	public static void trackHotelBooked(String currency, double totalPrice) {
-		if (mEnabled) {
-			AdXConnect.getAdXConnectEventInstance(mContext, "Sale", String.valueOf(totalPrice), currency, "Hotel");
+		if (sEnabled) {
+			AdXConnect.getAdXConnectEventInstance(sAppContext, "Sale", String.valueOf(totalPrice), currency, "Hotel");
 			Log.i("AdX hotel booking event currency=" + currency + " total=" + totalPrice);
 		}
 	}
 
 	public static void trackFlightBooked(String currency, double totalPrice) {
-		if (mEnabled) {
-			AdXConnect.getAdXConnectEventInstance(mContext, "Sale", String.valueOf(totalPrice), currency, "Flight");
+		if (sEnabled) {
+			AdXConnect.getAdXConnectEventInstance(sAppContext, "Sale", String.valueOf(totalPrice), currency, "Flight");
 			Log.i("AdX flight booking event currency=" + currency + " total=" + totalPrice);
 		}
 	}
 
 	public static void trackHotelCheckoutStarted(String currency, double totalPrice) {
-		if (mEnabled) {
-			AdXConnect.getAdXConnectEventInstance(mContext, "Checkout", String.valueOf(totalPrice), currency, "Hotel");
+		if (sEnabled) {
+			AdXConnect.getAdXConnectEventInstance(sAppContext, "Checkout", String.valueOf(totalPrice), currency, "Hotel");
 			Log.i("AdX hotel checkout started currency=" + currency + " total=" + totalPrice);
 		}
 	}
 
 	public static void trackFlightCheckoutStarted(String currency, double totalPrice) {
-		if (mEnabled) {
-			AdXConnect.getAdXConnectEventInstance(mContext, "Checkout", String.valueOf(totalPrice), currency, "Flight");
+		if (sEnabled) {
+			AdXConnect.getAdXConnectEventInstance(sAppContext, "Checkout", String.valueOf(totalPrice), currency, "Flight");
 			Log.i("AdX flight checkout started currency=" + currency + " total=" + totalPrice);
 		}
 	}
 
 	public static void trackHotelSearch(String regionId) {
-		if (mEnabled) {
-			AdXConnect.getAdXConnectEventInstance(mContext, "Search", "", regionId, "Hotel");
+		if (sEnabled) {
+			AdXConnect.getAdXConnectEventInstance(sAppContext, "Search", "", regionId, "Hotel");
 			Log.i("AdX hotel search regionId=" + regionId);
 		}
 	}
 
 	public static void trackFlightSearch(String destinationAirport) {
-		if (mEnabled) {
-			AdXConnect.getAdXConnectEventInstance(mContext, "Search", "", destinationAirport, "Flight");
+		if (sEnabled) {
+			AdXConnect.getAdXConnectEventInstance(sAppContext, "Search", "", destinationAirport, "Flight");
 			Log.i("AdX flight search destination=" + destinationAirport);
 		}
 	}
@@ -137,13 +137,13 @@ public class AdX {
 					// Should not ever happen
 				}
 
-				String referral = AdXConnect.getAdXReferral(mContext, 15);
+				String referral = AdXConnect.getAdXReferral(sAppContext, 15);
 				if (TextUtils.isEmpty(referral)) {
 					Log.w("Unable to retrieve AdX referral string");
 				}
 				else {
 					Log.d("Got AdX referral string: " + referral);
-					OmnitureTracking.trackAdXReferralLink(mContext, referral);
+					OmnitureTracking.trackAdXReferralLink(sAppContext, referral);
 				}
 			}
 		}).start();
