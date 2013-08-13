@@ -128,6 +128,10 @@ public class DeepLinkRouterActivity extends Activity {
 						Log.w(TAG, "Number of adults exceeds maximum, lowering to " + maxAdults);
 						numAdults = maxAdults;
 					}
+					else if (numAdults < GuestsPickerUtils.MIN_ADULTS) {
+						Log.w(TAG, "Number of adults below minimum, lowering to " + GuestsPickerUtils.MIN_ADULTS);
+						numAdults = GuestsPickerUtils.MIN_ADULTS;
+					}
 					params.setNumAdults(numAdults);
 					Log.d(TAG, "Setting number of adults: " + numAdults);
 				}
