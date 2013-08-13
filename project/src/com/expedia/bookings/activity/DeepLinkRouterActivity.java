@@ -55,7 +55,14 @@ public class DeepLinkRouterActivity extends Activity {
 
 			// Determine the search location.  Defaults to "current location" if none supplied
 			// or the supplied variables could not be parsed.
-			if (queryData.contains("latitude") && queryData.contains("longitude")) {
+			if (queryData.contains("hotelId")) {
+				params.setSearchType(SearchType.HOTEL);
+				String hotelId = data.getQueryParameter("hotelId");
+				params.setQuery(getString(R.string.search_hotel_id_TEMPLATE, hotelId));
+				params.setRegionId(hotelId);
+				Log.d(TAG, "Setting hotel search id: " + params.getRegionId());
+			}
+			else if (queryData.contains("latitude") && queryData.contains("longitude")) {
 				String latStr = data.getQueryParameter("latitude");
 				String lngStr = data.getQueryParameter("longitude");
 
@@ -82,13 +89,6 @@ public class DeepLinkRouterActivity extends Activity {
 				params.setSearchType(SearchType.CITY);
 				params.setQuery(data.getQueryParameter("location"));
 				Log.d(TAG, "Setting hotel search location: " + params.getQuery());
-			}
-			else if (queryData.contains("hotelId")) {
-				params.setSearchType(SearchType.HOTEL);
-				String hotelId = data.getQueryParameter("hotelId");
-				params.setQuery(getString(R.string.search_hotel_id_TEMPLATE, hotelId));
-				params.setRegionId(hotelId);
-				Log.d(TAG, "Setting hotel search id: " + params.getRegionId());
 			}
 
 			// Add dates (if supplied)
