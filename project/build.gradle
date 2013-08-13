@@ -69,6 +69,10 @@ android {
             runProguard isServerBuild
             proguardFile 'proguard.cfg'
         }
+        release {
+            runProguard true
+            proguardFile 'proguard.cfg'
+        }
     }
 
     sourceSets {
