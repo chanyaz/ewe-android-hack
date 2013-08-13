@@ -55,7 +55,10 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Object> {
 			mDistanceUnit = launchHotelData.getDistanceUnit();
 
 			for (Property property : launchHotelData.getProperties()) {
-				add(property);
+				//For the waterfall we only want to display hotels with thumbnails...
+				if (property.getThumbnail() != null) {
+					add(property);
+				}
 			}
 
 			mViewCache = new View[getViewCacheSize(launchHotelData.getProperties().size())];
