@@ -7,8 +7,10 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
@@ -29,10 +31,13 @@ import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.graphics.HeaderBitmapDrawable;
+import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;
 
@@ -133,9 +138,19 @@ public class HotelReceipt extends LinearLayout {
 
 	public void bind(boolean showMiniReceipt, Property property, HotelSearchParams params, Rate rate,
 			boolean usingGoogleWalletCoupon) {
+		HeaderBitmapDrawable headerBitmapDrawable = new HeaderBitmapDrawable();
+		headerBitmapDrawable.setCornerMode(CornerMode.TOP);
+		headerBitmapDrawable.setCornerRadius(getResources().getDimensionPixelSize(R.dimen.itin_card_corner_radius));
+		mHeaderImageView.setImageDrawable(headerBitmapDrawable);
+
 		Media media = HotelUtils.getRoomMedia(property, rate);
+		int placeholderResId = Ui.obtainThemeResID((Activity) getContext(), R.attr.hotelImagePlaceHolderDrawable);
 		if (media != null) {
-			media.loadHighResImage(mHeaderImageView, null);
+			headerBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), media.getHighResUrls(),
+					placeholderResId));
+		}
+		else {
+			headerBitmapDrawable.setBitmap(BitmapFactory.decodeResource(getResources(), placeholderResId));
 		}
 
 		mRoomTypeDesciptionTextView.setText(rate.getRoomDescription());

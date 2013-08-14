@@ -6,14 +6,11 @@
     android:background="@drawable/bg_hotel_card"
     android:orientation="vertical" >
 
-    <com.expedia.bookings.widget.RoundedImageView
+    <com.expedia.bookings.widget.OptimizedImageView
         android:id="@+id/header_image_view"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/hotel_checkout_overview_image_height"
-        android:scaleType="centerCrop"
-        android:src="?attr/hotelImagePlaceHolderDrawable"
-        app:radiusTL="2dp"
-        app:radiusTR="2dp" />
+        android:scaleType="centerCrop" />
 
     <LinearLayout
         android:layout_width="fill_parent"
