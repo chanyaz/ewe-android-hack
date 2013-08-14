@@ -1011,8 +1011,9 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 			Property property = results.getProperty();
 			HotelSearchResponse searchResponse = new HotelSearchResponse();
 			List<Rate> rates = results.getRates();
+			Rate lowestRate = null;
+
 			if (property != null && rates != null) {
-				Rate lowestRate = null;
 				for (Rate rate : rates) {
 					Money temp = rate.getDisplayRate();
 					if (lowestRate == null) {
@@ -1022,12 +1023,17 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 						lowestRate = rate;
 					}
 				}
+			}
+
+			if (lowestRate != null) {
 				property.setLowestRate(lowestRate);
 				searchResponse.addProperty(property);
 			}
 			Db.getHotelSearch().setSearchResponse(searchResponse);
-			Db.getHotelSearch().updateFrom(results);
-			Db.getHotelSearch().setSelectedProperty(property);
+			if (lowestRate != null) {
+				Db.getHotelSearch().updateFrom(results);
+				Db.getHotelSearch().setSelectedProperty(property);
+			}
 			loadSearchResponse(searchResponse, true);
 		}
 	};
