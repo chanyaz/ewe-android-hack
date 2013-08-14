@@ -261,7 +261,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 			html = HtmlUtils.wrapInHeadAndBodyWithStandardTabletMargins(text);
 		}
 		else {
-			html = HtmlUtils.wrapInHeadAndBody(text);
+			html = HtmlUtils.wrapInHeadAndBodyWithMargins(text, "5%", "5%", "0px", "0px");
 		}
 
 		WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
