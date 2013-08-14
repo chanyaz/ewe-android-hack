@@ -19,4 +19,12 @@
     <string name="mapsv2_ha_key">@string/mapsv2_vsc_ha_key</string>
     <string name="mapsv2_prod_key">@string/mapsv2_vsc_prod_key</string>
 
+    <!-- Override for VSC account manager -->
+    <string name="account_type_debug">@string/vsc_account_type_debug</string>
+    <string name="account_type_alpha">@string/vsc_account_type_alpha</string>
+    <string name="account_type_release">@string/vsc_account_type_release</string>
+    <string name="account_tuid_debug">@string/vsc_account_tuid_debug</string>
+    <string name="account_tuid_alpha">@string/vsc_account_tuid_alpha</string>
+    <string name="account_tuid_release">@string/vsc_account_tuid_release</string>
+
 </resources>

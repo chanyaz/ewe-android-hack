@@ -9,4 +9,9 @@
     <string name="authority_autocomplete_hotel">@string/authority_alpha_autocomplete_hotel</string>
     <string name="authority_autocomplete_airport">@string/authority_alpha_autocomplete_airport</string>
     <string name="authority_account_sync">@string/authority_alpha_account_sync</string>
+
+    <!-- Account Manager redirection strings -->
+    <string name="expedia_account_type_identifier">@string/account_type_alpha</string>
+    <string name="expedia_account_token_type_tuid_identifier">@string/account_tuid_alpha</string>
+
 </resources>

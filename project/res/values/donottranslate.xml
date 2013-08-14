@@ -57,9 +57,32 @@
     <string name="email_expedia_support">support@expedia.com</string>
     <string name="email_app_support">Expedia-Android@mobiata.com</string>
 
-    <!-- Account Manager -->
-    <string name="expedia_account_type_identifier">com.expedia.bookings</string>
-    <string name="expedia_account_token_type_tuid_identifier">expedia.tuid</string>
+    <!-- Account Manager redirection strings -->
+    <string name="expedia_account_type_identifier">@string/account_type_debug</string>
+    <string name="expedia_account_token_type_tuid_identifier">@string/account_tuid_debug</string>
+
+    <string name="account_type_debug">@string/expedia_account_type_debug</string>
+    <string name="account_type_alpha">@string/expedia_account_type_alpha</string>
+    <string name="account_type_release">@string/expedia_account_type_release</string>
+
+    <string name="account_tuid_debug">@string/expedia_account_tuid_debug</string>
+    <string name="account_tuid_alpha">@string/expedia_account_tuid_alpha</string>
+    <string name="account_tuid_release">@string/expedia_account_tuid_release</string>
+
+    <!-- Account Manager concrete strings -->
+    <string name="expedia_account_type_debug">com.expedia.bookings.debug</string>
+    <string name="expedia_account_type_alpha">com.expedia.bookings.alpha</string>
+    <string name="expedia_account_type_release">com.expedia.bookings</string>
+    <string name="vsc_account_type_debug">com.expedia.bookings.vsc.debug</string>
+    <string name="vsc_account_type_alpha">com.expedia.bookings.vsc.alpha</string>
+    <string name="vsc_account_type_release">com.expedia.bookings.vsc</string>
+
+    <string name="expedia_account_tuid_debug">debug.expedia.tuid</string>
+    <string name="expedia_account_tuid_alpha">alpha.expedia.tuid</string>
+    <string name="expedia_account_tuid_release">expedia.tuid</string>
+    <string name="vsc_account_tuid_debug">debug.vsc.tuid</string>
+    <string name="vsc_account_tuid_alpha">alpha.vsc.tuid</string>
+    <string name="vsc_account_tuid_release">vsc.tuid</string>
 
     <!-- AndroidManifest <provider> authority declaration. Swap them at the builtVariant level -->
     <string name="authority_autocomplete_hotel">@string/authority_debug_autocomplete_hotel</string>
