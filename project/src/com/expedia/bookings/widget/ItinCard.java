@@ -298,10 +298,10 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 			if (getType() == Type.FLIGHT) {
 				float dY = -48 * density;
-				mHeaderBitmapDrawable.setMatrixEnabled(true, 0, dY);
+				mHeaderBitmapDrawable.setMatrixTranslation(0, dY);
 			}
 			else {
-				mHeaderBitmapDrawable.setMatrixEnabled(false, 0, 0);
+				mHeaderBitmapDrawable.setMatrixTranslation(0, 0);
 			}
 
 			mHeaderImageView.setImageDrawable(mHeaderBitmapDrawable);

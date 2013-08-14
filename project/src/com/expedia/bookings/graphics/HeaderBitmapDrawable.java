@@ -26,7 +26,7 @@ import com.mobiata.android.bitmaps.UrlBitmapDrawable;
  * - Add an overlay Drawable
  * - Center/translate the Bitmap
  * 
- * TODO: ADD SCALETYPE
+ * Possible TODO: Add ScaleType so that we can center images differently
  */
 public class HeaderBitmapDrawable extends Drawable implements OnImageLoaded {
 
@@ -54,7 +54,6 @@ public class HeaderBitmapDrawable extends Drawable implements OnImageLoaded {
 	private Paint mGradientPaint;
 
 	// Used to create matrix (if requested)
-	private boolean mMatrixEnabled;
 	private float mDx;
 	private float mDy;
 	private int mBitmapWidth;
@@ -165,8 +164,7 @@ public class HeaderBitmapDrawable extends Drawable implements OnImageLoaded {
 		}
 	}
 
-	public void setMatrixEnabled(boolean enabled, float dX, float dY) {
-		mMatrixEnabled = enabled;
+	public void setMatrixTranslation(float dX, float dY) {
 		mDx = dX;
 		mDy = dY;
 
@@ -289,14 +287,22 @@ public class HeaderBitmapDrawable extends Drawable implements OnImageLoaded {
 		float scale;
 		if (bitmapWidth * vheight > vwidth * bitmapHeight) {
 			scale = (float) vheight / (float) bitmapHeight;
-			dX = (vwidth - bitmapWidth * scale) * 0.5f;
+
+			if (dX == 0) {
+				dX = (vwidth - bitmapWidth * scale) * 0.5f;
+			}
 		}
 		else {
 			scale = (float) vwidth / (float) bitmapWidth;
+
+			if (dY == 0) {
+				dY = (vheight - bitmapHeight * scale) * 0.5f;
+			}
 		}
 
 		matrix.setScale(scale, scale);
-		matrix.postTranslate((int) (dX + 0.5f), (int) dY);
+
+		matrix.postTranslate((int) (dX + 0.5f), (int) (dY + 0.5f));
 
 		return matrix;
 	}
