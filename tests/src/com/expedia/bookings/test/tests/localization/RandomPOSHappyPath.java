@@ -68,8 +68,8 @@ public class RandomPOSHappyPath extends
 				mDriver.ignoreSweepstakesActivity();
 				mUser.setHotelCityToRandomUSCity();
 
-				mDriver.changePOS(mDriver.mLocaleUtils.AMERICAN_LOCALES[5]);
-				mDriver.changeAPI("Integration");
+				mDriver.changePOS(testingLocale);
+				mDriver.changeAPI("Production");
 				mDriver.clearPrivateData();
 				mDriver.setSpoofBookings();
 
