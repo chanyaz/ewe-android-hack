@@ -290,15 +290,14 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 		// Header Image
 		Resources res = getResources();
-		float density = getResources().getDisplayMetrics().density;
 		if (mHeaderBitmapDrawable == null) {
 			mHeaderBitmapDrawable = new HeaderBitmapDrawable();
 
-			mHeaderBitmapDrawable.setCornerRadius(Math.round(density * 2));
+			mHeaderBitmapDrawable.setCornerRadius(res.getDimensionPixelSize(R.dimen.itin_card_corner_radius));
 
 			if (getType() == Type.FLIGHT) {
-				float dY = -48 * density;
-				mHeaderBitmapDrawable.setMatrixTranslation(0, dY);
+				mHeaderBitmapDrawable.setMatrixTranslation(0,
+						res.getDimensionPixelSize(R.dimen.itin_card_flight_vertical_offset));
 			}
 			else {
 				mHeaderBitmapDrawable.setMatrixTranslation(0, 0);
