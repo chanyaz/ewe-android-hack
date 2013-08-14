@@ -128,11 +128,12 @@ public class DeepLinkRouterActivity extends Activity {
 					int numAdults = Integer.parseInt(numAdultsStr);
 					int maxAdults = GuestsPickerUtils.getMaxAdults(0);
 					if (numAdults > maxAdults) {
-						Log.w(TAG, "Number of adults exceeds maximum, lowering to " + maxAdults);
+						Log.w(TAG, "Number of adults (" + numAdults + ") exceeds maximum, lowering to " + maxAdults);
 						numAdults = maxAdults;
 					}
 					else if (numAdults < GuestsPickerUtils.MIN_ADULTS) {
-						Log.w(TAG, "Number of adults below minimum, lowering to " + GuestsPickerUtils.MIN_ADULTS);
+						Log.w(TAG, "Number of adults (" + numAdults + ") below minimum, raising to "
+								+ GuestsPickerUtils.MIN_ADULTS);
 						numAdults = GuestsPickerUtils.MIN_ADULTS;
 					}
 					params.setNumAdults(numAdults);
@@ -154,10 +155,11 @@ public class DeepLinkRouterActivity extends Activity {
 						int childAge = Integer.parseInt(childAgesArr[a]);
 
 						if (childAge <= GuestsPickerUtils.MIN_CHILD_AGE) {
-							Log.w(TAG, "Child age less than that of a child, not adding: " + childAge);
+							Log.w(TAG, "Child age (" + childAge + ") less than that of a child, not adding: "
+									+ childAge);
 						}
 						else if (childAge > GuestsPickerUtils.MAX_CHILD_AGE) {
-							Log.w(TAG, "Child age not an actual child, adding as adult: " + childAge);
+							Log.w(TAG, "Child age (" + childAge + ") not an actual child, adding as adult: " + childAge);
 							params.setNumAdults(params.getNumAdults() + 1);
 							maxChildren = GuestsPickerUtils.getMaxChildren(params.getNumAdults());
 						}
