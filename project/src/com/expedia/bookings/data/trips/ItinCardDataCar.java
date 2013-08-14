@@ -97,10 +97,16 @@ public class ItinCardDataCar extends ItinCardData implements ConfirmationNumbera
 	}
 
 	public DateTime getPickUpDate() {
+		if(mCar.getPickUpDateTime() == null){
+			return getStartDate();
+		}
 		return mCar.getPickUpDateTime();
 	}
 
 	public DateTime getDropOffDate() {
+		if(mCar.getDropOffDateTime() == null){
+			return getEndDate();
+		}
 		return mCar.getDropOffDateTime();
 	}
 
