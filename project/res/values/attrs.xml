@@ -124,24 +124,6 @@
         <attr name="id" format="reference" />
     </declare-styleable>
 
-    <!-- ItinHeaderImageView -->
-    <declare-styleable name="ItinHeaderImageView">
-        <attr name="mode">
-            <enum name="mini" value="0" />
-            <enum name="summary" value="1" />
-            <enum name="full" value="2" />
-        </attr>
-        <attr name="radius" format="dimension" />
-    </declare-styleable>
-
-    <!-- RoundedImageView -->
-    <declare-styleable name="RoundedImageView">
-        <attr name="radiusTL" format="dimension" />
-        <attr name="radiusTR" format="dimension" />
-        <attr name="radiusBL" format="dimension" />
-        <attr name="radiusBR" format="dimension" />
-    </declare-styleable>
-
     <!-- ParallaxContainer -->
     <declare-styleable name="ParallaxContainer">
         <attr name="offsetTop" format="dimension" />
