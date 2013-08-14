@@ -6,6 +6,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.CalendarContract;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.view.animation.OvershootInterpolator;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -32,6 +34,8 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SamsungWalletResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.graphics.HeaderBitmapDrawable;
+import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
@@ -41,7 +45,6 @@ import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.SamsungWalletUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.StrUtils;
-import com.expedia.bookings.widget.ItinHeaderImageView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -80,16 +83,22 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 
 		// Construct the hotel card
 		Property property = Db.getHotelSearch().getSelectedProperty();
-		ItinHeaderImageView hotelImageView = Ui.findView(v, R.id.hotel_image_view);
-		hotelImageView.setGradient(CARD_GRADIENT_COLORS, CARD_GRADIENT_POSITIONS);
+		ImageView hotelImageView = Ui.findView(v, R.id.hotel_image_view);
+		HeaderBitmapDrawable headerBitmapDrawable = new HeaderBitmapDrawable();
+		headerBitmapDrawable.setGradient(CARD_GRADIENT_COLORS, CARD_GRADIENT_POSITIONS);
+		headerBitmapDrawable.setCornerMode(CornerMode.ALL);
+		headerBitmapDrawable.setCornerRadius(getResources().getDimensionPixelSize(R.dimen.itin_card_corner_radius));
+		headerBitmapDrawable.setOverlayDrawable(getResources().getDrawable(R.drawable.card_top_lighting));
+		hotelImageView.setImageDrawable(headerBitmapDrawable);
 		Rate selectedRate = Db.getHotelSearch().getSelectedRate();
 		Media media = HotelUtils.getRoomMedia(property, selectedRate);
 		if (media != null) {
-			UrlBitmapDrawable.loadImageView(media.getHighResUrls(), hotelImageView,
-					R.drawable.bg_itin_placeholder);
+			headerBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), media.getHighResUrls(),
+					R.drawable.bg_itin_placeholder));
 		}
 		else {
-			hotelImageView.setImageResource(R.drawable.bg_itin_placeholder);
+			headerBitmapDrawable
+					.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_itin_placeholder));
 		}
 
 		HotelSearchParams params = Db.getHotelSearch().getSearchParams();

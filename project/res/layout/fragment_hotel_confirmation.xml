@@ -19,12 +19,11 @@
             android:layout_marginTop="12dp"
             android:background="@drawable/bg_itin_card" >
 
-            <com.expedia.bookings.widget.ItinHeaderImageView
+            <com.expedia.bookings.widget.OptimizedImageView
                 android:id="@+id/hotel_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="194dp"
-                android:scaleType="centerCrop"
-                app:radius="2dp" />
+                android:scaleType="centerCrop" />
 
             <TextView
                 android:id="@+id/stay_summary_text_view"
