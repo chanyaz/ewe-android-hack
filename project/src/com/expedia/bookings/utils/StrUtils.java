@@ -1,14 +1,18 @@
 package com.expedia.bookings.utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.location.Address;
+import android.net.Uri;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
@@ -326,6 +330,48 @@ public class StrUtils {
 		}
 
 		return str.substring(start, end);
+	}
+
+	/**
+	 * Note: Sniped from android.net.Uri source, only available on API 11+
+	 *
+	 * Returns a set of the unique names of all query parameters. Iterating
+	 * over the set will return the names in order of their first occurrence.
+	 *
+	 * @throws UnsupportedOperationException if this isn't a hierarchical URI
+	 *
+	 * @return a set of decoded names
+	 */
+	public static Set<String> getQueryParameterNames(Uri uri) {
+		if (uri.isOpaque()) {
+			throw new UnsupportedOperationException("This isn't a hierarchical URI.");
+		}
+
+		String query = uri.getEncodedQuery();
+		if (query == null) {
+			return Collections.emptySet();
+		}
+
+		Set<String> names = new LinkedHashSet<String>();
+		int start = 0;
+		do {
+			int next = query.indexOf('&', start);
+			int end = (next == -1) ? query.length() : next;
+
+			int separator = query.indexOf('=', start);
+			if (separator > end || separator == -1) {
+				separator = end;
+			}
+
+			String name = query.substring(start, separator);
+			names.add(uri.decode(name));
+
+			// Move start to end of name.
+			start = end + 1;
+		}
+		while (start < query.length());
+
+		return Collections.unmodifiableSet(names);
 	}
 
 }

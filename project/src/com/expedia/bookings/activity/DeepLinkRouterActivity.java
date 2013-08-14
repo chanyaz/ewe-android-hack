@@ -19,6 +19,7 @@ import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.tracking.AdX;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.NavUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
@@ -40,7 +41,7 @@ public class DeepLinkRouterActivity extends Activity {
 		Intent intent = getIntent();
 		Uri data = intent.getData();
 		String host = data.getHost();
-		Set<String> queryData = data.getQueryParameterNames();
+		Set<String> queryData = StrUtils.getQueryParameterNames(data);
 
 		AdX.trackDeepLinkLaunch(data);
 
