@@ -9,7 +9,7 @@ import com.mobiata.android.json.JSONable;
 public class HotelDestination implements JSONable {
 
 	// These vars are for the LaunchScreen
-	private String mLaunchTileText;
+	private String mDestination;
 	private String mImgUrl;
 
 	// These vars are for PhoneSearchActivity (in order to perform a search without disambiguation)
@@ -27,13 +27,13 @@ public class HotelDestination implements JSONable {
 		return mPhoneSearchDisplayText;
 	}
 
-	public HotelDestination setLaunchTileText(String displayText) {
-		mLaunchTileText = displayText;
+	public HotelDestination setDestination(String destination) {
+		mDestination = destination;
 		return this;
 	}
 
-	public String getLaunchTileText() {
-		return mLaunchTileText;
+	public String getDestination() {
+		return mDestination;
 	}
 
 	public HotelDestination setImgUrl(String url) {
@@ -74,7 +74,7 @@ public class HotelDestination implements JSONable {
 
 		try {
 			obj.put("imgUrl", mImgUrl);
-			obj.put("launchTileText", mLaunchTileText);
+			obj.put("destination", mDestination);
 			obj.put("regionId", mRegionId);
 			obj.put("latitude", mLatitude);
 			obj.put("longitude", mLongitude);
@@ -91,7 +91,7 @@ public class HotelDestination implements JSONable {
 	public boolean fromJson(JSONObject obj) {
 		try {
 			mImgUrl = obj.getString("imgUrl");
-			mLaunchTileText = obj.getString("launchTileText");
+			mDestination = obj.getString("destination");
 			mRegionId = obj.getString("regionId");
 			mLatitude = obj.getDouble("latitude");
 			mLongitude = obj.getDouble("longitude");

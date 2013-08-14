@@ -534,7 +534,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			for (int a = 0; a < len; a++) {
 				JSONObject locationObj = locationArr.getJSONObject(a);
 				HotelDestination destination = new HotelDestination();
-				destination.setLaunchTileText(locationObj.getString("destination"));
+				destination.setDestination(locationObj.getString("destination"));
 				destination.setImgUrl(locationObj.getString("imageURL"));
 				destinations.add(destination);
 			}
@@ -559,24 +559,25 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 					return null;
 				}
 
-				SuggestResponse suggestResponse = services.suggest(hotel.getLaunchTileText(), ExpediaServices.F_HOTELS);
+				SuggestResponse suggestResponse = services.suggest(hotel.getDestination(), ExpediaServices.F_HOTELS);
 
 				if (suggestResponse == null) {
-					Log.w("Got a null response from server autocompleting for: " + hotel.getLaunchTileText());
+					Log.w("Got a null response from server autocompleting for: " + hotel.getDestination());
 					continue;
 				}
 				else if (suggestResponse.hasErrors()) {
-					Log.w("Got an error response from server autocompleting for: " + hotel.getLaunchTileText() + ", "
+					Log.w("Got an error response from server autocompleting for: " + hotel.getDestination() + ", "
 							+ suggestResponse.getErrors().get(0).getPresentableMessage(getActivity()));
 					continue;
 				}
 
 				List<Suggestion> suggestions = suggestResponse.getSuggestions();
 				if (suggestions.size() == 0) {
-					Log.w("Got 0 suggestions while autocompleting for: " + hotel.getLaunchTileText());
+					Log.w("Got 0 suggestions while autocompleting for: " + hotel.getDestination());
 					continue;
 				}
 
+				Log.v("Got hotel fallback data for : " + hotel.getDestination());
 				Suggestion suggestion = suggestions.get(0);
 				hotel.setLatitudeLongitude(suggestion.getLatitude(), suggestion.getLongitude());
 				hotel.setRegionId(suggestion.getId());
