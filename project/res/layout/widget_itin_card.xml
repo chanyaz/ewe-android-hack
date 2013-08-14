@@ -102,13 +102,12 @@
                             android:layout_height="@dimen/itin_card_expanded_image_height"
                             app:scrollMin="-80dp" >
 
-                            <com.expedia.bookings.widget.ItinHeaderImageView
+                            <com.expedia.bookings.widget.OptimizedImageView
                                 android:id="@+id/header_image_view"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_centerInParent="true"
-                                android:scaleType="centerCrop"
-                                app:radius="2dp" />
+                                android:scaleType="centerCrop" />
                         </com.expedia.bookings.widget.ParallaxContainer>
 
                         <ImageView

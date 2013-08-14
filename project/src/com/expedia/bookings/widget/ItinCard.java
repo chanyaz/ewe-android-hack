@@ -23,8 +23,11 @@ import com.expedia.bookings.animation.AnimatorListenerShort;
 import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.graphics.HeaderBitmapDrawable;
+import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
+import com.mobiata.android.bitmaps.TwoLevelImageCache;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
@@ -98,7 +101,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 	private ScrollView mScrollView;
 	private ParallaxContainer mHeaderImageContainer;
-	private ItinHeaderImageView mHeaderImageView;
+	private ImageView mHeaderImageView;
 	private ImageView mHeaderOverlayImageView;
 	private TextView mHeaderTextView;
 	private TextView mHeaderTextDateView;
@@ -110,6 +113,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	private View mHeaderView;
 	private View mSummaryView;
 	private View mDetailsView;
+
+	// Used in header image view
+	private HeaderBitmapDrawable mHeaderBitmapDrawable;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -282,18 +288,43 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		// Header image parallax effect
 		mHeaderImageContainer.setEnabled(mDisplayState.equals(DisplayState.EXPANDED));
 
-		// Image
-		mHeaderImageView.setType(getType());
-		int placeholderResId = mItinContentGenerator.getHeaderImagePlaceholderResId();
+		// Header Image
+		Resources res = getResources();
+		float density = getResources().getDisplayMetrics().density;
+		if (mHeaderBitmapDrawable == null) {
+			mHeaderBitmapDrawable = new HeaderBitmapDrawable();
+
+			mHeaderBitmapDrawable.setCornerRadius(Math.round(density * 2));
+
+			if (getType() == Type.FLIGHT) {
+				float dY = -48 * density;
+				mHeaderBitmapDrawable.setMatrixEnabled(true, 0, dY);
+			}
+			else {
+				mHeaderBitmapDrawable.setMatrixEnabled(false, 0, 0);
+			}
+
+			mHeaderImageView.setImageDrawable(mHeaderBitmapDrawable);
+		}
 
 		// We currently use the size of the screen, as that is what is required by us of the Expedia image API
 		Point size = AndroidUtils.getScreenSize(getContext());
 		UrlBitmapDrawable drawable = mItinContentGenerator.getHeaderBitmapDrawable(size.x, size.y);
 		if (drawable != null) {
-			drawable.configureImageView(mHeaderImageView);
+			mHeaderBitmapDrawable.setUrlBitmapDrawable(drawable);
 		}
 		else {
-			mHeaderImageView.setImageResource(placeholderResId);
+			int placeholderResId = mItinContentGenerator.getHeaderImagePlaceholderResId();
+			mHeaderBitmapDrawable.setBitmap(TwoLevelImageCache.getImage(res, placeholderResId));
+		}
+
+		if (mDisplayState == DisplayState.EXPANDED) {
+			mHeaderBitmapDrawable.setOverlayDrawable(null);
+			mHeaderBitmapDrawable.setCornerMode(CornerMode.NONE);
+		}
+		else {
+			mHeaderBitmapDrawable.setOverlayDrawable(res.getDrawable(R.drawable.card_top_lighting));
+			mHeaderBitmapDrawable.setCornerMode(mShowSummary ? CornerMode.TOP : CornerMode.ALL);
 		}
 
 		// Header text
@@ -559,9 +590,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	private void finishCollapse() {
 		mHeaderImageContainer.setEnabled(false);
 
-		mHeaderImageView.setMode(mShowSummary
-				? ItinHeaderImageView.MODE_SUMMARY
-				: ItinHeaderImageView.MODE_MINI);
+		mHeaderBitmapDrawable.setCornerMode(mShowSummary ? CornerMode.TOP : CornerMode.ALL);
 
 		updateSummaryVisibility();
 
@@ -583,7 +612,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 		ViewHelper.setTranslationY(mCardLayout, 0);
 
-		mHeaderImageView.setMode(ItinHeaderImageView.MODE_FULL);
+		mHeaderBitmapDrawable.setCornerMode(CornerMode.NONE);
 
 		mSummaryDividerView.setVisibility(VISIBLE);
 		mDetailsLayout.setVisibility(VISIBLE);

@@ -13,6 +13,9 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 
+import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
+import com.mobiata.android.bitmaps.UrlBitmapDrawable;
+
 /**
  * Used for creating drawables with some special formatting for headers
  * 
@@ -22,8 +25,10 @@ import android.graphics.drawable.Drawable;
  * - Add a gradient
  * - Add an overlay Drawable
  * - Center/translate the Bitmap
+ * 
+ * TODO: ADD SCALETYPE
  */
-public class HeaderBitmapDrawable extends Drawable {
+public class HeaderBitmapDrawable extends Drawable implements OnImageLoaded {
 
 	public enum CornerMode {
 		ALL,
@@ -58,20 +63,54 @@ public class HeaderBitmapDrawable extends Drawable {
 	// Cached for draw speed
 	private final RectF mRect = new RectF();
 
-	public HeaderBitmapDrawable(Bitmap bitmap) {
-		mBitmapShader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-		mBitmapWidth = bitmap.getWidth();
-		mBitmapHeight = bitmap.getHeight();
+	// If you want to use an underlying UrlBitmapDrawable to drive image loading functionality
+	private UrlBitmapDrawable mUrlBitmapDrawable;
 
+	public HeaderBitmapDrawable() {
 		mBitmapPaint = new Paint();
 		mBitmapPaint.setAntiAlias(true);
-		mBitmapPaint.setShader(mBitmapShader);
 
 		mGradientPaint = new Paint();
 	}
 
+	public HeaderBitmapDrawable(Bitmap bitmap) {
+		this();
+
+		setBitmap(bitmap);
+	}
+
+	public HeaderBitmapDrawable(UrlBitmapDrawable urlBitmapDrawable) {
+		this();
+
+		setUrlBitmapDrawable(urlBitmapDrawable);
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Configuration
+
+	public void setBitmap(Bitmap bitmap) {
+		configureBitmap(bitmap);
+		configureMatrix(getBounds());
+
+		invalidateSelf();
+	}
+
+	public void setUrlBitmapDrawable(UrlBitmapDrawable urlBitmapDrawable) {
+		mUrlBitmapDrawable = urlBitmapDrawable;
+		mUrlBitmapDrawable.setOnImageLoadedCallback(this);
+
+		mBitmapPaint.setShader(null);
+
+		invalidateSelf();
+	}
+
+	private void configureBitmap(Bitmap bitmap) {
+		mBitmapShader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+		mBitmapWidth = bitmap.getWidth();
+		mBitmapHeight = bitmap.getHeight();
+
+		mBitmapPaint.setShader(mBitmapShader);
+	}
 
 	public void setCornerMode(CornerMode cornerMode) {
 		mCornerMode = cornerMode;
@@ -136,12 +175,9 @@ public class HeaderBitmapDrawable extends Drawable {
 	}
 
 	private void configureMatrix(Rect bounds) {
-		if (mMatrixEnabled) {
+		if (mBitmapShader != null) {
 			Matrix matrix = createCenterCropMatrix(mDx, mDy, mBitmapWidth, mBitmapHeight, bounds);
 			mBitmapShader.setLocalMatrix(matrix);
-		}
-		else {
-			mBitmapShader.setLocalMatrix(null);
 		}
 	}
 
@@ -163,23 +199,43 @@ public class HeaderBitmapDrawable extends Drawable {
 
 	@Override
 	public void draw(Canvas canvas) {
-		// Draw the bitmap (possibly with rounded corners)
-		if (mCornerMode == CornerMode.NONE) {
-			canvas.drawRect(mRect, mBitmapPaint);
+		boolean hasBitmap = mBitmapPaint.getShader() != null;
+
+		if (mUrlBitmapDrawable != null) {
+			boolean hasLoadedBitmap = mUrlBitmapDrawable.hasLoadedBitmap();
+			if (hasLoadedBitmap && !hasBitmap) {
+				setBitmap(mUrlBitmapDrawable.getBitmap());
+				hasBitmap = true;
+			}
+			else if (!hasLoadedBitmap && hasBitmap) {
+				mBitmapPaint.setShader(null);
+				hasBitmap = false;
+			}
+		}
+
+		if (hasBitmap) {
+			// Draw the bitmap (possibly with rounded corners)
+			if (mCornerMode == CornerMode.NONE) {
+				canvas.drawRect(mRect, mBitmapPaint);
+			}
+			else {
+				canvas.drawRoundRect(mRect, mCornerRadius, mCornerRadius, mBitmapPaint);
+
+				if (mCornerMode == CornerMode.TOP) {
+					float width = mRect.width();
+					float height = mRect.height();
+
+					// Overdraw bottom left corner (without rounding)
+					canvas.drawRect(0, height - mCornerRadius, mCornerRadius, height, mBitmapPaint);
+
+					// Overdraw bottom right corner (without rounding)
+					canvas.drawRect(width - mCornerRadius, height - mCornerRadius, width, height, mBitmapPaint);
+				}
+			}
 		}
 		else {
-			canvas.drawRoundRect(mRect, mCornerRadius, mCornerRadius, mBitmapPaint);
-
-			if (mCornerMode == CornerMode.TOP) {
-				float width = mRect.width();
-				float height = mRect.height();
-
-				// Overdraw bottom left corner (without rounding)
-				canvas.drawRect(0, height - mCornerRadius, mCornerRadius, height, mBitmapPaint);
-
-				// Overdraw bottom right corner (without rounding)
-				canvas.drawRect(width - mCornerRadius, height - mCornerRadius, width, height, mBitmapPaint);
-			}
+			// If we don't have a bitmap, rely on UrlBitmapDrawable to render (and kick off a load)
+			mUrlBitmapDrawable.draw(canvas);
 		}
 
 		// Draw the gradient (if set)
@@ -243,6 +299,19 @@ public class HeaderBitmapDrawable extends Drawable {
 		matrix.postTranslate((int) (dX + 0.5f), (int) dY);
 
 		return matrix;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// OnImageLoaded
+
+	@Override
+	public void onImageLoaded(String url, Bitmap bitmap) {
+		setBitmap(bitmap);
+	}
+
+	@Override
+	public void onImageLoadFailed(String url) {
+		invalidateSelf();
 	}
 
 }
