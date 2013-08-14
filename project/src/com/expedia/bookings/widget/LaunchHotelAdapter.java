@@ -187,7 +187,7 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Object> {
 
 			// Set the title
 			vh.mTitleTextView.setText(Html.fromHtml(mContext.getString(R.string.launch_hotel_fallback_tile_prompt,
-					destination.getLaunchTileText())));
+					destination.getPhoneSearchDisplayText())));
 
 			// Background image
 			loadImageForLaunchStream(destination.getImgUrl(), vh.mContainer, vh.mBackgroundView);
