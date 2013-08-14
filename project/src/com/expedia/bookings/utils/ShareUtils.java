@@ -228,7 +228,7 @@ public class ShareUtils {
 
 	public String getActivityShareTextLong(ItinCardDataActivity itinCardData) {
 		return getActivityShareTextLong(itinCardData.getTitle(), itinCardData.getValidDate(),
-				itinCardData.getExpirationDate(), itinCardData.getTravelers());
+				itinCardData.getExpirationDate(), itinCardData.getTravelers(), itinCardData.getGuestCount());
 	}
 
 	// Share methods
@@ -611,7 +611,7 @@ public class ShareUtils {
 	}
 
 	public String getActivityShareTextLong(String title, DateTime validDateTime, DateTime expirationDateTime,
-			List<Traveler> travelers) {
+			List<Traveler> travelers, int guestCount) {
 
 		String validDate = JodaUtils.formatDateTime(mContext, validDateTime, SHARE_DATE_FLAGS);
 		String expirationDate = JodaUtils.formatDateTime(mContext, expirationDateTime, SHARE_DATE_FLAGS);
@@ -634,14 +634,14 @@ public class ShareUtils {
 			sb.append(mContext.getString(R.string.share_template_long_activity_expires, expirationDate));
 		}
 
-		final int guestCount = travelers.size();
-		final String[] guests = new String[guestCount];
-		for (int i = 0; i < guestCount; i++) {
+		final String[] guests = new String[travelers.size()];
+		for (int i = 0; i < travelers.size(); i++) {
 			guests[i] = travelers.get(i).getFullName();
 		}
 
 		sb.append("\n\n");
-		sb.append(mContext.getString(R.string.share_template_long_activity_guests, TextUtils.join("\n", guests)));
+		sb.append(mContext.getString(R.string.share_template_long_activity_guests_with_count, guestCount,
+				TextUtils.join("\n", guests)));
 
 		sb.append("\n\n");
 		sb.append(mContext.getString(R.string.share_template_long_ad, downloadUrl));
