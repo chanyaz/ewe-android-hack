@@ -430,6 +430,11 @@ public class TripParser {
 	}
 
 	private TripCar parseTripCar(JSONObject obj) {
+		//If we don't have pickup or dropoff time, this itin is worthless to us, so we don't include it (which beats crashing)
+		if (obj == null || !obj.has("pickupTime") || !obj.has("dropOffTime")) {
+			return null;
+		}
+
 		TripCar tripCar = new TripCar();
 
 		parseTripCommon(obj, tripCar);
