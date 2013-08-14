@@ -78,26 +78,26 @@
     <string name="authority_release_account_sync">@string/authority_ebad_release_account_sync</string>
 
     <!-- Concrete EBad content provider authorities -->
-    <string name="authority_ebad_debug_autocomplete_hotel">com.expedia.booking.autocomplete.hotel</string>
-    <string name="authority_ebad_alpha_autocomplete_hotel">com.expedia.booking.alpha.autocomplete.hotel</string>
-    <string name="authority_ebad_release_autocomplete_hotel">@string/authority_ebad_debug_autocomplete_hotel</string>
-    <string name="authority_ebad_debug_autocomplete_airport">com.expedia.booking.autocomplete.airport</string>
-    <string name="authority_ebad_alpha_autocomplete_airport">com.expedia.booking.alpha.autocomplete.airport</string>
-    <string name="authority_ebad_release_autocomplete_airport">@string/authority_ebad_debug_autocomplete_airport</string>
-    <string name="authority_ebad_debug_account_sync">com.expedia.booking.account.sync</string>
-    <string name="authority_ebad_alpha_account_sync">com.expedia.booking.alpha.account.sync</string>
-    <string name="authority_ebad_release_account_sync">@string/authority_ebad_debug_account_sync</string>
+    <string name="authority_ebad_debug_autocomplete_hotel">com.expedia.bookings.debug.autocomplete.hotel</string>
+    <string name="authority_ebad_alpha_autocomplete_hotel">com.expedia.bookings.alpha.autocomplete.hotel</string>
+    <string name="authority_ebad_release_autocomplete_hotel">com.expedia.bookings.autocomplete.hotel</string>
+    <string name="authority_ebad_debug_autocomplete_airport">com.expedia.bookings.debug.autocomplete.airport</string>
+    <string name="authority_ebad_alpha_autocomplete_airport">com.expedia.bookings.alpha.autocomplete.airport</string>
+    <string name="authority_ebad_release_autocomplete_airport">com.expedia.bookings.autocomplete.airport</string>
+    <string name="authority_ebad_debug_account_sync">com.expedia.bookings.debug.account.sync</string>
+    <string name="authority_ebad_alpha_account_sync">com.expedia.bookings.alpha.account.sync</string>
+    <string name="authority_ebad_release_account_sync">com.expedia.bookings.account.sync</string>
 
     <!-- Concrete VSC content provider authorities -->
-    <string name="authority_vsc_debug_autocomplete_hotel">com.expedia.booking.vsc.autocomplete.hotel</string>
-    <string name="authority_vsc_alpha_autocomplete_hotel">com.expedia.booking.vsc.alpha.autocomplete.hotel</string>
-    <string name="authority_vsc_release_autocomplete_hotel">@string/authority_vsc_debug_autocomplete_hotel</string>
-    <string name="authority_vsc_debug_autocomplete_airport">com.expedia.booking.vsc.autocomplete.airport</string>
-    <string name="authority_vsc_alpha_autocomplete_airport">com.expedia.booking.vsc.alpha.autocomplete.airport</string>
-    <string name="authority_vsc_release_autocomplete_airport">@string/authority_vsc_debug_autocomplete_airport</string>
-    <string name="authority_vsc_debug_account_sync">com.expedia.booking.vsc.account.sync</string>
-    <string name="authority_vsc_alpha_account_sync">com.expedia.booking.vsc.alpha.account.sync</string>
-    <string name="authority_vsc_release_account_sync">@string/authority_vsc_debug_account_sync</string>
+    <string name="authority_vsc_debug_autocomplete_hotel">com.expedia.bookings.vsc.debug.autocomplete.hotel</string>
+    <string name="authority_vsc_alpha_autocomplete_hotel">com.expedia.bookings.vsc.alpha.autocomplete.hotel</string>
+    <string name="authority_vsc_release_autocomplete_hotel">com.expedia.bookings.vsc.autocomplete.hotel</string>
+    <string name="authority_vsc_debug_autocomplete_airport">com.expedia.bookings.vsc.debug.autocomplete.airport</string>
+    <string name="authority_vsc_alpha_autocomplete_airport">com.expedia.bookings.vsc.alpha.autocomplete.airport</string>
+    <string name="authority_vsc_release_autocomplete_airport">com.expedia.bookings.vsc.autocomplete.airport</string>
+    <string name="authority_vsc_debug_account_sync">com.expedia.bookings.vsc.account.sync</string>
+    <string name="authority_vsc_alpha_account_sync">com.expedia.bookings.vsc.alpha.account.sync</string>
+    <string name="authority_vsc_release_account_sync">com.expedia.bookings.vsc.account.sync</string>
 
     <!-- Fragment tags -->
     <string name="tag_search_params">SEARCH_PARAMS</string>
