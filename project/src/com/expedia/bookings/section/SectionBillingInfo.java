@@ -273,7 +273,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 						field.setImageResource(R.drawable.ic_lcc_no_card_payment_entry);
 					}
 					else {
-						field.setImageResource(BookingInfoUtils.CREDIT_CARD_GREY_ICONS.get(cardType));
+						field.setImageResource(BookingInfoUtils.getGreyCardIcon(cardType));
 					}
 				}
 				else {
@@ -293,7 +293,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			if (!TextUtils.isEmpty(data.getBrandName())) {
 				CreditCardType cardType = CreditCardType.valueOf(data.getBrandName());
 				if (cardType != null && !TextUtils.isEmpty(getData().getNumber())) {
-					field.setImageResource(BookingInfoUtils.CREDIT_CARD_BLACK_ICONS.get(cardType));
+					field.setImageResource(BookingInfoUtils.getBlackCardIcon(cardType));
 				}
 				else {
 					field.setImageDrawable(null);
@@ -312,7 +312,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			if (!TextUtils.isEmpty(data.getBrandName())) {
 				CreditCardType cardType = CreditCardType.valueOf(data.getBrandName());
 				if (cardType != null && !TextUtils.isEmpty(getData().getNumber())) {
-					field.setImageResource(BookingInfoUtils.CREDIT_CARD_WHITE_ICONS.get(cardType));
+					field.setImageResource(BookingInfoUtils.getWhiteCardIcon(cardType));
 				}
 				else {
 					field.setImageResource(R.drawable.ic_credit_card_white);
@@ -331,7 +331,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			if (!TextUtils.isEmpty(data.getBrandName())) {
 				CreditCardType cardType = CreditCardType.valueOf(data.getBrandName());
 				if (cardType != null && !TextUtils.isEmpty(getData().getNumber())) {
-					field.setImageResource(BookingInfoUtils.CREDIT_CARD_WHITE_ICONS.get(cardType));
+					field.setImageResource(BookingInfoUtils.getWhiteCardIcon(cardType));
 				}
 				else {
 					field.setImageDrawable(null);

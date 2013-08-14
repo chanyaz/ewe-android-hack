@@ -3,7 +3,6 @@ package com.expedia.bookings.section;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -73,20 +72,11 @@ public class CreditCardSection extends LinearLayout {
 				resId = R.drawable.ic_visa_grey_cvv;
 				break;
 			default:
-				resId = 0;
+				resId = R.drawable.ic_generic_card_cvv;
 				break;
 			}
 		}
-
-		if (resId != 0) {
-			mLogoImageView.setImageResource(resId);
-		}
-		else {
-			// Set an image so it takes up the normal space, but then make it invisible
-			// because we don't know what logo to show
-			mLogoImageView.setImageResource(R.drawable.ic_visa_grey_cvv);
-			mLogoImageView.setVisibility(View.INVISIBLE);
-		}
+		mLogoImageView.setImageResource(resId);
 
 		// #1116 - For some reason this typeface calculates the left edge
 		// bounds incorrectly, so we add a space just in case.

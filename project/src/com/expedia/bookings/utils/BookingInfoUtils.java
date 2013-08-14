@@ -159,12 +159,33 @@ public class BookingInfoUtils {
 		return null;
 	}
 
+	public static final int getGreyCardIcon(CreditCardType type) {
+		if (CREDIT_CARD_GREY_ICONS.containsKey(type)) {
+			return CREDIT_CARD_GREY_ICONS.get(type);
+		}
+		return R.drawable.ic_generic_card;
+	}
+
+	public static final int getBlackCardIcon(CreditCardType type) {
+		if (CREDIT_CARD_BLACK_ICONS.containsKey(type)) {
+			return CREDIT_CARD_BLACK_ICONS.get(type);
+		}
+		return R.drawable.ic_generic_card_black;
+	}
+
+	public static final int getWhiteCardIcon(CreditCardType type) {
+		if (CREDIT_CARD_WHITE_ICONS.containsKey(type)) {
+			return CREDIT_CARD_WHITE_ICONS.get(type);
+		}
+		return R.drawable.ic_generic_card_white;
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// More static data (that just takes up a lot of space, so at bottom)
 
 	// Which icon to use with which credit card
 	@SuppressWarnings("serial")
-	public static final HashMap<CreditCardType, Integer> CREDIT_CARD_GREY_ICONS = new HashMap<CreditCardType, Integer>() {
+	private static final HashMap<CreditCardType, Integer> CREDIT_CARD_GREY_ICONS = new HashMap<CreditCardType, Integer>() {
 		{
 			put(CreditCardType.AMERICAN_EXPRESS, R.drawable.ic_amex_grey);
 			put(CreditCardType.CARTE_BLANCHE, R.drawable.ic_carte_blanche_grey);
@@ -181,7 +202,7 @@ public class BookingInfoUtils {
 
 	// Which icon to use with which credit card
 	@SuppressWarnings("serial")
-	public static final HashMap<CreditCardType, Integer> CREDIT_CARD_BLACK_ICONS = new HashMap<CreditCardType, Integer>() {
+	private static final HashMap<CreditCardType, Integer> CREDIT_CARD_BLACK_ICONS = new HashMap<CreditCardType, Integer>() {
 		{
 			put(CreditCardType.AMERICAN_EXPRESS, R.drawable.ic_amex_black);
 			put(CreditCardType.CARTE_BLANCHE, R.drawable.ic_carte_blanche_black);
@@ -198,7 +219,7 @@ public class BookingInfoUtils {
 
 	// Which icon to use with which credit card
 	@SuppressWarnings("serial")
-	public static final HashMap<CreditCardType, Integer> CREDIT_CARD_WHITE_ICONS = new HashMap<CreditCardType, Integer>() {
+	private static final HashMap<CreditCardType, Integer> CREDIT_CARD_WHITE_ICONS = new HashMap<CreditCardType, Integer>() {
 		{
 			put(CreditCardType.AMERICAN_EXPRESS, R.drawable.ic_amex_white);
 			put(CreditCardType.CARTE_BLANCHE, R.drawable.ic_carte_blanche_white);
