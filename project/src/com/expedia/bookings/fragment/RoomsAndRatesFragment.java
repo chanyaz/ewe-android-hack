@@ -23,9 +23,9 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.HtmlUtils;
 import com.expedia.bookings.widget.RoomsAndRatesAdapter;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.HtmlUtils;
 import com.mobiata.android.util.Ui;
 
 public class RoomsAndRatesFragment extends ListFragment {

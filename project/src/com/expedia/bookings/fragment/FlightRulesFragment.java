@@ -17,7 +17,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Rule;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.utils.HtmlUtils;
+import com.mobiata.android.util.HtmlUtils;
 import com.mobiata.android.util.Ui;
 
 public class FlightRulesFragment extends SherlockFragment {

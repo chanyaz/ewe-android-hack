@@ -15,8 +15,8 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Policy;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.utils.HtmlUtils;
 import com.expedia.bookings.utils.WalletUtils;
+import com.mobiata.android.util.HtmlUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.util.ViewUtils;
 

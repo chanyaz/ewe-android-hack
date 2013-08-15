@@ -17,7 +17,6 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ClearPrivateDataDialog;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AboutUtils;
-import com.expedia.bookings.utils.HtmlUtils;
 import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -32,6 +31,7 @@ import com.mobiata.android.fragment.AboutSectionFragment.Builder;
 import com.mobiata.android.fragment.AboutSectionFragment.RowDescriptor;
 import com.mobiata.android.fragment.CopyrightFragment;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.HtmlUtils;
 import com.mobiata.android.util.MailChimpUtils;
 import com.mobiata.android.util.MailChimpUtils.MailChimpResult;
 
