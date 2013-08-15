@@ -334,7 +334,18 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 		@Override
 		public void onDownload(HotelOffersResponse offersResponse) {
-			if (offersResponse != null && offersResponse.isSuccess() && offersResponse.getProperty() != null) {
+			if (offersResponse == null) {
+				Log.e("PhoneSearchActivity mSearchHotelCallback: Problem downloading HotelOffersResponse");
+				simulateErrorResponse(R.string.error_server);
+			}
+			else if (offersResponse.hasErrors()) {
+				String message = getString(R.string.error_server);
+				for (ServerError error : offersResponse.getErrors()) {
+					message = error.getPresentableMessage(PhoneSearchActivity.this);
+				}
+				simulateErrorResponse(message);
+			}
+			else if (offersResponse.isSuccess() && offersResponse.getProperty() != null) {
 				Property property = offersResponse.getProperty();
 				HotelSearchResponse searchResponse = new HotelSearchResponse();
 
