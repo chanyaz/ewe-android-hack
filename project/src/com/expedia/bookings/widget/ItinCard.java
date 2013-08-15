@@ -360,6 +360,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		else {
 			mHeaderShadeView.setVisibility(View.GONE);
 		}
+
 	}
 
 	/**
@@ -483,49 +484,75 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 			ViewHelper.setTranslationY(mHeaderTextLayout, 0f);
 		}
 
-		// Type Icon
-		if (mItinContentGenerator.getHideDetailsTypeIcon()) {
+		// Header Shade and Type Icon (for past itins).
+		// We couple the mHeaderShadeView stuff with Type Icon because they are both doing alpha animations on top of one another 
+		// and create an animation glitch if both run at once ( The type icon displays as a black box during animation).
+		if (mHeaderShadeView.getVisibility() != View.GONE) {
 			if (animate) {
-				Animator typeImageAnimator = ObjectAnimator
-						.ofFloat(mItinTypeImageView, "alpha", 1)
-						.setDuration(400);
-				typeImageAnimator.addListener(new AnimatorListenerShort() {
-					@Override
-					public void onAnimationStart(Animator arg0) {
-						mItinTypeImageView.setVisibility(View.VISIBLE);
-					}
-
-					@Override
-					public void onAnimationEnd(Animator arg0) {
-						mItinTypeImageView.setVisibility(View.VISIBLE);
-						mFixedItinTypeImageView.setVisibility(View.GONE);
-					}
-				});
-				animators.add(typeImageAnimator);
-			}
-			else {
-				ViewHelper.setAlpha(mItinTypeImageView, 1f);
-				mItinTypeImageView.setVisibility(View.VISIBLE);
-				mFixedItinTypeImageView.setVisibility(View.GONE);
-			}
-		}
-		else {
-			if (animate) {
-				ValueAnimator dummy = ValueAnimator.ofInt(0, 1).setDuration(300);
-				dummy.addListener(new AnimatorListenerShort() {
+				ObjectAnimator shadeAnim = ObjectAnimator.ofFloat(mHeaderShadeView, "alpha", 1f).setDuration(400);
+				shadeAnim.addListener(new AnimatorListenerShort() {
 					@Override
 					public void onAnimationEnd(Animator arg0) {
 						ViewHelper.setAlpha(mItinTypeImageView, 1f);
 						mItinTypeImageView.setVisibility(View.VISIBLE);
 						mFixedItinTypeImageView.setVisibility(View.GONE);
 					}
+
 				});
-				animators.add(dummy);
+				animators.add(shadeAnim);
 			}
 			else {
+				ViewHelper.setAlpha(mHeaderShadeView, 1f);
 				ViewHelper.setAlpha(mItinTypeImageView, 1f);
 				mItinTypeImageView.setVisibility(View.VISIBLE);
 				mFixedItinTypeImageView.setVisibility(View.GONE);
+			}
+		}
+		else {
+			// Type Icon (for present and future itins) - Note: No work is needed here for the shade view as it is gone and stays gone.
+			if (mItinContentGenerator.getHideDetailsTypeIcon()) {
+				if (animate) {
+					Animator typeImageAnimator = ObjectAnimator
+							.ofFloat(mItinTypeImageView, "alpha", 1)
+							.setDuration(400);
+					typeImageAnimator.addListener(new AnimatorListenerShort() {
+						@Override
+						public void onAnimationStart(Animator arg0) {
+							mItinTypeImageView.setVisibility(View.VISIBLE);
+						}
+
+						@Override
+						public void onAnimationEnd(Animator arg0) {
+							mItinTypeImageView.setVisibility(View.VISIBLE);
+							mFixedItinTypeImageView.setVisibility(View.GONE);
+						}
+					});
+					animators.add(typeImageAnimator);
+				}
+				else {
+					ViewHelper.setAlpha(mItinTypeImageView, 1f);
+					mItinTypeImageView.setVisibility(View.VISIBLE);
+					mFixedItinTypeImageView.setVisibility(View.GONE);
+				}
+			}
+			else {
+				if (animate) {
+					ValueAnimator dummy = ValueAnimator.ofInt(0, 1).setDuration(300);
+					dummy.addListener(new AnimatorListenerShort() {
+						@Override
+						public void onAnimationEnd(Animator arg0) {
+							ViewHelper.setAlpha(mItinTypeImageView, 1f);
+							mItinTypeImageView.setVisibility(View.VISIBLE);
+							mFixedItinTypeImageView.setVisibility(View.GONE);
+						}
+					});
+					animators.add(dummy);
+				}
+				else {
+					ViewHelper.setAlpha(mItinTypeImageView, 1f);
+					mItinTypeImageView.setVisibility(View.VISIBLE);
+					mFixedItinTypeImageView.setVisibility(View.GONE);
+				}
 			}
 		}
 
@@ -639,7 +666,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 			}
 		}
 
-		//Past overlay
+		//Header image gradient overlay
 		if (animate) {
 			ObjectAnimator headerOverlayAlphaAnimator = ObjectAnimator
 					.ofFloat(mHeaderOverlayImageView, "alpha", 0f)
@@ -665,6 +692,27 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 			else {
 				ViewHelper.setAlpha(mHeaderTextLayout, 0f);
 				ViewHelper.setTranslationY(mHeaderTextLayout, -50f);
+			}
+		}
+
+		// Header Shade (for past itins)
+		if (mHeaderShadeView.getVisibility() != View.GONE) {
+			if (animate) {
+				ObjectAnimator shadeAnim = ObjectAnimator.ofFloat(mHeaderShadeView, "alpha", 0f).setDuration(400);
+				shadeAnim.addListener(new AnimatorListenerShort() {
+
+					@Override
+					public void onAnimationStart(Animator arg0) {
+						//So the type icon image will flicker black if we let it live, shutting it off here is a pretty good way to do it
+						ViewHelper.setAlpha(mItinTypeImageView, 0f);
+						mItinTypeImageView.setVisibility(View.INVISIBLE);
+					}
+
+				});
+				animators.add(shadeAnim);
+			}
+			else {
+				ViewHelper.setRotation(mHeaderShadeView, 0f);
 			}
 		}
 
