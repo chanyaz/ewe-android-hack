@@ -70,6 +70,8 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	private int mStandardTextColor;
 	private int mDefaultTextColor;
 
+	private boolean mShouldShowVipIcon;
+
 	public HotelAdapter(Activity activity) {
 		init(activity);
 	}
@@ -153,6 +155,11 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 	public void setShowDistance(boolean showDistance) {
 		mShowDistance = showDistance;
+	}
+
+	public void setShowVipIcon(boolean showIcon) {
+		mShouldShowVipIcon = showIcon;
+		notifyDataSetChanged();
 	}
 
 	@Override
@@ -304,7 +311,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 				holder.urgency.setVisibility(View.GONE);
 			}
 
-			if (holder.vip != null) {
+			if (holder.vip != null && mShouldShowVipIcon) {
 				int visibility = property.isVipAccess() ? View.VISIBLE : View.INVISIBLE;
 				holder.vip.setVisibility(visibility);
 			}

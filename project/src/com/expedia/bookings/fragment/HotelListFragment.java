@@ -20,6 +20,8 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate.UserPriceType;
+import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.HotelAdapter;
@@ -142,6 +144,19 @@ public class HotelListFragment extends ListFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+
+		if (getActivity() != null) {
+			boolean supportsVipAccess = PointOfSale.getPointOfSale().supportsVipAccess();
+			boolean shouldShowVipIcon = false;
+			if (supportsVipAccess) {
+				shouldShowVipIcon = User.isLoggedIn(getActivity())
+					&& Db.getUser() != null
+					&& Db.getUser().getPrimaryTraveler() != null
+					&& Db.getUser().getPrimaryTraveler().getIsElitePlusMember();
+			}
+			mAdapter.setShowVipIcon(shouldShowVipIcon);
+		}
+
 		updateViews();
 	}
 
