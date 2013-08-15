@@ -12,6 +12,17 @@
         android:layout_alignParentLeft="true"
         android:scaleType="centerCrop" />
 
+    <ImageView
+        android:id="@+id/vip_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:paddingBottom="2dp"
+        android:paddingLeft="2dp"
+        android:src="@drawable/ic_vip_search"
+        android:visibility="gone" />
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="@dimen/hotel_row_thumbnail_height"

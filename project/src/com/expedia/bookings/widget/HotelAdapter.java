@@ -214,6 +214,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 			holder = new HotelViewHolder();
 			holder.thumbnail = (ImageView) convertView.findViewById(R.id.thumbnail_image_view);
+			holder.vip = (ImageView) convertView.findViewById(R.id.vip_image_view);
 			holder.name = (TextView) convertView.findViewById(R.id.name_text_view);
 			holder.strikethroughPrice = (TextView) convertView.findViewById(R.id.strikethrough_price_text_view);
 			holder.price = (TextView) convertView.findViewById(R.id.price_text_view);
@@ -302,6 +303,11 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			else {
 				holder.urgency.setVisibility(View.GONE);
 			}
+
+			if (holder.vip != null) {
+				int visibility = property.isVipAccess() ? View.VISIBLE : View.INVISIBLE;
+				holder.vip.setVisibility(visibility);
+			}
 		}
 
 		holder.price.setTextSize(mPriceTextSize);
@@ -350,6 +356,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 	private static class HotelViewHolder {
 		public ImageView thumbnail;
+		public ImageView vip;
 		public TextView name;
 		public TextView strikethroughPrice;
 		public TextView price;
