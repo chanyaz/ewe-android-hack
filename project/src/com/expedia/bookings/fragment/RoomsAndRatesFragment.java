@@ -209,7 +209,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 			constructionContainer.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
-					openWebViewWithText(getString(R.string.renovation_notice), constructionText);
+					openWebViewWithText(getString(R.string.renovation_notice), constructionText, true);
 				}
 			});
 			return true;
@@ -247,7 +247,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 			feesContainer.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
-					openWebViewWithText(getString(R.string.additional_fees), resortFeesText);
+					openWebViewWithText(getString(R.string.additional_fees), resortFeesText, false);
 				}
 			});
 			return true;
@@ -255,13 +255,13 @@ public class RoomsAndRatesFragment extends ListFragment {
 		return false;
 	}
 
-	private void openWebViewWithText(String title, String text) {
+	private void openWebViewWithText(String title, String text, boolean useLeftMargin) {
 		String html;
 		if (ExpediaBookingApp.useTabletInterface(getActivity())) {
 			html = HtmlUtils.wrapInHeadAndBodyWithStandardTabletMargins(text);
 		}
 		else {
-			html = HtmlUtils.wrapInHeadAndBodyWithMargins(text, "5%", "5%", "0px", "0px");
+			html = HtmlUtils.wrapInHeadAndBodyWithMargins(text, "5%", "5%", "0px", useLeftMargin ? "5%" : "0px");
 		}
 
 		WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
