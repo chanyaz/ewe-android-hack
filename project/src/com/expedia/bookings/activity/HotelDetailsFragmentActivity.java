@@ -1,7 +1,5 @@
 package com.expedia.bookings.activity;
 
-import org.joda.time.DateTime;
-
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -42,7 +39,6 @@ import com.expedia.bookings.fragment.HotelDetailsMiniMapFragment.HotelMiniMapFra
 import com.expedia.bookings.fragment.HotelDetailsPricePromoFragment;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AlphaImageView;
 import com.expedia.bookings.widget.HotelDetailsScrollView;
@@ -74,8 +70,6 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	// Flag set in the intent if this activity was opened from the widget
 	public static final String OPENED_FROM_WIDGET = "OPENED_FROM_WIDGET";
 
-	private static final long RESUME_TIMEOUT = 20 * DateUtils.MINUTE_IN_MILLIS;
-
 	private Context mContext;
 	private ExpediaBookingApp mApp;
 
@@ -92,8 +86,6 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
-
-	private DateTime mLastResumeTime;
 
 	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
@@ -481,18 +473,16 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	}
 
 	private boolean checkFinishConditionsAndFinish() {
-		Property property = Db.getHotelSearch().getSelectedProperty();
-		if (property == null) {
+		// Attempt to load hotel data from disk
+		if (Db.getHotelSearch().getSelectedProperty() == null) {
+			Db.loadHotelSearchFromDisk(this);
+		}
+
+		if (Db.getHotelSearch().getSelectedProperty() == null) {
 			Log.i("Detected expired DB, finishing activity.");
 			finish();
 			return true;
 		}
-
-		if (JodaUtils.isExpired(mLastResumeTime, RESUME_TIMEOUT)) {
-			finish();
-			return true;
-		}
-		mLastResumeTime = DateTime.now();
 
 		return false;
 	}
@@ -526,6 +516,9 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 				HotelErrorDialog dialog = HotelErrorDialog.newInstance();
 				dialog.setMessage(R.string.error_hotel_is_now_sold_out);
 				dialog.show(getSupportFragmentManager(), "soldOutDialog");
+			}
+			else {
+				Db.kickOffBackgroundHotelSearchSave(mContext);
 			}
 
 			// Notify affected child fragments to refresh.

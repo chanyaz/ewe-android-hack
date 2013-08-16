@@ -111,6 +111,7 @@ public class HotelOffersResponse extends Response {
 
 		try {
 			JSONUtils.putJSONableList(obj, "rates", mRates);
+			JSONUtils.putJSONable(obj, "property", mProperty);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -124,6 +125,7 @@ public class HotelOffersResponse extends Response {
 		super.fromJson(obj);
 
 		mRates = JSONUtils.getJSONableList(obj, "rates", Rate.class);
+		mProperty = JSONUtils.getJSONable(obj, "property", Property.class);
 
 		return true;
 	}
