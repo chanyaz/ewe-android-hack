@@ -27,7 +27,6 @@ import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
-import com.mobiata.android.bitmaps.TwoLevelImageCache;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
@@ -289,41 +288,44 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		mHeaderImageContainer.setEnabled(mDisplayState.equals(DisplayState.EXPANDED));
 
 		// Header Image
-		Resources res = getResources();
-		if (mHeaderBitmapDrawable == null) {
-			mHeaderBitmapDrawable = new HeaderBitmapDrawable();
-
-			mHeaderBitmapDrawable.setCornerRadius(res.getDimensionPixelSize(R.dimen.itin_card_corner_radius));
-
-			if (getType() == Type.FLIGHT) {
-				mHeaderBitmapDrawable.setMatrixTranslation(0,
-						res.getDimensionPixelSize(R.dimen.itin_card_flight_vertical_offset));
-			}
-			else {
-				mHeaderBitmapDrawable.setMatrixTranslation(0, 0);
-			}
-
-			mHeaderImageView.setImageDrawable(mHeaderBitmapDrawable);
-		}
 
 		// We currently use the size of the screen, as that is what is required by us of the Expedia image API
 		Point size = AndroidUtils.getScreenSize(getContext());
 		UrlBitmapDrawable drawable = mItinContentGenerator.getHeaderBitmapDrawable(size.x, size.y);
 		if (drawable != null) {
-			mHeaderBitmapDrawable.setUrlBitmapDrawable(drawable);
-		}
-		else {
-			int placeholderResId = mItinContentGenerator.getHeaderImagePlaceholderResId();
-			mHeaderBitmapDrawable.setBitmap(TwoLevelImageCache.getImage(res, placeholderResId));
-		}
+			Resources res = getResources();
 
-		if (mDisplayState == DisplayState.EXPANDED) {
-			mHeaderBitmapDrawable.setOverlayDrawable(null);
-			mHeaderBitmapDrawable.setCornerMode(CornerMode.NONE);
+			if (mHeaderBitmapDrawable == null) {
+				mHeaderBitmapDrawable = new HeaderBitmapDrawable();
+
+				mHeaderBitmapDrawable.setCornerRadius(res.getDimensionPixelSize(R.dimen.itin_card_corner_radius));
+
+				if (getType() == Type.FLIGHT) {
+					mHeaderBitmapDrawable.setMatrixTranslation(0,
+							res.getDimensionPixelSize(R.dimen.itin_card_flight_vertical_offset));
+				}
+				else {
+					mHeaderBitmapDrawable.setMatrixTranslation(0, 0);
+				}
+			}
+
+			mHeaderBitmapDrawable.setUrlBitmapDrawable(drawable);
+			mHeaderImageView.setImageDrawable(mHeaderBitmapDrawable);
+
+			if (mDisplayState == DisplayState.EXPANDED) {
+				mHeaderBitmapDrawable.setOverlayDrawable(null);
+				mHeaderBitmapDrawable.setCornerMode(CornerMode.NONE);
+			}
+			else {
+				mHeaderBitmapDrawable.setOverlayDrawable(res.getDrawable(R.drawable.card_top_lighting));
+				mHeaderBitmapDrawable.setCornerMode(mShowSummary ? CornerMode.TOP : CornerMode.ALL);
+			}
 		}
 		else {
-			mHeaderBitmapDrawable.setOverlayDrawable(res.getDrawable(R.drawable.card_top_lighting));
-			mHeaderBitmapDrawable.setCornerMode(mShowSummary ? CornerMode.TOP : CornerMode.ALL);
+			// In the case of placeholder images, don't use HeaderBitmapDrawable because the
+			// placeholder might not be a Bitmap (e.g., if it's XML).
+			int placeholderResId = mItinContentGenerator.getHeaderImagePlaceholderResId();
+			mHeaderImageView.setImageResource(placeholderResId);
 		}
 
 		// Header text
