@@ -18,6 +18,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.location.Location;
 import android.net.ConnectivityManager;
@@ -122,6 +124,10 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	// Invisible Fragment that handles FusedLocationProvider
 	private FusedLocationProviderFragment mLocationFragment;
 
+	// Background bitmap (for recycling later)
+	private int mBgViewIndex;
+	private Bitmap mBgBitmap;
+
 	public static LaunchFragment newInstance() {
 		return new LaunchFragment();
 	}
@@ -184,6 +190,10 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	public void onStart() {
 		super.onStart();
 
+		if (mBgView.getParent() == null) {
+			mScrollContainer.addView(mBgView, mBgViewIndex);
+		}
+
 		ActivityManager am = (ActivityManager) getActivity().getSystemService(Context.ACTIVITY_SERVICE);
 		int memoryClass = am.getMemoryClass();
 		float density = getResources().getDisplayMetrics().density;
@@ -195,7 +205,9 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		else {
 			// Pick background image at random
 			Random rand = new Random();
-			mBgView.setImageResource(BACKGROUND_RES_IDS[rand.nextInt(BACKGROUND_RES_IDS.length)]);
+			mBgBitmap = BitmapFactory.decodeResource(getResources(),
+					BACKGROUND_RES_IDS[rand.nextInt(BACKGROUND_RES_IDS.length)]);
+			mBgView.setImageBitmap(mBgBitmap);
 		}
 	}
 
@@ -796,9 +808,14 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 		Log.d("LaunchFragment.cleanUpOnStop()");
 
-		// Clear out the bg image view, as normally this occupies a lot of memory
-		// throughout the app otherwise
-		mBgView.setImageBitmap(null);
+		// Clear the BG View explicitly because otherwise it takes up tons of memory
+		if (mBgBitmap != null) {
+			mBgView.setImageBitmap(null);
+			mBgViewIndex = mScrollContainer.indexOfChild(mBgView);
+			mScrollContainer.removeView(mBgView);
+			mBgBitmap.recycle();
+			mBgBitmap = null;
+		}
 
 		mHotelsStreamListView.setAdapter(null);
 
