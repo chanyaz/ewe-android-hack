@@ -87,17 +87,17 @@
 
     <!-- Sweepstakes -->
     <!-- Title of the sweepstakes -->
-    <string name="sweepstakes_enter_title">Trip-a-day giveaway!</string>
+    <string name="sweepstakes_enter_title">Vinci un viaggio al giorno!</string>
     <!-- Subtitle of the sweepstakes describing what the price is -->
-    <string name="sweepstakes_enter_subtitle">La tua occasione di vincere un viaggio del valore di \n$1,200 da Expedia!</string>
+    <string name="sweepstakes_enter_subtitle">La tua occasione di vincere un viaggio del valore di \n$1,200 messo in palio da Expedia!</string>
     <!-- Text describing how to enter the sweepstakes -->
-    <string name="sweepstakes_enter_text">Accedi con un account Expedia \no con Facebook.</string>
+    <string name="sweepstakes_enter_text">Per partecipare accedi con un account Expedia \no con Facebook.</string>
     <!-- Button declining to enter the sweepstakes -->
     <string name="sweepstakes_no_thanks">No, grazie</string>
     <!-- Button to enter the sweepstakes -->
     <string name="sweepstakes_enter">Inserisci</string>
     <!-- Terms and conditions text for the sweepstakes -->
-    <string name="sweepstakes_terms">Aderendo all\&apos;iniziativa accetto i &lt;font color="#216092"&gt;Termini e le condizioni&lt;/font&gt;.&lt;br /&gt;Non è necessario acquistare. Per maggiori dettagli, consulta i &lt;font color="#216092"&gt;regolamenti&lt;/font&gt;.</string>
+    <string name="sweepstakes_terms">Aderendo all\&apos;iniziativa ne accetto i &lt;font color="#216092"&gt;Termini e le condizioni&lt;/font&gt;.&lt;br /&gt;Non è necessario fare alcun acquisto. Per maggiori dettagli, consulta il &lt;font color="#216092"&gt;regolamento&lt;/font&gt;.</string>
     <!-- Confirmation title after user enters the sweepstakes -->
     <string name="sweepstakes_confirmation_title">Grazie per aver partecipato!</string>
     <!-- Confirmation text after user enters the sweepstakes, saying the user will be notified if they win -->
@@ -192,29 +192,39 @@
     <!-- Booking info label -->
     <string name="booking_info">Dati prenotazione</string>
     <!-- Itin flight generic terminal and gate template -->
-    <string name="generic_terminal_TEMPLATE">Terminal %1$s, Gate %2$s</string>
+    <string name="Terminal_X_Gate_Y_TEMPLATE">Terminal %1$s, Gate %2$s</string>
+    <!-- Itin flight international terminal and gate template -->
+    <string name="International_Terminal_Gate_X_TEMPLATE">Terminal internazionale, Gate %1$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">Terminal di arrivo %1$s, Gate %2$s</string>
+    <string name="Arrive_Terminal_X_Gate_Y_TEMPLATE">Arrivo al Terminal %1$s, Gate %2$s</string>
+    <!-- Itin flight arrival international terminal and gate template -->
+    <string name="Arrive_International_Terminal_Gate_X_TEMPLATE">Arrivo al Terminal internazionale, Gate %1$s</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="departure_terminal_TEMPLATE">Terminal di partenza %1$s, Gate %2$s</string>
-    <!-- To be determined abbrev. -->
-    <string name="to_be_determined_abbrev">TBD</string>
+    <string name="Depart_Terminal_X_Gate_Y_TEMPLATE">Partenza dal Terminal %1$s, Gate %2$s</string>
+    <!-- Itin flight departure international terminal and gate template -->
+    <string name="Depart_International_Terminal_Gate_X_TEMPLATE">Partenza dal Terminal internazionale, Gate %1$s</string>
+    <!-- "Gate To Be Determined", with "To Be Determined" abbreviated if possible -->
+    <string name="Gate_To_Be_Determined_abbrev">Gate da confermare</string>
     <!-- Itin flight gate only template -->
-    <string name="gate_number_only_TEMPLATE">Gate%1$s</string>
+    <string name="Gate_X_TEMPLATE">Gate %1$s</string>
     <!-- Itin flight arrive gate only template -->
-    <string name="arrive_gate_number_only_TEMPLATE">Gate di arrivo%1$s</string>
+    <string name="Arrive_Gate_X_TEMPLATE">Arrivo al gate %1$s</string>
     <!-- Itin flight depart gate only template -->
-    <string name="depart_gate_number_only_TEMPLATE">Gate di partenza%1$s</string>
+    <string name="Depart_Gate_X_TEMPLATE">Partenza dal gate %1$s</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
     <string name="Terminal_X_TEMPLATE">Terminal %1$s</string>
-    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
-    <string name="Baggage_Claim_X_TEMPLATE">Ritiro bagagli %1$s</string>
     <!-- Special case for name of International Terminal -->
     <string name="International_Terminal">Terminal internazionale</string>
+    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
+    <string name="Baggage_Claim_X_TEMPLATE">Ritiro bagagli %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">Arrivo a %1$s</string>
+    <string name="Arrive_Terminal_X_TEMPLATE">Arrivo al Terminal %1$s</string>
+    <!-- Itin flight international terminal only -->
+    <string name="Arrive_International_Terminal">Arrivo al Terminal internazionale</string>
     <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">Partenza da %1$s</string>
+    <string name="Depart_Terminal_X_TEMPLATE">Partenza dal Terminal %1$s</string>
+    <!-- Itin flight international terminal only -->
+    <string name="Depart_International_Terminal">Partenza dal Terminal internazionale</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="at_airport_TEMPLATE">&lt;b&gt; Presso %1$s &lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
@@ -291,6 +301,10 @@
     <string name="try_again">Riprova</string>
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">COPIA %1$s</string>
+    <!-- Hours and minutes duration future TEMPLATE. This will be used to produce a string like:"in 3 hours and 12 minutes". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
+    <string name="hours_minutes_future_TEMPLATE">tra %1$s e %2$s</string>
+    <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes".  -->
+    <string name="hours_minutes_past_TEMPLATE">%1$s e %2$s fa</string>
 
     <!-- Itin Buttons -->
     <!-- Popup menu -->
@@ -371,7 +385,7 @@
     <!-- First half of phrase about local expert VIP status attraction.  Full phrase: "Arrive with VIP Status" -->
     <string name="attraction_vip_first">Arriva</string>
     <!-- Second half of phrase about local expert VIP status attraction.  Full phrase: "Arrive with VIP Status" -->
-    <string name="attraction_vip_second">con uno status VIP</string>
+    <string name="attraction_vip_second">con trattamento VIP</string>
 
     <!-- Car category -->
     <!-- Car category: mini -->
@@ -1327,6 +1341,8 @@
     <string name="hotel_search_range_error_TEMPLATE">Siamo spiacenti, ma non siamo in grado di cercare soggiorni in hotel superiori a %1$s giorni.</string>
     <!-- Search Error title text "Search Error" -->
     <string name="search_error">Errore di ricerca</string>
+    <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
+    <string name="search_hotel_id_TEMPLATE">Hotel %s</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -1470,6 +1486,12 @@
     <string name="see_all_reviews">Mostre tutte</string>
     <!-- Label for button that brings users to the room selection page -->
     <string name="select_room">Scegli la camera</string>
+    <!-- Title for VIP Access message -->
+    <string name="vip_access">VIP Access</string>
+    <!-- Message that explains the meaning of VIP Access -->
+    <string name="vip_access_message">Presso gli hotel VIP Access, gli iscritti a Expedia Elite Plus ricevono l\&apos;upgrade gratuito della camera e tanti altri extra, previa disponibilità al momento del check-in.</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="filter_vip_access">Solo hotel VIP Access</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>
@@ -1543,9 +1565,9 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">Recenti</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_favorable">Migliori</string>
+    <string name="user_review_sort_button_favorable">Positive</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_critical">Peggiori</string>
+    <string name="user_review_sort_button_critical">Negative</string>
     <!-- Loading more reviews -->
     <string name="user_review_loading_more_reviews">Caricamento altre recensioni…</string>
     <!-- Read more of the review -->
@@ -1571,7 +1593,7 @@
         1$ is the user name
         2$ is the place they are from
     -->
-    <string name="user_review_name_and_location_signature">%1$sda%2$s</string>
+    <string name="user_review_name_and_location_signature">%1$s da %2$s</string>
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">Al momento le recensioni non sono disponibili</string>
 
@@ -1622,14 +1644,12 @@
     <string name="Tonight">Questa notte</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Cancellazione gratuita</string>
-    <!-- Resort Fee -->
-    <string name="resort_fee">Tariffa resort</string>
     <!-- This fee is not included in the total -->
-    <string name="fee_not_included_in_total">Questa tariffa non è inclusa nel totale</string>
+    <string name="fee_not_included_in_total">Questi oneri non sono inclusi nell\&apos;importo totale</string>
     <!-- Renovation Notice -->
-    <string name="renovation_notice">Avviso di restauri</string>
+    <string name="renovation_notice">Avviso importante</string>
     <!-- This property is undergoing renovations -->
-    <string name="property_undergoing_renovations">Questa struttura è in fase di restauro.</string>
+    <string name="property_undergoing_renovations">In questa struttura sono in corso lavori di rinnovo.</string>
 
     <!-- Gallery -->
     <!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
@@ -1852,7 +1872,7 @@
     <!-- The title of the share subject line -->
     <string name="share_subject_title">Itinerario Expedia</string>
     <!-- Subject property name template. -->
-    <string name="share_subject_template">Expedia Itinerary -</string>
+    <string name="share_subject_template">Itinerario Expedia -</string>
     <!-- Subject dates template. 1$ and 2$ are the ` ranges (e.g., 3/21 - 3/24) -->
     <string name="share_subject_template_dates">(%1$s - %2$s)</string>
     <!-- Preset at the top of the share body message -->
@@ -1959,6 +1979,8 @@
     <string name="preference_point_of_sale_title">Paese</string>
 
     <!-- Strings used a lot of places -->
+    <!-- Error shown if user tries to launch an outside app that they don't have access to -->
+    <string name="app_not_available">Il tuo telefono non dispone di un\&apos;app che possa gestire questa azione oppure non puoi accedervi.</string>
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">%d adulti</item>
@@ -2344,9 +2366,9 @@
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">Ricevi <b>uno sconto del 10%</b> con Google Wallet!</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">Hai risparmiato il 10%% utilizzando Google Wallet!</string>
+    <string name="wallet_promo_in_use_message">Hai risparmiato il 10% utilizzando Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Può essere utilizzato solo un codice coupon per prenotazione. Abbiamo sostituito il tuo coupon precedente con uno sconto del 10%% per aver utilizzato Google Wallet.</string>
+    <string name="coupon_replaced_message">Può essere utilizzato solo un codice coupon per prenotazione. Abbiamo sostituito il tuo coupon precedente con uno sconto del 10% per aver utilizzato Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Stiamo applicando lo sconto di Google Wallet…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
@@ -2354,7 +2376,9 @@
     <!-- Title for Google Wallet promo terms & conditions -->
     <string name="wallet_promo_tc_title">Termini e condizioni dei coupon di Google Wallet</string>
     <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">I coupon devono essere utilizzati nell\&apos;app Android di Expedia per viaggi dal 17 giugno 2013 al 31 dicembre 2013. Questa offerte è proposta da Expedia.com ed è valida solo per il clienti di Expedia.com negli Stati Uniti.\n\nLe prenotazioni sono soggette a disponibilità presso gli hotel con tariffa Expedia al momento della prenotazione e a tutti i termini e le condizioni applicabili. I coupon non possono essere cumulati, né utilizzati con altri promozioni o offerte speciali. Lo sconto coupon non può essere applicato per tasse, commissioni addebitati dal fornitore, penali di cancellazione o modifica, spese amministrative e altri oneri che sono di esclusiva responsabilità del cliente. Nel caso in cui si modifichino o si annullino parti della prenotazione, il coupon non si applica al programma di viaggio modificato.\n\ni termini e le condizioni del presente coupon sono come descritte e non possono essere modificate da persone non autorizzate, tra cui i dipendenti di Expedia, Inc. Il coupon non è trasferibile né convertibile in denaro. Non valido laddove proibito dalla legge. Expedia, Inc. può revocare e modificare questa offerta in qualsiasi momento.</string>
+    <string name="wallet_promo_tc_message">I coupon devono essere utilizzati nell\&apos;app Android di Expedia per viaggi dal 17 giugno 2013 al 31 dicembre 2013. Quest\&apos;offerta è promossa da Expedia.com ed è valida solo per i clienti di Expedia.com negli Stati Uniti.\n\nLe prenotazioni sono soggette a disponibilità presso gli hotel con tariffa Expedia al momento della prenotazione e a tutti i termini e le condizioni applicabili. I coupon non possono essere cumulati, né utilizzati con altre promozioni o offerte speciali. Lo sconto coupon non può essere applicato per tasse, commissioni addebitate dal fornitore, penali di cancellazione o modifica, spese amministrative e altri oneri che sono di esclusiva responsabilità del cliente. Nel caso in cui si modifichino o si annullino parti della prenotazione, il coupon non si applica al programma di viaggio modificato.\n\nI termini e le condizioni del presente coupon sono come descritti e non possono essere modificati da persone non autorizzate, compresi i dipendenti di Expedia, Inc. Il coupon non è trasferibile né convertibile in denaro. Non valido laddove proibito dalla legge. Expedia, Inc. può revocare e modificare questa offerta in qualsiasi momento.</string>
+    <!-- Error message shown when user tries to apply promo to trips in 2014 and beyond -->
+    <string name="wallet_promo_expired">Spiacenti, ma lo sconto per pagamenti con Google Wallet è valido solo per i viaggi effettuati nel 2013.</string>
 
     <!-- Samsung Wallet -->
     <!-- Label to use when the ticket already exists in the wallet -->
@@ -2386,7 +2410,7 @@
     <!-- Carte Bleue -->
     <string name="cc_carte_bleue">Carte Bleue</string>
     <!-- Carta Si -->
-    <string name="cc_carta_si">Carta Si</string>
+    <string name="cc_carta_si">CartaSi</string>
 
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
@@ -2591,7 +2615,7 @@
     <!-- Content description for action: Open Settings Menu -->
     <string name="cd_launch_open_settings_menu">Apri il menu delle impostazioni</string>
     <!-- Content description for action: Open App Info Screen -->
-    <string name="cd_launch_open_eb_info_screen">Apri la schermata della informazioni sulle prenotazioni Expedia</string>
+    <string name="cd_launch_open_eb_info_screen">Apri la schermata delle informazioni sulle prenotazioni Expedia</string>
     <!-- Trips Screen -->
     <!-- Content description for action: Press to refresh trips list -->
     <string name="cd_trips_refresh_trips_list">Premi per aggiornare l\&apos;elenco dei viaggi</string>
@@ -2620,7 +2644,7 @@
     <!-- Content description for action: Press to sort hotels by price -->
     <string name="cd_sort_hotels_by_price">Ordina hotel in base al prezzo</string>
     <!-- Content description for action: Press to sort hotels by rating -->
-    <string name="cd_sort_hotels_by_rating">Ordina hotel in base al valutazione</string>
+    <string name="cd_sort_hotels_by_rating">Ordina hotel in base alla valutazione</string>
     <!-- Content description for action: Press to open hotel filter options -->
     <string name="cd_filter_open_hotel_filter_options">Apri le opzioni di filtro hotel</string>
     <!-- Hotel filter options -->
@@ -2714,7 +2738,7 @@
     <!-- Content description for action: Press to add a traveler to this booking -->
     <string name="cd_checkout_add_traveler">Premi per aggiungere un viaggiatore a questa prenotazione</string>
     <!-- Content description for action: Press to select payment for this booking -->
-    <string name="cd_checkout_select_payment">Premi per selezionare il pagamento per questa prenotazione</string>
+    <string name="cd_checkout_select_payment">Premi per selezionare il metodo di pagamento per questa prenotazione</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="cd_checkout_enter_coupon">Premi per inserire un coupon o un codice promozionale</string>
     <!-- Content description for action: Enter coupon or promotional code into text field -->
@@ -2743,7 +2767,7 @@
     <!-- Content description for action: Enter last name -->
     <string name="cd_traveler_last_name_edit_text">Inserisci il cognome</string>
     <!-- Content description for action: Press to select country calling codes -->
-    <string name="cd_traveler_list_international_phone_codes">Premi per selezionare i prefissi del paese</string>
+    <string name="cd_traveler_list_international_phone_codes">Premi per selezionare il prefisso del paese</string>
     <!-- Content description for action: Enter phone number -->
     <string name="cd_traveler_phone_number">Inserisci numero di telefono</string>
     <!-- Content description for action: Press to finish entering traveler information -->

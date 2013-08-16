@@ -57,7 +57,7 @@
     <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Stay in&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
-    <string name="error_launch_connection">Unfortunately, we can\'t connect.</string>
+    <string name="error_launch_connection">Unfortunately, we can\&apos;t connect.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Trips</string>
     <!-- Google play services unrecoverable error dialog message -->
@@ -192,29 +192,39 @@
     <!-- Booking info label -->
     <string name="booking_info">Booking Info</string>
     <!-- Itin flight generic terminal and gate template -->
-    <string name="generic_terminal_TEMPLATE">%1$s, Gate %2$s</string>
+    <string name="Terminal_X_Gate_Y_TEMPLATE">Terminal %1$s, Gate %2$s</string>
+    <!-- Itin flight international terminal and gate template -->
+    <string name="International_Terminal_Gate_X_TEMPLATE">International Terminal, Gate %1$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">Arrive %1$s, Gate %2$s</string>
+    <string name="Arrive_Terminal_X_Gate_Y_TEMPLATE">Arrive Terminal %1$s, Gate %2$s</string>
+    <!-- Itin flight arrival international terminal and gate template -->
+    <string name="Arrive_International_Terminal_Gate_X_TEMPLATE">Arrive International Terminal, Gate %1$s</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="departure_terminal_TEMPLATE">Depart %1$s, Gate %2$s</string>
-    <!-- To be determined abbrev. -->
-    <string name="to_be_determined_abbrev">TBD</string>
+    <string name="Depart_Terminal_X_Gate_Y_TEMPLATE">Depart Terminal %1$s, Gate %2$s</string>
+    <!-- Itin flight departure international terminal and gate template -->
+    <string name="Depart_International_Terminal_Gate_X_TEMPLATE">Depart International Terminal, Gate %1$s</string>
+    <!-- "Gate To Be Determined", with "To Be Determined" abbreviated if possible -->
+    <string name="Gate_To_Be_Determined_abbrev">Gate TBD</string>
     <!-- Itin flight gate only template -->
-    <string name="gate_number_only_TEMPLATE">Gate%1$s</string>
+    <string name="Gate_X_TEMPLATE">Gate %1$s</string>
     <!-- Itin flight arrive gate only template -->
-    <string name="arrive_gate_number_only_TEMPLATE">Arrive Gate %1$s</string>
+    <string name="Arrive_Gate_X_TEMPLATE">Arrive Gate %1$s</string>
     <!-- Itin flight depart gate only template -->
-    <string name="depart_gate_number_only_TEMPLATE">Depart Gate %1$s</string>
+    <string name="Depart_Gate_X_TEMPLATE">Depart Gate %1$s</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
     <string name="Terminal_X_TEMPLATE">Terminal %1$s</string>
-    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
-    <string name="Baggage_Claim_X_TEMPLATE">Baggage Claim %1$s</string>
     <!-- Special case for name of International Terminal -->
     <string name="International_Terminal">International Terminal</string>
+    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
+    <string name="Baggage_Claim_X_TEMPLATE">Baggage Claim %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">Arrive %1$s</string>
+    <string name="Arrive_Terminal_X_TEMPLATE">Arrive Terminal %1$s</string>
+    <!-- Itin flight international terminal only -->
+    <string name="Arrive_International_Terminal">Arrive International Terminal</string>
     <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">%1$s</string>
+    <string name="Depart_Terminal_X_TEMPLATE">Depart Terminal %1$s</string>
+    <!-- Itin flight international terminal only -->
+    <string name="Depart_International_Terminal">Depart International Terminal</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="at_airport_TEMPLATE">&lt;b&gt;At %1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
@@ -291,6 +301,10 @@
     <string name="try_again">Try Again</string>
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">COPY %1$s</string>
+    <!-- Hours and minutes duration future TEMPLATE. This will be used to produce a string like:"in 3 hours and 12 minutes". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
+    <string name="hours_minutes_future_TEMPLATE">in %1$s and %2$s</string>
+    <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes".  -->
+    <string name="hours_minutes_past_TEMPLATE">%1$s and %2$s ago</string>
 
     <!-- Itin Buttons -->
     <!-- Popup menu -->
@@ -800,7 +814,7 @@
     <!-- "Airline Fee Information" -->
     <string name="airline_fee_information">Airline Fee Information</string>
     <!-- Debit cards not supported message -->
-    <string name="debit_cards_not_accepted">Debit cards are not accepted.</string>
+    <string name="debit_cards_not_accepted">No debit cards are accepted.</string>
 
     <!-- Trip Overview Activity -->
     <!-- Label for Overview activity in task manager -->
@@ -816,11 +830,11 @@
     <!-- Number of traverlers template -->
 
     <plurals name="number_of_travelers_TEMPLATE">
-        <item quantity="zero">%1$dTravellers</item>
+        <item quantity="zero">%1$d Travellers</item>
         <item quantity="one">%1$d Traveller</item>
-        <item quantity="two">%1$dTravellers</item>
-        <item quantity="few">%1$dTravellers</item>
-        <item quantity="many">%1$dTravellers</item>
+        <item quantity="two">%1$d Travellers</item>
+        <item quantity="few">%1$d Travellers</item>
+        <item quantity="many">%1$d Travellers</item>
         <item quantity="other">%1$dTravellers</item>
     </plurals>
     <!-- Checkout button text -->
@@ -900,7 +914,7 @@
     <!-- Flight -->
     <string name="flight">Flight</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
-    <string name="traveler_num_and_category_TEMPLATE">Traveller%1$d</string>
+    <string name="traveler_num_and_category_TEMPLATE">Traveller %1$d</string>
 
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
@@ -923,7 +937,7 @@
     <!-- Born on -->
     <string name="born_on_TEMPLATE">Born %1$s</string>
     <!-- Born on colored -->
-    <string name="born_on_colored_TEMPLATE">&lt;font color="#919191"&gt;Born &lt;/font&gt;%1$s</string>
+    <string name="born_on_colored_TEMPLATE">&lt;font color="#919191"&gt;Born&lt;/font&gt; %1$s</string>
     <!-- <brand> expiring <date> template -->
     <string name="brand_expiring_TEMPLATE">&lt;font color="#38597D"&gt;%1$s&lt;/font&gt; expiring %2$s</string>
 
@@ -939,7 +953,7 @@
     <!-- email disclaimer -->
     <string name="email_disclaimer">Your confirmation email will be sent here</string>
     <!-- Expires on colored template -->
-    <string name="expires_colored_TEMPLATE">&lt;font color="#919191"&gt;Expires &lt;/font&gt;%1$s</string>
+    <string name="expires_colored_TEMPLATE">&lt;font color="#919191"&gt;Expires&lt;/font&gt; %1$s</string>
 
     <!-- Section display payment -->
     <!-- Template for blanked out Credit Card -->
@@ -1041,7 +1055,7 @@
     <!-- prefers seat template -->
     <string name="prefers_seat_TEMPLATE">Prefers %1$s Seat</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;Prefers &lt;/font&gt; Seat%1$s</string>
+    <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;Prefers&lt;/font&gt; %1$s Seat</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Loading traveller information…</string>
     <!-- Passport -->
@@ -1327,6 +1341,8 @@
     <string name="hotel_search_range_error_TEMPLATE">We\&apos;re sorry, but we are unable to search for hotel stays longer than %1$s days.</string>
     <!-- Search Error title text "Search Error" -->
     <string name="search_error">Search Error</string>
+    <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
+    <string name="search_hotel_id_TEMPLATE">Hotel %s</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -1470,6 +1486,12 @@
     <string name="see_all_reviews">See All Reviews</string>
     <!-- Label for button that brings users to the room selection page -->
     <string name="select_room">Select Room</string>
+    <!-- Title for VIP Access message -->
+    <string name="vip_access">VIP Access</string>
+    <!-- Message that explains the meaning of VIP Access -->
+    <string name="vip_access_message">At VIP Access hotels, Expedia Elite Plus members receive free room upgrades and other perks upon availability at check-in.</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="filter_vip_access">Only VIP Access hotels</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>
@@ -1543,9 +1565,9 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">Recent</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_favorable">Highest</string>
+    <string name="user_review_sort_button_favorable">Favourable</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_critical">Lowest</string>
+    <string name="user_review_sort_button_critical">Critical</string>
     <!-- Loading more reviews -->
     <string name="user_review_loading_more_reviews">Loading more reviews…</string>
     <!-- Read more of the review -->
@@ -1622,10 +1644,8 @@
     <string name="Tonight">Tonight</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Free Cancellation</string>
-    <!-- Resort Fee -->
-    <string name="resort_fee">Resort Fee</string>
     <!-- This fee is not included in the total -->
-    <string name="fee_not_included_in_total">This fee is not included in the total</string>
+    <string name="fee_not_included_in_total">These fees are not included in the total</string>
     <!-- Renovation Notice -->
     <string name="renovation_notice">Renovation Notice</string>
     <!-- This property is undergoing renovations -->
@@ -1959,6 +1979,8 @@
     <string name="preference_point_of_sale_title">Country</string>
 
     <!-- Strings used a lot of places -->
+    <!-- Error shown if user tries to launch an outside app that they don't have access to -->
+    <string name="app_not_available">Either your phone doesn\&apos;t have an app that can handle this action or you are restricted from accessing it.</string>
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">%d Adults</item>
@@ -2344,9 +2366,9 @@
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">Get <b>10% off</b> with Google Wallet</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">You saved 10%% by using Google Wallet!</string>
+    <string name="wallet_promo_in_use_message">You saved 10% by using Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Only one coupon can be used per booking. We replaced your previous coupon with the 10%% discount for using Google Wallet.</string>
+    <string name="coupon_replaced_message">Only one coupon can be used per booking. We replaced your previous coupon with the 10% discount for using Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Applying Google Wallet discount…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
@@ -2355,6 +2377,8 @@
     <string name="wallet_promo_tc_title">Google Wallet Coupon Terms &amp; Conditions</string>
     <!-- Terms & conditions for Google Wallet promo -->
     <string name="wallet_promo_tc_message">Coupon must be redeemed in the Expedia Android app for travel between 17 June 2013 and 31 December 2013. This offer is from Expedia.com and is valid for Expedia.com U.S. customers only.\n\nBookings are subject to availability at Expedia Rate hotels at the time of booking and all applicable terms and conditions. Coupon may not be used with other coupons, promotions or special offers. Coupon discount cannot be applied against taxes, supplier-charged fees, cancellation or change penalties, administrative fees or other miscellaneous charges, which are the sole responsibility of the customer. In the event that you change or cancel any part of your booking, the coupon will not apply to the changed travel schedule.\n\nTerms and conditions of this coupon are as written and cannot be changed by any representation of any unauthorised person, including employees of Expedia, Inc. Coupon is not transferable and is not redeemable for cash. Void where prohibited by law. Expedia, Inc. may revoke or change this offer at any time.</string>
+    <!-- Error message shown when user tries to apply promo to trips in 2014 and beyond -->
+    <string name="wallet_promo_expired">Sorry, but the Google Wallet discount only applies to trips taken in 2013.</string>
 
     <!-- Samsung Wallet -->
     <!-- Label to use when the ticket already exists in the wallet -->

@@ -192,29 +192,39 @@
     <!-- Booking info label -->
     <string name="booking_info">Bestillingsinfo</string>
     <!-- Itin flight generic terminal and gate template -->
-    <string name="generic_terminal_TEMPLATE">Terminal %1$s, gate %2$s</string>
+    <string name="Terminal_X_Gate_Y_TEMPLATE">Terminal %1$s, gate %2$s</string>
+    <!-- Itin flight international terminal and gate template -->
+    <string name="International_Terminal_Gate_X_TEMPLATE">Internasjonal terminal, gate %1$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">Ankomst terminal %1$s, gate %2$s</string>
+    <string name="Arrive_Terminal_X_Gate_Y_TEMPLATE">Ankomstterminal %1$s, gate %2$s</string>
+    <!-- Itin flight arrival international terminal and gate template -->
+    <string name="Arrive_International_Terminal_Gate_X_TEMPLATE">Ankomst til den internasjonale terminalen, gate %1$s</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="departure_terminal_TEMPLATE">Avreise fra terminal %1$s, gate %2$s</string>
-    <!-- To be determined abbrev. -->
-    <string name="to_be_determined_abbrev">Ikke fastsatt enda</string>
+    <string name="Depart_Terminal_X_Gate_Y_TEMPLATE">Avgangsterminal %1$s, gate %2$s</string>
+    <!-- Itin flight departure international terminal and gate template -->
+    <string name="Depart_International_Terminal_Gate_X_TEMPLATE">Avreise fra den internasjonale terminalen, gate %1$s</string>
+    <!-- "Gate To Be Determined", with "To Be Determined" abbreviated if possible -->
+    <string name="Gate_To_Be_Determined_abbrev">Gate</string>
     <!-- Itin flight gate only template -->
-    <string name="gate_number_only_TEMPLATE">Gate %1$s</string>
+    <string name="Gate_X_TEMPLATE">Gate %1$s</string>
     <!-- Itin flight arrive gate only template -->
-    <string name="arrive_gate_number_only_TEMPLATE">Ankomstgate %1$s</string>
+    <string name="Arrive_Gate_X_TEMPLATE">Ankomstgate %1$s</string>
     <!-- Itin flight depart gate only template -->
-    <string name="depart_gate_number_only_TEMPLATE">Avreisegate %1$s</string>
+    <string name="Depart_Gate_X_TEMPLATE">Avreisegate %1$s</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
     <string name="Terminal_X_TEMPLATE">Terminal %1$s</string>
-    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
-    <string name="Baggage_Claim_X_TEMPLATE">Bagasjeområdet %1$s</string>
     <!-- Special case for name of International Terminal -->
     <string name="International_Terminal">Internasjonal terminal</string>
+    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
+    <string name="Baggage_Claim_X_TEMPLATE">Bagasjeområdet %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">Ankomst terminal %1$s</string>
+    <string name="Arrive_Terminal_X_TEMPLATE">Ankomstterminal %1$s</string>
+    <!-- Itin flight international terminal only -->
+    <string name="Arrive_International_Terminal">Ankomst til den internasjonale terminalen</string>
     <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">Avreise fra terminal %1$s</string>
+    <string name="Depart_Terminal_X_TEMPLATE">Avgangsterminal %1$s</string>
+    <!-- Itin flight international terminal only -->
+    <string name="Depart_International_Terminal">Avreise fra den internasjonale terminalen</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="at_airport_TEMPLATE">&lt;b&gt;På %1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
@@ -291,6 +301,10 @@
     <string name="try_again">Prøv igjen</string>
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">KOPIER %1$s</string>
+    <!-- Hours and minutes duration future TEMPLATE. This will be used to produce a string like:"in 3 hours and 12 minutes". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
+    <string name="hours_minutes_future_TEMPLATE">om %1$s og %2$s</string>
+    <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes".  -->
+    <string name="hours_minutes_past_TEMPLATE">%1$s og %2$s siden</string>
 
     <!-- Itin Buttons -->
     <!-- Popup menu -->
@@ -1327,6 +1341,8 @@
     <string name="hotel_search_range_error_TEMPLATE">Beklager, vi kan ikke søke etter hoteller for opphold på mer enn %1$s dager.</string>
     <!-- Search Error title text "Search Error" -->
     <string name="search_error">Søkefeil</string>
+    <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
+    <string name="search_hotel_id_TEMPLATE">Hotell%s</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -1470,6 +1486,12 @@
     <string name="see_all_reviews">Vis alle anmeldelser</string>
     <!-- Label for button that brings users to the room selection page -->
     <string name="select_room">Velg rom</string>
+    <!-- Title for VIP Access message -->
+    <string name="vip_access">VIP Access</string>
+    <!-- Message that explains the meaning of VIP Access -->
+    <string name="vip_access_message">Ved VIP Access-hotellene får Expedia Elite Plus-medlemmer kostnadsfrie romoppgraderinger og andre fordeler ved innsjekking (avhenger av tilgjengelighet).</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="filter_vip_access">Kun VIP Access-hoteller</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>
@@ -1543,9 +1565,9 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">Nylige</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_favorable">Høyest</string>
+    <string name="user_review_sort_button_favorable">Positive</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_critical">Lavest</string>
+    <string name="user_review_sort_button_critical">Negative</string>
     <!-- Loading more reviews -->
     <string name="user_review_loading_more_reviews">Henter flere anmeldelser…</string>
     <!-- Read more of the review -->
@@ -1622,10 +1644,8 @@
     <string name="Tonight">I kveld</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Gratis avbestilling</string>
-    <!-- Resort Fee -->
-    <string name="resort_fee">Resortavgift</string>
     <!-- This fee is not included in the total -->
-    <string name="fee_not_included_in_total">Denne avgiften er ikke inkludert i totalprisen</string>
+    <string name="fee_not_included_in_total">Disse avgiftene er ikke inkludert i totalprisen</string>
     <!-- Renovation Notice -->
     <string name="renovation_notice">Advarsel om renovering</string>
     <!-- This property is undergoing renovations -->
@@ -1959,6 +1979,8 @@
     <string name="preference_point_of_sale_title">Land</string>
 
     <!-- Strings used a lot of places -->
+    <!-- Error shown if user tries to launch an outside app that they don't have access to -->
+    <string name="app_not_available">Enten har ikke telefonen din en app som kan utføre denne handlingen, eller du har begrenset tilgang.</string>
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">%d voksne</item>
@@ -2344,9 +2366,9 @@
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">Få <b>10% rabatt</b> med Google Wallet!</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">Du har spart 10%% ved å bruke Google Wallet!</string>
+    <string name="wallet_promo_in_use_message">Du sparte 10% ved å bruke Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Kun én kupong kan brukes per bestilling. Vi erstattet din forrige kupong med en rabatt på 10%% for å bruke Google Wallet.</string>
+    <string name="coupon_replaced_message">Kun én kupong kan brukes per bestilling. Vi erstattet din forrige kupong med 10% rabatt som takk for at du bruker Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Løser inn din Google Wallet-rabatt…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
@@ -2355,6 +2377,8 @@
     <string name="wallet_promo_tc_title">Betingelsene og vilkårene for Google Wallet-kuponger</string>
     <!-- Terms & conditions for Google Wallet promo -->
     <string name="wallet_promo_tc_message">Kupongen må brukes i Expedias app for Android og for reiser i perioden mellom 17. juni 2013 og 31. desember 2013. Dette tilbudet kommer fra Expedia.com og gjelder kun for Expedia.com sine kunder i USA.\n\nTilbudet avhenger av tilgjengeligheten på Expedias hoteller med spesialpris på bestillingstidspunktet og er underlagt alle gjeldende betingelser og vilkår. Kupongen kan ikke brukes sammen med andre kuponger, kampanjer eller spesialtilbud. Rabatten kan ikke brukes på skatter, leverandørens gebyrer, avbestilling- eller endringsgebyrer, behandlingsgebyrer eller andre diverse utgifter, som kunden er helt og alene ansvarlig for. Hvis du endrer eller kansellerer hele eller deler av bestillingen din, vil kupongen ikke gjelde for den endrede reiseplanen.\n\nBetingelsene og vilkårene for denne kupongen gjelder slik de står skrevet og kan ikke endres av noen som ikke har myndighet til å gjøre dette, som blant annet Expedia, Inc. sine ansatte. Kupongen kan ikke overføres og kan ikke løses inn mot penger. Loven har forrang. Expedia, Inc. kan trekke tilbake eller endre dette tilbudet når som helst.</string>
+    <!-- Error message shown when user tries to apply promo to trips in 2014 and beyond -->
+    <string name="wallet_promo_expired">Beklager, Google Wallet-kontoen gjelder kun for reiser utført i 2013.</string>
 
     <!-- Samsung Wallet -->
     <!-- Label to use when the ticket already exists in the wallet -->

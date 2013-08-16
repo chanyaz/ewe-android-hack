@@ -192,29 +192,39 @@
     <!-- Booking info label -->
     <string name="booking_info">预订信息</string>
     <!-- Itin flight generic terminal and gate template -->
-    <string name="generic_terminal_TEMPLATE">%1$s航站楼；登机口：%2$s</string>
+    <string name="Terminal_X_Gate_Y_TEMPLATE">航站楼 %1$s，登机口 %2$s</string>
+    <!-- Itin flight international terminal and gate template -->
+    <string name="International_Terminal_Gate_X_TEMPLATE">国际航站楼，登机口 %1$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">到达航站楼：%1$s；登机口：%2$s</string>
+    <string name="Arrive_Terminal_X_Gate_Y_TEMPLATE">到达航站楼 %1$s，登机口 %2$s</string>
+    <!-- Itin flight arrival international terminal and gate template -->
+    <string name="Arrive_International_Terminal_Gate_X_TEMPLATE">到达国际航站楼，登机口 %1$s</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="departure_terminal_TEMPLATE">出发航站楼：%1$s；登机口：%2$s</string>
-    <!-- To be determined abbrev. -->
-    <string name="to_be_determined_abbrev">待定</string>
+    <string name="Depart_Terminal_X_Gate_Y_TEMPLATE">出发航站楼 %1$s，登机口 %2$s</string>
+    <!-- Itin flight departure international terminal and gate template -->
+    <string name="Depart_International_Terminal_Gate_X_TEMPLATE">出发国际航站楼，登机口 %1$s</string>
+    <!-- "Gate To Be Determined", with "To Be Determined" abbreviated if possible -->
+    <string name="Gate_To_Be_Determined_abbrev">登机口待定</string>
     <!-- Itin flight gate only template -->
-    <string name="gate_number_only_TEMPLATE">登机口%1$s</string>
+    <string name="Gate_X_TEMPLATE">登机口%1$s</string>
     <!-- Itin flight arrive gate only template -->
-    <string name="arrive_gate_number_only_TEMPLATE">到达登机口 %1$s</string>
+    <string name="Arrive_Gate_X_TEMPLATE">到达登机口 %1$s</string>
     <!-- Itin flight depart gate only template -->
-    <string name="depart_gate_number_only_TEMPLATE">出发登机口 %1$s</string>
+    <string name="Depart_Gate_X_TEMPLATE">出发登机口 %1$s</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
     <string name="Terminal_X_TEMPLATE">航站楼%1$s</string>
-    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
-    <string name="Baggage_Claim_X_TEMPLATE">行李提取 %1$s</string>
     <!-- Special case for name of International Terminal -->
     <string name="International_Terminal">国际航站楼</string>
+    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
+    <string name="Baggage_Claim_X_TEMPLATE">行李提取 %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">到达航站楼：%1$s</string>
+    <string name="Arrive_Terminal_X_TEMPLATE">到达航站楼 %1$s</string>
+    <!-- Itin flight international terminal only -->
+    <string name="Arrive_International_Terminal">到达国际航站楼</string>
     <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">出发航站楼：%1$s</string>
+    <string name="Depart_Terminal_X_TEMPLATE">出发航站楼 %1$s</string>
+    <!-- Itin flight international terminal only -->
+    <string name="Depart_International_Terminal">出发国际航站楼</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="at_airport_TEMPLATE">&lt;b&gt;抵达 %1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
@@ -291,6 +301,10 @@
     <string name="try_again">再试一次</string>
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">复制%1$s</string>
+    <!-- Hours and minutes duration future TEMPLATE. This will be used to produce a string like:"in 3 hours and 12 minutes". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
+    <string name="hours_minutes_future_TEMPLATE">%1$s %2$s 内</string>
+    <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes".  -->
+    <string name="hours_minutes_past_TEMPLATE">%1$s %2$s 前</string>
 
     <!-- Itin Buttons -->
     <!-- Popup menu -->
@@ -412,9 +426,9 @@
     <string name="car_category_oversize">特大型车</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">两个门轿车</string>
-    <string name="car_type_three_door">三个门轿车</string>
-    <string name="car_type_four_door">四个门轿车</string>
+    <string name="car_type_two_door">两个门 轿车</string>
+    <string name="car_type_three_door">三个门 轿车</string>
+    <string name="car_type_four_door">四个门 轿车</string>
     <string name="car_type_van">箱型车</string>
     <string name="car_type_wagon">旅行车</string>
     <string name="car_type_limousine">豪华轿车</string>
@@ -1327,6 +1341,8 @@
     <string name="hotel_search_range_error_TEMPLATE">很抱歉，我们无法搜索超过 %1$s 天的酒店预订。</string>
     <!-- Search Error title text "Search Error" -->
     <string name="search_error">搜索错误</string>
+    <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
+    <string name="search_hotel_id_TEMPLATE">酒店%s</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -1470,6 +1486,12 @@
     <string name="see_all_reviews">查看所有点评</string>
     <!-- Label for button that brings users to the room selection page -->
     <string name="select_room">选择房间</string>
+    <!-- Title for VIP Access message -->
+    <string name="vip_access">VIP Access</string>
+    <!-- Message that explains the meaning of VIP Access -->
+    <string name="vip_access_message">在 VIP Access 酒店，Expedia Elite Plus 会员可免费享受客房升级及其他尊享礼遇，具体取决于入住时的供应情况。</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="filter_vip_access">仅 VIP Access 酒店</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>
@@ -1543,9 +1565,9 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">最近</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_favorable">最高</string>
+    <string name="user_review_sort_button_favorable">赞</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_critical">最低</string>
+    <string name="user_review_sort_button_critical">贬</string>
     <!-- Loading more reviews -->
     <string name="user_review_loading_more_reviews">正在加载更多点评…</string>
     <!-- Read more of the review -->
@@ -1622,10 +1644,8 @@
     <string name="Tonight">今晚</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">免费取消预订</string>
-    <!-- Resort Fee -->
-    <string name="resort_fee">度假设施费</string>
     <!-- This fee is not included in the total -->
-    <string name="fee_not_included_in_total">总价不含此项费用。</string>
+    <string name="fee_not_included_in_total">总价中不含这些费用</string>
     <!-- Renovation Notice -->
     <string name="renovation_notice">装修通知</string>
     <!-- This property is undergoing renovations -->
@@ -1959,6 +1979,8 @@
     <string name="preference_point_of_sale_title">国家/地区</string>
 
     <!-- Strings used a lot of places -->
+    <!-- Error shown if user tries to launch an outside app that they don't have access to -->
+    <string name="app_not_available">手机没有安装执行此操作的应用，或者禁止使用该应用。</string>
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">%d 位成人</item>
@@ -2344,9 +2366,9 @@
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">使用谷歌钱包，额外再省 <b>10%</b>！</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">使用谷歌钱包为您省了 10%%！</string>
+    <string name="wallet_promo_in_use_message">使用谷歌钱包为您省了 10%！</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">每次预订只能使用一张优惠券。我们已经用您使用谷歌钱包获得的 10%% 折扣优惠券替换了之前的优惠券。</string>
+    <string name="coupon_replaced_message">每次预订只能使用一张优惠券。我们已经用您使用谷歌钱包获得的 9 折优惠券替换了之前的优惠券。</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">正在计算谷歌钱包折扣…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
@@ -2355,6 +2377,8 @@
     <string name="wallet_promo_tc_title">谷歌钱包使用条款和条件</string>
     <!-- Terms & conditions for Google Wallet promo -->
     <string name="wallet_promo_tc_message">必须在 Expedia Android 应用中兑换优惠券，旅行日期限制为 2013 年 6 月 17 日至 2013 年 12 月 31 日。此项促销由 Expedia.com 提供，只面向 Expedia.com 美国客户。\n\n预订成功与否取决于 Expedia 价格酒店在当时的空房情况，以及所有适用的条款和条件。此优惠券不能与其他优惠券、促销或特惠活动一起使用。此优惠券不能用于支付税款、供应商收取的费用、取消或变更罚款、管理费或其他杂费；所有这些都由客户个人承担。若您变更或取消部分预订，则优惠券不适用于变更后的旅行计划。\n\n此优惠券的使用条款和条件已形成书面条文，任何未经授权的人员均无权更改，包括 Expedia, Inc. 的员工。此优惠券不得转让，或兑换现金。如有法律禁止，则视为无效。Expedia, Inc. 可能随时撤销或更改此项优惠。</string>
+    <!-- Error message shown when user tries to apply promo to trips in 2014 and beyond -->
+    <string name="wallet_promo_expired">很抱歉，谷歌钱包折扣仅适用于 2013 年的行程计划。</string>
 
     <!-- Samsung Wallet -->
     <!-- Label to use when the ticket already exists in the wallet -->

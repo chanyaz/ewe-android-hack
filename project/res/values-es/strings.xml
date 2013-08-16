@@ -192,29 +192,39 @@
     <!-- Booking info label -->
     <string name="booking_info">Reserva</string>
     <!-- Itin flight generic terminal and gate template -->
-    <string name="generic_terminal_TEMPLATE">Terminal %1$s, puerta %2$s</string>
+    <string name="Terminal_X_Gate_Y_TEMPLATE">Terminal %1$s, puerta %2$s</string>
+    <!-- Itin flight international terminal and gate template -->
+    <string name="International_Terminal_Gate_X_TEMPLATE">Terminal internacional, puerta %1$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">Llegada a la terminal %1$s, puerta %2$s</string>
+    <string name="Arrive_Terminal_X_Gate_Y_TEMPLATE">Llegada a la terminal %1$s, puerta %2$s</string>
+    <!-- Itin flight arrival international terminal and gate template -->
+    <string name="Arrive_International_Terminal_Gate_X_TEMPLATE">Llegada a la terminal internacional, puerta %1$s</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="departure_terminal_TEMPLATE">Salida desde la terminal %1$s, puerta %2$s</string>
-    <!-- To be determined abbrev. -->
-    <string name="to_be_determined_abbrev">TBD</string>
+    <string name="Depart_Terminal_X_Gate_Y_TEMPLATE">Salida de la terminal %1$s, puerta %2$s</string>
+    <!-- Itin flight departure international terminal and gate template -->
+    <string name="Depart_International_Terminal_Gate_X_TEMPLATE">Salida de la terminal internacional, puerta %1$s</string>
+    <!-- "Gate To Be Determined", with "To Be Determined" abbreviated if possible -->
+    <string name="Gate_To_Be_Determined_abbrev">Puerta sin confirmar</string>
     <!-- Itin flight gate only template -->
-    <string name="gate_number_only_TEMPLATE">Puerta%1$s</string>
+    <string name="Gate_X_TEMPLATE">Puerta %1$s</string>
     <!-- Itin flight arrive gate only template -->
-    <string name="arrive_gate_number_only_TEMPLATE">Puerta de llegada %1$s</string>
+    <string name="Arrive_Gate_X_TEMPLATE">Puerta de llegada %1$s</string>
     <!-- Itin flight depart gate only template -->
-    <string name="depart_gate_number_only_TEMPLATE">Puerta de salida %1$s</string>
+    <string name="Depart_Gate_X_TEMPLATE">Puerta de salida %1$s</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
     <string name="Terminal_X_TEMPLATE">Terminal %1$s</string>
-    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
-    <string name="Baggage_Claim_X_TEMPLATE">Cinta de recogida de equipaje: %1$s</string>
     <!-- Special case for name of International Terminal -->
     <string name="International_Terminal">Terminal internacional</string>
+    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
+    <string name="Baggage_Claim_X_TEMPLATE">Cinta de recogida de equipaje: %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">Llegada a la terminal %1$s</string>
+    <string name="Arrive_Terminal_X_TEMPLATE">Terminal de llegada %1$s</string>
+    <!-- Itin flight international terminal only -->
+    <string name="Arrive_International_Terminal">Llegada a la terminal internacional</string>
     <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">Salida desde la terminal %1$s</string>
+    <string name="Depart_Terminal_X_TEMPLATE">Terminal de salida %1$s</string>
+    <!-- Itin flight international terminal only -->
+    <string name="Depart_International_Terminal">Salida de la terminal internacional</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="at_airport_TEMPLATE">&lt;b&gt;A%1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
@@ -291,6 +301,10 @@
     <string name="try_again">Vuelve a intentarlo</string>
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">COPIAR %1$s</string>
+    <!-- Hours and minutes duration future TEMPLATE. This will be used to produce a string like:"in 3 hours and 12 minutes". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
+    <string name="hours_minutes_future_TEMPLATE">en %1$s y %2$s</string>
+    <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes".  -->
+    <string name="hours_minutes_past_TEMPLATE">Hace %1$s y %2$s</string>
 
     <!-- Itin Buttons -->
     <!-- Popup menu -->
@@ -306,7 +320,7 @@
     <string name="add_hotel_fallback">Buscar un hotel en la ciudad de llegada</string>
 
     <!-- Itin Local Expert.  Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="talk_to_local_expert">Hablar con un experto de la zona</string>
+    <string name="talk_to_local_expert">Hablar con Local Expert</string>
 
     <!-- Local Expert Sites -->
     <!-- Name of Hawaii (for local expert) -->
@@ -1327,6 +1341,8 @@
     <string name="hotel_search_range_error_TEMPLATE">Lo sentimos, pero no podemos buscar estancias de hoteles superiores a %1$s días.</string>
     <!-- Search Error title text "Search Error" -->
     <string name="search_error">Error de búsqueda</string>
+    <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
+    <string name="search_hotel_id_TEMPLATE">Hotel %s</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -1470,6 +1486,12 @@
     <string name="see_all_reviews">Ver todas las opiniones</string>
     <!-- Label for button that brings users to the room selection page -->
     <string name="select_room">Elegir habitación</string>
+    <!-- Title for VIP Access message -->
+    <string name="vip_access">Acceso VIP</string>
+    <!-- Message that explains the meaning of VIP Access -->
+    <string name="vip_access_message">Los hoteles con acceso VIP ofrecen a los miembros Elite Plus de Expedia mejoras gratuitas de la categoría de la habitación, así como otras comodidades según disponibilidad en el momento de la llegada al hotel.</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="filter_vip_access">Solo hoteles con acceso VIP</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>
@@ -1543,9 +1565,9 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">Recientes</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_favorable">Mejores</string>
+    <string name="user_review_sort_button_favorable">A favor</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_critical">Peores</string>
+    <string name="user_review_sort_button_critical">En contra</string>
     <!-- Loading more reviews -->
     <string name="user_review_loading_more_reviews">Cargando más opiniones…</string>
     <!-- Read more of the review -->
@@ -1622,10 +1644,8 @@
     <string name="Tonight">Esta noche</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Cancelación gratuita</string>
-    <!-- Resort Fee -->
-    <string name="resort_fee">Tasa del complejo turístico</string>
     <!-- This fee is not included in the total -->
-    <string name="fee_not_included_in_total">Esta tasa no está incluida en el importe total</string>
+    <string name="fee_not_included_in_total">Estas tasas no está incluidas en el precio total</string>
     <!-- Renovation Notice -->
     <string name="renovation_notice">Aviso de obras</string>
     <!-- This property is undergoing renovations -->
@@ -1959,6 +1979,8 @@
     <string name="preference_point_of_sale_title">País</string>
 
     <!-- Strings used a lot of places -->
+    <!-- Error shown if user tries to launch an outside app that they don't have access to -->
+    <string name="app_not_available">Puede que tu dispositivo no tenga ninguna aplicación que pueda realizar esta acción, o bien que el acceso se encuentre restringido.</string>
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">%d adultos</item>
@@ -2344,9 +2366,9 @@
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">¡Consigue un <b>10% de descuento</b> con Google Wallet!</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">¡Has ahorrado un 10%% por haber usado Google Wallet!</string>
+    <string name="wallet_promo_in_use_message">¡Has ahorrado un 10% por haber usado Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Solo puede utilizarse un cupón por reserva. Hemos reemplazado el cupón anterior con el 10%% de descuento por utilizar Google Wallet.</string>
+    <string name="coupon_replaced_message">Solo puede utilizarse un cupón por reserva. Hemos reemplazado el cupón anterior con el 10% de descuento por utilizar Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Aplicando el descuento de Google Wallet…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
@@ -2355,6 +2377,8 @@
     <string name="wallet_promo_tc_title">Términos y condiciones del cupón de Google Wallet</string>
     <!-- Terms & conditions for Google Wallet promo -->
     <string name="wallet_promo_tc_message">El cupón debe canjearse en la aplicación de Expedia para Android para viajar entre el 17 de junio y el 31 de diciembre de 2013. Esta oferta es de Expedia.com y solo es válida para los clientes de Expedia.com en Estados Unidos. \n\nLas reservas están sujetas a disponibilidad en los hoteles con tarifa Expedia al realizar la reserva y a todos los términos y condiciones aplicables. El cupón no es acumulable con otros cupones, promociones u ofertas especiales. El descuento del cupón no se puede aplicar sobre impuestos, tasas del proveedor, penalizaciones por cancelación o cambio, cargos de gestión u otros cargos varios, que son responsabilidad del cliente. Si modificas o cancelas cualquier parte de la reserva, el cupón no se aplicará al programa de viaje modificado. \n\nLos términos y condiciones de este cupón no pueden ser modificados por ninguna persona no autorizada, incluidos los empleados de Expedia, Inc. El cupón no se puede transferir ni canjear por efectivo. No tendrá validez donde lo prohíba la ley. Expedia, Inc. puede interrumpir o modificar esta oferta en cualquier momento.</string>
+    <!-- Error message shown when user tries to apply promo to trips in 2014 and beyond -->
+    <string name="wallet_promo_expired">El descuento de Google Wallet solo es aplicable a viajes que se realicen durante el 2013.</string>
 
     <!-- Samsung Wallet -->
     <!-- Label to use when the ticket already exists in the wallet -->
@@ -2583,9 +2607,9 @@
     <!-- Content Description Labels -->
     <!-- Expedia Bookings Launch Screen -->
     <!-- Content description for action: Press button to launch Expedia Hotels -->
-    <string name="cd_launch_hotels">Cargar los hoteles</string>
+    <string name="cd_launch_hotels">Cargar los hoteles de Expedia</string>
     <!-- Content description for action: Press button to launch Expedia Flights -->
-    <string name="cd_launch_flights">Cargar los vuelos</string>
+    <string name="cd_launch_flights">Cargar los vuelos de Expedia</string>
     <!-- Content description for action: Press button to open menu list -->
     <string name="cd_launch_open_menu_list">Abrir la lista de menús</string>
     <!-- Content description for action: Open Settings Menu -->

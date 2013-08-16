@@ -192,29 +192,39 @@
     <!-- Booking info label -->
     <string name="booking_info">Thông tin đặt chỗ</string>
     <!-- Itin flight generic terminal and gate template -->
-    <string name="generic_terminal_TEMPLATE">Ga %1$s, Cổng %2$s</string>
+    <string name="Terminal_X_Gate_Y_TEMPLATE">Ga %1$s, Cổng %2$s</string>
+    <!-- Itin flight international terminal and gate template -->
+    <string name="International_Terminal_Gate_X_TEMPLATE">Ga Quốc tế, Cổng %1$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">Đến Ga %1$s, Cổng %2$s</string>
+    <string name="Arrive_Terminal_X_Gate_Y_TEMPLATE">Ga đến %1$s, Cổng %2$s</string>
+    <!-- Itin flight arrival international terminal and gate template -->
+    <string name="Arrive_International_Terminal_Gate_X_TEMPLATE">Ga đến Quốc tế, Cổng %1$s</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="departure_terminal_TEMPLATE">Khởi hành Ga %1$s, Cổng %2$s</string>
-    <!-- To be determined abbrev. -->
-    <string name="to_be_determined_abbrev">Chờ xác định</string>
+    <string name="Depart_Terminal_X_Gate_Y_TEMPLATE">Ga khởi hành %1$s, Cổng %2$s</string>
+    <!-- Itin flight departure international terminal and gate template -->
+    <string name="Depart_International_Terminal_Gate_X_TEMPLATE">Gia khởi hành Quốc tế, Cổng %1$s</string>
+    <!-- "Gate To Be Determined", with "To Be Determined" abbreviated if possible -->
+    <string name="Gate_To_Be_Determined_abbrev">Chưa rõ Cổng</string>
     <!-- Itin flight gate only template -->
-    <string name="gate_number_only_TEMPLATE">Cổng %1$s</string>
+    <string name="Gate_X_TEMPLATE">Cổng %1$s</string>
     <!-- Itin flight arrive gate only template -->
-    <string name="arrive_gate_number_only_TEMPLATE">Cổng đến %1$s</string>
+    <string name="Arrive_Gate_X_TEMPLATE">Cổng đến %1$s</string>
     <!-- Itin flight depart gate only template -->
-    <string name="depart_gate_number_only_TEMPLATE">Cổng khởi hành %1$s</string>
+    <string name="Depart_Gate_X_TEMPLATE">Cổng khởi hành %1$s</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
     <string name="Terminal_X_TEMPLATE">Nhà ga %1$s</string>
-    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
-    <string name="Baggage_Claim_X_TEMPLATE">Băng chuyền hành lý %1$s</string>
     <!-- Special case for name of International Terminal -->
     <string name="International_Terminal">Ga Quốc tế</string>
+    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
+    <string name="Baggage_Claim_X_TEMPLATE">Băng chuyền hành lý %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">Đến Ga %1$s</string>
+    <string name="Arrive_Terminal_X_TEMPLATE">Ga đến %1$s</string>
+    <!-- Itin flight international terminal only -->
+    <string name="Arrive_International_Terminal">Ga đến Quốc tế</string>
     <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">Khởi hành Ga %1$s</string>
+    <string name="Depart_Terminal_X_TEMPLATE">Ga khởi hành %1$s</string>
+    <!-- Itin flight international terminal only -->
+    <string name="Depart_International_Terminal">Ga khởi hành Quốc tế</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="at_airport_TEMPLATE">&lt;b&gt;Tại %1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
@@ -291,6 +301,10 @@
     <string name="try_again">Hãy thử lại</string>
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">Sao chép %1$s</string>
+    <!-- Hours and minutes duration future TEMPLATE. This will be used to produce a string like:"in 3 hours and 12 minutes". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
+    <string name="hours_minutes_future_TEMPLATE">trong %1$s và %2$s</string>
+    <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes".  -->
+    <string name="hours_minutes_past_TEMPLATE">%1$s và %2$s trước</string>
 
     <!-- Itin Buttons -->
     <!-- Popup menu -->
@@ -1327,6 +1341,8 @@
     <string name="hotel_search_range_error_TEMPLATE">Rất tiếc, chúng tôi không thể tìm khách sạn cho thời gian lưu trú dài hơn %1$s ngày.</string>
     <!-- Search Error title text "Search Error" -->
     <string name="search_error">Lỗi tìm kiếm</string>
+    <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
+    <string name="search_hotel_id_TEMPLATE">Khách sạn %s</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -1470,6 +1486,12 @@
     <string name="see_all_reviews">Xem tất cả đánh giá</string>
     <!-- Label for button that brings users to the room selection page -->
     <string name="select_room">Chọn phòng</string>
+    <!-- Title for VIP Access message -->
+    <string name="vip_access">VIP Access</string>
+    <!-- Message that explains the meaning of VIP Access -->
+    <string name="vip_access_message">Tại các khách sạn VIP Access, thành viên Expedia Elite Plus sẽ được miễn phí nâng hạng phòng và nhận nhiều ưu đãi khác tùy theo khả năng đáp ứng thực tế của khách sạn vào thời điểm nhận phòng.</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="filter_vip_access">Chỉ các khách sạn VIP Access</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>
@@ -1543,9 +1565,9 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">Gần đây</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_favorable">Cao nhất</string>
+    <string name="user_review_sort_button_favorable">Tích cực</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_critical">Thấp nhất</string>
+    <string name="user_review_sort_button_critical">Tiêu cực</string>
     <!-- Loading more reviews -->
     <string name="user_review_loading_more_reviews">Đang tải thêm nhận xét khác…</string>
     <!-- Read more of the review -->
@@ -1622,10 +1644,8 @@
     <string name="Tonight">Tối nay</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Hủy miễn phí</string>
-    <!-- Resort Fee -->
-    <string name="resort_fee">Phí nghỉ dưỡng</string>
     <!-- This fee is not included in the total -->
-    <string name="fee_not_included_in_total">Chưa bao gồm phí này trong tổng giá</string>
+    <string name="fee_not_included_in_total">Tổng giá chưa bao gồm các phí này</string>
     <!-- Renovation Notice -->
     <string name="renovation_notice">Thông báo nâng cấp</string>
     <!-- This property is undergoing renovations -->
@@ -1959,6 +1979,8 @@
     <string name="preference_point_of_sale_title">Quốc gia</string>
 
     <!-- Strings used a lot of places -->
+    <!-- Error shown if user tries to launch an outside app that they don't have access to -->
+    <string name="app_not_available">Có thể điện thoại của quý vị không có app hỗ trợ tính năng này hoặc bị giới hạn quyền sử dụng.</string>
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">%d người lớn</item>
@@ -2344,9 +2366,9 @@
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">Nhận ưu đãi <b>giảm giá 10%</b> với Google Wallet!</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">Tiết kiệm 10%% khi sử dụng Google Wallet!</string>
+    <string name="wallet_promo_in_use_message">Tiết kiệm 10% khi sử dụng Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Chỉ sử dụng được 1 coupon mỗi lần đặt. Chúng tôi đã thay thế coupon trước của quý vị bằng việc giảm giá 10%% do sử dụng Google Wallet!</string>
+    <string name="coupon_replaced_message">Chỉ sử dụng được 1 coupon mỗi lần đặt. Chúng tôi đã đổi coupon trước của quý vị bằng ưu đãi giảm 10% khi sử dụng Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Áp dụng giảm giá với Google Wallet…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
@@ -2355,6 +2377,8 @@
     <string name="wallet_promo_tc_title">Điềi khoản &amp; Điều kiện sử dụng Google Wallet Coupon</string>
     <!-- Terms & conditions for Google Wallet promo -->
     <string name="wallet_promo_tc_message">Phải đổi coupon qua app Expedia Android cho chuyến đi trong giai đoạn từ 17/06/2013 đến 31/12/2013. Đây là ưu đãi của Expedia.com và chỉ dành cho khách hàng Expedia.com Mỹ.\n\nĐặt phòng phụ thuộc vào tình trạng phòng tại các khách sạn mức giá đặc biệt của Expedia vào thời điểm đặt và chịu chi phối bởi mọi điều khoản và điều kiện áp dụng. Không thể sử dụng kết hợp coupon này với các coupon, chương trình khuyến mãi hay ưu đãi đặc biệt khác. Không áp dụng giảm giá coupon cho các khoản thuế, phụ phí nhà cung cấp, phí phạt hủy hoặc đổi, phí hành chánh hoặc các loại phụ phí khác - do khách hàng chịu trách nhiệm thanh toán. Trong trường hợp quý vị thay đổi hoặc hủy bất kỳ chi tiết đặt nào, coupon này sẽ không được áp dụng vào lịch trình chuyến đi mới.\n\nĐiều khoản và điều kiện của coupon này chính xác như đã được nêu và không cá nhân không có thẩm quyền nào có thể thay đổi, kể cả nhân viên Expedia, Inc. Không thể chuyển nhượng coupon và không thể đổi coupon này lấy tiền mặt. Ưu đãi không có hiệu lực nếu bị cấm theo luật. Expedia, Inc. có thể hủy bỏ hoặc thay đổi ưu đãi này bất kỳ lúc nào.</string>
+    <!-- Error message shown when user tries to apply promo to trips in 2014 and beyond -->
+    <string name="wallet_promo_expired">Rất tiếc, ưu đãi giảm giá với Google Wallet chỉ áp dụng cho chuyến đi thực hiện trong năm 2013.</string>
 
     <!-- Samsung Wallet -->
     <!-- Label to use when the ticket already exists in the wallet -->

@@ -3,9 +3,9 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">Hallo, &lt;b&gt;%1$s&lt;/b&gt;, we hebben je Expedia-account gevonden! Voer hieronder het wachtwoord van je Expedia-account in om het met je Facebook-account te kunnen koppelen.</string>
+    <string name="facebook_weve_found_your_account">Beste &lt;b&gt;%1$s&lt;/b&gt;, we hebben je Expedia-account gevonden! Voer hieronder het wachtwoord van je Expedia-account in om het met je Facebook-account te kunnen koppelen.</string>
     <!-- Weve fetched your facebook info -->
-    <string name="facebook_weve_fetched_your_info">Hoi &lt;b&gt;%1$s&lt;/b&gt;, we hebben je gegevens van Facebook geladen!</string>
+    <string name="facebook_weve_fetched_your_info">Beste &lt;b&gt;%1$s&lt;/b&gt;, we hebben je gegevens van Facebook geladen!</string>
     <!-- Log in with facebook (button text) -->
     <string name="Log_in_with_Facebook">Aanmelden met Facebook</string>
     <!-- fetching information from Facebook -->
@@ -192,29 +192,39 @@
     <!-- Booking info label -->
     <string name="booking_info">Boekingsinfo</string>
     <!-- Itin flight generic terminal and gate template -->
-    <string name="generic_terminal_TEMPLATE">Terminal %1$s, Gate %2$s</string>
+    <string name="Terminal_X_Gate_Y_TEMPLATE">Terminal %1$s, Gate %2$s</string>
+    <!-- Itin flight international terminal and gate template -->
+    <string name="International_Terminal_Gate_X_TEMPLATE">Internationale terminal, Gate %1$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">Aankomst op terminal %1$s, Gate %2$s</string>
+    <string name="Arrive_Terminal_X_Gate_Y_TEMPLATE">Aankomstterminal %1$s, Gate %2$s</string>
+    <!-- Itin flight arrival international terminal and gate template -->
+    <string name="Arrive_International_Terminal_Gate_X_TEMPLATE">Internationale aankomstterminal, Gate %1$s</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="departure_terminal_TEMPLATE">Vertrek vanaf terminal %1$s, Gate %2$s</string>
-    <!-- To be determined abbrev. -->
-    <string name="to_be_determined_abbrev">TBD</string>
+    <string name="Depart_Terminal_X_Gate_Y_TEMPLATE">Vertrekterminal %1$s, Gate %2$s</string>
+    <!-- Itin flight departure international terminal and gate template -->
+    <string name="Depart_International_Terminal_Gate_X_TEMPLATE">Internationale vertrekterminal, Gate %1$s</string>
+    <!-- "Gate To Be Determined", with "To Be Determined" abbreviated if possible -->
+    <string name="Gate_To_Be_Determined_abbrev">Gate nog te bevestigen</string>
     <!-- Itin flight gate only template -->
-    <string name="gate_number_only_TEMPLATE">Gate %1$s</string>
+    <string name="Gate_X_TEMPLATE">Gate %1$s</string>
     <!-- Itin flight arrive gate only template -->
-    <string name="arrive_gate_number_only_TEMPLATE">Aankomst Gate %1$s</string>
+    <string name="Arrive_Gate_X_TEMPLATE">Aankomst Gate %1$s</string>
     <!-- Itin flight depart gate only template -->
-    <string name="depart_gate_number_only_TEMPLATE">Vertrek Gate %1$s</string>
+    <string name="Depart_Gate_X_TEMPLATE">Vertrek Gate %1$s</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
     <string name="Terminal_X_TEMPLATE">Terminal %1$s</string>
-    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
-    <string name="Baggage_Claim_X_TEMPLATE">Bagageband %1$s</string>
     <!-- Special case for name of International Terminal -->
     <string name="International_Terminal">Internationale terminal</string>
+    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
+    <string name="Baggage_Claim_X_TEMPLATE">Bagageband %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">Aankomst op terminal %1$s</string>
+    <string name="Arrive_Terminal_X_TEMPLATE">Aankomst Terminal %1$s</string>
+    <!-- Itin flight international terminal only -->
+    <string name="Arrive_International_Terminal">Internationale aankomstterminal</string>
     <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">Vertrek vanaf terminal %1$s</string>
+    <string name="Depart_Terminal_X_TEMPLATE">Vertrek Terminal %1$s</string>
+    <!-- Itin flight international terminal only -->
+    <string name="Depart_International_Terminal">Internationale vertrekterminal</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="at_airport_TEMPLATE">&lt;b&gt;Op %1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
@@ -291,6 +301,10 @@
     <string name="try_again">Probeer opnieuw</string>
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">KOPIEER %1$s</string>
+    <!-- Hours and minutes duration future TEMPLATE. This will be used to produce a string like:"in 3 hours and 12 minutes". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
+    <string name="hours_minutes_future_TEMPLATE">over %1$s en %2$s</string>
+    <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes".  -->
+    <string name="hours_minutes_past_TEMPLATE">%1$s en %2$s geleden</string>
 
     <!-- Itin Buttons -->
     <!-- Popup menu -->
@@ -1328,6 +1342,8 @@
     <string name="hotel_search_range_error_TEMPLATE">Helaas, we kunnen geen zoekopdracht doen van meer dan %1$s overnachtingen.</string>
     <!-- Search Error title text "Search Error" -->
     <string name="search_error">Zoekfout</string>
+    <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
+    <string name="search_hotel_id_TEMPLATE">Hotel %s</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -1471,6 +1487,12 @@
     <string name="see_all_reviews">Alle reviews bekijken</string>
     <!-- Label for button that brings users to the room selection page -->
     <string name="select_room">Kamer selecteren</string>
+    <!-- Title for VIP Access message -->
+    <string name="vip_access">VIP Access</string>
+    <!-- Message that explains the meaning of VIP Access -->
+    <string name="vip_access_message">Expedia Elite Plus-leden genieten bij check-in in VIP Access hotels van gratis kamerupgrades en ander extraatjes, indien beschikbaar.</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="filter_vip_access">Alleen VIP Access hotels</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">%2.0f%% korting</string>
@@ -1623,10 +1645,8 @@
     <string name="Tonight">Vandaag</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Gratis annulering</string>
-    <!-- Resort Fee -->
-    <string name="resort_fee">Resorttoeslag</string>
     <!-- This fee is not included in the total -->
-    <string name="fee_not_included_in_total">Deze toeslag is niet bij het totaal inbegrepen</string>
+    <string name="fee_not_included_in_total">Deze toeslagen zijn niet inbegrepen bij de totaalprijs</string>
     <!-- Renovation Notice -->
     <string name="renovation_notice">Renovatiewerken</string>
     <!-- This property is undergoing renovations -->
@@ -1960,6 +1980,8 @@
     <string name="preference_point_of_sale_title">Land</string>
 
     <!-- Strings used a lot of places -->
+    <!-- Error shown if user tries to launch an outside app that they don't have access to -->
+    <string name="app_not_available">Mogelijk heeft je mobiel geen app die deze actie kan ondersteunen of heb je geen toegangsrechten.</string>
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">%d volwassenen</item>
@@ -2347,7 +2369,7 @@
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
     <string name="wallet_promo_in_use_message">Je hebt 10%% bespaard met Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Max. 1 coupon per boeking. We hebben je vorige coupon vervangen door de 10%% korting voor het gebruik van Google Wallet.</string>
+    <string name="coupon_replaced_message">Max. 1 coupon per boeking. We hebben je vorige coupon vervangen door de 10% korting voor het gebruik van Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Google Wallet-korting wordt toegepast…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
@@ -2356,6 +2378,8 @@
     <string name="wallet_promo_tc_title">Couponvoorwaarden van Google Wallet</string>
     <!-- Terms & conditions for Google Wallet promo -->
     <string name="wallet_promo_tc_message">Coupon moet gebruikt worden via de Android Expedia-app voor een reis tussen 17 juni en 31 december 2013. Dit is een aanbieding van Expedia.com en is alleen geldig voor Expedia.com-klanten uit de VS.\n\nboekingen zijn onder voorbehoud van beschikbaarheid bij Expedia Rate-hotels wanneer je boekt en onderhevig aan de toepasselijke voorwaarden en bepalingen. Coupon mag niet gebruikt worden in combinatie met andere coupons, deals of speciale aanbiedingen. De korting kan niet gebruikt worden voor de betaling van belastingen, leverancierstoeslagen, annulerings- of wijzigingkosten en administratieve of andere toeslagen, waarvoor de klant als enige verantwoordelijk is. Als je een deel van je boeking dient te wijzigen of annuleren, dan wordt de coupon niet toegepast op het gewijzigde deel.\n\nDeze couponvoorwaarden kunnen niet gewijzigd worden door enige verklaring van onbevoegde personen, inclusief medewerkers van Expedia, Inc. De coupon kan niet overgedragen of ingewisseld worden voor contanten. De coupon is ongeldig waar deze wettelijk verboden is. Expedia, Inc. kan deze actie altijd intrekken of wijzigen.</string>
+    <!-- Error message shown when user tries to apply promo to trips in 2014 and beyond -->
+    <string name="wallet_promo_expired">Helaas, de Google Wallet-korting is alleen geldig voor boekingen met reisdatums in 2013.</string>
 
     <!-- Samsung Wallet -->
     <!-- Label to use when the ticket already exists in the wallet -->

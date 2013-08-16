@@ -59,7 +59,7 @@
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Maaf, kami tidak dapat menghubungkan.</string>
     <!-- Menu option for going to see your trips/itineraries -->
-    <string name="trips">Rencana</string>
+    <string name="trips">Perjalanan</string>
     <!-- Google play services unrecoverable error dialog message -->
     <string name="google_play_services_unrecoverable_error">Aplikasi ini memerlukan Google Play Services. Harap instal versi terbaru Google Play Services.</string>
 
@@ -192,29 +192,39 @@
     <!-- Booking info label -->
     <string name="booking_info">Info Pemesanan</string>
     <!-- Itin flight generic terminal and gate template -->
-    <string name="generic_terminal_TEMPLATE">Terminal %1$s, Gate %2$s</string>
+    <string name="Terminal_X_Gate_Y_TEMPLATE">Terminal %1$s, Gate %2$s</string>
+    <!-- Itin flight international terminal and gate template -->
+    <string name="International_Terminal_Gate_X_TEMPLATE">Terminal Internasional, Gate %1$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">Tiba di Terminal %1$s, Gate %2$s</string>
+    <string name="Arrive_Terminal_X_Gate_Y_TEMPLATE">Terminal Kedatangan %1$s, Gate %2$s</string>
+    <!-- Itin flight arrival international terminal and gate template -->
+    <string name="Arrive_International_Terminal_Gate_X_TEMPLATE">Terminal Kedatangan Internasional, Gate %1$s</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="departure_terminal_TEMPLATE">Berangkat dari Terminal %1$s, Gate %2$s</string>
-    <!-- To be determined abbrev. -->
-    <string name="to_be_determined_abbrev">Belum Ditentukan</string>
+    <string name="Depart_Terminal_X_Gate_Y_TEMPLATE">Terminal Keberangkatan %1$s, Gate %2$s</string>
+    <!-- Itin flight departure international terminal and gate template -->
+    <string name="Depart_International_Terminal_Gate_X_TEMPLATE">Terminal Keberangkatan Internasional, Gate %1$s</string>
+    <!-- "Gate To Be Determined", with "To Be Determined" abbreviated if possible -->
+    <string name="Gate_To_Be_Determined_abbrev">Gate TBD</string>
     <!-- Itin flight gate only template -->
-    <string name="gate_number_only_TEMPLATE">Gate %1$s</string>
+    <string name="Gate_X_TEMPLATE">Gate %1$s</string>
     <!-- Itin flight arrive gate only template -->
-    <string name="arrive_gate_number_only_TEMPLATE">Tiba di Gate %1$s</string>
+    <string name="Arrive_Gate_X_TEMPLATE">Tiba di Gate %1$s</string>
     <!-- Itin flight depart gate only template -->
-    <string name="depart_gate_number_only_TEMPLATE">Berangkat dari Gate %1$s</string>
+    <string name="Depart_Gate_X_TEMPLATE">Berangkat dari Gate %1$s</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
     <string name="Terminal_X_TEMPLATE">Terminal %1$s</string>
-    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
-    <string name="Baggage_Claim_X_TEMPLATE">Klaim Bagasi %1$s</string>
     <!-- Special case for name of International Terminal -->
     <string name="International_Terminal">Terminal Internasional</string>
+    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
+    <string name="Baggage_Claim_X_TEMPLATE">Klaim Bagasi %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">Tiba di Terminal %1$s</string>
+    <string name="Arrive_Terminal_X_TEMPLATE">Terminal Kedatangan %1$s</string>
+    <!-- Itin flight international terminal only -->
+    <string name="Arrive_International_Terminal">Terminal Kedatangan Internasional</string>
     <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">Berangkat dari Terminal %1$s</string>
+    <string name="Depart_Terminal_X_TEMPLATE">Terminal Keberangkatan %1$s</string>
+    <!-- Itin flight international terminal only -->
+    <string name="Depart_International_Terminal">Terminal Keberangkatan Internasional</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="at_airport_TEMPLATE">&lt;b&gt;Di %1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
@@ -291,6 +301,10 @@
     <string name="try_again">Coba lagi</string>
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">SALIN %1$s</string>
+    <!-- Hours and minutes duration future TEMPLATE. This will be used to produce a string like:"in 3 hours and 12 minutes". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
+    <string name="hours_minutes_future_TEMPLATE">dalam %1$s dan %2$s</string>
+    <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes".  -->
+    <string name="hours_minutes_past_TEMPLATE">%1$s dan %2$s yang lalu</string>
 
     <!-- Itin Buttons -->
     <!-- Popup menu -->
@@ -800,7 +814,7 @@
     <!-- "Airline Fee Information" -->
     <string name="airline_fee_information">Informasi Biaya Maskapai</string>
     <!-- Debit cards not supported message -->
-    <string name="debit_cards_not_accepted">Kartu debit tidak diterima.</string>
+    <string name="debit_cards_not_accepted">Tidak menerima kartu debit.</string>
 
     <!-- Trip Overview Activity -->
     <!-- Label for Overview activity in task manager -->
@@ -1009,9 +1023,9 @@
     <!-- date of birth label -->
     <string name="date_of_birth">Tanggal Lahir</string>
     <!-- male -->
-    <string name="male">Laki-laki</string>
+    <string name="male">Pria</string>
     <!-- female -->
-    <string name="female">Perempuan</string>
+    <string name="female">Wanita</string>
     <!-- next page buttn -->
     <string name="next">Berikutnya</string>
     <!-- Passport country label -->
@@ -1327,6 +1341,8 @@
     <string name="hotel_search_range_error_TEMPLATE">Maaf, kami tidak bisa mencari hotel untuk menginap lebih dari %1$s hari.</string>
     <!-- Search Error title text "Search Error" -->
     <string name="search_error">Kesalahan Pencarian</string>
+    <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
+    <string name="search_hotel_id_TEMPLATE">Hotel %s</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -1470,6 +1486,12 @@
     <string name="see_all_reviews">Lihat Semua Ulasan</string>
     <!-- Label for button that brings users to the room selection page -->
     <string name="select_room">Pilih Kamar</string>
+    <!-- Title for VIP Access message -->
+    <string name="vip_access">VIP Access</string>
+    <!-- Message that explains the meaning of VIP Access -->
+    <string name="vip_access_message">Di hotel VIP Access, anggota Expedia Elite Plus dapat menerima upgrade kamar gratis dan tambahan lainnya tergantung ketersediaan pada saat check-in.</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="filter_vip_access">Hanya hotel VIP Access</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>
@@ -1543,9 +1565,9 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">Terbaru</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_favorable">Tertinggi</string>
+    <string name="user_review_sort_button_favorable">Positif</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_critical">Terendah</string>
+    <string name="user_review_sort_button_critical">Kritis</string>
     <!-- Loading more reviews -->
     <string name="user_review_loading_more_reviews">Memuat ulasan lainnya…</string>
     <!-- Read more of the review -->
@@ -1593,7 +1615,7 @@
     <!-- Rate price displayed "average per night" -->
     <string name="rate_avg_per_night">rata-rata/malam</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
-    <string name="total_price_for_stay">Total harga selama masa menginap</string>
+    <string name="total_price_for_stay">Total harga selama menginap</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
     <string name="total_price_for_stay_punctuated">Total harga selama menginap.</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
@@ -1622,10 +1644,8 @@
     <string name="Tonight">Malam ini</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Pembatalan Gratis</string>
-    <!-- Resort Fee -->
-    <string name="resort_fee">Biaya Resor</string>
     <!-- This fee is not included in the total -->
-    <string name="fee_not_included_in_total">Biaya ini belum termasuk dalam total</string>
+    <string name="fee_not_included_in_total">Biaya ini tidak termasuk dalam total</string>
     <!-- Renovation Notice -->
     <string name="renovation_notice">Pemberitahuan Renovasi</string>
     <!-- This property is undergoing renovations -->
@@ -1959,6 +1979,8 @@
     <string name="preference_point_of_sale_title">Negara</string>
 
     <!-- Strings used a lot of places -->
+    <!-- Error shown if user tries to launch an outside app that they don't have access to -->
+    <string name="app_not_available">Baik ponsel ini yang tidak memiliki aplikasi untuk menangani tindakan ini atau Anda yang dibatasi untuk mengaksesnya.</string>
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">%d Dewasa</item>
@@ -2018,7 +2040,7 @@
     <!-- Kilometers (used in distance template) -->
     <string name="unit_kilometers_full">kilometer</string>
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
-    <string name="distance_template">%1$s %2$s</string>
+    <string name="distance_template">%1$s %2$s jauhnya</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
 
@@ -2344,9 +2366,9 @@
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">Dapatkan <b>diskon 10%</b> dengan Google Wallet!</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">Anda menghemat 10%% dengan menggunakan Google Wallet!</string>
+    <string name="wallet_promo_in_use_message">Anda menghemat 10% dengan menggunakan Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Hanya satu kupon yang bisa digunakan untuk setiap pemesanan. Kami mengganti kupon Anda dengan diskon 10%% untuk penggunaan Google Wallet.</string>
+    <string name="coupon_replaced_message">Hanya satu kupon yang bisa digunakan untuk setiap pemesanan. Kami sudah mengganti kupon Anda sebelumnya dengan diskon 10% untuk penggunaan Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Menerapkan diskon Google Wallet…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
@@ -2355,10 +2377,12 @@
     <string name="wallet_promo_tc_title">Syarat &amp; Ketentuan Kupon Google Wallet</string>
     <!-- Terms & conditions for Google Wallet promo -->
     <string name="wallet_promo_tc_message">Kupon harus ditukarkan di aplikasi Expedia Android untuk perjalanan antara tanggal 17 Juni 2013 hingga 31 Desember 2013. Penawaran ini diberikan oleh Expedia.com dan hanya berlaku untuk pelanggan Amerika Serikat Expedia.com saja.\n\nPemesanan tergantung pada ketersediaan di hotel Expedia Rate pada saat memesan dan tergantung pada semua syarat dan ketentuan yang berlaku. Kupon kemungkinan tidak bisa digunakan dengan kupon, promosi, atau penawaran khusus lainnya. Diskon kupon tidak bisa diterapkan pada pajak, biaya yang dikenakan suplier, denda pembatalan atau perubahan, biaya administrasi, atau biaya lainnya, yang merupakan tanggung jawab pelanggan. Apabila Anda mengubah atau membatalkan sebagian pemesanan, kupon tidak akan berlaku untuk jadwal perjalanan yang baru.\n\nSyarat dan ketentuan kupon ini adalah seperti yang tertulis dan tidak bisa diubah oleh perwakilan pihak yang tidak berwenang, termasuk oleh karyawan Expedia, Inc. Kupon tidak bisa dipindahtangankan dan tidak bisa ditukarkan dengan uang tunai. Tidak berlaku jika dilarang oleh undang-undang setempat. Expedia, Inc. dapat membatalkan atau mengubah penawaran ini sewaktu-waktu.</string>
+    <!-- Error message shown when user tries to apply promo to trips in 2014 and beyond -->
+    <string name="wallet_promo_expired">Maaf, diskon Google Wallet hanya berlaku untuk perjalanan yang terjadi di 2013.</string>
 
     <!-- Samsung Wallet -->
     <!-- Label to use when the ticket already exists in the wallet -->
-    <string name="view_in_samsung_wallet">LIhat di Samsung Wallet</string>
+    <string name="view_in_samsung_wallet">Lihat di Samsung Wallet</string>
     <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
     <string name="load_to_samsung_wallet">Masukkan ke Samsung Wallet</string>
     <!-- Label to use when the user does not have the Samsung Wallet app installed -->

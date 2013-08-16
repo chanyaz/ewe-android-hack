@@ -192,29 +192,39 @@
     <!-- Booking info label -->
     <string name="booking_info">Info. de réservation</string>
     <!-- Itin flight generic terminal and gate template -->
-    <string name="generic_terminal_TEMPLATE">%1$s, porte %2$s</string>
+    <string name="Terminal_X_Gate_Y_TEMPLATE">Aérogare %1$s, porte %2$s</string>
+    <!-- Itin flight international terminal and gate template -->
+    <string name="International_Terminal_Gate_X_TEMPLATE">Terminal international, Porte %1$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">Arrivée à l\&apos;aérogare %1$s, porte %2$s</string>
+    <string name="Arrive_Terminal_X_Gate_Y_TEMPLATE">Aérogare d\&apos;arrivée %1$s, porte %2$s</string>
+    <!-- Itin flight arrival international terminal and gate template -->
+    <string name="Arrive_International_Terminal_Gate_X_TEMPLATE">Arrivée - Terminal international, Porte %1$s</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="departure_terminal_TEMPLATE">Départ de l\&apos;aérogare%1$s, porte %2$s</string>
-    <!-- To be determined abbrev. -->
-    <string name="to_be_determined_abbrev">À d.</string>
+    <string name="Depart_Terminal_X_Gate_Y_TEMPLATE">Aérogare de départ %1$s, porte %2$s</string>
+    <!-- Itin flight departure international terminal and gate template -->
+    <string name="Depart_International_Terminal_Gate_X_TEMPLATE">Départ - Terminal international, Porte %1$s</string>
+    <!-- "Gate To Be Determined", with "To Be Determined" abbreviated if possible -->
+    <string name="Gate_To_Be_Determined_abbrev">Porte à déterminer</string>
     <!-- Itin flight gate only template -->
-    <string name="gate_number_only_TEMPLATE">Porte %1$s</string>
+    <string name="Gate_X_TEMPLATE">Porte %1$s</string>
     <!-- Itin flight arrive gate only template -->
-    <string name="arrive_gate_number_only_TEMPLATE">Porte d\&apos;arrivée %1$s</string>
+    <string name="Arrive_Gate_X_TEMPLATE">Porte d\&apos;arrivée %1$s</string>
     <!-- Itin flight depart gate only template -->
-    <string name="depart_gate_number_only_TEMPLATE">Porte de départ %1$s</string>
+    <string name="Depart_Gate_X_TEMPLATE">Porte de départ %1$s</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
     <string name="Terminal_X_TEMPLATE">Aérogare %1$s</string>
-    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
-    <string name="Baggage_Claim_X_TEMPLATE">Récupération des bagages %1$s</string>
     <!-- Special case for name of International Terminal -->
     <string name="International_Terminal">Aérogare international</string>
+    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
+    <string name="Baggage_Claim_X_TEMPLATE">Récupération des bagages %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">Arrivée à l\&apos;aérogare %1$s</string>
+    <string name="Arrive_Terminal_X_TEMPLATE">Arrive à l\&apos;aérogare %1$s</string>
+    <!-- Itin flight international terminal only -->
+    <string name="Arrive_International_Terminal">Arrivée - Terminal international</string>
     <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">Départ de l\&apos;aérogare%1$s</string>
+    <string name="Depart_Terminal_X_TEMPLATE">Départ de l\&apos;aérogare %1$s</string>
+    <!-- Itin flight international terminal only -->
+    <string name="Depart_International_Terminal">Départ - Terminal international</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="at_airport_TEMPLATE">&lt;b&gt;À %1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
@@ -291,6 +301,10 @@
     <string name="try_again">Réessayer</string>
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">COPIE %1$s</string>
+    <!-- Hours and minutes duration future TEMPLATE. This will be used to produce a string like:"in 3 hours and 12 minutes". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
+    <string name="hours_minutes_future_TEMPLATE">dans %1$s et %2$s</string>
+    <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes".  -->
+    <string name="hours_minutes_past_TEMPLATE">%1$s et %2$s passé</string>
 
     <!-- Itin Buttons -->
     <!-- Popup menu -->
@@ -619,7 +633,7 @@
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
     <string name="inbound_TEMPLATE">Vols entrant à %s</string>
     <!-- Error when we simple can't connect to E3 servers -->
-    <string name="error_server">Désolé, nous n\&apos;avons pas pu nous connecter aux serveurs Expedia.  Veuillez réessayer plus tard.</string>
+    <string name="error_server">Désolé, nous n\&apos;avons pas pu nous connecter aux serveurs Expedia. Veuillez réessayer plus tard.</string>
     <!-- Sort by departure timelabel -->
     <string name="sort_description_departure">Quitte</string>
     <!-- Sort by arrival time label -->
@@ -800,7 +814,7 @@
     <!-- "Airline Fee Information" -->
     <string name="airline_fee_information">Information sur les frais de la compagnie aérienne</string>
     <!-- Debit cards not supported message -->
-    <string name="debit_cards_not_accepted">Les cartes de débit ne sont pas acceptées.</string>
+    <string name="debit_cards_not_accepted">Aucune carte de débit acceptée.</string>
 
     <!-- Trip Overview Activity -->
     <!-- Label for Overview activity in task manager -->
@@ -1233,7 +1247,7 @@
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
-    <string name="enter_search_location">Entrer l\&apos;emplacement à rechercher…</string>
+    <string name="enter_search_location">Entrez l\&apos;emplacement à rechercher…</string>
     <!-- Hint for "search location" field -->
     <string name="hint_search_location">Rechercher l\&apos;emplacement</string>
     <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
@@ -1327,6 +1341,8 @@
     <string name="hotel_search_range_error_TEMPLATE">Désolé, mais nous ne pouvons rechercher des séjours à l\&apos;hôtel de plus de %1$s jours.</string>
     <!-- Search Error title text "Search Error" -->
     <string name="search_error">Erreur de recherche</string>
+    <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
+    <string name="search_hotel_id_TEMPLATE">Hotel %s</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -1470,6 +1486,12 @@
     <string name="see_all_reviews">Voir toutes les évaluations</string>
     <!-- Label for button that brings users to the room selection page -->
     <string name="select_room">Sélectionner une chambre</string>
+    <!-- Title for VIP Access message -->
+    <string name="vip_access">Accès VIP</string>
+    <!-- Message that explains the meaning of VIP Access -->
+    <string name="vip_access_message">Les hôtels Accès VIP offrent le surclassement sans frais en catégorie supérieure aux membres Élite Plus, ainsi que de nombreux autres avantages, selon disponibilité à l\&apos;arrivée.</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="filter_vip_access">Seulement les hôtels Accès VIP</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>
@@ -1543,9 +1565,9 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">Récents</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_favorable">Plus haut</string>
+    <string name="user_review_sort_button_favorable">Favorables</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_critical">Plus bas</string>
+    <string name="user_review_sort_button_critical">Défavorables</string>
     <!-- Loading more reviews -->
     <string name="user_review_loading_more_reviews">Chargement d\&apos;autres évaluations…</string>
     <!-- Read more of the review -->
@@ -1622,10 +1644,8 @@
     <string name="Tonight">Ce soir</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Annulation sans frais</string>
-    <!-- Resort Fee -->
-    <string name="resort_fee">Frais du complexe</string>
     <!-- This fee is not included in the total -->
-    <string name="fee_not_included_in_total">Ces frais ne sont pas inclus dans le prix total affiché.</string>
+    <string name="fee_not_included_in_total">Ces frais ne sont pas inclus dans le total</string>
     <!-- Renovation Notice -->
     <string name="renovation_notice">Avis de rénovation</string>
     <!-- This property is undergoing renovations -->
@@ -1688,7 +1708,7 @@
     <!-- Rules & restrictions section header -->
     <string name="rules_restrictions">Règles et restrictions</string>
     <!-- Disclaimer about how to earn expedia points -->
-    <string name="disclaimer_expedia_points">Si vous avez un compte Expedia Rewards, veuillez réserver en utilisant la même adresse courriel et vos points seront enregistrés automatiquement après votre séjour. Veuillez noter que l\&apos;enregistrement de vos points peut prendre jusqu\&apos;à 30 jour.</string>
+    <string name="disclaimer_expedia_points">Si vous avez un compte Expedia Rewards, veuillez réserver en utilisant la même adresse courriel et vos points seront enregistrés automatiquement après votre séjour. Veuillez noter que l\&apos;enregistrement de vos points peut prendre jusqu\&apos;à 30 jours.</string>
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">Confirmer et réserver</string>
     <!-- Label for clearing private data -->
@@ -1710,7 +1730,7 @@
     <!-- Error shown to user if their credit card postal code is invalid -->
     <string name="invalid_postal_code">Nous sommes désolés, mais un code postal valide est requis pour traiter votre carte de crédit.</string>
     <!-- Error if an invalid credit card type was entered -->
-    <string name="invalid_card_type">Nous n\&apos;avons pu déterminer votre type de carte de crédit, veuillez entrer une carte de crédit valide.</string>
+    <string name="invalid_card_type">Nous n\&apos;avons pas pu déterminer le type de carte de crédit, veuillez entrer un type de carte de crédit valide.</string>
     <!-- Error if an invalid month (not 1-12) was entered -->
     <string name="invalid_month">Veuillez entrez une valeur entre 1 et 12.</string>
     <!-- Error if an invalid year was entered -->
@@ -1959,6 +1979,8 @@
     <string name="preference_point_of_sale_title">Pays</string>
 
     <!-- Strings used a lot of places -->
+    <!-- Error shown if user tries to launch an outside app that they don't have access to -->
+    <string name="app_not_available">Soit votre téléphone n\&apos;a pas d\&apos;application pouvant traiter cette demande, soit vous n\&apos;y avez pas accès.</string>
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">%d adultes</item>
@@ -2344,9 +2366,9 @@
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">Obtenez une <b>réduction de 10 %</b> avec Google Wallet!</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">Vous avez économisé 10 %% en utilisant Google Wallet!</string>
+    <string name="wallet_promo_in_use_message">Vous avez économisé 10 % en utilisant Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Un seul bon de réduction peut être utilisé par réservation. Nous avons remplacé le bon précédent par une réduction de 10 %% pour vous remercier d\&apos;utiliser Google Wallet.</string>
+    <string name="coupon_replaced_message">Un seul bon de réduction peut être utilisé par réservation. Nous avons remplacé le bon précédent par une réduction de 10 % pour vous remercier d\&apos;utiliser Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Application de la réduction Google Wallet…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
@@ -2355,6 +2377,8 @@
     <string name="wallet_promo_tc_title">Modalités et conditions du bon de réduction Google Wallet</string>
     <!-- Terms & conditions for Google Wallet promo -->
     <string name="wallet_promo_tc_message">Le bon de réduction doit être échangé au moyen de l\&apos;application Expedia Android pour les voyages effectués entre le 17 juin et le 31 décembre 2013. Cette offre provient d\&apos;Expedia.com et est valide uniquement pour les clients d\&apos;Expedia.com aux États-Unis.\n\nLes réservations sont conditionnelles à la disponibilité des hôtels au tarif Expedia au moment de la réservation, ainsi qu\&apos;aux conditions générales applicables. Le bon de réduction ne peut être jumelé à d\&apos;autres bons, promotions ou offres spéciales. Le bon de réduction ne peut être utilisé pour payer les taxes, les frais d\&apos;un fournisseur, les frais d\&apos;annulation ou de modification, les frais administratifs ou autres frais divers, qui incombent exclusivement au client. Si vous modifiez ou annulez une partie de votre réservation, le bon de réduction ne s\&apos;appliquera pas aux horaires de voyage modifiés.\n\nLes modalités et conditions de ce bon de réduction sont comme indiquées et ne peuvent être modifiées par aucune représentation d\&apos;une personne non autorisée, y compris les employés d\&apos;Expedia, Inc. Le bon de réduction n\&apos;est pas transférable et n\&apos;est pas monnayable. Nul là où la loi l\&apos;interdit. Expedia, Inc. peut annuler ou modifier cette offre à tout moment.</string>
+    <!-- Error message shown when user tries to apply promo to trips in 2014 and beyond -->
+    <string name="wallet_promo_expired">Désolés. Impossible d\&apos;appliquer la réduction Google Wallet à cette réservation.</string>
 
     <!-- Samsung Wallet -->
     <!-- Label to use when the ticket already exists in the wallet -->

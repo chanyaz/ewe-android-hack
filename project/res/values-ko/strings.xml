@@ -192,29 +192,39 @@
     <!-- Booking info label -->
     <string name="booking_info">예약 정보</string>
     <!-- Itin flight generic terminal and gate template -->
-    <string name="generic_terminal_TEMPLATE">터미널 %1$s, 게이트 %2$s</string>
+    <string name="Terminal_X_Gate_Y_TEMPLATE">터미널 %1$s, 게이트 %2$s</string>
+    <!-- Itin flight international terminal and gate template -->
+    <string name="International_Terminal_Gate_X_TEMPLATE">국제선 터미널, 게이트 %1$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">터미널 %1$s, 게이트 %2$s 도착</string>
+    <string name="Arrive_Terminal_X_Gate_Y_TEMPLATE">터미널 %1$s, 게이트 %2$s 도착</string>
+    <!-- Itin flight arrival international terminal and gate template -->
+    <string name="Arrive_International_Terminal_Gate_X_TEMPLATE">국제선 터미널, 게이트 %1$s 도착</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="departure_terminal_TEMPLATE">터미널 %1$s, 게이트 %2$s 출발</string>
-    <!-- To be determined abbrev. -->
-    <string name="to_be_determined_abbrev">미정</string>
+    <string name="Depart_Terminal_X_Gate_Y_TEMPLATE">터미널 %1$s, 게이트 %2$s 출발</string>
+    <!-- Itin flight departure international terminal and gate template -->
+    <string name="Depart_International_Terminal_Gate_X_TEMPLATE">국제선 터미널, 게이트 %1$s 출발</string>
+    <!-- "Gate To Be Determined", with "To Be Determined" abbreviated if possible -->
+    <string name="Gate_To_Be_Determined_abbrev">게이트 미정</string>
     <!-- Itin flight gate only template -->
-    <string name="gate_number_only_TEMPLATE">게이트 %1$s</string>
+    <string name="Gate_X_TEMPLATE">게이트 %1$s</string>
     <!-- Itin flight arrive gate only template -->
-    <string name="arrive_gate_number_only_TEMPLATE">게이트 %1$s 도착</string>
+    <string name="Arrive_Gate_X_TEMPLATE">게이트 %1$s 도착</string>
     <!-- Itin flight depart gate only template -->
-    <string name="depart_gate_number_only_TEMPLATE">게이트 %1$s 출발</string>
+    <string name="Depart_Gate_X_TEMPLATE">게이트 %1$s 출발</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
     <string name="Terminal_X_TEMPLATE">터미널 %1$s</string>
-    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
-    <string name="Baggage_Claim_X_TEMPLATE">수하물 찾는 곳 %1$s</string>
     <!-- Special case for name of International Terminal -->
     <string name="International_Terminal">국제선 터미널</string>
+    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
+    <string name="Baggage_Claim_X_TEMPLATE">수하물 찾는 곳 %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">터미널 %1$s 도착</string>
+    <string name="Arrive_Terminal_X_TEMPLATE">터미널 %1$s 도착</string>
+    <!-- Itin flight international terminal only -->
+    <string name="Arrive_International_Terminal">국제선 터미널 도착</string>
     <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">터미널 %1$s 출발</string>
+    <string name="Depart_Terminal_X_TEMPLATE">터미널 %1$s 출발</string>
+    <!-- Itin flight international terminal only -->
+    <string name="Depart_International_Terminal">국제선 터미널 출발</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="at_airport_TEMPLATE">&lt;b&gt;%1$s 도착&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
@@ -291,6 +301,10 @@
     <string name="try_again">다시 시도</string>
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">%1$s 복사</string>
+    <!-- Hours and minutes duration future TEMPLATE. This will be used to produce a string like:"in 3 hours and 12 minutes". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
+    <string name="hours_minutes_future_TEMPLATE">%1$s시간 %2$s분 후</string>
+    <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes".  -->
+    <string name="hours_minutes_past_TEMPLATE">%1$s시간 %2$s분 전</string>
 
     <!-- Itin Buttons -->
     <!-- Popup menu -->
@@ -1327,6 +1341,8 @@
     <string name="hotel_search_range_error_TEMPLATE">죄송합니다. %1$s일을 초과하는 숙박을 위한 호텔은 검색할 수 없습니다.</string>
     <!-- Search Error title text "Search Error" -->
     <string name="search_error">검색 오류</string>
+    <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
+    <string name="search_hotel_id_TEMPLATE">호텔%s</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -1470,6 +1486,12 @@
     <string name="see_all_reviews">이용 후기 모두 보기</string>
     <!-- Label for button that brings users to the room selection page -->
     <string name="select_room">객실 선택</string>
+    <!-- Title for VIP Access message -->
+    <string name="vip_access">VIP Access</string>
+    <!-- Message that explains the meaning of VIP Access -->
+    <string name="vip_access_message">VIP Access 호텔에서 Expedia Elite Plus 회원은 체크인 시 이용 가능한 경우 무료 객실 업그레이드와 기타 특전을 받으시게 됩니다.</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="filter_vip_access">VIP Access 호텔만</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>
@@ -1543,9 +1565,9 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">최근</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_favorable">최고</string>
+    <string name="user_review_sort_button_favorable">긍정적</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_critical">최저</string>
+    <string name="user_review_sort_button_critical">비판적</string>
     <!-- Loading more reviews -->
     <string name="user_review_loading_more_reviews">더 많은 이용 후기 로드 중…</string>
     <!-- Read more of the review -->
@@ -1622,10 +1644,8 @@
     <string name="Tonight">오늘 밤</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">무료 취소</string>
-    <!-- Resort Fee -->
-    <string name="resort_fee">리조트 요금</string>
     <!-- This fee is not included in the total -->
-    <string name="fee_not_included_in_total">이 요금은 총 금액에 포함되어 있지 않습니다.</string>
+    <string name="fee_not_included_in_total">이들 요금은 총 금액에 포함되어 있지 않습니다.</string>
     <!-- Renovation Notice -->
     <string name="renovation_notice">새단장 공사 알림</string>
     <!-- This property is undergoing renovations -->
@@ -1959,6 +1979,8 @@
     <string name="preference_point_of_sale_title">국가</string>
 
     <!-- Strings used a lot of places -->
+    <!-- Error shown if user tries to launch an outside app that they don't have access to -->
+    <string name="app_not_available">고객님 전화에 이 동작을 처리할 수 있는 앱이 없거나 고객님의 액세스가 제한되었습니다.</string>
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">어른 %d명</item>
@@ -2344,9 +2366,9 @@
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">Google Wallet으로 <b>10% 할인</b>받으세요!</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">Google Wallet 사용으로 10%% 할인되었습니다!</string>
+    <string name="wallet_promo_in_use_message">Google Wallet 사용으로 10% 할인되었습니다!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">예약 1회당 한 개 쿠폰만 사용하실 수 있습니다. 고객님의 이전 쿠폰을 Google Wallet 사용에 대한 10%% 할인 쿠폰으로 대체했습니다.</string>
+    <string name="coupon_replaced_message">예약 1회당 한 개 쿠폰만 사용하실 수 있습니다. 따라서 이전의 쿠폰을 Google Wallet 사용에 대한 10% 할인 쿠폰으로 대체했습니다.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Google Wallet 할인 적용 중…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
@@ -2355,6 +2377,8 @@
     <string name="wallet_promo_tc_title">Google Wallet 쿠폰 이용약관</string>
     <!-- Terms & conditions for Google Wallet promo -->
     <string name="wallet_promo_tc_message">쿠폰은 Expedia Android 앱에서 2013년 6월 17일 ~ 2013년 12월 31일에 해당하는 여행을 예약하는 경우 사용하실 수 있습니다. 이 혜택은 Expedia.com에서 제공하는 것이며 Expedia.com 미국 고객께만 적용됩니다.\n\n또한 예약 시 Expedia 요금 호텔이 이용 가능한 경우에만 해당하며 모든 해당 이용약관이 적용됩니다. 이 쿠폰은 다른 쿠폰이나 프로모션 또는 특별 혜택과 함께 사용하실 수 없습니다. 쿠폰 할인은 세금, 공급업체가 부과하는 요금, 취소 또는 변경에 대한 위약금, 행정 수수료 및 기타 부과금에는 적용되지 않으며 이러한 부과금은 고객님 본인의 단독 책임입니다. 예약의 전체 또는 일부를 변경하거나 취소하는 경우, 변경된 일정의 여행에는 이 쿠폰이 적용되지 않습니다.\n\n이 쿠폰의 이용약관은 기술된 바와 같으며 Expedia, Inc.의 직원을 포함하여 누구도 승인 없이 대표로 변경할 수 없습니다. 쿠폰은 양도가 불가능하며 현금으로 환급되지 않습니다. 법으로 금지되는 경우에는 효력이 없습니다. Expedia, Inc.는 언제든지 이 혜택을 취소 또는 변경할 수 있습니다.</string>
+    <!-- Error message shown when user tries to apply promo to trips in 2014 and beyond -->
+    <string name="wallet_promo_expired">죄송합니다. Google Wallet 할인은 2013년 여행에만 적용됩니다.</string>
 
     <!-- Samsung Wallet -->
     <!-- Label to use when the ticket already exists in the wallet -->

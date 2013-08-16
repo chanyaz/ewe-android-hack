@@ -192,29 +192,39 @@
     <!-- Booking info label -->
     <string name="booking_info">Infos réservation</string>
     <!-- Itin flight generic terminal and gate template -->
-    <string name="generic_terminal_TEMPLATE">Terminal %1$s, porte %2$s</string>
+    <string name="Terminal_X_Gate_Y_TEMPLATE">Terminal %1$s, Porte %2$s</string>
+    <!-- Itin flight international terminal and gate template -->
+    <string name="International_Terminal_Gate_X_TEMPLATE">Terminal international, Porte %1$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">Arrivée - terminal %1$s, porte %2$s</string>
+    <string name="Arrive_Terminal_X_Gate_Y_TEMPLATE">Arrivée - Terminal %1$s, Porte %2$s</string>
+    <!-- Itin flight arrival international terminal and gate template -->
+    <string name="Arrive_International_Terminal_Gate_X_TEMPLATE">Arrivée - Terminal international, Porte %1$s</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="departure_terminal_TEMPLATE">Départ - terminal %1$s, porte %2$s</string>
-    <!-- To be determined abbrev. -->
-    <string name="to_be_determined_abbrev">À déterminer</string>
+    <string name="Depart_Terminal_X_Gate_Y_TEMPLATE">Départ - Terminal %1$s, Porte %2$s</string>
+    <!-- Itin flight departure international terminal and gate template -->
+    <string name="Depart_International_Terminal_Gate_X_TEMPLATE">Départ - Terminal international, Porte %1$s</string>
+    <!-- "Gate To Be Determined", with "To Be Determined" abbreviated if possible -->
+    <string name="Gate_To_Be_Determined_abbrev">Porte à déterminer</string>
     <!-- Itin flight gate only template -->
-    <string name="gate_number_only_TEMPLATE">Porte %1$s</string>
+    <string name="Gate_X_TEMPLATE">Porte %1$s</string>
     <!-- Itin flight arrive gate only template -->
-    <string name="arrive_gate_number_only_TEMPLATE">Porte d\&apos;arrivée %1$s</string>
+    <string name="Arrive_Gate_X_TEMPLATE">Arrivée - Porte %1$s</string>
     <!-- Itin flight depart gate only template -->
-    <string name="depart_gate_number_only_TEMPLATE">Porte de départ %1$s</string>
+    <string name="Depart_Gate_X_TEMPLATE">Départ - Porte %1$s</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
     <string name="Terminal_X_TEMPLATE">Terminal %1$s</string>
-    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
-    <string name="Baggage_Claim_X_TEMPLATE">Retrait des bagages - carrousel %1$s</string>
     <!-- Special case for name of International Terminal -->
     <string name="International_Terminal">Terminal international</string>
+    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
+    <string name="Baggage_Claim_X_TEMPLATE">Retrait des bagages - carrousel %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">Arrivée - terminal %1$s</string>
+    <string name="Arrive_Terminal_X_TEMPLATE">Arrivée - Terminal %1$s</string>
+    <!-- Itin flight international terminal only -->
+    <string name="Arrive_International_Terminal">Arrivée - Terminal international</string>
     <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">Départ - terminal %1$s</string>
+    <string name="Depart_Terminal_X_TEMPLATE">Terminal de départ %1$s</string>
+    <!-- Itin flight international terminal only -->
+    <string name="Depart_International_Terminal">Départ - Terminal international</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="at_airport_TEMPLATE">&lt;b&gt;À %1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
@@ -291,6 +301,10 @@
     <string name="try_again">Réessayer</string>
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">COPIER %1$s</string>
+    <!-- Hours and minutes duration future TEMPLATE. This will be used to produce a string like:"in 3 hours and 12 minutes". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
+    <string name="hours_minutes_future_TEMPLATE">dans %1$s et %2$s</string>
+    <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes".  -->
+    <string name="hours_minutes_past_TEMPLATE">il y a %1$s et %2$s</string>
 
     <!-- Itin Buttons -->
     <!-- Popup menu -->
@@ -1327,10 +1341,12 @@
     <string name="hotel_search_range_error_TEMPLATE">Désolés, nous ne sommes pas en mesure de rechercher des hôtels pour des séjours de plus de %1$s jours.</string>
     <!-- Search Error title text "Search Error" -->
     <string name="search_error">Erreur de recherche</string>
+    <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
+    <string name="search_hotel_id_TEMPLATE">Hôtel%s</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
-        <item quantity="one">Il reste %d chambre sur notre app !</item>
+        <item quantity="one">Il reste %d chambre !</item>
         <item quantity="two">Il reste %d chambres sur notre app</item>
         <item quantity="many">Il reste %d chambres sur notre app</item>
         <item quantity="other">Il reste %d chambres sur notre app</item>
@@ -1470,6 +1486,12 @@
     <string name="see_all_reviews">Voir tous les avis</string>
     <!-- Label for button that brings users to the room selection page -->
     <string name="select_room">Choisir</string>
+    <!-- Title for VIP Access message -->
+    <string name="vip_access">Accès VIP</string>
+    <!-- Message that explains the meaning of VIP Access -->
+    <string name="vip_access_message">Les hôtels Accès VIP offrent le surclassement sans frais en catégorie supérieure aux membres Élite Plus, ainsi que de nombreux autres avantages, selon disponibilité à l\&apos;arrivée.</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="filter_vip_access">Seulement les hôtels Accès VIP</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>
@@ -1622,10 +1644,8 @@
     <string name="Tonight">Ce soir</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Annulation gratuite</string>
-    <!-- Resort Fee -->
-    <string name="resort_fee">Frais d\&apos;établissement</string>
     <!-- This fee is not included in the total -->
-    <string name="fee_not_included_in_total">Les frais ne sont pas compris dans le prix total</string>
+    <string name="fee_not_included_in_total">Ces frais ne sont pas inclus dans le total</string>
     <!-- Renovation Notice -->
     <string name="renovation_notice">Avis de rénovation</string>
     <!-- This property is undergoing renovations -->
@@ -1959,6 +1979,8 @@
     <string name="preference_point_of_sale_title">Pays</string>
 
     <!-- Strings used a lot of places -->
+    <!-- Error shown if user tries to launch an outside app that they don't have access to -->
+    <string name="app_not_available">Votre téléphone ne possède pas de fonctionnalité capable de supporter cette action ou votre accès à cette fonctionnalité est limité.</string>
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">%d adultes</item>
@@ -2344,9 +2366,9 @@
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer"><b>10% de réduction</b> avec Google Wallet !</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">Vous avez économisé 10 %% en utilisant Google Wallet !</string>
+    <string name="wallet_promo_in_use_message">Vous avez économisé 10 % en utilisant Google Wallet !</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Un seul bon par réservation. Nous avons remplacé votre bon précédent par la réduction de 10 %% pour avoir utilisé Google Wallet.</string>
+    <string name="coupon_replaced_message">Un seul bon par réservation. Nous avons remplacé votre bon précédent par la réduction de 10 % pour avoir utilisé Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Application de la réduction Google Wallet…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
@@ -2355,6 +2377,8 @@
     <string name="wallet_promo_tc_title">Conditions d\&apos;utilisation de Google Wallet</string>
     <!-- Terms & conditions for Google Wallet promo -->
     <string name="wallet_promo_tc_message">Les bons doivent être utilisés en réservant avec l\&apos;app Expedia pour Android pour des voyages à effectuer entre le 17 juin et le 31 décembre 2013. Offre proposée par Expedia.com, valable uniquement pour les clients d\&apos;Expedia.com résidant aux États-Unis.\n\nLes réservations sont sous réserve de disponibilité des établissements Offre Expedia au moment de l\&apos;achat et sont soumises aux conditions d\&apos;utilisation. Le bon ne peut être cumulé à d\&apos;autres bons, promotions ou offres spéciales. La bon ne peut être utilisé pour appliquer la réduction aux taxes, frais d\&apos;établissement, frais d\&apos;annulation ou de modification, frais administratifs ou tous autres frais, qui relèvent uniquement de la responsabilité du client. En cas de modification ou annulation partielle de votre réservation, le bon ne sera pas appliqué aux dates modifiées.\n\nLes conditions d\&apos;utilisation de ce bon sont telles qu\&apos;indiquées ci-dessus et ne peuvent être modifiées par aucune représentation de personnes non autorisées, y compris les employés du groupe Expedia, Inc. Le bon est non-transférable et n\&apos;a aucune valeur monétaire. Offre non valide là où la loi l\&apos;interdit. Expedia, Inc. peut modifier ou retirer cette offre à tout moment.</string>
+    <!-- Error message shown when user tries to apply promo to trips in 2014 and beyond -->
+    <string name="wallet_promo_expired">Malheureusement, la réduction Google Wallet est uniquement valable pour les voyages effectués après 2013.</string>
 
     <!-- Samsung Wallet -->
     <!-- Label to use when the ticket already exists in the wallet -->

@@ -192,29 +192,39 @@
     <!-- Booking info label -->
     <string name="booking_info">Buchungsinformationen</string>
     <!-- Itin flight generic terminal and gate template -->
-    <string name="generic_terminal_TEMPLATE">Terminal %1$s, Gate %2$s</string>
+    <string name="Terminal_X_Gate_Y_TEMPLATE">Terminal %1$s, Gate %2$s</string>
+    <!-- Itin flight international terminal and gate template -->
+    <string name="International_Terminal_Gate_X_TEMPLATE">Internationaler Terminal , Gate %1$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">Ankunftsterminal %1$s, Gate %2$s</string>
+    <string name="Arrive_Terminal_X_Gate_Y_TEMPLATE">Ankunftsterminal %1$s, Gate %2$s</string>
+    <!-- Itin flight arrival international terminal and gate template -->
+    <string name="Arrive_International_Terminal_Gate_X_TEMPLATE">Ankunft am int. Terminal, Gate %1$s</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="departure_terminal_TEMPLATE">Abflugterminal %1$s, Gate %2$s</string>
-    <!-- To be determined abbrev. -->
-    <string name="to_be_determined_abbrev">Folgt</string>
+    <string name="Depart_Terminal_X_Gate_Y_TEMPLATE">Abflugterminal %1$s, Gate %2$s</string>
+    <!-- Itin flight departure international terminal and gate template -->
+    <string name="Depart_International_Terminal_Gate_X_TEMPLATE">Abflug vom int. Terminal, Gate %1$s</string>
+    <!-- "Gate To Be Determined", with "To Be Determined" abbreviated if possible -->
+    <string name="Gate_To_Be_Determined_abbrev">Gate -folgt-</string>
     <!-- Itin flight gate only template -->
-    <string name="gate_number_only_TEMPLATE">Gate %1$s</string>
+    <string name="Gate_X_TEMPLATE">Gate %1$s</string>
     <!-- Itin flight arrive gate only template -->
-    <string name="arrive_gate_number_only_TEMPLATE">Ankunftsterminal %1$s</string>
+    <string name="Arrive_Gate_X_TEMPLATE">Ankunftsterminal %1$s</string>
     <!-- Itin flight depart gate only template -->
-    <string name="depart_gate_number_only_TEMPLATE">Abflugterminal %1$s</string>
+    <string name="Depart_Gate_X_TEMPLATE">Abflugterminal %1$s</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
     <string name="Terminal_X_TEMPLATE">Terminal %1$s</string>
-    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
-    <string name="Baggage_Claim_X_TEMPLATE">Gepäckausgabe %1$s</string>
     <!-- Special case for name of International Terminal -->
     <string name="International_Terminal">Int. Terminal</string>
+    <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
+    <string name="Baggage_Claim_X_TEMPLATE">Gepäckausgabe %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">Ankunftsterminal %1$s</string>
+    <string name="Arrive_Terminal_X_TEMPLATE">Ankunftsterminal %1$s</string>
+    <!-- Itin flight international terminal only -->
+    <string name="Arrive_International_Terminal">Ankunft am Int. Terminal</string>
     <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">Abflugterminal %1$s</string>
+    <string name="Depart_Terminal_X_TEMPLATE">Abflugterminal %1$s</string>
+    <!-- Itin flight international terminal only -->
+    <string name="Depart_International_Terminal">Abflug am Int. Terminal</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="at_airport_TEMPLATE">&lt;b&gt;Um %1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
@@ -291,6 +301,10 @@
     <string name="try_again">Erneut versuchen</string>
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">%1$s kopieren</string>
+    <!-- Hours and minutes duration future TEMPLATE. This will be used to produce a string like:"in 3 hours and 12 minutes". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
+    <string name="hours_minutes_future_TEMPLATE">in %1$s und %2$s</string>
+    <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes".  -->
+    <string name="hours_minutes_past_TEMPLATE">vor %1$s und %2$s</string>
 
     <!-- Itin Buttons -->
     <!-- Popup menu -->
@@ -329,47 +343,47 @@
     <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
     <string name="attraction_creatures_second">Kreaturen</string>
     <!-- First half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
-    <string name="attraction_theme_parks_first">Besuchen Sie die besten</string>
+    <string name="attraction_theme_parks_first">Die besten</string>
     <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
     <string name="attraction_theme_parks_second">Themenparks</string>
     <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_first">Relaxen Sie an den tollsten</string>
+    <string name="attraction_beaches_first">Tolle</string>
     <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
     <string name="attraction_beaches_second">Strände</string>
     <!-- First half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
-    <string name="attraction_helicopter_first">Wagen Sie einen</string>
+    <string name="attraction_helicopter_first">Rundflug im</string>
     <!-- Second half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
-    <string name="attraction_helicopter_second">Rundflug mit dem Hubschrauber</string>
+    <string name="attraction_helicopter_second">Hubschrauber</string>
     <!-- First half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
-    <string name="attraction_scuba_first">Entdecken Sie die Unterwasserwelt beim</string>
+    <string name="attraction_scuba_first">Faszination</string>
     <!-- Second half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
     <string name="attraction_scuba_second">Tauchen</string>
     <!-- First half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
     <string name="attraction_casinos_first">Weltberühmte</string>
     <!-- Second half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
-    <string name="attraction_casinos_second">Kasinos</string>
+    <string name="attraction_casinos_second">Casinos</string>
     <!-- First half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
-    <string name="attraction_ferrari_first">Unternehmen Sie eine</string>
+    <string name="attraction_ferrari_first">Spritztour im</string>
     <!-- Second half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
-    <string name="attraction_ferrari_second">Spritztour im Ferrari</string>
+    <string name="attraction_ferrari_second">Ferrari</string>
     <!-- First half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
     <string name="attraction_family_first">Aktivitäten für</string>
     <!-- Second half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
     <string name="attraction_family_second">Familien</string>
     <!-- First half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
-    <string name="attraction_food_first">Besuchen Sie fantastische</string>
+    <string name="attraction_food_first">Tolle</string>
     <!-- Second half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
     <string name="attraction_food_second">Restaurants</string>
     <!-- First half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
-    <string name="attraction_entertainment_first">Genießen Sie</string>
+    <string name="attraction_entertainment_first">Beste</string>
     <!-- Second half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
-    <string name="attraction_entertainment_second">Unterhaltung pur</string>
+    <string name="attraction_entertainment_second">Unterhaltung</string>
     <!-- First half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
-    <string name="attraction_music_first">Ergründen Sie</string>
+    <string name="attraction_music_first">Einheimische</string>
     <!-- Second half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
-    <string name="attraction_music_second">einheimische Klänge</string>
+    <string name="attraction_music_second">Klänge</string>
     <!-- First half of phrase about local expert VIP status attraction.  Full phrase: "Arrive with VIP Status" -->
-    <string name="attraction_vip_first">Fühlen Sie sich ganz als</string>
+    <string name="attraction_vip_first">Wie ein</string>
     <!-- Second half of phrase about local expert VIP status attraction.  Full phrase: "Arrive with VIP Status" -->
     <string name="attraction_vip_second">VIP</string>
 
@@ -1285,7 +1299,7 @@
 
     <!-- Search Activity -->
     <!-- Label for "start search" button -->
-    <string name="search">Suche</string>
+    <string name="search">Suchen</string>
     <!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
     <plurals name="number_of_matching_hotels">
         <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; passende Hotels</item>
@@ -1328,6 +1342,8 @@
     <string name="hotel_search_range_error_TEMPLATE">Wir können leider nicht nach Hotelaufenthalten suchen, die länger als %1$sTage dauern.</string>
     <!-- Search Error title text "Search Error" -->
     <string name="search_error">Fehler bei der Suche</string>
+    <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
+    <string name="search_hotel_id_TEMPLATE">Hotel %s</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -1471,6 +1487,12 @@
     <string name="see_all_reviews">Alle Bewertungen</string>
     <!-- Label for button that brings users to the room selection page -->
     <string name="select_room">Zimmer wählen</string>
+    <!-- Title for VIP Access message -->
+    <string name="vip_access">VIP Access</string>
+    <!-- Message that explains the meaning of VIP Access -->
+    <string name="vip_access_message">Expedia-Elite-Plus-Mitglieder erhalten in VIP-Access-Hotels je nach Verfügbarkeit bei Check-in kostenlose Zimmerupgrades und weitere Extras.</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="filter_vip_access">Nur VIP-Access-Hotels</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>
@@ -1544,9 +1566,9 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">Neu</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_favorable">Am besten</string>
+    <string name="user_review_sort_button_favorable">Positiv</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_critical">Am schlechtesten</string>
+    <string name="user_review_sort_button_critical">Kritisch</string>
     <!-- Loading more reviews -->
     <string name="user_review_loading_more_reviews">Weitere Bewertungen werden geladen…</string>
     <!-- Read more of the review -->
@@ -1623,10 +1645,8 @@
     <string name="Tonight">Heute</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Kostenlose Stornierung</string>
-    <!-- Resort Fee -->
-    <string name="resort_fee">Hotelgebühr</string>
     <!-- This fee is not included in the total -->
-    <string name="fee_not_included_in_total">Diese Gebühr ist nicht im Gesamtpreis enthalten</string>
+    <string name="fee_not_included_in_total">Diese Gebühren sind nicht im Gesamtpreis enthalten</string>
     <!-- Renovation Notice -->
     <string name="renovation_notice">Renovierungshinweis</string>
     <!-- This property is undergoing renovations -->
@@ -1960,6 +1980,8 @@
     <string name="preference_point_of_sale_title">Land</string>
 
     <!-- Strings used a lot of places -->
+    <!-- Error shown if user tries to launch an outside app that they don't have access to -->
+    <string name="app_not_available">Ihr Handy hat entweder keine entsprechende App oder Ihnen wird der Zugriff verwehrt.</string>
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">%d Erwachsene</item>
@@ -2345,9 +2367,9 @@
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">Sichern Sie sich <b>10%% Rabatt</b> mit Google Wallet!</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">Durch das Verwenden von Google Wallet haben Sie 10%% gespart.</string>
+    <string name="wallet_promo_in_use_message">Durch das Verwenden von Google Wallet haben Sie 10% gespart.</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Nur ein Gutschein pro Buchung. Wir haben Ihren alten Gutschein durch den 10%%-Rabatt-Gutschein für Google Wallet ersetzt.</string>
+    <string name="coupon_replaced_message">Nur ein Gutschein pro Buchung. Wir haben Ihren alten Gutschein durch den 10%-Rabatt-Gutschein für Google Wallet ersetzt.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Google-Wallet-Gutschein wird eingelöst…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
@@ -2356,6 +2378,8 @@
     <string name="wallet_promo_tc_title">Nutzungsbedingungen von Google Wallet</string>
     <!-- Terms & conditions for Google Wallet promo -->
     <string name="wallet_promo_tc_message">Der Gutschein kann nur mit der Expedia-App für Android für Reisen zwischen dem 17. Juni 2013 und dem 31. Dezember 2013 eingelöst werden. Dieses Angebot ist für Expedia.com und nur für US-Kunden von Expedia.com gültig.\n\nDas Angebot unterliegt der Verfügbarkeit in Expedia-Preis-Hotels zum Zeitpunkt der Buchung sowie allen zutreffenden Buchungsbedingungen. Der Gutschein gilt nicht in Verbindung mit anderen Gutscheinen, Aktionen und Angeboten. Der Gutscheinrabatt kann nicht für Steuern, von Veranstaltern erhobene Gebühren, Stornierungs- oder Umbuchungsgebühren, Verwaltungskosten oder sonstige Gebühren eingesetzt werden. Diese müssen vom Kunden selbst getragen werden. Sollten Sie Änderungen an Ihrer Buchung vornehmen, kann der Gutschein nicht auf die geänderten Reisedaten angewandt werden.\n\nDie Nutzungsbedingungen des Gutschein sind wie aufgeführt und können nicht durch nicht autorisierte Personen, darunter Angestellte von Expedia, Inc., geändert werden. Der Gutschein ist nicht übertragbar und hat keinen Barwert. Diese Regelung ist dort ungültig, wo sie gesetzlich untersagt ist. Expedia, Inc. kann das Angebot jederzeit zurücknehmen oder ändern.</string>
+    <!-- Error message shown when user tries to apply promo to trips in 2014 and beyond -->
+    <string name="wallet_promo_expired">Der Google-Wallet-Rabatt gilt leider nur für Reisen, die 2013 stattfinden.</string>
 
     <!-- Samsung Wallet -->
     <!-- Label to use when the ticket already exists in the wallet -->
