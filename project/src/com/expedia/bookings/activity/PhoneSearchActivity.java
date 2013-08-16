@@ -1,7 +1,5 @@
 package com.expedia.bookings.activity;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,8 +7,6 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -21,7 +17,6 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Rect;
@@ -29,6 +24,7 @@ import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Location;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
@@ -43,7 +39,6 @@ import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.text.format.DateUtils;
 import android.view.KeyEvent;
 import android.view.Surface;
 import android.view.View;
@@ -84,6 +79,7 @@ import com.expedia.bookings.data.HotelFilter.PriceRange;
 import com.expedia.bookings.data.HotelFilter.SearchRadius;
 import com.expedia.bookings.data.HotelFilter.Sort;
 import com.expedia.bookings.data.HotelOffersResponse;
+import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.HotelSearchResponse;
@@ -127,9 +123,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.NetUtils;
-import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.ViewUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.SegmentedControlGroup;
@@ -183,10 +177,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 	// Used in onNewIntent(), if the calling Activity wants the SearchActivity to start fresh
 	private static final String EXTRA_NEW_SEARCH = "EXTRA_NEW_SEARCH";
-
-	public static final long SEARCH_EXPIRATION = DateUtils.HOUR_IN_MILLIS;
-	private static final String SEARCH_RESULTS_VERSION_FILE = "savedsearch-version.dat";
-	private static final String SEARCH_RESULTS_FILE = "savedsearch.dat";
 
 	private static final int ANIMATION_DIMMER_FADE_DURATION = 500;//ms
 
@@ -278,10 +268,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private boolean mIsSearchEditTextTextWatcherEnabled = false;
 	private boolean mGLProgressBarStarted = false;
 	private boolean mHasShownCalendar = false;
-
-	// This indicates to mSearchCallback that we just loaded saved search results,
-	// and as such should behave a bit differently than if we just did a new search.
-	private boolean mLoadedSavedResults;
 
 	// The last selection for the search EditText.  Used to maintain between rotations
 	private int mSearchTextSelectionStart = -1;
@@ -424,7 +410,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			searchResponse.setSearchType(searchParams.getSearchType());
 			searchResponse.setSearchLatLon(searchParams.getSearchLatitude(), searchParams.getSearchLongitude());
 
-			if (!mLoadedSavedResults && searchResponse.getFilteredAndSortedProperties().length <= 10) {
+			if (searchResponse.getFilteredAndSortedProperties().length <= 10) {
 				Log.i("Initial search results had not many results, expanding search radius filter to show all.");
 				filter.setSearchRadius(SearchRadius.ALL);
 				mRadiusCheckedId = R.id.radius_all_button;
@@ -441,7 +427,9 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 			hideLoading();
 
+			// Save the timestamp in memory and on disk
 			mLastSearchTime = DateTime.now();
+			Db.saveHotelSearchTimestamp(this);
 		}
 		else if (searchResponse != null && searchResponse.getPropertiesCount() > 0
 				&& searchResponse.getLocations() != null && searchResponse.getLocations().size() > 0) {
@@ -517,6 +505,9 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			Db.clear();
 			// Remove it so we don't keep doing this on rotation
 			getIntent().removeExtra(EXTRA_NEW_SEARCH);
+		}
+		else {
+			Db.loadHotelSearchFromDisk(this);
 		}
 
 		HotelSearchResponse searchResponse = Db.getHotelSearch().getSearchResponse();
@@ -646,7 +637,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			mStartSearchOnResume = false;
 		}
 		// Check if the last search results are expired
-		else if (JodaUtils.isExpired(mLastSearchTime, SEARCH_EXPIRATION)) {
+		else if (JodaUtils.isExpired(mLastSearchTime, HotelSearch.SEARCH_DATA_TIMEOUT)) {
 			Log.d("onResume(): There are cached search results, but they expired.  Starting a new search instead.");
 			Db.getHotelSearch().getSearchParams().ensureValidCheckInDate();
 			startSearch();
@@ -696,9 +687,23 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	}
 
 	@Override
-	public Object onRetainCustomNonConfigurationInstance() {
-		mConfigChange = true;
-		return super.onRetainCustomNonConfigurationInstance();
+	protected void onStop() {
+		super.onStop();
+
+		// If the configuration isn't changing but we are stopping this activity, save the search params
+		//
+		// Due to not being able to tell a config change or not on earlier versions of Android, we just
+		// always save.
+		boolean configChange = false;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			configChange = isChangingConfigurations();
+		}
+		if (!configChange) {
+			// Save here to prevent saving to disk all the time. This will only save to disk when the user
+			// is leaving the screen. Moreover, waiting until now to save to disk will ensure HotelSearch
+			// contains a selected property.
+			Db.kickOffBackgroundHotelSearchSave(this);
+		}
 	}
 
 	@Override
@@ -1450,6 +1455,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		bd.cancelDownload(KEY_HOTEL_SEARCH);
 		bd.cancelDownload(KEY_LOADING_PREVIOUS);
 
+		Db.deleteHotelSearchData(this);
 
 		buildFilter();
 		commitEditedSearchParams();
