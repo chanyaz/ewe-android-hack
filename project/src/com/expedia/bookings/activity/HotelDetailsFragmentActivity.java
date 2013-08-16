@@ -589,12 +589,12 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		if (!isGalleryFullscreen) {
 			mGalleryToggleAnimator = new AnimatorSet();
 			mGalleryToggleAnimator.playTogether(
-				ObjectAnimator.ofFloat(detailsFragment, "translationX", windowWidth),
-				ObjectAnimator.ofFloat(galleryFragment, "translationX", 0.0f),
-				ObjectAnimator.ofFloat(pricePromoLayout, "translationX", -rightSideWidth, 0.0f),
-				ObjectAnimator.ofFloat(vipAccessIcon, "translationX", -rightSideWidth, 0.0f),
-				ObjectAnimator.ofInt(vipAccessIcon, "drawAlpha", 255, 0)
-			);
+					ObjectAnimator.ofFloat(detailsFragment, "translationX", windowWidth),
+					ObjectAnimator.ofFloat(galleryFragment, "translationX", 0.0f),
+					ObjectAnimator.ofFloat(pricePromoLayout, "translationX", -rightSideWidth, 0.0f),
+					ObjectAnimator.ofFloat(vipAccessIcon, "translationX", -rightSideWidth, 0.0f),
+					ObjectAnimator.ofInt(vipAccessIcon, "drawAlpha", 255, 0)
+					);
 			mGalleryToggleAnimator.addListener(new AnimatorListenerShort() {
 				@TargetApi(11)
 				@Override
@@ -611,12 +611,12 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		else {
 			mGalleryToggleAnimator = new AnimatorSet();
 			mGalleryToggleAnimator.playTogether(
-				ObjectAnimator.ofFloat(detailsFragment, "translationX", 0.0f),
-				ObjectAnimator.ofFloat(galleryFragment, "translationX", -rightSideWidth / 2.0f),
-				ObjectAnimator.ofFloat(pricePromoLayout, "translationX", -rightSideWidth),
-				ObjectAnimator.ofFloat(vipAccessIcon, "translationX", -rightSideWidth),
-				ObjectAnimator.ofInt(vipAccessIcon, "drawAlpha", 0, 255)
-			);
+					ObjectAnimator.ofFloat(detailsFragment, "translationX", 0.0f),
+					ObjectAnimator.ofFloat(galleryFragment, "translationX", -rightSideWidth / 2.0f),
+					ObjectAnimator.ofFloat(pricePromoLayout, "translationX", -rightSideWidth),
+					ObjectAnimator.ofFloat(vipAccessIcon, "translationX", -rightSideWidth),
+					ObjectAnimator.ofInt(vipAccessIcon, "drawAlpha", 0, 255)
+					);
 			mGalleryToggleAnimator.addListener(new AnimatorListenerShort() {
 				@TargetApi(11)
 				@Override
