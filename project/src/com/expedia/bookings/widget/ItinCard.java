@@ -618,7 +618,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	private void finishCollapse() {
 		mHeaderImageContainer.setEnabled(false);
 
-		mHeaderBitmapDrawable.setCornerMode(mShowSummary ? CornerMode.TOP : CornerMode.ALL);
+		if (mHeaderBitmapDrawable != null) {
+			mHeaderBitmapDrawable.setCornerMode(mShowSummary ? CornerMode.TOP : CornerMode.ALL);
+		}
 
 		updateSummaryVisibility();
 
@@ -640,7 +642,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 		ViewHelper.setTranslationY(mCardLayout, 0);
 
-		mHeaderBitmapDrawable.setCornerMode(CornerMode.NONE);
+		if (mHeaderBitmapDrawable != null) {
+			mHeaderBitmapDrawable.setCornerMode(CornerMode.NONE);
+		}
 
 		mSummaryDividerView.setVisibility(VISIBLE);
 		mDetailsLayout.setVisibility(VISIBLE);
