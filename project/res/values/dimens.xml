@@ -33,7 +33,6 @@
     <dimen name="itin_flight_segment_divider_padding">10dp</dimen>
     <dimen name="itin_simple_list_width">440dp</dimen>
     <dimen name="itin_map_marker_bottom_padding">12dp</dimen>
-    <dimen name="itin_list_action_bar_offset">56dp</dimen>
     <dimen name="itin_card_corner_radius">2dp</dimen>
     <dimen name="itin_card_flight_vertical_offset">-48dp</dimen>
 
@@ -53,7 +52,6 @@
     <dimen name="flight_search_header_padding_bottom">14dp</dimen>
     <dimen name="flight_search_space_between_rows">6dp</dimen>
     <dimen name="flight_search_calendar_height">300dp</dimen>
-    <dimen name="flight_search_dropdown_width_padding">48dp</dimen>
     <dimen name="flight_search_airport_padding_left">12dp</dimen>
 
     <!-- Plane window view dimens -->
@@ -109,7 +107,6 @@
     <dimen name="promo_banner_height">89dp</dimen>
     <dimen name="hotel_details_intro_offset">-89dp</dimen>
     <dimen name="price_promo_banner_height">45dp</dimen>
-    <dimen name="vip_banner_height">44dp</dimen>
 
     <!-- Radius of the blue circle drawn on the hotel details mini map fragment -->
     <dimen name="mini_map_circle_radius">7dp</dimen>
@@ -155,7 +152,6 @@
     <dimen name="itin_map_total_size">320dp</dimen>
 
     <!-- Dimensions for book now button or any other button in the header -->
-    <dimen name="header_button_height">38dp</dimen>
     <dimen name="hotel_description_body_text_size">12sp</dimen>
     <dimen name="hotel_description_title_text_size">18sp</dimen>
     <dimen name="mini_details_height">320dp</dimen>
