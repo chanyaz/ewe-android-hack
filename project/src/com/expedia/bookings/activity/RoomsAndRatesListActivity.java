@@ -210,6 +210,10 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 	}
 
 	private boolean checkFinishConditionsAndFinish() {
+		if (Db.getHotelSearch().getSelectedProperty() == null) {
+			Db.loadHotelSearchFromDisk(this);
+		}
+
 		// #13365: If the Db expired, finish out of this activity
 		if (Db.getHotelSearch().getSelectedProperty() == null) {
 			Log.i("Detected expired DB, finishing activity.");
@@ -234,6 +238,7 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 		@Override
 		public void onDownload(HotelOffersResponse response) {
 			Db.getHotelSearch().updateFrom(response);
+			Db.kickOffBackgroundHotelSearchSave(RoomsAndRatesListActivity.this);
 			mRoomsAndRatesFragment.notifyAvailabilityLoaded();
 		}
 	};
@@ -245,6 +250,7 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 	public void onRateSelected(Rate rate) {
 		String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 		Db.getHotelSearch().getAvailability(selectedId).setSelectedRate(rate);
+		Db.kickOffBackgroundHotelSearchSave(RoomsAndRatesListActivity.this);
 
 		Intent intent = new Intent(this, HotelOverviewActivity.class);
 		startActivity(intent);
