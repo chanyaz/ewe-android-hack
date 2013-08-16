@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
 import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
+import com.mobiata.android.bitmaps.TwoLevelImageCache;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.services.GoogleServices;
 import com.mobiata.android.services.GoogleServices.MapType;
@@ -58,7 +59,7 @@ public class MapImageView extends ImageView {
 			PIXEL_COEFFICIENT = 4096 * 256;
 		}
 
-		mPoiBitmap = BitmapFactory.decodeResource(res, R.drawable.search_center_purple);
+		mPoiBitmap = TwoLevelImageCache.getImage(res, R.drawable.search_center_purple);
 
 		mCircleRadius = res.getDimensionPixelSize(R.dimen.mini_map_circle_radius);
 		mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
