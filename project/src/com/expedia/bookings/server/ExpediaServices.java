@@ -25,6 +25,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import org.apache.http.NameValuePair;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -331,6 +332,11 @@ public class ExpediaServices implements DownloadListener {
 	// Documentation: http://www.expedia.com/static/mobile/APIConsole/flight.html
 
 	public FlightSearchResponse flightSearch(FlightSearchParams params, int flags) {
+		List<BasicNameValuePair> query = generateFlightSearchParams(params, flags);
+		return doFlightsRequest("api/flight/search", query, new StreamingFlightSearchResponseHandler(), flags);
+	}
+
+	public List<BasicNameValuePair> generateFlightSearchParams(FlightSearchParams params, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		// This code currently assumes that you are either making a one-way or round trip flight,
@@ -371,7 +377,7 @@ public class ExpediaServices implements DownloadListener {
 
 		query.add(new BasicNameValuePair("lccAndMerchantFareCheckoutAllowed", "true"));
 
-		return doFlightsRequest("api/flight/search", query, new StreamingFlightSearchResponseHandler(), flags);
+		return query;
 	}
 
 	public CreateItineraryResponse createItinerary(String productKey, int flags) {
@@ -386,6 +392,14 @@ public class ExpediaServices implements DownloadListener {
 
 	public FlightCheckoutResponse flightCheckout(FlightTrip flightTrip, Itinerary itinerary, BillingInfo billingInfo,
 			List<Traveler> travelers, int flags) {
+		List<BasicNameValuePair> query = generateFlightCheckoutParams(flightTrip, itinerary, billingInfo, travelers,
+				flags);
+		return doFlightsRequest("api/flight/checkout", query, new FlightCheckoutResponseHandler(mContext), flags
+				+ F_SECURE_REQUEST);
+	}
+
+	public List<BasicNameValuePair> generateFlightCheckoutParams(FlightTrip flightTrip, Itinerary itinerary,
+			BillingInfo billingInfo, List<Traveler> travelers, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		query.add(new BasicNameValuePair("tripId", itinerary.getTripId()));
@@ -429,8 +443,7 @@ public class ExpediaServices implements DownloadListener {
 
 		addCommonParams(query);
 
-		return doFlightsRequest("api/flight/checkout", query, new FlightCheckoutResponseHandler(mContext), flags
-				+ F_SECURE_REQUEST);
+		return query;
 	}
 
 	// Suppress final bookings if we're not in release mode and the preference is set to suppress
@@ -545,12 +558,23 @@ public class ExpediaServices implements DownloadListener {
 	// Documentation: http://www.expedia.com/static/mobile/APIConsole/
 
 	public HotelSearchResponse search(HotelSearchParams params, int sortType) {
+		List<BasicNameValuePair> query = generateHotelSearchParams(params, sortType);
+
+		HotelSearchResponseHandler rh = new HotelSearchResponseHandler(mContext);
+		if (params.hasSearchLatLon()) {
+			rh.setLatLng(params.getSearchLatitude(), params.getSearchLongitude());
+		}
+		rh.setNumNights(params.getStayDuration());
+
+		return doE3Request("MobileHotel/Webapp/SearchResults", query, rh, 0);
+	}
+
+	public List<BasicNameValuePair> generateHotelSearchParams(HotelSearchParams params, int sortType) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		if (getEndPoint(mContext) == EndPoint.MOCK_SERVER) {
 			query.add(new BasicNameValuePair("city", "saved_product"));
-			HotelSearchResponseHandler rh = new HotelSearchResponseHandler(mContext);
-			return doE3Request("MobileHotel/Webapp/SearchResults", query, rh, 0);
+			return query;
 		}
 
 		query.add(new BasicNameValuePair("sortOrder", "ExpertPicks"));
@@ -577,24 +601,11 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("pageIndex", "0"));
 		query.add(new BasicNameValuePair("filterUnavailable", "true"));
 
-		HotelSearchResponseHandler rh = new HotelSearchResponseHandler(mContext);
-		if (params.hasSearchLatLon()) {
-			rh.setLatLng(params.getSearchLatitude(), params.getSearchLongitude());
-		}
-		rh.setNumNights(params.getStayDuration());
-		return doE3Request("MobileHotel/Webapp/SearchResults", query, rh, 0);
+		return query;
 	}
 
 	public HotelOffersResponse availability(HotelSearchParams params, Property property) {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-
-		addCommonParams(query);
-
-		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
-
-		if (params != null) {
-			addHotelSearchParams(query, params);
-		}
+		List<BasicNameValuePair> query = generateHotelAvailabilityParams(params, property);
 
 		HotelOffersResponseHandler responseHandler = new HotelOffersResponseHandler(mContext, params, property);
 		HotelOffersResponse response = doE3Request("MobileHotel/Webapp/HotelOffers", query, responseHandler, 0);
@@ -632,7 +643,27 @@ public class ExpediaServices implements DownloadListener {
 		return response;
 	}
 
+	public List<BasicNameValuePair> generateHotelAvailabilityParams(HotelSearchParams params, Property property) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		addCommonParams(query);
+
+		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
+
+		if (params != null) {
+			addHotelSearchParams(query, params);
+		}
+
+		return query;
+	}
+
 	public HotelProductResponse hotelProduct(HotelSearchParams params, Property property, Rate rate) {
+		List<BasicNameValuePair> query = generateHotelProductParmas(params, property, rate);
+		HotelProductResponseHandler responseHandler = new HotelProductResponseHandler(mContext, params, property, rate);
+		return doE3Request("MobileHotel/Webapp/HotelProduct", query, responseHandler, 0);
+	}
+
+	public List<BasicNameValuePair> generateHotelProductParmas(HotelSearchParams params, Property property, Rate rate) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		// Adds sourceType
@@ -643,12 +674,18 @@ public class ExpediaServices implements DownloadListener {
 		// For room1 parameter
 		addHotelGuestParamater(query, params);
 
-		HotelProductResponseHandler responseHandler = new HotelProductResponseHandler(mContext, params, property, rate);
-		return doE3Request("MobileHotel/Webapp/HotelProduct", query, responseHandler, 0);
+		return query;
 	}
 
 	public CreateTripResponse createTripWithCoupon(String couponCode, HotelSearchParams params, Property property,
 			Rate rate) {
+		List<BasicNameValuePair> query = generateCreateTripWithCouponParams(couponCode, params, property, rate);
+		CreateTripResponseHandler responseHandler = new CreateTripResponseHandler(mContext, params, property);
+		return doE3Request("MobileHotel/Webapp/CreateTrip", query, responseHandler, F_SECURE_REQUEST);
+	}
+
+	public List<BasicNameValuePair> generateCreateTripWithCouponParams(String couponCode, HotelSearchParams params,
+			Property property, Rate rate) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		addCommonParams(query);
@@ -657,36 +694,13 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("productKey", rate.getRateKey()));
 		query.add(new BasicNameValuePair("couponCode", couponCode));
 
-		CreateTripResponseHandler responseHandler = new CreateTripResponseHandler(mContext, params, property);
-		return doE3Request("MobileHotel/Webapp/CreateTrip", query, responseHandler, F_SECURE_REQUEST);
+		return query;
 	}
 
 	public BookingResponse reservation(HotelSearchParams params, Property property, Rate rate, BillingInfo billingInfo,
 			String tripId, String userId, Long tuid) {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-
-		addCommonParams(query);
-
-		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
-		query.add(new BasicNameValuePair("productKey", rate.getRateKey()));
-
-		addHotelSearchParams(query, params);
-
-		addBillingInfo(query, billingInfo, F_HOTELS);
-
-		query.add(new BasicNameValuePair("sendEmailConfirmation", "true"));
-
-		if (!TextUtils.isEmpty(tripId)) {
-			query.add(new BasicNameValuePair("tripId", tripId));
-		}
-
-		// Response with user id. Get it from the sign in response first.
-		if (tuid != null) {
-			query.add(new BasicNameValuePair("userId", String.valueOf(tuid)));
-		}
-		else if (!TextUtils.isEmpty(userId)) {
-			query.add(new BasicNameValuePair("userId", userId));
-		}
+		List<BasicNameValuePair> query = generateHotelReservationParams(params, property, rate, billingInfo, tripId,
+				userId, tuid);
 
 		// Simulate a valid checkout, to bypass the actual checkout process
 		if (!AndroidUtils.isRelease(mContext)) {
@@ -714,13 +728,43 @@ public class ExpediaServices implements DownloadListener {
 			}
 		}
 
+		return doE3Request("MobileHotel/Webapp/Checkout", query, new BookingResponseHandler(mContext), F_SECURE_REQUEST);
+	}
+
+	public List<BasicNameValuePair> generateHotelReservationParams(HotelSearchParams params, Property property,
+			Rate rate, BillingInfo billingInfo, String tripId, String userId, Long tuid) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		addCommonParams(query);
+
+		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
+		query.add(new BasicNameValuePair("productKey", rate.getRateKey()));
+
+		addHotelSearchParams(query, params);
+
+		addBillingInfo(query, billingInfo, F_HOTELS);
+
+		query.add(new BasicNameValuePair("sendEmailConfirmation", "true"));
+
+		if (!TextUtils.isEmpty(tripId)) {
+			query.add(new BasicNameValuePair("tripId", tripId));
+		}
+
+		// Response with user id. Get it from the sign in response first.
+		if (tuid != null) {
+			query.add(new BasicNameValuePair("userId", String.valueOf(tuid)));
+		}
+		else if (!TextUtils.isEmpty(userId)) {
+			query.add(new BasicNameValuePair("userId", userId));
+		}
+
 		if (User.isLoggedIn(mContext)) {
 			query.add(new BasicNameValuePair("doIThinkImSignedIn", "true"));
 			query.add(new BasicNameValuePair("storeCreditCardInUserProfile",
 					billingInfo.getSaveCardToExpediaAccount() ? "true" : "false"));
 		}
 
-		return doE3Request("MobileHotel/Webapp/Checkout", query, new BookingResponseHandler(mContext), F_SECURE_REQUEST);
+		return query;
 	}
 
 	private void addHotelSearchParams(List<BasicNameValuePair> query, HotelSearchParams params) {
