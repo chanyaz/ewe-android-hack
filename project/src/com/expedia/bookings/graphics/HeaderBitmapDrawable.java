@@ -186,6 +186,10 @@ public class HeaderBitmapDrawable extends Drawable implements OnImageLoaded {
 	protected void onBoundsChange(Rect bounds) {
 		super.onBoundsChange(bounds);
 
+		if (mUrlBitmapDrawable != null) {
+			mUrlBitmapDrawable.setBounds(bounds);
+		}
+
 		mRect.set(bounds);
 
 		configureOverlayDrawableBounds(bounds);
