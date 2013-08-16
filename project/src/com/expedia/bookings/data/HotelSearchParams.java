@@ -83,25 +83,6 @@ public class HotelSearchParams implements JSONable {
 		init();
 	}
 
-	/**
-	 * Creates a new HotelSearchParams object populated with the globally stored defaults from the passed SharedPreferences object.
-	 * @param prefs
-	 */
-	public HotelSearchParams(SharedPreferences prefs) {
-		init();
-		String searchParamsJson = prefs.getString(SEARCH_PARAMS_KEY, null);
-		if (searchParamsJson != null) {
-			try {
-				JSONObject obj = new JSONObject(searchParamsJson);
-				fromJson(obj);
-				ensureValidCheckInDate();
-			}
-			catch (JSONException e) {
-				Log.e("Failed to load saved search params.");
-			}
-		}
-	}
-
 	private void init() {
 		mSearchLatLonUpToDate = false;
 

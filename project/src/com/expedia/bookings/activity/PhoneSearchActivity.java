@@ -292,9 +292,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
 
-	// Determine if we're just doing a config change vs. finishing
-	private boolean mConfigChange = false;
-
 	// Invisible Fragment that handles FusedLocationProvider
 	private FusedLocationProviderFragment mLocationFragment;
 
@@ -458,51 +455,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		}
 	}
 
-	private final Download<HotelSearchResponse> mLoadSavedResults = new Download<HotelSearchResponse>() {
-		@Override
-		public HotelSearchResponse doDownload() {
-			HotelSearchResponse response = null;
-			File savedSearchResults = getFileStreamPath(SEARCH_RESULTS_FILE);
-			if (savedSearchResults.exists()) {
-				if (CalendarUtils.isExpired(savedSearchResults.lastModified(), SEARCH_EXPIRATION)) {
-					Log.d("There are saved search results, but they expired.  Starting a new search instead.");
-				}
-				else {
-					try {
-						long start = System.currentTimeMillis();
-						JSONObject obj = new JSONObject(IoUtils.readStringFromFile(SEARCH_RESULTS_FILE, mContext));
-						response = new HotelSearchResponse(obj);
-						Log.i("Loaded current search results, time taken: " + (System.currentTimeMillis() - start)
-								+ " ms");
-					}
-					catch (IOException e) {
-						Log.w("Couldn't load saved search results file.", e);
-					}
-					catch (JSONException e) {
-						Log.w("Couldn't parse saved search results file.", e);
-					}
-				}
-			}
-
-			return response;
-		}
-	};
-
-	private final OnDownloadComplete<HotelSearchResponse> mLoadSavedResultsCallback = new OnDownloadComplete<HotelSearchResponse>() {
-		@Override
-		public void onDownload(HotelSearchResponse results) {
-			if (results == null) {
-				// This means the load didn't work; kick off a new search
-				startSearch();
-			}
-			else {
-				mLoadedSavedResults = true;
-				mSearchCallback.onDownload(results);
-				mLoadedSavedResults = false;
-			}
-		}
-	};
-
 	private OnSearchParamsChangedInWidgetListener mSearchParamsChangedListener = new OnSearchParamsChangedInWidgetListener() {
 
 		@Override
@@ -563,7 +515,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 		if (startNewSearch) {
 			Db.clear();
-			saveParams();
 			// Remove it so we don't keep doing this on rotation
 			getIntent().removeExtra(EXTRA_NEW_SEARCH);
 		}
@@ -655,9 +606,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			downloader.unregisterDownloadCallback(KEY_SEARCH);
 			downloader.unregisterDownloadCallback(KEY_HOTEL_SEARCH);
 		}
-		else {
-			saveParams();
-		}
 
 		OmnitureTracking.onPause();
 	}
@@ -718,13 +666,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		}
 		else {
 			BackgroundDownloader downloader = BackgroundDownloader.getInstance();
-			if (downloader.isDownloading(KEY_LOADING_PREVIOUS)) {
-				Log.d("Already loading previous search results, resuming the load...");
-				mActivityState = ActivityState.SEARCHING;
-				downloader.registerDownloadCallback(KEY_LOADING_PREVIOUS, mLoadSavedResultsCallback);
-				showLoading(true, R.string.loading_previous);
-			}
-			else if (downloader.isDownloading(KEY_GEOCODE)) {
+			if (downloader.isDownloading(KEY_GEOCODE)) {
 				Log.d("Already geocoding, resuming the search...");
 				mActivityState = ActivityState.SEARCHING;
 				downloader.registerDownloadCallback(KEY_GEOCODE, mGeocodeCallback);
@@ -773,15 +715,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			mActionMode.finish();
 		}
 
-		// do not attempt to save parameters if the user was short circuited to the
-		// confirmation screen when the search activity started
 		if (isFinishing()) {
-			saveParams();
-
-			File savedSearchResults = getFileStreamPath(SEARCH_RESULTS_FILE);
-
-			HotelSearchResponse searchResponse = Db.getHotelSearch().getSearchResponse();
-
 			// Cancel any currently downloading searches
 			BackgroundDownloader downloader = BackgroundDownloader.getInstance();
 			if (downloader.isDownloading(KEY_SEARCH)) {
@@ -796,29 +730,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				Log.d("Cancelling search by hotel name because activity is ending.");
 				downloader.cancelDownload(KEY_HOTEL_SEARCH);
 			}
-
-			// Save a search response as long as:
-			// 1. We weren't currently searching
-			// 2. The search response exists and has no errors.
-			// 3. We don't already have a saved search response (means nothing changed)
-			else if (searchResponse != null && !searchResponse.hasErrors() && !savedSearchResults.exists()) {
-				try {
-					long start = System.currentTimeMillis();
-					IoUtils.writeStringToFile(SEARCH_RESULTS_VERSION_FILE, "" + AndroidUtils.getAppCode(mContext), this);
-					IoUtils.writeStringToFile(SEARCH_RESULTS_FILE, searchResponse.toJson().toString(0), this);
-					Log.i("Saved current search results, time taken: " + (System.currentTimeMillis() - start) + " ms");
-				}
-				catch (IOException e) {
-					Log.w("Couldn't save search results.", e);
-				}
-				catch (JSONException e) {
-					Log.w("Couldn't save search results.", e);
-				}
-				catch (OutOfMemoryError e) {
-					Log.w("Ran out of memory while trying to save search results file", e);
-				}
-			}
-
 		}
 	}
 
@@ -1466,17 +1377,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		}
 	}
 
-	private void saveParams() {
-		Log.d("Saving search parameters, filter and tag...");
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		Db.getHotelSearch().getSearchParams().saveToSharedPreferences(prefs);
-		Editor editor = prefs.edit();
-		editor.putString("filter", Db.getFilter().toJson().toString());
-		editor.putString("tag", mTag);
-		editor.putBoolean("showDistance", mShowDistance);
-		SettingUtils.commitOrApply(editor);
-	}
-
 	@Override
 	public boolean onSearchRequested() {
 		Log.d("onSearchRequested called");
@@ -1550,17 +1450,10 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		bd.cancelDownload(KEY_HOTEL_SEARCH);
 		bd.cancelDownload(KEY_LOADING_PREVIOUS);
 
-		// Delete the currently saved search results
-		File savedSearchResults = getFileStreamPath(SEARCH_RESULTS_FILE);
-		if (savedSearchResults.exists()) {
-			boolean results = savedSearchResults.delete();
-			Log.d("Deleting previous search results.  Success: " + results);
-		}
 
 		buildFilter();
 		commitEditedSearchParams();
 		setDisplayType(DisplayType.NONE);
-		saveParams();
 
 		SearchType searchType = Db.getHotelSearch().getSearchParams().getSearchType();
 		switch (searchType) {
@@ -2500,11 +2393,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				getCurrentSearchParams().setSearchType(SearchType.MY_LOCATION);
 			}
 			else {
-				if (mEditedSearchParams == null) {
-					SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(PhoneSearchActivity.this);
-					mEditedSearchParams = new HotelSearchParams(prefs);
-				}
-
 				Object o = AutocompleteProvider.extractSearchOrString(c);
 
 				if (o instanceof Search) {
