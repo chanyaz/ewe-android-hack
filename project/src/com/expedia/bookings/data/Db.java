@@ -19,6 +19,7 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
+import com.expedia.bookings.utils.CalendarUtils;
 import com.google.android.gms.wallet.MaskedWallet;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -450,6 +451,93 @@ public class Db {
 
 		sDb.mFlightSearch.reset();
 		sDb.mTravelers.clear();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Saving/loading hotel data
+
+	private static final String HOTEL_SEARCH_START_TIME = "hotelsSearchTimestampSetting";
+	private static final String HOTEL_SEARCH_DATA_FILE = "hotels-data.db";
+
+	public static void saveHotelSearchTimestamp(final Context context) {
+		// Save the timestamp of the original search to know when the results become invalid
+		long startTimeMs = System.currentTimeMillis();
+		SettingUtils.save(context, HOTEL_SEARCH_START_TIME, startTimeMs);
+	}
+
+	public static void kickOffBackgroundHotelSearchSave(final Context context) {
+		(new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Process.setThreadPriority(Process.THREAD_PRIORITY_LOWEST);
+				Db.saveHotelSearchToDisk(context);
+			}
+		})).start();
+	}
+
+	private static void saveHotelSearchToDisk(Context context) {
+		synchronized (sDb) {
+			Log.i("Saving hotel data to disk.");
+
+			long start = System.currentTimeMillis();
+			try {
+				String hotelSearchString = sDb.mHotelSearch.toJson().toString();
+				IoUtils.writeStringToFile(HOTEL_SEARCH_DATA_FILE, hotelSearchString, context);
+
+				Log.d("Saved hotel data cache in " + (System.currentTimeMillis() - start)
+						+ " ms.  Size of data cache: "
+						+ hotelSearchString.length() + " chars");
+			}
+			catch (Exception e) {
+				Log.w("Failed to save hotel data", e);
+			}
+		}
+	}
+
+	public static boolean loadHotelSearchFromDisk(Context context) {
+		synchronized (sDb) {
+			long start = System.currentTimeMillis();
+
+			File file = context.getFileStreamPath(HOTEL_SEARCH_DATA_FILE);
+			if (!file.exists()) {
+				Log.d("There is no cached hotel data to load!");
+				return false;
+			}
+
+			long searchTimestamp = SettingUtils.get(context, HOTEL_SEARCH_START_TIME, (long) 0);
+			if (CalendarUtils.isExpired(searchTimestamp, HotelSearch.SEARCH_DATA_TIMEOUT)) {
+				Log.d("There is cached hotel data but it has expired, not loading.");
+				Db.deleteHotelSearchData(context);
+				return false;
+			}
+
+			try {
+				JSONObject jsonObject = new JSONObject(IoUtils.readStringFromFile(HOTEL_SEARCH_DATA_FILE, context));
+				HotelSearch hotelSearch = new HotelSearch();
+				hotelSearch.fromJson(jsonObject);
+				sDb.mHotelSearch = hotelSearch;
+
+				Log.d("Loaded cached hotel data in " + (System.currentTimeMillis() - start) + " ms");
+				return true;
+			}
+			catch (Exception e) {
+				Log.w("Unable to load hotel search from disk", e);
+				return false;
+			}
+		}
+	}
+
+	public static boolean deleteHotelSearchData(Context context) {
+		SettingUtils.remove(context, HOTEL_SEARCH_START_TIME);
+
+		File file = context.getFileStreamPath(HOTEL_SEARCH_DATA_FILE);
+		if (!file.exists()) {
+			return true;
+		}
+		else {
+			Log.i("Deleting cached hotel data.");
+			return file.delete();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
