@@ -60,6 +60,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.FusedLocationProviderFragment.Listener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
@@ -690,6 +691,9 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 			mLaunchingActivity = true;
 
+			ImageView bgImageView = Ui.findView(view, R.id.background_view);
+			Bundle animOptions = AnimUtils.createActivityThumbnailScaleBundle(bgImageView);
+
 			if (item instanceof Property) {
 				Property property = (Property) item;
 				String propertyId = property.getPropertyId();
@@ -713,7 +717,8 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 				Intent intent = new Intent(getActivity(), HotelDetailsFragmentActivity.class);
 				intent.putExtra(HotelDetailsMiniGalleryFragment.ARG_FROM_LAUNCH, true);
-				startActivity(intent);
+
+				NavUtils.startActivity(getActivity(), intent, animOptions);
 			}
 			else if (item instanceof HotelDestination) {
 				HotelDestination destination = (HotelDestination) item;
@@ -736,7 +741,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				searchParams.setChildren(null);
 
 				// Launch hotel search
-				NavUtils.goToHotels(getActivity(), searchParams);
+				NavUtils.goToHotels(getActivity(), searchParams, animOptions);
 			}
 		}
 	};
@@ -768,11 +773,16 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 			// F1330: Tapping on tiles should take you to unsupported POS page
 			// if you are on an unsupported POS!
+
+			ImageView bgImageView = Ui.findView(view, R.id.background_view);
+			Bundle animOptions = AnimUtils.createActivityThumbnailScaleBundle(bgImageView);
+
 			if (!PointOfSale.getPointOfSale().supportsFlights()) {
-				startActivity(new Intent(getActivity(), FlightUnsupportedPOSActivity.class));
+				Intent intent = new Intent(getActivity(), FlightUnsupportedPOSActivity.class);
+				NavUtils.startActivity(getActivity(), intent, animOptions);
 			}
 			else {
-				NavUtils.goToFlights(getActivity(), true);
+				NavUtils.goToFlights(getActivity(), true, animOptions);
 			}
 		}
 	};
@@ -927,18 +937,20 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	private final View.OnClickListener mHeaderItemOnClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
+			Bundle animOptions = AnimUtils.createActivityScaleBundle(v);
+
 			switch (v.getId()) {
 			case R.id.hotels_button:
 				if (!mLaunchingActivity) {
 					mLaunchingActivity = true;
-					NavUtils.goToHotels(getActivity());
+					NavUtils.goToHotels(getActivity(), animOptions);
 					OmnitureTracking.trackLinkLaunchScreenToHotels(getActivity());
 				}
 				break;
 			case R.id.flights_button:
 				if (!mLaunchingActivity) {
 					mLaunchingActivity = true;
-					NavUtils.goToFlights(getActivity());
+					NavUtils.goToFlights(getActivity(), animOptions);
 					OmnitureTracking.trackLinkLaunchScreenToFlights(getActivity());
 				}
 				break;

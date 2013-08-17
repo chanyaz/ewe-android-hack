@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
@@ -41,6 +43,15 @@ public class NavUtils {
 
 	public static boolean canHandleIntent(Context context, Intent intent) {
 		return intent.resolveActivity(context.getPackageManager()) != null;
+	}
+
+	public static void startActivity(Context context, Intent intent, Bundle options) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+			context.startActivity(intent, options);
+		}
+		else {
+			context.startActivity(intent);
+		}
 	}
 
 	public static boolean startActivitySafe(Context context, Intent intent) {
@@ -89,11 +100,15 @@ public class NavUtils {
 		context.startActivity(intent);
 	}
 
-	public static void goToHotels(Context context) {
-		goToHotels(context, null);
+	public static void goToHotels(Context context, HotelSearchParams params) {
+		goToHotels(context, params, null);
 	}
 
-	public static void goToHotels(Context context, HotelSearchParams params) {
+	public static void goToHotels(Context context, Bundle animOptions) {
+		goToHotels(context, null, animOptions);
+	}
+
+	public static void goToHotels(Context context, HotelSearchParams params, Bundle animOptions) {
 		sendKillActivityBroadcast(context);
 
 		Intent intent = new Intent();
@@ -121,18 +136,27 @@ public class NavUtils {
 
 		// Launch activity based on routing selection
 		intent.setClass(context, routingTarget);
-		context.startActivity(intent);
+		startActivity(context, intent, animOptions);
 	}
 
 	public static void goToFlights(Context context) {
-		goToFlights(context, false);
+		goToFlights(context, false, null);
 	}
 
 	public static void goToFlights(Context context, boolean usePresetSearchParams) {
+		goToFlights(context, usePresetSearchParams, null);
+	}
+
+	public static void goToFlights(Context context, Bundle animOptions) {
+		goToFlights(context, false, animOptions);
+	}
+
+	public static void goToFlights(Context context, boolean usePresetSearchParams, Bundle animOptions) {
 		if (!PointOfSale.getPointOfSale().supportsFlights()) {
 			// Because the user can't actually navigate forward from here, perhaps it makes sense to preserve the
 			// backstack so as not to add insult to injury (can't access Flights, lost activity backstack)
-			context.startActivity(new Intent(context, FlightUnsupportedPOSActivity.class));
+			Intent intent = new Intent(context, FlightUnsupportedPOSActivity.class);
+			startActivity(context, intent, animOptions);
 		}
 		else {
 			sendKillActivityBroadcast(context);
@@ -140,7 +164,7 @@ public class NavUtils {
 			if (usePresetSearchParams) {
 				intent.putExtra(FlightSearchActivity.ARG_USE_PRESET_SEARCH_PARAMS, true);
 			}
-			context.startActivity(intent);
+			startActivity(context, intent, animOptions);
 		}
 	}
 
