@@ -231,7 +231,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 	////// EDIT FIELDS
 	//////////////////////////////////////
 
-	SectionFieldEditable<EditText, Location> mEditAddressLineOne = new SectionFieldEditable<EditText, Location>(
+	SectionFieldEditable<EditText, Location> mEditAddressLineOne = new SectionFieldEditableFocusChangeTrimmer<EditText, Location>(
 			R.id.edit_address_line_one) {
 
 		@Override
@@ -287,7 +287,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		}
 	};
 
-	SectionFieldEditable<EditText, Location> mEditAddressLineTwo = new SectionFieldEditable<EditText, Location>(
+	SectionFieldEditable<EditText, Location> mEditAddressLineTwo = new SectionFieldEditableFocusChangeTrimmer<EditText, Location>(
 			R.id.edit_address_line_two) {
 
 		@Override
@@ -346,7 +346,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		}
 	};
 
-	SectionFieldEditable<EditText, Location> mEditAddressCity = new SectionFieldEditable<EditText, Location>(
+	SectionFieldEditable<EditText, Location> mEditAddressCity = new SectionFieldEditableFocusChangeTrimmer<EditText, Location>(
 			R.id.edit_address_city) {
 		@Override
 		protected Validator<EditText> getValidator() {
@@ -406,7 +406,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		}
 	};
 
-	SectionFieldEditable<EditText, Location> mEditAddressState = new SectionFieldEditable<EditText, Location>(
+	SectionFieldEditable<EditText, Location> mEditAddressState = new SectionFieldEditableFocusChangeTrimmer<EditText, Location>(
 			R.id.edit_address_state) {
 		@Override
 		protected Validator<EditText> getValidator() {
@@ -450,7 +450,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		}
 	};
 
-	SectionFieldEditable<EditText, Location> mEditAddressPostalCode = new SectionFieldEditable<EditText, Location>(
+	SectionFieldEditable<EditText, Location> mEditAddressPostalCode = new SectionFieldEditableFocusChangeTrimmer<EditText, Location>(
 			R.id.edit_address_postal_code) {
 
 		Validator<EditText> mPostalCodeCharacterCountValidator = new Validator<EditText>() {

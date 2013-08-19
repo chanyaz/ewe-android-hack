@@ -354,7 +354,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 	////// EDIT FIELDS
 	//////////////////////////////////////
 
-	SectionFieldEditable<EditText, Traveler> mEditFirstName = new SectionFieldEditable<EditText, Traveler>(
+	SectionFieldEditable<EditText, Traveler> mEditFirstName = new SectionFieldEditableFocusChangeTrimmer<EditText, Traveler>(
 			R.id.edit_first_name) {
 		@Override
 		protected Validator<EditText> getValidator() {
@@ -395,7 +395,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		}
 	};
 
-	SectionFieldEditable<EditText, Traveler> mEditMiddleName = new SectionFieldEditable<EditText, Traveler>(
+	SectionFieldEditable<EditText, Traveler> mEditMiddleName = new SectionFieldEditableFocusChangeTrimmer<EditText, Traveler>(
 			R.id.edit_middle_name) {
 		@Override
 		protected Validator<EditText> getValidator() {
@@ -434,7 +434,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		}
 	};
 
-	SectionFieldEditable<EditText, Traveler> mEditLastName = new SectionFieldEditable<EditText, Traveler>(
+	SectionFieldEditable<EditText, Traveler> mEditLastName = new SectionFieldEditableFocusChangeTrimmer<EditText, Traveler>(
 			R.id.edit_last_name) {
 
 		Validator<EditText> mValidator = new Validator<EditText>() {
@@ -588,9 +588,10 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				public void customUpdateTitle(int year, int month, int day) {
 					//e.g. Tue, Apr 4, 1978
 					LocalDate localDate = new LocalDate(year, month + 1, day);
-					String formattedDate = JodaUtils.formatLocalDate(getContext(), localDate, DateUtils.FORMAT_SHOW_DATE
-							| DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_WEEKDAY
-							| DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_ABBREV_MONTH);
+					String formattedDate = JodaUtils.formatLocalDate(getContext(), localDate,
+							DateUtils.FORMAT_SHOW_DATE
+									| DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_WEEKDAY
+									| DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_ABBREV_MONTH);
 					setTitle(formattedDate);
 				}
 			};
@@ -746,7 +747,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 	};
 
-	SectionFieldEditable<EditText, Traveler> mEditPhoneNumber = new SectionFieldEditable<EditText, Traveler>(
+	SectionFieldEditable<EditText, Traveler> mEditPhoneNumber = new SectionFieldEditableFocusChangeTrimmer<EditText, Traveler>(
 			R.id.edit_phone_number) {
 		@Override
 		protected Validator<EditText> getValidator() {
@@ -817,7 +818,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		}
 	};
 
-	SectionFieldEditable<EditText, Traveler> mEditRedressNumber = new SectionFieldEditable<EditText, Traveler>(
+	SectionFieldEditable<EditText, Traveler> mEditRedressNumber = new SectionFieldEditableFocusChangeTrimmer<EditText, Traveler>(
 			R.id.edit_redress_number) {
 
 		@Override
