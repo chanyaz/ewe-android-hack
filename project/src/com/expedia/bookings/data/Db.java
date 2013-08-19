@@ -1,6 +1,7 @@
 package com.expedia.bookings.data;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -488,9 +489,13 @@ public class Db {
 						+ " ms.  Size of data cache: "
 						+ hotelSearchString.length() + " chars");
 			}
-			catch (Exception e) {
-				Log.w("Failed to save hotel data", e);
+			catch (IOException e) {
+				Log.w("Failed to write hotel data to disk", e);
 			}
+			catch (OutOfMemoryError e) {
+				Log.w("Failed to write hotel data to disk, ran out of memory", e);
+			}
+
 		}
 	}
 
