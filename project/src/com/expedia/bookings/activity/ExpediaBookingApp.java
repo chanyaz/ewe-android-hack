@@ -30,6 +30,7 @@ import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AssetZoneInfoProvider;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.WalletUtils;
 import com.mobiata.android.DebugUtils;
@@ -65,6 +66,11 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		Log.configureLogging("ExpediaBookings", !isRelease || isLogEnablerInstalled);
 
 		startupTimer.addSplit("Logger Init");
+
+		// We want this fairly high up there so that we set this as
+		// the Provider before anything tries to use Joda time
+		AssetZoneInfoProvider.init(this, "joda/data/");
+		startupTimer.addSplit("Joda TZ Provider Init");
 
 		try {
 			if (!isRelease) {
