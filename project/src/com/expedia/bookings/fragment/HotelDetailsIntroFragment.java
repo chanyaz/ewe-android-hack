@@ -168,7 +168,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 
 		CharSequence title, body;
 		if (sections != null && sections.size() >= 1) {
-			title = Html.fromHtml(sections.get(0).getName());
+			title = sections.get(0).getNameWithoutHtml();
 			body = Html.fromHtml(sections.get(0).getContentFormatted(getActivity()));
 		}
 		else {

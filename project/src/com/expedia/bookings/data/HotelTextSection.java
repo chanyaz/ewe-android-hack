@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.text.Html;
 
 import com.expedia.bookings.R;
 import com.mobiata.android.json.JSONable;
@@ -25,6 +26,18 @@ public class HotelTextSection implements JSONable {
 
 	public String getName() {
 		return mName;
+	}
+
+	/**
+	 * Uses Html.fromHtml().toString() to remove any unwanted html markup.
+	 * 
+	 * @return
+	 */
+	public String getNameWithoutHtml() {
+		if (mName != null) {
+			return Html.fromHtml(mName).toString();
+		}
+		return null;
 	}
 
 	public String getContent() {

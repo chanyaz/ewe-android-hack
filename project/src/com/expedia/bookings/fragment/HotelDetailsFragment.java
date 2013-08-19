@@ -555,7 +555,7 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 
 				TextView descriptionTitle = (TextView) descriptionSection
 						.findViewById(R.id.title_description_text_view);
-				descriptionTitle.setText(Html.fromHtml(section.getName()));
+				descriptionTitle.setText(section.getNameWithoutHtml());
 
 				TextView descriptionBody = (TextView) descriptionSection.findViewById(R.id.body_description_text_view);
 				descriptionBody.setText(Html.fromHtml(section.getContentFormatted(getActivity())));
