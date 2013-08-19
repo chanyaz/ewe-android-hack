@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
@@ -13,6 +14,17 @@ import org.json.JSONObject;
 import android.os.Bundle;
 import android.test.AndroidTestCase;
 
+import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.Itinerary;
+import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.test.utils.DataUtils;
 import com.expedia.bookings.utils.JodaUtils;
 
 /*
@@ -50,12 +62,14 @@ public class JodaUtilsTests extends AndroidTestCase {
 		assertTrue(JodaUtils.daysBetween(now, now) == 0);
 
 		DateTime nowPlusOneSecond = DateTime.now().plusSeconds(1);
-		if (nowPlusOneSecond.getDayOfYear() == now.getDayOfYear() && nowPlusOneSecond.getYear() == now.getYear()) {
+		if (nowPlusOneSecond.getDayOfYear() == now.getDayOfYear()
+				&& nowPlusOneSecond.getYear() == now.getYear()) {
 			assertTrue(JodaUtils.daysBetween(now, nowPlusOneSecond) == 0);
 		}
 
 		DateTime nowMinusOneSecond = DateTime.now().minusSeconds(1);
-		if (nowPlusOneSecond.getDayOfYear() == now.getDayOfYear() && nowPlusOneSecond.getYear() == now.getYear()) {
+		if (nowPlusOneSecond.getDayOfYear() == now.getDayOfYear()
+				&& nowPlusOneSecond.getYear() == now.getYear()) {
 			assertTrue(JodaUtils.daysBetween(now, nowMinusOneSecond) == 0);
 		}
 	}
@@ -69,7 +83,8 @@ public class JodaUtilsTests extends AndroidTestCase {
 	}
 
 	public void testFormatting() {
-		if (getContext().getResources().getConfiguration().locale.equals(new Locale("en", "US"))) {
+		if (getContext().getResources().getConfiguration().locale
+				.equals(new Locale("en", "US"))) {
 			DateTime now = DateTime.now();
 			String dayOfWeek = now.dayOfWeek().getAsText();
 			String monthOfYear = now.monthOfYear().getAsText();
@@ -77,26 +92,30 @@ public class JodaUtilsTests extends AndroidTestCase {
 			String dayOfMonth = now.dayOfMonth().getAsText();
 			String year = now.year().getAsText();
 
-			String nowLongDateFormat = JodaUtils.formatDateTime(getContext(), now, JodaUtils.FLAGS_LONG_DATE_FORMAT);
+			String nowLongDateFormat = JodaUtils.formatDateTime(getContext(),
+					now, JodaUtils.FLAGS_LONG_DATE_FORMAT);
 			String expectedLongString = dayOfWeek + ", " + monthOfYear + " "
 					+ dayOfMonth + ", " + year;
 			assertEquals(nowLongDateFormat, expectedLongString);
 
-			String nowMediumDateFormat = JodaUtils
-					.formatDateTime(getContext(), now, JodaUtils.FLAGS_MEDIUM_DATE_FORMAT);
-			String expectedMediumString = monthShort + " " + dayOfMonth + ", " + year;
+			String nowMediumDateFormat = JodaUtils.formatDateTime(getContext(),
+					now, JodaUtils.FLAGS_MEDIUM_DATE_FORMAT);
+			String expectedMediumString = monthShort + " " + dayOfMonth + ", "
+					+ year;
 			assertEquals(nowMediumDateFormat, expectedMediumString);
 
-			String dateFormat = JodaUtils.formatDateTime(getContext(), now, JodaUtils.FLAGS_DATE_FORMAT);
-			String expectedDateString = now.monthOfYear().getAsString() + "/" + now.dayOfMonth().getAsString() + "/"
+			String dateFormat = JodaUtils.formatDateTime(getContext(), now,
+					JodaUtils.FLAGS_DATE_FORMAT);
+			String expectedDateString = now.monthOfYear().getAsString() + "/"
+					+ now.dayOfMonth().getAsString() + "/"
 					+ now.year().getAsString();
 			assertEquals(dateFormat, expectedDateString);
 		}
 	}
 
-	/* Direct comparison of the original DateTime and the instantiation
-	 * returned from getDateTime fails, so we're just comparing the toString() 
-	 * output.
+	/*
+	 * Direct comparison of the original DateTime and the instantiation returned
+	 * from getDateTime fails, so we're just comparing the toString() output.
 	 */
 	public void testBundlingDateTime() {
 		DateTime now = DateTime.now();
@@ -112,20 +131,23 @@ public class JodaUtilsTests extends AndroidTestCase {
 		JSONObject obj = new JSONObject();
 		String key = "key";
 		JodaUtils.putLocalDateInJson(obj, key, ld);
-		LocalDate returned = JodaUtils.getLocalDateFromJsonBackCompat(obj, key, null);
+		LocalDate returned = JodaUtils.getLocalDateFromJsonBackCompat(obj, key,
+				null);
 		assertEquals(ld, returned);
 	}
 
-	/* Direct comparison of the original DateTime and the instantiation
-	 * returned from getDateTimeFromJsonBackCompat fails, so we're just 
-	 * comparing the toString() output.
+	/*
+	 * Direct comparison of the original DateTime and the instantiation returned
+	 * from getDateTimeFromJsonBackCompat fails, so we're just comparing the
+	 * toString() output.
 	 */
 	public void testDateTimeJSONIO() throws JSONException {
 		DateTime dt = DateTime.now();
 		JSONObject obj = new JSONObject();
 		String key = "key";
 		JodaUtils.putDateTimeInJson(obj, key, dt);
-		DateTime returned = JodaUtils.getDateTimeFromJsonBackCompat(obj, key, null);
+		DateTime returned = JodaUtils.getDateTimeFromJsonBackCompat(obj, key,
+				null);
 		assertEquals(dt.toString(), returned.toString());
 	}
 
@@ -138,9 +160,135 @@ public class JodaUtilsTests extends AndroidTestCase {
 		JSONObject obj = new JSONObject();
 		String key = "key";
 		JodaUtils.putDateTimeListInJson(obj, key, list);
-		List<DateTime> returned = JodaUtils.getDateTimeListFromJsonBackCompat(obj, key, null);
+		List<DateTime> returned = JodaUtils.getDateTimeListFromJsonBackCompat(
+				obj, key, null);
 		for (int i = 0; i < list.size(); i++) {
 			assertEquals(list.get(i).toString(), returned.get(i).toString());
+		}
+	}
+
+	/*
+	 * Tests verifying JodaUtils implementations in ExpediaServices
+	 */
+
+	// Helper variables
+	private static LocalDate mNow = LocalDate.now();
+	private static Location mLocation = DataUtils.setUpLocation("San Francisco", "USA", "Cool description",
+			"114 Sansome St.",
+			"94109", "CA",
+			37.7833, 122.4167, "SF");
+	private static BillingInfo mBillingInfo = DataUtils.setUpBillingInfo("qa-ehcc@mobiata.com", "4155555555", "1",
+			"JexperCC",
+			"MobiataTestaverde", "4111111111111111", "111", mNow, mLocation);
+
+	// 100 millisecond wait() ensures objects' member variables are initialized
+	// from system (e.g. POS)
+	public void testTimeInFlightCheckoutParams() throws InterruptedException {
+		sleep(100);
+		ExpediaServices expediaServices = new ExpediaServices(getContext());
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		Money baseFare = DataUtils.setUpMoney("100", "USD");
+
+		FlightTrip flightTrip = new FlightTrip();
+		flightTrip.setBaseFare(baseFare);
+		flightTrip.setTotalFare(baseFare);
+
+		Itinerary itinerary = new Itinerary();
+		List<Traveler> travelers = new ArrayList<Traveler>();
+
+		mBillingInfo.setExpirationDate(mNow);
+		verifyExpirationDates(query, mNow);
+
+		LocalDate tomorrow = LocalDate.now().plusDays(1);
+		mBillingInfo.setExpirationDate(tomorrow);
+		query = expediaServices.generateFlightCheckoutParams(flightTrip, itinerary, mBillingInfo, travelers, 0);
+		verifyExpirationDates(query, tomorrow);
+
+		LocalDate nextMonth = LocalDate.now().plusMonths(1);
+		mBillingInfo.setExpirationDate(nextMonth);
+		query = expediaServices.generateFlightCheckoutParams(flightTrip, itinerary, mBillingInfo, travelers, 0);
+		verifyExpirationDates(query, nextMonth);
+
+		LocalDate nextYear = LocalDate.now().plusYears(1);
+		mBillingInfo.setExpirationDate(nextYear);
+		query = expediaServices.generateFlightCheckoutParams(flightTrip, itinerary, mBillingInfo, travelers, 0);
+		verifyExpirationDates(query, nextYear);
+
+	}
+
+	public void testTimeInHotelCheckOutParams() throws InterruptedException {
+		sleep(100);
+		ExpediaServices expediaServices = new ExpediaServices(getContext());
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+		HotelSearchParams params = new HotelSearchParams();
+		Property property = new Property();
+		Rate rate = new Rate();
+		String tripId = "1234567";
+		String userId = "12345";
+		long tuid = 1234567;
+
+		mBillingInfo.setExpirationDate(mNow);
+		query = expediaServices.generateHotelReservationParams(params, property, rate, mBillingInfo, tripId, userId,
+				tuid);
+		verifyExpirationDates(query, mNow);
+
+		LocalDate tomorrow = LocalDate.now().plusDays(1);
+		mBillingInfo.setExpirationDate(tomorrow);
+		query = expediaServices.generateHotelReservationParams(params, property, rate, mBillingInfo, tripId, userId,
+				tuid);
+		verifyExpirationDates(query, tomorrow);
+
+		LocalDate nextMonth = LocalDate.now().plusMonths(1);
+		mBillingInfo.setExpirationDate(nextMonth);
+		query = expediaServices.generateHotelReservationParams(params, property, rate, mBillingInfo, tripId, userId,
+				tuid);
+		verifyExpirationDates(query, nextMonth);
+
+		LocalDate nextYear = LocalDate.now().plusYears(1);
+		mBillingInfo.setExpirationDate(nextYear);
+		query = expediaServices.generateHotelReservationParams(params, property, rate, mBillingInfo, tripId, userId,
+				tuid);
+		verifyExpirationDates(query, nextYear);
+
+	}
+
+	/*
+	 * Helper method for verifying ExpediaServices expiration dates
+	 */
+	private void verifyExpirationDates(List<BasicNameValuePair> query, LocalDate time) {
+		boolean expDateRead = false, expMonthRead = false, expYearRead = false;
+		String expectedOutput;
+		for (int i = 0; i < query.size(); i++) {
+			if (expDateRead && expMonthRead && expYearRead) {
+				break;
+			}
+			BasicNameValuePair pair = query.get(i);
+			if (pair.getName().equals("expirationDate")) {
+				expectedOutput = JodaUtils.format(time, "MMyy");
+				assertEquals(pair.getValue(), expectedOutput);
+				expDateRead = true;
+			}
+			else if (pair.getName().equals("expirationDateMonth")) {
+				expectedOutput = JodaUtils.format(time, "MM");
+				assertEquals(pair.getValue(), expectedOutput);
+				expMonthRead = true;
+
+			}
+			else if (pair.getName().equals("expirationDateYear")) {
+				expectedOutput = JodaUtils.format(time, "yyyy");
+				assertEquals(expectedOutput, pair.getValue());
+				expYearRead = true;
+			}
+		}
+	}
+
+	private void sleep(long time) {
+		try {
+			Thread.sleep(time);
+		}
+		catch (InterruptedException ex) {
+			Thread.currentThread().interrupt();
 		}
 	}
 }
