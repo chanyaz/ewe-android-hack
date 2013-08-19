@@ -10,7 +10,8 @@
         android:id="@+id/header_image_view"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/hotel_checkout_overview_image_height"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:src="?attr/hotelImagePlaceHolderDrawable" />
 
     <LinearLayout
         android:layout_width="fill_parent"

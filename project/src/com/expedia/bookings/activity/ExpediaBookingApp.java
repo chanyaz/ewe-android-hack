@@ -165,7 +165,8 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		// #13097: We need a way to disable the widget on ICS tablets.  This is a hacky way of doing so,
 		// in that it requires the app to be launched at least once before it can be disabled, but it's
 		// the best we can do for the time being.
-		if (AndroidUtils.isHoneycombTablet(this)) {
+		// #1807. VSC Disable widgets
+		if (AndroidUtils.isHoneycombTablet(this) || ExpediaBookingApp.IS_VSC) {
 			try {
 				PackageManager pm = getPackageManager();
 				ComponentName cn = new ComponentName(this, ExpediaBookingsWidgetProvider.class);
@@ -178,7 +179,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 			}
 		}
 
-		startupTimer.addSplit("Disable ICS Tablet Widgets");
+		startupTimer.addSplit("Disable ICS Tablet & VSC Widgets");
 
 		// Some useful info to have on hand in case of memory crashes
 		long maxMemory = Runtime.getRuntime().maxMemory();

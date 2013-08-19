@@ -30,8 +30,6 @@
     <string name="Log_In">Log In</string>
     <!-- Log in with Expedia -->
     <string name="Log_in_with_Expedia">Log in with Expedia</string>
-    <!-- Log in with VSC -->
-    <string name="Log_in_with_VSC">Log in with VSC</string>
     <!-- or -->
     <string name="or">or</string>
     <!-- Already logged in -->

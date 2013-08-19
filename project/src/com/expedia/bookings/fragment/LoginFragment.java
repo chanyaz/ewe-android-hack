@@ -150,6 +150,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 	private String mFbUserName;
 	private String mStatusText;//Text next to expedia icon
 	private String mLoadingText;//Loading spinner text
+	private String mStatusTextContent; //Text cached when loaded
 	private boolean mIsLoading = false;
 	private boolean mEmptyUsername = true;
 	private boolean mEmptyPassword = true;
@@ -160,8 +161,6 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 
 	// Boolean for OmnitureTracking related purposes. false means user logged in manually
 	private boolean loginWithFacebook = false;
-
-	private String forgotPwdLink;
 
 	private enum VisibilityState {
 		FACEBOOK_LINK, EXPEDIA_WTIH_FB_BUTTON, EXPEDIA_WITH_EXPEDIA_BUTTON, LOGGED_IN
@@ -230,10 +229,10 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 
 		loadSavedState(savedInstanceState);
 
+		mStatusTextContent = getString(Ui.obtainThemeResID(getActivity(), R.attr.loginWithExpediaTitleText));
 		if (mStatusText == null
-				|| mStatusText.equalsIgnoreCase(getString(Ui.obtainThemeResID(getActivity(),
-						R.attr.loginWithExpediaTitleText)))) {
-			setStatusText(Ui.obtainThemeResID(getActivity(), R.attr.loginWithExpediaTitleText), true);
+				|| mStatusText.equalsIgnoreCase(mStatusTextContent)) {
+			setStatusText(mStatusTextContent, true);
 		}
 		else if (mStatusText != null) {
 			setStatusText(mStatusText, false);
@@ -492,12 +491,8 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 		});
 
 		//1607. VSC Update forgot pwd link.
-		if (ExpediaBookingApp.IS_VSC) {
-			forgotPwdLink = "http://%s/pub/agent.dll?qscr=apwd";
-		}
-		else {
-			forgotPwdLink = "http://www.%s/pub/agent.dll?qscr=apwd";
-		}
+		final String forgotPwdLink = ExpediaBookingApp.IS_VSC ? "http://%s/pub/agent.dll?qscr=apwd"
+				: "http://www.%s/pub/agent.dll?qscr=apwd";
 
 		mForgotYourPasswordTv.setText(Html.fromHtml(String.format(
 				"<a href=\"" + forgotPwdLink + "\">%s</a>",
@@ -518,7 +513,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 				builder.setUrl(String.format(forgotPwdLink,
 						PointOfSale.getPointOfSale().getUrl()));
 				builder.setInjectExpediaCookies(true);
-				builder.setTheme(R.style.ItineraryTheme);
+				builder.setTheme(R.style.HotelWebViewTheme);
 				builder.setTitle(getString(R.string.title_forgot_password));
 				startActivity(builder.getIntent());
 			}
@@ -637,7 +632,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 					setVisibilityState(VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON, false);
 				}
 
-				setStatusText(Ui.obtainThemeResID(getActivity(), R.attr.loginWithExpediaTitleText), true);
+				setStatusText(mStatusTextContent, true);
 			}
 		});
 
@@ -746,7 +741,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 
 		switch (mVisibilityState) {
 		case FACEBOOK_LINK:
-			this.setStatusText(Ui.obtainThemeResID(getActivity(), R.attr.loginWithExpediaTitleText), true);
+			this.setStatusText(mStatusTextContent, true);
 			if (TextUtils.isEmpty(mExpediaUserName.getText())) {
 				setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON, false);
 			}

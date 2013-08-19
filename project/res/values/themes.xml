@@ -172,6 +172,8 @@
         <item name="ratingBarUserReviewStyle">@style/RatingBar.UserReview.White</item>
         <item name="calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
         <item name="calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
+        <item name="calendarDatePickerDateFormat">@string/calendar_date_picker_date_format</item>
+        <item name="hotelCancellationPolicyDateFormat">@string/hotel_receipt_cancellation_policy_date_format</item>
         <item name="hotelListingSaleDrawable">@drawable/bg_hotel_cell_sale</item>
         <item name="hotelDetailSaleRibbonDrawable">@drawable/bg_sale_ribbon</item>
         <item name="roomsRatesSaleRibbonDrawable">@drawable/rooms_rates_ribbon</item>
@@ -190,36 +192,16 @@
         <item name="loginWithExpediaButtonText">@string/Log_in_with_Expedia</item>
         <item name="loginWithExpediaTitleText">@string/expedia_account</item>
         <item name="hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg</item>
-        <item name="hotelConfirmationCallActionStyle">@style/Confirmation.Action.Hotel.Expedia</item>
+        <item name="hotelConfirmationCallActionDrawable">@drawable/ic_phone</item>
         <item name="hotelCheckoutLogoutLogoDrawable">@drawable/ic_expedia_logo</item>
         <item name="hotelCheckoutLoginLogoDrawable">@drawable/ic_log_in</item>
+        <item name="hotelCheckoutLoginButtonText">@string/Log_in_with_Expedia</item>
         <item name="cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
         <item name="hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_expedia_white_logo_small</item>
         <item name="hotelListMapMarkerSaleDrawable">@drawable/map_pin_sale</item>
         <item name="ccCheckoutHologramDrawable">@drawable/ic_credit_card_hologram</item>
         <item name="hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder</item>
-    </style>
-
-    <style name="Theme.VSC" parent="@style/Theme.Expedia">
-        <item name="hotelPriceStandardColor">@color/hotel_price_text_color_vsc</item>
-        <item name="hotelPriceSaleColor">@color/hotel_price_sale_text_color_vsc</item>
-        <item name="hotelSearchActionBarPadding">5dp</item>
-        <item name="webViewPreferencesActionBarLogo">@drawable/ic_logo_hotels</item>
-        <item name="actionBarCheckMarkDrawable">@drawable/ic_action_bar_checkmark_green</item>
-        <item name="actionBarButtonTextColor">@color/action_bar_text_green</item>
-        <item name="actionBarCheckoutDrawable">@drawable/ic_action_bar_checkout_arrow_green</item>
-        <item name="costSummaryHeaderTextColor">@color/cost_summary_header_text_color_vsc</item>
-        <item name="actionBarBackgroundDrawable">@drawable/bg_action_bar_vsc</item>
-        <item name="ratingBarUserReviewStyle">@style/RatingBar.UserReview.Orange</item>
-        <item name="calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_orange</item>
-        <item name="hotelListingSaleDrawable">@drawable/bg_hotel_cell_sale_vsc</item>
-        <item name="hotelDetailSaleRibbonDrawable">@drawable/bg_sale_ribbon_vsc</item>
-        <item name="roomsRatesSaleRibbonDrawable">@drawable/rooms_rates_ribbon_vsc</item>
-        <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.Orange</item>
-        <item name="hotelListingSortPriceDrawable">@drawable/ic_sort_euro</item>
-        <item name="hotelListingFilterPriceCheapString">@string/filter_price_cheap_euro</item>
-        <item name="hotelListingFilterPriceModerateString">@string/filter_price_moderate_euro</item>
-        <item name="hotelListingFilterPriceExpensiveString">@string/filter_price_expensive_euro</item>
+        <item name="hotelwebViewActionBarLogo">@drawable/ic_logo_hotels</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
@@ -333,16 +315,16 @@
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Flights</item>
     </style>
 
-    <style name="HotelWebViewTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar">
+    <style name="HotelWebViewTheme" parent="Theme.Phone">
         <item name="android:actionBarStyle">@style/HotelWebViewActionBar</item>
         <item name="actionBarStyle">@style/HotelWebViewActionBar</item>
     </style>
 
     <style name="HotelWebViewActionBar" parent="Widget.Sherlock.ActionBar">
-        <item name="android:background">@drawable/bg_action_bar</item>
-        <item name="background">@drawable/bg_action_bar</item>
-        <item name="android:logo">@drawable/ic_logo_hotels</item>
-        <item name="logo">@drawable/ic_logo_hotels</item>
+        <item name="android:background">?attr/actionBarBackgroundDrawable</item>
+        <item name="background">?attr/actionBarBackgroundDrawable</item>
+        <item name="android:logo">?attr/hotelwebViewActionBarLogo</item>
+        <item name="logo">?attr/hotelwebViewActionBarLogo</item>
         <item name="titleTextStyle">@style/FlightActionBarTextAppearance</item>
         <item name="android:titleTextStyle">@style/FlightActionBarTextAppearance</item>
         <item name="homeAsUpIndicator">@drawable/ic_action_bar_back_arrow</item>

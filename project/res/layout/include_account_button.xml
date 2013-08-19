@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/card_icon_padding"
             android:gravity="center_vertical"
-            android:text="?attr/loginWithExpediaButtonText"
+            android:text="?attr/hotelCheckoutLoginButtonText"
             android:textSize="16sp" />
     </LinearLayout>
 

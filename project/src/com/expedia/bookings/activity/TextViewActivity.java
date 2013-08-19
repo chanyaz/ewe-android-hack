@@ -12,6 +12,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.Ui;
 
 public class TextViewActivity extends SherlockActivity {
 	public static Intent getIntent(Context context, String data) {
@@ -32,7 +33,7 @@ public class TextViewActivity extends SherlockActivity {
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setLogo(R.drawable.ic_action_bar_expedia_logo);
+		getSupportActionBar().setLogo(Ui.obtainThemeResID(this, R.attr.webViewPreferencesActionBarLogo));
 		getSupportActionBar().setTitle("");
 	}
 

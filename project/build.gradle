@@ -73,6 +73,10 @@ android {
             runProguard true
             proguardFile 'proguard.cfg'
         }
+        release {
+            runProguard true
+            proguardFile 'proguard.cfg'
+        }
     }
 
     sourceSets {
@@ -119,4 +123,22 @@ if (isServerBuild) {
     matcher.find()
     def manifestContent = matcher.replaceAll("android:name=\"buildNumber\" android:value=\"" + jenkinsBuildNumber + "\"")
     manifestFile.write(manifestContent)
+
+// Set the HockeyApp buildNumber meta-data as the Jenkins BUILD_NUMBER for all alpha builds
+android.applicationVariants.all { variant ->
+    if (variant.buildType.name == 'alpha') {
+        variant.processManifest.dependsOn {
+            def jenkinsBuildNumber = "$System.env.BUILD_NUMBER"
+            // This if-check only exists so you can run alpha builds locally
+            if (!jenkinsBuildNumber.isEmpty() && jenkinsBuildNumber != "null") {
+                def manifestFile = file("AndroidManifest.xml")
+                def pattern = Pattern.compile("android:name=\"buildNumber\"\\s*android:value=\"(\\d+)\"")
+                def manifestText = manifestFile.getText()
+                def matcher = pattern.matcher(manifestText)
+                matcher.find()
+                def manifestContent = matcher.replaceAll("android:name=\"buildNumber\" android:value=\"" + jenkinsBuildNumber + "\"")
+                manifestFile.write(manifestContent)
+            }
+        }
+    }
 }

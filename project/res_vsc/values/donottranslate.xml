@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Facebook -->
+    <!-- Production Facebook app id -->
+    <string name="facebook_app_id">482332651854403</string>
+
     <!-- ContentProvider authority overrides -->
     <string name="authority_debug_autocomplete_hotel">@string/authority_vsc_debug_autocomplete_hotel</string>
     <string name="authority_alpha_autocomplete_hotel">@string/authority_vsc_alpha_autocomplete_hotel</string>
@@ -26,5 +30,9 @@
     <string name="account_tuid_debug">@string/vsc_account_tuid_debug</string>
     <string name="account_tuid_alpha">@string/vsc_account_tuid_alpha</string>
     <string name="account_tuid_release">@string/vsc_account_tuid_release</string>
+
+    <!-- CalendarDatePicker DateFormat -->
+    <string name="calendar_date_picker_date_format_vsc">dd MMM</string>
+    <string name="hotel_receipt_cancellation_policy_date_format_vsc">"k'h'mm, MMM dd"</string>
 
 </resources>

@@ -3,6 +3,7 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Build;
@@ -21,6 +22,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.text.StrikethroughTagHandler;
 
@@ -195,6 +197,10 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		int padding;
 		if (rate.isOnSale()) {
 			padding = mBedSalePadding;
+			//1747. VSC Change price text to sale color
+			if (ExpediaBookingApp.IS_VSC) {
+				holder.price.setTextColor(Ui.obtainThemeColor((Activity)mContext, R.attr.hotelPriceSaleColor));
+			}
 		}
 		else {
 			if (Build.VERSION.SDK_INT > 7) {

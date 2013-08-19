@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.CarVendor;
 import com.expedia.bookings.data.FlightLeg;
@@ -380,7 +381,10 @@ public class ShareUtils {
 
 		body.append("\n");
 
-		body.append(mContext.getString(R.string.share_template_long_ad, PointOfSale.getPointOfSale().getAppInfoUrl()));
+		//1683. VSC Don't show Android App crossSell text and link.
+		if (!ExpediaBookingApp.IS_VSC) {
+			body.append(mContext.getString(R.string.share_template_long_ad, PointOfSale.getPointOfSale().getAppInfoUrl()));
+		}
 
 		return body.toString();
 	}
@@ -437,7 +441,14 @@ public class ShareUtils {
 			builder.append("\n\n");
 		}
 
-		builder.append(mContext.getString(R.string.share_template_long_ad, downloadUrl));
+		//1683. VSC Don't show Android App crossSell text and link.
+		//1754. VSC Show the requested text which doesn't contain link to app.
+		if (!ExpediaBookingApp.IS_VSC) {
+			builder.append(mContext.getString(R.string.share_template_long_ad, downloadUrl));
+		}
+		else {
+			builder.append(mContext.getString(R.string.share_template_long_ad));
+		}
 
 		return builder.toString();
 	}
@@ -568,7 +579,10 @@ public class ShareUtils {
 			sb.append("\n");
 		}
 
-		sb.append(mContext.getString(R.string.share_template_long_ad, PointOfSale.getPointOfSale().getAppInfoUrl()));
+		//1683. VSC Don't show Android App crossSell text and link.
+		if (!ExpediaBookingApp.IS_VSC) {
+			sb.append(mContext.getString(R.string.share_template_long_ad, PointOfSale.getPointOfSale().getAppInfoUrl()));
+		}
 
 		return sb.toString();
 	}
@@ -644,7 +658,11 @@ public class ShareUtils {
 				TextUtils.join("\n", guests)));
 
 		sb.append("\n\n");
-		sb.append(mContext.getString(R.string.share_template_long_ad, downloadUrl));
+
+		//1683. VSC Don't show Android App crossSell text and link.
+		if (!ExpediaBookingApp.IS_VSC) {
+			sb.append(mContext.getString(R.string.share_template_long_ad, downloadUrl));
+		}
 
 		return sb.toString();
 	}

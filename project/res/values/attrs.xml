@@ -159,6 +159,9 @@
 
     <!-- ActionBar icon/logo in WebView that also sets a title -->
     <attr name="webViewPreferencesActionBarLogoWithTitle" format="reference" />
+    <!-- ActionBar icon/logo in HotelRulesActivities -->
+    <attr name="hotelwebViewActionBarLogo" format="reference" />
+
     <attr name="actionBarBackgroundDrawable" format="reference" />
     <!-- ActionBar checkmark drawable -->
     <attr name="actionBarCheckMarkDrawable" format="reference" />
@@ -174,6 +177,9 @@
     <!-- Hotel calendar related styling -->
     <attr name="calendarDatePickerCellDrawable" format="reference" />
     <attr name="calendarDatePickerPopupDrawable" format="reference" />
+    <attr name="calendarDatePickerDateFormat" format="reference|string" />
+
+    <attr name="hotelCancellationPolicyDateFormat" format="reference|string" />
 
     <!-- Hotel promo pricing related styling -->
     <attr name="hotelListingSaleDrawable" format="reference" />
@@ -210,8 +216,11 @@
     <attr name="loginWithExpediaTitleText" format="reference|string" />
     <attr name="hotelDetailPlaceHolderDrawable" format="reference" />
 
-    <!-- Hotel Confirmation, Customer support option style -->
-    <attr name="hotelConfirmationCallActionStyle" format="reference" />
+    <!-- Hotel Confirmation, Customer support option drawable -->
+    <attr name="hotelConfirmationCallActionDrawable" format="reference" />
+
+    <!-- Hotel confirmation screen, login button text and icons -->
+    <attr name="hotelCheckoutLoginButtonText" format="reference|string" />
     <attr name="hotelCheckoutLogoutLogoDrawable" format="reference" />
     <attr name="hotelCheckoutLoginLogoDrawable" format="reference" />
 
@@ -221,9 +230,12 @@
     <!-- HotelCheckout Traveler Info screen after logged in, Logo to the left of the primary traveler -->
     <attr name="hotelPrimaryTravelerInfoLogoDrawable" format="reference" />
     <attr name="hotelListMapMarkerSaleDrawable" format="reference" />
+
     <attr name="ccCheckoutHologramDrawable" format="reference" />
 
     <!-- Placeholder image used in hotelReciept, Rooms&RatesListActivity -->
     <attr name="hotelImagePlaceHolderDrawable" format="reference" />
 
+    <!-- Text defined separately for VSC, in the CVV entry screen -->
+    <attr name="cvvEntryExplainationText" format="reference|string" />
 </resources>
