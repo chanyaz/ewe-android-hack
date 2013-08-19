@@ -160,7 +160,30 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
+
+		int oldExpandedHeight = mExpandedHeight;
 		mExpandedHeight = Math.max(h, oldh);
+		Log.d("ItinListView.onSizeChanged mExpandedHeight - oldValue:" + oldExpandedHeight + " newValue:" + mExpandedHeight);
+
+		//If the size changed while we were in detail mode, we better update the detail card to reflect that.
+		if (isInDetailMode() && mExpandedHeight != oldExpandedHeight) {
+			boolean semGot = false;
+			try {
+				//If this happens while the showDetails is still running, we just skip it because finishExpand will be called anyway
+				if (mModeSwitchSemaphore.tryAcquire()) {
+					semGot = true;
+					finishExpand(mExpandedHeight);
+				}
+			}
+			catch (Exception ex) {
+				Log.e("Exception in onSizeChanged", ex);
+			}
+			finally {
+				if (semGot) {
+					releaseSemaphore();
+				}
+			}
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
