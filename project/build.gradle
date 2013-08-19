@@ -25,7 +25,7 @@ dependencies {
         'libs/adxtag2.4.5exp.jar',
         'libs/gcm.jar',
         'libs/jackson-core-asl-1.8.0.jar',
-        'libs/joda-time-2.2.jar',
+        'libs/joda-time-2.3.jar',
         'libs/libGoogleAnalyticsV2.jar',
     )
     compile project(':lib:ActionBarSherlock:actionbarsherlock')
