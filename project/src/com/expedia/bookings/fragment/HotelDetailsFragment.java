@@ -394,7 +394,8 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 
 		String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 		HotelOffersResponse availabilityResponse = Db.getHotelSearch().getHotelOffersResponse(selectedId);
-		if (availabilityResponse != null && !availabilityResponse.hasErrors() && availabilityResponse.getRateCount() > 0) {
+		if (availabilityResponse != null && !availabilityResponse.hasErrors()
+				&& availabilityResponse.getRateCount() > 0) {
 			mAvailabilityWidget.setButtonEnabled(true);
 		}
 		else {
@@ -554,7 +555,7 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 
 				TextView descriptionTitle = (TextView) descriptionSection
 						.findViewById(R.id.title_description_text_view);
-				descriptionTitle.setText(section.getName());
+				descriptionTitle.setText(Html.fromHtml(section.getName()));
 
 				TextView descriptionBody = (TextView) descriptionSection.findViewById(R.id.body_description_text_view);
 				descriptionBody.setText(Html.fromHtml(section.getContentFormatted(getActivity())));
