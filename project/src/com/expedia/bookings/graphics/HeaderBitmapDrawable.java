@@ -99,6 +99,18 @@ public class HeaderBitmapDrawable extends Drawable implements OnImageLoaded {
 	//////////////////////////////////////////////////////////////////////////
 	// Configuration
 
+	private void clearState() {
+		if (mUrlBitmapDrawable != null) {
+			mUrlBitmapDrawable.setOnImageLoadedCallback(null);
+		}
+
+		mUrlBitmapDrawable = null;
+		mPlaceholderDrawable = null;
+		mBitmapShader = null;
+		mBitmapPaint.setShader(null);
+		mSource = null;
+	}
+
 	public void setBitmap(Bitmap bitmap) {
 		setBitmap(bitmap, true);
 	}
@@ -113,11 +125,10 @@ public class HeaderBitmapDrawable extends Drawable implements OnImageLoaded {
 	}
 
 	public void setUrlBitmapDrawable(UrlBitmapDrawable urlBitmapDrawable) {
+		clearState();
+
 		mUrlBitmapDrawable = urlBitmapDrawable;
 		mUrlBitmapDrawable.setOnImageLoadedCallback(this);
-
-		mBitmapPaint.setShader(null);
-		mSource = null;
 
 		invalidateSelf();
 	}
@@ -132,6 +143,8 @@ public class HeaderBitmapDrawable extends Drawable implements OnImageLoaded {
 	}
 
 	public void setPlaceholderDrawable(Drawable placeholderDrawable) {
+		clearState();
+
 		mPlaceholderDrawable = placeholderDrawable;
 
 		invalidateSelf();
