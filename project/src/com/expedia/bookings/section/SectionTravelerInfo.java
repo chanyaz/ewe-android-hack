@@ -137,7 +137,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		//Load the pos specific name edit fields if we have the container for them.
 		ViewGroup nameContainer = Ui.findView(this, R.id.edit_names_container);
 		if (nameContainer != null) {
-			PointOfSale pos = PointOfSale.getPointOfSale(mContext);
+			PointOfSale pos = PointOfSale.getPointOfSale();
 			if (pos.showLastNameFirst()) {
 				View.inflate(mContext, R.layout.include_edit_traveler_names_reversed, nameContainer);
 			}
@@ -150,7 +150,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 	private void postFinishInflate() {
 		//If we have the middle name field, but it isnt supported by this pos
 		//then we hide it and remove it from our list of fields
-		PointOfSale pos = PointOfSale.getPointOfSale(mContext);
+		PointOfSale pos = PointOfSale.getPointOfSale();
 		if (pos.hideMiddleName()) {
 			mFields.removeField(mEditMiddleName);
 		}

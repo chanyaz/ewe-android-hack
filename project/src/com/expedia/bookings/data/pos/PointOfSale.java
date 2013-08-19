@@ -475,6 +475,11 @@ public class PointOfSale {
 	}
 
 	/**
+	 * Gets the current POS, or fills it in if it not cached yet.  WARNING: do not use
+	 * this unless you have reason to think sCachedPOS might be null!  This is not thread
+	 * safe, if you call it from multiple threads you might mess up sCachedPOS for someone
+	 * else!
+	 * 
 	 * @return the current PointOfSale (or the default if none has been set yet)
 	 */
 	public static PointOfSale getPointOfSale(Context context) {

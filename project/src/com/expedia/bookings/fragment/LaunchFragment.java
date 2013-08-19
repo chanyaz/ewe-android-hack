@@ -441,7 +441,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			int height = Math.round(getResources().getDimension(R.dimen.launch_tile_height_flight));
 
 			//Get flight destination list for the current POS
-			PointOfSale pos = PointOfSale.getPointOfSale(getActivity());
+			PointOfSale pos = PointOfSale.getPointOfSale();
 			ExpediaFlightDestinations expediaFlightDestinations = new ExpediaFlightDestinations(getActivity());
 			List<String> destinationIds;
 			if (expediaFlightDestinations.usesDefaultDestinationList(pos)) {

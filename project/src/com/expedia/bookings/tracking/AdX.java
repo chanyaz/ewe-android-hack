@@ -39,7 +39,7 @@ public class AdX {
 
 	public static void trackFirstLaunch() {
 		if (sEnabled) {
-			String pos = PointOfSale.getPointOfSale(sAppContext).getTwoLetterCountryCode();
+			String pos = PointOfSale.getPointOfSale().getTwoLetterCountryCode();
 			connect(pos, false);
 			AdXConnect.getAdXConnectEventInstance(sAppContext, "FirstLaunch", "", "");
 			Log.i("AdX first launch event PointOfSale=" + pos);
@@ -50,7 +50,7 @@ public class AdX {
 
 	public static void trackLaunch() {
 		if (sEnabled) {
-			String pos = PointOfSale.getPointOfSale(sAppContext).getTwoLetterCountryCode();
+			String pos = PointOfSale.getPointOfSale().getTwoLetterCountryCode();
 			connect(pos, true);
 			AdXConnect.getAdXConnectEventInstance(sAppContext, "Launch", "", "");
 			Log.i("AdX launch event PointOfSale=" + pos);

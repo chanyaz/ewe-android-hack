@@ -82,7 +82,7 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 		View focused = this.getView().findFocus();
 		if (focused == null || !(focused instanceof EditText)) {
 			int firstFocusResId = R.id.edit_first_name;
-			if (PointOfSale.getPointOfSale(getActivity()).showLastNameFirst()) {
+			if (PointOfSale.getPointOfSale().showLastNameFirst()) {
 				firstFocusResId = R.id.edit_last_name;
 			}
 			focused = Ui.findView(mSectionTravelerInfo, firstFocusResId);

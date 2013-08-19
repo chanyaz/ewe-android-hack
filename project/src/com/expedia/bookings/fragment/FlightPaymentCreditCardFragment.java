@@ -253,7 +253,7 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 	 * @param animate
 	 */
 	private void hideCardMessageOrDisplayDefault(boolean animate) {
-		if (PointOfSale.getPointOfSale(getActivity()).doesNotAcceptDebitCardsForFlights()) {
+		if (PointOfSale.getPointOfSale().doesNotAcceptDebitCardsForFlights()) {
 			Resources res = FlightPaymentCreditCardFragment.this.getResources();
 			updateCardMessage(res.getString(R.string.debit_cards_not_accepted),
 					res.getColor(R.color.flight_card_no_debit_warning));

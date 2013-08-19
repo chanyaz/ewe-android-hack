@@ -114,7 +114,7 @@ public class ItinCardDataActivity extends ItinCardData {
 			return null;
 		}
 
-		if (PointOfSale.getPointOfSale(context).getPointOfSaleId() == PointOfSaleId.UNITED_STATES
+		if (PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.UNITED_STATES
 				&& !TextUtils.isEmpty(support.getSupportPhoneNumberDomestic())) {
 			return support.getSupportPhoneNumberDomestic();
 		}
