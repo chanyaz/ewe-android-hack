@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
@@ -288,44 +289,43 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		mHeaderImageContainer.setEnabled(mDisplayState.equals(DisplayState.EXPANDED));
 
 		// Header Image
+		Resources res = getResources();
+
+		if (mHeaderBitmapDrawable == null) {
+			mHeaderBitmapDrawable = new HeaderBitmapDrawable();
+
+			mHeaderBitmapDrawable.setCornerRadius(res.getDimensionPixelSize(R.dimen.itin_card_corner_radius));
+
+			if (getType() == Type.FLIGHT) {
+				mHeaderBitmapDrawable.setMatrixTranslation(0,
+						res.getDimensionPixelSize(R.dimen.itin_card_flight_vertical_offset));
+			}
+			else {
+				mHeaderBitmapDrawable.setMatrixTranslation(0, 0);
+			}
+
+			mHeaderImageView.setImageDrawable(mHeaderBitmapDrawable);
+		}
 
 		// We currently use the size of the screen, as that is what is required by us of the Expedia image API
 		Point size = AndroidUtils.getScreenSize(getContext());
 		UrlBitmapDrawable drawable = mItinContentGenerator.getHeaderBitmapDrawable(size.x, size.y);
 		if (drawable != null) {
-			Resources res = getResources();
-
-			if (mHeaderBitmapDrawable == null) {
-				mHeaderBitmapDrawable = new HeaderBitmapDrawable();
-
-				mHeaderBitmapDrawable.setCornerRadius(res.getDimensionPixelSize(R.dimen.itin_card_corner_radius));
-
-				if (getType() == Type.FLIGHT) {
-					mHeaderBitmapDrawable.setMatrixTranslation(0,
-							res.getDimensionPixelSize(R.dimen.itin_card_flight_vertical_offset));
-				}
-				else {
-					mHeaderBitmapDrawable.setMatrixTranslation(0, 0);
-				}
-			}
-
 			mHeaderBitmapDrawable.setUrlBitmapDrawable(drawable);
-			mHeaderImageView.setImageDrawable(mHeaderBitmapDrawable);
-
-			if (mDisplayState == DisplayState.EXPANDED) {
-				mHeaderBitmapDrawable.setOverlayDrawable(null);
-				mHeaderBitmapDrawable.setCornerMode(CornerMode.NONE);
-			}
-			else {
-				mHeaderBitmapDrawable.setOverlayDrawable(res.getDrawable(R.drawable.card_top_lighting));
-				mHeaderBitmapDrawable.setCornerMode(mShowSummary ? CornerMode.TOP : CornerMode.ALL);
-			}
 		}
 		else {
-			// In the case of placeholder images, don't use HeaderBitmapDrawable because the
-			// placeholder might not be a Bitmap (e.g., if it's XML).
 			int placeholderResId = mItinContentGenerator.getHeaderImagePlaceholderResId();
-			mHeaderImageView.setImageResource(placeholderResId);
+			Drawable placeholderDrawable = res.getDrawable(placeholderResId);
+			mHeaderBitmapDrawable.setPlaceholderDrawable(placeholderDrawable);
+		}
+
+		if (mDisplayState == DisplayState.EXPANDED) {
+			mHeaderBitmapDrawable.setOverlayDrawable(null);
+			mHeaderBitmapDrawable.setCornerMode(CornerMode.NONE);
+		}
+		else {
+			mHeaderBitmapDrawable.setOverlayDrawable(res.getDrawable(R.drawable.card_top_lighting));
+			mHeaderBitmapDrawable.setCornerMode(mShowSummary ? CornerMode.TOP : CornerMode.ALL);
 		}
 
 		// Header text
@@ -618,9 +618,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	private void finishCollapse() {
 		mHeaderImageContainer.setEnabled(false);
 
-		if (mHeaderBitmapDrawable != null) {
-			mHeaderBitmapDrawable.setCornerMode(mShowSummary ? CornerMode.TOP : CornerMode.ALL);
-		}
+		mHeaderBitmapDrawable.setCornerMode(mShowSummary ? CornerMode.TOP : CornerMode.ALL);
 
 		updateSummaryVisibility();
 
@@ -642,9 +640,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 		ViewHelper.setTranslationY(mCardLayout, 0);
 
-		if (mHeaderBitmapDrawable != null) {
-			mHeaderBitmapDrawable.setCornerMode(CornerMode.NONE);
-		}
+		mHeaderBitmapDrawable.setCornerMode(CornerMode.NONE);
 
 		mSummaryDividerView.setVisibility(VISIBLE);
 		mDetailsLayout.setVisibility(VISIBLE);

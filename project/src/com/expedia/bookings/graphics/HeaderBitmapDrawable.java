@@ -36,7 +36,16 @@ public class HeaderBitmapDrawable extends Drawable implements OnImageLoaded {
 		NONE
 	}
 
+	// This represents where the current bitmap shader came from
+	// It helps distinguish when we're upgrading from one source
+	// to another (e.g., null to placeholder, or placeholder to bitmap)
+	private enum Source {
+		BITMAP,
+		PLACEHOLDER
+	}
+
 	private CornerMode mCornerMode = CornerMode.NONE;
+	private Source mSource = null;
 
 	// For drawing the bitmap
 	private BitmapShader mBitmapShader;
@@ -65,6 +74,9 @@ public class HeaderBitmapDrawable extends Drawable implements OnImageLoaded {
 	// If you want to use an underlying UrlBitmapDrawable to drive image loading functionality
 	private UrlBitmapDrawable mUrlBitmapDrawable;
 
+	// If you want to use an underlying Drawable to drive placeholder iamges
+	private Drawable mPlaceholderDrawable;
+
 	public HeaderBitmapDrawable() {
 		mBitmapPaint = new Paint();
 		mBitmapPaint.setAntiAlias(true);
@@ -88,10 +100,16 @@ public class HeaderBitmapDrawable extends Drawable implements OnImageLoaded {
 	// Configuration
 
 	public void setBitmap(Bitmap bitmap) {
+		setBitmap(bitmap, true);
+	}
+
+	private void setBitmap(Bitmap bitmap, boolean invalidateSelf) {
 		configureBitmap(bitmap);
 		configureMatrix(getBounds());
 
-		invalidateSelf();
+		if (invalidateSelf) {
+			invalidateSelf();
+		}
 	}
 
 	public void setUrlBitmapDrawable(UrlBitmapDrawable urlBitmapDrawable) {
@@ -99,6 +117,7 @@ public class HeaderBitmapDrawable extends Drawable implements OnImageLoaded {
 		mUrlBitmapDrawable.setOnImageLoadedCallback(this);
 
 		mBitmapPaint.setShader(null);
+		mSource = null;
 
 		invalidateSelf();
 	}
@@ -109,6 +128,13 @@ public class HeaderBitmapDrawable extends Drawable implements OnImageLoaded {
 		mBitmapHeight = bitmap.getHeight();
 
 		mBitmapPaint.setShader(mBitmapShader);
+		mSource = Source.BITMAP;
+	}
+
+	public void setPlaceholderDrawable(Drawable placeholderDrawable) {
+		mPlaceholderDrawable = placeholderDrawable;
+
+		invalidateSelf();
 	}
 
 	public void setCornerMode(CornerMode cornerMode) {
@@ -201,21 +227,50 @@ public class HeaderBitmapDrawable extends Drawable implements OnImageLoaded {
 
 	@Override
 	public void draw(Canvas canvas) {
-		boolean hasBitmap = mBitmapPaint.getShader() != null;
-
 		if (mUrlBitmapDrawable != null) {
 			boolean hasLoadedBitmap = mUrlBitmapDrawable.hasLoadedBitmap();
-			if (hasLoadedBitmap && !hasBitmap) {
-				setBitmap(mUrlBitmapDrawable.getBitmap());
-				hasBitmap = true;
+			if (hasLoadedBitmap && mSource != Source.BITMAP) {
+				setBitmap(mUrlBitmapDrawable.getBitmap(), false);
+				mSource = Source.BITMAP;
 			}
-			else if (!hasLoadedBitmap && hasBitmap) {
+			else if (!hasLoadedBitmap && mSource == Source.BITMAP) {
 				mBitmapPaint.setShader(null);
-				hasBitmap = false;
+				mSource = null;
 			}
 		}
 
-		if (hasBitmap) {
+		// If we have nothing, try to upgrade to placeholder
+		if (mSource == null) {
+			Drawable drawable = null;
+			if (mUrlBitmapDrawable != null) {
+				drawable = mUrlBitmapDrawable;
+			}
+			else if (mPlaceholderDrawable != null) {
+				drawable = mPlaceholderDrawable;
+			}
+
+			if (drawable != null) {
+				int width = drawable.getIntrinsicWidth();
+				int height = drawable.getIntrinsicHeight();
+
+				if (width <= 0) {
+					width = (int) mRect.width();
+				}
+				if (height <= 0) {
+					height = (int) mRect.height();
+				}
+
+				Bitmap placeholderBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+				Canvas placeholderCanvas = new Canvas(placeholderBitmap);
+				drawable.setBounds(0, 0, width, height);
+				drawable.draw(placeholderCanvas);
+				setBitmap(placeholderBitmap, false);
+
+				mSource = Source.PLACEHOLDER;
+			}
+		}
+
+		if (mSource != null) {
 			// Draw the bitmap (possibly with rounded corners)
 			if (mCornerMode == CornerMode.NONE) {
 				canvas.drawRect(mRect, mBitmapPaint);
@@ -234,10 +289,6 @@ public class HeaderBitmapDrawable extends Drawable implements OnImageLoaded {
 					canvas.drawRect(width - mCornerRadius, height - mCornerRadius, width, height, mBitmapPaint);
 				}
 			}
-		}
-		else {
-			// If we don't have a bitmap, rely on UrlBitmapDrawable to render (and kick off a load)
-			mUrlBitmapDrawable.draw(canvas);
 		}
 
 		// Draw the gradient (if set)
