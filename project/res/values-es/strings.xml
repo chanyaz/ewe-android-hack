@@ -547,6 +547,8 @@
     <string name="share_template_long_ad">Reserva hoteles y vuelos, y visualiza y comparte tus itinerarios Descarga la aplicación gratuita de Expedia hoy.\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Mi vuelo a %1$s el %2$s</string>
+    <!-- Email subject line for multiple travelers 1: city 2: date string -->
+    <string name="share_template_subject_flight_multiple_travelers">Nuestro vuelo a %1$s el %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
     <string name="share_template_short_flight_sameday">Viajo en el vuelo %1$s a %2$s el %3$s.\nDespega %4$s a las %5$s\nAterriza%6$s a las %7$s, %8$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
@@ -590,8 +592,8 @@
     <string name="share_template_long_activity_valid">Fecha de validez: %1$s</string>
     <!-- label for activity 1: expiration date -->
     <string name="share_template_long_activity_expires">Fecha de caducidad: %1$s</string>
-    <!-- label for activity 1: list of guests -->
-    <string name="share_template_long_activity_guests">Personas\n%1$s</string>
+    <!-- label for activity 1: number of guests 2: list of guests -->
+    <string name="share_template_long_activity_guests_with_count">Personas (%1$s)\n%2$s</string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
@@ -984,6 +986,8 @@
     <string name="address_state_hint">Provincia</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Código postal</string>
+    <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
+    <string name="address_postal_code_hint_US">Código postal</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->

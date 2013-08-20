@@ -347,7 +347,7 @@
     <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
     <string name="attraction_theme_parks_second">theme parks</string>
     <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_first">theme parks</string>
+    <string name="attraction_beaches_first">Find the best</string>
     <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
     <string name="attraction_beaches_second">beaches</string>
     <!-- First half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
@@ -547,6 +547,8 @@
     <string name="share_template_long_ad">Book hotels, flights and view &amp; share your itineraries. Download the free Expedia mobile app today.\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">My flight to %1$s on %2$s</string>
+    <!-- Email subject line for multiple travelers 1: city 2: date string -->
+    <string name="share_template_subject_flight_multiple_travelers">Our flight to %1$s on %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
     <string name="share_template_short_flight_sameday">I\&apos;m on flight %1$s to %2$s on %3$s.\nDeparts %4$s at %5$s\nArrives %6$s at %7$s, %8$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
@@ -590,8 +592,8 @@
     <string name="share_template_long_activity_valid">Valid %1$s</string>
     <!-- label for activity 1: expiration date -->
     <string name="share_template_long_activity_expires">Expires %1$s</string>
-    <!-- label for activity 1: list of guests -->
-    <string name="share_template_long_activity_guests">Guests\n%1$s</string>
+    <!-- label for activity 1: number of guests 2: list of guests -->
+    <string name="share_template_long_activity_guests_with_count">Guests (%1$s)\n%2$s</string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
@@ -835,7 +837,7 @@
         <item quantity="two">%1$d Travellers</item>
         <item quantity="few">%1$d Travellers</item>
         <item quantity="many">%1$d Travellers</item>
-        <item quantity="other">%1$dTravellers</item>
+        <item quantity="other">%1$d Travellers</item>
     </plurals>
     <!-- Checkout button text -->
     <string name="checkout_btn">Checkout</string>
@@ -984,6 +986,8 @@
     <string name="address_state_hint">County</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Postcode</string>
+    <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
+    <string name="address_postal_code_hint_US">Postcode</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -1380,7 +1384,7 @@
     <!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
     <string name="filter_price_moderate">££</string>
     <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
-    <string name="filter_price_expensive">$$$</string>
+    <string name="filter_price_expensive">£££</string>
     <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
     <string name="filter_price_cheap_euro">€</string>
     <!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
@@ -1491,7 +1495,7 @@
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">At VIP Access hotels, Expedia Elite Plus members receive free room upgrades and other perks upon availability at check-in.</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_vip_access">Only VIP Access hotels</string>
+    <string name="filter_vip_access">Only VIP Access Hotels</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>

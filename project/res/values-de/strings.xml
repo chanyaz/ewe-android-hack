@@ -547,6 +547,8 @@
     <string name="share_template_long_ad">Sie möchten Hotels und Flüge buchen und Ihre Reisepläne einsehen und teilen? Dann laden Sie noch heute die kostenlose Expedia-App herunter.\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Mein Flug nach %1$s am %2$s</string>
+    <!-- Email subject line for multiple travelers 1: city 2: date string -->
+    <string name="share_template_subject_flight_multiple_travelers">Unser Flug nach %1$s am %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
     <string name="share_template_short_flight_sameday">Ich habe Flug %1$s nach %2$s am %3$s.\nAbflug %4$s um %5$s\nAnkunft%6$s um %7$s, %8$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
@@ -590,8 +592,8 @@
     <string name="share_template_long_activity_valid">Gültig ab: %1$s</string>
     <!-- label for activity 1: expiration date -->
     <string name="share_template_long_activity_expires">Gültig bis:%1$s</string>
-    <!-- label for activity 1: list of guests -->
-    <string name="share_template_long_activity_guests">Gäste\n%1$s</string>
+    <!-- label for activity 1: number of guests 2: list of guests -->
+    <string name="share_template_long_activity_guests_with_count">Personen (%1$s)\n%2$s</string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
@@ -750,7 +752,7 @@
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">INFORMATIONEN ZU GEPÄCKPREISEN</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
-    <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$sZwischenstopp&lt;/b&gt; in %2$s</string>
+    <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s Zwischenstopp&lt;/b&gt; in %2$s</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class and %4$s is the plane.  For example: "4h 10m - Economy (K), Boeing 747." -->
     <string name="flight_details_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s), %4$s.</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class. For example: "4h 10m - Economy (K)" -->
@@ -981,9 +983,11 @@
     <!-- Address city hint -->
     <string name="address_city_hint">Stadt</string>
     <!-- Address state hint -->
-    <string name="address_state_hint">Staat</string>
+    <string name="address_state_hint">Bundesland</string>
     <!-- Postal Code hint -->
-    <string name="address_postal_code_hint">PLZ</string>
+    <string name="address_postal_code_hint">Postleitzahl</string>
+    <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
+    <string name="address_postal_code_hint_US">PLZ</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -1765,7 +1769,7 @@
     <!-- Format for a first/last name -->
     <string name="name_template">%1$s %2$s</string>
     <!-- Reservation summary label -->
-    <string name="reservation_summary">Zusammenfassung der Buchung</string>
+    <string name="reservation_summary">Buchungsübersicht</string>
     <!-- Confirmation number label -->
     <string name="confirmation_number">Bestätigungsnr.</string>
     <!-- Itinerary number label -->
