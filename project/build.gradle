@@ -78,6 +78,12 @@ android {
 
         }
 
+        beta.initWith(buildTypes.debug)
+        beta {
+            packageNameSuffix ".beta"
+
+        }
+
         release {
             runProguard true
             proguardFile 'proguard.cfg'
@@ -104,6 +110,11 @@ android {
         alpha {
             manifest.srcFile 'AndroidManifest-alpha.xml'
             res.srcDirs 'res_alpha'
+        }
+
+        beta {
+            manifest.srcFile 'AndroidManifest-beta.xml'
+            res.srcDirs 'res_beta'
         }
 
         VSC {

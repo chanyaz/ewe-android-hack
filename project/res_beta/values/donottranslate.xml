@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">Expedia Beta</string>
+
+    <!-- MapsV2 -->
+    <string name="mapsv2_key">@string/mapsv2_ha_key</string>
+
+    <!-- Content provider authority overrides -->
+    <string name="authority_autocomplete_hotel">@string/authority_beta_autocomplete_hotel</string>
+    <string name="authority_autocomplete_airport">@string/authority_beta_autocomplete_airport</string>
+    <string name="authority_account_sync">@string/authority_beta_account_sync</string>
+
+    <!-- Account Manager redirection strings -->
+    <string name="expedia_account_type_identifier">@string/account_type_beta</string>
+    <string name="expedia_account_token_type_tuid_identifier">@string/account_tuid_beta</string>
+
+</resources>
