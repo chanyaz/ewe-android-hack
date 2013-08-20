@@ -132,11 +132,13 @@ android {
 }
 
 if (isDefined(jenkinsBuildNumber)) {
-    def manifestFile = file("AndroidManifest-alpha.xml")
-    def pattern = Pattern.compile("android:name=\"buildNumber\"\\s*android:value=\"(\\d+)\"")
-    def manifestText = manifestFile.getText()
-    def matcher = pattern.matcher(manifestText)
-    matcher.find()
-    def manifestContent = matcher.replaceAll("android:name=\"buildNumber\" android:value=\"" + jenkinsBuildNumber + "\"")
-    manifestFile.write(manifestContent)
+    for (String manifestPath : ["AndroidManifest-alpha.xml", "AndroidManifest-beta.xml"]) {
+        def manifestFile = file(manifestPath)
+        def pattern = Pattern.compile("android:name=\"buildNumber\"\\s*android:value=\"(\\d+)\"")
+        def manifestText = manifestFile.getText()
+        def matcher = pattern.matcher(manifestText)
+        matcher.find()
+        def manifestContent = matcher.replaceAll("android:name=\"buildNumber\" android:value=\"" + jenkinsBuildNumber + "\"")
+        manifestFile.write(manifestContent)
+    }
 }
