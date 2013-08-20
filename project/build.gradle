@@ -31,7 +31,6 @@ dependencies {
     compile project(':lib:google-play-services')
     compile project(':lib:svg-android:svgandroid')
     compile project(':lib:Utils')
-    compile project(':lib:Jars')
 }
 
 android {
