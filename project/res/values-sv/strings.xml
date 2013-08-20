@@ -547,6 +547,8 @@
     <string name="share_template_long_ad">Boka hotell och flyg samt se och dela dina resplaner Hämta Expedias gratisapp idag.\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Mitt flyg till %1$s %2$s</string>
+    <!-- Email subject line for multiple travelers 1: city 2: date string -->
+    <string name="share_template_subject_flight_multiple_travelers">Vårt flyg till %1$s %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
     <string name="share_template_short_flight_sameday">Jag är på flyg %1$s till %2$s %3$s.\nAvgår %4$s %5$s\nAnkommer %6$s %7$s, %8$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
@@ -590,8 +592,8 @@
     <string name="share_template_long_activity_valid">Giltig %1$s</string>
     <!-- label for activity 1: expiration date -->
     <string name="share_template_long_activity_expires">Förfaller%1$s</string>
-    <!-- label for activity 1: list of guests -->
-    <string name="share_template_long_activity_guests">Gäster\n%1$s</string>
+    <!-- label for activity 1: number of guests 2: list of guests -->
+    <string name="share_template_long_activity_guests_with_count">Gäster (%1$s)\n%2$s</string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
@@ -983,7 +985,9 @@
     <!-- Address state hint -->
     <string name="address_state_hint">Län</string>
     <!-- Postal Code hint -->
-    <string name="address_postal_code_hint">Postnummer</string>
+    <string name="address_postal_code_hint">Postnr</string>
+    <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
+    <string name="address_postal_code_hint_US">Postnummer</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->

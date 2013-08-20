@@ -547,6 +547,8 @@
     <string name="share_template_long_ad">Pesan hotel, penerbangan, dan lihat atau bagikan rencana perjalanan Anda. Unduh aplikasi mobile Expedia gratis sekarang juga.\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Penerbangan saya ke %1$s tanggal %2$s</string>
+    <!-- Email subject line for multiple travelers 1: city 2: date string -->
+    <string name="share_template_subject_flight_multiple_travelers">Penerbangan kami ke %1$s tanggal %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
     <string name="share_template_short_flight_sameday">Saya dalam penerbangan %1$s ke %2$s tanggal %3$s.\nBerangkat dari %4$s pukul %5$s\nTiba di %6$s%7$s pukul, %8$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
@@ -590,8 +592,8 @@
     <string name="share_template_long_activity_valid">Valid %1$s</string>
     <!-- label for activity 1: expiration date -->
     <string name="share_template_long_activity_expires">Kedaluwarsa %1$s</string>
-    <!-- label for activity 1: list of guests -->
-    <string name="share_template_long_activity_guests">Tamu\n%1$s</string>
+    <!-- label for activity 1: number of guests 2: list of guests -->
+    <string name="share_template_long_activity_guests_with_count">Tamu (%1$s)\n%2$s</string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
@@ -984,6 +986,8 @@
     <string name="address_state_hint">Provinsi</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Kode Pos</string>
+    <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
+    <string name="address_postal_code_hint_US">Kode Pos</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -1023,9 +1027,9 @@
     <!-- date of birth label -->
     <string name="date_of_birth">Tanggal Lahir</string>
     <!-- male -->
-    <string name="male">Pria</string>
+    <string name="male">Laki-laki</string>
     <!-- female -->
-    <string name="female">Wanita</string>
+    <string name="female">Perempuan</string>
     <!-- next page buttn -->
     <string name="next">Berikutnya</string>
     <!-- Passport country label -->
@@ -1615,7 +1619,7 @@
     <!-- Rate price displayed "average per night" -->
     <string name="rate_avg_per_night">rata-rata/malam</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
-    <string name="total_price_for_stay">Total harga selama menginap</string>
+    <string name="total_price_for_stay">Total harga selama masa menginap</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
     <string name="total_price_for_stay_punctuated">Total harga selama menginap.</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
@@ -2040,7 +2044,7 @@
     <!-- Kilometers (used in distance template) -->
     <string name="unit_kilometers_full">kilometer</string>
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
-    <string name="distance_template">%1$s %2$s jauhnya</string>
+    <string name="distance_template">%1$s %2$s</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
 

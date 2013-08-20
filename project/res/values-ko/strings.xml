@@ -546,7 +546,9 @@
     <!-- App download link -->
     <string name="share_template_long_ad">호텔과 항공편을 예약하고 일정을 확인 및 공유하실 수 있어요. 오늘 바로 Expedia 모바일 앱을 다운로드하세요.\n%s</string>
     <!-- 1: city 2: date string -->
-    <string name="share_template_subject_flight">내가 예약한 %1$s행 항공편(%2$s)</string>
+    <string name="share_template_subject_flight">내가 예약한 %1$s행 항공편, %2$s</string>
+    <!-- Email subject line for multiple travelers 1: city 2: date string -->
+    <string name="share_template_subject_flight_multiple_travelers">우리가 예약한 %1$s행 항공편, %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
     <string name="share_template_short_flight_sameday">저 %1$s 비행기로 %2$s에 가요. 날짜는 %3$s이고요.\n%4$s에서 출발하는 시간은 %5$s, \n%6$s에 도착하는 시간은 %7$s에요(%8$s).</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
@@ -590,8 +592,8 @@
     <string name="share_template_long_activity_valid">유효일: %1$s</string>
     <!-- label for activity 1: expiration date -->
     <string name="share_template_long_activity_expires">만료일: %1$s</string>
-    <!-- label for activity 1: list of guests -->
-    <string name="share_template_long_activity_guests">고객:\n%1$s</string>
+    <!-- label for activity 1: number of guests 2: list of guests -->
+    <string name="share_template_long_activity_guests_with_count">고객(%1$s명)\n%2$s</string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
@@ -984,6 +986,8 @@
     <string name="address_state_hint">도</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">우편번호</string>
+    <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
+    <string name="address_postal_code_hint_US">우편번호</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->

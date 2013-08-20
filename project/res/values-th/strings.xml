@@ -547,8 +547,10 @@
     <string name="share_template_long_ad">จองโรงแรม เที่ยวบิน ดูและแบ่งปันแผนการเดินทางของคุณ ดาวน์โหลดแอพฯ ฟรีสำหรับมือถือจากเอ็กซ์พีเดียวันนี้\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">เที่ยวบินของฉันไปยัง %1$s ใน %2$s</string>
+    <!-- Email subject line for multiple travelers 1: city 2: date string -->
+    <string name="share_template_subject_flight_multiple_travelers">เที่ยวบินของเราไปยัง %1$s ใน %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">ฉันนั่งเที่ยวบิน %1$s ไปยัง %2$s เวลา %3$s\nออกจาก %4$s เวลา %5$s\nมาถึง %6$s เวลา %7$s, %8$s</string>
+    <string name="share_template_short_flight_sameday">ฉันนั่งเที่ยวบิน %1$s ไปยัง %2$s ใน %3$s\nออกจาก %4$s เวลา %5$s\nมาถึง %6$s เวลา %7$s, %8$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
     <string name="share_template_short_flight_multiday">ฉันนั่งเที่ยวบิน %1$s ไปยัง %2$s\nออกจาก %3$s เวลา %4$s\nมาถึง %5$s เวลา %6$s, %7$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
@@ -590,8 +592,8 @@
     <string name="share_template_long_activity_valid">ใช้ได้ตั้งแต่ %1$s</string>
     <!-- label for activity 1: expiration date -->
     <string name="share_template_long_activity_expires">หมดอายุ %1$s</string>
-    <!-- label for activity 1: list of guests -->
-    <string name="share_template_long_activity_guests">ผู้เข้าพัก\n%1$s</string>
+    <!-- label for activity 1: number of guests 2: list of guests -->
+    <string name="share_template_long_activity_guests_with_count">ผู้เข้าพัก (%1$s) \n%2$s</string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
@@ -666,7 +668,7 @@
     <!-- Title for screen when in an invalid POS we can't search for yet -->
     <string name="taking_off_soon">เครื่องกำลังจะออกในอีกไม่ช้า…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
-    <string name="invalid_flights_pos">ขออภัย การจองเที่ยวบินทางมือถือยัง &lt;b&gt;ไม่มีให้บริการ&lt;/b&gt; ในพื้นที่ของคุณ</string>
+    <string name="invalid_flights_pos">ขออภัย การจองเที่ยวบินทางมือถือยัง&lt;b&gt;ไม่มีให้บริการ&lt;/b&gt; ในพื้นที่ของคุณ</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">สนามบินที่ออกเดินทางกับสนามบินปลายทางต้องไม่ใช่สนามบินเดียวกัน</string>
 
@@ -685,12 +687,12 @@
     <string name="select_dates">เลือกวันที่</string>
     <!-- Number of adults template -->
     <plurals name="number_of_adults_TEMPLATE">
-        <item quantity="zero">ผู้ใหญ่ %1$d</item>
-        <item quantity="one">ผู้ใหญ่ %1$d</item>
-        <item quantity="two">ผู้ใหญ่ %1$d</item>
-        <item quantity="few">ผู้ใหญ่ %1$d</item>
-        <item quantity="many">ผู้ใหญ่ %1$d</item>
-        <item quantity="other">ผู้ใหญ่ %1$d</item>
+        <item quantity="zero">ผู้ใหญ่ %1$d คน</item>
+        <item quantity="one">ผู้ใหญ่ %1$d คน</item>
+        <item quantity="two">ผู้ใหญ่ %1$d คน</item>
+        <item quantity="few">ผู้ใหญ่ %1$d คน</item>
+        <item quantity="many">ผู้ใหญ่ %1$d คน</item>
+        <item quantity="other">ผู้ใหญ่ %1$d คน</item>
     </plurals>
     <!-- Message shown when loading AirAsia flight routes -->
     <string name="loading_air_asia_routes">กำลังโหลดเส้นทางของ AirAsia…</string>
@@ -738,12 +740,12 @@
     <string name="book_now_price_TEMPLATE">จองเลยในราคา &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label, when there are only a few seats left.  %1$s is the number of seats, %2$s is the price - e.g., "3 left at $500" -->
     <plurals name="urgency_book_TEMPLATE">
-        <item quantity="zero">%1$s ออกเดินทางเมื่อ &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="one">%1$s ออกเดินทางเมื่อ &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="two">%1$s ออกเดินทางเมื่อ &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="few">%1$s ออกเดินทางเมื่อ &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="many">%1$s ออกเดินทางเมื่อ &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="other">%1$s ออกเดินทางเมื่อ &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="zero">เหลือ %1$s ที่นั่งในราคา &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="one">เหลือ %1$s ที่นั่งในราคา &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="two">เหลือ %1$s ที่นั่งในราคา &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="few">เหลือ %1$s ที่นั่งในราคา &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="many">เหลือ %1$s ที่นั่งในราคา &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="other">เหลือ %1$s ที่นั่งในราคา &lt;b&gt;%2$s&lt;/b&gt;</item>
     </plurals>
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
     <string name="fare_name_and_price_TEMPLATE">%1$s : %2$s</string>
@@ -830,12 +832,12 @@
     <!-- Number of traverlers template -->
 
     <plurals name="number_of_travelers_TEMPLATE">
-        <item quantity="zero">%1$d ผู้เดินทาง</item>
-        <item quantity="one">%1$d ผู้เดินทาง</item>
-        <item quantity="two">%1$d ผู้เดินทาง</item>
-        <item quantity="few">%1$d ผู้เดินทาง</item>
-        <item quantity="many">%1$d ผู้เดินทาง</item>
-        <item quantity="other">%1$d ผู้เดินทาง</item>
+        <item quantity="zero">ผู้เดินทาง %1$d คน</item>
+        <item quantity="one">ผู้เดินทาง %1$d คน</item>
+        <item quantity="two">ผู้เดินทาง %1$d คน</item>
+        <item quantity="few">ผู้เดินทาง %1$d คน</item>
+        <item quantity="many">ผู้เดินทาง %1$d คน</item>
+        <item quantity="other">ผู้เดินทาง %1$d คน</item>
     </plurals>
     <!-- Checkout button text -->
     <string name="checkout_btn">เช็คเอาท์</string>
@@ -984,6 +986,8 @@
     <string name="address_state_hint">จังหวัด</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">รหัสไปรษณีย์</string>
+    <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
+    <string name="address_postal_code_hint_US">รหัสไปรษณีย์</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -1041,7 +1045,7 @@
     <!-- None -->
     <string name="none">ไม่มี</string>
     <!-- Gender name template e.g. Chris is Male -->
-    <string name="gender_name_TEMPLATE">&lt;font color="#919191"&gt;%1$s คือ&lt;/font&gt;%2$s</string>
+    <string name="gender_name_TEMPLATE">&lt;font color="#919191"&gt;%1$s เป็น&lt;/font&gt;%2$s</string>
 
     <!-- Traveler options activity -->
     <!-- Select a traveler -->
@@ -1059,13 +1063,13 @@
     <!-- loading traveler info -->
     <string name="loading_traveler_info">กำลังโหลดข้อมูลผู้เดินทาง…</string>
     <!-- Passport -->
-    <string name="passport">พาสปอร์ต</string>
+    <string name="passport">หนังสือเดินทาง</string>
     <!-- Current traveler - <firstname> <lastname> -->
     <string name="current_traveler_TEMPLATE">&lt;font color="#38597D"&gt;ผู้เดินทางคนปัจจุบัน -&lt;/font&gt; %1$s %2$s</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
-    <string name="window">หน้าต่าง</string>
+    <string name="window">ติดหน้าต่าง</string>
     <!-- Aisle seating preference -->
     <string name="aisle">ติดทางเดิน</string>
     <!-- Any -->
@@ -1103,7 +1107,7 @@
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">จองห้องพัก</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
-    <string name="hotels_in_TEMPLATE">โรงแรมใน %s</string>
+    <string name="hotels_in_TEMPLATE">โรงแรมใน%s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">ดำเนินการอื่นๆ</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
@@ -1483,7 +1487,7 @@
     <!-- Title for the amenities section in the hotel details fragment -->
     <string name="amenities">สิ่งอำนวยความสะดวก</string>
     <!-- Label for button to see all reviews as a modal dialog -->
-    <string name="see_all_reviews">แสดงความคิดเห็นทั้งหมด</string>
+    <string name="see_all_reviews">แสดงรีวิวทั้งหมด</string>
     <!-- Label for button that brings users to the room selection page -->
     <string name="select_room">เลือกห้อง</string>
     <!-- Title for VIP Access message -->
@@ -1513,7 +1517,7 @@
     <!-- Kitchen/kitchenette amenity -->
     <string name="AmenityKitchen">ห้องครัว</string>
     <!-- Pets allowed amenity -->
-    <string name="AmenityPetsAllowed">บริการดูแลสัตว์เลี้ยง</string>
+    <string name="AmenityPetsAllowed">นำสัตว์เลี้ยงเข้าพักได้</string>
     <!-- Pool amenity -->
     <string name="AmenityPool">สระว่ายน้ำ</string>
     <!-- Restaurant on-site amenity -->
@@ -1983,19 +1987,19 @@
     <string name="app_not_available">โทรศัพท์ของคุณไม่มีแอพฯ ที่รองรับการดำเนินการนี้ หรือไม่คุณก็ถูกจำกัดการเข้าใช้งานของแอพฯ นั้น</string>
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
-        <item quantity="zero">ผู้ใหญ่ %d</item>
-        <item quantity="one">ผู้ใหญ่ %d</item>
-        <item quantity="two">ผู้ใหญ่ %d</item>
-        <item quantity="many">ผู้ใหญ่ %d</item>
-        <item quantity="other">ผู้ใหญ่ %d</item>
+        <item quantity="zero">ผู้ใหญ่ %d คน</item>
+        <item quantity="one">ผู้ใหญ่ %d คน</item>
+        <item quantity="two">ผู้ใหญ่ %d คน</item>
+        <item quantity="many">ผู้ใหญ่ %d คน</item>
+        <item quantity="other">ผู้ใหญ่ %d คน</item>
     </plurals>
     <!-- A number of children. Capitalized -->
     <plurals name="number_of_children">
-        <item quantity="zero">เด็ก %d</item>
-        <item quantity="one">เด็ก %d</item>
-        <item quantity="two">เด็ก %d</item>
-        <item quantity="many">เด็ก %d</item>
-        <item quantity="other">เด็ก %d</item>
+        <item quantity="zero">เด็ก %d คน</item>
+        <item quantity="one">เด็ก %d คน</item>
+        <item quantity="two">เด็ก %d คน</item>
+        <item quantity="many">เด็ก %d คน</item>
+        <item quantity="other">เด็ก %d คน</item>
     </plurals>
     <!-- A number of guests. Capitalized -->
     <plurals name="number_of_guests">

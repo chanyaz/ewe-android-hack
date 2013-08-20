@@ -17,7 +17,7 @@
     <!-- Unable to log in to Facebook -->
     <string name="unable_to_log_into_facebook">Impossibile collegarsi a Facebook.</string>
     <!-- Login failed try again -->
-    <string name="login_failed_try_again">Accesso non riuscito. Accesso non riuscito: reinserisci la tua password e riprova.</string>
+    <string name="login_failed_try_again">Accesso non riuscito. Reinserisci la tua password e riprova.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Password Expedia</string>
     <!-- Link accounts -->
@@ -206,11 +206,11 @@
     <!-- "Gate To Be Determined", with "To Be Determined" abbreviated if possible -->
     <string name="Gate_To_Be_Determined_abbrev">Gate da confermare</string>
     <!-- Itin flight gate only template -->
-    <string name="Gate_X_TEMPLATE">Gate %1$s</string>
+    <string name="Gate_X_TEMPLATE">Gate%1$s</string>
     <!-- Itin flight arrive gate only template -->
     <string name="Arrive_Gate_X_TEMPLATE">Arrivo al gate %1$s</string>
     <!-- Itin flight depart gate only template -->
-    <string name="Depart_Gate_X_TEMPLATE">Partenza dal gate %1$s</string>
+    <string name="Depart_Gate_X_TEMPLATE">Gate di partenza%1$s</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
     <string name="Terminal_X_TEMPLATE">Terminal %1$s</string>
     <!-- Special case for name of International Terminal -->
@@ -547,6 +547,8 @@
     <string name="share_template_long_ad">Prenota hotel, voli e visualizza e condividi i tuoi itinerari. Scarica subito l\&apos;app Expedia per dispositivi mobili.\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Il mio volo per %1$s in data %2$s</string>
+    <!-- Email subject line for multiple travelers 1: city 2: date string -->
+    <string name="share_template_subject_flight_multiple_travelers">Il nostro volo per %1$s in data %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
     <string name="share_template_short_flight_sameday">Sono sul volo %1$s per %2$s in data %3$s.\nParte da %4$s alle ore %5$s\nArriva a %6$s alle ore %7$s, %8$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
@@ -590,8 +592,8 @@
     <string name="share_template_long_activity_valid">Validità: %1$s</string>
     <!-- label for activity 1: expiration date -->
     <string name="share_template_long_activity_expires">Scade il %1$s</string>
-    <!-- label for activity 1: list of guests -->
-    <string name="share_template_long_activity_guests">Ospiti\n%1$s</string>
+    <!-- label for activity 1: number of guests 2: list of guests -->
+    <string name="share_template_long_activity_guests_with_count">Ospiti (%1$s) \n%2$s</string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
@@ -984,6 +986,8 @@
     <string name="address_state_hint">Prov.</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">CAP</string>
+    <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
+    <string name="address_postal_code_hint_US">CAP</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->

@@ -426,9 +426,9 @@
     <string name="car_category_oversize">オーバーサイズカー</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2 ドア自動車</string>
-    <string name="car_type_three_door">3 ドア自動車</string>
-    <string name="car_type_four_door">4 ドア自動車</string>
+    <string name="car_type_two_door">2 ドア 自動車</string>
+    <string name="car_type_three_door">3 ドア 自動車</string>
+    <string name="car_type_four_door">4 ドア 自動車</string>
     <string name="car_type_van">バン</string>
     <string name="car_type_wagon">ワゴン</string>
     <string name="car_type_limousine">リムジン</string>
@@ -547,6 +547,8 @@
     <string name="share_template_long_ad">ホテルとフライトを予約して、旅程を表示 &amp; シェアできます。無料のエクスペディア モバイル アプリを今すぐダウンロードしてください。\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">%2$sの%1$sへのフライト</string>
+    <!-- Email subject line for multiple travelers 1: city 2: date string -->
+    <string name="share_template_subject_flight_multiple_travelers">%2$sの%1$sへのフライト</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
     <string name="share_template_short_flight_sameday">私は現在、%2$s行き%3$s発のフライト %1$s 便に乗っています。\n%4$sを%5$sに出発\n%6$sに%7$s、%8$sに到着</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
@@ -590,8 +592,8 @@
     <string name="share_template_long_activity_valid">有効期間 %1$s</string>
     <!-- label for activity 1: expiration date -->
     <string name="share_template_long_activity_expires">有効期限 %1$s</string>
-    <!-- label for activity 1: list of guests -->
-    <string name="share_template_long_activity_guests">宿泊者\n%1$s</string>
+    <!-- label for activity 1: number of guests 2: list of guests -->
+    <string name="share_template_long_activity_guests_with_count">宿泊者 (%1$s 名) \n%2$s</string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
@@ -984,6 +986,8 @@
     <string name="address_state_hint">都道府県</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">郵便番号</string>
+    <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
+    <string name="address_postal_code_hint_US">郵便番号</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -2042,7 +2046,7 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s距離</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s%2$s</string>
+    <string name="distance_template_short">%1$s %2$s</string>
 
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->

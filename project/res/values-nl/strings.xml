@@ -547,6 +547,8 @@
     <string name="share_template_long_ad">Boek hotels, vluchten en bekijk &amp; deel je reisplannen. Download vandaag nog de gratis Expedia mobiele app.\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Mijn vlucht naar %1$s op %2$s</string>
+    <!-- Email subject line for multiple travelers 1: city 2: date string -->
+    <string name="share_template_subject_flight_multiple_travelers">Onze vlucht op %2$s naar %1$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
     <string name="share_template_short_flight_sameday">Mijn vlucht is %1$s naar %2$s op %3$s.\nVertrekt vanaf %4$s om %5$s\nKomt aan op %6$s om %7$s, %8$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
@@ -590,8 +592,8 @@
     <string name="share_template_long_activity_valid">Geldig op: %1$s</string>
     <!-- label for activity 1: expiration date -->
     <string name="share_template_long_activity_expires">Vervalt op: %1$s</string>
-    <!-- label for activity 1: list of guests -->
-    <string name="share_template_long_activity_guests">Gasten\n%1$s</string>
+    <!-- label for activity 1: number of guests 2: list of guests -->
+    <string name="share_template_long_activity_guests_with_count">Gasten (%1$s)\n%2$s</string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
@@ -983,7 +985,9 @@
     <!-- Address state hint -->
     <string name="address_state_hint">Provincie</string>
     <!-- Postal Code hint -->
-    <string name="address_postal_code_hint">Zip</string>
+    <string name="address_postal_code_hint">Postcode</string>
+    <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
+    <string name="address_postal_code_hint_US">Zip</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->

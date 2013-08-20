@@ -547,6 +547,8 @@
     <string name="share_template_long_ad">Reserve hotéis, voos, veja e compartilhe itinerários. Baixe o app móvel da Expedia grátis ainda hoje.\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Meu voo para %1$s em %2$s</string>
+    <!-- Email subject line for multiple travelers 1: city 2: date string -->
+    <string name="share_template_subject_flight_multiple_travelers">Nosso voo para %1$s em %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
     <string name="share_template_short_flight_sameday">Estou no voo %1$s para %2$s em %3$s.\nParte de %4$s às %5$s\nChega a %6$s às %7$s (%8$s)</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
@@ -590,8 +592,8 @@
     <string name="share_template_long_activity_valid">Validade: %1$s</string>
     <!-- label for activity 1: expiration date -->
     <string name="share_template_long_activity_expires">Expira %1$s</string>
-    <!-- label for activity 1: list of guests -->
-    <string name="share_template_long_activity_guests">Hóspedes\n%1$s</string>
+    <!-- label for activity 1: number of guests 2: list of guests -->
+    <string name="share_template_long_activity_guests_with_count">Hóspedes (%1$s)\n%2$s</string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
@@ -984,6 +986,8 @@
     <string name="address_state_hint">Estado</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">CEP</string>
+    <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
+    <string name="address_postal_code_hint_US">CEP</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -1487,11 +1491,11 @@
     <!-- Label for button that brings users to the room selection page -->
     <string name="select_room">Selecionar quarto</string>
     <!-- Title for VIP Access message -->
-    <string name="vip_access">Acesso VIP</string>
+    <string name="vip_access">VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">Nos hotéis com acesso VIP, os associados do Expedia Elite Plus recebem upgrade de quarto gratuito, além de outros benefícios que dependem de disponibilidade no momento do check-in.</string>
+    <string name="vip_access_message">Nos hotéis com VIP Access, os membros do Expedia Elite Plus recebem upgrade de quarto gratuito, além de outros benefícios que dependem da disponibilidade no momento do check-in.</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_vip_access">Somente hotéis com acesso VIP</string>
+    <string name="filter_vip_access">Somente hotéis com VIP Access</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>

@@ -547,6 +547,8 @@
     <string name="share_template_long_ad">預訂酒店和機票，及查看和分享你的行程立即下載免費的 Expedia 流動裝置應用程式吧！\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">我的班機資料：前往%1$s，日期：%2$s</string>
+    <!-- Email subject line for multiple travelers 1: city 2: date string -->
+    <string name="share_template_subject_flight_multiple_travelers">我們的班機資料：前往%1$s，日期：%2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
     <string name="share_template_short_flight_sameday">我正乘搭 %1$s 前往%2$s，日期：%3$s。\n出發機場：%4$s，時間：%5$s\n抵達機場：%6$s，時間：%7$s，客運大樓和閘口：%8$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
@@ -590,8 +592,8 @@
     <string name="share_template_long_activity_valid">有效日期：%1$s</string>
     <!-- label for activity 1: expiration date -->
     <string name="share_template_long_activity_expires">到期日 %1$s</string>
-    <!-- label for activity 1: list of guests -->
-    <string name="share_template_long_activity_guests">旅客\n%1$s</string>
+    <!-- label for activity 1: number of guests 2: list of guests -->
+    <string name="share_template_long_activity_guests_with_count">旅客 (%1$s)\n%2$s</string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
@@ -984,6 +986,8 @@
     <string name="address_state_hint">州</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">郵遞區號</string>
+    <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
+    <string name="address_postal_code_hint_US">郵遞區號</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->

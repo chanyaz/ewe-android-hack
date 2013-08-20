@@ -547,6 +547,8 @@
     <string name="share_template_long_ad">预订酒店、航班，查看并分享您的行程。马上下载免费的 Expedia 移动应用。\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">%2$s飞往%1$s的航班</string>
+    <!-- Email subject line for multiple travelers 1: city 2: date string -->
+    <string name="share_template_subject_flight_multiple_travelers">%2$s飞往%1$s的航班</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
     <string name="share_template_short_flight_sameday">我正在 %3$s 飞往 %2$s 的 %1$s 次航班上。\n%5$s\n飞离 %4$s；%7$s, %8$s 到达 %6$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
@@ -590,8 +592,8 @@
     <string name="share_template_long_activity_valid">有效日期为 %1$s</string>
     <!-- label for activity 1: expiration date -->
     <string name="share_template_long_activity_expires">到期日期为 %1$s</string>
-    <!-- label for activity 1: list of guests -->
-    <string name="share_template_long_activity_guests">宾客\n%1$s</string>
+    <!-- label for activity 1: number of guests 2: list of guests -->
+    <string name="share_template_long_activity_guests_with_count">宾客%1$s\n%2$s</string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
@@ -983,7 +985,9 @@
     <!-- Address state hint -->
     <string name="address_state_hint">省</string>
     <!-- Postal Code hint -->
-    <string name="address_postal_code_hint">邮编</string>
+    <string name="address_postal_code_hint">邮政编码</string>
+    <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
+    <string name="address_postal_code_hint_US">邮编</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -1491,7 +1495,7 @@
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">在 VIP Access 酒店，Expedia Elite Plus 会员可免费享受客房升级及其他尊享礼遇，具体取决于入住时的供应情况。</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_vip_access">仅 VIP Access 酒店</string>
+    <string name="filter_vip_access">仅限 VIP Access 酒店</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>

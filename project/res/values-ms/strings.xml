@@ -547,6 +547,8 @@
     <string name="share_template_long_ad">Tempah hotel, penerbangan dan lihat &amp; kongsi jadual perjalanan anda. Muat turun apl mudah alih Expedia percuma hari ini.\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Penerbangan saya ke %1$s pada %2$s</string>
+    <!-- Email subject line for multiple travelers 1: city 2: date string -->
+    <string name="share_template_subject_flight_multiple_travelers">Penerbangan kami ke %1$s pada %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
     <string name="share_template_short_flight_sameday">Saya menaiki penerbangan %1$s ke %2$s pada %3$s.\nBerlepas dari %4$s pada %5$s\nTiba di %6$s pada %7$s, %8$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
@@ -590,8 +592,8 @@
     <string name="share_template_long_activity_valid">Sah %1$s</string>
     <!-- label for activity 1: expiration date -->
     <string name="share_template_long_activity_expires">Tamat Tempoh%1$s</string>
-    <!-- label for activity 1: list of guests -->
-    <string name="share_template_long_activity_guests">Tetamu\n%1$s</string>
+    <!-- label for activity 1: number of guests 2: list of guests -->
+    <string name="share_template_long_activity_guests_with_count">Tetamu (%1$s)\n%2$s</string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
@@ -778,7 +780,7 @@
     <!-- Payment and baggage fees may apply -->
     <string name="payment_and_baggage_fees_may_apply">Yuran pembayaran boleh dikenakan</string>
     <!-- Additional Flight fare fees -->
-    <string name="additional_fees">Yuran Tambahan</string>
+    <string name="additional_fees">Bayaran Tambahan</string>
     <!-- Label to view baggage fees information -->
     <string name="baggage_fees">Yuran Bagasi</string>
     <!-- Label to view payment processing fees information -->
@@ -984,6 +986,8 @@
     <string name="address_state_hint">Negeri</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Poskod</string>
+    <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
+    <string name="address_postal_code_hint_US">Poskod</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -1491,7 +1495,7 @@
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">Di hotel VIP Access, ahli Expedia Elite Plus menerima naik taraf bilik percuma dan keistimewaan lain apabila tersedia semasa daftar masuk.</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_vip_access">Hanya hotel VIP Access</string>
+    <string name="filter_vip_access">Hanya Hotel VIP Access</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>
