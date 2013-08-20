@@ -12,8 +12,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.Bundle;
-import android.test.AndroidTestCase;
+import android.test.ApplicationTestCase;
 
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -26,13 +27,37 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.test.utils.DataUtils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.mobiata.android.Log;
 
 /*
  * A class of tests intended to be a "safety cushion" for the 
  * JodaUtils class.
  */
 
-public class JodaUtilsTests extends AndroidTestCase {
+public class JodaUtilsTests extends ApplicationTestCase<ExpediaBookingApp> {
+
+	private ExpediaBookingApp mApp = null;
+
+	public JodaUtilsTests() {
+		super(ExpediaBookingApp.class);
+	}
+
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		if (mApp == null) {
+			createApplication();
+			mApp = getApplication();
+		}
+		while (!mApp.isInitialized()) {
+			try {
+				Thread.sleep(100);
+			}
+			catch (InterruptedException ex) {
+				Thread.currentThread().interrupt();
+			}
+		}
+	}
 
 	public void testLocaleDateComparisons() {
 		LocalDate date1 = LocalDate.now();
@@ -184,7 +209,6 @@ public class JodaUtilsTests extends AndroidTestCase {
 	// 100 millisecond wait() ensures objects' member variables are initialized
 	// from system (e.g. POS)
 	public void testTimeInFlightCheckoutParams() throws InterruptedException {
-		sleep(100);
 		ExpediaServices expediaServices = new ExpediaServices(getContext());
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
@@ -218,7 +242,6 @@ public class JodaUtilsTests extends AndroidTestCase {
 	}
 
 	public void testTimeInHotelCheckOutParams() throws InterruptedException {
-		sleep(100);
 		ExpediaServices expediaServices = new ExpediaServices(getContext());
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 		HotelSearchParams params = new HotelSearchParams();
@@ -283,12 +306,4 @@ public class JodaUtilsTests extends AndroidTestCase {
 		}
 	}
 
-	private void sleep(long time) {
-		try {
-			Thread.sleep(time);
-		}
-		catch (InterruptedException ex) {
-			Thread.currentThread().interrupt();
-		}
-	}
 }
