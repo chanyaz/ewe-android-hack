@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 
 import com.expedia.bookings.widget.SummarizedRoomRates;
@@ -177,14 +178,14 @@ public class HotelSearch implements JSONable {
 	// Get data
 
 	public Property getProperty(String id) {
-		if (mSearchResponse != null) {
+		if (mSearchResponse != null && !TextUtils.isEmpty(id)) {
 			return mPropertyMap.get(id);
 		}
 		return null;
 	}
 
 	public HotelAvailability getAvailability(String id) {
-		if (mSearchResponse != null && mAvailabilityMap != null) {
+		if (mSearchResponse != null && mAvailabilityMap != null && !TextUtils.isEmpty(id)) {
 			HotelAvailability availability = mAvailabilityMap.get(id);
 			return availability;
 		}
@@ -208,7 +209,10 @@ public class HotelSearch implements JSONable {
 	}
 
 	public ReviewsResponse getReviewsResponse(String id) {
-		return mReviewsResponses.get(id);
+		if (mReviewsResponses != null && !TextUtils.isEmpty(id)) {
+			return mReviewsResponses.get(id);
+		}
+		return null;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
