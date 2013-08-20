@@ -50,6 +50,12 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 	private UncaughtExceptionHandler mOriginalUncaughtExceptionHandler;
 
+	// This is used only for testing; normally you can assume that onCreate()
+	// has been called before any other code, but that's not always the case
+	// with unit tests.  This allows a unit test to wait until it knows that
+	// we've initialized key parts of the app.
+	private boolean mInitialized = false;
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -230,6 +236,8 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		}
 
 		startupTimer.dumpToLog();
+
+		mInitialized = true;
 	}
 
 	@Override
@@ -256,6 +264,15 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 		// Call the original exception handler
 		mOriginalUncaughtExceptionHandler.uncaughtException(thread, ex);
+	}
+
+	/**
+	 * Tells testers if the app has been initialized.  I would warn against
+	 * using it outside of a testing environment, as its use would indicate
+	 * you are doing something wrong.
+	 */
+	public boolean isInitialized() {
+		return mInitialized;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
