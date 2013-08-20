@@ -156,8 +156,8 @@
                             android:id="@+id/fixed_itin_type_image_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignBottom="@id/header_text_layout"
-                            android:layout_centerHorizontal="true"
+                            android:layout_centerInParent="true"
+                            android:paddingBottom="42dp"
                             android:visibility="gone" />
 
                         <View
