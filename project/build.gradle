@@ -1,11 +1,16 @@
 import java.util.regex.Pattern
 
-def isServerBuild
+def isDefined(s) {
+    return !s.isEmpty() && s != "null"
+}
+
+def shouldRunProguard
 def jenkinsBuildNumber = "$System.env.BUILD_NUMBER"
-if (!jenkinsBuildNumber.isEmpty() && jenkinsBuildNumber != "null") {
-    isServerBuild = true
+def proguardEnabled = "$System.env.PROGUARD_ENABLED"
+if (isDefined(proguardEnabled) || isDefined(jenkinsBuildNumber)) {
+    shouldRunProguard = true
 } else {
-    isServerBuild = false
+    shouldRunProguard = false
 }
 
 buildscript {
@@ -62,13 +67,17 @@ android {
     }
 
     buildTypes {
+        debug {
+            runProguard shouldRunProguard
+            proguardFile 'proguard.cfg'
+        }
+
         alpha.initWith(buildTypes.debug)
         alpha {
             packageNameSuffix ".alpha"
 
-            runProguard isServerBuild
-            proguardFile 'proguard.cfg'
         }
+
         release {
             runProguard true
             proguardFile 'proguard.cfg'
@@ -111,7 +120,7 @@ android {
 
 }
 
-if (isServerBuild) {
+if (isDefined(jenkinsBuildNumber)) {
     def manifestFile = file("AndroidManifest-alpha.xml")
     def pattern = Pattern.compile("android:name=\"buildNumber\"\\s*android:value=\"(\\d+)\"")
     def manifestText = manifestFile.getText()
