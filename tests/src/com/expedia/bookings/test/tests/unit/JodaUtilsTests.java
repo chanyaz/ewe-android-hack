@@ -38,6 +38,11 @@ public class JodaUtilsTests extends ApplicationTestCase<ExpediaBookingApp> {
 
 	private ExpediaBookingApp mApp = null;
 
+	// Helper variables
+	private LocalDate mNow = null;
+	private Location mLocation = null;
+	private BillingInfo mBillingInfo = null;
+
 	public JodaUtilsTests() {
 		super(ExpediaBookingApp.class);
 	}
@@ -56,6 +61,20 @@ public class JodaUtilsTests extends ApplicationTestCase<ExpediaBookingApp> {
 			catch (InterruptedException ex) {
 				Thread.currentThread().interrupt();
 			}
+		}
+		if (mNow == null) {
+			mNow = LocalDate.now();
+		}
+		if (mLocation == null) {
+			mLocation = DataUtils.setUpLocation("San Francisco", "USA", "Cool description",
+					"114 Sansome St.",
+					"94109", "CA",
+					37.7833, 122.4167, "SF");
+		}
+		if (mBillingInfo == null) {
+			mBillingInfo = DataUtils.setUpBillingInfo("qa-ehcc@mobiata.com", "4155555555", "1",
+					"JexperCC",
+					"MobiataTestaverde", "4111111111111111", "111", mNow, mLocation);
 		}
 	}
 
@@ -195,16 +214,6 @@ public class JodaUtilsTests extends ApplicationTestCase<ExpediaBookingApp> {
 	/*
 	 * Tests verifying JodaUtils implementations in ExpediaServices
 	 */
-
-	// Helper variables
-	private static LocalDate mNow = LocalDate.now();
-	private static Location mLocation = DataUtils.setUpLocation("San Francisco", "USA", "Cool description",
-			"114 Sansome St.",
-			"94109", "CA",
-			37.7833, 122.4167, "SF");
-	private static BillingInfo mBillingInfo = DataUtils.setUpBillingInfo("qa-ehcc@mobiata.com", "4155555555", "1",
-			"JexperCC",
-			"MobiataTestaverde", "4111111111111111", "111", mNow, mLocation);
 
 	// 100 millisecond wait() ensures objects' member variables are initialized
 	// from system (e.g. POS)
