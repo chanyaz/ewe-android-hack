@@ -1,7 +1,7 @@
 package com.expedia.bookings.data;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,15 +63,15 @@ public class HotelSearch implements JSONable {
 		Log.d("HotelSearch: setSearchResponse");
 		mSearchResponse = response;
 
-		mPropertyMap = new HashMap<String, Property>();
+		mPropertyMap = new ConcurrentHashMap<String, Property>();
 		if (response != null && response.getProperties() != null) {
 			for (Property property : response.getProperties()) {
 				mPropertyMap.put(property.getPropertyId(), property);
 			}
 		}
 
-		mAvailabilityMap = new HashMap<String, HotelAvailability>();
-		mReviewsResponses = new HashMap<String, ReviewsResponse>();
+		mAvailabilityMap = new ConcurrentHashMap<String, HotelAvailability>();
+		mReviewsResponses = new ConcurrentHashMap<String, ReviewsResponse>();
 	}
 
 	public HotelSearchResponse getSearchResponse() {
