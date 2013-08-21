@@ -57,10 +57,16 @@ public class JodaUtils {
 		return now.isBefore(timestamp) || timestamp.plusMillis((int) cutoff).isBefore(now);
 	}
 
+	/**
+	 * @return # of days between, positive if start is before end, negative if end is before start
+	 */
 	public static int daysBetween(ReadablePartial start, ReadablePartial end) {
 		return Days.daysBetween(start, end).getDays();
 	}
 
+	/**
+	 * @return # of days between, positive if start is before end, negative if end is before start
+	 */
 	public static int daysBetween(DateTime start, DateTime end) {
 		return daysBetween(start.toLocalDate(), end.toLocalDate());
 	}

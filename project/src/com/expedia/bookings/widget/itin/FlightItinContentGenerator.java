@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Hours;
+import org.joda.time.Minutes;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -48,6 +53,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -281,16 +287,16 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		}
 
 		Resources res = getResources();
-		Calendar now = Calendar.getInstance();
 		Flight flight = itinCardData.getMostRelevantFlightSegment();
-		Calendar departure = flight.mOrigin.getMostRelevantDateTime();
+		DateTime departure = new DateTime(flight.mOrigin.getMostRelevantDateTime());
+		DateTime now = DateTime.now();
 
 		if (flight.isRedAlert()) {
 			boolean shouldPulseBulb = false;
 			if (Flight.STATUS_CANCELLED.equals(flight.mStatusCode)) {
 				vh.mTopLine.setText(res.getString(R.string.flight_to_city_cancelled_TEMPLATE,
 						FormatUtils.getCityName(flight.getArrivalWaypoint(), getContext())));
-				if ((departure.getTimeInMillis() + (12 * DateUtils.HOUR_IN_MILLIS)) > now.getTimeInMillis()) {
+				if (departure.plusHours(12).isAfter(now)) {
 					shouldPulseBulb = true;
 				}
 			}
@@ -311,12 +317,12 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			}
 		}
 		else {
-			Calendar arrival = flight.getArrivalWaypoint().getMostRelevantDateTime();
+			DateTime arrival = new DateTime(flight.getArrivalWaypoint().getMostRelevantDateTime());
 			Waypoint summaryWaypoint = null;
 			int bottomLineTextId = 0;
 			int bottomLineFallbackId = 0;
 
-			if (arrival.before(now)) {
+			if (arrival.isBefore(now)) {
 				//flight complete
 				if (flight.mFlightHistoryId == -1) {
 					// no FS data
@@ -324,7 +330,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 					vh.mBulb.setImageResource(R.drawable.ic_flight_status_on_time);
 				}
 				else {
-					String timeString = formatTime(arrival);
+					String timeString = JodaUtils.formatDateTime(getContext(), arrival, JodaUtils.FLAGS_TIME_FORMAT);
 					int delay = getDelayForWaypoint(flight.getArrivalWaypoint());
 					if (delay > 0) {
 						vh.mTopLine.setText(res.getString(R.string.flight_arrived_late_at_TEMPLATE, timeString));
@@ -344,11 +350,10 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 				bottomLineTextId = R.string.at_airport_terminal_gate_TEMPLATE;
 				bottomLineFallbackId = R.string.at_airport_TEMPLATE;
 			}
-			else if (departure.before(now) && (flight.mFlightHistoryId != -1)) {
+			else if (departure.isBefore(now) && (flight.mFlightHistoryId != -1)) {
 				//flight in progress AND we have FS data, show arrival info
 				int delay = getDelayForWaypoint(flight.getArrivalWaypoint());
-				CharSequence timeSpanString = generateRelativeTimeSpanString(getContext(), arrival.getTimeInMillis(),
-						now.getTimeInMillis());
+				CharSequence timeSpanString = generateRelativeTimeSpanString(getContext(), arrival, now);
 
 				if (delay > 0) {
 					vh.mTopLine.setText(res.getString(R.string.flight_arrives_late_TEMPLATE, timeSpanString));
@@ -373,11 +378,10 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 				bottomLineTextId = R.string.at_airport_terminal_gate_TEMPLATE;
 				bottomLineFallbackId = R.string.at_airport_TEMPLATE;
 			}
-			else if ((departure.getTimeInMillis() - now.getTimeInMillis() > (3 * DateUtils.DAY_IN_MILLIS))
-					|| (flight.mFlightHistoryId == -1)) {
+			else if (JodaUtils.daysBetween(now, departure) > 3 || flight.mFlightHistoryId == -1) {
 				//More than 72 hours away or no FS data yet
-				String dateStr = DateUtils.formatDateTime(getContext(), DateTimeUtils.getTimeInLocalTimeZone(departure)
-						.getTime(), DateUtils.FORMAT_SHOW_DATE + DateUtils.FORMAT_SHOW_YEAR);
+				String dateStr = JodaUtils.formatDateTime(getContext(), departure, DateUtils.FORMAT_SHOW_DATE
+						| DateUtils.FORMAT_SHOW_YEAR);
 				vh.mTopLine.setText(res.getString(R.string.flight_departs_on_TEMPLATE, dateStr));
 				vh.mBulb.setImageResource(R.drawable.ic_flight_status_on_time);
 				vh.mBottomLine.setText(Html.fromHtml(res.getString(R.string.from_airport_time_TEMPLATE,
@@ -387,8 +391,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			else {
 				//Less than 72 hours in the future and has FS data
 				int delay = getDelayForWaypoint(flight.mOrigin);
-				CharSequence timeSpanString = generateRelativeTimeSpanString(getContext(), departure.getTimeInMillis(),
-						now.getTimeInMillis());
+				CharSequence timeSpanString = generateRelativeTimeSpanString(getContext(), departure, now);
 
 				if (delay > 0) {
 					vh.mTopLine.setText(res.getString(R.string.flight_departs_late_TEMPLATE, timeSpanString));
@@ -430,23 +433,28 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		return convertView;
 	}
 
-	private CharSequence generateRelativeTimeSpanString(Context context, long timeInMs, long now) {
-		long absDiff = Math.abs(now - timeInMs);
-		int hours = (int) Math.floor(absDiff / (double) DateUtils.HOUR_IN_MILLIS);
+	private CharSequence generateRelativeTimeSpanString(Context context, DateTime time, DateTime now) {
+		int hours = Hours.hoursBetween(time, now).getHours();
+		int absHours = Math.abs(hours);
 		//If the time is between 1 and 24 hours we want to show both Hours and Minutes, which isn't supported by getRelativeTimeSpanString()
-		if (hours < 24 && hours >= 1) {
-			int minutes = (int) ((absDiff / (double) DateUtils.MINUTE_IN_MILLIS) % 60);
-			boolean timeBefore = timeInMs < now;
+		if (absHours < 24 && absHours >= 1) {
+			int minutes = Math.abs(Minutes.minutesBetween(time.plusHours(hours), now).getMinutes());
+			boolean timeBefore = time.isBefore(now);
 			int templateResId = timeBefore ? R.string.hours_minutes_past_TEMPLATE
 					: R.string.hours_minutes_future_TEMPLATE;
 			Resources res = context.getResources();
-			String hourStr = res.getQuantityString(R.plurals.hours_from_now, hours, hours);
+			String hourStr = res.getQuantityString(R.plurals.hours_from_now, absHours, absHours);
 			String minStr = res.getQuantityString(R.plurals.minutes_from_now, minutes, minutes);
 			return res.getString(templateResId, hourStr, minStr);
 		}
 		else {
 			// Explicitly adding a minute in milliseconds to avoid showing '0 minutes' strings. Defect# 758
-			return DateUtils.getRelativeTimeSpanString((timeInMs + DateUtils.MINUTE_IN_MILLIS - 1), now,
+			//
+			// 1871: Due to the screwed up way DateUtils.getNumberOfDaysPassed() works, this ends up such that
+			// the millis must be in the system locale (and hopefully the user has not changed their locale recently)
+			return DateUtils.getRelativeTimeSpanString(
+					time.withZoneRetainFields(DateTimeZone.getDefault()).getMillis() + DateUtils.MINUTE_IN_MILLIS - 1,
+					now.withZoneRetainFields(DateTimeZone.getDefault()).getMillis(),
 					DateUtils.MINUTE_IN_MILLIS, 0);
 		}
 	}
