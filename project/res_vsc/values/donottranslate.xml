@@ -4,15 +4,12 @@
     <!-- ContentProvider authority overrides -->
     <string name="authority_debug_autocomplete_hotel">@string/authority_vsc_debug_autocomplete_hotel</string>
     <string name="authority_alpha_autocomplete_hotel">@string/authority_vsc_alpha_autocomplete_hotel</string>
-    <string name="authority_beta_autocomplete_hotel">@string/authority_vsc_beta_autocomplete_hotel</string>
     <string name="authority_release_autocomplete_hotel">@string/authority_vsc_release_autocomplete_hotel</string>
     <string name="authority_debug_autocomplete_airport">@string/authority_vsc_debug_autocomplete_airport</string>
     <string name="authority_alpha_autocomplete_airport">@string/authority_vsc_alpha_autocomplete_airport</string>
-    <string name="authority_beta_autocomplete_airport">@string/authority_vsc_beta_autocomplete_airport</string>
     <string name="authority_release_autocomplete_airport">@string/authority_vsc_release_autocomplete_airport</string>
     <string name="authority_debug_account_sync">@string/authority_vsc_debug_account_sync</string>
     <string name="authority_alpha_account_sync">@string/authority_vsc_alpha_account_sync</string>
-    <string name="authority_beta_account_sync">@string/authority_vsc_beta_account_sync</string>
     <string name="authority_release_account_sync">@string/authority_vsc_release_account_sync</string>
 
     <string name="expedia_account_type_identifier">com.expedia.bookings.vsc</string>
@@ -25,11 +22,9 @@
     <!-- Override for VSC account manager -->
     <string name="account_type_debug">@string/vsc_account_type_debug</string>
     <string name="account_type_alpha">@string/vsc_account_type_alpha</string>
-    <string name="account_type_beta">@string/vsc_account_type_beta</string>
     <string name="account_type_release">@string/vsc_account_type_release</string>
     <string name="account_tuid_debug">@string/vsc_account_tuid_debug</string>
     <string name="account_tuid_alpha">@string/vsc_account_tuid_alpha</string>
-    <string name="account_tuid_beta">@string/vsc_account_tuid_beta</string>
     <string name="account_tuid_release">@string/vsc_account_tuid_release</string>
 
 </resources>

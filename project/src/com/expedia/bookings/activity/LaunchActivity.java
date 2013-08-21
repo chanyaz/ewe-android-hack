@@ -29,6 +29,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItinCardData;
@@ -175,8 +176,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 		ExpediaDebugUtil.showExpediaDebugToastIfNeeded(this);
 
 		// HockeyApp init
-		String hockeyId = AndroidUtils.getBuildConfigValue("com.expedia.bookings", "HOCKEY_ID");
-		mHockeyPuck = new HockeyPuck(this, hockeyId, !AndroidUtils.isRelease(this));
+		mHockeyPuck = new HockeyPuck(this, Codes.HOCKEY_APP_ID, !AndroidUtils.isRelease(this));
 		mHockeyPuck.onCreate(savedInstanceState);
 	}
 

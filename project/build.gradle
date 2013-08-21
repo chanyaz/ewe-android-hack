@@ -76,14 +76,6 @@ android {
         alpha {
             packageNameSuffix ".alpha"
 
-            buildConfig "public static final String HOCKEY_ID = \"4d9aae3faac40c74443772c8bebd5aaf\";"
-        }
-
-        beta.initWith(buildTypes.debug)
-        beta {
-            packageNameSuffix ".beta"
-
-            buildConfig "public static final String HOCKEY_ID = \"dfd124d23663e4513d4fe5745fb1edf8\";"
         }
 
         release {
@@ -114,11 +106,6 @@ android {
             res.srcDirs 'res_alpha'
         }
 
-        beta {
-            manifest.srcFile 'AndroidManifest-beta.xml'
-            res.srcDirs 'res_beta'
-        }
-
         VSC {
             manifest.srcFile 'AndroidManifest-vsc.xml'
             res.srcDirs 'res_vsc'
@@ -134,13 +121,11 @@ android {
 }
 
 if (isDefined(jenkinsBuildNumber)) {
-    for (String manifestPath : ["AndroidManifest-alpha.xml", "AndroidManifest-beta.xml"]) {
-        def manifestFile = file(manifestPath)
-        def pattern = Pattern.compile("android:name=\"buildNumber\"\\s*android:value=\"(\\d+)\"")
-        def manifestText = manifestFile.getText()
-        def matcher = pattern.matcher(manifestText)
-        matcher.find()
-        def manifestContent = matcher.replaceAll("android:name=\"buildNumber\" android:value=\"" + jenkinsBuildNumber + "\"")
-        manifestFile.write(manifestContent)
-    }
+    def manifestFile = file("AndroidManifest-alpha.xml")
+    def pattern = Pattern.compile("android:name=\"buildNumber\"\\s*android:value=\"(\\d+)\"")
+    def manifestText = manifestFile.getText()
+    def matcher = pattern.matcher(manifestText)
+    matcher.find()
+    def manifestContent = matcher.replaceAll("android:name=\"buildNumber\" android:value=\"" + jenkinsBuildNumber + "\"")
+    manifestFile.write(manifestContent)
 }
