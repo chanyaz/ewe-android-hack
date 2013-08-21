@@ -164,9 +164,6 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	// Invisible Fragment that handles FusedLocationProvider
 	private FusedLocationProviderFragment mLocationFragment;
 
-	// For doing manual updates
-	private HockeyPuck mHockeyPuck;
-
 	private ActivityKillReceiver mKillReciever;
 
 	//////////////////////////////////////////////////////////////////////////
@@ -212,8 +209,6 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		if (Db.getHotelSearch().getSearchResponse() != null) {
 			loadSearchResponse(Db.getHotelSearch().getSearchResponse(), false);
 		}
-
-		mHockeyPuck = new HockeyPuck(this, Codes.HOCKEY_APP_ID, !AndroidUtils.isRelease(this));
 
 		mKillReciever = new ActivityKillReceiver(this);
 		mKillReciever.onCreate();
@@ -525,8 +520,6 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 
 		DebugMenu.onCreateOptionsMenu(this, menu);
 
-		mHockeyPuck.onCreateOptionsMenu(menu);
-
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -567,8 +560,6 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 
 		DebugMenu.onPrepareOptionsMenu(this, menu);
 
-		mHockeyPuck.onPrepareOptionsMenu(menu);
-
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -599,7 +590,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		}
 		}
 
-		if (DebugMenu.onOptionsItemSelected(this, item) || mHockeyPuck.onOptionsItemSelected(item)) {
+		if (DebugMenu.onOptionsItemSelected(this, item)) {
 			return true;
 		}
 
