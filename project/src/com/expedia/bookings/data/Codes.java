@@ -26,9 +26,6 @@ public class Codes {
 	//If the calling activity has already set the search params, we don't need to clear/reset them
 	public static final String TAG_EXTERNAL_SEARCH_PARAMS = "TAG_EXTERNAL_SEARCH_PARAMS";
 
-	// HockeyApp app id, used for communicating with servers to fetch new versions, send crash reports
-	public static final String HOCKEY_APP_ID = "dfd124d23663e4513d4fe5745fb1edf8";
-
 	// For EF
 	public final static String TRAVELER_INDEX = "TRAVELER_INDEX";
 }

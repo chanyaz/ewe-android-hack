@@ -9,7 +9,6 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.dialog.GooglePlayServicesDialog;
 import com.expedia.bookings.fragment.SearchParamsFragment;
@@ -81,7 +80,8 @@ public class SearchFragmentActivity extends SherlockFragmentActivity implements 
 		ExpediaDebugUtil.showExpediaDebugToastIfNeeded(this);
 
 		// HockeyApp update
-		mHockeyPuck = new HockeyPuck(this, Codes.HOCKEY_APP_ID, !AndroidUtils.isRelease(this));
+		String hockeyId = AndroidUtils.getBuildConfigValue(getPackageName(), "HOCKEY_ID");
+		mHockeyPuck = new HockeyPuck(this, hockeyId, !AndroidUtils.isRelease(this));
 		mHockeyPuck.onCreate(savedInstanceState);
 	}
 
