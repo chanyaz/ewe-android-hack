@@ -37,6 +37,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 
 	//TODO: this won't be needed once minSdk >= 11
 	AnimatorProxy mGalleryAnimatorProxy;
+	AnimatorProxy mScrollAnimatorProxy;
 
 	ValueAnimator mAnimator;
 
@@ -108,6 +109,10 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 		}
 		if (mGalleryAnimatorProxy == null && AndroidUtils.getSdkVersion() < 11) {
 			mGalleryAnimatorProxy = AnimatorProxy.wrap(mGalleryContainer);
+		}
+
+		if (mScrollAnimatorProxy == null && AndroidUtils.getSdkVersion() < 11) {
+			mScrollAnimatorProxy = AnimatorProxy.wrap(this);
 		}
 
 		ViewGroup.LayoutParams lp = mGalleryContainer.getLayoutParams();
@@ -198,7 +203,12 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 			return;
 		}
 
-		mAnimator = ObjectAnimator.ofInt(this, "scrollY", from, to).setDuration(200);
+		if (AndroidUtils.getSdkVersion() < 11) {
+			mAnimator = ObjectAnimator.ofInt(mScrollAnimatorProxy, "scrollY", from, to).setDuration(200);
+		}
+		else {
+			mAnimator = ObjectAnimator.ofInt(this, "scrollY", from, to).setDuration(200);
+		}
 		mAnimator.start();
 	}
 
