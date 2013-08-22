@@ -17,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -96,7 +97,9 @@ public class JodaUtils {
 	 * one for you.
 	 */
 	public static CharSequence getRelativeTimeSpanString(DateTime time, DateTime now, long minResolution, int flags) {
-		if (sThenTimeZone == null) {
+		// getRelativeTimeSpanString() was changed in API 18 such that it *doesn't*
+		// cache the timezone info anymore, so we should always use the local timezone
+		if (Build.VERSION.SDK_INT >= 18 || sThenTimeZone == null) {
 			sThenTimeZone = DateTimeZone.getDefault();
 		}
 
