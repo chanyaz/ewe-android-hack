@@ -1300,11 +1300,12 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		// no existing credit card info entered
 		if (!fromPreauth || (TextUtils.isEmpty(mBillingInfo.getNumber()) && !mBillingInfo.hasStoredCard())) {
 			WalletUtils.bindWalletToBillingInfo(maskedWallet, mBillingInfo);
-		}
 
-		// Apply the mobile wallet coupon (if enabled)
-		if (WalletUtils.offerGoogleWalletCoupon(getActivity())) {
-			applyWalletCoupon();
+			// Apply the mobile wallet coupon (if enabled, and no other cards are
+			// currently being used #1865)
+			if (WalletUtils.offerGoogleWalletCoupon(getActivity())) {
+				applyWalletCoupon();
+			}
 		}
 
 		bindAll();
