@@ -101,22 +101,6 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 			startupTimer.addSplit("VSC force fr locale");
 		}
 
-		try {
-			final ApplicationInfo ai = this.getPackageManager().getApplicationInfo(this.getPackageName(),
-					PackageManager.GET_META_DATA);
-			if (ai.metaData != null && isRelease) {
-				String currentKey = (String) ai.metaData.get("com.google.android.maps.v2.API_KEY");
-				String releaseKey = getString(R.string.mapsv2_prod_key);
-
-				if (!releaseKey.equals(currentKey)) {
-					throw new RuntimeException(getString(R.string.error_mapsv2_release_key));
-				}
-			}
-		}
-		catch (PackageManager.NameNotFoundException e) {
-			throw new RuntimeException(e);
-		}
-
 		startupTimer.addSplit("Maps V2 Key Check");
 
 		// Init required for Omniture tracking

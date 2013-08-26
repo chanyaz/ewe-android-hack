@@ -49,7 +49,7 @@ public class ExpediaBookingsWidgetProvider extends AppWidgetProvider {
 	@Override
 	public void onDeleted(Context context, int[] appWidgetIds) {
 		// Remove this widget from the list of tracking widget
-		Intent intent = new Intent(ExpediaBookingsService.CANCEL_UPDATE_ACTION);
+		Intent intent = new Intent(ExpediaBookingsService.getCancelUpdateAction(context));
 		intent.putExtra(Codes.APP_WIDGET_ID, appWidgetIds[0]);
 		context.startService(intent);
 		WidgetConfigurationState.deleteWidgetConfigState(context, appWidgetIds[0]);
@@ -66,7 +66,7 @@ public class ExpediaBookingsWidgetProvider extends AppWidgetProvider {
 			// add the widget if it doesn't exist
 			if (WidgetConfigurationState.getWidgetConfiguration(context, id) == null) {
 				saveLastSearchOrCurrentLocationOption(context, id);
-				Intent intent = new Intent(ExpediaBookingsService.START_CLEAN_SEARCH_ACTION);
+				Intent intent = new Intent(ExpediaBookingsService.getStartCleanSearchAction(context));
 				intent.putExtra(Codes.APP_WIDGET_ID, id);
 				context.startService(intent);
 			}
@@ -77,7 +77,7 @@ public class ExpediaBookingsWidgetProvider extends AppWidgetProvider {
 		rv.addView(R.id.hotel_info_contents, widgetContainer);
 		widgetContainer.setViewVisibility(R.id.navigation_container, View.GONE);
 
-		Intent intent = new Intent(ExpediaBookingsService.START_SEARCH_ACTION);
+		Intent intent = new Intent(ExpediaBookingsService.getStartSearchAction(context));
 		context.startService(intent);
 
 		for (int appWidgetId : appWidgetIds) {

@@ -70,13 +70,36 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	// download key for downloading results around current location
 	private static final String WIDGET_KEY_SEARCH = "WIDGET_KEY_SEARCH";
 
-	// Intent actions
-	public static final String START_SEARCH_ACTION = "com.expedia.bookings.START_SEARCH";
-	public static final String START_CLEAN_SEARCH_ACTION = "com.expedia.bookings.START_CLEAN_SEARCH";
-	public static final String CANCEL_UPDATE_ACTION = "com.expedia.bookings.CANCEL_UPDATE";
-	public static final String NEXT_PROPERTY_ACTION = "com.expedia.bookings.NEXT_PROPERTY";
-	public static final String ROTATE_PROPERTY_ACTION = "com.expedia.bookings.ROTATE_PROPERTY";
-	public static final String PREV_PROPERTY_ACTION = "com.expedia.bookings.PREV_PROPERTY";
+	// Intent actions. Note: these are defined dynamically to support multiple build variants. We must declare
+	// unique intent-filter Actions, otherwise two apps installed side-by-side will contain duplicate intent-filter
+	// actions and the widget(s) will break.
+	public static String getStartSearchAction(Context context) {
+		return getActionString(context, "START_SEARCH");
+	}
+
+	public static String getStartCleanSearchAction(Context context) {
+		return getActionString(context, "START_CLEAN_SEARCH");
+	}
+
+	public static String getCancelUpdateAction(Context context) {
+		return getActionString(context, "CANCEL_UPDATE");
+	}
+
+	public static String getNextPropertyAction(Context context) {
+		return getActionString(context, "NEXT_PROPERTY");
+	}
+
+	public static String getRotatePropertyAction(Context context) {
+		return getActionString(context, "ROTATE_PROPERTY");
+	}
+
+	public static String getPrevPropertyAction(Context context) {
+		return getActionString(context, "PREV_PROPERTY");
+	}
+
+	private static String getActionString(Context context, String action) {
+		return context.getPackageName() + "." + action;
+	}
 
 	private static final String WIDGET_THUMBNAIL_KEY_PREFIX = "WIDGET_THUMBNAIL_KEY.";
 
@@ -473,10 +496,10 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		 * it was restarted after a force close)
 		 */
 		if (intent == null || intent.getAction() == null && mWidgets.size() != 0) {
-			intent = new Intent(START_SEARCH_ACTION);
+			intent = new Intent(getStartSearchAction(getApplicationContext()));
 		}
 
-		if (intent.getAction().equals(START_CLEAN_SEARCH_ACTION)) {
+		if (intent.getAction().equals(getStartCleanSearchAction(getApplicationContext()))) {
 			/*
 			 * Note: This action should ONLY take place when a new widget
 			 * is being added to the home screen. This helps ensure that
@@ -515,10 +538,10 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 				stopSelf();
 			}
 
-			if (intent.getAction().equals(START_SEARCH_ACTION)) {
+			if (intent.getAction().equals(getStartSearchAction(getApplicationContext()))) {
 				startSearchForWidgets();
 			}
-			else if (intent.getAction().equals(CANCEL_UPDATE_ACTION)) {
+			else if (intent.getAction().equals(getCancelUpdateAction(getApplicationContext()))) {
 				Integer appWidgetIdInteger = Integer.valueOf(intent.getIntExtra(Codes.APP_WIDGET_ID, -1));
 				mWidgets.remove(appWidgetIdInteger);
 
@@ -534,19 +557,19 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 					stopSelf();
 				}
 			}
-			else if (intent.getAction().equals(NEXT_PROPERTY_ACTION)) {
+			else if (intent.getAction().equals(getNextPropertyAction(getApplicationContext()))) {
 				Integer appWidgetIdInteger = Integer.valueOf(intent.getIntExtra(Codes.APP_WIDGET_ID, -1));
 				WidgetState widget = mWidgets.get(appWidgetIdInteger);
 				loadNextProperty(widget, INCREASED_ROTATE_INTERVAL);
 
 			}
-			else if (intent.getAction().equals(PREV_PROPERTY_ACTION)) {
+			else if (intent.getAction().equals(getPrevPropertyAction(getApplicationContext()))) {
 				Integer appWidgetIdInteger = Integer.valueOf(intent.getIntExtra(Codes.APP_WIDGET_ID, -1));
 				WidgetState widget = mWidgets.get(appWidgetIdInteger);
 				loadPreviousProperty(widget, INCREASED_ROTATE_INTERVAL);
 
 			}
-			else if (intent.getAction().equals(ROTATE_PROPERTY_ACTION)) {
+			else if (intent.getAction().equals(getRotatePropertyAction(getApplicationContext()))) {
 				for (int i = 0; i < mWidgets.size(); i++) {
 					WidgetState widget = mWidgets.valueAt(i);
 					loadNextProperty(widget, ROTATE_INTERVAL);
@@ -653,12 +676,12 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	}
 
 	private PendingIntent getUpdatePendingIntent() {
-		Intent i = new Intent(START_SEARCH_ACTION);
+		Intent i = new Intent(getStartSearchAction(getApplicationContext()));
 		return PendingIntent.getService(getApplicationContext(), 2, i, PendingIntent.FLAG_UPDATE_CURRENT);
 	}
 
 	private PendingIntent getRotatePropertyPendingIntent() {
-		Intent i = new Intent(ROTATE_PROPERTY_ACTION);
+		Intent i = new Intent(getRotatePropertyAction(getApplicationContext()));
 		PendingIntent operation = PendingIntent.getService(getApplicationContext(), 0, i,
 				PendingIntent.FLAG_UPDATE_CURRENT);
 		return operation;
@@ -868,12 +891,12 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		widgetContents.setImageViewResource(R.id.hotel_image_view, R.drawable.widget_thumbnail_background);
 
 		Intent prevIntent = new Intent(this, ExpediaBookingsService.class);
-		prevIntent.setAction(PREV_PROPERTY_ACTION);
+		prevIntent.setAction(getPrevPropertyAction(getApplicationContext()));
 		prevIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		prevIntent.putExtra(Codes.APP_WIDGET_ID, widget.appWidgetIdInteger);
 
 		Intent nextIntent = new Intent(this, ExpediaBookingsService.class);
-		nextIntent.setAction(NEXT_PROPERTY_ACTION);
+		nextIntent.setAction(getNextPropertyAction(getApplicationContext()));
 		nextIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		nextIntent.putExtra(Codes.APP_WIDGET_ID, widget.appWidgetIdInteger);
 
@@ -890,7 +913,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	}
 
 	private PendingIntent getRefreshIntent() {
-		Intent newIntent = new Intent(START_SEARCH_ACTION);
+		Intent newIntent = new Intent(getStartSearchAction(getApplicationContext()));
 		return PendingIntent.getService(this, 4, newIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
 	}
@@ -951,11 +974,11 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 		widgetContents.setTextViewText(R.id.branding_title_text_view, getString(R.string.hotel_radar));
 
-		Intent prevIntent = new Intent(PREV_PROPERTY_ACTION);
+		Intent prevIntent = new Intent(getPrevPropertyAction(getApplicationContext()));
 		prevIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		prevIntent.putExtra(Codes.APP_WIDGET_ID, widget.appWidgetIdInteger);
 
-		Intent nextIntent = new Intent(NEXT_PROPERTY_ACTION);
+		Intent nextIntent = new Intent(getNextPropertyAction(getApplicationContext()));
 		nextIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		nextIntent.putExtra(Codes.APP_WIDGET_ID, widget.appWidgetIdInteger);
 

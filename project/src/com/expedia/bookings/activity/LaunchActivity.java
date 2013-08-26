@@ -52,6 +52,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.TwoLevelImageCache;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.BuildConfigUtils;
 
 public class LaunchActivity extends SherlockFragmentActivity implements OnListModeChangedListener,
 		ItinItemListFragmentListener, LaunchFragmentListener, DoLogoutListener {
@@ -176,7 +177,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 		ExpediaDebugUtil.showExpediaDebugToastIfNeeded(this);
 
 		// HockeyApp init
-		mHockeyPuck = new HockeyPuck(this, Codes.HOCKEY_APP_ID, !AndroidUtils.isRelease(this));
+		mHockeyPuck = new HockeyPuck(this, getString(R.string.hockey_app_id), !AndroidUtils.isRelease(this));
 		mHockeyPuck.onCreate(savedInstanceState);
 	}
 
