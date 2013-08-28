@@ -29,6 +29,7 @@ public class FlightsHappyPath {
 			driver.settingsScreen().clickToClearPrivateData();
 			driver.settingsScreen().clickOKString();
 			driver.settingsScreen().clickOKString();
+			driver.settingsScreen().setSpoofBookings();
 			driver.settingsScreen().goBack();
 
 			driver.launchScreen().openMenuDropDown();
