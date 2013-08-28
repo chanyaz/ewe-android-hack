@@ -7,8 +7,6 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.utils.HotelsUserData;
-import com.jayway.android.robotium.solo.Solo;
 
 public class LogInScreen extends ScreenActions {
 
