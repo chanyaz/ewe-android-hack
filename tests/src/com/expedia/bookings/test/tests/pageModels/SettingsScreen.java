@@ -5,8 +5,6 @@ import android.app.Instrumentation;
 import android.content.res.Resources;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.utils.HotelsUserData;
-import com.jayway.android.robotium.solo.Solo;
 
 public class SettingsScreen extends ScreenActions {
 

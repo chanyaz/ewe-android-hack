@@ -17,7 +17,7 @@ public class LogInScreen extends ScreenActions {
 	private static int sLogInWithFacebookButtonID = R.id.log_in_with_facebook_btn;
 	private static int sLogInButtonID = R.id.log_in_with_expedia_btn;
 	private static int sForgotPasswordLink = R.id.forgot_your_password_link;
-	
+
 	public LogInScreen(Instrumentation instrumentation, Activity activity, Resources res) {
 		super(instrumentation, activity, res);
 	}
@@ -37,7 +37,7 @@ public class LogInScreen extends ScreenActions {
 	public View logInButton() {
 		return getView(sLogInButtonID);
 	}
-	
+
 	public View forgotPasswordLink() {
 		return getView(sForgotPasswordLink);
 	}
@@ -49,9 +49,17 @@ public class LogInScreen extends ScreenActions {
 	public void clickOnLoginButton() {
 		clickOnView(logInButton());
 	}
-	
+
 	public void clickOnForgotPasswordLink() {
 		clickOnView(forgotPasswordLink());
+	}
+
+	public void typeTextEmailEditText(String text) {
+		typeText(emailAddressEditText(), text);
+	}
+
+	public void typeTextPasswordEditText(String text) {
+		typeText(passwordEditText(), text);
 	}
 
 }

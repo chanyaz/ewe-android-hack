@@ -6,8 +6,6 @@ import android.content.res.Resources;
 import android.view.View;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.utils.HotelsUserData;
-import com.jayway.android.robotium.solo.Solo;
 
 public class LaunchScreen extends LaunchActionBar {
 
@@ -19,11 +17,11 @@ public class LaunchScreen extends LaunchActionBar {
 		super(instrumentation, activity, res);
 	}
 
-	private View hotelLaunchButton() {
+	public View hotelLaunchButton() {
 		return getView(sHotelsButtonID);
 	}
 
-	private View flightLaunchButton() {
+	public View flightLaunchButton() {
 		return getView(sFlightsButtonID);
 	}
 

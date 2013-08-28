@@ -5,7 +5,9 @@ import android.app.Instrumentation;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.Log;
+import android.view.View;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.test.utils.HotelsUserData;
 import com.expedia.bookings.test.utils.ScreenshotUtils;
 import com.expedia.bookings.test.utils.UserLocaleUtils;
@@ -17,22 +19,23 @@ import com.jayway.android.robotium.solo.Solo;
  * universal across all or most EBad UI.
  */
 
-public class ScreenActions extends Solo{
+public class ScreenActions extends Solo {
 	private static final String TAG = "com.expedia.bookings.test";
 	private boolean mAllowScreenshots;
 	private boolean mAllowOrientationChange;
 	private boolean mWriteEventsToFile;
 	private int mScreenShotCount;
-	protected Resources mRes;
-	protected Context mContext;
 	private HotelsUserData mUser; //user info container
 	private ScreenshotUtils mScreen;
-	private int mScreenWidth;
-	private int mScreenHeight;
+	protected int mScreenWidth;
+	protected int mScreenHeight;
 	public UserLocaleUtils mLocaleUtils;
 
-	private static final String mScreenshotDirectory = "Robotium-Screenshots";
+	protected Instrumentation mInstrumentation;
+	protected Resources mRes;
+	protected Context mContext;
 
+	private static final String mScreenshotDirectory = "Robotium-Screenshots";
 
 	public ScreenActions(Instrumentation instrumentation, Activity activity, Resources res) {
 		super(instrumentation, activity);
@@ -40,12 +43,12 @@ public class ScreenActions extends Solo{
 		mAllowOrientationChange = false;
 		mWriteEventsToFile = false;
 		mScreenShotCount = 1;
-		mRes = res;
 		mLocaleUtils = new UserLocaleUtils(res);
-
+		mRes = res;
+		mInstrumentation = instrumentation;
 		mScreen = new ScreenshotUtils(mScreenshotDirectory, this);
 		mScreenWidth = mRes.getDisplayMetrics().widthPixels;
-		mScreenWidth = mRes.getDisplayMetrics().heightPixels;
+		mScreenHeight = mRes.getDisplayMetrics().heightPixels;
 	}
 
 	public void enterLog(String TAG, String logText) {
@@ -132,5 +135,24 @@ public class ScreenActions extends Solo{
 
 	public void waitForStringToBeGone(int id) throws Exception {
 		waitForStringToBeGone(id, 20);
+	}
+
+	public void waitForViewToBeGone(View v, int timeoutMax) throws Exception {
+		int count = 0;
+		while (count < timeoutMax) {
+			if (!v.isShown()) {
+				break;
+			}
+			delay(1);
+			count++;
+		}
+	}
+	
+	protected View positiveButton() {
+		return getView(R.id.positive_button);
+	}
+	
+	protected View negativeButton() {
+		return getView(R.id.negative_button);
 	}
 }

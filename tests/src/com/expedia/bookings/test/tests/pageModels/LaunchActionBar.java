@@ -6,7 +6,6 @@ import android.content.res.Resources;
 import android.view.View;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.utils.HotelsUserData;
 import com.jayway.android.robotium.solo.Solo;
 
 public class LaunchActionBar extends ScreenActions {
