@@ -82,7 +82,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	public void canMeasure(Fragment fragment) {
 		if ((fragment == mTopFragment || fragment == mSearchFragment) && mTopFragment.isMeasurable()
 				&& mSearchFragment.isMeasurable()) {
-			mSearchFragment.setSearchBoxTranslationY(mTopFragment.getView().getHeight());
+			mSearchFragment.setInitialTranslationY(mTopFragment.getView().getHeight());
 			mSearchFragment.collapse();
 		}
 	}

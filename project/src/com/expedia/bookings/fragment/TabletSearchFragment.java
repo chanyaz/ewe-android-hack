@@ -50,9 +50,12 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	private View mSearchButton;
 	private ViewGroup mHeaderBottomContainer;
 
+	// Cached views (content)
+	private ViewGroup mContentContainer;
+
 	// Special positioning of Views
 	private float mEditTextTranslationX;
-	private float mSearchBoxTranslationY;
+	private float mInitialTranslationY;
 
 	// Init variables
 	private boolean mStartExpanded;
@@ -95,6 +98,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		mSearchDatesTextView = Ui.findView(view, R.id.search_dates_text_view);
 		mSearchButton = Ui.findView(view, R.id.search_button);
 		mHeaderBottomContainer = Ui.findView(view, R.id.search_header_bottom_container);
+		mContentContainer = Ui.findView(view, R.id.content_container);
 
 		// Setup on click listeners
 		mHeaderTopContainer.setOnClickListener(this);
@@ -110,6 +114,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		mHiddenWhenCollapsedViews.add(mSearchDatesTextView);
 		mHiddenWhenCollapsedViews.add(mSearchButton);
 		mHiddenWhenCollapsedViews.add(mHeaderBottomContainer);
+		mHiddenWhenCollapsedViews.add(mContentContainer);
 
 		if (!mStartExpanded) {
 			for (View hiddenView : mHiddenWhenCollapsedViews) {
@@ -131,6 +136,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		mExpandCollapseHwLayerViews.add(mSearchDatesTextView);
 		mExpandCollapseHwLayerViews.add(mSearchButton);
 		mExpandCollapseHwLayerViews.add(mHeaderBottomContainer);
+		mExpandCollapseHwLayerViews.add(mContentContainer);
 
 		// We need to measure where to place the header (horizontally)
 		mHeaderTopContainer.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
@@ -171,8 +177,8 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	//////////////////////////////////////////////////////////////////////////
 	// Manipulation
 
-	public void setSearchBoxTranslationY(int translationY) {
-		mSearchBoxTranslationY = translationY - (mHeaderTopContainer.getHeight() / 2.0f);
+	public void setInitialTranslationY(int translationY) {
+		mInitialTranslationY = translationY - (mHeaderTopContainer.getHeight() / 2.0f);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -197,7 +203,13 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 				anims.add(ObjectAnimator.ofPropertyValuesHolder(mSearchEditText, translateXPvh));
 
 				for (View view : mHiddenWhenCollapsedViews) {
-					anims.add(ObjectAnimator.ofPropertyValuesHolder(view, fadeInPvh));
+					if (view == mContentContainer) {
+						// Special handling for content container
+						anims.add(ObjectAnimator.ofPropertyValuesHolder(view, fadeInPvh, translateYPvh));
+					}
+					else {
+						anims.add(ObjectAnimator.ofPropertyValuesHolder(view, fadeInPvh));
+					}
 				}
 
 				ValueAnimator actionBarAnim = ValueAnimator.ofPropertyValuesHolder(translateYPvh);
@@ -234,13 +246,18 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 				PropertyValuesHolder translateXPvh = PropertyValuesHolder
 						.ofFloat("translationX", mEditTextTranslationX);
 				PropertyValuesHolder translateYPvh = PropertyValuesHolder
-						.ofFloat("translationY", mSearchBoxTranslationY);
+						.ofFloat("translationY", mInitialTranslationY);
 
 				anims.add(ObjectAnimator.ofPropertyValuesHolder(mHeader, translateYPvh));
 				anims.add(ObjectAnimator.ofPropertyValuesHolder(mSearchEditText, translateXPvh));
 
 				for (View view : mHiddenWhenCollapsedViews) {
-					anims.add(ObjectAnimator.ofPropertyValuesHolder(view, fadeOutPvh));
+					if (view == mContentContainer) {
+						anims.add(ObjectAnimator.ofPropertyValuesHolder(view, fadeOutPvh, translateYPvh));
+					}
+					else {
+						anims.add(ObjectAnimator.ofPropertyValuesHolder(view, fadeOutPvh));
+					}
 				}
 
 				ValueAnimator actionBarAnim = ValueAnimator.ofPropertyValuesHolder(translateYPvh);
@@ -257,7 +274,8 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		}
 		else {
 			// We're just starting, don't animate
-			mHeader.setTranslationY(mSearchBoxTranslationY);
+			mHeader.setTranslationY(mInitialTranslationY);
+			mContentContainer.setTranslationY(mInitialTranslationY);
 		}
 	}
 
