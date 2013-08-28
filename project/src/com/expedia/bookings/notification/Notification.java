@@ -20,6 +20,7 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
+import com.activeandroid.query.Update;
 import com.expedia.bookings.R;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
@@ -435,6 +436,18 @@ public class Notification extends Model implements JSONable {
 
 	public static boolean hasExisting(Notification notification) {
 		return findExisting(notification) != null;
+	}
+
+	/**
+	* Dismiss notifications matching the UniqueId and NotificationType of the passed Notification
+	* object. There may be more than one row sharing the same UniqueId and NotificationType
+	* (even though that's not intended).
+	* @param notification
+	*/
+	public static void dismissExisting(Notification notification) {
+		new Update(Notification.class).set("Status=?", StatusType.DISMISSED)
+				.where("UniqueId=? AND NotificationType=?", notification.mUniqueId, notification.mNotificationType)
+				.execute();
 	}
 
 	/**

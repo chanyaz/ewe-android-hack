@@ -421,19 +421,16 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 			Log.e("Unable to parse notification.", e);
 		}
 
-		notification = Notification.findExisting(notification);
-		if (notification == null) {
+		if (!Notification.hasExisting(notification)) {
 			return;
 		}
 
 		mJumpToItinId = notification.getItinId();
 		OmnitureTracking.trackNotificationClick(this, notification);
 
-		// Set status = DISMISSED so we don't notify again for the same notification.
 		// There's no need to dismiss with the notification manager, since it was set to
-		// auto dismiss when clicked. Let's say "dismiss" a couple more times dismiss.
-		notification.setStatus(StatusType.DISMISSED);
-		notification.save();
+		// auto dismiss when clicked.
+		Notification.dismissExisting(notification);
 	}
 
 	private synchronized void gotoWaterfall() {
