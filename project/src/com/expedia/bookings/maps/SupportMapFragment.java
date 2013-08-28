@@ -55,13 +55,20 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 		view.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
+				Activity activity = getActivity();
+				if (activity == null) {
+					//Sometimes if the fragment attaches and then detaches quickly, activity will be null by this point.
+					view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+					return;
+				}
+
 				final int width = view.getWidth();
 				final int height = view.getHeight();
 				Log.d("SupportMapFragment global layout height=" + height + " width=" + width);
 
 				// https://code.google.com/p/gmaps-api-issues/issues/detail?id=4773
 				// Someone commented saying that the map needs to be at least 200dp by 200dp
-				final int minSize = (int) (200 * getActivity().getResources().getDisplayMetrics().density);
+				final int minSize = (int) (200 * activity.getResources().getDisplayMetrics().density);
 				if (height > minSize && width > minSize) {
 					view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 
