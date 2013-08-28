@@ -87,6 +87,22 @@ public class AnimUtils {
 		}
 	}
 
+	public static void reverseAnimator(android.animation.Animator animator) {
+		Stack<android.animation.Animator> stack = new Stack<android.animation.Animator>();
+		stack.add(animator);
+
+		while (!stack.isEmpty()) {
+			android.animation.Animator anim = stack.pop();
+
+			if (anim instanceof android.animation.ValueAnimator) {
+				((android.animation.ValueAnimator) anim).reverse();
+			}
+			else if (anim instanceof android.animation.AnimatorSet) {
+				stack.addAll(((android.animation.AnimatorSet) anim).getChildAnimations());
+			}
+		}
+	}
+
 	/**
 	 * Creates an animation bundle for an Activity scale animation. Returns null if device does not
 	 * have access to the necessary APIs.
