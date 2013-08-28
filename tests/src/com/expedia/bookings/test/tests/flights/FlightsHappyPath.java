@@ -18,7 +18,7 @@ public class FlightsHappyPath {
 			// Sweepstakes Screen
 			driver.landscape();
 			driver.portrait();
-			if (driver.getCurrentActivity().getClass() == SweepstakesActivity.class) {
+			if (driver.searchText(driver.sweepstakesScreen().sweepstakesTitleString(), true)) {
 				driver.screenshot("Sweepstakes");
 				driver.sweepstakesScreen().clickNoThanksButton();
 			}
