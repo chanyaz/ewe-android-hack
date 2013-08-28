@@ -281,6 +281,12 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 
 			mBlockEventFrameLayout.setBlockNewEventsEnabled(true);
 
+			if (!mIsExpanding) {
+				mSearchEditText.setFocusableInTouchMode(false);
+				mSearchEditText.clearFocus();
+				Ui.hideKeyboard(mSearchEditText, 0);
+			}
+
 			for (View view : mExpandCollapseHwLayerViews) {
 				view.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 			}
@@ -294,6 +300,10 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 
 			if (mIsExpanding) {
 				mListener.onFinishExpand();
+
+				mSearchEditText.setFocusableInTouchMode(true);
+				mSearchEditText.requestFocus();
+				Ui.showKeyboard(mSearchEditText, null);
 			}
 
 			for (View view : mExpandCollapseHwLayerViews) {
