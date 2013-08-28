@@ -102,7 +102,7 @@ public class ScreenActions extends Solo {
 			mAllowScreenshots = false;
 		}
 	}
-
+	
 	public void landscape() {
 		if (mAllowOrientationChange) {
 			delay(2);
@@ -119,22 +119,21 @@ public class ScreenActions extends Solo {
 		}
 	}
 
-	public void waitForStringToBeGone(int id, int timeoutMax) throws Exception {
-		int string_id = id;
+	public void waitForStringToBeGone(String s, int timeoutMax) throws Exception {
 		int count_max = timeoutMax;
 		int count = 0;
-		String target = mRes.getString(string_id);
-		while (searchText(target, 1, false, true) && count < count_max) {
+		;
+		while (searchText(s, 1, false, true) && count < count_max) {
 			delay(1);
 			count++;
 		}
-		if (searchText(mRes.getString(string_id), 1, false, true)) {
-			throw new Exception("String never went away: " + target);
+		if (searchText(s, 1, false, true)) {
+			throw new Exception("String never went away: " + s);
 		}
 	}
 
-	public void waitForStringToBeGone(int id) throws Exception {
-		waitForStringToBeGone(id, 20);
+	public void waitForStringToBeGone(String s) throws Exception {
+		waitForStringToBeGone(s, 20);
 	}
 
 	public void waitForViewToBeGone(View v, int timeoutMax) throws Exception {
@@ -147,11 +146,11 @@ public class ScreenActions extends Solo {
 			count++;
 		}
 	}
-	
+
 	protected View positiveButton() {
 		return getView(R.id.positive_button);
 	}
-	
+
 	protected View negativeButton() {
 		return getView(R.id.negative_button);
 	}

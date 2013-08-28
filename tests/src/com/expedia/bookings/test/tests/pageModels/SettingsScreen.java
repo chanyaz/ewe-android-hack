@@ -10,6 +10,7 @@ public class SettingsScreen extends ScreenActions {
 
 	private static int sSelectPOSTextID = R.string.preference_point_of_sale_title;
 	private static int sClearPrivateDataTextID = R.string.clear_private_data;
+	private static int sOKID = R.string.ok;
 
 	private static String sSelectAPI = "Select API";
 	private static String sServerProxyAddress = "Server/Proxy Address";
@@ -17,5 +18,24 @@ public class SettingsScreen extends ScreenActions {
 
 	public SettingsScreen(Instrumentation instrumentation, Activity activity, Resources res) {
 		super(instrumentation, activity, res);
+	}
+
+	// Object access
+	public String clearPrivateDataString() {
+		return mRes.getString(sClearPrivateDataTextID);
+	}
+
+	public String OKString() {
+		return mRes.getString(sOKID);
+	}
+
+	// Object interaction
+
+	public void clickToClearPrivateData() {
+		clickOnText(clearPrivateDataString());
+	}
+
+	public void clickOKString() {
+		clickOnText(OKString());
 	}
 }
