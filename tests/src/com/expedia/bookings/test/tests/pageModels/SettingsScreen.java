@@ -38,4 +38,22 @@ public class SettingsScreen extends ScreenActions {
 	public void clickOKString() {
 		clickOnText(OKString());
 	}
+
+	public void clickSelectAPIString() {
+		scrollToTop();
+		clickOnText(sSelectAPI);
+	}
+
+	public void clickServerProxyAddressString() {
+		clickOnText(sServerProxyAddress);
+	}
+
+	public void clearServerEditText() {
+		clearEditText(0);
+	}
+
+	public void enterServerText(String text) {
+		enterText(0, text);
+	}
+
 }
