@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.utils.HotelsUserData;
 import com.expedia.bookings.test.utils.ScreenshotUtils;
 import com.expedia.bookings.test.utils.UserLocaleUtils;
 import com.jayway.android.robotium.solo.Solo;
@@ -25,7 +24,6 @@ public class ScreenActions extends Solo {
 	private boolean mAllowOrientationChange;
 	private boolean mWriteEventsToFile;
 	private int mScreenShotCount;
-	private HotelsUserData mUser; //user info container
 	private ScreenshotUtils mScreen;
 	protected int mScreenWidth;
 	protected int mScreenHeight;
@@ -102,7 +100,7 @@ public class ScreenActions extends Solo {
 			mAllowScreenshots = false;
 		}
 	}
-	
+
 	public void landscape() {
 		if (mAllowOrientationChange) {
 			delay(2);
