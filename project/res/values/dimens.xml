@@ -4,6 +4,9 @@
     <dimen name="match_parent">-1px</dimen>
     <dimen name="wrap_content">-2px</dimen>
 
+    <!-- Tablet -->
+    <dimen name="tablet_search_header_width">@dimen/match_parent</dimen>
+
     <!-- Launch dimens -->
     <dimen name="launch_tile_space_width">2dp</dimen>
     <dimen name="launch_header_height">100dp</dimen>
