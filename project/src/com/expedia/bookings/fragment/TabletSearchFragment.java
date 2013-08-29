@@ -33,11 +33,16 @@ import com.expedia.bookings.fragment.debug.ButtonFragment;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
+import com.mobiata.android.util.AndroidUtils;
 
 /**
  * A large search fragment only suitable for tablet sizes.
  */
 public class TabletSearchFragment extends MeasurableFragment implements OnClickListener {
+
+	// This is a debug option - disable if you want to avoid the keyboard IME on expand, thus
+	// helping for testing other performance issues.
+	private static final boolean DEBUG_SHOW_KEYBOARD_ON_EXPAND = true;
 
 	private static final float HEADER_BG_SCALE_Y = 2.0f;
 
@@ -388,7 +393,10 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 
 				mSearchEditText.setFocusableInTouchMode(true);
 				mSearchEditText.requestFocus();
-				Ui.showKeyboard(mSearchEditText, null);
+
+				if (AndroidUtils.isRelease(getActivity()) || DEBUG_SHOW_KEYBOARD_ON_EXPAND) {
+					Ui.showKeyboard(mSearchEditText, null);
+				}
 			}
 			else {
 				// Once we're collapsed, replace the content container with destinations fragment (if it's
