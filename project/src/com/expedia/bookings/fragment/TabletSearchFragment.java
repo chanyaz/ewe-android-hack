@@ -96,6 +96,9 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 
 	private SearchFragmentListener mListener;
 
+	// Cached data that shouldn't change
+	private int mActionBarHeight;
+
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
 
@@ -104,6 +107,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		super.onAttach(activity);
 
 		mDuration = getResources().getInteger(android.R.integer.config_longAnimTime);
+		mActionBarHeight = getActivity().getActionBar().getHeight();
 
 		mListener = Ui.findFragmentListener(this, SearchFragmentListener.class);
 	}
@@ -435,7 +439,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 				actionBar.hide();
 			}
 			else if (!isActionBarShowing && !mIsExpanding
-					&& (Float) animation.getAnimatedValue() > actionBar.getHeight()) {
+					&& (Float) animation.getAnimatedValue() > mActionBarHeight) {
 				actionBar.show();
 			}
 		}
