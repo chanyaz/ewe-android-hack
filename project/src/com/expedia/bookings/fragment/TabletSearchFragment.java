@@ -390,6 +390,17 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 				mSearchEditText.requestFocus();
 				Ui.showKeyboard(mSearchEditText, null);
 			}
+			else {
+				// Once we're collapsed, replace the content container with destinations fragment (if it's
+				// not already visible).  That way when this gets expanded, it's visible, since we always
+				// want to start with this fragment.
+				if (!mDestinationsFragment.isVisible()) {
+					getChildFragmentManager()
+							.beginTransaction()
+							.replace(R.id.content_container, mDestinationsFragment, TAG_DESTINATIONS)
+							.commit();
+				}
+			}
 
 			for (View view : mExpandCollapseHwLayerViews) {
 				view.setLayerType(View.LAYER_TYPE_NONE, null);
