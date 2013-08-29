@@ -500,13 +500,14 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		mSearchEditText.setAdapter(mSearchSuggestionAdapter);
 
 		boolean startNewSearch = getIntent().getBooleanExtra(EXTRA_NEW_SEARCH, false);
+		boolean hasExternalSearchParams = getIntent().hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS);
 
 		if (startNewSearch) {
 			Db.clear();
 			// Remove it so we don't keep doing this on rotation
 			getIntent().removeExtra(EXTRA_NEW_SEARCH);
 		}
-		else {
+		else if (!hasExternalSearchParams) {
 			Db.loadHotelSearchFromDisk(this);
 		}
 
@@ -514,7 +515,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		mTag = prefs.getString("tag", getString(R.string.tag_hotel_list));
 
-		if (getIntent().hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
+		if (hasExternalSearchParams) {
 			//If this is a search coming from flights, we expect the Db.searchParams to already be valid
 			mSearchEditText.setText(Db.getHotelSearch().getSearchParams().getUserQuery());
 			Log.i("searchEditText...:" + mSearchEditText.getText().toString());

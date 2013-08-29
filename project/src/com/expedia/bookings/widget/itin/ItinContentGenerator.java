@@ -531,7 +531,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		}
 
 		// For flight cards that happen today, we want "Today"
-		else if (DateUtils.isToday(time)) {
+		else if (daysBetween == 0) {
 			ret = getContext().getString(R.string.Today);
 		}
 

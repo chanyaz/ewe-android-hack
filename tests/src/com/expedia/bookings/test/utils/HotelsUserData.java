@@ -7,7 +7,7 @@ import android.util.Pair;
  */
 
 public class HotelsUserData {
-	
+
 	//Names
 	public String mFirstName;
 	public String mLastName;
@@ -27,19 +27,24 @@ public class HotelsUserData {
 
 	//Search options
 	public String mFilterText;
-	
+
 	//Log in Information.
 	public String mLoginEmail;
 	public String mLoginPassword;
-	
+
 	//Configuration options
 	public String mBookingServer;
-	
+
 	//Airports and hotel locations
 	public String mDepartureAirport;
 	public String mArrivalAirport;
 	public String mHotelSearchCity;
-	
+
+	//Settings
+	public String mServerName;
+	public String mProxyIP;
+	public String mProxyPort;
+
 	//Default Constructor sets info
 	// to the qa-ehcc@mobiata.com account info
 	public HotelsUserData() {
@@ -61,36 +66,38 @@ public class HotelsUserData {
 		mCCV = "111";
 
 		mFilterText = "Westin";
-		
+
 		mBookingServer = "Production";
-		
+
 		mDepartureAirport = "SFO";
 		mArrivalAirport = "LAX";
 		mHotelSearchCity = "New York City";
-		
+		mServerName = "Production";
+		mProxyIP = null;
+		mProxyPort = null;
 	}
-	
+
 	public void setAirportsToRandomUSAirports() {
 		LocationSelectUtils airportSelect = new LocationSelectUtils();
 		Pair<String, String> airportPair = airportSelect.getTwoRandomAmericanAirports();
 		mDepartureAirport = airportPair.first;
 		mArrivalAirport = airportPair.second;
 	}
-	
+
 	public void setAirportsToRandomINTLAirports() {
 		LocationSelectUtils airportSelect = new LocationSelectUtils();
 		Pair<String, String> airportPair = airportSelect.getTwoRandomInternationalAirports();
 		mDepartureAirport = airportPair.first;
 		mArrivalAirport = airportPair.second;
 	}
-	
+
 	public void setAirportsToRandomINTLAndUSAirports() {
 		LocationSelectUtils airportSelect = new LocationSelectUtils();
 		Pair<String, String> airportPair = airportSelect.getRandomAmericanAndInternationalAirport();
 		mDepartureAirport = airportPair.first;
 		mArrivalAirport = airportPair.second;
 	}
-	
+
 	public void setHotelCityToRandomUSCity() {
 		LocationSelectUtils citySelect = new LocationSelectUtils();
 		String hotelCity = citySelect.getRandomAmericanAndInternationalCity().first;

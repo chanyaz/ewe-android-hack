@@ -838,6 +838,15 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 			ViewHelper.setTranslationY(mHeaderTextLayout, (mItinTypeImageView.getHeight() * percentIcon) / 2);
 			ViewHelper.setTranslationY(mCardLayout, viewTranslationY);
 		}
+		else if (AndroidUtils.getSdkVersion() < 11 && mFixedItinTypeImageView.getVisibility() == View.VISIBLE
+				&& mHeaderTextLayout.getVisibility() == View.VISIBLE) {
+			//Sometimes 2.x needs a little extra help
+			int height = mFixedItinTypeImageView.getHeight();
+			int padding = mFixedItinTypeImageView.getPaddingBottom();
+			float centerOffset = (height * 0.5f) - ((height - padding) * 0.5f);
+			float translationY = centerOffset * 1.1f;//Add a little extra space between icon and text
+			ViewHelper.setTranslationY(mHeaderTextLayout, translationY);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////

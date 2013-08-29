@@ -1,39 +1,29 @@
 package com.expedia.bookings.test.tests.flights;
 
-import ErrorsAndExceptions.IntegrationFailureError;
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.DisplayMetrics;
 
 import com.expedia.bookings.activity.SearchActivity;
-import com.expedia.bookings.test.utils.HotelsRobotHelper;
+import com.expedia.bookings.test.utils.FlightsTestDriver;
 import com.expedia.bookings.test.utils.HotelsUserData;
-import com.jayway.android.robotium.solo.Solo;
 
 public class ProductionHappyPath extends ActivityInstrumentationTestCase2<SearchActivity> {
-	public ProductionHappyPath() { //Default constructor
-		super("com.expedia.bookings", SearchActivity.class);
+	public ProductionHappyPath() {
+		super(SearchActivity.class);
 	}
 
-	private Solo mSolo;
 	private static final String TAG = "Flights Production Happy Path";
 	private Resources mRes;
 	DisplayMetrics mMetric;
-	private HotelsRobotHelper mDriver;
+	private FlightsTestDriver mDriver;
 	private HotelsUserData mUser;
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		mSolo = new Solo(getInstrumentation(), getActivity());
 		mUser = new HotelsUserData();
-		mRes = getActivity().getBaseContext().getResources();
-		mMetric = mRes.getDisplayMetrics();
-		mDriver = new HotelsRobotHelper(mSolo, mRes, mUser);
-
-		mDriver.setScreenshotCount(1);
-		mDriver.setAllowOrientationChange(false);
-		mDriver.setWriteEventsToFile(false);
-		mUser.setAirportsToRandomUSAirports();
+		mRes = getActivity().getResources();
+		mDriver = new FlightsTestDriver(getInstrumentation(), getActivity(), mRes);
 	}
 
 	// This test goes through a prototypical flight booking
@@ -41,29 +31,16 @@ public class ProductionHappyPath extends ActivityInstrumentationTestCase2<Search
 	// It runs pulling from the Production API
 
 	public void testMethod() throws Exception {
-		mDriver.ignoreSweepstakesActivity();
-		
-		mDriver.setUpMockServer("Proxy", "172.17.249.23");
-		mDriver.changePOS(mDriver.mLocaleUtils.FLIGHTS_LOCALES[2]);
-		mDriver.setSpoofBookings();
-		
-		try {
-			mDriver.flightsHappyPath(mUser.mDepartureAirport, mUser.mArrivalAirport, 1, false, false);
-		}
-		catch (Error e) {
-			mDriver.takeScreenshotUponFailure(e, TAG);
-			throw e;
-		}
-		catch (Exception e) {
-			mDriver.takeScreenshotUponFailure(e, TAG);
-			throw e;
-		}
+		mUser.setAirportsToRandomUSAirports();
+		mUser.mServerName = "Proxy";
+		mUser.mProxyIP = "172.17.249.23";
+		mUser.mProxyPort = "3000";
+		FlightsHappyPath.execute(mDriver, mUser);
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		//Robotium will finish all the activities that have been opened
 		mDriver.enterLog(TAG, "tearing down...");
-		mSolo.finishOpenedActivities();
+		mDriver.finishOpenedActivities();
 	}
 }
