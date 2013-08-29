@@ -15,6 +15,8 @@ import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,6 +29,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
+import com.expedia.bookings.fragment.debug.ButtonFragment;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
@@ -37,6 +40,11 @@ import com.expedia.bookings.widget.BlockEventFrameLayout;
 public class TabletSearchFragment extends MeasurableFragment implements OnClickListener {
 
 	private static final float HEADER_BG_SCALE_Y = 2.0f;
+
+	private static final String TAG_DESTINATIONS = "fragment.destinations";
+	private static final String TAG_ORIGINS = "fragment.origins";
+	private static final String TAG_DATES = "fragment.dates";
+	private static final String TAG_GUESTS = "fragment.guests";
 
 	// Cached views (general)
 	private BlockEventFrameLayout mBlockEventFrameLayout;
@@ -52,9 +60,17 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	private TextView mSearchDatesTextView;
 	private View mSearchButton;
 	private ViewGroup mHeaderBottomContainer;
+	private View mOriginTextView;
+	private View mGuestsTextView;
 
 	// Cached views (content)
 	private ViewGroup mContentContainer;
+
+	// Child fragments, shown in the content container
+	private Fragment mDestinationsFragment;
+	private Fragment mOriginsFragment;
+	private Fragment mDatesFragment;
+	private Fragment mGuestsFragment;
 
 	// Special positioning of Views
 	private float mEditTextTranslationX;
@@ -102,7 +118,23 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		mSearchDatesTextView = Ui.findView(view, R.id.search_dates_text_view);
 		mSearchButton = Ui.findView(view, R.id.search_button);
 		mHeaderBottomContainer = Ui.findView(view, R.id.search_header_bottom_container);
+		mOriginTextView = Ui.findView(view, R.id.origin_text_view);
+		mGuestsTextView = Ui.findView(view, R.id.guests_text_view);
 		mContentContainer = Ui.findView(view, R.id.content_container);
+
+		// Setup child fragments
+		mDestinationsFragment = Ui.findChildSupportFragment(this, TAG_DESTINATIONS);
+		mOriginsFragment = Ui.findChildSupportFragment(this, TAG_ORIGINS);
+		mDatesFragment = Ui.findChildSupportFragment(this, TAG_DATES);
+		mGuestsFragment = Ui.findChildSupportFragment(this, TAG_GUESTS);
+
+		if (savedInstanceState == null) {
+			// Always start with the destinations fragment visible
+			mDestinationsFragment = ButtonFragment.newInstance("Destinations");
+			FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+			ft.add(R.id.content_container, mDestinationsFragment, TAG_DESTINATIONS);
+			ft.commit();
+		}
 
 		// Setup on click listeners
 		mHeaderTopContainer.setOnClickListener(this);
@@ -110,6 +142,8 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		mSearchDivider.setOnClickListener(this);
 		mSearchDatesTextView.setOnClickListener(this);
 		mCancelButton.setOnClickListener(this);
+		mOriginTextView.setOnClickListener(this);
+		mGuestsTextView.setOnClickListener(this);
 
 		// Configure hiding views (that change alpha during expand/collapse)
 		mHiddenWhenCollapsedViews.add(mBackground);
@@ -396,8 +430,58 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		if (v == mCancelButton) {
 			getActivity().onBackPressed();
 		}
-		else if (v == mHeaderTopContainer || v == mSearchEditText || v == mSearchDivider || v == mSearchDatesTextView) {
+		else if (!isExpanded() && (v == mHeaderTopContainer || v == mSearchEditText || v == mSearchDivider
+				|| v == mSearchDatesTextView)) {
+			// Expand the UI if found 
 			expand();
+		}
+		else if (isExpanded()) {
+			// Switching between different child fragments
+			Fragment fragmentToShow;
+			String fragmentTag;
+			if (v == mSearchEditText) {
+				if (mDestinationsFragment == null) {
+					mDestinationsFragment = ButtonFragment.newInstance("Destinations");
+				}
+
+				fragmentToShow = mDestinationsFragment;
+				fragmentTag = TAG_DESTINATIONS;
+			}
+			else if (v == mOriginTextView) {
+				if (mOriginsFragment == null) {
+					mOriginsFragment = ButtonFragment.newInstance("Origins");
+				}
+
+				fragmentToShow = mOriginsFragment;
+				fragmentTag = TAG_ORIGINS;
+			}
+			else if (v == mSearchDatesTextView) {
+				if (mDatesFragment == null) {
+					mDatesFragment = ButtonFragment.newInstance("Dates");
+				}
+
+				fragmentToShow = mDatesFragment;
+				fragmentTag = TAG_DATES;
+			}
+			else if (v == mGuestsTextView) {
+				if (mGuestsFragment == null) {
+					mGuestsFragment = ButtonFragment.newInstance("Guests");
+				}
+
+				fragmentToShow = mGuestsFragment;
+				fragmentTag = TAG_GUESTS;
+			}
+			else {
+				// What was clicked was not a fragment tag; don't react
+				return;
+			}
+
+			if (!fragmentToShow.isVisible()) {
+				getChildFragmentManager()
+						.beginTransaction()
+						.replace(R.id.content_container, fragmentToShow, fragmentTag)
+						.commit();
+			}
 		}
 	}
 
