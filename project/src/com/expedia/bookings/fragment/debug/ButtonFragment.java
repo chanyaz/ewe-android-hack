@@ -18,6 +18,8 @@ public class ButtonFragment extends MeasurableFragment {
 
 	private static String ARG_MESSAGE = "ARG_MESSAGE";
 
+	private static String INSTANCE_PRESSES = "INSTANCE_PRESSES";
+
 	public static ButtonFragment newInstance(String msg) {
 		ButtonFragment fragment = new ButtonFragment();
 		Bundle args = new Bundle();
@@ -34,6 +36,10 @@ public class ButtonFragment extends MeasurableFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mMsg = getArguments().getString(ARG_MESSAGE, "Press Me");
 
+		if (savedInstanceState != null) {
+			mNumPresses = savedInstanceState.getInt(INSTANCE_PRESSES, mNumPresses);
+		}
+
 		mButton = new Button(getActivity());
 		mButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -45,6 +51,13 @@ public class ButtonFragment extends MeasurableFragment {
 		updateButtonText();
 
 		return mButton;
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		outState.putInt(INSTANCE_PRESSES, mNumPresses);
 	}
 
 	private void updateButtonText() {
