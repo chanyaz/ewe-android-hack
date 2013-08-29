@@ -6,6 +6,7 @@
 
     <!-- Tablet -->
     <dimen name="tablet_search_width">@dimen/match_parent</dimen>
+    <dimen name="tablet_search_header_corner_radius">5dp</dimen>
 
     <!-- Launch dimens -->
     <dimen name="launch_tile_space_width">2dp</dimen>
@@ -113,7 +114,6 @@
 
     <!-- Radius of the blue circle drawn on the hotel details mini map fragment -->
     <dimen name="mini_map_circle_radius">7dp</dimen>
-
     <dimen name="phone_search_calendar_height">300dp</dimen>
 
     <!-- Dimensions for hotel rows -->

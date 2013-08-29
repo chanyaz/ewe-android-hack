@@ -14,6 +14,7 @@ import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
+import com.expedia.bookings.graphics.RoundedColorDrawable;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
@@ -103,6 +105,12 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		mSearchButton = Ui.findView(view, R.id.search_button);
 		mHeaderBottomContainer = Ui.findView(view, R.id.search_header_bottom_container);
 		mContentContainer = Ui.findView(view, R.id.content_container);
+
+		// Setup graphics (that we can't do in XML)
+		Resources res = getResources();
+		int headerBgColor = res.getColor(R.color.tablet_search_header_bg_color);
+		float headerCornerRadius = res.getDimension(R.dimen.tablet_search_header_corner_radius);
+		mHeaderTopContainer.setBackgroundDrawable(new RoundedColorDrawable(headerBgColor, headerCornerRadius));
 
 		// Setup on click listeners
 		mHeaderTopContainer.setOnClickListener(this);
