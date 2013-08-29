@@ -200,14 +200,30 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	//////////////////////////////////////////////////////////////////////////
 	// Animation
 
+	public boolean isExpanded() {
+		return mBackground.getAlpha() == 1;
+	}
+
+	public boolean isExpanding() {
+		return mCurrentAnimation != null && mIsExpanding;
+	}
+
+	public boolean isCollapsed() {
+		return mBackground.getAlpha() == 0;
+	}
+
+	public boolean isCollapsing() {
+		return mCurrentAnimation != null && !mIsExpanding;
+	}
+
 	public void expand() {
 		if (getView() == null) {
 			mStartExpanded = true;
 		}
-		else if (mBackground.getAlpha() == 0 || (mCurrentAnimation != null && !mIsExpanding)) {
+		else if (isCollapsed() || isCollapsing()) {
 			mIsExpanding = true;
 
-			if (mBackground.getAlpha() == 0) {
+			if (isCollapsed()) {
 				AnimatorSet set = new AnimatorSet();
 				Collection<Animator> anims = new ArrayList<Animator>();
 
@@ -252,14 +268,11 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 
 	public void collapse() {
 		// We animate based on the current state
-		if (mBackground.getAlpha() != 0) {
+		if (isExpanded() || isExpanding()) {
 			// Animate back
 			mIsExpanding = false;
 
-			if (mCurrentAnimation != null) {
-				AnimUtils.reverseAnimator(mCurrentAnimation);
-			}
-			else {
+			if (isExpanded()) {
 				AnimatorSet set = new AnimatorSet();
 				Collection<Animator> anims = new ArrayList<Animator>();
 
@@ -296,6 +309,9 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 
 				set.start();
 			}
+			else {
+				AnimUtils.reverseAnimator(mCurrentAnimation);
+			}
 		}
 		else {
 			// We're just starting, don't animate
@@ -306,7 +322,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 
 	// Returns true if mode undone, returns false otherwise
 	public boolean onBackPressed() {
-		if (mBackground.getAlpha() != 0 && mCurrentAnimation != null && mIsExpanding) {
+		if (isExpanding()) {
 			collapse();
 			return true;
 		}
