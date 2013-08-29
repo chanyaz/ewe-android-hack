@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
@@ -81,7 +82,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			}
 			if (unique.size() > 0) {
 				mValueAdds.add(Html.fromHtml(context.getString(R.string.value_add_template,
-						FormatUtils.series(context, unique, ",", null))));
+						FormatUtils.series(context, unique, ",", null).toLowerCase(Locale.getDefault()))));
 			}
 			else {
 				mValueAdds.add(null);

@@ -17,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -25,6 +26,8 @@ import com.expedia.bookings.data.Date;
 import com.mobiata.android.json.JSONUtils;
 
 public class JodaUtils {
+
+	private static DateTimeZone sThenTimeZone = null;
 
 	public static DateTime fromMillisAndOffset(long millisFromEpoch, int tzOffsetMillis) {
 		return new org.joda.time.DateTime(millisFromEpoch, DateTimeZone.forOffsetMillis(tzOffsetMillis));
@@ -57,16 +60,51 @@ public class JodaUtils {
 		return now.isBefore(timestamp) || timestamp.plusMillis((int) cutoff).isBefore(now);
 	}
 
+	/**
+	 * @return # of days between, positive if start is before end, negative if end is before start
+	 */
 	public static int daysBetween(ReadablePartial start, ReadablePartial end) {
 		return Days.daysBetween(start, end).getDays();
 	}
 
+	/**
+	 * @return # of days between, positive if start is before end, negative if end is before start
+	 */
 	public static int daysBetween(DateTime start, DateTime end) {
 		return daysBetween(start.toLocalDate(), end.toLocalDate());
 	}
 
 	public static String formatTimeZone(DateTime dateTime) {
 		return dateTime.getZone().getShortName(dateTime.getMillis());
+	}
+
+	/**
+	 * Use this in place of DateUtils.getRelativeTimeSpanString() to handle any
+	 * weirdnesses with timezones.
+	 * 
+	 * The way that DateUtils.getRelativeTimeSpanString() works is as follows (when
+	 * comparing # of days passed):
+	 * 
+	 * 1. Create a Time in the current Timezone (mistake!)
+	 * 2. Set the millis for each, and get the Julian day
+	 * 3. Compare julian days 
+	 * 
+	 * This works great...  if you remember to use the correct timezone for the millis passed
+	 * in (the current system's timezone) AND you make sure to cache the original system
+	 * timezone (in case the user switches their timezone while your app is still in memory).
+	 * 
+	 * This should smooth over that problem by caching the time zone and casting it to the right
+	 * one for you.
+	 */
+	public static CharSequence getRelativeTimeSpanString(DateTime time, DateTime now, long minResolution, int flags) {
+		// getRelativeTimeSpanString() was changed in API 18 such that it *doesn't*
+		// cache the timezone info anymore, so we should always use the local timezone
+		if (Build.VERSION.SDK_INT >= 18 || sThenTimeZone == null) {
+			sThenTimeZone = DateTimeZone.getDefault();
+		}
+
+		return DateUtils.getRelativeTimeSpanString(time.withZoneRetainFields(sThenTimeZone).getMillis(),
+				now.withZoneRetainFields(sThenTimeZone).getMillis(), minResolution, flags);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

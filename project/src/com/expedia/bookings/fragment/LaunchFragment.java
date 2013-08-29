@@ -210,14 +210,13 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 					BACKGROUND_RES_IDS[rand.nextInt(BACKGROUND_RES_IDS.length)]);
 			mBgView.setImageBitmap(mBgBitmap);
 		}
+
+		initViews();
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-
-		// Note: We call this here to avoid reusing recycled Bitmaps. Not ideal, but a simple fix for now
-		initViews();
 
 		mLaunchingActivity = false;
 

@@ -2,6 +2,7 @@ package com.expedia.bookings.server;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -132,7 +133,8 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 				len = roomRates.length();
 				for (int a = 0; a < len; a++) {
 					JSONObject jsonRate = roomRates.getJSONObject(a);
-					property.setIsLowestRateMobileExclusive(jsonRate.optBoolean("isDiscountRestrictedToCurrentSourceType"));
+					property.setIsLowestRateMobileExclusive(jsonRate
+							.optBoolean("isDiscountRestrictedToCurrentSourceType"));
 					property.setIsLowestRateTonightOnly(jsonRate.optBoolean("isSameDayDRR"));
 					Rate rate = parseJsonHotelOffer(jsonRate, numberOfNights, checkInPolicy);
 					availResponse.addRate(rate);
@@ -540,6 +542,9 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 					}
 				}
 				String ratePlanName = FormatUtils.series(mContext, bedTypeElements, ",", Conjunction.OR);
+				// Do not change the case of the first letter. This isn't ideal but it works for now
+				ratePlanName = ratePlanName.substring(0, 1)
+						+ ratePlanName.substring(1).toLowerCase(Locale.getDefault());
 				rate.setRatePlanName(ratePlanName);
 			}
 		}

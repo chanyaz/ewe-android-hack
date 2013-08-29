@@ -2,6 +2,7 @@ package com.expedia.bookings.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -99,7 +100,7 @@ public class HotelOffersResponse extends Response {
 		}
 
 		return Html.fromHtml(context.getString(R.string.common_value_add_template,
-				FormatUtils.series(context, commonValueAdds, ",", Conjunction.AND)));
+				FormatUtils.series(context, commonValueAdds, ",", Conjunction.AND).toLowerCase(Locale.getDefault())));
 	}
 
 	@Override

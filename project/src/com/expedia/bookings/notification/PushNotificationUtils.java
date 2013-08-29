@@ -502,10 +502,34 @@ public class PushNotificationUtils {
 	 * @return - NotificationType, default to NotificationType.FLIGHT_GATE_TIME_CHANGE;
 	 */
 	public static NotificationType pushApiTypeToNotificationType(String typeIntStr) {
+		// From @shawn's push notifiaction type test:
+		//    self.assertEqual(Notification("SCHEDULED_DEPARTURE").id, 1)
+		//    self.assertEqual(Notification("SCHEDULED_ARRIVAL").id, 2)
+		//    self.assertEqual(Notification("STATUS_CANCELLED").id, 3)
+		//    self.assertEqual(Notification("STATUS_DEPARTED").id, 4)
+		//    self.assertEqual(Notification("STATUS_WILL_LEAVE_GATE").id, 5)
+		//    self.assertEqual(Notification("STATUS_LEFT_GATE").id, 6)
+		//    self.assertEqual(Notification("STATUS_WILL_TAKE_OFF").id, 7)
+		//    self.assertEqual(Notification("STATUS_TOOK_OFF").id, 8)
+		//    self.assertEqual(Notification("STATUS_WILL_LAND").id, 9)
+		//    self.assertEqual(Notification("STATUS_LANDED").id, 10)
+		//    self.assertEqual(Notification("STATUS_WILL_REACH_GATE").id, 11)
+		//    self.assertEqual(Notification("STATUS_REACHED_GATE").id, 12)
+		//    self.assertEqual(Notification("STATUS_DEPARTURE_GATE_CHANGE").id, 13)
+		//    self.assertEqual(Notification("STATUS_ARRIVAL_GATE_CHANGE").id, 14)
+		//    self.assertEqual(Notification("STATUS_ARRIVED").id, 15)
+		//    self.assertEqual(Notification("STATUS_DIVERTED").id, 16)
+		//    self.assertEqual(Notification("STATUS_REDIRECTED").id, 17)
+		//    self.assertEqual(Notification("STATUS_BAGGAGE_CLAIM").id, 18)
 		try {
 			int iType = Integer.parseInt(typeIntStr);
-			if (NotificationType.values().length > iType) {
-				return NotificationType.values()[iType];
+			switch (iType) {
+			case 1: return NotificationType.FLIGHT_DEPARTURE_REMINDER;
+			case 3: return NotificationType.FLIGHT_CANCELLED;
+			case 5: return NotificationType.FLIGHT_GATE_TIME_CHANGE;
+			case 13: return NotificationType.FLIGHT_GATE_NUMBER_CHANGE;
+			case 18: return NotificationType.FLIGHT_BAGGAGE_CLAIM;
+			default: throw new Exception("");
 			}
 		}
 		catch (Exception ex) {

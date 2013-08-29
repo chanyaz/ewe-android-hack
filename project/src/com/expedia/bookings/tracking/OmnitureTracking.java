@@ -1475,6 +1475,7 @@ public class OmnitureTracking {
 	private static final String NOTIFICATION_FLIGHT_BAGGAGE_CLAIM = "Itinerary.Flight.BaggageClaim";
 	private static final String NOTIFICATION_HOTEL_CHECK_IN = "Itinerary.Hotel.CheckIn";
 	private static final String NOTIFICATION_HOTEL_CHECK_OUT = "Itinerary.Hotel.CheckOut";
+	private static final String NOTIFICATION_FLIGHT_DEPARTURE_REMINDER = "Itinerary.Flight.DepartureReminder";
 
 	public static void trackNotificationClick(Context context, Notification notification) {
 		NotificationType type = notification.getNotificationType();
@@ -1500,6 +1501,9 @@ public class OmnitureTracking {
 			break;
 		case FLIGHT_GATE_NUMBER_CHANGE:
 			link = NOTIFICATION_FLIGHT_GATE_NUMBER_CHANGE;
+			break;
+		case FLIGHT_DEPARTURE_REMINDER:
+			link = NOTIFICATION_FLIGHT_DEPARTURE_REMINDER;
 			break;
 		case FLIGHT_BAGGAGE_CLAIM:
 			link = NOTIFICATION_FLIGHT_BAGGAGE_CLAIM;

@@ -1,11 +1,12 @@
 package com.expedia.bookings.data;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 
 import com.expedia.bookings.widget.SummarizedRoomRates;
@@ -63,15 +64,15 @@ public class HotelSearch implements JSONable {
 		Log.d("HotelSearch: setSearchResponse");
 		mSearchResponse = response;
 
-		mPropertyMap = new HashMap<String, Property>();
+		mPropertyMap = new ConcurrentHashMap<String, Property>();
 		if (response != null && response.getProperties() != null) {
 			for (Property property : response.getProperties()) {
 				mPropertyMap.put(property.getPropertyId(), property);
 			}
 		}
 
-		mAvailabilityMap = new HashMap<String, HotelAvailability>();
-		mReviewsResponses = new HashMap<String, ReviewsResponse>();
+		mAvailabilityMap = new ConcurrentHashMap<String, HotelAvailability>();
+		mReviewsResponses = new ConcurrentHashMap<String, ReviewsResponse>();
 	}
 
 	public HotelSearchResponse getSearchResponse() {
@@ -177,14 +178,14 @@ public class HotelSearch implements JSONable {
 	// Get data
 
 	public Property getProperty(String id) {
-		if (mSearchResponse != null) {
+		if (mSearchResponse != null && !TextUtils.isEmpty(id)) {
 			return mPropertyMap.get(id);
 		}
 		return null;
 	}
 
 	public HotelAvailability getAvailability(String id) {
-		if (mSearchResponse != null && mAvailabilityMap != null) {
+		if (mSearchResponse != null && mAvailabilityMap != null && !TextUtils.isEmpty(id)) {
 			HotelAvailability availability = mAvailabilityMap.get(id);
 			return availability;
 		}
@@ -208,7 +209,10 @@ public class HotelSearch implements JSONable {
 	}
 
 	public ReviewsResponse getReviewsResponse(String id) {
-		return mReviewsResponses.get(id);
+		if (mReviewsResponses != null && !TextUtils.isEmpty(id)) {
+			return mReviewsResponses.get(id);
+		}
+		return null;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
