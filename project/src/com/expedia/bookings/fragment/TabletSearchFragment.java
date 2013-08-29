@@ -36,12 +36,15 @@ import com.expedia.bookings.widget.BlockEventFrameLayout;
  */
 public class TabletSearchFragment extends MeasurableFragment implements OnClickListener {
 
+	private static final float HEADER_BG_SCALE_Y = 2.0f;
+
 	// Cached views (general)
 	private BlockEventFrameLayout mBlockEventFrameLayout;
 	private View mBackground;
 
 	// Cached views (header)
 	private ViewGroup mHeader;
+	private View mHeaderBackground;
 	private View mCancelButton;
 	private ViewGroup mHeaderTopContainer;
 	private EditText mSearchEditText;
@@ -91,6 +94,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		mBlockEventFrameLayout = Ui.findView(view, R.id.block_event_frame_layout);
 		mBackground = Ui.findView(view, R.id.background);
 		mHeader = Ui.findView(view, R.id.search_header);
+		mHeaderBackground = Ui.findView(view, R.id.header_background);
 		mCancelButton = Ui.findView(view, R.id.cancel_button);
 		mHeaderTopContainer = Ui.findView(view, R.id.search_header_top_container);
 		mSearchEditText = Ui.findView(view, R.id.search_edit_text);
@@ -109,6 +113,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 
 		// Configure hiding views (that change alpha during expand/collapse)
 		mHiddenWhenCollapsedViews.add(mBackground);
+		mHiddenWhenCollapsedViews.add(mHeaderBackground);
 		mHiddenWhenCollapsedViews.add(mCancelButton);
 		mHiddenWhenCollapsedViews.add(mSearchDivider);
 		mHiddenWhenCollapsedViews.add(mSearchDatesTextView);
@@ -120,6 +125,8 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			for (View hiddenView : mHiddenWhenCollapsedViews) {
 				hiddenView.setAlpha(0);
 			}
+
+			mHeaderBackground.setScaleY(HEADER_BG_SCALE_Y);
 		}
 		else {
 			getActivity().getActionBar().hide();
@@ -130,6 +137,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		// We don't just set the containers to be HW layers because some parts
 		// move interdependently inside of them.
 		mExpandCollapseHwLayerViews.add(mBackground);
+		mExpandCollapseHwLayerViews.add(mHeaderBackground);
 		mExpandCollapseHwLayerViews.add(mCancelButton);
 		mExpandCollapseHwLayerViews.add(mSearchEditText);
 		mExpandCollapseHwLayerViews.add(mSearchDivider);
@@ -198,6 +206,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 				PropertyValuesHolder fadeInPvh = PropertyValuesHolder.ofFloat("alpha", 1);
 				PropertyValuesHolder translateXPvh = PropertyValuesHolder.ofFloat("translationX", 0);
 				PropertyValuesHolder translateYPvh = PropertyValuesHolder.ofFloat("translationY", 0);
+				PropertyValuesHolder scaleYPvh = PropertyValuesHolder.ofFloat("scaleY", 1);
 
 				anims.add(ObjectAnimator.ofPropertyValuesHolder(mHeader, translateYPvh));
 				anims.add(ObjectAnimator.ofPropertyValuesHolder(mSearchEditText, translateXPvh));
@@ -206,6 +215,10 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 					if (view == mContentContainer) {
 						// Special handling for content container
 						anims.add(ObjectAnimator.ofPropertyValuesHolder(view, fadeInPvh, translateYPvh));
+					}
+					else if (view == mHeaderBackground) {
+						// Special handling for header bg
+						anims.add(ObjectAnimator.ofPropertyValuesHolder(view, fadeInPvh, scaleYPvh));
 					}
 					else {
 						anims.add(ObjectAnimator.ofPropertyValuesHolder(view, fadeInPvh));
@@ -247,6 +260,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 						.ofFloat("translationX", mEditTextTranslationX);
 				PropertyValuesHolder translateYPvh = PropertyValuesHolder
 						.ofFloat("translationY", mInitialTranslationY);
+				PropertyValuesHolder scaleYPvh = PropertyValuesHolder.ofFloat("scaleY", HEADER_BG_SCALE_Y);
 
 				anims.add(ObjectAnimator.ofPropertyValuesHolder(mHeader, translateYPvh));
 				anims.add(ObjectAnimator.ofPropertyValuesHolder(mSearchEditText, translateXPvh));
@@ -254,6 +268,9 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 				for (View view : mHiddenWhenCollapsedViews) {
 					if (view == mContentContainer) {
 						anims.add(ObjectAnimator.ofPropertyValuesHolder(view, fadeOutPvh, translateYPvh));
+					}
+					else if (view == mHeaderBackground) {
+						anims.add(ObjectAnimator.ofPropertyValuesHolder(view, fadeOutPvh, scaleYPvh));
 					}
 					else {
 						anims.add(ObjectAnimator.ofPropertyValuesHolder(view, fadeOutPvh));

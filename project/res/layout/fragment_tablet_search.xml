@@ -14,6 +14,14 @@
             android:layout_height="match_parent"
             android:background="#182141" />
 
+        <View
+            android:id="@+id/header_background"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_alignBottom="@+id/search_header"
+            android:layout_alignTop="@+id/search_header"
+            android:background="#7000" />
+
         <RelativeLayout
             android:id="@+id/search_header"
             android:layout_width="@dimen/tablet_search_header_width"
