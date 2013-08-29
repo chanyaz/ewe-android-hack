@@ -25,9 +25,9 @@ import android.renderscript.Type;
 import android.support.v4.util.LruCache;
 
 import com.expedia.bookings.R;
-import com.jakewharton.DiskLruCache;
-import com.jakewharton.DiskLruCache.Editor;
-import com.jakewharton.DiskLruCache.Snapshot;
+import com.jakewharton.disklrucache.DiskLruCache;
+import com.jakewharton.disklrucache.DiskLruCache.Editor;
+import com.jakewharton.disklrucache.DiskLruCache.Snapshot;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.TimingLogger;
