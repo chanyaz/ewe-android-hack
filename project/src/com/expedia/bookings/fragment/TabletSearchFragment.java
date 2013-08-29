@@ -479,6 +479,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			if (!fragmentToShow.isVisible()) {
 				getChildFragmentManager()
 						.beginTransaction()
+						.setCustomAnimations(R.anim.tablet_search_fragment_in, R.anim.tablet_search_fragment_out)
 						.replace(R.id.content_container, fragmentToShow, fragmentTag)
 						.commit();
 			}
