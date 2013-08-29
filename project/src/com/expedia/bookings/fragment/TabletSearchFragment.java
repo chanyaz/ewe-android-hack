@@ -186,7 +186,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	// Manipulation
 
 	public void setInitialTranslationY(int translationY) {
-		mInitialTranslationY = translationY - (mHeaderTopContainer.getHeight() / 2.0f);
+		mInitialTranslationY = translationY - (mHeaderTopContainer.getHeight() / 2.0f) - mHeader.getPaddingTop();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
