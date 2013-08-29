@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="tablet_search_header_width">800dp</dimen>
+    <dimen name="tablet_search_width">800dp</dimen>
 
 </resources>
