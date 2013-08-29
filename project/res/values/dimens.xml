@@ -6,7 +6,6 @@
 
     <!-- Tablet -->
     <dimen name="tablet_search_width">@dimen/match_parent</dimen>
-    <dimen name="tablet_search_header_corner_radius">5dp</dimen>
 
     <!-- Launch dimens -->
     <dimen name="launch_tile_space_width">2dp</dimen>

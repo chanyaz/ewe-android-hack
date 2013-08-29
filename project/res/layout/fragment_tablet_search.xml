@@ -51,6 +51,7 @@
                 android:layout_height="44dp"
                 android:layout_toLeftOf="@+id/search_button"
                 android:layout_toRightOf="@+id/cancel_button"
+                android:background="@drawable/bg_tablet_search_header"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="4dp"
