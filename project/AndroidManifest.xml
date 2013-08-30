@@ -130,7 +130,7 @@
 
         <activity
             android:name="com.expedia.bookings.activity.TabletLaunchActivity"
-            android:theme="@android:style/Theme.Holo.Light.DarkActionBar" />
+            android:theme="@style/V2.Theme.Activity.TabletLaunch" />
 
         <!-- Itineraries -->
 
