@@ -167,6 +167,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		if (!mStartExpanded) {
 			for (View hiddenView : mHiddenWhenCollapsedViews) {
 				hiddenView.setAlpha(0);
+				hiddenView.setVisibility(View.INVISIBLE);
 			}
 
 			mHeaderBackground.setScaleY(HEADER_BG_SCALE_Y);
@@ -382,6 +383,11 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 				mSearchEditText.clearFocus();
 				Ui.hideKeyboard(mSearchEditText, 0);
 			}
+			else {
+				for (View view : mHiddenWhenCollapsedViews) {
+					view.setVisibility(View.VISIBLE);
+				}
+			}
 
 			for (View view : mExpandCollapseHwLayerViews) {
 				view.setLayerType(View.LAYER_TYPE_HARDWARE, null);
@@ -413,6 +419,10 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 							.beginTransaction()
 							.replace(R.id.content_container, mDestinationsFragment, TAG_DESTINATIONS)
 							.commit();
+				}
+
+				for (View view : mHiddenWhenCollapsedViews) {
+					view.setVisibility(View.INVISIBLE);
 				}
 			}
 
