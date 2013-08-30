@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_stops"
+        android:showAsAction="always|withText"
+        android:title="@string/stops_flights">
+        <menu>
+            <group
+                android:id="@+id/menu_select_stop_group"
+                android:checkableBehavior="single" >
+                <item
+                    android:id="@+id/menu_select_stop_any"
+                    android:checked="true"
+                    android:title="@string/stop_description_any"/>
+                <item
+                    android:id="@+id/menu_select_stop_max"
+                    android:title="@string/stop_description__max"/>
+                <item
+                    android:id="@+id/menu_select_stop_nonstop"
+                    android:title="@string/stop_description__nonstop"/>
+            </group>
+        </menu>
+    </item>
+
+</menu>

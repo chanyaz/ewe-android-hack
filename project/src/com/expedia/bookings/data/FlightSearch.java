@@ -274,6 +274,14 @@ public class FlightSearch implements JSONable {
 					}
 				}
 
+				// #1878. Filter by number of stops before sorting.
+				mTrips = getTripsFilteredByStops(mLegPosition, mTrips, filter.getStops());
+
+				// Handling case when tripsList might return empty after filtering by stops.
+				if (mTrips.size() == 0) {
+					return mTrips;
+				}
+
 				// Sort the results
 				Comparator<FlightTrip> comparator;
 				switch (filter.getSort()) {
@@ -349,6 +357,25 @@ public class FlightSearch implements JSONable {
 
 		public void unregisterDataSetObserver(DataSetObserver observer) {
 			mDataSetObservable.unregisterObserver(observer);
+		}
+
+		public List<FlightTrip> getTripsFilteredByStops(int legPosition,
+				List<FlightTrip> trips, int stops) {
+
+			// For STOPS_ANY, just return the list.
+			if (stops < 0) {
+				return trips;
+			}
+
+			List<FlightTrip> result = new ArrayList<FlightTrip>();
+			for (FlightTrip trip : trips) {
+				FlightLeg flightLeg = ((FlightTrip) trip).getLeg(legPosition);
+				// Two segments = 1 stop, so subtract.
+				if (((flightLeg.getSegmentCount() - 1) <= stops)) {
+					result.add(trip);
+				}
+			}
+			return result;
 		}
 	}
 
