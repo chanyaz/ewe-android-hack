@@ -204,7 +204,7 @@
     <!-- Itin flight departure international terminal and gate template -->
     <string name="Depart_International_Terminal_Gate_X_TEMPLATE">Avreise fra den internasjonale terminalen, gate %1$s</string>
     <!-- "Gate To Be Determined", with "To Be Determined" abbreviated if possible -->
-    <string name="Gate_To_Be_Determined_abbrev">Gate</string>
+    <string name="Gate_To_Be_Determined_abbrev">Gate ikke bekreftet</string>
     <!-- Itin flight gate only template -->
     <string name="Gate_X_TEMPLATE">Gate %1$s</string>
     <!-- Itin flight arrive gate only template -->
@@ -222,7 +222,7 @@
     <!-- Itin flight international terminal only -->
     <string name="Arrive_International_Terminal">Ankomst til den internasjonale terminalen</string>
     <!-- Itin flight terminal only template -->
-    <string name="Depart_Terminal_X_TEMPLATE">Avgangsterminal %1$s</string>
+    <string name="Depart_Terminal_X_TEMPLATE">Avgang fra terminal %1$s</string>
     <!-- Itin flight international terminal only -->
     <string name="Depart_International_Terminal">Avreise fra den internasjonale terminalen</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
@@ -547,6 +547,8 @@
     <string name="share_template_long_ad">Bestill hotell og fly, eller se og del reiserutene dine. Last ned Expedias mobil-app i dag, helt gratis.\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Mitt fly til %1$s den %2$s</string>
+    <!-- Email subject line for multiple travelers 1: city 2: date string -->
+    <string name="share_template_subject_flight_multiple_travelers">Vår flyvning til %1$s den %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
     <string name="share_template_short_flight_sameday">Jeg er på fly %1$s til %2$s den %3$s.\nAvreise fra %4$s kl. %5$s\nAnkomst ved %6$s kl. %7$s, %8$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
@@ -590,8 +592,8 @@
     <string name="share_template_long_activity_valid">Gyldig %1$s</string>
     <!-- label for activity 1: expiration date -->
     <string name="share_template_long_activity_expires">Utløper %1$s</string>
-    <!-- label for activity 1: list of guests -->
-    <string name="share_template_long_activity_guests">Gjester\n%1$s</string>
+    <!-- label for activity 1: number of guests 2: list of guests -->
+    <string name="share_template_long_activity_guests_with_count">Gjester (%1$s)\n%2$s</string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
@@ -984,6 +986,8 @@
     <string name="address_state_hint">Fylke</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Postnummer</string>
+    <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
+    <string name="address_postal_code_hint_US">Postnummer</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -1342,7 +1346,7 @@
     <!-- Search Error title text "Search Error" -->
     <string name="search_error">Søkefeil</string>
     <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
-    <string name="search_hotel_id_TEMPLATE">Hotell%s</string>
+    <string name="search_hotel_id_TEMPLATE">Hotell %s</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
