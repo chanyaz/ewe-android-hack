@@ -8,13 +8,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <View
+        <com.expedia.bookings.widget.BackgroundView
             android:id="@+id/background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#182141" />
 
-        <View
+        <com.expedia.bookings.widget.BackgroundView
             android:id="@+id/header_background"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -66,7 +66,7 @@
                     android:hint="Search destinations..."
                     android:textSize="18dp" />
 
-                <View
+                <com.expedia.bookings.widget.BackgroundView
                     android:id="@+id/search_divider_view"
                     android:layout_width="1dp"
                     android:layout_height="wrap_content"

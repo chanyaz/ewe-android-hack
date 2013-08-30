@@ -14,6 +14,7 @@ import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -182,15 +183,22 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		//
 		// We don't just set the containers to be HW layers because some parts
 		// move interdependently inside of them.
-		mExpandCollapseHwLayerViews.add(mBackground);
 		mExpandCollapseHwLayerViews.add(mHeaderBackground);
 		mExpandCollapseHwLayerViews.add(mCancelButton);
 		mExpandCollapseHwLayerViews.add(mSearchEditText);
-		mExpandCollapseHwLayerViews.add(mSearchDivider);
 		mExpandCollapseHwLayerViews.add(mSearchDatesTextView);
 		mExpandCollapseHwLayerViews.add(mSearchButton);
 		mExpandCollapseHwLayerViews.add(mHeaderBottomContainer);
 		mExpandCollapseHwLayerViews.add(mContentContainer);
+
+		if (Build.VERSION.SDK_INT < 16) {
+			// On 16+, we use hasOverlappingRendering() == false to draw
+			// super quick.  In that case, HW layers just get in the way
+			// (apparently).  But on <16, hasOverlappingRendering() does
+			// not exist, so HW layers are better than nothing.
+			mExpandCollapseHwLayerViews.add(mBackground);
+			mExpandCollapseHwLayerViews.add(mSearchDivider);
+		}
 
 		// We need to measure where to place the header (horizontally)
 		mHeaderTopContainer.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
