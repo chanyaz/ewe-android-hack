@@ -139,7 +139,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 
 		if (savedInstanceState == null) {
 			// Always start with the destinations fragment visible
-			mDestinationsFragment = ButtonFragment.newInstance("Destinations");
+			constructDestinationsFragment();
 			FragmentTransaction ft = getChildFragmentManager().beginTransaction();
 			ft.add(R.id.content_container, mDestinationsFragment, TAG_DESTINATIONS);
 			ft.commit();
@@ -233,6 +233,34 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 
 	public void setInitialTranslationY(int translationY) {
 		mInitialTranslationY = translationY - (mHeaderTopContainer.getHeight() / 2.0f) - mHeader.getPaddingTop();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Child fragments
+
+	public void constructDestinationsFragment() {
+		if (mDestinationsFragment == null) {
+			mDestinationsFragment = ButtonFragment.newInstance("Destinations");
+		}
+	}
+
+	public void constructOriginsFragment() {
+		if (mOriginsFragment == null) {
+			mOriginsFragment = ButtonFragment.newInstance("Origins");
+		}
+	}
+
+	public void constructDatesFragment() {
+		if (mDatesFragment == null) {
+			mDatesFragment = ButtonFragment.newInstance("Dates");
+		}
+
+	}
+
+	public void constructGuestsFragment() {
+		if (mGuestsFragment == null) {
+			mGuestsFragment = ButtonFragment.newInstance("Guests");
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -475,34 +503,22 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			Fragment fragmentToShow;
 			String fragmentTag;
 			if (v == mSearchEditText) {
-				if (mDestinationsFragment == null) {
-					mDestinationsFragment = ButtonFragment.newInstance("Destinations");
-				}
-
+				constructDestinationsFragment();
 				fragmentToShow = mDestinationsFragment;
 				fragmentTag = TAG_DESTINATIONS;
 			}
 			else if (v == mOriginTextView) {
-				if (mOriginsFragment == null) {
-					mOriginsFragment = ButtonFragment.newInstance("Origins");
-				}
-
+				constructOriginsFragment();
 				fragmentToShow = mOriginsFragment;
 				fragmentTag = TAG_ORIGINS;
 			}
 			else if (v == mSearchDatesTextView) {
-				if (mDatesFragment == null) {
-					mDatesFragment = ButtonFragment.newInstance("Dates");
-				}
-
+				constructDatesFragment();
 				fragmentToShow = mDatesFragment;
 				fragmentTag = TAG_DATES;
 			}
 			else if (v == mGuestsTextView) {
-				if (mGuestsFragment == null) {
-					mGuestsFragment = ButtonFragment.newInstance("Guests");
-				}
-
+				constructGuestsFragment();
 				fragmentToShow = mGuestsFragment;
 				fragmentTag = TAG_GUESTS;
 			}
