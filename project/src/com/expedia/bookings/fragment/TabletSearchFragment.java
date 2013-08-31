@@ -298,6 +298,8 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			mIsExpanding = true;
 
 			if (isCollapsed()) {
+				prepHardwareLayersForAnimation();
+
 				AnimatorSet set = new AnimatorSet();
 				Collection<Animator> anims = new ArrayList<Animator>();
 
@@ -347,6 +349,8 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			mIsExpanding = false;
 
 			if (isExpanded()) {
+				prepHardwareLayersForAnimation();
+
 				AnimatorSet set = new AnimatorSet();
 				Collection<Animator> anims = new ArrayList<Animator>();
 
@@ -394,6 +398,12 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		}
 	}
 
+	private void prepHardwareLayersForAnimation() {
+		for (View view : mExpandCollapseHwLayerViews) {
+			view.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+		}
+	}
+
 	// Returns true if mode undone, returns false otherwise
 	public boolean onBackPressed() {
 		if (isExpanding()) {
@@ -423,10 +433,6 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 				for (View view : mHiddenWhenCollapsedViews) {
 					view.setVisibility(View.VISIBLE);
 				}
-			}
-
-			for (View view : mExpandCollapseHwLayerViews) {
-				view.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 			}
 		}
 

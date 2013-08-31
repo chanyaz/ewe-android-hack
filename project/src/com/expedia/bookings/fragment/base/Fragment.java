@@ -25,12 +25,9 @@ public class Fragment extends android.support.v4.app.Fragment {
 			}
 
 			if (animation != null) {
-				animation.setAnimationListener(new AnimationListenerAdapter() {
-					@Override
-					public void onAnimationStart(Animation animation) {
-						getView().setLayerType(View.LAYER_TYPE_HARDWARE, null);
-					}
+				getView().setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
+				animation.setAnimationListener(new AnimationListenerAdapter() {
 					@Override
 					public void onAnimationEnd(Animation animation) {
 						getView().setLayerType(View.LAYER_TYPE_NONE, null);
