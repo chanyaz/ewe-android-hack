@@ -473,7 +473,8 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 				// Once we're collapsed, replace the content container with destinations fragment (if it's
 				// not already visible).  That way when this gets expanded, it's visible, since we always
 				// want to start with this fragment.
-				if (!mDestinationsFragment.isVisible()) {
+				if (mDestinationsFragment == null || !mDestinationsFragment.isVisible()) {
+					constructDestinationsFragment();
 					getChildFragmentManager()
 							.beginTransaction()
 							.replace(R.id.content_container, mDestinationsFragment, TAG_DESTINATIONS)
