@@ -248,26 +248,26 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 
 	public void constructDestinationsFragment() {
 		if (mDestinationsFragment == null) {
-			mDestinationsFragment = ButtonFragment.newInstance("Destinations");
+			mDestinationsFragment = ButtonFragment.newInstance("Destinations", R.dimen.tablet_search_width);
 		}
 	}
 
 	public void constructOriginsFragment() {
 		if (mOriginsFragment == null) {
-			mOriginsFragment = ButtonFragment.newInstance("Origins");
+			mOriginsFragment = ButtonFragment.newInstance("Origins", R.dimen.tablet_search_width);
 		}
 	}
 
 	public void constructDatesFragment() {
 		if (mDatesFragment == null) {
-			mDatesFragment = ButtonFragment.newInstance("Dates");
+			mDatesFragment = ButtonFragment.newInstance("Dates", R.dimen.tablet_search_width);
 		}
 
 	}
 
 	public void constructGuestsFragment() {
 		if (mGuestsFragment == null) {
-			mGuestsFragment = ButtonFragment.newInstance("Guests");
+			mGuestsFragment = ButtonFragment.newInstance("Guests", R.dimen.tablet_search_width);
 		}
 	}
 

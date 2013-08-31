@@ -33,8 +33,8 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 		FragmentManager fm = getSupportFragmentManager();
 		if (savedInstanceState == null) {
-			mTopFragment = ButtonFragment.newInstance("Top Half");
-			mBottomFragment = ButtonFragment.newInstance("Bottom Half");
+			mTopFragment = ButtonFragment.newInstance("Top Half", 0);
+			mBottomFragment = ButtonFragment.newInstance("Bottom Half", 0);
 			mSearchFragment = new TabletSearchFragment();
 
 			FragmentTransaction ft = fm.beginTransaction();
