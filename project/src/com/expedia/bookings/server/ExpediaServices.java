@@ -1354,6 +1354,9 @@ public class ExpediaServices implements DownloadListener {
 			HttpClientParams.setCookiePolicy(httpParameters, "EXPEDIA");
 		}
 
+		// 1902 - Allow redirecting from API calls
+		HttpClientParams.setRedirecting(httpParameters, true);
+
 		// When not a release build, allow SSL from all connections
 		if ((flags & F_SECURE_REQUEST) != 0 && !AndroidUtils.isRelease(mContext)) {
 			try {
