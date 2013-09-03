@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Tablet Results strings -->
+    <string name="results">Results</string>
+    
+    
     <!-- Facebook -->
     <!-- Weve found your user account -->
     <string name="facebook_weve_found_your_account">Hey &lt;b&gt;%1$s&lt;/b&gt;, looks like we\'ve found your Expedia account! Please enter your expedia password below to link your facebook and expedia accounts.</string>
