@@ -14,8 +14,11 @@ import android.os.Bundle;
 import android.util.TimeFormatException;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
+import com.expedia.bookings.data.Location;
 import com.expedia.bookings.tracking.AdX;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.NavUtils;
@@ -121,67 +124,72 @@ public class DeepLinkRouterActivity extends Activity {
 			}
 
 			// Add adults (if supplied)
-			//
-			// Note that we still abide by the max guests - we bias towards # adults first
 			if (queryData.contains("numAdults")) {
-				String numAdultsStr = data.getQueryParameter("numAdults");
-				try {
-					int numAdults = Integer.parseInt(numAdultsStr);
-					int maxAdults = GuestsPickerUtils.getMaxAdults(0);
-					if (numAdults > maxAdults) {
-						Log.w(TAG, "Number of adults (" + numAdults + ") exceeds maximum, lowering to " + maxAdults);
-						numAdults = maxAdults;
-					}
-					else if (numAdults < GuestsPickerUtils.MIN_ADULTS) {
-						Log.w(TAG, "Number of adults (" + numAdults + ") below minimum, raising to "
-								+ GuestsPickerUtils.MIN_ADULTS);
-						numAdults = GuestsPickerUtils.MIN_ADULTS;
-					}
-					params.setNumAdults(numAdults);
-					Log.d(TAG, "Setting number of adults: " + numAdults);
-				}
-				catch (NumberFormatException e) {
-					Log.w(TAG, "Could not parse numAdults: " + numAdultsStr, e);
-				}
+				params.setNumAdults(parseNumAdults(data.getQueryParameter("numAdults")));
 			}
 
 			// Add children (if supplied)
 			if (queryData.contains("childAges")) {
-				String childAgesStr = data.getQueryParameter("childAges");
-				String[] childAgesArr = childAgesStr.split(",");
-				int maxChildren = GuestsPickerUtils.getMaxChildren(params.getNumAdults());
-				List<Integer> childAges = new ArrayList<Integer>();
-				try {
-					for (int a = 0; a < childAgesArr.length && childAges.size() < maxChildren; a++) {
-						int childAge = Integer.parseInt(childAgesArr[a]);
-
-						if (childAge <= GuestsPickerUtils.MIN_CHILD_AGE) {
-							Log.w(TAG, "Child age (" + childAge + ") less than that of a child, not adding: "
-									+ childAge);
-						}
-						else if (childAge > GuestsPickerUtils.MAX_CHILD_AGE) {
-							Log.w(TAG, "Child age (" + childAge + ") not an actual child, adding as adult: " + childAge);
-							params.setNumAdults(params.getNumAdults() + 1);
-							maxChildren = GuestsPickerUtils.getMaxChildren(params.getNumAdults());
-						}
-						else {
-							childAges.add(childAge);
-						}
-					}
-
-					if (childAges.size() > 0) {
-						params.setChildren(childAges);
-						Log.d(TAG, "Setting children ages: " + Arrays.toString(childAges.toArray(new Integer[0])));
-					}
-				}
-				catch (NumberFormatException e) {
-					Log.w(TAG, "Could not parse childAges: " + childAgesStr, e);
-				}
+				params.setChildren(parseChildAges(data.getQueryParameter("childAges"), params.getNumAdults()));
 			}
 
 			// Launch hotel search
 			Log.i(TAG, "Launching hotel search from deep link!");
 			NavUtils.goToHotels(this, params);
+		}
+		else if (host.equals("flightSearch")) {
+			// Fill FlightSearchParams with query data
+			FlightSearchParams params = new FlightSearchParams();
+
+			if (queryData.contains("origin")) {
+				Location departureLocation = new Location();
+				departureLocation.setDestinationId(data.getQueryParameter("origin"));
+				params.setDepartureLocation(departureLocation);
+				Log.d(TAG, "Set flight origin: " + departureLocation.getDestinationId());
+			}
+
+			if (queryData.contains("destination")) {
+				Location arrivalLocation = new Location();
+				arrivalLocation.setDestinationId(data.getQueryParameter("destination"));
+				params.setArrivalLocation(arrivalLocation);
+				Log.d(TAG, "Set flight destination: " + arrivalLocation.getDestinationId());
+			}
+
+			if (queryData.contains("departureDate")) {
+				String departureDateStr = data.getQueryParameter("departureDate");
+				try {
+					LocalDate date = LocalDate.parse(departureDateStr);
+					params.setDepartureDate(date);
+					Log.d(TAG, "Set flight departure date: " + date);
+				}
+				catch (TimeFormatException e) {
+					Log.w(TAG, "Could not parse flight departure date: " + departureDateStr, e);
+				}
+			}
+
+			if (queryData.contains("returnDate")) {
+				String returnDateStr = data.getQueryParameter("returnDate");
+				try {
+					LocalDate date = LocalDate.parse(returnDateStr);
+					params.setReturnDate(date);
+					Log.d(TAG, "Set flight return date: " + date);
+				}
+				catch (TimeFormatException e) {
+					Log.w(TAG, "Could not parse flight return date: " + returnDateStr, e);
+				}
+			}
+
+			params.ensureValidDates();
+
+			// Add adults (if supplied)
+			if (queryData.contains("numAdults")) {
+				params.setNumAdults(parseNumAdults(data.getQueryParameter("numAdults")));
+			}
+
+			// Launch flight search
+			Log.i(TAG, "Launching flight search from deep link!");
+			Db.getFlightSearch().setSearchParams(params);
+			NavUtils.goToFlights(this, true);
 		}
 		else {
 			Ui.showToast(this, "Cannot yet handle data: " + data);
@@ -189,5 +197,62 @@ public class DeepLinkRouterActivity extends Activity {
 
 		// This Activity should never fully launch
 		finish();
+	}
+
+	private int parseNumAdults(String numAdultsStr) {
+		try {
+			int numAdults = Integer.parseInt(numAdultsStr);
+			int maxAdults = GuestsPickerUtils.getMaxAdults(0);
+			if (numAdults > maxAdults) {
+				Log.w(TAG, "Number of adults (" + numAdults + ") exceeds maximum, lowering to " + maxAdults);
+				numAdults = maxAdults;
+			}
+			else if (numAdults < GuestsPickerUtils.MIN_ADULTS) {
+				Log.w(TAG, "Number of adults (" + numAdults + ") below minimum, raising to "
+						+ GuestsPickerUtils.MIN_ADULTS);
+				numAdults = GuestsPickerUtils.MIN_ADULTS;
+			}
+			Log.d(TAG, "Setting number of adults: " + numAdults);
+
+			return numAdults;
+		}
+		catch (NumberFormatException e) {
+			Log.w(TAG, "Could not parse numAdults: " + numAdultsStr, e);
+		}
+
+		return GuestsPickerUtils.MIN_ADULTS;
+	}
+
+	// Note that we still abide by the max guests - we bias towards # adults first
+	private List<Integer> parseChildAges(String childAgesStr, int numAdults) {
+		String[] childAgesArr = childAgesStr.split(",");
+		int maxChildren = GuestsPickerUtils.getMaxChildren(numAdults);
+		List<Integer> childAges = new ArrayList<Integer>();
+		try {
+			for (int a = 0; a < childAgesArr.length && childAges.size() < maxChildren; a++) {
+				int childAge = Integer.parseInt(childAgesArr[a]);
+
+				if (childAge <= GuestsPickerUtils.MIN_CHILD_AGE) {
+					Log.w(TAG, "Child age (" + childAge + ") less than that of a child, not adding: "
+							+ childAge);
+				}
+				else if (childAge > GuestsPickerUtils.MAX_CHILD_AGE) {
+					Log.w(TAG, "Child age (" + childAge + ") not an actual child, ignoring: " + childAge);
+				}
+				else {
+					childAges.add(childAge);
+				}
+			}
+
+			if (childAges.size() > 0) {
+				Log.d(TAG, "Setting children ages: " + Arrays.toString(childAges.toArray(new Integer[0])));
+				return childAges;
+			}
+		}
+		catch (NumberFormatException e) {
+			Log.w(TAG, "Could not parse childAges: " + childAgesStr, e);
+		}
+
+		return null;
 	}
 }
