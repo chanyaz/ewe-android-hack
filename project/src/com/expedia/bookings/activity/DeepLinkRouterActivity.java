@@ -187,9 +187,15 @@ public class DeepLinkRouterActivity extends Activity {
 			}
 
 			// Launch flight search
-			Log.i(TAG, "Launching flight search from deep link!");
 			Db.getFlightSearch().setSearchParams(params);
-			NavUtils.goToFlights(this, true);
+			if (params.isFilled()) {
+				Log.i(TAG, "Launching flight search results activity from deep link!");
+				NavUtils.goToFlightSearch(this);
+			}
+			else {
+				Log.i(TAG, "Launching flight search params activity from deep link!");
+				NavUtils.goToFlights(this, true);
+			}
 		}
 		else {
 			Ui.showToast(this, "Cannot yet handle data: " + data);
