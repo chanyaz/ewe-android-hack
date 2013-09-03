@@ -271,23 +271,6 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		}
 	}
 
-	public int getFragmentPosition(String tag) {
-		if (TAG_DESTINATIONS.equals(tag)) {
-			return 0;
-		}
-		else if (TAG_DATES.equals(tag)) {
-			return 1;
-		}
-		else if (TAG_ORIGINS.equals(tag)) {
-			return 2;
-		}
-		else if (TAG_GUESTS.equals(tag)) {
-			return 3;
-		}
-
-		throw new RuntimeException("Unrecognized tag: " + tag);
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// Animation
 
@@ -560,18 +543,9 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			}
 
 			if (!fragmentToShow.isVisible()) {
-				String currentFragmentTag = getChildFragmentManager().findFragmentById(R.id.content_container).getTag();
-				int currPosition = getFragmentPosition(currentFragmentTag);
-				int newPosition = getFragmentPosition(fragmentTag);
-
-				boolean animRight = currPosition < newPosition;
-				int inAnim = animRight ? R.anim.tablet_search_fragment_in_right : R.anim.tablet_search_fragment_in_left;
-				int outAnim = animRight ? R.anim.tablet_search_fragment_out_right
-						: R.anim.tablet_search_fragment_out_left;
-
 				getChildFragmentManager()
 						.beginTransaction()
-						.setCustomAnimations(inAnim, outAnim)
+						.setCustomAnimations(R.anim.fragment_tablet_search_in, R.anim.fragment_tablet_search_out)
 						.replace(R.id.content_container, fragmentToShow, fragmentTag)
 						.commit();
 			}
