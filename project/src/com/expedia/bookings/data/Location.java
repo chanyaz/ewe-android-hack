@@ -6,6 +6,8 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.TextUtils;
 
 import com.expedia.bookings.utils.LocaleUtils;
@@ -14,7 +16,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
-public class Location implements JSONable {
+public class Location implements JSONable, Parcelable {
 	private List<String> mStreetAddress;
 	private String mDescription;
 	private String mCity;
@@ -28,6 +30,10 @@ public class Location implements JSONable {
 	//
 	// Also sometimes used for airport/metro codes
 	private String mDestinationId;
+
+	public Location() {
+		// Default constructor
+	}
 
 	public List<String> getStreetAddress() {
 		return mStreetAddress;
@@ -243,7 +249,8 @@ public class Location implements JSONable {
 
 	public String toLongFormattedString() {
 		String streetAddress = getStreetAddressString();
-		if (streetAddress != null && TextUtils.isDigitsOnly(streetAddress) && TextUtils.isEmpty(toShortFormattedString())) {
+		if (streetAddress != null && TextUtils.isDigitsOnly(streetAddress)
+				&& TextUtils.isEmpty(toShortFormattedString())) {
 			return null;
 		}
 
@@ -253,4 +260,48 @@ public class Location implements JSONable {
 		locationParts.add(mPostalCode);
 		return StrUtils.joinWithoutEmpties(", ", locationParts);
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Parcelable
+
+	private Location(Parcel in) {
+		mStreetAddress = new ArrayList<String>();
+		in.readList(mStreetAddress, null);
+		mDescription = in.readString();
+		mCity = in.readString();
+		mStateCode = in.readString();
+		mCountryCode = in.readString();
+		mPostalCode = in.readString();
+		mLatitude = in.readDouble();
+		mLongitude = in.readDouble();
+		mDestinationId = in.readString();
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeList(mStreetAddress);
+		dest.writeString(mDescription);
+		dest.writeString(mCity);
+		dest.writeString(mStateCode);
+		dest.writeString(mCountryCode);
+		dest.writeString(mPostalCode);
+		dest.writeDouble(mLatitude);
+		dest.writeDouble(mLongitude);
+		dest.writeString(mDestinationId);
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	public static final Parcelable.Creator<Location> CREATOR = new Parcelable.Creator<Location>() {
+		public Location createFromParcel(Parcel in) {
+			return new Location(in);
+		}
+
+		public Location[] newArray(int size) {
+			return new Location[size];
+		}
+	};
 }
