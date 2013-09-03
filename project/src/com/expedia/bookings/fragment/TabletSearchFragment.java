@@ -29,6 +29,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
 import com.expedia.bookings.fragment.debug.ButtonFragment;
 import com.expedia.bookings.utils.AnimUtils;
@@ -47,10 +48,14 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 
 	private static final float HEADER_BG_SCALE_Y = 2.0f;
 
+	private static final String INSTANCE_SEARCH_PARAMS = "INSTANCE_SEARCH_PARAMS";
+
 	private static final String TAG_DESTINATIONS = "fragment.destinations";
 	private static final String TAG_ORIGINS = "fragment.origins";
 	private static final String TAG_DATES = "fragment.dates";
 	private static final String TAG_GUESTS = "fragment.guests";
+
+	private SearchParams mSearchParams;
 
 	// Cached views (general)
 	private BlockEventFrameLayout mBlockEventFrameLayout;
@@ -107,10 +112,24 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
+		mListener = Ui.findFragmentListener(this, SearchFragmentListener.class);
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
 		mDuration = getResources().getInteger(android.R.integer.config_longAnimTime);
 		mActionBarHeight = getActivity().getActionBar().getHeight();
 
-		mListener = Ui.findFragmentListener(this, SearchFragmentListener.class);
+		if (savedInstanceState != null) {
+			mSearchParams = savedInstanceState.getParcelable(INSTANCE_SEARCH_PARAMS);
+		}
+		else {
+			// TODO: For now, we will just use SearchParams internally; eventually this
+			// should be coming from some outside source.
+			mSearchParams = new SearchParams();
+		}
 	}
 
 	@Override
@@ -217,6 +236,13 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		});
 
 		return view;
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		outState.putParcelable(INSTANCE_SEARCH_PARAMS, mSearchParams);
 	}
 
 	@Override
