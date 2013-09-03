@@ -19,6 +19,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
@@ -243,4 +244,42 @@ public class JodaUtils {
 
 		return null;
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Parcelable
+
+	public static void writeLocalDate(Parcel parcel, LocalDate localDate) {
+		if (localDate == null) {
+			parcel.writeString(null);
+		}
+		else {
+			parcel.writeString(localDate.toString());
+		}
+	}
+
+	public static LocalDate readLocalDate(Parcel parcel) {
+		String str = parcel.readString();
+		if (TextUtils.isEmpty(str)) {
+			return null;
+		}
+		return LocalDate.parse(str);
+	}
+
+	public static void writeDateTime(Parcel parcel, DateTime dateTime) {
+		if (dateTime == null) {
+			parcel.writeString(null);
+		}
+		else {
+			parcel.writeString(dateTime.toString());
+		}
+	}
+
+	public static DateTime readDateTime(Parcel parcel) {
+		String str = parcel.readString();
+		if (TextUtils.isEmpty(str)) {
+			return null;
+		}
+		return DateTime.parse(str);
+	}
+
 }
