@@ -229,6 +229,55 @@ public class FlightSearch implements JSONable {
 		mSearchState = state;
 	}
 
+	private Map<String, FlightTrip> getCheapestTripEachAirlineMap(int legPosition, List<FlightTrip> trips) {
+		Map<String, FlightTrip> lowestPriceMap = new HashMap<String, FlightTrip>();
+
+		Iterator<FlightTrip> iterator = trips.iterator();
+		while (iterator.hasNext()) {
+			FlightTrip trip = iterator.next();
+			FlightLeg leg = trip.getLeg(legPosition);
+			String legAirlineCode = leg.getFirstAirlineCode();
+
+			if (lowestPriceMap.containsKey(legAirlineCode)) {
+				Money inListMoney = lowestPriceMap.get(legAirlineCode).getTotalFare();
+				if (trip.getTotalFare().compareTo(inListMoney) < 0) {
+					lowestPriceMap.put(legAirlineCode, trip);
+				}
+			}
+			else {
+				lowestPriceMap.put(legAirlineCode, trip);
+			}
+		}
+
+		return lowestPriceMap;
+	}
+
+	/**
+	 * Returns the lowest price trip for the desired airlineCode
+	 */
+	public FlightTrip getCheapestTripFor(String airlineCode, List<FlightTrip> trips, int legPosition) {
+		Map<String, FlightTrip> lowestPriceMap = new HashMap<String, FlightTrip>(getCheapestTripEachAirlineMap(legPosition, trips));
+		FlightTrip lowestPricedTrip = lowestPriceMap.get(airlineCode);
+
+		return lowestPricedTrip;
+	}
+
+	/**
+	 * Returns a list containing only the lowest price trip for each unique airlines in list of trips.
+	 * The list is sorted by price i.e. (low - high)
+	 */
+	public List<FlightTrip> getCheapestTripForEachAirline(List<FlightTrip> trips, int legPosition) {
+		Map<String, FlightTrip> lowestPriceMap = new HashMap<String, FlightTrip>(getCheapestTripEachAirlineMap(legPosition, trips));
+
+		List<FlightTrip> lowestPriceAllAirlines = new ArrayList<FlightTrip>(lowestPriceMap.values());
+		Comparator<FlightTrip> priceComparator = new FlightTripComparator(legPosition, CompareField.PRICE);
+
+		// Sort the list by price and then return.
+		Collections.sort(lowestPriceAllAirlines, priceComparator);
+
+		return lowestPriceAllAirlines;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Trips query
 	//
