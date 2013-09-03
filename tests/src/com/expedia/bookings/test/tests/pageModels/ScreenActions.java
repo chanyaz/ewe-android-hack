@@ -50,16 +50,16 @@ public class ScreenActions extends Solo {
 	}
 
 	public void enterLog(String TAG, String logText) {
-		Log.v(TAG, "Robotium: " + logText);
+		Log.v(TAG, logText);
 	}
 
-	public void delay(int time) { //Enter time in seconds
-		time = time * 1000;
-		sleep(time);
+	public void delay(int seconds) {
+		seconds = seconds * 1000;
+		sleep(seconds);
 	}
 
-	public void delay() { //Defaults to 3 seconds
-		sleep(3000);
+	public void delay() {
+		delay(3);
 	}
 
 	public void setAllowScreenshots(Boolean allowed) {
