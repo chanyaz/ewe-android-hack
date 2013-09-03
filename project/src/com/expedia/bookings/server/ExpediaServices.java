@@ -25,7 +25,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import org.apache.http.NameValuePair;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -173,6 +172,10 @@ public class ExpediaServices implements DownloadListener {
 
 	// Skips all cookie sending/receiving
 	private static final int F_IGNORE_COOKIES = 128;
+
+	// Allows redirects.  You do not want this by default, as not following
+	// redirects has revealed issues in the past.
+	private static final int F_ALLOW_REDIRECT = 256;
 
 	private Context mContext;
 
@@ -1355,7 +1358,9 @@ public class ExpediaServices implements DownloadListener {
 		}
 
 		// 1902 - Allow redirecting from API calls
-		HttpClientParams.setRedirecting(httpParameters, true);
+		if ((flags & F_ALLOW_REDIRECT) != 0) {
+			HttpClientParams.setRedirecting(httpParameters, true);
+		}
 
 		// When not a release build, allow SSL from all connections
 		if ((flags & F_SECURE_REQUEST) != 0 && !AndroidUtils.isRelease(mContext)) {
@@ -1573,7 +1578,7 @@ public class ExpediaServices implements DownloadListener {
 		String serverUrl = getE3EndpointUrl(0) + config.getUrl();
 		Log.d(TAG_REQUEST, "Hitting scenario: " + serverUrl);
 		HttpGet get = new HttpGet(serverUrl);
-		return doRequest(get, new ScenarioSetResponseHandler(), 0);
+		return doRequest(get, new ScenarioSetResponseHandler(), F_ALLOW_REDIRECT);
 	}
 
 	// Automatically trusts all SSL certificates.  ONLY USE IN TESTING!
