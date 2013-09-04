@@ -33,17 +33,6 @@ public class TestDriver extends ScreenActions {
 
 	public TestDriver(Instrumentation instrumentation, Activity activity, Resources res) {
 		super(instrumentation, activity, res);
-		mSweepstakesScreen = null;
-		mLaunchScreen = null;
-		mTripsScreen = null;
-		mFindItinerary = null;
-		mLogInScreen = null;
-		mSettingsScreen = null;
-		mCommonCheckout = null;
-		mCommonPaymentMethod = null;
-		mBillingAddressScreen = null;
-		mCardInfoScreen = null;
-		mCVVEntryScreen = null;
 	}
 
 	public SweepstakesScreen sweepstakesScreen() {

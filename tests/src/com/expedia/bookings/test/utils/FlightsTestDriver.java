@@ -18,10 +18,6 @@ public class FlightsTestDriver extends TestDriver {
 
 	public FlightsTestDriver(Instrumentation instrumentation, Activity activity, Resources res) {
 		super(instrumentation, activity, res);
-		mFlightsSearchScreen = null;
-		mFlightsSearchLoading = null;
-		mFlightsSearchResultsScreen = null;
-		mFlightLegScreen = null;
 	}
 
 	public FlightsSearchScreen flightsSearchScreen() {
