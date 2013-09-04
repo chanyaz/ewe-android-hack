@@ -39,8 +39,10 @@ public class AirportDropDownAdapter extends CursorAdapter {
 	// Minimum time ago that we will use location stats
 	private static final long MINIMUM_TIME_AGO = DateUtils.HOUR_IN_MILLIS;
 
+	private static final int DEFAULT_MAX_NEARBY = 2;
+
 	// Maximum # of nearby airports to report
-	private static final int MAX_NEARBY = 2;
+	private int mMaxNearby = DEFAULT_MAX_NEARBY;
 
 	private Map<String, String> mCountryCodeMap;
 
@@ -71,6 +73,10 @@ public class AirportDropDownAdapter extends CursorAdapter {
 		mShowNearbyAirports = showNearbyAirports;
 	}
 
+	public void setMaxNearbyAirports(int num) {
+		mMaxNearby = num;
+	}
+
 	@Override
 	public Cursor runQueryOnBackgroundThread(CharSequence constraint) {
 		if (TextUtils.isEmpty(constraint)) {
@@ -82,7 +88,7 @@ public class AirportDropDownAdapter extends CursorAdapter {
 			android.location.Location loc = LocationServices.getLastBestLocation(mContext, minTime);
 			if (mShowNearbyAirports && loc != null) {
 				List<Airport> airports = FlightStatsDbUtils.getNearestAirports(loc.getLatitude(), loc.getLongitude(),
-						true, MAX_NEARBY);
+						true, mMaxNearby);
 
 				for (Airport airport : airports) {
 					Object[] row = new Object[AirportAutocompleteProvider.COLUMNS.length];
