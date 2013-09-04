@@ -46,6 +46,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 	private TextView mAirlineTextView;
 	private TextView mOperatingCarrierTextView;
 	private TextView mPriceTextView;
+	private TextView mFlightTimeTextView;
 	private TextView mDepartureTimeTextView;
 	private TextView mArrivalTimeTextView;
 	private TextView mMultiDayTextView;
@@ -64,6 +65,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 		mAirlineTextView = Ui.findView(this, R.id.airline_text_view);
 		mOperatingCarrierTextView = Ui.findView(this, R.id.operating_carrier_text_view);
 		mPriceTextView = Ui.findView(this, R.id.price_text_view);
+		mFlightTimeTextView = Ui.findView(this, R.id.flight_time_text_view);
 		mDepartureTimeTextView = Ui.findView(this, R.id.departure_time_text_view);
 		mArrivalTimeTextView = Ui.findView(this, R.id.arrival_time_text_view);
 		mMultiDayTextView = Ui.findView(this, R.id.multi_day_text_view);
@@ -105,6 +107,8 @@ public class FlightLegSummarySection extends RelativeLayout {
 			isIndividualFlight = false;
 		}
 
+		adjustLayout(leg, isIndividualFlight);
+
 		if (mAirlineTextView != null) {
 			if (isIndividualFlight) {
 				mAirlineTextView.setText(FormatUtils.formatFlightNumber(firstFlight, context));
@@ -123,6 +127,37 @@ public class FlightLegSummarySection extends RelativeLayout {
 				}
 			}
 		}
+
+		if (mFlightTimeTextView != null) {
+			String departure = formatTime(leg.getFirstWaypoint().getBestSearchDateTime());
+			String arrival = formatTime(leg.getLastWaypoint().getBestSearchDateTime());
+			String time = context.getResources().getString(R.string.date_range_TEMPLATE, departure, arrival);
+			mFlightTimeTextView.setText(time);
+		}
+
+		if (mDepartureTimeTextView != null) {
+			mDepartureTimeTextView.setText(formatTime(leg.getFirstWaypoint().getBestSearchDateTime()));
+		}
+
+		if (mArrivalTimeTextView != null) {
+			mArrivalTimeTextView.setText(formatTime(leg.getLastWaypoint().getBestSearchDateTime()));
+		}
+
+		if (mPriceTextView != null) {
+			if (trip != null && trip.hasPricing()) {
+				mPriceTextView.setText(trip.getTotalFareWithCardFee(billingInfo).getFormattedMoney(Money.F_NO_DECIMAL));
+			}
+			else {
+				mPriceTextView.setVisibility(View.GONE);
+			}
+		}
+
+		mFlightTripView.setUp(leg, minTime, maxTime);
+	}
+
+	void adjustLayout(final FlightLeg leg, boolean isIndividualFlight) {
+		Context context = getContext();
+		Flight firstFlight = leg.getSegment(0);
 
 		int belowTarget;
 		FlightCode opFlightCode = firstFlight.getOperatingFlightCode();
@@ -161,23 +196,6 @@ public class FlightLegSummarySection extends RelativeLayout {
 		params = (RelativeLayout.LayoutParams) mFlightTripView.getLayoutParams();
 		params.addRule(RelativeLayout.BELOW, belowTarget);
 
-		if (mDepartureTimeTextView != null) {
-			mDepartureTimeTextView.setText(formatTime(leg.getFirstWaypoint().getBestSearchDateTime()));
-		}
-
-		if (mArrivalTimeTextView != null) {
-			mArrivalTimeTextView.setText(formatTime(leg.getLastWaypoint().getBestSearchDateTime()));
-		}
-
-		if (mPriceTextView != null) {
-			if (trip != null && trip.hasPricing()) {
-				mPriceTextView.setText(trip.getTotalFareWithCardFee(billingInfo).getFormattedMoney(Money.F_NO_DECIMAL));
-			}
-			else {
-				mPriceTextView.setVisibility(View.GONE);
-			}
-		}
-
 		// 104 - modify card size depending on whether or not this is string is displayed to prevent overlap
 		RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mMultiDayTextView.getLayoutParams();
 		Resources res = getResources();
@@ -196,8 +214,6 @@ public class FlightLegSummarySection extends RelativeLayout {
 			mMultiDayTextView.setVisibility(View.INVISIBLE);
 		}
 		lp.setMargins(0, topMargin, rightMargin, 0);
-
-		mFlightTripView.setUp(leg, minTime, maxTime);
 	}
 
 	private String formatTime(Calendar cal) {
