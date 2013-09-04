@@ -1,18 +1,18 @@
 package com.expedia.bookings.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.Window;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.TabletSearchFragment;
 import com.expedia.bookings.fragment.TabletSearchFragment.SearchFragmentListener;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
 import com.expedia.bookings.fragment.base.MeasurableFragmentListener;
-import com.expedia.bookings.fragment.debug.ButtonFragment;
+import com.expedia.bookings.fragment.debug.ColorFragment;
 import com.expedia.bookings.utils.Ui;
 
 public class TabletLaunchActivity extends FragmentActivity implements MeasurableFragmentListener,
@@ -31,10 +31,12 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 		setContentView(R.layout.activity_tablet_launch);
 
+		getWindow().setBackgroundDrawable(null);
+
 		FragmentManager fm = getSupportFragmentManager();
 		if (savedInstanceState == null) {
-			mTopFragment = ButtonFragment.newInstance("Top Half", 0);
-			mBottomFragment = ButtonFragment.newInstance("Bottom Half", 0);
+			mTopFragment = ColorFragment.newInstance(Color.BLUE);
+			mBottomFragment = ColorFragment.newInstance(Color.GREEN);
 			mSearchFragment = new TabletSearchFragment();
 
 			FragmentTransaction ft = fm.beginTransaction();

@@ -200,6 +200,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		//
 		// We don't just set the containers to be HW layers because some parts
 		// move interdependently inside of them.
+		mExpandCollapseHwLayerViews.add(mSearchStatusTextView);
 		mExpandCollapseHwLayerViews.add(mHeaderBackground);
 		mExpandCollapseHwLayerViews.add(mCancelButton);
 		mExpandCollapseHwLayerViews.add(mDestinationEditText);
