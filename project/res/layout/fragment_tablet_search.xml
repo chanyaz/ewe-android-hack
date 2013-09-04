@@ -58,7 +58,7 @@
                 android:paddingRight="4dp" >
 
                 <EditText
-                    android:id="@+id/search_edit_text"
+                    android:id="@+id/destination_edit_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -97,12 +97,14 @@
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp" >
 
-                <TextView
-                    android:id="@+id/origin_text_view"
+                <EditText
+                    android:id="@+id/origin_edit_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="From San Francisco"
+                    android:hint="@string/origins_hint"
+                    android:inputType="textNoSuggestions"
+                    android:singleLine="true"
                     android:textColor="@android:color/white"
                     android:textSize="18dp" />
 

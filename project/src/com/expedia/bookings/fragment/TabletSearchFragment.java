@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -70,12 +71,12 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	private View mHeaderBackground;
 	private View mCancelButton;
 	private ViewGroup mHeaderTopContainer;
-	private EditText mSearchEditText;
+	private EditText mDestinationEditText;
 	private View mSearchDivider;
 	private TextView mSearchDatesTextView;
 	private View mSearchButton;
 	private ViewGroup mHeaderBottomContainer;
-	private TextView mOriginTextView;
+	private EditText mOriginEditText;
 	private View mGuestsTextView;
 
 	// Cached views (content)
@@ -146,12 +147,12 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		mHeaderBackground = Ui.findView(view, R.id.header_background);
 		mCancelButton = Ui.findView(view, R.id.cancel_button);
 		mHeaderTopContainer = Ui.findView(view, R.id.search_header_top_container);
-		mSearchEditText = Ui.findView(view, R.id.search_edit_text);
+		mDestinationEditText = Ui.findView(view, R.id.destination_edit_text);
 		mSearchDivider = Ui.findView(view, R.id.search_divider_view);
 		mSearchDatesTextView = Ui.findView(view, R.id.search_dates_text_view);
 		mSearchButton = Ui.findView(view, R.id.search_button);
 		mHeaderBottomContainer = Ui.findView(view, R.id.search_header_bottom_container);
-		mOriginTextView = Ui.findView(view, R.id.origin_text_view);
+		mOriginEditText = Ui.findView(view, R.id.origin_edit_text);
 		mGuestsTextView = Ui.findView(view, R.id.guests_text_view);
 		mContentContainer = Ui.findView(view, R.id.content_container);
 
@@ -163,11 +164,11 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 
 		// Setup on click listeners
 		mHeaderTopContainer.setOnClickListener(this);
-		mSearchEditText.setOnClickListener(this);
+		mDestinationEditText.setOnClickListener(this);
 		mSearchDivider.setOnClickListener(this);
 		mSearchDatesTextView.setOnClickListener(this);
 		mCancelButton.setOnClickListener(this);
-		mOriginTextView.setOnClickListener(this);
+		mOriginEditText.setOnClickListener(this);
 		mGuestsTextView.setOnClickListener(this);
 
 		// Configure hiding views (that change alpha during expand/collapse)
@@ -191,7 +192,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		else {
 			getActivity().getActionBar().hide();
 
-			mSearchEditText.setFocusableInTouchMode(true);
+			mDestinationEditText.setFocusableInTouchMode(true);
 		}
 
 		// Configure views which use HW layers on expand/collapse animation
@@ -200,7 +201,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		// move interdependently inside of them.
 		mExpandCollapseHwLayerViews.add(mHeaderBackground);
 		mExpandCollapseHwLayerViews.add(mCancelButton);
-		mExpandCollapseHwLayerViews.add(mSearchEditText);
+		mExpandCollapseHwLayerViews.add(mDestinationEditText);
 		mExpandCollapseHwLayerViews.add(mSearchDatesTextView);
 		mExpandCollapseHwLayerViews.add(mSearchButton);
 		mExpandCollapseHwLayerViews.add(mHeaderBottomContainer);
@@ -221,10 +222,10 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			public boolean onPreDraw() {
 				mHeaderTopContainer.getViewTreeObserver().removeOnPreDrawListener(this);
 
-				mEditTextTranslationX = (mHeaderTopContainer.getWidth() - mSearchEditText.getWidth()) / 2.0f;
+				mEditTextTranslationX = (mHeaderTopContainer.getWidth() - mDestinationEditText.getWidth()) / 2.0f;
 
 				if (!mStartExpanded) {
-					mSearchEditText.setTranslationX(mEditTextTranslationX);
+					mDestinationEditText.setTranslationX(mEditTextTranslationX);
 				}
 
 				return true;
@@ -239,7 +240,9 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		// Add a search edit text watcher.  We purposefully add it before
 		// we restore the edit text's state so that it will fire and update
 		// the UI properly to restore its state.
-		mSearchEditText.addTextChangedListener(new MyWatcher());
+		TextWatcher textWatcher = new MyWatcher();
+		mDestinationEditText.addTextChangedListener(textWatcher);
+		mOriginEditText.addTextChangedListener(textWatcher);
 
 		return view;
 	}
@@ -278,18 +281,18 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	//////////////////////////////////////////////////////////////////////////
 	// Edit Text
 
-	private void clearEditTextFocus() {
-		mSearchEditText.setFocusableInTouchMode(false);
-		mSearchEditText.clearFocus();
-		Ui.hideKeyboard(mSearchEditText, 0);
+	private void clearEditTextFocus(EditText editText) {
+		editText.setFocusableInTouchMode(false);
+		editText.clearFocus();
+		Ui.hideKeyboard(editText, 0);
 	}
 
-	private void requestEditTextFocus() {
-		mSearchEditText.setFocusableInTouchMode(true);
-		mSearchEditText.requestFocus();
+	private void requestEditTextFocus(EditText editText) {
+		editText.setFocusableInTouchMode(true);
+		editText.requestFocus();
 
 		if (AndroidUtils.isRelease(getActivity()) || DEBUG_SHOW_KEYBOARD_ON_EXPAND) {
-			Ui.showKeyboard(mSearchEditText, null);
+			Ui.showKeyboard(editText, null);
 		}
 	}
 
@@ -304,15 +307,17 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		String currentTag = getCurrentChildFragmentTag();
 
 		if (TAG_DESTINATIONS.equals(currentTag)) {
-			updateFilter(mDestinationsFragment, mSearchEditText.getText());
+			updateFilter(mDestinationsFragment, mDestinationEditText.getText());
 		}
 		else if (TAG_ORIGINS.equals(currentTag)) {
-			updateFilter(mOriginsFragment, mSearchEditText.getText());
+			updateFilter(mOriginsFragment, mDestinationEditText.getText());
 		}
 	}
 
 	private void updateFilter(SuggestionsFragment fragment, CharSequence text) {
-		fragment.filter(text);
+		if (fragment != null) {
+			fragment.filter(text);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -364,31 +369,23 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		}
 
 		// We want to make sure the origin/destination text is properly updated
-		if (tag.equals(TAG_DESTINATIONS)) {
-			if (isExpanded()) {
-				requestEditTextFocus();
-			}
-			mSearchEditText.setText(null);
-			updateFilter(mDestinationsFragment, null);
-			mSearchEditText.setHint(R.string.destinations_hint);
-			mOriginTextView.setText(getString(R.string.from_TEMPLATE, getLocationText(mSearchParams.getOrigin())));
-		}
-		else if (tag.equals(TAG_ORIGINS)) {
-			if (isExpanded()) {
-				requestEditTextFocus();
-			}
-			mSearchEditText.setText(null);
-			updateFilter(mOriginsFragment, null);
-			mSearchEditText.setHint(R.string.origins_hint);
-			mOriginTextView
-					.setText(getString(R.string.to_TEMPLATE, getLocationText(mSearchParams.getDestination())));
+		if (tag.equals(TAG_DESTINATIONS) && isExpanded()) {
+			requestEditTextFocus(mDestinationEditText);
+			mDestinationEditText.setText(null);
 		}
 		else {
-			clearEditTextFocus();
-			mSearchEditText
-					.setText(getString(R.string.to_TEMPLATE, getLocationText(mSearchParams.getDestination())));
-			mSearchEditText.setHint(R.string.destinations_hint);
-			mOriginTextView.setText(getString(R.string.from_TEMPLATE, getLocationText(mSearchParams.getOrigin())));
+			clearEditTextFocus(mDestinationEditText);
+			mDestinationEditText.setText(getString(R.string.to_TEMPLATE,
+					getLocationText(mSearchParams.getDestination())));
+		}
+
+		if (tag.equals(TAG_ORIGINS) && isExpanded()) {
+			requestEditTextFocus(mOriginEditText);
+			mOriginEditText.setText(null);
+		}
+		else {
+			clearEditTextFocus(mOriginEditText);
+			mOriginEditText.setText(getString(R.string.from_TEMPLATE, getLocationText(mSearchParams.getOrigin())));
 		}
 
 		getChildFragmentManager()
@@ -451,7 +448,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 				PropertyValuesHolder scaleYPvh = PropertyValuesHolder.ofFloat("scaleY", 1);
 
 				anims.add(ObjectAnimator.ofPropertyValuesHolder(mHeader, translateYPvh));
-				anims.add(ObjectAnimator.ofPropertyValuesHolder(mSearchEditText, translateXPvh));
+				anims.add(ObjectAnimator.ofPropertyValuesHolder(mDestinationEditText, translateXPvh));
 
 				for (View view : mHiddenWhenCollapsedViews) {
 					if (view == mContentContainer) {
@@ -504,7 +501,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 				PropertyValuesHolder scaleYPvh = PropertyValuesHolder.ofFloat("scaleY", HEADER_BG_SCALE_Y);
 
 				anims.add(ObjectAnimator.ofPropertyValuesHolder(mHeader, translateYPvh));
-				anims.add(ObjectAnimator.ofPropertyValuesHolder(mSearchEditText, translateXPvh));
+				anims.add(ObjectAnimator.ofPropertyValuesHolder(mDestinationEditText, translateXPvh));
 
 				for (View view : mHiddenWhenCollapsedViews) {
 					if (view == mContentContainer) {
@@ -567,7 +564,8 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			mBlockEventFrameLayout.setBlockNewEventsEnabled(true);
 
 			if (!mIsExpanding) {
-				clearEditTextFocus();
+				clearEditTextFocus(mDestinationEditText);
+				clearEditTextFocus(mOriginEditText);
 			}
 			else {
 				for (View view : mHiddenWhenCollapsedViews) {
@@ -585,7 +583,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			if (mIsExpanding) {
 				mListener.onFinishExpand();
 
-				requestEditTextFocus();
+				requestEditTextFocus(mDestinationEditText);
 			}
 			else {
 				// Once we're collapsed, replace the content container with destinations fragment (if it's
@@ -637,17 +635,17 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		if (v == mCancelButton) {
 			getActivity().onBackPressed();
 		}
-		else if (!isExpanded() && (v == mHeaderTopContainer || v == mSearchEditText || v == mSearchDivider
+		else if (!isExpanded() && (v == mHeaderTopContainer || v == mDestinationEditText || v == mSearchDivider
 				|| v == mSearchDatesTextView)) {
 			// Expand the UI if found 
 			expand();
 		}
 		else if (isExpanded()) {
 			// Switching between different child fragments
-			if (v == mSearchEditText) {
+			if (v == mDestinationEditText) {
 				switchToFragment(TAG_DESTINATIONS);
 			}
-			else if (v == mOriginTextView) {
+			else if (v == mOriginEditText) {
 				switchToFragment(TAG_ORIGINS);
 			}
 			else if (v == mSearchDatesTextView) {
