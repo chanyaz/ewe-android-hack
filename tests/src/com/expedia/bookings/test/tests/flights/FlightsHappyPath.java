@@ -1,6 +1,6 @@
 package com.expedia.bookings.test.tests.flights;
 
-import com.expedia.bookings.activity.SweepstakesActivity;
+import com.expedia.bookings.activity.LaunchActivity;
 import com.expedia.bookings.test.utils.FlightsTestDriver;
 import com.expedia.bookings.test.utils.HotelsUserData;
 
@@ -18,9 +18,12 @@ public class FlightsHappyPath {
 			// Sweepstakes Screen
 			driver.landscape();
 			driver.portrait();
-			if (driver.searchText(driver.sweepstakesScreen().sweepstakesTitleString(), true)) {
-				driver.screenshot("Sweepstakes");
+
+			try {
 				driver.sweepstakesScreen().clickNoThanksButton();
+			}
+			catch (Throwable e) {
+				driver.enterLog(TAG, "No sweepstakes activity to interact with!");
 			}
 
 			// Settings 
