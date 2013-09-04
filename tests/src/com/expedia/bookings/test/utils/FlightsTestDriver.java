@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.res.Resources;
 
-import com.expedia.bookings.test.tests.pageModels.FlightLegScreen;
-import com.expedia.bookings.test.tests.pageModels.FlightsSearchLoading;
-import com.expedia.bookings.test.tests.pageModels.FlightsSearchResultsScreen;
-import com.expedia.bookings.test.tests.pageModels.FlightsSearchScreen;
+import com.expedia.bookings.test.tests.pageModels.flights.FlightLegScreen;
+import com.expedia.bookings.test.tests.pageModels.flights.FlightsSearchLoading;
+import com.expedia.bookings.test.tests.pageModels.flights.FlightsSearchResultsScreen;
+import com.expedia.bookings.test.tests.pageModels.flights.FlightsSearchScreen;
 
 public class FlightsTestDriver extends TestDriver {
 

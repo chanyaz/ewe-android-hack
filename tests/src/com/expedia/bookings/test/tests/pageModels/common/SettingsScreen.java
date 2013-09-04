@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.tests.pageModels;
+package com.expedia.bookings.test.tests.pageModels.common;
 
 import java.util.ArrayList;
 

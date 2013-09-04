@@ -4,18 +4,18 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.res.Resources;
 
-import com.expedia.bookings.test.tests.pageModels.BillingAddressScreen;
-import com.expedia.bookings.test.tests.pageModels.CVVEntryScreen;
-import com.expedia.bookings.test.tests.pageModels.CardInfoScreen;
-import com.expedia.bookings.test.tests.pageModels.CommonCheckoutScreen;
-import com.expedia.bookings.test.tests.pageModels.CommonPaymentMethodScreen;
-import com.expedia.bookings.test.tests.pageModels.FindItineraryScreen;
-import com.expedia.bookings.test.tests.pageModels.LaunchScreen;
-import com.expedia.bookings.test.tests.pageModels.LogInScreen;
-import com.expedia.bookings.test.tests.pageModels.ScreenActions;
-import com.expedia.bookings.test.tests.pageModels.SettingsScreen;
-import com.expedia.bookings.test.tests.pageModels.SweepstakesScreen;
-import com.expedia.bookings.test.tests.pageModels.TripsScreen;
+import com.expedia.bookings.test.tests.pageModels.common.BillingAddressScreen;
+import com.expedia.bookings.test.tests.pageModels.common.CVVEntryScreen;
+import com.expedia.bookings.test.tests.pageModels.common.CardInfoScreen;
+import com.expedia.bookings.test.tests.pageModels.common.CommonCheckoutScreen;
+import com.expedia.bookings.test.tests.pageModels.common.CommonPaymentMethodScreen;
+import com.expedia.bookings.test.tests.pageModels.common.FindItineraryScreen;
+import com.expedia.bookings.test.tests.pageModels.common.LaunchScreen;
+import com.expedia.bookings.test.tests.pageModels.common.LogInScreen;
+import com.expedia.bookings.test.tests.pageModels.common.ScreenActions;
+import com.expedia.bookings.test.tests.pageModels.common.SettingsScreen;
+import com.expedia.bookings.test.tests.pageModels.common.SweepstakesScreen;
+import com.expedia.bookings.test.tests.pageModels.common.TripsScreen;
 
 public class TestDriver extends ScreenActions {
 

@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.tests.pageModels;
+package com.expedia.bookings.test.tests.pageModels.flights;
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.view.View;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.tests.pageModels.common.ScreenActions;
 
 public class FlightsSearchLoading extends ScreenActions {
 
