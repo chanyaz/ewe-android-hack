@@ -18,6 +18,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,6 +33,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
 import com.expedia.bookings.fragment.debug.ButtonFragment;
+import com.expedia.bookings.section.AfterChangeTextWatcher;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
@@ -78,7 +80,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	private ViewGroup mContentContainer;
 
 	// Child fragments, shown in the content container
-	private Fragment mDestinationsFragment;
+	private SuggestionsFragment mDestinationsFragment;
 	private Fragment mOriginsFragment;
 	private Fragment mDatesFragment;
 	private Fragment mGuestsFragment;
@@ -235,6 +237,11 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			}
 		});
 
+		// Add a search edit text watcher.  We purposefully add it before
+		// we restore the edit text's state so that it will fire and update
+		// the UI properly to restore its state.
+		mSearchEditText.addTextChangedListener(new MyWatcher());
+
 		return view;
 	}
 
@@ -270,11 +277,33 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Text watcher for edit text
+
+	private class MyWatcher extends AfterChangeTextWatcher {
+		@Override
+		public void afterTextChanged(Editable s) {
+			doAfterTextChanged();
+		}
+	};
+
+	void doAfterTextChanged() {
+		String currentTag = getChildFragmentManager().findFragmentById(R.id.content_container).getTag();
+
+		if (TAG_DESTINATIONS.equals(currentTag)) {
+			updateFilter(mDestinationsFragment, mSearchEditText.getText());
+		}
+	}
+
+	private void updateFilter(SuggestionsFragment fragment, CharSequence text) {
+		mDestinationsFragment.filter(text);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// Child fragments
 
 	public void constructDestinationsFragment() {
 		if (mDestinationsFragment == null) {
-			mDestinationsFragment = ButtonFragment.newInstance("Destinations", R.dimen.tablet_search_width);
+			mDestinationsFragment = new SuggestionsFragment();
 		}
 	}
 
@@ -547,6 +576,9 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 				constructDestinationsFragment();
 				fragmentToShow = mDestinationsFragment;
 				fragmentTag = TAG_DESTINATIONS;
+
+				// TODO: Get data from SearchParams
+				updateFilter(mDestinationsFragment, mSearchEditText.getText());
 			}
 			else if (v == mOriginTextView) {
 				constructOriginsFragment();
