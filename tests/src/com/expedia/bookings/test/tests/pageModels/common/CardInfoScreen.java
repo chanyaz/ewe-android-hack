@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.utils.TestPreferences;
 
 public class CardInfoScreen extends ScreenActions {
 
@@ -20,8 +21,9 @@ public class CardInfoScreen extends ScreenActions {
 	private static int sYearUpButtonID = R.id.year_up;
 	private static int sYearDownButtonID = R.id.year_down;
 
-	public CardInfoScreen(Instrumentation instrumentation, Activity activity, Resources res) {
-		super(instrumentation, activity, res);
+	public CardInfoScreen(Instrumentation instrumentation, Activity activity, Resources res,
+			TestPreferences preferences) {
+		super(instrumentation, activity, res, preferences);
 	}
 
 	// Object access
@@ -37,19 +39,19 @@ public class CardInfoScreen extends ScreenActions {
 	public EditText nameOnCardEditText() {
 		return (EditText) getView(sNameOnCardEditTextID);
 	}
-	
+
 	public View doneButton() {
 		return getView(sDoneButtonID);
 	}
-	
+
 	public String noThanksButtonString() {
 		return mRes.getString(R.string.no_thanks);
 	}
-	
+
 	public String saveButtonString() {
 		return mRes.getString(R.string.save);
 	}
-	
+
 	// Object access expiration date dialog
 	public View monthUpButton() {
 		return getView(sMonthUpButtonID);
@@ -74,7 +76,6 @@ public class CardInfoScreen extends ScreenActions {
 	public View cancelButton() {
 		return negativeButton();
 	}
-	
 
 	// Object interaction
 
@@ -89,16 +90,16 @@ public class CardInfoScreen extends ScreenActions {
 	public void typeTextNameOnCardEditText(String text) {
 		typeText(nameOnCardEditText(), text);
 	}
-	
+
 	public void clickOnDoneButton() {
 		clickOnView(doneButton());
 	}
-	
+
 	// Object interaction expiration date dialog
 	public void clickMonthUpButton() {
 		clickOnView(monthUpButton());
 	}
-	
+
 	public void clickMonthDownButton() {
 		clickOnView(monthDownButton());
 	}
@@ -106,23 +107,23 @@ public class CardInfoScreen extends ScreenActions {
 	public void clickYearUpButton() {
 		clickOnView(yearUpButton());
 	}
-	
+
 	public void clickYearDownButton() {
 		clickOnView(yearDownButton());
 	}
-	
+
 	public void clickSetButton() {
 		clickOnView(setButton());
 	}
-	
+
 	public void clickCancelButton() {
 		clickOnView(cancelButton());
 	}
-	
+
 	public void clickNoThanksButton() {
 		clickOnText(noThanksButtonString());
 	}
-	
+
 	public void clickSaveButton() {
 		clickOnText(saveButtonString());
 	}

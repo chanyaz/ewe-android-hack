@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.utils.TestPreferences;
 
 public class LogInScreen extends ScreenActions {
 
@@ -17,8 +18,9 @@ public class LogInScreen extends ScreenActions {
 	private static int sForgotPasswordLink = R.id.forgot_your_password_link;
 	private static int sLoggingInStringID = R.string.logging_in;
 
-	public LogInScreen(Instrumentation instrumentation, Activity activity, Resources res) {
-		super(instrumentation, activity, res);
+	public LogInScreen(Instrumentation instrumentation, Activity activity, Resources res,
+			TestPreferences preferences) {
+		super(instrumentation, activity, res, preferences);
 	}
 
 	// Object access

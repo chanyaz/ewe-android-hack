@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.view.View;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.utils.TestPreferences;
 import com.expedia.bookings.widget.TextView;
 
 public class SweepstakesScreen extends ScreenActions {
@@ -15,8 +16,9 @@ public class SweepstakesScreen extends ScreenActions {
 	private static int sSweepstakesTitleTextViewID = R.id.enter_title_text_view;
 	private static int sSweepstakesTitleStringID = R.string.sweepstakes_enter;
 
-	public SweepstakesScreen(Instrumentation instrumentation, Activity activity, Resources res) {
-		super(instrumentation, activity, res);
+	public SweepstakesScreen(Instrumentation instrumentation, Activity activity, Resources res,
+			TestPreferences preferences) {
+		super(instrumentation, activity, res, preferences);
 	}
 
 	// Object access

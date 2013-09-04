@@ -9,6 +9,7 @@ import android.content.res.Resources;
 import android.view.View;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.utils.TestPreferences;
 
 public class CVVEntryScreen extends ScreenActions {
 
@@ -39,8 +40,9 @@ public class CVVEntryScreen extends ScreenActions {
 		}
 	};
 
-	public CVVEntryScreen(Instrumentation instrumentation, Activity activity, Resources res) {
-		super(instrumentation, activity, res);
+	public CVVEntryScreen(Instrumentation instrumentation, Activity activity, Resources res,
+			TestPreferences preferences) {
+		super(instrumentation, activity, res, preferences);
 	}
 
 	//Object access
@@ -55,11 +57,11 @@ public class CVVEntryScreen extends ScreenActions {
 		int resourceID = INTEGER_TO_RESOURCE.get(number);
 		clickOnView(getView(resourceID));
 	}
-	
+
 	public void parseAndEnterCVV(String CVV) {
 		char c;
 		int n;
-		for(int i = 0; i < CVV.length(); i++) {
+		for (int i = 0; i < CVV.length(); i++) {
 			c = CVV.charAt(i);
 			n = Character.getNumericValue(c);
 			clickNumberButton(n);

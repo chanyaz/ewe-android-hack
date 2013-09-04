@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.utils.ScreenshotUtils;
+import com.expedia.bookings.test.utils.TestPreferences;
 import com.expedia.bookings.test.utils.UserLocaleUtils;
 import com.jayway.android.robotium.solo.Solo;
 
@@ -20,9 +21,8 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class ScreenActions extends Solo {
 	private static final String TAG = "com.expedia.bookings.test";
-	private boolean mAllowScreenshots;
-	private boolean mAllowOrientationChange;
-	private boolean mWriteEventsToFile;
+
+	protected TestPreferences mPreferences;
 	private int mScreenShotCount;
 	private ScreenshotUtils mScreen;
 	protected int mScreenWidth;
@@ -35,11 +35,9 @@ public class ScreenActions extends Solo {
 
 	private static final String mScreenshotDirectory = "Robotium-Screenshots";
 
-	public ScreenActions(Instrumentation instrumentation, Activity activity, Resources res) {
+	public ScreenActions(Instrumentation instrumentation, Activity activity, Resources res, TestPreferences preferences) {
 		super(instrumentation, activity);
-		mAllowScreenshots = false;
-		mAllowOrientationChange = false;
-		mWriteEventsToFile = false;
+		mPreferences = preferences;
 		mScreenShotCount = 1;
 		mLocaleUtils = new UserLocaleUtils(res);
 		mRes = res;
@@ -62,24 +60,12 @@ public class ScreenActions extends Solo {
 		delay(3);
 	}
 
-	public void setAllowScreenshots(Boolean allowed) {
-		mAllowScreenshots = allowed;
-	}
-
-	public void setAllowOrientationChange(Boolean allowed) {
-		mAllowOrientationChange = allowed;
-	}
-
-	public void setWriteEventsToFile(Boolean allowed) {
-		mWriteEventsToFile = allowed;
-	}
-
 	public void setScreenshotCount(int count) {
 		mScreenShotCount = count;
 	}
 
 	public void screenshot(String fileName) { //screenshot is saved to device SD card.
-		if (mAllowScreenshots) {
+		if (mPreferences.getScreenshotPermission()) {
 			String currentLocale = mRes.getConfiguration().locale.toString();
 			enterLog(TAG, "Taking screenshot: " + fileName);
 			mScreen.screenshot(currentLocale + " " + String.format("%02d", mScreenShotCount) + " " + fileName);
@@ -91,18 +77,18 @@ public class ScreenActions extends Solo {
 	// Maintain mAllowScreenshots state from before screenshot is taken
 	public void takeScreenshotUponFailure(Throwable e, String testName) {
 		Log.e(TAG, "Taking screenshot due to " + e.getClass().getName(), e);
-		final boolean currentSSPermission = mAllowScreenshots;
+		final boolean currentSSPermission = mPreferences.getScreenshotPermission();
 		if (!currentSSPermission) {
-			mAllowScreenshots = true;
+			mPreferences.setScreenshotPermission(true);
 		}
 		screenshot(testName + "-FAILURE");
 		if (!currentSSPermission) {
-			mAllowScreenshots = false;
+			mPreferences.setScreenshotPermission(false);
 		}
 	}
 
 	public void landscape() {
-		if (mAllowOrientationChange) {
+		if (mPreferences.getRotationPermission()) {
 			delay(2);
 			setActivityOrientation(Solo.LANDSCAPE);
 			delay(2);
@@ -110,7 +96,7 @@ public class ScreenActions extends Solo {
 	}
 
 	public void portrait() {
-		if (mAllowOrientationChange) {
+		if (mPreferences.getRotationPermission()) {
 			delay(2);
 			setActivityOrientation(Solo.PORTRAIT);
 			delay(2);

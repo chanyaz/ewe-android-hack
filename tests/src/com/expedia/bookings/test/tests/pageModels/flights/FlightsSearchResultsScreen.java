@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.tests.pageModels.common.ScreenActions;
+import com.expedia.bookings.test.utils.TestPreferences;
 
 public class FlightsSearchResultsScreen extends ScreenActions {
 
@@ -25,8 +26,9 @@ public class FlightsSearchResultsScreen extends ScreenActions {
 
 	private static int sSearchButtonID = R.id.menu_search;
 
-	public FlightsSearchResultsScreen(Instrumentation instrumentation, Activity activity, Resources res) {
-		super(instrumentation, activity, res);
+	public FlightsSearchResultsScreen(Instrumentation instrumentation, Activity activity, Resources res,
+			TestPreferences preferences) {
+		super(instrumentation, activity, res, preferences);
 	}
 
 	// Object access

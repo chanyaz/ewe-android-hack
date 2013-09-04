@@ -31,83 +31,84 @@ public class TestDriver extends ScreenActions {
 	private CardInfoScreen mCardInfoScreen;
 	private CVVEntryScreen mCVVEntryScreen;
 
-	public TestDriver(Instrumentation instrumentation, Activity activity, Resources res) {
-		super(instrumentation, activity, res);
+	public TestDriver(Instrumentation instrumentation, Activity activity, Resources res, TestPreferences preferences) {
+		super(instrumentation, activity, res, preferences);
 	}
 
 	public SweepstakesScreen sweepstakesScreen() {
 		if (mSweepstakesScreen == null) {
-			mSweepstakesScreen = new SweepstakesScreen(mInstrumentation, getCurrentActivity(), mRes);
+			mSweepstakesScreen = new SweepstakesScreen(mInstrumentation, getCurrentActivity(), mRes, mPreferences);
 		}
 		return mSweepstakesScreen;
 	}
 
 	public LaunchScreen launchScreen() {
 		if (mLaunchScreen == null) {
-			mLaunchScreen = new LaunchScreen(mInstrumentation, getCurrentActivity(), mRes);
+			mLaunchScreen = new LaunchScreen(mInstrumentation, getCurrentActivity(), mRes, mPreferences);
 		}
 		return mLaunchScreen;
 	}
 
 	public TripsScreen tripsScreen() {
 		if (mTripsScreen == null) {
-			mTripsScreen = new TripsScreen(mInstrumentation, getCurrentActivity(), mRes);
+			mTripsScreen = new TripsScreen(mInstrumentation, getCurrentActivity(), mRes, mPreferences);
 		}
 		return mTripsScreen;
 	}
 
 	public FindItineraryScreen findItinerary() {
 		if (mFindItinerary == null) {
-			mFindItinerary = new FindItineraryScreen(mInstrumentation, getCurrentActivity(), mRes);
+			mFindItinerary = new FindItineraryScreen(mInstrumentation, getCurrentActivity(), mRes, mPreferences);
 		}
 		return mFindItinerary;
 	}
 
 	public LogInScreen logInScreen() {
 		if (mLogInScreen == null) {
-			mLogInScreen = new LogInScreen(mInstrumentation, getCurrentActivity(), mRes);
+			mLogInScreen = new LogInScreen(mInstrumentation, getCurrentActivity(), mRes, mPreferences);
 		}
 		return mLogInScreen;
 	}
 
 	public SettingsScreen settingsScreen() {
 		if (mSettingsScreen == null) {
-			mSettingsScreen = new SettingsScreen(mInstrumentation, getCurrentActivity(), mRes);
+			mSettingsScreen = new SettingsScreen(mInstrumentation, getCurrentActivity(), mRes, mPreferences);
 		}
 		return mSettingsScreen;
 	}
 
 	public CommonCheckoutScreen commonCheckout() {
 		if (mCommonCheckout == null) {
-			mCommonCheckout = new CommonCheckoutScreen(mInstrumentation, getCurrentActivity(), mRes);
+			mCommonCheckout = new CommonCheckoutScreen(mInstrumentation, getCurrentActivity(), mRes, mPreferences);
 		}
 		return mCommonCheckout;
 	}
 
 	public CommonPaymentMethodScreen commonPaymentMethodScreen() {
 		if (mCommonPaymentMethod == null) {
-			mCommonPaymentMethod = new CommonPaymentMethodScreen(mInstrumentation, getCurrentActivity(), mRes);
+			mCommonPaymentMethod = new CommonPaymentMethodScreen(mInstrumentation, getCurrentActivity(), mRes,
+					mPreferences);
 		}
 		return mCommonPaymentMethod;
 	}
 
 	public BillingAddressScreen billingAddressScreen() {
 		if (mBillingAddressScreen == null) {
-			mBillingAddressScreen = new BillingAddressScreen(mInstrumentation, getCurrentActivity(), mRes);
+			mBillingAddressScreen = new BillingAddressScreen(mInstrumentation, getCurrentActivity(), mRes, mPreferences);
 		}
 		return mBillingAddressScreen;
 	}
 
 	public CardInfoScreen cardInfoScreen() {
 		if (mCardInfoScreen == null) {
-			mCardInfoScreen = new CardInfoScreen(mInstrumentation, getCurrentActivity(), mRes);
+			mCardInfoScreen = new CardInfoScreen(mInstrumentation, getCurrentActivity(), mRes, mPreferences);
 		}
 		return mCardInfoScreen;
 	}
 
 	public CVVEntryScreen cvvEntryScreen() {
 		if (mCVVEntryScreen == null) {
-			mCVVEntryScreen = new CVVEntryScreen(mInstrumentation, getCurrentActivity(), mRes);
+			mCVVEntryScreen = new CVVEntryScreen(mInstrumentation, getCurrentActivity(), mRes, mPreferences);
 		}
 		return mCVVEntryScreen;
 	}

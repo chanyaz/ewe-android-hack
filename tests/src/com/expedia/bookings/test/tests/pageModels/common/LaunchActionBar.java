@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.view.View;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.utils.TestPreferences;
 import com.jayway.android.robotium.solo.Solo;
 
 public class LaunchActionBar extends ScreenActions {
@@ -16,8 +17,9 @@ public class LaunchActionBar extends ScreenActions {
 	private static int sLogOutStringID = R.string.log_out;
 	private static int sAddItinButtonID = R.id.add_itinerary;
 
-	public LaunchActionBar(Instrumentation instrumentation, Activity activity, Resources res) {
-		super(instrumentation, activity, res);
+	public LaunchActionBar(Instrumentation instrumentation, Activity activity, Resources res,
+			TestPreferences preferences) {
+		super(instrumentation, activity, res, preferences);
 	}
 
 	public String settingsString() {
