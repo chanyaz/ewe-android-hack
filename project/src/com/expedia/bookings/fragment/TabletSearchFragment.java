@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -161,10 +162,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 
 		if (savedInstanceState == null) {
 			// Always start with the destinations fragment visible
-			constructDestinationsFragment();
-			FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-			ft.add(R.id.content_container, mDestinationsFragment, TAG_DESTINATIONS);
-			ft.commit();
+			switchToFragment(TAG_DESTINATIONS);
 		}
 
 		// Setup on click listeners
@@ -287,7 +285,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	};
 
 	void doAfterTextChanged() {
-		String currentTag = getChildFragmentManager().findFragmentById(R.id.content_container).getTag();
+		String currentTag = getCurrentChildFragmentTag();
 
 		if (TAG_DESTINATIONS.equals(currentTag)) {
 			updateFilter(mDestinationsFragment, mSearchEditText.getText());
@@ -301,29 +299,59 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	//////////////////////////////////////////////////////////////////////////
 	// Child fragments
 
-	public void constructDestinationsFragment() {
-		if (mDestinationsFragment == null) {
-			mDestinationsFragment = new SuggestionsFragment();
+	public String getCurrentChildFragmentTag() {
+		Fragment fragment = getChildFragmentManager().findFragmentById(R.id.content_container);
+		if (fragment == null) {
+			return null;
 		}
+		return fragment.getTag();
 	}
 
-	public void constructOriginsFragment() {
-		if (mOriginsFragment == null) {
-			mOriginsFragment = ButtonFragment.newInstance("Origins", R.dimen.tablet_search_width);
-		}
-	}
+	public void switchToFragment(String tag) {
+		String currentTag = getCurrentChildFragmentTag();
 
-	public void constructDatesFragment() {
-		if (mDatesFragment == null) {
-			mDatesFragment = ButtonFragment.newInstance("Dates", R.dimen.tablet_search_width);
+		if (tag.equals(currentTag)) {
+			return;
 		}
 
-	}
+		// Switching between different child fragments
+		Fragment fragmentToShow;
+		if (tag.equals(TAG_DESTINATIONS)) {
+			if (mDestinationsFragment == null) {
+				mDestinationsFragment = new SuggestionsFragment();
+			}
+			fragmentToShow = mDestinationsFragment;
 
-	public void constructGuestsFragment() {
-		if (mGuestsFragment == null) {
-			mGuestsFragment = ButtonFragment.newInstance("Guests", R.dimen.tablet_search_width);
+			// TODO: Get data from SearchParams
+			updateFilter(mDestinationsFragment, mSearchEditText.getText());
 		}
+		else if (tag.equals(TAG_ORIGINS)) {
+			if (mOriginsFragment == null) {
+				mOriginsFragment = ButtonFragment.newInstance("Origins", R.dimen.tablet_search_width);
+			}
+			fragmentToShow = mOriginsFragment;
+		}
+		else if (tag.equals(TAG_DATES)) {
+			if (mDatesFragment == null) {
+				mDatesFragment = ButtonFragment.newInstance("Dates", R.dimen.tablet_search_width);
+			}
+			fragmentToShow = mDatesFragment;
+		}
+		else if (tag.equals(TAG_GUESTS)) {
+			if (mGuestsFragment == null) {
+				mGuestsFragment = ButtonFragment.newInstance("Guests", R.dimen.tablet_search_width);
+			}
+			fragmentToShow = mGuestsFragment;
+		}
+		else {
+			throw new RuntimeException("I do not understand the tag \"" + tag + "\"");
+		}
+
+		getChildFragmentManager()
+				.beginTransaction()
+				.setCustomAnimations(R.anim.fragment_tablet_search_in, R.anim.fragment_tablet_search_out)
+				.replace(R.id.content_container, fragmentToShow, tag)
+				.commit();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -511,13 +539,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 				// Once we're collapsed, replace the content container with destinations fragment (if it's
 				// not already visible).  That way when this gets expanded, it's visible, since we always
 				// want to start with this fragment.
-				if (mDestinationsFragment == null || !mDestinationsFragment.isVisible()) {
-					constructDestinationsFragment();
-					getChildFragmentManager()
-							.beginTransaction()
-							.replace(R.id.content_container, mDestinationsFragment, TAG_DESTINATIONS)
-							.commit();
-				}
+				switchToFragment(TAG_DESTINATIONS);
 
 				for (View view : mHiddenWhenCollapsedViews) {
 					view.setVisibility(View.INVISIBLE);
@@ -570,42 +592,21 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		}
 		else if (isExpanded()) {
 			// Switching between different child fragments
-			Fragment fragmentToShow;
-			String fragmentTag;
 			if (v == mSearchEditText) {
-				constructDestinationsFragment();
-				fragmentToShow = mDestinationsFragment;
-				fragmentTag = TAG_DESTINATIONS;
-
-				// TODO: Get data from SearchParams
-				updateFilter(mDestinationsFragment, mSearchEditText.getText());
+				switchToFragment(TAG_DESTINATIONS);
 			}
 			else if (v == mOriginTextView) {
-				constructOriginsFragment();
-				fragmentToShow = mOriginsFragment;
-				fragmentTag = TAG_ORIGINS;
+				switchToFragment(TAG_ORIGINS);
 			}
 			else if (v == mSearchDatesTextView) {
-				constructDatesFragment();
-				fragmentToShow = mDatesFragment;
-				fragmentTag = TAG_DATES;
+				switchToFragment(TAG_DATES);
 			}
 			else if (v == mGuestsTextView) {
-				constructGuestsFragment();
-				fragmentToShow = mGuestsFragment;
-				fragmentTag = TAG_GUESTS;
+				switchToFragment(TAG_GUESTS);
 			}
 			else {
 				// What was clicked was not a fragment tag; don't react
 				return;
-			}
-
-			if (!fragmentToShow.isVisible()) {
-				getChildFragmentManager()
-						.beginTransaction()
-						.setCustomAnimations(R.anim.fragment_tablet_search_in, R.anim.fragment_tablet_search_out)
-						.replace(R.id.content_container, fragmentToShow, fragmentTag)
-						.commit();
 			}
 		}
 	}
