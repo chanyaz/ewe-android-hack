@@ -17,9 +17,7 @@ import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -82,7 +80,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 
 	// Child fragments, shown in the content container
 	private SuggestionsFragment mDestinationsFragment;
-	private Fragment mOriginsFragment;
+	private SuggestionsFragment mOriginsFragment;
 	private Fragment mDatesFragment;
 	private Fragment mGuestsFragment;
 
@@ -290,10 +288,13 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		if (TAG_DESTINATIONS.equals(currentTag)) {
 			updateFilter(mDestinationsFragment, mSearchEditText.getText());
 		}
+		else if (TAG_ORIGINS.equals(currentTag)) {
+			updateFilter(mOriginsFragment, mSearchEditText.getText());
+		}
 	}
 
 	private void updateFilter(SuggestionsFragment fragment, CharSequence text) {
-		mDestinationsFragment.filter(text);
+		fragment.filter(text);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -327,9 +328,12 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		}
 		else if (tag.equals(TAG_ORIGINS)) {
 			if (mOriginsFragment == null) {
-				mOriginsFragment = ButtonFragment.newInstance("Origins", R.dimen.tablet_search_width);
+				mOriginsFragment = new SuggestionsFragment();
 			}
 			fragmentToShow = mOriginsFragment;
+
+			// TODO: Get data from SearchParams
+			updateFilter(mOriginsFragment, mSearchEditText.getText());
 		}
 		else if (tag.equals(TAG_DATES)) {
 			if (mDatesFragment == null) {
