@@ -24,7 +24,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.EditText;
@@ -69,6 +68,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	// Cached views (header)
 	private ViewGroup mHeader;
 	private View mHeaderBackground;
+	private TextView mSearchStatusTextView;
 	private View mCancelButton;
 	private ViewGroup mHeaderTopContainer;
 	private EditText mDestinationEditText;
@@ -89,7 +89,6 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	private Fragment mGuestsFragment;
 
 	// Special positioning of Views
-	private float mEditTextTranslationX;
 	private float mInitialTranslationY;
 
 	// Init variables
@@ -145,6 +144,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		mBackground = Ui.findView(view, R.id.background);
 		mHeader = Ui.findView(view, R.id.search_header);
 		mHeaderBackground = Ui.findView(view, R.id.header_background);
+		mSearchStatusTextView = Ui.findView(view, R.id.search_status_text_view);
 		mCancelButton = Ui.findView(view, R.id.cancel_button);
 		mHeaderTopContainer = Ui.findView(view, R.id.search_header_top_container);
 		mDestinationEditText = Ui.findView(view, R.id.destination_edit_text);
@@ -175,6 +175,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		mHiddenWhenCollapsedViews.add(mBackground);
 		mHiddenWhenCollapsedViews.add(mHeaderBackground);
 		mHiddenWhenCollapsedViews.add(mCancelButton);
+		mHiddenWhenCollapsedViews.add(mDestinationEditText);
 		mHiddenWhenCollapsedViews.add(mSearchDivider);
 		mHiddenWhenCollapsedViews.add(mSearchDatesTextView);
 		mHiddenWhenCollapsedViews.add(mSearchButton);
@@ -215,22 +216,6 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			mExpandCollapseHwLayerViews.add(mBackground);
 			mExpandCollapseHwLayerViews.add(mSearchDivider);
 		}
-
-		// We need to measure where to place the header (horizontally)
-		mHeaderTopContainer.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
-			@Override
-			public boolean onPreDraw() {
-				mHeaderTopContainer.getViewTreeObserver().removeOnPreDrawListener(this);
-
-				mEditTextTranslationX = (mHeaderTopContainer.getWidth() - mDestinationEditText.getWidth()) / 2.0f;
-
-				if (!mStartExpanded) {
-					mDestinationEditText.setTranslationX(mEditTextTranslationX);
-				}
-
-				return true;
-			}
-		});
 
 		if (savedInstanceState == null) {
 			// Always start with the destinations fragment visible
@@ -443,12 +428,12 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 				Collection<Animator> anims = new ArrayList<Animator>();
 
 				PropertyValuesHolder fadeInPvh = PropertyValuesHolder.ofFloat("alpha", 1);
-				PropertyValuesHolder translateXPvh = PropertyValuesHolder.ofFloat("translationX", 0);
+				PropertyValuesHolder fadeOutPvh = PropertyValuesHolder.ofFloat("alpha", 0);
 				PropertyValuesHolder translateYPvh = PropertyValuesHolder.ofFloat("translationY", 0);
 				PropertyValuesHolder scaleYPvh = PropertyValuesHolder.ofFloat("scaleY", 1);
 
 				anims.add(ObjectAnimator.ofPropertyValuesHolder(mHeader, translateYPvh));
-				anims.add(ObjectAnimator.ofPropertyValuesHolder(mDestinationEditText, translateXPvh));
+				anims.add(ObjectAnimator.ofPropertyValuesHolder(mSearchStatusTextView, fadeOutPvh));
 
 				for (View view : mHiddenWhenCollapsedViews) {
 					if (view == mContentContainer) {
@@ -493,15 +478,14 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 				AnimatorSet set = new AnimatorSet();
 				Collection<Animator> anims = new ArrayList<Animator>();
 
+				PropertyValuesHolder fadeInPvh = PropertyValuesHolder.ofFloat("alpha", 1);
 				PropertyValuesHolder fadeOutPvh = PropertyValuesHolder.ofFloat("alpha", 0);
-				PropertyValuesHolder translateXPvh = PropertyValuesHolder
-						.ofFloat("translationX", mEditTextTranslationX);
 				PropertyValuesHolder translateYPvh = PropertyValuesHolder
 						.ofFloat("translationY", mInitialTranslationY);
 				PropertyValuesHolder scaleYPvh = PropertyValuesHolder.ofFloat("scaleY", HEADER_BG_SCALE_Y);
 
 				anims.add(ObjectAnimator.ofPropertyValuesHolder(mHeader, translateYPvh));
-				anims.add(ObjectAnimator.ofPropertyValuesHolder(mDestinationEditText, translateXPvh));
+				anims.add(ObjectAnimator.ofPropertyValuesHolder(mSearchStatusTextView, fadeInPvh));
 
 				for (View view : mHiddenWhenCollapsedViews) {
 					if (view == mContentContainer) {
@@ -571,6 +555,9 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 				for (View view : mHiddenWhenCollapsedViews) {
 					view.setVisibility(View.VISIBLE);
 				}
+
+				// When we start expanding, we always start in the destination fields
+				mDestinationEditText.setText(null);
 			}
 		}
 
@@ -668,13 +655,12 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	public void onSuggestionClicked(Fragment fragment, Location location) {
 		if (fragment.getTag().equals(TAG_DESTINATIONS)) {
 			mSearchParams.setDestination(location);
+			switchToFragment(TAG_ORIGINS);
 		}
 		else {
 			mSearchParams.setOrigin(location);
+			switchToFragment(TAG_DATES);
 		}
-
-		// TODO: Not sure the flow right now, but let's just go to dates afterwards
-		switchToFragment(TAG_DATES);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

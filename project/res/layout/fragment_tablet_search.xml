@@ -85,6 +85,20 @@
                     android:textSize="18dp" />
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/search_status_text_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_alignBottom="@+id/search_header_top_container"
+                android:layout_alignLeft="@+id/search_header_top_container"
+                android:layout_alignRight="@+id/search_header_top_container"
+                android:layout_alignTop="@+id/search_header_top_container"
+                android:gravity="left|center_vertical"
+                android:hint="@string/search_all_hint"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textSize="18dp" />
+
             <LinearLayout
                 android:id="@+id/search_header_bottom_container"
                 android:layout_width="wrap_content"
