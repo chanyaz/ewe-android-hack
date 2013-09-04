@@ -129,8 +129,8 @@ public class SearchParams implements Parcelable {
 	}
 
 	public void setDefaultLocations() {
-		mOrigin = null;
-		mDestination = null;
+		mOrigin = new Location();
+		mDestination = new Location();
 	}
 
 	public void setDefaultDuration() {

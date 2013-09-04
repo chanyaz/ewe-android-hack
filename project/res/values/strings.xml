@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Tablet search strings -->
+    <!-- Hint in edit text that the user should type in a destination (location) -->
+    <string name="destinations_hint">Search destinations&#8230;</string>
+    <!-- Hint in edit text that the user should type in an origin (location) -->
+    <string name="origins_hint">Search origins&#8230;</string>
+    <!-- To a destination.  %s is a destination name, e.g. "To San Francisco" -->
+    <string name="to_TEMPLATE">To %s</string>
+    <!-- From an origin.  %s is an origin name, e.g. "From San Francisco" -->
+    <string name="from_TEMPLATE">From %s</string>
+    <!-- String when we don't know where the user is coming from/going to -->
+    <string name="great_unknown">the Great Unknown</string>
+
     <!-- Tablet Results strings -->
     <string name="results">Results</string>
-    
-    
+
     <!-- Facebook -->
     <!-- Weve found your user account -->
     <string name="facebook_weve_found_your_account">Hey &lt;b&gt;%1$s&lt;/b&gt;, looks like we\'ve found your Expedia account! Please enter your expedia password below to link your facebook and expedia accounts.</string>
