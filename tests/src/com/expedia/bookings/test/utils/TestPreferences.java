@@ -5,17 +5,22 @@ public class TestPreferences {
 	private boolean mAllowScreenshots;
 	private boolean mAllowOrientationChange;
 
-	public TestPreferences(boolean takeScreenshots, boolean doRotations) {
-		mAllowScreenshots = takeScreenshots;
-		mAllowOrientationChange = doRotations;
+	public TestPreferences() {
+
 	}
 
-	public void setScreenshotPermission(boolean takeScreenshots) {
-		mAllowScreenshots = takeScreenshots;
+	public static TestPreferences generateTestPreferences() {
+		return new TestPreferences();
 	}
 
-	public void setRotationpermission(boolean doRotations) {
+	public TestPreferences setScreenshotPermission(boolean takeScreenshots) {
+		mAllowScreenshots = takeScreenshots;
+		return this;
+	}
+
+	public TestPreferences setRotationPermission(boolean doRotations) {
 		mAllowOrientationChange = doRotations;
+		return this;
 	}
 
 	public boolean getScreenshotPermission() {
