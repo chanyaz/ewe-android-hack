@@ -35,16 +35,20 @@ public class ScreenActions extends Solo {
 
 	public ScreenActions(Instrumentation instrumentation, Activity activity, Resources res, TestPreferences preferences) {
 		super(instrumentation, activity);
-		mPreferences = preferences;
-		mScreenShotCount = 1;
-		mLocaleUtils = new UserLocaleUtils(res);
 		mRes = res;
 		mInstrumentation = instrumentation;
+		mPreferences = preferences;
 		mScreen = new ScreenshotUtils(mScreenshotDirectory, this);
+		mScreenShotCount = 1;
+		mLocaleUtils = new UserLocaleUtils(res);
 	}
 
 	public void enterLog(String TAG, String logText) {
 		Log.v(TAG, logText);
+	}
+
+	public ScreenshotUtils getScreenShotUtility() {
+		return mScreen;
 	}
 
 	public void delay(int seconds) {
@@ -60,26 +64,12 @@ public class ScreenActions extends Solo {
 		mScreenShotCount = count;
 	}
 
-	public void screenshot(String fileName) { //screenshot is saved to device SD card.
+	public void screenshot(String fileName) {
 		if (mPreferences.getScreenshotPermission()) {
 			String currentLocale = mRes.getConfiguration().locale.toString();
 			enterLog(TAG, "Taking screenshot: " + fileName);
 			mScreen.screenshot(currentLocale + " " + String.format("%02d", mScreenShotCount) + " " + fileName);
 			mScreenShotCount++;
-		}
-	}
-
-	// Log failure upon catching Throwable, and create and store screenshot
-	// Maintain mAllowScreenshots state from before screenshot is taken
-	public void takeScreenshotUponFailure(Throwable e, String testName) {
-		Log.e(TAG, "Taking screenshot due to " + e.getClass().getName(), e);
-		final boolean currentSSPermission = mPreferences.getScreenshotPermission();
-		if (!currentSSPermission) {
-			mPreferences.setScreenshotPermission(true);
-		}
-		screenshot(testName + "-FAILURE");
-		if (!currentSSPermission) {
-			mPreferences.setScreenshotPermission(false);
 		}
 	}
 
@@ -102,7 +92,6 @@ public class ScreenActions extends Solo {
 	public void waitForStringToBeGone(String s, int timeoutMax) throws Exception {
 		int count_max = timeoutMax;
 		int count = 0;
-		;
 		while (searchText(s, 1, false, true) && count < count_max) {
 			delay(1);
 			count++;

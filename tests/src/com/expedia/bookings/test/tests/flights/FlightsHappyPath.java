@@ -140,11 +140,11 @@ public class FlightsHappyPath {
 			driver.delay();
 		}
 		catch (Error e) {
-			driver.takeScreenshotUponFailure(e, TAG);
+			driver.getScreenShotUtility().screenshot(TAG + "-FAILURE");
 			throw e;
 		}
 		catch (Exception e) {
-			driver.takeScreenshotUponFailure(e, TAG);
+			driver.getScreenShotUtility().screenshot(TAG + "-FAILURE");
 			throw e;
 		}
 	}
