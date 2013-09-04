@@ -88,7 +88,7 @@ public class CommonCheckoutScreen extends ScreenActions {
 		enterLog(TAG, "Booking: Slide Y from: " + startLocation[1] + " to " + endLocation[1] + ".");
 		delay();
 
-		drag(startLocation[0], mScreenWidth - 5, startLocation[1] + 50, endLocation[1] + 50, 10);
+		drag(startLocation[0], mRes.getDisplayMetrics().widthPixels - 5, startLocation[1] + 50, endLocation[1] + 50, 10);
 	}
 
 }

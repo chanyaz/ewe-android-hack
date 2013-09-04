@@ -25,8 +25,6 @@ public class ScreenActions extends Solo {
 	protected TestPreferences mPreferences;
 	private int mScreenShotCount;
 	private ScreenshotUtils mScreen;
-	protected int mScreenWidth;
-	protected int mScreenHeight;
 	public UserLocaleUtils mLocaleUtils;
 
 	protected Instrumentation mInstrumentation;
@@ -43,8 +41,6 @@ public class ScreenActions extends Solo {
 		mRes = res;
 		mInstrumentation = instrumentation;
 		mScreen = new ScreenshotUtils(mScreenshotDirectory, this);
-		mScreenWidth = mRes.getDisplayMetrics().widthPixels;
-		mScreenHeight = mRes.getDisplayMetrics().heightPixels;
 	}
 
 	public void enterLog(String TAG, String logText) {
