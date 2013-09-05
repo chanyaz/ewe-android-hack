@@ -22,7 +22,9 @@ public class SuggestionsFragment extends ListFragment {
 
 	// Sometimes we want to prep text to filter before start; by default
 	// we start with a blank query (to kick off the defaults)
-	private CharSequence mTextToFilterOnCreate = "";
+	private CharSequence mTextToFilter = "";
+
+	private android.location.Location mCurrentLocation;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -47,7 +49,7 @@ public class SuggestionsFragment extends ListFragment {
 
 		setListAdapter(mAirportAdapter);
 
-		filter(mTextToFilterOnCreate);
+		filter(mTextToFilter);
 	}
 
 	@Override
@@ -64,12 +66,19 @@ public class SuggestionsFragment extends ListFragment {
 			text = "";
 		}
 
+		mTextToFilter = text;
+
 		if (getView() != null) {
+			mAirportAdapter.setCurrentLocation(mCurrentLocation);
 			mAirportAdapter.getFilter().filter(text);
 		}
-		else {
-			mTextToFilterOnCreate = text;
-		}
+	}
+
+	public void setCurrentLocation(android.location.Location currentLocation) {
+		mCurrentLocation = currentLocation;
+
+		// Update filter, just in case
+		filter(mTextToFilter);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

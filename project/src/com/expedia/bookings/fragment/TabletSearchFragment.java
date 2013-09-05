@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Hours;
+
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorListenerAdapter;
@@ -31,19 +35,25 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.Suggestion;
+import com.expedia.bookings.fragment.FusedLocationProviderFragment.FusedLocationProviderListener;
 import com.expedia.bookings.fragment.SuggestionsFragment.SuggestionsFragmentListener;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
 import com.expedia.bookings.fragment.debug.ButtonFragment;
 import com.expedia.bookings.section.AfterChangeTextWatcher;
 import com.expedia.bookings.utils.AnimUtils;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.flightlib.data.Airport;
+import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 /**
  * A large search fragment only suitable for tablet sizes.
  */
-public class TabletSearchFragment extends MeasurableFragment implements OnClickListener, SuggestionsFragmentListener {
+public class TabletSearchFragment extends MeasurableFragment implements OnClickListener, SuggestionsFragmentListener,
+		FusedLocationProviderListener {
 
 	// This is a debug option - disable if you want to avoid the keyboard IME on expand, thus
 	// helping for testing other performance issues.
@@ -87,6 +97,9 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	private Fragment mDatesFragment;
 	private Fragment mGuestsFragment;
 
+	// Utility fragments
+	private FusedLocationProviderFragment mLocationFragment;
+
 	// Special positioning of Views
 	private float mInitialTranslationY;
 
@@ -107,6 +120,11 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 
 	// Cached data that shouldn't change
 	private int mActionBarHeight;
+
+	// We hold onto the "current location" which we pass along to child fragments; this
+	// is to avoid duplicate work and so that they're all in sync with each other
+	private android.location.Location mCurrentLocation;
+	private static final int CURRENT_LOCATION_CUTOFF = Hours.ONE.toPeriod().getMillis();
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -160,6 +178,8 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		mOriginsFragment = Ui.findChildSupportFragment(this, TAG_ORIGINS);
 		mDatesFragment = Ui.findChildSupportFragment(this, TAG_DATES);
 		mGuestsFragment = Ui.findChildSupportFragment(this, TAG_GUESTS);
+
+		mLocationFragment = FusedLocationProviderFragment.getInstance(this);
 
 		// Setup on click listeners
 		mHeaderTopContainer.setOnClickListener(this);
@@ -227,8 +247,9 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			switchToFragment(TAG_DESTINATIONS);
 		}
 
-		// Always make sure that we at least have the origins fragment so we can start filtering
+		// Always make sure that we at least have the destinations/origins fragments so we can start filtering
 		// before it's shown; otherwise it may not cross-fade in a pretty manner the first time.
+		createDestinationsFragment();
 		createOriginsFragment();
 
 		// Add a search edit text watcher.  We purposefully add it before
@@ -238,6 +259,17 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		mOriginEditText.addTextChangedListener(new MyWatcher(mOriginEditText));
 
 		return view;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		// Try to keep current location up-to-date
+		if (mCurrentLocation == null
+				|| JodaUtils.isExpired(new DateTime(mCurrentLocation, DateTimeZone.UTC), CURRENT_LOCATION_CUTOFF)) {
+			mLocationFragment.find(this);
+		}
 	}
 
 	@Override
@@ -342,9 +374,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		// Switching between different child fragments
 		Fragment fragmentToShow;
 		if (tag.equals(TAG_DESTINATIONS)) {
-			if (mDestinationsFragment == null) {
-				mDestinationsFragment = new SuggestionsFragment();
-			}
+			createDestinationsFragment();
 			fragmentToShow = mDestinationsFragment;
 		}
 		else if (tag.equals(TAG_ORIGINS)) {
@@ -386,14 +416,19 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		}
 		mDestinationEditText.setText(displayDest ? getString(R.string.to_TEMPLATE,
 				getLocationText(mSearchParams.getDestination())) : null);
-		mOriginEditText.setText(displayOrigin ? getString(R.string.from_TEMPLATE,
-				getLocationText(mSearchParams.getOrigin())) : null);
+		mOriginEditText.setText(displayOrigin ? getOriginText() : null);
 
 		getChildFragmentManager()
 				.beginTransaction()
 				.setCustomAnimations(R.anim.fragment_tablet_search_in, R.anim.fragment_tablet_search_out)
 				.replace(R.id.content_container, fragmentToShow, tag)
 				.commit();
+	}
+
+	private void createDestinationsFragment() {
+		if (mDestinationsFragment == null) {
+			mDestinationsFragment = new SuggestionsFragment();
+		}
 	}
 
 	private void createOriginsFragment() {
@@ -415,6 +450,10 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		}
 
 		return text;
+	}
+
+	private String getOriginText() {
+		return getString(R.string.from_TEMPLATE, getLocationText(mSearchParams.getOrigin()));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -690,6 +729,45 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			mSearchParams.setOrigin(location);
 			switchToFragment(TAG_DATES);
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// FusedLocationProviderListener
+
+	@Override
+	public void onFound(final android.location.Location currentLocation) {
+		mCurrentLocation = currentLocation;
+
+		// If the current origin is blank, get a suggestion for the nearest location
+		if (currentLocation != null && mSearchParams.getOrigin().equals(new Location())) {
+			// Do this in another thread because of DB access; don't worry if this gets thrown away (short process)
+			(new Thread(new Runnable() {
+				@Override
+				public void run() {
+					List<Airport> nearestAirports = FlightStatsDbUtils.getNearestAirports(
+							currentLocation.getLatitude(), currentLocation.getLongitude(), true, 1);
+
+					if (nearestAirports.size() > 0) {
+						Airport airport = nearestAirports.get(0);
+						Location location = Suggestion.fromAirport(airport).toLocation();
+						mSearchParams.setOrigin(location);
+
+						// Update the UI
+						if (!mOriginEditText.isFocusableInTouchMode()) {
+							mOriginEditText.setText(getOriginText());
+						}
+					}
+				}
+			})).start();
+		}
+
+		mDestinationsFragment.setCurrentLocation(currentLocation);
+		mOriginsFragment.setCurrentLocation(currentLocation);
+	}
+
+	@Override
+	public void onError() {
+		onFound(null);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
