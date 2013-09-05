@@ -38,7 +38,7 @@ public class ItinCardFragment extends Fragment {
 		mItinDetailsContainer = Ui.findView(view, R.id.itin_details_container);
 		mActionButtons = Ui.findView(view, R.id.action_button_layout);
 
-		Ui.setOnClickListener(view, R.id.share_image_button, new OnClickListener() {
+		Ui.setOnClickListener(view, R.id.itin_overflow_image_button, new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				ItinContentGenerator<?> generator = ItinContentGenerator.createGenerator(getActivity(), mCurrentData);

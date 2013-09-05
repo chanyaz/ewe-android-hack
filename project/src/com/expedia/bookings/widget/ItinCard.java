@@ -168,7 +168,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 		mSummarySectionLayout.setOnClickListener(mOnClickListener);
 		Ui.findView(this, R.id.close_image_button).setOnClickListener(mOnClickListener);
-		Ui.findView(this, R.id.share_image_button).setOnClickListener(mOnClickListener);
+		Ui.findView(this, R.id.itin_overflow_image_button).setOnClickListener(mOnClickListener);
 
 		updateHeaderImageHeight();
 		updateClickable();
@@ -894,7 +894,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 				}
 				break;
 			}
-			case R.id.share_image_button: {
+			case R.id.itin_overflow_image_button: {
 				FragmentActivity activity = (FragmentActivity) getContext();
 				FragmentManager fragmentManager = activity.getSupportFragmentManager();
 				SocialMessageChooserDialogFragment.newInstance(mItinContentGenerator).show(fragmentManager, "shareDialog");
