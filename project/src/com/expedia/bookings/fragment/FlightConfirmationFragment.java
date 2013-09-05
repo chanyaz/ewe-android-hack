@@ -8,8 +8,6 @@ import android.app.ActionBar.LayoutParams;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.provider.CalendarContract;
-import android.provider.CalendarContract.Events;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +31,7 @@ import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.ShareUtils;
@@ -41,9 +40,7 @@ import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.CalendarAPIUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.util.ViewUtils;
-import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Flight;
-import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.utils.AddFlightsIntentUtils;
 
 // We can assume that if this fragment loaded we successfully booked, so most
@@ -277,33 +274,9 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 
 	@SuppressLint("NewApi")
 	private Intent generateCalendarInsertIntent(FlightLeg leg) {
-		Waypoint origin = leg.getFirstWaypoint();
-		Airport originAirport = origin.getAirport();
-		Waypoint destination = leg.getLastWaypoint();
+		PointOfSale pointOfSale = PointOfSale.getPointOfSale();
 		String itineraryNumber = Db.getFlightSearch().getSelectedFlightTrip().getItineraryNumber();
-
-		Intent intent = new Intent(Intent.ACTION_INSERT);
-		intent.setData(Events.CONTENT_URI);
-		intent.putExtra(Events.TITLE,
-				getString(R.string.calendar_flight_title_TEMPLATE, origin.mAirportCode, destination.mAirportCode));
-		intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, origin.getMostRelevantDateTime().getTimeInMillis());
-		intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, destination.getMostRelevantDateTime().getTimeInMillis());
-		intent.putExtra(
-				Events.EVENT_LOCATION,
-				getString(R.string.calendar_flight_location_TEMPLATE, originAirport.mName,
-						StrUtils.getWaypointCityOrCode(origin)));
-
-		StringBuilder sb = new StringBuilder();
-		sb.append(getString(R.string.calendar_flight_desc_itinerary_TEMPLATE, itineraryNumber));
-		sb.append("\n\n");
-		sb.append(getString(R.string.calendar_flight_desc_directions_TEMPLATE, "https://maps.google.com/maps?q="
-				+ origin.mAirportCode));
-		sb.append("\n\n");
-		sb.append(getString(R.string.calendar_flight_desc_support_TEMPLATE, PointOfSale.getPointOfSale()
-				.getSupportPhoneNumber()));
-		sb.append("\n\n");
-		intent.putExtra(Events.DESCRIPTION, sb.toString());
-		return intent;
+		return AddToCalendarUtils.generateFlightAddToCalendarIntent(getActivity(), pointOfSale, itineraryNumber, leg);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
