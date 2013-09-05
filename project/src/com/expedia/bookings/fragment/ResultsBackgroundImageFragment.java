@@ -2,7 +2,6 @@ package com.expedia.bookings.fragment;
 
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
-import com.mobiata.android.Log;
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.os.Build;

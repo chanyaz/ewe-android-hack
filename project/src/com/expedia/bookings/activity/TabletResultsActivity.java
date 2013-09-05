@@ -37,6 +37,7 @@ import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -104,6 +105,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements S
 	private ArrayList<ArrayList<ViewGroup>> mColumnViews = new ArrayList<ArrayList<ViewGroup>>();
 	private ColumnManager mColumnManager = new ColumnManager(3);
 	private State mState = State.DEFAULT;
+	private String mDestinationCode = "SFO";//The destination code to use for background images...
 
 	private enum State {
 		DEFAULT,
@@ -790,9 +792,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements S
 		public ExpediaImage doDownload() {
 			ExpediaServices services = new ExpediaServices(TabletResultsActivity.this);
 			BackgroundDownloader.getInstance().addDownloadListener(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY, services);
-			String code = "SFO";
 			Point size = AndroidUtils.getScreenSize(TabletResultsActivity.this);
-			return ExpediaImageManager.getInstance().getDestinationImage(code, size.x, size.y, true);
+			return ExpediaImageManager.getInstance().getDestinationImage(mDestinationCode, size.x, size.y, true);
 		}
 	};
 
@@ -820,6 +821,9 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements S
 						bd.cancelDownload(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY);
 						bd.startDownload(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY, mBackgroundImageFileDownload,
 								mBackgroundImageFileDownloadCallback);
+					}
+					else {
+						updateBackgroundImages();
 					}
 				}
 			}
@@ -854,17 +858,37 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements S
 			if (response != null) {
 				BackgroundImageCache cache = Db.getBackgroundImageCache(TabletResultsActivity.this);
 				cache.putBitmap(Db.getBackgroundImageKey(), response, true, TabletResultsActivity.this);
-				if (mBlurredBackgroundFrag != null) {
-					mBlurredBackgroundFrag.loadBitmapFromDb(mColumnManager.getColWidth(2), mRootC.getHeight(),
-							mColumnManager.getTotalWidth(), mRootC.getHeight());
-				}
-				if (mBackgroundImageFrag != null) {
-					mBackgroundImageFrag.loadBitmapFromDb();
-				}
+				new BackgroundImageUpdateTask().execute(cache);
 			}
 			else {
 				Log.e("Image download returned null.");
 			}
 		}
 	};
+
+	private void updateBackgroundImages() {
+		if (mBlurredBackgroundFrag != null) {
+			mBlurredBackgroundFrag.loadBitmapFromDb(mColumnManager.getColWidth(2), mRootC.getHeight(),
+					mColumnManager.getTotalWidth(), mRootC.getHeight());
+		}
+		if (mBackgroundImageFrag != null) {
+			mBackgroundImageFrag.loadBitmapFromDb();
+		}
+	}
+
+	private class BackgroundImageUpdateTask extends AsyncTask<BackgroundImageCache, Object, Object> {
+
+		@Override
+		protected Object doInBackground(BackgroundImageCache... params) {
+			if (params[0].isAddingBitmap()) {
+				//If we got nothing after 10 seconds, then lets not even bother
+				params[0].waitForAddingBitmap(10000);
+			}
+			return null;
+		}
+
+		protected void onPostExecute(Object result) {
+			updateBackgroundImages();
+		}
+	}
 }
