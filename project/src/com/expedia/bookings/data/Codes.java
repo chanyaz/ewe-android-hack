@@ -27,7 +27,7 @@ public class Codes {
 	public static final String TAG_EXTERNAL_SEARCH_PARAMS = "TAG_EXTERNAL_SEARCH_PARAMS";
 
 	// HockeyApp app id, used for communicating with servers to fetch new versions, send crash reports
-	public static final String HOCKEY_APP_ID = "4d9aae3faac40c74443772c8bebd5aaf";
+	public static final String HOCKEY_APP_ID = "dfd124d23663e4513d4fe5745fb1edf8";
 
 	// For EF
 	public final static String TRAVELER_INDEX = "TRAVELER_INDEX";
