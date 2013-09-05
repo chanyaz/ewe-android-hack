@@ -6,6 +6,7 @@ import java.util.Locale;
 import org.joda.time.DateTime;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.text.Html;
 import android.text.TextUtils;
@@ -153,6 +154,10 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	public abstract SummaryButton getSummaryLeftButton();
 
 	public abstract SummaryButton getSummaryRightButton();
+
+	// Add to calendar
+
+	public abstract List<Intent> getAddToCalendarIntents();
 
 	//////////////////////////////////////////////////////////////////////////
 	// Override-able methods with default implementations

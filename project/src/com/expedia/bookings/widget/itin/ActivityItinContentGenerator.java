@@ -250,6 +250,11 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 		return drawable;
 	}
 
+	@Override
+	public List<Intent> getAddToCalendarIntents() {
+		return new ArrayList<Intent>();
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Notifications
 	//////////////////////////////////////////////////////////////////////////

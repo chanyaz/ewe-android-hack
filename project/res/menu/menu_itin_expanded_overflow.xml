@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/itin_card_share"
+        android:title="@string/itin_action_share"/>
+
+    <item
+        android:id="@+id/itin_card_add_to_calendar"
+        android:title="@string/add_to_calendar"/>
+
+</menu>

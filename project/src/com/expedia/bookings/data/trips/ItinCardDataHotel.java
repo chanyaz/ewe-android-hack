@@ -66,6 +66,10 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 		return null;
 	}
 
+	public Property getProperty() {
+		return mProperty;
+	}
+
 	public String getPropertyName() {
 		if (hasProperty()) {
 			return mProperty.getName();

@@ -292,6 +292,11 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		}
 	}
 
+	@Override
+	public List<Intent> getAddToCalendarIntents() {
+		return new ArrayList<Intent>();
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Notifications
 	//////////////////////////////////////////////////////////////////////////
