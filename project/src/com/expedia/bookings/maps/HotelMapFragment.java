@@ -314,14 +314,14 @@ public class HotelMapFragment extends SupportMapFragment {
 			snippet = getString(R.string.map_snippet_template, snippet,
 					distanceFromuser.formatDistance(getActivity(), DistanceUnit.getDefaultDistanceUnit()));
 		}
-		else if (lowestRate.isOnSale()) {
+		else if (lowestRate.isSaleTenPercentOrBetter()) {
 			snippet = getString(R.string.map_snippet_template, snippet,
 					getString(R.string.widget_savings_template, lowestRate.getDiscountPercent()));
 		}
 
 		marker.snippet(snippet);
 
-		marker.icon((lowestRate.isOnSale()) ? mPinSale : mPin);
+		marker.icon((lowestRate.isSaleTenPercentOrBetter()) ? mPinSale : mPin);
 
 		Marker actualMarker = mMap.addMarker(marker);
 
