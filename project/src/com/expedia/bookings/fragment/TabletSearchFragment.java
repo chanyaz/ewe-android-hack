@@ -204,18 +204,20 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		mExpandCollapseHwLayerViews.add(mHeaderBackground);
 		mExpandCollapseHwLayerViews.add(mCancelButton);
 		mExpandCollapseHwLayerViews.add(mDestinationEditText);
+		mExpandCollapseHwLayerViews.add(mSearchDivider);
 		mExpandCollapseHwLayerViews.add(mSearchDatesTextView);
 		mExpandCollapseHwLayerViews.add(mSearchButton);
 		mExpandCollapseHwLayerViews.add(mHeaderBottomContainer);
 		mExpandCollapseHwLayerViews.add(mContentContainer);
 
 		if (Build.VERSION.SDK_INT < 16) {
+			// On large screens, the extra memory taken up by HW layers
+			// can slow down the execution.  The background is a huge layer,
+			// so if we can avoid keeping it in a HW layer, the better.
+			//
 			// On 16+, we use hasOverlappingRendering() == false to draw
-			// super quick.  In that case, HW layers just get in the way
-			// (apparently).  But on <16, hasOverlappingRendering() does
-			// not exist, so HW layers are better than nothing.
+			// super quick without needing a HW layer.
 			mExpandCollapseHwLayerViews.add(mBackground);
-			mExpandCollapseHwLayerViews.add(mSearchDivider);
 		}
 
 		if (savedInstanceState == null) {
