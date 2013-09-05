@@ -19,7 +19,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -225,12 +224,15 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			switchToFragment(TAG_DESTINATIONS);
 		}
 
+		// Always make sure that we at least have the origins fragment so we can start filtering
+		// before it's shown; otherwise it may not cross-fade in a pretty manner the first time.
+		createOriginsFragment();
+
 		// Add a search edit text watcher.  We purposefully add it before
 		// we restore the edit text's state so that it will fire and update
 		// the UI properly to restore its state.
-		TextWatcher textWatcher = new MyWatcher();
-		mDestinationEditText.addTextChangedListener(textWatcher);
-		mOriginEditText.addTextChangedListener(textWatcher);
+		mDestinationEditText.addTextChangedListener(new MyWatcher(mDestinationEditText));
+		mOriginEditText.addTextChangedListener(new MyWatcher(mOriginEditText));
 
 		return view;
 	}
@@ -285,20 +287,28 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	}
 
 	private class MyWatcher extends AfterChangeTextWatcher {
+
+		private EditText mEditText;
+
+		public MyWatcher(EditText editText) {
+			mEditText = editText;
+		}
+
 		@Override
 		public void afterTextChanged(Editable s) {
-			doAfterTextChanged();
+			doAfterTextChanged(mEditText);
 		}
 	};
 
-	void doAfterTextChanged() {
-		String currentTag = getCurrentChildFragmentTag();
-
-		if (TAG_DESTINATIONS.equals(currentTag)) {
-			updateFilter(mDestinationsFragment, mDestinationEditText.getText());
+	// We check if the edit text is focusable; if it's not, we want it to be the default when the fragment
+	// would be re-visible (aka, empty).  That way we don't have to wait for autocomplete results to load.
+	void doAfterTextChanged(EditText editText) {
+		if (editText == mDestinationEditText) {
+			updateFilter(mDestinationsFragment, editText.isFocusableInTouchMode() ? mDestinationEditText.getText()
+					: null);
 		}
-		else if (TAG_ORIGINS.equals(currentTag)) {
-			updateFilter(mOriginsFragment, mDestinationEditText.getText());
+		else if (editText == mOriginEditText) {
+			updateFilter(mOriginsFragment, editText.isFocusableInTouchMode() ? mOriginEditText.getText() : null);
 		}
 	}
 
@@ -335,9 +345,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			fragmentToShow = mDestinationsFragment;
 		}
 		else if (tag.equals(TAG_ORIGINS)) {
-			if (mOriginsFragment == null) {
-				mOriginsFragment = new SuggestionsFragment();
-			}
+			createOriginsFragment();
 			fragmentToShow = mOriginsFragment;
 		}
 		else if (tag.equals(TAG_DATES)) {
@@ -357,30 +365,38 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		}
 
 		// We want to make sure the origin/destination text is properly updated
+		boolean displayDest = true;
+		boolean displayOrigin = true;
 		if (tag.equals(TAG_DESTINATIONS) && isExpanded()) {
+			clearEditTextFocus(mOriginEditText);
 			requestEditTextFocus(mDestinationEditText);
-			mDestinationEditText.setText(null);
+			displayDest = false;
+		}
+		else if (tag.equals(TAG_ORIGINS) && isExpanded()) {
+			clearEditTextFocus(mDestinationEditText);
+			requestEditTextFocus(mOriginEditText);
+			displayOrigin = false;
 		}
 		else {
 			clearEditTextFocus(mDestinationEditText);
-			mDestinationEditText.setText(getString(R.string.to_TEMPLATE,
-					getLocationText(mSearchParams.getDestination())));
-		}
-
-		if (tag.equals(TAG_ORIGINS) && isExpanded()) {
-			requestEditTextFocus(mOriginEditText);
-			mOriginEditText.setText(null);
-		}
-		else {
 			clearEditTextFocus(mOriginEditText);
-			mOriginEditText.setText(getString(R.string.from_TEMPLATE, getLocationText(mSearchParams.getOrigin())));
 		}
+		mDestinationEditText.setText(displayDest ? getString(R.string.to_TEMPLATE,
+				getLocationText(mSearchParams.getDestination())) : null);
+		mOriginEditText.setText(displayOrigin ? getString(R.string.from_TEMPLATE,
+				getLocationText(mSearchParams.getOrigin())) : null);
 
 		getChildFragmentManager()
 				.beginTransaction()
 				.setCustomAnimations(R.anim.fragment_tablet_search_in, R.anim.fragment_tablet_search_out)
 				.replace(R.id.content_container, fragmentToShow, tag)
 				.commit();
+	}
+
+	private void createOriginsFragment() {
+		if (mOriginsFragment == null) {
+			mOriginsFragment = new SuggestionsFragment();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
