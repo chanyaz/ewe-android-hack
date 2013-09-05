@@ -1,25 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.section.HotelSummarySection xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mobiata="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/bg_row" >
-
-    <com.expedia.bookings.widget.OptimizedImageView
-        android:id="@+id/thumbnail_image_view"
-        android:layout_width="@dimen/hotel_row_thumbnail_width"
-        android:layout_height="@dimen/hotel_row_thumbnail_height"
-        android:layout_alignParentLeft="true"
-        android:scaleType="centerCrop" />
-
-    <ImageView
-        android:id="@+id/vip_image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/thumbnail_image_view"
-        android:layout_alignRight="@+id/thumbnail_image_view"
-        android:src="@drawable/ic_vip_search"
-        android:visibility="gone" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -88,7 +72,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:includeFontPadding="false"
-            android:textColor="?attr/hotelPriceStandardColor"
+            android:textColor="@color/hotel_price_text_color"
             android:textSize="@dimen/hotel_row_price_text_size"
             android:textStyle="bold" />
 
@@ -124,7 +108,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:src="?attr/hotelListingSaleDrawable" />
+        android:src="@drawable/sale_corner_right" />
 
     <com.mobiata.android.widget.TiltedTextView
         android:id="@+id/sale_text_view"
@@ -141,4 +125,4 @@
         android:textStyle="bold"
         mobiata:rotation="45" />
 
-</RelativeLayout>
+</com.expedia.bookings.section.HotelSummarySection>
