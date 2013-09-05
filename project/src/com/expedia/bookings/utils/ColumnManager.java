@@ -17,6 +17,14 @@ public class ColumnManager {
 		mTotalWidth = totalWidth;
 		calculate();
 	}
+	
+	public int getTotalWidth(){
+		return mTotalWidth;
+	}
+	
+	public int getColumnCount(){
+		return mNumColumns;
+	}
 
 	public int getColWidth(int colIndex) {
 		return mColumnWidths[colIndex];

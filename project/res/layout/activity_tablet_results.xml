@@ -44,6 +44,11 @@
         android:id="@+id/column_three_flight_map"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+    
+    <com.expedia.bookings.widget.FixedTranslationFrameLayout
+        android:id="@+id/column_three_blurred_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <com.expedia.bookings.widget.BlockEventFrameLayout
         android:id="@+id/column_three_trip_pane"

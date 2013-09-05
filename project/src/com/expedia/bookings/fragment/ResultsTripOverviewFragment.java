@@ -26,7 +26,6 @@ public class ResultsTripOverviewFragment extends Fragment {
 		TextView view = new TextView(getActivity());
 		view.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 		view.setGravity(Gravity.CENTER);
-		view.setBackgroundColor(Color.argb(240, 80, 10, 80));
 		view.setText("Trip Overview");
 
 		return view;

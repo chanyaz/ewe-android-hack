@@ -1,10 +1,18 @@
 package com.expedia.bookings.activity;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.BackgroundImageCache;
+import com.expedia.bookings.data.BackgroundImageResponse;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.ExpediaImage;
+import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.fragment.ResultsBackgroundImageFragment;
+import com.expedia.bookings.fragment.ResultsBlurBackgroundImageFragment;
 import com.expedia.bookings.fragment.ResultsFlightFiltersFragment;
 import com.expedia.bookings.fragment.ResultsFlightListFragment;
 import com.expedia.bookings.fragment.ResultsFlightMapFragment;
@@ -12,16 +20,27 @@ import com.expedia.bookings.fragment.ResultsHotelListFragment;
 import com.expedia.bookings.fragment.ResultsTripOverviewFragment;
 import com.expedia.bookings.maps.SupportMapFragment;
 import com.expedia.bookings.maps.SupportMapFragment.SupportMapFragmentListener;
+import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.ColumnManager;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
+import com.expedia.bookings.widget.FixedTranslationFrameLayout;
 import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewChangeListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.Log;
+import com.mobiata.android.BackgroundDownloader.Download;
+import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 
 import android.annotation.TargetApi;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.view.ViewGroup;
@@ -49,6 +68,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements S
 	private static final String FRAG_TAG_HOTEL_LIST = "FRAG_TAG_HOTEL_LIST";
 	private static final String FRAG_TAG_FLIGHT_LIST = "FRAG_TAG_FLIGHT_LIST";
 	private static final String FRAG_TAG_TRIP_OVERVIEW = "FRAG_TAG_TRIP_OVERVIEW";
+	private static final String FRAG_BLURRED_BG = "FRAG_BLURRED_BG";
 	private static final String FRAG_TAG_FLIGHT_MAP = "FRAG_TAG_FLIGHT_MAP";
 	private static final String FRAG_TAG_FLIGHT_FILTERS = "FRAG_TAG_FLIGHT_FILTERS";
 	private static final String FRAG_TAG_BG_ONE = "FRAG_TAG_BG_ONE";
@@ -63,6 +83,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements S
 	private BlockEventFrameLayout mFlightFiltersC;
 	private BlockEventFrameLayout mHotelListC;
 	private BlockEventFrameLayout mFlightListC;
+	private FixedTranslationFrameLayout mBlurredBackgroundC;
 
 	//Fragments
 	private SupportMapFragment mMapFragment;
@@ -72,6 +93,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements S
 	private ResultsFlightMapFragment mFlightMapFrag;
 	private ResultsTripOverviewFragment mTripOverviewFrag;
 	private ResultsFlightFiltersFragment mFlightFilterFrag;
+	private ResultsBlurBackgroundImageFragment mBlurredBackgroundFrag;
 
 	//Anim Helper vars
 	private float mPrevHotelsPercentage = 1f;
@@ -107,6 +129,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements S
 		mFlightFiltersC = Ui.findView(this, R.id.column_one_flight_filters);
 		mHotelListC = Ui.findView(this, R.id.column_one_hotel_list);
 		mFlightListC = Ui.findView(this, R.id.column_two_flight_list);
+		mBlurredBackgroundC = Ui.findView(this, R.id.column_three_blurred_bg);
 
 		mContainers.add(mBgHotelMapC);
 		mContainers.add(mBgDestImageC);
@@ -115,6 +138,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements S
 		mContainers.add(mFlightFiltersC);
 		mContainers.add(mHotelListC);
 		mContainers.add(mFlightListC);
+		mContainers.add(mBlurredBackgroundC);
 
 		ArrayList<ViewGroup> columnOne = new ArrayList<ViewGroup>();
 		ArrayList<ViewGroup> columnTwo = new ArrayList<ViewGroup>();
@@ -124,6 +148,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements S
 		columnTwo.add(mFlightListC);
 		columnThree.add(mFlightMapC);
 		columnThree.add(mTripOverviewC);
+		columnThree.add(mBlurredBackgroundC);
 		mColumnViews.add(columnOne);
 		mColumnViews.add(columnTwo);
 		mColumnViews.add(columnThree);
@@ -133,12 +158,19 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements S
 			mState = State.valueOf(stateName);
 		}
 
+		//We load up the default backgrounds so they are ready to go later if/when we need them
+		//this is important, as we need to load images before our memory load gets too heavy
+		if (savedInstanceState == null || !Db.getBackgroundImageCache(this).isDefaultInCache()) {
+			Db.getBackgroundImageCache(this).loadDefaultsInThread(this);
+		}
+
 		mRootC.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 			@Override
 			public boolean onPreDraw() {
 				mRootC.getViewTreeObserver().removeOnPreDrawListener(this);
 				mColumnManager.setTotalWidth(mRootC.getWidth());
 				updateColumnWidths();
+
 				startupSetState(mState);
 				return true;
 			}
@@ -149,6 +181,39 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements S
 	public void onSaveInstanceState(Bundle outState) {
 		outState.putString(STATE_CURRENT_STATE, mState.name());
 		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (bd.isDownloading(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY)) {
+			BackgroundDownloader.getInstance().registerDownloadCallback(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY,
+					mBackgroundImageInfoDownloadCallback);
+		}
+		else if (bd.isDownloading(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY)) {
+			BackgroundDownloader.getInstance().registerDownloadCallback(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY,
+					mBackgroundImageFileDownloadCallback);
+		}
+		else if (Db.getBackgroundImageInfo() == null) {
+			bd.startDownload(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY, mBackgroundImageInfoDownload,
+					mBackgroundImageInfoDownloadCallback);
+		}
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+
+		if (!isFinishing()) {
+			BackgroundDownloader.getInstance().unregisterDownloadCallback(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY);
+			BackgroundDownloader.getInstance().unregisterDownloadCallback(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY);
+		}
+		else {
+			BackgroundDownloader.getInstance().cancelDownload(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY);
+			BackgroundDownloader.getInstance().cancelDownload(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY);
+		}
 	}
 
 	private void updateColumnWidths() {
@@ -198,6 +263,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements S
 		boolean flightFiltersAvailable = true;
 		boolean hotelMapAvailable = true;
 		boolean tripOverviewAvailable = true;
+		boolean blurredBackgroundAvailable = true;
 
 		if (state == State.FLIGHTS) {
 			hotelMapAvailable = false;
@@ -228,6 +294,9 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements S
 		//Trip Overview
 		setTripOverviewFragmentAvailability(tripOverviewAvailable, transaction);
 
+		//Blurrred Background (for behind trip overview)
+		setBlurredBackgroundFragmentAvailability(blurredBackgroundAvailable, transaction);
+
 		transaction.commit();
 
 	}
@@ -241,6 +310,9 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements S
 	}
 
 	private void setTouchState(State state) {
+		//We never interact with this container
+		mBlurredBackgroundC.setBlockNewEventsEnabled(true);
+
 		switch (state) {
 		case DEFAULT: {
 			mBgHotelMapC.setBlockNewEventsEnabled(true);
@@ -280,6 +352,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements S
 		case DEFAULT: {
 			mBgDestImageC.setVisibility(View.VISIBLE);
 			mTripOverviewC.setVisibility(View.VISIBLE);
+			mBlurredBackgroundC.setVisibility(View.VISIBLE);
 			mHotelListC.setVisibility(View.VISIBLE);
 			mFlightListC.setVisibility(View.VISIBLE);
 			break;
@@ -305,6 +378,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements S
 			mBgDestImageC.setVisibility(View.VISIBLE);
 			mFlightMapC.setVisibility(View.GONE);
 			mTripOverviewC.setVisibility(View.VISIBLE);
+			mBlurredBackgroundC.setVisibility(View.VISIBLE);
 			mFlightFiltersC.setVisibility(View.GONE);
 			mHotelListC.setVisibility(View.VISIBLE);
 			mFlightListC.setVisibility(View.VISIBLE);
@@ -315,6 +389,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements S
 			mBgDestImageC.setVisibility(View.GONE);
 			mFlightMapC.setVisibility(View.VISIBLE);
 			mTripOverviewC.setVisibility(View.GONE);
+			mBlurredBackgroundC.setVisibility(View.GONE);
 			mFlightFiltersC.setVisibility(View.VISIBLE);
 			mHotelListC.setVisibility(View.GONE);
 			mFlightListC.setVisibility(View.VISIBLE);
@@ -325,6 +400,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements S
 			mBgDestImageC.setVisibility(View.GONE);
 			mFlightMapC.setVisibility(View.GONE);
 			mTripOverviewC.setVisibility(View.GONE);
+			mBlurredBackgroundC.setVisibility(View.GONE);
 			mFlightFiltersC.setVisibility(View.GONE);
 			mHotelListC.setVisibility(View.VISIBLE);
 			mFlightListC.setVisibility(View.GONE);
@@ -365,6 +441,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements S
 		mFlightMapC.setAlpha(1f - percentage);
 		float tripPaneTranslation = (1f - percentage) * mTripOverviewC.getWidth();
 		mTripOverviewC.setTranslationX(tripPaneTranslation);
+		mBlurredBackgroundC.setTranslationX(tripPaneTranslation);
 		float filterPaneTopTranslation = percentage * mFlightListFrag.getTopSpaceListView().getHeaderSpacerHeight();
 		mFlightFiltersC.setTranslationY(filterPaneTopTranslation);
 
@@ -375,6 +452,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements S
 		int layerValue = useHardware ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
 		mFlightMapC.setLayerType(layerValue, null);
 		mTripOverviewC.setLayerType(layerValue, null);
+		mBlurredBackgroundC.setLayerType(layerValue, null);
 		mFlightFiltersC.setLayerType(layerValue, null);
 		mHotelListC.setLayerType(layerValue, null);
 	}
@@ -540,6 +618,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements S
 				if (!mBackgroundImageFrag.isAdded()) {
 					transaction.add(R.id.bg_dest_image_overlay, mBackgroundImageFrag, FRAG_TAG_BG_TWO);
 				}
+				mBackgroundImageFrag.loadBitmapFromDb();
 			}
 		}
 		else {
@@ -601,6 +680,34 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements S
 			}
 			if (mTripOverviewFrag != null) {
 				transaction.remove(mTripOverviewFrag);
+			}
+		}
+		return transaction;
+	}
+
+	private FragmentTransaction setBlurredBackgroundFragmentAvailability(boolean available,
+			FragmentTransaction transaction) {
+		if (available) {
+			if (mBlurredBackgroundFrag == null || !mBlurredBackgroundFrag.isAdded()) {
+				if (mBlurredBackgroundFrag == null) {
+					mBlurredBackgroundFrag = Ui.findSupportFragment(this, FRAG_BLURRED_BG);
+				}
+				if (mBlurredBackgroundFrag == null) {
+					mBlurredBackgroundFrag = ResultsBlurBackgroundImageFragment.newInstance();
+				}
+				if (!mBlurredBackgroundFrag.isAdded()) {
+					transaction.add(R.id.column_three_blurred_bg, mBlurredBackgroundFrag, FRAG_BLURRED_BG);
+				}
+				mBlurredBackgroundFrag.loadBitmapFromDb(mColumnManager.getColWidth(2), mRootC.getHeight(),
+						mColumnManager.getTotalWidth(), mRootC.getHeight());
+			}
+		}
+		else {
+			if (mBlurredBackgroundFrag == null) {
+				mBlurredBackgroundFrag = Ui.findSupportFragment(this, FRAG_BLURRED_BG);
+			}
+			if (mBlurredBackgroundFrag != null) {
+				transaction.remove(mBlurredBackgroundFrag);
 			}
 		}
 		return transaction;
@@ -670,4 +777,94 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements S
 					0));
 		}
 	}
+
+	/**
+	 * BACKGROUND IMAGE DOWNLOAD STUFF (If at all possible we want this to be moved to an earlier point in the app, so the images are ready when we get here)
+	 */
+
+	private static final String BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY = "BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY";
+	private static final String BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY = "BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY";
+
+	private Download<ExpediaImage> mBackgroundImageInfoDownload = new Download<ExpediaImage>() {
+		@Override
+		public ExpediaImage doDownload() {
+			ExpediaServices services = new ExpediaServices(TabletResultsActivity.this);
+			BackgroundDownloader.getInstance().addDownloadListener(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY, services);
+			String code = "SFO";
+			Point size = AndroidUtils.getScreenSize(TabletResultsActivity.this);
+			return ExpediaImageManager.getInstance().getDestinationImage(code, size.x, size.y, true);
+		}
+	};
+
+	private OnDownloadComplete<ExpediaImage> mBackgroundImageInfoDownloadCallback = new OnDownloadComplete<ExpediaImage>() {
+		@Override
+		public void onDownload(ExpediaImage image) {
+			Log.i("Finished background image info download!");
+
+			if (image == null) {
+				Log.e("Errors downloading background image info");
+			}
+			else {
+				// We convert this back to a BackgroundImageResponse for the sake of compatibility,
+				// but at some point in the future we should really fix this up.
+				BackgroundImageResponse response = new BackgroundImageResponse();
+				response.setImageUrl(image.getUrl());
+				response.setCacheKey(image.getCacheKey());
+
+				Db.setBackgroundImageInfo(response);
+
+				if (!TextUtils.isEmpty(image.getCacheKey())) {
+					BackgroundImageCache cache = Db.getBackgroundImageCache(TabletResultsActivity.this);
+					if (!cache.hasKeyAndBlurredKey(image.getCacheKey())) {
+						BackgroundDownloader bd = BackgroundDownloader.getInstance();
+						bd.cancelDownload(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY);
+						bd.startDownload(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY, mBackgroundImageFileDownload,
+								mBackgroundImageFileDownloadCallback);
+					}
+				}
+			}
+		}
+	};
+
+	private Download<Bitmap> mBackgroundImageFileDownload = new Download<Bitmap>() {
+		@Override
+		public Bitmap doDownload() {
+			ExpediaServices services = new ExpediaServices(TabletResultsActivity.this);
+			BackgroundDownloader.getInstance().addDownloadListener(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY, services);
+
+			try {
+				URL dlUrl = new URL(Db.getBackgroundImageInfo().getImageUrl());
+				Bitmap dledBmap = BitmapFactory.decodeStream((InputStream) dlUrl.getContent());
+				return dledBmap;
+			}
+			catch (Exception ex) {
+				Log.e("Exception downloading Bitmap", ex);
+			}
+
+			return null;
+		}
+	};
+
+	private OnDownloadComplete<Bitmap> mBackgroundImageFileDownloadCallback = new OnDownloadComplete<Bitmap>() {
+		@Override
+		public void onDownload(Bitmap response) {
+			Log.i("Finished background image file download!");
+
+			// If the response is null, fake an error response (for the sake of cleaner code)
+			if (response != null) {
+				BackgroundImageCache cache = Db.getBackgroundImageCache(TabletResultsActivity.this);
+				cache.putBitmap(Db.getBackgroundImageKey(), response, true, TabletResultsActivity.this);
+				if (mBlurredBackgroundFrag != null) {
+					mBlurredBackgroundFrag.loadBitmapFromDb(mColumnManager.getColWidth(2), mRootC.getHeight(),
+							mColumnManager.getTotalWidth(), mRootC.getHeight());
+				}
+				if (mBackgroundImageFrag != null) {
+					mBackgroundImageFrag.loadBitmapFromDb();
+				}
+			}
+			else {
+				Log.e("Image download returned null.");
+			}
+		}
+	};
 }
