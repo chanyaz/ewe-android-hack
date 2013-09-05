@@ -6,6 +6,7 @@ import android.content.res.Resources;
 
 import com.expedia.bookings.test.tests.pageModels.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.tests.pageModels.hotels.HotelsReviewsScreen;
+import com.expedia.bookings.test.tests.pageModels.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.tests.pageModels.hotels.HotelsSearchScreen;
 
 public class HotelsTestDriver extends TestDriver {
@@ -13,6 +14,7 @@ public class HotelsTestDriver extends TestDriver {
 	private HotelsSearchScreen mHotelsSearchScreen;
 	private HotelsDetailsScreen mHotelsDetailsScreen;
 	private HotelsReviewsScreen mHotelsReviewsScreen;
+	private HotelsRoomsRatesScreen mHotelsRoomsRatesScreen;
 
 	public HotelsTestDriver(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {
@@ -38,6 +40,14 @@ public class HotelsTestDriver extends TestDriver {
 			mHotelsReviewsScreen = new HotelsReviewsScreen(mInstrumentation, getCurrentActivity(), mRes, mPreferences);
 		}
 		return mHotelsReviewsScreen;
+	}
+
+	public HotelsRoomsRatesScreen hotelsRoomsRatesScreen() {
+		if (mHotelsRoomsRatesScreen == null) {
+			mHotelsRoomsRatesScreen = new HotelsRoomsRatesScreen(mInstrumentation, getCurrentActivity(), mRes,
+					mPreferences);
+		}
+		return mHotelsRoomsRatesScreen;
 	}
 
 }
