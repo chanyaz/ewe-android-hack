@@ -78,6 +78,7 @@ public class NavUtils {
 
 	public static void goToLaunchScreen(Context context, boolean forceShowWaterfall) {
 		Intent intent = new Intent(context, LaunchActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 		if (forceShowWaterfall) {
 			intent.putExtra(LaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
