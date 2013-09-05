@@ -130,7 +130,8 @@
 
         <activity
             android:name="com.expedia.bookings.activity.TabletLaunchActivity"
-            android:theme="@style/V2.Theme.Activity.TabletLaunch" />
+            android:theme="@style/V2.Theme.Activity.TabletLaunch"
+            android:windowSoftInputMode="adjustPan" />
 
         <!-- Itineraries -->
 
@@ -306,6 +307,7 @@
             android:windowSoftInputMode="adjustPan" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
