@@ -57,7 +57,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.data.Suggestion;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.fragment.FusedLocationProviderFragment.Listener;
+import com.expedia.bookings.fragment.FusedLocationProviderFragment.FusedLocationProviderListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
@@ -339,7 +339,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			return;
 		}
 
-		mLocationFragment.find(new Listener() {
+		mLocationFragment.find(new FusedLocationProviderListener() {
 
 			@Override
 			public void onFound(Location currentLocation) {

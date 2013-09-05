@@ -64,7 +64,7 @@ import com.expedia.bookings.fragment.CalendarDialogFragment;
 import com.expedia.bookings.fragment.CalendarDialogFragment.CalendarDialogFragmentListener;
 import com.expedia.bookings.fragment.FilterDialogFragment;
 import com.expedia.bookings.fragment.FusedLocationProviderFragment;
-import com.expedia.bookings.fragment.FusedLocationProviderFragment.Listener;
+import com.expedia.bookings.fragment.FusedLocationProviderFragment.FusedLocationProviderListener;
 import com.expedia.bookings.fragment.GeocodeDisambiguationDialogFragment;
 import com.expedia.bookings.fragment.GeocodeDisambiguationDialogFragment.GeocodeDisambiguationDialogFragmentListener;
 import com.expedia.bookings.fragment.GuestsDialogFragment;
@@ -1121,7 +1121,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	private void findLocation() {
 		mHotelListFragment.updateStatus(getString(R.string.progress_finding_location), true);
 
-		mLocationFragment.find(new Listener() {
+		mLocationFragment.find(new FusedLocationProviderListener() {
 			@Override
 			public void onFound(Location currentLocation) {
 				onMyLocationFound(currentLocation);
