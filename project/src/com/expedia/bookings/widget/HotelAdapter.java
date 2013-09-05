@@ -95,11 +95,27 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		mSelectedPosition = selectedPosition;
 	}
 
+	public void setSelectedProperty(Property property) {
+		setSelectedPosition(getPositionOfProperty(property));
+	}
+
 	public int getSelectedPosition() {
 		return mSelectedPosition;
 	}
 
-	public void rebuildCache() {
+	public int getPositionOfProperty(Property property) {
+		if (property != null) {
+			int count = getCount();
+			for (int position = 0; position < count; position++) {
+				if (getItem(position) == property) {
+					return position;
+				}
+			}
+		}
+		return -1;
+	}
+
+	private void rebuildCache() {
 		Log.d("Rebuilding hotel list adapter cache...");
 
 		if (mSearchResponse == null || mSearchResponse.getProperties() == null) {

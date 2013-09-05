@@ -246,7 +246,7 @@ public class HotelListFragment extends ListFragment {
 	}
 
 	public void notifyPropertySelected() {
-		int position = getPositionOfProperty(Db.getHotelSearch().getSelectedProperty());
+		int position = mAdapter.getPositionOfProperty(Db.getHotelSearch().getSelectedProperty());
 		if (position != mAdapter.getSelectedPosition()) {
 			mAdapter.setSelectedPosition(position);
 			mAdapter.notifyDataSetChanged();
@@ -256,18 +256,6 @@ public class HotelListFragment extends ListFragment {
 	public void clearSelectedProperty() {
 		mAdapter.setSelectedPosition(-1);
 		mAdapter.notifyDataSetChanged();
-	}
-
-	private int getPositionOfProperty(Property property) {
-		if (property != null) {
-			int count = mAdapter.getCount();
-			for (int position = 0; position < count; position++) {
-				if (mAdapter.getItem(position) == property) {
-					return position;
-				}
-			}
-		}
-		return -1;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -339,8 +327,7 @@ public class HotelListFragment extends ListFragment {
 
 		if (Db.getHotelSearch().getSelectedProperty() != null) {
 			// In case there is a currently selected property, select it on the screen.
-			int position = getPositionOfProperty(Db.getHotelSearch().getSelectedProperty());
-			mAdapter.setSelectedPosition(position);
+			mAdapter.setSelectedProperty(Db.getHotelSearch().getSelectedProperty());
 		}
 
 		if (response.getPropertiesCount() == 0) {
