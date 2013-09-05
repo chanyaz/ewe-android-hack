@@ -193,6 +193,9 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			getActivity().getActionBar().hide();
 
 			mDestinationEditText.setFocusableInTouchMode(true);
+
+			mSearchStatusTextView.setAlpha(0);
+			mSearchStatusTextView.setVisibility(View.GONE);
 		}
 
 		// Configure views which use HW layers on expand/collapse animation
