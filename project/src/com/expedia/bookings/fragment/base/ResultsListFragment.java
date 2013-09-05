@@ -5,7 +5,6 @@ import com.expedia.bookings.widget.FruitScrollUpListView;
 import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewChangeListener;
 import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewInitListener;
 import com.expedia.bookings.widget.FruitScrollUpListView.State;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 import android.annotation.TargetApi;
