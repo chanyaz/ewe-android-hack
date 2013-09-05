@@ -561,6 +561,11 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 
 				// When we start expanding, we always start in the destination fields
 				mDestinationEditText.setText(null);
+
+				// When we expand, we know the destinations fragment will be shown first.
+				// Hide the vertical scrollbar, otherwise it will fade when we animate
+				// causing a performance hit.
+				mDestinationsFragment.getListView().setVerticalScrollBarEnabled(false);
 			}
 		}
 
@@ -574,6 +579,8 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 				mListener.onFinishExpand();
 
 				requestEditTextFocus(mDestinationEditText);
+
+				mDestinationsFragment.getListView().setVerticalScrollBarEnabled(true);
 			}
 			else {
 				// Once we're collapsed, replace the content container with destinations fragment (if it's
