@@ -52,6 +52,9 @@ public class AirportDropDownAdapter extends CursorAdapter {
 
 	private boolean mShowNearbyAirports;
 
+	// If you want to specify your own current location, do it here
+	private android.location.Location mCurrentLocation;
+
 	public AirportDropDownAdapter(Context context) {
 		super(context, null, 0);
 
@@ -77,6 +80,10 @@ public class AirportDropDownAdapter extends CursorAdapter {
 		mMaxNearby = num;
 	}
 
+	public void setCurrentLocation(android.location.Location location) {
+		mCurrentLocation = location;
+	}
+
 	@Override
 	public Cursor runQueryOnBackgroundThread(CharSequence constraint) {
 		if (TextUtils.isEmpty(constraint)) {
@@ -84,8 +91,12 @@ public class AirportDropDownAdapter extends CursorAdapter {
 			MatrixCursor cursor = new MatrixCursor(AirportAutocompleteProvider.COLUMNS);
 
 			// Add nearby airports if we know the user's recent location
-			long minTime = DateTime.now().getMillis() - MINIMUM_TIME_AGO;
-			android.location.Location loc = LocationServices.getLastBestLocation(mContext, minTime);
+			android.location.Location loc = mCurrentLocation;
+			if (loc == null) {
+				long minTime = DateTime.now().getMillis() - MINIMUM_TIME_AGO;
+				loc = LocationServices.getLastBestLocation(mContext, minTime);
+			}
+
 			if (mShowNearbyAirports && loc != null) {
 				List<Airport> airports = FlightStatsDbUtils.getNearestAirports(loc.getLatitude(), loc.getLongitude(),
 						true, mMaxNearby);
