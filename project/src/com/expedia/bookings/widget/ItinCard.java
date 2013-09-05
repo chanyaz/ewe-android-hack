@@ -9,6 +9,8 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
@@ -45,8 +47,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 	public interface OnItinCardClickListener {
 		public void onCloseButtonClicked();
-
-		public void onShareButtonClicked(ItinContentGenerator<?> generator);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -895,9 +895,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 				break;
 			}
 			case R.id.share_image_button: {
-				if (mOnItinCardClickListener != null) {
-					mOnItinCardClickListener.onShareButtonClicked(mItinContentGenerator);
-				}
+				FragmentActivity activity = (FragmentActivity) getContext();
+				FragmentManager fragmentManager = activity.getSupportFragmentManager();
+				SocialMessageChooserDialogFragment.newInstance(mItinContentGenerator).show(fragmentManager, "shareDialog");
 				break;
 			}
 			case R.id.summary_section_layout: {
