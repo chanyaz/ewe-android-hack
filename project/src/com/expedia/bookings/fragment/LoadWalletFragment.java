@@ -307,6 +307,11 @@ public abstract class LoadWalletFragment extends WalletFragment {
 				updateWalletViewVisibilities();
 			}
 		}
+		else {
+			Log.w(WalletUtils.TAG, "The masked wallet 'loaded' but had an error: " + status.getErrorCode());
+			disableGoogleWallet();
+			updateWalletViewVisibilities();
+		}
 
 		// It no longer matters if we're pre-authed, since we have a wallet (or a resolution thereof)
 		mIsUserPreAuthorized = false;
