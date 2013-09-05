@@ -28,7 +28,7 @@
             android:layout_marginRight="8dp"
             android:background="@drawable/list_selector_holo_dark"
             android:padding="8dp"
-            android:src="@drawable/ic_action_share" />
+            android:src="@drawable/abs__ic_menu_moreoverflow_holo_dark" />
     </LinearLayout>
 
     <!--

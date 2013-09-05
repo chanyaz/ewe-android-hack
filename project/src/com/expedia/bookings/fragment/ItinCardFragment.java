@@ -1,6 +1,9 @@
 package com.expedia.bookings.fragment;
 
+import java.util.List;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,17 +12,22 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
 
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.dialog.SocialMessageChooserDialogFragment;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.AbsPopupMenu;
 import com.expedia.bookings.widget.ItinActionsSection;
+import com.expedia.bookings.widget.PopupMenu;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
+import com.mobiata.android.util.CalendarAPIUtils;
 
 /**
  * Standalone ItinCard fragment that can be placed anywhere
  */
-public class ItinCardFragment extends Fragment {
+public class ItinCardFragment extends Fragment implements AbsPopupMenu.OnMenuItemClickListener {
 
 	private ViewGroup mItinHeaderContainer;
 	private ScrollView mItinCardContainer;
@@ -41,9 +49,7 @@ public class ItinCardFragment extends Fragment {
 		Ui.setOnClickListener(view, R.id.itin_overflow_image_button, new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				ItinContentGenerator<?> generator = ItinContentGenerator.createGenerator(getActivity(), mCurrentData);
-
-				SocialMessageChooserDialogFragment.newInstance(generator).show(getFragmentManager(), "shareDialog");
+				onOverflowButtonClicked(v);
 			}
 		});
 
@@ -89,6 +95,45 @@ public class ItinCardFragment extends Fragment {
 			return true;
 		}
 		else {
+			return false;
+		}
+	}
+
+	private void onOverflowButtonClicked(View anchorView) {
+		PopupMenu popup = new PopupMenu(getActivity(), anchorView);
+		popup.setOnMenuItemClickListener(ItinCardFragment.this);
+
+		MenuInflater inflater = popup.getMenuInflater();
+		inflater.inflate(R.menu.menu_itin_expanded_overflow, popup.getMenu());
+
+		// Only show add to calendar on devices and card types that are supported
+		if (CalendarAPIUtils.deviceSupportsCalendarAPI(getActivity())) {
+			ItinContentGenerator<?> generator = ItinContentGenerator.createGenerator(getActivity(), mCurrentData);
+			List<Intent> intents = generator.getAddToCalendarIntents();
+			if (intents.isEmpty()) {
+				popup.getMenu().removeItem(R.id.itin_card_add_to_calendar);
+			}
+		}
+		else {
+			popup.getMenu().removeItem(R.id.itin_card_add_to_calendar);
+		}
+
+		popup.show();
+	}
+
+	@Override
+	public boolean onMenuItemClick(MenuItem item) {
+		ItinContentGenerator<?> generator = ItinContentGenerator.createGenerator(getActivity(), mCurrentData);
+		switch (item.getItemId()) {
+		case R.id.itin_card_share:
+			SocialMessageChooserDialogFragment.newInstance(generator).show(getFragmentManager(), "shareDialog");
+			return true;
+		case R.id.itin_card_add_to_calendar:
+			for (Intent intent : generator.getAddToCalendarIntents()) {
+				startActivity(intent);
+			}
+			return true;
+		default:
 			return false;
 		}
 	}
