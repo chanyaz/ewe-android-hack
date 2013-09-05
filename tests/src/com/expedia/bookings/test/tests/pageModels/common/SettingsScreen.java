@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.tests.pageModels;
+package com.expedia.bookings.test.tests.pageModels.common;
 
 import java.util.ArrayList;
 
@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.CheckBox;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.utils.TestPreferences;
 
 public class SettingsScreen extends ScreenActions {
 
@@ -25,8 +26,9 @@ public class SettingsScreen extends ScreenActions {
 	private static String sSpoofHotelBookingsString = "Spoof hotel bookings";
 	private static String sSuppressFlightsBookingString = "Suppress Flight Bookings";
 
-	public SettingsScreen(Instrumentation instrumentation, Activity activity, Resources res) {
-		super(instrumentation, activity, res);
+	public SettingsScreen(Instrumentation instrumentation, Activity activity, Resources res,
+			TestPreferences preferences) {
+		super(instrumentation, activity, res, preferences);
 	}
 
 	// Object access

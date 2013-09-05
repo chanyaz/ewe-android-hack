@@ -7,6 +7,8 @@ import android.util.DisplayMetrics;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.utils.FlightsTestDriver;
 import com.expedia.bookings.test.utils.HotelsUserData;
+import com.expedia.bookings.test.utils.TestPreferences;
+import com.google.android.gms.internal.m;
 
 public class IntegrationHappyPath extends ActivityInstrumentationTestCase2<SearchActivity> {
 	public IntegrationHappyPath() {
@@ -18,12 +20,15 @@ public class IntegrationHappyPath extends ActivityInstrumentationTestCase2<Searc
 	DisplayMetrics mMetric;
 	private FlightsTestDriver mDriver;
 	private HotelsUserData mUser;
+	private TestPreferences mPreferences;
 
 	protected void setUp() throws Exception {
 		super.setUp();
 		mUser = new HotelsUserData();
 		mRes = getActivity().getResources();
-		mDriver = new FlightsTestDriver(getInstrumentation(), getActivity(), mRes);
+		mPreferences = TestPreferences.generateTestPreferences().setRotationPermission(false)
+				.setScreenshotPermission(false);
+		mDriver = new FlightsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
 	}
 
 	// This test goes through a prototypical flight booking

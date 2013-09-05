@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.tests.pageModels;
+package com.expedia.bookings.test.tests.pageModels.flights;
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.tests.pageModels.common.ScreenActions;
+import com.expedia.bookings.test.utils.TestPreferences;
 import com.mobiata.testutils.CalendarTouchUtils;
 
 public class FlightsSearchScreen extends ScreenActions {
@@ -18,8 +20,9 @@ public class FlightsSearchScreen extends ScreenActions {
 	private static int sCalendarDatePickerID = R.id.calendar_date_picker;
 	private static int sSearchButtonID = R.id.search_button;
 
-	public FlightsSearchScreen(Instrumentation instrumentation, Activity activity, Resources res) {
-		super(instrumentation, activity, res);
+	public FlightsSearchScreen(Instrumentation instrumentation, Activity activity, Resources res,
+			TestPreferences preferences) {
+		super(instrumentation, activity, res, preferences);
 	}
 
 	//Object retrievers
@@ -39,11 +42,11 @@ public class FlightsSearchScreen extends ScreenActions {
 	public View passengerSelectionButton() {
 		return getView(sPassengerSelectionButtonID);
 	}
-	
+
 	public View searchButton() {
 		return getView(sSearchButtonID);
 	}
-	
+
 	// Object interactions 
 
 	public void enterDepartureAirport(String text) {
@@ -69,15 +72,15 @@ public class FlightsSearchScreen extends ScreenActions {
 	public void clearArrivalAirportField() {
 		clearEditText(arrivalEditText());
 	}
-	
+
 	public void clickSelectDepartureButton() {
 		clickOnView(selectDepartureButton());
 	}
-	
+
 	public void clickPassengerSelectionButton() {
 		clickOnView(passengerSelectionButton());
 	}
-	
+
 	public void clickSearchButton() {
 		clickOnView(searchButton());
 	}

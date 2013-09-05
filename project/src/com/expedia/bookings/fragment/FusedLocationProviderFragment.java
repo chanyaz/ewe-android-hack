@@ -45,7 +45,7 @@ public class FusedLocationProviderFragment extends Fragment implements Connectio
 	// Global variable to hold the current location
 	private Location mCurrentLocation;
 
-	private Queue<Listener> mListeners = new LinkedList<Listener>();
+	private Queue<FusedLocationProviderListener> mListeners = new LinkedList<FusedLocationProviderListener>();
 
 	//////////////////////////////////////////////////////////////////////////
 	// Static methods
@@ -137,7 +137,7 @@ public class FusedLocationProviderFragment extends Fragment implements Connectio
 	//////////////////////////////////////////////////////////////////////////
 	// Finally, just get the current location
 
-	public void find(Listener listener) {
+	public void find(FusedLocationProviderListener listener) {
 		Log.d(TAG, "getCurrentLocation");
 		mListeners.add(listener);
 		deliverLocation();
@@ -173,10 +173,9 @@ public class FusedLocationProviderFragment extends Fragment implements Connectio
 	//////////////////////////////////////////////////////////////////////////
 	// For asynchronous callbacks
 
-	public static abstract class Listener {
-		public abstract void onFound(Location currentLocation);
+	public interface FusedLocationProviderListener {
+		public void onFound(Location currentLocation);
 
-		public void onError() {
-		}
+		public void onError();
 	}
 }

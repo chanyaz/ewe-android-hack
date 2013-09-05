@@ -182,6 +182,17 @@ public class NavUtils {
 		context.startActivity(intent);
 	}
 
+	public static void goToFlightSearch(Context context) {
+		// Clear out old data
+		Db.resetBillingInfo();
+		Db.getFlightSearch().setSearchResponse(null);
+
+		// Start search activity
+		sendKillActivityBroadcast(context);
+		Intent intent = new Intent(context, FlightSearchResultsActivity.class);
+		context.startActivity(intent);
+	}
+
 	public static boolean showSweepstakes(Context context) {
 		return PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.UNITED_STATES)
 				&& !SettingUtils.contains(context, R.string.setting_hide_sweepstakes);

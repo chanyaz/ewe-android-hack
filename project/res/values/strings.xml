@@ -1396,6 +1396,14 @@
     <!-- Sort by user rating label -->
     <string name="sort_description_rating">Rating</string>
 
+    <!-- Stop descriptions, e.g. Stops filtered by "description" -->
+    <!-- Any # of stops -->
+    <string name="stop_description_any">Any Stops</string>
+    <!-- Less than or equal to a max  # of stop. Currently set to 1 -->
+    <string name="stop_description__max">One or Less</string>
+    <!-- Nonstop flights -->
+    <string name="stop_description__nonstop">NonStop</string>
+
     <!-- Filter option for "show all" -->
     <string name="all">All</string>
     <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->

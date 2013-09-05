@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.tests.pageModels;
+package com.expedia.bookings.test.tests.pageModels.common;
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.utils.TestPreferences;
 import com.mobiata.android.widget.Spinner;
 
 public class BillingAddressScreen extends ScreenActions {
@@ -19,8 +20,9 @@ public class BillingAddressScreen extends ScreenActions {
 	private static int sAddressCountrySpinnerID = R.id.edit_country_spinner;
 	private static int sNextButtonID = R.id.menu_next;
 
-	public BillingAddressScreen(Instrumentation instrumentation, Activity activity, Resources res) {
-		super(instrumentation, activity, res);
+	public BillingAddressScreen(Instrumentation instrumentation, Activity activity, Resources res,
+			TestPreferences preferences) {
+		super(instrumentation, activity, res, preferences);
 	}
 
 	//Object access

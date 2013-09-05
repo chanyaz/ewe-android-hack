@@ -16,7 +16,14 @@ public class FlightFilter {
 		DURATION
 	}
 
+	//Filter flight search by # of stops
+	public static final int STOPS_ANY = -1;
+	public static final int STOPS_MAX = 1; //currently specifies "One or Less Stop"
+	public static final int STOPS_NONSTOP = 0;
+
 	private Sort mSort;
+
+	private int mStops;
 
 	private Set<String> mPreferredAirlines;
 
@@ -30,6 +37,7 @@ public class FlightFilter {
 
 	public void reset() {
 		mSort = Sort.PRICE;
+		mStops = STOPS_ANY;
 		mPreferredAirlines.clear();
 	}
 
@@ -39,6 +47,14 @@ public class FlightFilter {
 
 	public Sort getSort() {
 		return mSort;
+	}
+
+	public int getStops() {
+		return mStops;
+	}
+
+	public void setStops(int stops) {
+		mStops = stops;
 	}
 
 	public void setPreferredAirline(String airlineCode, boolean isPreferred) {

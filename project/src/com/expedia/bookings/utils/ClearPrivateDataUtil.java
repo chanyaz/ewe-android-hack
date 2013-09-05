@@ -37,6 +37,8 @@ public class ClearPrivateDataUtil {
 		Db.deleteCachedFlightData(context);
 		Db.deleteTravelers(context);
 
+		Db.deleteHotelSearchData(context);
+
 		WorkingBillingInfoManager biManager = new WorkingBillingInfoManager();
 		biManager.deleteWorkingBillingInfoFile(context);
 

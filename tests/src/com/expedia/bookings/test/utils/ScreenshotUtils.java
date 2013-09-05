@@ -15,11 +15,11 @@ import android.view.View;
 import com.jayway.android.robotium.solo.*;
 
 public class ScreenshotUtils {
-	private static final String LOG_TAG = "Robotium Screenshot";
+	private static final String TAG = "Robotium Screenshot";
 	private Solo mSolo;
 	private String mDirectory;
 
-	public ScreenshotUtils(/*Instrumentation instrumentation, Activity activity,*/String directoryName, Solo mSolo) {
+	public ScreenshotUtils(String directoryName, Solo mSolo) {
 		mDirectory = directoryName;
 		this.mSolo = mSolo;
 	}
@@ -34,7 +34,6 @@ public class ScreenshotUtils {
 	}
 
 	public void takeScreenshot(final View view, final String name) {
-
 		mSolo.getCurrentActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
@@ -56,12 +55,12 @@ public class ScreenshotUtils {
 					try {
 						fos = new FileOutputStream(fileToSave);
 						if (b.compress(Bitmap.CompressFormat.JPEG, 100, fos) == false)
-							Log.d(LOG_TAG, "Compress/Write failed");
+							Log.d(TAG, "Compress/Write failed");
 						fos.flush();
 						fos.close();
 					}
 					catch (Exception e) {
-						Log.d(LOG_TAG,
+						Log.d(TAG,
 								"Can't save the screenshot! Requires write permission (android.permission.WRITE_EXTERNAL_STORAGE) in AndroidManifest.xml of the application under test.");
 						e.printStackTrace();
 					}

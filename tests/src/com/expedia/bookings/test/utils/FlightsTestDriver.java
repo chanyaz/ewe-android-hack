@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.res.Resources;
 
-import com.expedia.bookings.test.tests.pageModels.FlightLegScreen;
-import com.expedia.bookings.test.tests.pageModels.FlightsSearchLoading;
-import com.expedia.bookings.test.tests.pageModels.FlightsSearchResultsScreen;
-import com.expedia.bookings.test.tests.pageModels.FlightsSearchScreen;
+import com.expedia.bookings.test.tests.pageModels.flights.FlightLegScreen;
+import com.expedia.bookings.test.tests.pageModels.flights.FlightsSearchLoading;
+import com.expedia.bookings.test.tests.pageModels.flights.FlightsSearchResultsScreen;
+import com.expedia.bookings.test.tests.pageModels.flights.FlightsSearchScreen;
 
 public class FlightsTestDriver extends TestDriver {
 
@@ -16,38 +16,36 @@ public class FlightsTestDriver extends TestDriver {
 	private FlightsSearchResultsScreen mFlightsSearchResultsScreen;
 	private FlightLegScreen mFlightLegScreen;
 
-	public FlightsTestDriver(Instrumentation instrumentation, Activity activity, Resources res) {
-		super(instrumentation, activity, res);
-		mFlightsSearchScreen = null;
-		mFlightsSearchLoading = null;
-		mFlightsSearchResultsScreen = null;
-		mFlightLegScreen = null;
+	public FlightsTestDriver(Instrumentation instrumentation, Activity activity, Resources res,
+			TestPreferences preferences) {
+		super(instrumentation, activity, res, preferences);
 	}
 
 	public FlightsSearchScreen flightsSearchScreen() {
 		if (mFlightsSearchScreen == null) {
-			mFlightsSearchScreen = new FlightsSearchScreen(mInstrumentation, getCurrentActivity(), mRes);
+			mFlightsSearchScreen = new FlightsSearchScreen(mInstrumentation, getCurrentActivity(), mRes, mPreferences);
 		}
 		return mFlightsSearchScreen;
 	}
 
 	public FlightsSearchLoading flightsSearchLoading() {
 		if (mFlightsSearchLoading == null) {
-			mFlightsSearchLoading = new FlightsSearchLoading(mInstrumentation, getCurrentActivity(), mRes);
+			mFlightsSearchLoading = new FlightsSearchLoading(mInstrumentation, getCurrentActivity(), mRes, mPreferences);
 		}
 		return mFlightsSearchLoading;
 	}
 
 	public FlightsSearchResultsScreen flightsSearchResultsScreen() {
 		if (mFlightsSearchResultsScreen == null) {
-			mFlightsSearchResultsScreen = new FlightsSearchResultsScreen(mInstrumentation, getCurrentActivity(), mRes);
+			mFlightsSearchResultsScreen = new FlightsSearchResultsScreen(mInstrumentation, getCurrentActivity(), mRes,
+					mPreferences);
 		}
 		return mFlightsSearchResultsScreen;
 	}
 
 	public FlightLegScreen flightLegScreen() {
 		if (mFlightLegScreen == null) {
-			mFlightLegScreen = new FlightLegScreen(mInstrumentation, getCurrentActivity(), mRes);
+			mFlightLegScreen = new FlightLegScreen(mInstrumentation, getCurrentActivity(), mRes, mPreferences);
 		}
 		return mFlightLegScreen;
 	}

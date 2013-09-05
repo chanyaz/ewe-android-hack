@@ -7,6 +7,7 @@ import android.util.DisplayMetrics;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.utils.FlightsTestDriver;
 import com.expedia.bookings.test.utils.HotelsUserData;
+import com.expedia.bookings.test.utils.TestPreferences;
 
 public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActivity> {
 	public RotateHappyPath() { //Default constructor
@@ -18,12 +19,15 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 	DisplayMetrics mMetric;
 	private FlightsTestDriver mDriver;
 	private HotelsUserData mUser;
+	private TestPreferences mPreferences;
 
 	protected void setUp() throws Exception {
 		super.setUp();
 		mUser = new HotelsUserData();
 		mRes = getActivity().getResources();
-		mDriver = new FlightsTestDriver(getInstrumentation(), getActivity(), mRes);
+		mPreferences = TestPreferences.generateTestPreferences().setRotationPermission(true)
+				.setScreenshotPermission(false);
+		mDriver = new FlightsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
 	}
 
 	// This test goes through a prototypical flight booking
@@ -31,7 +35,6 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 	// It runs pulling from the Integration API
 
 	public void testMethod() throws Exception {
-		mDriver.setAllowOrientationChange(true);
 		FlightsHappyPath.execute(mDriver, mUser);
 	}
 

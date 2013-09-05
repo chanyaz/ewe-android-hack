@@ -111,6 +111,7 @@
                 <data android:host="trips" />
                 <data android:host="showTrips" />
                 <data android:host="hotelSearch" />
+                <data android:host="flightSearch" />
             </intent-filter>
         </activity>
 

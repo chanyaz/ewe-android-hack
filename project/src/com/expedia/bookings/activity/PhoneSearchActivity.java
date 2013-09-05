@@ -90,7 +90,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.FusedLocationProviderFragment;
-import com.expedia.bookings.fragment.FusedLocationProviderFragment.Listener;
+import com.expedia.bookings.fragment.FusedLocationProviderFragment.FusedLocationProviderListener;
 import com.expedia.bookings.fragment.HotelListFragment;
 import com.expedia.bookings.fragment.HotelListFragment.HotelListFragmentListener;
 import com.expedia.bookings.maps.HotelMapFragment;
@@ -1136,7 +1136,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			showLoading(true, R.string.progress_finding_location);
 		}
 
-		mLocationFragment.find(new Listener() {
+		mLocationFragment.find(new FusedLocationProviderListener() {
 			@Override
 			public void onFound(Location currentLocation) {
 				PhoneSearchActivity.this.onLocationFound(currentLocation);
