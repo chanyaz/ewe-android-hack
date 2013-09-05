@@ -83,7 +83,7 @@ public class AirportAutocompleteProvider extends ContentProvider {
 	// This just makes it unnecessary for classes outside of here to
 	// understand the exact workings of the provider.
 
-	private static Object[] createRowFromSuggestion(Suggestion suggestion) {
+	public static Object[] createRowFromSuggestion(Suggestion suggestion) {
 		Pair<String, String> displayName = suggestion.splitDisplayNameForFlights();
 		if (displayName != null) {
 			Object[] row = new Object[COLUMNS.length];
