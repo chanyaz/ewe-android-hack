@@ -43,7 +43,6 @@ public class SuggestionsFragment extends ListFragment {
 		if (mAirportAdapter == null) {
 			mAirportAdapter = new AirportDropDownAdapter(getActivity());
 			mAirportAdapter.setShowNearbyAirports(true);
-			mAirportAdapter.setMaxNearbyAirports(10); // Bump this up just so we see stuff to start
 		}
 
 		setListAdapter(mAirportAdapter);
@@ -55,7 +54,9 @@ public class SuggestionsFragment extends ListFragment {
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
-		mListener.onSuggestionClicked(this, mAirportAdapter.getLocation(position));
+		Location location = mAirportAdapter.getLocation(position);
+		mAirportAdapter.onAirportSelected(location);
+		mListener.onSuggestionClicked(this, location);
 	}
 
 	public void filter(CharSequence text) {
