@@ -112,6 +112,11 @@
         <attr name="secondaryTextColor" format="color|reference" />
     </declare-styleable>
 
+    <!-- So that we can define this in the layout xml rather than in code -->
+    <declare-styleable name="hotel_summary_section">
+        <attr name="selectedBackground" format="color|reference" />
+    </declare-styleable>
+
     <!-- This is the flight line that shows layovers, we want to be able to control colors -->
     <declare-styleable name="FlightTripView">
         <attr name="flightLineColor" format="color|reference" />
@@ -161,7 +166,6 @@
     <attr name="webViewPreferencesActionBarLogoWithTitle" format="reference" />
     <!-- ActionBar icon/logo in HotelRulesActivities -->
     <attr name="hotelwebViewActionBarLogo" format="reference" />
-
     <attr name="actionBarBackgroundDrawable" format="reference" />
     <!-- ActionBar checkmark drawable -->
     <attr name="actionBarCheckMarkDrawable" format="reference" />
@@ -178,7 +182,6 @@
     <attr name="calendarDatePickerCellDrawable" format="reference" />
     <attr name="calendarDatePickerPopupDrawable" format="reference" />
     <attr name="calendarDatePickerDateFormat" format="reference|string" />
-
     <attr name="hotelCancellationPolicyDateFormat" format="reference|string" />
 
     <!-- Hotel promo pricing related styling -->
@@ -230,7 +233,6 @@
     <!-- HotelCheckout Traveler Info screen after logged in, Logo to the left of the primary traveler -->
     <attr name="hotelPrimaryTravelerInfoLogoDrawable" format="reference" />
     <attr name="hotelListMapMarkerSaleDrawable" format="reference" />
-
     <attr name="ccCheckoutHologramDrawable" format="reference" />
 
     <!-- Placeholder image used in hotelReciept, Rooms&RatesListActivity -->
@@ -238,4 +240,5 @@
 
     <!-- Text defined separately for VSC, in the CVV entry screen -->
     <attr name="cvvEntryExplainationText" format="reference|string" />
+
 </resources>

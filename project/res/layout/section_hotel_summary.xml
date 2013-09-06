@@ -3,7 +3,8 @@
     xmlns:mobiata="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/bg_row" >
+    android:background="@drawable/bg_row"
+    mobiata:selectedBackground="@drawable/bg_row_selected" >
 
     <com.expedia.bookings.widget.OptimizedImageView
         android:id="@+id/thumbnail_image_view"

@@ -2,6 +2,8 @@ package com.expedia.bookings.section;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.view.View;
@@ -45,8 +47,19 @@ public class HotelSummarySection extends RelativeLayout {
 	private TextView mProximityText;
 	private TextView mUrgencyText;
 
+	private Drawable mUnselectedBackground;
+	private Drawable mSelectedBackground;
+
 	public HotelSummarySection(Context context, AttributeSet attrs) {
 		super(context, attrs);
+
+		mUnselectedBackground = getBackground();
+
+		if (attrs != null) {
+			TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.hotel_summary_section);
+			mSelectedBackground = a.getDrawable(R.styleable.hotel_summary_section_selectedBackground);
+			a.recycle();
+		}
 	}
 
 	@Override
@@ -179,11 +192,11 @@ public class HotelSummarySection extends RelativeLayout {
 		}
 
 		// Set the background based on whether the row is selected or not
-		if (isSelected) {
-			setBackgroundResource(R.drawable.bg_row_selected);
+		if (isSelected && mSelectedBackground != null) {
+			setBackgroundDrawable(mSelectedBackground);
 		}
 		else {
-			setBackgroundResource(R.drawable.bg_row);
+			setBackgroundDrawable(mUnselectedBackground);
 		}
 	}
 }
