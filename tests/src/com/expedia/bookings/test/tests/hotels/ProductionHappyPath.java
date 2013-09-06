@@ -13,7 +13,7 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class ProductionHappyPath extends ActivityInstrumentationTestCase2<SearchActivity> {
 
-	public ProductionHappyPath() { //Default constructor
+	public ProductionHappyPath() {
 		super(SearchActivity.class);
 	}
 

@@ -10,7 +10,8 @@ import com.expedia.bookings.test.utils.HotelsUserData;
 import com.expedia.bookings.test.utils.TestPreferences;
 
 public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActivity> {
-	public RotateHappyPath() { //Default constructor
+
+	public RotateHappyPath() {
 		super(SearchActivity.class);
 	}
 

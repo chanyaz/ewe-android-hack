@@ -17,7 +17,7 @@ public class StressTest extends ActivityInstrumentationTestCase2<SearchActivity>
 		super(SearchActivity.class);
 	}
 
-	private static final String TAG = "Hotels Browsing Test";
+	private static final String TAG = "Hotels Stress Test";
 
 	private Resources mRes;
 	DisplayMetrics mMetric;
@@ -31,7 +31,7 @@ public class StressTest extends ActivityInstrumentationTestCase2<SearchActivity>
 		mPreferences = TestPreferences.generateTestPreferences().setRotationPermission(false)
 				.setScreenshotPermission(false);
 		mDriver = new HotelsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
-		mUser = new HotelsUserData(); // Default city is NYC, so that's cool
+		mUser = new HotelsUserData();
 	}
 
 	public void testMethod() throws Exception {
@@ -40,7 +40,6 @@ public class StressTest extends ActivityInstrumentationTestCase2<SearchActivity>
 
 	@Override
 	protected void tearDown() throws Exception {
-		//Robotium will finish all the activities that have been opened
 		mDriver.enterLog(TAG, "tearing down...");
 		mDriver.finishOpenedActivities();
 	}
