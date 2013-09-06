@@ -19,6 +19,7 @@ public class HotelsRoomsRatesScreen extends ScreenActions {
 	private static int sHotelRatingBarID = R.id.hotel_rating_bar;
 	private static int sListViewID = android.R.id.list;
 	private static int sBackButtonID = android.R.id.home;
+	private static int sFindingAvailableRoomsStringID = R.string.room_rates_loading;
 
 	public HotelsRoomsRatesScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {
@@ -45,6 +46,10 @@ public class HotelsRoomsRatesScreen extends ScreenActions {
 
 	public View backButton() {
 		return getView(sBackButtonID);
+	}
+
+	public String findingAvailableRooms() {
+		return getString(sFindingAvailableRoomsStringID);
 	}
 
 	// Object interaction
