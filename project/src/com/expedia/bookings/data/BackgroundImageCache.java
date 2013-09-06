@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Locale;
 import java.util.concurrent.Semaphore;
 
 import android.content.Context;
@@ -69,7 +70,7 @@ public class BackgroundImageCache {
 	}
 
 	public Bitmap getBitmap(String bmapkey, Context context) {
-		String key = bmapkey.toLowerCase();
+		String key = bmapkey.toLowerCase(Locale.ENGLISH);
 		Log.i(TAG, "getBitmap key:" + key);
 		Bitmap ret = null;
 		ret = getBitmapFromMemoryCache(key);

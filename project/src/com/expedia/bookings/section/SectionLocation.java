@@ -2,6 +2,7 @@ package com.expedia.bookings.section;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 import android.annotation.SuppressLint;
@@ -365,7 +366,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 						getData().setCity(s.toString());
 
 						//Autofill state and country if major US city is chosen
-						String key = s.toString().toLowerCase();
+						String key = s.toString().toLowerCase(Locale.ENGLISH);
 						if (BookingInfoUtils.COMMON_US_CITIES.containsKey(key)) {
 							//Set the state
 							if (mEditAddressState.hasBoundField()) {
