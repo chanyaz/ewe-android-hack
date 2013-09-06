@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
 public class TextViewDialog extends DialogFragment {
+
+	private static final String INSTANCE_MESSAGE_RES_ID = "INSTANCE_MESSAGE_RES_ID";
+
 	public interface OnDismissListener {
 		public void onDismissed();
 	}
@@ -48,6 +51,9 @@ public class TextViewDialog extends DialogFragment {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
 		CharSequence message;
+		if (savedInstanceState != null) {
+			mMessageId = savedInstanceState.getInt(INSTANCE_MESSAGE_RES_ID);
+		}
 		if (mMessageId != 0) {
 			message = getString(mMessageId);
 		}
@@ -67,6 +73,12 @@ public class TextViewDialog extends DialogFragment {
 		dialog.setCanceledOnTouchOutside(mCancelOnTouchOutside);
 
 		return dialog;
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putInt(INSTANCE_MESSAGE_RES_ID, mMessageId);
 	}
 
 	@Override
