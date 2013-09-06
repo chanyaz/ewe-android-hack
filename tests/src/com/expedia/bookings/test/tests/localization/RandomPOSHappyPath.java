@@ -15,41 +15,38 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
-import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity;
-import com.expedia.bookings.test.utils.HotelsRobotHelper;
+import com.expedia.bookings.test.tests.hotels.HotelsHappyPath;
+import com.expedia.bookings.test.utils.HotelsTestDriver;
 import com.expedia.bookings.test.utils.HotelsUserData;
-import com.jayway.android.robotium.solo.Solo;
+import com.expedia.bookings.test.utils.TestPreferences;
 
 public class RandomPOSHappyPath extends
 		ActivityInstrumentationTestCase2<SearchActivity> {
 
 	public RandomPOSHappyPath() { // Default constructor
-		super("com.expedia.bookings", SearchActivity.class);
+		super(SearchActivity.class);
 	}
 
-	private static final String TAG = "SearchTest";
+	private static final String TAG = "POS Test";
 	private static final String LOCALE_LIST_LOCATION =
 			Environment.getExternalStorageDirectory().getPath() + "/locales_list.txt";
 
-	private Solo mSolo;
-
 	private Resources mRes;
 	DisplayMetrics mMetric;
-	private HotelsRobotHelper mDriver;
+	private HotelsTestDriver mDriver;
 	private HotelsUserData mUser;
+	private TestPreferences mPreferences;
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		mSolo = new Solo(getInstrumentation(), getActivity());
-		//Log.configureLogging("ExpediaBookings", true);
-
 		mRes = getActivity().getBaseContext().getResources();
-		mMetric = mRes.getDisplayMetrics();
+		mPreferences = TestPreferences.generateTestPreferences().setRotationPermission(false)
+				.setScreenshotPermission(true);
+		mDriver = new HotelsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
 		mUser = new HotelsUserData();
 		mUser.setHotelCityToRandomUSCity();
-
-		mDriver = new HotelsRobotHelper(mSolo, mRes, mUser);
+		mUser.mBookingServer = "Production";
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -59,26 +56,10 @@ public class RandomPOSHappyPath extends
 		try {
 			//Limit to two POSs at a time.
 			for (int i = 0; i < 2; i++) {
-				mDriver.setAllowScreenshots(true);
-				mDriver.setScreenshotCount(0);
-				mDriver.setAllowOrientationChange(false);
-				//change device locale and set variable
 				Locale testingLocale = mDriver.mLocaleUtils.selectNextLocaleFromInternalList(LOCALE_LIST_LOCATION);
 				mDriver.enterLog(TAG, "Starting sweep of " + testingLocale.toString());
-
-				mDriver.ignoreSweepstakesActivity();
-				mUser.setHotelCityToRandomUSCity();
-
-				mDriver.changePOS(testingLocale);
-				mDriver.changeAPI("Production");
-				mDriver.clearPrivateData();
-				mDriver.setSpoofBookings();
-
-				mDriver.launchHotels();
-				mDriver.delay();
-				mDriver.browseRooms(1, mUser.mHotelSearchCity, true);
 				mDriver.mLocaleUtils.setLocale(testingLocale);
-				mDriver.delay(5);
+				HotelsHappyPath.execute(mDriver, mUser, 1);
 			}
 		}
 		catch (OutOfPOSException e) {
@@ -101,10 +82,7 @@ public class RandomPOSHappyPath extends
 
 	@Override
 	protected void tearDown() throws Exception {
-		//Robotium will finish all the activities that have been opened
 		mDriver.enterLog(TAG, "tearing down...");
-
-		mSolo.finishOpenedActivities();
+		mDriver.finishOpenedActivities();
 	}
-
 }
