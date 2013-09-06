@@ -21,10 +21,10 @@ import com.expedia.bookings.test.utils.HotelsTestDriver;
 import com.expedia.bookings.test.utils.HotelsUserData;
 import com.expedia.bookings.test.utils.TestPreferences;
 
-public class RandomPOSHappyPath extends
+public class ScreenshotSweepFromList extends
 		ActivityInstrumentationTestCase2<SearchActivity> {
 
-	public RandomPOSHappyPath() { // Default constructor
+	public ScreenshotSweepFromList() { // Default constructor
 		super(SearchActivity.class);
 	}
 
