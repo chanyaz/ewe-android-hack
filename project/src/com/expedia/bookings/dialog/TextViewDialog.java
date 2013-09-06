@@ -9,6 +9,7 @@ import android.support.v4.app.DialogFragment;
 public class TextViewDialog extends DialogFragment {
 
 	private static final String INSTANCE_MESSAGE_RES_ID = "INSTANCE_MESSAGE_RES_ID";
+	private static final String INSTANCE_MESSAGE_TEXT = "INSTANCE_MESSAGE_TEXT";
 
 	public interface OnDismissListener {
 		public void onDismissed();
@@ -50,17 +51,14 @@ public class TextViewDialog extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-		CharSequence message;
 		if (savedInstanceState != null) {
 			mMessageId = savedInstanceState.getInt(INSTANCE_MESSAGE_RES_ID);
+			mMessage = savedInstanceState.getCharSequence(INSTANCE_MESSAGE_TEXT);
 		}
 		if (mMessageId != 0) {
-			message = getString(mMessageId);
+			mMessage = getString(mMessageId);
 		}
-		else {
-			message = mMessage;
-		}
-		builder.setMessage(message);
+		builder.setMessage(mMessage);
 
 		builder.setNeutralButton(com.mobiata.android.R.string.ok, new DialogInterface.OnClickListener() {
 			@Override
@@ -79,6 +77,7 @@ public class TextViewDialog extends DialogFragment {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putInt(INSTANCE_MESSAGE_RES_ID, mMessageId);
+		outState.putCharSequence(INSTANCE_MESSAGE_TEXT, mMessage);
 	}
 
 	@Override
