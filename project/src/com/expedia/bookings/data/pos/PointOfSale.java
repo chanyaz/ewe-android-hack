@@ -261,7 +261,7 @@ public class PointOfSale {
 	}
 
 	public int getCountryNameResId() {
-		return ResourceUtils.getIdentifier(R.string.class, "country_" + mTwoLetterCountryCode.toLowerCase());
+		return ResourceUtils.getIdentifier(R.string.class, "country_" + mTwoLetterCountryCode);
 	}
 
 	public DistanceUnit getDistanceUnit() {
@@ -497,12 +497,12 @@ public class PointOfSale {
 			else {
 				// Get the default POS.  This is rare, thus we can excuse this excessive code.
 				Locale locale = Locale.getDefault();
-				String country = locale.getCountry().toLowerCase();
-				String language = locale.getLanguage().toLowerCase();
+				String country = locale.getCountry().toLowerCase(Locale.ENGLISH);
+				String language = locale.getLanguage().toLowerCase(Locale.ENGLISH);
 
 				for (PointOfSale posInfo : sPointOfSale.values()) {
 					for (String defaultLocale : posInfo.mDefaultLocales) {
-						defaultLocale = defaultLocale.toLowerCase();
+						defaultLocale = defaultLocale.toLowerCase(Locale.ENGLISH);
 						if (defaultLocale.endsWith(country) || defaultLocale.equals(language)) {
 							sCachedPOS = posInfo.mPointOfSale;
 							break;
@@ -650,7 +650,7 @@ public class PointOfSale {
 			while (keys.hasNext()) {
 				String posName = keys.next();
 				PointOfSale pos = parsePointOfSale(context, posData.optJSONObject(posName));
-				pos.mTwoLetterCountryCode = posName.toLowerCase();
+				pos.mTwoLetterCountryCode = posName.toLowerCase(Locale.ENGLISH);
 				sPointOfSale.put(pos.mPointOfSale, pos);
 
 				// For backwards compatibility
@@ -665,7 +665,6 @@ public class PointOfSale {
 		Log.i("Loaded POS data in " + (System.nanoTime() - start) / 1000000 + " ms");
 	}
 
-	@SuppressWarnings("unchecked")
 	private static PointOfSale parsePointOfSale(Context context, JSONObject data) throws JSONException {
 		PointOfSale pos = new PointOfSale();
 
