@@ -42,3 +42,14 @@ for i in $path/values*/strings.xml ; do
     grep 'string name="[a-zA-Z_]*"' $i | sed 's/^.*string name="\([a-zA-Z_]*\)".*$/\1/' | uniq -d
 done
 
+root="../project/res"
+for i in $path/values*/strings.xml ; do
+    other=${i/$path/$root}
+
+    #total_lines=`wc -l $other | awk '{ print $1 }'`
+    diff_lines=`diff $i $other | wc -l`
+    if [ "$diff_lines" -gt "200" ] ; then
+        echo $i "too many lines changes" $diff_lines
+    fi
+done
+
