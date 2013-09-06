@@ -44,6 +44,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 
 	private LinearLayout mAirlineContainer;
 	private TextView mAirlineTextView;
+	private ImageView mOperatingCarrierImageView;
 	private TextView mOperatingCarrierTextView;
 	private TextView mPriceTextView;
 	private TextView mFlightTimeTextView;
@@ -63,6 +64,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 		// Cache views
 		mAirlineContainer = Ui.findView(this, R.id.airline_container);
 		mAirlineTextView = Ui.findView(this, R.id.airline_text_view);
+		mOperatingCarrierImageView = Ui.findView(this, R.id.operating_carrier_image_view);
 		mOperatingCarrierTextView = Ui.findView(this, R.id.operating_carrier_text_view);
 		mPriceTextView = Ui.findView(this, R.id.price_text_view);
 		mFlightTimeTextView = Ui.findView(this, R.id.flight_time_text_view);
@@ -172,6 +174,8 @@ public class FlightLegSummarySection extends RelativeLayout {
 			}
 
 			mOperatingCarrierTextView.setText(context.getString(R.string.operated_by_TEMPLATE, operatedBy));
+
+			mOperatingCarrierImageView.setVisibility(View.VISIBLE);
 			mOperatingCarrierTextView.setVisibility(View.VISIBLE);
 
 			belowTarget = mOperatingCarrierTextView.getId();
