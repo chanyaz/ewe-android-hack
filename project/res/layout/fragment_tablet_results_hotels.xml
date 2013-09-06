@@ -15,6 +15,11 @@
 
 
     <!-- COLUMN ONE -->
+    
+    <com.expedia.bookings.widget.BlockEventFrameLayout
+        android:id="@+id/column_one_hotel_filters"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <com.expedia.bookings.widget.BlockEventFrameLayout
         android:id="@+id/column_one_hotel_list"

@@ -266,6 +266,24 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		}
 	}
 
+	@Override
+	public boolean handleBackPressed() {
+		for (ITabletResultsController controller : mTabletResultsControllers) {
+			if (controller.handleBackPressed()) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (!handleBackPressed()) {
+			super.onBackPressed();
+		}
+	}
+
 	/**
 	 * HERE BE BACKGROUND IMAGE STUFF
 	 */

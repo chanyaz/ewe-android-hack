@@ -223,6 +223,12 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		setContainerWidth(mTripOverviewC, mColumnManager.getColWidth(2), mColumnManager.getColLeft(2));
 		setContainerWidth(mBlurredBackgroundC, mColumnManager.getColWidth(2), mColumnManager.getColLeft(2));
 	}
+	
+	@Override
+	public boolean handleBackPressed() {
+		return false;
+	}
+	
 
 	private void setContainerWidth(ViewGroup container, int width, int leftMargin) {
 		FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) container.getLayoutParams();
@@ -233,4 +239,6 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		params.leftMargin = leftMargin;
 		container.setLayoutParams(params);
 	}
+
+	
 }

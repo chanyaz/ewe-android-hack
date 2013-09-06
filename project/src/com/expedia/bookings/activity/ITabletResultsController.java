@@ -71,4 +71,15 @@ public interface ITabletResultsController {
 	 * @param totalWidth
 	 */
 	public void updateColumnWidths(int totalWidth);
+	
+	
+	/**
+	 * The controllers should be in control of back presses too.
+	 * 
+	 * Note: Typically we only want to consume the back event if our controller
+	 * is the current in control controller, if that makes sense at all
+	 * 
+	 * @return - return true if we consumed the back even, false otherwise
+	 */
+	public boolean handleBackPressed();
 }

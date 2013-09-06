@@ -331,6 +331,11 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		setContainerWidth(mFlightListC, mColumnManager.getColWidth(1), mColumnManager.getColLeft(1));
 		setContainerWidth(mFlightMapC, mColumnManager.getColWidth(2), mColumnManager.getColLeft(2));
 	}
+	
+	@Override
+	public boolean handleBackPressed() {
+		return false;
+	}
 
 	private void setContainerWidth(ViewGroup container, int width, int leftMargin) {
 		FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) container.getLayoutParams();

@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.base.ResultsListFragment;
 import com.expedia.bookings.widget.SimpleColorAdapter;
 
@@ -20,14 +21,15 @@ public class ResultsFlightListFragment extends ResultsListFragment {
 	@Override
 	protected ListAdapter initializeAdapter() {
 		int[] flightColors = { Color.rgb(0, 0, 255), Color.rgb(0, 0, 220), Color.rgb(0, 0, 150) };
-		mFlightListAdapter = new SimpleColorAdapter(getActivity(), 200, 4, flightColors);
+		mFlightListAdapter = new SimpleColorAdapter(getActivity(), 200, 50, flightColors);
 		//mFlightListAdapter.enableSizeChanges(10, 3000);
 		return mFlightListAdapter;
 	}
 
 	@Override
 	protected CharSequence initializeStickyHeaderString() {
-		CharSequence text = mFlightListAdapter.getCount() + " Flights";
+		CharSequence text = getResources().getQuantityString(R.plurals.number_of_flights_TEMPLATE,
+				mFlightListAdapter.getCount(), mFlightListAdapter.getCount());
 		return text;
 	}
 

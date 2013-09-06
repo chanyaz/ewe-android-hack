@@ -71,6 +71,7 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 
 	//State
 	private boolean mHeaderSpacerShrunk = false;
+	private boolean mHeaderSpacerShrinkLocked = false;
 	private boolean mAdapterSet = false;
 	private boolean mStateRestored = false;
 	private boolean mInitialized = false;
@@ -270,6 +271,8 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 		if (forceUpdate || oldState != state) {
 			//If we just moved to bottom state, we must move our header to the top.
 			if (state == State.LIST_CONTENT_AT_BOTTOM) {
+				setListLockedToTop(false);
+				unShrinkHeaderSpacer();
 				moveToPosition(0, 0);
 			}
 			else if (state == State.LIST_CONTENT_AT_TOP && getFirstVisiblePosition() == 0) {
@@ -448,6 +451,16 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 	 * HEADER SPACER METHODS
 	 */
 
+	public void setListLockedToTop(boolean lockedToTop) {
+		mHeaderSpacerShrinkLocked = lockedToTop;
+		if (lockedToTop && !mHeaderSpacerShrunk) {
+			shrinkHeaderSpacer();
+		}
+		else if (!lockedToTop && mHeaderSpacerShrunk && mState != State.TRANSIENT) {
+			unShrinkHeaderSpacer();
+		}
+	}
+
 	public int getHeaderSpacerHeight() {
 		return mHeaderSpacerHeight;
 	}
@@ -475,8 +488,10 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 	}
 
 	private void unShrinkHeaderSpacer() {
-		setHeaderSpacerLayoutHeight(getHeaderSpacerHeight());
-		mHeaderSpacerShrunk = false;
+		if (!mHeaderSpacerShrinkLocked) {
+			setHeaderSpacerLayoutHeight(getHeaderSpacerHeight());
+			mHeaderSpacerShrunk = false;
+		}
 	}
 
 	/*
@@ -604,11 +619,6 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 			shrinkHeaderSpacer();
 		}
 
-		if (isIdle && mHeaderSpacerShrunk) {
-			//Do not leave the header shrunk...
-			unShrinkHeaderSpacer();
-		}
-
 		updateScrollState(!isIdle);
 
 		mPreviousScrollState = scrollState;
@@ -658,6 +668,10 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 			}
 			else {
 				setState(State.LIST_CONTENT_AT_TOP, false);
+			}
+
+			if (mHeaderSpacerShrunk) {
+				unShrinkHeaderSpacer();
 			}
 		}
 	}

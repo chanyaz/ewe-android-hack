@@ -28,10 +28,15 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 
 	private FruitScrollUpListView mListView;
 	private ViewGroup mStickyHeader;
-	private TextView mItemCountTv;
+	private TextView mStickyHeaderTv;
 	private TextView mSortAndFilterButton;
 
+	private CharSequence mStickyHeaderText = "";
+	private CharSequence mSortAndFilterText = "";
+
 	private boolean mSortAndFilterButtonEnabled = true;
+	private boolean mLockedToTop = false;
+	private boolean mGotoBottom = false;
 	private IFruitScrollUpListViewChangeListener mChangeListener;
 
 	@Override
@@ -39,8 +44,11 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 		View view = inflater.inflate(R.layout.fragment_tablet_results_list, null);
 		mListView = Ui.findView(view, android.R.id.list);
 		mStickyHeader = Ui.findView(view, R.id.sticky_header_container);
-		mItemCountTv = Ui.findView(view, R.id.sticky_number_of_items);
+		mStickyHeaderTv = Ui.findView(view, R.id.sticky_number_of_items);
 		mSortAndFilterButton = Ui.findView(view, R.id.sort_and_filter);
+
+		mStickyHeaderTv.setText(mStickyHeaderText);
+		mSortAndFilterButton.setText(mSortAndFilterText);
 
 		//Note: We must set the adapter before we restore instance state
 		mListView.setAdapter(initializeAdapter());
@@ -71,6 +79,10 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 
 		if (mChangeListener != null) {
 			mListView.addChangeListener(mChangeListener, false);
+		}
+		mListView.setListLockedToTop(mLockedToTop);
+		if (mGotoBottom) {
+			gotoBottomPosition();
 		}
 
 		setStickyHeaderText(initializeStickyHeaderString());
@@ -109,7 +121,32 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 	}
 
 	public void setStickyHeaderText(CharSequence text) {
-		mItemCountTv.setText(text);
+		mStickyHeaderText = text;
+		if (mStickyHeaderTv != null) {
+			mStickyHeaderTv.setText(text);
+		}
+	}
+
+	public void setSortAndFilterButtonText(CharSequence text) {
+		mSortAndFilterText = text;
+		if (mSortAndFilterButton != null) {
+			mSortAndFilterButton.setText(text);
+		}
+	}
+
+	public void setListLockedToTop(boolean lockedToTop) {
+		mLockedToTop = lockedToTop;
+		if (mListView != null) {
+			mListView.setListLockedToTop(lockedToTop);
+		}
+	}
+
+	public void gotoBottomPosition() {
+		mGotoBottom = true;
+		if (mListView != null) {
+			mListView.setState(State.LIST_CONTENT_AT_BOTTOM, true);
+			mGotoBottom = false;
+		}
 	}
 
 	private void updateStickyHeaderState(float percentage, boolean actionComplete) {
