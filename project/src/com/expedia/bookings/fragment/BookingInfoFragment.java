@@ -62,15 +62,10 @@ public class BookingInfoFragment extends Fragment {
 
 		mReceiptWidget = new ReceiptWidget(getActivity(), view.findViewById(R.id.receipt), false);
 
-		TextView contactView = (TextView) view.findViewById(R.id.contact_text_view);
-		String contactText = ConfirmationUtils.determineContactText(getActivity());
-		ConfirmationUtils.configureContactView(getActivity(), contactView, contactText);
-
 		Rate selectedRate = Db.getHotelSearch().getSelectedRate();
 		if (selectedRate != null) {
 			updateReceipt();
 			updateRoomDescription(view);
-			ConfirmationUtils.determineCancellationPolicy(selectedRate, view);
 		}
 
 		final View receipt = view.findViewById(R.id.receipt);
@@ -153,8 +148,6 @@ public class BookingInfoFragment extends Fragment {
 		mCompleteBookingInfoButton.setEnabled(true);
 		updateReceipt();
 		updateRoomDescription(getView());
-		Rate selectedRate = Db.getHotelSearch().getSelectedRate();
-		ConfirmationUtils.determineCancellationPolicy(selectedRate, getView());
 	}
 
 	public void notifyNoRates() {
