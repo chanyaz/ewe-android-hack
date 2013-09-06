@@ -5,64 +5,44 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.util.DisplayMetrics;
 
 import com.expedia.bookings.activity.SearchActivity;
-import com.expedia.bookings.test.utils.HotelsRobotHelper;
+import com.expedia.bookings.test.utils.HotelsTestDriver;
 import com.expedia.bookings.test.utils.HotelsUserData;
+import com.expedia.bookings.test.utils.TestPreferences;
 import com.jayway.android.robotium.solo.Solo;
 
 public class BrowsingTest extends ActivityInstrumentationTestCase2<SearchActivity> {
 
-	public BrowsingTest() { //Default constructor
-		super("com.expedia.bookings", SearchActivity.class);
+	public BrowsingTest() {
+		super(SearchActivity.class);
 	}
 
 	private static final String TAG = "Hotels Browsing Test";
 
-	private Solo mSolo;
-
 	private Resources mRes;
 	DisplayMetrics mMetric;
-	private HotelsRobotHelper mDriver;
+	private HotelsTestDriver mDriver;
 	private HotelsUserData mUser;
+	private TestPreferences mPreferences;
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		mSolo = new Solo(getInstrumentation(), getActivity());
-		//Log.configureLogging("ExpediaBookings", true);
-
 		mRes = getActivity().getBaseContext().getResources();
-		mMetric = mRes.getDisplayMetrics();
-		mDriver = new HotelsRobotHelper(mSolo, mRes);
+		mPreferences = TestPreferences.generateTestPreferences().setRotationPermission(false)
+				.setScreenshotPermission(false);
+		mDriver = new HotelsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
 		mUser = new HotelsUserData();
+		mUser.setHotelCityToRandomUSCity();
 	}
 
 	public void testMethod() throws Exception {
-		try {
-			mUser.setHotelCityToRandomUSCity();
-			mDriver.setAllowScreenshots(false);
-			mDriver.setAllowOrientationChange(false);
-			mDriver.ignoreSweepstakesActivity();
-			mDriver.changePOS(mDriver.mLocaleUtils.AMERICAN_LOCALES[5]);
-			mDriver.setSpoofBookings();
-			mDriver.launchHotels();
-			mDriver.delay();
-			mDriver.browseRooms(12, mUser.mHotelSearchCity, true);
-		}
-		catch (Exception e) {
-			mDriver.takeScreenshotUponFailure(e, TAG);
-			throw e;
-		}
-		catch (Error e) {
-			mDriver.takeScreenshotUponFailure(e, TAG);
-			throw e;
-		}
+		HotelsHappyPath.execute(mDriver, mUser, 12);
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
 		//Robotium will finish all the activities that have been opened
 		mDriver.enterLog(TAG, "tearing down...");
-
-		mSolo.finishOpenedActivities();
+		mDriver.finishOpenedActivities();
 	}
 
 }
