@@ -31,7 +31,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 	}
 
 	private ImageView mImageView;
-	private Bitmap mBlurredBmap;
+	private Bitmap mBgBitmap;//We temporarily store a bitmap here if we have not yet initialized
 	private IBackgroundImageReceiverRegistrar mBgProvider;
 
 	public static ResultsBackgroundImageFragment newInstance(String destination) {
@@ -61,22 +61,24 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		mImageView.setLayoutParams(params);
 
-		if (mBlurredBmap != null) {
-			mImageView.setImageBitmap(mBlurredBmap);
-			mBlurredBmap = null;//This is just temprorary storage for adding bitmap before initialization
+		if (mBgBitmap != null) {
+			mImageView.setImageBitmap(mBgBitmap);
+			mBgBitmap = null;//This is just temprorary storage for adding bitmap before initialization
 		}
 
 		return mImageView;
 	}
 
 	@Override
-	public void bgImageInDbUpdated(int totalRootViewWidth, int totalRootViewHeight) {
+	public void bgImageInDbUpdated(int totalRootViewWidth) {
 		Bitmap bmap = Db.getBackgroundImage(getActivity(), false);
-		if (mImageView != null) {
-			mImageView.setImageBitmap(bmap);
-		}
-		else {
-			mBlurredBmap = bmap;//Will get picked up in onCreateView
+		if (bmap != null) {
+			if (mImageView != null) {
+				mImageView.setImageBitmap(bmap);
+			}
+			else {
+				mBgBitmap = bmap;//Will get picked up in onCreateView
+			}
 		}
 	}
 }

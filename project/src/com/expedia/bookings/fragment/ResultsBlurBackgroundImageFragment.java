@@ -34,10 +34,8 @@ public class ResultsBlurBackgroundImageFragment extends MeasurableFragment imple
 
 	private FrameLayout mFrameLayout;
 	private ImageView mImageView;
-	private Bitmap mBlurredBmap;
-
 	private int mPrevTotalWidth = -1;
-	private int mPrevTotalHeight = -1;
+	private int mWidth = 0;
 
 	private IBackgroundImageReceiverRegistrar mBgProvider;
 
@@ -65,9 +63,9 @@ public class ResultsBlurBackgroundImageFragment extends MeasurableFragment imple
 			@Override
 			public void onSizeChanged(int w, int h, int oldw, int oldh) {
 				super.onSizeChanged(w, h, oldw, oldh);
-				if (mImageView != null && mImageView.getDrawable() != null && mPrevTotalWidth >= 0
-						&& mPrevTotalHeight >= 0) {
-					loadBitmapFromDb(w, h, mPrevTotalWidth, mPrevTotalHeight);
+				mWidth = w;
+				if (mImageView != null && mPrevTotalWidth >= 0) {
+					bgImageInDbUpdated(mPrevTotalWidth);
 				}
 			}
 		};
@@ -77,9 +75,8 @@ public class ResultsBlurBackgroundImageFragment extends MeasurableFragment imple
 		mImageView = new ImageView(getActivity());
 		mImageView.setScaleType(ScaleType.FIT_XY);
 		mImageView.setLayoutParams(imageParams);
-		if (mBlurredBmap != null) {
-			mImageView.setImageBitmap(mBlurredBmap);
-			mBlurredBmap = null;//This is just temprorary storage for adding bitmap before initialization
+		if (mPrevTotalWidth >= 0) {
+			bgImageInDbUpdated(mPrevTotalWidth);
 		}
 
 		mFrameLayout.addView(mImageView);
@@ -95,39 +92,31 @@ public class ResultsBlurBackgroundImageFragment extends MeasurableFragment imple
 	 * @param totalWidth - how big is the full background that we are laying this over
 	 * @param totalHeight - how tall is the full background that we are laying this over
 	 */
-	public void loadBitmapFromDb(int blurredWidth, int blurredHeight, int totalWidth, int totalHeight) {
-		Bitmap bmap = Db.getBackgroundImage(getActivity(), true);
+	private void loadBitmapFromDb(int blurredWidth, int totalWidth, Bitmap bmap) {
+		if (mImageView != null && bmap != null && blurredWidth > 0 && totalWidth > 0) {
 
-		//Aww math, god damn it
-		float bw = bmap.getWidth();
-		float bh = bmap.getHeight();
-		float tw = totalWidth;
-		float ow = blurredWidth;
-		float th = totalHeight;
-		float oh = blurredHeight;
+			//Aww math, god damn it
+			float bmapWidth = bmap.getWidth();
+			float theirWidth = totalWidth;
+			float ourWidth = blurredWidth;
+			float widthRatio = ourWidth / theirWidth;
 
-		float ratioW = ow / tw;
-		float ratioH = oh / th;
+			int widthPix = (int) (bmapWidth * widthRatio);
+			int heightPix = bmap.getHeight();
+			int x = (int) Math.max(0, bmapWidth - widthPix);
 
-		int widthPix = (int) (bw * ratioW);
-		int heightPix = (int) (bh * ratioH);
-
-		Bitmap bmapClipped = Bitmap.createBitmap(bmap, (int) (bw - widthPix), 0, widthPix, heightPix);
-		if (mImageView != null) {
-			mImageView.setImageBitmap(bmapClipped);
-		}
-		else {
-			mBlurredBmap = bmapClipped;//Will get picked up in onCreateView
+			if (widthPix > 0) {
+				Bitmap bmapClipped = Bitmap.createBitmap(bmap, x, 0, widthPix, heightPix);
+				mImageView.setImageBitmap(bmapClipped);
+			}
 		}
 	}
 
 	@Override
-	public void bgImageInDbUpdated(int totalRootViewWidth, int totalRootViewHeight) {
-		if (totalRootViewWidth > 0 && totalRootViewHeight > 0) {
-			mPrevTotalWidth = totalRootViewWidth;
-			mPrevTotalHeight = totalRootViewHeight;
-			loadBitmapFromDb(mFrameLayout.getWidth(), mFrameLayout.getHeight(), totalRootViewWidth, totalRootViewHeight);
-		}
+	public void bgImageInDbUpdated(int totalRootViewWidth) {
+		mPrevTotalWidth = totalRootViewWidth;
+		Bitmap bmap = Db.getBackgroundImage(getActivity(), true);
+		loadBitmapFromDb(mWidth, totalRootViewWidth, bmap);
 	}
 
 }

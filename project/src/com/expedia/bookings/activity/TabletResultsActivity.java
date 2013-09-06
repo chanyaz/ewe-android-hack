@@ -69,7 +69,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		 * @param totalRootViewWidth
 		 * @param totalRootViewHeight
 		 */
-		public void bgImageInDbUpdated(int totalRootViewWidth, int totalRootViewHeight);
+		public void bgImageInDbUpdated(int totalRootViewWidth);
 	}
 
 	//State
@@ -95,6 +95,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	private ColumnManager mColumnManager = new ColumnManager(3);
 	private GlobalResultsState mState = GlobalResultsState.DEFAULT;
 	private String mDestinationCode = "SFO";//The destination code to use for background images...
+	private boolean mPreDrawInitComplete = false;
 
 	private ArrayList<IBackgroundImageReceiver> mBackgroundImageReceivers = new ArrayList<IBackgroundImageReceiver>();
 	private ArrayList<ITabletResultsController> mTabletResultsControllers = new ArrayList<ITabletResultsController>();
@@ -143,9 +144,20 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		mRootC.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 			@Override
 			public boolean onPreDraw() {
-				mRootC.getViewTreeObserver().removeOnPreDrawListener(this);
-				updateColumnWidths(mRootC.getWidth());
-				setGlobalResultsState(mState);
+				if (!mPreDrawInitComplete) {
+					updateColumnWidths(mRootC.getWidth());
+					setGlobalResultsState(mState);
+					mPreDrawInitComplete = true;
+				}
+
+				//Wait for the defaults or the actual image, but we must have some image.
+				BackgroundImageCache cache = Db.getBackgroundImageCache(TabletResultsActivity.this);
+				String key = Db.getBackgroundImageKey();
+				if (cache.getBitmap(key, TabletResultsActivity.this) != null
+						&& cache.getBlurredBitmap(key, TabletResultsActivity.this) != null) {
+					mRootC.getViewTreeObserver().removeOnPreDrawListener(this);
+					updateBackgroundImages();
+				}
 				return true;
 			}
 		});
@@ -260,6 +272,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	@Override
 	public void registerBgImageReceiver(IBackgroundImageReceiver receiver) {
 		mBackgroundImageReceivers.add(receiver);
+		receiver.bgImageInDbUpdated(mColumnManager.getTotalWidth());
 	}
 
 	@Override
@@ -403,6 +416,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 			if (image == null) {
 				Log.e("Errors downloading background image info");
+				updateBackgroundImages();
 			}
 			else {
 				// We convert this back to a BackgroundImageResponse for the sake of compatibility,
@@ -466,12 +480,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	};
 
 	private void updateBackgroundImages() {
-		int height = mRootC.getHeight();
-		if (height <= 0) {
-			height = 5000;//arbitrarily large
-		}
 		for (IBackgroundImageReceiver receiver : mBackgroundImageReceivers) {
-			receiver.bgImageInDbUpdated(mColumnManager.getTotalWidth(), height);
+			receiver.bgImageInDbUpdated(mColumnManager.getTotalWidth());
 		}
 	}
 

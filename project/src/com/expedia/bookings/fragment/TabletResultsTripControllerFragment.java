@@ -145,8 +145,6 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 				if (!mBlurredBackgroundFrag.isAdded()) {
 					transaction.add(R.id.column_three_blurred_bg, mBlurredBackgroundFrag, FRAG_BLURRED_BG);
 				}
-				mBlurredBackgroundFrag.loadBitmapFromDb(mColumnManager.getColWidth(2), mRootC.getHeight(),
-						mColumnManager.getTotalWidth(), mRootC.getHeight());
 			}
 		}
 		else {
