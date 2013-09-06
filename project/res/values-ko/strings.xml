@@ -30,12 +30,14 @@
     <string name="Log_In">로그인</string>
     <!-- Log in with Expedia -->
     <string name="Log_in_with_Expedia">Expedia로 로그인</string>
-    <!-- Log in with VSC -->
-    <string name="Log_in_with_VSC">VSC로 로그인</string>
     <!-- or -->
     <string name="or">또는</string>
     <!-- Already logged in -->
     <string name="already_logged_in">이미 로그인 상태입니다.</string>
+
+    <!-- Restricted Profile -->
+    <!-- Restricted profile login message -->
+    <string name="restricted_profile_login_message">Expedia에 로그인하려면 기기에서 무제한 사용자 프로필을 사용해야 합니다.</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Home -->
@@ -303,7 +305,7 @@
     <string name="copy_TEMPLATE">%1$s 복사</string>
     <!-- Hours and minutes duration future TEMPLATE. This will be used to produce a string like:"in 3 hours and 12 minutes". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
     <string name="hours_minutes_future_TEMPLATE">%1$s시간 %2$s분 후</string>
-    <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes".  -->
+    <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
     <string name="hours_minutes_past_TEMPLATE">%1$s시간 %2$s분 전</string>
 
     <!-- Itin Buttons -->
@@ -681,6 +683,8 @@
     <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; - &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">항공편 정렬</string>
+    <!-- Label for "stops" button -->
+    <string name="stops_flights">Stops(dev)</string>
     <!-- Edit search title -->
     <string name="edit_search">검색 수정</string>
     <!-- Action mode asking users to select dates -->
@@ -1376,6 +1380,14 @@
     <string name="sort_description_deals">특가 상품순</string>
     <!-- Sort by user rating label -->
     <string name="sort_description_rating">평점순</string>
+
+    <!-- Stop descriptions, e.g. Stops filtered by "description" -->
+    <!-- Any # of stops -->
+    <string name="stop_description_any">모든 경유</string>
+    <!-- Less than or equal to a max  # of stop. Currently set to 1 -->
+    <string name="stop_description__max">1번 이하</string>
+    <!-- Nonstop flights -->
+    <string name="stop_description__nonstop">직항</string>
 
     <!-- Filter option for "show all" -->
     <string name="all">모두</string>

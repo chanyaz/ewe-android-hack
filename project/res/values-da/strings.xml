@@ -30,12 +30,14 @@
     <string name="Log_In">Log ind</string>
     <!-- Log in with Expedia -->
     <string name="Log_in_with_Expedia">Log på med Expedia</string>
-    <!-- Log in with VSC -->
-    <string name="Log_in_with_VSC">Log på med VSC</string>
     <!-- or -->
     <string name="or">eller</string>
     <!-- Already logged in -->
     <string name="already_logged_in">Allerede logget på</string>
+
+    <!-- Restricted Profile -->
+    <!-- Restricted profile login message -->
+    <string name="restricted_profile_login_message">For at logge på Expedia skal du anvende en ubegrænset brugerprofil på din enhed.</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Home -->
@@ -303,7 +305,7 @@
     <string name="copy_TEMPLATE">KOPIER %1$s</string>
     <!-- Hours and minutes duration future TEMPLATE. This will be used to produce a string like:"in 3 hours and 12 minutes". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
     <string name="hours_minutes_future_TEMPLATE">om %1$s og %2$s</string>
-    <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes".  -->
+    <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
     <string name="hours_minutes_past_TEMPLATE">for %1$s og %2$s siden</string>
 
     <!-- Itin Buttons -->
@@ -681,6 +683,8 @@
     <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; til &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">Sorter fly</string>
+    <!-- Label for "stops" button -->
+    <string name="stops_flights">Stops(dev)</string>
     <!-- Edit search title -->
     <string name="edit_search">Rediger søgning</string>
     <!-- Action mode asking users to select dates -->
@@ -1376,6 +1380,14 @@
     <string name="sort_description_deals">Tilbud</string>
     <!-- Sort by user rating label -->
     <string name="sort_description_rating">Antal stjerner</string>
+
+    <!-- Stop descriptions, e.g. Stops filtered by "description" -->
+    <!-- Any # of stops -->
+    <string name="stop_description_any">Alle antal stop</string>
+    <!-- Less than or equal to a max  # of stop. Currently set to 1 -->
+    <string name="stop_description__max">Et eller derunder</string>
+    <!-- Nonstop flights -->
+    <string name="stop_description__nonstop">Direkte</string>
 
     <!-- Filter option for "show all" -->
     <string name="all">Alle</string>

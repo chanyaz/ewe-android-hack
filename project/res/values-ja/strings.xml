@@ -30,12 +30,14 @@
     <string name="Log_In">ログイン</string>
     <!-- Log in with Expedia -->
     <string name="Log_in_with_Expedia">エクスペディアでログイン</string>
-    <!-- Log in with VSC -->
-    <string name="Log_in_with_VSC">VSC でログイン</string>
     <!-- or -->
     <string name="or">又は</string>
     <!-- Already logged in -->
     <string name="already_logged_in">すでにログイン済みです</string>
+
+    <!-- Restricted Profile -->
+    <!-- Restricted profile login message -->
+    <string name="restricted_profile_login_message">エクスペディアにログインするには、ご使用のデバイスで制限なしのユーザー プロフィールをお使いください。</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Home -->
@@ -303,7 +305,7 @@
     <string name="copy_TEMPLATE">%1$s をコピー</string>
     <!-- Hours and minutes duration future TEMPLATE. This will be used to produce a string like:"in 3 hours and 12 minutes". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
     <string name="hours_minutes_future_TEMPLATE">%1$s および %2$s 以内</string>
-    <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes".  -->
+    <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
     <string name="hours_minutes_past_TEMPLATE">%1$s および %2$s 前</string>
 
     <!-- Itin Buttons -->
@@ -681,6 +683,8 @@
     <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; → &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">フライトを並べ替える</string>
+    <!-- Label for "stops" button -->
+    <string name="stops_flights">Stops(dev)</string>
     <!-- Edit search title -->
     <string name="edit_search">検索条件を変更する</string>
     <!-- Action mode asking users to select dates -->
@@ -1377,6 +1381,14 @@
     <!-- Sort by user rating label -->
     <string name="sort_description_rating">評価</string>
 
+    <!-- Stop descriptions, e.g. Stops filtered by "description" -->
+    <!-- Any # of stops -->
+    <string name="stop_description_any">乗継回数問わず</string>
+    <!-- Less than or equal to a max  # of stop. Currently set to 1 -->
+    <string name="stop_description__max">乗継 1 回以下</string>
+    <!-- Nonstop flights -->
+    <string name="stop_description__nonstop">直行便</string>
+
     <!-- Filter option for "show all" -->
     <string name="all">全て</string>
     <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
@@ -1477,7 +1489,7 @@
     <!-- Bullet point for list items -->
     <string name="bullet_point">•</string>
     <!-- Label for button that lets the user complete the booking through the normal flow -->
-    <string name="book_now">今すぐ予約</string>
+    <string name="book_now">部屋タイプを選択</string>
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">電話で予約</string>
 

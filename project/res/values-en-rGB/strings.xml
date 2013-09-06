@@ -30,12 +30,14 @@
     <string name="Log_In">Log In</string>
     <!-- Log in with Expedia -->
     <string name="Log_in_with_Expedia">Log in with Expedia</string>
-    <!-- Log in with VSC -->
-    <string name="Log_in_with_VSC">Log in with VSC</string>
     <!-- or -->
     <string name="or">or</string>
     <!-- Already logged in -->
     <string name="already_logged_in">Already logged in</string>
+
+    <!-- Restricted Profile -->
+    <!-- Restricted profile login message -->
+    <string name="restricted_profile_login_message">To log in to Expedia, you must use an unrestricted user profile on your device.</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Home -->
@@ -303,7 +305,7 @@
     <string name="copy_TEMPLATE">COPY %1$s</string>
     <!-- Hours and minutes duration future TEMPLATE. This will be used to produce a string like:"in 3 hours and 12 minutes". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
     <string name="hours_minutes_future_TEMPLATE">in %1$s and %2$s</string>
-    <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes".  -->
+    <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
     <string name="hours_minutes_past_TEMPLATE">%1$s and %2$s ago</string>
 
     <!-- Itin Buttons -->
@@ -681,6 +683,8 @@
     <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; to &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">Sort Flights</string>
+    <!-- Label for "stops" button -->
+    <string name="stops_flights">Stops(dev)</string>
     <!-- Edit search title -->
     <string name="edit_search">Edit Search</string>
     <!-- Action mode asking users to select dates -->
@@ -1377,6 +1381,14 @@
     <!-- Sort by user rating label -->
     <string name="sort_description_rating">Rating</string>
 
+    <!-- Stop descriptions, e.g. Stops filtered by "description" -->
+    <!-- Any # of stops -->
+    <string name="stop_description_any">Any Stops</string>
+    <!-- Less than or equal to a max  # of stop. Currently set to 1 -->
+    <string name="stop_description__max">One or Less</string>
+    <!-- Nonstop flights -->
+    <string name="stop_description__nonstop">NonStop</string>
+
     <!-- Filter option for "show all" -->
     <string name="all">All</string>
     <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
@@ -1386,11 +1398,11 @@
     <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
     <string name="filter_price_expensive">£££</string>
     <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
-    <string name="filter_price_cheap_euro">€</string>
+    <string name="filter_price_cheap_euro">£</string>
     <!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
-    <string name="filter_price_moderate_euro">€€</string>
+    <string name="filter_price_moderate_euro">££</string>
     <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
-    <string name="filter_price_expensive_euro">€€€</string>
+    <string name="filter_price_expensive_euro">£££</string>
     <!-- Filter option for "show 3 star hotels or better."  (Should remain abbreviated) -->
     <string name="filter_stars_three">3+</string>
     <!-- Filter option for "show 4 star hotels or better."  (Should remain abbreviated) -->

@@ -30,12 +30,14 @@
     <string name="Log_In">登录</string>
     <!-- Log in with Expedia -->
     <string name="Log_in_with_Expedia">使用 Expedia 帐户登录</string>
-    <!-- Log in with VSC -->
-    <string name="Log_in_with_VSC">使用 VSC 帐户登录</string>
     <!-- or -->
     <string name="or">或</string>
     <!-- Already logged in -->
     <string name="already_logged_in">已经登录</string>
+
+    <!-- Restricted Profile -->
+    <!-- Restricted profile login message -->
+    <string name="restricted_profile_login_message">要登录 Expedia，您的设备必须使用不受限制的用户配置文件。</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Home -->
@@ -303,7 +305,7 @@
     <string name="copy_TEMPLATE">复制%1$s</string>
     <!-- Hours and minutes duration future TEMPLATE. This will be used to produce a string like:"in 3 hours and 12 minutes". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
     <string name="hours_minutes_future_TEMPLATE">%1$s %2$s 内</string>
-    <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes".  -->
+    <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
     <string name="hours_minutes_past_TEMPLATE">%1$s %2$s 前</string>
 
     <!-- Itin Buttons -->
@@ -426,9 +428,9 @@
     <string name="car_category_oversize">特大型车</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">两个门 轿车</string>
-    <string name="car_type_three_door">三个门 轿车</string>
-    <string name="car_type_four_door">四个门 轿车</string>
+    <string name="car_type_two_door">两个门轿车</string>
+    <string name="car_type_three_door">三个门轿车</string>
+    <string name="car_type_four_door">四个门轿车</string>
     <string name="car_type_van">箱型车</string>
     <string name="car_type_wagon">旅行车</string>
     <string name="car_type_limousine">豪华轿车</string>
@@ -681,6 +683,8 @@
     <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; 至 &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">航班排序</string>
+    <!-- Label for "stops" button -->
+    <string name="stops_flights">Stops(dev)</string>
     <!-- Edit search title -->
     <string name="edit_search">编辑搜索设置</string>
     <!-- Action mode asking users to select dates -->
@@ -1376,6 +1380,14 @@
     <string name="sort_description_deals">优惠</string>
     <!-- Sort by user rating label -->
     <string name="sort_description_rating">评分</string>
+
+    <!-- Stop descriptions, e.g. Stops filtered by "description" -->
+    <!-- Any # of stops -->
+    <string name="stop_description_any">任何中转站</string>
+    <!-- Less than or equal to a max  # of stop. Currently set to 1 -->
+    <string name="stop_description__max">最多一次中转</string>
+    <!-- Nonstop flights -->
+    <string name="stop_description__nonstop">直飞</string>
 
     <!-- Filter option for "show all" -->
     <string name="all">全部</string>
