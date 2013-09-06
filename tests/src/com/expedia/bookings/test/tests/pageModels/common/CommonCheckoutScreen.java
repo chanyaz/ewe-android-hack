@@ -17,6 +17,7 @@ public class CommonCheckoutScreen extends ScreenActions {
 	private static int sSelectPaymentButtonID = R.id.payment_info_btn;
 	private static int sSlideToPurchaseStartViewID = R.id.slider_image;
 	private static int sSlideToPurchaseEndViewID = R.id.destination_image;
+	private static int sCalculatingTaxesAndFeesStringID = R.string.calculating_taxes_and_fees;
 
 	private static final String TAG = "Common Checkout Screen";
 
@@ -53,6 +54,10 @@ public class CommonCheckoutScreen extends ScreenActions {
 
 	public View slideToPurchaseEndView() {
 		return getView(sSlideToPurchaseEndViewID);
+	}
+
+	public String calculatingTaxesAndFees() {
+		return getString(sCalculatingTaxesAndFeesStringID);
 	}
 
 	// Object interaction

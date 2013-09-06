@@ -14,6 +14,7 @@ import com.expedia.bookings.test.utils.TestPreferences;
 public class HotelsReviewsScreen extends ScreenActions {
 
 	private static int sSelectButtonID = R.id.menu_select_hotel;
+	private static int sLoadingReviewsStringID = R.string.user_review_loading_text;
 	private static int sTitleViewID = R.id.title;
 	private static int sRatingViewID = R.id.rating;
 	private static int sFavorableStringID = R.string.user_review_sort_button_favorable;
@@ -54,6 +55,10 @@ public class HotelsReviewsScreen extends ScreenActions {
 
 	public View backButton() {
 		return getView(sBackButtonID);
+	}
+
+	public String loadingUserReviews() {
+		return getString(sLoadingReviewsStringID);
 	}
 
 	// Object interaction

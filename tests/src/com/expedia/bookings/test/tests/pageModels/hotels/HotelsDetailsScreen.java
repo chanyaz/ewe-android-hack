@@ -22,6 +22,7 @@ public class HotelsDetailsScreen extends ScreenActions {
 	private static int sReadMoreViewID = R.id.read_more;
 	private static int sSelectButtonID = R.id.menu_select_hotel;
 	private static int sBackButtonID = android.R.id.home;
+	private static int sNoReviewsStringID = R.string.no_reviews;
 
 	public HotelsDetailsScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {
@@ -64,6 +65,10 @@ public class HotelsDetailsScreen extends ScreenActions {
 
 	public View backButton() {
 		return getView(sBackButtonID);
+	}
+
+	public String noReviews() {
+		return getString(sNoReviewsStringID);
 	}
 
 	// Object interaction

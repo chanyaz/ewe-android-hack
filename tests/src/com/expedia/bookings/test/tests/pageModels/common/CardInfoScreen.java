@@ -14,6 +14,8 @@ public class CardInfoScreen extends ScreenActions {
 	private static int sCreditCardNumberEditTextID = R.id.edit_creditcard_number;
 	private static int sExpirationDateButtonID = R.id.edit_creditcard_exp_text_btn;
 	private static int sNameOnCardEditTextID = R.id.edit_name_on_card;
+	private static int sEmailAddressEditTextID = R.id.edit_email_address;
+	private static int sPostalCodeEditTextID = R.id.edit_address_postal_code;
 	private static int sDoneButtonID = R.id.menu_done;
 
 	private static int sMonthUpButtonID = R.id.month_up;
@@ -50,6 +52,14 @@ public class CardInfoScreen extends ScreenActions {
 
 	public String saveButtonString() {
 		return mRes.getString(R.string.save);
+	}
+
+	public EditText emailEditText() {
+		return (EditText) getView(sEmailAddressEditTextID);
+	}
+
+	public EditText postalCodeEditText() {
+		return (EditText) getView(sPostalCodeEditTextID);
 	}
 
 	// Object access expiration date dialog
@@ -89,6 +99,14 @@ public class CardInfoScreen extends ScreenActions {
 
 	public void typeTextNameOnCardEditText(String text) {
 		typeText(nameOnCardEditText(), text);
+	}
+
+	public void typeTextEmailEditText(String emailAddress) {
+		typeText(emailEditText(), emailAddress);
+	}
+
+	public void typeTextPostalCode(String postalCode) {
+		typeText(postalCodeEditText(), postalCode);
 	}
 
 	public void clickOnDoneButton() {
