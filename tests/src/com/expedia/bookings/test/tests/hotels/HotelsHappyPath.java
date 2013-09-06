@@ -209,7 +209,14 @@ public class HotelsHappyPath {
 			driver.screenshot("CVV Entry");
 			driver.cvvEntryScreen().parseAndEnterCVV(user.mCCV);
 			driver.cvvEntryScreen().clickBookButton();
-			driver.delay();
+			driver.delay(1);
+			driver.waitForStringToBeGone(driver.cvvEntryScreen().booking());
+			driver.delay(1);
+			driver.screenshot("Confirmation Screen");
+			driver.landscape();
+			driver.portrait();
+			driver.hotelsConfirmationScreen().clickDoneButton();
+			driver.launchScreen().pressShop();
 		}
 		catch (Error e) {
 			driver.getScreenShotUtility().screenshot(TAG + "-FAILURE");

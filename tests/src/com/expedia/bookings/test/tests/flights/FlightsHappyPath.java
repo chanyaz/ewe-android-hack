@@ -137,7 +137,14 @@ public class FlightsHappyPath {
 			driver.screenshot("CVV Entry");
 			driver.cvvEntryScreen().parseAndEnterCVV(user.mCCV);
 			driver.cvvEntryScreen().clickBookButton();
-			driver.delay();
+			driver.delay(1);
+			driver.waitForStringToBeGone(driver.cvvEntryScreen().booking());
+			driver.delay(1);
+			driver.screenshot("Confirmation screen");
+			driver.landscape();
+			driver.portrait();
+			driver.flightsConfirmationScreen().clickDoneButton();
+			driver.launchScreen().pressShop();
 		}
 		catch (Error e) {
 			driver.getScreenShotUtility().screenshot(TAG + "-FAILURE");
