@@ -502,6 +502,7 @@ public class PushNotificationUtils {
 	 * @return - NotificationType, default to NotificationType.FLIGHT_GATE_TIME_CHANGE;
 	 */
 	public static NotificationType pushApiTypeToNotificationType(String typeIntStr) {
+
 		// From @shawn's push notifiaction type test:
 		//    self.assertEqual(Notification("SCHEDULED_DEPARTURE").id, 1)
 		//    self.assertEqual(Notification("SCHEDULED_ARRIVAL").id, 2)
@@ -521,22 +522,24 @@ public class PushNotificationUtils {
 		//    self.assertEqual(Notification("STATUS_DIVERTED").id, 16)
 		//    self.assertEqual(Notification("STATUS_REDIRECTED").id, 17)
 		//    self.assertEqual(Notification("STATUS_BAGGAGE_CLAIM").id, 18)
-		try {
-			int iType = Integer.parseInt(typeIntStr);
-			switch (iType) {
-			case 1: return NotificationType.FLIGHT_DEPARTURE_REMINDER;
-			case 3: return NotificationType.FLIGHT_CANCELLED;
-			case 5: return NotificationType.FLIGHT_GATE_TIME_CHANGE;
-			case 13: return NotificationType.FLIGHT_GATE_NUMBER_CHANGE;
-			case 18: return NotificationType.FLIGHT_BAGGAGE_CLAIM;
-			default: throw new Exception("");
-			}
+
+		int iType = Integer.parseInt(typeIntStr);
+		switch (iType) {
+		case 1:
+			return NotificationType.FLIGHT_DEPARTURE_REMINDER;
+		case 3:
+			return NotificationType.FLIGHT_CANCELLED;
+		case 5:
+			return NotificationType.FLIGHT_GATE_TIME_CHANGE;
+		case 13:
+			return NotificationType.FLIGHT_GATE_NUMBER_CHANGE;
+		case 18:
+			return NotificationType.FLIGHT_BAGGAGE_CLAIM;
+		default:
+			Log.e("Type couldn't be converted from type:" + typeIntStr + " to valid NotificationType enum");
+			//Default as this is largely used for tracking only
+			return NotificationType.FLIGHT_GATE_TIME_CHANGE;
 		}
-		catch (Exception ex) {
-			Log.e("Type couldn't be converted from type:" + typeIntStr + " to valid NotificationType enum", ex);
-		}
-		//Default as this is largely used for tracking only
-		return NotificationType.FLIGHT_GATE_TIME_CHANGE;
 	}
 
 	/**
