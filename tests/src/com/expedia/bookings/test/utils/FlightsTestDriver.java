@@ -5,6 +5,7 @@ import android.app.Instrumentation;
 import android.content.res.Resources;
 
 import com.expedia.bookings.test.tests.pageModels.flights.FlightLegScreen;
+import com.expedia.bookings.test.tests.pageModels.flights.FlightsConfirmationScreen;
 import com.expedia.bookings.test.tests.pageModels.flights.FlightsSearchLoading;
 import com.expedia.bookings.test.tests.pageModels.flights.FlightsSearchResultsScreen;
 import com.expedia.bookings.test.tests.pageModels.flights.FlightsSearchScreen;
@@ -15,6 +16,7 @@ public class FlightsTestDriver extends TestDriver {
 	private FlightsSearchLoading mFlightsSearchLoading;
 	private FlightsSearchResultsScreen mFlightsSearchResultsScreen;
 	private FlightLegScreen mFlightLegScreen;
+	private FlightsConfirmationScreen mFlightsConfirmationScreen;
 
 	public FlightsTestDriver(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {
@@ -48,6 +50,14 @@ public class FlightsTestDriver extends TestDriver {
 			mFlightLegScreen = new FlightLegScreen(mInstrumentation, getCurrentActivity(), mRes, mPreferences);
 		}
 		return mFlightLegScreen;
+	}
+
+	public FlightsConfirmationScreen flightsConfirmationScreen() {
+		if (mFlightsConfirmationScreen == null) {
+			mFlightsConfirmationScreen = new FlightsConfirmationScreen(mInstrumentation, getCurrentActivity(), mRes,
+					mPreferences);
+		}
+		return mFlightsConfirmationScreen;
 	}
 
 }
