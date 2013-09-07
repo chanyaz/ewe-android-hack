@@ -77,6 +77,7 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 	private boolean mInitialized = false;
 	private boolean mIsBeingTouched = false;
 	private boolean mIsBeingScrolled = false;
+	private boolean mIsSmoothScrolling = false;
 	private int mPreviousScrollState = OnScrollListener.SCROLL_STATE_IDLE;
 	private float mPreviouslyReportedPercentage = 1f;
 
@@ -222,7 +223,7 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 					post(new Runnable() {
 						@Override
 						public void run() {
-							setState(mState, true);
+							setState(mState, true, false);
 							mInitialized = true;
 						}
 					});
@@ -264,7 +265,7 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 	 * METHODS FOR MOVING AROUND THE LIST
 	 */
 
-	public void setState(State state, boolean forceUpdate) {
+	public void setState(State state, boolean forceUpdate, boolean smoothScroll) {
 		State oldState = mState;
 		mState = state;
 
@@ -273,19 +274,26 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 			if (state == State.LIST_CONTENT_AT_BOTTOM) {
 				setListLockedToTop(false);
 				unShrinkHeaderSpacer();
-				moveToPosition(0, 0);
+				moveToPosition(0, 0, smoothScroll);
 			}
 			else if (state == State.LIST_CONTENT_AT_TOP && getFirstVisiblePosition() == 0) {
-				moveToPosition(1, 0);
+				moveToPosition(1, 0, smoothScroll);
 			}
 
 			reportStateChanged(oldState, state);
 		}
 	}
 
-	public Pair<Integer, Integer> moveToPosition(int position, int y) {
+	public Pair<Integer, Integer> moveToPosition(int position, int y, boolean smoothScroll) {
 		Pair<Integer, Integer> sanePosition = sanatizePosition(position, y);
-		setSelectionFromTop(sanePosition.first, sanePosition.second);
+		if (smoothScroll) {
+			mIsSmoothScrolling = true;
+			someUserInteractionHasStarted();
+			smoothScrollToPositionFromTop(sanePosition.first, sanePosition.second);
+		}
+		else {
+			setSelectionFromTop(sanePosition.first, sanePosition.second);
+		}
 		return sanePosition;
 	}
 
@@ -588,7 +596,7 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 
 	@Override
 	public boolean onTouchEvent(MotionEvent me) {
-		if (mInitialized) {
+		if (mInitialized && !mIsSmoothScrolling) {
 			//We want to keep track of when the user is touching this list
 			if (me.getAction() == MotionEvent.ACTION_DOWN) {
 				updateTouchState(true);
@@ -610,18 +618,26 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 	@Override
 	public void onScrollStateChanged(AbsListView listView, int scrollState) {
 		boolean isIdle = scrollState == OnScrollListener.SCROLL_STATE_IDLE;
-		boolean isFlinging = scrollState == OnScrollListener.SCROLL_STATE_FLING;
-		boolean wasFlinging = mPreviousScrollState == OnScrollListener.SCROLL_STATE_FLING;
-
-		if (isFlinging & !wasFlinging && getFirstVisiblePosition() > 0) {
-			//We started flinging while the header spacer was off screen. We don't want people to fling to 
-			//a different mode un-intentionally, so we hide the header which means flinging will stop at the top data row
-			shrinkHeaderSpacer();
+		if (mIsSmoothScrolling) {
+			mIsSmoothScrolling = !isIdle;
+			if(!mIsSmoothScrolling){
+				someUserInteractionHasStopped();
+			}
 		}
+		else {
+			boolean isFlinging = scrollState == OnScrollListener.SCROLL_STATE_FLING;
+			boolean wasFlinging = mPreviousScrollState == OnScrollListener.SCROLL_STATE_FLING;
 
-		updateScrollState(!isIdle);
+			if (isFlinging & !wasFlinging && getFirstVisiblePosition() > 0) {
+				//We started flinging while the header spacer was off screen. We don't want people to fling to 
+				//a different mode un-intentionally, so we hide the header which means flinging will stop at the top data row
+				shrinkHeaderSpacer();
+			}
 
-		mPreviousScrollState = scrollState;
+			updateScrollState(!isIdle);
+
+			mPreviousScrollState = scrollState;
+		}
 	}
 
 	private void updateTouchState(boolean isBeingTouched) {
@@ -657,17 +673,17 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 	}
 
 	private void someUserInteractionHasStarted() {
-		setState(State.TRANSIENT, false);
+		setState(State.TRANSIENT, false, false);
 	}
 
 	private void someUserInteractionHasStopped() {
 		if (mState == State.TRANSIENT && !mIsBeingScrolled && !mIsBeingTouched) {
 			float percentage = getScrollDownPercentage();
 			if (percentage > mPercentageOfHeaderSpacerOnScreenForSnap) {
-				setState(State.LIST_CONTENT_AT_BOTTOM, false);
+				setState(State.LIST_CONTENT_AT_BOTTOM, false, false);
 			}
 			else {
-				setState(State.LIST_CONTENT_AT_TOP, false);
+				setState(State.LIST_CONTENT_AT_TOP, false, false);
 			}
 
 			if (mHeaderSpacerShrunk) {

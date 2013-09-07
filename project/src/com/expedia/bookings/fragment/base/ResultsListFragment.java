@@ -144,7 +144,7 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 	public void gotoBottomPosition() {
 		mGotoBottom = true;
 		if (mListView != null) {
-			mListView.setState(State.LIST_CONTENT_AT_BOTTOM, true);
+			mListView.setState(State.LIST_CONTENT_AT_BOTTOM, true, true);
 			mGotoBottom = false;
 		}
 	}
