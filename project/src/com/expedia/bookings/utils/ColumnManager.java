@@ -1,5 +1,6 @@
 package com.expedia.bookings.utils;
 
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 
@@ -57,6 +58,27 @@ public class ColumnManager {
 	}
 
 	/**
+	 * Set the container so it is positioned to fill the provided column
+	 * @param container - what we want to size/position
+	 * @param column - which column should we size/position it to
+	 */
+	public void setContainerToColumn(ViewGroup container, int column) {
+		setContainerToColumnSpan(container, column, column);
+	}
+
+	/**
+	 * Set the container so it is positioned to fill the provided column span
+	 * @param container - what we want to size/position
+	 * @param startCol - the start column where the left edge will be placed
+	 * @param endCol - the end column, the contianers right edge will match this columns right edge
+	 */
+	public void setContainerToColumnSpan(ViewGroup container, int startCol, int endCol) {
+		int width = getColRight(endCol) - getColLeft(startCol);
+		int left = getColLeft(startCol);
+		setFrameWidthAndPosition(container, width, left);
+	}
+
+	/**
 	 * Set the frame width and position from the left edge of the screen using layout params.
 	 * This assumes the parent container is a FrameLayout as it will be setting the layout params
 	 * as FrameLayout.LayoutParams.
@@ -65,7 +87,7 @@ public class ColumnManager {
 	 * @param width - how wide?
 	 * @param leftMargin - how far from the left of the parent
 	 */
-	public static void setFrameWidthAndPosition(FrameLayout container, int width, int leftMargin) {
+	public static void setFrameWidthAndPosition(ViewGroup container, int width, int leftMargin) {
 		FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) container.getLayoutParams();
 		if (params == null) {
 			params = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);

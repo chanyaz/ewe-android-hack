@@ -218,10 +218,9 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 	@Override
 	public void updateColumnWidths(int totalWidth) {
 		mColumnManager.setTotalWidth(totalWidth);
-		ColumnManager.setFrameWidthAndPosition(mTripOverviewC, mColumnManager.getColWidth(2),
-				mColumnManager.getColLeft(2));
-		ColumnManager.setFrameWidthAndPosition(mBlurredBackgroundC, mColumnManager.getColWidth(2),
-				mColumnManager.getColLeft(2));
+
+		mColumnManager.setContainerToColumn(mTripOverviewC, 2);
+		mColumnManager.setContainerToColumn(mBlurredBackgroundC, 2);
 	}
 
 	@Override

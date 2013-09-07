@@ -325,12 +325,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	public void updateColumnWidths(int totalWidth) {
 		mColumnManager.setTotalWidth(totalWidth);
 
-		ColumnManager.setFrameWidthAndPosition(mFlightFiltersC, mColumnManager.getColWidth(0),
-				mColumnManager.getColLeft(0));
-		ColumnManager.setFrameWidthAndPosition(mFlightListC, mColumnManager.getColWidth(1),
-				mColumnManager.getColLeft(1));
-		ColumnManager
-				.setFrameWidthAndPosition(mFlightMapC, mColumnManager.getColWidth(2), mColumnManager.getColLeft(2));
+		mColumnManager.setContainerToColumn(mFlightFiltersC, 0);
+		mColumnManager.setContainerToColumn(mFlightListC, 1);
+		mColumnManager.setContainerToColumn(mFlightMapC, 2);
 	}
 
 	@Override

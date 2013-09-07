@@ -446,11 +446,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 	public void updateColumnWidths(int totalWidth) {
 		mColumnManager.setTotalWidth(totalWidth);
 
-		ColumnManager
-				.setFrameWidthAndPosition(mHotelListC, mColumnManager.getColWidth(0), mColumnManager.getColLeft(0));
-		ColumnManager.setFrameWidthAndPosition(mHotelFiltersC, mColumnManager.getColWidth(0),
-				mColumnManager.getColLeft(0));
-		ColumnManager.setFrameWidthAndPosition(mBgHotelMapC, mColumnManager.getColRight(2), 0);
+		mColumnManager.setContainerToColumn(mHotelListC, 0);
+		mColumnManager.setContainerToColumn(mHotelFiltersC, 0);
+		mColumnManager.setContainerToColumnSpan(mBgHotelMapC, 0, 2);
 	}
 
 	@Override
