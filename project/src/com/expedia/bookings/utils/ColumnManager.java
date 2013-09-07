@@ -46,14 +46,16 @@ public class ColumnManager {
 		int baseColSize = (int) (mTotalWidth / mNumColumns);
 		int remainder = (int) (mTotalWidth % mNumColumns);
 
-		int leftPos = mTotalWidth;
-		for (int i = (mNumColumns - 1); i >= 0; i--) {
-			int colWidth = baseColSize + (remainder > 0 ? 1 : 0);
-			leftPos -= colWidth;
-			remainder--;
-
-			mColumnWidths[i] = colWidth;
-			mColumnLefts[i] = leftPos;
+		int left = 0;
+		for(int i = 0; i < mNumColumns; i++){
+			int width = baseColSize;
+			if(i == 0){
+				//the first column gets to be slightly larger
+				width += remainder;
+			}
+			mColumnLefts[i] = left;
+			mColumnWidths[i] = width;
+			left+=width;
 		}
 	}
 

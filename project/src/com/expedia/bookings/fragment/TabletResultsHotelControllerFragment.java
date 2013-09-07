@@ -68,6 +68,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 	//Tags
 	private static final String FRAG_TAG_HOTEL_LIST = "FRAG_TAG_HOTEL_LIST";
 	private static final String FRAG_TAG_HOTEL_FILTERS = "FRAG_TAG_HOTEL_FILTERS";
+	private static final String FRAG_TAG_HOTEL_FILTERED_COUNT = "FRAG_TAG_HOTEL_FILTERED_COUNT";
 	private static final String FRAG_TAG_HOTEL_MAP = "FRAG_TAG_HOTEL_MAP";
 
 	//Containers
@@ -75,11 +76,13 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 	private BlockEventFrameLayout mHotelListC;
 	private BlockEventFrameLayout mBgHotelMapC;
 	private BlockEventFrameLayout mHotelFiltersC;
+	private BlockEventFrameLayout mHotelFilteredCountC;
 
 	//Fragments
 	private SupportMapFragment mMapFragment;
 	private ResultsHotelListFragment mHotelListFrag;
 	private ResultsHotelsFiltersFragment mHotelFiltersFrag;
+	private ResultsHotelsFilterCountFragment mHotelFilteredCountFrag;
 
 	//Other
 	private GlobalResultsState mGlobalState = GlobalResultsState.DEFAULT;
@@ -90,6 +93,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 	//Animation
 	private ValueAnimator mHotelsStateAnimator;
 	private HotelsState mDestinationHotelsState;
+	private static final int STATE_CHANGE_ANIMATION_DURATION = 150;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -106,6 +110,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 		mHotelListC = Ui.findView(view, R.id.column_one_hotel_list);
 		mBgHotelMapC = Ui.findView(view, R.id.bg_hotel_map);
 		mHotelFiltersC = Ui.findView(view, R.id.column_one_hotel_filters);
+		mHotelFilteredCountC = Ui.findView(view, R.id.column_three_hotel_filtered_count);
 
 		if (savedInstanceState != null) {
 			mGlobalState = GlobalResultsState.valueOf(savedInstanceState.getString(STATE_GLOBAL_STATE,
@@ -140,7 +145,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 				float startValue = state == HotelsState.FILTERS ? 0f : 1f;
 				final float endValue = state == HotelsState.FILTERS ? 1f : 0f;
 				mDestinationHotelsState = state;
-				mHotelsStateAnimator = ValueAnimator.ofFloat(startValue, endValue).setDuration(150);
+				mHotelsStateAnimator = ValueAnimator.ofFloat(startValue, endValue).setDuration(STATE_CHANGE_ANIMATION_DURATION);
 				mHotelsStateAnimator.addUpdateListener(new AnimatorUpdateListener() {
 
 					@Override
@@ -159,6 +164,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 
 				mHotelListFrag.setListLockedToTop(true);
 				mHotelFiltersC.setVisibility(View.VISIBLE);
+				mHotelFilteredCountC.setVisibility(View.VISIBLE);
 				setHotelsFiltersAnimationHardwareRendering(true);
 				mHotelsStateAnimator.start();
 			}
@@ -188,18 +194,24 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 		mHotelsState = state;
 		mDestinationHotelsState = null;
 		mHotelsStateAnimator = null;
+		setTouchState(mGlobalState, state);
 	}
 
 	private void setHotelsFiltersAnimationHardwareRendering(boolean useHardwareLayer) {
 		int layerValue = useHardwareLayer ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
 		mHotelListC.setLayerType(layerValue, null);
 		mHotelFiltersC.setLayerType(layerValue, null);
+		mHotelFilteredCountC.setLayerType(layerValue, null);
 	}
 
 	private void setHotelsFiltersShownPercentage(float percentage) {
 		mHotelListC.setTranslationX(percentage * mColumnManager.getColLeft(1));
+		
 		float filtersLeft = mColumnManager.getColLeft(0) - ((1f - percentage) * mColumnManager.getColWidth(0));
 		mHotelFiltersC.setTranslationX(filtersLeft);
+		
+		float filteredCountLeft = mColumnManager.getColWidth(2) * (1f - percentage);
+		mHotelFilteredCountC.setTranslationX(filteredCountLeft);
 	}
 
 	/**
@@ -236,9 +248,11 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 		case HOTELS: {
 			if (hotelsState == HotelsState.FILTERS) {
 				mHotelFiltersC.setVisibility(View.VISIBLE);
+				mHotelFilteredCountC.setVisibility(View.VISIBLE);
 			}
 			else {
 				mHotelFiltersC.setVisibility(View.INVISIBLE);
+				mHotelFilteredCountC.setVisibility(View.INVISIBLE);
 			}
 			mBgHotelMapC.setVisibility(View.VISIBLE);
 			mHotelListC.setVisibility(View.VISIBLE);
@@ -248,12 +262,14 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 			mBgHotelMapC.setVisibility(View.INVISIBLE);
 			mHotelListC.setVisibility(View.VISIBLE);
 			mHotelFiltersC.setVisibility(View.GONE);
+			mHotelFilteredCountC.setVisibility(View.GONE);
 			break;
 		}
 		default: {
 			mBgHotelMapC.setVisibility(View.GONE);
 			mHotelListC.setVisibility(View.GONE);
 			mHotelFiltersC.setVisibility(View.GONE);
+			mHotelFilteredCountC.setVisibility(View.GONE);
 			break;
 		}
 		}
@@ -271,9 +287,12 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 		boolean hotelListAvailable = true;
 		boolean hotelMapAvailable = true;
 		boolean hotelFiltersAvailable = true;
+		boolean hotelFilteredCountAvailable = true;
 
-		if (globalState == GlobalResultsState.FLIGHTS) {
+		if (globalState != GlobalResultsState.HOTELS) {
 			hotelMapAvailable = false;
+			hotelFiltersAvailable = false;
+			hotelFilteredCountAvailable = false;
 		}
 
 		//Hotel list
@@ -284,6 +303,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 
 		//Hotel filters
 		setHotelFiltersFragmentAvailability(hotelFiltersAvailable, transaction);
+
+		//Hotel Filtered count fragment
+		setHotelFilteredCountFragmentAvailability(hotelFilteredCountAvailable, transaction);
 
 		transaction.commit();
 
@@ -343,6 +365,37 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 			}
 			if (mHotelFiltersFrag != null) {
 				transaction.remove(mHotelFiltersFrag);
+			}
+		}
+		return transaction;
+	}
+
+	private FragmentTransaction setHotelFilteredCountFragmentAvailability(boolean available,
+			FragmentTransaction transaction) {
+		if (available) {
+			if (mHotelFilteredCountFrag == null || !mHotelFilteredCountFrag.isAdded()) {
+				if (mHotelFilteredCountFrag == null) {
+					mHotelFilteredCountFrag = (ResultsHotelsFilterCountFragment) getChildFragmentManager()
+							.findFragmentByTag(
+									FRAG_TAG_HOTEL_FILTERED_COUNT);
+				}
+				if (mHotelFilteredCountFrag == null) {
+					mHotelFilteredCountFrag = new ResultsHotelsFilterCountFragment();
+				}
+				if (!mHotelFilteredCountFrag.isAdded()) {
+					transaction.add(R.id.column_three_hotel_filtered_count, mHotelFilteredCountFrag,
+							FRAG_TAG_HOTEL_FILTERED_COUNT);
+				}
+			}
+		}
+		else {
+			if (mHotelFilteredCountFrag == null) {
+				mHotelFilteredCountFrag = (ResultsHotelsFilterCountFragment) getChildFragmentManager()
+						.findFragmentByTag(
+								FRAG_TAG_HOTEL_FILTERED_COUNT);
+			}
+			if (mHotelFilteredCountFrag != null) {
+				transaction.remove(mHotelFilteredCountFrag);
 			}
 		}
 		return transaction;
@@ -441,6 +494,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 		if (mHotelFiltersC != requester) {
 			mHotelFiltersC.setBlockNewEventsEnabled(true);
 		}
+		if (mHotelFilteredCountC != requester) {
+			mHotelFilteredCountC.setBlockNewEventsEnabled(true);
+		}
 	}
 
 	@Override
@@ -459,7 +515,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 
 		mColumnManager.setContainerToColumn(mHotelListC, 0);
 		mColumnManager.setContainerToColumn(mHotelFiltersC, 0);
+		mColumnManager.setContainerToColumn(mHotelFilteredCountC, 2);
 		mColumnManager.setContainerToColumnSpan(mBgHotelMapC, 0, 2);
+
 	}
 
 	@Override
