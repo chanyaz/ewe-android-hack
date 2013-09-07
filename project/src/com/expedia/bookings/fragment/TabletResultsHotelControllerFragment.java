@@ -36,15 +36,12 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 		ITabletResultsController, ISortAndFilterListener {
 
 	public interface IHotelsFruitScrollUpListViewChangeListener {
-
 		public void onHotelsStateChanged(State oldState, State newState, float percentage, View requester);
 
 		public void onHotelsPercentageChanged(State state, float percentage);
-
 	}
 
 	private IFruitScrollUpListViewChangeListener mFruitProxy = new IFruitScrollUpListViewChangeListener() {
-
 		@Override
 		public void onStateChanged(State oldState, State newState, float percentage) {
 			if (mListener != null) {
@@ -57,9 +54,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 			if (mListener != null) {
 				mListener.onHotelsPercentageChanged(state, percentage);
 			}
-
 		}
-
 	};
 
 	private enum HotelsState {
@@ -128,6 +123,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 		outState.putString(STATE_HOTELS_STATE, mHotelsState.name());
 		outState.putString(STATE_GLOBAL_STATE, mGlobalState.name());
 	}
+
+	/**
+	 * HOTELS STATE 
+	 */
 
 	private void setHotelsState(HotelsState state, boolean animate) {
 		if (!animate) {
@@ -202,6 +201,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 		float filtersLeft = mColumnManager.getColLeft(0) - ((1f - percentage) * mColumnManager.getColWidth(0));
 		mHotelFiltersC.setTranslationX(filtersLeft);
 	}
+
+	/**
+	 * STATE HELPERS
+	 */
 
 	private void setTouchState(GlobalResultsState globalState, HotelsState hotelsState) {
 		switch (globalState) {
@@ -285,6 +288,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 		transaction.commit();
 
 	}
+
+	/**
+	 * FRAGMENT HELPERS
+	 */
 
 	private FragmentTransaction setHotelListFragmentAvailability(boolean available, FragmentTransaction transaction) {
 		if (available) {
@@ -380,6 +387,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 		}
 	}
 
+	/**
+	 * ITabletResultsController Functions
+	 */
+
 	@Override
 	public void setGlobalResultsState(GlobalResultsState state) {
 		mGlobalState = state;
@@ -472,6 +483,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 		}
 		return false;
 	}
+
+	/**
+	 * ISortAndFilterListener Functions
+	 */
 
 	@Override
 	public void onSortAndFilterClicked() {
