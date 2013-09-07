@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment.base;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.widget.FruitScrollUpListView;
 import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewChangeListener;
 import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewInitListener;
@@ -8,6 +9,7 @@ import com.expedia.bookings.widget.FruitScrollUpListView.State;
 import com.mobiata.android.util.Ui;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -38,6 +40,14 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 	private boolean mLockedToTop = false;
 	private boolean mGotoBottom = false;
 	private IFruitScrollUpListViewChangeListener mChangeListener;
+	private IBackButtonLockListener mBackLockListener;
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		mBackLockListener = Ui.findFragmentListener(this, IBackButtonLockListener.class, true);
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -180,6 +190,7 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 
 	@Override
 	public void onStateChanged(State oldState, State newState, float percentage) {
+		mBackLockListener.setBackButtonLockState(newState == State.TRANSIENT);
 		updateStickyHeaderState(percentage, newState != State.TRANSIENT);
 	}
 

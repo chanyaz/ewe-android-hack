@@ -18,6 +18,7 @@ import com.expedia.bookings.fragment.TabletResultsFlightControllerFragment.IFlig
 import com.expedia.bookings.fragment.TabletResultsHotelControllerFragment;
 import com.expedia.bookings.fragment.TabletResultsHotelControllerFragment.IHotelsFruitScrollUpListViewChangeListener;
 import com.expedia.bookings.fragment.TabletResultsTripControllerFragment;
+import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.ITabletResultsController;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.ColumnManager;
@@ -60,7 +61,7 @@ import android.view.ViewGroup;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TabletResultsActivity extends SherlockFragmentActivity implements ITabletResultsController,
 		IFlightsFruitScrollUpListViewChangeListener, IHotelsFruitScrollUpListViewChangeListener,
-		IBackgroundImageReceiverRegistrar {
+		IBackgroundImageReceiverRegistrar, IBackButtonLockListener {
 
 	public interface IBackgroundImageReceiver {
 		/**
@@ -97,6 +98,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	private GlobalResultsState mState = GlobalResultsState.DEFAULT;
 	private String mDestinationCode = "SFO";//The destination code to use for background images...
 	private boolean mPreDrawInitComplete = false;
+	private boolean mBackButtonLocked = false;
 
 	private ArrayList<IBackgroundImageReceiver> mBackgroundImageReceivers = new ArrayList<IBackgroundImageReceiver>();
 	private ArrayList<ITabletResultsController> mTabletResultsControllers = new ArrayList<ITabletResultsController>();
@@ -280,8 +282,10 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 	@Override
 	public void onBackPressed() {
-		if (!handleBackPressed()) {
-			super.onBackPressed();
+		if (!mBackButtonLocked) {
+			if (!handleBackPressed()) {
+				super.onBackPressed();
+			}
 		}
 	}
 
@@ -585,6 +589,11 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			animateToFlightsPercentage(percentage);
 		}
 
+	}
+
+	@Override
+	public void setBackButtonLockState(boolean locked) {
+		mBackButtonLocked = locked;
 	}
 
 }
