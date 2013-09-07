@@ -94,8 +94,8 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 			break;
 		}
 		default: {
-			mTripOverviewC.setVisibility(View.GONE);
-			mBlurredBackgroundC.setVisibility(View.GONE);
+			mTripOverviewC.setVisibility(View.INVISIBLE);
+			mBlurredBackgroundC.setVisibility(View.INVISIBLE);
 			break;
 		}
 		}

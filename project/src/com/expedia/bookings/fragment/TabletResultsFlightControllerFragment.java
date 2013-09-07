@@ -118,8 +118,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	private void setVisibilityState(GlobalResultsState state) {
 		switch (state) {
 		case DEFAULT: {
-			mFlightMapC.setVisibility(View.GONE);
-			mFlightFiltersC.setVisibility(View.GONE);
+			mFlightMapC.setVisibility(View.INVISIBLE);
+			mFlightFiltersC.setVisibility(View.INVISIBLE);
 			mFlightListC.setVisibility(View.VISIBLE);
 			break;
 		}
@@ -130,9 +130,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			break;
 		}
 		default: {
-			mFlightMapC.setVisibility(View.GONE);
-			mFlightFiltersC.setVisibility(View.GONE);
-			mFlightListC.setVisibility(View.GONE);
+			mFlightMapC.setVisibility(View.INVISIBLE);
+			mFlightFiltersC.setVisibility(View.INVISIBLE);
+			mFlightListC.setVisibility(View.INVISIBLE);
 			break;
 		}
 		}

@@ -11,6 +11,7 @@ import com.expedia.bookings.widget.BlockEventFrameLayout;
 import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewChangeListener;
 import com.expedia.bookings.widget.FruitScrollUpListView.State;
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 import android.animation.Animator;
@@ -145,7 +146,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 				float startValue = state == HotelsState.FILTERS ? 0f : 1f;
 				final float endValue = state == HotelsState.FILTERS ? 1f : 0f;
 				mDestinationHotelsState = state;
-				mHotelsStateAnimator = ValueAnimator.ofFloat(startValue, endValue).setDuration(STATE_CHANGE_ANIMATION_DURATION);
+				mHotelsStateAnimator = ValueAnimator.ofFloat(startValue, endValue).setDuration(
+						STATE_CHANGE_ANIMATION_DURATION);
 				mHotelsStateAnimator.addUpdateListener(new AnimatorUpdateListener() {
 
 					@Override
@@ -206,10 +208,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 
 	private void setHotelsFiltersShownPercentage(float percentage) {
 		mHotelListC.setTranslationX(percentage * mColumnManager.getColLeft(1));
-		
+
 		float filtersLeft = mColumnManager.getColLeft(0) - ((1f - percentage) * mColumnManager.getColWidth(0));
 		mHotelFiltersC.setTranslationX(filtersLeft);
-		
+
 		float filteredCountLeft = mColumnManager.getColWidth(2) * (1f - percentage);
 		mHotelFilteredCountC.setTranslationX(filteredCountLeft);
 	}
@@ -261,15 +263,15 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 		case DEFAULT: {
 			mBgHotelMapC.setVisibility(View.INVISIBLE);
 			mHotelListC.setVisibility(View.VISIBLE);
-			mHotelFiltersC.setVisibility(View.GONE);
-			mHotelFilteredCountC.setVisibility(View.GONE);
+			mHotelFiltersC.setVisibility(View.INVISIBLE);
+			mHotelFilteredCountC.setVisibility(View.INVISIBLE);
 			break;
 		}
 		default: {
-			mBgHotelMapC.setVisibility(View.GONE);
-			mHotelListC.setVisibility(View.GONE);
-			mHotelFiltersC.setVisibility(View.GONE);
-			mHotelFilteredCountC.setVisibility(View.GONE);
+			mBgHotelMapC.setVisibility(View.INVISIBLE);
+			mHotelListC.setVisibility(View.INVISIBLE);
+			mHotelFiltersC.setVisibility(View.INVISIBLE);
+			mHotelFilteredCountC.setVisibility(View.INVISIBLE);
 			break;
 		}
 		}
@@ -290,9 +292,11 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 		boolean hotelFilteredCountAvailable = true;
 
 		if (globalState != GlobalResultsState.HOTELS) {
-			hotelMapAvailable = false;
 			hotelFiltersAvailable = false;
 			hotelFilteredCountAvailable = false;
+		}
+		if (globalState != GlobalResultsState.HOTELS && globalState != GlobalResultsState.DEFAULT) {
+			hotelMapAvailable = false;
 		}
 
 		//Hotel list
@@ -461,6 +465,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 		switch (state) {
 		case DEFAULT: {
 			mHotelListC.setVisibility(View.VISIBLE);
+			mBgHotelMapC.setVisibility(View.VISIBLE);
 			break;
 		}
 		case HOTELS: {
