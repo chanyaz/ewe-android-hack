@@ -14,6 +14,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.Ui;
 
 /**
  * You can't do anything with maps (like animate cameras) until they
@@ -43,9 +44,7 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (activity instanceof SupportMapFragmentListener) {
-			mListener = (SupportMapFragmentListener) activity;
-		}
+		mListener = Ui.findFragmentListener(this, SupportMapFragmentListener.class, false);
 	}
 
 	@Override
