@@ -18,8 +18,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.FrameLayout;
 
 /**
  *  TabletResultsFlightControllerFragment: designed for tablet results 2013
@@ -327,24 +325,16 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	public void updateColumnWidths(int totalWidth) {
 		mColumnManager.setTotalWidth(totalWidth);
 
-		setContainerWidth(mFlightFiltersC, mColumnManager.getColWidth(0), mColumnManager.getColLeft(0));
-		setContainerWidth(mFlightListC, mColumnManager.getColWidth(1), mColumnManager.getColLeft(1));
-		setContainerWidth(mFlightMapC, mColumnManager.getColWidth(2), mColumnManager.getColLeft(2));
+		ColumnManager.setFrameWidthAndPosition(mFlightFiltersC, mColumnManager.getColWidth(0),
+				mColumnManager.getColLeft(0));
+		ColumnManager.setFrameWidthAndPosition(mFlightListC, mColumnManager.getColWidth(1),
+				mColumnManager.getColLeft(1));
+		ColumnManager
+				.setFrameWidthAndPosition(mFlightMapC, mColumnManager.getColWidth(2), mColumnManager.getColLeft(2));
 	}
-	
+
 	@Override
 	public boolean handleBackPressed() {
 		return false;
 	}
-
-	private void setContainerWidth(ViewGroup container, int width, int leftMargin) {
-		FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) container.getLayoutParams();
-		if (params == null) {
-			params = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-		}
-		params.width = width;
-		params.leftMargin = leftMargin;
-		container.setLayoutParams(params);
-	}
-
 }

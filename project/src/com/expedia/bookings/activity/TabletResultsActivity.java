@@ -273,7 +273,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 

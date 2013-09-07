@@ -16,8 +16,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.FrameLayout;
 
 /**
  *  TabletResultsTripControllerFragment: designed for tablet results 2013
@@ -220,25 +218,15 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 	@Override
 	public void updateColumnWidths(int totalWidth) {
 		mColumnManager.setTotalWidth(totalWidth);
-		setContainerWidth(mTripOverviewC, mColumnManager.getColWidth(2), mColumnManager.getColLeft(2));
-		setContainerWidth(mBlurredBackgroundC, mColumnManager.getColWidth(2), mColumnManager.getColLeft(2));
+		ColumnManager.setFrameWidthAndPosition(mTripOverviewC, mColumnManager.getColWidth(2),
+				mColumnManager.getColLeft(2));
+		ColumnManager.setFrameWidthAndPosition(mBlurredBackgroundC, mColumnManager.getColWidth(2),
+				mColumnManager.getColLeft(2));
 	}
-	
+
 	@Override
 	public boolean handleBackPressed() {
 		return false;
 	}
-	
 
-	private void setContainerWidth(ViewGroup container, int width, int leftMargin) {
-		FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) container.getLayoutParams();
-		if (params == null) {
-			params = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-		}
-		params.width = width;
-		params.leftMargin = leftMargin;
-		container.setLayoutParams(params);
-	}
-
-	
 }

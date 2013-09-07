@@ -14,7 +14,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.mobiata.android.util.Ui;
 
 import android.animation.Animator;
-import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
@@ -27,8 +26,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.FrameLayout;
 
 /**
  *  TabletResultsHotelControllerFragment: designed for tablet results 2013
@@ -95,6 +92,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 	private IHotelsFruitScrollUpListViewChangeListener mListener;
 	private ColumnManager mColumnManager = new ColumnManager(3);
 
+	//Animation
+	private ValueAnimator mHotelsStateAnimator;
+	private HotelsState mDestinationHotelsState;
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -127,9 +128,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 		outState.putString(STATE_HOTELS_STATE, mHotelsState.name());
 		outState.putString(STATE_GLOBAL_STATE, mGlobalState.name());
 	}
-
-	private ValueAnimator mHotelsStateAnimator;
-	private HotelsState mDestinationHotelsState;
 
 	private void setHotelsState(HotelsState state, boolean animate) {
 		if (!animate) {
@@ -205,15 +203,20 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 		mHotelFiltersC.setTranslationX(filtersLeft);
 	}
 
-	private void setTouchState(GlobalResultsState globalState) {
+	private void setTouchState(GlobalResultsState globalState, HotelsState hotelsState) {
 		switch (globalState) {
-		case DEFAULT: {
-			mBgHotelMapC.setBlockNewEventsEnabled(true);
+		case HOTELS: {
+			if (hotelsState == HotelsState.DEFAULT) {
+				mBgHotelMapC.setBlockNewEventsEnabled(false);
+			}
+			else {
+				mBgHotelMapC.setBlockNewEventsEnabled(true);
+			}
 			mHotelListC.setBlockNewEventsEnabled(false);
 			break;
 		}
-		case HOTELS: {
-			mBgHotelMapC.setBlockNewEventsEnabled(false);
+		case DEFAULT: {
+			mBgHotelMapC.setBlockNewEventsEnabled(true);
 			mHotelListC.setBlockNewEventsEnabled(false);
 			break;
 		}
@@ -227,21 +230,21 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 
 	private void setVisibilityState(GlobalResultsState globalState, HotelsState hotelsState) {
 		switch (globalState) {
-		case DEFAULT: {
-			mBgHotelMapC.setVisibility(View.INVISIBLE);
-			mHotelListC.setVisibility(View.VISIBLE);
-			mHotelFiltersC.setVisibility(View.GONE);
-			break;
-		}
 		case HOTELS: {
-			mBgHotelMapC.setVisibility(View.VISIBLE);
-			mHotelListC.setVisibility(View.VISIBLE);
 			if (hotelsState == HotelsState.FILTERS) {
 				mHotelFiltersC.setVisibility(View.VISIBLE);
 			}
 			else {
 				mHotelFiltersC.setVisibility(View.INVISIBLE);
 			}
+			mBgHotelMapC.setVisibility(View.VISIBLE);
+			mHotelListC.setVisibility(View.VISIBLE);
+			break;
+		}
+		case DEFAULT: {
+			mBgHotelMapC.setVisibility(View.INVISIBLE);
+			mHotelListC.setVisibility(View.VISIBLE);
+			mHotelFiltersC.setVisibility(View.GONE);
 			break;
 		}
 		default: {
@@ -253,7 +256,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 		}
 	}
 
-	private void setFragmentState(GlobalResultsState globalState) {
+	private void setFragmentState(GlobalResultsState globalState, HotelsState hotelsState) {
 
 		//All of the fragment adds/removes come through this method, and we want to make sure our last call
 		//is complete before moving forward, so this is important
@@ -344,7 +347,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 			if (mMapFragment == null || !mMapFragment.isAdded()) {
 
 				if (mMapFragment == null) {
-
 					mMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentByTag(FRAG_TAG_HOTEL_MAP);
 				}
 				if (mMapFragment == null) {
@@ -381,16 +383,13 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 	@Override
 	public void setGlobalResultsState(GlobalResultsState state) {
 		mGlobalState = state;
-		setTouchState(state);
-		setVisibilityState(state, mHotelsState);
-		setFragmentState(state);
-		//Reset our local state.
-		if (state != GlobalResultsState.HOTELS) {
-			setHotelsState(HotelsState.DEFAULT, false);
-		}
-		else {
-			setHotelsState(mHotelsState, false);
-		}
+		HotelsState tmpHotelsState = state != GlobalResultsState.HOTELS ? HotelsState.DEFAULT : mHotelsState;
+
+		setTouchState(state, tmpHotelsState);
+		setVisibilityState(state, tmpHotelsState);
+		setFragmentState(state, tmpHotelsState);
+
+		setHotelsState(tmpHotelsState, false);
 	}
 
 	@Override
@@ -447,9 +446,11 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 	public void updateColumnWidths(int totalWidth) {
 		mColumnManager.setTotalWidth(totalWidth);
 
-		setContainerWidth(mHotelListC, mColumnManager.getColWidth(0), mColumnManager.getColLeft(0));
-		setContainerWidth(mHotelFiltersC, mColumnManager.getColWidth(0), mColumnManager.getColLeft(0));
-		setContainerWidth(mBgHotelMapC, mColumnManager.getColRight(2), 0);
+		ColumnManager
+				.setFrameWidthAndPosition(mHotelListC, mColumnManager.getColWidth(0), mColumnManager.getColLeft(0));
+		ColumnManager.setFrameWidthAndPosition(mHotelFiltersC, mColumnManager.getColWidth(0),
+				mColumnManager.getColLeft(0));
+		ColumnManager.setFrameWidthAndPosition(mBgHotelMapC, mColumnManager.getColRight(2), 0);
 	}
 
 	@Override
@@ -472,16 +473,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 			}
 		}
 		return false;
-	}
-
-	private void setContainerWidth(ViewGroup container, int width, int leftMargin) {
-		FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) container.getLayoutParams();
-		if (params == null) {
-			params = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-		}
-		params.width = width;
-		params.leftMargin = leftMargin;
-		container.setLayoutParams(params);
 	}
 
 	@Override
