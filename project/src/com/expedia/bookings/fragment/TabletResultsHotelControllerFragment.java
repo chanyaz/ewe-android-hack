@@ -10,6 +10,7 @@ import com.expedia.bookings.utils.ColumnManager;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
 import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewChangeListener;
 import com.expedia.bookings.widget.FruitScrollUpListView.State;
+import com.expedia.bookings.widget.TouchThroughFrameLayout;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.mobiata.android.util.Ui;
 
@@ -74,7 +75,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 	//Containers
 	private ViewGroup mRootC;
 	private BlockEventFrameLayout mHotelListC;
-	private BlockEventFrameLayout mBgHotelMapC;
+	private TouchThroughFrameLayout mBgHotelMapC;
+	private BlockEventFrameLayout mBgHotelMapTouchDelegateC;
 	private BlockEventFrameLayout mHotelFiltersC;
 	private BlockEventFrameLayout mHotelFilteredCountC;
 
@@ -93,7 +95,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 	//Animation
 	private ValueAnimator mHotelsStateAnimator;
 	private HotelsState mDestinationHotelsState;
-	private static final int STATE_CHANGE_ANIMATION_DURATION = 2000;
+	private static final int STATE_CHANGE_ANIMATION_DURATION = 200;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -109,8 +111,19 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 		mRootC = Ui.findView(view, R.id.root_layout);
 		mHotelListC = Ui.findView(view, R.id.column_one_hotel_list);
 		mBgHotelMapC = Ui.findView(view, R.id.bg_hotel_map);
+		mBgHotelMapTouchDelegateC = Ui.findView(view, R.id.bg_hotel_map_touch_delegate);
 		mHotelFiltersC = Ui.findView(view, R.id.column_one_hotel_filters);
 		mHotelFilteredCountC = Ui.findView(view, R.id.column_three_hotel_filtered_count);
+		
+		//Default maps to be invisible (they get ignored by our setVisibilityState function so this is important)
+		mBgHotelMapC.setAlpha(0f);
+
+		//Set up our maps touch passthrough. It is important to note that A) the touch receiver is set to be invisible,
+		//so that when it gets a touch, it will pass to whatever is behind it. B) It must be the same size as the
+		//the view sending it touch events, because no offsets or anything like that are performed. C) It must be
+		//behind the view getting the original touch event, otherwise it will create a loop.
+		mBgHotelMapTouchDelegateC.setVisibility(View.INVISIBLE);
+		mBgHotelMapC.setTouchPassThroughReceiver(mBgHotelMapTouchDelegateC);
 
 		if (savedInstanceState != null) {
 			mGlobalState = GlobalResultsState.valueOf(savedInstanceState.getString(STATE_GLOBAL_STATE,
@@ -181,12 +194,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 		switch (state) {
 		case DEFAULT: {
 			setHotelsFiltersShownPercentage(0f);
-			setVisibilityState(mGlobalState, state);
 			mHotelListFrag.setSortAndFilterButtonText(getString(R.string.sort_and_filter));
 			break;
 		}
 		case FILTERS: {
-			setVisibilityState(mGlobalState, state);
 			setHotelsFiltersShownPercentage(1f);
 			mHotelListFrag.setSortAndFilterButtonText(getString(R.string.done));
 			break;
@@ -195,6 +206,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 		mHotelsState = state;
 		mDestinationHotelsState = null;
 		mHotelsStateAnimator = null;
+		setVisibilityState(mGlobalState, state);
 		setTouchState(mGlobalState, state);
 	}
 
@@ -223,21 +235,21 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 		switch (globalState) {
 		case HOTELS: {
 			if (hotelsState == HotelsState.DEFAULT) {
-				mBgHotelMapC.setBlockNewEventsEnabled(false);
+				mBgHotelMapC.setTouchPassThroughEnabled(false);
 			}
 			else {
-				mBgHotelMapC.setBlockNewEventsEnabled(true);
+				mBgHotelMapC.setTouchPassThroughEnabled(true);
 			}
 			mHotelListC.setBlockNewEventsEnabled(false);
 			break;
 		}
 		case DEFAULT: {
-			mBgHotelMapC.setBlockNewEventsEnabled(true);
+			mBgHotelMapC.setTouchPassThroughEnabled(true);
 			mHotelListC.setBlockNewEventsEnabled(false);
 			break;
 		}
 		default: {
-			mBgHotelMapC.setBlockNewEventsEnabled(true);
+			mBgHotelMapC.setTouchPassThroughEnabled(true);
 			mHotelListC.setBlockNewEventsEnabled(true);
 			break;
 		}
@@ -255,19 +267,16 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 				mHotelFiltersC.setVisibility(View.INVISIBLE);
 				mHotelFilteredCountC.setVisibility(View.INVISIBLE);
 			}
-			mBgHotelMapC.setVisibility(View.VISIBLE);
 			mHotelListC.setVisibility(View.VISIBLE);
 			break;
 		}
 		case DEFAULT: {
-			mBgHotelMapC.setVisibility(View.INVISIBLE);
 			mHotelListC.setVisibility(View.VISIBLE);
 			mHotelFiltersC.setVisibility(View.INVISIBLE);
 			mHotelFilteredCountC.setVisibility(View.INVISIBLE);
 			break;
 		}
 		default: {
-			mBgHotelMapC.setVisibility(View.INVISIBLE);
 			mHotelListC.setVisibility(View.INVISIBLE);
 			mHotelFiltersC.setVisibility(View.INVISIBLE);
 			mHotelFilteredCountC.setVisibility(View.INVISIBLE);
@@ -464,11 +473,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 		switch (state) {
 		case DEFAULT: {
 			mHotelListC.setVisibility(View.VISIBLE);
-			mBgHotelMapC.setVisibility(View.VISIBLE);
 			break;
 		}
 		case HOTELS: {
-			mBgHotelMapC.setVisibility(View.VISIBLE);
 			mHotelListC.setVisibility(View.VISIBLE);
 			break;
 		}
@@ -500,7 +507,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 	@Override
 	public void blockAllNewTouches(View requester) {
 		if (mBgHotelMapC != requester) {
-			mBgHotelMapC.setBlockNewEventsEnabled(true);
+			mBgHotelMapC.setTouchPassThroughEnabled(true);
 		}
 		if (mHotelListC != requester) {
 			mHotelListC.setBlockNewEventsEnabled(true);
@@ -531,6 +538,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 		mColumnManager.setContainerToColumn(mHotelFiltersC, 0);
 		mColumnManager.setContainerToColumn(mHotelFilteredCountC, 2);
 		mColumnManager.setContainerToColumnSpan(mBgHotelMapC, 0, 2);
+		mColumnManager.setContainerToColumnSpan(mBgHotelMapTouchDelegateC, 0, 2);
 
 	}
 
