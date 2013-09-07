@@ -277,18 +277,23 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	}
 
 	@Override
-	public void setHardwareLayerFlightsTransition(boolean useHardwareLayer) {
-		int layerValue = useHardwareLayer ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
-		mFlightMapC.setLayerType(layerValue, null);
-		mFlightFiltersC.setLayerType(layerValue, null);
-	}
+	public void setHardwareLayerForTransition(int layerType, GlobalResultsState stateOne, GlobalResultsState stateTwo) {
+		if ((stateOne == GlobalResultsState.DEFAULT || stateOne == GlobalResultsState.HOTELS)
+				&& (stateTwo == GlobalResultsState.DEFAULT || stateTwo == GlobalResultsState.HOTELS)) {
+			//Default -> Hotels or Hotels -> Default transition
 
-	@Override
-	public void setHardwareLayerHotelsTransition(boolean useHardwareLayer) {
-		int layerValue = useHardwareLayer ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
-		mFlightMapC.setLayerType(layerValue, null);
-		mFlightListC.setLayerType(layerValue, null);
+			mFlightMapC.setLayerType(layerType, null);
+			mFlightListC.setLayerType(layerType, null);
 
+		}
+
+		if ((stateOne == GlobalResultsState.DEFAULT || stateOne == GlobalResultsState.FLIGHTS)
+				&& (stateTwo == GlobalResultsState.DEFAULT || stateTwo == GlobalResultsState.FLIGHTS)) {
+			//Default -> Flights or Flights -> Default transition
+
+			mFlightMapC.setLayerType(layerType, null);
+			mFlightFiltersC.setLayerType(layerType, null);
+		}
 	}
 
 	@Override
@@ -332,7 +337,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 	@Override
 	public boolean handleBackPressed() {
-		if(mGlobalState == GlobalResultsState.FLIGHTS){
+		if (mGlobalState == GlobalResultsState.FLIGHTS) {
 			mFlightListFrag.gotoBottomPosition();
 			return true;
 		}

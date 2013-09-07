@@ -173,21 +173,24 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		}
 	}
 
-	private void setHardwareLayers(boolean useHardwareLayer) {
-		int layerValue = useHardwareLayer ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
-		mTripOverviewC.setLayerType(layerValue, null);
-		mBlurredBackgroundC.setLayerType(layerValue, null);
-	}
-
 	@Override
-	public void setHardwareLayerFlightsTransition(boolean useHardwareLayer) {
-		setHardwareLayers(useHardwareLayer);
-	}
+	public void setHardwareLayerForTransition(int layerType, GlobalResultsState stateOne, GlobalResultsState stateTwo) {
+		if ((stateOne == GlobalResultsState.DEFAULT || stateOne == GlobalResultsState.HOTELS)
+				&& (stateTwo == GlobalResultsState.DEFAULT || stateTwo == GlobalResultsState.HOTELS)) {
+			//Default -> Hotels or Hotels -> Default transition
 
-	@Override
-	public void setHardwareLayerHotelsTransition(boolean useHardwareLayer) {
-		setHardwareLayers(useHardwareLayer);
+			mTripOverviewC.setLayerType(layerType, null);
+			mBlurredBackgroundC.setLayerType(layerType, null);
 
+		}
+
+		if ((stateOne == GlobalResultsState.DEFAULT || stateOne == GlobalResultsState.FLIGHTS)
+				&& (stateTwo == GlobalResultsState.DEFAULT || stateTwo == GlobalResultsState.FLIGHTS)) {
+			//Default -> Flights or Flights -> Default transition
+
+			mTripOverviewC.setLayerType(layerType, null);
+			mBlurredBackgroundC.setLayerType(layerType, null);
+		}
 	}
 
 	@Override

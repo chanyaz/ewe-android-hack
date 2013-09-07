@@ -225,17 +225,9 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	}
 
 	@Override
-	public void setHardwareLayerFlightsTransition(boolean useHardwareLayer) {
+	public void setHardwareLayerForTransition(int layerType, GlobalResultsState stateOne, GlobalResultsState stateTwo) {
 		for (ITabletResultsController controller : mTabletResultsControllers) {
-			controller.setHardwareLayerFlightsTransition(useHardwareLayer);
-		}
-
-	}
-
-	@Override
-	public void setHardwareLayerHotelsTransition(boolean useHardwareLayer) {
-		for (ITabletResultsController controller : mTabletResultsControllers) {
-			controller.setHardwareLayerHotelsTransition(useHardwareLayer);
+			controller.setHardwareLayerForTransition(layerType, stateOne, stateTwo);
 		}
 	}
 
@@ -539,10 +531,12 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 				blockAllNewTouches(requester);
 				setAnimatingTowardsVisibility(GlobalResultsState.HOTELS);
 				setAnimatingTowardsVisibility(GlobalResultsState.DEFAULT);
-				setHardwareLayerHotelsTransition(true);
+				setHardwareLayerForTransition(View.LAYER_TYPE_HARDWARE, GlobalResultsState.DEFAULT,
+						GlobalResultsState.HOTELS);
 			}
 			else {
-				setHardwareLayerHotelsTransition(false);
+				setHardwareLayerForTransition(View.LAYER_TYPE_NONE, GlobalResultsState.DEFAULT,
+						GlobalResultsState.HOTELS);
 				if (newState == com.expedia.bookings.widget.FruitScrollUpListView.State.LIST_CONTENT_AT_TOP) {
 					//We have entered this mode...
 					setGlobalResultsState(GlobalResultsState.HOTELS);
@@ -568,11 +562,13 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 				blockAllNewTouches(requester);
 				setAnimatingTowardsVisibility(GlobalResultsState.DEFAULT);
 				setAnimatingTowardsVisibility(GlobalResultsState.FLIGHTS);
-				setHardwareLayerFlightsTransition(true);
+				setHardwareLayerForTransition(View.LAYER_TYPE_HARDWARE, GlobalResultsState.DEFAULT,
+						GlobalResultsState.FLIGHTS);
 				animateToFlightsPercentage(percentage);
 			}
 			else {
-				setHardwareLayerFlightsTransition(false);
+				setHardwareLayerForTransition(View.LAYER_TYPE_NONE, GlobalResultsState.DEFAULT,
+						GlobalResultsState.FLIGHTS);
 				if (newState == com.expedia.bookings.widget.FruitScrollUpListView.State.LIST_CONTENT_AT_TOP) {
 					setGlobalResultsState(GlobalResultsState.FLIGHTS);
 				}

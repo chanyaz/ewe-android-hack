@@ -11,7 +11,6 @@ import com.expedia.bookings.widget.BlockEventFrameLayout;
 import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewChangeListener;
 import com.expedia.bookings.widget.FruitScrollUpListView.State;
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 import android.animation.Animator;
@@ -94,7 +93,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 	//Animation
 	private ValueAnimator mHotelsStateAnimator;
 	private HotelsState mDestinationHotelsState;
-	private static final int STATE_CHANGE_ANIMATION_DURATION = 150;
+	private static final int STATE_CHANGE_ANIMATION_DURATION = 2000;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -477,15 +476,25 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 	}
 
 	@Override
-	public void setHardwareLayerFlightsTransition(boolean useHardwareLayer) {
-		int layerValue = useHardwareLayer ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
-		mHotelListC.setLayerType(layerValue, null);
-	}
+	public void setHardwareLayerForTransition(int layerType, GlobalResultsState stateOne, GlobalResultsState stateTwo) {
+		if ((stateOne == GlobalResultsState.DEFAULT || stateOne == GlobalResultsState.HOTELS)
+				&& (stateTwo == GlobalResultsState.DEFAULT || stateTwo == GlobalResultsState.HOTELS)) {
+			//Default -> Hotels or Hotels -> Default transition
 
-	@Override
-	public void setHardwareLayerHotelsTransition(boolean useHardwareLayer) {
-		int layerValue = useHardwareLayer ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
-		mBgHotelMapC.setLayerType(layerValue, null);
+			//TODO: This should be carefully considered. Basically we are setting a hardware layer on a mapview
+			//and we don't know if it is still drawing or not. We want the alpha fade to be buttery smooth, but
+			//if the map is still drawing it will be repainting to the GPU constantly causing performance badness.
+			//Profiling on my N10 suggests it is still better to set the hardware layer, but it makes me a little nervous.
+			mBgHotelMapC.setLayerType(layerType, null);
+
+		}
+
+		if ((stateOne == GlobalResultsState.DEFAULT || stateOne == GlobalResultsState.FLIGHTS)
+				&& (stateTwo == GlobalResultsState.DEFAULT || stateTwo == GlobalResultsState.FLIGHTS)) {
+			//Default -> Flights or Flights -> Default transition
+			mHotelListC.setLayerType(layerType, null);
+		}
+
 	}
 
 	@Override

@@ -2,7 +2,6 @@ package com.expedia.bookings.interfaces;
 
 import android.view.View;
 
-import com.expedia.bookings.activity.TabletResultsActivity;
 import com.expedia.bookings.activity.TabletResultsActivity.GlobalResultsState;
 
 /**
@@ -28,17 +27,15 @@ public interface ITabletResultsController {
 	 */
 	public void setAnimatingTowardsVisibility(GlobalResultsState state);
 
+	
 	/**
-	 * We need to be able to turn hardware layer rendering off and on
-	 * for when we are moving to and from the FLIGHTS state.
+	 * Transitioning between states often requires the use of Hardware layers for performance reasons.
+	 * 
+	 * The order of stateOne and stateTwo is not significant, these are simply the states we are between.
+	 * 
+	 * Every call setting the layerType to Hardware, will be followed by a call unsetting the hardware layer.
 	 */
-	public void setHardwareLayerFlightsTransition(boolean useHardwareLayer);
-
-	/**
-	 * We need to be able to turn hardware layer rendering off and on
-	 * for when we are moving to and from the HOTELS state.
-	 */
-	public void setHardwareLayerHotelsTransition(boolean useHardwareLayer);
+	public void setHardwareLayerForTransition(int layerType, GlobalResultsState stateOne, GlobalResultsState stateTwo);
 
 	/**
 	 * Sometimes other ITabletResultsControllers will want to control touches.
