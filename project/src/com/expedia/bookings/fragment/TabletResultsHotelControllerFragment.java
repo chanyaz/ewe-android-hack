@@ -1,9 +1,9 @@
 package com.expedia.bookings.fragment;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ITabletResultsController;
 import com.expedia.bookings.activity.TabletResultsActivity.GlobalResultsState;
 import com.expedia.bookings.fragment.ResultsHotelListFragment.ISortAndFilterListener;
+import com.expedia.bookings.interfaces.ITabletResultsController;
 import com.expedia.bookings.maps.SupportMapFragment;
 import com.expedia.bookings.maps.SupportMapFragment.SupportMapFragmentListener;
 import com.expedia.bookings.utils.ColumnManager;

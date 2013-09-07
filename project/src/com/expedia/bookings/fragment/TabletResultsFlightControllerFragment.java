@@ -1,8 +1,8 @@
 package com.expedia.bookings.fragment;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ITabletResultsController;
 import com.expedia.bookings.activity.TabletResultsActivity.GlobalResultsState;
+import com.expedia.bookings.interfaces.ITabletResultsController;
 import com.expedia.bookings.utils.ColumnManager;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
 import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewChangeListener;
@@ -332,6 +332,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 	@Override
 	public boolean handleBackPressed() {
+		if(mGlobalState == GlobalResultsState.FLIGHTS){
+			mFlightListFrag.gotoBottomPosition();
+			return true;
+		}
 		return false;
 	}
 }

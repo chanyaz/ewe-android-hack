@@ -18,6 +18,7 @@ import com.expedia.bookings.fragment.TabletResultsFlightControllerFragment.IFlig
 import com.expedia.bookings.fragment.TabletResultsHotelControllerFragment;
 import com.expedia.bookings.fragment.TabletResultsHotelControllerFragment.IHotelsFruitScrollUpListViewChangeListener;
 import com.expedia.bookings.fragment.TabletResultsTripControllerFragment;
+import com.expedia.bookings.interfaces.ITabletResultsController;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.ColumnManager;
 import com.expedia.bookings.widget.BlockEventFrameLayout;

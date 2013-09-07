@@ -1,7 +1,8 @@
-package com.expedia.bookings.activity;
+package com.expedia.bookings.interfaces;
 
 import android.view.View;
 
+import com.expedia.bookings.activity.TabletResultsActivity;
 import com.expedia.bookings.activity.TabletResultsActivity.GlobalResultsState;
 
 /**
