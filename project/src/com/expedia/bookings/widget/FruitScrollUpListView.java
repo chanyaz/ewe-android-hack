@@ -36,6 +36,8 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 
 	private static final String STATE_DEFAULT_SAVESTATE = "STATE_DEFAULT_SAVESTATE";
 	private static final String STATE_STATE = "STATE_STATE";
+	private static final String STATE_SHRUNK = "STATE_SHRUNK";
+	private static final String STATE_SHRUNK_LOCKED = "STATE_SHRUNK_LOCKED";
 
 	public interface IFruitScrollUpListViewInitListener {
 		public void onInitStatusChanged(boolean initialized, State state, float percentage);
@@ -155,6 +157,11 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 			}
 		}
 		state.putString(STATE_STATE, saveState.name());
+		if (saveState == State.LIST_CONTENT_AT_TOP) {
+			//If we are at the top, and the header is shrunk, we want to keep it that way.
+			state.putBoolean(STATE_SHRUNK, mHeaderSpacerShrunk);
+			state.putBoolean(STATE_SHRUNK_LOCKED, mHeaderSpacerShrinkLocked);
+		}
 
 		return state;
 	}
@@ -165,11 +172,18 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 			throw new RuntimeException("IT IS A BUG TO CALL onRestoreInstanceState BEFORE setAdapter");
 		}
 		if (savedInstanceState instanceof Bundle) {
-			super.onRestoreInstanceState(((Bundle) savedInstanceState).getParcelable(STATE_DEFAULT_SAVESTATE));
+			Bundle stateBundle = (Bundle) savedInstanceState;
+
+			super.onRestoreInstanceState(stateBundle.getParcelable(STATE_DEFAULT_SAVESTATE));
 
 			//We set the state here, and wait for setState to be called by the initialization methods
-			mState = State.valueOf(((Bundle) savedInstanceState).getString(STATE_STATE,
-					State.LIST_CONTENT_AT_BOTTOM.name()));
+			mState = State.valueOf(stateBundle.getString(STATE_STATE, State.LIST_CONTENT_AT_BOTTOM.name()));
+
+			//It is important that we preserve header shrunkenness, otherwise we will appear to allow really odd overscroll.
+			mHeaderSpacerShrunk = stateBundle.getBoolean(STATE_SHRUNK, mHeaderSpacerShrunk);
+			mHeaderSpacerShrinkLocked = mHeaderSpacerShrunk
+					&& stateBundle.getBoolean(STATE_SHRUNK_LOCKED, mHeaderSpacerShrinkLocked);
+
 			sizeOrDataChanged();
 		}
 		else {
@@ -216,7 +230,13 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 			}
 			else if (mHeight >= 0 && isShown()) {
 				if (mAdapterSet && initializeHeaderSpacerHeight() && initializeFooterSpacerHeight()) {
-					setHeaderSpacerLayoutHeight(getHeaderSpacerHeight());
+					if (mHeaderSpacerShrunk) {
+						shrinkHeaderSpacer();
+					}
+					else {
+						setHeaderSpacerLayoutHeight(getHeaderSpacerHeight());
+					}
+
 					setFooterSpacerLayoutHeight(getFooterSpacerHeight());
 
 					//If we dont post this, we dont move to the correct position.
@@ -620,7 +640,7 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 		boolean isIdle = scrollState == OnScrollListener.SCROLL_STATE_IDLE;
 		if (mIsSmoothScrolling) {
 			mIsSmoothScrolling = !isIdle;
-			if(!mIsSmoothScrolling){
+			if (!mIsSmoothScrolling) {
 				someUserInteractionHasStopped();
 			}
 		}
