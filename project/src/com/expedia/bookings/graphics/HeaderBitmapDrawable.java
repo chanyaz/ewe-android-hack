@@ -13,6 +13,7 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 
+import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
@@ -284,34 +285,37 @@ public class HeaderBitmapDrawable extends Drawable implements OnImageLoaded {
 		}
 
 		if (mSource != null) {
-			// Draw the bitmap (possibly with rounded corners)
-			if (mCornerMode == CornerMode.NONE) {
-				canvas.drawRect(mRect, mBitmapPaint);
-			}
-			else {
-				canvas.drawRoundRect(mRect, mCornerRadius, mCornerRadius, mBitmapPaint);
-
-				if (mCornerMode == CornerMode.TOP) {
-					float width = mRect.width();
-					float height = mRect.height();
-
-					// Overdraw bottom left corner (without rounding)
-					canvas.drawRect(0, height - mCornerRadius, mCornerRadius, height, mBitmapPaint);
-
-					// Overdraw bottom right corner (without rounding)
-					canvas.drawRect(width - mCornerRadius, height - mCornerRadius, width, height, mBitmapPaint);
-				}
-			}
+			paintWithPossiblyRoundedCorners(canvas, mBitmapPaint);
 		}
 
 		// Draw the gradient (if set)
 		if (mGradientPaint.getShader() != null) {
-			canvas.drawRect(mRect, mGradientPaint);
+			paintWithPossiblyRoundedCorners(canvas, mGradientPaint);
 		}
 
 		// Draw overlay (if set)
 		if (mOverlayDrawable != null) {
 			mOverlayDrawable.draw(canvas);
+		}
+	}
+
+	private void paintWithPossiblyRoundedCorners(Canvas canvas, Paint paint) {
+		if (mCornerMode == CornerMode.NONE) {
+			canvas.drawRect(mRect, paint);
+		}
+		else {
+			canvas.drawRoundRect(mRect, mCornerRadius, mCornerRadius, paint);
+
+			if (mCornerMode == CornerMode.TOP) {
+				float width = mRect.width();
+				float height = mRect.height();
+
+				// Overdraw bottom left corner (without rounding)
+				canvas.drawRect(0, height - mCornerRadius, mCornerRadius, height, paint);
+
+				// Overdraw bottom right corner (without rounding)
+				canvas.drawRect(width - mCornerRadius, height - mCornerRadius, width, height, paint);
+			}
 		}
 	}
 
