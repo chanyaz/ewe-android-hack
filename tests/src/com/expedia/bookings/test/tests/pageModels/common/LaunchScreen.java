@@ -10,8 +10,8 @@ import com.expedia.bookings.test.utils.TestPreferences;
 
 public class LaunchScreen extends LaunchActionBar {
 
-	private static int sHotelsButtonID = R.id.hotels_button;
-	private static int sFlightsButtonID = R.id.flights_button;
+	private static final int sHotelsButtonID = R.id.hotels_button;
+	private static final int sFlightsButtonID = R.id.flights_button;
 	public LaunchActionBar mLaunchActionBar;
 
 	public LaunchScreen(Instrumentation instrumentation, Activity activity, Resources res, TestPreferences preferences) {

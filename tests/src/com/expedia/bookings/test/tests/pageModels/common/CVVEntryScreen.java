@@ -13,19 +13,19 @@ import com.expedia.bookings.test.utils.TestPreferences;
 
 public class CVVEntryScreen extends ScreenActions {
 
-	private static int sOneButtonID = R.id.one_button;
-	private static int sTwoButtonID = R.id.two_button;
-	private static int sThreeButtonID = R.id.three_button;
-	private static int sFourButtonID = R.id.four_button;
-	private static int sFiveButtonID = R.id.five_button;
-	private static int sSixButtonID = R.id.six_button;
-	private static int sSevenButtonID = R.id.seven_button;
-	private static int sEightButtonID = R.id.eight_button;
-	private static int sNineButtonID = R.id.nine_button;
-	private static int sZeroButtonID = R.id.zero_button;
-	private static int sBookButtonID = R.id.book_button;
+	private static final int sOneButtonID = R.id.one_button;
+	private static final int sTwoButtonID = R.id.two_button;
+	private static final int sThreeButtonID = R.id.three_button;
+	private static final int sFourButtonID = R.id.four_button;
+	private static final int sFiveButtonID = R.id.five_button;
+	private static final int sSixButtonID = R.id.six_button;
+	private static final int sSevenButtonID = R.id.seven_button;
+	private static final int sEightButtonID = R.id.eight_button;
+	private static final int sNineButtonID = R.id.nine_button;
+	private static final int sZeroButtonID = R.id.zero_button;
+	private static final int sBookButtonID = R.id.book_button;
 
-	private static int sBookingStringID = R.string.booking_loading;
+	private static final int sBookingStringID = R.string.booking_loading;
 
 	private static final Map<Integer, Integer> INTEGER_TO_RESOURCE = new HashMap<Integer, Integer>() {
 		{

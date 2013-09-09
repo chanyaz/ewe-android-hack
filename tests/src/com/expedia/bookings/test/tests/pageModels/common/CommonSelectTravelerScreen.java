@@ -10,7 +10,7 @@ import com.expedia.bookings.test.utils.TestPreferences;
 
 public class CommonSelectTravelerScreen extends ScreenActions {
 
-	private static int sEnterANewTraveler = R.id.enter_info_manually_button;
+	private static final int sEnterANewTraveler = R.id.enter_info_manually_button;
 
 	public CommonSelectTravelerScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {

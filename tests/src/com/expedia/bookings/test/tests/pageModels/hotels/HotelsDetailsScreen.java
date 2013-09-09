@@ -13,16 +13,16 @@ import com.expedia.bookings.test.utils.TestPreferences;
 
 public class HotelsDetailsScreen extends ScreenActions {
 
-	private static int sTitleViewID = R.id.title;
-	private static int sRatingViewID = R.id.rating;
-	private static int sBookNowButtonID = R.id.book_now_button;
-	private static int sBookByPhoneButtonID = R.id.book_by_phone_button;
-	private static int sReviewsTitleViewID = R.id.user_rating_text_view;
-	private static int sBannerViewID = R.id.banner_message_text_view;
-	private static int sReadMoreViewID = R.id.read_more;
-	private static int sSelectButtonID = R.id.menu_select_hotel;
-	private static int sBackButtonID = android.R.id.home;
-	private static int sNoReviewsStringID = R.string.no_reviews;
+	private static final int sTitleViewID = R.id.title;
+	private static final int sRatingViewID = R.id.rating;
+	private static final int sBookNowButtonID = R.id.book_now_button;
+	private static final int sBookByPhoneButtonID = R.id.book_by_phone_button;
+	private static final int sReviewsTitleViewID = R.id.user_rating_text_view;
+	private static final int sBannerViewID = R.id.banner_message_text_view;
+	private static final int sReadMoreViewID = R.id.read_more;
+	private static final int sSelectButtonID = R.id.menu_select_hotel;
+	private static final int sBackButtonID = android.R.id.home;
+	private static final int sNoReviewsStringID = R.string.no_reviews;
 
 	public HotelsDetailsScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {

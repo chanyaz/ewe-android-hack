@@ -14,12 +14,12 @@ import com.expedia.bookings.test.utils.TestPreferences;
 
 public class HotelsRoomsRatesScreen extends ScreenActions {
 
-	private static int sHotelNameTextViewID = R.id.name_text_view;
-	private static int sHotelLocationTextViewID = R.id.location_text_view;
-	private static int sHotelRatingBarID = R.id.hotel_rating_bar;
-	private static int sListViewID = android.R.id.list;
-	private static int sBackButtonID = android.R.id.home;
-	private static int sFindingAvailableRoomsStringID = R.string.room_rates_loading;
+	private static final int sHotelNameTextViewID = R.id.name_text_view;
+	private static final int sHotelLocationTextViewID = R.id.location_text_view;
+	private static final int sHotelRatingBarID = R.id.hotel_rating_bar;
+	private static final int sListViewID = android.R.id.list;
+	private static final int sBackButtonID = android.R.id.home;
+	private static final int sFindingAvailableRoomsStringID = R.string.room_rates_loading;
 
 	public HotelsRoomsRatesScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {

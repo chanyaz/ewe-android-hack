@@ -16,29 +16,29 @@ import com.mobiata.testutils.CalendarTouchUtils;
 public class HotelsSearchScreen extends ScreenActions {
 
 	// Top action bar
-	private static int sSearchEditTextID = R.id.search_edit_text;
-	private static int sClearSearchEditTextButtonID = R.id.clear_search_button;
-	private static int sGuestsButtonID = R.id.guests_button;
-	private static int sGuestNumberTextViewID = R.id.guests_text_view;
-	private static int sCalendarButtonID = R.id.dates_button;
-	private static int sCalendarTextViewID = R.id.dates_text_view;
-	private static int sCalendarDatePickerID = R.id.dates_date_picker;
+	private static final int sSearchEditTextID = R.id.search_edit_text;
+	private static final int sClearSearchEditTextButtonID = R.id.clear_search_button;
+	private static final int sGuestsButtonID = R.id.guests_button;
+	private static final int sGuestNumberTextViewID = R.id.guests_text_view;
+	private static final int sCalendarButtonID = R.id.dates_button;
+	private static final int sCalendarTextViewID = R.id.dates_text_view;
+	private static final int sCalendarDatePickerID = R.id.dates_date_picker;
 
 	// List header
-	private static int sDateRangeTextViewID = R.id.search_date_range_text;
-	private static int sPricingDescriptionTextViewID = R.id.lawyer_label_text_view;
+	private static final int sDateRangeTextViewID = R.id.search_date_range_text;
+	private static final int sPricingDescriptionTextViewID = R.id.lawyer_label_text_view;
 
 	// Hotel list
-	private static int sHotelListID = android.R.id.list;
+	private static final int sHotelListID = android.R.id.list;
 
 	// Bottom action bar
-	private static int sSortButtonID = R.id.menu_select_sort;
-	private static int sFilterButtonID = R.id.menu_select_filter;
-	private static int sMapButtonID = R.id.menu_select_change_view;
+	private static final int sSortButtonID = R.id.menu_select_sort;
+	private static final int sFilterButtonID = R.id.menu_select_filter;
+	private static final int sMapButtonID = R.id.menu_select_change_view;
 
 	// Strings
 
-	private static int sSearchingForHotelsStringID = R.string.search_for_hotels;
+	private static final int sSearchingForHotelsStringID = R.string.search_for_hotels;
 
 	// Fragments
 	private HotelsSortMenu mSortMenu;

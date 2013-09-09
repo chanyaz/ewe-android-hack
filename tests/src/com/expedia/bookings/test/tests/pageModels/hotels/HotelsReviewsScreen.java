@@ -13,14 +13,14 @@ import com.expedia.bookings.test.utils.TestPreferences;
 
 public class HotelsReviewsScreen extends ScreenActions {
 
-	private static int sSelectButtonID = R.id.menu_select_hotel;
-	private static int sLoadingReviewsStringID = R.string.user_review_loading_text;
-	private static int sTitleViewID = R.id.title;
-	private static int sRatingViewID = R.id.rating;
-	private static int sFavorableStringID = R.string.user_review_sort_button_favorable;
-	private static int sRecentStringID = R.string.user_review_sort_button_recent;
-	private static int sCriticalStringID = R.string.user_review_sort_button_critical;
-	private static int sBackButtonID = android.R.id.home;
+	private static final int sSelectButtonID = R.id.menu_select_hotel;
+	private static final int sLoadingReviewsStringID = R.string.user_review_loading_text;
+	private static final int sTitleViewID = R.id.title;
+	private static final int sRatingViewID = R.id.rating;
+	private static final int sFavorableStringID = R.string.user_review_sort_button_favorable;
+	private static final int sRecentStringID = R.string.user_review_sort_button_recent;
+	private static final int sCriticalStringID = R.string.user_review_sort_button_critical;
+	private static final int sBackButtonID = android.R.id.home;
 
 	public HotelsReviewsScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {

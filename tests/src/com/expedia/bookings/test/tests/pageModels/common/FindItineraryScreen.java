@@ -11,10 +11,10 @@ import com.expedia.bookings.test.utils.TestPreferences;
 
 public class FindItineraryScreen extends ScreenActions {
 
-	private static int sHeaderTextViewID = R.id.itin_heading_textview;
-	private static int sFindItineraryButtonID = R.id.find_itinerary_button;
-	private static int sEmailAddressEditTextID = R.id.email_edit_text;
-	private static int sItinNumberEditTextID = R.id.itin_number_edit_text;
+	private static final int sHeaderTextViewID = R.id.itin_heading_textview;
+	private static final int sFindItineraryButtonID = R.id.find_itinerary_button;
+	private static final int sEmailAddressEditTextID = R.id.email_edit_text;
+	private static final int sItinNumberEditTextID = R.id.itin_number_edit_text;
 
 	public FindItineraryScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {

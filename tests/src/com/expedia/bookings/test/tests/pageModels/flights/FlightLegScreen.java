@@ -12,10 +12,10 @@ import com.expedia.bookings.widget.TextView;
 
 public class FlightLegScreen extends ScreenActions {
 
-	private static int sSelectFlightButton = R.id.select_text_view;
-	private static int sCancelButton = R.id.cancel_button;
-	private static int sBaggageFeeInfoTextViewID = R.id.fees_text_view;
-	private static int sCheckingForPriceChangesStringID = R.string.loading_flight_details;
+	private static final int sSelectFlightButton = R.id.select_text_view;
+	private static final int sCancelButton = R.id.cancel_button;
+	private static final int sBaggageFeeInfoTextViewID = R.id.fees_text_view;
+	private static final int sCheckingForPriceChangesStringID = R.string.loading_flight_details;
 
 	public FlightLegScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {

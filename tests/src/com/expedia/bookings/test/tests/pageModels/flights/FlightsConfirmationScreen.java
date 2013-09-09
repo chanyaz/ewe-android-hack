@@ -11,9 +11,9 @@ import com.expedia.bookings.widget.TextView;
 
 public class FlightsConfirmationScreen extends ConfirmationScreen {
 
-	private static int sGoingToTextViewID = R.id.going_to_text_view;
-	private static int sGetARoomTextViewID = R.id.hotels_action_text_view;
-	private static int sFlightTrackActionViewID = R.id.flighttrack_action_text_view;
+	private static final int sGoingToTextViewID = R.id.going_to_text_view;
+	private static final int sGetARoomTextViewID = R.id.hotels_action_text_view;
+	private static final int sFlightTrackActionViewID = R.id.flighttrack_action_text_view;
 
 	public FlightsConfirmationScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {

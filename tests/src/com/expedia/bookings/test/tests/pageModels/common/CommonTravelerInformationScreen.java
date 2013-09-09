@@ -11,14 +11,14 @@ import com.expedia.bookings.test.utils.TestPreferences;
 
 public class CommonTravelerInformationScreen extends ScreenActions {
 
-	private static int sFirstNameEditTextID = R.id.edit_first_name;
-	private static int sMiddleNameEditTextID = R.id.edit_middle_name;
-	private static int sLastNameEditTextID = R.id.edit_last_name;
-	private static int sPhoneNumberEditTextID = R.id.edit_phone_number;
-	private static int sBirthDateSpinnerButtonID = R.id.edit_birth_date_text_btn;
-	private static int sDoneStringID = R.string.done;
-	private static int sNextButtonID = R.id.menu_next;
-	private static int sDoneButtonID = R.id.menu_done;
+	private static final int sFirstNameEditTextID = R.id.edit_first_name;
+	private static final int sMiddleNameEditTextID = R.id.edit_middle_name;
+	private static final int sLastNameEditTextID = R.id.edit_last_name;
+	private static final int sPhoneNumberEditTextID = R.id.edit_phone_number;
+	private static final int sBirthDateSpinnerButtonID = R.id.edit_birth_date_text_btn;
+	private static final int sDoneStringID = R.string.done;
+	private static final int sNextButtonID = R.id.menu_next;
+	private static final int sDoneButtonID = R.id.menu_done;
 
 	public CommonTravelerInformationScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {

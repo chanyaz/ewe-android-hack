@@ -10,14 +10,14 @@ import com.expedia.bookings.test.utils.TestPreferences;
 
 public class CommonCheckoutScreen extends ScreenActions {
 
-	private static int sCheckoutButtonID = R.id.menu_checkout;
-	private static int sLogInButtonID = R.id.login_text_view;
-	private static int sBuyWithGoogleButtonID = R.id.wallet_button;
-	private static int sAddTravelerButtonID = R.id.traveler_info_btn;
-	private static int sSelectPaymentButtonID = R.id.payment_info_btn;
-	private static int sSlideToPurchaseStartViewID = R.id.slider_image;
-	private static int sSlideToPurchaseEndViewID = R.id.destination_image;
-	private static int sCalculatingTaxesAndFeesStringID = R.string.calculating_taxes_and_fees;
+	private static final int sCheckoutButtonID = R.id.menu_checkout;
+	private static final int sLogInButtonID = R.id.login_text_view;
+	private static final int sBuyWithGoogleButtonID = R.id.wallet_button;
+	private static final int sAddTravelerButtonID = R.id.traveler_info_btn;
+	private static final int sSelectPaymentButtonID = R.id.payment_info_btn;
+	private static final int sSlideToPurchaseStartViewID = R.id.slider_image;
+	private static final int sSlideToPurchaseEndViewID = R.id.destination_image;
+	private static final int sCalculatingTaxesAndFeesStringID = R.string.calculating_taxes_and_fees;
 
 	private static final String TAG = "Common Checkout Screen";
 

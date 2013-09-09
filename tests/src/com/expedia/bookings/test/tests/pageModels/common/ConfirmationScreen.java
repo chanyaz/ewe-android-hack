@@ -11,13 +11,13 @@ import com.expedia.bookings.widget.TextView;
 
 public class ConfirmationScreen extends ScreenActions {
 
-	private static int sDoneButtonID = R.id.menu_done;
-	private static int sItineraryTextViewID = R.id.itinerary_text_view;
-	private static int sEmailTextViewID = R.id.email_text_view;
-	private static int sCallExpediaTextViewID = R.id.call_action_text_view;
-	private static int sCallExpediaStringID = R.string.call_expedia_customer_support;
-	private static int sShareViaEmailTextViewID = R.id.share_action_text_view;
-	private static int sAddToCalendarTextViewID = R.id.calendar_action_text_view;
+	private static final int sDoneButtonID = R.id.menu_done;
+	private static final int sItineraryTextViewID = R.id.itinerary_text_view;
+	private static final int sEmailTextViewID = R.id.email_text_view;
+	private static final int sCallExpediaTextViewID = R.id.call_action_text_view;
+	private static final int sCallExpediaStringID = R.string.call_expedia_customer_support;
+	private static final int sShareViaEmailTextViewID = R.id.share_action_text_view;
+	private static final int sAddToCalendarTextViewID = R.id.calendar_action_text_view;
 
 	public ConfirmationScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {

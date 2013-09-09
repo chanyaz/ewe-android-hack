@@ -11,11 +11,11 @@ import com.expedia.bookings.test.utils.TestPreferences;
 
 public class HotelsSortMenu extends ScreenActions {
 
-	private static int sSortPopularityStringID = R.string.sort_description_popular;
-	private static int sSortDealsStringID = R.string.sort_description_deals;
-	private static int sSortPriceStringID = R.string.sort_description_price;
-	private static int sSortUserRatingStringID = R.string.sort_description_rating;
-	private static int sSortDistanceStringID = R.string.sort_description_distance;
+	private static final int sSortPopularityStringID = R.string.sort_description_popular;
+	private static final int sSortDealsStringID = R.string.sort_description_deals;
+	private static final int sSortPriceStringID = R.string.sort_description_price;
+	private static final int sSortUserRatingStringID = R.string.sort_description_rating;
+	private static final int sSortDistanceStringID = R.string.sort_description_distance;
 
 	public HotelsSortMenu(Instrumentation instrumentation, Activity activity, Resources res, TestPreferences preferences) {
 		super(instrumentation, activity, res, preferences);

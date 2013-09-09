@@ -12,24 +12,24 @@ import com.expedia.bookings.test.utils.TestPreferences;
 
 public class HotelsFilterMenu extends ScreenActions {
 
-	private static int sFilterEditTextID = R.id.filter_hotel_name_edit_text;
+	private static final int sFilterEditTextID = R.id.filter_hotel_name_edit_text;
 
-	private static int sSmallRadiusButtonID = R.id.radius_small_button;
-	private static int sMediumRadiusButtonID = R.id.radius_medium_button;
-	private static int sLargeRadiusButtonID = R.id.radius_large_button;
-	private static int sAllRadiusButtonID = R.id.radius_all_button;
+	private static final int sSmallRadiusButtonID = R.id.radius_small_button;
+	private static final int sMediumRadiusButtonID = R.id.radius_medium_button;
+	private static final int sLargeRadiusButtonID = R.id.radius_large_button;
+	private static final int sAllRadiusButtonID = R.id.radius_all_button;
 
-	private static int sLowRatingButtonID = R.id.rating_low_button;
-	private static int sMediumRatingButtonID = R.id.rating_medium_button;
-	private static int sHighRatingButtonID = R.id.rating_high_button;
-	private static int sAllRatingButtonID = R.id.rating_all_button;
+	private static final int sLowRatingButtonID = R.id.rating_low_button;
+	private static final int sMediumRatingButtonID = R.id.rating_medium_button;
+	private static final int sHighRatingButtonID = R.id.rating_high_button;
+	private static final int sAllRatingButtonID = R.id.rating_all_button;
 
-	private static int sLowPriceButtonID = R.id.price_cheap_button;
-	private static int sModeratePriceButtonID = R.id.price_moderate_button;
-	private static int sExpensivePriceButtonID = R.id.price_expensive_button;
-	private static int sAllPriceButtonID = R.id.price_all_button;
+	private static final int sLowPriceButtonID = R.id.price_cheap_button;
+	private static final int sModeratePriceButtonID = R.id.price_moderate_button;
+	private static final int sExpensivePriceButtonID = R.id.price_expensive_button;
+	private static final int sAllPriceButtonID = R.id.price_all_button;
 
-	private static int sVIPAccessButtonID = R.id.filter_vip_access;
+	private static final int sVIPAccessButtonID = R.id.filter_vip_access;
 
 	public HotelsFilterMenu(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {

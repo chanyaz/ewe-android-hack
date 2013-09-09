@@ -13,18 +13,18 @@ import com.expedia.bookings.test.utils.TestPreferences;
 
 public class FlightsSearchResultsScreen extends ScreenActions {
 
-	private static int sTitleTextViewID = R.id.title_text_view;
-	private static int sSubtitleTextViewID = R.id.subtitle_text_view;
+	private static final int sTitleTextViewID = R.id.title_text_view;
+	private static final int sSubtitleTextViewID = R.id.subtitle_text_view;
 
-	private static int sFlightListID = android.R.id.list;
+	private static final int sFlightListID = android.R.id.list;
 
-	private static int sSortFlightsViewID = R.id.menu_sort;
-	private static int sSortPriceViewID = R.id.menu_select_sort_price;
-	private static int sSortDepartsViewID = R.id.menu_select_sort_departs;
-	private static int sSortArrivesViewID = R.id.menu_select_sort_arrives;
-	private static int sSortDurationViewID = R.id.menu_select_sort_duration;
+	private static final int sSortFlightsViewID = R.id.menu_sort;
+	private static final int sSortPriceViewID = R.id.menu_select_sort_price;
+	private static final int sSortDepartsViewID = R.id.menu_select_sort_departs;
+	private static final int sSortArrivesViewID = R.id.menu_select_sort_arrives;
+	private static final int sSortDurationViewID = R.id.menu_select_sort_duration;
 
-	private static int sSearchButtonID = R.id.menu_search;
+	private static final int sSearchButtonID = R.id.menu_search;
 
 	public FlightsSearchResultsScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {
