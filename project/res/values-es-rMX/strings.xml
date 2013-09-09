@@ -924,13 +924,13 @@
 
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
-    <string name="Add_Traveler">Agregar un pasajero</string>
+    <string name="Add_Traveler">Ingresar datos del viajero</string>
     <!-- Label for "Add Payment" in task manager -->
     <string name="Add_Payment">Agregar pago</string>
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Información del pasajero</string>
     <!-- Add traveler -->
-    <string name="add_traveler">Agregar un pasajero</string>
+    <string name="add_traveler">Ingresar datos del viajero</string>
     <!-- Add traveler number template -->
     <string name="add_traveler_number_TEMPLATE">Agregar un pasajero %1$s</string>
     <!-- Warning shown to users when they enter their name -->
