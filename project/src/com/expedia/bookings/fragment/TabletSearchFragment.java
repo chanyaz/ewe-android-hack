@@ -47,6 +47,7 @@ import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
@@ -191,6 +192,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		mCancelButton.setOnClickListener(this);
 		mOriginEditText.setOnClickListener(this);
 		mGuestsTextView.setOnClickListener(this);
+		mSearchButton.setOnClickListener(this);
 
 		// Configure hiding views (that change alpha during expand/collapse)
 		mHiddenWhenCollapsedViews.add(mBackground);
@@ -704,6 +706,10 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 				|| v == mSearchDatesTextView)) {
 			// Expand the UI if found 
 			expand();
+		}
+		else if (v == mSearchButton) {
+			Ui.showToast(getActivity(), "TODO: Search!");
+			Log.i("Search Params: " + mSearchParams);
 		}
 		else if (isExpanded()) {
 			// Switching between different child fragments

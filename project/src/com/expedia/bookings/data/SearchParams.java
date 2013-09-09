@@ -1,6 +1,7 @@
 package com.expedia.bookings.data;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.joda.time.LocalDate;
@@ -117,6 +118,29 @@ public class SearchParams implements Parcelable {
 	public SearchParams setChildAges(List<Integer> childAges) {
 		mChildAges = childAges;
 		return this;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("Origin=");
+		sb.append(mOrigin == null ? "null" : mOrigin.toJson().toString());
+		sb.append(" ");
+		sb.append("Destination=");
+		sb.append(mDestination == null ? "null" : mDestination.toJson().toString());
+		sb.append(" ");
+		sb.append("Start=");
+		sb.append(mStartDate == null ? "null" : mStartDate.toString());
+		sb.append(" ");
+		sb.append("End=");
+		sb.append(mEndDate == null ? "null" : mEndDate.toString());
+		sb.append(" ");
+		sb.append("Adults=" + mNumAdults);
+		sb.append(" ");
+		sb.append("Children=" + Arrays.toString(getChildAges().toArray()));
+
+		return sb.toString();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
