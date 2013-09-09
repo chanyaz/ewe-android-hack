@@ -60,8 +60,7 @@ import com.mobiata.android.util.ViewUtils;
 public class FlightCheckoutFragment extends LoadWalletFragment implements AccountButtonClickListener,
 		ConfirmLogoutDialogFragment.DoLogoutListener {
 
-	private static final String INSTANCE_REFRESHED_USER = "INSTANCE_REFRESHED_USER";
-
+	private static final String INSTANCE_REFRESHED_USER_TIME = "INSTANCE_REFRESHED_USER";
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
 
 	private BillingInfo mBillingInfo;
@@ -82,7 +81,8 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	private TextView mCardFeeTextView;
 	private View mLccTriangle;
 
-	private boolean mRefreshedUser;
+	//When we last refreshed user data.
+	private long mRefreshedUserTime = 0L;
 
 	private CheckoutInformationListener mListener;
 
@@ -114,7 +114,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		}
 
 		if (savedInstanceState != null) {
-			mRefreshedUser = savedInstanceState.getBoolean(INSTANCE_REFRESHED_USER);
+			mRefreshedUserTime = savedInstanceState.getLong(INSTANCE_REFRESHED_USER_TIME);
 		}
 		else {
 			// Reset Google Wallet state each time we get here
@@ -134,7 +134,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		}
 
 		if (savedInstanceState != null) {
-			mRefreshedUser = savedInstanceState.getBoolean(INSTANCE_REFRESHED_USER);
+			mRefreshedUserTime = savedInstanceState.getLong(INSTANCE_REFRESHED_USER_TIME);
 		}
 
 		//The parent activity uses CheckoutDataLoader to load billingInfo, we wait for it to finish.
@@ -229,7 +229,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 
-		outState.putBoolean(INSTANCE_REFRESHED_USER, mRefreshedUser);
+		outState.putLong(INSTANCE_REFRESHED_USER_TIME, mRefreshedUserTime);
 	}
 
 	@Override
@@ -282,7 +282,8 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
 					&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
 				//We have a user (either from memory, or loaded from disk)
-				if (!mRefreshedUser) {
+				int userRefreshInterval = getResources().getInteger(R.integer.account_sync_interval);
+				if (mRefreshedUserTime + userRefreshInterval < System.currentTimeMillis()) {
 					Log.d("Refreshing user profile...");
 
 					BackgroundDownloader bd = BackgroundDownloader.getInstance();
@@ -650,7 +651,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	public void doLogout() {
 		// Stop refreshing user (if we're currently doing so)
 		BackgroundDownloader.getInstance().cancelDownload(KEY_REFRESH_USER);
-		mRefreshedUser = false;
+		mRefreshedUserTime = 0L;
 
 		// Sign out user
 		User.signOut(getActivity());
@@ -685,7 +686,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 	public void onLoginCompleted() {
 		mAccountButton.bind(false, true, Db.getUser(), true);
-		mRefreshedUser = true;
+		mRefreshedUserTime = System.currentTimeMillis();
 
 		populateTravelerData();
 		populatePaymentDataFromUser();

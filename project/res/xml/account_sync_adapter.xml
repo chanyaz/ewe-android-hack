@@ -2,6 +2,6 @@
     android:accountType="@string/expedia_account_type_identifier"
     android:allowParallelSyncs="false"
     android:contentAuthority="@string/authority_account_sync"
-    android:isAlwaysSyncable="true"
+    android:isAlwaysSyncable="false"
     android:supportsUploading="false"
-    android:userVisible="true" />
+    android:userVisible="false" />

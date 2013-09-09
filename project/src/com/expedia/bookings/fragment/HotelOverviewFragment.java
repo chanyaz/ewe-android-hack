@@ -102,7 +102,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	public static final String TAG_SLIDE_TO_PURCHASE_FRAG = "TAG_SLIDE_TO_PURCHASE_FRAG";
 	public static final String HOTEL_OFFER_ERROR_DIALOG = "HOTEL_OFFER_ERROR_DIALOG";
 
-	private static final String INSTANCE_REFRESHED_USER = "INSTANCE_REFRESHED_USER";
+	private static final String INSTANCE_REFRESHED_USER_TIME = "INSTANCE_REFRESHED_USER";
 	private static final String INSTANCE_IN_CHECKOUT = "INSTANCE_IN_CHECKOUT";
 	private static final String INSTANCE_SHOW_SLIDE_TO_WIDGET = "INSTANCE_SHOW_SLIDE_TO_WIDGET";
 	private static final String INSTANCE_DONE_LOADING_PRICE_CHANGE = "INSTANCE_DONE_LOADING_PRICE_CHANGE";
@@ -151,8 +151,10 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	private String mSlideToPurchasePriceString;
 	private SlideToPurchaseFragment mSlideToPurchaseFragment;
 
-	private boolean mRefreshedUser;
 	private boolean mIsDoneLoadingPriceChange = false;
+
+	//When we last refreshed user data.
+	private long mRefreshedUserTime = 0L;
 
 	// We keep track of if we need to maintain the scroll position
 	// This is needed when we call startCheckout before a layout occurs
@@ -178,7 +180,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		super.onCreate(savedInstanceState);
 
 		if (savedInstanceState != null) {
-			mRefreshedUser = savedInstanceState.getBoolean(INSTANCE_REFRESHED_USER);
+			mRefreshedUserTime = savedInstanceState.getLong(INSTANCE_REFRESHED_USER_TIME);
 			mInCheckout = savedInstanceState.getBoolean(INSTANCE_IN_CHECKOUT);
 			mShowSlideToWidget = savedInstanceState.getBoolean(INSTANCE_SHOW_SLIDE_TO_WIDGET);
 			mIsDoneLoadingPriceChange = savedInstanceState.getBoolean(INSTANCE_DONE_LOADING_PRICE_CHANGE);
@@ -268,7 +270,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				Db.loadUser(getActivity());
 			}
 
-			if (!mRefreshedUser) {
+			int userRefreshInterval = getResources().getInteger(R.integer.account_sync_interval);
+			if (mRefreshedUserTime + userRefreshInterval < System.currentTimeMillis()) {
 				Log.d("Refreshing user profile...");
 
 				BackgroundDownloader bd = BackgroundDownloader.getInstance();
@@ -404,7 +407,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 
-		outState.putBoolean(INSTANCE_REFRESHED_USER, mRefreshedUser);
+		outState.putLong(INSTANCE_REFRESHED_USER_TIME, mRefreshedUserTime);
 		outState.putBoolean(INSTANCE_IN_CHECKOUT, mInCheckout);
 		outState.putBoolean(INSTANCE_SHOW_SLIDE_TO_WIDGET, mShowSlideToWidget);
 		outState.putBoolean(INSTANCE_DONE_LOADING_PRICE_CHANGE, mIsDoneLoadingPriceChange);
@@ -574,7 +577,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
 					&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
 				//We have a user (either from memory, or loaded from disk)
-				if (!mRefreshedUser) {
+				int userRefreshInterval = getResources().getInteger(R.integer.account_sync_interval);
+				if (mRefreshedUserTime + userRefreshInterval < System.currentTimeMillis()) {
 					Log.d("Refreshing user profile...");
 
 					BackgroundDownloader bd = BackgroundDownloader.getInstance();
@@ -913,7 +917,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 			// Stop refreshing user (if we're currently doing so)
 			BackgroundDownloader.getInstance().cancelDownload(KEY_REFRESH_USER);
-			mRefreshedUser = false;
+			mRefreshedUserTime = 0L;
 
 			// Sign out user
 			User.signOutAsync(getActivity(), null);
@@ -935,7 +939,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	public void onLoginCompleted() {
 		mAccountButton.bind(false, true, Db.getUser());
-		mRefreshedUser = true;
+		mRefreshedUserTime = System.currentTimeMillis();
 
 		populateTravelerData();
 		populatePaymentDataFromUser();

@@ -338,7 +338,7 @@ public class User implements JSONable {
 			Account[] accounts = manager.getAccountsByType(accountType);
 			if (accounts.length > 0) {
 				Account account = accounts[0];
-				ContentResolver.removePeriodicSync(account, contentAuthority, new Bundle());
+				ContentResolver.setIsSyncable(account, contentAuthority, 0);
 				manager.removeAccount(account, null, null);
 			}
 			if (usr != null) {
@@ -348,9 +348,9 @@ public class User implements JSONable {
 	}
 
 	/**
-	 * This method is important. This is the method that adds the account to AccountManager
-	 * and sets up syncing. If we log in and this doesn't get called, User.isLoggedIn() will
-	 * still return false, and no data will sync.
+	 * This method is important. This is the method that adds the account to AccountManager. 
+	 * If we log in and this doesn't get called, User.isLoggedIn() will
+	 * still return false, and user data will not be allowed to sync.
 	 */
 	public static void addUserToAccountManager(Context context, User usr) {
 		if (context != null && usr != null) {
@@ -362,12 +362,38 @@ public class User implements JSONable {
 			manager.addAccountExplicitly(account, usr.getTuidString(), null);
 			manager.setAuthToken(account, tokenType, usr.getTuidString());
 
-			//Start syncing data!
+			//Enable data syncing
 			String contentAuthority = context.getString(R.string.authority_account_sync);
-			int syncInterval = context.getResources().getInteger(R.integer.account_sync_interval);
-			ContentResolver.setIsSyncable(account, contentAuthority, 1);
-			ContentResolver.setSyncAutomatically(account, contentAuthority, true);
-			ContentResolver.addPeriodicSync(account, contentAuthority, new Bundle(), syncInterval);
+			ContentResolver.setSyncAutomatically(account, contentAuthority, false);
+		}
+	}
+
+	/**
+	 * Sync account data in the background. This will only work if the user is logged in.
+	 * 
+	 * @param context
+	 * @param usr
+	 */
+	public static void syncAcocuntData(Context context) {
+		if (context != null && User.isLoggedIn(context)) {
+			String accountType = context.getString(R.string.expedia_account_type_identifier);
+			String contentAuthority = context.getString(R.string.authority_account_sync);
+
+			AccountManager manager = AccountManager.get(context);
+			Account[] accounts = manager.getAccountsByType(accountType);
+			if (accounts.length > 0) {
+				Account account = accounts[0];
+
+				//We need to make the account syncable to sync data...
+				ContentResolver.setIsSyncable(account, contentAuthority, 1);
+
+				//This is required to do a manual sync
+				Bundle settingsBundle = new Bundle();
+				settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+
+				Log.d("User.syncAccountData - Calling ContentResolver.requestSync for our account");
+				ContentResolver.requestSync(account, contentAuthority, settingsBundle);
+			}
 		}
 	}
 
