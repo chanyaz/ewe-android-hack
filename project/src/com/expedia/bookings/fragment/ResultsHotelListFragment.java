@@ -5,14 +5,16 @@ import android.graphics.Color;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.fragment.base.ResultsListFragment;
+import com.expedia.bookings.interfaces.IResultsHotelSelectedListener;
+import com.expedia.bookings.widget.SimpleColorAdapter;
+import com.mobiata.android.util.Ui;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchResponse;
-import com.expedia.bookings.fragment.base.ResultsListFragment;
-import com.expedia.bookings.widget.SimpleColorAdapter;
 import com.expedia.bookings.widget.TabletHotelAdapter;
-import com.mobiata.android.util.Ui;
 
 /**
  * ResultsHotelListFragment: The hotel list fragment designed for tablet results 2013
@@ -25,12 +27,19 @@ public class ResultsHotelListFragment extends ResultsListFragment {
 
 	private ListAdapter mAdapter;
 	private ISortAndFilterListener mSortAndFilterListener;
+	private IResultsHotelSelectedListener mHotelSelectedListener;
 
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
 		mSortAndFilterListener = Ui.findFragmentListener(this, ISortAndFilterListener.class, true);
+		mHotelSelectedListener = Ui.findFragmentListener(this, IResultsHotelSelectedListener.class, true);
+	}
+
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		mHotelSelectedListener.onHotelSelected();
 	}
 
 	@Override

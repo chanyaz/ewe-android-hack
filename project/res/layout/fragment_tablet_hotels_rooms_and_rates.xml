@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#AA006600" >
+
+    <FrameLayout
+        android:id="@+id/rooms_and_rates_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="100dp"
+        android:background="#FF0000" >
+
+        <TextView
+            android:id="@+id/rooms_and_rates_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Rooms &amp; Rates" />
+    </FrameLayout>
+
+</FrameLayout>
