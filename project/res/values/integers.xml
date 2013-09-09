@@ -9,6 +9,9 @@
     <!-- Account sync time in seconds (60s * 30s = 1800s = 30 minutes) -->
     <integer name="account_sync_interval">1800</integer>
 
+    <!-- The maximum credit card number length, according to sources -->
+    <integer name="max_credit_card_length">19</integer>
+
     <!-- weights -->
     <integer name="animation_duration">300</integer>
     <integer name="left_list_pane_weight">3</integer>
