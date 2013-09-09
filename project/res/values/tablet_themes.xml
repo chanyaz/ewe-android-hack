@@ -18,4 +18,12 @@
         <item name="android:windowActionBarOverlay">true</item>
     </style>
 
+    <style name="V2.Theme.Activity.TabletResults">
+        <item name="HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder</item>
+        <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.White</item>
+        <item name="hotelListingSaleDrawable">@drawable/bg_hotel_cell_sale</item>
+        <item name="hotelPriceStandardColor">@color/hotel_price_text_color</item>
+        <item name="hotelPriceSaleColor">@color/hotel_price_sale_text_color</item>
+    </style>
+
 </resources>
