@@ -34,7 +34,7 @@ public class HotelsHappyPath {
 			driver.settingsScreen().clickSelectAPIString();
 			driver.settingsScreen().scrollUp();
 			driver.settingsScreen().clickOnText(user.mServerName);
-			if (user.mServerName.equals("Proxy")) {
+			if (user.mServerName.equals("Proxy") || user.mServerName.equals("Mock Server")) {
 				driver.settingsScreen().clickServerProxyAddressString();
 				driver.settingsScreen().clearServerEditText();
 				driver.settingsScreen().enterServerText(user.mProxyIP + ":" + user.mProxyPort);
