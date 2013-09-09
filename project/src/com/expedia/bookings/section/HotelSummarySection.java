@@ -18,6 +18,8 @@ import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.graphics.HeaderBitmapDrawable;
+import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
@@ -30,12 +32,17 @@ import com.mobiata.android.text.StrikethroughTagHandler;
  */
 public class HotelSummarySection extends RelativeLayout {
 
+	private static final int[] CARD_GRADIENT_COLORS = new int[] { 0, 206 << 24, 255 << 24 };
+
+	private static final float[] CARD_GRADIENT_POSITIONS = new float[] { 0f, .82f, 1f };
+
 	private static final int ROOMS_LEFT_CUTOFF = 5;
 
 	private static final int HOTEL_PRICE_TOO_LONG = 7;
 
 	// "ViewHolder" views
 	private ImageView mThumbnailView;
+	private ImageView mHotelBackgroundView;
 	private ImageView mVipView;
 	private TextView mNameText;
 	private TextView mStrikethroughPriceText;
@@ -68,6 +75,7 @@ public class HotelSummarySection extends RelativeLayout {
 
 		// Cache views
 		mThumbnailView = Ui.findView(this, R.id.thumbnail_image_view);
+		mHotelBackgroundView = Ui.findView(this, R.id.hotel_background_view);
 		mVipView = Ui.findView(this, R.id.vip_image_view);
 		mNameText = Ui.findView(this, R.id.name_text_view);
 		mStrikethroughPriceText = Ui.findView(this, R.id.strikethrough_price_text_view);
@@ -179,16 +187,31 @@ public class HotelSummarySection extends RelativeLayout {
 		}
 
 		// See if there's a first image; if there is, use that as the thumbnail
-		boolean imageSet = false;
-		if (mThumbnailView != null && property.getThumbnail() != null) {
-			String url = property.getThumbnail().getUrl();
-			UrlBitmapDrawable.loadImageView(url, mThumbnailView,
-					Ui.obtainThemeResID((Activity) context, R.attr.HotelRowThumbPlaceHolderDrawable));
-			imageSet = true;
+		if (mThumbnailView != null) {
+			if (property.getThumbnail() != null) {
+				String url = property.getThumbnail().getUrl();
+				UrlBitmapDrawable.loadImageView(url, mThumbnailView,
+						Ui.obtainThemeResID((Activity) context, R.attr.HotelRowThumbPlaceHolderDrawable));
+			}
+			else {
+				mThumbnailView.setImageResource(Ui
+						.obtainThemeResID((Activity) context, R.attr.HotelRowThumbPlaceHolderDrawable));
+			}
 		}
-		if (mThumbnailView != null && !imageSet) {
-			mThumbnailView.setImageResource(Ui
-					.obtainThemeResID((Activity) context, R.attr.HotelRowThumbPlaceHolderDrawable));
+
+		if (mHotelBackgroundView != null && property.getThumbnail() != null) {
+			HeaderBitmapDrawable headerBitmapDrawable = new HeaderBitmapDrawable();
+			headerBitmapDrawable.setGradient(CARD_GRADIENT_COLORS, CARD_GRADIENT_POSITIONS);
+			headerBitmapDrawable.setCornerMode(CornerMode.ALL);
+			headerBitmapDrawable.setCornerRadius(context.getResources().getDimensionPixelSize(R.dimen.tablet_result_corner_radius));
+			//TODO: headerBitmapDrawable.setOverlayDrawable(context.getResources().getDrawable(R.drawable.card_top_lighting));
+
+			mHotelBackgroundView.setImageDrawable(headerBitmapDrawable);
+
+			String url = property.getThumbnail().getUrl();
+			headerBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(context.getResources(), url,
+					Ui.obtainThemeResID((Activity) context, R.attr.HotelRowThumbPlaceHolderDrawable)));
+
 		}
 
 		// Set the background based on whether the row is selected or not

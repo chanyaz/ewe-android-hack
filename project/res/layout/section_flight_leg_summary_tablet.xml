@@ -13,10 +13,6 @@
         android:id="@+id/cell_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
         android:background="#2A445E"
         android:contentDescription="@null" />
 

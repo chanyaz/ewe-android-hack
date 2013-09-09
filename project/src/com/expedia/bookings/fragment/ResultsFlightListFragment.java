@@ -1,15 +1,13 @@
 package com.expedia.bookings.fragment;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.fragment.base.ResultsListFragment;
-import com.expedia.bookings.widget.SimpleColorAdapter;
-
 import android.annotation.TargetApi;
 import android.database.DataSetObserver;
+import android.graphics.Color;
 import android.os.Build;
 import android.view.View.OnClickListener;
 import android.widget.ListAdapter;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearch.FlightTripQuery;
 import com.expedia.bookings.fragment.base.ResultsListFragment;
@@ -23,43 +21,47 @@ import com.expedia.bookings.widget.TabletFlightAdapter;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ResultsFlightListFragment extends ResultsListFragment {
 
-	private FlightAdapter mFlightListAdapter;
+	private ListAdapter mAdapter;
 
 	@Override
 	protected ListAdapter initializeAdapter() {
-<<<<<<< HEAD
-		int[] flightColors = { Color.rgb(0, 0, 255), Color.rgb(0, 0, 220), Color.rgb(0, 0, 150) };
-		mFlightListAdapter = new SimpleColorAdapter(getActivity(), 200, 50, flightColors);
-		//mFlightListAdapter.enableSizeChanges(10, 3000);
-=======
-		mFlightListAdapter = new TabletFlightAdapter(getActivity(), null);
-		mFlightListAdapter.registerDataSetObserver(new DataSetObserver() {
-			public void onChanged() {
-				initializeStickyHeaderString();
-			}
-		});
-
-		// Setup data
-		int mLegPosition = 0;
-		mFlightListAdapter.setLegPosition(mLegPosition);
-
-		if (mLegPosition > 0) {
-			FlightTripQuery previousQuery = Db.getFlightSearch().queryTrips(mLegPosition - 1);
-			mFlightListAdapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(mLegPosition), previousQuery.getMinTime(),
-					previousQuery.getMaxTime());
+		if (Db.getFlightSearch() == null || Db.getFlightSearch().getSearchResponse() == null) {
+			int[] flightColors = { Color.rgb(0, 0, 255), Color.rgb(0, 0, 220), Color.rgb(0, 0, 150) };
+			mAdapter = new SimpleColorAdapter(getActivity(), 200, 50, flightColors);
+			//mAdapter.enableSizeChanges(10, 3000);
 		}
+
 		else {
-			mFlightListAdapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(mLegPosition));
-		}
+			FlightAdapter adapter = new TabletFlightAdapter(getActivity(), null);
+			mAdapter = adapter;
+			mAdapter.registerDataSetObserver(new DataSetObserver() {
+				public void onChanged() {
+					initializeStickyHeaderString();
+				}
+			});
 
-		return mFlightListAdapter;
+			// Setup data
+			int mLegPosition = 0;
+			adapter.setLegPosition(mLegPosition);
+
+			if (mLegPosition > 0) {
+				FlightTripQuery previousQuery = Db.getFlightSearch().queryTrips(mLegPosition - 1);
+				adapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(mLegPosition),
+						previousQuery.getMinTime(),
+						previousQuery.getMaxTime());
+			}
+			else {
+				adapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(mLegPosition));
+			}
+		}
+		return mAdapter;
 	}
 
 	@Override
 	protected CharSequence initializeStickyHeaderString() {
-		int count = mFlightListAdapter == null ? 0 : mFlightListAdapter.getCount();
+		int count = mAdapter == null ? 0 : mAdapter.getCount();
 		CharSequence text = getResources().getQuantityString(R.plurals.number_of_flights_TEMPLATE,
-				count, mFlightListAdapter.getCount());
+				count, count);
 		return text;
 	}
 

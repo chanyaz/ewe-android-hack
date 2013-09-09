@@ -1,15 +1,18 @@
 package com.expedia.bookings.fragment;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.fragment.base.ResultsListFragment;
-import com.expedia.bookings.widget.SimpleColorAdapter;
-import com.mobiata.android.util.Ui;
-
 import android.app.Activity;
 import android.graphics.Color;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListAdapter;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelSearchResponse;
+import com.expedia.bookings.fragment.base.ResultsListFragment;
+import com.expedia.bookings.widget.SimpleColorAdapter;
+import com.expedia.bookings.widget.TabletHotelAdapter;
+import com.mobiata.android.util.Ui;
 
 /**
  * ResultsHotelListFragment: The hotel list fragment designed for tablet results 2013
@@ -20,7 +23,7 @@ public class ResultsHotelListFragment extends ResultsListFragment {
 		public void onSortAndFilterClicked();
 	}
 
-	private SimpleColorAdapter mHotelListAdapter;
+	private ListAdapter mAdapter;
 	private ISortAndFilterListener mSortAndFilterListener;
 
 	@Override
@@ -32,15 +35,31 @@ public class ResultsHotelListFragment extends ResultsListFragment {
 
 	@Override
 	protected ListAdapter initializeAdapter() {
-		int[] hotelColors = { Color.rgb(255, 0, 0), Color.rgb(220, 0, 0), Color.rgb(150, 0, 0) };
-		mHotelListAdapter = new SimpleColorAdapter(getActivity(), 250, 25, hotelColors);
-		return mHotelListAdapter;
+		if (Db.getHotelSearch() == null || Db.getHotelSearch().getSearchResponse() == null) {
+			int[] hotelColors = { Color.rgb(255, 0, 0), Color.rgb(220, 0, 0), Color.rgb(150, 0, 0) };
+			mAdapter = new SimpleColorAdapter(getActivity(), 250, 25, hotelColors);
+		}
+		else {
+			TabletHotelAdapter adapter = new TabletHotelAdapter(getActivity());
+			mAdapter = adapter;
+			adapter.highlightSelectedPosition(true);
+
+			HotelSearchResponse response = Db.getHotelSearch().getSearchResponse();
+			adapter.setSearchResponse(response);
+
+			if (Db.getHotelSearch().getSelectedProperty() != null) {
+				// In case there is a currently selected property, select it on the screen.
+				adapter.setSelectedProperty(Db.getHotelSearch().getSelectedProperty());
+			}
+		}
+		return mAdapter;
 	}
 
 	@Override
 	protected CharSequence initializeStickyHeaderString() {
+		int count = mAdapter == null ? 0 : mAdapter.getCount();
 		CharSequence text = getResources().getQuantityString(R.plurals.number_of_hotels_TEMPLATE,
-				mHotelListAdapter.getCount(), mHotelListAdapter.getCount());
+				count, count);
 		return text;
 	}
 
