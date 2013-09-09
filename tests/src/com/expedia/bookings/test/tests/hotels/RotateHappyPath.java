@@ -25,8 +25,9 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 	protected void setUp() throws Exception {
 		super.setUp();
 		mRes = getActivity().getBaseContext().getResources();
-		mPreferences = TestPreferences.generateTestPreferences().setRotationPermission(true)
-				.setScreenshotPermission(false);
+		mPreferences = new TestPreferences();
+		mPreferences.setRotationPermission(true);
+		mPreferences.setScreenshotPermission(false);
 		mDriver = new HotelsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
 		mUser = new HotelsUserData();
 		mUser.setHotelCityToRandomUSCity();

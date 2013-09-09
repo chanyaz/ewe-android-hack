@@ -30,8 +30,9 @@ public class FullHappyPathTest extends ActivityInstrumentationTestCase2<SearchAc
 	protected void setUp() throws Exception {
 		super.setUp();
 		mRes = getActivity().getBaseContext().getResources();
-		mPreferences = TestPreferences.generateTestPreferences().setRotationPermission(false)
-				.setScreenshotPermission(false);
+		mPreferences = new TestPreferences();
+		mPreferences.setRotationPermission(false);
+		mPreferences.setScreenshotPermission(false);
 		mHotelsDriver = new HotelsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
 		mFlightsDriver = new FlightsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
 		mUser = new HotelsUserData();

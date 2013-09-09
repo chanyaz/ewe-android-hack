@@ -29,8 +29,9 @@ public class IntegrationHappyPath extends ActivityInstrumentationTestCase2<Searc
 	protected void setUp() throws Exception {
 		super.setUp();
 		mRes = getActivity().getBaseContext().getResources();
-		mPreferences = TestPreferences.generateTestPreferences().setRotationPermission(false)
-				.setScreenshotPermission(false);
+		mPreferences = new TestPreferences();
+		mPreferences.setRotationPermission(false);
+		mPreferences.setScreenshotPermission(false);
 		mDriver = new HotelsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
 		mUser = new HotelsUserData();
 		mUser.setHotelCityToRandomUSCity();
