@@ -39,9 +39,9 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Suggestion;
 import com.expedia.bookings.fragment.DatesFragment.DatesFragmentListener;
 import com.expedia.bookings.fragment.FusedLocationProviderFragment.FusedLocationProviderListener;
+import com.expedia.bookings.fragment.GuestsDialogFragment.GuestsDialogFragmentListener;
 import com.expedia.bookings.fragment.SuggestionsFragment.SuggestionsFragmentListener;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
-import com.expedia.bookings.fragment.debug.ButtonFragment;
 import com.expedia.bookings.section.AfterChangeTextWatcher;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.JodaUtils;
@@ -56,7 +56,7 @@ import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
  * A large search fragment only suitable for tablet sizes.
  */
 public class TabletSearchFragment extends MeasurableFragment implements OnClickListener, SuggestionsFragmentListener,
-		FusedLocationProviderListener, DatesFragmentListener {
+		FusedLocationProviderListener, DatesFragmentListener, GuestsDialogFragmentListener {
 
 	// This is a debug option - disable if you want to avoid the keyboard IME on expand, thus
 	// helping for testing other performance issues.
@@ -98,7 +98,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	private SuggestionsFragment mDestinationsFragment;
 	private SuggestionsFragment mOriginsFragment;
 	private DatesFragment mDatesFragment;
-	private Fragment mGuestsFragment;
+	private GuestsDialogFragment mGuestsFragment;
 
 	// Utility fragments
 	private FusedLocationProviderFragment mLocationFragment;
@@ -401,7 +401,8 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		}
 		else if (tag.equals(TAG_GUESTS)) {
 			if (mGuestsFragment == null) {
-				mGuestsFragment = ButtonFragment.newInstance("Guests", R.dimen.tablet_search_width);
+				mGuestsFragment = GuestsDialogFragment.newInstance(mSearchParams.getNumAdults(),
+						mSearchParams.getChildAges());
 			}
 			fragmentToShow = mGuestsFragment;
 		}
@@ -793,6 +794,15 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	public void onDatesChanged(LocalDate startDate, LocalDate endDate) {
 		mSearchParams.setStartDate(startDate);
 		mSearchParams.setEndDate(endDate);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// GuestsDialogFragmentListener
+
+	@Override
+	public void onGuestsChanged(int numAdults, ArrayList<Integer> numChildren) {
+		mSearchParams.setNumAdults(numAdults);
+		mSearchParams.setChildAges(numChildren);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
