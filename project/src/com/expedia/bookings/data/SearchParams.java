@@ -134,7 +134,7 @@ public class SearchParams implements Parcelable {
 	}
 
 	public void setDefaultDuration() {
-		mStartDate = LocalDate.now();
+		mStartDate = null;
 		mEndDate = null;
 	}
 

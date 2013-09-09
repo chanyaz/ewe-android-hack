@@ -7,6 +7,7 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Hours;
+import org.joda.time.LocalDate;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
@@ -36,6 +37,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Suggestion;
+import com.expedia.bookings.fragment.DatesFragment.DatesFragmentListener;
 import com.expedia.bookings.fragment.FusedLocationProviderFragment.FusedLocationProviderListener;
 import com.expedia.bookings.fragment.SuggestionsFragment.SuggestionsFragmentListener;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
@@ -53,7 +55,7 @@ import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
  * A large search fragment only suitable for tablet sizes.
  */
 public class TabletSearchFragment extends MeasurableFragment implements OnClickListener, SuggestionsFragmentListener,
-		FusedLocationProviderListener {
+		FusedLocationProviderListener, DatesFragmentListener {
 
 	// This is a debug option - disable if you want to avoid the keyboard IME on expand, thus
 	// helping for testing other performance issues.
@@ -94,7 +96,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	// Child fragments, shown in the content container
 	private SuggestionsFragment mDestinationsFragment;
 	private SuggestionsFragment mOriginsFragment;
-	private Fragment mDatesFragment;
+	private DatesFragment mDatesFragment;
 	private Fragment mGuestsFragment;
 
 	// Utility fragments
@@ -252,6 +254,11 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		createDestinationsFragment();
 		createOriginsFragment();
 
+		// If we recreated the dates fragment on rotation, set it up with the proper dates
+		if (mDatesFragment != null) {
+			mDatesFragment.setDatesFromParams(mSearchParams);
+		}
+
 		// Add a search edit text watcher.  We purposefully add it before
 		// we restore the edit text's state so that it will fire and update
 		// the UI properly to restore its state.
@@ -383,9 +390,12 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		}
 		else if (tag.equals(TAG_DATES)) {
 			if (mDatesFragment == null) {
-				mDatesFragment = ButtonFragment.newInstance("Dates", R.dimen.tablet_search_width);
+				mDatesFragment = new DatesFragment();
 			}
 			fragmentToShow = mDatesFragment;
+
+			// Setup initial dates to show
+			mDatesFragment.setDatesFromParams(mSearchParams);
 		}
 		else if (tag.equals(TAG_GUESTS)) {
 			if (mGuestsFragment == null) {
@@ -768,6 +778,15 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	@Override
 	public void onError() {
 		onFound(null);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// DatesFragmentListener
+
+	@Override
+	public void onDatesChanged(LocalDate startDate, LocalDate endDate) {
+		mSearchParams.setStartDate(startDate);
+		mSearchParams.setEndDate(endDate);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

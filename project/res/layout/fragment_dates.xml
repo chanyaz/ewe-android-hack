@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mobiata="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp" >
+
+    <com.mobiata.android.widget.CalendarDatePicker
+        android:id="@+id/dates_date_picker"
+        android:layout_width="@dimen/tablet_search_width"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        mobiata:calendarHeaderBackground="@color/calendar_header"
+        mobiata:cellBackground="@drawable/bg_calendar_cell_tablet"
+        mobiata:cellTextColor="@color/cell_text"
+        mobiata:drawGridLines="false"
+        mobiata:nextMonthBackground="@drawable/bg_calendar_next"
+        mobiata:otherMonthCellBackground="@drawable/bg_calendar_cell_tablet"
+        mobiata:otherMonthCellTextColor="@color/cell_text_other_month"
+        mobiata:popupBackground="@drawable/calendar_date_picker_popup"
+        mobiata:previousMonthBackground="@drawable/bg_calendar_previous"
+        mobiata:rangeEndCellBackground="@drawable/bg_calendar_cell_range_end"
+        mobiata:rangeStartCellBackground="@drawable/bg_calendar_cell_range_start"
+        mobiata:todayCellBackground="@drawable/bg_calendar_cell_today_tablet" />
+
+</FrameLayout>
