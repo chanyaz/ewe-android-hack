@@ -185,9 +185,8 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		mLocationFragment = FusedLocationProviderFragment.getInstance(this);
 
 		// Setup on click listeners
-		mHeaderTopContainer.setOnClickListener(this);
+		mSearchStatusTextView.setOnClickListener(this);
 		mDestinationEditText.setOnClickListener(this);
-		mSearchDivider.setOnClickListener(this);
 		mSearchDatesTextView.setOnClickListener(this);
 		mCancelButton.setOnClickListener(this);
 		mOriginEditText.setOnClickListener(this);
@@ -219,7 +218,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			mDestinationEditText.setFocusableInTouchMode(true);
 
 			mSearchStatusTextView.setAlpha(0);
-			mSearchStatusTextView.setVisibility(View.GONE);
+			mSearchStatusTextView.setVisibility(View.INVISIBLE);
 		}
 
 		// Configure views which use HW layers on expand/collapse animation
@@ -630,6 +629,8 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			mBlockEventFrameLayout.setBlockNewEventsEnabled(true);
 
 			if (!mIsExpanding) {
+				mSearchStatusTextView.setVisibility(View.VISIBLE);
+
 				clearEditTextFocus(mDestinationEditText);
 				clearEditTextFocus(mOriginEditText);
 			}
@@ -655,6 +656,8 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			mBlockEventFrameLayout.setBlockNewEventsEnabled(false);
 
 			if (mIsExpanding) {
+				mSearchStatusTextView.setVisibility(View.INVISIBLE);
+
 				mListener.onFinishExpand();
 
 				requestEditTextFocus(mDestinationEditText);
@@ -711,9 +714,8 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		if (v == mCancelButton) {
 			getActivity().onBackPressed();
 		}
-		else if (!isExpanded() && (v == mHeaderTopContainer || v == mDestinationEditText || v == mSearchDivider
-				|| v == mSearchDatesTextView)) {
-			// Expand the UI if found 
+		else if (!isExpanded() && v == mSearchStatusTextView) {
+			// Expand the UI if found
 			expand();
 		}
 		else if (v == mSearchButton) {
