@@ -250,6 +250,9 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			// Always start with the destinations fragment visible
 			switchToFragment(TAG_DESTINATIONS);
 		}
+		else {
+			setupViewsForChildFragment(getCurrentChildFragmentTag());
+		}
 
 		// Always make sure that we at least have the destinations/origins fragments so we can start filtering
 		// before it's shown; otherwise it may not cross-fade in a pretty manner the first time.
@@ -410,6 +413,17 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			throw new RuntimeException("I do not understand the tag \"" + tag + "\"");
 		}
 
+		setupViewsForChildFragment(tag);
+
+		getChildFragmentManager()
+				.beginTransaction()
+				.setCustomAnimations(R.anim.fragment_tablet_search_in, R.anim.fragment_tablet_search_out)
+				.replace(R.id.content_container, fragmentToShow, tag)
+				.commit();
+	}
+
+	// This configures the views related to a child Fragment
+	private void setupViewsForChildFragment(String tag) {
 		// We want to make sure the origin/destination text is properly updated
 		boolean displayDest = true;
 		boolean displayOrigin = true;
@@ -430,12 +444,6 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		mDestinationEditText.setText(displayDest ? getString(R.string.to_TEMPLATE,
 				getLocationText(mSearchParams.getDestination())) : null);
 		mOriginEditText.setText(displayOrigin ? getOriginText() : null);
-
-		getChildFragmentManager()
-				.beginTransaction()
-				.setCustomAnimations(R.anim.fragment_tablet_search_in, R.anim.fragment_tablet_search_out)
-				.replace(R.id.content_container, fragmentToShow, tag)
-				.commit();
 	}
 
 	private void createDestinationsFragment() {
