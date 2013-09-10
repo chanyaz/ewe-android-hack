@@ -2,23 +2,53 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#AA006600" >
+    android:layout_height="match_parent" >
 
     <FrameLayout
+        android:id="@+id/rooms_and_rates_shade"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
         android:id="@+id/rooms_and_rates_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="100dp"
-        android:background="#FF0000" >
+        android:gravity="top"
+        android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/rooms_and_rates_tv"
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:id="@+id/rooms_and_rates_content_top"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Rooms &amp; Rates" />
-    </FrameLayout>
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="100dp"
+            android:layout_marginTop="100dp" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="#FFFF00"
+                android:gravity="center"
+                android:text="Hotel Image" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/rooms_and_rates_content_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="100dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="100dp"
+            android:layout_marginTop="0dp" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#FF0000"
+                android:gravity="center"
+                android:text="Rooms &amp; Rates" />
+        </FrameLayout>
+    </LinearLayout>
 
 </FrameLayout>

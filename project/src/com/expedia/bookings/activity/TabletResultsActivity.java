@@ -18,6 +18,7 @@ import com.expedia.bookings.fragment.TabletResultsFlightControllerFragment.IFlig
 import com.expedia.bookings.fragment.TabletResultsHotelControllerFragment;
 import com.expedia.bookings.fragment.TabletResultsHotelControllerFragment.IHotelsFruitScrollUpListViewChangeListener;
 import com.expedia.bookings.fragment.TabletResultsTripControllerFragment;
+import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.ITabletResultsController;
 import com.expedia.bookings.server.ExpediaServices;
@@ -35,6 +36,7 @@ import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -61,7 +63,7 @@ import android.view.ViewGroup;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TabletResultsActivity extends SherlockFragmentActivity implements ITabletResultsController,
 		IFlightsFruitScrollUpListViewChangeListener, IHotelsFruitScrollUpListViewChangeListener,
-		IBackgroundImageReceiverRegistrar, IBackButtonLockListener {
+		IBackgroundImageReceiverRegistrar, IBackButtonLockListener, IAddToTripListener {
 
 	public interface IBackgroundImageReceiver {
 		/**
@@ -102,12 +104,14 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 	private ArrayList<IBackgroundImageReceiver> mBackgroundImageReceivers = new ArrayList<IBackgroundImageReceiver>();
 	private ArrayList<ITabletResultsController> mTabletResultsControllers = new ArrayList<ITabletResultsController>();
+	private ArrayList<IAddToTripListener> mAddToTripListeners = new ArrayList<IAddToTripListener>();
 
 	public enum GlobalResultsState
 	{
 		DEFAULT,
 		HOTELS,
-		FLIGHTS
+		FLIGHTS,
+		TRIP_ADD_HOTEL
 	}
 
 	@Override
@@ -211,9 +215,17 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 	@Override
 	public void setGlobalResultsState(GlobalResultsState state) {
+		Log.d("setGlobalResultsState:" + state.name());
 		mState = state;
 		for (ITabletResultsController controller : mTabletResultsControllers) {
 			controller.setGlobalResultsState(state);
+		}
+	}
+
+	@Override
+	public void animateTowardsGlobalResultsState(GlobalResultsState state, int duration) {
+		for (ITabletResultsController controller : mTabletResultsControllers) {
+			controller.animateTowardsGlobalResultsState(state, duration);
 		}
 	}
 
@@ -394,6 +406,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 					transaction.add(R.id.full_width_trip_controller_container, mTripController,
 							FRAG_TAG_TRIP_CONTROLLER);
 				}
+				mAddToTripListeners.add(mTripController);
 			}
 		}
 		else {
@@ -401,6 +414,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 				mTripController = Ui.findSupportFragment(this, FRAG_TAG_TRIP_CONTROLLER);
 			}
 			if (mTripController != null) {
+				mAddToTripListeners.remove(mTripController);
 				transaction.remove(mTripController);
 			}
 		}
@@ -521,22 +535,32 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	}
 
 	private boolean isHotelsListenerEnabled() {
+		return mState == GlobalResultsState.DEFAULT || mState == GlobalResultsState.HOTELS
+				|| mState == GlobalResultsState.TRIP_ADD_HOTEL;
+	}
+
+	private boolean allowHotelsStateToChangeGlobalState() {
 		return mState == GlobalResultsState.DEFAULT || mState == GlobalResultsState.HOTELS;
 	}
 
 	@Override
 	public void onHotelsStateChanged(State oldState, State newState, float percentage, View requester) {
-		if (isHotelsListenerEnabled()) {
+		if (isHotelsListenerEnabled() && allowHotelsStateToChangeGlobalState()) {
 			if (newState == com.expedia.bookings.widget.FruitScrollUpListView.State.TRANSIENT) {
 				blockAllNewTouches(requester);
 				setAnimatingTowardsVisibility(GlobalResultsState.HOTELS);
 				setAnimatingTowardsVisibility(GlobalResultsState.DEFAULT);
+
 				setHardwareLayerForTransition(View.LAYER_TYPE_HARDWARE, GlobalResultsState.DEFAULT,
-						GlobalResultsState.HOTELS);
+						mState == GlobalResultsState.TRIP_ADD_HOTEL ? GlobalResultsState.TRIP_ADD_HOTEL
+								: GlobalResultsState.HOTELS);
+
 			}
 			else {
 				setHardwareLayerForTransition(View.LAYER_TYPE_NONE, GlobalResultsState.DEFAULT,
-						GlobalResultsState.HOTELS);
+						mState == GlobalResultsState.TRIP_ADD_HOTEL ? GlobalResultsState.TRIP_ADD_HOTEL
+								: GlobalResultsState.HOTELS);
+
 				if (newState == com.expedia.bookings.widget.FruitScrollUpListView.State.LIST_CONTENT_AT_TOP) {
 					//We have entered this mode...
 					setGlobalResultsState(GlobalResultsState.HOTELS);
@@ -544,6 +568,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 				else {
 					setGlobalResultsState(GlobalResultsState.DEFAULT);
 				}
+
 			}
 		}
 	}
@@ -592,4 +617,24 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		mBackButtonLocked = locked;
 	}
 
+	/**
+	 * IAddToTripListener Stuff
+	 */
+
+	@Override
+	public void beginAddToTrip(Object data, Rect globalCoordinates, int shadeColor) {
+		for (IAddToTripListener listener : mAddToTripListeners) {
+			listener.beginAddToTrip(data, globalCoordinates, shadeColor);
+		}
+
+	}
+
+	@Override
+	public void guiElementInPosition() {
+		this.setGlobalResultsState(GlobalResultsState.TRIP_ADD_HOTEL);
+		for (IAddToTripListener listener : mAddToTripListeners) {
+			listener.guiElementInPosition();
+		}
+
+	}
 }

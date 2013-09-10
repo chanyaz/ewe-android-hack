@@ -20,6 +20,15 @@ public interface ITabletResultsController {
 	public void setGlobalResultsState(GlobalResultsState state);
 
 	/**
+	 * When this is called we do not set the global state, rather we indicate
+	 * the state we want and we let the various controllers animate themselves
+	 * towards the desired state. It is important that the initiator of this call
+	 * does call setGlobalResultsState when they are satisfied that we have animated sufficiently.
+	 * @param state
+	 */
+	public void animateTowardsGlobalResultsState(GlobalResultsState state, int duration);
+
+	/**
 	 * When this is called, it indicates we are moving towards a particular state.
 	 * Thus if ITabletResultsControllers know they have views that will be displayed
 	 * in the provided state, their visibility should be set accordingly.
@@ -27,7 +36,6 @@ public interface ITabletResultsController {
 	 */
 	public void setAnimatingTowardsVisibility(GlobalResultsState state);
 
-	
 	/**
 	 * Transitioning between states often requires the use of Hardware layers for performance reasons.
 	 * 
@@ -69,8 +77,7 @@ public interface ITabletResultsController {
 	 * @param totalWidth
 	 */
 	public void updateColumnWidths(int totalWidth);
-	
-	
+
 	/**
 	 * The controllers should be in control of back presses too.
 	 * 

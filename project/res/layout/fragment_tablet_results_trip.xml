@@ -4,12 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <!-- COLUMN ONE -->
-
-    <!-- COLUMN TWO -->
-
-    <!-- COLUMN THREE -->
-    
     <com.expedia.bookings.widget.FixedTranslationFrameLayout
         android:id="@+id/column_three_blurred_bg"
         android:layout_width="match_parent"
@@ -19,5 +13,16 @@
         android:id="@+id/column_three_trip_pane"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <com.expedia.bookings.widget.BlockEventFrameLayout
+        android:id="@+id/column_one_shade"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.expedia.bookings.widget.BlockEventFrameLayout
+        android:id="@+id/column_three_trip_hotel"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="#FFFF00" />
 
 </FrameLayout>

@@ -243,7 +243,7 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 					post(new Runnable() {
 						@Override
 						public void run() {
-							setState(mState, true, false);
+							setState(mState, true);
 							mInitialized = true;
 						}
 					});
@@ -285,7 +285,11 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 	 * METHODS FOR MOVING AROUND THE LIST
 	 */
 
-	public void setState(State state, boolean forceUpdate, boolean smoothScroll) {
+	public void setState(State state, boolean forceUpdate) {
+		setState(state, forceUpdate, 0);
+	}
+
+	public void setState(State state, boolean forceUpdate, int duration) {
 		State oldState = mState;
 		mState = state;
 
@@ -294,22 +298,22 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 			if (state == State.LIST_CONTENT_AT_BOTTOM) {
 				setListLockedToTop(false);
 				unShrinkHeaderSpacer();
-				moveToPosition(0, 0, smoothScroll);
+				moveToPosition(0, 0, duration);
 			}
 			else if (state == State.LIST_CONTENT_AT_TOP && getFirstVisiblePosition() == 0) {
-				moveToPosition(1, 0, smoothScroll);
+				moveToPosition(1, 0, duration);
 			}
 
 			reportStateChanged(oldState, state);
 		}
 	}
 
-	public Pair<Integer, Integer> moveToPosition(int position, int y, boolean smoothScroll) {
+	public Pair<Integer, Integer> moveToPosition(int position, int y, int duration) {
 		Pair<Integer, Integer> sanePosition = sanatizePosition(position, y);
-		if (smoothScroll) {
+		if (duration > 0) {
 			mIsSmoothScrolling = true;
 			someUserInteractionHasStarted();
-			smoothScrollToPositionFromTop(sanePosition.first, sanePosition.second);
+			smoothScrollToPositionFromTop(sanePosition.first, sanePosition.second, duration);
 		}
 		else {
 			setSelectionFromTop(sanePosition.first, sanePosition.second);
@@ -693,17 +697,17 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 	}
 
 	private void someUserInteractionHasStarted() {
-		setState(State.TRANSIENT, false, false);
+		setState(State.TRANSIENT, false);
 	}
 
 	private void someUserInteractionHasStopped() {
 		if (mState == State.TRANSIENT && !mIsBeingScrolled && !mIsBeingTouched) {
 			float percentage = getScrollDownPercentage();
 			if (percentage > mPercentageOfHeaderSpacerOnScreenForSnap) {
-				setState(State.LIST_CONTENT_AT_BOTTOM, false, false);
+				setState(State.LIST_CONTENT_AT_BOTTOM, false);
 			}
 			else {
-				setState(State.LIST_CONTENT_AT_TOP, false, false);
+				setState(State.LIST_CONTENT_AT_TOP, false);
 			}
 
 			if (mHeaderSpacerShrunk) {

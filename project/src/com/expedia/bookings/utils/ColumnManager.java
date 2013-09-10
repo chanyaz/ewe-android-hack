@@ -1,6 +1,6 @@
 package com.expedia.bookings.utils;
 
-import android.view.ViewGroup;
+import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 
@@ -47,37 +47,37 @@ public class ColumnManager {
 		int remainder = (int) (mTotalWidth % mNumColumns);
 
 		int left = 0;
-		for(int i = 0; i < mNumColumns; i++){
+		for (int i = 0; i < mNumColumns; i++) {
 			int width = baseColSize;
-			if(i == 0){
+			if (i == 0) {
 				//the first column gets to be slightly larger
 				width += remainder;
 			}
 			mColumnLefts[i] = left;
 			mColumnWidths[i] = width;
-			left+=width;
+			left += width;
 		}
 	}
 
 	/**
 	 * Set the container so it is positioned to fill the provided column
-	 * @param container - what we want to size/position
+	 * @param view - what we want to size/position
 	 * @param column - which column should we size/position it to
 	 */
-	public void setContainerToColumn(ViewGroup container, int column) {
-		setContainerToColumnSpan(container, column, column);
+	public void setContainerToColumn(View view, int column) {
+		setContainerToColumnSpan(view, column, column);
 	}
 
 	/**
 	 * Set the container so it is positioned to fill the provided column span
-	 * @param container - what we want to size/position
+	 * @param view - what we want to size/position
 	 * @param startCol - the start column where the left edge will be placed
 	 * @param endCol - the end column, the contianers right edge will match this columns right edge
 	 */
-	public void setContainerToColumnSpan(ViewGroup container, int startCol, int endCol) {
+	public void setContainerToColumnSpan(View view, int startCol, int endCol) {
 		int width = getColRight(endCol) - getColLeft(startCol);
 		int left = getColLeft(startCol);
-		setFrameWidthAndPosition(container, width, left);
+		setFrameWidthAndPosition(view, width, left);
 	}
 
 	/**
@@ -85,18 +85,18 @@ public class ColumnManager {
 	 * This assumes the parent container is a FrameLayout as it will be setting the layout params
 	 * as FrameLayout.LayoutParams.
 	 * 
-	 * @param container - what we want to position
+	 * @param view - what we want to position
 	 * @param width - how wide?
 	 * @param leftMargin - how far from the left of the parent
 	 */
-	public static void setFrameWidthAndPosition(ViewGroup container, int width, int leftMargin) {
-		FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) container.getLayoutParams();
+	public static void setFrameWidthAndPosition(View view, int width, int leftMargin) {
+		FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) view.getLayoutParams();
 		if (params == null) {
 			params = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		}
 		params.width = width;
 		params.leftMargin = leftMargin;
-		container.setLayoutParams(params);
+		view.setLayoutParams(params);
 	}
 
 }

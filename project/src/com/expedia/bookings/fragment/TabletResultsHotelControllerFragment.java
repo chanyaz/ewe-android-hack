@@ -15,7 +15,6 @@ import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewC
 import com.expedia.bookings.widget.FruitScrollUpListView.State;
 import com.expedia.bookings.widget.TouchThroughFrameLayout;
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 import android.animation.Animator;
@@ -123,7 +122,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 		mBgHotelMapTouchDelegateC = Ui.findView(view, R.id.bg_hotel_map_touch_delegate);
 		mHotelFiltersC = Ui.findView(view, R.id.column_one_hotel_filters);
 		mHotelFilteredCountC = Ui.findView(view, R.id.column_three_hotel_filtered_count);
-		mHotelRoomsAndRatesC = Ui.findView(view, R.id.column_two_hotel_rooms_and_rates);
+		mHotelRoomsAndRatesC = Ui.findView(view, R.id.column_one_hotel_rooms_and_rates);
 
 		//Default maps to be invisible (they get ignored by our setVisibilityState function so this is important)
 		mBgHotelMapC.setAlpha(0f);
@@ -307,6 +306,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 
 	private void setVisibilityState(GlobalResultsState globalState, HotelsState hotelsState) {
 		switch (globalState) {
+		case TRIP_ADD_HOTEL:
+			//No break, we want to fall through to hotels..
 		case HOTELS: {
 			if (hotelsState == HotelsState.DEFAULT_FILTERS || hotelsState == HotelsState.ROOMS_AND_RATES_FILTERS) {
 				mHotelFiltersC.setVisibility(View.VISIBLE);
@@ -350,40 +351,44 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 		//is complete before moving forward, so this is important
 		getChildFragmentManager().executePendingTransactions();
 
-		//We will be adding all of our add/removes to this transaction
-		FragmentTransaction transaction = this.getChildFragmentManager().beginTransaction();
+		//We dont want to change anything if we are in this state...
+		if (globalState != GlobalResultsState.TRIP_ADD_HOTEL) {
 
-		boolean hotelListAvailable = true;
-		boolean hotelMapAvailable = true;
-		boolean hotelFiltersAvailable = true;
-		boolean hotelFilteredCountAvailable = true;
-		boolean hotelRoomsAndRatesAvailable = true;
+			//We will be adding all of our add/removes to this transaction
+			FragmentTransaction transaction = this.getChildFragmentManager().beginTransaction();
 
-		if (globalState != GlobalResultsState.HOTELS) {
-			hotelFiltersAvailable = false;
-			hotelFilteredCountAvailable = false;
-			hotelRoomsAndRatesAvailable = false;
+			boolean hotelListAvailable = true;
+			boolean hotelMapAvailable = true;
+			boolean hotelFiltersAvailable = true;
+			boolean hotelFilteredCountAvailable = true;
+			boolean hotelRoomsAndRatesAvailable = true;
+
+			if (globalState != GlobalResultsState.HOTELS) {
+				hotelFiltersAvailable = false;
+				hotelFilteredCountAvailable = false;
+				hotelRoomsAndRatesAvailable = false;
+			}
+			if (globalState != GlobalResultsState.HOTELS && globalState != GlobalResultsState.DEFAULT) {
+				hotelMapAvailable = false;
+			}
+
+			//Hotel list
+			setHotelListFragmentAvailability(hotelListAvailable, transaction);
+
+			//Hotel Map
+			setHotelsMapFragmentAvailability(hotelMapAvailable, transaction);
+
+			//Hotel filters
+			setHotelFiltersFragmentAvailability(hotelFiltersAvailable, transaction);
+
+			//Hotel Filtered count fragment
+			setHotelFilteredCountFragmentAvailability(hotelFilteredCountAvailable, transaction);
+
+			//Rooms and rates
+			setHotelRoomsAndRatesFragmentAvailability(hotelRoomsAndRatesAvailable, transaction);
+
+			transaction.commit();
 		}
-		if (globalState != GlobalResultsState.HOTELS && globalState != GlobalResultsState.DEFAULT) {
-			hotelMapAvailable = false;
-		}
-
-		//Hotel list
-		setHotelListFragmentAvailability(hotelListAvailable, transaction);
-
-		//Hotel Map
-		setHotelsMapFragmentAvailability(hotelMapAvailable, transaction);
-
-		//Hotel filters
-		setHotelFiltersFragmentAvailability(hotelFiltersAvailable, transaction);
-
-		//Hotel Filtered count fragment
-		setHotelFilteredCountFragmentAvailability(hotelFilteredCountAvailable, transaction);
-
-		//Rooms and rates
-		setHotelRoomsAndRatesFragmentAvailability(hotelRoomsAndRatesAvailable, transaction);
-
-		transaction.commit();
 
 	}
 
@@ -487,12 +492,13 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 									FRAG_TAG_HOTEL_ROOMS_AND_RATES);
 				}
 				if (mHotelRoomsAndRatesFrag == null) {
-					mHotelRoomsAndRatesFrag = ResultsHotelsRoomsAndRates.newInstance();
+					mHotelRoomsAndRatesFrag = ResultsHotelsRoomsAndRates.newInstance(mColumnManager);
 				}
 				if (!mHotelRoomsAndRatesFrag.isAdded()) {
-					transaction.add(R.id.column_two_hotel_rooms_and_rates, mHotelRoomsAndRatesFrag,
+					transaction.add(R.id.column_one_hotel_rooms_and_rates, mHotelRoomsAndRatesFrag,
 							FRAG_TAG_HOTEL_ROOMS_AND_RATES);
 				}
+				mHotelRoomsAndRatesFrag.setColumnManager(mColumnManager);
 			}
 		}
 		else {
@@ -567,12 +573,20 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 	}
 
 	@Override
+	public void animateTowardsGlobalResultsState(GlobalResultsState state, int duration) {
+		if (mGlobalState == GlobalResultsState.TRIP_ADD_HOTEL && state == GlobalResultsState.DEFAULT) {
+			mHotelListFrag.gotoBottomPosition(duration);
+		}
+	}
+
+	@Override
 	public void setAnimatingTowardsVisibility(GlobalResultsState state) {
 		switch (state) {
 		case DEFAULT: {
 			mHotelListC.setVisibility(View.VISIBLE);
 			break;
 		}
+		case TRIP_ADD_HOTEL:
 		case HOTELS: {
 			mHotelListC.setVisibility(View.VISIBLE);
 			break;
@@ -593,6 +607,14 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 			mBgHotelMapC.setLayerType(layerType, null);
 			mHotelRoomsAndRatesC.setLayerType(layerType, null);
 
+		}
+
+		if ((stateOne == GlobalResultsState.DEFAULT || stateOne == GlobalResultsState.TRIP_ADD_HOTEL)
+				&& (stateTwo == GlobalResultsState.DEFAULT || stateTwo == GlobalResultsState.TRIP_ADD_HOTEL)) {
+			//Default -> TripAdd or TripAdd -> Default transition
+
+			mBgHotelMapC.setLayerType(layerType, null);
+			mHotelRoomsAndRatesC.setLayerType(layerType, null);
 		}
 
 		if ((stateOne == GlobalResultsState.DEFAULT || stateOne == GlobalResultsState.FLIGHTS)
@@ -642,7 +664,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 		mColumnManager.setContainerToColumn(mHotelFilteredCountC, 2);
 		mColumnManager.setContainerToColumnSpan(mBgHotelMapC, 0, 2);
 		mColumnManager.setContainerToColumnSpan(mBgHotelMapTouchDelegateC, 0, 2);
-		mColumnManager.setContainerToColumnSpan(mHotelRoomsAndRatesC, 1, 2);
+		mColumnManager.setContainerToColumnSpan(mHotelRoomsAndRatesC, 0, 2);
 
 	}
 
@@ -704,7 +726,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 	public void onHotelSelected() {
 		if (mGlobalState == GlobalResultsState.HOTELS) {
 			setHotelsState(HotelsState.ROOMS_AND_RATES, true);
-			
+
 			for (IResultsHotelSelectedListener listener : mHotelSelectedListeners) {
 				listener.onHotelSelected();
 			}

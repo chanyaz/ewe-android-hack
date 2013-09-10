@@ -6,7 +6,6 @@ import com.expedia.bookings.widget.FruitScrollUpListView;
 import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewChangeListener;
 import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewInitListener;
 import com.expedia.bookings.widget.FruitScrollUpListView.State;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 import android.annotation.TargetApi;
@@ -18,10 +17,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 
 /**
  * ResultsListFragment: The abstract base Fragment  for the flight and hotel lists designed for tablet results 2013
@@ -30,6 +27,8 @@ import android.widget.AdapterView.OnItemClickListener;
 public abstract class ResultsListFragment extends ListFragment implements IFruitScrollUpListViewChangeListener {
 
 	private static final String STATE_LIST_STATE = "STATE_LIST_STATE";
+
+	private static final int SMOOTH_SCROLL_DURATION = 100;
 
 	private FruitScrollUpListView mListView;
 	private ViewGroup mStickyHeader;
@@ -155,9 +154,13 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 	}
 
 	public void gotoBottomPosition() {
+		gotoBottomPosition(SMOOTH_SCROLL_DURATION);
+	}
+
+	public void gotoBottomPosition(int duration) {
 		mGotoBottom = true;
 		if (mListView != null) {
-			mListView.setState(State.LIST_CONTENT_AT_BOTTOM, true, true);
+			mListView.setState(State.LIST_CONTENT_AT_BOTTOM, true, duration);
 			mGotoBottom = false;
 		}
 	}

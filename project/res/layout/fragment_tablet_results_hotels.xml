@@ -16,17 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!-- COLUMN TWO -->
-
-    <com.expedia.bookings.widget.BlockEventFrameLayout
-        android:id="@+id/column_two_hotel_rooms_and_rates"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
     <!-- FORGROUND CONTAINERS -->
-
-
-    <!-- COLUMN ONE -->
 
     <com.expedia.bookings.widget.BlockEventFrameLayout
         android:id="@+id/column_one_hotel_filters"
@@ -38,10 +28,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!-- COLUMN THREE -->
-
     <com.expedia.bookings.widget.BlockEventFrameLayout
         android:id="@+id/column_three_hotel_filtered_count"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.expedia.bookings.widget.BlockEventFrameLayout
+        android:id="@+id/column_one_hotel_rooms_and_rates"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
