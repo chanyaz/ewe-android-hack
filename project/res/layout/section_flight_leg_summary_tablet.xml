@@ -13,7 +13,7 @@
         android:id="@+id/cell_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#2A445E"
+        android:background="@drawable/bg_flight_summary_row_tablet"
         android:contentDescription="@null" />
 
     <LinearLayout
