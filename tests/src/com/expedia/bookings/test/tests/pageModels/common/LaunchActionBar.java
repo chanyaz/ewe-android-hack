@@ -10,12 +10,12 @@ import com.expedia.bookings.test.utils.TestPreferences;
 import com.jayway.android.robotium.solo.Solo;
 
 public class LaunchActionBar extends ScreenActions {
-	private static int sSettingsStringID = R.string.Settings;
-	private static int sInfoStringID = R.string.Info;
-	private static int sTripsStringID = R.string.trips;
-	private static int sShopStringID = R.string.shop;
-	private static int sLogOutStringID = R.string.log_out;
-	private static int sAddItinButtonID = R.id.add_itinerary;
+	private static final int sSettingsStringID = R.string.Settings;
+	private static final int sInfoStringID = R.string.Info;
+	private static final int sTripsStringID = R.string.trips;
+	private static final int sShopStringID = R.string.shop;
+	private static final int sLogOutStringID = R.string.log_out;
+	private static final int sAddItinButtonID = R.id.add_itinerary;
 
 	public LaunchActionBar(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {

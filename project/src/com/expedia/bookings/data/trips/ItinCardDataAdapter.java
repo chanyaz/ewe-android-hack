@@ -25,7 +25,6 @@ import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 import com.expedia.bookings.widget.itin.ItinButtonCard;
 import com.expedia.bookings.widget.itin.ItinButtonCard.ItinButtonType;
 import com.expedia.bookings.widget.itin.ItinButtonCard.OnHideListener;
-import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.util.SettingUtils;
 
 public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickListener, OnHideListener {
@@ -576,15 +575,9 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 	@Override
 	public void onCloseButtonClicked() {
+		// Pass the click event back up to the ListView to handle the closing of the card
 		if (mOnItinCardClickListener != null) {
 			mOnItinCardClickListener.onCloseButtonClicked();
-		}
-	}
-
-	@Override
-	public void onShareButtonClicked(ItinContentGenerator<?> generator) {
-		if (mOnItinCardClickListener != null) {
-			mOnItinCardClickListener.onShareButtonClicked(generator);
 		}
 	}
 

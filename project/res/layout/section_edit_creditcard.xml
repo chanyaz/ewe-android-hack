@@ -30,9 +30,9 @@
             android:hint="@string/credit_card_hint"
             android:imeOptions="flagNoExtractUi"
             android:inputType="number"
+            android:maxLength="@integer/max_credit_card_length"
             android:paddingBottom="12dp"
-            android:singleLine="true" >
-        </EditText>
+            android:singleLine="true" />
     </LinearLayout>
 
     <TextView

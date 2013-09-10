@@ -25,8 +25,9 @@ public class ProductionHappyPath extends ActivityInstrumentationTestCase2<Search
 		super.setUp();
 		mUser = new HotelsUserData();
 		mRes = getActivity().getResources();
-		mPreferences = TestPreferences.generateTestPreferences().setRotationPermission(false)
-				.setScreenshotPermission(false);
+		mPreferences = new TestPreferences();
+		mPreferences.setRotationPermission(false);
+		mPreferences.setScreenshotPermission(false);
 		mDriver = new FlightsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
 	}
 

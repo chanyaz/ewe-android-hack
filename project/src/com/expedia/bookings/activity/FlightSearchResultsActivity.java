@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -908,7 +909,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	};
 
 	private void completeLocation(Location location) {
-		Location updatedLocation = mUpdatedLocations.get(location.getDestinationId().toLowerCase());
+		Location updatedLocation = mUpdatedLocations.get(location.getDestinationId().toLowerCase(Locale.ENGLISH));
 
 		// If we don't have city, it must not be a filled out location
 		if (updatedLocation == null && TextUtils.isEmpty(location.getCity())
@@ -939,7 +940,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 		// Add this to the updated locations regardless of success, so we can short-circuit
 		// retrying it again later
-		mUpdatedLocations.put(location.getDestinationId().toLowerCase(), location);
+		mUpdatedLocations.put(location.getDestinationId().toLowerCase(Locale.ENGLISH), location);
 	}
 
 	private OnDownloadComplete<FlightSearchResponse> mDownloadCallback = new OnDownloadComplete<FlightSearchResponse>() {

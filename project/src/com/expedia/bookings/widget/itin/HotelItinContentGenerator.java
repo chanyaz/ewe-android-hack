@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.LocalDate;
 import org.joda.time.MutableDateTime;
 
 import android.content.Context;
@@ -19,11 +20,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
@@ -340,6 +343,26 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		}
 
 		return new SummaryButton(iconResId, actionText, onClickListener, popupContentView, popupOnClickListener);
+	}
+
+	// Add to calendar
+
+	@Override
+	public List<Intent> getAddToCalendarIntents() {
+		Context context = getContext();
+
+		ItinCardDataHotel itinCardDataHotel = getItinCardData();
+		Property property = itinCardDataHotel.getProperty();
+		LocalDate in = itinCardDataHotel.getStartDate().toLocalDate();
+		LocalDate out = itinCardDataHotel.getEndDate().toLocalDate();
+		String confNum = itinCardDataHotel.getFormattedConfirmationNumbers();
+		String itinId = itinCardDataHotel.getTripComponent().getParentTrip().getTripNumber();
+
+		List<Intent> intents = new ArrayList<Intent>();
+		intents.add(AddToCalendarUtils.generateHotelAddToCalendarIntent(context, property, out, false, confNum, itinId));
+		intents.add(AddToCalendarUtils.generateHotelAddToCalendarIntent(context, property, in, true, confNum, itinId));
+
+		return intents;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

@@ -2,6 +2,7 @@ package com.expedia.bookings.data.trips;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -49,8 +50,8 @@ public class ItinCardDataLocalExpert extends ItinCardData {
 			return null;
 		}
 
-		final String city = location.getCity().toLowerCase();
-		final String state = location.getStateCode().toLowerCase();
+		final String city = location.getCity().toLowerCase(Locale.ENGLISH);
+		final String state = location.getStateCode().toLowerCase(Locale.ENGLISH);
 
 		if (state.equals(HAWAII)) {
 			return Destination.HAWAII;
@@ -70,11 +71,11 @@ public class ItinCardDataLocalExpert extends ItinCardData {
 			return false;
 		}
 
-		if (STATES.contains(location.getStateCode().toLowerCase())) {
+		if (STATES.contains(location.getStateCode().toLowerCase(Locale.ENGLISH))) {
 			return true;
 		}
 
-		if (CITIES.contains(location.getCity().toLowerCase())) {
+		if (CITIES.contains(location.getCity().toLowerCase(Locale.ENGLISH))) {
 			return true;
 		}
 

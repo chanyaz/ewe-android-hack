@@ -1,10 +1,8 @@
 package com.expedia.bookings.widget.itin;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
-import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.MutableDateTime;
 
@@ -41,7 +39,6 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.InfoTripletView;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
-import com.mobiata.flightlib.utils.DateTimeUtils;
 
 public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardDataActivity> {
 
@@ -248,6 +245,11 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 		drawable.setBounds(0, 0, width, height);
 
 		return drawable;
+	}
+
+	@Override
+	public List<Intent> getAddToCalendarIntents() {
+		return new ArrayList<Intent>();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

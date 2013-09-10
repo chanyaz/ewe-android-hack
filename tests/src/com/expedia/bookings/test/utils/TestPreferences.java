@@ -9,18 +9,12 @@ public class TestPreferences {
 
 	}
 
-	public static TestPreferences generateTestPreferences() {
-		return new TestPreferences();
-	}
-
-	public TestPreferences setScreenshotPermission(boolean takeScreenshots) {
+	public void setScreenshotPermission(boolean takeScreenshots) {
 		mAllowScreenshots = takeScreenshots;
-		return this;
 	}
 
-	public TestPreferences setRotationPermission(boolean doRotations) {
+	public void setRotationPermission(boolean doRotations) {
 		mAllowOrientationChange = doRotations;
-		return this;
 	}
 
 	public boolean getScreenshotPermission() {

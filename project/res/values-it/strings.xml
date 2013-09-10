@@ -3,7 +3,7 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">Ciao &lt;b&gt;%1$s&lt;/b&gt;, abbiamo trovato il tuo account Expedia! Inserisci la tua password Expedia in basso per collegare il tuoi account Facebook e Expedia.</string>
+    <string name="facebook_weve_found_your_account">Ciao &lt;b&gt;%1$s&lt;/b&gt;, abbiamo trovato il tuo account Expedia! Inserisci la tua password Expedia in basso per collegare i tuoi account Facebook e Expedia.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">Ciao &lt;b&gt;%1$s&lt;/b&gt;, abbiamo caricato i tuoi dati Facebook!</string>
     <!-- Log in with facebook (button text) -->
@@ -30,12 +30,14 @@
     <string name="Log_In">Accedi</string>
     <!-- Log in with Expedia -->
     <string name="Log_in_with_Expedia">Accedi con Expedia</string>
-    <!-- Log in with VSC -->
-    <string name="Log_in_with_VSC">Accedi con VSC</string>
     <!-- or -->
     <string name="or">o</string>
     <!-- Already logged in -->
     <string name="already_logged_in">Accesso già effettuato</string>
+
+    <!-- Restricted Profile -->
+    <!-- Restricted profile login message -->
+    <string name="restricted_profile_login_message">Per accedere a Expedia, sul tuo dispositivo mobile devi utilizzare un profilo utente non limitato.</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Home -->
@@ -206,11 +208,11 @@
     <!-- "Gate To Be Determined", with "To Be Determined" abbreviated if possible -->
     <string name="Gate_To_Be_Determined_abbrev">Gate da confermare</string>
     <!-- Itin flight gate only template -->
-    <string name="Gate_X_TEMPLATE">Gate%1$s</string>
+    <string name="Gate_X_TEMPLATE">Gate %1$s</string>
     <!-- Itin flight arrive gate only template -->
     <string name="Arrive_Gate_X_TEMPLATE">Arrivo al gate %1$s</string>
     <!-- Itin flight depart gate only template -->
-    <string name="Depart_Gate_X_TEMPLATE">Gate di partenza%1$s</string>
+    <string name="Depart_Gate_X_TEMPLATE">Gate di partenza %1$s</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
     <string name="Terminal_X_TEMPLATE">Terminal %1$s</string>
     <!-- Special case for name of International Terminal -->
@@ -303,7 +305,7 @@
     <string name="copy_TEMPLATE">COPIA %1$s</string>
     <!-- Hours and minutes duration future TEMPLATE. This will be used to produce a string like:"in 3 hours and 12 minutes". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
     <string name="hours_minutes_future_TEMPLATE">tra %1$s e %2$s</string>
-    <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes".  -->
+    <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
     <string name="hours_minutes_past_TEMPLATE">%1$s e %2$s fa</string>
 
     <!-- Itin Buttons -->
@@ -426,9 +428,9 @@
     <string name="car_category_oversize">Vettura extralarge</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">Due porte Auto</string>
-    <string name="car_type_three_door">Tre porte Auto</string>
-    <string name="car_type_four_door">Quattro porte Auto</string>
+    <string name="car_type_two_door">Due porte</string>
+    <string name="car_type_three_door">Tre porte</string>
+    <string name="car_type_four_door">Quattro porte</string>
     <string name="car_type_van">Van</string>
     <string name="car_type_wagon">Wagon</string>
     <string name="car_type_limousine">Limousine</string>
@@ -681,6 +683,8 @@
     <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; a &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">Ordina voli</string>
+    <!-- Label for "stops" button -->
+    <string name="stops_flights">Stops(dev)</string>
     <!-- Edit search title -->
     <string name="edit_search">Modifica ricerca</string>
     <!-- Action mode asking users to select dates -->
@@ -1376,6 +1380,14 @@
     <string name="sort_description_deals">Offerte</string>
     <!-- Sort by user rating label -->
     <string name="sort_description_rating">Voto</string>
+
+    <!-- Stop descriptions, e.g. Stops filtered by "description" -->
+    <!-- Any # of stops -->
+    <string name="stop_description_any">Numero di scali indefinito</string>
+    <!-- Less than or equal to a max  # of stop. Currently set to 1 -->
+    <string name="stop_description__max">Uno o zero</string>
+    <!-- Nonstop flights -->
+    <string name="stop_description__nonstop">Non-stop</string>
 
     <!-- Filter option for "show all" -->
     <string name="all">Tutti</string>

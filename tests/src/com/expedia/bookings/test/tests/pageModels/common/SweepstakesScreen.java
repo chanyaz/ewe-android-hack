@@ -11,10 +11,10 @@ import com.expedia.bookings.widget.TextView;
 
 public class SweepstakesScreen extends ScreenActions {
 
-	private static int sNoThanksButtonID = R.id.no_thanks_button;
-	private static int sEnterButtonID = R.id.enter_button;
-	private static int sSweepstakesTitleTextViewID = R.id.enter_title_text_view;
-	private static int sSweepstakesTitleStringID = R.string.sweepstakes_enter;
+	private static final int sNoThanksButtonID = R.id.no_thanks_button;
+	private static final int sEnterButtonID = R.id.enter_button;
+	private static final int sSweepstakesTitleTextViewID = R.id.enter_title_text_view;
+	private static final int sSweepstakesTitleStringID = R.string.sweepstakes_enter;
 
 	public SweepstakesScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {

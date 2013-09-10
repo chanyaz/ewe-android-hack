@@ -22,13 +22,13 @@
             android:layout_weight="1" />
 
         <ImageButton
-            android:id="@+id/share_image_button"
+            android:id="@+id/itin_overflow_image_button"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginRight="8dp"
             android:background="@drawable/list_selector_holo_dark"
             android:padding="8dp"
-            android:src="@drawable/ic_action_share" />
+            android:src="@drawable/abs__ic_menu_moreoverflow_holo_dark" />
     </LinearLayout>
 
     <!--

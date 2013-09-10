@@ -51,25 +51,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textColor="#6A6D71" />
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/two_pixels"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/divider" />
-
-        <TextView
-            android:id="@+id/rules_and_restrictions_title_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/rules_restrictions"
-            android:textColor="#6A6D71"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <include layout="@layout/include_booking_cancellation_policy" />
     </LinearLayout>
 
 </ScrollView>

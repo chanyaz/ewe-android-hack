@@ -80,7 +80,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	private OnItemClickListener mOnItemClickListener;
 	private OnScrollListener mOnScrollListener;
 	private OnListModeChangedListener mOnListModeChangedListener;
-	private OnItinCardClickListener mOnItinCardClickListener;
 
 	private int mMode = MODE_LIST;
 
@@ -395,10 +394,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	public void setOnListModeChangedListener(OnListModeChangedListener onListModeChangedListener) {
 		mOnListModeChangedListener = onListModeChangedListener;
-	}
-
-	public void setOnItinCardClickListener(OnItinCardClickListener onItinCardClickListener) {
-		mOnItinCardClickListener = onItinCardClickListener;
 	}
 
 	public void syncWithManager() {
@@ -937,17 +932,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	@Override
 	public void onCloseButtonClicked() {
 		hideDetails(true);
-
-		if (mOnItinCardClickListener != null) {
-			mOnItinCardClickListener.onCloseButtonClicked();
-		}
-	}
-
-	@Override
-	public void onShareButtonClicked(ItinContentGenerator<?> generator) {
-		if (mOnItinCardClickListener != null) {
-			mOnItinCardClickListener.onShareButtonClicked(generator);
-		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////

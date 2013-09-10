@@ -1,6 +1,10 @@
 package com.expedia.bookings.widget.itin;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -80,5 +84,10 @@ public abstract class ItinButtonContentGenerator<T extends ItinCardData> extends
 	@Override
 	public final SummaryButton getSummaryRightButton() {
 		return null;
+	}
+
+	@Override
+	public List<Intent> getAddToCalendarIntents() {
+		return new ArrayList<Intent>();
 	}
 }

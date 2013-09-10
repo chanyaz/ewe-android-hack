@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.joda.time.Hours;
 import org.joda.time.Minutes;
 
@@ -40,7 +39,9 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TerminalMapActivity;
 import com.expedia.bookings.data.AirlineCheckInIntervals;
 import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.FlightConfirmation;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -50,6 +51,7 @@ import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
@@ -489,6 +491,22 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		else {
 			return getSupportSummaryButton();
 		}
+	}
+
+	// Add to calendar
+
+	@Override
+	public List<Intent> getAddToCalendarIntents() {
+		Context context = getContext();
+		PointOfSale pointOfSale = PointOfSale.getPointOfSale();
+		ItinCardDataFlight itinCardData = getItinCardData();
+		String itinNumber = itinCardData.getTripComponent().getParentTrip().getTripNumber();
+		FlightLeg leg = itinCardData.getFlightLeg();
+
+		List<Intent> intents = new ArrayList<Intent>();
+		intents.add(AddToCalendarUtils.generateFlightAddToCalendarIntent(context, pointOfSale, itinNumber, leg));
+
+		return intents;
 	}
 
 	@Override

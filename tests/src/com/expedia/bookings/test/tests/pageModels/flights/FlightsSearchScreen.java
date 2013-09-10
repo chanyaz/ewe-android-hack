@@ -13,12 +13,12 @@ import com.mobiata.testutils.CalendarTouchUtils;
 
 public class FlightsSearchScreen extends ScreenActions {
 
-	private static int sDepartureEditTextID = R.id.departure_airport_edit_text;
-	private static int sArrivalEditTextID = R.id.arrival_airport_edit_text;
-	private static int sSelectDepartureViewID = R.id.dates_button;
-	private static int sPassengerSelectionButtonID = R.id.num_travelers_button;
-	private static int sCalendarDatePickerID = R.id.calendar_date_picker;
-	private static int sSearchButtonID = R.id.search_button;
+	private static final int sDepartureEditTextID = R.id.departure_airport_edit_text;
+	private static final int sArrivalEditTextID = R.id.arrival_airport_edit_text;
+	private static final int sSelectDepartureViewID = R.id.dates_button;
+	private static final int sPassengerSelectionButtonID = R.id.num_travelers_button;
+	private static final int sCalendarDatePickerID = R.id.calendar_date_picker;
+	private static final int sSearchButtonID = R.id.search_button;
 
 	public FlightsSearchScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {

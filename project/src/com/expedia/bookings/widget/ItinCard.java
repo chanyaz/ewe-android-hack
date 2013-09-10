@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
@@ -19,17 +22,21 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.AnimatorListenerShort;
 import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.dialog.SocialMessageChooserDialogFragment;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.CalendarAPIUtils;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
@@ -38,15 +45,14 @@ import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 import com.nineoldandroids.view.ViewHelper;
 
-public class ItinCard<T extends ItinCardData> extends RelativeLayout {
+public class ItinCard<T extends ItinCardData> extends RelativeLayout implements AbsPopupMenu.OnMenuItemClickListener {
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// INTERFACES
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	public interface OnItinCardClickListener {
 		public void onCloseButtonClicked();
-
-		public void onShareButtonClicked(ItinContentGenerator<?> generator);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -168,7 +174,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 		mSummarySectionLayout.setOnClickListener(mOnClickListener);
 		Ui.findView(this, R.id.close_image_button).setOnClickListener(mOnClickListener);
-		Ui.findView(this, R.id.share_image_button).setOnClickListener(mOnClickListener);
+		Ui.findView(this, R.id.itin_overflow_image_button).setOnClickListener(mOnClickListener);
 
 		updateHeaderImageHeight();
 		updateClickable();
@@ -894,10 +900,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 				}
 				break;
 			}
-			case R.id.share_image_button: {
-				if (mOnItinCardClickListener != null) {
-					mOnItinCardClickListener.onShareButtonClicked(mItinContentGenerator);
-				}
+			case R.id.itin_overflow_image_button: {
+				onOverflowButtonClicked(v);
 				break;
 			}
 			case R.id.summary_section_layout: {
@@ -909,4 +913,53 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout {
 			}
 		}
 	};
+
+	@Override
+	public boolean onMenuItemClick(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.itin_card_share:
+			showShareDialog();
+			return true;
+		case R.id.itin_card_add_to_calendar:
+			addToCalendar();
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	private void onOverflowButtonClicked(View anchor) {
+		PopupMenu popup = new PopupMenu(getContext(), anchor);
+		popup.setOnMenuItemClickListener(this);
+
+		MenuInflater inflater = popup.getMenuInflater();
+		inflater.inflate(R.menu.menu_itin_expanded_overflow, popup.getMenu());
+
+		// Only show add to calendar on devices and card types that are supported
+		if (CalendarAPIUtils.deviceSupportsCalendarAPI(getContext())) {
+			List<Intent> intents = mItinContentGenerator.getAddToCalendarIntents();
+			if (intents.isEmpty()) {
+				popup.getMenu().removeItem(R.id.itin_card_add_to_calendar);
+			}
+		}
+		else {
+			popup.getMenu().removeItem(R.id.itin_card_add_to_calendar);
+		}
+
+		popup.show();
+	}
+
+	private void showShareDialog() {
+		FragmentActivity activity = (FragmentActivity) getContext();
+		FragmentManager fragmentManager = activity.getSupportFragmentManager();
+		SocialMessageChooserDialogFragment.newInstance(mItinContentGenerator).show(fragmentManager, "dialogShare");
+	}
+
+	private void addToCalendar() {
+		List<Intent> intents = mItinContentGenerator.getAddToCalendarIntents();
+		for (Intent intent : intents) {
+			getContext().startActivity(intent);
+		}
+	}
+
 }

@@ -26,6 +26,7 @@
             android:focusableInTouchMode="true"
             android:hint="@string/credit_card_hint"
             android:inputType="number"
+            android:maxLength="@integer/max_credit_card_length"
             android:singleLine="true" >
         </EditText>
     </LinearLayout>

@@ -1,0 +1,66 @@
+package com.expedia.bookings.test.tests.pageModels.hotels;
+
+import android.app.Activity;
+import android.app.Instrumentation;
+import android.content.res.Resources;
+import android.view.View;
+import android.widget.ListView;
+import android.widget.RatingBar;
+import android.widget.TextView;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.test.tests.pageModels.common.ScreenActions;
+import com.expedia.bookings.test.utils.TestPreferences;
+
+public class HotelsRoomsRatesScreen extends ScreenActions {
+
+	private static final int sHotelNameTextViewID = R.id.name_text_view;
+	private static final int sHotelLocationTextViewID = R.id.location_text_view;
+	private static final int sHotelRatingBarID = R.id.hotel_rating_bar;
+	private static final int sListViewID = android.R.id.list;
+	private static final int sBackButtonID = android.R.id.home;
+	private static final int sFindingAvailableRoomsStringID = R.string.room_rates_loading;
+
+	public HotelsRoomsRatesScreen(Instrumentation instrumentation, Activity activity, Resources res,
+			TestPreferences preferences) {
+		super(instrumentation, activity, res, preferences);
+	}
+
+	// Object access 
+
+	public TextView hotelNameTextView() {
+		return (TextView) getView(sHotelNameTextViewID);
+	}
+
+	public TextView hotelLocationTextView() {
+		return (TextView) getView(sHotelLocationTextViewID);
+	}
+
+	public RatingBar hotelRatingBar() {
+		return (RatingBar) getView(sHotelRatingBarID);
+	}
+
+	public ListView roomList() {
+		return (ListView) getView(sListViewID);
+	}
+
+	public View backButton() {
+		return getView(sBackButtonID);
+	}
+
+	public String findingAvailableRooms() {
+		return getString(sFindingAvailableRoomsStringID);
+	}
+
+	// Object interaction
+
+	public void clickBackButton() {
+		clickOnView(backButton());
+	}
+
+	public void selectRoom(int index) {
+
+		clickOnView(roomList().getChildAt(index));
+	}
+
+}

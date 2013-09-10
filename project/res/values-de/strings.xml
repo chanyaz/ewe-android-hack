@@ -30,12 +30,14 @@
     <string name="Log_In">Anmelden</string>
     <!-- Log in with Expedia -->
     <string name="Log_in_with_Expedia">Bei Expedia anmelden</string>
-    <!-- Log in with VSC -->
-    <string name="Log_in_with_VSC">Über VSC anmelden</string>
     <!-- or -->
     <string name="or">oder</string>
     <!-- Already logged in -->
     <string name="already_logged_in">Schon angemeldet</string>
+
+    <!-- Restricted Profile -->
+    <!-- Restricted profile login message -->
+    <string name="restricted_profile_login_message">Um sich bei Expedia anzumelden, benötigen Sie auf Ihrem verwendeten Gerät ein Nutzerprofil ohne Einschränkungen.</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Home -->
@@ -303,7 +305,7 @@
     <string name="copy_TEMPLATE">%1$s kopieren</string>
     <!-- Hours and minutes duration future TEMPLATE. This will be used to produce a string like:"in 3 hours and 12 minutes". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
     <string name="hours_minutes_future_TEMPLATE">in %1$s und %2$s</string>
-    <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes".  -->
+    <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
     <string name="hours_minutes_past_TEMPLATE">vor %1$s und %2$s</string>
 
     <!-- Itin Buttons -->
@@ -611,9 +613,9 @@
     <!-- Label for flight search part of app -->
     <string name="search_flights">Flüge suchen</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
-    <string name="hint_departure_airport">Abflugflughafen</string>
+    <string name="hint_departure_airport">Von</string>
     <!-- Hint in edit text that indicates one should enter an arrival airport -->
-    <string name="hint_arrival_airport">Ankunftsflughafen</string>
+    <string name="hint_arrival_airport">Nach</string>
     <!-- Label for when flights are loading -->
     <string name="loading_flights">Flüge werden geladen…</string>
     <!-- Label for screen that is doing searches -->
@@ -681,6 +683,8 @@
     <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; bis &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">Flüge sortieren</string>
+    <!-- Label for "stops" button -->
+    <string name="stops_flights">Stops(dev)</string>
     <!-- Edit search title -->
     <string name="edit_search">Suche bearbeiten</string>
     <!-- Action mode asking users to select dates -->
@@ -1378,6 +1382,14 @@
     <!-- Sort by user rating label -->
     <string name="sort_description_rating">Bewertung</string>
 
+    <!-- Stop descriptions, e.g. Stops filtered by "description" -->
+    <!-- Any # of stops -->
+    <string name="stop_description_any">Beliebige Stopps</string>
+    <!-- Less than or equal to a max  # of stop. Currently set to 1 -->
+    <string name="stop_description__max">Einer oder weniger</string>
+    <!-- Nonstop flights -->
+    <string name="stop_description__nonstop">Nonstop</string>
+
     <!-- Filter option for "show all" -->
     <string name="all">Alle</string>
     <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
@@ -1484,7 +1496,7 @@
 
     <!-- Hotel Details Fragment -->
     <!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available -->
-    <string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; aus</string>
+    <string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; ab</string>
     <!-- Title for the amenities section in the hotel details fragment -->
     <string name="amenities">Annehmlichkeiten</string>
     <!-- Label for button to see all reviews as a modal dialog -->
@@ -1640,7 +1652,7 @@
     <!-- Label for free nights -->
     <string name="free">GRATIS!</string>
     <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
-    <string name="value_add_template">bietet %s</string>
+    <string name="value_add_template">mit %s</string>
     <!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms -->
     <string name="common_value_add_template">Zimmer-/Hotelausstattung: %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->

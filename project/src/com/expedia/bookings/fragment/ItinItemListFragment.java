@@ -32,14 +32,11 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.Trip;
-import com.expedia.bookings.dialog.SocialMessageChooserDialogFragment;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
-import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
@@ -48,7 +45,6 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		ItinerarySyncListener {
 
 	public static final String TAG = "TAG_ITIN_ITEM_LIST_FRAGMENT";
-	public static final String DIALOG_SHARE = "DIALOG_SHARE";
 
 	public static final String ARG_JUMP_TO_UNIQUE_ID = "JUMP_TO_UNIQUE_ID";
 
@@ -140,7 +136,6 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 		mItinListView.setEmptyView(mEmptyView);
 		mItinListView.setOnListModeChangedListener(mOnListModeChangedListener);
-		mItinListView.setOnItinCardClickListener(mOnItinCardClickListener);
 		mItinListView.setOnItemClickListener(mOnItemClickListener);
 
 		mLoginButton.setOnClickListener(new OnClickListener() {
@@ -420,17 +415,6 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 			if (activity instanceof OnListModeChangedListener) {
 				((OnListModeChangedListener) activity).onListModeChanged(isInDetailMode, animate);
 			}
-		}
-	};
-
-	private OnItinCardClickListener mOnItinCardClickListener = new OnItinCardClickListener() {
-		@Override
-		public void onCloseButtonClicked() {
-		}
-
-		@Override
-		public void onShareButtonClicked(ItinContentGenerator<?> generator) {
-			SocialMessageChooserDialogFragment.newInstance(generator).show(getFragmentManager(), DIALOG_SHARE);
 		}
 	};
 

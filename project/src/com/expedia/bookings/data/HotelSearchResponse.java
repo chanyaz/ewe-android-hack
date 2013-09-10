@@ -730,9 +730,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		}
 
 		try {
-			if (mSearchType != null) {
-				obj.putOpt("searchType", mSearchType.toString());
-			}
+			JSONUtils.putEnum(obj, "searchType", mSearchType);
 
 			JSONUtils.putJSONableList(obj, "properties", mProperties);
 			JSONUtils.putJSONableList(obj, "locations", mLocations);
@@ -752,19 +750,13 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	public boolean fromJson(JSONObject obj) {
 		super.fromJson(obj);
 
-		try {
-			mSearchType = SearchType.valueOf(obj.getString("searchType"));
-			mProperties = (List<Property>) JSONUtils.getJSONableList(obj, "properties", Property.class);
-			mLocations = (List<Location>) JSONUtils.getJSONableList(obj, "locations", Location.class);
+		mSearchType = JSONUtils.getEnum(obj, "searchType", SearchType.class);
+		mProperties = (List<Property>) JSONUtils.getJSONableList(obj, "properties", Property.class);
+		mLocations = (List<Location>) JSONUtils.getJSONableList(obj, "locations", Location.class);
 
-			mSearchLatitude = obj.optDouble("searchLatitude");
-			mSearchLongitude = obj.optDouble("searchLongitude");
+		mSearchLatitude = obj.optDouble("searchLatitude");
+		mSearchLongitude = obj.optDouble("searchLongitude");
 
-			return true;
-		}
-		catch (JSONException e) {
-			Log.e("Could not create HotelSearchResponse from JSON.", e);
-			return false;
-		}
+		return true;
 	}
 }

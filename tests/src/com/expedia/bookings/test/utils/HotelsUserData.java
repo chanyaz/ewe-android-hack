@@ -44,6 +44,7 @@ public class HotelsUserData {
 	public String mServerName;
 	public String mProxyIP;
 	public String mProxyPort;
+	public boolean mLogInForCheckout;
 
 	//Default Constructor sets info
 	// to the qa-ehcc@mobiata.com account info
@@ -75,6 +76,7 @@ public class HotelsUserData {
 		mServerName = "Production";
 		mProxyIP = null;
 		mProxyPort = null;
+		mLogInForCheckout = true;
 	}
 
 	public void setAirportsToRandomUSAirports() {

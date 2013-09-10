@@ -12,13 +12,13 @@ import com.mobiata.android.widget.Spinner;
 
 public class BillingAddressScreen extends ScreenActions {
 
-	private static int sAddressLine1EditTextID = R.id.edit_address_line_one;
-	private static int sAddressLine2EditTextID = R.id.edit_address_line_two;
-	private static int sAddressCityEditTextID = R.id.edit_address_city;
-	private static int sAddressStateEditTextID = R.id.edit_address_state;
-	private static int sAddressPostalCodeEditTextID = R.id.edit_address_postal_code;
-	private static int sAddressCountrySpinnerID = R.id.edit_country_spinner;
-	private static int sNextButtonID = R.id.menu_next;
+	private static final int sAddressLine1EditTextID = R.id.edit_address_line_one;
+	private static final int sAddressLine2EditTextID = R.id.edit_address_line_two;
+	private static final int sAddressCityEditTextID = R.id.edit_address_city;
+	private static final int sAddressStateEditTextID = R.id.edit_address_state;
+	private static final int sAddressPostalCodeEditTextID = R.id.edit_address_postal_code;
+	private static final int sAddressCountrySpinnerID = R.id.edit_country_spinner;
+	private static final int sNextButtonID = R.id.menu_next;
 
 	public BillingAddressScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {

@@ -19,7 +19,7 @@ public class Distance implements JSONable, Comparable<Distance> {
 		MILES, KILOMETERS;
 
 		public static DistanceUnit getDefaultDistanceUnit() {
-			if (Locale.getDefault().getCountry().toLowerCase().equals("us")) {
+			if (Locale.getDefault().getCountry().toLowerCase(Locale.ENGLISH).equals("us")) {
 				return DistanceUnit.MILES;
 			}
 			return DistanceUnit.KILOMETERS;

@@ -14,17 +14,17 @@ import com.expedia.bookings.test.utils.TestPreferences;
 
 public class SettingsScreen extends ScreenActions {
 
-	private static int sSelectPOSTextID = R.string.preference_point_of_sale_title;
-	private static int sClearPrivateDataTextID = R.string.clear_private_data;
-	private static int sOKID = R.string.ok;
-	private static int sSpoofHotelBookingsCheckBoxID = R.id.preference_spoof_booking_checkbox;
-	private static int sSupressFlightBookingCheckBoxID = R.id.preference_suppress_flight_booking_checkbox;
+	private static final int sSelectPOSTextID = R.string.preference_point_of_sale_title;
+	private static final int sClearPrivateDataTextID = R.string.clear_private_data;
+	private static final int sOKID = R.string.ok;
+	private static final int sSpoofHotelBookingsCheckBoxID = R.id.preference_spoof_booking_checkbox;
+	private static final int sSupressFlightBookingCheckBoxID = R.id.preference_suppress_flight_booking_checkbox;
 
-	private static String sSelectAPI = "Select API";
-	private static String sServerProxyAddress = "Server/Proxy Address";
-	private static String sStubConfigurationPage = "Stub Configuration Page";
-	private static String sSpoofHotelBookingsString = "Spoof hotel bookings";
-	private static String sSuppressFlightsBookingString = "Suppress Flight Bookings";
+	private static final String sSelectAPI = "Select API";
+	private static final String sServerProxyAddress = "Server/Proxy Address";
+	private static final String sStubConfigurationPage = "Stub Configuration Page";
+	private static final String sSpoofHotelBookingsString = "Spoof hotel bookings";
+	private static final String sSuppressFlightsBookingString = "Suppress Flight Bookings";
 
 	public SettingsScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {

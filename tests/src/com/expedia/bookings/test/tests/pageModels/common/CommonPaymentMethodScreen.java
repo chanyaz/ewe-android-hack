@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 public class CommonPaymentMethodScreen extends ScreenActions {
 
-	private static int sAddNewCardTextViewID = R.id.new_payment_new_card;
+	private static final int sAddNewCardTextViewID = R.id.new_payment_new_card;
 	
 	public CommonPaymentMethodScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {

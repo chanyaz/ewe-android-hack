@@ -11,12 +11,12 @@ import com.expedia.bookings.test.utils.TestPreferences;
 
 public class LogInScreen extends ScreenActions {
 
-	private static int sEmailAddressEditTextID = R.id.username_edit_text;
-	private static int sPasswordEditTextID = R.id.password_edit_text;
-	private static int sLogInWithFacebookButtonID = R.id.log_in_with_facebook_btn;
-	private static int sLogInButtonID = R.id.log_in_with_expedia_btn;
-	private static int sForgotPasswordLink = R.id.forgot_your_password_link;
-	private static int sLoggingInStringID = R.string.logging_in;
+	private static final int sEmailAddressEditTextID = R.id.username_edit_text;
+	private static final int sPasswordEditTextID = R.id.password_edit_text;
+	private static final int sLogInWithFacebookButtonID = R.id.log_in_with_facebook_btn;
+	private static final int sLogInButtonID = R.id.log_in_with_expedia_btn;
+	private static final int sForgotPasswordLink = R.id.forgot_your_password_link;
+	private static final int sLoggingInStringID = R.string.logging_in;
 
 	public LogInScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {

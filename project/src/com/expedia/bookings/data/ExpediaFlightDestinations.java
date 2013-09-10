@@ -1,6 +1,7 @@
 package com.expedia.bookings.data;
 
 import java.io.InputStream;
+import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -96,7 +97,7 @@ public class ExpediaFlightDestinations {
 	 * @return
 	 */
 	private String getPosSpecificKey(PointOfSale pos) {
-		String countryCode = pos.getTwoLetterCountryCode().toUpperCase();
+		String countryCode = pos.getTwoLetterCountryCode().toUpperCase(Locale.ENGLISH);
 		String posKey = mFlightDestinationJSON.has(countryCode) ? countryCode : DEFAULT_KEY;
 		return posKey;
 	}

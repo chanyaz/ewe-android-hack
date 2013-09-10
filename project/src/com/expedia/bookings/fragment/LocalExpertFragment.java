@@ -123,7 +123,7 @@ public class LocalExpertFragment extends Fragment {
 		mTitleTextView.setText(getString(R.string.local_expert_title_TEMPLATE, mSite.getCity()));
 
 		// Set fonts
-		if ("vn".equals(Locale.getDefault().getCountry().toLowerCase())) {
+		if ("vn".equals(Locale.getDefault().getCountry().toLowerCase(Locale.ENGLISH))) {
 			FontCache.setTypeface(mTitleTextView, FontCache.Font.ROBOTO_LIGHT);
 		}
 		else {

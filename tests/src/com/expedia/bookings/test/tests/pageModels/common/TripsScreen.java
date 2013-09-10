@@ -10,8 +10,8 @@ import com.expedia.bookings.test.utils.TestPreferences;
 
 public class TripsScreen extends LaunchActionBar {
 
-	private static int sEnterItinNumberViewID = R.id.or_enter_itin_number_tv;
-	private static int sLogInButtonID = R.id.login_button;
+	private static final int sEnterItinNumberViewID = R.id.or_enter_itin_number_tv;
+	private static final int sLogInButtonID = R.id.login_button;
 
 	public TripsScreen(Instrumentation instrumentation, Activity activity, Resources res, TestPreferences preferences) {
 		super(instrumentation, activity, res, preferences);

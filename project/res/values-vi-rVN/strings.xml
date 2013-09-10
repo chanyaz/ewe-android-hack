@@ -30,12 +30,14 @@
     <string name="Log_In">Đăng nhập</string>
     <!-- Log in with Expedia -->
     <string name="Log_in_with_Expedia">Đăng nhập Expedia</string>
-    <!-- Log in with VSC -->
-    <string name="Log_in_with_VSC">Đăng nhập bằng VSC</string>
     <!-- or -->
     <string name="or">hoặc</string>
     <!-- Already logged in -->
     <string name="already_logged_in">Đã đăng nhập</string>
+
+    <!-- Restricted Profile -->
+    <!-- Restricted profile login message -->
+    <string name="restricted_profile_login_message">Để đăng nhập Expedia, quý vị phải sử dụng tài khoản người dùng không bị giới hạn trên thiết bị của mình.</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Home -->
@@ -303,7 +305,7 @@
     <string name="copy_TEMPLATE">Sao chép %1$s</string>
     <!-- Hours and minutes duration future TEMPLATE. This will be used to produce a string like:"in 3 hours and 12 minutes". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
     <string name="hours_minutes_future_TEMPLATE">trong %1$s và %2$s</string>
-    <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes".  -->
+    <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
     <string name="hours_minutes_past_TEMPLATE">%1$s và %2$s trước</string>
 
     <!-- Itin Buttons -->
@@ -681,6 +683,8 @@
     <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; đến &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">Sắp xếp chuyến bay</string>
+    <!-- Label for "stops" button -->
+    <string name="stops_flights">Stops(dev)</string>
     <!-- Edit search title -->
     <string name="edit_search">Thay đổi tìm kiếm</string>
     <!-- Action mode asking users to select dates -->
@@ -1377,6 +1381,14 @@
     <!-- Sort by user rating label -->
     <string name="sort_description_rating">Xếp hạng</string>
 
+    <!-- Stop descriptions, e.g. Stops filtered by "description" -->
+    <!-- Any # of stops -->
+    <string name="stop_description_any">Bất kể số điểm dừng</string>
+    <!-- Less than or equal to a max  # of stop. Currently set to 1 -->
+    <string name="stop_description__max">1 trở xuống</string>
+    <!-- Nonstop flights -->
+    <string name="stop_description__nonstop">Bay thẳng</string>
+
     <!-- Filter option for "show all" -->
     <string name="all">Tất cả</string>
     <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
@@ -1768,7 +1780,7 @@
     <!-- Format for a first/last name -->
     <string name="name_template">%1$s %2$s</string>
     <!-- Reservation summary label -->
-    <string name="reservation_summary">Tóm lược yêu cầu đặt phòng</string>
+    <string name="reservation_summary">Tóm lượt yêu cầu đặt</string>
     <!-- Confirmation number label -->
     <string name="confirmation_number">Số xác nhận</string>
     <!-- Itinerary number label -->
@@ -2366,7 +2378,7 @@
     <!-- Error if you've exceeded your overall Google Wallet spending limit -->
     <string name="spending_limit_exceeded">Quý vị đã sử dụng quá hạn mức chi tiêu của Google Wallet</string>
     <!-- Content description for "buy with wallet" button -->
-    <string name="wallet_buy_with_google_wallet">Thanh toán bằng Google wallet</string>
+    <string name="wallet_buy_with_google_wallet">Thanh toán bằng Google Wallet</string>
     <!-- Message for Google wallet coupon promotion -->
     <string name="wallet_promo_offer">Nhận ưu đãi <b>giảm giá 10%</b> với Google Wallet!</string>
     <!-- Message informing users that they are saving money with the Google Wallet promo -->

@@ -208,7 +208,7 @@ public class AttractionBubbleView extends LinearLayout {
 		mSecondLineTextView = Ui.findView(this, R.id.second_line_text_view);
 		mIconImageView = Ui.findView(this, R.id.attraction_icon_image_view);
 
-		if ("vn".equals(Locale.getDefault().getCountry().toLowerCase())) {
+		if ("vn".equals(Locale.getDefault().getCountry().toLowerCase(Locale.ENGLISH))) {
 			FontCache.setTypeface(mSecondLineTextView, FontCache.Font.ROBOTO_LIGHT);
 		}
 		else {
