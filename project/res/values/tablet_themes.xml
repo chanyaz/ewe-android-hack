@@ -24,6 +24,6 @@
         <item name="hotelListingSaleDrawable">@drawable/bg_hotel_cell_sale</item>
         <item name="hotelPriceStandardColor">#ffffff</item>
         <item name="hotelPriceSaleColor">#ffffff</item>
-        </style>
+    </style>
 
 </resources>

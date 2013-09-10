@@ -33,10 +33,11 @@
                 android:id="@+id/flight_time_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:includeFontPadding="false"
                 android:singleLine="true"
                 android:text="11:04AM to 10:59PM"
                 android:textColor="#ffffff"
-                android:textSize="12sp"
+                android:textSize="@dimen/tablet_result_row_primary_text_size"
                 android:textStyle="bold" />
 
             <TextView
@@ -47,7 +48,7 @@
                 android:singleLine="true"
                 android:text="DELTA"
                 android:textColor="#ffffff"
-                android:textSize="12sp" />
+                android:textSize="@dimen/tablet_result_row_secondary_text_size" />
 
             <TextView
                 android:id="@+id/operating_carrier_text_view"
@@ -59,7 +60,7 @@
                 android:drawableLeft="@drawable/ic_operating_carrier"
                 android:drawablePadding="4dp"
                 android:textColor="#7F8286"
-                android:textSize="12sp"
+                android:textSize="@dimen/tablet_result_row_secondary_text_size"
                 android:visibility="gone" />
         </LinearLayout>
 
@@ -70,7 +71,7 @@
             android:layout_gravity="center_vertical"
             android:text="$180"
             android:textColor="#ffffff"
-            android:textSize="20sp"
+            android:textSize="@dimen/tablet_result_row_price_size"
             android:textStyle="bold" />
     </LinearLayout>
 
