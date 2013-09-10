@@ -390,7 +390,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 				mParentResultsController.setAnimatingTowardsVisibility(GlobalResultsState.DEFAULT);
 				mParentResultsController.setHardwareLayerForTransition(View.LAYER_TYPE_HARDWARE,
 						GlobalResultsState.TRIP_ADD_HOTEL, GlobalResultsState.DEFAULT);
-				mParentResultsController.animateTowardsGlobalResultsState(GlobalResultsState.DEFAULT, 3000);
+				mParentResultsController.animateTowardsGlobalResultsState(GlobalResultsState.DEFAULT, 300);
 			}
 		};
 

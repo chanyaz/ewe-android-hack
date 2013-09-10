@@ -89,7 +89,7 @@ public class ResultsHotelsRoomsAndRates extends Fragment {
 	}
 
 	private void beginTransitionToAddTrip() {
-		ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f).setDuration(3000);
+		ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f).setDuration(300);
 		animator.addUpdateListener(new AnimatorUpdateListener() {
 
 			@Override
