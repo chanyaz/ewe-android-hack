@@ -29,31 +29,15 @@
             android:layout_weight="1"
             android:orientation="vertical" >
 
-            <LinearLayout
-                android:id="@+id/flight_time_container"
+            <TextView
+                android:id="@+id/flight_time_text_view"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/flight_time_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="11:04AM"
-                    android:textColor="#ffffff"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/multi_day_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:text="+1day"
-                    android:textColor="#808080"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:visibility="visible" />
-            </LinearLayout>
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="11:04AM to 10:59PM"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/airline_text_view"

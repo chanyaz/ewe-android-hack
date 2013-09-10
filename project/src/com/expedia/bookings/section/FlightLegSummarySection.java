@@ -6,7 +6,10 @@ import java.util.Calendar;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -102,6 +105,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 	public void bind(FlightTrip trip, final FlightLeg leg, Calendar minTime, Calendar maxTime,
 			boolean isIndividualFlight, BillingInfo billingInfo) {
 		Context context = getContext();
+		Resources res = getResources();
 
 		// Don't lie to me!
 		Flight firstFlight = leg.getSegment(0);
@@ -131,10 +135,26 @@ public class FlightLegSummarySection extends RelativeLayout {
 		}
 
 		if (mFlightTimeTextView != null) {
+			SpannableStringBuilder builder = new SpannableStringBuilder();
+
+			// 10:05 AM to 2:20 PM
 			String departure = formatTime(leg.getFirstWaypoint().getBestSearchDateTime());
 			String arrival = formatTime(leg.getLastWaypoint().getBestSearchDateTime());
-			String time = context.getResources().getString(R.string.date_range_TEMPLATE, departure, arrival);
-			mFlightTimeTextView.setText(time);
+			String time = res.getString(R.string.date_range_TEMPLATE, departure, arrival);
+			builder.append(time);
+
+			// +1 day
+			int daySpan = leg.getDaySpan();
+			if (daySpan != 0) {
+				String quantityStr = sDaySpanFormatter.format(daySpan);
+				String daySpanString = res.getQuantityString(R.plurals.day_span, daySpan, quantityStr);
+				builder.append(' ');
+				builder.append(daySpanString);
+				builder.setSpan(new ForegroundColorSpan(Color.GRAY),
+						builder.length() - daySpanString.length(), builder.length(), 0);
+			}
+
+			mFlightTimeTextView.setText(builder);
 		}
 
 		if (mDepartureTimeTextView != null) {
@@ -143,6 +163,18 @@ public class FlightLegSummarySection extends RelativeLayout {
 
 		if (mArrivalTimeTextView != null) {
 			mArrivalTimeTextView.setText(formatTime(leg.getLastWaypoint().getBestSearchDateTime()));
+		}
+
+		if (mMultiDayTextView != null) {
+			int daySpan = leg.getDaySpan();
+			if (daySpan != 0) {
+				mMultiDayTextView.setVisibility(View.VISIBLE);
+				String daySpanStr = sDaySpanFormatter.format(daySpan);
+				mMultiDayTextView.setText(res.getQuantityString(R.plurals.day_span, daySpan, daySpanStr));
+			}
+			else {
+				mMultiDayTextView.setVisibility(View.INVISIBLE);
+			}
 		}
 
 		if (mPriceTextView != null) {
@@ -200,24 +232,16 @@ public class FlightLegSummarySection extends RelativeLayout {
 		params = (RelativeLayout.LayoutParams) mFlightTripView.getLayoutParams();
 		params.addRule(RelativeLayout.BELOW, belowTarget);
 
-		// 104 - modify card size depending on whether or not this is string is displayed to prevent overlap
-		RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mMultiDayTextView.getLayoutParams();
-		Resources res = getResources();
-		int rightMargin = res.getDimensionPixelSize(R.dimen.flight_leg_day_textview_margin_right);
-		int topMargin;
-
-		int daySpan = leg.getDaySpan();
-		if (daySpan != 0) {
-			topMargin = res.getDimensionPixelSize(R.dimen.flight_leg_day_textview_margin_top_no_overlap);
-			mMultiDayTextView.setVisibility(View.VISIBLE);
-			String daySpanStr = sDaySpanFormatter.format(daySpan);
-			mMultiDayTextView.setText(res.getQuantityString(R.plurals.day_span, daySpan, daySpanStr));
+		if (mMultiDayTextView != null) {
+			// 104 - modify card size depending on whether or not this is string is displayed to prevent overlap
+			RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mMultiDayTextView.getLayoutParams();
+			Resources res = getResources();
+			int rightMargin = res.getDimensionPixelSize(R.dimen.flight_leg_day_textview_margin_right);
+			int topMargin = res.getDimensionPixelSize(leg.getDaySpan() == 0
+					? R.dimen.flight_leg_day_textview_margin_top
+					: R.dimen.flight_leg_day_textview_margin_top_no_overlap);
+			lp.setMargins(0, topMargin, rightMargin, 0);
 		}
-		else {
-			topMargin = res.getDimensionPixelSize(R.dimen.flight_leg_day_textview_margin_top);
-			mMultiDayTextView.setVisibility(View.INVISIBLE);
-		}
-		lp.setMargins(0, topMargin, rightMargin, 0);
 	}
 
 	private String formatTime(Calendar cal) {
