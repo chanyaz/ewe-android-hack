@@ -60,9 +60,6 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	private int mSelectedPosition = -1;
 	private boolean mHighlightSelectedPosition = true;
 
-	private int mSaleTextColor;
-	private int mStandardTextColor;
-
 	private boolean mShouldShowVipIcon;
 
 	public HotelAdapter(Activity activity) {
@@ -77,9 +74,6 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	private void init(final Activity activity) {
 		mContext = activity;
 		mInflater = LayoutInflater.from(mContext);
-
-		mStandardTextColor = Ui.obtainThemeColor(activity, R.attr.hotelPriceStandardColor);
-		mSaleTextColor = Ui.obtainThemeColor(activity, R.attr.hotelPriceSaleColor);
 	}
 
 	public void setSearchResponse(HotelSearchResponse searchResponse) {
@@ -225,7 +219,8 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			convertView = mInflater.inflate(R.layout.section_hotel_summary, parent, false);
 		}
 
-		// If we're just measuring the height/width of the row, just return the view without doing anything to it.
+		// If we're just measuring the height/width of the row,
+		// just return the view without doing anything to it.
 		if (mIsMeasuring) {
 			return convertView;
 		}
@@ -233,8 +228,8 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		HotelSummarySection section = (HotelSummarySection) convertView;
 		Property property = (Property) getItem(position);
 		boolean isSelected = getItemViewType(position) == ROW_SELECTED;
-		section.bind(property, mSaleTextColor, mStandardTextColor, mShouldShowVipIcon,
-				mPriceTextSize, mShowDistance, mDistanceUnit, isSelected);
+		section.bind(property, mShouldShowVipIcon, mPriceTextSize,
+				mShowDistance, mDistanceUnit, isSelected);
 
 		return convertView;
 	}

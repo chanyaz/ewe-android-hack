@@ -54,8 +54,11 @@ public class HotelSummarySection extends RelativeLayout {
 	private TextView mProximityText;
 	private TextView mUrgencyText;
 
+	// Properties extracted from the view.xml
 	private Drawable mUnselectedBackground;
 	private Drawable mSelectedBackground;
+	private int mSalePriceTextColor;
+	private int mPriceTextColor;
 
 	public HotelSummarySection(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -65,6 +68,8 @@ public class HotelSummarySection extends RelativeLayout {
 		if (attrs != null) {
 			TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.hotel_summary_section);
 			mSelectedBackground = a.getDrawable(R.styleable.hotel_summary_section_selectedBackground);
+			mSalePriceTextColor = a.getColor(R.styleable.hotel_summary_section_salePriceTextColor, R.color.hotel_price_sale_text_color);
+			mPriceTextColor = a.getColor(R.styleable.hotel_summary_section_priceTextColor, R.color.hotel_price_text_color);
 			a.recycle();
 		}
 	}
@@ -88,8 +93,8 @@ public class HotelSummarySection extends RelativeLayout {
 		mUrgencyText = Ui.findView(this, R.id.urgency_text_view);
 	}
 
-	public void bind(Property property, int mSaleTextColor, int mStandardTextColor, boolean mShouldShowVipIcon,
-			float mPriceTextSize, boolean mShowDistance, DistanceUnit mDistanceUnit, boolean isSelected) {
+	public void bind(Property property, boolean mShouldShowVipIcon, float mPriceTextSize,
+			boolean mShowDistance, DistanceUnit mDistanceUnit, boolean isSelected) {
 		Context context = getContext();
 
 		mNameText.setText(property.getName());
@@ -112,7 +117,7 @@ public class HotelSummarySection extends RelativeLayout {
 				mStrikethroughPriceText.setVisibility(View.GONE);
 			}
 
-			mPriceText.setTextColor(mSaleTextColor);
+			mPriceText.setTextColor(mSalePriceTextColor);
 			mSaleText.setVisibility(View.VISIBLE);
 			mSaleImageView.setVisibility(View.VISIBLE);
 			mSaleText
@@ -127,11 +132,11 @@ public class HotelSummarySection extends RelativeLayout {
 					new StrikethroughTagHandler()));
 			mSaleText.setVisibility(View.GONE);
 			mSaleImageView.setVisibility(View.GONE);
-			mPriceText.setTextColor(mStandardTextColor);
+			mPriceText.setTextColor(mPriceTextColor);
 		}
 		else {
 			mStrikethroughPriceText.setVisibility(View.GONE);
-			mPriceText.setTextColor(mStandardTextColor);
+			mPriceText.setTextColor(mPriceTextColor);
 			mSaleText.setVisibility(View.GONE);
 			mSaleImageView.setVisibility(View.GONE);
 		}
@@ -203,7 +208,8 @@ public class HotelSummarySection extends RelativeLayout {
 			HeaderBitmapDrawable headerBitmapDrawable = new HeaderBitmapDrawable();
 			headerBitmapDrawable.setGradient(CARD_GRADIENT_COLORS, CARD_GRADIENT_POSITIONS);
 			headerBitmapDrawable.setCornerMode(CornerMode.ALL);
-			headerBitmapDrawable.setCornerRadius(context.getResources().getDimensionPixelSize(R.dimen.tablet_result_corner_radius));
+			headerBitmapDrawable.setCornerRadius(context.getResources().getDimensionPixelSize(
+					R.dimen.tablet_result_corner_radius));
 			//TODO: headerBitmapDrawable.setOverlayDrawable(context.getResources().getDrawable(R.drawable.card_top_lighting));
 
 			mHotelBackgroundView.setImageDrawable(headerBitmapDrawable);

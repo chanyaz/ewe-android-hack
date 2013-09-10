@@ -4,6 +4,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/bg_row"
+    mobiata:priceTextColor="?attr/hotelPriceStandardColor"
+    mobiata:salePriceTextColor="?attr/hotelPriceSaleColor"
     mobiata:selectedBackground="@drawable/bg_row_selected" >
 
     <com.expedia.bookings.widget.OptimizedImageView
