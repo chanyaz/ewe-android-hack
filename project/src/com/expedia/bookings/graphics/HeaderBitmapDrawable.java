@@ -83,6 +83,7 @@ public class HeaderBitmapDrawable extends Drawable implements OnImageLoaded {
 		mBitmapPaint.setAntiAlias(true);
 
 		mGradientPaint = new Paint();
+		mGradientPaint.setAntiAlias(true);
 	}
 
 	public HeaderBitmapDrawable(Bitmap bitmap) {
