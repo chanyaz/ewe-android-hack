@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -275,6 +276,9 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			setupViewsForChildFragment(getCurrentChildFragmentTag());
 		}
 
+		// Configure views which aren't dependent on which child fragment is showing
+		updateSearchDates();
+
 		// Always make sure that we at least have the destinations/origins fragments so we can start filtering
 		// before it's shown; otherwise it may not cross-fade in a pretty manner the first time.
 		createDestinationsFragment();
@@ -496,6 +500,29 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 
 	private String getOriginText() {
 		return getString(R.string.from_TEMPLATE, getLocationText(mSearchParams.getOrigin()));
+	}
+
+	/**
+	 * Updates the TextView currently showing the search dates
+	 */
+	private void updateSearchDates() {
+		boolean hasStart = mSearchParams.getStartDate() != null;
+		boolean hasEnd = mSearchParams.getEndDate() != null;
+
+		String text;
+		int flags = DateUtils.FORMAT_SHOW_DATE;
+		if (hasStart && hasEnd) {
+			text = JodaUtils.formatDateRange(getActivity(), mSearchParams.getStartDate(), mSearchParams.getEndDate(),
+					flags);
+		}
+		else if (hasStart) {
+			text = JodaUtils.formatLocalDate(getActivity(), mSearchParams.getStartDate(), flags);
+		}
+		else {
+			text = getString(R.string.search_anytime);
+		}
+
+		mSearchDatesTextView.setText(text);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -844,6 +871,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	public void onDatesChanged(LocalDate startDate, LocalDate endDate) {
 		mSearchParams.setStartDate(startDate);
 		mSearchParams.setEndDate(endDate);
+		updateSearchDates();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
