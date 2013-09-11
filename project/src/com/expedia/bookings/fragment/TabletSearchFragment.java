@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -8,6 +9,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Hours;
 import org.joda.time.LocalDate;
+import org.json.JSONObject;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
@@ -47,7 +49,9 @@ import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.IoUtils;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
@@ -60,6 +64,11 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	// This is a debug option - disable if you want to avoid the keyboard IME on expand, thus
 	// helping for testing other performance issues.
 	private static final boolean DEBUG_SHOW_KEYBOARD_ON_EXPAND = true;
+
+	// This is a debug option - enable if you want to save search params whenever "search"
+	// is clicked, and then reload whenever this fragment starts (from scratch)
+	private static final boolean DEBUG_SAVE_SEARCH_PARAMS = false;
+	private static final String DEBUG_SAVE_SEARCH_PARAMS_PATH = "tablet-search-params-debug.dat";
 
 	private static final float HEADER_BG_SCALE_Y = 2.0f;
 
@@ -152,6 +161,20 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			// TODO: For now, we will just use SearchParams internally; eventually this
 			// should be coming from some outside source.
 			mSearchParams = new SearchParams();
+
+			if (DEBUG_SAVE_SEARCH_PARAMS) {
+				try {
+					String searchParamsJsonStr = IoUtils.readStringFromFile(DEBUG_SAVE_SEARCH_PARAMS_PATH,
+							getActivity());
+					if (!TextUtils.isEmpty(searchParamsJsonStr)) {
+						JSONObject searchParamsJson = new JSONObject(searchParamsJsonStr);
+						mSearchParams.fromJson(searchParamsJson);
+					}
+				}
+				catch (Exception e) {
+					Log.w("DEBUG: Could not reload saved search params", e);
+				}
+			}
 		}
 	}
 
@@ -718,6 +741,25 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			expand();
 		}
 		else if (v == mSearchButton) {
+			if (DEBUG_SAVE_SEARCH_PARAMS) {
+				// Do this in a BG thread
+				(new Thread(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							long start = System.nanoTime();
+							IoUtils.writeStringToFile(DEBUG_SAVE_SEARCH_PARAMS_PATH, mSearchParams.toJson().toString(),
+									getActivity());
+							long end = System.nanoTime();
+							Log.d("DEBUG: Saved search params in " + ((end - start) / 1000000) + " ms");
+						}
+						catch (IOException e) {
+							Log.w("DEBUG: Could not save search params", e);
+						}
+					}
+				})).start();
+			}
+
 			mListener.onSearch(mSearchParams);
 		}
 		else if (isExpanded()) {
