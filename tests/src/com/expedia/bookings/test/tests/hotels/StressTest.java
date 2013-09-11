@@ -5,7 +5,6 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.util.DisplayMetrics;
 
 import com.expedia.bookings.activity.SearchActivity;
-import com.expedia.bookings.test.utils.HotelsRobotHelper;
 import com.expedia.bookings.test.utils.HotelsTestDriver;
 import com.expedia.bookings.test.utils.HotelsUserData;
 import com.expedia.bookings.test.utils.TestPreferences;

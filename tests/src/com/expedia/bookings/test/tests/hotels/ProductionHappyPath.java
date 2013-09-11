@@ -5,11 +5,9 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.util.DisplayMetrics;
 
 import com.expedia.bookings.activity.SearchActivity;
-import com.expedia.bookings.test.utils.HotelsRobotHelper;
 import com.expedia.bookings.test.utils.HotelsTestDriver;
 import com.expedia.bookings.test.utils.HotelsUserData;
 import com.expedia.bookings.test.utils.TestPreferences;
-import com.jayway.android.robotium.solo.Solo;
 
 public class ProductionHappyPath extends ActivityInstrumentationTestCase2<SearchActivity> {
 
