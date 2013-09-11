@@ -47,7 +47,6 @@ import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
@@ -719,8 +718,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			expand();
 		}
 		else if (v == mSearchButton) {
-			Ui.showToast(getActivity(), "TODO: Search!");
-			Log.i("Search Params: " + mSearchParams);
+			mListener.onSearch(mSearchParams);
 		}
 		else if (isExpanded()) {
 			// Switching between different child fragments
@@ -821,6 +819,8 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	public interface SearchFragmentListener {
 
 		public void onFinishExpand();
+
+		public void onSearch(SearchParams searchParams);
 
 	}
 
