@@ -37,8 +37,10 @@ import com.mobiata.android.util.Ui;
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -227,6 +229,30 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		return super.onOptionsItemSelected(item);
 	}
 
+	public void setActionbarColorFromState(GlobalResultsState state) {
+
+		ColorDrawable bgColor = new ColorDrawable();
+		switch (state) {
+		case DEFAULT: {
+			bgColor.setColor(Color.WHITE);
+			break;
+		}
+		case HOTELS: {
+			bgColor.setColor(Color.RED);
+			break;
+		}
+		case FLIGHTS: {
+			bgColor.setColor(Color.BLUE);
+			break;
+		}
+		}
+
+		ActionBar ab = this.getSupportActionBar();
+		if (ab != null) {
+			ab.setBackgroundDrawable(bgColor);
+		}
+	}
+
 	/**
 	 * ITabletResultsController STUFF
 	 */
@@ -235,6 +261,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	public void setGlobalResultsState(GlobalResultsState state) {
 		Log.d("setGlobalResultsState:" + state.name());
 		mState = state;
+		setActionbarColorFromState(state);
+
 		for (ITabletResultsController controller : mTabletResultsControllers) {
 			controller.setGlobalResultsState(state);
 		}
