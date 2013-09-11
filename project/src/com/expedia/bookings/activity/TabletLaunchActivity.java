@@ -22,6 +22,8 @@ import com.expedia.bookings.fragment.TabletSearchFragment.SearchFragmentListener
 import com.expedia.bookings.fragment.base.MeasurableFragment;
 import com.expedia.bookings.fragment.base.MeasurableFragmentListener;
 import com.expedia.bookings.fragment.debug.ColorFragment;
+import com.expedia.bookings.maps.SupportMapFragment;
+import com.expedia.bookings.maps.SvgTileProvider;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.app.SimpleProgressDialogFragment;
@@ -32,7 +34,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	// On top when search params covers up everything
 	private static final String BACKSTACK_SEARCH_PARAMS = "BACKSTACK_SEARCH_PARAMS";
 
-	private MeasurableFragment mTopFragment;
+	private SupportMapFragment mTopFragment;
 	private Fragment mBottomFragment;
 	private TabletSearchFragment mSearchFragment;
 
@@ -53,7 +55,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 		FragmentManager fm = getSupportFragmentManager();
 		if (savedInstanceState == null) {
-			mTopFragment = ColorFragment.newInstance(Color.BLUE);
+			mTopFragment = SupportMapFragment.newInstance();
 			mBottomFragment = ColorFragment.newInstance(Color.GREEN);
 			mSearchFragment = new TabletSearchFragment();
 			mServicesFragment = new ExpediaServicesFragment();
@@ -102,6 +104,11 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 	@Override
 	public void canMeasure(Fragment fragment) {
+		if (fragment == mTopFragment) {
+			SupportMapFragment mapFragment = (SupportMapFragment) fragment;
+			SvgTileProvider.addToMap(this, mapFragment.getMap());
+		}
+
 		if ((fragment == mTopFragment || fragment == mSearchFragment) && mTopFragment.isMeasurable()
 				&& mSearchFragment.isMeasurable()) {
 			mSearchFragment.setInitialTranslationY(mTopFragment.getView().getHeight());

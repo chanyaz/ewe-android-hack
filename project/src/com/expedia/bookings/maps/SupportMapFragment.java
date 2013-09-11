@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
+import com.expedia.bookings.fragment.base.MeasurableFragmentHelper;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,6 +33,8 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 	private float mCenterOffsetX = 0;
 	private float mCenterOffsetY = 0;
 
+	private MeasurableFragmentHelper mHelper;
+
 	public static SupportMapFragment newInstance() {
 		SupportMapFragment frag = new SupportMapFragment();
 		return frag;
@@ -45,12 +48,14 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 		super.onAttach(activity);
 
 		mListener = Ui.findFragmentListener(this, SupportMapFragmentListener.class, false);
+
+		mHelper = new MeasurableFragmentHelper(this);
+		mHelper.onAttach(activity);
 	}
 
 	@Override
 	public void onViewCreated(final View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-
 		view.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
@@ -75,6 +80,24 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 				}
 			}
 		});
+
+		mHelper.onViewCreated(view, savedInstanceState);
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		mHelper.onDestroyView();
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		mHelper.onDetach();
+	}
+
+	public boolean isMeasurable() {
+		return mHelper.isMeasurable();
 	}
 
 	protected void onMapLayout() {
