@@ -157,6 +157,17 @@ public class JodaUtils {
 		return fmt.print(partial);
 	}
 
+	public static String formatDateRange(Context context, LocalDate start, LocalDate end, int flags) {
+		return formatDateRange(context, start.toDateTimeAtStartOfDay(), end.toDateTimeAtStartOfDay(), flags);
+	}
+
+	public static String formatDateRange(Context context, DateTime start, DateTime end, int flags) {
+		DateTime utcStartDateTime = start.withZoneRetainFields(DateTimeZone.UTC);
+		DateTime utcEndDateTime = end.withZoneRetainFields(DateTimeZone.UTC);
+		return DateUtils.formatDateRange(context, utcStartDateTime.getMillis(), utcEndDateTime.getMillis(), flags
+				| DateUtils.FORMAT_UTC);
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSON
 
