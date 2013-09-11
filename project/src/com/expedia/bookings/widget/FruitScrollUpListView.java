@@ -57,6 +57,7 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 
 	//This thing is sort of a switch, and this indicates its status
 	private State mState = State.LIST_CONTENT_AT_BOTTOM;
+	private State mPrevState = State.LIST_CONTENT_AT_BOTTOM;
 
 	//Settings
 	private float mPercentageOfHeightUsedForHeaderSpacer = 0.5f;
@@ -290,10 +291,14 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 	}
 
 	public void setState(State state, boolean forceUpdate, int duration) {
-		State oldState = mState;
+		mPrevState = mState;
 		mState = state;
 
-		if (forceUpdate || oldState != state) {
+		if (forceUpdate || mPrevState != state) {
+			
+			//If we are smooth scrolling this state will get squashed probably. We may want to rework this a little bit.
+			reportStateChanged(mPrevState, state);
+
 			//If we just moved to bottom state, we must move our header to the top.
 			if (state == State.LIST_CONTENT_AT_BOTTOM) {
 				setListLockedToTop(false);
@@ -303,8 +308,6 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 			else if (state == State.LIST_CONTENT_AT_TOP && getFirstVisiblePosition() == 0) {
 				moveToPosition(1, 0, duration);
 			}
-
-			reportStateChanged(oldState, state);
 		}
 	}
 

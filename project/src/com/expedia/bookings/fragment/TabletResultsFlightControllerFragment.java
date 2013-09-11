@@ -264,10 +264,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	}
 
 	@Override
-	public void animateTowardsGlobalResultsState(GlobalResultsState state, int duration) {
-	}
-
-	@Override
 	public void setAnimatingTowardsVisibility(GlobalResultsState state) {
 		if (state == GlobalResultsState.DEFAULT) {
 			mFlightListC.setVisibility(View.VISIBLE);
@@ -288,13 +284,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 			mFlightListC.setLayerType(layerType, null);
 
-		}
-
-		if ((stateOne == GlobalResultsState.DEFAULT || stateOne == GlobalResultsState.TRIP_ADD_HOTEL)
-				&& (stateTwo == GlobalResultsState.DEFAULT || stateTwo == GlobalResultsState.TRIP_ADD_HOTEL)) {
-			//Default -> TripAdd or TripAdd -> Default transition
-
-			mFlightListC.setLayerType(layerType, null);
 		}
 
 		if ((stateOne == GlobalResultsState.DEFAULT || stateOne == GlobalResultsState.FLIGHTS)

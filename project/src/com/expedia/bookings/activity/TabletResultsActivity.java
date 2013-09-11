@@ -111,7 +111,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		DEFAULT,
 		HOTELS,
 		FLIGHTS,
-		TRIP_ADD_HOTEL
 	}
 
 	@Override
@@ -135,18 +134,44 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		if (savedInstanceState == null || !Db.getBackgroundImageCache(this).isDefaultInCache()) {
 			Db.getBackgroundImageCache(this).loadDefaultsInThread(this);
 		}
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		outState.putString(STATE_CURRENT_STATE, mState.name());
+		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
 
 		//Add default fragments
-		FragmentTransaction transaction = this.getSupportFragmentManager().beginTransaction();
+		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		setBackgroundImageFragmentAvailability(true, transaction);
 		setFlightsControllerAvailability(true, transaction);
 		setHotelsControllerAvailability(true, transaction);
 		setTripControllerAvailability(true, transaction);
 		transaction.commit();
+		getSupportFragmentManager().executePendingTransactions();//These must be finished before we continue..
 
 		mTabletResultsControllers.add(mFlightsController);
 		mTabletResultsControllers.add(mHotelsController);
 		mTabletResultsControllers.add(mTripController);
+
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (bd.isDownloading(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY)) {
+			BackgroundDownloader.getInstance().registerDownloadCallback(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY,
+					mBackgroundImageInfoDownloadCallback);
+		}
+		else if (bd.isDownloading(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY)) {
+			BackgroundDownloader.getInstance().registerDownloadCallback(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY,
+					mBackgroundImageFileDownloadCallback);
+		}
+		else if (Db.getBackgroundImageInfo() == null) {
+			bd.startDownload(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY, mBackgroundImageInfoDownload,
+					mBackgroundImageInfoDownloadCallback);
+		}
 
 		mRootC.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 			@Override
@@ -168,31 +193,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 				return true;
 			}
 		});
-	}
 
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		outState.putString(STATE_CURRENT_STATE, mState.name());
-		super.onSaveInstanceState(outState);
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY)) {
-			BackgroundDownloader.getInstance().registerDownloadCallback(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY,
-					mBackgroundImageInfoDownloadCallback);
-		}
-		else if (bd.isDownloading(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY)) {
-			BackgroundDownloader.getInstance().registerDownloadCallback(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY,
-					mBackgroundImageFileDownloadCallback);
-		}
-		else if (Db.getBackgroundImageInfo() == null) {
-			bd.startDownload(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY, mBackgroundImageInfoDownload,
-					mBackgroundImageInfoDownloadCallback);
-		}
+		mRootC.invalidate();
 	}
 
 	@Override
@@ -219,13 +221,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		mState = state;
 		for (ITabletResultsController controller : mTabletResultsControllers) {
 			controller.setGlobalResultsState(state);
-		}
-	}
-
-	@Override
-	public void animateTowardsGlobalResultsState(GlobalResultsState state, int duration) {
-		for (ITabletResultsController controller : mTabletResultsControllers) {
-			controller.animateTowardsGlobalResultsState(state, duration);
 		}
 	}
 
@@ -535,31 +530,26 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	}
 
 	private boolean isHotelsListenerEnabled() {
-		return mState == GlobalResultsState.DEFAULT || mState == GlobalResultsState.HOTELS
-				|| mState == GlobalResultsState.TRIP_ADD_HOTEL;
-	}
-
-	private boolean allowHotelsStateToChangeGlobalState() {
 		return mState == GlobalResultsState.DEFAULT || mState == GlobalResultsState.HOTELS;
 	}
 
 	@Override
 	public void onHotelsStateChanged(State oldState, State newState, float percentage, View requester) {
-		if (isHotelsListenerEnabled() && allowHotelsStateToChangeGlobalState()) {
+		Log.d("HotelState.onHotelsStateChanged oldState:" + oldState.name() + " newState:" + newState.name()
+				+ " percentage:" + percentage);
+		if (isHotelsListenerEnabled()) {
 			if (newState == com.expedia.bookings.widget.FruitScrollUpListView.State.TRANSIENT) {
 				blockAllNewTouches(requester);
 				setAnimatingTowardsVisibility(GlobalResultsState.HOTELS);
 				setAnimatingTowardsVisibility(GlobalResultsState.DEFAULT);
 
 				setHardwareLayerForTransition(View.LAYER_TYPE_HARDWARE, GlobalResultsState.DEFAULT,
-						mState == GlobalResultsState.TRIP_ADD_HOTEL ? GlobalResultsState.TRIP_ADD_HOTEL
-								: GlobalResultsState.HOTELS);
+						GlobalResultsState.HOTELS);
 
 			}
 			else {
 				setHardwareLayerForTransition(View.LAYER_TYPE_NONE, GlobalResultsState.DEFAULT,
-						mState == GlobalResultsState.TRIP_ADD_HOTEL ? GlobalResultsState.TRIP_ADD_HOTEL
-								: GlobalResultsState.HOTELS);
+						GlobalResultsState.HOTELS);
 
 				if (newState == com.expedia.bookings.widget.FruitScrollUpListView.State.LIST_CONTENT_AT_TOP) {
 					//We have entered this mode...
@@ -575,6 +565,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 	@Override
 	public void onHotelsPercentageChanged(State state, float percentage) {
+		Log.d("HotelState.onHotelsPercentageChanged state:" + state.name() + " percentage:" + percentage);
 		if (isHotelsListenerEnabled()) {
 			animateToHotelsPercentage(percentage);
 		}
@@ -631,7 +622,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 	@Override
 	public void guiElementInPosition() {
-		this.setGlobalResultsState(GlobalResultsState.TRIP_ADD_HOTEL);
 		for (IAddToTripListener listener : mAddToTripListeners) {
 			listener.guiElementInPosition();
 		}
