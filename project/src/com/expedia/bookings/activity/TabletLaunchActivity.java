@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -157,8 +158,8 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 		if (hotelSearchResponse != null && !hotelSearchResponse.hasErrors() && flighSearchResponse != null
 				&& !flighSearchResponse.hasErrors()) {
-			// TODO: Start results activity
-			mLoadSearchDialogFragment.setMessage("ALL LOADED!");
+			mLoadSearchDialogFragment.dismissAllowingStateLoss();
+			startActivity(new Intent(this, TabletResultsActivity.class));
 		}
 		else {
 			mLoadSearchDialogFragment.setMessage(checkResponse(hotelSearchResponse, "Hotel search")
