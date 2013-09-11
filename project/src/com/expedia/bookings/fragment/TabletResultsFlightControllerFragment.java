@@ -185,6 +185,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				}
 
 				mFlightListFrag.setChangeListener(mFruitProxy);
+				mFlightListFrag.setSortAndFilterButtonText(getString(R.string.done));
 			}
 		}
 		else {

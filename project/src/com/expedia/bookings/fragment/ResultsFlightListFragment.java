@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.os.Build;
+import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListAdapter;
 
@@ -67,11 +68,18 @@ public class ResultsFlightListFragment extends ResultsListFragment {
 
 	@Override
 	protected OnClickListener initializeSortAndFilterOnClickListener() {
-		return null;
+		return new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				ResultsFlightListFragment.this.gotoBottomPosition(300);
+			}
+			
+		};
 	}
 
 	@Override
 	protected boolean initializeSortAndFilterEnabled() {
-		return false;
+		return true;
 	}
 }
