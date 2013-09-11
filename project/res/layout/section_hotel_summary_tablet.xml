@@ -46,6 +46,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
 
+                <TextView
+                    android:id="@+id/not_rated_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:includeFontPadding="false"
+                    android:paddingTop="3dp"
+                    android:singleLine="true"
+                    android:text="@string/not_rated"
+                    android:textColor="@color/hotel_cell_secondary_color"
+                    android:visibility="gone" />
+
                 <RatingBar
                     android:id="@+id/user_rating_bar"
                     style="?attr/hotelListingUserRatingStyle"
@@ -93,6 +105,8 @@
             android:textStyle="bold" />
     </LinearLayout>
 
+    <!-- TODO: place the VIP image somewhere -->
+
     <ImageView
         android:id="@+id/vip_image_view"
         android:layout_width="wrap_content"
@@ -102,38 +116,19 @@
         android:src="@drawable/ic_vip_search"
         android:visibility="gone" />
 
-    <RelativeLayout
+    <!-- TODO: place the urgency message somewhere -->
+
+    <TextView
+        android:id="@id/urgency_text_view"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/hotel_row_thumbnail_height"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:padding="@dimen/hotel_row_cell_padding"
-        android:visibility="gone" >
-
-        <TextView
-            android:id="@+id/not_rated_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:ellipsize="end"
-            android:includeFontPadding="false"
-            android:paddingTop="3dp"
-            android:singleLine="true"
-            android:text="@string/not_rated"
-            android:textColor="@color/hotel_cell_secondary_color"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@id/urgency_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:includeFontPadding="false"
-            android:singleLine="true"
-            android:textColor="@color/hotel_cell_primary_color"
-            android:textStyle="bold"
-            android:visibility="gone" />
-    </RelativeLayout>
+        android:layout_alignParentTop="true"
+        android:includeFontPadding="false"
+        android:singleLine="true"
+        android:textColor="@color/hotel_cell_primary_color"
+        android:textStyle="bold"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/sale_image_view"

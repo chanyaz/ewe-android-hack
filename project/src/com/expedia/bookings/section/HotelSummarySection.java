@@ -174,8 +174,8 @@ public class HotelSummarySection extends RelativeLayout {
 		mPriceText.setText(hotelPrice);
 
 		mUserRatingBar.setRating((float) property.getAverageExpediaRating());
-		if (mUserRatingBar.getRating() == 0) {
-			mUserRatingBar.setVisibility(View.INVISIBLE);
+		if (mUserRatingBar.getRating() == 0f) {
+			mUserRatingBar.setVisibility(View.GONE);
 			mNotRatedText.setVisibility(View.VISIBLE);
 		}
 		else {
