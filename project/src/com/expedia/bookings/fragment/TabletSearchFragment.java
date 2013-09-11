@@ -21,6 +21,7 @@ import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.location.GpsStatus.NmeaListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -48,6 +49,7 @@ import com.expedia.bookings.fragment.base.MeasurableFragment;
 import com.expedia.bookings.section.AfterChangeTextWatcher;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
 import com.mobiata.android.Log;
@@ -98,7 +100,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	private View mSearchButton;
 	private ViewGroup mHeaderBottomContainer;
 	private EditText mOriginEditText;
-	private View mGuestsTextView;
+	private TextView mGuestsTextView;
 
 	// Cached views (content)
 	private ViewGroup mContentContainer;
@@ -278,6 +280,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 
 		// Configure views which aren't dependent on which child fragment is showing
 		updateSearchDates();
+		updateGuests();
 
 		// Always make sure that we at least have the destinations/origins fragments so we can start filtering
 		// before it's shown; otherwise it may not cross-fade in a pretty manner the first time.
@@ -523,6 +526,24 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		}
 
 		mSearchDatesTextView.setText(text);
+	}
+
+	/**
+	 * Updates the TextView currently showing the guests
+	 */
+	private void updateGuests() {
+		int numAdults = mSearchParams.getNumAdults();
+		int numChildren = mSearchParams.getNumChildren();
+
+		String text;
+		if (numAdults + numChildren == 1) {
+			text = getString(R.string.just_you);
+		}
+		else {
+			text = StrUtils.formatGuests(getActivity(), numAdults, numChildren);
+		}
+
+		mGuestsTextView.setText(text);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -881,6 +902,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	public void onGuestsChanged(int numAdults, ArrayList<Integer> numChildren) {
 		mSearchParams.setNumAdults(numAdults);
 		mSearchParams.setChildAges(numChildren);
+		updateGuests();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
