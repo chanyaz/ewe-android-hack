@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -12,6 +14,8 @@ import android.os.Parcelable;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.Log;
+import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.json.JSONable;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
@@ -36,16 +40,15 @@ import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
  * 5. Add the field to the Parcelable interface, i.e. SearchParams(Parcel in)
  *    and writeToParcel()
  * 6. Add the field to restoreFromMemento()
+ * 7. Add field to JSONable interface, i.e. toJson() and fromJson()
  *
  * Future ideas:
  * - canSearch(LineOfBusiness)
- * - toHotelSearchParams() and toFlightSearchParams() (for compat 
- *   with ExpediaServices)
  * - Alternatively, convert ExpediaServices to use this, and add
  *   method for converting others INTO a SearchParams object.
  * 
  */
-public class SearchParams implements Parcelable {
+public class SearchParams implements Parcelable, JSONable {
 
 	private Location mOrigin;
 	private Location mDestination;
@@ -386,4 +389,41 @@ public class SearchParams implements Parcelable {
 		}
 	};
 
+	//////////////////////////////////////////////////////////////////////////
+	// JSONable
+
+	@Override
+	public JSONObject toJson() {
+		try {
+			JSONObject obj = new JSONObject();
+
+			JSONUtils.putJSONable(obj, "origin", mOrigin);
+			JSONUtils.putJSONable(obj, "destination", mDestination);
+
+			JodaUtils.putLocalDateInJson(obj, "startDate", mStartDate);
+			JodaUtils.putLocalDateInJson(obj, "endDate", mEndDate);
+
+			obj.putOpt("numAdults", mNumAdults);
+			JSONUtils.putIntList(obj, "childAges", mChildAges);
+
+			return obj;
+		}
+		catch (JSONException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public boolean fromJson(JSONObject obj) {
+		mOrigin = JSONUtils.getJSONable(obj, "origin", Location.class);
+		mDestination = JSONUtils.getJSONable(obj, "destination", Location.class);
+
+		mStartDate = JodaUtils.getLocalDateFromJsonBackCompat(obj, "startDate", null);
+		mEndDate = JodaUtils.getLocalDateFromJsonBackCompat(obj, "endDate", null);
+
+		mNumAdults = obj.optInt("numAdults", 1);
+		mChildAges = JSONUtils.getIntList(obj, "childAges");
+
+		return true;
+	}
 }
