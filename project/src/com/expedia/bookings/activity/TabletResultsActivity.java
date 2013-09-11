@@ -4,7 +4,9 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BackgroundImageCache;
 import com.expedia.bookings.data.BackgroundImageResponse;
@@ -134,6 +136,9 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		if (savedInstanceState == null || !Db.getBackgroundImageCache(this).isDefaultInCache()) {
 			Db.getBackgroundImageCache(this).loadDefaultsInThread(this);
 		}
+
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override
@@ -209,6 +214,17 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			BackgroundDownloader.getInstance().cancelDownload(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY);
 			BackgroundDownloader.getInstance().cancelDownload(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY);
 		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home: {
+			onBackPressed();
+			return true;
+		}
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	/**
