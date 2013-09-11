@@ -7,12 +7,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.server.ExpediaServices;
-import com.mobiata.android.DebugUtils;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -92,12 +90,10 @@ public class ExpediaServicesFragment extends Fragment {
 	//////////////////////////////////////////////////////////////////////////
 	// Services
 
-	public void startHotelSearch(SearchParams searchParams, boolean continueIfInProgress) {
+	public void startHotelSearch(final SearchParams searchParams, boolean continueIfInProgress) {
 		doDownload(ServiceType.HOTEL_SEARCH, continueIfInProgress, new ResponseDownload() {
 			public Response execute(ExpediaServices services) {
-				DebugUtils.sleep(4000);
-				return null;
-				//				return services.search(null, 0); // TODO: Implement
+				return services.search(searchParams.toHotelSearchParams(), 0);
 			}
 		});
 	}
@@ -105,9 +101,7 @@ public class ExpediaServicesFragment extends Fragment {
 	public void startFlightSearch(final SearchParams searchParams, boolean continueIfInProgress) {
 		doDownload(ServiceType.FLIGHT_SEARCH, continueIfInProgress, new ResponseDownload() {
 			public Response execute(ExpediaServices services) {
-				DebugUtils.sleep(8000);
-				return null;
-				//				return services.flightSearch(null, 0); // TODO: Implement
+				return services.flightSearch(searchParams.toFlightSearchParams(), 0);
 			}
 		});
 	}

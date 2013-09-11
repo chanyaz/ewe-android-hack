@@ -122,11 +122,17 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 	@Override
 	public void onSearch(SearchParams searchParams) {
+		Db.getHotelSearch().setSearchResponse(null);
+		Db.getFlightSearch().setSearchResponse(null);
+
 		mLoadSearchDialogFragment = SimpleProgressDialogFragment.newInstance("Loading results...");
 		mLoadSearchDialogFragment.show(getSupportFragmentManager(), TAG_LOAD_SEARCH_DIALOG);
 
 		mServicesFragment.startHotelSearch(searchParams, false);
 		mServicesFragment.startFlightSearch(searchParams, false);
+
+		Db.getHotelSearch().setSearchParams(searchParams.toHotelSearchParams());
+		Db.getFlightSearch().setSearchParams(searchParams.toFlightSearchParams());
 
 		Log.i("Starting search with params: " + searchParams);
 	}

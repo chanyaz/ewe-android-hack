@@ -12,6 +12,8 @@ import android.os.Parcelable;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.Log;
+import com.mobiata.flightlib.data.Airport;
+import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 /**
  * A mega-search params object that can handle any search that
@@ -211,6 +213,64 @@ public class SearchParams implements Parcelable {
 		}
 
 		return ret;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Conversion
+	//
+	// For the time being, convert into HotelSearchParams or
+	// FlightSearchParams instead of trying to duplicate work for services.
+
+	public HotelSearchParams toHotelSearchParams() {
+		HotelSearchParams params = new HotelSearchParams();
+
+		if (!mOrigin.equals(new Location())) {
+			// TODO: This is temporary code; the suggestions are all based off FS.db, which doesn't
+			// give us good hotel search data excepting lat/lng.  So we use the airport's lat/lng
+			// for the search for now - once we are stabilized a bit we should switch to basing
+			// data off mOrigin.
+			Airport airport = FlightStatsDbUtils.getAirport(mOrigin.getDestinationId());
+
+			if (airport != null && airport.getLatitude() != 0 || airport.getLongitude() != 0) {
+				params.setSearchLatLon(airport.getLatitude(), airport.getLongitude());
+			}
+			else {
+				params.setQuery(mOrigin.getCity());
+			}
+		}
+
+		if (mStartDate != null) {
+			params.setCheckInDate(mStartDate);
+		}
+
+		if (mEndDate != null) {
+			params.setCheckOutDate(mEndDate);
+		}
+
+		params.setNumAdults(mNumAdults);
+		params.setChildren(getChildAges());
+
+		return params;
+	}
+
+	public FlightSearchParams toFlightSearchParams() {
+		FlightSearchParams params = new FlightSearchParams();
+
+		params.setDepartureLocation(mOrigin);
+		params.setArrivalLocation(mDestination);
+
+		if (mStartDate != null) {
+			params.setDepartureDate(mStartDate);
+		}
+
+		if (mEndDate != null) {
+			params.setReturnDate(mEndDate);
+		}
+
+		params.setNumAdults(mNumAdults);
+		params.setChildren(getChildAges());
+
+		return params;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
