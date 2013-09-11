@@ -2,95 +2,89 @@ package com.expedia.bookings.test.tests.ui;
 
 import java.util.Random;
 
-import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
-import android.widget.EditText;
+import android.util.DisplayMetrics;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity;
-import com.expedia.bookings.test.utils.HotelsRobotHelper;
-import com.jayway.android.robotium.solo.Solo;
+import com.expedia.bookings.test.utils.HotelsTestDriver;
+import com.expedia.bookings.test.utils.HotelsUserData;
+import com.expedia.bookings.test.utils.TestPreferences;
 
 public class CreditCardInfoEditTest extends ActivityInstrumentationTestCase2<HotelPaymentOptionsActivity> {
 
-	private Solo mSolo;
-	private HotelsRobotHelper mDriver;
-	private Activity mActivity;
-	private Resources mRes;
-	private final String TAG = "CCInfoEditTest";
-
 	public CreditCardInfoEditTest() {
-		super("com.expedia.bookings", HotelPaymentOptionsActivity.class);
+		super(HotelPaymentOptionsActivity.class);
 	}
 
-	@Override
+	private static final String TAG = "CC Edit Info Test";
+
+	private Resources mRes;
+	DisplayMetrics mMetric;
+	private HotelsTestDriver mDriver;
+	private HotelsUserData mUser;
+	private TestPreferences mPreferences;
+
 	protected void setUp() throws Exception {
 		super.setUp();
 		mRes = getActivity().getBaseContext().getResources();
-		mActivity = getActivity();
-		mSolo = new Solo(getInstrumentation(), mActivity);
-		mDriver = new HotelsRobotHelper(mSolo, mRes);
+		mPreferences = new TestPreferences();
+		mPreferences.setRotationPermission(false);
+		mPreferences.setScreenshotPermission(false);
+		mDriver = new HotelsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
+		mUser = new HotelsUserData();
+		mUser.setHotelCityToRandomUSCity();
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-
-		// must run this command otherwise subsequent tests will hang
-		mSolo.finishOpenedActivities();
-
+		mDriver.finishOpenedActivities();
 		super.tearDown();
 	}
 
 	protected void checkForPostCVVPopUp() {
-		mSolo.clickOnText(mRes.getString(R.string.expiration_date));
-		mSolo.clickOnButton(1);
-		mSolo.typeText(1, "JaxperCC MobiataTestaverde");
-		mSolo.clickOnText(mRes.getString(R.string.button_done));
+		mDriver.cardInfoScreen().clickOnExpirationDateButton();
+		mDriver.cardInfoScreen().clickMonthUpButton();
+		mDriver.cardInfoScreen().clickYearUpButton();
+		mDriver.cardInfoScreen().clickSetButton();
+		mDriver.cardInfoScreen().typeTextNameOnCardEditText(mUser.mFirstName + " " + mUser.mLastName);
+		mDriver.cardInfoScreen().clickOnDoneButton();
 	}
 
 	protected void checkForBadCCIcon() {
 		// basically assert that the error icon is popped up when
 		// this method is called.
-		mSolo.clickOnText(mRes.getString(R.string.expiration_date));
-		mSolo.clickOnButton(1);
+		mDriver.cardInfoScreen().clickOnExpirationDateButton();
+		mDriver.cardInfoScreen().clickSetButton();
 
-		EditText editNameOnCard = (EditText) mSolo.getView(R.id.edit_name_on_card);
-		mSolo.typeText(editNameOnCard, "JaxperCC MobiataTestaverde");
-
-		EditText editZipCode = (EditText) mSolo.getView(R.id.edit_address_postal_code);
-		mSolo.typeText(editZipCode, "48104");
-
-		EditText editEmailAddress = (EditText) mSolo.getView(R.id.edit_email_address);
-		mSolo.typeText(editEmailAddress, "qa-ehcc@mobiata.com");
-
-		mSolo.clickOnText(mRes.getString(R.string.button_done));
+		mDriver.cardInfoScreen().typeTextNameOnCardEditText(mUser.mFirstName + " " + mUser.mLastName);
+		mDriver.cardInfoScreen().typeTextPostalCode(mUser.mZIPCode);
+		mDriver.cardInfoScreen().typeTextEmailEditText(mUser.mLoginEmail);
+		mDriver.cardInfoScreen().clickOnDoneButton();
 
 		//If a pop up appears asking to save billing info, then the
 		//app didn't see the bad CC
-		if (mSolo.searchText(mRes.getString(R.string.save_billing_info))) {
-			mSolo.goBack();
-			Log.v(TAG, "Didn't enter a bad CC. Failing test to get your attention.");
+		if (mDriver.searchText(mDriver.cardInfoScreen().saveButtonString())) {
+			mDriver.goBack();
+			mDriver.enterLog(TAG, "Didn't enter a bad CC. Failing test to get your attention.");
 			fail();
 		}
 		else {
 			//Otherwise, grab the drawable displayed for the error, and make
 			//sure it's the correct drawable
-			EditText creditCardEditText = (EditText) mSolo.getView(R.id.edit_creditcard_number);
 			BitmapDrawable shouldBeErrorIcon = (BitmapDrawable) mRes.getDrawable(R.drawable.ic_error_blue);
-			Drawable[] availableIcons = creditCardEditText.getCompoundDrawables();
-			BitmapDrawable iconDisplayed = null;
+			Drawable[] availableIcons = mDriver.cardInfoScreen().creditCardNumberEditText().getCompoundDrawables();
 
-			iconDisplayed = (BitmapDrawable) availableIcons[2];
+			BitmapDrawable iconDisplayed = (BitmapDrawable) availableIcons[2];
 
 			//Test fails if the icon presented isn't the proper icon
 			if (!shouldBeErrorIcon.getBitmap().sameAs(iconDisplayed.getBitmap())) {
-				Log.v(TAG, "Desired icon: " + iconDisplayed.toString());
-				Log.v(TAG, "Actual icon: " + shouldBeErrorIcon.toString());
+				mDriver.enterLog(TAG, "Desired icon: " + iconDisplayed.toString());
+				mDriver.enterLog(TAG, "Actual icon: " + shouldBeErrorIcon.toString());
 				fail();
 			}
 		}
@@ -119,7 +113,6 @@ public class CreditCardInfoEditTest extends ActivityInstrumentationTestCase2<Hot
 		Random rand = new Random();
 		int randomNumber;
 
-		EditText creditCardEditText = (EditText) mSolo.getView(R.id.edit_creditcard_number);
 		String creditcardNumber;
 		ImageView imageHolder;
 
@@ -132,22 +125,22 @@ public class CreditCardInfoEditTest extends ActivityInstrumentationTestCase2<Hot
 					creditcardNumber += randomNumber;
 				}
 				try {
-					mSolo.typeText(creditCardEditText, creditcardNumber);
+					mDriver.cardInfoScreen().typeTextCreditCardEditText(creditcardNumber);
 				}
 				catch (Error e) {
 					// try to enter CC again in case of Robotium error 
 					mDriver.delay();
-					mSolo.typeText(creditCardEditText, creditcardNumber);
+					mDriver.cardInfoScreen().typeTextCreditCardEditText(creditcardNumber);
 				}
 				catch (Exception ex) {
 					mDriver.delay();
-					mSolo.typeText(creditCardEditText, creditcardNumber);
+					mDriver.cardInfoScreen().typeTextCreditCardEditText(creditcardNumber);
 				}
 				mDriver.delay();
 
 				//grab the imageView - it contains the changed credit card image
 				if (imageID != -1) {
-					imageHolder = (ImageView) mSolo.getView(R.id.display_credit_card_brand_icon_white);
+					imageHolder = (ImageView) mDriver.getView(R.id.display_credit_card_brand_icon_white);
 					BitmapDrawable currentImage = (BitmapDrawable) imageHolder.getDrawable();
 					BitmapDrawable desiredImage = (BitmapDrawable) mRes.getDrawable(imageID);
 
@@ -159,7 +152,7 @@ public class CreditCardInfoEditTest extends ActivityInstrumentationTestCase2<Hot
 					}
 				}
 				additionalFunctionSelector(additionalFunctionCase);
-				mSolo.clearEditText(creditCardEditText);
+				mDriver.clearEditText(mDriver.cardInfoScreen().creditCardNumberEditText());
 			}
 		}
 	}
