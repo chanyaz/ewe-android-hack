@@ -48,6 +48,7 @@ public class HotelsSearchRegressionTests extends ActivityInstrumentationTestCase
 		mDriver.launchScreen().pressSettings();
 		mDriver.settingsScreen().clickToClearPrivateData();
 		mDriver.settingsScreen().clickOKString();
+		mDriver.settingsScreen().clickOKString();
 		mDriver.goBack();
 	}
 
