@@ -417,6 +417,27 @@ public class Notification extends Model implements JSONable {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Create instance from JSON
+
+	/**
+	 * Creates a Notification instance, given its JSON representation.
+	 * @param json
+	 * @return
+	 */
+	public static Notification getInstanceFromJsonString(String json) {
+		Notification notification = new Notification();
+
+		try {
+			notification.fromJson(new JSONObject(json));
+		}
+		catch (JSONException e) {
+			Log.e("Unable to parse notification.", e);
+		}
+
+		return notification;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// Database type operations
 
 	/**

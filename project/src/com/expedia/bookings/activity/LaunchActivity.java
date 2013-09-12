@@ -408,18 +408,14 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	 * rely on that assumption:
 	 * 1. Tracks this incoming intent in Omniture.
 	 * 2. Updates the Notifications table that this notification is dismissed.
+	 *
+	 * *** This is duplicated in ItineraryActivity ***
+	 *
 	 * @param intent
 	 */
 	private void handleArgJumpToNotification(Intent intent) {
-		Notification notification = new Notification();
-
-		try {
-			String jsonNotification = intent.getStringExtra(ARG_JUMP_TO_NOTIFICATION);
-			notification.fromJson(new JSONObject(jsonNotification));
-		}
-		catch (JSONException e) {
-			Log.e("Unable to parse notification.", e);
-		}
+		String jsonNotification = intent.getStringExtra(ARG_JUMP_TO_NOTIFICATION);
+		Notification notification = Notification.getInstanceFromJsonString(jsonNotification);
 
 		if (!Notification.hasExisting(notification)) {
 			return;
