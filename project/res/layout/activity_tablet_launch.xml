@@ -3,22 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <FrameLayout
+        android:id="@+id/map_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:weightSum="10" >
 
         <FrameLayout
-            android:id="@+id/top_container"
+            android:id="@+id/tiles_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="6" />
-
-        <FrameLayout
-            android:id="@+id/bottom_container"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="4" />
+            android:layout_weight="3.5" />
     </LinearLayout>
 
     <FrameLayout

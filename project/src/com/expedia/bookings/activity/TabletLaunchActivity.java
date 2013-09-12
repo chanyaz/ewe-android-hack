@@ -34,8 +34,8 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	// On top when search params covers up everything
 	private static final String BACKSTACK_SEARCH_PARAMS = "BACKSTACK_SEARCH_PARAMS";
 
-	private SupportMapFragment mTopFragment;
-	private Fragment mBottomFragment;
+	private SupportMapFragment mMapFragment;
+	private MeasurableFragment mTilesFragment;
 	private TabletSearchFragment mSearchFragment;
 
 	// TODO: REMOVE LATER, THIS IS DEV ONLY
@@ -55,21 +55,21 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 		FragmentManager fm = getSupportFragmentManager();
 		if (savedInstanceState == null) {
-			mTopFragment = SupportMapFragment.newInstance();
-			mBottomFragment = ColorFragment.newInstance(Color.GREEN);
+			mMapFragment = SupportMapFragment.newInstance();
+			mTilesFragment = ColorFragment.newInstance(Color.argb(100, 0, 0, 0));
 			mSearchFragment = new TabletSearchFragment();
 			mServicesFragment = new ExpediaServicesFragment();
 
 			FragmentTransaction ft = fm.beginTransaction();
-			ft.add(R.id.top_container, mTopFragment);
-			ft.add(R.id.bottom_container, mBottomFragment);
+			ft.add(R.id.map_container, mMapFragment);
+			ft.add(R.id.tiles_container, mTilesFragment);
 			ft.add(R.id.search_container, mSearchFragment);
 			ft.add(mServicesFragment, TAG_SERVICES);
 			ft.commit();
 		}
 		else {
-			mTopFragment = Ui.findSupportFragment(this, R.id.top_container);
-			mBottomFragment = Ui.findSupportFragment(this, R.id.bottom_container);
+			mMapFragment = Ui.findSupportFragment(this, R.id.map_container);
+			mTilesFragment = Ui.findSupportFragment(this, R.id.tiles_container);
 			mSearchFragment = Ui.findSupportFragment(this, R.id.search_container);
 			mServicesFragment = Ui.findSupportFragment(this, TAG_SERVICES);
 			mLoadSearchDialogFragment = Ui.findSupportFragment(this, TAG_LOAD_SEARCH_DIALOG);
@@ -104,14 +104,15 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 	@Override
 	public void canMeasure(Fragment fragment) {
-		if (fragment == mTopFragment) {
+		if (fragment == mMapFragment) {
 			SupportMapFragment mapFragment = (SupportMapFragment) fragment;
 			SvgTileProvider.addToMap(this, mapFragment.getMap());
 		}
 
-		if ((fragment == mTopFragment || fragment == mSearchFragment) && mTopFragment.isMeasurable()
-				&& mSearchFragment.isMeasurable()) {
-			mSearchFragment.setInitialTranslationY(mTopFragment.getView().getHeight());
+		if ((fragment == mMapFragment || fragment == mSearchFragment || fragment == mTilesFragment)
+				&& mMapFragment.isMeasurable() && mSearchFragment.isMeasurable() && mTilesFragment.isMeasurable()) {
+			mSearchFragment.setInitialTranslationY(mMapFragment.getView().getHeight()
+					- mTilesFragment.getView().getHeight());
 			mSearchFragment.collapse();
 		}
 	}
@@ -122,8 +123,8 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	@Override
 	public void onFinishExpand() {
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		ft.detach(mTopFragment);
-		ft.detach(mBottomFragment);
+		ft.detach(mMapFragment);
+		ft.detach(mTilesFragment);
 		ft.addToBackStack(BACKSTACK_SEARCH_PARAMS);
 		ft.commit();
 	}
