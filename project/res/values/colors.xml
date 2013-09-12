@@ -154,5 +154,8 @@
     
     <!-- Tablet colors -->
     <color name="tablet_list_bg">#FFF4F2F1</color>
+    <color name="tablet_results_ab_default">#DADBDD</color>
+    <color name="tablet_results_ab_hotels">#422B14</color>
+    <color name="tablet_results_ab_flights">#142B42</color>
 
 </resources>

@@ -20,6 +20,7 @@ import com.expedia.bookings.fragment.TabletResultsFlightControllerFragment.IFlig
 import com.expedia.bookings.fragment.TabletResultsHotelControllerFragment;
 import com.expedia.bookings.fragment.TabletResultsHotelControllerFragment.IHotelsFruitScrollUpListViewChangeListener;
 import com.expedia.bookings.fragment.TabletResultsTripControllerFragment;
+import com.expedia.bookings.graphics.PercentageFadeColorDrawable;
 import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.ITabletResultsController;
@@ -37,10 +38,8 @@ import com.mobiata.android.util.Ui;
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -106,6 +105,10 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	private boolean mPreDrawInitComplete = false;
 	private boolean mBackButtonLocked = false;
 
+	private PercentageFadeColorDrawable mActionBarBg;
+	private PercentageFadeColorDrawable mActionBarBgFlights;
+	private PercentageFadeColorDrawable mActionBarBgHotels;
+
 	private ArrayList<IBackgroundImageReceiver> mBackgroundImageReceivers = new ArrayList<IBackgroundImageReceiver>();
 	private ArrayList<ITabletResultsController> mTabletResultsControllers = new ArrayList<ITabletResultsController>();
 	private ArrayList<IAddToTripListener> mAddToTripListeners = new ArrayList<IAddToTripListener>();
@@ -139,8 +142,18 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			Db.getBackgroundImageCache(this).loadDefaultsInThread(this);
 		}
 
+		//We set up our actionbar background colors.
+		mActionBarBgHotels = new PercentageFadeColorDrawable(
+				getResources().getColor(R.color.tablet_results_ab_default),
+				getResources().getColor(R.color.tablet_results_ab_hotels));
+		mActionBarBgFlights = new PercentageFadeColorDrawable(getResources()
+				.getColor(R.color.tablet_results_ab_default),
+				getResources().getColor(R.color.tablet_results_ab_flights));
+		mActionBarBg = mActionBarBgHotels;
+
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setBackgroundDrawable(mActionBarBg);
 	}
 
 	@Override
@@ -200,8 +213,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 				return true;
 			}
 		});
-
-		mRootC.invalidate();
 	}
 
 	@Override
@@ -229,27 +240,49 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		return super.onOptionsItemSelected(item);
 	}
 
-	public void setActionbarColorFromState(GlobalResultsState state) {
+	/**
+	 * ACTIONBAR COLOR STUFF
+	 */
 
-		ColorDrawable bgColor = new ColorDrawable();
-		switch (state) {
-		case DEFAULT: {
-			bgColor.setColor(Color.WHITE);
-			break;
+	private void setActionbarColorFromState(GlobalResultsState state) {
+		if (state == GlobalResultsState.DEFAULT) {
+			mActionBarBg.setPercentage(0f);
 		}
-		case HOTELS: {
-			bgColor.setColor(Color.RED);
-			break;
-		}
-		case FLIGHTS: {
-			bgColor.setColor(Color.BLUE);
-			break;
-		}
-		}
+		else {
+			ActionBar actionBar = getSupportActionBar();
+			if (state == GlobalResultsState.HOTELS && mActionBarBg != mActionBarBgHotels) {
+				mActionBarBg = mActionBarBgHotels;
+				actionBar.setBackgroundDrawable(mActionBarBg);
+			}
+			else if (state == GlobalResultsState.FLIGHTS && mActionBarBg != mActionBarBgFlights) {
+				mActionBarBg = mActionBarBgFlights;
+				actionBar.setBackgroundDrawable(mActionBarBg);
+			}
+			mActionBarBg.setPercentage(1f);
 
-		ActionBar ab = this.getSupportActionBar();
-		if (ab != null) {
-			ab.setBackgroundDrawable(bgColor);
+		}
+	}
+
+	private void setActionbarColorForTransition(GlobalResultsState stateOne, GlobalResultsState stateTwo) {
+		ActionBar actionBar = getSupportActionBar();
+		if (stateOne == GlobalResultsState.DEFAULT && stateTwo == GlobalResultsState.DEFAULT) {
+			mActionBarBg.setPercentage(0f);
+		}
+		else if (stateOne == GlobalResultsState.HOTELS || stateTwo == GlobalResultsState.HOTELS) {
+			if (mActionBarBg != mActionBarBgHotels) {
+				mActionBarBg = mActionBarBgHotels;
+				actionBar.setBackgroundDrawable(mActionBarBg);
+			}
+			float percentage = stateOne == GlobalResultsState.HOTELS ? 1f : 0f;
+			mActionBarBg.setPercentage(percentage);
+		}
+		else {
+			if (mActionBarBg != mActionBarBgFlights) {
+				mActionBarBg = mActionBarBgFlights;
+				actionBar.setBackgroundDrawable(mActionBarBg);
+			}
+			float percentage = stateOne == GlobalResultsState.FLIGHTS ? 1f : 0f;
+			mActionBarBg.setPercentage(percentage);
 		}
 	}
 
@@ -270,6 +303,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 	@Override
 	public void setAnimatingTowardsVisibility(GlobalResultsState state) {
+		setActionbarColorForTransition(mState, state);
 		for (ITabletResultsController controller : mTabletResultsControllers) {
 			controller.setAnimatingTowardsVisibility(state);
 		}
@@ -291,6 +325,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 	@Override
 	public void animateToFlightsPercentage(float percentage) {
+		mActionBarBg.setPercentage(1f - percentage);
 		for (ITabletResultsController controller : mTabletResultsControllers) {
 			controller.animateToFlightsPercentage(percentage);
 		}
@@ -299,6 +334,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 	@Override
 	public void animateToHotelsPercentage(float percentage) {
+		mActionBarBg.setPercentage(1f - percentage);
 		for (ITabletResultsController controller : mTabletResultsControllers) {
 			controller.animateToHotelsPercentage(percentage);
 		}
@@ -584,8 +620,10 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		if (isHotelsListenerEnabled()) {
 			if (newState == com.expedia.bookings.widget.FruitScrollUpListView.State.TRANSIENT) {
 				blockAllNewTouches(requester);
-				setAnimatingTowardsVisibility(GlobalResultsState.HOTELS);
+
+				//order matters here, because the second will in certain cases squash the first
 				setAnimatingTowardsVisibility(GlobalResultsState.DEFAULT);
+				setAnimatingTowardsVisibility(GlobalResultsState.HOTELS);
 
 				setHardwareLayerForTransition(View.LAYER_TYPE_HARDWARE, GlobalResultsState.DEFAULT,
 						GlobalResultsState.HOTELS);
@@ -602,7 +640,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 				else {
 					setGlobalResultsState(GlobalResultsState.DEFAULT);
 				}
-
 			}
 		}
 	}
