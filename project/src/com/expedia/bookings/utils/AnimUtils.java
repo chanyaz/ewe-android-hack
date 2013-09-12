@@ -87,9 +87,8 @@ public class AnimUtils {
 	}
 
 	/**
-	 * Creates an animation bundle for an Activity scale animation. Returns null if device does not
-	 * have access to the necessary APIs.
-	 * @param v
+	 * Creates an animation bundle for an Activity scale animation.
+	 * @param v - view for animation reference frame
 	 * @return
 	 */
 	public static Bundle createActivityScaleBundle(View v) {
@@ -97,9 +96,8 @@ public class AnimUtils {
 	}
 
 	/**
-	 * Creates an animation bundle for an Activity thumbnail scale animation. Returns null if device does not
-	 * have access to the necessary APIs.
-	 * @param v
+	 * Creates an animation bundle for an Activity thumbnail scale animation.
+	 * @param v - view for animation reference frame
 	 * @return
 	 */
 	public static Bundle createActivityThumbnailScaleBundle(ImageView v) {
