@@ -27,6 +27,8 @@ import com.expedia.bookings.fragment.ItinItemListFragment.ItinItemListFragmentLi
 import com.expedia.bookings.fragment.ItineraryMapFragment;
 import com.expedia.bookings.fragment.ItineraryMapFragment.ItineraryMapFragmentListener;
 import com.expedia.bookings.maps.SupportMapFragment.SupportMapFragmentListener;
+import com.expedia.bookings.notification.Notification;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
@@ -43,7 +45,7 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 
 	public static final int REQUEST_SETTINGS = 1;
 
-	private static final String ARG_JUMP_TO_ITIN_ID = "ARG_JUMP_TO_ITIN_ID";
+	private static final String ARG_JUMP_TO_NOTIFICATION = "ARG_JUMP_TO_NOTIFICATION";
 
 	private static final String STATE_JUMP_TO_ITIN_ID = "STATE_JUMP_TO_ITIN_ID";
 
@@ -79,9 +81,9 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 	 * @param context
 	 * @return
 	 */
-	public static Intent createIntent(Context context, String jumpToItinId) {
+	public static Intent createIntent(Context context, Notification notification) {
 		Intent intent = new Intent(context, ItineraryActivity.class);
-		intent.putExtra(ARG_JUMP_TO_ITIN_ID, jumpToItinId);
+		intent.putExtra(ARG_JUMP_TO_NOTIFICATION, notification.toJson().toString());
 
 		// Even though we don't use the url directly anywhere, Android OS needs a way
 		// to differentiate multiple intents to this same activity.
@@ -146,8 +148,8 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 				mJumpToItinId = savedInstanceState.getString(STATE_JUMP_TO_ITIN_ID);
 			}
 		}
-		else {
-			mJumpToItinId = getIntent().getStringExtra(ARG_JUMP_TO_ITIN_ID);
+		else if (getIntent().hasExtra(ARG_JUMP_TO_NOTIFICATION)) {
+			handleArgJumpToNotification(getIntent());
 		}
 
 		if (!TextUtils.isEmpty(mJumpToItinId)) {
@@ -161,11 +163,43 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
 
-		String jumpToItinId = intent.getStringExtra(ARG_JUMP_TO_ITIN_ID);
-		if (!TextUtils.isEmpty(jumpToItinId)) {
-			mItinListFragment.showItinCard(jumpToItinId, true);
-			showPopupWindow(jumpToItinId, true);
+		if (intent.hasExtra(ARG_JUMP_TO_NOTIFICATION)) {
+			handleArgJumpToNotification(intent);
+			if (!TextUtils.isEmpty(mJumpToItinId)) {
+				mItinListFragment.showItinCard(mJumpToItinId, true);
+				showPopupWindow(mJumpToItinId, true);
+			}
 		}
+
+	}
+
+	/**
+	 * Parses ARG_JUMP_TO_NOTIFICATION out of the intent into a Notification object,
+	 * sets mJumpToItinId.
+	 * This function expects to be called only when this activity is started via
+	 * the given intent (onCreate or onNewIntent) and has side effects that
+	 * rely on that assumption:
+	 * 1. Tracks this incoming intent in Omniture.
+	 * 2. Updates the Notifications table that this notification is dismissed.
+	 *
+	 * *** This is duplicated in LaunchActivity ***
+	 *
+	 * @param intent
+	 */
+	private void handleArgJumpToNotification(Intent intent) {
+		String jsonNotification = intent.getStringExtra(ARG_JUMP_TO_NOTIFICATION);
+		Notification notification = Notification.getInstanceFromJsonString(jsonNotification);
+
+		if (!Notification.hasExisting(notification)) {
+			return;
+		}
+
+		mJumpToItinId = notification.getItinId();
+		OmnitureTracking.trackNotificationClick(this, notification);
+
+		// There's no need to dismiss with the notification manager, since it was set to
+		// auto dismiss when clicked.
+		Notification.dismissExisting(notification);
 	}
 
 	@Override
