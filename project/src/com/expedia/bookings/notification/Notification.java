@@ -467,9 +467,18 @@ public class Notification extends Model implements JSONable {
 	* @param notification
 	*/
 	public static void dismissExisting(Notification notification) {
-		new Update(Notification.class).set("Status=?", StatusType.DISMISSED)
+		List<Notification> notifications = new Select().from(Notification.class)
 				.where("UniqueId=? AND NotificationType=?", notification.mUniqueId, notification.mNotificationType)
 				.execute();
+		for (Notification n : notifications) {
+			n.setStatus(StatusType.DISMISSED);
+			n.save();
+		}
+
+		// TODO: this would be slightly more efficient, but doesn't seem to work. ActiveAndroid bug?
+		//new Update(Notification.class).set("Status=?", StatusType.DISMISSED.toString())
+		//		.where("UniqueId=? AND NotificationType=?", notification.mUniqueId, notification.mNotificationType)
+		//		.execute();
 	}
 
 	/**
