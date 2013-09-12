@@ -8,7 +8,7 @@ import android.view.View;
  * Fragment that can use MeasurableFragmentListener.  Doesn't require that
  * the Activity implements MeasurableFragmentListener (ignores in that case).
  */
-public class MeasurableFragment extends Fragment {
+public class MeasurableFragment extends Fragment implements Measurable {
 
 	private MeasurableFragmentHelper mHelper;
 
@@ -41,6 +41,10 @@ public class MeasurableFragment extends Fragment {
 		mHelper.onDetach();
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// Measurable
+
+	@Override
 	public boolean isMeasurable() {
 		return mHelper.isMeasurable();
 	}

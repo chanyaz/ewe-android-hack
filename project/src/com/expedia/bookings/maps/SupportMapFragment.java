@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
+import com.expedia.bookings.fragment.base.Measurable;
 import com.expedia.bookings.fragment.base.MeasurableFragmentHelper;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,7 +25,7 @@ import com.mobiata.android.util.Ui;
  *
  * Also has some utilities that are useful overall.
  */
-public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFragment {
+public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFragment implements Measurable {
 
 	private SupportMapFragmentListener mListener;
 
@@ -94,10 +95,6 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 	public void onDetach() {
 		super.onDetach();
 		mHelper.onDetach();
-	}
-
-	public boolean isMeasurable() {
-		return mHelper.isMeasurable();
 	}
 
 	protected void onMapLayout() {
@@ -254,6 +251,14 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 		}
 
 		return offsetLatLng;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Measurable
+
+	@Override
+	public boolean isMeasurable() {
+		return mHelper.isMeasurable();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
