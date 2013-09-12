@@ -48,11 +48,11 @@ public class SvgTileProvider implements TileProvider {
 
 	private static final int BASE_TILE_SIZE = 256;
 
-	private Picture mPicture;
+	private Picture mParentPicture;
 
 	public SvgTileProvider(Context context) {
 		SVG mapSvg = SVGParser.getSVGFromResource(context.getResources(), R.raw.wallpaper_bg_night);
-		mPicture = mapSvg.getPicture();
+		mParentPicture = mapSvg.getPicture();
 	}
 
 	@Override
@@ -81,10 +81,12 @@ public class SvgTileProvider implements TileProvider {
 	}
 
 	public class TileGenerator {
+		private Picture mPicture;
 		private Bitmap mBitmap;
 		private ByteArrayOutputStream mStream;
 
 		public TileGenerator() {
+			mPicture = new Picture(mParentPicture);
 			mBitmap = Bitmap.createBitmap(BASE_TILE_SIZE, BASE_TILE_SIZE, Bitmap.Config.ARGB_8888);
 			// TODO - Is this large enough? The png should be smaller but need to check
 			mStream = new ByteArrayOutputStream(BASE_TILE_SIZE * BASE_TILE_SIZE * 4);
