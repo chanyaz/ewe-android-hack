@@ -4,12 +4,15 @@ import java.util.Calendar;
 
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
+import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.utils.HotelsTestDriver;
 import com.expedia.bookings.test.utils.HotelsUserData;
 import com.expedia.bookings.test.utils.TestPreferences;
+import com.mobiata.testutils.CalendarTouchUtils;
 
 public class HotelSearchActionBarTests extends ActivityInstrumentationTestCase2<SearchActivity> {
 
@@ -40,6 +43,12 @@ public class HotelSearchActionBarTests extends ActivityInstrumentationTestCase2<
 		catch (Throwable e) {
 			mDriver.enterLog(TAG, "No sweepstakes activity to interact with!");
 		}
+		mDriver.launchScreen().openMenuDropDown();
+		mDriver.launchScreen().pressSettings();
+		mDriver.settingsScreen().clickToClearPrivateData();
+		mDriver.settingsScreen().clickOKString();
+		mDriver.settingsScreen().clickOKString();
+		mDriver.goBack();
 	}
 
 	// verify that the number shown in the text view
@@ -148,6 +157,47 @@ public class HotelSearchActionBarTests extends ActivityInstrumentationTestCase2<
 				.getText());
 
 		assertEquals(dateOffset, postChangeCalendarTextViewNumber - initialCalendarTextViewNumber);
+	}
+
+	public void testHeaderDateText() throws Exception {
+		mDriver.launchScreen().launchHotels();
+		mDriver.hotelsSearchScreen().clickSearchEditText();
+		mDriver.hotelsSearchScreen().clickToClearSearchEditText();
+		mDriver.hotelsSearchScreen().enterSearchText("New York, NY");
+		mDriver.hotelsSearchScreen().clickOnGuestsButton();
+		mDriver.hotelsSearchScreen().guestPicker().clickOnSearchButton();
+		mDriver.waitForStringToBeGone(mDriver.hotelsSearchScreen().searchingForHotels());
+
+		String dateRangeText = mDriver.hotelsSearchScreen().dateRangeTextView().getText().toString();
+		String tonight = mDriver.getString(R.string.Tonight);
+		assertEquals(dateRangeText, tonight);
+
+		int daysOffset = 1;
+		mDriver.hotelsSearchScreen().clickOnCalendarButton();
+		mDriver.hotelsSearchScreen().clickDate(daysOffset);
+		mDriver.hotelsSearchScreen().clickOnGuestsButton();
+		mDriver.hotelsSearchScreen().guestPicker().clickOnSearchButton();
+		mDriver.waitForStringToBeGone(mDriver.hotelsSearchScreen().searchingForHotels());
+		dateRangeText = mDriver.hotelsSearchScreen().dateRangeTextView().getText().toString();
+		long first = CalendarTouchUtils.getDay(daysOffset).toMillis(false);
+		String firstDay = (String) DateFormat.format("MMM dd", first);
+		long second = CalendarTouchUtils.getDay(daysOffset + 1).toMillis(false);
+		String secondDay = (String) DateFormat.format("MMM dd", second);
+		String range = mRes.getString(R.string.date_range_TEMPLATE, firstDay, secondDay);
+		assertEquals(dateRangeText, range);
+	}
+
+	public void testHeaderPriceInfoText() throws Exception {
+		mDriver.launchScreen().launchHotels();
+		mDriver.hotelsSearchScreen().clickSearchEditText();
+		mDriver.hotelsSearchScreen().clickToClearSearchEditText();
+		mDriver.hotelsSearchScreen().enterSearchText("New York, NY");
+		mDriver.hotelsSearchScreen().clickOnGuestsButton();
+		mDriver.hotelsSearchScreen().guestPicker().clickOnSearchButton();
+		mDriver.waitForStringToBeGone(mDriver.hotelsSearchScreen().searchingForHotels());
+		String priceInfoText = mDriver.hotelsSearchScreen().pricingDescriptionTextView().getText().toString();
+		String expectedText = mRes.getString(R.string.prices_avg_per_night);
+		assertEquals(expectedText, priceInfoText);
 	}
 
 	@Override
