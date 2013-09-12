@@ -78,6 +78,10 @@ public class ResultsHotelsRoomsAndRates extends Fragment {
 			mRoomsAndRatesBottomC.setLayerType(layerType, null);
 		}
 	}
+	
+	public Object getSelectedData(){
+		return "SOME DATA";
+	}
 
 	public Rect getDestinationRect() {
 		int[] currentGlobalLocation = new int[2];

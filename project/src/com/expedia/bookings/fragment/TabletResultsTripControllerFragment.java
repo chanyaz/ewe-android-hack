@@ -120,9 +120,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 			mTripOverviewC.setVisibility(View.VISIBLE);
 			mBlurredBackgroundC.setVisibility(View.VISIBLE);
 			mTripHotelC.setVisibility(View.VISIBLE);
-			if (!mAddingHotelTrip) {
-				mShadeC.setVisibility(View.INVISIBLE);
-			}
+			mShadeC.setVisibility(View.INVISIBLE);
 			break;
 		}
 		default: {
@@ -197,6 +195,10 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		setTouchState(state);
 		setVisibilityState(state);
 		setFragmentState(state);
+
+		if (state == GlobalResultsState.DEFAULT) {
+			mAddingHotelTrip = false;
+		}
 	}
 
 	@Override
@@ -335,7 +337,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 	}
 
 	@Override
-	public void guiElementInPosition() {
+	public void performTripHandoff() {
 		mShadeC.setVisibility(View.VISIBLE);
 		mTripHotelC.setVisibility(View.VISIBLE);
 		mTripHotelC.setAlpha(1f);

@@ -3,6 +3,7 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 
 import com.expedia.bookings.R;
+import com.mobiata.android.Log;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -149,7 +150,10 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 		//our state
 		State saveState = mState;
 		if (saveState == State.TRANSIENT) {
-			float percentage = getScrollDownPercentage();
+			saveState = mPrevState;
+		}
+		float percentage = getScrollDownPercentage();
+		if (saveState == State.TRANSIENT) {
 			if (percentage > mPercentageOfHeaderSpacerOnScreenForSnap) {
 				saveState = State.LIST_CONTENT_AT_BOTTOM;
 			}
@@ -157,6 +161,7 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 				saveState = State.LIST_CONTENT_AT_TOP;
 			}
 		}
+		Log.d("FruitScrollUpListView.onSaveInstanceState() - state:" + saveState.name() + " percentage:" + percentage);
 		state.putString(STATE_STATE, saveState.name());
 		if (saveState == State.LIST_CONTENT_AT_TOP) {
 			//If we are at the top, and the header is shrunk, we want to keep it that way.
@@ -291,13 +296,20 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 	}
 
 	public void setState(State state, boolean forceUpdate, int duration) {
-		mPrevState = mState;
-		mState = state;
+		Log.d("FruitScrollUpListView.setState state:" + state.name() + " prevState:" + mState + " forceUpdate:"
+				+ forceUpdate + " duration:" + duration);
 
-		if (forceUpdate || mPrevState != state) {
-			
-			//If we are smooth scrolling this state will get squashed probably. We may want to rework this a little bit.
-			reportStateChanged(mPrevState, state);
+		if (forceUpdate || mState != state) {
+			mPrevState = mState;
+			mState = state;
+
+			if (duration == 0 || !stateChangeRequiresMove(state)) {
+				//If we are smooth scrolling, this method will be called again when the
+				//list reaches its position, so calling when duration == 0 makes sense,
+				//but if we arent going to actually scroll, we should also report because otherwise
+				//we can get stuck in a strange state....
+				reportStateChanged(mPrevState, state);
+			}
 
 			//If we just moved to bottom state, we must move our header to the top.
 			if (state == State.LIST_CONTENT_AT_BOTTOM) {
@@ -312,8 +324,9 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 	}
 
 	public Pair<Integer, Integer> moveToPosition(int position, int y, int duration) {
+		Log.d("FruitScrollUpListView.moveToPosition position:" + position + " y:" + y + " duration:" + duration);
 		Pair<Integer, Integer> sanePosition = sanatizePosition(position, y);
-		if (duration > 0) {
+		if (duration > 0 && requiresMove(sanePosition)) {
 			mIsSmoothScrolling = true;
 			someUserInteractionHasStarted();
 			smoothScrollToPositionFromTop(sanePosition.first, sanePosition.second, duration);
@@ -322,6 +335,27 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 			setSelectionFromTop(sanePosition.first, sanePosition.second);
 		}
 		return sanePosition;
+	}
+
+	private boolean stateChangeRequiresMove(State state) {
+		if (state == State.LIST_CONTENT_AT_BOTTOM) {
+			return requiresMove(new Pair<Integer, Integer>(0, 0));
+		}
+		else if (state == State.LIST_CONTENT_AT_TOP && getFirstVisiblePosition() == 0) {
+			return requiresMove(new Pair<Integer, Integer>(1, 0));
+		}
+		return false;
+	}
+
+	private boolean requiresMove(Pair<Integer, Integer> posAndOffset) {
+		if (getFirstVisiblePosition() == posAndOffset.first) {
+			if (getChildAt(0).getTop() == posAndOffset.second) {
+				Log.d("JOE: requiresMove - false");
+				return false;
+			}
+		}
+		Log.d("JOE: requiresMove - true");
+		return true;
 	}
 
 	private Pair<Integer, Integer> sanatizePosition(int position, int y) {
@@ -700,17 +734,17 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 	}
 
 	private void someUserInteractionHasStarted() {
-		setState(State.TRANSIENT, false);
+		setState(State.TRANSIENT, true);
 	}
 
 	private void someUserInteractionHasStopped() {
 		if (mState == State.TRANSIENT && !mIsBeingScrolled && !mIsBeingTouched) {
 			float percentage = getScrollDownPercentage();
 			if (percentage > mPercentageOfHeaderSpacerOnScreenForSnap) {
-				setState(State.LIST_CONTENT_AT_BOTTOM, false);
+				setState(State.LIST_CONTENT_AT_BOTTOM, true);
 			}
 			else {
-				setState(State.LIST_CONTENT_AT_TOP, false);
+				setState(State.LIST_CONTENT_AT_TOP, true);
 			}
 
 			if (mHeaderSpacerShrunk) {

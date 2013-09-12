@@ -169,9 +169,9 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		//Add default fragments
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		setBackgroundImageFragmentAvailability(true, transaction);
+		setTripControllerAvailability(true, transaction);
 		setFlightsControllerAvailability(true, transaction);
 		setHotelsControllerAvailability(true, transaction);
-		setTripControllerAvailability(true, transaction);
 		transaction.commit();
 		getSupportFragmentManager().executePendingTransactions();//These must be finished before we continue..
 
@@ -245,6 +245,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	 */
 
 	private void setActionbarColorFromState(GlobalResultsState state) {
+
 		if (state == GlobalResultsState.DEFAULT) {
 			mActionBarBg.setPercentage(0f);
 		}
@@ -618,22 +619,24 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		Log.d("HotelState.onHotelsStateChanged oldState:" + oldState.name() + " newState:" + newState.name()
 				+ " percentage:" + percentage);
 		if (isHotelsListenerEnabled()) {
-			if (newState == com.expedia.bookings.widget.FruitScrollUpListView.State.TRANSIENT) {
-				blockAllNewTouches(requester);
+			if (newState == State.TRANSIENT) {
+				if (oldState != State.TRANSIENT) {
+					blockAllNewTouches(requester);
 
-				//order matters here, because the second will in certain cases squash the first
-				setAnimatingTowardsVisibility(GlobalResultsState.DEFAULT);
-				setAnimatingTowardsVisibility(GlobalResultsState.HOTELS);
+					//order matters here, because the second will in certain cases squash the first
+					setAnimatingTowardsVisibility(GlobalResultsState.DEFAULT);
+					setAnimatingTowardsVisibility(GlobalResultsState.HOTELS);
 
-				setHardwareLayerForTransition(View.LAYER_TYPE_HARDWARE, GlobalResultsState.DEFAULT,
-						GlobalResultsState.HOTELS);
+					setHardwareLayerForTransition(View.LAYER_TYPE_HARDWARE, GlobalResultsState.DEFAULT,
+							GlobalResultsState.HOTELS);
+				}
 
 			}
 			else {
 				setHardwareLayerForTransition(View.LAYER_TYPE_NONE, GlobalResultsState.DEFAULT,
 						GlobalResultsState.HOTELS);
 
-				if (newState == com.expedia.bookings.widget.FruitScrollUpListView.State.LIST_CONTENT_AT_TOP) {
+				if (newState == State.LIST_CONTENT_AT_TOP) {
 					//We have entered this mode...
 					setGlobalResultsState(GlobalResultsState.HOTELS);
 				}
@@ -655,7 +658,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	@Override
 	public void onFlightsStateChanged(State oldState, State newState, float percentage, View requester) {
 		if (isFlightsListenerEnabled()) {
-			if (newState == com.expedia.bookings.widget.FruitScrollUpListView.State.TRANSIENT) {
+			if (newState == State.TRANSIENT) {
 				blockAllNewTouches(requester);
 				setAnimatingTowardsVisibility(GlobalResultsState.DEFAULT);
 				setAnimatingTowardsVisibility(GlobalResultsState.FLIGHTS);
@@ -666,7 +669,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			else {
 				setHardwareLayerForTransition(View.LAYER_TYPE_NONE, GlobalResultsState.DEFAULT,
 						GlobalResultsState.FLIGHTS);
-				if (newState == com.expedia.bookings.widget.FruitScrollUpListView.State.LIST_CONTENT_AT_TOP) {
+				if (newState == State.LIST_CONTENT_AT_TOP) {
 					setGlobalResultsState(GlobalResultsState.FLIGHTS);
 				}
 				else {
@@ -702,9 +705,9 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	}
 
 	@Override
-	public void guiElementInPosition() {
+	public void performTripHandoff() {
 		for (IAddToTripListener listener : mAddToTripListeners) {
-			listener.guiElementInPosition();
+			listener.performTripHandoff();
 		}
 
 	}

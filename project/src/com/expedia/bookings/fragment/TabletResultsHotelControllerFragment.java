@@ -108,7 +108,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 	//Animation
 	private ValueAnimator mHotelsStateAnimator;
 	private HotelsState mDestinationHotelsState;
-	private static final int STATE_CHANGE_ANIMATION_DURATION = 500;
+	private static final int STATE_CHANGE_ANIMATION_DURATION = 300;
 
 	private ArrayList<IResultsHotelSelectedListener> mHotelSelectedListeners = new ArrayList<IResultsHotelSelectedListener>();
 
@@ -231,6 +231,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 		case ADDING_HOTEL_TO_TRIP: {
 			mHotelListFrag.setListLockedToTop(true);
 			setAddToTripPercentage(1f);
+			mParentAddToTripListener.beginAddToTrip(mHotelRoomsAndRatesFrag.getSelectedData(),
+					mHotelRoomsAndRatesFrag.getDestinationRect(), mShadeColor);
 			doAddToTripDownloadStuff();
 			break;
 		}
@@ -675,6 +677,12 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 		switch (state) {
 		case DEFAULT: {
 			mHotelListC.setVisibility(View.VISIBLE);
+			if (mHotelsState == HotelsState.ADDING_HOTEL_TO_TRIP) {
+				//We are adding a trip - this call wont happen until we have handed off our shade and
+				//view to the trip controller, so we set these to invisible so we dont have both on screen
+				mHotelRoomsAndRatesC.setVisibility(View.INVISIBLE);
+				mHotelRoomsAndRatesShadeC.setVisibility(View.INVISIBLE);
+			}
 			break;
 		}
 		case HOTELS: {
@@ -764,7 +772,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 			}
 			else {
 				if (mHotelsState == HotelsState.DEFAULT) {
-					mHotelListFrag.gotoBottomPosition();
+					mHotelListFrag.gotoBottomPosition(STATE_CHANGE_ANIMATION_DURATION);
 					return true;
 				}
 				else if (mHotelsState == HotelsState.DEFAULT_FILTERS) {
@@ -835,28 +843,36 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 	 * IAddToTripListener Functions
 	 */
 
-	private void doAddToTripDownloadStuff() {
-		Runnable runner = new Runnable() {
-			@Override
-			public void run() {
-				if (getActivity() != null) {
-					guiElementInPosition();
-					mHotelListFrag.gotoBottomPosition(STATE_CHANGE_ANIMATION_DURATION);
-				}
-			}
-		};
-		mRootC.postDelayed(runner, 3000);
-	}
-
 	@Override
 	public void beginAddToTrip(Object data, Rect globalCoordinates, int shadeColor) {
-		this.setHotelsState(HotelsState.ADDING_HOTEL_TO_TRIP, true);
-		mParentAddToTripListener.beginAddToTrip(data, globalCoordinates, mShadeColor);
+		setHotelsState(HotelsState.ADDING_HOTEL_TO_TRIP, true);
 	}
 
 	@Override
-	public void guiElementInPosition() {
-		mParentAddToTripListener.guiElementInPosition();
+	public void performTripHandoff() {
+		mParentAddToTripListener.performTripHandoff();
+		mHotelListFrag.gotoBottomPosition(STATE_CHANGE_ANIMATION_DURATION);
+	}
+
+	/**
+	 * ADD TO TRIP DOWNLOAD....
+	 */
+	//NOTE THIS IS JUST A PLACEHOLDER SO THAT WE GET THE FLOW IDEA
+	private Runnable mDownloadRunner;
+
+	private void doAddToTripDownloadStuff() {
+		if (mDownloadRunner == null) {
+			mDownloadRunner = new Runnable() {
+				@Override
+				public void run() {
+					if (getActivity() != null) {
+						performTripHandoff();
+					}
+					mDownloadRunner = null;
+				}
+			};
+			mRootC.postDelayed(mDownloadRunner, 3000);
+		}
 	}
 
 }

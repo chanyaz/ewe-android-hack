@@ -28,7 +28,7 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 
 	private static final String STATE_LIST_STATE = "STATE_LIST_STATE";
 
-	private static final int SMOOTH_SCROLL_DURATION = 100;
+	private static final int SMOOTH_SCROLL_DURATION = 120;
 
 	private FruitScrollUpListView mListView;
 	private ViewGroup mStickyHeader;

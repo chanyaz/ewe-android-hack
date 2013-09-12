@@ -72,7 +72,7 @@ public class ResultsFlightListFragment extends ResultsListFragment {
 
 			@Override
 			public void onClick(View arg0) {
-				ResultsFlightListFragment.this.gotoBottomPosition(300);
+				ResultsFlightListFragment.this.gotoBottomPosition();
 			}
 			
 		};
