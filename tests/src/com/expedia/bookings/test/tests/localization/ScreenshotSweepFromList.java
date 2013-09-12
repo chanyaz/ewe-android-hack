@@ -47,7 +47,7 @@ public class ScreenshotSweepFromList extends
 		mDriver = new HotelsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
 		mUser = new HotelsUserData();
 		mUser.setHotelCityToRandomUSCity();
-		mUser.mBookingServer = "Production";
+		mUser.setBookingServer("Production");
 	}
 
 	////////////////////////////////////////////////////////////////

@@ -32,7 +32,7 @@ public class IntegrationHappyPath extends ActivityInstrumentationTestCase2<Searc
 		mDriver = new HotelsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
 		mUser = new HotelsUserData();
 		mUser.setHotelCityToRandomUSCity();
-		mUser.mBookingServer = "Integration";
+		mUser.setBookingServer("Integration");
 	}
 
 	// This test goes through a prototypical hotel booking

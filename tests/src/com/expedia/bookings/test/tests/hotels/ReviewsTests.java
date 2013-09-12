@@ -49,7 +49,7 @@ public class ReviewsTests extends ActivityInstrumentationTestCase2<SearchActivit
 		mDriver.launchScreen().launchHotels();
 		mDriver.hotelsSearchScreen().clickSearchEditText();
 		mDriver.hotelsSearchScreen().clickToClearSearchEditText();
-		mDriver.hotelsSearchScreen().enterSearchText(mUser.mHotelSearchCity);
+		mDriver.hotelsSearchScreen().enterSearchText(mUser.getHotelSearchCity());
 		mDriver.hotelsSearchScreen().selectHotelFromList(0);
 		mDriver.waitForStringToBeGone(mDriver.hotelsSearchScreen().searchingForHotels());
 
@@ -97,7 +97,7 @@ public class ReviewsTests extends ActivityInstrumentationTestCase2<SearchActivit
 		mDriver.launchScreen().launchHotels();
 		mDriver.hotelsSearchScreen().clickSearchEditText();
 		mDriver.hotelsSearchScreen().clickToClearSearchEditText();
-		mDriver.hotelsSearchScreen().enterSearchText(mUser.mHotelSearchCity);
+		mDriver.hotelsSearchScreen().enterSearchText(mUser.getHotelSearchCity());
 		mDriver.clickInList(1);
 		mDriver.waitForStringToBeGone(mDriver.hotelsSearchScreen().searchingForHotels());
 		mDriver.hotelsSearchScreen().selectHotelFromList(1);

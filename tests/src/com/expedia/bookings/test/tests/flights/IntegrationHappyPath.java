@@ -37,7 +37,7 @@ public class IntegrationHappyPath extends ActivityInstrumentationTestCase2<Searc
 	// It runs pulling from the Integration API
 
 	public void testMethod() throws Exception {
-		mUser.mServerName = "Integration";
+		mUser.setBookingServer("Integration");
 		FlightsHappyPath.execute(mDriver, mUser);
 	}
 

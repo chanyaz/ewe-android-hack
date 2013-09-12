@@ -33,11 +33,11 @@ public class HotelsHappyPath {
 			driver.launchScreen().pressSettings();
 			driver.settingsScreen().clickSelectAPIString();
 			driver.settingsScreen().scrollUp();
-			driver.settingsScreen().clickOnText(user.mServerName);
-			if (user.mServerName.equals("Proxy") || user.mServerName.equals("Mock Server")) {
+			driver.settingsScreen().clickOnText(user.getBookingServer());
+			if (user.getBookingServer().equals("Proxy") || user.getBookingServer().equals("Mock Server")) {
 				driver.settingsScreen().clickServerProxyAddressString();
 				driver.settingsScreen().clearServerEditText();
-				driver.settingsScreen().enterServerText(user.mProxyIP + ":" + user.mProxyPort);
+				driver.settingsScreen().enterServerText(user.getServerIP() + ":" + user.getServerPort());
 				driver.settingsScreen().clickOKString();
 			}
 			driver.settingsScreen().goBack();
@@ -55,7 +55,7 @@ public class HotelsHappyPath {
 			driver.portrait();
 			driver.hotelsSearchScreen().clickSearchEditText();
 			driver.hotelsSearchScreen().clickToClearSearchEditText();
-			driver.hotelsSearchScreen().enterSearchText(user.mHotelSearchCity);
+			driver.hotelsSearchScreen().enterSearchText(user.getHotelSearchCity());
 			driver.clickInList(1);
 
 			// Calendar
@@ -127,12 +127,12 @@ public class HotelsHappyPath {
 
 			// Checkout
 			driver.commonCheckout().clickCheckoutButton();
-			if (user.mLogInForCheckout) {
+			if (user.getLogInForCheckout()) {
 				// Log in
 				driver.commonCheckout().clickLogInButton();
 				driver.screenshot("Login Screen");
-				driver.logInScreen().typeTextEmailEditText(user.mLoginEmail);
-				driver.logInScreen().typeTextPasswordEditText(user.mLoginPassword);
+				driver.logInScreen().typeTextEmailEditText(user.getLoginEmail());
+				driver.logInScreen().typeTextPasswordEditText(user.getLoginPassword());
 				driver.logInScreen().clickOnLoginButton();
 				driver.waitForStringToBeGone(driver.logInScreen().loggingInDialogString());
 
@@ -143,9 +143,9 @@ public class HotelsHappyPath {
 				driver.screenshot("Card info");
 				driver.landscape();
 				driver.portrait();
-				driver.cardInfoScreen().typeTextCreditCardEditText(user.mCreditCardNumber);
-				driver.billingAddressScreen().typeTextPostalCode(user.mZIPCode);
-				driver.cardInfoScreen().typeTextNameOnCardEditText(user.mFirstName + " " + user.mLastName);
+				driver.cardInfoScreen().typeTextCreditCardEditText(user.getCreditCardNumber());
+				driver.billingAddressScreen().typeTextPostalCode(user.getAddressPostalCode());
+				driver.cardInfoScreen().typeTextNameOnCardEditText(user.getFirstName() + " " + user.getLastName());
 				driver.cardInfoScreen().clickOnExpirationDateButton();
 				driver.delay(1);
 				driver.screenshot("Expiration date fragment");
@@ -167,9 +167,9 @@ public class HotelsHappyPath {
 				driver.screenshot("Traveler information");
 				driver.landscape();
 				driver.portrait();
-				driver.travelerInformationScreen().enterFirstName(user.mFirstName);
-				driver.travelerInformationScreen().enterLastName(user.mLastName);
-				driver.travelerInformationScreen().enterPhoneNumber(user.mPhoneNumber);
+				driver.travelerInformationScreen().enterFirstName(user.getFirstName());
+				driver.travelerInformationScreen().enterLastName(user.getLastName());
+				driver.travelerInformationScreen().enterPhoneNumber(user.getPhoneNumber());
 				driver.travelerInformationScreen().clickDoneButton();
 
 				// Select payment as guest user
@@ -177,7 +177,7 @@ public class HotelsHappyPath {
 				driver.screenshot("Card info");
 				driver.landscape();
 				driver.portrait();
-				driver.cardInfoScreen().typeTextCreditCardEditText(user.mCreditCardNumber);
+				driver.cardInfoScreen().typeTextCreditCardEditText(user.getCreditCardNumber());
 				driver.cardInfoScreen().clickOnExpirationDateButton();
 				driver.delay(1);
 				driver.screenshot("Credit card expiration fragment");
@@ -186,9 +186,9 @@ public class HotelsHappyPath {
 				driver.cardInfoScreen().clickMonthUpButton();
 				driver.cardInfoScreen().clickYearUpButton();
 				driver.cardInfoScreen().clickSetButton();
-				driver.cardInfoScreen().typeTextPostalCode(user.mZIPCode);
-				driver.cardInfoScreen().typeTextNameOnCardEditText(user.mFirstName + " " + user.mLastName);
-				driver.cardInfoScreen().typeTextEmailEditText(user.mLoginEmail);
+				driver.cardInfoScreen().typeTextPostalCode(user.getAddressPostalCode());
+				driver.cardInfoScreen().typeTextNameOnCardEditText(user.getFirstName() + " " + user.getLastName());
+				driver.cardInfoScreen().typeTextEmailEditText(user.getLoginEmail());
 				driver.cardInfoScreen().clickOnDoneButton();
 			}
 
@@ -207,7 +207,7 @@ public class HotelsHappyPath {
 
 			// CVV Entry
 			driver.screenshot("CVV Entry");
-			driver.cvvEntryScreen().parseAndEnterCVV(user.mCCV);
+			driver.cvvEntryScreen().parseAndEnterCVV(user.getCCV());
 			driver.cvvEntryScreen().clickBookButton();
 			driver.delay(1);
 			driver.waitForStringToBeGone(driver.cvvEntryScreen().booking());

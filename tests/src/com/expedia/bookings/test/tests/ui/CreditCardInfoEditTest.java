@@ -51,7 +51,7 @@ public class CreditCardInfoEditTest extends ActivityInstrumentationTestCase2<Hot
 		mDriver.cardInfoScreen().clickMonthUpButton();
 		mDriver.cardInfoScreen().clickYearUpButton();
 		mDriver.cardInfoScreen().clickSetButton();
-		mDriver.cardInfoScreen().typeTextNameOnCardEditText(mUser.mFirstName + " " + mUser.mLastName);
+		mDriver.cardInfoScreen().typeTextNameOnCardEditText(mUser.getFirstName() + " " + mUser.getLastName());
 		mDriver.cardInfoScreen().clickOnDoneButton();
 	}
 
@@ -61,9 +61,9 @@ public class CreditCardInfoEditTest extends ActivityInstrumentationTestCase2<Hot
 		mDriver.cardInfoScreen().clickOnExpirationDateButton();
 		mDriver.cardInfoScreen().clickSetButton();
 
-		mDriver.cardInfoScreen().typeTextNameOnCardEditText(mUser.mFirstName + " " + mUser.mLastName);
-		mDriver.cardInfoScreen().typeTextPostalCode(mUser.mZIPCode);
-		mDriver.cardInfoScreen().typeTextEmailEditText(mUser.mLoginEmail);
+		mDriver.cardInfoScreen().typeTextNameOnCardEditText(mUser.getFirstName() + " " + mUser.getLastName());
+		mDriver.cardInfoScreen().typeTextPostalCode(mUser.getAddressPostalCode());
+		mDriver.cardInfoScreen().typeTextEmailEditText(mUser.getLoginEmail());
 		mDriver.cardInfoScreen().clickOnDoneButton();
 
 		//If a pop up appears asking to save billing info, then the

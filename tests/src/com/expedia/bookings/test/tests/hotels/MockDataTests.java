@@ -6,6 +6,7 @@ import android.util.DisplayMetrics;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity;
+import com.expedia.bookings.test.utils.ConfigFileUtils;
 import com.expedia.bookings.test.utils.HotelsTestDriver;
 import com.expedia.bookings.test.utils.HotelsUserData;
 import com.expedia.bookings.test.utils.TestPreferences;
@@ -18,17 +19,12 @@ public class MockDataTests extends ActivityInstrumentationTestCase2<SearchActivi
 
 	private static final String TAG = "Mock Data Tests";
 
-	// SF-slave-android-3 is perpetually running E3MockServer at this IP
-	// TODO - Pull this data from external source, so other folks can run it
-	private static final String SERVER_NAME = "Mock Server";
-	private static final String SERVER_IP = "172.17.249.246";
-	private static final String SERVER_PORT = "3000";
-
 	private Resources mRes;
 	DisplayMetrics mMetric;
 	private HotelsTestDriver mDriver;
 	private HotelsUserData mUser;
 	private TestPreferences mPreferences;
+	private ConfigFileUtils mConfigFileUtils;
 
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -38,10 +34,11 @@ public class MockDataTests extends ActivityInstrumentationTestCase2<SearchActivi
 		mPreferences.setScreenshotPermission(false);
 		mDriver = new HotelsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
 		mUser = new HotelsUserData();
+		mConfigFileUtils = new ConfigFileUtils();
 
-		mUser.mBookingServer = SERVER_NAME;
-		mUser.mProxyIP = SERVER_IP;
-		mUser.mProxyPort = SERVER_PORT;
+		mUser.setBookingServer("Mock Server");
+		mUser.setServerIP(mConfigFileUtils.getConfigValue("Mock Server IP"));
+		mUser.setServerPort(mConfigFileUtils.getConfigValue("Mock Server Port"));
 
 		try {
 			mDriver.sweepstakesScreen().clickNoThanksButton();
@@ -57,14 +54,13 @@ public class MockDataTests extends ActivityInstrumentationTestCase2<SearchActivi
 		mDriver.settingsScreen().clickOKString();
 
 		mDriver.settingsScreen().clickSelectAPIString();
-		mDriver.settingsScreen().clickOnText(SERVER_NAME);
+		mDriver.settingsScreen().clickOnText(mUser.getBookingServer());
 		mDriver.settingsScreen().clickServerProxyAddressString();
 		mDriver.settingsScreen().clearServerEditText();
-		mDriver.settingsScreen().enterServerText("172.17.249.246" + ":" + SERVER_PORT);
+		mDriver.settingsScreen().enterServerText(mUser.getServerIP() + ":" + mUser.getServerPort());
 		mDriver.settingsScreen().clickOKString();
 
 		mDriver.settingsScreen().goBack();
-
 	}
 
 	// Verify that hotel room with raised price shows proper error message
@@ -72,7 +68,7 @@ public class MockDataTests extends ActivityInstrumentationTestCase2<SearchActivi
 		mDriver.launchScreen().launchHotels();
 		mDriver.hotelsSearchScreen().clickSearchEditText();
 		mDriver.hotelsSearchScreen().clickToClearSearchEditText();
-		mDriver.hotelsSearchScreen().enterSearchText(mUser.mHotelSearchCity);
+		mDriver.hotelsSearchScreen().enterSearchText(mUser.getHotelSearchCity());
 		mDriver.hotelsSearchScreen().clickInList(1);
 		mDriver.waitForStringToBeGone(mDriver.hotelsSearchScreen().searchingForHotels());
 		mDriver.clickOnText("rateup");
@@ -92,7 +88,7 @@ public class MockDataTests extends ActivityInstrumentationTestCase2<SearchActivi
 		mDriver.launchScreen().launchHotels();
 		mDriver.hotelsSearchScreen().clickSearchEditText();
 		mDriver.hotelsSearchScreen().clickToClearSearchEditText();
-		mDriver.hotelsSearchScreen().enterSearchText(mUser.mHotelSearchCity);
+		mDriver.hotelsSearchScreen().enterSearchText(mUser.getHotelSearchCity());
 		mDriver.hotelsSearchScreen().clickInList(1);
 		mDriver.waitForStringToBeGone(mDriver.hotelsSearchScreen().searchingForHotels());
 		mDriver.clickOnText("ratedown");
@@ -112,7 +108,7 @@ public class MockDataTests extends ActivityInstrumentationTestCase2<SearchActivi
 		mDriver.launchScreen().launchHotels();
 		mDriver.hotelsSearchScreen().clickSearchEditText();
 		mDriver.hotelsSearchScreen().clickToClearSearchEditText();
-		mDriver.hotelsSearchScreen().enterSearchText(mUser.mHotelSearchCity);
+		mDriver.hotelsSearchScreen().enterSearchText(mUser.getHotelSearchCity());
 		mDriver.hotelsSearchScreen().clickInList(1);
 		mDriver.waitForStringToBeGone(mDriver.hotelsSearchScreen().searchingForHotels());
 		mDriver.clickOnText("no_rooms");
@@ -135,7 +131,7 @@ public class MockDataTests extends ActivityInstrumentationTestCase2<SearchActivi
 		mDriver.launchScreen().launchHotels();
 		mDriver.hotelsSearchScreen().clickSearchEditText();
 		mDriver.hotelsSearchScreen().clickToClearSearchEditText();
-		mDriver.hotelsSearchScreen().enterSearchText(mUser.mHotelSearchCity);
+		mDriver.hotelsSearchScreen().enterSearchText(mUser.getHotelSearchCity());
 		mDriver.hotelsSearchScreen().clickInList(1);
 		mDriver.waitForStringToBeGone(mDriver.hotelsSearchScreen().searchingForHotels());
 		mDriver.clickOnText("multi_room_unavailable");
