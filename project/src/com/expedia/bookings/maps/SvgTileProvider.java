@@ -28,7 +28,11 @@ import com.mobiata.android.Log;
 
 public class SvgTileProvider implements TileProvider {
 	public static void addToMap(Context context, GoogleMap map) {
-		map.addTileOverlay(new TileOverlayOptions().tileProvider(new SvgTileProvider(context)));
+		if (!sTileProvider.isInitialized()) {
+			sTileProvider.init(context);
+		}
+
+		map.addTileOverlay(new TileOverlayOptions().tileProvider(sTileProvider));
 		map.setMapType(GoogleMap.MAP_TYPE_NONE);
 		map.setMyLocationEnabled(false);
 
@@ -43,16 +47,23 @@ public class SvgTileProvider implements TileProvider {
 		//settings.setZoomGesturesEnabled(false);
 	}
 
+	private static final SvgTileProvider sTileProvider = new SvgTileProvider();
+
 	private final ConcurrentLinkedQueue<TileGenerator> mPool = new ConcurrentLinkedQueue<TileGenerator>();
 	private static final int POOL_MAX_SIZE = 10;
 
 	private static final int BASE_TILE_SIZE = 256;
-
 	private Picture mParentPicture;
+	private boolean mInitialized = false;
 
-	public SvgTileProvider(Context context) {
+	public void init(Context context) {
 		SVG mapSvg = SVGParser.getSVGFromResource(context.getResources(), R.raw.wallpaper_bg_night);
 		mParentPicture = mapSvg.getPicture();
+		mInitialized = true;
+	}
+
+	public boolean isInitialized() {
+		return mInitialized;
 	}
 
 	@Override
