@@ -105,7 +105,7 @@ public class HotelsSearchRegressionTests extends ActivityInstrumentationTestCase
 		mDriver.launchScreen().launchHotels();
 		mDriver.hotelsSearchScreen().clickSearchEditText();
 		mDriver.hotelsSearchScreen().clickToClearSearchEditText();
-		mDriver.hotelsSearchScreen().enterSearchText("Moline, IL");
+		mDriver.hotelsSearchScreen().enterSearchText("Everglades, FL");
 		mDriver.hotelsSearchScreen().clickOnGuestsButton();
 		for (int i = 0; i < 6; i++) {
 			mDriver.hotelsSearchScreen().guestPicker().clickIncrementAdultsButton();
