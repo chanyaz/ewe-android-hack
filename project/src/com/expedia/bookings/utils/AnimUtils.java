@@ -3,10 +3,9 @@ package com.expedia.bookings.utils;
 import java.util.Collection;
 import java.util.Stack;
 
-import android.app.ActivityOptions;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -94,12 +93,7 @@ public class AnimUtils {
 	 * @return
 	 */
 	public static Bundle createActivityScaleBundle(View v) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-			return ActivityOptions.makeScaleUpAnimation(v, 0, 0, v.getWidth(), v.getHeight()).toBundle();
-		}
-		else {
-			return null;
-		}
+		return ActivityOptionsCompat.makeScaleUpAnimation(v, 0, 0, v.getWidth(), v.getHeight()).toBundle();
 	}
 
 	/**
@@ -109,14 +103,9 @@ public class AnimUtils {
 	 * @return
 	 */
 	public static Bundle createActivityThumbnailScaleBundle(ImageView v) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-			BitmapDrawable drawable = (BitmapDrawable) v.getDrawable();
-			Bitmap bm = drawable.getBitmap();
-			return ActivityOptions.makeThumbnailScaleUpAnimation(v, bm, 0, 0).toBundle();
-		}
-		else {
-			return null;
-		}
+		BitmapDrawable drawable = (BitmapDrawable) v.getDrawable();
+		Bitmap bm = drawable.getBitmap();
+		return ActivityOptionsCompat.makeThumbnailScaleUpAnimation(v, bm, 0, 0).toBundle();
 	}
 
 }
