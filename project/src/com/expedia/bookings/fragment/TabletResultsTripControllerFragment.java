@@ -16,10 +16,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.FrameLayout.LayoutParams;
 
 /**
  *  TabletResultsTripControllerFragment: designed for tablet results 2013
@@ -37,7 +39,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 	private ViewGroup mRootC;
 	private BlockEventFrameLayout mTripOverviewC;
-	private BlockEventFrameLayout mTripHotelC;
+	private BlockEventFrameLayout mTripAnimationC;
 	private FixedTranslationFrameLayout mBlurredBackgroundC;
 	private BlockEventFrameLayout mShadeC;
 
@@ -50,8 +52,8 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 	private int mAddHotelsStartingTranslationX = 0;
 	private int mAddHotelStartingTranslationY = 0;
-	private float mAddHotelStartingScaleX = 1f;
-	private float mAddHotelStartingScaleY = 1f;
+	private float mAddTripEndScaleX = 1f;
+	private float mAddTripEndScaleY = 1f;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -67,7 +69,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		mRootC = Ui.findView(view, R.id.root_layout);
 		mTripOverviewC = Ui.findView(view, R.id.column_three_trip_pane);
 		mBlurredBackgroundC = Ui.findView(view, R.id.column_three_blurred_bg);
-		mTripHotelC = Ui.findView(view, R.id.column_three_trip_hotel);
+		mTripAnimationC = Ui.findView(view, R.id.trip_add_animation_view);
 		mShadeC = Ui.findView(view, R.id.column_one_shade);
 
 		return view;
@@ -103,12 +105,12 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		switch (state) {
 		case DEFAULT: {
 			mTripOverviewC.setBlockNewEventsEnabled(false);
-			mTripHotelC.setBlockNewEventsEnabled(false);
+			mTripAnimationC.setBlockNewEventsEnabled(false);
 			break;
 		}
 		default: {
 			mTripOverviewC.setBlockNewEventsEnabled(true);
-			mTripHotelC.setBlockNewEventsEnabled(true);
+			mTripAnimationC.setBlockNewEventsEnabled(true);
 			break;
 		}
 		}
@@ -119,14 +121,14 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		case DEFAULT: {
 			mTripOverviewC.setVisibility(View.VISIBLE);
 			mBlurredBackgroundC.setVisibility(View.VISIBLE);
-			mTripHotelC.setVisibility(View.VISIBLE);
+			mTripAnimationC.setVisibility(View.INVISIBLE);
 			mShadeC.setVisibility(View.INVISIBLE);
 			break;
 		}
 		default: {
 			mTripOverviewC.setVisibility(View.INVISIBLE);
 			mBlurredBackgroundC.setVisibility(View.INVISIBLE);
-			mTripHotelC.setVisibility(View.INVISIBLE);
+			mTripAnimationC.setVisibility(View.INVISIBLE);
 			mShadeC.setVisibility(View.INVISIBLE);
 			break;
 		}
@@ -198,6 +200,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 		if (state == GlobalResultsState.DEFAULT) {
 			mAddingHotelTrip = false;
+			mTripAnimationC.removeAllViews();
 		}
 	}
 
@@ -205,8 +208,10 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 	public void setAnimatingTowardsVisibility(GlobalResultsState state) {
 		if (state == GlobalResultsState.DEFAULT) {
 			mTripOverviewC.setVisibility(View.VISIBLE);
-			mTripHotelC.setVisibility(View.VISIBLE);
 			mBlurredBackgroundC.setVisibility(View.VISIBLE);
+			if (mAddingHotelTrip) {
+				mTripAnimationC.setVisibility(View.VISIBLE);
+			}
 		}
 	}
 
@@ -218,7 +223,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 			mTripOverviewC.setLayerType(layerType, null);
 			mBlurredBackgroundC.setLayerType(layerType, null);
-			mTripHotelC.setLayerType(layerType, null);
+			mTripAnimationC.setLayerType(layerType, null);
 			mShadeC.setLayerType(layerType, null);
 
 		}
@@ -229,7 +234,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 			mTripOverviewC.setLayerType(layerType, null);
 			mBlurredBackgroundC.setLayerType(layerType, null);
-			mTripHotelC.setLayerType(layerType, null);
+			mTripAnimationC.setLayerType(layerType, null);
 		}
 	}
 
@@ -238,8 +243,8 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		if (mTripOverviewC != requester) {
 			mTripOverviewC.setBlockNewEventsEnabled(true);
 		}
-		if (mTripHotelC != requester) {
-			mTripHotelC.setBlockNewEventsEnabled(true);
+		if (mTripAnimationC != requester) {
+			mTripAnimationC.setBlockNewEventsEnabled(true);
 		}
 	}
 
@@ -248,24 +253,30 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 		mTripOverviewC.setTranslationX(colTwoDist * (1f - percentage));
 		mBlurredBackgroundC.setTranslationX(colTwoDist * (1f - percentage));
-
-		if (!addingTrip) {
-			mTripHotelC.setTranslationX(colTwoDist * (1f - percentage));
-		}
 	}
 
-	private void addHotelsPercentage(float percentage) {
+	private void addTripPercentage(float percentage) {
 
-		if (mAddingHotelTrip) {
+		if (mAddingHotelTrip || mAddingFlightTrip) {
 
-			mTripHotelC.setTranslationX((1f - percentage) * mAddHotelsStartingTranslationX);
-			mTripHotelC.setTranslationY((1f - percentage) * mAddHotelStartingTranslationY);
-			mTripHotelC.setScaleX(1f + ((mAddHotelStartingScaleX - 1f) * (1f - percentage)));
-			mTripHotelC.setScaleY(1f + ((mAddHotelStartingScaleY - 1f) * (1f - percentage)));
+			//Translate
+			mTripAnimationC.setTranslationX((1f - percentage) * mAddHotelsStartingTranslationX);
+			mTripAnimationC.setTranslationY((1f - percentage) * mAddHotelStartingTranslationY);
+
+			//Scale
+			float maxX = Math.max(1f, mAddTripEndScaleX);
+			float minX = Math.min(1f, mAddTripEndScaleX);
+			float maxY = Math.max(1f, mAddTripEndScaleY);
+			float minY = Math.min(1f, mAddTripEndScaleY);
+			mTripAnimationC.setScaleX(maxX - percentage * (maxX - minX));
+			mTripAnimationC.setScaleY(maxY - percentage * (maxY - minY));
+
+			//Alpha
 			mShadeC.setAlpha(1f - percentage);
 
 			if (percentage == 1f && mGlobalState == GlobalResultsState.DEFAULT) {
 				mAddingHotelTrip = false;
+				mAddingFlightTrip = false;
 			}
 		}
 	}
@@ -278,7 +289,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 	@Override
 	public void animateToHotelsPercentage(float percentage) {
 		animateToPercentage(percentage, mAddingHotelTrip);
-		addHotelsPercentage(percentage);
+		addTripPercentage(percentage);
 	}
 
 	@Override
@@ -287,14 +298,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 		mColumnManager.setContainerToColumn(mTripOverviewC, 2);
 		mColumnManager.setContainerToColumn(mBlurredBackgroundC, 2);
-		mColumnManager.setContainerToColumn(mTripHotelC, 2);
-
-		//Update where the hotel trip goes. This should probably be controlled by the ResultsTripOverview fragment...
-		if (mTripHotelC != null) {
-			((FrameLayout.LayoutParams) mTripHotelC.getLayoutParams()).topMargin = mRootC.getHeight()
-					- mTripHotelC.getHeight();
-			mTripHotelC.setLayoutParams(mTripHotelC.getLayoutParams());
-		}
+		mColumnManager.setContainerToColumn(mTripAnimationC, 2);
 	}
 
 	@Override
@@ -308,29 +312,50 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 	@Override
 	public void beginAddToTrip(Object data, Rect globalCoordinates, int shadeColor) {
+		//Get global coordinates
 		int[] rootGlobalPos = new int[2];
 		mRootC.getLocationOnScreen(rootGlobalPos);
 
-		int globalLeft = rootGlobalPos[0] + mTripHotelC.getLeft();
-		int globalTop = rootGlobalPos[1] + mTripHotelC.getTop();
+		//TODO: determine flights or hotels based on data.
+		Rect destRect = mTripOverviewFrag.getHotelContainerRect();
+		int[] destPos = mTripOverviewFrag.getHotelLocationOnScreen();
+
+		//Do calculations
+		int originWidth = globalCoordinates.right - globalCoordinates.left;
+		int originHeight = globalCoordinates.bottom - globalCoordinates.top;
+		int destTop = destPos[1] - rootGlobalPos[1];
+		int destLeft = mColumnManager.getColLeft(2);
+		int destWidth = destRect.right - destRect.left;
+		int destHeight = destRect.bottom - destRect.top;
+		int globalLeft = rootGlobalPos[0] + destLeft;
+		int globalTop = rootGlobalPos[1] + destTop;
+
+		//Position the view where it will be ending up, but sized as it will be starting...
+		LayoutParams params = (LayoutParams) mTripAnimationC.getLayoutParams();
+		params.leftMargin = destLeft;
+		params.topMargin = destTop;
+		params.width = originWidth;
+		params.height = originHeight;
+		mTripAnimationC.setLayoutParams(params);
+		//TODO: determine flights or hotels based on data.
+		mTripAnimationC.addView(mTripOverviewFrag.getHotelViewForAddTrip(), LayoutParams.MATCH_PARENT,
+				LayoutParams.MATCH_PARENT);
+
+		//Set animation vars
 		mAddHotelsStartingTranslationX = globalCoordinates.left - globalLeft;
 		mAddHotelStartingTranslationY = globalCoordinates.top - globalTop;
-		int destWidth = globalCoordinates.right - globalCoordinates.left;
-		int destHeight = globalCoordinates.bottom - globalCoordinates.top;
-		float scaleMultX = (float) destWidth / mTripHotelC.getWidth();
-		float scaleMultY = (float) destHeight / mTripHotelC.getHeight();
+		mAddTripEndScaleX = (float) destWidth / originWidth;
+		mAddTripEndScaleY = (float) destHeight / originHeight;
 
-		mTripHotelC.setAlpha(0f);
-		mTripHotelC.setVisibility(View.VISIBLE);
-		mTripHotelC.setPivotX(0);
-		mTripHotelC.setPivotY(0);
-		mTripHotelC.setTranslationX(mAddHotelsStartingTranslationX);
-		mTripHotelC.setTranslationY(mAddHotelStartingTranslationY);
-		mTripHotelC.setScaleX(scaleMultX);
-		mTripHotelC.setScaleY(scaleMultY);
-
-		mAddHotelStartingScaleX = mTripHotelC.getScaleX();
-		mAddHotelStartingScaleY = mTripHotelC.getScaleY();
+		//Set initial values
+		mTripAnimationC.setAlpha(0f);
+		mTripAnimationC.setVisibility(View.VISIBLE);
+		mTripAnimationC.setPivotX(0);
+		mTripAnimationC.setPivotY(0);
+		mTripAnimationC.setScaleX(1f);
+		mTripAnimationC.setScaleY(1f);
+		mTripAnimationC.setTranslationX(mAddHotelsStartingTranslationX);
+		mTripAnimationC.setTranslationY(mAddHotelStartingTranslationY);
 
 		mShadeC.setBackgroundColor(shadeColor);
 		mAddingHotelTrip = true;
@@ -339,8 +364,8 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 	@Override
 	public void performTripHandoff() {
 		mShadeC.setVisibility(View.VISIBLE);
-		mTripHotelC.setVisibility(View.VISIBLE);
-		mTripHotelC.setAlpha(1f);
+		mTripAnimationC.setVisibility(View.VISIBLE);
+		mTripAnimationC.setAlpha(1f);
 		mShadeC.setAlpha(1f);
 	}
 

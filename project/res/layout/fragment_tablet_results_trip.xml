@@ -20,9 +20,8 @@
         android:layout_height="match_parent" />
 
     <com.expedia.bookings.widget.BlockEventFrameLayout
-        android:id="@+id/column_three_trip_hotel"
+        android:id="@+id/trip_add_animation_view"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="#FFFF00" />
+        android:layout_height="0dp" />
 
 </FrameLayout>

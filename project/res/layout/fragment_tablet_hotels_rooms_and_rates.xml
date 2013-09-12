@@ -8,8 +8,8 @@
         android:id="@+id/rooms_and_rates_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="top"
         android:layout_margin="64dp"
+        android:gravity="top"
         android:orientation="vertical" >
 
         <FrameLayout
@@ -20,7 +20,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:background="#FFFF00"
+                android:background="#FF0000"
                 android:gravity="center"
                 android:text="Hotel Image" />
         </FrameLayout>
@@ -33,7 +33,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#FF0000"
+                android:background="#FFFF00"
                 android:gravity="center"
                 android:text="Rooms &amp; Rates" />
         </FrameLayout>
