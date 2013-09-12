@@ -25,7 +25,6 @@ import android.widget.TextView;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
-import com.expedia.bookings.animation.AnimatorListenerShort;
 import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -39,6 +38,7 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.CalendarAPIUtils;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.animation.ValueAnimator;
@@ -498,7 +498,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		if (mHeaderShadeView.getVisibility() != View.GONE) {
 			if (animate) {
 				ObjectAnimator shadeAnim = ObjectAnimator.ofFloat(mHeaderShadeView, "alpha", 1f).setDuration(400);
-				shadeAnim.addListener(new AnimatorListenerShort() {
+				shadeAnim.addListener(new AnimatorListenerAdapter() {
 					@Override
 					public void onAnimationEnd(Animator arg0) {
 						ViewHelper.setAlpha(mItinTypeImageView, 1f);
@@ -523,7 +523,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 					Animator typeImageAnimator = ObjectAnimator
 							.ofFloat(mItinTypeImageView, "alpha", 1)
 							.setDuration(400);
-					typeImageAnimator.addListener(new AnimatorListenerShort() {
+					typeImageAnimator.addListener(new AnimatorListenerAdapter() {
 						@Override
 						public void onAnimationStart(Animator arg0) {
 							mItinTypeImageView.setVisibility(View.VISIBLE);
@@ -546,7 +546,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 			else {
 				if (animate) {
 					ValueAnimator dummy = ValueAnimator.ofInt(0, 1).setDuration(300);
-					dummy.addListener(new AnimatorListenerShort() {
+					dummy.addListener(new AnimatorListenerAdapter() {
 						@Override
 						public void onAnimationEnd(Animator arg0) {
 							ViewHelper.setAlpha(mItinTypeImageView, 1f);
@@ -607,7 +607,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		if (animate) {
 			AnimatorSet set = new AnimatorSet();
 			set.playTogether(animators);
-			set.addListener(new AnimatorListenerShort() {
+			set.addListener(new AnimatorListenerAdapter() {
 				@Override
 				public void onAnimationEnd(Animator arg0) {
 					finishCollapse();
@@ -707,7 +707,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		if (mHeaderShadeView.getVisibility() != View.GONE) {
 			if (animate) {
 				ObjectAnimator shadeAnim = ObjectAnimator.ofFloat(mHeaderShadeView, "alpha", 0f).setDuration(400);
-				shadeAnim.addListener(new AnimatorListenerShort() {
+				shadeAnim.addListener(new AnimatorListenerAdapter() {
 
 					@Override
 					public void onAnimationStart(Animator arg0) {
@@ -730,7 +730,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 				ObjectAnimator itinTypeImageAlphaAnimator = ObjectAnimator
 						.ofFloat(mItinTypeImageView, "alpha", 0)
 						.setDuration(200);
-				itinTypeImageAlphaAnimator.addListener(new AnimatorListenerShort() {
+				itinTypeImageAlphaAnimator.addListener(new AnimatorListenerAdapter() {
 					@Override
 					public void onAnimationEnd(Animator animator) {
 						mItinTypeImageView.setVisibility(View.INVISIBLE);
@@ -746,7 +746,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		else {
 			if (animate) {
 				ValueAnimator dummy = ValueAnimator.ofInt(0, 1).setDuration(300);
-				dummy.addListener(new AnimatorListenerShort() {
+				dummy.addListener(new AnimatorListenerAdapter() {
 					@Override
 					public void onAnimationStart(Animator arg0) {
 						ViewHelper.setAlpha(mItinTypeImageView, 0f);
@@ -787,7 +787,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		if (animate) {
 			AnimatorSet set = new AnimatorSet();
 			set.playTogether(animators);
-			set.addListener(new AnimatorListenerShort() {
+			set.addListener(new AnimatorListenerAdapter() {
 				@Override
 				public void onAnimationEnd(Animator arg0) {
 					finishExpand();

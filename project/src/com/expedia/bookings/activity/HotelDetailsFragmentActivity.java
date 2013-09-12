@@ -19,7 +19,6 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
-import com.expedia.bookings.animation.AnimatorListenerShort;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelOffersResponse;
@@ -50,6 +49,7 @@ import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.animation.AnimatorProxy;
@@ -595,7 +595,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 					ObjectAnimator.ofFloat(vipAccessIcon, "translationX", -rightSideWidth, 0.0f),
 					ObjectAnimator.ofInt(vipAccessIcon, "drawAlpha", 255, 0)
 					);
-			mGalleryToggleAnimator.addListener(new AnimatorListenerShort() {
+			mGalleryToggleAnimator.addListener(new AnimatorListenerAdapter() {
 				@TargetApi(11)
 				@Override
 				public void onAnimationStart(Animator arg0) {
@@ -617,7 +617,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 					ObjectAnimator.ofFloat(vipAccessIcon, "translationX", -rightSideWidth),
 					ObjectAnimator.ofInt(vipAccessIcon, "drawAlpha", 0, 255)
 					);
-			mGalleryToggleAnimator.addListener(new AnimatorListenerShort() {
+			mGalleryToggleAnimator.addListener(new AnimatorListenerAdapter() {
 				@TargetApi(11)
 				@Override
 				public void onAnimationEnd(Animator arg0) {

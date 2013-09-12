@@ -27,7 +27,6 @@ import android.widget.ListView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
-import com.expedia.bookings.animation.AnimatorListenerShort;
 import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
@@ -35,10 +34,10 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 import com.expedia.bookings.widget.itin.ItinButtonCard;
-import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
@@ -581,7 +580,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 		if (animate) {
 			Animator set = buildCollapseAnimatorSet();
-			set.addListener(new AnimatorListenerShort() {
+			set.addListener(new AnimatorListenerAdapter() {
 				@Override
 				public void onAnimationCancel(Animator arg0) {
 					finishCollapse();
@@ -774,7 +773,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 		if (animate) {
 			Animator set = buildExpandAnimatorSet(mExpandedHeight);
-			set.addListener(new AnimatorListenerShort() {
+			set.addListener(new AnimatorListenerAdapter() {
 				@Override
 				public void onAnimationCancel(Animator arg0) {
 					finishExpand(mExpandedHeight);

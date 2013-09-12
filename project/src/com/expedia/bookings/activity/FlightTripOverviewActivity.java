@@ -28,7 +28,6 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
-import com.expedia.bookings.animation.AnimatorListenerShort;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Db;
@@ -57,6 +56,7 @@ import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
 import com.mobiata.android.Log;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
@@ -389,7 +389,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 				FlightTripOverviewActivity.this.setCheckoutPercent(f.floatValue());
 			}
 		});
-		animator.addListener(new AnimatorListenerShort() {
+		animator.addListener(new AnimatorListenerAdapter() {
 			@Override
 			public void onAnimationEnd(Animator arg0) {
 				FlightTripOverviewActivity.this.setCheckoutPercent(endPercentage);
@@ -407,7 +407,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 		//We are going towards overview mode, so we should scroll to the top
 		if (endPercentage == 0f) {
-			animator.addListener(new AnimatorListenerShort() {
+			animator.addListener(new AnimatorListenerAdapter() {
 				@Override
 				public void onAnimationStart(Animator arg0) {
 					mContentScrollView.smoothScrollTo(0, 0);
