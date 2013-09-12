@@ -16,29 +16,33 @@ import com.mobiata.testutils.CalendarTouchUtils;
 public class HotelsSearchScreen extends ScreenActions {
 
 	// Top action bar
-	private static final int sSearchEditTextID = R.id.search_edit_text;
-	private static final int sClearSearchEditTextButtonID = R.id.clear_search_button;
-	private static final int sGuestsButtonID = R.id.guests_button;
-	private static final int sGuestNumberTextViewID = R.id.guests_text_view;
-	private static final int sCalendarButtonID = R.id.dates_button;
-	private static final int sCalendarTextViewID = R.id.dates_text_view;
-	private static final int sCalendarDatePickerID = R.id.dates_date_picker;
+	private static final int SEARCH_EDIT_TEXT_ID = R.id.search_edit_text;
+	private static final int CLEAR_SEARCH_EDIT_TEXT_ID = R.id.clear_search_button;
+	private static final int GUESTS_BUTTON_ID = R.id.guests_button;
+	private static final int GUEST_NUMBER_TEXTVIEW_ID = R.id.guests_text_view;
+	private static final int CALENDAR_BUTTON_ID = R.id.dates_button;
+	private static final int CALENDAR_TEXT_VIEW_ID = R.id.dates_text_view;
+	private static final int CALENDAR_DATE_PICKER_ID = R.id.dates_date_picker;
 
 	// List header
-	private static final int sDateRangeTextViewID = R.id.search_date_range_text;
-	private static final int sPricingDescriptionTextViewID = R.id.lawyer_label_text_view;
+	private static final int DATE_RANGE_TEXT_VIEW_ID = R.id.search_date_range_text;
+	private static final int PRICING_DESCRIPTION_TEXT_VIEW_ID = R.id.lawyer_label_text_view;
 
 	// Hotel list
-	private static final int sHotelListID = android.R.id.list;
+	private static final int HOTEL_LIST_ID = android.R.id.list;
 
 	// Bottom action bar
-	private static final int sSortButtonID = R.id.menu_select_sort;
-	private static final int sFilterButtonID = R.id.menu_select_filter;
-	private static final int sMapButtonID = R.id.menu_select_change_view;
+	private static final int SORT_BUTTON_ID = R.id.menu_select_sort;
+	private static final int FILTER_BUTTON_ID = R.id.menu_select_filter;
+	private static final int MAP_BUTTON_ID = R.id.menu_select_change_view;
 
 	// Strings
-
-	private static final int sSearchingForHotelsStringID = R.string.search_for_hotels;
+	private static final int ROOM_NO_LONGER_AVAILABLE_STRING_ID = R.string.e3_error_checkout_hotel_room_unavailable;
+	private static final int SEARCHING_FOR_HOTELS_STRING_ID = R.string.search_for_hotels;
+	private static final int PLEASE_TRY_DIFFERENT_STRING_ID = R.string.please_try_a_different_location_or_date;
+	private static final int NO_HOTELS_AVAILABLE_TONIGHT_ID = R.string.no_hotels_availiable_tonight;
+	private static final int DID_YOU_MEAN_STRING_ID = R.string.ChooseLocation;
+	private static final int UNABLE_TO_DETERMINE_SEARCH_LOC_STRING_ID = R.string.geolocation_failed;
 
 	// Fragments
 	private HotelsSortMenu mSortMenu;
@@ -76,61 +80,81 @@ public class HotelsSearchScreen extends ScreenActions {
 	// Object access
 
 	public EditText searchEditText() {
-		return (EditText) getView(sSearchEditTextID);
+		return (EditText) getView(SEARCH_EDIT_TEXT_ID);
 	}
 
 	public View clearSearchEditTextButton() {
-		return getView(sClearSearchEditTextButtonID);
+		return getView(CLEAR_SEARCH_EDIT_TEXT_ID);
 	}
 
 	public View guestsButton() {
-		return getView(sGuestsButtonID);
+		return getView(GUESTS_BUTTON_ID);
 	}
 
 	public TextView guestNumberTextView() {
-		return (TextView) getView(sGuestNumberTextViewID);
+		return (TextView) getView(GUEST_NUMBER_TEXTVIEW_ID);
 	}
 
 	public View calendarButton() {
-		return getView(sCalendarButtonID);
+		return getView(CALENDAR_BUTTON_ID);
 	}
 
 	public TextView calendarNumberTextView() {
-		return (TextView) getView(sCalendarTextViewID);
+		return (TextView) getView(CALENDAR_TEXT_VIEW_ID);
 	}
 
 	public TextView dateRangeTextView() {
-		return (TextView) getView(sDateRangeTextViewID);
+		return (TextView) getView(DATE_RANGE_TEXT_VIEW_ID);
 	}
 
 	public TextView pricingDescriptionTextView() {
-		return (TextView) getView(sPricingDescriptionTextViewID);
+		return (TextView) getView(PRICING_DESCRIPTION_TEXT_VIEW_ID);
 	}
 
 	public ListView hotelResultsListView() {
-		return (ListView) getView(sHotelListID);
+		return (ListView) getView(HOTEL_LIST_ID);
 	}
 
 	public View sortButton() {
-		return getView(sSortButtonID);
+		return getView(SORT_BUTTON_ID);
 	}
 
 	public View filterButton() {
-		return getView(sFilterButtonID);
+		return getView(FILTER_BUTTON_ID);
 	}
 
 	public View mapButton() {
-		return getView(sMapButtonID);
+		return getView(MAP_BUTTON_ID);
 	}
 
 	public String searchingForHotels() {
-		return getString(sSearchingForHotelsStringID);
+		return getString(SEARCHING_FOR_HOTELS_STRING_ID);
+	}
+
+	public String roomNoLongerAvailable() {
+		return getString(ROOM_NO_LONGER_AVAILABLE_STRING_ID);
+	}
+
+	public String noHotelsAvailableTonight() {
+		return getString(NO_HOTELS_AVAILABLE_TONIGHT_ID);
+	}
+
+	public String pleaseTryADifferentLocationOrDate() {
+		return getString(PLEASE_TRY_DIFFERENT_STRING_ID);
+	}
+
+	public String didYouMean() {
+		return getString(DID_YOU_MEAN_STRING_ID);
+	}
+
+	public String unableToDetermineSearchLocation() {
+		return getString(UNABLE_TO_DETERMINE_SEARCH_LOC_STRING_ID);
 	}
 
 	// Object interaction
 
 	public void enterSearchText(String text) {
-		enterText(searchEditText(), text);
+		typeText(searchEditText(), text);
 	}
 
 	public void clickSearchEditText() {
@@ -167,6 +191,6 @@ public class HotelsSearchScreen extends ScreenActions {
 
 	public void clickDate(int offset) {
 		delay();
-		CalendarTouchUtils.selectDay(this, offset, sCalendarDatePickerID);
+		CalendarTouchUtils.selectDay(this, offset, CALENDAR_DATE_PICKER_ID);
 	}
 }
