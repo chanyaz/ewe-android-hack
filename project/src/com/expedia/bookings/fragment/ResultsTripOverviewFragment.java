@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.mobiata.android.util.Ui;
 
 import android.graphics.Color;
@@ -39,7 +40,7 @@ public class ResultsTripOverviewFragment extends Fragment {
 	public View getHotelViewForAddTrip() {
 		TextView tv = new TextView(getActivity());
 		tv.setBackgroundColor(Color.RED);
-		tv.setText("Hotel Image");
+		tv.setText("Hotel Image B");
 		tv.setGravity(Gravity.CENTER);
 		return tv;
 	}
