@@ -10,19 +10,14 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity;
+import com.expedia.bookings.test.utils.CustomActivityInstrumentationTestCase;
 import com.expedia.bookings.test.utils.HotelsTestDriver;
 import com.expedia.bookings.test.utils.HotelsUserData;
 import com.expedia.bookings.test.utils.TestPreferences;
 
-public class HotelsSearchRegressionTests extends ActivityInstrumentationTestCase2<SearchActivity> {
+public class HotelsSearchRegressionTests extends CustomActivityInstrumentationTestCase<SearchActivity> {
 
 	private static final String TAG = "Hotel Search Regression";
-
-	private Resources mRes;
-	DisplayMetrics mMetric;
-	private HotelsTestDriver mDriver;
-	private HotelsUserData mUser;
-	private TestPreferences mPreferences;
 
 	public HotelsSearchRegressionTests() {
 		super(SearchActivity.class);
@@ -30,12 +25,6 @@ public class HotelsSearchRegressionTests extends ActivityInstrumentationTestCase
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		mRes = getActivity().getBaseContext().getResources();
-		mPreferences = new TestPreferences();
-		mPreferences.setRotationPermission(false);
-		mPreferences.setScreenshotPermission(false);
-		mDriver = new HotelsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
-		mUser = new HotelsUserData();
 		mUser.setHotelCityToRandomUSCity();
 		try {
 			mDriver.sweepstakesScreen().clickNoThanksButton();
@@ -57,7 +46,7 @@ public class HotelsSearchRegressionTests extends ActivityInstrumentationTestCase
 		mDriver.launchScreen().openMenuDropDown();
 		mDriver.launchScreen().pressSettings();
 		mDriver.settingsScreen().clickCountryString();
-		mDriver.clickOnText(mRes.getString(R.string.country_ie));
+		mDriver.clickOnText(getString(R.string.country_ie));
 		mDriver.settingsScreen().clickOKString();
 		mDriver.goBack();
 
@@ -81,7 +70,7 @@ public class HotelsSearchRegressionTests extends ActivityInstrumentationTestCase
 		mDriver.launchScreen().pressSettings();
 		mDriver.settingsScreen().clickCountryString();
 		mDriver.delay();
-		mDriver.clickOnText(mRes.getString(R.string.country_us));
+		mDriver.clickOnText(getString(R.string.country_us));
 		mDriver.settingsScreen().clickOKString();
 		mDriver.delay();
 		mDriver.goBack();
@@ -94,7 +83,7 @@ public class HotelsSearchRegressionTests extends ActivityInstrumentationTestCase
 
 		String searchEditTextString = mDriver.hotelsSearchScreen().searchEditText().getText()
 				.toString();
-		assertEquals(mRes.getString(R.string.current_location), searchEditTextString);
+		assertEquals(getString(R.string.current_location), searchEditTextString);
 
 		int postPOSChangeGuestNumber = Integer.parseInt(mDriver.hotelsSearchScreen().guestNumberTextView().getText()
 				.toString());

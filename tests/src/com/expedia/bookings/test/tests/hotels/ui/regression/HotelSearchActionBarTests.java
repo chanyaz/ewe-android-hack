@@ -9,20 +9,15 @@ import android.util.DisplayMetrics;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity;
+import com.expedia.bookings.test.utils.CustomActivityInstrumentationTestCase;
 import com.expedia.bookings.test.utils.HotelsTestDriver;
 import com.expedia.bookings.test.utils.HotelsUserData;
 import com.expedia.bookings.test.utils.TestPreferences;
 import com.mobiata.testutils.CalendarTouchUtils;
 
-public class HotelSearchActionBarTests extends ActivityInstrumentationTestCase2<SearchActivity> {
+public class HotelSearchActionBarTests extends CustomActivityInstrumentationTestCase<SearchActivity> {
 
 	private static final String TAG = "Hotel Search Regression";
-
-	private Resources mRes;
-	DisplayMetrics mMetric;
-	private HotelsTestDriver mDriver;
-	private HotelsUserData mUser;
-	private TestPreferences mPreferences;
 
 	public HotelSearchActionBarTests() {
 		super(SearchActivity.class);
@@ -30,12 +25,7 @@ public class HotelSearchActionBarTests extends ActivityInstrumentationTestCase2<
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		mRes = getActivity().getBaseContext().getResources();
-		mPreferences = new TestPreferences();
-		mPreferences.setRotationPermission(false);
-		mPreferences.setScreenshotPermission(false);
-		mDriver = new HotelsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
-		mUser = new HotelsUserData();
+
 		mUser.setHotelCityToRandomUSCity();
 		try {
 			mDriver.sweepstakesScreen().clickNoThanksButton();
@@ -169,7 +159,7 @@ public class HotelSearchActionBarTests extends ActivityInstrumentationTestCase2<
 		mDriver.waitForStringToBeGone(mDriver.hotelsSearchScreen().searchingForHotels());
 
 		String dateRangeText = mDriver.hotelsSearchScreen().dateRangeTextView().getText().toString();
-		String tonight = mDriver.getString(R.string.Tonight);
+		String tonight = getString(R.string.Tonight);
 		assertEquals(dateRangeText, tonight);
 
 		int daysOffset = 1;
@@ -183,7 +173,7 @@ public class HotelSearchActionBarTests extends ActivityInstrumentationTestCase2<
 		String firstDay = (String) DateFormat.format("MMM dd", first);
 		long second = CalendarTouchUtils.getDay(daysOffset + 1).toMillis(false);
 		String secondDay = (String) DateFormat.format("MMM dd", second);
-		String range = mRes.getString(R.string.date_range_TEMPLATE, firstDay, secondDay);
+		String range = this.getString(R.string.date_range_TEMPLATE, firstDay, secondDay);
 		assertEquals(dateRangeText, range);
 	}
 
@@ -196,7 +186,7 @@ public class HotelSearchActionBarTests extends ActivityInstrumentationTestCase2<
 		mDriver.hotelsSearchScreen().guestPicker().clickOnSearchButton();
 		mDriver.waitForStringToBeGone(mDriver.hotelsSearchScreen().searchingForHotels());
 		String priceInfoText = mDriver.hotelsSearchScreen().pricingDescriptionTextView().getText().toString();
-		String expectedText = mRes.getString(R.string.prices_avg_per_night);
+		String expectedText = getString(R.string.prices_avg_per_night);
 		assertEquals(expectedText, priceInfoText);
 	}
 

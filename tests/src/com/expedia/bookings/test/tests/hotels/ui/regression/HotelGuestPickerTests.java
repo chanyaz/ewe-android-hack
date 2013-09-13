@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.tests.hotels.ui.regression;
 
 import com.expedia.bookings.activity.SearchActivity;
+import com.expedia.bookings.test.utils.CustomActivityInstrumentationTestCase;
 import com.expedia.bookings.test.utils.HotelsTestDriver;
 import com.expedia.bookings.test.utils.HotelsUserData;
 import com.expedia.bookings.test.utils.TestPreferences;
@@ -10,15 +11,9 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.util.DisplayMetrics;
 import android.widget.TextView;
 
-public class HotelGuestPickerTests extends ActivityInstrumentationTestCase2<SearchActivity> {
+public class HotelGuestPickerTests extends CustomActivityInstrumentationTestCase<SearchActivity> {
 
 	private static final String TAG = "Hotel Search Regression";
-
-	private Resources mRes;
-	DisplayMetrics mMetric;
-	private HotelsTestDriver mDriver;
-	private HotelsUserData mUser;
-	private TestPreferences mPreferences;
 
 	public HotelGuestPickerTests() {
 		super(SearchActivity.class);
@@ -26,12 +21,7 @@ public class HotelGuestPickerTests extends ActivityInstrumentationTestCase2<Sear
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		mRes = getActivity().getBaseContext().getResources();
-		mPreferences = new TestPreferences();
-		mPreferences.setRotationPermission(false);
-		mPreferences.setScreenshotPermission(false);
-		mDriver = new HotelsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
-		mUser = new HotelsUserData();
+
 		mUser.setHotelCityToRandomUSCity();
 		try {
 			mDriver.sweepstakesScreen().clickNoThanksButton();
