@@ -35,7 +35,7 @@ public class CustomActivityInstrumentationTestCase<T> extends ActivityInstrument
 	}
 
 	public String getString(int id, Object... formatArgs) {
-		return mRes.getString(R.string.date_range_TEMPLATE, formatArgs);
+		return mRes.getString(id, formatArgs);
 	}
 
 }
