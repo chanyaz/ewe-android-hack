@@ -290,14 +290,25 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		return betweenFlightsAnimation;
 	}
 
+	private void setTransitionBetweenFlightsHardwareRendering(boolean useHardwareLayer) {
+		int layerType = useHardwareLayer ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
+
+		mFlightOneListC.setLayerType(layerType, null);
+		mFlightTwoFiltersC.setLayerType(layerType, null);
+		mFlightTwoListColumnC.setLayerType(layerType, null);
+
+		//This will need some special consideration when we start flying around and stuff...
+		mFlightOneDetailsC.setLayerType(layerType, null);
+	}
+
 	private void setBetweenFlightsAnimationPercentage(float percentage) {
 
-		int flightOneFilterTranslationX = (int) (-mColumnManager.getColWidth(1) + percentage
+		int flightOneListTranslationX = (int) (-mColumnManager.getColWidth(1) + percentage
 				* -mColumnManager.getColWidth(1));
 		int flightTwoTranslationX = (int) ((1f - percentage) * (mColumnManager.getColWidth(1) / 2f + mColumnManager
 				.getColLeft(1)));
 
-		mFlightOneFiltersC.setTranslationX(flightOneFilterTranslationX);
+		mFlightOneListC.setTranslationX(flightOneListTranslationX);
 
 		mFlightTwoFiltersC.setTranslationX(flightTwoTranslationX);
 		mFlightTwoListColumnC.setTranslationX(flightTwoTranslationX);
@@ -344,6 +355,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		flightDetailsAnimator.addListener(new AnimatorListenerAdapter() {
 			@Override
 			public void onAnimationEnd(Animator arg0) {
+				setTransitionToFlightDetailsHardwareRendering(false, filters, details, list);
 				finalizeFlightsState(mDestinationFlightsState);
 			}
 		});
@@ -351,9 +363,17 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		filters.setVisibility(View.VISIBLE);
 		details.setVisibility(View.VISIBLE);
 		list.setVisibility(View.VISIBLE);
-
+		setTransitionToFlightDetailsHardwareRendering(true, filters, details, list);
 		return flightDetailsAnimator;
 
+	}
+
+	private void setTransitionToFlightDetailsHardwareRendering(boolean useHardwareLayer, ViewGroup filtersC,
+			ViewGroup listC, ViewGroup detailsC) {
+		int layerType = useHardwareLayer ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
+		filtersC.setLayerType(layerType, null);
+		listC.setLayerType(layerType, null);
+		detailsC.setLayerType(layerType, null);
 	}
 
 	private void setTransitionToFlightDetailsPercentage(ViewGroup filtersC, ViewGroup listC, ViewGroup detailsC,
