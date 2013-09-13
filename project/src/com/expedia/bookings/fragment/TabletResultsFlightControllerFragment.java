@@ -4,11 +4,13 @@ import java.util.ArrayList;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletResultsActivity.GlobalResultsState;
+import com.expedia.bookings.interfaces.IResultsFlightSelectedListener;
 import com.expedia.bookings.interfaces.ITabletResultsController;
 import com.expedia.bookings.utils.ColumnManager;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
 import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewChangeListener;
 import com.expedia.bookings.widget.FruitScrollUpListView.State;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 import android.animation.Animator;
@@ -32,7 +34,8 @@ import android.widget.RelativeLayout;
  *  This controls all the fragments relating to FLIGHTS results
  */
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-public class TabletResultsFlightControllerFragment extends Fragment implements ITabletResultsController {
+public class TabletResultsFlightControllerFragment extends Fragment implements ITabletResultsController,
+		IResultsFlightSelectedListener {
 
 	public interface IFlightsFruitScrollUpListViewChangeListener {
 
@@ -70,8 +73,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 	//Tags
 	private static final String FRAG_TAG_FLIGHT_MAP = "FRAG_TAG_FLIGHT_MAP";
-	private static final String FRAG_TAG_FLIGHT_FILTERS = "FRAG_TAG_FLIGHT_FILTERS";
-	private static final String FRAG_TAG_FLIGHT_LIST = "FRAG_TAG_FLIGHT_LIST";
+	private static final String FRAG_TAG_FLIGHT_ONE_FILTERS = "FRAG_TAG_FLIGHT_ONE_FILTERS";
+	private static final String FRAG_TAG_FLIGHT_ONE_LIST = "FRAG_TAG_FLIGHT_ONE_LIST";
+	private static final String FRAG_TAG_FLIGHT_TWO_FILTERS = "FRAG_TAG_FLIGHT_TWO_FILTERS";
+	private static final String FRAG_TAG_FLIGHT_TWO_LIST = "FRAG_TAG_FLIGHT_TWO_LIST";
 
 	//Containers
 	private ViewGroup mRootC;
@@ -93,6 +98,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	private ResultsFlightMapFragment mFlightMapFrag;
 	private ResultsFlightListFragment mFlightOneListFrag;
 	private ResultsFlightFiltersFragment mFlightOneFilterFrag;
+	private ResultsFlightListFragment mFlightTwoListFrag;
+	private ResultsFlightFiltersFragment mFlightTwoFilterFrag;
 
 	//Other
 	private GlobalResultsState mGlobalState;
@@ -145,29 +152,11 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 					FlightsState.FLIGHT_ONE_FILTERS.name()));
 		}
 
-		mFlightOneFiltersC.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				setFlightsState(FlightsState.FLIGHT_ONE_DETAILS, true);
-			}
-
-		});
-
 		mFlightOneDetailsC.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
 				setFlightsState(FlightsState.FLIGHT_TWO_FILTERS, true);
-			}
-
-		});
-
-		mFlightTwoFiltersC.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				setFlightsState(FlightsState.FLIGHT_TWO_DETAILS, true);
 			}
 
 		});
@@ -520,41 +509,57 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		//We will be adding all of our add/removes to this transaction
 		FragmentTransaction transaction = this.getChildFragmentManager().beginTransaction();
 
-		boolean flightListAvailable = true;
+		boolean flightOneListAvailable = true;
 		boolean flightMapAvailable = true;
-		boolean flightFiltersAvailable = true;
+		boolean flightOneFiltersAvailable = true;
+		boolean flightTwoListAvailable = true;
+		boolean flightTwoFiltersAvailabe = true;
 
-		if (state != GlobalResultsState.HOTELS) {
+		if (state != GlobalResultsState.FLIGHTS && state != GlobalResultsState.DEFAULT) {
 			flightMapAvailable = false;
-			flightFiltersAvailable = false;
+			flightOneFiltersAvailable = false;
 		}
-
-		//Flight list
-		setFlightListFragmentAvailability(flightListAvailable, transaction);
+		if (state != GlobalResultsState.FLIGHTS) {
+			flightTwoListAvailable = false;
+			flightTwoFiltersAvailabe = false;
+		}
 
 		//Flight map
 		setFlightMapFragmentAvailability(flightMapAvailable, transaction);
 
-		//Flight filters
-		setFlightFilterFragmentAvailability(flightFiltersAvailable, transaction);
+		//Flight one list
+		setFlightOneListFragmentAvailability(flightOneListAvailable, transaction);
+
+		//Flight one filters
+		setFlightOneFilterFragmentAvailability(flightOneFiltersAvailable, transaction);
+
+		//Flight two list
+		setFlightTwoListFragmentAvailability(flightTwoListAvailable, transaction);
+
+		//Flight two filters
+		setFlightTwoFilterFragmentAvailability(flightTwoFiltersAvailabe, transaction);
 
 		transaction.commit();
 
 	}
 
-	private FragmentTransaction setFlightListFragmentAvailability(boolean available, FragmentTransaction transaction) {
+	/**
+	 * FRAGMENT HELPERS
+	 */
+
+	private FragmentTransaction setFlightOneListFragmentAvailability(boolean available, FragmentTransaction transaction) {
 		if (available) {
 			if (mFlightOneListFrag == null || !mFlightOneListFrag.isAdded()) {
 
 				if (mFlightOneListFrag == null) {
 					mFlightOneListFrag = (ResultsFlightListFragment) getChildFragmentManager().findFragmentByTag(
-							FRAG_TAG_FLIGHT_LIST);
+							FRAG_TAG_FLIGHT_ONE_LIST);
 				}
 				if (mFlightOneListFrag == null) {
-					mFlightOneListFrag = new ResultsFlightListFragment();
+					mFlightOneListFrag = ResultsFlightListFragment.getInstance(0);
 				}
 				if (!mFlightOneListFrag.isAdded()) {
-					transaction.add(R.id.flight_one_list, mFlightOneListFrag, FRAG_TAG_FLIGHT_LIST);
+					transaction.add(R.id.flight_one_list, mFlightOneListFrag, FRAG_TAG_FLIGHT_ONE_LIST);
 				}
 
 				mFlightOneListFrag.setChangeListener(mFruitProxy);
@@ -564,10 +569,40 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		else {
 			if (mFlightOneListFrag == null) {
 				mFlightOneListFrag = (ResultsFlightListFragment) getChildFragmentManager().findFragmentByTag(
-						FRAG_TAG_FLIGHT_LIST);
+						FRAG_TAG_FLIGHT_ONE_LIST);
 			}
 			if (mFlightOneListFrag != null) {
 				transaction.remove(mFlightOneListFrag);
+			}
+		}
+		return transaction;
+	}
+
+	private FragmentTransaction setFlightTwoListFragmentAvailability(boolean available, FragmentTransaction transaction) {
+		if (available) {
+			if (mFlightTwoListFrag == null || !mFlightTwoListFrag.isAdded()) {
+
+				if (mFlightTwoListFrag == null) {
+					mFlightTwoListFrag = (ResultsFlightListFragment) getChildFragmentManager().findFragmentByTag(
+							FRAG_TAG_FLIGHT_TWO_LIST);
+				}
+				if (mFlightTwoListFrag == null) {
+					mFlightTwoListFrag = ResultsFlightListFragment.getInstance(1);
+				}
+				if (!mFlightTwoListFrag.isAdded()) {
+					transaction.add(R.id.flight_two_list, mFlightTwoListFrag, FRAG_TAG_FLIGHT_TWO_LIST);
+				}
+				mFlightTwoListFrag.gotoTopPosition(0);
+				mFlightTwoListFrag.setListLockedToTop(true);
+			}
+		}
+		else {
+			if (mFlightTwoListFrag == null) {
+				mFlightTwoListFrag = (ResultsFlightListFragment) getChildFragmentManager().findFragmentByTag(
+						FRAG_TAG_FLIGHT_TWO_LIST);
+			}
+			if (mFlightTwoListFrag != null) {
+				transaction.remove(mFlightTwoListFrag);
 			}
 		}
 		return transaction;
@@ -601,29 +636,57 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		return transaction;
 	}
 
-	private FragmentTransaction setFlightFilterFragmentAvailability(boolean available,
+	private FragmentTransaction setFlightOneFilterFragmentAvailability(boolean available,
 			FragmentTransaction transaction) {
 		if (available) {
 			if (mFlightOneFilterFrag == null || !mFlightOneFilterFrag.isAdded()) {
 				if (mFlightOneFilterFrag == null) {
 					mFlightOneFilterFrag = (ResultsFlightFiltersFragment) getChildFragmentManager().findFragmentByTag(
-							FRAG_TAG_FLIGHT_FILTERS);
+							FRAG_TAG_FLIGHT_ONE_FILTERS);
 				}
 				if (mFlightOneFilterFrag == null) {
 					mFlightOneFilterFrag = ResultsFlightFiltersFragment.newInstance();
 				}
 				if (!mFlightOneFilterFrag.isAdded()) {
-					transaction.add(R.id.flight_one_filters, mFlightOneFilterFrag, FRAG_TAG_FLIGHT_FILTERS);
+					transaction.add(R.id.flight_one_filters, mFlightOneFilterFrag, FRAG_TAG_FLIGHT_ONE_FILTERS);
 				}
 			}
 		}
 		else {
 			if (mFlightOneFilterFrag == null) {
 				mFlightOneFilterFrag = (ResultsFlightFiltersFragment) getChildFragmentManager().findFragmentByTag(
-						FRAG_TAG_FLIGHT_FILTERS);
+						FRAG_TAG_FLIGHT_ONE_FILTERS);
 			}
 			if (mFlightOneFilterFrag != null) {
 				transaction.remove(mFlightOneFilterFrag);
+			}
+		}
+		return transaction;
+	}
+
+	private FragmentTransaction setFlightTwoFilterFragmentAvailability(boolean available,
+			FragmentTransaction transaction) {
+		if (available) {
+			if (mFlightTwoFilterFrag == null || !mFlightTwoFilterFrag.isAdded()) {
+				if (mFlightTwoFilterFrag == null) {
+					mFlightTwoFilterFrag = (ResultsFlightFiltersFragment) getChildFragmentManager().findFragmentByTag(
+							FRAG_TAG_FLIGHT_TWO_FILTERS);
+				}
+				if (mFlightTwoFilterFrag == null) {
+					mFlightTwoFilterFrag = ResultsFlightFiltersFragment.newInstance();
+				}
+				if (!mFlightTwoFilterFrag.isAdded()) {
+					transaction.add(R.id.flight_two_filters, mFlightTwoFilterFrag, FRAG_TAG_FLIGHT_TWO_FILTERS);
+				}
+			}
+		}
+		else {
+			if (mFlightTwoFilterFrag == null) {
+				mFlightTwoFilterFrag = (ResultsFlightFiltersFragment) getChildFragmentManager().findFragmentByTag(
+						FRAG_TAG_FLIGHT_TWO_FILTERS);
+			}
+			if (mFlightTwoFilterFrag != null) {
+				transaction.remove(mFlightTwoFilterFrag);
 			}
 		}
 		return transaction;
@@ -745,5 +808,19 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			}
 		}
 		return false;
+	}
+
+	/*
+	 * IResultsFlightSelectedListener
+	 */
+
+	@Override
+	public void onFlightSelected(int legNumber) {
+		if (legNumber == 0) {
+			setFlightsState(FlightsState.FLIGHT_ONE_DETAILS, mFlightsState != FlightsState.FLIGHT_ONE_DETAILS);
+		}
+		else if (legNumber == 1) {
+			setFlightsState(FlightsState.FLIGHT_TWO_DETAILS, mFlightsState != FlightsState.FLIGHT_TWO_DETAILS);
+		}
 	}
 }

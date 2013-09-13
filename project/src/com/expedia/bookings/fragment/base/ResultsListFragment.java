@@ -41,6 +41,7 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 	private boolean mSortAndFilterButtonEnabled = true;
 	private boolean mLockedToTop = false;
 	private boolean mGotoBottom = false;
+	private boolean mGotoTop = false;
 	private IFruitScrollUpListViewChangeListener mChangeListener;
 	private IBackButtonLockListener mBackLockListener;
 
@@ -92,9 +93,13 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 		if (mChangeListener != null) {
 			mListView.addChangeListener(mChangeListener, false);
 		}
+
+		if (mGotoTop) {
+			gotoTopPosition(0);
+		}
 		mListView.setListLockedToTop(mLockedToTop);
 		if (mGotoBottom) {
-			gotoBottomPosition();
+			gotoBottomPosition(0);
 		}
 
 		setStickyHeaderText(initializeStickyHeaderString());
@@ -123,8 +128,13 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 
 	public void setSortAndFilterButtonEnabled(boolean enabled) {
 		mSortAndFilterButtonEnabled = enabled;
-		if (!enabled) {
-			mSortAndFilterButton.setVisibility(View.GONE);
+		if (mSortAndFilterButton != null) {
+			if (enabled) {
+				mSortAndFilterButton.setVisibility(View.VISIBLE);
+			}
+			else {
+				mSortAndFilterButton.setVisibility(View.GONE);
+			}
 		}
 	}
 
@@ -150,6 +160,18 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 		mLockedToTop = lockedToTop;
 		if (mListView != null) {
 			mListView.setListLockedToTop(lockedToTop);
+		}
+	}
+
+	public void gotoTopPosition() {
+		gotoTopPosition(SMOOTH_SCROLL_DURATION);
+	}
+
+	public void gotoTopPosition(int duration) {
+		mGotoTop = true;
+		if (mListView != null) {
+			mListView.setState(State.LIST_CONTENT_AT_TOP, true, duration);
+			mGotoTop = false;
 		}
 	}
 

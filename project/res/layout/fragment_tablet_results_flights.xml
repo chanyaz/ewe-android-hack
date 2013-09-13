@@ -64,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/flight_two_header_with_flight_one_info"
-            android:background="#660000FF" />
+            android:background="#FF00FF" />
     </RelativeLayout>
 
 </FrameLayout>

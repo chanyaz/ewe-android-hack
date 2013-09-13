@@ -126,7 +126,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		setContentView(R.layout.activity_tablet_results);
 
 		//TODO: REMOVE
-		 Db.saveOrLoadDbForTesting(this);
+		// Db.saveOrLoadDbForTesting(this);
 		
 		//Containers
 		mRootC = Ui.findView(this, R.id.root_layout);
