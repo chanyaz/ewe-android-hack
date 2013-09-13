@@ -323,13 +323,29 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 		}
 	}
 
-	public Pair<Integer, Integer> moveToPosition(int position, int y, int duration) {
+	public Pair<Integer, Integer> moveToPosition(final int position, final int y, final int duration) {
 		Log.d("FruitScrollUpListView.moveToPosition position:" + position + " y:" + y + " duration:" + duration);
 		Pair<Integer, Integer> sanePosition = sanatizePosition(position, y);
 		if (duration > 0 && requiresMove(sanePosition)) {
 			mIsSmoothScrolling = true;
 			someUserInteractionHasStarted();
-			smoothScrollToPositionFromTop(sanePosition.first, sanePosition.second, duration);
+
+			if (position == 0 && getFirstVisiblePosition() > 1) {
+				// If we are trying to smooth scroll to the bottom position, but are too far down the list,
+				// we wont get nice animations, and that is sad. so we jump to the top and then begin smooth
+				// scrolling afterwards.
+				setSelectionFromTop(1, 0);
+				post(new Runnable() {
+					@Override
+					public void run() {
+						moveToPosition(position, y, duration);
+					}
+				});
+			}
+			else {
+				//Typically we just want to smooth scroll
+				smoothScrollToPositionFromTop(sanePosition.first, sanePosition.second, duration);
+			}
 		}
 		else {
 			setSelectionFromTop(sanePosition.first, sanePosition.second);
@@ -350,11 +366,9 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 	private boolean requiresMove(Pair<Integer, Integer> posAndOffset) {
 		if (getFirstVisiblePosition() == posAndOffset.first) {
 			if (getChildAt(0).getTop() == posAndOffset.second) {
-				Log.d("JOE: requiresMove - false");
 				return false;
 			}
 		}
-		Log.d("JOE: requiresMove - true");
 		return true;
 	}
 
