@@ -64,6 +64,11 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		FLIGHT_ONE_FILTERS, FLIGHT_ONE_DETAILS, FLIGHT_TWO_FILTERS, FLIGHT_TWO_DETAILS, ADDING_FLIGHT_TO_TRIP
 	}
 
+	//State
+	private static final String STATE_FLIGHTS_STATE = "STATE_HOTELS_STATE";
+	private static final String STATE_GLOBAL_STATE = "STATE_GLOBAL_STATE";
+
+	//Tags
 	private static final String FRAG_TAG_FLIGHT_MAP = "FRAG_TAG_FLIGHT_MAP";
 	private static final String FRAG_TAG_FLIGHT_FILTERS = "FRAG_TAG_FLIGHT_FILTERS";
 	private static final String FRAG_TAG_FLIGHT_LIST = "FRAG_TAG_FLIGHT_LIST";
@@ -133,6 +138,13 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		mContainers.add(mFlightTwoFiltersC);
 		mContainers.add(mFlightTwoDetailsC);
 
+		if (savedInstanceState != null) {
+			mGlobalState = GlobalResultsState.valueOf(savedInstanceState.getString(STATE_GLOBAL_STATE,
+					GlobalResultsState.DEFAULT.name()));
+			mFlightsState = FlightsState.valueOf(savedInstanceState.getString(STATE_FLIGHTS_STATE,
+					FlightsState.FLIGHT_ONE_FILTERS.name()));
+		}
+
 		mFlightOneFiltersC.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -161,6 +173,13 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		});
 
 		return view;
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putString(STATE_FLIGHTS_STATE, mFlightsState.name());
+		outState.putString(STATE_GLOBAL_STATE, mGlobalState.name());
 	}
 
 	private void setFlightsState(FlightsState state, boolean animate) {
