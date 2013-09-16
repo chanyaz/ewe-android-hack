@@ -10,7 +10,6 @@ import com.expedia.bookings.utils.ColumnManager;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
 import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewChangeListener;
 import com.expedia.bookings.widget.FruitScrollUpListView.State;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 import android.animation.Animator;
@@ -816,11 +815,13 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 	@Override
 	public void onFlightSelected(int legNumber) {
-		if (legNumber == 0) {
-			setFlightsState(FlightsState.FLIGHT_ONE_DETAILS, mFlightsState != FlightsState.FLIGHT_ONE_DETAILS);
-		}
-		else if (legNumber == 1) {
-			setFlightsState(FlightsState.FLIGHT_TWO_DETAILS, mFlightsState != FlightsState.FLIGHT_TWO_DETAILS);
+		if (mGlobalState == GlobalResultsState.FLIGHTS) {
+			if (legNumber == 0) {
+				setFlightsState(FlightsState.FLIGHT_ONE_DETAILS, mFlightsState != FlightsState.FLIGHT_ONE_DETAILS);
+			}
+			else if (legNumber == 1) {
+				setFlightsState(FlightsState.FLIGHT_TWO_DETAILS, mFlightsState != FlightsState.FLIGHT_TWO_DETAILS);
+			}
 		}
 	}
 }
