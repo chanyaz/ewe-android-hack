@@ -113,6 +113,28 @@
                 <data android:host="hotelSearch" />
                 <data android:host="flightSearch" />
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="https" />
+                <data android:host="www.expedia.com" />
+                <data android:pathPrefix="/api/trips/shared" />
+
+                <!-- Public integration -->
+                <data android:scheme="https" />
+                <data android:host="70.42.224.37" />
+                <data android:pathPrefix="/api/trips/shared" />
+
+                <!-- Dev Server -->
+                <data android:scheme="https" />
+                <data android:host="wwwexpediacom.chelwebestr37.bgb.karmalab.net" />
+                <data android:pathPrefix="/api/trips/shared" />
+
+            </intent-filter>
         </activity>
 
         <!-- Launcher activities -->

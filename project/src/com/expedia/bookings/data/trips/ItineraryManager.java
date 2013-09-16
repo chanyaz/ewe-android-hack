@@ -727,6 +727,8 @@ public class ItineraryManager implements JSONable {
 		DEEP_REFRESH_TRIP, // Refreshes a trip (deep)
 		REFRESH_TRIP, // Refreshes a trip
 
+		FETCH_SHARED_ITIN, // Fetches the shared itin data
+
 		SAVE_TO_DISK, // Saves state of ItineraryManager to disk
 
 		GENERATE_ITIN_CARDS, // Generates itin card data for use
@@ -758,7 +760,7 @@ public class ItineraryManager implements JSONable {
 		public Task(Operation op, Trip trip, String tripNumber) {
 			mOp = op;
 			mTrip = trip;
-			mTripNumber = null;
+			mTripNumber = tripNumber;
 		}
 
 		@Override
@@ -880,6 +882,19 @@ public class ItineraryManager implements JSONable {
 		}
 
 		// We're set to sync; add the rest of the ops and go
+		mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
+		mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
+		mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
+		mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
+
+		startSyncIfNotInProgress();
+
+		return true;
+	}
+
+	public boolean fetchSharedItin(String shareableUrl) {
+		Log.i(LOGGING_TAG, "Fetching SharedItin " + shareableUrl);
+		mSyncOpQueue.add(new Task(Operation.FETCH_SHARED_ITIN, shareableUrl));
 		mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
 		mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
 		mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
@@ -1019,6 +1034,9 @@ public class ItineraryManager implements JSONable {
 					break;
 				case REGISTER_FOR_PUSH_NOTIFICATIONS:
 					registerForPushNotifications();
+					break;
+				case FETCH_SHARED_ITIN:
+					downloadSharedItinTrip(nextTask.mTripNumber);
 					break;
 				}
 
@@ -1374,6 +1392,48 @@ public class ItineraryManager implements JSONable {
 				if (trip.isGuest() && trip.getLevelOfDetail() == LevelOfDetail.NONE) {
 					mGuestTripsNotYetLoaded.add(trip.getTripNumber());
 				}
+			}
+		}
+
+		private void downloadSharedItinTrip(String shareableUrl) {
+			Log.i(LOGGING_TAG, "Fetching shared itin " + shareableUrl);
+			TripDetailsResponse response = mServices.getSharedItin(shareableUrl);
+
+			if (isCancelled()) {
+				return;
+			}
+
+			if (response == null || response.hasErrors()) {
+				if (response != null && response.hasErrors()) {
+					Log.w(LOGGING_TAG, "Error fetching shared itin : " + response.gatherErrorMessage(mContext));
+				}
+			}
+			else {
+
+				Trip sharedTrip = response.getTrip();
+				String tripNumber = sharedTrip.getTripNumber();
+
+				LevelOfDetail lod = sharedTrip.getLevelOfDetail();
+				boolean hasFullDetails = lod == LevelOfDetail.FULL || lod == LevelOfDetail.SUMMARY_FALLBACK;
+				if (!mTrips.containsKey(tripNumber)) {
+					mTrips.put(tripNumber, sharedTrip);
+
+					publishProgress(new ProgressUpdate(ProgressUpdate.Type.ADDED, sharedTrip));
+
+					mTripsAdded++;
+				}
+				else if (hasFullDetails) {
+					mTrips.get(tripNumber).updateFrom(sharedTrip);
+				}
+
+				if (hasFullDetails) {
+					// If we have full details, mark this as recently updated so we don't
+					// refresh it below
+					sharedTrip.markUpdated(false);
+
+					mTripsRefreshed++;
+				}
+
 			}
 		}
 	}

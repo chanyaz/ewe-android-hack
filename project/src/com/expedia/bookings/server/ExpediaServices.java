@@ -177,6 +177,9 @@ public class ExpediaServices implements DownloadListener {
 	// redirects has revealed issues in the past.
 	private static final int F_ALLOW_REDIRECT = 256;
 
+	// Flags for downloading SharedItin
+	public static final int F_SHARED_ITIN = 512;
+
 	private Context mContext;
 
 	// For cancelling requests
@@ -843,6 +846,14 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Expedia ItinSharing API
+	//
+
+	public TripDetailsResponse getSharedItin(String shareableUrl) {
+		int flags = F_SECURE_REQUEST | F_GET | F_SHARED_ITIN;
+		return doE3Request(shareableUrl, null, new TripDetailsResponseHandler(mContext), flags);
+	}
+	//////////////////////////////////////////////////////////////////////////
 	// Expedia user account API
 	//
 	// Documentation: https://www.expedia.com/static/mobile/APIConsole/flight.html
@@ -1293,7 +1304,21 @@ public class ExpediaServices implements DownloadListener {
 
 	private <T extends Response> T doE3Request(String targetUrl, List<BasicNameValuePair> params,
 			ResponseHandler<T> responseHandler, int flags) {
-		String serverUrl = getE3EndpointUrl(flags) + targetUrl;
+
+		String serverUrl;
+
+		/*
+		 * If a user shares an itin, then the shareableUrl will be pointing to that particular POS in which the trip was purchased.
+		 * When we make a request to download the shared itin data, we won't fetch the EndPointUrl of the device.
+		 * This is to make sure that an itin shared from a different POS will still be fetched
+		 * and displayed on a device with any POS set.
+		 */
+		if ((flags & F_SHARED_ITIN) != 0) {
+			serverUrl = targetUrl;
+		}
+		else {
+			serverUrl = getE3EndpointUrl(flags) + targetUrl;
+		}
 
 		// Create the request
 		HttpRequestBase base;
