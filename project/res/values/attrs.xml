@@ -153,6 +153,16 @@
         </attr>
     </declare-styleable>
 
+    <!-- RingedCountView -->
+    <declare-styleable name="RingedCountView">
+        <attr name="backgroundColor" format="color" />
+        <attr name="primaryColor" format="color" />
+        <attr name="secondaryColor" format="color" />
+        <attr name="ringThickness" format="dimension" />
+        <attr name="countTextSize" format="dimension" />
+        <attr name="captionTextSize" format="dimension" />
+    </declare-styleable>
+
     <!-- VSC/EB attributes used for style switching in themes -->
     <!-- Hotel Search price styles -->
     <attr name="hotelPriceStandardColor" format="reference|color" />
