@@ -13,14 +13,6 @@ if (isDefined(proguardEnabled) || isDefined(jenkinsBuildNumber)) {
     shouldRunProguard = false
 }
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:0.5.+'
-    }
-}
 apply plugin: 'android'
 
 dependencies {
