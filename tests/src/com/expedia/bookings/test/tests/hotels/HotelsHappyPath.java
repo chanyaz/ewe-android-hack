@@ -80,7 +80,7 @@ public class HotelsHappyPath {
 			driver.hotelsSearchScreen().clickOnSortButton();
 			driver.delay(1);
 			driver.screenshot("Sort fragment");
-			driver.hotelsSearchScreen().sortMenu().clickSortByPopularityButton();
+			driver.hotelsSearchScreen().sortMenu().clickSortByPopularityString();
 
 			// Filter
 			driver.hotelsSearchScreen().clickOnFilterButton();
