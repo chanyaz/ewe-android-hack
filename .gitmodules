@@ -4,9 +4,6 @@
 [submodule "lib/Utils"]
 	path = lib/Utils
 	url = git@team.mobiata.com:Android/AndroidUtils.git
-[submodule "lib/OpinionLab"]
-	path = lib/OpinionLab
-	url = git@team.mobiata.com:Android/OpinionLab.git
 [submodule "lib/FlightLib"]
 	path = lib/FlightLib
 	url = git@team.mobiata.com:Android/FlightLib.git
