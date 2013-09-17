@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -24,6 +26,8 @@ import com.expedia.bookings.fragment.base.MeasurableFragmentListener;
 import com.expedia.bookings.fragment.debug.ColorFragment;
 import com.expedia.bookings.maps.SupportMapFragment;
 import com.expedia.bookings.maps.SvgTileProvider;
+import com.expedia.bookings.utils.DebugMenu;
+import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.app.SimpleProgressDialogFragment;
@@ -85,6 +89,53 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		if (!mSearchFragment.onBackPressed()) {
 			super.onBackPressed();
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Action bar
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.menu_launch_tablet, menu);
+		getMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
+
+		DebugMenu.onCreateOptionsMenu(this, menu);
+
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		DebugMenu.onPrepareOptionsMenu(this, menu);
+
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menu_your_trips: {
+			startActivity(ItineraryActivity.createIntent(this));
+			return true;
+		}
+		case R.id.menu_settings: {
+			// Possible TODO: Reset the activity when settings are changed?
+			Intent intent = new Intent(this, TabletPreferenceActivity.class);
+			startActivity(intent);
+			return true;
+		}
+		case R.id.menu_about: {
+			Intent intent = new Intent(this, AboutActivity.class);
+			startActivity(intent);
+			return true;
+		}
+		}
+
+		if (DebugMenu.onOptionsItemSelected(this, item)) {
+			return true;
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

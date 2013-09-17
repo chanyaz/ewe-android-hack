@@ -17,7 +17,6 @@ import com.expedia.bookings.fragment.SearchParamsFragment.SearchParamsFragmentLi
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
-import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.bitmaps.TwoLevelImageCache;
 import com.mobiata.android.hockey.HockeyPuck;
@@ -155,10 +154,6 @@ public class SearchFragmentActivity extends SherlockFragmentActivity implements 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.menu_flights: {
-			NavUtils.goToFlights(this);
-			return true;
-		}
 		case R.id.menu_your_trips: {
 			startActivity(ItineraryActivity.createIntent(this));
 			return true;
