@@ -2,17 +2,11 @@ package com.expedia.bookings.test.tests.hotels.ui.regression;
 
 import java.util.Calendar;
 
-import android.content.res.Resources;
-import android.test.ActivityInstrumentationTestCase2;
 import android.text.format.DateFormat;
-import android.util.DisplayMetrics;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.utils.CustomActivityInstrumentationTestCase;
-import com.expedia.bookings.test.utils.HotelsTestDriver;
-import com.expedia.bookings.test.utils.HotelsUserData;
-import com.expedia.bookings.test.utils.TestPreferences;
 import com.mobiata.testutils.CalendarTouchUtils;
 
 public class HotelSearchActionBarTests extends CustomActivityInstrumentationTestCase<SearchActivity> {
