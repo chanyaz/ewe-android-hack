@@ -68,6 +68,12 @@ android {
             hockey.enabled true
         }
 
+        tablet.initWith(buildTypes.debug)
+        tablet {
+            packageNameSuffix ".tablet"
+            hockey.enabled true
+        }
+
         release {
             runProguard true
             proguardFile 'proguard.cfg'
