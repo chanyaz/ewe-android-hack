@@ -187,6 +187,7 @@ def generateHomescreenLauncherAppNameLabel(buildVariant, resourceOverridePairs) 
 def generateAccountManagerTypeToken(buildVariant, resourceOverridePairs) {
     def accountToken = AccountManagerTypeTokens.getToken(buildVariant)
     resourceOverridePairs.add(new AndroidResource("string", "expedia_account_token_type_tuid_identifier", accountToken))
+    resourceOverridePairs.add(new AndroidResource("string", "expedia_account_type_identifier", GradleUtil.getPackageName(buildVariant)))
 }
 
 /////////////////// CONTENTPROVIDERS AND THE LIKE ///////////////////
