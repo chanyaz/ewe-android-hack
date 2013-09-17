@@ -27,10 +27,11 @@ import com.expedia.bookings.fragment.debug.ColorFragment;
 import com.expedia.bookings.maps.SupportMapFragment;
 import com.expedia.bookings.maps.SvgTileProvider;
 import com.expedia.bookings.utils.DebugMenu;
-import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.app.SimpleProgressDialogFragment;
+import com.mobiata.android.hockey.HockeyPuck;
+import com.mobiata.android.util.AndroidUtils;
 
 public class TabletLaunchActivity extends FragmentActivity implements MeasurableFragmentListener,
 		SearchFragmentListener, ExpediaServicesFragmentListener {
@@ -48,6 +49,9 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	private static final String TAG_LOAD_SEARCH_DIALOG = "TAG_LOAD_SEARCH_DIALOG";
 	private ExpediaServicesFragment mServicesFragment;
 	private SimpleProgressDialogFragment mLoadSearchDialogFragment;
+
+	// HockeyApp
+	private HockeyPuck mHockeyPuck;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +86,15 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 				mSearchFragment.expand();
 			}
 		}
+
+		mHockeyPuck = new HockeyPuck(this, getString(R.string.hockey_app_id), !AndroidUtils.isRelease(this));
+		mHockeyPuck.onCreate(savedInstanceState);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		mHockeyPuck.onResume();
 	}
 
 	@Override
@@ -89,6 +102,12 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		if (!mSearchFragment.onBackPressed()) {
 			super.onBackPressed();
 		}
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		mHockeyPuck.onSaveInstanceState(outState);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -100,6 +119,9 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		getMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
 
 		DebugMenu.onCreateOptionsMenu(this, menu);
+		if (!AndroidUtils.isRelease(this)) {
+			mHockeyPuck.onCreateOptionsMenu(menu);
+		}
 
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -107,6 +129,9 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		DebugMenu.onPrepareOptionsMenu(this, menu);
+		if (!AndroidUtils.isRelease(this)) {
+			mHockeyPuck.onPrepareOptionsMenu(menu);
+		}
 
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -132,6 +157,10 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		}
 
 		if (DebugMenu.onOptionsItemSelected(this, item)) {
+			return true;
+		}
+
+		if (!AndroidUtils.isRelease(this) && mHockeyPuck.onOptionsItemSelected(item)) {
 			return true;
 		}
 
