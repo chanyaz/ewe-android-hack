@@ -31,7 +31,7 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 		mDriver = new HotelsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
 		mUser = new HotelsUserData();
 		mUser.setHotelCityToRandomUSCity();
-		mUser.mBookingServer = "Production";
+		mUser.setBookingServer("Production");
 	}
 
 	// This test goes through a prototypical hotel booking

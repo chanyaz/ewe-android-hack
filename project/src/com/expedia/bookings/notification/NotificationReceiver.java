@@ -258,7 +258,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 			Intent clickIntent;
 			if (ExpediaBookingApp.useTabletInterface(mContext)) {
-				clickIntent = ItineraryActivity.createIntent(mContext, mNotification.getItinId());
+				clickIntent = ItineraryActivity.createIntent(mContext, mNotification);
 			}
 			else {
 				clickIntent = LaunchActivity.createIntent(mContext, mNotification);

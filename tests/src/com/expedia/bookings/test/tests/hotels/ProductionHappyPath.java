@@ -5,11 +5,9 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.util.DisplayMetrics;
 
 import com.expedia.bookings.activity.SearchActivity;
-import com.expedia.bookings.test.utils.HotelsRobotHelper;
 import com.expedia.bookings.test.utils.HotelsTestDriver;
 import com.expedia.bookings.test.utils.HotelsUserData;
 import com.expedia.bookings.test.utils.TestPreferences;
-import com.jayway.android.robotium.solo.Solo;
 
 public class ProductionHappyPath extends ActivityInstrumentationTestCase2<SearchActivity> {
 
@@ -34,7 +32,7 @@ public class ProductionHappyPath extends ActivityInstrumentationTestCase2<Search
 		mDriver = new HotelsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
 		mUser = new HotelsUserData();
 		mUser.setHotelCityToRandomUSCity();
-		mUser.mBookingServer = "Production";
+		mUser.setBookingServer("Production");
 	}
 
 	// This test goes through a prototypical hotel booking

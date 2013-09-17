@@ -24,21 +24,18 @@
     <!-- Push Notifications (GCM) -->
     <string name="gcm_sender_id">895052546820</string>
 
+    <!-- Default HockeyApp id entry for Eclipse builds. This gets overridden in the Gradle build scripts -->
+    <string name="hockey_app_id">1234567890</string>
+
+    <!-- Default AccountManager token -->
+    <string name="expedia_account_token_type_tuid_identifier">expedia.tuid</string>
+
+    <!-- Default AccountManager type id -->
+    <string name="expedia_account_type_identifier">com.expedia.bookings</string>
+
     <!-- MapsV2 -->
-    <!-- Main redirection -->
-    <string name="mapsv2_key">@string/mapsv2_dev_key</string>
-    <!-- Second level of indirection so we can override for buildVariants such as VSC -->
-    <string name="mapsv2_dev_key">@string/mapsv2_ebad_dev_key</string>
-    <string name="mapsv2_ha_key">@string/mapsv2_ebad_ha_key</string>
-    <string name="mapsv2_prod_key">@string/mapsv2_ebad_prod_key</string>
-    <!-- Concrete EBad maps v2 keys -->
-    <string name="mapsv2_ebad_dev_key">AIzaSyCcUFcOBytf5_4zQCVisZeZ1Vw1PHuVI24</string>
-    <string name="mapsv2_ebad_ha_key">AIzaSyDBpxfQT-N3CLCtDsfbvJRvWc0RFMIIbAA</string>
-    <string name="mapsv2_ebad_prod_key">AIzaSyDyJFDB5IjNcq47xmyRgmGc8BGutqdZnI4</string>
-    <!-- Concrete VSC maps v2 keys -->
-    <string name="mapsv2_vsc_dev_key">AIzaSyCZNVLp91ji40dYH242asW4YT1oTVYG41s</string>
-    <string name="mapsv2_vsc_ha_key">AIzaSyDZVuVKxNe3gQNUKZyeqpHrxUupQ0wXUlQ</string>
-    <string name="mapsv2_vsc_prod_key">AIzaSyBoKFnHe78X_UlZhYbEeSB6SECfoorSPAs</string>
+    <!-- Maps v2 key configured to work with many application package names -->
+    <string name="mapsv2_key">AIzaSyCcUFcOBytf5_4zQCVisZeZ1Vw1PHuVI24</string>
 
     <!-- CalendarDatePicker DateFormat -->
     <string name="calendar_date_picker_date_format">MMM dd</string>

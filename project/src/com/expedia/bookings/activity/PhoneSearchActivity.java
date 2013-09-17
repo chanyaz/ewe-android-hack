@@ -430,6 +430,9 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			// Save the timestamp in memory and on disk
 			mLastSearchTime = DateTime.now();
 			Db.saveHotelSearchTimestamp(this);
+
+			// 1940: If we had a successful search, don't let past failures re-start a search next time
+			mStartSearchOnResume = false;
 		}
 		else if (searchResponse != null && searchResponse.getPropertiesCount() > 0
 				&& searchResponse.getLocations() != null && searchResponse.getLocations().size() > 0) {

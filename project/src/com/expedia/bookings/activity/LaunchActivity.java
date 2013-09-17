@@ -52,6 +52,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.TwoLevelImageCache;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.BuildConfigUtils;
 
 public class LaunchActivity extends SherlockFragmentActivity implements OnListModeChangedListener,
 		ItinItemListFragmentListener, LaunchFragmentListener, DoLogoutListener {
@@ -176,7 +177,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 		ExpediaDebugUtil.showExpediaDebugToastIfNeeded(this);
 
 		// HockeyApp init
-		mHockeyPuck = new HockeyPuck(this, Codes.HOCKEY_APP_ID, !AndroidUtils.isRelease(this));
+		mHockeyPuck = new HockeyPuck(this, getString(R.string.hockey_app_id), !AndroidUtils.isRelease(this));
 		mHockeyPuck.onCreate(savedInstanceState);
 	}
 
@@ -408,18 +409,14 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	 * rely on that assumption:
 	 * 1. Tracks this incoming intent in Omniture.
 	 * 2. Updates the Notifications table that this notification is dismissed.
+	 *
+	 * *** This is duplicated in ItineraryActivity ***
+	 *
 	 * @param intent
 	 */
 	private void handleArgJumpToNotification(Intent intent) {
-		Notification notification = new Notification();
-
-		try {
-			String jsonNotification = intent.getStringExtra(ARG_JUMP_TO_NOTIFICATION);
-			notification.fromJson(new JSONObject(jsonNotification));
-		}
-		catch (JSONException e) {
-			Log.e("Unable to parse notification.", e);
-		}
+		String jsonNotification = intent.getStringExtra(ARG_JUMP_TO_NOTIFICATION);
+		Notification notification = Notification.getInstanceFromJsonString(jsonNotification);
 
 		if (!Notification.hasExisting(notification)) {
 			return;

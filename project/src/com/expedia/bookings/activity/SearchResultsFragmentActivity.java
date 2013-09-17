@@ -102,6 +102,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.BuildConfigUtils;
 import com.mobiata.android.util.NetUtils;
 
 // This is the TABLET search results activity
@@ -213,7 +214,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 			loadSearchResponse(Db.getHotelSearch().getSearchResponse(), false);
 		}
 
-		mHockeyPuck = new HockeyPuck(this, Codes.HOCKEY_APP_ID, !AndroidUtils.isRelease(this));
+		mHockeyPuck = new HockeyPuck(this, getString(R.string.hockey_app_id), !AndroidUtils.isRelease(this));
 
 		mKillReciever = new ActivityKillReceiver(this);
 		mKillReciever.onCreate();

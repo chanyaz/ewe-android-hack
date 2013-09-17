@@ -14,17 +14,18 @@ import com.expedia.bookings.test.utils.TestPreferences;
 
 public class SettingsScreen extends ScreenActions {
 
-	private static final int sSelectPOSTextID = R.string.preference_point_of_sale_title;
-	private static final int sClearPrivateDataTextID = R.string.clear_private_data;
-	private static final int sOKID = R.string.ok;
-	private static final int sSpoofHotelBookingsCheckBoxID = R.id.preference_spoof_booking_checkbox;
-	private static final int sSupressFlightBookingCheckBoxID = R.id.preference_suppress_flight_booking_checkbox;
+	private static final int SELECT_POS_STRING_ID = R.string.preference_point_of_sale_title;
+	private static final int CLEAR_PRIVATE_DATE_STRING_ID = R.string.clear_private_data;
+	private static final int OK_STRING_ID = R.string.ok;
+	private static final int SPOOF_HOTEL_BOOKING_CHECKBOX_ID = R.id.preference_spoof_booking_checkbox;
+	private static final int SUPPRESS_FLIGHT_BOOKING_CHECKBOX_ID = R.id.preference_suppress_flight_booking_checkbox;
 
-	private static final String sSelectAPI = "Select API";
-	private static final String sServerProxyAddress = "Server/Proxy Address";
-	private static final String sStubConfigurationPage = "Stub Configuration Page";
-	private static final String sSpoofHotelBookingsString = "Spoof hotel bookings";
-	private static final String sSuppressFlightsBookingString = "Suppress Flight Bookings";
+	private static final int COUNTRY_STRING_ID = R.string.preference_point_of_sale_title;
+	private static final String SELECT_API_STRING_ID = "Select API";
+	private static final String SERVER_PROXY_STRING_ID = "Server/Proxy Address";
+	private static final String STUB_CONFIGURATION_PAGE_STRING_ID = "Stub Configuration Page";
+	private static final String SPOOF_HOTELS_BOOKING_STRING_ID = "Spoof hotel bookings";
+	private static final String SUPPRESS_FLIGHTS_BOOKING_STRING_ID = "Suppress Flight Bookings";
 
 	public SettingsScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {
@@ -33,14 +34,22 @@ public class SettingsScreen extends ScreenActions {
 
 	// Object access
 	public String clearPrivateDataString() {
-		return mRes.getString(sClearPrivateDataTextID);
+		return mRes.getString(CLEAR_PRIVATE_DATE_STRING_ID);
 	}
 
 	public String OKString() {
-		return mRes.getString(sOKID);
+		return mRes.getString(OK_STRING_ID);
+	}
+
+	public String country() {
+		return getString(COUNTRY_STRING_ID);
 	}
 
 	// Object interaction
+
+	public void clickCountryString() {
+		clickOnText(country());
+	}
 
 	public void clickToClearPrivateData() {
 		clickOnText(clearPrivateDataString());
@@ -52,11 +61,11 @@ public class SettingsScreen extends ScreenActions {
 
 	public void clickSelectAPIString() {
 		scrollToTop();
-		clickOnText(sSelectAPI);
+		clickOnText(SELECT_API_STRING_ID);
 	}
 
 	public void clickServerProxyAddressString() {
-		clickOnText(sServerProxyAddress);
+		clickOnText(SERVER_PROXY_STRING_ID);
 	}
 
 	public void clearServerEditText() {
@@ -80,15 +89,15 @@ public class SettingsScreen extends ScreenActions {
 			View currentView = currentViews.get(i);
 			if (currentView instanceof CheckBox) {
 				CheckBox currentCheckBox = (CheckBox) currentView;
-				if (currentCheckBox.getId() == sSpoofHotelBookingsCheckBoxID) {
+				if (currentCheckBox.getId() == SPOOF_HOTEL_BOOKING_CHECKBOX_ID) {
 					if (!currentCheckBox.isChecked()) {
-						clickOnText(sSpoofHotelBookingsString);
+						clickOnText(SPOOF_HOTELS_BOOKING_STRING_ID);
 					}
 					spoofBookingsDone = true;
 				}
-				else if (currentCheckBox.getId() == sSupressFlightBookingCheckBoxID) {
+				else if (currentCheckBox.getId() == SUPPRESS_FLIGHT_BOOKING_CHECKBOX_ID) {
 					if (!currentCheckBox.isChecked()) {
-						clickOnText(sSuppressFlightsBookingString);
+						clickOnText(SUPPRESS_FLIGHTS_BOOKING_STRING_ID);
 					}
 					suppressFlightsDone = true;
 				}

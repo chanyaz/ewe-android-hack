@@ -39,11 +39,11 @@ public class FlightsHappyPath {
 			driver.launchScreen().pressSettings();
 			driver.settingsScreen().clickSelectAPIString();
 			driver.settingsScreen().scrollUp();
-			driver.settingsScreen().clickOnText(user.mServerName);
-			if (user.mServerName.equals("Proxy") || user.mServerName.equals("Mock Server")) {
+			driver.settingsScreen().clickOnText(user.getBookingServer());
+			if (user.getBookingServer().equals("Proxy") || user.getBookingServer().equals("Mock Server")) {
 				driver.settingsScreen().clickServerProxyAddressString();
 				driver.settingsScreen().clearServerEditText();
-				driver.settingsScreen().enterServerText(user.mProxyIP + ":" + user.mProxyPort);
+				driver.settingsScreen().enterServerText(user.getServerIP() + ":" + user.getServerPort());
 				driver.settingsScreen().clickOKString();
 			}
 			driver.settingsScreen().goBack();
@@ -58,8 +58,8 @@ public class FlightsHappyPath {
 			driver.landscape();
 			driver.portrait();
 			driver.screenshot("Flights Search");
-			driver.flightsSearchScreen().enterDepartureAirport(user.mDepartureAirport);
-			driver.flightsSearchScreen().enterArrivalAirport(user.mArrivalAirport);
+			driver.flightsSearchScreen().enterDepartureAirport(user.getDepartureAirport());
+			driver.flightsSearchScreen().enterArrivalAirport(user.getArrivalAirport());
 			driver.landscape();
 			driver.portrait();
 			driver.flightsSearchScreen().clickSelectDepartureButton();
@@ -99,8 +99,8 @@ public class FlightsHappyPath {
 			driver.landscape();
 			driver.portrait();
 			driver.screenshot("Login Screen");
-			driver.logInScreen().typeTextEmailEditText(user.mLoginEmail);
-			driver.logInScreen().typeTextPasswordEditText(user.mLoginPassword);
+			driver.logInScreen().typeTextEmailEditText(user.getLoginEmail());
+			driver.logInScreen().typeTextPasswordEditText(user.getLoginPassword());
 			driver.logInScreen().clickOnLoginButton();
 			driver.waitForStringToBeGone(driver.logInScreen().loggingInDialogString());
 
@@ -111,16 +111,16 @@ public class FlightsHappyPath {
 			driver.screenshot("Select Payment");
 			driver.commonPaymentMethodScreen().clickOnAddNewCardTextView();
 			driver.screenshot("Add new card");
-			driver.billingAddressScreen().typeTextAddressLineOne(user.mAddressLine1);
-			driver.billingAddressScreen().typeTextCity(user.mCityName);
-			driver.billingAddressScreen().typeTextState(user.mStateCode);
-			driver.billingAddressScreen().typeTextPostalCode(user.mZIPCode);
+			driver.billingAddressScreen().typeTextAddressLineOne(user.getAddressLine1());
+			driver.billingAddressScreen().typeTextCity(user.getAddressCity());
+			driver.billingAddressScreen().typeTextState(user.getAddressStateCode());
+			driver.billingAddressScreen().typeTextPostalCode(user.getAddressPostalCode());
 			driver.billingAddressScreen().clickNextButton();
 
 			driver.landscape();
 			driver.portrait();
 			driver.screenshot("Card info");
-			driver.cardInfoScreen().typeTextCreditCardEditText(user.mCreditCardNumber);
+			driver.cardInfoScreen().typeTextCreditCardEditText(user.getCreditCardNumber());
 			driver.cardInfoScreen().clickOnExpirationDateButton();
 			driver.cardInfoScreen().clickMonthUpButton();
 			driver.cardInfoScreen().clickYearUpButton();
@@ -135,7 +135,7 @@ public class FlightsHappyPath {
 			driver.delay();
 
 			driver.screenshot("CVV Entry");
-			driver.cvvEntryScreen().parseAndEnterCVV(user.mCCV);
+			driver.cvvEntryScreen().parseAndEnterCVV(user.getCCV());
 			driver.cvvEntryScreen().clickBookButton();
 			driver.delay(1);
 			driver.waitForStringToBeGone(driver.cvvEntryScreen().booking());
