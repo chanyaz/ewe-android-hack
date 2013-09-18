@@ -5,14 +5,17 @@ import org.joda.time.LocalDate;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.OnDateChangedListener;
@@ -32,6 +35,7 @@ public class DatesFragment extends Fragment implements OnDateChangedListener {
 
 	private DatesFragmentListener mListener;
 
+	private TextView mStatusTextView;
 	private CalendarDatePicker mCalendarDatePicker;
 
 	// These are only used for the initial setting; they do not represent the state most of the time
@@ -49,6 +53,7 @@ public class DatesFragment extends Fragment implements OnDateChangedListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_dates, container, false);
 
+		mStatusTextView = Ui.findView(view, R.id.status_text_view);
 		mCalendarDatePicker = Ui.findView(view, R.id.dates_date_picker);
 
 		// Configure it like flights for now, as that's more accepting
@@ -56,6 +61,8 @@ public class DatesFragment extends Fragment implements OnDateChangedListener {
 		mCalendarDatePicker.setOnDateChangedListener(this);
 
 		setCalendarDates(mStartDate, mEndDate);
+
+		updateStatusText();
 
 		return view;
 	}
@@ -74,11 +81,24 @@ public class DatesFragment extends Fragment implements OnDateChangedListener {
 		CalendarUtils.updateCalendarPickerEndDate(mCalendarDatePicker, endDate);
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// OnDateChangedListener
+	private void updateStatusText() {
+		updateStatusText(getSelectedDates());
+	}
 
-	@Override
-	public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
+	private void updateStatusText(Pair<LocalDate, LocalDate> dates) {
+		if (dates.first != null && dates.second != null) {
+			int daysBetween = JodaUtils.daysBetween(dates.first, dates.second);
+			mStatusTextView.setText(getString(R.string.dates_status_multi_TEMPLATE, daysBetween));
+		}
+		else if (dates.first != null) {
+			mStatusTextView.setText(R.string.dates_status_one);
+		}
+		else {
+			mStatusTextView.setText(R.string.dates_status_none);
+		}
+	}
+
+	private Pair<LocalDate, LocalDate> getSelectedDates() {
 		LocalDate startDate = null;
 		LocalDate endDate = null;
 
@@ -92,7 +112,19 @@ public class DatesFragment extends Fragment implements OnDateChangedListener {
 					mCalendarDatePicker.getEndDayOfMonth());
 		}
 
-		mListener.onDatesChanged(startDate, endDate);
+		return new Pair<LocalDate, LocalDate>(startDate, endDate);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// OnDateChangedListener
+
+	@Override
+	public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
+		Pair<LocalDate, LocalDate> dates = getSelectedDates();
+
+		mListener.onDatesChanged(dates.first, dates.second);
+
+		updateStatusText(dates);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

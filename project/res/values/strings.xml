@@ -16,6 +16,12 @@
     <string name="great_unknown">the Great Unknown</string>
     <!-- When a search is for one adult, we assume it's you! -->
     <string name="just_you">Just You</string>
+    <!-- Shown when no search dates are selected -->
+    <string name="dates_status_none">Enter your travel dates below.</string>
+    <!-- Shown when a single date is selected for searching -->
+    <string name="dates_status_one">One-way flights and one-night stays.</string>
+    <!-- Shown when round trip dates are selected for searching -->
+    <string name="dates_status_multi_TEMPLATE">Round-trip flights and %s-night stays.</string>
 
     <!-- Tablet Results strings -->
     <!-- Resulsts label -->
