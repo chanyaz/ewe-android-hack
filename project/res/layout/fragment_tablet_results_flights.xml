@@ -12,14 +12,45 @@
         android:layout_height="match_parent"
         android:background="#00FF00" />
 
+    <!-- FLIGHT TWO -->
+    <!-- This ends up being below flight one, due to how the transition animations work -->
+
+    <com.expedia.bookings.widget.BlockEventFrameLayout
+        android:id="@+id/flight_two_details"
+        android:layout_width="0dp"
+        android:layout_height="match_parent" />
+
+    <com.expedia.bookings.widget.BlockEventFrameLayout
+        android:id="@+id/flight_two_filters"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="#00FFFF" />
+
+    <RelativeLayout
+        android:id="@+id/flight_two_list_and_header_container"
+        android:layout_width="0dp"
+        android:layout_height="match_parent" >
+
+        <com.expedia.bookings.widget.BlockEventFrameLayout
+            android:id="@+id/flight_two_header_with_flight_one_info"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="#FF0000" />
+
+        <com.expedia.bookings.widget.BlockEventFrameLayout
+            android:id="@+id/flight_two_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/flight_two_header_with_flight_one_info"
+            android:background="#FF00FF" />
+    </RelativeLayout>
+
     <!-- FLIGHT ONE -->
 
     <com.expedia.bookings.widget.BlockEventFrameLayout
         android:id="@+id/flight_one_details"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_margin="64dp"
-        android:background="#FF0000" />
+        android:layout_height="match_parent" />
 
     <com.expedia.bookings.widget.BlockEventFrameLayout
         android:id="@+id/flight_one_filters"
@@ -31,40 +62,5 @@
         android:id="@+id/flight_one_list"
         android:layout_width="0dp"
         android:layout_height="match_parent" />
-
-    <!-- FLIGHT TWO -->
-
-    <com.expedia.bookings.widget.BlockEventFrameLayout
-        android:id="@+id/flight_two_details"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_margin="64dp"
-        android:background="#FF0000" />
-
-    <com.expedia.bookings.widget.BlockEventFrameLayout
-        android:id="@+id/flight_two_filters"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:background="#00FFFF" />
-
-    <RelativeLayout
-        android:id="@+id/flight_two_list_and_header_container"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:background="#FFFF00" >
-
-        <com.expedia.bookings.widget.BlockEventFrameLayout
-            android:id="@+id/flight_two_header_with_flight_one_info"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="#66FF0000" />
-
-        <com.expedia.bookings.widget.BlockEventFrameLayout
-            android:id="@+id/flight_two_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/flight_two_header_with_flight_one_info"
-            android:background="#FF00FF" />
-    </RelativeLayout>
 
 </FrameLayout>
