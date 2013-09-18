@@ -129,7 +129,6 @@ public class HotelSearchFilterTests extends CustomActivityInstrumentationTestCas
 			throw new Exception(
 					"The mid priced hotel range lower bound is lower than the low range hotels' upper bound.");
 		}
-		mDriver.enterLog(TAG, "DAWG " + midPricedHotelsLowerBound + " >= " + lowPricedHotelsUpperBound);
 		mDriver.scrollToBottom();
 
 		upperBoundListIndex = mDriver.hotelsSearchScreen().hotelResultsListView().getChildCount() - 2;
@@ -152,7 +151,6 @@ public class HotelSearchFilterTests extends CustomActivityInstrumentationTestCas
 			throw new Exception(
 					"The high priced hotel range lower bound is lower than the mid range hotels' upper bound.");
 		}
-		mDriver.enterLog(TAG, "DAWG " + highPricedHotelsLowerBound + " >= " + midPricedHotelsUpperBoundPrice);
 	}
 
 	// VIP Access filter text
