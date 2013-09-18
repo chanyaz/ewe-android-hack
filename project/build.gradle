@@ -30,11 +30,6 @@ android {
     }
 
     productFlavors {
-        EBad {
-            packageName "com.expedia.bookings"
-            buildConfig "public static final boolean IS_VSC = false;"
-        }
-
         Expedia {
             packageName "com.expedia.bookings"
             buildConfig "public static final boolean IS_VSC = false;"
