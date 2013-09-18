@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletResultsActivity.GlobalResultsState;
-import com.expedia.bookings.fragment.ResultsFlightDetailsFragment.FlightDetailsState;
 import com.expedia.bookings.interfaces.IResultsFlightSelectedListener;
 import com.expedia.bookings.interfaces.ITabletResultsController;
 import com.expedia.bookings.utils.ColumnManager;
@@ -111,6 +110,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	private FlightsState mFlightsState = FlightsState.FLIGHT_ONE_FILTERS;
 	private IFlightsFruitScrollUpListViewChangeListener mListener;
 	private ColumnManager mColumnManager = new ColumnManager(3);
+	private int mGlobalHeight = 0;
+	private float mFlightDetailsMarginPercentage = 0.1f;
 
 	//Animation
 	private ValueAnimator mFlightsStateAnimator;
@@ -207,29 +208,26 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		}
 		switch (state) {
 		case FLIGHT_ONE_FILTERS: {
-			setTransitionToFlightDetailsPercentage(mFlightOneFiltersC, mFlightOneListC, mFlightOneDetailsC, 0f);
+			setTransitionToFlightDetailsPercentage(mFlightOneFiltersC, mFlightOneListC, mFlightOneDetailsFrag, 0f);
 			break;
 		}
 		case FLIGHT_ONE_DETAILS: {
-			setTransitionToFlightDetailsPercentage(mFlightOneFiltersC, mFlightOneListC, mFlightOneDetailsC, 1f);
+			setTransitionToFlightDetailsPercentage(mFlightOneFiltersC, mFlightOneListC, mFlightOneDetailsFrag, 1f);
 			setBetweenFlightsAnimationPercentage(0f);
-			mFlightOneDetailsFrag.setState(FlightDetailsState.DETAILS);
 			break;
 		}
 		case FLIGHT_TWO_FILTERS: {
 			setBetweenFlightsAnimationPercentage(1f);
-			setTransitionToFlightDetailsPercentage(mFlightTwoFiltersC, this.mFlightTwoListColumnC, mFlightTwoDetailsC,
-					0f);
-
-			mFlightTwoDetailsFrag.setTransitionPercentage(FlightDetailsState.DETAILS, FlightDetailsState.TOP_LEFT,
+			setTransitionToFlightDetailsPercentage(mFlightTwoFiltersC, this.mFlightTwoListColumnC,
+					mFlightTwoDetailsFrag,
 					0f);
 			mFlightTwoFlightOneHeaderC.setVisibility(View.VISIBLE);
 			break;
 		}
 		case FLIGHT_TWO_DETAILS: {
-			setTransitionToFlightDetailsPercentage(mFlightTwoFiltersC, this.mFlightTwoListColumnC, mFlightTwoDetailsC,
+			setTransitionToFlightDetailsPercentage(mFlightTwoFiltersC, this.mFlightTwoListColumnC,
+					mFlightTwoDetailsFrag,
 					1f);
-			mFlightTwoDetailsFrag.setState(FlightDetailsState.DETAILS);
 			break;
 		}
 		case ADDING_FLIGHT_TO_TRIP: {
@@ -295,7 +293,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		betweenFlightsAnimation.addListener(new AnimatorListenerAdapter() {
 			@Override
 			public void onAnimationEnd(Animator arg0) {
-				mFlightOneDetailsFrag.finalizeTransition(FlightDetailsState.DETAILS, FlightDetailsState.TOP_LEFT);
+				mFlightOneDetailsFrag.finalizeDepartureFlightSelectedAnimation();
 				finalizeFlightsState(mDestinationFlightsState);
 			}
 		});
@@ -306,9 +304,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		destinationSummaryLocation.bottom = mFlightTwoFlightOneHeaderC.getHeight();
 		destinationSummaryLocation.left = mColumnManager.getColLeft(1);
 		destinationSummaryLocation.right = mColumnManager.getColLeft(1) + mColumnManager.getColWidth(1);
-		mFlightOneDetailsFrag.perpareTransition(FlightDetailsState.DETAILS, FlightDetailsState.TOP_LEFT,
-				destinationSummaryLocation);
-		mFlightTwoDetailsFrag.setState(FlightDetailsState.DETAILS);
+		mFlightOneDetailsFrag.prepareDepartureFlightSelectedAnimation(destinationSummaryLocation);
 
 		mFlightOneListC.setVisibility(View.VISIBLE);
 		mFlightOneDetailsC.setVisibility(View.VISIBLE);
@@ -327,8 +323,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		mFlightTwoFiltersC.setLayerType(layerType, null);
 		mFlightTwoListColumnC.setLayerType(layerType, null);
 
-		//This will need some special consideration when we start flying around and stuff...
-		mFlightOneDetailsC.setLayerType(layerType, null);
+		if(mFlightOneDetailsFrag != null){
+			mFlightOneDetailsFrag.setDepartureTripSelectedAnimationLayer(layerType);
+		}
 	}
 
 	private void setBetweenFlightsAnimationPercentage(float percentage) {
@@ -346,9 +343,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		mFlightTwoFiltersC.setAlpha(percentage);
 		mFlightTwoListColumnC.setAlpha(percentage);
 
-		//TODO: THIS WONT ACTUALLY BE HAPPENING, IT DOES SOME SHRINKING AND FLYING AROUND AND STUFF.
-		mFlightOneDetailsFrag.setTransitionPercentage(FlightDetailsState.DETAILS, FlightDetailsState.TOP_LEFT,
-				percentage);
+		mFlightOneDetailsFrag.setDepartureTripSelectedAnimationState(percentage);
 	}
 
 	/*
@@ -361,16 +356,19 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 		final ViewGroup filters;
 		final ViewGroup list;
-		final ViewGroup details;
+		final ViewGroup detailsC;
+		final ResultsFlightDetailsFragment details;
 		if (!returnFlight) {
 			filters = mFlightOneFiltersC;
 			list = mFlightOneListC;
-			details = mFlightOneDetailsC;
+			detailsC = mFlightOneDetailsC;
+			details = mFlightOneDetailsFrag;
 		}
 		else {
 			filters = mFlightTwoFiltersC;
 			list = mFlightTwoListColumnC;
-			details = mFlightTwoDetailsC;
+			detailsC = mFlightTwoDetailsC;
+			details = mFlightTwoDetailsFrag;
 		}
 
 		ValueAnimator flightDetailsAnimator = ValueAnimator.ofFloat(startValue, endValue).setDuration(
@@ -386,41 +384,47 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		flightDetailsAnimator.addListener(new AnimatorListenerAdapter() {
 			@Override
 			public void onAnimationEnd(Animator arg0) {
-				setTransitionToFlightDetailsHardwareRendering(false, filters, details, list);
+				setTransitionToFlightDetailsHardwareRendering(false, filters, list, details);
 				finalizeFlightsState(mDestinationFlightsState);
 			}
 		});
 
 		if (!returnFlight) {
-			mFlightOneDetailsFrag.setState(FlightDetailsState.DETAILS);
+			mFlightOneDetailsFrag.prepareSlideInAnimation();
 		}
 		else {
-			mFlightTwoDetailsFrag.setState(FlightDetailsState.DETAILS);
+			mFlightTwoDetailsFrag.prepareSlideInAnimation();
 		}
 
 		filters.setVisibility(View.VISIBLE);
-		details.setVisibility(View.VISIBLE);
+		detailsC.setVisibility(View.VISIBLE);
 		list.setVisibility(View.VISIBLE);
-		setTransitionToFlightDetailsHardwareRendering(true, filters, details, list);
+		setTransitionToFlightDetailsHardwareRendering(true, filters, list, details);
 		return flightDetailsAnimator;
 
 	}
 
 	private void setTransitionToFlightDetailsHardwareRendering(boolean useHardwareLayer, ViewGroup filtersC,
-			ViewGroup listC, ViewGroup detailsC) {
+			ViewGroup listC, ResultsFlightDetailsFragment details) {
 		int layerType = useHardwareLayer ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
 		filtersC.setLayerType(layerType, null);
 		listC.setLayerType(layerType, null);
-		detailsC.setLayerType(layerType, null);
+
+		if (details != null) {
+			details.setSlideInAnimationLayer(layerType);
+		}
 	}
 
-	private void setTransitionToFlightDetailsPercentage(ViewGroup filtersC, ViewGroup listC, ViewGroup detailsC,
+	private void setTransitionToFlightDetailsPercentage(ViewGroup filtersC, ViewGroup listC,
+			ResultsFlightDetailsFragment details,
 			float percentage) {
 		filtersC.setTranslationX(percentage * -mColumnManager.getColWidth(0));
 		listC.setTranslationX(percentage * -mColumnManager.getColWidth(0));
 
-		int detailsTranslateDistance = mColumnManager.getColWidth(1) + mColumnManager.getColWidth(2);
-		detailsC.setTranslationX((1f - percentage) * -detailsTranslateDistance);
+		if (details != null) {
+			int detailsTranslateDistance = mColumnManager.getColWidth(1) + mColumnManager.getColWidth(2);
+			details.setDetailsSlideInAnimationState(percentage, detailsTranslateDistance, true);
+		}
 	}
 
 	private void setTouchState(GlobalResultsState globalState, FlightsState flightsState) {
@@ -747,7 +751,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 					transaction.add(R.id.flight_one_details, mFlightOneDetailsFrag, FRAG_TAG_FLIGHT_ONE_DETAILS);
 				}
 			}
-			mFlightOneDetailsFrag.setColumnManager(mColumnManager);
+			updateDetailsFragSizes(mFlightOneDetailsFrag);
 		}
 		else {
 			if (mFlightOneDetailsFrag == null) {
@@ -776,7 +780,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 					transaction.add(R.id.flight_two_details, mFlightTwoDetailsFrag, FRAG_TAG_FLIGHT_TWO_DETAILS);
 				}
 			}
-			mFlightTwoDetailsFrag.setColumnManager(mColumnManager);
+			updateDetailsFragSizes(mFlightTwoDetailsFrag);
 		}
 		else {
 			if (mFlightTwoDetailsFrag == null) {
@@ -865,6 +869,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	@Override
 	public void updateContentSize(int totalWidth, int totalHeight) {
 		mColumnManager.setTotalWidth(totalWidth);
+		mGlobalHeight = totalHeight;
 
 		mColumnManager.setContainerToColumnSpan(mFlightMapC, 0, 2);
 
@@ -876,13 +881,24 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		mColumnManager.setContainerToColumn(mFlightTwoListColumnC, 1);
 		mColumnManager.setContainerToColumnSpan(mFlightTwoDetailsC, 0, 2);
 
-		if (mFlightOneDetailsFrag != null) {
-			mFlightOneDetailsFrag.setColumnManager(mColumnManager);
-		}
-		if (mFlightTwoDetailsFrag != null) {
-			mFlightTwoDetailsFrag.setColumnManager(mColumnManager);
-		}
+		updateDetailsFragSizes(mFlightOneDetailsFrag);
+		updateDetailsFragSizes(mFlightTwoDetailsFrag);
+	}
 
+	private void updateDetailsFragSizes(ResultsFlightDetailsFragment frag) {
+		if (frag != null && mColumnManager.getTotalWidth() > 0) {
+			Rect position = new Rect();
+			position.left = mColumnManager.getColLeft(1);
+			position.right = mColumnManager.getColRight(2);
+			position.top = 0;
+			position.bottom = mGlobalHeight;
+			frag.setDefaultDetailsPositionAndDimensions(position, mFlightDetailsMarginPercentage);
+		}
+		if (frag != null && mFlightOneListFrag != null && mFlightOneListFrag.getTopSpaceListView() != null
+				&& mFlightOneListFrag.getTopSpaceListView().getRowHeight(false) > 0) {
+			frag.setDetaultRowDimensions(mColumnManager.getColWidth(1), mFlightOneListFrag.getTopSpaceListView()
+					.getRowHeight(false));
+		}
 	}
 
 	@Override

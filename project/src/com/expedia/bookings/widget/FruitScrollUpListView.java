@@ -620,7 +620,7 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 		return getCount() - getFooterViewsCount() - getHeaderViewsCount();
 	}
 
-	private int getRowHeight(boolean withDividerHeight) {
+	public int getRowHeight(boolean withDividerHeight) {
 		View row = getOneRow();
 		if (row != null) {
 			int retHeight = row.getHeight();
