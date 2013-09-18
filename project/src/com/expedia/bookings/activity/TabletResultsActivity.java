@@ -127,7 +127,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 		//TODO: REMOVE
 		// Db.saveOrLoadDbForTesting(this);
-		
+
 		//Containers
 		mRootC = Ui.findView(this, R.id.root_layout);
 		mBgDestImageC = Ui.findView(this, R.id.bg_dest_image_overlay);
@@ -200,7 +200,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			@Override
 			public boolean onPreDraw() {
 				if (!mPreDrawInitComplete) {
-					updateColumnWidths(mRootC.getWidth());
+					updateContentSize(mRootC.getWidth(), mRootC.getHeight());
 					setGlobalResultsState(mState);
 					mPreDrawInitComplete = true;
 				}
@@ -345,10 +345,10 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	}
 
 	@Override
-	public void updateColumnWidths(int totalWidth) {
+	public void updateContentSize(int totalWidth, int totalHeight) {
 		mColumnManager.setTotalWidth(totalWidth);
 		for (ITabletResultsController controller : mTabletResultsControllers) {
-			controller.updateColumnWidths(totalWidth);
+			controller.updateContentSize(totalWidth, totalHeight);
 		}
 	}
 

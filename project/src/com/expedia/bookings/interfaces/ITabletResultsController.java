@@ -67,7 +67,7 @@ public interface ITabletResultsController {
 	 * We want to make sure everyones columns are in sync with everyone else
 	 * @param totalWidth
 	 */
-	public void updateColumnWidths(int totalWidth);
+	public void updateContentSize(int totalWidth, int totalHeight);
 
 	/**
 	 * The controllers should be in control of back presses too.

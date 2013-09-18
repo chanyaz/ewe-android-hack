@@ -863,7 +863,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	}
 
 	@Override
-	public void updateColumnWidths(int totalWidth) {
+	public void updateContentSize(int totalWidth, int totalHeight) {
 		mColumnManager.setTotalWidth(totalWidth);
 
 		mColumnManager.setContainerToColumnSpan(mFlightMapC, 0, 2);
