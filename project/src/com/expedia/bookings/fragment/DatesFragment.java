@@ -5,6 +5,7 @@ import org.joda.time.LocalDate;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.format.DateUtils;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,7 @@ public class DatesFragment extends Fragment implements OnDateChangedListener {
 	private DatesFragmentListener mListener;
 
 	private TextView mStatusTextView;
+	private TextView mStartTextView;
 	private CalendarDatePicker mCalendarDatePicker;
 
 	// These are only used for the initial setting; they do not represent the state most of the time
@@ -54,6 +56,7 @@ public class DatesFragment extends Fragment implements OnDateChangedListener {
 		View view = inflater.inflate(R.layout.fragment_dates, container, false);
 
 		mStatusTextView = Ui.findView(view, R.id.status_text_view);
+		mStartTextView = Ui.findView(view, R.id.start_text_view);
 		mCalendarDatePicker = Ui.findView(view, R.id.dates_date_picker);
 
 		// Configure it like flights for now, as that's more accepting
@@ -63,6 +66,7 @@ public class DatesFragment extends Fragment implements OnDateChangedListener {
 		setCalendarDates(mStartDate, mEndDate);
 
 		updateStatusText();
+		updateDateBoxes();
 
 		return view;
 	}
@@ -98,6 +102,22 @@ public class DatesFragment extends Fragment implements OnDateChangedListener {
 		}
 	}
 
+	private void updateDateBoxes() {
+		updateDateBoxes(getSelectedDates());
+	}
+
+	private void updateDateBoxes(Pair<LocalDate, LocalDate> dates) {
+		if (dates.first != null) {
+			String date = JodaUtils.formatLocalDate(getActivity(), dates.first, DateUtils.FORMAT_SHOW_DATE);
+			mStartTextView.setText(getString(R.string.start_date_TEMPLATE, date));
+			mStartTextView.setBackgroundResource(R.drawable.bg_date_box_normal);
+		}
+		else {
+			mStartTextView.setText(getString(R.string.start_date_TEMPLATE, ""));
+			mStartTextView.setBackgroundResource(R.drawable.bg_date_box_selected);
+		}
+	}
+
 	private Pair<LocalDate, LocalDate> getSelectedDates() {
 		LocalDate startDate = null;
 		LocalDate endDate = null;
@@ -125,6 +145,7 @@ public class DatesFragment extends Fragment implements OnDateChangedListener {
 		mListener.onDatesChanged(dates.first, dates.second);
 
 		updateStatusText(dates);
+		updateDateBoxes(dates);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

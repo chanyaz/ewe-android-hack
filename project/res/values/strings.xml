@@ -22,6 +22,8 @@
     <string name="dates_status_one">One-way flights and one-night stays.</string>
     <!-- Shown when round trip dates are selected for searching -->
     <string name="dates_status_multi_TEMPLATE">Round-trip flights and %s-night stays.</string>
+    <!-- Start date display.  %s is the start date, e.g. "Start Date: September 10" -->
+    <string name="start_date_TEMPLATE">Start Date: %s</string>
 
     <!-- Tablet Results strings -->
     <!-- Resulsts label -->
