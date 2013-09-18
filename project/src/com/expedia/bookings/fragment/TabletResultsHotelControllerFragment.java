@@ -383,6 +383,13 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 				mHotelRoomsAndRatesShadeC.setBlockNewEventsEnabled(false);
 			}
 
+			if (hotelsState == HotelsState.DEFAULT_FILTERS || hotelsState == HotelsState.ROOMS_AND_RATES_FILTERS) {
+				mHotelFiltersC.setBlockNewEventsEnabled(false);
+			}
+			else {
+				mHotelFiltersC.setBlockNewEventsEnabled(true);
+			}
+
 			mHotelListC.setBlockNewEventsEnabled(false);
 			break;
 		}
