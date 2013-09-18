@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -211,6 +212,17 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 	@Override
 	public void onSearch(SearchParams searchParams) {
+		// Validate that we have all data we need
+		if (!searchParams.hasOrigin()) {
+			Toast.makeText(this, "Origin is required for search (Loc String TODO)", Toast.LENGTH_LONG).show();
+			return;
+		}
+		else if (!searchParams.hasDestination()) {
+			Toast.makeText(this, "Destination is required for search (Loc String TODO)", Toast.LENGTH_LONG).show();
+			return;
+		}
+
+		// Do actual search
 		Db.getHotelSearch().setSearchResponse(null);
 		Db.getFlightSearch().setSearchResponse(null);
 

@@ -72,6 +72,10 @@ public class SearchParams implements Parcelable, JSONable {
 		return this;
 	}
 
+	public boolean hasOrigin() {
+		return mOrigin != null && !mOrigin.equals(new Location());
+	}
+
 	public Location getDestination() {
 		return mDestination;
 	}
@@ -79,6 +83,10 @@ public class SearchParams implements Parcelable, JSONable {
 	public SearchParams setDestination(Location destination) {
 		mDestination = destination;
 		return this;
+	}
+
+	public boolean hasDestination() {
+		return mDestination != null && !mDestination.equals(new Location());
 	}
 
 	public LocalDate getStartDate() {
