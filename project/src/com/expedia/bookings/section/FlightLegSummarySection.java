@@ -189,6 +189,13 @@ public class FlightLegSummarySection extends RelativeLayout {
 		mFlightTripView.setUp(leg, minTime, maxTime);
 	}
 
+	/**
+	 * Perform any layout adjustments on this section, based on the data in this FlightLeg,
+	 * whether this is a summary card or an itin card, etc.
+	 *
+	 * This is broken into its own method, so that descendent classes can make different
+	 * layout adjustments (looking at you, FlightLegSummarySectionTablet).
+	 */
 	void adjustLayout(final FlightLeg leg, boolean isIndividualFlight) {
 		Context context = getContext();
 		Flight firstFlight = leg.getSegment(0);

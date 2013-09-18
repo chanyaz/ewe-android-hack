@@ -16,5 +16,7 @@ public class FlightLegSummarySectionTablet extends FlightLegSummarySection {
 	}
 
 	void adjustLayout(final FlightLeg leg, boolean isIndividualFlight) {
+		// No special layout adjustments need to be made on the tablet
+		// flight leg summary rows.
 	}
 }
