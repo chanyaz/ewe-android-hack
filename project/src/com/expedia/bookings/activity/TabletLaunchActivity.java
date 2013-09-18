@@ -31,11 +31,12 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.app.SimpleProgressDialogFragment;
+import com.mobiata.android.app.SimpleProgressDialogFragment.SimpleProgressDialogFragmentListener;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 
 public class TabletLaunchActivity extends FragmentActivity implements MeasurableFragmentListener,
-		SearchFragmentListener, ExpediaServicesFragmentListener {
+		SearchFragmentListener, ExpediaServicesFragmentListener, SimpleProgressDialogFragmentListener {
 
 	// On top when search params covers up everything
 	private static final String BACKSTACK_SEARCH_PARAMS = "BACKSTACK_SEARCH_PARAMS";
@@ -277,5 +278,15 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		else {
 			return prefix + " response loaded; ";
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// SimpleProgressDialogFragmentListener
+
+	@Override
+	public void onCancel() {
+		// Cancel the download
+		mServicesFragment.cancel(ServiceType.HOTEL_SEARCH);
+		mServicesFragment.cancel(ServiceType.FLIGHT_SEARCH);
 	}
 }
