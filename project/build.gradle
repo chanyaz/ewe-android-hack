@@ -35,6 +35,11 @@ android {
             buildConfig "public static final boolean IS_VSC = false;"
         }
 
+        Expedia {
+            packageName "com.expedia.bookings"
+            buildConfig "public static final boolean IS_VSC = false;"
+        }
+
         VSC {
             buildConfig "public static final boolean IS_VSC = true;"
             packageName "com.expedia.bookings.vsc"
