@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import com.expedia.bookings.R;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 import android.annotation.TargetApi;
@@ -29,15 +30,18 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	private ViewGroup mAnimationFlightRowC;
 	private ViewGroup mDetailsC;
 
+	//Position and size vars
 	int mDetailsPositionLeft = -1;
 	int mDetailsPositionTop = -1;
 	int mDetailsWidth = -1;
 	int mDetailsHeight = -1;
-
 	int mRowPositionLeft = -1;
 	int mRowPositionTop = -1;
 	int mRowWidth = -1;
 	int mRowHeight = -1;
+
+	//Animation vars
+	private Rect mAddToTripRect;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -98,6 +102,8 @@ public class ResultsFlightDetailsFragment extends Fragment {
 
 	private void applyRowDimensions() {
 		if (mAnimationFlightRowC != null && mRowWidth >= 0) {
+			Log.d("ResultsFlightDetails setting mAnimationFlightRowC dimensions - width:" + mRowWidth + " height:"
+					+ mRowHeight);
 			LayoutParams params = (LayoutParams) mAnimationFlightRowC.getLayoutParams();
 			if (params == null) {
 				params = new LayoutParams(mRowHeight, mRowWidth);
@@ -111,7 +117,9 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	}
 
 	private void applyRowPosition() {
-		if (mAnimationFlightRowC != null && mRowPositionLeft > 0) {
+		if (mAnimationFlightRowC != null && mRowPositionLeft >= 0) {
+			Log.d("ResultsFlightDetails setting mAnimationFlightRowC position - left:" + mRowPositionLeft + " top:"
+					+ mRowPositionTop);
 			LayoutParams params = (LayoutParams) mAnimationFlightRowC.getLayoutParams();
 			if (params == null) {
 				params = new LayoutParams(mRowHeight, mRowWidth);
@@ -131,7 +139,8 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	}
 
 	public void prepareSlideInAnimation() {
-
+		mAnimationFlightRowC.setVisibility(View.VISIBLE);
+		mDetailsC.setVisibility(View.VISIBLE);
 	}
 
 	public void setDetailsSlideInAnimationState(float percentage, int totalSlideDistance, boolean fromLeft) {
@@ -161,6 +170,9 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		mRowPositionTop = globalDestSpot.top;
 		applyRowDimensions();
 		applyRowPosition();
+
+		mAnimationFlightRowC.setVisibility(View.VISIBLE);
+		mDetailsC.setVisibility(View.VISIBLE);
 	}
 
 	public void setDepartureTripSelectedAnimationState(float percentage) {
@@ -229,11 +241,36 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	}
 
 	public void prepareAddToTripFromDepartureAnimation(Rect globalDepartureRowPosition, Rect globalAddToTripPosition) {
+		//This one is different, we set the row to be the dimensions of the start of the animation,
+		//this way it should just sit on top of the actual row and not cause a jump as the scaling gets strange
+		mRowPositionLeft = globalDepartureRowPosition.left;
+		mRowPositionTop = globalDepartureRowPosition.top;
+		mRowWidth = globalDepartureRowPosition.right - globalDepartureRowPosition.left;
+		mRowHeight = globalDepartureRowPosition.bottom - globalDepartureRowPosition.top;
 
+		applyRowDimensions();
+		applyRowPosition();
+
+		mAddToTripRect = globalAddToTripPosition;
+		mAnimationFlightRowC.setVisibility(View.VISIBLE);
+		mDetailsC.setVisibility(View.INVISIBLE);
 	}
 
 	public void setAddToTripFromDepartureAnimationState(float percentage) {
+		if (mAnimationFlightRowC != null && mAddToTripRect != null) {
+			float rowScaleX = 1f + (((float) (mAddToTripRect.right - mAddToTripRect.left) / mRowWidth) - 1f)
+					* percentage;
+			float rowScaleY = 1f + (((float) (mAddToTripRect.bottom - mAddToTripRect.top) / mRowHeight) - 1f)
+					* percentage;
 
+			float rowTranslationX = percentage * (mAddToTripRect.left - mRowPositionLeft);
+			float rowTranslationY = percentage * (mAddToTripRect.top - mRowPositionTop);
+
+			mAnimationFlightRowC.setScaleX(rowScaleX);
+			mAnimationFlightRowC.setScaleY(rowScaleY);
+			mAnimationFlightRowC.setTranslationX(rowTranslationX);
+			mAnimationFlightRowC.setTranslationY(rowTranslationY);
+		}
 	}
 
 	public void finalizeAddToTripFromDepartureAnimation() {
