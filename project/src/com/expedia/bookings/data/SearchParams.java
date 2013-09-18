@@ -227,18 +227,18 @@ public class SearchParams implements Parcelable, JSONable {
 	public HotelSearchParams toHotelSearchParams() {
 		HotelSearchParams params = new HotelSearchParams();
 
-		if (!mOrigin.equals(new Location())) {
+		if (!mDestination.equals(new Location())) {
 			// TODO: This is temporary code; the suggestions are all based off FS.db, which doesn't
 			// give us good hotel search data excepting lat/lng.  So we use the airport's lat/lng
 			// for the search for now - once we are stabilized a bit we should switch to basing
 			// data off mOrigin.
-			Airport airport = FlightStatsDbUtils.getAirport(mOrigin.getDestinationId());
+			Airport airport = FlightStatsDbUtils.getAirport(mDestination.getDestinationId());
 
 			if (airport != null && airport.getLatitude() != 0 || airport.getLongitude() != 0) {
 				params.setSearchLatLon(airport.getLatitude(), airport.getLongitude());
 			}
 			else {
-				params.setQuery(mOrigin.getCity());
+				params.setQuery(mDestination.getCity());
 			}
 		}
 
