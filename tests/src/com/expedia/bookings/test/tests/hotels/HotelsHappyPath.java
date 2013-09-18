@@ -21,6 +21,7 @@ public class HotelsHappyPath {
 			}
 
 			// Settings 
+			driver.delay();
 			driver.launchScreen().openMenuDropDown();
 			driver.launchScreen().pressSettings();
 			driver.settingsScreen().clickToClearPrivateData();
