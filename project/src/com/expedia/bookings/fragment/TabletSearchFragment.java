@@ -21,7 +21,6 @@ import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.app.ActionBar;
 import android.app.Activity;
-import android.location.GpsStatus.NmeaListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -522,7 +521,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			text = JodaUtils.formatLocalDate(getActivity(), mSearchParams.getStartDate(), flags);
 		}
 		else {
-			text = getString(R.string.search_anytime);
+			text = getString(R.string.select_dates);
 		}
 
 		mSearchDatesTextView.setText(text);

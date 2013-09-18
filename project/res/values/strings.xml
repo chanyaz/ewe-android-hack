@@ -14,8 +14,6 @@
     <string name="from_TEMPLATE">From %s</string>
     <!-- String when we don't know where the user is coming from/going to -->
     <string name="great_unknown">the Great Unknown</string>
-    <!-- String when the search dates are not yet known - aka, anytime -->
-    <string name="search_anytime">Anytime</string>
     <!-- When a search is for one adult, we assume it's you! -->
     <string name="just_you">Just You</string>
 
