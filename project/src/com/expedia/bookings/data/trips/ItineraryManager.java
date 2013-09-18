@@ -729,6 +729,8 @@ public class ItineraryManager implements JSONable {
 
 		FETCH_SHARED_ITIN, // Fetches the shared itin data
 
+		REMOVE_ITIN, // Deletes the selected itin. Currently we can only delete a shared itin.
+
 		SAVE_TO_DISK, // Saves state of ItineraryManager to disk
 
 		GENERATE_ITIN_CARDS, // Generates itin card data for use
@@ -905,6 +907,17 @@ public class ItineraryManager implements JSONable {
 		return true;
 	}
 
+	public boolean removeItin(String tripNumber) {
+		Log.i(LOGGING_TAG, "Removing Itin");
+		mSyncOpQueue.add(new Task(Operation.REMOVE_ITIN, tripNumber));
+		mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
+		mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
+
+		startSyncIfNotInProgress();
+
+		return true;
+	}
+
 	public boolean startPushNotificationSync() {
 		Log.i(LOGGING_TAG, "Starting push notification sync");
 
@@ -1037,6 +1050,9 @@ public class ItineraryManager implements JSONable {
 					break;
 				case FETCH_SHARED_ITIN:
 					downloadSharedItinTrip(nextTask.mTripNumber);
+					break;
+				case REMOVE_ITIN:
+					removeTrip(nextTask.mTripNumber);
 					break;
 				}
 
@@ -1395,6 +1411,18 @@ public class ItineraryManager implements JSONable {
 			}
 		}
 
+		private void removeTrip(String tripNumber) {
+			Log.i(LOGGING_TAG, "Removing trip with # " + tripNumber);
+
+			if (mTrips.containsKey(tripNumber)) {
+				Trip trip = mTrips.remove(tripNumber);
+				publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, trip));
+				// Delete notifications if any.
+				deletePendingNotification(trip);
+				mTripsRemoved++;
+			}
+		}
+
 		private void downloadSharedItinTrip(String shareableUrl) {
 			Log.i(LOGGING_TAG, "Fetching shared itin " + shareableUrl);
 			TripDetailsResponse response = mServices.getSharedItin(shareableUrl);
@@ -1412,6 +1440,7 @@ public class ItineraryManager implements JSONable {
 
 				Trip sharedTrip = response.getTrip();
 				String tripNumber = sharedTrip.getTripNumber();
+				sharedTrip.setIsShared(true);
 
 				LevelOfDetail lod = sharedTrip.getLevelOfDetail();
 				boolean hasFullDetails = lod == LevelOfDetail.FULL || lod == LevelOfDetail.SUMMARY_FALLBACK;

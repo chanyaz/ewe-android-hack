@@ -309,6 +309,10 @@
     <string name="hours_minutes_past_TEMPLATE">%1$s and %2$s ago</string>
 
     <!-- Itin Buttons -->
+    <!-- Dialog title for removing shared itin -->
+    <string name="remove_shared_itin_title">Remove Shared Itinerary?</string>
+    <!-- Dialog message for removing shared itin -->
+    <string name="remove_shared_itin_message">Are you sure you want to remove this shared itinerary from your device.</string>
     <!-- Popup menu -->
     <!-- Menu label: Hide this itin button for this trip -->
     <string name="itin_button_hide">Hide</string>
@@ -526,6 +530,7 @@
     <string name="itin_action_redeem">Redeem</string>
     <string name="itin_action_support">Support</string>
     <string name="itin_action_share">Share</string>
+    <string name="itin_action_remove">Remove</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">Print Vouchers</string>
