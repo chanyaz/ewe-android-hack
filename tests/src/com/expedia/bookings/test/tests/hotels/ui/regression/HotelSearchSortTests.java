@@ -231,4 +231,10 @@ public class HotelSearchSortTests extends CustomActivityInstrumentationTestCase<
 		}
 		return false;
 	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		mDriver.enterLog(TAG, "tearing down...");
+		mDriver.finishOpenedActivities();
+	}
 }
