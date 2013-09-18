@@ -88,6 +88,9 @@ public class ResultsFlightListFragment extends ResultsListFragment {
 				}
 			});
 
+			// Make sure mLegNumber is in-bounds (should not be needed in production)
+			mLegNumber = Math.min(mLegNumber, Db.getFlightSearch().getSelectedLegs().length - 1);
+
 			// Setup data
 			adapter.setLegPosition(mLegNumber);
 
