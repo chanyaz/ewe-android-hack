@@ -253,9 +253,17 @@ public class SearchParams implements Parcelable, JSONable {
 		if (mStartDate != null) {
 			params.setCheckInDate(mStartDate);
 		}
+		else {
+			// Default to "today" if not explicitly set
+			params.setCheckInDate(LocalDate.now());
+		}
 
 		if (mEndDate != null) {
 			params.setCheckOutDate(mEndDate);
+		}
+		else {
+			// Default to check in +1 day if not explicitly set
+			params.setCheckOutDate(params.getCheckInDate().plusDays(1));
 		}
 
 		params.setNumAdults(mNumAdults);
@@ -272,6 +280,10 @@ public class SearchParams implements Parcelable, JSONable {
 
 		if (mStartDate != null) {
 			params.setDepartureDate(mStartDate);
+		}
+		else {
+			// Default to "today" if not explicitly set
+			params.setDepartureDate(LocalDate.now());
 		}
 
 		if (mEndDate != null) {
