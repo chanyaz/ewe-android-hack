@@ -15,11 +15,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="24dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
             android:text="TODO: Insert future status text here"
             android:textColor="@android:color/white"
-            android:textSize="18dp" />
+            android:textSize="16dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_date_box"
+                android:text="Start Date"
+                android:textColor="@android:color/white"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <com.mobiata.android.widget.CalendarDatePicker
             android:id="@+id/dates_date_picker"
