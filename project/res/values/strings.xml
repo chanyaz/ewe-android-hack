@@ -24,6 +24,10 @@
     <string name="dates_status_multi_TEMPLATE">Round-trip flights and %s-night stays.</string>
     <!-- Start date display.  %s is the start date, e.g. "Start Date: September 10" -->
     <string name="start_date_TEMPLATE">Start Date: %s</string>
+    <!-- End date display, when there is no end date selected yet.  We indicate it is not necessary to provide. -->
+    <string name="end_date_optional">End Date: (Optional)</string>
+    <!-- End date display, when there is an end date selected.  %s is the date, e.g. "End Date: September 15" -->
+    <string name="end_date_TEMPLATE">End Date: %s</string>
 
     <!-- Tablet Results strings -->
     <!-- Resulsts label -->

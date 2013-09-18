@@ -34,10 +34,13 @@ import com.mobiata.android.widget.CalendarDatePicker.SelectionMode;
  */
 public class DatesFragment extends Fragment implements OnDateChangedListener {
 
+	private static final int DATE_BOX_FLAGS = DateUtils.FORMAT_SHOW_DATE;
+
 	private DatesFragmentListener mListener;
 
 	private TextView mStatusTextView;
 	private TextView mStartTextView;
+	private TextView mEndTextView;
 	private CalendarDatePicker mCalendarDatePicker;
 
 	// These are only used for the initial setting; they do not represent the state most of the time
@@ -57,6 +60,7 @@ public class DatesFragment extends Fragment implements OnDateChangedListener {
 
 		mStatusTextView = Ui.findView(view, R.id.status_text_view);
 		mStartTextView = Ui.findView(view, R.id.start_text_view);
+		mEndTextView = Ui.findView(view, R.id.end_text_view);
 		mCalendarDatePicker = Ui.findView(view, R.id.dates_date_picker);
 
 		// Configure it like flights for now, as that's more accepting
@@ -107,14 +111,34 @@ public class DatesFragment extends Fragment implements OnDateChangedListener {
 	}
 
 	private void updateDateBoxes(Pair<LocalDate, LocalDate> dates) {
+		View selectedView = null;
+
 		if (dates.first != null) {
-			String date = JodaUtils.formatLocalDate(getActivity(), dates.first, DateUtils.FORMAT_SHOW_DATE);
+			String date = JodaUtils.formatLocalDate(getActivity(), dates.first, DATE_BOX_FLAGS);
 			mStartTextView.setText(getString(R.string.start_date_TEMPLATE, date));
-			mStartTextView.setBackgroundResource(R.drawable.bg_date_box_normal);
 		}
 		else {
 			mStartTextView.setText(getString(R.string.start_date_TEMPLATE, ""));
-			mStartTextView.setBackgroundResource(R.drawable.bg_date_box_selected);
+			selectedView = mStartTextView;
+		}
+
+		if (dates.second != null) {
+			String date = JodaUtils.formatLocalDate(getActivity(), dates.second, DATE_BOX_FLAGS);
+			mEndTextView.setText(getString(R.string.end_date_TEMPLATE, date));
+		}
+		else {
+			mEndTextView.setText(R.string.end_date_optional);
+
+			if (selectedView == null) {
+				selectedView = mEndTextView;
+			}
+		}
+
+		// Make sure only one box is selected
+		mStartTextView.setBackgroundResource(R.drawable.bg_date_box_normal);
+		mEndTextView.setBackgroundResource(R.drawable.bg_date_box_normal);
+		if (selectedView != null) {
+			selectedView.setBackgroundResource(R.drawable.bg_date_box_selected);
 		}
 	}
 
