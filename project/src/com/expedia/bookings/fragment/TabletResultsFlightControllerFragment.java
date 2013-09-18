@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletResultsActivity.GlobalResultsState;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.interfaces.IResultsFlightSelectedListener;
 import com.expedia.bookings.interfaces.ITabletResultsController;
 import com.expedia.bookings.utils.ColumnManager;
@@ -112,7 +113,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	private ColumnManager mColumnManager = new ColumnManager(3);
 	private int mGlobalHeight = 0;
 	private float mFlightDetailsMarginPercentage = 0.1f;
-	private boolean mOneWayFlight = false;
+	private boolean mOneWayFlight = true;
 
 	//Animation
 	private ValueAnimator mFlightsStateAnimator;
@@ -122,6 +123,11 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
+
+		if (Db.getFlightSearch() != null && Db.getFlightSearch().getSelectedLegs() != null
+				&& Db.getFlightSearch().getSelectedLegs().length > 1) {
+			mOneWayFlight = false;
+		}
 
 		mListener = Ui.findFragmentListener(this, IFlightsFruitScrollUpListViewChangeListener.class, true);
 	}
@@ -163,7 +169,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 			@Override
 			public void onClick(View arg0) {
-				setFlightsState(FlightsState.FLIGHT_TWO_FILTERS, true);
+				if (mOneWayFlight) {
+					setFlightsState(FlightsState.ADDING_FLIGHT_TO_TRIP, true);
+				}
+				else {
+					setFlightsState(FlightsState.FLIGHT_TWO_FILTERS, true);
+				}
 			}
 
 		});
@@ -259,6 +270,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		else if (state == FlightsState.FLIGHT_ONE_DETAILS) {
 			if (mFlightsState == FlightsState.FLIGHT_TWO_FILTERS) {
 				return prepareTransitionBetweenFlights(false);
+			}
+			else if (mFlightsState == FlightsState.ADDING_FLIGHT_TO_TRIP) {
+				return null;//prepareTransitionToFlightDetailsAnimator(false, false);
 			}
 			else {
 				return prepareTransitionToFlightDetailsAnimator(true, false);
@@ -481,19 +495,25 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		addToTripDestination.bottom = addToTripDestination.top + mFlightTwoFlightOneHeaderC.getHeight();
 
 		if (mOneWayFlight) {
+			mFlightOneListC.setVisibility(View.VISIBLE);
+			mFlightOneDetailsC.setVisibility(View.VISIBLE);
 			mFlightOneDetailsFrag.prepareAddToTripFromDetailsAnimation(addToTripDestination);
 		}
 		else {
 
 			//We can do way better in terms of getting the position of the thing we want. 
 			Rect departureFlightLocation = new Rect();
-			departureFlightLocation.left = 0;//getLocationOnScreen doesnt account for translation apparently...
+			departureFlightLocation.left = 0;
 			departureFlightLocation.right = departureFlightLocation.left + mFlightTwoFlightOneHeaderC.getWidth();
 			departureFlightLocation.top = 0;
 			departureFlightLocation.bottom = departureFlightLocation.top + mFlightTwoFlightOneHeaderC.getHeight();
 
 			mFlightOneDetailsFrag.prepareAddToTripFromDepartureAnimation(departureFlightLocation, addToTripDestination);
 			mFlightOneDetailsC.setVisibility(View.VISIBLE);
+
+			mFlightTwoListColumnC.setVisibility(View.VISIBLE);
+			mFlightTwoListC.setVisibility(View.VISIBLE);
+			mFlightTwoDetailsC.setVisibility(View.VISIBLE);
 
 			mFlightTwoDetailsFrag.prepareAddToTripFromDetailsAnimation(addToTripDestination);
 		}
@@ -508,12 +528,22 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	}
 
 	private void setAddTripAnimationPercentage(float percentage) {
+		//Tell fragments about our transition
 		if (mOneWayFlight) {
 			mFlightOneDetailsFrag.setAddToTripFromDetailsAnimationState(percentage);
 		}
 		else {
 			mFlightOneDetailsFrag.setAddToTripFromDepartureAnimationState(percentage);
 			mFlightTwoDetailsFrag.setAddToTripFromDetailsAnimationState(percentage);
+		}
+
+		//Move flight list out of view
+		float flightListTranslationX = -mColumnManager.getColWidth(0) + -percentage * mColumnManager.getColWidth(0);
+		if (mOneWayFlight) {
+			mFlightOneListC.setTranslationX(flightListTranslationX);
+		}
+		else {
+			mFlightTwoListColumnC.setTranslationX(flightListTranslationX);
 		}
 	}
 
@@ -601,7 +631,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			}
 			case ADDING_FLIGHT_TO_TRIP: {
 				//TODO: This shouldnt be here, but the current state of animations makes it look stupid to disappear it
-				visibleViews.add(mFlightTwoDetailsC);
+				if (mOneWayFlight) {
+					visibleViews.add(mFlightOneDetailsC);
+				}
+				else {
+					visibleViews.add(mFlightTwoDetailsC);
+				}
 				break;
 			}
 			}
@@ -651,6 +686,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			flightTwoListAvailable = false;
 			flightTwoFiltersAvailabe = false;
 			flightOneDetailsAvailable = false;
+			flightTwoDetailsAvailable = false;
+		}
+
+		if (mOneWayFlight) {
+			flightTwoListAvailable = false;
+			flightTwoFiltersAvailabe = false;
 			flightTwoDetailsAvailable = false;
 		}
 
@@ -1020,7 +1061,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				}
 				else if (mFlightsState == FlightsState.ADDING_FLIGHT_TO_TRIP) {
 					//TODO: THIS IS HERE BECAUSE IT MAKES DEV LIFE EASIER,WHEN ADDING A TRIP WE PROB SHOULDNT ALLOW BACKING OUT
-					setFlightsState(FlightsState.FLIGHT_TWO_DETAILS, true);
+					if (mOneWayFlight) {
+						setFlightsState(FlightsState.FLIGHT_ONE_DETAILS, true);
+					}
+					else {
+						setFlightsState(FlightsState.FLIGHT_TWO_DETAILS, true);
+					}
 					return true;
 				}
 			}
