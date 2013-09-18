@@ -151,6 +151,10 @@ public class HotelsSearchScreen extends ScreenActions {
 		return getString(UNABLE_TO_DETERMINE_SEARCH_LOC_STRING_ID);
 	}
 
+	public HotelSearchResultRow getSearchResultRowModelFromIndex(int index) {
+		return new HotelSearchResultRow(hotelResultsListView().getChildAt(index + 1));
+	}
+
 	// Object interaction
 
 	public void enterSearchText(String text) {
