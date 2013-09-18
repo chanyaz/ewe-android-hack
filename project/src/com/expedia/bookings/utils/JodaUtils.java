@@ -9,6 +9,7 @@ import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import org.joda.time.ReadableInstant;
 import org.joda.time.ReadablePartial;
+import org.joda.time.Seconds;
 import org.joda.time.base.AbstractPartial;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -27,6 +28,8 @@ import com.expedia.bookings.data.Date;
 import com.mobiata.android.json.JSONUtils;
 
 public class JodaUtils {
+
+	private static final long DATE_RANGE_BUFFER = Seconds.ONE.toStandardDuration().getMillis();
 
 	private static DateTimeZone sThenTimeZone = null;
 
@@ -164,8 +167,8 @@ public class JodaUtils {
 	public static String formatDateRange(Context context, DateTime start, DateTime end, int flags) {
 		DateTime utcStartDateTime = start.withZoneRetainFields(DateTimeZone.UTC);
 		DateTime utcEndDateTime = end.withZoneRetainFields(DateTimeZone.UTC);
-		return DateUtils.formatDateRange(context, utcStartDateTime.getMillis(), utcEndDateTime.getMillis(), flags
-				| DateUtils.FORMAT_UTC);
+		return DateUtils.formatDateRange(context, utcStartDateTime.getMillis(),
+				utcEndDateTime.getMillis() + DATE_RANGE_BUFFER, flags | DateUtils.FORMAT_UTC);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
