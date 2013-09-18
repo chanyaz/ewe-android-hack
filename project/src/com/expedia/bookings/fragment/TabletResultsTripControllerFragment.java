@@ -1,14 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TabletResultsActivity.GlobalResultsState;
-import com.expedia.bookings.interfaces.IAddToTripListener;
-import com.expedia.bookings.interfaces.ITabletResultsController;
-import com.expedia.bookings.utils.ColumnManager;
-import com.expedia.bookings.widget.BlockEventFrameLayout;
-import com.expedia.bookings.widget.FixedTranslationFrameLayout;
-import com.mobiata.android.util.Ui;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Rect;
@@ -16,12 +7,20 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.activity.TabletResultsActivity.GlobalResultsState;
+import com.expedia.bookings.animation.CubicBezierAnimation;
+import com.expedia.bookings.interfaces.IAddToTripListener;
+import com.expedia.bookings.interfaces.ITabletResultsController;
+import com.expedia.bookings.utils.ColumnManager;
+import com.expedia.bookings.widget.BlockEventFrameLayout;
+import com.expedia.bookings.widget.FixedTranslationFrameLayout;
+import com.mobiata.android.util.Ui;
 
 /**
  *  TabletResultsTripControllerFragment: designed for tablet results 2013
@@ -50,8 +49,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 	private boolean mAddingHotelTrip = false;
 	private boolean mAddingFlightTrip = false;
 
-	private int mAddHotelsStartingTranslationX = 0;
-	private int mAddHotelStartingTranslationY = 0;
+	private CubicBezierAnimation mBezierAnimation;
 	private float mAddTripEndScaleX = 1f;
 	private float mAddTripEndScaleY = 1f;
 
@@ -260,8 +258,8 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		if (mAddingHotelTrip || mAddingFlightTrip) {
 
 			//Translate
-			mTripAnimationC.setTranslationX((1f - percentage) * mAddHotelsStartingTranslationX);
-			mTripAnimationC.setTranslationY((1f - percentage) * mAddHotelStartingTranslationY);
+			mTripAnimationC.setTranslationX(mBezierAnimation.getXInterpolator().interpolate(percentage));
+			mTripAnimationC.setTranslationY(mBezierAnimation.getYInterpolator().interpolate(percentage));
 
 			//Scale
 			float maxX = Math.max(1f, mAddTripEndScaleX);
@@ -342,8 +340,13 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 				LayoutParams.MATCH_PARENT);
 
 		//Set animation vars
-		mAddHotelsStartingTranslationX = globalCoordinates.left - globalLeft;
-		mAddHotelStartingTranslationY = globalCoordinates.top - globalTop;
+
+		// Translation. We setup the translation animation to start at deltaX, deltaY and animate
+		// to it's final resting place of (0,0), i.e. no translation.
+		int deltaX = globalCoordinates.left - globalLeft;
+		int deltaY = globalCoordinates.top - globalTop;
+		mBezierAnimation = CubicBezierAnimation.newOutsideInAnimation(deltaX, deltaY, 0, 0);
+
 		mAddTripEndScaleX = (float) destWidth / originWidth;
 		mAddTripEndScaleY = (float) destHeight / originHeight;
 
@@ -354,8 +357,8 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		mTripAnimationC.setPivotY(0);
 		mTripAnimationC.setScaleX(1f);
 		mTripAnimationC.setScaleY(1f);
-		mTripAnimationC.setTranslationX(mAddHotelsStartingTranslationX);
-		mTripAnimationC.setTranslationY(mAddHotelStartingTranslationY);
+		mTripAnimationC.setTranslationX(deltaX);
+		mTripAnimationC.setTranslationY(deltaY);
 
 		mShadeC.setBackgroundColor(shadeColor);
 		mAddingHotelTrip = true;
