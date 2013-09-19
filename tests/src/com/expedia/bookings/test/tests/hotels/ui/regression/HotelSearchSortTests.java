@@ -69,6 +69,7 @@ public class HotelSearchSortTests extends CustomActivityInstrumentationTestCase<
 						previousRowPrice = currentRowPrice;
 					}
 					mDriver.scrollDown();
+					hotelsPerScreenHeight = mDriver.hotelsSearchScreen().hotelResultsListView().getChildCount();
 				}
 			}
 		}
@@ -101,6 +102,7 @@ public class HotelSearchSortTests extends CustomActivityInstrumentationTestCase<
 						previousRowDistance = currentRowDistance;
 					}
 					mDriver.scrollDown();
+					hotelsPerScreenHeight = mDriver.hotelsSearchScreen().hotelResultsListView().getChildCount();
 				}
 			}
 		}
@@ -117,7 +119,7 @@ public class HotelSearchSortTests extends CustomActivityInstrumentationTestCase<
 			mDriver.delay(1);
 
 			final int totalHotels = mDriver.hotelsSearchScreen().hotelResultsListView().getCount() - 1;
-			final int hotelsPerScreenHeight = mDriver.hotelsSearchScreen().hotelResultsListView().getChildCount();
+			int hotelsPerScreenHeight = mDriver.hotelsSearchScreen().hotelResultsListView().getChildCount();
 			if (totalHotels > 1) {
 				View topHotelRow = mDriver.hotelsSearchScreen().hotelResultsListView()
 						.getChildAt(1);
@@ -134,6 +136,7 @@ public class HotelSearchSortTests extends CustomActivityInstrumentationTestCase<
 						previousRowRating = currentRowRating;
 					}
 					mDriver.scrollDown();
+					hotelsPerScreenHeight = mDriver.hotelsSearchScreen().hotelResultsListView().getChildCount();
 				}
 			}
 		}
