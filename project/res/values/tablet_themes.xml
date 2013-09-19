@@ -43,4 +43,11 @@
         <item name="android:background">@drawable/ab_transparent_dark_blue</item>
     </style>
 
+    <!-- Calendar styling -->
+
+    <style name="V2.Widget.CalendarPicker">
+        <item name="calendarBaseColor">#FFFFFF</item>
+        <item name="calendarHighlightColor">#FDDB4D</item>
+    </style>
+
 </resources>

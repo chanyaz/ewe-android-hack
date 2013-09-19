@@ -15,14 +15,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/calendar_picker_highlight_default"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/current_month"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/calendar_picker_normal_default"
             android:textStyle="bold" />
 
         <TextView
@@ -31,7 +29,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right"
-            android:textColor="@color/calendar_picker_highlight_default"
             android:textStyle="bold" />
     </LinearLayout>
 

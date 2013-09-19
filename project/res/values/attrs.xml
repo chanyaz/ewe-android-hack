@@ -163,6 +163,12 @@
         <attr name="captionTextSize" format="dimension" />
     </declare-styleable>
 
+    <!-- CalendarPicker -->
+    <declare-styleable name="CalendarPicker">
+        <attr name="calendarBaseColor" format="color" />
+        <attr name="calendarHighlightColor" format="color" />
+    </declare-styleable>
+
     <!-- VSC/EB attributes used for style switching in themes -->
     <!-- Hotel Search price styles -->
     <attr name="hotelPriceStandardColor" format="reference|color" />
