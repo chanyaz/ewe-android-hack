@@ -7,6 +7,10 @@
     <color name="launch_band">#36ffffff</color>
     <color name="launch_tile_overlay">#A6000000</color>
     <color name="low_memory_bg_color">#404040</color>
+    
+    <!-- CalendarPicker defaults -->
+    <color name="calendar_picker_highlight_default">#FDDB4D</color>
+    <color name="calendar_picker_normal_default">#FFFFFF</color>
 
     <!-- Itinerary colors -->
     <color name="itin_white_text">#F3F3F3</color>
