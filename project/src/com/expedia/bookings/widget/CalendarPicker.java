@@ -4,7 +4,7 @@ import org.joda.time.YearMonth;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Bundle;
+import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -25,15 +25,10 @@ import com.mobiata.android.util.Ui;
  */
 public class CalendarPicker extends LinearLayout {
 
-	private static final String INSTANCE_SUPER_STATE = "INSTANCE_SUPER_STATE";
-	private static final String INSTANCE_DISPLAY_YEAR_MONTH = "INSTANCE_DISPLAY_YEAR_MONTH";
-	private static final String INSTANCE_BASE_COLOR = "INSTANCE_BASE_COLOR";
-	private static final String INSTANCE_HIGHLIGHT_COLOR = "INSTANCE_HIGHLIGHT_COLOR";
-
 	// State
 	private YearMonth mDisplayYearMonth;
 
-	// Style
+	// Styles - loaded at start, not modifiable
 	private int mBaseColor;
 	private int mHighlightColor;
 
@@ -85,9 +80,15 @@ public class CalendarPicker extends LinearLayout {
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 
+		// Retrieve Views
 		mPreviousMonthTextView = Ui.findView(this, R.id.previous_month);
 		mCurrentMonthTextView = Ui.findView(this, R.id.current_month);
 		mNextMonthTextView = Ui.findView(this, R.id.next_month);
+
+		// Configure Views
+		mPreviousMonthTextView.setTextColor(mHighlightColor);
+		mCurrentMonthTextView.setTextColor(mBaseColor);
+		mNextMonthTextView.setTextColor(mHighlightColor);
 
 		mPreviousMonthTextView.setOnClickListener(mOnClickListener);
 		mNextMonthTextView.setOnClickListener(mOnClickListener);
@@ -95,11 +96,15 @@ public class CalendarPicker extends LinearLayout {
 
 	@Override
 	protected void onRestoreInstanceState(Parcelable state) {
-		Bundle bundle = (Bundle) state;
-		super.onRestoreInstanceState(bundle.getParcelable(INSTANCE_SUPER_STATE));
-		mDisplayYearMonth = YearMonth.parse(bundle.getString(INSTANCE_DISPLAY_YEAR_MONTH));
-		mBaseColor = bundle.getInt(INSTANCE_BASE_COLOR);
-		mHighlightColor = bundle.getInt(INSTANCE_HIGHLIGHT_COLOR);
+		if (!(state instanceof SavedState)) {
+			super.onRestoreInstanceState(state);
+			return;
+		}
+
+		SavedState ss = (SavedState) state;
+		super.onRestoreInstanceState(ss.getSuperState());
+
+		mDisplayYearMonth = YearMonth.parse(ss.displayMonthYear);
 	}
 
 	@Override
@@ -108,7 +113,6 @@ public class CalendarPicker extends LinearLayout {
 
 		// Wait until here to start manipulating sub-Views; that way we can
 		// restore the instance state properly first.
-		updateColors();
 		updateHeader();
 
 		// Measure some Views so we can properly setup Drawables next to them
@@ -141,30 +145,16 @@ public class CalendarPicker extends LinearLayout {
 
 	@Override
 	protected Parcelable onSaveInstanceState() {
-		Bundle bundle = new Bundle();
-		bundle.putParcelable(INSTANCE_SUPER_STATE, super.onSaveInstanceState());
-		bundle.putString(INSTANCE_DISPLAY_YEAR_MONTH, mDisplayYearMonth.toString());
-		bundle.putInt(INSTANCE_BASE_COLOR, mBaseColor);
-		bundle.putInt(INSTANCE_HIGHLIGHT_COLOR, mHighlightColor);
-		return bundle;
+		Parcelable superState = super.onSaveInstanceState();
+
+		SavedState ss = new SavedState(superState);
+		ss.displayMonthYear = mDisplayYearMonth.toString();
+
+		return ss;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Display
-
-	private void updateColors() {
-		if (mPreviousMonthTextView != null) {
-			mPreviousMonthTextView.setTextColor(mHighlightColor);
-		}
-
-		if (mCurrentMonthTextView != null) {
-			mCurrentMonthTextView.setTextColor(mBaseColor);
-		}
-
-		if (mNextMonthTextView != null) {
-			mNextMonthTextView.setTextColor(mHighlightColor);
-		}
-	}
 
 	private void updateHeader() {
 		mPreviousMonthTextView.setText(mDisplayYearMonth.minusMonths(1).monthOfYear().getAsText());
@@ -188,4 +178,39 @@ public class CalendarPicker extends LinearLayout {
 			}
 		}
 	};
+
+	//////////////////////////////////////////////////////////////////////////
+	// Saved State
+
+	private static class SavedState extends BaseSavedState {
+		String displayMonthYear;
+
+		private SavedState(Parcelable superState) {
+			super(superState);
+		}
+
+		@Override
+		public void writeToParcel(Parcel out, int flags) {
+			super.writeToParcel(out, flags);
+
+			out.writeString(displayMonthYear);
+		}
+
+		@SuppressWarnings("unused")
+		public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
+			public SavedState createFromParcel(Parcel in) {
+				return new SavedState(in);
+			}
+
+			public SavedState[] newArray(int size) {
+				return new SavedState[size];
+			}
+		};
+
+		private SavedState(Parcel in) {
+			super(in);
+
+			displayMonthYear = in.readString();
+		}
+	}
 }
