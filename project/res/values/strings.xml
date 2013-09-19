@@ -45,6 +45,15 @@
         <item quantity="many">%s Hotels</item>
         <item quantity="other">%s Hotels</item>
     </plurals>
+    <!-- Pluralization for a filtered number of hotels returned from a search TEMPLATE e.g. "15 of 25 Hotels" -->
+    <plurals name="x_of_y_Hotels_TEMPLATE">
+        <item quantity="zero">%1$s of %2$s Hotels</item>
+        <item quantity="one">%1$s of %2$s Hotel</item>
+        <item quantity="two">%1$s of %2$s Hotels</item>
+        <item quantity="few">%1$s of %2$s Hotels</item>
+        <item quantity="many">%1$s of %2$s Hotels</item>
+        <item quantity="other">%1$s of %2$s Hotels</item>
+    </plurals>
     <!-- Pluralization for Number of Flights returned from a search TEMPLATE e.g. "25 Flights" -->
     <plurals name="x_Flights_TEMPLATE">
         <item quantity="zero">%s Flights</item>

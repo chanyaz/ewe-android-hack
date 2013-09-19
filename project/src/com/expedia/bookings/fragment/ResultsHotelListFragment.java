@@ -9,6 +9,8 @@ import android.widget.ListView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelFilter;
+import com.expedia.bookings.data.HotelFilter.OnFilterChangedListener;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.fragment.base.ResultsListFragment;
 import com.expedia.bookings.interfaces.IResultsHotelSelectedListener;
@@ -38,6 +40,33 @@ public class ResultsHotelListFragment extends ResultsListFragment {
 	}
 
 	@Override
+	public void onStart() {
+		super.onStart();
+
+		HotelFilter filter = Db.getFilter();
+		if (filter != null) {
+			filter.addOnFilterChangedListener(mListener);
+		}
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+
+		HotelFilter filter = Db.getFilter();
+		if (filter != null) {
+			filter.removeOnFilterChangedListener(mListener);
+		}
+	}
+
+	OnFilterChangedListener mListener = new OnFilterChangedListener() {
+		public void onFilterChanged() {
+			updateAdapter();
+			setStickyHeaderText(initializeStickyHeaderString());
+		}
+	};
+
+	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		mHotelSelectedListener.onHotelSelected();
 	}
@@ -56,6 +85,14 @@ public class ResultsHotelListFragment extends ResultsListFragment {
 		mAdapter = adapter;
 		adapter.highlightSelectedPosition(true);
 
+		updateAdapter();
+
+		return mAdapter;
+	}
+
+	private void updateAdapter() {
+		TabletHotelAdapter adapter = (TabletHotelAdapter) mAdapter;
+
 		HotelSearchResponse response = Db.getHotelSearch().getSearchResponse();
 		adapter.setSearchResponse(response);
 
@@ -63,13 +100,25 @@ public class ResultsHotelListFragment extends ResultsListFragment {
 			// In case there is a currently selected property, select it on the screen.
 			adapter.setSelectedProperty(Db.getHotelSearch().getSelectedProperty());
 		}
-		return mAdapter;
 	}
 
 	@Override
 	protected CharSequence initializeStickyHeaderString() {
-		int count = mAdapter == null ? 0 : mAdapter.getCount();
-		CharSequence text = getResources().getQuantityString(R.plurals.x_Hotels_TEMPLATE, count, count);
+		int total = 0;
+		int count = 0;
+		HotelSearchResponse response = Db.getHotelSearch().getSearchResponse();
+		if (response != null) {
+			total = response.getPropertiesCount();
+			count = response.getFilteredAndSortedProperties().length;
+		}
+
+		CharSequence text = null;
+		if (count == total) {
+			text = getResources().getQuantityString(R.plurals.x_Hotels_TEMPLATE, total, total);
+		}
+		else {
+			text = getResources().getQuantityString(R.plurals.x_of_y_Hotels_TEMPLATE, total, count, total);
+		}
 		return text;
 	}
 
