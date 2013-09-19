@@ -69,8 +69,7 @@ public class ResultsHotelListFragment extends ResultsListFragment {
 	@Override
 	protected CharSequence initializeStickyHeaderString() {
 		int count = mAdapter == null ? 0 : mAdapter.getCount();
-		CharSequence text = getResources().getQuantityString(R.plurals.number_of_hotels_TEMPLATE,
-				count, count);
+		CharSequence text = getResources().getQuantityString(R.plurals.x_Hotels_TEMPLATE, count, count);
 		return text;
 	}
 

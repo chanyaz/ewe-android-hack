@@ -111,8 +111,7 @@ public class ResultsFlightListFragment extends ResultsListFragment {
 	@Override
 	protected CharSequence initializeStickyHeaderString() {
 		int count = mAdapter == null ? 0 : mAdapter.getCount();
-		CharSequence text = getResources().getQuantityString(R.plurals.number_of_flights_TEMPLATE,
-				count, count);
+		CharSequence text = getResources().getQuantityString(R.plurals.x_Flights_TEMPLATE, count, count);
 		return text;
 	}
 
