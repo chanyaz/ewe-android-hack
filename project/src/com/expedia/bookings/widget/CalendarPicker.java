@@ -7,13 +7,19 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.graphics.CaretDrawable;
+import com.expedia.bookings.graphics.CaretDrawable.Direction;
 import com.mobiata.android.util.Ui;
 
 /**
+ * All configuration happens in the style/attributes.  If you want to setup the code
+ * to work with dynamic configuration be my guest.
+ * 
  * TODO: Scale all views based on size of CalendarPicker itself
  */
 public class CalendarPicker extends LinearLayout {
@@ -100,6 +106,33 @@ public class CalendarPicker extends LinearLayout {
 		// restore the instance state properly first.
 		updateColors();
 		updateHeader();
+
+		// Measure some Views so we can properly setup Drawables next to them
+		getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+			@Override
+			public boolean onPreDraw() {
+				getViewTreeObserver().removeOnPreDrawListener(this);
+
+				// Carets' width is calculated based on the height
+				int caretHeight = (int) mPreviousMonthTextView.getTextSize();
+				int caretWidth = (int) Math.floor(caretHeight / 1.5);
+				int caretPadding = caretHeight / 3;
+				int totalHeight = mPreviousMonthTextView.getHeight();
+				int topBotPadding = (totalHeight - caretHeight) / 2;
+
+				CaretDrawable drawableLeft = new CaretDrawable(Direction.LEFT, mHighlightColor);
+				drawableLeft.setBounds(0, 0, caretWidth, totalHeight - topBotPadding);
+				mPreviousMonthTextView.setCompoundDrawables(drawableLeft, null, null, null);
+				mPreviousMonthTextView.setCompoundDrawablePadding(caretPadding);
+
+				CaretDrawable drawableRight = new CaretDrawable(Direction.RIGHT, mHighlightColor);
+				drawableRight.setBounds(0, 0, caretWidth, totalHeight - topBotPadding);
+				mNextMonthTextView.setCompoundDrawables(null, null, drawableRight, null);
+				mNextMonthTextView.setCompoundDrawablePadding(caretPadding);
+
+				return true;
+			}
+		});
 	}
 
 	@Override
@@ -110,19 +143,6 @@ public class CalendarPicker extends LinearLayout {
 		bundle.putInt(INSTANCE_BASE_COLOR, mBaseColor);
 		bundle.putInt(INSTANCE_HIGHLIGHT_COLOR, mHighlightColor);
 		return bundle;
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Configuration
-
-	public void setBaseColor(int color) {
-		mBaseColor = color;
-		updateColors();
-	}
-
-	public void setHighlightColor(int color) {
-		mHighlightColor = color;
-		updateColors();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
