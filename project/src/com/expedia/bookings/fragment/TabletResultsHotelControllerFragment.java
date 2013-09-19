@@ -217,7 +217,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 			mHotelListFrag.setListLockedToTop(false);
 			setHotelsFiltersShownPercentage(0f);
 			setAddToTripPercentage(0f);
-			mHotelListFrag.setSortAndFilterButtonText(getString(R.string.sort_and_filter));
+			mHotelListFrag.setSortAndFilterButtonText(getString(R.string.Sort_and_Filter));
 			break;
 		}
 		case ROOMS_AND_RATES_FILTERS:

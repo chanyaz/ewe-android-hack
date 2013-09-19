@@ -33,8 +33,10 @@
     <!-- Resulsts label -->
     <string name="results">Results</string>
     <!-- Sort & Filter label -->
-    <string name="sort_and_filter">Sort &amp; Filter</string>
-    <!-- Pluralization for Number of Hotels returned from a search TEMPLATE e.g. "25 Hotels"-->
+    <string name="Sort_and_Filter">Sort &amp; Filter</string>
+    <!-- "Done" list header label -->
+    <string name="Done">Done</string>
+    <!-- Pluralization for Number of Hotels returned from a search TEMPLATE e.g. "25 Hotels" -->
     <plurals name="number_of_hotels_TEMPLATE">
         <item quantity="zero">%s Hotels</item>
         <item quantity="one">%s Hotel</item>
@@ -43,7 +45,7 @@
         <item quantity="many">%s Hotels</item>
         <item quantity="other">%s Hotels</item>
     </plurals>
-    <!-- Pluralization for Number of Flights returned from a search TEMPLATE e.g. "25 Flights"-->
+    <!-- Pluralization for Number of Flights returned from a search TEMPLATE e.g. "25 Flights" -->
     <plurals name="number_of_flights_TEMPLATE">
         <item quantity="zero">%s Flights</item>
         <item quantity="one">%s Flight</item>
