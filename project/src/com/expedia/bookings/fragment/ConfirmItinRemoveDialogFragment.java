@@ -29,7 +29,6 @@ public class ConfirmItinRemoveDialogFragment extends DialogFragment {
 
 		builder.setTitle(getResources().getString(R.string.remove_shared_itin_title));
 		builder.setMessage(getResources().getString(R.string.remove_shared_itin_message));
-		builder.setCancelable(true);
 		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
