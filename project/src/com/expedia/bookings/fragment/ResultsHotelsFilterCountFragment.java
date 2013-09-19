@@ -82,7 +82,9 @@ public class ResultsHotelsFilterCountFragment extends Fragment {
 
 		float percent = total == 0 ? 0 : 1.0f * count / total;
 
-		mRingView.setCaption(String.format("of %d hotels", total));
+		String caption = getResources().getQuantityString(R.plurals.of_y_hotels_TEMPLATE, total, total);
+
+		mRingView.setCaption(caption);
 		mRingView.animateTo(count, percent);
 	}
 }
