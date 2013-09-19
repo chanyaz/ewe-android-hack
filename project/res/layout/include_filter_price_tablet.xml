@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.mobiata.android.widget.SegmentedControlGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mobiata="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/price_filter_button_group"
+    style="@style/Widget.SegmentedControlGroup.DarkFilterControls"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center"
+    android:orientation="horizontal" >
+
+    <RadioButton
+        android:id="@+id/price_all_button"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:checked="true"
+        android:contentDescription="@string/cd_filter_remove_hotel_price_filters"
+        android:text="@string/all"
+        android:textStyle="bold" />
+    
+    <RadioButton
+        android:id="@+id/price_cheap_button"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:contentDescription="@string/cd_filter_for_low_range_hotel_prices"
+        android:text="?attr/hotelListingFilterPriceCheapString"
+        android:textStyle="bold" />
+
+    <RadioButton
+        android:id="@+id/price_moderate_button"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:contentDescription="@string/cd_filter_for_mid_range_hotel_prices"
+        android:text="?attr/hotelListingFilterPriceModerateString"
+        android:textStyle="bold" />
+
+    <RadioButton
+        android:id="@+id/price_expensive_button"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:contentDescription="@string/cd_filter_for_high_range_hotel_prices"
+        android:text="?attr/hotelListingFilterPriceExpensiveString"
+        android:textStyle="bold" />
+
+</com.mobiata.android.widget.SegmentedControlGroup>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/tablet_list_bg"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/sticky_header_container"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:gravity="center_vertical" >
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/sort_and_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="16dp"
+            android:text="@string/Sort_and_Filter"
+            android:textSize="18sp"
+            app:textStyle="light" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/done_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
+            android:text="@string/Done"
+            android:textColor="#FF0B4EA4"
+            android:textSize="18sp"
+            app:textStyle="light" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp" >
+
+            <com.expedia.bookings.widget.CustomEditText
+                android:id="@+id/filter_hotel_name_edit_text"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/edit_text_holo_light"
+                android:gravity="center_vertical"
+                android:hint="@string/filter_hotel_name_hint"
+                android:inputType="textFilter|textNoSuggestions"
+                android:singleLine="true"
+                android:textSize="18sp"
+                app:clearFieldDrawable="@drawable/ic_clear_edittext_dark"
+                app:touchAreaPadding="25dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/Sort_By"
+                android:textAllCaps="true"
+                android:textColor="#7C7E7F" />
+
+            <include
+                android:id="@+id/sort_by_button_group"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/popup_filter_row_height"
+                android:layout_marginBottom="8dp"
+                layout="@layout/include_sort_by_tablet" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/Filters"
+                android:textAllCaps="true"
+                android:textColor="#7C7E7F" />
+
+            <include
+                android:id="@+id/price_filter_button_group"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/popup_filter_row_height"
+                android:layout_marginBottom="8dp"
+                layout="@layout/include_filter_price_tablet" />
+
+            <include
+                android:id="@+id/radius_filter_button_group"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/popup_filter_row_height"
+                android:layout_marginBottom="8dp"
+                layout="@layout/include_filter_radius_tablet" />
+
+            <include
+                android:id="@+id/rating_filter_button_group"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/popup_filter_row_height"
+                android:layout_marginBottom="8dp"
+                layout="@layout/include_filter_rating_tablet" />
+
+            <Button
+                android:id="@+id/filter_vip_access"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/toggle_dark"
+                android:text="@string/filter_vip_access"
+                android:textColor="@color/actionbar_text"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/Areas"
+                android:textAllCaps="true"
+                android:textColor="#7C7E7F" />
+
+            <LinearLayout
+                android:id="@+id/areas_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

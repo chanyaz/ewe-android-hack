@@ -28,6 +28,9 @@
         <item name="hotelListingSaleDrawable">@drawable/bg_hotel_cell_sale</item>
         <item name="hotelPriceStandardColor">#ffffff</item>
         <item name="hotelPriceSaleColor">#ffffff</item>
+        <item name="hotelListingFilterPriceCheapString">@string/filter_price_cheap</item>
+        <item name="hotelListingFilterPriceModerateString">@string/filter_price_moderate</item>
+        <item name="hotelListingFilterPriceExpensiveString">@string/filter_price_expensive</item>
     </style>
 
     <!-- Action bar styling; directly linked to themes so not moving too far away -->

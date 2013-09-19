@@ -54,7 +54,30 @@
         <item quantity="many">%s Flights</item>
         <item quantity="other">%s Flights</item>
     </plurals>
-    
+
+    <!-- Tablet hotel filters -->
+    <!-- "Sort By" section header -->
+    <string name="Sort_By">Sort By</string>
+    <!-- "Filters" section header -->
+    <string name="Filters">Filters</string>
+    <!-- "Areas" section header -->
+    <string name="Areas">Areas</string>
+    <!-- Short label for "sort by popular" button -->
+    <string name="popular">popular</string>
+    <!-- Short label for "sort by price" button -->
+    <string name="price">price</string>
+    <!-- Short label for "sort by rating" button -->
+    <string name="rating">rating</string>
+    <!-- Short label for "sort by distance" button -->
+    <string name="distance">distance</string>
+    <!-- Content description for "sort by popular" button -->
+    <string name="cd_sort_by_popular">Press to sort by the most popular hotels.</string>
+    <!-- Content description for "sort by price" button -->
+    <string name="cd_sort_by_price">Press to sort by the least expensive hotels.</string>
+    <!-- Content description for "sort by rating" button -->
+    <string name="cd_sort_by_rating">Press to sort by the most highly rated hotels.</string>
+    <!-- Content description for "sort by distance" button -->
+    <string name="cd_sort_by_distance">Press to sort by the closest hotels.</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
