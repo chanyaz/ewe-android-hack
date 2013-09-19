@@ -13,14 +13,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.widget.CalendarPicker;
 import com.mobiata.android.util.Ui;
-import com.mobiata.android.widget.CalendarDatePicker;
-import com.mobiata.android.widget.CalendarDatePicker.OnDateChangedListener;
-import com.mobiata.android.widget.CalendarDatePicker.SelectionMode;
 
 /**
  * Two important details
@@ -32,7 +28,7 @@ import com.mobiata.android.widget.CalendarDatePicker.SelectionMode;
  * 2. It is still using the old CalendarDatePicker; at some point we should upgrade to something
  *    better. 
  */
-public class DatesFragment extends Fragment implements OnDateChangedListener {
+public class DatesFragment extends Fragment {
 
 	private static final int DATE_BOX_FLAGS = DateUtils.FORMAT_SHOW_DATE;
 
@@ -41,7 +37,7 @@ public class DatesFragment extends Fragment implements OnDateChangedListener {
 	private TextView mStatusTextView;
 	private TextView mStartTextView;
 	private TextView mEndTextView;
-	private CalendarDatePicker mCalendarDatePicker;
+	private CalendarPicker mCalendarPicker;
 
 	// These are only used for the initial setting; they do not represent the state most of the time
 	private LocalDate mStartDate;
@@ -61,11 +57,7 @@ public class DatesFragment extends Fragment implements OnDateChangedListener {
 		mStatusTextView = Ui.findView(view, R.id.status_text_view);
 		mStartTextView = Ui.findView(view, R.id.start_text_view);
 		mEndTextView = Ui.findView(view, R.id.end_text_view);
-		mCalendarDatePicker = Ui.findView(view, R.id.dates_date_picker);
-
-		// Configure it like flights for now, as that's more accepting
-		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker, SelectionMode.HYBRID, LineOfBusiness.FLIGHTS);
-		mCalendarDatePicker.setOnDateChangedListener(this);
+		mCalendarPicker = Ui.findView(view, R.id.calendar_picker);
 
 		setCalendarDates(mStartDate, mEndDate);
 
@@ -85,8 +77,9 @@ public class DatesFragment extends Fragment implements OnDateChangedListener {
 	}
 
 	public void setCalendarDates(LocalDate startDate, LocalDate endDate) {
-		CalendarUtils.updateCalendarPickerStartDate(mCalendarDatePicker, startDate);
-		CalendarUtils.updateCalendarPickerEndDate(mCalendarDatePicker, endDate);
+		// TODO: Redo with new CalendarPicker
+		//		CalendarUtils.updateCalendarPickerStartDate(mCalendarPicker, startDate);
+		//		CalendarUtils.updateCalendarPickerEndDate(mCalendarPicker, endDate);
 	}
 
 	private void updateStatusText() {
@@ -146,24 +139,23 @@ public class DatesFragment extends Fragment implements OnDateChangedListener {
 		LocalDate startDate = null;
 		LocalDate endDate = null;
 
-		if (mCalendarDatePicker.getStartTime() != null) {
-			startDate = new LocalDate(mCalendarDatePicker.getStartYear(),
-					mCalendarDatePicker.getStartMonth() + 1, mCalendarDatePicker.getStartDayOfMonth());
+		// TODO: Redo with CalendarPicker (once able)
+		/*
+		if (mCalendarPicker.getStartTime() != null) {
+			startDate = new LocalDate(mCalendarPicker.getStartYear(),
+					mCalendarPicker.getStartMonth() + 1, mCalendarPicker.getStartDayOfMonth());
 		}
 
-		if (mCalendarDatePicker.getEndTime() != null) {
-			endDate = new LocalDate(mCalendarDatePicker.getEndYear(), mCalendarDatePicker.getEndMonth() + 1,
-					mCalendarDatePicker.getEndDayOfMonth());
+		if (mCalendarPicker.getEndTime() != null) {
+			endDate = new LocalDate(mCalendarPicker.getEndYear(), mCalendarPicker.getEndMonth() + 1,
+					mCalendarPicker.getEndDayOfMonth());
 		}
+		*/
 
 		return new Pair<LocalDate, LocalDate>(startDate, endDate);
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// OnDateChangedListener
-
-	@Override
-	public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
+	public void onDateChanged() {
 		Pair<LocalDate, LocalDate> dates = getSelectedDates();
 
 		mListener.onDatesChanged(dates.first, dates.second);

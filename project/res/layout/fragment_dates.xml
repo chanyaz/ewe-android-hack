@@ -52,25 +52,14 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <com.mobiata.android.widget.CalendarDatePicker
-            android:id="@+id/dates_date_picker"
+        <com.expedia.bookings.widget.CalendarPicker
+            android:id="@+id/calendar_picker"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center"
             android:layout_marginBottom="16dp"
             android:layout_weight="1"
-            mobiata:calendarHeaderBackground="@color/calendar_header"
-            mobiata:cellBackground="@drawable/bg_calendar_cell_tablet"
-            mobiata:cellTextColor="@color/cell_text"
-            mobiata:drawGridLines="false"
-            mobiata:nextMonthBackground="@drawable/bg_calendar_next"
-            mobiata:otherMonthCellBackground="@drawable/bg_calendar_cell_tablet"
-            mobiata:otherMonthCellTextColor="@color/cell_text_other_month"
-            mobiata:popupBackground="@drawable/calendar_date_picker_popup"
-            mobiata:previousMonthBackground="@drawable/bg_calendar_previous"
-            mobiata:rangeEndCellBackground="@drawable/bg_calendar_cell_range_end"
-            mobiata:rangeStartCellBackground="@drawable/bg_calendar_cell_range_start"
-            mobiata:todayCellBackground="@drawable/bg_calendar_cell_today_tablet" />
+            android:background="#99000000" />
     </LinearLayout>
 
 </FrameLayout>
