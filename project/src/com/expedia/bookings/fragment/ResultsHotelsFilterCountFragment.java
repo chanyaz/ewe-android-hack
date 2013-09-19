@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelFilter;
+import com.expedia.bookings.data.HotelFilter.OnFilterChangedListener;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.widget.RingedCountView;
 import com.mobiata.android.util.Ui;
@@ -41,6 +43,32 @@ public class ResultsHotelsFilterCountFragment extends Fragment {
 
 		update();
 	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+
+		HotelFilter filter = Db.getFilter();
+		if (filter != null) {
+			filter.addOnFilterChangedListener(mListener);
+		}
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+
+		HotelFilter filter = Db.getFilter();
+		if (filter != null) {
+			filter.removeOnFilterChangedListener(mListener);
+		}
+	}
+
+	OnFilterChangedListener mListener = new OnFilterChangedListener() {
+		public void onFilterChanged() {
+			update();
+		}
+	};
 
 	public void update() {
 		int count = 0;
