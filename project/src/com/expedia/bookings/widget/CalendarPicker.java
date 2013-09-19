@@ -7,6 +7,7 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -87,6 +88,9 @@ public class CalendarPicker extends LinearLayout {
 		mPreviousMonthTextView = Ui.findView(this, R.id.previous_month);
 		mCurrentMonthTextView = Ui.findView(this, R.id.current_month);
 		mNextMonthTextView = Ui.findView(this, R.id.next_month);
+
+		mPreviousMonthTextView.setOnClickListener(mOnClickListener);
+		mNextMonthTextView.setOnClickListener(mOnClickListener);
 	}
 
 	@Override
@@ -168,4 +172,20 @@ public class CalendarPicker extends LinearLayout {
 		mNextMonthTextView.setText(mDisplayYearMonth.plusMonths(1).monthOfYear().getAsText());
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// OnClickListener
+
+	private OnClickListener mOnClickListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			if (v == mPreviousMonthTextView) {
+				mDisplayYearMonth = mDisplayYearMonth.minusMonths(1);
+				updateHeader();
+			}
+			else if (v == mNextMonthTextView) {
+				mDisplayYearMonth = mDisplayYearMonth.plusMonths(1);
+				updateHeader();
+			}
+		}
+	};
 }
