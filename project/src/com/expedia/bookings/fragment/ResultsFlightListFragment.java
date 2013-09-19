@@ -73,36 +73,37 @@ public class ResultsFlightListFragment extends ResultsListFragment {
 
 	@Override
 	protected ListAdapter initializeAdapter() {
+
+		// TODO: this block is temporary
 		if (Db.getFlightSearch() == null || Db.getFlightSearch().getSearchResponse() == null) {
 			int[] flightColors = { Color.rgb(0, 0, 255), Color.rgb(0, 0, 220), Color.rgb(0, 0, 150) };
 			mAdapter = new SimpleColorAdapter(getActivity(), 200, 50, flightColors);
 			//mAdapter.enableSizeChanges(10, 3000);
+			return mAdapter;
 		}
 
+		FlightAdapter adapter = new TabletFlightAdapter(getActivity(), null);
+		mAdapter = adapter;
+		mAdapter.registerDataSetObserver(new DataSetObserver() {
+			public void onChanged() {
+				initializeStickyHeaderString();
+			}
+		});
+
+		// Make sure mLegNumber is in-bounds (should not be needed in production)
+		mLegNumber = Math.min(mLegNumber, Db.getFlightSearch().getSelectedLegs().length - 1);
+
+		// Setup data
+		adapter.setLegPosition(mLegNumber);
+
+		if (mLegNumber > 0) {
+			FlightTripQuery previousQuery = Db.getFlightSearch().queryTrips(mLegNumber - 1);
+			adapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(mLegNumber),
+					previousQuery.getMinTime(),
+					previousQuery.getMaxTime());
+		}
 		else {
-			FlightAdapter adapter = new TabletFlightAdapter(getActivity(), null);
-			mAdapter = adapter;
-			mAdapter.registerDataSetObserver(new DataSetObserver() {
-				public void onChanged() {
-					initializeStickyHeaderString();
-				}
-			});
-
-			// Make sure mLegNumber is in-bounds (should not be needed in production)
-			mLegNumber = Math.min(mLegNumber, Db.getFlightSearch().getSelectedLegs().length - 1);
-
-			// Setup data
-			adapter.setLegPosition(mLegNumber);
-
-			if (mLegNumber > 0) {
-				FlightTripQuery previousQuery = Db.getFlightSearch().queryTrips(mLegNumber - 1);
-				adapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(mLegNumber),
-						previousQuery.getMinTime(),
-						previousQuery.getMaxTime());
-			}
-			else {
-				adapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(mLegNumber));
-			}
+			adapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(mLegNumber));
 		}
 		return mAdapter;
 	}

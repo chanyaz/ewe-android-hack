@@ -44,22 +44,24 @@ public class ResultsHotelListFragment extends ResultsListFragment {
 
 	@Override
 	protected ListAdapter initializeAdapter() {
+
+		// TODO: This block is temporary
 		if (Db.getHotelSearch() == null || Db.getHotelSearch().getSearchResponse() == null) {
 			int[] hotelColors = { Color.rgb(255, 0, 0), Color.rgb(220, 0, 0), Color.rgb(150, 0, 0) };
 			mAdapter = new SimpleColorAdapter(getActivity(), 250, 25, hotelColors);
+			return mAdapter;
 		}
-		else {
-			TabletHotelAdapter adapter = new TabletHotelAdapter(getActivity());
-			mAdapter = adapter;
-			adapter.highlightSelectedPosition(true);
 
-			HotelSearchResponse response = Db.getHotelSearch().getSearchResponse();
-			adapter.setSearchResponse(response);
+		TabletHotelAdapter adapter = new TabletHotelAdapter(getActivity());
+		mAdapter = adapter;
+		adapter.highlightSelectedPosition(true);
 
-			if (Db.getHotelSearch().getSelectedProperty() != null) {
-				// In case there is a currently selected property, select it on the screen.
-				adapter.setSelectedProperty(Db.getHotelSearch().getSelectedProperty());
-			}
+		HotelSearchResponse response = Db.getHotelSearch().getSearchResponse();
+		adapter.setSearchResponse(response);
+
+		if (Db.getHotelSearch().getSelectedProperty() != null) {
+			// In case there is a currently selected property, select it on the screen.
+			adapter.setSelectedProperty(Db.getHotelSearch().getSelectedProperty());
 		}
 		return mAdapter;
 	}
