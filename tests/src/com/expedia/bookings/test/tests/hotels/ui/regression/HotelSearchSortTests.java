@@ -46,28 +46,30 @@ public class HotelSearchSortTests extends CustomActivityInstrumentationTestCase<
 		mUser.setHotelCityToRandomUSCity();
 		mDriver.enterLog(TAG, "Test Sort By Price City: " + mUser.getHotelSearchCity());
 		initiateSearchHelper(mUser.getHotelSearchCity());
-		mDriver.hotelsSearchScreen().clickOnSortButton();
-		mDriver.delay(1);
-		mDriver.hotelsSearchScreen().sortMenu().clickSortByPriceString();
-		mDriver.delay(1);
-		int totalHotels = mDriver.hotelsSearchScreen().hotelResultsListView().getCount();
-		int hotelsPerScreenHeight = mDriver.hotelsSearchScreen().hotelResultsListView().getChildCount();
-		if (totalHotels > 1) {
-			View topHotelRow = mDriver.hotelsSearchScreen().hotelResultsListView()
-					.getChildAt(1);
-			HotelSearchResultRow previousRow = new HotelSearchResultRow(topHotelRow);
-			float previousRowPrice = getCleanFloatFromTextView(previousRow.getPriceTextView());
+		if (!mDriver.searchText(mDriver.hotelsSearchScreen().noHotelsAvailableTonight(), 1, false, true)) {
+			mDriver.hotelsSearchScreen().clickOnSortButton();
+			mDriver.delay(1);
+			mDriver.hotelsSearchScreen().sortMenu().clickSortByPriceString();
+			mDriver.delay(1);
+			int totalHotels = mDriver.hotelsSearchScreen().hotelResultsListView().getCount();
+			int hotelsPerScreenHeight = mDriver.hotelsSearchScreen().hotelResultsListView().getChildCount();
+			if (totalHotels > 1) {
+				View topHotelRow = mDriver.hotelsSearchScreen().hotelResultsListView()
+						.getChildAt(1);
+				HotelSearchResultRow previousRow = new HotelSearchResultRow(topHotelRow);
+				float previousRowPrice = getCleanFloatFromTextView(previousRow.getPriceTextView());
 
-			for (int j = 0; j < totalHotels / hotelsPerScreenHeight; j++) {
-				for (int i = 1; i < hotelsPerScreenHeight; i++) {
-					View currentHotelRowView = mDriver.hotelsSearchScreen().hotelResultsListView().getChildAt(i);
-					HotelSearchResultRow currentRow = new HotelSearchResultRow(currentHotelRowView);
-					float currentRowPrice = getCleanFloatFromTextView(currentRow.getPriceTextView());
-					mDriver.enterLog(TAG, "RATING " + currentRowPrice + " >= " + previousRowPrice);
-					assertTrue(currentRowPrice >= previousRowPrice);
-					previousRowPrice = currentRowPrice;
+				for (int j = 0; j < totalHotels / hotelsPerScreenHeight; j++) {
+					for (int i = 1; i < hotelsPerScreenHeight; i++) {
+						View currentHotelRowView = mDriver.hotelsSearchScreen().hotelResultsListView().getChildAt(i);
+						HotelSearchResultRow currentRow = new HotelSearchResultRow(currentHotelRowView);
+						float currentRowPrice = getCleanFloatFromTextView(currentRow.getPriceTextView());
+						mDriver.enterLog(TAG, "RATING " + currentRowPrice + " >= " + previousRowPrice);
+						assertTrue(currentRowPrice >= previousRowPrice);
+						previousRowPrice = currentRowPrice;
+					}
+					mDriver.scrollDown();
 				}
-				mDriver.scrollDown();
 			}
 		}
 	}
@@ -76,59 +78,63 @@ public class HotelSearchSortTests extends CustomActivityInstrumentationTestCase<
 		String address = "114 Sansome St. San Francisco, CA 94104";
 		mDriver.enterLog(TAG, "Test Sort By Distance - address: " + address);
 		initiateSearchHelper(address);
-		mDriver.hotelsSearchScreen().clickOnSortButton();
-		mDriver.delay(1);
-		mDriver.hotelsSearchScreen().sortMenu().clickSortByDistanceString();
-		mDriver.delay(1);
+		if (!mDriver.searchText(mDriver.hotelsSearchScreen().noHotelsAvailableTonight(), 1, false, true)) {
+			mDriver.hotelsSearchScreen().clickOnSortButton();
+			mDriver.delay(1);
+			mDriver.hotelsSearchScreen().sortMenu().clickSortByDistanceString();
+			mDriver.delay(1);
+			int totalHotels = mDriver.hotelsSearchScreen().hotelResultsListView().getCount();
+			int hotelsPerScreenHeight = mDriver.hotelsSearchScreen().hotelResultsListView().getChildCount();
 
-		int totalHotels = mDriver.hotelsSearchScreen().hotelResultsListView().getCount();
-		int hotelsPerScreenHeight = mDriver.hotelsSearchScreen().hotelResultsListView().getChildCount();
-		if (totalHotels > 1) {
-			View topHotelRow = mDriver.hotelsSearchScreen().hotelResultsListView()
-					.getChildAt(1);
-			HotelSearchResultRow previousRow = new HotelSearchResultRow(topHotelRow);
-			float previousRowDistance = getCleanFloatFromTextView(previousRow.getProximityTextView());
-			for (int j = 0; j < totalHotels / hotelsPerScreenHeight; j++) {
-				for (int i = 1; i < hotelsPerScreenHeight; i++) {
-					View currentHotelRowView = mDriver.hotelsSearchScreen().hotelResultsListView().getChildAt(i);
-					HotelSearchResultRow currentRow = new HotelSearchResultRow(currentHotelRowView);
-					float currentRowDistance = getCleanFloatFromTextView(currentRow.getProximityTextView());
-					mDriver.enterLog(TAG, "DISTANCE " + currentRowDistance + " >= " + previousRowDistance);
-					assertTrue(currentRowDistance >= previousRowDistance);
-					previousRowDistance = currentRowDistance;
+			if (totalHotels > 1) {
+				View topHotelRow = mDriver.hotelsSearchScreen().hotelResultsListView()
+						.getChildAt(1);
+				HotelSearchResultRow previousRow = new HotelSearchResultRow(topHotelRow);
+				float previousRowDistance = getCleanFloatFromTextView(previousRow.getProximityTextView());
+				for (int j = 0; j < totalHotels / hotelsPerScreenHeight; j++) {
+					for (int i = 1; i < hotelsPerScreenHeight; i++) {
+						View currentHotelRowView = mDriver.hotelsSearchScreen().hotelResultsListView().getChildAt(i);
+						HotelSearchResultRow currentRow = new HotelSearchResultRow(currentHotelRowView);
+						float currentRowDistance = getCleanFloatFromTextView(currentRow.getProximityTextView());
+						mDriver.enterLog(TAG, "DISTANCE " + currentRowDistance + " >= " + previousRowDistance);
+						assertTrue(currentRowDistance >= previousRowDistance);
+						previousRowDistance = currentRowDistance;
+					}
+					mDriver.scrollDown();
 				}
-				mDriver.scrollDown();
 			}
 		}
 	}
 
 	public void testSortByRating() throws Exception {
 		mUser.setHotelCityToRandomUSCity();
-		mDriver.enterLog(TAG, "Test Sort By Price City: " + mUser.getHotelSearchCity());
+		mDriver.enterLog(TAG, "Test Sort By Rating City: " + mUser.getHotelSearchCity());
 		initiateSearchHelper(mUser.getHotelSearchCity());
-		mDriver.hotelsSearchScreen().clickOnSortButton();
-		mDriver.delay(1);
-		mDriver.hotelsSearchScreen().sortMenu().clickSortByUserRatingString();
-		mDriver.delay(1);
+		if (!mDriver.searchText(mDriver.hotelsSearchScreen().noHotelsAvailableTonight(), 1, false, true)) {
+			mDriver.hotelsSearchScreen().clickOnSortButton();
+			mDriver.delay(1);
+			mDriver.hotelsSearchScreen().sortMenu().clickSortByUserRatingString();
+			mDriver.delay(1);
 
-		final int totalHotels = mDriver.hotelsSearchScreen().hotelResultsListView().getCount() - 1;
-		final int hotelsPerScreenHeight = mDriver.hotelsSearchScreen().hotelResultsListView().getChildCount();
-		if (totalHotels > 1) {
-			View topHotelRow = mDriver.hotelsSearchScreen().hotelResultsListView()
-					.getChildAt(1);
-			HotelSearchResultRow previousRow = new HotelSearchResultRow(topHotelRow);
-			float previousRowRating = previousRow.getRatingBar().getRating();
-			for (int i = 0; i < totalHotels / hotelsPerScreenHeight; i++) {
-				for (int j = 1; j < hotelsPerScreenHeight; j++) {
-					View currentHotelRowView = mDriver.hotelsSearchScreen().hotelResultsListView()
-							.getChildAt(j);
-					HotelSearchResultRow currentRow = new HotelSearchResultRow(currentHotelRowView);
-					float currentRowRating = currentRow.getRatingBar().getRating();
-					mDriver.enterLog(TAG, "RATING " + previousRowRating + " >= " + currentRowRating);
-					assertTrue(previousRowRating >= currentRowRating);
-					previousRowRating = currentRowRating;
+			final int totalHotels = mDriver.hotelsSearchScreen().hotelResultsListView().getCount() - 1;
+			final int hotelsPerScreenHeight = mDriver.hotelsSearchScreen().hotelResultsListView().getChildCount();
+			if (totalHotels > 1) {
+				View topHotelRow = mDriver.hotelsSearchScreen().hotelResultsListView()
+						.getChildAt(1);
+				HotelSearchResultRow previousRow = new HotelSearchResultRow(topHotelRow);
+				float previousRowRating = previousRow.getRatingBar().getRating();
+				for (int i = 0; i < totalHotels / hotelsPerScreenHeight; i++) {
+					for (int j = 1; j < hotelsPerScreenHeight; j++) {
+						View currentHotelRowView = mDriver.hotelsSearchScreen().hotelResultsListView()
+								.getChildAt(j);
+						HotelSearchResultRow currentRow = new HotelSearchResultRow(currentHotelRowView);
+						float currentRowRating = currentRow.getRatingBar().getRating();
+						mDriver.enterLog(TAG, "RATING " + previousRowRating + " >= " + currentRowRating);
+						assertTrue(previousRowRating >= currentRowRating);
+						previousRowRating = currentRowRating;
+					}
+					mDriver.scrollDown();
 				}
-				mDriver.scrollDown();
 			}
 		}
 	}
