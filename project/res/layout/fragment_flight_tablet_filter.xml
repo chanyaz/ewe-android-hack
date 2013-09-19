@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/tablet_list_bg"
+              android:orientation="vertical"
+              android:paddingLeft="16dp"
+              android:paddingTop="8dp" >
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="@string/flight_preferences" />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Sort_By"
+            android:textAllCaps="true" />
+
+    <include layout="@layout/include_flight_tablet_sort" />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stops"
+            android:textAllCaps="true" />
+
+    <include layout="@layout/include_flight_tablet_filter" />
+
+</LinearLayout>

@@ -97,6 +97,12 @@
     <!-- Content description for "sort by distance" button -->
     <string name="cd_sort_by_distance">Press to sort by the closest hotels.</string>
 
+    <!-- Tablet flight sort/filter controls -->
+    <!-- Flight sort and filter page header -->
+    <string name="flight_preferences">Flight Preferences</string>
+    <!-- Header for a flight filter based upon number of stops -->
+    <string name="stops">Stops</string>
+
     <!-- Facebook -->
     <!-- Weve found your user account -->
     <string name="facebook_weve_found_your_account">Hey &lt;b&gt;%1$s&lt;/b&gt;, looks like we\'ve found your Expedia account! Please enter your expedia password below to link your facebook and expedia accounts.</string>

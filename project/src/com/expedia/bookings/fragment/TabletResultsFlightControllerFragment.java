@@ -850,7 +850,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 							FRAG_TAG_FLIGHT_ONE_FILTERS);
 				}
 				if (mFlightOneFilterFrag == null) {
-					mFlightOneFilterFrag = ResultsFlightFiltersFragment.newInstance();
+					mFlightOneFilterFrag = ResultsFlightFiltersFragment.newInstance(0);
 				}
 				if (!mFlightOneFilterFrag.isAdded()) {
 					transaction.add(R.id.flight_one_filters, mFlightOneFilterFrag, FRAG_TAG_FLIGHT_ONE_FILTERS);
@@ -878,7 +878,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 							FRAG_TAG_FLIGHT_TWO_FILTERS);
 				}
 				if (mFlightTwoFilterFrag == null) {
-					mFlightTwoFilterFrag = ResultsFlightFiltersFragment.newInstance();
+					mFlightTwoFilterFrag = ResultsFlightFiltersFragment.newInstance(1);
 				}
 				if (!mFlightTwoFilterFrag.isAdded()) {
 					transaction.add(R.id.flight_two_filters, mFlightTwoFilterFrag, FRAG_TAG_FLIGHT_TWO_FILTERS);

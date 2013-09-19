@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <RadioGroup
+            android:id="@+id/flight_sort_control"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:orientation="horizontal" >
+
+        <include layout="@layout/snippet_flight_tablet_sort_items" />
+    </RadioGroup>
+
+</merge>
