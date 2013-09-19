@@ -8,13 +8,13 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.fragment.base.ResultsListFragment;
 import com.expedia.bookings.interfaces.IResultsHotelSelectedListener;
 import com.expedia.bookings.widget.SimpleColorAdapter;
-import com.mobiata.android.util.Ui;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.widget.TabletHotelAdapter;
+import com.mobiata.android.util.Ui;
 
 /**
  * ResultsHotelListFragment: The hotel list fragment designed for tablet results 2013

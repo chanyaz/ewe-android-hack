@@ -1,13 +1,5 @@
 package com.expedia.bookings.fragment.base;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.interfaces.IBackButtonLockListener;
-import com.expedia.bookings.widget.FruitScrollUpListView;
-import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewChangeListener;
-import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewInitListener;
-import com.expedia.bookings.widget.FruitScrollUpListView.State;
-import com.mobiata.android.util.Ui;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
@@ -19,6 +11,14 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.interfaces.IBackButtonLockListener;
+import com.expedia.bookings.widget.FruitScrollUpListView;
+import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewChangeListener;
+import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewInitListener;
+import com.expedia.bookings.widget.FruitScrollUpListView.State;
+import com.mobiata.android.util.Ui;
 
 /**
  * ResultsListFragment: The abstract base Fragment  for the flight and hotel lists designed for tablet results 2013
