@@ -20,7 +20,6 @@ public class ConfirmItinRemoveDialogFragment extends DialogFragment {
 		Bundle args = new Bundle();
 		mTripNumber = tripNumber;
 		instance.setArguments(args);
-		instance.setCancelable(false);
 		return instance;
 	}
 
@@ -30,7 +29,7 @@ public class ConfirmItinRemoveDialogFragment extends DialogFragment {
 
 		builder.setTitle(getResources().getString(R.string.remove_shared_itin_title));
 		builder.setMessage(getResources().getString(R.string.remove_shared_itin_message));
-		builder.setCancelable(false);
+		builder.setCancelable(true);
 		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -44,7 +43,7 @@ public class ConfirmItinRemoveDialogFragment extends DialogFragment {
 			}
 		});
 		Dialog dialog = builder.create();
-		dialog.setCanceledOnTouchOutside(false);
+		dialog.setCanceledOnTouchOutside(true);
 		return dialog;
 	}
 }

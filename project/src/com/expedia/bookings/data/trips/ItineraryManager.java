@@ -728,7 +728,6 @@ public class ItineraryManager implements JSONable {
 		REFRESH_TRIP, // Refreshes a trip
 
 		FETCH_SHARED_ITIN, // Fetches the shared itin data
-
 		REMOVE_ITIN, // Deletes the selected itin. Currently we can only delete a shared itin.
 
 		SAVE_TO_DISK, // Saves state of ItineraryManager to disk
@@ -908,7 +907,7 @@ public class ItineraryManager implements JSONable {
 	}
 
 	public boolean removeItin(String tripNumber) {
-		Log.i(LOGGING_TAG, "Removing Itin");
+		Log.i(LOGGING_TAG, "Removing Itin num = " + tripNumber);
 		mSyncOpQueue.add(new Task(Operation.REMOVE_ITIN, tripNumber));
 		mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
 		mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
@@ -1036,6 +1035,12 @@ public class ItineraryManager implements JSONable {
 				case REFRESH_TRIP:
 					refreshTrip(nextTask.mTrip, false);
 					break;
+				case FETCH_SHARED_ITIN:
+					downloadSharedItinTrip(nextTask.mTripNumber);
+					break;
+				case REMOVE_ITIN:
+					removeTrip(nextTask.mTripNumber);
+					break;
 				case SAVE_TO_DISK:
 					save();
 					break;
@@ -1047,12 +1052,6 @@ public class ItineraryManager implements JSONable {
 					break;
 				case REGISTER_FOR_PUSH_NOTIFICATIONS:
 					registerForPushNotifications();
-					break;
-				case FETCH_SHARED_ITIN:
-					downloadSharedItinTrip(nextTask.mTripNumber);
-					break;
-				case REMOVE_ITIN:
-					removeTrip(nextTask.mTripNumber);
 					break;
 				}
 
@@ -1412,10 +1411,19 @@ public class ItineraryManager implements JSONable {
 		}
 
 		private void removeTrip(String tripNumber) {
-			Log.i(LOGGING_TAG, "Removing trip with # " + tripNumber);
+			Trip trip = mTrips.get(tripNumber);
+			if (trip == null) {
+				Log.w(LOGGING_TAG, "Tried to remove a tripNumber that doesn't exist: " + tripNumber);
+			}
+			else if (!trip.isShared()) {
+				Log.w(LOGGING_TAG,
+						"Tried to remove a non-shared trip, DENIED because we can only remove sharedItins # "
+								+ tripNumber);
+			}
+			else {
+				Log.i(LOGGING_TAG, "Removing trip with # " + tripNumber);
 
-			if (mTrips.containsKey(tripNumber)) {
-				Trip trip = mTrips.remove(tripNumber);
+				mTrips.remove(tripNumber);
 				publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, trip));
 				// Delete notifications if any.
 				deletePendingNotification(trip);

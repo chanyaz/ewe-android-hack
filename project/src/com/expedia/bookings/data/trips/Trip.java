@@ -70,7 +70,7 @@ public class Trip implements JSONable, Comparable<Trip> {
 	private long mLastFullUpdate;
 
 	// To identify if it's a shared itin
-	private boolean isShared;
+	private boolean mIsShared;
 
 	public Trip() {
 		// Default constructor
@@ -204,11 +204,11 @@ public class Trip implements JSONable, Comparable<Trip> {
 	}
 
 	public boolean isShared() {
-		return isShared;
+		return mIsShared;
 	}
 
 	public void setIsShared(boolean isShared) {
-		this.isShared = isShared;
+		this.mIsShared = isShared;
 	}
 
 	/**
@@ -341,7 +341,7 @@ public class Trip implements JSONable, Comparable<Trip> {
 			obj.putOpt("lastCachedUpdate", mLastCachedUpdate);
 			obj.putOpt("lastFullUpdate", mLastFullUpdate);
 
-			obj.putOpt("isShared", isShared);
+			obj.putOpt("isShared", mIsShared);
 
 			return obj;
 		}
@@ -383,7 +383,7 @@ public class Trip implements JSONable, Comparable<Trip> {
 		mLastCachedUpdate = obj.optLong("lastCachedUpdate");
 		mLastFullUpdate = obj.optLong("lastFullUpdate");
 
-		isShared = obj.optBoolean("isShared");
+		mIsShared = obj.optBoolean("isShared");
 
 		return true;
 	}
