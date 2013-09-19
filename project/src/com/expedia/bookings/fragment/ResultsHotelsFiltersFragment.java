@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -22,6 +23,7 @@ import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.fragment.ResultsHotelListFragment.ISortAndFilterListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.mobiata.android.Log;
@@ -43,9 +45,17 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 	private SegmentedControlGroup mPriceButtonGroup;
 	private View mVipAccessButton;
 
+	private ISortAndFilterListener mSortAndFilterListener;
+
 	public static ResultsHotelsFiltersFragment newInstance() {
 		ResultsHotelsFiltersFragment frag = new ResultsHotelsFiltersFragment();
 		return frag;
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mSortAndFilterListener = Ui.findFragmentListener(this, ISortAndFilterListener.class, true);
 	}
 
 	@Override
@@ -55,7 +65,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		Ui.findView(view, R.id.done_button).setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				onFilterClosed();
-				//TODO: talk to the fragment coreographer
+				mSortAndFilterListener.onSortAndFilterClicked();
 			}
 		});
 

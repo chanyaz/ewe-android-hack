@@ -699,7 +699,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				}
 
 				mFlightOneListFrag.setChangeListener(mFruitProxy);
-				mFlightOneListFrag.setSortAndFilterButtonText(getString(R.string.done));
+				mFlightOneListFrag.setSortAndFilterButtonText(getString(R.string.Done));
 			}
 		}
 		else {
