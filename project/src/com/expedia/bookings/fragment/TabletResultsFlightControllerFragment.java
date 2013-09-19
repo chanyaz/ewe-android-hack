@@ -5,20 +5,24 @@ import java.util.ArrayList;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletResultsActivity.GlobalResultsState;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.interfaces.IResultsFlightSelectedListener;
 import com.expedia.bookings.interfaces.ITabletResultsController;
 import com.expedia.bookings.utils.ColumnManager;
+import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
 import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewChangeListener;
 import com.expedia.bookings.widget.FruitScrollUpListView.State;
 import com.mobiata.android.util.Ui;
 
 import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,7 +40,7 @@ import android.widget.RelativeLayout;
  */
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletResultsFlightControllerFragment extends Fragment implements ITabletResultsController,
-		IResultsFlightSelectedListener {
+		IResultsFlightSelectedListener, IAddToTripListener {
 
 	public interface IFlightsFruitScrollUpListViewChangeListener {
 
@@ -74,6 +78,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 	//Tags
 	private static final String FRAG_TAG_FLIGHT_MAP = "FRAG_TAG_FLIGHT_MAP";
+	private static final String FRAG_TAG_FLIGHT_ADD_TO_TRIP = "FRAG_TAG_FLIGHT_ADD_TO_TRIP";
 	private static final String FRAG_TAG_FLIGHT_ONE_FILTERS = "FRAG_TAG_FLIGHT_ONE_FILTERS";
 	private static final String FRAG_TAG_FLIGHT_ONE_LIST = "FRAG_TAG_FLIGHT_ONE_LIST";
 	private static final String FRAG_TAG_FLIGHT_TWO_FILTERS = "FRAG_TAG_FLIGHT_TWO_FILTERS";
@@ -84,6 +89,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	//Containers
 	private ViewGroup mRootC;
 	private BlockEventFrameLayout mFlightMapC;
+	private BlockEventFrameLayout mAddToTripC;
 
 	private BlockEventFrameLayout mFlightOneListC;
 	private BlockEventFrameLayout mFlightOneFiltersC;
@@ -99,6 +105,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 	//Fragments
 	private ResultsFlightMapFragment mFlightMapFrag;
+	private ResultsFlightAddToTrip mAddToTripFrag;
 	private ResultsFlightListFragment mFlightOneListFrag;
 	private ResultsFlightFiltersFragment mFlightOneFilterFrag;
 	private ResultsFlightDetailsFragment mFlightOneDetailsFrag;
@@ -114,6 +121,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	private int mGlobalHeight = 0;
 	private float mFlightDetailsMarginPercentage = 0.1f;
 	private boolean mOneWayFlight = true;
+	private IAddToTripListener mParentAddToTripListener;
 
 	//Animation
 	private ValueAnimator mFlightsStateAnimator;
@@ -130,6 +138,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		}
 
 		mListener = Ui.findFragmentListener(this, IFlightsFruitScrollUpListViewChangeListener.class, true);
+		mParentAddToTripListener = Ui.findFragmentListener(this, IAddToTripListener.class);
 	}
 
 	@Override
@@ -138,6 +147,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 		mRootC = Ui.findView(view, R.id.root_layout);
 		mFlightMapC = Ui.findView(view, R.id.bg_flight_map);
+		mAddToTripC = Ui.findView(view, R.id.flights_add_to_trip);
 
 		mFlightOneFiltersC = Ui.findView(view, R.id.flight_one_filters);
 		mFlightOneListC = Ui.findView(view, R.id.flight_one_list);
@@ -149,6 +159,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		mFlightTwoDetailsC = Ui.findView(view, R.id.flight_two_details);
 
 		mContainers.add(mFlightMapC);
+		mContainers.add(mAddToTripC);
 		mContainers.add(mFlightOneFiltersC);
 		mContainers.add(mFlightOneListC);
 		mContainers.add(mFlightOneDetailsC);
@@ -253,6 +264,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		}
 		case ADDING_FLIGHT_TO_TRIP: {
 			setAddTripAnimationPercentage(1f);
+			mAddToTripFrag.beginOrResumeAddToTrip();
 			break;
 		}
 		}
@@ -327,11 +339,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		});
 
 		//Tell the details where we will be flying the selected row
-		Rect destinationSummaryLocation = new Rect();
-		destinationSummaryLocation.top = 0;
-		destinationSummaryLocation.bottom = mFlightTwoFlightOneHeaderC.getHeight();
-		destinationSummaryLocation.left = mColumnManager.getColLeft(1);
-		destinationSummaryLocation.right = mColumnManager.getColLeft(1) + mColumnManager.getColWidth(1);
+		Rect destinationSummaryLocation = ScreenPositionUtils
+				.getGlobalScreenPositionWithoutTranslations(mFlightTwoFlightOneHeaderC);
 		mFlightOneDetailsFrag.prepareDepartureFlightSelectedAnimation(destinationSummaryLocation);
 
 		mFlightOneListC.setVisibility(View.VISIBLE);
@@ -487,13 +496,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			}
 		});
 
-		//TODO: This should be coming from an addToTrip fragment or atleast something that isnt just made up
-		Rect addToTripDestination = new Rect();
-		addToTripDestination.top = (int) ((mRootC.getHeight() - mFlightTwoFlightOneHeaderC.getHeight()) / 2f);
-		addToTripDestination.left = mColumnManager.getColLeft(1);
-		addToTripDestination.right = mColumnManager.getColRight(1);
-		addToTripDestination.bottom = addToTripDestination.top + mFlightTwoFlightOneHeaderC.getHeight();
-
+		Rect addToTripDestination = getAddTripRect();
 		if (mOneWayFlight) {
 			mFlightOneListC.setVisibility(View.VISIBLE);
 			mFlightOneDetailsC.setVisibility(View.VISIBLE);
@@ -501,12 +504,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		}
 		else {
 
-			//We can do way better in terms of getting the position of the thing we want. 
-			Rect departureFlightLocation = new Rect();
-			departureFlightLocation.left = 0;
-			departureFlightLocation.right = departureFlightLocation.left + mFlightTwoFlightOneHeaderC.getWidth();
-			departureFlightLocation.top = 0;
-			departureFlightLocation.bottom = departureFlightLocation.top + mFlightTwoFlightOneHeaderC.getHeight();
+			Rect departureFlightLocation = ScreenPositionUtils.getGlobalScreenPosition(mFlightTwoFlightOneHeaderC);
 
 			mFlightOneDetailsFrag.prepareAddToTripFromDepartureAnimation(departureFlightLocation, addToTripDestination);
 			mFlightOneDetailsC.setVisibility(View.VISIBLE);
@@ -519,6 +517,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		}
 
 		return addTripAnimation;
+	}
+
+	private Rect getAddTripRect() {
+		return mAddToTripFrag.getRowRect();
 	}
 
 	private void setAddTripHardwareRendering(boolean useHardwareLayer) {
@@ -630,13 +632,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				break;
 			}
 			case ADDING_FLIGHT_TO_TRIP: {
-				//TODO: This shouldnt be here, but the current state of animations makes it look stupid to disappear it
-				if (mOneWayFlight) {
-					visibleViews.add(mFlightOneDetailsC);
-				}
-				else {
-					visibleViews.add(mFlightTwoDetailsC);
-				}
+				visibleViews.add(mAddToTripC);
 				break;
 			}
 			}
@@ -672,6 +668,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 		boolean flightOneListAvailable = true;
 		boolean flightMapAvailable = true;
+		boolean flightAddToTripAvailable = true;
 		boolean flightOneFiltersAvailable = true;
 		boolean flightTwoListAvailable = true;
 		boolean flightTwoFiltersAvailabe = true;
@@ -697,6 +694,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 		//Flight map
 		setFlightMapFragmentAvailability(flightMapAvailable, transaction);
+
+		//Add to trip
+		setFlightAddToTripFragmentAvailability(flightAddToTripAvailable, transaction);
 
 		//Flight one list
 		setFlightOneListFragmentAvailability(flightOneListAvailable, transaction);
@@ -780,6 +780,34 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			}
 			if (mFlightTwoListFrag != null) {
 				transaction.remove(mFlightTwoListFrag);
+			}
+		}
+		return transaction;
+	}
+
+	private FragmentTransaction setFlightAddToTripFragmentAvailability(boolean available,
+			FragmentTransaction transaction) {
+		if (available) {
+			if (mAddToTripFrag == null || !mAddToTripFrag.isAdded()) {
+				if (mAddToTripFrag == null) {
+					mAddToTripFrag = (ResultsFlightAddToTrip) getChildFragmentManager().findFragmentByTag(
+							FRAG_TAG_FLIGHT_ADD_TO_TRIP);
+				}
+				if (mAddToTripFrag == null) {
+					mAddToTripFrag = ResultsFlightAddToTrip.newInstance();
+				}
+				if (!mAddToTripFrag.isAdded()) {
+					transaction.add(R.id.flights_add_to_trip, mAddToTripFrag, FRAG_TAG_FLIGHT_ADD_TO_TRIP);
+				}
+			}
+		}
+		else {
+			if (mAddToTripFrag == null) {
+				mAddToTripFrag = (ResultsFlightAddToTrip) getChildFragmentManager().findFragmentByTag(
+						FRAG_TAG_FLIGHT_ADD_TO_TRIP);
+			}
+			if (mAddToTripFrag != null) {
+				transaction.remove(mAddToTripFrag);
 			}
 		}
 		return transaction;
@@ -1060,13 +1088,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 					return true;
 				}
 				else if (mFlightsState == FlightsState.ADDING_FLIGHT_TO_TRIP) {
-					//TODO: THIS IS HERE BECAUSE IT MAKES DEV LIFE EASIER,WHEN ADDING A TRIP WE PROB SHOULDNT ALLOW BACKING OUT
-					if (mOneWayFlight) {
-						setFlightsState(FlightsState.FLIGHT_ONE_DETAILS, true);
-					}
-					else {
-						setFlightsState(FlightsState.FLIGHT_TWO_DETAILS, true);
-					}
 					return true;
 				}
 			}
@@ -1088,5 +1109,52 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				setFlightsState(FlightsState.FLIGHT_TWO_DETAILS, mFlightsState != FlightsState.FLIGHT_TWO_DETAILS);
 			}
 		}
+	}
+
+	/**
+	 * IAddToTripListener Functions
+	 */
+
+	@Override
+	public void beginAddToTrip(Object data, Rect globalCoordinates, int shadeColor) {
+		blockAllNewTouches(null);
+		mParentAddToTripListener.beginAddToTrip(data, globalCoordinates, shadeColor);
+	}
+
+	@Override
+	public void performTripHandoff() {
+		//FAKE IT TO MAKE IT
+		ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f).setDuration(STATE_CHANGE_ANIMATION_DURATION);
+		animator.addUpdateListener(new AnimatorUpdateListener() {
+
+			@Override
+			public void onAnimationUpdate(ValueAnimator arg0) {
+				mListener.onFlightsPercentageChanged(State.TRANSIENT, (Float) arg0.getAnimatedValue());
+				//Fade in the flight list, this will look dumb and needs to be re-thought
+				mFlightOneListC.setAlpha((Float) arg0.getAnimatedValue());
+			}
+
+		});
+		animator.addListener(new AnimatorListenerAdapter() {
+
+			@Override
+			public void onAnimationEnd(Animator arg0) {
+				mListener.onFlightsStateChanged(State.TRANSIENT, State.LIST_CONTENT_AT_BOTTOM, 0f, mFlightOneListC);
+				mFlightOneListFrag.getTopSpaceListView().setListenersEnabled(true);
+			}
+		});
+
+		mListener.onFlightsStateChanged(State.LIST_CONTENT_AT_TOP, State.TRANSIENT, 0f, mFlightOneListC);
+		animator.start();
+		mFlightOneListFrag.getTopSpaceListView().setListenersEnabled(false);
+		mFlightOneListC.setTranslationX(0);
+		mFlightOneListFrag.gotoBottomPosition(0);
+		mFlightOneListC.setAlpha(0f);
+		mFlightOneListC.setVisibility(View.VISIBLE);
+		mFlightOneDetailsC.setVisibility(View.INVISIBLE);
+		mFlightTwoDetailsC.setVisibility(View.INVISIBLE);
+
+		//Tell the trip overview to do its thing...
+		mParentAddToTripListener.performTripHandoff();
 	}
 }

@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import com.expedia.bookings.R;
 import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.utils.ColumnManager;
+import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.mobiata.android.util.Ui;
 
 import android.animation.Animator;
@@ -59,7 +60,7 @@ public class ResultsHotelsRoomsAndRates extends Fragment {
 
 			@Override
 			public void onClick(View arg0) {
-				mAddToTripListener.beginAddToTrip(new Object(), getDestinationRect(), 0);
+				mAddToTripListener.beginAddToTrip(getSelectedData(), getDestinationRect(), 0);
 			}
 
 		});
@@ -78,22 +79,13 @@ public class ResultsHotelsRoomsAndRates extends Fragment {
 			mRoomsAndRatesBottomC.setLayerType(layerType, null);
 		}
 	}
-	
-	public Object getSelectedData(){
+
+	public Object getSelectedData() {
 		return "SOME DATA";
 	}
 
 	public Rect getDestinationRect() {
-		int[] currentGlobalLocation = new int[2];
-		mRoomsAndRatesTopC.getLocationOnScreen(currentGlobalLocation);
-
-		Rect retRect = new Rect();
-		retRect.left = currentGlobalLocation[0];
-		retRect.right = retRect.left + mRoomsAndRatesTopC.getWidth();
-		retRect.top = currentGlobalLocation[1];
-		retRect.bottom = retRect.top + mRoomsAndRatesTopC.getHeight();
-
-		return retRect;
+		return ScreenPositionUtils.getGlobalScreenPosition(mRoomsAndRatesTopC);
 	}
 
 }

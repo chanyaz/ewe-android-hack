@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.mobiata.android.util.Ui;
 
 import android.graphics.Color;
@@ -46,15 +47,20 @@ public class ResultsTripOverviewFragment extends Fragment {
 	}
 
 	public Rect getHotelContainerRect() {
-		Rect rect = new Rect();
-		mHotelView.getLocalVisibleRect(rect);
-		return rect;
+		return ScreenPositionUtils.getGlobalScreenPositionWithoutTranslations(mHotelView);
 	}
 
-	public int[] getHotelLocationOnScreen() {
-		int[] locOnScreen = new int[2];
-		mHotelView.getLocationOnScreen(locOnScreen);
-		return locOnScreen;
+	public View getFlightViewForAddTrip() {
+		TextView tv = new TextView(getActivity());
+		tv.setBackgroundColor(Color.BLUE);
+		tv.setText("Flight Image B");
+		tv.setGravity(Gravity.CENTER);
+		return tv;
+	}
+
+	public Rect getFlightContainerRect() {
+		return ScreenPositionUtils.getGlobalScreenPositionWithoutTranslations(mFlightView);
+
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
@@ -164,10 +165,11 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	public void prepareDepartureFlightSelectedAnimation(Rect globalDestSpot) {
 		//We move the row into its destination position. The animation itself will
 		//then start behind the Details and slide and scale its way back here.
-		mRowWidth = globalDestSpot.right - globalDestSpot.left;
-		mRowHeight = globalDestSpot.bottom - globalDestSpot.top;
-		mRowPositionLeft = globalDestSpot.left;
-		mRowPositionTop = globalDestSpot.top;
+		Rect local = ScreenPositionUtils.translateGlobalPositionToLocalPosition(globalDestSpot, mRootC);
+		mRowWidth = local.right - local.left;
+		mRowHeight = local.bottom - local.top;
+		mRowPositionLeft = local.left;
+		mRowPositionTop = local.top;
 		applyRowDimensions();
 		applyRowPosition();
 
@@ -243,15 +245,16 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	public void prepareAddToTripFromDepartureAnimation(Rect globalDepartureRowPosition, Rect globalAddToTripPosition) {
 		//This one is different, we set the row to be the dimensions of the start of the animation,
 		//this way it should just sit on top of the actual row and not cause a jump as the scaling gets strange
-		mRowPositionLeft = globalDepartureRowPosition.left;
-		mRowPositionTop = globalDepartureRowPosition.top;
-		mRowWidth = globalDepartureRowPosition.right - globalDepartureRowPosition.left;
-		mRowHeight = globalDepartureRowPosition.bottom - globalDepartureRowPosition.top;
+		Rect local = ScreenPositionUtils.translateGlobalPositionToLocalPosition(globalDepartureRowPosition, mRootC);
+		mRowWidth = local.right - local.left;
+		mRowHeight = local.bottom - local.top;
+		mRowPositionLeft = local.left;
+		mRowPositionTop = local.top;
 
 		applyRowDimensions();
 		applyRowPosition();
 
-		mAddToTripRect = globalAddToTripPosition;
+		mAddToTripRect = ScreenPositionUtils.translateGlobalPositionToLocalPosition(globalAddToTripPosition, mRootC);
 		mAnimationFlightRowC.setVisibility(View.VISIBLE);
 		mDetailsC.setVisibility(View.INVISIBLE);
 	}

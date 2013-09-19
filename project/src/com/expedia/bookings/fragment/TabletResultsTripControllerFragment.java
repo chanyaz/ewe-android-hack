@@ -18,8 +18,10 @@ import com.expedia.bookings.animation.CubicBezierAnimation;
 import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.interfaces.ITabletResultsController;
 import com.expedia.bookings.utils.ColumnManager;
+import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
 import com.expedia.bookings.widget.FixedTranslationFrameLayout;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -50,6 +52,8 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 	private boolean mAddingFlightTrip = false;
 
 	private CubicBezierAnimation mBezierAnimation;
+	private int mAddTripStartingTranslationX = 0;
+	private int mAddTripStartingTranslationY = 0;
 	private float mAddTripEndScaleX = 1f;
 	private float mAddTripEndScaleY = 1f;
 
@@ -198,6 +202,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 		if (state == GlobalResultsState.DEFAULT) {
 			mAddingHotelTrip = false;
+			mAddingFlightTrip = false;
 			mTripAnimationC.removeAllViews();
 		}
 	}
@@ -262,12 +267,16 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 			mTripAnimationC.setTranslationY(mBezierAnimation.getYInterpolator().interpolate(percentage));
 
 			//Scale
-			float maxX = Math.max(1f, mAddTripEndScaleX);
-			float minX = Math.min(1f, mAddTripEndScaleX);
-			float maxY = Math.max(1f, mAddTripEndScaleY);
-			float minY = Math.min(1f, mAddTripEndScaleY);
-			mTripAnimationC.setScaleX(maxX - percentage * (maxX - minX));
-			mTripAnimationC.setScaleY(maxY - percentage * (maxY - minY));
+			if(mAddTripEndScaleX > 1f){
+				mTripAnimationC.setScaleX(1f + percentage * (mAddTripEndScaleX - 1f));
+			}else{
+				mTripAnimationC.setScaleX(1f - (1f - mAddTripEndScaleX) * percentage);
+			}
+			if(mAddTripEndScaleY > 1f){
+				mTripAnimationC.setScaleY(1f + percentage * (mAddTripEndScaleY - 1f));
+			}else{
+				mTripAnimationC.setScaleY(1f - (1f - mAddTripEndScaleY) * percentage);
+			}
 
 			//Alpha
 			mShadeC.setAlpha(1f - percentage);
@@ -282,6 +291,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 	@Override
 	public void animateToFlightsPercentage(float percentage) {
 		animateToPercentage(percentage, mAddingFlightTrip);
+		addTripPercentage(percentage);
 	}
 
 	@Override
@@ -310,45 +320,54 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 	@Override
 	public void beginAddToTrip(Object data, Rect globalCoordinates, int shadeColor) {
-		//Get global coordinates
-		int[] rootGlobalPos = new int[2];
-		mRootC.getLocationOnScreen(rootGlobalPos);
+		//TODO: WE ARE NOT GOING TO ALWAYS BE PASSING ARBITRARY STRINGS AROUND
+		boolean isFlights = (data instanceof String && ((String) data).equalsIgnoreCase("FLIGHTS"));
 
-		//TODO: determine flights or hotels based on data.
-		Rect destRect = mTripOverviewFrag.getHotelContainerRect();
-		int[] destPos = mTripOverviewFrag.getHotelLocationOnScreen();
+		Rect origRect = ScreenPositionUtils.translateGlobalPositionToLocalPosition(globalCoordinates,mRootC);
+
+		Rect destRect;
+		if (isFlights) {
+			destRect = ScreenPositionUtils.translateGlobalPositionToLocalPosition(mTripOverviewFrag.getFlightContainerRect(),mRootC);
+		}else{
+			destRect = ScreenPositionUtils.translateGlobalPositionToLocalPosition(mTripOverviewFrag.getHotelContainerRect(),mRootC);
+		}
 
 		//Do calculations
-		int originWidth = globalCoordinates.right - globalCoordinates.left;
-		int originHeight = globalCoordinates.bottom - globalCoordinates.top;
-		int destTop = destPos[1] - rootGlobalPos[1];
-		int destLeft = mColumnManager.getColLeft(2);
+		int originWidth = origRect.right - origRect.left;
+		int originHeight = origRect.bottom - origRect.top;
 		int destWidth = destRect.right - destRect.left;
 		int destHeight = destRect.bottom - destRect.top;
-		int globalLeft = rootGlobalPos[0] + destLeft;
-		int globalTop = rootGlobalPos[1] + destTop;
 
 		//Position the view where it will be ending up, but sized as it will be starting...
 		LayoutParams params = (LayoutParams) mTripAnimationC.getLayoutParams();
-		params.leftMargin = destLeft;
-		params.topMargin = destTop;
+		params.leftMargin = destRect.left;
+		params.topMargin = destRect.top;
 		params.width = originWidth;
 		params.height = originHeight;
 		mTripAnimationC.setLayoutParams(params);
-		//TODO: determine flights or hotels based on data.
-		mTripAnimationC.addView(mTripOverviewFrag.getHotelViewForAddTrip(), LayoutParams.MATCH_PARENT,
-				LayoutParams.MATCH_PARENT);
 
-		//Set animation vars
+		if (isFlights) {
+			mTripAnimationC.addView(mTripOverviewFrag.getFlightViewForAddTrip(), LayoutParams.MATCH_PARENT,
+					LayoutParams.MATCH_PARENT);
+		}
+		else {
+			mTripAnimationC.addView(mTripOverviewFrag.getHotelViewForAddTrip(), LayoutParams.MATCH_PARENT,
+					LayoutParams.MATCH_PARENT);
+		}
 
-		// Translation. We setup the translation animation to start at deltaX, deltaY and animate
+
+		//Translation. We setup the translation animation to start at deltaX, deltaY and animate
 		// to it's final resting place of (0,0), i.e. no translation.
-		int deltaX = globalCoordinates.left - globalLeft;
-		int deltaY = globalCoordinates.top - globalTop;
+		int deltaX = origRect.left - destRect.left;
+		int deltaY = origRect.top - destRect.top;
 		mBezierAnimation = CubicBezierAnimation.newOutsideInAnimation(deltaX, deltaY, 0, 0);
+
 
 		mAddTripEndScaleX = (float) destWidth / originWidth;
 		mAddTripEndScaleY = (float) destHeight / originHeight;
+		
+		
+		Log.d("JOE: mAddTripEndScaleY:" + mAddTripEndScaleY + " mAddTripEndScaleX:" + mAddTripEndScaleX + " originHeight:" + originHeight + " destHeight:" + destHeight + " originWidth:" + originWidth + " destWidth:" + destWidth);
 
 		//Set initial values
 		mTripAnimationC.setAlpha(0f);
@@ -361,7 +380,12 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		mTripAnimationC.setTranslationY(deltaY);
 
 		mShadeC.setBackgroundColor(shadeColor);
-		mAddingHotelTrip = true;
+		if (isFlights) {
+			mAddingFlightTrip = true;
+		}
+		else {
+			mAddingHotelTrip = true;
+		}
 	}
 
 	@Override

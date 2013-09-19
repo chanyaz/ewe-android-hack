@@ -139,6 +139,19 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			mState = GlobalResultsState.valueOf(stateName);
 		}
 
+		//Add default fragments
+		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+		setBackgroundImageFragmentAvailability(true, transaction);
+		setTripControllerAvailability(true, transaction);
+		setFlightsControllerAvailability(true, transaction);
+		setHotelsControllerAvailability(true, transaction);
+		transaction.commit();
+		getSupportFragmentManager().executePendingTransactions();//These must be finished before we continue..
+
+		mTabletResultsControllers.add(mTripController);
+		mTabletResultsControllers.add(mFlightsController);
+		mTabletResultsControllers.add(mHotelsController);
+
 		//We load up the default backgrounds so they are ready to go later if/when we need them
 		//this is important, as we need to load images before our memory load gets too heavy
 		if (savedInstanceState == null || !Db.getBackgroundImageCache(this).isDefaultInCache()) {
@@ -157,6 +170,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setBackgroundDrawable(mActionBarBg);
+
 	}
 
 	@Override
@@ -168,19 +182,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	@Override
 	public void onResume() {
 		super.onResume();
-
-		//Add default fragments
-		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-		setBackgroundImageFragmentAvailability(true, transaction);
-		setTripControllerAvailability(true, transaction);
-		setFlightsControllerAvailability(true, transaction);
-		setHotelsControllerAvailability(true, transaction);
-		transaction.commit();
-		getSupportFragmentManager().executePendingTransactions();//These must be finished before we continue..
-
-		mTabletResultsControllers.add(mFlightsController);
-		mTabletResultsControllers.add(mHotelsController);
-		mTabletResultsControllers.add(mTripController);
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY)) {

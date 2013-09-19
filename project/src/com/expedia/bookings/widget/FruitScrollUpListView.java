@@ -84,6 +84,7 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 	private boolean mIsSmoothScrolling = false;
 	private int mPreviousScrollState = OnScrollListener.SCROLL_STATE_IDLE;
 	private float mPreviouslyReportedPercentage = 1f;
+	private boolean mListenersEnabled = true;
 
 	//We use this to meausre how much of the header spacer is on screen
 	private Rect mHeaderSpacerLocalVisibilityRect = new Rect();
@@ -286,6 +287,14 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 	public boolean isInitialized() {
 		return mInitialized;
 	}
+	
+	/*
+	 * SETTERS 
+	 */
+	
+	public void setListenersEnabled(boolean enabled){
+		mListenersEnabled = enabled;
+	}
 
 	/*
 	 * METHODS FOR MOVING AROUND THE LIST
@@ -478,7 +487,7 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 	}
 
 	private boolean changeListenersEnabled() {
-		return mInitialized && isShown();
+		return mInitialized && mListenersEnabled && isShown();
 	}
 
 	/*
