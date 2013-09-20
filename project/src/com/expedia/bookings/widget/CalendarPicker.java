@@ -154,7 +154,8 @@ public class CalendarPicker extends LinearLayout {
 				mNextMonthTextView.setCompoundDrawables(null, null, drawableRight, null);
 				mNextMonthTextView.setCompoundDrawablePadding(caretPadding);
 
-				return true;
+				// We changed some bounds, need to redraw
+				return false;
 			}
 		});
 	}
