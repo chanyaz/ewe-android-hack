@@ -287,12 +287,12 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 	public boolean isInitialized() {
 		return mInitialized;
 	}
-	
+
 	/*
 	 * SETTERS 
 	 */
-	
-	public void setListenersEnabled(boolean enabled){
+
+	public void setListenersEnabled(boolean enabled) {
 		mListenersEnabled = enabled;
 	}
 
@@ -333,9 +333,12 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 	}
 
 	public Pair<Integer, Integer> moveToPosition(final int position, final int y, final int duration) {
-		Log.d("FruitScrollUpListView.moveToPosition position:" + position + " y:" + y + " duration:" + duration);
 		Pair<Integer, Integer> sanePosition = sanatizePosition(position, y);
-		if (duration > 0 && requiresMove(sanePosition)) {
+		boolean requiresMove = requiresMove(sanePosition);
+		Log.d("FruitScrollUpListView.moveToPosition position:" + position + " y:" + y + " duration:" + duration
+				+ " sanePosition.first" + sanePosition.first + " sanePosition.second:" + sanePosition.second
+				+ " requiresMove:" + requiresMove);
+		if (duration > 0 && requiresMove) {
 			mIsSmoothScrolling = true;
 			someUserInteractionHasStarted();
 
@@ -356,7 +359,7 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 				smoothScrollToPositionFromTop(sanePosition.first, sanePosition.second, duration);
 			}
 		}
-		else {
+		else if (requiresMove) {
 			setSelectionFromTop(sanePosition.first, sanePosition.second);
 		}
 		return sanePosition;
