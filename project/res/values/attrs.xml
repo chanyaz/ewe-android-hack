@@ -165,8 +165,15 @@
 
     <!-- CalendarPicker -->
     <declare-styleable name="CalendarPicker">
+
+        <!-- The default color for elements on the calendar picker -->
         <attr name="calendarBaseColor" format="color" />
+
+        <!-- The highlight color; includes header buttons and selection -->
         <attr name="calendarHighlightColor" format="color" />
+
+        <!-- Color used on top of the highlight color (should contrast) -->
+        <attr name="calendarHighlightInverseColor" format="color" />
     </declare-styleable>
 
     <!-- VSC/EB attributes used for style switching in themes -->

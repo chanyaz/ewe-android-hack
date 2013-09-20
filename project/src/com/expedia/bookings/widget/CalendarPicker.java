@@ -40,6 +40,7 @@ public class CalendarPicker extends LinearLayout {
 	// Styles - loaded at start, not modifiable
 	private int mBaseColor;
 	private int mHighlightColor;
+	private int mHighlightInverseColor;
 
 	// Subviews
 	private TextView mPreviousMonthTextView;
@@ -75,6 +76,10 @@ public class CalendarPicker extends LinearLayout {
 
 			case R.styleable.CalendarPicker_calendarHighlightColor:
 				mHighlightColor = ta.getColor(attr, mHighlightColor);
+				break;
+
+			case R.styleable.CalendarPicker_calendarHighlightInverseColor:
+				mHighlightInverseColor = ta.getColor(attr, mHighlightInverseColor);
 				break;
 			}
 		}
@@ -116,6 +121,7 @@ public class CalendarPicker extends LinearLayout {
 		mMonthView.setDateSelectionListener(mMonthListener);
 		mMonthView.setTextColor(mBaseColor);
 		mMonthView.setHighlightColor(mHighlightColor);
+		mMonthView.setHighlightInverseColor(mHighlightInverseColor);
 		mMonthView.setMaxTextSize(mPreviousMonthTextView.getTextSize());
 	}
 

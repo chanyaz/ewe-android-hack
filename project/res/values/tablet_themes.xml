@@ -48,6 +48,7 @@
     <style name="V2.Widget.CalendarPicker">
         <item name="calendarBaseColor">#FFFFFF</item>
         <item name="calendarHighlightColor">#FDDB4D</item>
+        <item name="calendarHighlightInverseColor">#000000</item>
     </style>
 
 </resources>

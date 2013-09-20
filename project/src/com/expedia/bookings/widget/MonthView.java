@@ -62,6 +62,7 @@ public class MonthView extends View {
 	private LocalDate[][] mDays = new LocalDate[ROWS][COLS];
 
 	private TextPaint mTextPaint;
+	private TextPaint mTextInversePaint;
 	private float mMaxTextSize;
 
 	private Paint mSelectionPaint;
@@ -93,6 +94,8 @@ public class MonthView extends View {
 		mTextPaint.setAntiAlias(true);
 		mTextPaint.setTextAlign(Align.CENTER);
 
+		mTextInversePaint = new TextPaint(mTextPaint);
+
 		mSelectionPaint = new Paint();
 		mSelectionPaint.setAntiAlias(true);
 	}
@@ -107,6 +110,10 @@ public class MonthView extends View {
 
 	public void setHighlightColor(int color) {
 		mSelectionPaint.setColor(color);
+	}
+
+	public void setHighlightInverseColor(int color) {
+		mTextInversePaint.setColor(color);
 	}
 
 	public void setMaxTextSize(float textSize) {
@@ -167,6 +174,9 @@ public class MonthView extends View {
 			while (cellMinSize < mTextPaint.ascent() - mTextPaint.descent()) {
 				mTextPaint.setTextSize(mTextPaint.getTextSize() - TEXT_SIZE_STEP);
 			}
+
+			// Make sure all other paints match size
+			mTextInversePaint.setTextSize(mTextPaint.getTextSize());
 		}
 	}
 
@@ -202,13 +212,11 @@ public class MonthView extends View {
 		}
 
 		// Draw the start date (if selected and visible)
-		if (mStartDate != null) {
-			int[] startCell = getCell(mStartDate);
-			if (startCell != null) {
-				float centerX = mColCenters[startCell[1]];
-				float centerY = mRowCenters[startCell[0]];
-				canvas.drawCircle(centerX, centerY, Math.min(mCellHeight, mCellWidth) / 2, mSelectionPaint);
-			}
+		int[] startCell = getCell(mStartDate);
+		if (startCell != null) {
+			float centerX = mColCenters[startCell[1]];
+			float centerY = mRowCenters[startCell[0]];
+			canvas.drawCircle(centerX, centerY, Math.min(mCellHeight, mCellWidth) / 2, mSelectionPaint);
 		}
 
 		// Draw each number
@@ -219,8 +227,18 @@ public class MonthView extends View {
 				LocalDate date = mDays[week][dayOfWeek];
 				float centerX = mColCenters[dayOfWeek];
 				float centerY = mRowCenters[week];
+
+				// Invert colors on selected dates with circle behind them
+				TextPaint paint;
+				if (startCell != null && startCell[0] == week && startCell[1] == dayOfWeek) {
+					paint = mTextInversePaint;
+				}
+				else {
+					paint = mTextPaint;
+				}
+
 				canvas.drawText(Integer.toString(date.getDayOfMonth()), centerX,
-						centerY + halfTextHeight - mTextPaint.descent(), mTextPaint);
+						centerY + halfTextHeight - mTextPaint.descent(), paint);
 			}
 		}
 	}
@@ -271,6 +289,10 @@ public class MonthView extends View {
 	//
 	// TODO: Should we cache this at some point, or is it so fast as to be totally unnecessary?
 	private int[] getCell(LocalDate date) {
+		if (date == null) {
+			return null;
+		}
+
 		for (int week = 0; week < ROWS; week++) {
 			for (int dayOfWeek = 0; dayOfWeek < COLS; dayOfWeek++) {
 				if (mDays[week][dayOfWeek].equals(date)) {
