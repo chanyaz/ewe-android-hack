@@ -1,6 +1,10 @@
 package com.expedia.bookings.widget;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.joda.time.DateTimeConstants;
+import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.joda.time.YearMonth;
 
@@ -35,6 +39,7 @@ import com.expedia.bookings.widget.CalendarPicker.DateSelectionChangedListener;
  * match_parent or defined pixel amount).
  * 
  * TODO: Limit invalidate() to just cells that need it
+ * TODO: Optimize onDraw() (reduce object creation, calculations)
  */
 public class MonthView extends View {
 
@@ -46,6 +51,9 @@ public class MonthView extends View {
 
 	// The "step" size when increasing/decreasing text size to match
 	private static final float TEXT_SIZE_STEP = 1;
+
+	// The alpha of the highlight "shade" (between selected range)
+	private static final int SELECTION_SHADE_ALPHA = 30;
 
 	// TODO: Parameterize this eventually (for other locales)
 	private static final int FIRST_DAY_OF_WEEK = DateTimeConstants.SUNDAY;
@@ -60,12 +68,14 @@ public class MonthView extends View {
 	private YearMonth mDisplayYearMonth;
 
 	private LocalDate[][] mDays = new LocalDate[ROWS][COLS];
+	private Interval mDayInterval;
 
 	private TextPaint mTextPaint;
 	private TextPaint mTextInversePaint;
 	private float mMaxTextSize;
 
 	private Paint mSelectionPaint;
+	private Paint mSelectionAlphaPaint;
 
 	// Current selections; only here for drawing.  CalendarPicker should hold the state.
 	private LocalDate mStartDate;
@@ -77,6 +87,8 @@ public class MonthView extends View {
 	private float mCellHeight;
 	private float mCellWidth;
 	private float mCircleRadius;
+	private List<RectF> mHighlightRows = new ArrayList<RectF>();
+	private int mHighlightRowsIndex;
 
 	public MonthView(Context context) {
 		this(context, null);
@@ -99,6 +111,8 @@ public class MonthView extends View {
 
 		mSelectionPaint = new Paint();
 		mSelectionPaint.setAntiAlias(true);
+
+		mSelectionAlphaPaint = new Paint(mSelectionPaint);
 	}
 
 	public void setDateSelectionListener(DateSelectionChangedListener listener) {
@@ -111,6 +125,8 @@ public class MonthView extends View {
 
 	public void setHighlightColor(int color) {
 		mSelectionPaint.setColor(color);
+		mSelectionAlphaPaint.setColor(color);
+		mSelectionAlphaPaint.setAlpha(SELECTION_SHADE_ALPHA);
 	}
 
 	public void setHighlightInverseColor(int color) {
@@ -154,6 +170,9 @@ public class MonthView extends View {
 				mDays[week][dayOfWeek] = firstDayOfGrid.plusDays(week * COLS + dayOfWeek);
 			}
 		}
+
+		mDayInterval = new Interval(mDays[0][0].toDateTimeAtStartOfDay(),
+				mDays[ROWS - 1][COLS - 1].toDateTimeAtStartOfDay());
 	}
 
 	@Override
@@ -231,6 +250,66 @@ public class MonthView extends View {
 			canvas.drawCircle(centerX, centerY, mCircleRadius, mSelectionPaint);
 		}
 
+		// Draw selection if there is a range selected and we're displaying cells
+		// that have some selected days in it.
+		//
+		// This is optimized to draw row-by-row, instead of trying to draw cell-by-cell.
+		// It does this by creating a series of RectFs that define where the selections
+		// should be drawn, then collates/draws them all at once.
+		if (mStartDate != null && mEndDate != null
+				&& (mDayInterval.contains(mStartDate.toDateTimeAtStartOfDay())
+				|| mDayInterval.contains(mEndDate.toDateTimeAtStartOfDay()))) {
+
+			int startRow = startCell != null ? startCell[0] : 0;
+			int endRow = endCell != null ? endCell[0] : COLS;
+			mHighlightRowsIndex = 0;
+
+			// Special case: startRow == endRow
+			RectF rect;
+			float halfCellWidth = mCellWidth / 2;
+			if (startCell != null && endCell != null && startRow == endRow) {
+				rect = getNextHighlightRect();
+				rect.left = startCell[1] * mCellWidth + halfCellWidth;
+				rect.right = endCell[1] * mCellWidth + halfCellWidth;
+				rect.top = startRow * mCellHeight;
+				rect.bottom = startRow * mCellHeight + mCellHeight;
+			}
+			else {
+				// Draw start date --> end of row
+				if (startCell != null) {
+					rect = getNextHighlightRect();
+					rect.left = startCell[1] * mCellWidth + halfCellWidth;
+					rect.right = COLS * mCellWidth + mCellWidth;
+					rect.top = startRow * mCellHeight;
+					rect.bottom = startRow * mCellHeight + mCellHeight;
+				}
+
+				// Draw any fully-selected rows in the middle
+				for (int rowNum = startCell != null ? startRow + 1 : startRow; rowNum < endRow; rowNum++) {
+					rect = getNextHighlightRect();
+					rect.left = 0;
+					rect.right = COLS * mCellWidth + mCellWidth;
+					rect.top = rowNum * mCellHeight;
+					rect.bottom = rowNum * mCellHeight + mCellHeight;
+				}
+
+				// Draw start of row --> end date
+				if (endCell != null) {
+					rect = getNextHighlightRect();
+					rect.left = 0;
+					rect.right = endCell[1] * mCellWidth + halfCellWidth;
+					rect.top = endRow * mCellHeight;
+					rect.bottom = endRow * mCellHeight + mCellHeight;
+				}
+			}
+
+			// Draw all the highlighted rows
+			for (int index = 0; index < mHighlightRowsIndex; index++) {
+				rect = mHighlightRows.get(index);
+				canvas.drawRect(rect, mSelectionAlphaPaint);
+			}
+		}
+
 		// Draw each number
 		float textHeight = mTextPaint.descent() - mTextPaint.ascent();
 		float halfTextHeight = textHeight / 2;
@@ -254,6 +333,13 @@ public class MonthView extends View {
 						centerY + halfTextHeight - mTextPaint.descent(), paint);
 			}
 		}
+	}
+
+	private RectF getNextHighlightRect() {
+		if (mHighlightRows.size() == mHighlightRowsIndex) {
+			mHighlightRows.add(new RectF());
+		}
+		return mHighlightRows.get(mHighlightRowsIndex++);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
