@@ -16,19 +16,17 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.CalendarPicker;
+import com.expedia.bookings.widget.CalendarPicker.DateSelectionChangedListener;
 import com.mobiata.android.util.Ui;
 
 /**
- * Two important details
+ * One important detail
  * 
  * 1. This is designed to work in conjunction with TabletSearchFragment.  As such, it does not
  *    keep track of its own internal state; I don't want to risk duplicating any data and
  *    confusing the issue.
- * 
- * 2. It is still using the old CalendarDatePicker; at some point we should upgrade to something
- *    better. 
  */
-public class DatesFragment extends Fragment {
+public class DatesFragment extends Fragment implements DateSelectionChangedListener {
 
 	private static final int DATE_BOX_FLAGS = DateUtils.FORMAT_SHOW_DATE;
 
@@ -60,6 +58,8 @@ public class DatesFragment extends Fragment {
 		mCalendarPicker = Ui.findView(view, R.id.calendar_picker);
 
 		setCalendarDates(mStartDate, mEndDate);
+
+		mCalendarPicker.setDateChangedListener(this);
 
 		updateStatusText();
 		updateDateBoxes();
@@ -136,26 +136,25 @@ public class DatesFragment extends Fragment {
 	}
 
 	private Pair<LocalDate, LocalDate> getSelectedDates() {
-		LocalDate startDate = null;
-		LocalDate endDate = null;
-
-		// TODO: Redo with CalendarPicker (once able)
-		/*
-		if (mCalendarPicker.getStartTime() != null) {
-			startDate = new LocalDate(mCalendarPicker.getStartYear(),
-					mCalendarPicker.getStartMonth() + 1, mCalendarPicker.getStartDayOfMonth());
-		}
-
-		if (mCalendarPicker.getEndTime() != null) {
-			endDate = new LocalDate(mCalendarPicker.getEndYear(), mCalendarPicker.getEndMonth() + 1,
-					mCalendarPicker.getEndDayOfMonth());
-		}
-		*/
-
+		LocalDate startDate = mCalendarPicker.getStartDate();
+		LocalDate endDate = mCalendarPicker.getEndDate();
 		return new Pair<LocalDate, LocalDate>(startDate, endDate);
 	}
 
 	public void onDateChanged() {
+		Pair<LocalDate, LocalDate> dates = getSelectedDates();
+
+		mListener.onDatesChanged(dates.first, dates.second);
+
+		updateStatusText(dates);
+		updateDateBoxes(dates);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// DateSelectionChangedListener
+
+	@Override
+	public void onDateSelectionChanged(LocalDate start, LocalDate end) {
 		Pair<LocalDate, LocalDate> dates = getSelectedDates();
 
 		mListener.onDatesChanged(dates.first, dates.second);
@@ -170,4 +169,5 @@ public class DatesFragment extends Fragment {
 	public interface DatesFragmentListener {
 		public void onDatesChanged(LocalDate startDate, LocalDate endDate);
 	}
+
 }
