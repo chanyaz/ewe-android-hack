@@ -13,6 +13,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
+import android.graphics.Paint.Style;
 import android.graphics.RectF;
 import android.support.v4.view.GestureDetectorCompat;
 import android.text.TextPaint;
@@ -78,6 +79,7 @@ public class MonthView extends View {
 	private float mMaxTextSize;
 
 	private Paint mSelectionPaint;
+	private Paint mSelectionLinePaint;
 	private Paint mSelectionAlphaPaint;
 
 	// Current selections; only here for drawing.  CalendarPicker should hold the state.
@@ -117,6 +119,10 @@ public class MonthView extends View {
 		mSelectionPaint = new Paint();
 		mSelectionPaint.setAntiAlias(true);
 
+		mSelectionLinePaint = new Paint(mSelectionPaint);
+		mSelectionLinePaint.setStrokeWidth(2 * getResources().getDisplayMetrics().density);
+		mSelectionLinePaint.setStyle(Style.STROKE);
+
 		mSelectionAlphaPaint = new Paint(mSelectionPaint);
 	}
 
@@ -130,6 +136,7 @@ public class MonthView extends View {
 
 	public void setHighlightColor(int color) {
 		mSelectionPaint.setColor(color);
+		mSelectionLinePaint.setColor(color);
 		mSelectionAlphaPaint.setColor(color);
 		mSelectionAlphaPaint.setAlpha(SELECTION_SHADE_ALPHA);
 	}
@@ -311,10 +318,21 @@ public class MonthView extends View {
 				}
 			}
 
-			// Draw all the highlighted rows
+			// Draw all the highlighted row backgrounds
 			for (int index = 0; index < mHighlightRowsIndex; index++) {
 				rect = mHighlightRows.get(index);
 				canvas.drawRect(rect, mSelectionAlphaPaint);
+			}
+
+			// Draw all highlighted rows top/bottom lines
+			// (Done separately from background for GPU optimization)
+			float halfStrokeWidth = mSelectionLinePaint.getStrokeWidth() / 2.0f;
+			for (int index = 0; index < mHighlightRowsIndex; index++) {
+				rect = mHighlightRows.get(index);
+				float top = rect.top + halfStrokeWidth;
+				float bottom = rect.bottom - halfStrokeWidth;
+				canvas.drawLine(rect.left, top, rect.right, top, mSelectionLinePaint);
+				canvas.drawLine(rect.left, bottom, rect.right, bottom, mSelectionLinePaint);
 			}
 		}
 
