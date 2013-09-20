@@ -266,7 +266,7 @@ public class Location implements JSONable, Parcelable {
 
 	private Location(Parcel in) {
 		mStreetAddress = new ArrayList<String>();
-		in.readList(mStreetAddress, null);
+		in.readList(mStreetAddress, getClass().getClassLoader());
 		mDescription = in.readString();
 		mCity = in.readString();
 		mStateCode = in.readString();
