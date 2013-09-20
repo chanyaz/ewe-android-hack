@@ -17,6 +17,7 @@ import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
 public class Location implements JSONable, Parcelable {
+	private int mLocationId;
 	private List<String> mStreetAddress;
 	private String mDescription;
 	private String mCity;
@@ -33,6 +34,14 @@ public class Location implements JSONable, Parcelable {
 
 	public Location() {
 		// Default constructor
+	}
+
+	public void setLocationId(int id) {
+		mLocationId = id;
+	}
+
+	public int getLocationId() {
+		return mLocationId;
 	}
 
 	public List<String> getStreetAddress() {

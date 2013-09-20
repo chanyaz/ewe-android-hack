@@ -166,6 +166,9 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 			}
 			else if (name.equals("locationDescription")) {
 				location.setDescription(parser.getText());
+
+				//TODO: set locationId properly when it's available from the API
+				location.setLocationId(parser.getText().hashCode());
 			}
 			else if (name.equals("largeThumbnailUrl")) {
 				// The thumbnail url can sometimes assume a prefix
