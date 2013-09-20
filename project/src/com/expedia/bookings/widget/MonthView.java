@@ -55,6 +55,9 @@ public class MonthView extends View {
 	// The alpha of the highlight "shade" (between selected range)
 	private static final int SELECTION_SHADE_ALPHA = 30;
 
+	// The percentage of a cell that the selection should take up
+	private static final float SELECTION_PERCENT = .8f;
+
 	// TODO: Parameterize this eventually (for other locales)
 	private static final int FIRST_DAY_OF_WEEK = DateTimeConstants.SUNDAY;
 
@@ -86,6 +89,8 @@ public class MonthView extends View {
 	private float[] mColCenters = new float[COLS];
 	private float mCellHeight;
 	private float mCellWidth;
+	private float mCellSelectionHeight;
+	private float mCellSelectionWidth;
 	private float mCircleRadius;
 	private List<RectF> mHighlightRows = new ArrayList<RectF>();
 	private int mHighlightRowsIndex;
@@ -185,10 +190,12 @@ public class MonthView extends View {
 			int height = bottom - top;
 			mCellHeight = (float) height / ROWS;
 			mCellWidth = (float) width / COLS;
+			mCellSelectionHeight = mCellHeight * SELECTION_PERCENT;
+			mCellSelectionWidth = mCellWidth * SELECTION_PERCENT;
 			divideGridSize(width, mColCenters);
 			divideGridSize(height, mRowCenters);
 
-			mCircleRadius = Math.min(mCellHeight, mCellWidth) / 2;
+			mCircleRadius = Math.min(mCellSelectionHeight, mCellSelectionWidth) / 2;
 
 			// Scale down the text size; I'm not too concerned about it being too wide, so
 			// just use the TextPaint's height to determine if we're too large
@@ -267,12 +274,13 @@ public class MonthView extends View {
 			// Special case: startRow == endRow
 			RectF rect;
 			float halfCellWidth = mCellWidth / 2;
+			float halfCellSelectionHeight = mCellSelectionHeight / 2;
 			if (startCell != null && endCell != null && startRow == endRow) {
 				rect = getNextHighlightRect();
 				rect.left = startCell[1] * mCellWidth + halfCellWidth;
 				rect.right = endCell[1] * mCellWidth + halfCellWidth;
-				rect.top = startRow * mCellHeight;
-				rect.bottom = startRow * mCellHeight + mCellHeight;
+				rect.top = mRowCenters[startRow] - halfCellSelectionHeight;
+				rect.bottom = mRowCenters[startRow] + halfCellSelectionHeight;
 			}
 			else {
 				// Draw start date --> end of row
@@ -280,8 +288,8 @@ public class MonthView extends View {
 					rect = getNextHighlightRect();
 					rect.left = startCell[1] * mCellWidth + halfCellWidth;
 					rect.right = COLS * mCellWidth + mCellWidth;
-					rect.top = startRow * mCellHeight;
-					rect.bottom = startRow * mCellHeight + mCellHeight;
+					rect.top = mRowCenters[startRow] - halfCellSelectionHeight;
+					rect.bottom = mRowCenters[startRow] + halfCellSelectionHeight;
 				}
 
 				// Draw any fully-selected rows in the middle
@@ -289,8 +297,8 @@ public class MonthView extends View {
 					rect = getNextHighlightRect();
 					rect.left = 0;
 					rect.right = COLS * mCellWidth + mCellWidth;
-					rect.top = rowNum * mCellHeight;
-					rect.bottom = rowNum * mCellHeight + mCellHeight;
+					rect.top = mRowCenters[rowNum] - halfCellSelectionHeight;
+					rect.bottom = mRowCenters[rowNum] + halfCellSelectionHeight;
 				}
 
 				// Draw start of row --> end date
@@ -298,8 +306,8 @@ public class MonthView extends View {
 					rect = getNextHighlightRect();
 					rect.left = 0;
 					rect.right = endCell[1] * mCellWidth + halfCellWidth;
-					rect.top = endRow * mCellHeight;
-					rect.bottom = endRow * mCellHeight + mCellHeight;
+					rect.top = mRowCenters[endRow] - halfCellSelectionHeight;
+					rect.bottom = mRowCenters[endRow] + halfCellSelectionHeight;
 				}
 			}
 
