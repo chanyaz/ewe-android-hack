@@ -34,8 +34,13 @@
         <com.expedia.bookings.widget.BlockEventFrameLayout
             android:id="@+id/flight_two_header_with_flight_one_info"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="#FF0000" />
+            android:layout_height="wrap_content"
+            android:background="#FF0000" >
+
+            <include
+                android:id="@+id/flight_one_row"
+                layout="@layout/section_flight_leg_summary_tablet" />
+        </com.expedia.bookings.widget.BlockEventFrameLayout>
 
         <com.expedia.bookings.widget.BlockEventFrameLayout
             android:id="@+id/flight_two_list"
@@ -63,6 +68,8 @@
         android:layout_width="0dp"
         android:layout_height="match_parent" />
 
+    <!-- ADD TO TRIP -->
+    
     <com.expedia.bookings.widget.BlockEventFrameLayout
         android:id="@+id/flights_add_to_trip"
         android:layout_width="match_parent"

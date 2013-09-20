@@ -6,17 +6,13 @@
 
     <FrameLayout
         android:id="@+id/add_to_trip_row"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true" >
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#0000FF"
-            android:gravity="center"
-            android:padding="100dp"
-            android:text="Adding to trip Row" />
+        <include
+            android:id="@+id/flight_row"
+            layout="@layout/section_flight_leg_summary_tablet" />
     </FrameLayout>
 
     <FrameLayout

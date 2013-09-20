@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.section.FlightLegSummarySectionTablet;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
@@ -21,15 +22,20 @@ import android.widget.FrameLayout.LayoutParams;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ResultsFlightDetailsFragment extends Fragment {
 
-	public static ResultsFlightDetailsFragment newInstance() {
+	private static final String ARG_LEG_NUMBER = "ARG_LEG_NUMBER";
+	
+	public static ResultsFlightDetailsFragment newInstance(int legNumber) {
 		ResultsFlightDetailsFragment frag = new ResultsFlightDetailsFragment();
+		Bundle args = new Bundle();
+		args.putInt(ARG_LEG_NUMBER, legNumber);
+		frag.setArguments(args);
 		return frag;
 	}
 
 	//Views
 	private ViewGroup mRootC;
-	private ViewGroup mAnimationFlightRowC;
 	private ViewGroup mDetailsC;
+	private FlightLegSummarySectionTablet mAnimationFlightRow;
 
 	//Position and size vars
 	int mDetailsPositionLeft = -1;
@@ -44,21 +50,30 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	//Animation vars
 	private Rect mAddToTripRect;
 
+	//Misc
+	private int mLegNumber = -1;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_flight_details, null);
-		mAnimationFlightRowC = Ui.findView(mRootC, R.id.details_animation_row_container);
-		mAnimationFlightRowC.setPivotX(0);
-		mAnimationFlightRowC.setPivotY(0);
+		mAnimationFlightRow = Ui.findView(mRootC, R.id.details_animation_row);
+		mAnimationFlightRow.setPivotX(0);
+		mAnimationFlightRow.setPivotY(0);
 		mDetailsC = Ui.findView(mRootC, R.id.details_container);
 		mDetailsC.setPivotX(0);
 		mDetailsC.setPivotY(0);
+		
+		setLegPosition(getArguments().getInt(ARG_LEG_NUMBER));
 
 		applyDetailsDimensions();
 		applyRowDimensions();
 
 		return mRootC;
+	}
+
+	public void setLegPosition(int legNumber) {
+		mLegNumber = legNumber;
 	}
 
 	/*
@@ -102,10 +117,10 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	}
 
 	private void applyRowDimensions() {
-		if (mAnimationFlightRowC != null && mRowWidth >= 0) {
+		if (mAnimationFlightRow != null && mRowWidth >= 0) {
 			Log.d("ResultsFlightDetails setting mAnimationFlightRowC dimensions - width:" + mRowWidth + " height:"
 					+ mRowHeight);
-			LayoutParams params = (LayoutParams) mAnimationFlightRowC.getLayoutParams();
+			LayoutParams params = (LayoutParams) mAnimationFlightRow.getLayoutParams();
 			if (params == null) {
 				params = new LayoutParams(mRowHeight, mRowWidth);
 			}
@@ -113,21 +128,21 @@ public class ResultsFlightDetailsFragment extends Fragment {
 				params.height = mRowHeight;
 				params.width = mRowWidth;
 			}
-			mAnimationFlightRowC.setLayoutParams(params);
+			mAnimationFlightRow.setLayoutParams(params);
 		}
 	}
 
 	private void applyRowPosition() {
-		if (mAnimationFlightRowC != null && mRowPositionLeft >= 0) {
+		if (mAnimationFlightRow != null && mRowPositionLeft >= 0) {
 			Log.d("ResultsFlightDetails setting mAnimationFlightRowC position - left:" + mRowPositionLeft + " top:"
 					+ mRowPositionTop);
-			LayoutParams params = (LayoutParams) mAnimationFlightRowC.getLayoutParams();
+			LayoutParams params = (LayoutParams) mAnimationFlightRow.getLayoutParams();
 			if (params == null) {
 				params = new LayoutParams(mRowHeight, mRowWidth);
 			}
 			params.leftMargin = mRowPositionLeft;
 			params.topMargin = mRowPositionTop;
-			mAnimationFlightRowC.setLayoutParams(params);
+			mAnimationFlightRow.setLayoutParams(params);
 		}
 	}
 
@@ -140,7 +155,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	}
 
 	public void prepareSlideInAnimation() {
-		mAnimationFlightRowC.setVisibility(View.VISIBLE);
+		mAnimationFlightRow.setVisibility(View.VISIBLE);
 		mDetailsC.setVisibility(View.VISIBLE);
 	}
 
@@ -173,23 +188,23 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		applyRowDimensions();
 		applyRowPosition();
 
-		mAnimationFlightRowC.setVisibility(View.VISIBLE);
+		mAnimationFlightRow.setVisibility(View.VISIBLE);
 		mDetailsC.setVisibility(View.VISIBLE);
 	}
 
 	public void setDepartureTripSelectedAnimationState(float percentage) {
-		if (mAnimationFlightRowC != null) {
+		if (mAnimationFlightRow != null) {
 			float rowScaleX = 1f + (((float) mDetailsWidth / mRowWidth) - 1f) * (1f - percentage);
-			float rowScaleY = 1f + (((float) mDetailsHeight / mRowHeight) - 1f) * (1f - percentage);
+			//float rowScaleY = 1f + (((float) mDetailsHeight / mRowHeight) - 1f) * (1f - percentage);
 
 			float rowTranslationX = (1f - percentage) * (mDetailsPositionLeft - mRowPositionLeft);
 			float rowTranslationY = (1f - percentage) * (mDetailsPositionTop - mRowPositionTop);
 
-			mAnimationFlightRowC.setScaleX(rowScaleX);
-			mAnimationFlightRowC.setScaleY(rowScaleY);
-			mAnimationFlightRowC.setTranslationX(rowTranslationX);
-			mAnimationFlightRowC.setTranslationY(rowTranslationY);
-			mAnimationFlightRowC.setAlpha(percentage);
+			mAnimationFlightRow.setScaleX(rowScaleX);
+			//mAnimationFlightRowC.setScaleY(rowScaleY);
+			mAnimationFlightRow.setTranslationX(rowTranslationX);
+			mAnimationFlightRow.setTranslationY(rowTranslationY);
+			mAnimationFlightRow.setAlpha(percentage);
 		}
 
 		if (mDetailsC != null) {
@@ -255,12 +270,12 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		applyRowPosition();
 
 		mAddToTripRect = ScreenPositionUtils.translateGlobalPositionToLocalPosition(globalAddToTripPosition, mRootC);
-		mAnimationFlightRowC.setVisibility(View.VISIBLE);
+		mAnimationFlightRow.setVisibility(View.VISIBLE);
 		mDetailsC.setVisibility(View.INVISIBLE);
 	}
 
 	public void setAddToTripFromDepartureAnimationState(float percentage) {
-		if (mAnimationFlightRowC != null && mAddToTripRect != null) {
+		if (mAnimationFlightRow != null && mAddToTripRect != null) {
 			float rowScaleX = 1f + (((float) (mAddToTripRect.right - mAddToTripRect.left) / mRowWidth) - 1f)
 					* percentage;
 			float rowScaleY = 1f + (((float) (mAddToTripRect.bottom - mAddToTripRect.top) / mRowHeight) - 1f)
@@ -269,10 +284,10 @@ public class ResultsFlightDetailsFragment extends Fragment {
 			float rowTranslationX = percentage * (mAddToTripRect.left - mRowPositionLeft);
 			float rowTranslationY = percentage * (mAddToTripRect.top - mRowPositionTop);
 
-			mAnimationFlightRowC.setScaleX(rowScaleX);
-			mAnimationFlightRowC.setScaleY(rowScaleY);
-			mAnimationFlightRowC.setTranslationX(rowTranslationX);
-			mAnimationFlightRowC.setTranslationY(rowTranslationY);
+			mAnimationFlightRow.setScaleX(rowScaleX);
+			mAnimationFlightRow.setScaleY(rowScaleY);
+			mAnimationFlightRow.setTranslationX(rowTranslationX);
+			mAnimationFlightRow.setTranslationY(rowTranslationY);
 		}
 	}
 

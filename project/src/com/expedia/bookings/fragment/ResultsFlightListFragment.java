@@ -15,12 +15,16 @@ import android.widget.ListView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearch;
+import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.FlightSearch.FlightTripQuery;
 import com.expedia.bookings.fragment.base.ResultsListFragment;
 import com.expedia.bookings.interfaces.IResultsFlightSelectedListener;
 import com.expedia.bookings.widget.FlightAdapter;
 import com.expedia.bookings.widget.SimpleColorAdapter;
 import com.expedia.bookings.widget.TabletFlightAdapter;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -68,6 +72,16 @@ public class ResultsFlightListFragment extends ResultsListFragment {
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
+		if(mAdapter instanceof FlightAdapter){
+			//TODO: THIS IS DUMB LOGIC SO WE DONT BLOW UP, WE ARE REMOVING PREVIOUSLY SELECTED STUFF
+			for(int i = 0; i < Db.getFlightSearch().getSelectedLegs().length; i++){
+				Db.getFlightSearch().setSelectedLeg(i, null);
+				Db.getFlightSearch().clearQuery(i);
+			}
+			
+			FlightTrip trip = ((FlightAdapter) mAdapter).getItem(position - getTopSpaceListView().getHeaderViewsCount());
+			Db.getFlightSearch().setSelectedLeg(mLegNumber, new FlightTripLeg(trip, trip.getLeg(mLegNumber)));
+		}
 		mFlightSelectedListener.onFlightSelected(mLegNumber);
 	}
 

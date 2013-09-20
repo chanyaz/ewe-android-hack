@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.section.FlightLegSummarySectionTablet;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.mobiata.android.util.Ui;
 
@@ -51,11 +52,8 @@ public class ResultsTripOverviewFragment extends Fragment {
 	}
 
 	public View getFlightViewForAddTrip() {
-		TextView tv = new TextView(getActivity());
-		tv.setBackgroundColor(Color.BLUE);
-		tv.setText("Flight Image B");
-		tv.setGravity(Gravity.CENTER);
-		return tv;
+		FlightLegSummarySectionTablet view = (FlightLegSummarySectionTablet) getActivity().getLayoutInflater().inflate(R.layout.section_flight_leg_summary_tablet, null);
+		return view;
 	}
 
 	public Rect getFlightContainerRect() {

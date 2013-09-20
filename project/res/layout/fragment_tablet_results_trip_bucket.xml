@@ -18,13 +18,10 @@
         android:layout_weight="0"
         android:padding="16dp" >
 
-        <TextView
+        <include
             android:id="@+id/trip_bucket_flight"
-            android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:background="#0000FF"
-            android:gravity="center"
-            android:text="Flight Trip" />
+            layout="@layout/section_flight_leg_summary_tablet" />
 
         <TextView
             android:id="@+id/trip_bucket_hotel"

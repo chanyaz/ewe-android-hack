@@ -8,6 +8,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.interfaces.IResultsFlightSelectedListener;
 import com.expedia.bookings.interfaces.ITabletResultsController;
+import com.expedia.bookings.section.FlightLegSummarySectionTablet;
 import com.expedia.bookings.utils.ColumnManager;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
@@ -16,13 +17,11 @@ import com.expedia.bookings.widget.FruitScrollUpListView.State;
 import com.mobiata.android.util.Ui;
 
 import android.animation.Animator;
-import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
@@ -103,6 +102,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 	private ArrayList<ViewGroup> mContainers = new ArrayList<ViewGroup>();
 
+	//Views
+	private FlightLegSummarySectionTablet mFlightOneSelectedRow;
+
 	//Fragments
 	private ResultsFlightMapFragment mFlightMapFrag;
 	private ResultsFlightAddToTrip mAddToTripFrag;
@@ -168,6 +170,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		mContainers.add(mFlightTwoListC);
 		mContainers.add(mFlightTwoFiltersC);
 		mContainers.add(mFlightTwoDetailsC);
+
+		mFlightOneSelectedRow = Ui.findView(view, R.id.flight_one_row);
 
 		if (savedInstanceState != null) {
 			mGlobalState = GlobalResultsState.valueOf(savedInstanceState.getString(STATE_GLOBAL_STATE,
@@ -906,7 +910,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 							FRAG_TAG_FLIGHT_ONE_DETAILS);
 				}
 				if (mFlightOneDetailsFrag == null) {
-					mFlightOneDetailsFrag = ResultsFlightDetailsFragment.newInstance();
+					mFlightOneDetailsFrag = ResultsFlightDetailsFragment.newInstance(0);
 				}
 				if (!mFlightOneDetailsFrag.isAdded()) {
 					transaction.add(R.id.flight_one_details, mFlightOneDetailsFrag, FRAG_TAG_FLIGHT_ONE_DETAILS);
@@ -935,7 +939,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 							FRAG_TAG_FLIGHT_TWO_DETAILS);
 				}
 				if (mFlightTwoDetailsFrag == null) {
-					mFlightTwoDetailsFrag = ResultsFlightDetailsFragment.newInstance();
+					mFlightTwoDetailsFrag = ResultsFlightDetailsFragment.newInstance(1);
 				}
 				if (!mFlightTwoDetailsFrag.isAdded()) {
 					transaction.add(R.id.flight_two_details, mFlightTwoDetailsFrag, FRAG_TAG_FLIGHT_TWO_DETAILS);
@@ -1103,6 +1107,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	public void onFlightSelected(int legNumber) {
 		if (mGlobalState == GlobalResultsState.FLIGHTS) {
 			if (legNumber == 0) {
+				//TODO: IF MULTILEG FLIGHT BIND THE FLIGHT TO THE ROW HEADER
 				setFlightsState(FlightsState.FLIGHT_ONE_DETAILS, mFlightsState != FlightsState.FLIGHT_ONE_DETAILS);
 			}
 			else if (legNumber == 1) {

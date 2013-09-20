@@ -21,7 +21,6 @@ import com.expedia.bookings.utils.ColumnManager;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
 import com.expedia.bookings.widget.FixedTranslationFrameLayout;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -52,8 +51,6 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 	private boolean mAddingFlightTrip = false;
 
 	private CubicBezierAnimation mBezierAnimation;
-	private int mAddTripStartingTranslationX = 0;
-	private int mAddTripStartingTranslationY = 0;
 	private float mAddTripEndScaleX = 1f;
 	private float mAddTripEndScaleY = 1f;
 
@@ -362,12 +359,8 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		int deltaY = origRect.top - destRect.top;
 		mBezierAnimation = CubicBezierAnimation.newOutsideInAnimation(deltaX, deltaY, 0, 0);
 
-
 		mAddTripEndScaleX = (float) destWidth / originWidth;
 		mAddTripEndScaleY = (float) destHeight / originHeight;
-		
-		
-		Log.d("JOE: mAddTripEndScaleY:" + mAddTripEndScaleY + " mAddTripEndScaleX:" + mAddTripEndScaleX + " originHeight:" + originHeight + " destHeight:" + destHeight + " originWidth:" + originWidth + " destWidth:" + destWidth);
 
 		//Set initial values
 		mTripAnimationC.setAlpha(0f);
