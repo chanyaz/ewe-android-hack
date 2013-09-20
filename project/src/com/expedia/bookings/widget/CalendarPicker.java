@@ -106,6 +106,7 @@ public class CalendarPicker extends LinearLayout {
 		mDaysOfWeekView.setMaxTextSize(mPreviousMonthTextView.getTextSize());
 
 		mMonthView.setTextColor(mBaseColor);
+		mMonthView.setHighlightColor(mHighlightColor);
 		mMonthView.setMaxTextSize(mPreviousMonthTextView.getTextSize());
 	}
 

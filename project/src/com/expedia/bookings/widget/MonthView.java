@@ -6,9 +6,15 @@ import org.joda.time.YearMonth;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Paint.Align;
+import android.graphics.RectF;
+import android.support.v4.view.GestureDetectorCompat;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 
 /**
@@ -28,6 +34,9 @@ import android.view.View;
  */
 public class MonthView extends View {
 
+	// Enable to add some helpful debugging drawing
+	private static final boolean DEBUG_DRAW = false;
+
 	// The minimum percent of the width should be taken up by padding between text
 	private static final float PADDING_PERCENT = .15f;
 
@@ -40,6 +49,8 @@ public class MonthView extends View {
 	private static final int ROWS = 6;
 	private static final int COLS = 7;
 
+	private GestureDetectorCompat mDetector;
+
 	private YearMonth mDisplayYearMonth;
 
 	private LocalDate[][] mDays = new LocalDate[ROWS][COLS];
@@ -47,9 +58,16 @@ public class MonthView extends View {
 	private TextPaint mTextPaint;
 	private float mMaxTextSize;
 
-	// Cached for faster drawing; these are the centers of each grid tile
+	private Paint mSelectionPaint;
+
+	// Current selections; only here for drawing.  CalendarPicker should hold the state.
+	private LocalDate mStartDate;
+
+	// Variables that are cached for faster drawing
 	private float[] mRowCenters = new float[ROWS];
 	private float[] mColCenters = new float[COLS];
+	private float mCellHeight;
+	private float mCellWidth;
 
 	public MonthView(Context context) {
 		this(context, null);
@@ -62,13 +80,22 @@ public class MonthView extends View {
 	public MonthView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 
+		mDetector = new GestureDetectorCompat(getContext(), mGestureListener);
+
 		mTextPaint = new TextPaint();
 		mTextPaint.setAntiAlias(true);
 		mTextPaint.setTextAlign(Align.CENTER);
+
+		mSelectionPaint = new Paint();
+		mSelectionPaint.setAntiAlias(true);
 	}
 
 	public void setTextColor(int color) {
 		mTextPaint.setColor(color);
+	}
+
+	public void setHighlightColor(int color) {
+		mSelectionPaint.setColor(color);
 	}
 
 	public void setMaxTextSize(float textSize) {
@@ -101,18 +128,22 @@ public class MonthView extends View {
 	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
 		super.onLayout(changed, left, top, right, bottom);
 
-		// Pre-compute the center of each row/col
-		int width = right - left;
-		int height = bottom - top;
-		divideGridSize(width, mColCenters);
-		divideGridSize(height, mRowCenters);
+		if (changed) {
+			// Pre-compute the center of each row/col
+			int width = right - left;
+			int height = bottom - top;
+			mCellHeight = (float) height / ROWS;
+			mCellWidth = (float) width / COLS;
+			divideGridSize(width, mColCenters);
+			divideGridSize(height, mRowCenters);
 
-		// Scale down the text size; I'm not too concerned about it being too wide, so
-		// just use the TextPaint's height to determine if we're too large
-		float cellMinSize = Math.min((float) width / COLS, (float) height / ROWS) * (1 - PADDING_PERCENT);
-		mTextPaint.setTextSize(mMaxTextSize);
-		while (cellMinSize < mTextPaint.ascent() - mTextPaint.descent()) {
-			mTextPaint.setTextSize(mTextPaint.getTextSize() - TEXT_SIZE_STEP);
+			// Scale down the text size; I'm not too concerned about it being too wide, so
+			// just use the TextPaint's height to determine if we're too large
+			float cellMinSize = Math.min((float) width / COLS, (float) height / ROWS) * (1 - PADDING_PERCENT);
+			mTextPaint.setTextSize(mMaxTextSize);
+			while (cellMinSize < mTextPaint.ascent() - mTextPaint.descent()) {
+				mTextPaint.setTextSize(mTextPaint.getTextSize() - TEXT_SIZE_STEP);
+			}
 		}
 	}
 
@@ -129,6 +160,34 @@ public class MonthView extends View {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 
+		if (DEBUG_DRAW) {
+			// Draw cell backgrounds alternating colors
+			RectF drawRect = new RectF();
+			Paint red = new Paint();
+			red.setColor(Color.RED);
+			Paint blue = new Paint();
+			blue.setColor(Color.BLUE);
+			for (int week = 0; week < ROWS; week++) {
+				for (int dayOfWeek = 0; dayOfWeek < COLS; dayOfWeek++) {
+					drawRect.left = dayOfWeek * mCellWidth;
+					drawRect.right = drawRect.left + mCellWidth;
+					drawRect.top = week * mCellHeight;
+					drawRect.bottom = drawRect.top + mCellHeight;
+					canvas.drawRect(drawRect, ((week + dayOfWeek) % 2 == 0) ? red : blue);
+				}
+			}
+		}
+
+		// Draw the start date (if selected and visible)
+		if (mStartDate != null) {
+			int[] startCell = getCell(mStartDate);
+			if (startCell != null) {
+				float centerX = mColCenters[startCell[1]];
+				float centerY = mRowCenters[startCell[0]];
+				canvas.drawCircle(centerX, centerY, Math.min(mCellHeight, mCellWidth) / 2, mSelectionPaint);
+			}
+		}
+
 		// Draw each number
 		float textHeight = mTextPaint.descent() - mTextPaint.ascent();
 		float halfTextHeight = textHeight / 2;
@@ -137,9 +196,71 @@ public class MonthView extends View {
 				LocalDate date = mDays[week][dayOfWeek];
 				float centerX = mColCenters[dayOfWeek];
 				float centerY = mRowCenters[week];
-				canvas.drawText(Integer.toString(date.getDayOfMonth()), centerX, centerY + halfTextHeight, mTextPaint);
+				canvas.drawText(Integer.toString(date.getDayOfMonth()), centerX,
+						centerY + halfTextHeight - mTextPaint.descent(), mTextPaint);
 			}
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Touch events
+
+	private GestureDetector.SimpleOnGestureListener mGestureListener = new GestureDetector.SimpleOnGestureListener() {
+		@Override
+		public boolean onSingleTapUp(MotionEvent e) {
+			int[] cell = getCell(e);
+
+			LocalDate clickedDate = mDays[cell[0]][cell[1]];
+
+			if (clickedDate != mStartDate) {
+				mStartDate = clickedDate;
+				invalidate(); // TODO: Only invalidate dirty section
+			}
+
+			return true;
+		}
+
+		@Override
+		public boolean onDown(MotionEvent e) {
+			// Consume all events
+			return true;
+		}
+	};
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		boolean consumed = mDetector.onTouchEvent(event);
+		if (!consumed) {
+			consumed = super.onTouchEvent(event);
+		}
+		return consumed;
+	}
+
+	// Returns int[row][col] for a given motion event
+	private int[] getCell(MotionEvent e) {
+		return new int[] {
+			(int) Math.floor(e.getY() / mCellHeight),
+			(int) Math.floor(e.getX() / mCellWidth)
+		};
+	}
+
+	// Returns int[row][col] for a given date (currently being displayed), or null
+	// if the start date is not visible on the current calendar.
+	//
+	// TODO: Should we cache this at some point, or is it so fast as to be totally unnecessary?
+	private int[] getCell(LocalDate date) {
+		for (int week = 0; week < ROWS; week++) {
+			for (int dayOfWeek = 0; dayOfWeek < COLS; dayOfWeek++) {
+				if (mDays[week][dayOfWeek].equals(date)) {
+					return new int[] {
+						week,
+						dayOfWeek
+					};
+				}
+			}
+		}
+
+		return null;
 	}
 
 }
