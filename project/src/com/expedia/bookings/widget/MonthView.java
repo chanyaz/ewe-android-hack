@@ -17,6 +17,8 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.expedia.bookings.widget.CalendarPicker.DateSelectionChangedListener;
+
 /**
  * Displays the days of the month in a grid.  It is 7x6; seven for
  * the days of the week, six because that's the minimum rows needed
@@ -31,6 +33,8 @@ import android.view.View;
  *
  * This View assumes it has a well-defined width and height (e.g.,
  * match_parent or defined pixel amount).
+ * 
+ * TODO: Limit invalidate() to just cells that need it
  */
 public class MonthView extends View {
 
@@ -51,6 +55,8 @@ public class MonthView extends View {
 
 	private GestureDetectorCompat mDetector;
 
+	private DateSelectionChangedListener mListener;
+
 	private YearMonth mDisplayYearMonth;
 
 	private LocalDate[][] mDays = new LocalDate[ROWS][COLS];
@@ -62,6 +68,7 @@ public class MonthView extends View {
 
 	// Current selections; only here for drawing.  CalendarPicker should hold the state.
 	private LocalDate mStartDate;
+	private LocalDate mEndDate;
 
 	// Variables that are cached for faster drawing
 	private float[] mRowCenters = new float[ROWS];
@@ -90,6 +97,10 @@ public class MonthView extends View {
 		mSelectionPaint.setAntiAlias(true);
 	}
 
+	public void setDateSelectionListener(DateSelectionChangedListener listener) {
+		mListener = listener;
+	}
+
 	public void setTextColor(int color) {
 		mTextPaint.setColor(color);
 	}
@@ -100,6 +111,18 @@ public class MonthView extends View {
 
 	public void setMaxTextSize(float textSize) {
 		mMaxTextSize = textSize;
+	}
+
+	public void setStartDate(LocalDate startDate) {
+		if (startDate != mStartDate) {
+			mStartDate = startDate;
+			notifyDateSelectionChanged();
+			invalidate(); // TODO: Only invalidate parts that are needed
+		}
+	}
+
+	private void notifyDateSelectionChanged() {
+		mListener.onDateSelectionChanged(mStartDate, mEndDate);
 	}
 
 	// We depend on CalendarPicker calling this before we render
@@ -213,8 +236,7 @@ public class MonthView extends View {
 			LocalDate clickedDate = mDays[cell[0]][cell[1]];
 
 			if (clickedDate != mStartDate) {
-				mStartDate = clickedDate;
-				invalidate(); // TODO: Only invalidate dirty section
+				setStartDate(clickedDate);
 			}
 
 			return true;

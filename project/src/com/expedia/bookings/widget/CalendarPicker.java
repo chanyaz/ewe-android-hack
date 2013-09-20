@@ -1,11 +1,13 @@
 package com.expedia.bookings.widget;
 
+import org.joda.time.LocalDate;
 import org.joda.time.YearMonth;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewTreeObserver.OnPreDrawListener;
@@ -31,6 +33,7 @@ public class CalendarPicker extends LinearLayout {
 
 	// State
 	private YearMonth mDisplayYearMonth;
+	private LocalDate mStartDate;
 
 	// Styles - loaded at start, not modifiable
 	private int mBaseColor;
@@ -105,6 +108,7 @@ public class CalendarPicker extends LinearLayout {
 		mDaysOfWeekView.setTextColor(mBaseColor);
 		mDaysOfWeekView.setMaxTextSize(mPreviousMonthTextView.getTextSize());
 
+		mMonthView.setDateSelectionListener(mMonthListener);
 		mMonthView.setTextColor(mBaseColor);
 		mMonthView.setHighlightColor(mHighlightColor);
 		mMonthView.setMaxTextSize(mPreviousMonthTextView.getTextSize());
@@ -120,8 +124,11 @@ public class CalendarPicker extends LinearLayout {
 		SavedState ss = (SavedState) state;
 		super.onRestoreInstanceState(ss.getSuperState());
 
-		mDisplayYearMonth = YearMonth.parse(ss.displayMonthYear);
+		mDisplayYearMonth = ss.displayMonthYear;
+		mStartDate = ss.startDate;
+
 		mMonthView.setDisplayYearMonth(mDisplayYearMonth);
+		mMonthView.setStartDate(mStartDate);
 	}
 
 	@Override
@@ -166,7 +173,8 @@ public class CalendarPicker extends LinearLayout {
 		Parcelable superState = super.onSaveInstanceState();
 
 		SavedState ss = new SavedState(superState);
-		ss.displayMonthYear = mDisplayYearMonth.toString();
+		ss.displayMonthYear = mDisplayYearMonth;
+		ss.startDate = mStartDate;
 
 		return ss;
 	}
@@ -206,10 +214,28 @@ public class CalendarPicker extends LinearLayout {
 	};
 
 	//////////////////////////////////////////////////////////////////////////
+	// Listener
+
+	public interface DateSelectionChangedListener {
+		public void onDateSelectionChanged(LocalDate start, LocalDate end);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// DateSelectionChangedListener
+
+	private DateSelectionChangedListener mMonthListener = new DateSelectionChangedListener() {
+		@Override
+		public void onDateSelectionChanged(LocalDate start, LocalDate end) {
+			mStartDate = start;
+		}
+	};
+
+	//////////////////////////////////////////////////////////////////////////
 	// Saved State
 
 	private static class SavedState extends BaseSavedState {
-		String displayMonthYear;
+		YearMonth displayMonthYear;
+		LocalDate startDate;
 
 		private SavedState(Parcelable superState) {
 			super(superState);
@@ -219,7 +245,8 @@ public class CalendarPicker extends LinearLayout {
 		public void writeToParcel(Parcel out, int flags) {
 			super.writeToParcel(out, flags);
 
-			out.writeString(displayMonthYear);
+			out.writeString(displayMonthYear.toString());
+			out.writeString(startDate != null ? startDate.toString() : null);
 		}
 
 		@SuppressWarnings("unused")
@@ -236,7 +263,11 @@ public class CalendarPicker extends LinearLayout {
 		private SavedState(Parcel in) {
 			super(in);
 
-			displayMonthYear = in.readString();
+			displayMonthYear = YearMonth.parse(in.readString());
+			String startDateStr = in.readString();
+			if (TextUtils.isEmpty(startDateStr)) {
+				startDate = LocalDate.parse(startDateStr);
+			}
 		}
 	}
 }
