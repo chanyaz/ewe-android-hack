@@ -140,7 +140,7 @@ public class CalendarPicker extends LinearLayout {
 		mEndDate = ss.endDate;
 
 		mMonthView.setDisplayYearMonth(mDisplayYearMonth);
-		mMonthView.setStartDate(mStartDate);
+		mMonthView.setDateSelection(mStartDate, mEndDate);
 	}
 
 	@Override
@@ -255,6 +255,7 @@ public class CalendarPicker extends LinearLayout {
 		@Override
 		public void onDateSelectionChanged(LocalDate start, LocalDate end) {
 			mStartDate = start;
+			mEndDate = end;
 
 			if (mListener != null) {
 				mListener.onDateSelectionChanged(start, end);

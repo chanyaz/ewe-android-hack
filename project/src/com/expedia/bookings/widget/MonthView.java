@@ -76,6 +76,7 @@ public class MonthView extends View {
 	private float[] mColCenters = new float[COLS];
 	private float mCellHeight;
 	private float mCellWidth;
+	private float mCircleRadius;
 
 	public MonthView(Context context) {
 		this(context, null);
@@ -120,9 +121,10 @@ public class MonthView extends View {
 		mMaxTextSize = textSize;
 	}
 
-	public void setStartDate(LocalDate startDate) {
-		if (startDate != mStartDate) {
+	public void setDateSelection(LocalDate startDate, LocalDate endDate) {
+		if (startDate != mStartDate || endDate != mEndDate) {
 			mStartDate = startDate;
+			mEndDate = endDate;
 			notifyDateSelectionChanged();
 			invalidate(); // TODO: Only invalidate parts that are needed
 		}
@@ -166,6 +168,8 @@ public class MonthView extends View {
 			mCellWidth = (float) width / COLS;
 			divideGridSize(width, mColCenters);
 			divideGridSize(height, mRowCenters);
+
+			mCircleRadius = Math.min(mCellHeight, mCellWidth) / 2;
 
 			// Scale down the text size; I'm not too concerned about it being too wide, so
 			// just use the TextPaint's height to determine if we're too large
@@ -216,7 +220,15 @@ public class MonthView extends View {
 		if (startCell != null) {
 			float centerX = mColCenters[startCell[1]];
 			float centerY = mRowCenters[startCell[0]];
-			canvas.drawCircle(centerX, centerY, Math.min(mCellHeight, mCellWidth) / 2, mSelectionPaint);
+			canvas.drawCircle(centerX, centerY, mCircleRadius, mSelectionPaint);
+		}
+
+		// Draw end date (if selected and visible)
+		int[] endCell = getCell(mEndDate);
+		if (endCell != null) {
+			float centerX = mColCenters[endCell[1]];
+			float centerY = mRowCenters[endCell[0]];
+			canvas.drawCircle(centerX, centerY, mCircleRadius, mSelectionPaint);
 		}
 
 		// Draw each number
@@ -230,7 +242,8 @@ public class MonthView extends View {
 
 				// Invert colors on selected dates with circle behind them
 				TextPaint paint;
-				if (startCell != null && startCell[0] == week && startCell[1] == dayOfWeek) {
+				if ((startCell != null && startCell[0] == week && startCell[1] == dayOfWeek)
+						|| (endCell != null && endCell[0] == week && endCell[1] == dayOfWeek)) {
 					paint = mTextInversePaint;
 				}
 				else {
@@ -250,11 +263,25 @@ public class MonthView extends View {
 		@Override
 		public boolean onSingleTapUp(MotionEvent e) {
 			int[] cell = getCell(e);
-
 			LocalDate clickedDate = mDays[cell[0]][cell[1]];
 
-			if (clickedDate != mStartDate) {
-				setStartDate(clickedDate);
+			if (mStartDate == null) {
+				// If no START, select start
+				setDateSelection(clickedDate, null);
+			}
+			else if (mEndDate == null) {
+				if (clickedDate.isBefore(mStartDate)) {
+					// If clicked BEFORE start date, re-select start date
+					setDateSelection(clickedDate, null);
+				}
+				else {
+					// Else create RANGE
+					setDateSelection(mStartDate, clickedDate);
+				}
+			}
+			else if (!clickedDate.equals(mStartDate) && !clickedDate.equals(mEndDate)) {
+				// If clicked is not START or END, reset
+				setDateSelection(clickedDate, null);
 			}
 
 			return true;
