@@ -14,6 +14,10 @@ import android.view.View;
 /**
  * Shows the days of the week in a row: MON TUE WED etc.
  * 
+ * This View is part of CalendarPicker and should not be used outside
+ * of it.  It does not save its own state; it depends on CalendarPicker
+ * for that.
+ * 
  * It splits itself into seven equal parts, then sizes the text based
  * on the largest size where all text fits (with reasonable padding
  * between each day).
@@ -23,7 +27,6 @@ import android.view.View;
  *
  * This View assumes it has a width of match_parent and a height of
  * wrap_content (for ease of measurement).  It scales everything else.
- *
  */
 public class DaysOfWeekView extends View {
 
@@ -80,12 +83,10 @@ public class DaysOfWeekView extends View {
 
 	public void setTextColor(int color) {
 		mTextPaint.setColor(color);
-		invalidate();
 	}
 
 	public void setMaxTextSize(float textSize) {
 		mMaxTextSize = textSize;
-		invalidate();
 	}
 
 	@Override

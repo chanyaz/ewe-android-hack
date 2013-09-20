@@ -41,6 +41,7 @@ public class CalendarPicker extends LinearLayout {
 	private TextView mCurrentMonthTextView;
 	private TextView mNextMonthTextView;
 	private DaysOfWeekView mDaysOfWeekView;
+	private MonthView mMonthView;
 
 	public CalendarPicker(Context context) {
 		this(context, null);
@@ -90,6 +91,7 @@ public class CalendarPicker extends LinearLayout {
 		mCurrentMonthTextView = Ui.findView(this, R.id.current_month);
 		mNextMonthTextView = Ui.findView(this, R.id.next_month);
 		mDaysOfWeekView = Ui.findView(this, R.id.days_of_week);
+		mMonthView = Ui.findView(this, R.id.month);
 
 		// Configure Views
 		mPreviousMonthTextView.setTextColor(mHighlightColor);
@@ -99,8 +101,12 @@ public class CalendarPicker extends LinearLayout {
 		mPreviousMonthTextView.setOnClickListener(mOnClickListener);
 		mNextMonthTextView.setOnClickListener(mOnClickListener);
 
+		// TODO: Come up with better max text size (based on size of entire thing?)
 		mDaysOfWeekView.setTextColor(mBaseColor);
 		mDaysOfWeekView.setMaxTextSize(mPreviousMonthTextView.getTextSize());
+
+		mMonthView.setTextColor(mBaseColor);
+		mMonthView.setMaxTextSize(mPreviousMonthTextView.getTextSize());
 	}
 
 	@Override
@@ -114,6 +120,7 @@ public class CalendarPicker extends LinearLayout {
 		super.onRestoreInstanceState(ss.getSuperState());
 
 		mDisplayYearMonth = YearMonth.parse(ss.displayMonthYear);
+		mMonthView.setDisplayYearMonth(mDisplayYearMonth);
 	}
 
 	@Override
@@ -122,7 +129,7 @@ public class CalendarPicker extends LinearLayout {
 
 		// Wait until here to start manipulating sub-Views; that way we can
 		// restore the instance state properly first.
-		updateHeader();
+		syncViewsWithState();
 
 		// Measure some Views so we can properly setup Drawables next to them
 		getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
@@ -165,10 +172,20 @@ public class CalendarPicker extends LinearLayout {
 	//////////////////////////////////////////////////////////////////////////
 	// Display
 
-	private void updateHeader() {
+	private void setDisplayYearMonth(YearMonth yearMonth) {
+		mDisplayYearMonth = yearMonth;
+
+		syncViewsWithState();
+	}
+
+	private void syncViewsWithState() {
+		// Update header
 		mPreviousMonthTextView.setText(mDisplayYearMonth.minusMonths(1).monthOfYear().getAsText());
 		mCurrentMonthTextView.setText(mDisplayYearMonth.monthOfYear().getAsText());
 		mNextMonthTextView.setText(mDisplayYearMonth.plusMonths(1).monthOfYear().getAsText());
+
+		// Update month view
+		mMonthView.setDisplayYearMonth(mDisplayYearMonth);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -178,12 +195,10 @@ public class CalendarPicker extends LinearLayout {
 		@Override
 		public void onClick(View v) {
 			if (v == mPreviousMonthTextView) {
-				mDisplayYearMonth = mDisplayYearMonth.minusMonths(1);
-				updateHeader();
+				setDisplayYearMonth(mDisplayYearMonth.minusMonths(1));
 			}
 			else if (v == mNextMonthTextView) {
-				mDisplayYearMonth = mDisplayYearMonth.plusMonths(1);
-				updateHeader();
+				setDisplayYearMonth(mDisplayYearMonth.plusMonths(1));
 			}
 		}
 	};

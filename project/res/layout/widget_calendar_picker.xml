@@ -39,10 +39,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <View
+    <com.expedia.bookings.widget.MonthView
+        android:id="@+id/month"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#0F0" />
+        android:layout_weight="1" />
 
 </merge>
