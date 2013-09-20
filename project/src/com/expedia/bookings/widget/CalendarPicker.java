@@ -21,6 +21,10 @@ import com.mobiata.android.util.Ui;
  * All configuration happens in the style/attributes.  If you want to setup the code
  * to work with dynamic configuration be my guest.
  * 
+ * Notes:
+ * - CalendarPicker does not work with layout_width="wrap_content" because it has no
+ *   minimum width.  Either use "match_parent" or specify a pixel width.
+ * 
  * TODO: Scale all views based on size of CalendarPicker itself
  */
 public class CalendarPicker extends LinearLayout {
@@ -36,6 +40,7 @@ public class CalendarPicker extends LinearLayout {
 	private TextView mPreviousMonthTextView;
 	private TextView mCurrentMonthTextView;
 	private TextView mNextMonthTextView;
+	private DaysOfWeekView mDaysOfWeekView;
 
 	public CalendarPicker(Context context) {
 		this(context, null);
@@ -84,6 +89,7 @@ public class CalendarPicker extends LinearLayout {
 		mPreviousMonthTextView = Ui.findView(this, R.id.previous_month);
 		mCurrentMonthTextView = Ui.findView(this, R.id.current_month);
 		mNextMonthTextView = Ui.findView(this, R.id.next_month);
+		mDaysOfWeekView = Ui.findView(this, R.id.days_of_week);
 
 		// Configure Views
 		mPreviousMonthTextView.setTextColor(mHighlightColor);
@@ -92,6 +98,9 @@ public class CalendarPicker extends LinearLayout {
 
 		mPreviousMonthTextView.setOnClickListener(mOnClickListener);
 		mNextMonthTextView.setOnClickListener(mOnClickListener);
+
+		mDaysOfWeekView.setTextColor(mBaseColor);
+		mDaysOfWeekView.setMaxTextSize(mPreviousMonthTextView.getTextSize());
 	}
 
 	@Override
