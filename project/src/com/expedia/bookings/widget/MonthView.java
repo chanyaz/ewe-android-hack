@@ -284,7 +284,7 @@ public class MonthView extends View {
 				|| mDayInterval.contains(mEndDate.toDateTimeAtStartOfDay()))) {
 
 			int startRow = startCell != null ? startCell[0] : 0;
-			int endRow = endCell != null ? endCell[0] : COLS;
+			int endRow = endCell != null ? endCell[0] : COLS - 1;
 			mHighlightRowsIndex = 0;
 
 			// Special case: startRow == endRow
