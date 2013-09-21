@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.json.JSONException;
@@ -254,6 +255,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 			PriceRange priceRange = mFilter.getPriceRange();
 			double minStarRating = mFilter.getMinimumStarRating();
 			String hotelName = mFilter.getHotelName();
+			Set<Integer> neighborhoods = mFilter.getNeighborhoods();
 
 			Distance searchDistance = null;
 			if (searchRadius != null && searchRadius != SearchRadius.ALL) {
@@ -299,6 +301,10 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 				}
 
 				if (namePattern != null && !namePattern.matcher(property.getName()).find()) {
+					continue;
+				}
+
+				if (neighborhoods != null && !neighborhoods.contains(property.getLocation().getLocationId())) {
 					continue;
 				}
 
