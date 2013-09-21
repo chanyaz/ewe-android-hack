@@ -290,13 +290,12 @@ public class MonthView extends View {
 			// Special case: startRow == endRow
 			RectF rect;
 			float halfCellWidth = mCellWidth / 2;
-			float halfCellSelectionHeight = mCellSelectionHeight / 2;
 			if (startCell != null && endCell != null && startRow == endRow) {
 				rect = getNextHighlightRect();
 				rect.left = startCell[1] * mCellWidth + halfCellWidth;
 				rect.right = endCell[1] * mCellWidth + halfCellWidth;
-				rect.top = mRowCenters[startRow] - halfCellSelectionHeight;
-				rect.bottom = mRowCenters[startRow] + halfCellSelectionHeight;
+				rect.top = mRowCenters[startRow] - mCircleRadius;
+				rect.bottom = mRowCenters[startRow] + mCircleRadius;
 			}
 			else {
 				// Draw start date --> end of row
@@ -304,8 +303,8 @@ public class MonthView extends View {
 					rect = getNextHighlightRect();
 					rect.left = startCell[1] * mCellWidth + halfCellWidth;
 					rect.right = COLS * mCellWidth + mCellWidth;
-					rect.top = mRowCenters[startRow] - halfCellSelectionHeight;
-					rect.bottom = mRowCenters[startRow] + halfCellSelectionHeight;
+					rect.top = mRowCenters[startRow] - mCircleRadius;
+					rect.bottom = mRowCenters[startRow] + mCircleRadius;
 				}
 
 				// Draw any fully-selected rows in the middle
@@ -313,8 +312,8 @@ public class MonthView extends View {
 					rect = getNextHighlightRect();
 					rect.left = 0;
 					rect.right = COLS * mCellWidth + mCellWidth;
-					rect.top = mRowCenters[rowNum] - halfCellSelectionHeight;
-					rect.bottom = mRowCenters[rowNum] + halfCellSelectionHeight;
+					rect.top = mRowCenters[rowNum] - mCircleRadius;
+					rect.bottom = mRowCenters[rowNum] + mCircleRadius;
 				}
 
 				// Draw start of row --> end date
@@ -322,8 +321,8 @@ public class MonthView extends View {
 					rect = getNextHighlightRect();
 					rect.left = 0;
 					rect.right = endCell[1] * mCellWidth + halfCellWidth;
-					rect.top = mRowCenters[endRow] - halfCellSelectionHeight;
-					rect.bottom = mRowCenters[endRow] + halfCellSelectionHeight;
+					rect.top = mRowCenters[endRow] - mCircleRadius;
+					rect.bottom = mRowCenters[endRow] + mCircleRadius;
 				}
 			}
 
