@@ -87,6 +87,8 @@ public class MonthView extends View {
 	private LocalDate mEndDate;
 
 	// Variables that are cached for faster drawing
+	private int mWidth;
+	private int mHeight;
 	private float[] mRowCenters = new float[ROWS];
 	private float[] mColCenters = new float[COLS];
 	private float mCellHeight;
@@ -150,7 +152,14 @@ public class MonthView extends View {
 	}
 
 	public void setDateSelection(LocalDate startDate, LocalDate endDate) {
-		if (startDate != mStartDate || endDate != mEndDate) {
+		if (startDate != null && endDate != null && startDate.isAfter(endDate)) {
+			// Swap them so it always makes sense
+			LocalDate tmpDate = startDate;
+			startDate = endDate;
+			endDate = tmpDate;
+		}
+
+		if ((startDate != null && !startDate.equals(mStartDate)) || (endDate != null && !endDate.equals(mEndDate))) {
 			mStartDate = startDate;
 			mEndDate = endDate;
 			notifyDateSelectionChanged();
@@ -193,20 +202,20 @@ public class MonthView extends View {
 
 		if (changed) {
 			// Pre-compute the center of each row/col
-			int width = right - left;
-			int height = bottom - top;
-			mCellHeight = (float) height / ROWS;
-			mCellWidth = (float) width / COLS;
+			mWidth = right - left;
+			mHeight = bottom - top;
+			mCellHeight = (float) mHeight / ROWS;
+			mCellWidth = (float) mWidth / COLS;
 			mCellSelectionHeight = mCellHeight * SELECTION_PERCENT;
 			mCellSelectionWidth = mCellWidth * SELECTION_PERCENT;
-			divideGridSize(width, mColCenters);
-			divideGridSize(height, mRowCenters);
+			divideGridSize(mWidth, mColCenters);
+			divideGridSize(mHeight, mRowCenters);
 
 			mCircleRadius = Math.min(mCellSelectionHeight, mCellSelectionWidth) / 2;
 
 			// Scale down the text size; I'm not too concerned about it being too wide, so
 			// just use the TextPaint's height to determine if we're too large
-			float cellMinSize = Math.min((float) width / COLS, (float) height / ROWS) * (1 - PADDING_PERCENT);
+			float cellMinSize = Math.min((float) mWidth / COLS, (float) mHeight / ROWS) * (1 - PADDING_PERCENT);
 			mTextPaint.setTextSize(mMaxTextSize);
 			while (cellMinSize < mTextPaint.ascent() - mTextPaint.descent()) {
 				mTextPaint.setTextSize(mTextPaint.getTextSize() - TEXT_SIZE_STEP);
@@ -372,6 +381,19 @@ public class MonthView extends View {
 	// Touch events
 
 	private GestureDetector.SimpleOnGestureListener mGestureListener = new GestureDetector.SimpleOnGestureListener() {
+
+		private boolean mIsScrolling;
+		private LocalDate mInitialDate;
+		private LocalDate mAnchorDate;
+
+		@Override
+		public boolean onDown(MotionEvent e) {
+			int[] cell = getCell(e);
+			mInitialDate = mDays[cell[0]][cell[1]];
+			mIsScrolling = false;
+			return true;
+		}
+
 		@Override
 		public boolean onSingleTapUp(MotionEvent e) {
 			int[] cell = getCell(e);
@@ -400,10 +422,61 @@ public class MonthView extends View {
 		}
 
 		@Override
-		public boolean onDown(MotionEvent e) {
-			// Consume all events
+		public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+			int[] cell = getCell(e2);
+
+			// You can scroll outside of the current view; ignore
+			if (cell == null) {
+				return false;
+			}
+
+			LocalDate scrolledDate = mDays[cell[0]][cell[1]];
+
+			if (!mIsScrolling) {
+				// If we haven't started a scroll yet, initialize anchors and what have you
+				// Code is purposefully a bit wordy to make it easier to understand
+				if (mStartDate != null && mEndDate != null) {
+					if (mInitialDate.equals(mStartDate)) {
+						// Move START, anchor END
+						mAnchorDate = mEndDate;
+					}
+					else if (mInitialDate.equals(mEndDate)) {
+						// Move END, anchor START
+						mAnchorDate = mStartDate;
+					}
+					else {
+						// Start a NEW drag
+						mAnchorDate = null;
+					}
+				}
+				else if (mStartDate != null) {
+					if (mInitialDate.equals(mStartDate) || mInitialDate.isAfter(mStartDate)) {
+						// New RANGE, anchor START
+						mAnchorDate = mStartDate;
+					}
+					else if (mInitialDate.isBefore(mStartDate)) {
+						// Start a NEW drag
+						mAnchorDate = null;
+					}
+				}
+				else {
+					// Start a NEW drag
+					mAnchorDate = null;
+				}
+
+				mIsScrolling = true;
+			}
+
+			if (mAnchorDate == null) {
+				setDateSelection(scrolledDate, null);
+			}
+			else {
+				setDateSelection(mAnchorDate, scrolledDate);
+			}
+
 			return true;
 		}
+
 	};
 
 	@Override
@@ -417,9 +490,17 @@ public class MonthView extends View {
 
 	// Returns int[row][col] for a given motion event
 	private int[] getCell(MotionEvent e) {
+		float x = e.getX();
+		float y = e.getY();
+
+		// Sanity check - if it's outside of the current view, don't use it
+		if (x < 0 || y < 0 || x > mWidth || y > mHeight) {
+			return null;
+		}
+
 		return new int[] {
-			(int) Math.floor(e.getY() / mCellHeight),
-			(int) Math.floor(e.getX() / mCellWidth)
+			(int) Math.floor(y / mCellHeight),
+			(int) Math.floor(x / mCellWidth)
 		};
 	}
 
