@@ -123,7 +123,7 @@
                 android:textAllCaps="true"
                 android:textColor="#7C7E7F" />
 
-            <LinearLayout
+            <com.expedia.bookings.widget.HotelNeighborhoodLayout
                 android:id="@+id/areas_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

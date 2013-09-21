@@ -1,5 +1,7 @@
 package com.expedia.bookings.fragment;
 
+import java.util.Set;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,6 +28,8 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.ResultsHotelListFragment.ISortAndFilterListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.widget.HotelNeighborhoodLayout;
+import com.expedia.bookings.widget.HotelNeighborhoodLayout.OnNeighborhoodsChangedListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.widget.SegmentedControlGroup;
@@ -44,6 +48,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 	private SegmentedControlGroup mRatingButtonGroup;
 	private SegmentedControlGroup mPriceButtonGroup;
 	private View mVipAccessButton;
+	private HotelNeighborhoodLayout mNeighborhoodLayout;
 
 	private ISortAndFilterListener mSortAndFilterListener;
 
@@ -62,6 +67,8 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_hotel_filters, null);
 
+		HotelSearch hotelSearch = Db.getHotelSearch();
+
 		Ui.findView(view, R.id.done_button).setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				onFilterClosed();
@@ -75,9 +82,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		mRatingButtonGroup = Ui.findView(view, R.id.rating_filter_button_group);
 		mPriceButtonGroup = Ui.findView(view, R.id.price_filter_button_group);
 		mVipAccessButton = Ui.findView(view, R.id.filter_vip_access);
-		if (PointOfSale.getPointOfSale().supportsVipAccess()) {
-			mVipAccessButton.setVisibility(View.VISIBLE);
-		}
+		mNeighborhoodLayout = Ui.findView(view, R.id.areas_layout);
 
 		// Configure labels
 		LayoutUtils.configureRadiusFilterLabels(getActivity(), mRadiusButtonGroup, Db.getFilter());
@@ -128,7 +133,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		}
 		}
 		mRadiusButtonGroup.check(checkId);
-		SearchType searchType = Db.getHotelSearch().getSearchParams().getSearchType();
+		SearchType searchType = hotelSearch.getSearchParams().getSearchType();
 		mRadiusButtonGroup.setVisibility(searchType == SearchType.ADDRESS || searchType == SearchType.MY_LOCATION
 				|| searchType == SearchType.POI ? View.VISIBLE : View.GONE);
 
@@ -168,7 +173,15 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		}
 		mPriceButtonGroup.check(checkId);
 
+		if (PointOfSale.getPointOfSale().supportsVipAccess()) {
+			mVipAccessButton.setVisibility(View.VISIBLE);
+		}
 		mVipAccessButton.setSelected(filter.isVipAccessOnly());
+
+		// Configure Areas/Neighborhoods
+		if (hotelSearch != null) {
+			mNeighborhoodLayout.setNeighborhoods(hotelSearch.getSearchResponse());
+		}
 
 		// Configure functionality of each filter control
 		mHotelNameEditText.addTextChangedListener(mHotelNameTextWatcher);
@@ -177,6 +190,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		mRatingButtonGroup.setOnCheckedChangeListener(mStarRatingCheckedChangeListener);
 		mPriceButtonGroup.setOnCheckedChangeListener(mPriceCheckedChangeListener);
 		mVipAccessButton.setOnClickListener(mVipAccessClickListener);
+		mNeighborhoodLayout.setOnNeighborhoodsChangedListener(mNeighborhoodsChangedListener);
 
 		return view;
 	}
@@ -348,6 +362,16 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 			filter.notifyFilterChanged();
 
 			OmnitureTracking.trackLinkHotelRefineVip(getActivity(), vipAccessOnly);
+		}
+	};
+
+	private final OnNeighborhoodsChangedListener mNeighborhoodsChangedListener = new OnNeighborhoodsChangedListener() {
+		@Override
+		public void onNeighborhoodsChanged(Set<Integer> neighborhoods, boolean areAllChecked) {
+			HotelFilter filter = Db.getFilter();
+			// If all are checked, then remove the neighborhood filtering
+			filter.setNeighborhoods(areAllChecked ? null : neighborhoods);
+			filter.notifyFilterChanged();
 		}
 	};
 
