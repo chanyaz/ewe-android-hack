@@ -1,8 +1,10 @@
 package com.expedia.bookings.data;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -75,6 +77,7 @@ public class HotelFilter implements JSONable {
 	private String mHotelName;
 	private Sort mSort;
 	private boolean mVipAccessOnly;
+	private Set<Integer> mNeighborhoods;
 
 	public HotelFilter() {
 		mListeners = new HashSet<HotelFilter.OnFilterChangedListener>();
@@ -102,6 +105,7 @@ public class HotelFilter implements JSONable {
 		mHotelName = null;
 		mSort = Sort.POPULAR;
 		mVipAccessOnly = false;
+		mNeighborhoods = null;
 	}
 
 	/**
@@ -193,6 +197,14 @@ public class HotelFilter implements JSONable {
 		return mVipAccessOnly;
 	}
 
+	public void setNeighborhoods(Set<Integer> neighborhoods) {
+		mNeighborhoods = neighborhoods;
+	}
+
+	public Set<Integer> getNeighborhoods() {
+		return mNeighborhoods;
+	}
+
 	public void setOnDataListener(OnFilterChangedListener listener) {
 		Log.v("Set OnFilterChangedListener (data): " + listener);
 		mDataListener = listener;
@@ -245,9 +257,11 @@ public class HotelFilter implements JSONable {
 		filter.setPriceRange(mPriceRange);
 		filter.setSearchRadius(mSearchRadius);
 		filter.setMinimumStarRating(mMinStarRating);
-		filter.setHotelName(mHotelName);
+		filter.setHotelName(mHotelName == null ? null : new String(mHotelName));
 		filter.setSort(mSort);
 		filter.setVipAccessOnly(mVipAccessOnly);
+		Set<Integer> neighborhoodsCopy = mNeighborhoods == null ? null : new HashSet<Integer>(mNeighborhoods);
+		filter.setNeighborhoods(neighborhoodsCopy);
 		return filter;
 	}
 
@@ -262,6 +276,7 @@ public class HotelFilter implements JSONable {
 			obj.put("hotelName", mHotelName);
 			obj.put("sort", mSort.toString());
 			obj.put("vipAccess", mVipAccessOnly);
+			obj.put("neighborhoods", new JSONArray(mNeighborhoods));
 		}
 		catch (JSONException e) {
 			Log.w("Could not write filter JSON.", e);
@@ -278,6 +293,14 @@ public class HotelFilter implements JSONable {
 		mHotelName = obj.optString("hotelName", null);
 		mSort = Sort.valueOf(obj.optString("sort", Sort.POPULAR.toString()));
 		mVipAccessOnly = obj.optBoolean("vipAccess", false);
+		if (obj.has("neighborhoods")) {
+			JSONArray neighborhoods = obj.optJSONArray("neighborhoods");
+			mNeighborhoods = new HashSet<Integer>();
+			int len = neighborhoods.length();
+			for (int i = 0; i < len; i++) {
+				mNeighborhoods.add(neighborhoods.optInt(i));
+			}
+		}
 		return true;
 	}
 
@@ -289,11 +312,6 @@ public class HotelFilter implements JSONable {
 
 		HotelFilter other = (HotelFilter) o;
 
-		if (!TextUtils.equals(mHotelName, other.getHotelName())) {
-			// not equal
-			return false;
-		}
-
 		// Check the rest
 		boolean ret = true;
 		ret &= mSearchRadius == other.getSearchRadius();
@@ -302,6 +320,19 @@ public class HotelFilter implements JSONable {
 		ret &= mMinStarRating == other.getMinimumStarRating();
 		ret &= mSort == other.getSort();
 		ret &= mVipAccessOnly == other.isVipAccessOnly();
+
+		// Compare the complicated ones at the bottom... if any of the others
+		// are false, these won't even bother executing.
+		ret &= TextUtils.equals(mHotelName, other.getHotelName());
+		ret &= compareNeighborhoods(mNeighborhoods, other.mNeighborhoods);
+
+		return ret;
+	}
+
+	private static boolean compareNeighborhoods(Set<Integer> n1, Set<Integer> n2) {
+		boolean ret = true;
+		ret &= n1 == null || n2 != null && n1.containsAll(n2);
+		ret &= n2 == null || n1 != null && n2.containsAll(n1);
 		return ret;
 	}
 
@@ -337,6 +368,12 @@ public class HotelFilter implements JSONable {
 
 		if (mVipAccessOnly != other.isVipAccessOnly()) {
 			Log.d("HotelFilter diff: Vip Access: " + mVipAccessOnly + ", " + other.isVipAccessOnly());
+		}
+
+		if (!compareNeighborhoods(mNeighborhoods, other.mNeighborhoods)) {
+			String n1 = mNeighborhoods == null ? "null" : Arrays.toString(mNeighborhoods.toArray());
+			String n2 = other.mNeighborhoods == null ? "null" : Arrays.toString(other.mNeighborhoods.toArray());
+			Log.d("HotelFilter diff: Neighborhoods: " + n1 + ", " + n2);
 		}
 	}
 }
