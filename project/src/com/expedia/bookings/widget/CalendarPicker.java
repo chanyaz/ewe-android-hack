@@ -32,9 +32,7 @@ import com.mobiata.android.util.Ui;
 public class CalendarPicker extends LinearLayout {
 
 	// State
-	private YearMonth mDisplayYearMonth;
-	private LocalDate mStartDate;
-	private LocalDate mEndDate;
+	private CalendarState mState = new CalendarState();
 
 	// Styles - loaded at start, not modifiable
 	private int mBaseColor;
@@ -99,9 +97,6 @@ public class CalendarPicker extends LinearLayout {
 
 		// Inflate the widget
 		inflate(context, R.layout.widget_calendar_picker, this);
-
-		// Default to showing current year/month
-		mDisplayYearMonth = YearMonth.now();
 	}
 
 	@Override
@@ -146,9 +141,10 @@ public class CalendarPicker extends LinearLayout {
 		SavedState ss = (SavedState) state;
 		super.onRestoreInstanceState(ss.getSuperState());
 
-		mDisplayYearMonth = ss.displayMonthYear;
-		mStartDate = ss.startDate;
-		mEndDate = ss.endDate;
+		// Restore without calling setters, to avoid notifications firing
+		mState.mDisplayYearMonth = ss.displayMonthYear;
+		mState.mStartDate = ss.startDate;
+		mState.mEndDate = ss.endDate;
 	}
 
 	@Override
@@ -193,9 +189,9 @@ public class CalendarPicker extends LinearLayout {
 		Parcelable superState = super.onSaveInstanceState();
 
 		SavedState ss = new SavedState(superState);
-		ss.displayMonthYear = mDisplayYearMonth;
-		ss.startDate = mStartDate;
-		ss.endDate = mEndDate;
+		ss.displayMonthYear = mState.mDisplayYearMonth;
+		ss.startDate = mState.mStartDate;
+		ss.endDate = mState.mEndDate;
 
 		return ss;
 	}
@@ -216,38 +212,29 @@ public class CalendarPicker extends LinearLayout {
 					+ " end=" + endDate);
 		}
 
-		mStartDate = startDate;
-		mEndDate = endDate;
-
-		syncViewsWithState();
+		mState.setSelectedDates(startDate, endDate);
 	}
 
 	public LocalDate getStartDate() {
-		return mStartDate;
+		return mState.mStartDate;
 	}
 
 	public LocalDate getEndDate() {
-		return mEndDate;
+		return mState.mEndDate;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Display
 
-	private void setDisplayYearMonth(YearMonth yearMonth) {
-		mDisplayYearMonth = yearMonth;
-
-		syncViewsWithState();
-	}
-
 	private void syncViewsWithState() {
 		// Update header
-		mPreviousMonthTextView.setText(mDisplayYearMonth.minusMonths(1).monthOfYear().getAsText());
-		mCurrentMonthTextView.setText(mDisplayYearMonth.monthOfYear().getAsText());
-		mNextMonthTextView.setText(mDisplayYearMonth.plusMonths(1).monthOfYear().getAsText());
+		mPreviousMonthTextView.setText(mState.mDisplayYearMonth.minusMonths(1).monthOfYear().getAsText());
+		mCurrentMonthTextView.setText(mState.mDisplayYearMonth.monthOfYear().getAsText());
+		mNextMonthTextView.setText(mState.mDisplayYearMonth.plusMonths(1).monthOfYear().getAsText());
 
 		// Update month view
-		mMonthView.setDisplayYearMonth(mDisplayYearMonth);
-		mMonthView.setSelectedDates(mStartDate, mEndDate, false);
+		mMonthView.setDisplayYearMonth(mState.mDisplayYearMonth);
+		mMonthView.setSelectedDates(mState.mStartDate, mState.mEndDate, false);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -257,10 +244,10 @@ public class CalendarPicker extends LinearLayout {
 		@Override
 		public void onClick(View v) {
 			if (v == mPreviousMonthTextView) {
-				setDisplayYearMonth(mDisplayYearMonth.minusMonths(1));
+				mState.setDisplayYearMonth(mState.mDisplayYearMonth.minusMonths(1));
 			}
 			else if (v == mNextMonthTextView) {
-				setDisplayYearMonth(mDisplayYearMonth.plusMonths(1));
+				mState.setDisplayYearMonth(mState.mDisplayYearMonth.plusMonths(1));
 			}
 		}
 	};
@@ -278,14 +265,60 @@ public class CalendarPicker extends LinearLayout {
 	private DateSelectionChangedListener mMonthListener = new DateSelectionChangedListener() {
 		@Override
 		public void onDateSelectionChanged(LocalDate start, LocalDate end) {
-			mStartDate = start;
-			mEndDate = end;
+			mState.setSelectedDates(start, end);
 
 			if (mListener != null) {
 				mListener.onDateSelectionChanged(start, end);
 			}
 		}
 	};
+
+	//////////////////////////////////////////////////////////////////////////
+	// CalendarPicker State class
+	//
+	// We keep one set of settings; this should be shared between all classes
+	// that need it (e.g. the MonthView).
+	//
+	// It is in charge of notifying all related Views whenever something
+	// important changes.
+
+	protected final class CalendarState {
+
+		private YearMonth mDisplayYearMonth;
+
+		private LocalDate mStartDate;
+		private LocalDate mEndDate;
+
+		public CalendarState() {
+			// Default to displaying current year month
+			mDisplayYearMonth = YearMonth.now();
+		}
+
+		public void setDisplayYearMonth(YearMonth yearMonth) {
+			mDisplayYearMonth = yearMonth;
+
+			syncViewsWithState();
+		}
+
+		public YearMonth getDisplayYearMonth() {
+			return mDisplayYearMonth;
+		}
+
+		public void setSelectedDates(LocalDate startDate, LocalDate endDate) {
+			mStartDate = startDate;
+			mEndDate = endDate;
+
+			syncViewsWithState();
+		}
+
+		public LocalDate getStartDate() {
+			return mStartDate;
+		}
+
+		public LocalDate getEndDate() {
+			return mEndDate;
+		}
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Saved State
