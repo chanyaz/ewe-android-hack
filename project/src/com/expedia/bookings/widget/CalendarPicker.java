@@ -26,8 +26,9 @@ import com.mobiata.android.util.Ui;
  * 
  * A quick guide to usage:
  * - Use setDateChangedListener() to listen to date changes.
- * - Use setSelectedDates() to change which dates are currently selected
+ * - Use setSelectedDates() to change which dates are currently selected.
  * - Use setSelectableDateRange() to select the minimum/maximum selectable dates.
+ * - Use setMaxSelectableDateRange() to select the longest duration one can select.
  * - Use a style derived from "V2.Widget.CalendarPicker" to theme it. 
  * 
  * Notes:
@@ -164,6 +165,8 @@ public class CalendarPicker extends LinearLayout {
 		mState.mEndDate = ss.endDate;
 		mState.mMinSelectableDate = ss.minSelectableDate;
 		mState.mMaxSelectableDate = ss.maxSelectableDate;
+		mState.mMaxSelectableDateRange = ss.maxSelectableDateRange;
+		mState.updateLastState();
 	}
 
 	@Override
@@ -215,6 +218,7 @@ public class CalendarPicker extends LinearLayout {
 		ss.endDate = mState.mEndDate;
 		ss.minSelectableDate = mState.mMinSelectableDate;
 		ss.maxSelectableDate = mState.mMaxSelectableDate;
+		ss.maxSelectableDateRange = mState.mMaxSelectableDateRange;
 
 		return ss;
 	}
@@ -238,6 +242,10 @@ public class CalendarPicker extends LinearLayout {
 	 */
 	public void setSelectableDateRange(LocalDate minDate, LocalDate maxDate) {
 		mState.setSelectableDateRange(minDate, maxDate);
+	}
+
+	public void setMaxSelectableDateRange(int numDays) {
+		mState.setMaxSelectableDateRange(numDays);
 	}
 
 	public LocalDate getStartDate() {
@@ -328,6 +336,8 @@ public class CalendarPicker extends LinearLayout {
 		private LocalDate mMinSelectableDate;
 		private LocalDate mMaxSelectableDate;
 
+		private int mMaxSelectableDateRange;
+
 		// We keep track of what has changed so that we don't do unnecessary View updates
 		private CalendarState mLastState;
 
@@ -399,6 +409,13 @@ public class CalendarPicker extends LinearLayout {
 					&& (mMaxSelectableDate == null || !interval.isAfter(mMaxSelectableDate.toDateTimeAtStartOfDay()));
 		}
 
+		public void setMaxSelectableDateRange(int maxRange) {
+			if (maxRange != mMaxSelectableDateRange) {
+				mMaxSelectableDateRange = maxRange;
+				validateAndSyncState();
+			}
+		}
+
 		private void validateAndSyncState() {
 			// Ensure nothing is set before the min selectable date
 			if (mMinSelectableDate != null) {
@@ -456,6 +473,37 @@ public class CalendarPicker extends LinearLayout {
 				}
 			}
 
+			// Ensure our date range falls within the maximum
+			if (mStartDate != null && mEndDate != null
+					&& JodaUtils.daysBetween(mStartDate, mEndDate) > mMaxSelectableDateRange) {
+				// We need to determine whether to move the START or the END to match the selectable range
+				// This is trickier than it sounds; we need to match the expectations of the user.
+				if (mLastState.mEndDate == null) {
+					// If END added, shift that
+					Log.v("Date range out of max (" + mMaxSelectableDateRange
+							+ "); shifting end date to match range (reason: end was added)");
+					mEndDate = mStartDate.plusDays(mMaxSelectableDateRange);
+				}
+				else if (JodaUtils.isEqual(mLastState.mStartDate, mEndDate)) {
+					// If END == last.START, then we've reversed the dates; apply changes to START
+					Log.v("Date range out of max (" + mMaxSelectableDateRange
+							+ "); shifting start date to match range (reason: start/end swapped)");
+					mStartDate = mEndDate.minusDays(mMaxSelectableDateRange);
+				}
+				else if (!JodaUtils.isEqual(mLastState.mEndDate, mEndDate)) {
+					// If END has changed, then move that
+					Log.v("Date range out of max (" + mMaxSelectableDateRange
+							+ "); shifting end date to match range (reason: end was changed)");
+					mEndDate = mStartDate.plusDays(mMaxSelectableDateRange);
+				}
+				else {
+					// If START has changed, then move that
+					Log.v("Date range out of max (" + mMaxSelectableDateRange
+							+ "); shifting start date to match range (reason: start was changed)");
+					mStartDate = mEndDate.minusDays(mMaxSelectableDateRange);
+				}
+			}
+
 			// Now that we're internally consistent, sync whatever fields may have changed
 			if (mLastState == null) {
 				mLastState = new CalendarState();
@@ -477,12 +525,20 @@ public class CalendarPicker extends LinearLayout {
 				}
 			}
 
-			// Update last state
+			updateLastState();
+		}
+
+		protected void updateLastState() {
+			if (mLastState == null) {
+				mLastState = new CalendarState();
+			}
+
 			mLastState.mDisplayYearMonth = mDisplayYearMonth;
 			mLastState.mStartDate = mStartDate;
 			mLastState.mEndDate = mEndDate;
 			mLastState.mMinSelectableDate = mMinSelectableDate;
 			mLastState.mMaxSelectableDate = mMaxSelectableDate;
+			mLastState.mMaxSelectableDateRange = mMaxSelectableDateRange;
 		}
 	}
 
@@ -495,6 +551,7 @@ public class CalendarPicker extends LinearLayout {
 		LocalDate endDate;
 		LocalDate minSelectableDate;
 		LocalDate maxSelectableDate;
+		int maxSelectableDateRange;
 
 		private SavedState(Parcelable superState) {
 			super(superState);
@@ -509,6 +566,7 @@ public class CalendarPicker extends LinearLayout {
 			JodaUtils.writeLocalDate(out, endDate);
 			JodaUtils.writeLocalDate(out, minSelectableDate);
 			JodaUtils.writeLocalDate(out, maxSelectableDate);
+			out.writeInt(maxSelectableDateRange);
 		}
 
 		@SuppressWarnings("unused")
@@ -530,6 +588,7 @@ public class CalendarPicker extends LinearLayout {
 			endDate = JodaUtils.readLocalDate(in);
 			minSelectableDate = JodaUtils.readLocalDate(in);
 			maxSelectableDate = JodaUtils.readLocalDate(in);
+			maxSelectableDateRange = in.readInt();
 		}
 	}
 }

@@ -58,6 +58,7 @@ public class DatesFragment extends Fragment implements DateSelectionChangedListe
 		mCalendarPicker = Ui.findView(view, R.id.calendar_picker);
 
 		mCalendarPicker.setSelectableDateRange(LocalDate.now(), LocalDate.now().plusDays(330));
+		mCalendarPicker.setMaxSelectableDateRange(30);
 		mCalendarPicker.setSelectedDates(mStartDate, mEndDate);
 		mCalendarPicker.setDateChangedListener(this);
 
