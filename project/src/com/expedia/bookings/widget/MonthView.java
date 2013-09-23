@@ -399,6 +399,11 @@ public class MonthView extends View {
 			int[] cell = getCell(e);
 			LocalDate clickedDate = mDays[cell[0]][cell[1]];
 
+			// If the user clicked on an illegal date, don't even try to use it
+			if (!mState.canSelectDate(clickedDate)) {
+				return false;
+			}
+
 			LocalDate startDate = mState.getStartDate();
 			LocalDate endDate = mState.getEndDate();
 			if (startDate == null) {
@@ -435,6 +440,11 @@ public class MonthView extends View {
 			LocalDate scrolledDate = mDays[cell[0]][cell[1]];
 
 			if (!mIsScrolling) {
+				// Don't start a "scroll" until the user has rolled over a valid date once
+				if (!mState.canSelectDate(scrolledDate)) {
+					return false;
+				}
+
 				// If we haven't started a scroll yet, initialize anchors and what have you
 				// Code is purposefully a bit wordy to make it easier to understand
 				LocalDate startDate = mState.getStartDate();
@@ -471,6 +481,8 @@ public class MonthView extends View {
 				mIsScrolling = true;
 			}
 
+			// You can technically scroll outside the valid selectable range boudns;
+			// we let the CalendarState verify incorrect input, we don't it here.
 			if (mAnchorDate == null) {
 				mState.setSelectedDates(scrolledDate, null);
 			}

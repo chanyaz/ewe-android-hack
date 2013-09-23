@@ -386,6 +386,14 @@ public class CalendarPicker extends LinearLayout {
 		}
 
 		/**
+		 * @return true if the date is selectable (within min/max date ranges)
+		 */
+		public boolean canSelectDate(LocalDate date) {
+			return (mMinSelectableDate == null || !date.isBefore(mMinSelectableDate))
+					|| (mMaxSelectableDate == null && !date.isAfter(mMaxSelectableDate));
+		}
+
+		/**
 		 * @return Whether the YearMonth is within the selectable range (and is therefore viewable)
 		 */
 		public boolean canDisplayYearMonth(YearMonth yearMonth) {
