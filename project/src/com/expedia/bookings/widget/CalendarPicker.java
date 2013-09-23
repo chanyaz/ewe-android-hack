@@ -35,7 +35,6 @@ import com.mobiata.android.util.Ui;
  *   minimum width.  Either use "match_parent" or specify a pixel width.
  * 
  * TODO: Scale all views based on size of CalendarPicker itself
- * TODO: Make CalendarState dirty detection smarter
  */
 public class CalendarPicker extends LinearLayout {
 
@@ -323,13 +322,8 @@ public class CalendarPicker extends LinearLayout {
 		private LocalDate mMinSelectableDate;
 		private LocalDate mMaxSelectableDate;
 
-		// We keep track of what has changed since last notification; make
-		// sure to call syncChangedFields() after changing any set of fields
-		//
-		// We keep track of it this way so that we can ensure a valid set of
-		// fields but only have to update Views if necessary
-		private boolean mDisplayYearMonthDirty;
-		private boolean mDatesDirty;
+		// We keep track of what has changed so that we don't do unnecessary View updates
+		private CalendarState mLastState;
 
 		public CalendarState() {
 			// Default to displaying current year month
@@ -338,7 +332,6 @@ public class CalendarPicker extends LinearLayout {
 
 		public void setDisplayYearMonth(YearMonth yearMonth) {
 			mDisplayYearMonth = yearMonth;
-			mDisplayYearMonthDirty = true;
 			validateAndSyncState();
 		}
 
@@ -358,7 +351,6 @@ public class CalendarPicker extends LinearLayout {
 			if (!JodaUtils.isEqual(startDate, mStartDate) || !JodaUtils.isEqual(endDate, mEndDate)) {
 				mStartDate = startDate;
 				mEndDate = endDate;
-				mDatesDirty = true;
 				validateAndSyncState();
 			}
 		}
@@ -380,7 +372,6 @@ public class CalendarPicker extends LinearLayout {
 			if (!JodaUtils.isEqual(minDate, mMinSelectableDate) || !JodaUtils.isEqual(maxDate, mMaxSelectableDate)) {
 				mMinSelectableDate = minDate;
 				mMaxSelectableDate = maxDate;
-				mDisplayYearMonthDirty = true;
 				validateAndSyncState();
 			}
 		}
@@ -410,15 +401,13 @@ public class CalendarPicker extends LinearLayout {
 							+ ") is BEFORE min selectable date (" + mMinSelectableDate
 							+ "); setting year month to match min date");
 					mDisplayYearMonth = new YearMonth(mMinSelectableDate.getYear(), mMinSelectableDate.getMonthOfYear());
-					mDisplayYearMonthDirty = true;
 				}
 
 				if (mStartDate != null && mStartDate.isBefore(mMinSelectableDate)) {
-					Log.w("Start date (" + mStartDate
+					Log.v("Start date (" + mStartDate
 							+ ") is BEFORE min selectable date (" + mMinSelectableDate
 							+ "); setting start date to min date");
 					mStartDate = mMinSelectableDate;
-					mDatesDirty = true;
 				}
 
 				if (mEndDate != null && mEndDate.isBefore(mMinSelectableDate)) {
@@ -426,7 +415,6 @@ public class CalendarPicker extends LinearLayout {
 							+ ") is BEFORE min selectable date (" + mMinSelectableDate
 							+ "); setting end date to one day after start date (" + mStartDate.plusDays(1) + ")");
 					mEndDate = mStartDate.plusDays(1);
-					mDatesDirty = true;
 				}
 			}
 
@@ -437,15 +425,13 @@ public class CalendarPicker extends LinearLayout {
 							+ ") is AFTER max selectable date (" + mMaxSelectableDate
 							+ "); setting year month to match max date");
 					mDisplayYearMonth = new YearMonth(mMaxSelectableDate.getYear(), mMaxSelectableDate.getMonthOfYear());
-					mDisplayYearMonthDirty = true;
 				}
 
 				if (mEndDate != null && mEndDate.isAfter(mMaxSelectableDate)) {
-					Log.w("End date (" + mEndDate
+					Log.v("End date (" + mEndDate
 							+ ") is AFTER max selectable date (" + mMaxSelectableDate
 							+ "); setting end date to max date");
 					mEndDate = mMaxSelectableDate;
-					mDatesDirty = true;
 				}
 
 				if (mStartDate != null && mStartDate.isAfter(mMaxSelectableDate)) {
@@ -454,34 +440,43 @@ public class CalendarPicker extends LinearLayout {
 								+ ") is AFTER max selectable date (" + mMaxSelectableDate
 								+ "); setting start date to one day before end date (" + mEndDate.minusDays(1) + ")");
 						mStartDate = mEndDate.minusDays(1);
-						mDatesDirty = true;
 					}
 					else {
 						Log.w("Start date (" + mStartDate
 								+ ") is AFTER max selectable date (" + mMaxSelectableDate
 								+ "); setting start date to max date (" + mMaxSelectableDate + ") (no end date)");
 						mStartDate = mMaxSelectableDate;
-						mDatesDirty = true;
 					}
 				}
 			}
 
-			// Now that we're internally consistent, sync whatever fields may have changed (either from
-			// the validation process or explicit changes before it)
-			if (mDisplayYearMonthDirty) {
-				syncDisplayMonthViews();
-				mDisplayYearMonthDirty = false;
+			// Now that we're internally consistent, sync whatever fields may have changed
+			if (mLastState == null) {
+				mLastState = new CalendarState();
 			}
 
-			if (mDatesDirty) {
+			if (!mLastState.mDisplayYearMonth.equals(mDisplayYearMonth)
+					|| !JodaUtils.isEqual(mLastState.mMinSelectableDate, mMinSelectableDate)
+					|| !JodaUtils.isEqual(mLastState.mMaxSelectableDate, mMaxSelectableDate)) {
+				syncDisplayMonthViews();
+			}
+
+			if (!JodaUtils.isEqual(mLastState.mStartDate, mStartDate)
+					|| !JodaUtils.isEqual(mLastState.mEndDate, mEndDate)) {
 				syncDateSelectionViews();
-				mDatesDirty = false;
 
 				// TODO: Should we always notify, or only when it was changed by user interaction?
 				if (mListener != null) {
 					mListener.onDateSelectionChanged(mStartDate, mEndDate);
 				}
 			}
+
+			// Update last state
+			mLastState.mDisplayYearMonth = mDisplayYearMonth;
+			mLastState.mStartDate = mStartDate;
+			mLastState.mEndDate = mEndDate;
+			mLastState.mMinSelectableDate = mMinSelectableDate;
+			mLastState.mMaxSelectableDate = mMaxSelectableDate;
 		}
 	}
 
