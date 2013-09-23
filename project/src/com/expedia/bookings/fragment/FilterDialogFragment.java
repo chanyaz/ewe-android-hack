@@ -160,8 +160,7 @@ public class FilterDialogFragment extends DialogFragment {
 	}
 
 	public CharSequence getTitle() {
-		Property[] properties = Db.getHotelSearch().getSearchResponse().getFilteredAndSortedProperties();
-		int count = properties == null ? 0 : properties.length;
+		int count = Db.getHotelSearch().getSearchResponse().getFilteredPropertiesCount();
 		return Html.fromHtml(getResources().getQuantityString(R.plurals.number_of_matching_hotels, count, count));
 	}
 

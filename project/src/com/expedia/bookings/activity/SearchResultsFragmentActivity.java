@@ -1071,8 +1071,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 					onSortChanged(Sort.DISTANCE);
 				}
 
-				Property[] properties = response.getFilteredAndSortedProperties();
-				if (properties != null && properties.length <= 10) {
+				if (response.getFilteredPropertiesCount() <= 10) {
 					Log.i("Initial search results had not many results, expanding search radius filter to show all.");
 					Db.getFilter().setSearchRadius(SearchRadius.ALL);
 					response.clearCache();

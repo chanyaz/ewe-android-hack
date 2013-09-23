@@ -382,6 +382,11 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		return Arrays.asList(propertiesCapped);
 	}
 
+	public int getFilteredPropertiesCount() {
+		Property[] properties = getFilteredAndSortedProperties();
+		return properties == null ? 0 : properties.length;
+	}
+
 	public void onFilterChanged() {
 		clearCache();
 	}

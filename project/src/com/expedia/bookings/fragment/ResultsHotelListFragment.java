@@ -109,7 +109,7 @@ public class ResultsHotelListFragment extends ResultsListFragment {
 		HotelSearchResponse response = Db.getHotelSearch().getSearchResponse();
 		if (response != null) {
 			total = response.getPropertiesCount();
-			count = response.getFilteredAndSortedProperties().length;
+			count = response.getFilteredPropertiesCount();
 		}
 
 		CharSequence text = null;

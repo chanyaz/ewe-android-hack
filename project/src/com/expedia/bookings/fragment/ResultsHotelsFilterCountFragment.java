@@ -77,7 +77,7 @@ public class ResultsHotelsFilterCountFragment extends Fragment {
 		HotelSearchResponse response = Db.getHotelSearch().getSearchResponse();
 		if (response != null) {
 			total = response.getPropertiesCount();
-			count = response.getFilteredAndSortedProperties().length;
+			count = response.getFilteredPropertiesCount();
 		}
 
 		float percent = total == 0 ? 0 : 1.0f * count / total;
