@@ -38,6 +38,7 @@ public class CalendarPicker extends LinearLayout {
 
 	// Styles - loaded at start, not modifiable
 	private int mBaseColor;
+	private int mSecondaryColor;
 	private int mHighlightColor;
 	private int mHighlightInverseColor;
 	private int mTodayColor;
@@ -72,6 +73,10 @@ public class CalendarPicker extends LinearLayout {
 			switch (attr) {
 			case R.styleable.CalendarPicker_calendarBaseColor:
 				mBaseColor = ta.getColor(attr, mBaseColor);
+				break;
+
+			case R.styleable.CalendarPicker_calendarSecondaryColor:
+				mSecondaryColor = ta.getColor(attr, mSecondaryColor);
 				break;
 
 			case R.styleable.CalendarPicker_calendarHighlightColor:
@@ -124,6 +129,7 @@ public class CalendarPicker extends LinearLayout {
 
 		mMonthView.setDateSelectionListener(mMonthListener);
 		mMonthView.setTextColor(mBaseColor);
+		mMonthView.setTextSecondaryColor(mSecondaryColor);
 		mMonthView.setHighlightColor(mHighlightColor);
 		mMonthView.setHighlightInverseColor(mHighlightInverseColor);
 		mMonthView.setTodayColor(mTodayColor);

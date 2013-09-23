@@ -169,6 +169,9 @@
         <!-- The default color for elements on the calendar picker -->
         <attr name="calendarBaseColor" format="color" />
 
+        <!-- Color used for secondary elements, like dates not in the current month -->
+        <attr name="calendarSecondaryColor" format="color" />
+
         <!-- The highlight color; includes header buttons and selection -->
         <attr name="calendarHighlightColor" format="color" />
 

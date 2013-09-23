@@ -75,6 +75,7 @@ public class MonthView extends View {
 	private Interval mDayInterval;
 
 	private TextPaint mTextPaint;
+	private TextPaint mTextSecondaryPaint;
 	private TextPaint mTextInversePaint;
 	private TextPaint mTextTodayPaint;
 	private float mMaxTextSize;
@@ -121,6 +122,8 @@ public class MonthView extends View {
 
 		mTextTodayPaint = new TextPaint(mTextPaint);
 
+		mTextSecondaryPaint = new TextPaint(mTextPaint);
+
 		mSelectionPaint = new Paint();
 		mSelectionPaint.setAntiAlias(true);
 
@@ -137,6 +140,10 @@ public class MonthView extends View {
 
 	public void setTextColor(int color) {
 		mTextPaint.setColor(color);
+	}
+
+	public void setTextSecondaryColor(int color) {
+		mTextSecondaryPaint.setColor(color);
 	}
 
 	public void setHighlightColor(int color) {
@@ -229,6 +236,7 @@ public class MonthView extends View {
 			}
 
 			// Make sure all other paints match size
+			mTextSecondaryPaint.setTextSize(mTextPaint.getTextSize());
 			mTextInversePaint.setTextSize(mTextPaint.getTextSize());
 			mTextTodayPaint.setTextSize(mTextPaint.getTextSize());
 		}
@@ -356,6 +364,7 @@ public class MonthView extends View {
 		float textHeight = mTextPaint.descent() - mTextPaint.ascent();
 		float halfTextHeight = textHeight / 2;
 		LocalDate today = LocalDate.now();
+		Interval monthInterval = mDisplayYearMonth.toInterval();
 		for (int week = 0; week < ROWS; week++) {
 			for (int dayOfWeek = 0; dayOfWeek < COLS; dayOfWeek++) {
 				LocalDate date = mDays[week][dayOfWeek];
@@ -370,6 +379,9 @@ public class MonthView extends View {
 				}
 				else if (date.equals(today)) {
 					paint = mTextTodayPaint;
+				}
+				else if (!monthInterval.contains(date.toDateTimeAtStartOfDay())) {
+					paint = mTextSecondaryPaint;
 				}
 				else {
 					paint = mTextPaint;
