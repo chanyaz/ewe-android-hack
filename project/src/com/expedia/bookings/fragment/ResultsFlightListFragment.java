@@ -149,7 +149,7 @@ public class ResultsFlightListFragment extends ResultsListFragment {
 	private final DataSetObserver mDataSetObserver = new DataSetObserver() {
 		@Override
 		public void onChanged() {
-			initializeStickyHeaderString();
+			setStickyHeaderText(initializeStickyHeaderString());
 		}
 	};
 
