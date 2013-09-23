@@ -51,6 +51,7 @@
         <item name="calendarHighlightColor">#FDDB4D</item>
         <item name="calendarHighlightInverseColor">#000000</item>
         <item name="calendarTodayColor">#F4FB00</item>
+        <item name="calendarInvalidDaysColor">#313132</item>
     </style>
 
 </resources>

@@ -75,6 +75,7 @@ public class MonthView extends View {
 	private TextPaint mTextSecondaryPaint;
 	private TextPaint mTextInversePaint;
 	private TextPaint mTextTodayPaint;
+	private TextPaint mInvalidDayPaint;
 	private float mMaxTextSize;
 
 	private Paint mSelectionPaint;
@@ -117,6 +118,8 @@ public class MonthView extends View {
 
 		mTextSecondaryPaint = new TextPaint(mTextPaint);
 
+		mInvalidDayPaint = new TextPaint(mTextPaint);
+
 		mSelectionPaint = new Paint();
 		mSelectionPaint.setAntiAlias(true);
 
@@ -152,6 +155,10 @@ public class MonthView extends View {
 
 	public void setTodayColor(int color) {
 		mTextTodayPaint.setColor(color);
+	}
+
+	public void setInvalidDayColor(int color) {
+		mInvalidDayPaint.setColor(color);
 	}
 
 	public void setMaxTextSize(float textSize) {
@@ -213,6 +220,7 @@ public class MonthView extends View {
 			mTextSecondaryPaint.setTextSize(mTextPaint.getTextSize());
 			mTextInversePaint.setTextSize(mTextPaint.getTextSize());
 			mTextTodayPaint.setTextSize(mTextPaint.getTextSize());
+			mInvalidDayPaint.setTextSize(mTextPaint.getTextSize());
 		}
 	}
 
@@ -356,6 +364,9 @@ public class MonthView extends View {
 				}
 				else if (date.equals(today)) {
 					paint = mTextTodayPaint;
+				}
+				else if (!mState.canSelectDate(date)) {
+					paint = mInvalidDayPaint;
 				}
 				else if (!monthInterval.contains(date.toDateTimeAtStartOfDay())) {
 					paint = mTextSecondaryPaint;

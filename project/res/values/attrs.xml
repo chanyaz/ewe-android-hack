@@ -180,6 +180,9 @@
 
         <!-- Color used to indicate which day is today -->
         <attr name="calendarTodayColor" format="color" />
+
+        <!-- Color used to indicate days which are not selectable for reasons -->
+        <attr name="calendarInvalidDaysColor" format="color" />
     </declare-styleable>
 
     <!-- VSC/EB attributes used for style switching in themes -->
