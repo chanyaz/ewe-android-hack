@@ -381,7 +381,7 @@ public class CalendarPicker extends LinearLayout {
 		 */
 		public boolean canSelectDate(LocalDate date) {
 			return (mMinSelectableDate == null || !date.isBefore(mMinSelectableDate))
-					|| (mMaxSelectableDate == null && !date.isAfter(mMaxSelectableDate));
+					&& (mMaxSelectableDate == null || !date.isAfter(mMaxSelectableDate));
 		}
 
 		/**
