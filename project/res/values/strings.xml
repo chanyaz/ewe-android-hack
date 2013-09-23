@@ -102,6 +102,8 @@
     <string name="flight_preferences">Flight Preferences</string>
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">Stops</string>
+    <!-- Header for a flight filter, showing a list of flights from different airlines -->
+    <string name="airlines">Airlines</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->

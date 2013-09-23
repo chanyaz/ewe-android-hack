@@ -1,15 +1,21 @@
 package com.expedia.bookings.fragment;
 
+import java.util.List;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightFilter;
+import com.expedia.bookings.data.FlightSearch;
+import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.utils.Ui;
 
 /**
@@ -20,6 +26,10 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	private static final String ARG_LEG_NUMBER = "ARG_LEG_NUMBER";
 
 	private int mLegNumber;
+
+	private RadioGroup mSortGroup;
+	private RadioGroup mFilterGroup;
+	private ViewGroup mAirlineContainer;
 
 	public static ResultsFlightFiltersFragment newInstance(int legNumber) {
 		ResultsFlightFiltersFragment frag = new ResultsFlightFiltersFragment();
@@ -39,13 +49,20 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_flight_tablet_filter, container, false);
 
-		RadioGroup sortGroup = Ui.findView(view, R.id.flight_sort_control);
-		RadioGroup filterGroup = Ui.findView(view, R.id.flight_filter_control);
+		mSortGroup = Ui.findView(view, R.id.flight_sort_control);
+		mFilterGroup = Ui.findView(view, R.id.flight_filter_control);
 
-		sortGroup.setOnCheckedChangeListener(mControlKnobListener);
-		filterGroup.setOnCheckedChangeListener(mControlKnobListener);
+		mAirlineContainer = Ui.findView(view, R.id.filter_airline_container);
+		buildAirlineList();
 
 		return view;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		mSortGroup.setOnCheckedChangeListener(mControlKnobListener);
+		mFilterGroup.setOnCheckedChangeListener(mControlKnobListener);
 	}
 
 	private RadioGroup.OnCheckedChangeListener mControlKnobListener = new RadioGroup.OnCheckedChangeListener() {
@@ -91,7 +108,25 @@ public class ResultsFlightFiltersFragment extends Fragment {
 				filter.notifyFilterChanged();
 				break;
 			}
+			onFilterChanged();
 		}
 	};
+
+	private void onFilterChanged() {
+		buildAirlineList();
+	}
+
+	private void buildAirlineList() {
+		List<FlightTrip> trips = Db.getFlightSearch().queryTrips(mLegNumber).getTrips();
+		List<FlightTrip> flightTrips = FlightSearch.getCheapestTripForEachAirline(trips, mLegNumber);
+
+		mAirlineContainer.removeAllViews();
+		for (FlightTrip trip : flightTrips) {
+			TextView tv = new TextView(getActivity());
+			tv.setText(trip.getLeg(0).getAirlinesFormatted() + " - "
+					+ trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
+			mAirlineContainer.addView(tv);
+		}
+	}
 
 }

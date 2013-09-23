@@ -229,7 +229,7 @@ public class FlightSearch implements JSONable {
 		mSearchState = state;
 	}
 
-	private Map<String, FlightTrip> getCheapestTripEachAirlineMap(int legPosition, List<FlightTrip> trips) {
+	private static Map<String, FlightTrip> getCheapestTripEachAirlineMap(int legPosition, List<FlightTrip> trips) {
 		Map<String, FlightTrip> lowestPriceMap = new HashMap<String, FlightTrip>();
 
 		Iterator<FlightTrip> iterator = trips.iterator();
@@ -266,7 +266,7 @@ public class FlightSearch implements JSONable {
 	 * Returns a list containing only the lowest price trip for each unique airlines in list of trips.
 	 * The list is sorted by price i.e. (low - high)
 	 */
-	public List<FlightTrip> getCheapestTripForEachAirline(List<FlightTrip> trips, int legPosition) {
+	public static List<FlightTrip> getCheapestTripForEachAirline(List<FlightTrip> trips, int legPosition) {
 		Map<String, FlightTrip> lowestPriceMap = new HashMap<String, FlightTrip>(getCheapestTripEachAirlineMap(legPosition, trips));
 
 		List<FlightTrip> lowestPriceAllAirlines = new ArrayList<FlightTrip>(lowestPriceMap.values());
