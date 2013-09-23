@@ -122,7 +122,7 @@ public class CalendarPicker extends LinearLayout {
 		mDaysOfWeekView.setTextColor(mBaseColor);
 		mDaysOfWeekView.setMaxTextSize(mPreviousMonthTextView.getTextSize());
 
-		mMonthView.setDateSelectionListener(mMonthListener);
+		mMonthView.setCalendarState(mState);
 		mMonthView.setTextColor(mBaseColor);
 		mMonthView.setTextSecondaryColor(mSecondaryColor);
 		mMonthView.setHighlightColor(mHighlightColor);
@@ -226,15 +226,25 @@ public class CalendarPicker extends LinearLayout {
 	//////////////////////////////////////////////////////////////////////////
 	// Display
 
+	// While this is easier, try to avoid calling it unless you really need to
+	// sync *all* Views at once
 	private void syncViewsWithState() {
+		syncDisplayMonthViews();
+		syncDateSelectionViews();
+	}
+
+	private void syncDisplayMonthViews() {
 		// Update header
 		mPreviousMonthTextView.setText(mState.mDisplayYearMonth.minusMonths(1).monthOfYear().getAsText());
 		mCurrentMonthTextView.setText(mState.mDisplayYearMonth.monthOfYear().getAsText());
 		mNextMonthTextView.setText(mState.mDisplayYearMonth.plusMonths(1).monthOfYear().getAsText());
 
-		// Update month view
-		mMonthView.setDisplayYearMonth(mState.mDisplayYearMonth);
-		mMonthView.setSelectedDates(mState.mStartDate, mState.mEndDate, false);
+		// Update month view 
+		mMonthView.notifyDisplayYearMonthChanged();
+	}
+
+	private void syncDateSelectionViews() {
+		mMonthView.notifySelectedDatesChanged();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -260,20 +270,6 @@ public class CalendarPicker extends LinearLayout {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// DateSelectionChangedListener
-
-	private DateSelectionChangedListener mMonthListener = new DateSelectionChangedListener() {
-		@Override
-		public void onDateSelectionChanged(LocalDate start, LocalDate end) {
-			mState.setSelectedDates(start, end);
-
-			if (mListener != null) {
-				mListener.onDateSelectionChanged(start, end);
-			}
-		}
-	};
-
-	//////////////////////////////////////////////////////////////////////////
 	// CalendarPicker State class
 	//
 	// We keep one set of settings; this should be shared between all classes
@@ -297,7 +293,7 @@ public class CalendarPicker extends LinearLayout {
 		public void setDisplayYearMonth(YearMonth yearMonth) {
 			mDisplayYearMonth = yearMonth;
 
-			syncViewsWithState();
+			syncDisplayMonthViews();
 		}
 
 		public YearMonth getDisplayYearMonth() {
@@ -305,10 +301,25 @@ public class CalendarPicker extends LinearLayout {
 		}
 
 		public void setSelectedDates(LocalDate startDate, LocalDate endDate) {
-			mStartDate = startDate;
-			mEndDate = endDate;
+			if (startDate == null && endDate != null) {
+				throw new IllegalArgumentException("Can't set an end date without a start date!  end=" + endDate);
+			}
+			else if (startDate != null && endDate != null && endDate.isBefore(startDate)) {
+				throw new IllegalArgumentException("Can't set an end date BEFORE a start date!  start=" + startDate
+						+ " end=" + endDate);
+			}
 
-			syncViewsWithState();
+			if ((startDate != null && !startDate.equals(mStartDate)) || (endDate != null && !endDate.equals(mEndDate))) {
+				mStartDate = startDate;
+				mEndDate = endDate;
+
+				syncDateSelectionViews();
+
+				// TODO: Should we always notify, or only when it was changed by user interaction?
+				if (mListener != null) {
+					mListener.onDateSelectionChanged(mStartDate, mEndDate);
+				}
+			}
 		}
 
 		public LocalDate getStartDate() {

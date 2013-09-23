@@ -6,7 +6,6 @@ import java.util.List;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
-import org.joda.time.YearMonth;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -22,7 +21,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.expedia.bookings.widget.CalendarPicker.DateSelectionChangedListener;
+import com.expedia.bookings.widget.CalendarPicker.CalendarState;
 
 /**
  * Displays the days of the month in a grid.  It is 7x6; seven for
@@ -67,9 +66,7 @@ public class MonthView extends View {
 
 	private GestureDetectorCompat mDetector;
 
-	private DateSelectionChangedListener mListener;
-
-	private YearMonth mDisplayYearMonth;
+	private CalendarState mState;
 
 	private LocalDate[][] mDays = new LocalDate[ROWS][COLS];
 	private Interval mDayInterval;
@@ -83,10 +80,6 @@ public class MonthView extends View {
 	private Paint mSelectionPaint;
 	private Paint mSelectionLinePaint;
 	private Paint mSelectionAlphaPaint;
-
-	// Current selections; only here for drawing.  CalendarPicker should hold the state.
-	private LocalDate mStartDate;
-	private LocalDate mEndDate;
 
 	// Variables that are cached for faster drawing
 	private int mWidth;
@@ -134,8 +127,8 @@ public class MonthView extends View {
 		mSelectionAlphaPaint = new Paint(mSelectionPaint);
 	}
 
-	public void setDateSelectionListener(DateSelectionChangedListener listener) {
-		mListener = listener;
+	public void setCalendarState(CalendarState state) {
+		mState = state;
 	}
 
 	public void setTextColor(int color) {
@@ -165,45 +158,18 @@ public class MonthView extends View {
 		mMaxTextSize = textSize;
 	}
 
-	public void setSelectedDates(LocalDate startDate, LocalDate endDate) {
-		setSelectedDates(startDate, endDate, true);
+	public void notifyDisplayYearMonthChanged() {
+		precomputeGrid();
+		invalidate();
 	}
 
-	public void setSelectedDates(LocalDate startDate, LocalDate endDate, boolean notifyIfChanged) {
-		if (startDate != null && endDate != null && startDate.isAfter(endDate)) {
-			// Swap them so it always makes sense
-			LocalDate tmpDate = startDate;
-			startDate = endDate;
-			endDate = tmpDate;
-		}
-
-		if ((startDate != null && !startDate.equals(mStartDate)) || (endDate != null && !endDate.equals(mEndDate))) {
-			mStartDate = startDate;
-			mEndDate = endDate;
-
-			if (notifyIfChanged) {
-				notifyDateSelectionChanged();
-			}
-
-			invalidate(); // TODO: Only invalidate parts that are needed
-		}
-	}
-
-	private void notifyDateSelectionChanged() {
-		mListener.onDateSelectionChanged(mStartDate, mEndDate);
-	}
-
-	// We depend on CalendarPicker calling this before we render
-	public void setDisplayYearMonth(YearMonth yearMonth) {
-		if (yearMonth != mDisplayYearMonth) {
-			mDisplayYearMonth = yearMonth;
-			precomputeGrid();
-			invalidate();
-		}
+	public void notifySelectedDatesChanged() {
+		// TODO: Only invalidate the cells of the dates that have changed?
+		invalidate();
 	}
 
 	private void precomputeGrid() {
-		LocalDate firstDayOfGrid = mDisplayYearMonth.toLocalDate(1);
+		LocalDate firstDayOfGrid = mState.getDisplayYearMonth().toLocalDate(1);
 		while (firstDayOfGrid.getDayOfWeek() != FIRST_DAY_OF_WEEK) {
 			firstDayOfGrid = firstDayOfGrid.minusDays(1);
 		}
@@ -263,6 +229,9 @@ public class MonthView extends View {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 
+		LocalDate startDate = mState.getStartDate();
+		LocalDate endDate = mState.getEndDate();
+
 		if (DEBUG_DRAW) {
 			// Draw cell backgrounds alternating colors
 			RectF drawRect = new RectF();
@@ -282,7 +251,7 @@ public class MonthView extends View {
 		}
 
 		// Draw the start date (if selected and visible)
-		int[] startCell = getCell(mStartDate);
+		int[] startCell = getCell(startDate);
 		if (startCell != null) {
 			float centerX = mColCenters[startCell[1]];
 			float centerY = mRowCenters[startCell[0]];
@@ -290,7 +259,7 @@ public class MonthView extends View {
 		}
 
 		// Draw end date (if selected and visible)
-		int[] endCell = getCell(mEndDate);
+		int[] endCell = getCell(endDate);
 		if (endCell != null) {
 			float centerX = mColCenters[endCell[1]];
 			float centerY = mRowCenters[endCell[0]];
@@ -303,9 +272,9 @@ public class MonthView extends View {
 		// This is optimized to draw row-by-row, instead of trying to draw cell-by-cell.
 		// It does this by creating a series of RectFs that define where the selections
 		// should be drawn, then collates/draws them all at once.
-		if (mStartDate != null && mEndDate != null
-				&& (mDayInterval.contains(mStartDate.toDateTimeAtStartOfDay())
-				|| mDayInterval.contains(mEndDate.toDateTimeAtStartOfDay()))) {
+		if (startDate != null && endDate != null
+				&& (mDayInterval.contains(startDate.toDateTimeAtStartOfDay())
+				|| mDayInterval.contains(endDate.toDateTimeAtStartOfDay()))) {
 
 			int startRow = startCell != null ? startCell[0] : 0;
 			int endRow = endCell != null ? endCell[0] : COLS - 1;
@@ -372,7 +341,7 @@ public class MonthView extends View {
 		float textHeight = mTextPaint.descent() - mTextPaint.ascent();
 		float halfTextHeight = textHeight / 2;
 		LocalDate today = LocalDate.now();
-		Interval monthInterval = mDisplayYearMonth.toInterval();
+		Interval monthInterval = mState.getDisplayYearMonth().toInterval();
 		for (int week = 0; week < ROWS; week++) {
 			for (int dayOfWeek = 0; dayOfWeek < COLS; dayOfWeek++) {
 				LocalDate date = mDays[week][dayOfWeek];
@@ -430,23 +399,25 @@ public class MonthView extends View {
 			int[] cell = getCell(e);
 			LocalDate clickedDate = mDays[cell[0]][cell[1]];
 
-			if (mStartDate == null) {
+			LocalDate startDate = mState.getStartDate();
+			LocalDate endDate = mState.getEndDate();
+			if (startDate == null) {
 				// If no START, select start
-				setSelectedDates(clickedDate, null);
+				mState.setSelectedDates(clickedDate, null);
 			}
-			else if (mEndDate == null) {
-				if (clickedDate.isBefore(mStartDate)) {
+			else if (endDate == null) {
+				if (clickedDate.isBefore(startDate)) {
 					// If clicked BEFORE start date, re-select start date
-					setSelectedDates(clickedDate, null);
+					mState.setSelectedDates(clickedDate, null);
 				}
 				else {
 					// Else create RANGE
-					setSelectedDates(mStartDate, clickedDate);
+					mState.setSelectedDates(startDate, clickedDate);
 				}
 			}
-			else if (!clickedDate.equals(mStartDate) && !clickedDate.equals(mEndDate)) {
+			else if (!clickedDate.equals(startDate) && !clickedDate.equals(endDate)) {
 				// If clicked is not START or END, reset
-				setSelectedDates(clickedDate, null);
+				mState.setSelectedDates(clickedDate, null);
 			}
 
 			return true;
@@ -466,26 +437,28 @@ public class MonthView extends View {
 			if (!mIsScrolling) {
 				// If we haven't started a scroll yet, initialize anchors and what have you
 				// Code is purposefully a bit wordy to make it easier to understand
-				if (mStartDate != null && mEndDate != null) {
-					if (mInitialDate.equals(mStartDate)) {
+				LocalDate startDate = mState.getStartDate();
+				LocalDate endDate = mState.getEndDate();
+				if (startDate != null && endDate != null) {
+					if (mInitialDate.equals(startDate)) {
 						// Move START, anchor END
-						mAnchorDate = mEndDate;
+						mAnchorDate = endDate;
 					}
-					else if (mInitialDate.equals(mEndDate)) {
+					else if (mInitialDate.equals(endDate)) {
 						// Move END, anchor START
-						mAnchorDate = mStartDate;
+						mAnchorDate = startDate;
 					}
 					else {
 						// Start a NEW drag
 						mAnchorDate = null;
 					}
 				}
-				else if (mStartDate != null) {
-					if (mInitialDate.equals(mStartDate) || mInitialDate.isAfter(mStartDate)) {
+				else if (startDate != null) {
+					if (mInitialDate.equals(startDate) || mInitialDate.isAfter(startDate)) {
 						// New RANGE, anchor START
-						mAnchorDate = mStartDate;
+						mAnchorDate = startDate;
 					}
-					else if (mInitialDate.isBefore(mStartDate)) {
+					else if (mInitialDate.isBefore(startDate)) {
 						// Start a NEW drag
 						mAnchorDate = null;
 					}
@@ -499,10 +472,16 @@ public class MonthView extends View {
 			}
 
 			if (mAnchorDate == null) {
-				setSelectedDates(scrolledDate, null);
+				mState.setSelectedDates(scrolledDate, null);
 			}
 			else {
-				setSelectedDates(mAnchorDate, scrolledDate);
+				// If END is before START, swap them so it always makes sense
+				if (mAnchorDate.isAfter(scrolledDate)) {
+					mState.setSelectedDates(scrolledDate, mAnchorDate);
+				}
+				else {
+					mState.setSelectedDates(mAnchorDate, scrolledDate);
+				}
 			}
 
 			return true;
