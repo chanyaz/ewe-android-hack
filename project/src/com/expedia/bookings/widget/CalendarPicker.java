@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.joda.time.YearMonth;
 
@@ -17,17 +18,24 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.graphics.CaretDrawable;
 import com.expedia.bookings.graphics.CaretDrawable.Direction;
 import com.expedia.bookings.utils.JodaUtils;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 /**
- * All configuration happens in the style/attributes.  If you want to setup the code
- * to work with dynamic configuration be my guest.
+ * A calendar date picker.
+ * 
+ * A quick guide to usage:
+ * - Use setDateChangedListener() to listen to date changes.
+ * - Use setSelectedDates() to change which dates are currently selected
+ * - Use setSelectableDateRange() to select the minimum/maximum selectable dates.
+ * - Use a style derived from "V2.Widget.CalendarPicker" to theme it. 
  * 
  * Notes:
  * - CalendarPicker does not work with layout_width="wrap_content" because it has no
  *   minimum width.  Either use "match_parent" or specify a pixel width.
  * 
  * TODO: Scale all views based on size of CalendarPicker itself
+ * TODO: Make CalendarState dirty detection smarter
  */
 public class CalendarPicker extends LinearLayout {
 
@@ -47,6 +55,10 @@ public class CalendarPicker extends LinearLayout {
 	private TextView mNextMonthTextView;
 	private DaysOfWeekView mDaysOfWeekView;
 	private MonthView mMonthView;
+
+	// Drawables
+	private CaretDrawable mPreviousMonthCaret;
+	private CaretDrawable mNextMonthCaret;
 
 	// Listener
 	private DateSelectionChangedListener mListener;
@@ -145,6 +157,8 @@ public class CalendarPicker extends LinearLayout {
 		mState.mDisplayYearMonth = ss.displayMonthYear;
 		mState.mStartDate = ss.startDate;
 		mState.mEndDate = ss.endDate;
+		mState.mMinSelectableDate = ss.minSelectableDate;
+		mState.mMaxSelectableDate = ss.maxSelectableDate;
 	}
 
 	@Override
@@ -168,15 +182,17 @@ public class CalendarPicker extends LinearLayout {
 				int totalHeight = mPreviousMonthTextView.getHeight();
 				int topBotPadding = (totalHeight - caretHeight) / 2;
 
-				CaretDrawable drawableLeft = new CaretDrawable(Direction.LEFT, mHighlightColor);
-				drawableLeft.setBounds(0, 0, caretWidth, totalHeight - topBotPadding);
-				mPreviousMonthTextView.setCompoundDrawables(drawableLeft, null, null, null);
+				mPreviousMonthCaret = new CaretDrawable(Direction.LEFT, mHighlightColor);
+				mPreviousMonthCaret.setBounds(0, 0, caretWidth, totalHeight - topBotPadding);
+				mPreviousMonthTextView.setCompoundDrawables(mPreviousMonthCaret, null, null, null);
 				mPreviousMonthTextView.setCompoundDrawablePadding(caretPadding);
 
-				CaretDrawable drawableRight = new CaretDrawable(Direction.RIGHT, mHighlightColor);
-				drawableRight.setBounds(0, 0, caretWidth, totalHeight - topBotPadding);
-				mNextMonthTextView.setCompoundDrawables(null, null, drawableRight, null);
+				mNextMonthCaret = new CaretDrawable(Direction.RIGHT, mHighlightColor);
+				mNextMonthCaret.setBounds(0, 0, caretWidth, totalHeight - topBotPadding);
+				mNextMonthTextView.setCompoundDrawables(null, null, mNextMonthCaret, null);
 				mNextMonthTextView.setCompoundDrawablePadding(caretPadding);
+
+				syncDisplayMonthCarets();
 
 				// We changed some bounds, need to redraw
 				return false;
@@ -192,6 +208,8 @@ public class CalendarPicker extends LinearLayout {
 		ss.displayMonthYear = mState.mDisplayYearMonth;
 		ss.startDate = mState.mStartDate;
 		ss.endDate = mState.mEndDate;
+		ss.minSelectableDate = mState.mMinSelectableDate;
+		ss.maxSelectableDate = mState.mMaxSelectableDate;
 
 		return ss;
 	}
@@ -204,15 +222,17 @@ public class CalendarPicker extends LinearLayout {
 	}
 
 	public void setSelectedDates(LocalDate startDate, LocalDate endDate) {
-		if (startDate == null && endDate != null) {
-			throw new IllegalArgumentException("Can't set an end date without a start date!  end=" + endDate);
-		}
-		else if (startDate != null && endDate != null && endDate.isBefore(startDate)) {
-			throw new IllegalArgumentException("Can't set an end date BEFORE a start date!  start=" + startDate
-					+ " end=" + endDate);
-		}
-
 		mState.setSelectedDates(startDate, endDate);
+	}
+
+	/**
+	 * Defines the selectable date range.
+	 *  
+	 * @param minDate the minimum selectable date or null for no minimum
+	 * @param maxDate the maximum selectable date or null for no maximum
+	 */
+	public void setSelectableDateRange(LocalDate minDate, LocalDate maxDate) {
+		mState.setSelectableDateRange(minDate, maxDate);
 	}
 
 	public LocalDate getStartDate() {
@@ -234,13 +254,23 @@ public class CalendarPicker extends LinearLayout {
 	}
 
 	private void syncDisplayMonthViews() {
+		// Update month view
+		mMonthView.notifyDisplayYearMonthChanged();
+
 		// Update header
 		mPreviousMonthTextView.setText(mState.mDisplayYearMonth.minusMonths(1).monthOfYear().getAsText());
 		mCurrentMonthTextView.setText(mState.mDisplayYearMonth.monthOfYear().getAsText());
 		mNextMonthTextView.setText(mState.mDisplayYearMonth.plusMonths(1).monthOfYear().getAsText());
 
-		// Update month view 
-		mMonthView.notifyDisplayYearMonthChanged();
+		syncDisplayMonthCarets();
+	}
+
+	private void syncDisplayMonthCarets() {
+		// Show carets based on min/max selectable dates
+		if (mPreviousMonthCaret != null && mNextMonthCaret != null) {
+			mPreviousMonthCaret.setAlpha(mState.canDisplayYearMonth(mState.mDisplayYearMonth.minusMonths(1)) ? 255 : 0);
+			mNextMonthCaret.setAlpha(mState.canDisplayYearMonth(mState.mDisplayYearMonth.plusMonths(1)) ? 255 : 0);
+		}
 	}
 
 	private void syncDateSelectionViews() {
@@ -253,11 +283,16 @@ public class CalendarPicker extends LinearLayout {
 	private OnClickListener mOnClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
+			YearMonth yearMonth = null;
 			if (v == mPreviousMonthTextView) {
-				mState.setDisplayYearMonth(mState.mDisplayYearMonth.minusMonths(1));
+				yearMonth = mState.mDisplayYearMonth.minusMonths(1);
 			}
 			else if (v == mNextMonthTextView) {
-				mState.setDisplayYearMonth(mState.mDisplayYearMonth.plusMonths(1));
+				yearMonth = mState.mDisplayYearMonth.plusMonths(1);
+			}
+
+			if (yearMonth != null && mState.canDisplayYearMonth(yearMonth)) {
+				mState.setDisplayYearMonth(yearMonth);
 			}
 		}
 	};
@@ -285,6 +320,17 @@ public class CalendarPicker extends LinearLayout {
 		private LocalDate mStartDate;
 		private LocalDate mEndDate;
 
+		private LocalDate mMinSelectableDate;
+		private LocalDate mMaxSelectableDate;
+
+		// We keep track of what has changed since last notification; make
+		// sure to call syncChangedFields() after changing any set of fields
+		//
+		// We keep track of it this way so that we can ensure a valid set of
+		// fields but only have to update Views if necessary
+		private boolean mDisplayYearMonthDirty;
+		private boolean mDatesDirty;
+
 		public CalendarState() {
 			// Default to displaying current year month
 			mDisplayYearMonth = YearMonth.now();
@@ -292,8 +338,8 @@ public class CalendarPicker extends LinearLayout {
 
 		public void setDisplayYearMonth(YearMonth yearMonth) {
 			mDisplayYearMonth = yearMonth;
-
-			syncDisplayMonthViews();
+			mDisplayYearMonthDirty = true;
+			validateAndSyncState();
 		}
 
 		public YearMonth getDisplayYearMonth() {
@@ -309,16 +355,11 @@ public class CalendarPicker extends LinearLayout {
 						+ " end=" + endDate);
 			}
 
-			if ((startDate != null && !startDate.equals(mStartDate)) || (endDate != null && !endDate.equals(mEndDate))) {
+			if (!JodaUtils.isEqual(startDate, mStartDate) || !JodaUtils.isEqual(endDate, mEndDate)) {
 				mStartDate = startDate;
 				mEndDate = endDate;
-
-				syncDateSelectionViews();
-
-				// TODO: Should we always notify, or only when it was changed by user interaction?
-				if (mListener != null) {
-					mListener.onDateSelectionChanged(mStartDate, mEndDate);
-				}
+				mDatesDirty = true;
+				validateAndSyncState();
 			}
 		}
 
@@ -329,6 +370,111 @@ public class CalendarPicker extends LinearLayout {
 		public LocalDate getEndDate() {
 			return mEndDate;
 		}
+
+		public void setSelectableDateRange(LocalDate minDate, LocalDate maxDate) {
+			if (minDate != null && maxDate != null && JodaUtils.daysBetween(minDate, maxDate) <= 1) {
+				throw new IllegalArgumentException("Selectable date range must be > 1 day; got " + minDate + " to "
+						+ maxDate);
+			}
+
+			if (!JodaUtils.isEqual(minDate, mMinSelectableDate) || !JodaUtils.isEqual(maxDate, mMaxSelectableDate)) {
+				mMinSelectableDate = minDate;
+				mMaxSelectableDate = maxDate;
+				mDisplayYearMonthDirty = true;
+				validateAndSyncState();
+			}
+		}
+
+		/**
+		 * @return Whether the YearMonth is within the selectable range (and is therefore viewable)
+		 */
+		public boolean canDisplayYearMonth(YearMonth yearMonth) {
+			Interval interval = yearMonth.toInterval();
+			return (mMinSelectableDate == null || !interval.isBefore(mMinSelectableDate.toDateTimeAtStartOfDay()))
+					&& (mMaxSelectableDate == null || !interval.isAfter(mMaxSelectableDate.toDateTimeAtStartOfDay()));
+		}
+
+		private void validateAndSyncState() {
+			// Ensure nothing is set before the min selectable date
+			if (mMinSelectableDate != null) {
+				if (mDisplayYearMonth.toInterval().isBefore(mMinSelectableDate.toDateTimeAtStartOfDay())) {
+					Log.w("Display year month (" + mDisplayYearMonth
+							+ ") is BEFORE min selectable date (" + mMinSelectableDate
+							+ "); setting year month to match min date");
+					mDisplayYearMonth = new YearMonth(mMinSelectableDate.getYear(), mMinSelectableDate.getMonthOfYear());
+					mDisplayYearMonthDirty = true;
+				}
+
+				if (mStartDate != null && mStartDate.isBefore(mMinSelectableDate)) {
+					Log.w("Start date (" + mStartDate
+							+ ") is BEFORE min selectable date (" + mMinSelectableDate
+							+ "); setting start date to min date");
+					mStartDate = mMinSelectableDate;
+					mDatesDirty = true;
+				}
+
+				if (mEndDate != null && mEndDate.isBefore(mMinSelectableDate)) {
+					Log.w("End date (" + mEndDate
+							+ ") is BEFORE min selectable date (" + mMinSelectableDate
+							+ "); setting end date to one day after start date (" + mStartDate.plusDays(1) + ")");
+					mEndDate = mStartDate.plusDays(1);
+					mDatesDirty = true;
+				}
+			}
+
+			// Ensure nothing is set after the max selectable date
+			if (mMaxSelectableDate != null) {
+				if (mDisplayYearMonth.toInterval().isAfter(mMaxSelectableDate.toDateTimeAtStartOfDay())) {
+					Log.w("Display year month (" + mDisplayYearMonth
+							+ ") is AFTER max selectable date (" + mMaxSelectableDate
+							+ "); setting year month to match max date");
+					mDisplayYearMonth = new YearMonth(mMaxSelectableDate.getYear(), mMaxSelectableDate.getMonthOfYear());
+					mDisplayYearMonthDirty = true;
+				}
+
+				if (mEndDate != null && mEndDate.isAfter(mMaxSelectableDate)) {
+					Log.w("End date (" + mEndDate
+							+ ") is AFTER max selectable date (" + mMaxSelectableDate
+							+ "); setting end date to max date");
+					mEndDate = mMaxSelectableDate;
+					mDatesDirty = true;
+				}
+
+				if (mStartDate != null && mStartDate.isAfter(mMaxSelectableDate)) {
+					if (mEndDate != null) {
+						Log.w("Start date (" + mStartDate
+								+ ") is AFTER max selectable date (" + mMaxSelectableDate
+								+ "); setting start date to one day before end date (" + mEndDate.minusDays(1) + ")");
+						mStartDate = mEndDate.minusDays(1);
+						mDatesDirty = true;
+					}
+					else {
+						Log.w("Start date (" + mStartDate
+								+ ") is AFTER max selectable date (" + mMaxSelectableDate
+								+ "); setting start date to max date (" + mMaxSelectableDate + ") (no end date)");
+						mStartDate = mMaxSelectableDate;
+						mDatesDirty = true;
+					}
+				}
+			}
+
+			// Now that we're internally consistent, sync whatever fields may have changed (either from
+			// the validation process or explicit changes before it)
+			if (mDisplayYearMonthDirty) {
+				syncDisplayMonthViews();
+				mDisplayYearMonthDirty = false;
+			}
+
+			if (mDatesDirty) {
+				syncDateSelectionViews();
+				mDatesDirty = false;
+
+				// TODO: Should we always notify, or only when it was changed by user interaction?
+				if (mListener != null) {
+					mListener.onDateSelectionChanged(mStartDate, mEndDate);
+				}
+			}
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -338,6 +484,8 @@ public class CalendarPicker extends LinearLayout {
 		YearMonth displayMonthYear;
 		LocalDate startDate;
 		LocalDate endDate;
+		LocalDate minSelectableDate;
+		LocalDate maxSelectableDate;
 
 		private SavedState(Parcelable superState) {
 			super(superState);
@@ -350,6 +498,8 @@ public class CalendarPicker extends LinearLayout {
 			out.writeString(displayMonthYear.toString());
 			JodaUtils.writeLocalDate(out, startDate);
 			JodaUtils.writeLocalDate(out, endDate);
+			JodaUtils.writeLocalDate(out, minSelectableDate);
+			JodaUtils.writeLocalDate(out, maxSelectableDate);
 		}
 
 		@SuppressWarnings("unused")
@@ -369,6 +519,8 @@ public class CalendarPicker extends LinearLayout {
 			displayMonthYear = YearMonth.parse(in.readString());
 			startDate = JodaUtils.readLocalDate(in);
 			endDate = JodaUtils.readLocalDate(in);
+			minSelectableDate = JodaUtils.readLocalDate(in);
+			maxSelectableDate = JodaUtils.readLocalDate(in);
 		}
 	}
 }

@@ -57,8 +57,8 @@ public class DatesFragment extends Fragment implements DateSelectionChangedListe
 		mEndTextView = Ui.findView(view, R.id.end_text_view);
 		mCalendarPicker = Ui.findView(view, R.id.calendar_picker);
 
-		setCalendarDates(mStartDate, mEndDate);
-
+		mCalendarPicker.setSelectableDateRange(LocalDate.now(), LocalDate.now().plusDays(330));
+		mCalendarPicker.setSelectedDates(mStartDate, mEndDate);
 		mCalendarPicker.setDateChangedListener(this);
 
 		updateStatusText();
@@ -71,13 +71,9 @@ public class DatesFragment extends Fragment implements DateSelectionChangedListe
 		mStartDate = searchParams.getStartDate();
 		mEndDate = searchParams.getEndDate();
 
-		if (getView() != null) {
-			setCalendarDates(mStartDate, mEndDate);
+		if (mCalendarPicker != null) {
+			mCalendarPicker.setSelectedDates(mStartDate, mEndDate);
 		}
-	}
-
-	public void setCalendarDates(LocalDate startDate, LocalDate endDate) {
-		mCalendarPicker.setSelectedDates(startDate, endDate);
 	}
 
 	private void updateStatusText() {
