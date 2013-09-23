@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewTreeObserver.OnPreDrawListener;
@@ -41,6 +40,7 @@ public class CalendarPicker extends LinearLayout {
 	private int mBaseColor;
 	private int mHighlightColor;
 	private int mHighlightInverseColor;
+	private int mTodayColor;
 
 	// Subviews
 	private TextView mPreviousMonthTextView;
@@ -80,6 +80,10 @@ public class CalendarPicker extends LinearLayout {
 
 			case R.styleable.CalendarPicker_calendarHighlightInverseColor:
 				mHighlightInverseColor = ta.getColor(attr, mHighlightInverseColor);
+				break;
+
+			case R.styleable.CalendarPicker_calendarTodayColor:
+				mTodayColor = ta.getColor(attr, mTodayColor);
 				break;
 			}
 		}
@@ -122,6 +126,7 @@ public class CalendarPicker extends LinearLayout {
 		mMonthView.setTextColor(mBaseColor);
 		mMonthView.setHighlightColor(mHighlightColor);
 		mMonthView.setHighlightInverseColor(mHighlightInverseColor);
+		mMonthView.setTodayColor(mTodayColor);
 		mMonthView.setMaxTextSize(mPreviousMonthTextView.getTextSize());
 	}
 

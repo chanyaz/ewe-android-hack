@@ -174,6 +174,9 @@
 
         <!-- Color used on top of the highlight color (should contrast) -->
         <attr name="calendarHighlightInverseColor" format="color" />
+
+        <!-- Color used to indicate which day is today -->
+        <attr name="calendarTodayColor" format="color" />
     </declare-styleable>
 
     <!-- VSC/EB attributes used for style switching in themes -->

@@ -76,6 +76,7 @@ public class MonthView extends View {
 
 	private TextPaint mTextPaint;
 	private TextPaint mTextInversePaint;
+	private TextPaint mTextTodayPaint;
 	private float mMaxTextSize;
 
 	private Paint mSelectionPaint;
@@ -118,6 +119,8 @@ public class MonthView extends View {
 
 		mTextInversePaint = new TextPaint(mTextPaint);
 
+		mTextTodayPaint = new TextPaint(mTextPaint);
+
 		mSelectionPaint = new Paint();
 		mSelectionPaint.setAntiAlias(true);
 
@@ -145,6 +148,10 @@ public class MonthView extends View {
 
 	public void setHighlightInverseColor(int color) {
 		mTextInversePaint.setColor(color);
+	}
+
+	public void setTodayColor(int color) {
+		mTextTodayPaint.setColor(color);
 	}
 
 	public void setMaxTextSize(float textSize) {
@@ -223,6 +230,7 @@ public class MonthView extends View {
 
 			// Make sure all other paints match size
 			mTextInversePaint.setTextSize(mTextPaint.getTextSize());
+			mTextTodayPaint.setTextSize(mTextPaint.getTextSize());
 		}
 	}
 
@@ -347,6 +355,7 @@ public class MonthView extends View {
 		// Draw each number
 		float textHeight = mTextPaint.descent() - mTextPaint.ascent();
 		float halfTextHeight = textHeight / 2;
+		LocalDate today = LocalDate.now();
 		for (int week = 0; week < ROWS; week++) {
 			for (int dayOfWeek = 0; dayOfWeek < COLS; dayOfWeek++) {
 				LocalDate date = mDays[week][dayOfWeek];
@@ -358,6 +367,9 @@ public class MonthView extends View {
 				if ((startCell != null && startCell[0] == week && startCell[1] == dayOfWeek)
 						|| (endCell != null && endCell[0] == week && endCell[1] == dayOfWeek)) {
 					paint = mTextInversePaint;
+				}
+				else if (date.equals(today)) {
+					paint = mTextTodayPaint;
 				}
 				else {
 					paint = mTextPaint;
