@@ -1,6 +1,7 @@
 package com.expedia.bookings.utils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -125,6 +126,15 @@ public class JodaUtils {
 
 		return DateUtils.getRelativeTimeSpanString(time.withZoneRetainFields(sThenTimeZone).getMillis(),
 				now.withZoneRetainFields(sThenTimeZone).getMillis(), minResolution, flags);
+	}
+
+	/**
+	 * @return the constant representing the first day of the week, according to Joda Time
+	 */
+	public static int getFirstDayOfWeek() {
+		// In Java, the first day of the week (1) is == Sunday
+		// In Joda, the first day of the week (1) is == Monday
+		return ((Calendar.getInstance().getFirstDayOfWeek() + 5) % 7) + 1;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
