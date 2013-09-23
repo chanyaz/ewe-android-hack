@@ -1,6 +1,5 @@
 package com.expedia.bookings.widget;
 
-import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
 
 import android.content.Context;
@@ -10,6 +9,8 @@ import android.graphics.Rect;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.expedia.bookings.utils.JodaUtils;
 
 /**
  * Shows the days of the week in a row: MON TUE WED etc.
@@ -65,19 +66,10 @@ public class DaysOfWeekView extends View {
 		mTextBounds = new Rect();
 
 		// Pre-load the days of the week in the current locale
-		int[] daysConstants = {
-			DateTimeConstants.SUNDAY,
-			DateTimeConstants.MONDAY,
-			DateTimeConstants.TUESDAY,
-			DateTimeConstants.WEDNESDAY,
-			DateTimeConstants.THURSDAY,
-			DateTimeConstants.FRIDAY,
-			DateTimeConstants.SATURDAY
-		};
 		mDaysOfWeek = new String[NUM_DAYS];
-		LocalDate now = LocalDate.now();
+		LocalDate firstDayOfWeek = LocalDate.now().withDayOfWeek(JodaUtils.getFirstDayOfWeek());
 		for (int a = 0; a < NUM_DAYS; a++) {
-			mDaysOfWeek[a] = now.withDayOfWeek(daysConstants[a]).dayOfWeek().getAsShortText().toUpperCase();
+			mDaysOfWeek[a] = firstDayOfWeek.plusDays(a).dayOfWeek().getAsShortText().toUpperCase();
 		}
 	}
 

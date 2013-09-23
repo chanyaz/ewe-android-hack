@@ -3,7 +3,6 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.time.DateTimeConstants;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 
@@ -21,6 +20,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.CalendarPicker.CalendarState;
 
 /**
@@ -57,9 +57,6 @@ public class MonthView extends View {
 
 	// The percentage of a cell that the selection should take up
 	private static final float SELECTION_PERCENT = .8f;
-
-	// TODO: Parameterize this eventually (for other locales)
-	private static final int FIRST_DAY_OF_WEEK = DateTimeConstants.SUNDAY;
 
 	private static final int ROWS = 6;
 	private static final int COLS = 7;
@@ -177,7 +174,7 @@ public class MonthView extends View {
 
 	private void precomputeGrid() {
 		LocalDate firstDayOfGrid = mState.getDisplayYearMonth().toLocalDate(1);
-		while (firstDayOfGrid.getDayOfWeek() != FIRST_DAY_OF_WEEK) {
+		while (firstDayOfGrid.getDayOfWeek() != JodaUtils.getFirstDayOfWeek()) {
 			firstDayOfGrid = firstDayOfGrid.minusDays(1);
 		}
 
