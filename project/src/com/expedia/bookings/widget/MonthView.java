@@ -165,7 +165,11 @@ public class MonthView extends View {
 		mMaxTextSize = textSize;
 	}
 
-	public void setDateSelection(LocalDate startDate, LocalDate endDate) {
+	public void setSelectedDates(LocalDate startDate, LocalDate endDate) {
+		setSelectedDates(startDate, endDate, true);
+	}
+
+	public void setSelectedDates(LocalDate startDate, LocalDate endDate, boolean notifyIfChanged) {
 		if (startDate != null && endDate != null && startDate.isAfter(endDate)) {
 			// Swap them so it always makes sense
 			LocalDate tmpDate = startDate;
@@ -176,7 +180,11 @@ public class MonthView extends View {
 		if ((startDate != null && !startDate.equals(mStartDate)) || (endDate != null && !endDate.equals(mEndDate))) {
 			mStartDate = startDate;
 			mEndDate = endDate;
-			notifyDateSelectionChanged();
+
+			if (notifyIfChanged) {
+				notifyDateSelectionChanged();
+			}
+
 			invalidate(); // TODO: Only invalidate parts that are needed
 		}
 	}
@@ -424,21 +432,21 @@ public class MonthView extends View {
 
 			if (mStartDate == null) {
 				// If no START, select start
-				setDateSelection(clickedDate, null);
+				setSelectedDates(clickedDate, null);
 			}
 			else if (mEndDate == null) {
 				if (clickedDate.isBefore(mStartDate)) {
 					// If clicked BEFORE start date, re-select start date
-					setDateSelection(clickedDate, null);
+					setSelectedDates(clickedDate, null);
 				}
 				else {
 					// Else create RANGE
-					setDateSelection(mStartDate, clickedDate);
+					setSelectedDates(mStartDate, clickedDate);
 				}
 			}
 			else if (!clickedDate.equals(mStartDate) && !clickedDate.equals(mEndDate)) {
 				// If clicked is not START or END, reset
-				setDateSelection(clickedDate, null);
+				setSelectedDates(clickedDate, null);
 			}
 
 			return true;
@@ -491,10 +499,10 @@ public class MonthView extends View {
 			}
 
 			if (mAnchorDate == null) {
-				setDateSelection(scrolledDate, null);
+				setSelectedDates(scrolledDate, null);
 			}
 			else {
-				setDateSelection(mAnchorDate, scrolledDate);
+				setSelectedDates(mAnchorDate, scrolledDate);
 			}
 
 			return true;

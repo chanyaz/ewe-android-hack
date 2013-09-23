@@ -149,9 +149,6 @@ public class CalendarPicker extends LinearLayout {
 		mDisplayYearMonth = ss.displayMonthYear;
 		mStartDate = ss.startDate;
 		mEndDate = ss.endDate;
-
-		mMonthView.setDisplayYearMonth(mDisplayYearMonth);
-		mMonthView.setDateSelection(mStartDate, mEndDate);
 	}
 
 	@Override
@@ -210,6 +207,21 @@ public class CalendarPicker extends LinearLayout {
 		mListener = listener;
 	}
 
+	public void setSelectedDates(LocalDate startDate, LocalDate endDate) {
+		if (startDate == null && endDate != null) {
+			throw new IllegalArgumentException("Can't set an end date without a start date!  end=" + endDate);
+		}
+		else if (startDate != null && endDate != null && endDate.isBefore(startDate)) {
+			throw new IllegalArgumentException("Can't set an end date BEFORE a start date!  start=" + startDate
+					+ " end=" + endDate);
+		}
+
+		mStartDate = startDate;
+		mEndDate = endDate;
+
+		syncViewsWithState();
+	}
+
 	public LocalDate getStartDate() {
 		return mStartDate;
 	}
@@ -235,6 +247,7 @@ public class CalendarPicker extends LinearLayout {
 
 		// Update month view
 		mMonthView.setDisplayYearMonth(mDisplayYearMonth);
+		mMonthView.setSelectedDates(mStartDate, mEndDate, false);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

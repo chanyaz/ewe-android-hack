@@ -77,9 +77,7 @@ public class DatesFragment extends Fragment implements DateSelectionChangedListe
 	}
 
 	public void setCalendarDates(LocalDate startDate, LocalDate endDate) {
-		// TODO: Redo with new CalendarPicker
-		//		CalendarUtils.updateCalendarPickerStartDate(mCalendarPicker, startDate);
-		//		CalendarUtils.updateCalendarPickerEndDate(mCalendarPicker, endDate);
+		mCalendarPicker.setSelectedDates(startDate, endDate);
 	}
 
 	private void updateStatusText() {
