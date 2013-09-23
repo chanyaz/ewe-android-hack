@@ -57,13 +57,16 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 
 	public void setNeighborhoods(List<Property> properties) {
 
-		// Find property in each location with the lowest price
 		SparseArray<Property> neighborhoods = new SparseArray<Property>();
-		for (Property property : properties) {
-			int locationId = property.getLocation().getLocationId();
-			Property lowest = neighborhoods.get(locationId);
-			if (lowest == null || lowest.getLowestRate().compareTo(property.getLowestRate()) > 0) {
-				neighborhoods.put(locationId, property);
+
+		if (properties != null) {
+			// Find property in each location with the lowest price
+			for (Property property : properties) {
+				int locationId = property.getLocation().getLocationId();
+				Property lowest = neighborhoods.get(locationId);
+				if (lowest == null || lowest.getLowestRate().compareTo(property.getLowestRate()) > 0) {
+					neighborhoods.put(locationId, property);
+				}
 			}
 		}
 
@@ -82,22 +85,27 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 		}
 
 		removeAllViews();
-		mNeighborhoods = new HashSet<Integer>();
-		for (Property property : sorted) {
-			String description = property.getLocation().getDescription();
-			Rate rate = property.getLowestRate();
-			String hotelPrice = StrUtils.formatHotelPrice(rate.getDisplayRate());
-			mNeighborhoods.add(property.getLocation().getLocationId());
+		if (sorted.size() == 0) {
+			// TODO: DESIGN: Do we want to show "no neighborhoods" or just make this GONE?
+		}
+		else {
+			mNeighborhoods = new HashSet<Integer>();
+			for (Property property : sorted) {
+				String description = property.getLocation().getDescription();
+				Rate rate = property.getLowestRate();
+				String hotelPrice = StrUtils.formatHotelPrice(rate.getDisplayRate());
+				mNeighborhoods.add(property.getLocation().getLocationId());
 
-			// TODO: This is temporary. We'll want to inflate a layout here once design is ready.
-			CheckBox row = new CheckBox(getContext());
-			row.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, 56));
-			row.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
-			row.setText(description + " - " + hotelPrice);
-			row.setChecked(true);
-			row.setTag(property);
-			row.setOnCheckedChangeListener(mCheckedChangedListener);
-			addView(row);
+				// TODO: This is temporary. We'll want to inflate a layout here once design is ready.
+				CheckBox row = new CheckBox(getContext());
+				row.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, 56));
+				row.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
+				row.setText(description + " - " + hotelPrice);
+				row.setChecked(true);
+				row.setTag(property);
+				row.setOnCheckedChangeListener(mCheckedChangedListener);
+				addView(row);
+			}
 		}
 	}
 
