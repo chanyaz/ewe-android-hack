@@ -8,23 +8,21 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightSearch;
+import com.expedia.bookings.data.FlightSearch.FlightTripQuery;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
-import com.expedia.bookings.data.FlightSearch.FlightTripQuery;
 import com.expedia.bookings.fragment.base.ResultsListFragment;
 import com.expedia.bookings.interfaces.IResultsFlightSelectedListener;
 import com.expedia.bookings.widget.FlightAdapter;
 import com.expedia.bookings.widget.SimpleColorAdapter;
 import com.expedia.bookings.widget.TabletFlightAdapter;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -66,6 +64,12 @@ public class ResultsFlightListFragment extends ResultsListFragment {
 		mFlightSelectedListener = Ui.findFragmentListener(this, IResultsFlightSelectedListener.class);
 	}
 
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		mAdapter.unregisterDataSetObserver(mDataSetObserver);
+	}
+
 	public void setLegPosition(int legNumber) {
 		mLegNumber = legNumber;
 	}
@@ -98,11 +102,7 @@ public class ResultsFlightListFragment extends ResultsListFragment {
 
 		FlightAdapter adapter = new TabletFlightAdapter(getActivity(), null);
 		mAdapter = adapter;
-		mAdapter.registerDataSetObserver(new DataSetObserver() {
-			public void onChanged() {
-				initializeStickyHeaderString();
-			}
-		});
+		mAdapter.registerDataSetObserver(mDataSetObserver);
 
 		// Make sure mLegNumber is in-bounds (should not be needed in production)
 		mLegNumber = Math.min(mLegNumber, Db.getFlightSearch().getSelectedLegs().length - 1);
@@ -145,4 +145,12 @@ public class ResultsFlightListFragment extends ResultsListFragment {
 	protected boolean initializeSortAndFilterEnabled() {
 		return mLegNumber <= 0;
 	}
+
+	private final DataSetObserver mDataSetObserver = new DataSetObserver() {
+		@Override
+		public void onChanged() {
+			initializeStickyHeaderString();
+		}
+	};
+
 }
