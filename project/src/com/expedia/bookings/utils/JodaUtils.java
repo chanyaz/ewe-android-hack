@@ -46,6 +46,22 @@ public class JodaUtils {
 	}
 
 	/**
+	 * Handles null cases while checking for equality.
+	 * @return true if they are equal, or if they are both null
+	 */
+	public static boolean isEqual(AbstractPartial first, AbstractPartial second) {
+		if (first == second) {
+			return true;
+		}
+
+		if (first != null && second != null) {
+			return first.isEqual(second);
+		}
+
+		return false;
+	}
+
+	/**
 	 * Checks if a timestamp has expired, given a particular cutoff
 	 * 
 	 * Returns true if:
