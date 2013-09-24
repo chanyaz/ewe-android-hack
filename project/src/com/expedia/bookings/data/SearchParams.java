@@ -372,14 +372,16 @@ public class SearchParams implements Parcelable, JSONable {
 	// Parcelable
 
 	private SearchParams(Parcel in) {
-		mOrigin = in.readParcelable(null);
-		mDestination = in.readParcelable(null);
+		ClassLoader cl = getClass().getClassLoader();
+
+		mOrigin = in.readParcelable(cl);
+		mDestination = in.readParcelable(cl);
 
 		mStartDate = JodaUtils.readLocalDate(in);
 		mEndDate = JodaUtils.readLocalDate(in);
 
 		mNumAdults = in.readInt();
-		in.readList(getChildAges(), null);
+		in.readList(getChildAges(), cl);
 	}
 
 	@Override
