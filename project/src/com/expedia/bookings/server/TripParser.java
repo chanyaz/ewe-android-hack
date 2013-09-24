@@ -84,6 +84,8 @@ public class TripParser {
 		trip.setBookingStatus(parseBookingStatus(tripJson.optString("bookingStatus")));
 		trip.setTimePeriod(parseTimePeriod(tripJson.optString("timePeriod")));
 
+		trip.setSharableDetailsUrl(tripJson.optString("sharableDetailsURL"));
+
 		trip.setCustomerSupport(parseCustomerSupport(tripJson.optJSONObject("customerSupport")));
 
 		trip.addTripComponents(parseTripComponents(tripJson));

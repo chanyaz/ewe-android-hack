@@ -28,6 +28,7 @@ import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripFlight;
+import com.expedia.bookings.widget.ItinCard;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Layover;
@@ -164,14 +165,14 @@ public class ShareUtils {
 
 	public String getFlightShareTextShort(ItinCardDataFlight itinCardData) {
 		if (itinCardData != null) {
-			return getFlightShareTextShort(itinCardData.getFlightLeg());
+			return getFlightShareTextShort(itinCardData.getFlightLeg(), itinCardData.getSharableDetailsUrl());
 		}
 		return null;
 	}
 
 	public String getHotelShareTextShort(ItinCardDataHotel itinCardData) {
 		return getHotelShareTextShort(itinCardData.getPropertyName(), itinCardData.getStartDate(),
-				itinCardData.getEndDate(), itinCardData.getDetailsUrl());
+				itinCardData.getEndDate(), itinCardData.getSharableDetailsUrl());
 	}
 
 	public String getCarShareTextShort(ItinCardDataCar itinCardData) {
@@ -180,28 +181,35 @@ public class ShareUtils {
 		DateTime dropOffDate = itinCardData.getDropOffDate();
 		String vendorName = itinCardData.getVendorName();
 		String vendorAddress = itinCardData.getRelevantVendorLocation().toLongFormattedString();
+		String sharabeDetailsURL = itinCardData.getSharableDetailsUrl();
 
-		return getCarShareTextShort(category, pickUpDate, dropOffDate, vendorName, vendorAddress);
+		return getCarShareTextShort(category, pickUpDate, dropOffDate, vendorName, vendorAddress, sharabeDetailsURL);
 	}
 
 	public String getActivityShareTextShort(ItinCardDataActivity itinCardData) {
 		return getActivityShareTextShort(itinCardData.getTitle(), itinCardData.getValidDate(),
-				itinCardData.getExpirationDate());
+				itinCardData.getExpirationDate(), itinCardData.getSharableDetailsUrl());
 	}
 
 	// SHARE TEXT LONG
 
 	public String getFlightShareTextLong(ItinCardDataFlight itinCardData) {
 		TripFlight tripFlight = (TripFlight) itinCardData.getTripComponent();
-		return getFlightShareEmail(itinCardData.getFlightLeg(), tripFlight.getTravelers());
+		return getFlightShareEmail(itinCardData.getFlightLeg(), tripFlight.getTravelers(),
+				itinCardData.getSharableDetailsUrl());
 	}
 
 	public String getFlightShareEmail(FlightTrip trip, List<Traveler> travelers) {
-		return getFlightShareEmail(trip, trip.getLeg(0), trip.getLeg(trip.getLegCount() - 1), travelers);
+		return getFlightShareEmail(trip, trip.getLeg(0), trip.getLeg(trip.getLegCount() - 1), travelers, null);
 	}
 
-	public String getFlightShareEmail(FlightLeg leg, List<Traveler> travelers) {
-		return getFlightShareEmail(null, leg, leg, travelers);
+	public String getFlightShareEmail(FlightTrip trip, List<Traveler> travelers, String sharableDetailsURL) {
+		return getFlightShareEmail(trip, trip.getLeg(0), trip.getLeg(trip.getLegCount() - 1), travelers,
+				sharableDetailsURL);
+	}
+
+	public String getFlightShareEmail(FlightLeg leg, List<Traveler> travelers, String sharableDetailsURL) {
+		return getFlightShareEmail(null, leg, leg, travelers, sharableDetailsURL);
 	}
 
 	public String getHotelShareTextLong(ItinCardDataHotel itinCardData) {
@@ -210,10 +218,10 @@ public class ShareUtils {
 		String phone = itinCardData.getRelevantPhone();
 		DateTime startDate = itinCardData.getStartDate();
 		DateTime endDate = itinCardData.getEndDate();
-		String detailsUrl = itinCardData.getDetailsUrl();
+		String sharableDetailsUrl = itinCardData.getSharableDetailsUrl();
 
 		return getHotelShareTextLong(hotelName, address, phone, startDate.toLocalDate(), endDate.toLocalDate(),
-				detailsUrl);
+				sharableDetailsUrl);
 	}
 
 	public String getCarShareTextLong(ItinCardDataCar itinCardData) {
@@ -223,13 +231,14 @@ public class ShareUtils {
 		CarVendor vendor = itinCardData.getCar().getVendor();
 		Location pickUpLocation = itinCardData.getPickUpLocation();
 		Location dropOffLocation = itinCardData.getDropOffLocation();
+		String sharableDetailsURL = itinCardData.getSharableDetailsUrl();
 
-		return getCarShareTextLong(category, pickUpDate, dropOffDate, vendor, pickUpLocation, dropOffLocation);
+		return getCarShareTextLong(category, pickUpDate, dropOffDate, vendor, pickUpLocation, dropOffLocation, sharableDetailsURL);
 	}
 
 	public String getActivityShareTextLong(ItinCardDataActivity itinCardData) {
 		return getActivityShareTextLong(itinCardData.getTitle(), itinCardData.getValidDate(),
-				itinCardData.getExpirationDate(), itinCardData.getTravelers(), itinCardData.getGuestCount());
+				itinCardData.getExpirationDate(), itinCardData.getTravelers(), itinCardData.getGuestCount(), itinCardData.getSharableDetailsUrl());
 	}
 
 	// Share methods
@@ -254,7 +263,7 @@ public class ShareUtils {
 		return mContext.getString(emailSubjectResId, destinationCity, dateRange);
 	}
 
-	public String getFlightShareTextShort(FlightLeg leg) {
+	public String getFlightShareTextShort(FlightLeg leg, String shareableDetailsURL) {
 		if (leg == null || leg.getLastWaypoint() == null || leg.getLastWaypoint().getAirport() == null) {
 			return null;
 		}
@@ -289,7 +298,7 @@ public class ShareUtils {
 					+ " " + arrivalTzString;
 
 			return String.format(template, airlineAndFlightNumber, destinationCity, departureDateStr,
-					originAirportCode, departureTimeStr, destinationAirportCode, arrivalStr, destinationGateTerminal);
+					originAirportCode, departureTimeStr, destinationAirportCode, arrivalStr, destinationGateTerminal, shareableDetailsURL);
 		}
 		//multi day
 		else {
@@ -303,11 +312,12 @@ public class ShareUtils {
 					+ arrivalTzString;
 
 			return String.format(template, airlineAndFlightNumber, destinationCity, originAirportCode,
-					departureDateTimeStr, destinationAirportCode, arrivalDateTimeStr, destinationGateTerminal);
+					departureDateTimeStr, destinationAirportCode, arrivalDateTimeStr, destinationGateTerminal, shareableDetailsURL);
 		}
 	}
 
-	public String getFlightShareEmail(FlightTrip trip, FlightLeg firstLeg, FlightLeg lastLeg, List<Traveler> travelers) {
+	public String getFlightShareEmail(FlightTrip trip, FlightLeg firstLeg, FlightLeg lastLeg, List<Traveler> travelers,
+			String sharableDetailsURL) {
 		int numTravelers = travelers.size();
 		boolean moreThanOneLeg = firstLeg != lastLeg;
 
@@ -344,13 +354,11 @@ public class ShareUtils {
 
 		if (trip != null && !TextUtils.isEmpty(trip.getItineraryNumber())) {
 			body.append(mContext.getString(R.string.share_flight_itinerary_TEMPLATE, trip.getItineraryNumber()));
-
 			body.append("\n\n");
 		}
 
 		if (moreThanOneLeg) {
 			body.append(mContext.getString(R.string.share_flight_section_outbound));
-
 			body.append("\n\n");
 		}
 
@@ -359,23 +367,24 @@ public class ShareUtils {
 		// Assume only round trips
 		if (moreThanOneLeg) {
 			body.append("\n\n");
-
 			body.append(mContext.getString(R.string.share_flight_section_return));
-
 			body.append("\n\n");
-
 			addShareLeg(body, lastLeg);
 		}
 
 		body.append("\n\n");
-
 		body.append(mContext.getString(R.string.share_travelers_section));
-
 		body.append("\n");
 
 		for (int i = 0; i < numTravelers; i++) {
 			Traveler traveler = travelers.get(i);
 			body.append(traveler.getFirstName() + " " + traveler.getLastName());
+			body.append("\n");
+		}
+
+		if (!TextUtils.isEmpty(sharableDetailsURL)) {
+			body.append("\n");
+			body.append(mContext.getString(R.string.share_link_section, sharableDetailsURL));
 			body.append("\n");
 		}
 
@@ -399,16 +408,16 @@ public class ShareUtils {
 		return String.format(template, city, checkIn, checkOut);
 	}
 
-	public String getHotelShareTextShort(String hotelName, DateTime startDate, DateTime endDate, String detailsUrl) {
+	public String getHotelShareTextShort(String hotelName, DateTime startDate, DateTime endDate, String sharableDetailsURL) {
 		String template = mContext.getString(R.string.share_template_short_hotel);
 		String checkIn = JodaUtils.formatDateTime(mContext, startDate, SHARE_CHECK_IN_FLAGS);
 		String checkOut = JodaUtils.formatDateTime(mContext, endDate, SHARE_CHECK_OUT_FLAGS);
 
-		return String.format(template, hotelName, checkIn, checkOut, detailsUrl);
+		return String.format(template, hotelName, checkIn, checkOut, sharableDetailsURL);
 	}
 
 	public String getHotelShareTextLong(String hotelName, String address, String phone, LocalDate startDate,
-			LocalDate endDate, String detailsUrl) {
+			LocalDate endDate, String sharableDetailsUrl) {
 
 		String checkIn = JodaUtils.formatLocalDate(mContext, startDate, LONG_SHARE_DATE_FLAGS);
 		String checkOut = JodaUtils.formatLocalDate(mContext, endDate, LONG_SHARE_DATE_FLAGS);
@@ -436,8 +445,8 @@ public class ShareUtils {
 			builder.append("\n\n");
 		}
 
-		if (detailsUrl != null) {
-			builder.append(mContext.getString(R.string.share_template_long_hotel_5_more_info, detailsUrl));
+		if (!TextUtils.isEmpty(sharableDetailsUrl)) {
+			builder.append(mContext.getString(R.string.share_link_section, sharableDetailsUrl));
 			builder.append("\n\n");
 		}
 
@@ -471,7 +480,7 @@ public class ShareUtils {
 	}
 
 	public String getCarShareTextShort(Car.Category carCategory, DateTime pickUpDateTime, DateTime dropOffDateTime,
-			String vendorName, String vendorAddress) {
+			String vendorName, String vendorAddress, String sharableDetailsURL) {
 
 		String category = mContext.getString(carCategory.getCategoryResId());
 		String pickUpDate = JodaUtils.formatDateTime(mContext, pickUpDateTime, SHORT_DATE_FLAGS);
@@ -496,12 +505,16 @@ public class ShareUtils {
 			sb.append("\n");
 			sb.append(vendorAddress);
 		}
+		if (!TextUtils.isEmpty(sharableDetailsURL)) {
+			sb.append("\n");
+			sb.append(sharableDetailsURL);
+		}
 
 		return sb.toString();
 	}
 
 	public String getCarShareTextLong(Car.Category carCategory, DateTime pickUpDateTime, DateTime dropOffDateTime,
-			CarVendor vendor, Location pickUpLocation, Location dropOffLocation) {
+			CarVendor vendor, Location pickUpLocation, Location dropOffLocation, String sharableDetailsURL) {
 
 		StringBuilder sb = new StringBuilder();
 
@@ -579,6 +592,13 @@ public class ShareUtils {
 			sb.append("\n");
 		}
 
+		if (!TextUtils.isEmpty(sharableDetailsURL)) {
+			sb.append(mContext.getString(R.string.share_link_section, sharableDetailsURL));
+			sb.append("\n");
+		}
+
+		sb.append("\n");
+
 		//1683. VSC Don't show Android App crossSell text and link.
 		if (!ExpediaBookingApp.IS_VSC) {
 			sb.append(mContext.getString(R.string.share_template_long_ad, PointOfSale.getPointOfSale().getAppInfoUrl()));
@@ -601,7 +621,7 @@ public class ShareUtils {
 		return subject;
 	}
 
-	public String getActivityShareTextShort(String title, DateTime validDateTime, DateTime expirationDateTime) {
+	public String getActivityShareTextShort(String title, DateTime validDateTime, DateTime expirationDateTime, String sharableDetailsURL) {
 		String validDate = JodaUtils.formatDateTime(mContext, validDateTime, SHARE_DATE_FLAGS);
 		String expirationDate = JodaUtils.formatDateTime(mContext, expirationDateTime, SHARE_DATE_FLAGS);
 
@@ -620,12 +640,16 @@ public class ShareUtils {
 			sb.append("\n");
 			sb.append(mContext.getString(R.string.share_template_short_activity_expires, expirationDate));
 		}
+		if (!TextUtils.isEmpty(sharableDetailsURL)) {
+			sb.append("\n");
+			sb.append(sharableDetailsURL);
+		}
 
 		return sb.toString();
 	}
 
 	public String getActivityShareTextLong(String title, DateTime validDateTime, DateTime expirationDateTime,
-			List<Traveler> travelers, int guestCount) {
+			List<Traveler> travelers, int guestCount, String sharableDetailsURL) {
 
 		String validDate = JodaUtils.formatDateTime(mContext, validDateTime, SHARE_DATE_FLAGS);
 		String expirationDate = JodaUtils.formatDateTime(mContext, expirationDateTime, SHARE_DATE_FLAGS);
@@ -657,7 +681,15 @@ public class ShareUtils {
 		sb.append(mContext.getString(R.string.share_template_long_activity_guests_with_count, guestCount,
 				TextUtils.join("\n", guests)));
 
-		sb.append("\n\n");
+		sb.append("\n");
+
+		if (!TextUtils.isEmpty(sharableDetailsURL)) {
+			sb.append("\n");
+			sb.append(mContext.getString(R.string.share_link_section, sharableDetailsURL));
+			sb.append("\n");
+		}
+
+		sb.append("\n");
 
 		//1683. VSC Don't show Android App crossSell text and link.
 		if (!ExpediaBookingApp.IS_VSC) {
