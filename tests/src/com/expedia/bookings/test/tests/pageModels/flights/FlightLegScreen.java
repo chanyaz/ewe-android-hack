@@ -4,18 +4,19 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.res.Resources;
 import android.view.View;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.tests.pageModels.common.ScreenActions;
 import com.expedia.bookings.test.utils.TestPreferences;
-import com.expedia.bookings.widget.TextView;
 
 public class FlightLegScreen extends ScreenActions {
 
-	private static final int sSelectFlightButton = R.id.select_text_view;
-	private static final int sCancelButton = R.id.cancel_button;
-	private static final int sBaggageFeeInfoTextViewID = R.id.fees_text_view;
-	private static final int sCheckingForPriceChangesStringID = R.string.loading_flight_details;
+	private static final int SELECT_FLIGHT_BUTTON_ID = R.id.select_text_view;
+	private static final int LEFT_TEXT_VIEW = R.id.left_text_view;
+	private static final int CANCEL_BUTTON_ID = R.id.cancel_button;
+	private static final int BAGGAGE_FEE_INFO_VIEW_ID = R.id.fees_text_view;
+	private static final int CHECKING_PRICE_CHANGES_VIEW_ID = R.string.loading_flight_details;
 
 	public FlightLegScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {
@@ -25,19 +26,23 @@ public class FlightLegScreen extends ScreenActions {
 	// Object access
 
 	public View selectFlightButton() {
-		return getView(sSelectFlightButton);
+		return getView(SELECT_FLIGHT_BUTTON_ID);
 	}
 
 	public View cancelButton() {
-		return getView(sCancelButton);
+		return getView(CANCEL_BUTTON_ID);
 	}
 
 	public TextView baggageFeeInfoTextView() {
-		return (TextView) getView(sBaggageFeeInfoTextViewID);
+		return (TextView) getView(BAGGAGE_FEE_INFO_VIEW_ID);
 	}
 
 	public String checkingForPriceChangesString() {
-		return mRes.getString(sCheckingForPriceChangesStringID);
+		return mRes.getString(CHECKING_PRICE_CHANGES_VIEW_ID);
+	}
+
+	public TextView durationTextView() {
+		return (TextView) getView(LEFT_TEXT_VIEW);
 	}
 
 	// Object interaction
