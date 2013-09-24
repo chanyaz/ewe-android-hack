@@ -84,12 +84,12 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		mVipAccessButton = Ui.findView(view, R.id.filter_vip_access);
 		mNeighborhoodLayout = Ui.findView(view, R.id.areas_layout);
 
-		// Configure labels
-		LayoutUtils.configureRadiusFilterLabels(getActivity(), mRadiusButtonGroup, Db.getFilter());
-
 		// Configure initial settings (based on the filter)
 		HotelFilter filter = Db.getFilter();
 		mHotelNameEditText.setText(filter.getHotelName());
+
+		// Configure radius labels
+		LayoutUtils.configureRadiusFilterLabels(getActivity(), mRadiusButtonGroup, filter);
 
 		int checkId;
 		switch (filter.getSort()) {

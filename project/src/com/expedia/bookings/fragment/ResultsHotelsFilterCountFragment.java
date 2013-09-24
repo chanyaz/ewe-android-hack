@@ -17,7 +17,7 @@ import com.mobiata.android.util.Ui;
 /**
  * ResultsFlightFiltersFragment: The filters fragment designed for tablet results 2013
  */
-public class ResultsHotelsFilterCountFragment extends Fragment {
+public class ResultsHotelsFilterCountFragment extends Fragment implements OnFilterChangedListener {
 
 	private RingedCountView mRingView;
 
@@ -48,27 +48,20 @@ public class ResultsHotelsFilterCountFragment extends Fragment {
 	public void onStart() {
 		super.onStart();
 
-		HotelFilter filter = Db.getFilter();
-		if (filter != null) {
-			filter.addOnFilterChangedListener(mListener);
-		}
+		Db.getFilter().addOnFilterChangedListener(this);
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
 
-		HotelFilter filter = Db.getFilter();
-		if (filter != null) {
-			filter.removeOnFilterChangedListener(mListener);
-		}
+		Db.getFilter().removeOnFilterChangedListener(this);
 	}
 
-	OnFilterChangedListener mListener = new OnFilterChangedListener() {
-		public void onFilterChanged() {
-			update();
-		}
-	};
+	@Override
+	public void onFilterChanged() {
+		update();
+	}
 
 	public void update() {
 		int count = 0;

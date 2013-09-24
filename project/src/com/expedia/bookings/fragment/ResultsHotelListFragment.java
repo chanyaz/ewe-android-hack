@@ -21,7 +21,7 @@ import com.mobiata.android.util.Ui;
 /**
  * ResultsHotelListFragment: The hotel list fragment designed for tablet results 2013
  */
-public class ResultsHotelListFragment extends ResultsListFragment {
+public class ResultsHotelListFragment extends ResultsListFragment implements OnFilterChangedListener {
 
 	public interface ISortAndFilterListener {
 		public void onSortAndFilterClicked();
@@ -43,28 +43,21 @@ public class ResultsHotelListFragment extends ResultsListFragment {
 	public void onStart() {
 		super.onStart();
 
-		HotelFilter filter = Db.getFilter();
-		if (filter != null) {
-			filter.addOnFilterChangedListener(mListener);
-		}
+		Db.getFilter().addOnFilterChangedListener(this);
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
 
-		HotelFilter filter = Db.getFilter();
-		if (filter != null) {
-			filter.removeOnFilterChangedListener(mListener);
-		}
+		Db.getFilter().removeOnFilterChangedListener(this);
 	}
 
-	OnFilterChangedListener mListener = new OnFilterChangedListener() {
-		public void onFilterChanged() {
-			updateAdapter();
-			setStickyHeaderText(initializeStickyHeaderString());
-		}
-	};
+	@Override
+	public void onFilterChanged() {
+		updateAdapter();
+		setStickyHeaderText(initializeStickyHeaderString());
+	}
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
