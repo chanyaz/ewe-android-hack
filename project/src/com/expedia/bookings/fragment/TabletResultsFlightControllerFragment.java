@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletResultsActivity.GlobalResultsState;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.fragment.base.ResultsListFragment;
 import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.interfaces.IResultsFlightSelectedListener;
 import com.expedia.bookings.interfaces.ITabletResultsController;
@@ -74,16 +75,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	//State
 	private static final String STATE_FLIGHTS_STATE = "STATE_HOTELS_STATE";
 	private static final String STATE_GLOBAL_STATE = "STATE_GLOBAL_STATE";
-
-	//Tags
-	private static final String FRAG_TAG_FLIGHT_MAP = "FRAG_TAG_FLIGHT_MAP";
-	private static final String FRAG_TAG_FLIGHT_ADD_TO_TRIP = "FRAG_TAG_FLIGHT_ADD_TO_TRIP";
-	private static final String FRAG_TAG_FLIGHT_ONE_FILTERS = "FRAG_TAG_FLIGHT_ONE_FILTERS";
-	private static final String FRAG_TAG_FLIGHT_ONE_LIST = "FRAG_TAG_FLIGHT_ONE_LIST";
-	private static final String FRAG_TAG_FLIGHT_TWO_FILTERS = "FRAG_TAG_FLIGHT_TWO_FILTERS";
-	private static final String FRAG_TAG_FLIGHT_TWO_LIST = "FRAG_TAG_FLIGHT_TWO_LIST";
-	private static final String FRAG_TAG_FLIGHT_ONE_DETAILS = "FRAG_TAG_FLIGHT_ONE_DETAILS";
-	private static final String FRAG_TAG_FLIGHT_TWO_DETAILS = "FRAG_TAG_FLIGHT_TWO_DETAILS";
 
 	//Containers
 	private ViewGroup mRootC;
@@ -702,29 +693,22 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			flightTwoDetailsAvailable = false;
 		}
 
-		//Flight map
-		setFlightMapFragmentAvailability(flightMapAvailable, transaction);
-
-		//Add to trip
-		setFlightAddToTripFragmentAvailability(flightAddToTripAvailable, transaction);
-
-		//Flight one list
-		setFlightOneListFragmentAvailability(flightOneListAvailable, transaction);
-
-		//Flight one filters
-		setFlightOneFilterFragmentAvailability(flightOneFiltersAvailable, transaction);
-
-		//Flight two list
-		setFlightTwoListFragmentAvailability(flightTwoListAvailable, transaction);
-
-		//Flight two filters
-		setFlightTwoFilterFragmentAvailability(flightTwoFiltersAvailabe, transaction);
-
-		//Flight one details
-		setFlightOneDetailsFragmentAvailability(flightOneDetailsAvailable, transaction);
-
-		//Flight two details
-		setFlightTwoDetailsFragmentAvailability(flightTwoDetailsAvailable, transaction);
+		mFlightMapFrag = (ResultsFlightMapFragment) setFragmentAvailability(flightMapAvailable, FragTag.FLIGHT_MAP,
+				transaction, R.id.bg_flight_map);
+		mAddToTripFrag = (ResultsFlightAddToTrip) setFragmentAvailability(flightAddToTripAvailable,
+				FragTag.FLIGHT_ADD_TO_TRIP, transaction, R.id.flights_add_to_trip);
+		mFlightOneListFrag = (ResultsFlightListFragment) setFragmentAvailability(flightOneListAvailable,
+				FragTag.FLIGHT_ONE_LIST, transaction, R.id.flight_one_list);
+		mFlightOneFilterFrag = (ResultsFlightFiltersFragment) setFragmentAvailability(flightOneFiltersAvailable,
+				FragTag.FLIGHT_ONE_FILTERS, transaction, R.id.flight_one_filters);
+		mFlightOneDetailsFrag = (ResultsFlightDetailsFragment) setFragmentAvailability(flightOneDetailsAvailable,
+				FragTag.FLIGHT_ONE_DETAILS, transaction, R.id.flight_one_details);
+		mFlightTwoListFrag = (ResultsFlightListFragment) setFragmentAvailability(flightTwoListAvailable,
+				FragTag.FLIGHT_TWO_LIST, transaction, R.id.flight_two_list);
+		mFlightTwoFilterFrag = (ResultsFlightFiltersFragment) setFragmentAvailability(flightTwoFiltersAvailabe,
+				FragTag.FLIGHT_TWO_FILTERS, transaction, R.id.flight_two_filters);
+		mFlightTwoDetailsFrag = (ResultsFlightDetailsFragment) setFragmentAvailability(flightTwoDetailsAvailable,
+				FragTag.FLIGHT_TWO_DETAILS, transaction, R.id.flight_two_details);
 
 		transaction.commit();
 
@@ -734,235 +718,154 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	 * FRAGMENT HELPERS
 	 */
 
-	private FragmentTransaction setFlightOneListFragmentAvailability(boolean available, FragmentTransaction transaction) {
-		if (available) {
-			if (mFlightOneListFrag == null || !mFlightOneListFrag.isAdded()) {
-
-				if (mFlightOneListFrag == null) {
-					mFlightOneListFrag = (ResultsFlightListFragment) getChildFragmentManager().findFragmentByTag(
-							FRAG_TAG_FLIGHT_ONE_LIST);
-				}
-				if (mFlightOneListFrag == null) {
-					mFlightOneListFrag = ResultsFlightListFragment.getInstance(0);
-				}
-				if (!mFlightOneListFrag.isAdded()) {
-					transaction.add(R.id.flight_one_list, mFlightOneListFrag, FRAG_TAG_FLIGHT_ONE_LIST);
-				}
-
-				mFlightOneListFrag.setChangeListener(mFruitProxy);
-				mFlightOneListFrag.setSortAndFilterButtonText(getString(R.string.Done));
-			}
-		}
-		else {
-			if (mFlightOneListFrag == null) {
-				mFlightOneListFrag = (ResultsFlightListFragment) getChildFragmentManager().findFragmentByTag(
-						FRAG_TAG_FLIGHT_ONE_LIST);
-			}
-			if (mFlightOneListFrag != null) {
-				transaction.remove(mFlightOneListFrag);
-			}
-		}
-		return transaction;
+	private enum FragTag {
+		FLIGHT_MAP,
+		FLIGHT_ADD_TO_TRIP,
+		FLIGHT_ONE_FILTERS,
+		FLIGHT_ONE_LIST,
+		FLIGHT_TWO_FILTERS,
+		FLIGHT_TWO_LIST,
+		FLIGHT_ONE_DETAILS,
+		FLIGHT_TWO_DETAILS
 	}
 
-	private FragmentTransaction setFlightTwoListFragmentAvailability(boolean available, FragmentTransaction transaction) {
+	private Fragment setFragmentAvailability(boolean available, FragTag tag, FragmentTransaction transaction,
+			int container) {
+		Fragment frag = fragmentGetLocalInstance(tag);
+		if (frag == null) {
+			frag = getChildFragmentManager().findFragmentByTag(tag.name());
+		}
 		if (available) {
-			if (mFlightTwoListFrag == null || !mFlightTwoListFrag.isAdded()) {
-
-				if (mFlightTwoListFrag == null) {
-					mFlightTwoListFrag = (ResultsFlightListFragment) getChildFragmentManager().findFragmentByTag(
-							FRAG_TAG_FLIGHT_TWO_LIST);
+			if (frag == null || !frag.isAdded()) {
+				if (frag == null) {
+					frag = fragmentNewInstance(tag);
 				}
-				if (mFlightTwoListFrag == null) {
-					mFlightTwoListFrag = ResultsFlightListFragment.getInstance(1);
+				if (!frag.isAdded()) {
+					transaction.add(container, frag, tag.name());
 				}
-				if (!mFlightTwoListFrag.isAdded()) {
-					transaction.add(R.id.flight_two_list, mFlightTwoListFrag, FRAG_TAG_FLIGHT_TWO_LIST);
-				}
-				mFlightTwoListFrag.gotoTopPosition(0);
-				mFlightTwoListFrag.setListLockedToTop(true);
+				fragmentSetup(tag, frag);
 			}
 		}
 		else {
-			if (mFlightTwoListFrag == null) {
-				mFlightTwoListFrag = (ResultsFlightListFragment) getChildFragmentManager().findFragmentByTag(
-						FRAG_TAG_FLIGHT_TWO_LIST);
+			if (frag != null) {
+				transaction.remove(frag);
 			}
-			if (mFlightTwoListFrag != null) {
-				transaction.remove(mFlightTwoListFrag);
-			}
+			frag = null;
 		}
-		return transaction;
+		return frag;
 	}
 
-	private FragmentTransaction setFlightAddToTripFragmentAvailability(boolean available,
-			FragmentTransaction transaction) {
-		if (available) {
-			if (mAddToTripFrag == null || !mAddToTripFrag.isAdded()) {
-				if (mAddToTripFrag == null) {
-					mAddToTripFrag = (ResultsFlightAddToTrip) getChildFragmentManager().findFragmentByTag(
-							FRAG_TAG_FLIGHT_ADD_TO_TRIP);
-				}
-				if (mAddToTripFrag == null) {
-					mAddToTripFrag = ResultsFlightAddToTrip.newInstance();
-				}
-				if (!mAddToTripFrag.isAdded()) {
-					transaction.add(R.id.flights_add_to_trip, mAddToTripFrag, FRAG_TAG_FLIGHT_ADD_TO_TRIP);
-				}
-			}
+	public Fragment fragmentGetLocalInstance(FragTag tag) {
+		Fragment frag = null;
+		switch (tag) {
+		case FLIGHT_MAP: {
+			frag = this.mFlightMapFrag;
+			break;
 		}
-		else {
-			if (mAddToTripFrag == null) {
-				mAddToTripFrag = (ResultsFlightAddToTrip) getChildFragmentManager().findFragmentByTag(
-						FRAG_TAG_FLIGHT_ADD_TO_TRIP);
-			}
-			if (mAddToTripFrag != null) {
-				transaction.remove(mAddToTripFrag);
-			}
+		case FLIGHT_ADD_TO_TRIP: {
+			frag = this.mAddToTripFrag;
+			break;
 		}
-		return transaction;
+		case FLIGHT_ONE_FILTERS: {
+			frag = this.mFlightOneFilterFrag;
+			break;
+		}
+		case FLIGHT_ONE_LIST: {
+			frag = this.mFlightOneListFrag;
+			break;
+		}
+		case FLIGHT_TWO_FILTERS: {
+			frag = this.mFlightTwoFilterFrag;
+			break;
+		}
+		case FLIGHT_TWO_LIST: {
+			frag = this.mFlightTwoListFrag;
+			break;
+		}
+		case FLIGHT_ONE_DETAILS: {
+			frag = this.mFlightOneDetailsFrag;
+			break;
+		}
+		case FLIGHT_TWO_DETAILS: {
+			frag = this.mFlightTwoDetailsFrag;
+			break;
+		}
+		}
+		return frag;
 	}
 
-	private FragmentTransaction setFlightMapFragmentAvailability(boolean available,
-			FragmentTransaction transaction) {
-		if (available) {
-			if (mFlightMapFrag == null || !mFlightMapFrag.isAdded()) {
-				if (mFlightMapFrag == null) {
-					mFlightMapFrag = (ResultsFlightMapFragment) getChildFragmentManager().findFragmentByTag(
-							FRAG_TAG_FLIGHT_MAP);
-				}
-				if (mFlightMapFrag == null) {
-					mFlightMapFrag = ResultsFlightMapFragment.newInstance();
-				}
-				if (!mFlightMapFrag.isAdded()) {
-					transaction.add(R.id.bg_flight_map, mFlightMapFrag, FRAG_TAG_FLIGHT_MAP);
-				}
-			}
+	public Fragment fragmentNewInstance(FragTag tag) {
+		Fragment frag = null;
+		switch (tag) {
+		case FLIGHT_MAP: {
+			frag = ResultsFlightMapFragment.newInstance();
+			break;
 		}
-		else {
-			if (mFlightMapFrag == null) {
-				mFlightMapFrag = (ResultsFlightMapFragment) getChildFragmentManager().findFragmentByTag(
-						FRAG_TAG_FLIGHT_MAP);
-			}
-			if (mFlightMapFrag != null) {
-				transaction.remove(mFlightMapFrag);
-			}
+		case FLIGHT_ADD_TO_TRIP: {
+			frag = ResultsFlightAddToTrip.newInstance();
+			break;
 		}
-		return transaction;
+		case FLIGHT_ONE_FILTERS: {
+			frag = ResultsFlightFiltersFragment.newInstance(0);
+			break;
+		}
+		case FLIGHT_ONE_LIST: {
+			frag = ResultsFlightListFragment.getInstance(0);
+			break;
+		}
+		case FLIGHT_TWO_FILTERS: {
+			frag = ResultsFlightFiltersFragment.newInstance(1);
+			break;
+		}
+		case FLIGHT_TWO_LIST: {
+			frag = ResultsFlightListFragment.getInstance(1);
+			break;
+		}
+		case FLIGHT_ONE_DETAILS: {
+			frag = ResultsFlightDetailsFragment.newInstance(0);
+			break;
+		}
+		case FLIGHT_TWO_DETAILS: {
+			frag = ResultsFlightDetailsFragment.newInstance(1);
+			break;
+		}
+		}
+		return frag;
 	}
 
-	private FragmentTransaction setFlightOneFilterFragmentAvailability(boolean available,
-			FragmentTransaction transaction) {
-		if (available) {
-			if (mFlightOneFilterFrag == null || !mFlightOneFilterFrag.isAdded()) {
-				if (mFlightOneFilterFrag == null) {
-					mFlightOneFilterFrag = (ResultsFlightFiltersFragment) getChildFragmentManager().findFragmentByTag(
-							FRAG_TAG_FLIGHT_ONE_FILTERS);
-				}
-				if (mFlightOneFilterFrag == null) {
-					mFlightOneFilterFrag = ResultsFlightFiltersFragment.newInstance(0);
-				}
-				if (!mFlightOneFilterFrag.isAdded()) {
-					transaction.add(R.id.flight_one_filters, mFlightOneFilterFrag, FRAG_TAG_FLIGHT_ONE_FILTERS);
-				}
-			}
+	public void fragmentSetup(FragTag tag, Fragment frag) {
+		switch (tag) {
+		case FLIGHT_MAP: {
+			break;
 		}
-		else {
-			if (mFlightOneFilterFrag == null) {
-				mFlightOneFilterFrag = (ResultsFlightFiltersFragment) getChildFragmentManager().findFragmentByTag(
-						FRAG_TAG_FLIGHT_ONE_FILTERS);
-			}
-			if (mFlightOneFilterFrag != null) {
-				transaction.remove(mFlightOneFilterFrag);
-			}
+		case FLIGHT_ADD_TO_TRIP: {
+			break;
 		}
-		return transaction;
-	}
-
-	private FragmentTransaction setFlightTwoFilterFragmentAvailability(boolean available,
-			FragmentTransaction transaction) {
-		if (available) {
-			if (mFlightTwoFilterFrag == null || !mFlightTwoFilterFrag.isAdded()) {
-				if (mFlightTwoFilterFrag == null) {
-					mFlightTwoFilterFrag = (ResultsFlightFiltersFragment) getChildFragmentManager().findFragmentByTag(
-							FRAG_TAG_FLIGHT_TWO_FILTERS);
-				}
-				if (mFlightTwoFilterFrag == null) {
-					mFlightTwoFilterFrag = ResultsFlightFiltersFragment.newInstance(1);
-				}
-				if (!mFlightTwoFilterFrag.isAdded()) {
-					transaction.add(R.id.flight_two_filters, mFlightTwoFilterFrag, FRAG_TAG_FLIGHT_TWO_FILTERS);
-				}
-			}
+		case FLIGHT_ONE_FILTERS: {
+			break;
 		}
-		else {
-			if (mFlightTwoFilterFrag == null) {
-				mFlightTwoFilterFrag = (ResultsFlightFiltersFragment) getChildFragmentManager().findFragmentByTag(
-						FRAG_TAG_FLIGHT_TWO_FILTERS);
-			}
-			if (mFlightTwoFilterFrag != null) {
-				transaction.remove(mFlightTwoFilterFrag);
-			}
+		case FLIGHT_ONE_LIST: {
+			((ResultsListFragment) frag).setChangeListener(mFruitProxy);
+			((ResultsListFragment) frag).setSortAndFilterButtonText(getString(R.string.Done));
+			break;
 		}
-		return transaction;
-	}
-
-	private FragmentTransaction setFlightOneDetailsFragmentAvailability(boolean available,
-			FragmentTransaction transaction) {
-		if (available) {
-			if (mFlightOneDetailsFrag == null || !mFlightOneDetailsFrag.isAdded()) {
-				if (mFlightOneDetailsFrag == null) {
-					mFlightOneDetailsFrag = (ResultsFlightDetailsFragment) getChildFragmentManager().findFragmentByTag(
-							FRAG_TAG_FLIGHT_ONE_DETAILS);
-				}
-				if (mFlightOneDetailsFrag == null) {
-					mFlightOneDetailsFrag = ResultsFlightDetailsFragment.newInstance(0);
-				}
-				if (!mFlightOneDetailsFrag.isAdded()) {
-					transaction.add(R.id.flight_one_details, mFlightOneDetailsFrag, FRAG_TAG_FLIGHT_ONE_DETAILS);
-				}
-			}
-			updateDetailsFragSizes(mFlightOneDetailsFrag);
+		case FLIGHT_TWO_FILTERS: {
+			break;
 		}
-		else {
-			if (mFlightOneDetailsFrag == null) {
-				mFlightOneDetailsFrag = (ResultsFlightDetailsFragment) getChildFragmentManager().findFragmentByTag(
-						FRAG_TAG_FLIGHT_ONE_DETAILS);
-			}
-			if (mFlightOneDetailsFrag != null) {
-				transaction.remove(mFlightOneDetailsFrag);
-			}
+		case FLIGHT_TWO_LIST: {
+			((ResultsListFragment) frag).gotoTopPosition(0);
+			((ResultsListFragment) frag).setListLockedToTop(true);
+			break;
 		}
-		return transaction;
-	}
-
-	private FragmentTransaction setFlightTwoDetailsFragmentAvailability(boolean available,
-			FragmentTransaction transaction) {
-		if (available) {
-			if (mFlightTwoDetailsFrag == null || !mFlightTwoDetailsFrag.isAdded()) {
-				if (mFlightTwoDetailsFrag == null) {
-					mFlightTwoDetailsFrag = (ResultsFlightDetailsFragment) getChildFragmentManager().findFragmentByTag(
-							FRAG_TAG_FLIGHT_TWO_DETAILS);
-				}
-				if (mFlightTwoDetailsFrag == null) {
-					mFlightTwoDetailsFrag = ResultsFlightDetailsFragment.newInstance(1);
-				}
-				if (!mFlightTwoDetailsFrag.isAdded()) {
-					transaction.add(R.id.flight_two_details, mFlightTwoDetailsFrag, FRAG_TAG_FLIGHT_TWO_DETAILS);
-				}
-			}
-			updateDetailsFragSizes(mFlightTwoDetailsFrag);
+		case FLIGHT_ONE_DETAILS: {
+			updateDetailsFragSizes((ResultsFlightDetailsFragment) frag);
+			break;
 		}
-		else {
-			if (mFlightTwoDetailsFrag == null) {
-				mFlightTwoDetailsFrag = (ResultsFlightDetailsFragment) getChildFragmentManager().findFragmentByTag(
-						FRAG_TAG_FLIGHT_TWO_DETAILS);
-			}
-			if (mFlightTwoDetailsFrag != null) {
-				transaction.remove(mFlightTwoDetailsFrag);
-			}
+		case FLIGHT_TWO_DETAILS: {
+			updateDetailsFragSizes((ResultsFlightDetailsFragment) frag);
+			break;
 		}
-		return transaction;
+		}
 	}
 
 	@Override
