@@ -233,4 +233,7 @@
     <!-- This gets overridden for small screens (in values-small) -->
     <dimen name="number_picker_text_size">20sp</dimen>
 
+    <!-- For map pins on tablet launch screen -->
+    <dimen name="tablet_launch_map_pin_size">172dp</dimen>
+
 </resources>

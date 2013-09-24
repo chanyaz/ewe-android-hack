@@ -965,4 +965,13 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <!-- For the tablet launch map pins -->
+    <style name="MapPinUpperTextAppearance">
+        <item name="android:textColor">@color/actionbar_text</item>
+        <item name="android:textSize">20dp</item>
+    </style>
+    <style name="MapPinLowerTextAppearance">
+        <item name="android:textColor">@color/actionbar_text</item>
+        <item name="android:textSize">16dp</item>
+    </style>
 </resources>

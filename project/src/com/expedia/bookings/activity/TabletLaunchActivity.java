@@ -20,13 +20,12 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.fragment.ExpediaServicesFragment;
 import com.expedia.bookings.fragment.ExpediaServicesFragment.ExpediaServicesFragmentListener;
 import com.expedia.bookings.fragment.ExpediaServicesFragment.ServiceType;
+import com.expedia.bookings.fragment.SvgMapFragment;
 import com.expedia.bookings.fragment.TabletSearchFragment;
 import com.expedia.bookings.fragment.TabletSearchFragment.SearchFragmentListener;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
 import com.expedia.bookings.fragment.base.MeasurableFragmentListener;
 import com.expedia.bookings.fragment.debug.ColorFragment;
-import com.expedia.bookings.maps.SupportMapFragment;
-import com.expedia.bookings.maps.SvgTileProvider;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
@@ -41,7 +40,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	// On top when search params covers up everything
 	private static final String BACKSTACK_SEARCH_PARAMS = "BACKSTACK_SEARCH_PARAMS";
 
-	private SupportMapFragment mMapFragment;
+	private MeasurableFragment mMapFragment;
 	private MeasurableFragment mTilesFragment;
 	private TabletSearchFragment mSearchFragment;
 
@@ -65,7 +64,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 		FragmentManager fm = getSupportFragmentManager();
 		if (savedInstanceState == null) {
-			mMapFragment = SupportMapFragment.newInstance();
+			mMapFragment = SvgMapFragment.newInstance();
 			mTilesFragment = ColorFragment.newInstance(Color.argb(100, 0, 0, 0));
 			mSearchFragment = new TabletSearchFragment();
 			mServicesFragment = new ExpediaServicesFragment();
@@ -186,11 +185,6 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 	@Override
 	public void canMeasure(Fragment fragment) {
-		if (fragment == mMapFragment) {
-			SupportMapFragment mapFragment = (SupportMapFragment) fragment;
-			SvgTileProvider.addToMap(this, mapFragment.getMap());
-		}
-
 		if ((fragment == mMapFragment || fragment == mSearchFragment || fragment == mTilesFragment)
 				&& mMapFragment.isMeasurable() && mSearchFragment.isMeasurable() && mTilesFragment.isMeasurable()) {
 			mSearchFragment.setInitialTranslationY(mMapFragment.getView().getHeight()
