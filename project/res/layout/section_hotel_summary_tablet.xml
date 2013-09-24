@@ -11,11 +11,12 @@
     mobiata:priceTextColor="?attr/hotelPriceStandardColor"
     mobiata:salePriceTextColor="?attr/hotelPriceSaleColor" >
 
+    <!-- TODO: revisit the background view here. -->
     <com.expedia.bookings.widget.OptimizedImageView
         android:id="@+id/hotel_background_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="fitXY" />
+        android:scaleType="fitCenter" />
 
     <LinearLayout
         android:layout_width="match_parent"
