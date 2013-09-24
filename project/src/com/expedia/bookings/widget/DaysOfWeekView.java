@@ -1,14 +1,21 @@
 package com.expedia.bookings.widget;
 
+import java.util.List;
+
 import org.joda.time.LocalDate;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint.Align;
 import android.graphics.Rect;
+import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
+import android.support.v4.widget.ExploreByTouchHelper;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.accessibility.AccessibilityEvent;
 
 import com.expedia.bookings.utils.JodaUtils;
 
@@ -46,6 +53,11 @@ public class DaysOfWeekView extends View {
 
 	// Cached, used for measuring
 	private Rect mTextBounds;
+
+	// Cached for faster draws
+	private float mColWidth;
+	private float mHalfColWidth;
+	private float mDrawY;
 
 	public DaysOfWeekView(Context context) {
 		this(context, null);
@@ -116,16 +128,21 @@ public class DaysOfWeekView extends View {
 	}
 
 	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		super.onSizeChanged(w, h, oldw, oldh);
+
+		mColWidth = (float) w / NUM_DAYS;
+		mHalfColWidth = mColWidth / 2.0f;
+		mDrawY = h - mTextPaint.descent();
+	}
+
+	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 
-		float colWidth = (float) getWidth() / NUM_DAYS;
-		float halfColWidth = colWidth / 2.0f;
-		float y = getHeight() - mTextPaint.descent();
-
 		for (int a = 0; a < NUM_DAYS; a++) {
-			float centerOfCol = (colWidth * a) + halfColWidth;
-			canvas.drawText(mDaysOfWeek[a], centerOfCol, y, mTextPaint);
+			float centerOfCol = (mColWidth * a) + mHalfColWidth;
+			canvas.drawText(mDaysOfWeek[a], centerOfCol, mDrawY, mTextPaint);
 		}
 	}
 
