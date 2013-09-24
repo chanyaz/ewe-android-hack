@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
@@ -49,6 +50,11 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 	private boolean mAddingHotelTrip = false;
 	private boolean mAddingFlightTrip = false;
+
+	private Object mAddToTripData;
+	private Rect mAddToTripOriginCoordinates;
+	private int mAddToTripShadeColor;
+	private boolean mHasPreppedAddToTripAnimation = false;
 
 	private CubicBezierAnimation mBezierAnimation;
 	private float mAddTripEndScaleX = 1f;
@@ -264,14 +270,16 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 			mTripAnimationC.setTranslationY(mBezierAnimation.getYInterpolator().interpolate(percentage));
 
 			//Scale
-			if(mAddTripEndScaleX > 1f){
+			if (mAddTripEndScaleX > 1f) {
 				mTripAnimationC.setScaleX(1f + percentage * (mAddTripEndScaleX - 1f));
-			}else{
+			}
+			else {
 				mTripAnimationC.setScaleX(1f - (1f - mAddTripEndScaleX) * percentage);
 			}
-			if(mAddTripEndScaleY > 1f){
+			if (mAddTripEndScaleY > 1f) {
 				mTripAnimationC.setScaleY(1f + percentage * (mAddTripEndScaleY - 1f));
-			}else{
+			}
+			else {
 				mTripAnimationC.setScaleY(1f - (1f - mAddTripEndScaleY) * percentage);
 			}
 
@@ -317,76 +325,107 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 	@Override
 	public void beginAddToTrip(Object data, Rect globalCoordinates, int shadeColor) {
-		//TODO: WE ARE NOT GOING TO ALWAYS BE PASSING ARBITRARY STRINGS AROUND
-		boolean isFlights = (data instanceof String && ((String) data).equalsIgnoreCase("FLIGHTS"));
 
-		Rect origRect = ScreenPositionUtils.translateGlobalPositionToLocalPosition(globalCoordinates,mRootC);
+		mAddToTripData = data;
+		mAddToTripOriginCoordinates = globalCoordinates;
+		mAddToTripShadeColor = shadeColor;
 
-		Rect destRect;
-		if (isFlights) {
-			destRect = ScreenPositionUtils.translateGlobalPositionToLocalPosition(mTripOverviewFrag.getFlightContainerRect(),mRootC);
-		}else{
-			destRect = ScreenPositionUtils.translateGlobalPositionToLocalPosition(mTripOverviewFrag.getHotelContainerRect(),mRootC);
-		}
+		//Ideally we want to put things in place and have them ready when the trip handoff happens.
+		prepareAddToTripAnimation();
 
-		//Do calculations
-		int originWidth = origRect.right - origRect.left;
-		int originHeight = origRect.bottom - origRect.top;
-		int destWidth = destRect.right - destRect.left;
-		int destHeight = destRect.bottom - destRect.top;
-
-		//Position the view where it will be ending up, but sized as it will be starting...
-		LayoutParams params = (LayoutParams) mTripAnimationC.getLayoutParams();
-		params.leftMargin = destRect.left;
-		params.topMargin = destRect.top;
-		params.width = originWidth;
-		params.height = originHeight;
-		mTripAnimationC.setLayoutParams(params);
-
-		if (isFlights) {
-			mTripAnimationC.addView(mTripOverviewFrag.getFlightViewForAddTrip(), LayoutParams.MATCH_PARENT,
-					LayoutParams.MATCH_PARENT);
-		}
-		else {
-			mTripAnimationC.addView(mTripOverviewFrag.getHotelViewForAddTrip(), LayoutParams.MATCH_PARENT,
-					LayoutParams.MATCH_PARENT);
-		}
-
-
-		//Translation. We setup the translation animation to start at deltaX, deltaY and animate
-		// to it's final resting place of (0,0), i.e. no translation.
-		int deltaX = origRect.left - destRect.left;
-		int deltaY = origRect.top - destRect.top;
-		mBezierAnimation = CubicBezierAnimation.newOutsideInAnimation(deltaX, deltaY, 0, 0);
-
-		mAddTripEndScaleX = (float) destWidth / originWidth;
-		mAddTripEndScaleY = (float) destHeight / originHeight;
-
-		//Set initial values
-		mTripAnimationC.setAlpha(0f);
-		mTripAnimationC.setVisibility(View.VISIBLE);
-		mTripAnimationC.setPivotX(0);
-		mTripAnimationC.setPivotY(0);
-		mTripAnimationC.setScaleX(1f);
-		mTripAnimationC.setScaleY(1f);
-		mTripAnimationC.setTranslationX(deltaX);
-		mTripAnimationC.setTranslationY(deltaY);
-
-		mShadeC.setBackgroundColor(shadeColor);
-		if (isFlights) {
-			mAddingFlightTrip = true;
-		}
-		else {
-			mAddingHotelTrip = true;
-		}
 	}
 
 	@Override
 	public void performTripHandoff() {
+		//Do another prepare pass, so if layout has changed, our animation isnt wonky
+		prepareAddToTripAnimation();
+
+		//clean up
+		mHasPreppedAddToTripAnimation = false;
+		mAddToTripData = null;
+		mAddToTripOriginCoordinates = null;
+		mAddToTripShadeColor = Color.TRANSPARENT;
+
+		//Set animation starting state
 		mShadeC.setVisibility(View.VISIBLE);
 		mTripAnimationC.setVisibility(View.VISIBLE);
 		mTripAnimationC.setAlpha(1f);
 		mShadeC.setAlpha(1f);
 	}
 
+	private void prepareAddToTripAnimation() {
+		//TODO: WE ARE NOT GOING TO ALWAYS BE PASSING ARBITRARY STRINGS AROUND
+		boolean isFlights = (mAddToTripData instanceof String && ((String) mAddToTripData)
+				.equalsIgnoreCase("FLIGHTS"));
+
+		Rect destRect;
+		if (isFlights) {
+			destRect = ScreenPositionUtils.translateGlobalPositionToLocalPosition(
+					mTripOverviewFrag.getFlightContainerRect(), mRootC);
+		}
+		else {
+			destRect = ScreenPositionUtils.translateGlobalPositionToLocalPosition(
+					mTripOverviewFrag.getHotelContainerRect(), mRootC);
+		}
+
+		LayoutParams params = (LayoutParams) mTripAnimationC.getLayoutParams();
+		if (!mHasPreppedAddToTripAnimation || params.leftMargin != destRect.left
+				|| params.topMargin != destRect.top) {
+
+			Rect origRect = ScreenPositionUtils.translateGlobalPositionToLocalPosition(mAddToTripOriginCoordinates,
+					mRootC);
+
+			//Do calculations
+			int originWidth = origRect.right - origRect.left;
+			int originHeight = origRect.bottom - origRect.top;
+			int destWidth = destRect.right - destRect.left;
+			int destHeight = destRect.bottom - destRect.top;
+
+			//Position the view where it will be ending up, but sized as it will be starting...
+
+			params.leftMargin = destRect.left;
+			params.topMargin = destRect.top;
+			params.width = originWidth;
+			params.height = originHeight;
+			mTripAnimationC.setLayoutParams(params);
+
+			if (isFlights) {
+				mTripAnimationC.addView(mTripOverviewFrag.getFlightViewForAddTrip(), LayoutParams.MATCH_PARENT,
+						LayoutParams.MATCH_PARENT);
+			}
+			else {
+				mTripAnimationC.addView(mTripOverviewFrag.getHotelViewForAddTrip(), LayoutParams.MATCH_PARENT,
+						LayoutParams.MATCH_PARENT);
+			}
+
+			//Translation. We setup the translation animation to start at deltaX, deltaY and animate
+			// to it's final resting place of (0,0), i.e. no translation.
+			int deltaX = origRect.left - destRect.left;
+			int deltaY = origRect.top - destRect.top;
+			mBezierAnimation = CubicBezierAnimation.newOutsideInAnimation(deltaX, deltaY, 0, 0);
+
+			mAddTripEndScaleX = (float) destWidth / originWidth;
+			mAddTripEndScaleY = (float) destHeight / originHeight;
+
+			//Set initial values
+			mTripAnimationC.setAlpha(0f);
+			mTripAnimationC.setVisibility(View.VISIBLE);
+			mTripAnimationC.setPivotX(0);
+			mTripAnimationC.setPivotY(0);
+			mTripAnimationC.setScaleX(1f);
+			mTripAnimationC.setScaleY(1f);
+			mTripAnimationC.setTranslationX(deltaX);
+			mTripAnimationC.setTranslationY(deltaY);
+
+			mShadeC.setBackgroundColor(mAddToTripShadeColor);
+			if (isFlights) {
+				mAddingFlightTrip = true;
+			}
+			else {
+				mAddingHotelTrip = true;
+			}
+
+			mHasPreppedAddToTripAnimation = true;
+		}
+	}
 }

@@ -337,8 +337,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		betweenFlightsAnimation.addListener(new AnimatorListenerAdapter() {
 			@Override
 			public void onAnimationEnd(Animator arg0) {
-				mFlightOneDetailsFrag.finalizeDepartureFlightSelectedAnimation();
-				finalizeFlightsState(mDestinationFlightsState);
+				if (getActivity() != null) {
+					mFlightOneDetailsFrag.finalizeDepartureFlightSelectedAnimation();
+					finalizeFlightsState(mDestinationFlightsState);
+				}
 			}
 		});
 
@@ -425,8 +427,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		flightDetailsAnimator.addListener(new AnimatorListenerAdapter() {
 			@Override
 			public void onAnimationEnd(Animator arg0) {
-				setTransitionToFlightDetailsHardwareRendering(false, filters, list, details);
-				finalizeFlightsState(mDestinationFlightsState);
+				if (getActivity() != null) {
+					setTransitionToFlightDetailsHardwareRendering(false, filters, list, details);
+					finalizeFlightsState(mDestinationFlightsState);
+				}
 			}
 		});
 
@@ -489,14 +493,16 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		addTripAnimation.addListener(new AnimatorListenerAdapter() {
 			@Override
 			public void onAnimationEnd(Animator arg0) {
-				if (mOneWayFlight) {
-					mFlightOneDetailsFrag.finalizeAddToTripFromDetailsAnimation();
+				if (getActivity() != null) {
+					if (mOneWayFlight) {
+						mFlightOneDetailsFrag.finalizeAddToTripFromDetailsAnimation();
+					}
+					else {
+						mFlightOneDetailsFrag.finalizeAddToTripFromDepartureAnimation();
+						mFlightTwoDetailsFrag.finalizeAddToTripFromDetailsAnimation();
+					}
+					finalizeFlightsState(mDestinationFlightsState);
 				}
-				else {
-					mFlightOneDetailsFrag.finalizeAddToTripFromDepartureAnimation();
-					mFlightTwoDetailsFrag.finalizeAddToTripFromDetailsAnimation();
-				}
-				finalizeFlightsState(mDestinationFlightsState);
 			}
 		});
 
@@ -1144,8 +1150,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 			@Override
 			public void onAnimationEnd(Animator arg0) {
-				mListener.onFlightsStateChanged(State.TRANSIENT, State.LIST_CONTENT_AT_BOTTOM, 0f, mFlightOneListC);
-				mFlightOneListFrag.getTopSpaceListView().setListenersEnabled(true);
+				if (getActivity() != null) {
+					mListener.onFlightsStateChanged(State.TRANSIENT, State.LIST_CONTENT_AT_BOTTOM, 0f, mFlightOneListC);
+					mFlightOneListFrag.getTopSpaceListView().setListenersEnabled(true);
+				}
 			}
 		});
 
