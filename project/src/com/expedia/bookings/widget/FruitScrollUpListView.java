@@ -271,6 +271,7 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 		//This is a footer view, so that we can still scroll up, even if we dont have enough rows to fill the listview
 		mFooterSpacer = new BlockEventFrameLayout(context);
 		mFooterSpacer.setEnabled(false);
+		mFooterSpacer.setBlockNewEventsEnabled(true);
 		mFooterSpacer.setBackgroundColor(context.getResources().getColor(R.color.tablet_list_bg));
 		AbsListView.LayoutParams footerParams = new AbsListView.LayoutParams(LayoutParams.MATCH_PARENT, 0);
 		mFooterSpacer.setLayoutParams(footerParams);
