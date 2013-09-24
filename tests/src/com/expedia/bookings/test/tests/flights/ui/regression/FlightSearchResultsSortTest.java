@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.tests.flights.ui.regression;
 
+import junit.framework.AssertionFailedError;
+
 import org.joda.time.DateTime;
 
 import android.util.Pair;
@@ -33,6 +35,20 @@ public class FlightSearchResultsSortTest extends CustomActivityInstrumentationTe
 		return Float.parseFloat(str);
 	}
 
+	private Pair<Integer, Integer> getHourMinutePairFromHeaderTextView(TextView t) {
+		String timeString = t.getText().toString();
+		int hour = Integer.parseInt(timeString.substring(0, timeString.indexOf('h')));
+		int minutes;
+		if (timeString.indexOf('m') < timeString.indexOf('-')) {
+			minutes = Integer.parseInt(timeString.substring(timeString.indexOf('h') + 2, timeString.indexOf('m')));
+		}
+		else {
+			minutes = 0;
+		}
+		Pair<Integer, Integer> hourAndMinutes = new Pair<Integer, Integer>(hour, minutes);
+		return hourAndMinutes;
+	}
+
 	private Pair<Integer, Integer> getHourMinutePairFromTimeTextView(TextView t) {
 		String timeString = t.getText().toString();
 		int hour = Integer.parseInt(timeString.substring(0, timeString.indexOf(':')));
@@ -46,15 +62,15 @@ public class FlightSearchResultsSortTest extends CustomActivityInstrumentationTe
 
 	private float getTimeMillisFromTextView(TextView t, int searchOffset) {
 		Pair<Integer, Integer> hourAndMinutes = getHourMinutePairFromTimeTextView(t);
-		DateTime now = new DateTime();
-		DateTime searchTime = now.withHourOfDay(hourAndMinutes.first).withMinuteOfHour(hourAndMinutes.second)
+		DateTime now = DateTime.now();
+		DateTime searchTime = new DateTime(now).withHourOfDay(hourAndMinutes.first)
+				.withMinuteOfHour(hourAndMinutes.second)
 				.withSecondOfMinute(0).withMillis(0)
 				.plusDays(searchOffset);
-		mDriver.enterLog(TAG, "HEY! " + searchTime.toString());
 		return searchTime.getMillis();
 	}
 
-	private void setUpAndExecuteAFlightSearch() throws Exception {
+	private void setUpAndExecuteAFlightSearch(int daysOffset) throws Exception {
 		mUser.setAirportsToRandomUSAirports();
 		mDriver.flightsSearchScreen().clickDepartureAirportField();
 		mDriver.flightsSearchScreen().clearDepartureAirportField();
@@ -64,7 +80,7 @@ public class FlightSearchResultsSortTest extends CustomActivityInstrumentationTe
 		mDriver.flightsSearchScreen().enterArrivalAirport(mUser.getArrivalAirport());
 		mDriver.flightsSearchScreen().clickClearSelectedDatesButton();
 		mDriver.flightsSearchScreen().clickSelectDepartureButton();
-		mDriver.flightsSearchScreen().clickDate(1);
+		mDriver.flightsSearchScreen().clickDate(daysOffset);
 		mDriver.flightsSearchScreen().clickSearchButton();
 		mDriver.waitForStringToBeGone(mDriver.flightsSearchLoading().getLoadingFlightsString());
 	}
@@ -72,138 +88,198 @@ public class FlightSearchResultsSortTest extends CustomActivityInstrumentationTe
 	// Test methods
 
 	public void testSortByPrice() throws Exception {
-		setUpAndExecuteAFlightSearch();
+		int dateOffset = 1;
+		setUpAndExecuteAFlightSearch(dateOffset);
+
+		// Only run test if search returned results
 		if (!mDriver.searchText(mDriver.flightsSearchResultsScreen().noFlightsWereFound(), 1, false, true)) {
+
+			// Sort by price
 			mDriver.flightsSearchResultsScreen().clickSortFlightsButton();
 			mDriver.delay(1);
 			mDriver.flightsSearchResultsScreen().clickToSortByPrice();
 			mDriver.delay(1);
-			int totalHotels = mDriver.flightsSearchResultsScreen().searchResultListView().getCount();
-			int hotelsPerScreenHeight = mDriver.flightsSearchResultsScreen().searchResultListView().getChildCount();
-			if (totalHotels > 1) {
-				View topHotelRow = mDriver.flightsSearchResultsScreen().searchResultListView()
+
+			int totalFlights = mDriver.flightsSearchResultsScreen().searchResultListView().getCount();
+			int flightsPerScreenHeight = mDriver.flightsSearchResultsScreen().searchResultListView().getChildCount();
+
+			// If number of flights > 1, continue with test
+			if (totalFlights > 1) {
+				//Initialize first flight row and its associated variables
+				View topFlightRow = mDriver.flightsSearchResultsScreen().searchResultListView()
 						.getChildAt(1);
-				FlightsSearchResultRow previousRow = new FlightsSearchResultRow(topHotelRow);
+				FlightsSearchResultRow previousRow = new FlightsSearchResultRow(topFlightRow);
 				float previousRowPrice = getCleanFloatFromTextView(previousRow.getPriceTextView());
 
-				for (int j = 0; j < totalHotels / hotelsPerScreenHeight; j++) {
-					for (int i = 1; i < hotelsPerScreenHeight; i++) {
-						View currentHotelRowView = mDriver.flightsSearchResultsScreen().searchResultListView()
+				// Iterate through list by section, current values with previous values
+				for (int j = 0; j < totalFlights / flightsPerScreenHeight; j++) {
+					for (int i = 1; i < flightsPerScreenHeight; i++) {
+						View currentFlightRowView = mDriver.flightsSearchResultsScreen().searchResultListView()
 								.getChildAt(i);
-						FlightsSearchResultRow currentRow = new FlightsSearchResultRow(currentHotelRowView);
+						FlightsSearchResultRow currentRow = new FlightsSearchResultRow(currentFlightRowView);
 						float currentRowPrice = getCleanFloatFromTextView(currentRow.getPriceTextView());
-						mDriver.enterLog(TAG, "PRICE " + currentRowPrice + " >= " + previousRowPrice);
-						assertTrue(currentRowPrice >= previousRowPrice);
+						if (currentRowPrice < previousRowPrice) {
+							throw new AssertionFailedError("Row's price was "
+									+ currentRow.getPriceTextView().getText().toString()
+									+ ", which is earlier than previously listed time "
+									+ previousRow.getPriceTextView().getText().toString());
+						}
 						previousRowPrice = currentRowPrice;
 					}
 					mDriver.scrollDown();
-					hotelsPerScreenHeight = mDriver.flightsSearchResultsScreen().searchResultListView().getChildCount();
+					flightsPerScreenHeight = mDriver.flightsSearchResultsScreen().searchResultListView()
+							.getChildCount();
 				}
 			}
 		}
 	}
 
 	public void testSortByDeparture() throws Exception {
-		setUpAndExecuteAFlightSearch();
+		int dateOffset = 1;
+		setUpAndExecuteAFlightSearch(dateOffset);
+
+		// Only run test if search returned results
 		if (!mDriver.searchText(mDriver.flightsSearchResultsScreen().noFlightsWereFound(), 1, false, true)) {
+			// Sort by departure time
 			mDriver.flightsSearchResultsScreen().clickSortFlightsButton();
 			mDriver.delay(1);
 			mDriver.flightsSearchResultsScreen().clickToSortByDeparture();
 			mDriver.delay(1);
-			int totalHotels = mDriver.flightsSearchResultsScreen().searchResultListView().getCount();
-			int hotelsPerScreenHeight = mDriver.flightsSearchResultsScreen().searchResultListView().getChildCount();
-			if (totalHotels > 1) {
-				View topHotelRow = mDriver.flightsSearchResultsScreen().searchResultListView()
-						.getChildAt(1);
-				FlightsSearchResultRow previousRow = new FlightsSearchResultRow(topHotelRow);
-				float previousDepartureTime = getTimeMillisFromTextView(previousRow.getDepartureTimeTextView(), 1);
 
-				for (int j = 0; j < totalHotels / hotelsPerScreenHeight; j++) {
-					for (int i = 1; i < hotelsPerScreenHeight; i++) {
-						View currentHotelRowView = mDriver.flightsSearchResultsScreen().searchResultListView()
+			int totalFlights = mDriver.flightsSearchResultsScreen().searchResultListView().getCount();
+			int flightsPerScreenHeight = mDriver.flightsSearchResultsScreen().searchResultListView().getChildCount();
+
+			// If number of flights > 1, continue with test
+			if (totalFlights > 1) {
+				//Initialize first flight row and its associated variables
+				View topFlightRow = mDriver.flightsSearchResultsScreen().searchResultListView()
+						.getChildAt(1);
+				FlightsSearchResultRow previousRow = new FlightsSearchResultRow(topFlightRow);
+				float previousDepartureTime = getTimeMillisFromTextView(previousRow.getDepartureTimeTextView(),
+						dateOffset);
+
+				// Iterate through list by section, current values with previous values
+				for (int j = 0; j < totalFlights / flightsPerScreenHeight; j++) {
+					for (int i = 1; i < flightsPerScreenHeight; i++) {
+						View currentFlightRowView = mDriver.flightsSearchResultsScreen().searchResultListView()
 								.getChildAt(i);
-						FlightsSearchResultRow currentRow = new FlightsSearchResultRow(currentHotelRowView);
+						FlightsSearchResultRow currentRow = new FlightsSearchResultRow(currentFlightRowView);
 						float currentRowDepartureTime = getTimeMillisFromTextView(
-								currentRow.getDepartureTimeTextView(), 1);
-						mDriver.enterLog(TAG, "DEPARTURE " + currentRowDepartureTime + " >= " + previousDepartureTime);
-						assertTrue(currentRowDepartureTime >= previousDepartureTime);
+								currentRow.getDepartureTimeTextView(), dateOffset);
+						if (currentRowDepartureTime < previousDepartureTime) {
+							throw new AssertionFailedError("Row's departure time was "
+									+ currentRow.getDepartureTimeTextView().getText().toString()
+									+ ", which is earlier than previously listed time "
+									+ previousRow.getDepartureTimeTextView().getText().toString());
+						}
 						previousDepartureTime = currentRowDepartureTime;
 					}
 					mDriver.scrollDown();
-					hotelsPerScreenHeight = mDriver.flightsSearchResultsScreen().searchResultListView().getChildCount();
+					flightsPerScreenHeight = mDriver.flightsSearchResultsScreen().searchResultListView()
+							.getChildCount();
 				}
 			}
 		}
 	}
 
 	public void testSortByArrival() throws Exception {
-		setUpAndExecuteAFlightSearch();
+		int dateOffset = 1;
+		setUpAndExecuteAFlightSearch(dateOffset);
+		// Only run test if search returned results
 		if (!mDriver.searchText(mDriver.flightsSearchResultsScreen().noFlightsWereFound(), 1, false, true)) {
+			// Sort by arrival time
 			mDriver.flightsSearchResultsScreen().clickSortFlightsButton();
 			mDriver.delay(1);
 			mDriver.flightsSearchResultsScreen().clickToSortByArrival();
 			mDriver.delay(1);
-			int totalHotels = mDriver.flightsSearchResultsScreen().searchResultListView().getCount();
-			int hotelsPerScreenHeight = mDriver.flightsSearchResultsScreen().searchResultListView().getChildCount();
-			if (totalHotels > 1) {
-				View topHotelRow = mDriver.flightsSearchResultsScreen().searchResultListView()
+			int totalFlights = mDriver.flightsSearchResultsScreen().searchResultListView().getCount();
+			int flightsPerScreenHeight = mDriver.flightsSearchResultsScreen().searchResultListView().getChildCount();
+
+			// If number of flights > 1, continue with test
+			if (totalFlights > 1) {
+				//Initialize first flight row and its associated variables
+				View topFlightRow = mDriver.flightsSearchResultsScreen().searchResultListView()
 						.getChildAt(1);
-				FlightsSearchResultRow previousRow = new FlightsSearchResultRow(topHotelRow);
-				float previousArrivalTime = getTimeMillisFromTextView(previousRow.getArrivalTimeTextView(), 1);
+				FlightsSearchResultRow previousRow = new FlightsSearchResultRow(topFlightRow);
+				int additionalDaysPreviousRow = 0;
+				if (!previousRow.getMultiDayTextView().getText().toString().equals("")) {
+					additionalDaysPreviousRow = (int) getCleanFloatFromTextView(previousRow.getMultiDayTextView());
+				}
+				float previousRowArrivalTime = getTimeMillisFromTextView(previousRow.getArrivalTimeTextView(),
+						dateOffset + additionalDaysPreviousRow);
 
-				for (int j = 0; j < totalHotels / hotelsPerScreenHeight; j++) {
-					for (int i = 1; i < hotelsPerScreenHeight; i++) {
-						View currentHotelRowView = mDriver.flightsSearchResultsScreen().searchResultListView()
+				// Iterate through list by section, current values with previous values
+				for (int j = 0; j < totalFlights / flightsPerScreenHeight; j++) {
+					for (int i = 1; i < flightsPerScreenHeight; i++) {
+						View currentFlightRowView = mDriver.flightsSearchResultsScreen().searchResultListView()
 								.getChildAt(i);
-						FlightsSearchResultRow currentRow = new FlightsSearchResultRow(currentHotelRowView);
+						FlightsSearchResultRow currentRow = new FlightsSearchResultRow(currentFlightRowView);
+						int additionalDaysCurrentRow = 0;
+						if (!currentRow.getMultiDayTextView().getText().toString().equals("")) {
+							additionalDaysCurrentRow = (int) getCleanFloatFromTextView(currentRow
+									.getMultiDayTextView());
+						}
 						float currentRowArrivalTime = getTimeMillisFromTextView(
-								currentRow.getArrivalTimeTextView(), 1);
-						mDriver.enterLog(TAG, "ARRIVAL " + currentRowArrivalTime + " >= " + previousArrivalTime);
-						assertTrue(currentRowArrivalTime >= previousArrivalTime);
-						previousArrivalTime = currentRowArrivalTime;
+								currentRow.getArrivalTimeTextView(), dateOffset + additionalDaysCurrentRow);
+						if (currentRowArrivalTime < previousRowArrivalTime) {
+							throw new AssertionFailedError("Row's arrival time was "
+									+ currentRow.getArrivalTimeTextView().getText().toString()
+									+ ", which is earlier than previously listed time "
+									+ previousRow.getArrivalTimeTextView().getText().toString());
+						}
+						previousRowArrivalTime = currentRowArrivalTime;
 					}
-
 					mDriver.scrollDown();
-					hotelsPerScreenHeight = mDriver.flightsSearchResultsScreen().searchResultListView().getChildCount();
+					flightsPerScreenHeight = mDriver.flightsSearchResultsScreen().searchResultListView()
+							.getChildCount();
 				}
 			}
 		}
 	}
 
 	public void testSortByDuration() throws Exception {
-		setUpAndExecuteAFlightSearch();
+		int dateOffset = 1;
+		setUpAndExecuteAFlightSearch(dateOffset);
+		// Only run test if search returned results
 		if (!mDriver.searchText(mDriver.flightsSearchResultsScreen().noFlightsWereFound(), 1, false, true)) {
+			// Set sort by duration
 			mDriver.flightsSearchResultsScreen().clickSortFlightsButton();
 			mDriver.delay(1);
 			mDriver.flightsSearchResultsScreen().clickToSortByDuration();
 			mDriver.delay(1);
-			int totalHotels = mDriver.flightsSearchResultsScreen().searchResultListView().getCount();
-			int hotelsPerScreenHeight = mDriver.flightsSearchResultsScreen().searchResultListView().getChildCount();
-			if (totalHotels > 1) {
-				View topHotelRow = mDriver.flightsSearchResultsScreen().searchResultListView()
-						.getChildAt(1);
-				FlightsSearchResultRow previousRow = new FlightsSearchResultRow(topHotelRow);
-				float previousArrivalTime = getTimeMillisFromTextView(previousRow.getArrivalTimeTextView(), 1);
-				float previousDepartureTime = getTimeMillisFromTextView(previousRow.getDepartureTimeTextView(), 1);
-				float previousDurationTime = previousArrivalTime - previousDepartureTime;
+			int totalFlights = mDriver.flightsSearchResultsScreen().searchResultListView().getCount();
+			int flightsPerScreenHeight = mDriver.flightsSearchResultsScreen().searchResultListView().getChildCount() - 2;
 
-				for (int j = 0; j < totalHotels / hotelsPerScreenHeight; j++) {
-					for (int i = 1; i < hotelsPerScreenHeight; i++) {
-						View currentHotelRowView = mDriver.flightsSearchResultsScreen().searchResultListView()
-								.getChildAt(i);
-						FlightsSearchResultRow currentRow = new FlightsSearchResultRow(currentHotelRowView);
-						float currentRowArrivalTime = getTimeMillisFromTextView(
-								currentRow.getArrivalTimeTextView(), 1);
-						float currentRowDepartureTime = getTimeMillisFromTextView(
-								currentRow.getDepartureTimeTextView(), 1);
-						float currentRowDurationTime = currentRowArrivalTime - currentRowDepartureTime;
-						mDriver.enterLog(TAG, "DURATION " + currentRowDurationTime + " >= " + previousDurationTime);
-						assertTrue(currentRowDurationTime >= previousDurationTime);
-						previousArrivalTime = currentRowArrivalTime;
+			// Only run test if number of flights is > 1
+			if (totalFlights > 1) {
+				// get first flight's duration
+				mDriver.flightsSearchResultsScreen().selectFlightFromList(1);
+				mDriver.delay();
+				Pair<Integer, Integer> previousDuration = getHourMinutePairFromHeaderTextView(mDriver
+						.flightLegScreen().durationTextView());
+				mDriver.goBack();
+				Pair<Integer, Integer> currentDuration;
+
+				//iterate through list of flights, comparing currently indexed flight's duration with flight at index - 1
+				for (int j = 0; j < totalFlights / flightsPerScreenHeight; j++) {
+					for (int i = 1; i < flightsPerScreenHeight; i++) {
+						mDriver.flightsSearchResultsScreen().selectFlightFromList(i);
+						mDriver.delay();
+						currentDuration = getHourMinutePairFromHeaderTextView(mDriver.flightLegScreen()
+								.durationTextView());
+						mDriver.goBack();
+						if (currentDuration.first < previousDuration.first
+								|| (currentDuration.first == previousDuration.first
+								&& currentDuration.second < previousDuration.second)) {
+							throw new AssertionFailedError("Duration of: " + currentDuration.first + "h "
+									+ currentDuration.second + "m was not shorter than the previous duration "
+									+ previousDuration.first + "h " + previousDuration.second + "m.");
+						}
+						previousDuration = currentDuration;
 					}
-
 					mDriver.scrollDown();
-					hotelsPerScreenHeight = mDriver.flightsSearchResultsScreen().searchResultListView().getChildCount();
+					flightsPerScreenHeight = mDriver.flightsSearchResultsScreen().searchResultListView()
+							.getChildCount() - 2;
 				}
 			}
 		}
