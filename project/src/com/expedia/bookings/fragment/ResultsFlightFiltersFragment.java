@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import java.util.List;
+import java.util.Map;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -117,11 +118,10 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	}
 
 	private void buildAirlineList() {
-		List<FlightTrip> trips = Db.getFlightSearch().queryTrips(mLegNumber).getTrips();
-		List<FlightTrip> flightTrips = FlightSearch.getCheapestTripForEachAirline(trips, mLegNumber);
+		Map<String, FlightTrip> cheapestTrips = Db.getFlightSearch().queryTrips(mLegNumber).getCheapestTripsByAirline();
 
 		mAirlineContainer.removeAllViews();
-		for (FlightTrip trip : flightTrips) {
+		for (FlightTrip trip : cheapestTrips.values()) {
 			TextView tv = new TextView(getActivity());
 			tv.setText(trip.getLeg(0).getAirlinesFormatted() + " - "
 					+ trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
