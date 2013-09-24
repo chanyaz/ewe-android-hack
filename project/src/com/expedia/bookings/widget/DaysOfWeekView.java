@@ -3,20 +3,25 @@ package com.expedia.bookings.widget;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDate.Property;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint.Align;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
 import android.support.v4.widget.ExploreByTouchHelper;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.utils.JodaUtils;
 
 /**
@@ -46,7 +51,8 @@ public class DaysOfWeekView extends View {
 	// The "step" size when increasing/decreasing text size to match
 	private static final float TEXT_SIZE_STEP = 1;
 
-	private String[] mDaysOfWeek;
+	private Property[] mDaysOfWeek;
+	private String[] mDaysOfWeekStr;
 
 	private TextPaint mTextPaint;
 	private float mMaxTextSize;
@@ -55,9 +61,13 @@ public class DaysOfWeekView extends View {
 	private Rect mTextBounds;
 
 	// Cached for faster draws
+	private int mHeight;
 	private float mColWidth;
 	private float mHalfColWidth;
 	private float mDrawY;
+
+	// Accessibility
+	private DaysOfWeekTouchHelper mTouchHelper;
 
 	public DaysOfWeekView(Context context) {
 		this(context, null);
@@ -78,11 +88,28 @@ public class DaysOfWeekView extends View {
 		mTextBounds = new Rect();
 
 		// Pre-load the days of the week in the current locale
-		mDaysOfWeek = new String[NUM_DAYS];
+		mDaysOfWeek = new Property[NUM_DAYS];
+		mDaysOfWeekStr = new String[NUM_DAYS];
 		LocalDate firstDayOfWeek = LocalDate.now().withDayOfWeek(JodaUtils.getFirstDayOfWeek());
 		for (int a = 0; a < NUM_DAYS; a++) {
-			mDaysOfWeek[a] = firstDayOfWeek.plusDays(a).dayOfWeek().getAsShortText().toUpperCase();
+			mDaysOfWeek[a] = firstDayOfWeek.plusDays(a).dayOfWeek();
+			mDaysOfWeekStr[a] = mDaysOfWeek[a].getAsShortText().toUpperCase();
 		}
+
+		// Setup accessibility
+		mTouchHelper = new DaysOfWeekTouchHelper(this);
+		ViewCompat.setAccessibilityDelegate(this, mTouchHelper);
+	}
+
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	@Override
+	public boolean dispatchHoverEvent(MotionEvent event) {
+		// Always attempt to dispatch hover events to accessibility first.
+		if (mTouchHelper.dispatchHoverEvent(event)) {
+			return true;
+		}
+
+		return super.dispatchHoverEvent(event);
 	}
 
 	public void setTextColor(int color) {
@@ -107,7 +134,7 @@ public class DaysOfWeekView extends View {
 		boolean tooBig;
 		do {
 			tooBig = false;
-			for (String dayOfWeek : mDaysOfWeek) {
+			for (String dayOfWeek : mDaysOfWeekStr) {
 				mTextBounds.setEmpty();
 				mTextPaint.getTextBounds(dayOfWeek, 0, dayOfWeek.length(), mTextBounds);
 
@@ -131,6 +158,7 @@ public class DaysOfWeekView extends View {
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
 
+		mHeight = h;
 		mColWidth = (float) w / NUM_DAYS;
 		mHalfColWidth = mColWidth / 2.0f;
 		mDrawY = h - mTextPaint.descent();
@@ -142,8 +170,54 @@ public class DaysOfWeekView extends View {
 
 		for (int a = 0; a < NUM_DAYS; a++) {
 			float centerOfCol = (mColWidth * a) + mHalfColWidth;
-			canvas.drawText(mDaysOfWeek[a], centerOfCol, mDrawY, mTextPaint);
+			canvas.drawText(mDaysOfWeekStr[a], centerOfCol, mDrawY, mTextPaint);
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Accessibility
+
+	private final class DaysOfWeekTouchHelper extends ExploreByTouchHelper {
+
+		public DaysOfWeekTouchHelper(View forView) {
+			super(forView);
+		}
+
+		private String getDescriptionForVirtualViewId(int virtualViewId) {
+			return getContext().getString(R.string.cd_day_of_week_TEMPLATE, virtualViewId + 1,
+					mDaysOfWeek[virtualViewId].getAsText());
+		}
+
+		@Override
+		protected int getVirtualViewAt(float x, float y) {
+			return (int) Math.floor(x / mColWidth);
+		}
+
+		@Override
+		protected void getVisibleVirtualViews(List<Integer> virtualViewIds) {
+			for (int a = 0; a < NUM_DAYS; a++) {
+				virtualViewIds.add(a);
+			}
+		}
+
+		@Override
+		protected void onPopulateNodeForVirtualView(int virtualViewId, AccessibilityNodeInfoCompat node) {
+			node.setContentDescription(getDescriptionForVirtualViewId(virtualViewId));
+			node.setBoundsInParent(new Rect((int) mColWidth * virtualViewId, 0, (int) mColWidth * (virtualViewId + 1),
+					mHeight));
+		}
+
+		@Override
+		protected void onPopulateEventForVirtualView(int virtualViewId, AccessibilityEvent event) {
+			event.setContentDescription(getDescriptionForVirtualViewId(virtualViewId));
+		}
+
+		@Override
+		protected boolean onPerformActionForVirtualView(int virtualViewId, int action, Bundle arguments) {
+			// There are no actions to perform on this View
+			return false;
+		}
+
 	}
 
 }

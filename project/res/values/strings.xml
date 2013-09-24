@@ -28,6 +28,10 @@
     <string name="end_date_optional">End Date: (Optional)</string>
     <!-- End date display, when there is an end date selected.  %s is the date, e.g. "End Date: September 15" -->
     <string name="end_date_TEMPLATE">End Date: %s</string>
+    
+    <!-- Calendar picker strings -->
+    <!-- Accessibility string describing days of the week.  %s is the number (of the day), %2$s is the day.  E.g. "Day 3, Tuesday"-->
+    <string name="cd_day_of_week_TEMPLATE">Day %1$s, %2$s</string>
 
     <!-- Tablet Results strings -->
     <!-- Resulsts label -->
