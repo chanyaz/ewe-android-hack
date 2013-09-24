@@ -78,6 +78,7 @@ public class HotelsHappyPath {
 
 			// Sort
 			driver.waitForStringToBeGone(driver.hotelsSearchScreen().searchingForHotels());
+			driver.delay();
 			driver.hotelsSearchScreen().clickOnSortButton();
 			driver.delay(1);
 			driver.screenshot("Sort fragment");
