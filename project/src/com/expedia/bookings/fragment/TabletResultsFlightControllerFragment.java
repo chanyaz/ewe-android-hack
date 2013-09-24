@@ -15,6 +15,7 @@ import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
 import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewChangeListener;
 import com.expedia.bookings.widget.FruitScrollUpListView.State;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 import android.animation.Animator;
@@ -694,21 +695,21 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		}
 
 		mFlightMapFrag = (ResultsFlightMapFragment) setFragmentAvailability(flightMapAvailable, FragTag.FLIGHT_MAP,
-				transaction, R.id.bg_flight_map);
+				transaction, R.id.bg_flight_map, false);
 		mAddToTripFrag = (ResultsFlightAddToTrip) setFragmentAvailability(flightAddToTripAvailable,
-				FragTag.FLIGHT_ADD_TO_TRIP, transaction, R.id.flights_add_to_trip);
+				FragTag.FLIGHT_ADD_TO_TRIP, transaction, R.id.flights_add_to_trip, false);
 		mFlightOneListFrag = (ResultsFlightListFragment) setFragmentAvailability(flightOneListAvailable,
-				FragTag.FLIGHT_ONE_LIST, transaction, R.id.flight_one_list);
+				FragTag.FLIGHT_ONE_LIST, transaction, R.id.flight_one_list, false);
 		mFlightOneFilterFrag = (ResultsFlightFiltersFragment) setFragmentAvailability(flightOneFiltersAvailable,
-				FragTag.FLIGHT_ONE_FILTERS, transaction, R.id.flight_one_filters);
+				FragTag.FLIGHT_ONE_FILTERS, transaction, R.id.flight_one_filters, false);
 		mFlightOneDetailsFrag = (ResultsFlightDetailsFragment) setFragmentAvailability(flightOneDetailsAvailable,
-				FragTag.FLIGHT_ONE_DETAILS, transaction, R.id.flight_one_details);
+				FragTag.FLIGHT_ONE_DETAILS, transaction, R.id.flight_one_details, true);
 		mFlightTwoListFrag = (ResultsFlightListFragment) setFragmentAvailability(flightTwoListAvailable,
-				FragTag.FLIGHT_TWO_LIST, transaction, R.id.flight_two_list);
+				FragTag.FLIGHT_TWO_LIST, transaction, R.id.flight_two_list, false);
 		mFlightTwoFilterFrag = (ResultsFlightFiltersFragment) setFragmentAvailability(flightTwoFiltersAvailabe,
-				FragTag.FLIGHT_TWO_FILTERS, transaction, R.id.flight_two_filters);
+				FragTag.FLIGHT_TWO_FILTERS, transaction, R.id.flight_two_filters, false);
 		mFlightTwoDetailsFrag = (ResultsFlightDetailsFragment) setFragmentAvailability(flightTwoDetailsAvailable,
-				FragTag.FLIGHT_TWO_DETAILS, transaction, R.id.flight_two_details);
+				FragTag.FLIGHT_TWO_DETAILS, transaction, R.id.flight_two_details, true);
 
 		transaction.commit();
 
@@ -730,7 +731,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	}
 
 	private Fragment setFragmentAvailability(boolean available, FragTag tag, FragmentTransaction transaction,
-			int container) {
+			int container, boolean alwaysRunSetup) {
 		Fragment frag = fragmentGetLocalInstance(tag);
 		if (frag == null) {
 			frag = getChildFragmentManager().findFragmentByTag(tag.name());
@@ -743,6 +744,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				if (!frag.isAdded()) {
 					transaction.add(container, frag, tag.name());
 				}
+				fragmentSetup(tag, frag);
+			}
+			else if (alwaysRunSetup) {
 				fragmentSetup(tag, frag);
 			}
 		}
