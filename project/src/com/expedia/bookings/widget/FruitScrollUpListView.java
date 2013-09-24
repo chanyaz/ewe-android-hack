@@ -708,9 +708,6 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 		boolean isIdle = scrollState == OnScrollListener.SCROLL_STATE_IDLE;
 		if (mIsSmoothScrolling) {
 			mIsSmoothScrolling = !isIdle;
-			if (!mIsSmoothScrolling) {
-				someUserInteractionHasStopped();
-			}
 		}
 		else {
 			boolean isFlinging = scrollState == OnScrollListener.SCROLL_STATE_FLING;
@@ -721,11 +718,9 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 				//a different mode un-intentionally, so we hide the header which means flinging will stop at the top data row
 				shrinkHeaderSpacer();
 			}
-
-			updateScrollState(!isIdle);
-
-			mPreviousScrollState = scrollState;
 		}
+		updateScrollState(!isIdle);
+		mPreviousScrollState = scrollState;
 	}
 
 	private void updateTouchState(boolean isBeingTouched) {
