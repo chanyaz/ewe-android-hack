@@ -40,11 +40,13 @@ public class FlightSearchTests extends CustomActivityInstrumentationTestCase<Fli
 			mDriver.delay(1);
 			String adultQuantity = mDriver.flightsSearchScreen().getAdultsQuantityString(i);
 			mDriver.clickOnText(adultQuantity);
+			mDriver.delay();
 			String numberOfPassengersShownString = mDriver.flightsSearchScreen().passengerNumberTextView().getText()
 					.toString();
 			int numberOfPassengersShown = Integer.parseInt(numberOfPassengersShownString);
 			if (!(numberOfPassengersShown == i)) {
-				throw new Exception("Number of guests shown in text view does not equal the number selected!");
+				throw new Exception("Number of guests shown in text view: " + numberOfPassengersShown
+						+ " does not equal the number selected " + i);
 			}
 		}
 	}
