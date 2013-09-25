@@ -71,7 +71,7 @@ public class DatesFragment extends Fragment implements DateSelectionChangedListe
 
 		// Initial arrow config
 		ArrowDrawable arrowDrawable = new ArrowDrawable(getResources().getColor(R.color.bg_dates_color));
-		mArrowView.setBackground(arrowDrawable);
+		mArrowView.setBackgroundDrawable(arrowDrawable);
 
 		return view;
 	}
