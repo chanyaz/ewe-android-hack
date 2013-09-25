@@ -121,11 +121,13 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		Map<String, FlightTrip> cheapestTrips = Db.getFlightSearch().queryTrips(mLegNumber).getCheapestTripsByAirline();
 
 		mAirlineContainer.removeAllViews();
-		for (FlightTrip trip : cheapestTrips.values()) {
-			TextView tv = new TextView(getActivity());
-			tv.setText(trip.getLeg(0).getAirlinesFormatted() + " - "
-					+ trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
-			mAirlineContainer.addView(tv);
+		if (cheapestTrips != null) {
+			for (FlightTrip trip : cheapestTrips.values()) {
+				TextView tv = new TextView(getActivity());
+				tv.setText(trip.getLeg(0).getAirlinesFormatted() + " - "
+						+ trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
+				mAirlineContainer.addView(tv);
+			}
 		}
 	}
 
