@@ -177,8 +177,8 @@ public class ExpediaServices implements DownloadListener {
 	// redirects has revealed issues in the past.
 	private static final int F_ALLOW_REDIRECT = 256;
 
-	// Flags for downloading SharedItin
-	public static final int F_SHARED_ITIN = 512;
+	// Flag to indicate that we don't need to add the Endpoint while making an E3request
+	public static final int F_DONT_ADD_ENDPOINT = 512;
 
 	private Context mContext;
 
@@ -850,7 +850,7 @@ public class ExpediaServices implements DownloadListener {
 	//
 
 	public TripDetailsResponse getSharedItin(String shareableUrl) {
-		int flags = F_SECURE_REQUEST | F_GET | F_SHARED_ITIN;
+		int flags = F_SECURE_REQUEST | F_GET | F_DONT_ADD_ENDPOINT;
 		return doE3Request(shareableUrl, null, new TripDetailsResponseHandler(mContext), flags);
 	}
 	//////////////////////////////////////////////////////////////////////////
@@ -1313,7 +1313,7 @@ public class ExpediaServices implements DownloadListener {
 		 * This is to make sure that an itin shared from a different POS will still be fetched
 		 * and displayed on a device with any POS set.
 		 */
-		if ((flags & F_SHARED_ITIN) != 0) {
+		if ((flags & F_DONT_ADD_ENDPOINT) != 0) {
 			serverUrl = targetUrl;
 		}
 		else {
