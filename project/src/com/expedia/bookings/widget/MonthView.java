@@ -32,6 +32,7 @@ import android.view.accessibility.AccessibilityEvent;
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.CalendarPicker.CalendarState;
+import com.mobiata.android.Log;
 
 /**
  * Displays the days of the month in a grid.  It is 7x6; seven for
@@ -261,6 +262,8 @@ public class MonthView extends View {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 
+		long start = System.nanoTime();
+
 		LocalDate startDate = mState.getStartDate();
 		LocalDate endDate = mState.getEndDate();
 
@@ -403,6 +406,8 @@ public class MonthView extends View {
 						centerY + halfTextHeight - mTextPaint.descent(), paint);
 			}
 		}
+
+		Log.v("MonthView.onDraw() time: " + ((System.nanoTime() - start) / 1000000));
 	}
 
 	private RectF getNextHighlightRect() {
