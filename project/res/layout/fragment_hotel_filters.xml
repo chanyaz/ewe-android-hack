@@ -83,6 +83,12 @@
                 android:textAllCaps="true"
                 android:textColor="#7C7E7F" />
 
+            <!--
+            TODO once 4.0 tablet design is complete:
+            do we need these as includes? Maybe we could
+            update the phone layouts to match the new design
+            -->
+
             <include
                 android:id="@+id/price_filter_button_group"
                 android:layout_width="fill_parent"
