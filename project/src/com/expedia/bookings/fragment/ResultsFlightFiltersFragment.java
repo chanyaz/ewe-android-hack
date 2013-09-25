@@ -140,7 +140,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 				tv = new TextView(getActivity());
 				mAirlineContainer.addView(tv);
 			}
-			tv.setText(trip.getLeg(0).getAirlinesFormatted() + " - "
+			tv.setText(trip.getLeg(mLegNumber).getAirlinesFormatted() + " - "
 					+ trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
 		}
 
