@@ -471,11 +471,11 @@ public class MonthView extends View {
 					}
 				}
 				else if (startDate != null) {
-					if (mInitialDate.equals(startDate) || mInitialDate.isAfter(startDate)) {
+					if (mInitialDate.isAfter(startDate)) {
 						// New RANGE, anchor START
 						mAnchorDate = startDate;
 					}
-					else if (mInitialDate.isBefore(startDate)) {
+					else {
 						// Start a NEW drag
 						mAnchorDate = null;
 					}
