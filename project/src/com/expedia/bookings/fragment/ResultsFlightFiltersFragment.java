@@ -117,10 +117,12 @@ public class ResultsFlightFiltersFragment extends Fragment {
 
 	private void buildAirlineList() {
 		Map<String, FlightTrip> cheapestTrips = Db.getFlightSearch().queryTrips(mLegNumber).getCheapestTripsByAirline();
-		FlightTrip[] trips = new FlightTrip[cheapestTrips.values().size()];
-		cheapestTrips.values().toArray(trips);
+		int numTripsToShow = cheapestTrips == null ? 0 : cheapestTrips.values().size();
+		FlightTrip[] trips = new FlightTrip[numTripsToShow];
+		if (numTripsToShow > 0) {
+			cheapestTrips.values().toArray(trips);
+		}
 
-		int numTripsToShow = trips.length;
 		int numTripsInContainer = mAirlineContainer.getChildCount();
 
 		FlightTrip trip;
