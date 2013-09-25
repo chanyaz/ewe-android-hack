@@ -43,6 +43,7 @@ import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.ViewTreeObserver.OnPreDrawListener;
@@ -83,10 +84,9 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	private static final String STATE_CURRENT_STATE = "STATE_CURRENT_STATE";
 
 	//Tags
-	private static final String FRAG_TAG_FLIGHTS_CONTROLLER = "FRAG_TAG_FLIGHTS_CONTROLLER";
-	private static final String FRAG_TAG_HOTELS_CONTROLLER = "FRAG_TAG_HOTELS_CONTROLLER";
-	private static final String FRAG_TAG_TRIP_CONTROLLER = "FRAG_TAG_TRIP_CONTROLLER";
-	private static final String FRAG_TAG_BACKGROUND_IMAGE = "FRAG_TAG_BACKGROUND_IMAGE";
+	private enum FragTag {
+		FLIGHTS_CONTROLLER, HOTELS_CONTROLLER, TRIP_CONTROLLER, BACKGROUND_IMAGE
+	}
 
 	//Containers..
 	private ViewGroup mRootC;
@@ -141,10 +141,14 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 		//Add default fragments
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-		setBackgroundImageFragmentAvailability(true, transaction);
-		setTripControllerAvailability(true, transaction);
-		setFlightsControllerAvailability(true, transaction);
-		setHotelsControllerAvailability(true, transaction);
+		mBackgroundImageFrag = (ResultsBackgroundImageFragment) setFragmentAvailability(true, FragTag.BACKGROUND_IMAGE,
+				transaction, R.id.bg_dest_image_overlay, false);
+		mTripController = (TabletResultsTripControllerFragment) setFragmentAvailability(true, FragTag.TRIP_CONTROLLER,
+				transaction, R.id.full_width_trip_controller_container, false);
+		mFlightsController = (TabletResultsFlightControllerFragment) setFragmentAvailability(true,
+				FragTag.FLIGHTS_CONTROLLER, transaction, R.id.full_width_flights_controller_container, false);
+		mHotelsController = (TabletResultsHotelControllerFragment) setFragmentAvailability(true,
+				FragTag.HOTELS_CONTROLLER, transaction, R.id.full_width_hotels_controller_container, false);
 		transaction.commit();
 		getSupportFragmentManager().executePendingTransactions();//These must be finished before we continue..
 
@@ -390,115 +394,97 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	/**
 	 * HERE BE HELPER FUNCTIONS WHERE WE ATTACH AND DETACH FRAGMENTS
 	 */
-
-	private FragmentTransaction setBackgroundImageFragmentAvailability(boolean available,
-			FragmentTransaction transaction) {
+	//FLIGHTS_CONTROLLER,HOTELS_CONTROLLER,TRIP_CONTROLLER,BACKGROUND_IMAGE
+	private Fragment setFragmentAvailability(boolean available, FragTag tag, FragmentTransaction transaction,
+			int container, boolean alwaysRunSetup) {
+		Fragment frag = fragmentGetLocalInstance(tag);
 		if (available) {
-			if (mBackgroundImageFrag == null || !mBackgroundImageFrag.isAdded()) {
-				if (mBackgroundImageFrag == null) {
-					mBackgroundImageFrag = Ui.findSupportFragment(this, FRAG_TAG_BACKGROUND_IMAGE);
+			if (frag == null || !frag.isAdded()) {
+				if (frag == null) {
+					frag = Ui.findSupportFragment(this, tag.name());
 				}
-				if (mBackgroundImageFrag == null) {
-					mBackgroundImageFrag = ResultsBackgroundImageFragment.newInstance("SFO");
+				if (frag == null) {
+					frag = fragmentNewInstance(tag);
 				}
-				if (!mBackgroundImageFrag.isAdded()) {
-					transaction.add(R.id.bg_dest_image_overlay, mBackgroundImageFrag, FRAG_TAG_BACKGROUND_IMAGE);
+				if (!frag.isAdded()) {
+					transaction.add(container, frag, tag.name());
 				}
+				fragmentSetup(tag, frag);
+			}
+			else if (alwaysRunSetup) {
+				fragmentSetup(tag, frag);
 			}
 		}
 		else {
-			//Remove fragments from layouts
-			if (mBackgroundImageFrag == null) {
-				mBackgroundImageFrag = Ui.findSupportFragment(this, FRAG_TAG_BACKGROUND_IMAGE);
+			if (frag != null) {
+				transaction.remove(frag);
 			}
-			if (mBackgroundImageFrag != null) {
-				transaction.remove(mBackgroundImageFrag);
-			}
+			frag = null;
 		}
-		return transaction;
+		return frag;
 	}
 
-	private FragmentTransaction setFlightsControllerAvailability(boolean available,
-			FragmentTransaction transaction) {
-		if (available) {
-			if (mFlightsController == null || !mFlightsController.isAdded()) {
-				if (mFlightsController == null) {
-					mFlightsController = Ui.findSupportFragment(this, FRAG_TAG_FLIGHTS_CONTROLLER);
-				}
-				if (mFlightsController == null) {
-					mFlightsController = new TabletResultsFlightControllerFragment();
-				}
-				if (!mFlightsController.isAdded()) {
-					transaction.add(R.id.full_width_flights_controller_container, mFlightsController,
-							FRAG_TAG_FLIGHTS_CONTROLLER);
-				}
-			}
+	public Fragment fragmentGetLocalInstance(FragTag tag) {
+		Fragment frag = null;
+		switch (tag) {
+		case FLIGHTS_CONTROLLER: {
+			frag = mFlightsController;
+			break;
 		}
-		else {
-			if (mFlightsController == null) {
-				mFlightsController = Ui.findSupportFragment(this, FRAG_TAG_FLIGHTS_CONTROLLER);
-			}
-			if (mFlightsController != null) {
-				transaction.remove(mFlightsController);
-			}
+		case HOTELS_CONTROLLER: {
+			frag = mHotelsController;
+			break;
 		}
-		return transaction;
+		case TRIP_CONTROLLER: {
+			frag = mTripController;
+			break;
+		}
+		case BACKGROUND_IMAGE: {
+			frag = mBackgroundImageFrag;
+			break;
+		}
+		}
+		return frag;
 	}
 
-	private FragmentTransaction setHotelsControllerAvailability(boolean available,
-			FragmentTransaction transaction) {
-		if (available) {
-			if (mHotelsController == null || !mHotelsController.isAdded()) {
-				if (mHotelsController == null) {
-					mHotelsController = Ui.findSupportFragment(this, FRAG_TAG_HOTELS_CONTROLLER);
-				}
-				if (mHotelsController == null) {
-					mHotelsController = new TabletResultsHotelControllerFragment();
-				}
-				if (!mHotelsController.isAdded()) {
-					transaction.add(R.id.full_width_hotels_controller_container, mHotelsController,
-							FRAG_TAG_HOTELS_CONTROLLER);
-				}
-			}
+	public Fragment fragmentNewInstance(FragTag tag) {
+		Fragment frag = null;
+		switch (tag) {
+		case FLIGHTS_CONTROLLER: {
+			frag = new TabletResultsFlightControllerFragment();
+			break;
 		}
-		else {
-			if (mHotelsController == null) {
-				mHotelsController = Ui.findSupportFragment(this, FRAG_TAG_HOTELS_CONTROLLER);
-			}
-			if (mHotelsController != null) {
-				transaction.remove(mHotelsController);
-			}
+		case HOTELS_CONTROLLER: {
+			frag = new TabletResultsHotelControllerFragment();
+			break;
 		}
-		return transaction;
+		case TRIP_CONTROLLER: {
+			frag = new TabletResultsTripControllerFragment();
+			break;
+		}
+		case BACKGROUND_IMAGE: {
+			frag = ResultsBackgroundImageFragment.newInstance("SFO");
+			break;
+		}
+		}
+		return frag;
 	}
 
-	private FragmentTransaction setTripControllerAvailability(boolean available,
-			FragmentTransaction transaction) {
-		if (available) {
-			if (mTripController == null || !mTripController.isAdded()) {
-				if (mTripController == null) {
-					mTripController = Ui.findSupportFragment(this, FRAG_TAG_TRIP_CONTROLLER);
-				}
-				if (mTripController == null) {
-					mTripController = new TabletResultsTripControllerFragment();
-				}
-				if (!mTripController.isAdded()) {
-					transaction.add(R.id.full_width_trip_controller_container, mTripController,
-							FRAG_TAG_TRIP_CONTROLLER);
-				}
-				mAddToTripListeners.add(mTripController);
-			}
+	public void fragmentSetup(FragTag tag, Fragment frag) {
+		switch (tag) {
+		case FLIGHTS_CONTROLLER: {
+			break;
 		}
-		else {
-			if (mTripController == null) {
-				mTripController = Ui.findSupportFragment(this, FRAG_TAG_TRIP_CONTROLLER);
-			}
-			if (mTripController != null) {
-				mAddToTripListeners.remove(mTripController);
-				transaction.remove(mTripController);
-			}
+		case HOTELS_CONTROLLER: {
+			break;
 		}
-		return transaction;
+		case TRIP_CONTROLLER: {
+			break;
+		}
+		case BACKGROUND_IMAGE: {
+			break;
+		}
+		}
 	}
 
 	/**
