@@ -32,6 +32,14 @@
     <!-- Calendar picker strings -->
     <!-- Accessibility string describing days of the week.  %s is the number (of the day), %2$s is the day.  E.g. "Day 3, Tuesday"-->
     <string name="cd_day_of_week_TEMPLATE">Day %1$s, %2$s</string>
+    <!-- Accessibility string describing days on a calendar.  This is a day that is selected (but not the start or end).  %s is the day, e.g. "September 3 in trip" -->
+    <string name="cd_day_selected_TEMPLATE">%s in trip</string>
+    <!-- Accessibility string describing days on a calendar.  This is first selected day.  %s is the day, e.g. "September 3 start date" -->
+    <string name="cd_day_selected_start_TEMPLATE">%s start date</string>
+    <!-- Accessibility string describing days on a calendar.  This is last selected day.  %s is the day, e.g. "September 3 end date" -->
+    <string name="cd_day_selected_end_TEMPLATE">%s end date</string>
+    <!-- Accessibility string describing days on a calendar.  This is a day displayed, but not valid for selection (due to being too early/late).  %s is the day, e.g. "September 3 not selectable" -->
+    <string name="cd_day_invalid_TEMPLATE">%s not selectable</string>
 
     <!-- Tablet Results strings -->
     <!-- Resulsts label -->

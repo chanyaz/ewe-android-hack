@@ -6,20 +6,30 @@ import java.util.List;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
+import android.graphics.Rect;
 import android.graphics.RectF;
+import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
+import android.support.v4.widget.ExploreByTouchHelper;
 import android.text.TextPaint;
+import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.accessibility.AccessibilityEvent;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.CalendarPicker.CalendarState;
 
@@ -62,6 +72,8 @@ public class MonthView extends View {
 	private static final int COLS = 7;
 
 	private GestureDetectorCompat mDetector;
+
+	private MonthTouchHelper mTouchHelper;
 
 	private CalendarState mState;
 
@@ -125,6 +137,21 @@ public class MonthView extends View {
 		mSelectionLinePaint.setStyle(Style.STROKE);
 
 		mSelectionAlphaPaint = new Paint(mSelectionPaint);
+
+		// Accessibility
+		mTouchHelper = new MonthTouchHelper(this);
+		ViewCompat.setAccessibilityDelegate(this, mTouchHelper);
+	}
+
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	@Override
+	public boolean dispatchHoverEvent(MotionEvent event) {
+		// Always attempt to dispatch hover events to accessibility first.
+		if (mTouchHelper.dispatchHoverEvent(event)) {
+			return true;
+		}
+
+		return super.dispatchHoverEvent(event);
 	}
 
 	public void setCalendarState(CalendarState state) {
@@ -405,35 +432,7 @@ public class MonthView extends View {
 		@Override
 		public boolean onSingleTapUp(MotionEvent e) {
 			int[] cell = getCell(e);
-			LocalDate clickedDate = mDays[cell[0]][cell[1]];
-
-			// If the user clicked on an illegal date, don't even try to use it
-			if (!mState.canSelectDate(clickedDate)) {
-				return false;
-			}
-
-			LocalDate startDate = mState.getStartDate();
-			LocalDate endDate = mState.getEndDate();
-			if (startDate == null) {
-				// If no START, select start
-				mState.setSelectedDates(clickedDate, null);
-			}
-			else if (endDate == null) {
-				if (clickedDate.isBefore(startDate)) {
-					// If clicked BEFORE start date, re-select start date
-					mState.setSelectedDates(clickedDate, null);
-				}
-				else {
-					// Else create RANGE
-					mState.setSelectedDates(startDate, clickedDate);
-				}
-			}
-			else if (!clickedDate.equals(startDate) && !clickedDate.equals(endDate)) {
-				// If clicked is not START or END, reset
-				mState.setSelectedDates(clickedDate, null);
-			}
-
-			return true;
+			return onDateClicked(cell[0], cell[1]);
 		}
 
 		@Override
@@ -518,11 +517,51 @@ public class MonthView extends View {
 		return consumed;
 	}
 
+	private boolean onDateClicked(int row, int col) {
+		LocalDate clickedDate = mDays[row][col];
+
+		// If the user clicked on an illegal date, don't even try to use it
+		if (!mState.canSelectDate(clickedDate)) {
+			return false;
+		}
+
+		LocalDate startDate = mState.getStartDate();
+		LocalDate endDate = mState.getEndDate();
+		if (startDate == null) {
+			// If no START, select start
+			mState.setSelectedDates(clickedDate, null);
+		}
+		else if (endDate == null) {
+			if (clickedDate.isBefore(startDate)) {
+				// If clicked BEFORE start date, re-select start date
+				mState.setSelectedDates(clickedDate, null);
+			}
+			else {
+				// Else create RANGE
+				mState.setSelectedDates(startDate, clickedDate);
+			}
+		}
+		else if (!clickedDate.equals(startDate) && !clickedDate.equals(endDate)) {
+			// If clicked is not START or END, reset
+			mState.setSelectedDates(clickedDate, null);
+		}
+
+		// Invalidate this cell so it gets re-read
+		int virtualViewId = mTouchHelper.cellToVirtualViewId(row, col);
+		mTouchHelper.invalidateVirtualView(virtualViewId);
+
+		// Send accessibility event for this action
+		mTouchHelper.sendEventForVirtualView(virtualViewId, AccessibilityEvent.TYPE_VIEW_CLICKED);
+
+		return true;
+	}
+
 	// Returns int[row][col] for a given motion event
 	private int[] getCell(MotionEvent e) {
-		float x = e.getX();
-		float y = e.getY();
+		return getCell(e.getX(), e.getY());
+	}
 
+	private int[] getCell(float x, float y) {
 		// Sanity check - if it's outside of the current view, don't use it
 		if (x < 0 || y < 0 || x > mWidth || y > mHeight) {
 			return null;
@@ -557,4 +596,107 @@ public class MonthView extends View {
 		return null;
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// Accessibility
+
+	private final class MonthTouchHelper extends ExploreByTouchHelper {
+
+		public MonthTouchHelper(View forView) {
+			super(forView);
+		}
+
+		private int cellToVirtualViewId(int row, int col) {
+			return row * COLS + col;
+		}
+
+		private int[] virtualViewIdToCell(int virtualViewId) {
+			return new int[] {
+				virtualViewId / COLS,
+				virtualViewId % COLS
+			};
+		}
+
+		private String getDescriptionForVirtualViewId(int virtualViewId) {
+			int[] cell = virtualViewIdToCell(virtualViewId);
+			LocalDate date = mDays[cell[0]][cell[1]];
+			return getDescriptionForDate(date);
+		}
+
+		private String getDescriptionForDate(LocalDate date) {
+			String dateStr = JodaUtils.formatLocalDate(getContext(), date, DateUtils.FORMAT_SHOW_DATE);
+
+			LocalDate startDate = mState.getStartDate();
+			LocalDate endDate = mState.getEndDate();
+			if (startDate != null && date.equals(startDate)) {
+				return getContext().getString(R.string.cd_day_selected_start_TEMPLATE, dateStr);
+			}
+			else if (endDate != null && date.equals(endDate)) {
+				return getContext().getString(R.string.cd_day_selected_end_TEMPLATE, dateStr);
+			}
+			else if (startDate != null && endDate != null && date.isAfter(startDate) && date.isBefore(endDate)) {
+				return getContext().getString(R.string.cd_day_selected_TEMPLATE, dateStr);
+			}
+			else if (!mState.canSelectDate(date)) {
+				return getContext().getString(R.string.cd_day_invalid_TEMPLATE, dateStr);
+			}
+			else {
+				return dateStr;
+			}
+		}
+
+		@Override
+		protected int getVirtualViewAt(float x, float y) {
+			int[] cell = getCell(x, y);
+			if (cell != null) {
+				return cellToVirtualViewId(cell[0], cell[1]);
+			}
+
+			return INVALID_ID;
+		}
+
+		@Override
+		protected void getVisibleVirtualViews(List<Integer> virtualViewIds) {
+			for (int row = 0; row < ROWS; row++) {
+				for (int col = 0; col < COLS; col++) {
+					virtualViewIds.add(cellToVirtualViewId(row, col));
+				}
+			}
+		}
+
+		@Override
+		protected void onPopulateNodeForVirtualView(int virtualViewId, AccessibilityNodeInfoCompat node) {
+			int[] cell = virtualViewIdToCell(virtualViewId);
+			LocalDate date = mDays[cell[0]][cell[1]];
+
+			node.setContentDescription(getDescriptionForDate(date));
+
+			if (mState.canSelectDate(date)) {
+				node.addAction(AccessibilityNodeInfoCompat.ACTION_CLICK);
+			}
+
+			node.setBoundsInParent(
+					new Rect((int) mCellWidth * cell[1],
+							(int) mCellHeight * cell[0],
+							(int) mCellWidth * (cell[1] + 1),
+							(int) mCellHeight * (cell[0] + 1)));
+		}
+
+		@Override
+		protected void onPopulateEventForVirtualView(int virtualViewId, AccessibilityEvent event) {
+			event.setContentDescription(getDescriptionForVirtualViewId(virtualViewId));
+		}
+
+		@Override
+		protected boolean onPerformActionForVirtualView(int virtualViewId, int action, Bundle arguments) {
+			switch (action) {
+			case AccessibilityNodeInfoCompat.ACTION_CLICK:
+				int[] cell = virtualViewIdToCell(virtualViewId);
+				onDateClicked(cell[0], cell[1]);
+				return true;
+			}
+
+			return false;
+		}
+
+	}
 }
