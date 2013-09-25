@@ -67,8 +67,6 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_hotel_filters, null);
 
-		HotelSearch hotelSearch = Db.getHotelSearch();
-
 		Ui.findView(view, R.id.done_button).setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				onFilterClosed();
@@ -85,7 +83,23 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		mNeighborhoodLayout = Ui.findView(view, R.id.areas_layout);
 
 		// Configure initial settings (based on the filter)
+		HotelSearch search = Db.getHotelSearch();
 		HotelFilter filter = Db.getFilter();
+		initializeViews(search, filter);
+
+		// Configure functionality of each filter control
+		mHotelNameEditText.addTextChangedListener(mHotelNameTextWatcher);
+		mSortByButtonGroup.setOnCheckedChangeListener(mSortCheckedChangeListener);
+		mRadiusButtonGroup.setOnCheckedChangeListener(mRadiusCheckedChangeListener);
+		mRatingButtonGroup.setOnCheckedChangeListener(mStarRatingCheckedChangeListener);
+		mPriceButtonGroup.setOnCheckedChangeListener(mPriceCheckedChangeListener);
+		mVipAccessButton.setOnClickListener(mVipAccessClickListener);
+		mNeighborhoodLayout.setOnNeighborhoodsChangedListener(mNeighborhoodsChangedListener);
+
+		return view;
+	}
+
+	private void initializeViews(HotelSearch search, HotelFilter filter) {
 		mHotelNameEditText.setText(filter.getHotelName());
 
 		// Configure radius labels
@@ -133,7 +147,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		}
 		}
 		mRadiusButtonGroup.check(checkId);
-		SearchType searchType = hotelSearch.getSearchParams().getSearchType();
+		SearchType searchType = search.getSearchParams().getSearchType();
 		mRadiusButtonGroup.setVisibility(searchType == SearchType.ADDRESS || searchType == SearchType.MY_LOCATION
 				|| searchType == SearchType.POI ? View.VISIBLE : View.GONE);
 
@@ -179,20 +193,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		mVipAccessButton.setSelected(filter.isVipAccessOnly());
 
 		// Configure Areas/Neighborhoods
-		if (hotelSearch != null) {
-			mNeighborhoodLayout.setNeighborhoods(hotelSearch.getSearchResponse());
-		}
-
-		// Configure functionality of each filter control
-		mHotelNameEditText.addTextChangedListener(mHotelNameTextWatcher);
-		mSortByButtonGroup.setOnCheckedChangeListener(mSortCheckedChangeListener);
-		mRadiusButtonGroup.setOnCheckedChangeListener(mRadiusCheckedChangeListener);
-		mRatingButtonGroup.setOnCheckedChangeListener(mStarRatingCheckedChangeListener);
-		mPriceButtonGroup.setOnCheckedChangeListener(mPriceCheckedChangeListener);
-		mVipAccessButton.setOnClickListener(mVipAccessClickListener);
-		mNeighborhoodLayout.setOnNeighborhoodsChangedListener(mNeighborhoodsChangedListener);
-
-		return view;
+		mNeighborhoodLayout.setNeighborhoods(search.getSearchResponse());
 	}
 
 	public void onStart() {
@@ -205,7 +206,6 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 				response.setFilter(Db.getFilter());
 			}
 		}
-
 	}
 
 	//////////////////////////////////////////////////////////////////////////
