@@ -248,7 +248,8 @@ public class FlightSearchResultsSortTest extends CustomActivityInstrumentationTe
 			mDriver.flightsSearchResultsScreen().clickToSortByDuration();
 			mDriver.delay(1);
 			int totalFlights = mDriver.flightsSearchResultsScreen().searchResultListView().getCount();
-			int flightsPerScreenHeight = mDriver.flightsSearchResultsScreen().searchResultListView().getChildCount() - 2;
+			final int flightsPerScreenHeight = mDriver.flightsSearchResultsScreen().searchResultListView()
+					.getChildCount();
 
 			// Only run test if number of flights is > 1
 			if (totalFlights > 1) {
@@ -259,10 +260,11 @@ public class FlightSearchResultsSortTest extends CustomActivityInstrumentationTe
 						.flightLegScreen().durationTextView());
 				mDriver.goBack();
 				Pair<Integer, Integer> currentDuration;
-
+				int rowsCurrentlyShown = mDriver.flightsSearchResultsScreen().searchResultListView()
+						.getChildCount() - 2;
 				//iterate through list of flights, comparing currently indexed flight's duration with flight at index - 1
 				for (int j = 0; j < totalFlights / flightsPerScreenHeight; j++) {
-					for (int i = 1; i < flightsPerScreenHeight; i++) {
+					for (int i = 1; i < rowsCurrentlyShown; i++) {
 						mDriver.flightsSearchResultsScreen().selectFlightFromList(i);
 						mDriver.delay();
 						currentDuration = getHourMinutePairFromHeaderTextView(mDriver.flightLegScreen()
@@ -278,8 +280,9 @@ public class FlightSearchResultsSortTest extends CustomActivityInstrumentationTe
 						previousDuration = currentDuration;
 					}
 					mDriver.scrollDown();
-					flightsPerScreenHeight = mDriver.flightsSearchResultsScreen().searchResultListView()
-							.getChildCount() - 2;
+					rowsCurrentlyShown = mDriver.flightsSearchResultsScreen().searchResultListView()
+							.getChildCount() - 3;
+					mDriver.delay(1);
 				}
 			}
 		}
