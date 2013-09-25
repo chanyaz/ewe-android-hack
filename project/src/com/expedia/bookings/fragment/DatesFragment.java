@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.format.DateUtils;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,15 +86,14 @@ public class DatesFragment extends Fragment implements DateSelectionChangedListe
 	}
 
 	private void updateStatusText() {
-		updateStatusText(getSelectedDates());
-	}
+		LocalDate start = mCalendarPicker.getStartDate();
+		LocalDate end = mCalendarPicker.getEndDate();
 
-	private void updateStatusText(Pair<LocalDate, LocalDate> dates) {
-		if (dates.first != null && dates.second != null) {
-			int daysBetween = JodaUtils.daysBetween(dates.first, dates.second);
+		if (start != null && end != null) {
+			int daysBetween = JodaUtils.daysBetween(start, end);
 			mStatusTextView.setText(getString(R.string.dates_status_multi_TEMPLATE, daysBetween));
 		}
-		else if (dates.first != null) {
+		else if (start != null) {
 			mStatusTextView.setText(R.string.dates_status_one);
 		}
 		else {
@@ -104,20 +102,19 @@ public class DatesFragment extends Fragment implements DateSelectionChangedListe
 	}
 
 	private void updateDateBoxes() {
-		updateDateBoxes(getSelectedDates());
-	}
+		LocalDate start = mCalendarPicker.getStartDate();
+		LocalDate end = mCalendarPicker.getEndDate();
 
-	private void updateDateBoxes(Pair<LocalDate, LocalDate> dates) {
-		if (dates.first != null) {
-			String date = JodaUtils.formatLocalDate(getActivity(), dates.first, DATE_BOX_FLAGS);
+		if (start != null) {
+			String date = JodaUtils.formatLocalDate(getActivity(), start, DATE_BOX_FLAGS);
 			mStartTextView.setText(getString(R.string.start_date_TEMPLATE, date));
 		}
 		else {
 			mStartTextView.setText(getString(R.string.start_date_TEMPLATE, ""));
 		}
 
-		if (dates.second != null) {
-			String date = JodaUtils.formatLocalDate(getActivity(), dates.second, DATE_BOX_FLAGS);
+		if (end != null) {
+			String date = JodaUtils.formatLocalDate(getActivity(), end, DATE_BOX_FLAGS);
 			mEndTextView.setText(getString(R.string.end_date_TEMPLATE, date));
 		}
 		else {
@@ -174,33 +171,15 @@ public class DatesFragment extends Fragment implements DateSelectionChangedListe
 		}
 	}
 
-	private Pair<LocalDate, LocalDate> getSelectedDates() {
-		LocalDate startDate = mCalendarPicker.getStartDate();
-		LocalDate endDate = mCalendarPicker.getEndDate();
-		return new Pair<LocalDate, LocalDate>(startDate, endDate);
-	}
-
-	public void onDateChanged() {
-		Pair<LocalDate, LocalDate> dates = getSelectedDates();
-
-		mListener.onDatesChanged(dates.first, dates.second);
-
-		updateStatusText(dates);
-		updateDateBoxes(dates);
-		updateArrow();
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// DateSelectionChangedListener
 
 	@Override
 	public void onDateSelectionChanged(LocalDate start, LocalDate end) {
-		Pair<LocalDate, LocalDate> dates = getSelectedDates();
+		mListener.onDatesChanged(start, end);
 
-		mListener.onDatesChanged(dates.first, dates.second);
-
-		updateStatusText(dates);
-		updateDateBoxes(dates);
+		updateStatusText();
+		updateDateBoxes();
 		updateArrow();
 	}
 
