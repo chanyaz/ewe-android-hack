@@ -1,6 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.List;
 import java.util.Map;
 
 import android.os.Bundle;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightFilter;
-import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.utils.Ui;
@@ -119,16 +117,32 @@ public class ResultsFlightFiltersFragment extends Fragment {
 
 	private void buildAirlineList() {
 		Map<String, FlightTrip> cheapestTrips = Db.getFlightSearch().queryTrips(mLegNumber).getCheapestTripsByAirline();
+		FlightTrip[] trips = new FlightTrip[cheapestTrips.values().size()];
+		cheapestTrips.values().toArray(trips);
 
-		mAirlineContainer.removeAllViews();
-		if (cheapestTrips != null) {
-			for (FlightTrip trip : cheapestTrips.values()) {
-				TextView tv = new TextView(getActivity());
-				tv.setText(trip.getLeg(0).getAirlinesFormatted() + " - "
-						+ trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
+		int numTripsToShow = trips.length;
+		int numTripsInContainer = mAirlineContainer.getChildCount();
+
+		FlightTrip trip;
+		TextView tv;
+		for (int i = 0; i < numTripsToShow; i++) {
+			trip = trips[i];
+			if (i < numTripsInContainer) {
+				tv = (TextView) mAirlineContainer.getChildAt(i);
+				tv.setVisibility(View.VISIBLE);
+			}
+			else {
+				tv = new TextView(getActivity());
 				mAirlineContainer.addView(tv);
 			}
+			tv.setText(trip.getLeg(0).getAirlinesFormatted() + " - "
+					+ trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
 		}
-	}
 
+		// Keep around the views not needed, but just set their visibility to GONE.
+		for (int i = numTripsToShow; i < numTripsInContainer; i++) {
+			mAirlineContainer.getChildAt(i).setVisibility(View.GONE);
+		}
+
+	}
 }
