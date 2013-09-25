@@ -1,6 +1,9 @@
 package com.expedia.bookings.fragment;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import android.os.Bundle;
@@ -112,19 +115,23 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	}
 
 	private void buildAirlineList() {
-		Map<String, FlightTrip> cheapestTrips = Db.getFlightSearch().queryTrips(mLegNumber).getCheapestTripsByAirline();
-		int numTripsToShow = cheapestTrips == null ? 0 : cheapestTrips.values().size();
-		FlightTrip[] trips = new FlightTrip[numTripsToShow];
-		if (numTripsToShow > 0) {
-			cheapestTrips.values().toArray(trips);
-		}
+		Map<String, FlightTrip> cheapestTripsMap = Db.getFlightSearch().queryTrips(mLegNumber)
+				.getCheapestTripsByAirline();
 
+		int numTripsToShow = cheapestTripsMap == null ? 0 : cheapestTripsMap.values().size();
 		int numTripsInContainer = mAirlineContainer.getChildCount();
+
+		List<FlightTrip> trips = new ArrayList<FlightTrip>();
+		if (numTripsToShow > 0) {
+			trips = new ArrayList<FlightTrip>(cheapestTripsMap.values());
+			Collections.sort(trips, new FlightTrip.FlightTripComparator(mLegNumber,
+					FlightTrip.CompareField.AIRLINE_NAME));
+		}
 
 		FlightTrip trip;
 		TextView tv;
 		for (int i = 0; i < numTripsToShow; i++) {
-			trip = trips[i];
+			trip = trips.get(i);
 			if (i < numTripsInContainer) {
 				tv = (TextView) mAirlineContainer.getChildAt(i);
 				tv.setVisibility(View.VISIBLE);
