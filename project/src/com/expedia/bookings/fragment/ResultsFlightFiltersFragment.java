@@ -1,9 +1,11 @@
 package com.expedia.bookings.fragment;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +66,23 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		mFilterGroup.setOnCheckedChangeListener(mControlKnobListener);
 	}
 
+	private static final Map<Integer, FlightFilter.Sort> RES_ID_SORT_MAP = new HashMap<Integer, FlightFilter.Sort>() {
+		{
+			put(R.id.flight_sort_arrives, FlightFilter.Sort.ARRIVAL);
+			put(R.id.flight_sort_departs, FlightFilter.Sort.DEPARTURE);
+			put(R.id.flight_sort_duration, FlightFilter.Sort.DURATION);
+			put(R.id.flight_sort_price, FlightFilter.Sort.PRICE);
+		}
+	};
+
+	private static final SparseIntArray RES_ID_STOPS_FILTER_MAP = new SparseIntArray() {
+		{
+			put(R.id.flight_filter_stop_any, FlightFilter.STOPS_ANY);
+			put(R.id.flight_filter_stop_one_or_less, FlightFilter.STOPS_MAX);
+			put(R.id.flight_filter_stop_none, FlightFilter.STOPS_NONSTOP);
+		}
+	};
+
 	private RadioGroup.OnCheckedChangeListener mControlKnobListener = new RadioGroup.OnCheckedChangeListener() {
 		@Override
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -74,39 +93,16 @@ public class ResultsFlightFiltersFragment extends Fragment {
 			case R.id.flight_sort_departs:
 			case R.id.flight_sort_duration:
 			case R.id.flight_sort_price:
-				switch (checkedId) {
-				case R.id.flight_sort_arrives:
-					filter.setSort(FlightFilter.Sort.ARRIVAL);
-					break;
-				case R.id.flight_sort_departs:
-					filter.setSort(FlightFilter.Sort.DEPARTURE);
-					break;
-				case R.id.flight_sort_duration:
-					filter.setSort(FlightFilter.Sort.DURATION);
-					break;
-				case R.id.flight_sort_price:
-					filter.setSort(FlightFilter.Sort.PRICE);
-					break;
-				}
-				filter.notifyFilterChanged();
+				filter.setSort(RES_ID_SORT_MAP.get(new Integer(checkedId)));
 				break;
 			case R.id.flight_filter_stop_any:
 			case R.id.flight_filter_stop_one_or_less:
 			case R.id.flight_filter_stop_none:
-				switch (checkedId) {
-				case R.id.flight_filter_stop_any:
-					filter.setStops(FlightFilter.STOPS_ANY);
-					break;
-				case R.id.flight_filter_stop_one_or_less:
-					filter.setStops(FlightFilter.STOPS_MAX);
-					break;
-				case R.id.flight_filter_stop_none:
-					filter.setStops(FlightFilter.STOPS_NONSTOP);
-					break;
-				}
-				filter.notifyFilterChanged();
+				filter.setStops(RES_ID_STOPS_FILTER_MAP.get(checkedId));
 				break;
 			}
+
+			filter.notifyFilterChanged();
 			onFilterChanged();
 		}
 	};
