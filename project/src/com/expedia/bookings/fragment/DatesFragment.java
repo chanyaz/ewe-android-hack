@@ -147,15 +147,13 @@ public class DatesFragment extends Fragment implements DateSelectionChangedListe
 
 		if (selectedView == null) {
 			// Hide it by lowering it below the calendar
-			mArrowView.setTranslationY(mArrowView.getHeight());
+			mArrowView.animate().translationY(mArrowView.getHeight()).start();
 		}
 		else {
 			// Move it beneath the center of the selected view
 			int left = selectedView.getLeft();
 			int right = selectedView.getRight();
-
-			mArrowView.setTranslationY(0);
-			mArrowView.setTranslationX(((right - left) / 2) + left);
+			mArrowView.animate().translationY(0).translationX(((right - left) / 2) + left).start();
 		}
 	}
 
