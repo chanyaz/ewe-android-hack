@@ -10,10 +10,12 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.graphics.ArrowDrawable;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.CalendarPicker;
 import com.expedia.bookings.widget.CalendarPicker.DateSelectionChangedListener;
@@ -35,6 +37,7 @@ public class DatesFragment extends Fragment implements DateSelectionChangedListe
 	private TextView mStatusTextView;
 	private TextView mStartTextView;
 	private TextView mEndTextView;
+	private View mArrowView;
 	private CalendarPicker mCalendarPicker;
 
 	// These are only used for the initial setting; they do not represent the state most of the time
@@ -55,6 +58,7 @@ public class DatesFragment extends Fragment implements DateSelectionChangedListe
 		mStatusTextView = Ui.findView(view, R.id.status_text_view);
 		mStartTextView = Ui.findView(view, R.id.start_text_view);
 		mEndTextView = Ui.findView(view, R.id.end_text_view);
+		mArrowView = Ui.findView(view, R.id.arrow_view);
 		mCalendarPicker = Ui.findView(view, R.id.calendar_picker);
 
 		mCalendarPicker.setSelectableDateRange(LocalDate.now(), LocalDate.now().plusDays(330));
@@ -64,6 +68,11 @@ public class DatesFragment extends Fragment implements DateSelectionChangedListe
 
 		updateStatusText();
 		updateDateBoxes();
+		updateArrow();
+
+		// Initial arrow config
+		ArrowDrawable arrowDrawable = new ArrowDrawable(getResources().getColor(R.color.bg_dates_color));
+		mArrowView.setBackground(arrowDrawable);
 
 		return view;
 	}
@@ -99,15 +108,12 @@ public class DatesFragment extends Fragment implements DateSelectionChangedListe
 	}
 
 	private void updateDateBoxes(Pair<LocalDate, LocalDate> dates) {
-		View selectedView = null;
-
 		if (dates.first != null) {
 			String date = JodaUtils.formatLocalDate(getActivity(), dates.first, DATE_BOX_FLAGS);
 			mStartTextView.setText(getString(R.string.start_date_TEMPLATE, date));
 		}
 		else {
 			mStartTextView.setText(getString(R.string.start_date_TEMPLATE, ""));
-			selectedView = mStartTextView;
 		}
 
 		if (dates.second != null) {
@@ -116,17 +122,55 @@ public class DatesFragment extends Fragment implements DateSelectionChangedListe
 		}
 		else {
 			mEndTextView.setText(R.string.end_date_optional);
-
-			if (selectedView == null) {
-				selectedView = mEndTextView;
-			}
 		}
 
 		// Make sure only one box is selected
 		mStartTextView.setBackgroundResource(R.drawable.bg_date_box_normal);
 		mEndTextView.setBackgroundResource(R.drawable.bg_date_box_normal);
+		View selectedView = getSelectedDateBox();
 		if (selectedView != null) {
 			selectedView.setBackgroundResource(R.drawable.bg_date_box_selected);
+		}
+	}
+
+	private void updateArrow() {
+		if (mArrowView.getWidth() == 0) {
+			// Delay until we've measured
+			mArrowView.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+				@Override
+				public boolean onPreDraw() {
+					mArrowView.getViewTreeObserver().removeOnPreDrawListener(this);
+					updateArrow();
+					return true;
+				}
+			});
+		}
+
+		View selectedView = getSelectedDateBox();
+
+		if (selectedView == null) {
+			// Hide it by lowering it below the calendar
+			mArrowView.setTranslationY(mArrowView.getHeight());
+		}
+		else {
+			// Move it beneath the center of the selected view
+			int left = selectedView.getLeft();
+			int right = selectedView.getRight();
+
+			mArrowView.setTranslationY(0);
+			mArrowView.setTranslationX(((right - left) / 2) + left);
+		}
+	}
+
+	private View getSelectedDateBox() {
+		if (mCalendarPicker.getStartDate() == null) {
+			return mStartTextView;
+		}
+		else if (mCalendarPicker.getEndDate() == null) {
+			return mEndTextView;
+		}
+		else {
+			return null;
 		}
 	}
 
@@ -143,6 +187,7 @@ public class DatesFragment extends Fragment implements DateSelectionChangedListe
 
 		updateStatusText(dates);
 		updateDateBoxes(dates);
+		updateArrow();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -156,6 +201,7 @@ public class DatesFragment extends Fragment implements DateSelectionChangedListe
 
 		updateStatusText(dates);
 		updateDateBoxes(dates);
+		updateArrow();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

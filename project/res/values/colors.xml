@@ -7,6 +7,9 @@
     <color name="launch_band">#36ffffff</color>
     <color name="launch_tile_overlay">#A6000000</color>
     <color name="low_memory_bg_color">#404040</color>
+    
+    <!-- Dates Fragment colors -->
+    <color name="bg_dates_color">#60000000</color>
 
     <!-- Itinerary colors -->
     <color name="itin_white_text">#F3F3F3</color>
