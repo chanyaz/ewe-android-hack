@@ -75,15 +75,23 @@ public class ResultsFlightListFragment extends ResultsListFragment {
 		mLegNumber = legNumber;
 	}
 
+	/**
+	 * Call this any time that you need to reset the query. Basically, any time that you move forward,
+	 * in the flights flow, by selecting a leg, you want to clear the query of the next leg. The reason 
+	 * is that the flights present in the second leg is dependent upon which flight has been selected
+	 * from the first leg. This method call takes care of resetting the query, and ensuring all observers
+	 * are setup to properly receive changes, from the filter, for instance.
+	 */
+	public void resetQuery() {
+		Db.getFlightSearch().setSelectedLeg(mLegNumber, null);
+		Db.getFlightSearch().clearQuery(mLegNumber);
+		resetAdapterQuery();
+	}
+
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
+		// TODO remove this if check once SimpleColorAdapter is removed
 		if (mAdapter instanceof FlightAdapter) {
-			//TODO: THIS IS DUMB LOGIC SO WE DONT BLOW UP, WE ARE REMOVING PREVIOUSLY SELECTED STUFF
-			for (int i = 0; i < Db.getFlightSearch().getSelectedLegs().length; i++) {
-				Db.getFlightSearch().setSelectedLeg(i, null);
-				Db.getFlightSearch().clearQuery(i);
-			}
-
 			FlightTrip trip = ((FlightAdapter) mAdapter)
 					.getItem(position - getTopSpaceListView().getHeaderViewsCount());
 			Db.getFlightSearch().setSelectedLeg(mLegNumber, new FlightTripLeg(trip, trip.getLeg(mLegNumber)));
@@ -93,7 +101,6 @@ public class ResultsFlightListFragment extends ResultsListFragment {
 
 	@Override
 	protected ListAdapter initializeAdapter() {
-
 		// TODO: this block is temporary
 		if (Db.getFlightSearch() == null || Db.getFlightSearch().getSearchResponse() == null) {
 			int[] flightColors = { Color.rgb(0, 0, 255), Color.rgb(0, 0, 220), Color.rgb(0, 0, 150) };
@@ -112,6 +119,12 @@ public class ResultsFlightListFragment extends ResultsListFragment {
 		// Setup data
 		adapter.setLegPosition(mLegNumber);
 
+		resetAdapterQuery();
+		return mAdapter;
+	}
+
+	private void resetAdapterQuery() {
+		FlightAdapter adapter = (FlightAdapter) mAdapter;
 		if (mLegNumber > 0) {
 			FlightTripQuery previousQuery = Db.getFlightSearch().queryTrips(mLegNumber - 1);
 			adapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(mLegNumber),
@@ -121,7 +134,6 @@ public class ResultsFlightListFragment extends ResultsListFragment {
 		else {
 			adapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(mLegNumber));
 		}
-		return mAdapter;
 	}
 
 	@Override

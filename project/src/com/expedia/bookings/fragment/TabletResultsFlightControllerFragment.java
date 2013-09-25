@@ -1115,6 +1115,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			if (legNumber == 0) {
 				//TODO: IF MULTILEG FLIGHT BIND THE FLIGHT TO THE ROW HEADER
 				setFlightsState(FlightsState.FLIGHT_ONE_DETAILS, mFlightsState != FlightsState.FLIGHT_ONE_DETAILS);
+				// Make sure to reset the query, as the flights present in the second leg depend upon the flight
+				// selected from the first leg.
+				mFlightTwoListFrag.resetQuery();
 			}
 			else if (legNumber == 1) {
 				setFlightsState(FlightsState.FLIGHT_TWO_DETAILS, mFlightsState != FlightsState.FLIGHT_TWO_DETAILS);
