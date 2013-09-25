@@ -93,7 +93,6 @@ public class SvgMapFragment extends MeasurableFragment {
 		mProjection.setFalseEasting(circumference / 2);
 		mProjection.setFalseNorthing(circumference / 2);
 		mProjection.setFromMetres((1 / circumference) * mPicture.getWidth());
-		//mProjection.setScaleFactor(); // TODO
 		mProjection.initialize();
 
 		int w = mMapImageView.getWidth();
@@ -101,15 +100,15 @@ public class SvgMapFragment extends MeasurableFragment {
 		Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
 		bitmap.eraseColor(Color.TRANSPARENT);
 
-		Point2D.Double tl = transform(62, -140.828186);
-		Point2D.Double tr = transform(62, 32.316284);
+		Point2D.Double tl = transform(57, -140.828186);
+		Point2D.Double tr = transform(57, 32.316284);
 
 		float projectedWidth = (float) (tr.x - tl.x);
 		float scale = mMapImageView.getWidth() / projectedWidth;
 
 		mMapMatrix = new Matrix();
+		mMapMatrix.preTranslate((float) -tl.x, (float) -tl.y);
 		mMapMatrix.postScale(scale, scale);
-		mMapMatrix.postTranslate((float) -tl.x, (float) -tl.y);
 
 		Canvas c = new Canvas(bitmap);
 		c.setMatrix(mMapMatrix);
