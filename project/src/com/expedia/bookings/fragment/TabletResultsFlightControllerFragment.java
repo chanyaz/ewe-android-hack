@@ -77,6 +77,18 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	private static final String STATE_FLIGHTS_STATE = "STATE_HOTELS_STATE";
 	private static final String STATE_GLOBAL_STATE = "STATE_GLOBAL_STATE";
 
+	//Frag tags
+	private enum FragTag {
+		FLIGHT_MAP,
+		FLIGHT_ADD_TO_TRIP,
+		FLIGHT_ONE_FILTERS,
+		FLIGHT_ONE_LIST,
+		FLIGHT_TWO_FILTERS,
+		FLIGHT_TWO_LIST,
+		FLIGHT_ONE_DETAILS,
+		FLIGHT_TWO_DETAILS
+	}
+
 	//Containers
 	private ViewGroup mRootC;
 	private BlockEventFrameLayout mFlightMapC;
@@ -719,25 +731,14 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	 * FRAGMENT HELPERS
 	 */
 
-	private enum FragTag {
-		FLIGHT_MAP,
-		FLIGHT_ADD_TO_TRIP,
-		FLIGHT_ONE_FILTERS,
-		FLIGHT_ONE_LIST,
-		FLIGHT_TWO_FILTERS,
-		FLIGHT_TWO_LIST,
-		FLIGHT_ONE_DETAILS,
-		FLIGHT_TWO_DETAILS
-	}
-
 	private Fragment setFragmentAvailability(boolean available, FragTag tag, FragmentTransaction transaction,
 			int container, boolean alwaysRunSetup) {
 		Fragment frag = fragmentGetLocalInstance(tag);
-		if (frag == null) {
-			frag = getChildFragmentManager().findFragmentByTag(tag.name());
-		}
 		if (available) {
 			if (frag == null || !frag.isAdded()) {
+				if (frag == null) {
+					frag = getChildFragmentManager().findFragmentByTag(tag.name());
+				}
 				if (frag == null) {
 					frag = fragmentNewInstance(tag);
 				}

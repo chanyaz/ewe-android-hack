@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletResultsActivity.GlobalResultsState;
 import com.expedia.bookings.fragment.ResultsHotelListFragment.ISortAndFilterListener;
+import com.expedia.bookings.fragment.base.ResultsListFragment;
 import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.interfaces.IResultsHotelSelectedListener;
 import com.expedia.bookings.interfaces.ITabletResultsController;
@@ -16,6 +17,7 @@ import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewC
 import com.expedia.bookings.widget.FruitScrollUpListView.State;
 import com.expedia.bookings.widget.TouchThroughFrameLayout;
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 import android.animation.Animator;
@@ -72,12 +74,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 	private static final String STATE_HOTELS_STATE = "STATE_HOTELS_STATE";
 	private static final String STATE_GLOBAL_STATE = "STATE_GLOBAL_STATE";
 
-	//Tags
-	private static final String FRAG_TAG_HOTEL_LIST = "FRAG_TAG_HOTEL_LIST";
-	private static final String FRAG_TAG_HOTEL_FILTERS = "FRAG_TAG_HOTEL_FILTERS";
-	private static final String FRAG_TAG_HOTEL_FILTERED_COUNT = "FRAG_TAG_HOTEL_FILTERED_COUNT";
-	private static final String FRAG_TAG_HOTEL_MAP = "FRAG_TAG_HOTEL_MAP";
-	private static final String FRAG_TAG_HOTEL_ROOMS_AND_RATES = "FRAG_TAG_HOTEL_ROOMS_AND_RATES";
+	//Frag tags
+	private enum FragTag {
+		HOTEL_LIST, HOTEL_FILTERS, HOTEL_FILTERED_COUNT, HOTEL_MAP, HOTEL_ROOMS_AND_RATES
+	}
 
 	//Containers
 	private ViewGroup mRootC;
@@ -482,171 +482,128 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 			hotelMapAvailable = false;
 		}
 
-		//Hotel list
-		setHotelListFragmentAvailability(hotelListAvailable, transaction);
-
-		//Hotel Map
-		setHotelsMapFragmentAvailability(hotelMapAvailable, transaction);
-
-		//Hotel filters
-		setHotelFiltersFragmentAvailability(hotelFiltersAvailable, transaction);
-
-		//Hotel Filtered count fragment
-		setHotelFilteredCountFragmentAvailability(hotelFilteredCountAvailable, transaction);
-
-		//Rooms and rates
-		setHotelRoomsAndRatesFragmentAvailability(hotelRoomsAndRatesAvailable, transaction);
+		mHotelListFrag = (ResultsHotelListFragment) setFragmentAvailability(hotelListAvailable, FragTag.HOTEL_LIST,
+				transaction, R.id.column_one_hotel_list, false);
+		mMapFragment = (SupportMapFragment) setFragmentAvailability(hotelMapAvailable, FragTag.HOTEL_MAP, transaction,
+				R.id.bg_hotel_map, false);
+		mHotelFiltersFrag = (ResultsHotelsFiltersFragment) setFragmentAvailability(hotelFiltersAvailable,
+				FragTag.HOTEL_FILTERS, transaction, R.id.column_one_hotel_filters, false);
+		mHotelFilteredCountFrag = (ResultsHotelsFilterCountFragment) setFragmentAvailability(
+				hotelFilteredCountAvailable, FragTag.HOTEL_FILTERED_COUNT, transaction,
+				R.id.column_three_hotel_filtered_count, false);
+		mHotelRoomsAndRatesFrag = (ResultsHotelsRoomsAndRates) setFragmentAvailability(hotelRoomsAndRatesAvailable,
+				FragTag.HOTEL_ROOMS_AND_RATES, transaction, R.id.column_two_hotel_rooms_and_rates, false);
 
 		transaction.commit();
 
 	}
 
 	/**
-	 * FRAGMENT HELPERS
+	 * FRAGMENT STUFF
 	 */
 
-	private FragmentTransaction setHotelListFragmentAvailability(boolean available, FragmentTransaction transaction) {
+	private Fragment setFragmentAvailability(boolean available, FragTag tag, FragmentTransaction transaction,
+			int container, boolean alwaysRunSetup) {
+		Fragment frag = fragmentGetLocalInstance(tag);
 		if (available) {
-			if (mHotelListFrag == null || !mHotelListFrag.isAdded()) {
-				if (mHotelListFrag == null) {
-					mHotelListFrag = (ResultsHotelListFragment) getChildFragmentManager().findFragmentByTag(
-							FRAG_TAG_HOTEL_LIST);
+			if (frag == null || !frag.isAdded()) {
+				if (frag == null) {
+					frag = getChildFragmentManager().findFragmentByTag(tag.name());
 				}
-				if (mHotelListFrag == null) {
-					mHotelListFrag = new ResultsHotelListFragment();
+				if (frag == null) {
+					frag = fragmentNewInstance(tag);
 				}
-				if (!mHotelListFrag.isAdded()) {
-					transaction.add(R.id.column_one_hotel_list, mHotelListFrag, FRAG_TAG_HOTEL_LIST);
+				if (!frag.isAdded()) {
+					transaction.add(container, frag, tag.name());
 				}
-				mHotelListFrag.setChangeListener(mFruitProxy);
+				fragmentSetup(tag, frag);
+			}
+			else if (alwaysRunSetup) {
+				fragmentSetup(tag, frag);
 			}
 		}
 		else {
-			if (mHotelListFrag == null) {
-				mHotelListFrag = (ResultsHotelListFragment) getChildFragmentManager().findFragmentByTag(
-						FRAG_TAG_HOTEL_LIST);
+			if (frag != null) {
+				transaction.remove(frag);
 			}
-			if (mHotelListFrag != null) {
-				transaction.remove(mHotelListFrag);
-			}
+			frag = null;
 		}
-		return transaction;
+		return frag;
 	}
 
-	private FragmentTransaction setHotelFiltersFragmentAvailability(boolean available, FragmentTransaction transaction) {
-		if (available) {
-			if (mHotelFiltersFrag == null || !mHotelFiltersFrag.isAdded()) {
-				if (mHotelFiltersFrag == null) {
-					mHotelFiltersFrag = (ResultsHotelsFiltersFragment) getChildFragmentManager().findFragmentByTag(
-							FRAG_TAG_HOTEL_FILTERS);
-				}
-				if (mHotelFiltersFrag == null) {
-					mHotelFiltersFrag = new ResultsHotelsFiltersFragment();
-				}
-				if (!mHotelFiltersFrag.isAdded()) {
-					transaction.add(R.id.column_one_hotel_filters, mHotelFiltersFrag, FRAG_TAG_HOTEL_FILTERS);
-				}
-			}
+	public Fragment fragmentGetLocalInstance(FragTag tag) {
+		Fragment frag = null;
+		switch (tag) {
+		case HOTEL_LIST: {
+			frag = this.mHotelListFrag;
+			break;
 		}
-		else {
-			if (mHotelFiltersFrag == null) {
-				mHotelFiltersFrag = (ResultsHotelsFiltersFragment) getChildFragmentManager().findFragmentByTag(
-						FRAG_TAG_HOTEL_FILTERS);
-			}
-			if (mHotelFiltersFrag != null) {
-				transaction.remove(mHotelFiltersFrag);
-			}
+		case HOTEL_FILTERS: {
+			frag = this.mHotelFiltersFrag;
+			break;
 		}
-		return transaction;
+		case HOTEL_FILTERED_COUNT: {
+			frag = this.mHotelFilteredCountFrag;
+			break;
+		}
+		case HOTEL_MAP: {
+			frag = this.mMapFragment;
+			break;
+		}
+		case HOTEL_ROOMS_AND_RATES: {
+			frag = this.mHotelRoomsAndRatesFrag;
+			break;
+		}
+		}
+		return frag;
 	}
 
-	private FragmentTransaction setHotelFilteredCountFragmentAvailability(boolean available,
-			FragmentTransaction transaction) {
-		if (available) {
-			if (mHotelFilteredCountFrag == null || !mHotelFilteredCountFrag.isAdded()) {
-				if (mHotelFilteredCountFrag == null) {
-					mHotelFilteredCountFrag = (ResultsHotelsFilterCountFragment) getChildFragmentManager()
-							.findFragmentByTag(
-									FRAG_TAG_HOTEL_FILTERED_COUNT);
-				}
-				if (mHotelFilteredCountFrag == null) {
-					mHotelFilteredCountFrag = new ResultsHotelsFilterCountFragment();
-				}
-				if (!mHotelFilteredCountFrag.isAdded()) {
-					transaction.add(R.id.column_three_hotel_filtered_count, mHotelFilteredCountFrag,
-							FRAG_TAG_HOTEL_FILTERED_COUNT);
-				}
-			}
+	public Fragment fragmentNewInstance(FragTag tag) {
+		Fragment frag = null;
+		switch (tag) {
+		case HOTEL_LIST: {
+			frag = new ResultsHotelListFragment();
+			break;
 		}
-		else {
-			if (mHotelFilteredCountFrag == null) {
-				mHotelFilteredCountFrag = (ResultsHotelsFilterCountFragment) getChildFragmentManager()
-						.findFragmentByTag(
-								FRAG_TAG_HOTEL_FILTERED_COUNT);
-			}
-			if (mHotelFilteredCountFrag != null) {
-				transaction.remove(mHotelFilteredCountFrag);
-			}
+		case HOTEL_FILTERS: {
+			frag = new ResultsHotelsFiltersFragment();
+			break;
 		}
-		return transaction;
+		case HOTEL_FILTERED_COUNT: {
+			frag = new ResultsHotelsFilterCountFragment();
+			break;
+		}
+		case HOTEL_MAP: {
+			frag = SupportMapFragment.newInstance();
+			break;
+		}
+		case HOTEL_ROOMS_AND_RATES: {
+			frag = ResultsHotelsRoomsAndRates.newInstance();
+			break;
+		}
+		}
+		return frag;
 	}
 
-	private FragmentTransaction setHotelRoomsAndRatesFragmentAvailability(boolean available,
-			FragmentTransaction transaction) {
-		if (available) {
-			if (mHotelRoomsAndRatesFrag == null || !mHotelRoomsAndRatesFrag.isAdded()) {
-				if (mHotelRoomsAndRatesFrag == null) {
-					mHotelRoomsAndRatesFrag = (ResultsHotelsRoomsAndRates) getChildFragmentManager()
-							.findFragmentByTag(
-									FRAG_TAG_HOTEL_ROOMS_AND_RATES);
-				}
-				if (mHotelRoomsAndRatesFrag == null) {
-					mHotelRoomsAndRatesFrag = ResultsHotelsRoomsAndRates.newInstance();
-				}
-				if (!mHotelRoomsAndRatesFrag.isAdded()) {
-					transaction.add(R.id.column_two_hotel_rooms_and_rates, mHotelRoomsAndRatesFrag,
-							FRAG_TAG_HOTEL_ROOMS_AND_RATES);
-				}
-			}
+	public void fragmentSetup(FragTag tag, Fragment frag) {
+		switch (tag) {
+		case HOTEL_LIST: {
+			((ResultsListFragment) frag).setChangeListener(mFruitProxy);
+			break;
 		}
-		else {
-			if (mHotelRoomsAndRatesFrag == null) {
-				mHotelRoomsAndRatesFrag = (ResultsHotelsRoomsAndRates) getChildFragmentManager()
-						.findFragmentByTag(
-								FRAG_TAG_HOTEL_ROOMS_AND_RATES);
-			}
-			if (mHotelRoomsAndRatesFrag != null) {
-				transaction.remove(mHotelRoomsAndRatesFrag);
-			}
+		case HOTEL_FILTERS: {
+			break;
 		}
-		return transaction;
-	}
-
-	private FragmentTransaction setHotelsMapFragmentAvailability(boolean available, FragmentTransaction transaction) {
-		//More initialization in onMapLayout
-		if (available) {
-			if (mMapFragment == null || !mMapFragment.isAdded()) {
-
-				if (mMapFragment == null) {
-					mMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentByTag(FRAG_TAG_HOTEL_MAP);
-				}
-				if (mMapFragment == null) {
-					mMapFragment = SupportMapFragment.newInstance();
-				}
-				if (!mMapFragment.isAdded()) {
-					transaction.add(R.id.bg_hotel_map, mMapFragment, FRAG_TAG_HOTEL_MAP);
-				}
-			}
+		case HOTEL_FILTERED_COUNT: {
+			break;
 		}
-		else {
-			if (mMapFragment == null) {
-				mMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentByTag(FRAG_TAG_HOTEL_MAP);
-			}
-			if (mMapFragment != null) {
-				transaction.remove(mMapFragment);
-			}
+		case HOTEL_MAP: {
+			break;
 		}
-		return transaction;
+		case HOTEL_ROOMS_AND_RATES: {
+			break;
+		}
+		}
 	}
 
 	/**
