@@ -32,8 +32,10 @@ import com.mobiata.android.util.Ui;
 public class TabletResultsTripControllerFragment extends Fragment implements ITabletResultsController,
 		IAddToTripListener {
 
-	private static final String FRAG_TAG_TRIP_OVERVIEW = "FRAG_TAG_TRIP_OVERVIEW";
-	private static final String FRAG_BLURRED_BG = "FRAG_BLURRED_BG";
+	private enum FragTag {
+		TRIP_OVERVIEW,
+		BLURRED_BG
+	}
 
 	private ResultsTripOverviewFragment mTripOverviewFrag;
 	private ResultsBlurBackgroundImageFragment mBlurredBackgroundFrag;
@@ -93,13 +95,85 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		boolean blurredBackgroundAvailable = true;
 
 		//Trip Overview
-		setTripOverviewFragmentAvailability(tripOverviewAvailable, transaction);
+		mTripOverviewFrag = (ResultsTripOverviewFragment) setFragmentAvailability(tripOverviewAvailable,
+				FragTag.TRIP_OVERVIEW, transaction, R.id.column_three_trip_pane, false);
 
 		//Blurrred Background (for behind trip overview)
-		setBlurredBackgroundFragmentAvailability(blurredBackgroundAvailable, transaction);
+		mBlurredBackgroundFrag = (ResultsBlurBackgroundImageFragment) setFragmentAvailability(
+				blurredBackgroundAvailable, FragTag.BLURRED_BG, transaction, R.id.column_three_blurred_bg, false);
 
 		transaction.commit();
 
+	}
+
+	private Fragment setFragmentAvailability(boolean available, FragTag tag, FragmentTransaction transaction,
+			int container, boolean alwaysRunSetup) {
+		Fragment frag = fragmentGetLocalInstance(tag);
+		if (available) {
+			if (frag == null || !frag.isAdded()) {
+				if (frag == null) {
+					frag = getChildFragmentManager().findFragmentByTag(tag.name());
+				}
+				if (frag == null) {
+					frag = fragmentNewInstance(tag);
+				}
+				if (!frag.isAdded()) {
+					transaction.add(container, frag, tag.name());
+				}
+				fragmentSetup(tag, frag);
+			}
+			else if (alwaysRunSetup) {
+				fragmentSetup(tag, frag);
+			}
+		}
+		else {
+			if (frag != null) {
+				transaction.remove(frag);
+			}
+			frag = null;
+		}
+		return frag;
+	}
+
+	public Fragment fragmentGetLocalInstance(FragTag tag) {
+		Fragment frag = null;
+		switch (tag) {
+		case TRIP_OVERVIEW: {
+			frag = mTripOverviewFrag;
+			break;
+		}
+		case BLURRED_BG: {
+			frag = mBlurredBackgroundFrag;
+			break;
+		}
+		}
+		return frag;
+	}
+
+	public Fragment fragmentNewInstance(FragTag tag) {
+		Fragment frag = null;
+		switch (tag) {
+		case TRIP_OVERVIEW: {
+			frag = ResultsTripOverviewFragment.newInstance();
+			break;
+		}
+		case BLURRED_BG: {
+			frag = ResultsBlurBackgroundImageFragment.newInstance();
+			break;
+		}
+		}
+		return frag;
+	}
+
+	public void fragmentSetup(FragTag tag, Fragment frag) {
+		switch (tag) {
+		case TRIP_OVERVIEW: {
+			break;
+		}
+		case BLURRED_BG: {
+			break;
+		}
+		}
 	}
 
 	private void setTouchState(GlobalResultsState state) {
@@ -138,62 +212,6 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 			break;
 		}
 		}
-	}
-
-	private FragmentTransaction setTripOverviewFragmentAvailability(boolean available,
-			FragmentTransaction transaction) {
-		if (available) {
-			if (mTripOverviewFrag == null || !mTripOverviewFrag.isAdded()) {
-				if (mTripOverviewFrag == null) {
-					mTripOverviewFrag = (ResultsTripOverviewFragment) getChildFragmentManager().findFragmentByTag(
-							FRAG_TAG_TRIP_OVERVIEW);//Ui.findSupportFragment(this, FRAG_TAG_TRIP_OVERVIEW);
-				}
-				if (mTripOverviewFrag == null) {
-					mTripOverviewFrag = ResultsTripOverviewFragment.newInstance();
-				}
-				if (!mTripOverviewFrag.isAdded()) {
-					transaction.add(R.id.column_three_trip_pane, mTripOverviewFrag, FRAG_TAG_TRIP_OVERVIEW);
-				}
-			}
-		}
-		else {
-			if (mTripOverviewFrag == null) {
-				mTripOverviewFrag = (ResultsTripOverviewFragment) getChildFragmentManager().findFragmentByTag(
-						FRAG_TAG_TRIP_OVERVIEW);
-			}
-			if (mTripOverviewFrag != null) {
-				transaction.remove(mTripOverviewFrag);
-			}
-		}
-		return transaction;
-	}
-
-	private FragmentTransaction setBlurredBackgroundFragmentAvailability(boolean available,
-			FragmentTransaction transaction) {
-		if (available) {
-			if (mBlurredBackgroundFrag == null || !mBlurredBackgroundFrag.isAdded()) {
-				if (mBlurredBackgroundFrag == null) {
-					mBlurredBackgroundFrag = (ResultsBlurBackgroundImageFragment) getChildFragmentManager()
-							.findFragmentByTag(FRAG_BLURRED_BG);
-				}
-				if (mBlurredBackgroundFrag == null) {
-					mBlurredBackgroundFrag = ResultsBlurBackgroundImageFragment.newInstance();
-				}
-				if (!mBlurredBackgroundFrag.isAdded()) {
-					transaction.add(R.id.column_three_blurred_bg, mBlurredBackgroundFrag, FRAG_BLURRED_BG);
-				}
-			}
-		}
-		else {
-			if (mBlurredBackgroundFrag == null) {
-				mBlurredBackgroundFrag = (ResultsBlurBackgroundImageFragment) getChildFragmentManager()
-						.findFragmentByTag(FRAG_BLURRED_BG);
-			}
-			if (mBlurredBackgroundFrag != null) {
-				transaction.remove(mBlurredBackgroundFrag);
-			}
-		}
-		return transaction;
 	}
 
 	@Override
