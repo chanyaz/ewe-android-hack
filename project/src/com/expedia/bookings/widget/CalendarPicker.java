@@ -271,9 +271,19 @@ public class CalendarPicker extends LinearLayout {
 		mMonthView.notifyDisplayYearMonthChanged();
 
 		// Update header
-		mPreviousMonthTextView.setText(mState.mDisplayYearMonth.minusMonths(1).monthOfYear().getAsText());
+		Context context = getContext();
+
+		String prevMonth = mState.mDisplayYearMonth.minusMonths(1).monthOfYear().getAsText();
+		mPreviousMonthTextView.setText(prevMonth);
+		mPreviousMonthTextView.setContentDescription(context.getString(R.string.cd_month_previous_TEMPLATE, prevMonth));
+
+		String currMonth = mState.mDisplayYearMonth.monthOfYear().getAsText();
 		mCurrentMonthTextView.setText(mState.mDisplayYearMonth.monthOfYear().getAsText());
+		mCurrentMonthTextView.setContentDescription(context.getString(R.string.cd_month_current_TEMPLATE, currMonth));
+
+		String nextMonth = mState.mDisplayYearMonth.plusMonths(1).monthOfYear().getAsText();
 		mNextMonthTextView.setText(mState.mDisplayYearMonth.plusMonths(1).monthOfYear().getAsText());
+		mNextMonthTextView.setContentDescription(context.getString(R.string.cd_month_next_TEMPLATE, nextMonth));
 
 		syncDisplayMonthCarets();
 	}
