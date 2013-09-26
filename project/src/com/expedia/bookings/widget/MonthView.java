@@ -396,23 +396,29 @@ public class MonthView extends View {
 				canvas.drawLine(rect.left, bottom, rect.right, bottom, mSelectionLinePaint);
 			}
 		}
-		
+
+		*/
+
+		// Draw from weekShiftFloor --> weekShiftFloor + ROWS
+		int weekShiftFloor = (int) Math.floor(mTranslationWeeks);
+		float weekShiftRemainder = mTranslationWeeks - weekShiftFloor;
+		int numRowsToDraw = mTranslationWeeks == 0 ? ROWS : ROWS + 1;
 
 		// Draw each number
 		float textHeight = mTextPaint.descent() - mTextPaint.ascent();
 		float halfTextHeight = textHeight / 2;
 		LocalDate today = LocalDate.now();
 		Interval monthInterval = mState.getDisplayYearMonth().toInterval();
-		for (int week = 0; week < ROWS; week++) {
+		for (int week = 0; week < numRowsToDraw; week++) {
 			for (int dayOfWeek = 0; dayOfWeek < COLS; dayOfWeek++) {
-				LocalDate date = mDays[week][dayOfWeek];
-				float centerX = mColCenters[dayOfWeek];
-				float centerY = mRowCenters[week];
+				LocalDate date = mFirstDayOfGrid.plusWeeks(week + weekShiftFloor).plusDays(dayOfWeek);
 
-				// Invert colors on selected dates with circle behind them
+				float centerX = mColCenters[dayOfWeek];
+				float centerY = mFirstRowCenter + (mCellHeight * week) - (mCellHeight * weekShiftRemainder);
+
 				TextPaint paint;
-				if ((startCell != null && startCell[0] == week && startCell[1] == dayOfWeek)
-						|| (endCell != null && endCell[0] == week && endCell[1] == dayOfWeek)) {
+				if (date.equals(startDate) || date.equals(endDate)) {
+					// Invert colors on selected dates with circle behind them
 					paint = mTextInversePaint;
 				}
 				else if (date.equals(today)) {
@@ -430,27 +436,6 @@ public class MonthView extends View {
 
 				canvas.drawText(Integer.toString(date.getDayOfMonth()), centerX,
 						centerY + halfTextHeight - mTextPaint.descent(), paint);
-			}
-		}
-
-		*/
-
-		int weekShiftFloor = (int) Math.floor(mTranslationWeeks);
-		float weekShiftRemainder = mTranslationWeeks - weekShiftFloor;
-
-		// Draw from weekShiftFloor --> weekShiftFloor + ROWS
-		int numRowsToDraw = mTranslationWeeks == 0 ? ROWS : ROWS + 1;
-		float textHeight = mTextPaint.descent() - mTextPaint.ascent();
-		float halfTextHeight = textHeight / 2;
-		for (int week = 0; week < numRowsToDraw; week++) {
-			for (int dayOfWeek = 0; dayOfWeek < COLS; dayOfWeek++) {
-				LocalDate date = mFirstDayOfGrid.plusWeeks(week + weekShiftFloor).plusDays(dayOfWeek);
-
-				float centerX = mColCenters[dayOfWeek];
-				float centerY = mFirstRowCenter + (mCellHeight * week) - (mCellHeight * weekShiftRemainder);
-
-				canvas.drawText(Integer.toString(date.getDayOfMonth()), centerX,
-						centerY + halfTextHeight - mTextPaint.descent(), mTextPaint);
 			}
 		}
 
