@@ -327,8 +327,9 @@ public class CalendarPicker extends LinearLayout {
 	private float mShiftingTo = 0;
 	private Animator mCurrentMonthAnimator;
 
-	// TODO: Make this calculation logarithmic
-	private static final int WEEK_DURATION_MULTIPLIER = 150;
+	// We use log base 4 because we typically scale by 4 weeks at a time (only sometimes 5)
+	private static final int DURATION_WEEK_MULTIPLIER = 300;
+	private static final double DURATION_WEEK_LOG_BASE = Math.log(4);
 
 	/**
 	 * This animates the MonthView from one month to another.
@@ -362,8 +363,12 @@ public class CalendarPicker extends LinearLayout {
 
 		mCurrentMonthAnimator = ObjectAnimator.ofFloat(mMonthView, "translationWeeks", mShiftingTo);
 		mCurrentMonthAnimator.addListener(mMonthAnimatorListener);
-		mCurrentMonthAnimator
-				.setDuration((int) Math.abs(Math.floor(WEEK_DURATION_MULTIPLIER * (mShiftingTo - currentShift))));
+
+		// We use a logarithmic scale so that the further you go, the less duration we add to the total
+		double durationBase = Math.log(Math.abs(mShiftingTo - currentShift) + 1) / DURATION_WEEK_LOG_BASE;
+		int duration = (int) Math.round(DURATION_WEEK_MULTIPLIER * durationBase);
+		mCurrentMonthAnimator.setDuration(duration);
+
 		mCurrentMonthAnimator.start();
 	}
 
