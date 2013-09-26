@@ -134,7 +134,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		if (findViewById(R.id.cardholder_label) != null) {
 			ViewUtils.setAllCaps((TextView) findViewById(R.id.cardholder_label));
 		}
-
 		postFinishInflate();
 	}
 
@@ -251,15 +250,16 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			}
 		}
 	};
+	
 
-	SectionField<TextView, BillingInfo> mDisplayEmailDisclaimer = new SectionField<TextView, BillingInfo>(
+	SectionField<TextView, 	BillingInfo> mDisplayEmailDisclaimer = new SectionField<TextView, BillingInfo>(
 			R.id.email_disclaimer) {
 		@Override
 		public void onHasFieldAndData(TextView field, BillingInfo data) {
 			field.setText(R.string.email_disclaimer);
 		}
 	};
-
+	
 	SectionField<ImageView, BillingInfo> mDisplayCreditCardBrandIconGrey = new SectionField<ImageView, BillingInfo>(
 			R.id.display_credit_card_brand_icon_grey) {
 		@Override
@@ -719,6 +719,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			retArr.add(mValidEmail);
 			return retArr;
 		}
+		
 	};
 
 	SectionFieldEditable<EditText, BillingInfo> mEditPhoneNumber = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(

@@ -156,6 +156,9 @@ public class BookingInfoUtils {
 			}
 		}
 
+		 if (Db.getTravelers() != null && Db.getTravelers().get(0) != null && !TextUtils.isEmpty(Db.getTravelers().get(0).getEmail())) {
+			return Db.getTravelers().get(0).getEmail();
+		}
 		return null;
 	}
 

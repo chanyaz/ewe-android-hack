@@ -86,7 +86,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		BillingInfo b = new BillingInfo();
 		b.setFirstName(mFirstName);
 		b.setLastName(mLastName);
-
 		Phone p = getPrimaryPhoneNumber();
 		if (p != null) {
 			b.setTelephoneCountryCode(p.getCountryCode());
@@ -315,6 +314,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	 */
 	public boolean hasName() {
 		return !TextUtils.isEmpty(getFirstName()) && !TextUtils.isEmpty(getLastName());
+	}
+	
+	public boolean hasEmail() {
+		return !TextUtils.isEmpty(getEmail());
 	}
 
 	public boolean getSaveTravelerToExpediaAccount() {
