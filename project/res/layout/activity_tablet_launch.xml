@@ -12,14 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom"
-        android:orientation="vertical"
-        android:weightSum="10" >
+        android:orientation="vertical" >
 
         <FrameLayout
             android:id="@+id/tiles_container"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3.5" />
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 
     <FrameLayout

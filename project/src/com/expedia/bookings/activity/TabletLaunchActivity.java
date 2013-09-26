@@ -17,6 +17,7 @@ import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.fragment.DestinationTilesFragment;
 import com.expedia.bookings.fragment.ExpediaServicesFragment;
 import com.expedia.bookings.fragment.ExpediaServicesFragment.ExpediaServicesFragmentListener;
 import com.expedia.bookings.fragment.ExpediaServicesFragment.ServiceType;
@@ -65,7 +66,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		FragmentManager fm = getSupportFragmentManager();
 		if (savedInstanceState == null) {
 			mMapFragment = SvgMapFragment.newInstance();
-			mTilesFragment = ColorFragment.newInstance(Color.argb(100, 0, 0, 0));
+			mTilesFragment = DestinationTilesFragment.newInstance();
 			mSearchFragment = new TabletSearchFragment();
 			mServicesFragment = new ExpediaServicesFragment();
 

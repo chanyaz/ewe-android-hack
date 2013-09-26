@@ -236,4 +236,8 @@
     <!-- For map pins on tablet launch screen -->
     <dimen name="tablet_launch_map_pin_size">172dp</dimen>
 
+    <dimen name="destination_search_item_size">256dp</dimen>
+    <dimen name="destination_search_item_divider_padding">32dp</dimen>
+    <dimen name="destination_stack_padding">8dp</dimen>
+
 </resources>
