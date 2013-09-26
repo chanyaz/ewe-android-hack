@@ -10,14 +10,15 @@ import com.expedia.bookings.test.utils.TestPreferences;
 
 public class CommonCheckoutScreen extends ScreenActions {
 
-	private static final int sCheckoutButtonID = R.id.menu_checkout;
-	private static final int sLogInButtonID = R.id.login_text_view;
-	private static final int sBuyWithGoogleButtonID = R.id.wallet_button;
-	private static final int sAddTravelerButtonID = R.id.traveler_info_btn;
-	private static final int sSelectPaymentButtonID = R.id.payment_info_btn;
-	private static final int sSlideToPurchaseStartViewID = R.id.slider_image;
-	private static final int sSlideToPurchaseEndViewID = R.id.destination_image;
-	private static final int sCalculatingTaxesAndFeesStringID = R.string.calculating_taxes_and_fees;
+	private static final int CHECKOUT_BUTTON_ID = R.id.menu_checkout;
+	private static final int LOG_IN_BUTTON_ID = R.id.login_text_view;
+	private static final int BUY_WITH_GOOGLE_BUTTON_ID = R.id.wallet_button;
+	private static final int ADD_TRAVELER_BUTTON_ID = R.id.traveler_info_btn;
+	private static final int SELECT_PAYMENT_BUTTON_ID = R.id.payment_info_btn;
+	private static final int SLIDE_TO_PURCHASE_START_ID = R.id.slider_image;
+	private static final int SLIDE_TO_PURCHASE_END_ID = R.id.destination_image;
+	private static final int CALCULATING_TAXES_AND_FEES_ID = R.string.calculating_taxes_and_fees;
+	private static final int I_ACCEPT_STRING_ID = R.string.I_Accept;
 
 	private static final String TAG = "Common Checkout Screen";
 
@@ -29,35 +30,39 @@ public class CommonCheckoutScreen extends ScreenActions {
 	// Object access
 
 	public View checkoutButton() {
-		return getView(sCheckoutButtonID);
+		return getView(CHECKOUT_BUTTON_ID);
 	}
 
 	public View logInButton() {
-		return getView(sLogInButtonID);
+		return getView(LOG_IN_BUTTON_ID);
 	}
 
 	public View googleWalletButton() {
-		return getView(sBuyWithGoogleButtonID);
+		return getView(BUY_WITH_GOOGLE_BUTTON_ID);
 	}
 
 	public View addTravelerButton() {
-		return getView(sAddTravelerButtonID);
+		return getView(ADD_TRAVELER_BUTTON_ID);
 	}
 
 	public View selectPaymentButton() {
-		return getView(sSelectPaymentButtonID);
+		return getView(SELECT_PAYMENT_BUTTON_ID);
 	}
 
 	public View slideToPurchaseStartView() {
-		return getView(sSlideToPurchaseStartViewID);
+		return getView(SLIDE_TO_PURCHASE_START_ID);
 	}
 
 	public View slideToPurchaseEndView() {
-		return getView(sSlideToPurchaseEndViewID);
+		return getView(SLIDE_TO_PURCHASE_END_ID);
 	}
 
 	public String calculatingTaxesAndFees() {
-		return getString(sCalculatingTaxesAndFeesStringID);
+		return getString(CALCULATING_TAXES_AND_FEES_ID);
+	}
+
+	public String acceptString() {
+		return getString(I_ACCEPT_STRING_ID);
 	}
 
 	// Object interaction
@@ -80,6 +85,10 @@ public class CommonCheckoutScreen extends ScreenActions {
 
 	public void clickSelectPaymentButton() {
 		clickOnView(selectPaymentButton());
+	}
+
+	public void clickOnAcceptString() {
+		clickOnText(acceptString());
 	}
 
 	public void slideToCheckout() {
