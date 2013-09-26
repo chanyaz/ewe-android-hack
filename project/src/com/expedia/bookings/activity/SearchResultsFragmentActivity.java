@@ -1,7 +1,6 @@
 package com.expedia.bookings.activity;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -57,6 +56,7 @@ import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.ReviewSort;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.dialog.HotelErrorDialog;
@@ -81,10 +81,8 @@ import com.expedia.bookings.maps.HotelMapFragment;
 import com.expedia.bookings.maps.HotelMapFragment.HotelMapFragmentListener;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.server.ExpediaServices.ReviewSort;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.JodaUtils;
@@ -102,7 +100,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.BuildConfigUtils;
 import com.mobiata.android.util.NetUtils;
 
 // This is the TABLET search results activity
