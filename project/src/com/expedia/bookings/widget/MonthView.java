@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
-import org.joda.time.YearMonth;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -151,61 +150,6 @@ public class MonthView extends View {
 		// Accessibility
 		mTouchHelper = new MonthTouchHelper(this);
 		ViewCompat.setAccessibilityDelegate(this, mTouchHelper);
-	}
-
-	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-	@Override
-	public boolean dispatchHoverEvent(MotionEvent event) {
-		// Always attempt to dispatch hover events to accessibility first.
-		if (mTouchHelper.dispatchHoverEvent(event)) {
-			return true;
-		}
-
-		return super.dispatchHoverEvent(event);
-	}
-
-	public void setCalendarState(CalendarState state) {
-		mState = state;
-	}
-
-	public void setTextColor(int color) {
-		mTextPaint.setColor(color);
-	}
-
-	public void setTextSecondaryColor(int color) {
-		mTextSecondaryPaint.setColor(color);
-	}
-
-	public void setHighlightColor(int color) {
-		mSelectionPaint.setColor(color);
-		mSelectionLinePaint.setColor(color);
-		mSelectionAlphaPaint.setColor(color);
-		mSelectionAlphaPaint.setAlpha(SELECTION_SHADE_ALPHA);
-	}
-
-	public void setHighlightInverseColor(int color) {
-		mTextInversePaint.setColor(color);
-	}
-
-	public void setTodayColor(int color) {
-		mTextTodayPaint.setColor(color);
-	}
-
-	public void setInvalidDayColor(int color) {
-		mInvalidDayPaint.setColor(color);
-	}
-
-	public void setMaxTextSize(float textSize) {
-		mMaxTextSize = textSize;
-	}
-
-	public void setTranslationWeeks(float translationWeeks) {
-		mTranslationWeeks = translationWeeks;
-		invalidate();
-	}
-
-	public float getTranslationWeeks() {
-		return mTranslationWeeks;
 	}
 
 	public void notifyDisplayYearMonthChanged() {
@@ -453,11 +397,67 @@ public class MonthView extends View {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Configuration
+
+	public void setCalendarState(CalendarState state) {
+		mState = state;
+	}
+
+	public void setTextColor(int color) {
+		mTextPaint.setColor(color);
+	}
+
+	public void setTextSecondaryColor(int color) {
+		mTextSecondaryPaint.setColor(color);
+	}
+
+	public void setHighlightColor(int color) {
+		mSelectionPaint.setColor(color);
+		mSelectionLinePaint.setColor(color);
+		mSelectionAlphaPaint.setColor(color);
+		mSelectionAlphaPaint.setAlpha(SELECTION_SHADE_ALPHA);
+	}
+
+	public void setHighlightInverseColor(int color) {
+		mTextInversePaint.setColor(color);
+	}
+
+	public void setTodayColor(int color) {
+		mTextTodayPaint.setColor(color);
+	}
+
+	public void setInvalidDayColor(int color) {
+		mInvalidDayPaint.setColor(color);
+	}
+
+	public void setMaxTextSize(float textSize) {
+		mMaxTextSize = textSize;
+	}
+
+	public void setTranslationWeeks(float translationWeeks) {
+		mTranslationWeeks = translationWeeks;
+		invalidate();
+	}
+
+	public float getTranslationWeeks() {
+		return mTranslationWeeks;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// Touch events
 	//
 	// Note that all of this is based off of a non-animated MonthView;
 	// if we want these to work when the MonthView is animating it will
 	// require some additional work.
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		boolean consumed = mDetector.onTouchEvent(event);
+		if (!consumed) {
+			consumed = super.onTouchEvent(event);
+		}
+		return consumed;
+	}
 
 	private GestureDetector.SimpleOnGestureListener mGestureListener = new GestureDetector.SimpleOnGestureListener() {
 
@@ -552,15 +552,6 @@ public class MonthView extends View {
 
 	};
 
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		boolean consumed = mDetector.onTouchEvent(event);
-		if (!consumed) {
-			consumed = super.onTouchEvent(event);
-		}
-		return consumed;
-	}
-
 	private boolean onDateClicked(int row, int col) {
 		LocalDate clickedDate = mDays[row][col];
 
@@ -619,6 +610,17 @@ public class MonthView extends View {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Accessibility
+
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	@Override
+	public boolean dispatchHoverEvent(MotionEvent event) {
+		// Always attempt to dispatch hover events to accessibility first.
+		if (mTouchHelper.dispatchHoverEvent(event)) {
+			return true;
+		}
+
+		return super.dispatchHoverEvent(event);
+	}
 
 	private final class MonthTouchHelper extends ExploreByTouchHelper {
 
