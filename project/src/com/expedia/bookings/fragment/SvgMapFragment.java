@@ -47,12 +47,12 @@ import com.mobiata.android.bitmaps.BitmapDrawable;
 
 public class SvgMapFragment extends MeasurableFragment {
 	private FrameLayout mRoot;
-	private Picture mPicture;
-	private Projection mProjection;
 	private ImageView mMapImageView;
-	private LayoutInflater mInflater;
-	private float mPinDimension;
 
+	private LayoutInflater mInflater;
+	private Picture mPicture;
+
+	private Projection mProjection;
 	private Matrix mMapMatrix;
 
 	public static SvgMapFragment newInstance() {
@@ -86,8 +86,6 @@ public class SvgMapFragment extends MeasurableFragment {
 	}
 
 	public void generateMap() {
-		mPinDimension = getResources().getDimension(R.dimen.tablet_launch_map_pin_size);
-
 		mProjection = new MercatorProjection();
 		double circumference = mProjection.getEllipsoid().getEquatorRadius() * 2 * Math.PI;
 		mProjection.setFalseEasting(circumference / 2);
@@ -125,31 +123,26 @@ public class SvgMapFragment extends MeasurableFragment {
 		addPin(45.525592, -73.553681, "Montreal", "From $100", R.drawable.mappin_montreal);
 	}
 
-	public void addPin(double lat, double lon, String name, String price, int drawableId) {
+	public void addPin(final double lat, final double lon, String name, String price, int drawableId) {
 		final TextView pin = (TextView) mInflater.inflate(R.layout.snippet_tablet_launch_map_pin, mRoot, false);
 		mRoot.addView(pin);
 		setPinText(pin, name, price);
 		setPinImage(pin, drawableId);
 
-		Point2D.Double transformedPoint = transform(lat, lon);
-
-		float[] pts = new float[2];
-		pts[0] = (float) transformedPoint.x;
-		pts[1] = (float) transformedPoint.y;
-
-		// Transform the point into our viewport
-		mMapMatrix.mapPoints(pts);
-
-		final int marginLeft = (int) (pts[0] - mPinDimension / 2);
-		int marginTop = (int) (pts[1] - mPinDimension / 2);
-
-		MarginLayoutParams lp = (MarginLayoutParams) pin.getLayoutParams();
-		lp.setMargins(marginLeft, marginTop, 0, 0);
-		pin.setLayoutParams(lp);
 		pin.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 			@Override
 			public boolean onPreDraw() {
 				pin.getViewTreeObserver().removeOnPreDrawListener(this);
+
+				// Position on screen now we know the pin dimensions
+				Point2D.Double transformed = projectToScreen(lat, lon);
+				int marginLeft = (int) (transformed.x - pin.getWidth() / 2);
+				int marginTop = (int) (transformed.y - pin.getHeight() / 2);
+				MarginLayoutParams lp = (MarginLayoutParams) pin.getLayoutParams();
+				lp.setMargins(marginLeft, marginTop, 0, 0);
+				pin.setLayoutParams(lp);
+
+				// Popin animation
 				pin.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 				pin.setScaleX(0.0f);
 				pin.setScaleY(0.0f);
@@ -186,7 +179,8 @@ public class SvgMapFragment extends MeasurableFragment {
 	}
 
 	private void setPinImage(TextView pin, int drawableId) {
-		RoundBitmapDrawable d = new RoundBitmapDrawable(getActivity(), drawableId, mPinDimension);
+		float dimension = getResources().getDimension(R.dimen.tablet_launch_map_pin_size);
+		RoundBitmapDrawable d = new RoundBitmapDrawable(getActivity(), drawableId, dimension);
 		pin.setBackgroundDrawable(d);
 	}
 
@@ -195,6 +189,22 @@ public class SvgMapFragment extends MeasurableFragment {
 		mProjection.transform(lon, lat, p);
 		p.y = mPicture.getHeight() - p.y;
 		return p;
+	}
+
+	private Point2D.Double projectToScreen(double lat, double lon) {
+		Point2D.Double t = transform(lat, lon);
+
+		float[] pts = new float[2];
+		pts[0] = (float) t.x;
+		pts[1] = (float) t.y;
+
+		// Transform the point into our viewport
+		mMapMatrix.mapPoints(pts);
+
+		t.x = pts[0];
+		t.y = pts[1];
+
+		return t;
 	}
 
 	public static class RoundBitmapDrawable extends Drawable {
