@@ -10,6 +10,7 @@ import org.joda.time.YearMonth;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
@@ -287,28 +288,34 @@ public class MonthView extends View {
 
 		long start = System.nanoTime();
 
-		/*
-
 		LocalDate startDate = mState.getStartDate();
 		LocalDate endDate = mState.getEndDate();
 
+		// Draw from weekShiftFloor --> weekShiftFloor + ROWS
+		int weekShiftFloor = (int) Math.floor(mTranslationWeeks);
+		float weekShiftRemainder = mTranslationWeeks - weekShiftFloor;
+		int numRowsToDraw = mTranslationWeeks == 0 ? ROWS : ROWS + 1;
+
 		if (DEBUG_DRAW) {
-			// Draw cell backgrounds alternating colors
+			// Draw cell backgrounds alternating colors; may jump (don't care to fix really)
 			RectF drawRect = new RectF();
-			Paint red = new Paint();
-			red.setColor(Color.RED);
-			Paint blue = new Paint();
-			blue.setColor(Color.BLUE);
-			for (int week = 0; week < ROWS; week++) {
+			Paint first = new Paint();
+			Paint second = new Paint();
+			first.setColor(Color.RED);
+			second.setColor(Color.BLUE);
+			for (int week = 0; week < numRowsToDraw; week++) {
 				for (int dayOfWeek = 0; dayOfWeek < COLS; dayOfWeek++) {
 					drawRect.left = dayOfWeek * mCellWidth;
 					drawRect.right = drawRect.left + mCellWidth;
-					drawRect.top = week * mCellHeight;
+					drawRect.top = (mCellHeight * week) - (mCellHeight * weekShiftRemainder);
 					drawRect.bottom = drawRect.top + mCellHeight;
-					canvas.drawRect(drawRect, ((week + dayOfWeek) % 2 == 0) ? red : blue);
+					canvas.drawRect(drawRect, ((week + weekShiftFloor + dayOfWeek) % 2 == 0) ? first : second);
 				}
 			}
 		}
+
+		/*
+
 
 		// Draw the start date (if selected and visible)
 		int[] startCell = getCell(startDate);
@@ -398,11 +405,6 @@ public class MonthView extends View {
 		}
 
 		*/
-
-		// Draw from weekShiftFloor --> weekShiftFloor + ROWS
-		int weekShiftFloor = (int) Math.floor(mTranslationWeeks);
-		float weekShiftRemainder = mTranslationWeeks - weekShiftFloor;
-		int numRowsToDraw = mTranslationWeeks == 0 ? ROWS : ROWS + 1;
 
 		// Draw each number
 		float textHeight = mTextPaint.descent() - mTextPaint.ascent();
