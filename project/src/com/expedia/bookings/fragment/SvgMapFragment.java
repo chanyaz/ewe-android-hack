@@ -64,7 +64,7 @@ public class SvgMapFragment extends MeasurableFragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		mPicture = SVGParser.getSVGFromResource(activity.getResources(), R.raw.wallpaper_bg_night).getPicture();
+		mPicture = SVGParser.getSVGFromResource(activity.getResources(), R.raw.map_tablet_launch).getPicture();
 		mInflater = LayoutInflater.from(activity);
 	}
 
