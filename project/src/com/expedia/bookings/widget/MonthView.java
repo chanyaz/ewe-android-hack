@@ -5,11 +5,11 @@ import java.util.List;
 
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
+import org.joda.time.YearMonth;
 
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
@@ -78,6 +78,11 @@ public class MonthView extends View {
 
 	private CalendarState mState;
 
+	// We need to know where we are shifting FROM, so we keep our own copy
+	// of the year month we're anchored in.
+	private YearMonth mAnchorYearMonth;
+
+	private LocalDate mFirstDayOfGrid;
 	private LocalDate[][] mDays = new LocalDate[ROWS][COLS];
 	private Interval mDayInterval;
 
@@ -92,9 +97,15 @@ public class MonthView extends View {
 	private Paint mSelectionLinePaint;
 	private Paint mSelectionAlphaPaint;
 
+	// Animation variables
+	private float mTranslationWeeks;
+	//	private float mMonthShiftPercent;
+	//	private int mNumWeeksShift;
+
 	// Variables that are cached for faster drawing
 	private int mWidth;
 	private int mHeight;
+	private float mFirstRowCenter;
 	private float[] mRowCenters = new float[ROWS];
 	private float[] mColCenters = new float[COLS];
 	private float mCellHeight;
@@ -190,7 +201,18 @@ public class MonthView extends View {
 		mMaxTextSize = textSize;
 	}
 
+	public void setTranslationWeeks(float translationWeeks) {
+		mTranslationWeeks = translationWeeks;
+		invalidate();
+	}
+
+	public float getTranslationWeeks() {
+		return mTranslationWeeks;
+	}
+
 	public void notifyDisplayYearMonthChanged() {
+		mAnchorYearMonth = mState.getDisplayYearMonth();
+		mTranslationWeeks = 0;
 		precomputeGrid();
 		invalidate();
 	}
@@ -201,14 +223,14 @@ public class MonthView extends View {
 	}
 
 	private void precomputeGrid() {
-		LocalDate firstDayOfGrid = mState.getDisplayYearMonth().toLocalDate(1);
-		while (firstDayOfGrid.getDayOfWeek() != JodaUtils.getFirstDayOfWeek()) {
-			firstDayOfGrid = firstDayOfGrid.minusDays(1);
+		mFirstDayOfGrid = mAnchorYearMonth.toLocalDate(1);
+		while (mFirstDayOfGrid.getDayOfWeek() != JodaUtils.getFirstDayOfWeek()) {
+			mFirstDayOfGrid = mFirstDayOfGrid.minusDays(1);
 		}
 
 		for (int week = 0; week < ROWS; week++) {
 			for (int dayOfWeek = 0; dayOfWeek < COLS; dayOfWeek++) {
-				mDays[week][dayOfWeek] = firstDayOfGrid.plusDays(week * COLS + dayOfWeek);
+				mDays[week][dayOfWeek] = mFirstDayOfGrid.plusDays(week * COLS + dayOfWeek);
 			}
 		}
 
@@ -230,6 +252,7 @@ public class MonthView extends View {
 			mCellSelectionWidth = mCellWidth * SELECTION_PERCENT;
 			divideGridSize(mWidth, mColCenters);
 			divideGridSize(mHeight, mRowCenters);
+			mFirstRowCenter = mRowCenters[0];
 
 			mCircleRadius = Math.min(mCellSelectionHeight, mCellSelectionWidth) / 2;
 
@@ -263,6 +286,8 @@ public class MonthView extends View {
 		super.onDraw(canvas);
 
 		long start = System.nanoTime();
+
+		/*
 
 		LocalDate startDate = mState.getStartDate();
 		LocalDate endDate = mState.getEndDate();
@@ -371,6 +396,7 @@ public class MonthView extends View {
 				canvas.drawLine(rect.left, bottom, rect.right, bottom, mSelectionLinePaint);
 			}
 		}
+		
 
 		// Draw each number
 		float textHeight = mTextPaint.descent() - mTextPaint.ascent();
@@ -404,6 +430,27 @@ public class MonthView extends View {
 
 				canvas.drawText(Integer.toString(date.getDayOfMonth()), centerX,
 						centerY + halfTextHeight - mTextPaint.descent(), paint);
+			}
+		}
+
+		*/
+
+		int weekShiftFloor = (int) Math.floor(mTranslationWeeks);
+		float weekShiftRemainder = mTranslationWeeks - weekShiftFloor;
+
+		// Draw from weekShiftFloor --> weekShiftFloor + ROWS
+		int numRowsToDraw = mTranslationWeeks == 0 ? ROWS : ROWS + 1;
+		float textHeight = mTextPaint.descent() - mTextPaint.ascent();
+		float halfTextHeight = textHeight / 2;
+		for (int week = 0; week < numRowsToDraw; week++) {
+			for (int dayOfWeek = 0; dayOfWeek < COLS; dayOfWeek++) {
+				LocalDate date = mFirstDayOfGrid.plusWeeks(week + weekShiftFloor).plusDays(dayOfWeek);
+
+				float centerX = mColCenters[dayOfWeek];
+				float centerY = mFirstRowCenter + (mCellHeight * week) - (mCellHeight * weekShiftRemainder);
+
+				canvas.drawText(Integer.toString(date.getDayOfMonth()), centerX,
+						centerY + halfTextHeight - mTextPaint.descent(), mTextPaint);
 			}
 		}
 

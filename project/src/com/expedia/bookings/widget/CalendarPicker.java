@@ -2,8 +2,13 @@ package com.expedia.bookings.widget;
 
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
+import org.joda.time.Weeks;
 import org.joda.time.YearMonth;
 
+import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Parcel;
@@ -38,6 +43,8 @@ import com.mobiata.android.util.Ui;
  * TODO: Scale all views based on size of CalendarPicker itself
  */
 public class CalendarPicker extends LinearLayout {
+
+	private boolean mAttachedToWindow;
 
 	// State
 	private CalendarState mState = new CalendarState();
@@ -206,6 +213,15 @@ public class CalendarPicker extends LinearLayout {
 				return false;
 			}
 		});
+
+		mAttachedToWindow = true;
+	}
+
+	@Override
+	protected void onDetachedFromWindow() {
+		super.onDetachedFromWindow();
+
+		mAttachedToWindow = false;
 	}
 
 	@Override
@@ -267,8 +283,13 @@ public class CalendarPicker extends LinearLayout {
 	}
 
 	private void syncDisplayMonthViews() {
-		// Update month view
-		mMonthView.notifyDisplayYearMonthChanged();
+		// Animate the month view changing if we're attached (that means we're past the setup phase)
+		if (mAttachedToWindow) {
+			animateMonth(mState.mLastState.mDisplayYearMonth, mState.mDisplayYearMonth);
+		}
+		else {
+			mMonthView.notifyDisplayYearMonthChanged();
+		}
 
 		// Update header
 		Context context = getContext();
@@ -299,6 +320,77 @@ public class CalendarPicker extends LinearLayout {
 	private void syncDateSelectionViews() {
 		mMonthView.notifySelectedDatesChanged();
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Month animation
+
+	private float mShiftingTo = 0;
+	private Animator mCurrentMonthAnimator;
+
+	// TODO: Make this calculation logarithmic
+	private static final int WEEK_DURATION_MULTIPLIER = 150;
+
+	/**
+	 * This animates the MonthView from one month to another.
+	 * 
+	 * It gets a bit more complex if the MonthView is already animating.  In that case,
+	 * it stops the current animation and begins a new one *from wherever the MonthView
+	 * is* to the next month.  The duration is scaled based on how far it now has to travel.
+	 */
+	private void animateMonth(YearMonth fromMonth, YearMonth toMonth) {
+		if (mCurrentMonthAnimator != null && mCurrentMonthAnimator.isRunning()) {
+			mCurrentMonthAnimator.cancel();
+		}
+
+		// We need to calculate *how many weeks* are translated going fromMonth --> toMonth
+		// This has been determined to be the (number of days / 7) (+ 1 IF days of week swap)
+		LocalDate fromMonthFirstDay = fromMonth.toLocalDate(1);
+		LocalDate toMonthFirstDay = toMonth.toLocalDate(1);
+		int fromDayOfWeek = JodaUtils.getDayOfWeekNormalized(fromMonthFirstDay);
+		int toDayOfWeek = JodaUtils.getDayOfWeekNormalized(toMonthFirstDay);
+		int translationWeeks = Weeks.weeksBetween(fromMonthFirstDay, toMonthFirstDay).getWeeks();
+		if (translationWeeks < 0 && fromDayOfWeek < toDayOfWeek) {
+			translationWeeks--;
+		}
+		else if (translationWeeks > 0 && fromDayOfWeek > toDayOfWeek) {
+			translationWeeks++;
+		}
+
+		mShiftingTo += translationWeeks;
+
+		float currentShift = mMonthView.getTranslationWeeks();
+
+		mCurrentMonthAnimator = ObjectAnimator.ofFloat(mMonthView, "translationWeeks", mShiftingTo);
+		mCurrentMonthAnimator.addListener(mMonthAnimatorListener);
+		mCurrentMonthAnimator
+				.setDuration((int) Math.abs(Math.floor(WEEK_DURATION_MULTIPLIER * (mShiftingTo - currentShift))));
+		mCurrentMonthAnimator.start();
+	}
+
+	// Once the animation is done we want to re-center the MonthView, but only if
+	// has actually finished (and the animation wasn't just cancelled midway through)
+	private AnimatorListener mMonthAnimatorListener = new AnimatorListenerAdapter() {
+
+		private boolean mActuallyEnding;
+
+		@Override
+		public void onAnimationStart(Animator animation) {
+			mActuallyEnding = true;
+		}
+
+		@Override
+		public void onAnimationEnd(Animator animation) {
+			if (mActuallyEnding) {
+				mMonthView.notifyDisplayYearMonthChanged();
+				mShiftingTo = 0;
+			}
+		}
+
+		@Override
+		public void onAnimationCancel(Animator animation) {
+			mActuallyEnding = false;
+		}
+	};
 
 	//////////////////////////////////////////////////////////////////////////
 	// OnClickListener
