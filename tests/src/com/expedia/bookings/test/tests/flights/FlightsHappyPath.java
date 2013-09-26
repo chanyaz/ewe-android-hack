@@ -1,6 +1,6 @@
 package com.expedia.bookings.test.tests.flights;
 
-import com.expedia.bookings.activity.LaunchActivity;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.test.utils.FlightsTestDriver;
 import com.expedia.bookings.test.utils.HotelsUserData;
 
@@ -31,8 +31,25 @@ public class FlightsHappyPath {
 			driver.launchScreen().openMenuDropDown();
 			driver.launchScreen().pressSettings();
 			driver.settingsScreen().clickToClearPrivateData();
-			driver.settingsScreen().clickOKString();
-			driver.settingsScreen().clickOKString();
+			if (driver.searchText(driver.settingsScreen().OKString())) {
+				driver.settingsScreen().clickOKString();
+			}
+			else if (driver.searchText(driver.settingsScreen().AcceptString())) {
+				driver.settingsScreen().clickAcceptString();
+			}
+			else {
+				driver.clickOnText("OK");
+			}
+			driver.delay();
+			if (driver.searchText(driver.settingsScreen().OKString())) {
+				driver.settingsScreen().clickOKString();
+			}
+			else if (driver.searchText(driver.settingsScreen().AcceptString())) {
+				driver.settingsScreen().clickAcceptString();
+			}
+			else {
+				driver.clickOnText("OK");
+			}
 			driver.settingsScreen().setSpoofBookings();
 			driver.settingsScreen().goBack();
 
@@ -111,12 +128,17 @@ public class FlightsHappyPath {
 			driver.commonCheckout().clickSelectPaymentButton();
 			driver.screenshot("Select Payment");
 			driver.commonPaymentMethodScreen().clickOnAddNewCardTextView();
-			driver.screenshot("Add new card");
-			driver.billingAddressScreen().typeTextAddressLineOne(user.getAddressLine1());
-			driver.billingAddressScreen().typeTextCity(user.getAddressCity());
-			driver.billingAddressScreen().typeTextState(user.getAddressStateCode());
-			driver.billingAddressScreen().typeTextPostalCode(user.getAddressPostalCode());
-			driver.billingAddressScreen().clickNextButton();
+
+			if (PointOfSale.getPointOfSale().requiresBillingAddressFlights()) {
+				driver.screenshot("Address");
+				driver.landscape();
+				driver.portrait();
+				driver.billingAddressScreen().typeTextAddressLineOne(user.getAddressLine1());
+				driver.billingAddressScreen().typeTextCity(user.getAddressCity());
+				driver.billingAddressScreen().typeTextState(user.getAddressStateCode());
+				driver.billingAddressScreen().typeTextPostalCode(user.getAddressPostalCode());
+				driver.billingAddressScreen().clickNextButton();
+			}
 
 			driver.landscape();
 			driver.portrait();
@@ -131,6 +153,9 @@ public class FlightsHappyPath {
 
 			driver.landscape();
 			driver.portrait();
+			if (driver.searchText(driver.commonCheckout().acceptString(), 1, false, true)) {
+				driver.commonCheckout().clickOnAcceptString();
+			}
 			driver.screenshot("Slide to checkout");
 			driver.commonCheckout().slideToCheckout();
 			driver.delay();
@@ -145,7 +170,8 @@ public class FlightsHappyPath {
 			driver.landscape();
 			driver.portrait();
 			driver.flightsConfirmationScreen().clickDoneButton();
-			driver.launchScreen().pressShop();
+			driver.delay();
+			driver.tripsScreen().swipeToLaunchScreen();
 		}
 		catch (Error e) {
 			driver.getScreenShotUtility().screenshot(TAG + "-FAILURE");
