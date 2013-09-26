@@ -44,7 +44,11 @@ import com.mobiata.android.util.Ui;
  */
 public class CalendarPicker extends LinearLayout {
 
-	private boolean mAttachedToWindow;
+	// Constants
+	// The base value to scale by log4(x)
+	private static final int DURATION_WEEK_MULTIPLIER = 300;
+	// We use log base 4 because we typically scale by 4 weeks at a time (only sometimes 5)
+	private static final double DURATION_WEEK_LOG_BASE = Math.log(4);
 
 	// State
 	private CalendarState mState = new CalendarState();
@@ -70,6 +74,11 @@ public class CalendarPicker extends LinearLayout {
 
 	// Listener
 	private DateSelectionChangedListener mListener;
+
+	// Animation
+	private boolean mAttachedToWindow;
+	private float mTranslationWeekTarget = 0;
+	private Animator mMonthAnimator;
 
 	public CalendarPicker(Context context) {
 		this(context, null);
@@ -324,13 +333,6 @@ public class CalendarPicker extends LinearLayout {
 	//////////////////////////////////////////////////////////////////////////
 	// Month animation
 
-	private float mShiftingTo = 0;
-	private Animator mCurrentMonthAnimator;
-
-	// We use log base 4 because we typically scale by 4 weeks at a time (only sometimes 5)
-	private static final int DURATION_WEEK_MULTIPLIER = 300;
-	private static final double DURATION_WEEK_LOG_BASE = Math.log(4);
-
 	/**
 	 * This animates the MonthView from one month to another.
 	 * 
@@ -339,8 +341,8 @@ public class CalendarPicker extends LinearLayout {
 	 * is* to the next month.  The duration is scaled based on how far it now has to travel.
 	 */
 	private void animateMonth(YearMonth fromMonth, YearMonth toMonth) {
-		if (mCurrentMonthAnimator != null && mCurrentMonthAnimator.isRunning()) {
-			mCurrentMonthAnimator.cancel();
+		if (mMonthAnimator != null && mMonthAnimator.isRunning()) {
+			mMonthAnimator.cancel();
 		}
 
 		// We need to calculate *how many weeks* are translated going fromMonth --> toMonth
@@ -357,19 +359,19 @@ public class CalendarPicker extends LinearLayout {
 			translationWeeks++;
 		}
 
-		mShiftingTo += translationWeeks;
+		mTranslationWeekTarget += translationWeeks;
 
 		float currentShift = mMonthView.getTranslationWeeks();
 
-		mCurrentMonthAnimator = ObjectAnimator.ofFloat(mMonthView, "translationWeeks", mShiftingTo);
-		mCurrentMonthAnimator.addListener(mMonthAnimatorListener);
+		mMonthAnimator = ObjectAnimator.ofFloat(mMonthView, "translationWeeks", mTranslationWeekTarget);
+		mMonthAnimator.addListener(mMonthAnimatorListener);
 
 		// We use a logarithmic scale so that the further you go, the less duration we add to the total
-		double durationBase = Math.log(Math.abs(mShiftingTo - currentShift) + 1) / DURATION_WEEK_LOG_BASE;
+		double durationBase = Math.log(Math.abs(mTranslationWeekTarget - currentShift) + 1) / DURATION_WEEK_LOG_BASE;
 		int duration = (int) Math.round(DURATION_WEEK_MULTIPLIER * durationBase);
-		mCurrentMonthAnimator.setDuration(duration);
+		mMonthAnimator.setDuration(duration);
 
-		mCurrentMonthAnimator.start();
+		mMonthAnimator.start();
 	}
 
 	// Once the animation is done we want to re-center the MonthView, but only if
@@ -387,7 +389,7 @@ public class CalendarPicker extends LinearLayout {
 		public void onAnimationEnd(Animator animation) {
 			if (mActuallyEnding) {
 				mMonthView.notifyDisplayYearMonthChanged();
-				mShiftingTo = 0;
+				mTranslationWeekTarget = 0;
 			}
 		}
 
