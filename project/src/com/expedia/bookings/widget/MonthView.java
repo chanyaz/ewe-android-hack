@@ -73,46 +73,38 @@ public class MonthView extends View {
 	private static final int ROWS = 6;
 	private static final int COLS = 7;
 
-	private GestureDetectorCompat mDetector;
-
-	private MonthTouchHelper mTouchHelper;
-
 	private CalendarState mState;
 
-	// We need to know where we are shifting FROM, so we keep our own copy
-	// of the year month we're anchored in.
-	private YearMonth mAnchorYearMonth;
-
 	private LocalDate mFirstDayOfGrid;
-	private LocalDate[][] mDays = new LocalDate[ROWS][COLS];
-	private Interval mDayInterval;
 
+	// Paints
+	private float mMaxTextSize;
 	private TextPaint mTextPaint;
 	private TextPaint mTextSecondaryPaint;
 	private TextPaint mTextInversePaint;
 	private TextPaint mTextTodayPaint;
 	private TextPaint mInvalidDayPaint;
-	private float mMaxTextSize;
-
 	private Paint mSelectionPaint;
 	private Paint mSelectionLinePaint;
 	private Paint mSelectionAlphaPaint;
 
+	// Touch events
+	private GestureDetectorCompat mDetector;
+	private LocalDate[][] mDays = new LocalDate[ROWS][COLS];
+
 	// Animation variables
 	private float mTranslationWeeks;
-	//	private float mMonthShiftPercent;
-	//	private int mNumWeeksShift;
+
+	// Accessibility
+	private MonthTouchHelper mTouchHelper;
 
 	// Variables that are cached for faster drawing
 	private int mWidth;
 	private int mHeight;
 	private float mFirstRowCenter;
-	private float[] mRowCenters = new float[ROWS];
 	private float[] mColCenters = new float[COLS];
 	private float mCellHeight;
 	private float mCellWidth;
-	private float mCellSelectionHeight;
-	private float mCellSelectionWidth;
 	private float mCircleRadius;
 	private List<RectF> mHighlightRows = new ArrayList<RectF>();
 	private int mHighlightRowsIndex;
@@ -217,7 +209,6 @@ public class MonthView extends View {
 	}
 
 	public void notifyDisplayYearMonthChanged() {
-		mAnchorYearMonth = mState.getDisplayYearMonth();
 		mTranslationWeeks = 0;
 		precomputeGrid();
 		invalidate();
@@ -229,7 +220,7 @@ public class MonthView extends View {
 	}
 
 	private void precomputeGrid() {
-		mFirstDayOfGrid = mAnchorYearMonth.toLocalDate(1);
+		mFirstDayOfGrid = mState.getDisplayYearMonth().toLocalDate(1);
 		while (mFirstDayOfGrid.getDayOfWeek() != JodaUtils.getFirstDayOfWeek()) {
 			mFirstDayOfGrid = mFirstDayOfGrid.minusDays(1);
 		}
@@ -239,9 +230,6 @@ public class MonthView extends View {
 				mDays[week][dayOfWeek] = mFirstDayOfGrid.plusDays(week * COLS + dayOfWeek);
 			}
 		}
-
-		mDayInterval = new Interval(mDays[0][0].toDateTimeAtStartOfDay(),
-				mDays[ROWS - 1][COLS - 1].toDateTimeAtStartOfDay());
 	}
 
 	@Override
@@ -254,13 +242,15 @@ public class MonthView extends View {
 			mHeight = bottom - top;
 			mCellHeight = (float) mHeight / ROWS;
 			mCellWidth = (float) mWidth / COLS;
-			mCellSelectionHeight = mCellHeight * SELECTION_PERCENT;
-			mCellSelectionWidth = mCellWidth * SELECTION_PERCENT;
-			divideGridSize(mWidth, mColCenters);
-			divideGridSize(mHeight, mRowCenters);
-			mFirstRowCenter = mRowCenters[0];
 
-			mCircleRadius = Math.min(mCellSelectionHeight, mCellSelectionWidth) / 2;
+			float halfCellWidth = mCellWidth / 2;
+			for (int a = 0; a < COLS; a++) {
+				mColCenters[a] = (mCellWidth * a) + halfCellWidth;
+			}
+
+			mFirstRowCenter = mCellHeight / 2;
+
+			mCircleRadius = Math.min(mCellHeight * SELECTION_PERCENT, mCellWidth * SELECTION_PERCENT) / 2;
 
 			// Scale down the text size; I'm not too concerned about it being too wide, so
 			// just use the TextPaint's height to determine if we're too large
@@ -275,15 +265,6 @@ public class MonthView extends View {
 			mTextInversePaint.setTextSize(mTextPaint.getTextSize());
 			mTextTodayPaint.setTextSize(mTextPaint.getTextSize());
 			mInvalidDayPaint.setTextSize(mTextPaint.getTextSize());
-		}
-	}
-
-	private void divideGridSize(int size, float[] result) {
-		int len = result.length;
-		float gridSize = (float) size / len;
-		float halfGridSize = gridSize / 2;
-		for (int a = 0; a < len; a++) {
-			result[a] = (gridSize * a) + halfGridSize;
 		}
 	}
 
@@ -473,6 +454,10 @@ public class MonthView extends View {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Touch events
+	//
+	// Note that all of this is based off of a non-animated MonthView;
+	// if we want these to work when the MonthView is animating it will
+	// require some additional work.
 
 	private GestureDetector.SimpleOnGestureListener mGestureListener = new GestureDetector.SimpleOnGestureListener() {
 
@@ -630,29 +615,6 @@ public class MonthView extends View {
 			(int) Math.floor(y / mCellHeight),
 			(int) Math.floor(x / mCellWidth)
 		};
-	}
-
-	// Returns int[row][col] for a given date (currently being displayed), or null
-	// if the start date is not visible on the current calendar.
-	//
-	// TODO: Should we cache this at some point, or is it so fast as to be totally unnecessary?
-	private int[] getCell(LocalDate date) {
-		if (date == null) {
-			return null;
-		}
-
-		for (int week = 0; week < ROWS; week++) {
-			for (int dayOfWeek = 0; dayOfWeek < COLS; dayOfWeek++) {
-				if (mDays[week][dayOfWeek].equals(date)) {
-					return new int[] {
-						week,
-						dayOfWeek
-					};
-				}
-			}
-		}
-
-		return null;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
