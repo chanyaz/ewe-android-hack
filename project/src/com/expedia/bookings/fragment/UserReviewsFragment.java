@@ -67,6 +67,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	private List<ReviewWrapper> mUserReviews;
 
 	private boolean mAttemptedDownload = false;
+	private boolean mHasFilteredOutAReview = false;
 	private int mStatusResId;
 
 	private UserReviewsAdapter mUserReviewsAdapter;
@@ -248,9 +249,11 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 		boolean loadMore = firstVisibleItem + visibleItemCount >= totalItemCount;
+		boolean hasMore = mNumReviewsDownloaded < Db.getHotelSearch().getSelectedProperty().getTotalReviews();
+		boolean shouldAttempt = !mHasFilteredOutAReview;
 		boolean isDownloading = mBackgroundDownloader.isDownloading(mReviewsDownloadKey);
 
-		if (mScrollListenerSet && loadMore && hasMoreReviews() && !isDownloading) {
+		if (mScrollListenerSet && loadMore && hasMore && shouldAttempt && !isDownloading) {
 			startReviewsDownload();
 			addLoadingFooter();
 		}
@@ -274,10 +277,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
 		// We don't care about the scrollState changing right now
-	}
-
-	private boolean hasMoreReviews() {
-		return mNumReviewsDownloaded < Db.getHotelSearch().getSelectedProperty().getTotalReviews();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -400,6 +399,12 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 			return null;
 		}
 		for (Review review : reviews) {
+			// Check to see if this review passes through the filter before processing and adding to the list
+			if (!mReviewSort.reviewPassesFilter(review)) {
+				mHasFilteredOutAReview = true;
+				continue;
+			}
+
 			ReviewWrapper loadedReview = new ReviewWrapper();
 			loadedReview.mReview = review;
 

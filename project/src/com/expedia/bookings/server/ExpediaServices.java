@@ -82,6 +82,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
+import com.expedia.bookings.data.Review;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.RoutesResponse;
 import com.expedia.bookings.data.SamsungWalletResponse;
@@ -154,6 +155,19 @@ public class ExpediaServices implements DownloadListener {
 		NEWEST_REVIEW_FIRST,
 		HIGHEST_RATING_FIRST,
 		LOWEST_RATING_FIRST;
+
+		public boolean reviewPassesFilter(Review review) {
+			switch (this) {
+			case NEWEST_REVIEW_FIRST:
+				return true;
+			case HIGHEST_RATING_FIRST:
+				return review.getOverallSatisfaction() > 2;
+			case LOWEST_RATING_FIRST:
+				return review.getOverallSatisfaction() < 3;
+			}
+			// should never get here, but this makes the method happy
+			return true;
+		}
 	}
 
 	// Flags for doRequest()
