@@ -33,7 +33,6 @@ import android.view.accessibility.AccessibilityEvent;
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.CalendarPicker.CalendarState;
-import com.google.android.gms.internal.da;
 import com.mobiata.android.Log;
 
 /**
@@ -117,6 +116,11 @@ public class MonthView extends View {
 	private float mCircleRadius;
 	private List<RectF> mHighlightRows = new ArrayList<RectF>();
 	private int mHighlightRowsIndex;
+
+	// Profiling
+	private static final int PROFILE_DRAW_STEP = 20;
+	private long mTotalDrawTime = 0;
+	private int mDrawTimes = 0;
 
 	public MonthView(Context context) {
 		this(context, null);
@@ -453,7 +457,11 @@ public class MonthView extends View {
 			}
 		}
 
-		Log.v("MonthView.onDraw() time: " + ((System.nanoTime() - start) / 1000000));
+		mTotalDrawTime += (System.nanoTime() - start);
+		mDrawTimes++;
+		if (mDrawTimes % PROFILE_DRAW_STEP == 0) {
+			Log.d("MonthView.onDraw() avg draw time: " + (mTotalDrawTime / (mDrawTimes * 1000)) + " ns");
+		}
 	}
 
 	private RectF getNextHighlightRect() {
