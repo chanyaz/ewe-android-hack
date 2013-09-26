@@ -33,6 +33,7 @@ import android.view.accessibility.AccessibilityEvent;
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.CalendarPicker.CalendarState;
+import com.google.android.gms.internal.da;
 import com.mobiata.android.Log;
 
 /**
@@ -314,24 +315,25 @@ public class MonthView extends View {
 			}
 		}
 
+		// Draw start/end date circles (if selected and visible)
+		for (int week = 0; week < numRowsToDraw; week++) {
+			for (int dayOfWeek = 0; dayOfWeek < COLS; dayOfWeek++) {
+				LocalDate date = mFirstDayOfGrid.plusWeeks(week + weekShiftFloor).plusDays(dayOfWeek);
+
+				if (date.equals(startDate)) {
+					float centerX = mColCenters[dayOfWeek];
+					float centerY = mFirstRowCenter + (mCellHeight * week) - (mCellHeight * weekShiftRemainder);
+					canvas.drawCircle(centerX, centerY, mCircleRadius, mSelectionPaint);
+				}
+				else if (date.equals(endDate)) {
+					float centerX = mColCenters[dayOfWeek];
+					float centerY = mFirstRowCenter + (mCellHeight * week) - (mCellHeight * weekShiftRemainder);
+					canvas.drawCircle(centerX, centerY, mCircleRadius, mSelectionPaint);
+				}
+			}
+		}
+
 		/*
-
-
-		// Draw the start date (if selected and visible)
-		int[] startCell = getCell(startDate);
-		if (startCell != null) {
-			float centerX = mColCenters[startCell[1]];
-			float centerY = mRowCenters[startCell[0]];
-			canvas.drawCircle(centerX, centerY, mCircleRadius, mSelectionPaint);
-		}
-
-		// Draw end date (if selected and visible)
-		int[] endCell = getCell(endDate);
-		if (endCell != null) {
-			float centerX = mColCenters[endCell[1]];
-			float centerY = mRowCenters[endCell[0]];
-			canvas.drawCircle(centerX, centerY, mCircleRadius, mSelectionPaint);
-		}
 
 		// Draw selection if there is a range selected and we're displaying cells
 		// that have some selected days in it.
