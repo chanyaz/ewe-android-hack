@@ -296,15 +296,16 @@ public class MonthView extends View {
 						float centerY = mRowCenters[week];
 						canvas.drawCircle(centerX, centerY, mCircleRadius, mSelectionPaint);
 
-						int[] cell;
 						if (equalsStartDate) {
-							startCell = cell = mStartCell;
+							startCell = mStartCell;
+							startCell[0] = week;
+							startCell[1] = dayOfWeek;
 						}
-						else {
-							endCell = cell = mEndCell;
+						if (equalsEndDate) {
+							endCell = mEndCell;
+							endCell[0] = week;
+							endCell[1] = dayOfWeek;
 						}
-						cell[0] = week;
-						cell[1] = dayOfWeek;
 					}
 				}
 			}
