@@ -1466,8 +1466,6 @@ public class ExpediaServices implements DownloadListener {
 
 	/**
 	 * Returns the base E3 server url, based on dev settings
-	 * @param context
-	 * @return
 	 */
 	public String getE3EndpointUrl(int flags) {
 		EndPoint endPoint = getEndPoint(mContext);
