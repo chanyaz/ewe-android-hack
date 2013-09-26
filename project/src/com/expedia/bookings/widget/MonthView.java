@@ -12,6 +12,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
+import android.graphics.Paint.Cap;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -151,6 +152,7 @@ public class MonthView extends View {
 		mSelectionLinePaint = new Paint(mSelectionPaint);
 		mSelectionLinePaint.setStrokeWidth(2 * getResources().getDisplayMetrics().density);
 		mSelectionLinePaint.setStyle(Style.STROKE);
+		mSelectionLinePaint.setStrokeCap(Cap.ROUND);
 
 		mSelectionAlphaPaint = new Paint(mSelectionPaint);
 
