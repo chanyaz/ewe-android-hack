@@ -273,96 +273,106 @@ public class MonthView extends View {
 			mLastWeekTranslationFloor = weekShiftFloor;
 		}
 
-		// Draw start/end date circles (if selected and visible)
-		int[] startCell = null;
-		int[] endCell = null;
-		for (int week = 0; week < numRowsToDraw; week++) {
-			for (int dayOfWeek = 0; dayOfWeek < COLS; dayOfWeek++) {
-				LocalDate date = mDaysVisible[week][dayOfWeek];
+		// Only try to draw selected days if there's any chance we could find them
+		LocalDate firstVisibleDate = mDaysVisible[0][0];
+		LocalDate lastVisibleDate = mDaysVisible[ROWS][COLS - 1];
+		if (startDate != null && !startDate.isAfter(lastVisibleDate)
+				&& (endDate == null || !endDate.isBefore(firstVisibleDate))) {
 
-				if (date.equals(startDate) || date.equals(endDate)) {
-					float centerX = mColCenters[dayOfWeek];
-					float centerY = mRowCenters[week];
-					canvas.drawCircle(centerX, centerY, mCircleRadius, mSelectionPaint);
+			// Draw start/end date circles (if selected and visible)
+			int[] startCell = null;
+			int[] endCell = null;
+			for (int week = 0; week < numRowsToDraw; week++) {
+				for (int dayOfWeek = 0; dayOfWeek < COLS; dayOfWeek++) {
+					LocalDate date = mDaysVisible[week][dayOfWeek];
 
-					int[] cell;
-					if (date.equals(startDate)) {
-						startCell = cell = mStartCell;
+					boolean equalsStartDate = startDate != null && date.equals(startDate);
+					boolean equalsEndDate = endDate != null && date.equals(endDate);
+
+					if (equalsStartDate || equalsEndDate) {
+						float centerX = mColCenters[dayOfWeek];
+						float centerY = mRowCenters[week];
+						canvas.drawCircle(centerX, centerY, mCircleRadius, mSelectionPaint);
+
+						int[] cell;
+						if (equalsStartDate) {
+							startCell = cell = mStartCell;
+						}
+						else {
+							endCell = cell = mEndCell;
+						}
+						cell[0] = week;
+						cell[1] = dayOfWeek;
 					}
-					else {
-						endCell = cell = mEndCell;
-					}
-					cell[0] = week;
-					cell[1] = dayOfWeek;
 				}
 			}
-		}
 
-		// Draw selection if there is a range selected and we're displaying cells
-		// that have some selected days in it.
-		//
-		// This is optimized to draw row-by-row, instead of trying to draw cell-by-cell.
-		// It does this by creating a series of RectFs that define where the selections
-		// should be drawn, then collates/draws them all at once.
-		if (startDate != null && endDate != null && (startCell != null || endCell != null)) {
-			int startRow = startCell != null ? startCell[0] : 0;
-			int endRow = endCell != null ? endCell[0] : numRowsToDraw;
-			mHighlightRowsIndex = 0;
+			// Draw selection if there is a range selected and we're displaying cells
+			// that have some selected days in it.
+			//
+			// This is optimized to draw row-by-row, instead of trying to draw cell-by-cell.
+			// It does this by creating a series of RectFs that define where the selections
+			// should be drawn, then collates/draws them all at once.
+			if (startDate != null && endDate != null && (startCell != null || endCell != null)) {
+				int startRow = startCell != null ? startCell[0] : 0;
+				int endRow = endCell != null ? endCell[0] : numRowsToDraw;
+				mHighlightRowsIndex = 0;
 
-			// Special case: startRow == endRow
-			RectF rect;
-			float halfCellWidth = mCellWidth / 2;
-			if (startCell != null && endCell != null && startRow == endRow) {
-				rect = getNextHighlightRect();
-				rect.left = startCell[1] * mCellWidth + halfCellWidth;
-				rect.right = endCell[1] * mCellWidth + halfCellWidth;
-				rect.top = mRowCenters[startRow] - mCircleRadius;
-				rect.bottom = mRowCenters[startRow] + mCircleRadius;
-			}
-			else {
-				// Draw start date --> end of row
-				if (startCell != null) {
+				// Special case: startRow == endRow
+				RectF rect;
+				float halfCellWidth = mCellWidth / 2;
+				if (startCell != null && endCell != null && startRow == endRow) {
 					rect = getNextHighlightRect();
 					rect.left = startCell[1] * mCellWidth + halfCellWidth;
-					rect.right = COLS * mCellWidth + mCellWidth;
+					rect.right = endCell[1] * mCellWidth + halfCellWidth;
 					rect.top = mRowCenters[startRow] - mCircleRadius;
 					rect.bottom = mRowCenters[startRow] + mCircleRadius;
 				}
+				else {
+					// Draw start date --> end of row
+					if (startCell != null) {
+						rect = getNextHighlightRect();
+						rect.left = startCell[1] * mCellWidth + halfCellWidth;
+						rect.right = COLS * mCellWidth + mCellWidth;
+						rect.top = mRowCenters[startRow] - mCircleRadius;
+						rect.bottom = mRowCenters[startRow] + mCircleRadius;
+					}
 
-				// Draw any fully-selected rows in the middle
-				for (int rowNum = startCell != null ? startRow + 1 : startRow; rowNum < endRow; rowNum++) {
-					rect = getNextHighlightRect();
-					rect.left = 0;
-					rect.right = COLS * mCellWidth + mCellWidth;
-					rect.top = mRowCenters[rowNum] - mCircleRadius;
-					rect.bottom = mRowCenters[rowNum] + mCircleRadius;
+					// Draw any fully-selected rows in the middle
+					for (int rowNum = startCell != null ? startRow + 1 : startRow; rowNum < endRow; rowNum++) {
+						rect = getNextHighlightRect();
+						rect.left = 0;
+						rect.right = COLS * mCellWidth + mCellWidth;
+						rect.top = mRowCenters[rowNum] - mCircleRadius;
+						rect.bottom = mRowCenters[rowNum] + mCircleRadius;
+					}
+
+					// Draw start of row --> end date
+					if (endCell != null) {
+						rect = getNextHighlightRect();
+						rect.left = 0;
+						rect.right = endCell[1] * mCellWidth + halfCellWidth;
+						rect.top = mRowCenters[endRow] - mCircleRadius;
+						rect.bottom = mRowCenters[endRow] + mCircleRadius;
+					}
 				}
 
-				// Draw start of row --> end date
-				if (endCell != null) {
-					rect = getNextHighlightRect();
-					rect.left = 0;
-					rect.right = endCell[1] * mCellWidth + halfCellWidth;
-					rect.top = mRowCenters[endRow] - mCircleRadius;
-					rect.bottom = mRowCenters[endRow] + mCircleRadius;
+				// Draw all the highlighted row backgrounds
+				for (int index = 0; index < mHighlightRowsIndex; index++) {
+					rect = mHighlightRows.get(index);
+					canvas.drawRect(rect, mSelectionAlphaPaint);
 				}
-			}
 
-			// Draw all the highlighted row backgrounds
-			for (int index = 0; index < mHighlightRowsIndex; index++) {
-				rect = mHighlightRows.get(index);
-				canvas.drawRect(rect, mSelectionAlphaPaint);
-			}
-
-			// Draw all highlighted rows top/bottom lines
-			// (Done separately from background for GPU optimization)
-			float halfStrokeWidth = mSelectionLinePaint.getStrokeWidth() / 2.0f;
-			for (int index = 0; index < mHighlightRowsIndex; index++) {
-				rect = mHighlightRows.get(index);
-				float top = rect.top + halfStrokeWidth;
-				float bottom = rect.bottom - halfStrokeWidth;
-				canvas.drawLine(rect.left, top, rect.right, top, mSelectionLinePaint);
-				canvas.drawLine(rect.left, bottom, rect.right, bottom, mSelectionLinePaint);
+				// Draw all highlighted rows top/bottom lines
+				// (Done separately from background for GPU optimization)
+				float halfStrokeWidth = mSelectionLinePaint.getStrokeWidth() / 2.0f;
+				for (int index = 0; index < mHighlightRowsIndex; index++) {
+					rect = mHighlightRows.get(index);
+					float top = rect.top + halfStrokeWidth;
+					float bottom = rect.bottom - halfStrokeWidth;
+					canvas.drawLine(rect.left, top, rect.right, top, mSelectionLinePaint);
+					canvas.drawLine(rect.left, bottom, rect.right, bottom, mSelectionLinePaint);
+				}
 			}
 		}
 
