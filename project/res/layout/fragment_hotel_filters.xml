@@ -68,12 +68,53 @@
                 android:textAllCaps="true"
                 android:textColor="#7C7E7F" />
 
-            <include
+            <com.mobiata.android.widget.SegmentedControlGroup
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/sort_by_button_group"
+                style="@style/Widget.SegmentedControlGroup.DarkFilterControls"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/popup_filter_row_height"
                 android:layout_marginBottom="8dp"
-                layout="@layout/include_sort_by_tablet" />
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <RadioButton
+                    android:id="@+id/sort_by_price_button"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/cd_sort_by_price"
+                    android:text="@string/price"
+                    android:textStyle="bold" />
+
+                <RadioButton
+                    android:id="@+id/sort_by_rating_button"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:contentDescription="@string/cd_sort_by_rating"
+                    android:text="@string/rating"
+                    android:textStyle="bold" />
+
+                <RadioButton
+                    android:id="@+id/sort_by_distance_button"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/cd_sort_by_distance"
+                    android:text="@string/distance"
+                    android:textStyle="bold" />
+
+                <RadioButton
+                    android:id="@+id/sort_by_popular_button"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/cd_sort_by_popular"
+                    android:text="@string/popular"
+                    android:textStyle="bold" />
+            </com.mobiata.android.widget.SegmentedControlGroup>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -83,32 +124,26 @@
                 android:textAllCaps="true"
                 android:textColor="#7C7E7F" />
 
-            <!--
-            TODO once 4.0 tablet design is complete:
-            do we need these as includes? Maybe we could
-            update the phone layouts to match the new design
-            -->
-
             <include
                 android:id="@+id/price_filter_button_group"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/popup_filter_row_height"
                 android:layout_marginBottom="8dp"
-                layout="@layout/include_filter_price_tablet" />
+                layout="@layout/include_filter_price" />
 
             <include
                 android:id="@+id/radius_filter_button_group"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/popup_filter_row_height"
                 android:layout_marginBottom="8dp"
-                layout="@layout/include_filter_radius_tablet" />
+                layout="@layout/include_filter_radius" />
 
             <include
                 android:id="@+id/rating_filter_button_group"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/popup_filter_row_height"
                 android:layout_marginBottom="8dp"
-                layout="@layout/include_filter_rating_tablet" />
+                layout="@layout/include_filter_rating" />
 
             <Button
                 android:id="@+id/filter_vip_access"
