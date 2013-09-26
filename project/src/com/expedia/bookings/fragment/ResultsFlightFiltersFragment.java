@@ -96,7 +96,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 			case R.id.flight_sort_departs:
 			case R.id.flight_sort_duration:
 			case R.id.flight_sort_price:
-				filter.setSort(RES_ID_SORT_MAP.get(new Integer(checkedId)));
+				filter.setSort(RES_ID_SORT_MAP.get(Integer.valueOf(checkedId)));
 				break;
 			case R.id.flight_filter_stop_any:
 			case R.id.flight_filter_stop_one_or_less:
