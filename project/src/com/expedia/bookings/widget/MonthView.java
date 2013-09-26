@@ -100,8 +100,8 @@ public class MonthView extends View {
 	// Variables that are cached for faster drawing
 	private int mWidth;
 	private int mHeight;
-	private float mFirstRowCenter;
 	private float[] mColCenters = new float[COLS];
+	private float[] mRowCenters = new float[ROWS + 1];
 	private float mCellHeight;
 	private float mCellWidth;
 	private float mCircleRadius;
@@ -193,8 +193,6 @@ public class MonthView extends View {
 				mColCenters[a] = (mCellWidth * a) + halfCellWidth;
 			}
 
-			mFirstRowCenter = mCellHeight / 2;
-
 			mCircleRadius = Math.min(mCellHeight * SELECTION_PERCENT, mCellWidth * SELECTION_PERCENT) / 2;
 
 			// Scale down the text size; I'm not too concerned about it being too wide, so
@@ -232,6 +230,12 @@ public class MonthView extends View {
 		float weekShiftRemainder = mTranslationWeeks - weekShiftFloor;
 		int numRowsToDraw = mTranslationWeeks == 0 ? ROWS : ROWS + 1;
 
+		// Pre-calculate the center of each row, since we re-use it a lot
+		float heightOffset = (mCellHeight / 2) - (mCellHeight * weekShiftRemainder);
+		for (int week = 0; week < numRowsToDraw; week++) {
+			mRowCenters[week] = heightOffset + (mCellHeight * week);
+		}
+
 		if (DEBUG_DRAW) {
 			// Draw cell backgrounds alternating colors; may jump (don't care to fix really)
 			RectF drawRect = new RectF();
@@ -259,7 +263,7 @@ public class MonthView extends View {
 
 				if (date.equals(startDate) || date.equals(endDate)) {
 					float centerX = mColCenters[dayOfWeek];
-					float centerY = mFirstRowCenter + (mCellHeight * week) - (mCellHeight * weekShiftRemainder);
+					float centerY = mRowCenters[week];
 					canvas.drawCircle(centerX, centerY, mCircleRadius, mSelectionPaint);
 
 					int[] cell = new int[] {
@@ -295,10 +299,8 @@ public class MonthView extends View {
 				rect = getNextHighlightRect();
 				rect.left = startCell[1] * mCellWidth + halfCellWidth;
 				rect.right = endCell[1] * mCellWidth + halfCellWidth;
-				rect.top = mFirstRowCenter + (mCellHeight * startRow) - (mCellHeight * weekShiftRemainder)
-						- mCircleRadius;
-				rect.bottom = mFirstRowCenter + (mCellHeight * startRow) - (mCellHeight * weekShiftRemainder)
-						+ mCircleRadius;
+				rect.top = mRowCenters[startRow] - mCircleRadius;
+				rect.bottom = mRowCenters[startRow] + mCircleRadius;
 			}
 			else {
 				// Draw start date --> end of row
@@ -306,10 +308,8 @@ public class MonthView extends View {
 					rect = getNextHighlightRect();
 					rect.left = startCell[1] * mCellWidth + halfCellWidth;
 					rect.right = COLS * mCellWidth + mCellWidth;
-					rect.top = mFirstRowCenter + (mCellHeight * startRow) - (mCellHeight * weekShiftRemainder)
-							- mCircleRadius;
-					rect.bottom = mFirstRowCenter + (mCellHeight * startRow) - (mCellHeight * weekShiftRemainder)
-							+ mCircleRadius;
+					rect.top = mRowCenters[startRow] - mCircleRadius;
+					rect.bottom = mRowCenters[startRow] + mCircleRadius;
 				}
 
 				// Draw any fully-selected rows in the middle
@@ -317,10 +317,8 @@ public class MonthView extends View {
 					rect = getNextHighlightRect();
 					rect.left = 0;
 					rect.right = COLS * mCellWidth + mCellWidth;
-					rect.top = mFirstRowCenter + (mCellHeight * rowNum) - (mCellHeight * weekShiftRemainder)
-							- mCircleRadius;
-					rect.bottom = mFirstRowCenter + (mCellHeight * rowNum) - (mCellHeight * weekShiftRemainder)
-							+ mCircleRadius;
+					rect.top = mRowCenters[rowNum] - mCircleRadius;
+					rect.bottom = mRowCenters[rowNum] + mCircleRadius;
 				}
 
 				// Draw start of row --> end date
@@ -328,10 +326,8 @@ public class MonthView extends View {
 					rect = getNextHighlightRect();
 					rect.left = 0;
 					rect.right = endCell[1] * mCellWidth + halfCellWidth;
-					rect.top = mFirstRowCenter + (mCellHeight * endRow) - (mCellHeight * weekShiftRemainder)
-							- mCircleRadius;
-					rect.bottom = mFirstRowCenter + (mCellHeight * endRow) - (mCellHeight * weekShiftRemainder)
-							+ mCircleRadius;
+					rect.top = mRowCenters[endRow] - mCircleRadius;
+					rect.bottom = mRowCenters[endRow] + mCircleRadius;
 				}
 			}
 
@@ -361,7 +357,7 @@ public class MonthView extends View {
 				LocalDate date = mFirstDayOfGrid.plusWeeks(week + weekShiftFloor).plusDays(dayOfWeek);
 
 				float centerX = mColCenters[dayOfWeek];
-				float centerY = mFirstRowCenter + (mCellHeight * week) - (mCellHeight * weekShiftRemainder);
+				float centerY = mRowCenters[week];
 
 				TextPaint paint;
 				if (date.equals(startDate) || date.equals(endDate)) {
