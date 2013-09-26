@@ -137,6 +137,14 @@ public class JodaUtils {
 		return ((Calendar.getInstance().getFirstDayOfWeek() + 5) % 7) + 1;
 	}
 
+	/**
+	 * @return a value from 0-6 which can be used to compare whether one date is before or after
+	 * another one (by simply looking at a calendar)
+	 */
+	public static int getDayOfWeekNormalized(LocalDate date) {
+		return (date.getDayOfWeek() - getFirstDayOfWeek() + 7) % 7;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Formatting
 
