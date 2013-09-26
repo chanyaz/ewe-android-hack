@@ -111,6 +111,10 @@ public class MonthView extends View {
 	private int[] mStartCell = new int[2];
 	private int[] mEndCell = new int[2];
 
+	// Don't keep re-calculating days; only re-calculate when translation changes
+	private int mLastWeekTranslationFloor = Integer.MAX_VALUE;
+	private LocalDate[][] mDaysVisible = new LocalDate[ROWS + 1][COLS];
+
 	// Profiling
 	private static final int PROFILE_DRAW_STEP = 20;
 	private long mTotalDrawTime = 0;
@@ -157,6 +161,7 @@ public class MonthView extends View {
 
 	public void notifyDisplayYearMonthChanged() {
 		mTranslationWeeks = 0;
+		mLastWeekTranslationFloor = Integer.MAX_VALUE;
 		precomputeGrid();
 		invalidate();
 	}
@@ -256,12 +261,24 @@ public class MonthView extends View {
 			}
 		}
 
+		// Re-calculate all visible days (so we don't have to re-calculate all days visible)
+		if (mLastWeekTranslationFloor != weekShiftFloor) {
+			for (int week = 0; week < ROWS + 1; week++) {
+				for (int dayOfWeek = 0; dayOfWeek < COLS; dayOfWeek++) {
+					mDaysVisible[week][dayOfWeek] = mFirstDayOfGrid.plusWeeks(week + weekShiftFloor)
+							.plusDays(dayOfWeek);
+				}
+			}
+
+			mLastWeekTranslationFloor = weekShiftFloor;
+		}
+
 		// Draw start/end date circles (if selected and visible)
 		int[] startCell = null;
 		int[] endCell = null;
 		for (int week = 0; week < numRowsToDraw; week++) {
 			for (int dayOfWeek = 0; dayOfWeek < COLS; dayOfWeek++) {
-				LocalDate date = mFirstDayOfGrid.plusWeeks(week + weekShiftFloor).plusDays(dayOfWeek);
+				LocalDate date = mDaysVisible[week][dayOfWeek];
 
 				if (date.equals(startDate) || date.equals(endDate)) {
 					float centerX = mColCenters[dayOfWeek];
@@ -354,7 +371,7 @@ public class MonthView extends View {
 		Interval monthInterval = mState.getDisplayYearMonth().toInterval();
 		for (int week = 0; week < numRowsToDraw; week++) {
 			for (int dayOfWeek = 0; dayOfWeek < COLS; dayOfWeek++) {
-				LocalDate date = mFirstDayOfGrid.plusWeeks(week + weekShiftFloor).plusDays(dayOfWeek);
+				LocalDate date = mDaysVisible[week][dayOfWeek];
 
 				float centerX = mColCenters[dayOfWeek];
 				float centerY = mRowCenters[week];
