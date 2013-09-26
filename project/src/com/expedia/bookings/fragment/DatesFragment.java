@@ -122,12 +122,9 @@ public class DatesFragment extends Fragment implements DateSelectionChangedListe
 		}
 
 		// Make sure only one box is selected
-		mStartTextView.setBackgroundResource(R.drawable.bg_date_box_normal);
-		mEndTextView.setBackgroundResource(R.drawable.bg_date_box_normal);
 		View selectedView = getSelectedDateBox();
-		if (selectedView != null) {
-			selectedView.setBackgroundResource(R.drawable.bg_date_box_selected);
-		}
+		mStartTextView.setSelected(mStartTextView == selectedView);
+		mEndTextView.setSelected(mEndTextView == selectedView);
 	}
 
 	private void updateArrow() {
