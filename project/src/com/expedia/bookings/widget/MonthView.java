@@ -276,12 +276,12 @@ public class MonthView extends View {
 		// Only try to draw selected days if there's any chance we could find them
 		LocalDate firstVisibleDate = mDaysVisible[0][0];
 		LocalDate lastVisibleDate = mDaysVisible[ROWS][COLS - 1];
+		int[] startCell = null;
+		int[] endCell = null;
 		if (startDate != null && !startDate.isAfter(lastVisibleDate)
 				&& (endDate == null || !endDate.isBefore(firstVisibleDate))) {
 
 			// Draw start/end date circles (if selected and visible)
-			int[] startCell = null;
-			int[] endCell = null;
 			for (int week = 0; week < numRowsToDraw; week++) {
 				for (int dayOfWeek = 0; dayOfWeek < COLS; dayOfWeek++) {
 					LocalDate date = mDaysVisible[week][dayOfWeek];
@@ -379,6 +379,10 @@ public class MonthView extends View {
 		// Draw each number
 		LocalDate today = LocalDate.now();
 		Interval monthInterval = mState.getDisplayYearMonth().toInterval();
+		LocalDate firstDayOfMonth = monthInterval.getStart().toLocalDate();
+		LocalDate lastDayOfMonth = monthInterval.getEnd().toLocalDate();
+		boolean lookForToday = monthInterval.contains(today.toDateTimeAtStartOfDay());
+		TextPaint paint;
 		for (int week = 0; week < numRowsToDraw; week++) {
 			for (int dayOfWeek = 0; dayOfWeek < COLS; dayOfWeek++) {
 				LocalDate date = mDaysVisible[week][dayOfWeek];
@@ -386,18 +390,18 @@ public class MonthView extends View {
 				float centerX = mColCenters[dayOfWeek];
 				float centerY = mRowCenters[week];
 
-				TextPaint paint;
-				if (date.equals(startDate) || date.equals(endDate)) {
+				if ((startCell != null && startCell[0] == week && startCell[1] == dayOfWeek)
+						|| (endCell != null && endCell[0] == week && endCell[1] == dayOfWeek)) {
 					// Invert colors on selected dates with circle behind them
 					paint = mTextInversePaint;
 				}
-				else if (date.equals(today)) {
+				else if (lookForToday && date.equals(today)) {
 					paint = mTextTodayPaint;
 				}
 				else if (!mState.canSelectDate(date)) {
 					paint = mInvalidDayPaint;
 				}
-				else if (!monthInterval.contains(date.toDateTimeAtStartOfDay())) {
+				else if (date.isBefore(firstDayOfMonth) || date.isAfter(lastDayOfMonth)) {
 					paint = mTextSecondaryPaint;
 				}
 				else {
