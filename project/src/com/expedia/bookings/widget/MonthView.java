@@ -108,6 +108,8 @@ public class MonthView extends View {
 	private List<RectF> mHighlightRows = new ArrayList<RectF>();
 	private int mHighlightRowsIndex;
 	private float mTextOffset;
+	private int[] mStartCell = new int[2];
+	private int[] mEndCell = new int[2];
 
 	// Profiling
 	private static final int PROFILE_DRAW_STEP = 20;
@@ -266,17 +268,15 @@ public class MonthView extends View {
 					float centerY = mRowCenters[week];
 					canvas.drawCircle(centerX, centerY, mCircleRadius, mSelectionPaint);
 
-					int[] cell = new int[] {
-						week,
-						dayOfWeek
-					};
-
+					int[] cell;
 					if (date.equals(startDate)) {
-						startCell = cell;
+						startCell = cell = mStartCell;
 					}
 					else {
-						endCell = cell;
+						endCell = cell = mEndCell;
 					}
+					cell[0] = week;
+					cell[1] = dayOfWeek;
 				}
 			}
 		}
