@@ -168,6 +168,19 @@ public class ExpediaServices implements DownloadListener {
 			// should never get here, but this makes the method happy
 			return true;
 		}
+
+		public int getNoReviewsMessageResId() {
+			switch (this) {
+			case NEWEST_REVIEW_FIRST:
+				return R.string.user_review_no_recent_reviews;
+			case HIGHEST_RATING_FIRST:
+				return R.string.user_review_no_favorable_reviews;
+			case LOWEST_RATING_FIRST:
+			default:
+				return R.string.user_review_no_critical_reviews;
+			}
+		}
+
 	}
 
 	// Flags for doRequest()

@@ -233,6 +233,11 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 				if (mUserReviews == null) {
 					mUserReviews = new ArrayList<ReviewWrapper>();
 				}
+
+				if (newlyLoadedReviews.size() == 0) {
+					showReviewsNotPresentMessage();
+				}
+
 				mUserReviews.addAll(newlyLoadedReviews);
 
 				mUserReviewsUtils.putReviews(mProperty.getPropertyId(), mReviewSort, mUserReviews);
@@ -323,6 +328,11 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	private void showReviewsUnavailableMessage() {
 		removeLoadingFooter();
 		updateEmptyMessage(R.string.user_review_unavailable);
+	}
+
+	private void showReviewsNotPresentMessage() {
+		removeLoadingFooter();
+		updateEmptyMessage(mReviewSort.getNoReviewsMessageResId());
 	}
 
 	private void addLoadingFooter() {
