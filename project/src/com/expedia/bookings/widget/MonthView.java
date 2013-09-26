@@ -316,24 +316,31 @@ public class MonthView extends View {
 		}
 
 		// Draw start/end date circles (if selected and visible)
+		int[] startCell = null;
+		int[] endCell = null;
 		for (int week = 0; week < numRowsToDraw; week++) {
 			for (int dayOfWeek = 0; dayOfWeek < COLS; dayOfWeek++) {
 				LocalDate date = mFirstDayOfGrid.plusWeeks(week + weekShiftFloor).plusDays(dayOfWeek);
 
-				if (date.equals(startDate)) {
+				if (date.equals(startDate) || date.equals(endDate)) {
 					float centerX = mColCenters[dayOfWeek];
 					float centerY = mFirstRowCenter + (mCellHeight * week) - (mCellHeight * weekShiftRemainder);
 					canvas.drawCircle(centerX, centerY, mCircleRadius, mSelectionPaint);
-				}
-				else if (date.equals(endDate)) {
-					float centerX = mColCenters[dayOfWeek];
-					float centerY = mFirstRowCenter + (mCellHeight * week) - (mCellHeight * weekShiftRemainder);
-					canvas.drawCircle(centerX, centerY, mCircleRadius, mSelectionPaint);
+
+					int[] cell = new int[] {
+						week,
+						dayOfWeek
+					};
+
+					if (date.equals(startDate)) {
+						startCell = cell;
+					}
+					else {
+						endCell = cell;
+					}
 				}
 			}
 		}
-
-		/*
 
 		// Draw selection if there is a range selected and we're displaying cells
 		// that have some selected days in it.
@@ -341,12 +348,9 @@ public class MonthView extends View {
 		// This is optimized to draw row-by-row, instead of trying to draw cell-by-cell.
 		// It does this by creating a series of RectFs that define where the selections
 		// should be drawn, then collates/draws them all at once.
-		if (startDate != null && endDate != null
-				&& (mDayInterval.contains(startDate.toDateTimeAtStartOfDay())
-				|| mDayInterval.contains(endDate.toDateTimeAtStartOfDay()))) {
-
+		if (startDate != null && endDate != null && (startCell != null || endCell != null)) {
 			int startRow = startCell != null ? startCell[0] : 0;
-			int endRow = endCell != null ? endCell[0] : COLS - 1;
+			int endRow = endCell != null ? endCell[0] : numRowsToDraw;
 			mHighlightRowsIndex = 0;
 
 			// Special case: startRow == endRow
@@ -356,8 +360,10 @@ public class MonthView extends View {
 				rect = getNextHighlightRect();
 				rect.left = startCell[1] * mCellWidth + halfCellWidth;
 				rect.right = endCell[1] * mCellWidth + halfCellWidth;
-				rect.top = mRowCenters[startRow] - mCircleRadius;
-				rect.bottom = mRowCenters[startRow] + mCircleRadius;
+				rect.top = mFirstRowCenter + (mCellHeight * startRow) - (mCellHeight * weekShiftRemainder)
+						- mCircleRadius;
+				rect.bottom = mFirstRowCenter + (mCellHeight * startRow) - (mCellHeight * weekShiftRemainder)
+						+ mCircleRadius;
 			}
 			else {
 				// Draw start date --> end of row
@@ -365,8 +371,10 @@ public class MonthView extends View {
 					rect = getNextHighlightRect();
 					rect.left = startCell[1] * mCellWidth + halfCellWidth;
 					rect.right = COLS * mCellWidth + mCellWidth;
-					rect.top = mRowCenters[startRow] - mCircleRadius;
-					rect.bottom = mRowCenters[startRow] + mCircleRadius;
+					rect.top = mFirstRowCenter + (mCellHeight * startRow) - (mCellHeight * weekShiftRemainder)
+							- mCircleRadius;
+					rect.bottom = mFirstRowCenter + (mCellHeight * startRow) - (mCellHeight * weekShiftRemainder)
+							+ mCircleRadius;
 				}
 
 				// Draw any fully-selected rows in the middle
@@ -374,8 +382,10 @@ public class MonthView extends View {
 					rect = getNextHighlightRect();
 					rect.left = 0;
 					rect.right = COLS * mCellWidth + mCellWidth;
-					rect.top = mRowCenters[rowNum] - mCircleRadius;
-					rect.bottom = mRowCenters[rowNum] + mCircleRadius;
+					rect.top = mFirstRowCenter + (mCellHeight * rowNum) - (mCellHeight * weekShiftRemainder)
+							- mCircleRadius;
+					rect.bottom = mFirstRowCenter + (mCellHeight * rowNum) - (mCellHeight * weekShiftRemainder)
+							+ mCircleRadius;
 				}
 
 				// Draw start of row --> end date
@@ -383,8 +393,10 @@ public class MonthView extends View {
 					rect = getNextHighlightRect();
 					rect.left = 0;
 					rect.right = endCell[1] * mCellWidth + halfCellWidth;
-					rect.top = mRowCenters[endRow] - mCircleRadius;
-					rect.bottom = mRowCenters[endRow] + mCircleRadius;
+					rect.top = mFirstRowCenter + (mCellHeight * endRow) - (mCellHeight * weekShiftRemainder)
+							- mCircleRadius;
+					rect.bottom = mFirstRowCenter + (mCellHeight * endRow) - (mCellHeight * weekShiftRemainder)
+							+ mCircleRadius;
 				}
 			}
 
@@ -405,8 +417,6 @@ public class MonthView extends View {
 				canvas.drawLine(rect.left, bottom, rect.right, bottom, mSelectionLinePaint);
 			}
 		}
-
-		*/
 
 		// Draw each number
 		float textHeight = mTextPaint.descent() - mTextPaint.ascent();
