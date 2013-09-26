@@ -107,6 +107,7 @@ public class MonthView extends View {
 	private float mCircleRadius;
 	private List<RectF> mHighlightRows = new ArrayList<RectF>();
 	private int mHighlightRowsIndex;
+	private float mTextOffset;
 
 	// Profiling
 	private static final int PROFILE_DRAW_STEP = 20;
@@ -198,7 +199,7 @@ public class MonthView extends View {
 
 			// Scale down the text size; I'm not too concerned about it being too wide, so
 			// just use the TextPaint's height to determine if we're too large
-			float cellMinSize = Math.min((float) mWidth / COLS, (float) mHeight / ROWS) * (1 - PADDING_PERCENT);
+			float cellMinSize = Math.min(mCellWidth, mCellHeight) * (1 - PADDING_PERCENT);
 			mTextPaint.setTextSize(mMaxTextSize);
 			while (cellMinSize < mTextPaint.ascent() - mTextPaint.descent()) {
 				mTextPaint.setTextSize(mTextPaint.getTextSize() - TEXT_SIZE_STEP);
@@ -209,6 +210,11 @@ public class MonthView extends View {
 			mTextInversePaint.setTextSize(mTextPaint.getTextSize());
 			mTextTodayPaint.setTextSize(mTextPaint.getTextSize());
 			mInvalidDayPaint.setTextSize(mTextPaint.getTextSize());
+
+			// Some cached vars for drawing
+			float textHeight = mTextPaint.descent() - mTextPaint.ascent();
+			float halfTextHeight = textHeight / 2;
+			mTextOffset = halfTextHeight - mTextPaint.descent();
 		}
 	}
 
@@ -348,8 +354,6 @@ public class MonthView extends View {
 		}
 
 		// Draw each number
-		float textHeight = mTextPaint.descent() - mTextPaint.ascent();
-		float halfTextHeight = textHeight / 2;
 		LocalDate today = LocalDate.now();
 		Interval monthInterval = mState.getDisplayYearMonth().toInterval();
 		for (int week = 0; week < numRowsToDraw; week++) {
@@ -377,8 +381,7 @@ public class MonthView extends View {
 					paint = mTextPaint;
 				}
 
-				canvas.drawText(Integer.toString(date.getDayOfMonth()), centerX,
-						centerY + halfTextHeight - mTextPaint.descent(), paint);
+				canvas.drawText(Integer.toString(date.getDayOfMonth()), centerX, centerY + mTextOffset, paint);
 			}
 		}
 
