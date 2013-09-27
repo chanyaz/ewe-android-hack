@@ -246,10 +246,17 @@ public class HotelSearch implements JSONable {
 		mSelectedPropertyId = obj.optString("selectedPropertyId", null);
 		mCreateTripResponse = JSONUtils.getJSONable(obj, "createTripResponse", CreateTripResponse.class);
 
-		mAvailabilityMap = JSONUtils.getJSONableStringMap(obj, "availabilityMap", HotelAvailability.class,
-				mAvailabilityMap);
-		mReviewsResponses = JSONUtils.getJSONableStringMap(obj, "reviewsResponses", ReviewsResponse.class,
-				mReviewsResponses);
+		Map<String, HotelAvailability> availabilityMap = JSONUtils.getJSONableStringMap(obj, "availabilityMap",
+				HotelAvailability.class, mAvailabilityMap);
+		if (availabilityMap != null) {
+			mAvailabilityMap = new ConcurrentHashMap<String, HotelAvailability>(availabilityMap);
+		}
+
+		Map<String, ReviewsResponse> reviewsMap = JSONUtils.getJSONableStringMap(obj, "reviewsResponses",
+				ReviewsResponse.class, mReviewsResponses);
+		if (reviewsMap != null) {
+			mReviewsResponses = new ConcurrentHashMap<String, ReviewsResponse>(reviewsMap);
+		}
 
 		return true;
 	}
