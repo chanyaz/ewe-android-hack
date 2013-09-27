@@ -17,7 +17,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:focusable="true"
-            android:focusableInTouchMode="true" />
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal" />
 
         <com.expedia.bookings.widget.CustomEditText
             android:id="@+id/filter_hotel_name_edit_text"
@@ -57,15 +58,12 @@
 
         <Button
             android:id="@+id/filter_vip_access"
+            style="?attr/hotelListingFilterToggleButtonStyle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@drawable/toggle_dark"
             android:text="@string/filter_vip_access"
-            android:textStyle="bold"
-            android:textColor="@color/actionbar_text"
             android:visibility="gone" />
-
     </LinearLayout>
 
 </LinearLayout>

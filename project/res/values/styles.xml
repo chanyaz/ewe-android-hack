@@ -672,11 +672,23 @@
         <item name="textColor">@color/actionbar_text</item>
     </style>
 
+    <style name="Widget.Button.TabletFilterControls">
+        <item name="android:background">@drawable/toggle</item>
+        <item name="android:textColor">@color/actionbar_text</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="Widget.SegmentedControlGroup.DarkFilterControls">
         <item name="centerButton">@drawable/dark_segmented_center</item>
         <item name="leftButton">@drawable/dark_segmented_left</item>
         <item name="rightButton">@drawable/dark_segmented_right</item>
         <item name="textColor">@color/actionbar_text</item>
+    </style>
+
+    <style name="Widget.Button.DarkFilterControls">
+        <item name="android:background">@drawable/toggle_dark</item>
+        <item name="android:textColor">@color/actionbar_text</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Confirmation" />
@@ -970,6 +982,7 @@
         <item name="android:textColor">@color/actionbar_text</item>
         <item name="android:textSize">20dp</item>
     </style>
+
     <style name="MapPinLowerTextAppearance">
         <item name="android:textColor">@color/actionbar_text</item>
         <item name="android:textSize">16dp</item>

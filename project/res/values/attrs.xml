@@ -229,6 +229,12 @@
     <!-- Hotel listing Sort by price icon -->
     <attr name="hotelListingSortPriceDrawable" format="reference" />
 
+    <!-- Hotel filters button style, for SegmentedControlGroups -->
+    <attr name="hotelListingFilterGroupStyle" format="reference" />
+
+    <!-- Hotel filters button style for VIP Toggle Button -->
+    <attr name="hotelListingFilterToggleButtonStyle" format="reference" />
+
     <!-- Hotel listing Filter price strings -->
     <attr name="hotelListingFilterPriceCheapString" format="reference|string" />
     <attr name="hotelListingFilterPriceModerateString" format="reference|string" />

@@ -71,7 +71,7 @@
             <com.mobiata.android.widget.SegmentedControlGroup
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/sort_by_button_group"
-                style="@style/Widget.SegmentedControlGroup.DarkFilterControls"
+                style="?attr/hotelListingFilterGroupStyle"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/popup_filter_row_height"
                 android:layout_marginBottom="8dp"
@@ -147,13 +147,11 @@
 
             <Button
                 android:id="@+id/filter_vip_access"
+                style="?attr/hotelListingFilterToggleButtonStyle"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/toggle_dark"
                 android:text="@string/filter_vip_access"
-                android:textColor="@color/actionbar_text"
-                android:textStyle="bold"
                 android:visibility="gone" />
 
             <TextView

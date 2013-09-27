@@ -38,12 +38,11 @@
 
     <Button
         android:id="@+id/filter_vip_access"
+        style="?attr/hotelListingFilterToggleButtonStyle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
-        android:background="@drawable/toggle"
         android:text="@string/filter_vip_access"
-        android:textStyle="bold"
         android:visibility="gone" />
 
 </LinearLayout>
