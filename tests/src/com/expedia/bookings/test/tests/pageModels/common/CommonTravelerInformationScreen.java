@@ -11,14 +11,15 @@ import com.expedia.bookings.test.utils.TestPreferences;
 
 public class CommonTravelerInformationScreen extends ScreenActions {
 
-	private static final int sFirstNameEditTextID = R.id.edit_first_name;
-	private static final int sMiddleNameEditTextID = R.id.edit_middle_name;
-	private static final int sLastNameEditTextID = R.id.edit_last_name;
-	private static final int sPhoneNumberEditTextID = R.id.edit_phone_number;
-	private static final int sBirthDateSpinnerButtonID = R.id.edit_birth_date_text_btn;
-	private static final int sDoneStringID = R.string.done;
-	private static final int sNextButtonID = R.id.menu_next;
-	private static final int sDoneButtonID = R.id.menu_done;
+	private static final int FIRST_NAME_EDIT_TEXT_ID = R.id.edit_first_name;
+	private static final int MIDDLE_NAME_EDIT_TEXT_ID = R.id.edit_middle_name;
+	private static final int LAST_NAME_EDIT_TEXT_ID = R.id.edit_last_name;
+	private static final int PHONE_NUMBER_EDIT_TEXT_ID = R.id.edit_phone_number;
+	private static final int BIRTHDATE_SPINNER_BUTTON_ID = R.id.edit_birth_date_text_btn;
+	private static final int DONE_STRING_ID = R.string.done;
+	private static final int NEXT_BUTTON_ID = R.id.menu_next;
+	private static final int DONE_BUTTON_ID = R.id.menu_done;
+	private static final int ENTER_A_NEW_TRAVELER_STRING_ID = R.string.enter_new_traveler;
 
 	public CommonTravelerInformationScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {
@@ -28,35 +29,39 @@ public class CommonTravelerInformationScreen extends ScreenActions {
 	// Object access
 
 	public EditText firstNameEditText() {
-		return (EditText) getView(sFirstNameEditTextID);
+		return (EditText) getView(FIRST_NAME_EDIT_TEXT_ID);
 	}
 
 	public EditText middleNameEditText() {
-		return (EditText) getView(sMiddleNameEditTextID);
+		return (EditText) getView(MIDDLE_NAME_EDIT_TEXT_ID);
 	}
 
 	public EditText lastNameEditText() {
-		return (EditText) getView(sLastNameEditTextID);
+		return (EditText) getView(LAST_NAME_EDIT_TEXT_ID);
 	}
 
 	public EditText phoneNumberEditText() {
-		return (EditText) getView(sPhoneNumberEditTextID);
+		return (EditText) getView(PHONE_NUMBER_EDIT_TEXT_ID);
 	}
 
 	public View birthDateSpinnerButton() {
-		return getView(sBirthDateSpinnerButtonID);
+		return getView(BIRTHDATE_SPINNER_BUTTON_ID);
 	}
 
 	public String done() {
-		return getString(sDoneStringID);
+		return getString(DONE_STRING_ID);
 	}
 
 	public View doneButton() {
-		return getView(sDoneButtonID);
+		return getView(DONE_BUTTON_ID);
 	}
 
 	public View nextButton() {
-		return getView(sNextButtonID);
+		return getView(NEXT_BUTTON_ID);
+	}
+
+	public String enterANewTraveler() {
+		return getString(ENTER_A_NEW_TRAVELER_STRING_ID);
 	}
 
 	// Object interaction
@@ -87,5 +92,9 @@ public class CommonTravelerInformationScreen extends ScreenActions {
 
 	public void clickDoneButton() {
 		clickOnView(doneButton());
+	}
+
+	public void clickEnterANewTraveler() {
+		clickOnText(enterANewTraveler());
 	}
 }
