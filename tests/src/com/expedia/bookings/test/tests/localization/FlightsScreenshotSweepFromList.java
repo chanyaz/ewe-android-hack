@@ -37,7 +37,7 @@ public class FlightsScreenshotSweepFromList extends CustomActivityInstrumentatio
 	public void testBookings() throws Exception {
 		try {
 			//Limit to eight POSs at a time.
-			for (int i = 0; i < 1; i++) {
+			for (int i = 0; i < 8; i++) {
 				mDriver.setScreenshotCount(0);
 				Locale testingLocale = mDriver.mLocaleUtils.selectNextLocaleFromInternalList(LOCALE_LIST_LOCATION);
 				mDriver.enterLog(TAG, "Starting sweep of " + testingLocale.toString());
