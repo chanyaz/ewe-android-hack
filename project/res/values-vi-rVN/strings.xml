@@ -302,7 +302,7 @@
     <!-- Try Again -->
     <string name="try_again">Hãy thử lại</string>
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
-    <string name="copy_TEMPLATE">Sao chép %1$s</string>
+    <string name="copy_TEMPLATE">SAO CHÉP %1$s</string>
     <!-- Hours and minutes duration future TEMPLATE. This will be used to produce a string like:"in 3 hours and 12 minutes". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
     <string name="hours_minutes_future_TEMPLATE">trong %1$s và %2$s</string>
     <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
@@ -428,9 +428,9 @@
     <string name="car_category_oversize">Xe ngoại cỡ</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2 cửa</string>
-    <string name="car_type_three_door">3 cửa</string>
-    <string name="car_type_four_door">4 cửa</string>
+    <string name="car_type_two_door">2 cửa Xe hơi</string>
+    <string name="car_type_three_door">3 cửa Xe hơi</string>
+    <string name="car_type_four_door">4 cửa Xe hơi</string>
     <string name="car_type_van">Tải</string>
     <string name="car_type_wagon">Wagon</string>
     <string name="car_type_limousine">Limousine</string>
@@ -666,7 +666,7 @@
     <!-- Error message template when loading a webpage fails -->
     <string name="web_view_loading_error_TEMPLATE">Lỗi khi tải trang! Thông báo lỗi: %1$s</string>
     <!-- Error message when attempting to load a webpage and there is no url to load -->
-    <string name="web_view_no_url">Không có URL trang web để tải.</string>
+    <string name="web_view_no_url">Không có url trang web để tải.</string>
     <!-- Title for screen when in an invalid POS we can't search for yet -->
     <string name="taking_off_soon">Sắp cất cánh…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
@@ -796,7 +796,7 @@
     <!-- Select Payment -->
     <string name="select_payment">Chọn phương thức thanh toán</string>
     <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">Chọn hình thức thanh toán</string>
+    <string name="select_payment_sentence_case">Chọn phương thức thanh toán</string>
     <!-- Add new card -->
     <string name="add_new_card">Thêm thẻ mới</string>
     <!-- Overview button -->
@@ -1059,7 +1059,7 @@
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">Nhập thông tin khách</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_TEMPLATE">Vị trí ưa thích %1$s</string>
+    <string name="prefers_seat_TEMPLATE">Chỗ ngồi ưa thích %1$s</string>
     <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;Vị trí ưa thích:&lt;/font&gt; %1$s</string>
     <!-- loading traveler info -->
@@ -1879,6 +1879,34 @@
     <string name="expired_coupon">Coupon hết hạn sử dụng</string>
     <!-- Label for when a user has entered a coupon and the server fails -->
     <string name="coupon_error">Lỗi trong quá trình xác nhận coupon</string>
+
+    <!-- Coupon Error Strings -->
+    <!-- Error when applying coupon - the coupon isn't recognized -->
+    <string name="coupon_error_unrecognized">Rất tiếc, nhưng đây không phải là mã coupon xác định</string>
+    <!-- Error when applying coupon - the coupon has expired -->
+    <string name="coupon_error_expired">Rất tiếc, nhưng coupon này đã hết hạn</string>
+    <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
+    <string name="coupon_error_not_redeemed">Rất tiếc, nhưng chúng tôi đang gặp sự cố. Vui lòng thử lại</string>
+    <!-- Error when applying coupon - the coupon has already been used by this user -->
+    <string name="coupon_error_duplicate">Rất tiếc, nhưng mã coupon đã được sử dụng</string>
+    <!-- Error when applying coupon - generic error when the coupon doesn't work -->
+    <string name="coupon_error_fallback">Rất tiếc, nhưng chúng tôi đang gặp sự cố. Vui lòng thử lại</string>
+    <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
+    <string name="coupon_error_price_change">Chi phí đặt phòng đã thay đổi, vì vậy chúng tôi không áp dụng coupon. Vui lòng xem lại và thử lại</string>
+    <!-- Error when applying coupon - the coupon is for another region -->
+    <string name="coupon_error_invalid_region">Rất tiếc, nhưng mã coupon này dành cho quốc gia khác</string>
+    <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
+    <string name="coupon_error_min_stay_not_met">Rất tiếc, nhưng quý vị đã không chọn số đêm tối thiểu</string>
+    <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
+    <string name="coupon_error_invalid_travel_dates">Rất tiếc, nhưng coupon này không hợp lệ cho những ngày này</string>
+    <!-- Error when applying coupon - the hotel does not accept any coupons -->
+    <string name="coupon_error_invalid_product">Rất tiếc, nhưng khách sạn này không chấp nhận coupon</string>
+    <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
+    <string name="coupon_error_min_purchase_amount_not_met">Rất tiếc, nhưng điều này không đáp ứng yêu cầu chi phí tối thiểu</string>
+    <!-- Error when applying coupon - the hotel does not accept this coupon -->
+    <string name="coupon_error_hotel_excluded">Rất tiếc, nhưng khách sạn này không chấp nhận coupon</string>
+    <!-- Error when applying coupon - our coupon servers are down -->
+    <string name="coupon_error_service_down">Rất tiếc, nhưng chúng tôi hiện không thể xử lý coupon.  Vui lòng thử lại</string>
 
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->

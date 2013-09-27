@@ -37,7 +37,7 @@
 
     <!-- Restricted Profile -->
     <!-- Restricted profile login message -->
-    <string name="restricted_profile_login_message">Om in te loggen dien je te beschikken over een onbeperkt gebruikersprofiel op je apparaat.</string>
+    <string name="restricted_profile_login_message">Om aan te melden dien je te beschikken over een onbeperkt gebruikersprofiel op je apparaat.</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Home -->
@@ -428,9 +428,9 @@
     <string name="car_category_oversize">Oversize auto</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2-deurs Auto</string>
-    <string name="car_type_three_door">3-deurs Auto</string>
-    <string name="car_type_four_door">4-deurs Auto</string>
+    <string name="car_type_two_door">2-deurs auto</string>
+    <string name="car_type_three_door">3-deurs auto</string>
+    <string name="car_type_four_door">4-deurs auto</string>
     <string name="car_type_van">MPV</string>
     <string name="car_type_wagon">Stationswagen</string>
     <string name="car_type_limousine">Limousine</string>
@@ -780,17 +780,17 @@
     <!-- A message for a flight that does not include baggage fees in the fare total -->
     <string name="checked_baggage_not_included">Ruimbagage niet inbegrepen</string>
     <!-- Payment and baggage fees may apply -->
-    <string name="payment_and_baggage_fees_may_apply">Creditcardtoeslagen mogelijk van toepassing</string>
+    <string name="payment_and_baggage_fees_may_apply">Transactiekosten mogelijk van toepassing</string>
     <!-- Additional Flight fare fees -->
     <string name="additional_fees">Extra toeslagen</string>
     <!-- Label to view baggage fees information -->
     <string name="baggage_fees">Bagagetoeslagen</string>
     <!-- Label to view payment processing fees information -->
-    <string name="payment_processing_fees">Betalingstoeslag</string>
+    <string name="payment_processing_fees">Transactiekosten</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
-    <string name="edit_current_payment_details">Huidige betalingsgegevens</string>
+    <string name="edit_current_payment_details">Huidige betaalinformatie</string>
     <!-- Or Select a new payment method -->
     <string name="or_select_new_paymet_method">Kies een betaalmethode</string>
     <!-- Select Payment -->
@@ -798,7 +798,7 @@
     <!-- Select payment sentence case -->
     <string name="select_payment_sentence_case">Kies betaalmethode</string>
     <!-- Add new card -->
-    <string name="add_new_card">Nieuwe kaart toevoegen</string>
+    <string name="add_new_card">Nieuwe creditcard toevoegen</string>
     <!-- Overview button -->
     <string name="overview_btn">Overzicht</string>
     <!-- Stored Payment label -->
@@ -808,11 +808,11 @@
     <!-- Billing Address -->
     <string name="billing_address">Factuuradres</string>
     <!-- Card Info -->
-    <string name="card_info">Kaartgegevens</string>
+    <string name="card_info">Creditcardgegevens</string>
 
     <!-- Edit CreditCard Fragment -->
     <!-- Airline processing fee for this card: <Dollar Amount> (e.g. Airling processing fee for this card: $5) -->
-    <string name="airline_processing_fee_TEMPLATE">Toeslag airline voor gebruik van deze kaart: &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <string name="airline_processing_fee_TEMPLATE">Transactiekosten airline: &lt;b&gt;%1$s&lt;/b&gt;</string>
     <!-- Airline does not accept <Credit Card Brand> (e.g. "Airline does not accept Visa") -->
     <string name="airline_does_not_accept_cardtype_TEMPLATE">Airline aanvaardt geen %1$s</string>
     <!-- "Airline Fee Information" -->
@@ -848,7 +848,7 @@
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">Prijs gewijzigd van %1$s</string>
     <!-- Message shown to user when the airline is charging a fee to use their credit card brand e.g. This airline charges a fee of $5 (included in the total) to use this card. -->
-    <string name="airline_card_fee_TEMPLATE">Deze airline berekent een toeslag van &lt;b&gt;%1$s&lt;/b&gt; (inbegrepen bij het totaal) voor betalingen met deze kaart.</string>
+    <string name="airline_card_fee_TEMPLATE">Deze airline berekent een toeslag van &lt;b&gt;%1$s&lt;/b&gt; (inbegrepen bij het totaal) voor betalingen met deze creditcard.</string>
     <!-- Message shown to user explaining an airline fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The airline charges a fee of $8.50 to use VISA." -->
     <string name="airline_card_fee_select_TEMPLATE">De airline berekent een toeslag van %1$s voor betalingen met %2$s.</string>
     <!-- Message shown to user when they can't use their credit card to book with the airline, %1$s is the credit card brand. e.g. "The airline does not support VISA." -->
@@ -864,7 +864,7 @@
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">Sleep om te boeken.</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_TEMPLATE">Op je kaart wordt %1$s in rekening gebracht</string>
+    <string name="your_card_will_be_charged_TEMPLATE">Op je creditcard wordt %1$s in rekening gebracht</string>
     <!-- Amount to be paid now -->
     <string name="Amount_to_be_paid_now_TEMPLATE">Nu te betalen: %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
@@ -910,9 +910,9 @@
     <!-- Cost Summary -->
     <string name="cost_summary">Totale kosten</string>
     <!-- Taxes and airline fees -->
-    <string name="taxes_and_airline_fees">Belastingen &amp; Toeslagen</string>
+    <string name="taxes_and_airline_fees">Belastingen &amp; toeslagen</string>
     <!-- Expedia booking fee -->
-    <string name="expedia_booking_fee">Expedia boekingstoeslag</string>
+    <string name="expedia_booking_fee">Expedia boekingskosten</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="airline_card_fee">Creditcardtoeslag airline</string>
     <!-- Flight -->
@@ -947,7 +947,7 @@
 
     <!-- Section edit contact -->
     <!-- name on card hint -->
-    <string name="name_on_card_hint">Naam op kaart</string>
+    <string name="name_on_card_hint">Naam op creditcard</string>
     <!-- email hint -->
     <string name="email_address_hint">E-mailadres</string>
     <!-- phone number hint -->
@@ -993,7 +993,7 @@
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
-    <string name="save_billing_info">Betalingsinfo opslaan</string>
+    <string name="save_billing_info">Betaalinfo opslaan</string>
     <!-- save billing info message -->
     <string name="save_billing_info_message">Wil je deze betaalmethode in je Expedia-account opslaan om in de toekomst sneller te kunnen boeken?</string>
     <!-- save -->
@@ -1059,9 +1059,9 @@
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">Reizigersinformatie wijzigen</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_TEMPLATE">Voorkeur voor stoel aan %1$s</string>
+    <string name="prefers_seat_TEMPLATE">Voorkeur voor stoel bij %1$s</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;Voorkeur voor stoel aan &lt;/font&gt;%1$s</string>
+    <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;Voorkeur voor stoel bij &lt;/font&gt;%1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Bezig met laden reizigersinformatie…</string>
     <!-- Passport -->
@@ -1097,8 +1097,7 @@
     <!-- Wheelchair needed (can climb/descend stairs) -->
     <string name="wheelchair_stairs_ok">Rolstoel nodig (kan trap op/af)</string>
     <!-- Wheelchair (immobile) -->
-    <string name="wheelchair_immobile">Rolstoel (immobiel)
-</string>
+    <string name="wheelchair_immobile">Rolstoel (immobiel)</string>
 
     <!-- Flight confirmation page -->
     <!-- Title for flight confirmation page -->
@@ -1152,9 +1151,9 @@
 
     <!-- Add to calendar (hotels) -->
     <!-- Title for calendar entry for when you check into a hotel -->
-    <string name="calendar_hotel_title_checkin_TEMPLATE">Check In: %s</string>
+    <string name="calendar_hotel_title_checkin_TEMPLATE">Check-in: %s</string>
     <!-- Title for calendar entry for when you check out of a hotel -->
-    <string name="calendar_hotel_title_checkout_TEMPLATE">Check Out: %s</string>
+    <string name="calendar_hotel_title_checkout_TEMPLATE">Check-out: %s</string>
 
     <!-- Flight Rules -->
     <!-- Legal information header -->
@@ -1164,7 +1163,7 @@
     <!-- Terms and Conditions for flight -->
     <string name="terms_and_conditions">Voorwaarden en bepalingen</string>
     <!-- Terms of Booking for some POSes (UK, IT) -->
-    <string name="Terms_of_Booking">Voorwaarden voor het boeken</string>
+    <string name="Terms_of_Booking">Boekingsvoorwaarden</string>
     <!-- Privacy policy -->
     <string name="privacy_policy">Privacybeleid</string>
     <!-- Fare information header -->
@@ -1172,7 +1171,7 @@
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
-    <string name="title_invalid_security_code">Ongeldige beveiligingscode</string>
+    <string name="title_invalid_security_code">Ongeldige CVV-code</string>
     <!-- Button label for cancelling on error -->
     <string name="cancel">Annuleren</string>
     <!-- Button label for accepting an error and moving forward -->
@@ -1227,7 +1226,7 @@
     <!-- Asks for a cvv code (credit card code) for a card.  %s is the card name, E.g., "CVV code for Dan's Credit Card" -->
     <string name="cvv_code_TEMPLATE">CVV-code voor &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
-    <string name="card_ending_TEMPLATE">kaart eindigend op %s</string>
+    <string name="card_ending_TEMPLATE">creditcard eindigend op %s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
     <string name="title_complete_booking">Voltooi je boeking</string>
 
@@ -1548,7 +1547,7 @@
     <!-- Room service amenity -->
     <string name="AmenityRoomService">Roomservice</string>
     <!-- Accessible path of travel amenity -->
-    <string name="AmenityAccessiblePaths">Rolstoeltoegankelijk wandelpad</string>
+    <string name="AmenityAccessiblePaths">Rolstoeltoegankelijk pad</string>
     <!-- Accessible bathroom amenity -->
     <string name="AmenityAccessibleBathroom">Rolstoeltoegankelijke badkamer</string>
     <!-- Roll-in shower amenity -->
@@ -1705,17 +1704,17 @@
     <!-- Label for "credit card info" form field section -->
     <string name="credit_card_info">Creditcardgegevens</string>
     <!-- Label for credit card selection box -->
-    <string name="saved_cards">Opgeslagen kaarten</string>
+    <string name="saved_cards">Opgeslagen creditcards</string>
     <!-- Label for entering new credit card information -->
-    <string name="enter_a_new_card">Voeg een nieuwe kaart toe</string>
+    <string name="enter_a_new_card">Voeg een nieuwe creditcard toe</string>
     <!-- Card number form field hint -->
-    <string name="hint_card_number">Kaartnummer</string>
+    <string name="hint_card_number">Creditcardnummer</string>
     <!-- Card expiration month form field hint -->
     <string name="hint_expiration_month">m</string>
     <!-- Card expiration year form field hint -->
     <string name="hint_expiration_year">jj</string>
     <!-- Security code label -->
-    <string name="security_code">Beveiligingscode</string>
+    <string name="security_code">CVV-code</string>
     <!-- Security code tip (if code is on front of card) -->
     <string name="security_code_tip_front">Zie de voorzijde van je creditcard</string>
     <!-- Security code tip (if code is on front of card) -->
@@ -1751,11 +1750,11 @@
     <!-- Error if an invalid year was entered -->
     <string name="invalid_expiration_year">Voer een jaar in dat niet in het verleden ligt</string>
     <!-- Error if an invalid security code was entered -->
-    <string name="invalid_security_code">Voer een drie- of viercijferige beveiligingscode in</string>
+    <string name="invalid_security_code">Voer een drie- of viercijferige CVV-code in</string>
     <!-- Error if an invalid currency code is being used with American Express -->
     <string name="invalid_currency_for_amex">Sorry, betalingen in deze valuta (%s) worden door American Express niet aanvaard. Gebruik een andere creditcard.</string>
     <!-- Error if user agreement needs to be checked but is not -->
-    <string name="error_no_user_agreement">Je moet de voorwaarden accepteren om te kunnen boeken</string>
+    <string name="error_no_user_agreement">Je dient de voorwaarden te accepteren om te kunnen boeken</string>
     <!-- Message to display to user while booking is in progress -->
     <string name="booking_loading">Bezig met boeken…</string>
     <!-- Title for error dialog when booking fails -->
@@ -1765,7 +1764,7 @@
     <!-- Error message when booking completed with errors -->
     <string name="error_booking_succeeded_with_errors">Je hotelkamer werd geboekt en gereserveerd. De volgende fouten deden zich echter voor: %s</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
-    <string name="error_unable_to_send_email">Het is niet mogelijk om een bevestigingsmail te sturen.</string>
+    <string name="error_unable_to_send_email">Het is niet mogelijk om een boekingsbevestiging te sturen.</string>
     <!-- Label for button pressing which brings up a dialog to enter info to book a room -->
     <string name="enter_booking_info">Voer boekingsinfo in</string>
     <!-- Title for action bar when the user is on the booking info screen -->
@@ -1789,7 +1788,7 @@
     <!-- ActionBar button for starting a new search -->
     <string name="NEW_SEARCH">Nieuwe zoekopdracht</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template">Als je vragen hebt over je boeking, bel dan Expedia op %s.</string>
+    <string name="contact_phone_template">Als je vragen hebt over je boeking, bel Expedia op %s.</string>
 
     <!-- Confirmation Fragment -->
     <!-- Label to share booking information after a booking confirmation -->
@@ -1803,7 +1802,7 @@
     <!-- Label for the number of guests the booking is for. -->
     <string name="GuestsLabel">Gasten</string>
     <!-- Label for the taxes and fees for a hotel room booking. -->
-    <string name="taxes_and_fees">Belastingen &amp; Toeslagen</string>
+    <string name="taxes_and_fees">Belastingen &amp; toeslagen</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Inbegrepen</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
@@ -1813,25 +1812,25 @@
     <!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
     <string name="PayToExpedia">Betaal Expedia</string>
     <!-- Label for "check in" information. Used both as header for check in policies and for the date of check in. -->
-    <string name="CheckIn">Inchecken</string>
+    <string name="CheckIn">Check-in</string>
     <!-- Label for "check out" information. Used both as header for check out policies and for the date of check out. -->
-    <string name="CheckOut">Uitchecken</string>
+    <string name="CheckOut">Check-out</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">Korting</string>
 
     <!-- Expedia policy strings -->
     <!-- Policy displayed to user when an immediate charge is required -->
-    <string name="PolicyImmediateChargeRequired">Het volledige bedrag wordt onmiddellijk tijdens het boeken op je creditcard in rekening gebracht.</string>
+    <string name="PolicyImmediateChargeRequired">Het volledige bedrag wordt onmiddellijk bij het boeken op je creditcard in rekening gebracht.</string>
     <!-- Policy displayed to user when the room is non-refundable -->
-    <string name="PolicyNonRefundable">We bieden een uitzonderlijk laag tarief op deze accommodatie. Om dit aan te kunnen bieden is het tarief niet-restitueerbaar. Als je ervoor kiest deze reservering te annuleren, ontvang je geen restitutie van de betaling.</string>
+    <string name="PolicyNonRefundable">We bieden een uitzonderlijk laag tarief op deze accommodatie. Om dit aan te kunnen bieden is het tarief niet restitueerbaar. Als je ervoor kiest om later te annuleren, ontvang je geen restitutie.</string>
     <!-- Policy displayed to user when a deposit is required -->
-    <string name="PolicyDepositRequired">Er wordt een borgsom voor je reservering in rekening gebracht bij je creditcard. Het hotel brengt het bedrag direct op je kaart in rekening nadat je de reservering geplaatst hebt.</string>
+    <string name="PolicyDepositRequired">Er wordt een aanbetaling op je creditcard in rekening gebracht. Het hotel brengt het bedrag rechtstreeks op je creditcard in rekening nadat je de reservering geplaatst hebt.</string>
     <!-- Policy displayed to user when a guarantee is required -->
     <string name="PolicyGuaranteeRequired">De creditcardgegevens zijn verplicht om je reservering te kunnen garanderen. Er wordt niets op je creditcard in rekening gebracht totdat je bij het hotel aankomt of voordat de annuleringsdeadline voorbij is.</string>
     <!-- Expedia merchant hotel policies -->
     <string name="PolicyExpediaMerchant">Door deze boeking te voltooien bevestig je alle Algemene Voorwaarden, inclusief het Privacybeleid en alle gebruiksvoorwaarden, gelezen en goedgekeurd te hebben.\n\nJe gaat akkoord de kosten van je boeking te betalen. Als je deze kosten niet betaalt zodat deze via een incassobureau, een deurwaarder of andere wettelijke procedures moeten worden gevorderd, ga je akkoord met alle daaruit voortvloeiende kosten, inclusief deurwaarders- en procedurekosten, die verband houden met deze invorderingspogingen.</string>
     <!-- Expedia agent hotel policies -->
-    <string name="PolicyExpediaAgent">Je boekt een accommodatie zonder korting. Alle getoonde tarieven zijn per nacht, en zijn gebaseerd op twee personen per kamer tenzij anders is aangegeven. Lees de kamerbeschrijvingen en de tariefregels goed na om te verzekeren dat de gekozen kamer groot genoeg is. Voor sommige tarieven kan speciale identificatie worden vereist. Onze boekingstoeslag, belastingen en andere kosten die worden berekend door het hotel zijn niet inbegrepen. De accommodatie rekent mogelijk een extra toeslag aan wanneer extra volwassenen of kinderen aan de kamer worden toegevoegd.\n\nVerzoeken voor meer dan 2 personen of voor meer gasten dan het geselecteerde tarief opgeeft worden naar het hotel gestuurd maar zijn niet gegarandeerd. Als de accommodatie het verzoek aanvaardt, kan het naar eigen goeddunken extra kosten in rekening brengen.</string>
+    <string name="PolicyExpediaAgent">Je boekt een accommodatie zonder korting. Alle getoonde tarieven zijn per nacht, en zijn gebaseerd op twee personen per kamer tenzij anders is aangegeven. Lees de kamerbeschrijvingen en de tariefregels goed na om te verzekeren dat de gekozen kamer groot genoeg is. Voor sommige tarieven kan speciale identificatie worden vereist. Onze boekingstoeslag, belastingen en andere kosten die worden berekend door het hotel zijn niet inbegrepen. De accommodatie rekent mogelijk een toeslag aan wanneer extra volwassenen of kinderen aan de kamer worden toegevoegd.\n\nVerzoeken voor meer dan 2 personen of voor meer gasten dan het geselecteerde tarief opgeeft worden naar het hotel gestuurd maar zijn niet gegarandeerd. Als de accommodatie het verzoek aanvaardt, kan het naar eigen goeddunken extra kosten in rekening brengen.</string>
 
     <!-- Expedia Accounts -->
     <!-- Label for menu item to log into account -->
@@ -1880,6 +1879,34 @@
     <string name="expired_coupon">Verlopen coupon</string>
     <!-- Label for when a user has entered a coupon and the server fails -->
     <string name="coupon_error">Fout met coupon</string>
+
+    <!-- Coupon Error Strings -->
+    <!-- Error when applying coupon - the coupon isn't recognized -->
+    <string name="coupon_error_unrecognized">Sorry, maar dit is geen gekende couponcode</string>
+    <!-- Error when applying coupon - the coupon has expired -->
+    <string name="coupon_error_expired">Sorry, maar deze coupon is verlopen</string>
+    <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
+    <string name="coupon_error_not_redeemed">Sorry, maar er deed zich een probleem voor. Probeer het opnieuw</string>
+    <!-- Error when applying coupon - the coupon has already been used by this user -->
+    <string name="coupon_error_duplicate">Sorry, maar deze coupon is al gebruikt geweest</string>
+    <!-- Error when applying coupon - generic error when the coupon doesn't work -->
+    <string name="coupon_error_fallback">Sorry, maar er deed zich een probleem voor. Probeer het opnieuw</string>
+    <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
+    <string name="coupon_error_price_change">De coupon werd niet toegepast omdat de boekingsprijs werd gewijzigd. Controleer en probeer opnieuw</string>
+    <!-- Error when applying coupon - the coupon is for another region -->
+    <string name="coupon_error_invalid_region">Sorry, maar deze coupon is geldig in een ander land</string>
+    <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
+    <string name="coupon_error_min_stay_not_met">Sorry, maar je dient een minimumaantal nachten te boeken</string>
+    <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
+    <string name="coupon_error_invalid_travel_dates">Sorry, maar de coupon is ongeldig op deze datums</string>
+    <!-- Error when applying coupon - the hotel does not accept any coupons -->
+    <string name="coupon_error_invalid_product">Sorry, maar dit hotel aanvaardt geen coupons</string>
+    <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
+    <string name="coupon_error_min_purchase_amount_not_met">Sorry, maar de boekingsprijs is lager dan het vereiste boekingsbedrag</string>
+    <!-- Error when applying coupon - the hotel does not accept this coupon -->
+    <string name="coupon_error_hotel_excluded">Sorry, maar dit hotel aanvaardt geen coupons</string>
+    <!-- Error when applying coupon - our coupon servers are down -->
+    <string name="coupon_error_service_down">Sorry, maar we kunnen coupons op dit moment niet verwerken. Probeer het opnieuw</string>
 
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
@@ -1945,11 +1972,11 @@
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">Afgemeld en gegevens gewist</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_logged_out_and_cleared_private_data">Je bent nu afgemeld bij je Expedia account en alle betalings-en contactgegevens werden gewist.</string>
+    <string name="dialog_message_logged_out_and_cleared_private_data">Je bent nu afgemeld bij je Expedia account en alle betaal-en contactgegevens werden gewist.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_cleared_private_data">Privégegevens gewist</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_cleared_private_data">Alle opgeslagen betalings- en contactgegevens zijn verwijderd.</string>
+    <string name="dialog_message_cleared_private_data">Alle opgeslagen betaal- en contactgegevens zijn verwijderd.</string>
     <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
     <string name="dialog_message_launch_expedia_mobile_site">Wil je Expedia\&apos;s mobiele website opstarten?</string>
     <!-- Action button label to Subscribe to our mailing list -->

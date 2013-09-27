@@ -428,9 +428,9 @@
     <string name="car_category_oversize">Surdimensionnées</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">Deux portes Voiture</string>
-    <string name="car_type_three_door">Trois portes Voiture</string>
-    <string name="car_type_four_door">Quatre portes Voiture</string>
+    <string name="car_type_two_door">Deux portes</string>
+    <string name="car_type_three_door">Trois portes</string>
+    <string name="car_type_four_door">Quatre portes</string>
     <string name="car_type_van">Fourgonnette</string>
     <string name="car_type_wagon">Familiale</string>
     <string name="car_type_limousine">Limousine</string>
@@ -1879,6 +1879,34 @@
     <string name="expired_coupon">Bon de réduction expiré</string>
     <!-- Label for when a user has entered a coupon and the server fails -->
     <string name="coupon_error">Erreur de bon de réduction</string>
+
+    <!-- Coupon Error Strings -->
+    <!-- Error when applying coupon - the coupon isn't recognized -->
+    <string name="coupon_error_unrecognized">Désolé, le code de ce bon de réduction nous est inconnu.</string>
+    <!-- Error when applying coupon - the coupon has expired -->
+    <string name="coupon_error_expired">Désolé, ce bon de réduction est expiré.</string>
+    <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
+    <string name="coupon_error_not_redeemed">Désolé, nous éprouvons des difficultés. Veuillez recommencer.</string>
+    <!-- Error when applying coupon - the coupon has already been used by this user -->
+    <string name="coupon_error_duplicate">Désolé, le code de ce bon de réduction a déjà été utilisé.</string>
+    <!-- Error when applying coupon - generic error when the coupon doesn't work -->
+    <string name="coupon_error_fallback">Désolé, nous éprouvons des difficultés. Veuillez recommencer.</string>
+    <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
+    <string name="coupon_error_price_change">Le coût de la réservation a changé; nous n\&apos;avons pas appliqué le bon de réduction. Veuillez vérifier et recommencer.</string>
+    <!-- Error when applying coupon - the coupon is for another region -->
+    <string name="coupon_error_invalid_region">Désolé, le code de ce bon de réduction est pour un autre pays.</string>
+    <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
+    <string name="coupon_error_min_stay_not_met">Désolé, vous n\&apos;avez pas sélectionné le nombre minimal de nuits.</string>
+    <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
+    <string name="coupon_error_invalid_travel_dates">Désolé, ce bon de réduction n\&apos;est pas valide pour ces dates.</string>
+    <!-- Error when applying coupon - the hotel does not accept any coupons -->
+    <string name="coupon_error_invalid_product">Désolé, cet hôtel n\&apos;accepte pas les bons de réduction.</string>
+    <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
+    <string name="coupon_error_min_purchase_amount_not_met">Désolé, cette demande ne répond pas aux exigences minimales sur le coût.</string>
+    <!-- Error when applying coupon - the hotel does not accept this coupon -->
+    <string name="coupon_error_hotel_excluded">Désolé, cet hôtel n\&apos;accepte pas les bons de réduction.</string>
+    <!-- Error when applying coupon - our coupon servers are down -->
+    <string name="coupon_error_service_down">Désolé, nous ne pouvons pas traiter les bons de réduction en ce moment.  Veuillez recommencer.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->

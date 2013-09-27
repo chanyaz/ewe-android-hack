@@ -13,7 +13,7 @@
     <!-- Attempting to log you in with facebook credentials -->
     <string name="attempting_to_log_in_with_facebook">กำลังล็อกอินคุณด้วยข้อมูล Facebook…</string>
     <!-- We have encountered an error -->
-    <string name="unspecified_error">เราพบข้อผิดพลาดที่ไม่สามารถระบุได้ โปรดลองอีกครั้ง</string>
+    <string name="unspecified_error">เราพบข้อผิดพลาดที่ไม่สามารถระบุได้ โปรดลองอีกครั้งภายหลัง</string>
     <!-- Unable to log in to Facebook -->
     <string name="unable_to_log_into_facebook">ไม่สามารถเข้าสู่ระบบ Facebook</string>
     <!-- Login failed try again -->
@@ -27,7 +27,7 @@
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">กำลังลิงก์บัญชีของคุณ…</string>
     <!-- Log In -->
-    <string name="Log_In">เข้าระบบ</string>
+    <string name="Log_In">เข้าสู่ระบบ</string>
     <!-- Log in with Expedia -->
     <string name="Log_in_with_Expedia">เข้าสู่ระบบด้วยเอ็กซ์พีเดีย</string>
     <!-- or -->
@@ -1879,6 +1879,34 @@
     <string name="expired_coupon">คูปองหมดอายุ</string>
     <!-- Label for when a user has entered a coupon and the server fails -->
     <string name="coupon_error">คูปองผิด</string>
+
+    <!-- Coupon Error Strings -->
+    <!-- Error when applying coupon - the coupon isn't recognized -->
+    <string name="coupon_error_unrecognized">ขออภัย ระบบไม่พบรหัสคูปองนี้</string>
+    <!-- Error when applying coupon - the coupon has expired -->
+    <string name="coupon_error_expired">ขออภัย คูปองนี้หมดอายุแล้ว</string>
+    <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
+    <string name="coupon_error_not_redeemed">ขออภัย เราประสบปัญหา โปรดลองอีกครั้ง</string>
+    <!-- Error when applying coupon - the coupon has already been used by this user -->
+    <string name="coupon_error_duplicate">ขออภัย รหัสคูปองนี้ได้รับการใช้ไปแล้ว</string>
+    <!-- Error when applying coupon - generic error when the coupon doesn't work -->
+    <string name="coupon_error_fallback">ขออภัย เราประสบปัญหา โปรดลองอีกครั้ง</string>
+    <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
+    <string name="coupon_error_price_change">ราคาการจองมีการเปลี่ยนแปลง เราจึงไม่ได้ใช้คูปอง โปรดตรวจสอบแล้วลองอีกครั้ง</string>
+    <!-- Error when applying coupon - the coupon is for another region -->
+    <string name="coupon_error_invalid_region">ขออภัย รหัสคูปองนี้มีไว้สำหรับประเทศอื่น</string>
+    <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
+    <string name="coupon_error_min_stay_not_met">ขออภัย คุณไม่ได้เลือกจำนวนการเข้าพักขั้นต่ำ</string>
+    <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
+    <string name="coupon_error_invalid_travel_dates">ขออภัย คูปองนี้ไม่สามารถใช้ได้สำหรับวันที่เหล่านี้</string>
+    <!-- Error when applying coupon - the hotel does not accept any coupons -->
+    <string name="coupon_error_invalid_product">ขออภัย โรงแรมนี้ไม่รับคูปอง</string>
+    <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
+    <string name="coupon_error_min_purchase_amount_not_met">ขออภัย การจองไม่ถึงมูลค่าขั้นต่ำที่กำหนด</string>
+    <!-- Error when applying coupon - the hotel does not accept this coupon -->
+    <string name="coupon_error_hotel_excluded">ขออภัย โรงแรมนี้ไม่รับคูปอง</string>
+    <!-- Error when applying coupon - our coupon servers are down -->
+    <string name="coupon_error_service_down">ขออภัย เราไม่สามารถดำเนินการใช้คูปองได้ในขณะนี้ โปรดลองอีกครั้ง</string>
 
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->

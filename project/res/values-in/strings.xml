@@ -1880,6 +1880,34 @@
     <!-- Label for when a user has entered a coupon and the server fails -->
     <string name="coupon_error">Kupon Bermasalah</string>
 
+    <!-- Coupon Error Strings -->
+    <!-- Error when applying coupon - the coupon isn't recognized -->
+    <string name="coupon_error_unrecognized">Maaf, tapi kode kupon ini tidak kami kenali</string>
+    <!-- Error when applying coupon - the coupon has expired -->
+    <string name="coupon_error_expired">Maaf, tapi kode kupon ini telah kedaluwarsa</string>
+    <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
+    <string name="coupon_error_not_redeemed">Maaf, kami sedang mengalami masalah. Harap coba lagi</string>
+    <!-- Error when applying coupon - the coupon has already been used by this user -->
+    <string name="coupon_error_duplicate">Maaf, tapi kode kupon ini telah digunakan</string>
+    <!-- Error when applying coupon - generic error when the coupon doesn't work -->
+    <string name="coupon_error_fallback">Maaf, kami sedang mengalami masalah. Harap coba lagi</string>
+    <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
+    <string name="coupon_error_price_change">Biaya pemesanan telah berubah sehingga kami tidak menggunakan kupon. Periksa kembali dan coba lagi</string>
+    <!-- Error when applying coupon - the coupon is for another region -->
+    <string name="coupon_error_invalid_region">Maaf, kode kupon ini untuk negara yang lain</string>
+    <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
+    <string name="coupon_error_min_stay_not_met">Maaf, Anda tidak memilih jumlah malam minimal</string>
+    <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
+    <string name="coupon_error_invalid_travel_dates">Maaf, kupon ini tidak berlaku untuk tanggal-tanggal ini</string>
+    <!-- Error when applying coupon - the hotel does not accept any coupons -->
+    <string name="coupon_error_invalid_product">Maaf, hotel ini tidak menerima kupon</string>
+    <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
+    <string name="coupon_error_min_purchase_amount_not_met">Maaf, tapi ini tidak memenuhi syarat biaya minimal</string>
+    <!-- Error when applying coupon - the hotel does not accept this coupon -->
+    <string name="coupon_error_hotel_excluded">Maaf, hotel ini tidak menerima kupon</string>
+    <!-- Error when applying coupon - our coupon servers are down -->
+    <string name="coupon_error_service_down">Maaf, tapi untuk saat ini kami tidak bisa memproses kupon Harap coba lagi</string>
+
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
     <string name="share_subject_dash_template">%1$s - %2$s</string>

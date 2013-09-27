@@ -428,9 +428,9 @@
     <string name="car_category_oversize">Übergroß</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">Zweitürer PKW</string>
-    <string name="car_type_three_door">Dreitürer PKW</string>
-    <string name="car_type_four_door">Viertürer PKW</string>
+    <string name="car_type_two_door">Zweitürer</string>
+    <string name="car_type_three_door">Dreitürer</string>
+    <string name="car_type_four_door">Viertürer</string>
     <string name="car_type_van">Van</string>
     <string name="car_type_wagon">Kombi</string>
     <string name="car_type_limousine">Limousine</string>
@@ -552,9 +552,9 @@
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
     <string name="share_template_subject_flight_multiple_travelers">Unser Flug nach %1$s am %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">Ich habe Flug %1$s nach %2$s am %3$s.\nAbflug %4$s um %5$s\nAnkunft%6$s um %7$s, %8$s</string>
+    <string name="share_template_short_flight_sameday">Ich habe Flug %1$s nach %2$s am %3$s.\nAbflug %4$s um %5$s\nAnkunft %6$s um %7$s, %8$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">Ich habe Flug %1$s nach %2$s.\nAbflug %3$s um %4$s\nAnkunft%5$s um %6$s, %7$s</string>
+    <string name="share_template_short_flight_multiday">Ich habe Flug %1$s nach %2$s.\nAbflug %3$s um %4$s\nAnkunft %5$s um %6$s, %7$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Mein Mietwagen (%1$s − %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -589,7 +589,7 @@
     <!-- activity expiration date -->
     <string name="share_template_short_activity_expires">Gültig bis:%1$s</string>
     <!-- message for activity message for 1: title -->
-    <string name="share_template_long_activity_title">Hallo,\n\nHier sind die Details von meinem %1$s</string>
+    <string name="share_template_long_activity_title">Hallo,\n\nhier sind die Details von meinem %1$s</string>
     <!-- label for activity 1: valid date -->
     <string name="share_template_long_activity_valid">Gültig ab: %1$s</string>
     <!-- label for activity 1: expiration date -->
@@ -1875,11 +1875,39 @@
     <!-- Label for credit card selection -->
     <string name="use_card">Karte verwenden:</string>
     <!-- Label for when a user has entered an invalid coupon -->
-    <string name="invalid_coupon">Coupon ist ungültig</string>
+    <string name="invalid_coupon">Ungültiger Gutschein</string>
     <!-- Label for when a user has entered a coupon which is expired -->
-    <string name="expired_coupon">Coupon ist abgelaufen</string>
+    <string name="expired_coupon">Abgelaufener Gutschein</string>
     <!-- Label for when a user has entered a coupon and the server fails -->
-    <string name="coupon_error">Coupon ist fehlerhaft</string>
+    <string name="coupon_error">Fehlerhafter Gutschein</string>
+
+    <!-- Coupon Error Strings -->
+    <!-- Error when applying coupon - the coupon isn't recognized -->
+    <string name="coupon_error_unrecognized">Das ist leider kein gültiger Gutscheincode.</string>
+    <!-- Error when applying coupon - the coupon has expired -->
+    <string name="coupon_error_expired">Dieser Gutschein ist leider schon verfallen.</string>
+    <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
+    <string name="coupon_error_not_redeemed">Leider gibt es ein Problem. Bitte versuchen Sie es noch einmal</string>
+    <!-- Error when applying coupon - the coupon has already been used by this user -->
+    <string name="coupon_error_duplicate">Dieser Gutscheincode wurde leider schon verwendet.</string>
+    <!-- Error when applying coupon - generic error when the coupon doesn't work -->
+    <string name="coupon_error_fallback">Leider gibt es ein Problem. Bitte versuchen Sie es noch einmal</string>
+    <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
+    <string name="coupon_error_price_change">Der Buchungsbetrag hat sich geändert, daher haben wir den Gutschein nicht eingelöst. Bitte schauen Sie noch mal drüber und versuchen Sie es erneut</string>
+    <!-- Error when applying coupon - the coupon is for another region -->
+    <string name="coupon_error_invalid_region">Leider gilt dieser Gutscheincode nicht für dieses Land.</string>
+    <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
+    <string name="coupon_error_min_stay_not_met">Leider liegen Sie unter der Mindestaufenthaltsdauer.</string>
+    <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
+    <string name="coupon_error_invalid_travel_dates">Leider gilt dieser Gutschein nicht für diesen Reisezeitraum.</string>
+    <!-- Error when applying coupon - the hotel does not accept any coupons -->
+    <string name="coupon_error_invalid_product">Leider akzeptiert dieses Hotel keine Gutscheine.</string>
+    <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
+    <string name="coupon_error_min_purchase_amount_not_met">Leider erreicht Ihre Buchung nicht den geforderten Mindestbetrag.</string>
+    <!-- Error when applying coupon - the hotel does not accept this coupon -->
+    <string name="coupon_error_hotel_excluded">Leider akzeptiert dieses Hotel keine Gutscheine.</string>
+    <!-- Error when applying coupon - our coupon servers are down -->
+    <string name="coupon_error_service_down">Leider können wir im Moment keine Gutscheine verarbeiten.  Bitte versuchen Sie es noch einmal</string>
 
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->

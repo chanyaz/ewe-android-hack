@@ -428,9 +428,9 @@
     <string name="car_category_oversize">Stor bil</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">Två dörrar Bil</string>
-    <string name="car_type_three_door">Tre dörrar Bil</string>
-    <string name="car_type_four_door">Fyra dörrar Bil</string>
+    <string name="car_type_two_door">2-dörrarsbil</string>
+    <string name="car_type_three_door">3-dörrarsbil</string>
+    <string name="car_type_four_door">4-dörrarsbil</string>
     <string name="car_type_van">Skåpbil</string>
     <string name="car_type_wagon">Kombi</string>
     <string name="car_type_limousine">Limousine</string>
@@ -1879,6 +1879,34 @@
     <string name="expired_coupon">Kupongen gäller inte längre</string>
     <!-- Label for when a user has entered a coupon and the server fails -->
     <string name="coupon_error">Fel med kupong</string>
+
+    <!-- Coupon Error Strings -->
+    <!-- Error when applying coupon - the coupon isn't recognized -->
+    <string name="coupon_error_unrecognized">Tyvärr känner vi inte igen kupongkoden</string>
+    <!-- Error when applying coupon - the coupon has expired -->
+    <string name="coupon_error_expired">Tyvärr har kupongen gått ut</string>
+    <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
+    <string name="coupon_error_not_redeemed">Tyvärr uppstod ett problem. Försök igen</string>
+    <!-- Error when applying coupon - the coupon has already been used by this user -->
+    <string name="coupon_error_duplicate">Tyvärr har kupongkoden redan använts</string>
+    <!-- Error when applying coupon - generic error when the coupon doesn't work -->
+    <string name="coupon_error_fallback">Tyvärr uppstod ett problem. Försök igen</string>
+    <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
+    <string name="coupon_error_price_change">Bokningsbeloppet ändrades så vi tillämpade inte kupongen. Kontrollera uppgifterna och försök igen</string>
+    <!-- Error when applying coupon - the coupon is for another region -->
+    <string name="coupon_error_invalid_region">Den här kupongen är tyvärr endast giltig för ett annat land</string>
+    <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
+    <string name="coupon_error_min_stay_not_met">Du uppfyllde inte minimumkravet på antal nätter</string>
+    <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
+    <string name="coupon_error_invalid_travel_dates">Den här kupongen gäller tyvärr inte för dessa datum</string>
+    <!-- Error when applying coupon - the hotel does not accept any coupons -->
+    <string name="coupon_error_invalid_product">Det här hotellet accepterar tyvärr inte kuponger</string>
+    <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
+    <string name="coupon_error_min_purchase_amount_not_met">Beloppet motsvarar tyvärr inte minimumbeloppet</string>
+    <!-- Error when applying coupon - the hotel does not accept this coupon -->
+    <string name="coupon_error_hotel_excluded">Det här hotellet accepterar tyvärr inte kuponger</string>
+    <!-- Error when applying coupon - our coupon servers are down -->
+    <string name="coupon_error_service_down">Vi kan tyvärr inte tillämpa kuponger just nu. Försök igen</string>
 
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->

@@ -1880,6 +1880,34 @@
     <!-- Label for when a user has entered a coupon and the server fails -->
     <string name="coupon_error">Feil ved kupongkode</string>
 
+    <!-- Coupon Error Strings -->
+    <!-- Error when applying coupon - the coupon isn't recognized -->
+    <string name="coupon_error_unrecognized">Beklager, dette er ikke en kjent kupongkode</string>
+    <!-- Error when applying coupon - the coupon has expired -->
+    <string name="coupon_error_expired">Beklager, kupongen er utløpt</string>
+    <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
+    <string name="coupon_error_not_redeemed">Beklager, det har oppstått et problem. Prøv på nytt</string>
+    <!-- Error when applying coupon - the coupon has already been used by this user -->
+    <string name="coupon_error_duplicate">Beklager, denne kupongkoden har allerede blitt brukt</string>
+    <!-- Error when applying coupon - generic error when the coupon doesn't work -->
+    <string name="coupon_error_fallback">Beklager, det har oppstått et problem. Prøv på nytt</string>
+    <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
+    <string name="coupon_error_price_change">Prisen på bestillingen er endret, så vi har ikke lagt til kupongen. Anmeld på nytt og prøv igjen</string>
+    <!-- Error when applying coupon - the coupon is for another region -->
+    <string name="coupon_error_invalid_region">Beklager, denne kupongkoden er kun gyldig i et annet land</string>
+    <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
+    <string name="coupon_error_min_stay_not_met">Du har valgt færre dager enn det som er minstekravet</string>
+    <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
+    <string name="coupon_error_invalid_travel_dates">Beklager, denne kupongen er ikke gyldig for disse datoene</string>
+    <!-- Error when applying coupon - the hotel does not accept any coupons -->
+    <string name="coupon_error_invalid_product">Beklager, dette hotellet godtar ikke kuponger</string>
+    <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
+    <string name="coupon_error_min_purchase_amount_not_met">Beklager, du har ikke oppnådd minimumsbeløpet</string>
+    <!-- Error when applying coupon - the hotel does not accept this coupon -->
+    <string name="coupon_error_hotel_excluded">Beklager, dette hotellet godtar ikke kuponger</string>
+    <!-- Error when applying coupon - our coupon servers are down -->
+    <string name="coupon_error_service_down">Beklager, det var ikke mulig å lese kupongkoden.  Prøv på nytt</string>
+
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
     <string name="share_subject_dash_template">%1$s - %2$s</string>
