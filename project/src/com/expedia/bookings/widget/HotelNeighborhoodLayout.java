@@ -6,20 +6,25 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import android.annotation.TargetApi;
 import android.content.Context;
-import android.text.TextUtils;
+import android.graphics.Color;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.util.SparseArray;
-import android.view.Gravity;
-import android.view.ViewGroup;
+import android.view.LayoutInflater;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.utils.StrUtils;
+import com.mobiata.android.util.Ui;
 
 public class HotelNeighborhoodLayout extends LinearLayout {
 
@@ -38,6 +43,7 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 		super(context, attrs);
 	}
 
+	@TargetApi(11)
 	public HotelNeighborhoodLayout(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 	}
@@ -90,20 +96,27 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 		}
 		else {
 			mNeighborhoods = new HashSet<Integer>();
+			LayoutInflater inflater = LayoutInflater.from(getContext());
 			for (Property property : sorted) {
-				String description = property.getLocation().getDescription();
-				Rate rate = property.getLowestRate();
-				String hotelPrice = StrUtils.formatHotelPrice(rate.getDisplayRate());
 				mNeighborhoods.add(property.getLocation().getLocationId());
+				String description = property.getLocation().getDescription();
+				String rate = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate());
 
-				// TODO: This is temporary. We'll want to inflate a layout here once design is ready.
-				CheckBox row = new CheckBox(getContext());
-				row.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, 56));
-				row.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
-				row.setText(description + " - " + hotelPrice);
-				row.setChecked(true);
-				row.setTag(property);
-				row.setOnCheckedChangeListener(mCheckedChangedListener);
+				// Build and colorize "From $200" string
+				String template = getResources().getString(R.string.From_x_TEMPLATE, rate);
+				SpannableStringBuilder builder = new SpannableStringBuilder(template);
+				int start = template.indexOf(rate);
+				int end = start + rate.length();
+				builder.setSpan(new ForegroundColorSpan(Color.rgb(0x05, 0x58, 0xc4)), start, end, 0);
+
+				LinearLayout row = (LinearLayout) inflater.inflate(R.layout.row_filter_refinement, null);
+				CheckBox box = Ui.findView(row, R.id.checkbox);
+				TextView price = Ui.findView(row, R.id.price);
+				box.setText(description);
+				price.setText(builder);
+				box.setChecked(true);
+				box.setTag(property);
+				box.setOnCheckedChangeListener(mCheckedChangedListener);
 				addView(row);
 			}
 		}

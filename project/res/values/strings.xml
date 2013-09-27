@@ -114,6 +114,8 @@
     <string name="cd_sort_by_rating">Press to sort by the most highly rated hotels.</string>
     <!-- Content description for "sort by distance" button -->
     <string name="cd_sort_by_distance">Press to sort by the closest hotels.</string>
+    <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
+    <string name="From_x_TEMPLATE">From %s</string>
 
     <!-- Tablet flight sort/filter controls -->
     <!-- Flight sort and filter page header -->
