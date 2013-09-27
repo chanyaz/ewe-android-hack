@@ -1892,6 +1892,16 @@
     <string name="expired_coupon">Expired Coupon</string>
     <!-- Label for when a user has entered a coupon and the server fails -->
     <string name="coupon_error">Coupon Error</string>
+    
+    <!-- Coupon dialog -->
+    <!-- Title on dialog imploring users to enter coupons -->
+    <string name="enter_coupon_code">Enter Coupon Code</string>
+    <!-- Message shown when applying coupon (in progress) -->
+    <string name="applying_coupon">Applying Coupon&#8230;</string>
+    <!-- Message shown when a coupon was successfully applied -->
+    <string name="coupon_applied">Coupon Applied</string>
+    <!-- Message showing the user how much they saved by applying a coupon.  %s is a money amount, e.g. "You saved $5.00!" -->
+    <string name="coupon_saved_TEMPLATE">You saved %s!</string>
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't recognized -->
