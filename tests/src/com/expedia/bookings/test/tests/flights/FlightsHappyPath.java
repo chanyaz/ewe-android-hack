@@ -150,6 +150,20 @@ public class FlightsHappyPath {
 			driver.cardInfoScreen().clickSetButton();
 			driver.cardInfoScreen().clickOnDoneButton();
 			driver.cardInfoScreen().clickNoThanksButton();
+			driver.delay(1);
+
+			if (driver.searchText(driver.commonCheckout().addTravelerString(), 1, false, true)) {
+				driver.commonCheckout().clickAddTravelerString();
+				driver.travelerInformationScreen().clickEnterANewTraveler();
+				driver.travelerInformationScreen().enterLastName(user.getLastName());
+				driver.travelerInformationScreen().enterFirstName(user.getFirstName());
+				driver.travelerInformationScreen().enterPhoneNumber(user.getPhoneNumber());
+				driver.travelerInformationScreen().clickBirthDateButton();
+				driver.travelerInformationScreen().clickDoneString();
+				driver.billingAddressScreen().clickNextButton();
+				driver.travelerInformationScreen().clickDoneButton();
+				driver.cardInfoScreen().clickNoThanksButton();
+			}
 
 			driver.landscape();
 			driver.portrait();
