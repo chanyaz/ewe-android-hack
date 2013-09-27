@@ -19,6 +19,7 @@ public class CommonCheckoutScreen extends ScreenActions {
 	private static final int SLIDE_TO_PURCHASE_END_ID = R.id.destination_image;
 	private static final int CALCULATING_TAXES_AND_FEES_ID = R.string.calculating_taxes_and_fees;
 	private static final int I_ACCEPT_STRING_ID = R.string.I_Accept;
+	private static final int ADD_TRAVELER_STRING_ID = R.string.add_traveler;
 
 	private static final String TAG = "Common Checkout Screen";
 
@@ -65,6 +66,10 @@ public class CommonCheckoutScreen extends ScreenActions {
 		return getString(I_ACCEPT_STRING_ID);
 	}
 
+	public String addTravelerString() {
+		return getString(ADD_TRAVELER_STRING_ID);
+	}
+
 	// Object interaction
 
 	public void clickCheckoutButton() {
@@ -89,6 +94,10 @@ public class CommonCheckoutScreen extends ScreenActions {
 
 	public void clickOnAcceptString() {
 		clickOnText(acceptString());
+	}
+
+	public void clickAddTravelerString() {
+		clickOnText(addTravelerString());
 	}
 
 	public void slideToCheckout() {
