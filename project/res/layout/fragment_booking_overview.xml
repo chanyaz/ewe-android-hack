@@ -171,7 +171,7 @@
                     android:id="@+id/coupon_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:gravity="center"
                     android:text="@string/coupon_code" />
 
@@ -180,7 +180,9 @@
                 <RelativeLayout
                     android:id="@+id/coupon_applied_container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:visibility="gone" >
 
                     <ImageView
                         android:id="@+id/coupon_tag"
@@ -221,7 +223,6 @@
                         android:layout_below="@+id/coupon_applied_text_view"
                         android:ellipsize="end"
                         android:singleLine="true"
-                        android:text="You saved $30.22!"
                         android:textColor="#FFE115"
                         android:textSize="16dp" />
                 </RelativeLayout>
