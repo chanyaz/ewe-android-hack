@@ -3,6 +3,7 @@ package com.expedia.bookings.dialog;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
@@ -81,7 +82,12 @@ public class CouponDialogFragment extends DialogFragment {
 		builder.setTitle(R.string.enter_coupon_code);
 		builder.setView(view);
 		builder.setPositiveButton(R.string.apply, null);
-		builder.setNegativeButton(R.string.cancel, null);
+		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				mListener.onCancelApplyCoupon();
+			}
+		});
 
 		return builder.create();
 	}
@@ -130,5 +136,7 @@ public class CouponDialogFragment extends DialogFragment {
 
 	public interface CouponDialogFragmentListener {
 		public void onApplyCoupon(String code);
+
+		public void onCancelApplyCoupon();
 	}
 }

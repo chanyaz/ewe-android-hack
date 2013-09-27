@@ -1510,12 +1510,20 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				Db.getHotelSearch().setCreateTripResponse(null);
 
 				OmnitureTracking.trackHotelCouponRemoved(getActivity());
-			}
 
-			refreshData();
+				refreshData();
+			}
 		}
 
 		applyCoupon();
+	}
+
+	@Override
+	public void onCancelApplyCoupon() {
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (bd.isDownloading(KEY_APPLY_COUPON)) {
+			bd.cancelDownload(KEY_APPLY_COUPON);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
