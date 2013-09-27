@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -54,6 +55,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.BreakdownDialogFragment;
 import com.expedia.bookings.dialog.CouponDialogFragment;
+import com.expedia.bookings.dialog.CouponDialogFragment.CouponDialogFragmentListener;
 import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.dialog.HotelPriceChangeDialog;
 import com.expedia.bookings.dialog.ThrobberDialog;
@@ -93,7 +95,7 @@ import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.view.ViewHelper;
 
 public class HotelOverviewFragment extends LoadWalletFragment implements AccountButtonClickListener,
-		CouponCodeWidgetListener, CancelListener, SimpleCallbackDialogFragmentListener {
+		CouponCodeWidgetListener, CancelListener, SimpleCallbackDialogFragmentListener, CouponDialogFragmentListener {
 
 	public interface BookingOverviewFragmentListener {
 		public void checkoutStarted();
@@ -157,6 +159,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	private boolean mIsDoneLoadingPriceChange = false;
 
+	private CouponDialogFragment mCouponDialogFragment;
+
 	//When we last refreshed user data.
 	private long mRefreshedUserTime = 0L;
 
@@ -207,6 +211,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_booking_overview, container, false);
+
+		mCouponDialogFragment = Ui.findSupportFragment(this, CouponDialogFragment.TAG);
 
 		mScrollView = Ui.findView(view, R.id.scroll_view);
 
@@ -1099,8 +1105,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				break;
 			}
 			case R.id.coupon_button: {
-				CouponDialogFragment df = new CouponDialogFragment();
-				df.show(getChildFragmentManager(), CouponDialogFragment.TAG);
+				mCouponDialogFragment = new CouponDialogFragment();
+				mCouponDialogFragment.show(getChildFragmentManager(), CouponDialogFragment.TAG);
 				break;
 			}
 			case R.id.coupon_code_edittext: {
@@ -1468,10 +1474,15 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				mWalletPromoThrobberDialog.dismiss();
 			}
 
+			mCouponDialogFragment.dismiss();
+
 			mCouponCodeWidget.setLoading(false);
 
 			if (response == null) {
 				Log.w("Failed to apply coupon code (null response): " + mCouponCode);
+
+				DialogFragment df = SimpleDialogFragment.newInstance(null, getString(R.string.coupon_error_fallback));
+				df.show(getChildFragmentManager(), "couponError");
 
 				mCouponCodeWidget.onApplyCouponError(null);
 
@@ -1480,12 +1491,18 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			else if (response.hasErrors()) {
 				Log.w("Failed to apply coupon code (server errors): " + mCouponCode);
 
+				DialogFragment df = SimpleDialogFragment.newInstance(null, getString(R.string.coupon_error_fallback));
+				df.show(getChildFragmentManager(), "couponError");
+
 				mCouponCodeWidget.onApplyCouponError(response.getErrors());
 
 				handleWalletPromoErrorIfApplicable();
 			}
 			else {
 				Log.i("Applied coupon code: " + mCouponCode);
+
+				DialogFragment df = SimpleDialogFragment.newInstance(null, "TODO: Display coupon success!");
+				df.show(getChildFragmentManager(), "couponSuccess");
 
 				Db.getHotelSearch().setCreateTripResponse(response);
 
@@ -1565,6 +1582,15 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		clearWalletPromoCoupon();
 
 		updateWalletViewVisibilities();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// CouponDialogFragmentListener
+
+	@Override
+	public void onApplyCoupon(String code) {
+		mCouponCode = code;
+		applyCoupon();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
