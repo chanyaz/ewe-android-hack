@@ -303,6 +303,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mStoredCreditCard.setOnClickListener(mOnClickListener);
 		mCreditCardSectionButton.setOnClickListener(mOnClickListener);
 		mCouponButton.setOnClickListener(mOnClickListener);
+		mCouponRemoveView.setOnClickListener(mOnClickListener);
 		mLegalInformationTextView.setOnClickListener(mOnClickListener);
 		mHotelReceipt.setRateBreakdownClickListener(mRateBreakdownClickListener);
 
@@ -1093,6 +1094,10 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				mCouponDialogFragment.show(getChildFragmentManager(), CouponDialogFragment.TAG);
 				break;
 			}
+			case R.id.coupon_clear: {
+				clearCoupon();
+				break;
+			}
 			case R.id.legal_information_text_view: {
 				Intent intent = new Intent(getActivity(), HotelRulesActivity.class);
 				startActivity(intent);
@@ -1384,6 +1389,20 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		}
 	}
 
+	public void clearCoupon() {
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (bd.isDownloading(KEY_APPLY_COUPON)) {
+			bd.cancelDownload(KEY_APPLY_COUPON);
+		}
+		else if (Db.getHotelSearch().getCreateTripResponse() != null) {
+			Db.getHotelSearch().setCreateTripResponse(null);
+
+			OmnitureTracking.trackHotelCouponRemoved(getActivity());
+
+			refreshData();
+		}
+	}
+
 	private boolean usingWalletPromoCoupon() {
 		return WalletUtils.getWalletCouponCode(getActivity()).equals(mCouponCode);
 	}
@@ -1513,23 +1532,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	@Override
 	public void onApplyCoupon(String couponCode) {
-		if (!TextUtils.equals(mCouponCode, couponCode)) {
-			mCouponCode = couponCode;
-
-			// Reset the coupon state
-			BackgroundDownloader bd = BackgroundDownloader.getInstance();
-			if (bd.isDownloading(KEY_APPLY_COUPON)) {
-				bd.cancelDownload(KEY_APPLY_COUPON);
-			}
-			else if (Db.getHotelSearch().getCreateTripResponse() != null) {
-				Db.getHotelSearch().setCreateTripResponse(null);
-
-				OmnitureTracking.trackHotelCouponRemoved(getActivity());
-
-				refreshData();
-			}
-		}
-
+		mCouponCode = couponCode;
+		clearCoupon();
 		applyCoupon();
 	}
 
