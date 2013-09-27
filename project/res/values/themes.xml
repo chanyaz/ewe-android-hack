@@ -202,7 +202,7 @@
         <item name="ccCheckoutHologramDrawable">@drawable/ic_credit_card_hologram</item>
         <item name="hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder</item>
         <item name="hotelwebViewActionBarLogo">@drawable/ic_logo_hotels</item>
-        <item name="travelerLabelOnCkeckout">@string/guest_details</item>
+        <item name="travelerLabelOnCheckout">@string/guest_details</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
@@ -298,7 +298,7 @@
         <item name="android:editTextStyle">@style/Widget.EditText.Phone</item>
         <item name="android:spinnerStyle">@style/Widget.Spinner.Phone.Flights</item>
         <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoComplete</item>
-		<item name="travelerLabelOnCkeckout">@string/Add_Traveler</item>
+		<item name="travelerLabelOnCheckout">@string/Add_Traveler</item>
         <!-- Only do this for ABS - newer versions will use latest holo radio button anyways -->
         <item name="actionBarWidgetTheme">@style/FlightActionBarWidgetTheme</item>
     </style>

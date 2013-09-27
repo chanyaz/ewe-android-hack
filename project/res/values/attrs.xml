@@ -240,5 +240,5 @@
     <attr name="cvvEntryExplainationText" format="reference|string" />
     
     <!-- for hotels and flights travel type -->
-    <attr name="travelerLabelOnCkeckout" format="reference|string" />
+    <attr name="travelerLabelOnCheckout" format="reference|string" />
 </resources>
