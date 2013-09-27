@@ -1464,7 +1464,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				mWalletPromoThrobberDialog.dismiss();
 			}
 
-			mCouponDialogFragment.dismiss();
+			if (mCouponDialogFragment != null && mCouponDialogFragment.isAdded()) {
+				mCouponDialogFragment.dismiss();
+			}
 
 			if (response == null) {
 				Log.w("Failed to apply coupon code (null response): " + mCouponCode);
