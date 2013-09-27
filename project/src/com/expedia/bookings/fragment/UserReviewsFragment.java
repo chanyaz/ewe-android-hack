@@ -44,6 +44,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	// Bundle strings
 	private static final String ARGUMENT_SORT_STRING = "ARGUMENT_SORT_STRING";
 	private static final String INSTANCE_ATTEMPTED_DOWNLOAD = "INSTANCE_ATTEMPTED_DOWNLOAD";
+	private static final String INSTANCE_HAS_FILTERED_REVIEW = "INSTANCE_HAS_FILTERED_REVIEW";
 	private static final String INSTANCE_HAS_REVIEWS = "INSTANCE_HAS_REVIEWS";
 	private static final String INSTANCE_STATUS_RES_ID = "INSTANCE_STATUS_RES_ID";
 	private static final String INSTANCE_PAGE_NUMBER = "INSTANCE_PAGE_NUMBER";
@@ -136,6 +137,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 			mPageNumber = savedInstanceState.getInt(INSTANCE_PAGE_NUMBER);
 			mNumReviewsDownloaded = savedInstanceState.getInt(INSTANCE_NUM_DOWNLOADED);
 			mAttemptedDownload = savedInstanceState.getBoolean(INSTANCE_ATTEMPTED_DOWNLOAD, false);
+			mHasFilteredOutAReview = savedInstanceState.getBoolean(INSTANCE_HAS_FILTERED_REVIEW, false);
 			boolean reincarnatedReviews = savedInstanceState.getBoolean(INSTANCE_HAS_REVIEWS, false);
 			if (reincarnatedReviews) {
 				mUserReviews = mUserReviewsUtils.getReviews(mProperty.getPropertyId(), mReviewSort);
@@ -176,6 +178,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		super.onSaveInstanceState(outState);
 
 		outState.putBoolean(INSTANCE_ATTEMPTED_DOWNLOAD, mAttemptedDownload);
+		outState.putBoolean(INSTANCE_HAS_FILTERED_REVIEW, mHasFilteredOutAReview);
 
 		boolean hasReviews = false;
 		if (mUserReviews != null && mUserReviews.size() > 0) {
