@@ -796,7 +796,7 @@
     <!-- Select Payment -->
     <string name="select_payment">Select Payment</string>
     <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">Select payment</string>
+    <string name="select_payment_sentence_case">Payment details</string>
     <!-- Add new card -->
     <string name="add_new_card">Add New Card</string>
     <!-- Overview button -->
@@ -923,14 +923,20 @@
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
     <string name="Add_Traveler">Add Traveler</string>
+    
+    <!-- Label for "Add Traveler" in task manager -->
+    <string name="Add_Guest">Add Guest</string>
+    
     <!-- Label for "Add Payment" in task manager -->
     <string name="Add_Payment">Add Payment</string>
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Traveler Information</string>
     <!-- Add traveler -->
-    <string name="add_traveler">Add traveler</string>
+    <string name="add_traveler">Add Traveler</string>
+    <!-- Add Guest for hotels -->
+    <string name="guest_details">Guest details</string>
     <!-- Add traveler number template -->
-    <string name="add_traveler_number_TEMPLATE">Add traveler %1$s</string>
+    <string name="add_traveler_number_TEMPLATE">Traveler %1$s details</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Boarding may be denied if traveler name does not match government-issued photo ID.</string>
 
