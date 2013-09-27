@@ -138,6 +138,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	private ThrobberDialog mWalletPromoThrobberDialog;
 
 	private Button mCouponButton;
+	private ViewGroup mCouponAppliedContainer;
+	private TextView mCouponSavedTextView;
+	private View mCouponRemoveView;
 
 	private TextView mLegalInformationTextView;
 	private View mScrollSpacerView;
@@ -220,6 +223,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mPaymentButton = Ui.findView(view, R.id.payment_info_btn);
 
 		mCouponButton = Ui.findView(view, R.id.coupon_button);
+		mCouponAppliedContainer = Ui.findView(view, R.id.coupon_applied_container);
+		mCouponSavedTextView = Ui.findView(view, R.id.coupon_saved_text_view);
+		mCouponRemoveView = Ui.findView(view, R.id.coupon_clear);
 
 		mLegalInformationTextView = Ui.findView(view, R.id.legal_information_text_view);
 		mScrollSpacerView = Ui.findView(view, R.id.scroll_spacer_view);
@@ -586,12 +592,15 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		// Configure the total cost and (if necessary) total cost paid to Expedia
 		if (Db.getHotelSearch().getCreateTripResponse() != null) {
 			rate = Db.getHotelSearch().getCouponRate();
+
+			// Show off the savings!
+			mCouponSavedTextView.setText(getString(R.string.coupon_saved_TEMPLATE, rate
+					.getTotalPriceAdjustments().getFormattedMoney()));
 		}
 
 		// Configure slide to purchase string
 		int chargeTypeMessageId = 0;
 		if (!Db.getHotelSearch().getSelectedProperty().isMerchant()) {
-			mCouponButton.setVisibility(View.GONE);
 			chargeTypeMessageId = R.string.collected_by_the_hotel_TEMPLATE;
 		}
 		else if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
@@ -628,17 +637,29 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			hidePurchaseViews();
 		}
 
+		// Show/hide either the coupon button or the coupon applied layout
+		View couponShow;
+		if (Db.getHotelSearch().getCreateTripResponse() != null) {
+			couponShow = mCouponAppliedContainer;
+			mCouponButton.setVisibility(View.GONE);
+		}
+		else {
+			couponShow = mCouponButton;
+			mCouponAppliedContainer.setVisibility(View.GONE);
+		}
+
 		if (mInCheckout) {
 			if (Db.getHotelSearch().getSelectedProperty().isMerchant()) {
-				mCouponButton.setVisibility(View.VISIBLE);
+				couponShow.setVisibility(View.VISIBLE);
 			}
 			else {
 				mCouponButton.setVisibility(View.GONE);
+				mCouponAppliedContainer.setVisibility(View.GONE);
 			}
 			mLegalInformationTextView.setVisibility(View.VISIBLE);
 		}
 		else {
-			mCouponButton.setVisibility(View.INVISIBLE);
+			couponShow.setVisibility(View.INVISIBLE);
 			mLegalInformationTextView.setVisibility(View.INVISIBLE);
 		}
 
@@ -1318,6 +1339,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mStoredCreditCard.setEnabled(enableButtons);
 		mCreditCardSectionButton.setEnabled(enableButtons);
 		mCouponButton.setEnabled(enableButtons);
+		mCouponRemoveView.setEnabled(enableButtons);
 
 		// If we're using wallet and the promo code, hide the coupon layout (unless we failed to
 		// apply the Google Wallet code).
@@ -1325,13 +1347,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		boolean codeIsPromo = usingWalletPromoCoupon();
 		boolean applyingCoupon = BackgroundDownloader.getInstance().isDownloading(KEY_APPLY_COUPON);
 		boolean appliedCoupon = Db.getHotelSearch().getCreateTripResponse() != null;
-		if (Db.getHotelSearch().getSelectedProperty().isMerchant()) {
+		if (mCouponButton.getVisibility() == View.VISIBLE) {
 			mCouponButton.setVisibility(mBillingInfo.isUsingGoogleWallet()
 					&& offeredPromo && codeIsPromo && (applyingCoupon || appliedCoupon) ? View.GONE : View.VISIBLE);
-		}
-		else {
-			// Always hide for non-merchants
-			mCouponButton.setVisibility(View.GONE);
 		}
 
 		mHotelReceipt.bind(appliedWalletPromoCoupon());
@@ -1447,9 +1465,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			}
 			else {
 				Log.i("Applied coupon code: " + mCouponCode);
-
-				DialogFragment df = SimpleDialogFragment.newInstance(null, "TODO: Display coupon success!");
-				df.show(getChildFragmentManager(), "couponSuccess");
 
 				Db.getHotelSearch().setCreateTripResponse(response);
 
