@@ -933,6 +933,8 @@
     <string name="enter_traveler_info">Traveler Information</string>
     <!-- Add traveler -->
     <string name="add_traveler">Add Traveler</string>
+    <!-- Traveler Details (for flights) -->
+    <string name="traveler_details">Traveler Details</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Guest details</string>
     <!-- Add traveler number template -->

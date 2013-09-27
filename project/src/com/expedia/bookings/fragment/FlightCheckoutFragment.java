@@ -369,7 +369,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 				TextView tv = Ui.findView(v, R.id.traveler_empty_text_view);
 
 				if (numAdults == 1) {
-					tv.setText(R.string.add_traveler);
+					tv.setText(R.string.traveler_details);
 				}
 				else {
 					tv.setText(getString(R.string.add_traveler_number_TEMPLATE, index + 1)); // no zero index for users
