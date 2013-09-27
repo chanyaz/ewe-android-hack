@@ -934,7 +934,7 @@
     <!-- Add traveler -->
     <string name="add_traveler">Add Traveler</string>
     <!-- Traveler Details (for flights) -->
-    <string name="traveler_details">Traveler Details</string>
+    <string name="traveler_details">Traveler details</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Guest details</string>
     <!-- Add traveler number template -->
