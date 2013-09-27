@@ -393,7 +393,7 @@ public class FlightSearch implements JSONable {
 
 			List<FlightTrip> result = new ArrayList<FlightTrip>();
 			for (FlightTrip trip : trips) {
-				FlightLeg flightLeg = ((FlightTrip) trip).getLeg(legPosition);
+				FlightLeg flightLeg = trip.getLeg(legPosition);
 				// Two segments = 1 stop, so subtract.
 				if (((flightLeg.getSegmentCount() - 1) <= stops)) {
 					result.add(trip);
