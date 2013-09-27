@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -52,6 +53,7 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.BreakdownDialogFragment;
+import com.expedia.bookings.dialog.CouponDialogFragment;
 import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.dialog.HotelPriceChangeDialog;
 import com.expedia.bookings.dialog.ThrobberDialog;
@@ -139,6 +141,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	private boolean mWasUsingGoogleWallet;
 	private ThrobberDialog mWalletPromoThrobberDialog;
 
+	private Button mCouponButton;
+
 	private CouponCodeWidget mCouponCodeWidget;
 	private View mCouponCodeLayout;
 	private EditText mCouponCodeEditText;
@@ -217,6 +221,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 		mTravelerButton = Ui.findView(view, R.id.traveler_info_btn);
 		mPaymentButton = Ui.findView(view, R.id.payment_info_btn);
+
+		mCouponButton = Ui.findView(view, R.id.coupon_button);
 
 		mCouponCodeWidget = new CouponCodeWidget(getActivity(), view.findViewById(R.id.coupon_code));
 		mCouponCodeLayout = Ui.findView(view, R.id.coupon_code);
@@ -303,6 +309,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mPaymentButton.setOnClickListener(mOnClickListener);
 		mStoredCreditCard.setOnClickListener(mOnClickListener);
 		mCreditCardSectionButton.setOnClickListener(mOnClickListener);
+		mCouponButton.setOnClickListener(mOnClickListener);
 		mCouponCodeEditText.setOnClickListener(mOnClickListener);
 		mLegalInformationTextView.setOnClickListener(mOnClickListener);
 		mHotelReceipt.setRateBreakdownClickListener(mRateBreakdownClickListener);
@@ -1089,6 +1096,11 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			case R.id.creditcard_section_button: {
 				Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(mBillingInfo);
 				startActivity(new Intent(getActivity(), HotelPaymentOptionsActivity.class));
+				break;
+			}
+			case R.id.coupon_button: {
+				CouponDialogFragment df = new CouponDialogFragment();
+				df.show(getChildFragmentManager(), CouponDialogFragment.TAG);
 				break;
 			}
 			case R.id.coupon_code_edittext: {

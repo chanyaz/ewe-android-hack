@@ -167,6 +167,13 @@
 
                 <!-- Coupon codes -->
 
+                <Button
+                    android:id="@+id/coupon_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/coupon_code" />
+
                 <include layout="@layout/include_overview_coupon_code" />
 
                 <TextView
