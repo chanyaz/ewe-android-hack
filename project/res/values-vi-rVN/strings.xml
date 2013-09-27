@@ -428,9 +428,9 @@
     <string name="car_category_oversize">Xe ngoại cỡ</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2 cửa Xe hơi</string>
-    <string name="car_type_three_door">3 cửa Xe hơi</string>
-    <string name="car_type_four_door">4 cửa Xe hơi</string>
+    <string name="car_type_two_door">2 cửa</string>
+    <string name="car_type_three_door">3 cửa</string>
+    <string name="car_type_four_door">4 cửa</string>
     <string name="car_type_van">Tải</string>
     <string name="car_type_wagon">Wagon</string>
     <string name="car_type_limousine">Limousine</string>
@@ -683,8 +683,6 @@
     <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; đến &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">Sắp xếp chuyến bay</string>
-    <!-- Label for "stops" button -->
-    <string name="stops_flights">Stops(dev)</string>
     <!-- Edit search title -->
     <string name="edit_search">Thay đổi tìm kiếm</string>
     <!-- Action mode asking users to select dates -->

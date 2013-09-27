@@ -254,7 +254,7 @@
     <!-- Flight has been redirected (location unknown) -->
     <string name="flight_redirected">航班已改变航向</string>
     <!-- Flight has been diverted (location unknown) -->
-    <string name="flight_diverted">航班已备降</string>
+    <string name="flight_diverted">航班已改航</string>
     <!-- Flight has been diverted to {airport} template -->
     <string name="flight_diverted_TEMPLATE">航班已备降至 %1$s</string>
     <!-- Flight departs on {date} template -->
@@ -683,8 +683,6 @@
     <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; 至 &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">航班排序</string>
-    <!-- Label for "stops" button -->
-    <string name="stops_flights">Stops(dev)</string>
     <!-- Edit search title -->
     <string name="edit_search">编辑搜索设置</string>
     <!-- Action mode asking users to select dates -->

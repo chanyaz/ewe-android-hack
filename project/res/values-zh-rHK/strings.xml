@@ -428,9 +428,9 @@
     <string name="car_category_oversize">特大型車</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">雙門 汽車</string>
-    <string name="car_type_three_door">三門 汽車</string>
-    <string name="car_type_four_door">四門 汽車</string>
+    <string name="car_type_two_door">雙門汽車</string>
+    <string name="car_type_three_door">三門汽車</string>
+    <string name="car_type_four_door">四門汽車</string>
     <string name="car_type_van">客貨車</string>
     <string name="car_type_wagon">休旅車</string>
     <string name="car_type_limousine">房車</string>
@@ -683,8 +683,6 @@
     <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; 至 &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">航班排序</string>
-    <!-- Label for "stops" button -->
-    <string name="stops_flights">Stops(dev)</string>
     <!-- Edit search title -->
     <string name="edit_search">修改搜尋</string>
     <!-- Action mode asking users to select dates -->

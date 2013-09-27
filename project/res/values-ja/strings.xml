@@ -248,13 +248,13 @@
     <!-- Legend -->
     <string name="legend">凡例</string>
     <!-- Flight has been cancelled -->
-    <string name="flight_cancelled">キャンセルされたフライト</string>
+    <string name="flight_cancelled">フライトがキャンセルされました</string>
     <!-- Flight has been cancelled; parameter is the destination city for the canceled flight -->
     <string name="flight_to_city_cancelled_TEMPLATE">キャンセルされた %1$s 行きフライト</string>
     <!-- Flight has been redirected (location unknown) -->
-    <string name="flight_redirected">飛行経路が変更されたフライト</string>
+    <string name="flight_redirected">フライトの飛行経路が変更されました</string>
     <!-- Flight has been diverted (location unknown) -->
-    <string name="flight_diverted">到着地が変更されたフライト</string>
+    <string name="flight_diverted">フライトの到着地が変更されました</string>
     <!-- Flight has been diverted to {airport} template -->
     <string name="flight_diverted_TEMPLATE">%1$s へ到着地が変更されたフライト</string>
     <!-- Flight departs on {date} template -->
@@ -428,9 +428,9 @@
     <string name="car_category_oversize">オーバーサイズカー</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2 ドア 自動車</string>
-    <string name="car_type_three_door">3 ドア 自動車</string>
-    <string name="car_type_four_door">4 ドア 自動車</string>
+    <string name="car_type_two_door">2 ドア自動車</string>
+    <string name="car_type_three_door">3 ドア自動車</string>
+    <string name="car_type_four_door">4 ドア自動車</string>
     <string name="car_type_van">バン</string>
     <string name="car_type_wagon">ワゴン</string>
     <string name="car_type_limousine">リムジン</string>
@@ -683,8 +683,6 @@
     <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; → &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">フライトを並べ替える</string>
-    <!-- Label for "stops" button -->
-    <string name="stops_flights">Stops(dev)</string>
     <!-- Edit search title -->
     <string name="edit_search">検索条件を変更する</string>
     <!-- Action mode asking users to select dates -->
@@ -1489,7 +1487,7 @@
     <!-- Bullet point for list items -->
     <string name="bullet_point">•</string>
     <!-- Label for button that lets the user complete the booking through the normal flow -->
-    <string name="book_now">部屋タイプを選択</string>
+    <string name="book_now">今すぐ予約</string>
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">電話で予約</string>
 

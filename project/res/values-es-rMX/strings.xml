@@ -55,7 +55,7 @@
     <!-- Label for launch screen flight button secondary text -->
     <string name="launch_flight_secondary_text">Toma un viaje.</string>
     <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
-    <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;Vuela a &lt;/font&gt;&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
+    <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;Vuela a&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Hospédate en&lt;/font&gt;&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
@@ -428,9 +428,9 @@
     <string name="car_category_oversize">Auto de dimensiones grandes</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">Dos puertas</string>
-    <string name="car_type_three_door">Tres puertas</string>
-    <string name="car_type_four_door">Cuatro puertas</string>
+    <string name="car_type_two_door">Dos puertas Auto</string>
+    <string name="car_type_three_door">Tres puertas Auto</string>
+    <string name="car_type_four_door">Cuatro puertas Auto</string>
     <string name="car_type_van">Van</string>
     <string name="car_type_wagon">Wagon familiar</string>
     <string name="car_type_limousine">Limusina</string>
@@ -639,7 +639,7 @@
     <!-- Error when we simple can't connect to E3 servers -->
     <string name="error_server">Lo sentimos, no pudimos conectarnos con los servidores de Expedia.  Favor de intentarlo más tarde.</string>
     <!-- Sort by departure timelabel -->
-    <string name="sort_description_departure">Salidas</string>
+    <string name="sort_description_departure">Sale el</string>
     <!-- Sort by arrival time label -->
     <string name="sort_description_arrival">Llegadas</string>
     <!-- Sort by duration label -->
@@ -683,8 +683,6 @@
     <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; a &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">Ordenar los vuelos</string>
-    <!-- Label for "stops" button -->
-    <string name="stops_flights">Paradas (dev)</string>
     <!-- Edit search title -->
     <string name="edit_search">Modificar la búsqueda</string>
     <!-- Action mode asking users to select dates -->
@@ -924,15 +922,15 @@
 
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
-    <string name="Add_Traveler">Ingresar datos del viajero</string>
+    <string name="Add_Traveler">Datos del pasajero</string>
     <!-- Label for "Add Payment" in task manager -->
     <string name="Add_Payment">Agregar pago</string>
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Información del pasajero</string>
     <!-- Add traveler -->
-    <string name="add_traveler">Ingresar datos del viajero</string>
+    <string name="add_traveler">Datos del pasajero</string>
     <!-- Add traveler number template -->
-    <string name="add_traveler_number_TEMPLATE">Agregar un pasajero %1$s</string>
+    <string name="add_traveler_number_TEMPLATE">Datos del pasajero %1$s</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Es posible que se rechace el abordaje si el nombre del pasajero no corresponde al de la identificación oficial con foto emitida por el gobierno.</string>
 
@@ -1013,7 +1011,7 @@
     <!-- Can't Save Traveler -->
     <string name="cant_save_traveler">No se puede guardar al pasajero</string>
     <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
-    <string name="you_already_have_traveler_TEMPLATE">Ya has guardado un pasajero con el nombre\"%1$s\".</string>
+    <string name="you_already_have_traveler_TEMPLATE">Ya has guardado un pasajero con el nombre \&apos;%1$s\&apos;.</string>
     <!-- Don't save -->
     <string name="dont_save">No guardar</string>
     <!-- Overwrite -->

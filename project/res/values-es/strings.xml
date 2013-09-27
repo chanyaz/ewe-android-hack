@@ -428,9 +428,9 @@
     <string name="car_category_oversize">Automóvil de gran tamaño</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">Dos puertas</string>
-    <string name="car_type_three_door">Tres puertas</string>
-    <string name="car_type_four_door">Cuatro puertas</string>
+    <string name="car_type_two_door">Dos puertas Coche</string>
+    <string name="car_type_three_door">Tres puertas Coche</string>
+    <string name="car_type_four_door">Cuatro puertas Coche</string>
     <string name="car_type_van">Furgoneta</string>
     <string name="car_type_wagon">Furgón</string>
     <string name="car_type_limousine">Limusina</string>
@@ -683,8 +683,6 @@
     <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; a &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">Ordenar vuelos</string>
-    <!-- Label for "stops" button -->
-    <string name="stops_flights">Escalas(disp)</string>
     <!-- Edit search title -->
     <string name="edit_search">Editar búsqueda</string>
     <!-- Action mode asking users to select dates -->
@@ -1361,7 +1359,7 @@
     </plurals>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
-    <string name="EnableLocationSettings">Para poder usar ‘Mi ubicación\&apos; debes introducir al menos una ubicación dentro de la pestaña de Ajustes.\n}¿Quieres ir a Ajustes ahora para activarla?</string>
+    <string name="EnableLocationSettings">Para poder usar \&apos;Mi ubicación\&apos; debes introducir al menos una ubicación dentro de la pestaña de Ajustes.\n}¿Quieres ir a Ajustes ahora para activarla?</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
     <string name="ProviderDisabled">La recepción de datos de ubicación está desactivada. Vuelve a activarla para realizar una búsqueda por ubicación.</string>
     <!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->

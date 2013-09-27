@@ -683,8 +683,6 @@
     <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; tot &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">Vluchten sorteren</string>
-    <!-- Label for "stops" button -->
-    <string name="stops_flights">Tussenstop(dev)</string>
     <!-- Edit search title -->
     <string name="edit_search">Zoekopdracht wijzigen</string>
     <!-- Action mode asking users to select dates -->
@@ -699,7 +697,7 @@
         <item quantity="other">%1$d volwassenen</item>
     </plurals>
     <!-- Message shown when loading AirAsia flight routes -->
-    <string name="loading_air_asia_routes">Laden van AirAsia-routes …</string>
+    <string name="loading_air_asia_routes">Laden van AirAsia-routes…</string>
     <!-- Message shown when we could not load the AirAsia flight routes -->
     <string name="error_could_not_load_air_asia">Kon AirAsia-routes niet laden</string>
     <!-- Header row for airports that were used recently for a search -->
