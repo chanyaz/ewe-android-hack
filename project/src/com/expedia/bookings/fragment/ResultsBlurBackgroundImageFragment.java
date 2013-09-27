@@ -1,11 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import com.expedia.bookings.activity.TabletResultsActivity.IBackgroundImageReceiver;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.fragment.ResultsBackgroundImageFragment.IBackgroundImageReceiverRegistrar;
-import com.expedia.bookings.fragment.base.MeasurableFragment;
-import com.mobiata.android.util.Ui;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -19,6 +13,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.TableLayout.LayoutParams;
+
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.fragment.ResultsBackgroundImageFragment.IBackgroundImageReceiverRegistrar;
+import com.expedia.bookings.fragment.base.MeasurableFragment;
+import com.expedia.bookings.interfaces.IBackgroundImageReceiver;
+import com.mobiata.android.util.Ui;
 
 /**
  * ResultsBackgroundImageFragment: designed for tablet results 2013

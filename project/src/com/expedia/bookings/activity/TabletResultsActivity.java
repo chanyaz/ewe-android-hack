@@ -23,6 +23,7 @@ import com.expedia.bookings.fragment.TabletResultsTripControllerFragment;
 import com.expedia.bookings.graphics.PercentageFadeColorDrawable;
 import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.interfaces.IBackButtonLockListener;
+import com.expedia.bookings.interfaces.IBackgroundImageReceiver;
 import com.expedia.bookings.interfaces.ITabletResultsController;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.ColumnManager;
@@ -68,17 +69,6 @@ import android.view.ViewGroup;
 public class TabletResultsActivity extends SherlockFragmentActivity implements ITabletResultsController,
 		IFlightsFruitScrollUpListViewChangeListener, IHotelsFruitScrollUpListViewChangeListener,
 		IBackgroundImageReceiverRegistrar, IBackButtonLockListener, IAddToTripListener {
-
-	public interface IBackgroundImageReceiver {
-		/**
-		 * Tell the listeners we have valid bg images in Db. We tell the listeners the total width/height
-		 * incase they are overlays and need to do clipping
-		 * 
-		 * @param totalRootViewWidth
-		 * @param totalRootViewHeight
-		 */
-		public void bgImageInDbUpdated(int totalRootViewWidth);
-	}
 
 	//State
 	private static final String STATE_CURRENT_STATE = "STATE_CURRENT_STATE";
