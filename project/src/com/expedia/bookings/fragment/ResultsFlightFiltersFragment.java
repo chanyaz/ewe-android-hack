@@ -13,14 +13,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightFilter;
+import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.AirlineFilterWidget;
 
 /**
  * ResultsFlightFiltersFragment: The filters fragment designed for tablet results 2013
@@ -55,18 +55,13 @@ public class ResultsFlightFiltersFragment extends Fragment {
 
 		mSortGroup = Ui.findView(view, R.id.flight_sort_control);
 		mFilterGroup = Ui.findView(view, R.id.flight_filter_control);
+		mSortGroup.setOnCheckedChangeListener(mControlKnobListener);
+		mFilterGroup.setOnCheckedChangeListener(mControlKnobListener);
 
 		mAirlineContainer = Ui.findView(view, R.id.filter_airline_container);
 		buildAirlineList();
 
 		return view;
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		mSortGroup.setOnCheckedChangeListener(mControlKnobListener);
-		mFilterGroup.setOnCheckedChangeListener(mControlKnobListener);
 	}
 
 	private static final Map<Integer, FlightFilter.Sort> RES_ID_SORT_MAP = new HashMap<Integer, FlightFilter.Sort>() {
@@ -110,13 +105,22 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		}
 	};
 
-	private void onFilterChanged() {
+	public void onFilterChanged() {
 		buildAirlineList();
 	}
 
 	private void buildAirlineList() {
-		Map<String, FlightTrip> cheapestTripsMap = Db.getFlightSearch().queryTrips(mLegNumber)
-				.getCheapestTripsByAirline();
+		List<FlightTrip> allTrips = Db.getFlightSearch().getTrips(mLegNumber);
+		List<FlightTrip> tripsFilteredByStops = FlightSearch.getTripsFilteredByStops(mLegNumber, allTrips, Db
+				.getFlightSearch().getFilter(mLegNumber).getStops());
+		Map<String, FlightTrip> cheapestTripsMap = FlightSearch.getCheapestTripEachAirlineMap(mLegNumber, allTrips);
+
+		// Update the cheapest trips based on the trips available after filtering by number of stops
+		Map<String, FlightTrip> cheapestTripsByStopsMap = FlightSearch.getCheapestTripEachAirlineMap(mLegNumber,
+				tripsFilteredByStops);
+		for (String key : cheapestTripsByStopsMap.keySet()) {
+			cheapestTripsMap.put(key, cheapestTripsByStopsMap.get(key));
+		}
 
 		int numTripsToShow = cheapestTripsMap == null ? 0 : cheapestTripsMap.values().size();
 		int numTripsInContainer = mAirlineContainer.getChildCount();
@@ -129,25 +133,26 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		}
 
 		FlightTrip trip;
-		TextView tv;
+		AirlineFilterWidget airlineFilterWidget;
 		for (int i = 0; i < numTripsToShow; i++) {
 			trip = trips.get(i);
 			if (i < numTripsInContainer) {
-				tv = (TextView) mAirlineContainer.getChildAt(i);
-				tv.setVisibility(View.VISIBLE);
+				airlineFilterWidget = (AirlineFilterWidget) mAirlineContainer.getChildAt(i);
+				airlineFilterWidget.setVisibility(View.VISIBLE);
 			}
 			else {
-				tv = new TextView(getActivity());
-				mAirlineContainer.addView(tv);
+				airlineFilterWidget = new AirlineFilterWidget(getActivity());
+				mAirlineContainer.addView(airlineFilterWidget);
 			}
-			tv.setText(trip.getLeg(mLegNumber).getAirlinesFormatted() + " - "
-					+ trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
+
+			boolean enabled = tripsFilteredByStops.contains(trip);
+			airlineFilterWidget.bind(Db.getFlightSearch().getFilter(mLegNumber, allTrips), trip, mLegNumber, enabled);
 		}
 
 		// Keep around the views not needed, but just set their visibility to GONE.
 		for (int i = numTripsToShow; i < numTripsInContainer; i++) {
 			mAirlineContainer.getChildAt(i).setVisibility(View.GONE);
 		}
-
 	}
+
 }

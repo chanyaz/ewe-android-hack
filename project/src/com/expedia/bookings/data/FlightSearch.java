@@ -190,7 +190,11 @@ public class FlightSearch implements JSONable {
 	}
 
 	public FlightFilter getFilter(int legPosition) {
-		return mSearchState.getFilter(mSearchParams.getQueryLegCount(), legPosition);
+		return mSearchState.getFilter(mSearchParams.getQueryLegCount(), legPosition, null);
+	}
+
+	public FlightFilter getFilter(int legPosition, List<FlightTrip> trips) {
+		return mSearchState.getFilter(mSearchParams.getQueryLegCount(), legPosition, trips);
 	}
 
 	public FlightTripQuery queryTrips(final int legPosition) {
@@ -383,24 +387,46 @@ public class FlightSearch implements JSONable {
 			mDataSetObservable.unregisterObserver(observer);
 		}
 
-		public List<FlightTrip> getTripsFilteredByStops(int legPosition,
-				List<FlightTrip> trips, int stops) {
+	}
 
-			// For STOPS_ANY, just return the list.
-			if (stops < 0) {
-				return trips;
+	public static List<FlightTrip> getTripsFilteredByStops(int legPosition, List<FlightTrip> trips, int stops) {
+		// For STOPS_ANY, just return the list.
+		if (stops < 0) {
+			return trips;
+		}
+
+		List<FlightTrip> result = new ArrayList<FlightTrip>();
+		for (FlightTrip trip : trips) {
+			FlightLeg flightLeg = trip.getLeg(legPosition);
+			// Two segments = 1 stop, so subtract.
+			if (((flightLeg.getSegmentCount() - 1) <= stops)) {
+				result.add(trip);
 			}
+		}
+		return result;
+	}
 
-			List<FlightTrip> result = new ArrayList<FlightTrip>();
-			for (FlightTrip trip : trips) {
-				FlightLeg flightLeg = trip.getLeg(legPosition);
-				// Two segments = 1 stop, so subtract.
-				if (((flightLeg.getSegmentCount() - 1) <= stops)) {
-					result.add(trip);
+	public static Map<String, FlightTrip> getCheapestTripEachAirlineMap(int legPosition, List<FlightTrip> trips) {
+		Map<String, FlightTrip> lowestPriceMap = new HashMap<String, FlightTrip>();
+
+		Iterator<FlightTrip> iterator = trips.iterator();
+		while (iterator.hasNext()) {
+			FlightTrip trip = iterator.next();
+			FlightLeg leg = trip.getLeg(legPosition);
+			String legAirlineCode = leg.getFirstAirlineCode();
+
+			if (lowestPriceMap.containsKey(legAirlineCode)) {
+				Money inListMoney = lowestPriceMap.get(legAirlineCode).getTotalFare();
+				if (trip.getTotalFare().compareTo(inListMoney) < 0) {
+					lowestPriceMap.put(legAirlineCode, trip);
 				}
 			}
-			return result;
+			else {
+				lowestPriceMap.put(legAirlineCode, trip);
+			}
 		}
+
+		return lowestPriceMap;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

@@ -986,6 +986,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				if (mFlightTwoListFrag != null) {
 					mFlightTwoListFrag.resetQuery();
 				}
+				if (mFlightTwoFilterFrag != null) {
+					mFlightTwoFilterFrag.onFilterChanged();
+				}
 			}
 			else if (legNumber == 1) {
 				setFlightsState(FlightsState.FLIGHT_TWO_DETAILS, mFlightsState != FlightsState.FLIGHT_TWO_DETAILS);
