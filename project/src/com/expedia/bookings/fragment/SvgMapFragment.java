@@ -135,7 +135,7 @@ public class SvgMapFragment extends MeasurableFragment {
 				// Popin animation
 				pin.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 				pin.setPivotX(pin.getWidth() / 2.0f);
-				float mapPinImageSize = getDimension(R.dimen.tablet_launch_map_pin_image_size);
+				float mapPinImageSize = getResources().getDimension(R.dimen.tablet_launch_map_pin_image_size);
 				pin.setPivotY(mapPinImageSize / 2.0f);
 
 				pin.setScaleX(0.0f);
