@@ -136,6 +136,7 @@ public class HotelsHappyPath {
 
 			// Checkout
 			driver.commonCheckout().clickCheckoutButton();
+			driver.delay();
 			if (user.getLogInForCheckout()) {
 				// Log in
 				driver.commonCheckout().clickLogInButton();
