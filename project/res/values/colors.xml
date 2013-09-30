@@ -160,6 +160,6 @@
     <color name="tablet_results_ab_default">@android:color/transparent</color>
     <color name="tablet_results_ab_hotels">#422B14</color>
     <color name="tablet_results_ab_flights">#142B42</color>
-    <color name="tablet_bg_tiles_blend">#FF101929</color>
+    <color name="tablet_bg_tiles_blend">#232c45</color>
 
 </resources>
