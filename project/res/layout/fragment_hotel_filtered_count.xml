@@ -12,10 +12,12 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         app:backgroundColor="#80000000"
+        app:captionTextColor="#ffffff"
         app:captionTextSize="18sp"
+        app:countTextColor="#ffffff"
         app:countTextSize="56sp"
-        app:primaryColor="#ffffff"
+        app:primaryColor="#66ace3"
         app:ringThickness="10dp"
-        app:secondaryColor="#66ace3" />
+        app:secondaryColor="#ffffff" />
 
 </RelativeLayout>

@@ -156,6 +156,8 @@
     <!-- RingedCountView -->
     <declare-styleable name="RingedCountView">
         <attr name="backgroundColor" format="color" />
+        <attr name="countTextColor" format="color" />
+        <attr name="captionTextColor" format="color" />
         <attr name="primaryColor" format="color" />
         <attr name="secondaryColor" format="color" />
         <attr name="ringThickness" format="dimension" />

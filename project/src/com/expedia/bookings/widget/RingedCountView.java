@@ -34,7 +34,9 @@ import com.expedia.bookings.R;
  *     android:layout_centerVertical="true"
  *     app:primaryColor="#ffffff"
  *     app:secondaryColor="#66ace3"
+ *     app:countTextColor="#ffffff"
  *     app:countTextSize="56sp"
+ *     app:captionTextColor="#ffffff"
  *     app:captionTextSize="18sp"
  *     app:ringThickness="10dp" /&gt;
  * </pre>
@@ -68,7 +70,9 @@ public class RingedCountView extends View {
 	}
 
 	private void init(Context context, AttributeSet attrs) {
-		int backgroundColor = Color.argb(0x80, 0x00, 0x00, 0x00);
+		int backgroundColor = Color.argb(0x00, 0x00, 0x00, 0x00);
+		int countTextColor = Color.WHITE;
+		int captionTextColor = Color.WHITE;
 		int primaryColor = Color.WHITE;
 		int secondaryColor = Color.argb(0xff, 0x66, 0xAC, 0xE3);
 		int thickness = 20;
@@ -78,6 +82,8 @@ public class RingedCountView extends View {
 		if (attrs != null) {
 			TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RingedCountView);
 			backgroundColor = a.getColor(R.styleable.RingedCountView_backgroundColor, backgroundColor);
+			countTextColor = a.getColor(R.styleable.RingedCountView_countTextColor, countTextColor);
+			captionTextColor = a.getColor(R.styleable.RingedCountView_captionTextColor, captionTextColor);
 			primaryColor = a.getColor(R.styleable.RingedCountView_primaryColor, primaryColor);
 			secondaryColor = a.getColor(R.styleable.RingedCountView_secondaryColor, secondaryColor);
 			thickness = a.getDimensionPixelSize(R.styleable.RingedCountView_ringThickness, thickness);
@@ -86,8 +92,8 @@ public class RingedCountView extends View {
 			a.recycle();
 		}
 
-		mRingDrawable = new RingDrawable(backgroundColor, primaryColor,
-				secondaryColor, thickness, countTextSize, captionTextSize);
+		mRingDrawable = new RingDrawable(backgroundColor, countTextColor, captionTextColor,
+				primaryColor, secondaryColor, thickness, countTextSize, captionTextSize);
 
 		super.setBackgroundDrawable(mRingDrawable);
 	}
@@ -196,14 +202,15 @@ public class RingedCountView extends View {
 		private float mFilledPercent = 0f;
 
 		// Text properties
-		private Paint mPrimaryTextPaint;
-		private Paint mSecondaryTextPaint;
-		private float mPrimaryTextSize;
-		private float mSecondaryTextSize;
+		private Paint mCountTextPaint;
+		private Paint mCaptionTextPaint;
+		private float mCountTextSize;
+		private float mCaptionTextSize;
 		private float mCount;
 		private String mCaption;
 
-		public RingDrawable(int backgroundColor, int primaryColor, int secondaryColor,
+		public RingDrawable(int backgroundColor, int countTextColor, int captionTextColor,
+				int primaryColor, int secondaryColor,
 				int strokeWidth, float primaryTextSize, float secondaryTextSize) {
 			super();
 
@@ -225,20 +232,20 @@ public class RingedCountView extends View {
 			mSecondaryArcPaint.setStyle(Style.STROKE);
 
 			// Text
-			mPrimaryTextSize = primaryTextSize;
-			mSecondaryTextSize = secondaryTextSize;
+			mCountTextSize = primaryTextSize;
+			mCaptionTextSize = secondaryTextSize;
 
-			mPrimaryTextPaint = new Paint();
-			mPrimaryTextPaint.setColor(primaryColor);
-			mPrimaryTextPaint.setAntiAlias(true);
-			mPrimaryTextPaint.setTextAlign(Align.CENTER);
-			mPrimaryTextPaint.setTextSize(mPrimaryTextSize);
+			mCountTextPaint = new Paint();
+			mCountTextPaint.setColor(countTextColor);
+			mCountTextPaint.setAntiAlias(true);
+			mCountTextPaint.setTextAlign(Align.CENTER);
+			mCountTextPaint.setTextSize(mCountTextSize);
 
-			mSecondaryTextPaint = new Paint();
-			mSecondaryTextPaint.setColor(primaryColor);
-			mSecondaryTextPaint.setAntiAlias(true);
-			mSecondaryTextPaint.setTextAlign(Align.CENTER);
-			mSecondaryTextPaint.setTextSize(mSecondaryTextSize);
+			mCaptionTextPaint = new Paint();
+			mCaptionTextPaint.setColor(countTextColor);
+			mCaptionTextPaint.setAntiAlias(true);
+			mCaptionTextPaint.setTextAlign(Align.CENTER);
+			mCaptionTextPaint.setTextSize(mCaptionTextSize);
 		}
 
 		@Override
@@ -307,19 +314,19 @@ public class RingedCountView extends View {
 		private void drawText(Canvas canvas) {
 			// Odometer style count
 			canvas.save();
-			canvas.clipRect(0, mCy - mPrimaryTextSize, canvas.getWidth(), mCy + 4, Op.REPLACE);
+			canvas.clipRect(0, mCy - mCountTextSize, canvas.getWidth(), mCy + 4, Op.REPLACE);
 			String countString = Integer.toString(Math.round(mCount));
 			float fraction = mCount - Math.round(mCount);
-			float y = mCy - fraction * mPrimaryTextSize;
-			canvas.drawText(countString, mCx, y, mPrimaryTextPaint);
+			float y = mCy - fraction * mCountTextSize;
+			canvas.drawText(countString, mCx, y, mCountTextPaint);
 			if (y != 0) {
 				String nextString = Integer.toString(Math.round(mCount) + 1);
-				canvas.drawText(nextString, mCx, y + mPrimaryTextSize, mPrimaryTextPaint);
+				canvas.drawText(nextString, mCx, y + mCountTextSize, mCountTextPaint);
 			}
 			canvas.restore();
 
 			// Caption
-			canvas.drawText(mCaption, mCx, mCy + mSecondaryTextSize * 1.6f, mSecondaryTextPaint);
+			canvas.drawText(mCaption, mCx, mCy + mCaptionTextSize * 1.6f, mCaptionTextPaint);
 		}
 
 		@Override
