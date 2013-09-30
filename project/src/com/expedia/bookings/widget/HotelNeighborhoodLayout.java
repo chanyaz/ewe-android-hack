@@ -143,8 +143,8 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 
 	private boolean areAllNeighborhoodsChecked() {
 		for (int i = 0; i < getChildCount(); i++) {
-			CheckBox row = (CheckBox) getChildAt(i);
-			if (!row.isChecked()) {
+			CheckBox check = Ui.findView(getChildAt(i), R.id.checkbox);
+			if (!check.isChecked()) {
 				return false;
 			}
 		}
