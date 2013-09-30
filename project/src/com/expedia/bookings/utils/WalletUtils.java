@@ -14,6 +14,8 @@ import android.text.TextUtils;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
@@ -493,6 +495,33 @@ public class WalletUtils {
 			cartBuilder.addLineItem(WalletUtils.createLineItem(originalRate.getExtraGuestFee(),
 					context.getString(R.string.extra_guest_charge), LineItem.Role.TAX));
 		}
+
+		return cartBuilder.build();
+	}
+
+	public static Cart buildFlightCart(Context context) {
+		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+		FlightLeg firstLeg = trip.getLeg(0);
+		Money totalBeforeTax = trip.getBaseFare();
+		Money totalAfterTax = trip.getTotalFare();
+
+		Money surcharges = new Money();
+		surcharges.setCurrency(totalAfterTax.getCurrency());
+		surcharges.add(trip.getFees());
+		surcharges.add(trip.getTaxes());
+		surcharges.add(trip.getOnlineBookingFeesAmount());
+
+		Cart.Builder cartBuilder = Cart.newBuilder();
+		cartBuilder.setCurrencyCode(totalAfterTax.getCurrency());
+		cartBuilder.setTotalPrice(WalletUtils.formatAmount(totalAfterTax));
+
+		cartBuilder.addLineItem(WalletUtils.createLineItem(
+				totalBeforeTax,
+				context.getString(R.string.path_template, firstLeg.getFirstWaypoint().mAirportCode,
+						firstLeg.getLastWaypoint().mAirportCode), LineItem.Role.REGULAR));
+
+		cartBuilder.addLineItem(WalletUtils.createLineItem(surcharges, context.getString(R.string.taxes_and_fees),
+				LineItem.Role.TAX));
 
 		return cartBuilder.build();
 	}

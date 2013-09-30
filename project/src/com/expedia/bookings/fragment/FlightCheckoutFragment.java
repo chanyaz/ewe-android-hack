@@ -746,7 +746,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 	@Override
 	protected void modifyMaskedWalletBuilder(Builder builder) {
-		// TODO: Add Cart
+		builder.setCart(WalletUtils.buildFlightCart(getActivity()));
 
 		builder.setPhoneNumberRequired(true);
 	}

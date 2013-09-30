@@ -59,32 +59,9 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 
 	@Override
 	protected FullWalletRequest getFullWalletRequest() {
-		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
-		FlightLeg firstLeg = trip.getLeg(0);
-		Money totalBeforeTax = trip.getBaseFare();
-		Money totalAfterTax = trip.getTotalFare();
-
-		Money surcharges = new Money();
-		surcharges.setCurrency(totalAfterTax.getCurrency());
-		surcharges.add(trip.getFees());
-		surcharges.add(trip.getTaxes());
-		surcharges.add(trip.getOnlineBookingFeesAmount());
-
 		FullWalletRequest.Builder walletRequestBuilder = FullWalletRequest.newBuilder();
 		walletRequestBuilder.setGoogleTransactionId(getGoogleWalletTransactionId());
-
-		Cart.Builder cartBuilder = Cart.newBuilder();
-		cartBuilder.setCurrencyCode(totalAfterTax.getCurrency());
-		cartBuilder.setTotalPrice(WalletUtils.formatAmount(totalAfterTax));
-
-		cartBuilder.addLineItem(WalletUtils.createLineItem(
-				totalBeforeTax, getString(R.string.path_template, firstLeg.getFirstWaypoint().mAirportCode,
-						firstLeg.getLastWaypoint().mAirportCode), LineItem.Role.REGULAR));
-
-		cartBuilder.addLineItem(WalletUtils.createLineItem(surcharges, getString(R.string.taxes_and_fees),
-				LineItem.Role.TAX));
-
-		walletRequestBuilder.setCart(cartBuilder.build());
+		walletRequestBuilder.setCart(WalletUtils.buildFlightCart(getActivity()));
 		return walletRequestBuilder.build();
 	}
 }
