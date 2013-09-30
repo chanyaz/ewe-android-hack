@@ -464,7 +464,9 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 	@Override
 	public void doFragmentSetup(String tag, Fragment frag) {
-		//Currently there is no setup needed for any of the framents
+		if (tag == FTAG_TRIP_CONTROLLER) {
+			mAddToTripListeners.add((IAddToTripListener) frag);
+		}
 	}
 
 	/**
