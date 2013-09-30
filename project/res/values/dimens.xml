@@ -234,7 +234,7 @@
     <dimen name="number_picker_text_size">20sp</dimen>
 
     <!-- For map pins on tablet launch screen -->
-    <dimen name="tablet_launch_map_pin_size">172dp</dimen>
+    <dimen name="tablet_launch_map_pin_image_size">172dp</dimen>
 
     <dimen name="destination_search_item_size">256dp</dimen>
     <dimen name="destination_search_item_divider_padding">32dp</dimen>

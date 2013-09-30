@@ -3,21 +3,11 @@ package com.expedia.bookings.fragment;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.Picture;
-import android.graphics.PixelFormat;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.graphics.Shader;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.TextAppearanceSpan;
@@ -34,13 +24,13 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
+import com.expedia.bookings.graphics.RoundBitmapDrawable;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCacheTypefaceSpan;
 import com.expedia.bookings.utils.Ui;
 import com.jhlabs.map.Point2D;
 import com.jhlabs.map.proj.MercatorProjection;
 import com.jhlabs.map.proj.Projection;
-import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
 import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.BitmapDrawable;
@@ -144,6 +134,10 @@ public class SvgMapFragment extends MeasurableFragment {
 
 				// Popin animation
 				pin.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+				pin.setPivotX(pin.getWidth() / 2.0f);
+				float mapPinImageSize = getDimension(R.dimen.tablet_launch_map_pin_image_size);
+				pin.setPivotY(mapPinImageSize / 2.0f);
+
 				pin.setScaleX(0.0f);
 				pin.setScaleY(0.0f);
 				ViewPropertyAnimator anim = pin.animate();
@@ -179,9 +173,8 @@ public class SvgMapFragment extends MeasurableFragment {
 	}
 
 	private void setPinImage(TextView pin, int drawableId) {
-		float dimension = getResources().getDimension(R.dimen.tablet_launch_map_pin_size);
-		RoundBitmapDrawable d = new RoundBitmapDrawable(getActivity(), drawableId, dimension);
-		pin.setBackgroundDrawable(d);
+		RoundBitmapDrawable d = new RoundBitmapDrawable(getActivity(), drawableId);
+		pin.setCompoundDrawablesWithIntrinsicBounds(null, d, null, null);
 	}
 
 	private Point2D.Double transform(double lat, double lon) {
@@ -205,52 +198,6 @@ public class SvgMapFragment extends MeasurableFragment {
 		t.y = pts[1];
 
 		return t;
-	}
-
-	public static class RoundBitmapDrawable extends Drawable {
-		private Bitmap mBitmap;
-		private float mDimension;
-		private Matrix mMatrix;
-		private Paint mPaint;
-
-		public RoundBitmapDrawable(Context context, int drawableId, float dimension) {
-			mDimension = dimension;
-			mBitmap = BitmapFactory.decodeResource(context.getResources(), drawableId);
-
-			BitmapShader shader;
-			shader = new BitmapShader(mBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-
-			mPaint = new Paint();
-			mPaint.setAntiAlias(true);
-			mPaint.setShader(shader);
-
-			mMatrix = new Matrix();
-			float padding = (mDimension - mBitmap.getWidth()) / 2;
-			mMatrix.postTranslate(padding, padding);
-		}
-
-		@Override
-		public void draw(Canvas canvas) {
-			canvas.save();
-			canvas.concat(mMatrix);
-			canvas.drawCircle(mBitmap.getWidth()/2, mBitmap.getHeight()/2, mBitmap.getWidth()/2, mPaint);
-			canvas.restore();
-		}
-
-		@Override
-		public int getOpacity() {
-			return PixelFormat.TRANSPARENT;
-		}
-
-		@Override
-		public void setAlpha(int alpha) {
-			mPaint.setAlpha(alpha);
-		}
-
-		@Override
-		public void setColorFilter(ColorFilter cf) {
-			mPaint.setColorFilter(cf);
-		}
 	}
 }
 
