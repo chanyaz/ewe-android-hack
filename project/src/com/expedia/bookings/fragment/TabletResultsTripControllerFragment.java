@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,8 @@ import com.expedia.bookings.animation.CubicBezierAnimation;
 import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.interfaces.ITabletResultsController;
 import com.expedia.bookings.utils.ColumnManager;
+import com.expedia.bookings.utils.FragmentAvailabilityUtils;
+import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
 import com.expedia.bookings.widget.FixedTranslationFrameLayout;
@@ -30,12 +33,10 @@ import com.mobiata.android.util.Ui;
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TabletResultsTripControllerFragment extends Fragment implements ITabletResultsController,
-		IAddToTripListener {
+		IAddToTripListener, IFragmentAvailabilityProvider {
 
-	private enum FragTag {
-		TRIP_OVERVIEW,
-		BLURRED_BG
-	}
+	private static final String FTAG_TRIP_OVERVIEW = "";
+	private static final String FTAG_BLURRED_BG = "";
 
 	private ResultsTripOverviewFragment mTripOverviewFrag;
 	private ResultsBlurBackgroundImageFragment mBlurredBackgroundFrag;
@@ -83,89 +84,60 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 	}
 
 	private void setFragmentState(GlobalResultsState state) {
-
+		FragmentManager manager = getChildFragmentManager();
+		
 		//All of the fragment adds/removes come through this method, and we want to make sure our last call
 		//is complete before moving forward, so this is important
-		getChildFragmentManager().executePendingTransactions();
+		manager.executePendingTransactions();
 
 		//We will be adding all of our add/removes to this transaction
-		FragmentTransaction transaction = this.getChildFragmentManager().beginTransaction();
+		FragmentTransaction transaction = manager.beginTransaction();
 
 		boolean tripOverviewAvailable = true;
 		boolean blurredBackgroundAvailable = true;
 
 		//Trip Overview
-		mTripOverviewFrag = (ResultsTripOverviewFragment) setFragmentAvailability(tripOverviewAvailable,
-				FragTag.TRIP_OVERVIEW, transaction, R.id.column_three_trip_pane, false);
+		mTripOverviewFrag = (ResultsTripOverviewFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+				tripOverviewAvailable,
+				FTAG_TRIP_OVERVIEW, manager, transaction, this, R.id.column_three_trip_pane, false);
 
 		//Blurrred Background (for behind trip overview)
-		mBlurredBackgroundFrag = (ResultsBlurBackgroundImageFragment) setFragmentAvailability(
-				blurredBackgroundAvailable, FragTag.BLURRED_BG, transaction, R.id.column_three_blurred_bg, false);
+		mBlurredBackgroundFrag = (ResultsBlurBackgroundImageFragment) FragmentAvailabilityUtils
+				.setFragmentAvailability(
+						blurredBackgroundAvailable, FTAG_BLURRED_BG, manager, transaction, this,
+						R.id.column_three_blurred_bg,
+						false);
 
 		transaction.commit();
 
 	}
 
-	private Fragment setFragmentAvailability(boolean available, FragTag tag, FragmentTransaction transaction,
-			int container, boolean alwaysRunSetup) {
-		Fragment frag = fragmentGetLocalInstance(tag);
-		if (available) {
-			if (frag == null || !frag.isAdded()) {
-				if (frag == null) {
-					frag = getChildFragmentManager().findFragmentByTag(tag.name());
-				}
-				if (frag == null) {
-					frag = fragmentNewInstance(tag);
-				}
-				if (!frag.isAdded()) {
-					transaction.add(container, frag, tag.name());
-				}
-				fragmentSetup(tag, frag);
-			}
-			else if (alwaysRunSetup) {
-				fragmentSetup(tag, frag);
-			}
-		}
-		else {
-			if (frag != null) {
-				transaction.remove(frag);
-			}
-			frag = null;
-		}
-		return frag;
-	}
-
-	public Fragment fragmentGetLocalInstance(FragTag tag) {
+	@Override
+	public Fragment getExisitingLocalInstanceFromTag(String tag) {
 		Fragment frag = null;
-		switch (tag) {
-		case TRIP_OVERVIEW: {
+		if (tag == FTAG_TRIP_OVERVIEW) {
 			frag = mTripOverviewFrag;
-			break;
 		}
-		case BLURRED_BG: {
+		else if (tag == FTAG_BLURRED_BG) {
 			frag = mBlurredBackgroundFrag;
-			break;
-		}
 		}
 		return frag;
 	}
 
-	public Fragment fragmentNewInstance(FragTag tag) {
+	@Override
+	public Fragment getNewFragmentInstanceFromTag(String tag) {
 		Fragment frag = null;
-		switch (tag) {
-		case TRIP_OVERVIEW: {
+		if (tag == FTAG_TRIP_OVERVIEW) {
 			frag = ResultsTripOverviewFragment.newInstance();
-			break;
 		}
-		case BLURRED_BG: {
+		else if (tag == FTAG_BLURRED_BG) {
 			frag = ResultsBlurBackgroundImageFragment.newInstance();
-			break;
-		}
 		}
 		return frag;
 	}
 
-	public void fragmentSetup(FragTag tag, Fragment frag) {
+	@Override
+	public void doFragmentSetup(String tag, Fragment frag) {
 		//Currently the fragments require no setup
 	}
 
@@ -439,4 +411,5 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 			mHasPreppedAddToTripAnimation = true;
 		}
 	}
+
 }

@@ -11,6 +11,8 @@ import com.expedia.bookings.interfaces.IResultsFlightSelectedListener;
 import com.expedia.bookings.interfaces.ITabletResultsController;
 import com.expedia.bookings.section.FlightLegSummarySectionTablet;
 import com.expedia.bookings.utils.ColumnManager;
+import com.expedia.bookings.utils.FragmentAvailabilityUtils;
+import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
 import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewChangeListener;
@@ -28,6 +30,7 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +44,7 @@ import android.widget.RelativeLayout;
  */
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletResultsFlightControllerFragment extends Fragment implements ITabletResultsController,
-		IResultsFlightSelectedListener, IAddToTripListener {
+		IResultsFlightSelectedListener, IAddToTripListener, IFragmentAvailabilityProvider {
 
 	public interface IFlightsFruitScrollUpListViewChangeListener {
 
@@ -78,16 +81,15 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	private static final String STATE_GLOBAL_STATE = "STATE_GLOBAL_STATE";
 
 	//Frag tags
-	private enum FragTag {
-		FLIGHT_MAP,
-		FLIGHT_ADD_TO_TRIP,
-		FLIGHT_ONE_FILTERS,
-		FLIGHT_ONE_LIST,
-		FLIGHT_TWO_FILTERS,
-		FLIGHT_TWO_LIST,
-		FLIGHT_ONE_DETAILS,
-		FLIGHT_TWO_DETAILS
-	}
+
+	private static final String FTAG_FLIGHT_MAP = "FTAG_FLIGHT_MAP";
+	private static final String FTAG_FLIGHT_ADD_TO_TRIP = "FTAG_FLIGHT_ADD_TO_TRIP";
+	private static final String FTAG_FLIGHT_ONE_FILTERS = "FTAG_FLIGHT_ONE_FILTERS";
+	private static final String FTAG_FLIGHT_ONE_LIST = "FTAG_FLIGHT_ONE_LIST";
+	private static final String FTAG_FLIGHT_TWO_FILTERS = "FTAG_FLIGHT_TWO_FILTERS";
+	private static final String FTAG_FLIGHT_TWO_LIST = "FTAG_FLIGHT_TWO_LIST";
+	private static final String FTAG_FLIGHT_ONE_DETAILS = "FTAG_FLIGHT_ONE_DETAILS";
+	private static final String FTAG_FLIGHT_TWO_DETAILS = "FTAG_FLIGHT_TWO_DETAILS";
 
 	//Containers
 	private ViewGroup mRootC;
@@ -673,12 +675,15 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 	private void setFragmentState(GlobalResultsState state, FlightsState flightsState) {
 
+		FragmentManager manager = getChildFragmentManager();
+		
 		//All of the fragment adds/removes come through this method, and we want to make sure our last call
 		//is complete before moving forward, so this is important
-		getChildFragmentManager().executePendingTransactions();
+		manager.executePendingTransactions();
 
 		//We will be adding all of our add/removes to this transaction
-		FragmentTransaction transaction = this.getChildFragmentManager().beginTransaction();
+
+		FragmentTransaction transaction = manager.beginTransaction();
 
 		boolean flightOneListAvailable = true;
 		boolean flightMapAvailable = true;
@@ -706,22 +711,30 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			flightTwoDetailsAvailable = false;
 		}
 
-		mFlightMapFrag = (ResultsFlightMapFragment) setFragmentAvailability(flightMapAvailable, FragTag.FLIGHT_MAP,
-				transaction, R.id.bg_flight_map, false);
-		mAddToTripFrag = (ResultsFlightAddToTrip) setFragmentAvailability(flightAddToTripAvailable,
-				FragTag.FLIGHT_ADD_TO_TRIP, transaction, R.id.flights_add_to_trip, false);
-		mFlightOneListFrag = (ResultsFlightListFragment) setFragmentAvailability(flightOneListAvailable,
-				FragTag.FLIGHT_ONE_LIST, transaction, R.id.flight_one_list, false);
-		mFlightOneFilterFrag = (ResultsFlightFiltersFragment) setFragmentAvailability(flightOneFiltersAvailable,
-				FragTag.FLIGHT_ONE_FILTERS, transaction, R.id.flight_one_filters, false);
-		mFlightOneDetailsFrag = (ResultsFlightDetailsFragment) setFragmentAvailability(flightOneDetailsAvailable,
-				FragTag.FLIGHT_ONE_DETAILS, transaction, R.id.flight_one_details, true);
-		mFlightTwoListFrag = (ResultsFlightListFragment) setFragmentAvailability(flightTwoListAvailable,
-				FragTag.FLIGHT_TWO_LIST, transaction, R.id.flight_two_list, false);
-		mFlightTwoFilterFrag = (ResultsFlightFiltersFragment) setFragmentAvailability(flightTwoFiltersAvailabe,
-				FragTag.FLIGHT_TWO_FILTERS, transaction, R.id.flight_two_filters, false);
-		mFlightTwoDetailsFrag = (ResultsFlightDetailsFragment) setFragmentAvailability(flightTwoDetailsAvailable,
-				FragTag.FLIGHT_TWO_DETAILS, transaction, R.id.flight_two_details, true);
+		mFlightMapFrag = (ResultsFlightMapFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+				flightMapAvailable, FTAG_FLIGHT_MAP,
+				manager, transaction, this, R.id.bg_flight_map, false);
+		mAddToTripFrag = (ResultsFlightAddToTrip) FragmentAvailabilityUtils.setFragmentAvailability(
+				flightAddToTripAvailable,
+				FTAG_FLIGHT_ADD_TO_TRIP, manager, transaction, this, R.id.flights_add_to_trip, false);
+		mFlightOneListFrag = (ResultsFlightListFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+				flightOneListAvailable,
+				FTAG_FLIGHT_ONE_LIST, manager, transaction, this, R.id.flight_one_list, false);
+		mFlightOneFilterFrag = (ResultsFlightFiltersFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+				flightOneFiltersAvailable,
+				FTAG_FLIGHT_ONE_FILTERS, manager, transaction, this, R.id.flight_one_filters, false);
+		mFlightOneDetailsFrag = (ResultsFlightDetailsFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+				flightOneDetailsAvailable,
+				FTAG_FLIGHT_ONE_DETAILS, manager, transaction, this, R.id.flight_one_details, true);
+		mFlightTwoListFrag = (ResultsFlightListFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+				flightTwoListAvailable,
+				FTAG_FLIGHT_TWO_LIST, manager, transaction, this, R.id.flight_two_list, false);
+		mFlightTwoFilterFrag = (ResultsFlightFiltersFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+				flightTwoFiltersAvailabe,
+				FTAG_FLIGHT_TWO_FILTERS, manager, transaction, this, R.id.flight_two_filters, false);
+		mFlightTwoDetailsFrag = (ResultsFlightDetailsFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+				flightTwoDetailsAvailable,
+				FTAG_FLIGHT_TWO_DETAILS, manager, transaction, this, R.id.flight_two_details, true);
 
 		transaction.commit();
 
@@ -731,133 +744,83 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	 * FRAGMENT HELPERS
 	 */
 
-	private Fragment setFragmentAvailability(boolean available, FragTag tag, FragmentTransaction transaction,
-			int container, boolean alwaysRunSetup) {
-		Fragment frag = fragmentGetLocalInstance(tag);
-		if (available) {
-			if (frag == null || !frag.isAdded()) {
-				if (frag == null) {
-					frag = getChildFragmentManager().findFragmentByTag(tag.name());
-				}
-				if (frag == null) {
-					frag = fragmentNewInstance(tag);
-				}
-				if (!frag.isAdded()) {
-					transaction.add(container, frag, tag.name());
-				}
-				fragmentSetup(tag, frag);
-			}
-			else if (alwaysRunSetup) {
-				fragmentSetup(tag, frag);
-			}
-		}
-		else {
-			if (frag != null) {
-				transaction.remove(frag);
-			}
-			frag = null;
-		}
-		return frag;
-	}
-
-	public Fragment fragmentGetLocalInstance(FragTag tag) {
+	@Override
+	public Fragment getExisitingLocalInstanceFromTag(String tag) {
 		Fragment frag = null;
-		switch (tag) {
-		case FLIGHT_MAP: {
+		if (tag == FTAG_FLIGHT_MAP) {
 			frag = this.mFlightMapFrag;
-			break;
 		}
-		case FLIGHT_ADD_TO_TRIP: {
+		else if (tag == FTAG_FLIGHT_ADD_TO_TRIP) {
 			frag = this.mAddToTripFrag;
-			break;
 		}
-		case FLIGHT_ONE_FILTERS: {
+		else if (tag == FTAG_FLIGHT_ONE_FILTERS) {
 			frag = this.mFlightOneFilterFrag;
-			break;
 		}
-		case FLIGHT_ONE_LIST: {
+		else if (tag == FTAG_FLIGHT_ONE_LIST) {
 			frag = this.mFlightOneListFrag;
-			break;
 		}
-		case FLIGHT_TWO_FILTERS: {
+		else if (tag == FTAG_FLIGHT_TWO_FILTERS) {
 			frag = this.mFlightTwoFilterFrag;
-			break;
 		}
-		case FLIGHT_TWO_LIST: {
+		else if (tag == FTAG_FLIGHT_TWO_LIST) {
 			frag = this.mFlightTwoListFrag;
-			break;
 		}
-		case FLIGHT_ONE_DETAILS: {
+		else if (tag == FTAG_FLIGHT_ONE_DETAILS) {
 			frag = this.mFlightOneDetailsFrag;
-			break;
 		}
-		case FLIGHT_TWO_DETAILS: {
+		else if (tag == FTAG_FLIGHT_TWO_DETAILS) {
 			frag = this.mFlightTwoDetailsFrag;
-			break;
 		}
-		}
+
 		return frag;
 	}
 
-	public Fragment fragmentNewInstance(FragTag tag) {
+	@Override
+	public Fragment getNewFragmentInstanceFromTag(String tag) {
 		Fragment frag = null;
-		switch (tag) {
-		case FLIGHT_MAP: {
+		if (tag == FTAG_FLIGHT_MAP) {
 			frag = ResultsFlightMapFragment.newInstance();
-			break;
 		}
-		case FLIGHT_ADD_TO_TRIP: {
+		else if (tag == FTAG_FLIGHT_ADD_TO_TRIP) {
 			frag = ResultsFlightAddToTrip.newInstance();
-			break;
 		}
-		case FLIGHT_ONE_FILTERS: {
+		else if (tag == FTAG_FLIGHT_ONE_FILTERS) {
 			frag = ResultsFlightFiltersFragment.newInstance(0);
-			break;
 		}
-		case FLIGHT_ONE_LIST: {
+		else if (tag == FTAG_FLIGHT_ONE_LIST) {
 			frag = ResultsFlightListFragment.getInstance(0);
-			break;
 		}
-		case FLIGHT_TWO_FILTERS: {
+		else if (tag == FTAG_FLIGHT_TWO_FILTERS) {
 			frag = ResultsFlightFiltersFragment.newInstance(1);
-			break;
 		}
-		case FLIGHT_TWO_LIST: {
+		else if (tag == FTAG_FLIGHT_TWO_LIST) {
 			frag = ResultsFlightListFragment.getInstance(1);
-			break;
 		}
-		case FLIGHT_ONE_DETAILS: {
+		else if (tag == FTAG_FLIGHT_ONE_DETAILS) {
 			frag = ResultsFlightDetailsFragment.newInstance(0);
-			break;
 		}
-		case FLIGHT_TWO_DETAILS: {
+		else if (tag == FTAG_FLIGHT_TWO_DETAILS) {
 			frag = ResultsFlightDetailsFragment.newInstance(1);
-			break;
 		}
-		}
+
 		return frag;
 	}
 
-	public void fragmentSetup(FragTag tag, Fragment frag) {
-		switch (tag) {
-		case FLIGHT_ONE_LIST: {
+	@Override
+	public void doFragmentSetup(String tag, Fragment frag) {
+		if (tag == FTAG_FLIGHT_ONE_LIST) {
 			((ResultsListFragment) frag).setChangeListener(mFruitProxy);
 			((ResultsListFragment) frag).setSortAndFilterButtonText(getString(R.string.Done));
-			break;
 		}
-		case FLIGHT_TWO_LIST: {
+		else if (tag == FTAG_FLIGHT_TWO_LIST) {
 			((ResultsListFragment) frag).gotoTopPosition(0);
 			((ResultsListFragment) frag).setListLockedToTop(true);
-			break;
 		}
-		case FLIGHT_ONE_DETAILS: {
+		else if (tag == FTAG_FLIGHT_ONE_DETAILS) {
 			updateDetailsFragSizes((ResultsFlightDetailsFragment) frag);
-			break;
 		}
-		case FLIGHT_TWO_DETAILS: {
+		else if (tag == FTAG_FLIGHT_TWO_DETAILS) {
 			updateDetailsFragSizes((ResultsFlightDetailsFragment) frag);
-			break;
-		}
 		}
 	}
 
@@ -1071,4 +1034,5 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		//Tell the trip overview to do its thing...
 		mParentAddToTripListener.performTripHandoff();
 	}
+
 }

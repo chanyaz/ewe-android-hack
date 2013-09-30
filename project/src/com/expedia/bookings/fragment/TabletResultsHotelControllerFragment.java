@@ -12,6 +12,8 @@ import com.expedia.bookings.interfaces.ITabletResultsController;
 import com.expedia.bookings.maps.SupportMapFragment;
 import com.expedia.bookings.maps.SupportMapFragment.SupportMapFragmentListener;
 import com.expedia.bookings.utils.ColumnManager;
+import com.expedia.bookings.utils.FragmentAvailabilityUtils;
+import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
 import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewChangeListener;
 import com.expedia.bookings.widget.FruitScrollUpListView.State;
@@ -31,6 +33,7 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +45,8 @@ import android.view.ViewGroup;
  */
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletResultsHotelControllerFragment extends Fragment implements SupportMapFragmentListener,
-		ITabletResultsController, ISortAndFilterListener, IResultsHotelSelectedListener, IAddToTripListener {
+		ITabletResultsController, ISortAndFilterListener, IResultsHotelSelectedListener, IAddToTripListener,
+		IFragmentAvailabilityProvider {
 
 	public interface IHotelsFruitScrollUpListViewChangeListener {
 		public void onHotelsStateChanged(State oldState, State newState, float percentage, View requester);
@@ -75,9 +79,11 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 	private static final String STATE_GLOBAL_STATE = "STATE_GLOBAL_STATE";
 
 	//Frag tags
-	private enum FragTag {
-		HOTEL_LIST, HOTEL_FILTERS, HOTEL_FILTERED_COUNT, HOTEL_MAP, HOTEL_ROOMS_AND_RATES
-	}
+	private static final String FTAG_HOTEL_LIST = "FTAG_HOTEL_LIST";
+	private static final String FTAG_HOTEL_FILTERS = "FTAG_HOTEL_FILTERS";
+	private static final String FTAG_HOTEL_FILTERED_COUNT = "FTAG_HOTEL_FILTERED_COUNT";
+	private static final String FTAG_HOTEL_MAP = "FTAG_HOTEL_MAP";
+	private static final String FTAG_HOTEL_ROOMS_AND_RATES = "FTAG_HOTEL_ROOMS_AND_RATES";
 
 	//Containers
 	private ViewGroup mRootC;
@@ -459,13 +465,14 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 	}
 
 	private void setFragmentState(GlobalResultsState globalState, HotelsState hotelsState) {
-
+		FragmentManager manager = getChildFragmentManager();
+		
 		//All of the fragment adds/removes come through this method, and we want to make sure our last call
 		//is complete before moving forward, so this is important
-		getChildFragmentManager().executePendingTransactions();
+		manager.executePendingTransactions();
 
 		//We will be adding all of our add/removes to this transaction
-		FragmentTransaction transaction = this.getChildFragmentManager().beginTransaction();
+		FragmentTransaction transaction = manager.beginTransaction();
 
 		boolean hotelListAvailable = true;
 		boolean hotelMapAvailable = true;
@@ -482,17 +489,21 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 			hotelMapAvailable = false;
 		}
 
-		mHotelListFrag = (ResultsHotelListFragment) setFragmentAvailability(hotelListAvailable, FragTag.HOTEL_LIST,
-				transaction, R.id.column_one_hotel_list, false);
-		mMapFragment = (SupportMapFragment) setFragmentAvailability(hotelMapAvailable, FragTag.HOTEL_MAP, transaction,
+		mHotelListFrag = (ResultsHotelListFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+				hotelListAvailable, FTAG_HOTEL_LIST, manager,
+				transaction, this, R.id.column_one_hotel_list, false);
+		mMapFragment = (SupportMapFragment) FragmentAvailabilityUtils.setFragmentAvailability(hotelMapAvailable,
+				FTAG_HOTEL_MAP, manager, transaction, this,
 				R.id.bg_hotel_map, false);
-		mHotelFiltersFrag = (ResultsHotelsFiltersFragment) setFragmentAvailability(hotelFiltersAvailable,
-				FragTag.HOTEL_FILTERS, transaction, R.id.column_one_hotel_filters, false);
-		mHotelFilteredCountFrag = (ResultsHotelsFilterCountFragment) setFragmentAvailability(
-				hotelFilteredCountAvailable, FragTag.HOTEL_FILTERED_COUNT, transaction,
+		mHotelFiltersFrag = (ResultsHotelsFiltersFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+				hotelFiltersAvailable,
+				FTAG_HOTEL_FILTERS, manager, transaction, this, R.id.column_one_hotel_filters, false);
+		mHotelFilteredCountFrag = (ResultsHotelsFilterCountFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+				hotelFilteredCountAvailable, FTAG_HOTEL_FILTERED_COUNT, manager, transaction, this,
 				R.id.column_three_hotel_filtered_count, false);
-		mHotelRoomsAndRatesFrag = (ResultsHotelsRoomsAndRates) setFragmentAvailability(hotelRoomsAndRatesAvailable,
-				FragTag.HOTEL_ROOMS_AND_RATES, transaction, R.id.column_two_hotel_rooms_and_rates, false);
+		mHotelRoomsAndRatesFrag = (ResultsHotelsRoomsAndRates) FragmentAvailabilityUtils.setFragmentAvailability(
+				hotelRoomsAndRatesAvailable,
+				FTAG_HOTEL_ROOMS_AND_RATES, manager, transaction, this, R.id.column_two_hotel_rooms_and_rates, false);
 
 		transaction.commit();
 
@@ -502,96 +513,54 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 	 * FRAGMENT STUFF
 	 */
 
-	private Fragment setFragmentAvailability(boolean available, FragTag tag, FragmentTransaction transaction,
-			int container, boolean alwaysRunSetup) {
-		Fragment frag = fragmentGetLocalInstance(tag);
-		if (available) {
-			if (frag == null || !frag.isAdded()) {
-				if (frag == null) {
-					frag = getChildFragmentManager().findFragmentByTag(tag.name());
-				}
-				if (frag == null) {
-					frag = fragmentNewInstance(tag);
-				}
-				if (!frag.isAdded()) {
-					transaction.add(container, frag, tag.name());
-				}
-				fragmentSetup(tag, frag);
-			}
-			else if (alwaysRunSetup) {
-				fragmentSetup(tag, frag);
-			}
+	@Override
+	public Fragment getExisitingLocalInstanceFromTag(String tag) {
+		Fragment frag = null;
+		if (tag == FTAG_HOTEL_LIST) {
+			frag = mHotelListFrag;
 		}
-		else {
-			if (frag != null) {
-				transaction.remove(frag);
-			}
-			frag = null;
+		else if (tag == FTAG_HOTEL_FILTERS) {
+			frag = mHotelFiltersFrag;
+		}
+		else if (tag == FTAG_HOTEL_FILTERED_COUNT) {
+			frag = mHotelFilteredCountFrag;
+		}
+		else if (tag == FTAG_HOTEL_MAP) {
+			frag = mMapFragment;
+		}
+		else if (tag == FTAG_HOTEL_ROOMS_AND_RATES) {
+			frag = mHotelRoomsAndRatesFrag;
 		}
 		return frag;
 	}
 
-	public Fragment fragmentGetLocalInstance(FragTag tag) {
+	@Override
+	public Fragment getNewFragmentInstanceFromTag(String tag) {
 		Fragment frag = null;
-		switch (tag) {
-		case HOTEL_LIST: {
-			frag = this.mHotelListFrag;
-			break;
-		}
-		case HOTEL_FILTERS: {
-			frag = this.mHotelFiltersFrag;
-			break;
-		}
-		case HOTEL_FILTERED_COUNT: {
-			frag = this.mHotelFilteredCountFrag;
-			break;
-		}
-		case HOTEL_MAP: {
-			frag = this.mMapFragment;
-			break;
-		}
-		case HOTEL_ROOMS_AND_RATES: {
-			frag = this.mHotelRoomsAndRatesFrag;
-			break;
-		}
-		}
-		return frag;
-	}
-
-	public Fragment fragmentNewInstance(FragTag tag) {
-		Fragment frag = null;
-		switch (tag) {
-		case HOTEL_LIST: {
+		if (tag == FTAG_HOTEL_LIST) {
 			frag = new ResultsHotelListFragment();
-			break;
 		}
-		case HOTEL_FILTERS: {
+		else if (tag == FTAG_HOTEL_FILTERS) {
 			frag = new ResultsHotelsFiltersFragment();
-			break;
 		}
-		case HOTEL_FILTERED_COUNT: {
+		else if (tag == FTAG_HOTEL_FILTERED_COUNT) {
 			frag = new ResultsHotelsFilterCountFragment();
-			break;
 		}
-		case HOTEL_MAP: {
+		else if (tag == FTAG_HOTEL_MAP) {
 			frag = SupportMapFragment.newInstance();
-			break;
 		}
-		case HOTEL_ROOMS_AND_RATES: {
+		else if (tag == FTAG_HOTEL_ROOMS_AND_RATES) {
 			frag = ResultsHotelsRoomsAndRates.newInstance();
-			break;
-		}
 		}
 		return frag;
 	}
 
-	public void fragmentSetup(FragTag tag, Fragment frag) {
-		switch (tag) {
-		case HOTEL_LIST: {
+	@Override
+	public void doFragmentSetup(String tag, Fragment frag) {
+		if (tag == FTAG_HOTEL_LIST) {
 			((ResultsListFragment) frag).setChangeListener(mFruitProxy);
-			break;
 		}
-		}
+
 	}
 
 	/**

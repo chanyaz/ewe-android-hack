@@ -27,6 +27,8 @@ import com.expedia.bookings.interfaces.IBackgroundImageReceiver;
 import com.expedia.bookings.interfaces.ITabletResultsController;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.ColumnManager;
+import com.expedia.bookings.utils.FragmentAvailabilityUtils;
+import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
 import com.expedia.bookings.widget.FruitScrollUpListView.State;
 import com.mobiata.android.BackgroundDownloader;
@@ -45,6 +47,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.ViewTreeObserver.OnPreDrawListener;
@@ -68,15 +71,16 @@ import android.view.ViewGroup;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TabletResultsActivity extends SherlockFragmentActivity implements ITabletResultsController,
 		IFlightsFruitScrollUpListViewChangeListener, IHotelsFruitScrollUpListViewChangeListener,
-		IBackgroundImageReceiverRegistrar, IBackButtonLockListener, IAddToTripListener {
+		IBackgroundImageReceiverRegistrar, IBackButtonLockListener, IAddToTripListener, IFragmentAvailabilityProvider {
 
 	//State
 	private static final String STATE_CURRENT_STATE = "STATE_CURRENT_STATE";
 
 	//Tags
-	private enum FragTag {
-		FLIGHTS_CONTROLLER, HOTELS_CONTROLLER, TRIP_CONTROLLER, BACKGROUND_IMAGE
-	}
+	private static final String FTAG_FLIGHTS_CONTROLLER = "FTAG_FLIGHTS_CONTROLLER";
+	private static final String FTAG_HOTELS_CONTROLLER = "FTAG_HOTELS_CONTROLLER";
+	private static final String FTAG_TRIP_CONTROLLER = "FTAG_TRIP_CONTROLLER";
+	private static final String FTAG_BACKGROUND_IMAGE = "FTAG_BACKGROUND_IMAGE";
 
 	//Containers..
 	private ViewGroup mRootC;
@@ -130,15 +134,22 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		}
 
 		//Add default fragments
+		FragmentManager manager = getSupportFragmentManager();
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-		mBackgroundImageFrag = (ResultsBackgroundImageFragment) setFragmentAvailability(true, FragTag.BACKGROUND_IMAGE,
-				transaction, R.id.bg_dest_image_overlay, false);
-		mTripController = (TabletResultsTripControllerFragment) setFragmentAvailability(true, FragTag.TRIP_CONTROLLER,
-				transaction, R.id.full_width_trip_controller_container, false);
-		mFlightsController = (TabletResultsFlightControllerFragment) setFragmentAvailability(true,
-				FragTag.FLIGHTS_CONTROLLER, transaction, R.id.full_width_flights_controller_container, false);
-		mHotelsController = (TabletResultsHotelControllerFragment) setFragmentAvailability(true,
-				FragTag.HOTELS_CONTROLLER, transaction, R.id.full_width_hotels_controller_container, false);
+		mBackgroundImageFrag = (ResultsBackgroundImageFragment) FragmentAvailabilityUtils.setFragmentAvailability(true,
+				FTAG_FLIGHTS_CONTROLLER,
+				manager, transaction, this, R.id.bg_dest_image_overlay, false);
+		mTripController = (TabletResultsTripControllerFragment) FragmentAvailabilityUtils.setFragmentAvailability(true,
+				FTAG_TRIP_CONTROLLER,
+				manager, transaction, this, R.id.full_width_trip_controller_container, false);
+		mFlightsController = (TabletResultsFlightControllerFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+				true,
+				FTAG_FLIGHTS_CONTROLLER, manager, transaction, this,
+				R.id.full_width_flights_controller_container, false);
+		mHotelsController = (TabletResultsHotelControllerFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+				true,
+				FTAG_HOTELS_CONTROLLER, manager, transaction, this,
+				R.id.full_width_hotels_controller_container, false);
 		transaction.commit();
 		getSupportFragmentManager().executePendingTransactions();//These must be finished before we continue..
 
@@ -381,86 +392,44 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		mBackgroundImageReceivers.remove(receiver);
 	}
 
-	/**
-	 * HERE BE HELPER FUNCTIONS WHERE WE ATTACH AND DETACH FRAGMENTS
-	 */
-	//FLIGHTS_CONTROLLER,HOTELS_CONTROLLER,TRIP_CONTROLLER,BACKGROUND_IMAGE
-	private Fragment setFragmentAvailability(boolean available, FragTag tag, FragmentTransaction transaction,
-			int container, boolean alwaysRunSetup) {
-		Fragment frag = fragmentGetLocalInstance(tag);
-		if (available) {
-			if (frag == null || !frag.isAdded()) {
-				if (frag == null) {
-					frag = Ui.findSupportFragment(this, tag.name());
-				}
-				if (frag == null) {
-					frag = fragmentNewInstance(tag);
-				}
-				if (!frag.isAdded()) {
-					transaction.add(container, frag, tag.name());
-				}
-				fragmentSetup(tag, frag);
-			}
-			else if (alwaysRunSetup) {
-				fragmentSetup(tag, frag);
-			}
-		}
-		else {
-			if (frag != null) {
-				transaction.remove(frag);
-			}
-			frag = null;
-		}
-		return frag;
-	}
-
-	public Fragment fragmentGetLocalInstance(FragTag tag) {
+	@Override
+	public Fragment getExisitingLocalInstanceFromTag(String tag) {
 		Fragment frag = null;
-		switch (tag) {
-		case FLIGHTS_CONTROLLER: {
-			frag = mFlightsController;
-			break;
-		}
-		case HOTELS_CONTROLLER: {
-			frag = mHotelsController;
-			break;
-		}
-		case TRIP_CONTROLLER: {
-			frag = mTripController;
-			break;
-		}
-		case BACKGROUND_IMAGE: {
-			frag = mBackgroundImageFrag;
-			break;
-		}
-		}
-		return frag;
-	}
-
-	public Fragment fragmentNewInstance(FragTag tag) {
-		Fragment frag = null;
-		switch (tag) {
-		case FLIGHTS_CONTROLLER: {
+		if (tag == FTAG_FLIGHTS_CONTROLLER) {
 			frag = new TabletResultsFlightControllerFragment();
-			break;
 		}
-		case HOTELS_CONTROLLER: {
-			frag = new TabletResultsHotelControllerFragment();
-			break;
+		else if (tag == FTAG_HOTELS_CONTROLLER) {
+			frag = mHotelsController;
 		}
-		case TRIP_CONTROLLER: {
-			frag = new TabletResultsTripControllerFragment();
-			break;
+		else if (tag == FTAG_TRIP_CONTROLLER) {
+			frag = mTripController;
 		}
-		case BACKGROUND_IMAGE: {
-			frag = ResultsBackgroundImageFragment.newInstance("SFO");
-			break;
-		}
+		else if (tag == FTAG_BACKGROUND_IMAGE) {
+			frag = mBackgroundImageFrag;
 		}
 		return frag;
 	}
 
-	public void fragmentSetup(FragTag tag, Fragment frag) {
+	@Override
+	public Fragment getNewFragmentInstanceFromTag(String tag) {
+		Fragment frag = null;
+		if (tag == FTAG_FLIGHTS_CONTROLLER) {
+			frag = mFlightsController;
+		}
+		else if (tag == FTAG_HOTELS_CONTROLLER) {
+			frag = new TabletResultsHotelControllerFragment();
+		}
+		else if (tag == FTAG_TRIP_CONTROLLER) {
+			frag = new TabletResultsTripControllerFragment();
+		}
+		else if (tag == FTAG_BACKGROUND_IMAGE) {
+			frag = ResultsBackgroundImageFragment.newInstance("SFO");
+		}
+		return frag;
+	}
+
+	@Override
+	public void doFragmentSetup(String tag, Fragment frag) {
 		//Currently there is no setup needed for any of the framents
 	}
 
