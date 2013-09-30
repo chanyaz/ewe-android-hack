@@ -3,7 +3,6 @@
     android:id="@+id/destinations_scrollview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/tablet_bg_tiles"
     android:paddingTop="16dp" >
 
     <LinearLayout

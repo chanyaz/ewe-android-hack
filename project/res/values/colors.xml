@@ -160,7 +160,6 @@
     <color name="tablet_results_ab_default">#DADBDD</color>
     <color name="tablet_results_ab_hotels">#422B14</color>
     <color name="tablet_results_ab_flights">#142B42</color>
-    <color name="tablet_bg_tiles">#67000000</color>
     <color name="tablet_bg_tiles_blend">#FF101929</color>
 
 </resources>
