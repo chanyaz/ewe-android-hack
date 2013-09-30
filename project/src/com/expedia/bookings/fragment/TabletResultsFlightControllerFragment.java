@@ -840,21 +840,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 	public void fragmentSetup(FragTag tag, Fragment frag) {
 		switch (tag) {
-		case FLIGHT_MAP: {
-			break;
-		}
-		case FLIGHT_ADD_TO_TRIP: {
-			break;
-		}
-		case FLIGHT_ONE_FILTERS: {
-			break;
-		}
 		case FLIGHT_ONE_LIST: {
 			((ResultsListFragment) frag).setChangeListener(mFruitProxy);
 			((ResultsListFragment) frag).setSortAndFilterButtonText(getString(R.string.Done));
-			break;
-		}
-		case FLIGHT_TWO_FILTERS: {
 			break;
 		}
 		case FLIGHT_TWO_LIST: {

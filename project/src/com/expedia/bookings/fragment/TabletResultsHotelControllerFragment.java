@@ -591,18 +591,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 			((ResultsListFragment) frag).setChangeListener(mFruitProxy);
 			break;
 		}
-		case HOTEL_FILTERS: {
-			break;
-		}
-		case HOTEL_FILTERED_COUNT: {
-			break;
-		}
-		case HOTEL_MAP: {
-			break;
-		}
-		case HOTEL_ROOMS_AND_RATES: {
-			break;
-		}
 		}
 	}
 

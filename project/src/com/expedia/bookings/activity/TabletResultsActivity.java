@@ -461,20 +461,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	}
 
 	public void fragmentSetup(FragTag tag, Fragment frag) {
-		switch (tag) {
-		case FLIGHTS_CONTROLLER: {
-			break;
-		}
-		case HOTELS_CONTROLLER: {
-			break;
-		}
-		case TRIP_CONTROLLER: {
-			break;
-		}
-		case BACKGROUND_IMAGE: {
-			break;
-		}
-		}
+		//Currently there is no setup needed for any of the framents
 	}
 
 	/**

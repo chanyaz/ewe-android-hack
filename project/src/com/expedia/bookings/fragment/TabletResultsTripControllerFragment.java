@@ -166,14 +166,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 	}
 
 	public void fragmentSetup(FragTag tag, Fragment frag) {
-		switch (tag) {
-		case TRIP_OVERVIEW: {
-			break;
-		}
-		case BLURRED_BG: {
-			break;
-		}
-		}
+		//Currently the fragments require no setup
 	}
 
 	private void setTouchState(GlobalResultsState state) {
