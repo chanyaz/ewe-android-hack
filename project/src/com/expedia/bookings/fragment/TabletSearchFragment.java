@@ -306,7 +306,8 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 
 		// Try to keep current location up-to-date
 		if (mCurrentLocation == null
-				|| JodaUtils.isExpired(new DateTime(mCurrentLocation.getTime(), DateTimeZone.UTC), CURRENT_LOCATION_CUTOFF)) {
+				|| JodaUtils.isExpired(new DateTime(mCurrentLocation.getTime(), DateTimeZone.UTC),
+						CURRENT_LOCATION_CUTOFF)) {
 			mLocationFragment.find(this);
 		}
 	}
@@ -326,6 +327,8 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		if (mCurrentAnimation != null) {
 			mCurrentAnimation.cancel();
 		}
+
+		mLocationFragment.stop();
 	}
 
 	@Override
