@@ -44,9 +44,11 @@ public abstract class LoadWalletFragment extends WalletFragment {
 	protected abstract Money getEstimatedTotal();
 
 	/**
-	 * @return the flags used in WalletUtils.buildMaskedWalletRequest()
+	 * Gives the ability to modify the MaskedWalletRequest before it goes out.
+	 * 
+	 * This is mostly for setting a custom Cart.
 	 */
-	protected abstract int getMaskedWalletBuilderFlags();
+	protected abstract void modifyMaskedWalletBuilder(MaskedWalletRequest.Builder builder);
 
 	/**
 	 * This is called once we have a MaskedWallet loaded and in Db.
@@ -117,7 +119,16 @@ public abstract class LoadWalletFragment extends WalletFragment {
 	}
 
 	private MaskedWalletRequest buildMaskedWalletRequest() {
-		return WalletUtils.buildMaskedWalletRequest(getActivity(), getEstimatedTotal(), getMaskedWalletBuilderFlags());
+		Money total = getEstimatedTotal();
+
+		MaskedWalletRequest.Builder builder = MaskedWalletRequest.newBuilder();
+		builder.setMerchantName(getString(R.string.merchant_name));
+		builder.setCurrencyCode(total.getCurrency());
+		builder.setEstimatedTotalPrice(WalletUtils.formatAmount(total));
+
+		modifyMaskedWalletBuilder(builder);
+
+		return builder.build();
 	}
 
 	private void onMaskedWalletReceived(MaskedWallet wallet, boolean fromPreauth) {

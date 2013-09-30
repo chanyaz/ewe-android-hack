@@ -53,10 +53,6 @@ public class WalletUtils {
 	public static final String EXTRA_MASKED_WALLET = "EXTRA_MASKED_WALLET";
 	public static final String EXTRA_FULL_WALLET = "EXTRA_FULL_WALLET";
 
-	public static final int F_PHONE_NUMBER_REQUIRED = 1;
-	public static final int F_SHIPPING_ADDRESS_REQUIRED = 2;
-	public static final int F_USE_MINIMAL_BILLING_ADDRESS = 4;
-
 	public static final String SETTING_SHOW_WALLET_COUPON = "com.expedia.bookings.wallet.coupon.2013.enabled";
 
 	private static final DecimalFormat MONEY_FORMAT = new DecimalFormat("0.00");
@@ -106,19 +102,6 @@ public class WalletUtils {
 			// This code is known to give 10% off on integration; may not work on other environments
 			return "hotelsapp2";
 		}
-	}
-
-	public static MaskedWalletRequest buildMaskedWalletRequest(Context context, Money total, int flags) {
-		MaskedWalletRequest.Builder builder = MaskedWalletRequest.newBuilder();
-		builder.setMerchantName(context.getString(R.string.merchant_name));
-		builder.setCurrencyCode(total.getCurrency());
-		builder.setEstimatedTotalPrice(formatAmount(total));
-
-		builder.setPhoneNumberRequired((flags & F_PHONE_NUMBER_REQUIRED) != 0);
-		builder.setShippingAddressRequired((flags & F_SHIPPING_ADDRESS_REQUIRED) != 0);
-		builder.setUseMinimalBillingAddress((flags & F_USE_MINIMAL_BILLING_ADDRESS) != 0);
-
-		return builder.build();
 	}
 
 	public static void addStandardFieldsToMaskedWalletRequest(Context context, MaskedWalletRequest.Builder builder,

@@ -78,6 +78,7 @@ import com.expedia.bookings.widget.ScrollView;
 import com.expedia.bookings.widget.ScrollView.OnScrollListener;
 import com.expedia.bookings.widget.WalletButton;
 import com.google.android.gms.wallet.MaskedWallet;
+import com.google.android.gms.wallet.MaskedWalletRequest.Builder;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -1290,8 +1291,11 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	}
 
 	@Override
-	protected int getMaskedWalletBuilderFlags() {
-		return WalletUtils.F_PHONE_NUMBER_REQUIRED | WalletUtils.F_USE_MINIMAL_BILLING_ADDRESS;
+	protected void modifyMaskedWalletBuilder(Builder builder) {
+		// TODO: Add Cart
+
+		builder.setPhoneNumberRequired(true);
+		builder.setUseMinimalBillingAddress(true);
 	}
 
 	/**

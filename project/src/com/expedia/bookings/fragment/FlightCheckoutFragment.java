@@ -51,6 +51,7 @@ import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.UserToTripAssocLoginExtender;
 import com.expedia.bookings.widget.WalletButton;
 import com.google.android.gms.wallet.MaskedWallet;
+import com.google.android.gms.wallet.MaskedWalletRequest.Builder;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -744,8 +745,10 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	}
 
 	@Override
-	protected int getMaskedWalletBuilderFlags() {
-		return WalletUtils.F_PHONE_NUMBER_REQUIRED;
+	protected void modifyMaskedWalletBuilder(Builder builder) {
+		// TODO: Add Cart
+
+		builder.setPhoneNumberRequired(true);
 	}
 
 	/**
@@ -808,4 +811,5 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 		public void onBillingInfoChange();
 	}
+
 }
