@@ -33,7 +33,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Phone;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
@@ -90,7 +89,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		mFields.add(mDisplaySpeatPreference);
 		mFields.add(mDisplayLongFormBirthDay);
 		mFields.add(mDisplayCurrentTravelerWithNameColored);
-		mFields.add(mDisplayEmail);
 		mFields.add(mDisplayEmailDisclaimer);
 
 		//Validation Indicator fields
@@ -276,16 +274,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		}
 	};
 	
-	SectionField<TextView, Traveler> mDisplayEmail = new SectionField<TextView, Traveler>(
-			R.id.display_full_name) {
-		@Override
-		public void onHasFieldAndData(TextView field, Traveler data) {
-			if(data.hasEmail()) {
-				field.setText(data.getEmail());
-			} 
-		}
-	};
-
 	SectionField<TextView, Traveler> mDisplayCurrentTravelerWithNameColored = new SectionField<TextView, Traveler>(
 			R.id.display_current_traveler_with_name_colored) {
 		@Override
