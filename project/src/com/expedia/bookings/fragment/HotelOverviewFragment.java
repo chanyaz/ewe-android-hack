@@ -1292,7 +1292,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	@Override
 	protected void modifyMaskedWalletBuilder(Builder builder) {
-		// TODO: Add Cart
+		builder.setCart(WalletUtils.buildHotelCart(getActivity()));
 
 		builder.setPhoneNumberRequired(true);
 		builder.setUseMinimalBillingAddress(true);

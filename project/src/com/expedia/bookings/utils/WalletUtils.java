@@ -14,8 +14,11 @@ import android.text.TextUtils;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ErrorCode;
@@ -452,5 +455,45 @@ public class WalletUtils {
 				.setRole(LineItem.Role.REGULAR)
 				.setTotalPrice(WalletUtils.formatAmount(money))
 				.build();
+	}
+
+	public static Cart buildHotelCart(Context context) {
+		HotelSearch search = Db.getHotelSearch();
+
+		Property property = search.getSelectedProperty();
+		Rate originalRate = search.getSelectedRate();
+		Rate couponRate = search.getCouponRate();
+		Money total = couponRate == null ? originalRate.getDisplayTotalPrice() : couponRate.getDisplayTotalPrice();
+
+		Cart.Builder cartBuilder = Cart.newBuilder();
+
+		// Total
+		cartBuilder.setCurrencyCode(total.getCurrency());
+		cartBuilder.setTotalPrice(WalletUtils.formatAmount(total));
+
+		// Base rate
+		cartBuilder.addLineItem(WalletUtils.createLineItem(originalRate.getNightlyRateTotal(), property.getName(),
+				LineItem.Role.REGULAR));
+
+		// Discount
+		if (couponRate != null) {
+			Money discount = new Money(couponRate.getTotalPriceAdjustments());
+			discount.negate();
+			cartBuilder.addLineItem(WalletUtils.createLineItem(discount, property.getName(), LineItem.Role.REGULAR));
+		}
+
+		// Taxes & Fees
+		if (originalRate.getTotalSurcharge() != null && !originalRate.getTotalSurcharge().isZero()) {
+			cartBuilder.addLineItem(WalletUtils.createLineItem(originalRate.getTotalSurcharge(),
+					context.getString(R.string.taxes_and_fees), LineItem.Role.TAX));
+		}
+
+		// Extra guest fees
+		if (originalRate.getExtraGuestFee() != null && !originalRate.getExtraGuestFee().isZero()) {
+			cartBuilder.addLineItem(WalletUtils.createLineItem(originalRate.getExtraGuestFee(),
+					context.getString(R.string.extra_guest_charge), LineItem.Role.TAX));
+		}
+
+		return cartBuilder.build();
 	}
 }
