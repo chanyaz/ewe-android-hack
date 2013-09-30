@@ -302,7 +302,7 @@ public class RingedCountView extends View {
 		private void drawRing(Canvas canvas) {
 			// The "filled" part of the ring
 			float filledSweep = mFilledPercent * 360f;
-			float filledAngle = -90f - filledSweep;
+			float filledAngle = -90f;
 			canvas.drawArc(mOval, filledAngle, filledSweep, false, mPrimaryArcPaint);
 
 			// The "empty" part of the ring
