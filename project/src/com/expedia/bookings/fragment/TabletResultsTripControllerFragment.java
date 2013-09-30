@@ -35,8 +35,8 @@ import com.mobiata.android.util.Ui;
 public class TabletResultsTripControllerFragment extends Fragment implements ITabletResultsController,
 		IAddToTripListener, IFragmentAvailabilityProvider {
 
-	private static final String FTAG_TRIP_OVERVIEW = "";
-	private static final String FTAG_BLURRED_BG = "";
+	private static final String FTAG_TRIP_OVERVIEW = "FTAG_TRIP_OVERVIEW";
+	private static final String FTAG_BLURRED_BG = "FTAG_BLURRED_BG";
 
 	private ResultsTripOverviewFragment mTripOverviewFrag;
 	private ResultsBlurBackgroundImageFragment mBlurredBackgroundFrag;

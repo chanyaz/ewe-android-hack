@@ -137,7 +137,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		FragmentManager manager = getSupportFragmentManager();
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		mBackgroundImageFrag = (ResultsBackgroundImageFragment) FragmentAvailabilityUtils.setFragmentAvailability(true,
-				FTAG_FLIGHTS_CONTROLLER,
+				FTAG_BACKGROUND_IMAGE,
 				manager, transaction, this, R.id.bg_dest_image_overlay, false);
 		mTripController = (TabletResultsTripControllerFragment) FragmentAvailabilityUtils.setFragmentAvailability(true,
 				FTAG_TRIP_CONTROLLER,
@@ -151,7 +151,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 				FTAG_HOTELS_CONTROLLER, manager, transaction, this,
 				R.id.full_width_hotels_controller_container, false);
 		transaction.commit();
-		getSupportFragmentManager().executePendingTransactions();//These must be finished before we continue..
+		manager.executePendingTransactions();//These must be finished before we continue..
 
 		mTabletResultsControllers.add(mTripController);
 		mTabletResultsControllers.add(mFlightsController);
