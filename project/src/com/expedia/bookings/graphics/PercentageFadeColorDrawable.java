@@ -16,6 +16,7 @@ import android.graphics.drawable.Drawable;
  */
 public class PercentageFadeColorDrawable extends Drawable {
 
+	private int mColorOneA;
 	private int mColorOneR;
 	private int mColorOneG;
 	private int mColorOneB;
@@ -28,6 +29,7 @@ public class PercentageFadeColorDrawable extends Drawable {
 	private int mAlpha = 255;
 
 	public PercentageFadeColorDrawable(int colorOne, int colorTwo) {
+		mColorOneA = Color.alpha(colorOne);
 		mColorOneR = Color.red(colorOne);
 		mColorOneG = Color.green(colorOne);
 		mColorOneB = Color.blue(colorOne);
@@ -48,7 +50,7 @@ public class PercentageFadeColorDrawable extends Drawable {
 
 	@Override
 	public void draw(Canvas canvas) {
-		canvas.drawARGB(mAlpha, mColorOneR, mColorOneG, mColorOneB);
+		canvas.drawARGB(Math.min(mAlpha, mColorOneA), mColorOneR, mColorOneG, mColorOneB);
 		canvas.drawARGB(Math.min(mAlpha, mColorTwoA), mColorTwoR, mColorTwoG, mColorTwoB);
 	}
 

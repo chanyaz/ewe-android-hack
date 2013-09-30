@@ -33,6 +33,8 @@
         <item name="hotelListingFilterPriceCheapString">@string/filter_price_cheap</item>
         <item name="hotelListingFilterPriceModerateString">@string/filter_price_moderate</item>
         <item name="hotelListingFilterPriceExpensiveString">@string/filter_price_expensive</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:actionBarStyle">@style/V2.Widget.ActionBar.TabletResults</item>
     </style>
 
     <!-- Action bar styling; directly linked to themes so not moving too far away -->
@@ -43,6 +45,10 @@
 
     <style name="V2.Widget.ActionBar.TabletLaunch">
         <item name="android:background">@drawable/ab_transparent_dark_blue</item>
+    </style>
+    
+    <style name="V2.Widget.ActionBar.TabletResults">
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <!-- Calendar styling -->

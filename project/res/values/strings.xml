@@ -90,6 +90,8 @@
         <item quantity="many">%s Flights</item>
         <item quantity="other">%s Flights</item>
     </plurals>
+    <!-- Destination and date range e.g. "Maui, Aug 5 - Aug 12 -->
+    <string name="destination_and_date_range_TEMPLATE">%1$s, %2$s</string>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->

@@ -36,6 +36,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 /**
@@ -676,7 +677,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	private void setFragmentState(GlobalResultsState state, FlightsState flightsState) {
 
 		FragmentManager manager = getChildFragmentManager();
-		
+
 		//All of the fragment adds/removes come through this method, and we want to make sure our last call
 		//is complete before moving forward, so this is important
 		manager.executePendingTransactions();
@@ -913,6 +914,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 		updateDetailsFragSizes(mFlightOneDetailsFrag);
 		updateDetailsFragSizes(mFlightTwoDetailsFrag);
+
+		//since the actionbar is an overlay, we must compensate by setting the root layout to have a top margin
+		int actionBarHeight = getActivity().getActionBar().getHeight();
+		FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) mRootC.getLayoutParams();
+		params.topMargin = actionBarHeight;
+		mRootC.setLayoutParams(params);
 	}
 
 	private void updateDetailsFragSizes(ResultsFlightDetailsFragment frag) {
