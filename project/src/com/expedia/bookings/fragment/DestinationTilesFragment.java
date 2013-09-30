@@ -39,7 +39,6 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 		mItemsContainer = Ui.findView(root, R.id.destinations_container);
 		mItemsContainer.setShowDividers(ALL_DIVIDERS);
 
-		onScrollChanged(mScrollView, 0, 0, 0, 0);
 		root.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 			@Override
 			public boolean onPreDraw() {
