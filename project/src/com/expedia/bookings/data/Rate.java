@@ -30,6 +30,12 @@ public class Rate implements JSONable {
 		UNKNOWN;
 	}
 
+	// Which price to display to users
+	public enum CheckoutPriceType {
+		TOTAL,
+		TOTAL_WITH_MANDATORY_FEES
+	}
+
 	// Common fields between HotelPal and StayHIP
 	private String mRatePlanCode; // In Expedia, this is just rateCode
 	private String mRatePlanName;
@@ -57,6 +63,7 @@ public class Rate implements JSONable {
 
 	// Display prices
 	private UserPriceType mUserPriceType;
+	private CheckoutPriceType mCheckoutPriceType;
 	private Money mPriceToShowUsers;
 	private Money mStrikethroughPriceToShowUsers;
 
@@ -348,6 +355,24 @@ public class Rate implements JSONable {
 		}
 		return mUserPriceType;
 	}
+	
+	public void setCheckoutPriceType(String checkoutPriceType) {
+		if ("totalPriceWithMandatoryFees".equals(checkoutPriceType)) {
+			mCheckoutPriceType = CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES;
+		}
+		else {
+			// Default to total; value would be "total" otherwise
+			mCheckoutPriceType = CheckoutPriceType.TOTAL;
+		}
+	}
+
+	public void setCheckoutPriceType(CheckoutPriceType checkoutPriceType) {
+		mCheckoutPriceType = checkoutPriceType;
+	}
+
+	public CheckoutPriceType getCheckoutPriceType() {
+		return mCheckoutPriceType;
+	}
 
 	public void setPriceToShowUsers(Money m) {
 		mPriceToShowUsers = m;
@@ -579,6 +604,7 @@ public class Rate implements JSONable {
 			JSONUtils.putJSONable(obj, "totalMandatoryFees", mTotalMandatoryFees);
 			JSONUtils.putJSONable(obj, "totalPriceWithMandatoryFees", mTotalPriceWithMandatoryFees);
 			obj.putOpt("userPriceType", getUserPriceType().ordinal());
+			JSONUtils.putEnum(obj, "checkoutPriceType", mCheckoutPriceType);
 			JSONUtils.putJSONable(obj, "priceToShowUsers", mPriceToShowUsers);
 			JSONUtils.putJSONable(obj, "strikethroughPriceToShowUsers", mStrikethroughPriceToShowUsers);
 			obj.putOpt("numberOfNights", mNumberOfNights);
@@ -646,6 +672,7 @@ public class Rate implements JSONable {
 		mTotalMandatoryFees = JSONUtils.getJSONable(obj, "totalMandatoryFees", Money.class);
 		mTotalPriceWithMandatoryFees = JSONUtils.getJSONable(obj, "totalPriceWithMandatoryFees", Money.class);
 		mUserPriceType = UserPriceType.values()[obj.optInt("userPriceType", UserPriceType.UNKNOWN.ordinal())];
+		mCheckoutPriceType = JSONUtils.getEnum(obj, "checkoutPriceType", CheckoutPriceType.class);
 		mPriceToShowUsers = JSONUtils.getJSONable(obj, "priceToShowUsers", Money.class);
 		mStrikethroughPriceToShowUsers = JSONUtils.getJSONable(obj, "strikethroughPriceToShowUsers",
 				Money.class);
