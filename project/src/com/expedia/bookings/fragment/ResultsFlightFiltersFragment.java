@@ -12,7 +12,11 @@ import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -21,6 +25,7 @@ import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AirlineFilterWidget;
+import com.mobiata.flightlib.data.IAirport;
 
 /**
  * ResultsFlightFiltersFragment: The filters fragment designed for tablet results 2013
@@ -56,11 +61,86 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		RadioGroup filterGroup = Ui.findView(view, R.id.flight_filter_control);
 		filterGroup.setOnCheckedChangeListener(mControlKnobListener);
 
+		int departureAirportIndex, arrivalAirportIndex;
+		if (mLegNumber == 0) {
+			departureAirportIndex = 0;
+			arrivalAirportIndex = 1;
+		}
+		else {
+			departureAirportIndex = 1;
+			arrivalAirportIndex = 0;
+		}
+
+		Spinner departureAirportsSpinner = Ui.findView(view, R.id.departure_airports_spinner);
+		TextView departureAirportsHeader = Ui.findView(view, R.id.departure_airports_header);
+		Spinner arrivalAirportsSpinner = Ui.findView(view, R.id.arrival_airports_spinner);
+		TextView arrivalAirportsHeader = Ui.findView(view, R.id.arrival_airports_header);
+
+		configureAirportFilter(departureAirportIndex, departureAirportsSpinner, departureAirportsHeader);
+		configureAirportFilter(arrivalAirportIndex, arrivalAirportsSpinner, arrivalAirportsHeader);
+
 		mAirlineContainer = Ui.findView(view, R.id.filter_airline_container);
 
 		buildAirlineList();
 
 		return view;
+	}
+
+	private void configureAirportFilter(final int airportIndex, Spinner spinner, TextView header) {
+		final List<IAirport> airports = Db.getFlightSearch().getAirports(airportIndex);
+
+		if (airports.isEmpty()) {
+			spinner.setVisibility(View.GONE);
+			header.setVisibility(View.GONE);
+		}
+		else {
+			ArrayAdapter<IAirport> adapter = new ArrayAdapter<IAirport>(getActivity(), R.layout.simple_spinner_item,
+					airports) {
+				@Override
+				public View getView(int position, View convertView, ViewGroup parent) {
+					return getAirportView(airports, position, convertView, parent);
+				}
+
+				@Override
+				public View getDropDownView(int position, View convertView, ViewGroup parent) {
+					return getAirportView(airports, position, convertView, parent);
+				}
+			};
+
+			spinner.setAdapter(adapter);
+			spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+					FlightFilter filter = Db.getFlightSearch().getFilter(mLegNumber);
+					if (airportIndex == 0) {
+						filter.setDepartureAirportFilter(airports.get(position));
+					}
+					else {
+						filter.setArrivalAirportFilter(airports.get(position));
+					}
+					filter.notifyFilterChanged();
+					onFilterChanged();
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> parent) {
+					// We don't need to execute any code if the user doesn't select a row.
+				}
+			});
+
+			spinner.setVisibility(View.VISIBLE);
+			header.setVisibility(View.VISIBLE);
+		}
+	}
+
+	private View getAirportView(List<IAirport> codes, int position, View convertView, ViewGroup parent) {
+		if (convertView == null) {
+			convertView = LayoutInflater.from(getActivity()).inflate(R.layout.simple_spinner_item, parent, false);
+		}
+		IAirport airport = codes.get(position);
+		// TODO use string template, use span, match mocks
+		((TextView) convertView).setText(airport.getAirportCode() + " - " + airport.getBlurb());
+		return convertView;
 	}
 
 	private static final Map<Integer, FlightFilter.Sort> RES_ID_SORT_MAP = new HashMap<Integer, FlightFilter.Sort>() {
@@ -109,14 +189,19 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	}
 
 	private void buildAirlineList() {
+		FlightFilter filter = Db.getFlightSearch().getFilter(mLegNumber);
+
 		List<FlightTrip> allTrips = Db.getFlightSearch().getTrips(mLegNumber);
-		List<FlightTrip> tripsFilteredByStops = FlightSearch.getTripsFilteredByStops(mLegNumber, allTrips, Db
-				.getFlightSearch().getFilter(mLegNumber).getStops());
+		List<FlightTrip> filteredTrips = FlightSearch.getTripsFilteredByStops(mLegNumber, allTrips, filter.getStops());
+		filteredTrips = FlightSearch.getTripsFilteredByAirport(mLegNumber, filteredTrips,
+				filter.getDepartureAirportFilter(), 0);
+		filteredTrips = FlightSearch.getTripsFilteredByAirport(mLegNumber, filteredTrips,
+				filter.getArrivalAirportFilter(), 1);
 		Map<String, FlightTrip> cheapestTripsMap = FlightSearch.getCheapestTripEachAirlineMap(mLegNumber, allTrips);
 
-		// Update the cheapest trips based on the trips available after filtering by number of stops
+		// Update the cheapest trips based on the trips available after filtering
 		Map<String, FlightTrip> cheapestTripsByStopsMap = FlightSearch.getCheapestTripEachAirlineMap(mLegNumber,
-				tripsFilteredByStops);
+				filteredTrips);
 		for (String key : cheapestTripsByStopsMap.keySet()) {
 			cheapestTripsMap.put(key, cheapestTripsByStopsMap.get(key));
 		}
@@ -144,7 +229,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 				mAirlineContainer.addView(airlineFilterWidget);
 			}
 
-			boolean enabled = tripsFilteredByStops.contains(trip);
+			boolean enabled = filteredTrips.contains(trip);
 			airlineFilterWidget.bind(Db.getFlightSearch().getFilter(mLegNumber, allTrips), trip, mLegNumber, enabled);
 		}
 

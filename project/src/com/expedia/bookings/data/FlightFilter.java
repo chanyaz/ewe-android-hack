@@ -7,6 +7,8 @@ import java.util.Set;
 import android.database.DataSetObservable;
 import android.database.DataSetObserver;
 
+import com.mobiata.flightlib.data.IAirport;
+
 //TODO: Filter based on departure/arrival specs
 public class FlightFilter {
 
@@ -29,6 +31,9 @@ public class FlightFilter {
 	private Set<String> mPreferredAirlines;
 	private boolean mHasInitPreferredAirlines = false;
 
+	private IAirport mDepartureAirportFilter;
+	private IAirport mArrivalAirportFilter;
+
 	private DataSetObservable mDataSetObservable = new DataSetObservable();
 
 	public FlightFilter() {
@@ -41,6 +46,8 @@ public class FlightFilter {
 		mSort = Sort.PRICE;
 		mStops = STOPS_ANY;
 		mPreferredAirlines.clear();
+		mDepartureAirportFilter = null;
+		mArrivalAirportFilter = null;
 	}
 
 	public void setSort(Sort sort) {
@@ -87,6 +94,22 @@ public class FlightFilter {
 
 	public boolean hasPreferredAirlines() {
 		return mPreferredAirlines.size() != 0;
+	}
+
+	public IAirport getDepartureAirportFilter() {
+		return mDepartureAirportFilter;
+	}
+
+	public void setDepartureAirportFilter(IAirport airport) {
+		mDepartureAirportFilter = airport;
+	}
+
+	public IAirport getArrivalAirportFilter() {
+		return mArrivalAirportFilter;
+	}
+
+	public void setArrivalAirportFilter(IAirport arrivalAirportFilter) {
+		mArrivalAirportFilter = arrivalAirportFilter;
 	}
 
 	public void notifyFilterChanged() {

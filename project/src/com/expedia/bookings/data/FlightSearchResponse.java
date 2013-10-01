@@ -2,8 +2,10 @@ package com.expedia.bookings.data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -11,6 +13,7 @@ import org.json.JSONObject;
 
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
+import com.mobiata.flightlib.data.IAirport;
 
 public class FlightSearchResponse extends Response {
 
@@ -64,6 +67,27 @@ public class FlightSearchResponse extends Response {
 
 	public Map<String, String> getAirlineNames() {
 		return mAirlineNames;
+	}
+
+	/**
+	 * Return a list of airports for the given leg. Only returns data if the leg's first Waypoint
+	 * is a metrocode (and thus contains multiple airports in the search response).
+	 * @param legNumber
+	 * @return
+	 */
+	public List<IAirport> getAirports(int legNumber) {
+		if (mSearchCities == null || !mSearchCities.get(legNumber).isMetroCode()) {
+			return new ArrayList<IAirport>();
+		}
+
+		Set<IAirport> codes = new HashSet<IAirport>();
+		for (FlightTrip trip : mTrips) {
+			codes.add(trip.getLeg(legNumber).getFirstWaypoint().getAirport());
+		}
+
+		// TODO - sort this list alphabetically
+
+		return new ArrayList<IAirport>(codes);
 	}
 
 	public void setObFeesDetails(String obFeesDetails) {
