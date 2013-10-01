@@ -31,8 +31,6 @@ public class ResultsFlightFiltersFragment extends Fragment {
 
 	private int mLegNumber;
 
-	private RadioGroup mSortGroup;
-	private RadioGroup mFilterGroup;
 	private ViewGroup mAirlineContainer;
 
 	public static ResultsFlightFiltersFragment newInstance(int legNumber) {
@@ -53,12 +51,13 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_flight_tablet_filter, container, false);
 
-		mSortGroup = Ui.findView(view, R.id.flight_sort_control);
-		mFilterGroup = Ui.findView(view, R.id.flight_filter_control);
-		mSortGroup.setOnCheckedChangeListener(mControlKnobListener);
-		mFilterGroup.setOnCheckedChangeListener(mControlKnobListener);
+		RadioGroup sortGroup = Ui.findView(view, R.id.flight_sort_control);
+		sortGroup.setOnCheckedChangeListener(mControlKnobListener);
+		RadioGroup filterGroup = Ui.findView(view, R.id.flight_filter_control);
+		filterGroup.setOnCheckedChangeListener(mControlKnobListener);
 
 		mAirlineContainer = Ui.findView(view, R.id.filter_airline_container);
+
 		buildAirlineList();
 
 		return view;
