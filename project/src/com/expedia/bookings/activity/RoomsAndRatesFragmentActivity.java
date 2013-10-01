@@ -129,8 +129,6 @@ public class RoomsAndRatesFragmentActivity extends SherlockFragmentActivity impl
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
-
 		DebugMenu.onCreateOptionsMenu(this, menu);
 
 		return super.onCreateOptionsMenu(menu);
@@ -142,11 +140,6 @@ public class RoomsAndRatesFragmentActivity extends SherlockFragmentActivity impl
 		case android.R.id.home:
 			onBackPressed();
 			return true;
-		case R.id.menu_about: {
-			Intent intent = new Intent(this, AboutActivity.class);
-			startActivity(intent);
-			return true;
-		}
 		}
 
 		if (DebugMenu.onOptionsItemSelected(this, item)) {
