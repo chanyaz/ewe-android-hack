@@ -104,6 +104,7 @@ public class SuggestionResponseHandler extends JsonResponseHandler<SuggestionRes
 				suggestion.setAirportCode(suggestionJson.optString("a", null));
 
 				Location location = new Location();
+				location.setDestinationId(suggestionJson.optString("amc", null));
 				location.addStreetAddressLine(suggestionJson.optString("ad", null));
 				location.setCity(suggestionJson.optString("ci", null));
 				location.setStateCode(suggestionJson.optString("pr", null));
