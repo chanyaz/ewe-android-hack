@@ -474,8 +474,11 @@ public class WalletUtils {
 		cartBuilder.setTotalPrice(WalletUtils.formatAmount(total));
 
 		// Base rate
-		cartBuilder.addLineItem(WalletUtils.createLineItem(originalRate.getNightlyRateTotal(), property.getName(),
-				LineItem.Role.REGULAR));
+		Money nightlyRate = originalRate.getNightlyRateTotal();
+		if (nightlyRate == null) {
+			nightlyRate = originalRate.getTotalAmountBeforeTax();
+		}
+		cartBuilder.addLineItem(WalletUtils.createLineItem(nightlyRate, property.getName(), LineItem.Role.REGULAR));
 
 		// Discount
 		if (couponRate != null) {
