@@ -34,6 +34,9 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 	private float mCenterOffsetX = 0;
 	private float mCenterOffsetY = 0;
 
+	private int mWidth;
+	private int mHeight;
+
 	private MeasurableFragmentHelper mHelper;
 
 	public static SupportMapFragment newInstance() {
@@ -67,14 +70,14 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 					return;
 				}
 
-				final int width = view.getWidth();
-				final int height = view.getHeight();
-				Log.d("SupportMapFragment global layout height=" + height + " width=" + width);
+				mWidth = view.getWidth();
+				mHeight = view.getHeight();
+				Log.d("SupportMapFragment global layout height=" + mHeight + " width=" + mWidth);
 
 				// https://code.google.com/p/gmaps-api-issues/issues/detail?id=4773
 				// Someone commented saying that the map needs to be at least 200dp by 200dp
 				final int minSize = (int) (200 * activity.getResources().getDisplayMetrics().density);
-				if (height > minSize && width > minSize) {
+				if (mHeight > minSize && mWidth > minSize) {
 					view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 
 					onMapLayout();
@@ -251,6 +254,19 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 		}
 
 		return offsetLatLng;
+	}
+
+	public void setPadding(int left, int top, int right, int bottom) {
+		GoogleMap map = getMap();
+		map.setPadding(left, top, right, bottom);
+	}
+
+	public int getWidth() {
+		return mWidth;
+	}
+
+	public int getHeight() {
+		return mHeight;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
