@@ -1478,7 +1478,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			if (response == null) {
 				Log.w("Failed to apply coupon code (null response): " + mCouponCode);
 
-				DialogFragment df = SimpleDialogFragment.newInstance(null, getString(R.string.coupon_error_fallback));
+				DialogFragment df = SimpleDialogFragment.newInstance(null, getString(R.string.coupon_error_no_code));
 				df.show(getChildFragmentManager(), "couponError");
 
 				handleWalletPromoErrorIfApplicable();
@@ -1486,7 +1486,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			else if (response.hasErrors()) {
 				Log.w("Failed to apply coupon code (server errors): " + mCouponCode);
 
-				DialogFragment df = SimpleDialogFragment.newInstance(null, getString(R.string.coupon_error_fallback));
+				DialogFragment df = SimpleDialogFragment.newInstance(null, getString(R.string.coupon_error_no_code));
 				df.show(getChildFragmentManager(), "couponError");
 
 				handleWalletPromoErrorIfApplicable();

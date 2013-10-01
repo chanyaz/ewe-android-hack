@@ -1906,6 +1906,8 @@
     <string name="coupon_saved_TEMPLATE">You saved %s!</string>
 
     <!-- Coupon Error Strings -->
+    <!-- Generic error when applying coupon, but we didn't get an error code back -->
+    <string name="coupon_error_no_code">Sorry, coupon can’t be applied.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
     <string name="coupon_error_unrecognized">Sorry, but this isn’t a known coupon code.</string>
     <!-- Error when applying coupon - the coupon has expired -->
