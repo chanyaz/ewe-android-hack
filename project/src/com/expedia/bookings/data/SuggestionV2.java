@@ -1,7 +1,12 @@
 package com.expedia.bookings.data;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.util.Pair;
 
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -144,6 +149,24 @@ public class SuggestionV2 implements JSONable, Comparable<SuggestionV2> {
 
 	public void setLocation(Location location) {
 		mLocation = location;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Utility
+
+	private static final Pattern DISPLAY_NAME_PATTERN = Pattern.compile("^(.+)\\((.+)\\)$");
+
+	/**
+	 * @return the full name, split intelligently into two lines; for display purposes
+	 */
+	public Pair<String, String> splitFullName() {
+		Matcher m = DISPLAY_NAME_PATTERN.matcher(mFullName);
+		if (m.matches()) {
+			return Pair.create(m.group(1), m.group(2));
+		}
+		else {
+			return null;
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
