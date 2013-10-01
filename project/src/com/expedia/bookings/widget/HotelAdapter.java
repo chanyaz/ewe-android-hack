@@ -133,7 +133,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 			String longestPrice = "";
 			for (Property property : properties) {
-				String displayPrice = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate());
+				String displayPrice = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayPrice());
 				if (longestPrice.length() < displayPrice.length()) {
 					longestPrice = displayPrice;
 				}
@@ -249,7 +249,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		// We assume we have a lowest rate here; this may not be a safe assumption
 		Rate lowestRate = property.getLowestRate();
 		Money highestPriceFromSurvey = property.getHighestPriceFromSurvey();
-		final String hotelPrice = StrUtils.formatHotelPrice(lowestRate.getDisplayRate());
+		final String hotelPrice = StrUtils.formatHotelPrice(lowestRate.getDisplayPrice());
 
 		// Detect if the property is on sale, if it is do special things
 		if (lowestRate.isOnSale() && lowestRate.isSaleTenPercentOrBetter()) {
@@ -257,7 +257,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 				holder.strikethroughPrice.setVisibility(View.VISIBLE);
 				holder.strikethroughPrice.setText(Html.fromHtml(
 						mContext.getString(R.string.strike_template,
-								StrUtils.formatHotelPrice(lowestRate.getDisplayBaseRate())), null,
+								StrUtils.formatHotelPrice(lowestRate.getDisplayBasePrice())), null,
 						new StrikethroughTagHandler()));
 			}
 			else {
@@ -271,7 +271,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 					.setText(mContext.getString(R.string.percent_minus_template, lowestRate.getDiscountPercent()));
 		}
 		// Story #790. Expedia's way of making it seem like they are offering a discount.
-		else if (highestPriceFromSurvey != null && (highestPriceFromSurvey.compareTo(lowestRate.getDisplayRate()) > 0)) {
+		else if (highestPriceFromSurvey != null && (highestPriceFromSurvey.compareTo(lowestRate.getDisplayPrice()) > 0)) {
 			holder.strikethroughPrice.setVisibility(View.VISIBLE);
 			holder.strikethroughPrice.setText(Html.fromHtml(
 					mContext.getString(R.string.strike_template,

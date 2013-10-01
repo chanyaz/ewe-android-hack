@@ -398,7 +398,7 @@ public class Rate implements JSONable {
 
 	// #10905 - If the property's sale is <1%, we don't consider it on sale.
 	public boolean isOnSale() {
-		return ((getDiscountPercent() >= 1) && (getDisplayRate().compareTo(getDisplayBaseRate()) < 0));
+		return ((getDiscountPercent() >= 1) && (getDisplayPrice().compareTo(getDisplayBasePrice()) < 0));
 	}
 
 	// 9.5% or higher will be rounded to 10% when the percent is displayed as an integer.
@@ -526,7 +526,7 @@ public class Rate implements JSONable {
 	}
 
 	public int compareTo(Rate other) {
-		return getDisplayRate().compareTo(other.getDisplayRate());
+		return getDisplayPrice().compareTo(other.getDisplayPrice());
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -538,14 +538,14 @@ public class Rate implements JSONable {
 	/**
 	 * @return the *actual* rate to show users
 	 */
-	public Money getDisplayRate() {
+	public Money getDisplayPrice() {
 		return mPriceToShowUsers;
 	}
 
 	/**
 	 * @return the *base* (aka, pre-discount) rate we should show users
 	 */
-	public Money getDisplayBaseRate() {
+	public Money getDisplayBasePrice() {
 		return mStrikethroughPriceToShowUsers;
 	}
 

@@ -988,11 +988,11 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 
 			if (property != null && rates != null) {
 				for (Rate rate : rates) {
-					Money temp = rate.getDisplayRate();
+					Money temp = rate.getDisplayPrice();
 					if (lowestRate == null) {
 						lowestRate = rate;
 					}
-					if (lowestRate.getDisplayRate().getAmount().compareTo(temp.getAmount()) > 0) {
+					if (lowestRate.getDisplayPrice().getAmount().compareTo(temp.getAmount()) > 0) {
 						lowestRate = rate;
 					}
 				}

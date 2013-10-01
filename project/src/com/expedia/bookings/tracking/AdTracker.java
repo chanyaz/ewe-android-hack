@@ -61,7 +61,7 @@ public class AdTracker {
 
 		final String propertyId = property.getPropertyId();
 		final String propertyName = property.getName();
-		final String currency = rate.getDisplayRate().getCurrency();
+		final String currency = rate.getDisplayPrice().getCurrency();
 		final Integer duration = searchParams.getStayDuration();
 		final Double avgPrice = rate.getAverageRate().getAmount().doubleValue();
 		final Double totalPrice = rate.getTotalAmountAfterTax().getAmount().doubleValue();

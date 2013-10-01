@@ -336,11 +336,11 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				if (rates != null) {
 					Rate lowestRate = null;
 					for (Rate rate : rates) {
-						Money temp = rate.getDisplayRate();
+						Money temp = rate.getDisplayPrice();
 						if (lowestRate == null) {
 							lowestRate = rate;
 						}
-						if (lowestRate.getDisplayRate().getAmount().compareTo(temp.getAmount()) > 0) {
+						if (lowestRate.getDisplayPrice().getAmount().compareTo(temp.getAmount()) > 0) {
 							lowestRate = rate;
 						}
 					}

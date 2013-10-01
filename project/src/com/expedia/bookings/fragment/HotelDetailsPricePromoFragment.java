@@ -78,7 +78,7 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 		TextView strikethroughTextView = Ui.findView(view, R.id.strikethrough_price_text_view);
 		if (rate.isOnSale()) {
 			strikethroughTextView.setText(Html.fromHtml(
-					getString(R.string.strike_template, StrUtils.formatHotelPrice(rate.getDisplayBaseRate())), null,
+					getString(R.string.strike_template, StrUtils.formatHotelPrice(rate.getDisplayBasePrice())), null,
 					new StrikethroughTagHandler()));
 			strikethroughTextView.setVisibility(View.VISIBLE);
 		}
@@ -88,7 +88,7 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 
 		// Rate
 		TextView rateTextView = Ui.findView(view, R.id.rate_text_view);
-		rateTextView.setText(StrUtils.formatHotelPrice(rate.getDisplayRate()));
+		rateTextView.setText(StrUtils.formatHotelPrice(rate.getDisplayPrice()));
 		view.findViewById(R.id.per_nt_text_view).setVisibility(
 				rate.getUserPriceType() != UserPriceType.PER_NIGHT_RATE_NO_TAXES ? View.GONE : View.VISIBLE);
 	}

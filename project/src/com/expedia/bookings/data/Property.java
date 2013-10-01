@@ -621,8 +621,8 @@ public class Property implements JSONable {
 			Rate lowestRate1 = property1.getLowestRate();
 			Rate lowestRate2 = property2.getLowestRate();
 
-			Money lowRate1 = lowestRate1.getDisplayRate();
-			Money lowRate2 = lowestRate2.getDisplayRate();
+			Money lowRate1 = lowestRate1.getDisplayPrice();
+			Money lowRate2 = lowestRate2.getDisplayPrice();
 
 			// Check that we have rates to compare first
 			if (lowRate1 == null && lowRate2 == null) {

@@ -398,7 +398,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		int len = mProperties.size();
 		double[] prices = new double[len];
 		for (int index = 0; index < len; index++) {
-			prices[index] = mProperties.get(index).getLowestRate().getDisplayRate().getAmount().doubleValue();
+			prices[index] = mProperties.get(index).getLowestRate().getDisplayPrice().getAmount().doubleValue();
 		}
 
 		// Cluster
@@ -417,7 +417,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		int closestIndex;
 		for (Property property : mProperties) {
 			closestIndex = 0;
-			amount = property.getLowestRate().getDisplayRate().getAmount().doubleValue();
+			amount = property.getLowestRate().getDisplayPrice().getAmount().doubleValue();
 			closest = Math.abs(amount - medoids[0]);
 			for (int a = 1; a < 3; a++) {
 				tmp = Math.abs(amount - medoids[a]);

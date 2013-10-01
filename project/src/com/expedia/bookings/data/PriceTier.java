@@ -25,7 +25,7 @@ public class PriceTier {
 		mMax = new Money();
 		mMax.setAmount(new BigDecimal(Double.MIN_VALUE));
 		for (Property property : mProperties) {
-			Money lowRate = property.getLowestRate().getDisplayRate();
+			Money lowRate = property.getLowestRate().getDisplayPrice();
 			if (lowRate != null) {
 				BigDecimal amount = lowRate.getAmount();
 				if (amount.compareTo(mMin.getAmount()) < 0) {
