@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -18,6 +19,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.utils.ColorUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
+import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
 public class CollectionStack extends FrameLayout {
 	public CollectionStack(Context context) {
@@ -66,10 +68,6 @@ public class CollectionStack extends FrameLayout {
 
 		mImageView = Ui.findView(this, R.id.image);
 		mTextView = Ui.findView(this, R.id.text);
-
-		int color = 0xff906a92;
-		setStackBackgroundDrawable(color, new ColorDrawable(color));
-		setText("Adventures in Asia", "From $340");
 	}
 
 	private void setupStackBackground(int color) {
@@ -83,6 +81,12 @@ public class CollectionStack extends FrameLayout {
 		mCollectionBackgroundDrawable.setPadding((int) (mBasePadding * 2));
 		setBackgroundDrawable(mCollectionBackgroundDrawable);
 		setStackPosition(-1.0f);
+	}
+
+	public void setStackBackgroundDrawable(int color, String url) {
+		ColorDrawable drawable = new ColorDrawable(color);
+		setStackBackgroundDrawable(color, drawable);
+		UrlBitmapDrawable.loadImageView(url, mImageView);
 	}
 
 	public void setStackBackgroundDrawable(int color, Drawable bg) {

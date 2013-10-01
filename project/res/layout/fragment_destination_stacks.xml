@@ -13,48 +13,41 @@
         android:orientation="horizontal" >
 
         <com.expedia.bookings.widget.CollectionStack
-            android:layout_width="@dimen/destination_search_item_size"
-            android:layout_height="@dimen/destination_search_item_size" />
+            android:id="@+id/stack_asia"
+            android:layout_width="@dimen/destination_search_stack_size"
+            android:layout_height="@dimen/destination_search_stack_size" />
 
-        <View
+        <ImageView
+            android:id="@+id/view_seattle"
             android:layout_width="@dimen/destination_search_item_size"
             android:layout_height="@dimen/destination_search_item_size"
-            android:background="@android:color/holo_red_light" />
-
-        <com.expedia.bookings.widget.CollectionStack
-            android:layout_width="@dimen/destination_search_item_size"
-            android:layout_height="@dimen/destination_search_item_size"
-            android:padding="16dp" />
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop" />
 
         <com.expedia.bookings.widget.CollectionStack
-            android:layout_width="@dimen/destination_search_item_size"
-            android:layout_height="@dimen/destination_search_item_size"
-            android:padding="16dp" />
+            android:id="@+id/stack_historic"
+            android:layout_width="@dimen/destination_search_stack_size"
+            android:layout_height="@dimen/destination_search_stack_size" />
 
-        <View
-            android:layout_width="@dimen/destination_search_item_size"
-            android:layout_height="@dimen/destination_search_item_size"
-            android:background="@android:color/holo_blue_light" />
+        <com.expedia.bookings.widget.CollectionStack
+            android:id="@+id/stack_beaches"
+            android:layout_width="@dimen/destination_search_stack_size"
+            android:layout_height="@dimen/destination_search_stack_size" />
 
-        <View
+        <ImageView
+            android:id="@+id/view_portland"
             android:layout_width="@dimen/destination_search_item_size"
             android:layout_height="@dimen/destination_search_item_size"
-            android:background="@android:color/holo_red_light" />
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop" />
 
-        <View
+        <ImageView
+            android:id="@+id/view_toronto"
             android:layout_width="@dimen/destination_search_item_size"
             android:layout_height="@dimen/destination_search_item_size"
-            android:background="@android:color/holo_blue_light" />
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop" />
 
-        <View
-            android:layout_width="@dimen/destination_search_item_size"
-            android:layout_height="@dimen/destination_search_item_size"
-            android:background="@android:color/holo_red_light" />
-
-        <View
-            android:layout_width="@dimen/destination_search_item_size"
-            android:layout_height="@dimen/destination_search_item_size"
-            android:background="@android:color/holo_blue_light" />
     </LinearLayout>
 
 </com.expedia.bookings.widget.HorizontalScrollView>
