@@ -74,6 +74,7 @@ public class Rate implements JSONable {
 	private Money mAverageRate; // The average rate, post-sale
 	private Money mAverageBaseRate; // The average rate, without sale discounts
 	private double mDiscountPercent = UNSET_DISCOUNT_PERCENT; // Discount percent, as reported by E3 (i.e. 15.0)
+	private boolean mIsMobileExclusive = false;
 	private int mNumberOfNights;
 	private String mPromoDescription;
 	private int mNumRoomsLeft;
@@ -511,8 +512,6 @@ public class Rate implements JSONable {
 		return !isNonRefundable() && hasFreeCancellation();
 	}
 
-	private boolean mIsMobileExclusive = false;
-
 	public void setMobileExlusivity(boolean bool) {
 		mIsMobileExclusive = bool;
 	}
@@ -591,6 +590,7 @@ public class Rate implements JSONable {
 			JSONUtils.putJSONable(obj, "averageRate", mAverageRate);
 			JSONUtils.putJSONable(obj, "averageBaseRate", mAverageBaseRate);
 			obj.put("discountPercent", mDiscountPercent);
+			obj.putOpt("isMobileExclusive", mIsMobileExclusive);
 			JSONUtils.putJSONable(obj, "totalSurcharge", mTotalSurcharge);
 			JSONUtils.putJSONable(obj, "totalMandatoryFees", mTotalMandatoryFees);
 			JSONUtils.putJSONable(obj, "totalPriceWithMandatoryFees", mTotalPriceWithMandatoryFees);
@@ -655,6 +655,7 @@ public class Rate implements JSONable {
 		mAverageRate = JSONUtils.getJSONable(obj, "averageRate", Money.class);
 		mAverageBaseRate = JSONUtils.getJSONable(obj, "averageBaseRate", Money.class);
 		mDiscountPercent = obj.optDouble("discountPercent", UNSET_DISCOUNT_PERCENT);
+		mIsMobileExclusive = obj.optBoolean("isMobileExclusive");
 		mTotalSurcharge = JSONUtils.getJSONable(obj, "totalSurcharge", Money.class);
 		if (mTotalSurcharge == null) {
 			// Try surcharge from EAN
