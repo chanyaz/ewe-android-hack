@@ -50,8 +50,9 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 
 	private String mSelectedId;
 
-	private float mUsableWidth;
-	private float mHorizCenterPercent;
+	private int mListWidth;
+	private int mMarkerSpacing;
+	private int mItinMapBoundsPadding;
 
 	// Invisible Fragment that handles FusedLocationProvider
 	private FusedLocationProviderFragment mLocationFragment;
@@ -74,6 +75,8 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 	@Override
 	public void onViewCreated(final View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+
+		mItinMapBoundsPadding = getResources().getDimensionPixelSize(R.dimen.itin_map_bounds_padding);
 
 		GoogleMap map = getMap();
 		map.setOnMyLocationChangeListener(this);
@@ -110,9 +113,12 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 		ItineraryManager.getInstance().removeSyncListener(mItinerarySyncAdapter);
 	}
 
-	public void setUsableArea(float usableWidth, float horizCenterPercent) {
-		mUsableWidth = usableWidth;
-		mHorizCenterPercent = horizCenterPercent;
+	public void setListWidth(int listWidth) {
+		mListWidth = listWidth;
+	}
+
+	public void setMarkerSpacing(int space) {
+		mMarkerSpacing = space;
 	}
 
 	private void showItinMarkers() {
@@ -205,10 +211,8 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 	}
 
 	private void showBounds(LatLngBounds bounds, boolean animate) {
-		CameraPosition camPos = MapAnimationUtils.getCameraPositionForRegion(getMap(), bounds, mUsableWidth
-				- BOUNDS_PADDING_PERCENT, 1 - BOUNDS_PADDING_PERCENT, mHorizCenterPercent, .50f);
-
-		changeCamera(CameraUpdateFactory.newCameraPosition(camPos), animate);
+		setPadding(mListWidth, 0, 0, 0);
+		changeCamera(CameraUpdateFactory.newLatLngBounds(bounds, mItinMapBoundsPadding), animate);
 	}
 
 	public void hideItinItem() {
@@ -219,6 +223,7 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 
 	// Returns true if the camera position was changed
 	public boolean showItinItem(ItinCardData data, boolean animate) {
+		setPadding(mListWidth, getHeight() - mMarkerSpacing, 0, 0);
 		getMap().setMyLocationEnabled(false);
 
 		String id = data.getId();
@@ -234,8 +239,7 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 
 		mSelectedId = id;
 
-		LatLng newLatLng = offsetLatLng(position);
-		CameraPosition newPos = new CameraPosition(newLatLng, ZOOM_LEVEL, 0, 0);
+		CameraPosition newPos = new CameraPosition(position, ZOOM_LEVEL, 0, 0);
 		CameraPosition origPos = getMap().getCameraPosition();
 
 		if (practicallyEquals(origPos, newPos)) {
@@ -248,12 +252,7 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 	}
 
 	private void changeCamera(LatLng target, boolean animate) {
-		changeCamera(target, animate, getCenterOffsetX(), getCenterOffsety());
-	}
-
-	private void changeCamera(LatLng target, boolean animate, float offsetX, float offsetY) {
-		LatLng offsetTarget = offsetLatLng(target, offsetX, offsetY, ZOOM_LEVEL);
-		changeCamera(CameraUpdateFactory.newLatLngZoom(offsetTarget, ZOOM_LEVEL), animate);
+		changeCamera(CameraUpdateFactory.newLatLngZoom(target, ZOOM_LEVEL), animate);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -275,7 +274,9 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 
 	@Override
 	public void onMyLocationChange(Location myLocation) {
-		changeCamera(new LatLng(myLocation.getLatitude(), myLocation.getLongitude()), true, getCenterOffsetX(), 0);
+		// This is only on as a fallback like when there are no itins to show
+		setPadding(mListWidth, 0, 0, 0);
+		changeCamera(new LatLng(myLocation.getLatitude(), myLocation.getLongitude()), true);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

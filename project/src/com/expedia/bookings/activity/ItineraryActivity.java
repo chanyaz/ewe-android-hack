@@ -119,22 +119,11 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 			mItinListFragment.setBackgroundColor(getResources().getColor(R.color.itin_list_bg_transparent));
 			mItinListFragment.setSimpleMode(true);
 
-			// Setup the correct offset for the map
 			float listWidth = getResources().getDimensionPixelSize(R.dimen.itin_simple_list_width);
-			float offsetCenterX = listWidth / 2.0f;
+			mMapFragment.setListWidth((int) listWidth);
 
-			Point size = AndroidUtils.getScreenSize(this);
-			int height = size.y;
 			int bottomPadding = getResources().getDimensionPixelSize(R.dimen.itin_map_marker_bottom_padding);
-			int markerHeight = getResources().getDrawable(R.drawable.map_pin_normal).getIntrinsicHeight();
-			float offsetCenterY = (height / 2.0f) - markerHeight - bottomPadding;
-
-			mMapFragment.setCenterOffset(-offsetCenterX, -offsetCenterY);
-
-			float width = size.x;
-			float usableWidth = 1.0f - (listWidth / width);
-			float horizCenterPercent = .5f + ((listWidth / width) / 2.0f);
-			mMapFragment.setUsableArea(usableWidth, horizCenterPercent);
+			mMapFragment.setMarkerSpacing(bottomPadding);
 
 			// Start with itin card hidden
 			// TODO: If a card is already expanded from before, do not start hidden
